@@ -2,55 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F36B08401A4
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 10:32:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69F478401AF
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 10:32:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9B231127E9;
-	Mon, 29 Jan 2024 09:32:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6991410E1AA;
+	Mon, 29 Jan 2024 09:32:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 425 seconds by postgrey-1.36 at gabe;
- Mon, 29 Jan 2024 09:32:06 UTC
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
  [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E1071126B5
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DC791127E6
  for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 09:32:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
  t=1706520726; x=1738056726;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=tJbtQ1MlE1W9rRSJGxdgP3sxAM2uACs3ZmeI+EII/UM=;
- b=MDKpD/zd0sUYQnBfbipv67vcqGEOmVnIOca/bFyZ2w5aM/ua6lUN39xe
- s6tjOa9z2kXlp5VY4ba6hFhEBexfKNA1k2fAhFLDBI7cjclxkafxhfMmA
- 6de68M8g0rXcVLn2Y8JQJ4PzjgkywuQRJVdeuXUnmSbj5ukoGO2t/xJqk
- W13g46PrZdIpfT5skr693zNRolz4YAi5Zsz7hHsAtyzNVdaD3qbGavgU/
- kwcaId83UKWWA4FuhD/QmLxIWCf8udTf6YGDkLM3+gGWIbuQHsPJuJasz
- dV8aXd7HefYLWpG6AOx/gRrt8f0Tj1W7YmC0SlU8AtRx/ZV/0jsA8jaQB w==;
+ bh=ByGtKT4xiqrk6oC/wei3Iv5ZeyhBdUlilG4+Mwj4vfA=;
+ b=wAgFX3Dl58h9ZLVe0fIGhvXvxY5iQWgZy1RwfpQS15Jy3WShUnfk4IEf
+ I7xkxYZpGey4pyVGjHSqmyYUUcH3SMNNmSTgzR6ASIFhpQbZkjG3gK8mj
+ kcgknLE+jIJQiapbj1UHDtuG8EMlmpYbVl+Qdqw2aDLpJZP/zC6eP5LTj
+ GRQcA7tzhngXeicQC2iqW1UkvX5Q9W6z9QbI3VglzRyEEDp12ETpp/kEJ
+ XNZQUtJl5ysXGM5MGs5rQmVB3Vd+zbpcoU6kJ+rjOndtLbr5meW2l4yXH
+ o5469ZHg24FRfQhd/uNDryChYLKsrHPTeUhiOCfcgItt0ybZsFNyuKq9E Q==;
 X-CSE-ConnectionGUID: 8voT20HCQaKMMfd/WNhz6Q==
-X-CSE-MsgGUID: ca0RYYTXSn6TmRIBQq1YHg==
-X-IronPort-AV: E=Sophos;i="6.05,226,1701154800"; d="scan'208";a="16727010"
+X-CSE-MsgGUID: vMJeDFCrQv2WMLCITOcG2g==
+X-IronPort-AV: E=Sophos;i="6.05,226,1701154800"; d="scan'208";a="16727013"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 29 Jan 2024 02:24:56 -0700
+ 29 Jan 2024 02:24:57 -0700
 Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
  chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 29 Jan 2024 02:24:27 -0700
+ 15.1.2507.35; Mon, 29 Jan 2024 02:24:38 -0700
 Received: from che-lt-i67131.microchip.com (10.10.85.11) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Mon, 29 Jan 2024 02:24:20 -0700
+ 15.1.2507.35 via Frontend Transport; Mon, 29 Jan 2024 02:24:31 -0700
 From: Manikandan Muralidharan <manikandan.m@microchip.com>
 To: <sam@ravnborg.org>, <bbrezillon@kernel.org>, <airlied@gmail.com>,
  <daniel@ffwll.ch>, <nicolas.ferre@microchip.com>,
  <alexandre.belloni@bootlin.com>, <claudiu.beznea@tuxon.dev>,
  <lee@kernel.org>, <dri-devel@lists.freedesktop.org>,
  <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH RESEND v7 1/7] drm: atmel-hlcdc: add flag and driver ops to
- differentiate XLCDC and HLCDC IP
-Date: Mon, 29 Jan 2024 14:53:13 +0530
-Message-ID: <20240129092319.199365-2-manikandan.m@microchip.com>
+Subject: [PATCH RESEND v7 2/7] drm: atmel-hlcdc: add LCD controller layer
+ definition for sam9x75
+Date: Mon, 29 Jan 2024 14:53:14 +0530
+Message-ID: <20240129092319.199365-3-manikandan.m@microchip.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240129092319.199365-1-manikandan.m@microchip.com>
 References: <20240129092319.199365-1-manikandan.m@microchip.com>
@@ -77,87 +75,133 @@ Cc: Balakrishnan.S@microchip.com, Nayabbasha.Sayed@microchip.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add is_xlcdc flag and LCD IP specific ops in driver data to differentiate
-XLCDC and HLCDC code within the atmel-hlcdc driver files.
+Add the LCD controller layer definition and descriptor structure for
+sam9x75 for the following layers:
+- Base Layer
+- Overlay1 Layer
+- Overlay2 Layer
+- High End Overlay
 
 Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
 ---
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h | 37 ++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 97 ++++++++++++++++++++
+ 1 file changed, 97 insertions(+)
 
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h
-index 5b5c774e0edf..d5e01ff8c7f9 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h
-@@ -177,6 +177,9 @@ struct atmel_hlcdc_layer_cfg_layout {
- 	int csc;
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+index fa0f9a93d50d..d30aec174aa2 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+@@ -462,6 +462,99 @@ static const struct atmel_hlcdc_dc_desc atmel_hlcdc_dc_sam9x60 = {
+ 	.layers = atmel_hlcdc_sam9x60_layers,
  };
  
-+struct atmel_hlcdc_plane_state;
-+struct atmel_hlcdc_dc;
-+
- /**
-  * Atmel HLCDC DMA descriptor structure
-  *
-@@ -288,6 +291,36 @@ atmel_hlcdc_layer_to_plane(struct atmel_hlcdc_layer *layer)
- 	return container_of(layer, struct atmel_hlcdc_plane, layer);
- }
- 
-+/**
-+ * struct atmel_lcdc_dc_ops - describes atmel_lcdc ops group
-+ * to differentiate HLCDC and XLCDC IP code support.
-+ * @plane_setup_scaler: update the vertical and horizontal scaling factors
-+ * @update_lcdc_buffers: update the each LCDC layers DMA registers.
-+ * @lcdc_atomic_disable: disable LCDC interrupts and layers
-+ * @lcdc_update_general_settings: update each LCDC layers general
-+ * confiugration register.
-+ * @lcdc_atomic_update: enable the LCDC layers and interrupts.
-+ * @lcdc_csc_init: update the color space conversion co-efficient of
-+ * High-end overlay register.
-+ * @lcdc_irq_dbg: to raise alert incase of interrupt overrun in any LCDC layer.
-+ */
-+struct atmel_lcdc_dc_ops {
-+	void (*plane_setup_scaler)(struct atmel_hlcdc_plane *plane,
-+				   struct atmel_hlcdc_plane_state *state);
-+	void (*update_lcdc_buffers)(struct atmel_hlcdc_plane *plane,
-+				    struct atmel_hlcdc_plane_state *state,
-+				    u32 sr, int i);
-+	void (*lcdc_atomic_disable)(struct atmel_hlcdc_plane *plane);
-+	void (*lcdc_update_general_settings)(struct atmel_hlcdc_plane *plane,
-+					     struct atmel_hlcdc_plane_state *state);
-+	void (*lcdc_atomic_update)(struct atmel_hlcdc_plane *plane,
-+				   struct atmel_hlcdc_dc *dc);
-+	void (*lcdc_csc_init)(struct atmel_hlcdc_plane *plane,
-+			      const struct atmel_hlcdc_layer_desc *desc);
-+	void (*lcdc_irq_dbg)(struct atmel_hlcdc_plane *plane,
-+			     const struct atmel_hlcdc_layer_desc *desc);
++static const struct atmel_hlcdc_layer_desc atmel_xlcdc_sam9x75_layers[] = {
++	{
++		.name = "base",
++		.formats = &atmel_hlcdc_plane_rgb_formats,
++		.regs_offset = 0x60,
++		.id = 0,
++		.type = ATMEL_HLCDC_BASE_LAYER,
++		.cfgs_offset = 0x1c,
++		.layout = {
++			.xstride = { 2 },
++			.default_color = 3,
++			.general_config = 4,
++			.disc_pos = 5,
++			.disc_size = 6,
++		},
++		.clut_offset = 0x700,
++	},
++	{
++		.name = "overlay1",
++		.formats = &atmel_hlcdc_plane_rgb_formats,
++		.regs_offset = 0x160,
++		.id = 1,
++		.type = ATMEL_HLCDC_OVERLAY_LAYER,
++		.cfgs_offset = 0x1c,
++		.layout = {
++			.pos = 2,
++			.size = 3,
++			.xstride = { 4 },
++			.pstride = { 5 },
++			.default_color = 6,
++			.chroma_key = 7,
++			.chroma_key_mask = 8,
++			.general_config = 9,
++		},
++		.clut_offset = 0xb00,
++	},
++	{
++		.name = "overlay2",
++		.formats = &atmel_hlcdc_plane_rgb_formats,
++		.regs_offset = 0x260,
++		.id = 2,
++		.type = ATMEL_HLCDC_OVERLAY_LAYER,
++		.cfgs_offset = 0x1c,
++		.layout = {
++			.pos = 2,
++			.size = 3,
++			.xstride = { 4 },
++			.pstride = { 5 },
++			.default_color = 6,
++			.chroma_key = 7,
++			.chroma_key_mask = 8,
++			.general_config = 9,
++		},
++		.clut_offset = 0xf00,
++	},
++	{
++		.name = "high-end-overlay",
++		.formats = &atmel_hlcdc_plane_rgb_and_yuv_formats,
++		.regs_offset = 0x360,
++		.id = 3,
++		.type = ATMEL_HLCDC_OVERLAY_LAYER,
++		.cfgs_offset = 0x30,
++		.layout = {
++			.pos = 2,
++			.size = 3,
++			.memsize = 4,
++			.xstride = { 5, 7 },
++			.pstride = { 6, 8 },
++			.default_color = 9,
++			.chroma_key = 10,
++			.chroma_key_mask = 11,
++			.general_config = 12,
++			.csc = 16,
++			.scaler_config = 23,
++		},
++		.clut_offset = 0x1300,
++	},
 +};
 +
- /**
-  * Atmel HLCDC Display Controller description structure.
-  *
-@@ -304,8 +337,10 @@ atmel_hlcdc_layer_to_plane(struct atmel_hlcdc_layer *layer)
-  * @conflicting_output_formats: true if RGBXXX output formats conflict with
-  *				each other.
-  * @fixed_clksrc: true if clock source is fixed
-+ * @is_xlcdc: true if XLCDC IP is supported
-  * @layers: a layer description table describing available layers
-  * @nlayers: layer description table size
-+ * @ops: atmel lcdc dc ops
-  */
- struct atmel_hlcdc_dc_desc {
- 	int min_width;
-@@ -317,8 +352,10 @@ struct atmel_hlcdc_dc_desc {
- 	int max_hpw;
- 	bool conflicting_output_formats;
- 	bool fixed_clksrc;
-+	bool is_xlcdc;
- 	const struct atmel_hlcdc_layer_desc *layers;
- 	int nlayers;
-+	const struct atmel_lcdc_dc_ops *ops;
++static const struct atmel_hlcdc_dc_desc atmel_xlcdc_dc_sam9x75 = {
++	.min_width = 0,
++	.min_height = 0,
++	.max_width = 2048,
++	.max_height = 2048,
++	.max_spw = 0xff,
++	.max_vpw = 0xff,
++	.max_hpw = 0x3ff,
++	.fixed_clksrc = true,
++	.is_xlcdc = true,
++	.nlayers = ARRAY_SIZE(atmel_xlcdc_sam9x75_layers),
++	.layers = atmel_xlcdc_sam9x75_layers,
++};
++
+ static const struct of_device_id atmel_hlcdc_of_match[] = {
+ 	{
+ 		.compatible = "atmel,at91sam9n12-hlcdc",
+@@ -487,6 +580,10 @@ static const struct of_device_id atmel_hlcdc_of_match[] = {
+ 		.compatible = "microchip,sam9x60-hlcdc",
+ 		.data = &atmel_hlcdc_dc_sam9x60,
+ 	},
++	{
++		.compatible = "microchip,sam9x75-xlcdc",
++		.data = &atmel_xlcdc_dc_sam9x75,
++	},
+ 	{ /* sentinel */ },
  };
- 
- /**
+ MODULE_DEVICE_TABLE(of, atmel_hlcdc_of_match);
 -- 
 2.25.1
 
