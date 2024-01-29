@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8787883FE67
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 07:31:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BEC083FE6C
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jan 2024 07:31:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 594541124CB;
-	Mon, 29 Jan 2024 06:31:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B25EF1124D4;
+	Mon, 29 Jan 2024 06:31:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 647E01124C3
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 06:31:09 +0000 (UTC)
-X-UUID: f8849be6be6f11eea2298b7352fd921d-20240129
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 521DE1124C3
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jan 2024 06:31:06 +0000 (UTC)
+X-UUID: f955a1aabe6f11ee9e680517dc993faa-20240129
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=tDdbTuWdtMHx44dMsP7Vdfz0hNjFshKJXaC0iWiaF9M=; 
- b=kAwNqxGO6H/jjheOphrZ1Ne6f7lx1t1CPZngkccM0nw41xTalJqmQ1z1U1l1MuufggpOPx3Uvhj2LppBcPjUByp2WA1iqtSsEw4SY3HnQZEZY2auiSAOSw3LYujNnVGGwP/26SZqb/OXsxiM8T8u8aqEv5PB8Xiafw7U4pXPvj8=;
+ bh=oUOfVeRKnJ1zcg5WgLZGiIN5J1sZ37QJ5q0Qif+5X/Q=; 
+ b=cF8FVmcfDWfPnEAcbu2EoVsm/qnj32RM2gkMkI4hVV2uDy1IduRhpul4/voEAl/zjJrXR/zben79OPKwMqaZEAupVemvfpFjJSTuCDBroZ8AFwZfuVl4TjUcIB4GV7KEN44Z02B99Gm4eh3DiC1yfDMkDXGwXGHyY3RctymRU3Q=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.36, REQID:2c19284c-04cb-4681-8e21-7f01cae06b5d, IP:0,
+X-CID-O-INFO: VERSION:1.1.36, REQID:52e90b94-7fba-474d-b1ee-99576c99795b, IP:0,
  U
  RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
  N:release,TS:-25
-X-CID-META: VersionHash:6e16cf4, CLOUDID:2ed141fe-c16b-4159-a099-3b9d0558e447,
+X-CID-META: VersionHash:6e16cf4, CLOUDID:2ad141fe-c16b-4159-a099-3b9d0558e447,
  B
  ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
  RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
@@ -31,18 +31,18 @@ X-CID-META: VersionHash:6e16cf4, CLOUDID:2ed141fe-c16b-4159-a099-3b9d0558e447,
 X-CID-BVR: 0,NGT
 X-CID-BAS: 0,NGT,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: f8849be6be6f11eea2298b7352fd921d-20240129
-Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by
- mailgw02.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
+X-UUID: f955a1aabe6f11ee9e680517dc993faa-20240129
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
+ mailgw01.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 487120532; Mon, 29 Jan 2024 14:31:01 +0800
+ with ESMTP id 800635704; Mon, 29 Jan 2024 14:31:02 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
+ mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 29 Jan 2024 14:31:00 +0800
+ 15.2.1118.26; Mon, 29 Jan 2024 14:31:01 +0800
 Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
  mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Mon, 29 Jan 2024 14:30:58 +0800
+ 15.2.1118.26 via Frontend Transport; Mon, 29 Jan 2024 14:31:00 +0800
 From: Yunfei Dong <yunfei.dong@mediatek.com>
 To: Jeffrey Kardatzke <jkardatzke@google.com>,
  =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
@@ -51,9 +51,9 @@ To: Jeffrey Kardatzke <jkardatzke@google.com>,
  <angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
  <benjamin.gaignard@collabora.com>, Nathan Hebert <nhebert@chromium.org>
 Subject: [PATCH v4,
- 18/22] media: mediatek: vcodec: remove parse nal_info in kernel
-Date: Mon, 29 Jan 2024 14:30:21 +0800
-Message-ID: <20240129063025.29251-19-yunfei.dong@mediatek.com>
+ 19/22] media: mediatek: vcodec: disable wait interrupt for svp mode
+Date: Mon, 29 Jan 2024 14:30:22 +0800
+Message-ID: <20240129063025.29251-20-yunfei.dong@mediatek.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240129063025.29251-1-yunfei.dong@mediatek.com>
 References: <20240129063025.29251-1-yunfei.dong@mediatek.com>
@@ -89,54 +89,172 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The hardware can parse syntax to get nal_info, needn't to use cpu.
+Waiting interrupt in optee-os for svp mode, need to disable it in kernel
+in case of interrupt is cleaned.
 
 Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 ---
- .../vcodec/decoder/vdec/vdec_h264_req_multi_if.c    | 13 ++-----------
- 1 file changed, 2 insertions(+), 11 deletions(-)
+ .../vcodec/decoder/mtk_vcodec_dec_hw.c        | 34 +++++------
+ .../vcodec/decoder/mtk_vcodec_dec_pm.c        |  6 +-
+ .../decoder/vdec/vdec_h264_req_multi_if.c     | 57 +++++++++++--------
+ 3 files changed, 54 insertions(+), 43 deletions(-)
 
+diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_hw.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_hw.c
+index 881d5de41e05..1982c088c6da 100644
+--- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_hw.c
++++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_hw.c
+@@ -72,26 +72,28 @@ static irqreturn_t mtk_vdec_hw_irq_handler(int irq, void *priv)
+ 
+ 	ctx = mtk_vcodec_get_curr_ctx(dev->main_dev, dev->hw_idx);
+ 
+-	/* check if HW active or not */
+-	cg_status = readl(dev->reg_base[VDEC_HW_SYS] + VDEC_HW_ACTIVE_ADDR);
+-	if (cg_status & VDEC_HW_ACTIVE_MASK) {
+-		mtk_v4l2_vdec_err(ctx, "vdec active is not 0x0 (0x%08x)", cg_status);
+-		return IRQ_HANDLED;
+-	}
++	if (!ctx->is_secure_playback) {
++		/* check if HW active or not */
++		cg_status = readl(dev->reg_base[VDEC_HW_SYS] + VDEC_HW_ACTIVE_ADDR);
++		if (cg_status & VDEC_HW_ACTIVE_MASK) {
++			mtk_v4l2_vdec_err(ctx, "vdec active is not 0x0 (0x%08x)", cg_status);
++			return IRQ_HANDLED;
++		}
+ 
+-	dec_done_status = readl(vdec_misc_addr);
+-	if ((dec_done_status & MTK_VDEC_IRQ_STATUS_DEC_SUCCESS) !=
+-	    MTK_VDEC_IRQ_STATUS_DEC_SUCCESS)
+-		return IRQ_HANDLED;
++		dec_done_status = readl(vdec_misc_addr);
++		if ((dec_done_status & MTK_VDEC_IRQ_STATUS_DEC_SUCCESS) !=
++		    MTK_VDEC_IRQ_STATUS_DEC_SUCCESS)
++			return IRQ_HANDLED;
+ 
+-	/* clear interrupt */
+-	writel(dec_done_status | VDEC_IRQ_CFG, vdec_misc_addr);
+-	writel(dec_done_status & ~VDEC_IRQ_CLR, vdec_misc_addr);
++		/* clear interrupt */
++		writel(dec_done_status | VDEC_IRQ_CFG, vdec_misc_addr);
++		writel(dec_done_status & ~VDEC_IRQ_CLR, vdec_misc_addr);
+ 
+-	wake_up_dec_ctx(ctx, MTK_INST_IRQ_RECEIVED, dev->hw_idx);
++		wake_up_dec_ctx(ctx, MTK_INST_IRQ_RECEIVED, dev->hw_idx);
+ 
+-	mtk_v4l2_vdec_dbg(3, ctx, "wake up ctx %d, dec_done_status=%x",
+-			  ctx->id, dec_done_status);
++		mtk_v4l2_vdec_dbg(3, ctx, "wake up ctx %d, dec_done_status=%x",
++				  ctx->id, dec_done_status);
++	}
+ 
+ 	return IRQ_HANDLED;
+ }
+diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_pm.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_pm.c
+index aefd3e9e3061..a94eda936f16 100644
+--- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_pm.c
++++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_pm.c
+@@ -238,7 +238,8 @@ void mtk_vcodec_dec_enable_hardware(struct mtk_vcodec_dec_ctx *ctx, int hw_idx)
+ 		mtk_vcodec_dec_child_dev_on(ctx->dev, MTK_VDEC_LAT0);
+ 	mtk_vcodec_dec_child_dev_on(ctx->dev, hw_idx);
+ 
+-	mtk_vcodec_dec_enable_irq(ctx->dev, hw_idx);
++	if (!ctx->is_secure_playback)
++		mtk_vcodec_dec_enable_irq(ctx->dev, hw_idx);
+ 
+ 	if (IS_VDEC_INNER_RACING(ctx->dev->dec_capability))
+ 		mtk_vcodec_load_racing_info(ctx);
+@@ -250,7 +251,8 @@ void mtk_vcodec_dec_disable_hardware(struct mtk_vcodec_dec_ctx *ctx, int hw_idx)
+ 	if (IS_VDEC_INNER_RACING(ctx->dev->dec_capability))
+ 		mtk_vcodec_record_racing_info(ctx);
+ 
+-	mtk_vcodec_dec_disable_irq(ctx->dev, hw_idx);
++	if (!ctx->is_secure_playback)
++		mtk_vcodec_dec_disable_irq(ctx->dev, hw_idx);
+ 
+ 	mtk_vcodec_dec_child_dev_off(ctx->dev, hw_idx);
+ 	if (IS_VDEC_LAT_ARCH(ctx->dev->vdec_pdata->hw_arch) &&
 diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
-index a1a68487131c..2dfb3043493e 100644
+index 2dfb3043493e..3e2270399b6c 100644
 --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
 +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
-@@ -645,11 +645,10 @@ static int vdec_h264_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- 	struct vdec_h264_slice_inst *inst = h_vdec;
- 	struct vdec_vpu_inst *vpu = &inst->vpu;
- 	struct mtk_video_dec_buf *src_buf_info;
--	int nal_start_idx, err, timeout = 0;
-+	int err, timeout = 0;
- 	unsigned int data[2];
- 	struct vdec_lat_buf *lat_buf;
- 	struct vdec_h264_slice_share_info *share_info;
--	unsigned char *buf;
+@@ -593,14 +593,16 @@ static int vdec_h264_slice_core_decode(struct vdec_lat_buf *lat_buf)
+ 		goto vdec_dec_end;
+ 	}
  
- 	if (vdec_msg_queue_init(&inst->ctx->msg_queue, inst->ctx,
- 				vdec_h264_slice_core_decode,
-@@ -673,14 +672,6 @@ static int vdec_h264_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- 	share_info = lat_buf->private_data;
- 	src_buf_info = container_of(bs, struct mtk_video_dec_buf, bs_buffer);
- 
--	buf = (unsigned char *)bs->va;
--	nal_start_idx = mtk_vdec_h264_find_start_code(buf, bs->size);
--	if (nal_start_idx < 0) {
--		err = -EINVAL;
--		goto err_free_fb_out;
--	}
+-	/* wait decoder done interrupt */
+-	timeout = mtk_vcodec_wait_for_done_ctx(inst->ctx, MTK_INST_IRQ_RECEIVED,
+-					       WAIT_INTR_TIMEOUT_MS, MTK_VDEC_CORE);
+-	if (timeout)
+-		mtk_vdec_err(ctx, "core decode timeout: pic_%d", ctx->decoded_frame_cnt);
+-	inst->vsi_core->dec.timeout = !!timeout;
 -
--	inst->vsi->dec.nal_info = buf[nal_start_idx];
- 	lat_buf->src_buf_req = src_buf_info->m2m_buf.vb.vb2_buf.req_obj.req;
- 	v4l2_m2m_buf_copy_metadata(&src_buf_info->m2m_buf.vb, &lat_buf->ts_info, true);
+-	vpu_dec_core_end(vpu);
++	if (!ctx->is_secure_playback) {
++		/* wait decoder done interrupt */
++		timeout = mtk_vcodec_wait_for_done_ctx(inst->ctx, MTK_INST_IRQ_RECEIVED,
++						       WAIT_INTR_TIMEOUT_MS, MTK_VDEC_CORE);
++		if (timeout)
++			mtk_vdec_err(ctx, "core decode timeout: pic_%d", ctx->decoded_frame_cnt);
++		inst->vsi_core->dec.timeout = !!timeout;
++
++		vpu_dec_core_end(vpu);
++	}
+ 	mtk_vdec_debug(ctx, "pic[%d] crc: 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x",
+ 		       ctx->decoded_frame_cnt,
+ 		       inst->vsi_core->dec.crc[0], inst->vsi_core->dec.crc[1],
+@@ -724,14 +726,16 @@ static int vdec_h264_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
+ 		vdec_msg_queue_qbuf(&inst->ctx->msg_queue.core_ctx, lat_buf);
+ 	}
  
-@@ -689,7 +680,7 @@ static int vdec_h264_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
+-	/* wait decoder done interrupt */
+-	timeout = mtk_vcodec_wait_for_done_ctx(inst->ctx, MTK_INST_IRQ_RECEIVED,
+-					       WAIT_INTR_TIMEOUT_MS, MTK_VDEC_LAT0);
+-	if (timeout)
+-		mtk_vdec_err(inst->ctx, "lat decode timeout: pic_%d", inst->slice_dec_num);
+-	inst->vsi->dec.timeout = !!timeout;
++	if (!inst->ctx->is_secure_playback) {
++		/* wait decoder done interrupt */
++		timeout = mtk_vcodec_wait_for_done_ctx(inst->ctx, MTK_INST_IRQ_RECEIVED,
++						       WAIT_INTR_TIMEOUT_MS, MTK_VDEC_LAT0);
++		if (timeout)
++			mtk_vdec_err(inst->ctx, "lat decode timeout: pic_%d", inst->slice_dec_num);
++		inst->vsi->dec.timeout = !!timeout;
+ 
+-	err = vpu_dec_end(vpu);
++		err = vpu_dec_end(vpu);
++	}
+ 	if (err == SLICE_HEADER_FULL || err == TRANS_BUFFER_FULL) {
+ 		if (!IS_VDEC_INNER_RACING(inst->ctx->dev->dec_capability))
+ 			vdec_msg_queue_qbuf(&inst->ctx->msg_queue.lat_ctx, lat_buf);
+@@ -831,16 +835,19 @@ static int vdec_h264_slice_single_decode(void *h_vdec, struct mtk_vcodec_mem *bs
+ 	if (err)
  		goto err_free_fb_out;
  
- 	if (!inst->ctx->is_secure_playback)
--		vdec_h264_insert_startcode(inst->ctx->dev, buf, &bs->size,
-+		vdec_h264_insert_startcode(inst->ctx->dev, bs->va, &bs->size,
- 					   &share_info->h264_slice_params.pps);
+-	/* wait decoder done interrupt */
+-	err = mtk_vcodec_wait_for_done_ctx(inst->ctx, MTK_INST_IRQ_RECEIVED,
+-					   WAIT_INTR_TIMEOUT_MS, MTK_VDEC_CORE);
+-	if (err)
+-		mtk_vdec_err(inst->ctx, "decode timeout: pic_%d", inst->ctx->decoded_frame_cnt);
+-
+-	inst->vsi->dec.timeout = !!err;
+-	err = vpu_dec_end(vpu);
+-	if (err)
+-		goto err_free_fb_out;
++	if (!inst->ctx->is_secure_playback) {
++		/* wait decoder done interrupt */
++		err = mtk_vcodec_wait_for_done_ctx(inst->ctx, MTK_INST_IRQ_RECEIVED,
++						   WAIT_INTR_TIMEOUT_MS, MTK_VDEC_CORE);
++		if (err)
++			mtk_vdec_err(inst->ctx, "decode timeout: pic_%d",
++				     inst->ctx->decoded_frame_cnt);
++
++		inst->vsi->dec.timeout = !!err;
++		err = vpu_dec_end(vpu);
++		if (err)
++			goto err_free_fb_out;
++	}
  
- 	*res_chg = inst->resolution_changed;
+ 	memcpy(&inst->vsi_ctx, inst->vpu.vsi, sizeof(inst->vsi_ctx));
+ 	mtk_vdec_debug(inst->ctx, "pic[%d] crc: 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x",
 -- 
 2.18.0
 
