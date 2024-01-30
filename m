@@ -2,105 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7A368420AD
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 11:08:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B0FF8420BD
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 11:08:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 414DC112ED0;
-	Tue, 30 Jan 2024 10:07:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34D1E112EE9;
+	Tue, 30 Jan 2024 10:07:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B299112EC4
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 10:07:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C5F4112EC3
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 10:07:20 +0000 (UTC)
 Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:98])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id BD0D31F845;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E44651F846;
  Tue, 30 Jan 2024 10:07:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1706609237; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1706609238; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Xd3QLglnQlQjoiF3OBDtebKJ5KZ0eD4AcS/zNNSeUlo=;
- b=SIKk8MGeFOM05mYZz2M2hfRvUy8vxiG77zUf/mEyYemlPAMvIRCdNXY7UuzKUfjQHxH/0i
- diYfZg8knfbjtEXia8tP+5MnNBusVsHkplLdhtp/0aq9DxMGFL9WfE6/yMwW/Rbjy/UX2Z
- bqD/VdCXx9ACHT1x9jkBE+3Z5Rl16ec=
+ bh=cRQhhJGXmJ8iWn8uoTuuJV4DQPLd0PYN6+RYOMyXH2I=;
+ b=fu4WerXDqM9iVk/vMVcUjIi0QSCOYR+KfdgLFmO4/nVIzMPxfA+dRVk/x9lGotqmLKM5qC
+ c48rL6AKldvSzz/sQQQNzEj0+VCVfEfuBVm7qtA7rUpZOrPMInPdGKbNz0B6PgnFhhCU/9
+ lmYQUx0jwkLDa+Fw8dJ1RXBWrAvYY6k=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1706609237;
+ s=susede2_ed25519; t=1706609238;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Xd3QLglnQlQjoiF3OBDtebKJ5KZ0eD4AcS/zNNSeUlo=;
- b=Lsy0ZrD6fYsscSk/0bj7Ahytj3x8Yx1AI63cfRZjAKm8hZX8l7psti2pdocUIqoI4dVl1e
- xeINmEQG5WFC38Bg==
+ bh=cRQhhJGXmJ8iWn8uoTuuJV4DQPLd0PYN6+RYOMyXH2I=;
+ b=gm7s1pl981fOvl2RYWIvv2oszCwnVWUOTEMR6HF2DJaUpvwRFeSF/pUA3zV4wCNjWmiscg
+ So6BEncraikEc8BQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1706609237; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Xd3QLglnQlQjoiF3OBDtebKJ5KZ0eD4AcS/zNNSeUlo=;
- b=SIKk8MGeFOM05mYZz2M2hfRvUy8vxiG77zUf/mEyYemlPAMvIRCdNXY7UuzKUfjQHxH/0i
- diYfZg8knfbjtEXia8tP+5MnNBusVsHkplLdhtp/0aq9DxMGFL9WfE6/yMwW/Rbjy/UX2Z
- bqD/VdCXx9ACHT1x9jkBE+3Z5Rl16ec=
+ bh=cRQhhJGXmJ8iWn8uoTuuJV4DQPLd0PYN6+RYOMyXH2I=;
+ b=Nu1ZorUbz/QvHPs0zG/j39qUdya0nb2gB5+r7W9XuGeHJxjOUCH5GI+p3Ww+cgIBKVF1+Y
+ 3hLEg7XzHLI7+h1uaVx5ermEvnt0Cq0LXOcptKk4SbFTXWFqKxpTwapzKDoAZptuaW5XOM
+ ZHqhvwf7WsfuL/vl8vDXouSmki/1M9M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1706609237;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Xd3QLglnQlQjoiF3OBDtebKJ5KZ0eD4AcS/zNNSeUlo=;
- b=Lsy0ZrD6fYsscSk/0bj7Ahytj3x8Yx1AI63cfRZjAKm8hZX8l7psti2pdocUIqoI4dVl1e
- xeINmEQG5WFC38Bg==
+ bh=cRQhhJGXmJ8iWn8uoTuuJV4DQPLd0PYN6+RYOMyXH2I=;
+ b=b1/SKrn8pKUtQG8/nurxApYKO2SquI09BvAiBcq6yVAONsmXFgSP4yWmdw397VDzLnz84Q
+ U5lyuxBWNNYQ7+Cw==
 Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 9DC0B139E1;
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id C459A1376E;
  Tue, 30 Jan 2024 10:07:17 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
- by imap2.dmz-prg2.suse.org with ESMTPSA id +D5sJVXKuGXdcwAAn2gu4w
+ by imap2.dmz-prg2.suse.org with ESMTPSA id SELTLlXKuGXdcwAAn2gu4w
  (envelope-from <tzimmermann@suse.de>); Tue, 30 Jan 2024 10:07:17 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jfalempe@redhat.com,
 	javierm@redhat.com
-Subject: [PATCH 07/23] drm/format-helper: Use struct drm_pixmap for
- drm_fb_xrgb8888_to_rgb565()
-Date: Tue, 30 Jan 2024 10:53:42 +0100
-Message-ID: <20240130100714.12608-8-tzimmermann@suse.de>
+Subject: [PATCH 08/23] drm/format-helper: Use struct drm_pixmap for
+ drm_fb_xrgb8888_to_xrgb1555()
+Date: Tue, 30 Jan 2024 10:53:43 +0100
+Message-ID: <20240130100714.12608-9-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240130100714.12608-1-tzimmermann@suse.de>
 References: <20240130100714.12608-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Bar: /
 Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=SIKk8MGe;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Lsy0ZrD6
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [0.49 / 50.00]; ARC_NA(0.00)[];
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Nu1ZorUb;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="b1/SKrn8"
+X-Spamd-Result: default: False [-0.31 / 50.00]; ARC_NA(0.00)[];
  RCVD_VIA_SMTP_AUTH(0.00)[];
  R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
  FROM_HAS_DN(0.00)[]; RCPT_COUNT_THREE(0.00)[4];
  R_MISSING_CHARSET(2.50)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
  MIME_GOOD(-0.10)[text/plain]; BROKEN_CONTENT_TYPE(1.50)[];
- TO_DN_SOME(0.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- RCVD_COUNT_THREE(0.00)[3];
+ TO_DN_SOME(0.00)[]; RCVD_COUNT_THREE(0.00)[3];
+ DWL_DNSWL_MED(-2.00)[suse.de:dkim];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  DKIM_TRACE(0.00)[suse.de:+]; MX_GOOD(-0.01)[];
  MID_CONTAINS_FROM(1.00)[];
  DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
  FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- MIME_TRACE(0.00)[0:+]; NEURAL_HAM_SHORT(-0.20)[-1.000];
- RCVD_TLS_ALL(0.00)[]; BAYES_HAM(-3.00)[100.00%]
-X-Spam-Score: 0.49
-X-Rspamd-Queue-Id: BD0D31F845
+ MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
+ BAYES_HAM(-3.00)[100.00%]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: -0.31
+X-Rspamd-Queue-Id: E44651F846
+X-Spam-Level: 
 X-Spam-Flag: NO
+X-Spamd-Bar: /
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,29 +117,27 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Store the source-buffer parameters of drm_fb_xrgb8888_to_rgb565()
+Store the source-buffer parameters of drm_fb_xrgb8888_to_xrgb1555()
 in struct drm_pixmap. Update the function's interface and all of its
 callers.
 
-Callers of drm_fb_xrgb8888_to_rgb565() initialize the pixmap's
+Callers of drm_fb_xrgb8888_to_xrgb1555() initialize the pixmap's
 instance from a pre-existing instance of struct drm_framebuffer.
 There's potential to simplify some of that code in a later patch.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_format_helper.c            | 18 ++++++------------
- drivers/gpu/drm/drm_mipi_dbi.c                 |  2 +-
- drivers/gpu/drm/gud/gud_pipe.c                 |  2 +-
- drivers/gpu/drm/tests/drm_format_helper_test.c |  9 +++++----
- include/drm/drm_format_helper.h                |  5 ++---
- 5 files changed, 15 insertions(+), 21 deletions(-)
+ drivers/gpu/drm/drm_format_helper.c           | 19 +++++++------------
+ .../gpu/drm/tests/drm_format_helper_test.c    |  4 +++-
+ include/drm/drm_format_helper.h               |  4 ++--
+ 3 files changed, 12 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index 3ce4567c32218..4bc1d05826086 100644
+index 4bc1d05826086..a7356bfc04bf3 100644
 --- a/drivers/gpu/drm/drm_format_helper.c
 +++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -500,16 +500,14 @@ static void drm_fb_xrgb8888_to_rgb565_swab_line(void *dbuf, const void *sbuf,
-  * @dst: Array of RGB565 destination buffers
+@@ -556,15 +556,13 @@ static void drm_fb_xrgb8888_to_xrgb1555_line(void *dbuf, const void *sbuf, unsig
+  * @dst: Array of XRGB1555 destination buffers
   * @dst_pitch: Array of numbers of bytes between the start of two consecutive scanlines
   *             within @dst; can be NULL if scanlines are stored next to each other.
 - * @src: Array of XRGB8888 source buffer
@@ -147,26 +145,25 @@ index 3ce4567c32218..4bc1d05826086 100644
 - * @clip: Clip rectangle area to copy
 + * @src_pix: Source pixmap to copy from
   * @state: Transform and conversion state
-  * @swab: Swap bytes
   *
-  * This function copies parts of a framebuffer to display memory and converts the
-  * color format during the process. Destination and framebuffer formats must match. The
-- * parameters @dst, @dst_pitch and @src refer to arrays. Each array must have at
-- * least as many entries as there are planes in @fb's format. Each entry stores the
-+ * parameters @dst and @dst_pitch refer to arrays. Each array must have at
-+ * least as many entries as there are planes in pixmap's format. Each entry stores the
-  * value for the format's respective color plane at the same index.
+  * This function copies parts of a framebuffer to display memory and converts
+- * the color format during the process. The parameters @dst, @dst_pitch and
+- * @src refer to arrays. Each array must have at least as many entries as
+- * there are planes in @fb's format. Each entry stores the value for the
++ * the color format during the process. The parameters @dst and @dst_pitch
++ * refer to arrays. Each array must have at least as many entries as there
++ * are planes in the pixmap's format. Each entry stores the value for the
+  * format's respective color plane at the same index.
   *
   * This function does not apply clipping on @dst (i.e. the destination is at the
-@@ -518,16 +516,12 @@ static void drm_fb_xrgb8888_to_rgb565_swab_line(void *dbuf, const void *sbuf,
-  * Drivers can use this function for RGB565 devices that don't support XRGB8888 natively.
+@@ -574,15 +572,12 @@ static void drm_fb_xrgb8888_to_xrgb1555_line(void *dbuf, const void *sbuf, unsig
+  * XRGB8888 natively.
   */
- void drm_fb_xrgb8888_to_rgb565(struct iosys_map *dst, const unsigned int *dst_pitch,
--			       const struct iosys_map *src, const struct drm_framebuffer *fb,
--			       const struct drm_rect *clip, struct drm_format_conv_state *state,
--			       bool swab)
-+			       const struct drm_pixmap *src_pix,
-+			       struct drm_format_conv_state *state, bool swab)
+ void drm_fb_xrgb8888_to_xrgb1555(struct iosys_map *dst, const unsigned int *dst_pitch,
+-				 const struct iosys_map *src, const struct drm_framebuffer *fb,
+-				 const struct drm_rect *clip, struct drm_format_conv_state *state)
++				 const struct drm_pixmap *src_pix,
++				 struct drm_format_conv_state *state)
  {
  	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
  		2,
@@ -175,48 +172,22 @@ index 3ce4567c32218..4bc1d05826086 100644
 -	struct drm_pixmap *src_pix = &pixmap;
 -	drm_pixmap_init_from_framebuffer(src_pix, fb, src, clip);
  
- 	void (*xfrm_line)(void *dbuf, const void *sbuf, unsigned int npixels);
- 
-@@ -1102,7 +1096,7 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t d
- 		return 0;
- 	} else if (fb_format == DRM_FORMAT_XRGB8888) {
- 		if (dst_format == DRM_FORMAT_RGB565) {
--			drm_fb_xrgb8888_to_rgb565(dst, dst_pitch, src, fb, clip, state, false);
-+			drm_fb_xrgb8888_to_rgb565(dst, dst_pitch, src_pix, state, false);
+ 	drm_fb_xfrm(dst, dst_pitch, dst_pixsize, src_pix, false, state,
+ 		    drm_fb_xrgb8888_to_xrgb1555_line);
+@@ -1099,7 +1094,7 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t d
+ 			drm_fb_xrgb8888_to_rgb565(dst, dst_pitch, src_pix, state, false);
  			return 0;
  		} else if (dst_format == DRM_FORMAT_XRGB1555) {
- 			drm_fb_xrgb8888_to_xrgb1555(dst, dst_pitch, src, fb, clip, state);
-diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
-index 9916a9bd6c978..14ecd5261039c 100644
---- a/drivers/gpu/drm/drm_mipi_dbi.c
-+++ b/drivers/gpu/drm/drm_mipi_dbi.c
-@@ -226,7 +226,7 @@ int mipi_dbi_buf_copy(void *dst, struct iosys_map *src, struct drm_framebuffer *
- 			drm_fb_memcpy(&dst_map, NULL, &src_pix);
- 		break;
- 	case DRM_FORMAT_XRGB8888:
--		drm_fb_xrgb8888_to_rgb565(&dst_map, NULL, src, fb, clip, fmtcnv_state, swap);
-+		drm_fb_xrgb8888_to_rgb565(&dst_map, NULL, &src_pix, fmtcnv_state, swap);
- 		break;
- 	default:
- 		drm_err_once(fb->dev, "Format is not supported: %p4cc\n",
-diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
-index 94c6da63cbff2..55b7dd83ef933 100644
---- a/drivers/gpu/drm/gud/gud_pipe.c
-+++ b/drivers/gpu/drm/gud/gud_pipe.c
-@@ -192,7 +192,7 @@ static int gud_prep_flush(struct gud_device *gdrm, struct drm_framebuffer *fb,
- 		} else if (format->format == DRM_FORMAT_RGB332) {
- 			drm_fb_xrgb8888_to_rgb332(&dst, NULL, &src_pix, fmtcnv_state);
- 		} else if (format->format == DRM_FORMAT_RGB565) {
--			drm_fb_xrgb8888_to_rgb565(&dst, NULL, src, fb, rect, fmtcnv_state,
-+			drm_fb_xrgb8888_to_rgb565(&dst, NULL, &src_pix, fmtcnv_state,
- 						  gud_is_big_endian());
- 		} else if (format->format == DRM_FORMAT_RGB888) {
- 			drm_fb_xrgb8888_to_rgb888(&dst, NULL, src, fb, rect, fmtcnv_state);
+-			drm_fb_xrgb8888_to_xrgb1555(dst, dst_pitch, src, fb, clip, state);
++			drm_fb_xrgb8888_to_xrgb1555(dst, dst_pitch, src_pix, state);
+ 			return 0;
+ 		} else if (dst_format == DRM_FORMAT_ARGB1555) {
+ 			drm_fb_xrgb8888_to_argb1555(dst, dst_pitch, src, fb, clip, state);
 diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
-index 326a4fd3b6141..14ff5e4883f84 100644
+index 14ff5e4883f84..0277e27790c3c 100644
 --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
 +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
-@@ -682,6 +682,7 @@ static void drm_test_fb_xrgb8888_to_rgb565(struct kunit *test)
+@@ -737,6 +737,7 @@ static void drm_test_fb_xrgb8888_to_xrgb1555(struct kunit *test)
  	u16 *buf = NULL;
  	__le32 *xrgb8888 = NULL;
  	struct iosys_map dst, src;
@@ -224,39 +195,29 @@ index 326a4fd3b6141..14ff5e4883f84 100644
  
  	struct drm_framebuffer fb = {
  		.format = drm_format_info(DRM_FORMAT_XRGB8888),
-@@ -703,14 +704,14 @@ static void drm_test_fb_xrgb8888_to_rgb565(struct kunit *test)
+@@ -758,7 +759,8 @@ static void drm_test_fb_xrgb8888_to_xrgb1555(struct kunit *test)
  	const unsigned int *dst_pitch = (result->dst_pitch == TEST_USE_DEFAULT_PITCH) ?
  		NULL : &result->dst_pitch;
  
--	drm_fb_xrgb8888_to_rgb565(&dst, dst_pitch, &src, &fb, &params->clip,
--				  &fmtcnv_state, false);
+-	drm_fb_xrgb8888_to_xrgb1555(&dst, dst_pitch, &src, &fb, &params->clip, &fmtcnv_state);
 +	drm_pixmap_init_from_framebuffer(&src_pix, &fb, &src, &params->clip);
-+
-+	drm_fb_xrgb8888_to_rgb565(&dst, dst_pitch, &src_pix, &fmtcnv_state, false);
++	drm_fb_xrgb8888_to_xrgb1555(&dst, dst_pitch, &src_pix, &fmtcnv_state);
  	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
  	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
  
- 	buf = dst.vaddr; /* restore original value of buf */
--	drm_fb_xrgb8888_to_rgb565(&dst, &result->dst_pitch, &src, &fb, &params->clip,
--				  &fmtcnv_state, true);
-+	drm_fb_xrgb8888_to_rgb565(&dst, &result->dst_pitch, &src_pix, &fmtcnv_state, true);
- 	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
- 	KUNIT_EXPECT_MEMEQ(test, buf, result->expected_swab, dst_size);
- 
 diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
-index ad4d63d8aa6a9..121a8973c8154 100644
+index 121a8973c8154..8852c5e7fe116 100644
 --- a/include/drm/drm_format_helper.h
 +++ b/include/drm/drm_format_helper.h
-@@ -106,9 +106,8 @@ void drm_fb_swab(struct drm_device *dev,
- void drm_fb_xrgb8888_to_rgb332(struct iosys_map *dst, const unsigned int *dst_pitch,
- 			       const struct drm_pixmap *src_pix, struct drm_format_conv_state *state);
- void drm_fb_xrgb8888_to_rgb565(struct iosys_map *dst, const unsigned int *dst_pitch,
--			       const struct iosys_map *src, const struct drm_framebuffer *fb,
--			       const struct drm_rect *clip, struct drm_format_conv_state *state,
--			       bool swab);
-+			       const struct drm_pixmap *src_pix,
-+			       struct drm_format_conv_state *state, bool swab);
+@@ -109,8 +109,8 @@ void drm_fb_xrgb8888_to_rgb565(struct iosys_map *dst, const unsigned int *dst_pi
+ 			       const struct drm_pixmap *src_pix,
+ 			       struct drm_format_conv_state *state, bool swab);
  void drm_fb_xrgb8888_to_xrgb1555(struct iosys_map *dst, const unsigned int *dst_pitch,
+-				 const struct iosys_map *src, const struct drm_framebuffer *fb,
+-				 const struct drm_rect *clip, struct drm_format_conv_state *state);
++				 const struct drm_pixmap *src_pix,
++				 struct drm_format_conv_state *state);
+ void drm_fb_xrgb8888_to_argb1555(struct iosys_map *dst, const unsigned int *dst_pitch,
  				 const struct iosys_map *src, const struct drm_framebuffer *fb,
  				 const struct drm_rect *clip, struct drm_format_conv_state *state);
 -- 
