@@ -2,34 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D58CB8424CB
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 13:24:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 647C78424C1
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 13:24:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05224113052;
-	Tue, 30 Jan 2024 12:23:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 462BD11237F;
+	Tue, 30 Jan 2024 12:23:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7474D11304F
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 12:23:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D34010EDA1
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 12:23:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1706617427;
+ s=mail; t=1706617428;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+n8ItVGKEntF1q4atKJJA2NJbdTS+Zf0wFw3L1mGo3s=;
- b=Lv6jdOaQdchyQWN4DHxAvoCnvj0/mzDrE8k+Dr5pJcsLTiEG+reSL3O6QPCwhLeaDszKCu
- cRzpOCW4TQFqmEXaAJ1pHsu1AjJNjx6+Ip6LyAVCeCT9jhrt/vkvzf4TFcfPZVANebtntU
- EjtFP7R0OwxikAVSeQNnRvnGl431PHg=
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SqXbfp61fzBHWNEqVrElLd46cr7HG/1wYVIvKKSn5jY=;
+ b=uStG4m2OiYDXjAnbZhvlePwi6RCL5a65XfVMHf3kIDQFND4jkC6cwEBz0jaA9AW1MZbf1/
+ 2u/o3/68rPjN5owEZJ5rGx2hINs1wO31bHkjYDAEEB8LZF+afk4mDgWOr+EQfngv9sqZL3
+ QFrIivxNGWeocp6JrbECrSQlqQxE4YQ=
 From: Paul Cercueil <paul@crapouillou.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH v6 0/4] usb: gadget: functionfs: DMABUF import interface
-Date: Tue, 30 Jan 2024 13:23:36 +0100
-Message-ID: <20240130122340.54813-1-paul@crapouillou.net>
+Subject: [PATCH v6 1/4] usb: gadget: Support already-mapped DMA SGs
+Date: Tue, 30 Jan 2024 13:23:37 +0100
+Message-ID: <20240130122340.54813-2-paul@crapouillou.net>
+In-Reply-To: <20240130122340.54813-1-paul@crapouillou.net>
+References: <20240130122340.54813-1-paul@crapouillou.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,52 +54,62 @@ Cc: Paul Cercueil <paul@crapouillou.net>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Add a new 'sg_was_mapped' field to the struct usb_request. This field
+can be used to indicate that the scatterlist associated to the USB
+transfer has already been mapped into the DMA space, and it does not
+have to be done internally.
 
-This is the v6 of my patchset that adds a new DMABUF import interface to
-FunctionFS.
-
-Given that the cache coherency issue that has been discussed after my
-v5 is a tangential problem and not directly related to this new
-interface, I decided to drop the dma_buf_begin/end_access() functions
-for now - but I'm open to the idea of re-introducing them in a
-subsequent patchset.
-
-The patchset was rebased on next-20240129.
-
-Cheers,
--Paul
-
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
-Changelog:
-* Drop v5's patches [1/6] and [2/6].
-* [3/4]: 
-  - Drop use of dma_buf_begin/end_access(). We now make the assumption
-    that the devices attached to the DMABUFs must be coherent between
-    themselves. The cache coherency issue is a tangential problem, and
-    those functions can be re-introduced in a subsequent patchset.
-  - Unqueue pending requests on detach. Otherwise, when closing the data
-    endpoint the DMABUF will never be signaled.
-  - Use list_for_each_entry_safe() in ffs_dmabuf_detach(), because there
-    is a list_del() in there.
-  - use pr_vdebug() instead of pr_debug()
-  - Rename ffs_dmabuf_unmap_work() -> ffs_dmabuf_cleanup()
+ drivers/usb/gadget/udc/core.c | 7 ++++++-
+ include/linux/usb/gadget.h    | 2 ++
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
----
-Paul Cercueil (4):
-  usb: gadget: Support already-mapped DMA SGs
-  usb: gadget: functionfs: Factorize wait-for-endpoint code
-  usb: gadget: functionfs: Add DMABUF import interface
-  Documentation: usb: Document FunctionFS DMABUF API
-
- Documentation/usb/functionfs.rst    |  36 ++
- drivers/usb/gadget/Kconfig          |   1 +
- drivers/usb/gadget/function/f_fs.c  | 513 ++++++++++++++++++++++++++--
- drivers/usb/gadget/udc/core.c       |   7 +-
- include/linux/usb/gadget.h          |   2 +
- include/uapi/linux/usb/functionfs.h |  41 +++
- 6 files changed, 579 insertions(+), 21 deletions(-)
-
+diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
+index d59f94464b87..9d4150124fdb 100644
+--- a/drivers/usb/gadget/udc/core.c
++++ b/drivers/usb/gadget/udc/core.c
+@@ -903,6 +903,11 @@ int usb_gadget_map_request_by_dev(struct device *dev,
+ 	if (req->length == 0)
+ 		return 0;
+ 
++	if (req->sg_was_mapped) {
++		req->num_mapped_sgs = req->num_sgs;
++		return 0;
++	}
++
+ 	if (req->num_sgs) {
+ 		int     mapped;
+ 
+@@ -948,7 +953,7 @@ EXPORT_SYMBOL_GPL(usb_gadget_map_request);
+ void usb_gadget_unmap_request_by_dev(struct device *dev,
+ 		struct usb_request *req, int is_in)
+ {
+-	if (req->length == 0)
++	if (req->length == 0 || req->sg_was_mapped)
+ 		return;
+ 
+ 	if (req->num_mapped_sgs) {
+diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
+index a771ccc038ac..c529e4e06997 100644
+--- a/include/linux/usb/gadget.h
++++ b/include/linux/usb/gadget.h
+@@ -52,6 +52,7 @@ struct usb_ep;
+  * @short_not_ok: When reading data, makes short packets be
+  *     treated as errors (queue stops advancing till cleanup).
+  * @dma_mapped: Indicates if request has been mapped to DMA (internal)
++ * @sg_was_mapped: Set if the scatterlist has been mapped before the request
+  * @complete: Function called when request completes, so this request and
+  *	its buffer may be re-used.  The function will always be called with
+  *	interrupts disabled, and it must not sleep.
+@@ -111,6 +112,7 @@ struct usb_request {
+ 	unsigned		zero:1;
+ 	unsigned		short_not_ok:1;
+ 	unsigned		dma_mapped:1;
++	unsigned		sg_was_mapped:1;
+ 
+ 	void			(*complete)(struct usb_ep *ep,
+ 					struct usb_request *req);
 -- 
 2.43.0
 
