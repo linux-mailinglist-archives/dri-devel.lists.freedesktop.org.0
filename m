@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09ECE842A57
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 18:03:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74A43842A5B
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 18:03:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4D7F10F939;
-	Tue, 30 Jan 2024 17:03:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC76010F4CA;
+	Tue, 30 Jan 2024 17:03:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2073.outbound.protection.outlook.com [40.107.223.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56E8910F939;
- Tue, 30 Jan 2024 17:03:27 +0000 (UTC)
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1nam02on2051.outbound.protection.outlook.com [40.107.96.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53B161131EC;
+ Tue, 30 Jan 2024 17:03:29 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gVUAPkgfYb3Iqcs53y1KK3o1enYjGZtIJ0psUDXBC/LT3TEcREhzCP7B8du4K6XKaMD0bY2jwj3x1u9auTwPjRPc0DoEufXAmdt1maqxcqJN+Ko3i/m15OtimDHXKOasVumZpo8640UFDiklCVisf/n4x3bokNC15acSOnYhp76FIGGR+i6zVeHd/vSTb9afU1ZegXwjNQQJq9WPVPBNSPFYom+1XwRjoK8AgynqdNBVrFXalNHPVslNfeAHktToxc/FuBxmz8kG0hKFA/98H3bpJ54kxthsrvW2K2UIDlIKobn/42i1o09LCsGVuA7Hq2VldirFqzy332A+eI4w6Q==
+ b=WQKx6q2sfbjEUO5avuf42QdFJ/FTOtaNS4zXWtWtgveyUmEaMG3Oh++N+YM6gmkXxtEHePjenqBjXdEPYxJidf/ueSm7q1DZpb2SmgbtME2cE3CnRT6KJ3JjIm+vVXou0JYCX9eud36LBG+A6fcJB7J3CtFw2IpisgY5IT/Z3+ZEv3faYuFnx/P8aULC3hsu7g+K1issEMfQGnTBTBhSwY67Ftzjym4nkY2LSAcegDtP2VgFvM3/kjyIRBxHYRH9Vdpr3WnD6HklBXznUiFzgNKbYqJM9mTKGCcGT5+pXU4vV1Bnkwj+keTGyZGd+3IHyJPXiefwoddSWp+FdqbfEQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rMlIYd6LD55A1c0lmDjYN7NhFdYbw2a7qtNk5Td62I8=;
- b=RGiY2yBhEa0kP3SPlcovDFwkTIy6yCIZNx2J4BWIv2wxpc3vAxQyK4btbrDBdBIVECDPEx7NWmCejRyLgpogbX5xhTzyUrhfkVTNse9VzknV2xuSrX2aYmON19udD34lDJWITVCbiskkgD8C9+z7cPGx6B4jSNgPFkIrxtlAB4F6Hm4uZuShmRett46d/w1w+ZqQ8iWFHL0Wv8al197QxZxF5XPTRtqaV6BsBetruL3QkGygyeOJZurT0UA1LqbAMJTyad2V8eLnIpVRI856Oftnjju3sqCnOLMIbEPDOkg4R+8g23TGUCIXJwl8PEnNBxMLdzZLRHPcgDBTR3NOnw==
+ bh=FRtM1wsUyneTByH711abrNxiqsruk/2WT67jRGs7CKc=;
+ b=E7lx/XK7SYf6ktC3g0/Jad+pqX0LPUP+3DSBTXmo8b0kpr2nEpG+7p6cbl74p87LJNNdwxc6OU29GL4JtnPVhrGjyVmZrS97WedNLU9gR0LnSXEUniKaGHgz4op5SwLR2zpkdruqe0uuUu8QbNjhjCmrApQEXXUV19F3LQ3Y7JRjOndD4Ufmy1xGuQYGcxRjyP+HL9Wl7Dm9DQ5r/gcASeguOljXgzHbCr1Qq8NaRfSOVyzEYreXxflS4P08TvmjGqG9FBS2MQebHPEthA8rPnZUJNmQa7tnaXngiCWqWHBgKCD3xtOLV6ZawraXIqGVrJP1r83JMoO8BwzhiDrnYw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rMlIYd6LD55A1c0lmDjYN7NhFdYbw2a7qtNk5Td62I8=;
- b=SUVWiXbX3GCaDTBNE9hnz4ZrgLMMwn3SlxjOoJ1gj4zF1cDz6MLeXPRhTritbYmhQvwhjxD+dxjav12xCRsV2fOxGpRue/osBfYishZBTbIZjk81Qizshcrv+qRlJMitrC4fkucA5FeC5ezLj8KFdmV4D3rQjS8LVM1SwA34RA0=
-Received: from CH0PR03CA0352.namprd03.prod.outlook.com (2603:10b6:610:11a::21)
- by DM3PR12MB9389.namprd12.prod.outlook.com (2603:10b6:0:46::9) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7228.32; Tue, 30 Jan 2024 16:14:06 +0000
+ bh=FRtM1wsUyneTByH711abrNxiqsruk/2WT67jRGs7CKc=;
+ b=Pf4AHUyaUSOdf4wXZ351vrD81LfYrdPq+EFtMxO/X2qb0ZagWJdAmUoteJ4U/fD0eA3QsbgMjtXHKTvcJzVsq201WUF9/WGIz9TJs9rpnD5uMm8IgwCCumoB2AJ3bjV050s9IQy71HBr9tBPBS52+M8+bxFCoeXkuUnNm9hjhqU=
+Received: from CH0PR03CA0331.namprd03.prod.outlook.com (2603:10b6:610:11a::22)
+ by SN7PR12MB8433.namprd12.prod.outlook.com (2603:10b6:806:2e5::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.32; Tue, 30 Jan
+ 2024 16:14:09 +0000
 Received: from DS2PEPF00003443.namprd04.prod.outlook.com
- (2603:10b6:610:11a:cafe::90) by CH0PR03CA0352.outlook.office365.com
- (2603:10b6:610:11a::21) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:610:11a:cafe::a1) by CH0PR03CA0331.outlook.office365.com
+ (2603:10b6:610:11a::22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.34 via Frontend
- Transport; Tue, 30 Jan 2024 16:14:06 +0000
+ Transport; Tue, 30 Jan 2024 16:14:08 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -47,18 +47,18 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  DS2PEPF00003443.mail.protection.outlook.com (10.167.17.70) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7249.19 via Frontend Transport; Tue, 30 Jan 2024 16:14:06 +0000
+ 15.20.7249.19 via Frontend Transport; Tue, 30 Jan 2024 16:14:08 +0000
 Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Tue, 30 Jan
- 2024 10:13:28 -0600
+ 2024 10:13:29 -0600
 From: Alex Deucher <alexander.deucher@amd.com>
 To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
  <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
  <tvrtko.ursulin@linux.intel.com>, <daniel@ffwll.ch>
-Subject: [PATCH 5/6] drm/i915: Update shared stats to use the new gem helper
-Date: Tue, 30 Jan 2024 11:12:34 -0500
-Message-ID: <20240130161235.3237122-6-alexander.deucher@amd.com>
+Subject: [PATCH 6/6] drm/xe: Update shared stats to use the new gem helper
+Date: Tue, 30 Jan 2024 11:12:35 -0500
+Message-ID: <20240130161235.3237122-7-alexander.deucher@amd.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20240130161235.3237122-1-alexander.deucher@amd.com>
 References: <20240130161235.3237122-1-alexander.deucher@amd.com>
@@ -70,26 +70,26 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PEPF00003443:EE_|DM3PR12MB9389:EE_
-X-MS-Office365-Filtering-Correlation-Id: c2b86796-6f4a-4351-f573-08dc21ae7bf4
+X-MS-TrafficTypeDiagnostic: DS2PEPF00003443:EE_|SN7PR12MB8433:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2053418d-3287-45bd-8456-08dc21ae7d28
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: H+L/RVtgLda1Nj1fS27HYa8WZxCTGyTB/XBE/JhtEFq7Agim4HDgkuTO6Ei3EHZNXxoiJwx4V4WHybOs7uNc/vmRqfQTRDWoOuXo0fiDA0w9/Lrjq05rKbA31Tdv7KGGGxlxLNg6sRnhISmALs9aG3rkwQOT+Ug7NGoaV/6jw1b/jMtIrTh0rtHxrK6VoihipHhsYonB1fRodoLKiZmsutgDi6scGJzKR90YgKJcLyayvEoKu+r1vZegFezytcUaCZlkxlXjScdLVI0kXT+lSJRhh8lkkodBDYB7zFSzIR/CDZsLA6ucPZEh2C0xch+PKF7krmOWCEjyE1CidYi3aFCUelOvzow9yo12gIE4POvujSylu5lrxp2ukfg3cB06GO7HHA+c8TQ1CUegLMMX5BTVtZe1+LKQj+9bAfb6PrLzHf7VUzpOX/7OvrjDlqzSNgEl45gMp9hSDps19+UGM6GHARddeEHns+BdVBmV+C2NJ95m7SXoKD0SdWDKKz6RwzSBC3HdSx6QhSBbfKNp/mKckaEoWwOmw1jeu93ciGOs9ZGyMjYXvcdZ3ip/i7+zIsAoYpMD3CiSeJFSRz3Emn1RvG9StXZo7AIxgjTo1O4YUtNiopI/AfmSmJdbw3qQnM90Z6l2G6OjAX9BYX92WKYPHZUI5rtATgmX+towHPqoDODQUe1toO+DoOVb8MnDAI60YGLNGc94AwccFTjKLUXY09uEYQyzPD8jXErzOKmfcRoBtk555HVie4ha0WeU0cAy+Dl+5zUaT3SohYkMrQ==
+X-Microsoft-Antispam-Message-Info: dcfG1E8Jsea48BTopxar8YlNFkz2BwhOV1Nqbz86gVQnhZSo3YMg8VjZtQUnSQdQHWAl8ufb5BL8iNoaOsOcGkycjqwZubIbiovn+KExAM0KCB2Y3cg8/asLzXiRcQgkgNRiBJvQdO4S+MIr7RD6s0PU5dgXGUnizEv/dS52kh+hbx48jyr6bEoAWf3SUhaOi1VJ4o9TesAeSBbX1h6h41B5wcOtylIMQ8vgJ/M37Fd0AdtvFppmvKJXjF7F49lGoInxV55KqjdMO8N6Bhwu8Nn/IR0XbXfFnTqU5gYNhrYjMObOj/Kg0RrmGPMrDGDbhbwm2erHDvoQRF5HNDzfpwUe/Ngks7AQSsvfGagDuTg/378BarQns4m8M1ASbVvsVb4dH+ju9c3nmQFo3v0HSklIa4yUHXzs1HvR9BrFnXgAzPsgHWFXFtznnpcKMvEIua53THBnBBKXnpHfP7TlTbASeTd3Sz4b2Hw2UCB/fBLsaVqSOAVQK0L3Yn4XmOwOUqqDiToyH103MDyakrIeQ6wuaw6K3FjlXrQoBaBREOMqNYL65IXdyrTHvm0s4KtjbzVK9201w4WBETiw5p7xXeXoquz7E8tFAm1MjEY38RDyggb5xGk/q2iiXpZRpqKdeVw55LwCNekj2MR3dy3T1fi4S2i7qKZtiQH0zvJspa8khULCm9I642WyoajtqlAbddfvjn4QmY9eRtqw0nsU+r78coHG5FIcuPAuYWAkFMaBhZXnY0B4C9zby7ikg9n9bA0Bkys3esY4zvF4Bm3+iQ==
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(346002)(39860400002)(396003)(136003)(376002)(230922051799003)(186009)(64100799003)(82310400011)(451199024)(1800799012)(40470700004)(36840700001)(46966006)(40480700001)(40460700003)(1076003)(83380400001)(426003)(26005)(7696005)(336012)(6666004)(16526019)(36756003)(86362001)(82740400003)(356005)(8936002)(4326008)(4744005)(41300700001)(8676002)(5660300002)(36860700001)(2616005)(47076005)(70586007)(110136005)(70206006)(966005)(478600001)(2906002)(316002)(81166007)(36900700001);
+ SFS:(13230031)(4636009)(39860400002)(396003)(136003)(346002)(376002)(230922051799003)(186009)(451199024)(1800799012)(82310400011)(64100799003)(46966006)(36840700001)(40470700004)(36860700001)(47076005)(110136005)(316002)(83380400001)(7696005)(70586007)(70206006)(8936002)(966005)(8676002)(26005)(4326008)(478600001)(2906002)(36756003)(1076003)(6666004)(16526019)(4744005)(336012)(426003)(86362001)(5660300002)(2616005)(41300700001)(40480700001)(40460700003)(81166007)(82740400003)(356005)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2024 16:14:06.6663 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c2b86796-6f4a-4351-f573-08dc21ae7bf4
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2024 16:14:08.6663 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2053418d-3287-45bd-8456-08dc21ae7d28
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: DS2PEPF00003443.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9389
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8433
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,22 +112,22 @@ rather than hand rolling it.
 Link: https://lore.kernel.org/all/20231207180225.439482-1-alexander.deucher@amd.com/
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- drivers/gpu/drm/i915/i915_drm_client.c | 2 +-
+ drivers/gpu/drm/xe/xe_drm_client.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
-index fa6852713bee..f58682505491 100644
---- a/drivers/gpu/drm/i915/i915_drm_client.c
-+++ b/drivers/gpu/drm/i915/i915_drm_client.c
-@@ -53,7 +53,7 @@ obj_meminfo(struct drm_i915_gem_object *obj,
- 					obj->mm.region->id : INTEL_REGION_SMEM;
- 	const u64 sz = obj->base.size;
- 
--	if (obj->base.handle_count > 1)
-+	if (drm_gem_object_is_shared_for_memory_stats(&obj->base))
- 		stats[id].shared += sz;
+diff --git a/drivers/gpu/drm/xe/xe_drm_client.c b/drivers/gpu/drm/xe/xe_drm_client.c
+index 82d1305e831f..ecf2eb67d310 100644
+--- a/drivers/gpu/drm/xe/xe_drm_client.c
++++ b/drivers/gpu/drm/xe/xe_drm_client.c
+@@ -113,7 +113,7 @@ static void bo_meminfo(struct xe_bo *bo,
  	else
- 		stats[id].private += sz;
+ 		mem_type = XE_PL_TT;
+ 
+-	if (bo->ttm.base.handle_count > 1)
++	if (drm_gem_object_is_shared_for_memory_stats(&bo->ttm.base))
+ 		stats[mem_type].shared += sz;
+ 	else
+ 		stats[mem_type].private += sz;
 -- 
 2.42.0
 
