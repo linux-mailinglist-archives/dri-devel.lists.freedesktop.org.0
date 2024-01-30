@@ -2,122 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFFC7841D2A
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 09:04:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 443DB841D5E
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 09:16:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DD20112E37;
-	Tue, 30 Jan 2024 08:04:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2E72112C32;
+	Tue, 30 Jan 2024 08:15:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
- [209.85.208.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5229A112E25
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 08:04:08 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id
- 4fb4d7f45d1cf-55f0b2c79cdso2445709a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 00:04:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1706601787; x=1707206587; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=DAL0f6fKkqp3puSgTNryp8hcfAmzEA4DpvZNsDOXh6U=;
- b=YkJSGLNVHsAeVaHal5iAZ5Xv3PRjSgXNhpzFyTFmavm6MERfQ0ZASPnn1FPnToNaRn
- MCiOJrV8Cul89JsB9MC9GPA6W5CR7g2KzJL3nIly0f/xGDXKk6PlvHtKs0zxasAJxqY3
- X8oFsQFw9BrLouJzqk9InBAhCpt14X5AqLAMus/hO11RIM4H9j3n6/ihgzGPsuPXxJNv
- 90ircwN1Slb7DxBCXpDX6Fl/kvYjOUgtJxjZfsc9D4oAK1gXtvAHjOY45JzT+Ri3NvJo
- J7JhL346kMt3b8yTl9mD4zW43khcMUuQKj+JoW4uyM7pKDrUniqeDWK9o+4ZV60QNiRh
- xR4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706601787; x=1707206587;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DAL0f6fKkqp3puSgTNryp8hcfAmzEA4DpvZNsDOXh6U=;
- b=t+lsSYEbveN77u4gczOlk1kMx6WVPHer6+sywvgmFBWX4h/u+JV64FfMMFqpm8ECmU
- cd8IfyMq3wmwhjhueRq/15q5fmzRPpGhyY786ZBXaMUobadpwA5MofGHhafk6Ou6PYKS
- DbOIjIHGrroc9qYd/RQk73k5gZIJGUBG41oOTfz+G9Uzyp3k2vAohOdXLBG2DEwk11i+
- cRtI6E2dmSrx5I+i4VNB5QbNr0dgRfyUsE+NwCFbxc51uoaw1AdwSI7T03JMYXI84eNM
- Q95Y11rFIYrQv1tAT20SaSo3jhi/Pw55sXoRjL9Al9MS1i0AvGC5wyMthrAtwA5hRddc
- cvhw==
-X-Gm-Message-State: AOJu0YwUlPpZtY4rcVOA6NZs6MrLRlEbB/WWkSwj7p4an5J+R6RPBtah
- 9V4INnr/ap7+9SRk9ykK/k2vZYnBiw0seuaDdUjTPCJ7jI/ERDOQ18Jprb0i7JQ=
-X-Google-Smtp-Source: AGHT+IGTaxX0iclE5KLuq8hyPxLtw0sfQMtw8b6dqd0Q8R2qVijJVDUskLp/Fp7l/3jl1WWPPHuWZg==
-X-Received: by 2002:a17:906:4ad2:b0:a35:fbc4:4c20 with SMTP id
- u18-20020a1709064ad200b00a35fbc44c20mr1908511ejt.6.1706601786732; 
- Tue, 30 Jan 2024 00:03:06 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.222.62])
- by smtp.gmail.com with ESMTPSA id
- j9-20020a170906254900b00a311685890csm4825575ejb.22.2024.01.30.00.03.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Jan 2024 00:03:06 -0800 (PST)
-Message-ID: <6efc8171-1741-4314-9d47-dad1e2552dcf@linaro.org>
-Date: Tue, 30 Jan 2024 09:03:04 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F24E1112099;
+ Tue, 30 Jan 2024 08:15:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1706602554; x=1738138554;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=mLRURpRWIUpTzCQZTz+CcMOXUnz3YS2UV5Lmd697HJ0=;
+ b=Cr6cG+QLTALxleTihg2zAVISjTSPsHqf7fSqv391ryEFwSoWh6aPck8H
+ 9hS9wCguu9aFLeC7lPnkofW7AMABOXR+k6eN0UCRrFkYhNKxP9wIUBCv+
+ t0HTghJI/NG8ltFXVdYIfaP/Wa6pe1IR3GMw7YqP5Hg2ROQisi1509bLr
+ Nkn7Kr1iIcJPBx7p1tNJokp+DOE3XzPMwCFFkfezSyHVyWwd6V975oxl1
+ JCn4W+iYLg+k26RVZZzeUWJOZTEpo0hL4XAAYRiOL9cQ08gqWjfkplsYv
+ tr3eDgM4SE0d2byI/WQWHGkRzFyC/f+ZbHmZyVVA4BNHm06YzS92tnOHU w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="3079349"
+X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
+   d="scan'208";a="3079349"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jan 2024 00:15:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="858399032"
+X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; d="scan'208";a="858399032"
+Received: from skofoed-mobl.ger.corp.intel.com (HELO [10.249.254.21])
+ ([10.249.254.21])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jan 2024 00:15:47 -0800
+Message-ID: <f1ad0bcb-c7e0-4c56-9982-38362bb70d56@linux.intel.com>
+Date: Tue, 30 Jan 2024 09:15:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] dt-bindings: display/msm: document MDSS on X1E80100
+Subject: Re: [PATCH] drm/xe: Fix a build error
 Content-Language: en-US
-To: Abel Vesa <abel.vesa@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>
-References: <20240129-x1e80100-display-v1-0-0d9eb8254df0@linaro.org>
- <20240129-x1e80100-display-v1-1-0d9eb8254df0@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
- m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
- HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
- XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
- mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
- v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
- cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
- rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
- qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
- aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
- gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
- dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
- NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
- hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
- oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
- H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
- yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
- 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
- 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
- +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
- FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
- 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
- DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
- oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
- 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
- Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
- qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
- /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
- qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
- EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
- KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
- fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240129-x1e80100-display-v1-1-0d9eb8254df0@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: "Zeng, Oak" <oak.zeng@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
+References: <20240127155327.423294-1-oak.zeng@intel.com>
+ <21f2b595-0690-4372-bd81-86d23ac7498b@gmail.com>
+ <0d1e2c15-c951-4c97-b242-a1231ae4f608@linux.intel.com>
+ <SA1PR11MB6991072A876ED10A0CEE193F927E2@SA1PR11MB6991.namprd11.prod.outlook.com>
+From: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <SA1PR11MB6991072A876ED10A0CEE193F927E2@SA1PR11MB6991.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,28 +67,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
+Cc: "Amaranath.Somalapuram@amd.com" <Amaranath.Somalapuram@amd.com>, "De Marchi,
+ Lucas" <lucas.demarchi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/01/2024 14:18, Abel Vesa wrote:
-> Document the MDSS hardware found on the Qualcomm X1E80100 platform.
-> 
-> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
-> ---
+Hi, Oak
 
-Please document dependencies, including the ones not in the tree this is
-targeting. You have build failures, so that deserves some note.
+On 1/29/24 21:29, Zeng, Oak wrote:
+> Hi Thomas,
+>
+> My patch was based on drm-tip.... because I found drm-tip is broken....
 
->  .../bindings/display/msm/qcom,x1e80100-mdss.yaml   | 249 +++++++++++++++++++++
->  1 file changed, 249 insertions(+)
-> 
+Yes, but drm-tip is rebuilt and force-pushed every time any of the 
+merged branches adds a new commit, so any commit needs to land in any of 
+the included branches, and when that is not possible because of 
+interdependencies, it needs to land in a merge commit, or a separate 
+"fixup" to a merge.
+
+All described here:
+
+https://drm.pages.freedesktop.org/maintainer-tools/drm-tip.html#
+
+What was happening in this case was that the "fixup" Christian had added 
+somehow didn't work, so I removed it and added a new one. We never apply 
+patches directly on drm-tip.
+
+/Thomas
 
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
-
+>
+> As long as drm-tip can build, I am all good.
+>
+> Thanks,
+> Oak
+>
+>> -----Original Message-----
+>> From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>> Sent: Monday, January 29, 2024 3:26 PM
+>> To: Christian König <ckoenig.leichtzumerken@gmail.com>; Zeng, Oak
+>> <oak.zeng@intel.com>; dri-devel@lists.freedesktop.org; intel-
+>> xe@lists.freedesktop.org
+>> Cc: Amaranath.Somalapuram@amd.com; De Marchi, Lucas
+>> <lucas.demarchi@intel.com>
+>> Subject: Re: [PATCH] drm/xe: Fix a build error
+>>
+>> Hi,
+>>
+>> On 1/29/24 17:48, Christian König wrote:
+>>> Am 27.01.24 um 16:53 schrieb Oak Zeng:
+>>>> This fixes a build failure on drm-tip. This issue was introduced during
+>>>> merge of "drm/ttm: replace busy placement with flags v6". For some
+>>>> reason, the xe_bo.c part of above change is not merged. Manually merge
+>>>> the missing part to drm_tip
+>>> Mhm, I provided this as manual fixup for drm-tip in this rerere commit:
+>>>
+>>> commit afc5797e8c03bed3ec47a34f2bc3cf03fce24411
+>>> Author: Christian König <christian.koenig@amd.com>
+>>> Date:   Thu Jan 25 10:44:54 2024 +0100
+>>>
+>>>      2024y-01m-25d-09h-44m-07s UTC: drm-tip rerere cache update
+>>>
+>>>      git version 2.34.1
+>>>
+>>>
+>>> And for me compiling xe in drm-tip worked fine after that. No idea why
+>>> that didn't work for you.
+>>>
+>>> Anyway feel free to add my rb to this patch here if it helps in any way.
+>>>
+>>> Regards,
+>>> Christian.
+>> I reverted that rerere cache update and added another one, so now it
+>> works. Not sure exactly what the difference was, but the resulting patch
+>> was for the drm-misc-next merge in my case, and It was for
+>> drm-xe-something in your case.
+>>
+>> /Thomas
+>>
+>>
+>>>> Signed-off-by: Oak Zeng <oak.zeng@intel.com>
+>>>> ---
+>>>>    drivers/gpu/drm/xe/xe_bo.c | 33 +++++++++++++++------------------
+>>>>    1 file changed, 15 insertions(+), 18 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+>>>> index 686d716c5581..d6a193060cc0 100644
+>>>> --- a/drivers/gpu/drm/xe/xe_bo.c
+>>>> +++ b/drivers/gpu/drm/xe/xe_bo.c
+>>>> @@ -38,22 +38,26 @@ static const struct ttm_place sys_placement_flags
+>>>> = {
+>>>>    static struct ttm_placement sys_placement = {
+>>>>        .num_placement = 1,
+>>>>        .placement = &sys_placement_flags,
+>>>> -    .num_busy_placement = 1,
+>>>> -    .busy_placement = &sys_placement_flags,
+>>>>    };
+>>>>    -static const struct ttm_place tt_placement_flags = {
+>>>> -    .fpfn = 0,
+>>>> -    .lpfn = 0,
+>>>> -    .mem_type = XE_PL_TT,
+>>>> -    .flags = 0,
+>>>> +static const struct ttm_place tt_placement_flags[] = {
+>>>> +    {
+>>>> +        .fpfn = 0,
+>>>> +        .lpfn = 0,
+>>>> +        .mem_type = XE_PL_TT,
+>>>> +        .flags = TTM_PL_FLAG_DESIRED,
+>>>> +    },
+>>>> +    {
+>>>> +        .fpfn = 0,
+>>>> +        .lpfn = 0,
+>>>> +        .mem_type = XE_PL_SYSTEM,
+>>>> +        .flags = TTM_PL_FLAG_FALLBACK,
+>>>> +    }
+>>>>    };
+>>>>      static struct ttm_placement tt_placement = {
+>>>> -    .num_placement = 1,
+>>>> -    .placement = &tt_placement_flags,
+>>>> -    .num_busy_placement = 1,
+>>>> -    .busy_placement = &sys_placement_flags,
+>>>> +    .num_placement = 2,
+>>>> +    .placement = tt_placement_flags,
+>>>>    };
+>>>>      bool mem_type_is_vram(u32 mem_type)
+>>>> @@ -230,8 +234,6 @@ static int __xe_bo_placement_for_flags(struct
+>>>> xe_device *xe, struct xe_bo *bo,
+>>>>        bo->placement = (struct ttm_placement) {
+>>>>            .num_placement = c,
+>>>>            .placement = bo->placements,
+>>>> -        .num_busy_placement = c,
+>>>> -        .busy_placement = bo->placements,
+>>>>        };
+>>>>          return 0;
+>>>> @@ -251,7 +253,6 @@ static void xe_evict_flags(struct
+>>>> ttm_buffer_object *tbo,
+>>>>            /* Don't handle scatter gather BOs */
+>>>>            if (tbo->type == ttm_bo_type_sg) {
+>>>>                placement->num_placement = 0;
+>>>> -            placement->num_busy_placement = 0;
+>>>>                return;
+>>>>            }
+>>>>    @@ -1391,8 +1392,6 @@ static int __xe_bo_fixed_placement(struct
+>>>> xe_device *xe,
+>>>>        bo->placement = (struct ttm_placement) {
+>>>>            .num_placement = 1,
+>>>>            .placement = place,
+>>>> -        .num_busy_placement = 1,
+>>>> -        .busy_placement = place,
+>>>>        };
+>>>>          return 0;
+>>>> @@ -2150,9 +2149,7 @@ int xe_bo_migrate(struct xe_bo *bo, u32 mem_type)
+>>>>          xe_place_from_ttm_type(mem_type, &requested);
+>>>>        placement.num_placement = 1;
+>>>> -    placement.num_busy_placement = 1;
+>>>>        placement.placement = &requested;
+>>>> -    placement.busy_placement = &requested;
+>>>>          /*
+>>>>         * Stolen needs to be handled like below VRAM handling if we
+>>>> ever need
