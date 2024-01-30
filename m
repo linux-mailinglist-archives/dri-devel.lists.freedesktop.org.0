@@ -2,53 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41CA3841F51
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 10:24:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E15BC841FDF
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 10:42:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3137112E85;
-	Tue, 30 Jan 2024 09:24:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6595A10EB35;
+	Tue, 30 Jan 2024 09:41:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F91A112E85
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 09:24:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9211D601BE;
- Tue, 30 Jan 2024 09:24:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72015C43390;
- Tue, 30 Jan 2024 09:24:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1706606646;
- bh=WTPD0u8lNCTsfkYlNmFQbgM3oe0GIKson6ZShvZ71kw=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=VnwWbdZnWEdUqlcs1nDlVIFBIRrbma+J9F81Qf9TjbfM3GTI4/Ltn0hn/bjFbbXto
- xfMGOo3Cl7eIQQfodxaGE5D0m5gKrbhIkFJE4bxUOdjGYo2F3JN0vLAdvvmhNiziOk
- hlqZMKDZG5lZ0AdIagtzaWNVmWEkli9NdCb4wB16Z2WW+LA0aVOuo0tjHNZAcA1dwb
- 0dE95dOy+teCDMIjKQUm5VkyBrZJ2LrFL0h1HLNQ1FAkPfYHTeIWDtlx4VrR3lVPth
- krAJuIKYQhA3KHzwyODPPmz4a6UmwwVf9Gja8ih/Y0s94zSoc/Axg9RmQQCEee5rzC
- ObS0JSRS9ihIA==
+X-Greylist: delayed 309 seconds by postgrey-1.36 at gabe;
+ Tue, 30 Jan 2024 09:41:23 UTC
+Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCCCD10EB67;
+ Tue, 30 Jan 2024 09:41:23 +0000 (UTC)
+X-QQ-mid: bizesmtp71t1706607329tbh5qk6e
+X-QQ-Originating-IP: cjYjlkJhiv5hbyfuepnzhLxHS1vJE5yiT2motTV2zpA=
+Received: from localhost.localdomain ( [123.114.60.34])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Tue, 30 Jan 2024 17:35:27 +0800 (CST)
+X-QQ-SSF: 01400000000000E0L000000B0000000
+X-QQ-FEAT: CR3LFp2JE4k40jGMEfOa+OI/+nLk0vpRRvxgweEg+QdnIGnRgI+Big0mm2vqn
+ 7f3Y54Do0f4p5cSCPbBNpUFl1xqESz7YR1WqSLXelN2DA47JKtLXBLieXmxw11ioj8MhRnV
+ UHfXrt5bvrNaUdKzcYDHwQ8mNLVRYXqrRGcSGYdQzLD4Y/H0ibEjvnM+P3L/e0qn5GjwEep
+ 9iNLI1m14vObzXQxYACGQbuPVJPrP0KUIwDXueAsML4ZxbTuqPBbzYivvNRY3tWQKXRhlAW
+ IaOhwXXcCbct9pluMUceM230jfwxKFUkYtcNRIKsj5uwF3aFewg4C8+wS1LoKj4EgMh+an2
+ lwq4Oo8+9DUENyEqfQvYivio9gjZqS3MhdLNisjaQea77nTnJbPXP8l56sxtLTvS3ea+XfC
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 10247733467961666524
+From: Qiang Ma <maqianga@uniontech.com>
+To: lexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, sunran001@208suo.com,
+ srinivasan.shanmugam@amd.com
+Subject: [PATCH] drm/amdgpu: Clear the hotplug interrupt ack bit before hpd
+ initialization
+Date: Tue, 30 Jan 2024 17:35:22 +0800
+Message-Id: <20240130093522.19914-1-maqianga@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Date: Tue, 30 Jan 2024 10:24:00 +0100
-From: Michael Walle <mwalle@kernel.org>
-To: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Subject: Re: [PATCH] drm: bridge: samsung-dsim: Don't use FORCE_STOP_STATE
-In-Reply-To: <CABGWkvp5Xx61h+sfKotb=jsQE3jPXP0bJfTtb1k9_OCH-TzTvQ@mail.gmail.com>
-References: <20231113164344.1612602-1-mwalle@kernel.org>
- <631fe35a2a3b00781231e4f3f5094fae@kernel.org>
- <1ef3dad2-5f55-40e5-bba7-3c71d71c12e4@kontron.de>
- <CAAQKjZMccDwa63_PNJCP0rNOaHjTwcOz8AbKa=JXLQi-b0QVVw@mail.gmail.com>
- <2400535875c353ff7208be2d86d4556f@kernel.org>
- <ZZ1BBO2nNSp3g-gT@phenom.ffwll.local>
- <CAAQKjZNnJQDn_r1+WNmsxM-2O48O0+yWAUAqpjZRjMYMT3xGwg@mail.gmail.com>
- <CAPM=9tytMB9frxNeD08hu1qsusY=wEE3bJOFmUgA1rSpabwDpg@mail.gmail.com>
- <b18d88302acfca001a6693d78909bc2a@kernel.org>
- <31e1a38a1d012a32d6f7bc8372b6360e@kernel.org>
- <CABGWkvp5Xx61h+sfKotb=jsQE3jPXP0bJfTtb1k9_OCH-TzTvQ@mail.gmail.com>
-Message-ID: <25f0cdf7305eac946629895179be8f2b@kernel.org>
-X-Sender: mwalle@kernel.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:uniontech.com:qybglogicsvrsz:qybglogicsvrsz4a-0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,116 +53,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI mailing list <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- Tim Harvey <tharvey@gateworks.com>, linux-kernel@vger.kernel.org,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Michael Trimarchi <michael@amarulasolutions.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>, Inki Dae <daeinki@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Dave Airlie <airlied@gmail.com>, Jagan Teki <jagan@amarulasolutions.com>
+Cc: Qiang Ma <maqianga@uniontech.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dario,
+Problem:
+The computer in the bios initialization process, unplug the HDMI display,
+wait until the system up, plug in the HDMI display, did not enter the
+hotplug interrupt function, the display is not bright.
 
->> >> Just FYI this conflictted pretty heavily with drm-misc-next changes in
->> >> the same area, someone should check drm-tip has the correct
->> >> resolution, I'm not really sure what is definitely should be.
->> >
->> > FWIW, this looks rather messy now. The drm-tip doesn't build.
->> >
->> > There was a new call to samsung_dsim_set_stop_state() introduced
->> > in commit b2fe2292624ac (drm: bridge: samsung-dsim: enter display
->> > mode in the enable() callback).
->> 
->> I had a closer look at the latest linux-next (where somehow my patch
->> made it into) and tried to apply commit b2fe2292624ac (drm: bridge:
->> samsung-dsim: enter display mode in the enable() callback). It looks
->> like only the following hunk is still needed from that patch. 
->> Everything
->> else is covered by this fixes patch.
->> 
->> Dario, could you rebase your commit onto this patch? I had a quick 
->> test
->> with this change and it seems to work fine for our case.
->> 
->> --snip--
->> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
->> b/drivers/gpu/drm/bridge/samsung-dsim.c
->> index 63a1a0c88be4..92755c90e7d2 100644
->> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
->> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
->> @@ -1498,6 +1498,8 @@ static void samsung_dsim_atomic_disable(struct
->> drm_bridge *bridge,
->>          if (!(dsi->state & DSIM_STATE_ENABLED))
->>                  return;
->> 
->> +       samsung_dsim_set_display_enable(dsi, false);
->> +
->>          dsi->state &= ~DSIM_STATE_VIDOUT_AVAILABLE;
->>   }
->> 
->> @@ -1506,8 +1508,6 @@ static void
->> samsung_dsim_atomic_post_disable(struct drm_bridge *bridge,
->>   {
->>          struct samsung_dsim *dsi = bridge_to_dsi(bridge);
->> 
->> -       samsung_dsim_set_display_enable(dsi, false);
->> -
->>          dsi->state &= ~DSIM_STATE_ENABLED;
->>          pm_runtime_put_sync(dsi->dev);
->>   }
->> --snip--
->> 
->> -michael
-> 
-> I'm sorry, but I didn't understand well what I have to do.
+Fix:
+After the above problem occurs, and the hpd ack interrupt bit is 1,
+the interrupt should be cleared during hpd_init initialization so that
+when the driver is ready, it can respond to the hpd interrupt normally.
 
-Basically, just rebase your patch (drm: bridge: samsung-dsim:
-enter display mode in the enable() callback) on top of
-linux-next.
+Signed-off-by: Qiang Ma <maqianga@uniontech.com>
+---
+ drivers/gpu/drm/amd/amdgpu/dce_v10_0.c |  2 ++
+ drivers/gpu/drm/amd/amdgpu/dce_v11_0.c |  2 ++
+ drivers/gpu/drm/amd/amdgpu/dce_v6_0.c  | 20 +++++++++++++++++---
+ drivers/gpu/drm/amd/amdgpu/dce_v8_0.c  | 20 +++++++++++++++++---
+ 4 files changed, 38 insertions(+), 6 deletions(-)
 
-> This is what I have done:
-> 
-> git clone 
-> https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/linux-next.git
-> cd linux-next
-> # add your changes, the ones of the emails
-> git am --reject 
-> 0001-drm-bridge-samsung-dsim-enter-display-mode-in-the-en.patch
-> 
-> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
-> b/drivers/gpu/drm/bridge/samsung-dsim.c
-> index 92755c90e7d2..b47929072583 100644
-> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> @@ -1508,6 +1508,9 @@ static void
-> samsung_dsim_atomic_post_disable(struct drm_bridge *bridge,
->  {
->         struct samsung_dsim *dsi = bridge_to_dsi(bridge);
-> 
-> +       if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type))
-> +               samsung_dsim_set_stop_state(dsi, true);
-> +
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+index bb666cb7522e..11859059fd10 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+@@ -51,6 +51,7 @@
+ 
+ static void dce_v10_0_set_display_funcs(struct amdgpu_device *adev);
+ static void dce_v10_0_set_irq_funcs(struct amdgpu_device *adev);
++static void dce_v10_0_hpd_int_ack(struct amdgpu_device *adev, int hpd);
+ 
+ static const u32 crtc_offsets[] = {
+ 	CRTC0_REGISTER_OFFSET,
+@@ -363,6 +364,7 @@ static void dce_v10_0_hpd_init(struct amdgpu_device *adev)
+ 				    AMDGPU_HPD_DISCONNECT_INT_DELAY_IN_MS);
+ 		WREG32(mmDC_HPD_TOGGLE_FILT_CNTL + hpd_offsets[amdgpu_connector->hpd.hpd], tmp);
+ 
++		dce_v6_0_hpd_int_ack(adev, amdgpu_connector->hpd.hpd);
+ 		dce_v10_0_hpd_set_polarity(adev, amdgpu_connector->hpd.hpd);
+ 		amdgpu_irq_get(adev, &adev->hpd_irq,
+ 			       amdgpu_connector->hpd.hpd);
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+index 7af277f61cca..745e4fdffade 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+@@ -51,6 +51,7 @@
+ 
+ static void dce_v11_0_set_display_funcs(struct amdgpu_device *adev);
+ static void dce_v11_0_set_irq_funcs(struct amdgpu_device *adev);
++static void dce_v11_0_hpd_int_ack(struct amdgpu_device *adev, int hpd);
+ 
+ static const u32 crtc_offsets[] =
+ {
+@@ -387,6 +388,7 @@ static void dce_v11_0_hpd_init(struct amdgpu_device *adev)
+ 				    AMDGPU_HPD_DISCONNECT_INT_DELAY_IN_MS);
+ 		WREG32(mmDC_HPD_TOGGLE_FILT_CNTL + hpd_offsets[amdgpu_connector->hpd.hpd], tmp);
+ 
++		dce_v11_0_hpd_int_ack(adev, amdgpu_connector->hpd.hpd);
+ 		dce_v11_0_hpd_set_polarity(adev, amdgpu_connector->hpd.hpd);
+ 		amdgpu_irq_get(adev, &adev->hpd_irq, amdgpu_connector->hpd.hpd);
+ 	}
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+index 143efc37a17f..f8e15ebf74b4 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+@@ -272,6 +272,21 @@ static void dce_v6_0_hpd_set_polarity(struct amdgpu_device *adev,
+ 	WREG32(mmDC_HPD1_INT_CONTROL + hpd_offsets[hpd], tmp);
+ }
+ 
++static void dce_v6_0_hpd_int_ack(struct amdgpu_device *adev,
++				 int hpd)
++{
++	u32 tmp;
++
++	if (hpd >= adev->mode_info.num_hpd) {
++		DRM_DEBUG("invalid hdp %d\n", hpd);
++		return;
++	}
++
++	tmp = RREG32(mmDC_HPD1_INT_CONTROL + hpd_offsets[hpd]);
++	tmp |= DC_HPD1_INT_CONTROL__DC_HPD1_INT_ACK_MASK;
++	WREG32(mmDC_HPD1_INT_CONTROL + hpd_offsets[hpd], tmp);
++}
++
+ /**
+  * dce_v6_0_hpd_init - hpd setup callback.
+  *
+@@ -311,6 +326,7 @@ static void dce_v6_0_hpd_init(struct amdgpu_device *adev)
+ 			continue;
+ 		}
+ 
++		dce_v6_0_hpd_int_ack(adev, amdgpu_connector->hpd.hpd);
+ 		dce_v6_0_hpd_set_polarity(adev, amdgpu_connector->hpd.hpd);
+ 		amdgpu_irq_get(adev, &adev->hpd_irq, amdgpu_connector->hpd.hpd);
+ 	}
+@@ -3101,9 +3117,7 @@ static int dce_v6_0_hpd_irq(struct amdgpu_device *adev,
+ 	mask = interrupt_status_offsets[hpd].hpd;
+ 
+ 	if (disp_int & mask) {
+-		tmp = RREG32(mmDC_HPD1_INT_CONTROL + hpd_offsets[hpd]);
+-		tmp |= DC_HPD1_INT_CONTROL__DC_HPD1_INT_ACK_MASK;
+-		WREG32(mmDC_HPD1_INT_CONTROL + hpd_offsets[hpd], tmp);
++		dce_v6_0_hpd_int_ack(adev, hpd);
+ 		schedule_delayed_work(&adev->hotplug_work, 0);
+ 		DRM_DEBUG("IH: HPD%d\n", hpd + 1);
+ 	}
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
+index adeddfb7ff12..141e33a01686 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
+@@ -264,6 +264,21 @@ static void dce_v8_0_hpd_set_polarity(struct amdgpu_device *adev,
+ 	WREG32(mmDC_HPD1_INT_CONTROL + hpd_offsets[hpd], tmp);
+ }
+ 
++static void dce_v8_0_hpd_int_ack(struct amdgpu_device *adev,
++				 int hpd)
++{
++	u32 tmp;
++
++	if (hpd >= adev->mode_info.num_hpd) {
++		DRM_DEBUG("invalid hdp %d\n", hpd);
++		return;
++	}
++
++	tmp = RREG32(mmDC_HPD1_INT_CONTROL + hpd_offsets[hpd]);
++	tmp |= DC_HPD1_INT_CONTROL__DC_HPD1_INT_ACK_MASK;
++	WREG32(mmDC_HPD1_INT_CONTROL + hpd_offsets[hpd], tmp);
++}
++
+ /**
+  * dce_v8_0_hpd_init - hpd setup callback.
+  *
+@@ -303,6 +318,7 @@ static void dce_v8_0_hpd_init(struct amdgpu_device *adev)
+ 			continue;
+ 		}
+ 
++		dce_v6_0_hpd_int_ack(adev, amdgpu_connector->hpd.hpd);
+ 		dce_v8_0_hpd_set_polarity(adev, amdgpu_connector->hpd.hpd);
+ 		amdgpu_irq_get(adev, &adev->hpd_irq, amdgpu_connector->hpd.hpd);
+ 	}
+@@ -3189,9 +3205,7 @@ static int dce_v8_0_hpd_irq(struct amdgpu_device *adev,
+ 	mask = interrupt_status_offsets[hpd].hpd;
+ 
+ 	if (disp_int & mask) {
+-		tmp = RREG32(mmDC_HPD1_INT_CONTROL + hpd_offsets[hpd]);
+-		tmp |= DC_HPD1_INT_CONTROL__DC_HPD1_INT_ACK_MASK;
+-		WREG32(mmDC_HPD1_INT_CONTROL + hpd_offsets[hpd], tmp);
++		dce_v6_0_hpd_int_ack(adev, hpd);
+ 		schedule_delayed_work(&adev->hotplug_work, 0);
+ 		DRM_DEBUG("IH: HPD%d\n", hpd + 1);
+ 	}
+-- 
+2.20.1
 
-This one should be removed. There is no stop state anymore.
-With that hunk, it doesn't compile anyway.
-
->         dsi->state &= ~DSIM_STATE_ENABLED;
->         pm_runtime_put_sync(dsi->dev);
->  }
-> 
-> And then test the driver for my use case.
-
-Yes. The hunk I've posted above, should be all what's left
-of your patch, because as far as I see it, most of your changes
-are already contained in my fixes patch. What's left is that
-you disable the video mode in .disable() and not in
-.post_disable().
-
--michael
