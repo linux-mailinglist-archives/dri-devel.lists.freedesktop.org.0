@@ -2,48 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B637842210
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 11:57:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0850F842227
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 12:03:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A026C112F48;
-	Tue, 30 Jan 2024 10:57:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6217A112F20;
+	Tue, 30 Jan 2024 11:03:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9663112F2E
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 10:57:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706612241; x=1738148241;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=nBOpbCzEM+B6/GDqBTyixqW4/2KzPp9FGoi+VgHcK2s=;
- b=JWd8J+g3SRThcFCVfdNjwKIHyUMPbim1BD+xHrxVV/GF6Fs/fW5tb81z
- 3tVVHdvOqoRnVb2Y/5fTmazy8qVfvtds8o/fkuAdhF9uLOHPIyKVP0mhs
- VqHjT9ZxU7C64+Btn8qkGeEF6aF+W2oyrb52hkaxUggEgsXKdtg/8QKpb
- mpDba2NqGraqvKz1lNWBCUZDhwTPU1gXh77KVilHglu2U/7zclgC0dRcL
- mNNCuxnesLsvXdQ20VPnjQfnilPr8cEqosZRxM2DZoMVq0MNZZ91h5uzO
- mC7nQmosXKRvaNccYPYfwsj3kWEzSJp9AKo5HAWEwM2j/ZizFRzKWfXsn A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="21764761"
-X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; d="scan'208";a="21764761"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jan 2024 02:56:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; d="scan'208";a="29867329"
-Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
- by orviesa002.jf.intel.com with ESMTP; 30 Jan 2024 02:56:57 -0800
-Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rUlnT-0000D2-0H;
- Tue, 30 Jan 2024 10:56:55 +0000
-Date: Tue, 30 Jan 2024 18:56:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [drm-misc:drm-misc-next 1/3] ps3av.c:undefined reference to
- `video_get_options'
-Message-ID: <202401301825.pVNLzuRt-lkp@intel.com>
+Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14F3A112C52
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 11:03:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1706612589; x=1706871789;
+ bh=cYhntMSvc2MQ9UlZnJhG8eD51SepVoA/G5xtLrHgJgY=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=Va4iGz6XebcW70npMHgNmN/9mIutcs1itAXpO5jphdw1h9KXqlKwWppoZlcJEo0PF
+ cujXSLc0uZo3e5VGNWXk56QhAC/l9mLssoxotvoj0Uvm0Ffg3KmxE0moUXUmS1h6Vw
+ 3yAScwDcQhk+/roxlzkWWsrR83V3ENrV1dSvUD26i9QY+nuUhmelXP+t3cEFrjfTzL
+ 9ur0/SbL0WkuJWafnXhYMMmrdQ1foUUAN1nSU9DWqUSx17AOGztEPJIYn3VWTC4le5
+ 9NT83Y8XSw0Afzmt17cZOvNiDNVY+/REp1+Ao/PvAl+HoPxCyzKDZqZqyDVTfDEGnX
+ 95lZb9ARmrJbQ==
+Date: Tue, 30 Jan 2024 11:02:13 +0000
+To: Daniel Vetter <daniel@ffwll.ch>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v3 3/3] drm/amdgpu: Implement check_async_props for planes
+Message-ID: <T6R8csfFYwdxGqaYt8syjZ6qa143x9HHPS2vS57_sk-NKMY9hJhP5xsHyIFlmhjzkZ9S7gR92E15Zz6DfEBN7qhdF2-fS5x88VeCExqReNE=@emersion.fr>
+In-Reply-To: <ZbjVyI_AnTBHACT8@phenom.ffwll.local>
+References: <20240128212515.630345-1-andrealmeid@igalia.com>
+ <20240128212515.630345-4-andrealmeid@igalia.com>
+ <ZbjVyI_AnTBHACT8@phenom.ffwll.local>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,33 +49,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- oe-kbuild-all@lists.linux.dev
+Cc: =?utf-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ =?utf-8?Q?=27Marek_Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
+ =?utf-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Xaver Hugl <xaver.hugl@gmail.com>, Pekka Paalanen <ppaalanen@gmail.com>,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ alexander.deucher@amd.com, Joshua Ashton <joshua@froggi.es>,
+ Dave Airlie <airlied@gmail.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-head:   4db102dcb0396a4ccf89b1eac0f4eb3fd167a080
-commit: a3b6792e990d63d47c4d2622a9704a01db50c3a2 [1/3] video/cmdline: Introduce CONFIG_VIDEO for video= parameter
-config: powerpc-cell_defconfig (https://download.01.org/0day-ci/archive/20240130/202401301825.pVNLzuRt-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240130/202401301825.pVNLzuRt-lkp@intel.com/reproduce)
+> Do we really need this much flexibility, especially for the first driver
+> adding the first few additional properties?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401301825.pVNLzuRt-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   powerpc64-linux-ld: warning: discarding dynamic section .glink
-   powerpc64-linux-ld: warning: discarding dynamic section .plt
-   powerpc64-linux-ld: linkage table error against `video_get_options'
-   powerpc64-linux-ld: stubs don't match calculated size
-   powerpc64-linux-ld: can not build stubs: bad value
-   powerpc64-linux-ld: drivers/ps3/ps3av.o: in function `ps3av_probe':
->> ps3av.c:(.text+0x13ec): undefined reference to `video_get_options'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+AFAIU we'd like to allow more props as well, e.g. cursor position=E2=80=
+=A6
