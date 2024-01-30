@@ -2,59 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 443DB841D5E
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 09:16:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D63AD841DE4
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 09:36:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2E72112C32;
-	Tue, 30 Jan 2024 08:15:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3AC0112E40;
+	Tue, 30 Jan 2024 08:35:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F24E1112099;
- Tue, 30 Jan 2024 08:15:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706602554; x=1738138554;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=mLRURpRWIUpTzCQZTz+CcMOXUnz3YS2UV5Lmd697HJ0=;
- b=Cr6cG+QLTALxleTihg2zAVISjTSPsHqf7fSqv391ryEFwSoWh6aPck8H
- 9hS9wCguu9aFLeC7lPnkofW7AMABOXR+k6eN0UCRrFkYhNKxP9wIUBCv+
- t0HTghJI/NG8ltFXVdYIfaP/Wa6pe1IR3GMw7YqP5Hg2ROQisi1509bLr
- Nkn7Kr1iIcJPBx7p1tNJokp+DOE3XzPMwCFFkfezSyHVyWwd6V975oxl1
- JCn4W+iYLg+k26RVZZzeUWJOZTEpo0hL4XAAYRiOL9cQ08gqWjfkplsYv
- tr3eDgM4SE0d2byI/WQWHGkRzFyC/f+ZbHmZyVVA4BNHm06YzS92tnOHU w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="3079349"
-X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="3079349"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jan 2024 00:15:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="858399032"
-X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; d="scan'208";a="858399032"
-Received: from skofoed-mobl.ger.corp.intel.com (HELO [10.249.254.21])
- ([10.249.254.21])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jan 2024 00:15:47 -0800
-Message-ID: <f1ad0bcb-c7e0-4c56-9982-38362bb70d56@linux.intel.com>
-Date: Tue, 30 Jan 2024 09:15:45 +0100
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34B85112E40
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 08:35:34 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id
+ a640c23a62f3a-a31846fd10cso61257766b.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 00:35:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1706603672; x=1707208472; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8A/F0qjSBSUkCN1wUoX6X3MUwGOk7GLAJ8sdI6nLy84=;
+ b=SAGTqrv3BG+bItOakBZwMWGOIcPwx+kW8uqaF9fJhiKWtoRvxqlwV3gdtjokakr7qp
+ PBo+8zYWali27/Q/NvE0CmExAJuIU9e9MVsOLsushzYfXVfzsckBC3zl8McCHsdZploi
+ B9VJ0ae/oITqUUDOz4NJ2EEI3KZtHPWmbyK5A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706603672; x=1707208472;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8A/F0qjSBSUkCN1wUoX6X3MUwGOk7GLAJ8sdI6nLy84=;
+ b=Osx9XELo70wNERnJKga9uRk+Sy5akTEUp7hkXoy5FTAt5GvZToybJiNikQkS8Qu4Yb
+ 0ZxA29BP7aSbdzbLM6LQxBHa43BqWlZZYt/j2KXfu5gDFsPwCqGpQ9oDvVLHuPrVMnZb
+ HxksSVgxfy/1OL6jp9AMmYu49Vt5X4C7iHdBIiVnGQoSGIf81cgtYqseu1lHHNUl28cB
+ DG+YZr+gAYA3cPaHKBJJC64l4U7n/lXCDQXZj7kA2GeedtGMj7AvVggZjDjyymEUHgff
+ hHocar5oZzspirA+OabzlVay/lRriw1yuUdleGGy2cT828yAMOJHUQrNyKctSN4qHUcg
+ /IeA==
+X-Gm-Message-State: AOJu0YzJxHFvKCGelP7vn0o6Plw7TBoyoHo/ITPuSZnMLusNTcH8aMK4
+ UWg3eArjN3tBPAv1ZbvF7XpNUrxZ42KbK4lJ9bEVxvQy3Y2q7jENwxSMZ7uduoc=
+X-Google-Smtp-Source: AGHT+IFoBU0SlfO62YFQyBv5072jSKi3i4eibji92GBY7EfnrbEorrPEFCoLGaBtQ3uSEA6MKeKnRg==
+X-Received: by 2002:a17:907:7d89:b0:a2c:4b28:90d5 with SMTP id
+ oz9-20020a1709077d8900b00a2c4b2890d5mr7611829ejc.2.1706603672306; 
+ Tue, 30 Jan 2024 00:34:32 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ vx3-20020a170907a78300b00a363346802asm198856ejc.19.2024.01.30.00.34.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Jan 2024 00:34:31 -0800 (PST)
+Date: Tue, 30 Jan 2024 09:34:29 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v19 09/30] drm/shmem-helper: Add and use lockless
+ drm_gem_shmem_get_pages()
+Message-ID: <Zbi0lQG15vz6iHJK@phenom.ffwll.local>
+Mail-Followup-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
+ Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel@collabora.com, virtualization@lists.linux-foundation.org
+References: <20240105184624.508603-1-dmitry.osipenko@collabora.com>
+ <20240105184624.508603-10-dmitry.osipenko@collabora.com>
+ <ZbKZNCbZoV4ovWTH@phenom.ffwll.local>
+ <20240126111827.70f8726c@collabora.com>
+ <d467e5a4-6b61-4cad-8e38-c4495836a0d6@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/xe: Fix a build error
-Content-Language: en-US
-To: "Zeng, Oak" <oak.zeng@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
-References: <20240127155327.423294-1-oak.zeng@intel.com>
- <21f2b595-0690-4372-bd81-86d23ac7498b@gmail.com>
- <0d1e2c15-c951-4c97-b242-a1231ae4f608@linux.intel.com>
- <SA1PR11MB6991072A876ED10A0CEE193F927E2@SA1PR11MB6991.namprd11.prod.outlook.com>
-From: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <SA1PR11MB6991072A876ED10A0CEE193F927E2@SA1PR11MB6991.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d467e5a4-6b61-4cad-8e38-c4495836a0d6@collabora.com>
+X-Operating-System: Linux phenom 6.6.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,162 +89,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Amaranath.Somalapuram@amd.com" <Amaranath.Somalapuram@amd.com>, "De Marchi,
- Lucas" <lucas.demarchi@intel.com>
+Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ Emma Anholt <emma@anholt.net>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Steven Price <steven.price@arm.com>, David Airlie <airlied@gmail.com>,
+ virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Oak
+On Fri, Jan 26, 2024 at 07:43:29PM +0300, Dmitry Osipenko wrote:
+> On 1/26/24 13:18, Boris Brezillon wrote:
+> > On Thu, 25 Jan 2024 18:24:04 +0100
+> > Daniel Vetter <daniel@ffwll.ch> wrote:
+> > 
+> >> On Fri, Jan 05, 2024 at 09:46:03PM +0300, Dmitry Osipenko wrote:
+> >>> Add lockless drm_gem_shmem_get_pages() helper that skips taking reservation
+> >>> lock if pages_use_count is non-zero, leveraging from atomicity of the
+> >>> refcount_t. Make drm_gem_shmem_mmap() to utilize the new helper.
+> >>>
+> >>> Acked-by: Maxime Ripard <mripard@kernel.org>
+> >>> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> >>> Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
+> >>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> >>> ---
+> >>>  drivers/gpu/drm/drm_gem_shmem_helper.c | 19 +++++++++++++++----
+> >>>  1 file changed, 15 insertions(+), 4 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> >>> index cacf0f8c42e2..1c032513abf1 100644
+> >>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> >>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> >>> @@ -226,6 +226,20 @@ void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
+> >>>  }
+> >>>  EXPORT_SYMBOL_GPL(drm_gem_shmem_put_pages_locked);
+> >>>  
+> >>> +static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
+> >>> +{
+> >>> +	int ret;  
+> >>
+> >> Just random drive-by comment: a might_lock annotation here might be good,
+> >> or people could hit some really interesting bugs that are rather hard to
+> >> reproduce ...
+> > 
+> > Actually, being able to acquire a ref in a dma-signalling path on an
+> > object we know for sure already has refcount >= 1 (because we previously
+> > acquired a ref in a path where dma_resv_lock() was allowed), was the
+> > primary reason I suggested moving to this atomic-refcount approach.
+> > 
+> > In the meantime, drm_gpuvm has evolved in a way that allows me to not
+> > take the ref in the dma-signalling path (the gpuvm_bo object now holds
+> > the ref, and it's acquired/released outside the dma-signalling path).
+> > 
+> > Not saying we shouldn't add this might_lock(), but others might have
+> > good reasons to have this function called in a path where locking
+> > is not allowed.
+> 
+> For Panthor the might_lock indeed won't be a appropriate, thanks for
+> reminding about it. I'll add explanatory comment to the code.
 
-On 1/29/24 21:29, Zeng, Oak wrote:
-> Hi Thomas,
->
-> My patch was based on drm-tip.... because I found drm-tip is broken....
+Hm these kind of tricks feel very dangerous to me. I think it would be
+good to split up the two cases into two functions:
 
-Yes, but drm-tip is rebuilt and force-pushed every time any of the 
-merged branches adds a new commit, so any commit needs to land in any of 
-the included branches, and when that is not possible because of 
-interdependencies, it needs to land in a merge commit, or a separate 
-"fixup" to a merge.
+1. first one does only the atomic_inc and splats if the refcount is zero.
+I think something in the name that denotes that we're incrementing a
+borrowed pages reference would be good here, so like get_borrowed_pages
+(there's not really a naming convention for these in the kernel).
+Unfortunately no rust so we can't enforce that you provide the right kind
+of borrowed reference at compile time.
 
-All described here:
+2. second one has the might_lock.
 
-https://drm.pages.freedesktop.org/maintainer-tools/drm-tip.html#
+This way you force callers to think what they're doing and ideally
+document where the borrowed reference is from, and ideally document that
+in the code. Otherwise we'll end up with way too much "works in testing,
+but is a nice CVE" code :-/
 
-What was happening in this case was that the "fixup" Christian had added 
-somehow didn't work, so I removed it and added a new one. We never apply 
-patches directly on drm-tip.
-
-/Thomas
-
-
->
-> As long as drm-tip can build, I am all good.
->
-> Thanks,
-> Oak
->
->> -----Original Message-----
->> From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> Sent: Monday, January 29, 2024 3:26 PM
->> To: Christian König <ckoenig.leichtzumerken@gmail.com>; Zeng, Oak
->> <oak.zeng@intel.com>; dri-devel@lists.freedesktop.org; intel-
->> xe@lists.freedesktop.org
->> Cc: Amaranath.Somalapuram@amd.com; De Marchi, Lucas
->> <lucas.demarchi@intel.com>
->> Subject: Re: [PATCH] drm/xe: Fix a build error
->>
->> Hi,
->>
->> On 1/29/24 17:48, Christian König wrote:
->>> Am 27.01.24 um 16:53 schrieb Oak Zeng:
->>>> This fixes a build failure on drm-tip. This issue was introduced during
->>>> merge of "drm/ttm: replace busy placement with flags v6". For some
->>>> reason, the xe_bo.c part of above change is not merged. Manually merge
->>>> the missing part to drm_tip
->>> Mhm, I provided this as manual fixup for drm-tip in this rerere commit:
->>>
->>> commit afc5797e8c03bed3ec47a34f2bc3cf03fce24411
->>> Author: Christian König <christian.koenig@amd.com>
->>> Date:   Thu Jan 25 10:44:54 2024 +0100
->>>
->>>      2024y-01m-25d-09h-44m-07s UTC: drm-tip rerere cache update
->>>
->>>      git version 2.34.1
->>>
->>>
->>> And for me compiling xe in drm-tip worked fine after that. No idea why
->>> that didn't work for you.
->>>
->>> Anyway feel free to add my rb to this patch here if it helps in any way.
->>>
->>> Regards,
->>> Christian.
->> I reverted that rerere cache update and added another one, so now it
->> works. Not sure exactly what the difference was, but the resulting patch
->> was for the drm-misc-next merge in my case, and It was for
->> drm-xe-something in your case.
->>
->> /Thomas
->>
->>
->>>> Signed-off-by: Oak Zeng <oak.zeng@intel.com>
->>>> ---
->>>>    drivers/gpu/drm/xe/xe_bo.c | 33 +++++++++++++++------------------
->>>>    1 file changed, 15 insertions(+), 18 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
->>>> index 686d716c5581..d6a193060cc0 100644
->>>> --- a/drivers/gpu/drm/xe/xe_bo.c
->>>> +++ b/drivers/gpu/drm/xe/xe_bo.c
->>>> @@ -38,22 +38,26 @@ static const struct ttm_place sys_placement_flags
->>>> = {
->>>>    static struct ttm_placement sys_placement = {
->>>>        .num_placement = 1,
->>>>        .placement = &sys_placement_flags,
->>>> -    .num_busy_placement = 1,
->>>> -    .busy_placement = &sys_placement_flags,
->>>>    };
->>>>    -static const struct ttm_place tt_placement_flags = {
->>>> -    .fpfn = 0,
->>>> -    .lpfn = 0,
->>>> -    .mem_type = XE_PL_TT,
->>>> -    .flags = 0,
->>>> +static const struct ttm_place tt_placement_flags[] = {
->>>> +    {
->>>> +        .fpfn = 0,
->>>> +        .lpfn = 0,
->>>> +        .mem_type = XE_PL_TT,
->>>> +        .flags = TTM_PL_FLAG_DESIRED,
->>>> +    },
->>>> +    {
->>>> +        .fpfn = 0,
->>>> +        .lpfn = 0,
->>>> +        .mem_type = XE_PL_SYSTEM,
->>>> +        .flags = TTM_PL_FLAG_FALLBACK,
->>>> +    }
->>>>    };
->>>>      static struct ttm_placement tt_placement = {
->>>> -    .num_placement = 1,
->>>> -    .placement = &tt_placement_flags,
->>>> -    .num_busy_placement = 1,
->>>> -    .busy_placement = &sys_placement_flags,
->>>> +    .num_placement = 2,
->>>> +    .placement = tt_placement_flags,
->>>>    };
->>>>      bool mem_type_is_vram(u32 mem_type)
->>>> @@ -230,8 +234,6 @@ static int __xe_bo_placement_for_flags(struct
->>>> xe_device *xe, struct xe_bo *bo,
->>>>        bo->placement = (struct ttm_placement) {
->>>>            .num_placement = c,
->>>>            .placement = bo->placements,
->>>> -        .num_busy_placement = c,
->>>> -        .busy_placement = bo->placements,
->>>>        };
->>>>          return 0;
->>>> @@ -251,7 +253,6 @@ static void xe_evict_flags(struct
->>>> ttm_buffer_object *tbo,
->>>>            /* Don't handle scatter gather BOs */
->>>>            if (tbo->type == ttm_bo_type_sg) {
->>>>                placement->num_placement = 0;
->>>> -            placement->num_busy_placement = 0;
->>>>                return;
->>>>            }
->>>>    @@ -1391,8 +1392,6 @@ static int __xe_bo_fixed_placement(struct
->>>> xe_device *xe,
->>>>        bo->placement = (struct ttm_placement) {
->>>>            .num_placement = 1,
->>>>            .placement = place,
->>>> -        .num_busy_placement = 1,
->>>> -        .busy_placement = place,
->>>>        };
->>>>          return 0;
->>>> @@ -2150,9 +2149,7 @@ int xe_bo_migrate(struct xe_bo *bo, u32 mem_type)
->>>>          xe_place_from_ttm_type(mem_type, &requested);
->>>>        placement.num_placement = 1;
->>>> -    placement.num_busy_placement = 1;
->>>>        placement.placement = &requested;
->>>> -    placement.busy_placement = &requested;
->>>>          /*
->>>>         * Stolen needs to be handled like below VRAM handling if we
->>>> ever need
+Cheers, Sima
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
