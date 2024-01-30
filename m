@@ -2,62 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A43E3842FC1
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 23:37:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A87228430C9
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 00:01:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C348C113697;
-	Tue, 30 Jan 2024 22:36:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC93C1136DC;
+	Tue, 30 Jan 2024 23:01:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6B3D10E3A3;
- Tue, 30 Jan 2024 22:36:39 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id
- d9443c01a7336-1d70b0e521eso32106775ad.1; 
- Tue, 30 Jan 2024 14:36:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1706654138; x=1707258938; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=nQdNB3amLD3wgWN5nJoJwd+J8vfuxzeUi86+HaqASZA=;
- b=OKUIXhk+GfnLoxZKcklSDeqdoEtKMTofjoaosz0fjvqmb82XBStTxG5YRt5zuWwQR3
- NoubzBME9OfjqLZwYAyM+0aX/f1ZFv30F0KzkbA8Ra/kHNqg+TPrXxlbjj56Z9XJJWC1
- JAq0FcgvEgQQddoRF99pigGv/cUzqHCREssEd1dUjB8/Ng9OnQ0sE1Hmjzegbw6XNh6w
- tS/hiTfrh7/pA6Xz9cPYmiUB/apSIRXkKrySt/XKI3jW5UbwyO4rxRasogUiUnoUXRpx
- gHrkvfcXrwdR9B43lHBrc0bIoVkbKTocHsiBNTd8AdIfNe7X/QliHcqWZQiY1iRKQTaO
- ARSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706654138; x=1707258938;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=nQdNB3amLD3wgWN5nJoJwd+J8vfuxzeUi86+HaqASZA=;
- b=UU0c5xtd9vyqwKouzEhFHiiHATG4fIuU2FKuHFkUkVc1eEnoN/giVyTRnCJxHq66Cp
- jMWdtKSYYr7ABTwnkyWHF9dKI0/Ed92uGoTCdkP/Y3ck58VPtp5kC5YIqwcyIUPVH242
- 0yugJ6pkegrDdAlNCu9tWXTKQ99n8pGcS6LMWsnRtrodXIcTLBVz1rpcE2uHX9jh6yi6
- ZihHpaUUISGYM+SNVawyu22jgpX5BGw7UzKeH+q0NvBxBb1WE2BkUiZ5y3S1tArmXscS
- yh7ukN2kV516CsVKd99Iy2dR3Y45gMnRdq2qhdldL2y6VD/yjZHrdeP4/wMwBE7firVS
- Pi9w==
-X-Gm-Message-State: AOJu0YwLs+EsCWuTnPMV8owagkx/VgM9K/p74v5LS+qIxcXxYuUJYkIc
- r0ZmcFaFMu/pk7o+E83Yw3aYjlzEPsIdxYxZZshRXvyGH+MHrSR6qBV5jh2k
-X-Google-Smtp-Source: AGHT+IFkj+E3wXJek3COMk2XISaWLhZObNoUmBCYA2ECXaBh+4x1L68p53d2Yn6DikZr614ZjhXc1w==
-X-Received: by 2002:a17:902:780f:b0:1d8:d6b9:c0c0 with SMTP id
- p15-20020a170902780f00b001d8d6b9c0c0mr5944770pll.46.1706654137509; 
- Tue, 30 Jan 2024 14:35:37 -0800 (PST)
-Received: from localhost ([2a00:79e1:2e00:1301:e1c5:6354:b45d:8ffc])
- by smtp.gmail.com with ESMTPSA id
- k11-20020a170902f28b00b001d8e4b85636sm4115407plc.138.2024.01.30.14.35.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jan 2024 14:35:36 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/msm/gem: Fix double resv lock aquire
-Date: Tue, 30 Jan 2024 14:35:33 -0800
-Message-ID: <20240130223533.25713-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 700941136DC
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 23:01:01 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 070E2CE0E58;
+ Tue, 30 Jan 2024 23:00:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00FD6C433F1;
+ Tue, 30 Jan 2024 23:00:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1706655620;
+ bh=SRp2QhaE8on2XaoCyowQ38M3H5KYB1hkQPVd3UamK+A=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qMXR+ZX0tD5ef1wxtXFwrUJAurXEDgYXnZ83TqywafSRnoPNXRygiPEXziixp1Lht
+ lpdyAgumsDb9mQZc3Y8AohdddD++6V+JPobFmYKYgFJDVqcIyqtLATx40K6nFOX4QE
+ heW9WceZsILUAtYrswnl0fOCNC8rc+ddPJ4OcqzdqazoJECJkMOQzE9pzKcot1WCIY
+ 7+jLnAvx76bJp5GvIt6pHCGJzDs8vIziYkpL4SnClMVUh/UN/FJ6e7jCZpVjbyPhT8
+ xouIcgVJjdY1wtXrlrpg2dnPCsBSwZ/dGbVvbY3Mji6hPcII9Fk+JfSnx685Fs7BbG
+ h9mT+IhNUI6HA==
+Date: Tue, 30 Jan 2024 18:00:18 -0500
+From: Sasha Levin <sashal@kernel.org>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH AUTOSEL 6.1 04/53] drm: Fix color LUT rounding
+Message-ID: <Zbl_gq9FhTICi4FS@sashalap>
+References: <20240122150949.994249-1-sashal@kernel.org>
+ <20240122150949.994249-4-sashal@kernel.org>
+ <Za6ano6dg0Mau7OI@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <Za6ano6dg0Mau7OI@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,44 +52,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Sean Paul <sean@poorly.run>,
- Daniel Vetter <daniel@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, freedreno@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- open list <linux-kernel@vger.kernel.org>
+Cc: tzimmermann@suse.de, Jani Nikula <jani.nikula@intel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>, daniel@ffwll.ch,
+ airlied@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On Mon, Jan 22, 2024 at 06:50:00PM +0200, Ville Syrjälä wrote:
+>On Mon, Jan 22, 2024 at 10:08:05AM -0500, Sasha Levin wrote:
+>> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+>>
+>> [ Upstream commit c6fbb6bca10838485b820e8a26c23996f77ce580 ]
+>
+>Why is this being backported?
 
-Since commit 56e5abba8c3e ("dma-buf: Add unlocked variant of vmapping
-functions"), the resv lock is already held in the prime vmap path, so
-don't try to grab it again.
+Is this not a fix for an issue?
 
-Fixes: 56e5abba8c3e ("dma-buf: Add unlocked variant of vmapping functions")
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/msm_gem_prime.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/msm/msm_gem_prime.c b/drivers/gpu/drm/msm/msm_gem_prime.c
-index 5f68e31a3e4e..8a27b57a5bea 100644
---- a/drivers/gpu/drm/msm/msm_gem_prime.c
-+++ b/drivers/gpu/drm/msm/msm_gem_prime.c
-@@ -26,7 +26,7 @@ int msm_gem_prime_vmap(struct drm_gem_object *obj, struct iosys_map *map)
- {
- 	void *vaddr;
- 
--	vaddr = msm_gem_get_vaddr(obj);
-+	vaddr = msm_gem_get_vaddr_locked(obj);
- 	if (IS_ERR(vaddr))
- 		return PTR_ERR(vaddr);
- 	iosys_map_set_vaddr(map, vaddr);
 -- 
-2.43.0
-
+Thanks,
+Sasha
