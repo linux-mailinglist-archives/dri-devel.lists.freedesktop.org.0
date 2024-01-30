@@ -2,120 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5438842A8B
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 18:11:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FBD3842AD5
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 18:24:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E75161131D4;
-	Tue, 30 Jan 2024 17:11:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 554E9113281;
+	Tue, 30 Jan 2024 17:23:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2050.outbound.protection.outlook.com [40.107.237.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E85E21131D2;
- Tue, 30 Jan 2024 17:11:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IYUHGmg/x2Mcc/nESIx4YD7gmCcNDpuW8QUSgzwD4YOglbiSprorL+ByXejWT+hTuHyGMeH4b2rPWwysGMYXlIyZA+qlFE9VS74vuLE9MykNpdoTT3qQl5kDjKUMLz0Xdiq9wJlxI7XRLuLW1BH8w62VsflKR73yIJUu1BZTScTcDzkqWMzpnqWEQc272HYth+xfZno5pNuv1eX8fyCOcESGzOLXo71TUY3XL3euB2f7WUKXxGca2jkwGabENpcSc5qJqs2CzPvaetm8PYM3BQtcUM2+oS9zxyKUvoikl60RUwzDWA3m82sud57myF8RySyG3LWGyXwrbQ1mbtdg+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VLduJzD5k+0ZEqlPnd8PrXyv5Dlq6kz+3kGK6SQv7Q4=;
- b=DprLtVA2JWDGvuRy79Kcjiv9J21YEfEFUdbPHfleaeigJpG3GeBewPh3bEfVrkKIWojrPCsFSIh3v28zFdFT52fHcFXxv3IJfxDErw7HQFoVzXMjHj+42P4tWJqz4cgUR27ZcoQWI5vkxHqK5fGMeO0m7rMLIhk9th7h3UKdBbFIXDAQsXAri7LxyTnCSQVdebn/WYsx390dYtqskpFNvtFf49k5Gk0f/kkkO6xW0ekfo+DIbzriM31NWKoovfD1Bs0Lmwo03i+5L21enZt0SXBDRuBK0L9QugsPlgbze6Rq4PeUq2KVUwsEu/qxnf0h6X4MH/efXs8wMLmCt+fAdg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VLduJzD5k+0ZEqlPnd8PrXyv5Dlq6kz+3kGK6SQv7Q4=;
- b=0AD7g69z5l6OPp/cW9AeJazYTvdAH7vP6PWgmjQ2MCaOrzYQLwUWz72yNoldPakgjPF5lNUHKg/80IQbejLoVCi33+sYforsvJLvm7mTU37vWgnmJlEraWa19BAIwVnCQzss1/TBmGbv6MzXT3DBkMd+qMwKwWCav7FrGprMnyY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB6280.namprd12.prod.outlook.com (2603:10b6:8:a2::11) by
- IA1PR12MB6308.namprd12.prod.outlook.com (2603:10b6:208:3e4::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.22; Tue, 30 Jan
- 2024 17:11:11 +0000
-Received: from DM4PR12MB6280.namprd12.prod.outlook.com
- ([fe80::c64d:9152:25d4:c658]) by DM4PR12MB6280.namprd12.prod.outlook.com
- ([fe80::c64d:9152:25d4:c658%4]) with mapi id 15.20.7228.035; Tue, 30 Jan 2024
- 17:11:11 +0000
-Message-ID: <03d7040c-7b77-4498-8d5f-aa928c83aa23@amd.com>
-Date: Tue, 30 Jan 2024 12:11:08 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] drm: add drm_gem_object_is_shared_for_memory_stats()
- helper
-Content-Language: en-US
-To: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, tvrtko.ursulin@linux.intel.com,
- daniel@ffwll.ch
-References: <20240130161235.3237122-1-alexander.deucher@amd.com>
- <20240130161235.3237122-3-alexander.deucher@amd.com>
-From: Hamza Mahfooz <hamza.mahfooz@amd.com>
-In-Reply-To: <20240130161235.3237122-3-alexander.deucher@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQZPR01CA0035.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:86::6) To DM4PR12MB6280.namprd12.prod.outlook.com
- (2603:10b6:8:a2::11)
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80406113281
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 17:23:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1706635413;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5yttsGv/nZzm8P4I37O+sbjW65Bb56qxCJ5ApCblXiM=;
+ b=faZH3siafi9jEi315A2HIps30mZcyIsINRLU55uymIvXMB5fB98He1hDz67Ccd+M0kvtEM
+ 1P9kAwCBxym7GHnLVrowoWysHJFkzjEI6d0v+0a+ThZomANVbwAxP3yndvdPm247qwjdQX
+ 2Z7gnNBfPsjBkxG2zNvElx2YtbwW6sw=
+Message-ID: <fcf3e49cae178b18c0b15e12c69f9f2a84e8312e.camel@crapouillou.net>
+Subject: Re: [PATCH v6 1/6] dmaengine: Add API function
+ dmaengine_prep_slave_dma_vec()
+From: Paul Cercueil <paul@crapouillou.net>
+To: Vinod Koul <vkoul@kernel.org>
+Date: Tue, 30 Jan 2024 18:23:31 +0100
+In-Reply-To: <ZbkfC31eWBUQ3kSl@matsya>
+References: <20240129170201.133785-1-paul@crapouillou.net>
+ <20240129170201.133785-2-paul@crapouillou.net> <ZbkfC31eWBUQ3kSl@matsya>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
+ YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6280:EE_|IA1PR12MB6308:EE_
-X-MS-Office365-Filtering-Correlation-Id: 43f40169-f845-43ac-2c36-08dc21b674ee
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 15fWVGf5zraC64ErlnnkYPuGrfeZkEMJNgElntKaoq/WN9+AxuxuQzMY7jH6Odq7N3CIWBNe9IRztpZw4AG0zoa4WEdkiGzeTEtgcnP6nrak9hXaf/DQLvgAsr12d7tMFK8V1pqkuHklcqT/N34W729+oG68upqQkaTak9cTz2sow1tlFJn+ytTnfbY/j1yLiN6lTlnRb4pl7iDOuEfbZ0eyIIMGtDGwpSKiWUqaiAbv1WJSDL3c0x6hzl9sCaQGcuPapX1ayHq/QWrcC0oTZwR0x+V/t/tpuMvnIIDtoIkzD9+vfsxTC+HsxVWbuEjcXk+RJTELy7MbOZrbJeT9WclMMUyvJhNCFTKz7FC1Iw606OwbvEcUSbWRjC0xh1QfNaWIgldG0+x5bTrT8QtydienG+y2baz+jYy2qCkMz55Y4T9dMUO9TW8/8MFukjnTT178azh4G7ELe5Rr2TtX86POq4eqfs22BnyqYIGuV6/Lp+4yeTWcH8I8y93uFkjqegT41cmDi7rCoaEhaBsuadBPX1E4rheFAs/y9q/+gjFqGEnHEMDMCd24FN3GOj0/KylAO9fyg2SZlyFYEHUHqk3773NEUztIi0VXN6q4UP9y2ZMOS1TtOaq2O1X5mIhtQ7ssOQE1fOyuwDqTkZy7Ow==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB6280.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366004)(376002)(136003)(396003)(39860400002)(346002)(230922051799003)(451199024)(64100799003)(186009)(1800799012)(26005)(2616005)(41300700001)(31686004)(966005)(66476007)(36756003)(316002)(6512007)(478600001)(6486002)(53546011)(6506007)(6666004)(83380400001)(38100700002)(2906002)(31696002)(86362001)(66556008)(66946007)(5660300002)(8676002)(44832011)(8936002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?djFHTU5qUURkUWpYYnMvcnRpZ0ZpZDRPR29oZS81WmNBZ0kwQmM0K0F3bHpG?=
- =?utf-8?B?d1dEcm5NV2daWnNyNjFoSVI0c3RkYmtHQUh1TFRyOWM3UzhzeG9TOTZhanZW?=
- =?utf-8?B?NjJoNVFkNUl6M1dBVmgrZ3hFdjcrcXU0N1cxQ0pacVFRYlUxam5Vbk1FV3BW?=
- =?utf-8?B?b0xWSDloSkZCRHlWR2pwcm5XTllraHpmeVJGdmFFVjdDWDNlSkI4U3pzMHd6?=
- =?utf-8?B?c21LbXhFemlWYTVNOUtXRDRYbXRjaHdWMnYxNGd2elM5ZW1WMEh6Umw1cS9u?=
- =?utf-8?B?OTRMRzEwME1SbmhMNkQvRmxYV0lLL01ta1FTeDBwL1F4ZURUMkNjM3JiNmRX?=
- =?utf-8?B?K21ZY01Fd1NMamplb2hkZ3o1TUJFdDBPdXdhZzB1cGN2QUsyOHZNbDNKOGJE?=
- =?utf-8?B?L1NUenNMMnlMWWpWeXRxTnhBSFF3aGFIejNORVMzdnRBZFhkV0VaUFd3dFkr?=
- =?utf-8?B?Z2ZHYVYydmpBTUtLK3d3dlhoWUdEQUovbFZiUkQxa093WXRydEsrZjZZcm40?=
- =?utf-8?B?akFGRmZPQm5WQ1FteVdkK05jTnNWQVAwSlg3akVyMWp1dTdmWERjZjh5Tm1t?=
- =?utf-8?B?U3dyN2dWMUJTL3BKd2RaNVdKa1BtWk96V2diRWRkSjRZVnF6R2E0L2FId2x0?=
- =?utf-8?B?S0JSTi9yV2kyZG1DeDJNQ2NlWFUxUnZoZ25GbkE4TWJYWEtzVGx0MHY3SzVy?=
- =?utf-8?B?VFZHbmVwY0ordEQvcUlYK2NVKzFRZkRUNU43NTl6M1V1dlFBeldVVFovWW1K?=
- =?utf-8?B?SURTa0o3SURuaHZXN2dCTHpSS3B1MlRVVDROeHBCbFpxUlROMWxOdFBZTDEz?=
- =?utf-8?B?UnhkUE1oMzRkbXFtS2V2bFdaZENJOWtpWDd3STZVWlpFYmwzSitPdkIzZ3FG?=
- =?utf-8?B?RGIwYTd5VklGM1VSTmsrSjMzZnFBOGlUMU8zZGlGRHE4TlBrdTJiekpuZEUx?=
- =?utf-8?B?NEpKanRjYmlEUUc0eE9sWkZXcW9ac0dHbnUrQzFQSDdPcVFJdVJXcTdyOWdu?=
- =?utf-8?B?aGJKeUEyT20xSWhCNWtvZzFFRUJ0ekZHZWx5SUJlWkZSemE1bkxaVDFRMG5O?=
- =?utf-8?B?RXYyOXdyTkcwVjVnb1hWbi9JaHFudHBKTlorNXpCaWZwb29iU1J4TE9OdFI5?=
- =?utf-8?B?S3pYWmNyRzdPYmJmbTRjejMvZ0NZT0RUbXhrZlEydytCZURib09vTWVhL3Bl?=
- =?utf-8?B?Z09lV1hERFdMdlF0akVodmlNZi9BWmJXYXQwNEgwbmNBTWdaYVJKbGJCQWJK?=
- =?utf-8?B?TTljNWJNTkFpSG95b1RRN0NNQ0NTNWpTS2I0ajJGZHdhWHhnRTRRa0t6K2wx?=
- =?utf-8?B?ZGgzKzRnalNUSGVRRk9ZN1BZZWNpdk4xWnBGbHhCNnBmZHpaMTZpSGg1UTg4?=
- =?utf-8?B?SmZhdUJvdzhBa241ekdySVRINVdvS3pFc3k0RE1xeTVydGsvODhiemVFRllB?=
- =?utf-8?B?NDJibzFhcVpMNHFNK1lLSDBOME5IdFZDcG5kT25SbVY0eFNaNXZxQ0owQW9V?=
- =?utf-8?B?Q2pRL3pMQmg2NWJZTktpTUNpRHE2dFdKaVB4OENpU1lDUmdUUkoyOEF2eGJt?=
- =?utf-8?B?Y3hNa2FrbTE5VGJWNS9CTkFkdDRRUVV1M2FmMHkwaEpDQ3NLUFgyUTFWVGJS?=
- =?utf-8?B?a3ZiS2RmVkJ0TFJ3NjVsKzZEaGV0TDdvVEkvRTNUaFZmOTNHTG5QSmVRai9F?=
- =?utf-8?B?enVpb2JuanJ0OExlbHRBakJvVVM0Tm1hNFZlSmsvT2U3SFoyV1JFM3d1WnNp?=
- =?utf-8?B?RW51QksrV0NjM1FvY3Z5K3NZRHZZRncxN2dxeHZ0KzVzRE1vcG14clYzdlRH?=
- =?utf-8?B?NXl1bnd0eVdseXVzclRJWGI4L0VDM1NZMWJiY0dPMnY4Mzl3Z1ZCbWR5U3Fn?=
- =?utf-8?B?OUx3Q25TMENCMlRLUStsb0VlN3FYYU5BSUt2MzZIM3RsZ3loMVpKVi9uaHVD?=
- =?utf-8?B?d3dFbllWbUpHaUl4WmZYNytha1R1NnRQdFZFViswQ2VYU3VWRGJRMkp1NUp1?=
- =?utf-8?B?Qkg5Rm1WV1pVUTkxd3dFb3cyVnpmU08rQXo4S0ZwYmcvL291MGhpNUMwWUpS?=
- =?utf-8?B?WWxkSjljdTdaNjQ3TC9DYlVueDlIcnB2TnRWZUFRY3BFZHNrMWoyRUlISXA3?=
- =?utf-8?Q?pq9TnHpjr75t4NxvyLkxvVY8Y?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43f40169-f845-43ac-2c36-08dc21b674ee
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6280.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2024 17:11:11.0352 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eL7MQqn65WcSw1pF+x/s5UMftPhJdlRnY3nJqrLxvNsrb8s7GpfPHzSTI7iRZ4mQTdNka+bjbo+ljf4hONAg8Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6308
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,66 +49,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org, Daniel Vetter <daniel@ffwll.ch>,
+ dmaengine@vger.kernel.org, Nuno Sa <nuno.sa@analog.com>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/30/24 11:12, Alex Deucher wrote:
-> Add a helper so that drm drivers can consistently report
-> shared status via the fdinfo shared memory stats interface.
-> 
-> In addition to handle count, show buffers as shared if they
-> are shared via dma-buf as well (e.g., shared with v4l or some
-> other subsystem).
-> 
-> Link: https://lore.kernel.org/all/20231207180225.439482-1-alexander.deucher@amd.com/
-> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> ---
->   drivers/gpu/drm/drm_gem.c | 16 ++++++++++++++++
->   include/drm/drm_gem.h     |  1 +
->   2 files changed, 17 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index 44a948b80ee1..71b5f628d828 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -1506,3 +1506,19 @@ int drm_gem_evict(struct drm_gem_object *obj)
->   	return 0;
->   }
->   EXPORT_SYMBOL(drm_gem_evict);
-> +
-> +/**
-> + * drm_gem_object_is_shared_for_memory_stats - helper for shared memory stats
-> + *
-> + * This helper should only be used for fdinfo shared memory stats to determine
-> + * if a GEM object is shared.
-> + *
-> + * @obj: obj in question
-> + */
-> +bool drm_gem_object_is_shared_for_memory_stats(struct drm_gem_object *obj)
-> +{
-> +	if ((obj->handle_count > 1) || obj->dma_buf)
-> +		return true;
-> +	return false;
+Hi Vinod,
 
-nit: you can simplify this to:
-	return (obj->handle_count > 1) || obj->dma_buf;
+Le mardi 30 janvier 2024 =C3=A0 21:38 +0530, Vinod Koul a =C3=A9crit=C2=A0:
+> On 29-01-24, 18:01, Paul Cercueil wrote:
+> > This function can be used to initiate a scatter-gather DMA
+> > transfer,
+> > where the address and size of each segment is located in one entry
+> > of
+> > the dma_vec array.
+> >=20
+> > The major difference with dmaengine_prep_slave_sg() is that it
+> > supports
+> > specifying the lengths of each DMA transfer; as trying to override
+> > the
+> > length of the transfer with dmaengine_prep_slave_sg() is a very
+> > tedious
+> > process. The introduction of a new API function is also justified
+> > by the
+> > fact that scatterlists are on their way out.
+> >=20
+> > Note that dmaengine_prep_interleaved_dma() is not helpful either in
+> > that
+> > case, as it assumes that the address of each segment will be higher
+> > than
+> > the one of the previous segment, which we just cannot guarantee in
+> > case
+> > of a scatter-gather transfer.
+> >=20
+> > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> >=20
+> > ---
+> > v3: New patch
+> >=20
+> > v5: Replace with function dmaengine_prep_slave_dma_vec(), and
+> > struct
+> > =C2=A0=C2=A0=C2=A0 'dma_vec'.
+> > =C2=A0=C2=A0=C2=A0 Note that at some point we will need to support cycl=
+ic
+> > transfers
+> > =C2=A0=C2=A0=C2=A0 using dmaengine_prep_slave_dma_vec(). Maybe with a n=
+ew "flags"
+> > =C2=A0=C2=A0=C2=A0 parameter to the function?
+>=20
+> that would be better
 
-(It maybe worth just inlining this to drm_gem.h).
+Ok, I think it'd be better that I add a new "flags" parameter now -
+even if it means passing 0 until we actually have flags for it.
 
-> +}
-> +EXPORT_SYMBOL(drm_gem_object_is_shared_for_memory_stats);
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index 369505447acd..86a9c696f038 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -552,6 +552,7 @@ unsigned long drm_gem_lru_scan(struct drm_gem_lru *lru,
->   			       bool (*shrink)(struct drm_gem_object *obj));
->   
->   int drm_gem_evict(struct drm_gem_object *obj);
-> +bool drm_gem_object_is_shared_for_memory_stats(struct drm_gem_object *obj);
->   
->   #ifdef CONFIG_LOCKDEP
->   /**
--- 
-Hamza
+>=20
+> > ---
+> > =C2=A0include/linux/dmaengine.h | 25 +++++++++++++++++++++++++
+> > =C2=A01 file changed, 25 insertions(+)
+> >=20
+> > diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
+> > index 3df70d6131c8..ee5931ddb42f 100644
+> > --- a/include/linux/dmaengine.h
+> > +++ b/include/linux/dmaengine.h
+> > @@ -160,6 +160,16 @@ struct dma_interleaved_template {
+> > =C2=A0	struct data_chunk sgl[];
+> > =C2=A0};
+> > =C2=A0
+> > +/**
+> > + * struct dma_vec - DMA vector
+> > + * @addr: Bus address of the start of the vector
+> > + * @len: Length in bytes of the DMA vector
+> > + */
+> > +struct dma_vec {
+> > +	dma_addr_t addr;
+> > +	size_t len;
+> > +};
+> > +
+> > =C2=A0/**
+> > =C2=A0 * enum dma_ctrl_flags - DMA flags to augment operation
+> > preparation,
+> > =C2=A0 *=C2=A0 control completion, and communicate status.
+> > @@ -910,6 +920,10 @@ struct dma_device {
+> > =C2=A0	struct dma_async_tx_descriptor
+> > *(*device_prep_dma_interrupt)(
+> > =C2=A0		struct dma_chan *chan, unsigned long flags);
+> > =C2=A0
+> > +	struct dma_async_tx_descriptor
+> > *(*device_prep_slave_dma_vec)(
+> > +		struct dma_chan *chan, const struct dma_vec *vecs,
+> > +		size_t nents, enum dma_transfer_direction
+> > direction,
+> > +		unsigned long flags);
+>=20
+> s/slave/peripheral
+>=20
+> I had requested it a bit while ago as well
+
+You did. Sorry, I forgot about it when working on the v6.
+
+Cheers,
+-Paul
+
+> > =C2=A0	struct dma_async_tx_descriptor *(*device_prep_slave_sg)(
+> > =C2=A0		struct dma_chan *chan, struct scatterlist *sgl,
+> > =C2=A0		unsigned int sg_len, enum dma_transfer_direction
+> > direction,
+> > @@ -972,6 +986,17 @@ static inline struct dma_async_tx_descriptor
+> > *dmaengine_prep_slave_single(
+> > =C2=A0						=C2=A0 dir, flags,
+> > NULL);
+> > =C2=A0}
+> > =C2=A0
+> > +static inline struct dma_async_tx_descriptor
+> > *dmaengine_prep_slave_dma_vec(
+> > +	struct dma_chan *chan, const struct dma_vec *vecs, size_t
+> > nents,
+> > +	enum dma_transfer_direction dir, unsigned long flags)
+> > +{
+> > +	if (!chan || !chan->device || !chan->device-
+> > >device_prep_slave_dma_vec)
+> > +		return NULL;
+> > +
+> > +	return chan->device->device_prep_slave_dma_vec(chan, vecs,
+> > nents,
+> > +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dir,
+> > flags);
+> > +}
+> > +
+> > =C2=A0static inline struct dma_async_tx_descriptor
+> > *dmaengine_prep_slave_sg(
+> > =C2=A0	struct dma_chan *chan, struct scatterlist
+> > *sgl,	unsigned int sg_len,
+> > =C2=A0	enum dma_transfer_direction dir, unsigned long flags)
+> > --=20
+> > 2.43.0
+>=20
 
