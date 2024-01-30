@@ -2,63 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91EE7842BF1
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 19:39:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FBF8842C68
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 20:09:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8C5C11341E;
-	Tue, 30 Jan 2024 18:39:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31057113451;
+	Tue, 30 Jan 2024 19:08:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com
- [209.85.219.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF16611341E
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 18:39:24 +0000 (UTC)
-Received: by mail-yb1-f182.google.com with SMTP id
- 3f1490d57ef6-dc61fd6ba8cso3108167276.3
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 10:39:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1706639904; x=1707244704;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LG5gyFtkumsLYd2rAi8MEfEgvn+yRGh3reIVJo/WaZk=;
- b=e8qJMtpCFsICOM72MmGhhnJzwEs2Wwsk60aAV6iMndbcHvd8h2lAvxvINMPtZ5DlDa
- cnuStJsY+dVKf7naDhv0VotkuiKLCNFDO5x/MN+hEu0ApDQ4iGg/Z1wq2Hopp1nXXw0j
- Pw9+dHRxJGfNxGnDhBFM8BmTK/ZH9W9fh0iTk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706639904; x=1707244704;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LG5gyFtkumsLYd2rAi8MEfEgvn+yRGh3reIVJo/WaZk=;
- b=wqt/njnVmrYgcwVj03xFPXKLIHs6LqKB9YSV44aHYt54l7gu3B+vSTkkyvY0N6v80o
- vCG42S3132N5HuTSu5Dsjgw/NGOXf64UYzWf5eMDs75QEAgs5khwYP9f9y105BZQNWJn
- 8uQDSRu0Gq4a1rITYy2S+zhECzpSrbWaou1b5IXNhdOX4DpoPy+ZUYONLL7sx7cm2T1U
- 0nKoLu/VbyFD+GMOulA4LdmSYPJqab8ROEGmb7p1/XpIR4f2zpwA3kXXNVVtHvICXJaJ
- dWDFSNaK7RSQfgIbdomNZjRmeZ2Z3R1aoWjHvj81NhB4egFKpdRvshhKZXE8/7ndY1N6
- sVIQ==
-X-Gm-Message-State: AOJu0YzaAzmomBUUDyPxwLjGoBiq4w0msvEaFYDYemVItQOmyTfsjVLE
- 7kqY/byn4yh4gHACPnMhzHr4cZmfFJjpDiyxvGoGb58f7fX9z4agke0QAclPHm0D92uVYzUpwcd
- nkVknZeB54CMgPMNM8+pPQcmdMNzem+WV9J7P
-X-Google-Smtp-Source: AGHT+IFno34m+jP2iGLD2By4ZRnEoI2pNruJ2J60MQLxAyDx7Afkqc+mbc3eZNZWnOh+GR+PK7PjMeUgn6h22nV6hQE=
-X-Received: by 2002:a25:81cd:0:b0:dc2:19ec:77ad with SMTP id
- n13-20020a2581cd000000b00dc219ec77admr5304988ybm.21.1706639903861; Tue, 30
- Jan 2024 10:38:23 -0800 (PST)
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
+ [157.90.84.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAF1B113451
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 19:08:44 +0000 (UTC)
+Received: from [192.168.42.20] (p5de453e7.dip0.t-ipconnect.de [93.228.83.231])
+ (Authenticated sender: wse@tuxedocomputers.com)
+ by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 23BFC2FC004A;
+ Tue, 30 Jan 2024 20:08:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+ s=default; t=1706641722;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LbhUeHVixZ6fHRGYU1VVwvcn9Vo4T6Wzvv+6eidxVh0=;
+ b=eblZUCnpERjN7epF9d579T4ea980hdkcfbiNS7lWSKcEn66+MJOtJ9uQNaJZvn5qfRt4X9
+ 1Z6fJamdKuUtzJ7grIAplzCNz/t9/k6nP5gEunaN544POJRg62gA93IRcMfyAWqWRrCyKx
+ H+dD1Gh4Ul1iX0LWZj4tlRq4K2g+z9Y=
+Authentication-Results: mail.tuxedocomputers.com;
+ auth=pass smtp.auth=wse@tuxedocomputers.com
+ smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <b70b2ea8-abfd-4d41-b336-3e34e5bdb8c6@tuxedocomputers.com>
+Date: Tue, 30 Jan 2024 20:08:41 +0100
 MIME-Version: 1.0
-References: <20240112203803.6421-1-ian.forbes@broadcom.com>
- <3d7f835a-eed8-4d98-9539-68061779f285@suse.de>
- <CABQX2QMUfZMNRN-RfVhvZzkGhn4zRY-B51Ph_KYzXWmZ_8tfAQ@mail.gmail.com>
- <613cf732-fc95-4f61-b64d-772206460535@suse.de>
-In-Reply-To: <613cf732-fc95-4f61-b64d-772206460535@suse.de>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Tue, 30 Jan 2024 13:38:12 -0500
-Message-ID: <CABQX2QP8nLpM6e3D3qQASvbxr1DDON1dq=s+iNBcczhSJu8Ggg@mail.gmail.com>
-Subject: Re: [PATCH] drm/vmwgfx: Filter modes which exceed 3/4 of graphics
- memory.
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: Implement per-key keyboard backlight as auxdisplay?
+Content-Language: en-US
+To: Hans de Goede <hdegoede@redhat.com>, Pavel Machek <pavel@ucw.cz>
+References: <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
+ <ZSmg4tqXiYiX18K/@duo.ucw.cz>
+ <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
+ <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
+ <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
+ <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
+ <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
+ <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
+ <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
+ <ZaljwLe7P+dXHEHb@duo.ucw.cz>
+ <6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com>
+ <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
+ <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com>
+ <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
+ <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
+ <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
+ <1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com>
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,100 +70,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ian Forbes <ian.forbes@broadcom.com>, maaz.mombasawala@broadcom.com,
- bcm-kernel-feedback-list@broadcom.com, dri-devel@lists.freedesktop.org,
- martin.krastev@broadcom.com
+Cc: Lee Jones <lee@kernel.org>, jikos@kernel.org, linux-kernel@vger.kernel.org,
+ Jelle van der Waa <jelle@vdwaa.nl>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 19, 2024 at 4:22=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
+Hi,
+
+Am 30.01.24 um 19:35 schrieb Hans de Goede:
+> Hi,
 >
-> Hi
+> On 1/30/24 19:09, Werner Sembach wrote:
+>> Hi Hans,
+>>
+>> resend because Thunderbird htmlified the mail :/
+> I use thunderbird too. If you right click on the server name
+> and then go to "Settings" -> "Composition & Addressing"
+> and then uncheck "Compose messages in HTML format"
+> I think that should do the trick.
+Can't set this globally or other people will complain that my replies delete 
+company logos in signatures xD. But usually the auto detection of Thunderbird works.
 >
-> Am 18.01.24 um 19:25 schrieb Zack Rusin:
-> > On Mon, Jan 15, 2024 at 3:21=E2=80=AFAM Thomas Zimmermann <tzimmermann@=
-suse.de> wrote:
-> >>
-> >> Hi
-> >>
-> >> Am 12.01.24 um 21:38 schrieb Ian Forbes:
-> >>> SVGA requires surfaces to fit within graphics memory (max_mob_pages) =
-which
-> >>> means that modes with a final buffer size that would exceed graphics =
-memory
-> >>> must be pruned otherwise creation will fail.
-> >>>
-> >>> Additionally, device commands which use multiple graphics resources m=
-ust
-> >>> have all their resources fit within graphics memory for the duration =
-of the
-> >>> command. Thus we need a small carve out of 1/4 of graphics memory to =
-ensure
-> >>> commands likes surface copies to the primary framebuffer for cursor
-> >>> composition or damage clips can fit within graphics memory.
-> >>>
-> >>> This fixes an issue where VMs with low graphics memory (< 64MiB) conf=
-igured
-> >>> with high resolution mode boot to a black screen because surface crea=
-tion
-> >>> fails.
-> >>
-> >> That is a long-standing problem, which we have observed with other
-> >> drivers as well. On low-memory devices, TTM doesn't play well. The rea=
-l
-> >> fix would be to export all modes that possibly fit and sort out the
-> >> invalid configurations in atomic_check. It's just a lot more work.
-> >>
-> >> Did you consider simply ignoring vmwgfx devices with less than 64 MiB =
-of
-> >> VRAM?
-> >
-> > Unfortunately we can't do that because on new esx servers without
-> > gpu's the default is 16MB. A lot of people are still running their esx
-> > boxes with 4MB, which is in general the most common problem because
-> > with 4MB people still tend to like to set 1280x800 which with 32bpp fb
-> > takes 4096000 bytes and with 4MB available that leaves only 96KB
-> > available and we need more to also allocate things like the cursor.
-> > Even if ttm did everything right technically 1280x800 @ 32bpp
-> > resolution will fit in a 4MB graphics memory, but then the system will
-> > not be able to have a hardware (well, virtualized) cursor. It's
-> > extremely unlikely people would even be aware of this tradeoff when
-> > making the decision to increase resolution.
+>> Am 30.01.24 um 18:10 schrieb Hans de Goede:
+>>> Hi Werner,
+>>>
+>>> On 1/30/24 12:12, Werner Sembach wrote:
+>>>> Hi Hans,
+>>>>
+>>>> Am 29.01.24 um 14:24 schrieb Hans de Goede:
+>> <snip>
+>>>> I think that are mostly external keyboards, so in theory a possible cut could also between built-in and external devices.
+>>> IMHO it would be better to limit /dev/rgbledstring use to only
+>>> cases where direct userspace control is not possible and thus
+>>> have the cut be based on whether direct userspace control
+>>> (e.g. /dev/hidraw access) is possible or not.
+>> Ack
+>>
+>> <snip>
+>>
+>>>> So also no basic driver? Or still the concept from before with a basic 1 zone only driver via leds subsystem to have something working, but it is unregistered by userspace, if open rgb wants to take over for fine granular support?
+>>> Ah good point, no I think that a basic driver just for kbd backlight
+>>> brightness support which works with the standard desktop environment
+>>> controls for this makes sense.
+>>>
+>>> Combined with some mechanism for e.g. openrgb to fully take over
+>>> control as discussed. It is probably a good idea to file a separate
+>>> issue with the openrgb project to discuss the takeover API.
+>> I think the OpenRGB maintainers are pretty flexible at that point, after all it's similar to enable commands a lot of rgb devices need anyway. I would include it in a full api proposal.
+> Ack.
 >
-> Do you allocate buffer storage directly in the provided VRAM? If so how
-> do you do page flips then? You'd need for the example of 1280x800-32,
-> you'd need around 8 MiB to keep front and back buffer in VRAM. I guess,
-> you only support the framebuffer console (which doesn't do pageflips)?
+>> On this note: Any particular reason you suggested an ioctl interface instead of a sysfs one? (Open question as, for example, I have no idea what performance implications both have)
+> sysfs APIs typically have a one file per setting approach,
+> so for effects with speed and multiple-color settings you
+> would need a whole bunch of different files and then you
+> would either need to immediately apply every setting,
+> needing multiple writes to the hw for a single effect
+> update, or have some sort of "commit" sysfs attribute.
+>
+> With ioctls you can simply provide all the settings
+> in one call, which is why I suggested using ioctls.
 
-In general, yes. Of course it's a little more convoluted because we'll
-act like OpenGL runtime here (i.e. glXSwapBuffers), i.e. our driver
-will fake page-flips because the only memory we'll have is a single
-buffer as the actual page-flipping happens in the presentation code on
-the host. So the guest is not aware of the actual presentation (it's
-also why we don't have any sort of vblank signaling in vmwgfx, the
-concept just doesn't exist for us). i.e. on para-virtualized drivers
-the actual page-flips will be property of the presentation code that's
-outside of the guest. It's definitely one those things that I wanted
-to have a good solution for in a while, in particular to have a better
-story behind vblank handling, but it's difficult because
-"presentation" on vm's is in general difficult to define - it might be
-some vnc connected host on the other continent. Having said that
-that's basically a wonky VRR display so we should be able to handle
-our presentation as VRR and give more control of updates to the guest,
-but we haven't done it yet.
+Ack
 
-> In mgag200 and ast, I had the luxury for replacing TTM with SHMEM
-> helpers, which worked around the problem easily. Maybe that's an option
-> for low-memory systems?
+If the static mode update is fast enough to have userspace controlled 
+animations, OpenRGB is calling that direct mode. Is it feasible to send 30 or 
+more ioctls per second for such an direct mode? Or should this spawn a special 
+purpose sysfs file that is kept open by userspace to continuously update the 
+keyboard?
 
-Our current device doesn't have the ability to present out of
-unspecified memory in the guest, i.e. the host, which is doing the
-presentation, is not aware of how guest kernel lays out the memory so
-we need to basically create a page-table for every graphics object
-(VMW_PL_MOB placement in vmwgfx) so that the host can actually find
-the memory it needs to read. So the shmem helpers would need something
-extra for us to be able to generate those page tables for the
-drm_gem_object's it deals with.
+>
+> Regards,
+>
+> Hans
+>
+>
+>
+Regards,
 
-z
+Werner
+
