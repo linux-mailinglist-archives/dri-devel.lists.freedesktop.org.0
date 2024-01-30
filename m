@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57819841D1F
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 09:01:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFFC7841D2A
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 09:04:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F3FC112E1D;
-	Tue, 30 Jan 2024 08:01:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DD20112E37;
+	Tue, 30 Jan 2024 08:04:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AB3A112E1D
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 08:01:05 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-51025cafb51so5159172e87.2
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 00:01:05 -0800 (PST)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5229A112E25
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 08:04:08 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-55f0b2c79cdso2445709a12.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 00:04:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1706601603; x=1707206403; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1706601787; x=1707206587; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=+HkH4XQMR2Fb/ctwAmYb0jzkl/3spUTrWnMDkagnUdU=;
- b=hYQhUIyiBYRbbeQ+fAhWyFzjMBaedAD1SZXRBZpY5KcsKq+aQw4LEFsxuk2tP7ItJ2
- nBZpUp3dWdJgQWf4OimXO9EJ2ixor5uuUNsJum7MIGBDIFQOmgxKRdWxiw/TSA87c+zO
- a7WPjfYWuJCKaWnGqe8yxdW0LBtcobMm/wtirdLL8FX9pXrvmdDEl9zJsACp8APNsku9
- aaW8u0Zk5WPi7CfJiyrUlLv5vDweJwaZaJGSizwuC7LDaGmwOPplecmpts8vD0Y5PpBH
- MCc2h4TgmRxrxWbX8N3YbqgCDKiAiwNeQAty0PwO05bcZKhc8QC453qsvhm7pxIOucii
- B5Ww==
+ bh=DAL0f6fKkqp3puSgTNryp8hcfAmzEA4DpvZNsDOXh6U=;
+ b=YkJSGLNVHsAeVaHal5iAZ5Xv3PRjSgXNhpzFyTFmavm6MERfQ0ZASPnn1FPnToNaRn
+ MCiOJrV8Cul89JsB9MC9GPA6W5CR7g2KzJL3nIly0f/xGDXKk6PlvHtKs0zxasAJxqY3
+ X8oFsQFw9BrLouJzqk9InBAhCpt14X5AqLAMus/hO11RIM4H9j3n6/ihgzGPsuPXxJNv
+ 90ircwN1Slb7DxBCXpDX6Fl/kvYjOUgtJxjZfsc9D4oAK1gXtvAHjOY45JzT+Ri3NvJo
+ J7JhL346kMt3b8yTl9mD4zW43khcMUuQKj+JoW4uyM7pKDrUniqeDWK9o+4ZV60QNiRh
+ xR4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706601603; x=1707206403;
+ d=1e100.net; s=20230601; t=1706601787; x=1707206587;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+HkH4XQMR2Fb/ctwAmYb0jzkl/3spUTrWnMDkagnUdU=;
- b=UxXUYDL/RiGxtI4W1VpmJr02p2FN+jyRqI4OcB8wwY3Qui8TIEvASiRt2cfFkuoxwm
- 8RPq7b0lywPV+zW8g1o6EFGCI5mfaURWfYJrZykcaNCOB3uHf2iZdNmcegbTFhJubZqg
- SjqUc3PEL3D8zKGQyW5LRZfqHNY/7fx1GZ4mX1trhW6WatUWs8zl+ngZB4UXhbJqPRxj
- Q6tLLvDMAHneOQmBdu0CLWwtfU6g4vTostUw+52Az8CG0TVDQMXt4i6jB1WYn3uPvp0V
- YAKk0WwTRHgi00auZJZz5FYgxIm5c1SJz4juil303AqOo5Jds5eah+wbs6d6EjDSrX2j
- Kajg==
-X-Gm-Message-State: AOJu0YzxnhHHk1gBOPqmZKyIL28qARv/N+GLN+iLABWXGlA4rZ1D6aZi
- 6mUQV9a3C400LturdOYdac0uDt5nrTrHuBtarznLColMZVAR8LDOKXGUKjw+2us=
-X-Google-Smtp-Source: AGHT+IFuPg9GW35NCszZH+DhM+lLv9BCNrTEafYzWSWwdeVr6ZfYv4zy+S40oJYAS+lHGsoDq5uojQ==
-X-Received: by 2002:a05:6512:1082:b0:50e:75ee:ec4c with SMTP id
- j2-20020a056512108200b0050e75eeec4cmr6389637lfg.11.1706601603441; 
- Tue, 30 Jan 2024 00:00:03 -0800 (PST)
+ bh=DAL0f6fKkqp3puSgTNryp8hcfAmzEA4DpvZNsDOXh6U=;
+ b=t+lsSYEbveN77u4gczOlk1kMx6WVPHer6+sywvgmFBWX4h/u+JV64FfMMFqpm8ECmU
+ cd8IfyMq3wmwhjhueRq/15q5fmzRPpGhyY786ZBXaMUobadpwA5MofGHhafk6Ou6PYKS
+ DbOIjIHGrroc9qYd/RQk73k5gZIJGUBG41oOTfz+G9Uzyp3k2vAohOdXLBG2DEwk11i+
+ cRtI6E2dmSrx5I+i4VNB5QbNr0dgRfyUsE+NwCFbxc51uoaw1AdwSI7T03JMYXI84eNM
+ Q95Y11rFIYrQv1tAT20SaSo3jhi/Pw55sXoRjL9Al9MS1i0AvGC5wyMthrAtwA5hRddc
+ cvhw==
+X-Gm-Message-State: AOJu0YwUlPpZtY4rcVOA6NZs6MrLRlEbB/WWkSwj7p4an5J+R6RPBtah
+ 9V4INnr/ap7+9SRk9ykK/k2vZYnBiw0seuaDdUjTPCJ7jI/ERDOQ18Jprb0i7JQ=
+X-Google-Smtp-Source: AGHT+IGTaxX0iclE5KLuq8hyPxLtw0sfQMtw8b6dqd0Q8R2qVijJVDUskLp/Fp7l/3jl1WWPPHuWZg==
+X-Received: by 2002:a17:906:4ad2:b0:a35:fbc4:4c20 with SMTP id
+ u18-20020a1709064ad200b00a35fbc44c20mr1908511ejt.6.1706601786732; 
+ Tue, 30 Jan 2024 00:03:06 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.222.62])
  by smtp.gmail.com with ESMTPSA id
- s15-20020a170906354f00b00a3186c2c254sm4797333eja.213.2024.01.30.00.00.01
+ j9-20020a170906254900b00a311685890csm4825575ejb.22.2024.01.30.00.03.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Jan 2024 00:00:02 -0800 (PST)
-Message-ID: <37dae8b0-4e23-4325-810c-e7f555894964@linaro.org>
-Date: Tue, 30 Jan 2024 09:00:01 +0100
+ Tue, 30 Jan 2024 00:03:06 -0800 (PST)
+Message-ID: <6efc8171-1741-4314-9d47-dad1e2552dcf@linaro.org>
+Date: Tue, 30 Jan 2024 09:03:04 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] dt-bindings: display/msm: Document the DPU for
- X1E80100
+Subject: Re: [PATCH 1/5] dt-bindings: display/msm: document MDSS on X1E80100
 Content-Language: en-US
 To: Abel Vesa <abel.vesa@linaro.org>, Rob Clark <robdclark@gmail.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -70,7 +69,7 @@ To: Abel Vesa <abel.vesa@linaro.org>, Rob Clark <robdclark@gmail.com>,
  Conor Dooley <conor+dt@kernel.org>,
  Neil Armstrong <neil.armstrong@linaro.org>
 References: <20240129-x1e80100-display-v1-0-0d9eb8254df0@linaro.org>
- <20240129-x1e80100-display-v1-2-0d9eb8254df0@linaro.org>
+ <20240129-x1e80100-display-v1-1-0d9eb8254df0@linaro.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -116,7 +115,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240129-x1e80100-display-v1-2-0d9eb8254df0@linaro.org>
+In-Reply-To: <20240129-x1e80100-display-v1-1-0d9eb8254df0@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -138,32 +137,20 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 29/01/2024 14:18, Abel Vesa wrote:
-> Document the DPU for Qualcomm X1E80100 platform in the SM8650 schema, as
-> they are similar.
+> Document the MDSS hardware found on the Qualcomm X1E80100 platform.
 > 
 > Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
 > ---
->  Documentation/devicetree/bindings/display/msm/qcom,sm8650-dpu.yaml | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+
+Please document dependencies, including the ones not in the tree this is
+targeting. You have build failures, so that deserves some note.
+
+>  .../bindings/display/msm/qcom,x1e80100-mdss.yaml   | 249 +++++++++++++++++++++
+>  1 file changed, 249 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8650-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8650-dpu.yaml
-> index a01d15a03317..f84fa6d5e6a2 100644
-> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm8650-dpu.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8650-dpu.yaml
-> @@ -13,7 +13,10 @@ $ref: /schemas/display/msm/dpu-common.yaml#
->  
->  properties:
->    compatible:
-> -    const: qcom,sm8650-dpu
-> +    items:
-
-Drop items, it's just "enum :"
-
-> +      - enum:
-> +          - qcom,sm8650-dpu
-> +          - qcom,x1e80100-dpu
 
 
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
