@@ -2,94 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7772A8422A6
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 12:17:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0DF68422C3
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 12:20:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2581D10F09C;
-	Tue, 30 Jan 2024 11:17:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B127112F82;
+	Tue, 30 Jan 2024 11:20:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 986A010E3BF
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 11:17:13 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-55369c59708so1550474a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 03:17:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1706613372; x=1707218172; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:to:from:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=C2FZft6FauqTz4a6mgFsXH5fOXhbWwAcsXYixHIZpik=;
- b=dpyq282e0kAV48G+H8JDbByCfTrpKbv07w4Sx7VJcxmcG/zkL0m3HiMxSayYWTcRpY
- N2vjVSTWpY5BfisQpvQzMFrioBwiT2JIdFuTJbRCSfp+crrKTFqoNlDI2Ofo75iIZnTh
- WUoRofe6Uhsum8Di/xxwqxtMC/bVeSKgiSQJU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706613372; x=1707218172;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:to:from:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=C2FZft6FauqTz4a6mgFsXH5fOXhbWwAcsXYixHIZpik=;
- b=r0ni3vib8OSODavBX4rBBgopRfGo5KC2ezdTlYfsKpTH78cgqdxl5p67qhxEFLB0Q7
- FrU9EWxK7fsMlqrMPkVJk45rOwC52PIWwFqguzgApzBgRCwbmqz7GfKAVQKCulRlXmPp
- 7LD7bz8y0xQbfuCY+WbyH5Od0lwmSqMYrP2NSRus5BR88IxQxvBzvgy0/0KjXrvcmG9N
- aT4hySuEZQFE27Z1w518BztuRidSsDX/u+o78t4DoFofABcwnGQkrtzo54ABeEmUJCA9
- 1/t4OboyZ5VlRhILjoJbDe9TJuEguwrPWa9JMfxk2TQda8vpZfZMgZIJQoZoXqDKSvMP
- 2Ptg==
-X-Forwarded-Encrypted: i=0;
- AJvYcCXxqkrWT2uOouuTbFEdqt774HIAPWC2Gis3N35fTe0+jT+OYDmQAuo7+b4C6NxNMpx5WAQbJ36wP804k6QIbfsNM7/G4UWu23AB0G2MVHyV
-X-Gm-Message-State: AOJu0YydNOBTxcCq91KrVFB+O+g6YAd6huJAlcKabaRvMoghU/zqMfDD
- o+p3zoTfng7oO4u+nTLLy5m+Be4LGbmu1PqZKyDtjZklD7bZ+CUxoct1+knbjTk=
-X-Google-Smtp-Source: AGHT+IEMT3X2zvsc4bSoskcD1Q4j1mTrHeLOlnPktNoR8kFYS32umfRbdXFTr6eXS49OA5C1n9722A==
-X-Received: by 2002:a05:6402:3106:b0:55e:ff4e:70ad with SMTP id
- dc6-20020a056402310600b0055eff4e70admr3164992edb.0.1706613372045; 
- Tue, 30 Jan 2024 03:16:12 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- u23-20020aa7db97000000b00558a3e892b3sm4797173edt.41.2024.01.30.03.16.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jan 2024 03:16:11 -0800 (PST)
-Date: Tue, 30 Jan 2024 12:16:09 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Julia Zhang <julia.zhang@amd.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>, David Airlie <airlied@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Erik Faye-Lund <kusmabite@gmail.com>,
- Marek =?utf-8?B?T2zFocOhaw==?= <marek.olsak@amd.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Honglei Huang <honglei1.huang@amd.com>,
- Chen Jiqian <Jiqian.Chen@amd.com>, Huang Rui <ray.huang@amd.com>,
- David Stevens <stevensd@chromium.org>
-Subject: Re: [PATCH v2 1/1] drm/virtio: Implement device_attach
-Message-ID: <ZbjaebswTCxmlwu0@phenom.ffwll.local>
-Mail-Followup-To: Julia Zhang <julia.zhang@amd.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>, David Airlie <airlied@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>,
- Erik Faye-Lund <kusmabite@gmail.com>,
- Marek =?utf-8?B?T2zFocOhaw==?= <marek.olsak@amd.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Honglei Huang <honglei1.huang@amd.com>,
- Chen Jiqian <Jiqian.Chen@amd.com>, Huang Rui <ray.huang@amd.com>,
- David Stevens <stevensd@chromium.org>
-References: <20240129103118.3258781-1-julia.zhang@amd.com>
- <ZbjZJ3qQzdOksnb2@phenom.ffwll.local>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BE28112F82
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 11:20:29 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:98])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id BA2BC1F847;
+ Tue, 30 Jan 2024 11:20:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1706613627; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=8s/E2Lrk1AemSZbZRvbhouXlYxP/h7o6XFyt9p2fPVI=;
+ b=By8LlWSo/k5Si8KBOJ7SCHhFbIKZ6IRFkPlLx4pnypfH4ISKoD5KIQfhSywpl8ugOzf/qO
+ SqJfFizbqNwAPhWXhCGx1ttRcKuAOFJN+D5iREyzMHrM1ju49VVe5C0ip0aHnhvXXl/bqB
+ sWyKt4SwUmGvXF1M4I7jQ0308ah3Q/s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1706613627;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=8s/E2Lrk1AemSZbZRvbhouXlYxP/h7o6XFyt9p2fPVI=;
+ b=rTK6/vuxLuHI8PnI/ifD7axdkum8JHMB5+80JrDgwnaP+l9IXfEH/0TcURg+Kl4mbriyB0
+ R92FHprNf4I3QGAw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1706613625; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=8s/E2Lrk1AemSZbZRvbhouXlYxP/h7o6XFyt9p2fPVI=;
+ b=QNHWXydWxIUHBI7Kl7uPaUpKSeiwM6B8FVQDW8hC0jSlYpLMd9w5aMBg5znsVB7+f7c9P0
+ 55S28oUDEw2hNgCbGjF9Eazx6HsVqmuyC9xsEDwo8m7Q13N+cWWRQZqof1sr6yCiNHurTm
+ R19WEVEGzmX17kOaKYePoox9TP2PkFo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1706613625;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=8s/E2Lrk1AemSZbZRvbhouXlYxP/h7o6XFyt9p2fPVI=;
+ b=5n3/QBiDKJR+fSuqNBQQVXzko418mBBHTggiY1d2KfIgdETmMpE0aJ0ooIqL3g5T9zzMAn
+ Asuj7HtwZsrihaCQ==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 7DBBA13212;
+ Tue, 30 Jan 2024 11:20:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap2.dmz-prg2.suse.org with ESMTPSA id IuCDHXnbuGV1DAAAn2gu4w
+ (envelope-from <tzimmermann@suse.de>); Tue, 30 Jan 2024 11:20:25 +0000
+Message-ID: <5e1dcdeb-b30e-48b0-8a94-060fb066923e@suse.de>
+Date: Tue, 30 Jan 2024 12:20:24 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZbjZJ3qQzdOksnb2@phenom.ffwll.local>
-X-Operating-System: Linux phenom 6.6.11-amd64 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/9] drm/format-helper: Add drm_fb_blit_from_r1 and
+ drm_fb_fill
+Content-Language: en-US
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ daniel@ffwll.ch, javierm@redhat.com, bluescreen_avenger@verizon.net,
+ noralf@tronnes.org
+References: <20240104160301.185915-1-jfalempe@redhat.com>
+ <20240104160301.185915-2-jfalempe@redhat.com>
+ <d15c8fd1-a0f5-4dc9-8e8c-30a9200ef7fb@suse.de>
+ <b3ac22f6-9553-491f-94c3-2d93474b87c0@redhat.com>
+ <8f8f3cce-3fb3-4f94-a7d5-7c089672a68b@suse.de>
+ <a4fea690-b77c-4901-85bc-ae169a7805d6@suse.de>
+ <fe5cb817-bb0e-4549-aa9a-d22ffeb512f4@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <fe5cb817-bb0e-4549-aa9a-d22ffeb512f4@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------MOx56pV5bwFqueK74CvoCl8P"
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=QNHWXydW;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="5n3/QBiD"
+X-Spamd-Result: default: False [-6.28 / 50.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ XM_UA_NO_VERSION(0.01)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+ TO_DN_SOME(0.00)[]; HAS_ATTACHMENT(0.00)[];
+ MIME_BASE64_TEXT_BOGUS(1.00)[]; RCVD_COUNT_THREE(0.00)[3];
+ DKIM_TRACE(0.00)[suse.de:+]; MIME_BASE64_TEXT(0.10)[];
+ RCPT_COUNT_SEVEN(0.00)[10]; MX_GOOD(-0.01)[];
+ SIGNED_PGP(-2.00)[];
+ FREEMAIL_TO(0.00)[redhat.com,lists.freedesktop.org,linux.intel.com,kernel.org,ffwll.ch,verizon.net,tronnes.org];
+ FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
+ MID_RHS_MATCH_FROM(0.00)[]; BAYES_HAM(-1.98)[94.91%];
+ ARC_NA(0.00)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCVD_DKIM_ARC_DNSWL_HI(-1.00)[]; FROM_HAS_DN(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[verizon.net];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
+ DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[patchwork.freedesktop.org:url,suse.de:dkim];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ RCVD_IN_DNSWL_HI(-1.00)[2a07:de40:b281:104:10:150:64:98:from,2a07:de40:b281:106:10:150:64:167:received];
+ RCVD_TLS_ALL(0.00)[];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:98:from]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: BA2BC1F847
+X-Spam-Level: 
+X-Spam-Score: -6.28
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,144 +151,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: gpiccoli@igalia.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 30, 2024 at 12:10:31PM +0100, Daniel Vetter wrote:
-> On Mon, Jan 29, 2024 at 06:31:19PM +0800, Julia Zhang wrote:
-> > As vram objects don't have backing pages and thus can't implement
-> > drm_gem_object_funcs.get_sg_table callback. This removes drm dma-buf
-> > callbacks in virtgpu_gem_map_dma_buf()/virtgpu_gem_unmap_dma_buf()
-> > and implement virtgpu specific map/unmap/attach callbacks to support
-> > both of shmem objects and vram objects.
-> > 
-> > Signed-off-by: Julia Zhang <julia.zhang@amd.com>
-> > ---
-> >  drivers/gpu/drm/virtio/virtgpu_prime.c | 40 +++++++++++++++++++++++---
-> >  1 file changed, 36 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
-> > index 44425f20d91a..b490a5343b06 100644
-> > --- a/drivers/gpu/drm/virtio/virtgpu_prime.c
-> > +++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
-> > @@ -49,11 +49,26 @@ virtgpu_gem_map_dma_buf(struct dma_buf_attachment *attach,
-> >  {
-> >  	struct drm_gem_object *obj = attach->dmabuf->priv;
-> >  	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
-> > +	struct sg_table *sgt;
-> > +	int ret;
-> >  
-> >  	if (virtio_gpu_is_vram(bo))
-> >  		return virtio_gpu_vram_map_dma_buf(bo, attach->dev, dir);
-> >  
-> > -	return drm_gem_map_dma_buf(attach, dir);
-> > +	sgt = drm_prime_pages_to_sg(obj->dev,
-> > +				    to_drm_gem_shmem_obj(obj)->pages,
-> > +				    obj->size >> PAGE_SHIFT);
-> > +	if (IS_ERR(sgt))
-> > +		return sgt;
-> > +
-> > +	ret = dma_map_sgtable(attach->dev, sgt, dir, DMA_ATTR_SKIP_CPU_SYNC);
-> > +	if (ret) {
-> > +		sg_free_table(sgt);
-> > +		kfree(sgt);
-> > +		return ERR_PTR(ret);
-> > +	}
-> > +
-> > +	return sgt;
-> >  }
-> >  
-> >  static void virtgpu_gem_unmap_dma_buf(struct dma_buf_attachment *attach,
-> > @@ -63,12 +78,29 @@ static void virtgpu_gem_unmap_dma_buf(struct dma_buf_attachment *attach,
-> >  	struct drm_gem_object *obj = attach->dmabuf->priv;
-> >  	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
-> >  
-> > +	if (!sgt)
-> > +		return;
-> > +
-> >  	if (virtio_gpu_is_vram(bo)) {
-> >  		virtio_gpu_vram_unmap_dma_buf(attach->dev, sgt, dir);
-> > -		return;
-> > +	} else {
-> > +		dma_unmap_sgtable(attach->dev, sgt, dir, DMA_ATTR_SKIP_CPU_SYNC);
-> > +		sg_free_table(sgt);
-> > +		kfree(sgt);
-> >  	}
-> > +}
-> > +
-> > +static int virtgpu_gem_device_attach(struct dma_buf *dma_buf,
-> > +				     struct dma_buf_attachment *attach)
-> > +{
-> > +	struct drm_gem_object *obj = attach->dmabuf->priv;
-> > +	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
-> > +	int ret = 0;
-> > +
-> > +	if (!virtio_gpu_is_vram(bo) && obj->funcs->pin)
-> > +		ret = obj->funcs->pin(obj);
-> >  
-> > -	drm_gem_unmap_dma_buf(attach, sgt, dir);
-> > +	return ret;
-> 
-> This doesn't look like what I've expected. There should be no need to
-> change the map/unmap functions, especially not for the usual gem bo case.
-> We should definitely keep using the exact same code for that. Instead all
-> I expected is roughly
-> 
-> virtgpu_gem_device_attach()
-> {
-> 	if (virtio_gpu_is_vram(bo)) {
-> 		if (can_access_virtio_vram_directly(attach->dev)
-> 			return 0;
-> 		else
-> 			return -EBUSY;
-> 	} else {
-> 		return drm_gem_map_attach();
-> 	}
-> }
-> 
-> Note that I think can_access_virtio_vram_directly() needs to be
-> implemented first. I'm not even sure it's possible, might be that all the
-> importers need to set the attachment->peer2peer flag. Which is why this
-> thing exists really. But that's a pile more work to do.
-> 
-> Frankly the more I look at the original patch that added vram export
-> support the more this just looks like a "pls revert, this is just too
-> broken".
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------MOx56pV5bwFqueK74CvoCl8P
+Content-Type: multipart/mixed; boundary="------------kpv8dLCH9hDYmrk2fXaftTmX";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ daniel@ffwll.ch, javierm@redhat.com, bluescreen_avenger@verizon.net,
+ noralf@tronnes.org
+Cc: gpiccoli@igalia.com
+Message-ID: <5e1dcdeb-b30e-48b0-8a94-060fb066923e@suse.de>
+Subject: Re: [PATCH v7 1/9] drm/format-helper: Add drm_fb_blit_from_r1 and
+ drm_fb_fill
+References: <20240104160301.185915-1-jfalempe@redhat.com>
+ <20240104160301.185915-2-jfalempe@redhat.com>
+ <d15c8fd1-a0f5-4dc9-8e8c-30a9200ef7fb@suse.de>
+ <b3ac22f6-9553-491f-94c3-2d93474b87c0@redhat.com>
+ <8f8f3cce-3fb3-4f94-a7d5-7c089672a68b@suse.de>
+ <a4fea690-b77c-4901-85bc-ae169a7805d6@suse.de>
+ <fe5cb817-bb0e-4549-aa9a-d22ffeb512f4@redhat.com>
+In-Reply-To: <fe5cb817-bb0e-4549-aa9a-d22ffeb512f4@redhat.com>
 
-The commit I mean is this one: ea5ea3d8a117 ("drm/virtio: support mapping
-exported vram"). The commit message definitely needs to cite that one, and
-also needs a cc: stable because not rejecting invalid imports is a pretty
-big deal.
+--------------kpv8dLCH9hDYmrk2fXaftTmX
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Also adding David.
--Sima
+SGkNCg0KQW0gMjMuMDEuMjQgdW0gMTU6NTYgc2NocmllYiBKb2NlbHluIEZhbGVtcGU6DQo+
+IA0KPiANCj4gT24gMjMvMDEvMjAyNCAxMzo1NiwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6
+DQo+PiBIaSwNCj4+DQo+PiBGWUkgZm9yIHBvaW50cyAxIGFuZCAyLCBJJ20gdHlwaW5nIHVw
+IGEgcGF0Y2hzZXQgdGhhdCBpbnRyb2R1Y2VzIA0KPj4gZHJtX3BpeG1hcCBmb3IgdGhlIHNv
+dXJjZSBidWZmZXIuIEknbGwgcG9zdCBpdCB3aGVuIEkgaGF2ZSBzb21ldGhpbmcgDQo+PiBy
+ZWFkeS4NCj4gDQo+IFRoYW5rcywgSSBkaWRuJ3QgaGF2ZSB0aW1lIHRvIGxvb2sgaW50byB0
+aGlzIHlldC4NCg0KWW91IGNhbiBmaW5kIG15IFJGQyBzZXJpZXMgYXQgWzFdLg0KDQpCZXN0
+IHJlZ2FyZHMNClRob21hcw0KDQpbMV0gaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Au
+b3JnL3Nlcmllcy8xMjkzMDEvDQoNCj4gDQo+IEJlc3QgcmVnYXJkcywNCj4gDQoNCi0tIA0K
+VGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29m
+dHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2
+MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5k
+cmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJn
+KQ0K
 
-> 
-> We should definitely not open-code any functions for the gem_bo export
-> case, which your patch seems to do? Or maybe I'm just extremely confused.
-> -Sima
-> 
-> >  
-> >  static const struct virtio_dma_buf_ops virtgpu_dmabuf_ops =  {
-> > @@ -83,7 +115,7 @@ static const struct virtio_dma_buf_ops virtgpu_dmabuf_ops =  {
-> >  		.vmap = drm_gem_dmabuf_vmap,
-> >  		.vunmap = drm_gem_dmabuf_vunmap,
-> >  	},
-> > -	.device_attach = drm_gem_map_attach,
-> > +	.device_attach = virtgpu_gem_device_attach,
-> >  	.get_uuid = virtgpu_virtio_get_uuid,
-> >  };
-> >  
-> > -- 
-> > 2.34.1
-> > 
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+--------------kpv8dLCH9hDYmrk2fXaftTmX--
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+--------------MOx56pV5bwFqueK74CvoCl8P
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmW423kFAwAAAAAACgkQlh/E3EQov+Ce
+xBAAug7T6oJuOg00yxTo5T3DiBKeFkWzjAzXItgq8esQp5Zwvb/H+uGS2INC0VNOo7lPfxIEOjXp
+pED1Tv2UkXvsNt/sWJ7njQ7wqxCiRbAgdO6TWAfv5mAmNO67ackNBczQCDwcJwClSj2HGi9PAfGX
+f2CUx7j/kwo6WZZoFUo44+nEk/lnHkyVuRGXXG24YoCZaCBX8W9UpAj8ttxNMABTYJAsxdsqwA//
++1Bl4jd51NnTVYXz+c0TOYGCAGWxACymddcoLhMJlM9iFhHIvykGT+x68e9+mH4bV0F4LI55t9MA
+Scc3qXmGHlpRtPkkQUQEds+HhNC+q3gjAwGff74n9LLzzOAaYVYXjLa5kOhYUR+u6hRSpS0Umo03
+0FXXGIhK8xSVwwuP8tKZ9649XSXXGxJmAKevsKZ5p/HnZygDmcSVaKtlVBIK8cuVVaTjp2fd/ZVY
+H8Q95VO5wY7rOrFKuQiGkMj9XuMqEX08ig3L16pcovZiHXuEykO1qYY1cJpGuXB2o5riELb0fhdP
+Uhap/mS7d0ircsTF5sobcSVpMYjxXX1WAKvvVcfNMtB+qRJqQ7XVdfA1PhuISTs0N2k64gtwcwto
+jR7vbQ+D0hfuPkH4JZ1JCNex0lWY/j8v2QXOk0dvZs2wlsS6JLB+idQjRGZXckn4zIowSJ4Kezw5
+mAI=
+=Q2v1
+-----END PGP SIGNATURE-----
+
+--------------MOx56pV5bwFqueK74CvoCl8P--
