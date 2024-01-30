@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE146842791
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 16:05:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFFCA842787
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 16:05:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09EA011319B;
-	Tue, 30 Jan 2024 15:05:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62EEB1131A7;
+	Tue, 30 Jan 2024 15:05:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BC6311319B;
- Tue, 30 Jan 2024 15:05:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ED8E1131A7;
+ Tue, 30 Jan 2024 15:05:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1706627111;
- bh=jWgH1wt2P+WmiafYOD6k4YLKcf4liwSXj2vQg8ErA1k=;
+ s=mail; t=1706627116;
+ bh=6N6FAjXigJ9d8AkYgIE1f8w7WFjcPKRaWeUfSnl1DpM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ryF5aEf/x2Xps+n2j+YTnU7IF7HUIfbnr6ze5amLT43mqdhzZYE8MwPFrifkQ33/e
- 9Imu3SdRH5rtUod6+Z+ktYsznMCIaEbR9GI7l0SxN4pe8LsVyEz1NiGtbbSbCPheHI
- OGcsGngxWSm8dcV6kSuyRvMMsdUgAogUqrvoOTtLzKgv4UqFbmFcH1IZawlziI3U7S
- Fw/CPOILix0aq6Eho7iOGLI06PYLntrful/9GU8KObaoo2rq51/e8tx9l5PKWg92T3
- Gxos2veMW5CbaoutP7RLL0W/xZJFvAwID3W7e64Hk30L2wlEecDUJqlJ7NdAYa2+4N
- aPasaoSR39M/Q==
+ b=OR4aG3gcL75Vg89pgrdxJiieN9PUUtjILkykBHeHB/ibJ7dpxnh7arOXTZuyQlzLT
+ FmtSdff3adspZonXecyllV1UluP+Zc6Mr/3ZkcXEX5l265ITrK55RL5ELXMpDkXwWA
+ 8y6D+aLEF/A34hnrn8NjWoe3lvA7szctTHo4f9n500nb3+IVVxhpx8ybyWsZwNFWGb
+ GVRnlsM/enEmxW+w27FNqoBEIXcoAuo/grBJ3R7CdaSI8nmfXRBb3qM7tqkXeCfRK1
+ taGEpnOkR+Cjx82fR7d5RTxpLILgvwd57Z/y1dj70+z4ZeS0l7VXtrXyJ00h25ouX9
+ Rsxi1mP2vCaLQ==
 Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: vignesh)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5A5553782079;
- Tue, 30 Jan 2024 15:05:06 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id AA71C3782081;
+ Tue, 30 Jan 2024 15:05:11 +0000 (UTC)
 From: Vignesh Raman <vignesh.raman@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 3/9] drm/ci: mediatek: Add job to test panfrost and powervr
- GPU driver
-Date: Tue, 30 Jan 2024 20:33:34 +0530
-Message-Id: <20240130150340.687871-4-vignesh.raman@collabora.com>
+Subject: [PATCH v3 4/9] drm/ci: meson: Rename exisitng job
+Date: Tue, 30 Jan 2024 20:33:35 +0530
+Message-Id: <20240130150340.687871-5-vignesh.raman@collabora.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240130150340.687871-1-vignesh.raman@collabora.com>
 References: <20240130150340.687871-1-vignesh.raman@collabora.com>
@@ -60,119 +59,81 @@ Cc: linux-rockchip@lists.infradead.org, guilherme.gallo@collabora.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For mediatek mt8173, the GPU driver is powervr and for mediatek
-mt8183, the GPU driver is panfrost. So add support in drm-ci to
-test panfrost and powervr GPU driver for mediatek SOCs and update
-xfails. Powervr driver was merged in linux kernel, but there's no
-mediatek support yet. So disable the mt8173-gpu job which uses
-powervr driver.
+For Amlogic Meson SOC the display driver is meson. Currently,
+in drm-ci for meson, only the display driver is tested.
+So rename the meson job to indicate that display driver is tested.
 
-Add panfrost specific tests to testlist and skip KMS tests for
-panfrost driver since it is not a not a KMS driver. Also update
-the MAINTAINERS file to include xfails for panfrost driver.
+Rename the name of xfail files for meson (g12b), to include
+information about the tested driver and update xfails
+accordingly.
 
 Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
 ---
 
 v2:
-  - Add panfrost and PVR GPU jobs for mediatek SOC with new xfails, add xfail
-    entry to MAINTAINERS.
+  - Refactor the patch to rename job to indicate display driver testing,
+    rename the existing xfail files.
 
 v3:
-  - Add panfrost specific tests to testlist and skip KMS tests for
-    panfrost driver since it is not a not a KMS driver and update xfails.
-    Update the MAINTAINERS file to include xfails for panfrost driver.
-    Add the job name in GPU_VERSION and use it for xfail file names instead
+  - Add the job name in GPU_VERSION and use it for xfail file names instead
     of using DRIVER_NAME.
 
 ---
- MAINTAINERS                                    |  1 +
- drivers/gpu/drm/ci/test.yml                    | 18 ++++++++++++++++++
- drivers/gpu/drm/ci/testlist.txt                | 16 ++++++++++++++++
- .../ci/xfails/mediatek-mt8183-gpu-skips.txt    |  2 ++
- 4 files changed, 37 insertions(+)
- create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-gpu-skips.txt
+ drivers/gpu/drm/ci/test.yml                           | 11 ++++++++---
+ ...on-g12b-fails.txt => meson-g12b-display-fails.txt} |  3 ---
+ 2 files changed, 8 insertions(+), 6 deletions(-)
+ rename drivers/gpu/drm/ci/xfails/{meson-g12b-fails.txt => meson-g12b-display-fails.txt} (84%)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9d959a6881f7..bcdc17d1aa26 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1645,6 +1645,7 @@ L:	dri-devel@lists.freedesktop.org
- S:	Supported
- T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	Documentation/gpu/panfrost.rst
-+F:	drivers/gpu/drm/ci/xfails/panfrost*
- F:	drivers/gpu/drm/panfrost/
- F:	include/uapi/drm/panfrost_drm.h
- 
 diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
-index 0cd44e6ea18b..e153c5a7ad80 100644
+index e153c5a7ad80..bf4c303a65f2 100644
 --- a/drivers/gpu/drm/ci/test.yml
 +++ b/drivers/gpu/drm/ci/test.yml
-@@ -299,6 +299,17 @@ amdgpu:stoney:
-     DEVICE_TYPE: mt8183-kukui-jacuzzi-juniper-sku16
-     RUNNER_TAG: mesa-ci-x86-64-lava-mt8183-kukui-jacuzzi-juniper-sku16
+@@ -346,20 +346,25 @@ mediatek:mt8183-display:
+     - .lava-igt:arm64
+   stage: meson
+   variables:
+-    DRIVER_NAME: meson
+     DTB: ${DEVICE_TYPE}
+     BOOT_METHOD: u-boot
+     KERNEL_IMAGE_TYPE: "image"
  
-+mediatek:mt8173-gpu:
-+  extends:
-+    - .mt8173
-+  variables:
-+    GPU_VERSION: mediatek-mt8173-gpu
-+    DRIVER_NAME: powervr
-+  rules:
-+    # TODO: powervr driver was merged in linux kernel, but there's no mediatek support yet
-+    # Remove the rule once mediatek support is added for powervr
-+    - when: never
-+
- mediatek:mt8173-display:
+-meson:g12b:
++.g12b:
    extends:
-     - .mt8173
-@@ -306,6 +317,13 @@ mediatek:mt8173-display:
-     GPU_VERSION: mediatek-mt8173-display
-     DRIVER_NAME: mediatek
+     - .meson
+   parallel: 3
+   variables:
+     DEVICE_TYPE: meson-g12b-a311d-khadas-vim3
+-    GPU_VERSION: meson-g12b
+     RUNNER_TAG: mesa-ci-x86-64-lava-meson-g12b-a311d-khadas-vim3
  
-+mediatek:mt8183-gpu:
++meson:g12b-display:
 +  extends:
-+    - .mt8183
++    - .g12b
 +  variables:
-+    GPU_VERSION: mediatek-mt8183-gpu
-+    DRIVER_NAME: panfrost
++    GPU_VERSION: meson-g12b-display
++    DRIVER_NAME: meson
 +
- mediatek:mt8183-display:
-   extends:
-     - .mt8183
-diff --git a/drivers/gpu/drm/ci/testlist.txt b/drivers/gpu/drm/ci/testlist.txt
-index eaeb751bb0ad..772fc025b1f8 100644
---- a/drivers/gpu/drm/ci/testlist.txt
-+++ b/drivers/gpu/drm/ci/testlist.txt
-@@ -2959,3 +2959,19 @@ msm_submit@invalid-duplicate-bo-submit
- msm_submit@invalid-cmd-idx-submit
- msm_submit@invalid-cmd-type-submit
- msm_submit@valid-submit
-+panfrost_get_param@base-params
-+panfrost_get_param@get-bad-param
-+panfrost_get_param@get-bad-padding
-+panfrost_gem_new@gem-new-4096
-+panfrost_gem_new@gem-new-0
-+panfrost_gem_new@gem-new-zeroed
-+panfrost_prime@gem-prime-import
-+panfrost_submit@pan-submit
-+panfrost_submit@pan-submit-error-no-jc
-+panfrost_submit@pan-submit-error-bad-in-syncs
-+panfrost_submit@pan-submit-error-bad-bo-handles
-+panfrost_submit@pan-submit-error-bad-requirements
-+panfrost_submit@pan-submit-error-bad-out-sync
-+panfrost_submit@pan-reset
-+panfrost_submit@pan-submit-and-close
-+panfrost_submit@pan-unhandled-pagefault
-diff --git a/drivers/gpu/drm/ci/xfails/mediatek-mt8183-gpu-skips.txt b/drivers/gpu/drm/ci/xfails/mediatek-mt8183-gpu-skips.txt
-new file mode 100644
-index 000000000000..2ea09d1648bc
---- /dev/null
-+++ b/drivers/gpu/drm/ci/xfails/mediatek-mt8183-gpu-skips.txt
-@@ -0,0 +1,2 @@
-+# Panfrost is not a KMS driver, so skip the KMS tests
-+kms_.*
+ virtio_gpu:none:
+   stage: virtio-gpu
+   variables:
+diff --git a/drivers/gpu/drm/ci/xfails/meson-g12b-fails.txt b/drivers/gpu/drm/ci/xfails/meson-g12b-display-fails.txt
+similarity index 84%
+rename from drivers/gpu/drm/ci/xfails/meson-g12b-fails.txt
+rename to drivers/gpu/drm/ci/xfails/meson-g12b-display-fails.txt
+index 56a2ae7047b4..f123fb0cb820 100644
+--- a/drivers/gpu/drm/ci/xfails/meson-g12b-fails.txt
++++ b/drivers/gpu/drm/ci/xfails/meson-g12b-display-fails.txt
+@@ -7,9 +7,6 @@ kms_cursor_legacy@torture-bo,Fail
+ kms_cursor_legacy@torture-move,Fail
+ kms_force_connector_basic@force-edid,Fail
+ kms_hdmi_inject@inject-4k,Fail
+-kms_plane_cursor@overlay,Fail
+-kms_plane_cursor@primary,Fail
+-kms_plane_cursor@viewport,Fail
+ kms_properties@connector-properties-atomic,Fail
+ kms_properties@connector-properties-legacy,Fail
+ kms_properties@get_properties-sanity-atomic,Fail
 -- 
 2.40.1
 
