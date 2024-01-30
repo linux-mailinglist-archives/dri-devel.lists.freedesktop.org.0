@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2EFB842138
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 11:26:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08C8E84213C
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 11:28:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08B72112F1F;
-	Tue, 30 Jan 2024 10:26:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B7D7112EBC;
+	Tue, 30 Jan 2024 10:28:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from coelho.fi (paleale.coelho.fi [176.9.41.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D597D112F11;
- Tue, 30 Jan 2024 10:26:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A67F010FB6F;
+ Tue, 30 Jan 2024 10:27:58 +0000 (UTC)
 Received: from 91-155-255-116.elisa-laajakaista.fi ([91.155.255.116]
  helo=RAVPPB-CIM.amr.corp.intel.com)
  by coelho.fi with esmtpsa (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
  (Exim 4.97-RC1) (envelope-from <luca@coelho.fi>)
- id 1rUlJd-00000001Y0Z-1b1u; Tue, 30 Jan 2024 12:26:05 +0200
-Message-ID: <599de90b10596a160c9913fbae571671e1de10f7.camel@coelho.fi>
+ id 1rUlLQ-00000001Y14-1jcl; Tue, 30 Jan 2024 12:27:56 +0200
+Message-ID: <fb2251a91b54f29229a08c759ef8c6a093289873.camel@coelho.fi>
 From: Luca Coelho <luca@coelho.fi>
 To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-Date: Tue, 30 Jan 2024 12:26:04 +0200
-In-Reply-To: <cdf8faf272d345de215feb6ececba384ecaecdb4.1705410327.git.jani.nikula@intel.com>
+Date: Tue, 30 Jan 2024 12:27:55 +0200
+In-Reply-To: <f2614dfcba295be20c650cdab24c3979d265f422.1705410327.git.jani.nikula@intel.com>
 References: <cover.1705410327.git.jani.nikula@intel.com>
- <cdf8faf272d345de215feb6ececba384ecaecdb4.1705410327.git.jani.nikula@intel.com>
+ <f2614dfcba295be20c650cdab24c3979d265f422.1705410327.git.jani.nikula@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.4-2 
@@ -32,8 +32,8 @@ X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on farmhouse.coelho.fi
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
  TVD_RCVD_IP autolearn=ham autolearn_force=no version=4.0.0
-Subject: Re: [PATCH 06/10] drm/dp: switch drm_dp_vsc_sdp_log() to struct
- drm_printer
+Subject: Re: [PATCH 07/10] drm/i915: switch from drm_debug_printer() to
+ device specific drm_dbg_printer()
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,135 +51,117 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Tue, 2024-01-16 at 15:07 +0200, Jani Nikula wrote:
-> Use the existing drm printer infrastructure instead of local macros.
+> Prefer the device specific debug printer.
 >=20
 > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 > ---
->  drivers/gpu/drm/display/drm_dp_helper.c       | 17 +++++-------
->  .../drm/i915/display/intel_crtc_state_dump.c  |  5 ++--
->  drivers/gpu/drm/i915/display/intel_display.c  | 27 +++++++++----------
->  include/drm/display/drm_dp_helper.h           |  3 +--
->  4 files changed, 23 insertions(+), 29 deletions(-)
+>  drivers/gpu/drm/i915/display/intel_display_driver.c | 3 ++-
+>  drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c    | 3 ++-
+>  drivers/gpu/drm/i915/gt/intel_reset.c               | 3 ++-
+>  drivers/gpu/drm/i915/gt/intel_workarounds.c         | 3 ++-
+>  drivers/gpu/drm/i915/gt/selftest_context.c          | 3 ++-
+>  drivers/gpu/drm/i915/i915_driver.c                  | 3 ++-
+>  6 files changed, 12 insertions(+), 6 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/di=
-splay/drm_dp_helper.c
-> index d72b6f9a352c..1cf51a748022 100644
-> --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> @@ -2898,22 +2898,19 @@ static const char *dp_content_type_get_name(enum =
-dp_content_type content_type)
->  	}
->  }
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_driver.c b/driver=
+s/gpu/drm/i915/display/intel_display_driver.c
+> index ecf9cb74734b..e733f7c4c6c6 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_driver.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display_driver.c
+> @@ -518,7 +518,8 @@ int intel_display_driver_probe(struct drm_i915_privat=
+e *i915)
 > =20
-> -void drm_dp_vsc_sdp_log(const char *level, struct device *dev,
-> -			const struct drm_dp_vsc_sdp *vsc)
-> +void drm_dp_vsc_sdp_log(struct drm_printer *p, const struct drm_dp_vsc_s=
-dp *vsc)
+>  void intel_display_driver_register(struct drm_i915_private *i915)
 >  {
-> -#define DP_SDP_LOG(fmt, ...) dev_printk(level, dev, fmt, ##__VA_ARGS__)
-> -	DP_SDP_LOG("DP SDP: %s, revision %u, length %u\n", "VSC",
-> +	drm_printf(p, "DP SDP: VSC, revision %u, length %u\n",
->  		   vsc->revision, vsc->length);
-> -	DP_SDP_LOG("    pixelformat: %s\n",
-> +	drm_printf(p, "    pixelformat: %s\n",
->  		   dp_pixelformat_get_name(vsc->pixelformat));
-> -	DP_SDP_LOG("    colorimetry: %s\n",
-> +	drm_printf(p, "    colorimetry: %s\n",
->  		   dp_colorimetry_get_name(vsc->pixelformat, vsc->colorimetry));
-> -	DP_SDP_LOG("    bpc: %u\n", vsc->bpc);
-> -	DP_SDP_LOG("    dynamic range: %s\n",
-> +	drm_printf(p, "    bpc: %u\n", vsc->bpc);
-> +	drm_printf(p, "    dynamic range: %s\n",
->  		   dp_dynamic_range_get_name(vsc->dynamic_range));
-> -	DP_SDP_LOG("    content type: %s\n",
-> +	drm_printf(p, "    content type: %s\n",
->  		   dp_content_type_get_name(vsc->content_type));
-> -#undef DP_SDP_LOG
->  }
->  EXPORT_SYMBOL(drm_dp_vsc_sdp_log);
+> -	struct drm_printer p =3D drm_debug_printer("i915 display info:");
+> +	struct drm_printer p =3D drm_dbg_printer(&i915->drm, DRM_UT_KMS,
+> +					       "i915 display info:");
 > =20
-> diff --git a/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c b/drive=
-rs/gpu/drm/i915/display/intel_crtc_state_dump.c
-> index 49fd100ec98a..4bcf446c75f4 100644
-> --- a/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
-> +++ b/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
-> @@ -55,10 +55,9 @@ static void
->  intel_dump_dp_vsc_sdp(struct drm_i915_private *i915,
->  		      const struct drm_dp_vsc_sdp *vsc)
+>  	if (!HAS_DISPLAY(i915))
+>  		return;
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c b/drivers/g=
+pu/drm/i915/gt/intel_engine_heartbeat.c
+> index 1a8e2b7db013..0f6406f0cca0 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+> @@ -96,7 +96,8 @@ static void heartbeat_commit(struct i915_request *rq,
+>  static void show_heartbeat(const struct i915_request *rq,
+>  			   struct intel_engine_cs *engine)
 >  {
-> -	if (!drm_debug_enabled(DRM_UT_KMS))
-> -		return;
-> +	struct drm_printer p =3D drm_dbg_printer(&i915->drm, DRM_UT_KMS, NULL);
+> -	struct drm_printer p =3D drm_debug_printer("heartbeat");
+> +	struct drm_printer p =3D drm_dbg_printer(&rq->i915->drm, DRM_UT_DRIVER,
+> +					       "heartbeat");
 > =20
-> -	drm_dp_vsc_sdp_log(KERN_DEBUG, i915->drm.dev, vsc);
-> +	drm_dp_vsc_sdp_log(&p, vsc);
->  }
+>  	if (!rq) {
+>  		intel_engine_dump(engine, &p,
+> diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915=
+/gt/intel_reset.c
+> index 6801f8b95c53..c8e9aa41fdea 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_reset.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
+> @@ -1015,7 +1015,8 @@ void intel_gt_set_wedged(struct intel_gt *gt)
+>  	mutex_lock(&gt->reset.mutex);
 > =20
->  static void
-> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/d=
-rm/i915/display/intel_display.c
-> index a92e959c8ac7..e1573e0a2661 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> @@ -4813,28 +4813,27 @@ pipe_config_infoframe_mismatch(struct drm_i915_pr=
-ivate *dev_priv,
->  }
+>  	if (GEM_SHOW_DEBUG()) {
+> -		struct drm_printer p =3D drm_debug_printer(__func__);
+> +		struct drm_printer p =3D drm_dbg_printer(&gt->i915->drm,
+> +						       DRM_UT_DRIVER, __func__);
+>  		struct intel_engine_cs *engine;
+>  		enum intel_engine_id id;
 > =20
->  static void
-> -pipe_config_dp_vsc_sdp_mismatch(struct drm_i915_private *dev_priv,
-> +pipe_config_dp_vsc_sdp_mismatch(struct drm_i915_private *i915,
->  				bool fastset, const char *name,
->  				const struct drm_dp_vsc_sdp *a,
->  				const struct drm_dp_vsc_sdp *b)
+> diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/dr=
+m/i915/gt/intel_workarounds.c
+> index 270b56fc85e2..e6f48aa967c2 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> @@ -1236,7 +1236,8 @@ static void __set_mcr_steering(struct i915_wa_list =
+*wal,
+> =20
+>  static void debug_dump_steering(struct intel_gt *gt)
 >  {
-> +	struct drm_printer p;
-> +
->  	if (fastset) {
-> -		if (!drm_debug_enabled(DRM_UT_KMS))
-> -			return;
-> +		p =3D drm_dbg_printer(&i915->drm, DRM_UT_KMS, NULL);
+> -	struct drm_printer p =3D drm_debug_printer("MCR Steering:");
+> +	struct drm_printer p =3D drm_dbg_printer(&gt->i915->drm, DRM_UT_DRIVER,
+> +					       "MCR Steering:");
 > =20
-> -		drm_dbg_kms(&dev_priv->drm,
-> -			    "fastset requirement not met in %s dp sdp\n", name);
-> -		drm_dbg_kms(&dev_priv->drm, "expected:\n");
-> -		drm_dp_vsc_sdp_log(KERN_DEBUG, dev_priv->drm.dev, a);
-> -		drm_dbg_kms(&dev_priv->drm, "found:\n");
-> -		drm_dp_vsc_sdp_log(KERN_DEBUG, dev_priv->drm.dev, b);
-> +		drm_printf(&p, "fastset requirement not met in %s dp sdp\n", name);
->  	} else {
-> -		drm_err(&dev_priv->drm, "mismatch in %s dp sdp\n", name);
-> -		drm_err(&dev_priv->drm, "expected:\n");
-> -		drm_dp_vsc_sdp_log(KERN_ERR, dev_priv->drm.dev, a);
-> -		drm_err(&dev_priv->drm, "found:\n");
-> -		drm_dp_vsc_sdp_log(KERN_ERR, dev_priv->drm.dev, b);
-> +		p =3D drm_err_printer(&i915->drm, NULL);
-> +
-> +		drm_printf(&p, "mismatch in %s dp sdp\n", name);
->  	}
-> +
-> +	drm_printf(&p, "expected:\n");
-> +	drm_dp_vsc_sdp_log(&p, a);
-> +	drm_printf(&p, "found:\n");
-> +	drm_dp_vsc_sdp_log(&p, b);
->  }
+>  	if (drm_debug_enabled(DRM_UT_DRIVER))
+>  		intel_gt_mcr_report_steering(&p, gt, false);
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_context.c b/drivers/gpu/drm=
+/i915/gt/selftest_context.c
+> index 47070cba7eb1..12eca750f7d0 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_context.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_context.c
+> @@ -285,7 +285,8 @@ static int __live_active_context(struct intel_engine_=
+cs *engine)
+>  	intel_engine_pm_flush(engine);
 > =20
->  /* Returns the length up to and including the last differing byte */
-> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/dr=
-m_dp_helper.h
-> index 863b2e7add29..d02014a87f12 100644
-> --- a/include/drm/display/drm_dp_helper.h
-> +++ b/include/drm/display/drm_dp_helper.h
-> @@ -98,8 +98,7 @@ struct drm_dp_vsc_sdp {
->  	enum dp_content_type content_type;
->  };
+>  	if (intel_engine_pm_is_awake(engine)) {
+> -		struct drm_printer p =3D drm_debug_printer(__func__);
+> +		struct drm_printer p =3D drm_dbg_printer(&engine->i915->drm,
+> +						       DRM_UT_DRIVER, __func__);
 > =20
-> -void drm_dp_vsc_sdp_log(const char *level, struct device *dev,
-> -			const struct drm_dp_vsc_sdp *vsc);
-> +void drm_dp_vsc_sdp_log(struct drm_printer *p, const struct drm_dp_vsc_s=
-dp *vsc);
+>  		intel_engine_dump(engine, &p,
+>  				  "%s is still awake:%d after idle-barriers\n",
+> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i9=
+15_driver.c
+> index a951050f6a75..9ee902d5b72c 100644
+> --- a/drivers/gpu/drm/i915/i915_driver.c
+> +++ b/drivers/gpu/drm/i915/i915_driver.c
+> @@ -681,7 +681,8 @@ i915_print_iommu_status(struct drm_i915_private *i915=
+, struct drm_printer *p)
+>  static void i915_welcome_messages(struct drm_i915_private *dev_priv)
+>  {
+>  	if (drm_debug_enabled(DRM_UT_DRIVER)) {
+> -		struct drm_printer p =3D drm_debug_printer("i915 device info:");
+> +		struct drm_printer p =3D drm_dbg_printer(&dev_priv->drm, DRM_UT_DRIVER=
+,
+> +						       "device info:");
+>  		struct intel_gt *gt;
+>  		unsigned int i;
 > =20
->  int drm_dp_psr_setup_time(const u8 psr_cap[EDP_PSR_RECEIVER_CAP_SIZE]);
-> =20
+
+Okay, this are all pretty much the same pattern, so I should have given
+a single r-b for the whole series, but now I have only a few left,
+so...
 
 Reviewed-by: Luca Coelho <luciano.coelho@intel.com>
 
