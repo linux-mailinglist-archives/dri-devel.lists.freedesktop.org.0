@@ -2,47 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38EED84208D
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 11:05:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8AE5842094
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 11:06:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 054BD112EB5;
-	Tue, 30 Jan 2024 10:05:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F901112EBB;
+	Tue, 30 Jan 2024 10:05:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7A1F112EB3
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 10:05:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81E8A112EB8
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 10:05:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1706609102;
- bh=OlF6rYfzSLDc07Nix/XsJE3v1wpI2M+vC30AXD7tPx8=;
+ s=mail; t=1706609145;
+ bh=D+HHg4Wbbhz/mbS+lLu+znnL2uXDODc+rW4Ur5A3ss0=;
  h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
- b=wEPrVcL13eYKKd2hTvCFzEW2+o1GszHbxGVTwxTZOH5qLSZuXBT8ah8hb9D/nu4cJ
- 28IM6RvvT1owcV6fnNsjvFIV6W+CkGtsQWgHqgT1tg74qA/8d0mvQ99VDi6UndfUa0
- xfME/koSHKPTkTKquOw0vVY1UvhnJOaE7VQJPfk6w+qA77yjmisW0NGf86ajEf3raN
- DnSKCSecrMyHfbrxVXGfiEwPyczs8F9SrX7/lLw78dOi5aHCv9jZ5OOlayHFJaXxrq
- XcPcr8hzDIp3Mt8yV45ZjE9Twxl1tLMmyseedue1uOU5ZgWVMnOvjygPLPf8KS4QkV
- 9Pb8olRw/A+/g==
+ b=wlMvbztGA0yA512ZlKIRcB6nX3f7p5ByeRR8ZKN+eBh2AixDxN3QzbFDOPyla6deg
+ glnDFEENKA5QsselWolE9MYhuP1Qj+RwLtmnTxtVNZPdPEXxcr8UvCFI1K3s6Su80t
+ TAiCRT6ybMXGiOKjNIBRDIHxOyXYMpxKq+RQ6j5kZNescOUzIGu45GpLxLh3eO6btZ
+ kagAZmX+p6yCW+om2i8uZL3Z+eUBWY43f1xd81QM5i6EchBV773GHaMhRnoFORPjPn
+ rVAEC5ZsunT5LVdbOkhr0VEo9yGS1SLZtSAwRo4QddYkNZcodEDgOyTKN0FfKYFxmd
+ QGw1T3YvU+kfA==
 Received: from [100.109.49.129] (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 22FE437809D0;
- Tue, 30 Jan 2024 10:05:01 +0000 (UTC)
-Message-ID: <12f365c7-6827-4960-bb6d-11b79c4bb328@collabora.com>
-Date: Tue, 30 Jan 2024 13:04:58 +0300
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2B04437809D0;
+ Tue, 30 Jan 2024 10:05:44 +0000 (UTC)
+Message-ID: <7b284de7-f8e9-4b5a-96c5-a4e26193cd90@collabora.com>
+Date: Tue, 30 Jan 2024 13:05:44 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v19 22/30] drm/shmem-helper: Add common memory shrinker
+Subject: Re: [PATCH v19 09/30] drm/shmem-helper: Add and use lockless
+ drm_gem_shmem_get_pages()
 Content-Language: en-US
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Daniel Vetter <daniel@ffwll.ch>
 References: <20240105184624.508603-1-dmitry.osipenko@collabora.com>
- <20240105184624.508603-23-dmitry.osipenko@collabora.com>
- <20240125100703.76d802ad@collabora.com> <Zbi1pzY3CbQxnnBQ@phenom.ffwll.local>
+ <20240105184624.508603-10-dmitry.osipenko@collabora.com>
+ <ZbKZNCbZoV4ovWTH@phenom.ffwll.local> <20240126111827.70f8726c@collabora.com>
+ <d467e5a4-6b61-4cad-8e38-c4495836a0d6@collabora.com>
+ <Zbi0lQG15vz6iHJK@phenom.ffwll.local>
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <Zbi1pzY3CbQxnnBQ@phenom.ffwll.local>
+In-Reply-To: <Zbi0lQG15vz6iHJK@phenom.ffwll.local>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,65 +71,76 @@ Cc: kernel@collabora.com, Emma Anholt <emma@anholt.net>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/30/24 11:39, Daniel Vetter wrote:
-> On Thu, Jan 25, 2024 at 10:07:03AM +0100, Boris Brezillon wrote:
->> On Fri,  5 Jan 2024 21:46:16 +0300
->> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+On 1/30/24 11:34, Daniel Vetter wrote:
+> On Fri, Jan 26, 2024 at 07:43:29PM +0300, Dmitry Osipenko wrote:
+>> On 1/26/24 13:18, Boris Brezillon wrote:
+>>> On Thu, 25 Jan 2024 18:24:04 +0100
+>>> Daniel Vetter <daniel@ffwll.ch> wrote:
+>>>
+>>>> On Fri, Jan 05, 2024 at 09:46:03PM +0300, Dmitry Osipenko wrote:
+>>>>> Add lockless drm_gem_shmem_get_pages() helper that skips taking reservation
+>>>>> lock if pages_use_count is non-zero, leveraging from atomicity of the
+>>>>> refcount_t. Make drm_gem_shmem_mmap() to utilize the new helper.
+>>>>>
+>>>>> Acked-by: Maxime Ripard <mripard@kernel.org>
+>>>>> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+>>>>> Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
+>>>>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>>>>> ---
+>>>>>  drivers/gpu/drm/drm_gem_shmem_helper.c | 19 +++++++++++++++----
+>>>>>  1 file changed, 15 insertions(+), 4 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>>>>> index cacf0f8c42e2..1c032513abf1 100644
+>>>>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+>>>>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>>>>> @@ -226,6 +226,20 @@ void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
+>>>>>  }
+>>>>>  EXPORT_SYMBOL_GPL(drm_gem_shmem_put_pages_locked);
+>>>>>  
+>>>>> +static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
+>>>>> +{
+>>>>> +	int ret;  
+>>>>
+>>>> Just random drive-by comment: a might_lock annotation here might be good,
+>>>> or people could hit some really interesting bugs that are rather hard to
+>>>> reproduce ...
+>>>
+>>> Actually, being able to acquire a ref in a dma-signalling path on an
+>>> object we know for sure already has refcount >= 1 (because we previously
+>>> acquired a ref in a path where dma_resv_lock() was allowed), was the
+>>> primary reason I suggested moving to this atomic-refcount approach.
+>>>
+>>> In the meantime, drm_gpuvm has evolved in a way that allows me to not
+>>> take the ref in the dma-signalling path (the gpuvm_bo object now holds
+>>> the ref, and it's acquired/released outside the dma-signalling path).
+>>>
+>>> Not saying we shouldn't add this might_lock(), but others might have
+>>> good reasons to have this function called in a path where locking
+>>> is not allowed.
 >>
->>>   *
->>>   * This function Increases the use count and allocates the backing pages if
->>>   * use-count equals to zero.
->>> + *
->>> + * Note that this function doesn't pin pages in memory. If your driver
->>> + * uses drm-shmem shrinker, then it's free to relocate pages to swap.
->>> + * Getting pages only guarantees that pages are allocated, and not that
->>> + * pages reside in memory. In order to pin pages use drm_gem_shmem_pin().
->>
->> I still find this explanation confusing, if pages are allocated, they
->> reside in memory. The only difference between drm_gem_shmem_get_pages()
->> and drm_gem_shmem_pin_pages() is that the former lets the system
->> reclaim the memory if the buffer is idle (no unsignalled fence attached
->> to the dma_resv).
->>
->> We also need to describe the workflow for GEM validation (that's the
->> TTM term for the swapin process happening when a GPU job is submitted).
->>
->> 1. Prepare the GPU job and initialize its fence
->> 2. Lock the GEM resv
->> 3. Add the GPU job fence to the resv object
->> 4. If the GEM is evicted
->>    a. call drm_gem_shmem_swapin_locked()
->>    b. get the new sgt with drm_gem_shmem_get_pages_sgt_locked()
->>    c. repopulate the MMU table (driver internals)
+>> For Panthor the might_lock indeed won't be a appropriate, thanks for
+>> reminding about it. I'll add explanatory comment to the code.
 > 
-> Might be good to explain where to call drm_sched_job_arm() here for
-> drivers using drm/sched, since that also needs to be at a very specific
-> point. Probably best to flesh out the details here by linking to the
-> relevant drm/sched and gpuvm functions as examples.
+> Hm these kind of tricks feel very dangerous to me. I think it would be
+> good to split up the two cases into two functions:
 > 
->> 5. Unlock the GEM dma_resv
->> 6. Submit the GPU job
->>
->> With this sequence, the GEM pages are guaranteed to stay around until
->> the GPU job is finished.
+> 1. first one does only the atomic_inc and splats if the refcount is zero.
+> I think something in the name that denotes that we're incrementing a
+> borrowed pages reference would be good here, so like get_borrowed_pages
+> (there's not really a naming convention for these in the kernel).
+> Unfortunately no rust so we can't enforce that you provide the right kind
+> of borrowed reference at compile time.
 > 
-> Yeah I think the comment needs to explain how this ties together with
-> dma_resv locking and dma_resv fences, otherwise it just doesn't make much
-> sense.
+> 2. second one has the might_lock.
 > 
-> This holds even more so given that some of the earlier drivers derived
-> from i915-gem code (and i915-gem itself) use _pin() both for these more
-> permanent pinnings, and also to temporarily put the memory in place before
-> it all gets fenced and then unpinned&unlocked.
-> 
-> So would be really good to have the sharpest possible nomeclatura here we
-> can get, and link between all the related concepts and functions in the
-> kerneldoc.
-> 
-> Some overview flow like Boris sketched above in a DOC: section would also
-> be great.
+> This way you force callers to think what they're doing and ideally
+> document where the borrowed reference is from, and ideally document that
+> in the code. Otherwise we'll end up with way too much "works in testing,
+> but is a nice CVE" code :-/
 
-Thank you all for the feedback! I'll add all this doc in the next version
+We indeed can have both variants of the borrowed/non-borrowed functions.
+Thanks again for the suggestions
 
 -- 
 Best regards,
