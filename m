@@ -2,76 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 059FF84212D
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 11:23:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2EFB842138
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 11:26:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B6C110F881;
-	Tue, 30 Jan 2024 10:23:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08B72112F1F;
+	Tue, 30 Jan 2024 10:26:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14A3B112F13
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 10:23:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1706610234;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jt4gc9cNMGeGEZd3+mcsp9v3Xj41BvVXchDqDl7Wcr8=;
- b=PF3niMbaSF87Eu9H6KNcUuFTiiLdHjOW/Lda7yruCIqERod0p4HuhP0QwFt6pjaYdInl/Z
- s4bIZTc1nZefFg4dd4dilhTYtzwdtIb4osjVWUM6wIT8WO5rMAbqDRCDMjN7P5T0dGN4U2
- L5hoMpunhVOxTLz7aIiL9sKGgXgvWH8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-689-8ERTvClqNrqsu5atnXwmvQ-1; Tue, 30 Jan 2024 05:23:52 -0500
-X-MC-Unique: 8ERTvClqNrqsu5atnXwmvQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-33aef86413eso774229f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 02:23:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706610231; x=1707215031;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jt4gc9cNMGeGEZd3+mcsp9v3Xj41BvVXchDqDl7Wcr8=;
- b=gjx3amceA6t5/nQVADSMtr80o2fIzbB0dzublTPyBGNty5l64Tp062FHtVI/ONm0L3
- bGQQQWYvKokuKwfYzmldAAtucsT/Q0IjNGZdcLQ5EjO9uMJsrrj6LjIJ701NfvtkX6vl
- ydMK73x3C8mngyRUeGYKqZQU7zEjkEoZ2Ir3PAkDOqM2CH4OVeWXQ7G0eOWgOoDWKtuy
- VZ+pRC3+KGeBwMjB8t0DXydpSqubhwp34u5+w4ohnkiLEgZTVwwUDYL4k6rmgS1oPluO
- sW7dHUkluHHH25eukvuBxfcIMCR5UHPdPxnk2S3vxC04EDRiRtFM7moQ9tCi/U/0lWL0
- yrhg==
-X-Gm-Message-State: AOJu0YyS24UJ+5kKoatFehoI0Y7m3O+2teFayl1vj5m0J5pEksy4a7LF
- Yb7g6w2x1W5y6J7OUZqlO60yRYxyHIB5msnu7njzNyEf9EE5JwCiPRUd0NuKBllVzYLdXKPe14B
- s/aH1plVpr7AKR8OW/zIt50kgjWQtRV5R3kMeCD+QymuvUk2dbaLdyJJK6Aiz7PmI+w==
-X-Received: by 2002:adf:ead2:0:b0:337:c730:d7e3 with SMTP id
- o18-20020adfead2000000b00337c730d7e3mr5555567wrn.57.1706610231611; 
- Tue, 30 Jan 2024 02:23:51 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IF70eoaY+VIa4GGUoctQafkQSI2W9UAxj/xfOjdA+e8CALa0W7RU/iiJwjoHpdQk0U/hsjOhw==
-X-Received: by 2002:adf:ead2:0:b0:337:c730:d7e3 with SMTP id
- o18-20020adfead2000000b00337c730d7e3mr5555558wrn.57.1706610231331; 
- Tue, 30 Jan 2024 02:23:51 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- bu9-20020a056000078900b0033af35a024csm3694820wrb.12.2024.01.30.02.23.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jan 2024 02:23:51 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, pjones@redhat.com,
- deller@gmx.de, ardb@kernel.org
-Subject: Re: [PATCH 2/8] video: Provide screen_info_get_pci_dev() to find
- screen_info's PCI device
-In-Reply-To: <7c33dd4c-d178-4b46-b859-f228391e4d44@suse.de>
-References: <20240117125527.23324-1-tzimmermann@suse.de>
- <20240117125527.23324-3-tzimmermann@suse.de>
- <87ttmwv1ry.fsf@minerva.mail-host-address-is-not-set>
- <7c33dd4c-d178-4b46-b859-f228391e4d44@suse.de>
-Date: Tue, 30 Jan 2024 11:23:50 +0100
-Message-ID: <877cjrunk9.fsf@minerva.mail-host-address-is-not-set>
+Received: from coelho.fi (paleale.coelho.fi [176.9.41.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D597D112F11;
+ Tue, 30 Jan 2024 10:26:07 +0000 (UTC)
+Received: from 91-155-255-116.elisa-laajakaista.fi ([91.155.255.116]
+ helo=RAVPPB-CIM.amr.corp.intel.com)
+ by coelho.fi with esmtpsa (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+ (Exim 4.97-RC1) (envelope-from <luca@coelho.fi>)
+ id 1rUlJd-00000001Y0Z-1b1u; Tue, 30 Jan 2024 12:26:05 +0200
+Message-ID: <599de90b10596a160c9913fbae571671e1de10f7.camel@coelho.fi>
+From: Luca Coelho <luca@coelho.fi>
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Date: Tue, 30 Jan 2024 12:26:04 +0200
+In-Reply-To: <cdf8faf272d345de215feb6ececba384ecaecdb4.1705410327.git.jani.nikula@intel.com>
+References: <cover.1705410327.git.jani.nikula@intel.com>
+ <cdf8faf272d345de215feb6ececba384ecaecdb4.1705410327.git.jani.nikula@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on farmhouse.coelho.fi
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+ TVD_RCVD_IP autolearn=ham autolearn_force=no version=4.0.0
+Subject: Re: [PATCH 06/10] drm/dp: switch drm_dp_vsc_sdp_log() to struct
+ drm_printer
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,55 +46,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+On Tue, 2024-01-16 at 15:07 +0200, Jani Nikula wrote:
+> Use the existing drm printer infrastructure instead of local macros.
+>=20
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  drivers/gpu/drm/display/drm_dp_helper.c       | 17 +++++-------
+>  .../drm/i915/display/intel_crtc_state_dump.c  |  5 ++--
+>  drivers/gpu/drm/i915/display/intel_display.c  | 27 +++++++++----------
+>  include/drm/display/drm_dp_helper.h           |  3 +--
+>  4 files changed, 23 insertions(+), 29 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/di=
+splay/drm_dp_helper.c
+> index d72b6f9a352c..1cf51a748022 100644
+> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> @@ -2898,22 +2898,19 @@ static const char *dp_content_type_get_name(enum =
+dp_content_type content_type)
+>  	}
+>  }
+> =20
+> -void drm_dp_vsc_sdp_log(const char *level, struct device *dev,
+> -			const struct drm_dp_vsc_sdp *vsc)
+> +void drm_dp_vsc_sdp_log(struct drm_printer *p, const struct drm_dp_vsc_s=
+dp *vsc)
+>  {
+> -#define DP_SDP_LOG(fmt, ...) dev_printk(level, dev, fmt, ##__VA_ARGS__)
+> -	DP_SDP_LOG("DP SDP: %s, revision %u, length %u\n", "VSC",
+> +	drm_printf(p, "DP SDP: VSC, revision %u, length %u\n",
+>  		   vsc->revision, vsc->length);
+> -	DP_SDP_LOG("    pixelformat: %s\n",
+> +	drm_printf(p, "    pixelformat: %s\n",
+>  		   dp_pixelformat_get_name(vsc->pixelformat));
+> -	DP_SDP_LOG("    colorimetry: %s\n",
+> +	drm_printf(p, "    colorimetry: %s\n",
+>  		   dp_colorimetry_get_name(vsc->pixelformat, vsc->colorimetry));
+> -	DP_SDP_LOG("    bpc: %u\n", vsc->bpc);
+> -	DP_SDP_LOG("    dynamic range: %s\n",
+> +	drm_printf(p, "    bpc: %u\n", vsc->bpc);
+> +	drm_printf(p, "    dynamic range: %s\n",
+>  		   dp_dynamic_range_get_name(vsc->dynamic_range));
+> -	DP_SDP_LOG("    content type: %s\n",
+> +	drm_printf(p, "    content type: %s\n",
+>  		   dp_content_type_get_name(vsc->content_type));
+> -#undef DP_SDP_LOG
+>  }
+>  EXPORT_SYMBOL(drm_dp_vsc_sdp_log);
+> =20
+> diff --git a/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c b/drive=
+rs/gpu/drm/i915/display/intel_crtc_state_dump.c
+> index 49fd100ec98a..4bcf446c75f4 100644
+> --- a/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
+> +++ b/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
+> @@ -55,10 +55,9 @@ static void
+>  intel_dump_dp_vsc_sdp(struct drm_i915_private *i915,
+>  		      const struct drm_dp_vsc_sdp *vsc)
+>  {
+> -	if (!drm_debug_enabled(DRM_UT_KMS))
+> -		return;
+> +	struct drm_printer p =3D drm_dbg_printer(&i915->drm, DRM_UT_KMS, NULL);
+> =20
+> -	drm_dp_vsc_sdp_log(KERN_DEBUG, i915->drm.dev, vsc);
+> +	drm_dp_vsc_sdp_log(&p, vsc);
+>  }
+> =20
+>  static void
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/d=
+rm/i915/display/intel_display.c
+> index a92e959c8ac7..e1573e0a2661 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -4813,28 +4813,27 @@ pipe_config_infoframe_mismatch(struct drm_i915_pr=
+ivate *dev_priv,
+>  }
+> =20
+>  static void
+> -pipe_config_dp_vsc_sdp_mismatch(struct drm_i915_private *dev_priv,
+> +pipe_config_dp_vsc_sdp_mismatch(struct drm_i915_private *i915,
+>  				bool fastset, const char *name,
+>  				const struct drm_dp_vsc_sdp *a,
+>  				const struct drm_dp_vsc_sdp *b)
+>  {
+> +	struct drm_printer p;
+> +
+>  	if (fastset) {
+> -		if (!drm_debug_enabled(DRM_UT_KMS))
+> -			return;
+> +		p =3D drm_dbg_printer(&i915->drm, DRM_UT_KMS, NULL);
+> =20
+> -		drm_dbg_kms(&dev_priv->drm,
+> -			    "fastset requirement not met in %s dp sdp\n", name);
+> -		drm_dbg_kms(&dev_priv->drm, "expected:\n");
+> -		drm_dp_vsc_sdp_log(KERN_DEBUG, dev_priv->drm.dev, a);
+> -		drm_dbg_kms(&dev_priv->drm, "found:\n");
+> -		drm_dp_vsc_sdp_log(KERN_DEBUG, dev_priv->drm.dev, b);
+> +		drm_printf(&p, "fastset requirement not met in %s dp sdp\n", name);
+>  	} else {
+> -		drm_err(&dev_priv->drm, "mismatch in %s dp sdp\n", name);
+> -		drm_err(&dev_priv->drm, "expected:\n");
+> -		drm_dp_vsc_sdp_log(KERN_ERR, dev_priv->drm.dev, a);
+> -		drm_err(&dev_priv->drm, "found:\n");
+> -		drm_dp_vsc_sdp_log(KERN_ERR, dev_priv->drm.dev, b);
+> +		p =3D drm_err_printer(&i915->drm, NULL);
+> +
+> +		drm_printf(&p, "mismatch in %s dp sdp\n", name);
+>  	}
+> +
+> +	drm_printf(&p, "expected:\n");
+> +	drm_dp_vsc_sdp_log(&p, a);
+> +	drm_printf(&p, "found:\n");
+> +	drm_dp_vsc_sdp_log(&p, b);
+>  }
+> =20
+>  /* Returns the length up to and including the last differing byte */
+> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/dr=
+m_dp_helper.h
+> index 863b2e7add29..d02014a87f12 100644
+> --- a/include/drm/display/drm_dp_helper.h
+> +++ b/include/drm/display/drm_dp_helper.h
+> @@ -98,8 +98,7 @@ struct drm_dp_vsc_sdp {
+>  	enum dp_content_type content_type;
+>  };
+> =20
+> -void drm_dp_vsc_sdp_log(const char *level, struct device *dev,
+> -			const struct drm_dp_vsc_sdp *vsc);
+> +void drm_dp_vsc_sdp_log(struct drm_printer *p, const struct drm_dp_vsc_s=
+dp *vsc);
+> =20
+>  int drm_dp_psr_setup_time(const u8 psr_cap[EDP_PSR_RECEIVER_CAP_SIZE]);
+> =20
 
-> Hi
->
-> Am 29.01.24 um 12:04 schrieb Javier Martinez Canillas:
->> Thomas Zimmermann <tzimmermann@suse.de> writes:
->> 
->>> Add screen_info_get_pci_dev() to find the PCI device of an instance
->>> of screen_info. Does nothing on systems without PCI bus.
->>>
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> ---
->> 
->> [...]
->> 
->>> +struct pci_dev *screen_info_pci_dev(const struct screen_info *si)
->>> +{
->>> +	struct resource res[SCREEN_INFO_MAX_RESOURCES];
->>> +	size_t i, numres;
->>> +	int ret;
->>> +
->>> +	ret = screen_info_resources(si, res, ARRAY_SIZE(res));
->>> +	if (ret < 0)
->>> +		return ERR_PTR(ret);
->>> +	numres = ret;
->>> +
->> 
->> I would just drop the ret variable and assign the screen_info_resources()
->> return value to numres. I think that makes the code easier to follow.
->
-> The value of ret could be an errno code. We would effectively return 
-> NULL for errors. And I just noticed that the function docs imply this. 
-> But NULL is also a valid value if there is no PCI device. I'd prefer to 
-> keep the errno-pointer around.
->
+Reviewed-by: Luca Coelho <luciano.coelho@intel.com>
 
-Yes. I meant making numres an int instead of size_t (SCREEN_INFO_MAX_RESOURCES
-is only 3 after all). That way you could just return ERR_PTR(numres) if is < 0.
-
-No strong preference, just think that the code is easier to read in that case.
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+--
+Cheers,
+Luca.
