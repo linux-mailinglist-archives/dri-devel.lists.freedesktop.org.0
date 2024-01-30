@@ -2,39 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAD4F842782
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 16:05:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 829D684278C
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 16:05:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40F89113183;
-	Tue, 30 Jan 2024 15:05:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7B471131BB;
+	Tue, 30 Jan 2024 15:05:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CEB4113183;
- Tue, 30 Jan 2024 15:04:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB5381131BB;
+ Tue, 30 Jan 2024 15:05:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1706627095;
- bh=KxxppCtScPleTsQ2kw4mZIMAQ37g6r0K3U2qtG4xi28=;
- h=From:To:Cc:Subject:Date:From;
- b=UvMgL+trW/+tLi0dvGrqIsy2SfA/AI+pdWvP119oX0+1yc2WTLnlD4UM2xXuEt6CE
- 3EdnWoFWNa+gmwBmmkAyzMkdPKV0SZuPVpfWinvPHXUmiCgb92v0+VOcOR7dF0G2lf
- 1ca6XWe/GOiAEIhJ3T7YC//IzELVjjO0S8Tg1z0vcuFt2ZHHM4Cwopxc6JuHg/aNM3
- YaSd2DiXHmhIlNCUjnLVYFXvEA/IF6wp6hAut7hh325B4r/FwJ/iAjQ9AYuGquH/9q
- Zek91+t8CtkZFrEissD0I1hgMzkioc7ywVIqd3Pq01SDsaT2lZ6vjMF4G/PYne4OB/
- 92lRVJ1Sh7fOA==
+ s=mail; t=1706627100;
+ bh=Kl6yFDA/A15PY0gUzrkPNTp3zRS8n6hwMIq/eK6dgX8=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=1X3C+HkzNDbtP6LME1atyrCylDISIKQQD3ylVziKc00A9IjEowuu7umIky664byg/
+ BNNBe83FVmRWU7h+bduWiJqoB6WasXr/gCJFXd/16PTPinSg555PFmC4ruy54EU85w
+ gbxkP42eUs1e/BnPvB7zgjmqpM5CTi+S+53Kjb23n01RxZlU4pzsVkLYpbRBHsMr1L
+ yB34TRDZz0UMzoFoqGYTtVwHOeexHqoGDENEXIifgvtTg53q7MWvRW1Pk7Cy9zvPs4
+ WC6ItQIQ6mRsI7gkpjCqEZQ0C2s3fvi/KOJ/4gt9Y3aFrgN5USqMYf9WdgrCmwxqU9
+ oMX/0UiRYoRxA==
 Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: vignesh)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 8F5CD37811CF;
- Tue, 30 Jan 2024 15:04:50 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 035B53781FC7;
+ Tue, 30 Jan 2024 15:04:55 +0000 (UTC)
 From: Vignesh Raman <vignesh.raman@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 0/9] drm/ci: Add support for GPU and display testing
-Date: Tue, 30 Jan 2024 20:33:31 +0530
-Message-Id: <20240130150340.687871-1-vignesh.raman@collabora.com>
+Subject: [PATCH v3 1/9] drm/ci: arm64.config: Enable
+ CONFIG_DRM_ANALOGIX_ANX7625
+Date: Tue, 30 Jan 2024 20:33:32 +0530
+Message-Id: <20240130150340.687871-2-vignesh.raman@collabora.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20240130150340.687871-1-vignesh.raman@collabora.com>
+References: <20240130150340.687871-1-vignesh.raman@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,106 +60,38 @@ Cc: linux-rockchip@lists.infradead.org, guilherme.gallo@collabora.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some ARM SOCs have a separate display controller and GPU, each with
-different drivers. For mediatek mt8173, the GPU driver is powervr,
-and the display driver is mediatek. In the case of mediatek mt8183,
-the GPU driver is panfrost, and the display driver is mediatek.
-With rockchip rk3288/rk3399, the GPU driver is panfrost, while the
-display driver is rockchip. For amlogic meson, the GPU driver is
-panfrost, and the display driver is meson.
+Enable CONFIG_DRM_ANALOGIX_ANX7625 in the arm64 defconfig to get
+display driver probed on the mt8183-kukui-jacuzzi-juniper machine.
 
-IGT tests run various tests with different xfails and can test both
-GPU devices and KMS/display devices. Currently, in drm-ci for MediaTek,
-Rockchip, and Amlogic Meson platforms, only the GPU driver is tested.
-This leads to incomplete coverage since the display is never tested on
-these platforms. This commit series adds support in drm-ci to run tests
-for both GPU and display drivers for MediaTek, Rockchip, and Amlogic
-Meson platforms.
+arch/arm64/configs/defconfig has CONFIG_DRM_ANALOGIX_ANX7625=m,
+but drm-ci don't have initrd with modules, so add
+CONFIG_DRM_ANALOGIX_ANX7625=y in CI arm64 config.
 
-Uprev mesa and IGT in drm-ci and add amd, v3d, vc4 and vgem specific
-tests to testlist. Have testlist.txt per driver and include a base
-testlist so that the driver specific tests will run only on those hardware.
+Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+---
 
-Vignesh Raman (9):
-  drm/ci: arm64.config: Enable CONFIG_DRM_ANALOGIX_ANX7625
-  drm/ci: mediatek: Rename exisitng job
-  drm/ci: mediatek: Add job to test panfrost and powervr GPU driver
-  drm/ci: meson: Rename exisitng job
-  drm/ci: meson: Add job to test panfrost GPU driver
-  drm/ci: rockchip: Rename existing job
-  drm/ci: rockchip: Add job to test panfrost GPU driver
-  drm/ci: uprev mesa version
-  drm/ci: uprev IGT and update testlist
+v2:
+  - No changes
 
- MAINTAINERS                                   |   1 +
- drivers/gpu/drm/ci/arm64.config               |   1 +
- drivers/gpu/drm/ci/container.yml              |   6 +-
- drivers/gpu/drm/ci/gitlab-ci.yml              |   8 +-
- drivers/gpu/drm/ci/igt_runner.sh              |  34 ++--
- drivers/gpu/drm/ci/image-tags.yml             |   3 +-
- drivers/gpu/drm/ci/test.yml                   | 137 ++++++++++++----
- drivers/gpu/drm/ci/testlist-amdgpu.txt        | 151 ++++++++++++++++++
- drivers/gpu/drm/ci/testlist-msm.txt           |  50 ++++++
- drivers/gpu/drm/ci/testlist-panfrost.txt      |  17 ++
- drivers/gpu/drm/ci/testlist-v3d.txt           |  73 +++++++++
- drivers/gpu/drm/ci/testlist-vc4.txt           |  49 ++++++
- drivers/gpu/drm/ci/testlist.txt               |  84 ++++------
- .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt |  24 ++-
- .../drm/ci/xfails/amdgpu-stoney-flakes.txt    |   9 +-
- .../gpu/drm/ci/xfails/amdgpu-stoney-skips.txt |  10 +-
- ....txt => mediatek-mt8173-display-fails.txt} |  13 --
- .../xfails/mediatek-mt8173-display-flakes.txt |  13 ++
- .../xfails/mediatek-mt8183-display-fails.txt  |  16 ++
- .../xfails/mediatek-mt8183-display-flakes.txt |   8 +
- .../drm/ci/xfails/mediatek-mt8183-fails.txt   |  13 --
- .../ci/xfails/mediatek-mt8183-gpu-skips.txt   |   2 +
- ...fails.txt => meson-g12b-display-fails.txt} |   3 -
- .../drm/ci/xfails/meson-g12b-gpu-fails.txt    |   1 +
- .../drm/ci/xfails/meson-g12b-gpu-skips.txt    |   2 +
- .../xfails/rockchip-rk3288-display-fails.txt  |  21 +++
- .../xfails/rockchip-rk3288-display-flakes.txt |  17 ++
- .../xfails/rockchip-rk3288-display-skips.txt  |   8 +
- .../drm/ci/xfails/rockchip-rk3288-fails.txt   |  54 -------
- .../ci/xfails/rockchip-rk3288-gpu-fails.txt   |   1 +
- .../ci/xfails/rockchip-rk3288-gpu-skips.txt   |   2 +
- .../drm/ci/xfails/rockchip-rk3288-skips.txt   |  52 ------
- ....txt => rockchip-rk3399-display-fails.txt} |  38 +++--
- .../xfails/rockchip-rk3399-display-flakes.txt |  23 +++
- .../xfails/rockchip-rk3399-display-skips.txt  |   6 +
- .../drm/ci/xfails/rockchip-rk3399-flakes.txt  |   7 -
- .../ci/xfails/rockchip-rk3399-gpu-fails.txt   |   1 +
- .../ci/xfails/rockchip-rk3399-gpu-skips.txt   |   2 +
- .../drm/ci/xfails/rockchip-rk3399-skips.txt   |   5 -
- 39 files changed, 686 insertions(+), 279 deletions(-)
- create mode 100644 drivers/gpu/drm/ci/testlist-amdgpu.txt
- create mode 100644 drivers/gpu/drm/ci/testlist-msm.txt
- create mode 100644 drivers/gpu/drm/ci/testlist-panfrost.txt
- create mode 100644 drivers/gpu/drm/ci/testlist-v3d.txt
- create mode 100644 drivers/gpu/drm/ci/testlist-vc4.txt
- rename drivers/gpu/drm/ci/xfails/{mediatek-mt8173-fails.txt => mediatek-mt8173-display-fails.txt} (59%)
- create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-display-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-display-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-display-flakes.txt
- delete mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-gpu-skips.txt
- rename drivers/gpu/drm/ci/xfails/{meson-g12b-fails.txt => meson-g12b-display-fails.txt} (84%)
- create mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-gpu-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-gpu-skips.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-display-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-display-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-display-skips.txt
- delete mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-gpu-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-gpu-skips.txt
- delete mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt
- rename drivers/gpu/drm/ci/xfails/{rockchip-rk3399-fails.txt => rockchip-rk3399-display-fails.txt} (71%)
- create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-display-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-display-skips.txt
- delete mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-gpu-fails.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-gpu-skips.txt
- delete mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt
+v3:
+  - No changes
 
+---
+ drivers/gpu/drm/ci/arm64.config | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/ci/arm64.config b/drivers/gpu/drm/ci/arm64.config
+index 8dbce9919a57..37d23fd7a367 100644
+--- a/drivers/gpu/drm/ci/arm64.config
++++ b/drivers/gpu/drm/ci/arm64.config
+@@ -187,6 +187,7 @@ CONFIG_MTK_DEVAPC=y
+ CONFIG_PWM_MTK_DISP=y
+ CONFIG_MTK_CMDQ=y
+ CONFIG_REGULATOR_DA9211=y
++CONFIG_DRM_ANALOGIX_ANX7625=y
+ 
+ # For nouveau.  Note that DRM must be a module so that it's loaded after NFS is up to provide the firmware.
+ CONFIG_ARCH_TEGRA=y
 -- 
 2.40.1
 
