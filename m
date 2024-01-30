@@ -2,64 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC307842732
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 15:53:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AE8F84274C
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 15:57:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFB8A113176;
-	Tue, 30 Jan 2024 14:52:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49AEB10F308;
+	Tue, 30 Jan 2024 14:56:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91FD0113176;
- Tue, 30 Jan 2024 14:52:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706626360; x=1738162360;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=luIPTT9ucV8TGKHJ9MflOF0EHUFroE6No1+xpuWNnbM=;
- b=ZZd91530IOTLtpcv1gWkp1FhamkxWHNz/iUmHlw4IMWI4eapkdHK66Va
- VISv3cTYSMYE0jD0xzsAGGiGV9GvJ+spQ0h0QcTma3SMKS5SFMPQstV94
- PGQzGIvtjOE+0mpVWjifTcGxvbOzO9wClIfpmwxlyQWGOpGvEIsTU9Wjc
- WG9jFNlBQRigdInqgYB+81rSG4C8XukQLKBnB2XOHv2OJUEF/Dnu9I34S
- bOPVyGLSY0KhwmrHQDQUTmfkWpbnYCLjRB73AhtW8fHueN4dpP5OsASq5
- 0nGcgRes1f/pwtX9Xs6+Qz/RDDlLFFocg3NP7ujCA9C/Qo1phPYYHhJ17 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="3149929"
-X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="3149929"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jan 2024 06:52:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; d="scan'208";a="30180161"
-Received: from skofoed-mobl.ger.corp.intel.com (HELO [10.249.254.21])
- ([10.249.254.21])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jan 2024 06:52:34 -0800
-Message-ID: <90b41ce3-0eca-4bc9-bc04-ad68ba91d7ee@linux.intel.com>
-Date: Tue, 30 Jan 2024 15:52:32 +0100
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
+ [209.85.208.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30C3410F308
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 14:56:48 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id
+ 4fb4d7f45d1cf-55ef011e934so3221901a12.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 06:56:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1706626546; x=1707231346; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:content-language:cc:to:subject:from
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+gO8ZOe0pnwzVp9ud1Vv3npsbTRCsdAJJfeT82uG86Y=;
+ b=gk01vqXGMkWsw/0CHiTVrzJXDf3O8IhRDqKUw89mqjkE3qucoAcsrHkuBNjWnr5Xdy
+ ArIzH8cwAEZQsQbjHw63PC25iqDVKjDxqgt2qp4/WHgeagiEzl9wkMxPOLsRtdVQEv0U
+ SVM25j4wohZVdS4DaPCE0bK2m/Zm9ynHmSEse6GPmEdQBiNxGuqYJZu70EzPSyVfR2s4
+ Ncf9Cd9v2Anw683HcBXQWxMQzs0+NJIN69WcD5kjVXzVFiwKt9s9qemzgioQ8aQUrfI+
+ KT0PFcOctfM/rKdIIFqXATSwjKuzZcScwmH7qbfB2KTAJ/S6Ffgtw7d1EGOQh90lh74Q
+ E3YA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706626546; x=1707231346;
+ h=content-transfer-encoding:content-language:cc:to:subject:from
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=+gO8ZOe0pnwzVp9ud1Vv3npsbTRCsdAJJfeT82uG86Y=;
+ b=aI4GqhoLFMUdp6G0NpCXSoOhclGIrXFNqXeYzk7i0kAfdMqgsDFKXLI+U/vKTN30ib
+ 5Ve7A3JLj0OKSO61IcNCyOQPyC0mhWjc32j9xdKX9+8H12sZ3HfEJH39PR3rf8gCC3Xg
+ GBWwNmzX6LNMybY+ixrv96RiV8pLumtr7v9DR9QkP8syHGanQwSkQw8j84JWA0U5MQBu
+ +JognUouFnFCQwOCaGpTIbS4l6iPbMjHHX35nqoY9ZEQwptqd+gQdjz0Am/xxsoZEuaM
+ i3iidImkYS4lraynxXHag5FPKJ3MaPIkqutlE1g7JjjU1lGjvovSLe1LUKjslAPKRRXT
+ 0egA==
+X-Gm-Message-State: AOJu0YwOytb+WYOfQl4rC2MOpNpTzBp75lGTVhc2rLB6WfxQyc5AgBcH
+ w6C1DzmBQ5yQ5hoEJLhhoKsu8WmOlQV91w58NXrzNvbwgbo7SU4X
+X-Google-Smtp-Source: AGHT+IFRi9GyQXJSDsExLjRideZaSaED5yGKhx4CIr1ncWL2nfC+HtMvB4YtSvuuO6qpUWW+snUifQ==
+X-Received: by 2002:a05:6402:b4c:b0:55f:327c:d18a with SMTP id
+ bx12-20020a0564020b4c00b0055f327cd18amr1583915edb.36.1706626545234; 
+ Tue, 30 Jan 2024 06:55:45 -0800 (PST)
+X-Forwarded-Encrypted: i=0;
+ AJvYcCXqWmkvvZvd/lwxAk5iOs/VBqiWjnua4Cq/9D+o3F2xLZwmzEJMPNiiOjtfh9LrBXqnGvYMSd88PILzT8o3xzK9P+3yp3sqWYnh9NLKrY0hvwe7NU7JZQ0IbQ8uR0NFWWsIngFyK6hMspO4slIDwkejfYFCHuDhg5YWuYQ/j3lMjtmfRzxgplPg2gvPKKop3D3KOYnfFzFnkqtGcNM3AaUafagYD8RZAwUsC0Q8WDsXGVMdxReIZkzlhXqdhnP4oYMKjAA9x8mQyMmNeBh7DPxdCSUGhKGkGheL0vvxU9eK5QwO+oIbNs+WT7znL8d4caxfiZycFAURrmrN+sJlfk0kVLLBXN8vvHv91bOoDXxlmnRQYv2chZzfs/3g0GmQI8VCmU6orQxG8n23lnDYRaqkTeCBK5lhr+MLgbWh8vkgr2rCD1NC5KvR+vVRMmbo5YZOe0dqCTHw4D4W6ZdVi5xMUZptn1m/ttlJjjyk0AApmbHio84E8u7Rf+v2dribs36sZUh7b6hdhSrvM/TMQcpHXiLPf7nDUI8=
+Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
+ by smtp.gmail.com with ESMTPSA id
+ w7-20020aa7da47000000b0055f0c027a3esm1879542eds.30.2024.01.30.06.55.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 Jan 2024 06:55:44 -0800 (PST)
+Message-ID: <6626d288-ecf1-436b-b0a3-3417308a8633@gmail.com>
+Date: Tue, 30 Jan 2024 15:55:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] Enable -Wstringop-overflow globally
+From: Johan Jonker <jbx6244@gmail.com>
+Subject: [PATCH v1 1/6] dt-bindings: display: rockchip: rockchip,dw-hdmi:
+ deprecate port property
+To: robh+dt@kernel.org
 Content-Language: en-US
-To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- David Laight <David.Laight@ACULAB.COM>,
- 'Linus Torvalds' <torvalds@linux-foundation.org>,
- Kees Cook <keescook@chromium.org>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Oded Gabbay <ogabbay@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-References: <Za6JwRpknVIlfhPF@work>
- <CAHk-=wjG4jdE19-vWWhAX3ByfbNr4DJS-pwiN9oY38WkhMZ57g@mail.gmail.com>
- <4907a7a3-8533-480a-bc3c-488573e18e66@embeddedor.com>
- <202401261423.7AF702239@keescook>
- <CAHk-=wiaaCatzmF6GXxP97pa8oEX7e4rBpd4JgsbKex3Ek1_9A@mail.gmail.com>
- <f00e15fcba05497a87e91182a33c888f@AcuMS.aculab.com>
- <0c4cc1a7-f409-4597-b110-81f9e45d1ffe@embeddedor.com>
-From: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <0c4cc1a7-f409-4597-b110-81f9e45d1ffe@embeddedor.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,86 +76,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- intel-xe@lists.freedesktop.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>
+Cc: daniel@ffwll.ch, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ tzimmermann@suse.de, hjc@rock-chips.com, mripard@kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ krzysztof.kozlowski+dt@linaro.org, andy.yan@rock-chips.com, airlied@gmail.com,
+ markyao0591@gmail.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The hdmi-connector nodes are now functional and the new way to model
+hdmi nodes with, so deprecate the port property and make port@0 and
+port@1 a requirement. Also update example.
 
-On 1/27/24 20:53, Gustavo A. R. Silva wrote:
->
->
-> On 1/27/24 09:11, David Laight wrote:
->> From: Linus Torvalds
->>> Sent: 26 January 2024 22:36
->>>
->>> On Fri, 26 Jan 2024 at 14:24, Kees Cook <keescook@chromium.org> wrote:
->>>>
->>>> I think xe has some other weird problems too. This may be related 
->>>> (under
->>>> allocating):
->>>>
->>>> ../drivers/gpu/drm/xe/xe_vm.c: In function 'xe_vma_create':
->>>> ../drivers/gpu/drm/xe/xe_vm.c:806:21: warning: allocation of 
->>>> insufficient size '224' for type
->>> 'struct xe_vma' with size '368' [-Walloc-size]
->>>>    806 |                 vma = kzalloc(sizeof(*vma) - sizeof(struct 
->>>> xe_userptr),
->>>>        |                     ^
->>>
->>> That code is indeed odd, but there's a comment in the xe_vma definition
->>>
->>>          /**
->>>           * @userptr: user pointer state, only allocated for VMAs 
->>> that are
->>>           * user pointers
->>>           */
->>>          struct xe_userptr userptr;
->>>
->>> although I agree that it should probably simply be made a final
->>> variably-sized array instead (and then you make that array size be
->>> 0/1).
->>
->> That entire code is odd.
->> It isn't obvious that the flag values that cause the short allocate
->> are the same ones that control whether the extra data is accessed.
->>
->> Never mind the oddities with the 'flags |= ' assignments int the
->> 'remap next' path.
->>
->> Anyone know how many of these actually get allocated (and their
->> lifetimes)?
->> How much difference would it make to allocate 368 (maybe 384?)
->> bytes instead of 224 (likely 256).
->
-> [CC+ xen list and maintainers]
->
-> Probably the xen maintainer can help us out here.
+Signed-off-by: Johan Jonker <jbx6244@gmail.com>
+---
+ .../display/rockchip/rockchip,dw-hdmi.yaml    | 27 ++++++++++++++++---
+ 1 file changed, 23 insertions(+), 4 deletions(-)
 
-Unfortunately the number of these can be quite large, and with a long 
-lifetime which I guess was the reason that size optimization was done in 
-the first place.
+diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+index 7e59dee15a5f..cd0a42f35f24 100644
+--- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+@@ -97,8 +97,11 @@ properties:
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
 
-Ideally IMO this should've been subclassed to an xe_userptr_vma, but 
-until we have a chance to clean that up, We can look at the 
-variable-sized array or simply allocate the full size until we get to that.
+-    patternProperties:
+-      "^port(@0)?$":
++    properties:
++      port:
++        $ref: /schemas/graph.yaml#/properties/port
++        deprecated: true
++      port@0:
+         $ref: /schemas/graph.yaml#/properties/port
+         description: Input of the DWC HDMI TX
+         properties:
+@@ -108,11 +111,14 @@ properties:
+             description: Connection to the VOPB
+           endpoint@1:
+             description: Connection to the VOPL
+-    properties:
+       port@1:
+         $ref: /schemas/graph.yaml#/properties/port
+         description: Output of the DWC HDMI TX
 
-Thanks,
++    required:
++      - port@0
++      - port@1
++
+   rockchip,grf:
+     $ref: /schemas/types.yaml#/definitions/phandle
+     description:
+@@ -147,7 +153,11 @@ examples:
+         clock-names = "iahb", "isfr";
 
-Thomas
+         ports {
+-            port {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            port@0 {
++                reg = <0>;
+                 #address-cells = <1>;
+                 #size-cells = <0>;
 
+@@ -155,11 +165,20 @@ examples:
+                     reg = <0>;
+                     remote-endpoint = <&vopb_out_hdmi>;
+                 };
++
+                 hdmi_in_vopl: endpoint@1 {
+                     reg = <1>;
+                     remote-endpoint = <&vopl_out_hdmi>;
+                 };
+             };
++
++            port@1 {
++                reg = <1>;
++
++                hdmi_out_con: endpoint {
++                    remote-endpoint = <&hdmi_con_in>;
++                };
++            };
+         };
+     };
 
->
-> -- 
-> Gustavo
->
->>
->>     David
->>
->> -
->> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, 
->> MK1 1PT, UK
->> Registration No: 1397386 (Wales)
+--
+2.39.2
+
