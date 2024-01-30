@@ -2,60 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E1F6842004
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 10:48:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 027D58420B1
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 11:08:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A57C10E466;
-	Tue, 30 Jan 2024 09:48:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3627112ECE;
+	Tue, 30 Jan 2024 10:07:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C4AC112EA3
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 09:48:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1706608105;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=fzKqsStcb36iopomlKgRGs7SQG0sReHnAQLYp7HEgu0=;
- b=GaMkHCkutXjW0L4/XyIxRz73MLclQ9Ia3j5M6z+wdTwSCEYHwYtDikGSv2r4x81YUBlihy
- QNgViGuhWALFT+qoow9WmzoaLW6sGAyeHKwWZOXHki0Imxc1Be5O6lJMrdpERSf/Ek21hg
- BCU+bC9oV4o447lijAoa0537XEiQazA=
-Message-ID: <7eec45a95808afe94ac65a8518df853356ecf117.camel@crapouillou.net>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH v5 1/6] dma-buf: Add
- dma_buf_{begin,end}_access()
-From: Paul Cercueil <paul@crapouillou.net>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet
- <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Cameron
- <jic23@kernel.org>, Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- linux-usb@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Christoph
- Hellwig <hch@lst.de>
-Date: Tue, 30 Jan 2024 10:48:23 +0100
-In-Reply-To: <a2346244-e22b-4ff6-b6cd-1da7138725ae@amd.com>
-References: <442f69f31ece6d441f3dc41c3dfeb4dcf52c00b8.camel@crapouillou.net>
- <0b6b8738-9ea3-44fa-a624-9297bd55778f@amd.com>
- <e4620acdf24628d904cedcb0030d78b14559f337.camel@crapouillou.net>
- <85a89505-edeb-4619-86c1-157f7abdd190@amd.com>
- <0fe2755fb320027234c086bcc88fd107855234c5.camel@crapouillou.net>
- <577501f9-9d1c-4f8d-9882-7c71090e5ef3@amd.com>
- <7928c0866ac5b2bfaaa56ad3422bedc9061e0f7b.camel@crapouillou.net>
- <2ac7562c-d221-409a-bfee-1b3cfcc0f1c6@amd.com>
- <ZbKiCPhRvWaz4Icn@phenom.ffwll.local>
- <c97e38ee-b860-4990-87f1-3e59d7d9c999@amd.com>
- <Zbi6zQYtnfOZu5Wh@phenom.ffwll.local>
- <a2346244-e22b-4ff6-b6cd-1da7138725ae@amd.com>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
- YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D7C2112EC4
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 10:07:20 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:98])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 98EC31F83F;
+ Tue, 30 Jan 2024 10:07:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1706609237; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=W8iLDc6AKRFDUoMMqL+ix4s6GrgTr+33LVuIuof2o2A=;
+ b=yOPYuVU6ghNGeAK0IPng39K+Xz6tvQXsaKXE18G7lASKwceK3iipV5k4Zl3+cIz0thS2Xv
+ 0qdKBB5Kqu8xWYSOfyGYm87j2OWYRCuHktinkYNW33FiqO+PMYUC5rZPAEpuwCnr/nM9Ic
+ Dmzdo5Lo9K0o3/Jwm6ci01QqWvyVq4I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1706609237;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=W8iLDc6AKRFDUoMMqL+ix4s6GrgTr+33LVuIuof2o2A=;
+ b=xW2C4rwN5+36MUigV+k3dMmPUMLc0l2OSRFmUt7RDNVPsqyERTn44bOj24Kf17X3++BxH/
+ vCy86Hxldk7U/RAg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1706609236; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=W8iLDc6AKRFDUoMMqL+ix4s6GrgTr+33LVuIuof2o2A=;
+ b=j0mo4sfnMNN51gErk7Q7WUZ9dhv6GXwmi0gbSE+hgSZDshTpgbUgws8Gl0rxk1LKgNzPq+
+ kGuSwRImaOhBS6IUl6164pKsvwE7IJlj3C4OQ/XtCsS7+A15r9hF9QFockAqZIj1DKfRzQ
+ To725nAxPdG6b+vVOodPeM8JVpzdhwg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1706609236;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=W8iLDc6AKRFDUoMMqL+ix4s6GrgTr+33LVuIuof2o2A=;
+ b=xr1BEN0Kk2oPGEsQylppth3y7xX7lsupkYiburtxt0yAqz209ji7Spr7VPDkKdgQER1iye
+ yh1stRqByEtze0Cw==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 7773A13462;
+ Tue, 30 Jan 2024 10:07:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+ by imap2.dmz-prg2.suse.org with ESMTPSA id sJL8G1TKuGXdcwAAn2gu4w
+ (envelope-from <tzimmermann@suse.de>); Tue, 30 Jan 2024 10:07:16 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: jfalempe@redhat.com,
+	javierm@redhat.com
+Subject: [PATCH 00/23] [RFC] drm/format-helper: Introduce drm_pixmap,
+ font support and filling
+Date: Tue, 30 Jan 2024 10:53:35 +0100
+Message-ID: <20240130100714.12608-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=j0mo4sfn;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=xr1BEN0K
+X-Spamd-Result: default: False [-0.31 / 50.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_THREE(0.00)[4];
+ R_MISSING_CHARSET(2.50)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ MIME_GOOD(-0.10)[text/plain]; BROKEN_CONTENT_TYPE(1.50)[];
+ TO_DN_SOME(0.00)[]; RCVD_COUNT_THREE(0.00)[3];
+ DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DKIM_TRACE(0.00)[suse.de:+]; MX_GOOD(-0.01)[];
+ MID_CONTAINS_FROM(1.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,patchwork.freedesktop.org:url];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
+ BAYES_HAM(-3.00)[100.00%]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: -0.31
+X-Rspamd-Queue-Id: 98EC31F83F
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Bar: /
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,212 +103,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+This RFC patchset implements various features required for DRM panic
+handling [1] and should (for now) be seen in that context.
 
-(Your email software is configured for HTML btw)
+Most of all, the patchset replaces struct drm_framebuffer with struct
+drm_pixmap in the format-conversion helpers. DRM pixmap represents a
+source of pixel data for the blitting operations. Patches 1 to 19
+update the interface, implementation and all of the callers. These
+patches could be useful even without DRM panic handling.
 
-Le mardi 30 janvier 2024 =C3=A0 10:23 +0100, Christian K=C3=B6nig a =C3=A9c=
-rit=C2=A0:
-> =C2=A0Am 30.01.24 um 10:01 schrieb Daniel Vetter:
-> =C2=A0
-> > =C2=A0
-> > On Fri, Jan 26, 2024 at 05:42:50PM +0100, Christian K=C3=B6nig wrote:
-> > =C2=A0
-> > > [SNIP]=20
-> > > Well I think we should have some solution, but I'm not sure if it
-> > > should be
-> > > part of DMA-buf.
-> > >=20
-> > > Essentially a DMA-buf exports the buffers as he uses it and the
-> > > importer (or
-> > > the DMA-buf subsystem) is then the one who says ok I can use this
-> > > or I can't
-> > > use this or I need to call extra functions to use this or
-> > > whatever.
-> > >=20
-> > > It's not the job of the exporter to provide the coherency for the
-> > > importer,
-> > > cause otherwise we would have a lot of code in the exporter which
-> > > can only
-> > > be tested when you have the right importer around. And I strongly
-> > > think that
-> > > this is a no-go for having a reliable solution.
-> > > =C2=A0
-> > =C2=A0
-> > The trouble is, that if you have other memory than stuff allocated
-> > by the
-> > dma-api or mapped using the dma-api, then by necessity the exporter
-> > has to
-> > deal with this.
-> > =C2=A0
-> =C2=A0
-> =C2=A0Yes, I was thinking about that as well.
-> =C2=A0
-> =C2=A0
-> > =C2=A0
-> > Which is the exact same reason we also force the exporters to deal
-> > with
-> > the cpu cache flushing - you're argument that it's not great to
-> > replicate
-> > this everywhere holds there equally.
-> > =C2=A0
-> =C2=A0
-> =C2=A0And I'm not really happy with that either.
-> =C2=A0
-> =C2=A0
-> > =C2=A0
-> > The other thing is that right now the exporter is the only one who
-> > actually knows what kind of dma coherency rules apply for a certain
-> > piece
-> > of memory. E.g. on i915-gem even if it's dma_map_sg mapped the
-> > underlying
-> > i915-gem buffer might be non-coherent, and i915-gem makes it all
-> > work by
-> > doing the appropriate amount of clflush.
-> > =C2=A0
-> =C2=A0
-> =C2=A0Yeah, exactly that's the reason why I think that this stuff doesn't
-> belong into exporters/drivers.
-> =C2=A0
-> =C2=A0Looking at what kind of hacks and workarounds we have in both amdgp=
-u
-> as well as i915 it's pretty clear that we need to improve this design
-> somehow.
-> =C2=A0
-> =C2=A0
-> > =C2=A0
-> > Similar funky things happen in other cases.
-> >=20
-> > So unless we add an interface which allows importers to figure out
-> > how
-> > much flushing is needed, currently the exporter is the only one who
-> > knows
-> > (because it can inspect the struct device at dma_buf_attach time).
-> >=20
-> > We could flip this around, but it would be a rather serious
-> > depature from
-> > the dma-buf design approach thus far.
-> > =C2=A0
-> =C2=A0
-> =C2=A0Well clients already give the DMA-direction to exporters when
-> creating the mapping and get an appropriate sg_table in return.
-> =C2=A0
-> =C2=A0All we need to do is getting the information what flushing is neede=
-d
-> into the object returned here so that the DMA API can work with it.
-> =C2=A0
-> =C2=A0Christoph Hellwig pretty much nailed it when he said that the
-> problem with the sg_table is that it mixes input and output
-> parameters of the DMA-API.
-> =C2=A0
-> =C2=A0I would extend that and say that we need a mapping object the DMA-
-> API can work with so that it can know what needs to be done when
-> devices request that data is made coherent between them or the CPU.
-> =C2=A0
-> =C2=A0
-> > =C2=A0
-> > > =C2=A0
-> > > That's why I think the approach of having DMA-buf callbacks is
-> > > most likely
-> > > the wrong thing to do.
-> > >=20
-> > > What should happen instead is that the DMA subsystem provides
-> > > functionality
-> > > which to devices which don't support coherency through it's
-> > > connection to
-> > > say I want to access this data, please make sure to flush the
-> > > appropriate
-> > > catches. But that's just a very very rough design idea.
-> > >=20
-> > > This will become more with CXL at the horizon I think.
-> > > =C2=A0
-> > =C2=A0
-> > Yeah CXL will make this all even more fun, but we are firmly there
-> > already
-> > with devices deciding per-buffer (or sometimes even per-access with
-> > intel's MOCS stuff) what coherency mode to use for a buffer.
-> >=20
-> > Also arm soc generally have both coherent and non-coherent device
-> > interconnects, and I think some devices can switch with runtime
-> > flags too
-> > which mode they use for a specific transition.
-> >=20
-> > CXL just extends this to pcie devices.
-> >=20
-> > So the mess is here, how do we deal with it?
-> > =C2=A0
-> =C2=A0
-> =C2=A0I would say we start with the DMA-API by getting away from sg_table=
-s
-> to something cleaner and state oriented.=C2=A0
+With struct drm_pixmap in place, patches 20 to 22 implement rudimentary
+support for blitting font data. The pixmap refers to a character's glyph,
+which the blit routines write to the destination memory. An example on
+blitting strings is given in patch 20's commit description.
 
-FYI I am already adding a 'dma_vec' object in my IIO DMABUF patchset,
-which is just a dead simple
+Patch 23 adds rudimentary support for fill operations. The design is
+based on blitting, but blits the same color into each pixel.
 
-struct dma_vec {
-  dma_addr_t addr;
-  size_t len;
-};
+[1] https://patchwork.freedesktop.org/series/122244/
 
-(The rationale for introducing it in the IIO DMABUF patchset was that
-the "scatterlist" wouldn't allow me to change the transfer size.)
+Thomas Zimmermann (23):
+  drm/format-helper: Add struct drm_pixmap
+  drm/format-helper: Use struct drm_pixmap for drm_fb_memcpy()
+  drm/format-helper: Streamline drm_fb_xfrm() implementations
+  drm/format-helper: Use struct drm_pixmap internally
+  drm/format-helper: Use struct drm_pixmap for drm_fb_swab()
+  drm/format-helper: Use struct drm_pixmap for
+    drm_fb_xrgb8888_to_rgb332()
+  drm/format-helper: Use struct drm_pixmap for
+    drm_fb_xrgb8888_to_rgb565()
+  drm/format-helper: Use struct drm_pixmap for
+    drm_fb_xrgb8888_to_xrgb1555()
+  drm/format-helper: Use struct drm_pixmap for
+    drm_fb_xrgb8888_to_argb1555()
+  drm/format-helper: Use struct drm_pixmap for
+    drm_fb_xrgb8888_to_rgba5551()
+  drm/format-helper: Use struct drm_pixmap for
+    drm_fb_xrgb8888_to_rgb888()
+  drm/format-helper: Use struct drm_pixmap for
+    drm_fb_xrgb8888_to_argb8888()
+  drm/format-helper: Use struct drm_pixmap for
+    drm_fb_xrgb8888_to_abgr8888()
+  drm/format-helper: Use struct drm_pixmap for
+    drm_fb_xrgb8888_to_xbgr8888()
+  drm/format-helper: Use struct drm_pixmap for
+    drm_fb_xrgb8888_to_xrgb2101010()
+  drm/format-helper: Use struct drm_pixmap for
+    drm_fb_xrgb8888_to_argb2101010()
+  drm/format-helper: Use struct drm_pixmap for
+    drm_fb_xrgb8888_to_gray8()
+  drm/format-helper: Use struct drm_pixmap for drm_fb_xrgb8888_to_mono()
+  drm/format-helper: Use struct drm_pixmap for drm_fb_blit()
+  [DO NOT MERGE] drm/format-helper: Add font-support for DRM pixmap
+  [DO NOT MERGE] drm/format-helper: Add color palette
+  [DO NOT MERGE] drm/format-helper: Support blitting from C1 to XRGB8888
+  [DO NOT MERGE] drm/format-helper: Add drm_fb_fill() to fill screen
+    with color
 
-So I believe a new "sg_table"-like could just be an array of struct
-dma_vec + flags.
+ drivers/gpu/drm/ast/ast_mode.c                |   4 +-
+ drivers/gpu/drm/drm_format_helper.c           | 678 ++++++++++++------
+ drivers/gpu/drm/drm_mipi_dbi.c                |   9 +-
+ drivers/gpu/drm/gud/gud_pipe.c                |  24 +-
+ drivers/gpu/drm/hyperv/hyperv_drm_modeset.c   |   4 +-
+ drivers/gpu/drm/mgag200/mgag200_mode.c        |   4 +-
+ drivers/gpu/drm/solomon/ssd130x.c             |  12 +-
+ .../gpu/drm/tests/drm_format_helper_test.c    | 106 ++-
+ drivers/gpu/drm/tiny/cirrus.c                 |   6 +-
+ drivers/gpu/drm/tiny/ofdrm.c                  |   6 +-
+ drivers/gpu/drm/tiny/repaper.c                |   4 +-
+ drivers/gpu/drm/tiny/simpledrm.c              |   6 +-
+ drivers/gpu/drm/tiny/st7586.c                 |   4 +-
+ include/drm/drm_format_helper.h               | 116 ++-
+ 14 files changed, 678 insertions(+), 305 deletions(-)
 
-Cheers,
--Paul
-
-> > =C2=A0
-> >=20
-> > My take is that the opt-in callback addition is far from great, but
-> > it's
-> > in line with how we extended dma-buf the past decade plus too. So
-> > unless
-> > someone's volunteering to pour some serious time into re-
-> > engineering this
-> > all (including testing all the different device/driver<-
-> > >device/driver
-> > interactions) I think there's only really one other option: To not
-> > support
-> > these cases at all. And I don't really like that, because it means
-> > people
-> > will hack together something even worse in their drivers.
-> >=20
-> > By adding it to dma-buf it'll stare us in our faces at least :-/
-> > =C2=A0
-> =C2=A0
-> =C2=A0Yeah, it's the way of the least resistance. But with CXL at the
-> horizon and more and more drivers using it I think it's predictable
-> that this will sooner or later blow up.
-> =C2=A0
-> =C2=A0Cheers,
-> =C2=A0Christian.=20
-> =C2=A0
-> =C2=A0
-> > =C2=A0
-> >=20
-> > Cheers, Sima
-> >=20
-> > =C2=A0
-> > > =C2=A0
-> > > Regards,
-> > > Christian.
-> > >=20
-> > > =C2=A0
-> > > > =C2=A0
-> > > > Cheers, Sima
-> > > > =C2=A0
-> > > =C2=A0
-> > > _______________________________________________
-> > > Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
-> > > To unsubscribe send an email to linaro-mm-sig-
-> > > leave@lists.linaro.org
-> > > =C2=A0
-> > =C2=A0=C2=A0
-> =C2=A0
-> =C2=A0
+-- 
+2.43.0
 
