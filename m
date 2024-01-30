@@ -2,41 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FBD3842AD5
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 18:24:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0EC0842B69
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 19:02:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 554E9113281;
-	Tue, 30 Jan 2024 17:23:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2547510F949;
+	Tue, 30 Jan 2024 18:01:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80406113281
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 17:23:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1706635413;
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
+ [157.90.84.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B669010F949
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 18:01:40 +0000 (UTC)
+Received: from [192.168.42.20] (p5de453e7.dip0.t-ipconnect.de [93.228.83.231])
+ (Authenticated sender: wse@tuxedocomputers.com)
+ by mail.tuxedocomputers.com (Postfix) with ESMTPSA id D9DA42FC004A;
+ Tue, 30 Jan 2024 19:01:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+ s=default; t=1706637698;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5yttsGv/nZzm8P4I37O+sbjW65Bb56qxCJ5ApCblXiM=;
- b=faZH3siafi9jEi315A2HIps30mZcyIsINRLU55uymIvXMB5fB98He1hDz67Ccd+M0kvtEM
- 1P9kAwCBxym7GHnLVrowoWysHJFkzjEI6d0v+0a+ThZomANVbwAxP3yndvdPm247qwjdQX
- 2Z7gnNBfPsjBkxG2zNvElx2YtbwW6sw=
-Message-ID: <fcf3e49cae178b18c0b15e12c69f9f2a84e8312e.camel@crapouillou.net>
-Subject: Re: [PATCH v6 1/6] dmaengine: Add API function
- dmaengine_prep_slave_dma_vec()
-From: Paul Cercueil <paul@crapouillou.net>
-To: Vinod Koul <vkoul@kernel.org>
-Date: Tue, 30 Jan 2024 18:23:31 +0100
-In-Reply-To: <ZbkfC31eWBUQ3kSl@matsya>
-References: <20240129170201.133785-1-paul@crapouillou.net>
- <20240129170201.133785-2-paul@crapouillou.net> <ZbkfC31eWBUQ3kSl@matsya>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
- YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ in-reply-to:in-reply-to:references:references;
+ bh=m5sfuQILfLOerVrtTWYmRWOZtGUV/i0IVy5okLktJNQ=;
+ b=jWxqjecsCc51V0CVLAPDNVUKU8noC1gbY5tzweRyrXOIgEhwniLxUpSfUZNaYLP+pEbtzx
+ 2OMRX5EV/VgO+x363083Q+BCh6soKsbHIuUHpiMmIn6jV+mpbmldUdRG1mMTZu21nQIpmy
+ YU9qh5xlY1EuVzbbLKxuz5xBS/FsqKY=
+Authentication-Results: mail.tuxedocomputers.com;
+ auth=pass smtp.auth=wse@tuxedocomputers.com
+ smtp.mailfrom=wse@tuxedocomputers.com
+Content-Type: multipart/alternative;
+ boundary="------------fyo0y9Nj9WkAr2V0zf77Mk2j"
+Message-ID: <d7933cbf-28c0-45cd-8c98-2eec915f46ba@tuxedocomputers.com>
+Date: Tue, 30 Jan 2024 19:01:37 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: Implement per-key keyboard backlight as auxdisplay?
+Content-Language: en-US
+To: Hans de Goede <hdegoede@redhat.com>, Pavel Machek <pavel@ucw.cz>
+References: <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
+ <ZSmg4tqXiYiX18K/@duo.ucw.cz>
+ <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
+ <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
+ <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
+ <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
+ <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
+ <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
+ <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
+ <ZaljwLe7P+dXHEHb@duo.ucw.cz>
+ <6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com>
+ <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
+ <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com>
+ <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
+ <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,145 +67,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- linaro-mm-sig@lists.linaro.org, Daniel Vetter <daniel@ffwll.ch>,
- dmaengine@vger.kernel.org, Nuno Sa <nuno.sa@analog.com>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
+Cc: Lee Jones <lee@kernel.org>, jikos@kernel.org, linux-kernel@vger.kernel.org,
+ Jelle van der Waa <jelle@vdwaa.nl>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Vinod,
+This is a multi-part message in MIME format.
+--------------fyo0y9Nj9WkAr2V0zf77Mk2j
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Le mardi 30 janvier 2024 =C3=A0 21:38 +0530, Vinod Koul a =C3=A9crit=C2=A0:
-> On 29-01-24, 18:01, Paul Cercueil wrote:
-> > This function can be used to initiate a scatter-gather DMA
-> > transfer,
-> > where the address and size of each segment is located in one entry
-> > of
-> > the dma_vec array.
-> >=20
-> > The major difference with dmaengine_prep_slave_sg() is that it
-> > supports
-> > specifying the lengths of each DMA transfer; as trying to override
-> > the
-> > length of the transfer with dmaengine_prep_slave_sg() is a very
-> > tedious
-> > process. The introduction of a new API function is also justified
-> > by the
-> > fact that scatterlists are on their way out.
-> >=20
-> > Note that dmaengine_prep_interleaved_dma() is not helpful either in
-> > that
-> > case, as it assumes that the address of each segment will be higher
-> > than
-> > the one of the previous segment, which we just cannot guarantee in
-> > case
-> > of a scatter-gather transfer.
-> >=20
-> > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> >=20
-> > ---
-> > v3: New patch
-> >=20
-> > v5: Replace with function dmaengine_prep_slave_dma_vec(), and
-> > struct
-> > =C2=A0=C2=A0=C2=A0 'dma_vec'.
-> > =C2=A0=C2=A0=C2=A0 Note that at some point we will need to support cycl=
-ic
-> > transfers
-> > =C2=A0=C2=A0=C2=A0 using dmaengine_prep_slave_dma_vec(). Maybe with a n=
-ew "flags"
-> > =C2=A0=C2=A0=C2=A0 parameter to the function?
->=20
-> that would be better
+Hi Hans,
 
-Ok, I think it'd be better that I add a new "flags" parameter now -
-even if it means passing 0 until we actually have flags for it.
+Am 30.01.24 um 18:10 schrieb Hans de Goede:
+> Hi Werner,
+>
+> On 1/30/24 12:12, Werner Sembach wrote:
+>> Hi Hans,
+>>
+>> Am 29.01.24 um 14:24 schrieb Hans de Goede:
+<snip>
+>> I think that are mostly external keyboards, so in theory a possible cut could also between built-in and external devices.
+> IMHO it would be better to limit /dev/rgbledstring use to only
+> cases where direct userspace control is not possible and thus
+> have the cut be based on whether direct userspace control
+> (e.g. /dev/hidraw access) is possible or not.
 
->=20
-> > ---
-> > =C2=A0include/linux/dmaengine.h | 25 +++++++++++++++++++++++++
-> > =C2=A01 file changed, 25 insertions(+)
-> >=20
-> > diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
-> > index 3df70d6131c8..ee5931ddb42f 100644
-> > --- a/include/linux/dmaengine.h
-> > +++ b/include/linux/dmaengine.h
-> > @@ -160,6 +160,16 @@ struct dma_interleaved_template {
-> > =C2=A0	struct data_chunk sgl[];
-> > =C2=A0};
-> > =C2=A0
-> > +/**
-> > + * struct dma_vec - DMA vector
-> > + * @addr: Bus address of the start of the vector
-> > + * @len: Length in bytes of the DMA vector
-> > + */
-> > +struct dma_vec {
-> > +	dma_addr_t addr;
-> > +	size_t len;
-> > +};
-> > +
-> > =C2=A0/**
-> > =C2=A0 * enum dma_ctrl_flags - DMA flags to augment operation
-> > preparation,
-> > =C2=A0 *=C2=A0 control completion, and communicate status.
-> > @@ -910,6 +920,10 @@ struct dma_device {
-> > =C2=A0	struct dma_async_tx_descriptor
-> > *(*device_prep_dma_interrupt)(
-> > =C2=A0		struct dma_chan *chan, unsigned long flags);
-> > =C2=A0
-> > +	struct dma_async_tx_descriptor
-> > *(*device_prep_slave_dma_vec)(
-> > +		struct dma_chan *chan, const struct dma_vec *vecs,
-> > +		size_t nents, enum dma_transfer_direction
-> > direction,
-> > +		unsigned long flags);
->=20
-> s/slave/peripheral
->=20
-> I had requested it a bit while ago as well
+Ack
 
-You did. Sorry, I forgot about it when working on the v6.
+<snip>
 
-Cheers,
--Paul
+>> So also no basic driver? Or still the concept from before with a basic 1 zone only driver via leds subsystem to have something working, but it is unregistered by userspace, if open rgb wants to take over for fine granular support?
+> Ah good point, no I think that a basic driver just for kbd backlight
+> brightness support which works with the standard desktop environment
+> controls for this makes sense.
+>
+> Combined with some mechanism for e.g. openrgb to fully take over
+> control as discussed. It is probably a good idea to file a separate
+> issue with the openrgb project to discuss the takeover API.
 
-> > =C2=A0	struct dma_async_tx_descriptor *(*device_prep_slave_sg)(
-> > =C2=A0		struct dma_chan *chan, struct scatterlist *sgl,
-> > =C2=A0		unsigned int sg_len, enum dma_transfer_direction
-> > direction,
-> > @@ -972,6 +986,17 @@ static inline struct dma_async_tx_descriptor
-> > *dmaengine_prep_slave_single(
-> > =C2=A0						=C2=A0 dir, flags,
-> > NULL);
-> > =C2=A0}
-> > =C2=A0
-> > +static inline struct dma_async_tx_descriptor
-> > *dmaengine_prep_slave_dma_vec(
-> > +	struct dma_chan *chan, const struct dma_vec *vecs, size_t
-> > nents,
-> > +	enum dma_transfer_direction dir, unsigned long flags)
-> > +{
-> > +	if (!chan || !chan->device || !chan->device-
-> > >device_prep_slave_dma_vec)
-> > +		return NULL;
-> > +
-> > +	return chan->device->device_prep_slave_dma_vec(chan, vecs,
-> > nents,
-> > +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dir,
-> > flags);
-> > +}
-> > +
-> > =C2=A0static inline struct dma_async_tx_descriptor
-> > *dmaengine_prep_slave_sg(
-> > =C2=A0	struct dma_chan *chan, struct scatterlist
-> > *sgl,	unsigned int sg_len,
-> > =C2=A0	enum dma_transfer_direction dir, unsigned long flags)
-> > --=20
-> > 2.43.0
->=20
+I think the OpenRGB maintainers are pretty flexible at that point, after all 
+it's similar to enable commands a lot of rgb devices need anyway. I would 
+include it in a full api proposal.
 
+On this note: Any particular reason you suggested an ioctl interface instead of 
+a sysfs one? (Open question as, for example, I have no idea what performance 
+implications both have)
+
+<snip>
+
+>> I opened an issue regarding this:https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/3916
+> Great, thank you.
+First replies are in.
+> Regards,
+>
+> Hans
+
+Kind regards,
+
+Werner
+
+--------------fyo0y9Nj9WkAr2V0zf77Mk2j
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hi Hans,<br>
+    </p>
+    <div class="moz-cite-prefix">Am 30.01.24 um 18:10 schrieb Hans de
+      Goede:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com">
+      <pre class="moz-quote-pre" wrap="">Hi Werner,
+
+On 1/30/24 12:12, Werner Sembach wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">Hi Hans,
+
+Am 29.01.24 um 14:24 schrieb Hans de Goede:
+</pre>
+      </blockquote>
+    </blockquote>
+    &lt;snip&gt;<br>
+    <blockquote type="cite"
+      cite="mid:952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com">
+      <pre class="moz-quote-pre" wrap="">
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">I think that are mostly external keyboards, so in theory a possible cut could also between built-in and external devices.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+IMHO it would be better to limit /dev/rgbledstring use to only
+cases where direct userspace control is not possible and thus
+have the cut be based on whether direct userspace control
+(e.g. /dev/hidraw access) is possible or not.</pre>
+    </blockquote>
+    <p>Ack</p>
+    <p><span style="white-space: pre-wrap">&lt;snip&gt;</span></p>
+    <blockquote type="cite"
+      cite="mid:952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com">
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">So also no basic driver? Or still the concept from before with a basic 1 zone only driver via leds subsystem to have something working, but it is unregistered by userspace, if open rgb wants to take over for fine granular support?
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Ah good point, no I think that a basic driver just for kbd backlight
+brightness support which works with the standard desktop environment
+controls for this makes sense.
+
+Combined with some mechanism for e.g. openrgb to fully take over
+control as discussed. It is probably a good idea to file a separate
+issue with the openrgb project to discuss the takeover API.</pre>
+    </blockquote>
+    <p>I think the OpenRGB maintainers are pretty flexible at that
+      point, after all it's similar to enable commands a lot of rgb
+      devices need anyway. I would include it in a full api proposal.</p>
+    <p>On this note: Any particular reason you suggested an ioctl
+      interface instead of a sysfs one? (Open question as, for example,
+      I have no idea what performance implications both have)</p>
+    <p><span style="white-space: pre-wrap">&lt;snip&gt;
+</span></p>
+    <blockquote type="cite"
+      cite="mid:952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com">
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">I opened an issue regarding this: <a class="moz-txt-link-freetext" href="https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/3916">https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/3916</a>
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Great, thank you.</pre>
+    </blockquote>
+    First replies are in.<span style="white-space: pre-wrap">
+</span><span style="white-space: pre-wrap">
+</span>
+    <blockquote type="cite"
+      cite="mid:952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com">
+      <pre class="moz-quote-pre" wrap="">Regards,
+
+Hans</pre>
+    </blockquote>
+    <p>Kind regards,</p>
+    <p>Werner<span style="white-space: pre-wrap">
+</span></p>
+  </body>
+</html>
+
+--------------fyo0y9Nj9WkAr2V0zf77Mk2j--
