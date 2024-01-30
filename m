@@ -2,98 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F43F8420C4
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 11:08:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38EED84208D
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 11:05:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A26C110F1A3;
-	Tue, 30 Jan 2024 10:08:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 054BD112EB5;
+	Tue, 30 Jan 2024 10:05:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BBC7112EEE
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 10:07:52 +0000 (UTC)
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7A1F112EB3
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 10:05:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1706609102;
+ bh=OlF6rYfzSLDc07Nix/XsJE3v1wpI2M+vC30AXD7tPx8=;
+ h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
+ b=wEPrVcL13eYKKd2hTvCFzEW2+o1GszHbxGVTwxTZOH5qLSZuXBT8ah8hb9D/nu4cJ
+ 28IM6RvvT1owcV6fnNsjvFIV6W+CkGtsQWgHqgT1tg74qA/8d0mvQ99VDi6UndfUa0
+ xfME/koSHKPTkTKquOw0vVY1UvhnJOaE7VQJPfk6w+qA77yjmisW0NGf86ajEf3raN
+ DnSKCSecrMyHfbrxVXGfiEwPyczs8F9SrX7/lLw78dOi5aHCv9jZ5OOlayHFJaXxrq
+ XcPcr8hzDIp3Mt8yV45ZjE9Twxl1tLMmyseedue1uOU5ZgWVMnOvjygPLPf8KS4QkV
+ 9Pb8olRw/A+/g==
+Received: from [100.109.49.129] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 8CAE51FD06;
- Tue, 30 Jan 2024 10:07:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1706609240; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=F61DSN93u6sD3MSPybi43XJWnke1g5DZJEpa8UtK7cw=;
- b=hgVEkDlLInzH4H2UVnEX6iBNPthGyJK3z9kN3TwstCfu4LDJXHPoJ5ulJJBTZKu7VU5okC
- FTvc4G97M8L5r0v0F7YGCzxw5JRbnHlhNmBIPZ9PsysS7dz+rUxlPTE9Zuyr4MirbuRs50
- QawsKic5yY3KHegTrOSIoG5hG59aYrY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1706609240;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=F61DSN93u6sD3MSPybi43XJWnke1g5DZJEpa8UtK7cw=;
- b=5ZBgNKIpDdRt01JTwOMlNYOQmAF0xYiOEbsKxYxI14yJdknG4aI22E7Hj6+OzBvLA5GsZ9
- A59NJS99OlHnNIAg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1706609240; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=F61DSN93u6sD3MSPybi43XJWnke1g5DZJEpa8UtK7cw=;
- b=hgVEkDlLInzH4H2UVnEX6iBNPthGyJK3z9kN3TwstCfu4LDJXHPoJ5ulJJBTZKu7VU5okC
- FTvc4G97M8L5r0v0F7YGCzxw5JRbnHlhNmBIPZ9PsysS7dz+rUxlPTE9Zuyr4MirbuRs50
- QawsKic5yY3KHegTrOSIoG5hG59aYrY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1706609240;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=F61DSN93u6sD3MSPybi43XJWnke1g5DZJEpa8UtK7cw=;
- b=5ZBgNKIpDdRt01JTwOMlNYOQmAF0xYiOEbsKxYxI14yJdknG4aI22E7Hj6+OzBvLA5GsZ9
- A59NJS99OlHnNIAg==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 6D286139E1;
- Tue, 30 Jan 2024 10:07:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
- by imap2.dmz-prg2.suse.org with ESMTPSA id aDSQGVjKuGXdcwAAn2gu4w
- (envelope-from <tzimmermann@suse.de>); Tue, 30 Jan 2024 10:07:20 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: jfalempe@redhat.com,
-	javierm@redhat.com
-Subject: [PATCH 23/23] [DO NOT MERGE] drm/format-helper: Add drm_fb_fill() to
- fill screen with color
-Date: Tue, 30 Jan 2024 10:53:58 +0100
-Message-ID: <20240130100714.12608-24-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240130100714.12608-1-tzimmermann@suse.de>
-References: <20240130100714.12608-1-tzimmermann@suse.de>
+ (Authenticated sender: dmitry.osipenko)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 22FE437809D0;
+ Tue, 30 Jan 2024 10:05:01 +0000 (UTC)
+Message-ID: <12f365c7-6827-4960-bb6d-11b79c4bb328@collabora.com>
+Date: Tue, 30 Jan 2024 13:04:58 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: 0.70
-X-Spamd-Result: default: False [0.70 / 50.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_THREE(0.00)[4]; R_MISSING_CHARSET(2.50)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
- BROKEN_CONTENT_TYPE(1.50)[]; TO_DN_SOME(0.00)[];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_RATELIMIT(0.00)[to_ip_from(RLson8px8pywph8mow9a7f4xe8)];
- RCVD_COUNT_THREE(0.00)[3];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MID_CONTAINS_FROM(1.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
- BAYES_HAM(-3.00)[100.00%]
-X-Spam-Flag: NO
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v19 22/30] drm/shmem-helper: Add common memory shrinker
+Content-Language: en-US
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20240105184624.508603-1-dmitry.osipenko@collabora.com>
+ <20240105184624.508603-23-dmitry.osipenko@collabora.com>
+ <20240125100703.76d802ad@collabora.com> <Zbi1pzY3CbQxnnBQ@phenom.ffwll.local>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <Zbi1pzY3CbQxnnBQ@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,199 +57,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: kernel@collabora.com, Emma Anholt <emma@anholt.net>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Steven Price <steven.price@arm.com>, David Airlie <airlied@gmail.com>,
+ virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add drm_fb_fill(), which fills areas with a single static color, and
-implement support for XRGB888 and RGB565. There's common infrastructure
-code to move over the destination area and a per-line draw function for
-each color format.
+On 1/30/24 11:39, Daniel Vetter wrote:
+> On Thu, Jan 25, 2024 at 10:07:03AM +0100, Boris Brezillon wrote:
+>> On Fri,  5 Jan 2024 21:46:16 +0300
+>> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+>>
+>>>   *
+>>>   * This function Increases the use count and allocates the backing pages if
+>>>   * use-count equals to zero.
+>>> + *
+>>> + * Note that this function doesn't pin pages in memory. If your driver
+>>> + * uses drm-shmem shrinker, then it's free to relocate pages to swap.
+>>> + * Getting pages only guarantees that pages are allocated, and not that
+>>> + * pages reside in memory. In order to pin pages use drm_gem_shmem_pin().
+>>
+>> I still find this explanation confusing, if pages are allocated, they
+>> reside in memory. The only difference between drm_gem_shmem_get_pages()
+>> and drm_gem_shmem_pin_pages() is that the former lets the system
+>> reclaim the memory if the buffer is idle (no unsignalled fence attached
+>> to the dma_resv).
+>>
+>> We also need to describe the workflow for GEM validation (that's the
+>> TTM term for the swapin process happening when a GPU job is submitted).
+>>
+>> 1. Prepare the GPU job and initialize its fence
+>> 2. Lock the GEM resv
+>> 3. Add the GPU job fence to the resv object
+>> 4. If the GEM is evicted
+>>    a. call drm_gem_shmem_swapin_locked()
+>>    b. get the new sgt with drm_gem_shmem_get_pages_sgt_locked()
+>>    c. repopulate the MMU table (driver internals)
+> 
+> Might be good to explain where to call drm_sched_job_arm() here for
+> drivers using drm/sched, since that also needs to be at a very specific
+> point. Probably best to flesh out the details here by linking to the
+> relevant drm/sched and gpuvm functions as examples.
+> 
+>> 5. Unlock the GEM dma_resv
+>> 6. Submit the GPU job
+>>
+>> With this sequence, the GEM pages are guaranteed to stay around until
+>> the GPU job is finished.
+> 
+> Yeah I think the comment needs to explain how this ties together with
+> dma_resv locking and dma_resv fences, otherwise it just doesn't make much
+> sense.
+> 
+> This holds even more so given that some of the earlier drivers derived
+> from i915-gem code (and i915-gem itself) use _pin() both for these more
+> permanent pinnings, and also to temporarily put the memory in place before
+> it all gets fenced and then unpinned&unlocked.
+> 
+> So would be really good to have the sharpest possible nomeclatura here we
+> can get, and link between all the related concepts and functions in the
+> kerneldoc.
+> 
+> Some overview flow like Boris sketched above in a DOC: section would also
+> be great.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_format_helper.c | 150 ++++++++++++++++++++++++++++
- include/drm/drm_format_helper.h     |  11 ++
- 2 files changed, 161 insertions(+)
+Thank you all for the feedback! I'll add all this doc in the next version
 
-diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index a61f45636a111..60c17febb3c20 100644
---- a/drivers/gpu/drm/drm_format_helper.c
-+++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -1413,3 +1413,153 @@ size_t drm_fb_build_fourcc_list(struct drm_device *dev,
- 	return fourccs - fourccs_out;
- }
- EXPORT_SYMBOL(drm_fb_build_fourcc_list);
-+
-+/*
-+ * FILL
-+ */
-+
-+static int __drm_fill(void *dst, unsigned long dst_pitch, unsigned long dst_pixsize,
-+		      unsigned int src_color, unsigned long npixels, unsigned long lines,
-+		      struct drm_format_conv_state *state,
-+		      void (*fill_line)(void *dbuf, unsigned int npixels,
-+					const struct drm_color_lut *color))
-+{
-+	const struct drm_color_lut *color = &state->palette[src_color];
-+	unsigned long i;
-+
-+	if (!dst_pitch)
-+		dst_pitch = npixels * dst_pixsize;
-+
-+	for (i = 0; i < lines; ++i) {
-+		fill_line(dst, npixels, color);
-+		dst += dst_pitch;
-+	}
-+
-+	return 0;
-+}
-+
-+static int __drm_fill_toio(void __iomem *dst, unsigned long dst_pitch, unsigned long dst_pixsize,
-+			   unsigned int src_color, unsigned long npixels, unsigned long lines,
-+			   struct drm_format_conv_state *state,
-+			   void (*fill_line)(void *dbuf, unsigned int npixels,
-+					     const struct drm_color_lut *color))
-+{
-+	const struct drm_color_lut *color = &state->palette[src_color];
-+	size_t dbuf_len = npixels * dst_pixsize;
-+	unsigned long i;
-+	void *dbuf;
-+
-+	dbuf = drm_format_conv_state_reserve(state, dbuf_len, GFP_KERNEL);
-+	if (!dbuf)
-+		return -ENOMEM;
-+
-+	if (!dst_pitch)
-+		dst_pitch = npixels * dst_pixsize;
-+
-+	for (i = 0; i < lines; ++i) {
-+		fill_line(dbuf, npixels, color);
-+		memcpy_toio(dst, dbuf, dbuf_len);
-+		dst += dst_pitch;
-+	}
-+
-+	return 0;
-+}
-+
-+static int drm_fill(struct iosys_map *dst,
-+		    const unsigned int *dst_pitch, const u8 *dst_pixsize,
-+		    unsigned int src_color, unsigned long pixels, unsigned long lines,
-+		    struct drm_format_conv_state *state,
-+		    void (*fill_line)(void *dbuf, unsigned int npixels,
-+				      const struct drm_color_lut *color))
-+{
-+	static const unsigned int default_dst_pitch[DRM_FORMAT_MAX_PLANES] = {
-+		0, 0, 0, 0
-+	};
-+
-+	if (!dst_pitch)
-+		dst_pitch = default_dst_pitch;
-+
-+	/* TODO: handle src in I/O memory here */
-+	if (dst[0].is_iomem)
-+		return __drm_fill_toio(
-+			dst[0].vaddr_iomem, dst_pitch[0], dst_pixsize[0],
-+			src_color, pixels, lines, state, fill_line);
-+	else
-+		return __drm_fill(
-+			dst[0].vaddr, dst_pitch[0], dst_pixsize[0],
-+			src_color, pixels, lines, state, fill_line);
-+}
-+
-+static void drm_fill_rgb565_line(void *dbuf, unsigned int pixels,
-+				 const struct drm_color_lut *color)
-+{
-+
-+	__le32 *dbuf16 = dbuf;
-+	unsigned int x;
-+	u16 pix = ((color->red   >> 11) << 11) |
-+		  ((color->green >> 10) << 5) |
-+		  ((color->blue  >> 11));
-+
-+	for (x = 0; x < pixels; x++)
-+		*dbuf16++ = cpu_to_le16(pix);
-+}
-+
-+void drm_fb_fill_rgb565(struct iosys_map *dst, const unsigned int *dst_pitch,
-+			unsigned int src_color, unsigned long pixels, unsigned long lines,
-+			struct drm_format_conv_state *state)
-+{
-+	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
-+		2,
-+	};
-+
-+	drm_fill(dst, dst_pitch, dst_pixsize, src_color, pixels, lines,
-+		 state, drm_fill_rgb565_line);
-+}
-+EXPORT_SYMBOL(drm_fb_fill_rgb565);
-+
-+static void drm_fill_xrgb8888_line(void *dbuf, unsigned int pixels,
-+				   const struct drm_color_lut *color)
-+{
-+
-+	__le32 *dbuf32 = dbuf;
-+	unsigned int x;
-+	u32 pix = GENMASK(31, 24) | /* fill unused bits */
-+		  ((color->red   >> 8) << 16) |
-+		  ((color->green >> 8) << 8) |
-+		  ((color->blue  >> 8));
-+
-+	for (x = 0; x < pixels; x++)
-+		*dbuf32++ = cpu_to_le32(pix);
-+}
-+
-+void drm_fb_fill_xrgb8888(struct iosys_map *dst, const unsigned int *dst_pitch,
-+			  unsigned int src_color, unsigned long pixels, unsigned long lines,
-+			  struct drm_format_conv_state *state)
-+{
-+	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
-+		4,
-+	};
-+
-+	drm_fill(dst, dst_pitch, dst_pixsize, src_color, pixels, lines,
-+		 state, drm_fill_xrgb8888_line);
-+}
-+EXPORT_SYMBOL(drm_fb_fill_xrgb8888);
-+
-+int drm_fb_fill(struct drm_device *dev,
-+		struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t dst_format,
-+		unsigned int src_color, unsigned long pixels, unsigned long lines,
-+		struct drm_format_conv_state *state)
-+{
-+	if (dst_format == DRM_FORMAT_RGB565) {
-+		drm_fb_fill_rgb565(dst, dst_pitch, src_color, pixels, lines, state);
-+		return 0;
-+	} else if (dst_format == DRM_FORMAT_XRGB8888) {
-+		drm_fb_fill_xrgb8888(dst, dst_pitch, src_color, pixels, lines, state);
-+		return 0;
-+	}
-+
-+	drm_warn_once(dev, "No fill helper for %p4cc found.\n", &dst_format);
-+
-+	return -EINVAL;
-+}
-+EXPORT_SYMBOL(drm_fb_fill);
-diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
-index d5ee8bdb0f619..283b6b349675e 100644
---- a/include/drm/drm_format_helper.h
-+++ b/include/drm/drm_format_helper.h
-@@ -155,4 +155,15 @@ size_t drm_fb_build_fourcc_list(struct drm_device *dev,
- 				const u32 *native_fourccs, size_t native_nfourccs,
- 				u32 *fourccs_out, size_t nfourccs_out);
- 
-+void drm_fb_fill_rgb565(struct iosys_map *dst, const unsigned int *dst_pitch,
-+			unsigned int src_color, unsigned long pixels, unsigned long lines,
-+			struct drm_format_conv_state *state);
-+void drm_fb_fill_xrgb8888(struct iosys_map *dst, const unsigned int *dst_pitch,
-+			  unsigned int src_color, unsigned long pixels, unsigned long lines,
-+			  struct drm_format_conv_state *state);
-+int drm_fb_fill(struct drm_device *dev,
-+		struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t dst_format,
-+		unsigned int src_color, unsigned long pixels, unsigned long lines,
-+		struct drm_format_conv_state *state);
-+
- #endif /* __LINUX_DRM_FORMAT_HELPER_H */
 -- 
-2.43.0
+Best regards,
+Dmitry
 
