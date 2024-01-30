@@ -2,80 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B947A841E75
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 09:54:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D5A841E97
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 10:02:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEE17112B3F;
-	Tue, 30 Jan 2024 08:54:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CE3910F859;
+	Tue, 30 Jan 2024 09:02:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
  [209.85.208.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 347E1112B3F
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 08:54:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0613D10F859
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 09:02:06 +0000 (UTC)
 Received: by mail-ed1-f46.google.com with SMTP id
- 4fb4d7f45d1cf-55f3e2ef98bso80097a12.0
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 00:54:17 -0800 (PST)
+ 4fb4d7f45d1cf-55369c59708so1503069a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 01:02:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1706604795; x=1707209595; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SnipPguVBVsukMJPg/CHKERwnO897v8apmVfCnhET7A=;
- b=BgFUwMtg5lSKitpWvXOsEzeIP1aXaeVKxgyOMFV2Rc7EgcXtJQkDdiYuaUq+8fwB1q
- RrocOG9PKNZvEJhqQVm3SuDEB9cdBYiLUpO2bLwuLZAGVUBwn7J0szHctnh5YVKzT8bN
- A7lL97ZH+RbumH/7TdGLWp06zR5R+1KVxLIgo=
+ d=ffwll.ch; s=google; t=1706605264; x=1707210064; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=iviL2+SAMhL4f4M9BrsRO99N0cHmSw6DwmN85C/fnbs=;
+ b=Ng8KFMXdh8NM7s0vQDcgXmwVdgimeZJ/x2h9h5xeoKy9BFwqU1Jb5od5AMXW4MLtko
+ /BjqVp2jHOWik9EipTjfi7/It8mtWIERNCn6j8QFOyBwcfH72xLBWbIpLVDT4Xo9A7DF
+ CkhwBZCgf0RZHpavH4QcxEqSmUqwA6UiqRZc8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706604795; x=1707209595;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SnipPguVBVsukMJPg/CHKERwnO897v8apmVfCnhET7A=;
- b=HorPWr9lvsYMZ7txo1eZJE7YCmCiu7yfi8/iZisLkhjKFejpxN97OfsZyHUs4CN7Kx
- IKst5Lruz1hhmBxa3EzBQQ2F6PfDkHftZ8EjgypFpDcJ/UMjNcTm9UuUBNC8F42re2tZ
- tZgWQK0Ji5nYvBtACOpJv/rlDNRYehfMMK21gjEBUR5tePXhAG6pVxo3XBWUBjLkgVYq
- ehQisVOk9eAFeIl74OAOgu2WFbeRWmXaTnV0qu2+mVwWmbxbklu0ZCN2ARgQsbjjbWRj
- zy8YitVf+OwT835YID7pPwZxJdwT5vBE0tW7nBv7zwTyRHrk8carf1fIi7wnqQVgm+Tv
- iyxQ==
-X-Gm-Message-State: AOJu0YzVE6GvRftyYyL7+qZoR397ufE9/VU+LTlzZ76gSom3MeDgHN/Q
- JhAQrvC6IJg+YTddZs3RA6JSkdZdSYAveIy+dae8DVgroqXqCzWg8Pv3sX1zARo=
-X-Google-Smtp-Source: AGHT+IHAJVCMWLVPg/vYHMvDoQmMTWBgx+I9ToMH3Bmu5gVY3ZyclYukTdif33EwMWHJuhkwoBXIaA==
-X-Received: by 2002:a17:906:6a02:b0:a31:234e:6a9c with SMTP id
- qw2-20020a1709066a0200b00a31234e6a9cmr7105187ejc.5.1706604795460; 
- Tue, 30 Jan 2024 00:53:15 -0800 (PST)
+ d=1e100.net; s=20230601; t=1706605264; x=1707210064;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=iviL2+SAMhL4f4M9BrsRO99N0cHmSw6DwmN85C/fnbs=;
+ b=D6b5/MhAWR/UyKEuLjV1kVSD9XZjH/Ek3pyWqaC5De6QiV9s7yvm6iYZ0/ku7Eqj71
+ RLw6/VbJP/gy2FqDR2F4/81WrYZ3ySXJQhs06EGcHomJVTBDOSmEIalIjGH5z0ghC5ZS
+ qpxYR+htWfwz1I0aj8rqBYljTtk6G/q6JUA468467QX3tus+upQohr7RPW7ayYM9vGnm
+ 5mYCTxEWgEi7ALNDdgMRIEe6UWGUF6oDpMSwKWeXRTA4zS6S95YHmzS8LR5I8EogeNJa
+ RGSax1oifBwRp/V64ahy+yT66cQY+bHH9plOcW0CrOkUeN9UwJ1aumrLKiBdHQS61V6H
+ 5X9Q==
+X-Forwarded-Encrypted: i=0;
+ AJvYcCXqiWtQkXLbCkqAzDkMDekytwpD3gUZ2SdL0xtpeqxDEE8IWxP09AY/I7ghduy6xNOtaxXbrKoEjHmaWJkLTjhMP8iJmLMVsLvdpdWPnuOs
+X-Gm-Message-State: AOJu0YxSJFYv/OVWrm12J5Lu4LX71bvdrsxhMe4B1KPR6A2CJJuPkgJ7
+ gsNM/dnehL9+K6pNL8QX+UF3aiFpVUFDaeoBkF2c5/wgfeKBzbaBItER1S46lPg=
+X-Google-Smtp-Source: AGHT+IEEz+ER+ZYgh2X+lnwADbolE5wAPyK/z45mUwIpueFK9FUVKRy/g+fVGncVxRfL19fA0sSQhQ==
+X-Received: by 2002:aa7:d9c3:0:b0:55e:fe18:157b with SMTP id
+ v3-20020aa7d9c3000000b0055efe18157bmr3565284eds.3.1706605264361; 
+ Tue, 30 Jan 2024 01:01:04 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- vk8-20020a170907cbc800b00a352afd952fsm4035463ejc.43.2024.01.30.00.53.14
+ fd12-20020a056402388c00b00557d839727esm4647498edb.7.2024.01.30.01.01.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jan 2024 00:53:14 -0800 (PST)
-Date: Tue, 30 Jan 2024 09:53:13 +0100
+ Tue, 30 Jan 2024 01:01:03 -0800 (PST)
+Date: Tue, 30 Jan 2024 10:01:01 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH RFC 0/4] Support for Simulated Panels
-Message-ID: <Zbi4-S49CWlUkO__@phenom.ffwll.local>
-Mail-Followup-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Maxime Ripard <mripard@kernel.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, David Airlie <airlied@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>
-References: <20240116-jz-test-sim-panel-v1-0-f9511f46c9c7@quicinc.com>
- <x6wi5xnihnbpqsujjfjfw3ft6njncruta5l3xa44pds5oxmdkw@mmvv4bciy65s>
- <87cyu0qn81.fsf@intel.com>
- <e1f10583-1d5b-fdac-24bf-098a0ba06241@quicinc.com>
- <hhmbghooegclx3jbsx2neryligk3mj77lq7gns5xegags5ltoz@acdu6hssqwlw>
- <99705d73-abcf-6d41-3d50-757e706cf1fc@quicinc.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH v5 1/6] dma-buf: Add
+ dma_buf_{begin,end}_access()
+Message-ID: <Zbi6zQYtnfOZu5Wh@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, 
+ Paul Cercueil <paul@crapouillou.net>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Jonathan Cameron <jic23@kernel.org>,
+ Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <442f69f31ece6d441f3dc41c3dfeb4dcf52c00b8.camel@crapouillou.net>
+ <0b6b8738-9ea3-44fa-a624-9297bd55778f@amd.com>
+ <e4620acdf24628d904cedcb0030d78b14559f337.camel@crapouillou.net>
+ <85a89505-edeb-4619-86c1-157f7abdd190@amd.com>
+ <0fe2755fb320027234c086bcc88fd107855234c5.camel@crapouillou.net>
+ <577501f9-9d1c-4f8d-9882-7c71090e5ef3@amd.com>
+ <7928c0866ac5b2bfaaa56ad3422bedc9061e0f7b.camel@crapouillou.net>
+ <2ac7562c-d221-409a-bfee-1b3cfcc0f1c6@amd.com>
+ <ZbKiCPhRvWaz4Icn@phenom.ffwll.local>
+ <c97e38ee-b860-4990-87f1-3e59d7d9c999@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <99705d73-abcf-6d41-3d50-757e706cf1fc@quicinc.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c97e38ee-b860-4990-87f1-3e59d7d9c999@amd.com>
 X-Operating-System: Linux phenom 6.6.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,273 +98,269 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Daniel Vetter <daniel@ffwll.ch>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Airlie <airlied@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: linaro-mm-sig@lists.linaro.org,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Paul Cercueil <paul@crapouillou.net>,
+ Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Cameron <jic23@kernel.org>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 29, 2024 at 11:05:12AM -0800, Abhinav Kumar wrote:
-> <adding device tree maintainers to comment>
-> 
-> Hi Maxime
-> 
-> On 1/26/2024 4:45 AM, Maxime Ripard wrote:
-> > On Wed, Jan 17, 2024 at 09:36:20AM -0800, Abhinav Kumar wrote:
-> > > Hi Jani and Maxime
+On Fri, Jan 26, 2024 at 05:42:50PM +0100, Christian König wrote:
+> Am 25.01.24 um 19:01 schrieb Daniel Vetter:
+> > On Thu, Jan 25, 2024 at 04:00:16PM +0100, Christian König wrote:
+> > > Am 24.01.24 um 11:58 schrieb Paul Cercueil:
+> > > > [SNIP]
+> > > > > > The problem was then that dma_buf_unmap_attachment cannot be called
+> > > > > > before the dma_fence is signaled, and calling it after is already
+> > > > > > too
+> > > > > > late (because the fence would be signaled before the data is
+> > > > > > sync'd).
+> > > > >    Well what sync are you talking about? CPU sync? In DMA-buf that is
+> > > > > handled differently.
+> > > > >    For importers it's mandatory that they can be coherent with the
+> > > > > exporter. That usually means they can snoop the CPU cache if the
+> > > > > exporter can snoop the CPU cache.
+> > > > I seem to have such a system where one device can snoop the CPU cache
+> > > > and the other cannot. Therefore if I want to support it properly, I do
+> > > > need cache flush/sync. I don't actually try to access the data using
+> > > > the CPU (and when I do, I call the sync start/end ioctls).
+> > > Usually that isn't a problem as long as you don't access the data with the
+> > > CPU.
 > > > 
-> > > On 1/17/2024 2:16 AM, Jani Nikula wrote:
-> > > > On Wed, 17 Jan 2024, Maxime Ripard <mripard@kernel.org> wrote:
-> > > > > Hi,
-> > > > > 
-> > > > > On Tue, Jan 16, 2024 at 02:22:03PM -0800, Jessica Zhang wrote:
-> > > > > > This series introduces a simulated MIPI DSI panel.
-> > > > > > 
-> > > > > > Currently, the only way to validate DSI connectors is with a physical
-> > > > > > panel. Since obtaining physical panels for all possible DSI configurations
-> > > > > > is logistically infeasible, introduce a way for DSI drivers to simulate a
-> > > > > > panel.
-> > > > > > 
-> > > > > > This will be helpful in catching DSI misconfiguration bugs and catching
-> > > > > > performance issues for high FPS panels that might not be easily
-> > > > > > obtainable.
-> > > > > > 
-> > > > > > For now, the simulated panel driver only supports setting customized
-> > > > > > modes via the panel_simlation.mode modparam. Eventually, we would like
-> > > > > > to add more customizations (such as configuring DSC, dual DSI, etc.).
-> > > > > 
-> > > > > I think that it's more complicated than it needs to be.
+> > > [SNIP]
+> > > 
+> > > > > > (and I *think* there is a way to force coherency in the
+> > > > > > Ultrascale's
+> > > > > > interconnect - we're investigating it)
+> > > > >    What you can do is that instead of using udmabuf or dma-heaps is
+> > > > > that the device which can't provide coherency act as exporters of the
+> > > > > buffers.
+> > > > >    The exporter is allowed to call sync_for_cpu/sync_for_device on it's
+> > > > > own buffers and also gets begin/end CPU access notfications. So you
+> > > > > can then handle coherency between the exporter and the CPU.
+> > > > But again that would only work if the importers would call
+> > > > begin_cpu_access() / end_cpu_access(), which they don't, because they
+> > > > don't actually access the data using the CPU.
+> > > Wow, that is a completely new use case then.
+> > > 
+> > > Neither DMA-buf nor the DMA subsystem in Linux actually supports this as far
+> > > as I can see.
+> > > 
+> > > > Unless you mean that the exporter can call sync_for_cpu/sync_for_device
+> > > > before/after every single DMA transfer so that the data appears
+> > > > coherent to the importers, without them having to call
+> > > > begin_cpu_access() / end_cpu_access().
+> > > Yeah, I mean the importers don't have to call begin_cpu_access() /
+> > > end_cpu_access() if they don't do CPU access :)
+> > > 
+> > > What you can still do as exporter is to call sync_for_device() and
+> > > sync_for_cpu() before and after each operation on your non-coherent device.
+> > > Paired with the fence signaling that should still work fine then.
+> > > 
+> > > But taking a step back, this use case is not something even the low level
+> > > DMA subsystem supports. That sync_for_cpu() does the right thing is
+> > > coincident and not proper engineering.
+> > > 
+> > > What you need is a sync_device_to_device() which does the appropriate
+> > > actions depending on which devices are involved.
+> > > 
+> > > > In which case - this would still demultiply the complexity; my USB-
+> > > > functionfs interface here (and IIO interface in the separate patchset)
+> > > > are not device-specific, so I'd rather keep them importers.
+> > > > >    If you really don't have coherency between devices then that would
+> > > > > be a really new use case and we would need much more agreement on how
+> > > > > to do this.
+> > > > [snip]
 > > > > 
-> > > > Both too complicated and not complicated enough! :p
-> > > 
-> > > The end goal is to have a framework to be able to validate the display
-> > > pipeline with MIPI panels of any resolution , DSC/non-DSC, different MIPI
-> > > flags etc.
-> > > 
-> > > Historically, QC has been having an in-house framework to validate the
-> > > panels in a simulated way as its logistically not possible to procure every
-> > > panel from every vendor. This has been working pretty well but its not
-> > > upstream yet. So we would like to work with the community to work on a model
-> > > which works for everyone and this RFC was initiated with that in mind.
-> > 
-> > I think the goal was pretty clear. My point was more that there's no
-> > reason it should be driver specific, and having a second path for it
-> > doesn't really exert the actual panel path in the driver. I think a
-> > separate driver would be better.
-> > 
-> 
-> We can make this generic. That would be great actually. One option could be
-> to move the modparam we have within the msm to the drm_of.c so that
-> drm_of_find_panel_or_bridge shall return the sim panel if the modparam is
-> passed to select a sim panel.
-
-Yeah I think gluing this into drm_of_find_panel_or_bridge() would be
-great, should help get other drivers on board and also help with
-encouraging drivers to use panels/bridges correctly.
-
-> So if we make this a compile time decision whether to use real panel or sim
-> panel and just enable the appropriate config, we dont need the modparam and
-> we can implement some policy in the drm_of to first check if sim panel is
-> available and if not try the real panel then everything will just happen
-> under-the-hood. But we thought that a modparam based switching might be
-> convenient if users dont want to recompile the code to switch but will need
-> to compile both the panels.
-
-I think you can get to this point at runtime too:
-
-- add a debugfs interface to your drm-sim-panel.ko driver. or maybe dt
-  overlay or whatever is most convenient to configure the panel to be the
-  sim one and not the real one
-
-- load that drm-sim-panel.ko module first and configure it
-
-- load the real driver
-
-- some magic/heuristics/whatever in drm_of_find_panel_or_bridge to make
-  sure things work.
-
-Yes this breaks all built-in configs, but I also think trying to configure
-a sim panel with modparams is going to be a lost cause, they're really
-tricky. See also my comment below.
-
-> > > There is simulation infrastructure in place in upstream for HDMI/DP in the
-> > > form of chamelium based testing in IGT but no such fwk exists for DSI
-> > > displays.
-> > > 
-> > > Different MIPI panels and resolutions test out not only the DSI controller
-> > > but the entire display pipeline as based on resolution, compression and MIPI
-> > > mode flags different parts of the pipeline can get exercised.
-> > > 
-> > > > > Why do we need to support (and switch to) both the actual and
-> > > > > "simulated" panel?
-> > > > > 
-> > > 
-> > > As per my discussion on IRC with the panel/bridge maintainers and DT
-> > > maintainers, a simulation panel does not qualify for its own devicetree as
-> > > its not a real hardware so we needed to come up with a way to have a module
-> > > which can be attached to the encoder without its own bindings and
-> > > devicetree. Thats what led to this RFC.
-> > 
-> > I still think it's worth trying, there's plenty of virtual drivers in
-> > the DT already. But even then, DT policies shouldn't dictate general
-> > framework design decisions: we have other ways to probe panels than
-> > using the DT (by loading overlays, registering devices by hand, etc.). I
-> > still think it would be a good idea to try though.
-> > 
-> 
-> DT option would be great if accepted and will nicely solve the scalability
-> issue of this as it desperately needs one.
-> 
-> I have absolutely no concerns and would be glad if it will be accepted.
-> 
-> Can the DT maintainers please comment if having a device tree for a
-> simulation panel would work OR be considered because of the scalability of
-> the number of panels which can be tried as Maxime wrote.
-> 
-> > > > > Wouldn't it be simpler if we had a vkms-like panel that we could either
-> > > > > configure from DT or from debugfs that would just be registered the
-> > > > > usual way and would be the only panel we register?
+> > > > Agreed. Desiging a good generic solution would be better.
 > > > > 
+> > > > With that said...
+> > > > 
+> > > > Let's keep it out of this USB-functionfs interface for now. The
+> > > > interface does work perfectly fine on platforms that don't have
+> > > > coherency problems. The coherency issue in itself really is a
+> > > > tangential issue.
+> > > Yeah, completely agree.
 > > > 
-> > > No, we need to have validate actual hardware pipeline with the simulated
-> > > panel. With vkms, actual display pipeline will not be validated. With
-> > > incorrect display pipeline misconfigurations arising from different panel
-> > > combinations, this can easily be caught with any existing IGT CRC testing.
-> > > In addition, all performance related bugs can also be easily caught by
-> > > simulating high resolution displays.
+> > > > So I will send a v6 where I don't try to force the cache coherency -
+> > > > and instead assume that the attached devices are coherent between
+> > > > themselves.
+> > > > 
+> > > > But it would be even better to have a way to detect non-coherency and
+> > > > return an error on attach.
+> > > Take a look into the DMA subsystem. I'm pretty sure we already have
+> > > something like this in there.
+> > > 
+> > > If nothing else helps you could take a look if the coherent memory access
+> > > mask is non zero or something like that.
+> > Jumping in way late and apolgies to everyone since yes I indeed suggested
+> > this entire mess to Paul in some private thread.
 > > 
-> > That's not what I meant. What I meant was that something like a
-> > user-configurable, generic, panel driver would be a good idea. Just like
-> > vkms (with the debugfs patches) is for a full blown KMS device.
+> > And worse, I think we need it, it's just that we got away without it thus
+> > far.
 > > 
+> > So way back at the og dma-buf kick-off dma coherency was discussed, and a
+> > few things where noted:
+> > - the dma api only supports device<->cpu coherency
+> > - getting the full coherency model off the ground right away is probably
+> >    too hard, so we made the decision that where it matters, relevant
+> >    flushing needs to be done in dma_buf_map/unmap.
+> > 
+> > If you look at the earliest patches for dma-buf we had pretty clear
+> > language that all dma-operations should be bracketed with map/unmap. Of
+> > course that didn't work out for drm at all, and we had to first get
+> > dma_resv_lock and dma_fence landed and then your dynamic exporter/importer
+> > support in just to get the buffer migration functionality working, which
+> > was only one of the things discussed that braketing everything with
+> > map/unmap was supposed to take care of.
+> > 
+> > The other was coherency management. But looking through archives I think
+> > this was already agreed to be postponed for later in the original kick-off
+> > meeting and never further discussed on the mailing list.
+> > 
+> > This worked for a fairly long time, because thus far dma-buf was used on
+> > fairly reaasonable architectures where all participating devices are
+> > coherent enough.
+> > 
+> > We did have to add the cpu access flushing fairly quickly because there's
+> > a lot of SoC chips (including intel) where that was necessary, but even
+> > that was added later on, as an opt-in and without fixing every. See
+> > fc13020e086b ("dma-buf: add support for kernel cpu access").
+> > 
+> > The ioctl to allow userspace to do flushing was added even later on, and
+> > there the entire yolo opt-in situation is even worse. c11e391da2a8
+> > ("dma-buf: Add ioctls to allow userspace to flush") was only in 2016, 5
+> > years after dma-buf landed.
+> > 
+> > It looks like it's finally time to add the device side flushing functions
+> > we've talked about first over 12 years ago :-)
+> > 
+> > The reason this pops up now is that unlike other dma-buf users on maybe
+> > somewhat more funky architectures, Paul's patches want to use dma_fence
+> > for synchronization of the dma operations. Which means you cannot call the
+> > full dma_buf_map/unmap dance because that takes dma_resv_lock, and
+> > absolute no-go in a dma_fence critical path.
+> > 
+> > And yes in those 12 years the dma-api hasn't gained the device2device sync
+> > support we'd need, but neither has it gained the multiple devices <-> cpu
+> > sync support we'd strictly need for dma-buf. So yes this is all a terrible
+> > hodge-podge of hacks, but if we'd require theoretically perfect code we'd
+> > still have zero dma-buf support in upstream.
+> > 
+> > This also includes how we landed these extensions, none of them in the
+> > past have landed with a "update all existing exporters/importers" rule. We
+> > talked about that every time, and rejected it every time for imo pretty
+> > good reasons - the perf impact tends to be way too harsh if you impose
+> > over-flushing on everyone, including the reasonable platforms. And we
+> > currently can't do less than overflushing with the current dma-api
+> > interfaces because we dont have the specific flush functions we'd need. So
+> > really this isn't doing a worse abuse of the dma-api than what we have.
+> > It's definitely a bit wasteful since the functions we use do in theory
+> > flush too much. But in practice on the these funky architectures they
+> > flush enough.
+> > 
+> > There's also the very hard issue of actually trying to optimize flushes,
+> > because a dma operation might only access part of a buffer, and you might
+> > interleave read/write access by different devices in very innovative ways.
+> > So I'm firmly on the "make it work first, then fast" side of things.
+> > 
+> > So dma-buf will continue to be a thing that's tested for specific combos,
+> > and then we'll patch them. It's a decade-plus tradition at this point.
+> > 
+> > Which is all a very long winded way of saying that yes, I think we need
+> > this, and we needed this 12 years ago already if we'd have aimed for
+> > perfect.
+> > 
+> > I have a bunch of detail comments on the patch itself, but I guess we
+> > first need to find consensus on whether it's a good idea in the first
+> > place.
 > 
-> Let me respond for both this question and the one below from you/Jani.
+> Well I think we should have some solution, but I'm not sure if it should be
+> part of DMA-buf.
 > 
-> Certainly having user-configurable information is a goal here. The end-goal
-> is to make everything there in the existing panels such as below like I
-> wrote:
+> Essentially a DMA-buf exports the buffers as he uses it and the importer (or
+> the DMA-buf subsystem) is then the one who says ok I can use this or I can't
+> use this or I need to call extra functions to use this or whatever.
 > 
-> 1) Display resolution with timings (drm_display_mode)
-> 2) Compression/non-compression
-> 3) Command mode/Video mode
-> 4) MIPI mode flags
-> 5) DCS commands for panel enable/disable and other panel sequences
-> 6) Power-up/Power-down sequence for the panel
-> 
-> But, we also have to see what all is feasible today from the DRM fwk
-> standpoint. There are some limitations about what is boot-time configurable
-> using bootparams and what is runtime configurable (across a modeset) using
-> debugfs.
-> 
-> 1) Today, everything part of struct mipi_dsi_device needs to be available at
-> boot time from what I can see as we need that while calling
-> mipi_dsi_attach(). So for that we went with boot-params.
-> 
-> 2) For the list of modes, we can move this to a debugfs like
-> "populate_modes" which the client using a sim panel can call before picking
-> a mode and triggering a commit.
-> 
-> But we need to have some default mode and configuration.
+> It's not the job of the exporter to provide the coherency for the importer,
+> cause otherwise we would have a lot of code in the exporter which can only
+> be tested when you have the right importer around. And I strongly think that
+> this is a no-go for having a reliable solution.
 
-Uh, at the risk of sounding a bit like I'm just chasing the latest
-buzzwords, but this sounds like something that's screaming for ebpf. Which
-is also the plan we discussed for allowing vkms to simulate more complex
-hardware eventually. Same design really:
+The trouble is, that if you have other memory than stuff allocated by the
+dma-api or mapped using the dma-api, then by necessity the exporter has to
+deal with this.
 
-- use configfs
+Which is the exact same reason we also force the exporters to deal with
+the cpu cache flushing - you're argument that it's not great to replicate
+this everywhere holds there equally.
 
-- all the static stuff that needs to be fixed at panel registration time
-  is going to be configfs files. That gives you a _lot_ more flexibility
-  than trying to shoehoern everything into modparam. We've started that
-  way for vkms, good for a first tech demo, not even close to good enough
-  for a real testing/sim driver.
+The other thing is that right now the exporter is the only one who
+actually knows what kind of dma coherency rules apply for a certain piece
+of memory. E.g. on i915-gem even if it's dma_map_sg mapped the underlying
+i915-gem buffer might be non-coherent, and i915-gem makes it all work by
+doing the appropriate amount of clflush.
 
-- all the runtime hooks that control the very specific DSI flows would be
-  in ebpf. For common cases maybe you can implement some of the callbacks
-  entire in the sim driver in C and configure it using configfs, but for
-  anything really complex it's probably going to be ebpf.
+Similar funky things happen in other cases.
 
-  And there's just no way you can load ebpf over a modparam, so at that
-  point we absolutely do have to have configfs (iirc you can load/attach
-  ebpf to files in a fairly flexible way, so that should be doable with
-  configfs - it's definitely the plan for vkms atomic_check constraints
-  and stuff like that).
+So unless we add an interface which allows importers to figure out how
+much flushing is needed, currently the exporter is the only one who knows
+(because it can inspect the struct device at dma_buf_attach time).
 
-> This is where I am not totally sure of. On HDMI/DP sinks, we usually go with
-> a default of 640x480 as that one is guaranteed to be supported across sinks.
+We could flip this around, but it would be a rather serious depature from
+the dma-buf design approach thus far.
+
+> That's why I think the approach of having DMA-buf callbacks is most likely
+> the wrong thing to do.
 > 
-> For MIPI displays, we will have to agree on some default configuration then.
+> What should happen instead is that the DMA subsystem provides functionality
+> which to devices which don't support coherency through it's connection to
+> say I want to access this data, please make sure to flush the appropriate
+> catches. But that's just a very very rough design idea.
 > 
-> So, we can certainly add debugfs to make the runtime params but we need to
-> start with some default during boot-up and move the others to debugfs.
-> 
-> With vkms, can you pls point us to the debugfs patches you are referring to?
-> With the current vkms, very little is available which is debugfs
-> configurable (overlay, writeback and cursor support).
+> This will become more with CXL at the horizon I think.
 
-It should actually be configfs. Unfortunately those patches haven't landed
-(yet). I think this is the latest version, not sure why it's not moved
-further:
+Yeah CXL will make this all even more fun, but we are firmly there already
+with devices deciding per-buffer (or sometimes even per-access with
+intel's MOCS stuff) what coherency mode to use for a buffer.
 
-https://lore.kernel.org/dri-devel/20230829053201.423261-1-brpol@chromium.org/
+Also arm soc generally have both coherent and non-coherent device
+interconnects, and I think some devices can switch with runtime flags too
+which mode they use for a specific transition.
+
+CXL just extends this to pcie devices.
+
+So the mess is here, how do we deal with it?
+
+My take is that the opt-in callback addition is far from great, but it's
+in line with how we extended dma-buf the past decade plus too. So unless
+someone's volunteering to pour some serious time into re-engineering this
+all (including testing all the different device/driver<->device/driver
+interactions) I think there's only really one other option: To not support
+these cases at all. And I don't really like that, because it means people
+will hack together something even worse in their drivers.
+
+By adding it to dma-buf it'll stare us in our faces at least :-/
 
 Cheers, Sima
 
-> Ofcourse, all these concerns go away if DT option gets accepted.
 > 
-> > > > I get the idea of trying to test DSI code without panels, and looking at
-> > > > the goals above, I think your vkms suggestion is going to fall short of
-> > > > those goals.
-> > > > 
-> > > > However, my gut feeling is that creating a simulated panel to catch DSI
-> > > > misconfiguration etc. is going to be insanely complicated, and this
-> > > > series doesn't even scratch the surface.
-> > > > 
-> > > > I guess my questions are, what's the scope here really, are those goals
-> > > > realistic, does more code already exist beyond this skeleton?
-> > > > 
-> > > 
-> > > 
-> > > This series is only a starting RFC to be able to validate any display mode.
-> > > This would have to be extended to be able to customize different pieces of
-> > > the panel. Lets talk about the customizable pieces:
-> > > 
-> > > 1) Display resolution with timings (drm_display_mode)
-> > > 2) Compression/non-compression
-> > > 3) Command mode/Video mode
-> > > 4) MIPI mode flags
-> > > 5) DCS commands for panel enable/disable and other panel sequences
-> > > 6) Power-up/Power-down sequence for the panel
-> > > 
-> > > Without a physical panel, yes its hard to validate if anything is wrong with
-> > > (4) OR (5), the display might not come up at all visually. But from our
-> > > experience, thats only a small portion and the real benefit of this
-> > > framework will actually be from the validation failures we will catch from
-> > > (1) to (4).
-> > > 
-> > > This RFC only provides a way to customize (1) at the moment as we wanted to
-> > > get some feedback from the community about the best way which will work for
-> > > everyone to customize all these parameters.
-> > > 
-> > > We are willing to expand this series based on the generic way we agree on to
-> > > customize other params.
-> > > 
-> > > Yes, debugfs is an option too. But typically MIPI displays need some
-> > > parameters configured to attach the panel to the encoder. So perhaps we can
-> > > boot the simulation panel with a default resolution passed through command
-> > > line and then across a modeset switch (1) to (4).
+> Regards,
+> Christian.
+> 
 > > 
-> > I think Jani's feeling was that it was going to be super complicated
-> > fairly fast so supporting more features would definitely help to get an
-> > idea of where this is going.
-> > 
-> > Maxime
+> > Cheers, Sima
+> 
+> _______________________________________________
+> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
+> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
 
 -- 
 Daniel Vetter
