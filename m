@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 961EB8419AD
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 03:55:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B77628419B6
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 03:57:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA738112C87;
-	Tue, 30 Jan 2024 02:54:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B537010F14D;
+	Tue, 30 Jan 2024 02:57:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2418112C87
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 02:54:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27FF3112C91
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 02:56:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1706583263;
- bh=EdAkFP733cEuXQh07GTpPK4SF6dq0gAnpERjGKXV280=;
+ s=201702; t=1706583387;
+ bh=0+EOYfajcZ/TV+MFrlf2z5WbLeXPsYHm5PqylBzh6Vk=;
  h=Date:From:To:Cc:Subject:From;
- b=DlGg72taDiLeh1r9jSxB0mO0yUeB/mDCafrC0kg1EVOixpBoB0zgzJkpql03hZ8GH
- heTEiP1rGqHDxUHmYBFopKtWGIYFxj4t7O0FiApXk+BDE33veJAbJHDJIqFbfYQqIT
- 6vBJRlAJZlxLLlCp7NiagUp9Yu8OBPhHUbwCjn9O0GCdjKUaCUWkRve7aja/YpYmwH
- Kf4f9GPIIgSbiV+m7hjk2JKteY1laZcdZtor9uC17YegqUEpLTy8LswyhIVuICxGfg
- 2I0AnB4mezT0z4vO0z6RmyhmUIK7eaV77eX6BlT0rlZtkUzc945Tjhl9ODxDYPXDFI
- RmFmSLBvaESwg==
+ b=jg+p2ZatK/eC2s7rUc+v7K0ejBoocfJRSQOFYbeyha3DL8ocF7twEWJ52UbG7EO8P
+ jjd9jvPywQUUENjc8nB+tojgdwskRWwX+55cl+omn2/gle1idU2EQABfL5KVkid3b+
+ HlcQLFxektR1FXnzqvZVV8BSjvcjXxeLDFcPxqTYI8bHIWKH1u2Ss5BHSYuSl7FrNd
+ GsR0/efc1DQUugBiKf8YlV96GG7kMatkjdct+8+X7efScmPb2+FakvGHwBGc9YJKe+
+ ImASSNncaicoRGM6fvkaWRG/PhKuutnqx27O9p0zrLGFTnIqLT+I/pTecNKuR3oKKp
+ o+i7GftnB+5bQ==
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4TP8rv2TdBz4wc3;
- Tue, 30 Jan 2024 13:54:23 +1100 (AEDT)
-Date: Tue, 30 Jan 2024 13:54:21 +1100
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4TP8vH4Hmxz4wd4;
+ Tue, 30 Jan 2024 13:56:27 +1100 (AEDT)
+Date: Tue, 30 Jan 2024 13:56:26 +1100
 From: Stephen Rothwell <sfr@canb.auug.org.au>
 To: Alex Deucher <alexdeucher@gmail.com>
 Subject: linux-next: build warning after merge of the amdgpu tree
-Message-ID: <20240130135421.19907631@canb.auug.org.au>
+Message-ID: <20240130135626.312c7ebd@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/lcOaDuwG8rKF.1zDt96NBeM";
+Content-Type: multipart/signed; boundary="Sig_/yC9TqX/56zDEg2S45L_X2UM";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,7 +56,7 @@ Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/lcOaDuwG8rKF.1zDt96NBeM
+--Sig_/yC9TqX/56zDEg2S45L_X2UM
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
@@ -65,33 +65,33 @@ Hi all,
 After merging the amdgpu tree, today's linux-next build (htmldocs)
 produced this warning:
 
-drivers/gpu/drm/amd/display/dc/inc/hw/opp.h:1: warning: no structured comme=
-nts found
-drivers/gpu/drm/amd/display/dc/inc/hw/opp.h:1: warning: no structured comme=
-nts found
+drivers/gpu/drm/amd/display/dc/link/hwss/link_hwss_dio.h:1: warning: no str=
+uctured comments found
+drivers/gpu/drm/amd/display/dc/link/hwss/link_hwss_dio.h:1: warning: no str=
+uctured comments found
 
 Introduced by commit
 
-  0fba33311e63 ("Documentation/gpu: Add entry for OPP in the kernel doc")
+  d79833f34bdc ("Documentation/gpu: Add entry for the DIO component")
 
 --=20
 Cheers,
 Stephen Rothwell
 
---Sig_/lcOaDuwG8rKF.1zDt96NBeM
+--Sig_/yC9TqX/56zDEg2S45L_X2UM
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmW4ZN0ACgkQAVBC80lX
-0GwSpwgAh79BjBH9g/ynPZZz7rkRnVZ6rrKNoABbWxrbQ972ZvtpmH/2bKkEoJNJ
-RJO729SVqwJEJW2IW5KO0ZhrnQYQfMiwJPJ5XaftUgEomRJz6YcuAIVeZdxjKf9P
-Y+1BV37+GVES/ZEX00fVME+Hr8F1P4omWNJH/lq6pYHtECO2XfBLKgCemFZgUQXF
-BRKVlv7EdHhYtp9zbgrKjj+QfOEI5BIvxbf+vr8ckFwzAKHXqgoKn1K6HFj6EJ2n
-pugUVFp1XcSbvwQDRs55r6UxBTnldUczp3Gcetw27z7QFE8TuE0+hPG45nmkjIJ9
-ZjjqvGCSVgc4iDdPjknl33fhcmg5Sg==
-=BD5s
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmW4ZVoACgkQAVBC80lX
+0Gw3zwf/anEpXHd5gKFWQB4oHjXW0ubKX3GOREnVx2bDMhw31uwilKykLMHrZmGf
+dkgUSj1PIevfecSsiuZ8fatDizTPFMXM27cSlQDGyKqHRB7eUuikYQlS1MqqR/Zl
+VnK2+HDzqqgbh5rZi5PMVeLHNY7ayr/mNGX2Gstr0YU40XiojL4ZWxZrXNbVWgB8
+xa2n0cqUdc4jzyiB5dD6z2W+bRsaw0GhlPjZo860oQl7LMnsDEaBcm/6K17oy/h3
+NcLjoZzXr5Pn6QjTo17srl7gpqtl2ldCEb67rUcxYQzfs1XUeRYbdMcmZLjcFNIM
+CZFuwwvkcV14erWSrbEI0GIIoYRbjA==
+=nkZd
 -----END PGP SIGNATURE-----
 
---Sig_/lcOaDuwG8rKF.1zDt96NBeM--
+--Sig_/yC9TqX/56zDEg2S45L_X2UM--
