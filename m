@@ -2,52 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8AE5842094
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 11:06:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0309B8421A6
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 11:41:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F901112EBB;
-	Tue, 30 Jan 2024 10:05:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8508310F88A;
+	Tue, 30 Jan 2024 10:41:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81E8A112EB8
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 10:05:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1706609145;
- bh=D+HHg4Wbbhz/mbS+lLu+znnL2uXDODc+rW4Ur5A3ss0=;
- h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
- b=wlMvbztGA0yA512ZlKIRcB6nX3f7p5ByeRR8ZKN+eBh2AixDxN3QzbFDOPyla6deg
- glnDFEENKA5QsselWolE9MYhuP1Qj+RwLtmnTxtVNZPdPEXxcr8UvCFI1K3s6Su80t
- TAiCRT6ybMXGiOKjNIBRDIHxOyXYMpxKq+RQ6j5kZNescOUzIGu45GpLxLh3eO6btZ
- kagAZmX+p6yCW+om2i8uZL3Z+eUBWY43f1xd81QM5i6EchBV773GHaMhRnoFORPjPn
- rVAEC5ZsunT5LVdbOkhr0VEo9yGS1SLZtSAwRo4QddYkNZcodEDgOyTKN0FfKYFxmd
- QGw1T3YvU+kfA==
-Received: from [100.109.49.129] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2B04437809D0;
- Tue, 30 Jan 2024 10:05:44 +0000 (UTC)
-Message-ID: <7b284de7-f8e9-4b5a-96c5-a4e26193cd90@collabora.com>
-Date: Tue, 30 Jan 2024 13:05:44 +0300
+Received: from coelho.fi (paleale.coelho.fi [176.9.41.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AFCD10F88A;
+ Tue, 30 Jan 2024 10:41:20 +0000 (UTC)
+Received: from 91-155-255-116.elisa-laajakaista.fi ([91.155.255.116]
+ helo=RAVPPB-CIM.amr.corp.intel.com)
+ by coelho.fi with esmtpsa (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+ (Exim 4.97-RC1) (envelope-from <luca@coelho.fi>)
+ id 1rUl2k-00000001XyY-3P6z; Tue, 30 Jan 2024 12:08:40 +0200
+Message-ID: <a9f84affb01d06a826086cf6d515c913ab8fd872.camel@coelho.fi>
+From: Luca Coelho <luca@coelho.fi>
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Date: Tue, 30 Jan 2024 12:08:37 +0200
+In-Reply-To: <2a9cdcfc1df44568078f7c131e2e7e0f7c94e97e.1705410327.git.jani.nikula@intel.com>
+References: <cover.1705410327.git.jani.nikula@intel.com>
+ <2a9cdcfc1df44568078f7c131e2e7e0f7c94e97e.1705410327.git.jani.nikula@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v19 09/30] drm/shmem-helper: Add and use lockless
- drm_gem_shmem_get_pages()
-Content-Language: en-US
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20240105184624.508603-1-dmitry.osipenko@collabora.com>
- <20240105184624.508603-10-dmitry.osipenko@collabora.com>
- <ZbKZNCbZoV4ovWTH@phenom.ffwll.local> <20240126111827.70f8726c@collabora.com>
- <d467e5a4-6b61-4cad-8e38-c4495836a0d6@collabora.com>
- <Zbi0lQG15vz6iHJK@phenom.ffwll.local>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <Zbi0lQG15vz6iHJK@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on farmhouse.coelho.fi
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+ TVD_RCVD_IP autolearn=ham autolearn_force=no version=4.0.0
+Subject: Re: [PATCH 01/10] drm/print: make drm_err_printer() device specific
+ by using drm_err()
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,89 +46,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Emma Anholt <emma@anholt.net>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Steven Price <steven.price@arm.com>, David Airlie <airlied@gmail.com>,
- virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/30/24 11:34, Daniel Vetter wrote:
-> On Fri, Jan 26, 2024 at 07:43:29PM +0300, Dmitry Osipenko wrote:
->> On 1/26/24 13:18, Boris Brezillon wrote:
->>> On Thu, 25 Jan 2024 18:24:04 +0100
->>> Daniel Vetter <daniel@ffwll.ch> wrote:
->>>
->>>> On Fri, Jan 05, 2024 at 09:46:03PM +0300, Dmitry Osipenko wrote:
->>>>> Add lockless drm_gem_shmem_get_pages() helper that skips taking reservation
->>>>> lock if pages_use_count is non-zero, leveraging from atomicity of the
->>>>> refcount_t. Make drm_gem_shmem_mmap() to utilize the new helper.
->>>>>
->>>>> Acked-by: Maxime Ripard <mripard@kernel.org>
->>>>> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
->>>>> Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
->>>>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->>>>> ---
->>>>>  drivers/gpu/drm/drm_gem_shmem_helper.c | 19 +++++++++++++++----
->>>>>  1 file changed, 15 insertions(+), 4 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
->>>>> index cacf0f8c42e2..1c032513abf1 100644
->>>>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
->>>>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
->>>>> @@ -226,6 +226,20 @@ void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
->>>>>  }
->>>>>  EXPORT_SYMBOL_GPL(drm_gem_shmem_put_pages_locked);
->>>>>  
->>>>> +static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
->>>>> +{
->>>>> +	int ret;  
->>>>
->>>> Just random drive-by comment: a might_lock annotation here might be good,
->>>> or people could hit some really interesting bugs that are rather hard to
->>>> reproduce ...
->>>
->>> Actually, being able to acquire a ref in a dma-signalling path on an
->>> object we know for sure already has refcount >= 1 (because we previously
->>> acquired a ref in a path where dma_resv_lock() was allowed), was the
->>> primary reason I suggested moving to this atomic-refcount approach.
->>>
->>> In the meantime, drm_gpuvm has evolved in a way that allows me to not
->>> take the ref in the dma-signalling path (the gpuvm_bo object now holds
->>> the ref, and it's acquired/released outside the dma-signalling path).
->>>
->>> Not saying we shouldn't add this might_lock(), but others might have
->>> good reasons to have this function called in a path where locking
->>> is not allowed.
->>
->> For Panthor the might_lock indeed won't be a appropriate, thanks for
->> reminding about it. I'll add explanatory comment to the code.
-> 
-> Hm these kind of tricks feel very dangerous to me. I think it would be
-> good to split up the two cases into two functions:
-> 
-> 1. first one does only the atomic_inc and splats if the refcount is zero.
-> I think something in the name that denotes that we're incrementing a
-> borrowed pages reference would be good here, so like get_borrowed_pages
-> (there's not really a naming convention for these in the kernel).
-> Unfortunately no rust so we can't enforce that you provide the right kind
-> of borrowed reference at compile time.
-> 
-> 2. second one has the might_lock.
-> 
-> This way you force callers to think what they're doing and ideally
-> document where the borrowed reference is from, and ideally document that
-> in the code. Otherwise we'll end up with way too much "works in testing,
-> but is a nice CVE" code :-/
+On Tue, 2024-01-16 at 15:07 +0200, Jani Nikula wrote:
+> With few users for drm_err_printer(), it's still feasible to convert it
+> to be device specific. Use drm_err() under the hood.
+>=20
+> While at it, make the prefix optional.
+>=20
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  drivers/gpu/drm/drm_print.c                         |  7 ++++++-
+>  drivers/gpu/drm/i915/gt/selftest_engine_heartbeat.c |  4 ++--
+>  drivers/gpu/drm/i915/selftests/i915_active.c        |  4 ++--
+>  include/drm/drm_print.h                             | 11 ++++++++---
+>  4 files changed, 18 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+> index 5b93c11895bb..91dbcdeaad3f 100644
+> --- a/drivers/gpu/drm/drm_print.c
+> +++ b/drivers/gpu/drm/drm_print.c
+> @@ -191,7 +191,12 @@ EXPORT_SYMBOL(__drm_printfn_debug);
+> =20
+>  void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf)
+>  {
+> -	pr_err("*ERROR* %s %pV", p->prefix, vaf);
+> +	struct drm_device *drm =3D p->arg;
+> +
+> +	if (p->prefix)
+> +		drm_err(drm, "%s %pV", p->prefix, vaf);
+> +	else
+> +		drm_err(drm, "%pV", vaf);
+>  }
+>  EXPORT_SYMBOL(__drm_printfn_err);
+> =20
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_engine_heartbeat.c b/driver=
+s/gpu/drm/i915/gt/selftest_engine_heartbeat.c
+> index bc441ce7b380..be827318275c 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_engine_heartbeat.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_engine_heartbeat.c
+> @@ -122,7 +122,7 @@ static int __live_idle_pulse(struct intel_engine_cs *=
+engine,
+>  	GEM_BUG_ON(!llist_empty(&engine->barrier_tasks));
+> =20
+>  	if (engine_sync_barrier(engine)) {
+> -		struct drm_printer m =3D drm_err_printer("pulse");
+> +		struct drm_printer m =3D drm_err_printer(&engine->i915->drm, "pulse");
+> =20
+>  		pr_err("%s: no heartbeat pulse?\n", engine->name);
+>  		intel_engine_dump(engine, &m, "%s", engine->name);
+> @@ -136,7 +136,7 @@ static int __live_idle_pulse(struct intel_engine_cs *=
+engine,
+>  	pulse_unlock_wait(p); /* synchronize with the retirement callback */
+> =20
+>  	if (!i915_active_is_idle(&p->active)) {
+> -		struct drm_printer m =3D drm_err_printer("pulse");
+> +		struct drm_printer m =3D drm_err_printer(&engine->i915->drm, "pulse");
+> =20
+>  		pr_err("%s: heartbeat pulse did not flush idle tasks\n",
+>  		       engine->name);
+> diff --git a/drivers/gpu/drm/i915/selftests/i915_active.c b/drivers/gpu/d=
+rm/i915/selftests/i915_active.c
+> index b61fe850e924..8886752ade63 100644
+> --- a/drivers/gpu/drm/i915/selftests/i915_active.c
+> +++ b/drivers/gpu/drm/i915/selftests/i915_active.c
+> @@ -156,7 +156,7 @@ static int live_active_wait(void *arg)
+> =20
+>  	__i915_active_wait(&active->base, TASK_UNINTERRUPTIBLE);
+>  	if (!READ_ONCE(active->retired)) {
+> -		struct drm_printer p =3D drm_err_printer(__func__);
+> +		struct drm_printer p =3D drm_err_printer(&i915->drm, __func__);
+> =20
+>  		pr_err("i915_active not retired after waiting!\n");
+>  		i915_active_print(&active->base, &p);
+> @@ -189,7 +189,7 @@ static int live_active_retire(void *arg)
+>  		err =3D -EIO;
+> =20
+>  	if (!READ_ONCE(active->retired)) {
+> -		struct drm_printer p =3D drm_err_printer(__func__);
+> +		struct drm_printer p =3D drm_err_printer(&i915->drm, __func__);
+> =20
+>  		pr_err("i915_active not retired after flushing!\n");
+>  		i915_active_print(&active->base, &p);
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> index 5ed26a702e3e..1040213d02a4 100644
+> --- a/include/drm/drm_print.h
+> +++ b/include/drm/drm_print.h
+> @@ -35,6 +35,8 @@
+> =20
+>  #include <drm/drm.h>
+> =20
+> +struct drm_device;
+> +
+>  /* Do *not* use outside of drm_print.[ch]! */
+>  extern unsigned long __drm_debug;
+> =20
+> @@ -235,16 +237,19 @@ static inline struct drm_printer drm_debug_printer(=
+const char *prefix)
+>  }
+> =20
+>  /**
+> - * drm_err_printer - construct a &drm_printer that outputs to pr_err()
+> - * @prefix: debug output prefix
+> + * drm_err_printer - construct a &drm_printer that outputs to drm_err()
+> + * @drm: the &struct drm_device pointer
+> + * @prefix: debug output prefix, or NULL for no prefix
+>   *
+>   * RETURNS:
+>   * The &drm_printer object
+>   */
+> -static inline struct drm_printer drm_err_printer(const char *prefix)
+> +static inline struct drm_printer drm_err_printer(struct drm_device *drm,
+> +						 const char *prefix)
+>  {
+>  	struct drm_printer p =3D {
+>  		.printfn =3D __drm_printfn_err,
+> +		.arg =3D drm,
+>  		.prefix =3D prefix
+>  	};
+>  	return p;
 
-We indeed can have both variants of the borrowed/non-borrowed functions.
-Thanks again for the suggestions
+Reviewed-by: Luca Coelho <luciano.coelho@intel.com>
 
--- 
-Best regards,
-Dmitry
-
+--
+Cheers,
+Luca.
