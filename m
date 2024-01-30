@@ -2,60 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 123C3842B7C
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 19:10:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A409842B92
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jan 2024 19:19:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15F431132DB;
-	Tue, 30 Jan 2024 18:09:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40754113301;
+	Tue, 30 Jan 2024 18:18:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
- [157.90.84.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C2FC1132DB
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 18:09:55 +0000 (UTC)
-Received: from [192.168.42.20] (p5de453e7.dip0.t-ipconnect.de [93.228.83.231])
- (Authenticated sender: wse@tuxedocomputers.com)
- by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 2AA442FC004A;
- Tue, 30 Jan 2024 19:09:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
- s=default; t=1706638192;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yt5XmcRwrc6b3h54Zz6Vh2inuJB9pyPk7T4/qPJrHe0=;
- b=oXUr4SUtxCpBwyI+wvB3hhhVwpbRHVJlKIdgP9iwrS3sIV/8miYDVzgfiRh4TxnqK2Z6JK
- HYx9o3mSmxmpVGnXN/ceoezdXa0FMUU6DXEcU5bz5cFFX1904+XV4T+2xsGWx7wg8Ixgay
- i12V14VEKexLjH9vn3EHB50UkIdywas=
-Authentication-Results: mail.tuxedocomputers.com;
- auth=pass smtp.auth=wse@tuxedocomputers.com
- smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
-Date: Tue, 30 Jan 2024 19:09:51 +0100
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03C0311315B
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 18:18:57 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 4C9ECCE1804;
+ Tue, 30 Jan 2024 18:18:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E1DDC433C7;
+ Tue, 30 Jan 2024 18:18:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1706638734;
+ bh=PjrgU25A2IyPMYtXC01U7AtGDTIv3s/p7Yxp4fnNn1Y=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jg5rqK6279YfSzKAR1sZHIUwGBdewBi2js96OhWqlbDh192UiiugY1LcKTFvFPWiY
+ xa9/Q9WWBx4OIYBULA8jJ1cUtscgsUnSLfau93NItGxxMf8kbCA9yxDKZHPQ1YYU+W
+ WmqDeYDOSDA9MyONG8RfrACX0JcroXhi8aCHu/ZYGxEVTfA+zrvg82zajlIpugPOri
+ dL72iJZQ7owNDRpmnmrxWwKZn2ONNv5bpGEPxaKN2TrK+qGRTWKHmPk2/IcdxoRqzZ
+ +1MGIeEl2e6HF2Yg1jTfcWFtIFrJqyzq8O7xSEvJDllKzpdMQeuwUjVQIuSvs/voJF
+ 4x/WGeh3mLu5A==
+Date: Tue, 30 Jan 2024 18:18:49 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Johan Jonker <jbx6244@gmail.com>
+Subject: Re: [PATCH v1 1/6] dt-bindings: display: rockchip: rockchip, dw-hdmi:
+ deprecate port property
+Message-ID: <20240130-denim-capacity-e1617595ac9f@spud>
+References: <6626d288-ecf1-436b-b0a3-3417308a8633@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Werner Sembach <wse@tuxedocomputers.com>
-Subject: Re: Implement per-key keyboard backlight as auxdisplay?
-To: Hans de Goede <hdegoede@redhat.com>, Pavel Machek <pavel@ucw.cz>
-References: <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
- <ZSmg4tqXiYiX18K/@duo.ucw.cz>
- <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
- <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
- <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
- <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
- <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
- <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
- <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
- <ZaljwLe7P+dXHEHb@duo.ucw.cz>
- <6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com>
- <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
- <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com>
- <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
- <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
-Content-Language: en-US, de-DE
-In-Reply-To: <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Se7db1/EZ7/Uf0wV"
+Content-Disposition: inline
+In-Reply-To: <6626d288-ecf1-436b-b0a3-3417308a8633@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,63 +51,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lee Jones <lee@kernel.org>, jikos@kernel.org, linux-kernel@vger.kernel.org,
- Jelle van der Waa <jelle@vdwaa.nl>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
+Cc: daniel@ffwll.ch, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ tzimmermann@suse.de, hjc@rock-chips.com, mripard@kernel.org,
+ linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+ dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
+ andy.yan@rock-chips.com, airlied@gmail.com, markyao0591@gmail.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hans,
 
-resend because Thunderbird htmlified the mail :/
+--Se7db1/EZ7/Uf0wV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Am 30.01.24 um 18:10 schrieb Hans de Goede:
-> Hi Werner,
->
-> On 1/30/24 12:12, Werner Sembach wrote:
->> Hi Hans,
->>
->> Am 29.01.24 um 14:24 schrieb Hans de Goede:
-<snip>
->> I think that are mostly external keyboards, so in theory a possible cut could also between built-in and external devices.
-> IMHO it would be better to limit /dev/rgbledstring use to only
-> cases where direct userspace control is not possible and thus
-> have the cut be based on whether direct userspace control
-> (e.g. /dev/hidraw access) is possible or not.
+On Tue, Jan 30, 2024 at 03:55:43PM +0100, Johan Jonker wrote:
+> The hdmi-connector nodes are now functional and the new way to model
+> hdmi nodes with, so deprecate the port property and
 
-Ack
+This doesn't really explain what makes having hdmi-connector nodes
+replace the usecase for "port".
 
-<snip>
+> make port@0 and
+> port@1 a requirement.
 
->> So also no basic driver? Or still the concept from before with a basic 1 zone only driver via leds subsystem to have something working, but it is unregistered by userspace, if open rgb wants to take over for fine granular support?
-> Ah good point, no I think that a basic driver just for kbd backlight
-> brightness support which works with the standard desktop environment
-> controls for this makes sense.
->
-> Combined with some mechanism for e.g. openrgb to fully take over
-> control as discussed. It is probably a good idea to file a separate
-> issue with the openrgb project to discuss the takeover API.
+Why?
 
-I think the OpenRGB maintainers are pretty flexible at that point, after all 
-it's similar to enable commands a lot of rgb devices need anyway. I would 
-include it in a full api proposal.
+> Also update example.
 
-On this note: Any particular reason you suggested an ioctl interface instead of 
-a sysfs one? (Open question as, for example, I have no idea what performance 
-implications both have)
+"Also do x" is a red flag when it comes to commit messages, as it
+immediately makes me think that this should be more than one commit.
+I'd probably write this as "Update the example to avoid use of the
+deprecated property" or something to avoid bad gut reactions.
+That's not worth resending for though obviously...
 
-<snip>
+>=20
+> Signed-off-by: Johan Jonker <jbx6244@gmail.com>
+> ---
+>  .../display/rockchip/rockchip,dw-hdmi.yaml    | 27 ++++++++++++++++---
+>  1 file changed, 23 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,=
+dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,=
+dw-hdmi.yaml
+> index 7e59dee15a5f..cd0a42f35f24 100644
+> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi=
+=2Eyaml
+> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi=
+=2Eyaml
+> @@ -97,8 +97,11 @@ properties:
+>    ports:
+>      $ref: /schemas/graph.yaml#/properties/ports
+>=20
+> -    patternProperties:
+> -      "^port(@0)?$":
+> +    properties:
+> +      port:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        deprecated: true
 
->> I opened an issue regarding this:https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/3916
-> Great, thank you.
-First replies are in.
-> Regards,
->
-> Hans
+This change makes the deprecated property's description incomplete,
+since it doesn't cover the endpoints any more. It also doesn't make
+port@0 and port mutually exclusive.
+I think I'd just be inclined to delete the "port" bit entirely from the
+binding if you're not gonna preserve the description of what that
+property was meant to be. Otherwise, I'd be doing something like:
+@@ -112,6 +112,8 @@ properties:
+           endpoint@1:
+             description: Connection to the VOPL
+     properties:
++      port:
++        deprecated: true
+       port@1:
+         $ref: /schemas/graph.yaml#/properties/port
+         description: Output of the DWC HDMI TX
 
-Kind regards,
+So that the description of the deprecated property is maintained.
 
-Werner
+Cheers,
+Conor.
 
+> +      port@0:
+>          $ref: /schemas/graph.yaml#/properties/port
+>          description: Input of the DWC HDMI TX
+>          properties:
+> @@ -108,11 +111,14 @@ properties:
+>              description: Connection to the VOPB
+>            endpoint@1:
+>              description: Connection to the VOPL
+> -    properties:
+>        port@1:
+>          $ref: /schemas/graph.yaml#/properties/port
+>          description: Output of the DWC HDMI TX
+>=20
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+>    rockchip,grf:
+>      $ref: /schemas/types.yaml#/definitions/phandle
+>      description:
+> @@ -147,7 +153,11 @@ examples:
+>          clock-names =3D "iahb", "isfr";
+>=20
+>          ports {
+> -            port {
+> +            #address-cells =3D <1>;
+> +            #size-cells =3D <0>;
+> +
+> +            port@0 {
+> +                reg =3D <0>;
+>                  #address-cells =3D <1>;
+>                  #size-cells =3D <0>;
+>=20
+> @@ -155,11 +165,20 @@ examples:
+>                      reg =3D <0>;
+>                      remote-endpoint =3D <&vopb_out_hdmi>;
+>                  };
+> +
+>                  hdmi_in_vopl: endpoint@1 {
+>                      reg =3D <1>;
+>                      remote-endpoint =3D <&vopl_out_hdmi>;
+>                  };
+>              };
+> +
+> +            port@1 {
+> +                reg =3D <1>;
+> +
+> +                hdmi_out_con: endpoint {
+> +                    remote-endpoint =3D <&hdmi_con_in>;
+> +                };
+> +            };
+>          };
+>      };
+>=20
+> --
+> 2.39.2
+>=20
+
+--Se7db1/EZ7/Uf0wV
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZbk9iAAKCRB4tDGHoIJi
+0ov4AQC/D1c0VhrC43ss+Gx+M3QV8KxYk6PBwCzFXmE5ODySRQEA9bUSt6oR5ZHe
+QvmugJnjTjCAnylB7d4Ml9YpiJeaEAU=
+=pq3u
+-----END PGP SIGNATURE-----
+
+--Se7db1/EZ7/Uf0wV--
