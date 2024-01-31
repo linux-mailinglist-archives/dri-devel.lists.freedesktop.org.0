@@ -2,65 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90F59843197
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 00:52:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 398A88432A2
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 02:16:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F6E210EBFF;
-	Tue, 30 Jan 2024 23:52:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DDE01137E1;
+	Wed, 31 Jan 2024 01:16:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
- [209.85.128.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7D3910EBFF
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 23:51:55 +0000 (UTC)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-603dc95b8f3so29185577b3.2
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jan 2024 15:51:55 -0800 (PST)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D9E811379A;
+ Wed, 31 Jan 2024 01:16:41 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-1d7431e702dso32913725ad.1; 
+ Tue, 30 Jan 2024 17:16:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20230601.gappssmtp.com; s=20230601; t=1706658654; x=1707263454;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=+Loz5WY1FBuRmc2MP9O0V9IXLhLAMsjyW+ysSkOJ3NU=;
- b=nf6Zff/FBn9g+SxhP9YXaoz+fe4ZkaB8X4CIieEUzxnPPjJ6sGXbVMwmSc9QzVIGds
- K7NPKZMs4f3LMp/lcwQsW/Xv03U/plhERL8PAHXva4XEpTmw4BujlFff2Z+ML3/+tzg7
- NVgEwLQSAKtIxfpunGM/iRSIHURIGtzDGAZtKsZaLzaJ52FF17Fy0e4i8/A+vQNSFfh+
- jCWYkmzBegZzvj9jybCn2X6nMbF4npCkZitKNSOWlFSN8KEql/MMkHNCIuZdSgdLzwL5
- IXM7W9V59LKEKbIKelqY9iv6t/ag86SdVvOrPKkxvEltq0aXgYhyaJ0euhtfgp5DcW7k
- SEDw==
+ d=gmail.com; s=20230601; t=1706663740; x=1707268540; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=TMI3cnWrauJ0sVrAPWjosebBGINiaEuvqhQTmdIHpwU=;
+ b=MxYomRiEjku+gAZg7s72nS6gsWIy1qjBYgf/evjguI66KAdle1AnGcnN6DV8N3vzPg
+ kHcm/WG3wj8tJKpzGykAwjI/UFT/Dstj3ovCQNYQoZ1Ii20WzoOgDR05mUWOxNE+42QK
+ SgAftYiQjRIjeyr9QJtX87T5xql+4nL5PpJFoE2f+AvZ8Jk21VWVhkmdnWBNJrKyl17H
+ I6G8JeV8Nm2SCyNcxxT96pm96aMDK7jxM056Py//+7Gnjs5hLxvKJaYem92VFU6ZiIJt
+ 4kp1HTDBMyicl6rxb4nQ7rEF/t+CvAuwbevdeLe365koUbPiHodoXq9KzH5vG4jSlJEb
+ Pb+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706658654; x=1707263454;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1706663740; x=1707268540;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=+Loz5WY1FBuRmc2MP9O0V9IXLhLAMsjyW+ysSkOJ3NU=;
- b=hi89SktJdqVZ1PS82kAsnRkaPRuuqtoqBwrtx8Y8/Fzy+knCs9QERJyhreO1lQCDac
- yW+ccRYAcLV/xxRDroaVSD4e2aGV/TMXvGTfJoDIYjBbtfxbl5YaObdBl493y16Da49O
- GXSFdpILBqcx4oCvjT1I/0Xl6hseDQCMmehEsjvQXnKOIfhs29rCRBd8xU60cgjwvUH4
- HjKpz6pr0kqGyjMCL2Pr31zRDHxZISlZGcPojfojhjZqZSHGELAhUA58CdgA8Djritq7
- Mv0iSN8Nj8qZputaXER2SR9qXrJeJ/7t7zbWiN2/kxrSMtGphjjUqAIfVeXvLdatUTF0
- bExg==
-X-Gm-Message-State: AOJu0YybmlFJEUyt0o/q66fRK5jmdUyHfBct8qe59TqC5YMkNZOxXLRS
- bIBI9Fk7wvgFtzyGYw4qnvdnf5JTbNK2l4P98tVVlzRFQBckVNAFPtnsLvD4qiLCxQikBPVgr2A
- KblXFUebwXLNhki7Kqe/Xi6dAhnBTRpW7S798+Q==
-X-Google-Smtp-Source: AGHT+IFwGrsAy5u8s6ltX3OV8suiJlJdOjJFY2Y97aJi5/K9jqLcDJ/otXHocyfcS7Yf9B5jl/2zpaNXS3/+O2W44bE=
-X-Received: by 2002:a0d:e8c1:0:b0:5ff:5bee:ac90 with SMTP id
- r184-20020a0de8c1000000b005ff5beeac90mr8466987ywe.74.1706658654332; Tue, 30
- Jan 2024 15:50:54 -0800 (PST)
+ bh=TMI3cnWrauJ0sVrAPWjosebBGINiaEuvqhQTmdIHpwU=;
+ b=GL7ilNpLFvqI518Cj73/yMdBBAr103a/grsaS8KxoT/Gc2QrqLWR1EpfgekRMIlISe
+ Zu38uPAB5A4vfpN3eJOHPSrasP6fVv9RxoDRTyf5Tj98HW25nKsEP7jg9lVugTOnN9Pq
+ sYLwV4i28Ew/dgWUDjHCxExHOOiHPQQ86540h/TNNbRpyboxjKXp5rYZxAo5QEMntyHp
+ 4zU04t8wzADWTYLbH+Liu+xcH+tmvq520gMjrOwabr8fyDB95hKLKXWLJs5MLopb5Ihb
+ 4CnKFC/QIx7ghgsRB54JJr/FucgTuCj+LlrWk9KMxQnrMEfq6q2BWJoJTZ/L9hACHfP+
+ 5Eaw==
+X-Gm-Message-State: AOJu0YwxP3EBMxffQ6ZjwByoEy5+8GwN+thuPvgechWvU9nvoA1QKzkP
+ AqRhZqr6zRDikIxQgfsqprFcinUParoAVhWnDVS5Y/25t5Qh91MYyf/I/BO0
+X-Google-Smtp-Source: AGHT+IG8UGKG/Zt1rkUy45qpAPEJlPjYqNZszRCvj1fmkMfo62fVTpD1GY8zqyGU1X8ERHaQ08XHGA==
+X-Received: by 2002:a17:902:e805:b0:1d8:d01b:571e with SMTP id
+ u5-20020a170902e80500b001d8d01b571emr246288plg.33.1706663740422; 
+ Tue, 30 Jan 2024 17:15:40 -0800 (PST)
+Received: from localhost ([2601:1c0:5000:d5c:ae1c:de46:682a:206])
+ by smtp.gmail.com with ESMTPSA id
+ t18-20020a170902d29200b001d8d6ec2d7fsm4866303plc.61.2024.01.30.17.15.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Jan 2024 17:15:39 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/msm/gem: Fix double resv lock aquire
+Date: Tue, 30 Jan 2024 17:15:37 -0800
+Message-ID: <20240131011537.31049-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20240112203803.6421-1-ian.forbes@broadcom.com>
- <3d7f835a-eed8-4d98-9539-68061779f285@suse.de>
- <CABQX2QMUfZMNRN-RfVhvZzkGhn4zRY-B51Ph_KYzXWmZ_8tfAQ@mail.gmail.com>
- <613cf732-fc95-4f61-b64d-772206460535@suse.de>
- <CABQX2QP8nLpM6e3D3qQASvbxr1DDON1dq=s+iNBcczhSJu8Ggg@mail.gmail.com>
-In-Reply-To: <CABQX2QP8nLpM6e3D3qQASvbxr1DDON1dq=s+iNBcczhSJu8Ggg@mail.gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Tue, 30 Jan 2024 23:50:42 +0000
-Message-ID: <CAPj87rOhA6jwq3A5kgQg1w+y-ms2=gF4bZ+Obp3ELq+3f-jemg@mail.gmail.com>
-Subject: Re: [PATCH] drm/vmwgfx: Filter modes which exceed 3/4 of graphics
- memory.
-To: Zack Rusin <zack.rusin@broadcom.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,71 +70,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Ian Forbes <ian.forbes@broadcom.com>,
- maaz.mombasawala@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
- Thomas Zimmermann <tzimmermann@suse.de>, martin.krastev@broadcom.com
+Cc: Rob Clark <robdclark@chromium.org>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sean Paul <sean@poorly.run>, Daniel Vetter <daniel@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Rob Clark <robdclark@chromium.org>
 
-On Tue, 30 Jan 2024 at 18:39, Zack Rusin <zack.rusin@broadcom.com> wrote:
-> In general, yes. Of course it's a little more convoluted because we'll
-> act like OpenGL runtime here (i.e. glXSwapBuffers), i.e. our driver
-> will fake page-flips because the only memory we'll have is a single
-> buffer as the actual page-flipping happens in the presentation code on
-> the host. So the guest is not aware of the actual presentation (it's
-> also why we don't have any sort of vblank signaling in vmwgfx, the
-> concept just doesn't exist for us). i.e. on para-virtualized drivers
-> the actual page-flips will be property of the presentation code that's
-> outside of the guest. It's definitely one those things that I wanted
-> to have a good solution for in a while, in particular to have a better
-> story behind vblank handling, but it's difficult because
-> "presentation" on vm's is in general difficult to define - it might be
-> some vnc connected host on the other continent. Having said that
-> that's basically a wonky VRR display so we should be able to handle
-> our presentation as VRR and give more control of updates to the guest,
-> but we haven't done it yet.
+Since commit 56e5abba8c3e ("dma-buf: Add unlocked variant of vmapping
+functions"), the resv lock is already held in the prime vmap path, so
+don't try to grab it again.
 
-Please don't.
+v2: This applies to vunmap path as well
 
-Photon time is _a_ useful metric, but only backwards-informational.
-It's nice to give userspace a good forward estimate of when pixels
-will hit retinas, but as it's not fully reliable, the main part is
-being able to let it know when it did happen so it can adjust. Given
-that it's not reliable, we can't use it as a basis for preparing
-submissions though, so we don't, even on bare-metal drivers.
+Fixes: 56e5abba8c3e ("dma-buf: Add unlocked variant of vmapping functions")
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/msm_gem_prime.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-As you've noted though, it really falls apart on non-bare-metal cases,
-especially where latency vastly exceeds throughput, or when either is
-hugely variable. So we don't ever use it as a basis.
+diff --git a/drivers/gpu/drm/msm/msm_gem_prime.c b/drivers/gpu/drm/msm/msm_gem_prime.c
+index 5f68e31a3e4e..0915f3b68752 100644
+--- a/drivers/gpu/drm/msm/msm_gem_prime.c
++++ b/drivers/gpu/drm/msm/msm_gem_prime.c
+@@ -26,7 +26,7 @@ int msm_gem_prime_vmap(struct drm_gem_object *obj, struct iosys_map *map)
+ {
+ 	void *vaddr;
+ 
+-	vaddr = msm_gem_get_vaddr(obj);
++	vaddr = msm_gem_get_vaddr_locked(obj);
+ 	if (IS_ERR(vaddr))
+ 		return PTR_ERR(vaddr);
+ 	iosys_map_set_vaddr(map, vaddr);
+@@ -36,7 +36,7 @@ int msm_gem_prime_vmap(struct drm_gem_object *obj, struct iosys_map *map)
+ 
+ void msm_gem_prime_vunmap(struct drm_gem_object *obj, struct iosys_map *map)
+ {
+-	msm_gem_put_vaddr(obj);
++	msm_gem_put_vaddr_locked(obj);
+ }
+ 
+ struct drm_gem_object *msm_gem_prime_import_sg_table(struct drm_device *dev,
+-- 
+2.43.0
 
-VRR is worse though. The FRR model is 'you can display new content
-every $period, and here's your basis so you can calibrate phase'. The
-VRR model is 'you can display new content so rapidly it's not worth
-trying to quantise, just fire it as rapidly as possible'. That's a
-world away from 'errrr ... might be 16ms, might be 500? dunno really'.
-
-The entire model we have is that basis timing flows backwards. The
-'hardware' gives us a deadline, KMS angles to meet that with a small
-margin, the compositor angles to meet that with a margin again, and it
-lines up client repaints to hit that window too. Everything works on
-that model, so it's not super surprising that using svga is - to quote
-one of Weston's DRM-backend people who uses ESXi - 'a juddery mess'.
-
-Given that the entire ecosystem is based on this model, I don't think
-there's an easy way out where svga just does something wildly
-different. The best way to fix it is to probably work on predictable
-quantisation with updates: pick 5/12/47/60Hz to quantise to based on
-your current throughput, with something similar to hotplug/LINK_STATUS
-and faked EDID to let userspace know when the period changes. If you
-have variability within the cycle, e.g. dropped frames, then just suck
-it up and keep the illusion alive to userspace that it's presenting to
-a fixed period, and if/when you calculate there's a better
-quantisation then let userspace know what it is so it can adjust.
-
-But there's really no future in just doing random presentation rates,
-because that's not the API anyone has written for.
-
-Cheers,
-Daniel
