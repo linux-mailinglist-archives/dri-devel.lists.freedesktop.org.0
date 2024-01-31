@@ -2,48 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D42C98440BB
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 14:37:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2372C84407B
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 14:25:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CD2610F9C7;
-	Wed, 31 Jan 2024 13:37:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7841D10E222;
+	Wed, 31 Jan 2024 13:24:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0E231135BF;
- Wed, 31 Jan 2024 09:08:46 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (unknown [217.70.183.197])
- by mslow1.mail.gandi.net (Postfix) with ESMTP id 672B0C701B;
- Wed, 31 Jan 2024 09:07:40 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 94A901C0003;
- Wed, 31 Jan 2024 09:07:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1706692038;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=txVeyDCwCa0PTblW/GH4Mt4FMs2okstRsQIFGpgZpIA=;
- b=IpopKANJvPwzP+cqcm/nV8tIJeOl95Z+pm5ZBFxwXGnXRcK3j8Pw+g5PpTHYdFLZ+S68Mp
- Zsj2PczR2iFjVt4JmxgdVtBXXEmZpd6iYEY+KPRCxNu2fQPiuG18FsmsoFfZfWkaW1KPbB
- G1MSsTLhcCIWapF7QsFR2x2AIjii8HyIxhHt1myJcrQtSSLsH8641MOW1xBoMgS5kgngcd
- HpasEnyJS3TgeESvACXjoa9KiuEvYQs3iCmPPe7m0RCMy1Q343Sq2P0VW3xur3FbmOGHKH
- v498LDl6jvgqLJTyZWKLJSC9wenFYUOzH2yWAnMS8h04WN1KqPaw/M4Qidd9Fw==
-Date: Wed, 31 Jan 2024 10:07:01 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH v3 14/24] of: property: add of_graph_get_next_endpoint()
-Message-ID: <20240131100701.754a95ee@booty>
-In-Reply-To: <874jeu6qhv.wl-kuninori.morimoto.gx@renesas.com>
-References: <87o7d26qla.wl-kuninori.morimoto.gx@renesas.com>
- <874jeu6qhv.wl-kuninori.morimoto.gx@renesas.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9708310E222
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 13:24:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 3F4B8614C0;
+ Wed, 31 Jan 2024 13:23:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 911B4C433C7;
+ Wed, 31 Jan 2024 13:23:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1706707428;
+ bh=J9hRJqEVyfz6m3bzfd1driAZjOz6J5Kpse04aYCgsWo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=pCP2EhycfmHkioOPAG2x9UfrGfTpe25lgPmfQu9o2dxEExQYDUQjnqxosSSo8ab4G
+ GwL2pZeVA/EbZDPPe0OiMpxNbuVyC+rBvFHqJF4x3CMyF9FrxqXWWiDU6vQJ7D/js2
+ dm6SXZ/hcB6uOzEaAcDxOXTn1esc/aWsnnPmKr5CXvRdZy2mpverNmuuxXZu/ClK+c
+ 4tskyQIrjCWsSEuMBhi1pqSs+qCTjlOTlyyYX8J1gyj+q5f/lIRHzNXq7/MAQ75z/U
+ UmbxuNK5Nui7xwr1mk02XZRGYWPdtKgilhfc7Ma42Yz7kZ8rXp6dZYoy1A+hXsCqBr
+ rMXVjRaqHuCyA==
+Date: Wed, 31 Jan 2024 14:23:46 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Keith Zhao <keith.zhao@starfivetech.com>
+Subject: Re: [v3 4/6] drm/vs: Add KMS crtc&plane
+Message-ID: <rvwcfjon4hjdx4youknherj2rrvvbfrn4bufdqlcd7tn3l5lc2@74rwotxzgyuq>
+References: <20231204123315.28456-1-keith.zhao@starfivetech.com>
+ <20231204123315.28456-5-keith.zhao@starfivetech.com>
+ <o4ica2jg2rqfx6znir6j7mkoojoqzejjuqvlwcnehanw5mvop6@a3t6vi7c55tz>
+ <NTZPR01MB1050C46113AD71AA5E93C67BEE7CA@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
-X-Mailman-Approved-At: Wed, 31 Jan 2024 13:37:46 +0000
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="pxujij5httjhwier"
+Content-Disposition: inline
+In-Reply-To: <NTZPR01MB1050C46113AD71AA5E93C67BEE7CA@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,111 +53,324 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- linux-stm32@st-md-mailman.stormreply.com, Jerome Brunet <jbrunet@baylibre.com>,
- linux-samsung-soc@vger.kernel.org, Robert Foss <rfoss@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Kevin Hilman <khilman@baylibre.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- Uwe =?UTF-8?Q?Kleine-K=C3=83?=
- =?UTF-8?Q?=C2=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Eugen Hristev <eugen.hristev@collabora.com>, Sam Ravnborg <sam@ravnborg.org>,
- linux-omap@vger.kernel.org, Sean Paul <sean@poorly.run>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- Michael Tretter <m.tretter@pengutronix.de>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, freedreno@lists.freedesktop.org,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, "Lad,
- Prabhakar" <prabhakar.csengg@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>, James Clark <james.clark@arm.com>,
- Saravana Kannan <saravanak@google.com>, Fabio Estevam <festevam@gmail.com>,
- Helge Deller <deller@gmx.de>, Alexey Brodkin <abrodkin@synopsys.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Miguel Ojeda <ojeda@kernel.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- linux-media@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Liu Ying <victor.liu@nxp.com>,
- linux-arm-msm@vger.kernel.org, coresight@lists.linaro.org,
- Maxime Ripard <mripard@kernel.org>, linux-rpi-kernel@lists.infradead.org,
- Biju Das <biju.das.jz@bp.renesas.com>, linux-amlogic@lists.infradead.org,
- Michal Simek <michal.simek@amd.com>, linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Niklas =?UTF-8?Q?S=C3=83=C2=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>, linux-renesas-soc@vger.kernel.org,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Tom Rix <trix@redhat.com>, linux-fbdev@vger.kernel.org,
- linux-tegra@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Frank Rowand <frowand.list@gmail.com>,
- linux-staging@lists.linux.dev,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- Tim Harvey <tharvey@gateworks.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Nathan Chancellor <nathan@kernel.org>, Mark Brown <broonie@kernel.org>,
- Daniel Vetter <daniel@ffwll.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Shawn Guo <shawnguo@kernel.org>,
- Yannick Fertre <yannick.fertre@foss.st.com>, Emma Anholt <emma@anholt.net>,
- llvm@lists.linux.dev, Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Todor Tomov <todor.too@gmail.com>, Takashi Iwai <tiwai@suse.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Marek Vasut <marex@denx.de>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Russell King <linux@armlinux.org.uk>, Andy Gross <agross@kernel.org>,
- Mike Leach <mike.leach@linaro.org>, devicetree@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
- linux-sound@vger.kernel.org, Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>, Leo Yan <leo.yan@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Xingyu Wu <xingyu.wu@starfivetech.com>, Jack Zhu <jack.zhu@starfivetech.com>,
+ "palmer@dabbelt.com" <palmer@dabbelt.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ William Qiu <william.qiu@starfivetech.com>,
+ Shengyang Chen <shengyang.chen@starfivetech.com>,
+ "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+ Changhuang Liang <changhuang.liang@starfivetech.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Kuninori Morimoto,
 
-On Wed, 31 Jan 2024 05:06:36 +0000
-Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
+--pxujij5httjhwier
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> To handle endpoint more intuitive, create of_graph_get_next_endpoint()
-> 
-> 	of_graph_get_next_endpoint(port1, NULL); // A1
-> 	of_graph_get_next_endpoint(port1, A1);   // A2
-> 	of_graph_get_next_endpoint(port1, A2);   // NULL
+On Wed, Jan 31, 2024 at 09:33:06AM +0000, Keith Zhao wrote:
+>=20
+>=20
+> > -----=E9=82=AE=E4=BB=B6=E5=8E=9F=E4=BB=B6-----
+> > =E5=8F=91=E4=BB=B6=E4=BA=BA: Maxime Ripard <mripard@kernel.org>
+> > =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2023=E5=B9=B412=E6=9C=886=E6=97=
+=A5 16:56
+> > =E6=94=B6=E4=BB=B6=E4=BA=BA: Keith Zhao <keith.zhao@starfivetech.com>
+> > =E6=8A=84=E9=80=81: devicetree@vger.kernel.org; dri-devel@lists.freedes=
+ktop.org;
+> > linux-kernel@vger.kernel.org; linux-riscv@lists.infradead.org;
+> > tzimmermann@suse.de; airlied@gmail.com; krzysztof.kozlowski+dt@linaro.o=
+rg;
+> > William Qiu <william.qiu@starfivetech.com>; Xingyu Wu
+> > <xingyu.wu@starfivetech.com>; paul.walmsley@sifive.com;
+> > aou@eecs.berkeley.edu; palmer@dabbelt.com; p.zabel@pengutronix.de;
+> > Shengyang Chen <shengyang.chen@starfivetech.com>; Jack Zhu
+> > <jack.zhu@starfivetech.com>; Changhuang Liang
+> > <changhuang.liang@starfivetech.com>; maarten.lankhorst@linux.intel.com;
+> > suijingfeng@loongson.cn
+> > =E4=B8=BB=E9=A2=98: Re: [v3 4/6] drm/vs: Add KMS crtc&plane
+> >=20
+> > On Mon, Dec 04, 2023 at 08:33:13PM +0800, Keith Zhao wrote:
+> > > +static const struct vs_plane_info dc_hw_planes_rev0[PLANE_NUM] =3D {
+> > > +	{
+> > > +		.name			=3D "Primary",
+> > > +		.id			=3D PRIMARY_PLANE_0,
+> > > +		.type			=3D DRM_PLANE_TYPE_PRIMARY,
+> > > +		.num_formats		=3D ARRAY_SIZE(primary_overlay_format0),
+> > > +		.formats		=3D primary_overlay_format0,
+> > > +		.num_modifiers		=3D ARRAY_SIZE(format_modifier0),
+> > > +		.modifiers		=3D format_modifier0,
+> > > +		.min_width		=3D 0,
+> > > +		.min_height		=3D 0,
+> > > +		.max_width		=3D 4096,
+> > > +		.max_height		=3D 4096,
+> > > +		.rotation		=3D DRM_MODE_ROTATE_0 |
+> > > +					  DRM_MODE_ROTATE_90 |
+> > > +					  DRM_MODE_ROTATE_180 |
+> > > +					  DRM_MODE_ROTATE_270 |
+> > > +					  DRM_MODE_REFLECT_X |
+> > > +					  DRM_MODE_REFLECT_Y,
+> > > +		.blend_mode		=3D BIT(DRM_MODE_BLEND_PIXEL_NONE) |
+> > > +					  BIT(DRM_MODE_BLEND_PREMULTI) |
+> > > +					  BIT(DRM_MODE_BLEND_COVERAGE),
+> > > +		.color_encoding		=3D BIT(DRM_COLOR_YCBCR_BT709) |
+> > > +					  BIT(DRM_COLOR_YCBCR_BT2020),
+> > > +		.degamma_size		=3D DEGAMMA_SIZE,
+> > > +		.min_scale		=3D FRAC_16_16(1, 3),
+> > > +		.max_scale		=3D FRAC_16_16(10, 1),
+> > > +		.zpos			=3D 0,
+> > > +		.watermark		=3D true,
+> > > +		.color_mgmt		=3D true,
+> > > +		.roi			=3D true,
+> > > +	},
+> > > +	{
+> > > +		.name			=3D "Overlay",
+> > > +		.id			=3D OVERLAY_PLANE_0,
+> > > +		.type			=3D DRM_PLANE_TYPE_OVERLAY,
+> > > +		.num_formats		=3D ARRAY_SIZE(primary_overlay_format0),
+> > > +		.formats		=3D primary_overlay_format0,
+> > > +		.num_modifiers		=3D ARRAY_SIZE(format_modifier0),
+> > > +		.modifiers		=3D format_modifier0,
+> > > +		.min_width		=3D 0,
+> > > +		.min_height		=3D 0,
+> > > +		.max_width		=3D 4096,
+> > > +		.max_height		=3D 4096,
+> > > +		.rotation		=3D DRM_MODE_ROTATE_0 |
+> > > +					  DRM_MODE_ROTATE_90 |
+> > > +					  DRM_MODE_ROTATE_180 |
+> > > +					  DRM_MODE_ROTATE_270 |
+> > > +					  DRM_MODE_REFLECT_X |
+> > > +					  DRM_MODE_REFLECT_Y,
+> > > +		.blend_mode		=3D BIT(DRM_MODE_BLEND_PIXEL_NONE) |
+> > > +					  BIT(DRM_MODE_BLEND_PREMULTI) |
+> > > +					  BIT(DRM_MODE_BLEND_COVERAGE),
+> > > +		.color_encoding		=3D BIT(DRM_COLOR_YCBCR_BT709) |
+> > > +					  BIT(DRM_COLOR_YCBCR_BT2020),
+> > > +		.degamma_size		=3D DEGAMMA_SIZE,
+> > > +		.min_scale		=3D FRAC_16_16(1, 3),
+> > > +		.max_scale		=3D FRAC_16_16(10, 1),
+> > > +		.zpos			=3D 1,
+> > > +		.watermark		=3D true,
+> > > +		.color_mgmt		=3D true,
+> > > +		.roi			=3D true,
+> > > +	},
+> > > +	{
+> > > +		.name			=3D "Overlay_1",
+> > > +		.id			=3D OVERLAY_PLANE_1,
+> > > +		.type			=3D DRM_PLANE_TYPE_OVERLAY,
+> > > +		.num_formats		=3D ARRAY_SIZE(primary_overlay_format0),
+> > > +		.formats		=3D primary_overlay_format0,
+> > > +		.num_modifiers		=3D ARRAY_SIZE(secondary_format_modifiers),
+> > > +		.modifiers		=3D secondary_format_modifiers,
+> > > +		.min_width		=3D 0,
+> > > +		.min_height		=3D 0,
+> > > +		.max_width		=3D 4096,
+> > > +		.max_height		=3D 4096,
+> > > +		.rotation		=3D 0,
+> > > +		.blend_mode		=3D BIT(DRM_MODE_BLEND_PIXEL_NONE) |
+> > > +					  BIT(DRM_MODE_BLEND_PREMULTI) |
+> > > +					  BIT(DRM_MODE_BLEND_COVERAGE),
+> > > +		.color_encoding		=3D BIT(DRM_COLOR_YCBCR_BT709) |
+> > > +					  BIT(DRM_COLOR_YCBCR_BT2020),
+> > > +		.degamma_size		=3D DEGAMMA_SIZE,
+> > > +		.min_scale		=3D DRM_PLANE_NO_SCALING,
+> > > +		.max_scale		=3D DRM_PLANE_NO_SCALING,
+> > > +		.zpos			=3D 2,
+> > > +		.watermark		=3D true,
+> > > +		.color_mgmt		=3D true,
+> > > +		.roi			=3D true,
+> > > +	},
+> > > +	{
+> > > +		.name			=3D "Primary_1",
+> > > +		.id			=3D PRIMARY_PLANE_1,
+> > > +		.type			=3D DRM_PLANE_TYPE_PRIMARY,
+> > > +		.num_formats		=3D ARRAY_SIZE(primary_overlay_format0),
+> > > +		.formats		=3D primary_overlay_format0,
+> > > +		.num_modifiers		=3D ARRAY_SIZE(format_modifier0),
+> > > +		.modifiers		=3D format_modifier0,
+> > > +		.min_width		=3D 0,
+> > > +		.min_height		=3D 0,
+> > > +		.max_width		=3D 4096,
+> > > +		.max_height		=3D 4096,
+> > > +		.rotation		=3D DRM_MODE_ROTATE_0 |
+> > > +					  DRM_MODE_ROTATE_90 |
+> > > +					  DRM_MODE_ROTATE_180 |
+> > > +					  DRM_MODE_ROTATE_270 |
+> > > +					  DRM_MODE_REFLECT_X |
+> > > +					  DRM_MODE_REFLECT_Y,
+> > > +		.blend_mode		=3D BIT(DRM_MODE_BLEND_PIXEL_NONE) |
+> > > +					  BIT(DRM_MODE_BLEND_PREMULTI) |
+> > > +					  BIT(DRM_MODE_BLEND_COVERAGE),
+> > > +		.color_encoding		=3D BIT(DRM_COLOR_YCBCR_BT709) |
+> > > +					  BIT(DRM_COLOR_YCBCR_BT2020),
+> > > +		.degamma_size		=3D DEGAMMA_SIZE,
+> > > +		.min_scale		=3D FRAC_16_16(1, 3),
+> > > +		.max_scale		=3D FRAC_16_16(10, 1),
+> > > +		.zpos			=3D 3,
+> > > +		.watermark		=3D true,
+> > > +		.color_mgmt		=3D true,
+> > > +		.roi			=3D true,
+> > > +	},
+> > > +	{
+> > > +		.name			=3D "Overlay_2",
+> > > +		.id			=3D OVERLAY_PLANE_2,
+> > > +		.type			=3D DRM_PLANE_TYPE_OVERLAY,
+> > > +		.num_formats		=3D ARRAY_SIZE(primary_overlay_format0),
+> > > +		.formats		=3D primary_overlay_format0,
+> > > +		.num_modifiers		=3D ARRAY_SIZE(format_modifier0),
+> > > +		.modifiers		=3D format_modifier0,
+> > > +		.min_width		=3D 0,
+> > > +		.min_height		=3D 0,
+> > > +		.max_width		=3D 4096,
+> > > +		.max_height		=3D 4096,
+> > > +		.rotation		=3D DRM_MODE_ROTATE_0 |
+> > > +					  DRM_MODE_ROTATE_90 |
+> > > +					  DRM_MODE_ROTATE_180 |
+> > > +					  DRM_MODE_ROTATE_270 |
+> > > +					  DRM_MODE_REFLECT_X |
+> > > +					  DRM_MODE_REFLECT_Y,
+> > > +		.blend_mode		=3D BIT(DRM_MODE_BLEND_PIXEL_NONE) |
+> > > +					  BIT(DRM_MODE_BLEND_PREMULTI) |
+> > > +					  BIT(DRM_MODE_BLEND_COVERAGE),
+> > > +		.color_encoding		=3D BIT(DRM_COLOR_YCBCR_BT709) |
+> > > +					  BIT(DRM_COLOR_YCBCR_BT2020),
+> > > +		.degamma_size		=3D DEGAMMA_SIZE,
+> > > +		.min_scale		=3D FRAC_16_16(1, 3),
+> > > +		.max_scale		=3D FRAC_16_16(10, 1),
+> > > +		.zpos			=3D 4,
+> > > +		.watermark		=3D true,
+> > > +		.color_mgmt		=3D true,
+> > > +		.roi			=3D true,
+> > > +	},
+> > > +	{
+> > > +		.name			=3D "Overlay_3",
+> > > +		.id			=3D OVERLAY_PLANE_3,
+> > > +		.type			=3D DRM_PLANE_TYPE_OVERLAY,
+> > > +		.num_formats		=3D ARRAY_SIZE(primary_overlay_format0),
+> > > +		.formats		=3D primary_overlay_format0,
+> > > +		.num_modifiers		=3D ARRAY_SIZE(secondary_format_modifiers),
+> > > +		.modifiers		=3D secondary_format_modifiers,
+> > > +		.min_width		=3D 0,
+> > > +		.min_height		=3D 0,
+> > > +		.max_width		=3D 4096,
+> > > +		.max_height		=3D 4096,
+> > > +		.rotation		=3D 0,
+> > > +		.blend_mode		=3D BIT(DRM_MODE_BLEND_PIXEL_NONE) |
+> > > +					  BIT(DRM_MODE_BLEND_PREMULTI) |
+> > > +					  BIT(DRM_MODE_BLEND_COVERAGE),
+> > > +		.color_encoding		=3D BIT(DRM_COLOR_YCBCR_BT709) |
+> > > +					  BIT(DRM_COLOR_YCBCR_BT2020),
+> > > +		.degamma_size		=3D DEGAMMA_SIZE,
+> > > +		.min_scale		=3D DRM_PLANE_NO_SCALING,
+> > > +		.max_scale		=3D DRM_PLANE_NO_SCALING,
+> > > +		.zpos			=3D 5,
+> > > +		.watermark		=3D true,
+> > > +		.color_mgmt		=3D true,
+> > > +		.roi			=3D true,
+> > > +	},
+> > > +	{
+> > > +		.name			=3D "Cursor",
+> > > +		.id			=3D CURSOR_PLANE_0,
+> > > +		.type			=3D DRM_PLANE_TYPE_CURSOR,
+> > > +		.num_formats		=3D ARRAY_SIZE(cursor_formats),
+> > > +		.formats		=3D cursor_formats,
+> > > +		.num_modifiers		=3D 0,
+> > > +		.modifiers		=3D NULL,
+> > > +		.min_width		=3D 32,
+> > > +		.min_height		=3D 32,
+> > > +		.max_width		=3D 64,
+> > > +		.max_height		=3D 64,
+> > > +		.rotation		=3D 0,
+> > > +		.degamma_size		=3D 0,
+> > > +		.min_scale		=3D DRM_PLANE_NO_SCALING,
+> > > +		.max_scale		=3D DRM_PLANE_NO_SCALING,
+> > > +		.zpos			=3D 255,
+> > > +		.watermark		=3D false,
+> > > +		.color_mgmt		=3D false,
+> > > +		.roi			=3D false,
+> > > +	},
+> > > +	{
+> > > +		.name			=3D "Cursor_1",
+> > > +		.id			=3D CURSOR_PLANE_1,
+> > > +		.type			=3D DRM_PLANE_TYPE_CURSOR,
+> > > +		.num_formats		=3D ARRAY_SIZE(cursor_formats),
+> > > +		.formats		=3D cursor_formats,
+> > > +		.num_modifiers		=3D 0,
+> > > +		.modifiers		=3D NULL,
+> > > +		.min_width		=3D 32,
+> > > +		.min_height		=3D 32,
+> > > +		.max_width		=3D 64,
+> > > +		.max_height		=3D 64,
+> > > +		.rotation		=3D 0,
+> > > +		.degamma_size		=3D 0,
+> > > +		.min_scale		=3D DRM_PLANE_NO_SCALING,
+> > > +		.max_scale		=3D DRM_PLANE_NO_SCALING,
+> > > +		.zpos			=3D 255,
+> > > +		.watermark		=3D false,
+> > > +		.color_mgmt		=3D false,
+> > > +		.roi			=3D false,
+> > > +	},
+> > > +};
+> > > +
+> > > +static const struct vs_dc_info dc8200_info =3D {
+> > > +	.name			=3D "DC8200",
+> > > +	.panel_num		=3D 2,
+> > > +	.plane_num		=3D 8,
+> > > +	.planes			=3D dc_hw_planes_rev0,
+> > > +	.layer_num		=3D 6,
+> > > +	.max_bpc		=3D 10,
+> > > +	.color_formats		=3D DRM_COLOR_FORMAT_RGB444 |
+> > > +				  DRM_COLOR_FORMAT_YCBCR444 |
+> > > +				  DRM_COLOR_FORMAT_YCBCR422 |
+> > > +				  DRM_COLOR_FORMAT_YCBCR420,
+> > > +	.gamma_size		=3D GAMMA_EX_SIZE,
+> > > +	.gamma_bits		=3D 12,
+> > > +	.pitch_alignment	=3D 128,
+> > > +	.pipe_sync		=3D false,
+> > > +	.background		=3D true,
+> > > +	.panel_sync		=3D true,
+> > > +	.cap_dec		=3D true,
+> > > +};
+> >=20
+> > I really think that entire thing is to workaround a suboptimal device t=
+ree binding.
+> > You should have two CRTCs in the device tree, you'll probe twice, and y=
+ou won't
+> > get to do that whole dance.
+> >=20
 
-The idea looks good. My only concern is about reusing the
-of_graph_get_next_endpoint() name after having removed the old, different
-function having the same name. This can be confusing in the first
-place to who is used to the old function, and also to anybody rebasing
-their patches on top of a new kernel to find their code behaving
-differently.
+> I tried to modify it according to this idea Found it too difficult In
+> terms of hardware, the two crtc designs are too close to separate, and
+> they are even designed into the same reg with different bits
+> representing crtc0 and crtc1. It seems not easy to described the 2
+> ctrc hardware by 2 device nodes
 
-Also, as now we'd have two similar variants of this function, it would
-be good if each of them were having a name that clearly identifies in
-which way they differ from the other.
+What are these bits doing?
 
-So a better name for this function would probably be
-of_graph_get_next_port_endpoint() I guess, to clearly differentiate from
-of_graph_get_next_device_endpoint().
+> The idea is to avoid a whole dance I don't know if I understand
+> correctly about whole dance. Is it means I create 2 ctrc and 8 plane
+> in the dc_bind?
 
-Luca
+Yeah, you should strive to make it two separate devices.
 
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Maxime
+
+--pxujij5httjhwier
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZbpJ4QAKCRDj7w1vZxhR
+xbXKAQCkvP9gj89Uud9IYEso1eFoTC1FwHXjqrFhiyGdoEM2jgEAnCBvuWdLGfFs
+puqhj3XR1WkyppzKeff6yOmoPFnMvwM=
+=cHAW
+-----END PGP SIGNATURE-----
+
+--pxujij5httjhwier--
