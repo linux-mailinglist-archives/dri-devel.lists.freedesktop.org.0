@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CD0B8438B0
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 09:21:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2E868438C4
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 09:22:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F082F113A65;
-	Wed, 31 Jan 2024 08:21:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68E4D113A76;
+	Wed, 31 Jan 2024 08:21:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from JPN01-OS0-obe.outbound.protection.outlook.com
- (mail-os0jpn01on2134.outbound.protection.outlook.com [40.107.113.134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E287610F1AE;
- Wed, 31 Jan 2024 05:05:32 +0000 (UTC)
+ (mail-os0jpn01on2101.outbound.protection.outlook.com [40.107.113.101])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 669A810F1AE;
+ Wed, 31 Jan 2024 05:05:39 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Is0xHAGwSZ6KIz6h8FXpc0u7vAWtTGB7ibUpZPE65UrufcSxsuafOfjRvt/V81BHGfjNgCEFquwBRZM3QwqIWUisbuwLdznXLbEbs/Yxm6hIoe1LMyNN+QjC2e5MwGlFQUY7u1gpbZvciLKxXHdWFRxRSTezm340VzPd/I7cz3P2rYyMBZESo8SC5iEpt3+XCUjTxfD23AQJFn7Ygvnn+bwGCc09R+mpi2fcEQ55EmDc0ZzHniYvO7JdpqraBeZQainYcYrzKFa93alJfNfSfsJpmtOEGDNy0Kstg+AlZomYGB4178maS3iNcJI9GfK/szs1YNxcEhqh/P7uYELuiA==
+ b=JNXnCWw/KZeh4FMlDiTN7n99JsJS462NOEaPcwEcHkkBwWJoXZ67z3FL/GFDh93xwJkOedh8R/QrvTRDsSx4I/WK+ZKlJzMmV94ESQeXHSa6bu216T0LuO2fz1FD0Ic1uBpqMDzXJnvUwoZ7dLvXxWfgWsOmB2urxzsNTZnkKYtgbKbdA5sfQ8idhussYzYW+aApLvKG/4qa1wiBWbEFSBPDOoBCwQ0qKAqPSGPnFakEq6j3WPCnBb3iPV83ku+5afrsRtqBlqQVoJhZJvLLLbSlSe3OSRNt3l8U2kB0J6u0ZGL4Z4Ku1/Fa5+3xTJY41AmYcJJ2aK+TATyh69xRAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TqoUBy9SJV6SjnA0EDgwQert/GxGcY1xfZ/fOVKQMBU=;
- b=Aj710iZw2fO06HrGlVfGPcExBbrJp2H9PGy9lypnYO+5fp2qtFLS1rZAlJ/1YtMMeTJCeivV/HmCinv0CiQ5ZEu+9lMwPOblc4vG/DiNLPgreLRI1jDMkdau0C/cfItt2Qkwq6WUGXg32tyP1dnmeXfSn1/IuwVqJpNzXZbIyInFyvKSLsQyyCdW2fgmXB27oNWbhqlI7SoxutEpVnDhLRz3wkDHrXv/89mmkbhr7F6H429a4mYqQtxyj7efhflyszhK8GPRfoFWXu/Nrau5HX7hw/BGGvN8zHNllFpOPwHWC9Y1Vssu7NVsToxoSl2RxASHjEfYZiFSNReV/hEgYw==
+ bh=5WAnJ24PsVvP6yDM9wwJuQSBy/v2vUcMycCKnAJTUDU=;
+ b=KEYS1CcqYEPknt+6/LfwvEg+upyvUELO6nNjb2ejlYEK7KsZj++H0GlvqqgNY88i14m2M9Sn2oeHpjeBHq4MRA4u/I5vRIgviC5+XUTMNIfuD4a2M7UDeLSZsLfEaLZ+XOerGJfHrWvA/c7N3Xgs2mOI88fe4D7KqUgpOf9GK53iGkKMohnjcnIybVBPjV+YK4lkQ8K/hbEGPqAmludXuJvBcamfQnv3RNUR+0GY4jj7FFa09DLNph0xx5n0F0HEVR5guH2MZeEFDefkWKlCB7S0r0t6NPsZRcp/cljT8r8p3i4nJtkXpB6boPtwRh2+AXChb1cgp3ufPzTfxdFW+g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TqoUBy9SJV6SjnA0EDgwQert/GxGcY1xfZ/fOVKQMBU=;
- b=pWIp0PLg2mmZQKhVfxuPWoREN3kd8YzS/s0wyOIDdwzf8qsmF2eoO2ThUyriJnD6fWHx9eSIMspwDElVitqeZLB/R6aA/q43Ls50Vw/yzK3IZRdwKMqAOw2/7s6RKxo1suMxjavatlchN2RnmyNLhF2aFzUCTAi8+b46qMmKBPc=
+ bh=5WAnJ24PsVvP6yDM9wwJuQSBy/v2vUcMycCKnAJTUDU=;
+ b=LM7kGOIQg/KjRGEJ1Agr+G+RuzypxM5KeNZmBDUXXiUjnY6Ej3N8pZYpjMjxnbhlRpvp/9MJWZVOizdmK7Nu6y9Y2psQcwMP6C6H/plDQ8hz9vE8shZZY2oW4NgOPn6hK86QUlQDDCOkwxHUDnkPbQsYZYjZ/quH/bwsWFjKehQ=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11) by TYCPR01MB8341.jpnprd01.prod.outlook.com
  (2603:1096:400:15c::12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.23; Wed, 31 Jan
- 2024 05:05:28 +0000
+ 2024 05:05:35 +0000
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::ce8:8f5e:99a0:aba4]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::ce8:8f5e:99a0:aba4%2]) with mapi id 15.20.7249.023; Wed, 31 Jan 2024
- 05:05:28 +0000
-Message-ID: <87h6iu6qjs.wl-kuninori.morimoto.gx@renesas.com>
+ 05:05:34 +0000
+Message-ID: <87frye6qjl.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,	"Lad,  Prabhakar"
  <prabhakar.csengg@gmail.com>,	=?ISO-8859-1?Q?=22Niklas_S=C3=B6derlund=22?=
@@ -95,65 +95,65 @@ To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,	"Lad,  Prabhakar"
  <yannick.fertre@foss.st.com>
 In-Reply-To: <87o7d26qla.wl-kuninori.morimoto.gx@renesas.com>
 References: <87o7d26qla.wl-kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v3 05/24] media: i2c: switch to use
+Subject: [PATCH v3 06/24] media: platform: switch to use
  of_graph_get_next_device_endpoint()
 User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
 Content-Type: text/plain; charset=US-ASCII
-Date: Wed, 31 Jan 2024 05:05:27 +0000
-X-ClientProxiedBy: TYWP286CA0011.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:178::18) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+Date: Wed, 31 Jan 2024 05:05:34 +0000
+X-ClientProxiedBy: TYCPR01CA0040.jpnprd01.prod.outlook.com
+ (2603:1096:405:1::28) To TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB8341:EE_
-X-MS-Office365-Filtering-Correlation-Id: e824e6b5-c019-4fe3-9b7c-08dc221a3dce
+X-MS-Office365-Filtering-Correlation-Id: 1dec2bca-e365-454d-9b6e-08dc221a41c2
 X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oFK6rDOer+W8FW7nSFJRyL3EnX08Lk9eLA1XCbT02Ky2CAor+EjCg3UZC/l/YCY81MXM8oQNQK3dlP42zGhGS4m2oXPYpMzT5PI+F0luHVs83UM2PF9R+lLz6LZPySPfPzRhoC1wEYN6VK8pi+LtsFTwztYT6RhVaTQa0XuMNY7mWh3zAMsD6LtQY/MlcEpLPrIo2aW4Bp3th/fdCOKVI2pzqVNzDl52TlUkx0fwHuAMEbgwW9s8XH0oFblJyZSGkczKA6GRXKTKVGr5VlUZRS/Zy6y8OSZ56A+UF7bG37oaxJzoWL5o2NeBmphSN48NyeI/R+TVfLgPh8rbmgFXS+4Bdvlu1pG9UwNKobetQt2MlrxfQVTPiVlJlOjqWZTe3LwLIKRUiZ6V7OIVkUnJnzFR0AqN5vxkIR2VQ3U1nLnK3m1Qo+roEIbNViB0psJ7aKQB3NZYI2PSpNkcsDTa8aKQBXaHP4qJbsG44WStwHIfnbuafaMsmWzRjmUfe3ZvkEAjX+32xqfcTnKpuH31/hguID1rwG73t+JhXkzJ7PrAWyoMlcw1m06zQWimAnoEzaJ9utC+TrV6KznUiW7UGw/JlsiFAq+cvL8eJgKR4mSGHnquDW3j5pPGEXFGdA8g0e5moMw7rvOBeHLQmAkPAA==
+X-Microsoft-Antispam-Message-Info: QUvn6SPWD0U6jmZLRflWWbzGS3WYzMEscgSk/prUiIl+/3BK6vAwXYjtZsLeS/La1H2mIjdTqUptJlP6tPPnFB2axdcUI/xEV1v5hnCIhjgDbbx/8yqEwbInbB6rF0T0kzE0ZvUP884Wrj4N83R52e9nWN5owslEagdQU7kz+7kTgz+QMK3eZvdaFIzEr/HLJb9kSdm1K1XkaUsu1KRIjKBqAMoxxAObkZxS21Ia9Ouh9+/8IqRFb+NF5bbSaiMfprfaQHcVA1YNjqfgUiHZEWIF7Taf4LEg6VfabPYEOeLwZjKvd/xIXLmoaJG3iFHZUvbaP17G76YWdYN2nitNj2kaFQ3Ftx/nhBpZBKWk7ppRX7Yypd3T8/ny4xxhy0OiBZzRhv3b29lSDK8oMbWRHotBXsF2ogaTSbR/kNTnSC1FIpjVf7jLhXxrc2tBkhkjX1p7J3iS1Rva4LrOU8VfNj5hdLSj8Y28Ty4ONigM8h9tPvif0i+9GakiCDRBAjT9oftYb5486zGYNhKAA3KGrmu6maag4ZY6Hgxl1stB5YVRz3WH5xg4NaXhtxVmk5ntpeYojx+UY7hUba/vajxlgbh125ZpAbUqcg5Am93S6QbNtqVkAJpdEiXmkWixufveSQCgVIJBZolAJWcmFZW+bg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:TYCPR01MB10914.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230031)(396003)(346002)(136003)(366004)(376002)(39860400002)(230922051799003)(186009)(451199024)(64100799003)(1800799012)(1191002)(66476007)(8936002)(4326008)(8676002)(7366002)(5660300002)(2906002)(7416002)(7276002)(86362001)(7406005)(110136005)(66946007)(7336002)(316002)(38350700005)(36756003)(54906003)(38100700002)(66556008)(478600001)(52116002)(6506007)(6512007)(6486002)(83380400001)(26005)(41300700001)(921011)(2616005);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PyqwP7SV/G0xH8OkXqtm6SSyy7u40BGaDRcY78VWipFNe5hNvgd2L65fIdI/?=
- =?us-ascii?Q?Ylj+d5L2ei4IMz05qnfwWDCc8MicL0E99T28h8bFe88hVODYzDdyZoRqoI0s?=
- =?us-ascii?Q?kREaeXxyAAQXp9uoDg2rfysLbJc+Ex4Ze7iqX4mWHQ3ypJOG15Yhk+DjlOlW?=
- =?us-ascii?Q?OaW/nCjGpZZZILR5o1TdfuHnNkuRVZLiObSzM8akINXkguLRTFlvhGsMzz7n?=
- =?us-ascii?Q?XoW3RT6oum7geOR1t6dCco/ZdBROUqpw/MPMBP2emgjIgxAylphLHEJ2IA0C?=
- =?us-ascii?Q?+Gz0sbV6p20MCUFHx+M+AzrIBxDYQ9wc9UEcLWtcqycEk4AqWi258ntihl39?=
- =?us-ascii?Q?U7REAjP4RnLbe1wTkXPAfBGUIwomomniLTtShFSCLcderfouBh/VuMo8wetp?=
- =?us-ascii?Q?sSaK0D7xQfOB9YiN6i8xy46dAT5Gjc7cA0UTguF7lPDrbMLY/BnBIUZGt+V6?=
- =?us-ascii?Q?PiBWK9+6FIpn9PtEoYR6BvKIrhk0OFi4gtTh/bOF5qudCB0jtWcOGi5PDJXd?=
- =?us-ascii?Q?6axo4z96CQcIXsgujBzjx4FOmmye3o/nPPU5V2iJh8X4nHlCWOV45zkUkL/Z?=
- =?us-ascii?Q?q3VF6qUpOZOqDfA5XM7TCiNzWoIHlHCklbNn927cacyZR46Y57V2m76lHZ46?=
- =?us-ascii?Q?B2xhlY9N8dsNns7VrdGDP+EYIX+iv2eVwS47pocG51JnEqR/lueL36AYcRDi?=
- =?us-ascii?Q?SMkoPezx/RyCVfmFC9QTv1rsYGn+PpdJA8jk+WDO6JMWdV4FMjGQeCjB/cNd?=
- =?us-ascii?Q?D9+cJLHi5LUJve1W685lS7/5mwJkWLuVhvK3wqH1ZHPhMzRGgb3J4+Ihktak?=
- =?us-ascii?Q?r0HROMLU9nnAzS1XsB8/oQl+KAd8EM+rr2md79wkewMfVrLniMUct9YCEJxF?=
- =?us-ascii?Q?aSl/i7IhOlGDM2pI1nOIBI6c6UhFd2vqetlcMhjsw1Ox+s2zRa3onODcVzlG?=
- =?us-ascii?Q?17g7RDrsCK37F2/gIK7zj3FdBZtRFde4+9S2tObDKiBFeD3OutAwH6im3TN4?=
- =?us-ascii?Q?XjM45Ad8Y7WUgFr90b8hFQVx9pCZq9prnKEyyTg24T37phUiaWIU2SqvODWV?=
- =?us-ascii?Q?A0FhI/2fVJ7syeLTJRApGnyHafaqXMv/SKeUF8mvaZ+WaBLzWemWsmaJCWCb?=
- =?us-ascii?Q?Vvdldi5bjjxghOP8npP1/REYsP32NWaxI2ytCrHq9QXxBWhVW5QmOH4GFym4?=
- =?us-ascii?Q?H9SMamKmWL0PBKfpzaJPE1ujFd28cNMfYt9XWTfLPKRBtU3fbBrIERJeaW3v?=
- =?us-ascii?Q?ZAFOphWqLUEQJnIxh1iRAAAejiEWW2EiHnp7rcuXUrdNCkXmYJp5Gr1HnBLd?=
- =?us-ascii?Q?9MB8z1b1PChUD44uQoM5HR76m2711f0Rx47vZyVv3aazxCHD0UjNwMoQPDJ5?=
- =?us-ascii?Q?vNQcR6PIxYeJi+E6xwT6s8nqSzaKxo8pJWCV0BQdx8toWJje4EybTXoyx5DM?=
- =?us-ascii?Q?jYkWO31g6aeJ/0DUZXLW9JGFipRwnoukQBFpkdhJuDQL3a3UVt6kl1OyZkXM?=
- =?us-ascii?Q?Z6X1vg7IcOiHZGy3BBwZP1ad37CZ0dDcfYeD1WbshcID2MWmnSRor8RtMl3+?=
- =?us-ascii?Q?opW6xCZ8lgOZoctHbBIMVkuPsABODzdvsxMcMWPyWdF5SXuKhQJzQSDa1/Rt?=
- =?us-ascii?Q?DzCguiZBmOQ+5wF1hspo4Xc=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?T9GQln4JK00UCbrA9Me1cgMnw6SwZZQM8fbz+B8ASMf03RSztnF0jmLjhF1O?=
+ =?us-ascii?Q?YpiAVAhxZ24MPQYOGldIP5fWN/+cAGk2QwgrkyVtB44uNCo5Otwxhe3gSkpO?=
+ =?us-ascii?Q?4c1rTIUh+gxyT1WZ1okqxMXdJQKiH6W642IPa5umyPvPmxyvp3clvnemErJu?=
+ =?us-ascii?Q?Irzf517WATX5a80gnYiZA70RUNps3fPX0KojZFXWuUdVXX2R+dR3i8u47bkP?=
+ =?us-ascii?Q?O7pjWGLfaqVydFqxl2+vSsZhPnXNEJpbeihxLUHeUdFylVnMkOhHZ15+Qf4e?=
+ =?us-ascii?Q?97MUOLFke1TWpXyNGqptnbuTxYCI4muolrGv7eirtNVMngM+Z3DiZwVRNAYx?=
+ =?us-ascii?Q?0wx/Ram3ojKMPHo2WX+TXbCsBLS/oPCWq3vRH0N1Iq2Bp2jrVN+OpbM1EEF7?=
+ =?us-ascii?Q?+50Fao8gNtovU04qURqjdhmDsN9SK9sojiLn9bOUEtjV6S+6bXndFkELUdz4?=
+ =?us-ascii?Q?AceZ8S2TD6U0K80NFWPFsyuHIEpccxZnUqn/kyVeIpgZXW0YWj4pRYRZmT9b?=
+ =?us-ascii?Q?GZSxB7qIExnXvvwqnxi+F1QTlXSaNQOcQ8N5rhWF9TiWHap7AwtKlDRGRYs2?=
+ =?us-ascii?Q?N1aZmEHR1BuAnVxtQhmdtbKGDm1DX8cSon6ZaPpTWOMGeyq339m+HAUbx76D?=
+ =?us-ascii?Q?RgH1CPwol7xXD+VLXabFMtCFz/CPHHvCGCEY0pK8EFve52LOpesX6/GgwDi2?=
+ =?us-ascii?Q?tgebPSOso2jBHodgoTbPnMjqt0l3foxChhBphxggzoE2LMg5cqmGqcO4U396?=
+ =?us-ascii?Q?7J/Lax/SGdgMofqclBCLHq//xX9MOJPsULX6qsye5mGQK9uzyPyYkSL9p24+?=
+ =?us-ascii?Q?J3ga5KCmDRCwj9kcBQgQcKRUfwNb9MLSqRPhTvO2almiuVtZ6/hW7Netn06T?=
+ =?us-ascii?Q?mM+NddtiAZiqy0k+2rysHGnqjplGICHUaEaCsw8t+C5O5+yCOy1+fnV61w/r?=
+ =?us-ascii?Q?3APgXfM80gACEEzaPNmOibVCaD143dPXfA1vdH3I5y7jhDlTbY5KJQPtAhne?=
+ =?us-ascii?Q?d5JHt9K/85BY8bJRNTzWTespQ/GwCqpupU6k2MNJeqa9OV6qXseoyCPfXcEv?=
+ =?us-ascii?Q?vWgvJasjzihwL47a3QLQ4Jz93MdHs54BfcIjFu7jYjV+oMxHkQCR48+fWs79?=
+ =?us-ascii?Q?w6Hdw6C769UXgXiZVAhgDOa9GXhGLU4y3TTyk8D97YrRRvREaBZ021K/u1No?=
+ =?us-ascii?Q?ljjQYE678VhKGuFfwXv2A+uwMaeBFsIm4snuZSHtwT2RVnLq1MaH7kCLHJnd?=
+ =?us-ascii?Q?oAqjHp1GKTHcxwwg+DvMqBTwYcT2qqHOXy7Jo6zP4FmaVgRuSHS3+dfhz/0j?=
+ =?us-ascii?Q?qH33YrF5BqIlcu656Xax4Co6lIEfb6uPvJQwFM589a7J6jxj9BVBJdjHPo5I?=
+ =?us-ascii?Q?pPSHxUlRgP+Fj7cX0zKdQDYIz5hV4f14aDj+F7dj2dLzp67RaGBrAzOCUlQC?=
+ =?us-ascii?Q?hvozo4++w3qKwqn6nCKW08HuFyrWzE855O/LrhlM7hQ7PktR/zVRLDSX6xsv?=
+ =?us-ascii?Q?3dqBxz5cpOLLxIswO3ewPKtgs6keyq2l2diQZ8VkMPRefxWAtYNsoZ1cN3oo?=
+ =?us-ascii?Q?Je22ARgWwIXZCbOuJR4jtqmxOPnfvM2E91BKWQnT1rQ0NHQg0nOqrjOkt3zF?=
+ =?us-ascii?Q?0hqX/mx2bf/xWZvC5BmIyoo=3D?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e824e6b5-c019-4fe3-9b7c-08dc221a3dce
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1dec2bca-e365-454d-9b6e-08dc221a41c2
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2024 05:05:28.2552 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2024 05:05:34.8891 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 81XU3LqC6tyIA36Dh7QxiFQo6mSuxa1feT8tp6Zhy57JwOkDC89bkgUOtASxWe6OnDqGS0VBKMxdwEu6X8V7RWb5RE39Qc8MeSOFEirMHfDitswWRe24WZsstIalaDTr
+X-MS-Exchange-CrossTenant-UserPrincipalName: H6n3qgKx3gUYcXtjdsEX3+D7Sv16vC6scHfUd7hh1xpwZcdmxpoLUwmVZZUuRzytBAEpEAdp+9BYhDbGyv7/LqAzfQEpKB/exv5pksbqOdhwt+u29gOuDVNz2vUgA04d
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8341
 X-Mailman-Approved-At: Wed, 31 Jan 2024 08:20:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -196,254 +196,223 @@ of_graph_get_next_device_endpoint(). Switch to it.
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- drivers/media/i2c/adv7343.c              | 2 +-
- drivers/media/i2c/adv748x/adv748x-core.c | 2 +-
- drivers/media/i2c/adv7604.c              | 2 +-
- drivers/media/i2c/isl7998x.c             | 2 +-
- drivers/media/i2c/max9286.c              | 2 +-
- drivers/media/i2c/mt9p031.c              | 2 +-
- drivers/media/i2c/mt9v032.c              | 2 +-
- drivers/media/i2c/ov2659.c               | 2 +-
- drivers/media/i2c/ov5645.c               | 2 +-
- drivers/media/i2c/ov5647.c               | 2 +-
- drivers/media/i2c/s5c73m3/s5c73m3-core.c | 2 +-
- drivers/media/i2c/s5k5baf.c              | 2 +-
- drivers/media/i2c/tc358743.c             | 2 +-
- drivers/media/i2c/tda1997x.c             | 2 +-
- drivers/media/i2c/tvp514x.c              | 2 +-
- drivers/media/i2c/tvp5150.c              | 4 ++--
- drivers/media/i2c/tvp7002.c              | 2 +-
- 17 files changed, 18 insertions(+), 18 deletions(-)
+ drivers/media/platform/atmel/atmel-isi.c                 | 4 ++--
+ drivers/media/platform/intel/pxa_camera.c                | 2 +-
+ drivers/media/platform/microchip/microchip-sama5d2-isc.c | 2 +-
+ drivers/media/platform/microchip/microchip-sama7g5-isc.c | 2 +-
+ drivers/media/platform/qcom/camss/camss.c                | 2 +-
+ drivers/media/platform/renesas/renesas-ceu.c             | 2 +-
+ drivers/media/platform/samsung/exynos4-is/fimc-is.c      | 2 +-
+ drivers/media/platform/samsung/exynos4-is/mipi-csis.c    | 2 +-
+ drivers/media/platform/st/stm32/stm32-dcmi.c             | 4 ++--
+ drivers/media/platform/ti/am437x/am437x-vpfe.c           | 2 +-
+ drivers/media/platform/ti/davinci/vpif.c                 | 3 +--
+ drivers/media/platform/ti/davinci/vpif_capture.c         | 3 +--
+ drivers/media/platform/video-mux.c                       | 2 +-
+ drivers/media/platform/xilinx/xilinx-vipp.c              | 2 +-
+ 14 files changed, 16 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/media/i2c/adv7343.c b/drivers/media/i2c/adv7343.c
-index ff21cd4744d3..7e4eb2f8bf0d 100644
---- a/drivers/media/i2c/adv7343.c
-+++ b/drivers/media/i2c/adv7343.c
-@@ -403,7 +403,7 @@ adv7343_get_pdata(struct i2c_client *client)
- 	if (!IS_ENABLED(CONFIG_OF) || !client->dev.of_node)
- 		return client->dev.platform_data;
+diff --git a/drivers/media/platform/atmel/atmel-isi.c b/drivers/media/platform/atmel/atmel-isi.c
+index 4046212d48b4..4317750d05ad 100644
+--- a/drivers/media/platform/atmel/atmel-isi.c
++++ b/drivers/media/platform/atmel/atmel-isi.c
+@@ -831,7 +831,7 @@ static int atmel_isi_parse_dt(struct atmel_isi *isi,
+ 	isi->pdata.full_mode = 1;
+ 	isi->pdata.frate = ISI_CFG1_FRATE_CAPTURE_ALL;
  
--	np = of_graph_get_next_endpoint(client->dev.of_node, NULL);
-+	np = of_graph_get_next_device_endpoint(client->dev.of_node, NULL);
- 	if (!np)
- 		return NULL;
- 
-diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
-index 3eb6d5e8f082..4e9e4cef8954 100644
---- a/drivers/media/i2c/adv748x/adv748x-core.c
-+++ b/drivers/media/i2c/adv748x/adv748x-core.c
-@@ -657,7 +657,7 @@ static int adv748x_parse_dt(struct adv748x_state *state)
- 	bool in_found = false;
- 	int ret;
- 
--	for_each_endpoint_of_node(state->dev->of_node, ep_np) {
-+	for_each_device_endpoint_of_node(state->dev->of_node, ep_np) {
- 		of_graph_parse_endpoint(ep_np, &ep);
- 		adv_info(state, "Endpoint %pOF on port %d", ep.local_node,
- 			 ep.port);
-diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
-index b202a85fbeaa..5b98a688b5de 100644
---- a/drivers/media/i2c/adv7604.c
-+++ b/drivers/media/i2c/adv7604.c
-@@ -3205,7 +3205,7 @@ static int adv76xx_parse_dt(struct adv76xx_state *state)
- 	np = state->i2c_clients[ADV76XX_PAGE_IO]->dev.of_node;
- 
- 	/* Parse the endpoint. */
--	endpoint = of_graph_get_next_endpoint(np, NULL);
-+	endpoint = of_graph_get_next_device_endpoint(np, NULL);
- 	if (!endpoint)
+-	np = of_graph_get_next_endpoint(np, NULL);
++	np = of_graph_get_next_device_endpoint(np, NULL);
+ 	if (!np) {
+ 		dev_err(&pdev->dev, "Could not find the endpoint\n");
  		return -EINVAL;
- 
-diff --git a/drivers/media/i2c/isl7998x.c b/drivers/media/i2c/isl7998x.c
-index 73460688c356..1ef26dd8290c 100644
---- a/drivers/media/i2c/isl7998x.c
-+++ b/drivers/media/i2c/isl7998x.c
-@@ -580,7 +580,7 @@ static int isl7998x_get_nr_inputs(struct device_node *of_node)
- 	unsigned int inputs = 0;
- 	unsigned int i;
- 
--	if (of_graph_get_endpoint_count(of_node) > ISL7998X_NUM_PADS)
-+	if (of_graph_get_device_endpoint_count(of_node) > ISL7998X_NUM_PADS)
- 		return -EINVAL;
- 
- 	/*
-diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index fc1cf196ef01..7d0725285a24 100644
---- a/drivers/media/i2c/max9286.c
-+++ b/drivers/media/i2c/max9286.c
-@@ -1452,7 +1452,7 @@ static int max9286_parse_dt(struct max9286_priv *priv)
- 	of_node_put(i2c_mux);
- 
- 	/* Parse the endpoints */
--	for_each_endpoint_of_node(dev->of_node, node) {
-+	for_each_device_endpoint_of_node(dev->of_node, node) {
- 		struct max9286_source *source;
- 		struct of_endpoint ep;
- 
-diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
-index 348f1e1098fb..4832968ca50b 100644
---- a/drivers/media/i2c/mt9p031.c
-+++ b/drivers/media/i2c/mt9p031.c
-@@ -1080,7 +1080,7 @@ mt9p031_get_pdata(struct i2c_client *client)
- 	if (!IS_ENABLED(CONFIG_OF) || !client->dev.of_node)
- 		return client->dev.platform_data;
- 
--	np = of_graph_get_next_endpoint(client->dev.of_node, NULL);
-+	np = of_graph_get_next_device_endpoint(client->dev.of_node, NULL);
- 	if (!np)
- 		return NULL;
- 
-diff --git a/drivers/media/i2c/mt9v032.c b/drivers/media/i2c/mt9v032.c
-index 1c6f6cea1204..236a671857a1 100644
---- a/drivers/media/i2c/mt9v032.c
-+++ b/drivers/media/i2c/mt9v032.c
-@@ -1008,7 +1008,7 @@ mt9v032_get_pdata(struct i2c_client *client)
- 	if (!IS_ENABLED(CONFIG_OF) || !client->dev.of_node)
- 		return client->dev.platform_data;
- 
--	np = of_graph_get_next_endpoint(client->dev.of_node, NULL);
-+	np = of_graph_get_next_device_endpoint(client->dev.of_node, NULL);
- 	if (!np)
- 		return NULL;
- 
-diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
-index 2c3dbe164eb6..a909edadc8d5 100644
---- a/drivers/media/i2c/ov2659.c
-+++ b/drivers/media/i2c/ov2659.c
-@@ -1388,7 +1388,7 @@ ov2659_get_pdata(struct i2c_client *client)
- 	if (!IS_ENABLED(CONFIG_OF) || !client->dev.of_node)
- 		return client->dev.platform_data;
- 
--	endpoint = of_graph_get_next_endpoint(client->dev.of_node, NULL);
-+	endpoint = of_graph_get_next_device_endpoint(client->dev.of_node, NULL);
- 	if (!endpoint)
- 		return NULL;
- 
-diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-index a70db7e601a4..cb04b2a71492 100644
---- a/drivers/media/i2c/ov5645.c
-+++ b/drivers/media/i2c/ov5645.c
-@@ -1053,7 +1053,7 @@ static int ov5645_probe(struct i2c_client *client)
- 	ov5645->i2c_client = client;
- 	ov5645->dev = dev;
- 
--	endpoint = of_graph_get_next_endpoint(dev->of_node, NULL);
-+	endpoint = of_graph_get_next_device_endpoint(dev->of_node, NULL);
- 	if (!endpoint) {
- 		dev_err(dev, "endpoint node not found\n");
- 		return -EINVAL;
-diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-index dcfe3129c63a..2772195f15e0 100644
---- a/drivers/media/i2c/ov5647.c
-+++ b/drivers/media/i2c/ov5647.c
-@@ -1363,7 +1363,7 @@ static int ov5647_parse_dt(struct ov5647 *sensor, struct device_node *np)
+@@ -1155,7 +1155,7 @@ static int isi_graph_init(struct atmel_isi *isi)
  	struct device_node *ep;
  	int ret;
  
--	ep = of_graph_get_next_endpoint(np, NULL);
-+	ep = of_graph_get_next_device_endpoint(np, NULL);
+-	ep = of_graph_get_next_endpoint(isi->dev->of_node, NULL);
++	ep = of_graph_get_next_device_endpoint(isi->dev->of_node, NULL);
  	if (!ep)
  		return -EINVAL;
  
-diff --git a/drivers/media/i2c/s5c73m3/s5c73m3-core.c b/drivers/media/i2c/s5c73m3/s5c73m3-core.c
-index ed5b10731a14..a43f5c8bf770 100644
---- a/drivers/media/i2c/s5c73m3/s5c73m3-core.c
-+++ b/drivers/media/i2c/s5c73m3/s5c73m3-core.c
-@@ -1555,7 +1555,7 @@ static int s5c73m3_get_dt_data(struct s5c73m3 *state)
- 				     "failed to request gpio S5C73M3_RST\n");
- 	gpiod_set_consumer_name(state->reset, "S5C73M3_RST");
- 
--	node_ep = of_graph_get_next_endpoint(node, NULL);
-+	node_ep = of_graph_get_next_device_endpoint(node, NULL);
- 	if (!node_ep) {
- 		dev_warn(dev, "no endpoint defined for node: %pOF\n", node);
- 		return 0;
-diff --git a/drivers/media/i2c/s5k5baf.c b/drivers/media/i2c/s5k5baf.c
-index 67da2045f543..063b8ede4ffb 100644
---- a/drivers/media/i2c/s5k5baf.c
-+++ b/drivers/media/i2c/s5k5baf.c
-@@ -1836,7 +1836,7 @@ static int s5k5baf_parse_device_node(struct s5k5baf *state, struct device *dev)
- 			 state->mclk_frequency);
+diff --git a/drivers/media/platform/intel/pxa_camera.c b/drivers/media/platform/intel/pxa_camera.c
+index 59b89e421dc2..f2175c03502b 100644
+--- a/drivers/media/platform/intel/pxa_camera.c
++++ b/drivers/media/platform/intel/pxa_camera.c
+@@ -2207,7 +2207,7 @@ static int pxa_camera_pdata_from_dt(struct device *dev,
+ 		pcdev->mclk = mclk_rate;
  	}
  
--	node_ep = of_graph_get_next_endpoint(node, NULL);
-+	node_ep = of_graph_get_next_device_endpoint(node, NULL);
- 	if (!node_ep) {
- 		dev_err(dev, "no endpoint defined at node %pOF\n", node);
+-	np = of_graph_get_next_endpoint(np, NULL);
++	np = of_graph_get_next_device_endpoint(np, NULL);
+ 	if (!np) {
+ 		dev_err(dev, "could not find endpoint\n");
  		return -EINVAL;
-diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
-index 2785935da497..9664fe1526e2 100644
---- a/drivers/media/i2c/tc358743.c
-+++ b/drivers/media/i2c/tc358743.c
-@@ -1895,7 +1895,7 @@ static int tc358743_probe_of(struct tc358743_state *state)
- 		return dev_err_probe(dev, PTR_ERR(refclk),
- 				     "failed to get refclk\n");
+diff --git a/drivers/media/platform/microchip/microchip-sama5d2-isc.c b/drivers/media/platform/microchip/microchip-sama5d2-isc.c
+index 5ac149cf3647..201049c047b0 100644
+--- a/drivers/media/platform/microchip/microchip-sama5d2-isc.c
++++ b/drivers/media/platform/microchip/microchip-sama5d2-isc.c
+@@ -363,7 +363,7 @@ static int isc_parse_dt(struct device *dev, struct isc_device *isc)
+ 	while (1) {
+ 		struct v4l2_fwnode_endpoint v4l2_epn = { .bus_type = 0 };
  
--	ep = of_graph_get_next_endpoint(dev->of_node, NULL);
-+	ep = of_graph_get_next_device_endpoint(dev->of_node, NULL);
- 	if (!ep) {
- 		dev_err(dev, "missing endpoint node\n");
- 		return -EINVAL;
-diff --git a/drivers/media/i2c/tda1997x.c b/drivers/media/i2c/tda1997x.c
-index 325e99125941..5b5379c7e56c 100644
---- a/drivers/media/i2c/tda1997x.c
-+++ b/drivers/media/i2c/tda1997x.c
-@@ -2307,7 +2307,7 @@ static int tda1997x_parse_dt(struct tda1997x_state *state)
- 	pdata->vidout_sel_de = DE_FREF_SEL_DE_VHREF;
+-		epn = of_graph_get_next_endpoint(np, epn);
++		epn = of_graph_get_next_device_endpoint(np, epn);
+ 		if (!epn)
+ 			return 0;
  
- 	np = state->client->dev.of_node;
--	ep = of_graph_get_next_endpoint(np, NULL);
-+	ep = of_graph_get_next_device_endpoint(np, NULL);
- 	if (!ep)
- 		return -EINVAL;
+diff --git a/drivers/media/platform/microchip/microchip-sama7g5-isc.c b/drivers/media/platform/microchip/microchip-sama7g5-isc.c
+index 73445f33d26b..b617a9bcd398 100644
+--- a/drivers/media/platform/microchip/microchip-sama7g5-isc.c
++++ b/drivers/media/platform/microchip/microchip-sama7g5-isc.c
+@@ -349,7 +349,7 @@ static int xisc_parse_dt(struct device *dev, struct isc_device *isc)
+ 	while (1) {
+ 		struct v4l2_fwnode_endpoint v4l2_epn = { .bus_type = 0 };
  
-diff --git a/drivers/media/i2c/tvp514x.c b/drivers/media/i2c/tvp514x.c
-index c37f605cb75f..f979d95b3b21 100644
---- a/drivers/media/i2c/tvp514x.c
-+++ b/drivers/media/i2c/tvp514x.c
-@@ -988,7 +988,7 @@ tvp514x_get_pdata(struct i2c_client *client)
- 	if (!IS_ENABLED(CONFIG_OF) || !client->dev.of_node)
- 		return client->dev.platform_data;
+-		epn = of_graph_get_next_endpoint(np, epn);
++		epn = of_graph_get_next_device_endpoint(np, epn);
+ 		if (!epn)
+ 			return 0;
  
--	endpoint = of_graph_get_next_endpoint(client->dev.of_node, NULL);
-+	endpoint = of_graph_get_next_device_endpoint(client->dev.of_node, NULL);
- 	if (!endpoint)
- 		return NULL;
+diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+index 8e78dd8d5961..cbb6f88cfe4a 100644
+--- a/drivers/media/platform/qcom/camss/camss.c
++++ b/drivers/media/platform/qcom/camss/camss.c
+@@ -1136,7 +1136,7 @@ static int camss_of_parse_ports(struct camss *camss)
+ 	struct device_node *remote = NULL;
+ 	int ret, num_subdevs = 0;
  
-diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
-index e543b3f7a4d8..e8ad131fcd6b 100644
---- a/drivers/media/i2c/tvp5150.c
-+++ b/drivers/media/i2c/tvp5150.c
-@@ -2000,7 +2000,7 @@ static int tvp5150_parse_dt(struct tvp5150 *decoder, struct device_node *np)
+-	for_each_endpoint_of_node(dev->of_node, node) {
++	for_each_device_endpoint_of_node(dev->of_node, node) {
+ 		struct camss_async_subdev *csd;
+ 
+ 		if (!of_device_is_available(node))
+diff --git a/drivers/media/platform/renesas/renesas-ceu.c b/drivers/media/platform/renesas/renesas-ceu.c
+index 2562b30acfb9..929d17de4ac9 100644
+--- a/drivers/media/platform/renesas/renesas-ceu.c
++++ b/drivers/media/platform/renesas/renesas-ceu.c
+@@ -1526,7 +1526,7 @@ static int ceu_parse_dt(struct ceu_device *ceudev)
+ 	int num_ep;
  	int ret;
  
- 	/* At least 1 output and 1 input */
--	ep_num = of_graph_get_endpoint_count(np);
-+	ep_num = of_graph_get_device_endpoint_count(np);
- 	if (ep_num < 2 || ep_num > 5) {
- 		dev_err(dev, "At least 1 input and 1 output must be connected to the device.\n");
- 		return -EINVAL;
-@@ -2017,7 +2017,7 @@ static int tvp5150_parse_dt(struct tvp5150 *decoder, struct device_node *np)
- 	 * tvp-5150 port@2
- 	 *	endpoint (video bitstream output at YOUT[0-7] parallel bus)
- 	 */
--	for_each_endpoint_of_node(np, ep_np) {
-+	for_each_device_endpoint_of_node(np, ep_np) {
- 		struct fwnode_handle *ep_fwnode = of_fwnode_handle(ep_np);
- 		unsigned int next_connector = decoder->connectors_num;
- 		struct of_endpoint ep;
-diff --git a/drivers/media/i2c/tvp7002.c b/drivers/media/i2c/tvp7002.c
-index a2d7bc799849..27f2a138bd09 100644
---- a/drivers/media/i2c/tvp7002.c
-+++ b/drivers/media/i2c/tvp7002.c
-@@ -893,7 +893,7 @@ tvp7002_get_pdata(struct i2c_client *client)
- 	if (!IS_ENABLED(CONFIG_OF) || !client->dev.of_node)
- 		return client->dev.platform_data;
+-	num_ep = of_graph_get_endpoint_count(of);
++	num_ep = of_graph_get_device_endpoint_count(of);
+ 	if (!num_ep)
+ 		return -ENODEV;
  
--	endpoint = of_graph_get_next_endpoint(client->dev.of_node, NULL);
-+	endpoint = of_graph_get_next_device_endpoint(client->dev.of_node, NULL);
+diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-is.c b/drivers/media/platform/samsung/exynos4-is/fimc-is.c
+index a08c87ef6e2d..5ab0399b7718 100644
+--- a/drivers/media/platform/samsung/exynos4-is/fimc-is.c
++++ b/drivers/media/platform/samsung/exynos4-is/fimc-is.c
+@@ -175,7 +175,7 @@ static int fimc_is_parse_sensor_config(struct fimc_is *is, unsigned int index,
+ 		return -EINVAL;
+ 	}
+ 
+-	ep = of_graph_get_next_endpoint(node, NULL);
++	ep = of_graph_get_next_device_endpoint(node, NULL);
+ 	if (!ep)
+ 		return -ENXIO;
+ 
+diff --git a/drivers/media/platform/samsung/exynos4-is/mipi-csis.c b/drivers/media/platform/samsung/exynos4-is/mipi-csis.c
+index 686ca8753ba2..a332b4bd76f2 100644
+--- a/drivers/media/platform/samsung/exynos4-is/mipi-csis.c
++++ b/drivers/media/platform/samsung/exynos4-is/mipi-csis.c
+@@ -728,7 +728,7 @@ static int s5pcsis_parse_dt(struct platform_device *pdev,
+ 				 &state->max_num_lanes))
+ 		return -EINVAL;
+ 
+-	node = of_graph_get_next_endpoint(node, NULL);
++	node = of_graph_get_next_device_endpoint(node, NULL);
+ 	if (!node) {
+ 		dev_err(&pdev->dev, "No port node at %pOF\n",
+ 				pdev->dev.of_node);
+diff --git a/drivers/media/platform/st/stm32/stm32-dcmi.c b/drivers/media/platform/st/stm32/stm32-dcmi.c
+index 8cb4fdcae137..320101f4ad40 100644
+--- a/drivers/media/platform/st/stm32/stm32-dcmi.c
++++ b/drivers/media/platform/st/stm32/stm32-dcmi.c
+@@ -1856,7 +1856,7 @@ static int dcmi_graph_init(struct stm32_dcmi *dcmi)
+ 	struct device_node *ep;
+ 	int ret;
+ 
+-	ep = of_graph_get_next_endpoint(dcmi->dev->of_node, NULL);
++	ep = of_graph_get_next_device_endpoint(dcmi->dev->of_node, NULL);
+ 	if (!ep) {
+ 		dev_err(dcmi->dev, "Failed to get next endpoint\n");
+ 		return -EINVAL;
+@@ -1915,7 +1915,7 @@ static int dcmi_probe(struct platform_device *pdev)
+ 				     "Could not get reset control\n");
+ 
+ 	/* Get bus characteristics from devicetree */
+-	np = of_graph_get_next_endpoint(np, NULL);
++	np = of_graph_get_next_device_endpoint(np, NULL);
+ 	if (!np) {
+ 		dev_err(&pdev->dev, "Could not find the endpoint\n");
+ 		return -ENODEV;
+diff --git a/drivers/media/platform/ti/am437x/am437x-vpfe.c b/drivers/media/platform/ti/am437x/am437x-vpfe.c
+index 5fa2ea9025d9..46876865ec6a 100644
+--- a/drivers/media/platform/ti/am437x/am437x-vpfe.c
++++ b/drivers/media/platform/ti/am437x/am437x-vpfe.c
+@@ -2309,7 +2309,7 @@ vpfe_get_pdata(struct vpfe_device *vpfe)
+ 		struct v4l2_fwnode_endpoint bus_cfg = { .bus_type = 0 };
+ 		struct device_node *rem;
+ 
+-		endpoint = of_graph_get_next_endpoint(dev->of_node, endpoint);
++		endpoint = of_graph_get_next_device_endpoint(dev->of_node, endpoint);
+ 		if (!endpoint)
+ 			break;
+ 
+diff --git a/drivers/media/platform/ti/davinci/vpif.c b/drivers/media/platform/ti/davinci/vpif.c
+index 63cdfed37bc9..021ca79e832b 100644
+--- a/drivers/media/platform/ti/davinci/vpif.c
++++ b/drivers/media/platform/ti/davinci/vpif.c
+@@ -465,8 +465,7 @@ static int vpif_probe(struct platform_device *pdev)
+ 	 * so their devices need to be registered manually here
+ 	 * for their legacy platform_drivers to work.
+ 	 */
+-	endpoint = of_graph_get_next_endpoint(pdev->dev.of_node,
+-					      endpoint);
++	endpoint = of_graph_get_next_device_endpoint(pdev->dev.of_node, endpoint);
  	if (!endpoint)
- 		return NULL;
+ 		return 0;
+ 	of_node_put(endpoint);
+diff --git a/drivers/media/platform/ti/davinci/vpif_capture.c b/drivers/media/platform/ti/davinci/vpif_capture.c
+index 99fae8830c41..805c313b41dc 100644
+--- a/drivers/media/platform/ti/davinci/vpif_capture.c
++++ b/drivers/media/platform/ti/davinci/vpif_capture.c
+@@ -1521,8 +1521,7 @@ vpif_capture_get_pdata(struct platform_device *pdev,
+ 		unsigned int flags;
+ 		int err;
+ 
+-		endpoint = of_graph_get_next_endpoint(pdev->dev.of_node,
+-						      endpoint);
++		endpoint = of_graph_get_next_device_endpoint(pdev->dev.of_node, endpoint);
+ 		if (!endpoint)
+ 			break;
+ 
+diff --git a/drivers/media/platform/video-mux.c b/drivers/media/platform/video-mux.c
+index 5de6b6694f53..61d84ade7155 100644
+--- a/drivers/media/platform/video-mux.c
++++ b/drivers/media/platform/video-mux.c
+@@ -408,7 +408,7 @@ static int video_mux_probe(struct platform_device *pdev)
+ 	 * The largest numbered port is the output port. It determines
+ 	 * total number of pads.
+ 	 */
+-	for_each_endpoint_of_node(np, ep) {
++	for_each_device_endpoint_of_node(np, ep) {
+ 		struct of_endpoint endpoint;
+ 
+ 		of_graph_parse_endpoint(ep, &endpoint);
+diff --git a/drivers/media/platform/xilinx/xilinx-vipp.c b/drivers/media/platform/xilinx/xilinx-vipp.c
+index 996684a73038..9230931d6d7a 100644
+--- a/drivers/media/platform/xilinx/xilinx-vipp.c
++++ b/drivers/media/platform/xilinx/xilinx-vipp.c
+@@ -207,7 +207,7 @@ static int xvip_graph_build_dma(struct xvip_composite_device *xdev)
+ 
+ 	while (1) {
+ 		/* Get the next endpoint and parse its link. */
+-		ep = of_graph_get_next_endpoint(node, ep);
++		ep = of_graph_get_next_device_endpoint(node, ep);
+ 		if (ep == NULL)
+ 			break;
  
 -- 
 2.25.1
