@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8101184367A
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 07:15:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B8984368B
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 07:21:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F78D11396F;
-	Wed, 31 Jan 2024 06:15:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C52C2113986;
+	Wed, 31 Jan 2024 06:21:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail5.25mail.st (mail5.25mail.st [74.50.62.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78A9111396F
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 06:15:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7D53113987
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 06:21:09 +0000 (UTC)
 Received: from localhost (91-158-86-216.elisa-laajakaista.fi [91.158.86.216])
- by mail5.25mail.st (Postfix) with ESMTPSA id C72DB60416;
- Wed, 31 Jan 2024 06:14:11 +0000 (UTC)
+ by mail5.25mail.st (Postfix) with ESMTPSA id DF81F60417;
+ Wed, 31 Jan 2024 06:20:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=atomide.com;
- s=25mailst; t=1706681704;
- bh=2yPSLwDIVXISiz850jNswuJMbHS4Z6UYnk6bKNxSsGY=;
+ s=25mailst; t=1706682069;
+ bh=1stjmB4mIQIgjXzEdef4k7mYxVV6dJBOLDOpjOEsKgA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hiiMiM5OZoROWd6k7SN0rkmCACBj/yZ25OihprOZDTsxfQJAVKRDX5wv9QRB2uGdH
- Pv8yplmE9sewWWTOfW2yB13kUuEujbqnp1pMfLt0RyJtBEizx/KfpnukvN2FX2lv06
- Wh3uSKUJId/u+XENV2YTOI07H8lwC/Hjkdn5gtzmiHcEdKfyX3xfvqKZ8dBpnvuq1Y
- jRA4n/XnEazH12EbMFzyQtJs6NyTz0/C62poin32e9nnB8Qucv2I2P0UHFREMgDsyx
- Zmi2Pm05JoxFfDgNq9VufCPnPpiVin0sYUwuwaecgnpMdPFT5lZzfvJ80zYVhrHIXE
- mJNFfrq1W0E9Q==
-Date: Wed, 31 Jan 2024 08:14:09 +0200
+ b=VJe7n5AjQvvnU9dL4abFmdrz9smQ62eqsrW5YXVrm5+ZeLeK/3atXMfC/DnTorl7p
+ NBUknsdV39KrNygf7h6UadzelEXF98CNMKxeHLW54j7gaMqmM+08grrx9ox6O/XGnJ
+ zdy2VMIp2xwB4zsYurz5LfHmQBy0XyDUckhtdrJyTv1ZhBcGvqxZ7R8dxAmdqBexaB
+ M/u4Sqz7v3AD9v+L21o+4kP6JteJUHNigSa6y62rX7FHYX6Tck79ViLMavIFbR7KY+
+ yHVBEJq7Og8F5nkJq8CRroOswHul6RmyncB1OYoxaUhJ2UIxCIPK2SnLv4r2e1cBuX
+ XKyQ/2mipYhqg==
+Date: Wed, 31 Jan 2024 08:20:21 +0200
 From: Tony Lindgren <tony@atomide.com>
 To: Michael Walle <mwalle@kernel.org>
-Subject: Re: [PATCH v2 10/10] drm/bridge: tc358775: Configure hs_rate and
- lp_rate
-Message-ID: <20240131061409.GU31612@atomide.com>
-References: <20231202075514.44474-11-tony@atomide.com>
- <20231207161352.2634438-1-mwalle@kernel.org>
+Subject: Re: [PATCH v2 09/10] drm/bridge: tc358775: Add support for tc358765
+Message-ID: <20240131062021.GV31612@atomide.com>
+References: <CAA8EJppYoBxYaFnu7UHxCgNiRwcjmVgPXXcQboaeu_dGCosJXg@mail.gmail.com>
+ <20231204095213.2573620-1-mwalle@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231207161352.2634438-1-mwalle@kernel.org>
+In-Reply-To: <20231204095213.2573620-1-mwalle@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,62 +48,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: krzysztof.kozlowski+dt@linaro.org, dri-devel@lists.freedesktop.org,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com, sam@ravnborg.org,
- ivo.g.dimitrov.75@gmail.com, rfoss@kernel.org, jernej.skrabec@gmail.com,
- simhavcs@gmail.com, merlijn@wizzup.org, devicetree@vger.kernel.org,
- conor+dt@kernel.org, tzimmermann@suse.de, jonas@kwiboo.se, pavel@ucw.cz,
- mripard@kernel.org, robh+dt@kernel.org, philipp@uvos.xyz,
- neil.armstrong@linaro.org, sre@kernel.org, daniel@ffwll.ch
+Cc: mripard@kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org,
+ ivo.g.dimitrov.75@gmail.com, rfoss@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, tzimmermann@suse.de, jonas@kwiboo.se,
+ pavel@ucw.cz, sam@ravnborg.org, merlijn@wizzup.org, neil.armstrong@linaro.org,
+ sre@kernel.org, dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com, simhavcs@gmail.com,
+ dmitry.baryshkov@linaro.org, philipp@uvos.xyz, jernej.skrabec@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Michael Walle <mwalle@kernel.org> [231207 16:14]:
-> > The hs_rate and lp_rate may be used by the dsi host for timing
-> > calculations. The tc358775 has a maximum bit rate of 1 Gbps/lane,
-> > tc358765 has maximurate of 800 Mbps per lane.
-> > 
-> > Signed-off-by: Tony Lindgren <tony@atomide.com>
-> > ---
-> >  drivers/gpu/drm/bridge/tc358775.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
-> > --- a/drivers/gpu/drm/bridge/tc358775.c
-> > +++ b/drivers/gpu/drm/bridge/tc358775.c
-> > @@ -636,6 +636,11 @@ static int tc_attach_host(struct tc_data *tc)
-> >  	dsi->format = MIPI_DSI_FMT_RGB888;
-> >  	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-> >  		MIPI_DSI_MODE_LPM;
-> > +	if (tc->type == TC358765)
-> > +		dsi->hs_rate = 800000000;
+* Michael Walle <mwalle@kernel.org> [231204 09:52]:
+> >> @@ -643,6 +658,7 @@ static int tc_probe(struct i2c_client *client)
+> >>
+> >>         tc->dev = dev;
+> >>         tc->i2c = client;
+> >> +       tc->type = (enum tc3587x5_type)of_device_get_match_data(dev);
+> >
+> > Would it make sense to use i2c_get_match_data() instead?
 > 
-> It's not clear to me whether this is the data rate or the frequency. From
-> the kernel doc:
-> 
->  * @hs_rate: maximum lane frequency for high speed mode in hertz, this should
->  * be set to the real limits of the hardware, zero is only accepted for
->  * legacy drivers
-> 
-> The tc358775 datasheet lists 1Gbps per lane, which corresponds to a 500MHz DSI
-> clock frequency. Not sure how that would correspond to the "maximum lane
-> frequency" above. I guess the wording of the comment is just misleading and
-> the value is the data rate of the lane.
+> FWIW, I' planning to add a dsi binding for this driver. So I'd
+> suggest either the of_ or the device_ variant. Not sure though,
+> if the new device supports the DSI commands.
 
-Yeah seems we're using the data rate of a lane in in hertz and then the
-host drivers adapt for the double data rate. Or at least that's my
-understanding.. Hopefully we don't have different assumptions in the
-host drivers.
+Yeah good point as some hardware may not have i2c wired at all. Let's keep
+this as of_device_get_match_data() for now as the driver is currently
+completely dependant on devicetree.
 
-> > +	else
-> > +		dsi->hs_rate = 1000000000;
-> > +	dsi->lp_rate = 10000000;
-> 
-> That I didn't found in the datasheet. Just a T_min_rx (minimum pulse width
-> response) which is 20ns. But there are no more details on this.
-
-I think the low power data rate might be specified in the mipi dsi spec.
-Maybe somebody familiar with the spec can confirm it.
+I'll update the enumeration to use the hardware id numbering like Dmitry
+suggested though.
 
 Regards,
 
