@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A21F4843FB4
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 13:51:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33EA5843FB6
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 13:51:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56F51113BB8;
-	Wed, 31 Jan 2024 12:51:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F68610F9FE;
+	Wed, 31 Jan 2024 12:51:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20CF510F9FD;
- Wed, 31 Jan 2024 12:51:06 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 818AB10E22D;
+ Wed, 31 Jan 2024 12:51:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706705466; x=1738241466;
+ t=1706705493; x=1738241493;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=v5TP6WqDtLkRjvsn8AansuZuyiH5+KrqUBPR7V5bdvU=;
- b=Y1eEK2SMOL2iyWh0j9XUGWLFTlVTjRkcCZh8cN52npe6yfj8/SU8RZd1
- nDEVSW6+o+KgzLeuQc6EJELmBQ+Tldx3QAq3YUorRmCNgliNb24E9svOX
- 7HcuMmobKciUis91LviM2GioX0BmTm5vNw4Mz5KumoTWToJTTC6lUW96F
- A6YrJYNQrWlpVDP2A+lvO41DtjiOzjUdDZIiQmTGqFSXW4Q02CIXPdj9S
- uvAXTgFF2OXDmuSykbciuTVTyW8/9/+RmKQl9YBwPEs6JXk7MSVNfFW9k
- LuvhbxrE46WnV5Q0EpTmhpQH04efug/smk8U5dIUeOSgFNtQQcNWIQaxK g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="10342701"
-X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; d="scan'208";a="10342701"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2024 04:51:05 -0800
+ bh=/05LkccSJOplrATiGrtWDK556uL3uH2h3gag+qurnXA=;
+ b=l65RtMY0yJR8LckyhUtMPq5NPO5t0oKOT0nJxnyNQU6hy2vngp4NIq52
+ ZqQncCOgloWEq1nl2CxaT6GNvU5L7A57qFaUxBhUrEAnvAyZKORh9hJmZ
+ cXE7hAoon1kVConxGkhoPpEc5t8kKWZoCyWy2CJXdS4A+NSI4Jn/S3qpn
+ iKzqBCpDtmcpH8iIVnHVmZPDc2gDlIBDKGyIC8IvYnRO4Mr/KZR5rq5Uv
+ coSr8flg8IdnfpIFumMekih7023Erjfwmiw2EW2ridnGRAt6Q8KjMPWMY
+ FV9cb5uDzmcO9r2dh7AUBHrEfgtAK/bnR17QLNje3vQ8W1tbOo1masZ+M Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="394026569"
+X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; d="scan'208";a="394026569"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jan 2024 04:51:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="822557714"
-X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; d="scan'208";a="822557714"
+X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
+   d="scan'208";a="4087947"
 Received: from abarrete-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.59.174])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2024 04:51:02 -0800
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jan 2024 04:51:30 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/6] drm/nouveau/acr/ga102: remove unused but set variable
-In-Reply-To: <4d9f62fa6963acfd8b7d8f623799ba3a516e347d.1704908087.git.jani.nikula@intel.com>
+Subject: Re: [PATCH 2/6] drm/nouveau/svm: remove unused but set variables
+In-Reply-To: <8b133e7ec0e9aef728be301ac019c5ddcb3bbf51.1704908087.git.jani.nikula@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <cover.1704908087.git.jani.nikula@intel.com>
- <4d9f62fa6963acfd8b7d8f623799ba3a516e347d.1704908087.git.jani.nikula@intel.com>
-Date: Wed, 31 Jan 2024 14:50:59 +0200
-Message-ID: <878r45is3w.fsf@intel.com>
+ <8b133e7ec0e9aef728be301ac019c5ddcb3bbf51.1704908087.git.jani.nikula@intel.com>
+Date: Wed, 31 Jan 2024 14:51:27 +0200
+Message-ID: <875xz9is34.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,29 +76,50 @@ On Wed, 10 Jan 2024, Jani Nikula <jani.nikula@intel.com> wrote:
 Ping?
 
 > ---
->  drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  drivers/gpu/drm/nouveau/nouveau_svm.c | 10 +++-------
+>  1 file changed, 3 insertions(+), 7 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c b/drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c
-> index f36a359d4531..bd104a030243 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c
-> @@ -218,7 +218,7 @@ nvkm_acr_lsfw_load_sig_image_desc_v2(struct nvkm_subdev *subdev,
->  		const struct firmware *hsbl;
->  		const struct nvfw_ls_hsbl_bin_hdr *hdr;
->  		const struct nvfw_ls_hsbl_hdr *hshdr;
-> -		u32 loc, sig, cnt, *meta;
-> +		u32 sig, cnt, *meta;
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
+> index cc03e0c22ff3..4d1008915499 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_svm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
+> @@ -112,7 +112,7 @@ nouveau_svmm_bind(struct drm_device *dev, void *data,
+>  {
+>  	struct nouveau_cli *cli = nouveau_cli(file_priv);
+>  	struct drm_nouveau_svm_bind *args = data;
+> -	unsigned target, cmd, priority;
+> +	unsigned target, cmd;
+>  	unsigned long addr, end;
+>  	struct mm_struct *mm;
 >  
->  		ret = nvkm_firmware_load_name(subdev, path, "hs_bl_sig", ver, &hsbl);
->  		if (ret)
-> @@ -227,7 +227,6 @@ nvkm_acr_lsfw_load_sig_image_desc_v2(struct nvkm_subdev *subdev,
->  		hdr = nvfw_ls_hsbl_bin_hdr(subdev, hsbl->data);
->  		hshdr = nvfw_ls_hsbl_hdr(subdev, hsbl->data + hdr->header_offset);
->  		meta = (u32 *)(hsbl->data + hshdr->meta_data_offset);
-> -		loc = *(u32 *)(hsbl->data + hshdr->patch_loc);
->  		sig = *(u32 *)(hsbl->data + hshdr->patch_sig);
->  		cnt = *(u32 *)(hsbl->data + hshdr->num_sig);
+> @@ -136,9 +136,6 @@ nouveau_svmm_bind(struct drm_device *dev, void *data,
+>  		return -EINVAL;
+>  	}
+>  
+> -	priority = args->header >> NOUVEAU_SVM_BIND_PRIORITY_SHIFT;
+> -	priority &= NOUVEAU_SVM_BIND_PRIORITY_MASK;
+> -
+>  	/* FIXME support CPU target ie all target value < GPU_VRAM */
+>  	target = args->header >> NOUVEAU_SVM_BIND_TARGET_SHIFT;
+>  	target &= NOUVEAU_SVM_BIND_TARGET_MASK;
+> @@ -926,15 +923,14 @@ nouveau_pfns_map(struct nouveau_svmm *svmm, struct mm_struct *mm,
+>  		 unsigned long addr, u64 *pfns, unsigned long npages)
+>  {
+>  	struct nouveau_pfnmap_args *args = nouveau_pfns_to_args(pfns);
+> -	int ret;
+>  
+>  	args->p.addr = addr;
+>  	args->p.size = npages << PAGE_SHIFT;
+>  
+>  	mutex_lock(&svmm->mutex);
+>  
+> -	ret = nvif_object_ioctl(&svmm->vmm->vmm.object, args,
+> -				struct_size(args, p.phys, npages), NULL);
+> +	nvif_object_ioctl(&svmm->vmm->vmm.object, args,
+> +			  struct_size(args, p.phys, npages), NULL);
+>  
+>  	mutex_unlock(&svmm->mutex);
+>  }
 
 -- 
 Jani Nikula, Intel
