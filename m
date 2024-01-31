@@ -2,91 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E676F843A54
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 10:09:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A691843A78
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 10:12:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81F3010F452;
-	Wed, 31 Jan 2024 09:08:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9668113AC0;
+	Wed, 31 Jan 2024 09:12:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD51E10F452
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 09:08:27 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id
- a640c23a62f3a-a3169f46d73so114427166b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 01:08:27 -0800 (PST)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCF83113AC0
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 09:12:08 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id
+ a640c23a62f3a-a2e633c5365so184026566b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 01:12:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1706692046; x=1707296846; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1706692267; x=1707297067; darn=lists.freedesktop.org; 
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:mail-followup-to:message-id:subject:cc:to
  :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=1nyHmju9XQ/E8K2Rl2IixeUYmuUjABoJpLGoEfLLyas=;
- b=GmfKon/xWrVSXD431NXbIELwtNoU3uVrmQS8a+Cq9kZivNX1hH7ionLDj5NU09cgqv
- Y4SV5QX/XSXIbYlguoTBgBK3vTwADk5FjQZFHyTESLmEnwdUVgZzrGXHgdRvZEYZ0+ih
- QnlIRm0xzHbKbqULZuhUKrw9C3VYq6rMyEOc0=
+ bh=ORBEpQ5F08UVhnCzKa+jzZ+oJJNJsZKWbQ0DCuxPaWc=;
+ b=A0Jch1DZcevK137wsPQsIkO7nyvwmSA5U1p3Fp0gr5YXAUPNCR8UJH80Fl9r+6tjIk
+ R9o3hl/8lcs/3uT62oj3sgA9LGZ1UnNV0JV/0cQjmTyDJdNIUtKbTp/2/RLueFFJ0/Qm
+ HKvWOxxigQ48YW7PduDDk5F0Gtqb5/Y/SGbSg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706692046; x=1707296846;
+ d=1e100.net; s=20230601; t=1706692267; x=1707297067;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:mail-followup-to:message-id:subject:cc:to
  :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=1nyHmju9XQ/E8K2Rl2IixeUYmuUjABoJpLGoEfLLyas=;
- b=ErS9aMbx2TiLwp8UD4QeZthmcKhSkF+RpAjjaK0BZhxbgUDpNVGyP1aTsR6Ha8Hyld
- kFpaQX64+9HfE3r/hqIdiK0RhVB0kGmsL3vWl4x1glIP3kmmyxVhdT/aLfS08E4mUYj5
- R/dUsXtQ95VGuC9bsASMX5Pn/pypBXlgAXYWbWG1uGf0n0NhIg7bh5ZfK9uvcb1U6kH2
- riGmZmW5+QWJicAPWSCVRIoX3GKSNaGWSmE/RDrlE1BAOxR/7i72tyDa0TwNyOqEdOZF
- A/lpBJs7CNbRUHpNjJohMGV68kIqXWNkqpEsQZB1VnvYGFMnTV3EaTV047A2q7QN+Z5r
- lMDQ==
-X-Forwarded-Encrypted: i=0;
- AJvYcCUg3LruYTCX0oV6zSdxsIK9yAwh4JQxSqqd31yT7m9CqAr9QE0TZbZpK9FCoLVKPejt5oH9j5KXm4nKjMib5WtQH+PdF2CgGfy+CrKHLIvT
-X-Gm-Message-State: AOJu0YzKwkIxsCyFiLaTes6vSpJTIH+3oP+2+FUZlBJEChT0fSzazlmm
- 4y51NtzeLf1gCdGQ6k2a4hKjIWYM2xIeDW6yQroI9c65hMULQkMb353Ej437Mgj/teChcGHy8wZ
- 8
-X-Google-Smtp-Source: AGHT+IHB5eqCZmKzcjc2g7JPPAdNArJ7kHHK+OzqhPuyUPAp6vhMz/LdxOxvFmt5K7lTdhhiKUG0EQ==
-X-Received: by 2002:a17:906:4887:b0:a36:63d6:2886 with SMTP id
- v7-20020a170906488700b00a3663d62886mr583896ejq.3.1706692045444; 
- Wed, 31 Jan 2024 01:07:25 -0800 (PST)
+ bh=ORBEpQ5F08UVhnCzKa+jzZ+oJJNJsZKWbQ0DCuxPaWc=;
+ b=l3aOj+F0FkVZGGtj67WOc9gcCbXVKf0UFisD1EzGXPi8XQ7mYdtG56Amd33skiFStw
+ j2xdZaGYPERsuFwnJ6Uzv82eSX/YgPLAq4xLhATQMvUiqh/wCA1WZHegPLmXYXPpDHA+
+ aF7rRqc16oYdCGfpdACdtrEu9cqqT8vBROXunReC5jhzNyY9o6EJPdOebMs+4OUnWIxB
+ F3K2Ibf3M024EyaVqhUj+PeRWWFO+sUy5ixTkK5oHxjfOlQc22JN6DdNsHu5D9oYir+L
+ xCobWy0hyW1z46Bx7tn/vCIPTVs6yuWrSrwBvQKOh20Y1jaribmaSA+/Dmxu8ViKbKbE
+ 7Vkg==
+X-Gm-Message-State: AOJu0YzlzG63woPNeOOOUza/cpG88craD9RG4lcQ7F7RiWdDyd5mJg5m
+ Vnv9XlFwpz6e4kNNjx+IPchYs6mbvdBvSgHQ5t+Q4948eb6fTQ6dUA5Xec3f9no=
+X-Google-Smtp-Source: AGHT+IHHkRoncH5TZwJ2KO/1SVucsjdiD6pGPJaM5NKeKM2EzUdubU6eh2uy4dvG7OzWu32QgOh+eg==
+X-Received: by 2002:a17:906:4a52:b0:a35:b6a1:712d with SMTP id
+ a18-20020a1709064a5200b00a35b6a1712dmr697445ejv.2.1706692266392; 
+ Wed, 31 Jan 2024 01:11:06 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- rs6-20020a170907890600b00a26d20a48dasm5966647ejc.125.2024.01.31.01.07.24
+ j9-20020a170906254900b00a311685890csm5987876ejb.22.2024.01.31.01.11.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Jan 2024 01:07:24 -0800 (PST)
-Date: Wed, 31 Jan 2024 10:07:22 +0100
+ Wed, 31 Jan 2024 01:11:05 -0800 (PST)
+Date: Wed, 31 Jan 2024 10:11:03 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH v5 1/6] dma-buf: Add
- dma_buf_{begin,end}_access()
-Message-ID: <ZboNyju8h4vfSd7v@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, 
- Paul Cercueil <paul@crapouillou.net>,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Jonathan Cameron <jic23@kernel.org>,
- Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Christoph Hellwig <hch@lst.de>
-References: <577501f9-9d1c-4f8d-9882-7c71090e5ef3@amd.com>
- <7928c0866ac5b2bfaaa56ad3422bedc9061e0f7b.camel@crapouillou.net>
- <2ac7562c-d221-409a-bfee-1b3cfcc0f1c6@amd.com>
- <ZbKiCPhRvWaz4Icn@phenom.ffwll.local>
- <c97e38ee-b860-4990-87f1-3e59d7d9c999@amd.com>
- <Zbi6zQYtnfOZu5Wh@phenom.ffwll.local>
- <a2346244-e22b-4ff6-b6cd-1da7138725ae@amd.com>
- <7eec45a95808afe94ac65a8518df853356ecf117.camel@crapouillou.net>
- <ZbjSJi07gQhZ4WMC@phenom.ffwll.local>
- <1d912523-b980-4386-82b2-8d79808398c1@amd.com>
+To: Jason-JH Lin =?utf-8?B?KOael+edv+elpSk=?= <Jason-JH.Lin@mediatek.com>
+Subject: Re: [PATCH] drm/atomic-helpers: remove legacy_cursor_update hacks
+Message-ID: <ZboOp7JOp5teV1Cs@phenom.ffwll.local>
+Mail-Followup-To: Jason-JH Lin =?utf-8?B?KOael+edv+elpSk=?=
+ <Jason-JH.Lin@mediatek.com>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "michel@daenzer.net" <michel@daenzer.net>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "mikita.lipski@amd.com" <mikita.lipski@amd.com>,
+ "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "maxime@cerno.tech" <maxime@cerno.tech>,
+ "daniel.vetter@intel.com" <daniel.vetter@intel.com>,
+ "nicholas.kazlauskas@amd.com" <nicholas.kazlauskas@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "quic_abhinavk@quicinc.com" <quic_abhinavk@quicinc.com>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>, 
+ "manasi.d.navare@intel.com" <manasi.d.navare@intel.com>,
+ "lucas.demarchi@intel.com" <lucas.demarchi@intel.com>,
+ "sean@poorly.run" <sean@poorly.run>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "dmitry.osipenko@collabora.com" <dmitry.osipenko@collabora.com>,
+ "fshao@chromium.org" <fshao@chromium.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+ "jani.nikula@intel.com" <jani.nikula@intel.com>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>, 
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>
+References: <20230216111214.3489223-1-daniel.vetter@ffwll.ch>
+ <20230307145613.xvhru3fpcudlpazt@houat>
+ <aac416742920953999a9ce230ac68139bf5b9790.camel@mediatek.com>
+ <ZbKlsTEvGPiGtzS3@phenom.ffwll.local>
+ <1349365de499bae53a8c868738c7270fc16813d5.camel@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1d912523-b980-4386-82b2-8d79808398c1@amd.com>
+In-Reply-To: <1349365de499bae53a8c868738c7270fc16813d5.camel@mediatek.com>
 X-Operating-System: Linux phenom 6.6.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -100,174 +106,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Christoph Hellwig <hch@lst.de>, Paul Cercueil <paul@crapouillou.net>,
- Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Cameron <jic23@kernel.org>,
- linux-media@vger.kernel.org
+Cc: "fshao@chromium.org" <fshao@chromium.org>,
+ "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "daniel.vetter@intel.com" <daniel.vetter@intel.com>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "dmitry.osipenko@collabora.com" <dmitry.osipenko@collabora.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "jani.nikula@intel.com" <jani.nikula@intel.com>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "michel@daenzer.net" <michel@daenzer.net>,
+ "lucas.demarchi@intel.com" <lucas.demarchi@intel.com>,
+ "quic_abhinavk@quicinc.com" <quic_abhinavk@quicinc.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "maxime@cerno.tech" <maxime@cerno.tech>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "mikita.lipski@amd.com" <mikita.lipski@amd.com>,
+ "sean@poorly.run" <sean@poorly.run>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "manasi.d.navare@intel.com" <manasi.d.navare@intel.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
+ "nicholas.kazlauskas@amd.com" <nicholas.kazlauskas@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 30, 2024 at 02:09:45PM +0100, Christian König wrote:
-> Am 30.01.24 um 11:40 schrieb Daniel Vetter:
-> > On Tue, Jan 30, 2024 at 10:48:23AM +0100, Paul Cercueil wrote:
-> > > Le mardi 30 janvier 2024 à 10:23 +0100, Christian König a écrit :
-> > > >   I would say we start with the DMA-API by getting away from sg_tables
-> > > > to something cleaner and state oriented.
-> > > FYI I am already adding a 'dma_vec' object in my IIO DMABUF patchset,
-> > > which is just a dead simple
+On Wed, Jan 31, 2024 at 05:17:08AM +0000, Jason-JH Lin (æž—ç¿ç¥¥) wrote:
+> On Thu, 2024-01-25 at 19:17 +0100, Daniel Vetter wrote:
+> >  	 
+> > External email : Please do not click links or open attachments until
+> > you have verified the sender or the content.
+> >  On Tue, Jan 23, 2024 at 06:09:05AM +0000, Jason-JH Lin (æž—ç¿ç¥¥) wrote:
+> > > Hi Maxime, Daniel,
 > > > 
-> > > struct dma_vec {
-> > >    dma_addr_t addr;
-> > >    size_t len;
-> > > };
+> > > We encountered similar issue with mediatek SoCs.
 > > > 
-> > > (The rationale for introducing it in the IIO DMABUF patchset was that
-> > > the "scatterlist" wouldn't allow me to change the transfer size.)
+> > > We have found that in drm_atomic_helper_commit_rpm(), when
+> > disabling
+> > > the cursor plane, the old_state->legacy_cursor_update in
+> > > drm_atomic_wait_for_vblank() is set to true.
+> > > As the result, we are not actually waiting for a vlbank to wait for
+> > our
+> > > hardware to close the cursor plane. Subsequently, the execution
+> > > proceeds to drm_atomic_helper_cleanup_planes() to  free the cursor
+> > > buffer. This can lead to use-after-free issues with our hardware.
 > > > 
-> > > So I believe a new "sg_table"-like could just be an array of struct
-> > > dma_vec + flags.
-> > Yeah that's pretty much the proposal I've seen, split the sg table into
-> > input data (struct page + len) and output data (which is the dma_addr_t +
-> > len you have above).
+> > > Could you please apply this patch to fix our problem?
+> > > Or are there any considerations for not applying this patch?
+> > 
+> > Mostly it needs someone to collect a pile of acks/tested-by and then
+> > land
+> > it.
+> > 
 > 
-> I would extend that a bit and say we have an array with
-> dma_addr+power_of_two_order and a header structure with lower bit offset and
-> some DMA transaction flags.
+> Got it. I would add tested-by tag for mediatek SoC.
 > 
-> But this is something which can be worked as an optimization later on. For a
-> start this proposal here looks good to me as well.
+> > I'd be _very_ happy if someone else can take care of that ...
+> > 
+> > There's also the potential issue that it might slow down some of the
+> > legacy X11 use-cases that really needed a non-blocking cursor, but I
+> > think
+> > all the drivers where this matters have switched over to the async
+> > plane
+> > update stuff meanwhile. So hopefully that's good.
+> > 
 > 
-> > The part I don't expect to ever happen, because it hasn't the past 20 or
-> > so years, is that the dma-api will give us information about what is
-> > needed to keep the buffers coherency between various devices and the cpu.
+> I think all the drivers should have switched to async plane update.
 > 
-> Well maybe that's what we are doing wrong.
+> Can we add the checking condition to see if atomic_async_update/check
+> function are implemented?
+
+Pretty sure not all have done that, so really it boils down to whether we
+break a real user's use-case. Which pretty much can only be checked by
+merging the patch (hence the requirement to get as many acks as possible
+from display drivers) and then being willing to handle any fallout that's
+reported as regressions for a specific driver.
+
+It's a pile of work, at least when it goes south, that's why I'm looking
+for volunteers.
+
+Note that handling the fallout doesn't mean you have to fix that specific
+driver, the only realistic option might be to reinstate the legacy cursor
+behaviour, but as an explicit opt-in that only that specific driver
+enables.
+
+So maybe for next round of that patch it might be good to have a 2nd patch
+which implements this fallback plan in the shared atomic modeset code?
+
+Cheers, Sima
+
 > 
-> Instead of asking the dma-api about the necessary information we should give
-> the API the opportunity to work for us.
-> 
-> In other words we don't need the information about buffer coherency what we
-> need is that the API works for as and fulfills the requirements we have.
-> 
-> So the question is really what should we propose to change on the DMA-api
-> side to get this working as expected?
-
-So one thing I've been pondering, kinda picking up your point about CXL,
-is that we do make the coherency protocol more explicit by adding a
-coherency mode to dma_buf that the exporter sets. Some ideas for values
-this could have:
-
-- ATTOMIC_COHERENT: Fully cache coherent, including device/cpu atomis.
-  This would be for CXL. Non-CXL devices could still participate with the
-  old model using explicit devices flushes, but must at comply with
-  CPU_COHERENT.
-
-  There's also the power9-only nvlink that would fit here, but I guess
-  going forward CXL (and cache-coherent integrated gpu) would really be
-  the only users of this flag.
-
-  Peer2peer would have the same rules, otherwise doesn't really make
-  sense. Also we might want to forbib non-CXL imports for these buffers
-  maybe even? Not sure on that.
-
-- CPU_COHERENT: device transactions do snoop cpu devices caches, but
-  devices might do their own caching which isn't snooped by the cpu and
-  needs explicit device-side invalidate/flushing. This means pcie
-  importers are not allowed to use pcie no-snoop transactions, intel igpu
-  wouldn't be allowed to use MOCS that do the same, similar for arm
-  integrated devices.
-
-  Importers can skip all explicit cache management apis like
-  dma_buf_begin/end_cpu_access, or the newly proposed
-  dma_buf_begin/end_device_access here.
-
-  We'd need to figure out what exactly this means for peer2peer
-  transactions, I have no idea whether the no-snoop flag even does
-  anything for those.
-
-  We might also want to split up CPU_COHERENT into CPU_COHERENT_WB and
-  CPU_WOHERENT_WC, so that importers know whether cpu reads are going to
-  be crawling or not.
-
-- MEMORY_COHERENT: devices transactions do not snoop any caches, but
-  promise that all transactions are fully flushed to system memory. Any
-  devices transactions which do fill cpu caches must call the proposed
-  dma_buf_begin/end_device_access functions proposed here. Any cpu access
-  must be braketed by calls to dma_buf_begin/end_cpu_access.
-
-  If your device does fill cpu caches, then essentially you'd not be able
-  to import such buffers. Not sure whether we need to put the
-  responsibility of checking that onto importers or exporters. Ideally
-  core dma-buf.c code would check this.
-
-  Also maybe the cpu WC mapping mode would actually need to be a sub-mode
-  for MEMORY_COHERENT, because all cpu wc achieves is to avoid the need to
-  call dma_buf_begin/end_cpu_access, you would still need your devices to
-  be memory coherent. And if they're not, then you cannot use that
-  dma-buf.
-
-  Or maybe alternatively we need to guarantee that exporters which set
-  MEMORY_COHERENT implement dma_buf_begin/end_device_access to make things
-  work for these cpu-coherent but not memory-coherent devices. This
-  becomes very tricky with device/arch/bus specific details I think.
-
-- DMA_API_COHERENT: The memory is allocated or mapped by the dma-api, and
-  the exact coherency mode is not know. Importers _must_ braket all cpu
-  and device access with the respective dma_buf functions. This is
-  essentially the "we have no idea" default.
-
-  Note that exporters might export memory allocated with dma_map_alloc
-  with MEMORY_COHERENT or CPU_COHERENT if they know how the memory exactly
-  works. E.g. for most arm soc gpu/display drivers we can assume that the
-  dma-api gives us MEMORY_COHERENT or CPU_COHERENT_WC, and just use that.
-  Essentially this would make the current implicit assumptions explicit.
-
-  udmabuf would need to set this, definitely if Paul's patches to add the
-  explicit device flushes land.
-
-- DEFAULT_COHERENT: This would be the backwards compat legacy yolo
-  behvaior. I'm not sure whether we should alias that with
-  DMA_API_COHERENT or leave it as a special value to mark exporters which
-  haven't been updated for the much more explicit coherency handling yet.
-
-  The specification for this coherency mode would be a flat out "who
-  knows, just don't break existing use-cases with actual users".
-  Essentially the only reason we'd have this would be to make sure we can
-  avoid regressions of these existing use-cases, by keeping whatever
-  horrible heuristics we have in current exporters.
-
-  It would also allow us to convert exporters and importers on a case by
-  case basis.
-
-Note that all these coherency modes are defined in terms of bus-sepecific
-device access and in terms of dma_buf apis the importer must call or can
-skip. This way we'd avoid having to change the dma-api in a first step,
-and if this all works out properly we could then use the resulting dma-api
-as a baseline to propose dma-api extensions.
-
-I think starting right out with designing dma-api extension is a few
-bridges too far. Both from a "how do we convince upstream" pov, but maybe
-even more from a "how do we figure out what we even need" pov.
-
 > Regards,
-> Christian.
+> Jason-JH.Lin
 > 
-> 
-> 
-> 
-> 
-> > -Sima
-> 
-> _______________________________________________
-> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
-> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
+> > Cheers, Sima
+> > > 
+> > > Regards,
+> > > Jason-JH.Lin
+> > > 
+> > > On Tue, 2023-03-07 at 15:56 +0100, Maxime Ripard wrote:
+> > > > Hi,
+> > > > 
+> > > > On Thu, Feb 16, 2023 at 12:12:13PM +0100, Daniel Vetter wrote:
+> > > > > The stuff never really worked, and leads to lots of fun because
+> > it
+> > > > > out-of-order frees atomic states. Which upsets KASAN, among
+> > other
+> > > > > things.
+> > > > > 
+> > > > > For async updates we now have a more solid solution with the
+> > > > > ->atomic_async_check and ->atomic_async_commit hooks. Support
+> > for
+> > > > > that
+> > > > > for msm and vc4 landed. nouveau and i915 have their own commit
+> > > > > routines, doing something similar.
+> > > > > 
+> > > > > For everyone else it's probably better to remove the use-after-
+> > free
+> > > > > bug, and encourage folks to use the async support instead. The
+> > > > > affected drivers which register a legacy cursor plane and don't
+> > > > > either
+> > > > > use the new async stuff or their own commit routine are:
+> > amdgpu,
+> > > > > atmel, mediatek, qxl, rockchip, sti, sun4i, tegra, virtio, and
+> > > > > vmwgfx.
+> > > > > 
+> > > > > Inspired by an amdgpu bug report.
+> > > > 
+> > > > Thanks for submitting that patch. It's been in the downstream RPi
+> > > > tree
+> > > > for a while, so I'd really like it to be merged eventually :)
+> > > > 
+> > > > Acked-by: Maxime Ripard <maxime@cerno.tech>
+> > > > 
+> > > > Maxime
+> > 
 
 -- 
 Daniel Vetter
