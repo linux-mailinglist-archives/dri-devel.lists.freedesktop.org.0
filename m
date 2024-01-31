@@ -2,73 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 702338443E3
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 17:16:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F11A8443F8
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 17:19:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D884C10FB4A;
-	Wed, 31 Jan 2024 16:16:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BED710FB3F;
+	Wed, 31 Jan 2024 16:18:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8325E10FB4D
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 16:16:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1706717775;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iHcKoZZt6H46W2k8i6AGs04g2L7Mx1lw7y6w6nwM2h8=;
- b=F+Fb9TRkeM2I+5MBMcVNHyETGxWliGsq2vCHAsRZUqy5qiz2lyTFJDIMGWAAS3y8digScw
- qkHwOTZXz/BafFed5nmhRA/74kq+vFgqPVtjxOUe1abC+NaOm+IoYEHctLzvwUrYtD246l
- ZCxd23g3IDZdaRLajAUN+9pR9WMRqGM=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-612-SMY4FsBUM7-dudT7-lce4g-1; Wed, 31 Jan 2024 11:16:13 -0500
-X-MC-Unique: SMY4FsBUM7-dudT7-lce4g-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-40eb06001c2so9045e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 08:16:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706717771; x=1707322571;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iHcKoZZt6H46W2k8i6AGs04g2L7Mx1lw7y6w6nwM2h8=;
- b=aSgdcN4wjTkFVqB4we+hHzX6twKZBOrl3H99UkZcjO1kCM+ntNGZ/IhH2euc4FjYiH
- XJdB11HiSon+Mfi0BCPj9X/aaupN3yhbwgPy9BJId3n6s+cg4Lv2QfFJ/IKFEtEsoKEW
- cmhKrtEiwHWY89HU4n2zYykGPqnxvGj5jKvhbtDNOILKQy+Zt9JzzDjr5ymcB9WugGMO
- S4WSSl4m0ffXZtJlnBlJ+1hrOnxjDAcRB9klpk3B++a7/QVlx3NPH+53auadeY8BnbOV
- aJ3l8EkL/yxJwjDwxwZXKUxuaWuMyuPUt+7jFJpFqNTisWxkQfGXLZdh+OGnYRYjjLNy
- Mt7g==
-X-Gm-Message-State: AOJu0Ywt8/cTGQJq629TF4FOsJrUGOMNYkF5j4xD/0S+F0jUT0fGp+DZ
- S9uCD9cet7Y2jedT2Zoh0NO8tHLYlBm1PhP+3eMGl6DaUpvqSys/PWUVkmaD2nJMPJgzV+Hrpb3
- DDcxGgOk3nciCKFPamBXCQgrHlvENiH+OD0wXQ77R9Yh2GN3jTpV0vD3rTTH6fbLKXg==
-X-Received: by 2002:a05:600c:470d:b0:40e:f656:39f with SMTP id
- v13-20020a05600c470d00b0040ef656039fmr1666490wmo.6.1706717771198; 
- Wed, 31 Jan 2024 08:16:11 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEPXw3WDi2GZ1H+C0qsa/dAVaPD3o3y3lXbF7MCxjdMESWq9m8J99FGcFCWR0modxgMLsxfUA==
-X-Received: by 2002:a05:600c:470d:b0:40e:f656:39f with SMTP id
- v13-20020a05600c470d00b0040ef656039fmr1666465wmo.6.1706717770812; 
- Wed, 31 Jan 2024 08:16:10 -0800 (PST)
-X-Forwarded-Encrypted: i=0;
- AJvYcCUoDac0RvNodMCJs3PaWqqtOE+9dEzyxDlMMZNkLN+9Z6E/nFbEkkxrIHwfc+hSWJaNnVK7xR3Ed0cbCzcSkOg4wsj64PDZBzGJ55TAIfdOQUqkLN7RXdt8LS5U2xv19hTM73ntChGiMk6enpZZ1799Gz8DaC8PIbxx5EGjzmWMMj3MWkjDnr4A5WCVoTdePcahln+DYWmWWFW6nyhu9pxhcWV/Frc73YIhpQ==
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- s6-20020a05600c044600b0040faf410320sm1939660wmb.20.2024.01.31.08.16.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Jan 2024 08:16:10 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>, Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH] fbdev: Restrict FB_SH_MOBILE_LCDC to SuperH
-In-Reply-To: <c4a090bd3f4737774351b136db72b15297cd0239.1706717146.git.geert+renesas@glider.be>
-References: <c4a090bd3f4737774351b136db72b15297cd0239.1706717146.git.geert+renesas@glider.be>
-Date: Wed, 31 Jan 2024 17:16:09 +0100
-Message-ID: <87r0hxtr5i.fsf@minerva.mail-host-address-is-not-set>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A9E510FB3F;
+ Wed, 31 Jan 2024 16:18:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1706717906; x=1738253906;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=dpaWh/7GlWtvpwJ4rvEF4SehjmScXwyPuheBXTAelG0=;
+ b=iCOyvV4ODZYNm+3dSOAId7yvcxTjs93dLlaUumfXISAOKQcVqu6ZX1b9
+ WmiOk4MvJMzZB7H6p3W3zFw/uUM4UgYXhGLqZAWvlEpsoveVfcQ8dnkh6
+ aEt8gaGj+m1Tz/vVw/abPURfTPLIlMETW0ODG8ddVFdZCyFPweZBo2cSh
+ qUaly+hWeoAkh0YFJfz6CUDrqyw5nHB0zZ1PF6lJJ5otu0sorTq5S09/1
+ nllb/bWN1TIYE/7AffsKtYrLgYnEmn/TSHlIuVGWxDS4AcgoR4CZiXeyL
+ i561hIfF8sOr3RaA/tm88v7aD8kSVxFWTGf0yzgjTUpo2rgiVONY3Bf8S g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="2583698"
+X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
+   d="scan'208";a="2583698"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jan 2024 08:18:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="822613805"
+X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; d="scan'208";a="822613805"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga001.jf.intel.com with SMTP; 31 Jan 2024 08:18:23 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 31 Jan 2024 18:18:22 +0200
+Date: Wed, 31 Jan 2024 18:18:22 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Imre Deak <imre.deak@intel.com>
+Subject: Re: [PATCH 18/19] drm/i915/dp: Suspend/resume DP tunnels
+Message-ID: <ZbpyzoRpe1ngWJpb@intel.com>
+References: <20240123102850.390126-1-imre.deak@intel.com>
+ <20240123102850.390126-19-imre.deak@intel.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240123102850.390126-19-imre.deak@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,36 +62,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Geert Uytterhoeven <geert+renesas@glider.be> writes:
+On Tue, Jan 23, 2024 at 12:28:49PM +0200, Imre Deak wrote:
+> Suspend and resume DP tunnels during system suspend/resume, disabling
+> the BW allocation mode during suspend, re-enabling it after resume. This
+> reflects the link's BW management component (Thunderbolt CM) disabling
+> BWA during suspend. Before any BW requests the driver must read the
+> sink's DPRX capabilities (since the BW manager requires this
+> information, so snoops for it on AUX), so ensure this read takes place.
 
-Hello Geert,
+Isn't that going to screw up the age old problem of .compute_config()
+potentially failing during the resume modeset if we no longer have
+the same amount of bandwidth available as we had before suspend?
+So far we've been getting away with this exactly by not updating 
+the dpcd stuff before the modeset during resume.
 
-> Since commit f402f7a02af6956d ("staging: board: Remove Armadillo-800-EVA
-> board staging code"), there are no more users of the legacy SuperH
-> Mobile LCDC framebuffer driver on Renesas ARM platforms.  All former
-> users on these platforms have been converted to the SH-Mobile DRM
-> driver, using DT.
->
-> Suggested-by: Arnd Bergmann <arnd@arndb.de>
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> Signed-off-by: Imre Deak <imre.deak@intel.com>
 > ---
-> Commit f402f7a02af6956d is in staging-next (next-20240129 and later).
-> ---
-
-Makes senes to me.
-
-Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+>  drivers/gpu/drm/i915/display/intel_dp.c | 16 +++++++++++-----
+>  1 file changed, 11 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index 8ebfb039000f6..bc138a54f8d7b 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -36,6 +36,7 @@
+>  #include <asm/byteorder.h>
+>  
+>  #include <drm/display/drm_dp_helper.h>
+> +#include <drm/display/drm_dp_tunnel.h>
+>  #include <drm/display/drm_dsc_helper.h>
+>  #include <drm/display/drm_hdmi_helper.h>
+>  #include <drm/drm_atomic_helper.h>
+> @@ -3320,18 +3321,21 @@ void intel_dp_sync_state(struct intel_encoder *encoder,
+>  			 const struct intel_crtc_state *crtc_state)
+>  {
+>  	struct intel_dp *intel_dp = enc_to_intel_dp(encoder);
+> -
+> -	if (!crtc_state)
+> -		return;
+> +	bool dpcd_updated = false;
+>  
+>  	/*
+>  	 * Don't clobber DPCD if it's been already read out during output
+>  	 * setup (eDP) or detect.
+>  	 */
+> -	if (intel_dp->dpcd[DP_DPCD_REV] == 0)
+> +	if (crtc_state && intel_dp->dpcd[DP_DPCD_REV] == 0) {
+>  		intel_dp_get_dpcd(intel_dp);
+> +		dpcd_updated = true;
+> +	}
+>  
+> -	intel_dp_reset_max_link_params(intel_dp);
+> +	intel_dp_tunnel_resume(intel_dp, dpcd_updated);
+> +
+> +	if (crtc_state)
+> +		intel_dp_reset_max_link_params(intel_dp);
+>  }
+>  
+>  bool intel_dp_initial_fastset_check(struct intel_encoder *encoder,
+> @@ -5973,6 +5977,8 @@ void intel_dp_encoder_suspend(struct intel_encoder *intel_encoder)
+>  	struct intel_dp *intel_dp = enc_to_intel_dp(intel_encoder);
+>  
+>  	intel_pps_vdd_off_sync(intel_dp);
+> +
+> +	intel_dp_tunnel_suspend(intel_dp);
+>  }
+>  
+>  void intel_dp_encoder_shutdown(struct intel_encoder *intel_encoder)
+> -- 
+> 2.39.2
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Ville Syrjälä
+Intel
