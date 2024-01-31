@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF17F843F82
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 13:37:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69CE9843F9D
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 13:48:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E5BC10E220;
-	Wed, 31 Jan 2024 12:37:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 858AE10E424;
+	Wed, 31 Jan 2024 12:48:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A506F10E220
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 12:37:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1706704635;
- bh=Ve4gakTdVS97IwqTqcMnjzvWFWX6F6kTDN1mDs18iWk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=41d6lcDsQ90ipamoTz3UtZcsw2iXlPy7t1JTzpmTLR9qEbkF37yICg6gufCEmP0xi
- WikrqZ5S9PupmXPsKWNrWuwr2aMpfDF4Y5cy5uQhRf0fBEAaBbetM4/ChJaJNQ4T+c
- 5LnyycU1ikRrIP4h9TjQXLse8mkj35nDJorXGj47AR//KMgBFNOVWJgkBqcG033AnQ
- 26XmZh/XWEklOHVyRvibqt4MB36P9DxGhsgfcdpXqn1x3UqKWKXDaWUuy/Oljwtcmi
- LvTmnmT2eqU2su1/k/KGbdmAaHNxHCsjOhhX5fh7AFIJUShIbrSH3R/UBn7xFO0oef
- l5gafT5LSpoxw==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 65D1D378203B;
- Wed, 31 Jan 2024 12:37:14 +0000 (UTC)
-Message-ID: <6020133f-53ee-4bbe-856f-7b7b0957081f@collabora.com>
-Date: Wed, 31 Jan 2024 13:37:13 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC9CC10E424;
+ Wed, 31 Jan 2024 12:48:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1706705312; x=1738241312;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=LHxgBsIVm0RclFZoJgPndKYmsJfhaKktS+NsG0ubaD8=;
+ b=nEhVpq0Dh00VnYxXK1VmK2w33Q4JrssC2SkeXxdUiPNiEwankKR0OJh/
+ uv3PTno9zrV/7muI0LHVMvfTtjJKyykOt0e1OfgUyl7km/H0319gw8xxw
+ 9gt9HT/+mzmxzylkhO+GNEaSyF0nnwOkaxdbSwJNMT0XCtSUMM4JFlOEi
+ ssbtS3/LExY/RNcn5S1SPnKomct6vl13Lp7O4BA4sHURr/25qKWAvvUew
+ lxKpdvWhPih0ZajK+7ZbCvgufWnH0SZiSdeIMlwJZEsgASp5Qc6GGSy9T
+ k3hTyD1rrmkMjLgxjPNE6ZWGY3ttFYH08RO9yK+T8g8AORaXNtnbHg1Xz g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="403212836"
+X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; d="scan'208";a="403212836"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jan 2024 04:48:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="931830646"
+X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; d="scan'208";a="931830646"
+Received: from abarrete-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.59.174])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jan 2024 04:48:29 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Alex Deucher <alexdeucher@gmail.com>
+Subject: Re: [PATCH 3/6] drm/amdgpu: prefer snprintf over sprintf
+In-Reply-To: <CADnq5_MZuVDx2VeErcOXSqkgRrnFsrn1=N8Y-K47Woar-aeAyw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1704908087.git.jani.nikula@intel.com>
+ <fea7a52924f98b1ac24f4a7e6ba21d7754422430.1704908087.git.jani.nikula@intel.com>
+ <CADnq5_MZuVDx2VeErcOXSqkgRrnFsrn1=N8Y-K47Woar-aeAyw@mail.gmail.com>
+Date: Wed, 31 Jan 2024 14:48:26 +0200
+Message-ID: <87eddxis85.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v3 2/3] ASoC: mediatek: mt8186: correct the HDMI widgets
-Content-Language: en-US
-To: =?UTF-8?B?SmlheGluIFl1ICjkv57lrrbpkasp?= <Jiaxin.Yu@mediatek.com>
-References: <20230730180803.22570-1-jiaxin.yu@mediatek.com>
- <20230730180803.22570-3-jiaxin.yu@mediatek.com>
- <25e6ab45-ecad-4bc3-bf4d-983243c939ad@sirena.org.uk>
- <c6ae8630d06138b6d0156c19323afebf0718f522.camel@mediatek.com>
- <089fe457-1c61-4b7b-ad37-a67e7f46cb56@sirena.org.uk>
- <6aa6947865795fc534b61f5b8a80b3c42fd5a0cd.camel@mediatek.com>
- <9c90185c-9cd4-4a08-9925-be5d460af54d@sirena.org.uk>
- <11f4cfd2-f6a2-45cb-923a-95760a1b9883@collabora.com>
- <aeef45d131e3e0131b57958253c85cd50a378f63.camel@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <aeef45d131e3e0131b57958253c85cd50a378f63.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,67 +61,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- =?UTF-8?B?Q2h1bnh1IExpICjmnY7mmKXml60p?= <Chunxu.Li@mediatek.com>,
- =?UTF-8?B?QWxsZW4tS0ggQ2hlbmcgKOeoi+WGoOWLsik=?= <Allen-KH.Cheng@mediatek.com>,
- "kuninori.morimoto.gx@renesas.com" <kuninori.morimoto.gx@renesas.com>,
- "nfraprado@collabora.com" <nfraprado@collabora.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "broonie@kernel.org" <broonie@kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "robert.foss@linaro.org" <robert.foss@linaro.org>,
- "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
- "wenst@chromium.org" <wenst@chromium.org>,
- "ajye_huang@compal.corp-partner.google.com"
- <ajye_huang@compal.corp-partner.google.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>
+Cc: Pan@freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Xinhui <Xinhui.Pan@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 31/01/24 13:25, Jiaxin Yu (俞家鑫) ha scritto:
-> On Wed, 2024-01-31 at 12:42 +0100, AngeloGioacchino Del Regno wrote:
->> Il 03/08/23 21:33, Mark Brown ha scritto:
->>> On Thu, Aug 03, 2023 at 07:20:15AM +0000, Jiaxin Yu (俞家鑫) wrote:
->>>
->>>> I agree with you, in fact the speaker is indeed doing this way.
->>>> But
->>>> about the hdmi that on the board, I did not find a defination
->>>> link
->>>> snd_soc_dapm_hdmi, so I use snd_soc_dapm_line to replace. The
->>>> purpose
->>>> is to control it link speaker. Or what do you suggest I should
->>>> do?
->>>
->>> I think the sensible thing here is to define a DIGITAL_OUTPUT()
->>> which
->>> can be used for HDMI, S/PDIF and anything else that comes up and
->>> isn't
->>> clearly wrong like reusing one of the analog descriptions is.
+On Fri, 12 Jan 2024, Alex Deucher <alexdeucher@gmail.com> wrote:
+> On Wed, Jan 10, 2024 at 12:39=E2=80=AFPM Jani Nikula <jani.nikula@intel.c=
+om> wrote:
 >>
->> Hello Jiaxin,
+>> This will trade the W=3D1 warning -Wformat-overflow to
+>> -Wformat-truncation. This lets us enable -Wformat-overflow subsystem
+>> wide.
 >>
->> the MT8186 Corsola Chromebooks are broken upstream without this
->> series.
+>> Cc: Alex Deucher <alexander.deucher@amd.com>
+>> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+>> Cc: Pan, Xinhui <Xinhui.Pan@amd.com>
+>> Cc: amd-gfx@lists.freedesktop.org
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>
+> Acked-by: Alex Deucher <alexander.deucher@amd.com>
+>
+> Feel free to take this via whichever tree makes sense.
+
+Thanks, pushed this one patch to drm-misc-next as prep work.
+
+BR,
+Jani.
+
+>
+> Alex
+>
+>> ---
+>>  drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
 >>
->> Are you still interested in upstreaming this one?
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c b/drivers/gpu/drm/a=
+md/amdgpu/amdgpu_gfx.c
+>> index b9674c57c436..82b4b2019fca 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
+>> @@ -329,7 +329,8 @@ int amdgpu_gfx_kiq_init_ring(struct amdgpu_device *a=
+dev,
 >>
->> Thanks,
->> Angelo
-> 
-> Hello Angelo,
-> 
-> No, I'm still interesting in upstream this series. It's just that I
-> have less time recently. I'm considering revisiting this issue next
-> mouth. Do you have any suggestions for this?
-> 
+>>         ring->eop_gpu_addr =3D kiq->eop_gpu_addr;
+>>         ring->no_scheduler =3D true;
+>> -       sprintf(ring->name, "kiq_%d.%d.%d.%d", xcc_id, ring->me, ring->p=
+ipe, ring->queue);
+>> +       snprintf(ring->name, sizeof(ring->name), "kiq_%d.%d.%d.%d",
+>> +                xcc_id, ring->me, ring->pipe, ring->queue);
+>>         r =3D amdgpu_ring_init(adev, ring, 1024, irq, AMDGPU_CP_KIQ_IRQ_=
+DRIVER0,
+>>                              AMDGPU_RING_PRIO_DEFAULT, NULL);
+>>         if (r)
+>> --
+>> 2.39.2
+>>
 
-Nothing on top of Mark's suggestions.
-
-Angelo
-
-
+--=20
+Jani Nikula, Intel
