@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13E26844138
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 15:00:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AFF3844195
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 15:16:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6082710FA3F;
-	Wed, 31 Jan 2024 14:00:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EAA010E845;
+	Wed, 31 Jan 2024 14:15:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1616310FA3F
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 14:00:28 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 457BD10E845
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 14:15:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8FF16617A7;
- Wed, 31 Jan 2024 13:59:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3262FC43142;
- Wed, 31 Jan 2024 13:59:57 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id B7D65CE1F5C;
+ Wed, 31 Jan 2024 14:15:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0D88C433F1;
+ Wed, 31 Jan 2024 14:15:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1706709597;
- bh=cX2K5w9GWrdNEUyfrUG6IelYh8NLqv5j8lI66oywVPU=;
+ s=k20201202; t=1706710505;
+ bh=ab7imJk06Aq8BClWfw1+COONXRv86lAFnRitwwNKZ20=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=r4QN5TZCtY7/sLO9kwHjCm1yV84yTjejctGfEctgi6U1G8d+B+ls+W+CURrrZMweO
- Xg3My6YVDAGTjBxtTIHoPpI8b0HPctgJgxXU0JvN7qnIOpZSKVWDtLmfZT9CAPjJ8w
- IuGiaX3U/9QbPXiXpDiHg1MEPxXne9lHEFvg27Iv0sv1SRydlUDYUH1fZ8OHrZk3g+
- nbr+GxJRgv9cJ9uosjPtuhNnPAy1fCXo4m1pmBZzQuS9TWL2yes3WVMQI/79OLEM++
- mROaw2KnRrEDPKuHV6XGdjVhUxAUaIaxjuxeAHk1UkWZ52NSWx8itb9pL/CFeXdUEP
- TuyrF7Y/oXPyA==
-Date: Wed, 31 Jan 2024 07:59:55 -0600
+ b=LN4XxyPnvDNtHC5lLts6xq3PdjkeOuf8MF48OfdOSQY/zB/xqrre8HfU2YaMN14v+
+ 70AGSIrkyCGfsl9ux3ydXKr9qvlLKvCUdO4/HcOSGwAxl2HMilm6TiIMEh1g07TDev
+ fkvpNwJWUZjoRlPhVDX2MeX6pwdcCL6+LUtR+hHNfrgD0tVgtYGH2Gx7ERn38OPI/d
+ o/G9Uuky2iBd8LgQe08BH2b1xxC/l16Zclk17U3uqbXiFAxWXyq9mqhg9gtMqu/Xex
+ t8Wzi7FdxwNfrudlpUKCV9Z9Ghk0tVSNOUonihMmMYIpoP7lav9vo05XeUdTCm2S+O
+ lyk5CAaD5Q+zw==
+Date: Wed, 31 Jan 2024 08:15:02 -0600
 From: Rob Herring <robh@kernel.org>
-To: Johan Jonker <jbx6244@gmail.com>
-Subject: Re: [PATCH v1 2/6] dt-bindings: display: rockchip,dw-hdmi: add
- power-domains property
-Message-ID: <20240131135955.GA966672-robh@kernel.org>
+To: Conor Dooley <conor@kernel.org>
+Subject: Re: [PATCH v1 1/6] dt-bindings: display: rockchip: rockchip, dw-hdmi:
+ deprecate port property
+Message-ID: <20240131141502.GB966672-robh@kernel.org>
 References: <6626d288-ecf1-436b-b0a3-3417308a8633@gmail.com>
- <1ba8b40d-005a-4665-afd9-a4eacf3e3031@gmail.com>
+ <20240130-denim-capacity-e1617595ac9f@spud>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1ba8b40d-005a-4665-afd9-a4eacf3e3031@gmail.com>
+In-Reply-To: <20240130-denim-capacity-e1617595ac9f@spud>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,58 +55,64 @@ Cc: daniel@ffwll.ch, conor+dt@kernel.org, devicetree@vger.kernel.org,
  tzimmermann@suse.de, hjc@rock-chips.com, mripard@kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  krzysztof.kozlowski+dt@linaro.org, andy.yan@rock-chips.com,
- markyao0591@gmail.com, linux-arm-kernel@lists.infradead.org
+ Johan Jonker <jbx6244@gmail.com>, markyao0591@gmail.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 30, 2024 at 03:57:23PM +0100, Johan Jonker wrote:
-> Most Rockchip hdmi nodes are part of a power domain.
-> Add a power-domains property. Fix example.
+On Tue, Jan 30, 2024 at 06:18:49PM +0000, Conor Dooley wrote:
+> On Tue, Jan 30, 2024 at 03:55:43PM +0100, Johan Jonker wrote:
+> > The hdmi-connector nodes are now functional and the new way to model
+> > hdmi nodes with, so deprecate the port property and
 > 
-> Signed-off-by: Johan Jonker <jbx6244@gmail.com>
-> ---
->  .../bindings/display/rockchip/rockchip,dw-hdmi.yaml   | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
+> This doesn't really explain what makes having hdmi-connector nodes
+> replace the usecase for "port".
 > 
-> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> index cd0a42f35f24..6f421740b613 100644
-> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> @@ -94,6 +94,9 @@ properties:
->        - const: default
->        - const: unwedge
+> > make port@0 and
+> > port@1 a requirement.
 > 
-> +  power-domains:
-> +    maxItems: 1
-> +
->    ports:
->      $ref: /schemas/graph.yaml#/properties/ports
-> 
-> @@ -141,16 +144,18 @@ examples:
->      #include <dt-bindings/clock/rk3288-cru.h>
->      #include <dt-bindings/interrupt-controller/arm-gic.h>
->      #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/power/rk3288-power.h>
-> 
->      hdmi: hdmi@ff980000 {
->          compatible = "rockchip,rk3288-dw-hdmi";
->          reg = <0xff980000 0x20000>;
-> -        reg-io-width = <4>;
+> Why?
 
-It makes more sense to keep reg-io-width together with reg.
+That means the deprecated way will always have warnings which makes 
+documenting the deprecated stuff a bit pointless. Technically, new 
+required properties are ABI break and something I'm working on making 
+the tools check (by comparing 2 versions of schemas). That said, if all 
+the upstream dts files are fixed already, then I don't care too much.
 
-> -        ddc-i2c-bus = <&i2c5>;
-> -        rockchip,grf = <&grf>;
->          interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
->          clocks = <&cru  PCLK_HDMI_CTRL>, <&cru SCLK_HDMI_HDCP>;
->          clock-names = "iahb", "isfr";
-> +        ddc-i2c-bus = <&i2c5>;
-> +        power-domains = <&power RK3288_PD_VIO>;
-> +        reg-io-width = <4>;
-> +        rockchip,grf = <&grf>;
+
+> > Also update example.
 > 
->          ports {
->              #address-cells = <1>;
-> --
-> 2.39.2
+> "Also do x" is a red flag when it comes to commit messages, as it
+> immediately makes me think that this should be more than one commit.
+> I'd probably write this as "Update the example to avoid use of the
+> deprecated property" or something to avoid bad gut reactions.
+> That's not worth resending for though obviously...
 > 
+> > 
+> > Signed-off-by: Johan Jonker <jbx6244@gmail.com>
+> > ---
+> >  .../display/rockchip/rockchip,dw-hdmi.yaml    | 27 ++++++++++++++++---
+> >  1 file changed, 23 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> > index 7e59dee15a5f..cd0a42f35f24 100644
+> > --- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> > +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> > @@ -97,8 +97,11 @@ properties:
+> >    ports:
+> >      $ref: /schemas/graph.yaml#/properties/ports
+> > 
+> > -    patternProperties:
+> > -      "^port(@0)?$":
+> > +    properties:
+> > +      port:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        deprecated: true
+> 
+> This change makes the deprecated property's description incomplete,
+> since it doesn't cover the endpoints any more. It also doesn't make
+> port@0 and port mutually exclusive.
+
+graph.yaml has a check that effectively does that.
+
+Rob
