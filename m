@@ -2,69 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5C5F8449B7
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 22:18:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D7FB844AC3
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 23:08:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 262B210FD2E;
-	Wed, 31 Jan 2024 21:18:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6EB810F714;
+	Wed, 31 Jan 2024 22:08:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBE0510FD2E
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 21:18:33 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-5110fae7af5so256146e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 13:18:33 -0800 (PST)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BE6A10F714
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 22:08:28 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-40ef9382752so17585e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 14:08:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1706735852; x=1707340652; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
- :cc:subject:date:message-id:reply-to;
- bh=R4aZnJ0HXPSCrrZnvvv03peCc+aJLdST+sQtI6Yh7ug=;
- b=N/mTH3EtOKkRpSUB/BtBG6zL+tQeR6xoVBevBJty/4L3SJ7S+6nDxsbD8XJhfTiEjE
- gqt5YyeTiS6LPvubyZgRnWNm1mWD8pcbduLUKtq7LPSpdVk6CTLsnUlJKsgF+RdbHAyo
- 6uT7Q0fV+e5gy5E6JoHnTr1AX1/n4QsWUjWoy7GFjien+1HhLtGHM9FUqOSE9tA3RWrk
- 8oToHObgrx5TTkHORpXUJ+H4ImhSVbQxpx+BYdm3vJOu8XB1wiUpuYkz09+Ef7C68aTl
- RzDmOIdsDDUozV174ToQByJWFzedvzvnFNprVR4xZoHk/McRzodVS5+28bOyZJhey5Iy
- 8+Iw==
+ d=google.com; s=20230601; t=1706738847; x=1707343647;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=VxGRQtTivmWoKuFadnWNImbg21dR/diu+Neco1gJfcY=;
+ b=RFFAsMwb8hY/nyMoVBLa/ReK2M2CTP6luMBiIWblrpJfnV33lkTVU7Z9oljry6kDjp
+ pYI3siscC0M/1EQxHEbbubQ8uBw2Km2SV+C7uKhtANL2Kn2lBrtN8cVYQRd1bZZIcc5P
+ /0V66Jhcd9wyRa+lKZvMwtllEcK+hYq9DrgTd9XESN9xdni4ch87N5Wiqco6e42PrpBC
+ zJWQu1VYKYzBxt1i/VD4m8vSEarm3sdKKDLXMdG/RmdZB9xuTSOla/luimuNEUTHzkcM
+ Da+hWye1YBQlPvKpk8b9jE7u/C/dvdxaOdTbDSkV7s7J3CwtvhbRxdftzppqVrpppaGM
+ MTFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706735852; x=1707340652;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:from:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=R4aZnJ0HXPSCrrZnvvv03peCc+aJLdST+sQtI6Yh7ug=;
- b=cGbFBexUD+hzkSGzFdGOduPqj0TKDccaJEbOmw0+7xkqNT0D34qyTDLZuJ2Grw5bto
- xyJyLXvVxaukiYxkAE1/GBJF+h53cJEk4nlIwhmIb+Rks7ugFihajX+5/39+oaSwHlqK
- whWeLM0Od3Z3vfp/A3Ua7gGDA+OM34B6MFHKrnFw1e5HZ/CXEma1P276wjEsdq9DJppe
- Ls5+snM0eupnfkhsy/ZMvAEa0VPqcbna/6Fq/9R6doSEG4swSPyG0WSUZpdxvwpIY9hN
- 2YgrPwvrG7Txo/n1xEBdWeXeAHYRAh9iz/Dh0sopdRPqxtpESmVBys/COyFd3rul0e/K
- aDjQ==
-X-Gm-Message-State: AOJu0YzYmhuXgl5A4zUImUsYdhsvHQwDjOBWcCB+6B6jVZ2xH0eHNs07
- S41Y3XzGBF2W0tlruUJPm+pNa2F7jJzZTkXNKbxvZE/CvKSXwgFS
-X-Google-Smtp-Source: AGHT+IE+0isqNh4+ujtT55m3CO8TfbUQsPsn/Em5gcobBL4NzwWM+JzTycjuSMlXff5ckL/9eHFKzg==
-X-Received: by 2002:ac2:559a:0:b0:50e:d514:77bd with SMTP id
- v26-20020ac2559a000000b0050ed51477bdmr437572lfg.18.1706735852064; 
- Wed, 31 Jan 2024 13:17:32 -0800 (PST)
-X-Forwarded-Encrypted: i=0;
- AJvYcCW+Y6j2zZMzBfnbk/bhkKrrJOnx2LOrJUHkBhyYcPiBX7GMnrzVU7PF8xepNbZlA/Tzl24kBAFvDkoBY/knhdfC/aVwufd/Onk1b7PatvAlaB9BCwDzlkeQJceUguUkRk8AKe9xsdhFH2JnSGzFSGdECPaNYaLKV/6Kexnb7hyeS1T3vgRJmk9BcOHG8h6Z+TDGC3Y+CT6CjIm/loZSAxPgoE5isYhAEru5DRsM5phL5c6vbzdCo5E3OB4DO8WZzJpJUhQl0vaOLlKfWamY2StJi7vrCvn6PTNsIvX7q20SkFlqqGrW0QVEoKUr4bx/kz2mWl0T2IFEQbmwCT8Gqe22XguZVouuNOG+tGyWhreC/XP2lc6TIn2oYtCUaWAmnyAoY3G9bec+5Q7pK015MK4JEor5WAH/W5Mrix00dlx7XJsmP3Pow5jUDpv2kJ5Y75pw1yEMn1Gx5z/4X78vLgEgEwyCmHCEfSqtrr/5cFJTzBYu/ZZj9cc1WoR3GvcgevMXd6cyPIFXFPO7LT2LwTYwgVKxhDHv2S5WLCekbGhEKzLsItaXOIgThqVcJzKg8cIgXVw4klvFxTMFx9E=
-Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
- by smtp.gmail.com with ESMTPSA id
- ty5-20020a170907c70500b00a35a8571419sm4040634ejc.135.2024.01.31.13.17.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 31 Jan 2024 13:17:31 -0800 (PST)
-Message-ID: <a6ab6f75-3b80-40b1-bd30-3113e14becdd@gmail.com>
-Date: Wed, 31 Jan 2024 22:17:31 +0100
+ d=1e100.net; s=20230601; t=1706738847; x=1707343647;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=VxGRQtTivmWoKuFadnWNImbg21dR/diu+Neco1gJfcY=;
+ b=njiJa+b/FKFNVYE5LHeTI1o8JrIfXU5xnfzm1+LHMTsVuGmLQhrqWTyZPYWgxmfros
+ Hh8yhxvE9IzpziRSKFaSQ6dVH9S8q1DDiKsuMxug+g8quO9MqcuuOXVWY+ONF3sxVwN0
+ ReX9Oy//ofiAp2QNcR6vjkN7Z3Vjcngg+hTjgnRWHAGnpgipX0HvjmDiBauJ/EVMsfk1
+ Ako2KlvLND2XLRbA9zPbiaVMCfS/vbES/HfdeAaE7YFkx57apGz8+2SRniM796fifLiF
+ L+mRQWL9xUeTuGUsjaSoKg1LKXkiQfOD81rmvalayuRQpAxd+iAlQHhzKM9As7txw7wZ
+ SqRQ==
+X-Gm-Message-State: AOJu0Yz4T/RlwWiggZPQr14s6uy1nAV2pa3b/bM3FZmCX4aR3n5KBe6E
+ uHgfsvoXpeprunj57xQkxraDm1iJfp6jrR12sPcr8eFoySFkJWhOvuRD79Bm3XvK2kqxpPnCiW0
+ 11gbpkZ/Gh3MnJ/OAqE3vatsp9crydb1MG6o=
+X-Google-Smtp-Source: AGHT+IE/2Dxf4agbwoKTbMQd8Mnstjn4gRLtOYMhgr/arfVgtxcTfa+Kk1PDbnEzzrNLU0B/ZV7z7fa+Npsy3Ek/Uvk=
+X-Received: by 2002:a05:600c:5026:b0:40e:e7ce:da68 with SMTP id
+ n38-20020a05600c502600b0040ee7ceda68mr66122wmr.0.1706738846818; Wed, 31 Jan
+ 2024 14:07:26 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Johan Jonker <jbx6244@gmail.com>
-Subject: [PATCH v2 6/6] arm64: dts: rockchip: fix rk3399 hdmi ports node
-To: robh+dt@kernel.org
-References: <a493c65e-7cf9-455f-95d5-8c98cad35710@gmail.com>
-Content-Language: en-US
-In-Reply-To: <a493c65e-7cf9-455f-95d5-8c98cad35710@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240112092014.23999-1-yong.wu@mediatek.com>
+ <20240112092014.23999-4-yong.wu@mediatek.com>
+ <CANDhNCrxpeqEhJD0xJzu3vm8a4jMXD2v+_dbDNvaKhLsLB5-4g@mail.gmail.com>
+ <CA+ddPcNdniUTpE_pJb-fL7+MHNSUZTkQojL48iqvW9JPr-Tc-g@mail.gmail.com>
+ <CANDhNCqieBaH-Wi=vy3NSKTpwHcWef6qMOFi-7sgdGiDW7JtwA@mail.gmail.com>
+ <CA+ddPcP9bgApNw_Nu7bxcV-oK_s3Bq1i5qun+vNSuRUO9tPEkA@mail.gmail.com>
+ <CANDhNCrGxhHJLA2ct-iqemLAsQRt3C8m5=xAD3_dDdKH6Njrdg@mail.gmail.com>
+ <20240131141523.yh74hsddtuooqfgi@pop-os.localdomain>
+In-Reply-To: <20240131141523.yh74hsddtuooqfgi@pop-os.localdomain>
+From: John Stultz <jstultz@google.com>
+Date: Wed, 31 Jan 2024 14:07:13 -0800
+Message-ID: <CANDhNCqKPmo-RUd6RRRS2=ZJHqyy40G9HE=6_cAyop1CN2xOgw@mail.gmail.com>
+Subject: Re: [PATCH v4 3/7] dma-buf: heaps: restricted_heap: Add private heap
+ ops
+To: Joakim Bech <joakim.bech@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,69 +78,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel@ffwll.ch, conor+dt@kernel.org, devicetree@vger.kernel.org,
- tzimmermann@suse.de, hjc@rock-chips.com, mripard@kernel.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
- andy.yan@rock-chips.com, markyao0591@gmail.com,
- linux-arm-kernel@lists.infradead.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ dri-devel@lists.freedesktop.org, Pavel Machek <pavel@ucw.cz>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Jeffrey Kardatzke <jkardatzke@google.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Vijayanand Jitta <quic_vjitta@quicinc.com>, Yong Wu <yong.wu@mediatek.com>,
+ jianjiao.zeng@mediatek.com, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ linaro-mm-sig@lists.linaro.org, Pekka Paalanen <ppaalanen@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, tjmercier@google.com,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ youlin.pei@mediatek.com, kuohong.wang@mediatek.com,
+ linux-kernel@vger.kernel.org, christian.koenig@amd.com,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix rk3399 hdmi ports node so that it matches the
-rockchip,dw-hdmi.yaml binding.
+On Wed, Jan 31, 2024 at 6:15=E2=80=AFAM Joakim Bech <joakim.bech@linaro.org=
+> wrote:
+> On Fri, Jan 12, 2024 at 05:23:07PM -0800, John Stultz wrote:
+> > So we need some clarity in what "restricted" really means.  For
+> > instance, it being not cpu mappable vs other potential variations like
+> > being cpu mappable, but not cpu accessible.  Or not cpu mappable, but
+> > only mappable between a set of 3 devices (Which 3 devices?! How can we
+> > tell?).
+> >
+> Can we flip things around? I.e., instead of saying which devices are
+> allowed to use the restricted buffer, can we instead say where it's not
+> allowed to be used? My view has been that by default the contents of the
+> types of buffers where talking about here is only accessible to things
+> running on the secure side, i.e, typically S-EL3, S-EL1 and a specific
+> Trusted Application running in S-EL0. I guess that serves as some kind
+> of baseline.
 
-Signed-off-by: Johan Jonker <jbx6244@gmail.com>
----
+? This seems like you're suggesting enumerating badness? I'm not sure
+I understand the benefit of that.
 
-Changed V2:
-  keep reg-io-width together with reg
----
- arch/arm64/boot/dts/rockchip/rk3399.dtsi | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+> From there, things turns to a more dynamic nature, where firewalls etc,
+> can be configured to give access to various IPs, blocks and runtimes.
+>
+> I understand that it's nice to be able to know all this from the Linux
+> kernel point of view, but does it have to be aware of this? What's the
+> major drawback if Linux doesn't know about it?
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3399.dtsi b/arch/arm64/boot/dts/rockchip/rk3399.dtsi
-index 0caa842bba0e..9d5f5b083e3c 100644
---- a/arch/arm64/boot/dts/rockchip/rk3399.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3399.dtsi
-@@ -2022,6 +2022,7 @@ simple-audio-card,codec {
- 	hdmi: hdmi@ff940000 {
- 		compatible = "rockchip,rk3399-dw-hdmi";
- 		reg = <0x0 0xff940000 0x0 0x20000>;
-+		reg-io-width = <4>;
- 		interrupts = <GIC_SPI 23 IRQ_TYPE_LEVEL_HIGH 0>;
- 		clocks = <&cru PCLK_HDMI_CTRL>,
- 			 <&cru SCLK_HDMI_SFR>,
-@@ -2030,13 +2031,16 @@ hdmi: hdmi@ff940000 {
- 			 <&cru PLL_VPLL>;
- 		clock-names = "iahb", "isfr", "cec", "grf", "ref";
- 		power-domains = <&power RK3399_PD_HDCP>;
--		reg-io-width = <4>;
- 		rockchip,grf = <&grf>;
- 		#sound-dai-cells = <0>;
- 		status = "disabled";
+Indeed, it doesn't necessarily. The idea with DMABUF heaps is it
+provides a name to abstract/wrap a type of constraint. So you can then
+allocate buffers that satisfy that constraint.
 
- 		ports {
--			hdmi_in: port {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			hdmi_in: port@0 {
-+				reg = <0>;
- 				#address-cells = <1>;
- 				#size-cells = <0>;
+Admittedly the downside with DMABUF heaps is that it has a bit of a
+gap in the abstraction in that we don't have a mapping of device
+constraints, so in Android gralloc provides a device specific
+usage/pipeline -> heap mapping.
+(Note: This I don't think is very problematic - I often use the
+example of fstab as device-specific config everyone is comfortable
+with - but I know folks would like to have something more generic)
 
-@@ -2049,6 +2053,10 @@ hdmi_in_vopl: endpoint@1 {
- 					remote-endpoint = <&vopl_out_hdmi>;
- 				};
- 			};
-+
-+			hdmi_out: port@1 {
-+				reg = <1>;
-+			};
- 		};
- 	};
+I believe Christian has previously proposed to have the devices
+provide something like symlinks from their sysfs  nodes to the heaps
+the device supports, which is an interesting idea to mostly close that
+issue. Applications could then scan the devices in a pipeline and find
+the type they all support, and the specific names wouldn't matter.
 
---
-2.39.2
+However, I'd expect the same hardware pipeline might support both
+restricted and unrestricted playback, so there would need to be some
+way to differentiate for the use case, so I'm not sure you can get
+away from some heap name to functionality mapping.
 
+My main concern with this patch series is that it seems to want to
+bundle all the different types of "restricted" buffers that might be
+possible under a single "restricted" heap name.
+
+Since we likely have devices with different security domains, thus
+different types of restrictions. So we may need to be able to
+differentiate between "secure video playback" uses and "protected
+device firmware" uses on the same machine. Thus, I'm not sure it's a
+good idea to bundle all of these under the same heap name.
+
+thanks
+-john
