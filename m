@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18C0C843E76
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 12:35:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB060843E70
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 12:34:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5212F113B41;
-	Wed, 31 Jan 2024 11:35:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15959113900;
+	Wed, 31 Jan 2024 11:34:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 072A9113B3F
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 11:35:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFDAE113B26
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 11:34:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1706700884;
- bh=zbzMnTpoZSIYlb8jiO31bv5oIKyPpIebAKdElYE+AVE=;
+ s=mail; t=1706700885;
+ bh=iA4odrfNMiTaQb8H/LRsSZiskxND+wY4ikHqbFC4SQg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=5dr1dfI92989qfXEE0vyDLv888ezBDSodGehkNXNu0kz/KOLNI2QAPbV94iem1CV7
- 1vb+GpQyeTrowvnxj+NHPGxupHSIFm9halBaUDvBp+FjeD4AiKxwk1yFbm1dlWIIas
- 3qUGHF7gp5zBt7P1ubh4rZ4YI5FISupAKiOIYlW4H7KpKp2huSfWFrCsXRHFtTi/WL
- oCIopRbWxre6xzV5+CPcruTcOSPt1ezSlcARcAYaUnQL0gAUbfe09BU1mSJ+0ViV1z
- bFfUCRJXYpMlcRFQ2MiwVynywKnp8KsUxzo2Zbd6NqXORJOwCij/MZgeoPmGmCpN5n
- SVEoPacPM0w9Q==
+ b=zrMSXPq3WHNiA0Hr9KeoayRfzGj6g0+66sjLmJNHBGPvTQHlaiG/4Q6ET6Uwt0Wzf
+ eHs9b8HvVECkC9eWX1JrFq2WyRzRkQa2cds1xNgLl176H5F9A9TSPfwFnlVdDbSpPq
+ OOCDMDbbeTaw+hQd32sKmXSeBfBbXpqpUS49LQDjN4HLVH3NmZWG6qnpaVHrVsX41H
+ jnu6S3Oql0tEKtoahPlQY0ST3QxgkOQKGkjkNHAq80S+nQid8fT/C9MfaTnyMQN+3S
+ OZh2fCFv/MTVfFp7Hi5cgboACflx1v08mCN9CNgQzTQFKO8oltr8+8qEYsYgY+3ykN
+ rcSx8ENOPyblA==
 Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com
  [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 17D033782084;
- Wed, 31 Jan 2024 11:34:44 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 187F03780C22;
+ Wed, 31 Jan 2024 11:34:45 +0000 (UTC)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
-Subject: [PATCH v3 4/7] drm/mediatek: dsi: Replace open-coded instance of
- HZ_PER_MHZ
-Date: Wed, 31 Jan 2024 12:34:31 +0100
-Message-ID: <20240131113434.241929-5-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v3 5/7] drm/mediatek: dsi: Register DSI host after acquiring
+ clocks and PHY
+Date: Wed, 31 Jan 2024 12:34:32 +0100
+Message-ID: <20240131113434.241929-6-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240131113434.241929-1-angelogioacchino.delregno@collabora.com>
 References: <20240131113434.241929-1-angelogioacchino.delregno@collabora.com>
@@ -60,36 +60,97 @@ Cc: fshao@chromium.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In mtk_dsi_phy_timconfig(), we're dividing the `data_rate` variable,
-expressed in Hz to retrieve a value in MHz: instead of open-coding,
-use the HZ_PER_MHZ definition, available in linux/units.h.
+Registering the dsi host with its ops before getting dsi->regs is
+simply wrong: even though there's nothing (for now) asynchronously
+calling those ops before the end of the probe function, installing
+ops that are using iospace(s) and clocks before even initializing
+those is too fragile.
+
+Register the DSI host after getting clocks, iospace and PHY.
+This wil also allow to simplify the error paths in a later commit.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dsi.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index cba63de5092d..cc625febe6c8 100644
+index cc625febe6c8..709a65656b79 100644
 --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -13,6 +13,7 @@
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/reset.h>
-+#include <linux/units.h>
+@@ -1114,14 +1114,6 @@ static int mtk_dsi_probe(struct platform_device *pdev)
+ 	if (!dsi)
+ 		return -ENOMEM;
  
- #include <video/mipi_display.h>
- #include <video/videomode.h>
-@@ -238,7 +239,7 @@ static void mtk_dsi_mask(struct mtk_dsi *dsi, u32 offset, u32 mask, u32 data)
- static void mtk_dsi_phy_timconfig(struct mtk_dsi *dsi)
- {
- 	u32 timcon0, timcon1, timcon2, timcon3;
--	u32 data_rate_mhz = DIV_ROUND_UP(dsi->data_rate, 1000000);
-+	u32 data_rate_mhz = DIV_ROUND_UP(dsi->data_rate, HZ_PER_MHZ);
- 	struct mtk_phy_timing *timing = &dsi->phy_timing;
+-	dsi->host.ops = &mtk_dsi_ops;
+-	dsi->host.dev = dev;
+-	ret = mipi_dsi_host_register(&dsi->host);
+-	if (ret < 0) {
+-		dev_err(dev, "failed to register DSI host: %d\n", ret);
+-		return ret;
+-	}
+-
+ 	dsi->driver_data = of_device_get_match_data(dev);
  
- 	timing->lpx = (60 * data_rate_mhz / (8 * 1000)) + 1;
+ 	dsi->engine_clk = devm_clk_get(dev, "engine");
+@@ -1130,7 +1122,7 @@ static int mtk_dsi_probe(struct platform_device *pdev)
+ 
+ 		if (ret != -EPROBE_DEFER)
+ 			dev_err(dev, "Failed to get engine clock: %d\n", ret);
+-		goto err_unregister_host;
++		return ret;
+ 	}
+ 
+ 	dsi->digital_clk = devm_clk_get(dev, "digital");
+@@ -1139,14 +1131,14 @@ static int mtk_dsi_probe(struct platform_device *pdev)
+ 
+ 		if (ret != -EPROBE_DEFER)
+ 			dev_err(dev, "Failed to get digital clock: %d\n", ret);
+-		goto err_unregister_host;
++		return ret;
+ 	}
+ 
+ 	dsi->hs_clk = devm_clk_get(dev, "hs");
+ 	if (IS_ERR(dsi->hs_clk)) {
+ 		ret = PTR_ERR(dsi->hs_clk);
+ 		dev_err(dev, "Failed to get hs clock: %d\n", ret);
+-		goto err_unregister_host;
++		return ret;
+ 	}
+ 
+ 	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+@@ -1154,20 +1146,28 @@ static int mtk_dsi_probe(struct platform_device *pdev)
+ 	if (IS_ERR(dsi->regs)) {
+ 		ret = PTR_ERR(dsi->regs);
+ 		dev_err(dev, "Failed to ioremap memory: %d\n", ret);
+-		goto err_unregister_host;
++		return ret;
+ 	}
+ 
+ 	dsi->phy = devm_phy_get(dev, "dphy");
+ 	if (IS_ERR(dsi->phy)) {
+ 		ret = PTR_ERR(dsi->phy);
+ 		dev_err(dev, "Failed to get MIPI-DPHY: %d\n", ret);
+-		goto err_unregister_host;
++		return ret;
+ 	}
+ 
+ 	irq_num = platform_get_irq(pdev, 0);
+ 	if (irq_num < 0) {
+ 		ret = irq_num;
+-		goto err_unregister_host;
++		return ret;
++	}
++
++	dsi->host.ops = &mtk_dsi_ops;
++	dsi->host.dev = dev;
++	ret = mipi_dsi_host_register(&dsi->host);
++	if (ret < 0) {
++		dev_err(dev, "failed to register DSI host: %d\n", ret);
++		return ret;
+ 	}
+ 
+ 	ret = devm_request_irq(&pdev->dev, irq_num, mtk_dsi_irq,
 -- 
 2.43.0
 
