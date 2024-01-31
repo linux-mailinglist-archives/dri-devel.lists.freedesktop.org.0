@@ -2,76 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1783F84419E
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 15:17:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 446F08441DA
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 15:28:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCC0910ECD2;
-	Wed, 31 Jan 2024 14:16:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6851610F1BE;
+	Wed, 31 Jan 2024 14:28:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A349810ECD2
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 14:16:27 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id
- a640c23a62f3a-a350bfcc621so592813666b.0
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 06:16:27 -0800 (PST)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+ [209.85.208.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5933410F1BE
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 14:28:03 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id
+ 4fb4d7f45d1cf-55a8fd60af0so5954289a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 06:28:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1706710526; x=1707315326; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=nNlIzsJJ/O803DqutNwmb0UTB7M/H8vgIySfsDe/068=;
- b=rl1PhlgsLoReYfbViy0StZDyKdI9LnFcnIEJIEAm9tYrYb00Fchs/PpTYlFSjTQ2KY
- mogE6uMS8i9aYgtB0kWllbMMdj3AB9Aywl4M8TA4ExE+Y55Cs4dKA1c2SYx9oMV2dRd6
- Q9Hf61mLu2DyhWa0reTsZf79y6qNoFu6ev3kNiPmmSlCi6Cqws6juXWIKf/+2pkbPiLN
- DXsKrB8hnDISVevFtwU0AOFu57ua9RYbbbqMKCaKHEbxrFR6gbF+gE5GDLMciPaqB/KK
- bw7htbhG9VjjqDPn0RxqCsjrDi5goYRRZOuCGwJ5KgftZnDUGvL4V7SZw7gNDNkv7h1n
- V+jg==
+ d=linaro.org; s=google; t=1706711222; x=1707316022; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=OeZhk9JphCYYMff7RoTbJ54B8cgaBzAdcxQolkBD6SQ=;
+ b=BITkc5YRtmR0SYgFWULkPbLhnHp9J0DxO95JB5VVsYudpLJ9U1DTvPkpCaUV8FW9QY
+ WD22iqAkAjmPjqV+f05dzZwXnZOKl+7at8wx4nDIwzlL19azW9TG55+8TzBoSOnDiHzg
+ GPS8o1QiXEvfFU4uOYefdjG8k3SY1cHb/oawxVGj8Z1XQCJVRJRsYey+aWS2USdolCV/
+ RyOVlLgDA2RL0Kop40+CgS1SRHIqZfJXlKYMH652InYPUTsez/5usMuDqke04kRb+Cxb
+ V0BHMrvh/GK+/bbJHRgwA6X6F9WhBguLTyD/gzwBEBhsAa8xfKUijT/5nJN0UFoHUGH1
+ OqXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706710526; x=1707315326;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nNlIzsJJ/O803DqutNwmb0UTB7M/H8vgIySfsDe/068=;
- b=Vqdo21OIUr8iPB7apcQYSlo6RLZRZfjfpxsXubdn0KeU5IFkzktRTomUxa1IgERL4D
- q6Qfxs9/ayLnnyJG3oWeX/WP7CvDKVc5y9rFHi2c5yNNuhfHPak1V4W923SwYQsQkePB
- wYpRURzSIFBIFvdL7WrIq2qz0xeKat+fHirmtEEI9hmxK3qT8vxM9jwGHWZlvOtbcErM
- XvYk+Iu/hv7A6n/o7f6GEM/NI4uHRORQpRObaqO1bwy9ZBMU61VK8dpvmedExHgKcXJG
- q6xSRuajQpqZZioHrCtTgrKU0IcOTzdGNJfH+wbZgTXoSbylr9xTimWwQGyNaxR8nDCg
- Rp5g==
-X-Gm-Message-State: AOJu0YzdZcJ8MEjnd1k6bdDjJDktq8YF0dSiB2ypLCH0b/sWncogtRfN
- EtDyq5bHKCec6RBIFE/3F0pOIn6rc5ng4qgtYPKoGlWegKSR6b9FWfQo3x50zJY=
-X-Google-Smtp-Source: AGHT+IHGSNrZrx8lhdfpuacSLRFgTdJ5NfMsSvc/CvwYDYgJxFvfWZNSFP+DAnXhOop8GVnRQDrb6A==
-X-Received: by 2002:a17:906:6d8:b0:a31:3dc5:6bda with SMTP id
- v24-20020a17090606d800b00a313dc56bdamr1293250ejb.64.1706710526369; 
- Wed, 31 Jan 2024 06:15:26 -0800 (PST)
-X-Forwarded-Encrypted: i=0;
- AJvYcCU6efCsWycPh1JAhTyNPAjNvnweXqD7LfOvLHeNnwv0SvdHIfC7xlCv5STV+33dO+lY6NYJYz4SAyhuS25W5HmIsKnF6IG7JdUB21pnh0QfOQ1lCcEwg8NWyt4e7a9vNb//fZPrFcLCq+mt6UfXnuYVq5RS8RnavneViDd5N6Su2aFK4whsxxRmJoif7dJWT+chAcUGwWlZxUbGvoOWMB3G8DV6VDnhGda0U96+67dma+Nv9E085BKS4tGcAovVwU7cgXUWywrg032CUiidKOXOU15Ran40Whooteb7Lk+RUuOmzz49sVTJwT/eI1hJVuiV1YSchMZ0NHwXYr6VjCNtQHOfBYpy5AmBEGhHJSSC3kgPn1HwSA52JP2g+oE2lN1hzC8o4Jo1Y8j6DU+PoPuR+FKrKBX0SwGcxLWfvq1CMFwwBVdkDj1fb5FSBa2TvRsV+KQx8ksmqvY3/bRSHobT0Bl+kbLmt0tTUm+R7Y9tHXnEz2tuNvmP5aHV+g6ZlruKt2lwSJfaPzujaeV5DSNv4+yyJnDLfBRUzCefUVy5aId4uCPDgO/JDcDDEegEi6k6RD2wfQFIK8X0HUkbHUt6YigPf5ZcLX+0X9ezZFfZ+0oInafUsOsICdEzpL4wIlsdXL9P1Vi443C3RLBTMEfR/u9yh61fxe3tVeJmfWxowtX9iage1AwJTiXHCvEDedDpY4omThjVx/SYLcBLMPk8Wi5Nen1zWtD6NsJIh8Y+WOxwQATkh/am6qDgLjdayMNiBblkaO9v7fj7mxybs0lRhqpVAYJEDXv++KavYBBKZWqp7kLnRMr0JlWmty201Js0Kj6EkatLZd2kDdGgUvp6ysOgjFO/IvCN7dmQ7wzBsKbPdxyTsC+X8CPg+XM3S5TT4t+qMOLotFHsEN+9geGbqdJYz0xGgVAbWzhxNWl8h6WZhk96k9pCCvsuvjwe6qpVQ5
- 6Z0BQFdKikglYoMlYcES1SpehdgBV2xwU=
-Received: from pop-os.localdomain (81-231-61-187-no276.tbcn.telia.com.
- [81.231.61.187]) by smtp.gmail.com with ESMTPSA id
- vk8-20020a170907cbc800b00a352afd952fsm5396812ejc.43.2024.01.31.06.15.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Jan 2024 06:15:25 -0800 (PST)
-Date: Wed, 31 Jan 2024 15:15:23 +0100
-From: Joakim Bech <joakim.bech@linaro.org>
-To: John Stultz <jstultz@google.com>
-Subject: Re: [PATCH v4 3/7] dma-buf: heaps: restricted_heap: Add private heap
- ops
-Message-ID: <20240131141523.yh74hsddtuooqfgi@pop-os.localdomain>
-References: <20240112092014.23999-1-yong.wu@mediatek.com>
- <20240112092014.23999-4-yong.wu@mediatek.com>
- <CANDhNCrxpeqEhJD0xJzu3vm8a4jMXD2v+_dbDNvaKhLsLB5-4g@mail.gmail.com>
- <CA+ddPcNdniUTpE_pJb-fL7+MHNSUZTkQojL48iqvW9JPr-Tc-g@mail.gmail.com>
- <CANDhNCqieBaH-Wi=vy3NSKTpwHcWef6qMOFi-7sgdGiDW7JtwA@mail.gmail.com>
- <CA+ddPcP9bgApNw_Nu7bxcV-oK_s3Bq1i5qun+vNSuRUO9tPEkA@mail.gmail.com>
- <CANDhNCrGxhHJLA2ct-iqemLAsQRt3C8m5=xAD3_dDdKH6Njrdg@mail.gmail.com>
+ d=1e100.net; s=20230601; t=1706711222; x=1707316022;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=OeZhk9JphCYYMff7RoTbJ54B8cgaBzAdcxQolkBD6SQ=;
+ b=FEyAA7KMHI3S3FllMuByOhriqDcbjzsDLz5X0GA6ZOCaZ01C6Gz/CAc64aP0q8LyQf
+ a3HIv4meuKDxvBAB7EAjNexmXbrNDQMon1Ib85D2oqGyd8Ycptd0LYS/wsMe24ggJAbJ
+ Q9Im9bzFP+tj7t8m/6A2xkxWEhezHEXnI1cS1dFfSW3kpifKi3q5sjlVhE9pLJLMWYv0
+ N3m9rk/IES5WRH1mlwGyuMNg8y+XGMTS3knI6KIjZrJYx4ccaDdCl2+RGSzUOxhDxgXY
+ HYWCTbHiKXMEtYQJkZlXXAm8kOZKdiz3VSH/PhBvhiKGm4M3febHfuXACZ94axIOBaot
+ KZcw==
+X-Gm-Message-State: AOJu0Yzk7Syqx4DqE7rKGt8WqlrNruPl+BT7UjRXyVlY/alsOuDiJerM
+ VZDLvsAFCMhnjn6CGiqGO1x88HWB3264qdS91BZIXXNskMFtfe2LpsDVOPzQ8o0MCDJVJoa+yG3
+ R05rXHQawnRGGfbb6hl8SNJFNvpnNbwTlYkjOpA==
+X-Google-Smtp-Source: AGHT+IFzY4aeNzPPtRi4I/P+0HsgxpbXl1Z6p1RuP6G0wTGJLY9yXhwO9Z/fDRffrhpDRT4DutQR0T4S92miQ4XswgI=
+X-Received: by 2002:aa7:c759:0:b0:55f:1232:fbc7 with SMTP id
+ c25-20020aa7c759000000b0055f1232fbc7mr1354471eds.37.1706711221701; Wed, 31
+ Jan 2024 06:27:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANDhNCrGxhHJLA2ct-iqemLAsQRt3C8m5=xAD3_dDdKH6Njrdg@mail.gmail.com>
+References: <20240117181141.286383-1-tjmercier@google.com>
+ <20a68f86-27f0-48f4-a066-7dcf0092858e@amd.com>
+In-Reply-To: <20a68f86-27f0-48f4-a066-7dcf0092858e@amd.com>
+From: Sumit Semwal <sumit.semwal@linaro.org>
+Date: Wed, 31 Jan 2024 19:56:50 +0530
+Message-ID: <CAO_48GEHpij-_q85NaVHc9hH5bEoaWT6hcOe_LLZ2pNHsb8Jjw@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: heaps: Don't track CMA dma-buf pages under
+ RssFile
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: multipart/alternative; boundary="0000000000001aa04106103eac13"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,152 +69,209 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- dri-devel@lists.freedesktop.org, Pavel Machek <pavel@ucw.cz>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Jeffrey Kardatzke <jkardatzke@google.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Vijayanand Jitta <quic_vjitta@quicinc.com>, Yong Wu <yong.wu@mediatek.com>,
- jianjiao.zeng@mediatek.com, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- linaro-mm-sig@lists.linaro.org, Pekka Paalanen <ppaalanen@gmail.com>,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, tjmercier@google.com,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- youlin.pei@mediatek.com, kuohong.wang@mediatek.com,
- linux-kernel@vger.kernel.org, christian.koenig@amd.com,
- Robin Murphy <robin.murphy@arm.com>
+Cc: android-mm@google.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>, minchan@google.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "T.J. Mercier" <tjmercier@google.com>, linaro-mm-sig@lists.linaro.org,
+ John Stultz <jstultz@google.com>, daniel@ffwll.ch,
+ John Stultz <john.stultz@linaro.org>, Laura Abbott <labbott@redhat.com>,
+ Sandeep Patil <sspatil@android.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 12, 2024 at 05:23:07PM -0800, John Stultz wrote:
-> On Fri, Jan 12, 2024 at 4:13 PM Jeffrey Kardatzke <jkardatzke@google.com> wrote:
-> > On Fri, Jan 12, 2024 at 3:51 PM John Stultz <jstultz@google.com> wrote:
-> > >
-> > > On Fri, Jan 12, 2024 at 3:27 PM Jeffrey Kardatzke <jkardatzke@google.com> wrote:
-> > > > On Fri, Jan 12, 2024 at 2:52 PM John Stultz <jstultz@google.com> wrote:
-> > > > > I know part of this effort here is to start to centralize all these
-> > > > > vendor specific restricted buffer implementations, which I think is
-> > > > > great, but I just worry that in doing it in the dmabuf heap interface,
-> > > > > it is a bit too user-facing. The likelihood of encoding a particular
-> > > > > semantic to the singular "restricted_heap" name seems high.
-> > > >
-> > > > In patch #5 it has the actual driver implementation for the MTK heap
-> > > > that includes the heap name of "restricted_mtk_cm", so there shouldn't
-> > > > be a heap named "restricted_heap" that's actually getting exposed. The
-> > >
-> > > Ah, I appreciate that clarification! Indeed, you're right the name is
-> > > passed through. Apologies for missing that detail.
-> > >
-> > > > restricted_heap code is a framework, and not a driver itself.  Unless
-> > > > I'm missing something in this patchset...but that's the way it's
-> > > > *supposed* to be.
-> > >
-> > > So I guess I'm not sure I understand the benefit of the extra
-> > > indirection. What then does the restricted_heap.c logic itself
-> > > provide?
-> > > The dmabuf heaps framework already provides a way to add heap implementations.
-> >
-> > So in the v1 patchset, it was done with just a Mediatek specific heap
-> > with no framework or abstractions for another vendor to build on top
-> > of. The feedback was to make this more generic since Mediatek won't be
-> > the only vendor who wants a restricted heap..which is how it ended up
-> > here. There was more code in the framework before relating to TEE
-> > calls, but then that was moved to the vendor specific code since not
-> > all restricted heaps are allocated through a TEE.
-> 
-> Yeah. I apologize, as I know how frustrating the contradictory
-> feedback can be. I don't mean to demotivate. :(
-> 
-> I think folks would very much like to see consolidation around the
-> various implementations, and I agree!
-> I just worry that creating the common framework for this concept in a
-> dmabuf heaps driver is maybe too peripheral/close to userland.
-> 
-> > This was also desirable for the V4L2 pieces since there's going to be
-> > a V4L2 flag set when using restricted dma_bufs (and it wants to
-> > validate that)....so in order to keep that more generic, there should
-> > be a higher level concept of restricted dma_bufs that isn't specific
-> > to a single vendor.  One other thing that would ideally come out of
-> > this is a cleaner way to check that a dma_buf is restricted or not.
-> 
-> Yeah. If there is a clear meaning to "restricted" here, I think having
-> a query method on the dmabuf is reasonable.
-> My only fret is if the meaning is too vague and userland starts
-> depending on it meaning what it meant for vendor1, but doesn't mean
-> for vendor2.
-> 
-> So we need some clarity in what "restricted" really means.  For
-> instance, it being not cpu mappable vs other potential variations like
-> being cpu mappable, but not cpu accessible.  Or not cpu mappable, but
-> only mappable between a set of 3 devices (Which 3 devices?! How can we
-> tell?).
-> 
-Can we flip things around? I.e., instead of saying which devices are
-allowed to use the restricted buffer, can we instead say where it's not
-allowed to be used? My view has been that by default the contents of the
-types of buffers where talking about here is only accessible to things
-running on the secure side, i.e, typically S-EL3, S-EL1 and a specific
-Trusted Application running in S-EL0. I guess that serves as some kind
-of baseline. 
+--0000000000001aa04106103eac13
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From there, things turns to a more dynamic nature, where firewalls etc,
-can be configured to give access to various IPs, blocks and runtimes.
+Hi TJ,
 
-I understand that it's nice to be able to know all this from the Linux
-kernel point of view, but does it have to be aware of this? What's the
-major drawback if Linux doesn't know about it?
+On Thu, 18 Jan 2024 at 15:32, Christian K=C3=B6nig <christian.koenig@amd.co=
+m>
+wrote:
 
-> And if there is variation, maybe we need to enumerate the types of
-> "restricted" buffers so we can be specific when it's queried.
-> 
-> That's where maybe having the framework for this be more central or
-> closer to the kernel mm code and not just a sub-type of a dmabuf heap
-> driver might be better?
-> 
-> > The current V4L2 patchset just attaches the dma_buf and then checks if
-> > the page table is empty....and if so, it's restricted. But now I see
-> > there's other feedback indicating attaching a restricted dma_buf
-> > shouldn't even be allowed, so we'll need another strategy for
-> > detecting them. Ideally there is some function/macro like
-> > is_dma_buf_restricted(struct dma_buf*) that can indicate that...but we
-> > haven't come up with a good way to do that yet which doesn't involve
-> > adding another field to dma_buf or to dma_buf_ops (and if such a thing
-> > would be fine, then OK...but I had assumed we would get pushback on
-> > modifying either of those structs).
-> 
-> If there's a need and the best place to put something is in the
-> dma_buf or dma_buf_ops, that's where it should go.  Folks may
-> reasonably disagree if it's the best place (there may be yet better
-> spots for the state to sit in the abstractions), but for stuff going
-> upstream, there's no reason to try to hack around things or smuggle
-> state just to avoid changing core structures. Especially if core
-> structures are internal only and have no ABI implications.
-> 
-> Sima's suggestion that attachments should fail if the device cannot
-> properly map the restricted buffer makes sense to me. Though I don't
-> quite see why all attachments should fail, and I don't really like the
-> idea of a private api, but I need to look more at the suggested virtio
-> example (but even they said that wasn't their preferred route).
-> 
-> My sense of attach was only that it was supposed to connect a device's
-> interest in the buffer, allowing lazy allocation to satisfy various
-> device constraints before first mapping - a design feature that I
-> don't think anyone ever implemented.  So my sense was it didn't have
-> much meaning otherwise (but was a requirement to call before map). But
-> that may have evolved since the early days.
-> 
-> And I'm sure the method to figure out if the attachment can work with
-> the device may be complicated/difficult, so it sounding reasonable can
-> be far from it being reasonable to implement.
-> 
-> And again, I don't mean to frustrate or demotivate here. I'm really
-> excited to see this effort being pushed upstream!
-> 
-> thanks
-> -john
+> Am 17.01.24 um 19:11 schrieb T.J. Mercier:
+>
+> DMA buffers allocated from the CMA dma-buf heap get counted under
+> RssFile for processes that map them and trigger page faults. In
+> addition to the incorrect accounting reported to userspace, reclaim
+> behavior was influenced by the MM_FILEPAGES counter until linux 6.8, but
+> this memory is not reclaimable. [1] Change the CMA dma-buf heap to set
+> VM_PFNMAP on the VMA so MM does not poke at the memory managed by this
+> dma-buf heap, and use vmf_insert_pfn to correct the RSS accounting.
+>
+> The system dma-buf heap does not suffer from this issue since
+> remap_pfn_range is used during the mmap of the buffer, which also sets
+> VM_PFNMAP on the VMA.
+>
+>
+> Mhm, not an issue with this patch but Daniel wanted to add a check for
+> VM_PFNMAP to dma_buf_mmap() which would have noted this earlier.
+>
+> I don't fully remember the discussion but for some reason that was never
+> committed. We should probably try that again.
+>
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/co=
+mmit/mm/vmscan.c?id=3Dfb46e22a9e3863e08aef8815df9f17d0f4b9aede
+>
+> Fixes: b61614ec318a ("dma-buf: heaps: Add CMA heap to dmabuf heaps")
+> Signed-off-by: T.J. Mercier <tjmercier@google.com> <tjmercier@google.com>
+>
+>
+> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> <christian.koenig@amd.com>
+>
+Thanks for the patch; pushed to drm-misc-fixes.
 
--- 
-// Regards
-Joakim
+Best,
+Sumit
+
+>
+>
+> ---
+>  drivers/dma-buf/heaps/cma_heap.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma=
+_heap.c
+> index ee899f8e6721..4a63567e93ba 100644
+> --- a/drivers/dma-buf/heaps/cma_heap.c
+> +++ b/drivers/dma-buf/heaps/cma_heap.c
+> @@ -168,10 +168,7 @@ static vm_fault_t cma_heap_vm_fault(struct vm_fault =
+*vmf)
+>  	if (vmf->pgoff > buffer->pagecount)
+>  		return VM_FAULT_SIGBUS;
+>
+> -	vmf->page =3D buffer->pages[vmf->pgoff];
+> -	get_page(vmf->page);
+> -
+> -	return 0;
+> +	return vmf_insert_pfn(vma, vmf->address, page_to_pfn(buffer->pages[vmf-=
+>pgoff]));
+>  }
+>
+>  static const struct vm_operations_struct dma_heap_vm_ops =3D {
+> @@ -185,6 +182,8 @@ static int cma_heap_mmap(struct dma_buf *dmabuf, stru=
+ct vm_area_struct *vma)
+>  	if ((vma->vm_flags & (VM_SHARED | VM_MAYSHARE)) =3D=3D 0)
+>  		return -EINVAL;
+>
+> +	vm_flags_set(vma, VM_IO | VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
+> +
+>  	vma->vm_ops =3D &dma_heap_vm_ops;
+>  	vma->vm_private_data =3D buffer;
+>
+>
+>
+>
+
+--=20
+Thanks and regards,
+
+Sumit Semwal (he / him)
+Tech Lead - LCG, Vertical Technologies
+Linaro.org =E2=94=82 Open source software for ARM SoCs
+
+--0000000000001aa04106103eac13
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi TJ,</div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 18 Jan 2024 at 15:32, Chris=
+tian K=C3=B6nig &lt;<a href=3D"mailto:christian.koenig@amd.com">christian.k=
+oenig@amd.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex"><u></u>
+
+ =20
+  <div>
+    Am 17.01.24 um 19:11 schrieb T.J. Mercier:<br>
+    <blockquote type=3D"cite">
+      <pre>DMA buffers allocated from the CMA dma-buf heap get counted unde=
+r
+RssFile for processes that map them and trigger page faults. In
+addition to the incorrect accounting reported to userspace, reclaim
+behavior was influenced by the MM_FILEPAGES counter until linux 6.8, but
+this memory is not reclaimable. [1] Change the CMA dma-buf heap to set
+VM_PFNMAP on the VMA so MM does not poke at the memory managed by this
+dma-buf heap, and use vmf_insert_pfn to correct the RSS accounting.
+
+The system dma-buf heap does not suffer from this issue since
+remap_pfn_range is used during the mmap of the buffer, which also sets
+VM_PFNMAP on the VMA.</pre>
+    </blockquote>
+    <br>
+    Mhm, not an issue with this patch but Daniel wanted to add a check
+    for VM_PFNMAP to dma_buf_mmap() which would have noted this earlier.<br=
+>
+    <br>
+    I don&#39;t fully remember the discussion but for some reason that was
+    never committed. We should probably try that again.<br>
+    <br>
+    <span style=3D"white-space:pre-wrap">
+</span>
+    <blockquote type=3D"cite">
+      <pre>[1] <a href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/t=
+orvalds/linux.git/commit/mm/vmscan.c?id=3Dfb46e22a9e3863e08aef8815df9f17d0f=
+4b9aede" target=3D"_blank">https://git.kernel.org/pub/scm/linux/kernel/git/=
+torvalds/linux.git/commit/mm/vmscan.c?id=3Dfb46e22a9e3863e08aef8815df9f17d0=
+f4b9aede</a>
+
+Fixes: b61614ec318a (&quot;dma-buf: heaps: Add CMA heap to dmabuf heaps&quo=
+t;)
+Signed-off-by: T.J. Mercier <a href=3D"mailto:tjmercier@google.com" target=
+=3D"_blank">&lt;tjmercier@google.com&gt;</a></pre>
+    </blockquote>
+    <br>
+    Acked-by: Christian K=C3=B6nig <a href=3D"mailto:christian.koenig@amd.c=
+om" target=3D"_blank">&lt;christian.koenig@amd.com&gt;</a></div></blockquot=
+e><div>Thanks for the patch; pushed to drm-misc-fixes.</div><div><br></div>=
+<div>Best,</div><div>Sumit=C2=A0</div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex"><div><br>
+    <br>
+    <blockquote type=3D"cite">
+      <pre>---
+ drivers/dma-buf/heaps/cma_heap.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_h=
+eap.c
+index ee899f8e6721..4a63567e93ba 100644
+--- a/drivers/dma-buf/heaps/cma_heap.c
++++ b/drivers/dma-buf/heaps/cma_heap.c
+@@ -168,10 +168,7 @@ static vm_fault_t cma_heap_vm_fault(struct vm_fault *v=
+mf)
+ 	if (vmf-&gt;pgoff &gt; buffer-&gt;pagecount)
+ 		return VM_FAULT_SIGBUS;
+=20
+-	vmf-&gt;page =3D buffer-&gt;pages[vmf-&gt;pgoff];
+-	get_page(vmf-&gt;page);
+-
+-	return 0;
++	return vmf_insert_pfn(vma, vmf-&gt;address, page_to_pfn(buffer-&gt;pages[=
+vmf-&gt;pgoff]));
+ }
+=20
+ static const struct vm_operations_struct dma_heap_vm_ops =3D {
+@@ -185,6 +182,8 @@ static int cma_heap_mmap(struct dma_buf *dmabuf, struct=
+ vm_area_struct *vma)
+ 	if ((vma-&gt;vm_flags &amp; (VM_SHARED | VM_MAYSHARE)) =3D=3D 0)
+ 		return -EINVAL;
+=20
++	vm_flags_set(vma, VM_IO | VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
++
+ 	vma-&gt;vm_ops =3D &amp;dma_heap_vm_ops;
+ 	vma-&gt;vm_private_data =3D buffer;
+=20
+</pre>
+    </blockquote>
+    <br>
+  </div>
+
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr">Thanks and regards,<br><br>Sumit Semwal (he / him)<br>Tech L=
+ead - LCG, Vertical Technologies<br>Linaro.org =E2=94=82 Open source softwa=
+re for ARM SoCs</div></div></div>
+
+--0000000000001aa04106103eac13--
