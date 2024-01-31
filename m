@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE2388449B1
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 22:18:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22DAF8449B8
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 22:18:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25F4010FD1C;
-	Wed, 31 Jan 2024 21:17:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7871C10FD1E;
+	Wed, 31 Jan 2024 21:18:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
- [209.85.218.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C89010FD1C
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 21:17:58 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id
- a640c23a62f3a-a2f22bfb4e6so25552666b.0
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 13:17:58 -0800 (PST)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9035010FD1E
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 21:18:11 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id
+ a640c23a62f3a-a35b32bd055so20892966b.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 13:18:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1706735817; x=1707340617; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1706735830; x=1707340630; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:content-language:references
  :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
  :cc:subject:date:message-id:reply-to;
- bh=aIvaypLdP0+JFHDzqqa1D+EbFHtABYPWV2c8Aa5Q328=;
- b=FNJy4oiWItv0uYTv31sgWAQc9NqVSi29KDXtqHU3Q2u+CK5xSig87Tq14M320h/URp
- C73K7El5jwEEEVxiOhqQKkVayuj1aWVCduM8iUJMH7nWcJYw6iX4//JPssjK1bJn7Ctb
- pLWvbULtlL0/f1JvPErOjxDRcKX140SDRIYon8lVL5HDHkGHe3IS20D1tsEBGPl/V/yF
- 934/zIlMAcTFH+0TUHaKQOd29LKB5NCV/0mWIDKfi1/X/8Fz1TwJuFTe//KGLyGPLFfc
- AXZd1qtRIVzu/EQ62FrRqTi5p5UHk5ugcL+jJ+tXed/N543h2d+KpBby7n6vUuB77daK
- UiAA==
+ bh=m809IEfmsOt69Mzj+ewn9rd/I21cqoMQF9Z+13+EcwY=;
+ b=AWgwDz89667vxv5vD4/DNeyov/0pmQJ8T6NG2DAYX68F086y246PWZsZ4NzZvgjm3N
+ Tr9q3MpiIugeiXz3aHZ0Ryg3jJCYr31FAFJ0K0aiMK933mr6Fx5+8qAJ89rv//uKt02K
+ +SkBob0ZU8cwTi4wecNUcR2opMjs2tTJGxR2c6r7dY34u+o+fKTyf9vBYUs5dwtxzUmn
+ 4z3HvI5RpkwBKcbP+VXKkwmTYWy7FFRh6esSV81U0Ofd3LINnFt2Yz6SwB5l1DYVuyf8
+ yoJHBLcMu6zVGpt5llwsp9DvJrZOdooVZQhOlkLBBC+pc7DVLpiDR0YJsMvXMXabdWr/
+ IrFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706735817; x=1707340617;
+ d=1e100.net; s=20230601; t=1706735830; x=1707340630;
  h=content-transfer-encoding:in-reply-to:content-language:references
  :cc:to:subject:from:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aIvaypLdP0+JFHDzqqa1D+EbFHtABYPWV2c8Aa5Q328=;
- b=hS8eoJHaB0Cf5s8shQa6agwpsdcMsbQAhR5tJTQYZWwMW+Io7X/pcv4Wo6pTbkGyYP
- GQL+CFiNdVo6qiGoCo7IPnwvePKA14No3xl6pAbAKifOznJDb+fFd5qUtFDhHSv0qYZj
- 7i09Um+MHlCODcKSP+RLXKuAcq3VKOtEanQuGv4anjtPaP0Lkn2hASHMB6eoxFrXxkBP
- NEc6EiHNO3U7+jkk8JJi3qCndyjoxtK105Mn2OMgm8sFqhsQAHUUweYgPcGPaelllDlZ
- 5TiSx0nhZ882IpIk8yelEYousHTWVQ6E5SXVQUg+QiA+wT/M8tQVwHejkDhLr6U9Iia+
- so9g==
-X-Gm-Message-State: AOJu0YzECGdGiaJ0iT4iTnb3giq25D+QjLbrjM2FacTlXXzh4KZve3Hd
- 5GYW02PGRe+LiEt22u2mBSCNeXWDwdIGg3zLZAtAgJDJI1EfTRtx
-X-Google-Smtp-Source: AGHT+IHnO3WBh/+ajC4q+i/16gR61Amb9UqtxVbpXreKVzkmjEyKKcJdnZqL0gzfWAOgay1EoAzL9g==
-X-Received: by 2002:a17:906:2495:b0:a35:854f:6c9e with SMTP id
- e21-20020a170906249500b00a35854f6c9emr2058734ejb.51.1706735816769; 
- Wed, 31 Jan 2024 13:16:56 -0800 (PST)
+ bh=m809IEfmsOt69Mzj+ewn9rd/I21cqoMQF9Z+13+EcwY=;
+ b=BmQsE7Wf4qJwjXQ4mLlWTJAuBScCY7h7DrmO960I3hvf8o8XTGmtmYLywOj5g5su/g
+ QlS240jdN3wxsduLRbF/piLoU7KEPpOB3H643G0vtOFuMc30SF5Euo/N2MTs35Y+Rq8l
+ zMfMVm6ZsHXU/LOm7WZDr5D90sySxX+vb/mZp1Ng59h/nJIY1EJePQGDAHlC9aS6JsMS
+ /ykI8Yd35RS7Yc+MdO1tRnz4vURpxNx1ALVC0sGJ4nt2QQx1jp5Agc2MyQEVp98rvPBz
+ jXBSz9y3PwS9KKdvSqYbOs51X1fi2hV5DBqjcfjPzyRZ256AMedOia0Yzy5wpUz97uoH
+ QHaQ==
+X-Gm-Message-State: AOJu0YyBEEvWWea1DUW91/4B2XBRFOkhAFWrB0TIncbCx32YnXytUdbL
+ juRaoZsAxo7kZh89a0eNCLlhaMbvZHw1+YPViUSSbYOfffULYPnr
+X-Google-Smtp-Source: AGHT+IErUVMAdxFTL73O0fpk+TAYJywDN+0bWX9BrjrCHQ2aPbxJ4ulDwCy4QPkkxKUz88lXPQE+LQ==
+X-Received: by 2002:a17:906:b892:b0:a35:6667:b3ed with SMTP id
+ hb18-20020a170906b89200b00a356667b3edmr2101448ejb.8.1706735829899; 
+ Wed, 31 Jan 2024 13:17:09 -0800 (PST)
 X-Forwarded-Encrypted: i=0;
- AJvYcCX6h2Y8J63c7oNmYUJeFHimF+GcNPtlF6WODVlXW+KZ6iCTqVqg0D51fEnFrd9PaRhjVZMpNJaOy2701csFyW8y0S+7/CgZBrNgtpfQ5QMjH5TCCL+CxYGKm0eb62yd17kMdsgnrikdnrrQ7RN0yHC054sAoinbOGzJF/OcbhhEuazViV8Ch9fuHX2KPrdDMQdFmjZfAmcSflVDCUlvyrRV3twI0NTdA6G1uWr/5leHTYx9r3g1pPt8BFAebYLJa9y7YjM4/xqD0AAYwvNpx6x8M6n/re4liSV00Nlsi0Zp8LD1igj6fwWiQubUZ8Bg9Y36dxHYP7Xhp5tHJ2r/3QiJhvIk0g8X73VF2vo/P4MXc74X9IFsLXUf8l0kZINM9D7h07ERqXfY6XQ2Aam1FLixptd7AWHwy0L1F7EC2RrZHxP9Lim31uAmBKQVfqqGbOwZXAxBXqfyQgm9wDKqTALAY2aoWzm3oDK3Y8hw+kPSawpNA8hlxVrMCOcp7FIoj1ZP3t1Y/b2jVCANP7gkha8y76qXMxX4XBnH5El/McGwAP3l8LDmvzdXLRqSpntlGyJUQvnlYt5i+Ht340o=
+ AJvYcCX4l5u5Ajq9ylzzqYpkqzDFhuvJh6UcTWtUwBEF20/WVE5VlfDsUyor+mEeZhXLOS2GpQoSC9Sgo88wnvbODLkZGVeRbj9lG+gIRVnZP1vsjzbL2G8/xcZUxrmCYT/qtoTMBprmmHqnJqwDTkJA6vZ4g7eo79nvaQ66KWmrR12G4BSEOCMzNZrUO9uruaVQ2jISuTjR/x2xCoc8q0EPUi6S56Wz20U+XQ3GfsmmRq76t4ptsu1HiXh5tOOx1FYeVAxL13LZXKK9mYPpqxSJDV5ZWWsk772icN/1jsPaFih0xzaiBrBt2kULGo7L2yPgsPLl+OdrHDPs0ox70Acg3WsG0ti+vTFkGDdmwZ3Y9PnSqYrRJWmFOIeXvc9C0V9Jfha+QpQMuU/QN92BLmS1l9P5mUcVvIljvPlocx6TTEE9Q/+ZenkbwsEVGHVFh2goYy1Exqm/CcsgmuejRhklC2OVO/VN88jzLu6+Pd1YFVQkX1nH2durRSTdTfWH4FlTdugj1dxzEc8uY3FWDM2/82OoNk4Q6AF9Wv2kcYESlYNmyNni00kfClh7JtANd897aYugEORlc76hXEgrq1Y=
 Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
  by smtp.gmail.com with ESMTPSA id
- ty5-20020a170907c70500b00a35a8571419sm4040634ejc.135.2024.01.31.13.16.55
+ ty5-20020a170907c70500b00a35a8571419sm4040634ejc.135.2024.01.31.13.17.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 31 Jan 2024 13:16:56 -0800 (PST)
-Message-ID: <9b84adf0-9312-47fd-becc-cadd06941f70@gmail.com>
-Date: Wed, 31 Jan 2024 22:16:55 +0100
+ Wed, 31 Jan 2024 13:17:09 -0800 (PST)
+Message-ID: <e5dea3b7-bf84-4474-9530-cc2da3c41104@gmail.com>
+Date: Wed, 31 Jan 2024 22:17:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Johan Jonker <jbx6244@gmail.com>
-Subject: [PATCH v2 4/6] ARM: dts: rockchip: fix rk322x hdmi ports node
+Subject: [PATCH v2 5/6] arm64: dts: rockchip: fix rk3328 hdmi ports node
 To: robh+dt@kernel.org
 References: <a493c65e-7cf9-455f-95d5-8c98cad35710@gmail.com>
 Content-Language: en-US
@@ -86,7 +86,7 @@ Cc: daniel@ffwll.ch, conor+dt@kernel.org, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix rk322x hdmi ports node so that it matches the
+Fix rk3328 hdmi ports node so that it matches the
 rockchip,dw-hdmi.yaml binding.
 
 Signed-off-by: Johan Jonker <jbx6244@gmail.com>
@@ -95,29 +95,25 @@ Signed-off-by: Johan Jonker <jbx6244@gmail.com>
 Changed V2:
   keep reg-io-width together with reg
 ---
- arch/arm/boot/dts/rockchip/rk322x.dtsi | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ arch/arm64/boot/dts/rockchip/rk3328.dtsi | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/rockchip/rk322x.dtsi b/arch/arm/boot/dts/rockchip/rk322x.dtsi
-index 831561fc1814..96421355c274 100644
---- a/arch/arm/boot/dts/rockchip/rk322x.dtsi
-+++ b/arch/arm/boot/dts/rockchip/rk322x.dtsi
-@@ -736,14 +736,20 @@ hdmi: hdmi@200a0000 {
+diff --git a/arch/arm64/boot/dts/rockchip/rk3328.dtsi b/arch/arm64/boot/dts/rockchip/rk3328.dtsi
+index fb5dcf6e9327..a73234b11ff1 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3328.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3328.dtsi
+@@ -745,11 +745,20 @@ hdmi: hdmi@ff3c0000 {
  		status = "disabled";
 
  		ports {
 -			hdmi_in: port {
--				#address-cells = <1>;
--				#size-cells = <0>;
--				hdmi_in_vop: endpoint@0 {
--					reg = <0>;
 +			#address-cells = <1>;
 +			#size-cells = <0>;
 +
 +			hdmi_in: port@0 {
 +				reg = <0>;
 +
-+				hdmi_in_vop: endpoint {
+ 				hdmi_in_vop: endpoint {
  					remote-endpoint = <&vop_out_hdmi>;
  				};
  			};
