@@ -2,66 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60A1E844996
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 22:15:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD3428449AA
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 22:17:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D318510FD0D;
-	Wed, 31 Jan 2024 21:15:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4742E10FCF6;
+	Wed, 31 Jan 2024 21:17:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
- [209.85.208.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01FC810FD0D
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 21:15:32 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id
- 4fb4d7f45d1cf-55f15762840so219126a12.0
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 13:15:32 -0800 (PST)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E002410FCF6
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 21:17:27 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id
+ a640c23a62f3a-a366ad7ad45so17509466b.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 13:17:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1706735671; x=1707340471; darn=lists.freedesktop.org;
- h=content-transfer-encoding:content-language:cc:to:subject:from
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BzKBpTO+yAsO6AKq5s8rWuJxCgwGnyxQPNp5dZtPA/4=;
- b=SU/i4lJ5Tsk4+KX3sVC06k7IgwFoprC/A4UsNFrAuXa4eJEPWlcjNVCGlCouokbn7Q
- qYZbgpd6p3KPsO8M5Fy3FntRG0NCakTNkBbe7uOQt8Vs39lQfx/4o2Aq7osPGO4lhK0P
- Q1Mm05LNpMsTFR66xyDgdwRdemjhIneJwJGn2xbVjg4us/ghRj9NJJ+pvb9PHqPFpFTf
- Su9ZvC2yIkdoI87VYXsOPRr3De054JBqoXhTOOjHOviFlJOZQkHyObFw5kiAlOoip+pw
- BJHxAfGiL8RvEtoXlQlAvpayf5Kh5pzg3LySWQCrwd3eHU6xzAvDgyQVNHA8XcR4dZ3U
- PAfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706735671; x=1707340471;
- h=content-transfer-encoding:content-language:cc:to:subject:from
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ d=gmail.com; s=20230601; t=1706735786; x=1707340586; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
  :cc:subject:date:message-id:reply-to;
- bh=BzKBpTO+yAsO6AKq5s8rWuJxCgwGnyxQPNp5dZtPA/4=;
- b=AdrVjBgeiLkVm57schd19wX+PzdMUvAioxtnVw5WTAwCVzFrwbnR7kE4tzVpGOHwe+
- WuE6t2hP+Hf+f4QrSPyWELbmmCVsPrNgtdzNyVGgJ4A+4suqyALKXyPbilAn0z6kw4Bx
- 1DtB06EyjZ2bKBwYfm0GKX2mJP94+0vflng6TiAnPR94Hop5B1RpmMEYu4lxm2/9nXDU
- evQqXTyTag5usJ/yg5YUlUJhHgJSN7giVs2OJ0PKv5v6wdCvXQquVZ1ISvzRK8CfTE38
- 7WIv5XFtoc8tJqj/tvx7nW5Vc97yZZlqIroJTxAUCQOdJV224NyB4JDZfIpxZer1ilu3
- Byeg==
-X-Gm-Message-State: AOJu0YwQCxmT4aWPDJPaURDGqTwfDqyDmjHBi3LSDnJx1GtIFnu1xtGa
- pTjHJj4MFB7WS0Z1nExvcffdtU30/s4T2FUh2ti5hiMLjGubayeJ
-X-Google-Smtp-Source: AGHT+IGKSAQ0iom5aOWp/ud0qd1AnStLBR0ipcNAgWjoyolxlKbW/Qay9WlmcGjARF23PCDI5a71JQ==
-X-Received: by 2002:a50:ed91:0:b0:55f:4ce3:5988 with SMTP id
- h17-20020a50ed91000000b0055f4ce35988mr1738459edr.8.1706735671176; 
- Wed, 31 Jan 2024 13:14:31 -0800 (PST)
+ bh=7WAHmXqhwFGwnUoVVTvOT31zVVDiv5ormXLbiLzvJr0=;
+ b=Mn1PtPlSoQDIW7Vfo02E0F9okP1Pm5uIixKO9SSjfH5YYrWjrnpGQsglEn3QCmzTV8
+ YxfPXJIDAWU0jQqJ9mFs9RPbOICtQhDlf5274CVlYRTS63AOxjr2/MlYfviCRg/D3mjL
+ gcM6TFmhkLgUIryHk6Cf9fXnPSgRnsZfi5J2haYu+ku4uQdFQM2f2rmaH0r4gjunl/Pw
+ P1esOYivpcm1BKii0/beqj27+V7fKxQ5WnBg2zMo0WHZ3Q3IUHbvAIGKiNhuLJbtztqM
+ Yw9+sBNpom5KuK5EKvsE00Wo7A+Sbhv3RbCjnzvg9VBPLAylmuRbaGwdG36E7RsepdMo
+ tccw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706735786; x=1707340586;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:subject:from:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7WAHmXqhwFGwnUoVVTvOT31zVVDiv5ormXLbiLzvJr0=;
+ b=B6vMbkg3VD+3TzSVaWlORq2l3WreiK/mpFd2VNx1iP7gJDZugTeC/8EDXDUrvE7FNY
+ ELKgo5Rr5SN4TQcm35rWsVNUsXLQNCS76xPsoqBv8CU69mTVvzXKC/g2VIhK/6kQRDFB
+ Dc63szr2CrMuVNs/Jm9At9uPTekk4C/PcbakPIPkTufbVTeJ3X9aFmL18ny/1qDQm/gA
+ LcVYs4VN8vZpICQPiAcNAtRnytmhCM/O9JMXIzm5ORwNPocTdXHqLPb35ls/JPyLC+9R
+ N5br9e/YoLQuUuWkl90jU9i5pjE3G6TUXd45h4DVHSpMPNp/pi99NHR1K3lyecxBaZJg
+ mZyQ==
+X-Gm-Message-State: AOJu0YyyoArP5eV1JWCNmhB4dzE9wmGYrcf9Mg6dv9Jtt66uuLLXc7Oh
+ 4vi3lN7msUFe+gfutudVw1QfqDnhDAFAbeW76XZmN/HLos1liInC
+X-Google-Smtp-Source: AGHT+IG1BFq7Pp2hw0FCVuWw6rIJcYrAM9nq28Kr5azCiS9LKzq/m7hwGTr5nk2ETTNoY9f8m7yc6A==
+X-Received: by 2002:a17:906:da06:b0:a35:edda:ca8b with SMTP id
+ fi6-20020a170906da0600b00a35eddaca8bmr1992854ejb.76.1706735786182; 
+ Wed, 31 Jan 2024 13:16:26 -0800 (PST)
 X-Forwarded-Encrypted: i=0;
- AJvYcCULQ33QhABS4n6ZmrFSYOAyDgetml7TCChj/sOPv0oioq5VepLJymPA1kx2NkWnR/s/br7OHudwGBzZQ5lJljEVZ0T8ec2Qp1S80hCa2QJ/ToAZa1YotVwMLjl1ixwuX3c7Cu+05OhCGKZkQey/yuZ2Bw6v0NVp2+VtTGbXGVknaBG1caPpDodXH8w2Gv/zN7o5cVAOiQHi9MBkRsVot/HEcvmJEiKtCss4rKm7VvdBqeNBwZBwqxTaQPORu/gHnP6qcawXXJpcVGjzH6VAlZvH3ErYrVqCokAc/Rww/1Xp80adSwmW4MDgtNtHYQQyyLLEZIyow/Bpq6vIbRaYa5ynGN86YgBNPs9PsrXMZrXxxonkYDbgwwceyhD1DlNa1QtF0buPDCKbvEXuDI4YJZ5Hdx4UPHCsKxRufcd+/SKhB9BYYyvLq2uV94mWiDf7SiE8EzadWm2IkK3USljlB47pSTIfHntNiE46d3ZtXcpwD8jpvymiIPIFkfazQVGZ1ljIe8QguTVnuWOzaum/Qon6g7VEJ826bImqyFkegmo5KHphHZieTr3zht96D9DCWQSFQ43PUzoKevPHSvk=
+ AJvYcCVc2fs4IrBG2YWUC5LcZZStHjB+RqDtXVILboDRP8Y2Xm1IoMKnaO2pMi/h4SQUCrAruBblHzoOgDf+Aud6ulOos3QKpvTrOPDbWDrqrs4HoncHMRv6melTKIpllEW8OtFwnN33yPaEFX9kPiIJVFaz94d8Y4gJLNprrxIiTqgEwAzZF7DeO5/IO+fEX+0/dhCvlliQGm9DqOzAUU99bBQXn8o6SMzo0Hgoqm5QeA2k8zgHOry8CgP0VBNfmF6GRhoZHfwmUaL8uBJq2XbfcWxvunXQBbU7jqJRykZJI7KloTyZpPzrwxL2fFFCF6Bhxt2IUP/Th38ZoCpdRzQ6aMCLFa2oh+q58pPry2SEjx389pdHUxDhLD1zBehNndrSw2rsYkLQxOTTyGj1urAZFRt7Si96ewe9IW1EE5T+1hm6QZu0b3o05WuKCL0qn+GsDGuC/NhYfkqoWV0flggiV7whpyZ47IjqSXr14Zgh9zg3S1LmTND+9p305Lhk7uaXtn3un3AdZ6x3agLqjRDz/BlXoxQTGjcJ4DNSh7kyURpMcQ7mZNxtPNxNIrdB1QW1nlxVxlpJ1FUsiiLxuuc=
 Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
  by smtp.gmail.com with ESMTPSA id
- h28-20020a50cddc000000b0055f384e7530sm2241381edj.32.2024.01.31.13.14.30
+ ty5-20020a170907c70500b00a35a8571419sm4040634ejc.135.2024.01.31.13.16.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 31 Jan 2024 13:14:30 -0800 (PST)
-Message-ID: <a493c65e-7cf9-455f-95d5-8c98cad35710@gmail.com>
-Date: Wed, 31 Jan 2024 22:14:29 +0100
+ Wed, 31 Jan 2024 13:16:25 -0800 (PST)
+Message-ID: <5c45527a-e218-40a3-8e71-a5815417e5f7@gmail.com>
+Date: Wed, 31 Jan 2024 22:16:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Johan Jonker <jbx6244@gmail.com>
-Subject: [PATCH v2 1/6] dt-bindings: display: rockchip: rockchip,dw-hdmi:
- remove port property
+Subject: [PATCH v2 2/6] dt-bindings: display: rockchip,dw-hdmi: add
+ power-domains property
 To: robh+dt@kernel.org
+References: <a493c65e-7cf9-455f-95d5-8c98cad35710@gmail.com>
 Content-Language: en-US
+In-Reply-To: <a493c65e-7cf9-455f-95d5-8c98cad35710@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,91 +87,57 @@ Cc: daniel@ffwll.ch, conor+dt@kernel.org, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The hdmi-connector nodes are now functional and the new way to model
-hdmi ports nodes with both in and output port subnodes. Unfortunately
-with the conversion to YAML the old method with only an input port node
-was used. Later the new method was also added to the binding.
-A binding must be unambiguously, so remove the old port property
-entirely and make port@0 and port@1 a requirement as all
-upstream dts files are updated as well and because checking
-deprecated stuff is a bit pointless.
-Update the example to avoid use of the removed property.
+Most Rockchip hdmi nodes are part of a power domain.
+Add a power-domains property and include it to the example
+with some reordering to align with the (new) documentation
+about property ordering.
 
 Signed-off-by: Johan Jonker <jbx6244@gmail.com>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 ---
 
 Changed V2:
-  rename title from deprecate to remove
-  reword
+  keep reg-io-width together with reg
+  explain reordering
 ---
- .../display/rockchip/rockchip,dw-hdmi.yaml    | 24 +++++++++++++++----
- 1 file changed, 20 insertions(+), 4 deletions(-)
+ .../bindings/display/rockchip/rockchip,dw-hdmi.yaml      | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-index 7e59dee15a5f..391c2a7e79de 100644
+index 391c2a7e79de..af638b6c0d21 100644
 --- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
 +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-@@ -97,8 +97,8 @@ properties:
+@@ -94,6 +94,9 @@ properties:
+       - const: default
+       - const: unwedge
+
++  power-domains:
++    maxItems: 1
++
    ports:
      $ref: /schemas/graph.yaml#/properties/ports
 
--    patternProperties:
--      "^port(@0)?$":
-+    properties:
-+      port@0:
-         $ref: /schemas/graph.yaml#/properties/port
-         description: Input of the DWC HDMI TX
-         properties:
-@@ -108,11 +108,14 @@ properties:
-             description: Connection to the VOPB
-           endpoint@1:
-             description: Connection to the VOPL
--    properties:
-       port@1:
-         $ref: /schemas/graph.yaml#/properties/port
-         description: Output of the DWC HDMI TX
+@@ -138,16 +141,18 @@ examples:
+     #include <dt-bindings/clock/rk3288-cru.h>
+     #include <dt-bindings/interrupt-controller/arm-gic.h>
+     #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/power/rk3288-power.h>
 
-+    required:
-+      - port@0
-+      - port@1
-+
-   rockchip,grf:
-     $ref: /schemas/types.yaml#/definitions/phandle
-     description:
-@@ -147,7 +150,11 @@ examples:
+     hdmi: hdmi@ff980000 {
+         compatible = "rockchip,rk3288-dw-hdmi";
+         reg = <0xff980000 0x20000>;
+         reg-io-width = <4>;
+-        ddc-i2c-bus = <&i2c5>;
+-        rockchip,grf = <&grf>;
+         interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
+         clocks = <&cru  PCLK_HDMI_CTRL>, <&cru SCLK_HDMI_HDCP>;
          clock-names = "iahb", "isfr";
++        ddc-i2c-bus = <&i2c5>;
++        power-domains = <&power RK3288_PD_VIO>;
++        rockchip,grf = <&grf>;
 
          ports {
--            port {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-                 #address-cells = <1>;
-                 #size-cells = <0>;
-
-@@ -155,11 +162,20 @@ examples:
-                     reg = <0>;
-                     remote-endpoint = <&vopb_out_hdmi>;
-                 };
-+
-                 hdmi_in_vopl: endpoint@1 {
-                     reg = <1>;
-                     remote-endpoint = <&vopl_out_hdmi>;
-                 };
-             };
-+
-+            port@1 {
-+                reg = <1>;
-+
-+                hdmi_out_con: endpoint {
-+                    remote-endpoint = <&hdmi_con_in>;
-+                };
-+            };
-         };
-     };
-
+             #address-cells = <1>;
 --
 2.39.2
 
