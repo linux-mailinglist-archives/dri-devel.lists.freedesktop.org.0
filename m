@@ -2,54 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F11A8443F8
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 17:19:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFB59844481
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 17:31:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BED710FB3F;
-	Wed, 31 Jan 2024 16:18:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C88E10ECBF;
+	Wed, 31 Jan 2024 16:31:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A9E510FB3F;
- Wed, 31 Jan 2024 16:18:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706717906; x=1738253906;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=dpaWh/7GlWtvpwJ4rvEF4SehjmScXwyPuheBXTAelG0=;
- b=iCOyvV4ODZYNm+3dSOAId7yvcxTjs93dLlaUumfXISAOKQcVqu6ZX1b9
- WmiOk4MvJMzZB7H6p3W3zFw/uUM4UgYXhGLqZAWvlEpsoveVfcQ8dnkh6
- aEt8gaGj+m1Tz/vVw/abPURfTPLIlMETW0ODG8ddVFdZCyFPweZBo2cSh
- qUaly+hWeoAkh0YFJfz6CUDrqyw5nHB0zZ1PF6lJJ5otu0sorTq5S09/1
- nllb/bWN1TIYE/7AffsKtYrLgYnEmn/TSHlIuVGWxDS4AcgoR4CZiXeyL
- i561hIfF8sOr3RaA/tm88v7aD8kSVxFWTGf0yzgjTUpo2rgiVONY3Bf8S g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="2583698"
-X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
-   d="scan'208";a="2583698"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2024 08:18:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="822613805"
-X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; d="scan'208";a="822613805"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 31 Jan 2024 08:18:23 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 31 Jan 2024 18:18:22 +0200
-Date: Wed, 31 Jan 2024 18:18:22 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Imre Deak <imre.deak@intel.com>
-Subject: Re: [PATCH 18/19] drm/i915/dp: Suspend/resume DP tunnels
-Message-ID: <ZbpyzoRpe1ngWJpb@intel.com>
-References: <20240123102850.390126-1-imre.deak@intel.com>
- <20240123102850.390126-19-imre.deak@intel.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17B7E10ECBF
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 16:31:33 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 8E490CE16C5;
+ Wed, 31 Jan 2024 16:30:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C1BEC433C7;
+ Wed, 31 Jan 2024 16:30:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1706718652;
+ bh=jV+IW1BRHUg+D+REntsLJtRkUxqONiKUmtqDsV82itI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=udG2ZcRDmMPjbK6aF+4k7fsWHwlpGxyg8XCxDbLkppGdsq6L73vhfSAYtMyv4wK6H
+ IYkOX8GbR9Mm0ccp4sIcyKJzgdetiCpZ/Z2qrVrvhSBxihAI1IJ7T0cZIX/k+Bs2Yf
+ Avm64pVoXKnvHC6NT3YcaUAfhj6DkPmYYt4zR/D3jgBMlB9r86XcS/7T75NP86FSRy
+ tAhMSWdH528agAjz7fh/aVEVoAVzqx5x/+cU048NmS9NZSgOzWOLX3Evk2rr0S8uQs
+ 4AzUMKoulmjNSNkA08hpSTv7lQGII9EXVs4w7dVCIZ1gMPxSkaO6KLlfRgDLfV8FZF
+ f0rEik7hgaleA==
+Date: Wed, 31 Jan 2024 17:30:49 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Keith Zhao <keith.zhao@starfivetech.com>
+Subject: Re: =?utf-8?B?5Zue5aSNOg==?= [v3 4/6] drm/vs: Add KMS crtc&plane
+Message-ID: <e2spje6iew6skzrhrcgr23g4dc7l7rjoq77ki6oupqborfl22b@owmd2sdzcdaj>
+References: <20231204123315.28456-1-keith.zhao@starfivetech.com>
+ <20231204123315.28456-5-keith.zhao@starfivetech.com>
+ <o4ica2jg2rqfx6znir6j7mkoojoqzejjuqvlwcnehanw5mvop6@a3t6vi7c55tz>
+ <NTZPR01MB1050AC99C38D2136D0354F3DEE7CA@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="xv7z5ay3ishmxaq2"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240123102850.390126-19-imre.deak@intel.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <NTZPR01MB1050AC99C38D2136D0354F3DEE7CA@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,81 +53,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Xingyu Wu <xingyu.wu@starfivetech.com>, Jack Zhu <jack.zhu@starfivetech.com>,
+ "palmer@dabbelt.com" <palmer@dabbelt.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ William Qiu <william.qiu@starfivetech.com>,
+ Shengyang Chen <shengyang.chen@starfivetech.com>,
+ "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+ Changhuang Liang <changhuang.liang@starfivetech.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 23, 2024 at 12:28:49PM +0200, Imre Deak wrote:
-> Suspend and resume DP tunnels during system suspend/resume, disabling
-> the BW allocation mode during suspend, re-enabling it after resume. This
-> reflects the link's BW management component (Thunderbolt CM) disabling
-> BWA during suspend. Before any BW requests the driver must read the
-> sink's DPRX capabilities (since the BW manager requires this
-> information, so snoops for it on AUX), so ensure this read takes place.
 
-Isn't that going to screw up the age old problem of .compute_config()
-potentially failing during the resume modeset if we no longer have
-the same amount of bandwidth available as we had before suspend?
-So far we've been getting away with this exactly by not updating 
-the dpcd stuff before the modeset during resume.
+--xv7z5ay3ishmxaq2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Signed-off-by: Imre Deak <imre.deak@intel.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_dp.c | 16 +++++++++++-----
->  1 file changed, 11 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> index 8ebfb039000f6..bc138a54f8d7b 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -36,6 +36,7 @@
->  #include <asm/byteorder.h>
->  
->  #include <drm/display/drm_dp_helper.h>
-> +#include <drm/display/drm_dp_tunnel.h>
->  #include <drm/display/drm_dsc_helper.h>
->  #include <drm/display/drm_hdmi_helper.h>
->  #include <drm/drm_atomic_helper.h>
-> @@ -3320,18 +3321,21 @@ void intel_dp_sync_state(struct intel_encoder *encoder,
->  			 const struct intel_crtc_state *crtc_state)
->  {
->  	struct intel_dp *intel_dp = enc_to_intel_dp(encoder);
-> -
-> -	if (!crtc_state)
-> -		return;
-> +	bool dpcd_updated = false;
->  
->  	/*
->  	 * Don't clobber DPCD if it's been already read out during output
->  	 * setup (eDP) or detect.
->  	 */
-> -	if (intel_dp->dpcd[DP_DPCD_REV] == 0)
-> +	if (crtc_state && intel_dp->dpcd[DP_DPCD_REV] == 0) {
->  		intel_dp_get_dpcd(intel_dp);
-> +		dpcd_updated = true;
-> +	}
->  
-> -	intel_dp_reset_max_link_params(intel_dp);
-> +	intel_dp_tunnel_resume(intel_dp, dpcd_updated);
-> +
-> +	if (crtc_state)
-> +		intel_dp_reset_max_link_params(intel_dp);
->  }
->  
->  bool intel_dp_initial_fastset_check(struct intel_encoder *encoder,
-> @@ -5973,6 +5977,8 @@ void intel_dp_encoder_suspend(struct intel_encoder *intel_encoder)
->  	struct intel_dp *intel_dp = enc_to_intel_dp(intel_encoder);
->  
->  	intel_pps_vdd_off_sync(intel_dp);
-> +
-> +	intel_dp_tunnel_suspend(intel_dp);
->  }
->  
->  void intel_dp_encoder_shutdown(struct intel_encoder *intel_encoder)
-> -- 
-> 2.39.2
+On Wed, Jan 31, 2024 at 08:57:21AM +0000, Keith Zhao wrote:
+> > > +static const struct vs_dc_info dc8200_info =3D {
+> > > +	.name			=3D "DC8200",
+> > > +	.panel_num		=3D 2,
+> > > +	.plane_num		=3D 8,
+> > > +	.planes			=3D dc_hw_planes_rev0,
+> > > +	.layer_num		=3D 6,
+> > > +	.max_bpc		=3D 10,
+> > > +	.color_formats		=3D DRM_COLOR_FORMAT_RGB444 |
+> > > +				  DRM_COLOR_FORMAT_YCBCR444 |
+> > > +				  DRM_COLOR_FORMAT_YCBCR422 |
+> > > +				  DRM_COLOR_FORMAT_YCBCR420,
+> > > +	.gamma_size		=3D GAMMA_EX_SIZE,
+> > > +	.gamma_bits		=3D 12,
+> > > +	.pitch_alignment	=3D 128,
+> > > +	.pipe_sync		=3D false,
+> > > +	.background		=3D true,
+> > > +	.panel_sync		=3D true,
+> > > +	.cap_dec		=3D true,
+> > > +};
+> >=20
+> > I really think that entire thing is to workaround a suboptimal device t=
+ree binding.
+> > You should have two CRTCs in the device tree, you'll probe twice, and y=
+ou won't
+> > get to do that whole dance.
+> >=20
+> Hi Maxime:
+> I tried to modify it according to this idea Found it too difficult In ter=
+ms of hardware,=20
+> the two crtc designs are too close to separate, and they are even designe=
+d into the same reg with different bits representing crtc0 and crtc1.
+> It seems not easy to described the 2 ctrc hardware by 2 device nodes
+>=20
+> The idea is to avoid a whole dance
+> I don't know if I understand correctly about whole dance.
+> Is it means I create 2 ctrc and 8 plane in the dc_bind?
 
--- 
-Ville Syrjälä
-Intel
+It looks like you just sent the same mail?
+
+Maxime
+
+--xv7z5ay3ishmxaq2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZbp1uQAKCRDj7w1vZxhR
+xTVnAQCPu+rxm42307fHf03GbrgNfJK7FjrljEfpxkkKMR2KHgD/TaZnj2hQnMsv
+I3q4pY+SX55x7qpgGeeIIDvyLXESOQE=
+=S6wD
+-----END PGP SIGNATURE-----
+
+--xv7z5ay3ishmxaq2--
