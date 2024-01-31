@@ -2,61 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 446F08441DA
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 15:28:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 080298441EC
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jan 2024 15:33:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6851610F1BE;
-	Wed, 31 Jan 2024 14:28:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41D2B10F9E0;
+	Wed, 31 Jan 2024 14:32:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
- [209.85.208.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5933410F1BE
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 14:28:03 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id
- 4fb4d7f45d1cf-55a8fd60af0so5954289a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jan 2024 06:28:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1706711222; x=1707316022; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=OeZhk9JphCYYMff7RoTbJ54B8cgaBzAdcxQolkBD6SQ=;
- b=BITkc5YRtmR0SYgFWULkPbLhnHp9J0DxO95JB5VVsYudpLJ9U1DTvPkpCaUV8FW9QY
- WD22iqAkAjmPjqV+f05dzZwXnZOKl+7at8wx4nDIwzlL19azW9TG55+8TzBoSOnDiHzg
- GPS8o1QiXEvfFU4uOYefdjG8k3SY1cHb/oawxVGj8Z1XQCJVRJRsYey+aWS2USdolCV/
- RyOVlLgDA2RL0Kop40+CgS1SRHIqZfJXlKYMH652InYPUTsez/5usMuDqke04kRb+Cxb
- V0BHMrvh/GK+/bbJHRgwA6X6F9WhBguLTyD/gzwBEBhsAa8xfKUijT/5nJN0UFoHUGH1
- OqXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706711222; x=1707316022;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=OeZhk9JphCYYMff7RoTbJ54B8cgaBzAdcxQolkBD6SQ=;
- b=FEyAA7KMHI3S3FllMuByOhriqDcbjzsDLz5X0GA6ZOCaZ01C6Gz/CAc64aP0q8LyQf
- a3HIv4meuKDxvBAB7EAjNexmXbrNDQMon1Ib85D2oqGyd8Ycptd0LYS/wsMe24ggJAbJ
- Q9Im9bzFP+tj7t8m/6A2xkxWEhezHEXnI1cS1dFfSW3kpifKi3q5sjlVhE9pLJLMWYv0
- N3m9rk/IES5WRH1mlwGyuMNg8y+XGMTS3knI6KIjZrJYx4ccaDdCl2+RGSzUOxhDxgXY
- HYWCTbHiKXMEtYQJkZlXXAm8kOZKdiz3VSH/PhBvhiKGm4M3febHfuXACZ94axIOBaot
- KZcw==
-X-Gm-Message-State: AOJu0Yzk7Syqx4DqE7rKGt8WqlrNruPl+BT7UjRXyVlY/alsOuDiJerM
- VZDLvsAFCMhnjn6CGiqGO1x88HWB3264qdS91BZIXXNskMFtfe2LpsDVOPzQ8o0MCDJVJoa+yG3
- R05rXHQawnRGGfbb6hl8SNJFNvpnNbwTlYkjOpA==
-X-Google-Smtp-Source: AGHT+IFzY4aeNzPPtRi4I/P+0HsgxpbXl1Z6p1RuP6G0wTGJLY9yXhwO9Z/fDRffrhpDRT4DutQR0T4S92miQ4XswgI=
-X-Received: by 2002:aa7:c759:0:b0:55f:1232:fbc7 with SMTP id
- c25-20020aa7c759000000b0055f1232fbc7mr1354471eds.37.1706711221701; Wed, 31
- Jan 2024 06:27:01 -0800 (PST)
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam02on2067.outbound.protection.outlook.com [40.107.212.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4642E10F9D0;
+ Wed, 31 Jan 2024 14:32:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bO0ESyb4cdfztGM6m7UaiLc4daSwdlsi+tGPvnQOP3jnTaC8D7CczI44WZvFW1NsQvVFJPciAlh1Yc+Lx2hxjFPTIYt0cTcMruE5lqW0poBPGh17ksWQm6ThM6/80jE2WaLGlSuU8KHL7c0SQUkHIT325uybCxjhSiCupdTs8d9d6AAh3fVyBNAuerkWysXNZfvEZJEGLN/s/nYSdurP+FLJ58VihRlUMg5ZRrsKR6LFMkaVhQIXD0cqOJGMfG9vyc57J2sz3B9jk4xIZaFamB1DY5f0e9wTJw5s8DAz6Mp+R7DSec6i0Vi0GuN2ReZZ2BJsOTJz6a6/z0HPhUDsjQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=05QewofrgYksp8hr/ZmRxpTxzQI2yT/1ul9hGfIC8/4=;
+ b=Dbxt3bhzbYUdwum3tS+hrW6s75JqGnuQMaHnSfUIlKe0nqrpqxhYn2javbQC/eBgiGfbuvBWVGUJNg+vg1jbfdghdQcptPan1hbvVS/UWvoKymhIbJFyJSDxoGBS15EbmsS410+oK9m8ZLa9utUkanMyEZazDp4ZOGMR+eeJCL4jfOtH38fyTMCqAHK/wG1y+6nYkDlxLg1pRf/5hLS1l5qINbFck8Y7KCGGs9gpK9bzgQd1NN3tBKfHnsmcjG0TTuUztOSID5dQ1MRwln2ZcuJByzm0c33giZuivlYU4tfjUnZJ14prY6LO9RgfGpbhwbSE1CmIUSX8euXyJlczDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=05QewofrgYksp8hr/ZmRxpTxzQI2yT/1ul9hGfIC8/4=;
+ b=PdKhztySFTC7raYWaC76SixqwU9Hc4YtZW1tVoZ1lz+tvxG1qwZtqJ0DjzE15Xjtk/OEuAZskSYal7f12yow0izuQ2NTvYmQsEWAE6sMw40rB8AgejpVXMipfkPNy7pe7cRq7Mrv9lHSTY3rIpIqaufCTbH5Q9tYUxRwJqABQ3g=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DS7PR12MB5861.namprd12.prod.outlook.com (2603:10b6:8:78::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.34; Wed, 31 Jan
+ 2024 14:32:28 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7228.029; Wed, 31 Jan 2024
+ 14:32:28 +0000
+Content-Type: multipart/alternative;
+ boundary="------------90zUu0HBKlDPqT5zUfhyFenp"
+Message-ID: <638e9cf4-d03f-43a9-89f9-27f63326a8df@amd.com>
+Date: Wed, 31 Jan 2024 15:32:20 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/1] drm/virtio: Implement device_attach
+Content-Language: en-US
+To: "Zhang, Julia" <Julia.Zhang@amd.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, David Airlie <airlied@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>,
+ "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ David Airlie <airlied@gmail.com>, Erik Faye-Lund <kusmabite@gmail.com>,
+ "Olsak, Marek" <Marek.Olsak@amd.com>,
+ "Pelloux-Prayer, Pierre-Eric" <Pierre-eric.Pelloux-prayer@amd.com>,
+ "Huang, Honglei1" <Honglei1.Huang@amd.com>,
+ "Chen, Jiqian" <Jiqian.Chen@amd.com>, "Huang, Ray" <Ray.Huang@amd.com>,
+ David Stevens <stevensd@chromium.org>
+References: <20240129103118.3258781-1-julia.zhang@amd.com>
+ <ZbjZJ3qQzdOksnb2@phenom.ffwll.local> <ZbjaebswTCxmlwu0@phenom.ffwll.local>
+ <97c50e01-ee33-4ac8-975c-f645c2ed49c6@amd.com>
+ <IA1PR12MB653270F7FD75C1B4DF8B90E8F27C2@IA1PR12MB6532.namprd12.prod.outlook.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <IA1PR12MB653270F7FD75C1B4DF8B90E8F27C2@IA1PR12MB6532.namprd12.prod.outlook.com>
+X-ClientProxiedBy: FR2P281CA0035.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:14::22) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-References: <20240117181141.286383-1-tjmercier@google.com>
- <20a68f86-27f0-48f4-a066-7dcf0092858e@amd.com>
-In-Reply-To: <20a68f86-27f0-48f4-a066-7dcf0092858e@amd.com>
-From: Sumit Semwal <sumit.semwal@linaro.org>
-Date: Wed, 31 Jan 2024 19:56:50 +0530
-Message-ID: <CAO_48GEHpij-_q85NaVHc9hH5bEoaWT6hcOe_LLZ2pNHsb8Jjw@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: heaps: Don't track CMA dma-buf pages under
- RssFile
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: multipart/alternative; boundary="0000000000001aa04106103eac13"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS7PR12MB5861:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6e6f5618-048c-4a7e-7f63-08dc2269733f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9DqepFFJ6hubf6TNz83J07HElhCW5PCw7dZWneueT/yuAkcoqLBq93Z69hAi6R9LAJdeh9m0WLr1nAfwuZqPQsh6avaW7u3Vd7xNnvPR9XjZDoMO7eoKUSvmpMYCZzNCQkVJryidfV5AWqkBLbg/bWUCT5DcR9WrttQrk9o9HufRRZw+3AKTj4eFOyj3waHlqCqBZZvQRfQzKy8NwzK4ru2da+PNBOr4CYRhgRuBmBKs/aCcPbbakoh+9ErSaX5pPAK1qh7ru3EjvPjQp/ehJJVb5iJhF/mweZog8sSe8BRKv8emhIHvVN+JiRXfglHpICvpan761TSjBqJHPK+TT63m3lG2Nq5+PkXRz6ngFGAdWALi7rJ4SJt/M3/rRS2EaSkQ711aSHNeiiy9mKcqEA+Df7+emVIaq64/8eSkNwD5pSpDM2pwpHXTnQUMQnKKp+uv9Gkf3EFPldIeCfWQ5oETsZo7uWfAEhw/EoKrxOO3Duh8821sZ5l/tpQqta0pE2n2tcESdlJ9NZuDXiK85xR57XpxIP092AAACV0UZ0e2SWltbr2i0oCQ69PNeswrAZMSjhpdddDOoAtcGY9h4CipH2LULHvafSL56MXrhbVodJB4NBE73jHAKTsaz+QkjHtUiaYnCP6yocRnqYllb58Lv1HD3LZZK9wrWsDG8uo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39860400002)(376002)(136003)(396003)(366004)(346002)(230922051799003)(186009)(451199024)(1800799012)(64100799003)(66899024)(921011)(83380400001)(66574015)(2906002)(2616005)(7416002)(5660300002)(26005)(38100700002)(66556008)(66946007)(6486002)(31686004)(66476007)(6506007)(33964004)(53546011)(8936002)(6666004)(8676002)(6512007)(316002)(478600001)(110136005)(86362001)(31696002)(41300700001)(36756003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dlVWSHdYK0NRQnlsVy9abVdEenFySmUrbVlLWlNLWldIU25vR2FwekZSUTla?=
+ =?utf-8?B?MjQ2c0M3RC9ZWlJKazNkZi9WYk91MVZuZjVaVW10Zk5MU05HZkp1QWU2SmlV?=
+ =?utf-8?B?TkNmNmRPeWRIczVyODY1WmhnbHpuTXJEMWpaOWxtdHhsZVBHNHpPYXBWRmlh?=
+ =?utf-8?B?c2dmZXRGa1VhTTlaTThpY1R6YlpvdzdKY1M3NnNIdmxycUJCcVd0K21ZTEtC?=
+ =?utf-8?B?bFRFRnFUZ2ZNRUY1V3k0Tks0clA1b2luYzU3RUtUbjEwZjRNczArWUQ3UER3?=
+ =?utf-8?B?OVcvQWRMWnJkSEZoVkVUS0U4Q010emJFUmc3QmJ0QUExcHJWczJzaVlsQUpO?=
+ =?utf-8?B?eS9nUTBaYzMzTEZqMXBTa3pzVE0wbUxXM05ERzh6SGUrSUpOTWVoOUVPbzJT?=
+ =?utf-8?B?K3VaOFBGOTNzVWZwaS8rdDFPbWVpRStON2kyK29yUnZUdlYxeTJVaFIrVGNY?=
+ =?utf-8?B?VUVudWk5ZWlNWEVWRTQzYTZoZFovSndGWE9XaXpBSmsydzc0c1ByM0tDT0pv?=
+ =?utf-8?B?MElBYUF2eTcyaUFmNll1aStrTkJKZ0sveUVtTEtNZ3dqdmFHNC9ha2Q1YnVH?=
+ =?utf-8?B?NEJqS3hMUHdQdVBoMmxOcGVnSStLeklVUXZ4YWpHNmNEcVExc2ttSjEzU0tp?=
+ =?utf-8?B?YWoyTWdpMElmVFh0YmFTdEp0VVQwUWN0QVhvQVZCdEdJZ2VBTDdhSXp2SEJS?=
+ =?utf-8?B?Y2U4d0VwM0E0L3Z3TTMvS0dNSU43cXBrb21VU2owUnFxZ0xsdWJaWlUzSVo0?=
+ =?utf-8?B?Ylp3TllWNWlLcFJPcVN4ME4zRU5ON2QxY2p5Wm4xUUxxcnVJRTdtRTVaMFg3?=
+ =?utf-8?B?dXJMUzZUSmpjV0JSRnU4ZjhFTXdFQmNrTUs2clVzVXRWVEJ3R2pITXByWG5X?=
+ =?utf-8?B?cnA0NVo2LzBjZyt2d0JSYnIzTmFXTEVtTk5NdHJWdGx2bjJuY1NTWUJYb3hZ?=
+ =?utf-8?B?Y1NCMmtramV4TWtjTThFWnhxVVNFZUxnSnlVdHcvcURlbnNHaldyaFlDa3hG?=
+ =?utf-8?B?Rzlyd29NTU5DTzAzeXRlaU42MXBpSVNyVy9UZjBvRG4wWTRYQmY3S1JFZkF5?=
+ =?utf-8?B?M0FKQ1BJWm1rdXVGQ0VlRDV6cTV6N3BwbWRwYlMvWGUxRWdtWDY5RUNnZ2E3?=
+ =?utf-8?B?c0R3bEdZamh3NUY1MWlnUnpINFQzS2dkVlZBY21tZ0lMMmd6dUhKYzlMc0RC?=
+ =?utf-8?B?MlJ0UDJWQVlIdlp0OTVVOFZ6YW5iZmFXNENLZkZrM0hxMUNuekpzUHJncHFz?=
+ =?utf-8?B?VmNVdGVueVJpKy9GTCtVQmNTOVcxeUZhSmJhanR1TnBhV0kxZEVLZE5SZkl1?=
+ =?utf-8?B?WDBmaUxYU05RcmQwSjRTaElzUVZWeDlTQVlDQm5yRkplNEFBMk5mWlRSQUZR?=
+ =?utf-8?B?dmdzYWI5dDBiNGNJYUZMWGNRVmY3VFAwQnZiTDg5R3NUS1V2UnZ4aXNyRUpF?=
+ =?utf-8?B?VXFvRHVlcVFubGppMHlPMlRHN2dNbWZrNXNHd0crcDVkcFN2NWU1cHRDOGho?=
+ =?utf-8?B?UDMyVktaVldGVHRabGpOUXF2dXM0S2hObHc5M3RFNDZGaGdhWGFiZnZ3NWFq?=
+ =?utf-8?B?RGdUcHlJUnh5VEthTit5VkcyMkVKcENCNk5MTW9mdUZhUXdXRXozK1NXampT?=
+ =?utf-8?B?RGNNR3pqTkIxQTZOTWdjajdOZUszb1ZXcnpITlQwTHE3Q1ZXL3BBTkc1U2Q4?=
+ =?utf-8?B?dVFJUTAvdC9LTVlLWWFvV0JJRHY4RTBaRzhnbGNLaXdKcGF1cEJTOG1EMFpt?=
+ =?utf-8?B?TytQMHc5b1o1L2FhZlc3enRwb003TVVDc3pJMXU4Nk9sV3kxYXM2THdXYTV6?=
+ =?utf-8?B?T3VVRUVHeHlKV0pubENhWXZLaEZsVTljQW9FelhURDVOZHl3Qmt3NGlNQlh3?=
+ =?utf-8?B?bjhXU0dILzBlWkhtVlFuUlFpQXlqV2tHVXZNTUthMnJuaDVqRmwvaVQxS1Nr?=
+ =?utf-8?B?bThhTFgzWFFSK3NGbHlGMHlCczcwZ0VRS1NxcDVpWFhUTThIbmRJSVQ2aE5y?=
+ =?utf-8?B?Q21RTlhZMGplSnFpVUFDUldEcjJ5QnNRVVhFSnRENVNpbVZ6bFl0d2tMQnJJ?=
+ =?utf-8?B?UkZ6TDVVczloWnFzTW4zRHkyNGNQcGlPZ3gwbXVrMlJJZE41a1dvZkhUdVJk?=
+ =?utf-8?Q?M4ORL1yEz4FdR/vLmXoj3ClzC?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e6f5618-048c-4a7e-7f63-08dc2269733f
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2024 14:32:28.1806 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: M2FToek8c/WAH10HhoZCN1L+pU2QXdLt6zzwUp4qirjOHkiw01FJ6vrL3cubmQ/m
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5861
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,209 +141,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: android-mm@google.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>, minchan@google.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "T.J. Mercier" <tjmercier@google.com>, linaro-mm-sig@lists.linaro.org,
- John Stultz <jstultz@google.com>, daniel@ffwll.ch,
- John Stultz <john.stultz@linaro.org>, Laura Abbott <labbott@redhat.com>,
- Sandeep Patil <sspatil@android.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000001aa04106103eac13
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--------------90zUu0HBKlDPqT5zUfhyFenp
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi TJ,
+Am 31.01.24 um 11:20 schrieb Zhang, Julia:
+> On 2024/1/30 22:23, Christian König wrote:
+>> Am 30.01.24 um 12:16 schrieb Daniel Vetter:
+>>> On Tue, Jan 30, 2024 at 12:10:31PM +0100, Daniel Vetter wrote:
+>>>> [SNIP]
+> Hi Sima, Christian,
+>
+>> Yeah, that is really just speculative. All importers need to set the peer2peer flag just in case.
+> I see, I will modify this.
+>
+>> What happens under the hood is that IOMMU redirects the "VRAM" memory access to whatever address the DMA-buf on the host is pointing to (system, VRAM, doorbell, IOMMU, whatever).
+>>
+>> I'm also not 100% sure if all the cache snooping is done correctly in all cases, but for now it seems to work.
+>>>> Frankly the more I look at the original patch that added vram export
+>>>> support the more this just looks like a "pls revert, this is just too
+>>>> broken".
+>>> The commit I mean is this one: ea5ea3d8a117 ("drm/virtio: support mapping
+>>> exported vram"). The commit message definitely needs to cite that one, and
+>>> also needs a cc: stable because not rejecting invalid imports is a pretty
+>>> big deal.
+>> Yeah, I've pointed out that commit in an internal discussion as well. I was just not aware that it's that severely broken.
+>>
+> Yeah we have mentioned this patch before, but I don't totally understand why this is too broken. Without exporting vram objects, dGPU prime feature would not be realized.
+> Would you mind to explain more about it. Thanks!
 
-On Thu, 18 Jan 2024 at 15:32, Christian K=C3=B6nig <christian.koenig@amd.co=
-m>
-wrote:
+One reason is that using sg tables without struct pages is actually a 
+hack we came up with because we couldn't hope to clean up the sg table 
+structure any time soon to not include struct page pointers.
 
-> Am 17.01.24 um 19:11 schrieb T.J. Mercier:
->
-> DMA buffers allocated from the CMA dma-buf heap get counted under
-> RssFile for processes that map them and trigger page faults. In
-> addition to the incorrect accounting reported to userspace, reclaim
-> behavior was influenced by the MM_FILEPAGES counter until linux 6.8, but
-> this memory is not reclaimable. [1] Change the CMA dma-buf heap to set
-> VM_PFNMAP on the VMA so MM does not poke at the memory managed by this
-> dma-buf heap, and use vmf_insert_pfn to correct the RSS accounting.
->
-> The system dma-buf heap does not suffer from this issue since
-> remap_pfn_range is used during the mmap of the buffer, which also sets
-> VM_PFNMAP on the VMA.
->
->
-> Mhm, not an issue with this patch but Daniel wanted to add a check for
-> VM_PFNMAP to dma_buf_mmap() which would have noted this earlier.
->
-> I don't fully remember the discussion but for some reason that was never
-> committed. We should probably try that again.
->
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/co=
-mmit/mm/vmscan.c?id=3Dfb46e22a9e3863e08aef8815df9f17d0f4b9aede
->
-> Fixes: b61614ec318a ("dma-buf: heaps: Add CMA heap to dmabuf heaps")
-> Signed-off-by: T.J. Mercier <tjmercier@google.com> <tjmercier@google.com>
->
->
-> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> <christian.koenig@amd.com>
->
-Thanks for the patch; pushed to drm-misc-fixes.
+Another reason is that using this with devices which don't expect a DMA 
+address pointing into a virtual PCI BAR. So doing this without checking 
+the peer2peer flag can most likely cause quite a bit of trouble.
 
-Best,
-Sumit
+Regards,
+Christian.
 
 >
+> Best regards,
+> Julia
 >
-> ---
->  drivers/dma-buf/heaps/cma_heap.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma=
-_heap.c
-> index ee899f8e6721..4a63567e93ba 100644
-> --- a/drivers/dma-buf/heaps/cma_heap.c
-> +++ b/drivers/dma-buf/heaps/cma_heap.c
-> @@ -168,10 +168,7 @@ static vm_fault_t cma_heap_vm_fault(struct vm_fault =
-*vmf)
->  	if (vmf->pgoff > buffer->pagecount)
->  		return VM_FAULT_SIGBUS;
->
-> -	vmf->page =3D buffer->pages[vmf->pgoff];
-> -	get_page(vmf->page);
-> -
-> -	return 0;
-> +	return vmf_insert_pfn(vma, vmf->address, page_to_pfn(buffer->pages[vmf-=
->pgoff]));
->  }
->
->  static const struct vm_operations_struct dma_heap_vm_ops =3D {
-> @@ -185,6 +182,8 @@ static int cma_heap_mmap(struct dma_buf *dmabuf, stru=
-ct vm_area_struct *vma)
->  	if ((vma->vm_flags & (VM_SHARED | VM_MAYSHARE)) =3D=3D 0)
->  		return -EINVAL;
->
-> +	vm_flags_set(vma, VM_IO | VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
-> +
->  	vma->vm_ops =3D &dma_heap_vm_ops;
->  	vma->vm_private_data =3D buffer;
->
->
->
->
+>> Regards,
+>> Christian.
+>>
+--------------90zUu0HBKlDPqT5zUfhyFenp
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---=20
-Thanks and regards,
-
-Sumit Semwal (he / him)
-Tech Lead - LCG, Vertical Technologies
-Linaro.org =E2=94=82 Open source software for ARM SoCs
-
---0000000000001aa04106103eac13
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi TJ,</div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 18 Jan 2024 at 15:32, Chris=
-tian K=C3=B6nig &lt;<a href=3D"mailto:christian.koenig@amd.com">christian.k=
-oenig@amd.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex"><u></u>
-
- =20
-  <div>
-    Am 17.01.24 um 19:11 schrieb T.J. Mercier:<br>
-    <blockquote type=3D"cite">
-      <pre>DMA buffers allocated from the CMA dma-buf heap get counted unde=
-r
-RssFile for processes that map them and trigger page faults. In
-addition to the incorrect accounting reported to userspace, reclaim
-behavior was influenced by the MM_FILEPAGES counter until linux 6.8, but
-this memory is not reclaimable. [1] Change the CMA dma-buf heap to set
-VM_PFNMAP on the VMA so MM does not poke at the memory managed by this
-dma-buf heap, and use vmf_insert_pfn to correct the RSS accounting.
-
-The system dma-buf heap does not suffer from this issue since
-remap_pfn_range is used during the mmap of the buffer, which also sets
-VM_PFNMAP on the VMA.</pre>
-    </blockquote>
-    <br>
-    Mhm, not an issue with this patch but Daniel wanted to add a check
-    for VM_PFNMAP to dma_buf_mmap() which would have noted this earlier.<br=
->
-    <br>
-    I don&#39;t fully remember the discussion but for some reason that was
-    never committed. We should probably try that again.<br>
-    <br>
-    <span style=3D"white-space:pre-wrap">
-</span>
-    <blockquote type=3D"cite">
-      <pre>[1] <a href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/t=
-orvalds/linux.git/commit/mm/vmscan.c?id=3Dfb46e22a9e3863e08aef8815df9f17d0f=
-4b9aede" target=3D"_blank">https://git.kernel.org/pub/scm/linux/kernel/git/=
-torvalds/linux.git/commit/mm/vmscan.c?id=3Dfb46e22a9e3863e08aef8815df9f17d0=
-f4b9aede</a>
-
-Fixes: b61614ec318a (&quot;dma-buf: heaps: Add CMA heap to dmabuf heaps&quo=
-t;)
-Signed-off-by: T.J. Mercier <a href=3D"mailto:tjmercier@google.com" target=
-=3D"_blank">&lt;tjmercier@google.com&gt;</a></pre>
-    </blockquote>
-    <br>
-    Acked-by: Christian K=C3=B6nig <a href=3D"mailto:christian.koenig@amd.c=
-om" target=3D"_blank">&lt;christian.koenig@amd.com&gt;</a></div></blockquot=
-e><div>Thanks for the patch; pushed to drm-misc-fixes.</div><div><br></div>=
-<div>Best,</div><div>Sumit=C2=A0</div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex"><div><br>
-    <br>
-    <blockquote type=3D"cite">
-      <pre>---
- drivers/dma-buf/heaps/cma_heap.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_h=
-eap.c
-index ee899f8e6721..4a63567e93ba 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -168,10 +168,7 @@ static vm_fault_t cma_heap_vm_fault(struct vm_fault *v=
-mf)
- 	if (vmf-&gt;pgoff &gt; buffer-&gt;pagecount)
- 		return VM_FAULT_SIGBUS;
-=20
--	vmf-&gt;page =3D buffer-&gt;pages[vmf-&gt;pgoff];
--	get_page(vmf-&gt;page);
--
--	return 0;
-+	return vmf_insert_pfn(vma, vmf-&gt;address, page_to_pfn(buffer-&gt;pages[=
-vmf-&gt;pgoff]));
- }
-=20
- static const struct vm_operations_struct dma_heap_vm_ops =3D {
-@@ -185,6 +182,8 @@ static int cma_heap_mmap(struct dma_buf *dmabuf, struct=
- vm_area_struct *vma)
- 	if ((vma-&gt;vm_flags &amp; (VM_SHARED | VM_MAYSHARE)) =3D=3D 0)
- 		return -EINVAL;
-=20
-+	vm_flags_set(vma, VM_IO | VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
-+
- 	vma-&gt;vm_ops =3D &amp;dma_heap_vm_ops;
- 	vma-&gt;vm_private_data =3D buffer;
-=20
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    Am 31.01.24 um 11:20 schrieb Zhang, Julia:<br>
+    <blockquote type="cite" cite="mid:IA1PR12MB653270F7FD75C1B4DF8B90E8F27C2@IA1PR12MB6532.namprd12.prod.outlook.com">
+      <pre class="moz-quote-pre" wrap="">On 2024/1/30 22:23, Christian König wrote:
 </pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">Am 30.01.24 um 12:16 schrieb Daniel Vetter:
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">On Tue, Jan 30, 2024 at 12:10:31PM +0100, Daniel Vetter wrote:
+</pre>
+          <blockquote type="cite">[SNIP]<span style="white-space: pre-wrap">
+</span>
+            <pre class="moz-quote-pre" wrap=""></pre>
+          </blockquote>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">Hi Sima, Christian,
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">Yeah, that is really just speculative. All importers need to set the peer2peer flag just in case.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+I see, I will modify this.
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">
+What happens under the hood is that IOMMU redirects the &quot;VRAM&quot; memory access to whatever address the DMA-buf on the host is pointing to (system, VRAM, doorbell, IOMMU, whatever).
+
+I'm also not 100% sure if all the cache snooping is done correctly in all cases, but for now it seems to work.
+</pre>
+        <blockquote type="cite">
+          <blockquote type="cite">
+            <blockquote type="cite">
+              <pre class="moz-quote-pre" wrap="">
+</pre>
+            </blockquote>
+            <pre class="moz-quote-pre" wrap="">Frankly the more I look at the original patch that added vram export
+support the more this just looks like a &quot;pls revert, this is just too
+broken&quot;.
+</pre>
+          </blockquote>
+          <pre class="moz-quote-pre" wrap="">The commit I mean is this one: ea5ea3d8a117 (&quot;drm/virtio: support mapping
+exported vram&quot;). The commit message definitely needs to cite that one, and
+also needs a cc: stable because not rejecting invalid imports is a pretty
+big deal.
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+Yeah, I've pointed out that commit in an internal discussion as well. I was just not aware that it's that severely broken.
+
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Yeah we have mentioned this patch before, but I don't totally understand why this is too broken. Without exporting vram objects, dGPU prime feature would not be realized.
+Would you mind to explain more about it. Thanks!</pre>
     </blockquote>
     <br>
-  </div>
+    One reason is that using sg tables without struct pages is actually
+    a hack we came up with because we couldn't hope to clean up the sg
+    table structure any time soon to not include struct page pointers.<br>
+    <br>
+    Another reason is that using this with devices which don't expect a
+    DMA address pointing into a virtual PCI BAR. So doing this without
+    checking the peer2peer flag can most likely cause quite a bit of
+    trouble.<br>
+    <br>
+    Regards,<br>
+    Christian.<br>
+    <br>
+    <blockquote type="cite" cite="mid:IA1PR12MB653270F7FD75C1B4DF8B90E8F27C2@IA1PR12MB6532.namprd12.prod.outlook.com">
+      <pre class="moz-quote-pre" wrap="">
 
-</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr">Thanks and regards,<br><br>Sumit Semwal (he / him)<br>Tech L=
-ead - LCG, Vertical Technologies<br>Linaro.org =E2=94=82 Open source softwa=
-re for ARM SoCs</div></div></div>
+Best regards,
+Julia
 
---0000000000001aa04106103eac13--
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">Regards,
+Christian.
+
+</pre>
+      </blockquote>
+    </blockquote>
+  </body>
+</html>
+
+--------------90zUu0HBKlDPqT5zUfhyFenp--
