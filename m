@@ -2,46 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1823F847217
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 15:40:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2A5484757C
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 17:58:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5DCB10E763;
-	Fri,  2 Feb 2024 14:40:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FDB410EF82;
+	Fri,  2 Feb 2024 16:58:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="IMk1NsIy";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="gB5clJUi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com
- [91.218.175.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18B7E10E763
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 14:40:29 +0000 (UTC)
-Message-ID: <6077168a-16cb-49db-985d-817fe7c5c827@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1706884819;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SatiKxBzBkAAJofMSZpTp7E4Qz1yre1/7odJDoCi2Wg=;
- b=IMk1NsIyuIrLnuULUk6Px17DYtU1ntv3XXwlRA9QIQUwz8ex1km4njFtCsXicTBb2aNQDH
- YfIUlPi+Ecaata15h7VmAtft+M2x0zNs9mNh92qMv6/2atd7/IzhkN1BfKCiO2veFZKvaZ
- Q3VaU7h2SDvyBGmaASidBaIyaZGlcqY=
-Date: Fri, 2 Feb 2024 22:40:09 +0800
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3B9310EF82
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 16:58:49 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-1d780a392fdso19429505ad.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Feb 2024 08:58:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1706893129; x=1707497929;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jI3JP/84aUz3f/1sz9w/2RtBa6/TPfa9BZ4CKwjYeXA=;
+ b=gB5clJUiFUi42Nj0aKeEasi9B2xbGvr3MZru/5kz+avR5Xnt57M26ugwNKCIo1ihVD
+ x3Gdj9pbaB+19MX8YQ7aavaBGPWRpzCRpzt4dI0xy3y0E3aoFY2GLfR6Ndiu0n/5Xz+4
+ vtHu6RKY3nnVyw+HSyrMz7p+icc5lnyCFf9qU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706893129; x=1707497929;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=jI3JP/84aUz3f/1sz9w/2RtBa6/TPfa9BZ4CKwjYeXA=;
+ b=U7XJrVNlWApMpcwdkRIQpoxSNWo6ZgFD+BR+1NtukneEGQjtFWGvjbwV8cODnLFguh
+ dTb1F1zQXts9YxmqbMeljWNAZNolAqR9wZIpZdobhMnZ6E0ElRQHfgXlxbth69aOrPi4
+ PN0prA/Me0Lq5wyv3nhezm0MtI69we1nYjBWxOXOz3vI+3IydlCKQpkVL1CgaKMRVJa9
+ f4r8z21MqFogmOilKq14wQN/STpmnl7z7pu1/ky3o+aatWmeHA26sXZrBnrDOPgOPCSb
+ Xjl3qNHHN241uE7zEVt+CzumMi5oyF0/M+i8wRcC3xt7/1gtBv3J9AbTqP1W3NXRX3ue
+ PXFg==
+X-Gm-Message-State: AOJu0YyMkKR5As1Uj9vZDmtmU9MmYtyjxFC+bOPar7HWrP49lkvLvWnT
+ Tp5mH/3P/rL9QIdlZ1f7d5qaaZFbp07GIlcTSIUs2PgvHAIDu4IeYhfIdurD+aq67HU0M4Ux0A+
+ PjKehMJ9vJrEhNYchyHfctzg9llrIKxgwdZ0ZMoIjxGgknMCzKbmFD2sS7nCXEywtzguKwSrSx9
+ rFUqeyK2xFmXJhRUkHBO6Cy+aPYwnRAt13sVUfxL/8cN3IHIqgMQ==
+X-Google-Smtp-Source: AGHT+IE0TK/tiRV440Z7l52h4tBokmDu6lmtnaDbqzI5WEGWSOLPta8LIFpT8GNQIbGamWi3DLkGmA==
+X-Received: by 2002:a17:902:ecc2:b0:1d8:f0e4:bc3d with SMTP id
+ a2-20020a170902ecc200b001d8f0e4bc3dmr7736059plh.57.1706893128907; 
+ Fri, 02 Feb 2024 08:58:48 -0800 (PST)
+X-Forwarded-Encrypted: i=0;
+ AJvYcCVluOih+yK+1x2h5HMACW0VoldFb5jtmLUkgAEnRWPjsRNTCV2D26U7k7BTfkL0XDse6UBKM2QD1M8rUO+k0MKRXQHd61E/Mz8XAv5IkIwKryBAZEVveT/HePTpVMvdEGK72M4uPrDbH5M3WK/FVFfa0ahSFV7VNx1kzT2swFbeTdauHGLOCG55tprrhYWoRip0jwmMJgdZQ6K0Qh8=
+Received: from localhost (99-151-34-247.lightspeed.austtx.sbcglobal.net.
+ [99.151.34.247]) by smtp.gmail.com with ESMTPSA id
+ kt5-20020a170903088500b001d93a85ae13sm1807031plb.309.2024.02.02.08.58.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Feb 2024 08:58:48 -0800 (PST)
+From: Ian Forbes <ian.forbes@broadcom.com>
+To: dri-devel@lists.freedesktop.org
+Cc: bcm-kernel-feedback-list@broadcom.com, maaz.mombasawala@broadcom.com,
+ martin.krastev@broadcom.com, zack.rusin@broadcom.com,
+ Ian Forbes <ian.forbes@broadcom.com>
+Subject: [PATCH v2] drm/vmwgfx: Filter modes which exceed 3/4 of graphics
+ memory.
+Date: Wed, 31 Jan 2024 23:13:43 -0600
+Message-Id: <20240201051343.9936-1-ian.forbes@broadcom.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240112203803.6421-1-ian.forbes@broadcom.com>
+References: <20240112203803.6421-1-ian.forbes@broadcom.com>
 MIME-Version: 1.0
-Subject: Re: [v2,3/8] firmware/sysfb: Set firmware-framebuffer parent device
-To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
- pjones@redhat.com, deller@gmx.de, ardb@kernel.org
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-References: <20240202120140.3517-4-tzimmermann@suse.de>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20240202120140.3517-4-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,139 +85,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Thomas:
+SVGA requires surfaces to fit within graphics memory (max_mob_pages) which
+means that modes with a final buffer size that would exceed graphics memory
+must be pruned otherwise creation will fail.
 
-I love your patch, yet it can cause the linux kernel fail to compile
-if the CONFIG_SYSFB_SIMPLEFB option is not selected. I paste the log
-at below for easier to read and debug. Please fix this. :-)
+Additionally, device commands which use multiple graphics resources must
+have all their resources fit within graphics memory for the duration of the
+command. Thus we need a small carve out of 1/4 of graphics memory to ensure
+commands likes surface copies to the primary framebuffer for cursor
+composition or damage clips can fit within graphics memory.
 
-drivers/firmware/sysfb.c: In function ‘sysfb_init’:
-drivers/firmware/sysfb.c:134:22: error: too many arguments to function 
-‘sysfb_create_simplefb’
-   134 |                 pd = sysfb_create_simplefb(si, &mode, parent);
-       |                      ^~~~~~~~~~~~~~~~~~~~~
-In file included from drivers/firmware/sysfb.c:36:
-./include/linux/sysfb.h:105:39: note: declared here
-   105 | static inline struct platform_device 
-*sysfb_create_simplefb(const struct screen_info *si,
-       | ^~~~~~~~~~~~~~~~~~~~~
-make[4]: *** [scripts/Makefile.build:243: drivers/firmware/sysfb.o] Error 1
-make[3]: *** [scripts/Makefile.build:481: drivers/firmware] Error 2
-make[3]: *** Waiting for unfinished jobs....
+This fixes an issue where VMs with low graphics memory (< 64MiB) configured
+with high resolution mode boot to a black screen because surface creation
+fails.
 
-This is because you forget to modify prototype of sysfb_create_simplefb() function,
-Please see it in include/linux/sysfb.h, at the 106 line of the file.
+Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 22 ++++++++++++++--------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+index cd4925346ed4..84e1b765cda3 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+@@ -2858,12 +2858,17 @@ enum drm_mode_status vmw_connector_mode_valid(struct drm_connector *connector,
+ 	struct vmw_private *dev_priv = vmw_priv(dev);
+ 	u32 max_width = dev_priv->texture_max_width;
+ 	u32 max_height = dev_priv->texture_max_height;
+-	u32 assumed_cpp = 4;
+-
+-	if (dev_priv->assume_16bpp)
+-		assumed_cpp = 2;
++	u32 assumed_cpp = dev_priv->assume_16bpp ? 2 : 4;
++	u32 pitch = mode->hdisplay * assumed_cpp;
++	u64 total = mode->vdisplay * pitch;
++	bool using_stdu = dev_priv->active_display_unit == vmw_du_screen_target;
++	u64 max_mem_for_st = dev_priv->max_mob_pages * PAGE_SIZE * 3 / 4;
++	/* ^^^ Max memory for the mode fb when using Screen Target / MOBs.
++	 * We need a carveout (1/4) to account for other gfx resources that are
++	 * required in gfx mem for an fb update to complete with low gfx mem (<64MiB).
++	 */
+ 
+-	if (dev_priv->active_display_unit == vmw_du_screen_target) {
++	if (using_stdu) {
+ 		max_width  = min(dev_priv->stdu_max_width,  max_width);
+ 		max_height = min(dev_priv->stdu_max_height, max_height);
+ 	}
+@@ -2874,9 +2879,10 @@ enum drm_mode_status vmw_connector_mode_valid(struct drm_connector *connector,
+ 	if (max_height < mode->vdisplay)
+ 		return MODE_BAD_VVALUE;
+ 
+-	if (!vmw_kms_validate_mode_vram(dev_priv,
+-					mode->hdisplay * assumed_cpp,
+-					mode->vdisplay))
++	if (using_stdu && (total > max_mem_for_st || total > dev_priv->max_mob_size))
++		return MODE_MEM;
++
++	if (!vmw_kms_validate_mode_vram(dev_priv, pitch, mode->vdisplay))
+ 		return MODE_MEM;
+ 
+ 	return MODE_OK;
+-- 
+2.34.1
 
-On 2024/2/2 19:58, Thomas Zimmermann wrote:
-> Set the firmware framebuffer's parent device, which usually is the
-> graphics hardware's physical device. Integrates the framebuffer in
-> the Linux device hierarchy and lets Linux handle dependencies among
-> devices. For example, the graphics hardware won't be suspended while
-> the firmware device is still active.
->
-> v2:
-> 	* detect parent device in sysfb_parent_dev()
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> ---
->   drivers/firmware/sysfb.c          | 19 ++++++++++++++++++-
->   drivers/firmware/sysfb_simplefb.c |  5 ++++-
->   include/linux/sysfb.h             |  3 ++-
->   3 files changed, 24 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/firmware/sysfb.c b/drivers/firmware/sysfb.c
-> index 3c197db42c9d9..d02945b0d8ea1 100644
-> --- a/drivers/firmware/sysfb.c
-> +++ b/drivers/firmware/sysfb.c
-> @@ -29,6 +29,7 @@
->   #include <linux/init.h>
->   #include <linux/kernel.h>
->   #include <linux/mm.h>
-> +#include <linux/pci.h>
->   #include <linux/platform_data/simplefb.h>
->   #include <linux/platform_device.h>
->   #include <linux/screen_info.h>
-> @@ -69,9 +70,21 @@ void sysfb_disable(void)
->   }
->   EXPORT_SYMBOL_GPL(sysfb_disable);
->   
-> +static __init struct device *sysfb_parent_dev(const struct screen_info *si)
-> +{
-> +	struct pci_dev *pdev;
-> +
-> +	pdev = screen_info_pci_dev(si);
-> +	if (pdev)
-> +		return &pdev->dev;
-> +
-> +	return NULL;
-> +}
-> +
->   static __init int sysfb_init(void)
->   {
->   	struct screen_info *si = &screen_info;
-> +	struct device *parent;
->   	struct simplefb_platform_data mode;
->   	const char *name;
->   	bool compatible;
-> @@ -83,10 +96,12 @@ static __init int sysfb_init(void)
->   
->   	sysfb_apply_efi_quirks();
->   
-> +	parent = sysfb_parent_dev(si);
-> +
->   	/* try to create a simple-framebuffer device */
->   	compatible = sysfb_parse_mode(si, &mode);
->   	if (compatible) {
-> -		pd = sysfb_create_simplefb(si, &mode);
-> +		pd = sysfb_create_simplefb(si, &mode, parent);
->   		if (!IS_ERR(pd))
->   			goto unlock_mutex;
->   	}
-> @@ -109,6 +124,8 @@ static __init int sysfb_init(void)
->   		goto unlock_mutex;
->   	}
->   
-> +	pd->dev.parent = parent;
-> +
->   	sysfb_set_efifb_fwnode(pd);
->   
->   	ret = platform_device_add_data(pd, si, sizeof(*si));
-> diff --git a/drivers/firmware/sysfb_simplefb.c b/drivers/firmware/sysfb_simplefb.c
-> index 74363ed7501f6..75a186bf8f8ec 100644
-> --- a/drivers/firmware/sysfb_simplefb.c
-> +++ b/drivers/firmware/sysfb_simplefb.c
-> @@ -91,7 +91,8 @@ __init bool sysfb_parse_mode(const struct screen_info *si,
->   }
->   
->   __init struct platform_device *sysfb_create_simplefb(const struct screen_info *si,
-> -						     const struct simplefb_platform_data *mode)
-> +						     const struct simplefb_platform_data *mode,
-> +						     struct device *parent)
->   {
->   	struct platform_device *pd;
->   	struct resource res;
-> @@ -143,6 +144,8 @@ __init struct platform_device *sysfb_create_simplefb(const struct screen_info *s
->   	if (!pd)
->   		return ERR_PTR(-ENOMEM);
->   
-> +	pd->dev.parent = parent;
-> +
->   	sysfb_set_efifb_fwnode(pd);
->   
->   	ret = platform_device_add_resources(pd, &res, 1);
-> diff --git a/include/linux/sysfb.h b/include/linux/sysfb.h
-> index 19cb803dd5ecd..6ee3ade3f8b06 100644
-> --- a/include/linux/sysfb.h
-> +++ b/include/linux/sysfb.h
-> @@ -91,7 +91,8 @@ static inline void sysfb_set_efifb_fwnode(struct platform_device *pd)
->   bool sysfb_parse_mode(const struct screen_info *si,
->   		      struct simplefb_platform_data *mode);
->   struct platform_device *sysfb_create_simplefb(const struct screen_info *si,
-> -					      const struct simplefb_platform_data *mode);
-> +					      const struct simplefb_platform_data *mode,
-> +					      struct device *parent);
->   
->   #else /* CONFIG_SYSFB_SIMPLE */
->   
