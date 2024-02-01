@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEAC684602B
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 19:43:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB3384603D
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 19:46:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C07E310EEAD;
-	Thu,  1 Feb 2024 18:43:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B90610F1DB;
+	Thu,  1 Feb 2024 18:46:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="l4Q1wIE0";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="bxu9L7ar";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A44810EEAD;
- Thu,  1 Feb 2024 18:43:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9B4410F038;
+ Thu,  1 Feb 2024 18:46:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Ex/8JouqRMpIKRvJ6xx0/vd1ATPxG3ZxEx1H8eQh0+c=; b=l4Q1wIE0JWRulV/Ug7r3ssNTto
- 53QQtjPCW7I09vWPRH6O803wXDqSmNmxocukZu6wLEPByeSsZl026MFHqtC1kBO2SsH97JfSFf24e
- LwfeSJnZCBYc5u4pmYCtJSW4bq2k/sapgdaCe1LDpyZnDVzWo7jpV3Md9A/djQ/JLQYoF4pJVm3hl
- wJlqLMX3D5c5G8P7ctORhHtbgV0pBItHcbH2X3zHKx3DfmlLKwPC8Xuh1w86dJ19DQ4xLGQN1h6OF
- JTj0QkZgaIwKQsgIoIvWEDwITncgDjEuzBSFAEplLC9LclLCWwO5tNt4hHNZWC9yyAFt3jwMR/Qu0
- TAUvOXIw==;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:Cc:
+ References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID
+ :Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
+ Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe
+ :List-Post:List-Owner:List-Archive;
+ bh=H2N1LRFRb5K1bZEyZiUexexQH3bssy46zqFCMiG0Q8c=; b=bxu9L7ar1fY4SwmcfQVQl368HJ
+ JXUaJDADNMchZOlitOhwgj0SsbeVw4C7YqZXJqS2GQ/L8WHN8Gzekv/3gbGXQrrZVqePrlZPjqi/N
+ WCCgRDT7Nuqwm1ZLuZ/T2aX1tRxLaxy/BEOWKtvXHNn7upW90BjIcfi4sSxi8zayXqAORtIbJQj8e
+ OOH9AtLkrU3nlYrGQ1+kc62GQEn7fMhAnLp81Nc8rqEac7/nraqIZghAf4oCIkuLKo4IEyYAVFoH9
+ ME/cYzNNN4D3I6T4fOBlSmUkU0xzDrlu4l4W1xBAl3KU1MJWOWBDr51fTpcmKivOfnlTQ26Z9GoNt
+ jEtlNM6g==;
 Received: from [189.110.59.13] (helo=[192.168.1.111])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1rVc1X-00Cgwx-SA; Thu, 01 Feb 2024 19:42:56 +0100
-Message-ID: <a382b75d-4254-419c-aab5-a01eed845df1@igalia.com>
-Date: Thu, 1 Feb 2024 15:42:49 -0300
+ id 1rVc4P-00Ch1g-G0; Thu, 01 Feb 2024 19:45:53 +0100
+Message-ID: <203d7768-2e54-4d89-9a1d-ef61e6da6d89@igalia.com>
+Date: Thu, 1 Feb 2024 15:45:46 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] drm/atomic: Allow drivers to write their own plane
- check for async flips
-To: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel-dev@igalia.com,
- alexander.deucher@amd.com, christian.koenig@amd.com,
- Simon Ser <contact@emersion.fr>, daniel@ffwll.ch,
- Daniel Stone <daniel@fooishbar.org>, =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?=
- <maraeo@gmail.com>, Dave Airlie <airlied@gmail.com>,
- ville.syrjala@linux.intel.com, Xaver Hugl <xaver.hugl@gmail.com>,
- Joshua Ashton <joshua@froggi.es>, =?UTF-8?Q?Michel_D=C3=A4nzer?=
- <michel.daenzer@mailbox.org>
-References: <20240128212515.630345-1-andrealmeid@igalia.com>
- <20240128212515.630345-2-andrealmeid@igalia.com>
- <20240129104934.0b887ec7@eldfell>
+Subject: Re: [PATCH v3 3/3] drm/amdgpu: Implement check_async_props for planes
 Content-Language: en-US
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20240128212515.630345-1-andrealmeid@igalia.com>
+ <20240128212515.630345-4-andrealmeid@igalia.com>
+ <ZbjVyI_AnTBHACT8@phenom.ffwll.local>
+Cc: kernel-dev@igalia.com, Xaver Hugl <xaver.hugl@gmail.com>,
+ ville.syrjala@linux.intel.com, Joshua Ashton <joshua@froggi.es>,
+ Daniel Stone <daniel@fooishbar.org>, Simon Ser <contact@emersion.fr>,
+ dri-devel@lists.freedesktop.org, =?UTF-8?Q?Michel_D=C3=A4nzer?=
+ <michel.daenzer@mailbox.org>, amd-gfx@lists.freedesktop.org,
+ Dave Airlie <airlied@gmail.com>, christian.koenig@amd.com,
+ alexander.deucher@amd.com, =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?=
+ <maraeo@gmail.com>, Pekka Paalanen <ppaalanen@gmail.com>,
+ linux-kernel@vger.kernel.org
 From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <20240129104934.0b887ec7@eldfell>
+In-Reply-To: <ZbjVyI_AnTBHACT8@phenom.ffwll.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,73 +70,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Pekka,
+Hi Sima,
 
-Em 29/01/2024 05:49, Pekka Paalanen escreveu:
-> On Sun, 28 Jan 2024 18:25:13 -0300
-> André Almeida <andrealmeid@igalia.com> wrote:
-> 
->> Some hardware are more flexible on what they can flip asynchronously, so
->> rework the plane check so drivers can implement their own check, lifting
->> up some of the restrictions.
+Em 30/01/2024 07:56, Daniel Vetter escreveu:
+> On Sun, Jan 28, 2024 at 06:25:15PM -0300, André Almeida wrote:
+>> AMD GPUs can do async flips with changes on more properties than just
+>> the FB ID, so implement a custom check_async_props for AMD planes.
+>>
+>> Allow amdgpu to do async flips with overlay planes as well.
 >>
 >> Signed-off-by: André Almeida <andrealmeid@igalia.com>
 >> ---
->> v3: no changes
+>> v3: allow overlay planes
+> 
+> This comment very much written with a lack of clearly better ideas, but:
+> 
+> Do we really need this much flexibility, especially for the first driver
+> adding the first few additional properties?
+> 
+> A simple bool on struct drm_plane to indicate whether async flips are ok
+> or not should also do this job here? Maybe a bit of work to roll that out
+> to the primary planes for current drivers, but not much. And wouldn't need
+> drivers to implement some very uapi-marshalling atomic code ...
+
+Right, perhaps I can first write in the way you suggest, and later 
+expand to the form I have proposed here if/when new properties arise.
+
+> 
+> Also we could probably remove the current drm_mode_config.async_flip flag
+> and entirely replace it with the per-plane one.
+> -Sima
 >>
->>   drivers/gpu/drm/drm_atomic_uapi.c | 62 ++++++++++++++++++++++---------
->>   include/drm/drm_atomic_uapi.h     | 12 ++++++
->>   include/drm/drm_plane.h           |  5 +++
->>   3 files changed, 62 insertions(+), 17 deletions(-)
+>>   .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 29 +++++++++++++++++++
+>>   1 file changed, 29 insertions(+)
 >>
->> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
->> index aee4a65d4959..6d5b9fec90c7 100644
->> --- a/drivers/gpu/drm/drm_atomic_uapi.c
->> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
->> @@ -620,7 +620,7 @@ static int drm_atomic_plane_set_property(struct drm_plane *plane,
->>   	return 0;
+>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+>> index 116121e647ca..ed75b69636b4 100644
+>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+>> @@ -25,6 +25,7 @@
+>>    */
+>>   
+>>   #include <drm/drm_atomic_helper.h>
+>> +#include <drm/drm_atomic_uapi.h>
+>>   #include <drm/drm_blend.h>
+>>   #include <drm/drm_gem_atomic_helper.h>
+>>   #include <drm/drm_plane_helper.h>
+>> @@ -1430,6 +1431,33 @@ static void amdgpu_dm_plane_drm_plane_destroy_state(struct drm_plane *plane,
+>>   	drm_atomic_helper_plane_destroy_state(plane, state);
 >>   }
 >>   
->> -static int
->> +int
->>   drm_atomic_plane_get_property(struct drm_plane *plane,
->>   		const struct drm_plane_state *state,
->>   		struct drm_property *property, uint64_t *val)
->> @@ -683,6 +683,7 @@ drm_atomic_plane_get_property(struct drm_plane *plane,
->>   
->>   	return 0;
->>   }
->> +EXPORT_SYMBOL(drm_atomic_plane_get_property);
->>   
->>   static int drm_atomic_set_writeback_fb_for_connector(
->>   		struct drm_connector_state *conn_state,
->> @@ -1026,18 +1027,54 @@ int drm_atomic_connector_commit_dpms(struct drm_atomic_state *state,
->>   	return ret;
->>   }
->>   
->> -static int drm_atomic_check_prop_changes(int ret, uint64_t old_val, uint64_t prop_value,
->> +int drm_atomic_check_prop_changes(int ret, uint64_t old_val, uint64_t prop_value,
-> 
-> Hi,
-> 
-> should the word "async" be somewhere in the function name?
-> 
->>   					 struct drm_property *prop)
->>   {
->>   	if (ret != 0 || old_val != prop_value) {
->>   		drm_dbg_atomic(prop->dev,
->> -			       "[PROP:%d:%s] No prop can be changed during async flip\n",
->> +			       "[PROP:%d:%s] This prop cannot be changed during async flip\n",
->>   			       prop->base.id, prop->name);
->>   		return -EINVAL;
->>   	}
->>   
->>   	return 0;
->>   }
->> +EXPORT_SYMBOL(drm_atomic_check_prop_changes);
->> +
->> +/* plane changes may have exceptions, so we have a special function for them */
->> +static int drm_atomic_check_plane_changes(struct drm_property *prop,
+>> +static int amdgpu_dm_plane_check_async_props(struct drm_property *prop,
 >> +					  struct drm_plane *plane,
 >> +					  struct drm_plane_state *plane_state,
 >> +					  struct drm_mode_object *obj,
@@ -146,147 +129,36 @@ Em 29/01/2024 05:49, Pekka Paalanen escreveu:
 >> +	struct drm_mode_config *config = &plane->dev->mode_config;
 >> +	int ret;
 >> +
->> +	if (plane->funcs->check_async_props)
->> +		return plane->funcs->check_async_props(prop, plane, plane_state,
->> +							     obj, prop_value, old_val);
-> 
-> Is it really ok to allow drivers to opt-in to also *reject* the FB_ID
-> and IN_FENCE_FD props on async commits?
-> 
-> Either intentionally or by accident.
-> 
-
-Right, perhaps I should write this function in a way that you can only 
-lift restrictions, and not add new ones.
-
->> +
->> +	/*
->> +	 * if you are trying to change something other than the FB ID, your
->> +	 * change will be either rejected or ignored, so we can stop the check
->> +	 * here
->> +	 */
->> +	if (prop != config->prop_fb_id) {
+>> +	if (prop != config->prop_fb_id &&
+>> +	    prop != config->prop_in_fence_fd) {
 >> +		ret = drm_atomic_plane_get_property(plane, plane_state,
 >> +						    prop, &old_val);
 >> +		return drm_atomic_check_prop_changes(ret, old_val, prop_value, prop);
-> 
-> When I first read this code, it seemed to say: "If the prop is not
-> FB_ID, then do the usual prop change checking that happens on all
-> changes, not only async.". Reading this patch a few more times over, I
-> finally realized drm_atomic_check_prop_changes() is about async
-> specifically.
-> 
-
-I see that the lack of the async word is giving some confusion, so I'll 
-add it to the functions.
-
-Thanks,
-	André
-
 >> +	}
 >> +
->> +	if (plane_state->plane->type != DRM_PLANE_TYPE_PRIMARY) {
+>> +	if (plane_state->plane->type != DRM_PLANE_TYPE_PRIMARY &&
+>> +	    plane_state->plane->type != DRM_PLANE_TYPE_OVERLAY) {
 >> +		drm_dbg_atomic(prop->dev,
->> +			       "[OBJECT:%d] Only primary planes can be changed during async flip\n",
+>> +			       "[OBJECT:%d] Only primary or overlay planes can be changed during async flip\n",
 >> +			       obj->id);
 >> +		return -EINVAL;
 >> +	}
 >> +
 >> +	return 0;
 >> +}
->>   
->>   int drm_atomic_set_property(struct drm_atomic_state *state,
->>   			    struct drm_file *file_priv,
->> @@ -1100,7 +1137,6 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
->>   	case DRM_MODE_OBJECT_PLANE: {
->>   		struct drm_plane *plane = obj_to_plane(obj);
->>   		struct drm_plane_state *plane_state;
->> -		struct drm_mode_config *config = &plane->dev->mode_config;
->>   
->>   		plane_state = drm_atomic_get_plane_state(state, plane);
->>   		if (IS_ERR(plane_state)) {
->> @@ -1108,19 +1144,11 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
->>   			break;
->>   		}
->>   
->> -		if (async_flip && prop != config->prop_fb_id) {
->> -			ret = drm_atomic_plane_get_property(plane, plane_state,
->> -							    prop, &old_val);
->> -			ret = drm_atomic_check_prop_changes(ret, old_val, prop_value, prop);
->> -			break;
->> -		}
->> -
->> -		if (async_flip && plane_state->plane->type != DRM_PLANE_TYPE_PRIMARY) {
->> -			drm_dbg_atomic(prop->dev,
->> -				       "[OBJECT:%d] Only primary planes can be changed during async flip\n",
->> -				       obj->id);
->> -			ret = -EINVAL;
->> -			break;
->> +		if (async_flip) {
->> +			ret = drm_atomic_check_plane_changes(prop, plane, plane_state,
-> 
-> Should there be "async" somewhere in the name of
-> drm_atomic_check_plane_changes()?
-> 
-> 
-> Thanks,
-> pq
-> 
->> +							     obj, prop_value, old_val);
->> +			if (ret)
->> +				break;
->>   		}
->>   
->>   		ret = drm_atomic_plane_set_property(plane,
->> diff --git a/include/drm/drm_atomic_uapi.h b/include/drm/drm_atomic_uapi.h
->> index 4c6d39d7bdb2..d65fa8fbbca0 100644
->> --- a/include/drm/drm_atomic_uapi.h
->> +++ b/include/drm/drm_atomic_uapi.h
->> @@ -29,6 +29,8 @@
->>   #ifndef DRM_ATOMIC_UAPI_H_
->>   #define DRM_ATOMIC_UAPI_H_
->>   
->> +#include <linux/types.h>
 >> +
->>   struct drm_crtc_state;
->>   struct drm_display_mode;
->>   struct drm_property_blob;
->> @@ -37,6 +39,9 @@ struct drm_crtc;
->>   struct drm_connector_state;
->>   struct dma_fence;
->>   struct drm_framebuffer;
->> +struct drm_mode_object;
->> +struct drm_property;
->> +struct drm_plane;
->>   
->>   int __must_check
->>   drm_atomic_set_mode_for_crtc(struct drm_crtc_state *state,
->> @@ -53,4 +58,11 @@ int __must_check
->>   drm_atomic_set_crtc_for_connector(struct drm_connector_state *conn_state,
->>   				  struct drm_crtc *crtc);
->>   
->> +int drm_atomic_plane_get_property(struct drm_plane *plane,
->> +				  const struct drm_plane_state *state,
->> +				  struct drm_property *property, uint64_t *val);
->> +
->> +int drm_atomic_check_prop_changes(int ret, uint64_t old_val, uint64_t prop_value,
->> +				  struct drm_property *prop);
->> +
->>   #endif
->> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
->> index c6565a6f9324..73dac8d76831 100644
->> --- a/include/drm/drm_plane.h
->> +++ b/include/drm/drm_plane.h
->> @@ -540,6 +540,11 @@ struct drm_plane_funcs {
->>   	 */
->>   	bool (*format_mod_supported)(struct drm_plane *plane, uint32_t format,
->>   				     uint64_t modifier);
->> +
->> +	int (*check_async_props)(struct drm_property *prop, struct drm_plane *plane,
->> +				 struct drm_plane_state *plane_state,
->> +				 struct drm_mode_object *obj,
->> +				 u64 prop_value, u64 old_val);
+>>   static const struct drm_plane_funcs dm_plane_funcs = {
+>>   	.update_plane	= drm_atomic_helper_update_plane,
+>>   	.disable_plane	= drm_atomic_helper_disable_plane,
+>> @@ -1438,6 +1466,7 @@ static const struct drm_plane_funcs dm_plane_funcs = {
+>>   	.atomic_duplicate_state = amdgpu_dm_plane_drm_plane_duplicate_state,
+>>   	.atomic_destroy_state = amdgpu_dm_plane_drm_plane_destroy_state,
+>>   	.format_mod_supported = amdgpu_dm_plane_format_mod_supported,
+>> +	.check_async_props = amdgpu_dm_plane_check_async_props,
 >>   };
 >>   
->>   /**
+>>   int amdgpu_dm_plane_init(struct amdgpu_display_manager *dm,
+>> -- 
+>> 2.43.0
+>>
 > 
