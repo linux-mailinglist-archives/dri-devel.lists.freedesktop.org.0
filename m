@@ -2,57 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99EB4845DFB
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 18:01:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E63F845E9E
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 18:35:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB1BA10E16F;
-	Thu,  1 Feb 2024 17:01:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 199B510EF04;
+	Thu,  1 Feb 2024 17:35:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="F99T2ocV";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="KusMYAD+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9616610E16F
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Feb 2024 17:01:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id DC452CE14EB;
- Thu,  1 Feb 2024 17:01:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5109C433C7;
- Thu,  1 Feb 2024 17:01:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1706806864;
- bh=ORVetPFkmT4UVVKKyCuUwRmeXNPw9HlZpcxW5dV/1Dk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=F99T2ocV6qN+IxcFBwsn1LL6d0OPn/uvYQqJ2bqeNJphRnC6Hb19Iz0KZVFjYNc6s
- cdrGzteR7vwQyZHb44z5Yd1qtb1DHg9xBvK06x2qpVIf/uyzjM8xDzRNkJTMLRTsYG
- 9ieheOzFg9iddMtn2M1k2ll66EmdnIc4tovtT4atRBTOaHv7ihbp7HnhZcSgaj9mRF
- Vf0REkKwiiuU4fR4MCwFO9TyAgtP1XDOGomXwI6KRQZEfiYqfnxwXFXk5YsxHL3AqI
- 6KLyxNZCUfXr9JxLG+NyQjqk3SYXxRqoxD/dic1yTuYWXmUkQ3GVQ5eKyDrvGCoh5z
- vPH6M5krOt8yg==
-Date: Thu, 1 Feb 2024 18:01:01 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: "Klymenko, Anatoliy" <Anatoliy.Klymenko@amd.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>, 
- "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>, 
- "Simek, Michal" <michal.simek@amd.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: RE: Re: [PATCH 0/4] Fixing live video input in ZynqMP DPSUB
-Message-ID: <2ytxhpti53e743b5pca3oa5jmscffi4vpsyeh727bcoh4v6cuw@zkz5pqkcv7v2>
-References: <20240112234222.913138-1-anatoliy.klymenko@amd.com>
- <6jhwss2wego6yoo5mwmphwawhsj5bbj62gwrzcpapoixwkrkli@g4fbxdooopby>
- <20240117142343.GD17920@pendragon.ideasonboard.com>
- <u5mngxudtdgy3vqkfbpgqng6tdahijnet2jtj345hrowbt47ce@t3e7hul45mr3>
- <MW4PR12MB7165D35189BEECA8769552AFE6792@MW4PR12MB7165.namprd12.prod.outlook.com>
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCEA610EF04
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Feb 2024 17:35:16 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::225])
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id 08B4FC2CFC
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Feb 2024 17:32:13 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 98F1D1C000D;
+ Thu,  1 Feb 2024 17:32:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1706808731;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=VnJbjJTg4nEr9s3zhJjNFrJUiH61j50+UMrQv0IdY/o=;
+ b=KusMYAD+N+4EtxtdQAf7yuRN3pKBtt/M/aF0WxpOadyZA6Q3/rkM83J2CXr9N/nmcu5rmP
+ racJDueiAn1b5yw2A2cELbJq9nIHtOCp1cUtcN/yjbI93X2t0fHKQtWPZh2wVBzay69x4G
+ HnsMyyMsPQfYjvmnBDMQ2P97kYHwJ8++w8qygWoZUPZRX9LW2297qBn9Zk76Qd/9P8E4Fp
+ 5hZfK7b4KiNrq+ahaDJ7gBZ5tLpvNMskx2/WPHLedR6D5hSXKloeK6mIV06s4dR3umTLKa
+ dx/kwjPqBE5diw8bGdCBg++an1mvxdqT2ylP7LEAO9kKyLASJqWNfhWhLR4dew==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: [PATCH 0/2] Better support for complex pixel formats
+Date: Thu, 01 Feb 2024 18:31:30 +0100
+Message-Id: <20240201-yuv-v1-0-3ca376f27632@bootlin.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="pjqnxa646r7gclj6"
-Content-Disposition: inline
-In-Reply-To: <MW4PR12MB7165D35189BEECA8769552AFE6792@MW4PR12MB7165.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHLVu2UC/x2MWwqAIBAArxL7naD2oq4SfZhutRAWSlJId2/pc
+ 4ZhMkQMhBGGIkPARJEOz6DKAuxm/IqCHDNoqWuppRLPlYSqqs710vVN1wKXs4ko5mC83bj1176
+ zPAMudP/rcXrfDwOFzAZqAAAA
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, marcheu@google.com, seanpaul@google.com, 
+ nicolejadeyee@google.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, thomas.petazzoni@bootlin.com, 
+ miquel.raynal@bootlin.com
+X-Mailer: b4 0.12.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1889;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=gFYVkNhsWMZ0PZR7CfgH9n4zYqWey4gF7lfzOXaUXvQ=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBlu9WYRQhES4EmjZZ7vAyXW1pFFRuarhPV03wlazy9
+ DgoNLUSJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZbvVmAAKCRAgrS7GWxAs4tUFEA
+ Cz/OyfGWoHhrtvANxCouKVTqA7kcf3dNHSbjLAohQb5ygAHwJJXFy4VlwPI+L3xEsKxM3fxQQzNu+J
+ RnxxLGbfwxGqajmUcFZTjOG5Hrx0eZ2W3QAFjV0odo6bxK0SoGfHbLDaz+o7xWyxj/Ax5QRBIdWpJB
+ eU/qf3QGSCzw1YFsAkaBZr6s+9rJg9PGS/lV6jtJtn2llm1MZQL2aEOWXzdlPW693uICE150G4sGWX
+ WEDY73WHutJn2n+sMWvfnwv2Nt2bhXAfxUbiLCRtS6QjV46NuS+FBVKED9NRrHyEEb+41Emd+SzdOm
+ xe7qkpTk6fNc9mt0JOCfNxhnrpy5A4CRq4iS/ySD1KwO0dYHkFcHvuwWW/AJuCE/9ke7fzcP34Ufo8
+ 4CtXcuHl0fSmjV2mXAhm0KAGlsrJM9PuCkJxPw6NdQ7dul6Vr5Oj/c0xb3cKC0fdpasYu9ocBQ2lLG
+ wRqz6N2gjjBA3ZCw/CjRcOEUFT4ziXpmXig0/knZyMYE1vuCeID856H193SDWpOv2Ip+MXnjvCl6zH
+ StkiiLhQwHmwYAG5UzU9zBga7kvosVhsh0ejk1h7Jufgubk+JvFvSibiu2SROCwIJSviq5SlTVrx7n
+ sOvptZ+U9af+q+jRdTNOxGf8mrhx9DMQ2x85q9Ro0v7blG8qwM50hcfoESVg==
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,118 +85,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patchset aims to solve issues I found in [1], and at the same time 
+simplify the composition algorithm.
 
---pjqnxa646r7gclj6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I sent more igt-gpu-tools test [2] to cover more things and detect the 
+issues in [1].
 
-On Fri, Jan 26, 2024 at 11:18:30PM +0000, Klymenko, Anatoliy wrote:
->=20
->=20
-> > -----Original Message-----
-> > From: Maxime Ripard <mripard@kernel.org>
-> > Sent: Friday, January 26, 2024 4:26 AM
-> > To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Cc: Klymenko, Anatoliy <Anatoliy.Klymenko@amd.com>;
-> > maarten.lankhorst@linux.intel.com; tzimmermann@suse.de; airlied@gmail.c=
-om;
-> > daniel@ffwll.ch; Simek, Michal <michal.simek@amd.com>; dri-
-> > devel@lists.freedesktop.org; linux-arm-kernel@lists.infradead.org; linu=
-x-
-> > kernel@vger.kernel.org
-> > Subject: Re: Re: [PATCH 0/4] Fixing live video input in ZynqMP DPSUB
-> >=20
-> > On Wed, Jan 17, 2024 at 04:23:43PM +0200, Laurent Pinchart wrote:
-> > > On Mon, Jan 15, 2024 at 09:28:39AM +0100, Maxime Ripard wrote:
-> > > > On Fri, Jan 12, 2024 at 03:42:18PM -0800, Anatoliy Klymenko wrote:
-> > > > > Patches 1/4,2/4,3/4 are minor fixes.
-> > > > >
-> > > > > DPSUB requires input live video format to be configured.
-> > > > > Patch 4/4: The DP Subsystem requires the input live video format =
-to be
-> > > > > configured. In this patch we are assuming that the CRTC's bus for=
-mat is fixed
-> > > > > and comes from the device tree. This is a proposed solution, as t=
-here are no
-> > api
-> > > > > to query CRTC output bus format.
-> > > > >
-> > > > > Is this a good approach to go with?
-> > > >
-> > > > I guess you would need to expand a bit on what "live video input" i=
-s? Is
-> > > > it some kind of mechanism to bypass memory and take your pixels str=
-aight
-> > > > from a FIFO from another device, or something else?
-> > >
-> > > Yes and no.
-> > >
-> > > The DPSUB integrates DMA engines, a blending engine (two planes), and=
- a
-> > > DP encoder. The dpsub driver supports all of this, and creates a DRM
-> > > device. The DP encoder hardware always takes its input data from the
-> > > output of the blending engine.
-> > >
-> > > The blending engine can optionally take input data from a bus connect=
-ed
-> > > to the FPGA fabric, instead of taking it from the DPSUB internal DMA
-> > > engines. When operating in that mode, the dpsub driver exposes the DP
-> > > encoder as a bridge, and internally programs the blending engine to
-> > > disable blending. Typically, the FPGA fabric will then contain a CRTC=
- of
-> > > some sort, with a driver that will acquire the DP encoder bridge as
-> > > usually done.
-> > >
-> > > In this mode of operation, it is typical for the IP cores in FPGA fab=
-ric
-> > > to be synthesized with a fixed format (as that saves resources), while
-> > > the DPSUB supports multiple input formats.
-> >=20
-> > Where is that CRTC driver? It's not clear to me why the format would
-> > need to be in the device tree at all. Format negociation between the
-> > CRTC and whatever comes next is already done in a number of drivers so
-> > it would be useful to have that kind of API outside of the bridge
-> > support.
->
-> One example of such CRTC driver:
-> https://github.com/Xilinx/linux-xlnx/blob/master/drivers/gpu/drm/xlnx/xln=
-x_mixer.c It's not
-> upstreamed yet. Bus format negotiations here are handled by utilizing Xil=
-inx-specific bridge
-> framework. Ideally, it would be nice to rework this to comply with the up=
-stream DRM bridge
-> framework.
->
-> > > Bridge drivers in the upstream kernel work the other way around, with
-> > > the bridge hardware supporting a limited set of formats, and the CRTC
-> > > then being programmed with whatever the bridges chain needs. Here, the
-> > > negotiation needs to go the other way around, as the CRTC is the
-> > > limiting factor, not the bridge.
-> >=20
-> > Sounds like there's something to rework in the API then?
-> >=20
-> Adding an optional CRTC callback imposing CRTC specific bus format restri=
-ctions, which may be
-> called from here https://github.com/torvalds/linux/blob/master/drivers/gp=
-u/drm/drm_bridge.c#L935
-> would solve the problem.
+This patchset is based on [1].
 
-CRTCs and bridges are orthogonal. If anything, I'd expect that callback
-to be set at the CRTC, encoder and connector levels and filled by the
-drm_bridge code if relevant.
+Patch 1/2: This patch is a no-op, but make the code more readable 
+regarding the pixel_read functions.
 
-Maxime
+Patch 2/2: This patch is more complex. My main target was to solve issues 
+I found in [1], but as it was very complex to do it "in place", I choose 
+to rework the composition function.
+The main two advantages are:
+- It's now possible to create conversion function for packed & grouped 
+pixels. Some pixel formats need absolute x/y position and not only an 
+offset in the buffer to extract the correct value. This part also solve 
+the issues I found in [1].
+- The rotation management is now way easier to understand, there is no 
+more switch case in different places and instead of copy/pasting rotation 
+formula I used drm_rect_* helpers.
 
---pjqnxa646r7gclj6
-Content-Type: application/pgp-signature; name="signature.asc"
+[1]: https://lore.kernel.org/dri-devel/20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net/
+[2]: https://lore.kernel.org/igt-dev/20240201-kms_tests-v1-0-bc34c5d28b3f@bootlin.com/T/#t
 
------BEGIN PGP SIGNATURE-----
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+---
+Louis Chauvet (2):
+      drm/vkms: Create a type to check a function pointer validity
+      drm/vkms: Use a simpler composition function
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZbvOTAAKCRDj7w1vZxhR
-xbVPAP49vGrbelyhqSYUXSE85/vH2qXOXAJu3q1Y/CUU9DUANwEAlmtHkOex/CVN
-fX5vhl8ixN+4cmpKXQHWEroLwF3pxAQ=
-=Pm76
------END PGP SIGNATURE-----
+ drivers/gpu/drm/vkms/vkms_composer.c |  97 ++++++++-----
+ drivers/gpu/drm/vkms/vkms_drv.h      |  32 ++++-
+ drivers/gpu/drm/vkms/vkms_formats.c  | 254 ++++++++++++++++++-----------------
+ drivers/gpu/drm/vkms/vkms_formats.h  |   2 +-
+ drivers/gpu/drm/vkms/vkms_plane.c    |  13 +-
+ 5 files changed, 236 insertions(+), 162 deletions(-)
+---
+base-commit: 5d189d57bb335a87ec38ea26fe43a5f3ed31ced7
+change-id: 20240201-yuv-1337d90d9576
 
---pjqnxa646r7gclj6--
+Best regards,
+-- 
+Louis Chauvet <louis.chauvet@bootlin.com>
+
