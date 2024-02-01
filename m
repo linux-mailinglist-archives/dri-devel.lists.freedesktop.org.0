@@ -2,59 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D794884581F
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 13:51:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9311484582B
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 13:53:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FFBD10ED59;
-	Thu,  1 Feb 2024 12:51:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7790710ED6A;
+	Thu,  1 Feb 2024 12:53:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VG2TeXqv";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MiFamANL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10EA710ED62
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Feb 2024 12:51:25 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 5A230CE1E2F;
- Thu,  1 Feb 2024 12:51:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C37FC433C7;
- Thu,  1 Feb 2024 12:51:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1706791878;
- bh=iO+Eo8pPglcxEzFGDR/NbmaGU1weyDXreVR1dhmvHfA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VG2TeXqvjxGcRv1tIL7nOyafkaL7z3CCvzIcS+2JApyFPDRQM0dhUM3PKC9rui9W7
- opOWXzX3wf+INRuwos5WuH4cf3M6JbqJJyg+LLI0aU/Mjafxp/zI/6LLOjymUIwDoC
- VDSk9ZulqP9mhOGNO91YqNdrN/xj0ITM+fgsH8po+qhjWD78Oni1Q/PDRrpA8716mK
- q7pVitaQP60mvxztWefD4GBlghOrGBUOghPd2F99j+OOahvR6F8gTncbv1qJZI/FBz
- m1WAK/Vazl7vTC3aR4c4aWHK20XFT2GuwJVRCjUR6Z4saoYMDPtpDx3hv0SXZYc5LH
- BbV/B+1mMlIrg==
-Date: Thu, 1 Feb 2024 13:51:15 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
- Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>, 
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: Re: [PATCH v5 15/44] drm/connector: hdmi: Compute bpc and format
- automatically
-Message-ID: <jlkoofv7nszj2uqmo2672yo4wjd3yjqarge2l2hxofixcchu6a@j72pa4iybitd>
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-15-6538e19d634d@kernel.org>
- <CAPY8ntBQ+qY9441-rMzq_JAoYAaY_r+E-ADv7Wry0tJNTzKpwg@mail.gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08EDA10ED67;
+ Thu,  1 Feb 2024 12:53:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1706791981; x=1738327981;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=kM2CzdPqPhJGT/27u+FEUgiyr+hJJwWsrgc1Wu+Yw4c=;
+ b=MiFamANLT+ibF0Zk8jON8Lf+z2TDnXLVshf9mkP0R9IbamktMokwrbIy
+ fYFNqny4CV/b2BDqnCDfnHy1xh/CbS4o4uiHbuCVvLZT9PgvmF2+a+C8C
+ SGmqsUp81G3sHe3odyy/fBZcREuaA6h6ZYS4BQifsXaqhl+RipPjuRYIN
+ w/hB39Hd4qLIhnbxZ+kAa3H4++iAHAWKCJDeK6VMJg5jET13BJBP/E9IN
+ OnqzJHcUSFpAQclboseXwu9gXnbad6mxoZmnZ1X/qZh0jbVh7pg5HlyTy
+ weGpCB3HAh/fjEeuIYW4j0qmkRLVtxpumToDQLOhNPy+PoXA1695Wmxwg g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="402730844"
+X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; d="scan'208";a="402730844"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2024 04:53:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="908242204"
+X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; d="scan'208";a="908242204"
+Received: from unknown (HELO localhost) ([10.237.66.162])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2024 04:52:58 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH 09/10] drm/xe: switch from drm_debug_printer() to device
+ specific drm_dbg_printer()
+In-Reply-To: <35929b030f7ba67cd32808d42e916aa9cfb5709d.1705410327.git.jani.nikula@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1705410327.git.jani.nikula@intel.com>
+ <35929b030f7ba67cd32808d42e916aa9cfb5709d.1705410327.git.jani.nikula@intel.com>
+Date: Thu, 01 Feb 2024 14:52:55 +0200
+Message-ID: <87y1c4fis8.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="vqybhtpmawkwvb6z"
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntBQ+qY9441-rMzq_JAoYAaY_r+E-ADv7Wry0tJNTzKpwg@mail.gmail.com>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,137 +68,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 16 Jan 2024, Jani Nikula <jani.nikula@intel.com> wrote:
+> Prefer the device specific debug printer.
+>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
---vqybhtpmawkwvb6z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Xe maintainers, ack for merging this via drm-misc along with the rest of
+the series?
 
-On Thu, Dec 14, 2023 at 03:10:43PM +0000, Dave Stevenson wrote:
-> > +static bool
-> > +sink_supports_format_bpc(const struct drm_connector *connector,
-> > +                        const struct drm_display_info *info,
-> > +                        const struct drm_display_mode *mode,
-> > +                        unsigned int format, unsigned int bpc)
-> > +{
-> > +       struct drm_device *dev =3D connector->dev;
-> > +       u8 vic =3D drm_match_cea_mode(mode);
-> > +
-> > +       if (vic =3D=3D 1 && bpc !=3D 8) {
-> > +               drm_dbg(dev, "VIC1 requires a bpc of 8, got %u\n", bpc);
-> > +               return false;
-> > +       }
-> > +
-> > +       if (!info->is_hdmi &&
-> > +           (format !=3D HDMI_COLORSPACE_RGB || bpc !=3D 8)) {
-> > +               drm_dbg(dev, "DVI Monitors require an RGB output at 8 b=
-pc\n");
-> > +               return false;
-> > +       }
-> > +
-> > +       if (!(connector->hdmi.supported_formats & BIT(format))) {
-> > +               drm_dbg(dev, "%s format unsupported by the connector.\n=
-",
-> > +                       drm_hdmi_connector_get_output_format_name(forma=
-t));
-> > +               return false;
-> > +       }
-> > +
-> > +       switch (format) {
-> > +       case HDMI_COLORSPACE_RGB:
-> > +               drm_dbg(dev, "RGB Format, checking the constraints.\n");
-> > +
-> > +               if (!(info->color_formats & DRM_COLOR_FORMAT_RGB444))
-> > +                       return false;
->=20
-> We've dropped this check from vc4 in our downstream kernel as it stops
-> you using the prebaked EDIDs (eg drm.edid_firmware=3Dedid/1024x768.bin),
-> or any other EDID that is defined as an analog monitor.
-> The EDID parsing bombs out at [1], so info->color_formats gets left at 0.
+BR,
+Jani.
 
-Right, but it only does so if the display isn't defined as a digital displa=
-y...
+> ---
+>  drivers/gpu/drm/xe/xe_gt.c          | 2 +-
+>  drivers/gpu/drm/xe/xe_gt_topology.c | 4 +++-
+>  drivers/gpu/drm/xe/xe_reg_sr.c      | 2 +-
+>  3 files changed, 5 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/xe/xe_gt.c b/drivers/gpu/drm/xe/xe_gt.c
+> index 0f2258dc4a00..16481f9b3125 100644
+> --- a/drivers/gpu/drm/xe/xe_gt.c
+> +++ b/drivers/gpu/drm/xe/xe_gt.c
+> @@ -327,7 +327,7 @@ static void dump_pat_on_error(struct xe_gt *gt)
+>  	char prefix[32];
+>  
+>  	snprintf(prefix, sizeof(prefix), "[GT%u Error]", gt->info.id);
+> -	p = drm_debug_printer(prefix);
+> +	p = drm_dbg_printer(&gt_to_xe(gt)->drm, DRM_UT_DRIVER, prefix);
+>  
+>  	xe_pat_dump(gt, &p);
+>  }
+> diff --git a/drivers/gpu/drm/xe/xe_gt_topology.c b/drivers/gpu/drm/xe/xe_gt_topology.c
+> index a8d7f272c30a..5dc62fe1be49 100644
+> --- a/drivers/gpu/drm/xe/xe_gt_topology.c
+> +++ b/drivers/gpu/drm/xe/xe_gt_topology.c
+> @@ -84,7 +84,7 @@ void
+>  xe_gt_topology_init(struct xe_gt *gt)
+>  {
+>  	struct xe_device *xe = gt_to_xe(gt);
+> -	struct drm_printer p = drm_debug_printer("GT topology");
+> +	struct drm_printer p;
+>  	int num_geometry_regs, num_compute_regs;
+>  
+>  	get_num_dss_regs(xe, &num_geometry_regs, &num_compute_regs);
+> @@ -107,6 +107,8 @@ xe_gt_topology_init(struct xe_gt *gt)
+>  		      XE2_GT_COMPUTE_DSS_2);
+>  	load_eu_mask(gt, gt->fuse_topo.eu_mask_per_dss);
+>  
+> +	p = drm_dbg_printer(&gt_to_xe(gt)->drm, DRM_UT_DRIVER, "GT topology");
+> +
+>  	xe_gt_topology_dump(gt, &p);
+>  }
+>  
+> diff --git a/drivers/gpu/drm/xe/xe_reg_sr.c b/drivers/gpu/drm/xe/xe_reg_sr.c
+> index 87adefb56024..440ac572f6e5 100644
+> --- a/drivers/gpu/drm/xe/xe_reg_sr.c
+> +++ b/drivers/gpu/drm/xe/xe_reg_sr.c
+> @@ -231,7 +231,7 @@ void xe_reg_sr_apply_whitelist(struct xe_hw_engine *hwe)
+>  	if (err)
+>  		goto err_force_wake;
+>  
+> -	p = drm_debug_printer(KBUILD_MODNAME);
+> +	p = drm_dbg_printer(&xe->drm, DRM_UT_DRIVER, NULL);
+>  	xa_for_each(&sr->xa, reg, entry) {
+>  		if (slot == RING_MAX_NONPRIV_SLOTS) {
+>  			xe_gt_err(gt,
 
-> RGB is mandatory for both DVI and HDMI, so rejecting it seems overly fuss=
-y.
-
-=2E.. which is required for both DVI and HDMI.
-
-And sure enough, if we decode that EDID:
-
-edid-decode (hex):
-
-00 ff ff ff ff ff ff 00 31 d8 00 00 00 00 00 00
-05 16 01 03 6d 23 1a 78 ea 5e c0 a4 59 4a 98 25
-20 50 54 00 08 00 61 40 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 64 19 00 40 41 00 26 30 08 90
-36 00 63 0a 11 00 00 18 00 00 00 ff 00 4c 69 6e
-75 78 20 23 30 0a 20 20 20 20 00 00 00 fd 00 3b
-3d 2f 31 07 00 0a 20 20 20 20 20 20 00 00 00 fc
-00 4c 69 6e 75 78 20 58 47 41 0a 20 20 20 00 55
-
-----------------
-
-Block 0, Base EDID:
-  EDID Structure Version & Revision: 1.3
-  Vendor & Product Identification:
-    Manufacturer: LNX
-    Model: 0
-    Made in: week 5 of 2012
-  Basic Display Parameters & Features:
-    Analog display
-    Signal Level Standard: 0.700 : 0.000 : 0.700 V p-p
-    Blank level equals black level
-    Sync: Separate Composite Serration
-    Maximum image size: 35 cm x 26 cm
-    Gamma: 2.20
-    DPMS levels: Standby Suspend Off
-    RGB color display
-    First detailed timing is the preferred timing
-  Color Characteristics:
-    Red  : 0.6416, 0.3486
-    Green: 0.2919, 0.5957
-    Blue : 0.1474, 0.1250
-    White: 0.3125, 0.3281
-  Established Timings I & II:
-    DMT 0x10:  1024x768    60.003840 Hz   4:3     48.363 kHz     65.000000 =
-MHz
-  Standard Timings:
-    DMT 0x10:  1024x768    60.003840 Hz   4:3     48.363 kHz     65.000000 =
-MHz
-  Detailed Timing Descriptors:
-    DTD 1:  1024x768    60.003840 Hz   4:3     48.363 kHz     65.000000 MHz=
- (355 mm x 266 mm)
-                 Hfront    8 Hsync 144 Hback  168 Hpol N
-                 Vfront    3 Vsync   6 Vback   29 Vpol N
-    Display Product Serial Number: 'Linux #0'
-    Display Range Limits:
-      Monitor ranges (GTF): 59-61 Hz V, 47-49 kHz H, max dotclock 70 MHz
-    Display Product Name: 'Linux XGA'
-Checksum: 0x55
-
-----------------
-
-Warnings:
-
-Block 0, Base EDID:
-  Detailed Timing Descriptor #1: DTD is similar but not identical to DMT 0x=
-10.
-
-EDID conformity: PASS
-
-So, if anything, it's the EDID that needs to be updated, not the code there.
-Maxime
-
---vqybhtpmawkwvb6z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZbuTwwAKCRDj7w1vZxhR
-xStzAQDYM7L7UXag4iNuhrqdZjT3FFQPKQRkvAlVCUNanR6aCQEAkg4xQyzE9/jz
-b81DQAxlvCB4Ne7NX/cfiEPrXcR93Q0=
-=Fb2U
------END PGP SIGNATURE-----
-
---vqybhtpmawkwvb6z--
+-- 
+Jani Nikula, Intel
