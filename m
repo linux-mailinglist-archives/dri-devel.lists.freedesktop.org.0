@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA3C984582F
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 13:53:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C127C845831
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 13:53:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BB4610ED6F;
-	Thu,  1 Feb 2024 12:53:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B09710ED6B;
+	Thu,  1 Feb 2024 12:53:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="yI0OXJ0T";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="FLckKJ25";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A509A10ED6B
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Feb 2024 12:53:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ACBF10ED6B
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Feb 2024 12:53:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1706791994;
- bh=MYH+i/BtT+AMUARp16Q2uQJXlZ3LL8lZ/S/2XJY1/hY=;
+ s=mail; t=1706791995;
+ bh=soGWShtp1fE1scZOoOivLMJWWmkLBlGxzNtJ8q6CdrU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=yI0OXJ0ThXQiHmKqKqrs85H1Pyh52sjE5BWediXGJgifnLTkgWwH9HOEUs9ahG3D6
- NJRhY9/awMkEDcptGzmnhtpVlGPgUru7Ot/2eg8qonpxgRlzlnXKCKM/KABHWXT/i8
- AM8td7pEJYZC23KvT0ER9gJyS5hDghc9CGdzVcolSOgCZIE3d0lG4o+mvng/br1P32
- 4mmzRaQlZKyYKb5Ss4PxbElMbQoQb2t7ak673q8HB6PQMLmQ1DDT+7jzDadtadDsGa
- lXZYx3nVeXfsukdWIljxAhU8r/mFh4+fc1ojUGiL9qW0izyPlWgsqY/2YQNFeHt1cj
- GGQRNzSC4TIJw==
+ b=FLckKJ25YStrCwmV5MWq9MkI58ksS265iNzGTCslvCL7vXFE/iaCWN+y/AbxvW/wr
+ /AWfHHLIw1Jj2gPYOyGWpMiGHNebUb0hqknVb2A1EdrIxi8+WK3OJqA6/zKuxHL81d
+ gBAd7nCFnQW+KPC1BxbLJ9Z5V7iTkAQQps5Cw5C0xzhoLNRoDZm4carNn7fF8VgKlG
+ 5wUx/DJ5Fq0/S/0KDldTsfIM1TwkXWPu7v773LjRdSBRa+dWmc3JFjJDVoQLsRSt3T
+ yFaaSqo0D5sMcwUCiB1xdYr6IDbSOlEzhLyvriE6h2i58sn/hmlm9TCZngXmW3bbIw
+ NWp6Wy4es1BkQ==
 Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com
  [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 20AEA378208D;
- Thu,  1 Feb 2024 12:53:13 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 48339378208F;
+ Thu,  1 Feb 2024 12:53:14 +0000 (UTC)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
 Cc: p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
@@ -41,10 +41,10 @@ Cc: p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
  dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  kernel@collabora.com, wenst@chromium.org
-Subject: [PATCH 2/3] drm/mediatek: Perform iounmap on simple DDP component
- destruction
-Date: Thu,  1 Feb 2024 13:53:03 +0100
-Message-ID: <20240201125304.218467-3-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH 3/3] drm/mediatek: drm_ddp_comp: Add mtk_ddp_is_simple_comp()
+ internal helper
+Date: Thu,  1 Feb 2024 13:53:04 +0100
+Message-ID: <20240201125304.218467-4-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240201125304.218467-1-angelogioacchino.delregno@collabora.com>
 References: <20240201125304.218467-1-angelogioacchino.delregno@collabora.com>
@@ -65,102 +65,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a new mtk_ddp_comp_destroy() function and call it in the teardown
-path of mtk_drm_drv to make sure that we unmap the iospace of the
-simple DDP components.
+Move the simple component check to a new mtk_ddp_is_simple_comp()
+internal helper to reduce code duplication.
 
-While at it, also fix iounmapping on mtk_ddp_comp_init() error path.
-
-Fixes: ff1395609e20 ("drm/mediatek: Move mtk_ddp_comp_init() from sub driver to DRM driver")
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 38 ++++++++++++++++++++-
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  1 +
- drivers/gpu/drm/mediatek/mtk_drm_drv.c      |  4 ++-
- 3 files changed, 41 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 57 +++++++++++----------
+ 1 file changed, 31 insertions(+), 26 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-index c13359eeb3cd..539b526a6b0a 100644
+index 539b526a6b0a..4ca2a02ada3c 100644
 --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
 +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-@@ -626,8 +626,11 @@ int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp *comp,
- 
- 	priv->regs = of_iomap(node, 0);
- 	priv->clk = of_clk_get(node, 0);
--	if (IS_ERR(priv->clk))
-+	if (IS_ERR(priv->clk)) {
-+		iounmap(priv->regs);
-+		priv->regs = NULL;
- 		return PTR_ERR(priv->clk);
-+	}
- 
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
- 	ret = cmdq_dev_get_client_reg(comp->dev, &priv->cmdq_reg, 0);
-@@ -639,3 +642,36 @@ int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp *comp,
- 
- 	return 0;
+@@ -575,6 +575,29 @@ unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm,
+ 	return ret;
  }
-+
-+void mtk_ddp_comp_destroy(struct mtk_ddp_comp *comp)
+ 
++static bool mtk_ddp_is_simple_comp(enum mtk_ddp_comp_type type)
 +{
-+	struct mtk_ddp_comp_dev *priv;
-+
-+	if (!comp || !comp->dev)
-+		return;
-+
-+	/* Complex components are destroyed with their own remove callback */
-+	if (type == MTK_DISP_AAL ||
-+	    type == MTK_DISP_BLS ||
-+	    type == MTK_DISP_CCORR ||
-+	    type == MTK_DISP_COLOR ||
-+	    type == MTK_DISP_GAMMA ||
-+	    type == MTK_DISP_MERGE ||
-+	    type == MTK_DISP_OVL ||
-+	    type == MTK_DISP_OVL_2L ||
-+	    type == MTK_DISP_PWM ||
-+	    type == MTK_DISP_RDMA ||
-+	    type == MTK_DPI ||
-+	    type == MTK_DP_INTF ||
-+	    type == MTK_DSI)
-+		return;
-+
-+	priv = dev_get_drvdata(comp->dev);
-+	if (!priv)
-+		return;
-+
-+	if (priv->regs) {
-+		iounmap(priv->regs);
-+		priv->regs = NULL;
++	switch (type) {
++	case MTK_DISP_AAL:
++	case MTK_DISP_BLS:
++	case MTK_DISP_CCORR:
++	case MTK_DISP_COLOR:
++	case MTK_DISP_GAMMA:
++	case MTK_DISP_MERGE:
++	case MTK_DISP_OVL:
++	case MTK_DISP_OVL_2L:
++	case MTK_DISP_OVL_ADAPTOR:
++	case MTK_DISP_PWM:
++	case MTK_DISP_RDMA:
++	case MTK_DP_INTF:
++	case MTK_DPI:
++	case MTK_DSI:
++		return false;
++	default:
++		return true;
 +	}
 +}
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-index 15b2eafff438..43372b416a3f 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-@@ -318,6 +318,7 @@ unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm,
- 						struct device *dev);
- int mtk_ddp_comp_init(struct device_node *comp_node, struct mtk_ddp_comp *comp,
- 		      unsigned int comp_id);
-+void mtk_ddp_comp_destroy(struct mtk_ddp_comp *comp);
- enum mtk_ddp_comp_type mtk_ddp_comp_get_type(unsigned int comp_id);
- void mtk_ddp_write(struct cmdq_pkt *cmdq_pkt, unsigned int value,
- 		   struct cmdq_client_reg *cmdq_reg, void __iomem *regs,
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 14a1e0157cc4..89b6c31a1511 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -944,8 +944,10 @@ static void mtk_drm_remove(struct platform_device *pdev)
- 	component_master_del(&pdev->dev, &mtk_drm_ops);
- 	pm_runtime_disable(&pdev->dev);
- 	of_node_put(private->mutex_node);
--	for (i = 0; i < DDP_COMPONENT_DRM_ID_MAX; i++)
-+	for (i = 0; i < DDP_COMPONENT_DRM_ID_MAX; i++) {
-+		mtk_ddp_comp_destroy(&private->ddp_comp[i]);
- 		of_node_put(private->comp_node[i]);
-+	}
- }
++
+ int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp *comp,
+ 		      unsigned int comp_id)
+ {
+@@ -605,19 +628,13 @@ int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp *comp,
+ 	}
+ 	comp->dev = &comp_pdev->dev;
  
- static int mtk_drm_sys_prepare(struct device *dev)
+-	if (type == MTK_DISP_AAL ||
+-	    type == MTK_DISP_BLS ||
+-	    type == MTK_DISP_CCORR ||
+-	    type == MTK_DISP_COLOR ||
+-	    type == MTK_DISP_GAMMA ||
+-	    type == MTK_DISP_MERGE ||
+-	    type == MTK_DISP_OVL ||
+-	    type == MTK_DISP_OVL_2L ||
+-	    type == MTK_DISP_PWM ||
+-	    type == MTK_DISP_RDMA ||
+-	    type == MTK_DPI ||
+-	    type == MTK_DP_INTF ||
+-	    type == MTK_DSI)
++	/*
++	 * Resources for simple components are retrieved here as those are
++	 * managed in here without the need of more complex drivers; for
++	 * the latter, their respective probe function will do the job, so
++	 * we must avoid getting their resources here.
++	 */
++	if (!mtk_ddp_is_simple_comp(type))
+ 		return 0;
+ 
+ 	priv = devm_kzalloc(comp->dev, sizeof(*priv), GFP_KERNEL);
+@@ -651,19 +668,7 @@ void mtk_ddp_comp_destroy(struct mtk_ddp_comp *comp)
+ 		return;
+ 
+ 	/* Complex components are destroyed with their own remove callback */
+-	if (type == MTK_DISP_AAL ||
+-	    type == MTK_DISP_BLS ||
+-	    type == MTK_DISP_CCORR ||
+-	    type == MTK_DISP_COLOR ||
+-	    type == MTK_DISP_GAMMA ||
+-	    type == MTK_DISP_MERGE ||
+-	    type == MTK_DISP_OVL ||
+-	    type == MTK_DISP_OVL_2L ||
+-	    type == MTK_DISP_PWM ||
+-	    type == MTK_DISP_RDMA ||
+-	    type == MTK_DPI ||
+-	    type == MTK_DP_INTF ||
+-	    type == MTK_DSI)
++	if (!mtk_ddp_is_simple_comp(mtk_ddp_matches[comp->id].type))
+ 		return;
+ 
+ 	priv = dev_get_drvdata(comp->dev);
 -- 
 2.43.0
 
