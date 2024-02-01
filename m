@@ -2,61 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1BAF845DB7
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 17:50:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99EB4845DFB
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 18:01:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6D3D10F1EA;
-	Thu,  1 Feb 2024 16:50:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB1BA10E16F;
+	Thu,  1 Feb 2024 17:01:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TMOPg8h3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="F99T2ocV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D97D910F1EA
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Feb 2024 16:50:24 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9616610E16F
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Feb 2024 17:01:10 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 811D961F9D;
- Thu,  1 Feb 2024 16:50:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 896B7C433C7;
- Thu,  1 Feb 2024 16:50:09 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id DC452CE14EB;
+ Thu,  1 Feb 2024 17:01:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5109C433C7;
+ Thu,  1 Feb 2024 17:01:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1706806209;
- bh=tOF6dvF9mpcgfY2pG3oXqVYb2x1RXJ2H4D5i85BCkio=;
+ s=k20201202; t=1706806864;
+ bh=ORVetPFkmT4UVVKKyCuUwRmeXNPw9HlZpcxW5dV/1Dk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TMOPg8h30sL7VC9mMIdrMyHzRyRdT8UU6z6NrwEbuK5YEouKuiljSFCz1wRGX7Yx7
- lzomvGIaR3jn3rk+KkYxben1YOlz3kjwyWpHQgBEjVxrb6vhRE0EUlosw+Qrv93ght
- hBhPyiknjoBmQfFwXvwLinPwYlr3CWM4/hIrmYRcriLgWxqyeppuEAZUH20P5MZbOz
- G1XV2kRQRAtMJ5w4IXlJpXPKK1i9LvFWY+jgRB+LLevoAO6Uy1GYbWVTh4HoqHIOOJ
- SipgFjpQILc1j3yVNyg4yAEnh+NsXMTK5w0A2rNaT7i542TMV0ptN6rRfvJhwaS0p0
- Pu9a6WJPGqblA==
-Date: Thu, 1 Feb 2024 17:50:07 +0100
+ b=F99T2ocV6qN+IxcFBwsn1LL6d0OPn/uvYQqJ2bqeNJphRnC6Hb19Iz0KZVFjYNc6s
+ cdrGzteR7vwQyZHb44z5Yd1qtb1DHg9xBvK06x2qpVIf/uyzjM8xDzRNkJTMLRTsYG
+ 9ieheOzFg9iddMtn2M1k2ll66EmdnIc4tovtT4atRBTOaHv7ihbp7HnhZcSgaj9mRF
+ Vf0REkKwiiuU4fR4MCwFO9TyAgtP1XDOGomXwI6KRQZEfiYqfnxwXFXk5YsxHL3AqI
+ 6KLyxNZCUfXr9JxLG+NyQjqk3SYXxRqoxD/dic1yTuYWXmUkQ3GVQ5eKyDrvGCoh5z
+ vPH6M5krOt8yg==
+Date: Thu, 1 Feb 2024 18:01:01 +0100
 From: Maxime Ripard <mripard@kernel.org>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
- Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>, 
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: Re: Re: [PATCH v5 15/44] drm/connector: hdmi: Compute bpc and
- format automatically
-Message-ID: <vydlftxen23kd2odwegxbtpaz73sy2lgpv7nlynfjr3p2xvc2b@7lkdkaw3gp5q>
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-15-6538e19d634d@kernel.org>
- <CAPY8ntBQ+qY9441-rMzq_JAoYAaY_r+E-ADv7Wry0tJNTzKpwg@mail.gmail.com>
- <jlkoofv7nszj2uqmo2672yo4wjd3yjqarge2l2hxofixcchu6a@j72pa4iybitd>
- <CAPY8ntAmXyKtebMeM7rLtgRR+QwL1H+UCwSO=bLBQN4TsgwsDg@mail.gmail.com>
+To: "Klymenko, Anatoliy" <Anatoliy.Klymenko@amd.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>, 
+ "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>, 
+ "Simek, Michal" <michal.simek@amd.com>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: RE: Re: [PATCH 0/4] Fixing live video input in ZynqMP DPSUB
+Message-ID: <2ytxhpti53e743b5pca3oa5jmscffi4vpsyeh727bcoh4v6cuw@zkz5pqkcv7v2>
+References: <20240112234222.913138-1-anatoliy.klymenko@amd.com>
+ <6jhwss2wego6yoo5mwmphwawhsj5bbj62gwrzcpapoixwkrkli@g4fbxdooopby>
+ <20240117142343.GD17920@pendragon.ideasonboard.com>
+ <u5mngxudtdgy3vqkfbpgqng6tdahijnet2jtj345hrowbt47ce@t3e7hul45mr3>
+ <MW4PR12MB7165D35189BEECA8769552AFE6792@MW4PR12MB7165.namprd12.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="j5ozu7iwnqfrstbx"
+ protocol="application/pgp-signature"; boundary="pjqnxa646r7gclj6"
 Content-Disposition: inline
-In-Reply-To: <CAPY8ntAmXyKtebMeM7rLtgRR+QwL1H+UCwSO=bLBQN4TsgwsDg@mail.gmail.com>
+In-Reply-To: <MW4PR12MB7165D35189BEECA8769552AFE6792@MW4PR12MB7165.namprd12.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,174 +69,117 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---j5ozu7iwnqfrstbx
+--pjqnxa646r7gclj6
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 01, 2024 at 03:33:24PM +0000, Dave Stevenson wrote:
-> Hi Maxime
+On Fri, Jan 26, 2024 at 11:18:30PM +0000, Klymenko, Anatoliy wrote:
 >=20
-> On Thu, 1 Feb 2024 at 12:51, Maxime Ripard <mripard@kernel.org> wrote:
-> >
-> > On Thu, Dec 14, 2023 at 03:10:43PM +0000, Dave Stevenson wrote:
-> > > > +static bool
-> > > > +sink_supports_format_bpc(const struct drm_connector *connector,
-> > > > +                        const struct drm_display_info *info,
-> > > > +                        const struct drm_display_mode *mode,
-> > > > +                        unsigned int format, unsigned int bpc)
-> > > > +{
-> > > > +       struct drm_device *dev =3D connector->dev;
-> > > > +       u8 vic =3D drm_match_cea_mode(mode);
-> > > > +
-> > > > +       if (vic =3D=3D 1 && bpc !=3D 8) {
-> > > > +               drm_dbg(dev, "VIC1 requires a bpc of 8, got %u\n", =
-bpc);
-> > > > +               return false;
-> > > > +       }
-> > > > +
-> > > > +       if (!info->is_hdmi &&
-> > > > +           (format !=3D HDMI_COLORSPACE_RGB || bpc !=3D 8)) {
-> > > > +               drm_dbg(dev, "DVI Monitors require an RGB output at=
- 8 bpc\n");
-> > > > +               return false;
-> > > > +       }
-> > > > +
-> > > > +       if (!(connector->hdmi.supported_formats & BIT(format))) {
-> > > > +               drm_dbg(dev, "%s format unsupported by the connecto=
-r.\n",
-> > > > +                       drm_hdmi_connector_get_output_format_name(f=
-ormat));
-> > > > +               return false;
-> > > > +       }
-> > > > +
-> > > > +       switch (format) {
-> > > > +       case HDMI_COLORSPACE_RGB:
-> > > > +               drm_dbg(dev, "RGB Format, checking the constraints.=
-\n");
-> > > > +
-> > > > +               if (!(info->color_formats & DRM_COLOR_FORMAT_RGB444=
-))
-> > > > +                       return false;
+>=20
+> > -----Original Message-----
+> > From: Maxime Ripard <mripard@kernel.org>
+> > Sent: Friday, January 26, 2024 4:26 AM
+> > To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Cc: Klymenko, Anatoliy <Anatoliy.Klymenko@amd.com>;
+> > maarten.lankhorst@linux.intel.com; tzimmermann@suse.de; airlied@gmail.c=
+om;
+> > daniel@ffwll.ch; Simek, Michal <michal.simek@amd.com>; dri-
+> > devel@lists.freedesktop.org; linux-arm-kernel@lists.infradead.org; linu=
+x-
+> > kernel@vger.kernel.org
+> > Subject: Re: Re: [PATCH 0/4] Fixing live video input in ZynqMP DPSUB
+> >=20
+> > On Wed, Jan 17, 2024 at 04:23:43PM +0200, Laurent Pinchart wrote:
+> > > On Mon, Jan 15, 2024 at 09:28:39AM +0100, Maxime Ripard wrote:
+> > > > On Fri, Jan 12, 2024 at 03:42:18PM -0800, Anatoliy Klymenko wrote:
+> > > > > Patches 1/4,2/4,3/4 are minor fixes.
+> > > > >
+> > > > > DPSUB requires input live video format to be configured.
+> > > > > Patch 4/4: The DP Subsystem requires the input live video format =
+to be
+> > > > > configured. In this patch we are assuming that the CRTC's bus for=
+mat is fixed
+> > > > > and comes from the device tree. This is a proposed solution, as t=
+here are no
+> > api
+> > > > > to query CRTC output bus format.
+> > > > >
+> > > > > Is this a good approach to go with?
+> > > >
+> > > > I guess you would need to expand a bit on what "live video input" i=
+s? Is
+> > > > it some kind of mechanism to bypass memory and take your pixels str=
+aight
+> > > > from a FIFO from another device, or something else?
 > > >
-> > > We've dropped this check from vc4 in our downstream kernel as it stops
-> > > you using the prebaked EDIDs (eg drm.edid_firmware=3Dedid/1024x768.bi=
-n),
-> > > or any other EDID that is defined as an analog monitor.
-> > > The EDID parsing bombs out at [1], so info->color_formats gets left a=
-t 0.
-> >
-> > Right, but it only does so if the display isn't defined as a digital di=
-splay...
-> >
-> > > RGB is mandatory for both DVI and HDMI, so rejecting it seems overly =
-fussy.
-> >
-> > ... which is required for both DVI and HDMI.
-> >
-> > And sure enough, if we decode that EDID:
-> >
-> > edid-decode (hex):
-> >
-> > 00 ff ff ff ff ff ff 00 31 d8 00 00 00 00 00 00
-> > 05 16 01 03 6d 23 1a 78 ea 5e c0 a4 59 4a 98 25
-> > 20 50 54 00 08 00 61 40 01 01 01 01 01 01 01 01
-> > 01 01 01 01 01 01 64 19 00 40 41 00 26 30 08 90
-> > 36 00 63 0a 11 00 00 18 00 00 00 ff 00 4c 69 6e
-> > 75 78 20 23 30 0a 20 20 20 20 00 00 00 fd 00 3b
-> > 3d 2f 31 07 00 0a 20 20 20 20 20 20 00 00 00 fc
-> > 00 4c 69 6e 75 78 20 58 47 41 0a 20 20 20 00 55
-> >
-> > ----------------
-> >
-> > Block 0, Base EDID:
-> >   EDID Structure Version & Revision: 1.3
-> >   Vendor & Product Identification:
-> >     Manufacturer: LNX
-> >     Model: 0
-> >     Made in: week 5 of 2012
-> >   Basic Display Parameters & Features:
-> >     Analog display
-> >     Signal Level Standard: 0.700 : 0.000 : 0.700 V p-p
-> >     Blank level equals black level
-> >     Sync: Separate Composite Serration
-> >     Maximum image size: 35 cm x 26 cm
-> >     Gamma: 2.20
-> >     DPMS levels: Standby Suspend Off
-> >     RGB color display
-> >     First detailed timing is the preferred timing
-> >   Color Characteristics:
-> >     Red  : 0.6416, 0.3486
-> >     Green: 0.2919, 0.5957
-> >     Blue : 0.1474, 0.1250
-> >     White: 0.3125, 0.3281
-> >   Established Timings I & II:
-> >     DMT 0x10:  1024x768    60.003840 Hz   4:3     48.363 kHz     65.000=
-000 MHz
-> >   Standard Timings:
-> >     DMT 0x10:  1024x768    60.003840 Hz   4:3     48.363 kHz     65.000=
-000 MHz
-> >   Detailed Timing Descriptors:
-> >     DTD 1:  1024x768    60.003840 Hz   4:3     48.363 kHz     65.000000=
- MHz (355 mm x 266 mm)
-> >                  Hfront    8 Hsync 144 Hback  168 Hpol N
-> >                  Vfront    3 Vsync   6 Vback   29 Vpol N
-> >     Display Product Serial Number: 'Linux #0'
-> >     Display Range Limits:
-> >       Monitor ranges (GTF): 59-61 Hz V, 47-49 kHz H, max dotclock 70 MHz
-> >     Display Product Name: 'Linux XGA'
-> > Checksum: 0x55
-> >
-> > ----------------
-> >
-> > Warnings:
-> >
-> > Block 0, Base EDID:
-> >   Detailed Timing Descriptor #1: DTD is similar but not identical to DM=
-T 0x10.
-> >
-> > EDID conformity: PASS
-> >
-> > So, if anything, it's the EDID that needs to be updated, not the code t=
-here.
->=20
-> So are these EDIDs only valid for VGA outputs and another set needs to
-> be added for HDMI monitors?
->=20
-> Having drm.edid_firmware=3Dedid/1024x768.bin works on an HDMI connector
-> prior to this patch, so presumably drm_edid_loader needs to
-> automatically switch between the existing (analog) and new (digital)
-> EDIDs based on the connector type? Or are you requiring users to
-> change the strings they use?
+> > > Yes and no.
+> > >
+> > > The DPSUB integrates DMA engines, a blending engine (two planes), and=
+ a
+> > > DP encoder. The dpsub driver supports all of this, and creates a DRM
+> > > device. The DP encoder hardware always takes its input data from the
+> > > output of the blending engine.
+> > >
+> > > The blending engine can optionally take input data from a bus connect=
+ed
+> > > to the FPGA fabric, instead of taking it from the DPSUB internal DMA
+> > > engines. When operating in that mode, the dpsub driver exposes the DP
+> > > encoder as a bridge, and internally programs the blending engine to
+> > > disable blending. Typically, the FPGA fabric will then contain a CRTC=
+ of
+> > > some sort, with a driver that will acquire the DP encoder bridge as
+> > > usually done.
+> > >
+> > > In this mode of operation, it is typical for the IP cores in FPGA fab=
+ric
+> > > to be synthesized with a fixed format (as that saves resources), while
+> > > the DPSUB supports multiple input formats.
+> >=20
+> > Where is that CRTC driver? It's not clear to me why the format would
+> > need to be in the device tree at all. Format negociation between the
+> > CRTC and whatever comes next is already done in a number of drivers so
+> > it would be useful to have that kind of API outside of the bridge
+> > support.
+>
+> One example of such CRTC driver:
+> https://github.com/Xilinx/linux-xlnx/blob/master/drivers/gpu/drm/xlnx/xln=
+x_mixer.c It's not
+> upstreamed yet. Bus format negotiations here are handled by utilizing Xil=
+inx-specific bridge
+> framework. Ideally, it would be nice to rework this to comply with the up=
+stream DRM bridge
+> framework.
+>
+> > > Bridge drivers in the upstream kernel work the other way around, with
+> > > the bridge hardware supporting a limited set of formats, and the CRTC
+> > > then being programmed with whatever the bridges chain needs. Here, the
+> > > negotiation needs to go the other way around, as the CRTC is the
+> > > limiting factor, not the bridge.
+> >=20
+> > Sounds like there's something to rework in the API then?
+> >=20
+> Adding an optional CRTC callback imposing CRTC specific bus format restri=
+ctions, which may be
+> called from here https://github.com/torvalds/linux/blob/master/drivers/gp=
+u/drm/drm_bridge.c#L935
+> would solve the problem.
 
-We've discussed that on IRC today. I'm not sure there was a conclusion
-other than "well this doesn't seem right". I think we should at least
-provide different EDIDs depending on the connector type indeed, but
-there was also a few discussions that arose:
-
-  - Is it useful to have embedded EDIDs in the kernel at all, and could
-    we just get rid of it?
-
-  - Should we expose those EDIDs to userspace, and what happens to the
-    compositor when we do?
-
-  - The current way to generate those EDIDs isn't... optimal? Should we
-    get rid of that as well?
-
-Anyway, all of those issues have been here for a while so I don't really
-expect this series to fix that.
+CRTCs and bridges are orthogonal. If anything, I'd expect that callback
+to be set at the CRTC, encoder and connector levels and filled by the
+drm_bridge code if relevant.
 
 Maxime
 
---j5ozu7iwnqfrstbx
+--pjqnxa646r7gclj6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZbvLvgAKCRDj7w1vZxhR
-xSCOAP96iK948t4DHQtM0RjNfYbNEnT9IPn1B8+p9FAgrkYKMgD7BNjR2zGVhdBX
-JcgARDy3OnatYKDdLcS+h0fMuxIGWgs=
-=9IpS
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZbvOTAAKCRDj7w1vZxhR
+xbVPAP49vGrbelyhqSYUXSE85/vH2qXOXAJu3q1Y/CUU9DUANwEAlmtHkOex/CVN
+fX5vhl8ixN+4cmpKXQHWEroLwF3pxAQ=
+=Pm76
 -----END PGP SIGNATURE-----
 
---j5ozu7iwnqfrstbx--
+--pjqnxa646r7gclj6--
