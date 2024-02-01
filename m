@@ -2,69 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 223AA846374
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 23:33:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4E9C84632D
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 23:11:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73B2910EC43;
-	Thu,  1 Feb 2024 22:32:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FB3E10E7D5;
+	Thu,  1 Feb 2024 22:11:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="qgd8L0pE";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="4/ipnymN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1467 seconds by postgrey-1.36 at gabe;
- Thu, 01 Feb 2024 22:32:48 UTC
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A571610EC43
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Feb 2024 22:32:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=barmD5HdTQ3beqlmh4xJBK3WrVzCnDQhsfFyVRQ0csM=; b=qgd8L0pElYUnJq+8e4PUiPtatB
- fFgkpsMUKxNOKHewfE0BEt07yjnL+gotMk0zeTYMFejBuOMrv3IP7sdklBQzku22cZpDV3DjJbOl0
- ayFRJZm6JjSwWUWcMr2M0oBwE4+CdYVghEr2sZ2pRc0UP/enfENscJ2O6Kae6T8ZNLamkwrkFlNDH
- AaV098dgwxs2yJ7Y4pIgAQR3AwKcvINpAen3CoH3CFQGmu6vpVvnDkovG6iDOCBEqqTur7exBEQLm
- ZaOI5K8d0zFLT9tuZQLDvHdALfEZ4swZ0W5hSqLLUVmXiZo2lh/uU8VwoPxpeM6dOMF6e1csPBgGv
- PgOV7GXA==;
-Received: from [179.234.233.159] (helo=[192.168.1.212])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1rVfDs-00CkLQ-4L; Thu, 01 Feb 2024 23:07:52 +0100
-Message-ID: <d7959499-c0cf-4454-b9f9-8436d8818095@igalia.com>
-Date: Thu, 1 Feb 2024 19:07:43 -0300
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2069.outbound.protection.outlook.com [40.107.94.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DDBE10E7D5;
+ Thu,  1 Feb 2024 22:11:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RLHYWmOkUyMDzKP8NuoeoDXByr8JYgdje/oTnsFs+Tns/NWIpomypmWOfdr3bswZFkLqc3qlqgNj4SleW94+Np+AcQtveujo8Cd/oTluA8sB/++bieBr51LGPiYD8Oq7SqneNaG03fRYKBmJdi0cBI4nHbpJJv/NMU0eroQ2kFlyxxwZhbeQ34MWslXxJD2uGG+aMNcmaUE/CsfMKSNpvKVaFg1uJ8f8amN9rsVOtPaQIth+KVlynJcaAEE8mKcvyjvumOngaj4ZZBdFkA0FAZdLzPL+i8BmVl68k5pNGJXyG5Ud5e+ejjEhj/4/00slVqZ006JZKh3YWXR6OC0K5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xCywjw5D8vgHFCTQux8e8mViMEgVBwqXflFfsD5FsvI=;
+ b=nTX+5VRt8Qs/7HUMjHJzSMWxCjnmSyNQAduMUU1vr3v9buPddEhSb5yD15eROvMonYCNM2FTbRUyDYybOL+sWkhyXMcrV2FJJZDlqsVoQare5yBVGIX83GO5QhpF0g7SwcL5eaF2MrjMH5LTfBPL4s/eqHG9SxFLlih0aVPKPLJJavd2sEVOsrmRJ2mTZypyP1HpHHo1m7waqTUQb8GsN3xAux89YQMbIvEmbKZ/nBue1yYDRgpvZB+aiV4wqfDxOyai1cP0a5D9WQKsQ3mHZh99ULVrql0t/77TqXDKCp/goaFBfN2421rvMEsG51u0xggybqvE2LVA1YFtvQXSUA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xCywjw5D8vgHFCTQux8e8mViMEgVBwqXflFfsD5FsvI=;
+ b=4/ipnymNbePiEYucEnJn2edsBbf8qRfXfmvqxkflVjjpjsicP1BtJoxZQL6DrWNIzEVmBD2Z/UVr644rIWu8tBeMlRoB9gtYc3DJuwhS71eFFf2HNZYALTF/spReEGEYepdgFHIBT9D5F8LYKEHDC26fqFqjT+gsjpsCNRIlDak=
+Received: from DM6PR05CA0044.namprd05.prod.outlook.com (2603:10b6:5:335::13)
+ by SA3PR12MB9092.namprd12.prod.outlook.com (2603:10b6:806:37f::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.22; Thu, 1 Feb
+ 2024 22:11:38 +0000
+Received: from DS1PEPF00017090.namprd03.prod.outlook.com
+ (2603:10b6:5:335:cafe::8f) by DM6PR05CA0044.outlook.office365.com
+ (2603:10b6:5:335::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.22 via Frontend
+ Transport; Thu, 1 Feb 2024 22:11:38 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS1PEPF00017090.mail.protection.outlook.com (10.167.17.132) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7249.19 via Frontend Transport; Thu, 1 Feb 2024 22:11:38 +0000
+Received: from AUS-P9-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Thu, 1 Feb
+ 2024 16:11:36 -0600
+From: Mario Limonciello <mario.limonciello@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, Alex Deucher <alexander.deucher@amd.com>, 
+ Harry Wentland <harry.wentland@amd.com>, "Rafael J . Wysocki"
+ <rafael@kernel.org>, Hans de Goede <hdegoede@redhat.com>
+CC: "open list:ACPI" <linux-acpi@vger.kernel.org>, open list
+ <linux-kernel@vger.kernel.org>, "open list:DRM DRIVERS"
+ <dri-devel@lists.freedesktop.org>, Melissa Wen <mwen@igalia.com>, "Mark
+ Pearson" <mpearson-lenovo@squebb.ca>, Mario Limonciello
+ <mario.limonciello@amd.com>
+Subject: [PATCH v3 0/5] Add support for fetching EDID from ACPI _DDC
+Date: Thu, 1 Feb 2024 16:11:14 -0600
+Message-ID: <20240201221119.42564-1-mario.limonciello@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Better support for complex pixel formats
-Content-Language: en-US
-To: Louis Chauvet <louis.chauvet@bootlin.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, marcheu@google.com, seanpaul@google.com,
- nicolejadeyee@google.com
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- thomas.petazzoni@bootlin.com, miquel.raynal@bootlin.com
-References: <20240201-yuv-v1-0-3ca376f27632@bootlin.com>
-From: Maira Canal <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
- H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
- hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
- GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
- rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
- s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
- GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
- pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <20240201-yuv-v1-0-3ca376f27632@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS1PEPF00017090:EE_|SA3PR12MB9092:EE_
+X-MS-Office365-Filtering-Correlation-Id: 50a28923-d0db-41fc-f83d-08dc2372c2df
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: yKrFFOERkdfW2MwYhDxYdyRQTegaMSSuWMDGIBeZn2/g2iO+1VMHp6/K6Qazy3tobMja5lXgwTTrtYa0kkk9ZxIyg5Ly9cfUJgzTAiOd0ktIwgcKgAlnpSFz0ndlrriEE6uogSOpaqyQ/lGUJBkLeqODQaaNO6EMeFDUH+tgfrTLiNA+7nz+j1UFQ1pPXcAey5aYgrT8tS/40u5DsbquFZN+27p7nsrt1uLHS2xP7a/T+82LkZuU3GcfKHqKnEAMGWbP4k1Yji+L4Ms5LdLBbwHNemdhEy99TcGI1DTqqJ4GeTuAXwko99VOccHWx1E+0wGdWwMwx67SHov+LUEDaGtxd4fhQgoJpX4rijdFFJq21Txl/X9RA1GSXLmtVb+SxBHNllCdfElIbRazgk6QNfJUCYMNTGHL8uaAqAs0H9KTr0uS5kGrJTK3P1cfSgjBUurx1RpZ9YT3HNk9F+0K/2damTynnzxTu4stypItBKKj+Sj8g/G7Krv0tPIv0EZc4zZt858D5rvK34COqJ0h1IBveOwypP/cJ9CKlIVrG9JcLBAvs9fjiNhvhnex7DOqwba+E63D+bEC1nkYJGWMpi3RglneI/6fXAwfc1xDvWql01UKFTmXCsUmzUY3PNTBtuYuJO4bRfXr+pAY3JRJH50kAP6N9icePPX/9JHch2BqR64NlbKP6hfldjM2KrrjW/cgKB5xiBZmUsJwXkahLh8iX5uxQxdaBWD7x7V7rpMJOCsvbvuHs+M1NLLWxO1N
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(4636009)(136003)(39860400002)(376002)(396003)(346002)(230922051799003)(451199024)(82310400011)(1800799012)(64100799003)(186009)(40470700004)(36840700001)(46966006)(83380400001)(426003)(2906002)(336012)(2616005)(1076003)(16526019)(36860700001)(5660300002)(26005)(82740400003)(47076005)(70206006)(54906003)(966005)(8676002)(110136005)(70586007)(6666004)(4326008)(7696005)(8936002)(44832011)(316002)(478600001)(86362001)(41300700001)(81166007)(356005)(40460700003)(40480700001)(36756003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2024 22:11:38.1688 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 50a28923-d0db-41fc-f83d-08dc2372c2df
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF00017090.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB9092
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,56 +111,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Louis,
+Some laptops ship an EDID in the BIOS encoded in the _DDC method that
+differs than the EDID directly on the laptop panel for $REASONS.
 
-Thanks for your patches! Could you please rebase them on top of
-drm-misc-next? It would make it easier for me to review and test the
-patches.
+This is the EDID that is used by the AMD Windows driver, and so sometimes
+different results are found in different operating systems.
 
-Best Regards,
-- Maíra
+This series adds a new DRM helper that will use acpi_video to fetch the
+EDID.
 
-On 2/1/24 14:31, Louis Chauvet wrote:
-> This patchset aims to solve issues I found in [1], and at the same time
-> simplify the composition algorithm.
-> 
-> I sent more igt-gpu-tools test [2] to cover more things and detect the
-> issues in [1].
-> 
-> This patchset is based on [1].
-> 
-> Patch 1/2: This patch is a no-op, but make the code more readable
-> regarding the pixel_read functions.
-> 
-> Patch 2/2: This patch is more complex. My main target was to solve issues
-> I found in [1], but as it was very complex to do it "in place", I choose
-> to rework the composition function.
-> The main two advantages are:
-> - It's now possible to create conversion function for packed & grouped
-> pixels. Some pixel formats need absolute x/y position and not only an
-> offset in the buffer to extract the correct value. This part also solve
-> the issues I found in [1].
-> - The rotation management is now way easier to understand, there is no
-> more switch case in different places and instead of copy/pasting rotation
-> formula I used drm_rect_* helpers.
-> 
-> [1]: https://lore.kernel.org/dri-devel/20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net/
-> [2]: https://lore.kernel.org/igt-dev/20240201-kms_tests-v1-0-bc34c5d28b3f@bootlin.com/T/#t
-> 
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> ---
-> Louis Chauvet (2):
->        drm/vkms: Create a type to check a function pointer validity
->        drm/vkms: Use a simpler composition function
-> 
->   drivers/gpu/drm/vkms/vkms_composer.c |  97 ++++++++-----
->   drivers/gpu/drm/vkms/vkms_drv.h      |  32 ++++-
->   drivers/gpu/drm/vkms/vkms_formats.c  | 254 ++++++++++++++++++-----------------
->   drivers/gpu/drm/vkms/vkms_formats.h  |   2 +-
->   drivers/gpu/drm/vkms/vkms_plane.c    |  13 +-
->   5 files changed, 236 insertions(+), 162 deletions(-)
-> ---
-> base-commit: 5d189d57bb335a87ec38ea26fe43a5f3ed31ced7
-> change-id: 20240201-yuv-1337d90d9576
-> 
-> Best regards,
+On amdgpu when an eDP panel is found the BIOS
+is checked first for an EDID and that used as a preference if found.
+
+On nouveau it replaces the previous local function doing a similar role.
+
+This does *not* use struct drm_edid as this will require more involved
+amdgpu display driver work that will come separately as part of follow-ups
+to: https://lore.kernel.org/amd-gfx/20240126163429.56714-1-mwen@igalia.com/
+
+v2-v3:
+ * Clean up some of the 'select ACPI_VIDEO' kconfig spaghetti reported by LKP
+ * Drop the 'select ACPI_VIDEO' from the DRM drivers
+
+Mario Limonciello (5):
+  ACPI: video: Handle fetching EDID that is longer than 256 bytes
+  drm: Add drm_get_acpi_edid() helper
+  drm/amd: Fetch the EDID from _DDC if available for eDP
+  drm/nouveau: Use drm_get_acpi_edid() helper
+  drm: Drop unneeded selects in DRM drivers
+
+ drivers/acpi/acpi_video.c                     | 25 +++----
+ drivers/gpu/drm/Kconfig                       |  5 ++
+ drivers/gpu/drm/amd/amdgpu/Kconfig            |  7 --
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h           |  1 +
+ .../gpu/drm/amd/amdgpu/amdgpu_connectors.c    |  4 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  8 ++
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 10 ++-
+ .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |  9 ++-
+ drivers/gpu/drm/drm_edid.c                    | 73 +++++++++++++++++++
+ drivers/gpu/drm/gma500/Kconfig                |  6 --
+ drivers/gpu/drm/i915/Kconfig                  |  7 --
+ drivers/gpu/drm/nouveau/nouveau_acpi.c        | 27 -------
+ drivers/gpu/drm/nouveau/nouveau_acpi.h        |  2 -
+ drivers/gpu/drm/nouveau/nouveau_connector.c   |  2 +-
+ drivers/gpu/drm/radeon/Kconfig                |  7 --
+ drivers/gpu/drm/xe/Kconfig                    |  6 --
+ include/drm/drm_edid.h                        |  1 +
+ 17 files changed, 116 insertions(+), 84 deletions(-)
+
+-- 
+2.34.1
+
