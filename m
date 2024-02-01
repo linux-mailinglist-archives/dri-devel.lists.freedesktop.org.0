@@ -2,44 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED37F845BA1
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 16:33:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B87E845BA0
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 16:33:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAB8110F20E;
-	Thu,  1 Feb 2024 15:33:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FA6610F273;
+	Thu,  1 Feb 2024 15:33:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JLSupS6M";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jxBWNOgo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 426 seconds by postgrey-1.36 at gabe;
+ Thu, 01 Feb 2024 15:33:50 UTC
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3221310F2F5
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1015210F273
  for <dri-devel@lists.freedesktop.org>; Thu,  1 Feb 2024 15:33:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1706801630; x=1738337630;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=P7V8arI0O5w8uxp8JSCtlJ4wD8r1rt7mth6lt0GJXKE=;
- b=JLSupS6MM1LmAiFN6H1/mFG0js3ymQ2vDPqlkJGm9BRtZWs/EqvsDIx7
- qXnLcXxKVNkeMANZfLDErV59j64E06qSy6NCHAdgaYePKN5vzrgpxk0I9
- S4S1o5eVnAX/BGYfShGdsoKjCNFr+EXndiy/l38RSJ1B3tCPlnUZbUWQ/
- KTSlNZBLDzVPiGazRh7ktzVdues+DYDx4Vcoos48t04P1ae5emjsn+UPE
- n/N4Gkhmj9SUofjxg9aSQ9uqGROuP5Zna5vUsBFWDlpUqfY2dGsP8xF8B
- NVJf7rMjc/1cRZdWuYJygyqPJ3NT2kcDSRlXLyaGm4scyBLqvTUHPbzoY g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="140707"
+ bh=Crj2Xd5+sjM/WF1/AU2C24hHxy1FDdrAbIh7Rfeop1M=;
+ b=jxBWNOgoHTiofy9QFKgn9cn1MHCWiGSqDo24vUmDC6f6/L2vj5YdNRJT
+ A673A2Sp0SW/KTyIkV1PHDAEgtdq8qrSbsCuSLDmdnjQJ27c3qfWlOA7c
+ ka5ZifmLCVOclsRTi/8ViSbcjYxXIcv1Dn1T7u3iaWyuUlsRhDQAZA4Pw
+ qVT5FUtUnFt3kw4l84j4887g6brlBELM8DbFEj4IYTUPYYiA+bcF4zvZW
+ jacmbErPoIdvX4doK/JR3rc0piij/mEL1UQGIfb3TjjtvjBIxjVqR0sA/
+ Y/Rt3tfkxdz576hqIv7kA9DiCb3A1KGhE/sesk3tV7I65UIQLFE6zT61r g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="140714"
 X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
-   d="scan'208";a="140707"
+   d="scan'208";a="140714"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  01 Feb 2024 07:26:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="908275360"
-X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; d="scan'208";a="908275360"
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="908275361"
+X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; d="scan'208";a="908275361"
 Received: from black.fi.intel.com ([10.237.72.28])
  by fmsmga002.fm.intel.com with ESMTP; 01 Feb 2024 07:26:41 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1003)
- id ED67B9FD; Thu,  1 Feb 2024 16:49:52 +0200 (EET)
+ id F2F7CA8A; Thu,  1 Feb 2024 16:49:52 +0200 (EET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Daniel Thompson <daniel.thompson@linaro.org>,
@@ -47,9 +49,9 @@ To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  linux-kernel@vger.kernel.org
 Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
  Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>
-Subject: [PATCH v2 1/4] backlight: hx8357: Make use of device properties
-Date: Thu,  1 Feb 2024 16:47:42 +0200
-Message-ID: <20240201144951.294215-2-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 2/4] backlight: hx8357: Move OF table closer to its consumer
+Date: Thu,  1 Feb 2024 16:47:43 +0200
+Message-ID: <20240201144951.294215-3-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
 In-Reply-To: <20240201144951.294215-1-andriy.shevchenko@linux.intel.com>
 References: <20240201144951.294215-1-andriy.shevchenko@linux.intel.com>
@@ -70,72 +72,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the module to be property provider agnostic and allow
-it to be used on non-OF platforms.
+Move OF table near to the user.
 
-Include mod_devicetable.h explicitly to replace the dropped of.h
-which included mod_devicetable.h indirectly.
+While at it, drop comma at terminator entry.
 
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/video/backlight/hx8357.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ drivers/video/backlight/hx8357.c | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/video/backlight/hx8357.c b/drivers/video/backlight/hx8357.c
-index bf18337ff0c2..ac65609e5d84 100644
+index ac65609e5d84..81d0984e9d8b 100644
 --- a/drivers/video/backlight/hx8357.c
 +++ b/drivers/video/backlight/hx8357.c
-@@ -8,9 +8,9 @@
- #include <linux/delay.h>
- #include <linux/gpio/consumer.h>
- #include <linux/lcd.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
--#include <linux/of.h>
--#include <linux/of_device.h>
-+#include <linux/property.h>
- #include <linux/spi/spi.h>
+@@ -566,19 +566,6 @@ static struct lcd_ops hx8357_ops = {
  
- #define HX8357_NUM_IM_PINS	3
-@@ -564,6 +564,8 @@ static struct lcd_ops hx8357_ops = {
- 	.get_power	= hx8357_get_power,
- };
+ typedef int (*hx8357_init_fn)(struct lcd_device *);
  
-+typedef int (*hx8357_init_fn)(struct lcd_device *);
-+
- static const struct of_device_id hx8357_dt_ids[] = {
- 	{
- 		.compatible = "himax,hx8357",
-@@ -582,7 +584,7 @@ static int hx8357_probe(struct spi_device *spi)
+-static const struct of_device_id hx8357_dt_ids[] = {
+-	{
+-		.compatible = "himax,hx8357",
+-		.data = hx8357_lcd_init,
+-	},
+-	{
+-		.compatible = "himax,hx8369",
+-		.data = hx8369_lcd_init,
+-	},
+-	{},
+-};
+-MODULE_DEVICE_TABLE(of, hx8357_dt_ids);
+-
+ static int hx8357_probe(struct spi_device *spi)
+ {
  	struct device *dev = &spi->dev;
- 	struct lcd_device *lcdev;
- 	struct hx8357_data *lcd;
--	const struct of_device_id *match;
-+	hx8357_init_fn init_fn;
- 	int i, ret;
+@@ -640,6 +627,19 @@ static int hx8357_probe(struct spi_device *spi)
+ 	return 0;
+ }
  
- 	lcd = devm_kzalloc(&spi->dev, sizeof(*lcd), GFP_KERNEL);
-@@ -597,8 +599,8 @@ static int hx8357_probe(struct spi_device *spi)
- 
- 	lcd->spi = spi;
- 
--	match = of_match_device(hx8357_dt_ids, &spi->dev);
--	if (!match || !match->data)
-+	init_fn = device_get_match_data(dev);
-+	if (!init_fn)
- 		return -EINVAL;
- 
- 	lcd->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-@@ -627,7 +629,7 @@ static int hx8357_probe(struct spi_device *spi)
- 
- 	hx8357_lcd_reset(lcdev);
- 
--	ret = ((int (*)(struct lcd_device *))match->data)(lcdev);
-+	ret = init_fn(lcdev);
- 	if (ret) {
- 		dev_err(&spi->dev, "Couldn't initialize panel\n");
- 		return ret;
++static const struct of_device_id hx8357_dt_ids[] = {
++	{
++		.compatible = "himax,hx8357",
++		.data = hx8357_lcd_init,
++	},
++	{
++		.compatible = "himax,hx8369",
++		.data = hx8369_lcd_init,
++	},
++	{}
++};
++MODULE_DEVICE_TABLE(of, hx8357_dt_ids);
++
+ static struct spi_driver hx8357_driver = {
+ 	.probe  = hx8357_probe,
+ 	.driver = {
 -- 
 2.43.0.rc1.1.gbec44491f096
 
