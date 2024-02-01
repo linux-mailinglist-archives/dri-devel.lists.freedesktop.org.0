@@ -2,121 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 582C1845848
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 13:57:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B7348459F5
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 15:20:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0088D10EB48;
-	Thu,  1 Feb 2024 12:57:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B0EE10EE53;
+	Thu,  1 Feb 2024 14:19:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="TttJLign";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QvJIuLQJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2066.outbound.protection.outlook.com [40.107.95.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B38A910EB48;
- Thu,  1 Feb 2024 12:56:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BnpY7wbplfV6gP6z7HhTxa4oIBSFYV5JfYy1NIyuLUptZoXrpKGOC6HJJoUgvBP43YJxd/Dfj6cYYJnD0Jc1CLkSuYCujKCUYK9TbLRZFpHdxBVNAZUx8aXwwvQOlNMbqh2NLR82WdKnt6TqJ6trorYFEppb3RqrbzjQa9Mn47lGJ4X/fE/kYKc43dsNgFara4RRSUqhQEr3mwtCzzG3t4xbSTPVQKK+VZYFD31huTvdiuw2ZqzvPWJMGwvwLDsA5J4ehC2j4JtvUipy0xFs0IGjTFcaz3DNDOa+4oo/OTFGulnB4OnsgETropmmY2GNu++aDkSTJNdDQscS5t+MiQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=O2PqbuvxLZVhCrrjblGQhlJoQzJIzi3+2stpEXTwwFc=;
- b=Q+J2hLK2KIaEIHYOd9TlUaWcHCU0ilVw5MNodbdEiXXYAr+/0GIkC2rP1D7PcWKSgKUheydrMLtJl7GWPWRbac0QbtWviuWPEshSIINg8BjUyNfTD7OUFDi2hSe4gzE5SakMA6HE7xorb1zBpjrpP9xRfD8ztP6vwnOPUAJpz9ImS/V7yjpOAd5KkwBlloDp4X/hDnzJSpVZLMqA/YPDxoQUNEWFjcmSJ8R9mEDf0V8+rCsPYSI/3OoU3UlL1UQpgWo1ZV2M7lZZ3+VOJEwQx4TfFxqPBtDOIFgTTv96tiC3pxq6RF7g96dKiWUIdFz58TKD5rT0hszWetfqZtaWGg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=O2PqbuvxLZVhCrrjblGQhlJoQzJIzi3+2stpEXTwwFc=;
- b=TttJLign78yIc5ABl8HRjK3ckDI3Sj6MXBaHXhZtNj9X6LDE/3VpaeT5ovB1O/UvITZXvXwfrJb0TsMr+b3P7R+BltPXX+tJQdu6Tm8mYXplUfzuuAyAU59kGaNpRPBT5jjNtjVuM72AFcLdL6cf3bX4mED44tOTNqtZja72eNA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH7PR12MB8796.namprd12.prod.outlook.com (2603:10b6:510:272::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.34; Thu, 1 Feb
- 2024 12:56:55 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7270.009; Thu, 1 Feb 2024
- 12:56:53 +0000
-Message-ID: <9dac66fd-2d84-488e-93f5-3983cd13d0bd@amd.com>
-Date: Thu, 1 Feb 2024 13:56:48 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sched: Add Matthew Brost to maintainers
-Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Luben Tuikov <ltuikov89@gmail.com>, Dave Airlie <airlied@redhat.com>
-References: <20240131030302.2088173-1-matthew.brost@intel.com>
- <Zbp_KUvsdcSMHsSE@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <Zbp_KUvsdcSMHsSE@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0058.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4b::19) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DFC310EE53;
+ Thu,  1 Feb 2024 14:19:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1706797196; x=1738333196;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=FRbvlYyjpnr7PyYFkq4RqomDGaXl3+k4Hq2BQKrbKYg=;
+ b=QvJIuLQJY7BS702qFrjnRLkChmW2QPPpTW1WZ0cExAp0s3Blm26kmkek
+ ce10YpT1pyuvB16RmXqFNbXs6mvxzvfgcL5fe70VEv5CyN2iDZxj7VxWQ
+ h2Othsv/P3w76l5yvmd8aLUxJLsfWQYknxqmAknYukQHy1g2uag1yT8o1
+ 65j44Crh1MVTS2pG+am5lMZFK0cT6i72iCqjR/fN/IoCoDypAMKel+Q31
+ IofmeE+aAp/KnGHtKbtfQFAFGEVvheUTBw2DNo9fnt++W8w0hlqLTlZ75
+ I7VYy+yzFLszlr7zxGqon2LmGBCa4TrZmnqqc0+H8urrYFX0FvzixyPcW w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="401033600"
+X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; d="scan'208";a="401033600"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2024 06:19:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
+   d="scan'208";a="4422947"
+Received: from osandru-mobl1.ger.corp.intel.com (HELO [10.252.41.143])
+ ([10.252.41.143])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2024 06:19:52 -0800
+Message-ID: <ed96c60e-c6ea-490f-9811-57b92d87083e@linux.intel.com>
+Date: Thu, 1 Feb 2024 15:19:50 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB8796:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3e53f9d9-99b5-4ac6-a72b-08dc23254394
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tSZ3bzOLx28YmhJ28wNlqpJ4ikqp3C6jFQdlbEDbEQo534a4/gD9c6UyR5l/O93fBWVGHlyaogLGhsFGQVUNRjM8X3RjTGkf/jTnrPd4tMPFTj7pKM/cCjmVEvuuU+mBr7xX2ygHWgNo8l9fIqL55+2as6/dJWK0mhx50K96+bX5WTm3pLLTH3meqF9xWL7fGA1+8lwKqxkVhI0dBTiGVCEAAJ+Qcb++weNSQyoBj6kzCjfq2lT0qv/co+79ZioGS9WKdL4aahwIDFgE6M+tXoT85QmcbNAPzkZ7gJC3dSl8q8xayJa49mADph61bun8S8j+kRokvQ8QIUA+zz1gkiCqc4LV4j6Zr8HX2R0ZUf7+GIn3lrZPw8/bh+vF5KZNJ1aAz9XzSycSaiEH8sPUakelKtrbMtYRG4sh0e0Ph/N3+xC9LCShuEIJrhjjrmYCdXS+/PQWPzRqsEsOml4qqDso3a1ToHhJDHtgE9MfyhwBaz9OnHcTW3ZwQ5A6WxaW2C0xIBAKr4qzuJV/NsxxvesKcb0WM4zYyXFgW4/PRQsAiareYN7ghPz519nFisIAxsGuzxOZCoHNjBtcIAv0g3CLYpmHwTPDYYPzcUJO6GIitURyZGEr6ug0MDz4xQxyjDu633m96DhA9PJO4+yJ8w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(136003)(376002)(396003)(346002)(366004)(39860400002)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(41300700001)(31686004)(6506007)(2616005)(2906002)(26005)(110136005)(8936002)(6486002)(8676002)(66476007)(6666004)(66556008)(54906003)(66946007)(5660300002)(6512007)(4326008)(38100700002)(316002)(478600001)(36756003)(86362001)(31696002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YU55UnpkcVFxWGc1ZHVES1MyaklIdEc1QktHQlM1RjJNbnlPYVEwWjhRZEJV?=
- =?utf-8?B?N2xjdndKZzc3WTM5T1l0OEsrUGMyYTdhbXZaK3JLaEFjc0dPZjVnTmhYaGNi?=
- =?utf-8?B?c2d5ZVJaZjBqZnZlMEpIYnNReXR4U3lsZmQwVTRDOGFuNHZLRWl0NVhHcjln?=
- =?utf-8?B?bk9BdVFjMGhFT2tJVjV1YWpaRDBzRnVBMnh4anJ3UVkvZFZYaHowTnRwTHZK?=
- =?utf-8?B?K2pyWkJsUGc2Z3pNcnFhQm5QUjI1T3A2aFFmT3I2cjFoQnptNitpQXFCQTA2?=
- =?utf-8?B?UmhNOENBaXlJY0YzMXBlenI4eVFXMXViNUR4c1pkZmpSdlpmdUVPQ1dlaHVC?=
- =?utf-8?B?VlpnQkpLVmtzZXgrVW05ZWNiNXBrMEQydTNYakJWcUZhZUZoaTI3N2lnMHZE?=
- =?utf-8?B?WWlDU1E2L2RNNU5jQkVjKy9wWVIxTTdyZXRrKzc2aHN0NnpuQ2J2MDFIZDZP?=
- =?utf-8?B?T0JDU2gvb3AyL3pmcXEzWG16TU1KMXR2dFkvcEZ1YStrWUErMHJTZFJ5dG04?=
- =?utf-8?B?U2NtbDEvMXpqRms3c083TGExWXhtTVc4Q20rVFpnYzltS1FOemNOd0xwR1Nm?=
- =?utf-8?B?Uk1EOW1vN1BiWkpBckhQcTkyMmZoay9iVm9hSHFNOURwUW5LTHVqMXBnK0ZW?=
- =?utf-8?B?QWdYOEFONjA5dC9YR3lxSXJ2ZEtyalUwTTBtd2FzZ1BoMWdFaWw0UHZ2WDFT?=
- =?utf-8?B?bnZjOWdVUE9SMDZpUldpd1R6TnVIYXJ5YWtrYnorMXF5Q0pud3lOR3dwa0ZQ?=
- =?utf-8?B?UU5IUGZSQTZ4d1d6UGl2blZRaTRYeGUzUFBQOHNwbHZWeWo4UkdjVEhiNDBi?=
- =?utf-8?B?eXhuaVlnOEtlYW8wVXpWQ1NpaDFFZGZTc21PWkF6cmtYaVkrbndnZFV5TW5u?=
- =?utf-8?B?aHp2TjFMNWJNRkJ2TzY2QVN5dUdtdjhRWGNQTHo5L0xNclg4ZUpiVWVWN29u?=
- =?utf-8?B?WFhiTTJXVnVVOFhnY1ZXV2U5TmYyMGFHU1lPTUR0bThrZm9UUFYxeFRydlpR?=
- =?utf-8?B?N2ZFSThHeFdCUUFmSGVVek4rc2J3VGlVQSsyWlA1ODREb1djYVcwRG0zd2tn?=
- =?utf-8?B?RlRROXhVTmFvcFpqaXI1V3drbzJlQkRkUVpKUHdrVGFHRTkzVStZYmRaK2N4?=
- =?utf-8?B?QXJlaVdLSVNBUWk3dmFmb1RlcGUvT0tMSU9HWnRxb3lITklqc3djVDFUTk9l?=
- =?utf-8?B?U1NHUVdmS3V3U1ZOMXh4bVVYbUFtNEQxTGVIMkNUeW9PdysyaU5YcFoxYzZQ?=
- =?utf-8?B?aGZNOUFCZkp1S200NXR3MXNxNG5VOElSZE1DL1VvQmlkMFNDdFIxb3RHb1BJ?=
- =?utf-8?B?UmthdzBWM0JEeXQzbWIxR0tVaGpmWHNTQ3FTZjMxU05sMEZrbUVRTHV4bjdN?=
- =?utf-8?B?aXhZZkhSc1M2ay9UR3FxZGwvcVBVeDRGUWtBZ01wU1l3dlUxbGtaZ2tEcnc2?=
- =?utf-8?B?MlA4YnkxWThwU29ZOTNYU0RDUmFLTjZCZjFGY1pvdTZYUFhSVGh2dXhIb1pU?=
- =?utf-8?B?RHNTTmk0dlY1NHhUWUtVckRnMFVhMnNMVmprT2RyMkk2YnpxRUFGTXpueHhh?=
- =?utf-8?B?N2pWOWkwcVR2aWJxT2hxcFYzL2hwNjF2dDRaNWdKSTJpOVBaendwRHQrVjc1?=
- =?utf-8?B?eG9ROEJLaDRzV1M2VzlMd015TjIxYkZuN2hreU45dzV2YUduZVRjL1I5aTlT?=
- =?utf-8?B?YUV3MEVGOFZnelBKYWs5eVQxZm5HQ3V2L0p3T0F0Mlh5b0dWZ1lsci92U2ZS?=
- =?utf-8?B?NzJPcUlOcEdneERpOGE1VXloazdqOWROZEQzRW9ZUkM4RmlhZGNPa014TmFL?=
- =?utf-8?B?ZHdTMzYxNE41L05CTW50MThXZGh4WHVUd2RrMUgydWJJZElJY3dtMFlYNXZ4?=
- =?utf-8?B?KzQvem1ubFFYVlZIcWtXQlBDa0NlMUg1WHRxRFppbDZNYnNSMldzZW93em5l?=
- =?utf-8?B?Uk1idTIwN2huUWd6TUtJRjRnenM5VHFPVk9nQkMvV1Yvb2Uxbm1jQlN4V1JY?=
- =?utf-8?B?ZElYREZoMnR1TmRIWVp2OXAxN3Y0MmRMTTRKaUs2M29DUXpFdFJvSCszalhQ?=
- =?utf-8?B?K25RUmNzQmV4SVRwRXNLZnlOZlRhSkhuY08rK05SZFV3WU9LWXVoRkkycFlY?=
- =?utf-8?Q?8FwDojOpstFSguA9LxFDUGY3E?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3e53f9d9-99b5-4ac6-a72b-08dc23254394
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2024 12:56:53.7818 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nK/taG7/6NBHM3Wm5mFZCs4QV5foZs9DFxxUMSg1mJ4hM7Rd9gWr6LA+bNM/5KH3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8796
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/xe/display: Fix memleak in display initialization
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ wangxiaoming321 <xiaoming.wang@intel.com>
+Cc: ogabbay@kernel.org, thomas.hellstrom@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240125063633.989944-1-xiaoming.wang@intel.com>
+ <20240126153453.997855-1-xiaoming.wang@intel.com>
+ <abko5y3n5mju6srjly257bpqlvjf5ie6h6snboaekxnfv5mu76@jjumdgev76ag>
+ <87zfwlh78b.fsf@intel.com>
+Content-Language: en-US
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <87zfwlh78b.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,53 +75,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 31.01.24 um 18:11 schrieb Daniel Vetter:
-> On Tue, Jan 30, 2024 at 07:03:02PM -0800, Matthew Brost wrote:
->> Add Matthew Brost to DRM scheduler maintainers.
+
+
+On 2024-01-31 16:07, Jani Nikula wrote:
+> On Wed, 31 Jan 2024, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
+>> +Jani
 >>
->> Cc: Luben Tuikov <ltuikov89@gmail.com>
->> Cc: Daniel Vetter <daniel@ffwll.ch>
->> Cc: Dave Airlie <airlied@redhat.com>
->> Cc: Christian König <christian.koenig@amd.com>
->> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Definitely need more people taking care of drm/sched, so thanks for
-> volunteering!
->
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->
-> I think this also needs an ack from Luben and Christian. And you also need
-> drm-misc commit rights first, or it's going to be a bit tricky to take
-> care of maintainer duties for merging patches. But since your sched
-> patches now have landed in upstream this should be just a formality.
-
-Ack from my side, I don't have time to look into scheduler stuff anyway.
-
-Maybe I can get somebody from Leo's team to volunteer as another 
-reviewer for scheduler related stuff.
+>> On Fri, Jan 26, 2024 at 11:34:53PM +0800, wangxiaoming321 wrote:
+>>> intel_power_domains_init has been called twice in xe_device_probe:
+>>> xe_device_probe -> xe_display_init_nommio -> intel_power_domains_init(xe)
+>>> xe_device_probe -> xe_display_init_noirq -> intel_display_driver_probe_noirq
+>>> -> intel_power_domains_init(i915)
+>>
+>> ok, once upon a time intel_power_domains_init() was called by the driver
+>> initialization code and not initialized inside the display. I think.
+>> Now it's part of the display probe and we never updated the xe side.
+>>
+>>>
+>>> It needs remove one to avoid power_domains->power_wells double malloc.
+>>>
+>>> unreferenced object 0xffff88811150ee00 (size 512):
+>>>   comm "systemd-udevd", pid 506, jiffies 4294674198 (age 3605.560s)
+>>>   hex dump (first 32 bytes):
+>>>     10 b4 9d a0 ff ff ff ff ff ff ff ff ff ff ff ff  ................
+>>>     ff ff ff ff ff ff ff ff 00 00 00 00 00 00 00 00  ................
+>>>   backtrace:
+>>>     [<ffffffff8134b901>] __kmem_cache_alloc_node+0x1c1/0x2b0
+>>>     [<ffffffff812c98b2>] __kmalloc+0x52/0x150
+>>>     [<ffffffffa08b0033>] __set_power_wells+0xc3/0x360 [xe]
+>>>     [<ffffffffa08562fc>] xe_display_init_nommio+0x4c/0x70 [xe]
+>>>     [<ffffffffa07f0d1c>] xe_device_probe+0x3c/0x5a0 [xe]
+>>>     [<ffffffffa082e48f>] xe_pci_probe+0x33f/0x5a0 [xe]
+>>>     [<ffffffff817f2187>] local_pci_probe+0x47/0xa0
+>>>     [<ffffffff817f3db3>] pci_device_probe+0xc3/0x1f0
+>>>     [<ffffffff8192f2a2>] really_probe+0x1a2/0x410
+>>>     [<ffffffff8192f598>] __driver_probe_device+0x78/0x160
+>>>     [<ffffffff8192f6ae>] driver_probe_device+0x1e/0x90
+>>>     [<ffffffff8192f92a>] __driver_attach+0xda/0x1d0
+>>>     [<ffffffff8192c95c>] bus_for_each_dev+0x7c/0xd0
+>>>     [<ffffffff8192e159>] bus_add_driver+0x119/0x220
+>>>     [<ffffffff81930d00>] driver_register+0x60/0x120
+>>>     [<ffffffffa05e50a0>] 0xffffffffa05e50a0
+>>>
+>>
+>> This will need a Fixes trailer.  This seems to be a suitable one:
+>>
+>> Fixes: 44e694958b95 ("drm/xe/display: Implement display support")
+>>
+>>> Signed-off-by: wangxiaoming321 <xiaoming.wang@intel.com>
+>>> ---
+>>> drivers/gpu/drm/xe/xe_display.c | 6 ------
+>>> 1 file changed, 6 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/xe/xe_display.c b/drivers/gpu/drm/xe/xe_display.c
+>>> index 74391d9b11ae..e4db069f0db3 100644
+>>> --- a/drivers/gpu/drm/xe/xe_display.c
+>>> +++ b/drivers/gpu/drm/xe/xe_display.c
+>>> @@ -134,8 +134,6 @@ static void xe_display_fini_nommio(struct drm_device *dev, void *dummy)
+>>>
+>>> int xe_display_init_nommio(struct xe_device *xe)
+>>> {
+>>> -	int err;
+>>> -
+>>> 	if (!xe->info.enable_display)
+>>> 		return 0;
+>>>
+>>> @@ -145,10 +143,6 @@ int xe_display_init_nommio(struct xe_device *xe)
+>>> 	/* This must be called before any calls to HAS_PCH_* */
+>>> 	intel_detect_pch(xe);
+>>>
+>>> -	err = intel_power_domains_init(xe);
+>>> -	if (err)
+>>> -		return err;
+>>
+>> xe_display_init_nommio() has xe_display_fini_nommio() as its destructor
+>> counter part. Unfortunately display side looks wrong as it does:
+>>
+>> init:
+>> 	intel_display_driver_probe_noirq() -> intel_power_domains_init()
+>>
+>> destroy:
+>> 	i915_driver_late_release() -> intel_power_domains_cleanup()
+>>
+>> I think leaving intel_power_domains_cleanup() as is for now so it's
+>> called by xe works, but this needs to go through CI, which apparently
+>> this series didn't go. I re-triggered it.
+>>
+>> +Jani if he thinks this can be changed in another way or already have
+>> the complete solution.
+> 
+> I don't. But it is and will be a recurring problem. i915 and xe core
+> drivers should handle display init and cleanup the same way. But
+> currently i915 goes on to call e.g. intel_power_domains_cleanup()
+> directly from top level driver code. There are other examples.
+> 
+> And we seem to have recently added *more*. See e.g. bd738d859e71
+> ("drm/i915: Prevent modesets during driver init/shutdown").
+That commit seems terrible Should we instead not only enable any code 
+that can cause modesets after it's safe to do so?
 
 Cheers,
-Christian.
-
->
-> Cheers, Sima
->
->> ---
->>   MAINTAINERS | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 5c00fad59e91..e968d68a96c8 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -7308,6 +7308,7 @@ F:	drivers/gpu/drm/xlnx/
->>   
->>   DRM GPU SCHEDULER
->>   M:	Luben Tuikov <ltuikov89@gmail.com>
->> +M:	Matthew Brost <matthew.brost@intel.com>
->>   L:	dri-devel@lists.freedesktop.org
->>   S:	Maintained
->>   T:	git git://anongit.freedesktop.org/drm/drm-misc
->> -- 
->> 2.34.1
->>
-
+~Maarten
