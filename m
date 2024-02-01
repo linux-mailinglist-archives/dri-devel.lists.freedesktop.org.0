@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E63F845E9E
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 18:35:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12CEF845EA0
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 18:35:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 199B510EF04;
-	Thu,  1 Feb 2024 17:35:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE65E10F293;
+	Thu,  1 Feb 2024 17:35:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="KusMYAD+";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="o4NwI2W7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCEA610EF04
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7BA210F28C
  for <dri-devel@lists.freedesktop.org>; Thu,  1 Feb 2024 17:35:16 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::225])
- by mslow1.mail.gandi.net (Postfix) with ESMTP id 08B4FC2CFC
+Received: from relay5-d.mail.gandi.net (unknown [217.70.183.197])
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id 870B2C2D20
  for <dri-devel@lists.freedesktop.org>; Thu,  1 Feb 2024 17:32:13 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 98F1D1C000D;
- Thu,  1 Feb 2024 17:32:09 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1E23B1C000E;
+ Thu,  1 Feb 2024 17:32:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1706808731;
+ t=1706808732;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=VnJbjJTg4nEr9s3zhJjNFrJUiH61j50+UMrQv0IdY/o=;
- b=KusMYAD+N+4EtxtdQAf7yuRN3pKBtt/M/aF0WxpOadyZA6Q3/rkM83J2CXr9N/nmcu5rmP
- racJDueiAn1b5yw2A2cELbJq9nIHtOCp1cUtcN/yjbI93X2t0fHKQtWPZh2wVBzay69x4G
- HnsMyyMsPQfYjvmnBDMQ2P97kYHwJ8++w8qygWoZUPZRX9LW2297qBn9Zk76Qd/9P8E4Fp
- 5hZfK7b4KiNrq+ahaDJ7gBZ5tLpvNMskx2/WPHLedR6D5hSXKloeK6mIV06s4dR3umTLKa
- dx/kwjPqBE5diw8bGdCBg++an1mvxdqT2ylP7LEAO9kKyLASJqWNfhWhLR4dew==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=y+aqzxTPAUjOzIodHPzxeC6qMPaNLGnJXnuBentQENE=;
+ b=o4NwI2W71cP/524XS5XZd+wR6dynrd7bQz1YYFr85lIod0g7wnCEVb5vMnkvfFa4swnFa6
+ Vga1gARfj5bJ4msfrmpsnust9S++UbhaLijPItbdzjUqSpZtYTV35ugOmwnlntXZ+9lfam
+ uJftslgpJgj5g70KbaSDZfl4zGTDb5UP4ZWqeiSikA3jiebmiiYid8XZKd9QXevyUeoIVh
+ fDmCB5CoGVdj+DFAUoIg4NVT0tnzc/n4iZ0Cz/xZCT9/jQ0UOrpkF+h7J+jAlBG8Pr+FkM
+ CTYn91NG3ddpR1Y0LytRlrgqt5mb3zN/BNOlE23tdqRBEeojZORxMfxNUlKV8w==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: [PATCH 0/2] Better support for complex pixel formats
-Date: Thu, 01 Feb 2024 18:31:30 +0100
-Message-Id: <20240201-yuv-v1-0-3ca376f27632@bootlin.com>
+Date: Thu, 01 Feb 2024 18:31:31 +0100
+Subject: [PATCH 1/2] drm/vkms: Create a type to check a function pointer
+ validity
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAHLVu2UC/x2MWwqAIBAArxL7naD2oq4SfZhutRAWSlJId2/pc
- 4ZhMkQMhBGGIkPARJEOz6DKAuxm/IqCHDNoqWuppRLPlYSqqs710vVN1wKXs4ko5mC83bj1176
- zPAMudP/rcXrfDwOFzAZqAAAA
+Message-Id: <20240201-yuv-v1-1-3ca376f27632@bootlin.com>
+References: <20240201-yuv-v1-0-3ca376f27632@bootlin.com>
+In-Reply-To: <20240201-yuv-v1-0-3ca376f27632@bootlin.com>
 To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
  Melissa Wen <melissa.srw@gmail.com>, 
  =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
@@ -53,20 +54,20 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Louis Chauvet <louis.chauvet@bootlin.com>, thomas.petazzoni@bootlin.com, 
  miquel.raynal@bootlin.com
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1889;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3051;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=gFYVkNhsWMZ0PZR7CfgH9n4zYqWey4gF7lfzOXaUXvQ=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBlu9WYRQhES4EmjZZ7vAyXW1pFFRuarhPV03wlazy9
- DgoNLUSJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZbvVmAAKCRAgrS7GWxAs4tUFEA
- Cz/OyfGWoHhrtvANxCouKVTqA7kcf3dNHSbjLAohQb5ygAHwJJXFy4VlwPI+L3xEsKxM3fxQQzNu+J
- RnxxLGbfwxGqajmUcFZTjOG5Hrx0eZ2W3QAFjV0odo6bxK0SoGfHbLDaz+o7xWyxj/Ax5QRBIdWpJB
- eU/qf3QGSCzw1YFsAkaBZr6s+9rJg9PGS/lV6jtJtn2llm1MZQL2aEOWXzdlPW693uICE150G4sGWX
- WEDY73WHutJn2n+sMWvfnwv2Nt2bhXAfxUbiLCRtS6QjV46NuS+FBVKED9NRrHyEEb+41Emd+SzdOm
- xe7qkpTk6fNc9mt0JOCfNxhnrpy5A4CRq4iS/ySD1KwO0dYHkFcHvuwWW/AJuCE/9ke7fzcP34Ufo8
- 4CtXcuHl0fSmjV2mXAhm0KAGlsrJM9PuCkJxPw6NdQ7dul6Vr5Oj/c0xb3cKC0fdpasYu9ocBQ2lLG
- wRqz6N2gjjBA3ZCw/CjRcOEUFT4ziXpmXig0/knZyMYE1vuCeID856H193SDWpOv2Ip+MXnjvCl6zH
- StkiiLhQwHmwYAG5UzU9zBga7kvosVhsh0ejk1h7Jufgubk+JvFvSibiu2SROCwIJSviq5SlTVrx7n
- sOvptZ+U9af+q+jRdTNOxGf8mrhx9DMQ2x85q9Ro0v7blG8qwM50hcfoESVg==
+ bh=sy6XOjKiwgGLJghXuUCDDipZtMBjZVoiNnbEzSMpZZE=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBlu9WZSdSr1fJmjjmgoEgdMXRsHSkHazV7I02+1oIU
+ rS216fCJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZbvVmQAKCRAgrS7GWxAs4lx2D/
+ 9gzX3KmylHrfqn4EdZ5irvLsNj7XKSNitiwqJLoic7NSfewZYK0ZTimaTYAqOJWUGC+1W7wWv8Y/Ah
+ ujjMwiIwHX4ee+EmgvT5nFbtlNxwUbS/6YoGHh5z+JoAdCzZA3paPGkfLcRexE4W0KQFP23tsWD18F
+ rb2Tlkqn5gHrT9PLwSV0VTiWfAi4KUv8fnc7CAyv/6BLnP5pRYHfOLo4TcTL/AztLn3hu4z27VytY3
+ Jd7Glyf8Y7Pc4fU0arCO8WrcI0+KaLp7NsEBM9bXJKYYUOncvYxiCBwUT5bibv9fZVU3t/0BLrDRRa
+ VWQUXmKd48TfrZD0F/vNEnvOllKijrIg6usH81Qcm2hgBvNbIfIHokg9IoMKJH14fwlOJfLdtrfNOS
+ ICe8GWq8r1njHfduxaUaTFBAnCFRcybcq/5qQdz3l2mNU6LJipXQKUvl46AHT26eHjVIGk33y+vQJN
+ 0B7uU6HXys4vdlLpj8TsVHtlV8v7nPiG5N39l2NEjlWZ3nv1HAV6dWXA1SjJGMDUqQKftYSYaZMMGW
+ qrCqrJ+E4SAR7w8If6pZXTaINxjhRvL+N+ZAPDIqwMH/OTxpJne5tJmwV3Jz/M6OyQ8kfw3k9k3Q56
+ b7qTPQxXPPYvKBVUcO2rvl3An1HvyBXGzH+NZHQPifz2RqVzzSZv9aItU2pQ==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-Sasl: louis.chauvet@bootlin.com
@@ -85,49 +86,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patchset aims to solve issues I found in [1], and at the same time 
-simplify the composition algorithm.
-
-I sent more igt-gpu-tools test [2] to cover more things and detect the 
-issues in [1].
-
-This patchset is based on [1].
-
-Patch 1/2: This patch is a no-op, but make the code more readable 
-regarding the pixel_read functions.
-
-Patch 2/2: This patch is more complex. My main target was to solve issues 
-I found in [1], but as it was very complex to do it "in place", I choose 
-to rework the composition function.
-The main two advantages are:
-- It's now possible to create conversion function for packed & grouped 
-pixels. Some pixel formats need absolute x/y position and not only an 
-offset in the buffer to extract the correct value. This part also solve 
-the issues I found in [1].
-- The rotation management is now way easier to understand, there is no 
-more switch case in different places and instead of copy/pasting rotation 
-formula I used drm_rect_* helpers.
-
-[1]: https://lore.kernel.org/dri-devel/20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net/
-[2]: https://lore.kernel.org/igt-dev/20240201-kms_tests-v1-0-bc34c5d28b3f@bootlin.com/T/#t
+Add the pixel_read_t type to check function prototype in structures
+and functions.
+It avoids casting to (void *) and at the same occasion allows the
+compiler to check the type properly.
 
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
-Louis Chauvet (2):
-      drm/vkms: Create a type to check a function pointer validity
-      drm/vkms: Use a simpler composition function
+ drivers/gpu/drm/vkms/vkms_drv.h     | 17 +++++++++++++++--
+ drivers/gpu/drm/vkms/vkms_formats.c |  4 ++--
+ drivers/gpu/drm/vkms/vkms_formats.h |  2 +-
+ 3 files changed, 18 insertions(+), 5 deletions(-)
 
- drivers/gpu/drm/vkms/vkms_composer.c |  97 ++++++++-----
- drivers/gpu/drm/vkms/vkms_drv.h      |  32 ++++-
- drivers/gpu/drm/vkms/vkms_formats.c  | 254 ++++++++++++++++++-----------------
- drivers/gpu/drm/vkms/vkms_formats.h  |   2 +-
- drivers/gpu/drm/vkms/vkms_plane.c    |  13 +-
- 5 files changed, 236 insertions(+), 162 deletions(-)
----
-base-commit: 5d189d57bb335a87ec38ea26fe43a5f3ed31ced7
-change-id: 20240201-yuv-1337d90d9576
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index 51349a0c32d8..cb20bab26cae 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -48,6 +48,20 @@ struct vkms_writeback_job {
+ 	void (*pixel_write)(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel);
+ };
+ 
++/**
++ * typedef pixel_read_t - These functions are used to read the pixels in the source frame, convert
++ * them to argb16 and write them to out_pixel.
++ * It assumes that src_pixels point to a valid pixel (not a block, or a block of 1x1 pixel)
++ *
++ * @src_pixels: Source pointer to a pixel
++ * @out_pixel: Pointer where to write the pixel value
++ * @encoding: Color encoding to use (mainly used for YUV formats)
++ * @range: Color range to use (mainly used for YUV formats)
++ */
++typedef void (*pixel_read_t)(u8 **src_pixels, int y,
++			     struct pixel_argb_u16 *out_pixel, enum drm_color_encoding enconding,
++			     enum drm_color_range range);
++
+ /**
+  * vkms_plane_state - Driver specific plane state
+  * @base: base plane state
+@@ -56,8 +70,7 @@ struct vkms_writeback_job {
+ struct vkms_plane_state {
+ 	struct drm_shadow_plane_state base;
+ 	struct vkms_frame_info *frame_info;
+-	void (*pixel_read)(u8 **src_buffer, struct pixel_argb_u16 *out_pixel,
+-			   enum drm_color_encoding enconding, enum drm_color_range range);
++	pixel_read_t pixel_read;
+ };
+ 
+ struct vkms_plane {
+diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+index e06bbd7c0a67..c6376db58d38 100644
+--- a/drivers/gpu/drm/vkms/vkms_formats.c
++++ b/drivers/gpu/drm/vkms/vkms_formats.c
+@@ -390,7 +390,7 @@ void vkms_writeback_row(struct vkms_writeback_job *wb,
+ 		wb->pixel_write(dst_pixels, &in_pixels[x]);
+ }
+ 
+-void *get_pixel_conversion_function(u32 format)
++pixel_read_t get_pixel_conversion_function(u32 format)
+ {
+ 	switch (format) {
+ 	case DRM_FORMAT_ARGB8888:
+@@ -420,7 +420,7 @@ void *get_pixel_conversion_function(u32 format)
+ 	case DRM_FORMAT_YVU444:
+ 		return &planar_yvu_to_argb_u16;
+ 	default:
+-		return NULL;
++		return (pixel_read_t)NULL;
+ 	}
+ }
+ 
+diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/vkms_formats.h
+index 0cf835292cec..04e31e126ab1 100644
+--- a/drivers/gpu/drm/vkms/vkms_formats.h
++++ b/drivers/gpu/drm/vkms/vkms_formats.h
+@@ -5,7 +5,7 @@
+ 
+ #include "vkms_drv.h"
+ 
+-void *get_pixel_conversion_function(u32 format);
++pixel_read_t get_pixel_conversion_function(u32 format);
+ 
+ void *get_pixel_write_function(u32 format);
+ 
 
-Best regards,
 -- 
-Louis Chauvet <louis.chauvet@bootlin.com>
+2.43.0
 
