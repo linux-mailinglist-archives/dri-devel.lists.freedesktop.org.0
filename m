@@ -2,54 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EB3E845A5D
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 15:33:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7535F845A69
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 15:37:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A7E610E6E2;
-	Thu,  1 Feb 2024 14:33:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3938010E6FB;
+	Thu,  1 Feb 2024 14:37:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VJ25h6rO";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="gyfnEiur";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F0B710E5E9;
- Thu,  1 Feb 2024 14:33:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706798012; x=1738334012;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ZOZ8qoyvsO0EiZIYOqY7ZCIJ9jsI5Ale860kLi6LMSg=;
- b=VJ25h6rOeDpfrq13m2UA7nqSOhb6y7JXiYDiBzR9t8LQ4KQbedeuHUrl
- A27tTRmpfoD608J0tTl7RWl3KnHeAwYJm1OyVYHwKiK5RbkBfqmaXG15l
- +m4fTbacJKyj2GgzCE7DCBwYg1IVTN6GfyOIcGM/wfDWCx6Da6MUD6F4J
- hJlzziZACsqZ5G0/uCyfc9LVzuwJajeGXxJDqNXPQfjmLjCSTOpVw1GVI
- cfRs/aBha1XBgmymt55oOyiob4ynvlLltBTwOm9HGgM7bCi8kuhLV04Iw
- Z+0upQdUWWBdM3zsIH5piRyqIeIyLSTyjAXnh9QbloSBNYRE9VcVcOc8u Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="401036937"
-X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; d="scan'208";a="401036937"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2024 06:33:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
-   d="scan'208";a="4425734"
-Received: from unknown (HELO localhost) ([10.237.66.162])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2024 06:33:30 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- jani.nikula@intel.com, Hamza Mahfooz <hamza.mahfooz@amd.com>
-Subject: [PATCH v3 2/2] drm: Add CONFIG_DRM_WERROR
-Date: Thu,  1 Feb 2024 16:33:09 +0200
-Message-Id: <d198aa042dadb034409d4343a9403fba95c740a0.1706797803.git.jani.nikula@intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <cover.1706797803.git.jani.nikula@intel.com>
-References: <cover.1706797803.git.jani.nikula@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F0F810E6DA
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Feb 2024 14:37:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1706798239;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lMLjEJcBM6/wXWBc/+qBfB9DTUvRALAGJ5XKhqKkEOA=;
+ b=gyfnEiurmy9uC1qGV4Z6jNahhkxWifpjYmL+y7enGPUmoDuavcoG+wtd342HwltZPfjN+E
+ H3p+sSNxsffpr+4Ua1yP6E9FvNfJ+gjM8z1g27LH62HlCiYY3/NdxB0PGUBS9s4jIZQLMO
+ 91AremO+76cpMwqtQAGst2FWk04ma/0=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-261-Sz3Xuo1-NP-INa69REQHlg-1; Thu, 01 Feb 2024 09:37:15 -0500
+X-MC-Unique: Sz3Xuo1-NP-INa69REQHlg-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ a640c23a62f3a-a3120029877so227666166b.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Feb 2024 06:37:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706798233; x=1707403033;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lMLjEJcBM6/wXWBc/+qBfB9DTUvRALAGJ5XKhqKkEOA=;
+ b=UueN1apCC5Q+OQ1W+VY4Qd3b+qVpYCEEeG9XiDoKQuDwDVTrW5QBeVQJmutiShnKpb
+ DY0FXdQrac6KzvaAccaF/9pIiwWMxUlhXgyx5YiKgg2jYJH1Rg+2OQND3ZWbW42uz99j
+ aHIHkPMs/FjcgcxpMRK8U3NcpBOy5S9DNdawUJWX1FeFkvgNcnFxCPEHgYxY1Q/ubKf1
+ C1+Abu9RUF1iWIJ69FDluuT6si+UG6sdcpBRjJCcm5GvVUWyOOW35u/zplIuVhn4jiTi
+ guxCAXKYFHlVzEBsMVBPDdPXBu3AyCf68NOkdN6FbE600vJd88Rmm1yhJ+XHh6UGpTwa
+ hEgA==
+X-Gm-Message-State: AOJu0YxtXaMgWFRynAgPqBagXamjHQfRoLq3r3Reh/BaE5mbQic0JyuK
+ Ovd+JMf9jPecQqYDmcAQVIsYANUO5kb8G6vEUaq3dtaXBpy4A6j892I5Q7NdwPEvBnrBh0P75kX
+ +raf8ELtFVCYZDYZHMZVpGVXd8A24BB7DoMKSSGY60vk7CFPCRZewk+AHjcynYDy/Lg==
+X-Received: by 2002:a17:906:7192:b0:a35:3faf:c8d1 with SMTP id
+ h18-20020a170906719200b00a353fafc8d1mr5219922ejk.22.1706798233044; 
+ Thu, 01 Feb 2024 06:37:13 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGQ/1HnKtFLGTnldZg5nkc849sUUQpcTj8sPZ397NfReI3hpzy/OksyGy8MSvwmIp1UrSQ4pQ==
+X-Received: by 2002:a17:906:7192:b0:a35:3faf:c8d1 with SMTP id
+ h18-20020a170906719200b00a353fafc8d1mr5219884ejk.22.1706798232752; 
+ Thu, 01 Feb 2024 06:37:12 -0800 (PST)
+X-Forwarded-Encrypted: i=0;
+ AJvYcCWyg3LJhP9ZTgS149w4HROgpeP1sA8ZCXKjWvshLaXaGtZo2m3IjEf8tsulQ2IiKCcisLFTo7VA4O1w1wxyJVXQ2sNYAGZsPMoBY0mPQM9DRcr8jGrAhwyQ9gBRZFDGdm9Pbx2Zgyb7Ig1DK8TJFAENsRDtOrgkqPFycI2R3AABcL6zkopniEEPE5BmqOuhGDKP3oqLb3eeViNlCqvoT/ZJHNN/DXRD6oUiFdZevpCv1vEJnPKO9IkQzQwNFjPLSCnnpjUT8aJt9aK8ZYKH8SRU7nGS/0vcvUULnPoLv8xLVNYhPLQKHdzxhk+bsgEKtkn3aZrdWh/7U1mY/Ng23Lwy5oevs5IHgFTXhPZFpp4OLyxJlhyCPMBzxFPDxn2xucMI9ZjJguiw3j8AtNPRqZuY2SY7cqkVTlmz/tMUHDAB6ktQbAHQY1jL3mQPkCcoKVLQsi0wXjbCQT9RZFENWQZgL/RS18pVtyABC0Rf3L4lgxIZNHiSv2uFRGaMqLl9GO1MRRp0W4tG1wBgIquETdYvizbIMgjEjgszwuMWAdffo2MA1XSCpyt2ywF8UCi44F2r7XaI7+JhevgOW/lq4/rZrzGlpXjYIm5a7jHlbOtuy9PJE7MlwnsnNqhVFzpIFAELYFdBixkFGKGsT4KB+g9tgnOt2mLhwkwcCyPg20TxnLmQEXjJC9b4Kalj4RcYuVobgjEUbXkYCzfFExGN6IuTjKor
+Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
+ ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
+ by smtp.gmail.com with ESMTPSA id
+ vk3-20020a170907cbc300b00a36cd9624c0sm453790ejc.95.2024.02.01.06.37.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Feb 2024 06:37:12 -0800 (PST)
+Message-ID: <d3ae5dd8-ad5c-4d69-8e90-1363caa5f92c@redhat.com>
+Date: Thu, 1 Feb 2024 15:37:09 +0100
 MIME-Version: 1.0
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] drm: enable (most) W=1 warnings by default across
+ the subsystem
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Pan@freedesktop.org, Xinhui <Xinhui.Pan@amd.com>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Sui Jingfeng <sui.jingfeng@linux.dev>, dri-devel@lists.freedesktop.org
+References: <cover.1706797803.git.jani.nikula@intel.com>
+ <b3f9cfa3304e4db1a964ec962dc0974857c0edf0.1706797803.git.jani.nikula@intel.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <b3f9cfa3304e4db1a964ec962dc0974857c0edf0.1706797803.git.jani.nikula@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,55 +111,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add kconfig to enable -Werror subsystem wide. This is useful for
-development and CI to keep the subsystem warning free, while avoiding
-issues outside of the subsystem that kernel wide CONFIG_WERROR=y might
-hit.
 
-v2: Don't depend on COMPILE_TEST
+On 2/1/24 15:33, Jani Nikula wrote:
+> At least the i915 and amd drivers enable a bunch more compiler warnings
+> than the kernel defaults.
+> 
+> Extend most of the W=1 warnings to the entire drm subsystem by
+> default. Use the copy-pasted warnings from scripts/Makefile.extrawarn
+> with s/KBUILD_CFLAGS/subdir-ccflags-y/ to make it easier to compare and
+> keep up with them in the future.
+> 
+> This is similar to the approach currently used in i915.
+> 
+> Some of the -Wextra warnings do need to be disabled, just like in
+> Makefile.extrawarn, but take care to not disable them for W=2 or W=3
+> builds, depending on the warning.
+> 
+> There are too many -Wformat-truncation warnings to cleanly fix up front;
+> leave that warning disabled for now.
+> 
+> v3:
+> - Drop -Wmissing-declarations (already enabled by default)
+> - Drop -Wmissing-prototypes (already enabled by default)
+> 
+> v2:
+> - Drop -Wformat-truncation (too many warnings)
+> - Drop -Wstringop-overflow (already enabled by default)
+> 
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Pan, Xinhui <Xinhui.Pan@amd.com>
+> Cc: Karol Herbst <kherbst@redhat.com>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Danilo Krummrich <dakr@redhat.com>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Sean Paul <sean@poorly.run>
+> Cc: Marijn Suijten <marijn.suijten@somainline.org>
+> Cc: Hamza Mahfooz <hamza.mahfooz@amd.com>
+> Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-Reviewed-by: Hamza Mahfooz <hamza.mahfooz@amd.com> # v1
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/Kconfig  | 13 +++++++++++++
- drivers/gpu/drm/Makefile |  3 +++
- 2 files changed, 16 insertions(+)
+Acked-by: Danilo Krummrich <dakr@redhat.com>
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 872edb47bb53..706fe169bd8e 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -413,3 +413,16 @@ config DRM_LIB_RANDOM
- config DRM_PRIVACY_SCREEN
- 	bool
- 	default n
-+
-+config DRM_WERROR
-+	bool "Compile the drm subsystem with warnings as errors"
-+	depends on EXPERT
-+	default n
-+	help
-+	  A kernel build should not cause any compiler warnings, and this
-+	  enables the '-Werror' flag to enforce that rule in the drm subsystem.
-+
-+	  The drm subsystem enables more warnings than the kernel default, so
-+	  this config option is disabled by default.
-+
-+	  If in doubt, say N.
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 04722a5dfb78..ea2791487229 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -30,6 +30,9 @@ subdir-ccflags-y += -Wno-sign-compare
- endif
- # --- end copy-paste
- 
-+# Enable -Werror in CI and development
-+subdir-ccflags-$(CONFIG_DRM_WERROR) += -Werror
-+
- drm-y := \
- 	drm_aperture.o \
- 	drm_atomic.o \
--- 
-2.39.2
+> ---
+>   drivers/gpu/drm/Makefile | 25 +++++++++++++++++++++++++
+>   1 file changed, 25 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index 104b42df2e95..04722a5dfb78 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -5,6 +5,31 @@
+>   
+>   CFLAGS-$(CONFIG_DRM_USE_DYNAMIC_DEBUG)	+= -DDYNAMIC_DEBUG_MODULE
+>   
+> +# Unconditionally enable W=1 warnings locally
+> +# --- begin copy-paste W=1 warnings from scripts/Makefile.extrawarn
+> +subdir-ccflags-y += -Wextra -Wunused -Wno-unused-parameter
+> +subdir-ccflags-y += $(call cc-option, -Wrestrict)
+> +subdir-ccflags-y += -Wmissing-format-attribute
+> +subdir-ccflags-y += -Wold-style-definition
+> +subdir-ccflags-y += -Wmissing-include-dirs
+> +subdir-ccflags-y += $(call cc-option, -Wunused-but-set-variable)
+> +subdir-ccflags-y += $(call cc-option, -Wunused-const-variable)
+> +subdir-ccflags-y += $(call cc-option, -Wpacked-not-aligned)
+> +subdir-ccflags-y += $(call cc-option, -Wformat-overflow)
+> +# FIXME: fix -Wformat-truncation warnings and uncomment
+> +#subdir-ccflags-y += $(call cc-option, -Wformat-truncation)
+> +subdir-ccflags-y += $(call cc-option, -Wstringop-truncation)
+> +# The following turn off the warnings enabled by -Wextra
+> +ifeq ($(findstring 2, $(KBUILD_EXTRA_WARN)),)
+> +subdir-ccflags-y += -Wno-missing-field-initializers
+> +subdir-ccflags-y += -Wno-type-limits
+> +subdir-ccflags-y += -Wno-shift-negative-value
+> +endif
+> +ifeq ($(findstring 3, $(KBUILD_EXTRA_WARN)),)
+> +subdir-ccflags-y += -Wno-sign-compare
+> +endif
+> +# --- end copy-paste
+> +
+>   drm-y := \
+>   	drm_aperture.o \
+>   	drm_atomic.o \
 
