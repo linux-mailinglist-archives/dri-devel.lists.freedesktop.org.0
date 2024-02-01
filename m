@@ -2,69 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 259DF845491
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 10:52:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52F268454E5
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 11:10:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADA7C10EBFB;
-	Thu,  1 Feb 2024 09:52:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDC6010E62D;
+	Thu,  1 Feb 2024 10:10:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94D0A10EBFB
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Feb 2024 09:52:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1706781154;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=/nslsHUxo4VfqrwQKm/jmwvkngfXt/wv7xqYrlV92MA=;
- b=EyckjWwa4cPs1eYGxut27RXpci3AT23n6uGcCCSlgv65vsfsKktJjzyO3lVvX+9QhdaomK
- +K6T031pEKNAwOwKxUj1e/femDSqLwQpQsYTMzT59i3MFL2N95TBKhVcmSuQH3rWMMnYA8
- HiDO6XTeLvT12hKedfpwEO0+NXukbLM=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-311-OE2bB-bLNWWjyA6rNAOEhg-1; Thu, 01 Feb 2024 04:52:32 -0500
-X-MC-Unique: OE2bB-bLNWWjyA6rNAOEhg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-40efad468a5so3847995e9.2
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Feb 2024 01:52:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706781151; x=1707385951;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/nslsHUxo4VfqrwQKm/jmwvkngfXt/wv7xqYrlV92MA=;
- b=UBQj+SJNyRCZ1gPSR+qz+MJTpvhY17aPLrs50sNd5dQrdvwjwDIX9U3EosrCSVJtNm
- hk0bfenwi8c10SFvIvca+9v18aAsZPtkzNPL3RzGRAUzQvkcxhef4JXbwRYudvkZAaWx
- eKt3FI/QUsrVqCRdXn1i+v61e611YA54SQepXJw5s98H5jMszKhBJ780VEcFh8rHafrT
- AZc5Hvv1kDFFQ6dwT/wOST9h2qBi1tPemdLRVpoEG/k/of2EQNElswRxNkl8vVOZVnJy
- vVSzJ33oRlhb5VjtETqzx6bNJAVRtAf7bmXXQl4dLgxd7Iht5AzyNP2NSbD20TRl9kcW
- os8g==
-X-Gm-Message-State: AOJu0YwJiwmv6r7DZfi6AASanO5hvEZfo9xWTuFbOEDqbH5u4O002bD5
- Gs5qs5MCFTcy4+IQV+PFnM5Vsd8FM3w5kj1WW0y6OsI0Nf9r5d/ASxQRM4GDa06m0G6Wljdj2jx
- e0tUuG09EUwrN9dmcgT4/BX5Kziv4qpkcInJkXNlu7gWWakOEy/eNaPB1FSMiG6ikMg==
-X-Received: by 2002:a05:600c:470f:b0:40e:cdff:8d10 with SMTP id
- v15-20020a05600c470f00b0040ecdff8d10mr3153308wmo.6.1706781151688; 
- Thu, 01 Feb 2024 01:52:31 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFIkBwhkOczLlPUtfjqjB1cBcFJsdjJOGJt/Mz5cQo3s6fACgPPrCAinNdyq5wPWIWvOQhBgw==
-X-Received: by 2002:a05:600c:470f:b0:40e:cdff:8d10 with SMTP id
- v15-20020a05600c470f00b0040ecdff8d10mr3153283wmo.6.1706781151365; 
- Thu, 01 Feb 2024 01:52:31 -0800 (PST)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
- by smtp.gmail.com with ESMTPSA id
- t10-20020a05600c198a00b0040f22171921sm3921797wmq.3.2024.02.01.01.52.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Feb 2024 01:52:31 -0800 (PST)
-Date: Thu, 1 Feb 2024 10:52:30 +0100
-From: Maxime Ripard <mripard@redhat.com>
-To: Dave Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <obnofpccz73c3uiqfyipxmjta5fgm4cle55dmtnissgtgxfgv7@22o7kb62efri>
+X-Greylist: delayed 425 seconds by postgrey-1.36 at gabe;
+ Thu, 01 Feb 2024 10:10:28 UTC
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BE3310E62D
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Feb 2024 10:10:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1706782228; x=1738318228;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=SMbbGGWUmvD7XTGC4Ymv5iB6mMaT4d+KU3zA8ododTc=;
+ b=QHUT4v6Siw1Nb/jlOAZpFgmgSBnLexMMY5co7oqaQY+dAKazUoK1/4Jr
+ DaEeS/ilNIQLRPh5IesmCRes/ClRH7HGsFK2qUZLqIEn6nMkQZp1sodr7
+ Fpix9QAPC5BwI4g7EWqaZ7nei7c3VFiP+6jAFThJAoq1XfVsDKLr2bSvm
+ p6PZXeqEc+WaVMQtFHjBaMDin+bzvPNR5KItB+GeORK16d2VdqoGwJVdF
+ OsIhqS5ot0/+GgRAwddjeU+gUrXf0kkVebjQFbzp0qXCLLxFjrmvatwJx
+ kKQVqMaGIFuWFyNRuFCwSLyANPA7fySTkpz9ydnwGAqrLkXfb5Rfs797t g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="41747"
+X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
+   d="scan'208";a="41747"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2024 02:03:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
+   d="scan'208";a="42236"
+Received: from aragners-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.43.111])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2024 02:03:18 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Cong Liu <liucong2@kylinos.cn>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm/modes: Replace deprecated simple_strtol with kstrtol
+In-Reply-To: <20240201070226.3292315-1-liucong2@kylinos.cn>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240201070226.3292315-1-liucong2@kylinos.cn>
+Date: Thu, 01 Feb 2024 12:03:15 +0200
+Message-ID: <87frych57g.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="sxck4skgjc3bo7nu"
-Content-Disposition: inline
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,66 +64,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, Oded Gabbay <ogabbay@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: Cong Liu <liucong2@kylinos.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 01 Feb 2024, Cong Liu <liucong2@kylinos.cn> wrote:
+> This patch replaces the use of the deprecated simple_strtol [1] function
+> in the drm_modes.c file with the recommended kstrtol function. This change
+> improves error handling and boundary checks.
+>
+> [1] https://www.kernel.org/doc/html/latest/process/deprecated.html#simple-strtol-simple-strtoll-simple-strtoul-simple-strtoull
+>
+> Signed-off-by: Cong Liu <liucong2@kylinos.cn>
 
---sxck4skgjc3bo7nu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This is completely wrong, and obviously not tested at all.
 
-Hi!
+The recommended replacements are *not* drop-in replacements. Look into
+the documentation of the functions.
 
-Here's this week drm-misc-fixes PR
+BR,
+Jani.
 
-Maxime
+> ---
+>  drivers/gpu/drm/drm_modes.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+> index 893f52ee4926..fce0fb1df9b2 100644
+> --- a/drivers/gpu/drm/drm_modes.c
+> +++ b/drivers/gpu/drm/drm_modes.c
+> @@ -1942,7 +1942,7 @@ static int drm_mode_parse_cmdline_bpp(const char *str, char **end_ptr,
+>  		return -EINVAL;
+>  
+>  	str++;
+> -	bpp = simple_strtol(str, end_ptr, 10);
+> +	bpp = kstrtol(str, end_ptr, 10);
+>  	if (*end_ptr == str)
+>  		return -EINVAL;
+>  
+> @@ -1961,7 +1961,7 @@ static int drm_mode_parse_cmdline_refresh(const char *str, char **end_ptr,
+>  		return -EINVAL;
+>  
+>  	str++;
+> -	refresh = simple_strtol(str, end_ptr, 10);
+> +	refresh = kstrtol(str, end_ptr, 10);
+>  	if (*end_ptr == str)
+>  		return -EINVAL;
+>  
+> @@ -2033,7 +2033,7 @@ static int drm_mode_parse_cmdline_res_mode(const char *str, unsigned int length,
+>  	int remaining, i;
+>  	char *end_ptr;
+>  
+> -	xres = simple_strtol(str, &end_ptr, 10);
+> +	xres = kstrtol(str, &end_ptr, 10);
+>  	if (end_ptr == str)
+>  		return -EINVAL;
+>  
+> @@ -2042,7 +2042,7 @@ static int drm_mode_parse_cmdline_res_mode(const char *str, unsigned int length,
+>  	end_ptr++;
+>  
+>  	str = end_ptr;
+> -	yres = simple_strtol(str, &end_ptr, 10);
+> +	yres = kstrtol(str, &end_ptr, 10);
+>  	if (end_ptr == str)
+>  		return -EINVAL;
+>  
+> @@ -2100,7 +2100,7 @@ static int drm_mode_parse_cmdline_int(const char *delim, unsigned int *int_ret)
+>  		return -EINVAL;
+>  
+>  	value = delim + 1;
+> -	*int_ret = simple_strtol(value, &endp, 10);
+> +	*int_ret = kstrtol(value, &endp, 10);
+>  
+>  	/* Make sure we have parsed something */
+>  	if (endp == value)
 
-drm-misc-fixes-2024-02-01:
-A quiet week: one fix for CMA dma-buf pages accounting, and one to
-virtio to set the segment size of the virtio_gpu device.
-The following changes since commit 27d19268cf394f2c78db732be0cb31852eeadb0a:
-
-  accel/ivpu: Improve recovery and reset support (2024-01-25 10:17:37 +0100)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2024-02-01
-
-for you to fetch changes up to 1c1914d6e8c6edbf5b45047419ff51abdb1dce96:
-
-  dma-buf: heaps: Don't track CMA dma-buf pages under RssFile (2024-01-31 19:54:58 +0530)
-
-----------------------------------------------------------------
-A quiet week: one fix for CMA dma-buf pages accounting, and one to
-virtio to set the segment size of the virtio_gpu device.
-
-----------------------------------------------------------------
-Sebastian Ott (1):
-      drm/virtio: Set segment size for virtio_gpu device
-
-T.J. Mercier (1):
-      dma-buf: heaps: Don't track CMA dma-buf pages under RssFile
-
- drivers/dma-buf/heaps/cma_heap.c     | 7 +++----
- drivers/gpu/drm/virtio/virtgpu_drv.c | 1 +
- 2 files changed, 4 insertions(+), 4 deletions(-)
-
---sxck4skgjc3bo7nu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZbtp3gAKCRDj7w1vZxhR
-xQ0HAP4sZ+ttqAb4J6lJwVIvgDDtIEMYGYyeWHPzlnuA3Bu/6AD+KeArsfOFt8mI
-A5ibCjPkvznlfVJhqgsIQ0rijE4Oow4=
-=IMIn
------END PGP SIGNATURE-----
-
---sxck4skgjc3bo7nu--
-
+-- 
+Jani Nikula, Intel
