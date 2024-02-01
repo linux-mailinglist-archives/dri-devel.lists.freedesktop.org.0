@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E62C845D56
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 17:34:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0A21845B16
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 16:16:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E728010F1F4;
-	Thu,  1 Feb 2024 16:33:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CEEA10EF28;
+	Thu,  1 Feb 2024 15:16:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="F79SPA+v";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FLbVQuJc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EDB810F1F4
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Feb 2024 16:33:56 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7335C10EF36;
+ Thu,  1 Feb 2024 15:16:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706805236; x=1738341236;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Y4tGleDCKLWtxFwW/vft+m/ukBpChbYl89eQXzMV72U=;
- b=F79SPA+vIPNh41y238PijxFJcqw/Vi/mdzpG1v6YAaMOxiYcOsX9cJhd
- IsKzdDFI5Rl0+npsmQS8O4UTD2BqQofcGmpUZspsEAUU+SANNbgV36pwQ
- W//7/dJrK7vdohFb9/eZq+aVxlTCO2EGtcVHOmLqKNWOAcJqTCr9DABSJ
- 9cO2BHExj/hyRx2pZnenyBl3hjCB1kzguGTQ4JtUCMP2UMJs1U9+CtEvh
- aHTOhjpTaSAoEXqvsiCHzktlz0NY3rLRWStkrAga38GDJRLOBck5I1Dga
- HWUatFGtSCTHfxWHXseUby5XRRnE0QiLjovums6XpsMl9UvCsFKe0Sqtq A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="468167631"
-X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; d="scan'208";a="468167631"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2024 08:31:45 -0800
+ t=1706800582; x=1738336582;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=A316KNzrAV6T6rXy7TU0QVcJJI2i/GiKTSFrMmqOl2Y=;
+ b=FLbVQuJcpHF6Ef3NbuAjFjyJydEe6rb1OtOOLw7kYqnwfpFYUsBY3ZaY
+ EtmooMTKP7lnVklx7xUdLRVNPv5Pq5LU82guwgOjDo85elfgX6E3suQHV
+ +fMgBt7OFYPPcybLkf3Vqt5BcJLLbES+8koteupohQdls2T1bRuHTimkl
+ IlvZhGc0a9dsJyjJzRg1HrcnN5BSkixKIgn//ry1RVDwbAJYfYNurpPee
+ wc0VloTHdyu2PDvZSLgxU7zOs2ho4HQnNxCs/DwMLm7GIKmbVKdwMnAJQ
+ ulUEcfdIWfoFMzpP2uJM5OZ543oAiMG90Aa9xocQdSjfYB8/yB8ce9ygz g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="17303332"
+X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; d="scan'208";a="17303332"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2024 07:16:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="908292478"
-X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; d="scan'208";a="908292478"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmsmga002.fm.intel.com with ESMTP; 01 Feb 2024 08:31:41 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
- id DEA06C41; Thu,  1 Feb 2024 17:15:42 +0200 (EET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Flavio Suligoi <f.suligoi@asem.it>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
-Subject: [PATCH v2 3/3] backlight: mp3309c: Utilise temporary variable for
- struct device
-Date: Thu,  1 Feb 2024 17:14:15 +0200
-Message-ID: <20240201151537.367218-4-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
-In-Reply-To: <20240201151537.367218-1-andriy.shevchenko@linux.intel.com>
-References: <20240201151537.367218-1-andriy.shevchenko@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; d="scan'208";a="37216882"
+Received: from unknown (HELO localhost) ([10.237.66.162])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2024 07:16:13 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Paz Zcharya <pazz@chromium.org>
+Cc: Jouni =?utf-8?Q?H=C3=B6gander?= <jouni.hogander@intel.com>, Luca Coelho
+ <luciano.coelho@intel.com>, Subrata Banik <subratabanik@google.com>,
+ Manasi Navare <navaremanasi@chromium.org>, Drew Davenport
+ <ddavenport@chromium.org>, Sean Paul <seanpaul@chromium.org>, Marcin
+ Wojtas <mwojtas@chromium.org>, khaled.almahallawy@intel.com,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915/display: Include debugfs.h in
+ intel_display_debugfs_params.c
+In-Reply-To: <ZbuxsF7ubmL6lzdR@google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240131204658.795278-1-pazz@chromium.org>
+ <87o7d0h73r.fsf@intel.com> <ZbuxsF7ubmL6lzdR@google.com>
+Date: Thu, 01 Feb 2024 17:16:10 +0200
+Message-ID: <87v878fc5h.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,107 +71,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We have a temporary variable to keep pointer to struct device.
-Utilise it where it makes sense.
+On Thu, 01 Feb 2024, Paz Zcharya <pazz@chromium.org> wrote:
+> Thank you so much for the super prompt reply!
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-Tested-by: Flavio Suligoi <f.suligoi@asem.it>
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/video/backlight/mp3309c.c | 30 ++++++++++++------------------
- 1 file changed, 12 insertions(+), 18 deletions(-)
+FYI, looks like we've got some hiccup in CI, will merge after we get
+results.
 
-diff --git a/drivers/video/backlight/mp3309c.c b/drivers/video/backlight/mp3309c.c
-index 2d6bd1a180b3..e7abefd175a4 100644
---- a/drivers/video/backlight/mp3309c.c
-+++ b/drivers/video/backlight/mp3309c.c
-@@ -222,10 +222,9 @@ static int mp3309c_parse_fwnode(struct mp3309c_chip *chip,
- 	 */
- 	pdata->dimming_mode = DIMMING_ANALOG_I2C;
- 	if (device_property_present(dev, "pwms")) {
--		chip->pwmd = devm_pwm_get(chip->dev, NULL);
-+		chip->pwmd = devm_pwm_get(dev, NULL);
- 		if (IS_ERR(chip->pwmd))
--			return dev_err_probe(chip->dev, PTR_ERR(chip->pwmd),
--					     "error getting pwm data\n");
-+			return dev_err_probe(dev, PTR_ERR(chip->pwmd), "error getting pwm data\n");
- 		pdata->dimming_mode = DIMMING_PWM;
- 		pwm_apply_args(chip->pwmd);
- 	}
-@@ -243,11 +242,9 @@ static int mp3309c_parse_fwnode(struct mp3309c_chip *chip,
- 		num_levels = ANALOG_I2C_NUM_LEVELS;
- 
- 		/* Enable GPIO used in I2C dimming mode only */
--		chip->enable_gpio = devm_gpiod_get(chip->dev, "enable",
--						   GPIOD_OUT_HIGH);
-+		chip->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_HIGH);
- 		if (IS_ERR(chip->enable_gpio))
--			return dev_err_probe(chip->dev,
--					     PTR_ERR(chip->enable_gpio),
-+			return dev_err_probe(dev, PTR_ERR(chip->enable_gpio),
- 					     "error getting enable gpio\n");
- 	} else {
- 		/*
-@@ -265,8 +262,7 @@ static int mp3309c_parse_fwnode(struct mp3309c_chip *chip,
- 	}
- 
- 	/* Fill brightness levels array */
--	pdata->levels = devm_kcalloc(chip->dev, num_levels,
--				     sizeof(*pdata->levels), GFP_KERNEL);
-+	pdata->levels = devm_kcalloc(dev, num_levels, sizeof(*pdata->levels), GFP_KERNEL);
- 	if (!pdata->levels)
- 		return -ENOMEM;
- 	if (device_property_present(dev, "brightness-levels")) {
-@@ -336,21 +332,21 @@ static int mp3309c_probe(struct i2c_client *client)
- 	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
- 		return dev_err_probe(dev, -EOPNOTSUPP, "failed to check i2c functionality\n");
- 
--	chip = devm_kzalloc(&client->dev, sizeof(*chip), GFP_KERNEL);
-+	chip = devm_kzalloc(dev, sizeof(*chip), GFP_KERNEL);
- 	if (!chip)
- 		return -ENOMEM;
- 
--	chip->dev = &client->dev;
-+	chip->dev = dev;
- 
- 	chip->regmap = devm_regmap_init_i2c(client, &mp3309c_regmap);
- 	if (IS_ERR(chip->regmap))
--		return dev_err_probe(&client->dev, PTR_ERR(chip->regmap),
-+		return dev_err_probe(dev, PTR_ERR(chip->regmap),
- 				     "failed to allocate register map\n");
- 
- 	i2c_set_clientdata(client, chip);
- 
- 	if (!pdata) {
--		pdata = devm_kzalloc(chip->dev, sizeof(*pdata), GFP_KERNEL);
-+		pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
- 		if (!pdata)
- 			return -ENOMEM;
- 
-@@ -367,11 +363,10 @@ static int mp3309c_probe(struct i2c_client *client)
- 	props.type = BACKLIGHT_RAW;
- 	props.power = FB_BLANK_UNBLANK;
- 	props.fb_blank = FB_BLANK_UNBLANK;
--	chip->bl = devm_backlight_device_register(chip->dev, "mp3309c",
--						  chip->dev, chip,
-+	chip->bl = devm_backlight_device_register(dev, "mp3309c", dev, chip,
- 						  &mp3309c_bl_ops, &props);
- 	if (IS_ERR(chip->bl))
--		return dev_err_probe(chip->dev, PTR_ERR(chip->bl),
-+		return dev_err_probe(dev, PTR_ERR(chip->bl),
- 				     "error registering backlight device\n");
- 
- 	/* In PWM dimming mode, enable pwm device */
-@@ -383,8 +378,7 @@ static int mp3309c_probe(struct i2c_client *client)
- 		pwmstate.enabled = true;
- 		ret = pwm_apply_state(chip->pwmd, &pwmstate);
- 		if (ret)
--			return dev_err_probe(chip->dev, ret,
--					     "error setting pwm device\n");
-+			return dev_err_probe(dev, ret, "error setting pwm device\n");
- 	}
- 
- 	chip->pdata->status = FIRST_POWER_ON;
+BR,
+Jani.
+
+
 -- 
-2.43.0.rc1.1.gbec44491f096
-
+Jani Nikula, Intel
