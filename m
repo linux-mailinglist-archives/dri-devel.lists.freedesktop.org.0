@@ -2,57 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9311484582B
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 13:53:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2039884582E
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 13:53:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7790710ED6A;
-	Thu,  1 Feb 2024 12:53:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6613E10ED6D;
+	Thu,  1 Feb 2024 12:53:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MiFamANL";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="eYf4a29f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08EDA10ED67;
- Thu,  1 Feb 2024 12:53:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706791981; x=1738327981;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=kM2CzdPqPhJGT/27u+FEUgiyr+hJJwWsrgc1Wu+Yw4c=;
- b=MiFamANLT+ibF0Zk8jON8Lf+z2TDnXLVshf9mkP0R9IbamktMokwrbIy
- fYFNqny4CV/b2BDqnCDfnHy1xh/CbS4o4uiHbuCVvLZT9PgvmF2+a+C8C
- SGmqsUp81G3sHe3odyy/fBZcREuaA6h6ZYS4BQifsXaqhl+RipPjuRYIN
- w/hB39Hd4qLIhnbxZ+kAa3H4++iAHAWKCJDeK6VMJg5jET13BJBP/E9IN
- OnqzJHcUSFpAQclboseXwu9gXnbad6mxoZmnZ1X/qZh0jbVh7pg5HlyTy
- weGpCB3HAh/fjEeuIYW4j0qmkRLVtxpumToDQLOhNPy+PoXA1695Wmxwg g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="402730844"
-X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; d="scan'208";a="402730844"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2024 04:53:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="908242204"
-X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; d="scan'208";a="908242204"
-Received: from unknown (HELO localhost) ([10.237.66.162])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2024 04:52:58 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org, Lucas De Marchi
- <lucas.demarchi@intel.com>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH 09/10] drm/xe: switch from drm_debug_printer() to device
- specific drm_dbg_printer()
-In-Reply-To: <35929b030f7ba67cd32808d42e916aa9cfb5709d.1705410327.git.jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1705410327.git.jani.nikula@intel.com>
- <35929b030f7ba67cd32808d42e916aa9cfb5709d.1705410327.git.jani.nikula@intel.com>
-Date: Thu, 01 Feb 2024 14:52:55 +0200
-Message-ID: <87y1c4fis8.fsf@intel.com>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A77E010ED6F
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Feb 2024 12:53:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1706791991;
+ bh=AiYqxfdfmN8jEke9jGAUzoN6GSbkaeqahTRB/bnjbXA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=eYf4a29fl7BlgqPMXrORpEyZup6lT/KKme8ccW3IGZkpZ2xSBehBh8MFFv09N7mh9
+ JwPXb3xTHwmkcHVYo7LY6fQexTrliD0QAvcJQCFC3I+6C1RfpchwQNa2icK2HCQh+O
+ mUFmWV9cXvYPybkckWot0cjw47IEiXUEQzuPkzTJv5kaK4MmxAhjtH0iy2vRJu9Pxj
+ 0ORfdgPpePj8pFFCUepfGUBOkTh64idLcx12YHp/5oCAcbx008BelXX3DadZd8IuIy
+ BSUuVa2jc/bk3kTdU1rj3UwE5HnJsKNrvOTA5xZM64Jn8B7qujwW8JKXtogEroim5f
+ Ml5HwSh5mWcVg==
+Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com
+ [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id B6D44378047F;
+ Thu,  1 Feb 2024 12:53:10 +0000 (UTC)
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: chunkuang.hu@kernel.org
+Cc: p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+ ck.hu@mediatek.com, nancy.lin@mediatek.com, nathan.lu@mediatek.com,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ kernel@collabora.com, wenst@chromium.org
+Subject: [PATCH 0/3] drm/mediatek: Fixes for DDP component search/destroy
+Date: Thu,  1 Feb 2024 13:53:01 +0100
+Message-ID: <20240201125304.218467-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,71 +62,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 16 Jan 2024, Jani Nikula <jani.nikula@intel.com> wrote:
-> Prefer the device specific debug printer.
->
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+This series performs some cleanups for DDP component CRTC search and
+correctly iounmaps the previously of_iomap() calls from drm_ddp_comp.
 
-Xe maintainers, ack for merging this via drm-misc along with the rest of
-the series?
+Tested on MT8195 Cherry Tomato
 
-BR,
-Jani.
+AngeloGioacchino Del Regno (3):
+  drm/mediatek: drm_ddp_comp: Fix and cleanup DDP component CRTC search
+  drm/mediatek: Perform iounmap on simple DDP component destruction
+  drm/mediatek: drm_ddp_comp: Add mtk_ddp_is_simple_comp() internal
+    helper
 
-> ---
->  drivers/gpu/drm/xe/xe_gt.c          | 2 +-
->  drivers/gpu/drm/xe/xe_gt_topology.c | 4 +++-
->  drivers/gpu/drm/xe/xe_reg_sr.c      | 2 +-
->  3 files changed, 5 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/xe/xe_gt.c b/drivers/gpu/drm/xe/xe_gt.c
-> index 0f2258dc4a00..16481f9b3125 100644
-> --- a/drivers/gpu/drm/xe/xe_gt.c
-> +++ b/drivers/gpu/drm/xe/xe_gt.c
-> @@ -327,7 +327,7 @@ static void dump_pat_on_error(struct xe_gt *gt)
->  	char prefix[32];
->  
->  	snprintf(prefix, sizeof(prefix), "[GT%u Error]", gt->info.id);
-> -	p = drm_debug_printer(prefix);
-> +	p = drm_dbg_printer(&gt_to_xe(gt)->drm, DRM_UT_DRIVER, prefix);
->  
->  	xe_pat_dump(gt, &p);
->  }
-> diff --git a/drivers/gpu/drm/xe/xe_gt_topology.c b/drivers/gpu/drm/xe/xe_gt_topology.c
-> index a8d7f272c30a..5dc62fe1be49 100644
-> --- a/drivers/gpu/drm/xe/xe_gt_topology.c
-> +++ b/drivers/gpu/drm/xe/xe_gt_topology.c
-> @@ -84,7 +84,7 @@ void
->  xe_gt_topology_init(struct xe_gt *gt)
->  {
->  	struct xe_device *xe = gt_to_xe(gt);
-> -	struct drm_printer p = drm_debug_printer("GT topology");
-> +	struct drm_printer p;
->  	int num_geometry_regs, num_compute_regs;
->  
->  	get_num_dss_regs(xe, &num_geometry_regs, &num_compute_regs);
-> @@ -107,6 +107,8 @@ xe_gt_topology_init(struct xe_gt *gt)
->  		      XE2_GT_COMPUTE_DSS_2);
->  	load_eu_mask(gt, gt->fuse_topo.eu_mask_per_dss);
->  
-> +	p = drm_dbg_printer(&gt_to_xe(gt)->drm, DRM_UT_DRIVER, "GT topology");
-> +
->  	xe_gt_topology_dump(gt, &p);
->  }
->  
-> diff --git a/drivers/gpu/drm/xe/xe_reg_sr.c b/drivers/gpu/drm/xe/xe_reg_sr.c
-> index 87adefb56024..440ac572f6e5 100644
-> --- a/drivers/gpu/drm/xe/xe_reg_sr.c
-> +++ b/drivers/gpu/drm/xe/xe_reg_sr.c
-> @@ -231,7 +231,7 @@ void xe_reg_sr_apply_whitelist(struct xe_hw_engine *hwe)
->  	if (err)
->  		goto err_force_wake;
->  
-> -	p = drm_debug_printer(KBUILD_MODNAME);
-> +	p = drm_dbg_printer(&xe->drm, DRM_UT_DRIVER, NULL);
->  	xa_for_each(&sr->xa, reg, entry) {
->  		if (slot == RING_MAX_NONPRIV_SLOTS) {
->  			xe_gt_err(gt,
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 113 +++++++++++++-------
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   1 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c      |   4 +-
+ 3 files changed, 80 insertions(+), 38 deletions(-)
 
 -- 
-Jani Nikula, Intel
+2.43.0
+
