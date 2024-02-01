@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2039884582E
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 13:53:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54941845830
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 13:53:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6613E10ED6D;
-	Thu,  1 Feb 2024 12:53:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B13E310ED72;
+	Thu,  1 Feb 2024 12:53:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="eYf4a29f";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="GdFp4wvJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A77E010ED6F
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A595110ED6D
  for <dri-devel@lists.freedesktop.org>; Thu,  1 Feb 2024 12:53:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1706791991;
- bh=AiYqxfdfmN8jEke9jGAUzoN6GSbkaeqahTRB/bnjbXA=;
- h=From:To:Cc:Subject:Date:From;
- b=eYf4a29fl7BlgqPMXrORpEyZup6lT/KKme8ccW3IGZkpZ2xSBehBh8MFFv09N7mh9
- JwPXb3xTHwmkcHVYo7LY6fQexTrliD0QAvcJQCFC3I+6C1RfpchwQNa2icK2HCQh+O
- mUFmWV9cXvYPybkckWot0cjw47IEiXUEQzuPkzTJv5kaK4MmxAhjtH0iy2vRJu9Pxj
- 0ORfdgPpePj8pFFCUepfGUBOkTh64idLcx12YHp/5oCAcbx008BelXX3DadZd8IuIy
- BSUuVa2jc/bk3kTdU1rj3UwE5HnJsKNrvOTA5xZM64Jn8B7qujwW8JKXtogEroim5f
- Ml5HwSh5mWcVg==
+ s=mail; t=1706791992;
+ bh=NNwf1FU4iKYIcxafPzqdiApb/zXktJGn2dDrtHe6Qpw=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=GdFp4wvJjncBQA1ogeJl0aGoGyBzQAiBITHtesgYh+D8i99YIOKoDHBN9JMOXYWrd
+ XieFPVy9ILHGZxJKGMtBBNgbGvuZW5zNf2mSxyzXIWIfXh1o4ZjXFjM8k40qjAy7xU
+ zhi8QdKx1Q8pZvl2pnB+gj45HUcDmWxD5Hj/zckFnXLc02XQFHxc4NpLOjSNetFXXg
+ TBJa+uGUQlwZ8/XX3X741vIbuK2cqrpf9qpJXLbAkUyMgOqvQNnvxGrO4/1/KURz3g
+ mHPQGHjrcCrmIkZUjN/ofAuiOMlpNqAbmPfMTs5d8xZbWCzmzYU7BlVu6qwkGJ7o3G
+ FpO0XvB3xEBhQ==
 Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com
  [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id B6D44378047F;
- Thu,  1 Feb 2024 12:53:10 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id EC492378208C;
+ Thu,  1 Feb 2024 12:53:11 +0000 (UTC)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
 Cc: p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
@@ -41,10 +41,13 @@ Cc: p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
  dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  kernel@collabora.com, wenst@chromium.org
-Subject: [PATCH 0/3] drm/mediatek: Fixes for DDP component search/destroy
-Date: Thu,  1 Feb 2024 13:53:01 +0100
-Message-ID: <20240201125304.218467-1-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH 1/3] drm/mediatek: drm_ddp_comp: Fix and cleanup DDP component
+ CRTC search
+Date: Thu,  1 Feb 2024 13:53:02 +0100
+Message-ID: <20240201125304.218467-2-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240201125304.218467-1-angelogioacchino.delregno@collabora.com>
+References: <20240201125304.218467-1-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,22 +65,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series performs some cleanups for DDP component CRTC search and
-correctly iounmaps the previously of_iomap() calls from drm_ddp_comp.
+Finding a possible CRTC by DDP component is done by first checking
+static routes in three paths (main, external, third/extra path) and
+then, if not found, we check for dynamic connection on a per-route
+basis because, for example, on some SoCs the main route may output
+to either a DSI display or DisplayPort and this is finally done by
+assigning a CRTC mask to `possible_crtcs`, found with function
+mtk_drm_find_comp_in_ddp_conn_path(): being that a mask the possible
+values are BIT(x) and, if no CRTC is possible, zero.
 
-Tested on MT8195 Cherry Tomato
+Problem is, both mtk_drm_find_possible_crtc_by_comp() and the
+aforementioned function are trying to return a negative error value
+(but it's unsigned int!) if no CRTC was found, which is wrong for
+multiple obvious reasons.
 
-AngeloGioacchino Del Regno (3):
-  drm/mediatek: drm_ddp_comp: Fix and cleanup DDP component CRTC search
-  drm/mediatek: Perform iounmap on simple DDP component destruction
-  drm/mediatek: drm_ddp_comp: Add mtk_ddp_is_simple_comp() internal
-    helper
+Cleanup both functions, so that:
+ - mtk_drm_find_comp_in_ddp_conn_path() returns a signed integer
+   with a negative number for error, or a bit/bitmask of the found
+   possible CRTC; and
+ - mtk_drm_find_possible_crtc_by_comp() always returns either a
+   bitmask of the possible CRTC, or zero if none available.
 
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 113 +++++++++++++-------
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   1 +
- drivers/gpu/drm/mediatek/mtk_drm_drv.c      |   4 +-
- 3 files changed, 80 insertions(+), 38 deletions(-)
+Fixes: 01389b324c97 ("drm/mediatek: Add connector dynamic selection capability")
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+---
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 44 ++++++++++-----------
+ 1 file changed, 21 insertions(+), 23 deletions(-)
 
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+index a9b5a21cde2d..c13359eeb3cd 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+@@ -513,29 +513,25 @@ static bool mtk_drm_find_comp_in_ddp(struct device *dev,
+ 	return false;
+ }
+ 
+-static unsigned int mtk_drm_find_comp_in_ddp_conn_path(struct device *dev,
+-						       const struct mtk_drm_route *routes,
+-						       unsigned int num_routes,
+-						       struct mtk_ddp_comp *ddp_comp)
++static int mtk_drm_find_comp_in_ddp_conn_path(struct device *dev,
++					      const struct mtk_drm_route *routes,
++					      unsigned int num_routes,
++					      struct mtk_ddp_comp *ddp_comp)
+ {
+-	int ret;
+-	unsigned int i;
++	int i;
+ 
+-	if (!routes) {
+-		ret = -EINVAL;
+-		goto err;
++	if (!routes || !num_routes) {
++		DRM_ERROR("No connection routes specified!\n");
++		return -EINVAL;
+ 	}
+ 
+ 	for (i = 0; i < num_routes; i++)
+ 		if (dev == ddp_comp[routes[i].route_ddp].dev)
+ 			return BIT(routes[i].crtc_id);
+ 
+-	ret = -ENODEV;
+-err:
+-
+-	DRM_INFO("Failed to find comp in ddp table, ret = %d\n", ret);
++	DRM_ERROR("Failed to find component in ddp table\n");
+ 
+-	return 0;
++	return -ENODEV;
+ }
+ 
+ int mtk_ddp_comp_get_id(struct device_node *node,
+@@ -557,22 +553,24 @@ unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm,
+ 						struct device *dev)
+ {
+ 	struct mtk_drm_private *private = drm->dev_private;
+-	unsigned int ret = 0;
++	int ret;
+ 
+ 	if (mtk_drm_find_comp_in_ddp(dev, private->data->main_path, private->data->main_len,
+ 				     private->ddp_comp))
+-		ret = BIT(0);
++		return BIT(0);
+ 	else if (mtk_drm_find_comp_in_ddp(dev, private->data->ext_path,
+ 					  private->data->ext_len, private->ddp_comp))
+-		ret = BIT(1);
++		return BIT(1);
+ 	else if (mtk_drm_find_comp_in_ddp(dev, private->data->third_path,
+ 					  private->data->third_len, private->ddp_comp))
+-		ret = BIT(2);
+-	else
+-		ret = mtk_drm_find_comp_in_ddp_conn_path(dev,
+-							 private->data->conn_routes,
+-							 private->data->num_conn_routes,
+-							 private->ddp_comp);
++		return BIT(2);
++
++	ret = mtk_drm_find_comp_in_ddp_conn_path(dev, private->data->conn_routes,
++						 private->data->num_conn_routes,
++						 private->ddp_comp);
++	/* No CRTC is available: return a zero mask */
++	if (ret < 0)
++		return 0;
+ 
+ 	return ret;
+ }
 -- 
 2.43.0
 
