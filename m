@@ -2,50 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 447078451BF
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 08:07:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BA0784521E
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Feb 2024 08:39:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7163E10E512;
-	Thu,  1 Feb 2024 07:07:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05B9F10E570;
+	Thu,  1 Feb 2024 07:39:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A366B10E512
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Feb 2024 07:07:35 +0000 (UTC)
-X-UUID: 764c45ccbd574fcc909a3d5b5243e43a-20240201
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.35, REQID:91f91266-b94d-412b-b9d1-95986282e5bc, IP:15,
- URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-INFO: VERSION:1.1.35, REQID:91f91266-b94d-412b-b9d1-95986282e5bc, IP:15,
- UR
- L:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:0
-X-CID-META: VersionHash:5d391d7, CLOUDID:43717f83-8d4f-477b-89d2-1e3bdbef96d1,
- B
- ulkID:240201150228KA92BHID,BulkQuantity:0,Recheck:0,SF:19|44|66|38|24|17|1
- 02,TC:nil,Content:0,EDM:-3,IP:-2,URL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,CO
- L:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR, TF_CID_SPAM_FAS, TF_CID_SPAM_FSD,
- TF_CID_SPAM_FSI, TF_CID_SPAM_ULS
-X-UUID: 764c45ccbd574fcc909a3d5b5243e43a-20240201
-X-User: liucong2@kylinos.cn
-Received: from localhost.localdomain [(116.128.244.171)] by mailgw
- (envelope-from <liucong2@kylinos.cn>) (Generic MTA)
- with ESMTP id 1569227187; Thu, 01 Feb 2024 15:02:27 +0800
-From: Cong Liu <liucong2@kylinos.cn>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/modes: Replace deprecated simple_strtol with kstrtol
-Date: Thu,  1 Feb 2024 15:02:25 +0800
-Message-Id: <20240201070226.3292315-1-liucong2@kylinos.cn>
-X-Mailer: git-send-email 2.34.1
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7667D10E573
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Feb 2024 07:39:45 +0000 (UTC)
+Received: from [192.168.88.20] (91-154-35-128.elisa-laajakaista.fi
+ [91.154.35.128])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 622AA4AB0;
+ Thu,  1 Feb 2024 08:38:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1706773104;
+ bh=D7vt8t+Zz5UIHdX41lnFPsMLKfKHutOJU93bZnKmsy4=;
+ h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
+ b=jXMAm/6FqXEI4p0Oq9kMtUWqQ8OgELAqXEnqx8IwTG0GYBKBRkoCeyjHkFi+4HBQP
+ NmoS2gmXBKGT4AFTKOhuQwMqaU//8b9Tj93c4g7PCaaTkJzvoT2R1rxK9D4s1RhS++
+ SWCUq+8hH0IT5QbwvoaUCdq9z8x7Cm9jXcfM7qCI=
+Message-ID: <a5de522e-240c-44f7-a968-74a10a4cb62f@ideasonboard.com>
+Date: Thu, 1 Feb 2024 09:39:39 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/5] drm: xlnx: zynqmp_dpsub: Clear status register ASAP
+Content-Language: en-US
+To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+References: <20240124025402.373620-1-anatoliy.klymenko@amd.com>
+ <20240124025402.373620-4-anatoliy.klymenko@amd.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20240124025402.373620-4-anatoliy.klymenko@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,71 +92,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Cong Liu <liucong2@kylinos.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: tzimmermann@suse.de, michal.simek@amd.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, mripard@kernel.org,
+ laurent.pinchart@ideasonboard.com, daniel@ffwll.ch,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch replaces the use of the deprecated simple_strtol [1] function
-in the drm_modes.c file with the recommended kstrtol function. This change
-improves error handling and boundary checks.
+On 24/01/2024 04:54, Anatoliy Klymenko wrote:
+> Clear status register as soon as we read it.
+> 
+> Addressing comments from
+> https://lore.kernel.org/dri-devel/beb551c7-bb7e-4cd0-b166-e9aad90c4620@ideasonboard.com/
+> 
+> Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+> ---
+>   drivers/gpu/drm/xlnx/zynqmp_dp.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> index d60b7431603f..5a3335e1fffa 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> @@ -1624,6 +1624,8 @@ static irqreturn_t zynqmp_dp_irq_handler(int irq, void *data)
+>   	u32 status, mask;
+>   
+>   	status = zynqmp_dp_read(dp, ZYNQMP_DP_INT_STATUS);
+> +	/* clear status register as soon as we read it */
+> +	zynqmp_dp_write(dp, ZYNQMP_DP_INT_STATUS, status);
+>   	mask = zynqmp_dp_read(dp, ZYNQMP_DP_INT_MASK);
+>   	if (!(status & ~mask))
+>   		return IRQ_NONE;
+> @@ -1634,8 +1636,6 @@ static irqreturn_t zynqmp_dp_irq_handler(int irq, void *data)
+>   	if (status & ZYNQMP_DP_INT_CHBUF_OVERFLW_MASK)
+>   		dev_dbg_ratelimited(dp->dev, "overflow interrupt\n");
+>   
+> -	zynqmp_dp_write(dp, ZYNQMP_DP_INT_STATUS, status);
+> -
+>   	if (status & ZYNQMP_DP_INT_VBLANK_START)
+>   		zynqmp_dpsub_drm_handle_vblank(dp->dpsub);
+>   
 
-[1] https://www.kernel.org/doc/html/latest/process/deprecated.html#simple-strtol-simple-strtoll-simple-strtoul-simple-strtoull
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-Signed-off-by: Cong Liu <liucong2@kylinos.cn>
----
- drivers/gpu/drm/drm_modes.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index 893f52ee4926..fce0fb1df9b2 100644
---- a/drivers/gpu/drm/drm_modes.c
-+++ b/drivers/gpu/drm/drm_modes.c
-@@ -1942,7 +1942,7 @@ static int drm_mode_parse_cmdline_bpp(const char *str, char **end_ptr,
- 		return -EINVAL;
- 
- 	str++;
--	bpp = simple_strtol(str, end_ptr, 10);
-+	bpp = kstrtol(str, end_ptr, 10);
- 	if (*end_ptr == str)
- 		return -EINVAL;
- 
-@@ -1961,7 +1961,7 @@ static int drm_mode_parse_cmdline_refresh(const char *str, char **end_ptr,
- 		return -EINVAL;
- 
- 	str++;
--	refresh = simple_strtol(str, end_ptr, 10);
-+	refresh = kstrtol(str, end_ptr, 10);
- 	if (*end_ptr == str)
- 		return -EINVAL;
- 
-@@ -2033,7 +2033,7 @@ static int drm_mode_parse_cmdline_res_mode(const char *str, unsigned int length,
- 	int remaining, i;
- 	char *end_ptr;
- 
--	xres = simple_strtol(str, &end_ptr, 10);
-+	xres = kstrtol(str, &end_ptr, 10);
- 	if (end_ptr == str)
- 		return -EINVAL;
- 
-@@ -2042,7 +2042,7 @@ static int drm_mode_parse_cmdline_res_mode(const char *str, unsigned int length,
- 	end_ptr++;
- 
- 	str = end_ptr;
--	yres = simple_strtol(str, &end_ptr, 10);
-+	yres = kstrtol(str, &end_ptr, 10);
- 	if (end_ptr == str)
- 		return -EINVAL;
- 
-@@ -2100,7 +2100,7 @@ static int drm_mode_parse_cmdline_int(const char *delim, unsigned int *int_ret)
- 		return -EINVAL;
- 
- 	value = delim + 1;
--	*int_ret = simple_strtol(value, &endp, 10);
-+	*int_ret = kstrtol(value, &endp, 10);
- 
- 	/* Make sure we have parsed something */
- 	if (endp == value)
--- 
-2.34.1
+  Tomi
 
