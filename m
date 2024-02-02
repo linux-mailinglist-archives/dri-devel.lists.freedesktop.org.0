@@ -2,76 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 062B9847770
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 19:29:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 948258477BD
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 19:39:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47D8F10F0B4;
-	Fri,  2 Feb 2024 18:29:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABC2510E24E;
+	Fri,  2 Feb 2024 18:39:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="WaKP8rmh";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OW8Afam5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B00010E6C2
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 18:29:07 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 412G9IxY005695; Fri, 2 Feb 2024 18:29:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:to:cc:from:subject:content-type
- :content-transfer-encoding; s=qcppdkim1; bh=Vwx3FXKnaV6LfFKKlHGK
- kLV3dJDbyYgdtU7pDdalGxs=; b=WaKP8rmhpwNFTXFSksVrLKzZzRsRO6w2LaRi
- yBX4K+hF61bnRcUsvSifG6Py4Ate4XO75SFOpH39rMiZl3+EhWOtUy+J3zFI3nSh
- EQDiB7GKPreNgGSeVsqGv/3h+IZf0m61t0X44qnCoOEvYrCSC4II4FK+JwLDa/s7
- KhX59wEu7PANt9t31+mYHim1IXUzIUB82M2R4sdlpQGL31JJYeYTjIFVuh5L0HzJ
- uEbx8F3Z6GQXmOGUlz35yQSOs2FAW0Oa2QuYmQpPQMWA7/ilxD/TFurGnkfn+fQD
- JazPDIa0qtvecNK/hwNmoz54Mh9atcU3SS6/bP59FnPq26NLRg==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w1019rtmh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 02 Feb 2024 18:29:05 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 412IT5QS003201
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 2 Feb 2024 18:29:05 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 2 Feb
- 2024 10:29:04 -0800
-Message-ID: <b0c0de30-9ef7-5753-928e-f189038b7fb9@quicinc.com>
-Date: Fri, 2 Feb 2024 11:29:03 -0700
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BDA110E289
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 18:39:33 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8021B627D0;
+ Fri,  2 Feb 2024 18:39:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D2C6C433A6;
+ Fri,  2 Feb 2024 18:39:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1706899172;
+ bh=+I78WAJjV2mXXrvpFXbawPuTz8P4TcngqBjgiVV9yU8=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=OW8Afam5jtsHT1tsBudJ8TyHMuiXcHckjhau6Tz43/JAq5BC1UMTJxrjT+h/6VJS8
+ /6ZEZDeORCIPjagzSwbeL8bkktghFC7HqouOELil+f4UVQo4LWAh/zZlUYqLKeOX1l
+ w6Sdr/nEHD1gy3R6PG/4yi2/7z1MMLSFTIC5K9WqytWeTiAW+bku7yGLuqe0qZVVhM
+ sIbeX1aSPKMJzCx5XlfiiqQMGrkgMUFKr4uqVPZ2JD0p0cCjRTdaKT57yKyy4NDCjD
+ VRrjlSbSWAfMIS32kDZnGfELxeFpodVfWQAecfKtI2WM61i8asaE9gg4DPllEigHTB
+ 0V0jqVP8OH5DA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Fullway Wang <fullwaywang@outlook.com>, Helge Deller <deller@gmx.de>,
+ Sasha Levin <sashal@kernel.org>, adaplas@gmail.com,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.7 03/23] fbdev: savage: Error out if pixclock equals
+ zero
+Date: Fri,  2 Feb 2024 13:38:59 -0500
+Message-ID: <20240202183926.540467-3-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240202183926.540467-1-sashal@kernel.org>
+References: <20240202183926.540467-1-sashal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Content-Language: en-US
-To: Douglas Anderson <dianders@chromium.org>
-CC: "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>, "Bjorn
- Andersson" <quic_bjorande@quicinc.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: TI SN65DSI86 bridge chip DT binding maintainer
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: GTB_OsBpB_qG_CwlHjk_3ApGJ_IRbj9H
-X-Proofpoint-GUID: GTB_OsBpB_qG_CwlHjk_3ApGJ_IRbj9H
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-02_12,2024-01-31_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- lowpriorityscore=0 bulkscore=0 mlxscore=0 suspectscore=0
- priorityscore=1501 spamscore=0 mlxlogscore=316 clxscore=1011 adultscore=0
- phishscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2401310000 definitions=main-2402020134
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.7.3
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,21 +63,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Doug,
+From: Fullway Wang <fullwaywang@outlook.com>
 
-The DT binding for the TI SN65DSI86 [1] lists Sandeep Panda 
-<spanda@codeaurora.org> as the maintainer within the file.  This is no 
-longer valid because the @codeaurora domain bounces, and Sandeep appears 
-to have left the company.  As such the binding appears to be orphaned, 
-although the file itself is misleading because it needs to be updated.
+[ Upstream commit 04e5eac8f3ab2ff52fa191c187a46d4fdbc1e288 ]
 
-I'd like to find a new maintainer and from what I've seen on list, you 
-seem to be interested and active in this particular bridge chip.  I also 
-see that you are listed as a reviewer of the C code and binding within 
-MAINTAINERS.
+The userspace program could pass any values to the driver through
+ioctl() interface. If the driver doesn't check the value of pixclock,
+it may cause divide-by-zero error.
 
-Would you be willing to volunteer to maintain the binding going forward?
+Although pixclock is checked in savagefb_decode_var(), but it is not
+checked properly in savagefb_probe(). Fix this by checking whether
+pixclock is zero in the function savagefb_check_var() before
+info->var.pixclock is used as the divisor.
 
-[1]: Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
+This is similar to CVE-2022-3061 in i740fb which was fixed by
+commit 15cf0b8.
 
--Jeff
+Signed-off-by: Fullway Wang <fullwaywang@outlook.com>
+Signed-off-by: Helge Deller <deller@gmx.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/video/fbdev/savage/savagefb_driver.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/video/fbdev/savage/savagefb_driver.c b/drivers/video/fbdev/savage/savagefb_driver.c
+index dddd6afcb972..ebc9aeffdde7 100644
+--- a/drivers/video/fbdev/savage/savagefb_driver.c
++++ b/drivers/video/fbdev/savage/savagefb_driver.c
+@@ -869,6 +869,9 @@ static int savagefb_check_var(struct fb_var_screeninfo   *var,
+ 
+ 	DBG("savagefb_check_var");
+ 
++	if (!var->pixclock)
++		return -EINVAL;
++
+ 	var->transp.offset = 0;
+ 	var->transp.length = 0;
+ 	switch (var->bits_per_pixel) {
+-- 
+2.43.0
+
