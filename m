@@ -2,62 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BB08846FF1
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 13:13:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E47FB8470C9
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 14:01:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 068A810E135;
-	Fri,  2 Feb 2024 12:13:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD7D610E002;
+	Fri,  2 Feb 2024 13:01:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="gSPXSICc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Rk52/yef";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 10040 seconds by postgrey-1.36 at gabe;
- Fri, 02 Feb 2024 12:13:26 UTC
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61BB410E2B8
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 12:13:26 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7C4A6E0009;
- Fri,  2 Feb 2024 12:13:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1706876005;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lBRBUMTBkzgyw1INiZAUKiTvKV7jSrw+yLOhK7wYnQU=;
- b=gSPXSICc9CvNoai5CaYfUZyE0onBH1I5eQdwHq64wND/jDLmTjbfwM2DH0FCF/22tMhdvb
- mEwcDv1vGNp+arOaWz5DCpAr9TdaazFNVO3HcE2sad/91fhUHVhusut+6Fn9Uuv9Z0PbnH
- VGrOCbkcIMbIfbUEKX22CI4P/ssc/7bHrxGCMqMuNLOYTSA6D1vXHHtpHlDUz5ADbiS5cp
- aKeuOFRw/YHJ/UustYxD3jf0dnNNrXEA9zS/+srgOihS6nZpg0EOcE549JcbK0uI/yCdkG
- Vz+F4QUEw2g+emi6njLVT82IE+wCHKkFJFu0K5ng9Wf19jLE04P5ROMJpBlL+w==
-Date: Fri, 2 Feb 2024 13:13:22 +0100
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Pekka Paalanen <pekka.paalanen@haloniitty.fi>, Louis Chauvet
- <louis.chauvet@bootlin.com>, Rodrigo Siqueira
- <rodrigosiqueiramelo@gmail.com>, Melissa Wen <melissa.srw@gmail.com>,
- =?UTF-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>, Haneen Mohammed
- <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- marcheu@google.com, seanpaul@google.com, nicolejadeyee@google.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- thomas.petazzoni@bootlin.com, Arthur Grillo <arthurgrillo@riseup.net>
-Subject: Re: [PATCH 2/2] drm/vkms: Use a simpler composition function
-Message-ID: <20240202131322.5471e184@xps-13>
-In-Reply-To: <3nofkwzgnf4yva2wfogdbii47ohpi2wm5vp6aijtg3emxyoowt@twyreqz7ai3g>
-References: <20240201-yuv-v1-0-3ca376f27632@bootlin.com>
- <20240201-yuv-v1-2-3ca376f27632@bootlin.com>
- <20240202105522.43128e19@eldfell> <20240202102601.70b6d49c@xps-13>
- <3nofkwzgnf4yva2wfogdbii47ohpi2wm5vp6aijtg3emxyoowt@twyreqz7ai3g>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1431D10E002
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 13:01:44 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 961B162559;
+ Fri,  2 Feb 2024 13:01:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9E34C433F1;
+ Fri,  2 Feb 2024 13:01:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1706878902;
+ bh=ZjGVUgcdYqjFELWbtS5Tz+gafK6SLtjIYXwEYo18YXo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Rk52/yefcJ7xC9MuTUP9sVCJC4n6DX/+ofLVOsiOkeAH60dIBnk2fZXv9ByUydBSm
+ DtqxnIWw/Mom3yYSOahogiwlITZbO6GPKqH6MT9Kdr8LoJYR+meY7ea3x86U/vmdK4
+ jRDsbJiXrCZxHBdA/8os4Npi7r/i1RsmqZO0HydLSMRy0rWgj6ua7CH416PSWMz9pG
+ 0eAtdr7brPlRIP4fC1N9uM9JlSNyxx5dHaPSkw9vVrEL5j6Xw4EmSZSGqLZYN6CIUl
+ apPnlO5ZVBPs/+JA5YylF5MM9Ainw7YQkJYQDn356jUppnedKDWil6gE6ptW+ae8v4
+ 30Y4ACuH/ziuw==
+Date: Fri, 2 Feb 2024 14:01:39 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Sebastian Wick <sebastian.wick@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
+ Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>, 
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB
+ property
+Message-ID: <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
+References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
+ <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
+ <20240115143308.GA159345@toolbox> <20240115143720.GA160656@toolbox>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="6dznigm7bfdw265q"
+Content-Disposition: inline
+In-Reply-To: <20240115143720.GA160656@toolbox>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,110 +70,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Maxime,
 
-+ Arthur
+--6dznigm7bfdw265q
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-mripard@kernel.org wrote on Fri, 2 Feb 2024 10:53:37 +0100:
+Hi,
 
-> Hi Miquel,
->=20
-> On Fri, Feb 02, 2024 at 10:26:01AM +0100, Miquel Raynal wrote:
-> > pekka.paalanen@haloniitty.fi wrote on Fri, 2 Feb 2024 10:55:22 +0200:
-> >  =20
-> > > On Thu, 01 Feb 2024 18:31:32 +0100
-> > > Louis Chauvet <louis.chauvet@bootlin.com> wrote:
-> > >  =20
-> > > > Change the composition algorithm to iterate over pixels instead of =
-lines.
-> > > > It allows a simpler management of rotation and pixel access for com=
-plex formats.
-> > > >=20
-> > > > This new algorithm allows read_pixel function to have access to x/y
-> > > > coordinates and make it possible to read the correct thing in a blo=
-ck
-> > > > when block_w and block_h are not 1.
-> > > > The iteration pixel-by-pixel in the same method also allows a simpl=
-er
-> > > > management of rotation with drm_rect_* helpers. This way it's not n=
-eeded
-> > > > anymore to have misterious switch-case distributed in multiple plac=
-es.   =20
-> > >=20
-> > > Hi,
-> > >=20
-> > > there was a very good reason to write this code using lines:
-> > > performance. Before lines, it was indeed operating on individual pixe=
-ls.
-> > >=20
-> > > Please, include performance measurements before and after this series
-> > > to quantify the impact on the previously already supported pixel
-> > > formats, particularly the 32-bit-per-pixel RGB variants.
-> > >=20
-> > > VKMS will be used more and more in CI for userspace projects, and
-> > > performance actually matters there.
-> > >=20
-> > > I'm worrying that this performance degradation here is significant. I
-> > > believe it is possible to keep blending with lines, if you add new li=
-ne
-> > > getters for reading from rotated, sub-sampled etc. images. That way y=
-ou
-> > > don't have to regress the most common formats' performance. =20
+On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
+> > >  /**
+> > >   * DOC: HDMI connector properties
+> > >   *
+> > > + * Broadcast RGB
+> > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
+> > > + *      Infoframes will be generated according to that value.
+> > > + *
+> > > + *      The value of this property can be one of the following:
+> > > + *
+> > > + *      Automatic:
+> > > + *              RGB Range is selected automatically based on the mode
+> > > + *              according to the HDMI specifications.
+> > > + *
+> > > + *      Full:
+> > > + *              Full RGB Range is forced.
+> > > + *
+> > > + *      Limited 16:235:
+> > > + *              Limited RGB Range is forced. Unlike the name suggest=
+s,
+> > > + *              this works for any number of bits-per-component.
+> > > + *
+> > > + *      Drivers can set up this property by calling
+> > > + *      drm_connector_attach_broadcast_rgb_property().
+> > > + *
 > >=20
-> > While I understand performance is important and should be taken into
-> > account seriously, I cannot understand how broken testing could be
-> > considered better. Fast but inaccurate will always be significantly
-> > less attractive to my eyes. =20
+> > This is a good time to document this in more detail. There might be two
+> > different things being affected:
+> >=20
+> > 1. The signalling (InfoFrame/SDP/...)
+> > 2. The color pipeline processing
+> >=20
+> > All values of Broadcast RGB always affect the color pipeline processing
+> > such that a full-range input to the CRTC is converted to either full- or
+> > limited-range, depending on what the monitor is supposed to accept.
+> >=20
+> > When automatic is selected, does that mean that there is no signalling,
+> > or that the signalling matches what the monitor is supposed to accept
+> > according to the spec? Also, is this really HDMI specific?
+> >=20
+> > When full or limited is selected and the monitor doesn't support the
+> > signalling, what happens?
 >=20
-> AFAIK, neither the cover letter nor the commit log claimed it was fixing
-> something broken, just that it was "better" (according to what
-> criteria?).
+> Forgot to mention: user-space still has no control over RGB vs YCbCr on
+> the cable, so is this only affecting RGB? If not, how does it affect
+> YCbCr?
 
-Better is probably too vague and I agree the "fixing" part is not
-clearly explained in the commit log. The cover-letter however states:
+So I dug a bit into both the i915 and vc4 drivers, and it looks like if
+we're using a YCbCr format, i915 will always use a limited range while
+vc4 will follow the value of the property.
 
-> Patch 2/2: This patch is more complex. My main target was to solve issues
-> I found in [1], but as it was very complex to do it "in place", I choose
-> to rework the composition function.
-...
-> [1]: https://lore.kernel.org/dri-devel/20240110-vkms-yuv-v2-0-952fcaa5a19=
-3@riseup.net/
+I guess the best way to reconcile that would be to state that it also
+controls the YCbCr range, and i915 can choose to reject/adjust the
+configurations it can't support.
 
-If you follow this link you will find all the feedback and especially
-the "broken" parts. Just to be clear, writing bugs is totally expected
-and review/testing is supposed to help on this regard. I am not blaming
-the author in any way, just focusing on getting this code in a more
-readable shape and hopefully reinforce the testing procedure.
+Does that make sense?
 
-> If something is truly broken, it must be stated what exactly is so we
-> can all come up with a solution that will satisfy everyone.
+Maxime
 
-Maybe going through the series pointed above will give more context
-but AFAIU: the YUV composition is not totally right (and the tests used
-to validate it need to be more complex as well in order to fail).
+--6dznigm7bfdw265q
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Here is a proposal.
+-----BEGIN PGP SIGNATURE-----
 
-Today's RGB implementation is only optimized in the line-by-line case
-when there is no rotation. The logic is bit convoluted and may possibly
-be slightly clarified with a per-format read_line() implementation,
-at a very light performance cost. Such an improvement would definitely
-benefit to the clarity of the code, especially when transformations
-(especially the rotations) come into play because they would be clearly
-handled differently instead of being "hidden" in the optimized logic.
-Performances would not change much as this path is not optimized today
-anyway (the pixel-oriented logic is already used in the rotation case).
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZbznsgAKCRDj7w1vZxhR
+xY65AP4thN3Jypd+NMHjCI2DGcLcaa/6C19RZkReczuElu+gZwEA4x7ld5E6OIjM
+5nF1e+nTxH1f21uOqX5xJzdswy85Rw8=
+=NO9C
+-----END PGP SIGNATURE-----
 
-Arthur's YUV implementation is indeed well optimized but the added
-complexity probably lead to small mistakes in the logic. The
-per-format read_line() implementation mentioned above could be
-extended to the YUV format as well, which would leverage Arthur's
-proposal by re-using his optimized version. Louis will help on this
-regard. However, for more complex cases such as when there is a
-rotation, it will be easier (and not sub-optimized compared to the RGB
-case) to also fallback to a pixel-oriented processing.
-
-Would this approach make sense?
-
-Thanks,
-Miqu=C3=A8l
+--6dznigm7bfdw265q--
