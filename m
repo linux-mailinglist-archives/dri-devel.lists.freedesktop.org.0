@@ -2,62 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08DF9847A2B
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 21:02:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F1DD847A77
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 21:25:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9CD010E186;
-	Fri,  2 Feb 2024 20:02:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9F8C10E5B5;
+	Fri,  2 Feb 2024 20:25:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="cI/JFAFg";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="cm93/6vx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 776CE10E186
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 20:02:32 +0000 (UTC)
-Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx1.riseup.net (Postfix) with ESMTPS id 4TRRWn6dTrzDq8D;
- Fri,  2 Feb 2024 20:02:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1706904150; bh=EayggpD20ZVxvOuBUHp6GQDJdR4ntp9uMY9cbHbb30I=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=cI/JFAFg1rFMS70ZTBUTRo6ymeh73P7sSijXzXmSUjn/8PwDYCykzIIeFnWjzcwd3
- kgmpV8gQuWK0UMyeLlJFUYGcBRVtpHrmB2VdEZNbKDhacfBfI6cN4k0CQsIQANPrka
- 7IigYT89fPdC8G1IHGZD7rjdSBhF+IbiCKStwX1c=
-X-Riseup-User-ID: 918AF2773BAFBA0FA6A8F54866A4FC8F79B59C8D58DAD5DE7946EB67FE979219
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4TRRWh0lHnzFpvw;
- Fri,  2 Feb 2024 20:02:23 +0000 (UTC)
-Message-ID: <14ac793c-6660-434f-998d-af1f51b3b1d2@riseup.net>
-Date: Fri, 2 Feb 2024 17:02:20 -0300
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0219F10E5B5
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 20:25:32 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 412KMGVN028044; Fri, 2 Feb 2024 20:25:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding:content-type; s=qcppdkim1; bh=Afo404L
+ YcvCxL1GgzN5QeGathxGMm4/1sj38HK/JY0k=; b=cm93/6vxDtu87M5dB/4482a
+ D2vpSE1iCnkb7xPYVxbWm2qG4oXumeW2yiBjDnGach+FMa1yh9/fRJlkxuawhLIV
+ EPhLOYkxRCmH1r3WZLsGBz6UaFqFuN50mJZFyZ5LyWWoTcjAeY0RH2ZeV2sVhj7S
+ WF0x5ut39bQCS68xzjvGJWQY17dF1DlAh+nHv4lKVt9OFs+q5dM9O5LVhPB6FiUa
+ RcjksXjqzskyhBgAnTTV6l27HoAZewP9t/NgbOyS5q6MiT3ICtJSr0DhwAzMGEOc
+ byPBXNFHu76inrdrvwNgPn2o9V00JfaXSS0jlWhPvcetRRd7nSWUZM57XI5oTTg=
+ =
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w0ptxjbh0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 02 Feb 2024 20:25:18 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 412KPH2p028541
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 2 Feb 2024 20:25:17 GMT
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Fri, 2 Feb 2024 12:24:24 -0800
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: <dianders@chromium.org>, <andrzej.hajda@intel.com>,
+ <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
+ <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
+ <jernej.skrabec@gmail.com>, <robh@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+ <quic_bjorande@quicinc.com>
+CC: <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: [PATCH] dt-bindings: drm/bridge: ti-sn65dsi86: Fix bouncing
+ @codeaurora address
+Date: Fri, 2 Feb 2024 13:23:29 -0700
+Message-ID: <20240202202329.4172917-1-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] drm/vkms: Use a simpler composition function
-Content-Language: en-US
-To: Pekka Paalanen <pekka.paalanen@haloniitty.fi>,
- Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Louis Chauvet <louis.chauvet@bootlin.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- marcheu@google.com, seanpaul@google.com, nicolejadeyee@google.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- thomas.petazzoni@bootlin.com
-References: <20240201-yuv-v1-0-3ca376f27632@bootlin.com>
- <20240201-yuv-v1-2-3ca376f27632@bootlin.com>
- <20240202105522.43128e19@eldfell> <20240202102601.70b6d49c@xps-13>
- <3nofkwzgnf4yva2wfogdbii47ohpi2wm5vp6aijtg3emxyoowt@twyreqz7ai3g>
- <20240202131322.5471e184@xps-13> <20240202174913.789a9db9@eldfell>
-From: Arthur Grillo <arthurgrillo@riseup.net>
-In-Reply-To: <20240202174913.789a9db9@eldfell>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: Q4qoOcffb7SFd5V_Ctg6wIpmPxhMPUnM
+X-Proofpoint-GUID: Q4qoOcffb7SFd5V_Ctg6wIpmPxhMPUnM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-02_14,2024-01-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ bulkscore=0 adultscore=0 impostorscore=0 priorityscore=1501 malwarescore=0
+ spamscore=0 suspectscore=0 mlxlogscore=999 mlxscore=0 phishscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402020149
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,157 +95,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The servers for the @codeaurora domain are long retired and any messages
+sent there bounce.  Sandeep Panda's email address is no longer valid and
+should be repleaced.  However Sandeep has left the company and has not
+been active sice, therefore it looks like this binding is orphaned.
 
+Doug is listed as the reviewer for this file in MAINTAINERS and has
+volunteered to be listed within the file as the binding maintainer.
+Therefore replace Sandeep with Doug to make the documentation current.
 
-On 02/02/24 12:49, Pekka Paalanen wrote:
-> On Fri, 2 Feb 2024 13:13:22 +0100
-> Miquel Raynal <miquel.raynal@bootlin.com> wrote:
-> 
->> Hello Maxime,
->>
->> + Arthur
->>
->> mripard@kernel.org wrote on Fri, 2 Feb 2024 10:53:37 +0100:
->>
->>> Hi Miquel,
->>>
->>> On Fri, Feb 02, 2024 at 10:26:01AM +0100, Miquel Raynal wrote:  
->>>> pekka.paalanen@haloniitty.fi wrote on Fri, 2 Feb 2024 10:55:22 +0200:
->>>>     
->>>>> On Thu, 01 Feb 2024 18:31:32 +0100
->>>>> Louis Chauvet <louis.chauvet@bootlin.com> wrote:
->>>>>     
->>>>>> Change the composition algorithm to iterate over pixels instead of lines.
->>>>>> It allows a simpler management of rotation and pixel access for complex formats.
->>>>>>
->>>>>> This new algorithm allows read_pixel function to have access to x/y
->>>>>> coordinates and make it possible to read the correct thing in a block
->>>>>> when block_w and block_h are not 1.
->>>>>> The iteration pixel-by-pixel in the same method also allows a simpler
->>>>>> management of rotation with drm_rect_* helpers. This way it's not needed
->>>>>> anymore to have misterious switch-case distributed in multiple places.      
->>>>>
->>>>> Hi,
->>>>>
->>>>> there was a very good reason to write this code using lines:
->>>>> performance. Before lines, it was indeed operating on individual pixels.
->>>>>
->>>>> Please, include performance measurements before and after this series
->>>>> to quantify the impact on the previously already supported pixel
->>>>> formats, particularly the 32-bit-per-pixel RGB variants.
->>>>>
->>>>> VKMS will be used more and more in CI for userspace projects, and
->>>>> performance actually matters there.
->>>>>
->>>>> I'm worrying that this performance degradation here is significant. I
->>>>> believe it is possible to keep blending with lines, if you add new line
->>>>> getters for reading from rotated, sub-sampled etc. images. That way you
->>>>> don't have to regress the most common formats' performance.    
->>>>
->>>> While I understand performance is important and should be taken into
->>>> account seriously, I cannot understand how broken testing could be
->>>> considered better. Fast but inaccurate will always be significantly
->>>> less attractive to my eyes.    
->>>
->>> AFAIK, neither the cover letter nor the commit log claimed it was fixing
->>> something broken, just that it was "better" (according to what
->>> criteria?).  
->>
->> Better is probably too vague and I agree the "fixing" part is not
->> clearly explained in the commit log. The cover-letter however states:
->>
->>> Patch 2/2: This patch is more complex. My main target was to solve issues
->>> I found in [1], but as it was very complex to do it "in place", I choose
->>> to rework the composition function.  
->> ...
->>> [1]: https://lore.kernel.org/dri-devel/20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net/  
->>
->> If you follow this link you will find all the feedback and especially
->> the "broken" parts. Just to be clear, writing bugs is totally expected
->> and review/testing is supposed to help on this regard. I am not blaming
->> the author in any way, just focusing on getting this code in a more
->> readable shape and hopefully reinforce the testing procedure.
->>
->>> If something is truly broken, it must be stated what exactly is so we
->>> can all come up with a solution that will satisfy everyone.  
->>
->> Maybe going through the series pointed above will give more context
->> but AFAIU: the YUV composition is not totally right (and the tests used
->> to validate it need to be more complex as well in order to fail).
->>
->> Here is a proposal.
->>
->> Today's RGB implementation is only optimized in the line-by-line case
->> when there is no rotation. The logic is bit convoluted and may possibly
->> be slightly clarified with a per-format read_line() implementation,
->> at a very light performance cost. Such an improvement would definitely
->> benefit to the clarity of the code, especially when transformations
->> (especially the rotations) come into play because they would be clearly
->> handled differently instead of being "hidden" in the optimized logic.
->> Performances would not change much as this path is not optimized today
->> anyway (the pixel-oriented logic is already used in the rotation case).
->>
->> Arthur's YUV implementation is indeed well optimized but the added
->> complexity probably lead to small mistakes in the logic. The
->> per-format read_line() implementation mentioned above could be
->> extended to the YUV format as well, which would leverage Arthur's
->> proposal by re-using his optimized version. Louis will help on this
->> regard. However, for more complex cases such as when there is a
->> rotation, it will be easier (and not sub-optimized compared to the RGB
->> case) to also fallback to a pixel-oriented processing.
->>
->> Would this approach make sense?
-> 
-> Hi,
-> 
-> I think it would, if I understand what you mean. Ever since I proposed
-> a line-by-line algorithm to improve the performance, I was thinking of
-> per-format read_line() functions that would be selected outside of any
-> loops. Extending that to support YUV is only natural. I can imagine
-> rotation complicates things, and I won't oppose that resulting in a
-> much heavier read_line() implementation used in those cases. They might
-> perhaps call the original read_line() implementations pixel-by-pixel or
-> plane-by-plane (i.e. YUV planes) per pixel. Chroma-siting complicates
-> things even further. That way one could compose any
-> rotation-format-siting combination by chaining function pointers.
-> 
-> I haven't looked at VKMS in a long time, and I am disappointed to find
-> that vkms_compose_row() is calling plane->pixel_read() pixel-by-pixel.
-> The reading vfunc should be called with many pixels at a time when the
-> source FB layout allows it. The whole point of the line-based functions
-> was that they repeat the innermost loop in every function body to make
-> the per-pixel overhead as small as possible. The VKMS implementations
-> benchmarked before and after the original line-based algorithm showed
-> that calling a function pointer per-pixel is relatively very expensive.
-> Or maybe it was a switch-case.
+Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+---
+ .../devicetree/bindings/display/bridge/ti,sn65dsi86.yaml        | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hi,
+diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
+index 6ec6d287bff4..c93878b6d718 100644
+--- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
+@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ title: SN65DSI86 DSI to eDP bridge chip
+ 
+ maintainers:
+-  - Sandeep Panda <spanda@codeaurora.org>
++  - Douglas Anderson <dianders@chromium.org>
+ 
+ description: |
+   The Texas Instruments SN65DSI86 bridge takes MIPI DSI in and outputs eDP.
+-- 
+2.34.1
 
-I think I'm the culprit for that, as stated on [1]. My intention with
-the suggestion was to remove some code repetition and too facilitate the
-rotation support implementation. Going back, I think I was to high on
-DRY at the time and didn't worry about optimization, which was a
-mistake.
-
-But, I agree with Miquel that the rotation logic is easier to implement
-in a pixel-based way. So going pixel-by-pixel only when rotation occurs
-would be great.
-
-Best Regards,
-~Arthur Grillo
-
-[1]: https://lore.kernel.org/dri-devel/20230418130525.128733-2-mcanal@igalia.com/
-
-> 
-> Sorry, I didn't realize the optimization had already been lost.
-> 
-> Btw. I'd suggest renaming vkms_compose_row() to vkms_fetch_row() since
-> it's not composing anything and the name mislead me.
-> 
-> I think if you inspect the compositing code as of revision
-> 8356b97906503a02125c8d03c9b88a61ea46a05a you'll get a better feeling of
-> what it was supposed to be.
-> 
-> 
-> Thanks,
-> pq
