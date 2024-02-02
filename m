@@ -2,45 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 630A78477BF
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 19:39:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C49B48477C6
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 19:40:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B5BA10E289;
-	Fri,  2 Feb 2024 18:39:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCE3A10E40C;
+	Fri,  2 Feb 2024 18:40:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QfunN7eV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Z4+nrOQ3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D76710E289
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 18:39:35 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16ABA10E40C;
+ Fri,  2 Feb 2024 18:40:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A451F627E8;
- Fri,  2 Feb 2024 18:39:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EE57C43394;
- Fri,  2 Feb 2024 18:39:33 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id EAE83CE2D1D;
+ Fri,  2 Feb 2024 18:40:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51898C433F1;
+ Fri,  2 Feb 2024 18:40:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1706899174;
- bh=94HCRGsnQQo8/820OUGWhKe+XapvGFDqMm0ejMc7aoU=;
+ s=k20201202; t=1706899204;
+ bh=Xno+js/pInSv3K86aU9j/XKbnVZ3diw6jDM62hITqXc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QfunN7eV6jTw1ekJnV7FWnm8Us1v6bjjr0SACuzMw1hC2LHLfcRZREMOKBXCYVge0
- uFAmyd7f2C0ZlaIfdrtJXYnqE9s7OnE9e/fJKC3cAEn2KX+skd2Do79ARBpx0Bp3oR
- ci62WGwpMztjs6/RxXJispjt2Y5ujTCIeoca0XEoPU7gqdab0MQX2U4GKLRN3aPF0v
- Xlwd0tg5xsJNmDLxPv6YPvtw7nJ32Ba0lgj3AxesR4s6U6jZDLetP1zwcE6qXWYt5F
- pks7kxkJl5RUsnT8aEwnhXrRqqczTilqafVtxgcJapjqiACX1fIDhn7doS7yU6Mh2R
- IWiKs8WHhqpHQ==
+ b=Z4+nrOQ3AphSkBfw7qQ5D5P49IiQ4KwONjhN89aANe+qmWdf8/LodzNv/85prPCbK
+ CaX7E4JrFGUEhSJx5pocBtGHvVRAOh6sFnjtc26zH0SLJ1ADQpaLr52eOI2KQ7/NsO
+ RCFX5YDyZgrGmwyJGFjeed6gz1amUX6SHxYhJjwJZZYr7o4hNWUIOhZV5XZvNytT+S
+ LzLnCyrIbTiLDOYeQFW0XWqorZM+jrGVFiakxOAYmJ0jw2BirNbD/QrDLhSToHuaXI
+ pdgJQGtOAsv/KSrxdmyRQB5QdC7zW+N6/wg4bW/lzHM+C3C+u1I3LV4UZF5csdevUp
+ fBcb0hhmIHcGQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Fullway Wang <fullwaywang@outlook.com>, Helge Deller <deller@gmx.de>,
- Sasha Levin <sashal@kernel.org>, tzimmermann@suse.de, sam@ravnborg.org,
- javierm@redhat.com, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.7 04/23] fbdev: sis: Error out if pixclock equals
- zero
-Date: Fri,  2 Feb 2024 13:39:00 -0500
-Message-ID: <20240202183926.540467-4-sashal@kernel.org>
+Cc: Roman Li <Roman.Li@amd.com>, Mark Broadworth <mark.broadworth@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, alex.hung@amd.com, srinivasan.shanmugam@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.7 21/23] drm/amd/display: Disable ips before dc
+ interrupt setting
+Date: Fri,  2 Feb 2024 13:39:17 -0500
+Message-ID: <20240202183926.540467-21-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240202183926.540467-1-sashal@kernel.org>
 References: <20240202183926.540467-1-sashal@kernel.org>
@@ -64,41 +67,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fullway Wang <fullwaywang@outlook.com>
+From: Roman Li <Roman.Li@amd.com>
 
-[ Upstream commit e421946be7d9bf545147bea8419ef8239cb7ca52 ]
+[ Upstream commit 8894b9283afd35b8d22ae07a0c118eb5f7d2e78b ]
 
-The userspace program could pass any values to the driver through
-ioctl() interface. If the driver doesn't check the value of pixclock,
-it may cause divide-by-zero error.
+[Why]
+While in IPS2 an access to dcn registers is not allowed.
+If interrupt results in dc call, we should disable IPS.
 
-In sisfb_check_var(), var->pixclock is used as a divisor to caculate
-drate before it is checked against zero. Fix this by checking it
-at the beginning.
+[How]
+Safeguard register access in IPS2 by disabling idle optimization
+before calling dc interrupt setting api.
 
-This is similar to CVE-2022-3061 in i740fb which was fixed by
-commit 15cf0b8.
-
-Signed-off-by: Fullway Wang <fullwaywang@outlook.com>
-Signed-off-by: Helge Deller <deller@gmx.de>
+Signed-off-by: Roman Li <Roman.Li@amd.com>
+Tested-by: Mark Broadworth <mark.broadworth@amd.com>
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/sis/sis_main.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/sis/sis_main.c b/drivers/video/fbdev/sis/sis_main.c
-index 6ad47b6b6004..431b1a138c11 100644
---- a/drivers/video/fbdev/sis/sis_main.c
-+++ b/drivers/video/fbdev/sis/sis_main.c
-@@ -1475,6 +1475,8 @@ sisfb_check_var(struct fb_var_screeninfo *var, struct fb_info *info)
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+index 51467f132c26..d595030c3359 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+@@ -711,7 +711,7 @@ static inline int dm_irq_state(struct amdgpu_device *adev,
+ {
+ 	bool st;
+ 	enum dc_irq_source irq_source;
+-
++	struct dc *dc = adev->dm.dc;
+ 	struct amdgpu_crtc *acrtc = adev->mode_info.crtcs[crtc_id];
  
- 	vtotal = var->upper_margin + var->lower_margin + var->vsync_len;
+ 	if (!acrtc) {
+@@ -729,6 +729,9 @@ static inline int dm_irq_state(struct amdgpu_device *adev,
  
-+	if (!var->pixclock)
-+		return -EINVAL;
- 	pixclock = var->pixclock;
+ 	st = (state == AMDGPU_IRQ_STATE_ENABLE);
  
- 	if((var->vmode & FB_VMODE_MASK) == FB_VMODE_NONINTERLACED) {
++	if (dc && dc->caps.ips_support && dc->idle_optimizations_allowed)
++		dc_allow_idle_optimizations(dc, false);
++
+ 	dc_interrupt_set(adev->dm.dc, irq_source, st);
+ 	return 0;
+ }
 -- 
 2.43.0
 
