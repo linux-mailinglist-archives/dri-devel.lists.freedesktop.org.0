@@ -2,58 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F03847AE3
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 22:00:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0786B847B30
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 22:05:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A23510E0BD;
-	Fri,  2 Feb 2024 21:00:29 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="S+d9jS/J";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD96610E697;
+	Fri,  2 Feb 2024 21:05:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40A6510E0BD
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 21:00:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id A9522CE2DDA;
- Fri,  2 Feb 2024 21:00:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D6604C433C7;
- Fri,  2 Feb 2024 21:00:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1706907616;
- bh=3z8ofmCzYvF8tXaXQSGvPhJt+e5NgjIcmMFgWYE3r04=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=S+d9jS/J1xlsU2aBhTHuTmp0NwpzOcSJpPoCe1P9f9CXhIoV4NJA3rv0GHeEb+DuR
- k72sIX/2AcvXmqRGW1jexPgvDSezBc/D+6TIH6NTfg74camxZGFfzKDvqzWApe5goQ
- E/6zPUCHI5Um73LcEavhYgOeOCGOiBHWe+KCymEE2ctl+X0AXTusBVRRy8H5KwFaxn
- eIchGSGeUq+ZB0GuLMoYRAusxufwWjsEaI1ch/1EvovrqmR6FMIGZQWxe4apRZPJAM
- iWQJsoiTBTFJnxa8WPrg+5xFOzofrqYF5nOQ0Gjeuv07DP8xROwHoccCFL65hEuwl3
- a177byKdxvdZg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- BA7B4D8C978; Fri,  2 Feb 2024 21:00:16 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 6.8-rc3
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9tyM-ERLs5LuMP_QOuJPtR6Yf4f_ON-0dHBd0B-fBVu-4w@mail.gmail.com>
-References: <CAPM=9tyM-ERLs5LuMP_QOuJPtR6Yf4f_ON-0dHBd0B-fBVu-4w@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9tyM-ERLs5LuMP_QOuJPtR6Yf4f_ON-0dHBd0B-fBVu-4w@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2024-02-03
-X-PR-Tracked-Commit-Id: 39126abc5e20611579602f03b66627d7cd1422f0
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 9c2f0338bbd132a4b12b988004d796798609d297
-Message-Id: <170690761674.8980.17837173192749581139.pr-tracker-bot@kernel.org>
-Date: Fri, 02 Feb 2024 21:00:16 +0000
-To: Dave Airlie <airlied@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66D9910E697
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 21:05:23 +0000 (UTC)
+Received: by mail-io1-f71.google.com with SMTP id
+ ca18e2360f4ac-7bfffd9b47fso200652839f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Feb 2024 13:05:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706907923; x=1707512723;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=nGeO4z7v9eVL3ouqozwcHhFGNh319KsDdFkz57A2JlQ=;
+ b=ryqwGbgpopP+qAUUiG/QHIfZll9Ps0wkuFwTEggWIPNBgBWHYt2E84Td5CM9XOeWEk
+ N0h+Usx5QzpjCSR+K5Jklcc52zkuiYuwRVLFwydCvkfFhAPehfme3/WW9hoM3qt8sWLq
+ 1HhBLWn0Mx9cQu/TnnFv2rvxqFrfCwdTXuqDDV+4nkcoR9CXFIg30XW+5NDK/5dyiRZH
+ IEOG1ASpy2eculaQSj5qG7Jqhtdz2ggo5ehD/NPnkRMbh4cogf6690N1aAdiUfP+YUaT
+ RM28kE52Px+I6XamlrTVQpnmo/O8Mt8Ub66XAGXVc+0YjhuXZNKA6YprNPlZStUwvf9R
+ rb6Q==
+X-Gm-Message-State: AOJu0Yw2q2VSv9SqD9Vl2I7OP/GkTuV9hNOHGlXbCdvKP48PdLpYwIa0
+ V+b93J/jPK5FO0Xn7TvcRk3przOpTdVM/fQAFpfXaQpYXKbmGzYy5KV0MPdlN0qWlTmwMxt3noQ
+ 6nq/M5+tvEu9dDKtinq0VwyQpPXVwAovo68Z+0n7oZpLsoSTidU0fSLeV+g==
+X-Google-Smtp-Source: AGHT+IHdL1v71en1p/S/OwxhfsAH2ZHEktQVRFFgA3hwsrbadSL6vf7JXljDuCqJK025XMdsgkWMIiwKes6O8n3e8QzHv4ztN9XA
+MIME-Version: 1.0
+X-Received: by 2002:a5e:db06:0:b0:7bf:e3a5:ccea with SMTP id
+ q6-20020a5edb06000000b007bfe3a5cceamr78216iop.0.1706907922941; Fri, 02 Feb
+ 2024 13:05:22 -0800 (PST)
+Date: Fri, 02 Feb 2024 13:05:22 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000694be606106c7817@google.com>
+Subject: [syzbot] Monthly dri report (Feb 2024)
+From: syzbot <syzbot+lista75af9f68b8334e88ff0@syzkaller.appspotmail.com>
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,15 +59,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Sat, 3 Feb 2024 05:46:00 +1000:
+Hello dri maintainers/developers,
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2024-02-03
+This is a 31-day syzbot report for the dri subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/dri
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/9c2f0338bbd132a4b12b988004d796798609d297
+During the period, 1 new issues were detected and 0 were fixed.
+In total, 17 issues are still open and 31 have been fixed so far.
 
-Thank you!
+Some of the still happening issues:
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Ref Crashes Repro Title
+<1> 375     Yes   WARNING in drm_wait_one_vblank
+                  https://syzkaller.appspot.com/bug?extid=6f7fe2dbc479dca0ed17
+<2> 213     Yes   WARNING in drm_syncobj_array_find
+                  https://syzkaller.appspot.com/bug?extid=95416f957d84e858b377
+<3> 182     Yes   WARNING in vkms_get_vblank_timestamp (2)
+                  https://syzkaller.appspot.com/bug?extid=93bd128a383695391534
+<4> 132     Yes   inconsistent lock state in sync_timeline_debug_remove
+                  https://syzkaller.appspot.com/bug?extid=7dcd254b8987a29f6450
+<5> 87      Yes   inconsistent lock state in sync_info_debugfs_show
+                  https://syzkaller.appspot.com/bug?extid=007bfe0f3330f6e1e7d1
+<6> 10      Yes   WARNING in drm_gem_prime_fd_to_handle
+                  https://syzkaller.appspot.com/bug?extid=268d319a7bfd92f4ae01
+<7> 6       Yes   divide error in drm_mode_vrefresh
+                  https://syzkaller.appspot.com/bug?extid=622bba18029bcde672e1
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
