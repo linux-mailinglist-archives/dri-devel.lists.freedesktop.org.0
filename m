@@ -2,71 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2266A846EAA
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 12:08:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97B4C846ED1
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 12:20:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE0E310F010;
-	Fri,  2 Feb 2024 11:08:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E695D10F03F;
+	Fri,  2 Feb 2024 11:20:47 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="m6GsUc01";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="ajEqIUc3";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com
- [209.85.219.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DBB610F010
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 11:07:58 +0000 (UTC)
-Received: by mail-yb1-f178.google.com with SMTP id
- 3f1490d57ef6-dc6e08fde11so1428782276.1
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Feb 2024 03:07:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706872077; x=1707476877;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Jfv2qKejWElyCs3KRimHnaJxDJDdphdyezyPkNwX/u0=;
- b=OTc6VPr/qsFNt2awrZFsi0Q9a4USGNw7URdvMokRz3M5NQMhjYRRxyfeWHdisYgTCH
- 9c141zO249q/Vq6F1oa5+ovpnzJSUeSGGQwkVI9YpZ2jGH1CNPGNdyf8sMxZLM1mVNHK
- 20MSwsbawvW+AmjlLuknqauiZW0TskTxw6aivj3SvZTizfGuwZqetJZmKuXUe5YBiYyl
- bAbv2yFvqSAiYaMDrkKqz1ApObzc7s0gbiwdVvUvBMu10OyQVpkOBAgfc7Me+zmQXd0q
- rQQS0wy/FXU0+lNnPVv9ViLrkTljuGgtIbmIKwxJuWxEGJlgXxANUM1lYnxoqfyOv1xI
- qE5w==
-X-Gm-Message-State: AOJu0Ywx+jne19aJRVESTBeJCds0/rRyk18fs0pAzUq368Aa9SGpXoCI
- LZr7Vkxcw3Rsjl2C793hEGura5zEn9TW1aE7XyPNwUoPd5ZruN81NIxWpCxfdMk=
-X-Google-Smtp-Source: AGHT+IE1qefQsYNsZEFKPuvkhmSNPF/BCueD5EUIrwXOJiZqDz5QkzR/Q3jagUEknx3VENj2PM774w==
-X-Received: by 2002:a25:2e4a:0:b0:dc2:4397:6add with SMTP id
- b10-20020a252e4a000000b00dc243976addmr8003150ybn.32.1706872076738; 
- Fri, 02 Feb 2024 03:07:56 -0800 (PST)
-X-Forwarded-Encrypted: i=0;
- AJvYcCVSMuq09ZQYHflY2eeCg1okK9UJO/pRd35nlDw/lM6f4K3/hl0Cuhiej/8MFYijC/+HOvvG0IKgeHJHoJpw/QYLyrgD1/LfUa8boB6Ig7lD
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com.
- [209.85.128.182]) by smtp.gmail.com with ESMTPSA id
- r24-20020a25ac58000000b00dc69cc533f2sm366712ybd.30.2024.02.02.03.07.56
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Feb 2024 03:07:56 -0800 (PST)
-Received: by mail-yw1-f182.google.com with SMTP id
- 00721157ae682-604191522daso19349567b3.1
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Feb 2024 03:07:56 -0800 (PST)
-X-Received: by 2002:a81:b608:0:b0:5ff:b07b:fb0b with SMTP id
- u8-20020a81b608000000b005ffb07bfb0bmr7753792ywh.49.1706872075811; Fri, 02 Feb
- 2024 03:07:55 -0800 (PST)
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4437610F052
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 11:20:43 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 21E555C012E;
+ Fri,  2 Feb 2024 06:20:40 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+ by compute5.internal (MEProxy); Fri, 02 Feb 2024 06:20:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to; s=fm2; t=1706872840;
+ x=1706959240; bh=pp95Alah+MaXEWfGhGkN/3RO+Gp93mL6PvidT9UVU+8=; b=
+ m6GsUc01cCOikIG1qWo/D1HZ88MAECXHJb/Tc8RvS6pTM/JeW4YAqvaQcIkjG2nF
+ GTidOWWcanjQESfKC1uK20OWByiCPuhWo64uSKZSd1nnAPmwFNCZKv1uUbzgchvC
+ kl8ygko70U2ji5Z577BHEagXSUg3iMToeQanbqiksSwpHiX8Pamu3uopqZqm+/jX
+ gpDKQX0XSZQAFglHyt53Kk3JKj9KSg9ovOBqFPQOeFHe0QA/Y0E46HiF0f7Yu0IP
+ jbGozR0/wFeoy4i2wSz/h8cJSYOoVHS90CJqWICqlAQIaTXEs6+6DwDyjQiMO/4H
+ pN4Y4F4ZrHdUb//9D5kLTg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1706872840; x=
+ 1706959240; bh=pp95Alah+MaXEWfGhGkN/3RO+Gp93mL6PvidT9UVU+8=; b=a
+ jEqIUc3JtiXd7PLK0ZHIUpsi8vPTWWKcyQlUF8jLjQlj/C6N7UH5r1djOxAVMHlw
+ dTh2WLzZQMYq/CnrR2ysHLEF17XoFsylJljKDBIXcyR+SFsgxbwCRIUMKe43fD74
+ e9MTZnNiv+NzvbIegoAzSSkKPmQBHi3FVzp7dLQmDvyJN0JatUV4+yw/E+6fdPjM
+ 01+96GcEA194C+G3f0jHV4sGOfU5AUvNtLZBZnctcecZ/d20SrnHR4A7YgbxH2yz
+ +HUYPJZlIi3GUOpUj/7mnW7mGH/pWLuXFDj5zhY3IKyDPbnFc3l+cTzWpkJfNj03
+ uyYdUFrY6mzxUK6G3QSfw==
+X-ME-Sender: <xms:B9C8ZfKSUGv55RP7tEPFqJqwLTyaoUDCk308GAmNknC47HkX3oS2rw>
+ <xme:B9C8ZTIZYrDQcV6JKQuzuChdMwmhG5YsuyS0yUWqv6WXmLkvVTCQFNgfjlddz2jo8
+ EXRsOdtfOKn7KBEmlw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrfedugedgvdeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
+ rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+ htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
+ gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:B9C8ZXv-38leow7NGlaV9d8uGW2A3ByBKlY7gF4a6pfWq-bzGeaZ5g>
+ <xmx:B9C8ZYZISbuQIA8dyii_cuoMVJNl0mWxO-99h6AEd0WYhly61VzLGQ>
+ <xmx:B9C8ZWYJKOGhWX-wCezeDUuWbbtqBgWCpnLm_ExCtAgNpkwn_zRDxA>
+ <xmx:CNC8ZepP6dBu09wHOoKw4KyNQq0M8OuYTbPM0BOZJabqZGTActG0zA>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 8E525B6008D; Fri,  2 Feb 2024 06:20:39 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-144-ge5821d614e-fm-20240125.002-ge5821d61
 MIME-Version: 1.0
+Message-Id: <ebab6070-5f3c-4706-9fe8-11f530bb1054@app.fastmail.com>
+In-Reply-To: <CAMuHMdVk0YOUFKy-ZjMHWCGkNMeBGU5Zs6VxtNH38emBnAR9xA@mail.gmail.com>
 References: <CGME20240202095104eucas1p2df4522cc4a7ee29540db1fb61d8e19fc@eucas1p2.samsung.com>
  <20240202095044.1980696-1-m.szyprowski@samsung.com>
-In-Reply-To: <20240202095044.1980696-1-m.szyprowski@samsung.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 2 Feb 2024 12:07:43 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVk0YOUFKy-ZjMHWCGkNMeBGU5Zs6VxtNH38emBnAR9xA@mail.gmail.com>
-Message-ID: <CAMuHMdVk0YOUFKy-ZjMHWCGkNMeBGU5Zs6VxtNH38emBnAR9xA@mail.gmail.com>
+ <CAMuHMdVk0YOUFKy-ZjMHWCGkNMeBGU5Zs6VxtNH38emBnAR9xA@mail.gmail.com>
+Date: Fri, 02 Feb 2024 11:20:19 +0000
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Geert Uytterhoeven" <geert@linux-m68k.org>,
+ "Marek Szyprowski" <m.szyprowski@samsung.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "Russell King" <linux@armlinux.org.uk>,
+ "Geert Uytterhoeven" <geert+renesas@glider.be>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
+ "Alexandre Torgue" <alexandre.torgue@foss.st.com>,
+ "Andrew Davis" <afd@ti.com>, "Mark Brown" <broonie@kernel.org>,
+ "Lee Jones" <lee@kernel.org>, "Daniel Thompson" <daniel.thompson@linaro.org>, 
+ "Jingoo Han" <jingoohan1@gmail.com>, "Dave Airlie" <airlied@gmail.com>,
+ "Daniel Vetter" <daniel@ffwll.ch>
 Subject: Re: [PATCH] ARM: multi_v7_defconfig: Enable BACKLIGHT_CLASS_DEVICE
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, Russell King <linux@armlinux.org.uk>, 
- Arnd Bergmann <arnd@arndb.de>, Geert Uytterhoeven <geert+renesas@glider.be>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Andrew Davis <afd@ti.com>, 
- Mark Brown <broonie@kernel.org>, Lee Jones <lee@kernel.org>, 
- Daniel Thompson <daniel.thompson@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,52 +103,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
-
-On Fri, Feb 2, 2024 at 10:51=E2=80=AFAM Marek Szyprowski
-<m.szyprowski@samsung.com> wrote:
-> Commit 72fee6b0a3a4 ("fbdev: Restrict FB_SH_MOBILE_LCDC to SuperH")
-> disabled availablity of the SH_MOBILE_LCDC driver on the RENESAS arch.
-> This innocent change has a significant side-effect on the ARM's
-> multi_v7_defconfig, because FB_BACKLIGHT symbol is no longer selected,
-> what in turn leaves BACKLIGHT_CLASS_DEVICE symbol selected only as
-> a module. The latter disables some backlight related code in the DRM
-
-Oops, sorry for that.
-
-> core, because the DRM core is set to be compiled-in in this defconfig.
-> This leaves all DRM display panels without integrated backlight control,
-> even if the needed modules have been properly loaded and probed.
-
-Hmm, that's bad.
-
-Is there any way to fix this in DRM?
-A quick grep shows that DRM is using the full monty of
-IS_{BUILTIN,ENABLED,MODULE,REACHABLE}(CONFIG_BACKLIGHT_CLASS_DEVICE).
-Probably not all of them are in perfect sync?
-
-Several DRM drivers do select BACKLIGHT_CLASS_DEVICE, but if that
-does not work in the modular case, it should be fixed.
-
-> Fix this by selecting BACKLIGHT_CLASS_DEVICE to be compiled-in in
-> multi_v7_defconfig.
+On Fri, Feb 2, 2024, at 11:07, Geert Uytterhoeven wrote:
+> On Fri, Feb 2, 2024 at 10:51=E2=80=AFAM Marek Szyprowski <m.szyprowski=
+@samsung.com> wrote:
+>> core, because the DRM core is set to be compiled-in in this defconfig.
+>> This leaves all DRM display panels without integrated backlight contr=
+ol,
+>> even if the needed modules have been properly loaded and probed.
 >
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Hmm, that's bad.
+>
+> Is there any way to fix this in DRM?
+> A quick grep shows that DRM is using the full monty of
+> IS_{BUILTIN,ENABLED,MODULE,REACHABLE}(CONFIG_BACKLIGHT_CLASS_DEVICE).
+> Probably not all of them are in perfect sync?
 
-Sounds like a good interim solution.
+The IS_REACHABLE() ones are almost certainly bugs, as are the
+'select BACKLIGHT_CLASS_DEVICE' ones we have in drivers/gpu.
 
-Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Several DRM drivers do select BACKLIGHT_CLASS_DEVICE, but if that
+> does not work in the modular case, it should be fixed.
 
-Gr{oetje,eeting}s,
+The select should do the right thing in principle, but mixing
+it with depends is what causes circular dependencies. Unfortunately
+trying to fix it likely also causes those, but I think it's worth
+revisiting.
 
-                        Geert
+It should be possible to change it like this:
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+- change all DRM drivers that require the class to 'depends on
+  BACKLIGHT_CLASS_DEVICE'
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+- change all those drivers that can optionally use it to
+  'depends on BACKLIGHT_CLASS_DEVICE || !BACKLIGHT_CLASS_DEVICE'
+  to avoid the dependency on a loadable module
+
+- Make BACKLIGHT_CLASS_DEVICE itself default to 'DRM' in order
+  to avoid regressions in defconfig files but still make it
+  possible to turn it off.
+
+>> Fix this by selecting BACKLIGHT_CLASS_DEVICE to be compiled-in in
+>> multi_v7_defconfig.
+>>
+>> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+>
+> Sounds like a good interim solution.
+>
+> Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Thanks, I've applied it to the soc/defconfig branch now.
+
+     Arnd
