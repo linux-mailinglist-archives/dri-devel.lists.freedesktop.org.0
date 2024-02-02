@@ -2,63 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E89A8473DC
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 16:59:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAF6A8473DE
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 16:59:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 230E910F0B1;
-	Fri,  2 Feb 2024 15:59:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBB4010E9EB;
+	Fri,  2 Feb 2024 15:59:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HTDaz0RY";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nQ1GfuTy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 510C810E9EB
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 15:59:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 2D879CE29C7;
- Fri,  2 Feb 2024 15:59:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF4B4C433F1;
- Fri,  2 Feb 2024 15:59:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1706889576;
- bh=NeFFADYXbSKDmrGxCWJn52cB3UzPfQUhTWEHOnSrQZo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HTDaz0RYlhUret3nyLqzvt6R8k6VsimfwHqO1yl3uS9kIgBDturoT/SzAOrkJmL0D
- gby8DoOSYxkckwhawpNZGiKhJZAA/FYdwsgnDQqfvz3dMDCU/HO5WY8xz2FHu9Kr8L
- daPvZmGo4bFFcHgIrkr2mcbFtdg9New0ZyzGfphKcNJO3eDiwJkoGdhHoc6hntlGeH
- lerkU+3sB1Fb0yguYyLd2yDxiGP4NzJ3nhUkBgGk+/hfGOKRyXS6Ek/g7K6aW5+Ln+
- wxu2+c68gmL0w0uwr/TJaeDRR3RtaEQeDvUyu6v/v1+AmIcFFDLpsTN9Vxh4MaHkrk
- 8PWHWdcqKrMlQ==
-Date: Fri, 2 Feb 2024 16:59:30 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Emma Anholt <emma@anholt.net>, 
- Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB
- property
-Message-ID: <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
- <20240115143308.GA159345@toolbox> <20240115143720.GA160656@toolbox>
- <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
- <Zb0M_2093UwPXK8y@intel.com>
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D802310F0B1
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 15:59:46 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id
+ d9443c01a7336-1d928a8dee8so23440865ad.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Feb 2024 07:59:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1706889585; x=1707494385; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=XT52cwwq/CkEwbgIUk5BCzuEf7NPwK2h7QOsy182JLg=;
+ b=nQ1GfuTy2nRjK/nlt0aWfeS5JbNUDh2z6Rx4BHEbGmvvZJQC0nnwQiSbaXpVR0Uc0Z
+ +RQ6GCJZTw2TKneSTh0X1+SvsyuZXAtZB2eoUvSiswJx/YjY36XToFVRUC+X2ELt6GqB
+ C/Ug8sfPmqOQtkmeJvtovdD5o/mv2fIu+gWa1J50PFju6aOOIyT765MkwXJg9eDwPvG6
+ TSQDOyybK27JMp828JYSuaV893pDL2k4VpjUNuUvHDuf7Bt8X2iP0PhE9xnLpp5LoWWT
+ EVSmd7oBqNgJjWPRz6xjesaYfVcXL4BzS8v3WPrpzwsHNPHbvWvs5ZYPJAWkCAHJLY7j
+ z6Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706889585; x=1707494385;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=XT52cwwq/CkEwbgIUk5BCzuEf7NPwK2h7QOsy182JLg=;
+ b=phqdMguv3r2oT/R3e1VmF4XIoYG15wAGhXcacgbfMll87vLghI/b8iLzG3nkagcyN0
+ J8J3i+9AruzmqUjgUVz7yDN625c9v+wOTw4Tkgd0HgQloBn7msCereKHR7LT639sfyeb
+ PWFe3lGpEPlFks3DJ3amC6uB6PSUA9W4c2RGOui1csArFgMSWs1OCgjKI+a7cSVABZfI
+ MMKGiAEYxYpkOHezHjBYA7RBuDA97K3rNwnVDG9heju1YwuiRG36JSVDNOdxn2pw+AUD
+ Cc3zI1QWGEjAIxzdPNa+aPwSfBrToR5ovFBUUPAsRhgbiB2epKh30gr2ahohrkzmKt/t
+ aPeQ==
+X-Gm-Message-State: AOJu0Yz822xrDT40VeuPBBQgMvTQj3+lD6ih7L1GliC1q7K4l/jLF+0w
+ Mf+7Ggg62mR8QLDJoQxLVMDDTJDPV60yNGJxfI/6bZk+S2KxL+6X4UaweceS
+X-Google-Smtp-Source: AGHT+IE+shq9kHmYnNmgWR5DIIkK9UZYHcvUGhl3ADIY95qW//uTo8VNzJr55Kn3Bov9a3IDSZngSw==
+X-Received: by 2002:a17:902:da8f:b0:1d8:d225:699b with SMTP id
+ j15-20020a170902da8f00b001d8d225699bmr3746625plx.24.1706889584507; 
+ Fri, 02 Feb 2024 07:59:44 -0800 (PST)
+X-Forwarded-Encrypted: i=0;
+ AJvYcCVKoss2r6T4jSKMc39BOO8sS1wlQeZKNUqGbnDx+Iq5lFsQ28zOed/gzxjtdN9vZ2G6bMfSBoiWuNYcuyQI/wZHYHkynz1B/H4ocSX8Vzdb3CL19Mle04HOVI37dltZVSNp12S5rGix1waKInuRVbusXh2fGWmITUof2M0H+kQzSZiv/ok3
+Received: from five231003 ([2405:201:c006:31fd:1211:e094:36ee:c800])
+ by smtp.gmail.com with ESMTPSA id
+ 34-20020a630f62000000b005d8e30897e4sm1834628pgp.69.2024.02.02.07.59.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Feb 2024 07:59:43 -0800 (PST)
+Date: Fri, 2 Feb 2024 21:29:39 +0530
+From: Kousik Sanagavarapu <five231003@gmail.com>
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] gpu: drm: display: indent fix in comment
+Message-ID: <Zb0RayxXCE_kNoGc@five231003>
+References: <20240124183659.511731-1-five231003@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="nkbwqjl5lzj6skqt"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Zb0M_2093UwPXK8y@intel.com>
+In-Reply-To: <20240124183659.511731-1-five231003@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,113 +83,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Jan 25, 2024 at 12:05:56AM +0530, Kousik Sanagavarapu wrote:
+> The comments explaining the function "drm_dp_mst_atom_check_mgr()" had
+> uneven indentation which made "make htmldocs" complain:
+> 
+> 	Documentation/gpu/drm-kms-helpers:296:
+> 	./drivers/gpu/drm/display/drm_dp_mst_topology.c:5496:
+> 	ERROR: Unexpected indentation.
+> 
+> 	Documentation/gpu/drm-kms-helpers:296:
+> 	./drivers/gpu/drm/display/drm_dp_mst_topology.c:5500:
+> 	WARNING: Block quote ends without a blank line; unexpected unindent.
+> 
+> Fix this by getting the indent right.
+> 
+> Signed-off-by: Kousik Sanagavarapu <five231003@gmail.com>
 
---nkbwqjl5lzj6skqt
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ping.
 
-On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
-> > > > >  /**
-> > > > >   * DOC: HDMI connector properties
-> > > > >   *
-> > > > > + * Broadcast RGB
-> > > > > + *      Indicates the RGB Quantization Range (Full vs Limited) u=
-sed.
-> > > > > + *      Infoframes will be generated according to that value.
-> > > > > + *
-> > > > > + *      The value of this property can be one of the following:
-> > > > > + *
-> > > > > + *      Automatic:
-> > > > > + *              RGB Range is selected automatically based on the=
- mode
-> > > > > + *              according to the HDMI specifications.
-> > > > > + *
-> > > > > + *      Full:
-> > > > > + *              Full RGB Range is forced.
-> > > > > + *
-> > > > > + *      Limited 16:235:
-> > > > > + *              Limited RGB Range is forced. Unlike the name sug=
-gests,
-> > > > > + *              this works for any number of bits-per-component.
-> > > > > + *
-> > > > > + *      Drivers can set up this property by calling
-> > > > > + *      drm_connector_attach_broadcast_rgb_property().
-> > > > > + *
-> > > >=20
-> > > > This is a good time to document this in more detail. There might be=
- two
-> > > > different things being affected:
-> > > >=20
-> > > > 1. The signalling (InfoFrame/SDP/...)
-> > > > 2. The color pipeline processing
-> > > >=20
-> > > > All values of Broadcast RGB always affect the color pipeline proces=
-sing
-> > > > such that a full-range input to the CRTC is converted to either ful=
-l- or
-> > > > limited-range, depending on what the monitor is supposed to accept.
-> > > >=20
-> > > > When automatic is selected, does that mean that there is no signall=
-ing,
-> > > > or that the signalling matches what the monitor is supposed to acce=
-pt
-> > > > according to the spec? Also, is this really HDMI specific?
-> > > >=20
-> > > > When full or limited is selected and the monitor doesn't support the
-> > > > signalling, what happens?
-> > >=20
-> > > Forgot to mention: user-space still has no control over RGB vs YCbCr =
-on
-> > > the cable, so is this only affecting RGB? If not, how does it affect
-> > > YCbCr?
-> >=20
-> > So I dug a bit into both the i915 and vc4 drivers, and it looks like if
-> > we're using a YCbCr format, i915 will always use a limited range while
-> > vc4 will follow the value of the property.
->=20
-> The property is literally called "Broadcast *RGB*".
-> That should explain why it's only affecting RGB.
-
-Right. And the limited range option is called "Limited 16:235" despite
-being usable on bpc > 8 bits. Naming errors occurs, and history happens
-to make names inconsistent too, that's fine and not an argument in
-itself.
-
-> Full range YCbCr is a much rarer beast so we've never bothered
-> to enable it.
-
-vc4 supports it.
-
-> Eg. with DP it only became possible with the introduction of the VSC
-> SDP (and I don't recall if there's additional capability checks that
-> are also required). With DP MSA signalling full range YCbCr is not
-> possible at all.
-
-This is for HDMI only.
-
-> I don't recall right now what the HDMI requirements are.
-
-HDMI has supported it for a while, and it's defined (for example) in the
-HDMI 1.4 spec in Section 6.6 - Video Quantization Ranges. It supports
-limited and full range on both RGB and YCbCr, as long as the EDIDs state
-so and the Infoframes signal it.
-
-Maxime
-
---nkbwqjl5lzj6skqt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZb0RYgAKCRDj7w1vZxhR
-xaFMAPwPX00aGuZMcwT8+4307ZfdO5OyFc7WAkZEWUBovapBWAD/d9+niBWsPvl3
-otXPVDwd1PFHbq4/qGvzqn443KiCiQA=
-=rMjR
------END PGP SIGNATURE-----
-
---nkbwqjl5lzj6skqt--
+Thanks
