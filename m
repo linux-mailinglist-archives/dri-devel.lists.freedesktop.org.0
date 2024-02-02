@@ -2,108 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97A31847B8B
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 22:32:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CA27847B9D
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 22:36:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A92E10E865;
-	Fri,  2 Feb 2024 21:32:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31D9610E87C;
+	Fri,  2 Feb 2024 21:35:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QW3gpsqF";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="d9ZJleng";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B2F510E865
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 21:32:13 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-40fb63c40c0so21797435e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Feb 2024 13:32:13 -0800 (PST)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AAFE10E881
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 21:35:54 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-3394b892691so714566f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Feb 2024 13:35:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1706909531; x=1707514331; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=W5Hc9mSNGHRmqMuX3vLv6BjyMkdxw/6pVnK77OZ+Opw=;
- b=QW3gpsqFTqIU60+vFiI+qOj1Gicoj1kYWFWJ0GzF6386OCpddwexrzjQLXj73sJzAH
- 568nJrKu+eKI8L089amIXfXnSDYlp+bJA+91r2MNDW5Xj3IRKM/pIaryjS0eMM1CIpNf
- rxm5365FTQsHAnYop0PRKZOWZAUXIjDp+gW+u2QnPNKNHW2dRXh6JgKjmmjFt7keGGiG
- w8LZCQmTSM6/8EpFqMsyHon3PTa+XpngsCGBY9hBToSKU0cxMzkMundUsGWg8rPLDzUU
- zq087mE5HoQaRYC2Dpc6dvzpd0DK7x1nzvCF4MEDr1owxHZCN6sQNhO6TsmdfjXog9Wi
- gcrw==
+ d=linaro.org; s=google; t=1706909751; x=1707514551; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=f1ZLpW27TrE7rpACPr2operCMjm03U8jbEe8JMN1ark=;
+ b=d9ZJlengzd+yrnvReWop6mbQLfY2lYMNXB8WbvVGMSiwDwzJ5vO6eDwE9uXQcj0MCk
+ fdzlGJYThFSqmCF4fHdIJzBd6lhPNnQ1313sSttLEi0rICSz85urGNjXNziiE88RasYT
+ pAcwqW/Nk7xMhQ4qxXyvtSmG18bez9DUmXpp5F1wtL5aNR5Ae0bYBMrmz7F0t4PwAGM5
+ AMBp+i3Zm03D9ESFr4TNkSofOjEPiAeU+DVJkNPLABFeoK5G+tY0M+qiQDlR7WunATKZ
+ trZ2OHayKIC2jdO8yVfcup83qOcCxvQehDdkMJPEb/jhj8sUOxykiT6U8uBcICckpdvY
+ cY5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706909531; x=1707514331;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=W5Hc9mSNGHRmqMuX3vLv6BjyMkdxw/6pVnK77OZ+Opw=;
- b=KkgRZc3EQO8mDzofQ65cljxomcvJTs3My684QGoC5eSN/7HbN2olHOx2QpoYpHXcMy
- ngSjMVTceH9i+Mmr50qDL1x2mQvZ1tV7y7XoXBsCPSN0NRis5o1EgjLevE9JW8aQytnZ
- kXPPbwJi/hGXjcF1220qESCn0eVRDkD1nfnDjC9NtRt5Rj4u+/9/E7ItAI7FU3BmREs9
- hK1j8is28m56eghiklx0WMk2HN8kK3F7aMbRzrUZnbJLvMa5ez35GcqHZkQiF0Vt69Kr
- fmNk1KE5xKnLWYbX8djpJVwaCvlRnY6YKbnZKRVSUN+t5NRblKBHUGh2PsElQCdLp0Lc
- Q9KA==
-X-Gm-Message-State: AOJu0Yw86d4SxV+BEdcdwiPQ7YGLZGbWuXDlawVSpmjWVgslTt+EO7+o
- fBPmEpVEx0Rjv/vaRikQ9hpe+SREjw2aHtf+FG8QX34QVpMl3s0z44tImyZRTLM=
-X-Google-Smtp-Source: AGHT+IGyPixWYoi+L4/ukaGBHlcrE3M3qeKjP8naEQzcqadDPDsfbwSTPYGe0HluOek3vr3B35Am3w==
-X-Received: by 2002:a05:600c:1550:b0:40e:fb8f:76b2 with SMTP id
- f16-20020a05600c155000b0040efb8f76b2mr7592084wmg.12.1706909531281; 
- Fri, 02 Feb 2024 13:32:11 -0800 (PST)
+ d=1e100.net; s=20230601; t=1706909751; x=1707514551;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=f1ZLpW27TrE7rpACPr2operCMjm03U8jbEe8JMN1ark=;
+ b=uPi2XUXihGosThAgcGl2ok+1g1l0NyAPV0GHrV26tdMLAHEx7JJssXKY1aYWKhjKlK
+ kVyyRXq5V4fCm/xKcVRunhPPs7yDIQoY0SfYM4ljQ72GziKUsEvvEPPn7KuDoQieuV7J
+ lLushi1a9xqGr45s1mTjfT3ErQXBgtIbdx3VjuaovJpblmnIO6GUVJ1jlkhmHjkhGkcf
+ /CH+V5R7hUcNMBuJ6PSRTYSUDpvJpm3NZIvukr2fqRRXORgRBgWCEUq+oFcDueHXtJ0H
+ CqubEebCySLngSUjFaqv89SR9ElnRISekVPP+f9rAwwzo8iZeqVLNUwfd0G2m8y/dp0c
+ RhDw==
+X-Gm-Message-State: AOJu0YyMrA5WFQclfU5S9noQdPzYzYNbguGk4vlHKsjwDo2jS713DHiG
+ rgXNKnSY+wU2naNEIsxpqWL4V2xOt2pVeo4gZOG753u+SjIqrzz7M4f1XWU5wQI=
+X-Google-Smtp-Source: AGHT+IFf1mA/6YenzqdlJr6uw7LUW9L8fxC5+4TIZ3fWpdsXNtQ8p9zpUCySF0cAYE+7umcVPdDeJw==
+X-Received: by 2002:a5d:64c1:0:b0:33b:187c:fcee with SMTP id
+ f1-20020a5d64c1000000b0033b187cfceemr3812356wri.29.1706909751236; 
+ Fri, 02 Feb 2024 13:35:51 -0800 (PST)
 X-Forwarded-Encrypted: i=0;
- AJvYcCVcz30ZwoH/5xCYeuEkyULtPjnugcNsrZooblZ7+o777yvjaEWQrcqbShcYM4dWmclsHEVB/1TNGAGbLTGQCCQX6Oz67KeLrqoMYb+dE37zKDXBA99J6ReiSRhz/Zhx27tbSpG5cCbraq3CbZ1ixBa7OrNl+p4VLRcJrmGHiD+qRbnOOU5ugn6RY/9JVf4M2TD3KZhWDNUIByvv7JwneXD2fYnSC4t1RxEGFgx2lEfu1Jg6xKiz6FGtZjYTLpMMzwFxzTrg9EN6kRNJ+JLUft1+Cd7E5w+OEXMl0x1J5xdofOSF3y5JTfj4Af6TMGe1JDafwvpEx1Ye+0OGQwZxmaxeAqzYxoiVI0AZD9MxAMtPvMaIUk6BJmrliqUv6Afqc5v0hBRGXxHtB7UqAQzmG2OmJnmMkK2UWRxBakzsOx1lqMOu01kDQSNGYd5IfbEH4s9obOyc7VP/6hz+HwqLNiMqjqdueeeG1XnKHEGhaSJzeh8xWY9WNRM0CyjBJQnSAtqIlONjlBbX4w7yVOGAbXV8FRLFH5pUBXUK5Us6xZv0nXCMFTpyzKkpryKTVIX8/i9ucNWekWlsh1oeczrLOcRf3dJqktVGTJtV4KXAGrXiyk+kUe2COFPTQ00Y6qn1N8rpCDEvS8qJewZqPNp7bVkRS9TmVApJrOwh
-Received: from [192.168.27.65] (home.beaume.starnux.net. [82.66.176.246])
+ AJvYcCUyamDcaqCP9ah/qd/K0aYUKo6fJHVfZJBS+KCqVnHKrWp8g+gSpzoIJml6pkX04CnKx1ikshesz6EtNJnuKJY9eNXret7FP8gRAwawoUcLuynFYuslxuTFcRZM2kUSnHuSS7gbFBRVYLLw705boCPfJKCv2D92ru2vUY+PlVgsZRAMr2AYl2NDrbovD3Dlz8g7S7+TKshBldLavbXYMc8tjPDbg94krEj9FJeTGzANGG8NRa+9QzTOLmeG7iDoKxsVS4qKld98UyJZKv07fCeG6rC+dy1Tm6LC62yRmA08+LAuqNwqbfR/hPJWHQpESLWiHLwbUxB26BM2mrCf7qI05e9GY1MYCCAh4JCkfRDrVmyTSLjbHrfNLpSzZ8+h0u1Szf70
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
  by smtp.gmail.com with ESMTPSA id
- h6-20020a05600c314600b0040fb7695620sm1020943wmo.0.2024.02.02.13.32.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Feb 2024 13:32:10 -0800 (PST)
-Message-ID: <b8a5e5dd-e018-4305-9fb8-88f4ddc49a2f@linaro.org>
-Date: Fri, 2 Feb 2024 22:32:05 +0100
+ q17-20020a05600000d100b0033af350fb88sm2687201wrx.25.2024.02.02.13.35.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Feb 2024 13:35:50 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Jianhua Lu <lujianhua000@gmail.com>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: Marijn Suijten <marijn.suijten@somainline.org>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240201-topic-3623_fix-v1-1-86ee6f20876e@linaro.org>
+References: <20240201-topic-3623_fix-v1-1-86ee6f20876e@linaro.org>
+Subject: Re: [PATCH] drm/panel: novatek-nt36523: Set prepare_prev_first
+Message-Id: <170690975036.3073109.5398600795989490527.b4-ty@linaro.org>
+Date: Fri, 02 Feb 2024 22:35:50 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH] dt-bindings: drm/bridge: ti-sn65dsi86: Fix bouncing
- @codeaurora address
-Content-Language: en-US, fr
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, dianders@chromium.org,
- andrzej.hajda@intel.com, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, robh@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- quic_bjorande@quicinc.com
-Cc: airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-References: <20240202202329.4172917-1-quic_jhugo@quicinc.com>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <20240202202329.4172917-1-quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,37 +86,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/02/2024 21:23, Jeffrey Hugo wrote:
-> The servers for the @codeaurora domain are long retired and any messages
-> sent there bounce.  Sandeep Panda's email address is no longer valid and
-> should be repleaced.  However Sandeep has left the company and has not
-> been active sice, therefore it looks like this binding is orphaned.
-> 
-> Doug is listed as the reviewer for this file in MAINTAINERS and has
-> volunteered to be listed within the file as the binding maintainer.
-> Therefore replace Sandeep with Doug to make the documentation current.
-> 
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> ---
->   .../devicetree/bindings/display/bridge/ti,sn65dsi86.yaml        | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-> index 6ec6d287bff4..c93878b6d718 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-> @@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
->   title: SN65DSI86 DSI to eDP bridge chip
->   
->   maintainers:
-> -  - Sandeep Panda <spanda@codeaurora.org>
-> +  - Douglas Anderson <dianders@chromium.org>
->   
->   description: |
->     The Texas Instruments SN65DSI86 bridge takes MIPI DSI in and outputs eDP.
+Hi,
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+On Thu, 01 Feb 2024 23:17:40 +0100, Konrad Dybcio wrote:
+> The .prepare callback contains the init sequence, so the DSI host *must*
+> be enabled at that point. Set the prepare_prev_first flag to ensure that.
+> 
+> 
+
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+
+[1/1] drm/panel: novatek-nt36523: Set prepare_prev_first
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=d543d1b6086b18f8d8b4b26bcdf86566382a3d35
+
+-- 
+Neil
+
