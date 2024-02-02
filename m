@@ -2,60 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A2D0847C65
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 23:41:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ADE3847D2E
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Feb 2024 00:38:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12E3110EF47;
-	Fri,  2 Feb 2024 22:41:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EBA410E8DA;
+	Fri,  2 Feb 2024 23:38:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="C0BT3gKq";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="yB/e/tJf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CAC810EEFD;
- Fri,  2 Feb 2024 22:41:05 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 618A210E8DA;
+ Fri,  2 Feb 2024 23:38:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 627DD628CE;
- Fri,  2 Feb 2024 22:41:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C09AFC433F1;
- Fri,  2 Feb 2024 22:41:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1706913664;
- bh=exAcKdkKTYBbj02//ly4ATQZUG2yWNQEYrX161BJntQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=C0BT3gKqwpPjY19LTrjlAry5YR+7VFmLrXnqBKSxsPdigLPMyFBx1J8fLuBgr6+Lm
- SlOqNOr5Ox2iiPD8FwnoRna1dURYlqzetiDJ68DVSJKAlQWGXM5rBcBu91MeSbgsjn
- FSnTpRo7EFNyAoBUtXWrjpuSQQvoSWnAKFGfGA4afTAkdDkrBPMjn5W3bDvsG8cIRq
- CSXLOS+4bWNuRPtFrlrAQrrcf+vsjyX+BBnZPKKN43iy0nD2+DJDIva9KxjUIxRTPB
- ax9ObTb5QHrm7ecQsHgyoNM6FgVNee0xu7OxCAwTzZfNui7WbRUtlVBSNXAqkRvUyc
- 3kOV+bOjZbkvQ==
-Date: Fri, 2 Feb 2024 16:41:02 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
+ by sin.source.kernel.org (Postfix) with ESMTP id 5A017CE2EA8;
+ Fri,  2 Feb 2024 23:38:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E89AC433C7;
+ Fri,  2 Feb 2024 23:38:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1706917087;
+ bh=aGafW+AuanYuQZedcyvo9CsIkWE3LqB3BWtfCaod+iA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=yB/e/tJfVi4GSFcStZoVf6gdrzwDzzBD/18SbsHCvLff+CA24l2sk2KGeTooU2Aov
+ pf0f3eJC7DiBXU/4wBBUxNaTgEpZg0PMy4e+2BUnwTfsM6oN+Z/rIKzcuehkwjLNuz
+ FsBBYxoj0PWvI3k4Pzocj0rHAD8140unw5fPmQ90=
+Date: Fri, 2 Feb 2024 15:38:06 -0800
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Hamza Mahfooz <hamza.mahfooz@amd.com>
 Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  "Rafael J. Wysocki" <rafael@kernel.org>,
  Alex Deucher <alexander.deucher@amd.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
  "Pan, Xinhui" <Xinhui.Pan@amd.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Bjorn Helgaas <bhelgaas@google.com>,
  Mario Limonciello <mario.limonciello@amd.com>,
  Lijo Lazar <lijo.lazar@amd.com>,
  Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>, Le Ma <le.ma@amd.com>,
- =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
+ =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
  James Zhu <James.Zhu@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Alex Shi <alexs@kernel.org>, Jerry Snitselaar <jsnitsel@redhat.com>,
- Wei Liu <wei.liu@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-pci@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: Re: [PATCH 3/3] drm/amdgpu: wire up the can_remove() callback
-Message-ID: <20240202224102.GA732304@bhelgaas>
+ Joerg Roedel <jroedel@suse.de>,
+ Iwona Winiarska <iwona.winiarska@intel.com>,
+ Robin Murphy <robin.murphy@arm.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH 1/3] driver core: bus: introduce can_remove()
+Message-ID: <2024020224-unsoiled-velcro-86af@gregkh>
+References: <20240202222603.141240-1-hamza.mahfooz@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240202222603.141240-3-hamza.mahfooz@amd.com>
+In-Reply-To: <20240202222603.141240-1-hamza.mahfooz@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,63 +68,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[+cc Bartosz]
+On Fri, Feb 02, 2024 at 05:25:54PM -0500, Hamza Mahfooz wrote:
+> Currently, drivers have no mechanism to block requests to unbind
+> devices.
 
-On Fri, Feb 02, 2024 at 05:25:56PM -0500, Hamza Mahfooz wrote:
-> Removing an amdgpu device that still has user space references allocated
-> to it causes undefined behaviour. So, implement amdgpu_pci_can_remove()
-> and disallow devices that still have files allocated to them from being
-> unbound.
+And that is by design.
 
-Maybe this would help for things that are completely built-in or
-soldered down, but nothing can prevent a user from physically pulling
-a card or cable, so I don't think this is a generic solution to the
-problem of dangling user space references.
+> However, this can cause resource leaks and leave the device in
+> an inconsistent state, such that rebinding the device may cause a hang
+> or otherwise prevent the device from being rebound.
 
-Maybe Bartosz's recent LPC talk is relevant:
-https://lpc.events/event/17/contributions/1627/
+That is a driver bug, please fix your driver.
 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> index cc69005f5b46..cfa64f3c5be5 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> @@ -2323,6 +2323,22 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
->  	return ret;
->  }
->  
-> +static bool amdgpu_pci_can_remove(struct pci_dev *pdev)
-> +{
-> +	struct drm_device *dev = pci_get_drvdata(pdev);
-> +
-> +	mutex_lock(&dev->filelist_mutex);
-> +
-> +	if (!list_empty(&dev->filelist)) {
-> +		mutex_unlock(&dev->filelist_mutex);
-> +		return false;
-> +	}
-> +
-> +	mutex_unlock(&dev->filelist_mutex);
-> +
-> +	return true;
-> +}
-> +
->  static void
->  amdgpu_pci_remove(struct pci_dev *pdev)
->  {
-> @@ -2929,6 +2945,7 @@ static struct pci_driver amdgpu_kms_pci_driver = {
->  	.name = DRIVER_NAME,
->  	.id_table = pciidlist,
->  	.probe = amdgpu_pci_probe,
-> +	.can_remove = amdgpu_pci_can_remove,
->  	.remove = amdgpu_pci_remove,
->  	.shutdown = amdgpu_pci_shutdown,
->  	.driver.pm = &amdgpu_pm_ops,
-> -- 
-> 2.43.0
-> 
+> So, introduce the can_remove() callback to allow drivers to indicate
+> if it isn't appropriate to remove a device at the given time.
+
+Nope, sorry, the driver needs to be fixed.
+
+What broken driver are you needing this for?
+
+Also realize, only root can unbind drivers (and it can also unload
+modules), so if the root user really wants to do this, it can, and
+should be possible to.
+
+sorry,
+
+greg k-h
