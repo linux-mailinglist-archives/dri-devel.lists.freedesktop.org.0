@@ -2,85 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD139847A86
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 21:32:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 072A8847ADF
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 22:00:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95A9910E5DD;
-	Fri,  2 Feb 2024 20:31:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0715A10E0D9;
+	Fri,  2 Feb 2024 21:00:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="MaAyVAXA";
+	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="WDn0CIZX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
- [209.85.208.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DB7E10E5DD
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 20:31:51 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id
- 38308e7fff4ca-2d066b532f0so38731581fa.1
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Feb 2024 12:31:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1706905907; x=1707510707;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0h1IIKH0viGaA3orHuy1hmOvR0Hle+LrWHOWH3Kx7Iw=;
- b=MaAyVAXApAUvNdxCGb59yGUb68ywW4Kcu781dczSsXwnQQYIIyP90+Q/jRG0WsfUvR
- UfCLI8Bvw41rlTwJ/uFAGOAJxlmIiH8ZeWlSiu6O2Sehq8Oyo2TkOhuP51A3q/4h+chn
- r8kyOm4KlHIdNYueOyqBPKI0m+LbxBy2CfYEw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706905907; x=1707510707;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=0h1IIKH0viGaA3orHuy1hmOvR0Hle+LrWHOWH3Kx7Iw=;
- b=sn6f/Lk/RcHoP74eT0WwyXHXcdA+QQ3Flq8BZUurPtRCXRkzIP0e7UtM791qiT9WMF
- tYSZXiGnEr2U00ao/Sr1a3x1z9KY51NMZ03wp1JxLpAAy1SLtVAIH5GEl01kerDPVr2z
- KOk8Aryp6CI8HMUQxfgbjWY0qbKrjtEuCpLOhU+MMvqGEFkwowPqRwXJTp4zDnYprwtU
- z66Jj/P4A0KhqxiqDZ4e9NE0oLjGCDwyp7cDdIub9cyQmj4okHRBET8nJSQQbpBXqWVk
- zC7F60YxINdq/D3UkluM03IpqSQzjLg2BcQVgucBMvHYT3P0ByFUOuAQCofe8V9LI38a
- wkeQ==
-X-Gm-Message-State: AOJu0YwLSNQU5RPHPI+MV3OOUh01pz792VIYnY1JwJ8WW09YW0GwLxIe
- AfQqQE9Xb48Ml/AMdyyDUy6ZT0e5u1vUe9kCjOekoAAfyzB3ikiNSm/1L/MHVVKv8lLPRjMAwq0
- w6t5t
-X-Google-Smtp-Source: AGHT+IEZMG+GxxRJPD3MZ0+a12lXb5ehrG32Vd84ui7Txz01oVXSfrTV6CY8jYbRXZ13JiDFolzMtQ==
-X-Received: by 2002:a2e:9cc9:0:b0:2d0:9076:e9cc with SMTP id
- g9-20020a2e9cc9000000b002d09076e9ccmr966684ljj.29.1706905907552; 
- Fri, 02 Feb 2024 12:31:47 -0800 (PST)
-X-Forwarded-Encrypted: i=0;
- AJvYcCXtTWX5IVblzuGYSWYpHZJ3c4BK/tf+eXeQefnSg3l41yOhK1Vl3WcaMTJS9pcrNHlBifE9EGIna/F+Yg1U38EgnUEc36qAy9HvCQ4TTdVu
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com.
- [209.85.208.43]) by smtp.gmail.com with ESMTPSA id
- ll9-20020a170907190900b00a370e130fc0sm889051ejc.59.2024.02.02.12.31.46
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Feb 2024 12:31:46 -0800 (PST)
-Received: by mail-ed1-f43.google.com with SMTP id
- 4fb4d7f45d1cf-55fff7a874fso3043a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Feb 2024 12:31:46 -0800 (PST)
-X-Received: by 2002:a50:8d15:0:b0:55f:a1af:bade with SMTP id
- s21-20020a508d15000000b0055fa1afbademr6757eds.4.1706905905770; Fri, 02 Feb
- 2024 12:31:45 -0800 (PST)
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A8B410E0C6
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 20:59:57 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4TRSp438vTzDqQ6;
+ Fri,  2 Feb 2024 20:59:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1706907596; bh=ge9WmExw3RYtr47lcMES3xw541P+2RTLYMoq4ZWA3M4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=WDn0CIZXXkpAYI365jt8RJMpj6sA8NTH9JM2nq6NTxHIil5aIOQghOt5lo+sotJ/B
+ wvcVfAScYOFf5UL9UvufcO0shV4HvNOxVBQxMhhod69+0h4zUmYZ12G3U3RTYGGPER
+ dPC4QTFdt8nU/79b8RrzLg8B4Ihxz7iFEUHY3Sb0=
+X-Riseup-User-ID: 8D545961835A176C093ABDD1C101A5788877D082A0844039CD0237B84AD211E3
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4TRSnx4ww1zJp0l;
+ Fri,  2 Feb 2024 20:59:49 +0000 (UTC)
+Message-ID: <40287e9a-efb8-480a-bb50-85361feb44a4@riseup.net>
+Date: Fri, 2 Feb 2024 17:59:46 -0300
 MIME-Version: 1.0
-References: <20240202202329.4172917-1-quic_jhugo@quicinc.com>
-In-Reply-To: <20240202202329.4172917-1-quic_jhugo@quicinc.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 2 Feb 2024 12:31:30 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=WkNKFiRKyadVnAMmtcDH=PVv6vk2CvMbME9FZ5UHNxuw@mail.gmail.com>
-Message-ID: <CAD=FV=WkNKFiRKyadVnAMmtcDH=PVv6vk2CvMbME9FZ5UHNxuw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: drm/bridge: ti-sn65dsi86: Fix bouncing
- @codeaurora address
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
- robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
- quic_bjorande@quicinc.com, airlied@gmail.com, daniel@ffwll.ch, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 1/2] drm/vkms: Create a type to check a function pointer
+ validity
+Content-Language: en-US
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, marcheu@google.com, seanpaul@google.com,
+ nicolejadeyee@google.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ thomas.petazzoni@bootlin.com, miquel.raynal@bootlin.com
+References: <20240201-yuv-v1-0-3ca376f27632@bootlin.com>
+ <20240201-yuv-v1-1-3ca376f27632@bootlin.com>
+From: Arthur Grillo <arthurgrillo@riseup.net>
+In-Reply-To: <20240201-yuv-v1-1-3ca376f27632@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,40 +69,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+
+
+On 01/02/24 14:31, Louis Chauvet wrote:
+> Add the pixel_read_t type to check function prototype in structures
+> and functions.
+> It avoids casting to (void *) and at the same occasion allows the
+> compiler to check the type properly.
+> 
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+>  drivers/gpu/drm/vkms/vkms_drv.h     | 17 +++++++++++++++--
+>  drivers/gpu/drm/vkms/vkms_formats.c |  4 ++--
+>  drivers/gpu/drm/vkms/vkms_formats.h |  2 +-
+>  3 files changed, 18 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index 51349a0c32d8..cb20bab26cae 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -48,6 +48,20 @@ struct vkms_writeback_job {
+>  	void (*pixel_write)(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel);
+>  };
+>  
+> +/**
+> + * typedef pixel_read_t - These functions are used to read the pixels in the source frame, convert
+> + * them to argb16 and write them to out_pixel.
+> + * It assumes that src_pixels point to a valid pixel (not a block, or a block of 1x1 pixel)
+> + *
+> + * @src_pixels: Source pointer to a pixel
+> + * @out_pixel: Pointer where to write the pixel value
+> + * @encoding: Color encoding to use (mainly used for YUV formats)
+> + * @range: Color range to use (mainly used for YUV formats)
+> + */
+> +typedef void (*pixel_read_t)(u8 **src_pixels, int y,
+> +			     struct pixel_argb_u16 *out_pixel, enum drm_color_encoding enconding,
+> +			     enum drm_color_range range);
+> +
+>  /**
+>   * vkms_plane_state - Driver specific plane state
+>   * @base: base plane state
+> @@ -56,8 +70,7 @@ struct vkms_writeback_job {
+>  struct vkms_plane_state {
+>  	struct drm_shadow_plane_state base;
+>  	struct vkms_frame_info *frame_info;
+> -	void (*pixel_read)(u8 **src_buffer, struct pixel_argb_u16 *out_pixel,
+> -			   enum drm_color_encoding enconding, enum drm_color_range range);
+> +	pixel_read_t pixel_read;
+
 Hi,
 
-On Fri, Feb 2, 2024 at 12:25=E2=80=AFPM Jeffrey Hugo <quic_jhugo@quicinc.co=
-m> wrote:
->
-> The servers for the @codeaurora domain are long retired and any messages
-> sent there bounce.  Sandeep Panda's email address is no longer valid and
-> should be repleaced.  However Sandeep has left the company and has not
-> been active sice, therefore it looks like this binding is orphaned.
->
-> Doug is listed as the reviewer for this file in MAINTAINERS and has
-> volunteered to be listed within the file as the binding maintainer.
-> Therefore replace Sandeep with Doug to make the documentation current.
->
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> ---
->  .../devicetree/bindings/display/bridge/ti,sn65dsi86.yaml        | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi8=
-6.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-> index 6ec6d287bff4..c93878b6d718 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-> @@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
->  title: SN65DSI86 DSI to eDP bridge chip
->
->  maintainers:
-> -  - Sandeep Panda <spanda@codeaurora.org>
-> +  - Douglas Anderson <dianders@chromium.org>
+Please Cc me on the next versions,
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+You added the argument 'y' to the function but did not change the calls
+to it, resulting in a compiler error. I think this argument addition
+would be better on patch #2.
 
-Unless there are comments, I'll let this stew over the weekend and
-then land it through drm-misc next week.
+Best Regards,
+~Arthur Grillo
 
--Doug
+>  };
+>  
+>  struct vkms_plane {
+> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+> index e06bbd7c0a67..c6376db58d38 100644
+> --- a/drivers/gpu/drm/vkms/vkms_formats.c
+> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+> @@ -390,7 +390,7 @@ void vkms_writeback_row(struct vkms_writeback_job *wb,
+>  		wb->pixel_write(dst_pixels, &in_pixels[x]);
+>  }
+>  
+> -void *get_pixel_conversion_function(u32 format)
+> +pixel_read_t get_pixel_conversion_function(u32 format)
+>  {
+>  	switch (format) {
+>  	case DRM_FORMAT_ARGB8888:
+> @@ -420,7 +420,7 @@ void *get_pixel_conversion_function(u32 format)
+>  	case DRM_FORMAT_YVU444:
+>  		return &planar_yvu_to_argb_u16;
+>  	default:
+> -		return NULL;
+> +		return (pixel_read_t)NULL;
+>  	}
+>  }
+>  
+> diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/vkms_formats.h
+> index 0cf835292cec..04e31e126ab1 100644
+> --- a/drivers/gpu/drm/vkms/vkms_formats.h
+> +++ b/drivers/gpu/drm/vkms/vkms_formats.h
+> @@ -5,7 +5,7 @@
+>  
+>  #include "vkms_drv.h"
+>  
+> -void *get_pixel_conversion_function(u32 format);
+> +pixel_read_t get_pixel_conversion_function(u32 format);
+>  
+>  void *get_pixel_write_function(u32 format);
+>  
+> 
