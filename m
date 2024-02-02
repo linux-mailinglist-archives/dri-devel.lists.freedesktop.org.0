@@ -2,74 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DDC48479D9
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 20:45:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7FE68479DB
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 20:46:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D1F010E048;
-	Fri,  2 Feb 2024 19:45:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C72310E08A;
+	Fri,  2 Feb 2024 19:46:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="k5x5/+3a";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MXC3s8fu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1617510E048
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 19:45:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=nDTsI+E5omRhoYSLC0kgi7Vk12lcSqJA3pQ19Ovkn/Y=; b=k5x5/+3aXpVveXGh34B3HHcTAb
- ON+O2c8fVR2qSYSbMOVRAojg8P2L58og6oBgXxkflCTnufn5M3q4aBrFv16WSgotPDWkQEdqqP54m
- jSkHo5oqTlT5kTJFsOgrwP0P8VcHQi77iTcu3eY37QbZQlfnKkNfxaYXEp9NZIVUHhr+HYXEl55WW
- cx+I4Vy6MIFRzuQg7/j3vf3kU3RHb85H3C61dUSGygu47Vfg8cJkmGZmky2huSkzO/aTUpZw/Kq5L
- 3yQPcObXJJm2dhm/m0QCAMc5gfoG7GlAJo8lq5Q3LS3N5Lnx5XEiFeC81mD7d5VgIkTYOdC6mZO/i
- GMn/GNzA==;
-Received: from 91-154-18-254.elisa-laajakaista.fi ([91.154.18.254]:51106
- helo=ferris.localdomain) by whm50.louhi.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
- (envelope-from <pekka.paalanen@haloniitty.fi>) id 1rVzTn-0002HB-0p;
- Fri, 02 Feb 2024 21:45:39 +0200
-Date: Fri, 2 Feb 2024 21:45:27 +0200
-From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-To: Miquel Raynal <miquel.raynal@bootlin.com>, =?ISO-8859-1?B?TWHtcmE=?=
- Canal <mairacanal@riseup.net>
-Cc: Maxime Ripard <mripard@kernel.org>, Louis Chauvet
- <louis.chauvet@bootlin.com>, Rodrigo Siqueira
- <rodrigosiqueiramelo@gmail.com>, Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- marcheu@google.com, seanpaul@google.com, nicolejadeyee@google.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- thomas.petazzoni@bootlin.com, Arthur Grillo <arthurgrillo@riseup.net>
-Subject: Re: [PATCH 2/2] drm/vkms: Use a simpler composition function
-Message-ID: <20240202214527.1d97c881@ferris.localdomain>
-In-Reply-To: <20240202170734.3176dfe4@xps-13>
-References: <20240201-yuv-v1-0-3ca376f27632@bootlin.com>
- <20240201-yuv-v1-2-3ca376f27632@bootlin.com>
- <20240202105522.43128e19@eldfell> <20240202102601.70b6d49c@xps-13>
- <3nofkwzgnf4yva2wfogdbii47ohpi2wm5vp6aijtg3emxyoowt@twyreqz7ai3g>
- <20240202131322.5471e184@xps-13> <20240202174913.789a9db9@eldfell>
- <20240202170734.3176dfe4@xps-13>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+ [209.85.218.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8D0910E08A
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 19:46:13 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id
+ a640c23a62f3a-a34c5ca2537so353468266b.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Feb 2024 11:46:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1706903172; x=1707507972; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=QQ8s+IKwkefeUnwT1uShIbYYjEfqWxHxFggYwOKgnWE=;
+ b=MXC3s8fu/ucFen+ZetP1Fms6S+KJJYvIAJ4gd2gAqjax5srnaun8i6wxlJAfEBVAW6
+ eVXcoqcAZmkqofXfCLYxMv+IMtn0F4yQ/LZ7yEKDLjLEdI/6ZgF4VoC8v6N+ww69tlML
+ BY49/NsKEa9jzj8A7qXQKFXVlIVxslxMocEgxHlM3xnKq3MzKJD6N2PcabHFmxofxi1w
+ ipF/EqXl0eYDF5KQpi2bX9Gdied4CCpMGqR0PM6ulyDjrsmz3KARJLrVt2DUFpwEWB2/
+ 0kThOJtAofDYlbnO2f95vBrjRXir/EVHQcPMEltGioB8uHxQIRjqnnbj/PmrlDwZWEJP
+ 1MYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706903172; x=1707507972;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QQ8s+IKwkefeUnwT1uShIbYYjEfqWxHxFggYwOKgnWE=;
+ b=vTyyPi4KrFcHqah58NgsyahVy4r9sA6aG8NOVDxfAn4K4QgTkkalL4guleAWYFSjfz
+ i56XCjSNkzqn5xklm+76o39x2kWVsh5S1hTui2ynKD0VMqpm7lTUipivVIwCDv93cOXp
+ lrlo0OztkFWD4J9Cb9P9CJjqhi4n+QLTwbOfB15t+X1rXp9Yl9khN7a6XCuyf+Q59IJs
+ vy5P1/25tWLFsOj8iIRzAhf8ZP6vu7pvqu9DpYsF6VhfxKjSbRcQLaoPvzqhWJtbX5F1
+ HR9IngRWyTWF/ZnUEZdMJN5T9JIq0By25BzDOoFyUKEp/p/C/npSu5HaR/o+SgwETeVO
+ ZODA==
+X-Gm-Message-State: AOJu0Yzgr+lMN6l1ocKyWg2a+GgUsjroCyXwdhOBE8KFjeDgv642yNsP
+ NAvJyTLNP54APKkTqgahRnPaDR8sRnnu9LB9/7FIpJmeWvUAx1ufSVOrdCWd0NW4aCZGj9uTGkA
+ YDvxFtail2byliQ+tloZgRFupRgT1XijiRaYlSg==
+X-Google-Smtp-Source: AGHT+IFT2DrPAmcrWJ82zxW0seqIJLJYocsPAnH4XX/0feqmGpe5/tEIYJ8+ZE8hXVkfciPCeGtnizO0CRQqaYncmLY=
+X-Received: by 2002:a17:906:3ecc:b0:a36:c466:52ea with SMTP id
+ d12-20020a1709063ecc00b00a36c46652eamr2268822ejj.75.1706903171831; Fri, 02
+ Feb 2024 11:46:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/6lY8dnw6e.9r7s98d5yNIXB";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - whm50.louhi.net
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - haloniitty.fi
-X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
- pekka.paalanen@haloniitty.fi
-X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+From: Dave Airlie <airlied@gmail.com>
+Date: Sat, 3 Feb 2024 05:46:00 +1000
+Message-ID: <CAPM=9tyM-ERLs5LuMP_QOuJPtR6Yf4f_ON-0dHBd0B-fBVu-4w@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.8-rc3
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,263 +75,278 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/6lY8dnw6e.9r7s98d5yNIXB
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Hey Linus,
 
-On Fri, 2 Feb 2024 17:07:34 +0100
-Miquel Raynal <miquel.raynal@bootlin.com> wrote:
+Regular weekly fixes, mostly amdgpu and xe. One nouveau fix is a
+better fix for the deadlock and also helps with a sync race we were
+seeing.
 
-> Hi Pekka,
+Dave.
 
-Hi Miquel,
+drm-fixes-2024-02-03:
+drm fixes for 6.8-rc3
 
-I'm happy to see no hard feelings below. I know I may be blunt at
-times.
+dma-buf:
+- heaps CMA page accounting fix
 
-Another thing coming to my mind is that I suppose there is no
-agreed standard benchmark for VKMS performance, is there?
+virtio-gpu:
+- fix segment size
 
-I recall people running selected IGT tests in a loop in the past,
-and I worry that the IGT start-up overhead and small plane
-dimensions might skew the results.
+xe:
+- A crash fix
+- A fix for an assert due to missing mem_acces ref
+- Only allow a single user-fence per exec / bind.
+- Some sparse warning fixes
+- Two fixes for compilation failures on various odd
+  combinations of gcc / arch pointed out on LKML.
+- Fix a fragile partial allocation pointed out on LKML.
+- A sysfs ABI documentation warning fix
 
-Would it be possible to have a standardised benchmark specifically
-for performance rather than correctness, in IGT or where-ever it
-would make sense? Then it would be simple to tell contributors to
-run this and report the numbers before and after.
+amdgpu:
+- Fix reboot issue seen on some 7000 series dGPUs
+- Fix client init order for KFD
+- Misc display fixes
+- USB-C fix
+- DCN 3.5 fixes
+- Fix issues with GPU scheduler and GPU reset
+- GPU firmware loading fix
+- Misc fixes
+- GC 11.5 fix
+- VCN 4.0.5 fix
+- IH overflow fix
 
-I would propose this kind of KMS layout:
+amdkfd:
+- SVM fixes
+- Trap handler fix
+- Fix device permission lookup
+- Properly reserve BO before validating it
 
-- CRTC size 3841 x 2161
-- primary plane, XRGB8888, 3639 x 2161 @ 101,0
-- overlay A, XBGR2101010, 3033 x 1777 @ 201,199
-- overlay B, ARGB8888, 1507 x 1400 @ 1800,250
+nouveau:
+- fence/irq lock deadlock fix (second attempt)
+- gsp command size fix
+The following changes since commit 41bccc98fb7931d63d03f326a746ac4d429c1dd3=
+:
 
-The sizes and positions are deliberately odd to try to avoid happy
-alignment accidents. The planes are big, which should let the pixel
-operations easily dominate performance measurement. There are
-different pixel formats, both opaque and semi-transparent. There is
-lots of plane overlap. The planes also do not cover the whole CRTC
-leaving the background visible a bit.
+  Linux 6.8-rc2 (2024-01-28 17:01:12 -0800)
 
-There should be two FBs per each plane, flipped alternatingly each
-frame. Writeback should be active. Run this a number of frames, say,
-100, and measure the kernel CPU time taken. It's supposed to take at
-least several seconds in total.
+are available in the Git repository at:
 
-I think something like this should be the base benchmark. One can
-add more to it, like rotated planes, YUV planes, etc. or switch
-settings on the existing planes. Maybe even FB_DAMAGE_CLIPS. Maybe
-one more overlay that is very tall and thin.
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2024-02-03
 
-Just an idea, what do you all think?
+for you to fetch changes up to 39126abc5e20611579602f03b66627d7cd1422f0:
 
+  nouveau: offload fence uevents work to workqueue (2024-02-02 17:15:47 +10=
+00)
 
-Thanks,
-pq
+----------------------------------------------------------------
+drm fixes for 6.8-rc3
 
-> pekka.paalanen@haloniitty.fi wrote on Fri, 2 Feb 2024 17:49:13 +0200:
->=20
-> > On Fri, 2 Feb 2024 13:13:22 +0100
-> > Miquel Raynal <miquel.raynal@bootlin.com> wrote:
-> >  =20
-> > > Hello Maxime,
-> > >=20
-> > > + Arthur
-> > >=20
-> > > mripard@kernel.org wrote on Fri, 2 Feb 2024 10:53:37 +0100:
-> > >    =20
-> > > > Hi Miquel,
-> > > >=20
-> > > > On Fri, Feb 02, 2024 at 10:26:01AM +0100, Miquel Raynal wrote:     =
-=20
-> > > > > pekka.paalanen@haloniitty.fi wrote on Fri, 2 Feb 2024 10:55:22 +0=
-200:
-> > > > >        =20
-> > > > > > On Thu, 01 Feb 2024 18:31:32 +0100
-> > > > > > Louis Chauvet <louis.chauvet@bootlin.com> wrote:
-> > > > > >        =20
-> > > > > > > Change the composition algorithm to iterate over pixels inste=
-ad of lines.
-> > > > > > > It allows a simpler management of rotation and pixel access f=
-or complex formats.
-> > > > > > >=20
-> > > > > > > This new algorithm allows read_pixel function to have access =
-to x/y
-> > > > > > > coordinates and make it possible to read the correct thing in=
- a block
-> > > > > > > when block_w and block_h are not 1.
-> > > > > > > The iteration pixel-by-pixel in the same method also allows a=
- simpler
-> > > > > > > management of rotation with drm_rect_* helpers. This way it's=
- not needed
-> > > > > > > anymore to have misterious switch-case distributed in multipl=
-e places.         =20
-> > > > > >=20
-> > > > > > Hi,
-> > > > > >=20
-> > > > > > there was a very good reason to write this code using lines:
-> > > > > > performance. Before lines, it was indeed operating on individua=
-l pixels.
-> > > > > >=20
-> > > > > > Please, include performance measurements before and after this =
-series
-> > > > > > to quantify the impact on the previously already supported pixel
-> > > > > > formats, particularly the 32-bit-per-pixel RGB variants.
-> > > > > >=20
-> > > > > > VKMS will be used more and more in CI for userspace projects, a=
-nd
-> > > > > > performance actually matters there.
-> > > > > >=20
-> > > > > > I'm worrying that this performance degradation here is signific=
-ant. I
-> > > > > > believe it is possible to keep blending with lines, if you add =
-new line
-> > > > > > getters for reading from rotated, sub-sampled etc. images. That=
- way you
-> > > > > > don't have to regress the most common formats' performance.    =
-   =20
-> > > > >=20
-> > > > > While I understand performance is important and should be taken i=
-nto
-> > > > > account seriously, I cannot understand how broken testing could be
-> > > > > considered better. Fast but inaccurate will always be significant=
-ly
-> > > > > less attractive to my eyes.       =20
-> > > >=20
-> > > > AFAIK, neither the cover letter nor the commit log claimed it was f=
-ixing
-> > > > something broken, just that it was "better" (according to what
-> > > > criteria?).     =20
-> > >=20
-> > > Better is probably too vague and I agree the "fixing" part is not
-> > > clearly explained in the commit log. The cover-letter however states:
-> > >    =20
-> > > > Patch 2/2: This patch is more complex. My main target was to solve =
-issues
-> > > > I found in [1], but as it was very complex to do it "in place", I c=
-hoose
-> > > > to rework the composition function.     =20
-> > > ...   =20
-> > > > [1]: https://lore.kernel.org/dri-devel/20240110-vkms-yuv-v2-0-952fc=
-aa5a193@riseup.net/     =20
-> > >=20
-> > > If you follow this link you will find all the feedback and especially
-> > > the "broken" parts. Just to be clear, writing bugs is totally expected
-> > > and review/testing is supposed to help on this regard. I am not blami=
-ng
-> > > the author in any way, just focusing on getting this code in a more
-> > > readable shape and hopefully reinforce the testing procedure.
-> > >    =20
-> > > > If something is truly broken, it must be stated what exactly is so =
-we
-> > > > can all come up with a solution that will satisfy everyone.     =20
-> > >=20
-> > > Maybe going through the series pointed above will give more context
-> > > but AFAIU: the YUV composition is not totally right (and the tests us=
-ed
-> > > to validate it need to be more complex as well in order to fail).
-> > >=20
-> > > Here is a proposal.
-> > >=20
-> > > Today's RGB implementation is only optimized in the line-by-line case
-> > > when there is no rotation. The logic is bit convoluted and may possib=
-ly
-> > > be slightly clarified with a per-format read_line() implementation,
-> > > at a very light performance cost. Such an improvement would definitely
-> > > benefit to the clarity of the code, especially when transformations
-> > > (especially the rotations) come into play because they would be clear=
-ly
-> > > handled differently instead of being "hidden" in the optimized logic.
-> > > Performances would not change much as this path is not optimized today
-> > > anyway (the pixel-oriented logic is already used in the rotation case=
-).
-> > >=20
-> > > Arthur's YUV implementation is indeed well optimized but the added
-> > > complexity probably lead to small mistakes in the logic. The
-> > > per-format read_line() implementation mentioned above could be
-> > > extended to the YUV format as well, which would leverage Arthur's
-> > > proposal by re-using his optimized version. Louis will help on this
-> > > regard. However, for more complex cases such as when there is a
-> > > rotation, it will be easier (and not sub-optimized compared to the RGB
-> > > case) to also fallback to a pixel-oriented processing.
-> > >=20
-> > > Would this approach make sense?   =20
-> >=20
-> > Hi,
-> >=20
-> > I think it would, if I understand what you mean. Ever since I proposed
-> > a line-by-line algorithm to improve the performance, I was thinking of
-> > per-format read_line() functions that would be selected outside of any
-> > loops. Extending that to support YUV is only natural. I can imagine
-> > rotation complicates things, and I won't oppose that resulting in a
-> > much heavier read_line() implementation used in those cases. They might
-> > perhaps call the original read_line() implementations pixel-by-pixel or
-> > plane-by-plane (i.e. YUV planes) per pixel. Chroma-siting complicates
-> > things even further. That way one could compose any
-> > rotation-format-siting combination by chaining function pointers. =20
->=20
-> I'll let Louis also validate but on my side I feel like I totally
-> agree with your feedback.
->=20
-> > I haven't looked at VKMS in a long time, and I am disappointed to find
-> > that vkms_compose_row() is calling plane->pixel_read() pixel-by-pixel.
-> > The reading vfunc should be called with many pixels at a time when the
-> > source FB layout allows it. The whole point of the line-based functions
-> > was that they repeat the innermost loop in every function body to make
-> > the per-pixel overhead as small as possible. The VKMS implementations
-> > benchmarked before and after the original line-based algorithm showed
-> > that calling a function pointer per-pixel is relatively very expensive.
-> > Or maybe it was a switch-case. =20
->=20
-> Indeed, since your initial feedback Louis made a couple of comparisons
-> and the time penalty is between +5% and +60% depending on the case,
-> AFAIR.
->=20
-> > Sorry, I didn't realize the optimization had already been lost. =20
->=20
-> No problem, actually I also lost myself in my first answer as I
-> initially thought the (mainline) RGB logic was also broken in edge
-> cases, which it was not, only the YUV logic suffered from some
-> limitations.
->=20
-> > Btw. I'd suggest renaming vkms_compose_row() to vkms_fetch_row() since
-> > it's not composing anything and the name mislead me. =20
->=20
-> Makes sense.
->=20
-> > I think if you inspect the compositing code as of revision
-> > 8356b97906503a02125c8d03c9b88a61ea46a05a you'll get a better feeling of
-> > what it was supposed to be. =20
->=20
-> Excellent, thanks a lot!
->=20
-> Miqu=E8l
+dma-buf:
+- heaps CMA page accounting fix
 
+virtio-gpu:
+- fix segment size
 
---=20
-Pekka Paalanen
+xe:
+- A crash fix
+- A fix for an assert due to missing mem_acces ref
+- Only allow a single user-fence per exec / bind.
+- Some sparse warning fixes
+- Two fixes for compilation failures on various odd
+  combinations of gcc / arch pointed out on LKML.
+- Fix a fragile partial allocation pointed out on LKML.
+- A sysfs ABI documentation warning fix
 
---Sig_/6lY8dnw6e.9r7s98d5yNIXB
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+amdgpu:
+- Fix reboot issue seen on some 7000 series dGPUs
+- Fix client init order for KFD
+- Misc display fixes
+- USB-C fix
+- DCN 3.5 fixes
+- Fix issues with GPU scheduler and GPU reset
+- GPU firmware loading fix
+- Misc fixes
+- GC 11.5 fix
+- VCN 4.0.5 fix
+- IH overflow fix
 
------BEGIN PGP SIGNATURE-----
+amdkfd:
+- SVM fixes
+- Trap handler fix
+- Fix device permission lookup
+- Properly reserve BO before validating it
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmW9RlcACgkQI1/ltBGq
-qqc75Q//Ryst1Yc6uVwMBJ5b93LMXwiNy7NUzqI/G74TIJxuu5chdpBYeUjSwGxC
-9j4WBppaHQLCXsmB0Ay9UnaGLvlnqmHEtybXrAFFbkQhI4h83440KYXlsCXm71nL
-KQ1W1DSDkP46BZV0msfQw0+0BmZLoC+mg3ksr09uDscZmG4enreIrG4yQ38eukH/
-gY0Qu4GNGfAQ9RYrXhR12LGJ2ssC35rutc8DGgaP/S+KfHXsD+82OqCYsYilOoUO
-/PhxwlWnJ1yIjjgqbEJ7UXpF6SN4XXAmYwsUU0XEg/7fGXgbRtGttUtrHCnaNyvk
-18JVFDKbHyMHu0nBQdX05oUfZRvqzTJQe4o49rKswWAGZ6bfReFPWlE8WJPKkhfO
-cNqyUU8eoOAyw/s2YX2DORBJMmaQWeMlpeV0sFexl/RZZieCMgXDFBLUt7pXMD2t
-7TjfJNh7lC5ACf21W4G8ZNZk8Bq4e8pacQfyXYHbdyscp7NnnC/N9JGIt9B4G3kO
-H1Gfk1LDnSuKV8+KZTToVxyYBIWr+CPZUSh1Phm5phmv8LD9RfriAVtfzIJ5ltlO
-DeBhjGD3i3F6ekBiep8YeM7DZpf4JZE+2eF7Du8Qy0kJp304VsHuve3eY7tePddJ
-XmrUP1tO5F74BWOs/SUYgZhoR/y1WWWSVqOMxPgvS/hXRu9m9Ys=
-=I8BR
------END PGP SIGNATURE-----
+nouveau:
+- fence/irq lock deadlock fix (second attempt)
+- gsp command size fix
 
---Sig_/6lY8dnw6e.9r7s98d5yNIXB--
+----------------------------------------------------------------
+Badal Nilawar (1):
+      drm/hwmon: Fix abi doc warnings
+
+Charlene Liu (2):
+      Revert "drm/amd/display: initialize all the dpm level's stutter laten=
+cy"
+      drm/amd/display: fix USB-C flag update after enc10 feature init
+
+Dave Airlie (5):
+      Merge tag 'drm-misc-fixes-2024-02-01' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      Merge tag 'drm-xe-fixes-2024-02-01' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+      Merge tag 'amd-drm-fixes-6.8-2024-02-01' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      nouveau/gsp: use correct size for registry rpc.
+      nouveau: offload fence uevents work to workqueue
+
+David McFarland (1):
+      drm/amd: Don't init MEC2 firmware when it fails to load
+
+Dmytro Laktyushkin (1):
+      drm/amd/display: Fix DPSTREAM CLK on and off sequence
+
+Fangzhi Zuo (1):
+      drm/amd/display: Fix dcn35 8k30 Underflow/Corruption Issue
+
+Friedrich Vock (1):
+      drm/amdgpu: Reset IH OVERFLOW_CLEAR bit
+
+Jay Cornwall (1):
+      drm/amdkfd: Use S_ENDPGM_SAVED in trap handler
+
+Jos=C3=A9 Roberto de Souza (1):
+      drm/xe: Fix crash in trace_dma_fence_init()
+
+Lang Yu (1):
+      drm/amdkfd: reserve the BO before validating it
+
+Le Ma (1):
+      drm/amdgpu: move the drm client creation behind drm device registrati=
+on
+
+Ma Jun (2):
+      drm/amdgpu: Fix the warning info in mode1 reset
+      drm/amdgpu/pm: Use inline function for IP version check
+
+Mario Limonciello (1):
+      Revert "drm/amd/pm: fix the high voltage and temperature issue"
+
+Matt Roper (1):
+      drm/xe: Grab mem_access when disabling C6 on skip_guc_pc platforms
+
+Matthew Brost (3):
+      drm/xe: Only allow 1 ufence per exec / bind IOCTL
+      drm/xe: Use LRC prefix rather than CTX prefix in lrc desc defines
+      drm/xe: Make all GuC ABI shift values unsigned
+
+Mukul Joshi (1):
+      drm/amdkfd: Use correct drm device for cgroup permission check
+
+Nicholas Susanto (1):
+      drm/amd/display: Underflow workaround by increasing SR exit latency
+
+Philip Yang (1):
+      drm/amdkfd: Correct partial migration virtual addr
+
+Sebastian Ott (1):
+      drm/virtio: Set segment size for virtio_gpu device
+
+Sohaib Nadeem (1):
+      drm/amd/display: increased min_dcfclk_mhz and min_fclk_mhz
+
+Srinivasan Shanmugam (3):
+      drm/amd/display: Add NULL check for kzalloc in
+'amdgpu_dm_atomic_commit_tail()'
+      drm/amd/display: Fix buffer overflow in
+'get_host_router_total_dp_tunnel_bw()'
+      drm/amdgpu: Fix missing error code in 'gmc_v6/7/8/9_0_hw_init()'
+
+T.J. Mercier (1):
+      dma-buf: heaps: Don't track CMA dma-buf pages under RssFile
+
+Thomas Hellstr=C3=B6m (3):
+      drm/xe: Annotate mcr_[un]lock()
+      drm/xe: Don't use __user error pointers
+      drm/xe/vm: Subclass userptr vmas
+
+Wenjing Liu (1):
+      drm/amd/display: fix incorrect mpc_combine array size
+
+Yifan Zhang (2):
+      drm/amdgpu: drm/amdgpu: remove golden setting for gfx 11.5.0
+      drm/amdgpu: remove asymmetrical irq disabling in vcn 4.0.5 suspend
+
+ .../ABI/testing/sysfs-driver-intel-i915-hwmon      |  14 +-
+ .../ABI/testing/sysfs-driver-intel-xe-hwmon        |  14 +-
+ drivers/dma-buf/heaps/cma_heap.c                   |   7 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c         |  32 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h         |   4 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c    |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |  20 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c        |   8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  36 ++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   4 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c           |  12 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h           |   2 +-
+ drivers/gpu/drm/amd/amdgpu/cik_ih.c                |   6 +
+ drivers/gpu/drm/amd/amdgpu/cz_ih.c                 |   5 +
+ drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c             |   2 -
+ drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c             |  22 ---
+ drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c              |   4 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c              |   4 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c              |   4 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c              |   4 +-
+ drivers/gpu/drm/amd/amdgpu/iceland_ih.c            |   5 +
+ drivers/gpu/drm/amd/amdgpu/ih_v6_0.c               |   6 +
+ drivers/gpu/drm/amd/amdgpu/ih_v6_1.c               |   7 +
+ drivers/gpu/drm/amd/amdgpu/navi10_ih.c             |   6 +
+ drivers/gpu/drm/amd/amdgpu/si_ih.c                 |   6 +
+ drivers/gpu/drm/amd/amdgpu/tonga_ih.c              |   6 +
+ drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c              |  17 ---
+ drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c            |  19 ---
+ drivers/gpu/drm/amd/amdgpu/vega10_ih.c             |   6 +
+ drivers/gpu/drm/amd/amdgpu/vega20_ih.c             |   6 +
+ drivers/gpu/drm/amd/amdkfd/cwsr_trap_handler.h     |  14 +-
+ .../gpu/drm/amd/amdkfd/cwsr_trap_handler_gfx10.asm |   2 +-
+ .../gpu/drm/amd/amdkfd/cwsr_trap_handler_gfx9.asm  |   2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c           |   4 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c           |   2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_priv.h              |   9 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   4 +
+ .../amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c   |  32 ++--
+ .../amd/display/dc/dcn32/dcn32_dio_link_encoder.c  |   4 +-
+ .../amd/display/dc/dcn35/dcn35_dio_link_encoder.c  |   4 +-
+ .../gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c   |   4 +-
+ .../gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c   |   4 +-
+ .../amd/display/dc/dml2/dml2_translation_helper.c  |  33 ++---
+ .../drm/amd/display/dc/hwss/dce110/dce110_hwseq.c  |   2 +-
+ .../drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c    |  11 +-
+ drivers/gpu/drm/amd/display/dc/inc/core_types.h    |   2 +
+ .../display/dc/link/protocols/link_dp_dpia_bw.c    |   2 +-
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |  33 +----
+ drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h      |   1 -
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   |  10 +-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c   |   8 +-
+ drivers/gpu/drm/nouveau/nouveau_fence.c            |  24 ++-
+ drivers/gpu/drm/nouveau/nouveau_fence.h            |   1 +
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c     |   2 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.c               |   1 +
+ drivers/gpu/drm/xe/abi/guc_actions_abi.h           |   4 +-
+ drivers/gpu/drm/xe/abi/guc_actions_slpc_abi.h      |   4 +-
+ drivers/gpu/drm/xe/abi/guc_communication_ctb_abi.h |   8 +-
+ drivers/gpu/drm/xe/abi/guc_klvs_abi.h              |   6 +-
+ drivers/gpu/drm/xe/abi/guc_messages_abi.h          |  20 +--
+ drivers/gpu/drm/xe/xe_exec.c                       |  10 +-
+ drivers/gpu/drm/xe/xe_gt_mcr.c                     |   4 +-
+ drivers/gpu/drm/xe/xe_gt_pagefault.c               |  11 +-
+ drivers/gpu/drm/xe/xe_guc_pc.c                     |   2 +
+ drivers/gpu/drm/xe/xe_hw_fence.c                   |   6 +-
+ drivers/gpu/drm/xe/xe_lrc.c                        |  14 +-
+ drivers/gpu/drm/xe/xe_pt.c                         |  32 ++--
+ drivers/gpu/drm/xe/xe_query.c                      |  50 +++----
+ drivers/gpu/drm/xe/xe_sync.h                       |   5 +
+ drivers/gpu/drm/xe/xe_vm.c                         | 165 ++++++++++++-----=
+----
+ drivers/gpu/drm/xe/xe_vm.h                         |  16 +-
+ drivers/gpu/drm/xe/xe_vm_types.h                   |  16 +-
+ 72 files changed, 475 insertions(+), 403 deletions(-)
