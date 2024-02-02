@@ -2,105 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25E3F846FB8
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 13:02:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BB08846FF1
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 13:13:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F76110E721;
-	Fri,  2 Feb 2024 12:01:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 068A810E135;
+	Fri,  2 Feb 2024 12:13:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="TQ03WnXU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2ih1/Kfs";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TQ03WnXU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2ih1/Kfs";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="gSPXSICc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B47B10E716
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 12:01:46 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id DD76F22351;
- Fri,  2 Feb 2024 12:01:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1706875304; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+X-Greylist: delayed 10040 seconds by postgrey-1.36 at gabe;
+ Fri, 02 Feb 2024 12:13:26 UTC
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
+ [217.70.183.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61BB410E2B8
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 12:13:26 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7C4A6E0009;
+ Fri,  2 Feb 2024 12:13:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1706876005;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SlS3LslkGOQqrEAT9+oH47d4ooopvBfWXeWImr+dmF0=;
- b=TQ03WnXUmAtJy935Y8mMtIH8xMUc7l2t/snMI3ZRjdg73g7w5LyvBD4LGDnvvm9vllqPp1
- xXviJOYNyQFNUZFaGWff+MWBbdcGKvHbsrXpkz1Z9N+PfWU1f8zP/eaNqZgbeh+oFg2FIo
- wb9hwVQxQrI0tMagKJXeBH2Q2vWZDpg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1706875304;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SlS3LslkGOQqrEAT9+oH47d4ooopvBfWXeWImr+dmF0=;
- b=2ih1/KfsjJrIZ7SjrWDIPV8d7xmK/zN1RjhwaCCzQ6KIBvsCWccPZbNrjHm+qaFNwQUBMi
- rEc6Yu6fR7hE91Aw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1706875304; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SlS3LslkGOQqrEAT9+oH47d4ooopvBfWXeWImr+dmF0=;
- b=TQ03WnXUmAtJy935Y8mMtIH8xMUc7l2t/snMI3ZRjdg73g7w5LyvBD4LGDnvvm9vllqPp1
- xXviJOYNyQFNUZFaGWff+MWBbdcGKvHbsrXpkz1Z9N+PfWU1f8zP/eaNqZgbeh+oFg2FIo
- wb9hwVQxQrI0tMagKJXeBH2Q2vWZDpg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1706875304;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SlS3LslkGOQqrEAT9+oH47d4ooopvBfWXeWImr+dmF0=;
- b=2ih1/KfsjJrIZ7SjrWDIPV8d7xmK/zN1RjhwaCCzQ6KIBvsCWccPZbNrjHm+qaFNwQUBMi
- rEc6Yu6fR7hE91Aw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ACE3313A58;
- Fri,  2 Feb 2024 12:01:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 8HrpKKjZvGWfeAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 02 Feb 2024 12:01:44 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com,
-	pjones@redhat.com,
-	deller@gmx.de,
-	ardb@kernel.org
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 8/8] fbdev/efifb: Remove framebuffer relocation tracking
-Date: Fri,  2 Feb 2024 12:58:49 +0100
-Message-ID: <20240202120140.3517-9-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240202120140.3517-1-tzimmermann@suse.de>
-References: <20240202120140.3517-1-tzimmermann@suse.de>
+ bh=lBRBUMTBkzgyw1INiZAUKiTvKV7jSrw+yLOhK7wYnQU=;
+ b=gSPXSICc9CvNoai5CaYfUZyE0onBH1I5eQdwHq64wND/jDLmTjbfwM2DH0FCF/22tMhdvb
+ mEwcDv1vGNp+arOaWz5DCpAr9TdaazFNVO3HcE2sad/91fhUHVhusut+6Fn9Uuv9Z0PbnH
+ VGrOCbkcIMbIfbUEKX22CI4P/ssc/7bHrxGCMqMuNLOYTSA6D1vXHHtpHlDUz5ADbiS5cp
+ aKeuOFRw/YHJ/UustYxD3jf0dnNNrXEA9zS/+srgOihS6nZpg0EOcE549JcbK0uI/yCdkG
+ Vz+F4QUEw2g+emi6njLVT82IE+wCHKkFJFu0K5ng9Wf19jLE04P5ROMJpBlL+w==
+Date: Fri, 2 Feb 2024 13:13:22 +0100
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Pekka Paalanen <pekka.paalanen@haloniitty.fi>, Louis Chauvet
+ <louis.chauvet@bootlin.com>, Rodrigo Siqueira
+ <rodrigosiqueiramelo@gmail.com>, Melissa Wen <melissa.srw@gmail.com>,
+ =?UTF-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>, Haneen Mohammed
+ <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ marcheu@google.com, seanpaul@google.com, nicolejadeyee@google.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ thomas.petazzoni@bootlin.com, Arthur Grillo <arthurgrillo@riseup.net>
+Subject: Re: [PATCH 2/2] drm/vkms: Use a simpler composition function
+Message-ID: <20240202131322.5471e184@xps-13>
+In-Reply-To: <3nofkwzgnf4yva2wfogdbii47ohpi2wm5vp6aijtg3emxyoowt@twyreqz7ai3g>
+References: <20240201-yuv-v1-0-3ca376f27632@bootlin.com>
+ <20240201-yuv-v1-2-3ca376f27632@bootlin.com>
+ <20240202105522.43128e19@eldfell> <20240202102601.70b6d49c@xps-13>
+ <3nofkwzgnf4yva2wfogdbii47ohpi2wm5vp6aijtg3emxyoowt@twyreqz7ai3g>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [4.90 / 50.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmx.de];
- R_MISSING_CHARSET(2.50)[]; MIME_GOOD(-0.10)[text/plain];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; BROKEN_CONTENT_TYPE(1.50)[];
- RCVD_COUNT_THREE(0.00)[3];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCPT_COUNT_SEVEN(0.00)[7]; MID_CONTAINS_FROM(1.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
- FREEMAIL_TO(0.00)[redhat.com,gmx.de,kernel.org];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[]
-X-Spam-Level: ****
-X-Spam-Score: 4.90
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,129 +73,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the firmware framebuffer has been reloacted, the sysfb code
-fixes the screen_info state before it creates the framebuffer's
-platform device. Efifb will automatically receive a screen_info
-with updated values. Hence remove the tracking from efifb.
+Hello Maxime,
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
----
- drivers/video/fbdev/efifb.c | 76 +------------------------------------
- 1 file changed, 1 insertion(+), 75 deletions(-)
++ Arthur
 
-diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
-index f76b7ae007518..8dd82afb3452b 100644
---- a/drivers/video/fbdev/efifb.c
-+++ b/drivers/video/fbdev/efifb.c
-@@ -13,7 +13,6 @@
- #include <linux/efi-bgrt.h>
- #include <linux/errno.h>
- #include <linux/fb.h>
--#include <linux/pci.h>
- #include <linux/platform_device.h>
- #include <linux/printk.h>
- #include <linux/screen_info.h>
-@@ -47,8 +46,6 @@ static bool use_bgrt = true;
- static bool request_mem_succeeded = false;
- static u64 mem_flags = EFI_MEMORY_WC | EFI_MEMORY_UC;
- 
--static struct pci_dev *efifb_pci_dev;	/* dev with BAR covering the efifb */
--
- struct efifb_par {
- 	u32 pseudo_palette[16];
- 	resource_size_t base;
-@@ -348,9 +345,6 @@ static struct attribute *efifb_attrs[] = {
- };
- ATTRIBUTE_GROUPS(efifb);
- 
--static struct resource *bar_resource;
--static u64 bar_offset;
--
- static int efifb_probe(struct platform_device *dev)
- {
- 	struct screen_info *si;
-@@ -411,21 +405,7 @@ static int efifb_probe(struct platform_device *dev)
- 		si->rsvd_pos = 24;
- 	}
- 
--	efifb_fix.smem_start = si->lfb_base;
--
--	if (si->capabilities & VIDEO_CAPABILITY_64BIT_BASE) {
--		u64 ext_lfb_base;
--
--		ext_lfb_base = (u64)(unsigned long)si->ext_lfb_base << 32;
--		efifb_fix.smem_start |= ext_lfb_base;
--	}
--
--	if (bar_resource &&
--	    bar_resource->start + bar_offset != efifb_fix.smem_start) {
--		dev_info(&efifb_pci_dev->dev,
--			 "BAR has moved, updating efifb address\n");
--		efifb_fix.smem_start = bar_resource->start + bar_offset;
--	}
-+	efifb_fix.smem_start = __screen_info_lfb_base(si);
- 
- 	efifb_defined.bits_per_pixel = si->lfb_depth;
- 	efifb_defined.xres = si->lfb_width;
-@@ -640,57 +620,3 @@ static struct platform_driver efifb_driver = {
- };
- 
- builtin_platform_driver(efifb_driver);
--
--#if defined(CONFIG_PCI)
--
--static void record_efifb_bar_resource(struct pci_dev *dev, int idx, u64 offset)
--{
--	u16 word;
--
--	efifb_pci_dev = dev;
--
--	pci_read_config_word(dev, PCI_COMMAND, &word);
--	if (!(word & PCI_COMMAND_MEMORY)) {
--		dev_err(&dev->dev,
--			"BAR %d: assigned to efifb but device is disabled!\n",
--			idx);
--		return;
--	}
--
--	bar_resource = &dev->resource[idx];
--	bar_offset = offset;
--
--	dev_info(&dev->dev, "BAR %d: assigned to efifb\n", idx);
--}
--
--static void efifb_fixup_resources(struct pci_dev *dev)
--{
--	u64 base = screen_info.lfb_base;
--	u64 size = screen_info.lfb_size;
--	int i;
--
--	if (efifb_pci_dev || screen_info.orig_video_isVGA != VIDEO_TYPE_EFI)
--		return;
--
--	if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
--		base |= (u64)screen_info.ext_lfb_base << 32;
--
--	if (!base)
--		return;
--
--	for (i = 0; i < PCI_STD_NUM_BARS; i++) {
--		struct resource *res = &dev->resource[i];
--
--		if (!(res->flags & IORESOURCE_MEM))
--			continue;
--
--		if (res->start <= base && res->end >= base + size - 1) {
--			record_efifb_bar_resource(dev, i, base - res->start);
--			break;
--		}
--	}
--}
--DECLARE_PCI_FIXUP_CLASS_HEADER(PCI_ANY_ID, PCI_ANY_ID, PCI_BASE_CLASS_DISPLAY,
--			       16, efifb_fixup_resources);
--
--#endif
--- 
-2.43.0
+mripard@kernel.org wrote on Fri, 2 Feb 2024 10:53:37 +0100:
 
+> Hi Miquel,
+>=20
+> On Fri, Feb 02, 2024 at 10:26:01AM +0100, Miquel Raynal wrote:
+> > pekka.paalanen@haloniitty.fi wrote on Fri, 2 Feb 2024 10:55:22 +0200:
+> >  =20
+> > > On Thu, 01 Feb 2024 18:31:32 +0100
+> > > Louis Chauvet <louis.chauvet@bootlin.com> wrote:
+> > >  =20
+> > > > Change the composition algorithm to iterate over pixels instead of =
+lines.
+> > > > It allows a simpler management of rotation and pixel access for com=
+plex formats.
+> > > >=20
+> > > > This new algorithm allows read_pixel function to have access to x/y
+> > > > coordinates and make it possible to read the correct thing in a blo=
+ck
+> > > > when block_w and block_h are not 1.
+> > > > The iteration pixel-by-pixel in the same method also allows a simpl=
+er
+> > > > management of rotation with drm_rect_* helpers. This way it's not n=
+eeded
+> > > > anymore to have misterious switch-case distributed in multiple plac=
+es.   =20
+> > >=20
+> > > Hi,
+> > >=20
+> > > there was a very good reason to write this code using lines:
+> > > performance. Before lines, it was indeed operating on individual pixe=
+ls.
+> > >=20
+> > > Please, include performance measurements before and after this series
+> > > to quantify the impact on the previously already supported pixel
+> > > formats, particularly the 32-bit-per-pixel RGB variants.
+> > >=20
+> > > VKMS will be used more and more in CI for userspace projects, and
+> > > performance actually matters there.
+> > >=20
+> > > I'm worrying that this performance degradation here is significant. I
+> > > believe it is possible to keep blending with lines, if you add new li=
+ne
+> > > getters for reading from rotated, sub-sampled etc. images. That way y=
+ou
+> > > don't have to regress the most common formats' performance. =20
+> >=20
+> > While I understand performance is important and should be taken into
+> > account seriously, I cannot understand how broken testing could be
+> > considered better. Fast but inaccurate will always be significantly
+> > less attractive to my eyes. =20
+>=20
+> AFAIK, neither the cover letter nor the commit log claimed it was fixing
+> something broken, just that it was "better" (according to what
+> criteria?).
+
+Better is probably too vague and I agree the "fixing" part is not
+clearly explained in the commit log. The cover-letter however states:
+
+> Patch 2/2: This patch is more complex. My main target was to solve issues
+> I found in [1], but as it was very complex to do it "in place", I choose
+> to rework the composition function.
+...
+> [1]: https://lore.kernel.org/dri-devel/20240110-vkms-yuv-v2-0-952fcaa5a19=
+3@riseup.net/
+
+If you follow this link you will find all the feedback and especially
+the "broken" parts. Just to be clear, writing bugs is totally expected
+and review/testing is supposed to help on this regard. I am not blaming
+the author in any way, just focusing on getting this code in a more
+readable shape and hopefully reinforce the testing procedure.
+
+> If something is truly broken, it must be stated what exactly is so we
+> can all come up with a solution that will satisfy everyone.
+
+Maybe going through the series pointed above will give more context
+but AFAIU: the YUV composition is not totally right (and the tests used
+to validate it need to be more complex as well in order to fail).
+
+Here is a proposal.
+
+Today's RGB implementation is only optimized in the line-by-line case
+when there is no rotation. The logic is bit convoluted and may possibly
+be slightly clarified with a per-format read_line() implementation,
+at a very light performance cost. Such an improvement would definitely
+benefit to the clarity of the code, especially when transformations
+(especially the rotations) come into play because they would be clearly
+handled differently instead of being "hidden" in the optimized logic.
+Performances would not change much as this path is not optimized today
+anyway (the pixel-oriented logic is already used in the rotation case).
+
+Arthur's YUV implementation is indeed well optimized but the added
+complexity probably lead to small mistakes in the logic. The
+per-format read_line() implementation mentioned above could be
+extended to the YUV format as well, which would leverage Arthur's
+proposal by re-using his optimized version. Louis will help on this
+regard. However, for more complex cases such as when there is a
+rotation, it will be easier (and not sub-optimized compared to the RGB
+case) to also fallback to a pixel-oriented processing.
+
+Would this approach make sense?
+
+Thanks,
+Miqu=C3=A8l
