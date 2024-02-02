@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA7C847D3C
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Feb 2024 00:40:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33BFF847D42
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Feb 2024 00:41:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E09210E8E3;
-	Fri,  2 Feb 2024 23:40:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3184D10E8EB;
+	Fri,  2 Feb 2024 23:41:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="VFOBftGh";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zZaZBQti";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73E2B10E8E3;
- Fri,  2 Feb 2024 23:40:05 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C7BB10E8EB;
+ Fri,  2 Feb 2024 23:41:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id CE8CA628ED;
- Fri,  2 Feb 2024 23:40:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62351C433F1;
- Fri,  2 Feb 2024 23:40:04 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 9D19DCE2EB8;
+ Fri,  2 Feb 2024 23:41:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC7DDC433A6;
+ Fri,  2 Feb 2024 23:41:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1706917204;
- bh=unXX6g1ZBdLO7Jo440DSlmm54n4Lw76NBjvoeQ7FaE4=;
+ s=korg; t=1706917283;
+ bh=gX+4EF1aa8LAyzPJib2hQOtkg0CUXK5HquVqw1n55so=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VFOBftGhrsfDFpKWZBkIB1P38BKvccfhxGFGhhIf5FMj4IMKNUNVcGgdgcai9P7s4
- o19DBLwmAhnnpBuH69hZvj/Xi9FfZpSd9G1qP/4pf2pBkb5hFzXGzgnTCZgnnUWsNM
- z0uc3O1fBgeW+mDAUcgA34IIRPjkVLYHtm38mHiA=
-Date: Fri, 2 Feb 2024 15:40:03 -0800
+ b=zZaZBQtipCcf5XBGD66l7h1yJKY1ffHOnvxlbMtnRWA3xh9aONF4zzKTO6U6oVTZG
+ j4ftTBoZkLHG6gZyYjjrMLkVh+1o6h3+gq5c0PQg91mWkhiEgE6ngXzTGsBf+39xK8
+ S0wo69WpngQm/A6CTieAkB6+8kZG8WR58yEq4TGw=
+Date: Fri, 2 Feb 2024 15:41:23 -0800
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Hamza Mahfooz <hamza.mahfooz@amd.com>
 Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
@@ -47,7 +47,7 @@ Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-pci@vger.kernel.org
 Subject: Re: [PATCH 3/3] drm/amdgpu: wire up the can_remove() callback
-Message-ID: <2024020225-faceless-even-e3f8@gregkh>
+Message-ID: <2024020216-letdown-uproar-718d@gregkh>
 References: <20240202222603.141240-1-hamza.mahfooz@amd.com>
  <20240202222603.141240-3-hamza.mahfooz@amd.com>
 MIME-Version: 1.0
@@ -71,16 +71,44 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Fri, Feb 02, 2024 at 05:25:56PM -0500, Hamza Mahfooz wrote:
 > Removing an amdgpu device that still has user space references allocated
-> to it causes undefined behaviour.
+> to it causes undefined behaviour. So, implement amdgpu_pci_can_remove()
+> and disallow devices that still have files allocated to them from being
+> unbound.
+> 
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> index cc69005f5b46..cfa64f3c5be5 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> @@ -2323,6 +2323,22 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
+>  	return ret;
+>  }
+>  
+> +static bool amdgpu_pci_can_remove(struct pci_dev *pdev)
+> +{
+> +	struct drm_device *dev = pci_get_drvdata(pdev);
+> +
+> +	mutex_lock(&dev->filelist_mutex);
+> +
+> +	if (!list_empty(&dev->filelist)) {
+> +		mutex_unlock(&dev->filelist_mutex);
+> +		return false;
+> +	}
+> +
+> +	mutex_unlock(&dev->filelist_mutex);
+> +
+> +	return true;
 
-Then fix that please.  There should not be anything special about your
-hardware that all of the tens of thousands of other devices can't handle
-today.
+Also, to be pedantic, this will not work as right after you returned
+"true" here, userspace could open a file, causing the same issue you are
+trying to prevent to have happen, happen.
 
-What happens when I yank your device out of a system with a pci hotplug
-bus?  You can't prevent that either, so this should not be any different
-at all.
-
-sorry, but please, just fix your driver.
+So even if we wanted to do this, which again, we do not, this isn't even
+a solution for it because it will still cause you problems.
 
 greg k-h
