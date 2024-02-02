@@ -2,117 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FB4F8477B9
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 19:38:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44EA28476F2
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 19:02:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C292F10E1D6;
-	Fri,  2 Feb 2024 18:38:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B385E10EFE0;
+	Fri,  2 Feb 2024 18:02:21 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="GbG7rRtv";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8995710EFE7;
- Fri,  2 Feb 2024 18:01:26 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A6B95FEC;
- Fri,  2 Feb 2024 10:02:08 -0800 (PST)
-Received: from [10.57.9.194] (unknown [10.57.9.194])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8CBEC3F762;
- Fri,  2 Feb 2024 10:01:11 -0800 (PST)
-Message-ID: <128e2760-6346-4c56-982b-42357a391ee4@arm.com>
-Date: Fri, 2 Feb 2024 18:01:02 +0000
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EF1410EFE0
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 18:02:17 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 412FPhD5023312; Fri, 2 Feb 2024 18:02:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding:content-type; s=qcppdkim1; bh=xcnGW/b
+ +w4aCFTRWED73s4K1KF1N7ziOoNfWkNnwjcg=; b=GbG7rRtvcxGusn7O4A5OKSP
+ VWOCVxK6LzuBYuaKR3hikjZ99B/KqLoQWhu4DxkIkYRsfVSkeApmyXe/B7HBEDhP
+ 2MyEFeYROx+mFQfUYOa2AC3YNDG4FFKqMgUDOnOZ4e8L47vk26u7z+1xslV42HHh
+ FmSJSEWYrM7jInSNOlwYLu5oLAKqmG2ToPbmBj5aDmtqWpQKemOaR2LdMPmxCp4D
+ zJ889yRJkOZFPUjOUwoXJTv8vFf1CaL0XMlorujQHSzCd9jmObW5m9PJDQuo916S
+ BRhBAMuy+JSN+HuujBOhlTCr3PjpRL4ZyYsJB2Y43n4zbaBPnsVz195kJqG8aqw=
+ =
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w0ptvj22b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 02 Feb 2024 18:02:07 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 412I26wi023672
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 2 Feb 2024 18:02:06 GMT
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Fri, 2 Feb 2024 10:02:05 -0800
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: <lee@kernel.org>, <daniel.thompson@linaro.org>, <jingoohan1@gmail.com>,
+ <pavel@ucw.cz>, <robh@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+ <conor+dt@kernel.org>, <andersson@kernel.org>, <quic_kgunda@quicinc.com>
+CC: <dri-devel@lists.freedesktop.org>, <linux-leds@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: [PATCH] dt-bindings: backlight: qcom-wled: Fix bouncing email
+ addresses
+Date: Fri, 2 Feb 2024 11:01:51 -0700
+Message-ID: <20240202180151.4116329-1-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 08/24] hwtracing: switch to use
- of_graph_get_next_device_endpoint()
-Content-Language: en-GB
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
- =?UTF-8?Q?Niklas_S=C3=83=C2=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=83=C2=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Andy Gross <agross@kernel.org>,
- Biju Das <biju.das.jz@bp.renesas.com>, Bjorn Andersson
- <andersson@kernel.org>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Daniel Vetter <daniel@ffwll.ch>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Emma Anholt <emma@anholt.net>,
- Eugen Hristev <eugen.hristev@collabora.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Frank Rowand <frowand.list@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Helge Deller <deller@gmx.de>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>, Jacopo Mondi <jacopo@jmondi.org>,
- James Clark <james.clark@arm.com>, Jaroslav Kysela <perex@perex.cz>,
- Jonathan Hunter <jonathanh@nvidia.com>, Kevin Hilman <khilman@baylibre.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Liu Ying <victor.liu@nxp.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Marek Vasut <marex@denx.de>, Mark Brown <broonie@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Maxime Ripard <mripard@kernel.org>,
- Michael Tretter <m.tretter@pengutronix.de>,
- Michal Simek <michal.simek@amd.com>, Miguel Ojeda <ojeda@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Rob Clark <robdclark@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Robert Foss <rfoss@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Saravana Kannan <saravanak@google.com>, Sascha Hauer
- <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Sowjanya Komatineni <skomatineni@nvidia.com>, Stefan Agner
- <stefan@agner.ch>, Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Takashi Iwai <tiwai@suse.com>, Thierry Reding <thierry.reding@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Tim Harvey <tharvey@gateworks.com>,
- Todor Tomov <todor.too@gmail.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Yannick Fertre <yannick.fertre@foss.st.com>
-Cc: Alim Akhtar <alim.akhtar@samsung.com>, Fabio Estevam
- <festevam@gmail.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jerome Brunet <jbrunet@baylibre.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Jonas Karlman <jonas@kwiboo.se>,
- Leo Yan <leo.yan@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Mike Leach <mike.leach@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
- Sean Paul <sean@poorly.run>, Tom Rix <trix@redhat.com>,
- coresight@lists.linaro.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
- linux-tegra@vger.kernel.org, llvm@lists.linux.dev
-References: <87o7d26qla.wl-kuninori.morimoto.gx@renesas.com>
- <87cyti6qj8.wl-kuninori.morimoto.gx@renesas.com>
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <87cyti6qj8.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Fri, 02 Feb 2024 18:38:42 +0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 8rnF4oM42Cw5Wl43Caxj4EGi3Wyj7TZn
+X-Proofpoint-ORIG-GUID: 8rnF4oM42Cw5Wl43Caxj4EGi3Wyj7TZn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-02_11,2024-01-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ adultscore=0 mlxlogscore=855 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 impostorscore=0
+ mlxscore=0 clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402020130
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,38 +90,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/01/2024 05:05, Kuninori Morimoto wrote:
-> of_graph_get_next_endpoint() is now renamed to
-> of_graph_get_next_device_endpoint(). Switch to it.
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->   drivers/hwtracing/coresight/coresight-platform.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/hwtracing/coresight/coresight-platform.c b/drivers/hwtracing/coresight/coresight-platform.c
-> index 9d550f5697fa..944b2e66c04e 100644
-> --- a/drivers/hwtracing/coresight/coresight-platform.c
-> +++ b/drivers/hwtracing/coresight/coresight-platform.c
-> @@ -275,7 +275,7 @@ static int of_get_coresight_platform_data(struct device *dev,
->   	 */
->   	if (!parent) {
->   		/*
-> -		 * Avoid warnings in of_graph_get_next_endpoint()
-> +		 * Avoid warnings in of_graph_get_next_device_endpoint()
->   		 * if the device doesn't have any graph connections
->   		 */
->   		if (!of_graph_is_present(node))
-> @@ -286,7 +286,7 @@ static int of_get_coresight_platform_data(struct device *dev,
->   	}
->   
->   	/* Iterate through each output port to discover topology */
-> -	while ((ep = of_graph_get_next_endpoint(parent, ep))) {
-> +	while ((ep = of_graph_get_next_device_endpoint(parent, ep))) {
->   		/*
->   		 * Legacy binding mixes input/output ports under the
->   		 * same parent. So, skip the input ports if we are dealing
+Bjorn is no longer at Linaro.  Update his email address to @kernel to
+match the .mailmap entry.
 
-Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+The servers for @codeaurora are long retired and messages sent there
+will bounce.  Update Kiran's email address to match the .mailmap entry.
 
+This will help anyone that is looking to reach out about this binding
+and is not using .mailmap to pre-process their message.
+
+Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+---
+ .../devicetree/bindings/leds/backlight/qcom-wled.yaml         | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+index 5f1849bdabba..a8490781011d 100644
+--- a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
++++ b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+@@ -7,8 +7,8 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ title: Qualcomm Technologies, Inc. WLED driver
+ 
+ maintainers:
+-  - Bjorn Andersson <bjorn.andersson@linaro.org>
+-  - Kiran Gunda <kgunda@codeaurora.org>
++  - Bjorn Andersson <andersson@kernel.org>
++  - Kiran Gunda <quic_kgunda@quicinc.com>
+ 
+ description: |
+   WLED (White Light Emitting Diode) driver is used for controlling display
+-- 
+2.34.1
 
