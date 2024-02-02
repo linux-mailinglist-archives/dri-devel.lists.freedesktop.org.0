@@ -2,60 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07D10846C12
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 10:34:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6737B846C93
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 10:43:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 137BC10E0F6;
-	Fri,  2 Feb 2024 09:34:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 112E710E196;
+	Fri,  2 Feb 2024 09:43:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="AvLo5nUK";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lU3i/BQd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 729D210E0F6
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 09:34:32 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (unknown [217.70.183.196])
- by mslow1.mail.gandi.net (Postfix) with ESMTP id C3F1AC0D6A
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 09:26:06 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 58138E000A;
- Fri,  2 Feb 2024 09:26:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1706865965;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2efg9wk2C4VI6y/ULepSR89HvTsqcQDUyUZlb+CaPD0=;
- b=AvLo5nUKWxkD6+kvpqxMZ7XPPJNIO/PQWzhBM+K1am2dN8AncVyUrW9Q+of0m0It9WxzPC
- JQWlqgnbPzFhVzgroizK4cB7b+ISJOn8xe4LVookunZzYBFILVGpUZRvjdnXH7ILgFcTWc
- PS68lOBl36Q1nGcNbH+ninf58TsT7puu2NI3Ti1GLbOR8VcOyrZxQ4U4XieWdfxM+oQRTA
- m/73zQNtfMeM+37E/jn5glv+AsGGmkKxdZWQ0lr9jTJDPcOXJX0I61KwseCtKmg5NY6k+i
- d6/Th743wUg3UFEp+i0PY7josLuEQx54VcpWDImFD/md1uGpQ/lrSHP+0bgGnw==
-Date: Fri, 2 Feb 2024 10:26:01 +0100
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-Cc: Louis Chauvet <louis.chauvet@bootlin.com>, Rodrigo Siqueira
- <rodrigosiqueiramelo@gmail.com>, Melissa Wen <melissa.srw@gmail.com>,
- =?UTF-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>, Haneen Mohammed
- <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, marcheu@google.com, seanpaul@google.com,
- nicolejadeyee@google.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com
-Subject: Re: [PATCH 2/2] drm/vkms: Use a simpler composition function
-Message-ID: <20240202102601.70b6d49c@xps-13>
-In-Reply-To: <20240202105522.43128e19@eldfell>
-References: <20240201-yuv-v1-0-3ca376f27632@bootlin.com>
- <20240201-yuv-v1-2-3ca376f27632@bootlin.com>
- <20240202105522.43128e19@eldfell>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+X-Greylist: delayed 427 seconds by postgrey-1.36 at gabe;
+ Fri, 02 Feb 2024 09:42:59 UTC
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10F0910E196
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 09:42:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1706866979; x=1738402979;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=Pk12KvS9am7NU1bl61zs4c06uJtY1JFJXFeHg2W7QXQ=;
+ b=lU3i/BQdsQkP2DuRx0QAsCsY5fODewBYItSObvqc52zRMyqcrOK/gs6A
+ UK+cu3SPm322p8x0QCh68tqZJ3ITDtmdfgzD4C7DOUIBthsrzHqoxX7w3
+ 3Ep1Kgl2czCjs1HwqcSbTRKrBfmg98yAknCSUxXiODj5ne6ZJxbHXec7v
+ ELm/5/oPbrEz0e87XHIKWLNgvOQhkJvrPNz0Sq6Dxi8En1ob/p2gJX73X
+ vVESVZZ863oWUhAecSHf03KVgoxfNtvPLLe26XzCIzPe7R2P4iWi5Tp1S
+ p1AhKNEJa1wxil52SKAfeU7k/7Eo0vOgCnP6fbR60Yez0fU7hdPjQAUBl A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="35317"
+X-IronPort-AV: E=Sophos;i="6.05,237,1701158400"; 
+   d="scan'208";a="35317"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2024 01:35:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,237,1701158400"; 
+   d="scan'208";a="307868"
+Received: from mistoan-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.41.140])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2024 01:35:29 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Paz Zcharya <pazz@chromium.org>
+Cc: Jouni =?utf-8?Q?H=C3=B6gander?= <jouni.hogander@intel.com>, Luca Coelho
+ <luciano.coelho@intel.com>, Subrata Banik <subratabanik@google.com>,
+ Manasi Navare <navaremanasi@chromium.org>, Drew Davenport
+ <ddavenport@chromium.org>, Sean Paul <seanpaul@chromium.org>, Marcin
+ Wojtas <mwojtas@chromium.org>, khaled.almahallawy@intel.com,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915/display: Include debugfs.h in
+ intel_display_debugfs_params.c
+In-Reply-To: <87v878fc5h.fsf@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240131204658.795278-1-pazz@chromium.org>
+ <87o7d0h73r.fsf@intel.com> <ZbuxsF7ubmL6lzdR@google.com>
+ <87v878fc5h.fsf@intel.com>
+Date: Fri, 02 Feb 2024 11:35:25 +0200
+Message-ID: <87bk8zfbtu.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,53 +77,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Pekka,
+On Thu, 01 Feb 2024, Jani Nikula <jani.nikula@intel.com> wrote:
+> On Thu, 01 Feb 2024, Paz Zcharya <pazz@chromium.org> wrote:
+>> Thank you so much for the super prompt reply!
+>
+> FYI, looks like we've got some hiccup in CI, will merge after we get
+> results.
 
-pekka.paalanen@haloniitty.fi wrote on Fri, 2 Feb 2024 10:55:22 +0200:
+Pushed to drm-intel-next, thanks for the patch.
 
-> On Thu, 01 Feb 2024 18:31:32 +0100
-> Louis Chauvet <louis.chauvet@bootlin.com> wrote:
->=20
-> > Change the composition algorithm to iterate over pixels instead of line=
-s.
-> > It allows a simpler management of rotation and pixel access for complex=
- formats.
-> >=20
-> > This new algorithm allows read_pixel function to have access to x/y
-> > coordinates and make it possible to read the correct thing in a block
-> > when block_w and block_h are not 1.
-> > The iteration pixel-by-pixel in the same method also allows a simpler
-> > management of rotation with drm_rect_* helpers. This way it's not needed
-> > anymore to have misterious switch-case distributed in multiple places. =
-=20
->=20
-> Hi,
->=20
-> there was a very good reason to write this code using lines:
-> performance. Before lines, it was indeed operating on individual pixels.
->=20
-> Please, include performance measurements before and after this series
-> to quantify the impact on the previously already supported pixel
-> formats, particularly the 32-bit-per-pixel RGB variants.
->=20
-> VKMS will be used more and more in CI for userspace projects, and
-> performance actually matters there.
->=20
-> I'm worrying that this performance degradation here is significant. I
-> believe it is possible to keep blending with lines, if you add new line
-> getters for reading from rotated, sub-sampled etc. images. That way you
-> don't have to regress the most common formats' performance.
+BR,
+Jani.
 
-While I understand performance is important and should be taken into
-account seriously, I cannot understand how broken testing could be
-considered better. Fast but inaccurate will always be significantly
-less attractive to my eyes.
-
-I am in favor of making this working first, and then improving the code
-for faster results. Maybe the line-driven approach can be dedicated to
-"simpler" formats where more complex corner cases do not happen. But
-for now I don't see the point in comparing performances between broken
-and (hopefully) non broken implementations.
-
-Thanks,
-Miqu=C3=A8l
+-- 
+Jani Nikula, Intel
