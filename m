@@ -2,69 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5691D846CE4
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 10:48:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AE16846CF3
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 10:51:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CFCB10E2E9;
-	Fri,  2 Feb 2024 09:48:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4506110E2E8;
+	Fri,  2 Feb 2024 09:51:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="bctLq51q";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="h2RupUvM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7666A10EAB7
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 09:48:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=JRN/NsExQkJmU0g3kxSlHpfGdmwbxrUNsEQHQAzCp8k=; b=bctLq51qqFg/6DlviA8mh+MPGe
- 4FxXYPzaA/4fgDKAHijPTX4dv37Z89t929ymc0DrWefywsAD+pSnXwK/7lMZSCIQOhp882sHAb40Z
- 1reOuNliPGvQVN4jCLrlqcG/yUKgEpyLHJ1wZHJtR1uy7Ww9jJfVHNqIu1PUXGKQ5EKEWJbu0Eojb
- DL6+bLo8RXoe+5rkHO6YrhRmMwzLUECt2JWhsxt4WgF+gaQ8k+GVLTPO4lT8vI5sREmsrBuisj/sr
- nqKdyHlb9Xmgw2BIWB/yLWMBhCDFAXD0eI3k7NJ6mq5qza0sb+I99+OujgVZEmsRbLC/KuI530iI/
- w+bVj7Cg==;
-Received: from [179.234.233.159] (helo=[192.168.1.212])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1rVq9P-00CuBg-Ph; Fri, 02 Feb 2024 10:48:00 +0100
-Message-ID: <d3d2c0bb-7abe-4c8c-805b-bd8d0469eab6@igalia.com>
-Date: Fri, 2 Feb 2024 06:47:52 -0300
+X-Greylist: delayed 478 seconds by postgrey-1.36 at gabe;
+ Fri, 02 Feb 2024 09:51:10 UTC
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 511D110E2E8
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 09:51:07 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20240202095105euoutp02002923793fdbb98ccacb1740c818b95b~wAuqU1JF51037710377euoutp02I
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 09:51:05 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20240202095105euoutp02002923793fdbb98ccacb1740c818b95b~wAuqU1JF51037710377euoutp02I
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1706867465;
+ bh=Bf7rQoU5d3WU3FmKbvnaNCSLH3IiWNFAQPjzDN4h2DA=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=h2RupUvMh0R3caFVIp6ukDjpf3fzWFs+JV1u/Kb0qY6dLR29d9EQyrpUo4euQG168
+ HLxQYntFu/zqdKtC+CxcW8kaCrk4jF4uG45UQ/0UtISz4ng0eg1ZVxlrAlhnbxeKEt
+ B4Bgjcb2z170QYruMReQi59No9xAsDTokL5xk/C8=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20240202095105eucas1p1aa13c67394f117a9b1c5e2ab9c781273~wAuqCOByy2463424634eucas1p18;
+ Fri,  2 Feb 2024 09:51:05 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 8B.A6.09814.80BBCB56; Fri,  2
+ Feb 2024 09:51:04 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20240202095104eucas1p2df4522cc4a7ee29540db1fb61d8e19fc~wAupfiSY-0953409534eucas1p2F;
+ Fri,  2 Feb 2024 09:51:04 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20240202095104eusmtrp15fbe04a3ea76a0b1797f65ac46b92a6d~wAupeseMs2064820648eusmtrp1g;
+ Fri,  2 Feb 2024 09:51:04 +0000 (GMT)
+X-AuditID: cbfec7f4-727ff70000002656-d3-65bcbb086c8b
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 12.C8.10702.80BBCB56; Fri,  2
+ Feb 2024 09:51:04 +0000 (GMT)
+Received: from AMDC4653.digital.local (unknown [106.120.51.32]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20240202095103eusmtip15e86ad33d27184a8710bda287b9b4121~wAuojslAw2135221352eusmtip1b;
+ Fri,  2 Feb 2024 09:51:03 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Russell King
+ <linux@armlinux.org.uk>, Arnd Bergmann <arnd@arndb.de>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Andrew Davis <afd@ti.com>, Mark Brown
+ <broonie@kernel.org>, Lee Jones <lee@kernel.org>, Daniel Thompson
+ <daniel.thompson@linaro.org>, Jingoo Han <jingoohan1@gmail.com>, David
+ Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] ARM: multi_v7_defconfig: Enable BACKLIGHT_CLASS_DEVICE
+Date: Fri,  2 Feb 2024 10:50:44 +0100
+Message-Id: <20240202095044.1980696-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/vkms: Use a simpler composition function
-Content-Language: en-US
-To: Miquel Raynal <miquel.raynal@bootlin.com>,
- Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-Cc: Louis Chauvet <louis.chauvet@bootlin.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, marcheu@google.com, seanpaul@google.com,
- nicolejadeyee@google.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com
-References: <20240201-yuv-v1-0-3ca376f27632@bootlin.com>
- <20240201-yuv-v1-2-3ca376f27632@bootlin.com>
- <20240202105522.43128e19@eldfell> <20240202102601.70b6d49c@xps-13>
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
- H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
- hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
- GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
- rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
- s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
- GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
- pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <20240202102601.70b6d49c@xps-13>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0xTdxTH97v39t5Ls5LrxcVfAME0wQdSfG3zZjSKC4l3Q+MjkiyLDxq5
+ A0Ip2MKY/DFRHGLHoLSi0IKiYApsCpSXQBFpllagNkMY6oBgAUOsMoYWw0Nwttc5//ucx/ec
+ 70kOidITAn8yUZHGKRUyuRgXYs3WeYeEbDdzmx1vtjPTPYUEc/fBNYSZf3oRMEtaK8EUOSdw
+ xv58hGDeNBeizMDsNM6UGbSAqXKXEEzHsyaCuZVzFWNM44MCpr+tFGcsRR2AufH7CBFJsf2D
+ fSi7uKAFbMercox9UtBEsIX3JGyrfoRgTTXncXZ40Iyzoz/bELah8hSb31gDWNvDFoR9aQra
+ L/pWKI3j5Infc8pNO2KFCfnXjCC1QvjDpPOOIAu4SDXwISH1KVxq70fVQEjSVBWAS+et7wI3
+ gMbqIQEfvATw2eAQogakV9KYG87njQC2GMbAe0XFPxrMMxentkD1lBr38EoqEbZU2jFPE0pl
+ Y3DJUYZ6Cn7Ubni5W+1ljAqBfeUOgWeDiNoJ71T68v6CYWfXPW+LiFoBu0smvPPRt/nsJoPX
+ KqQqfKDRkI3xgih4t6bnHftBl62R4DkQ9uryMF5wDsDyxVGEDzQAZk3+BfiuCDjsWMA9LlBq
+ A6xt28SfvAveL0jh0Rc+nFrBe/CF2uZLKJ8Wwdwcmp+xFuptN99v7frjPsozC5fNPYiHaeoI
+ 1P1Zj2rAGv0Hl+k/uEz/v4VygNaAVVy6KjmeU21VcBnhKlmyKl0RH348JdkE3j5i77LNfQsY
+ XTPhFoCQwAIgiYpXiqqDWjlaFCc7mckpU44p0+WcygICSEy8ShQSF8zRVLwsjUviuFRO+V8V
+ IX38sxA5GlC8uHzbftkv7EKE5EpgxoL1ZGhD8etXlMOQutd0OGbUJK0vrYURTzZjZl1XaVP0
+ CfK57Me6xW8Uf7syUKGpQ509WYSvKcmZMvg/pSU3OzWOgbAdqYEHIteLf+kcP7NB4JrDZst+
+ y3T1/SQUKE5vG9J9Uic5cqJWmhdT91nf7NmxzI3DM+7deflXqr7bZz4aIIuJjY2iRWHRxWmh
+ /fsuzkeF2o3B17cmvAjJDeoO2faR9pIz6PNHravTFAMZ7avbMM2A5SvnwatfJ5VOz0VI5WbX
+ IXrMmh9NP47Oky4XuG/oKNy8MCP98sKv4z32ucc7xdVfzH4ceWh7mcu5rm2PGFMlyLaEokqV
+ 7F96UzfR9wMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrFIsWRmVeSWpSXmKPExsVy+t/xu7ocu/ekGhw7JWTx/tREdosT1xcx
+ Wfx8OY3R4u+kY+wWUx8+YbM48+Yuu8X/bROZLa58fc9mMXf2JEaLFV9mslvsfb2V3WJH20IW
+ i02Pr7FaXN41h83i0NS9jBZrj9xldxDwuHztIrPH71+TGD32flvA4vG0fyu7x8Szuh47Z91l
+ 99i0qpPN4861PWwe97uPM3lsXlLv0bdlFaPH8RvbmTw+b5IL4I3SsynKLy1JVcjILy6xVYo2
+ tDDSM7S00DMysdQzNDaPtTIyVdK3s0lJzcksSy3St0vQy+hbtJyxYDFXxfOHB1gbGF9xdDFy
+ cEgImEhs6dDrYuTiEBJYyiix9eRlpi5GTqC4jMTJaQ2sELawxJ9rXWwQRZ8YJS6e+8UGkmAT
+ MJToetsFZosIZEv82XiFBaSIWaCXReLEoyXMIAlhAXeJeSe7wGwWAVWJiwvOsYJs5hWwlziw
+ hA9igbzE/oNnwUp4BQQlTs58wgJiMwPFm7fOZp7AyDcLSWoWktQCRqZVjCKppcW56bnFRnrF
+ ibnFpXnpesn5uZsYgZG47djPLTsYV776qHeIkYmD8RCjBAezkgjvSrmdqUK8KYmVValF+fFF
+ pTmpxYcYTYHOm8gsJZqcD0wFeSXxhmYGpoYmZpYGppZmxkrivJ4FHYlCAumJJanZqakFqUUw
+ fUwcnFINTBNm7P25tX2v34GmJXY3TqW5FQt79ZyXFd7hu+wv8+doXvbtimq8ypM/53I2mi+/
+ v/fKdDnG3FUbQl9NCj3c1XUz3MN22tRXa28o/DN8XMr8svFz7rxdH1X27Fvwtjw555n+pv45
+ 8kWab1pEL/ftMm56479a6bWXlsfp/3d8Y/q3+P16ox/yVu/qC0mBWn01sflpfnb/d965bP7o
+ wkuZGQwqC3JO73t14XHRl1d689ZHb9/+xMxU99ajmsWzA+L2ujmrlGhN3MqwpnZJZODS0/YG
+ O9I73vhwMy/zPGfygtlox1qhU8v/st+5PPtQ3/mSnIUP17rP/73Y+I631bYT+64vbpyvPsGO
+ b+Yml7N2cyY8VmIpzkg01GIuKk4EAC+h70VNAwAA
+X-CMS-MailID: 20240202095104eucas1p2df4522cc4a7ee29540db1fb61d8e19fc
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20240202095104eucas1p2df4522cc4a7ee29540db1fb61d8e19fc
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20240202095104eucas1p2df4522cc4a7ee29540db1fb61d8e19fc
+References: <CGME20240202095104eucas1p2df4522cc4a7ee29540db1fb61d8e19fc@eucas1p2.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,64 +128,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Miquel,
+Commit 72fee6b0a3a4 ("fbdev: Restrict FB_SH_MOBILE_LCDC to SuperH")
+disabled availablity of the SH_MOBILE_LCDC driver on the RENESAS arch.
+This innocent change has a significant side-effect on the ARM's
+multi_v7_defconfig, because FB_BACKLIGHT symbol is no longer selected,
+what in turn leaves BACKLIGHT_CLASS_DEVICE symbol selected only as
+a module. The latter disables some backlight related code in the DRM
+core, because the DRM core is set to be compiled-in in this defconfig.
+This leaves all DRM display panels without integrated backlight control,
+even if the needed modules have been properly loaded and probed.
 
-On 2/2/24 06:26, Miquel Raynal wrote:
-> Hi Pekka,
-> 
-> pekka.paalanen@haloniitty.fi wrote on Fri, 2 Feb 2024 10:55:22 +0200:
-> 
->> On Thu, 01 Feb 2024 18:31:32 +0100
->> Louis Chauvet <louis.chauvet@bootlin.com> wrote:
->>
->>> Change the composition algorithm to iterate over pixels instead of lines.
->>> It allows a simpler management of rotation and pixel access for complex formats.
->>>
->>> This new algorithm allows read_pixel function to have access to x/y
->>> coordinates and make it possible to read the correct thing in a block
->>> when block_w and block_h are not 1.
->>> The iteration pixel-by-pixel in the same method also allows a simpler
->>> management of rotation with drm_rect_* helpers. This way it's not needed
->>> anymore to have misterious switch-case distributed in multiple places.
->>
->> Hi,
->>
->> there was a very good reason to write this code using lines:
->> performance. Before lines, it was indeed operating on individual pixels.
->>
->> Please, include performance measurements before and after this series
->> to quantify the impact on the previously already supported pixel
->> formats, particularly the 32-bit-per-pixel RGB variants.
->>
->> VKMS will be used more and more in CI for userspace projects, and
->> performance actually matters there.
->>
->> I'm worrying that this performance degradation here is significant. I
->> believe it is possible to keep blending with lines, if you add new line
->> getters for reading from rotated, sub-sampled etc. images. That way you
->> don't have to regress the most common formats' performance.
-> 
-> While I understand performance is important and should be taken into
-> account seriously, I cannot understand how broken testing could be
-> considered better. Fast but inaccurate will always be significantly
-> less attractive to my eyes.
-> 
-> I am in favor of making this working first, and then improving the code
-> for faster results. Maybe the line-driven approach can be dedicated to
-> "simpler" formats where more complex corner cases do not happen. But
-> for now I don't see the point in comparing performances between broken
-> and (hopefully) non broken implementations.
+Fix this by selecting BACKLIGHT_CLASS_DEVICE to be compiled-in in
+multi_v7_defconfig.
 
-We still haven't landed the YUV series for VKMS. Therefore, the code
-available in the repository is not broken.
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+---
+ arch/arm/configs/multi_v7_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-Performance is crucial for VKMS, as Pekka mentioned. First, because it
-will be used more and more in CI. Second, because I wouldn't like to see
-IGT tests timing out in VKMS.
+diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
+index 8f7445729cd0..b2955dcb5a53 100644
+--- a/arch/arm/configs/multi_v7_defconfig
++++ b/arch/arm/configs/multi_v7_defconfig
+@@ -777,6 +777,7 @@ CONFIG_FB_EFI=y
+ CONFIG_FB_WM8505=y
+ CONFIG_FB_SH_MOBILE_LCDC=y
+ CONFIG_FB_SIMPLE=y
++CONFIG_BACKLIGHT_CLASS_DEVICE=y
+ CONFIG_BACKLIGHT_PWM=y
+ CONFIG_BACKLIGHT_AS3711=y
+ CONFIG_BACKLIGHT_GPIO=y
+-- 
+2.34.1
 
-Best Regards,
-- Maíra
-
-> 
-> Thanks,
-> Miquèl
