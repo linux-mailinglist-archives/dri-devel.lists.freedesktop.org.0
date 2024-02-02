@@ -2,146 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41260847C0D
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 23:09:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BB63847C1A
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 23:12:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7217510E5CD;
-	Fri,  2 Feb 2024 22:09:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7387F10E244;
+	Fri,  2 Feb 2024 22:12:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UKw7G51V";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="hQWxNSEF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F0CE10E244;
- Fri,  2 Feb 2024 22:09:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706911771; x=1738447771;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=XvHaGkZZGKPAjAQITZENrhhp+DKeBF2RLl8PNm0AibA=;
- b=UKw7G51Va/iyM4XASEiXKT2umqAUfmQK/mbcOSbYYWH0XOMldw54fEb+
- LryfswfABaDVPUfbX+AdXfHEiPA9rGSpb5nfxFpZroy1eWlFH6wv0CfBw
- uVw2Nd2xkGHT60/PfhCcP15wv5z9FpnlX5zz2EkzFV27rRY5IjYips+nr
- cdNLUOYCvFMKZhqqUFdaA/Z95ernxIKEoQb/kJ0fVFrjM7edYzki/aZ/Z
- GghCl6I26vHUWNotT/m6L0xu4G5O1e70RTzqpTkPH/cn8PDunLqaQ3PHg
- GEIHuByRysWbfoPHWV3yG6Osj/oo668IntE3oKZ/6uM3/o0EpbT9ousOM w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="11616623"
-X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; d="scan'208";a="11616623"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2024 14:09:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="193840"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orviesa010.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 02 Feb 2024 14:09:31 -0800
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 2 Feb 2024 14:09:29 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Fri, 2 Feb 2024 14:09:29 -0800
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 2 Feb 2024 14:09:29 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mneoEjJuAtCgWIv3FGcgmJRhV9RepG3SdFEUC9jX0i6PJ01Hpt/pQAm9WAsir6CLpIudq+Ewg5rqfzgnrhn+4eHY+8uhKodj/YZtTESiKgfLBwX1V7jeZ1Ct6NXkbaN9ziZ5x3XIQ9B1mrOLMO8HzokY21uqV9LX/elmoRJsu9oV27vql/zoirnczdoN7LcGpqDn/gVFt8yYMx2WmF4P0CdRB2NmH32yew+gK+PpxmkJkvY0mqsC99vnaLLduz0+LTEMkoZTvzYMAL9KNqibHKtLKETd/Cyg/+r8tbbXsHEzSipeMrI87VoQH/B8w/HsN2wD2tf14egLJw/71z2UZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u/o4rsjnG66CpjnJP9IHAfn9tgbcHVydTVSpb0TvMlE=;
- b=Xq3B9axCiuffNbJ1Qq25BLBMO/hX7b/bzDluvg4D/Vh4OJzTFvbWChVfCNcXhLS5ohtRrxn4kFcANUTZrCBEKvsTVa/d4PaP7BO1JvIoANKGvB64u+V3o5sJcCt6JFeTA2o4QnTwuLQf+c3qsMfeRv/orG+K3dvE3geOknfeiZ9qlPSplFDdGPomCWdD92dHZeZ6xvvEa6Gj3WNksrG5mYp8ZJ0i/GqLTn7Qpjrai7BmrUAhL+WzL0+FsBGp2AHj0r9u5whqIwiqghLioFzbOz7+yAYbRbW6HfmjaigW4BmWQjP40mj0LTzwjnSNLtLAWDYWjFePXq9KqgjAVXGXeg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by SJ0PR11MB5166.namprd11.prod.outlook.com (2603:10b6:a03:2d8::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.30; Fri, 2 Feb
- 2024 22:09:21 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::9f32:ce50:1914:e954]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::9f32:ce50:1914:e954%7]) with mapi id 15.20.7249.025; Fri, 2 Feb 2024
- 22:09:21 +0000
-Date: Fri, 2 Feb 2024 16:09:18 -0600
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Arnd Bergmann <arnd@kernel.org>
-CC: Oded Gabbay <ogabbay@kernel.org>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Arnd Bergmann <arnd@arndb.de>,
- <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>, Matt Roper
- <matthew.d.roper@intel.com>, <intel-xe@lists.freedesktop.org>
-Subject: Re: [PATCH] drm/xe: circumvent bogus stringop-overflow warning
-Message-ID: <sbbfz5zzdjj7hjcmyqvof3roe6zb43kflgmweopfu65hllxdep@m4pxjiuqxood>
-References: <20240103114819.2913937-1-arnd@kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20240103114819.2913937-1-arnd@kernel.org>
-X-ClientProxiedBy: BY5PR17CA0014.namprd17.prod.outlook.com
- (2603:10b6:a03:1b8::27) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+ [209.85.210.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B23EC10E244
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 22:11:57 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id
+ d2e1a72fcca58-6ddc5faeb7fso2149649b3a.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Feb 2024 14:11:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1706911916; x=1707516716;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=qrtNF7zN0cbAGg10uK/fD5kkglvLb3T2mDK8a3sGkI4=;
+ b=hQWxNSEFqfxuJP9X9XDbvRqIH2X/ig6a7NPXsABjHPKEfR754nFjJAGXMH0Mdf4jOe
+ ao9sxtYqBHgOZ+jg4xMV5JlnuMH0sQZXyzpnSv8gVk5aF5HzJQJw05Fz0FWuTmAebqVj
+ MAaCkTQYlq+103ZYwUox7V7Qn9+SZjL5h1nvA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706911916; x=1707516716;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qrtNF7zN0cbAGg10uK/fD5kkglvLb3T2mDK8a3sGkI4=;
+ b=JrqZ+hgL+I3Trh1BMCairvdiv3joKfXLV0wBq6Ul9ePDpStWlpOPbB2oH0nRBQv3jj
+ cUWZdAM8mSfjdpjWm4cGlmRsSMFAsecN/ugcdbMjbKvB9102LU0tfh1aMJENaljm1MxK
+ zQU616qAEHAhLCzFm9aAOiXjJWxrEdE1GRazTXpTmIzVYOB1TANibmsNNCWSlAcJBxPY
+ YTHKCbjeciM12dBUkNp4reC8Ur94qBijM6HQUHrA+DX7D4G0FkNKissCTgJSfCdy+8Nv
+ VlaT/O8xwhLhCQZzsG7ZdkFJHP3noHrcdpmWG+OvpAZTShX5haggJlvs/QK/8rZ578oJ
+ vZyw==
+X-Gm-Message-State: AOJu0YzySN+/5Fj/P86tyrmZNrEMOQhfCBymNKUaYzS3gcC32cE5lENt
+ PO6v3oGbw+uTtDe+pDLaAsM4G2uU/BUt+Bx04ZBRz0feh+auXKQZf9lzH1UIHt4OUrJjn+oDhWT
+ TN412
+X-Google-Smtp-Source: AGHT+IFNhcR8p0qiBJqe6s9UFVC4u+lq8FuGlBBAK1hnfoU3kxfbMEvijpL2VuS8BCZhuA+4lD1vWA==
+X-Received: by 2002:a05:6a00:70d:b0:6df:bb23:b8f8 with SMTP id
+ 13-20020a056a00070d00b006dfbb23b8f8mr9587455pfl.7.1706911916615; 
+ Fri, 02 Feb 2024 14:11:56 -0800 (PST)
+X-Forwarded-Encrypted: i=0;
+ AJvYcCWNN/AK0bq+0lXHTKvZgLiNNJE7GjhDt8sCPFEo1aNSHRDN+eNM16rNSWZ1PhW715ie62xL3HNPWNXWBvyEVEnmDZ87HNW0EjyWFsvymFQZYcn0EHtPzInRHW19GjID/AO22g7ovLM1bsaDY1cEZRp8sPlUrnvUpj3iD77GH3j4wMKxApQqbsmrHbjnfwgio/NpDRhq5IOGpmXzLMFfKJfrKC9kHnrBXk+hJNVYkLibiVhR6uOe1c75X5uVqF/8jUTM1V73MQWeAQJr2ezazQaCo+oc089Tsw2+/Rkhj8hmoluQnR7yrUzubdYfAhjW4Iax0NYeAhwYNW7vZqc6G23psx5OplUBG2MOF0pFpdi97Lxl0QYoEcpg5wv/IHDkmOcZtzO5KCDi3sG4acrEPvy84Bc55QJVC/B/KGz+4BvGJF7XbVmYZfeZ8Ait0rGt5XMLsACdnMyhWiwvNuHQ/023Oto3w4ThJovZEc81FjF012dcrrM0LFjFaYsbC8JhCOUlx8NcR7GdrbLy9frRBLtR4mT0vBXcaR8=
+Received: from dianders.sjc.corp.google.com
+ ([2620:15c:9d:2:21f9:cc1f:82ca:58b7])
+ by smtp.gmail.com with ESMTPSA id
+ s17-20020a632151000000b005cd8044c6fesm2268364pgm.23.2024.02.02.14.11.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Feb 2024 14:11:56 -0800 (PST)
+From: Douglas Anderson <dianders@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Cc: eizan@chromium.org, Douglas Anderson <dianders@chromium.org>,
+ Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Imre Deak <imre.deak@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/dp: Don't attempt AUX transfers when eDP panels are not
+ powered
+Date: Fri,  2 Feb 2024 14:11:16 -0800
+Message-ID: <20240202141109.1.I24277520ac754ea538c9b14578edc94e1df11b48@changeid>
+X-Mailer: git-send-email 2.43.0.594.gd9cf4e227d-goog
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SJ0PR11MB5166:EE_
-X-MS-Office365-Filtering-Correlation-Id: fba9ed87-60e6-4036-98fe-08dc243b9b7f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: f/jVuzxwilFeP9lfjdd/k4UBVriNyN0jiWWcnjPTWNgHNNo2i9Zv8jqXxE0UiYaeSm3+iAjhLze0ZCwdX2xNKMll5WUcYGa0Y7M3Yu5su+ElHgHu38uXCNmOEfKexll7Or+cI9EixCishdlrqZrQ1bOssSx75smo6OEyRNrxMcpRtigtxHo3FIlVKJDgtiOo+8suAprD870PckYU0l/KqetDDCjAAAUK3EKs3QXl1EKU+z/HG0Aj8MTXiU7MLES9CxrQCAOCrvhgKSAC/G4gNW51YxfGF67Baq6/A/GvuFgemhP1uSKidTfAmdfLzf1tJmadZMWqxIZHh+YrakEL+Fe1YfEL13WMMitjq+YDhs3godgr5W7O5+r6uIsK7FK3Bd5Nu83gltar3Fg7k/Qi0Zy+rPt9Tgw50j4BPE7QH529F9d3mHYnKNi2QBxuMEhpe0DnFYn6CJ53eSDI3dD78Miy+JVsHBr5h8EiRZ76wbwMfdJpp8DVDMdp3PUYX0a7hFHf3elYlHQ4/Ndx28GVYx1Zm9pH/Talu7/fKucUA/4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(7916004)(376002)(396003)(39860400002)(136003)(346002)(366004)(230273577357003)(230922051799003)(1800799012)(186009)(451199024)(64100799003)(7416002)(9686003)(6512007)(4326008)(26005)(6486002)(966005)(33716001)(41300700001)(478600001)(316002)(6916009)(8676002)(8936002)(54906003)(86362001)(5660300002)(66476007)(66946007)(66556008)(6666004)(2906002)(82960400001)(6506007)(83380400001)(38100700002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?MjVvvisK52O/VFzNp3UnP8kke8KJZ8kDNJC8/oD7imzSdwrgQsgGizpwSGUt?=
- =?us-ascii?Q?qryE0X/j/QeyNHz7E69tuOaWe4RzNXTXVxJ6ctHFzRjujdihjceDz3lkTkN5?=
- =?us-ascii?Q?FvB4xlyv7q7DUxVHJdCcF5wV3kteD6L6DqXGCu0EO67hoero/2Po5RDYpLuI?=
- =?us-ascii?Q?mLKtd7126+0T5QLasjLC6EqdkxCyXISXc/dh6KXmQlbHqhMpHFuEsVOvdBRT?=
- =?us-ascii?Q?NWMh6tg9G6jf9vNJ7v8hAj1LvKslw1rAkRKW9OYP/oU/KpkkY5YKVH8UFG5w?=
- =?us-ascii?Q?EBqJOeUTPSs/lbCINE1gg7dusWl0YJI9RLKJObd75bbQ5lFFyVM93VdHabFS?=
- =?us-ascii?Q?BAwngYrUb6DECeZcuC3tHWANoaDXx+JQ93qQQXqGjlLPde9X58q5p4o0XZHG?=
- =?us-ascii?Q?0HE65RdmMcNPMF4LITgujiH5OfYJ43NOONkQQFl9+wn6vHEsxL9qwPRkQo/h?=
- =?us-ascii?Q?aSB8j7i5ss7FJmyhYNsDvs13Q70+uxcdHPmU8dvEqwj2xiFFrtLRcT4VbqAn?=
- =?us-ascii?Q?9ynS0vQVrtM4ORVM1FStyzyWYdyhvOnIVCnXF8TYuffEL6K3NSk5x8ve1Sam?=
- =?us-ascii?Q?IatbPTtwT4wMOkMPYobrikLzQMlCGZkFhoNvxuj+Zuz/odYE+gTNMp0AQumB?=
- =?us-ascii?Q?5yygGSHq4hCaquAbC9+Ko71A6K2d7J2tQS/S8Me4LGBtsuV4p/qCieE5MtTR?=
- =?us-ascii?Q?ojcSt1gswRQ70RyO+BfMNPWjacSF9uhw8qg0yXNyqNZNwidOF5e/rGA/wDvL?=
- =?us-ascii?Q?bSrK2bB+wq+G5zTIj0jZ4XJECHqQPDS/tHuQbJG2raxi7/VfkmuijVwsKcfM?=
- =?us-ascii?Q?ySDNxyC4ZEyCMFMxU5IFPI7oKg+It5QudW7nBQQsrMZ22f/7/El81k60T4P+?=
- =?us-ascii?Q?2LlUDtRxWUc3Et+hFUe+kAL5peCCKw5aBMxH8rizJeNTRdPMX+cPakVDO36h?=
- =?us-ascii?Q?8yB9XOSLdR0Aia4fVO72b0KynOEABn/0UOEdFq+tY6JNHdJo6OqfHf2H0712?=
- =?us-ascii?Q?FC/+i0cCrCRFUnDYz07691IG2pxvfEfSEbpK8LuXzOtQkuJTY1HSX9HpPsaZ?=
- =?us-ascii?Q?6ILpNrY2NNaxpjhJJ1EhHLfIIltcBygtcVyFS02/7f2Q9SXaJ2NDhdWBp6Xg?=
- =?us-ascii?Q?XAF5580RIkKgxohT2TZ6oPxpJKeAaA1n+7/qG8wA4Er3n/EGZQxoLm1XOyUN?=
- =?us-ascii?Q?ncSRL8oAImXD0nJtjR8xOIhrEV82X2kKfgi9jiq7aYulZxLq1sg/EOaJ+wsD?=
- =?us-ascii?Q?XS+KKmXk2+I9Mv4pWPFh3GqdifDAEIqgce84UPOFVKvHLvkyVVA3fBgrQF6U?=
- =?us-ascii?Q?7NITeJvpRiGIogdcoAKwfOL14P4TAQj6ah5bRnr2Yfv3J7WoxKJQlnUMoRUY?=
- =?us-ascii?Q?l9lFLtnum6/8jR9fDp82PfR5dHb/hejXoWrn+zs9c42oemnEEKhwu+fLhMzV?=
- =?us-ascii?Q?2e7Yn88UXnZ8VYjKc+g9+KZ0tx9bSgglzEGjPnp3pia9yqgJobq+tz8DRFz5?=
- =?us-ascii?Q?djlZ5hpOjpMWjHaAEql6zImZa1D7O6FxbUIpYzOKa0jMTQo3LlYOwJWCwf0M?=
- =?us-ascii?Q?DJrWkvJ4IPTUiMQfW7cFJetlxj+c8CmnaSWbtShqs45egXv8NQlkg/HlwGsh?=
- =?us-ascii?Q?kA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: fba9ed87-60e6-4036-98fe-08dc243b9b7f
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2024 22:09:21.2030 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BfG4ulFlgsFPmabaK8eDaExe27EXi8y070q4S/BlaDBVL895lF4NMXJaKOCi8MM9kMFX+wd7ABab5EWIZwn9ywLjLtGYBdqMwE6dg6nXBb0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5166
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,59 +91,168 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 03, 2024 at 12:48:02PM +0100, Arnd Bergmann wrote:
->From: Arnd Bergmann <arnd@arndb.de>
->
->gcc-13 warns about an array overflow that it sees but that is
->prevented by the "asid % NUM_PF_QUEUE" calculation:
->
->drivers/gpu/drm/xe/xe_gt_pagefault.c: In function 'xe_guc_pagefault_handler':
->include/linux/fortify-string.h:57:33: error: writing 16 bytes into a region of size 0 [-Werror=stringop-overflow=]
->include/linux/fortify-string.h:689:26: note: in expansion of macro '__fortify_memcpy_chk'
->  689 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
->      |                          ^~~~~~~~~~~~~~~~~~~~
->drivers/gpu/drm/xe/xe_gt_pagefault.c:341:17: note: in expansion of macro 'memcpy'
->  341 |                 memcpy(pf_queue->data + pf_queue->tail, msg, len * sizeof(u32));
->      |                 ^~~~~~
+If an eDP panel is not powered on then any attempts to talk to it over
+the DP AUX channel will timeout. Unfortunately these attempts may be
+quite slow. Userspace can initiate these attempts either via a
+/dev/drm_dp_auxN device or via the created i2c device.
 
-ugh... I missed that this was for gcc 13 rather than the broken gcc 11
-that we workarounded by excluding gcc 11.
+Making the DP AUX drivers timeout faster is a difficult proposition.
+In theory we could just poll the panel's HPD line in the AUX transfer
+function and immediately return an error there. However, this is
+easier said than done. For one thing, there's no hard requirement to
+hook the HPD line up for eDP panels and it's OK to just delay a fixed
+amount. For another thing, the HPD line may not be fast to probe. On
+parade-ps8640 we need to wait for the bridge chip's firmware to boot
+before we can get the HPD line and this is a slow process.
 
->drivers/gpu/drm/xe/xe_gt_types.h:102:25: note: at offset [1144, 265324] into destination object 'tile' of size 8
->
->I found that rewriting the assignment using pointer addition rather than the
->equivalent array index calculation prevents the warning, so use that instead.
->
->I sent a bug report against gcc for the false positive warning.
->
->Fixes: dd08ebf6c352 ("drm/xe: Introduce a new DRM driver for Intel GPUs")
->Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=113214
->Signed-off-by: Arnd Bergmann <arnd@arndb.de>
->---
-> drivers/gpu/drm/xe/xe_gt_pagefault.c | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->
->diff --git a/drivers/gpu/drm/xe/xe_gt_pagefault.c b/drivers/gpu/drm/xe/xe_gt_pagefault.c
->index 59a70d2e0a7a..78dc08cc2bfe 100644
->--- a/drivers/gpu/drm/xe/xe_gt_pagefault.c
->+++ b/drivers/gpu/drm/xe/xe_gt_pagefault.c
->@@ -332,7 +332,7 @@ int xe_guc_pagefault_handler(struct xe_guc *guc, u32 *msg, u32 len)
-> 		return -EPROTO;
->
-> 	asid = FIELD_GET(PFD_ASID, msg[1]);
->-	pf_queue = &gt->usm.pf_queue[asid % NUM_PF_QUEUE];
->+	pf_queue = gt->usm.pf_queue + (asid % NUM_PF_QUEUE);
+The fact that the transfers are taking so long to timeout is causing
+real problems. The open source fwupd daemon sometimes scans DP busses
+looking for devices whose firmware need updating. If it happens to
+scan while a panel is turned off this scan can take a long time. The
+fwupd daemon could try to be smarter and only scan when eDP panels are
+turned on, but we can also improve the behavior in the kernel.
 
-surprising that it fixed it, but looks fine to get in.
+Let's let eDP panels drivers specify that a panel is turned off and
+then modify the common AUX transfer code not to attempt a transfer in
+this case.
 
-Applied to drm-xe-next, thanks.
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
 
-Lucas De Marchi
+ drivers/gpu/drm/display/drm_dp_helper.c       | 35 +++++++++++++++++++
+ drivers/gpu/drm/panel/panel-edp.c             |  3 ++
+ .../gpu/drm/panel/panel-samsung-atna33xc20.c  |  2 ++
+ include/drm/display/drm_dp_helper.h           |  6 ++++
+ 4 files changed, 46 insertions(+)
 
+diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+index b1ca3a1100da..6fa705d82c8f 100644
+--- a/drivers/gpu/drm/display/drm_dp_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_helper.c
+@@ -532,6 +532,15 @@ static int drm_dp_dpcd_access(struct drm_dp_aux *aux, u8 request,
+ 
+ 	mutex_lock(&aux->hw_mutex);
+ 
++	/*
++	 * If the device attached to the aux bus is powered down then there's
++	 * no reason to attempt a transfer. Error out immediately.
++	 */
++	if (aux->powered_down) {
++		ret = -EBUSY;
++		goto unlock;
++	}
++
+ 	/*
+ 	 * The specification doesn't give any recommendation on how often to
+ 	 * retry native transactions. We used to retry 7 times like for
+@@ -599,6 +608,29 @@ int drm_dp_dpcd_probe(struct drm_dp_aux *aux, unsigned int offset)
+ }
+ EXPORT_SYMBOL(drm_dp_dpcd_probe);
+ 
++/**
++ * drm_dp_dpcd_set_powered() - Set whether the DP device is powered
++ * @aux: DisplayPort AUX channel; for convenience it's OK to pass NULL here
++ *       and the function will be a no-op.
++ * @powered: true if powered; false if not
++ *
++ * If the endpoint device on the DP AUX bus is known to be powered down
++ * then this function can be called to make future transfers fail immediately
++ * instead of needing to time out.
++ *
++ * If this function is never called then a device defaults to being powered.
++ */
++void drm_dp_dpcd_set_powered(struct drm_dp_aux *aux, bool powered)
++{
++	if (!aux)
++		return;
++
++	mutex_lock(&aux->hw_mutex);
++	aux->powered_down = !powered;
++	mutex_unlock(&aux->hw_mutex);
++}
++EXPORT_SYMBOL(drm_dp_dpcd_set_powered);
++
+ /**
+  * drm_dp_dpcd_read() - read a series of bytes from the DPCD
+  * @aux: DisplayPort AUX channel (SST or MST)
+@@ -1858,6 +1890,9 @@ static int drm_dp_i2c_xfer(struct i2c_adapter *adapter, struct i2c_msg *msgs,
+ 	struct drm_dp_aux_msg msg;
+ 	int err = 0;
+ 
++	if (aux->powered_down)
++		return -EBUSY;
++
+ 	dp_aux_i2c_transfer_size = clamp(dp_aux_i2c_transfer_size, 1, DP_AUX_MAX_PAYLOAD_BYTES);
+ 
+ 	memset(&msg, 0, sizeof(msg));
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index 7d556b1bfa82..d2a4e514d8fd 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -413,6 +413,7 @@ static int panel_edp_suspend(struct device *dev)
+ {
+ 	struct panel_edp *p = dev_get_drvdata(dev);
+ 
++	drm_dp_dpcd_set_powered(p->aux, false);
+ 	gpiod_set_value_cansleep(p->enable_gpio, 0);
+ 	regulator_disable(p->supply);
+ 	p->unprepared_time = ktime_get_boottime();
+@@ -469,6 +470,7 @@ static int panel_edp_prepare_once(struct panel_edp *p)
+ 	}
+ 
+ 	gpiod_set_value_cansleep(p->enable_gpio, 1);
++	drm_dp_dpcd_set_powered(p->aux, true);
+ 
+ 	p->powered_on_time = ktime_get_boottime();
+ 
+@@ -507,6 +509,7 @@ static int panel_edp_prepare_once(struct panel_edp *p)
+ 	return 0;
+ 
+ error:
++	drm_dp_dpcd_set_powered(p->aux, false);
+ 	gpiod_set_value_cansleep(p->enable_gpio, 0);
+ 	regulator_disable(p->supply);
+ 	p->unprepared_time = ktime_get_boottime();
+diff --git a/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c b/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
+index 5703f4712d96..76c2a8f6718c 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
++++ b/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
+@@ -72,6 +72,7 @@ static int atana33xc20_suspend(struct device *dev)
+ 	if (p->el3_was_on)
+ 		atana33xc20_wait(p->el_on3_off_time, 150);
+ 
++	drm_dp_dpcd_set_powered(p->aux, false);
+ 	ret = regulator_disable(p->supply);
+ 	if (ret)
+ 		return ret;
+@@ -93,6 +94,7 @@ static int atana33xc20_resume(struct device *dev)
+ 	ret = regulator_enable(p->supply);
+ 	if (ret)
+ 		return ret;
++	drm_dp_dpcd_set_powered(p->aux, true);
+ 	p->powered_on_time = ktime_get_boottime();
+ 
+ 	if (p->no_hpd) {
+diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+index 863b2e7add29..472359a9d675 100644
+--- a/include/drm/display/drm_dp_helper.h
++++ b/include/drm/display/drm_dp_helper.h
+@@ -463,9 +463,15 @@ struct drm_dp_aux {
+ 	 * @is_remote: Is this AUX CH actually using sideband messaging.
+ 	 */
+ 	bool is_remote;
++
++	/**
++	 * @powered_down: If true then the remote endpoint is powered down.
++	 */
++	bool powered_down;
+ };
+ 
+ int drm_dp_dpcd_probe(struct drm_dp_aux *aux, unsigned int offset);
++void drm_dp_dpcd_set_powered(struct drm_dp_aux *aux, bool powered);
+ ssize_t drm_dp_dpcd_read(struct drm_dp_aux *aux, unsigned int offset,
+ 			 void *buffer, size_t size);
+ ssize_t drm_dp_dpcd_write(struct drm_dp_aux *aux, unsigned int offset,
+-- 
+2.43.0.594.gd9cf4e227d-goog
 
->
-> 	spin_lock_irqsave(&pf_queue->lock, flags);
-> 	full = pf_queue_full(pf_queue);
->-- 
->2.39.2
->
