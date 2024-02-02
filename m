@@ -2,90 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 942738464E8
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 01:10:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB768464F0
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 01:13:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4345910E89E;
-	Fri,  2 Feb 2024 00:10:35 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="mEuP9xES";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9362110E8D8;
+	Fri,  2 Feb 2024 00:13:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E0D210E89E
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 00:10:34 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 411MYTkk027656; Fri, 2 Feb 2024 00:10:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- from:date:subject:mime-version:content-type
- :content-transfer-encoding:message-id:to:cc; s=qcppdkim1; bh=VbL
- Ote3MFtajwZ7n5285TiGBa5qns5AxuRjAufmtKpI=; b=mEuP9xESAVkYf6OCuFV
- mqUHCs1pC78kR7tLJPkMZa7mLdu5/w2FdWBcysgoI/0BJm6gXoa/q/FifaWIyVVN
- UdGkYJG2EaSyXeJ27Fs5g+6wS0oeB3p15V+PhOY13i1+w0TnixLQqrNg7+oIKxM1
- MtIiiCzDALvwg0Nd5ieBGDBU1j3Ad8wr01fj9N5brKjeAstrTIyQ+l9NkYsDACYs
- acJj2UXCFhvb1FCffPEfIky28W4JY1uwMj5jZV2mBUdm14vztSZqJigtfJn1/7vj
- Mp2KrBJxcrqe+ywCb5IkBwnuFUCHiKuz6nARa/BxmvPXA1LBaQfdOTNyrkSAgTLq
- Wjw==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w0m6yr80q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 02 Feb 2024 00:10:28 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4120ARfs001811
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 2 Feb 2024 00:10:27 GMT
-Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 1 Feb 2024 16:10:27 -0800
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-Date: Thu, 1 Feb 2024 16:10:15 -0800
-Subject: [PATCH v2] drm/panel: visionox-vtdr6130: Set prepare_prev_first flag
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6BAF10E8D8
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 00:13:40 +0000 (UTC)
+Received: by mail-il1-f200.google.com with SMTP id
+ e9e14a558f8ab-36387d42a2bso13162805ab.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Feb 2024 16:13:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706832820; x=1707437620;
+ h=to:from:subject:message-id:in-reply-to:date:mime-version
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8/PnvQSHNDrcIgRtiFynMLpwWhhCzB+zZK6QHF3mqLA=;
+ b=w8WJYlKArtfHttbUc8lBswWglKlU8R0D5jXw7CjPywWNXg04srWSHhVzCdWqCEzX73
+ /QNwwQFSITtaJ9o5yldEXWLiKAac3dEiYFKLwF8vzqhPenQrtGvsMXyqBkbpcwUWLyYT
+ +R8gZXgR3YHd8gxWXbkTDHzWqskcPkKqhBj6EQ/UH7uIcl79UVf+qHbMb0nWmPuJqdnt
+ MNhRnTqWpr3QenaMuNXk+DIHtoLu6/gLGD+hNaa39I3+UKGG0eRa6/D4lHm5BJiGXoGK
+ 0n9Y7H02yRWwzQ/tNwOxzThh6hXHovFKqB5i8JpP/zypSUCCoYF6dNgYHwPY6EHzi7vZ
+ bZZA==
+X-Gm-Message-State: AOJu0YzT8VZ/92V9piJPRu0HkHBudqEARvRiBCJp4h/SQ2o/BuXNzUAW
+ lQlcwKB7JOb8vE4JlS8QHETZXEKOT+v0qRljx7+/cc0ESrBzS0sthdvhQ60GEoSzHzojEPrSuB4
+ LhnYf6cBWpkqM1HI5BYZWKjsMoqE3owVKeWE4l8gPqN9OTpDM9JudkB8=
+X-Google-Smtp-Source: AGHT+IHXZ/12Vxw15AEPf8zwMz79r4Df40krbxQESHcBW1qoaUmBAN/JjVrfDiwPqGFb9NSKgp7tOd+hNMEIVdWeo5BsQg+ZMb8Q
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20240201-visionox-vtdr-prev-first-v2-1-32db52867624@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIAOYyvGUC/3WNMQ7CMAxFr1J5xihJCxVM3AN1KI5LPdBAEqKiK
- ncnFFbG5+///gKBvXCAY7WA5yRB3FTAbCqgsZ+ujGILg1GmVq1u8fviZkzReryXDg7iQ0RWqmd
- lmOkwQKmXaJB5VZ+7wqOE6PxrXUr6c/1Jze6/NGnUWF+oaYiptbQ/PZ5CMtGW3A26nPMbDnu66
- MIAAAA=
-To: <quic_abhinavk@quicinc.com>
-CC: Jessica Zhang <quic_jesszhan@quicinc.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, <quic_parellan@quicinc.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-X-Mailer: b4 0.13-dev-2d940
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1706832627; l=1892;
- i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
- bh=oSugeVUiRO1IiMt6Ita7KviMhoi4orEYII2dW/trClE=;
- b=AwxIdw86VDWNgXc3wjMmBtu21IgQbIEY90HbrEMQdifIr5I/Xtx5dOAL5yC4Qpb6x3YZT1w+c
- 7XJsBN/0y2tClxXyqy3jmkyYF4vIK8NXB3Kod87X9OcNPIpWh0bP+eu
-X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
- pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: SfIuagOzIEyGjAUZWXKwHCSMESuAx8EW
-X-Proofpoint-ORIG-GUID: SfIuagOzIEyGjAUZWXKwHCSMESuAx8EW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-01_09,2024-01-31_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 bulkscore=0
- malwarescore=0 spamscore=0 priorityscore=1501 phishscore=0 adultscore=0
- clxscore=1015 lowpriorityscore=0 impostorscore=0 mlxlogscore=999
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401190000 definitions=main-2402010186
+X-Received: by 2002:a05:6e02:1a4c:b0:363:812d:d6a5 with SMTP id
+ u12-20020a056e021a4c00b00363812dd6a5mr23298ilv.0.1706832820038; Thu, 01 Feb
+ 2024 16:13:40 -0800 (PST)
+Date: Thu, 01 Feb 2024 16:13:40 -0800
+In-Reply-To: <00000000000067322b05fdfa973f@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000edf6a306105afb50@google.com>
+Subject: Re: [syzbot] [dri?] WARNING in vkms_get_vblank_timestamp (2)
+From: syzbot <syzbot+93bd128a383695391534@syzkaller.appspotmail.com>
+To: airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ hamohammed.sa@gmail.com, linux-kernel@vger.kernel.org, 
+ maarten.lankhorst@linux.intel.com, mairacanal@riseup.net, 
+ melissa.srw@gmail.com, mripard@kernel.org, rodrigosiqueiramelo@gmail.com, 
+ syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,52 +63,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DSI host must be enabled for the panel to be initialized in
-prepare(). Set the prepare_prev_first flag to guarantee this.
+syzbot has found a reproducer for the following issue on:
 
-Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+HEAD commit:    6764c317b6bb Merge tag 'scsi-fixes' of git://git.kernel.or..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=12be3328180000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=2c0ac5dfae6ecc58
+dashboard link: https://syzkaller.appspot.com/bug?extid=93bd128a383695391534
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12067e60180000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=102774b7e80000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/90c636d7609b/disk-6764c317.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/9d76784c4adc/vmlinux-6764c317.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/4fa116a29660/bzImage-6764c317.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+93bd128a383695391534@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 5107 at drivers/gpu/drm/vkms/vkms_crtc.c:103 vkms_get_vblank_timestamp+0x1dc/0x250 drivers/gpu/drm/vkms/vkms_crtc.c:103
+Modules linked in:
+CPU: 1 PID: 5107 Comm: syz-executor297 Not tainted 6.8.0-rc2-syzkaller-00055-g6764c317b6bb #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/25/2024
+RIP: 0010:vkms_get_vblank_timestamp+0x1dc/0x250 drivers/gpu/drm/vkms/vkms_crtc.c:103
+Code: 08 fc e8 a7 f4 f6 fb 4c 89 e1 48 ba 00 00 00 00 00 fc ff df 48 c1 e9 03 80 3c 11 00 75 67 49 89 04 24 eb c0 e8 c5 0f 08 fc 90 <0f> 0b 90 eb b5 e8 6a bf 61 fc e9 d8 fe ff ff e8 c0 bf 61 fc e9 6a
+RSP: 0018:ffffc9000473f5d8 EFLAGS: 00010093
+RAX: 0000000000000000 RBX: 0000001a34a6b1e9 RCX: ffffffff8584597f
+RDX: ffff888023a30000 RSI: ffffffff858459fb RDI: 0000000000000006
+RBP: ffff88801fab0000 R08: 0000000000000006 R09: 0000001a34a6b1e9
+R10: 0000001a34a6b1e9 R11: 0000000000000004 R12: ffffc9000473f700
+R13: 0000001a34a6b1e9 R14: 0000000000004e20 R15: ffffffff85845820
+FS:  0000555555568380(0000) GS:ffff8880b9500000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000020000240 CR3: 0000000022742000 CR4: 0000000000350ef0
+Call Trace:
+ <TASK>
+ drm_crtc_get_last_vbltimestamp+0x106/0x1b0 drivers/gpu/drm/drm_vblank.c:867
+ drm_get_last_vbltimestamp drivers/gpu/drm/drm_vblank.c:886 [inline]
+ drm_update_vblank_count+0x1b1/0x9d0 drivers/gpu/drm/drm_vblank.c:298
+ drm_crtc_accurate_vblank_count+0xc2/0x260 drivers/gpu/drm/drm_vblank.c:411
+ drm_crtc_arm_vblank_event+0xfb/0x2b0 drivers/gpu/drm/drm_vblank.c:1097
+ vkms_crtc_atomic_flush+0x10b/0x2b0 drivers/gpu/drm/vkms/vkms_crtc.c:258
+ drm_atomic_helper_commit_planes+0x61f/0x1000 drivers/gpu/drm/drm_atomic_helper.c:2820
+ vkms_atomic_commit_tail+0x5e/0x240 drivers/gpu/drm/vkms/vkms_drv.c:73
+ commit_tail+0x287/0x410 drivers/gpu/drm/drm_atomic_helper.c:1832
+ drm_atomic_helper_commit+0x2fd/0x380 drivers/gpu/drm/drm_atomic_helper.c:2072
+ drm_atomic_commit+0x20e/0x2e0 drivers/gpu/drm/drm_atomic.c:1514
+ drm_atomic_helper_set_config+0x141/0x1c0 drivers/gpu/drm/drm_atomic_helper.c:3271
+ drm_mode_setcrtc+0xd0a/0x1690 drivers/gpu/drm/drm_crtc.c:886
+ drm_ioctl_kernel+0x1ef/0x3e0 drivers/gpu/drm/drm_ioctl.c:744
+ drm_ioctl+0x5d8/0xc00 drivers/gpu/drm/drm_ioctl.c:841
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:871 [inline]
+ __se_sys_ioctl fs/ioctl.c:857 [inline]
+ __x64_sys_ioctl+0x196/0x220 fs/ioctl.c:857
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xd8/0x270 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x6f/0x77
+RIP: 0033:0x7f0d5d4bdd89
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 71 19 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffe26838708 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f0d5d4bdd89
+RDX: 0000000020000300 RSI: 00000000c06864a2 RDI: 0000000000000003
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000555555569610
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
+
+
 ---
-To: Neil Armstrong <neil.armstrong@linaro.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-To: David Airlie <airlied@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: quic_abhinavk@quicinc.com
-Cc: quic_parellan@quicinc.com
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
-
-Changes in v2:
-- Corrected commit message to mention that DCS on commands are sent during
-  prepare() instead of probe()
-- Dropped Fixes tag
-- Rebased onto tip of linux-next
-- Link to v1: https://lore.kernel.org/r/20230725-visionox-vtdr-prev-first-v1-1-3bc44cec7dc6@quicinc.com
----
- drivers/gpu/drm/panel/panel-visionox-vtdr6130.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c b/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
-index a23407b9f6fb6..540099253e1bd 100644
---- a/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
-+++ b/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
-@@ -287,6 +287,7 @@ static int visionox_vtdr6130_probe(struct mipi_dsi_device *dsi)
- 	dsi->format = MIPI_DSI_FMT_RGB888;
- 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_NO_EOT_PACKET |
- 			  MIPI_DSI_CLOCK_NON_CONTINUOUS;
-+	ctx->panel.prepare_prev_first = true;
- 
- 	drm_panel_init(&ctx->panel, dev, &visionox_vtdr6130_panel_funcs,
- 		       DRM_MODE_CONNECTOR_DSI);
-
----
-base-commit: 51b70ff55ed88edd19b080a524063446bcc34b62
-change-id: 20230717-visionox-vtdr-prev-first-e00ae02eec9f
-
-Best regards,
--- 
-Jessica Zhang <quic_jesszhan@quicinc.com>
-
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
