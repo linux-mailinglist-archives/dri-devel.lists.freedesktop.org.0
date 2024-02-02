@@ -2,77 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 904A3847B7C
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 22:25:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07790847B7D
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 22:26:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DC4110E84A;
-	Fri,  2 Feb 2024 21:25:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1955F10E850;
+	Fri,  2 Feb 2024 21:26:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rZspSZvd";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="S5X2EuZn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BC6210E84A
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 21:25:37 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-40f033c2e30so22246485e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Feb 2024 13:25:37 -0800 (PST)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF8FF10E850
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 21:26:17 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-40fccd090c2so2538525e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Feb 2024 13:26:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1706909136; x=1707513936; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1706909176; x=1707513976; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=G2l1vKjEO69fnmNEf9Uo/eu3DjX9aySgEHPSFlO9MDc=;
- b=rZspSZvdY1OlXa3zN8pw6VnC0OvkIwYTTWvxMRPr1/1JQCJmpwbHdKNGLs7zZx+IEa
- UZeI9L83fITDwgJ7NkBLGkKtq+XcUbirXhbm5OnPmtZ8854mf5v9YmkdU0DF6k1sT+FK
- 8iYNDivmGIripPdn6Xb6p4CvzDh5eJR8u3Nd2VPtCD14nNRRTmFu+879yW6C9JZ3ItGg
- Kuc/NJf5IpmwFTbU6Dl5tayZsDVBDrN1i8UVAuTMcxyhDgF4WgwbG+pzD9n7T8afwpGi
- BQM0PUt5TN8MHxZ9KnA1eTUhOShmLb2QJbHtBrkDp4zs6/9zyHexI1G5emweRGLQ3iJW
- Weqw==
+ :reply-to; bh=TmB9on2Qyd1/EoIwQXgbQR2FlMtBTSI1mKzg7M+hgpA=;
+ b=S5X2EuZnzd/OBcI00CCJbskuPCuqO2f5oDF4VnTMyYayawhQp0VYwhujgtpJ4HvD4B
+ WwKrgz8WeJWFUkMxYfYcH1iYsLpQLXKpLndYRrdTZFHjTK222DohE/dfgKeZ3DvBQTRi
+ xo2NFhWXZfnsSzgEqbKZvYqhnN8HphyGlutWAKelTek6SiCN/LXCshg7SWQqEYjQUo3x
+ WulfVqLOL25M95lUt3SapAwEAC7H2zWoXdQpmREWxfpdB3XJOHXfOYwGZ+61Jnuqz4yL
+ OAVJWUYY5mtpBpkN1lWLUU3vOgdsbscexCvfYbNjVAEb6wI9lL8CcSU0iFHFzAPjAYSR
+ aBEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706909136; x=1707513936;
+ d=1e100.net; s=20230601; t=1706909176; x=1707513976;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=G2l1vKjEO69fnmNEf9Uo/eu3DjX9aySgEHPSFlO9MDc=;
- b=c226h8tNZFOCNLsxbfRtYaU222oGyAKItKgUXuka8TdKxB7S08pTtkTzZyHg9yj9AW
- AXJwkUxFZQhCrij0vpAzU9dRZDVgWjtLOJNh4q7ifsOsnCpDOpAKhjah+fPbdi9fAHQ2
- 4+u0FuK/XbkwbHuvQ/4GD7JJT8mZGLPA2yAVxyee9gJ4oJ7H2NeYQjEodqJZSv9lCAL5
- 9kais39/9hBkigDh/Pfj/aN48uXVuYhDNlgB/vUeYU7Z49PnIlzyez89FHL69X/mAKWC
- MzA+ra6CU3sO09+gyhXtMvO5x4NOh5z7RDnUTVgI20RW5s9KXZoFFazpXIhZ1sKaC7yz
- 6Z6w==
-X-Gm-Message-State: AOJu0YzpKR8HSQUPpTBf3VF2AtDgc9R9/7iOnUI/diZgEkKHe7q8QPeI
- b6ivf9uDueE1iuzHkhEx5cE/Eg+H7cRWD6o5/jCwTOCxzgrgX0ElkjGum7yw/hw=
-X-Google-Smtp-Source: AGHT+IHEBZOZxowXtpo/c/Xaah4wsH4tucEmfywHPsgUII4iIa2gexhTWOs4OV5G/fhXTNN4tzj/VA==
-X-Received: by 2002:a05:600c:5124:b0:40e:c564:a9ea with SMTP id
- o36-20020a05600c512400b0040ec564a9eamr2588613wms.20.1706909136202; 
- Fri, 02 Feb 2024 13:25:36 -0800 (PST)
+ bh=TmB9on2Qyd1/EoIwQXgbQR2FlMtBTSI1mKzg7M+hgpA=;
+ b=j1oOnk3SgVxXCvzC8pkv3zZVDGpODyiBEbllI2zNtfVeif5geo7ZZlVv5yhehvoufY
+ fdk3OGqevIFpk/zm6NeGfta79icou2ENN3303NgYsZ/tbjZ25KFlEa+5KciVGlFrkHwB
+ GiFeJ21OvGNqeCPBD1Ew9WDOpkGqQi0aLAh84RMns+X/Bws3q7V/+KLZeFH66P0T64hl
+ SfhziezJUejHwyVPpntr08Kl/zuGsvBQgAvpH/hC2t1aB4Dp2Pn1dVjmEW8ZmTQ/Hf4n
+ 0cUW7bI6i0V0UVtRGbpvVCGvKVzglUrCTYqNschIT69Ni4gCygjBsizsV1/wAG40MsDC
+ 1WYg==
+X-Gm-Message-State: AOJu0Yx97TVobkt1qkBrsD7gaxY/DAsbqtq4IDs5ilZ7eZTMXQOfgLlT
+ svQ9ItZW9FclvYv2xkPmcscTjxGGR0DtwiaDMUKDo2Z5bSgza+gja9T1agjeVgU=
+X-Google-Smtp-Source: AGHT+IH5Vuk3yI8JNNLTuPlyb8tEfqYbcmNEYXqaI+D+1WXqokwDXjT4X6Qkm//NaQnNSShWgrOopQ==
+X-Received: by 2002:a05:600c:3b83:b0:40e:facf:c05b with SMTP id
+ n3-20020a05600c3b8300b0040efacfc05bmr5969062wms.23.1706909175694; 
+ Fri, 02 Feb 2024 13:26:15 -0800 (PST)
 X-Forwarded-Encrypted: i=0;
- AJvYcCXk4gqCnDtl8MrBOQdVLHv4VmoDrdjiyhT9ApAAwqJHleblyFeGul2tpBUBcfRe988Jb+yJ3MpSACYV8IO2psd7EOAszjGwNK3aBQAU0EPlPeFBO0RpJ1kNrfT9gnUFKhWNZ7XQWSiF8i5lkQXLumJzXqAyQIOxyxqV2iizlpbpO05YWb5osenx8rheBDdytKvk+XocAZo/4srAkKHo3cn+q7dsypD1RfZX3wuFSlg9bA6LfnY1Y5xXJFxuhDHtjVz6sc8tXhMm4vAJ8vh+7DAQMyV1cO1M1Y7OmvDTp7AArwkvUT5/tpwxUwMbkjLnDALcWoSSBbKjbgo3NxbKH2pOQ4KtcNC56YorTgvCLn+S02cI/g==
+ AJvYcCWe8738tc8wMiy3xXs1CNNQ5rM3MZmMLoYuaT2zNs+o0GN014Y5tIp62SXPsA7CKl3z8KfbeB8FqDjTJTm/HN+oXxloioKDJpJHlwv943sr8/UKCfyw6nUcbOYOxyArs5LS6GHOcmpZd73rZKKY15wpqseVswbMmEkgMRJqpx0Bj8KB9R/XufW+3kIOo7dt/jNsRSxBUrKV7JPVQugW0OeQ8ekn7gvSngZV/LESVdkR1JogStqmAgZO1TthSIIWQlWpr9jg9u4/AvVoiUCCLDXys1EjNQgnrl37wXoOS2NUjsWmjhP0like0fBWSyYzCxOktLEgWWMvWBLBVMBfYLMxUexfhNB6KrWC3ijvNpqEnzmhQgfdjHyeDfj23tlAVp50IvOjuC9HamBJ+EjUEJUxnfD0vOF2a/L9aKjACnbJ6L4VeU8v0GxhMcgM5NVp8ngEizzW16k+jjyHssayxf7OjK7wPYFSmJ9Ytp20qbYO
 Received: from [192.168.27.65] (home.beaume.starnux.net. [82.66.176.246])
  by smtp.gmail.com with ESMTPSA id
- fa18-20020a05600c519200b0040f22171921sm976140wmb.3.2024.02.02.13.25.34
+ fa18-20020a05600c519200b0040f22171921sm976140wmb.3.2024.02.02.13.26.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Feb 2024 13:25:35 -0800 (PST)
-Message-ID: <4af20f9b-6e08-4646-a659-c02234bedb29@linaro.org>
-Date: Fri, 2 Feb 2024 22:25:33 +0100
+ Fri, 02 Feb 2024 13:26:15 -0800 (PST)
+Message-ID: <4992bea2-f22b-4953-8b14-d2810d47fb8a@linaro.org>
+Date: Fri, 2 Feb 2024 22:26:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2] drm/panel: visionox-vtdr6130: Set prepare_prev_first
- flag
+Subject: Re: [PATCH] dt-bindings: visionox-rm69299: Update maintainers
 Content-Language: en-US, fr
-To: Jessica Zhang <quic_jesszhan@quicinc.com>, quic_abhinavk@quicinc.com
-Cc: Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+To: Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg
+ <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- quic_parellan@quicinc.com, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: quic_abhinavk@quicinc.com, Bjorn Andersson <quic_bjorande@quicinc.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-References: <20240201-visionox-vtdr-prev-first-v2-1-32db52867624@quicinc.com>
+References: <20240202-rm69299-maintainers-v1-1-423aa40f344f@quicinc.com>
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
  GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
@@ -98,7 +101,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro Developer Services
-In-Reply-To: <20240201-visionox-vtdr-prev-first-v2-1-32db52867624@quicinc.com>
+In-Reply-To: <20240202-rm69299-maintainers-v1-1-423aa40f344f@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -117,54 +120,34 @@ Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/02/2024 01:10, Jessica Zhang wrote:
-> The DSI host must be enabled for the panel to be initialized in
-> prepare(). Set the prepare_prev_first flag to guarantee this.
+On 02/02/2024 19:03, Jessica Zhang wrote:
+> The current maintainer (Harigovindan P) is no longer reachable through
+> the listed email. Update maintainers list to be Abhinav and I.
 > 
 > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 > ---
-> To: Neil Armstrong <neil.armstrong@linaro.org>
-> To: Sam Ravnborg <sam@ravnborg.org>
-> To: David Airlie <airlied@gmail.com>
-> To: Daniel Vetter <daniel@ffwll.ch>
-> To: Jessica Zhang <quic_jesszhan@quicinc.com>
-> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> To: Maxime Ripard <mripard@kernel.org>
-> To: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: quic_abhinavk@quicinc.com
-> Cc: quic_parellan@quicinc.com
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-kernel@vger.kernel.org
+>   Documentation/devicetree/bindings/display/panel/visionox,rm69299.yaml | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> Changes in v2:
-> - Corrected commit message to mention that DCS on commands are sent during
->    prepare() instead of probe()
-> - Dropped Fixes tag
-> - Rebased onto tip of linux-next
-> - Link to v1: https://lore.kernel.org/r/20230725-visionox-vtdr-prev-first-v1-1-3bc44cec7dc6@quicinc.com
-> ---
->   drivers/gpu/drm/panel/panel-visionox-vtdr6130.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c b/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
-> index a23407b9f6fb6..540099253e1bd 100644
-> --- a/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
-> +++ b/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
-> @@ -287,6 +287,7 @@ static int visionox_vtdr6130_probe(struct mipi_dsi_device *dsi)
->   	dsi->format = MIPI_DSI_FMT_RGB888;
->   	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_NO_EOT_PACKET |
->   			  MIPI_DSI_CLOCK_NON_CONTINUOUS;
-> +	ctx->panel.prepare_prev_first = true;
+> diff --git a/Documentation/devicetree/bindings/display/panel/visionox,rm69299.yaml b/Documentation/devicetree/bindings/display/panel/visionox,rm69299.yaml
+> index fa745a6f4456c..7723990675158 100644
+> --- a/Documentation/devicetree/bindings/display/panel/visionox,rm69299.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/visionox,rm69299.yaml
+> @@ -7,7 +7,8 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+>   title: Visionox model RM69299 Panels
 >   
->   	drm_panel_init(&ctx->panel, dev, &visionox_vtdr6130_panel_funcs,
->   		       DRM_MODE_CONNECTOR_DSI);
+>   maintainers:
+> -  - Harigovindan P <harigovi@codeaurora.org>
+> +  - Abhinav Kumar <quic_abhinavk@quicinc.com>
+> +  - Jessica Zhang <quic_jesszhan@quicinc.com>
+>   
+>   description: |
+>     This binding is for display panels using a Visionox RM692999 panel.
 > 
 > ---
 > base-commit: 51b70ff55ed88edd19b080a524063446bcc34b62
-> change-id: 20230717-visionox-vtdr-prev-first-e00ae02eec9f
+> change-id: 20240202-rm69299-maintainers-7e069f78334f
 > 
 > Best regards,
 
-Thx for resending, it's time to merge those.
-
-Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
