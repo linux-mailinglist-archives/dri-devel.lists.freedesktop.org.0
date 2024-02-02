@@ -2,58 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CC4084784B
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 19:49:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AB4B8478F9
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 20:04:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C941E10E1C6;
-	Fri,  2 Feb 2024 18:49:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6FE710E81F;
+	Fri,  2 Feb 2024 19:04:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="Tm8e2N9X";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="G3qiEnE8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D9BA10E1C6
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 18:49:53 +0000 (UTC)
-Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx1.riseup.net (Postfix) with ESMTPS id 4TRPvz3Q6YzDqLd;
- Fri,  2 Feb 2024 18:49:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1706899792; bh=kIDXrZYa7YvbjaZ39Y/wNvsjQTgKItJ4WaLfAWeaQPI=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=Tm8e2N9XN3xz9TmD5FX7b4LVl5iIr00IBtn9r5OZJw8ap/zye9W8JhG6znpAFNB1N
- D8/kgV4xjxF1g0GANtPUuYYMISjzuSI6RJvxPiFZmW0C7ZZi3CPkNyZuT1s9ukVDCr
- U0WBRuhcAG7DMF9/Ze/jkubhajMs145nVL0eP1vQ=
-X-Riseup-User-ID: AC796D553161309225802F4533227B3C3B461BDFDF791A0A23FAFA2986536A4A
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4TRPvs38wyzFvGP;
- Fri,  2 Feb 2024 18:49:45 +0000 (UTC)
-Message-ID: <034aed14-6eb7-4758-86b9-cc294614f045@riseup.net>
-Date: Fri, 2 Feb 2024 15:49:42 -0300
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
+ [209.85.210.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FE0910E81F
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 19:04:20 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id
+ d2e1a72fcca58-6de287449f1so1704700b3a.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Feb 2024 11:04:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1706900659; x=1707505459;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Npl9pqiYkukISH1qhXGS77Lr3JhlbtXHY6tSof0KXkE=;
+ b=G3qiEnE8livvHrrGtWsEyValTo6XMF0nZznmgyTpB6cNeReZEWajxZ1vNiSzcQZWev
+ wNw6vO66/Zgu09xGMURXpLfP476p++wykukepIDhqHFEDZbftkZM74CLsOgsWoYa0QkA
+ D/rhgz844FJQelMCKb+NlQn77hwSI5777eiU8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706900659; x=1707505459;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Npl9pqiYkukISH1qhXGS77Lr3JhlbtXHY6tSof0KXkE=;
+ b=R/D/Z0+6UekkwdejGxwGh4RA9L65iQUAtqC93Rop4des5AkuLBm55L8+3rUYlcot/F
+ nbD0b7GqANnyU3w7NqlegnRtzRdLpV4bW8xyksRjcCWY6QxZXnCHej7AHTGIeTbmm/xm
+ WZ9cwbHKTCrRffxIg6yUEQELWl/zuap3Pwi/V0ZMv4vBr8PTDovOLLKh/nPPKw1m0XZZ
+ tdEYN47KQaBs/u2ObuJrq/X3bVWxKzQ94wlILDjllvbEUwVFU8KbP5r9RUUpOTgq8RYP
+ 08PzE03KKCSfditBMY6+r45BCw6DTLr+ebEvu6bQvQV+dEbWl0LxD0zXYkQy1QjC54zB
+ oiiw==
+X-Gm-Message-State: AOJu0YylApOtox62FHKjWbrI0V8PtGpUaPyw+Ih6yi7FToz1HG2vbz36
+ f1pp+3w2t8CItFlAIEVZCmAmvilcyUpMtF0GHfrUbZrtjTtCSzDmCs0MS68D/q5e1on7oLn8LGL
+ A1uD/
+X-Google-Smtp-Source: AGHT+IFCpyPMevqxHPeVPHRo8rguLB5uVnRRRLuxPMbaWbXHixnt0A0mZnXv3FwXV68Phi2vfZQnlA==
+X-Received: by 2002:a05:6a00:390a:b0:6df:fa71:f044 with SMTP id
+ fh10-20020a056a00390a00b006dffa71f044mr2375584pfb.0.1706900657236; 
+ Fri, 02 Feb 2024 11:04:17 -0800 (PST)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com.
+ [209.85.128.54]) by smtp.gmail.com with ESMTPSA id
+ d22-20020aa78696000000b006dde0df3a7esm1963820pfo.101.2024.02.02.11.04.16
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 02 Feb 2024 11:04:16 -0800 (PST)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-40ef9382752so5735e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Feb 2024 11:04:16 -0800 (PST)
+X-Received: by 2002:a05:600c:6005:b0:40f:c2f1:9d4c with SMTP id
+ az5-20020a05600c600500b0040fc2f19d4cmr56952wmb.4.1706900654849; Fri, 02 Feb
+ 2024 11:04:14 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 2/7] drm/vkms: Add support for multy-planar framebuffers
-To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Harry Wentland <harry.wentland@amd.com>, Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mairacanal@riseup.net>, Melissa Wen <melissa.srw@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, nicolejadeyee@google.com, marcheu@google.com
-References: <20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net>
- <20240110-vkms-yuv-v2-2-952fcaa5a193@riseup.net>
- <ZbvXHECSBmH0NDZn@localhost.localdomain>
-Content-Language: en-US
-From: Arthur Grillo <arthurgrillo@riseup.net>
-In-Reply-To: <ZbvXHECSBmH0NDZn@localhost.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <b0c0de30-9ef7-5753-928e-f189038b7fb9@quicinc.com>
+In-Reply-To: <b0c0de30-9ef7-5753-928e-f189038b7fb9@quicinc.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 2 Feb 2024 11:03:57 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=WuHtHF7Lh5OBtnumeEFry9SPEm9cRgDKTATjtTmJegrw@mail.gmail.com>
+Message-ID: <CAD=FV=WuHtHF7Lh5OBtnumeEFry9SPEm9cRgDKTATjtTmJegrw@mail.gmail.com>
+Subject: Re: TI SN65DSI86 bridge chip DT binding maintainer
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Cc: "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>, 
+ Bjorn Andersson <quic_bjorande@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,132 +88,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
+On Fri, Feb 2, 2024 at 10:29=E2=80=AFAM Jeffrey Hugo <quic_jhugo@quicinc.co=
+m> wrote:
+>
+> Hi Doug,
+>
+> The DT binding for the TI SN65DSI86 [1] lists Sandeep Panda
+> <spanda@codeaurora.org> as the maintainer within the file.  This is no
+> longer valid because the @codeaurora domain bounces, and Sandeep appears
+> to have left the company.  As such the binding appears to be orphaned,
+> although the file itself is misleading because it needs to be updated.
+>
+> I'd like to find a new maintainer and from what I've seen on list, you
+> seem to be interested and active in this particular bridge chip.  I also
+> see that you are listed as a reviewer of the C code and binding within
+> MAINTAINERS.
+>
+> Would you be willing to volunteer to maintain the binding going forward?
+>
+> [1]: Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
 
-On 01/02/24 14:38, Louis Chauvet wrote:
->>  
->>  /*
->> @@ -23,27 +23,25 @@ static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int
->>   * @frame_info: Buffer metadata
->>   * @x: The x(width) coordinate of the 2D buffer
->>   * @y: The y(Heigth) coordinate of the 2D buffer
->> + * @index: The index of the plane on the 2D buffer
->>   *
->>   * Takes the information stored in the frame_info, a pair of coordinates, and
->> - * returns the address of the first color channel.
->> - * This function assumes the channels are packed together, i.e. a color channel
->> - * comes immediately after another in the memory. And therefore, this function
->> - * doesn't work for YUV with chroma subsampling (e.g. YUV420 and NV21).
->> + * returns the address of the first color channel on the desired index.
->>   */
->>  static void *packed_pixels_addr(const struct vkms_frame_info *frame_info,
->> -				int x, int y)
->> +				int x, int y, size_t index)
->>  {
->> -	size_t offset = pixel_offset(frame_info, x, y);
->> +	size_t offset = pixel_offset(frame_info, x, y, index);
->>  
->>  	return (u8 *)frame_info->map[0].vaddr + offset;
->>  }
-> 
-> This implementation of packed_pixels_addr will only work with
-> block_w == block_h == 1. For packed or tiled formats we will need to use
-> x/y information to extract the correct address, and this address will not 
-> be a single pixel. See below my explanation.
+Yeah, this is fine. Officially "maintainership" is through the
+drm-misc tree, but I can have my name listed in the file. I'm already
+listed in the MAINTAINERS file as the reviewer for this file.
 
-You're right, currently, VKMS only supports non-packed/tiled formats. As
-all the formats I plan to add are too not packed or tiled, I haven't
-added support to it. But if you want to add it, please do :).
+If you want to send a patch I can apply it, or I can post a patch and
+then apply once someone from Qualcomm gives it a Reviewed-by.
 
->> @@ -130,17 +128,28 @@ void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state
->>  {
->>  	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
->>  	struct vkms_frame_info *frame_info = plane->frame_info;
->> -	u8 *src_pixels = get_packed_src_addr(frame_info, y);
->> +	const struct drm_format_info *frame_format = frame_info->fb->format;
->>  	int limit = min_t(size_t, drm_rect_width(&frame_info->dst), stage_buffer->n_pixels);
->> +	u8 *src_pixels[DRM_FORMAT_MAX_PLANES];
->>  
->> -	for (size_t x = 0; x < limit; x++, src_pixels += frame_info->fb->format->cpp[0]) {
->> +	for (size_t i = 0; i < frame_format->num_planes; i++)
->> +		src_pixels[i] = get_packed_src_addr(frame_info, y, i);
->> +
->> +	for (size_t x = 0; x < limit; x++) {
->>  		int x_pos = get_x_position(frame_info, limit, x);
->>  
->> -		if (drm_rotation_90_or_270(frame_info->rotation))
->> -			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1)
->> -				+ frame_info->fb->format->cpp[0] * y;
->> +		if (drm_rotation_90_or_270(frame_info->rotation)) {
->> +			for (size_t i = 0; i < frame_format->num_planes; i++) {
->> +				src_pixels[i] = get_packed_src_addr(frame_info,
->> +								    x + frame_info->rotated.y1, i);
->> +				src_pixels[i] += frame_format->cpp[i] * y;
-> 
-> I find the current rotation management a bit complex to understand. This 
-> is not related to your patch, but as I had to understand this to create my 
-> second patch, I think this could be significanlty simplified.
-
-I also found the rotation logic complex when implementing this. I would
-appreciate it if it were simplified.
-
-> 
-> Please see the below comment about frame_format->cpp, it applies here too. 
-> I think the "easy" way here is simply to reuse the method 
-> get_packed_src_addr every time you need a new pixel.
-> 
->> +			}
->> +		}
->>  
->> 		plane->pixel_read(src_pixels, &out_pixels[x_pos]);
->> +
-> 
-> The usage of cpp and pointer to specific pixel only work for non-packed 
-> and non-blocked pixels, but for example NV30 or Y0L0 need more 
-> informations about the exact location of the pixel to convert and write 
-> the correct pixel value (each pixel can't be referenced directly by a 
-> pointer). For example NV30 uses 5 bytes to store 3 pixels (10 bits each), 
-> so to access the "middle" one you need to read the 5 bytes and do a small 
-> computation to extract it's value.
-
-Great explanation, I can see what is the problem here.
-
-> 
-> I think a simple solution to handle most cases would be to profide two 
-> more parameters: the x and y positions of the pixel to copy, using 
-> "absolute coordinates" (i.e x=0,y=0 means the first byte of the src 
-> buffer, not the first pixel in the `drm_rect src`, this way the method 
-> `pixel_read` can extract the correct value).
-> 
-> This way it become easy to manage "complex" pixel representations in this 
-> loop: simply increment x/y and let the pixel_read method handle 
-> everything.
-> 
-> The second patch I will send is doing this. And as explained before, it 
-> will also simplify a lot the code related to rotation and translation (no 
-> more switch case everywhere to add offset to x/y, it simply use drm_rect_* 
-> helpers).
-
-I like this, expect my review soon :).
-
-> 
-> It's not optimal in term of performance (in some situation it will read 
-> the same block multiple time to generate different pixels), but I 
-> believe it still is an intersting trade-off.
-> 
-> In the future, if performance is actally critical, the whole composition 
-> loop will have to be specialized for each pixel formats: some can be 
-> treated line by line (as it's done today), but with blocks or packed 
-> pixels it's more complex.
-> 
->> +		for (size_t i = 0; i < frame_format->num_planes; i++)
->> +			src_pixels[i] += frame_format->cpp[i];
-> 
-> This is likely working with format with block_w != 1, see explanation 
-> above.
-
-I think you meant that is _not_ working. Yeah, as I already explained,
-it was never my plan to add support for packed or tiled formats.
-
-Best Regards,
-~Arthur Grillo
+-Doug
