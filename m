@@ -2,92 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B4C846ED1
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 12:20:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5141E846ECE
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Feb 2024 12:20:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E695D10F03F;
-	Fri,  2 Feb 2024 11:20:47 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="m6GsUc01";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="ajEqIUc3";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id CACF910F023;
+	Fri,  2 Feb 2024 11:20:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4437610F052
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 11:20:43 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 21E555C012E;
- Fri,  2 Feb 2024 06:20:40 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
- by compute5.internal (MEProxy); Fri, 02 Feb 2024 06:20:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1706872840;
- x=1706959240; bh=pp95Alah+MaXEWfGhGkN/3RO+Gp93mL6PvidT9UVU+8=; b=
- m6GsUc01cCOikIG1qWo/D1HZ88MAECXHJb/Tc8RvS6pTM/JeW4YAqvaQcIkjG2nF
- GTidOWWcanjQESfKC1uK20OWByiCPuhWo64uSKZSd1nnAPmwFNCZKv1uUbzgchvC
- kl8ygko70U2ji5Z577BHEagXSUg3iMToeQanbqiksSwpHiX8Pamu3uopqZqm+/jX
- gpDKQX0XSZQAFglHyt53Kk3JKj9KSg9ovOBqFPQOeFHe0QA/Y0E46HiF0f7Yu0IP
- jbGozR0/wFeoy4i2wSz/h8cJSYOoVHS90CJqWICqlAQIaTXEs6+6DwDyjQiMO/4H
- pN4Y4F4ZrHdUb//9D5kLTg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1706872840; x=
- 1706959240; bh=pp95Alah+MaXEWfGhGkN/3RO+Gp93mL6PvidT9UVU+8=; b=a
- jEqIUc3JtiXd7PLK0ZHIUpsi8vPTWWKcyQlUF8jLjQlj/C6N7UH5r1djOxAVMHlw
- dTh2WLzZQMYq/CnrR2ysHLEF17XoFsylJljKDBIXcyR+SFsgxbwCRIUMKe43fD74
- e9MTZnNiv+NzvbIegoAzSSkKPmQBHi3FVzp7dLQmDvyJN0JatUV4+yw/E+6fdPjM
- 01+96GcEA194C+G3f0jHV4sGOfU5AUvNtLZBZnctcecZ/d20SrnHR4A7YgbxH2yz
- +HUYPJZlIi3GUOpUj/7mnW7mGH/pWLuXFDj5zhY3IKyDPbnFc3l+cTzWpkJfNj03
- uyYdUFrY6mzxUK6G3QSfw==
-X-ME-Sender: <xms:B9C8ZfKSUGv55RP7tEPFqJqwLTyaoUDCk308GAmNknC47HkX3oS2rw>
- <xme:B9C8ZTIZYrDQcV6JKQuzuChdMwmhG5YsuyS0yUWqv6WXmLkvVTCQFNgfjlddz2jo8
- EXRsOdtfOKn7KBEmlw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrfedugedgvdeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
- rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
- htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
- gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:B9C8ZXv-38leow7NGlaV9d8uGW2A3ByBKlY7gF4a6pfWq-bzGeaZ5g>
- <xmx:B9C8ZYZISbuQIA8dyii_cuoMVJNl0mWxO-99h6AEd0WYhly61VzLGQ>
- <xmx:B9C8ZWYJKOGhWX-wCezeDUuWbbtqBgWCpnLm_ExCtAgNpkwn_zRDxA>
- <xmx:CNC8ZepP6dBu09wHOoKw4KyNQq0M8OuYTbPM0BOZJabqZGTActG0zA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 8E525B6008D; Fri,  2 Feb 2024 06:20:39 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-144-ge5821d614e-fm-20240125.002-ge5821d61
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5347410F023
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Feb 2024 11:20:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7A80962496;
+ Fri,  2 Feb 2024 11:20:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DADD9C433C7;
+ Fri,  2 Feb 2024 11:20:23 +0000 (UTC)
+Message-ID: <c37e9225-3890-4f4d-b45c-919b907b184b@xs4all.nl>
+Date: Fri, 2 Feb 2024 12:20:21 +0100
 MIME-Version: 1.0
-Message-Id: <ebab6070-5f3c-4706-9fe8-11f530bb1054@app.fastmail.com>
-In-Reply-To: <CAMuHMdVk0YOUFKy-ZjMHWCGkNMeBGU5Zs6VxtNH38emBnAR9xA@mail.gmail.com>
-References: <CGME20240202095104eucas1p2df4522cc4a7ee29540db1fb61d8e19fc@eucas1p2.samsung.com>
- <20240202095044.1980696-1-m.szyprowski@samsung.com>
- <CAMuHMdVk0YOUFKy-ZjMHWCGkNMeBGU5Zs6VxtNH38emBnAR9xA@mail.gmail.com>
-Date: Fri, 02 Feb 2024 11:20:19 +0000
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Geert Uytterhoeven" <geert@linux-m68k.org>,
- "Marek Szyprowski" <m.szyprowski@samsung.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "Russell King" <linux@armlinux.org.uk>,
- "Geert Uytterhoeven" <geert+renesas@glider.be>,
- "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
- "Alexandre Torgue" <alexandre.torgue@foss.st.com>,
- "Andrew Davis" <afd@ti.com>, "Mark Brown" <broonie@kernel.org>,
- "Lee Jones" <lee@kernel.org>, "Daniel Thompson" <daniel.thompson@linaro.org>, 
- "Jingoo Han" <jingoohan1@gmail.com>, "Dave Airlie" <airlied@gmail.com>,
- "Daniel Vetter" <daniel@ffwll.ch>
-Subject: Re: [PATCH] ARM: multi_v7_defconfig: Enable BACKLIGHT_CLASS_DEVICE
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB property
+Content-Language: en-US, nl
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>,
+ Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+ Samuel Holland <samuel@sholland.org>, Sandy Huang <hjc@rock-chips.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-doc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ David Airlie <airlied@gmail.com>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
+ <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
+ <20240115143308.GA159345@toolbox> <874jerf7ot.fsf@intel.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <874jerf7ot.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,54 +100,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 2, 2024, at 11:07, Geert Uytterhoeven wrote:
-> On Fri, Feb 2, 2024 at 10:51=E2=80=AFAM Marek Szyprowski <m.szyprowski=
-@samsung.com> wrote:
->> core, because the DRM core is set to be compiled-in in this defconfig.
->> This leaves all DRM display panels without integrated backlight contr=
-ol,
->> even if the needed modules have been properly loaded and probed.
->
-> Hmm, that's bad.
->
-> Is there any way to fix this in DRM?
-> A quick grep shows that DRM is using the full monty of
-> IS_{BUILTIN,ENABLED,MODULE,REACHABLE}(CONFIG_BACKLIGHT_CLASS_DEVICE).
-> Probably not all of them are in perfect sync?
-
-The IS_REACHABLE() ones are almost certainly bugs, as are the
-'select BACKLIGHT_CLASS_DEVICE' ones we have in drivers/gpu.
-
-> Several DRM drivers do select BACKLIGHT_CLASS_DEVICE, but if that
-> does not work in the modular case, it should be fixed.
-
-The select should do the right thing in principle, but mixing
-it with depends is what causes circular dependencies. Unfortunately
-trying to fix it likely also causes those, but I think it's worth
-revisiting.
-
-It should be possible to change it like this:
-
-- change all DRM drivers that require the class to 'depends on
-  BACKLIGHT_CLASS_DEVICE'
-
-- change all those drivers that can optionally use it to
-  'depends on BACKLIGHT_CLASS_DEVICE || !BACKLIGHT_CLASS_DEVICE'
-  to avoid the dependency on a loadable module
-
-- Make BACKLIGHT_CLASS_DEVICE itself default to 'DRM' in order
-  to avoid regressions in defconfig files but still make it
-  possible to turn it off.
-
->> Fix this by selecting BACKLIGHT_CLASS_DEVICE to be compiled-in in
->> multi_v7_defconfig.
+On 02/02/2024 12:04, Jani Nikula wrote:
+> On Mon, 15 Jan 2024, Sebastian Wick <sebastian.wick@redhat.com> wrote:
+>> On Thu, Dec 07, 2023 at 04:49:31PM +0100, Maxime Ripard wrote:
+>>> The i915 driver has a property to force the RGB range of an HDMI output.
+>>> The vc4 driver then implemented the same property with the same
+>>> semantics. KWin has support for it, and a PR for mutter is also there to
+>>> support it.
+>>>
+>>> Both drivers implementing the same property with the same semantics,
+>>> plus the userspace having support for it, is proof enough that it's
+>>> pretty much a de-facto standard now and we can provide helpers for it.
+>>>
+>>> Let's plumb it into the newly created HDMI connector.
+>>>
+>>> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> 
+> [snip]
+> 
+>>> @@ -1655,6 +1678,26 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector_property);
+>>>  /**
+>>>   * DOC: HDMI connector properties
+>>>   *
+>>> + * Broadcast RGB
+>>> + *      Indicates the RGB Quantization Range (Full vs Limited) used.
+>>> + *      Infoframes will be generated according to that value.
+>>> + *
+>>> + *      The value of this property can be one of the following:
+>>> + *
+>>> + *      Automatic:
+>>> + *              RGB Range is selected automatically based on the mode
+>>> + *              according to the HDMI specifications.
+>>> + *
+>>> + *      Full:
+>>> + *              Full RGB Range is forced.
+>>> + *
+>>> + *      Limited 16:235:
+>>> + *              Limited RGB Range is forced. Unlike the name suggests,
+>>> + *              this works for any number of bits-per-component.
+>>> + *
+>>> + *      Drivers can set up this property by calling
+>>> + *      drm_connector_attach_broadcast_rgb_property().
+>>> + *
 >>
->> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
->
-> Sounds like a good interim solution.
->
-> Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>> This is a good time to document this in more detail. There might be two
+>> different things being affected:
+>>
+>> 1. The signalling (InfoFrame/SDP/...)
+>> 2. The color pipeline processing
+>>
+>> All values of Broadcast RGB always affect the color pipeline processing
+>> such that a full-range input to the CRTC is converted to either full- or
+>> limited-range, depending on what the monitor is supposed to accept.
+>>
+>> When automatic is selected, does that mean that there is no signalling,
+>> or that the signalling matches what the monitor is supposed to accept
+>> according to the spec? Also, is this really HDMI specific?
+> 
+> Automatic is based on the mode as described in the specs
+> below. Basically certain modes are expected to be broadcast range, and
+> others full range.
+> 
+> I don't remember why we don't use the full range if the display
+> indicates it supports selectable quantization range in Video
+> Capabilities Data Block. It's quite possible there are displays that
+> declare support but don't. Cc: Ville.
 
-Thanks, I've applied it to the soc/defconfig branch now.
+I have not seen such displays. Enabling RGB Selectable Quantization Range
+is something that a vendor has to do explicitly, so it is reasonable to
+expect that it works, otherwise there would be no point to that flag!
 
-     Arnd
+Transmitting full range if possible gives a better picture quality and
+so is recommended.
+
+> 
+> - HDMI 1.4b section 6.6 Video Quantization Ranges
+> 
+> - HDMI 2.1 section 7.3 Video Quantization Ranges
+> 
+> - DP 2.1 (and earlier) section 5.1.1.1 Video Colorimetry
+> 
+> - CTA-861-H (and earlier) section 5.1 Default Encoding Parameters and
+>   section 6.4.3 Quantization Range
+
+Note that CTA-861-H deprecated the use of Default Range in the AVI
+InfoFrame, instead the source should always signal limited or full range
+in the Q field.
+
+Regards,
+
+	Hans
+
+> 
+>> When full or limited is selected and the monitor doesn't support the
+>> signalling, what happens?
+> 
+> 1) Limited selected, display expects full, colors seem washed out.
+> 
+> 2) Full selected, display expects limited, black screen possible.
+> 
+> We receive the occasional bug report for 1, because there are displays
+> that incorrectly expect full when spec says it should be limited. We
+> reject the bug reports, because erring the other way can lead to black
+> screens.
+> 
+> 
+> BR,
+> Jani.
+> 
+> 
+> 
+
