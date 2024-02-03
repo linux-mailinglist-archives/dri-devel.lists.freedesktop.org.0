@@ -2,90 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51E65848696
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Feb 2024 14:47:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4811E8486AB
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Feb 2024 15:21:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1703B10F46C;
-	Sat,  3 Feb 2024 13:47:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD65810F4FF;
+	Sat,  3 Feb 2024 14:21:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="x4ZfH1Bx";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PJ/Lp2fi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7298310F469
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Feb 2024 13:47:29 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id
- 2adb3069b0e04-5113a97a565so1645273e87.3
- for <dri-devel@lists.freedesktop.org>; Sat, 03 Feb 2024 05:47:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1706968048; x=1707572848; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=pw5pFN7i641hIu8JSJl2aLirgM2QU5HnN7Q1+QEDosg=;
- b=x4ZfH1BxtsYkx8VfN57MY6S+WHi02afArhhkZjZKi63r932s/BKmsoBH5pvS0Lvo73
- ohVcZwlDClkgUm+dsjCBefpNDkjC0P+2SKPkaVWuLzj6opLzPgqSx2aGHS4VaDA5pm/k
- gBhzKkmIJVXuyd7fJ5vP1qgcFo7AG6K9WtDfe+Jz5TU3/43ojZFeFVv0fUwvmQlshmOb
- sebllXEZZmAffk4oI6uH6ZIexZMktfrxJ2Y6v00o5csVp3OnMEHM7ztP0r3wClSPL8TW
- PUTgeaClAeBxXCZfF760zDxmghcLdGeiiRkbBwFMBjRi6CJ6z8VdWHWWeHGo8MGxo5BX
- G+nQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1706968048; x=1707572848;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=pw5pFN7i641hIu8JSJl2aLirgM2QU5HnN7Q1+QEDosg=;
- b=G+oW2W8D7I5VRKwYSW+B2J/ySCASoScSLw3L+Sa6/6jlQoKhDFrbgrvaIR1vjlE8jF
- rvXkkaJynlwQgi9fAf6nANAt6f3iu2Po/fbkzRC6y82Ju0ER2Codq+RY6X3NeldWpvB4
- 9Rrsz+SaYnfYPD9NtSQIC8s3toM/RUTKT05Jm/cfyogfZVi0nqPVynbgpH6Zl2XWAJwW
- 4DUDbSFm/MhiLto78xpPDbhqpxPwHQ1G+LwX8D3yzZkSODiRPNyw/ab202G21JfFUQCh
- nDMbleMiiFy7DsnMv5Fuzzd/fzNXW1e0h4z13vrhwi1Oa7FTR1iUqPs2eJhCpfLeMSnx
- mEiw==
-X-Gm-Message-State: AOJu0YwTrTqVSlrM6g/c95V3lZCS9FH5hkRpzFkqVuzt2Z93rxs11TDp
- dOkF6Aq1qK6T78zFzDV8wvjP/uSOduuxp2vutC52fLlcaPymc8iTisNNfs2s0Mc=
-X-Google-Smtp-Source: AGHT+IEszdnDIn/Y5wPJVYvshohWKpTy3aZ8P4gLhxlbyuJBsxd7yMonStPFPg6uvroOanJh5C/Dow==
-X-Received: by 2002:ac2:43c8:0:b0:511:4860:425f with SMTP id
- u8-20020ac243c8000000b005114860425fmr609160lfl.17.1706968047668; 
- Sat, 03 Feb 2024 05:47:27 -0800 (PST)
-X-Forwarded-Encrypted: i=0;
- AJvYcCXTzGT4XGIU5jd7krQi2gTAInO1eTDD20AYIXqfFy5sHfnr6wXKfYdHPN2DPwLX8xEXUzhmHZNIYZ+Vg62dEa14fxmr9sEJl1LTznOnCiBJCHXEJsdsNdES3Lb6HHTPgY27viWNJAeZ9SXs8yma1ut+TOccUiXWmUKM76iEVWXpFIcFbj/M3SXt9J20Xgvjw8VZrsPh6l0tAZ4QWGbt4PJRY1GaEZueieb3+ktbgSW4Rs+SApKjrW81U92cfzhScJMcK4XAl46J2chKvNecuU/io6tlW2suMWxGwGwKv7vt3Hl5aBNu/UJM1g6aTXm4ONMG+lgDLTcW4q9OTTYQSvS68YD+FT6U2tQmVKKEh9kDbfYIjVZ4tgKL7LvUMUjWROiaaGSiPMU1Y3sP4CgRnM2RLOkJLKRfqf4G41NbMIc1c26j9yVAvu8=
-Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- c29-20020a19655d000000b00511480138f6sm130173lfj.8.2024.02.03.05.47.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Feb 2024 05:47:27 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 03 Feb 2024 15:47:25 +0200
-Subject: [PATCH] drm/msm/dp: allow voltage swing / pre emphasis of 3
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF92D10F4FF
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Feb 2024 14:21:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1706970100; x=1738506100;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=iKJsA8qrv4b0XlTNT8h8NVU8w8Bmbd2G3WGljcs7ppQ=;
+ b=PJ/Lp2finIzWX0SeImv3LRgzMHVndLSO/4Y4qPA2Md6YR1OGuIOfoG+Q
+ agXPtnAmp4M+RXkmPVnRmS0HO9PNiL7tZs1kg1YICVBC58wiU8AQ4vvfm
+ 8bVP9hmGWD0T0DnlDGPV3bPl3nSaSMsA0ihrbwWpy9+V3Q/oqpKY/AoTJ
+ 0+h/7LUFNDMv/i4qEI88Sh3E61xRV8WgZ6zJ1xj8MRivQ81tHEOBS7att
+ DcUIub6jce2TtSYt6tZ1/RpobIP7bjER8xcTheQ15gtioRxSV7ZmecNBR
+ 9OCtjCXT5C5S25tuekydlZ5cA0TDmC7gquMoQy5a5zvmn6qftS1uKVcmz A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="474804"
+X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
+   d="scan'208";a="474804"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2024 06:21:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="932751511"
+X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; d="scan'208";a="932751511"
+Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
+ by fmsmga001.fm.intel.com with ESMTP; 03 Feb 2024 06:21:31 -0800
+Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rWGtd-00059K-24;
+ Sat, 03 Feb 2024 14:21:29 +0000
+Date: Sat, 3 Feb 2024 22:20:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dharma Balasubiramani <dharma.b@microchip.com>,
+ manikandan.m@microchip.com, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, airlied@gmail.com, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux4microchip@microchip.com
+Subject: Re: [PATCH 2/3] drm/bridge: add lvds controller support for sam9x7
+Message-ID: <202402032248.6puqAuzM-lkp@intel.com>
+References: <20240122082947.21645-3-dharma.b@microchip.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240203-dp-swing-3-v1-1-6545e1706196@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAOxDvmUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDIwNj3ZQC3eLyzLx0XWPdJDOTtLTkVBND0xRLJaCGgqLUtMwKsGHRsbW
- 1AIEJIy5cAAAA
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: Kuogee Hsieh <quic_khsieh@quicinc.com>, 
- Stephen Boyd <swboyd@chromium.org>, Doug Anderson <dianders@chromium.org>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4768;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=uYr58wgFc5nItKc5X4u2aBvF0R7wzlYmYT4bOMAqMYs=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBlvkPuKfIwae5yOn0QbddgFmxk+UYA5FqHO4DUU
- Diw2DiIa9mJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZb5D7gAKCRCLPIo+Aiko
- 1eEzCACD7jF8Vz2stVzLH7NleE0wqUGkLFPAg5AdLNQHQKk1CxAE/eWIZ3Hz3D00IrDNcesJNI1
- Rk+//3ghboGBEKE/fu67fo/Shj+HoV6uvmMCjq3/Gd0iBr/SLQF1/ux8QDWJv0V0DxBgCY69OuC
- 4ufMn80d/zsBP0td/ZQKgs18nKO7E28Rm2Qzag5NZCP52YmfNXdy8tBlFxL/VZLxpATnG8v1P6q
- tLk14UcCVkPXyXqVUQF2Gc1qQwz0qHhksAqOCF1xg4r/BvyYu1VAjMYsYh+nGnpsXO9dJwjhm9e
- 7juD87ThD/cZ4VAlyC1FKXlsljqBkzDLFBlvkeEEJZj33v2s
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240122082947.21645-3-dharma.b@microchip.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,133 +76,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Both dp_link_adjust_levels() and dp_ctrl_update_vx_px() limit swing and
-pre-emphasis to 2, while the real maximum value for the sum of the
-voltage swing and pre-emphasis is 3. Fix the DP code to remove this
-limitation.
+Hi Dharma,
 
-Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/dp/dp_ctrl.c |  6 +++---
- drivers/gpu/drm/msm/dp/dp_link.c | 22 +++++++++++-----------
- drivers/gpu/drm/msm/dp/dp_link.h | 14 +-------------
- 3 files changed, 15 insertions(+), 27 deletions(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index 77a8d9366ed7..26241970019f 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -1024,14 +1024,14 @@ static int dp_ctrl_update_vx_px(struct dp_ctrl_private *ctrl)
- 	if (ret)
- 		return ret;
- 
--	if (voltage_swing_level >= DP_TRAIN_VOLTAGE_SWING_MAX) {
-+	if (voltage_swing_level >= DP_TRAIN_LEVEL_MAX) {
- 		drm_dbg_dp(ctrl->drm_dev,
- 				"max. voltage swing level reached %d\n",
- 				voltage_swing_level);
- 		max_level_reached |= DP_TRAIN_MAX_SWING_REACHED;
- 	}
- 
--	if (pre_emphasis_level >= DP_TRAIN_PRE_EMPHASIS_MAX) {
-+	if (pre_emphasis_level >= DP_TRAIN_LEVEL_MAX) {
- 		drm_dbg_dp(ctrl->drm_dev,
- 				"max. pre-emphasis level reached %d\n",
- 				pre_emphasis_level);
-@@ -1122,7 +1122,7 @@ static int dp_ctrl_link_train_1(struct dp_ctrl_private *ctrl,
- 		}
- 
- 		if (ctrl->link->phy_params.v_level >=
--			DP_TRAIN_VOLTAGE_SWING_MAX) {
-+			DP_TRAIN_LEVEL_MAX) {
- 			DRM_ERROR_RATELIMITED("max v_level reached\n");
- 			return -EAGAIN;
- 		}
-diff --git a/drivers/gpu/drm/msm/dp/dp_link.c b/drivers/gpu/drm/msm/dp/dp_link.c
-index 98427d45e9a7..e7da0571ecff 100644
---- a/drivers/gpu/drm/msm/dp/dp_link.c
-+++ b/drivers/gpu/drm/msm/dp/dp_link.c
-@@ -1107,6 +1107,7 @@ int dp_link_get_colorimetry_config(struct dp_link *dp_link)
- int dp_link_adjust_levels(struct dp_link *dp_link, u8 *link_status)
- {
- 	int i;
-+	u8 max_p_level;
- 	int v_max = 0, p_max = 0;
- 	struct dp_link_private *link;
- 
-@@ -1138,30 +1139,29 @@ int dp_link_adjust_levels(struct dp_link *dp_link, u8 *link_status)
- 	 * Adjust the voltage swing and pre-emphasis level combination to within
- 	 * the allowable range.
- 	 */
--	if (dp_link->phy_params.v_level > DP_TRAIN_VOLTAGE_SWING_MAX) {
-+	if (dp_link->phy_params.v_level > DP_TRAIN_LEVEL_MAX) {
- 		drm_dbg_dp(link->drm_dev,
- 			"Requested vSwingLevel=%d, change to %d\n",
- 			dp_link->phy_params.v_level,
--			DP_TRAIN_VOLTAGE_SWING_MAX);
--		dp_link->phy_params.v_level = DP_TRAIN_VOLTAGE_SWING_MAX;
-+			DP_TRAIN_LEVEL_MAX);
-+		dp_link->phy_params.v_level = DP_TRAIN_LEVEL_MAX;
- 	}
- 
--	if (dp_link->phy_params.p_level > DP_TRAIN_PRE_EMPHASIS_MAX) {
-+	if (dp_link->phy_params.p_level > DP_TRAIN_LEVEL_MAX) {
- 		drm_dbg_dp(link->drm_dev,
- 			"Requested preEmphasisLevel=%d, change to %d\n",
- 			dp_link->phy_params.p_level,
--			DP_TRAIN_PRE_EMPHASIS_MAX);
--		dp_link->phy_params.p_level = DP_TRAIN_PRE_EMPHASIS_MAX;
-+			DP_TRAIN_LEVEL_MAX);
-+		dp_link->phy_params.p_level = DP_TRAIN_LEVEL_MAX;
- 	}
- 
--	if ((dp_link->phy_params.p_level > DP_TRAIN_PRE_EMPHASIS_LVL_1)
--		&& (dp_link->phy_params.v_level ==
--			DP_TRAIN_VOLTAGE_SWING_LVL_2)) {
-+	max_p_level = DP_TRAIN_LEVEL_MAX - dp_link->phy_params.v_level;
-+	if (dp_link->phy_params.p_level > max_p_level) {
- 		drm_dbg_dp(link->drm_dev,
- 			"Requested preEmphasisLevel=%d, change to %d\n",
- 			dp_link->phy_params.p_level,
--			DP_TRAIN_PRE_EMPHASIS_LVL_1);
--		dp_link->phy_params.p_level = DP_TRAIN_PRE_EMPHASIS_LVL_1;
-+			max_p_level);
-+		dp_link->phy_params.p_level = max_p_level;
- 	}
- 
- 	drm_dbg_dp(link->drm_dev, "adjusted: v_level=%d, p_level=%d\n",
-diff --git a/drivers/gpu/drm/msm/dp/dp_link.h b/drivers/gpu/drm/msm/dp/dp_link.h
-index 9dd4dd926530..79c3a02b8dac 100644
---- a/drivers/gpu/drm/msm/dp/dp_link.h
-+++ b/drivers/gpu/drm/msm/dp/dp_link.h
-@@ -19,19 +19,7 @@ struct dp_link_info {
- 	unsigned long capabilities;
- };
- 
--enum dp_link_voltage_level {
--	DP_TRAIN_VOLTAGE_SWING_LVL_0	= 0,
--	DP_TRAIN_VOLTAGE_SWING_LVL_1	= 1,
--	DP_TRAIN_VOLTAGE_SWING_LVL_2	= 2,
--	DP_TRAIN_VOLTAGE_SWING_MAX	= DP_TRAIN_VOLTAGE_SWING_LVL_2,
--};
--
--enum dp_link_preemaphasis_level {
--	DP_TRAIN_PRE_EMPHASIS_LVL_0	= 0,
--	DP_TRAIN_PRE_EMPHASIS_LVL_1	= 1,
--	DP_TRAIN_PRE_EMPHASIS_LVL_2	= 2,
--	DP_TRAIN_PRE_EMPHASIS_MAX	= DP_TRAIN_PRE_EMPHASIS_LVL_2,
--};
-+#define DP_TRAIN_LEVEL_MAX	3
- 
- struct dp_link_test_video {
- 	u32 test_video_pattern;
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.8-rc2 next-20240202]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
----
-base-commit: 41d66f96d0f15a0a2ad6fa2208f6bac1a66cbd52
-change-id: 20240203-dp-swing-3-b64ffce415d9
+url:    https://github.com/intel-lab-lkp/linux/commits/Dharma-Balasubiramani/dt-bindings-display-bridge-add-sam9x7-lvds-compatible/20240122-163209
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240122082947.21645-3-dharma.b%40microchip.com
+patch subject: [PATCH 2/3] drm/bridge: add lvds controller support for sam9x7
+config: arm-randconfig-r112-20240203 (https://download.01.org/0day-ci/archive/20240203/202402032248.6puqAuzM-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240203/202402032248.6puqAuzM-lkp@intel.com/reproduce)
 
-Best regards,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402032248.6puqAuzM-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/bridge/microchip-lvds.c:236:24: sparse: sparse: symbol 'mchp_lvds_driver' was not declared. Should it be static?
+
+vim +/mchp_lvds_driver +236 drivers/gpu/drm/bridge/microchip-lvds.c
+
+   235	
+ > 236	struct platform_driver mchp_lvds_driver = {
+   237		.probe = mchp_lvds_probe,
+   238		.remove = mchp_lvds_remove,
+   239		.driver = {
+   240			   .name = "microchip-lvds",
+   241			   .of_match_table = mchp_lvds_dt_ids,
+   242		},
+   243	};
+   244	module_platform_driver(mchp_lvds_driver);
+   245	
+
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
