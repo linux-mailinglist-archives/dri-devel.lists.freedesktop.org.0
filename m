@@ -2,58 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AA44848868
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Feb 2024 20:13:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F27288488EB
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Feb 2024 22:20:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E6FB10EC88;
-	Sat,  3 Feb 2024 19:13:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0674F10FD1A;
+	Sat,  3 Feb 2024 21:20:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RuhPDqUA";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=marliere.net header.i=@marliere.net header.b="Q8nZDUpm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEEFE10EB3B
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Feb 2024 19:13:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1706987609; x=1738523609;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=pHok6RksrsEONhRmSw62ZPWwkRDVQiY7VhfooE0bS7I=;
- b=RuhPDqUAWMmDQ7UmDnI2Vd0SkYiZfmlNpO8Y/KELZWEvUFDSSESdk29Z
- xzkbEK0vQ7Nhsl40VF/3w0YU/kgcMu5mWcs6NexJNzl869a8E/PLu5Nz7
- AzrRMux3/6SqF3fNNRMGh97HeuSe5WYSbm9xL285Ho7GBOXTKC7/k9Uun
- NSsWpE6TI/KXQSEb1VpmE392hADM9bnzPVRVz0odzw5N+J1LwoLRqqHdy
- dP/vlO11nfmaqx3H9p9xioL+f8MDzUxX3lfCwsMKgLM64w1cbpi71hdLj
- xVu04kRQuWsMCTptTuwDj9HYd+nRxQnF3Sfw/8sgvObHUfFszGKX5Aqyp g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="435476118"
-X-IronPort-AV: E=Sophos;i="6.05,241,1701158400"; d="scan'208";a="435476118"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2024 11:13:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,241,1701158400"; 
-   d="scan'208";a="4973109"
-Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
- by orviesa003.jf.intel.com with ESMTP; 03 Feb 2024 11:13:21 -0800
-Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rWLS2-0005Ug-1p;
- Sat, 03 Feb 2024 19:13:18 +0000
-Date: Sun, 4 Feb 2024 03:12:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
- pjones@redhat.com, deller@gmx.de, ardb@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 3/8] firmware/sysfb: Set firmware-framebuffer parent
- device
-Message-ID: <202402040214.GFutmkRC-lkp@intel.com>
-References: <20240202120140.3517-4-tzimmermann@suse.de>
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA93B10F748
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Feb 2024 18:24:40 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id
+ d9443c01a7336-1d93f2c3701so16973715ad.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 03 Feb 2024 10:24:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706984680; x=1707589480;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:dkim-signature:from:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=1tBtDof9oDKavazJV1vIQGt3aWtLYVYOxE0CKitiEaw=;
+ b=lLsdomBzhvrBw9Yo8idhMJ/mh1WlMcAsaUU/B/Q+4PkGYCqWaggN3bSEvW7H5SYlXd
+ adqYPNZ+WRYLUY3fpBfH5o2IcQEr2wOKuLKTSARbhWaxI+kEw6A3q9y1MViCXSkoxEoI
+ RdKe3zyI/3d8b2OqrDq559NjnvB1ZxpThrUL4vPQuQsSJ1JDxY61xF0Zpu7yiuFcQ5Wb
+ WlFBvsIxTsu5Fno9R2X50sBU9n8xXCeh2k21waI92RdCJwuIY8EiVTtapfolBFejmCOv
+ eRHTucl6CH67t+Ot/8dtU7E7Yd3P80KJuPO+HKaGwOrfe2CeL0tTqnSvNzsBC9yxvzA4
+ wkDA==
+X-Gm-Message-State: AOJu0Yy1zAIwGy9MRL3vRqJ4NqA/MoRG0npPwKeYvZIc0L/4kgFgJoo4
+ O8KXy3eeLzvFdu3CDuFYWz/1cYufDqZrCSYi7ZdlkqOovsjG5tIe+qexn4uUpghFNA==
+X-Google-Smtp-Source: AGHT+IHWeVKFFPJ1I98e4sWPQC/ibyQF1vb9MVgoVL+efXw8lKv1v55lJY+x7za+d7oAmJy4712A1g==
+X-Received: by 2002:a17:903:2092:b0:1d9:8ac8:d77b with SMTP id
+ d18-20020a170903209200b001d98ac8d77bmr1626033plc.17.1706984680016; 
+ Sat, 03 Feb 2024 10:24:40 -0800 (PST)
+X-Forwarded-Encrypted: i=0;
+ AJvYcCVyA3rlykhNGs2+EmYfC2jAcPFRroT7xvdg349JtkDnXfqtFosnLhFQuOrSOo7p9j9lpS1IMFaoh2H6TQEyANPtyTqMXVS6wYXUhEhOehzMnVoWeD8xULi5/4XGHO3Ge9/ygDhSW06RZ9EBowj1i711Na8epXyFMzMUW34zj8jwW0XwH7+83P1lsUEN29CzPh+kAe9IxQv3+m3tCRnY+AeLvETRY3hSH5WXzZiulm3Hn88jaffy
+Received: from mail.marliere.net ([24.199.118.162])
+ by smtp.gmail.com with ESMTPSA id
+ o11-20020a170903008b00b001d94c01ae96sm3549186pld.66.2024.02.03.10.24.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 03 Feb 2024 10:24:39 -0800 (PST)
+From: "Ricardo B. Marliere" <ricardo@marliere.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
+ s=2023; t=1706984677;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1tBtDof9oDKavazJV1vIQGt3aWtLYVYOxE0CKitiEaw=;
+ b=Q8nZDUpmruOMasFb7BTyiRVYl6dDR/x30idja+v7A5WS+cdShSWMANwOn7hsvlmsdxcvMq
+ yUsbnIBSoweQTCD2Utkg6v4uhLSJtucrW1/uLhrgWPsQBJdYmzqOqXAngRnx2bfVOVDSSb
+ /GIpjLF/vh7c0jc0U/aqJ2KR4SRvTHUoJ02m3UNnq9zXxgIuZKcKEJPHji0ppwEwKN2LaS
+ dMfUD1ezTqRzy+fH99y4JS5w10f06Nr1Ab4kyMN/W9U8YDrmBdNSZRVu5oeCNT8OOk2bUi
+ q8l+AiEWJGjFKaXh/XlJv4yDqSwYozYovbOG8rJcPESbEYm1XZXlYhrgTS1vSw==
+Authentication-Results: ORIGINATING;
+ auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
+Subject: [PATCH 0/2] drivers: drm: struct bus_type cleanup
+Date: Sat, 03 Feb 2024 15:25:02 -0300
+Message-Id: <20240203-bus_cleanup-gpu-v1-0-1b6ecdb5f941@marliere.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240202120140.3517-4-tzimmermann@suse.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAP6EvmUC/x3MQQqAIBBA0avErBMmM6KuEhFpow2EiWIE0d2Tl
+ m/x/wOJIlOCsXog0sWJT1/Q1BWYffWOBG/FIFEqlNgKndNiDlp9DsKFLNAO2PVKG5IKShUiWb7
+ /4zS/7wfajb/cYQAAAA==
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Ricardo B. Marliere" <ricardo@marliere.net>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1369; i=ricardo@marliere.net; 
+ h=from:subject:message-id;
+ bh=EHsop8OSD89DvFIwCtnmWiC8KY/ajnvUqLfFEGNYwCc=; 
+ b=owEBbQKS/ZANAwAKAckLinxjhlimAcsmYgBlvoUBZvjjLTROlWBYxpUUj+9QjyBFkHbTHXRD3
+ svTQTQ0a7eJAjMEAAEKAB0WIQQDCo6eQk7jwGVXh+HJC4p8Y4ZYpgUCZb6FAQAKCRDJC4p8Y4ZY
+ pqjWD/9IpjVqk5r3J+ZuT/if1aJo8N1Sji6/DMWy30pHg6VDHN9LQ/OyyRczPUo6ku/krvQeyE0
+ JO2EUme1v5R3otlfkOxXpOu4ZuPEbgOw3dj/y788396vfOOvrDY4KkGBMmC8XrknilgQ//wyz3Z
+ 5Hbvi+Gd+MsoO4Uqy8NddimzIawaxcy9JcrW82bv4SVNwJFBDdANRjuWGVr12GrVDCRAqTj/aDR
+ 3p8BWaGw9vIMgwoIOJqIm29XX99fvJjto4ElJ36+Dhn8hNxLUgsgM1AcRkksE0n+ns95v6LznEN
+ 3c8DbkZzEQrLAoeVZFbdPVZs4ZnaHhIv3B3X0lU88vCmjgNxq5gLV3WXq4XE17b1ZMavXpyYcUd
+ vPZ00nO/YzfyMwzmeuOP6SzbEgKGtwMuq5HKWmmrYuMTdtEolRaJdkMs1QK6LxtvDVlwAwXB0h8
+ ulKp3u8qKg6D5KQrGpKN5h68Mxj9NJ6gQxDbRit2bdJ2tMcQO5QwAmOhg87M/Y1+UPnqF72gluU
+ K8VuT2W5jxcM90YRE4evo1+7RG9HW3WYGc80prBwIwTsueDSI5TxFdl8eNI+baZNHFlNZJxlVre
+ w2fasHxlB4sS/O5ay9gN0B5V+hl9hh3OkMiHTne0pxDX9AbGa3jkfLqejyORv04DZjJEemaR3rn
+ H+jmCIPradmfTyA==
+X-Developer-Key: i=ricardo@marliere.net; a=openpgp;
+ fpr=030A8E9E424EE3C0655787E1C90B8A7C638658A6
+X-Mailman-Approved-At: Sat, 03 Feb 2024 21:20:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,108 +106,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+This series is part of an effort to cleanup the users of the driver
+core, as can be seen in many recent patches authored by Greg across the
+tree (e.g. [1]). Specifically, this series is part of the task of
+splitting one of his TODOs [2].
 
-kernel test robot noticed the following build errors:
+---
+[1]: https://lore.kernel.org/lkml/?q=f%3Agregkh%40linuxfoundation.org+s%3A%22make%22+and+s%3A%22const%22
+[2]: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git/commit/?h=bus_cleanup&id=26105f537f0c60eacfeb430abd2e05d7ddcdd8aa
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-tip/drm-tip linus/master v6.8-rc2 next-20240202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: David Airlie <airlied@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:  <dri-devel@lists.freedesktop.org>
+Cc:  <linux-kernel@vger.kernel.org>
+Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/video-Add-helpers-for-decoding-screen_info/20240202-200314
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240202120140.3517-4-tzimmermann%40suse.de
-patch subject: [PATCH v2 3/8] firmware/sysfb: Set firmware-framebuffer parent device
-config: i386-buildonly-randconfig-002-20240203 (https://download.01.org/0day-ci/archive/20240204/202402040214.GFutmkRC-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402040214.GFutmkRC-lkp@intel.com/reproduce)
+---
+Ricardo B. Marliere (2):
+      drm: display: make dp_aux_bus_type const
+      drm: mipi-dsi: make mipi_dsi_bus_type const
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402040214.GFutmkRC-lkp@intel.com/
+ drivers/gpu/drm/display/drm_dp_aux_bus.c | 2 +-
+ drivers/gpu/drm/drm_mipi_dsi.c           | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+---
+base-commit: 3d94e7584486f7ac4a44fe215330ae6a1094e492
+change-id: 20240203-bus_cleanup-gpu-0f90574bce24
 
-All errors (new ones prefixed by >>):
-
-   drivers/firmware/sysfb.c: In function 'sysfb_init':
->> drivers/firmware/sysfb.c:104:8: error: too many arguments to function 'sysfb_create_simplefb'
-      pd = sysfb_create_simplefb(si, &mode, parent);
-           ^~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/firmware/sysfb.c:36:0:
-   include/linux/sysfb.h:105:39: note: declared here
-    static inline struct platform_device *sysfb_create_simplefb(const struct screen_info *si,
-                                          ^~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/sysfb_create_simplefb +104 drivers/firmware/sysfb.c
-
-    83	
-    84	static __init int sysfb_init(void)
-    85	{
-    86		struct screen_info *si = &screen_info;
-    87		struct device *parent;
-    88		struct simplefb_platform_data mode;
-    89		const char *name;
-    90		bool compatible;
-    91		int ret = 0;
-    92	
-    93		mutex_lock(&disable_lock);
-    94		if (disabled)
-    95			goto unlock_mutex;
-    96	
-    97		sysfb_apply_efi_quirks();
-    98	
-    99		parent = sysfb_parent_dev(si);
-   100	
-   101		/* try to create a simple-framebuffer device */
-   102		compatible = sysfb_parse_mode(si, &mode);
-   103		if (compatible) {
- > 104			pd = sysfb_create_simplefb(si, &mode, parent);
-   105			if (!IS_ERR(pd))
-   106				goto unlock_mutex;
-   107		}
-   108	
-   109		/* if the FB is incompatible, create a legacy framebuffer device */
-   110		if (si->orig_video_isVGA == VIDEO_TYPE_EFI)
-   111			name = "efi-framebuffer";
-   112		else if (si->orig_video_isVGA == VIDEO_TYPE_VLFB)
-   113			name = "vesa-framebuffer";
-   114		else if (si->orig_video_isVGA == VIDEO_TYPE_VGAC)
-   115			name = "vga-framebuffer";
-   116		else if (si->orig_video_isVGA == VIDEO_TYPE_EGAC)
-   117			name = "ega-framebuffer";
-   118		else
-   119			name = "platform-framebuffer";
-   120	
-   121		pd = platform_device_alloc(name, 0);
-   122		if (!pd) {
-   123			ret = -ENOMEM;
-   124			goto unlock_mutex;
-   125		}
-   126	
-   127		pd->dev.parent = parent;
-   128	
-   129		sysfb_set_efifb_fwnode(pd);
-   130	
-   131		ret = platform_device_add_data(pd, si, sizeof(*si));
-   132		if (ret)
-   133			goto err;
-   134	
-   135		ret = platform_device_add(pd);
-   136		if (ret)
-   137			goto err;
-   138	
-   139		goto unlock_mutex;
-   140	err:
-   141		platform_device_put(pd);
-   142	unlock_mutex:
-   143		mutex_unlock(&disable_lock);
-   144		return ret;
-   145	}
-   146	
-
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Ricardo B. Marliere <ricardo@marliere.net>
+
