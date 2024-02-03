@@ -2,58 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33BFF847D42
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Feb 2024 00:41:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDA38847F9C
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Feb 2024 03:56:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3184D10E8EB;
-	Fri,  2 Feb 2024 23:41:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BAAC10F2CC;
+	Sat,  3 Feb 2024 02:56:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zZaZBQti";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RGBIj2VV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C7BB10E8EB;
- Fri,  2 Feb 2024 23:41:26 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 9D19DCE2EB8;
- Fri,  2 Feb 2024 23:41:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC7DDC433A6;
- Fri,  2 Feb 2024 23:41:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1706917283;
- bh=gX+4EF1aa8LAyzPJib2hQOtkg0CUXK5HquVqw1n55so=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=zZaZBQtipCcf5XBGD66l7h1yJKY1ffHOnvxlbMtnRWA3xh9aONF4zzKTO6U6oVTZG
- j4ftTBoZkLHG6gZyYjjrMLkVh+1o6h3+gq5c0PQg91mWkhiEgE6ngXzTGsBf+39xK8
- S0wo69WpngQm/A6CTieAkB6+8kZG8WR58yEq4TGw=
-Date: Fri, 2 Feb 2024 15:41:23 -0800
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Hamza Mahfooz <hamza.mahfooz@amd.com>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Lijo Lazar <lijo.lazar@amd.com>,
- Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>, Le Ma <le.ma@amd.com>,
- =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- James Zhu <James.Zhu@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Alex Shi <alexs@kernel.org>, Jerry Snitselaar <jsnitsel@redhat.com>,
- Wei Liu <wei.liu@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-pci@vger.kernel.org
-Subject: Re: [PATCH 3/3] drm/amdgpu: wire up the can_remove() callback
-Message-ID: <2024020216-letdown-uproar-718d@gregkh>
-References: <20240202222603.141240-1-hamza.mahfooz@amd.com>
- <20240202222603.141240-3-hamza.mahfooz@amd.com>
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com
+ [209.85.128.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3F3B10F2CC
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Feb 2024 02:56:06 +0000 (UTC)
+Received: by mail-yw1-f174.google.com with SMTP id
+ 00721157ae682-6040a879e1eso28620157b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Feb 2024 18:56:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1706928966; x=1707533766; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=lD8inCL3n27QmNoGKrfX9I7qIbx7Ok8T+KP8sX1X1QQ=;
+ b=RGBIj2VVsOqRNDQeFYFwIBVndY0ZtDMaWrnnwd4PBD4/JknCLttfu+OffTVSWg2Wok
+ 2i5FEnHsIXji99R7bak+Lw/AFhwYLIF3OCm3V6170WDtUf0gXC9V0Fvz+tfS0nRc2SCD
+ 4V5qBbpEF4PhuweJHXodOVAuZnFDH1OiutguAol9W2pBE61vNGfmlAjgDeOlJjsWUvwC
+ lz9UeP3K9wTIUzBFEHvlhlHOrkbb/Y597S4OkIzUzuSngzITFDZ75yockJg8prTepNQl
+ WPYX/J3zFaQhhT8jW9bKeec2nu7W8H3Gpt/v1uuFyKXaPN+si9xSSeqov/FAEHzYU2t8
+ KjGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1706928966; x=1707533766;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lD8inCL3n27QmNoGKrfX9I7qIbx7Ok8T+KP8sX1X1QQ=;
+ b=sVKJIWg1usZbMa4lz9RkBHCWjHcjXgtnc9MP3V4Ky/n6aiSI/P/KWGxEoxpVnT1cYn
+ QKmmfk3jV1649TaAfed6XUxoUNTKlt4zg0p6gkkQxYK16MyTLPB2Tkj1NtpJXgJKwsZU
+ d1V670sPuEqqtwAQcACl1bwqELQb3t8F3WaqL7o+QWswobqTZsquD48YI+BEd8C7Qz6m
+ y39Vwsvw6p6+vAO0zEARNY0ReXz90KDNMZULbYMOaExJF77/WeS8Dir+z6qKWR/L84FJ
+ cW/hffNfCtH+yyj2s57MS+CHLoRX/PlwJLum0oMo2Z2aTgd828tdf3sHp/LJWTRH5V9h
+ Idbg==
+X-Gm-Message-State: AOJu0Yw4OHqnlrTq9rNR3a1Io+Zp/TVpJxUEryX4tvPzgSdqtJYbwDCD
+ Hp8x+219br4pkV1xgpUgT99TGJW0BJiOP5saoPO0pf6D2t+yBgerTkQWljqm5sor5ubZ8pZjMbo
+ xbl+xELcAZUZ46XWuexDJXd7imAmcey5bAXbBQA==
+X-Google-Smtp-Source: AGHT+IHmlfW1+Y+uGaT2G3NHFhtiRRriUyg0EgG+M84bGJD/GcVW5/hm/XCO5OApuPCvWl03vUjaXZykG56jQolv2XU=
+X-Received: by 2002:a81:ac20:0:b0:5f1:f638:2bd8 with SMTP id
+ k32-20020a81ac20000000b005f1f6382bd8mr10182961ywh.31.1706928965823; Fri, 02
+ Feb 2024 18:56:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240202222603.141240-3-hamza.mahfooz@amd.com>
+References: <20240202222338.1652333-1-robh@kernel.org>
+In-Reply-To: <20240202222338.1652333-1-robh@kernel.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sat, 3 Feb 2024 03:55:54 +0100
+Message-ID: <CAA8EJpooe=RsZSD_mRKH2S8NUxAEqVw_AcMyn68_AWwhovPFsg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: display: msm: sm8650-mdss: Add missing
+ explicit "additionalProperties"
+To: Rob Herring <robh@kernel.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,46 +85,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 02, 2024 at 05:25:56PM -0500, Hamza Mahfooz wrote:
-> Removing an amdgpu device that still has user space references allocated
-> to it causes undefined behaviour. So, implement amdgpu_pci_can_remove()
-> and disallow devices that still have files allocated to them from being
-> unbound.
-> 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+On Fri, 2 Feb 2024 at 23:23, Rob Herring <robh@kernel.org> wrote:
+>
+> In order to check schemas for missing additionalProperties or
+> unevaluatedProperties, cases allowing extra properties must be explicit.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+Rob, if you need it for some rework, please feel free to pick it into
+your tree, otherwise I'll pick it for msm-next in the next few days.
+
+
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> index cc69005f5b46..cfa64f3c5be5 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> @@ -2323,6 +2323,22 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
->  	return ret;
->  }
->  
-> +static bool amdgpu_pci_can_remove(struct pci_dev *pdev)
-> +{
-> +	struct drm_device *dev = pci_get_drvdata(pdev);
-> +
-> +	mutex_lock(&dev->filelist_mutex);
-> +
-> +	if (!list_empty(&dev->filelist)) {
-> +		mutex_unlock(&dev->filelist_mutex);
-> +		return false;
-> +	}
-> +
-> +	mutex_unlock(&dev->filelist_mutex);
-> +
-> +	return true;
+>  .../devicetree/bindings/display/msm/qcom,sm8650-mdss.yaml     | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8650-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8650-mdss.yaml
+> index bd11119dc93d..24cece1e888b 100644
+> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm8650-mdss.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8650-mdss.yaml
+> @@ -37,18 +37,21 @@ properties:
+>  patternProperties:
+>    "^display-controller@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+>      properties:
+>        compatible:
+>          const: qcom,sm8650-dpu
+>
+>    "^displayport-controller@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+>      properties:
+>        compatible:
+>          const: qcom,sm8650-dp
+>
+>    "^dsi@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+>      properties:
+>        compatible:
+>          items:
+> @@ -57,6 +60,7 @@ patternProperties:
+>
+>    "^phy@[0-9a-f]+$":
+>      type: object
+> +    additionalProperties: true
+>      properties:
+>        compatible:
+>          const: qcom,sm8650-dsi-phy-4nm
+> --
+> 2.43.0
+>
 
-Also, to be pedantic, this will not work as right after you returned
-"true" here, userspace could open a file, causing the same issue you are
-trying to prevent to have happen, happen.
 
-So even if we wanted to do this, which again, we do not, this isn't even
-a solution for it because it will still cause you problems.
-
-greg k-h
+--
+With best wishes
+Dmitry
