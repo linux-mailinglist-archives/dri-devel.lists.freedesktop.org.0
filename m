@@ -2,61 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EABA848D1A
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Feb 2024 12:21:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C348A848D51
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Feb 2024 13:01:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B632112173;
-	Sun,  4 Feb 2024 11:21:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 050D910F89A;
+	Sun,  4 Feb 2024 12:01:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="o2N7X+iU";
+	dkim=pass (2048-bit key; unprotected) header.d=dolcini.it header.i=@dolcini.it header.b="ROOY3X9d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13EDE112173
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Feb 2024 11:21:27 +0000 (UTC)
-Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx1.riseup.net (Postfix) with ESMTPS id 4TSRsf07MjzDqQx;
- Sun,  4 Feb 2024 11:21:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1707045686; bh=Vb3YmF683066tIPoSuDUcl9qbopdPekEaMtsmpdpHsE=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=o2N7X+iU499azt0/4WdoUiz0OneM3eANP3GSZW+PdMWUoM2dOgJwJCj1s6GCufrJc
- tsOtvmRttNDhWvnaUYxXePrE5iH2J/KF/cpRSdYm7VlhOD+TayX6g8ccu8bCuH+mme
- JR+Fhl08DP2R0PCAIM39iBJHAcQ/NuZZHWiSUlpE=
-X-Riseup-User-ID: F3B69E510B5B8F6ACC69F1E225E5734AF332A64007D9BE214E89A2D8B174F445
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4TSRsV2pvdzJntZ;
- Sun,  4 Feb 2024 11:21:18 +0000 (UTC)
-From: Dang Huynh <danct12@riseup.net>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8618510F89A
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Feb 2024 12:00:54 +0000 (UTC)
+Received: from francesco-nb (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
+ by mail11.truemail.it (Postfix) with ESMTPA id 5D2C122352;
+ Sun,  4 Feb 2024 13:00:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
+ s=default; t=1707048049;
+ bh=hNBhjuj5iOFzwHKbDLRqgrUiUwu8spdC0cNIku83Ix0=; h=From:To:Subject;
+ b=ROOY3X9dZiwGhbpObv9MEW8DVpX0EPcrjFwq235uTkOz73e5j5rQznImCKXF23efY
+ r6rlHe/Q3W3CpUCPZQPfQDCaGm5xIZ/EU23Rr/pyeS3exy4D1M5zyEcWGEInbELBs4
+ rWPLoalJDge8ZAQ9OokOWfW1km4xH9YQRYlowrLOTVhy2w84kpvg1x4WSxnGzDTNhL
+ Nhgo6L6H4LP/OBVeVFVhHx75vrX+tkpon9aG5LaAXYPpn1MojgJbbvucyy4OvOV4ug
+ 3SWXfZV0uxdEFR0e/X+y8/CEKSGam5cOKpBEHAocLvh0mhSLOQu39atHEwFTQZfrRm
+ bX9wgy/4St07w==
+Date: Sun, 4 Feb 2024 13:00:33 +0100
+From: Francesco Dolcini <francesco@dolcini.it>
+To: Adam Ford <aford173@gmail.com>
+Cc: linux-arm-kernel@lists.infradead.org, marex@denx.de,
+ alexander.stein@ew.tq-group.com, frieder.schrempf@kontron.de,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Sandy Huang <hjc@rock-chips.com>, Mark Yao <markyao0591@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Segfault <awarnecke002@hotmail.com>, Arnaud Ferraris <aferraris@debian.org>,
- Ondrej Jirman <megi@xff.cz>, Manuel Traut <manut@mecka.net>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, Manuel Traut <manut@mecka.net>
-Subject: Re: [PATCH v4 4/4] arm64: dts: rockchip: Add devicetree for Pine64
- PineTab2
-Date: Sun, 04 Feb 2024 11:21:05 +0000
-Message-ID: <2724385.mvXUDI8C0e@melttower>
-In-Reply-To: <20240127-pinetab2-v4-4-37aab1c39194@mecka.net>
-References: <20240127-pinetab2-v4-0-37aab1c39194@mecka.net>
- <20240127-pinetab2-v4-4-37aab1c39194@mecka.net>
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Liu Ying <victor.liu@nxp.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-pm@vger.kernel.org
+Subject: Re: [PATCH V8 06/12] arm64: dts: imx8mp: add HDMI irqsteer
+Message-ID: <20240204120033.GA4656@francesco-nb>
+References: <20240203165307.7806-1-aford173@gmail.com>
+ <20240203165307.7806-7-aford173@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240203165307.7806-7-aford173@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,10 +78,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tested-by: Dang Huynh <danct12@riseup.net>
+On Sat, Feb 03, 2024 at 10:52:46AM -0600, Adam Ford wrote:
+> From: Lucas Stach <l.stach@pengutronix.de>
+> 
+> The HDMI irqsteer is a secondary interrupt controller within the HDMI
+> subsystem that maps all HDMI peripheral IRQs into a single upstream
+> IRQ line.
+> 
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 
-On Saturday, January 27, 2024 9:48:45 AM UTC Manuel Traut wrote:
-> This includes support for both the v0.1 units that were sent to developers
-> and the v2.0 units from production.
+This is missing your signed-off-by, and in other patches of this series
+your signed-off-by is not the last, as it should be.
 
+Please have a look and fix this and the other instances.
+
+Thanks for this work!
+
+Francesco
 
