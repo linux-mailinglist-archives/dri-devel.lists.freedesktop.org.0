@@ -2,68 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0292848FA8
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Feb 2024 18:24:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EA77848FCE
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Feb 2024 18:45:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08C1810E0A7;
-	Sun,  4 Feb 2024 17:24:18 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Q1nwSozu";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70D2510F911;
+	Sun,  4 Feb 2024 17:45:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com
- [209.85.219.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A687610E04B
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Feb 2024 17:24:13 +0000 (UTC)
-Received: by mail-yb1-f176.google.com with SMTP id
- 3f1490d57ef6-dc238cb1b17so3359088276.0
- for <dri-devel@lists.freedesktop.org>; Sun, 04 Feb 2024 09:24:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1707067450; x=1707672250; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=T1P19T303L/B43bwnD9+Y7IOxEcnJdUhgKJO0qIHJpc=;
- b=Q1nwSozu7qxX6V9GxbU05RvHqdQYJdr8Vy+ZpK3h1vuOVC1iIgF1Jv+4jiJ037ufyU
- Y+SL4fIpzliFhsATqvWBerQfKmKEIbWJeBy3OhitZgHiPQ0ncDIX2QTwWqb4YrtjEG11
- 580gbxSo3n9WqP8zxhVrm+z+n7Nf5Czm3uO1H5T6PtMllkUKZiPNgQmNJnIS4jpJl3dO
- Iy0LPuZDUZoCeP6TRy4lEdh+LYxcmiUMJu5PgaTyb84iFvz5pnGv97DmQxGVChKRb8pt
- imLgNUqSz5JL4MuFvLWKPrcOKxUCkScQV90QdpGYszgKMhFKcdn8xHpK/IBxCV1OnMnt
- 0DGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707067450; x=1707672250;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=T1P19T303L/B43bwnD9+Y7IOxEcnJdUhgKJO0qIHJpc=;
- b=BwDEkVpOeur+3BPLmoPskTQrOfgOauqsDvWvk6YjiIAnpv+mi9qMv2kEUsrocwirbO
- UD3hkSX11oUHjVKiee1XVwFucoal5fbamqtaLPcENeStTwTzPMMuDw18hQg+G5/P7ZOB
- Yt17OTuR36VGwhy336jqoFqrTKt8C6giXusVjiR5TUhKwY8XRMzvkY8lnGzXOsw1nHn/
- xO8HYHX6bfPPcrg1suE1qsaeNlvIjvcCWv7JlV0o8kyNZRBq1cmPb1irFHdGfIljhpO4
- iFr0ZpvJ3Ggims/gTM1dNspH899fnwiCZ7/faaQEkUgYC0s4A+/Np28fSCRdFm1+Y8hA
- imzA==
-X-Gm-Message-State: AOJu0YwUYGyXMI9xKOVnHXKhAZeW/Y2NCIITiBIx4VabYI7uIn4QFCWe
- ylxB1Om5lXR7V5bvoQpj8iNfRqbdwwWn6dkU5LcGxgo1vdrrOVaO0bQbEonhW0kLteeXFKuT80/
- ZgZls333zjCATtV7EdKVZ75XdFDL+UUKHptug0w==
-X-Google-Smtp-Source: AGHT+IHZYVkC99LHGk0ItLne/MvFpBr+BVnK1MV9EqBBA9F3ArKp+lRF7UX8mtilpk16mlV1PhE7o33VzQh5K0Ob39s=
-X-Received: by 2002:a25:ac5e:0:b0:dc6:4b37:e95 with SMTP id
- r30-20020a25ac5e000000b00dc64b370e95mr7149348ybd.26.1707067450280; Sun, 04
- Feb 2024 09:24:10 -0800 (PST)
+Received: from relay05.th.seeweb.it (relay05.th.seeweb.it [5.144.164.166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1E2510F911;
+ Sun,  4 Feb 2024 17:45:32 +0000 (UTC)
+Received: from Marijn-Arch-Book.localdomain
+ (2a02-a420-67-c93f-164f-8aff-fee4-5930.mobile6.kpn.net
+ [IPv6:2a02:a420:67:c93f:164f:8aff:fee4:5930])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 7360D3F092;
+ Sun,  4 Feb 2024 18:45:28 +0100 (CET)
+From: Marijn Suijten <marijn.suijten@somainline.org>
+Date: Sun, 04 Feb 2024 18:45:27 +0100
+Subject: [PATCH] drm/msm/dpu: Only enable DSC_MODE_MULTIPLEX if dsc_merge
+ is enabled
 MIME-Version: 1.0
-References: <20240204-drm-msm-dsi-remove-open-coded-get-bpp-v1-1-c16212de7e86@somainline.org>
-In-Reply-To: <20240204-drm-msm-dsi-remove-open-coded-get-bpp-v1-1-c16212de7e86@somainline.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 4 Feb 2024 18:23:59 +0100
-Message-ID: <CAA8EJprcdzEzYKzscyB0J5VrWfF77xJs1SZaoCpP-GQZ2AFmpw@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dsi: Replace dsi_get_bpp() with mipi_dsi header
- function
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240204-dpu-dsc-multiplex-v1-1-080963233c52@somainline.org>
+X-B4-Tracking: v=1; b=H4sIADbNv2UC/x3MQQqAIBBA0avErBswE6KuEi1KxxowE80IorsnL
+ d/i/wcSRaYEQ/VApIsTH76gqSvQ2+xXQjbFIIVUQgqFJmQ0SeOe3cnB0Y2q141auta2JKB0IZL
+ l+3+O0/t+A1HiRmMAAAA=
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Vinod Koul <vkoul@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Luca Weiss <luca.weiss@fairphone.com>, 
+ Marijn Suijten <marijn.suijten@somainline.org>
+X-Mailer: b4 0.12.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,19 +56,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 4 Feb 2024 at 18:04, Marijn Suijten
-<marijn.suijten@somainline.org> wrote:
->
-> drm_mipi_dsi.h already provides a conversion function from MIPI_DSI_FMT_
-> to bpp, named mipi_dsi_pixel_format_to_bpp().
->
-> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> ---
->  drivers/gpu/drm/msm/dsi/dsi_host.c | 18 ++++--------------
->  1 file changed, 4 insertions(+), 14 deletions(-)
+When the topology calls for two interfaces on the current fixed topology
+of 2 DSC blocks, or uses 1 DSC block for a single interface (e.g. SC7280
+with only one DSC block), there should be no merging of DSC output.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+This is already represented by the return value of
+dpu_encoder_use_dsc_merge(), but not yet used to correctly configure
+this flag.
 
+Fixes: 58dca9810749 ("drm/msm/disp/dpu1: Add support for DSC in encoder")
+Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+---
+Note that more changes are needed to properly support the proposed 2:2:2
+and 1:1:1 topology (in contrast to the already-supported 2:2:1 topology),
+but this could be a trivial patch to get going separately before all that
+extra work is done.
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 83380bc92a00..6d3ed4d870d7 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -1857,7 +1857,9 @@ static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
+ 	dsc_common_mode = 0;
+ 	pic_width = dsc->pic_width;
+ 
+-	dsc_common_mode = DSC_MODE_MULTIPLEX | DSC_MODE_SPLIT_PANEL;
++	dsc_common_mode = DSC_MODE_SPLIT_PANEL;
++	if (dpu_encoder_use_dsc_merge(enc_master->parent))
++		dsc_common_mode |= DSC_MODE_MULTIPLEX;
+ 	if (enc_master->intf_mode == INTF_MODE_VIDEO)
+ 		dsc_common_mode |= DSC_MODE_VIDEO;
+ 
+
+---
+base-commit: 01af33cc9894b4489fb68fa35c40e9fe85df63dc
+change-id: 20240204-dpu-dsc-multiplex-49c14b73f3e0
+
+Best regards,
 -- 
-With best wishes
-Dmitry
+Marijn Suijten <marijn.suijten@somainline.org>
+
