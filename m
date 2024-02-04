@@ -2,46 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03F9F849553
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 09:26:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AC72849554
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 09:26:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E8D410E4C9;
-	Mon,  5 Feb 2024 08:26:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E08410E506;
+	Mon,  5 Feb 2024 08:26:06 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dpoE2CIN";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 384 seconds by postgrey-1.36 at gabe;
- Sun, 04 Feb 2024 06:33:35 UTC
-Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 329281120A5;
- Sun,  4 Feb 2024 06:33:34 +0000 (UTC)
-X-QQ-mid: bizesmtp78t1707027847tyom9dyz
-X-QQ-Originating-IP: Ka/QNVr2vrA2kmjPDU3Wg7k4Bllgbh8TG5NwRdiB4MI=
-Received: from localhost ( [183.209.108.228]) by bizesmtp.qq.com (ESMTP) with 
- id ; Sun, 04 Feb 2024 14:24:06 +0800 (CST)
-X-QQ-SSF: 01400000000000504000000A0001000
-X-QQ-FEAT: wF64VgvUy+UdrqGKLNHU0vjclAVKvv9/AylJB3CPALc9Oo2FoK+6YtD66T0Ei
- UxJKDP9R8WMiZEnTg+mLfcJT/sFJl5Sy7BNzBN4/1NcukkXs5elfyJHTzBYFyi/bfIYKKs6
- m0CFCkkKtRGFTyxQAL2TO5z7MWqiwknzAbXQPxS73t/R5WO1xTja602A1v7ayVBup5OdCR0
- U7iCYB7/YOi/b062aiwsMAEWfELezdKtzo6hd07MKsaTROqZk+SAUqg0SiaXLbYaxEjA7R0
- EgDEO9AvCiUdsii4MeJtc01uHrR9heaNS7b2Dp0HfmFQYaGZujRu9ub8fENGEF3sruA3JKj
- UMXPcqm/niWKbkIAEx5R/sC6XVhyD3uIwudjRIjAVtG8jqUr0PIcdSrH+nVY1n7i5QSkvLB
-X-QQ-GoodBg: 2
-X-BIZMAIL-ID: 12034591885683203316
-From: Dawei Li <dawei.li@shingroup.cn>
-To: lucas.demarchi@intel.com, ogabbay@kernel.org,
- thomas.hellstrom@linux.intel.com
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Dawei Li <dawei.li@shingroup.cn>, kernel test robot <lkp@intel.com>
-Subject: [PATCH] drm/xe: Declare __xe_lrc_*_ggtt_addr with __maybe__unused
-Date: Sun,  4 Feb 2024 14:23:24 +0800
-Message-Id: <20240204062324.3548268-1-dawei.li@shingroup.cn>
-X-Mailer: git-send-email 2.27.0
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
+ [209.85.215.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3D9110E1F7
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Feb 2024 14:54:12 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id
+ 41be03b00d2f7-5d4d15ec7c5so3318631a12.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Feb 2024 06:54:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1707058452; x=1707663252; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=n3whH72L6JbdpRMThqcQPd4/z6Z10Hs1Q/PHuiiBNDc=;
+ b=dpoE2CIN6BKZ9aLDg3oQ/9wXjj8//tJVXXTJipB18bnrxACQkzpXZLsV98bTJ55W9f
+ fTs6+oeEb4f7mdPQi9LLNQtu2X1S3QJxNxCnGxfYCbPfVIEb/ZtG2PhPkhD/0CuSW0Zm
+ 3OATyH8RMHlxOF+vuL3R3rO8oxLjwegbd2og3xpADvh1+x14MVXjUMYqL+4UiVUlQgZi
+ cVFqAh3QNdH+pgNpbHDeAxkBmFBqSa2sHv5/wECzLCUwzICob38Kq0GCOFX1xe74R2Gi
+ b1sK+xjWQl3aJllToOfZMcv3CjyZNfqp6uIYNmOaPe8KL7OFVPyLWcifwzZS8k4voqOR
+ /2tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707058452; x=1707663252;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=n3whH72L6JbdpRMThqcQPd4/z6Z10Hs1Q/PHuiiBNDc=;
+ b=FGRMoKREmvOkXyt+8/tWcrujz0dJ8gkSAb4nW6+4/ZzBeEwYGNsn8Lw3S5Qm077SRz
+ w9fXziHEndOZQUGTVXGlzjzP/dpwB82539XJnpuld7todm/mE7uHZVZXRB+GoJ1+5zt1
+ Pr2oM+axuNxdq6c8Cc8jVhkwDJ59kN1ZV+Otd9bSHNwgwZAkj4LsZfm51wqA/D+sjDLK
+ WE9YfFf5hV4L28+Ygyy4f8MMrn4UftN0CYSUZGi2EIYEBol88q8KenFT6tskk2UJWydA
+ 4wXbgTtnVDMUhgk6iEn5xoDMcalDAo7f9oMfducHFQoaH5DxGnN8mtpjuc6lkICCZItP
+ IxmQ==
+X-Gm-Message-State: AOJu0YxTKwKgNFSKvE0tf790+pX9cTk/okc+ooCPMzCEBhPG5N+Pxp8Z
+ cjwZKzKUnM4LZGiBlxfmFzuKOfH3ttWEtHpvSjdzK+EMXOduu1df
+X-Google-Smtp-Source: AGHT+IFKIQr25L6upTbF8DkN0oy7iPsUjkCU30eKPdE7KclI3lrjTImtO2y4SXNynkzRWEBAMcvVhQ==
+X-Received: by 2002:a05:6a21:7894:b0:19c:90fc:f0d3 with SMTP id
+ bf20-20020a056a21789400b0019c90fcf0d3mr17292149pzc.46.1707058452169; 
+ Sun, 04 Feb 2024 06:54:12 -0800 (PST)
+X-Forwarded-Encrypted: i=0;
+ AJvYcCWLgqaoTUsz8EFM/UWYR3wQRQToleUGy8Ejzwo/789riZZr+R3Rshzv2kutEzaRCTuN3XfGdXrZD2B8scfYl/n/ALi5iP/2FdAlDxHj82y2r+55fXKl91xQU3Yiu4Ob84gzeuluSNaK60AGRZbt/i2qlhWhpne/wbubqe4JhngqEQBb43RiMrFDbWt9IYXvjtPOF+5l0yx0V/BsWaS6DZ7Db4a427vyVOGGrQxMrRYvaAXcfXBr5hSzIPg=
+Received: from localhost ([103.139.191.218])
+ by smtp.gmail.com with UTF8SMTPSA id
+ lw10-20020a056a00750a00b006de11c980e5sm4864257pfb.80.2024.02.04.06.54.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 04 Feb 2024 06:54:11 -0800 (PST)
+From: Kartik Agarwala <agarwala.kartik@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch
+Cc: Kartik Agarwala <agarwala.kartik@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm: fix kernel-doc warning in drm_vram_mm
+Date: Sun,  4 Feb 2024 20:23:48 +0530
+Message-Id: <20240204145348.56924-1-agarwala.kartik@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:shingroup.cn:qybglogicsvrgz:qybglogicsvrgz5a-1
 X-Mailman-Approved-At: Mon, 05 Feb 2024 08:26:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,46 +82,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Kernel test robot reports building error:
+Fix kernel-doc warning in drm_vram_mm struct generated due to 
+obselete field.
 
-drivers/gpu/drm/xe/xe_lrc.c:544:1: error: unused function
-'__xe_lrc_regs_ggtt_addr' [-Werror,-Wunused-function]
-544 | DECL_MAP_ADDR_HELPERS(regs)
-    | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-drivers/gpu/drm/xe/xe_lrc.c:536:19: note: expanded from macro
-'DECL_MAP_ADDR_HELPERS'
-536 | static inline u32 __xe_lrc_##elem##_ggtt_addr(struct xe_lrc *lrc) \
-    |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-<scratch space>:54:1: note: expanded from here
-54 | __xe_lrc_regs_ggtt_addr
-   | ^~~~~~~~~~~~~~~~~~~~~~~
-
-1 error generated.
-
-Declare __xe_lrc_*_ggtt_addr with __maybe_unused to address it.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202402010928.g3j2aSBL-lkp@intel.com/
-Signed-off-by: Dawei Li <dawei.li@shingroup.cn>
+Signed-off-by: Kartik Agarwala <agarwala.kartik@gmail.com>
 ---
- drivers/gpu/drm/xe/xe_lrc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/drm/drm_gem_vram_helper.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_lrc.c b/drivers/gpu/drm/xe/xe_lrc.c
-index 0ec5ad2539f1..f70e60a2f8a3 100644
---- a/drivers/gpu/drm/xe/xe_lrc.c
-+++ b/drivers/gpu/drm/xe/xe_lrc.c
-@@ -614,7 +614,7 @@ static inline struct iosys_map __xe_lrc_##elem##_map(struct xe_lrc *lrc) \
- 	iosys_map_incr(&map, __xe_lrc_##elem##_offset(lrc)); \
- 	return map; \
- } \
--static inline u32 __xe_lrc_##elem##_ggtt_addr(struct xe_lrc *lrc) \
-+static inline u32 __maybe_unused __xe_lrc_##elem##_ggtt_addr(struct xe_lrc *lrc) \
- { \
- 	return xe_bo_ggtt_addr(lrc->bo) + __xe_lrc_##elem##_offset(lrc); \
- } \
+diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
+index e18429f09..c89c9bafe 100644
+--- a/include/drm/drm_gem_vram_helper.h
++++ b/include/drm/drm_gem_vram_helper.h
+@@ -170,7 +170,6 @@ void drm_gem_vram_simple_display_pipe_cleanup_fb(
+  * @vram_base:	Base address of the managed video memory
+  * @vram_size:	Size of the managed video memory in bytes
+  * @bdev:	The TTM BO device.
+- * @funcs:	TTM BO functions
+  *
+  * The fields &struct drm_vram_mm.vram_base and
+  * &struct drm_vram_mm.vrm_size are managed by VRAM MM, but are
 -- 
-2.27.0
+2.34.1
 
