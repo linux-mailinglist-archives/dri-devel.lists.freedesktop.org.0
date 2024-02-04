@@ -2,68 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFEA9849428
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 08:03:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03F9F849553
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 09:26:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA4871123EC;
-	Mon,  5 Feb 2024 07:03:15 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Hx7/S8BN";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E8D410E4C9;
+	Mon,  5 Feb 2024 08:26:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
- [209.85.218.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D9F91123ED
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Feb 2024 07:03:14 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id
- a640c23a62f3a-a2f22bfb4e6so544188166b.0
- for <dri-devel@lists.freedesktop.org>; Sun, 04 Feb 2024 23:03:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1707116590; x=1707721390; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=SmODjWl9XxT/MZiATDetkZp8pVHFQ7zqqtGcepJ25ro=;
- b=Hx7/S8BNes+LX7IMRVPAjJTnVtX2e4I9WT85g3R/NUNgsYSKyVUZuAm5CmmPIQP62K
- XJ8z4z+gHdJ3LVEa1X4Wlhj1x3npkQwHUafLULwfowbcjJB16/Axhq8LMUauNbYk68kc
- b4iGcdqryYumYHpG4lEABj7n3iA1ljKDjcUBTA5qGYZdsB8/uft9z46mj0ByqYEEAbiA
- TEGwJnJcC4vvjYxOnEJRHoqnahQIKdJvRr17zWX9Klhdm1zcrV37pLCOSs34+YEUSZHq
- VeGXMlw//5N6weBvNDZx6tpVSYsTGUdZ/9RGGJFayxlLQkUrZ0Gj1Z9xbphPYC+PLljp
- a/Zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707116590; x=1707721390;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=SmODjWl9XxT/MZiATDetkZp8pVHFQ7zqqtGcepJ25ro=;
- b=rTkUgnwhCJ5tRmrjKM6ZwS6fLpv55aRCdPTHg9y0iVJIWrvQrlevwt4k6k4UqgBUic
- xEdU7ulB+qth/Bo4UJHhjBVanx7RqzAr8HZq2JmSQyTmoG9FNRNWwWEny9RuwaePUu9q
- tEwKMNsjQfradEeMFo+TDPSOqHj0N2dF2SRrkEgp+G8N8v2rPy5xPsOM25Oq+ggKcgf9
- AIdW9a6wJ1WTTXG7ePg8yKRetCtI1ZppedyPr+rWK+AvAheHqWCFTyu/Xaf/XsInEZRh
- er5upjGlX6HmRAekqr9ohGGe217os+ibKpHGmRvE1m1nAwnGPrVXuz3D7skiCEoUOPq/
- 4wfg==
-X-Gm-Message-State: AOJu0YyWkOVxfclyXU2PAo8Xj2foNZ+aEi7p3jOkkbVDH4SZ59hk33Vm
- FTWyQumjjHsdN+2g35klVib36iE0B9vqVedhcrGWqlgKdplHbKxGVi/XjgM7MLiupNYyGJhJtTA
- HsBLamPiTsze93NUFaSjTq1BDscCWPzfaZq4=
-X-Google-Smtp-Source: AGHT+IE4uSKWUY1Kd2JanzsmRAU3KZvSr9WlJ+DN9wDhfPPzNWneoOpZnACdKmTI2b9b/FyGk/HNwrDj27xo/Odx+Ng=
-X-Received: by 2002:a17:906:e2c7:b0:a37:b331:da3c with SMTP id
- gr7-20020a170906e2c700b00a37b331da3cmr1494299ejb.27.1707116589995; Sun, 04
- Feb 2024 23:03:09 -0800 (PST)
+X-Greylist: delayed 384 seconds by postgrey-1.36 at gabe;
+ Sun, 04 Feb 2024 06:33:35 UTC
+Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 329281120A5;
+ Sun,  4 Feb 2024 06:33:34 +0000 (UTC)
+X-QQ-mid: bizesmtp78t1707027847tyom9dyz
+X-QQ-Originating-IP: Ka/QNVr2vrA2kmjPDU3Wg7k4Bllgbh8TG5NwRdiB4MI=
+Received: from localhost ( [183.209.108.228]) by bizesmtp.qq.com (ESMTP) with 
+ id ; Sun, 04 Feb 2024 14:24:06 +0800 (CST)
+X-QQ-SSF: 01400000000000504000000A0001000
+X-QQ-FEAT: wF64VgvUy+UdrqGKLNHU0vjclAVKvv9/AylJB3CPALc9Oo2FoK+6YtD66T0Ei
+ UxJKDP9R8WMiZEnTg+mLfcJT/sFJl5Sy7BNzBN4/1NcukkXs5elfyJHTzBYFyi/bfIYKKs6
+ m0CFCkkKtRGFTyxQAL2TO5z7MWqiwknzAbXQPxS73t/R5WO1xTja602A1v7ayVBup5OdCR0
+ U7iCYB7/YOi/b062aiwsMAEWfELezdKtzo6hd07MKsaTROqZk+SAUqg0SiaXLbYaxEjA7R0
+ EgDEO9AvCiUdsii4MeJtc01uHrR9heaNS7b2Dp0HfmFQYaGZujRu9ub8fENGEF3sruA3JKj
+ UMXPcqm/niWKbkIAEx5R/sC6XVhyD3uIwudjRIjAVtG8jqUr0PIcdSrH+nVY1n7i5QSkvLB
+X-QQ-GoodBg: 2
+X-BIZMAIL-ID: 12034591885683203316
+From: Dawei Li <dawei.li@shingroup.cn>
+To: lucas.demarchi@intel.com, ogabbay@kernel.org,
+ thomas.hellstrom@linux.intel.com
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Dawei Li <dawei.li@shingroup.cn>, kernel test robot <lkp@intel.com>
+Subject: [PATCH] drm/xe: Declare __xe_lrc_*_ggtt_addr with __maybe__unused
+Date: Sun,  4 Feb 2024 14:23:24 +0800
+Message-Id: <20240204062324.3548268-1-dawei.li@shingroup.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20231019135655.313759-1-jfalempe@redhat.com>
- <660c0260-0e22-4e9c-ab13-157adaa0b14d@suse.de>
- <74b367bd-ac80-478b-8f82-e98cb6e40475@redhat.com>
- <f19a2cb4-57b6-427c-b69c-47a848420530@redhat.com>
-In-Reply-To: <f19a2cb4-57b6-427c-b69c-47a848420530@redhat.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Mon, 5 Feb 2024 17:02:58 +1000
-Message-ID: <CAPM=9twkLUFP+4aeKt+BRi4sO1c3hypq-dD33JKabHVQZ3oV9A@mail.gmail.com>
-Subject: Re: [PATCH] drm/mgag200: Flush the cache to improve latency
-To: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
- airlied@redhat.com, daniel@ffwll.ch, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:shingroup.cn:qybglogicsvrgz:qybglogicsvrgz5a-1
+X-Mailman-Approved-At: Mon, 05 Feb 2024 08:26:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,90 +58,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 6 Nov 2023 at 20:47, Jocelyn Falempe <jfalempe@redhat.com> wrote:
->
-> On 23/10/2023 10:30, Jocelyn Falempe wrote:
-> > On 20/10/2023 14:06, Thomas Zimmermann wrote:
-> >> (cc'ing lkml for feedback)
-> >>
-> >> Hi Jocelyn
-> >>
-> >> Am 19.10.23 um 15:55 schrieb Jocelyn Falempe:
-> >>> We found a regression in v5.10 on real-time server, using the
-> >>> rt-kernel and the mgag200 driver. It's some really specialized
-> >>> workload, with <10us latency expectation on isolated core.
-> >>> After the v5.10, the real time tasks missed their <10us latency
-> >>> when something prints on the screen (fbcon or printk)
-> >>
-> >> I'd like to hear the opinion of the RT-devs on this patch. Because
-> >> AFAIK we never did such a workaround in other drivers. And AFAIK
-> >> printk is a PITA anyway.
-> >
-> > Most other drivers uses DMA, which means this workaround can't apply to
-> > them.
-> >
-> >>
-> >> IMHO if that RT system cannot handle differences in framebuffer
-> >> caching, it's under-powered. It's just a matter of time until
-> >> something else changes and the problem returns. And (honest question)
-> >> as it's an x86-64, how do they handle System Management Mode?
-> >
-> > I think it's not a big news, that the Matrox G200 from 1999 is
-> > under-powered.
-> > I was also a bit surprised that flushing the cache would have such
-> > effect on latency. The tests we are doing can run 24h with the
-> > workaround, without any interrupt taking more than 10us. Without the
-> > workaround, every ~30s the interrupt failed its 10us target.
-> >
-> >>
-> >>>
-> >>> The regression has been bisected to 2 commits:
-> >>> 0b34d58b6c32 ("drm/mgag200: Enable caching for SHMEM pages")
-> >>> 4862ffaec523 ("drm/mgag200: Move vmap out of commit tail")
-> >>>
-> >>> The first one changed the system memory framebuffer from Write-Combine
-> >>> to the default caching.
-> >>> Before the second commit, the mgag200 driver used to unmap the
-> >>> framebuffer after each frame, which implicitly does a cache flush.
-> >>> Both regressions are fixed by the following patch, which forces a
-> >>> cache flush after each frame, reverting to almost v5.9 behavior.
-> >>
-> >> With that second commit, we essentially never unmap an active
-> >> framebuffer console. But with commit
-> >>
-> >> 359c6649cd9a ("drm/gem: Implement shadow-plane {begin, end}_fb_access
-> >> with vmap")
-> >>
-> >> we now again unmap the console framebuffer after the pageflip happened.
-> >>
-> >> So how does the latest kernel behave wrt to the problem?
-> >
-> > The regression was found when upgrading the server from v5.4 to v5.14,
-> > so we didn't test with later kernels.
-> > We will test with v6.3 (which should have 359c6649cd9a ) and see what it
-> > gives.
->
-> I don't have a clear explanation, but testing with v6.3, and forcing the
-> Write Combine, doesn't fix the latency issue. So forcing the cache flush
-> is still needed.
->
-> Also, on some systems, they use "isolated cpu" to handle RT task, but
-> with a standard kernel (so without the CONFIG_PREEMPT_RT).
-> So I'm wondering if we can use a kernel module parameter for this,
-> so that users that wants to achieve low latency, can opt-in ?
->
-> something like mgag200.force_cache_flush=1 or mgag200.low_latency=1 ?
+Kernel test robot reports building error:
 
-I think we should either add a config option or command line parameter here.
+drivers/gpu/drm/xe/xe_lrc.c:544:1: error: unused function
+'__xe_lrc_regs_ggtt_addr' [-Werror,-Wunused-function]
+544 | DECL_MAP_ADDR_HELPERS(regs)
+    | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-I'd don't think adding nopat to the kernel command line is a good
-suggestion in the long run, servers often have other cards plugged
-into them like nvidia gpus or rdma etc, you don't want to cripple them
-because you want reduced latency on the crappy on-board.
+drivers/gpu/drm/xe/xe_lrc.c:536:19: note: expanded from macro
+'DECL_MAP_ADDR_HELPERS'
+536 | static inline u32 __xe_lrc_##elem##_ggtt_addr(struct xe_lrc *lrc) \
+    |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-I'd rather we put the default back to what it used to be, which was
-flush the cache though, I'm not sure why we have any objection to
-doing that, it used to work, it was clearly fine in operation, why
-undo it?
+<scratch space>:54:1: note: expanded from here
+54 | __xe_lrc_regs_ggtt_addr
+   | ^~~~~~~~~~~~~~~~~~~~~~~
 
-Dave.
+1 error generated.
+
+Declare __xe_lrc_*_ggtt_addr with __maybe_unused to address it.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202402010928.g3j2aSBL-lkp@intel.com/
+Signed-off-by: Dawei Li <dawei.li@shingroup.cn>
+---
+ drivers/gpu/drm/xe/xe_lrc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/xe/xe_lrc.c b/drivers/gpu/drm/xe/xe_lrc.c
+index 0ec5ad2539f1..f70e60a2f8a3 100644
+--- a/drivers/gpu/drm/xe/xe_lrc.c
++++ b/drivers/gpu/drm/xe/xe_lrc.c
+@@ -614,7 +614,7 @@ static inline struct iosys_map __xe_lrc_##elem##_map(struct xe_lrc *lrc) \
+ 	iosys_map_incr(&map, __xe_lrc_##elem##_offset(lrc)); \
+ 	return map; \
+ } \
+-static inline u32 __xe_lrc_##elem##_ggtt_addr(struct xe_lrc *lrc) \
++static inline u32 __maybe_unused __xe_lrc_##elem##_ggtt_addr(struct xe_lrc *lrc) \
+ { \
+ 	return xe_bo_ggtt_addr(lrc->bo) + __xe_lrc_##elem##_offset(lrc); \
+ } \
+-- 
+2.27.0
+
