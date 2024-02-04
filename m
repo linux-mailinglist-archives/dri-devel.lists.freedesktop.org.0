@@ -2,64 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 644EB8489D6
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Feb 2024 01:05:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 139618489E9
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Feb 2024 02:15:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA48910F404;
-	Sun,  4 Feb 2024 00:05:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E63010FF50;
+	Sun,  4 Feb 2024 01:15:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TXu2unuo";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="BfKNHafk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED64C10F49B
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Feb 2024 00:05:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id E51A7CE095A
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Feb 2024 00:04:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5DCAFC43142
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Feb 2024 00:04:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1707005095;
- bh=QC103bQQMZDfwGatEcZtHNnynQR5JJ3BQqfs8EcXzrs=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=TXu2unuojqfJkKXRwExY0mqZdaUleExQmlVnGy4TVyaLUpzT4RjpfTcvm/tsh4S9M
- ZEJs+Fg6AeKoiKU9vZZL3QajzTf+cEvKaKWytv8bk7gOEjZERbYA9UQxe+xPOeSdCO
- 92/tOVux0oTNulOd/WEPK18Qur/el2xJgPBaMCGp7GIUC6No+536zY9WIp9F+6beRB
- 8/zT4DGzUPSQMF0GgHu3PVrr5i3gCX6aeFydkYIp0iPeoVwfv/oNYIG9g5AewaI9Kc
- uuHinMuTKqGObZYqyabyw0vHXF/TCyTkQCMOsMS5lNRrd5KsMA1u8+t37cJqU+BkjQ
- aQpQwQXT7767Q==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 4FE08C53BD3; Sun,  4 Feb 2024 00:04:55 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 213145] AMDGPU resets, timesout and crashes after "*ERROR*
- Waiting for fences timed out!"
-Date: Sun, 04 Feb 2024 00:04:54 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: fichterfrancis@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-213145-2300-aGZCOv6GOb@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-213145-2300@https.bugzilla.kernel.org/>
-References: <bug-213145-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from m13147.mail.163.com (m13147.mail.163.com [220.181.13.147])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3F9D210FF50
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Feb 2024 01:15:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=hXW8gtJgutD8T6CS57ZNnPcJwTdGvR1A1kcLcajF9XQ=; b=B
+ fKNHafktHiJ07hkSefFqU++WZd7ZZCDUv7scuvYof2fEtrpG8PwyrDjW26RCCYd8
+ oB4sq+SWe4usiLoVk8va8wloH6a/m2yLJVir7luqCrMbFT8lyaQO/pA6uDVafk/Z
+ V3U6ZmXQ11GFgMy9C0WiyNSKAEpVRbO5gM6GmwQ97g=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by ajax-webmail-wmsvr147
+ (Coremail) ; Sun, 4 Feb 2024 09:14:44 +0800 (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Sun, 4 Feb 2024 09:14:44 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Boris Brezillon" <boris.brezillon@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, "Tatsuyuki Ishi" <ishitatsuyuki@gmail.com>,
+ "Nicolas Boichat" <drinkcat@chromium.org>, kernel@collabora.com, 
+ "Daniel Stone" <daniels@collabora.com>, 
+ "Neil Armstrong" <neil.armstrong@linaro.org>, 
+ "Ketil Johnsen" <ketil.johnsen@arm.com>, 
+ "Liviu Dudau" <Liviu.Dudau@arm.com>, 
+ "Steven Price" <steven.price@arm.com>, 
+ =?UTF-8?Q?Cl=C3=A9ment_P=C3=A9ron?= <peron.clem@gmail.com>, 
+ "Daniel Vetter" <daniel@ffwll.ch>, 
+ "Chris Diamand" <chris.diamand@foss.arm.com>, 
+ "Marty E . Plummer" <hanetzer@startmail.com>, 
+ "Robin Murphy" <robin.murphy@arm.com>, 
+ "Faith Ekstrand" <faith.ekstrand@collabora.com>
+Subject: Re:Re: [PATCH v4 00/14] drm: Add a driver for CSF-based Mali GPUs
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
+ Copyright (c) 2002-2024 www.mailtech.cn 163com
+In-Reply-To: <20240129114147.43e5b865@collabora.com>
+References: <20240122163047.1954733-1-boris.brezillon@collabora.com>
+ <1d4f82bc.2992.18d54856f45.Coremail.andyshrk@163.com>
+ <20240129114147.43e5b865@collabora.com>
+X-NTES-SC: AL_Qu2bBfybtkoj4imebOkXn0kXhec2W8Czvvgg34JRP5k0pizz/zEdYVBPHkbv9dK1EgWQnzemVhRP8sVDe4tfW5kQVpAwtV6ryelJJSZzGvQK
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
+Message-ID: <1554e55.29c.18d71ae9b6c.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: k8GowADX_wIF5b5lAiQIAA--.42977W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqB16XmVOCGb47wADsA
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,343 +72,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D213145
-
-fichterfrancis@gmail.com changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |fichterfrancis@gmail.com
-
---- Comment #34 from fichterfrancis@gmail.com ---
-Hello,
-
-With my mini pc ryzen 5 6600H (six core)
-
-processor       : 11
-vendor_id       : AuthenticAMD
-cpu family      : 25
-model           : 68
-model name      : AMD Ryzen 5 6600H with Radeon Graphics
-stepping        : 1
-microcode       : 0xa404102
-cpu MHz         : 400.000
-cache size      : 512 KB
-physical id     : 0
-siblings        : 12
-core id         : 5
-cpu cores       : 6
-apicid          : 11
-initial apicid  : 11
-fpu             : yes
-fpu_exception   : yes
-cpuid level     : 16
-wp              : yes
-flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca =
-cmov
-pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb
-rdtscp lm constant_tsc rep_good nopl nonstop_tsc cpuid extd_apicid aperfmpe=
-rf
-rapl pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 x2apic movbe popcnt=
- aes
-xsave avx f16c rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a
-misalignsse 3dnowprefetch osvw ibs skinit wdt tce topoext perfctr_core
-perfctr_nb bpext perfctr_llc mwaitx cpb cat_l3 cdp_l3 hw_pstate ssbd mba ib=
-rs
-ibpb stibp vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid cqm rdt_a rdse=
-ed
-adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves cqm_llc
-cqm_occup_llc cqm_mbm_total cqm_mbm_local clzero irperf xsaveerptr rdpru
-wbnoinvd cppc arat npt lbrv svm_lock nrip_save tsc_scale vmcb_clean flushby=
-asid
-decodeassists pausefilter pfthreshold avic v_vmsave_vmload vgif v_spec_ctrl
-umip pku ospke vaes vpclmulqdq rdpid overflow_recov succor smca fsrm
-bugs            : sysret_ss_attrs spectre_v1 spectre_v2 spec_store_bypass s=
-rso
-bogomips        : 6587.56
-TLB size        : 2560 4K pages
-clflush size    : 64
-cache_alignment : 64
-address sizes   : 48 bits physical, 48 bits virtual
-power management: ts ttp tm hwpstate cpb eff_freq_ro [13] [14]
-
-
-cat /etc/debian_version=20
-trixie/sid
-
-cat /etc/debian_version=20
-trixie/sid
-
-Feb  3 21:38:50 debser kernel: [drm] PCIE GART of 1024M enabled (table at
-0x000000F4FFC00000).
-Feb  3 21:38:50 debser kernel: [drm] PSP is resuming...
-Feb  3 21:38:50 debser kernel: [drm] reserve 0xa00000 from 0xf4fe000000 for=
- PSP
-TMR
-Feb  3 21:38:51 debser kernel: [drm] DMUB hardware initialized:
-version=3D0x0400003C
-Feb  3 21:38:51 debser kernel: [drm] kiq ring mec 2 pipe 1 q 0
-Feb  3 21:38:51 debser kernel: [drm] VCN decode and encode initialized
-successfully(under DPG Mode).
-Feb  3 21:38:51 debser kernel: [drm] JPEG decode initialized successfully.
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip Feb  3 21:38:50 debser kernel: [d=
-rm]
-PCIE GART of 1024M enabled (table at 0x000000F4FFC00000).
-Feb  3 21:38:50 debser kernel: [drm] PSP is resuming...
-Feb  3 21:38:50 debser kernel: [drm] reserve 0xa00000 from 0xf4fe000000 for=
- PSP
-TMR
-Feb  3 21:38:51 debser kernel: [drm] DMUB hardware initialized:
-version=3D0x0400003C
-Feb  3 21:38:51 debser kernel: [drm] kiq ring mec 2 pipe 1 q 0
-Feb  3 21:38:51 debser kernel: [drm] VCN decode and encode initialized
-successfully(under DPG Mode).
-Feb  3 21:38:51 debser kernel: [drm] JPEG decode initialized successfully.
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:46:14 debser kernel: ACPI: bus type drm_connector registered
-Feb  3 21:46:14 debser kernel: [drm] amdgpu kernel modesetting enabled.
-scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:38:51 debser kernel: [drm] Skip scheduling IBs!
-Feb  3 21:46:14 debser kernel: ACPI: bus type drm_connector registered
-Feb  3 21:46:14 debser kernel: [drm] amdgpu kernel modesetting enabled.
-
-Freeze screen and system at 21:38:51, in this time i am with firefox esr.
-
-for info
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+CkhpIEJvcmlz77yaCkkgc2F3IHRoaXMgd2FybmluZyBzb21ldGltZXPvvIhSdW4gb24gYSBhcm1i
+YWluIGJhc2VkIGJvb2t3b3Jt77yJ77yMbm90IHN1cmUgaXMgYSBrbm93IGlzc3VlIG9yIHNvbWV0
+aGluZyBlbHNl44CCClsxNTM2OC4yOTMwMzFdIHN5c3RlbWQtam91cm5hbGRbNzE1XTogUmVjZWl2
+ZWQgY2xpZW50IHJlcXVlc3QgdG8gcmVsaW5xdWlzaCAvdmFyL2xvZy9qb3VybmFsLzFiYzRhMzQw
+NTA2MTQyYWY5YmQzMWE2YTNkMjE3MGJhIGFjY2Vzcy4KWzM3NzQzLjA0MDczN10gLS0tLS0tLS0t
+LS0tWyBjdXQgaGVyZSBdLS0tLS0tLS0tLS0tClszNzc0My4wNDA3NjRdIHBhbnRob3IgZmIwMDAw
+MDAuZ3B1OiBkcm1fV0FSTl9PTihzaG1lbS0+cGFnZXNfdXNlX2NvdW50KQpbMzc3NDMuMDQwODkw
+XSBXQVJOSU5HOiBDUFU6IDIgUElEOiA1NzAyIGF0IGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3No
+bWVtX2hlbHBlci5jOjE1OCBkcm1fZ2VtX3NobWVtX2ZyZWUrMHgxNDQvMHgxNGMgW2RybV9zaG1l
+bV9oZWxwZXJdClszNzc0My4wNDA5MjldIE1vZHVsZXMgbGlua2VkIGluOiBqb3lkZXYgcmZraWxs
+IHN1bnJwYyBsejRoYyBsejQgenJhbSBiaW5mbXRfbWlzYyBoYW50cm9fdnB1IGNyY3QxMGRpZl9j
+ZSB2NGwyX3ZwOSB2NGwyX2gyNjQgc25kX3NvY19zaW1wbGVfYW1wbGlmaWVyIHY0bDJfbWVtMm1l
+bSB2aWRlb2J1ZjJfZG1hX2NvbnRpZyBzbmRfc29jX2VzODMyOF9pMmMgdmlkZW9idWYyX21lbW9w
+cyBya19jcnlwdG8yIHNuZF9zb2NfZXM4MzI4IHZpZGVvYnVmMl92NGwyIHNtM19nZW5lcmljIHZp
+ZGVvZGV2IGNyeXB0b19lbmdpbmUgc20zIHJvY2tjaGlwX3JuZyB2aWRlb2J1ZjJfY29tbW9uIG52
+bWVtX3JvY2tjaGlwX290cCBzbmRfc29jX3JvY2tjaGlwX2kyc190ZG0gc25kX3NvY19oZG1pX2Nv
+ZGVjIHNuZF9zb2Nfc2ltcGxlX2NhcmQgbWMgc25kX3NvY19zaW1wbGVfY2FyZF91dGlscyBzbmRf
+c29jX2NvcmUgc25kX2NvbXByZXNzIGFjOTdfYnVzIHNuZF9wY21fZG1hZW5naW5lIHNuZF9wY20g
+c25kX3RpbWVyIHNuZCBzb3VuZGNvcmUgZG1fbW9kIGlwX3RhYmxlcyB4X3RhYmxlcyBhdXRvZnM0
+IGR3X2hkbWlfcXBfaTJzX2F1ZGlvIGR3X2hkbWlfcXBfY2VjIHJrODA4X3JlZ3VsYXRvciByb2Nr
+Y2hpcGRybSBkd19taXBpX2RzaSBkd19oZG1pX3FwIGR3X2hkbWkgYW5hbG9naXhfZHAgZHJtX2Rt
+YV9oZWxwZXIgZnVzYjMwMiBkaXNwbGF5X2Nvbm5lY3RvciByazh4eF9zcGkgZHJtX2Rpc3BsYXlf
+aGVscGVyIHBoeV9yb2NrY2hpcF9zbnBzX3BjaWUzIHBoeV9yb2NrY2hpcF9zYW1zdW5nX2hkcHR4
+X2hkbWkgcGFudGhvciB0Y3BtIHJrOHh4X2NvcmUgY2VjIGRybV9ncHV2bSBncHVfc2NoZWQgZHJt
+X2ttc19oZWxwZXIgZHJtX3NobWVtX2hlbHBlciBkcm1fZXhlYyByODE2OSBkcm0gcHdtX2JsIGFk
+Y19rZXlzClszNzc0My4wNDExMDhdIENQVTogMiBQSUQ6IDU3MDIgQ29tbToga3dvcmtlci91MTY6
+OCBOb3QgdGFpbnRlZCA2LjguMC1yYzEtZWRnZS1yb2NrY2hpcC1yazM1ODggIzIKWzM3NzQzLjA0
+MTExNV0gSGFyZHdhcmUgbmFtZTogUm9ja2NoaXAgUkszNTg4IEVWQjEgVjEwIEJvYXJkIChEVCkK
+WzM3NzQzLjA0MTEyMF0gV29ya3F1ZXVlOiBwYW50aG9yLWNsZWFudXAgcGFudGhvcl92bV9iaW5k
+X2pvYl9jbGVhbnVwX29wX2N0eF93b3JrIFtwYW50aG9yXQpbMzc3NDMuMDQxMTUxXSBwc3RhdGU6
+IDYwNDAwMDA5IChuWkN2IGRhaWYgK1BBTiAtVUFPIC1UQ08gLURJVCAtU1NCUyBCVFlQRT0tLSkK
+WzM3NzQzLjA0MTE1N10gcGMgOiBkcm1fZ2VtX3NobWVtX2ZyZWUrMHgxNDQvMHgxNGMgW2RybV9z
+aG1lbV9oZWxwZXJdClszNzc0My4wNDExNjldIGxyIDogZHJtX2dlbV9zaG1lbV9mcmVlKzB4MTQ0
+LzB4MTRjIFtkcm1fc2htZW1faGVscGVyXQpbMzc3NDMuMDQxMTgxXSBzcCA6IGZmZmY4MDAwOGQz
+N2JjYzAKWzM3NzQzLjA0MTE4NF0geDI5OiBmZmZmODAwMDhkMzdiY2MwIHgyODogZmZmZjgwMDA4
+MWQzNzljMCB4Mjc6IGZmZmY4MDAwODFkMzcwMDAKWzM3NzQzLjA0MTE5Nl0geDI2OiBmZmZmMDAw
+MTk5MDlhMjgwIHgyNTogZmZmZjAwMDE5OTA5YTJjMCB4MjQ6IGZmZmYwMDAxMDE3YTRjMDUKWzM3
+NzQzLjA0MTIwNl0geDIzOiBkZWFkMDAwMDAwMDAwMTAwIHgyMjogZGVhZDAwMDAwMDAwMDEyMiB4
+MjE6IGZmZmYwMDAxNjI3YWMxYTAKWzM3NzQzLjA0MTIxN10geDIwOiAwMDAwMDAwMDAwMDAwMDAw
+IHgxOTogZmZmZjAwMDE2MjdhYzAwMCB4MTg6IDAwMDAwMDAwMDAwMDAwMDAKWzM3NzQzLjA0MTIy
+N10geDE3OiAwMDAwMDAwNDAwNDRmZmZmIHgxNjogMDA1MDAwZjJiNTUwMzUxMCB4MTU6IGZmZmZm
+ZmZmZmZmOTFiNzcKWzM3NzQzLjA0MTIzOF0geDE0OiAwMDAwMDAwMDAwMDAwMDAxIHgxMzogMDAw
+MDAwMDAwMDAwMDNjNSB4MTI6IDAwMDAwMDAwZmZmZmZmZWEKWzM3NzQzLjA0MTI0OF0geDExOiAw
+MDAwMDAwMGZmZmZkZmZmIHgxMDogMDAwMDAwMDBmZmZmZGZmZiB4OSA6IGZmZmY4MDAwODFlMGU4
+MTgKWzM3NzQzLjA0MTI1OV0geDggOiAwMDAwMDAwMDAwMDJmZmU4IHg3IDogYzAwMDAwMDBmZmZm
+ZGZmZiB4NiA6IDAwMDAwMDAwMDAwYWZmYTgKWzM3NzQzLjA0MTI2OV0geDUgOiAwMDAwMDAwMDAw
+MDAxZmZmIHg0IDogMDAwMDAwMDAwMDAwMDAwMCB4MyA6IGZmZmY4MDAwODE5YTYwMDgKWzM3NzQz
+LjA0MTI3OV0geDIgOiAwMDAwMDAwMDAwMDAwMDAwIHgxIDogMDAwMDAwMDAwMDAwMDAwMCB4MCA6
+IGZmZmYwMDAxODQ2NWU5MDAKWzM3NzQzLjA0MTI5MF0gQ2FsbCB0cmFjZToKWzM3NzQzLjA0MTI5
+M10gIGRybV9nZW1fc2htZW1fZnJlZSsweDE0NC8weDE0YyBbZHJtX3NobWVtX2hlbHBlcl0KWzM3
+NzQzLjA0MTMwNl0gIHBhbnRob3JfZ2VtX2ZyZWVfb2JqZWN0KzB4MjQvMHhhMCBbcGFudGhvcl0K
+WzM3NzQzLjA0MTMyMV0gIGRybV9nZW1fb2JqZWN0X2ZyZWUrMHgxYy8weDMwIFtkcm1dClszNzc0
+My4wNDE0NTJdICBwYW50aG9yX3ZtX2JvX3B1dCsweGM0LzB4MTJjIFtwYW50aG9yXQpbMzc3NDMu
+MDQxNDc1XSAgcGFudGhvcl92bV9jbGVhbnVwX29wX2N0eC5jb25zdHByb3AuMCsweGIwLzB4MTA0
+IFtwYW50aG9yXQpbMzc3NDMuMDQxNDkxXSAgcGFudGhvcl92bV9iaW5kX2pvYl9jbGVhbnVwX29w
+X2N0eF93b3JrKzB4MjgvMHhkMCBbcGFudGhvcl0KWzM3NzQzLjA0MTUwN10gIHByb2Nlc3Nfb25l
+X3dvcmsrMHgxNWMvMHgzYTQKWzM3NzQzLjA0MTUyNl0gIHdvcmtlcl90aHJlYWQrMHgzMmMvMHg0
+MzgKWzM3NzQzLjA0MTUzNl0gIGt0aHJlYWQrMHgxMDgvMHgxMGMKWzM3NzQzLjA0MTU0Nl0gIHJl
+dF9mcm9tX2ZvcmsrMHgxMC8weDIwClszNzc0My4wNDE1NTddIC0tLVsgZW5kIHRyYWNlIDAwMDAw
+MDAwMDAwMDAwMDAgXS0tLQpyazM1ODhAcmszNTg4LWV2YjE6fiQgCnJrMzU4OEByazM1ODgtZXZi
+MTp+JCBuZW9mZXRjaCAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIC0tLS0tLS0tLS0tLS0tLS0tLSAKICAgICAg4paIIOKWiCDilogg4paIIOKWiCDilogg4paI
+IOKWiCDilogg4paIIOKWiCAgICAgIE9TOiBBcm1iaWFuICgyNC4yLjAtdHJ1bmspIGFhcmNoNjQg
+CiAgICAg4paI4paI4paI4paI4paI4paI4paI4paI4paI4paI4paI4paI4paI4paI4paI4paI4paI
+4paI4paI4paI4paI4paI4paIICAgICBIb3N0OiBSb2NrY2hpcCBSSzM1ODggRVZCMSBWMTAgQm9h
+cmQgCiAgIOKWhOKWhOKWiOKWiCAgICAgICAgICAgICAgICAgICDilojilojiloTiloQgICBLZXJu
+ZWw6IDYuOC4wLXJjMS1lZGdlLXJvY2tjaGlwLXJrMzU4OCAKICAg4paE4paE4paI4paIICAgIOKW
+iOKWiOKWiOKWiOKWiOKWiOKWiOKWiOKWiOKWiOKWiCAgICDilojilojiloTiloQgICBVcHRpbWU6
+IDEzIGhvdXJzLCAyOCBtaW5zIAogICDiloTiloTilojiloggICDilojiloggICAgICAgICDiloji
+loggICDilojilojiloTiloQgICBQYWNrYWdlczogMTQ1NSAoZHBrZykgCiAgIOKWhOKWhOKWiOKW
+iCAgIOKWiOKWiCAgICAgICAgIOKWiOKWiCAgIOKWiOKWiOKWhOKWhCAgIFNoZWxsOiBiYXNoIDUu
+Mi4xNSAKICAg4paE4paE4paI4paIICAg4paI4paIICAgICAgICAg4paI4paIICAg4paI4paI4paE
+4paEICAgUmVzb2x1dGlvbjogMzg0MHgyMTYwIAogICDiloTiloTilojiloggICDilojilojiloji
+lojilojilojilojilojilojilojilojilojiloggICDilojilojiloTiloQgICBUZXJtaW5hbDog
+L2Rldi9wdHMvMSAKICAg4paE4paE4paI4paIICAg4paI4paIICAgICAgICAg4paI4paIICAg4paI
+4paI4paE4paEICAgQ1BVOiAoOCkgQCAxLjgwMEdIeiAKICAg4paE4paE4paI4paIICAg4paI4paI
+ICAgICAgICAg4paI4paIICAg4paI4paI4paE4paEICAgTWVtb3J5OiAyMDYyTWlCIC8gNzY4N01p
+QiAKICAg4paE4paE4paI4paIICAg4paI4paIICAgICAgICAg4paI4paIICAg4paI4paI4paE4paE
+CiAgIOKWhOKWhOKWiOKWiCAgICAgICAgICAgICAgICAgICDilojilojiloTiloQgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAKICAgICDilojilojilojilojilojilojilojilojilojilojiloji
+lojilojilojilojilojilojilojilojilojilojilojiloggICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIAogICAgICDilogg4paIIOKWiCDilogg4paIIOKWiCDilogg4paIIOKWiCDilogg4paI
+CgoKCgrlnKggMjAyNC0wMS0yOSAxODo0MTo0N++8jCJCb3JpcyBCcmV6aWxsb24iIDxib3Jpcy5i
+cmV6aWxsb25AY29sbGFib3JhLmNvbT4g5YaZ6YGT77yaCj5PbiBNb24sIDI5IEphbiAyMDI0IDE3
+OjIwOjQ3ICswODAwIChDU1QpCj4iQW5keSBZYW4iIDxhbmR5c2hya0AxNjMuY29tPiB3cm90ZToK
+Pgo+PiBIaSBCb3Jpc++8mgo+PiAKPj4gVGhhbmtzIGZvciB5b3UgZ3JlYXQgd29ya+OAggo+PiAK
+Pj4gT25lIHRoaW5nIHBsZWFzZSB0YWtlIG5vdGXvvJoKPj4gY29tbWl0IChhcm02NDogZHRzOiBy
+b2NrY2hpcDogcmszNTg4OiBBZGQgR1BVIG5vZGVzKSAgaW4gWzFdIHNlZW1zIHJlbW92ZSB0aGUg
+ImRpc2FibGVkIiBzdGF0dXMgCj4+IG9mIHVzYl9ob3N0Ml94aGNpLCB0aGlzIG1heSBjYXVzZSBh
+IGJvb3QgaXNzdWUgb24gc29tZSBib2FyZHMgdGhhdCB1c2UgY29tYnBoeTJfcHN1ICBwaHkgZm9y
+IG90aGVyIGZ1bmN0aW9ucy4KPgo+T29wcywgc2hvdWxkIGJlIGZpeGVkIGluCj5odHRwczovL2dp
+dGxhYi5mcmVlZGVza3RvcC5vcmcvcGFuZnJvc3QvbGludXgvLS9jb21taXRzL3BhbnRob3ItbmV4
+dCtyazM1ODgKPm5vdy4KPgo+VGhhbmtzLAo+Cj5Cb3Jpcwo=
