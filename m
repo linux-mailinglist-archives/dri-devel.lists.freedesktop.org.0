@@ -2,89 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0569848EB6
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Feb 2024 15:54:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 097C7848F92
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Feb 2024 18:04:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9622310E09F;
-	Sun,  4 Feb 2024 14:54:27 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="X/Uvb6r5";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06345112237;
+	Sun,  4 Feb 2024 17:04:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
- [209.85.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D678D10E09F
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Feb 2024 14:54:25 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id
- d2e1a72fcca58-6da6b0eb2d4so2311265b3a.1
- for <dri-devel@lists.freedesktop.org>; Sun, 04 Feb 2024 06:54:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1707058465; x=1707663265; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pgWoWhZI6Jt4ifeI2jAQa8yY6PW0nUJE61HeVZboEZ8=;
- b=X/Uvb6r5XQvzZ0n4Q3Xr7k/U6twyPns2KsOksXjxoDs2LTsdwKoHsDQxAsDnq/JApy
- NpTIekYI9fKgQtC06xSBhOHuQ2wNEUAC3+b/zEq62L+ZMDDyn1KcCM/wZVJdH4HvBCTn
- R0MifeTouxvJUiTXZBlFkFI1DNCvMABy95mYSQ9ILuAu6T2O3+rXzV2LmuonK47QDGNC
- 2cXMSslS0PpObisP89WyIj0S2z4My4sTR+SX67y4MYYGsDbZPD4k/W4wsQRS/tcZ6Ieb
- ED7olJzis60iDJ7fVlzNWZkeLTnnr23xT1fgUDto+sOx2n5e5IPQp4HbX83UeK20xoO8
- f0cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707058465; x=1707663265;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pgWoWhZI6Jt4ifeI2jAQa8yY6PW0nUJE61HeVZboEZ8=;
- b=SVs4+0mPx6jRg+yE8xpYw9kbL0hLxp+KT+akNcRZkh0uCuR+wOqavMqp7goBofW/LT
- DE4Msu1gwEiGnjTGzxwbIoxdaAZMDneLwG6la097emj8be9YNEgESDZs+zacjve/MerS
- ZJzdYHvMwVNNb8XoJCsc0Gg9vjfQEvrvUgpAWA98oiyJHOSjmOg6GnXZEWt4DeUPNVgr
- Mh8EAPwNTq4V3FdkXffFzhnqljOhLImRJ6afxgn7OY1aO5kPExTQMrw5H7UDhuym56xB
- 7ilTWhMB4R8G9ZTPKAO0w4SbRlrPPoOvHNcixJMCgRjad4EC4/DsFsF9voY7r6jZaSLz
- Hmgw==
-X-Gm-Message-State: AOJu0Ywu3iJ8/v+HttwQkP32FLZfm39ATe4/VNGvOVRYauJy+Dcqd8oh
- pekKyfTOLHHZdfa9/I+yPaOVeWVSRrlbVtf6ewoJ1g0r8dXRaXkrOOyM757IbUssnF5uAORraS2
- AgrK//YYg9BI1+jQGkVA7SAAeGtc=
-X-Google-Smtp-Source: AGHT+IGSX8kX5MA8ZbTQDoQMsW8S27tIoZz4dXskIGi/iCXvA3jGKdesaVZqnt2TBMScGsd6VoU8nD7JHy3LffXnc2s=
-X-Received: by 2002:a62:ce86:0:b0:6e0:3769:eb92 with SMTP id
- y128-20020a62ce86000000b006e03769eb92mr1260042pfg.25.1707058465268; Sun, 04
- Feb 2024 06:54:25 -0800 (PST)
+Received: from relay04.th.seeweb.it (relay04.th.seeweb.it [5.144.164.165])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5F35112237
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Feb 2024 17:04:48 +0000 (UTC)
+Received: from Marijn-Arch-Book.localdomain
+ (2a02-a420-2a-6767-164f-8aff-fee4-5930.mobile6.kpn.net
+ [IPv6:2a02:a420:2a:6767:164f:8aff:fee4:5930])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 541161F6CF;
+ Sun,  4 Feb 2024 18:04:42 +0100 (CET)
+From: Marijn Suijten <marijn.suijten@somainline.org>
+Date: Sun, 04 Feb 2024 18:04:39 +0100
+Subject: [PATCH] drm/msm/dsi: Replace dsi_get_bpp() with mipi_dsi header
+ function
 MIME-Version: 1.0
-References: <20240203165307.7806-1-aford173@gmail.com>
- <20240203165307.7806-7-aford173@gmail.com>
- <20240204120033.GA4656@francesco-nb>
-In-Reply-To: <20240204120033.GA4656@francesco-nb>
-From: Adam Ford <aford173@gmail.com>
-Date: Sun, 4 Feb 2024 08:54:13 -0600
-Message-ID: <CAHCN7xKGMNpiTxy_7vMKd+rSsS6aya7N+duVVwFNKnpG0M0gBQ@mail.gmail.com>
-Subject: Re: [PATCH V8 06/12] arm64: dts: imx8mp: add HDMI irqsteer
-To: Francesco Dolcini <francesco@dolcini.it>
-Cc: linux-arm-kernel@lists.infradead.org, marex@denx.de, 
- alexander.stein@ew.tq-group.com, frieder.schrempf@kontron.de, 
- Lucas Stach <l.stach@pengutronix.de>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, 
- NXP Linux Team <linux-imx@nxp.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Liu Ying <victor.liu@nxp.com>, 
- Ulf Hansson <ulf.hansson@linaro.org>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-phy@lists.infradead.org, linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240204-drm-msm-dsi-remove-open-coded-get-bpp-v1-1-c16212de7e86@somainline.org>
+X-B4-Tracking: v=1; b=H4sIAKbDv2UC/x3NywrCQAxG4VcpWRuYVPH2KuLCaX5rFnMhU4pQ+
+ u4OLr/NORs1uKHRfdjIsVqzkjvkMND0eeUZbNpNYxiPEuTG6olTS6zN2JHKCi4VmaeiUJ6xcKy
+ VcbmeTzFEEVXqrep42/f/eTz3/QdOocv9dwAAAA==
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Marijn Suijten <marijn.suijten@somainline.org>
+X-Mailer: b4 0.12.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,36 +54,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Feb 4, 2024 at 6:00=E2=80=AFAM Francesco Dolcini <francesco@dolcini=
-.it> wrote:
->
-> On Sat, Feb 03, 2024 at 10:52:46AM -0600, Adam Ford wrote:
-> > From: Lucas Stach <l.stach@pengutronix.de>
-> >
-> > The HDMI irqsteer is a secondary interrupt controller within the HDMI
-> > subsystem that maps all HDMI peripheral IRQs into a single upstream
-> > IRQ line.
-> >
-> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
->
-> This is missing your signed-off-by, and in other patches of this series
+drm_mipi_dsi.h already provides a conversion function from MIPI_DSI_FMT_
+to bpp, named mipi_dsi_pixel_format_to_bpp().
 
-Opps.  I thought I caught all those.
+Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+---
+ drivers/gpu/drm/msm/dsi/dsi_host.c | 18 ++++--------------
+ 1 file changed, 4 insertions(+), 14 deletions(-)
 
-> your signed-off-by is not the last, as it should be.
->
-> Please have a look and fix this and the other instances.
->
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index deeecdfd6c4e..9fa0053fac74 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -183,16 +183,6 @@ struct msm_dsi_host {
+ 	int irq;
+ };
+ 
+-static u32 dsi_get_bpp(const enum mipi_dsi_pixel_format fmt)
+-{
+-	switch (fmt) {
+-	case MIPI_DSI_FMT_RGB565:		return 16;
+-	case MIPI_DSI_FMT_RGB666_PACKED:	return 18;
+-	case MIPI_DSI_FMT_RGB666:
+-	case MIPI_DSI_FMT_RGB888:
+-	default:				return 24;
+-	}
+-}
+ 
+ static inline u32 dsi_read(struct msm_dsi_host *msm_host, u32 reg)
+ {
+@@ -567,7 +557,7 @@ unsigned long dsi_byte_clk_get_rate(struct mipi_dsi_host *host, bool is_bonded_d
+ {
+ 	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
+ 	u8 lanes = msm_host->lanes;
+-	u32 bpp = dsi_get_bpp(msm_host->format);
++	u32 bpp = mipi_dsi_pixel_format_to_bpp(msm_host->format);
+ 	unsigned long pclk_rate = dsi_get_pclk_rate(mode, msm_host->dsc, is_bonded_dsi);
+ 	unsigned long pclk_bpp;
+ 
+@@ -610,7 +600,7 @@ int dsi_calc_clk_rate_6g(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+ 
+ int dsi_calc_clk_rate_v2(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+ {
+-	u32 bpp = dsi_get_bpp(msm_host->format);
++	u32 bpp = mipi_dsi_pixel_format_to_bpp(msm_host->format);
+ 	unsigned int esc_mhz, esc_div;
+ 	unsigned long byte_mhz;
+ 
+@@ -993,7 +983,7 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+ 
+ 		/* image data and 1 byte write_memory_start cmd */
+ 		if (!msm_host->dsc)
+-			wc = hdisplay * dsi_get_bpp(msm_host->format) / 8 + 1;
++			wc = hdisplay * mipi_dsi_pixel_format_to_bpp(msm_host->format) / 8 + 1;
+ 		else
+ 			/*
+ 			 * When DSC is enabled, WC = slice_chunk_size * slice_per_pkt + 1.
+@@ -1413,7 +1403,7 @@ static int dsi_cmds2buf_tx(struct msm_dsi_host *msm_host,
+ {
+ 	int len, ret;
+ 	int bllp_len = msm_host->mode->hdisplay *
+-			dsi_get_bpp(msm_host->format) / 8;
++			mipi_dsi_pixel_format_to_bpp(msm_host->format) / 8;
+ 
+ 	len = dsi_cmd_dma_add(msm_host, msg);
+ 	if (len < 0) {
 
-OK.  I have some work to do on some other portions, so I'll clean up that t=
-oo.
+---
+base-commit: 01af33cc9894b4489fb68fa35c40e9fe85df63dc
+change-id: 20231019-drm-msm-dsi-remove-open-coded-get-bpp-e7864b0b11dd
 
-adam
-> Thanks for this work!
+Best regards,
+-- 
+Marijn Suijten <marijn.suijten@somainline.org>
 
-Thanks for the feedback.
-
-adam
->
-> Francesco
->
