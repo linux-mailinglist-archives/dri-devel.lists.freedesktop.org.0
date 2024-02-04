@@ -2,60 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 880A7848A65
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Feb 2024 03:16:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B783848C6D
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Feb 2024 10:23:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C36510EAAC;
-	Sun,  4 Feb 2024 02:16:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75B3310F837;
+	Sun,  4 Feb 2024 09:23:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eAFuEWFU";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="eWQvSFGP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 768E810EAAC
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Feb 2024 02:16:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707012971; x=1738548971;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=vjhvToWHnh83ymJbga+ySukmrzU3KaiIfJGjjnavqxs=;
- b=eAFuEWFUJSjdz79v1oppZ5et5W0Ht6o1Dc8ZbSXGJos5YTorfRD4IikZ
- l4pJnHhlbGtBd6LAWMbwUdG1cO06jKhAcRp/JmppB6LuQDUwDuZNNs8rl
- AiD35Mr3wgOBDpyrwFN8d89NyVyGEFEVDreI/0PryVFGSaMJi1gaxI2nx
- uWk5b60qoFN5/I75mWnUGli/RwFNQJf+qScJqnhO02CfWZCB6QO8nubVs
- yt0lXqzENRPd2ipWnhKaHNwC6SG4ZJIJmYNGBIMa+WHz7OUjwnJ/GlIJd
- zgXVbZEHpMnKh++jDNhi4wl8V0FhvB5Q3P6DoxOOqOjkHYSxZb7qD9ZPS g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="508504"
-X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="508504"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2024 18:16:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="932832617"
-X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; d="scan'208";a="932832617"
-Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
- by fmsmga001.fm.intel.com with ESMTP; 03 Feb 2024 18:16:06 -0800
-Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rWS1o-0005so-0A;
- Sun, 04 Feb 2024 02:15:01 +0000
-Date: Sun, 4 Feb 2024 10:13:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
- pjones@redhat.com, deller@gmx.de, ardb@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 3/8] firmware/sysfb: Set firmware-framebuffer parent
- device
-Message-ID: <202402041001.rJrT47HE-lkp@intel.com>
-References: <20240202120140.3517-4-tzimmermann@suse.de>
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
+ [209.85.219.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 092C710F837
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Feb 2024 09:23:14 +0000 (UTC)
+Received: by mail-yb1-f181.google.com with SMTP id
+ 3f1490d57ef6-dc6de8a699dso2887211276.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Feb 2024 01:23:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1707038593; x=1707643393; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=/jpuYG+EdQLizy4QqBGZn07wougvdBXcN1e2Mr1rzhc=;
+ b=eWQvSFGPAV1i29HOjjRhJFBkoHQZaGmhbBL6xrParA9h30S4swxq5H+aZTqrmQLFWD
+ 3HtgS0wrNMpI+efFitQ9B6pV6VVbbjbQSrJhmu4ksijd/Sgv/AJwZFslu0ddLPyM8Os4
+ Fv/qVK+F7Bkye6c1tLkTFs0ino5DtH6gcvbHn9M/dW4Z3K3pfAmiXdDgcOfAXrigv09K
+ a9RYuHjqd0aXNNIqWMbA7HOwS/+2mo+8eeAcVTyfNw6h+3Xz6Zl5LoXtvK1/zyRWF3sL
+ jlbI+YsjQDxt3kiWwoKb+dx8pi4XzGdPUXC9U21uOohk402z5nCth6ZQfUz3BiT0b879
+ zL8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707038593; x=1707643393;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/jpuYG+EdQLizy4QqBGZn07wougvdBXcN1e2Mr1rzhc=;
+ b=U3Son1f3BcOedHfZpQebCBe/CjNLNLcv5sxPDpw9AcN4O5k0Vu5iZoqmWftHUQOctR
+ tHlisqR5UshuKS2KPkTNaZvDTU0c+ibyEe3N/fqE+8orDI+yYnnBvT8PHuAw9dTzperW
+ yILpZKaXNEr1J80Ohtzck1rJy/KOirRskNtJfFV6brMbkzqioXrIy/H9xpcepz4sYqFL
+ bByp14CvxJTxzp1ziHUcpw0QjLMxjyqkOsxKP/72cX8ZIbOHtCUNsA9fphhoPXZYWrX+
+ +yUrHJGrE9f4qzc+9OPS5VCfzI1MjeqHsR97ASFlL0GfUxWgahsZRXBpVsP9VRBBFCAv
+ GTPw==
+X-Gm-Message-State: AOJu0Yy8h3K3Y6D7JFq4FnHtMV5n6SLNn1oP2JAl64KX50h7EE4/seXJ
+ VB4hFfhQYR5f08IOktVrIRV20RBiQWUPuKIh+LCFIfdH2Sr+83CYydpxtcSvD4DpQQT4AnLIm+C
+ taU+Ul1Y0COJk4ja2Ry7q7lzGufrv9J8cWJzRoA==
+X-Google-Smtp-Source: AGHT+IH+6aIPxyRh3mvo8zj6LoCTEA2WezKPM1eVxvYBfHARq8vhSf+rEtZZT+MgFJeC0Ki4LzPESO32enuMKM5VVA0=
+X-Received: by 2002:a25:210:0:b0:dc2:48af:bf0c with SMTP id
+ 16-20020a250210000000b00dc248afbf0cmr10544490ybc.63.1707038593547; Sun, 04
+ Feb 2024 01:23:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240202120140.3517-4-tzimmermann@suse.de>
+References: <20240203165307.7806-1-aford173@gmail.com>
+ <20240203165307.7806-3-aford173@gmail.com>
+In-Reply-To: <20240203165307.7806-3-aford173@gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sun, 4 Feb 2024 10:23:02 +0100
+Message-ID: <CAA8EJpo4omXogg48urEMzxQ+CA7DNTSf66pA6hoO8wpmtn_-MQ@mail.gmail.com>
+Subject: Re: [PATCH V8 02/12] phy: freescale: add Samsung HDMI PHY
+To: Adam Ford <aford173@gmail.com>
+Cc: linux-arm-kernel@lists.infradead.org, marex@denx.de, 
+ alexander.stein@ew.tq-group.com, frieder.schrempf@kontron.de, 
+ Lucas Stach <l.stach@pengutronix.de>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, 
+ NXP Linux Team <linux-imx@nxp.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Liu Ying <victor.liu@nxp.com>, 
+ Ulf Hansson <ulf.hansson@linaro.org>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-phy@lists.infradead.org, linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,109 +97,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+On Sat, 3 Feb 2024 at 17:53, Adam Ford <aford173@gmail.com> wrote:
+>
+> From: Lucas Stach <l.stach@pengutronix.de>
+>
+> This adds the driver for the Samsung HDMI PHY found on the
+> i.MX8MP SoC.
+>
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+> Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> ---
+> V4:  Make lookup table hex values lower case.
+>
+> V3:  Re-order the Makefile to keep it alphabetical
+>      Remove unused defines
+>
+> V2:  Fixed some whitespace found from checkpatch
+>      Change error handling when enabling apbclk to use dev_err_probe
+>      Rebase on Linux-Next
+>
+>      I (Adam) tried to help move this along, so I took Lucas' patch and
+>      attempted to apply fixes based on feedback.  I don't have
+>      all the history, so apologies for that.
+> ---
+>  drivers/phy/freescale/Kconfig                |    6 +
+>  drivers/phy/freescale/Makefile               |    1 +
+>  drivers/phy/freescale/phy-fsl-samsung-hdmi.c | 1075 ++++++++++++++++++
+>  3 files changed, 1082 insertions(+)
+>  create mode 100644 drivers/phy/freescale/phy-fsl-samsung-hdmi.c
+>
+> diff --git a/drivers/phy/freescale/Kconfig b/drivers/phy/freescale/Kconfig
+> index 853958fb2c06..5c2b73042dfc 100644
+> --- a/drivers/phy/freescale/Kconfig
+> +++ b/drivers/phy/freescale/Kconfig
+> @@ -35,6 +35,12 @@ config PHY_FSL_IMX8M_PCIE
+>           Enable this to add support for the PCIE PHY as found on
+>           i.MX8M family of SOCs.
+>
+> +config PHY_FSL_SAMSUNG_HDMI_PHY
+> +       tristate "Samsung HDMI PHY support"
+> +       depends on OF && HAS_IOMEM
+> +       help
+> +         Enable this to add support for the Samsung HDMI PHY in i.MX8MP.
+> +
+>  endif
+>
+>  config PHY_FSL_LYNX_28G
+> diff --git a/drivers/phy/freescale/Makefile b/drivers/phy/freescale/Makefile
+> index cedb328bc4d2..79e5f16d3ce8 100644
+> --- a/drivers/phy/freescale/Makefile
+> +++ b/drivers/phy/freescale/Makefile
+> @@ -4,3 +4,4 @@ obj-$(CONFIG_PHY_MIXEL_LVDS_PHY)        += phy-fsl-imx8qm-lvds-phy.o
+>  obj-$(CONFIG_PHY_MIXEL_MIPI_DPHY)      += phy-fsl-imx8-mipi-dphy.o
+>  obj-$(CONFIG_PHY_FSL_IMX8M_PCIE)       += phy-fsl-imx8m-pcie.o
+>  obj-$(CONFIG_PHY_FSL_LYNX_28G)         += phy-fsl-lynx-28g.o
+> +obj-$(CONFIG_PHY_FSL_SAMSUNG_HDMI_PHY)  += phy-fsl-samsung-hdmi.o
+> diff --git a/drivers/phy/freescale/phy-fsl-samsung-hdmi.c b/drivers/phy/freescale/phy-fsl-samsung-hdmi.c
+> new file mode 100644
+> index 000000000000..bf0e2299d00f
+> --- /dev/null
+> +++ b/drivers/phy/freescale/phy-fsl-samsung-hdmi.c
+> @@ -0,0 +1,1075 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Copyright 2020 NXP
+> + * Copyright 2022 Pengutronix, Lucas Stach <kernel@pengutronix.de>
+> + */
+> +
+> +#include <linux/clk-provider.h>
+> +#include <linux/clk.h>
+> +#include <linux/delay.h>
+> +#include <linux/io.h>
+> +#include <linux/iopoll.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +
+> +#define PHY_REG_33             0x84
+> +#define  REG33_MODE_SET_DONE   BIT(7)
+> +#define  REG33_FIX_DA          BIT(1)
+> +
+> +#define PHY_REG_34             0x88
+> +#define  REG34_PHY_READY       BIT(7)
+> +#define  REG34_PLL_LOCK                BIT(6)
+> +#define  REG34_PHY_CLK_READY   BIT(5)
+> +
+> +
+> +#define PHY_PLL_REGS_NUM 48
+> +
+> +struct phy_config {
+> +       u32     clk_rate;
+> +       u8 regs[PHY_PLL_REGS_NUM];
+> +};
+> +
+> +const struct phy_config phy_pll_cfg[] = {
+> +       {       22250000, {
+> +                       0x00, 0xd1, 0x4b, 0xf1, 0x89, 0x88, 0x80, 0x40,
+> +                       0x4f, 0x30, 0x33, 0x65, 0x00, 0x15, 0x25, 0x80,
+> +                       0x6c, 0xf2, 0x67, 0x00, 0x10, 0x8f, 0x30, 0x32,
+> +                       0x60, 0x8f, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00,
+> +                       0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +                       0x00, 0xe0, 0x83, 0x0f, 0x3e, 0xf8, 0x00, 0x00,
+> +               },
+> +       }, {
+> +               23750000, {
+> +                       0x00, 0xd1, 0x50, 0xf1, 0x86, 0x85, 0x80, 0x40,
+> +                       0x4f, 0x30, 0x33, 0x65, 0x00, 0x03, 0x25, 0x80,
+> +                       0x6c, 0xf2, 0x67, 0x00, 0x10, 0x8f, 0x30, 0x32,
+> +                       0x60, 0x8f, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00,
+> +                       0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +                       0x00, 0xe0, 0x83, 0x0f, 0x3e, 0xf8, 0x00, 0x00,
+> +               },
 
-kernel test robot noticed the following build errors:
+Generally I see that these entries contain a high level of duplication.
+Could you please extract the common part and a rate-dependent part.
+Next, it would be best if instead of writing the register values via
+the rate LUT, the driver could calculate those values.
+This allows us to support other HDMI modes if the need arises at some point.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-tip/drm-tip linus/master v6.8-rc2 next-20240202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> +       }, {
+> +               24000000, {
+> +                       0x00, 0xd1, 0x50, 0xf0, 0x00, 0x00, 0x80, 0x00,
+> +                       0x4f, 0x30, 0x33, 0x65, 0x00, 0x01, 0x25, 0x80,
+> +                       0x6c, 0xf2, 0x67, 0x00, 0x10, 0x8f, 0x30, 0x32,
+> +                       0x60, 0x8f, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00,
+> +                       0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +                       0x00, 0xe0, 0x83, 0x0f, 0x3e, 0xf8, 0x00, 0x00,
+> +               },
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/video-Add-helpers-for-decoding-screen_info/20240202-200314
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240202120140.3517-4-tzimmermann%40suse.de
-patch subject: [PATCH v2 3/8] firmware/sysfb: Set firmware-framebuffer parent device
-config: i386-buildonly-randconfig-003-20240203 (https://download.01.org/0day-ci/archive/20240204/202402041001.rJrT47HE-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402041001.rJrT47HE-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402041001.rJrT47HE-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/firmware/sysfb.c:104:41: error: too many arguments to function call, expected 2, have 3
-     104 |                 pd = sysfb_create_simplefb(si, &mode, parent);
-         |                      ~~~~~~~~~~~~~~~~~~~~~            ^~~~~~
-   include/linux/sysfb.h:105:39: note: 'sysfb_create_simplefb' declared here
-     105 | static inline struct platform_device *sysfb_create_simplefb(const struct screen_info *si,
-         |                                       ^                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     106 |                                                             const struct simplefb_platform_data *mode)
-         |                                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
-
-
-vim +104 drivers/firmware/sysfb.c
-
-    83	
-    84	static __init int sysfb_init(void)
-    85	{
-    86		struct screen_info *si = &screen_info;
-    87		struct device *parent;
-    88		struct simplefb_platform_data mode;
-    89		const char *name;
-    90		bool compatible;
-    91		int ret = 0;
-    92	
-    93		mutex_lock(&disable_lock);
-    94		if (disabled)
-    95			goto unlock_mutex;
-    96	
-    97		sysfb_apply_efi_quirks();
-    98	
-    99		parent = sysfb_parent_dev(si);
-   100	
-   101		/* try to create a simple-framebuffer device */
-   102		compatible = sysfb_parse_mode(si, &mode);
-   103		if (compatible) {
- > 104			pd = sysfb_create_simplefb(si, &mode, parent);
-   105			if (!IS_ERR(pd))
-   106				goto unlock_mutex;
-   107		}
-   108	
-   109		/* if the FB is incompatible, create a legacy framebuffer device */
-   110		if (si->orig_video_isVGA == VIDEO_TYPE_EFI)
-   111			name = "efi-framebuffer";
-   112		else if (si->orig_video_isVGA == VIDEO_TYPE_VLFB)
-   113			name = "vesa-framebuffer";
-   114		else if (si->orig_video_isVGA == VIDEO_TYPE_VGAC)
-   115			name = "vga-framebuffer";
-   116		else if (si->orig_video_isVGA == VIDEO_TYPE_EGAC)
-   117			name = "ega-framebuffer";
-   118		else
-   119			name = "platform-framebuffer";
-   120	
-   121		pd = platform_device_alloc(name, 0);
-   122		if (!pd) {
-   123			ret = -ENOMEM;
-   124			goto unlock_mutex;
-   125		}
-   126	
-   127		pd->dev.parent = parent;
-   128	
-   129		sysfb_set_efifb_fwnode(pd);
-   130	
-   131		ret = platform_device_add_data(pd, si, sizeof(*si));
-   132		if (ret)
-   133			goto err;
-   134	
-   135		ret = platform_device_add(pd);
-   136		if (ret)
-   137			goto err;
-   138	
-   139		goto unlock_mutex;
-   140	err:
-   141		platform_device_put(pd);
-   142	unlock_mutex:
-   143		mutex_unlock(&disable_lock);
-   144		return ret;
-   145	}
-   146	
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With best wishes
+Dmitry
