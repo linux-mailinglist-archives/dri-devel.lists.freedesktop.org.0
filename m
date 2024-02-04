@@ -2,63 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BB9848CE5
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Feb 2024 11:37:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38D6D848D0D
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Feb 2024 12:17:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF0C210F4E0;
-	Sun,  4 Feb 2024 10:37:05 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="i3/HgyhV";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 462CD112164;
+	Sun,  4 Feb 2024 11:17:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m13108.mail.163.com (m13108.mail.163.com [220.181.13.108])
- by gabe.freedesktop.org (Postfix) with ESMTP id E6E6710F4E0
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Feb 2024 10:37:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=QFAIvtlgBz+0cZ86lP12N76VK/z+haXomWEI8f8NVLY=; b=i
- 3/HgyhVhL94fGimACBhuXnAQ4hTdn6rdqTUUQcgcnxzkcXHcW7u5ylmwkyPyzB1C
- qpJPrjZ8a8ITt7PIWL1kMLs0l9Tw+UxCHAoaP+PBkQSzJnzi0jMZ0x4ursebUX8h
- gd8FxhVpx6foHewS2fl5A09llPbfesrtsoqVcFDNNQ=
-Received: from andyshrk$163.com ( [103.29.142.67] ) by ajax-webmail-wmsvr108
- (Coremail) ; Sun, 4 Feb 2024 18:36:12 +0800 (CST)
-X-Originating-IP: [103.29.142.67]
-Date: Sun, 4 Feb 2024 18:36:12 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Boris Brezillon" <boris.brezillon@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, "Tatsuyuki Ishi" <ishitatsuyuki@gmail.com>,
- "Nicolas Boichat" <drinkcat@chromium.org>, kernel@collabora.com, 
- "Daniel Stone" <daniels@collabora.com>, 
- "Neil Armstrong" <neil.armstrong@linaro.org>, 
- "Ketil Johnsen" <ketil.johnsen@arm.com>, 
- "Liviu Dudau" <Liviu.Dudau@arm.com>, 
- "Steven Price" <steven.price@arm.com>, 
- =?UTF-8?Q?Cl=C3=A9ment_P=C3=A9ron?= <peron.clem@gmail.com>, 
- "Daniel Vetter" <daniel@ffwll.ch>, 
- "Chris Diamand" <chris.diamand@foss.arm.com>, 
- "Marty E . Plummer" <hanetzer@startmail.com>, 
- "Robin Murphy" <robin.murphy@arm.com>, 
- "Faith Ekstrand" <faith.ekstrand@collabora.com>
-Subject: Re:Re: [PATCH v4 00/14] drm: Add a driver for CSF-based Mali GPUs
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <20240204110756.66ae5145@collabora.com>
-References: <20240122163047.1954733-1-boris.brezillon@collabora.com>
- <1d4f82bc.2992.18d54856f45.Coremail.andyshrk@163.com>
- <20240129114147.43e5b865@collabora.com>
- <1554e55.29c.18d71ae9b6c.Coremail.andyshrk@163.com>
- <20240204110756.66ae5145@collabora.com>
-X-NTES-SC: AL_Qu2bBfyfvUEs5CCYY+kXn0kXhec2W8Czvvgg34JRP5k0oivu+zARWVl+EEn7+fmPJDqplj6UdSJB6PhBeqJcQaSAQiEIc2dlFl6yCRGB9n9h
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44DE9112164
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Feb 2024 11:17:40 +0000 (UTC)
+Received: from [185.175.219.2] (helo=phil.fosdem.net)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1rWaUq-00051V-9E; Sun, 04 Feb 2024 12:17:12 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: Mark Yao <markyao0591@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
+ Ondrej Jirman <megi@xff.cz>, Maxime Ripard <mripard@kernel.org>,
+ Segfault <awarnecke002@hotmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Manuel Traut <manut@mecka.net>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Arnaud Ferraris <aferraris@debian.org>, Conor Dooley <conor+dt@kernel.org>,
+ Danct12 <danct12@riseup.net>
+Cc: Heiko Stuebner <heiko@sntech.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+Subject: Re: (subset) [PATCH v4 0/4] arm64: rockchip: Pine64 PineTab2 support
+Date: Sun,  4 Feb 2024 12:17:08 +0100
+Message-Id: <170704542194.2517832.14847139781169519437.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240127-pinetab2-v4-0-37aab1c39194@mecka.net>
+References: <20240127-pinetab2-v4-0-37aab1c39194@mecka.net>
 MIME-Version: 1.0
-Message-ID: <12757c83.1de9.18d73b0a169.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: bMGowADnL1mcaL9lXewfAA--.24036W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBEBJ6XmVOCG5VEwABss
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,99 +59,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhpIEJvcmlzOgoKCuWcqCAyMDI0LTAyLTA0IDE4OjA3OjU277yMIkJvcmlzIEJyZXppbGxvbiIg
-PGJvcmlzLmJyZXppbGxvbkBjb2xsYWJvcmEuY29tPiDlhpnpgZPvvJoKPk9uIFN1biwgNCBGZWIg
-MjAyNCAwOToxNDo0NCArMDgwMCAoQ1NUKQo+IkFuZHkgWWFuIiA8YW5keXNocmtAMTYzLmNvbT4g
-d3JvdGU6Cj4KPj4gSGkgQm9yaXPvvJoKPj4gSSBzYXcgdGhpcyB3YXJuaW5nIHNvbWV0aW1lc++8
-iFJ1biBvbiBhIGFybWJhaW4gYmFzZWQgYm9va3dvcm3vvInvvIxub3Qgc3VyZSBpcyBhIGtub3cg
-aXNzdWUgb3Igc29tZXRoaW5nIGVsc2XjgIIKPgo+Tm8gaXQncyBub3QsIGFuZCBJIGRpZG4ndCBt
-YW5hZ2UgdG8gcmVwcm9kdWNlIGxvY2FsbHkuIExvb2tzIGxpa2UKPnlvdSdyZSB1c2luZyBhIDYu
-OCBrZXJuZWwsIGJ1dCBteSBwYW50aG9yLXY0L25leHQgYnJhbmNoZXMgYXJlIHN0aWxsCj5iYXNl
-ZCBvbiBkcm0tbWlzYy1uZXh0IGZyb20gMiB3ZWVrcyBhZ28sIHdoaWNoIHdhcyBiYXNlZCBvbiBh
-IDYuNwo+a2VybmVsLiBDYW4geW91IHNoYXJlIHRoZSBrZXJuZWwgYnJhbmNoIHlvdSdyZSB1c2lu
-Zz8KPgoKSGVyZSBpcyBteSBrZXJuZWwgYnJhbmNoOgpodHRwczovL2dpdGh1Yi5jb20vYW5keXNo
-cmsvbGludXgvY29tbWl0cy9saW51eC02LjgtcmMxLXJrMzU4OF9wYW50aG9yX3Y0LwoKCj4+IFsx
-NTM2OC4yOTMwMzFdIHN5c3RlbWQtam91cm5hbGRbNzE1XTogUmVjZWl2ZWQgY2xpZW50IHJlcXVl
-c3QgdG8gcmVsaW5xdWlzaCAvdmFyL2xvZy9qb3VybmFsLzFiYzRhMzQwNTA2MTQyYWY5YmQzMWE2
-YTNkMjE3MGJhIGFjY2Vzcy4KPj4gWzM3NzQzLjA0MDczN10gLS0tLS0tLS0tLS0tWyBjdXQgaGVy
-ZSBdLS0tLS0tLS0tLS0tCj4+IFszNzc0My4wNDA3NjRdIHBhbnRob3IgZmIwMDAwMDAuZ3B1OiBk
-cm1fV0FSTl9PTihzaG1lbS0+cGFnZXNfdXNlX2NvdW50KQo+PiBbMzc3NDMuMDQwODkwXSBXQVJO
-SU5HOiBDUFU6IDIgUElEOiA1NzAyIGF0IGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3NobWVtX2hl
-bHBlci5jOjE1OCBkcm1fZ2VtX3NobWVtX2ZyZWUrMHgxNDQvMHgxNGMgW2RybV9zaG1lbV9oZWxw
-ZXJdCj4+IFszNzc0My4wNDA5MjldIE1vZHVsZXMgbGlua2VkIGluOiBqb3lkZXYgcmZraWxsIHN1
-bnJwYyBsejRoYyBsejQgenJhbSBiaW5mbXRfbWlzYyBoYW50cm9fdnB1IGNyY3QxMGRpZl9jZSB2
-NGwyX3ZwOSB2NGwyX2gyNjQgc25kX3NvY19zaW1wbGVfYW1wbGlmaWVyIHY0bDJfbWVtMm1lbSB2
-aWRlb2J1ZjJfZG1hX2NvbnRpZyBzbmRfc29jX2VzODMyOF9pMmMgdmlkZW9idWYyX21lbW9wcyBy
-a19jcnlwdG8yIHNuZF9zb2NfZXM4MzI4IHZpZGVvYnVmMl92NGwyIHNtM19nZW5lcmljIHZpZGVv
-ZGV2IGNyeXB0b19lbmdpbmUgc20zIHJvY2tjaGlwX3JuZyB2aWRlb2J1ZjJfY29tbW9uIG52bWVt
-X3JvY2tjaGlwX290cCBzbmRfc29jX3JvY2tjaGlwX2kyc190ZG0gc25kX3NvY19oZG1pX2NvZGVj
-IHNuZF9zb2Nfc2ltcGxlX2NhcmQgbWMgc25kX3NvY19zaW1wbGVfY2FyZF91dGlscyBzbmRfc29j
-X2NvcmUgc25kX2NvbXByZXNzIGFjOTdfYnVzIHNuZF9wY21fZG1hZW5naW5lIHNuZF9wY20gc25k
-X3RpbWVyIHNuZCBzb3VuZGNvcmUgZG1fbW9kIGlwX3RhYmxlcyB4X3RhYmxlcyBhdXRvZnM0IGR3
-X2hkbWlfcXBfaTJzX2F1ZGlvIGR3X2hkbWlfcXBfY2VjIHJrODA4X3JlZ3VsYXRvciByb2NrY2hp
-cGRybSBkd19taXBpX2RzaSBkd19oZG1pX3FwIGR3X2hkbWkgYW5hbG9naXhfZHAgZHJtX2RtYV9o
-ZWxwZXIgZnVzYjMwMiBkaXNwbGF5X2Nvbm5lY3RvciByazh4eF9zcGkgZHJtX2Rpc3BsYXlfaGVs
-cGVyIHBoeV9yb2NrY2hpcF9zbnBzX3BjaWUzIHBoeV9yb2NrY2hpcF9zYW1zdW5nX2hkcHR4X2hk
-bWkgcGFudGhvciB0Y3BtIHJrOHh4X2NvcmUgY2VjIGRybV9ncHV2bSBncHVfc2NoZWQgZHJtX2tt
-c19oZWxwZXIgZHJtX3NobWVtX2hlbHBlciBkcm1fZXhlYyByODE2OSBkcm0gcHdtX2JsIGFkY19r
-ZXlzCj4+IFszNzc0My4wNDExMDhdIENQVTogMiBQSUQ6IDU3MDIgQ29tbToga3dvcmtlci91MTY6
-OCBOb3QgdGFpbnRlZCA2LjguMC1yYzEtZWRnZS1yb2NrY2hpcC1yazM1ODggIzIKPj4gWzM3NzQz
-LjA0MTExNV0gSGFyZHdhcmUgbmFtZTogUm9ja2NoaXAgUkszNTg4IEVWQjEgVjEwIEJvYXJkIChE
-VCkKPj4gWzM3NzQzLjA0MTEyMF0gV29ya3F1ZXVlOiBwYW50aG9yLWNsZWFudXAgcGFudGhvcl92
-bV9iaW5kX2pvYl9jbGVhbnVwX29wX2N0eF93b3JrIFtwYW50aG9yXQo+PiBbMzc3NDMuMDQxMTUx
-XSBwc3RhdGU6IDYwNDAwMDA5IChuWkN2IGRhaWYgK1BBTiAtVUFPIC1UQ08gLURJVCAtU1NCUyBC
-VFlQRT0tLSkKPj4gWzM3NzQzLjA0MTE1N10gcGMgOiBkcm1fZ2VtX3NobWVtX2ZyZWUrMHgxNDQv
-MHgxNGMgW2RybV9zaG1lbV9oZWxwZXJdCj4+IFszNzc0My4wNDExNjldIGxyIDogZHJtX2dlbV9z
-aG1lbV9mcmVlKzB4MTQ0LzB4MTRjIFtkcm1fc2htZW1faGVscGVyXQo+PiBbMzc3NDMuMDQxMTgx
-XSBzcCA6IGZmZmY4MDAwOGQzN2JjYzAKPj4gWzM3NzQzLjA0MTE4NF0geDI5OiBmZmZmODAwMDhk
-MzdiY2MwIHgyODogZmZmZjgwMDA4MWQzNzljMCB4Mjc6IGZmZmY4MDAwODFkMzcwMDAKPj4gWzM3
-NzQzLjA0MTE5Nl0geDI2OiBmZmZmMDAwMTk5MDlhMjgwIHgyNTogZmZmZjAwMDE5OTA5YTJjMCB4
-MjQ6IGZmZmYwMDAxMDE3YTRjMDUKPj4gWzM3NzQzLjA0MTIwNl0geDIzOiBkZWFkMDAwMDAwMDAw
-MTAwIHgyMjogZGVhZDAwMDAwMDAwMDEyMiB4MjE6IGZmZmYwMDAxNjI3YWMxYTAKPj4gWzM3NzQz
-LjA0MTIxN10geDIwOiAwMDAwMDAwMDAwMDAwMDAwIHgxOTogZmZmZjAwMDE2MjdhYzAwMCB4MTg6
-IDAwMDAwMDAwMDAwMDAwMDAKPj4gWzM3NzQzLjA0MTIyN10geDE3OiAwMDAwMDAwNDAwNDRmZmZm
-IHgxNjogMDA1MDAwZjJiNTUwMzUxMCB4MTU6IGZmZmZmZmZmZmZmOTFiNzcKPj4gWzM3NzQzLjA0
-MTIzOF0geDE0OiAwMDAwMDAwMDAwMDAwMDAxIHgxMzogMDAwMDAwMDAwMDAwMDNjNSB4MTI6IDAw
-MDAwMDAwZmZmZmZmZWEKPj4gWzM3NzQzLjA0MTI0OF0geDExOiAwMDAwMDAwMGZmZmZkZmZmIHgx
-MDogMDAwMDAwMDBmZmZmZGZmZiB4OSA6IGZmZmY4MDAwODFlMGU4MTgKPj4gWzM3NzQzLjA0MTI1
-OV0geDggOiAwMDAwMDAwMDAwMDJmZmU4IHg3IDogYzAwMDAwMDBmZmZmZGZmZiB4NiA6IDAwMDAw
-MDAwMDAwYWZmYTgKPj4gWzM3NzQzLjA0MTI2OV0geDUgOiAwMDAwMDAwMDAwMDAxZmZmIHg0IDog
-MDAwMDAwMDAwMDAwMDAwMCB4MyA6IGZmZmY4MDAwODE5YTYwMDgKPj4gWzM3NzQzLjA0MTI3OV0g
-eDIgOiAwMDAwMDAwMDAwMDAwMDAwIHgxIDogMDAwMDAwMDAwMDAwMDAwMCB4MCA6IGZmZmYwMDAx
-ODQ2NWU5MDAKPj4gWzM3NzQzLjA0MTI5MF0gQ2FsbCB0cmFjZToKPj4gWzM3NzQzLjA0MTI5M10g
-IGRybV9nZW1fc2htZW1fZnJlZSsweDE0NC8weDE0YyBbZHJtX3NobWVtX2hlbHBlcl0KPj4gWzM3
-NzQzLjA0MTMwNl0gIHBhbnRob3JfZ2VtX2ZyZWVfb2JqZWN0KzB4MjQvMHhhMCBbcGFudGhvcl0K
-Pj4gWzM3NzQzLjA0MTMyMV0gIGRybV9nZW1fb2JqZWN0X2ZyZWUrMHgxYy8weDMwIFtkcm1dCj4+
-IFszNzc0My4wNDE0NTJdICBwYW50aG9yX3ZtX2JvX3B1dCsweGM0LzB4MTJjIFtwYW50aG9yXQo+
-Cj5JIGNoZWNrZWQgdGhlIF9waW4vX3VucGluIGNhbGxzIGluIHBhbnRob3IsIGFuZCB0aGV5IHNl
-ZW0gdG8gYmUKPmJhbGFuY2VkICh3ZSB0YWtlIGEgcmVmIHdoZW4gd2UgYWxsb2NhdGUgYSBncHV2
-bV9ibyBhbmQgcmVsZWFzZSBpdAo+d2hlbiB0aGUgZ3B1dm1fYm8gaXMgZ29uZSkuIEkgd29uZGVy
-IGlmIHNvbWV0aGluZyBlbHNlIGlzIGNhbGxpbmcKPl9waW5fcGFnZXMoKSBvciBfZ2V0X3BhZ2Vz
-KCkgd2l0aG91dCBob2xkaW5nIGEgR0VNIHJlZi4uLgo+Cj5XaGlsZSBpbnZlc3RpZ2F0aW5nIEkg
-Zm91bmQgYSBkb3VibGUtY2xlYW51cCBpbiB0aGUgY29kZSAoc2VlIGJlbG93KQo+d2hpY2ggZXhw
-bGFpbnMgd2h5IHRob3NlIG1lbXNldCgwKSB3ZXJlIHJlcXVpcmVkIGluCj5wYW50aG9yX3ZtX2Ns
-ZWFudXBfb3BfY3R4KCkpLCBidXQgSSBkb3VidCBpdCBmaXhlcyB5b3VyIGlzc3VlLgo+Cj4tLS0+
-OC0tLQo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9wYW50aG9yL3BhbnRob3JfbW11LmMg
-Yi9kcml2ZXJzL2dwdS9kcm0vcGFudGhvci9wYW50aG9yX21tdS5jCj5pbmRleCBkM2NlMjljZDA2
-NjIuLjU2MDZhYjRkNjI4OSAxMDA2NDQKPi0tLSBhL2RyaXZlcnMvZ3B1L2RybS9wYW50aG9yL3Bh
-bnRob3JfbW11LmMKPisrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW50aG9yL3BhbnRob3JfbW11LmMK
-PkBAIC0xMDg1LDE3ICsxMDg1LDEyIEBAIHN0YXRpYyB2b2lkIHBhbnRob3Jfdm1fY2xlYW51cF9v
-cF9jdHgoc3RydWN0IHBhbnRob3Jfdm1fb3BfY3R4ICpvcF9jdHgsCj4gICAgICAgIH0KPiAKPiAg
-ICAgICAga2ZyZWUob3BfY3R4LT5yc3ZkX3BhZ2VfdGFibGVzLnBhZ2VzKTsKPi0gICAgICAgbWVt
-c2V0KCZvcF9jdHgtPnJzdmRfcGFnZV90YWJsZXMsIDAsIHNpemVvZihvcF9jdHgtPnJzdmRfcGFn
-ZV90YWJsZXMpKTsKPiAKPiAgICAgICAgaWYgKG9wX2N0eC0+bWFwLnZtX2JvKQo+ICAgICAgICAg
-ICAgICAgIHBhbnRob3Jfdm1fYm9fcHV0KG9wX2N0eC0+bWFwLnZtX2JvKTsKPiAKPi0gICAgICAg
-bWVtc2V0KCZvcF9jdHgtPm1hcCwgMCwgc2l6ZW9mKG9wX2N0eC0+bWFwKSk7Cj4tCj4tICAgICAg
-IGZvciAodTMyIGkgPSAwOyBpIDwgQVJSQVlfU0laRShvcF9jdHgtPnByZWFsbG9jYXRlZF92bWFz
-KTsgaSsrKSB7Cj4rICAgICAgIGZvciAodTMyIGkgPSAwOyBpIDwgQVJSQVlfU0laRShvcF9jdHgt
-PnByZWFsbG9jYXRlZF92bWFzKTsgaSsrKQo+ICAgICAgICAgICAgICAgIGtmcmVlKG9wX2N0eC0+
-cHJlYWxsb2NhdGVkX3ZtYXNbaV0pOwo+LSAgICAgICAgICAgICAgIG9wX2N0eC0+cHJlYWxsb2Nh
-dGVkX3ZtYXNbaV0gPSBOVUxMOwo+LSAgICAgICB9Cj4gCj4gICAgICAgIGxpc3RfZm9yX2VhY2hf
-ZW50cnlfc2FmZSh2bWEsIHRtcF92bWEsICZvcF9jdHgtPnJldHVybmVkX3ZtYXMsIG5vZGUpIHsK
-PiAgICAgICAgICAgICAgICBsaXN0X2RlbCgmdm1hLT5ub2RlKTsKPkBAIC0yMzgyLDcgKzIzNzcs
-NiBAQCBzdGF0aWMgdm9pZCBwYW50aG9yX3ZtX2JpbmRfam9iX2NsZWFudXBfb3BfY3R4X3dvcmso
-c3RydWN0IHdvcmtfc3RydWN0ICp3b3JrKQo+ICAgICAgICBzdHJ1Y3QgcGFudGhvcl92bV9iaW5k
-X2pvYiAqam9iID0KPiAgICAgICAgICAgICAgICBjb250YWluZXJfb2Yod29yaywgc3RydWN0IHBh
-bnRob3Jfdm1fYmluZF9qb2IsIGNsZWFudXBfb3BfY3R4X3dvcmspOwo+IAo+LSAgICAgICBwYW50
-aG9yX3ZtX2NsZWFudXBfb3BfY3R4KCZqb2ItPmN0eCwgam9iLT52bSk7Cj4gICAgICAgIHBhbnRo
-b3Jfdm1fYmluZF9qb2JfcHV0KCZqb2ItPmJhc2UpOwo+IH0K
+On Sat, 27 Jan 2024 10:48:41 +0100, Manuel Traut wrote:
+> This adds support for the BOE TH101MB31IG002 LCD Panel used in PineTab2 [1] and
+> PineTab-V [2] as well as the devictrees for the PineTab2 v0.1 and v2.0.
+> 
+> The BOE LCD Panel patch was retrieved from [3]. The function-name prefix has
+> been adapted and the LCD init section was simplified.
+> 
+> The PineTab2 devicetree patch was retrieved from [4]. Some renaming was needed
+> to pass the dtb-checks, the brightness-levels are specified as range and steps
+> instead of a list of values.
+> 
+> [...]
+
+Applied, thanks!
+
+[3/4] dt-bindings: arm64: rockchip: Add Pine64 PineTab2
+      commit: 6a0a5a2a71b3e3c4ae1ee0b34a496cbf2d980832
+[4/4] arm64: dts: rockchip: Add devicetree for Pine64 PineTab2
+      commit: 1b7e19448f8fbeee23111795f67a003431c40b27
+
+Best regards,
+-- 
+Heiko Stuebner <heiko@sntech.de>
