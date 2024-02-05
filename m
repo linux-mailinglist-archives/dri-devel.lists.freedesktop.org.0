@@ -2,86 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B3F58495A3
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 09:48:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABC618495CF
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 10:03:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D7B81121AE;
-	Mon,  5 Feb 2024 08:48:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 946EF11244F;
+	Mon,  5 Feb 2024 09:03:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fmZh1Zlo";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="EUQFD3rh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C50D21121AE;
- Mon,  5 Feb 2024 08:48:45 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-51121637524so6222690e87.1; 
- Mon, 05 Feb 2024 00:48:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1707122924; x=1707727724; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2ydA0TsnU465lLz9wxK97OfQIetnhQ94qrcei325RlU=;
- b=fmZh1Zlo7DcSy6fH4ki656DWCsniZE6PdeQ0u+jHjXVJ3KkuJILabTlaX/FpZLC/+X
- kQWC3erm4cVxjQki2QjFEHsuvSiCcXdbcVPG7uwZtkIJ5C4jhdnOFzAumlUigrB09OD8
- oY4GBFt3Q3/1nSJE494QeY5+DQFMYTI1ZP14TwpPwHQUy2PZnYUkNOlfyvNCHYVzA80m
- 6uD97lmacgGEKv+I6Mv5+E8Phxfnx621gMoKczr2BFd3hpFfIf03WWP1/+TMjQqHfTH7
- gwjSv3lUUf6NH68+WtjyodYIp66W3HLtNig71LbzjbAoQp222w3YCzYzoU53vdYSHUXp
- 4jMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707122924; x=1707727724;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2ydA0TsnU465lLz9wxK97OfQIetnhQ94qrcei325RlU=;
- b=QPuliCb4YzPn1bCUUnpzjVJjrdIw0v0Wsxp5QjnORor1rF1wuKnKeJdQvBXc/oNVB+
- Do93tUtzy1HLuEz2VIgnQ9dky7F33OwRpLI4ljOeariNg+sHvTpm1i9lGpBMDr9TYaRH
- Pv0YVUGEcroN5TtLMZxfipc1m8W1WRCgKnXjk/YysaG+MjgGh6EgYrWaljIRp0/AocAq
- mIvAczQwv85KQsZPCYGFasHfPcL0pqIvgPGUGbjPc5WVrOgweK8qwp9NXemTU6aAklgJ
- WMUY2pfVYFUl7aZECn34OfbIqnTYjuKLwoGY3KZW2GHhpVt6EShOsNaWbd7Ri5t/F4jV
- 4hTA==
-X-Gm-Message-State: AOJu0YytQlkdYEQmEtMPZM67UuD83caeQwKWE3hSH+4ADXpY5yh+TUjd
- n075Y3yxtQvzVwaq2gCGjMc9a/4CmFU69/VNSpTiqDvACWHnY6gR
-X-Google-Smtp-Source: AGHT+IGj2EJGaW3ePkdcXnqMICBr00UnLOrY2sn4RNzOXXc74BszNhMhBcvP3UIS16mAc/2cBo9nZg==
-X-Received: by 2002:a05:6512:31cb:b0:511:3a70:b954 with SMTP id
- j11-20020a05651231cb00b005113a70b954mr6520932lfe.18.1707122923640; 
- Mon, 05 Feb 2024 00:48:43 -0800 (PST)
-X-Forwarded-Encrypted: i=0;
- AJvYcCXCoeSRFEtdkJcbTVUZ54U6K3KuWSeDkOfG2db1WYNHjJg/nRAjfbybs8KpLWSO1Pd6zr/YZ1svqmlZm3as6lC4UXHrL8TY5kWDNRXZcSECchOZt7VOzWEOSZwTxyfdBG5C7Olmv98tvr3AJSpdHITAI4o4A4z9GXYiyuWRN7poAITWXzkE3R6XPIZzZuzXD0GbAVB7ZvDKq8QGk3AJWHP4M8M/vTc9EQbuMiZZ/lbWB7idgBKgmJF2e9TbSZ/UYrwAPfhGUqWy0tPvhlBIXTLmZqXKxuoGfHZIJPBDpEp8Dte+UPe0/0cSTYPWBQswSUjTIr2o6duH2IRJ4ZQifAdzdHstuXQXoPuIEoNilHlJ+tACRHpFcMflp4iXhQYmITMGnspvl5B/crOIO1VlE1TDsjqzHjr26JaJJA87UhBR/oRT1OESDFQR3wsT+hrt572U9hyNVRRPJmfTDnyj07yhzV9tmHz26k0DxnAjbED3HFwVFZvc5Jz7oM6ml7r6csJrkara0EX0K+SpkKEDPk72N8lHRAam64iIulwa+3ApOaXISqm2IbqnMcHOnBtjUQSFe0VRfiDE/iC25pS6mWi+Tl436sPlbsRc/uDAqOcI1vXRFXjXLolBujD2yLQ1AETm27yRExX8o88gC9denL3Qi4GZ9K1lMq3PzMenHfEOVCr5QNP08F7af5epMZMFvTTQ3Ozi8p1fSQc++S64TL4KrhUvtnj2Q3uNCAMx6um8ytlvJZRqIh25Z97b
-Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
- by smtp.gmail.com with ESMTPSA id
- l30-20020a05600c1d1e00b0040e541ddcb1sm7877780wms.33.2024.02.05.00.48.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Feb 2024 00:48:43 -0800 (PST)
-Message-ID: <fe098f5a-b0b0-4698-ad8f-2d302fa37626@gmail.com>
-Date: Mon, 5 Feb 2024 09:48:39 +0100
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C43111244F
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Feb 2024 09:03:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1707123804;
+ bh=Zzq0/A0jr9NimOuF2Eo/imvq6yaUdPJeA7v4+MvQ5Xw=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=EUQFD3rhFRAU1wHJbfePF2zkpf7n9rGXFAunTkjBO1DNupZEKhpx+Cf+HayyxKQUN
+ Q3DDFWx9erk0XdYKmnbUFKlRhE2HTnvkS/OXu/LfWNKzTHFMxbWi1loZMqW5ZMyIMB
+ h6KT48H9aBl0TiKqQxlt0FNB2jyXtNm1IkPh6X3UivCplUYnC35v6wVQIeT5ZcbA39
+ De/WVo+z0PXzAeUGwp7RrMndQ8n4trXNZC26jnJo+Z1f66uE8UNfHgXKEoGfoMFJnu
+ 90SYTqvBr8JPe13RklGl/SoZAtSguUNKoairrnSwRVpHDoX/11OTdnB9jG2biwr4qU
+ 7pEm6F50fenQg==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 11B263780029;
+ Mon,  5 Feb 2024 09:03:23 +0000 (UTC)
+Date: Mon, 5 Feb 2024 10:03:21 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: "Andy Yan" <andyshrk@163.com>, Danilo Krummrich <dakr@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, "Tatsuyuki Ishi"
+ <ishitatsuyuki@gmail.com>, "Nicolas Boichat" <drinkcat@chromium.org>,
+ kernel@collabora.com, "Daniel Stone" <daniels@collabora.com>, "Neil
+ Armstrong" <neil.armstrong@linaro.org>, "Ketil Johnsen"
+ <ketil.johnsen@arm.com>, "Liviu Dudau" <Liviu.Dudau@arm.com>, "Steven
+ Price" <steven.price@arm.com>, =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?=
+ <peron.clem@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>, "Chris Diamand"
+ <chris.diamand@foss.arm.com>, "Marty E . Plummer" <hanetzer@startmail.com>,
+ "Robin Murphy" <robin.murphy@arm.com>, "Faith Ekstrand"
+ <faith.ekstrand@collabora.com>
+Subject: Re: [PATCH v4 00/14] drm: Add a driver for CSF-based Mali GPUs
+Message-ID: <20240205100321.0321a208@collabora.com>
+In-Reply-To: <1554e55.29c.18d71ae9b6c.Coremail.andyshrk@163.com>
+References: <20240122163047.1954733-1-boris.brezillon@collabora.com>
+ <1d4f82bc.2992.18d54856f45.Coremail.andyshrk@163.com>
+ <20240129114147.43e5b865@collabora.com>
+ <1554e55.29c.18d71ae9b6c.Coremail.andyshrk@163.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] driver core: bus: introduce can_remove()
-Content-Language: en-US
-To: Hamza Mahfooz <hamza.mahfooz@amd.com>, linux-kernel@vger.kernel.org
-Cc: stable@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas <bhelgaas@google.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Lijo Lazar <lijo.lazar@amd.com>,
- Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>, Le Ma <le.ma@amd.com>,
- =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
- James Zhu <James.Zhu@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Joerg Roedel <jroedel@suse.de>, Iwona Winiarska <iwona.winiarska@intel.com>,
- Robin Murphy <robin.murphy@arm.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org
-References: <20240202222603.141240-1-hamza.mahfooz@amd.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20240202222603.141240-1-hamza.mahfooz@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,61 +72,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 02.02.24 um 23:25 schrieb Hamza Mahfooz:
-> Currently, drivers have no mechanism to block requests to unbind
-> devices. However, this can cause resource leaks and leave the device in
-> an inconsistent state, such that rebinding the device may cause a hang
-> or otherwise prevent the device from being rebound. So, introduce
-> the can_remove() callback to allow drivers to indicate if it isn't
-> appropriate to remove a device at the given time.
++Danilo for the panthor gpuvm-needs update.
 
-Well that is nonsense. When you physically remove a device (e.g. unplug 
-it) then there is nothing in software you can do to prevent that.
+On Sun, 4 Feb 2024 09:14:44 +0800 (CST)
+"Andy Yan" <andyshrk@163.com> wrote:
+
+> Hi Boris=EF=BC=9A
+> I saw this warning sometimes=EF=BC=88Run on a armbain based bookworm=EF=
+=BC=89=EF=BC=8Cnot sure is a know issue or something else=E3=80=82
+> [15368.293031] systemd-journald[715]: Received client request to relinqui=
+sh /var/log/journal/1bc4a340506142af9bd31a6a3d2170ba access.
+> [37743.040737] ------------[ cut here ]------------
+> [37743.040764] panthor fb000000.gpu: drm_WARN_ON(shmem->pages_use_count)
+> [37743.040890] WARNING: CPU: 2 PID: 5702 at drivers/gpu/drm/drm_gem_shmem=
+_helper.c:158 drm_gem_shmem_free+0x144/0x14c [drm_shmem_helper]
+> [37743.040929] Modules linked in: joydev rfkill sunrpc lz4hc lz4 zram bin=
+fmt_misc hantro_vpu crct10dif_ce v4l2_vp9 v4l2_h264 snd_soc_simple_amplifie=
+r v4l2_mem2mem videobuf2_dma_contig snd_soc_es8328_i2c videobuf2_memops rk_=
+crypto2 snd_soc_es8328 videobuf2_v4l2 sm3_generic videodev crypto_engine sm=
+3 rockchip_rng videobuf2_common nvmem_rockchip_otp snd_soc_rockchip_i2s_tdm=
+ snd_soc_hdmi_codec snd_soc_simple_card mc snd_soc_simple_card_utils snd_so=
+c_core snd_compress ac97_bus snd_pcm_dmaengine snd_pcm snd_timer snd soundc=
+ore dm_mod ip_tables x_tables autofs4 dw_hdmi_qp_i2s_audio dw_hdmi_qp_cec r=
+k808_regulator rockchipdrm dw_mipi_dsi dw_hdmi_qp dw_hdmi analogix_dp drm_d=
+ma_helper fusb302 display_connector rk8xx_spi drm_display_helper phy_rockch=
+ip_snps_pcie3 phy_rockchip_samsung_hdptx_hdmi panthor tcpm rk8xx_core cec d=
+rm_gpuvm gpu_sched drm_kms_helper drm_shmem_helper drm_exec r8169 drm pwm_b=
+l adc_keys
+> [37743.041108] CPU: 2 PID: 5702 Comm: kworker/u16:8 Not tainted 6.8.0-rc1=
+-edge-rockchip-rk3588 #2
+> [37743.041115] Hardware name: Rockchip RK3588 EVB1 V10 Board (DT)
+> [37743.041120] Workqueue: panthor-cleanup panthor_vm_bind_job_cleanup_op_=
+ctx_work [panthor]
+> [37743.041151] pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYP=
+E=3D--)
+> [37743.041157] pc : drm_gem_shmem_free+0x144/0x14c [drm_shmem_helper]
+> [37743.041169] lr : drm_gem_shmem_free+0x144/0x14c [drm_shmem_helper]
+> [37743.041181] sp : ffff80008d37bcc0
+> [37743.041184] x29: ffff80008d37bcc0 x28: ffff800081d379c0 x27: ffff80008=
+1d37000
+> [37743.041196] x26: ffff00019909a280 x25: ffff00019909a2c0 x24: ffff00010=
+17a4c05
+> [37743.041206] x23: dead000000000100 x22: dead000000000122 x21: ffff00016=
+27ac1a0
+> [37743.041217] x20: 0000000000000000 x19: ffff0001627ac000 x18: 000000000=
+0000000
+> [37743.041227] x17: 000000040044ffff x16: 005000f2b5503510 x15: fffffffff=
+ff91b77
+> [37743.041238] x14: 0000000000000001 x13: 00000000000003c5 x12: 00000000f=
+fffffea
+> [37743.041248] x11: 00000000ffffdfff x10: 00000000ffffdfff x9 : ffff80008=
+1e0e818
+> [37743.041259] x8 : 000000000002ffe8 x7 : c0000000ffffdfff x6 : 000000000=
+00affa8
+> [37743.041269] x5 : 0000000000001fff x4 : 0000000000000000 x3 : ffff80008=
+19a6008
+> [37743.041279] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff00018=
+465e900
+> [37743.041290] Call trace:
+> [37743.041293]  drm_gem_shmem_free+0x144/0x14c [drm_shmem_helper]
+> [37743.041306]  panthor_gem_free_object+0x24/0xa0 [panthor]
+> [37743.041321]  drm_gem_object_free+0x1c/0x30 [drm]
+> [37743.041452]  panthor_vm_bo_put+0xc4/0x12c [panthor]
+> [37743.041475]  panthor_vm_cleanup_op_ctx.constprop.0+0xb0/0x104 [panthor]
+> [37743.041491]  panthor_vm_bind_job_cleanup_op_ctx_work+0x28/0xd0 [pantho=
+r]
+
+Ok, I think I found the culprit: there's a race between
+the drm_gpuvm_bo_put() call in panthor_vm_bo_put() and the list
+iteration done by drm_gpuvm_prepare_objects(). Because we're not
+setting DRM_GPUVM_RESV_PROTECTED, the code goes through the 'lockless'
+iteration loop, and takes/release a vm_bo ref at each iteration. This
+means our 'were we the last vm_bo user?' test in panthor_vm_bo_put()
+might return false even if we were actually the last user, and when
+for_each_vm_bo_in_list() releases the ref it acquired, it not only leaks
+the pin reference, thus leaving GEM pages pinned (which explains this
+WARN_ON() splat), but it also calls drm_gpuvm_bo_destroy() in a path
+where we don't hold the GPUVA list lock, which is bad.
+
+Long story short, I'll have to use DRM_GPUVM_RESV_PROTECTED, which is
+fine because I'm deferring vm_bo removal to a work where taking the VM
+resv lock is allowed. Since I was the one asking for this lockless
+iterator in the first place, I wonder if we should kill that and make
+DRM_GPUVM_RESV_PROTECTED the default (this would greatly simplify
+the code). AFAICT, The PowerVR driver shouldn't be impacted because it's
+using drm_gpuvm in synchronous mode only, and Xe already uses the
+resv-protected mode. That leaves Nouveau, but IIRC, it's also doing VM
+updates in the ioctl path.
+
+Danilo, any opinions?
+
+Andy, I pushed a new version to the panthor-next [1] and
+panthor-next+rk3588 [2] branches. The fix I'm talking about is [3], but
+you probably want to consider taking all the fixups in your branch.
 
 Regards,
-Christian.
 
->
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
-> ---
->   drivers/base/bus.c         | 4 ++++
->   include/linux/device/bus.h | 2 ++
->   2 files changed, 6 insertions(+)
->
-> diff --git a/drivers/base/bus.c b/drivers/base/bus.c
-> index daee55c9b2d9..7c259b01ea99 100644
-> --- a/drivers/base/bus.c
-> +++ b/drivers/base/bus.c
-> @@ -239,6 +239,10 @@ static ssize_t unbind_store(struct device_driver *drv, const char *buf,
->   
->   	dev = bus_find_device_by_name(bus, NULL, buf);
->   	if (dev && dev->driver == drv) {
-> +		if (dev->bus && dev->bus->can_remove &&
-> +		    !dev->bus->can_remove(dev))
-> +			return -EBUSY;
-> +
->   		device_driver_detach(dev);
->   		err = count;
->   	}
-> diff --git a/include/linux/device/bus.h b/include/linux/device/bus.h
-> index 5ef4ec1c36c3..c9d4af0ed3b8 100644
-> --- a/include/linux/device/bus.h
-> +++ b/include/linux/device/bus.h
-> @@ -46,6 +46,7 @@ struct fwnode_handle;
->    *		be called at late_initcall_sync level. If the device has
->    *		consumers that are never bound to a driver, this function
->    *		will never get called until they do.
-> + * @can_remove: Called before attempting to remove a device from this bus.
->    * @remove:	Called when a device removed from this bus.
->    * @shutdown:	Called at shut-down time to quiesce the device.
->    *
-> @@ -85,6 +86,7 @@ struct bus_type {
->   	int (*uevent)(const struct device *dev, struct kobj_uevent_env *env);
->   	int (*probe)(struct device *dev);
->   	void (*sync_state)(struct device *dev);
-> +	bool (*can_remove)(struct device *dev);
->   	void (*remove)(struct device *dev);
->   	void (*shutdown)(struct device *dev);
->   
+Boris
 
+[1]https://gitlab.freedesktop.org/panfrost/linux/-/commits/panthor-next
+[2]https://gitlab.freedesktop.org/panfrost/linux/-/commits/panthor-next+rk3=
+588
+[3]https://gitlab.freedesktop.org/panfrost/linux/-/commit/df48c09662a403275=
+e76e679ee004085badea7c1
