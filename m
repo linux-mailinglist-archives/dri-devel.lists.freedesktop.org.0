@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A01FF849867
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 12:07:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECCAA84986A
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 12:07:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D35910F757;
-	Mon,  5 Feb 2024 11:07:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F0A510F761;
+	Mon,  5 Feb 2024 11:07:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="oTX/60yK";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="Sdqa0cL2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2697E10F693
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Feb 2024 11:07:03 +0000 (UTC)
+ [68.232.154.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B4F110F761
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Feb 2024 11:07:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1707131223; x=1738667223;
+ t=1707131250; x=1738667250;
  h=from:to:subject:date:message-id:in-reply-to:references:
  mime-version:content-transfer-encoding;
- bh=93sWw0tsZ0/s/AYtwW+wil0XQ/js1pn5cKN1hlqrgYY=;
- b=oTX/60yKteaaiaGouKZlIbDzXxpQilFRfKX4938V+UqYmyiHy13nPljz
- UENJ0dFhObL6Blunx+MEK7jao8hEnfW2fRPFaHieZmNsgnN8NE+SvA24/
- SHowbgOusfmsHarPoW2WCclaIDGRFUKBlh1PexbEWk7suxjYd3QpOJpOe
- VRKK8LjT0IIR9fctf1641GJ8zyyry7PFGC2wnPXu/8bPlkFnYzFObRPgj
- sIjkYvexVZApZxtj4IRN5HFaGQlsB7B+pDK9nI1IO2jeolMbgjNz104Pg
- +Q0wWaD4+JQON3/i0pwQ8fFGSRiK8PfpTwhUDbRG2Qj6s5yNWF8W9VMym A==;
-X-CSE-ConnectionGUID: d0Ju6iadS6i+zgwU4BqudA==
-X-CSE-MsgGUID: jtmTi14yTHC127kX+fAZHA==
-X-IronPort-AV: E=Sophos;i="6.05,245,1701154800"; d="scan'208";a="246500312"
+ bh=xpa5OEHrZhzJFKNUpZbNZM8rzmZMnZWnSvw1+lSjgOU=;
+ b=Sdqa0cL2koNEvulREoTpq5HDgN/uOwjRlDmHNd4T3V9PmUw7saeuywF6
+ AN9DF8VeM9jNt9MjrbPwxi6Eo3n1F5WKkyf0v7RiRTVFZ8qKRadz0w8A2
+ MG3TTRxD9u3s5xc4644HCz/DiLaPyLylHLOIBsBuu4JT8MN0UMX+v6WRx
+ wWG1NkTyfR4HvS8wjnyDXuzWb/OB/tXdr8dIzDSOf6jTBZ1o8FFpYna29
+ Zpxg1JCVriM61rX5CoqSltX1BCPaKjx3fKQLb8ALmxzHQYEeZk9vLWbLm
+ QJh9lkxivetRK+PypThQ8/5PVmbXiQJJsrwPI+uAthCyjEFPWJcB+Q4rQ A==;
+X-CSE-ConnectionGUID: 3y4Nx3goS+WM5v3ulNT5AA==
+X-CSE-MsgGUID: y2eWaWXhRMKpJxkvRZCu7Q==
+X-IronPort-AV: E=Sophos;i="6.05,245,1701154800"; d="scan'208";a="183034596"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 05 Feb 2024 04:07:02 -0700
+ by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 05 Feb 2024 04:07:29 -0700
 Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 5 Feb 2024 04:06:46 -0700
+ 15.1.2507.35; Mon, 5 Feb 2024 04:06:57 -0700
 Received: from che-lt-i70843lx.microchip.com (10.10.85.11) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Mon, 5 Feb 2024 04:06:36 -0700
+ 15.1.2507.35 via Frontend Transport; Mon, 5 Feb 2024 04:06:47 -0700
 From: Dharma Balasubiramani <dharma.b@microchip.com>
 To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
  <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
@@ -55,10 +55,9 @@ To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
  <claudiu.beznea@tuxon.dev>, <geert+renesas@glider.be>, <arnd@arndb.de>,
  <hari.prasathge@microchip.com>, <Jason@zx2c4.com>, <rientjes@google.com>,
  <rdunlap@infradead.org>, <vbabka@suse.cz>, <manikandan.m@microchip.com>
-Subject: [linux][PATCH v2 2/4] drm/bridge: add lvds controller support for
- sam9x7
-Date: Mon, 5 Feb 2024 16:36:07 +0530
-Message-ID: <20240205110609.217022-3-dharma.b@microchip.com>
+Subject: [linux][PATCH v2 3/4] MAINTAINERS: add SAM9X7 SoC's LVDS controller
+Date: Mon, 5 Feb 2024 16:36:08 +0530
+Message-ID: <20240205110609.217022-4-dharma.b@microchip.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240205110609.217022-1-dharma.b@microchip.com>
 References: <20240205110609.217022-1-dharma.b@microchip.com>
@@ -80,313 +79,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a new LVDS controller driver for sam9x7 which does the following:
-- Prepares and enables the LVDS Peripheral clock
-- Defines its connector type as DRM_MODE_CONNECTOR_LVDS and adds itself
-to the global bridge list.
-- Identifies its output endpoint as panel and adds it to the encoder
-display pipeline
-- Enables the LVDS serializer
+Add the newly added LVDS controller for the SAM9X7 SoC to the existing
+MAINTAINERS entry.
 
-Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
 Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
 ---
 Changelog
 v1 -> v2
-- Drop 'res' variable and combine two lines into one.
-- Handle deferred probe properly, use dev_err_probe().
-- Don't print anything on deferred probe. Dropped print.
-- Remove the MODULE_ALIAS and add MODULE_DEVICE_TABLE().
-- symbol 'mchp_lvds_driver' was not declared. It should be static.
+- No Changes.
 ---
- drivers/gpu/drm/bridge/Kconfig          |   7 +
- drivers/gpu/drm/bridge/Makefile         |   1 +
- drivers/gpu/drm/bridge/microchip-lvds.c | 246 ++++++++++++++++++++++++
- 3 files changed, 254 insertions(+)
- create mode 100644 drivers/gpu/drm/bridge/microchip-lvds.c
+ MAINTAINERS | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index 3e6a4e2044c0..200afb36e421 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -173,6 +173,13 @@ config DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW
- 	  to DP++. This is used with the i.MX6 imx-ldb
- 	  driver. You are likely to say N here.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a7c4cf8201e0..24a266d20df6 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14230,6 +14230,14 @@ S:	Supported
+ F:	Documentation/devicetree/bindings/power/reset/atmel,sama5d2-shdwc.yaml
+ F:	drivers/power/reset/at91-sama5d2_shdwc.c
  
-+config DRM_MICROCHIP_LVDS_SERIALIZER
-+	tristate "Microchip LVDS serailzer support"
-+	depends on OF
-+	depends on DRM_ATMEL_HLCDC
-+	help
-+	  Support for Microchip's LVDS serializer.
++MICROCHIP SAM9x7-COMPATIBLE LVDS CONTROLLER
++M:	Manikandan Muralidharan <manikandan.m@microchip.com>
++M:	Dharma Balasubiramani <dharma.b@microchip.com>
++L:	dri-devel@lists.freedesktop.org
++S:	Supported
++F:	Documentation/devicetree/bindings/display/bridge/microchip,sam9x7-lvds.yaml
++F:	drivers/gpu/drm/bridge/microchip-lvds.c
 +
- config DRM_NWL_MIPI_DSI
- 	tristate "Northwest Logic MIPI DSI Host controller"
- 	depends on DRM
-diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-index 2b892b7ed59e..e3804e93d324 100644
---- a/drivers/gpu/drm/bridge/Makefile
-+++ b/drivers/gpu/drm/bridge/Makefile
-@@ -11,6 +11,7 @@ obj-$(CONFIG_DRM_LONTIUM_LT9611) += lontium-lt9611.o
- obj-$(CONFIG_DRM_LONTIUM_LT9611UXC) += lontium-lt9611uxc.o
- obj-$(CONFIG_DRM_LVDS_CODEC) += lvds-codec.o
- obj-$(CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW) += megachips-stdpxxxx-ge-b850v3-fw.o
-+obj-$(CONFIG_DRM_MICROCHIP_LVDS_SERIALIZER) += microchip-lvds.o
- obj-$(CONFIG_DRM_NXP_PTN3460) += nxp-ptn3460.o
- obj-$(CONFIG_DRM_PARADE_PS8622) += parade-ps8622.o
- obj-$(CONFIG_DRM_PARADE_PS8640) += parade-ps8640.o
-diff --git a/drivers/gpu/drm/bridge/microchip-lvds.c b/drivers/gpu/drm/bridge/microchip-lvds.c
-new file mode 100644
-index 000000000000..508321ad0f66
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/microchip-lvds.c
-@@ -0,0 +1,246 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2023 Microchip Technology Inc. and its subsidiaries
-+ *
-+ * Author: Manikandan Muralidharan <manikandan.m@microchip.com>
-+ * Author: Dharma Balasubiramani <dharma.b@microchip.com>
-+ *
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/component.h>
-+#include <linux/delay.h>
-+#include <linux/jiffies.h>
-+#include <linux/mfd/syscon.h>
-+#include <linux/of_graph.h>
-+#include <linux/pinctrl/devinfo.h>
-+#include <linux/phy/phy.h>
-+#include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/regmap.h>
-+#include <linux/reset.h>
-+
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_of.h>
-+#include <drm/drm_panel.h>
-+#include <drm/drm_print.h>
-+#include <drm/drm_probe_helper.h>
-+#include <drm/drm_simple_kms_helper.h>
-+
-+#define LVDS_POLL_TIMEOUT_MS 1000
-+
-+/* LVDSC register offsets */
-+#define LVDSC_CR	0x00
-+#define LVDSC_CFGR	0x04
-+#define LVDSC_SR	0x0C
-+#define LVDSC_WPMR	0xE4
-+
-+/* Bitfields in LVDSC_CR (Control Register) */
-+#define LVDSC_CR_SER_EN	BIT(0)
-+
-+/* Bitfields in LVDSC_CFGR (Configuration Register) */
-+#define LVDSC_CFGR_PIXSIZE_24BITS	0
-+#define LVDSC_CFGR_DEN_POL_HIGH		0
-+#define LVDSC_CFGR_DC_UNBALANCED	0
-+#define LVDSC_CFGR_MAPPING_JEIDA	BIT(6)
-+
-+/*Bitfields in LVDSC_SR */
-+#define LVDSC_SR_CS	BIT(0)
-+
-+/* Bitfields in LVDSC_WPMR (Write Protection Mode Register) */
-+#define LVDSC_WPMR_WPKEY_MASK	GENMASK(31, 8)
-+#define LVDSC_WPMR_WPKEY_PSSWD	0x4C5644
-+
-+struct mchp_lvds {
-+	struct device *dev;
-+	void __iomem *regs;
-+	struct clk *pclk;
-+	int format; /* vesa or jeida format */
-+	struct drm_panel *panel;
-+	struct drm_bridge bridge;
-+	struct drm_bridge *panel_bridge;
-+};
-+
-+static inline struct mchp_lvds *bridge_to_lvds(struct drm_bridge *bridge)
-+{
-+	return container_of(bridge, struct mchp_lvds, bridge);
-+}
-+
-+static inline u32 lvds_readl(struct mchp_lvds *lvds, u32 offset)
-+{
-+	return readl_relaxed(lvds->regs + offset);
-+}
-+
-+static inline void lvds_writel(struct mchp_lvds *lvds, u32 offset, u32 val)
-+{
-+	writel_relaxed(val, lvds->regs + offset);
-+}
-+
-+static void lvds_serialiser_on(struct mchp_lvds *lvds)
-+{
-+	unsigned long timeout = jiffies + msecs_to_jiffies(LVDS_POLL_TIMEOUT_MS);
-+
-+	/* The LVDSC registers can only be written if WPEN is cleared */
-+	lvds_writel(lvds, LVDSC_WPMR, (LVDSC_WPMR_WPKEY_PSSWD &
-+				LVDSC_WPMR_WPKEY_MASK));
-+
-+	/* Wait for the status of configuration registers to be changed */
-+	while (lvds_readl(lvds, LVDSC_SR) & LVDSC_SR_CS) {
-+		if (time_after(jiffies, timeout)) {
-+			dev_err(lvds->dev, "%s: timeout error\n", __func__);
-+			return;
-+		}
-+		usleep_range(1000, 2000);
-+	}
-+
-+	/* Configure the LVDSC */
-+	lvds_writel(lvds, LVDSC_CFGR, (LVDSC_CFGR_MAPPING_JEIDA |
-+				LVDSC_CFGR_DC_UNBALANCED |
-+				LVDSC_CFGR_DEN_POL_HIGH |
-+				LVDSC_CFGR_PIXSIZE_24BITS));
-+
-+	/* Enable the LVDS serializer */
-+	lvds_writel(lvds, LVDSC_CR, LVDSC_CR_SER_EN);
-+}
-+
-+static int mchp_lvds_attach(struct drm_bridge *bridge,
-+			    enum drm_bridge_attach_flags flags)
-+{
-+	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
-+
-+	bridge->encoder->encoder_type = DRM_MODE_ENCODER_LVDS;
-+
-+	return drm_bridge_attach(bridge->encoder, lvds->panel_bridge,
-+				 bridge, flags);
-+}
-+
-+static void mchp_lvds_enable(struct drm_bridge *bridge)
-+{
-+	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
-+	int ret;
-+
-+	ret = clk_enable(lvds->pclk);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(lvds->dev, "failed to enable lvds pclk %d\n", ret);
-+		return;
-+	}
-+
-+	ret = pm_runtime_get_sync(lvds->dev);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(lvds->dev, "failed to get pm runtime: %d\n", ret);
-+		clk_disable(lvds->pclk);
-+		return;
-+	}
-+
-+	lvds_serialiser_on(lvds);
-+}
-+
-+static void mchp_lvds_disable(struct drm_bridge *bridge)
-+{
-+	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
-+
-+	pm_runtime_put(lvds->dev);
-+	clk_disable(lvds->pclk);
-+}
-+
-+static const struct drm_bridge_funcs mchp_lvds_bridge_funcs = {
-+	.attach = mchp_lvds_attach,
-+	.enable = mchp_lvds_enable,
-+	.disable = mchp_lvds_disable,
-+};
-+
-+static int mchp_lvds_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct mchp_lvds *lvds;
-+	struct device_node *port;
-+	int ret;
-+
-+	if (!dev->of_node)
-+		return -ENODEV;
-+
-+	lvds = devm_kzalloc(&pdev->dev, sizeof(*lvds), GFP_KERNEL);
-+	if (!lvds)
-+		return -ENOMEM;
-+
-+	lvds->dev = dev;
-+
-+	lvds->regs = devm_ioremap_resource(lvds->dev,
-+			platform_get_resource(pdev, IORESOURCE_MEM, 0));
-+	if (IS_ERR(lvds->regs))
-+		return PTR_ERR(lvds->regs);
-+
-+	lvds->pclk = devm_clk_get(lvds->dev, "pclk");
-+	if (IS_ERR(lvds->pclk))
-+		return dev_err_probe(lvds->dev, PTR_ERR(lvds->pclk),
-+				"could not get pclk_lvds\n");
-+
-+	ret = clk_prepare(lvds->pclk);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(lvds->dev, "failed to prepare pclk_lvds\n");
-+		return ret;
-+	}
-+
-+	port = of_graph_get_remote_node(dev->of_node, 1, 0);
-+	if (!port) {
-+		DRM_DEV_ERROR(dev,
-+			      "can't find port point, please init lvds panel port!\n");
-+		return -EINVAL;
-+	}
-+
-+	lvds->panel = of_drm_find_panel(port);
-+	of_node_put(port);
-+
-+	if (IS_ERR(lvds->panel))
-+		return -EPROBE_DEFER;
-+
-+	lvds->panel_bridge = devm_drm_panel_bridge_add(dev, lvds->panel);
-+
-+	if (IS_ERR(lvds->panel_bridge))
-+		return PTR_ERR(lvds->panel_bridge);
-+
-+	lvds->bridge.of_node = dev->of_node;
-+	lvds->bridge.type = DRM_MODE_CONNECTOR_LVDS;
-+	lvds->bridge.funcs = &mchp_lvds_bridge_funcs;
-+
-+	dev_set_drvdata(dev, lvds);
-+	pm_runtime_enable(dev);
-+
-+	drm_bridge_add(&lvds->bridge);
-+
-+	return 0;
-+}
-+
-+static int mchp_lvds_remove(struct platform_device *pdev)
-+{
-+	struct mchp_lvds *lvds = platform_get_drvdata(pdev);
-+
-+	pm_runtime_disable(&pdev->dev);
-+	clk_unprepare(lvds->pclk);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id mchp_lvds_dt_ids[] = {
-+	{
-+		.compatible = "microchip,sam9x75-lvds",
-+	},
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, mchp_lvds_dt_ids);
-+
-+static struct platform_driver mchp_lvds_driver = {
-+	.probe = mchp_lvds_probe,
-+	.remove = mchp_lvds_remove,
-+	.driver = {
-+		   .name = "microchip-lvds",
-+		   .of_match_table = mchp_lvds_dt_ids,
-+	},
-+};
-+module_platform_driver(mchp_lvds_driver);
-+
-+MODULE_AUTHOR("Manikandan Muralidharan <manikandan.m@microchip.com>");
-+MODULE_AUTHOR("Dharma Balasubiramani <dharma.b@microchip.com>");
-+MODULE_DESCRIPTION("Low Voltage Differential Signaling Controller Driver");
-+MODULE_LICENSE("GPL");
+ MICROCHIP SOC DRIVERS
+ M:	Conor Dooley <conor@kernel.org>
+ S:	Supported
 -- 
 2.25.1
 
