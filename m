@@ -2,61 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D52D6849F5B
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 17:17:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38898849F64
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 17:22:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AD6710FABA;
-	Mon,  5 Feb 2024 16:17:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9558311221F;
+	Mon,  5 Feb 2024 16:22:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="G80gCspb";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="WxMBUs5R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A437910FABA
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Feb 2024 16:17:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707149858; x=1738685858;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=DNaO54IRI7/2oh1XNOcunI96AdtlbD9Mn82BtlCzBqA=;
- b=G80gCspbt9uKgjTP7Y7pByLBqPLXWGCeKAZXLE8QKO0D+KsUi2p73TYC
- rS1eXsJ721mRBZIAEHMTtX+ZNOZCkAsmcb6NknDZfUf/nViARCzgUAArn
- P8UQVJwjuZFhZM+RhaEhUGRM2Pp8j6OmrlH1LLJA/lwT5o6NYOh5YT3N4
- RQQtoKM/T5Cg9alfX/lDNDKQQLlqm7irFziFSvhpRFkuR1AZz/gLm/9ZN
- B4F+Gel21Nk+s74QBbGU/+1thXtCbbSB1d581Jq5kBENacbBQIL3ZOYX5
- knYpwC3d2md+30n0aVYbMp2f7JDxVAoE/o+E/FS5WLjnXL12vHCxVl/Cc A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10975"; a="23033454"
-X-IronPort-AV: E=Sophos;i="6.05,245,1701158400"; d="scan'208";a="23033454"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Feb 2024 08:17:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,245,1701158400"; d="scan'208";a="24003295"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
- by fmviesa002.fm.intel.com with ESMTP; 05 Feb 2024 08:17:33 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rX1f0-0000dm-3A;
- Mon, 05 Feb 2024 16:17:30 +0000
-Date: Tue, 6 Feb 2024 00:17:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: "mac.shen" <mac.shen@mediatek.com>, chunkuang.hu@kernel.org,
- p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
- matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
- jitao.shi@mediatek.com
-Cc: oe-kbuild-all@lists.linux.dev, mac.shen@mediatek.com,
- shuijing.li@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 1/3] Subject: [PATCH] drm/mediatek/dp: Add tee client
- application for HDCP feature
-Message-ID: <202402052342.Y5awT1T2-lkp@intel.com>
-References: <20240205055055.25340-2-mac.shen@mediatek.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FFE611221F
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Feb 2024 16:22:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1707150144;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aFSkqsfDKWBtn86ITk4OANp1ap0oClrKRbCvFvcm3V0=;
+ b=WxMBUs5RPpbk3EEAj8hE9mnrNyaHJOzKJv21yHdUHHkpduS8WmLhSIRBrCs1j1+Xc5NCV8
+ 1hZP4HeKLWNdDXPBzsVDYv61RlqzB+MZO9ScSSGPPm9nYHEnCIx6pRnYj2kvaBuw4NX4QK
+ 8aid45UmLAoTCNf0MgDV8abz0NfCVgM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-442-REk4I_6KP6CWhjFcv3to9A-1; Mon, 05 Feb 2024 11:22:22 -0500
+X-MC-Unique: REk4I_6KP6CWhjFcv3to9A-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-33b0c264adbso2575206f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Feb 2024 08:22:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707150141; x=1707754941;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=aFSkqsfDKWBtn86ITk4OANp1ap0oClrKRbCvFvcm3V0=;
+ b=lV/CnLxTDbsLB528nUCj4+sqkdFsVKJz/tyAkxA2uMaAnQ1inkPvq6mN51hh/5/rnW
+ UjMkDyqrFZ8WVgd8OLqC6XWVXSXRF4h3Udtvje9qTdBILcjw/h/M+Ki51WE/al1GeoV/
+ 3NRXNXq3fZi3cL5HRzIKvyDRSHW9J0AVe0eXOiDYifEdomVhHOzIV1Q+NWGy5YjaIe02
+ 3zGyK9EPUivsglNYUHJGdTSRAskMsrlixmx8rXzIs4QeiOyoeFOsewSHvKa3fSBb0JAn
+ fxruCF32m2kKggVMxgiU4nFfmrCo0jDRAVBCU0sC0N03oHn+rbLrY2iCEXBZjW82M5z/
+ BaSA==
+X-Gm-Message-State: AOJu0Yyzj1dbVbH9mg/ZAM0YqORl0TE2hNwlZN6jOCVAQ99Qv6ImBfac
+ +Souzd98UjpaOEbW44oUx96T/oMMZ07AJSGjW11yokRi3DtfZklk5ktNKqQuneFDeyLRw+eN6XD
+ P3TrDUjMT0+asX/rueXod/db06EoZjE74XaDFusaPkyqggLjEHOLRP1MuY2s6NLh32A==
+X-Received: by 2002:a5d:410f:0:b0:33b:1b4f:e54 with SMTP id
+ l15-20020a5d410f000000b0033b1b4f0e54mr6571wrp.34.1707150141590; 
+ Mon, 05 Feb 2024 08:22:21 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEesCh+Gt9x87aXUHQ2p9uIQnEKqnPayczL5b/+lL3NNUZUX0zkCF6FtjPbxtGmbDUBWFxAhg==
+X-Received: by 2002:a5d:410f:0:b0:33b:1b4f:e54 with SMTP id
+ l15-20020a5d410f000000b0033b1b4f0e54mr6559wrp.34.1707150141261; 
+ Mon, 05 Feb 2024 08:22:21 -0800 (PST)
+X-Forwarded-Encrypted: i=0;
+ AJvYcCUZcl5twdVOgesW8D5cVm+rsHhmwrsgihALHMwJQwHfTZE4LAQDTS5y2vDz9P0AXbB2rNMl0X5lGb9vR9l25F9wTKnRkr5IFUHaSJhFghhV
+Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
+ ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
+ by smtp.gmail.com with ESMTPSA id
+ k2-20020a056000004200b0033b08b9cd9dsm8386302wrx.79.2024.02.05.08.22.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 05 Feb 2024 08:22:20 -0800 (PST)
+Message-ID: <133266ac-7239-4233-a19d-cdc7563d401c@redhat.com>
+Date: Mon, 5 Feb 2024 17:22:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240205055055.25340-2-mac.shen@mediatek.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nouveau: offload fence uevents work to workqueue
+To: Dave Airlie <airlied@gmail.com>
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20240129015053.1687418-1-airlied@gmail.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <20240129015053.1687418-1-airlied@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,121 +96,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi mac.shen,
+On 1/29/24 02:50, Dave Airlie wrote:
+> From: Dave Airlie <airlied@redhat.com>
+> 
+> This should break the deadlock between the fctx lock and the irq lock.
+> 
+> This offloads the processing off the work from the irq into a workqueue.
+> 
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
 
-kernel test robot noticed the following build warnings:
+Nouveau's scheduler uses a dedicated wq, hence from this perspective it's
+safe deferring fence signalling to the kernel global wq. However, I wonder
+if we could create deadlocks by building dependency chains into other
+drivers / kernel code that, by chance, makes use of the kernel global wq as
+well.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on pza/reset/next linus/master v6.8-rc3 next-20240205]
-[cannot apply to pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Admittedly, even if, it's gonna be extremely unlikely given that
+WQ_MAX_ACTIVE == 512. But maybe it'd be safer to use a dedicated wq.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/mac-shen/Subject-PATCH-drm-mediatek-dp-Add-tee-client-application-for-HDCP-feature/20240205-163727
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240205055055.25340-2-mac.shen%40mediatek.com
-patch subject: [PATCH v2 1/3] Subject: [PATCH] drm/mediatek/dp: Add tee client application for HDCP feature
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240205/202402052342.Y5awT1T2-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240205/202402052342.Y5awT1T2-lkp@intel.com/reproduce)
+Also, do we need to CC stable?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402052342.Y5awT1T2-lkp@intel.com/
+> ---
+>   drivers/gpu/drm/nouveau/nouveau_fence.c | 24 ++++++++++++++++++------
+>   drivers/gpu/drm/nouveau/nouveau_fence.h |  1 +
+>   2 files changed, 19 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
+> index ca762ea55413..93f08f9479d8 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+> @@ -103,6 +103,7 @@ nouveau_fence_context_kill(struct nouveau_fence_chan *fctx, int error)
+>   void
+>   nouveau_fence_context_del(struct nouveau_fence_chan *fctx)
+>   {
+> +	cancel_work_sync(&fctx->uevent_work);
+>   	nouveau_fence_context_kill(fctx, 0);
+>   	nvif_event_dtor(&fctx->event);
+>   	fctx->dead = 1;
+> @@ -145,12 +146,13 @@ nouveau_fence_update(struct nouveau_channel *chan, struct nouveau_fence_chan *fc
+>   	return drop;
+>   }
+>   
+> -static int
+> -nouveau_fence_wait_uevent_handler(struct nvif_event *event, void *repv, u32 repc)
+> +static void
+> +nouveau_fence_uevent_work(struct work_struct *work)
+>   {
+> -	struct nouveau_fence_chan *fctx = container_of(event, typeof(*fctx), event);
+> +	struct nouveau_fence_chan *fctx = container_of(work, struct nouveau_fence_chan,
+> +						       uevent_work);
+>   	unsigned long flags;
+> -	int ret = NVIF_EVENT_KEEP;
+> +	int drop = 0;
+>   
+>   	spin_lock_irqsave(&fctx->lock, flags);
+>   	if (!list_empty(&fctx->pending)) {
+> @@ -160,11 +162,20 @@ nouveau_fence_wait_uevent_handler(struct nvif_event *event, void *repv, u32 repc
+>   		fence = list_entry(fctx->pending.next, typeof(*fence), head);
+>   		chan = rcu_dereference_protected(fence->channel, lockdep_is_held(&fctx->lock));
+>   		if (nouveau_fence_update(chan, fctx))
+> -			ret = NVIF_EVENT_DROP;
+> +			drop = 1;
+>   	}
+> +	if (drop)
+> +		nvif_event_block(&fctx->event);
+> +
+>   	spin_unlock_irqrestore(&fctx->lock, flags);
+> +}
+>   
+> -	return ret;
+> +static int
+> +nouveau_fence_wait_uevent_handler(struct nvif_event *event, void *repv, u32 repc)
+> +{
+> +	struct nouveau_fence_chan *fctx = container_of(event, typeof(*fctx), event);
+> +	schedule_work(&fctx->uevent_work);
+> +	return NVIF_EVENT_KEEP;
+>   }
+>   
+>   void
+> @@ -178,6 +189,7 @@ nouveau_fence_context_new(struct nouveau_channel *chan, struct nouveau_fence_cha
+>   	} args;
+>   	int ret;
+>   
+> +	INIT_WORK(&fctx->uevent_work, nouveau_fence_uevent_work);
+>   	INIT_LIST_HEAD(&fctx->flip);
+>   	INIT_LIST_HEAD(&fctx->pending);
+>   	spin_lock_init(&fctx->lock);
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.h b/drivers/gpu/drm/nouveau/nouveau_fence.h
+> index 64d33ae7f356..8bc065acfe35 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_fence.h
+> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.h
+> @@ -44,6 +44,7 @@ struct nouveau_fence_chan {
+>   	u32 context;
+>   	char name[32];
+>   
+> +	struct work_struct uevent_work;
+>   	struct nvif_event event;
+>   	int notify_ref, dead, killed;
+>   };
 
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/mediatek/tlc_dp_hdcp.c:34: warning: Function parameter or struct member 'dp_tee_priv' not described in 'dp_tee_op_send'
->> drivers/gpu/drm/mediatek/tlc_dp_hdcp.c:34: warning: Function parameter or struct member 'cmd_id' not described in 'dp_tee_op_send'
-
-
-vim +34 drivers/gpu/drm/mediatek/tlc_dp_hdcp.c
-
-    13	
-    14	/*
-    15	 * TA_FTPM_UUID: 99975014-3c7c-54ea-8487-a80d215ea92c
-    16	 *
-    17	 * Randomly generated, and must correspond to the GUID on the TA side.
-    18	 * Defined here in the reference implementation:
-    19	 * https://github.com/microsoft/ms-tpm-20-ref/blob/master/Samples/ARM32-FirmwareTPM/optee_ta/fTPM/include/fTPM.h#L42
-    20	 */
-    21	static const uuid_t dp_ta_uuid =
-    22		UUID_INIT(0x99975014, 0x3c7c, 0x54ea,
-    23			  0x84, 0x87, 0xa8, 0x0d, 0x21, 0x5e, 0xa9, 0x2c);
-    24	
-    25	/**
-    26	 * dp_tee_op_send() - send dp commands through the TEE shared memory.
-    27	 * @len:	the number of bytes to send.
-    28	 *
-    29	 * Return:
-    30	 *	In case of success, returns 0.
-    31	 *	On failure, -errno
-    32	 */
-    33	static int dp_tee_op_send(struct dp_tee_private *dp_tee_priv, size_t len, u32 cmd_id)
-  > 34	{
-    35		int rc;
-    36		u8 *temp_buf;
-    37		struct tee_ioctl_invoke_arg transceive_args;
-    38		struct tee_param command_params[4];
-    39		struct tee_shm *shm = dp_tee_priv->shm;
-    40	
-    41		if (len > MAX_COMMAND_SIZE) {
-    42			TLCERR("%s: len=%zd exceeds MAX_COMMAND_SIZE supported by dp TA\n", __func__, len);
-    43			return -EIO;
-    44		}
-    45	
-    46		memset(&transceive_args, 0, sizeof(transceive_args));
-    47		memset(command_params, 0, sizeof(command_params));
-    48		dp_tee_priv->resp_len = 0;
-    49	
-    50		/* Invoke FTPM_OPTEE_TA_SUBMIT_COMMAND function of dp TA */
-    51		transceive_args = (struct tee_ioctl_invoke_arg) {
-    52			.func = cmd_id,
-    53			.session = dp_tee_priv->session,
-    54			.num_params = 4,
-    55		};
-    56	
-    57		/* Fill FTPM_OPTEE_TA_SUBMIT_COMMAND parameters */
-    58		command_params[0] = (struct tee_param) {
-    59			.attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT,
-    60			.u.memref = {
-    61				.shm = shm,
-    62				.size = len,
-    63				.shm_offs = 0,
-    64			},
-    65		};
-    66	
-    67		command_params[1] = (struct tee_param) {
-    68			.attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT,
-    69			.u.memref = {
-    70				.shm = shm,
-    71				.size = MAX_RESPONSE_SIZE,
-    72				.shm_offs = MAX_COMMAND_SIZE,
-    73			},
-    74		};
-    75	
-    76		rc = tee_client_invoke_func(dp_tee_priv->ctx, &transceive_args, command_params);
-    77		if (rc < 0 || transceive_args.ret != 0) {
-    78			TLCERR("%s: invoke error: 0x%x\n", __func__, transceive_args.ret);
-    79			return (rc < 0) ? rc : transceive_args.ret;
-    80		}
-    81	
-    82		temp_buf = tee_shm_get_va(shm, command_params[1].u.memref.shm_offs);
-    83		if (IS_ERR(temp_buf)) {
-    84			TLCERR("%s: tee_shm_get_va failed for receive\n", __func__);
-    85			return PTR_ERR(temp_buf);
-    86		}
-    87	
-    88		/* Sanity checks look good, cache the response */
-    89		memcpy(dp_tee_priv->resp_buf, temp_buf, MAX_RESPONSE_SIZE / 2);
-    90		dp_tee_priv->resp_len = MAX_RESPONSE_SIZE / 2;
-    91	
-    92		return 0;
-    93	}
-    94	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
