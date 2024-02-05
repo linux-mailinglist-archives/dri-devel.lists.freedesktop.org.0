@@ -2,85 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38898849F64
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 17:22:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE995849F67
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 17:24:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9558311221F;
-	Mon,  5 Feb 2024 16:22:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3CD7112348;
+	Mon,  5 Feb 2024 16:23:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="WxMBUs5R";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="KiiiYdF/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FFE611221F
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Feb 2024 16:22:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1707150144;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aFSkqsfDKWBtn86ITk4OANp1ap0oClrKRbCvFvcm3V0=;
- b=WxMBUs5RPpbk3EEAj8hE9mnrNyaHJOzKJv21yHdUHHkpduS8WmLhSIRBrCs1j1+Xc5NCV8
- 1hZP4HeKLWNdDXPBzsVDYv61RlqzB+MZO9ScSSGPPm9nYHEnCIx6pRnYj2kvaBuw4NX4QK
- 8aid45UmLAoTCNf0MgDV8abz0NfCVgM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-442-REk4I_6KP6CWhjFcv3to9A-1; Mon, 05 Feb 2024 11:22:22 -0500
-X-MC-Unique: REk4I_6KP6CWhjFcv3to9A-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-33b0c264adbso2575206f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Feb 2024 08:22:22 -0800 (PST)
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
+ [209.85.208.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23DA1112348
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Feb 2024 16:23:57 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id
+ 4fb4d7f45d1cf-55c2cf644f3so5522959a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Feb 2024 08:23:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1707150233; x=1707755033;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UqFSrAEJyuKkYiecikc67XEFMHOq4AKZCrfCWi7N71c=;
+ b=KiiiYdF/I1pEZSfZMaD2FwXjFQb51CPQZG2g+y3eLknOh8VIXNoIl1SjzsYrWDVnAA
+ zLCfzESEPZ7EZ3m8dtlw+bnhANSRJghuQ7rTiGVqwCuVNRxxlrdD3zcNiz6aBBcKkrTK
+ LmmzUpfpCigIJNZCqt2cusPF9A8kGzwFky/iA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707150141; x=1707754941;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=aFSkqsfDKWBtn86ITk4OANp1ap0oClrKRbCvFvcm3V0=;
- b=lV/CnLxTDbsLB528nUCj4+sqkdFsVKJz/tyAkxA2uMaAnQ1inkPvq6mN51hh/5/rnW
- UjMkDyqrFZ8WVgd8OLqC6XWVXSXRF4h3Udtvje9qTdBILcjw/h/M+Ki51WE/al1GeoV/
- 3NRXNXq3fZi3cL5HRzIKvyDRSHW9J0AVe0eXOiDYifEdomVhHOzIV1Q+NWGy5YjaIe02
- 3zGyK9EPUivsglNYUHJGdTSRAskMsrlixmx8rXzIs4QeiOyoeFOsewSHvKa3fSBb0JAn
- fxruCF32m2kKggVMxgiU4nFfmrCo0jDRAVBCU0sC0N03oHn+rbLrY2iCEXBZjW82M5z/
- BaSA==
-X-Gm-Message-State: AOJu0Yyzj1dbVbH9mg/ZAM0YqORl0TE2hNwlZN6jOCVAQ99Qv6ImBfac
- +Souzd98UjpaOEbW44oUx96T/oMMZ07AJSGjW11yokRi3DtfZklk5ktNKqQuneFDeyLRw+eN6XD
- P3TrDUjMT0+asX/rueXod/db06EoZjE74XaDFusaPkyqggLjEHOLRP1MuY2s6NLh32A==
-X-Received: by 2002:a5d:410f:0:b0:33b:1b4f:e54 with SMTP id
- l15-20020a5d410f000000b0033b1b4f0e54mr6571wrp.34.1707150141590; 
- Mon, 05 Feb 2024 08:22:21 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEesCh+Gt9x87aXUHQ2p9uIQnEKqnPayczL5b/+lL3NNUZUX0zkCF6FtjPbxtGmbDUBWFxAhg==
-X-Received: by 2002:a5d:410f:0:b0:33b:1b4f:e54 with SMTP id
- l15-20020a5d410f000000b0033b1b4f0e54mr6559wrp.34.1707150141261; 
- Mon, 05 Feb 2024 08:22:21 -0800 (PST)
-X-Forwarded-Encrypted: i=0;
- AJvYcCUZcl5twdVOgesW8D5cVm+rsHhmwrsgihALHMwJQwHfTZE4LAQDTS5y2vDz9P0AXbB2rNMl0X5lGb9vR9l25F9wTKnRkr5IFUHaSJhFghhV
-Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
- ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- k2-20020a056000004200b0033b08b9cd9dsm8386302wrx.79.2024.02.05.08.22.20
+ d=1e100.net; s=20230601; t=1707150233; x=1707755033;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=UqFSrAEJyuKkYiecikc67XEFMHOq4AKZCrfCWi7N71c=;
+ b=u5lNfrnhlK2PYrMMVA3Hp47Dvftsb47Bk8mx6vIOSO5dbihE1UJzTebM5asSFonbzw
+ weL/JUzi8CwS9OzE25AuB6ULEnBvzkTF1G42lx3Q+Nv/Da5CGdsDvHzCviaaMkxQSVhI
+ Ordu2oOi/n73Ks4FwOW/Jo+etq2qLJ/nH7ba95tE8jIHhRpmTIx4BtXWn/Vc7ih9PHYp
+ NxrcF4z30GguU3RBRBGSxyM4kuX6nq4aipL6cN9m9N7i8rXxlyOnuSjveRDcWw5iIDUz
+ DGKjCOe/R/ULqqHOP41L53Xggnbc79WkySsffMRXudNGvRl0Zac2kgHlVsDgKLktH6IB
+ 0g9w==
+X-Gm-Message-State: AOJu0YyNerzwgMtJBURCaxxhgRfAbgRE5ZaQadfPkU9PrGY6qjPxlfTT
+ 6+l8OmPTkaFM8gDiu7tUJEKVqdxI2bqOExuXPeKREctsJZtX0QeiBCPJElwnDXPPRE+jUhN3hhQ
+ fSA==
+X-Google-Smtp-Source: AGHT+IFcoBcmt6DSBmG5Np8th0KgmRzcCAaLx78P3LkwG7X69XAMgUjMV7SQUe7KROAuIdoCrOXbhQ==
+X-Received: by 2002:aa7:d482:0:b0:55f:84a9:9000 with SMTP id
+ b2-20020aa7d482000000b0055f84a99000mr5002649edr.3.1707150231366; 
+ Mon, 05 Feb 2024 08:23:51 -0800 (PST)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com.
+ [209.85.208.44]) by smtp.gmail.com with ESMTPSA id
+ fe5-20020a056402390500b005608ebc2be1sm45324edb.18.2024.02.05.08.23.50
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Feb 2024 08:22:20 -0800 (PST)
-Message-ID: <133266ac-7239-4233-a19d-cdc7563d401c@redhat.com>
-Date: Mon, 5 Feb 2024 17:22:19 +0100
+ Mon, 05 Feb 2024 08:23:50 -0800 (PST)
+Received: by mail-ed1-f44.google.com with SMTP id
+ 4fb4d7f45d1cf-56012eeb755so19568a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Feb 2024 08:23:50 -0800 (PST)
+X-Received: by 2002:a50:9b02:0:b0:55f:9918:dadd with SMTP id
+ o2-20020a509b02000000b0055f9918daddmr272667edi.2.1707150230007; Mon, 05 Feb
+ 2024 08:23:50 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nouveau: offload fence uevents work to workqueue
-To: Dave Airlie <airlied@gmail.com>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20240129015053.1687418-1-airlied@gmail.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <20240129015053.1687418-1-airlied@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240202141109.1.I24277520ac754ea538c9b14578edc94e1df11b48@changeid>
+ <87fry7dusz.fsf@intel.com>
+In-Reply-To: <87fry7dusz.fsf@intel.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 5 Feb 2024 08:23:32 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XOyMDRT9dtW_mC_yQy-38oOXugFXJdOY5pkVy7DJhAJg@mail.gmail.com>
+Message-ID: <CAD=FV=XOyMDRT9dtW_mC_yQy-38oOXugFXJdOY5pkVy7DJhAJg@mail.gmail.com>
+Subject: Re: [PATCH] drm/dp: Don't attempt AUX transfers when eDP panels are
+ not powered
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: dri-devel@lists.freedesktop.org, eizan@chromium.org, 
+ Ankit Nautiyal <ankit.k.nautiyal@intel.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ David Airlie <airlied@gmail.com>, Heiner Kallweit <hkallweit1@gmail.com>, 
+ Imre Deak <imre.deak@intel.com>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>, 
+ Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,102 +97,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/29/24 02:50, Dave Airlie wrote:
-> From: Dave Airlie <airlied@redhat.com>
-> 
-> This should break the deadlock between the fctx lock and the irq lock.
-> 
-> This offloads the processing off the work from the irq into a workqueue.
-> 
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
+Hi,
 
-Nouveau's scheduler uses a dedicated wq, hence from this perspective it's
-safe deferring fence signalling to the kernel global wq. However, I wonder
-if we could create deadlocks by building dependency chains into other
-drivers / kernel code that, by chance, makes use of the kernel global wq as
-well.
+On Mon, Feb 5, 2024 at 3:17=E2=80=AFAM Jani Nikula <jani.nikula@intel.com> =
+wrote:
+>
+> On Fri, 02 Feb 2024, Douglas Anderson <dianders@chromium.org> wrote:
+> > If an eDP panel is not powered on then any attempts to talk to it over
+> > the DP AUX channel will timeout. Unfortunately these attempts may be
+> > quite slow. Userspace can initiate these attempts either via a
+> > /dev/drm_dp_auxN device or via the created i2c device.
+> >
+> > Making the DP AUX drivers timeout faster is a difficult proposition.
+> > In theory we could just poll the panel's HPD line in the AUX transfer
+> > function and immediately return an error there. However, this is
+> > easier said than done. For one thing, there's no hard requirement to
+> > hook the HPD line up for eDP panels and it's OK to just delay a fixed
+> > amount. For another thing, the HPD line may not be fast to probe. On
+> > parade-ps8640 we need to wait for the bridge chip's firmware to boot
+> > before we can get the HPD line and this is a slow process.
+> >
+> > The fact that the transfers are taking so long to timeout is causing
+> > real problems. The open source fwupd daemon sometimes scans DP busses
+> > looking for devices whose firmware need updating. If it happens to
+> > scan while a panel is turned off this scan can take a long time. The
+> > fwupd daemon could try to be smarter and only scan when eDP panels are
+> > turned on, but we can also improve the behavior in the kernel.
+> >
+> > Let's let eDP panels drivers specify that a panel is turned off and
+> > then modify the common AUX transfer code not to attempt a transfer in
+> > this case.
+>
+> I guess my question is, why not make the aux->transfer function handle
+> the powered down case and return the appropriate error?
 
-Admittedly, even if, it's gonna be extremely unlikely given that
-WQ_MAX_ACTIVE == 512. But maybe it'd be safer to use a dedicated wq.
+The basic problem is that the aux->transfer() function doesn't have
+knowledge of the power state of the eDP panel and that's the component
+whose power state matters here. The aux->transfer() function is
+implemented by the DP controller driver and can't access the internal
+state of the eDP panel driver.
 
-Also, do we need to CC stable?
+The traditional solution here would be to use the "HPD" pin to know if
+the DP device is powered and ready to accept AUX commands. That works
+fine for external DP devices where HPD is mandatory, but it has issues
+for eDP as talked about in my commit description. If nothing else, the
+eDP spec lists "HPD" as optional. In addition to that, however, we
+have additional difficulties for eDP because of the "connected but not
+powered on" state that eDP panels can be in. For DP if you see HPD you
+know that the device is connected+powered on. If you don't see HPD
+then the device is disconnected and/or powered off. For eDP you may
+power off components (like the controller / eDP panel) when the device
+is still physically connected and that adds complexities.
 
-> ---
->   drivers/gpu/drm/nouveau/nouveau_fence.c | 24 ++++++++++++++++++------
->   drivers/gpu/drm/nouveau/nouveau_fence.h |  1 +
->   2 files changed, 19 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> index ca762ea55413..93f08f9479d8 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> @@ -103,6 +103,7 @@ nouveau_fence_context_kill(struct nouveau_fence_chan *fctx, int error)
->   void
->   nouveau_fence_context_del(struct nouveau_fence_chan *fctx)
->   {
-> +	cancel_work_sync(&fctx->uevent_work);
->   	nouveau_fence_context_kill(fctx, 0);
->   	nvif_event_dtor(&fctx->event);
->   	fctx->dead = 1;
-> @@ -145,12 +146,13 @@ nouveau_fence_update(struct nouveau_channel *chan, struct nouveau_fence_chan *fc
->   	return drop;
->   }
->   
-> -static int
-> -nouveau_fence_wait_uevent_handler(struct nvif_event *event, void *repv, u32 repc)
-> +static void
-> +nouveau_fence_uevent_work(struct work_struct *work)
->   {
-> -	struct nouveau_fence_chan *fctx = container_of(event, typeof(*fctx), event);
-> +	struct nouveau_fence_chan *fctx = container_of(work, struct nouveau_fence_chan,
-> +						       uevent_work);
->   	unsigned long flags;
-> -	int ret = NVIF_EVENT_KEEP;
-> +	int drop = 0;
->   
->   	spin_lock_irqsave(&fctx->lock, flags);
->   	if (!list_empty(&fctx->pending)) {
-> @@ -160,11 +162,20 @@ nouveau_fence_wait_uevent_handler(struct nvif_event *event, void *repv, u32 repc
->   		fence = list_entry(fctx->pending.next, typeof(*fence), head);
->   		chan = rcu_dereference_protected(fence->channel, lockdep_is_held(&fctx->lock));
->   		if (nouveau_fence_update(chan, fctx))
-> -			ret = NVIF_EVENT_DROP;
-> +			drop = 1;
->   	}
-> +	if (drop)
-> +		nvif_event_block(&fctx->event);
-> +
->   	spin_unlock_irqrestore(&fctx->lock, flags);
-> +}
->   
-> -	return ret;
-> +static int
-> +nouveau_fence_wait_uevent_handler(struct nvif_event *event, void *repv, u32 repc)
-> +{
-> +	struct nouveau_fence_chan *fctx = container_of(event, typeof(*fctx), event);
-> +	schedule_work(&fctx->uevent_work);
-> +	return NVIF_EVENT_KEEP;
->   }
->   
->   void
-> @@ -178,6 +189,7 @@ nouveau_fence_context_new(struct nouveau_channel *chan, struct nouveau_fence_cha
->   	} args;
->   	int ret;
->   
-> +	INIT_WORK(&fctx->uevent_work, nouveau_fence_uevent_work);
->   	INIT_LIST_HEAD(&fctx->flip);
->   	INIT_LIST_HEAD(&fctx->pending);
->   	spin_lock_init(&fctx->lock);
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.h b/drivers/gpu/drm/nouveau/nouveau_fence.h
-> index 64d33ae7f356..8bc065acfe35 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_fence.h
-> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.h
-> @@ -44,6 +44,7 @@ struct nouveau_fence_chan {
->   	u32 context;
->   	char name[32];
->   
-> +	struct work_struct uevent_work;
->   	struct nvif_event event;
->   	int notify_ref, dead, killed;
->   };
+Another possible solution someone could come up with would be to use
+the DRM state of the DP controller driver and fail all AUX commands if
+the DP controller isn't powered. Unfortunately this doesn't work
+either. Specifically at panel probe time we need to do AUX transfers
+even though the full DRM bridge isn't powered. We had many discussions
+about this on the mailing lists when coming up with the generic eDP
+panel driver and this is fairly well documented in the kernel-docs of
+the transfer() function in "struct drm_dp_aux". As documented, an eDP
+controller driver needs to return an error for transfer() if the panel
+isn't powered, but nothing says that it needs to do it quickly. The
+slowness is what we're trying to solve here.
 
+
+> For example, the transfer hook in i915 checks whether the display is
+> connected and bails out early if not.
+
+I'm not massively familiar with the i915 code, so I'd love a pointer
+to the exact code you're referring to. I took a quick look and found a
+Type-C specific check in intel_dp_aux_xfer(). That doesn't help here
+since we're not Type-C, though the comments do back up my argument
+that the long timeouts are something worth avoiding. After that I
+don't see anything obvious so I'd love a pointer.
+
+
+> Having to track and set the state all over the place seems more
+> complicated to me than dynamically checking where needed i.e. in the
+> transfer hook.
+
+Huh. I was actually surprised by how simple/straightforward my patch
+was compared to how ugly I thought it was going to be. I guess it's
+just a different perspective? Specifically it can be noted that there
+aren't many distinct eDP panel drivers out there since all but one of
+them was able to use the generic "panel-edp.c". However, there are
+quite a number of eDP controller drivers, especially considering all
+the bridge chips out there. That means that this short patch means we
+don't need to add weird logic/hacks to all of the eDP controller
+drivers...
+
+-Doug
