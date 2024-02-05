@@ -2,88 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BCF684A1A6
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 18:59:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B523A84A1F5
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 19:18:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B2C010E543;
-	Mon,  5 Feb 2024 17:59:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACB7810FBAE;
+	Mon,  5 Feb 2024 18:18:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gXE+dbDC";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="DXXyIPzH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 805B910ECBE
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Feb 2024 17:59:15 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-40fdc500db5so7947605e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Feb 2024 09:59:15 -0800 (PST)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF63810FBB0
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Feb 2024 18:18:01 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-51137c8088dso4779718e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Feb 2024 10:18:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1707155954; x=1707760754; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=chromium.org; s=google; t=1707157079; x=1707761879;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/C76pIYyE7acYLURd95YZ9JvqXFzoendTPcs1BJgd4E=;
- b=gXE+dbDCzPvHZWYP7c7RYzs/s596vNqPSpVWxpTx2xgftqD68B5XMYNYf8okaMWGmi
- levGnishGsfnJsl3XLpEIbC39RHs2Eiiz4gm6kIwWDiV3KsCVzvd1oFR5sjjxWRgG+iI
- avOsKg9H1CnLRGwUUGkik0gVGkO/bs+VvEzo6p1wJys3l/FdIsSfrrSH0dLNo4/qnpU1
- B6CV76adXsFAXDAVq31BUZt//AQAcHfjtzfk7H52jyJrjTmFWongwtijXs8QQI0PBDtp
- +qFt+drnrjmGd5WOYkKItA80Zf8epno5vCGKl9ovKykqtzks/gPf+3ZWrCfaCrzsvYuu
- xjcQ==
+ bh=ood9JeXOKG87bTqfPH5vVrFrWxV318p/Ke+LplXjoho=;
+ b=DXXyIPzHlA0+eLkLmfZTybqpbHY3IqtQnYP2lO0OWyTfm93zeHulUvuruHleRAdqYj
+ /pHbqZMQcmmPBdpe9N8YBjWsmcBkEo60cEVsgY2QKrNYOUT+2AsAaWcHERWtxonmaGgK
+ 2VH3vNxShtEGHrup/amptEXigbsrYNbl5xGNU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707155954; x=1707760754;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1707157079; x=1707761879;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/C76pIYyE7acYLURd95YZ9JvqXFzoendTPcs1BJgd4E=;
- b=HjYv5qb8RZn6BqCc9AQGVJBJdb5VmFPmwel44WQRcda7REydK/6yulvh8L1oS+tmdM
- ynxuliEvPGBK6Xi5w8xtj9TfWe98X6gVvGuvyagJ70Pc2PnZzin2WfVG9rWw04+hIUUc
- 5fEIuhtoNQGJriSzVilkq1ZWg7tOgZkiBXzYYKfPVRjiLpGqwW05eE2dfOyFYBsGLoml
- n8nz7usW/SJ+TNXmsy/OhcqB050v0pLu6LJltjHGTZdEm+VC4/cvNlnsei5qbr9hfSvE
- bxQ5TIV0dVg2a2+0FM4gR5yj8zPa7CoJbLNr1gaCWjn4j/VgDokK7yRfD+OnF5diUtNT
- Sp+Q==
-X-Gm-Message-State: AOJu0Yx0JgTcU1yIujrgj4GxmxFqnZBEH+u3C4YgEHSoE6LjmEFQl6j4
- p+y3vrSctfYkPKVZaC9WVK66F5e2Lk1MB6O4FBGsA9HMp6nzxP1O
-X-Google-Smtp-Source: AGHT+IFDfuNn+dprW7ssb+MdCy5jmgRJzkLpuJk9Jj3FJq01fEAA1ewSEAVDfj9a3mttC9NNW39/qQ==
-X-Received: by 2002:a05:600c:1f84:b0:40f:b69e:aa20 with SMTP id
- je4-20020a05600c1f8400b0040fb69eaa20mr367170wmb.11.1707155953740; 
- Mon, 05 Feb 2024 09:59:13 -0800 (PST)
-X-Forwarded-Encrypted: i=0;
- AJvYcCXLGxFNA/76SPYxu2gToiQ41JQj1r64t0+xMs6T6ok0+J1kX7Lo3HRGsUqaghaMGWDQKL6PXq6NGNLqkkIL6fSH+q/R9n/7nX8t2HjGfS3xy3tDno+jNBpq3yhdlwMv0JwIiWGHs7pPMDmY3tppwuh007wlxUZZNFKoz77/2ORkHBIoHDnI/ufPPjYSKeEjDHiim+gWsQfvUDhYaX4z4mypzFDUcevPha6r2x7iWsfup6Oiqst2nvuH9rdJU+46xkyCnn4/ivUw8S9IVKnsMGJMg7qLChe9iXwNVF4SCU8JxeoTjvXi+r+Z7MWS7ud6I6MU3beXQxs2GYwHrSALeZRdfuLoAOymERlSPSMKGdcDcx94TlN6SAedrWcdATopdC7sw+tGASkr4zKKwBMRUJe1wqriolatAq9Krhbe2ZvlAVP8+Zy9nmXh5532Nn2rGu603uvVkCKmx1uBEh3bNT/W3C96U2wkhKAwy+zzb0/Hryn9kMrnc5Zde3M5KIM1PCxu3jMYbICJMCjqOU3GXYf/+aNklvlAAL7wlqEid1ZvQbER77q+Sl3cnYa2OWdgpqgT93pkXJ5ey7ataDjI4ghXTLkxxVsmaktCslsYlt9Ju6YQORWFaRAX9Z/+h/vH5qsTw8NvtUZlaj6372xbn8YDKQpN3d3WD4PqIgRvAa0bGxQ6j1r+SY0ebh56EgW/cmCqa02ZWncBwHOt/d33kTfrgMWYlRohrPyqeEHjhi/B1UjcLy/CNW+Bqv7keb9iJQ0cLjehkuUPyw==
-Received: from jernej-laptop.localnet (82-149-13-182.dynamic.telemach.net.
- [82.149.13.182]) by smtp.gmail.com with ESMTPSA id
- v8-20020a05600c444800b0040fddd8de88sm2013072wmn.15.2024.02.05.09.59.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Feb 2024 09:59:13 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
- Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Frank Oltmanns <frank@oltmanns.dev>
-Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- Frank Oltmanns <frank@oltmanns.dev>
-Subject: Re: [PATCH v2 5/6] drm/panel: st7703: Drive XBD599 panel at higher
- clock rate
-Date: Mon, 05 Feb 2024 18:59:11 +0100
-Message-ID: <13445659.uLZWGnKmhe@jernej-laptop>
-In-Reply-To: <20240205-pinephone-pll-fixes-v2-5-96a46a2d8c9b@oltmanns.dev>
-References: <20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev>
- <20240205-pinephone-pll-fixes-v2-5-96a46a2d8c9b@oltmanns.dev>
+ bh=ood9JeXOKG87bTqfPH5vVrFrWxV318p/Ke+LplXjoho=;
+ b=vKKzeeEuU01OYU0tMhMar4isQPRB14Q643k9W6/Uq4X5V8oEFpD4cnL3CjEm8pjoPc
+ ZsK/PoS4DIYdhmzuXpxsr5ta34e4tsypoatu0akJxUdCtA5xq3L/D/qqpS6QhM98OO6T
+ rhFx1/Des/lNN3GNOgCN0ED9N3/ncfHUpr3IKywcZwwlSXLZ2UIRtVayVp8WJPT1MqAc
+ f/5rIwcUb7/orL1hgrPc+JaaSf3/G6dDXn3a3CBF7N3yqRHjtj0OUVSj9k7SphfQardl
+ +lvo7ij3FGiC7ljZKOQNNGvAPoV+iCvDcN2z5bVHJEwJXw/RM/MCB9pa7JdDMeXKG3zb
+ RUlQ==
+X-Gm-Message-State: AOJu0YzvKjTOdruK0utEVdENohQPcLK1sWdD6vcCtjiDxO8HfLSLKmFJ
+ u1ikdV4tfurc2OdZEXtTuqftIO85HrgXEetSuuEEW1m05DP72Tw2Ezb4dSpyyZEXfpLC1K4avbg
+ zfmZr
+X-Google-Smtp-Source: AGHT+IF4zdXh/z/RDSsvdgZ5EphnUPB184qO9+u5NSYUzpgPmOs5IIC0AdvC21YH+r69cnPc2K7ZoQ==
+X-Received: by 2002:a19:2d1c:0:b0:511:2dad:d9a0 with SMTP id
+ k28-20020a192d1c000000b005112dadd9a0mr256047lfj.19.1707157078953; 
+ Mon, 05 Feb 2024 10:17:58 -0800 (PST)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com.
+ [209.85.208.44]) by smtp.gmail.com with ESMTPSA id
+ oz17-20020a170906cd1100b00a36a94ecf9dsm100073ejb.175.2024.02.05.10.17.58
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 05 Feb 2024 10:17:58 -0800 (PST)
+Received: by mail-ed1-f44.google.com with SMTP id
+ 4fb4d7f45d1cf-56012eeb755so2170a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Feb 2024 10:17:58 -0800 (PST)
+X-Received: by 2002:a19:5f50:0:b0:511:4a7c:51aa with SMTP id
+ a16-20020a195f50000000b005114a7c51aamr19188lfj.6.1707156683549; Mon, 05 Feb
+ 2024 10:11:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <b236236a-9953-4246-a697-19ed1b22d86a@web.de>
+In-Reply-To: <b236236a-9953-4246-a697-19ed1b22d86a@web.de>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 5 Feb 2024 10:11:06 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=Xsg3Fs8XQ0piBYKGSYOhuGXyKpoJ5dbtGPdP5HU+2RyQ@mail.gmail.com>
+Message-ID: <CAD=FV=Xsg3Fs8XQ0piBYKGSYOhuGXyKpoJ5dbtGPdP5HU+2RyQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/hisilicon: Use
+ devm_platform_get_and_ioremap_resource() in dsi_parse_dt()
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ John Stultz <jstultz@google.com>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Tian Tao <tiantao6@hisilicon.com>, 
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
+ Yongqin Liu <yongqin.liu@linaro.org>, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,72 +99,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dne ponedeljek, 05. februar 2024 ob 16:22:28 CET je Frank Oltmanns napisal(a):
-> This panel is used in the pinephone that runs on a Allwinner A64 SOC.
-> The SOC requires pll-mipi to run at more than 500 MHz.
-> 
-> This is the relevant clock tree:
->  pll-mipi
->     tcon0
->        tcon-data-clock
-> 
-> tcon-data-clock has to run at 1/4 the DSI per-lane bit rate. The XBD599
-> has 24 bpp and 4 lanes. Therefore, the resulting requested
-> tcon-data-clock rate is:
->     crtc_clock * 1000 * (24 / 4) / 4
-> 
-> tcon-data-clock runs at tcon0 / 4 (fixed divisor), so it requests a
-> parent rate of
->     4 * (crtc_clock * 1000 * (24 / 4) / 4)
-> 
-> Since tcon0 is a ccu_mux, the rate of tcon0 equals the rate of pll-mipi.
-> 
-> pll-mipi's constraint to run at 500MHz or higher forces us to have a
-> crtc_clock >= 83333 kHz if we want a 60 Hz vertical refresh rate.
-> 
-> Change [hv]sync_(start|end) so that we reach a clock rate of 83502 kHz
-> so that it is high enough to align with pll-pipi limits.
+Hi,
 
-Typo: pll-pipi -> pll-mipi
-
-Best regards,
-Jernej
-
-> 
-> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+On Mon, Feb 5, 2024 at 12:13=E2=80=AFAM Markus Elfring <Markus.Elfring@web.=
+de> wrote:
+>
+> From: Markus Elfring <elfring@users.sourceforge.net>
+> Date: Mon, 5 Feb 2024 08:58:21 +0100
+>
+> A wrapper function is available since the commit 890cc39a879906b63912482d=
+fc41944579df2dc6
+> ("drivers: provide devm_platform_get_and_ioremap_resource()").
+> Thus reuse existing functionality instead of keeping duplicate source cod=
+e.
+>
+> This issue was detected by using the Coccinelle software.
+>
+> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
 > ---
->  drivers/gpu/drm/panel/panel-sitronix-st7703.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-> index b55bafd1a8be..6886fd7f765e 100644
-> --- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-> @@ -320,14 +320,14 @@ static int xbd599_init_sequence(struct st7703 *ctx)
->  
->  static const struct drm_display_mode xbd599_mode = {
->  	.hdisplay    = 720,
-> -	.hsync_start = 720 + 40,
-> -	.hsync_end   = 720 + 40 + 40,
-> -	.htotal	     = 720 + 40 + 40 + 40,
-> +	.hsync_start = 720 + 65,
-> +	.hsync_end   = 720 + 65 + 65,
-> +	.htotal      = 720 + 65 + 65 + 65,
->  	.vdisplay    = 1440,
-> -	.vsync_start = 1440 + 18,
-> -	.vsync_end   = 1440 + 18 + 10,
-> -	.vtotal	     = 1440 + 18 + 10 + 17,
-> -	.clock	     = 69000,
-> +	.vsync_start = 1440 + 30,
-> +	.vsync_end   = 1440 + 30 + 22,
-> +	.vtotal	     = 1440 + 30 + 22 + 29,
-> +	.clock	     = (720 + 65 + 65 + 65) * (1440 + 30 + 22 + 29) * 60 / 1000,
->  	.flags	     = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
->  	.width_mm    = 68,
->  	.height_mm   = 136,
-> 
-> 
+>  drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c b/drivers/gpu/d=
+rm/hisilicon/kirin/dw_drm_dsi.c
+> index 566de4658719..1edf429c49d7 100644
+> --- a/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
+> +++ b/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
+> @@ -834,8 +834,7 @@ static int dsi_parse_dt(struct platform_device *pdev,=
+ struct dw_dsi *dsi)
+>                 return PTR_ERR(ctx->pclk);
+>         }
+>
+> -       res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> -       ctx->base =3D devm_ioremap_resource(&pdev->dev, res);
+> +       ctx->base =3D devm_platform_get_and_ioremap_resource(pdev, 0, &re=
+s);
+>         if (IS_ERR(ctx->base)) {
+>                 DRM_ERROR("failed to remap dsi io region\n");
+>                 return PTR_ERR(ctx->base);
 
+This function no longer needs the local variable "res". Remove it and
+then change the function call to devm_platform_ioremap_resource().
+With that:
 
-
-
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
