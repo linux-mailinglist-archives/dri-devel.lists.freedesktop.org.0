@@ -2,66 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30AFD84A17F
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 18:56:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3346784A179
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 18:55:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B864310FB3B;
-	Mon,  5 Feb 2024 17:55:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFC2E10FB1B;
+	Mon,  5 Feb 2024 17:55:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="eu4X3fOG";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="W2sehIFL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 053CD10FB28
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Feb 2024 17:55:43 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-40fdd65a9bdso7455075e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Feb 2024 09:55:42 -0800 (PST)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22E3C10FAE0
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Feb 2024 17:55:44 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-40fdc500db5so7918785e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Feb 2024 09:55:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1707155741; x=1707760541; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1707155742; x=1707760542; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=/kTGO29vezq1Gc7J5O9OI72ko2OnA3sM69gX9LY6c8Y=;
- b=eu4X3fOGjFzkh+aYCkvKhQ+TbSmng7vyeyAGtXXYTRbph2O9aeixjawRtycO8RFapM
- Ef6tOmsSMNL6RzoM+FO8bKx6tzVtHDN7clmyIESH0MAhmdjtWnShQRKkx2hW01MmFSdx
- 5iLtoEhdKEoAAUUCVD4TQd9YAQDdevoWoVKoZU3bHgcBermVtbJ1okR2Nc8nLiSeOCz/
- iNMG8rIhmtjiM3g88V9M0c7bYEE4THDNElqw1t246LApdufXbqGFzPHYN+KqvjIlS4Mo
- e0EvkCTt9GtGNVkao5DPS5VKRM/rK6N4WxkH+kxECxFYJmj7t4gXh/NqJn9Z3qiMB2xk
- FpGg==
+ :reply-to; bh=fuSB6hXQgNnhjhBZYMiuriEMaNCWnOiIqJ/w1UyCkVs=;
+ b=W2sehIFL/CD3DunfixmVJsj2AeUvn0FfQugIsXIm7zUO2+ISzAfH2aAVeBJJEYyn7A
+ 31Qtqw4/45UMBGTJY0gPKKuOrFSSV/tPr6/GuXJHZr48M/bc8H+m9ESvTDVDmS5cHCaT
+ ttotFOoazpG5rK7MBL4Dyteh7r8pfrZv/NhFkvMZ2MtF5kEp/aZEBQkP9pyPu/Zixr6e
+ 2K2m/iG5jC8sOdPqonLTX8MuRWckXbPn1A3k5rd7b8EG3f9pecn8+YrGKGj+lxqqpxcB
+ TKEiU7BPJ72jFOtdvcQreuIqYcXx+zSZPFH+3Ej50qY/tRNqcRoObopaabP33JmNoofb
+ tuvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707155741; x=1707760541;
+ d=1e100.net; s=20230601; t=1707155742; x=1707760542;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/kTGO29vezq1Gc7J5O9OI72ko2OnA3sM69gX9LY6c8Y=;
- b=U7Z71ovN1pr3TqtnQyBBr3jIdjwwsqFwZYrDblPhHF7wUNFN5UBArhPAOeDbtrf2qh
- l0vRZLsxiEYvfQP7VAGBYyShv2gNjque2i2DbVhOlAxX0g6KsCCk/wiSZmvfYwce3HDy
- CYi0zxX5oJES3UHHBEPcPqdZPfYUaEpfs/UKZNbcHtYiuJkvWcKq9hQDtcV5nF8B5Puq
- 2ReMDzipd+waZN/9R3tE4yHtRAo0JCKNDO6BGdC+JbI0m216Uumld9Jk+nDuoB+WOFs2
- q0IBbbA9AklO2BJ8EAsff0dcAjvgVQwsAXyhGwMG5SO9u7ol3dTJYOqDDxbc//B8xWUd
- 8S3w==
-X-Gm-Message-State: AOJu0Yy/y2QaU1svqSRW5bPITdtYlV4BQ/r9HSEbW2IkdowwZAi5cISp
- CDXWSxTm+t4+lOxKiwKDtueTuMXkikv45LiVCkwdFg6J8uzRJJuckVx9mtZde5w=
-X-Google-Smtp-Source: AGHT+IFaTHgGhy9XHjQX3HZeB2JEULMM1CNBGC9GZqY1QPaVhgAIUfcH9PYMzLk1SOsavnXKC+2l+g==
-X-Received: by 2002:a05:600c:1c02:b0:40e:f67d:d5f9 with SMTP id
- j2-20020a05600c1c0200b0040ef67dd5f9mr355270wms.4.1707155741431; 
- Mon, 05 Feb 2024 09:55:41 -0800 (PST)
+ bh=fuSB6hXQgNnhjhBZYMiuriEMaNCWnOiIqJ/w1UyCkVs=;
+ b=ckHOiQF/qOPp4NLR5orkkxZ10NogFeYf4CCcJ8+YefcfbgDzm/4A7/F1RmgEZFePfo
+ 1TQMeT0fXERI4x8Caa//aOBAHgiGv/ctN+PoLvjW1ALd0UT94RB2O40QrnFfzgSImlcY
+ yeVfo0p2bO2w6LIIGC3hjiasjhwKn0gkNykTwkcx53Evh2uQ1pSH9/7skBmngETQs+Qb
+ feI3NCpRiLvdF2h6PWIKKYC/dIOx36ZPAIcIH7Vf2m42OBu002FKmpJrkkys7mIuCkyx
+ 5duooUsIq1pEiFLN4Hr/jJKI4auDO4Z71yE8VOwwlS51E1WqmZFVLxxo3uPavhujPDh5
+ yYRQ==
+X-Gm-Message-State: AOJu0Yy6xcuEvJB4dXjpFoMIfLgLE3CvMYPgbSXovrH8p64p+dPMY4cD
+ CUYSI8FYohK5ByPUHhH4rD0PKw7vHXrV2PUTcKGHO6mWPtfQAZiBv0qyebgWGKiSpU59JxTDmdI
+ +lOiyVw==
+X-Google-Smtp-Source: AGHT+IFQBoZVwEzaKSHH6GSHnwF+OsB+LadCOAluYT1wt3+X1dAsrpBvWeyGAz3FdiU/rHpHIDmccg==
+X-Received: by 2002:a05:600c:5612:b0:40f:d3b3:b6d2 with SMTP id
+ jr18-20020a05600c561200b0040fd3b3b6d2mr386193wmb.14.1707155742633; 
+ Mon, 05 Feb 2024 09:55:42 -0800 (PST)
 X-Forwarded-Encrypted: i=0;
- AJvYcCXv164Rb/MjNSq/GnHSz2slhbj77T70wXKz076hC/kAWvtWZyXcRewm4yYlOnItzMT+KxRBmLo7ILUP9U+uktRLSu+wywU9KC6I9zzfHukz82cZFIZUZ0crw8ZUQLUdif/0PUH1v/Qb7xyx9raAFJeQBvdGhsSAEQuLppe1OQlipq4cLsmGvgNgxdq6O4syZeQgHAk1oYfrgxgPSOv6U0IMrHoDO4z4FaP6pRhJJwc0+IuwTRG2tdTRBLFYGTqaAZHbvkXCcJV9iJM2BIqqDzVRr3JXV8SUx5pB3dSfC+BTyDbgb3OrFmBWNQ2S1qeRE46NRzyxELs3GKOBh4K4Kde2f/5uT53Fuvjl5E//8GSyjS17ZDGGOZ0xCZlmTEKiC70W+m1V0G0COaHLbxFN07SqoF3vVYXJVr7pCdMz0Bg1GcBWfYQ3OG6sYg9JME0mty+HDfaOmYI6jvMcOK5KC1wrfbRbbz8bp2W2zHr7gqnvm1H/yv0qMk5Q3/z0lD/rHaEug6HpQ0sQ4UfsRmI2Hsr53CRRGmqLlGd/ghhuXwq1wv/vG3totXQhuT6LjnIyvgo3hIzUgg5GuGo51DYrxCRsGItu036VgUcP+XNt/ECkupMwDKZEeC9NJto+neqOvG2rT9/p2XZEFTw9vxU+Qi9tLlhuqjrx6zMth+HAkv3Afxt8WV7yoz8SwLoz/VPd2WWBCjfAirKw+LxsrjxKUKjATCLvIljk7Q5Izh949D6C1Hmv9/UZC4stlAZvYiWw9Tg=
+ AJvYcCVCoTPb98vKy8EX56dDFMSTkbZ4dn33RHsT29UyQh81X0ZnajudOIax7Wv1spxLx4brCiYzTK1zQRGxJGeQ7GAYyy1SQzMG6KVmHAhAV0EIw58NtxOz48nJ6RiXBIt5pyU4kz8IXas7fu30K5YVJOOehG6CzKmeMRjKSb1KwHOA60P3jogmgB9Q+HVgCBwoeg+4HB1K2OysMOVSJF5uG5UGADD0oQ0RFdUtwVaXpms3wDpNvAHDEop4yrtppGP54r01UmZYo2hZnKBGggUPiwiVUS8EIBUAu3O94O1m/0Yq1xqsTh61ZUbYchP8gyTjwrulBosbqAGlO9jYzAk+2B6huKi46Mdf0NoHutLb29EVzIQBL5BirHlLoo4CJGOmwFZl/C057TzxAm/sjwUMbWEVSq8JDBKVuNewezn64ko/F5dVO/k0vpBN6caqbOwPfn/W9c6/JjVlWv/0ourL69xeKGjRUbvuBfGO+rXSrTdDtGkZdFnFxj7mlT2gFziwHDfyDf3LiIyTEP37En0pJ+glHrXHX1cDhkrAb79UJhPOsRRXl93SCqh0bih2rjRy2c1dfZ46778K5/ca93e4DwHWN+GUXAcXbGvuHFnU7wiIDlVoI/RNVN/Qdx792+lAZ9q4O8BMcLSyGFge8N5lQH9IAO+SmCGW751m3S890UQzSUsMOgChfoX+UP6fKfOhBnA+R5J2gc5w7XE+3H8sVVJiLe3rUhnCLjoCAWZysMwo/oqjSUIKc/PimMY1NQH+hl0=
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- je16-20020a05600c1f9000b0040ee8765901sm517556wmb.43.2024.02.05.09.55.40
+ je16-20020a05600c1f9000b0040ee8765901sm517556wmb.43.2024.02.05.09.55.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Feb 2024 09:55:40 -0800 (PST)
+ Mon, 05 Feb 2024 09:55:42 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Mon, 05 Feb 2024 18:55:31 +0100
-Subject: [PATCH v10 4/7] drm/meson: gate px_clk when setting rate
+Date: Mon, 05 Feb 2024 18:55:32 +0100
+Subject: [PATCH v10 5/7] arm64: meson: g12-common: add the MIPI DSI nodes
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240205-amlogic-v6-4-upstream-dsi-ccf-vim3-v10-4-dc06073d5330@linaro.org>
+Message-Id: <20240205-amlogic-v6-4-upstream-dsi-ccf-vim3-v10-5-dc06073d5330@linaro.org>
 References: <20240205-amlogic-v6-4-upstream-dsi-ccf-vim3-v10-0-dc06073d5330@linaro.org>
 In-Reply-To: <20240205-amlogic-v6-4-upstream-dsi-ccf-vim3-v10-0-dc06073d5330@linaro.org>
 To: Rob Herring <robh@kernel.org>, 
@@ -81,20 +82,20 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
  Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1213;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3028;
  i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=IE7LBQJSwmFpro9NRvngqeq31VcV/n9f72AsydUqbws=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBlwSEVQAxTmc2Mi1THlqhQKITJhQ6jRe1YxMSAnbv+
- TbbdaV2JAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZcEhFQAKCRB33NvayMhJ0cLPD/
- 4sXVqcu6M0soSWNW7qB/VG2yRyCqRZlP+HfhrykDyTg+9WG9KEwllxNUC87INl9I0/eYkJbB8tjfl7
- cGB4wluRZIubLWb7oiOlwQOaAM4R0iWsXe16E+SHd0OEEaHrAcfqMdyYyKTD0jgfduGlGfCkoHCB+m
- Hhk1itzbJkMbTvD2TumjnjJ/g70e7CeEt0ez9UN4eDF0rAzQgDxJ9NfUj4oHJhBNgPrWvIKl0++dtq
- Q3pD3gCFhQwuD2DrW4gTZQObKmAHrRFGBqBFhIYOk83pALZmm39fXAuu1KVP+yt46ISyJ84GizN/00
- BKgKW/bJDNL+z8HdbFv6YeWKSP8Ey90aTF6YGPvcGIOj9E1a/ot5iTS5rLdNchvObxeGgCR8jdmbGZ
- ZzEkHtPwEn9rsrCLxUfxXu8HvIi5QBXrKPZAIp3ASTYIcIIKQcBMY5XzqpXreRGGv7rdgLqhuAAbYk
- wktdeESe7TNgfMqSMR1s0in5cmnjEf+BmouAgSpZQ0VJ+Ltr5vBgeaPISg5Ekxp1DJt8W+loq0b+Nl
- W7M2QYAbyZgXjq2biY1pfNtGUOTNkZc42VmAKHwupT5XlPdbarqKluglNXmlZ0NLB6OLw1RTX0EvDv
- qHjPNMXksmy+zHdIIwm3XpX6OUN3/xAjYHtHASedXPRN++zX/U7UTDUuu+oA==
+ bh=xeZV8gmIC9/2/oObVVqqYZ0sOhta5dqkacXris9lM8k=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBlwSEVWuoZmhF/j2rik1x2MG72GYw9Kha028viMega
+ ujV9kvOJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZcEhFQAKCRB33NvayMhJ0cS6EA
+ CqhLE5qwspTDUuycmAMyzXEEr/Go7L95TsFMEWIs0O/+j+GlxMrfBP532OgRvBzsRyPlwyHZ38xYpI
+ SpLpmvOyL+VdJfZBlSGESjEDF7VR6QXZaMs0muBRoWAj2/qwv2VxET/TDfLdT/tlDZfwyBFwNpUtep
+ o308DxP7aREzgPjCPBkvgi6xuXp32mpY5usnVc/C4SXuO9JSJNX1xPPXUVnDm+J6bDh9lhAY0s0OaK
+ SqN3XktjiEcQoNcADYZCMYLB/gX3YrvIK26lK8jGjWJCjrbKHAQYc3NQFcGBpI/jlS1zbfuROjMlWy
+ TmJC4AKfRevlCScpEdChqcpe3DN9uNPcGBywX7ht8yABd24M5OSczw65UUVaKddTe/saxppXBsX0Bc
+ p0CK7JGX6UtJP6BwxtPpoBoVPWRCd96UaD5BIUSQd3HaCW/vOdJl9e7/9Qf1qF5y5WXOyWN/YnBiCG
+ sJv0aUVVu0Lt3ypCPuCXJ/ZUbZFhiu0ty2Y7T9hyJCYlq4NP/ynL9XcrF259EtAA5dZPcw6HMHfhYO
+ 386WN81iKkYoSOlxoPGzzNsUpV7Lh9FD4zE8ViajjaK5CgCTN/AOdqp55oGC2TpIl6bnpEMO6sSFBK
+ aGwmO95ejsdCV1LDyKyP7FHQahCy+B+w9ZiTkKChwEnmhKve8ZbpzV2tDamw==
 X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -112,41 +113,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Disable the px_clk when setting the rate to recover a fully
-configured and correctly reset VCLK clock tree after the rate
-is set.
+Add the MIPI DSI Analog & Digital PHY nodes and the DSI control
+nodes with proper port endpoint to the VPU.
 
-Fixes: 77d9e1e6b846 ("drm/meson: add support for MIPI-DSI transceiver")
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- drivers/gpu/drm/meson/meson_dw_mipi_dsi.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi | 70 +++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
 
-diff --git a/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
-index a6bc1bdb3d0d..a10cff3ca1fe 100644
---- a/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
-+++ b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
-@@ -95,6 +95,7 @@ static int dw_mipi_dsi_phy_init(void *priv_data)
- 		return ret;
- 	}
- 
-+	clk_disable_unprepare(mipi_dsi->px_clk);
- 	ret = clk_set_rate(mipi_dsi->px_clk, mipi_dsi->mode->clock * 1000);
- 
- 	if (ret) {
-@@ -103,6 +104,12 @@ static int dw_mipi_dsi_phy_init(void *priv_data)
- 		return ret;
- 	}
- 
-+	ret = clk_prepare_enable(mipi_dsi->px_clk);
-+	if (ret) {
-+		dev_err(mipi_dsi->dev, "Failed to enable DSI Pixel clock (ret %d)\n", ret);
-+		return ret;
-+	}
+diff --git a/arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi b/arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi
+index ff68b911b729..7300408262d5 100644
+--- a/arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi
++++ b/arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi
+@@ -1663,9 +1663,28 @@ pwrc: power-controller {
+ 								       <250000000>,
+ 								       <0>; /* Do Nothing */
+ 					};
 +
- 	switch (mipi_dsi->dsi_device->format) {
- 	case MIPI_DSI_FMT_RGB888:
- 		dpi_data_format = DPI_COLOR_24BIT;
++					mipi_analog_dphy: phy {
++						compatible = "amlogic,g12a-mipi-dphy-analog";
++						#phy-cells = <0>;
++						status = "disabled";
++					};
+ 				};
+ 			};
+ 
++			mipi_dphy: phy@44000 {
++				compatible = "amlogic,axg-mipi-dphy";
++				reg = <0x0 0x44000 0x0 0x2000>;
++				clocks = <&clkc CLKID_MIPI_DSI_PHY>;
++				clock-names = "pclk";
++				resets = <&reset RESET_MIPI_DSI_PHY>;
++				reset-names = "phy";
++				phys = <&mipi_analog_dphy>;
++				phy-names = "analog";
++				#phy-cells = <0>;
++				status = "disabled";
++			};
++
+ 			usb3_pcie_phy: phy@46000 {
+ 				compatible = "amlogic,g12a-usb3-pcie-phy";
+ 				reg = <0x0 0x46000 0x0 0x2000>;
+@@ -2152,6 +2171,15 @@ hdmi_tx_out: endpoint {
+ 					remote-endpoint = <&hdmi_tx_in>;
+ 				};
+ 			};
++
++			/* DPI output port */
++			dpi_port: port@2 {
++				reg = <2>;
++
++				dpi_out: endpoint {
++					remote-endpoint = <&mipi_dsi_in>;
++				};
++			};
+ 		};
+ 
+ 		gic: interrupt-controller@ffc01000 {
+@@ -2189,6 +2217,48 @@ gpio_intc: interrupt-controller@f080 {
+ 				amlogic,channel-interrupts = <64 65 66 67 68 69 70 71>;
+ 			};
+ 
++			mipi_dsi: dsi@7000 {
++				compatible = "amlogic,meson-g12a-dw-mipi-dsi";
++				reg = <0x0 0x7000 0x0 0x1000>;
++				resets = <&reset RESET_MIPI_DSI_HOST>;
++				reset-names = "top";
++				clocks = <&clkc CLKID_MIPI_DSI_HOST>,
++					 <&clkc CLKID_MIPI_DSI_PXCLK>,
++					 <&clkc CLKID_CTS_ENCL>;
++				clock-names = "pclk", "bit", "px";
++				phys = <&mipi_dphy>;
++				phy-names = "dphy";
++				#address-cells = <1>;
++				#size-cells = <0>;
++				status = "disabled";
++
++				assigned-clocks = <&clkc CLKID_MIPI_DSI_PXCLK_SEL>,
++					 <&clkc CLKID_CTS_ENCL_SEL>,
++					 <&clkc CLKID_VCLK2_SEL>;
++				assigned-clock-parents = <&clkc CLKID_GP0_PLL>,
++					 <&clkc CLKID_VCLK2_DIV1>,
++					 <&clkc CLKID_GP0_PLL>;
++
++				ports {
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					/* VPU VENC Input */
++					mipi_dsi_venc_port: port@0 {
++						reg = <0>;
++
++						mipi_dsi_in: endpoint {
++							remote-endpoint = <&dpi_out>;
++						};
++					};
++
++					/* DSI Output */
++					mipi_dsi_panel_port: port@1 {
++						reg = <1>;
++					};
++				};
++			};
++
+ 			watchdog: watchdog@f0d0 {
+ 				compatible = "amlogic,meson-gxbb-wdt";
+ 				reg = <0x0 0xf0d0 0x0 0x10>;
 
 -- 
 2.34.1
