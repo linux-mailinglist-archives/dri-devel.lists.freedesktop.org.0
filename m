@@ -2,61 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABC618495CF
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 10:03:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F0BC8495EB
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 10:07:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 946EF11244F;
-	Mon,  5 Feb 2024 09:03:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA58111245B;
+	Mon,  5 Feb 2024 09:07:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="EUQFD3rh";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="pHJU0bzM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C43111244F
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Feb 2024 09:03:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1707123804;
- bh=Zzq0/A0jr9NimOuF2Eo/imvq6yaUdPJeA7v4+MvQ5Xw=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=EUQFD3rhFRAU1wHJbfePF2zkpf7n9rGXFAunTkjBO1DNupZEKhpx+Cf+HayyxKQUN
- Q3DDFWx9erk0XdYKmnbUFKlRhE2HTnvkS/OXu/LfWNKzTHFMxbWi1loZMqW5ZMyIMB
- h6KT48H9aBl0TiKqQxlt0FNB2jyXtNm1IkPh6X3UivCplUYnC35v6wVQIeT5ZcbA39
- De/WVo+z0PXzAeUGwp7RrMndQ8n4trXNZC26jnJo+Z1f66uE8UNfHgXKEoGfoMFJnu
- 90SYTqvBr8JPe13RklGl/SoZAtSguUNKoairrnSwRVpHDoX/11OTdnB9jG2biwr4qU
- 7pEm6F50fenQg==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 11B263780029;
- Mon,  5 Feb 2024 09:03:23 +0000 (UTC)
-Date: Mon, 5 Feb 2024 10:03:21 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: "Andy Yan" <andyshrk@163.com>, Danilo Krummrich <dakr@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, "Tatsuyuki Ishi"
- <ishitatsuyuki@gmail.com>, "Nicolas Boichat" <drinkcat@chromium.org>,
- kernel@collabora.com, "Daniel Stone" <daniels@collabora.com>, "Neil
- Armstrong" <neil.armstrong@linaro.org>, "Ketil Johnsen"
- <ketil.johnsen@arm.com>, "Liviu Dudau" <Liviu.Dudau@arm.com>, "Steven
- Price" <steven.price@arm.com>, =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?=
- <peron.clem@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>, "Chris Diamand"
- <chris.diamand@foss.arm.com>, "Marty E . Plummer" <hanetzer@startmail.com>,
- "Robin Murphy" <robin.murphy@arm.com>, "Faith Ekstrand"
- <faith.ekstrand@collabora.com>
-Subject: Re: [PATCH v4 00/14] drm: Add a driver for CSF-based Mali GPUs
-Message-ID: <20240205100321.0321a208@collabora.com>
-In-Reply-To: <1554e55.29c.18d71ae9b6c.Coremail.andyshrk@163.com>
-References: <20240122163047.1954733-1-boris.brezillon@collabora.com>
- <1d4f82bc.2992.18d54856f45.Coremail.andyshrk@163.com>
- <20240129114147.43e5b865@collabora.com>
- <1554e55.29c.18d71ae9b6c.Coremail.andyshrk@163.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20F32112459
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Feb 2024 09:07:15 +0000 (UTC)
+Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 4158VeDh018518; Mon, 5 Feb 2024 10:06:56 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ from:subject:date:message-id:mime-version:content-type
+ :content-transfer-encoding:to:cc; s=selector1; bh=sMEmC6otyn/JS8
+ 9YH7EOakS0M/i0zjOfH7/upYXFobg=; b=pHJU0bzMcAXda2/8o8U41N6EOwyULk
+ tHAEygcfyajowutolIYU4HxHGqhHd1zRT7NU6J7z6jnZvE6MjIfITxHr6AaWy6qg
+ Ln+N4A7s/FT3anQ15F+h+BC7e42qg0/gtmWGNtNldWLFOL4c7dfr91Wp3IqE+e0B
+ pTOOLPpzPGsqnOjxetNRZKGFK/m0NBnQQ/pfLn0c53ecYPyk8R/+bRM6OTqWt+PN
+ bPesodH9y2Ky4Rgf6jSnE31oy8fJS0bmVacHKrS2F1MfOSNoJZDxHFCTG+QbAI7s
+ VQALcWhyHDTTaDqaaX53N5DzbuwFKtDVvYDXqHChXuB7/4QHjy6N3A6g==
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3w1yx3utu4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 05 Feb 2024 10:06:56 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id CAE1C10005C;
+ Mon,  5 Feb 2024 10:06:53 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id BFC6729E60B;
+ Mon,  5 Feb 2024 10:06:53 +0100 (CET)
+Received: from localhost (10.252.18.216) by SHFDAG1NODE2.st.com (10.75.129.70)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 5 Feb
+ 2024 10:06:52 +0100
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Subject: [PATCH 0/5] Add display support for stm32mp135f-dk board
+Date: Mon, 5 Feb 2024 10:06:50 +0100
+Message-ID: <20240205-ltdc_mp13-v1-0-072d24bf1b36@foss.st.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACqlwGUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDQyMT3ZySlOT43AJDY12jNAuzRHMLIxMjk2QloPqCotS0zAqwWdGxtbU
+ AwNP4cVsAAAA=
+To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+CC: <devicetree@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>, 
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, Raphael Gallais-Pou
+ <raphael.gallais-pou@foss.st.com>, Yannick Fertre
+ <yannick.fertre@foss.st.com>
+X-Mailer: b4 0.12.4
+X-Originating-IP: [10.252.18.216]
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-05_04,2024-01-31_01,2023-05-22_02
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,106 +87,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+Danilo for the panthor gpuvm-needs update.
+This serie aims to enable display support for the stm32mp135f-dk board
 
-On Sun, 4 Feb 2024 09:14:44 +0800 (CST)
-"Andy Yan" <andyshrk@163.com> wrote:
+Those are only patches of the device-tree since the driver support has
+already been added [1].
 
-> Hi Boris=EF=BC=9A
-> I saw this warning sometimes=EF=BC=88Run on a armbain based bookworm=EF=
-=BC=89=EF=BC=8Cnot sure is a know issue or something else=E3=80=82
-> [15368.293031] systemd-journald[715]: Received client request to relinqui=
-sh /var/log/journal/1bc4a340506142af9bd31a6a3d2170ba access.
-> [37743.040737] ------------[ cut here ]------------
-> [37743.040764] panthor fb000000.gpu: drm_WARN_ON(shmem->pages_use_count)
-> [37743.040890] WARNING: CPU: 2 PID: 5702 at drivers/gpu/drm/drm_gem_shmem=
-_helper.c:158 drm_gem_shmem_free+0x144/0x14c [drm_shmem_helper]
-> [37743.040929] Modules linked in: joydev rfkill sunrpc lz4hc lz4 zram bin=
-fmt_misc hantro_vpu crct10dif_ce v4l2_vp9 v4l2_h264 snd_soc_simple_amplifie=
-r v4l2_mem2mem videobuf2_dma_contig snd_soc_es8328_i2c videobuf2_memops rk_=
-crypto2 snd_soc_es8328 videobuf2_v4l2 sm3_generic videodev crypto_engine sm=
-3 rockchip_rng videobuf2_common nvmem_rockchip_otp snd_soc_rockchip_i2s_tdm=
- snd_soc_hdmi_codec snd_soc_simple_card mc snd_soc_simple_card_utils snd_so=
-c_core snd_compress ac97_bus snd_pcm_dmaengine snd_pcm snd_timer snd soundc=
-ore dm_mod ip_tables x_tables autofs4 dw_hdmi_qp_i2s_audio dw_hdmi_qp_cec r=
-k808_regulator rockchipdrm dw_mipi_dsi dw_hdmi_qp dw_hdmi analogix_dp drm_d=
-ma_helper fusb302 display_connector rk8xx_spi drm_display_helper phy_rockch=
-ip_snps_pcie3 phy_rockchip_samsung_hdptx_hdmi panthor tcpm rk8xx_core cec d=
-rm_gpuvm gpu_sched drm_kms_helper drm_shmem_helper drm_exec r8169 drm pwm_b=
-l adc_keys
-> [37743.041108] CPU: 2 PID: 5702 Comm: kworker/u16:8 Not tainted 6.8.0-rc1=
--edge-rockchip-rk3588 #2
-> [37743.041115] Hardware name: Rockchip RK3588 EVB1 V10 Board (DT)
-> [37743.041120] Workqueue: panthor-cleanup panthor_vm_bind_job_cleanup_op_=
-ctx_work [panthor]
-> [37743.041151] pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYP=
-E=3D--)
-> [37743.041157] pc : drm_gem_shmem_free+0x144/0x14c [drm_shmem_helper]
-> [37743.041169] lr : drm_gem_shmem_free+0x144/0x14c [drm_shmem_helper]
-> [37743.041181] sp : ffff80008d37bcc0
-> [37743.041184] x29: ffff80008d37bcc0 x28: ffff800081d379c0 x27: ffff80008=
-1d37000
-> [37743.041196] x26: ffff00019909a280 x25: ffff00019909a2c0 x24: ffff00010=
-17a4c05
-> [37743.041206] x23: dead000000000100 x22: dead000000000122 x21: ffff00016=
-27ac1a0
-> [37743.041217] x20: 0000000000000000 x19: ffff0001627ac000 x18: 000000000=
-0000000
-> [37743.041227] x17: 000000040044ffff x16: 005000f2b5503510 x15: fffffffff=
-ff91b77
-> [37743.041238] x14: 0000000000000001 x13: 00000000000003c5 x12: 00000000f=
-fffffea
-> [37743.041248] x11: 00000000ffffdfff x10: 00000000ffffdfff x9 : ffff80008=
-1e0e818
-> [37743.041259] x8 : 000000000002ffe8 x7 : c0000000ffffdfff x6 : 000000000=
-00affa8
-> [37743.041269] x5 : 0000000000001fff x4 : 0000000000000000 x3 : ffff80008=
-19a6008
-> [37743.041279] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff00018=
-465e900
-> [37743.041290] Call trace:
-> [37743.041293]  drm_gem_shmem_free+0x144/0x14c [drm_shmem_helper]
-> [37743.041306]  panthor_gem_free_object+0x24/0xa0 [panthor]
-> [37743.041321]  drm_gem_object_free+0x1c/0x30 [drm]
-> [37743.041452]  panthor_vm_bo_put+0xc4/0x12c [panthor]
-> [37743.041475]  panthor_vm_cleanup_op_ctx.constprop.0+0xb0/0x104 [panthor]
-> [37743.041491]  panthor_vm_bind_job_cleanup_op_ctx_work+0x28/0xd0 [pantho=
-r]
+It respectivelly:
+	- adds support for the display controller on stm32mp135
+	- adds pinctrl for the display controller
+	- enables panel, backlight and display controller on
+	  stm32mp135f-dk
 
-Ok, I think I found the culprit: there's a race between
-the drm_gpuvm_bo_put() call in panthor_vm_bo_put() and the list
-iteration done by drm_gpuvm_prepare_objects(). Because we're not
-setting DRM_GPUVM_RESV_PROTECTED, the code goes through the 'lockless'
-iteration loop, and takes/release a vm_bo ref at each iteration. This
-means our 'were we the last vm_bo user?' test in panthor_vm_bo_put()
-might return false even if we were actually the last user, and when
-for_each_vm_bo_in_list() releases the ref it acquired, it not only leaks
-the pin reference, thus leaving GEM pages pinned (which explains this
-WARN_ON() splat), but it also calls drm_gpuvm_bo_destroy() in a path
-where we don't hold the GPUVA list lock, which is bad.
+Finally it fixes the flags on the panel default mode in the
+'panel-simple' driver, allowing to override the default mode by one
+described in the device tree, and push further the blanking limit on the
+panel.
 
-Long story short, I'll have to use DRM_GPUVM_RESV_PROTECTED, which is
-fine because I'm deferring vm_bo removal to a work where taking the VM
-resv lock is allowed. Since I was the one asking for this lockless
-iterator in the first place, I wonder if we should kill that and make
-DRM_GPUVM_RESV_PROTECTED the default (this would greatly simplify
-the code). AFAICT, The PowerVR driver shouldn't be impacted because it's
-using drm_gpuvm in synchronous mode only, and Xe already uses the
-resv-protected mode. That leaves Nouveau, but IIRC, it's also doing VM
-updates in the ioctl path.
+[1] commit 1726cee3d053 ("drm/stm: ltdc: support of new hardware version")
 
-Danilo, any opinions?
+Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+---
+Raphael Gallais-Pou (5):
+      ARM: dts: stm32: add LTDC support for STM32MP13x SoC family
+      ARM: dts: stm32: add LTDC pinctrl on STM32MP13x SoC family
+      ARM: dts: stm32: enable display support on stm32mp135f-dk board
+      drm/panel: simple: fix flags on RK043FN48H
+      drm/panel: simple: push blanking limit on RK32FN48H
 
-Andy, I pushed a new version to the panthor-next [1] and
-panthor-next+rk3588 [2] branches. The fix I'm talking about is [3], but
-you probably want to consider taking all the fixups in your branch.
+ arch/arm/boot/dts/st/stm32mp13-pinctrl.dtsi | 57 +++++++++++++++++++++++++++++
+ arch/arm/boot/dts/st/stm32mp135.dtsi        | 11 ++++++
+ arch/arm/boot/dts/st/stm32mp135f-dk.dts     | 55 ++++++++++++++++++++++++++++
+ drivers/gpu/drm/panel/panel-simple.c        |  7 ++--
+ 4 files changed, 127 insertions(+), 3 deletions(-)
+---
+base-commit: 6613476e225e090cc9aad49be7fa504e290dd33d
+change-id: 20240124-ltdc_mp13-2f86a782424c
 
-Regards,
+Best regards,
+-- 
+Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 
-Boris
-
-[1]https://gitlab.freedesktop.org/panfrost/linux/-/commits/panthor-next
-[2]https://gitlab.freedesktop.org/panfrost/linux/-/commits/panthor-next+rk3=
-588
-[3]https://gitlab.freedesktop.org/panfrost/linux/-/commit/df48c09662a403275=
-e76e679ee004085badea7c1
