@@ -2,122 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C129C84959B
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 09:45:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B3F58495A3
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 09:48:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E93910F2F2;
-	Mon,  5 Feb 2024 08:45:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D7B81121AE;
+	Mon,  5 Feb 2024 08:48:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="aBHtQbhU";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fmZh1Zlo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2053.outbound.protection.outlook.com [40.107.243.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7819C10F2F2;
- Mon,  5 Feb 2024 08:45:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oIWEegPCZMGjvS6MbGo31cbbsVyyEb/lt1wgs7wybwCFptA4LG0LcYLlPAniGxuOtFIJpPFTk3wA4dLn1cX1FAubya8tOLh7gZ4Od7AtOdPtNWyk7Jm0BJaC9lk1nB1H8nUD2OR7A6eSKlJ5VBlsnCG/jnENRsyMm/vD0pW5xD5deHUyzTkhtlKQMRyx7uB7gMIsyjsNrk2aPdqXAulJN7nZmVt7U8ph9nrX/OGQ3Zg2yhF9hZ0F/N3bDg548UfozFNvWQCkaIWMK4/AQRYNmTZBl6R+ase4AIkw0q+b/JRnntLmkC9aNsj8xB+mzp3+finkQBVrelHMVpqixONd+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=p5fiiknEPqUMxIBH7KwkKmbFvLUyh9JvVUJH2omUKgU=;
- b=Pj9f5wwrSTTPw45SahH7Xn6NXGpv3fbI6/WdYkucJMXdlovT+wYaWeYICx9xfZ96N3hpIY/9djFBX2Kdo2gzLODD3gQhQN3PQwn6fy7KWqTY7ct4epdijpinH2j/E89Q0nzA/4fVCt/s3rl0XoTaN+hQFw+6phi6lkH+ETI8/tVlhyiOlw6MyRQxTl9g5zTlygVi+2lmnH/bVfcx9RtXgXClvAzuTdpw5JSzDIblFCcxYreypJESK2j9h3dYIenGspoBwCxrg6K8VwD5ZPNqk+V6oAXT+rb55ugyVFQSsn4EAuIyzmUlfGKrDgpiQtdOzVDDlxFV1XSmpyCDU6R65Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p5fiiknEPqUMxIBH7KwkKmbFvLUyh9JvVUJH2omUKgU=;
- b=aBHtQbhUpO9XOFUmWnwPMrxIYSwMZb4Td8Ti3w6tOjnFPEGuC7wJHHx8B5A5kgQCnp0uxh0v3eIB69OnPkTGArPEZ4L34MJHXWbrQ0bEQL3CLKPahCocs5ClzEi2JsIXyi3krrZh9Hf7tvZRb4VYa4E4q70dDXfPLQprGg+jhrY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DM6PR12MB4121.namprd12.prod.outlook.com (2603:10b6:5:220::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.16; Mon, 5 Feb
- 2024 08:45:02 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7270.016; Mon, 5 Feb 2024
- 08:45:01 +0000
-Message-ID: <c5a7ae52-98e2-4edf-a539-71e4166fe3a4@amd.com>
-Date: Mon, 5 Feb 2024 09:44:56 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sched: Re-queue run job worker when
- drm_sched_entity_pop_job() returns NULL
-Content-Language: en-US
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, airlied@gmail.com, ltuikov89@gmail.com
-References: <20240130030413.2031009-1-matthew.brost@intel.com>
- <e7707834-9298-4392-a7ec-f4e5f382fa02@amd.com> <Zb1ll0rXlbaAaxKP@intel.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <Zb1ll0rXlbaAaxKP@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0056.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:49::6) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C50D21121AE;
+ Mon,  5 Feb 2024 08:48:45 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-51121637524so6222690e87.1; 
+ Mon, 05 Feb 2024 00:48:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1707122924; x=1707727724; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=2ydA0TsnU465lLz9wxK97OfQIetnhQ94qrcei325RlU=;
+ b=fmZh1Zlo7DcSy6fH4ki656DWCsniZE6PdeQ0u+jHjXVJ3KkuJILabTlaX/FpZLC/+X
+ kQWC3erm4cVxjQki2QjFEHsuvSiCcXdbcVPG7uwZtkIJ5C4jhdnOFzAumlUigrB09OD8
+ oY4GBFt3Q3/1nSJE494QeY5+DQFMYTI1ZP14TwpPwHQUy2PZnYUkNOlfyvNCHYVzA80m
+ 6uD97lmacgGEKv+I6Mv5+E8Phxfnx621gMoKczr2BFd3hpFfIf03WWP1/+TMjQqHfTH7
+ gwjSv3lUUf6NH68+WtjyodYIp66W3HLtNig71LbzjbAoQp222w3YCzYzoU53vdYSHUXp
+ 4jMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707122924; x=1707727724;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2ydA0TsnU465lLz9wxK97OfQIetnhQ94qrcei325RlU=;
+ b=QPuliCb4YzPn1bCUUnpzjVJjrdIw0v0Wsxp5QjnORor1rF1wuKnKeJdQvBXc/oNVB+
+ Do93tUtzy1HLuEz2VIgnQ9dky7F33OwRpLI4ljOeariNg+sHvTpm1i9lGpBMDr9TYaRH
+ Pv0YVUGEcroN5TtLMZxfipc1m8W1WRCgKnXjk/YysaG+MjgGh6EgYrWaljIRp0/AocAq
+ mIvAczQwv85KQsZPCYGFasHfPcL0pqIvgPGUGbjPc5WVrOgweK8qwp9NXemTU6aAklgJ
+ WMUY2pfVYFUl7aZECn34OfbIqnTYjuKLwoGY3KZW2GHhpVt6EShOsNaWbd7Ri5t/F4jV
+ 4hTA==
+X-Gm-Message-State: AOJu0YytQlkdYEQmEtMPZM67UuD83caeQwKWE3hSH+4ADXpY5yh+TUjd
+ n075Y3yxtQvzVwaq2gCGjMc9a/4CmFU69/VNSpTiqDvACWHnY6gR
+X-Google-Smtp-Source: AGHT+IGj2EJGaW3ePkdcXnqMICBr00UnLOrY2sn4RNzOXXc74BszNhMhBcvP3UIS16mAc/2cBo9nZg==
+X-Received: by 2002:a05:6512:31cb:b0:511:3a70:b954 with SMTP id
+ j11-20020a05651231cb00b005113a70b954mr6520932lfe.18.1707122923640; 
+ Mon, 05 Feb 2024 00:48:43 -0800 (PST)
+X-Forwarded-Encrypted: i=0;
+ AJvYcCXCoeSRFEtdkJcbTVUZ54U6K3KuWSeDkOfG2db1WYNHjJg/nRAjfbybs8KpLWSO1Pd6zr/YZ1svqmlZm3as6lC4UXHrL8TY5kWDNRXZcSECchOZt7VOzWEOSZwTxyfdBG5C7Olmv98tvr3AJSpdHITAI4o4A4z9GXYiyuWRN7poAITWXzkE3R6XPIZzZuzXD0GbAVB7ZvDKq8QGk3AJWHP4M8M/vTc9EQbuMiZZ/lbWB7idgBKgmJF2e9TbSZ/UYrwAPfhGUqWy0tPvhlBIXTLmZqXKxuoGfHZIJPBDpEp8Dte+UPe0/0cSTYPWBQswSUjTIr2o6duH2IRJ4ZQifAdzdHstuXQXoPuIEoNilHlJ+tACRHpFcMflp4iXhQYmITMGnspvl5B/crOIO1VlE1TDsjqzHjr26JaJJA87UhBR/oRT1OESDFQR3wsT+hrt572U9hyNVRRPJmfTDnyj07yhzV9tmHz26k0DxnAjbED3HFwVFZvc5Jz7oM6ml7r6csJrkara0EX0K+SpkKEDPk72N8lHRAam64iIulwa+3ApOaXISqm2IbqnMcHOnBtjUQSFe0VRfiDE/iC25pS6mWi+Tl436sPlbsRc/uDAqOcI1vXRFXjXLolBujD2yLQ1AETm27yRExX8o88gC9denL3Qi4GZ9K1lMq3PzMenHfEOVCr5QNP08F7af5epMZMFvTTQ3Ozi8p1fSQc++S64TL4KrhUvtnj2Q3uNCAMx6um8ytlvJZRqIh25Z97b
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+ by smtp.gmail.com with ESMTPSA id
+ l30-20020a05600c1d1e00b0040e541ddcb1sm7877780wms.33.2024.02.05.00.48.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 05 Feb 2024 00:48:43 -0800 (PST)
+Message-ID: <fe098f5a-b0b0-4698-ad8f-2d302fa37626@gmail.com>
+Date: Mon, 5 Feb 2024 09:48:39 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM6PR12MB4121:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6ecc0dd1-9de0-48d7-62ae-08dc2626bddb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jmI+d97Lnak3YKtE84HLdeLTw3bnFQFJRDLNhAN0wKwedDqJSZoPjHu6QH44ky873MQsYMtj+yDVldQAAyxW9loYr7xWW7jtHllgkv8qQzX2mWGaOew0wcGM/D837zQ/f44hYpFi8+prXrQaP/YTbpAHotnj6FU2qLkt7IZbaFf2uWwZBTnuoPyIb12+AfnKtFz+JVTzwLichhU8NTxkvGxcrA1twWDB/t64w/gQUKsTuYCVyMUJXkjRazx1jBlRJ6pSv66Ei+YfH/wq5olmFia9LmatdoPUDXPWmvsdNZvlglS5ZzB2RyXBHyeZB0S2injDTb1v6ZnTeB4NCBTwiRy72Lbrh3TVUaqSiLEK/0n8scpUJsk3BqrwiQaLJ/x6D1U/3MIA9DLvWROgMDOSGHBl0fOqqRLQ+U/WOjU8gSLiNeavMgKjyl1WCZ8ipIHwZrewku3xwe/bOZej4hq157kk7nGY8uIvjj4u+xmHWCcqJrouLF6UsNJys6QZG/qVL79zvWF0jHmUwjmFk+NxBgvdP/MCbuXWBf6eeg39sqUT0+oTRvjO/8w8PDZkN5ja3Y6eJjTo4vdmIqQE6P8qhCO/fdmc/LGnVKBe8fjB4UwZSeZH1ffEaZZiXbobo8nJD9V3kgDPFMjG/x8THzv3lQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376002)(366004)(346002)(396003)(39860400002)(136003)(230922051799003)(64100799003)(186009)(1800799012)(451199024)(41300700001)(31686004)(478600001)(6512007)(6486002)(86362001)(31696002)(36756003)(66574015)(2616005)(83380400001)(26005)(2906002)(316002)(66946007)(66476007)(6506007)(5660300002)(66556008)(6666004)(8936002)(38100700002)(4326008)(8676002)(6916009)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZlFKRjVQVjBQaGs2YzZpZ0lxNDErUWtON3hvTENyTVU3Y0tSTTJSMGpGajAr?=
- =?utf-8?B?N1NNc2hLSXdhVkp6K2diRG5rUEI3a2ozRjVUZUhmTk8yeUs0NXNnYStkckl0?=
- =?utf-8?B?UVZFQTFubnlUZkVqS2pHdkViY0VENjZvQnpqTzBlMUVKWnJqMmlyMGZOeGdF?=
- =?utf-8?B?RlhCLzlJTzB0cXRiN1VwZ2p0RDAzRzZkOEliOEpkV1lRY3JvSXQ0bW5HNFFD?=
- =?utf-8?B?dExWQ1dJTWpZV3RHZDlqYnQ2dWtNbzBzNXFkTkRpaDBwaGVYclVxSUNEQ0px?=
- =?utf-8?B?RTRDd21TZ0RQT3Nyei9PM1dqZDVSUXZ1QUFON0ZUV2hKTUdnMEhodGt0QUlU?=
- =?utf-8?B?KzZlUDlHK01sWEo4UVBLMllRcVJhakhaUmxRZmpacjBJc1FNTnc5Qk1jTlha?=
- =?utf-8?B?VVcxVUdWeVg4WlQwbDJZT0hUNzI5Nm0vRHhTc051L3dRNkVOZ3pWTThKUWo5?=
- =?utf-8?B?NUlrY01HZWZTWTRPTnpvR1RCOU94ck5ZU3FMZ09RQm5kN200RjVHOUpmeGMr?=
- =?utf-8?B?L2pFdEw2WFNGTUxXNkg2ejNXVVlEb3lkeTU3eWRsZ2NLYWRYWlRvK1cxaHhp?=
- =?utf-8?B?SCtxYXd2TnUrYjU5SG5tZWlGQmlHdHF6TGtpbzZ5VG1jbm13Kzc0RHkyakFz?=
- =?utf-8?B?aEYwOWoybFl5TG5HRzRucGZJM2dVQnlJK0xQR0JFcFlLYWlzb0pobGoyOGhs?=
- =?utf-8?B?RmEwaVpIZE4wZ3hiRnVkem9hVkwyd2h4cnNla3dvRUkrTTJOa3N0WkNDTXJN?=
- =?utf-8?B?V0NPVkxYL1V4eUQ0emcyVkJZU0VFb0NORnVwRXp2YXhWeU1UWW05WFI1L0w4?=
- =?utf-8?B?citLME1mL1JaVHd1NThueWNia1M4SnJUQ0dlamtqQ0tNN0JaWE9POU9jTmRS?=
- =?utf-8?B?c3VsTVVEZ0VQOVNuZTBpc051dGIwTG1CZEpXK3hYa0Fraks4WEdlQmlUMzBQ?=
- =?utf-8?B?VVVqTFlSbCtvM3pGRnA5OUQ0c2ZUV1VaWUJtWFNTVURRdVd0U1RCRDY1YUM3?=
- =?utf-8?B?SHh1ZlpYRTRTWmpOdVhpby91U3hMMUlUUVdPem4reFcwOHVlMmNyZDNXQW5N?=
- =?utf-8?B?NVFJUXBKVTU4MS9hZEkwUjVMMUl2SDZRUGQrbXRlQlBPKzNPOE1yUmlDV1Ay?=
- =?utf-8?B?WXk3RHlrTXdMdVc3WGZVOWpoZ1NkVy83YTRETXYxUEV4dVpxUDViN0RXNEN5?=
- =?utf-8?B?eTZya0hPQlgyWnUwMU5wZzQvRDA4Wll3MlNnZ1ZNOGhqZCsyc0NDUktETmQz?=
- =?utf-8?B?bDY4a0RKN1MwNEpaVWpqclhMd0d6dFRiMWpURHdHSXJLRmNIS1JhNlRLRDhS?=
- =?utf-8?B?TmRQZEdtK2kxUzcyVXJ0c25iQ2dCNUtUalBiYm1rZThWOVliTlp4Ym92V2Y0?=
- =?utf-8?B?WGhJazVhYkxXQUMvRmJJQUZ4TlRnZGpyTGNVNWpYM3dOc3BIKzZndXpzOGVT?=
- =?utf-8?B?MW82cjRCVWFqRTU4eUU2eVJQVmJ4c2RIZ1BwYkMvaE1UQlRYRlFuWDlLbGpJ?=
- =?utf-8?B?RnlWWEpHVTZ5OGJqQ1NtOHNHaEZOTTRFK0tYOUwzaGNNVjdOK1FOay9Ca09J?=
- =?utf-8?B?cU9UWVhkZWYwaEwzUS9vSE1CbjhnQitwMmlhMnU2ZmNXcFdLbXk5clhEMzNj?=
- =?utf-8?B?d0s4SW9XcWlnNzdhb211SVVFcGc5MDVOZlozVUdpR0N0VksvQlZGWVk1YjI1?=
- =?utf-8?B?cmR4cDRqMGRibTk3aVBLSEo3cnlZSXlCNkJ0eXRsV0lXUkhKbTNSSVhvbVlX?=
- =?utf-8?B?MnJCWTkzMjFwWGtjNkl3aVB4enB4SEpQR2taWFloZWFPcHBTZ3RZbFpSeFhz?=
- =?utf-8?B?bUwrSUUzMGtmYWJVRlJFdlIrNzN3T1I4aFo3cWhjVkt6cGNhVHFZUzF0VVFN?=
- =?utf-8?B?R1NUVUFacG1RZW9EQW4vSXBRWjg0S002MEtpNEN3ZVFpemRUZXlpLytNeGMv?=
- =?utf-8?B?bXNqZFZUcTV0V1RsMUVTUkY4cTZaRnFaNEZJUUFLVC9nakV0bk1nd2NYM0Jv?=
- =?utf-8?B?Nk5uYi9JZWJ2eGp0bWZsTU02VFAwVldsSlZHTXl1bkptTlBaR2ZkV2o1U0R3?=
- =?utf-8?B?MURBR0wvTFR4Yk0wOXJiNDh3Rm1iMEtPdWNFOGVHYzdPS3o3QVVuVVJwbWky?=
- =?utf-8?Q?LMBs=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ecc0dd1-9de0-48d7-62ae-08dc2626bddb
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2024 08:45:01.8313 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dJqZyc0TJg0y75mpobnqV0CoZYZlX0ZEgX7wNFpSRdzxGln1WVh1U7XqDCaC+bUk
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4121
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] driver core: bus: introduce can_remove()
+Content-Language: en-US
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>, linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas <bhelgaas@google.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Lijo Lazar <lijo.lazar@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>, Le Ma <le.ma@amd.com>,
+ =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ James Zhu <James.Zhu@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Joerg Roedel <jroedel@suse.de>, Iwona Winiarska <iwona.winiarska@intel.com>,
+ Robin Murphy <robin.murphy@arm.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org
+References: <20240202222603.141240-1-hamza.mahfooz@amd.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20240202222603.141240-1-hamza.mahfooz@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,72 +97,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 02.02.24 um 22:58 schrieb Rodrigo Vivi:
-> On Tue, Jan 30, 2024 at 08:05:29AM +0100, Christian König wrote:
->> Am 30.01.24 um 04:04 schrieb Matthew Brost:
->>> Rather then loop over entities until one with a ready job is found,
->>> re-queue the run job worker when drm_sched_entity_pop_job() returns NULL.
->>>
->>> Fixes: 6dbd9004a55 ("drm/sched: Drain all entities in DRM sched run job worker")
-> First of all there's a small typo in this Fixes tag that needs to be fixed.
-> The correct one is:
->
-> Fixes: 66dbd9004a55 ("drm/sched: Drain all entities in DRM sched run job worker")
->
-> But I couldn't apply this right now in any of our drm-tip trees because it
-> is not clear where this is coming from originally.
->
-> likely amd tree?!
+Am 02.02.24 um 23:25 schrieb Hamza Mahfooz:
+> Currently, drivers have no mechanism to block requests to unbind
+> devices. However, this can cause resource leaks and leave the device in
+> an inconsistent state, such that rebinding the device may cause a hang
+> or otherwise prevent the device from being rebound. So, introduce
+> the can_remove() callback to allow drivers to indicate if it isn't
+> appropriate to remove a device at the given time.
 
-No, this comes from Matthews work on the DRM scheduler.
-
-Matthews patches were most likely merged through drm-misc.
+Well that is nonsense. When you physically remove a device (e.g. unplug 
+it) then there is nothing in software you can do to prevent that.
 
 Regards,
 Christian.
 
 >
->>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->> Reviewed-by: Christian König <christian.koenig@amd.com>
-> Christian, if this came from the amd, could you please apply it there and
-> propagate through your fixes flow?
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+> ---
+>   drivers/base/bus.c         | 4 ++++
+>   include/linux/device/bus.h | 2 ++
+>   2 files changed, 6 insertions(+)
 >
-> Thanks,
-> Rodrigo.
->
->>> ---
->>>    drivers/gpu/drm/scheduler/sched_main.c | 15 +++++++++------
->>>    1 file changed, 9 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->>> index 8acbef7ae53d..7e90c9f95611 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>> @@ -1178,21 +1178,24 @@ static void drm_sched_run_job_work(struct work_struct *w)
->>>    	struct drm_sched_entity *entity;
->>>    	struct dma_fence *fence;
->>>    	struct drm_sched_fence *s_fence;
->>> -	struct drm_sched_job *sched_job = NULL;
->>> +	struct drm_sched_job *sched_job;
->>>    	int r;
->>>    	if (READ_ONCE(sched->pause_submit))
->>>    		return;
->>>    	/* Find entity with a ready job */
->>> -	while (!sched_job && (entity = drm_sched_select_entity(sched))) {
->>> -		sched_job = drm_sched_entity_pop_job(entity);
->>> -		if (!sched_job)
->>> -			complete_all(&entity->entity_idle);
->>> -	}
->>> +	entity = drm_sched_select_entity(sched);
->>>    	if (!entity)
->>>    		return;	/* No more work */
->>> +	sched_job = drm_sched_entity_pop_job(entity);
->>> +	if (!sched_job) {
->>> +		complete_all(&entity->entity_idle);
->>> +		drm_sched_run_job_queue(sched);
->>> +		return;
->>> +	}
->>> +
->>>    	s_fence = sched_job->s_fence;
->>>    	atomic_add(sched_job->credits, &sched->credit_count);
+> diff --git a/drivers/base/bus.c b/drivers/base/bus.c
+> index daee55c9b2d9..7c259b01ea99 100644
+> --- a/drivers/base/bus.c
+> +++ b/drivers/base/bus.c
+> @@ -239,6 +239,10 @@ static ssize_t unbind_store(struct device_driver *drv, const char *buf,
+>   
+>   	dev = bus_find_device_by_name(bus, NULL, buf);
+>   	if (dev && dev->driver == drv) {
+> +		if (dev->bus && dev->bus->can_remove &&
+> +		    !dev->bus->can_remove(dev))
+> +			return -EBUSY;
+> +
+>   		device_driver_detach(dev);
+>   		err = count;
+>   	}
+> diff --git a/include/linux/device/bus.h b/include/linux/device/bus.h
+> index 5ef4ec1c36c3..c9d4af0ed3b8 100644
+> --- a/include/linux/device/bus.h
+> +++ b/include/linux/device/bus.h
+> @@ -46,6 +46,7 @@ struct fwnode_handle;
+>    *		be called at late_initcall_sync level. If the device has
+>    *		consumers that are never bound to a driver, this function
+>    *		will never get called until they do.
+> + * @can_remove: Called before attempting to remove a device from this bus.
+>    * @remove:	Called when a device removed from this bus.
+>    * @shutdown:	Called at shut-down time to quiesce the device.
+>    *
+> @@ -85,6 +86,7 @@ struct bus_type {
+>   	int (*uevent)(const struct device *dev, struct kobj_uevent_env *env);
+>   	int (*probe)(struct device *dev);
+>   	void (*sync_state)(struct device *dev);
+> +	bool (*can_remove)(struct device *dev);
+>   	void (*remove)(struct device *dev);
+>   	void (*shutdown)(struct device *dev);
+>   
 
