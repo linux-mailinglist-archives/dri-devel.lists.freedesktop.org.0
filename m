@@ -2,50 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C3C9849C1A
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 14:41:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 553BD849C6E
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 14:58:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D8B810F9CC;
-	Mon,  5 Feb 2024 13:41:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FADE112524;
+	Mon,  5 Feb 2024 13:58:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ispras.ru header.i=@ispras.ru header.b="Z9XEH17V";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KfrJ7eII";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1D2F10F9CC
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Feb 2024 13:41:39 +0000 (UTC)
-Received: from [10.10.2.52] (unknown [10.10.2.52])
- by mail.ispras.ru (Postfix) with ESMTPSA id 69A4B40F1DC3;
- Mon,  5 Feb 2024 13:41:37 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 69A4B40F1DC3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
- s=default; t=1707140497;
- bh=YDCpBdBH44n875Uo+Dp3bavm/xtQGfLpbCMNSBVJmnM=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=Z9XEH17V488MN4orxS8XupWyLBttTuNEfX6vlHM0qtvrEDQcHVfOz/eF5MUDbxdfe
- rP3kfIIx/oU8hqAS5AiAaVdjGCKkQWinaQz69DXbGJYLves2mq7ysAmS/ulwIjEvDT
- pnE+hOQf2UjxwuFxnMnN+SF3n8DK4wPQlMN9OlLM=
-Subject: Re: [lvc-project] [PATCH] drm/amd/pm: check return value of
- amdgpu_irq_add_id()
-To: Igor Artemiev <Igor.A.Artemiev@mcst.ru>,
- Alex Deucher <alexander.deucher@amd.com>
-Cc: lvc-project@linuxtesting.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- Evan Quan <evan.quan@amd.com>, David Airlie <airlied@gmail.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20240205122522.81627-1-Igor.A.Artemiev@mcst.ru>
-From: Alexey Khoroshilov <khoroshilov@ispras.ru>
-Message-ID: <ac1c1709-8bb0-6713-132e-d9b149063169@ispras.ru>
-Date: Mon, 5 Feb 2024 16:41:37 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 995FB112522;
+ Mon,  5 Feb 2024 13:58:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 96C29CE0EA6;
+ Mon,  5 Feb 2024 13:58:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E970C433C7;
+ Mon,  5 Feb 2024 13:58:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1707141522;
+ bh=Ewb/CNOvhV+n1Q9YjZwKRUlgQ0b1oSXCOkWG3nOyU1U=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=KfrJ7eIIIx/PnseSPnumHzQzAVUYc58ZqgJsvoS475OxAxw+Hdbo676AtILvuVFmb
+ RP+HkBnQv5SV917ESgmVdU6CbF1cwFMuTDirhK603MzCBgtq185tdZbe+/xnE9v061
+ ORb/mSMRJSiADP6UzBmXYM6J3spOxvj17qTzP+201tVURMuouzNEPtRWAdOJ90OPHA
+ YfQ0qTDcvZy5J7BJ/+G9ASZ52GnpuYNwf7dfo7Sk3oTxWtGRdsuMig9eaLCl+oKJF/
+ 0elz1lxD7jGDYu79+7qq+OEdkUQHEXp8qbST+654jxWyNt+sXla76DbHEubCFsvQiP
+ JphKbifwN+8XQ==
+Date: Mon, 5 Feb 2024 13:58:39 +0000
+From: Rob Herring <robh@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: display: msm: sm8650-mdss: Add missing
+ explicit "additionalProperties"
+Message-ID: <20240205135839.GA3267346-robh@kernel.org>
+References: <20240202222338.1652333-1-robh@kernel.org>
+ <CAA8EJpooe=RsZSD_mRKH2S8NUxAEqVw_AcMyn68_AWwhovPFsg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20240205122522.81627-1-Igor.A.Artemiev@mcst.ru>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAA8EJpooe=RsZSD_mRKH2S8NUxAEqVw_AcMyn68_AWwhovPFsg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,14 +70,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05.02.2024 15:25, Igor Artemiev wrote:
-> amdgpu_irq_ad_id() may fail and the irq handlers will not be registered.
-> This patch adds error code check.
+On Sat, Feb 03, 2024 at 03:55:54AM +0100, Dmitry Baryshkov wrote:
+> On Fri, 2 Feb 2024 at 23:23, Rob Herring <robh@kernel.org> wrote:
+> >
+> > In order to check schemas for missing additionalProperties or
+> > unevaluatedProperties, cases allowing extra properties must be explicit.
+> >
+> > Signed-off-by: Rob Herring <robh@kernel.org>
+> 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
+> Rob, if you need it for some rework, please feel free to pick it into
+> your tree, otherwise I'll pick it for msm-next in the next few days.
 
-But what is about deallocation of already allocated memory?
+msm-next is fine.
 
---
-Alexey
-
-
-
+Rob
