@@ -2,47 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B763849558
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 09:26:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71B3C84956F
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 09:34:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C9FB10E46A;
-	Mon,  5 Feb 2024 08:26:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E975C10EECF;
+	Mon,  5 Feb 2024 08:34:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PZCdqhoR";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JbS13thF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D4B610E46A
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Feb 2024 08:26:52 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (99.141-128-109.adsl-dyn.isp.belgacom.be [109.128.141.99])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9A339667;
- Mon,  5 Feb 2024 09:25:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1707121528;
- bh=qV/lPKy0+uPSjew6UcgWRpbtSJxEVqIxrWTeO0HOXyw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PZCdqhoR8H5x9+9QPwObgK9QZixFqM0OXaZQ880ogM7izu6bSrPh/Ur5u3Sip961d
- 2n/MoxZHXiGJhz9QJl/s2BaRx9Gg0FGYKAIRwdfQwCfTp0k7WgGG9vflFW89WdFmNX
- 1Gldnmyi0qJqHY0KkgcGuqyVwPOsZcBDqsXQ7xgo=
-Date: Mon, 5 Feb 2024 10:26:52 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- michal.simek@amd.com, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/5] Fixing live video input in ZynqMP DPSUB
-Message-ID: <20240205082652.GI6804@pendragon.ideasonboard.com>
-References: <20240124025402.373620-1-anatoliy.klymenko@amd.com>
- <20240205072908.GE6804@pendragon.ideasonboard.com>
+X-Greylist: delayed 427 seconds by postgrey-1.36 at gabe;
+ Mon, 05 Feb 2024 08:34:53 UTC
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A21E610F0AF
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Feb 2024 08:34:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1707122094; x=1738658094;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=HLyRh/M0bKZULpl9daHPQMFlOojudbpl1/HAuYekQY8=;
+ b=JbS13thFlrt82Ji+VL3aKYry/XtEVQCknuP1UeSUJfR9zHB1vysBMHlg
+ YJeKT/oMwEVB6oXo9Naj2tCXc0mdc1TjbKSx5U0pt2ymTN7iapBhOcHFo
+ uP9yP2mHLjdtyXz0nXgCABgDzEiBQcZenkyQX880sRvrPLMo9Ypr4BAOE
+ ip1lCbZZc0rQFp83WkPkBrxDfV/ilo9c52q6t/Wi0KOb+qKkPu4mBKFdy
+ iylfmfHZmP3HSp+gO4229wz6vX+PSEXbyO1ZsAXcKhCtrj0oRKUbo5oCP
+ C8/ItpLuK+pgJ4TCoGQeT/5OoEJT35H0Edz0IWZ397ZNRyUCP9ZL+tOV0 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="380348"
+X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
+   d="scan'208";a="380348"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Feb 2024 00:27:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
+   d="scan'208";a="661953"
+Received: from unknown (HELO [10.245.101.99]) ([10.245.101.99])
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Feb 2024 00:27:39 -0800
+Message-ID: <acbd2fd2-e140-4bd6-8531-c9a4cb7a5a6b@linux.intel.com>
+Date: Mon, 5 Feb 2024 09:27:36 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240205072908.GE6804@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/7] accel/ivpu/40xx: Enable D0i3 message
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, Krystian Pradzynski <krystian.pradzynski@intel.com>
+References: <20240126122804.2169129-1-jacek.lawrynowicz@linux.intel.com>
+ <20240126122804.2169129-6-jacek.lawrynowicz@linux.intel.com>
+ <27ef0604-14e5-0447-a5a3-417d071a7724@quicinc.com>
+Content-Language: en-US
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <27ef0604-14e5-0447-a5a3-417d071a7724@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,67 +73,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 05, 2024 at 09:29:09AM +0200, Laurent Pinchart wrote:
-> Hello,
+On 26.01.2024 19:24, Jeffrey Hugo wrote:
+> On 1/26/2024 5:28 AM, Jacek Lawrynowicz wrote:
+>> From: Krystian Pradzynski <krystian.pradzynski@intel.com>
+>>
+>> All recent 40xx firmware already supports D0i3 entry message and this
+>> WA is no longer needed.
 > 
-> This series looks good. Tomi, could you get it merged through drm-misc ?
-
-I got things mixed up, sorry. Patches 1/5 to 4/5 are fine, but 5/5 needs
-a different approach. I've reviewed the first four patches, which I
-think are fine and can be applied already.
-
-> On Tue, Jan 23, 2024 at 06:53:57PM -0800, Anatoliy Klymenko wrote:
-> > Add few missing pieces to support ZynqMP DPSUB live video in mode.
-> > 
-> > ZynqMP DPSUB supports 2 modes of operations in regard to video data
-> > input.
-> >     
-> > In the first mode, DPSUB uses DMA engine to pull video data from memory
-> > buffers. To support this the driver implements CRTC and DRM bridge
-> > representing DP encoder.
-> >     
-> > In the second mode, DPSUB acquires video data pushed from FPGA and 
-> > passes it downstream to DP output. This mode of operation is modeled in
-> > the driver as a DRM bridge that should be attached to some external
-> > CRTC.
-> > 
-> > Patches 1/5,2/5,3/5,4/5 are minor fixes.
-> > 
-> > DPSUB requires input live video format to be configured.
-> > Patch 5/5: The DP Subsystem requires the input live video format to be
-> > configured. In this patch, we are assuming that the CRTC's bus format is
-> > fixed (typical for FPGA CRTC) and comes from the device tree. This is a
-> > proposed solution, as there is no API to query CRTC output bus format
-> > or negotiate it in any other way.
-> > 
-> > Changes in v2: 
-> > - Address reviewers' comments:
-> >   - More elaborate and consistent comments / commit messages
-> >   - Fix includes' order
-> >   - Replace of_property_read_u32_index() with of_property_read_u32()
-> > 
-> > Changes in v3:
-> > - Split patch #3 into 3) moving status register clear immediately after
-> >   read; 4) masking status against interrupts' mask
-> > 
-> > Link to v1: https://lore.kernel.org/all/20240112234222.913138-1-anatoliy.klymenko@amd.com/
-> > Link to v2: https://lore.kernel.org/all/20240119055437.2549149-1-anatoliy.klymenko@amd.com/
-> > 
-> > Anatoliy Klymenko (5):
-> >   drm: xlnx: zynqmp_dpsub: Make drm bridge discoverable
-> >   drm: xlnx: zynqmp_dpsub: Fix timing for live mode
-> >   drm: xlnx: zynqmp_dpsub: Clear status register ASAP
-> >   drm: xlnx: zynqmp_dpsub: Filter interrupts against mask
-> >   drm: xlnx: zynqmp_dpsub: Set live video in format
-> > 
-> >  drivers/gpu/drm/xlnx/zynqmp_disp.c      | 111 +++++++++++++++++++++---
-> >  drivers/gpu/drm/xlnx/zynqmp_disp.h      |   3 +-
-> >  drivers/gpu/drm/xlnx/zynqmp_disp_regs.h |   8 +-
-> >  drivers/gpu/drm/xlnx/zynqmp_dp.c        |  16 +++-
-> >  drivers/gpu/drm/xlnx/zynqmp_kms.c       |   2 +-
-> >  5 files changed, 119 insertions(+), 21 deletions(-)
-
--- 
-Regards,
-
-Laurent Pinchart
+> Can I assume that the workaround only applies to pre-production firmware?
+Yes, this was only affecting very early versions of the FW.
