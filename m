@@ -2,65 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B24D78496C1
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 10:39:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF3CD8496D6
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 10:42:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87FF310E6F8;
-	Mon,  5 Feb 2024 09:39:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A1F610EB6C;
+	Mon,  5 Feb 2024 09:42:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CGjcGlZS";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="RnlbAB7s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9893910E171
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Feb 2024 09:39:51 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 0F32FCE0C54;
- Mon,  5 Feb 2024 09:39:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3A85C433C7;
- Mon,  5 Feb 2024 09:39:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1707125981;
- bh=QSsaMz2aa4Ow1e/E+8+zBv0RXCM/l1/3uCQIFHDC8Bg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CGjcGlZS0fBCh8Pj91FOCfGeLuBLH2IJXsvlSDNMJNYXbieL6OYjONC2i8L3eyk2A
- gDjW66Kot7LNXs+KGyl9mTfxQHJYFLZ3t0L1RLIN1Dm1Wck0ZHUJPEScRyxhMkJDmj
- OXKlIi1RFgz/w6HuL5qsHb2rRJ71FEHpXG+35Ca18O49av3Z/EfEhdmPtI+kXJX0OP
- ty/ICYtQbhjVujqeERH5pvK1Lj5IcwybfB49b1ssuH53OFwd8+WGgdjXHg0/GmHiR5
- 6HgFPBmIm+TpGHkQdx/8FL7eeEjve5s0Czv4tmwkki21i0l2PqfomTZ58KFKCHSM9S
- 99nBqUaN/35Jw==
-Date: Mon, 5 Feb 2024 10:39:38 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Emma Anholt <emma@anholt.net>, 
- Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast
- RGB property
-Message-ID: <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
- <20240115143308.GA159345@toolbox> <20240115143720.GA160656@toolbox>
- <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
- <Zb0M_2093UwPXK8y@intel.com>
- <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
- <Zb0aYAapkxQ2kopt@intel.com>
+Received: from m1322.mail.163.com (m1322.mail.163.com [220.181.13.22])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C22CB10EB6C
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Feb 2024 09:42:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=WUo5nQWkYwAK0QRAVaTcc3eZImIU/xnd5X3qKNSWxLA=; b=R
+ nlbAB7sZkyGAn8OEtTlSvOzXBI1VBpRq3eN+i8pqvLFZOJDXtQG3z8q328IcPpgO
+ DtO7Pr4CgtiDfmbqituOp0xLqB/1CZGKIuC2an+EdHgi1TLx+Yyc0GGGI1UeGbz4
+ mNYKtvYxCz3Oe7sogNsdMGMi2iKK3c57kYwuCWSOxY=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by ajax-webmail-wmsvr22
+ (Coremail) ; Mon, 5 Feb 2024 17:41:31 +0800 (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Mon, 5 Feb 2024 17:41:31 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Boris Brezillon" <boris.brezillon@collabora.com>
+Cc: "Danilo Krummrich" <dakr@redhat.com>, dri-devel@lists.freedesktop.org, 
+ "Tatsuyuki Ishi" <ishitatsuyuki@gmail.com>, 
+ "Nicolas Boichat" <drinkcat@chromium.org>, kernel@collabora.com, 
+ "Daniel Stone" <daniels@collabora.com>, 
+ "Neil Armstrong" <neil.armstrong@linaro.org>, 
+ "Ketil Johnsen" <ketil.johnsen@arm.com>, 
+ "Liviu Dudau" <Liviu.Dudau@arm.com>, 
+ "Steven Price" <steven.price@arm.com>, 
+ =?UTF-8?Q?Cl=C3=A9ment_P=C3=A9ron?= <peron.clem@gmail.com>, 
+ "Daniel Vetter" <daniel@ffwll.ch>, 
+ "Chris Diamand" <chris.diamand@foss.arm.com>, 
+ "Marty E . Plummer" <hanetzer@startmail.com>, 
+ "Robin Murphy" <robin.murphy@arm.com>, 
+ "Faith Ekstrand" <faith.ekstrand@collabora.com>
+Subject: Re:Re: [PATCH v4 00/14] drm: Add a driver for CSF-based Mali GPUs
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
+ Copyright (c) 2002-2024 www.mailtech.cn 163com
+In-Reply-To: <20240205100321.0321a208@collabora.com>
+References: <20240122163047.1954733-1-boris.brezillon@collabora.com>
+ <1d4f82bc.2992.18d54856f45.Coremail.andyshrk@163.com>
+ <20240129114147.43e5b865@collabora.com>
+ <1554e55.29c.18d71ae9b6c.Coremail.andyshrk@163.com>
+ <20240205100321.0321a208@collabora.com>
+X-NTES-SC: AL_Qu2bBf2ZuUgi5ySfYOkXn0kXhec2W8Czvvgg34JRP5k0qSnp4CQsRk5aFFba3eeqMzirgSm7ahdH6NZWTKJGYKZ+c5kW4Rn0S+onjJCNXriN
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="i6rjjatuyp65otli"
-Content-Disposition: inline
-In-Reply-To: <Zb0aYAapkxQ2kopt@intel.com>
+Message-ID: <7ab9c81e.1876.18d78a4eed6.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: FsGowAD3v1VMrcBl52gIAA--.14482W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0hd7XmWXv5bsLgABs4
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,137 +75,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---i6rjjatuyp65otli
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
-> > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrj=E4l=E4 wrote:
-> > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
-> > > > Hi,
-> > > >=20
-> > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
-> > > > > > >  /**
-> > > > > > >   * DOC: HDMI connector properties
-> > > > > > >   *
-> > > > > > > + * Broadcast RGB
-> > > > > > > + *      Indicates the RGB Quantization Range (Full vs Limite=
-d) used.
-> > > > > > > + *      Infoframes will be generated according to that value.
-> > > > > > > + *
-> > > > > > > + *      The value of this property can be one of the followi=
-ng:
-> > > > > > > + *
-> > > > > > > + *      Automatic:
-> > > > > > > + *              RGB Range is selected automatically based on=
- the mode
-> > > > > > > + *              according to the HDMI specifications.
-> > > > > > > + *
-> > > > > > > + *      Full:
-> > > > > > > + *              Full RGB Range is forced.
-> > > > > > > + *
-> > > > > > > + *      Limited 16:235:
-> > > > > > > + *              Limited RGB Range is forced. Unlike the name=
- suggests,
-> > > > > > > + *              this works for any number of bits-per-compon=
-ent.
-> > > > > > > + *
-> > > > > > > + *      Drivers can set up this property by calling
-> > > > > > > + *      drm_connector_attach_broadcast_rgb_property().
-> > > > > > > + *
-> > > > > >=20
-> > > > > > This is a good time to document this in more detail. There migh=
-t be two
-> > > > > > different things being affected:
-> > > > > >=20
-> > > > > > 1. The signalling (InfoFrame/SDP/...)
-> > > > > > 2. The color pipeline processing
-> > > > > >=20
-> > > > > > All values of Broadcast RGB always affect the color pipeline pr=
-ocessing
-> > > > > > such that a full-range input to the CRTC is converted to either=
- full- or
-> > > > > > limited-range, depending on what the monitor is supposed to acc=
-ept.
-> > > > > >=20
-> > > > > > When automatic is selected, does that mean that there is no sig=
-nalling,
-> > > > > > or that the signalling matches what the monitor is supposed to =
-accept
-> > > > > > according to the spec? Also, is this really HDMI specific?
-> > > > > >=20
-> > > > > > When full or limited is selected and the monitor doesn't suppor=
-t the
-> > > > > > signalling, what happens?
-> > > > >=20
-> > > > > Forgot to mention: user-space still has no control over RGB vs YC=
-bCr on
-> > > > > the cable, so is this only affecting RGB? If not, how does it aff=
-ect
-> > > > > YCbCr?
-> > > >=20
-> > > > So I dug a bit into both the i915 and vc4 drivers, and it looks lik=
-e if
-> > > > we're using a YCbCr format, i915 will always use a limited range wh=
-ile
-> > > > vc4 will follow the value of the property.
-> > >=20
-> > > The property is literally called "Broadcast *RGB*".
-> > > That should explain why it's only affecting RGB.
-> >=20
-> > Right. And the limited range option is called "Limited 16:235" despite
-> > being usable on bpc > 8 bits. Naming errors occurs, and history happens
-> > to make names inconsistent too, that's fine and not an argument in
-> > itself.
-> >=20
-> > > Full range YCbCr is a much rarer beast so we've never bothered
-> > > to enable it.
-> >=20
-> > vc4 supports it.
->=20
-> Someone implemented it incorrectly then.
-
-Incorrectly according to what documentation / specification? I'm sorry,
-but I find it super ironic that i915 gets to do its own thing, not
-document any of it, and when people try to clean things up they get told
-that we got it all wrong.
-
-> > > Eg. with DP it only became possible with the introduction of the VSC
-> > > SDP (and I don't recall if there's additional capability checks that
-> > > are also required). With DP MSA signalling full range YCbCr is not
-> > > possible at all.
-> >=20
-> > This is for HDMI only.
-> >=20
-> > > I don't recall right now what the HDMI requirements are.
-> >=20
-> > HDMI has supported it for a while, and it's defined (for example) in the
-> > HDMI 1.4 spec in Section 6.6 - Video Quantization Ranges. It supports
-> > limited and full range on both RGB and YCbCr, as long as the EDIDs state
-> > so and the Infoframes signal it.
->=20
-> I think a good reason for not using a simple boolean like this=20
-> YCbCr is that it doesn't cover the color encoding part at all,
-> which is probably more important than the quantization range.
-> So we need a new property anyway.
-
-This isn't what is being discussed here, and as I've shown you, is
-completely orthogonal as far as HDMI is concerned.
-
-Maxime
-
---i6rjjatuyp65otli
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZcCs2gAKCRDj7w1vZxhR
-xfaBAQD78t262ocyxX6HKmtZFJU24L6e/wHmLbEAi1D59Gs+tAEApB/D8z2XtVcT
-HS9PH5mQL0RDg4t5JjTmJFk1zuBxygo=
-=6BSH
------END PGP SIGNATURE-----
-
---i6rjjatuyp65otli--
+CkhpIEJvcmlz77yaCuWcqCAyMDI0LTAyLTA1IDE3OjAzOjIx77yMIkJvcmlzIEJyZXppbGxvbiIg
+PGJvcmlzLmJyZXppbGxvbkBjb2xsYWJvcmEuY29tPiDlhpnpgZPvvJoKPitEYW5pbG8gZm9yIHRo
+ZSBwYW50aG9yIGdwdXZtLW5lZWRzIHVwZGF0ZS4KPgo+T24gU3VuLCA0IEZlYiAyMDI0IDA5OjE0
+OjQ0ICswODAwIChDU1QpCj4iQW5keSBZYW4iIDxhbmR5c2hya0AxNjMuY29tPiB3cm90ZToKPgo+
+PiBIaSBCb3Jpc++8mgo+PiBJIHNhdyB0aGlzIHdhcm5pbmcgc29tZXRpbWVz77yIUnVuIG9uIGEg
+YXJtYmFpbiBiYXNlZCBib29rd29ybe+8ie+8jG5vdCBzdXJlIGlzIGEga25vdyBpc3N1ZSBvciBz
+b21ldGhpbmcgZWxzZeOAggo+PiBbMTUzNjguMjkzMDMxXSBzeXN0ZW1kLWpvdXJuYWxkWzcxNV06
+IFJlY2VpdmVkIGNsaWVudCByZXF1ZXN0IHRvIHJlbGlucXVpc2ggL3Zhci9sb2cvam91cm5hbC8x
+YmM0YTM0MDUwNjE0MmFmOWJkMzFhNmEzZDIxNzBiYSBhY2Nlc3MuCj4+IFszNzc0My4wNDA3Mzdd
+IC0tLS0tLS0tLS0tLVsgY3V0IGhlcmUgXS0tLS0tLS0tLS0tLQo+PiBbMzc3NDMuMDQwNzY0XSBw
+YW50aG9yIGZiMDAwMDAwLmdwdTogZHJtX1dBUk5fT04oc2htZW0tPnBhZ2VzX3VzZV9jb3VudCkK
+Pj4gWzM3NzQzLjA0MDg5MF0gV0FSTklORzogQ1BVOiAyIFBJRDogNTcwMiBhdCBkcml2ZXJzL2dw
+dS9kcm0vZHJtX2dlbV9zaG1lbV9oZWxwZXIuYzoxNTggZHJtX2dlbV9zaG1lbV9mcmVlKzB4MTQ0
+LzB4MTRjIFtkcm1fc2htZW1faGVscGVyXQo+PiBbMzc3NDMuMDQwOTI5XSBNb2R1bGVzIGxpbmtl
+ZCBpbjogam95ZGV2IHJma2lsbCBzdW5ycGMgbHo0aGMgbHo0IHpyYW0gYmluZm10X21pc2MgaGFu
+dHJvX3ZwdSBjcmN0MTBkaWZfY2UgdjRsMl92cDkgdjRsMl9oMjY0IHNuZF9zb2Nfc2ltcGxlX2Ft
+cGxpZmllciB2NGwyX21lbTJtZW0gdmlkZW9idWYyX2RtYV9jb250aWcgc25kX3NvY19lczgzMjhf
+aTJjIHZpZGVvYnVmMl9tZW1vcHMgcmtfY3J5cHRvMiBzbmRfc29jX2VzODMyOCB2aWRlb2J1ZjJf
+djRsMiBzbTNfZ2VuZXJpYyB2aWRlb2RldiBjcnlwdG9fZW5naW5lIHNtMyByb2NrY2hpcF9ybmcg
+dmlkZW9idWYyX2NvbW1vbiBudm1lbV9yb2NrY2hpcF9vdHAgc25kX3NvY19yb2NrY2hpcF9pMnNf
+dGRtIHNuZF9zb2NfaGRtaV9jb2RlYyBzbmRfc29jX3NpbXBsZV9jYXJkIG1jIHNuZF9zb2Nfc2lt
+cGxlX2NhcmRfdXRpbHMgc25kX3NvY19jb3JlIHNuZF9jb21wcmVzcyBhYzk3X2J1cyBzbmRfcGNt
+X2RtYWVuZ2luZSBzbmRfcGNtIHNuZF90aW1lciBzbmQgc291bmRjb3JlIGRtX21vZCBpcF90YWJs
+ZXMgeF90YWJsZXMgYXV0b2ZzNCBkd19oZG1pX3FwX2kyc19hdWRpbyBkd19oZG1pX3FwX2NlYyBy
+azgwOF9yZWd1bGF0b3Igcm9ja2NoaXBkcm0gZHdfbWlwaV9kc2kgZHdfaGRtaV9xcCBkd19oZG1p
+IGFuYWxvZ2l4X2RwIGRybV9kbWFfaGVscGVyIGZ1c2IzMDIgZGlzcGxheV9jb25uZWN0b3Igcms4
+eHhfc3BpIGRybV9kaXNwbGF5X2hlbHBlciBwaHlfcm9ja2NoaXBfc25wc19wY2llMyBwaHlfcm9j
+a2NoaXBfc2Ftc3VuZ19oZHB0eF9oZG1pIHBhbnRob3IgdGNwbSByazh4eF9jb3JlIGNlYyBkcm1f
+Z3B1dm0gZ3B1X3NjaGVkIGRybV9rbXNfaGVscGVyIGRybV9zaG1lbV9oZWxwZXIgZHJtX2V4ZWMg
+cjgxNjkgZHJtIHB3bV9ibCBhZGNfa2V5cwo+PiBbMzc3NDMuMDQxMTA4XSBDUFU6IDIgUElEOiA1
+NzAyIENvbW06IGt3b3JrZXIvdTE2OjggTm90IHRhaW50ZWQgNi44LjAtcmMxLWVkZ2Utcm9ja2No
+aXAtcmszNTg4ICMyCj4+IFszNzc0My4wNDExMTVdIEhhcmR3YXJlIG5hbWU6IFJvY2tjaGlwIFJL
+MzU4OCBFVkIxIFYxMCBCb2FyZCAoRFQpCj4+IFszNzc0My4wNDExMjBdIFdvcmtxdWV1ZTogcGFu
+dGhvci1jbGVhbnVwIHBhbnRob3Jfdm1fYmluZF9qb2JfY2xlYW51cF9vcF9jdHhfd29yayBbcGFu
+dGhvcl0KPj4gWzM3NzQzLjA0MTE1MV0gcHN0YXRlOiA2MDQwMDAwOSAoblpDdiBkYWlmICtQQU4g
+LVVBTyAtVENPIC1ESVQgLVNTQlMgQlRZUEU9LS0pCj4+IFszNzc0My4wNDExNTddIHBjIDogZHJt
+X2dlbV9zaG1lbV9mcmVlKzB4MTQ0LzB4MTRjIFtkcm1fc2htZW1faGVscGVyXQo+PiBbMzc3NDMu
+MDQxMTY5XSBsciA6IGRybV9nZW1fc2htZW1fZnJlZSsweDE0NC8weDE0YyBbZHJtX3NobWVtX2hl
+bHBlcl0KPj4gWzM3NzQzLjA0MTE4MV0gc3AgOiBmZmZmODAwMDhkMzdiY2MwCj4+IFszNzc0My4w
+NDExODRdIHgyOTogZmZmZjgwMDA4ZDM3YmNjMCB4Mjg6IGZmZmY4MDAwODFkMzc5YzAgeDI3OiBm
+ZmZmODAwMDgxZDM3MDAwCj4+IFszNzc0My4wNDExOTZdIHgyNjogZmZmZjAwMDE5OTA5YTI4MCB4
+MjU6IGZmZmYwMDAxOTkwOWEyYzAgeDI0OiBmZmZmMDAwMTAxN2E0YzA1Cj4+IFszNzc0My4wNDEy
+MDZdIHgyMzogZGVhZDAwMDAwMDAwMDEwMCB4MjI6IGRlYWQwMDAwMDAwMDAxMjIgeDIxOiBmZmZm
+MDAwMTYyN2FjMWEwCj4+IFszNzc0My4wNDEyMTddIHgyMDogMDAwMDAwMDAwMDAwMDAwMCB4MTk6
+IGZmZmYwMDAxNjI3YWMwMDAgeDE4OiAwMDAwMDAwMDAwMDAwMDAwCj4+IFszNzc0My4wNDEyMjdd
+IHgxNzogMDAwMDAwMDQwMDQ0ZmZmZiB4MTY6IDAwNTAwMGYyYjU1MDM1MTAgeDE1OiBmZmZmZmZm
+ZmZmZjkxYjc3Cj4+IFszNzc0My4wNDEyMzhdIHgxNDogMDAwMDAwMDAwMDAwMDAwMSB4MTM6IDAw
+MDAwMDAwMDAwMDAzYzUgeDEyOiAwMDAwMDAwMGZmZmZmZmVhCj4+IFszNzc0My4wNDEyNDhdIHgx
+MTogMDAwMDAwMDBmZmZmZGZmZiB4MTA6IDAwMDAwMDAwZmZmZmRmZmYgeDkgOiBmZmZmODAwMDgx
+ZTBlODE4Cj4+IFszNzc0My4wNDEyNTldIHg4IDogMDAwMDAwMDAwMDAyZmZlOCB4NyA6IGMwMDAw
+MDAwZmZmZmRmZmYgeDYgOiAwMDAwMDAwMDAwMGFmZmE4Cj4+IFszNzc0My4wNDEyNjldIHg1IDog
+MDAwMDAwMDAwMDAwMWZmZiB4NCA6IDAwMDAwMDAwMDAwMDAwMDAgeDMgOiBmZmZmODAwMDgxOWE2
+MDA4Cj4+IFszNzc0My4wNDEyNzldIHgyIDogMDAwMDAwMDAwMDAwMDAwMCB4MSA6IDAwMDAwMDAw
+MDAwMDAwMDAgeDAgOiBmZmZmMDAwMTg0NjVlOTAwCj4+IFszNzc0My4wNDEyOTBdIENhbGwgdHJh
+Y2U6Cj4+IFszNzc0My4wNDEyOTNdICBkcm1fZ2VtX3NobWVtX2ZyZWUrMHgxNDQvMHgxNGMgW2Ry
+bV9zaG1lbV9oZWxwZXJdCj4+IFszNzc0My4wNDEzMDZdICBwYW50aG9yX2dlbV9mcmVlX29iamVj
+dCsweDI0LzB4YTAgW3BhbnRob3JdCj4+IFszNzc0My4wNDEzMjFdICBkcm1fZ2VtX29iamVjdF9m
+cmVlKzB4MWMvMHgzMCBbZHJtXQo+PiBbMzc3NDMuMDQxNDUyXSAgcGFudGhvcl92bV9ib19wdXQr
+MHhjNC8weDEyYyBbcGFudGhvcl0KPj4gWzM3NzQzLjA0MTQ3NV0gIHBhbnRob3Jfdm1fY2xlYW51
+cF9vcF9jdHguY29uc3Rwcm9wLjArMHhiMC8weDEwNCBbcGFudGhvcl0KPj4gWzM3NzQzLjA0MTQ5
+MV0gIHBhbnRob3Jfdm1fYmluZF9qb2JfY2xlYW51cF9vcF9jdHhfd29yaysweDI4LzB4ZDAgW3Bh
+bnRob3JdCj4KPk9rLCBJIHRoaW5rIEkgZm91bmQgdGhlIGN1bHByaXQ6IHRoZXJlJ3MgYSByYWNl
+IGJldHdlZW4KPnRoZSBkcm1fZ3B1dm1fYm9fcHV0KCkgY2FsbCBpbiBwYW50aG9yX3ZtX2JvX3B1
+dCgpIGFuZCB0aGUgbGlzdAo+aXRlcmF0aW9uIGRvbmUgYnkgZHJtX2dwdXZtX3ByZXBhcmVfb2Jq
+ZWN0cygpLiBCZWNhdXNlIHdlJ3JlIG5vdAo+c2V0dGluZyBEUk1fR1BVVk1fUkVTVl9QUk9URUNU
+RUQsIHRoZSBjb2RlIGdvZXMgdGhyb3VnaCB0aGUgJ2xvY2tsZXNzJwo+aXRlcmF0aW9uIGxvb3As
+IGFuZCB0YWtlcy9yZWxlYXNlIGEgdm1fYm8gcmVmIGF0IGVhY2ggaXRlcmF0aW9uLiBUaGlzCj5t
+ZWFucyBvdXIgJ3dlcmUgd2UgdGhlIGxhc3Qgdm1fYm8gdXNlcj8nIHRlc3QgaW4gcGFudGhvcl92
+bV9ib19wdXQoKQo+bWlnaHQgcmV0dXJuIGZhbHNlIGV2ZW4gaWYgd2Ugd2VyZSBhY3R1YWxseSB0
+aGUgbGFzdCB1c2VyLCBhbmQgd2hlbgo+Zm9yX2VhY2hfdm1fYm9faW5fbGlzdCgpIHJlbGVhc2Vz
+IHRoZSByZWYgaXQgYWNxdWlyZWQsIGl0IG5vdCBvbmx5IGxlYWtzCj50aGUgcGluIHJlZmVyZW5j
+ZSwgdGh1cyBsZWF2aW5nIEdFTSBwYWdlcyBwaW5uZWQgKHdoaWNoIGV4cGxhaW5zIHRoaXMKPldB
+Uk5fT04oKSBzcGxhdCksIGJ1dCBpdCBhbHNvIGNhbGxzIGRybV9ncHV2bV9ib19kZXN0cm95KCkg
+aW4gYSBwYXRoCj53aGVyZSB3ZSBkb24ndCBob2xkIHRoZSBHUFVWQSBsaXN0IGxvY2ssIHdoaWNo
+IGlzIGJhZC4KPgo+TG9uZyBzdG9yeSBzaG9ydCwgSSdsbCBoYXZlIHRvIHVzZSBEUk1fR1BVVk1f
+UkVTVl9QUk9URUNURUQsIHdoaWNoIGlzCj5maW5lIGJlY2F1c2UgSSdtIGRlZmVycmluZyB2bV9i
+byByZW1vdmFsIHRvIGEgd29yayB3aGVyZSB0YWtpbmcgdGhlIFZNCj5yZXN2IGxvY2sgaXMgYWxs
+b3dlZC4gU2luY2UgSSB3YXMgdGhlIG9uZSBhc2tpbmcgZm9yIHRoaXMgbG9ja2xlc3MKPml0ZXJh
+dG9yIGluIHRoZSBmaXJzdCBwbGFjZSwgSSB3b25kZXIgaWYgd2Ugc2hvdWxkIGtpbGwgdGhhdCBh
+bmQgbWFrZQo+RFJNX0dQVVZNX1JFU1ZfUFJPVEVDVEVEIHRoZSBkZWZhdWx0ICh0aGlzIHdvdWxk
+IGdyZWF0bHkgc2ltcGxpZnkKPnRoZSBjb2RlKS4gQUZBSUNULCBUaGUgUG93ZXJWUiBkcml2ZXIg
+c2hvdWxkbid0IGJlIGltcGFjdGVkIGJlY2F1c2UgaXQncwo+dXNpbmcgZHJtX2dwdXZtIGluIHN5
+bmNocm9ub3VzIG1vZGUgb25seSwgYW5kIFhlIGFscmVhZHkgdXNlcyB0aGUKPnJlc3YtcHJvdGVj
+dGVkIG1vZGUuIFRoYXQgbGVhdmVzIE5vdXZlYXUsIGJ1dCBJSVJDLCBpdCdzIGFsc28gZG9pbmcg
+Vk0KPnVwZGF0ZXMgaW4gdGhlIGlvY3RsIHBhdGguCj4KPkRhbmlsbywgYW55IG9waW5pb25zPwo+
+Cj5BbmR5LCBJIHB1c2hlZCBhIG5ldyB2ZXJzaW9uIHRvIHRoZSBwYW50aG9yLW5leHQgWzFdIGFu
+ZAo+cGFudGhvci1uZXh0K3JrMzU4OCBbMl0gYnJhbmNoZXMuIFRoZSBmaXggSSdtIHRhbGtpbmcg
+YWJvdXQgaXMgWzNdLCBidXQKPnlvdSBwcm9iYWJseSB3YW50IHRvIGNvbnNpZGVyIHRha2luZyBh
+bGwgdGhlIGZpeHVwcyBpbiB5b3VyIGJyYW5jaC4KCk9rYXnvvIwgSSB3aWxsIGhhdmUgYSB0cnnj
+gIIKVGhhbmtzCj4KPlJlZ2FyZHMsCj4KPkJvcmlzCj4KPlsxXWh0dHBzOi8vZ2l0bGFiLmZyZWVk
+ZXNrdG9wLm9yZy9wYW5mcm9zdC9saW51eC8tL2NvbW1pdHMvcGFudGhvci1uZXh0Cj5bMl1odHRw
+czovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvcGFuZnJvc3QvbGludXgvLS9jb21taXRzL3BhbnRo
+b3ItbmV4dCtyazM1ODgKPlszXWh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9wYW5mcm9z
+dC9saW51eC8tL2NvbW1pdC9kZjQ4YzA5NjYyYTQwMzI3NWU3NmU2NzllZTAwNDA4NWJhZGVhN2Mx
+Cg==
