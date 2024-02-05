@@ -2,50 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9CB18493D9
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 07:27:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFEA9849428
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Feb 2024 08:03:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D801010FA4F;
-	Mon,  5 Feb 2024 06:27:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA4871123EC;
+	Mon,  5 Feb 2024 07:03:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="x3dH7FJv";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Hx7/S8BN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0418610FA4F
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Feb 2024 06:27:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=OUKdFm+15peBkbofPBi/XRisRCX0jcO1A2H6q2dDwwo=; b=x3dH7FJvdx/opKptaY8+EdxqBW
- rD2DV4pyr76BNVLlHQB6fR9QQEwQswepEPfymOW5klZly7gtFN5RsxLj1koRdVth7jtf2Vop+MIIA
- LUP83aXHTjl9sGsG620iBrZq7uW908gkw6+jDXW50rspdL+j4hx8DWz40gBArQ8XeLxJf6PJUJ297
- /lMBOVrUi+M1nn8yzh1+6QpZ3d9UJNsYNtQM0++cgI6p/mXyA0F4naBrIgSyAtGcLj/CSQQ8R04dO
- RZZybiIqVCfpeLOYWr2Nsqth2Bg47AO3sKVkbgswVF9r7B21Xj91aHXSpKJMyIlhdIfhxzYmwLnHY
- 6vL2PVtQ==;
-Received: from [50.53.50.0] (helo=bombadil.infradead.org)
- by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
- id 1rWsRk-00000002AS9-1vFf; Mon, 05 Feb 2024 06:27:12 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Aradhya Bhatia <a-bhatia1@ti.com>
-Subject: [PATCH v2] drm/panel: re-alphabetize the menu list
-Date: Sun,  4 Feb 2024 22:27:08 -0800
-Message-ID: <20240205062711.3513-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.43.0
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D9F91123ED
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Feb 2024 07:03:14 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id
+ a640c23a62f3a-a2f22bfb4e6so544188166b.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Feb 2024 23:03:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1707116590; x=1707721390; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=SmODjWl9XxT/MZiATDetkZp8pVHFQ7zqqtGcepJ25ro=;
+ b=Hx7/S8BNes+LX7IMRVPAjJTnVtX2e4I9WT85g3R/NUNgsYSKyVUZuAm5CmmPIQP62K
+ XJ8z4z+gHdJ3LVEa1X4Wlhj1x3npkQwHUafLULwfowbcjJB16/Axhq8LMUauNbYk68kc
+ b4iGcdqryYumYHpG4lEABj7n3iA1ljKDjcUBTA5qGYZdsB8/uft9z46mj0ByqYEEAbiA
+ TEGwJnJcC4vvjYxOnEJRHoqnahQIKdJvRr17zWX9Klhdm1zcrV37pLCOSs34+YEUSZHq
+ VeGXMlw//5N6weBvNDZx6tpVSYsTGUdZ/9RGGJFayxlLQkUrZ0Gj1Z9xbphPYC+PLljp
+ a/Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707116590; x=1707721390;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=SmODjWl9XxT/MZiATDetkZp8pVHFQ7zqqtGcepJ25ro=;
+ b=rTkUgnwhCJ5tRmrjKM6ZwS6fLpv55aRCdPTHg9y0iVJIWrvQrlevwt4k6k4UqgBUic
+ xEdU7ulB+qth/Bo4UJHhjBVanx7RqzAr8HZq2JmSQyTmoG9FNRNWwWEny9RuwaePUu9q
+ tEwKMNsjQfradEeMFo+TDPSOqHj0N2dF2SRrkEgp+G8N8v2rPy5xPsOM25Oq+ggKcgf9
+ AIdW9a6wJ1WTTXG7ePg8yKRetCtI1ZppedyPr+rWK+AvAheHqWCFTyu/Xaf/XsInEZRh
+ er5upjGlX6HmRAekqr9ohGGe217os+ibKpHGmRvE1m1nAwnGPrVXuz3D7skiCEoUOPq/
+ 4wfg==
+X-Gm-Message-State: AOJu0YyWkOVxfclyXU2PAo8Xj2foNZ+aEi7p3jOkkbVDH4SZ59hk33Vm
+ FTWyQumjjHsdN+2g35klVib36iE0B9vqVedhcrGWqlgKdplHbKxGVi/XjgM7MLiupNYyGJhJtTA
+ HsBLamPiTsze93NUFaSjTq1BDscCWPzfaZq4=
+X-Google-Smtp-Source: AGHT+IE4uSKWUY1Kd2JanzsmRAU3KZvSr9WlJ+DN9wDhfPPzNWneoOpZnACdKmTI2b9b/FyGk/HNwrDj27xo/Odx+Ng=
+X-Received: by 2002:a17:906:e2c7:b0:a37:b331:da3c with SMTP id
+ gr7-20020a170906e2c700b00a37b331da3cmr1494299ejb.27.1707116589995; Sun, 04
+ Feb 2024 23:03:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20231019135655.313759-1-jfalempe@redhat.com>
+ <660c0260-0e22-4e9c-ab13-157adaa0b14d@suse.de>
+ <74b367bd-ac80-478b-8f82-e98cb6e40475@redhat.com>
+ <f19a2cb4-57b6-427c-b69c-47a848420530@redhat.com>
+In-Reply-To: <f19a2cb4-57b6-427c-b69c-47a848420530@redhat.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Mon, 5 Feb 2024 17:02:58 +1000
+Message-ID: <CAPM=9twkLUFP+4aeKt+BRi4sO1c3hypq-dD33JKabHVQZ3oV9A@mail.gmail.com>
+Subject: Re: [PATCH] drm/mgag200: Flush the cache to improve latency
+To: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ airlied@redhat.com, daniel@ffwll.ch, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,330 +79,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A few of the DRM_PANEL entries have become out of alphabetical order,
-so move them around a bit to restore alpha order.
+On Mon, 6 Nov 2023 at 20:47, Jocelyn Falempe <jfalempe@redhat.com> wrote:
+>
+> On 23/10/2023 10:30, Jocelyn Falempe wrote:
+> > On 20/10/2023 14:06, Thomas Zimmermann wrote:
+> >> (cc'ing lkml for feedback)
+> >>
+> >> Hi Jocelyn
+> >>
+> >> Am 19.10.23 um 15:55 schrieb Jocelyn Falempe:
+> >>> We found a regression in v5.10 on real-time server, using the
+> >>> rt-kernel and the mgag200 driver. It's some really specialized
+> >>> workload, with <10us latency expectation on isolated core.
+> >>> After the v5.10, the real time tasks missed their <10us latency
+> >>> when something prints on the screen (fbcon or printk)
+> >>
+> >> I'd like to hear the opinion of the RT-devs on this patch. Because
+> >> AFAIK we never did such a workaround in other drivers. And AFAIK
+> >> printk is a PITA anyway.
+> >
+> > Most other drivers uses DMA, which means this workaround can't apply to
+> > them.
+> >
+> >>
+> >> IMHO if that RT system cannot handle differences in framebuffer
+> >> caching, it's under-powered. It's just a matter of time until
+> >> something else changes and the problem returns. And (honest question)
+> >> as it's an x86-64, how do they handle System Management Mode?
+> >
+> > I think it's not a big news, that the Matrox G200 from 1999 is
+> > under-powered.
+> > I was also a bit surprised that flushing the cache would have such
+> > effect on latency. The tests we are doing can run 24h with the
+> > workaround, without any interrupt taking more than 10us. Without the
+> > workaround, every ~30s the interrupt failed its 10us target.
+> >
+> >>
+> >>>
+> >>> The regression has been bisected to 2 commits:
+> >>> 0b34d58b6c32 ("drm/mgag200: Enable caching for SHMEM pages")
+> >>> 4862ffaec523 ("drm/mgag200: Move vmap out of commit tail")
+> >>>
+> >>> The first one changed the system memory framebuffer from Write-Combine
+> >>> to the default caching.
+> >>> Before the second commit, the mgag200 driver used to unmap the
+> >>> framebuffer after each frame, which implicitly does a cache flush.
+> >>> Both regressions are fixed by the following patch, which forces a
+> >>> cache flush after each frame, reverting to almost v5.9 behavior.
+> >>
+> >> With that second commit, we essentially never unmap an active
+> >> framebuffer console. But with commit
+> >>
+> >> 359c6649cd9a ("drm/gem: Implement shadow-plane {begin, end}_fb_access
+> >> with vmap")
+> >>
+> >> we now again unmap the console framebuffer after the pageflip happened.
+> >>
+> >> So how does the latest kernel behave wrt to the problem?
+> >
+> > The regression was found when upgrading the server from v5.4 to v5.14,
+> > so we didn't test with later kernels.
+> > We will test with v6.3 (which should have 359c6649cd9a ) and see what it
+> > gives.
+>
+> I don't have a clear explanation, but testing with v6.3, and forcing the
+> Write Combine, doesn't fix the latency issue. So forcing the cache flush
+> is still needed.
+>
+> Also, on some systems, they use "isolated cpu" to handle RT task, but
+> with a standard kernel (so without the CONFIG_PREEMPT_RT).
+> So I'm wondering if we can use a kernel module parameter for this,
+> so that users that wants to achieve low latency, can opt-in ?
+>
+> something like mgag200.force_cache_flush=1 or mgag200.low_latency=1 ?
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: Aradhya Bhatia <a-bhatia1@ti.com>
----
-v2: rebase, move more driver entries around
+I think we should either add a config option or command line parameter here.
 
-Aradhya Bhatia <a-bhatia1@ti.com> had responded with Reviewed-by:
-for v1, but I mode quite a few additions in v2 so I didn't include
-that R-B: here.
+I'd don't think adding nopat to the kernel command line is a good
+suggestion in the long run, servers often have other cards plugged
+into them like nvidia gpus or rdma etc, you don't want to cripple them
+because you want reduced latency on the crappy on-board.
 
- drivers/gpu/drm/panel/Kconfig |  202 ++++++++++++++++----------------
- 1 file changed, 101 insertions(+), 101 deletions(-)
+I'd rather we put the default back to what it used to be, which was
+flush the cache though, I'm not sure why we have any objection to
+doing that, it used to work, it was clearly fine in operation, why
+undo it?
 
-diff -- a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -76,53 +76,6 @@ config DRM_PANEL_BOE_TV101WUM_NL6
- 	  Say Y here if you want to support for BOE TV101WUM and AUO KD101N80
- 	  45NA WUXGA PANEL DSI Video Mode panel
- 
--config DRM_PANEL_DSI_CM
--	tristate "Generic DSI command mode panels"
--	depends on OF
--	depends on DRM_MIPI_DSI
--	depends on BACKLIGHT_CLASS_DEVICE
--	help
--	  DRM panel driver for DSI command mode panels with support for
--	  embedded and external backlights.
--
--config DRM_PANEL_LVDS
--	tristate "Generic LVDS panel driver"
--	depends on OF
--	depends on BACKLIGHT_CLASS_DEVICE
--	select VIDEOMODE_HELPERS
--	help
--	  This driver supports LVDS panels that don't require device-specific
--	  handling of power supplies or control signals. It implements automatic
--	  backlight handling if the panel is attached to a backlight controller.
--
--config DRM_PANEL_SIMPLE
--	tristate "support for simple panels (other than eDP ones)"
--	depends on OF
--	depends on BACKLIGHT_CLASS_DEVICE
--	depends on PM
--	select VIDEOMODE_HELPERS
--	help
--	  DRM panel driver for dumb non-eDP panels that need at most a regulator
--	  and a GPIO to be powered up. Optionally a backlight can be attached so
--	  that it can be automatically turned off when the panel goes into a
--	  low power state.
--
--config DRM_PANEL_EDP
--	tristate "support for simple Embedded DisplayPort panels"
--	depends on OF
--	depends on BACKLIGHT_CLASS_DEVICE
--	depends on PM
--	select VIDEOMODE_HELPERS
--	select DRM_DISPLAY_DP_HELPER
--	select DRM_DISPLAY_HELPER
--	select DRM_DP_AUX_BUS
--	select DRM_KMS_HELPER
--	help
--	  DRM panel driver for dumb eDP panels that need at most a regulator and
--	  a GPIO to be powered up. Optionally a backlight can be attached so
--	  that it can be automatically turned off when the panel goes into a
--	  low power state.
--
- config DRM_PANEL_EBBG_FT8719
- 	tristate "EBBG FT8719 panel driver"
- 	depends on OF
-@@ -162,6 +115,25 @@ config DRM_PANEL_FEIYANG_FY07024DI26A30D
- 	  Say Y if you want to enable support for panels based on the
- 	  Feiyang FY07024DI26A30-D MIPI-DSI interface.
- 
-+config DRM_PANEL_DSI_CM
-+	tristate "Generic DSI command mode panels"
-+	depends on OF
-+	depends on DRM_MIPI_DSI
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	help
-+	  DRM panel driver for DSI command mode panels with support for
-+	  embedded and external backlights.
-+
-+config DRM_PANEL_LVDS
-+	tristate "Generic LVDS panel driver"
-+	depends on OF
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	select VIDEOMODE_HELPERS
-+	help
-+	  This driver supports LVDS panels that don't require device-specific
-+	  handling of power supplies or control signals. It implements automatic
-+	  backlight handling if the panel is attached to a backlight controller.
-+
- config DRM_PANEL_HIMAX_HX8394
- 	tristate "HIMAX HX8394 MIPI-DSI LCD panels"
- 	depends on OF
-@@ -251,17 +223,6 @@ config DRM_PANEL_JADARD_JD9365DA_H3
- 	  WXGA MIPI DSI panel. The panel support TFT dot matrix LCD with
- 	  800RGBx1280 dots at maximum.
- 
--config DRM_PANEL_JDI_LT070ME05000
--	tristate "JDI LT070ME05000 WUXGA DSI panel"
--	depends on OF
--	depends on DRM_MIPI_DSI
--	depends on BACKLIGHT_CLASS_DEVICE
--	help
--	  Say Y here if you want to enable support for JDI DSI video mode
--	  panel as found in Google Nexus 7 (2013) devices.
--	  The panel has a 1200(RGB)×1920 (WUXGA) resolution and uses
--	  24 bit per pixel.
--
- config DRM_PANEL_JDI_LPM102A188A
- 	tristate "JDI LPM102A188A DSI panel"
- 	depends on OF && GPIOLIB
-@@ -273,6 +234,17 @@ config DRM_PANEL_JDI_LPM102A188A
- 	  The panel has a 2560×1800 resolution. It provides a MIPI DSI interface
- 	  to the host.
- 
-+config DRM_PANEL_JDI_LT070ME05000
-+	tristate "JDI LT070ME05000 WUXGA DSI panel"
-+	depends on OF
-+	depends on DRM_MIPI_DSI
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	help
-+	  Say Y here if you want to enable support for JDI DSI video mode
-+	  panel as found in Google Nexus 7 (2013) devices.
-+	  The panel has a 1200(RGB)×1920 (WUXGA) resolution and uses
-+	  24 bit per pixel.
-+
- config DRM_PANEL_JDI_R63452
- 	tristate "JDI R63452 Full HD DSI panel"
- 	depends on OF
-@@ -326,12 +298,6 @@ config DRM_PANEL_LEADTEK_LTK500HD1829
- 	  24 bit RGB per pixel. It provides a MIPI DSI interface to
- 	  the host and has a built-in LED backlight.
- 
--config DRM_PANEL_SAMSUNG_LD9040
--	tristate "Samsung LD9040 RGB/SPI panel"
--	depends on OF && SPI
--	depends on BACKLIGHT_CLASS_DEVICE
--	select VIDEOMODE_HELPERS
--
- config DRM_PANEL_LG_LB035Q02
- 	tristate "LG LB035Q024573 RGB panel"
- 	depends on GPIOLIB && OF && SPI
-@@ -359,6 +325,17 @@ config DRM_PANEL_MAGNACHIP_D53E6EA8966
- 	  with the Magnachip D53E6EA8966 panel IC. This panel receives
- 	  video data via DSI but commands via 9-bit SPI using DBI.
- 
-+config DRM_PANEL_MANTIX_MLAF057WE51
-+	tristate "Mantix MLAF057WE51-X MIPI-DSI LCD panel"
-+	depends on OF
-+	depends on DRM_MIPI_DSI
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	help
-+	  Say Y here if you want to enable support for the Mantix
-+	  MLAF057WE51-X MIPI DSI panel as e.g. used in the Librem 5. It
-+	  has a resolution of 720x1440 pixels, a built in backlight and touch
-+	  controller.
-+
- config DRM_PANEL_NEC_NL8048HL11
- 	tristate "NEC NL8048HL11 RGB panel"
- 	depends on GPIOLIB && OF && SPI
-@@ -447,17 +424,6 @@ config DRM_PANEL_NOVATEK_NT39016
- 	  Say Y here if you want to enable support for the panels built
- 	  around the Novatek NT39016 display controller.
- 
--config DRM_PANEL_MANTIX_MLAF057WE51
--	tristate "Mantix MLAF057WE51-X MIPI-DSI LCD panel"
--	depends on OF
--	depends on DRM_MIPI_DSI
--	depends on BACKLIGHT_CLASS_DEVICE
--	help
--	  Say Y here if you want to enable support for the Mantix
--	  MLAF057WE51-X MIPI DSI panel as e.g. used in the Librem 5. It
--	  has a resolution of 720x1440 pixels, a built in backlight and touch
--	  controller.
--
- config DRM_PANEL_OLIMEX_LCD_OLINUXINO
- 	tristate "Olimex LCD-OLinuXino panel"
- 	depends on OF
-@@ -554,6 +520,12 @@ config DRM_PANEL_RONBO_RB070D30
- 	  Say Y here if you want to enable support for Ronbo Electronics
- 	  RB070D30 1024x600 DSI panel.
- 
-+config DRM_PANEL_SAMSUNG_S6E88A0_AMS452EF01
-+	tristate "Samsung AMS452EF01 panel with S6E88A0 DSI video mode controller"
-+	depends on OF
-+	select DRM_MIPI_DSI
-+	select VIDEOMODE_HELPERS
-+
- config DRM_PANEL_SAMSUNG_ATNA33XC20
- 	tristate "Samsung ATNA33XC20 eDP panel"
- 	depends on OF
-@@ -577,6 +549,12 @@ config DRM_PANEL_SAMSUNG_DB7430
- 	  DB7430 DPI display controller used in such devices as the
- 	  LMS397KF04 480x800 DPI panel.
- 
-+config DRM_PANEL_SAMSUNG_LD9040
-+	tristate "Samsung LD9040 RGB/SPI panel"
-+	depends on OF && SPI
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	select VIDEOMODE_HELPERS
-+
- config DRM_PANEL_SAMSUNG_S6D16D0
- 	tristate "Samsung S6D16D0 DSI video mode panel"
- 	depends on OF
-@@ -642,12 +620,6 @@ config DRM_PANEL_SAMSUNG_S6E63M0_DSI
- 	  Say Y here if you want to be able to access the Samsung
- 	  S6E63M0 panel using DSI.
- 
--config DRM_PANEL_SAMSUNG_S6E88A0_AMS452EF01
--	tristate "Samsung AMS452EF01 panel with S6E88A0 DSI video mode controller"
--	depends on OF
--	select DRM_MIPI_DSI
--	select VIDEOMODE_HELPERS
--
- config DRM_PANEL_SAMSUNG_S6E8AA0
- 	tristate "Samsung S6E8AA0 DSI video mode panel"
- 	depends on OF
-@@ -746,15 +718,6 @@ config DRM_PANEL_SITRONIX_ST7789V
- 	  Say Y here if you want to enable support for the Sitronix
- 	  ST7789V controller for 240x320 LCD panels
- 
--config DRM_PANEL_SYNAPTICS_R63353
--	tristate "Synaptics R63353-based panels"
--	depends on OF
--	depends on DRM_MIPI_DSI
--	depends on BACKLIGHT_CLASS_DEVICE
--	help
--	  Say Y if you want to enable support for panels based on the
--	  Synaptics R63353 controller.
--
- config DRM_PANEL_SONY_ACX565AKM
- 	tristate "Sony ACX565AKM panel"
- 	depends on GPIOLIB && OF && SPI
-@@ -794,6 +757,43 @@ config DRM_PANEL_STARTEK_KD070FHFID015
- 	  with a resolution of 1024 x 600 pixels. It provides a MIPI DSI interface to
- 	  the host, a built-in LED backlight and touch controller.
- 
-+config DRM_PANEL_EDP
-+	tristate "support for simple Embedded DisplayPort panels"
-+	depends on OF
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	depends on PM
-+	select VIDEOMODE_HELPERS
-+	select DRM_DISPLAY_DP_HELPER
-+	select DRM_DISPLAY_HELPER
-+	select DRM_DP_AUX_BUS
-+	select DRM_KMS_HELPER
-+	help
-+	  DRM panel driver for dumb eDP panels that need at most a regulator and
-+	  a GPIO to be powered up. Optionally a backlight can be attached so
-+	  that it can be automatically turned off when the panel goes into a
-+	  low power state.
-+
-+config DRM_PANEL_SIMPLE
-+	tristate "support for simple panels (other than eDP ones)"
-+	depends on OF
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	depends on PM
-+	select VIDEOMODE_HELPERS
-+	help
-+	  DRM panel driver for dumb non-eDP panels that need at most a regulator
-+	  and a GPIO to be powered up. Optionally a backlight can be attached so
-+	  that it can be automatically turned off when the panel goes into a
-+	  low power state.
-+
-+config DRM_PANEL_SYNAPTICS_R63353
-+	tristate "Synaptics R63353-based panels"
-+	depends on OF
-+	depends on DRM_MIPI_DSI
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	help
-+	  Say Y if you want to enable support for panels based on the
-+	  Synaptics R63353 controller.
-+
- config DRM_PANEL_TDO_TL070WSH30
- 	tristate "TDO TL070WSH30 DSI panel"
- 	depends on OF
-@@ -837,6 +837,17 @@ config DRM_PANEL_TRULY_NT35597_WQXGA
- 	  Say Y here if you want to enable support for Truly NT35597 WQXGA Dual DSI
- 	  Video Mode panel
- 
-+config DRM_PANEL_VISIONOX_R66451
-+	tristate "Visionox R66451"
-+	depends on OF
-+	depends on DRM_MIPI_DSI
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	select DRM_DISPLAY_DP_HELPER
-+	select DRM_DISPLAY_HELPER
-+	help
-+	  Say Y here if you want to enable support for Visionox
-+	  R66451 1080x2340 AMOLED DSI panel.
-+
- config DRM_PANEL_VISIONOX_RM69299
- 	tristate "Visionox RM69299"
- 	depends on OF
-@@ -854,17 +865,6 @@ config DRM_PANEL_VISIONOX_VTDR6130
- 	  Say Y here if you want to enable support for Visionox
- 	  VTDR6130 1080x2400 AMOLED DSI panel.
- 
--config DRM_PANEL_VISIONOX_R66451
--	tristate "Visionox R66451"
--	depends on OF
--	depends on DRM_MIPI_DSI
--	depends on BACKLIGHT_CLASS_DEVICE
--	select DRM_DISPLAY_DP_HELPER
--	select DRM_DISPLAY_HELPER
--	help
--	  Say Y here if you want to enable support for Visionox
--	  R66451 1080x2340 AMOLED DSI panel.
--
- config DRM_PANEL_WIDECHIPS_WS2401
- 	tristate "Widechips WS2401 DPI panel driver"
- 	depends on SPI && GPIOLIB
+Dave.
