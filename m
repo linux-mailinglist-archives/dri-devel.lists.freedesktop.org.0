@@ -2,62 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC2E184BC9C
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 18:58:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B855D84BD0D
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 19:43:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 248A4112D30;
-	Tue,  6 Feb 2024 17:58:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 551F3112D55;
+	Tue,  6 Feb 2024 18:42:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="gi8EDSQO";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="g690Ef4z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C602112D41
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 17:58:00 +0000 (UTC)
-Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx1.riseup.net (Postfix) with ESMTPS id 4TTrZH2TK7zDqkd;
- Tue,  6 Feb 2024 17:57:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1707242279; bh=VJkSO3PfaYzE0oagpsi6CBSQneW/RECiAdVa3brOvPU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=gi8EDSQOPwoa1vPXMC9dkTd5crmlkPZW1YZtjb4luwOukwgV40Y/AuBE31eHzWQPm
- KNqf3nXwA440TOBhN99JVHJoQomlGMsSTHsHUNT9PWl5nU4OE78aj7AI9c7LkUbDkB
- kr10kEX2cLw/stHkaC7qt7ndBcLHN4cAXpvuNRYI=
-X-Riseup-User-ID: 315FFCB5D99C33C9CC1549F7D82B07FFDF48968B245EDF336B6361EE68307827
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4TTrZ80yxDzFsfD;
- Tue,  6 Feb 2024 17:57:51 +0000 (UTC)
-Message-ID: <d258c8dc-78e9-4509-9037-a98f7f33b3a3@riseup.net>
-Date: Tue, 6 Feb 2024 14:57:48 -0300
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D358510FD65;
+ Tue,  6 Feb 2024 18:42:56 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id
+ ffacd0b85a97d-33b40208735so1519601f8f.3; 
+ Tue, 06 Feb 2024 10:42:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1707244975; x=1707849775; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=JcYd3aRpfgCUSG1LIYQnSsuSSC3YGgnUABVKV+senFA=;
+ b=g690Ef4zq3rRroGfEhL2OOMWFuFRVXFM37mPAa5usOSRoAQmhzOvsk1GNgrY88x4vg
+ +3Sp0TsqSKrhiac0oHnB841MtDod741JQbLmUl8Rv78MbFt1CuXMHVv/dRB69OoJGHgM
+ 4sAzFASDDWb/K8BCzDrEBh/ie/Ca/BzuNrZCsr8V7i3Qstz4mEKjVaU31f5qJlX4Ro5W
+ 4hf+savFDnyacCtl//xJJM/KuyEa87RSIrxNo9D2z3TMSbIOQlD1EKY+2MKT9oHWWwZL
+ AFBMJlNjdUh+1lmKadbYj9vyMLxv1lMhWsxzgcjKHSBSGfdC0TadlgNK2ABzyOC0sXFI
+ 1oWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707244975; x=1707849775;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=JcYd3aRpfgCUSG1LIYQnSsuSSC3YGgnUABVKV+senFA=;
+ b=u96fa/ARwZXq1HSsqOn13htYVQEpVbFVeVdo+wjYP/fOYFFnqi4kFDsWzPSZjAvfG4
+ rDGtjy1kpcCE7cpOBqIo857uS76mASD3e2+GTNzebgrsR5BogCUkN9w0ooyGqoI1njeL
+ NCF35En9dp/A3mbqD9f6b6Ocz9LNe69Np5aWIvUbqf+BqSboiwJRQM7BMdMHYSQwz0QZ
+ PPZFnxU8ACF0SLUriRkKuvKJA8TR8s4rFIkVnJvaRKU2kCYpeZOcrEA8HxlwAEE9J7fz
+ LHjXMJEND36etAozCCAOGSSMaerMgwK3iFixRdcfRZ4HxamF7KoD0+w4m3opuS0mzmb5
+ 4pMQ==
+X-Gm-Message-State: AOJu0YzwzV6Z7rqMW9mQUK9IxX8+bdqeraGnnQchA72/Zypl1ICnYIeY
+ Ai/B9+WNkr0q2gLotKzZ6cwus7abJ/t3+So3P0WZiaqrqe1LfQjlMuAQcXtm
+X-Google-Smtp-Source: AGHT+IFtMiHNSHvx8KI/0xWb8L1QJIfX69P8hOKwZtnEAwxcw9gDu8J/XoZUlF6EE2Dq1ZZ0UKJL+A==
+X-Received: by 2002:adf:e9c2:0:b0:33b:1494:e4cd with SMTP id
+ l2-20020adfe9c2000000b0033b1494e4cdmr1923628wrn.3.1707244974770; 
+ Tue, 06 Feb 2024 10:42:54 -0800 (PST)
+X-Forwarded-Encrypted: i=0;
+ AJvYcCXF70vsTfTExShWiaK8oLQuWyCr/fKtj89R5eL2A4ujeldZ9kz/oaFGgySfBaS4vKgSg0p4m3+Rh8Q8Z7doJWNT8KpGs1T5B+6GQt6YXezuphuC++2lmKZaqhzB6cPzvPtwvYV5J+XAzWUVqIWwwHJ9ZHxNETOK8qobyvt4z8TAJis0/NIH9Nw9qOZc2Wao0ceTTDtrIyWcAXu5TRlo8lIyL4Pb/LoQEydAvMwVFHFopActFvRy79coIjeh/wWFnq9HyLVe+yUyby9zZ8GIq8hZ/9UsswTLzMmYl3LMcwbgNodGAyRteb85nXvXMaGpTS+Ok2N6J6Xg/eAuF2GpLekpMbmzMZkPu8kn39Xaps6IugWFjStek33DfPpW72MWhRROMSnbAAeXRvkQ4pwBsHC/cz6VzI96EppEhaJif+If/85PT2i/V8z9tyvi0HFNUYNMix8ZSeY47cyaY3vKiaKgnvqElbmJtvrjsVdStTa0MWdyj05RfklUJtuVW4eTE9rLb0MvIHvx11lx91LKScadS8PSgraft4mIeESMXrT358eE2uGGgwKyIkPUlspHSARdsWYvN3ns7metDHICypAKroZsbRmMwN97zokrjn6sBEVkNn/bWAd1dbKZN2eDGxV+BPmHyOyJ5SZnTf65q6TuKWUGICMno0HhksgDckTH0d4qbR/DeO667ldbpPCWugFKbMf+rR/7dR57ItMbhBqPTF2Eb+omDk+KE5/A3UfBxbE0dSjOckRYgKEsHrvWY2xvCq+6OOfChfk+GGc=
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+ by smtp.gmail.com with ESMTPSA id
+ u15-20020a5d514f000000b0033afe6968bfsm2704594wrt.64.2024.02.06.10.42.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Feb 2024 10:42:54 -0800 (PST)
+Message-ID: <051a3088-048e-4613-9f22-8ea17f1b9736@gmail.com>
+Date: Tue, 6 Feb 2024 19:42:49 +0100
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] drm/vkms: Use a simpler composition function
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] drm/amdgpu: wire up the can_remove() callback
 Content-Language: en-US
-To: Pekka Paalanen <pekka.paalanen@haloniitty.fi>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Louis Chauvet <louis.chauvet@bootlin.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- marcheu@google.com, seanpaul@google.com, nicolejadeyee@google.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- thomas.petazzoni@bootlin.com
-References: <20240201-yuv-v1-0-3ca376f27632@bootlin.com>
- <20240201-yuv-v1-2-3ca376f27632@bootlin.com>
- <20240202105522.43128e19@eldfell> <20240202102601.70b6d49c@xps-13>
- <3nofkwzgnf4yva2wfogdbii47ohpi2wm5vp6aijtg3emxyoowt@twyreqz7ai3g>
- <20240202131322.5471e184@xps-13> <20240202174913.789a9db9@eldfell>
- <20240202170734.3176dfe4@xps-13> <20240202214527.1d97c881@ferris.localdomain>
-From: Arthur Grillo <arthurgrillo@riseup.net>
-In-Reply-To: <20240202214527.1d97c881@ferris.localdomain>
-Content-Type: text/plain; charset=UTF-8
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Lijo Lazar <lijo.lazar@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>, Le Ma <le.ma@amd.com>,
+ =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ James Zhu <James.Zhu@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Alex Shi <alexs@kernel.org>, Jerry Snitselaar <jsnitsel@redhat.com>,
+ Wei Liu <wei.liu@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-pci@vger.kernel.org
+References: <20240202222603.141240-1-hamza.mahfooz@amd.com>
+ <20240202222603.141240-3-hamza.mahfooz@amd.com>
+ <2024020225-faceless-even-e3f8@gregkh> <ZcJCLkNoV-pVU8oy@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <ZcJCLkNoV-pVU8oy@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,228 +100,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Am 06.02.24 um 15:29 schrieb Daniel Vetter:
+> On Fri, Feb 02, 2024 at 03:40:03PM -0800, Greg Kroah-Hartman wrote:
+>> On Fri, Feb 02, 2024 at 05:25:56PM -0500, Hamza Mahfooz wrote:
+>>> Removing an amdgpu device that still has user space references allocated
+>>> to it causes undefined behaviour.
+>> Then fix that please.  There should not be anything special about your
+>> hardware that all of the tens of thousands of other devices can't handle
+>> today.
+>>
+>> What happens when I yank your device out of a system with a pci hotplug
+>> bus?  You can't prevent that either, so this should not be any different
+>> at all.
+>>
+>> sorry, but please, just fix your driver.
+> fwiw Christian König from amd already rejected this too, I have no idea
+> why this was submitted
 
+Well that was my fault.
 
-On 02/02/24 16:45, Pekka Paalanen wrote:
-> On Fri, 2 Feb 2024 17:07:34 +0100
-> Miquel Raynal <miquel.raynal@bootlin.com> wrote:
-> 
->> Hi Pekka,
-> 
-> Hi Miquel,
-> 
-> I'm happy to see no hard feelings below. I know I may be blunt at
-> times.
-> 
-> Another thing coming to my mind is that I suppose there is no
-> agreed standard benchmark for VKMS performance, is there?
-> 
-> I recall people running selected IGT tests in a loop in the past,
-> and I worry that the IGT start-up overhead and small plane
-> dimensions might skew the results.
-> 
-> Would it be possible to have a standardised benchmark specifically
-> for performance rather than correctness, in IGT or where-ever it
-> would make sense? Then it would be simple to tell contributors to
-> run this and report the numbers before and after.
-> 
-> I would propose this kind of KMS layout:
-> 
-> - CRTC size 3841 x 2161
-> - primary plane, XRGB8888, 3639 x 2161 @ 101,0
-> - overlay A, XBGR2101010, 3033 x 1777 @ 201,199
-> - overlay B, ARGB8888, 1507 x 1400 @ 1800,250
-> 
-> The sizes and positions are deliberately odd to try to avoid happy
-> alignment accidents. The planes are big, which should let the pixel
-> operations easily dominate performance measurement. There are
-> different pixel formats, both opaque and semi-transparent. There is
-> lots of plane overlap. The planes also do not cover the whole CRTC
-> leaving the background visible a bit.
-> 
-> There should be two FBs per each plane, flipped alternatingly each
-> frame. Writeback should be active. Run this a number of frames, say,
-> 100, and measure the kernel CPU time taken. It's supposed to take at
-> least several seconds in total.
-> 
-> I think something like this should be the base benchmark. One can
-> add more to it, like rotated planes, YUV planes, etc. or switch
-> settings on the existing planes. Maybe even FB_DAMAGE_CLIPS. Maybe
-> one more overlay that is very tall and thin.
-> 
-> Just an idea, what do you all think?
+I commented on an internal bug tracker that when sysfs bind/undbind is a 
+different code path from PCI remove/re-scan we could try to reject it.
 
-Hi Pekka,
+Turned out it isn't a different code path.
 
-I just finished writing this proposal using IGT.
+>   since the very elaborate plan I developed with a
+> bunch of amd folks was to fix the various lifetime lolz we still have in
+> drm. We unfortunately export the world of internal objects to userspace as
+> uabi objects with dma_buf, dma_fence and everything else, but it's all
+> fixable and we have the plan even documented:
+>
+> https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#device-hot-unplug
+>
+> So yeah anything that isn't that plan of record is very much no-go for drm
+> drivers. Unless we change that plan of course, but that needs a
+> documentation patch first and a big discussion.
+>
+> Aside from an absolute massive pile of kernel-internal refcounting bugs
+> the really big one we agreed on after a lot of discussion is that SIGBUS
+> on dma-buf mmaps is no-go for drm drivers, because it would break way too
+> much userspace in ways which are simply not fixable (since sig handlers
+> are shared in a process, which means the gl/vk driver cannot use it).
+>
+> Otherwise it's bog standard "fix the kernel bugs" work, just a lot of it.
 
-I got pretty interesting results:
+Ignoring a few memory leaks because of messed up refcounting we actually 
+got that working quite nicely.
 
-The mentioned commit 8356b97906503a02125c8d03c9b88a61ea46a05a took
-around 13 seconds. While drm-misc/drm-misc-next took 36 seconds.
+At least hot unplug / hot add seems to be working rather reliable in our 
+internal testing.
 
-I'm currently bisecting to be certain that the change to the
-pixel-by-pixel is the culprit, but I don't see why it wouldn't be.
+So it can't be that messed up.
 
-I just need to do some final touches on the benchmark code and it
-will be ready for revision.
+Regards,
+Christian.
 
-Best Regards,
-~Arthur Grillo
+>
+> Cheers, Sima
 
-> 
-> 
-> Thanks,
-> pq
-> 
->> pekka.paalanen@haloniitty.fi wrote on Fri, 2 Feb 2024 17:49:13 +0200:
->>
->>> On Fri, 2 Feb 2024 13:13:22 +0100
->>> Miquel Raynal <miquel.raynal@bootlin.com> wrote:
->>>   
->>>> Hello Maxime,
->>>>
->>>> + Arthur
->>>>
->>>> mripard@kernel.org wrote on Fri, 2 Feb 2024 10:53:37 +0100:
->>>>     
->>>>> Hi Miquel,
->>>>>
->>>>> On Fri, Feb 02, 2024 at 10:26:01AM +0100, Miquel Raynal wrote:      
->>>>>> pekka.paalanen@haloniitty.fi wrote on Fri, 2 Feb 2024 10:55:22 +0200:
->>>>>>         
->>>>>>> On Thu, 01 Feb 2024 18:31:32 +0100
->>>>>>> Louis Chauvet <louis.chauvet@bootlin.com> wrote:
->>>>>>>         
->>>>>>>> Change the composition algorithm to iterate over pixels instead of lines.
->>>>>>>> It allows a simpler management of rotation and pixel access for complex formats.
->>>>>>>>
->>>>>>>> This new algorithm allows read_pixel function to have access to x/y
->>>>>>>> coordinates and make it possible to read the correct thing in a block
->>>>>>>> when block_w and block_h are not 1.
->>>>>>>> The iteration pixel-by-pixel in the same method also allows a simpler
->>>>>>>> management of rotation with drm_rect_* helpers. This way it's not needed
->>>>>>>> anymore to have misterious switch-case distributed in multiple places.          
->>>>>>>
->>>>>>> Hi,
->>>>>>>
->>>>>>> there was a very good reason to write this code using lines:
->>>>>>> performance. Before lines, it was indeed operating on individual pixels.
->>>>>>>
->>>>>>> Please, include performance measurements before and after this series
->>>>>>> to quantify the impact on the previously already supported pixel
->>>>>>> formats, particularly the 32-bit-per-pixel RGB variants.
->>>>>>>
->>>>>>> VKMS will be used more and more in CI for userspace projects, and
->>>>>>> performance actually matters there.
->>>>>>>
->>>>>>> I'm worrying that this performance degradation here is significant. I
->>>>>>> believe it is possible to keep blending with lines, if you add new line
->>>>>>> getters for reading from rotated, sub-sampled etc. images. That way you
->>>>>>> don't have to regress the most common formats' performance.        
->>>>>>
->>>>>> While I understand performance is important and should be taken into
->>>>>> account seriously, I cannot understand how broken testing could be
->>>>>> considered better. Fast but inaccurate will always be significantly
->>>>>> less attractive to my eyes.        
->>>>>
->>>>> AFAIK, neither the cover letter nor the commit log claimed it was fixing
->>>>> something broken, just that it was "better" (according to what
->>>>> criteria?).      
->>>>
->>>> Better is probably too vague and I agree the "fixing" part is not
->>>> clearly explained in the commit log. The cover-letter however states:
->>>>     
->>>>> Patch 2/2: This patch is more complex. My main target was to solve issues
->>>>> I found in [1], but as it was very complex to do it "in place", I choose
->>>>> to rework the composition function.      
->>>> ...    
->>>>> [1]: https://lore.kernel.org/dri-devel/20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net/      
->>>>
->>>> If you follow this link you will find all the feedback and especially
->>>> the "broken" parts. Just to be clear, writing bugs is totally expected
->>>> and review/testing is supposed to help on this regard. I am not blaming
->>>> the author in any way, just focusing on getting this code in a more
->>>> readable shape and hopefully reinforce the testing procedure.
->>>>     
->>>>> If something is truly broken, it must be stated what exactly is so we
->>>>> can all come up with a solution that will satisfy everyone.      
->>>>
->>>> Maybe going through the series pointed above will give more context
->>>> but AFAIU: the YUV composition is not totally right (and the tests used
->>>> to validate it need to be more complex as well in order to fail).
->>>>
->>>> Here is a proposal.
->>>>
->>>> Today's RGB implementation is only optimized in the line-by-line case
->>>> when there is no rotation. The logic is bit convoluted and may possibly
->>>> be slightly clarified with a per-format read_line() implementation,
->>>> at a very light performance cost. Such an improvement would definitely
->>>> benefit to the clarity of the code, especially when transformations
->>>> (especially the rotations) come into play because they would be clearly
->>>> handled differently instead of being "hidden" in the optimized logic.
->>>> Performances would not change much as this path is not optimized today
->>>> anyway (the pixel-oriented logic is already used in the rotation case).
->>>>
->>>> Arthur's YUV implementation is indeed well optimized but the added
->>>> complexity probably lead to small mistakes in the logic. The
->>>> per-format read_line() implementation mentioned above could be
->>>> extended to the YUV format as well, which would leverage Arthur's
->>>> proposal by re-using his optimized version. Louis will help on this
->>>> regard. However, for more complex cases such as when there is a
->>>> rotation, it will be easier (and not sub-optimized compared to the RGB
->>>> case) to also fallback to a pixel-oriented processing.
->>>>
->>>> Would this approach make sense?    
->>>
->>> Hi,
->>>
->>> I think it would, if I understand what you mean. Ever since I proposed
->>> a line-by-line algorithm to improve the performance, I was thinking of
->>> per-format read_line() functions that would be selected outside of any
->>> loops. Extending that to support YUV is only natural. I can imagine
->>> rotation complicates things, and I won't oppose that resulting in a
->>> much heavier read_line() implementation used in those cases. They might
->>> perhaps call the original read_line() implementations pixel-by-pixel or
->>> plane-by-plane (i.e. YUV planes) per pixel. Chroma-siting complicates
->>> things even further. That way one could compose any
->>> rotation-format-siting combination by chaining function pointers.  
->>
->> I'll let Louis also validate but on my side I feel like I totally
->> agree with your feedback.
->>
->>> I haven't looked at VKMS in a long time, and I am disappointed to find
->>> that vkms_compose_row() is calling plane->pixel_read() pixel-by-pixel.
->>> The reading vfunc should be called with many pixels at a time when the
->>> source FB layout allows it. The whole point of the line-based functions
->>> was that they repeat the innermost loop in every function body to make
->>> the per-pixel overhead as small as possible. The VKMS implementations
->>> benchmarked before and after the original line-based algorithm showed
->>> that calling a function pointer per-pixel is relatively very expensive.
->>> Or maybe it was a switch-case.  
->>
->> Indeed, since your initial feedback Louis made a couple of comparisons
->> and the time penalty is between +5% and +60% depending on the case,
->> AFAIR.
->>
->>> Sorry, I didn't realize the optimization had already been lost.  
->>
->> No problem, actually I also lost myself in my first answer as I
->> initially thought the (mainline) RGB logic was also broken in edge
->> cases, which it was not, only the YUV logic suffered from some
->> limitations.
->>
->>> Btw. I'd suggest renaming vkms_compose_row() to vkms_fetch_row() since
->>> it's not composing anything and the name mislead me.  
->>
->> Makes sense.
->>
->>> I think if you inspect the compositing code as of revision
->>> 8356b97906503a02125c8d03c9b88a61ea46a05a you'll get a better feeling of
->>> what it was supposed to be.  
->>
->> Excellent, thanks a lot!
->>
->> Miquèl
-> 
-> 
