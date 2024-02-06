@@ -2,89 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1139184B6E5
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 14:51:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 801A084B76F
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 15:08:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 783CE10E6F6;
-	Tue,  6 Feb 2024 13:51:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83D09112C31;
+	Tue,  6 Feb 2024 14:08:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="D/KvPBe3";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Va0OfujC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE43510E6F6
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 13:51:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1707227474;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SkfoqLfzF7vK/gZE2YKlXCSfKtNqFNg1ApnwzVkTJKA=;
- b=D/KvPBe3waOurCzWuPPZ/q2qw9c0EKXZoIvCaxHAWZDaJFL8x4adUwrUZvaYQa7COppA5t
- WtBoY6M2Xb4FKntGVXMjfL9CyuQg2OoIJLktwH7YA/4+Do9OLsCU4q38NRAWp9XqrcAsfF
- jUEFe4ZGKrqrSu3Tcr6vN8FjAgOwC24=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-117-WrSEzQJPO6OOsZomdwgQ3Q-1; Tue, 06 Feb 2024 08:51:12 -0500
-X-MC-Unique: WrSEzQJPO6OOsZomdwgQ3Q-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-33b316fcaecso1417520f8f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Feb 2024 05:51:12 -0800 (PST)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CE0E112C16
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 13:57:07 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-40f030bf978so9840325e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Feb 2024 05:57:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1707227826; x=1707832626; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=kb3EfwQ1MJaeA9+O1qYrsLSl0T9nvfGVDQWyYC/ou2o=;
+ b=Va0OfujCCqhQ3sA17wVJsYkaW0j13/i6pPuldIdooh07RsXB8WeUujyVmuWi1As+s5
+ KZAUsi8ci6LdYcm8kIeu7W65qrc1ajlTexE28RDIouS3ksnXWgZL/A4e6Z+WkMissknM
+ ZXRzt4VX7jOLuY+yNVEBRJVK9YFCRYst6x5lQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707227472; x=1707832272;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SkfoqLfzF7vK/gZE2YKlXCSfKtNqFNg1ApnwzVkTJKA=;
- b=rzQwTV6QLtw3ZNaBQwsy/SaqVxz9MKJuoB9hjrAQnsX24O5kl1QRE+MrhdPwRTVMs6
- rKtdJVmeEIxGc+XffEXZvNvcxbT/Q32ba4n1AIBCXKewDW7LKWt7q6V2Zz4g5RLr4uHL
- gP98srWPsUvEHMf+DtKuCz42lujl0fDEJRh2uQfwwRzq0ffGUfHaIV+iJz4ExHNtSmN8
- VMZavePb//WOO4ioDSxk9xqjtAix/XN5zmgAvAn4iIGQrfRDTXoOoiLWun5trTOWprXQ
- DlcGvpsoCdbOhd+j+BI8zk9WFUX4FJaYcXPFdqWtQ0Wu+bkMhPdOxTv+qYXqWvx8fjvw
- NeqA==
-X-Gm-Message-State: AOJu0YxUCZVgCl2wmQNqP4L4FJ8rbTrC8QWhR7VkILLRGVuoqXhjHmUr
- DrqtzwdvWRnKpj6ImTwl1MVzyC09K0FXYvk9mqxe4uK4ylw/3CcRQq0wn/bQXWWPAe2vdsZHOFY
- mclLNltkNhmvdSWHLh3dBYaLaumtLypmAoBKYxBYjBGjXLmDd7o+kPaWPyQmyY22Ksw==
-X-Received: by 2002:a5d:6dae:0:b0:33b:3040:df03 with SMTP id
- u14-20020a5d6dae000000b0033b3040df03mr1709975wrs.46.1707227471691; 
- Tue, 06 Feb 2024 05:51:11 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEmpZadPLKyny+UC5ApM3JvQcujp/xyiMsSaDgPfqOOTl1ukEuwHOjmaHSYYxhbfvUtaHQBrQ==
-X-Received: by 2002:a5d:6dae:0:b0:33b:3040:df03 with SMTP id
- u14-20020a5d6dae000000b0033b3040df03mr1709950wrs.46.1707227471286; 
- Tue, 06 Feb 2024 05:51:11 -0800 (PST)
+ d=1e100.net; s=20230601; t=1707227826; x=1707832626;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kb3EfwQ1MJaeA9+O1qYrsLSl0T9nvfGVDQWyYC/ou2o=;
+ b=Bq+jWnTUg6Os5CtFEtoTO03GPQcEH6+mVdARtLjHIYA6sBDBnO0sx7Up4J5pg96xTo
+ RGKDycH7EBJFd5yEBmBH7Pix7LtIgrO7LUAGqBMRxhCnNenL8MDiFEEGe+/w2qoYgp14
+ eECzzg2dNjkmwl/M9klSoUTTPKHYytT4GE8mos+T5+Ga2eoWGCq4NBiVi+ITep+CTXgd
+ TyCj5iqavLoDScH/dX7Z4quZhF1FexJz3eW1sTGX9xv34ImJbpNdf516+DAP8+jne4SG
+ hHul02685pws0gbGJItAdMFkJ+RCp/2f1Us/DOEbtEkWtZPIJRrUjcClbF9+GIe5jKy/
+ IH1w==
+X-Gm-Message-State: AOJu0Yz7KAZw4R0k072IhoPDk/HkiuMD9Zu5kPgzpju/TeeEM5w+YXbN
+ bIyK0R/LA7s5IrCTzbQjmxJZA7XECkGtPs412Rg8BVWfpXew9jcmj+nTWgqL/gI=
+X-Google-Smtp-Source: AGHT+IFOqn0cbJK+WY/X2jzsNFe5DlfE9RRoN3pYgv6uF/Bp/mQ+6ZreQmabY1RjWhfdxFOF8hFqgg==
+X-Received: by 2002:a05:600c:1d07:b0:40f:dd10:180f with SMTP id
+ l7-20020a05600c1d0700b0040fdd10180fmr2171433wms.3.1707227826124; 
+ Tue, 06 Feb 2024 05:57:06 -0800 (PST)
 X-Forwarded-Encrypted: i=0;
- AJvYcCWw7ZdrY1f0I+g1ocN0UgfGP0yCCOjUDRT8OWX7RaLOsE2gJ0X0xdAdyKzmuqYXimxSlPqXZmL9AHVRacnQ+nLfIpHR1Lr6DINAWEXvSm8gR8YeHaQiD03YFKViOW+q1PlQKSGaTEwDLjrhR7IzTLCjI+zxEQ62IXF3AUYbP/MbNjk=
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ AJvYcCVlNRdjfnrbeDjDbrCKYEBO3kd6rGhLpeMtXIG9oqKa+D8JDxEGy5DMCrqpoHSWZs0/bNypXMCfWtNtUPqoesQgAB0H6Daunh1Zgxlc+2Ut33t2ErRQSVGy8smjuSRGtY0tvTXLVh7k2qgPJ93b3ErEDdLGeMwVxq55VuThizfQDT/p92QBrVwVt6BC9+X/SgRZrG0aownrL7ZHiM5971IDJlkOtrvm6vm9btDr7rv6V6gklC7NhCAFtqZc8Pe/XJ7+9n2Rv5Auu909IPa39tT735ZRStAPQXX0KhuLsVAp7u7JKEaZy/OQBZ7OyT7GVfzIqxz+sgDsJt66dHh2BvC1uWUyIwCoa0jWx1h5P8wd7yKn0PYKtKi83LfG4m6t2/LSboEDvEmcshMx0eJHZjkLyWzcDWnLXG0SAj4nS4G+WWjIVaUS8optm2+U6EPGTnjDirg8XZAwCT2sFJbsh9+wpp7btXrzOT/ocxKYjY8ji4cYLruFDMZrZtrTNBc7+j0i3Mnw/EvN2ackeUuZ4g==
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- d16-20020adfe850000000b0033aeb0afa8fsm2167051wrn.39.2024.02.06.05.51.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Feb 2024 05:51:10 -0800 (PST)
-Message-ID: <9624b6b2-16b1-43a0-90ec-a9e8d40464d1@redhat.com>
-Date: Tue, 6 Feb 2024 14:51:10 +0100
+ f6-20020a5d50c6000000b0033afcc069c3sm2153649wrt.84.2024.02.06.05.57.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Feb 2024 05:57:05 -0800 (PST)
+Date: Tue, 6 Feb 2024 14:57:03 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Jonathan Cameron <jic23@kernel.org>,
+ Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Christoph Hellwig <hch@lst.de>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH v5 1/6] dma-buf: Add
+ dma_buf_{begin,end}_access()
+Message-ID: <ZcI6r_F1RQf8MCrq@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, 
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Jonathan Cameron <jic23@kernel.org>,
+ Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Christoph Hellwig <hch@lst.de>
+References: <2ac7562c-d221-409a-bfee-1b3cfcc0f1c6@amd.com>
+ <ZbKiCPhRvWaz4Icn@phenom.ffwll.local>
+ <c97e38ee-b860-4990-87f1-3e59d7d9c999@amd.com>
+ <Zbi6zQYtnfOZu5Wh@phenom.ffwll.local>
+ <a2346244-e22b-4ff6-b6cd-1da7138725ae@amd.com>
+ <7eec45a95808afe94ac65a8518df853356ecf117.camel@crapouillou.net>
+ <ZbjSJi07gQhZ4WMC@phenom.ffwll.local>
+ <1d912523-b980-4386-82b2-8d79808398c1@amd.com>
+ <ZboNyju8h4vfSd7v@phenom.ffwll.local>
+ <b2906521-998f-4a65-adb2-23caff207a4a@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/mgag200: Flush the cache to improve latency
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
- airlied@redhat.com,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20231019135655.313759-1-jfalempe@redhat.com>
- <660c0260-0e22-4e9c-ab13-157adaa0b14d@suse.de>
- <74b367bd-ac80-478b-8f82-e98cb6e40475@redhat.com>
- <f19a2cb4-57b6-427c-b69c-47a848420530@redhat.com>
- <e64f641d-44b7-4019-866d-1050277ef885@redhat.com>
- <ZcI1R7s10Fs8GSk8@phenom.ffwll.local>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <ZcI1R7s10Fs8GSk8@phenom.ffwll.local>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b2906521-998f-4a65-adb2-23caff207a4a@gmail.com>
+X-Operating-System: Linux phenom 6.6.11-amd64 
+X-Mailman-Approved-At: Tue, 06 Feb 2024 14:08:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,236 +117,266 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 06/02/2024 14:33, Daniel Vetter wrote:
-> On Mon, Dec 11, 2023 at 10:31:28AM +0100, Jocelyn Falempe wrote:
->> On 06/11/2023 11:46, Jocelyn Falempe wrote:
->>> On 23/10/2023 10:30, Jocelyn Falempe wrote:
->>>> On 20/10/2023 14:06, Thomas Zimmermann wrote:
->>>>> (cc'ing lkml for feedback)
->>>>>
->>>>> Hi Jocelyn
->>>>>
->>>>> Am 19.10.23 um 15:55 schrieb Jocelyn Falempe:
->>>>>> We found a regression in v5.10 on real-time server, using the
->>>>>> rt-kernel and the mgag200 driver. It's some really specialized
->>>>>> workload, with <10us latency expectation on isolated core.
->>>>>> After the v5.10, the real time tasks missed their <10us latency
->>>>>> when something prints on the screen (fbcon or printk)
->>>>>
->>>>> I'd like to hear the opinion of the RT-devs on this patch.
->>>>> Because AFAIK we never did such a workaround in other drivers.
->>>>> And AFAIK printk is a PITA anyway.
->>>>
->>>> Most other drivers uses DMA, which means this workaround can't apply
->>>> to them.
->>>>
->>>>>
->>>>> IMHO if that RT system cannot handle differences in framebuffer
->>>>> caching, it's under-powered. It's just a matter of time until
->>>>> something else changes and the problem returns. And (honest
->>>>> question) as it's an x86-64, how do they handle System
->>>>> Management Mode?
->>>>
->>>> I think it's not a big news, that the Matrox G200 from 1999 is
->>>> under-powered.
->>>> I was also a bit surprised that flushing the cache would have such
->>>> effect on latency. The tests we are doing can run 24h with the
->>>> workaround, without any interrupt taking more than 10us. Without the
->>>> workaround, every ~30s the interrupt failed its 10us target.
->>>>
->>>>>
->>>>>>
->>>>>> The regression has been bisected to 2 commits:
->>>>>> 0b34d58b6c32 ("drm/mgag200: Enable caching for SHMEM pages")
->>>>>> 4862ffaec523 ("drm/mgag200: Move vmap out of commit tail")
->>>>>>
->>>>>> The first one changed the system memory framebuffer from Write-Combine
->>>>>> to the default caching.
->>>>>> Before the second commit, the mgag200 driver used to unmap the
->>>>>> framebuffer after each frame, which implicitly does a cache flush.
->>>>>> Both regressions are fixed by the following patch, which forces a
->>>>>> cache flush after each frame, reverting to almost v5.9 behavior.
->>>>>
->>>>> With that second commit, we essentially never unmap an active
->>>>> framebuffer console. But with commit
->>>>>
->>>>> 359c6649cd9a ("drm/gem: Implement shadow-plane {begin,
->>>>> end}_fb_access with vmap")
->>>>>
->>>>> we now again unmap the console framebuffer after the pageflip happened.
->>>>>
->>>>> So how does the latest kernel behave wrt to the problem?
->>>>
->>>> The regression was found when upgrading the server from v5.4 to
->>>> v5.14, so we didn't test with later kernels.
->>>> We will test with v6.3 (which should have 359c6649cd9a ) and see
->>>> what it gives.
->>>
->>> I don't have a clear explanation, but testing with v6.3, and forcing the
->>> Write Combine, doesn't fix the latency issue. So forcing the cache flush
->>> is still needed.
->>>
->>> Also, on some systems, they use "isolated cpu" to handle RT task, but
->>> with a standard kernel (so without the CONFIG_PREEMPT_RT).
->>> So I'm wondering if we can use a kernel module parameter for this,
->>> so that users that wants to achieve low latency, can opt-in ?
->>>
->>> something like mgag200.force_cache_flush=1 or mgag200.low_latency=1 ?
->>
->> Hi,
->>
->> I have now access to a server that reproduce the issue, and I was able to
->> test different workarounds.
->>
->> So it is definitely related to the "Write Combine" mode of the mga internal
->> RAM. If I comment the two lines to enable wc: https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/mgag200/mgag200_drv.c#L150,
->> then the latency is <10us (but the performances are worse, from 20ms to 87ms
->> to draw a full frame).
+On Tue, Feb 06, 2024 at 02:28:35PM +0100, Christian König wrote:
+> Am 31.01.24 um 10:07 schrieb Daniel Vetter:
+> > On Tue, Jan 30, 2024 at 02:09:45PM +0100, Christian König wrote:
+> > > Am 30.01.24 um 11:40 schrieb Daniel Vetter:
+> > > > On Tue, Jan 30, 2024 at 10:48:23AM +0100, Paul Cercueil wrote:
+> > > > > Le mardi 30 janvier 2024 à 10:23 +0100, Christian König a écrit :
+> > > > > >    I would say we start with the DMA-API by getting away from sg_tables
+> > > > > > to something cleaner and state oriented.
+> > > > > FYI I am already adding a 'dma_vec' object in my IIO DMABUF patchset,
+> > > > > which is just a dead simple
+> > > > > 
+> > > > > struct dma_vec {
+> > > > >     dma_addr_t addr;
+> > > > >     size_t len;
+> > > > > };
+> > > > > 
+> > > > > (The rationale for introducing it in the IIO DMABUF patchset was that
+> > > > > the "scatterlist" wouldn't allow me to change the transfer size.)
+> > > > > 
+> > > > > So I believe a new "sg_table"-like could just be an array of struct
+> > > > > dma_vec + flags.
+> > > > Yeah that's pretty much the proposal I've seen, split the sg table into
+> > > > input data (struct page + len) and output data (which is the dma_addr_t +
+> > > > len you have above).
+> > > I would extend that a bit and say we have an array with
+> > > dma_addr+power_of_two_order and a header structure with lower bit offset and
+> > > some DMA transaction flags.
+> > > 
+> > > But this is something which can be worked as an optimization later on. For a
+> > > start this proposal here looks good to me as well.
+> > > 
+> > > > The part I don't expect to ever happen, because it hasn't the past 20 or
+> > > > so years, is that the dma-api will give us information about what is
+> > > > needed to keep the buffers coherency between various devices and the cpu.
+> > > Well maybe that's what we are doing wrong.
+> > > 
+> > > Instead of asking the dma-api about the necessary information we should give
+> > > the API the opportunity to work for us.
+> > > 
+> > > In other words we don't need the information about buffer coherency what we
+> > > need is that the API works for as and fulfills the requirements we have.
+> > > 
+> > > So the question is really what should we propose to change on the DMA-api
+> > > side to get this working as expected?
+> > So one thing I've been pondering, kinda picking up your point about CXL,
+> > is that we do make the coherency protocol more explicit by adding a
+> > coherency mode to dma_buf that the exporter sets. Some ideas for values
+> > this could have:
+> > 
+> > - ATTOMIC_COHERENT: Fully cache coherent, including device/cpu atomis.
+> >    This would be for CXL. Non-CXL devices could still participate with the
+> >    old model using explicit devices flushes, but must at comply with
+> >    CPU_COHERENT.
+> > 
+> >    There's also the power9-only nvlink that would fit here, but I guess
+> >    going forward CXL (and cache-coherent integrated gpu) would really be
+> >    the only users of this flag.
+> > 
+> >    Peer2peer would have the same rules, otherwise doesn't really make
+> >    sense. Also we might want to forbib non-CXL imports for these buffers
+> >    maybe even? Not sure on that.
+> > 
+> > - CPU_COHERENT: device transactions do snoop cpu devices caches, but
+> >    devices might do their own caching which isn't snooped by the cpu and
+> >    needs explicit device-side invalidate/flushing. This means pcie
+> >    importers are not allowed to use pcie no-snoop transactions, intel igpu
+> >    wouldn't be allowed to use MOCS that do the same, similar for arm
+> >    integrated devices.
+> > 
+> >    Importers can skip all explicit cache management apis like
+> >    dma_buf_begin/end_cpu_access, or the newly proposed
+> >    dma_buf_begin/end_device_access here.
+> > 
+> >    We'd need to figure out what exactly this means for peer2peer
+> >    transactions, I have no idea whether the no-snoop flag even does
+> >    anything for those.
+> > 
+> >    We might also want to split up CPU_COHERENT into CPU_COHERENT_WB and
+> >    CPU_WOHERENT_WC, so that importers know whether cpu reads are going to
+> >    be crawling or not.
+> > 
+> > - MEMORY_COHERENT: devices transactions do not snoop any caches, but
+> >    promise that all transactions are fully flushed to system memory. Any
+> >    devices transactions which do fill cpu caches must call the proposed
+> >    dma_buf_begin/end_device_access functions proposed here. Any cpu access
+> >    must be braketed by calls to dma_buf_begin/end_cpu_access.
+> > 
+> >    If your device does fill cpu caches, then essentially you'd not be able
+> >    to import such buffers. Not sure whether we need to put the
+> >    responsibility of checking that onto importers or exporters. Ideally
+> >    core dma-buf.c code would check this.
+> > 
+> >    Also maybe the cpu WC mapping mode would actually need to be a sub-mode
+> >    for MEMORY_COHERENT, because all cpu wc achieves is to avoid the need to
+> >    call dma_buf_begin/end_cpu_access, you would still need your devices to
+> >    be memory coherent. And if they're not, then you cannot use that
+> >    dma-buf.
+> > 
+> >    Or maybe alternatively we need to guarantee that exporters which set
+> >    MEMORY_COHERENT implement dma_buf_begin/end_device_access to make things
+> >    work for these cpu-coherent but not memory-coherent devices. This
+> >    becomes very tricky with device/arch/bus specific details I think.
+> > 
+> > - DMA_API_COHERENT: The memory is allocated or mapped by the dma-api, and
+> >    the exact coherency mode is not know. Importers _must_ braket all cpu
+> >    and device access with the respective dma_buf functions. This is
+> >    essentially the "we have no idea" default.
+> > 
+> >    Note that exporters might export memory allocated with dma_map_alloc
+> >    with MEMORY_COHERENT or CPU_COHERENT if they know how the memory exactly
+> >    works. E.g. for most arm soc gpu/display drivers we can assume that the
+> >    dma-api gives us MEMORY_COHERENT or CPU_COHERENT_WC, and just use that.
+> >    Essentially this would make the current implicit assumptions explicit.
+> > 
+> >    udmabuf would need to set this, definitely if Paul's patches to add the
+> >    explicit device flushes land.
+> > 
+> > - DEFAULT_COHERENT: This would be the backwards compat legacy yolo
+> >    behvaior. I'm not sure whether we should alias that with
+> >    DMA_API_COHERENT or leave it as a special value to mark exporters which
+> >    haven't been updated for the much more explicit coherency handling yet.
+> > 
+> >    The specification for this coherency mode would be a flat out "who
+> >    knows, just don't break existing use-cases with actual users".
+> >    Essentially the only reason we'd have this would be to make sure we can
+> >    avoid regressions of these existing use-cases, by keeping whatever
+> >    horrible heuristics we have in current exporters.
+> > 
+> >    It would also allow us to convert exporters and importers on a case by
+> >    case basis.
+> > 
+> > Note that all these coherency modes are defined in terms of bus-sepecific
+> > device access and in terms of dma_buf apis the importer must call or can
+> > skip. This way we'd avoid having to change the dma-api in a first step,
+> > and if this all works out properly we could then use the resulting dma-api
+> > as a baseline to propose dma-api extensions.
 > 
-> Ok this is very strange, but at least it starts to make sense. Apparently
-> if we stream a _lot_ of writes from wb to wc memory on a cpu that results
-> in high latencies on other cpus. And the only way to fix that is by
-> artificially making the wb source suffer from cache misses by flushing
-> them out.
+> When I read this for the first time my initial impression was that the idea
+> mostly looked good, but while thinking about it more and more I came to the
+> conclusion that this would go into the wrong direction.
 > 
->> I also tried to flush the vram using:
->> drm_clflush_virt_range(mdev->vram + clip->y1 * fb->pitches[0],
->> drm_rect_height(clip) * fb->pitches[0]);
->> And that lower the latency to ~20us, but it's not enough.
->>
->> I tried "sfence" which I though would flush the WC buffers of the CPU, but
->> that has no effect in practice.
->>
->> I think I can send a new patch, to not map the VRAM as Write Combine, either
->> if CONFIG_PREEMPT_RT is set or if a module parameter is set.
->> What do you think is the best approach ?
+> Maybe I'm repeating myself, but I think we first of all have to talk a bit
+> about some aspects of coherency:
 > 
-> I think an mgag200 module option like Dave suggested is best.
+> 1. Intra device coherency. This means that intra devices caches are
+> invalidated before beginning an operation and flushed before signaling that
+> an operation finished.
 > 
-> Plus the entire above debug story in the commit message, especially the
-> things you've figured out in your latest testing (apologies for missing
-> your mail from Dec, pls ping again if things get dropped like that) kinda
-> explains what's going on.
+> 2. Inter device and device to CPU coherency. This means that caches which
+> sit in between devices and between devices and the CPU need to be
+> invalidated and flushed appropriately when buffers are accessed by different
+> parties.
 > 
-> Still doesn't make much sense that a cpu doing a lot of wb->wc transfers
-> can hurt other cores like this, but at least that seems technically
-> plausible.
+> Number 1 is device specific, part of the DMA-buf framework and handled by
+> dma_fences. As far as I can see that part is actually quite well designed
+> and I don't see any obvious need for change.
 > 
-> Also please link to this thread for all the details on test setup, I think
-> the above is enough as a summary for the commit message. But if you want
-> you can include all the details below too.
+> Number 2 is platform specific and I completely agree with the DMA-api folks
+> that this doesn't belong into DMA-buf in the first place. That's why I think
+> the begin_cpu_access()/end_cpu_access() callbacks are actually a bit
+> misplaced. We still can use those in the exporter, but to make better buffer
+> placement decisions, but should not invalidate any caches when they are
+> called.
 
-Thanks,
+I don't think there's cases where we can avoid the cache management in
+begin/end_cpu_access, because there are SoC out there with the following
+constraints:
 
-Let me send a new patch, with this change.
+- Device access is not coherent with cpu caches, no snooping going on at
+  all. Device2device dma is fully coherent though (since there's no caches
+  to take care of at all).
 
-For the module parameter, I propose to name it "writecombine" and 
-default to 1, so if you want low latency, you need to add 
-mgag200.writecombine=0 to the kernel command line.
+- Mapping as write-combined on the cpu is not possible. Not every platform
+  is reasonable and has something like pat with cache control in each pte.
+  Or they have, but in practice it's not useable.
 
-Best regards,
+Which means your options are only a) no cpu access b) bracket cpu access
+with cache management. So I'm not sure what exactly you have in mind here,
+since people really don't like a) that's why we added that cpu access
+braketing stuff?
 
+Also what exactly would you do in begin/end_cpu_access instead of cache
+management? Note that you kinda need to call dma_buf_vmap (for kernel
+access) or dma_buf_mmap (for userspace) before you can call these, and any
+placement changes should be done in those functions and not in
+begin/end_cpu_access. Especially for dma_buf_vmap the buffer must be
+pinned, so you have no other choice. And for userspace you'd need fault
+handlers, you cannot rely on the begin/end ioct calls, because that would
+defacto make those into a pin/unpin ioctl, which defeats the point of
+having more dynamic memory management for these buffers.
+
+> The flushing and invalidation for platform caches should really be in the
+> DMA-buf framework and not the exporter.
+> 
+> So in my thinking the enumeration you outlined above should really go into
+> struct device and explaining to everybody what the coherency properties of
+> DMA operations of this device is.
+
+So that's the part that I think dma-api folks really don't like. They
+don't want higher levels to know about cache management at all, so I don't
+see how we can make this happen.
+
+The other issue is that we have a ton of exporter which flaunt the dma-api
+rules for their platform/device, e.g. x86 is officially fully cache
+coherent. Except integrated gpu/camera isp are not, and for rendering you
+can select the coherency mode on a per-transaction level in the cs
+packets.
+
+So putting this into a struct device flags is not going to work I think
+for these two cases: for dma-api allocated/managed memory I don't
+think'll get it, and for stuff like i915-gem it's too strict, we need at
+least a per-buffer flag for this.
+
+> > I think starting right out with designing dma-api extension is a few
+> > bridges too far. Both from a "how do we convince upstream" pov, but maybe
+> > even more from a "how do we figure out what we even need" pov.
+> 
+> Well I totally agree on the "how do we figure out what we even need", but I
+> disagree a bit on that we don't know what DMA-api extension we need.
+> 
+> We don't have the full picture yet, but as I already outlined from the
+> DMA-api pov we have two major things on our TODO list:
+> 
+> 1. Somehow remove the struct pages from the DMA-buf *importer* API.
+> 
+>     My best suggestion at the moment for this is to split sg_tables into two
+> data structures, one for the struct pages and one for the DMA addresses.
+> 
+>     Mangling the addresses to ensure that no importer messes with the struct
+> pages was a good step, but it also creates problems when
+> dma_sync_sg_for_cpu() dma_sync_for_device() are supposed to be called.
+
+Hm yeah we need to temporarily unmangle those around those calls. Since
+it's a debug only option this should't be a big deal.
+
+I agree that eventually we should aim towards splitting this properly, but
+I think as long as the dma-api itself isn't there yet, it doesn't make too
+much sense to charge ahead in dma-buf code.
+
+> 2. Add some dma_sync_sg_between_devices(A, B....).
+> 
+>     And on this I think we are on the same page that we are going to need
+> this, but we are just not clear on who is going to use it.
+
+Yeah I think this we might be able to eventually get added to dma-api. But
+I think that's only on the table once
+- we have this in dma-buf code (can be in dma-buf.c or in exporters, I'm
+  not extremely opionated about this).
+- we have real-world use-cases where fusing superflous caches management
+  operations with the existing dma_sync_sg_for_device/cpu actually matters
+- someone's willing to roll out the infrastructure work - altough a
+  default implementation that just calss dma_sync_sg_for_device/cpu in the
+  right order is probably good enough as fallback for most platforms.
+
+I think the other issue is that all this is multi-year projects with a lot
+of effort, and I think we need something that will work a lot sooner for
+Paul's use-case here.
+
+Cheers, Sima
 -- 
-
-Jocelyn
-
-> 
-> Cheers, Sima
-> 
->> My tests setup:
->>
->> I either flood the console with "cat /dev/urandom | base64" from the BMC, or
->> write to fb0 with "while true; do dd if=/dev/urandom of=/dev/fb0 ; done"
->>
->> then I run:
->>
->> cd /sys/kernel/debug/tracing
->> echo 0 > tracing_on
->> echo 950000 > hwlat_detector/width
->> echo hwlat > current_tracer
->> echo 10 > tracing_thresh
->> echo 1 > tracing_on
->> sleep 300
->> cat trace
->> echo 0 > tracing_on
->> echo nop > current_tracer
->>
->>
->> Test Results:
->>
->> V6.6 (~40us latency)
->>
->> # tracer: hwlat
->> #
->> # entries-in-buffer/entries-written: 6/6   #P:56
->> #
->> #                                _-----=> irqs-off/BH-disabled
->> #                               / _----=> need-resched
->> #                              | / _---=> hardirq/softirq
->> #                              || / _--=> preempt-depth
->> #                              ||| / _-=> migrate-disable
->> #                              |||| /     delay
->> #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
->> #              | |         |   |||||     |         |
->>             <...>-8795    [001] dn...   613.749741: #1 inner/outer(us):
->> 41/41    ts:1702045267.016266287 count:9976
->>             <...>-8804    [000] dn...   675.201727: #2 inner/outer(us):
->> 40/40    ts:1702045328.469859973 count:6506
->>             <...>-8804    [000] dn...   731.435258: #3 inner/outer(us):
->> 40/41    ts:1702045384.704861049 count:9578
->>             <...>-8804    [000] d....   787.684533: #4 inner/outer(us):
->> 41/41    ts:1702045440.955603974 count:22591
->>             <...>-8804    [000] d....   844.303041: #5 inner/outer(us):
->> 41/41    ts:1702045497.575594006 count:33324
->>             <...>-8804    [000] d....   900.494844: #6 inner/outer(us):
->> 40/40    ts:1702045553.768864888 count:1924
->>
->>
->> V6.6 + clfush mdev->vram (~20us latency)
->>
->> # tracer: hwlat
->> #
->> # entries-in-buffer/entries-written: 3/3   #P:56
->> #
->> #                                _-----=> irqs-off/BH-disabled
->> #                               / _----=> need-resched
->> #                              | / _---=> hardirq/softirq
->> #                              || / _--=> preempt-depth
->> #                              ||| / _-=> migrate-disable
->> #                              |||| /     delay
->> #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
->> #              | |         |   |||||     |         |
->>             <...>-8983    [001] d....   534.595415: #1 inner/outer(us):
->> 21/20    ts:1702024432.844243126 count:3018
->>             <...>-8983    [000] dn...   758.560453: #2 inner/outer(us):
->> 21/21    ts:1702024656.824367474 count:22238
->>             <...>-8983    [000] dn...   815.117057: #3 inner/outer(us):
->> 21/21    ts:1702024713.373220580 count:26455
->>
->>
->> V6.6 + no Write Combine for VRAM (<10us latency)
->>
->> # tracer: hwlat
->> #
->> # entries-in-buffer/entries-written: 0/0   #P:56
->> #
->> #                                _-----=> irqs-off/BH-disabled
->> #                               / _----=> need-resched
->> #                              | / _---=> hardirq/softirq
->> #                              || / _--=> preempt-depth
->> #                              ||| / _-=> migrate-disable
->> #                              |||| /     delay
->> #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
->> #              | |         |   |||||     |         |
->>
->>
->> Best regards,
->>
->> -- 
->>
->> Jocelyn
->>
-> 
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
