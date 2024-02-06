@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24EF684B6A5
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 14:41:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0E0B84B6A6
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 14:41:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48134112BF8;
-	Tue,  6 Feb 2024 13:41:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3A17112BFB;
+	Tue,  6 Feb 2024 13:41:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JRiCAHOf";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Z5d9BeoJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C6CE112BF8
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 13:40:59 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BB91112BF9
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 13:41:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1707226858;
+ s=mimecast20190719; t=1707226860;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nDrBrW1QyBkIZW9XXC7FxnbgE53QwXCFFfi0uuWv0Ls=;
- b=JRiCAHOfIYAs4SqwwALe3r1bXpXEYl4Rl9Hurdim3ZA0m9pAWagjG/sFto2d7MR32yGYmA
- ZRmeU5KyLQXC2F30cpmIozyZKfOr0SQiLX/qvn7y8RLve8djVbVXhO3uomE/Yxir1npysz
- emNzsu3NhsF4giVIFoke4Z5HKB3/WDA=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=wFTRxYvZ76dhFqAdPDH/a2zkO7llSf+/xEzdCoge4iY=;
+ b=Z5d9BeoJTLuAhghSn4uitOGY9UNzMcDT8skTM256Rv6t+APnxm7JVH9aKO6OFUXpfTjXgM
+ /GlF+32EEX+Zp7EljcyBiIXn7dXglg1/ocmXuVKulrUwluP1XmYIWW5isFgnkYDg/RaBy4
+ 2mrMi3255V+1Xv/KwO1MyYtUlqWMT20=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-422-ozHT8aLWPimQY-6UkhKnYQ-1; Tue, 06 Feb 2024 08:40:56 -0500
-X-MC-Unique: ozHT8aLWPimQY-6UkhKnYQ-1
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-78313358d3bso261634085a.0
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Feb 2024 05:40:56 -0800 (PST)
+ us-mta-507-rKq6h_SmN2yLZEbv9FlnDw-1; Tue, 06 Feb 2024 08:40:59 -0500
+X-MC-Unique: rKq6h_SmN2yLZEbv9FlnDw-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-78543d8dfd6so47980085a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Feb 2024 05:40:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707226856; x=1707831656;
+ d=1e100.net; s=20230601; t=1707226859; x=1707831659;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nDrBrW1QyBkIZW9XXC7FxnbgE53QwXCFFfi0uuWv0Ls=;
- b=U8MqAQViXStdrEE0kZu94jNYhJEiS2AELREmzZ32yHiWecUzoBKlNASIQXn+48q2Ft
- JHFmPnW/p54k8vI4ggBDeRA27tgS7ymW++wKEGc3cgphrOOcGMjKyrxYOKDvks/0XC8R
- tv3B4WJM/YwAkYRQ7g2yrFyoxCuqiKc5oWEHoR3qL9IK1ZFIYk8F411zg1Jpi5jyCQV3
- T1/vVapDHY3Ps+NfJZ37vlYcS+PKO62PWQzMKNOi7opScSKuF219dI0rRl0CJ87X+Wwh
- 9nKkTo4iQtcZQNbSPbMuT0LizkgHj5rPG7mwzidsCnF9GeaWbz02N1qza7TNomkFmrzN
- wfOQ==
-X-Gm-Message-State: AOJu0Yx6XnEQlPAFVjQiAPay9ddGcoQ/DaMHKYFTOL3ORxJ3Tul6/jCR
- UPBbk86S+D38WXtuCGVES+Sz8AZrd1UJX1qHmX06FMZt50JJGJQTQj2ISKDkqdPO4W87qyCfS8/
- 2HicueKrII/Pdf4dT8MeW79dsB2J1GSlLh8EaA7HIMjevbHkUjg9biZDwA50wckjsOg==
-X-Received: by 2002:a05:620a:4722:b0:785:4588:7a09 with SMTP id
- bs34-20020a05620a472200b0078545887a09mr2762765qkb.3.1707226856074; 
- Tue, 06 Feb 2024 05:40:56 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHV1JhLewj2WzyuV6mJbjtKqCzdBMh7UJ+3tI4Yg38PSz9EUg3UpxjFWaNX43CrNpj4fEFLiA==
-X-Received: by 2002:a05:620a:4722:b0:785:4588:7a09 with SMTP id
- bs34-20020a05620a472200b0078545887a09mr2762751qkb.3.1707226855798; 
- Tue, 06 Feb 2024 05:40:55 -0800 (PST)
+ bh=wFTRxYvZ76dhFqAdPDH/a2zkO7llSf+/xEzdCoge4iY=;
+ b=X3NXmC5ECj1l+4V3n/V8rzWv368oi6qYhnNt7yya8Ky6H6aDNTI3mmiq4d8Y/ELqgu
+ hpHnEkxUd/Dg3kV9/sX2RGjut/joF8rNruS6KPdI3Mw9BpjwCcnIXtBb7SGUIYCR7ejx
+ uI/suBWO+h45mxBfXeRM/nC/+dM0A/Z6M0igFUkRvuDTUxwnYchSSlvmQRsgBXSRurVR
+ l2QW+5j5UDqfPYVirU14IMnaWAstubLuWiiygHnAuiOgPiECPFHvS9sWFwd4xTjBIBnx
+ HF+fV7VmRpxWGuAgKChhJepBqsH6NyxSAqqK4TVSx64gPoHNTaY5dMkfD0F+yBx/wMuW
+ SgwA==
+X-Gm-Message-State: AOJu0Yz7t0FicKt3BSSaaBMax7Ie9FrN5Cihtzl4ApzMw0hEkjTEYCtJ
+ 0DIL5maA/afSggAaU1XiL9XNyjtWb7eRkwOlzyQk89S3Oa8FcoPbKZJ6xMW411awi+Z0l05Y665
+ PHmOA8sjdGxkaHoSRj+XwcKPbXg/aXInTMp4oDEBVA8ZhVutozeLa6CEEvgcueMaCog==
+X-Received: by 2002:a05:620a:458f:b0:785:8aed:219c with SMTP id
+ bp15-20020a05620a458f00b007858aed219cmr2740647qkb.4.1707226858849; 
+ Tue, 06 Feb 2024 05:40:58 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGbUFe8rAmzdQwiOUkDOWaSU2uG39vl/g+XyIl4fyr/XwVyPG/ryyPI2bU0DdbSQp1oH7bwGw==
+X-Received: by 2002:a05:620a:458f:b0:785:8aed:219c with SMTP id
+ bp15-20020a05620a458f00b007858aed219cmr2740622qkb.4.1707226858478; 
+ Tue, 06 Feb 2024 05:40:58 -0800 (PST)
 X-Forwarded-Encrypted: i=0;
- AJvYcCXY73u7g+juzT4qNhBv3adaHj4fe+28SURqOK6AMlIWi7SNnZKGhEb2SSunmcFOciqesjrdctJWePLgX61nFQtGT5DaHz6Drpqx3G76kNq/mJa5K3DoJrAWl6f6g4DFCZF0ILo9JChZ4/clq2pplqhGRQMKv+BDBiNhFo86TN0jVsQ0QNTSA6pXfzo/lV39SDF7eXdr0HLEdQW8DLwItLzDNvPVqbSGxXWzQmvii1m9FK8AvubZrpLmdghe10es0xS+rE+5D09CNNgsmtT/eZjDpF1Pbzdgh0a3oxdS5CUX+UBfXjFLQWbZ8iPUzFmXBwQhDDVav0ymM1W7urvifsSe2K0KvynAiVS3TjOJqMuTG/VdoSvxMAAzsrZG9Gk6tkYfCuMm
+ AJvYcCVVeDR5b9c7g/LX4DSP+QZjXTjR4mD9i/Uh3Ezjtj2GW3JtLorKY5AblA+CjtJql2aLlNALxzV0bl4U41u/GhhZLatfz9z0bPdBgozM5EYqgeElngR5qR0Txp3/2qm26N1Ys4+/8hSBu6u0aVRfjpHdO1etZE2hVCPT0KXoSUUzd617dh59feMZZeAjbZhdv8EnSQMoiuo89rEq+BvdPIr9sAN3QLOVlkylgY3mNTLjiVFjIdPDcpIFzQC9jWFF/j85Y4fRB2DTkj/Y3sTRuTE4bDbGsJR7R5v8GBdTiU3fm3/tDc7ma55apc9cEjsouFx/iBcEiQmJasZt4DHn09OqYIwb+Wn3YbkFIprccJT/mkYLQbiwHpsE+JR6Ql4TqRJ4ZFLdqlLKi8ArBJYgqbXk+HpyMNjYOPlQc7SM
 Received: from pstanner-thinkpadt14sgen1.remote.csb
  (nat-pool-muc-t.redhat.com. [149.14.88.26])
  by smtp.gmail.com with ESMTPSA id
- vu4-20020a05620a560400b0078544c8be9asm903791qkn.87.2024.02.06.05.40.52
+ vu4-20020a05620a560400b0078544c8be9asm903791qkn.87.2024.02.06.05.40.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Feb 2024 05:40:54 -0800 (PST)
+ Tue, 06 Feb 2024 05:40:57 -0800 (PST)
 From: Philipp Stanner <pstanner@redhat.com>
 To: Hans de Goede <hdegoede@redhat.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -72,10 +72,11 @@ To: Hans de Goede <hdegoede@redhat.com>,
  Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas <bhelgaas@google.com>,
  Sam Ravnborg <sam@ravnborg.org>, dakr@redhat.com
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org, Philipp Stanner <pstanner@redhat.com>
-Subject: [PATCH v3 09/10] PCI: Remove legacy pcim_release()
-Date: Tue,  6 Feb 2024 14:39:55 +0100
-Message-ID: <20240206134000.23561-11-pstanner@redhat.com>
+ linux-pci@vger.kernel.org, Philipp Stanner <pstanner@redhat.com>,
+ stable@kernel.vger.org
+Subject: [PATCH v3 10/10] drm/vboxvideo: fix mapping leaks
+Date: Tue,  6 Feb 2024 14:39:56 +0100
+Message-ID: <20240206134000.23561-12-pstanner@redhat.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240206134000.23561-2-pstanner@redhat.com>
 References: <20240206134000.23561-2-pstanner@redhat.com>
@@ -99,94 +100,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks to preceding cleanup steps, pcim_release() is now not needed
-anymore and can be replaced by pcim_disable_device(), which is the exact
-counterpart to pcim_enable_device().
+When the PCI devres API was introduced to this driver, it was wrongly
+assumed that initializing the device with pcim_enable_device() instead
+of pci_enable_device() will make all PCI functions managed.
 
-This permits removing further parts of the old devres API.
+This is wrong and was caused by the quite confusing PCI devres API in
+which some, but not all, functions become managed that way.
 
-Replace pcim_release() with pcim_disable_device().
-Remove the now surplus function get_pci_dr().
+The function pci_iomap_range() is never managed.
 
+Replace pci_iomap_range() with the actually managed function
+pcim_iomap_range().
+
+CC: <stable@kernel.vger.org> # v5.10+
+Fixes: 8558de401b5f ("drm/vboxvideo: use managed pci functions")
 Signed-off-by: Philipp Stanner <pstanner@redhat.com>
 ---
- drivers/pci/devres.c | 49 +++++++++++++++++++-------------------------
- 1 file changed, 21 insertions(+), 28 deletions(-)
+ drivers/gpu/drm/vboxvideo/vbox_main.c | 20 +++++++++-----------
+ 1 file changed, 9 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/pci/devres.c b/drivers/pci/devres.c
-index 8a643f15140a..3e567773c556 100644
---- a/drivers/pci/devres.c
-+++ b/drivers/pci/devres.c
-@@ -463,48 +463,41 @@ int pcim_intx(struct pci_dev *pdev, int enable)
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/vboxvideo/vbox_main.c b/drivers/gpu/drm/vboxvideo/vbox_main.c
+index 42c2d8a99509..d4ade9325401 100644
+--- a/drivers/gpu/drm/vboxvideo/vbox_main.c
++++ b/drivers/gpu/drm/vboxvideo/vbox_main.c
+@@ -42,12 +42,11 @@ static int vbox_accel_init(struct vbox_private *vbox)
+ 	/* Take a command buffer for each screen from the end of usable VRAM. */
+ 	vbox->available_vram_size -= vbox->num_crtcs * VBVA_MIN_BUFFER_SIZE;
  
--static void pcim_release(struct device *gendev, void *res)
-+static void pcim_disable_device(void *pdev_raw)
- {
--	struct pci_dev *dev = to_pci_dev(gendev);
--
--	if (!dev->pinned)
--		pci_disable_device(dev);
--}
--
--static struct pci_devres *get_pci_dr(struct pci_dev *pdev)
--{
--	struct pci_devres *dr, *new_dr;
--
--	dr = devres_find(&pdev->dev, pcim_release, NULL, NULL);
--	if (dr)
--		return dr;
-+	struct pci_dev *pdev = pdev_raw;
- 
--	new_dr = devres_alloc(pcim_release, sizeof(*new_dr), GFP_KERNEL);
--	if (!new_dr)
--		return NULL;
--	return devres_get(&pdev->dev, new_dr, NULL, NULL);
-+	if (!pdev->pinned)
-+		pci_disable_device(pdev);
- }
- 
- /**
-  * pcim_enable_device - Managed pci_enable_device()
-  * @pdev: PCI device to be initialized
-  *
-- * Managed pci_enable_device().
-+ * Returns: 0 on success, negative error code on failure.
-+ *
-+ * Managed pci_enable_device(). Device will automatically be disabled on
-+ * driver detach.
-  */
- int pcim_enable_device(struct pci_dev *pdev)
- {
--	struct pci_devres *dr;
--	int rc;
-+	int ret;
- 
--	dr = get_pci_dr(pdev);
--	if (unlikely(!dr))
+-	vbox->vbva_buffers = pci_iomap_range(pdev, 0,
+-					     vbox->available_vram_size,
+-					     vbox->num_crtcs *
+-					     VBVA_MIN_BUFFER_SIZE);
+-	if (!vbox->vbva_buffers)
 -		return -ENOMEM;
-+	ret = devm_add_action(&pdev->dev, pcim_disable_device, pdev);
-+	if (ret != 0)
-+		return ret;
++	vbox->vbva_buffers = pcim_iomap_range(
++			pdev, 0, vbox->available_vram_size,
++			vbox->num_crtcs * VBVA_MIN_BUFFER_SIZE);
++	if (IS_ERR(vbox->vbva_buffers))
++		return PTR_ERR(vbox->vbva_buffers);
  
--	rc = pci_enable_device(pdev);
--	if (!rc)
--		pdev->is_managed = 1;
-+	/*
-+	 * We prefer removing the action in case of an error over
-+	 * devm_add_action_or_reset() because the later could theoretically be
-+	 * disturbed by users having pinned the device too soon.
-+	 */
-+	ret = pci_enable_device(pdev);
-+	if (ret != 0)
-+		devm_remove_action(&pdev->dev, pcim_disable_device, pdev);
+ 	for (i = 0; i < vbox->num_crtcs; ++i) {
+ 		vbva_setup_buffer_context(&vbox->vbva_info[i],
+@@ -116,11 +115,10 @@ int vbox_hw_init(struct vbox_private *vbox)
+ 	DRM_INFO("VRAM %08x\n", vbox->full_vram_size);
  
--	return rc;
-+	return ret;
- }
- EXPORT_SYMBOL(pcim_enable_device);
+ 	/* Map guest-heap at end of vram */
+-	vbox->guest_heap =
+-	    pci_iomap_range(pdev, 0, GUEST_HEAP_OFFSET(vbox),
+-			    GUEST_HEAP_SIZE);
+-	if (!vbox->guest_heap)
+-		return -ENOMEM;
++	vbox->guest_heap = pcim_iomap_range(pdev, 0,
++			GUEST_HEAP_OFFSET(vbox), GUEST_HEAP_SIZE);
++	if (IS_ERR(vbox->guest_heap))
++		return PTR_ERR(vbox->guest_heap);
  
+ 	/* Create guest-heap mem-pool use 2^4 = 16 byte chunks */
+ 	vbox->guest_pool = devm_gen_pool_create(vbox->ddev.dev, 4, -1,
 -- 
 2.43.0
 
