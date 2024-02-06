@@ -2,70 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9664484BE1B
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 20:30:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B03AE84BE3B
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 20:43:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2DCD112D91;
-	Tue,  6 Feb 2024 19:30:23 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="AFdOzT0h";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0AA1112DA9;
+	Tue,  6 Feb 2024 19:43:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89C22112D91
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 19:30:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1707247816; x=1707852616; i=markus.elfring@web.de;
- bh=hi0BT47m6ZyBheedy6RSpVulWOf5VI5WWIZe5wNvktc=;
- h=X-UI-Sender-Class:Date:Subject:From:To:Cc:References:
- In-Reply-To;
- b=AFdOzT0h3oqTBgn00LiRwdbL/4B+PXCN6St4kmqNToB1MrhUnPK5dvBUnKiqymOb
- 1wzbmqpWAvwjp24ju4Vqcgyor9jionuE/QOtHte9DIwfUynb5ka1NNHck9UerwCEQ
- 63+q4xBeKju/PQ0P63PY5EsSAVj5Ju+NV/O0u/ZS7G9jgK5xiq9ktffoJzYk/iCp4
- pz0/6uSN2cDr6ae39vPcLqrcGRQcKLgQyjtacRslevRNhwwFIbtJvrVtici7H4DwI
- WT+Y3wgZ6S7x+p+/l1DVOw4C2KFXupJJJufURY12BkFNwG9rePraY1SkFhIIdv64m
- szZ/90HEK6dZ2YUjMw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MHmq2-1rlFCY0P3O-00EsQQ; Tue, 06
- Feb 2024 20:30:16 +0100
-Message-ID: <2ee2acc5-dce4-4e79-8f4c-f64f806f2e40@web.de>
-Date: Tue, 6 Feb 2024 20:30:15 +0100
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com
+ [209.85.161.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6544C10E367;
+ Tue,  6 Feb 2024 19:43:48 +0000 (UTC)
+Received: by mail-oo1-f44.google.com with SMTP id
+ 006d021491bc7-59584f41f1eso1982210eaf.1; 
+ Tue, 06 Feb 2024 11:43:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707248627; x=1707853427;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Lb5wcqeRy+vlaNArKIwVtaEfEgOoKp4cUFbNlHx3fM8=;
+ b=bFoLgxG/wIJTZSsx975+Q1eVjavGyVe3UsHdg6LZELk66/lxc2Wm+PYIS/uk9SOESY
+ 31e/eoFr4LSAGRYZ2fEwTT/7XzuQgP29PnfqX/zta5vlqLZFQb6QFl1vkyVIe/ScOYyr
+ yxFXmqtQARSrN5G6wPkykaS0GIA8+b7Loo8ZHgOqBS/x2vL3a8QbHjrgvnXY4wTSIpBs
+ JcRGVyQX6PEMwfWeBFge3S2+Tttk8Gaa3wOMn394Dj2R1yRPKHsFzpAyx/2ZP5Dp7/NI
+ gj8wQCW1TQVzHkl39Ufz50ROkg4lUAAwD3CDLgfFC9G9OUJdyv/M68rlUz6fidrEYfx4
+ o/sQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVbt/DHnMji5tQDyc7tdcdb58QJLTWyDsnUyVwTjFzbpAsC3rjfqi2ygiB5+Scp7520hJtRiS28WjOt/7c3d5Resl90mnPs37NF6iEx+FamemOGhk9/sNPJlpmoPwVvluzpFrSudDTauVSWXcclmQ==
+X-Gm-Message-State: AOJu0YzTtKztQYKEdHIjG/OdJpnlCfFhRmn4ho5jNb3g4v0kfXNNqMv8
+ 3prPIa0qUEpR1CCS+j3T2P9gxvNg1Icobp44loaGAf6np4mWPLuxC08haeR1AnTG46JlXU8V7S1
+ HS6t8RqDC5EMUEoQ25kkFLObUEov4t0Sj
+X-Google-Smtp-Source: AGHT+IFYpomoi6DqiLfOdnXUy18la5AUhPIE1vXch0R4vJYU9EvwTF3nTdcympXAvGk/V9053cees/3tktHeg9wZtyk=
+X-Received: by 2002:a05:6820:82b:b0:59c:eb7b:c04e with SMTP id
+ bg43-20020a056820082b00b0059ceb7bc04emr2573848oob.1.1707248627613; Tue, 06
+ Feb 2024 11:43:47 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH v2] drm/tegra: dsi: Use devm_platform_ioremap_resource() in
- tegra_dsi_probe()
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-To: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
- kernel-janitors@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>
-Cc: LKML <linux-kernel@vger.kernel.org>
-References: <c2e4aaa9-731f-4a33-890e-567c466a8885@web.de>
-In-Reply-To: <c2e4aaa9-731f-4a33-890e-567c466a8885@web.de>
-Content-Type: text/plain; charset=UTF-8
+References: <20240201221119.42564-1-mario.limonciello@amd.com>
+ <20240201221119.42564-2-mario.limonciello@amd.com>
+ <CAJZ5v0iw3PLB4W0QNmRCgK2AWxe5A7wxnWSz-Jm--Mb=fnugEw@mail.gmail.com>
+ <c96de797-39c4-4c83-96e2-d4579504e88e@amd.com>
+In-Reply-To: <c96de797-39c4-4c83-96e2-d4579504e88e@amd.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Tue, 6 Feb 2024 20:43:36 +0100
+Message-ID: <CAJZ5v0iZTJtMwZLGFovoLbFTP=OG=L6ZLgBbLU2ob5_X6OLB0A@mail.gmail.com>
+Subject: Re: [PATCH v3 1/5] ACPI: video: Handle fetching EDID that is longer
+ than 256 bytes
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, amd-gfx@lists.freedesktop.org, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>, 
+ Hans de Goede <hdegoede@redhat.com>,
+ "open list:ACPI" <linux-acpi@vger.kernel.org>, 
+ open list <linux-kernel@vger.kernel.org>, 
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Melissa Wen <mwen@igalia.com>, Mark Pearson <mpearson-lenovo@squebb.ca>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:P0c1I0GGVWIPRIqGbF/0oVUMwLjd5lT+AEWpvtbuRHfrDaVev3s
- 9waL07qfdivt9+Kme3XYPma+E4Cbil0jtMr8m6RuEkW4T757xIKBdY7eP47OGByZswOAhgq
- kHJNDHWs2T5TPlJpvuB2RnkAAC+K+qCyIcdfHjlof+zbiGfHSE1qJAcEPrt7MoK+bpDMHQw
- MNMKjUWS+w+kBr5zV9HFw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:AIcDvYb5rFc=;e/6xf5MXkUbbLJSuBtz57g4YovD
- 6xRXcUIUwUTbTkjvldGqX19asM26PXdTkgODzuKSRaapUS0OYYwpT1dyPq7qTNlqckMEtJXvF
- ULYGlxLSjFMpAQ461esEvH2Vrd2V20rDjDv6Fc/vxctrQVkPi2cwbg3LhIR6xDlbbZDN3J9Un
- INoXUGPTt0PBf4c1DYaZM91+feIzMuhiA1VG8m18NdffzkPmtNkYRX/5JJ8cwwOBsxKjJ00u5
- pGJTvncnF94ix7H74tz2pM+UeUTGytap4bH7mONlYo0d+mfV9clgF+g5AYXGfNec75OEpFjnb
- f8yr/AY1u5aIgQBPpjYC9fOulVNqMn9zHX6cyV7J+s+nIZLBnHIB9mPWXlmv9+I4KetLJX/pY
- 0r7DJr2l7RLByMK/Ys3MR9d4T2blss/9VrexUXa6vqdSh/7dVOwiU0x+blDdZJ1ifkKPYKbGh
- vnix+N6LZMHjsq7lFKVdiAfY+FE4vcL3bgXuW9BADtdFpo2Xr/4MrcimVePWYcRFxwbTK6GGe
- FhifFGQ6tarQCv0AgTpjevobHrGsd6HxUntumJkPv6a4D7wtfgn31ApoH2nPYgPE/yFECiG+o
- JvoMTFduECrVmuZwSK8pl+XyfCPcNGD/PunZPrkka+UjLF34ZyOaCusWt7cXHTBxwKo7rhnSN
- pl9E2D8nbWaqUX8SRce1NviWvOL1AwKowormyZJlP908HI2+//vDvkgJwwqt03Y5RHJNpWe4d
- FCcg4neLOxCNoZEKWMfpWZ3xnyITZkb0HvgN06wP86MsrQlfp81Sm+NtbP1+/apJTnz1HNQG4
- sfBEduy8Vo6329GMOdjXecTB2c/sRvm6BtmIE5sMDC5d0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,61 +74,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Tue, 6 Feb 2024 20:22:56 +0100
+On Fri, Feb 2, 2024 at 5:09=E2=80=AFPM Mario Limonciello
+<mario.limonciello@amd.com> wrote:
+>
+> On 2/2/2024 10:07, Rafael J. Wysocki wrote:
+> > On Thu, Feb 1, 2024 at 11:11=E2=80=AFPM Mario Limonciello
+> > <mario.limonciello@amd.com> wrote:
+> >>
+> >> The ACPI specification allows for an EDID to be up to 512 bytes but
+> >> the _DDC EDID fetching code will only try up to 256 bytes.
+> >>
+> >> Modify the code to instead start at 512 bytes and work it's way
+> >> down instead.
+> >>
+> >> As _DDC is now called up to 4 times on a machine debugging messages
+> >> are noisier than necessary.  Decrease from info to debug.
+> >>
+> >> Link: https://uefi.org/htmlspecs/ACPI_Spec_6_4_html/Apx_B_Video_Extens=
+ions/output-device-specific-methods.html#ddc-return-the-edid-for-this-devic=
+e
+> >> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> >
+> > Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> >
+> > or I can apply it if that's preferred.
+>
+> Thanks!
+>
+> I think go ahead and apply this one to your -next tree.
 
-A wrapper function is available since the commit 7945f929f1a77a1c8887a97ca=
-07f87626858ff42
-("drivers: provide devm_platform_ioremap_resource()").
+Applied now.
 
-* Thus reuse existing functionality instead of keeping duplicate source co=
-de.
+Barring any issues with it, It will get into linux-next in a couple of days=
+.
 
-* Delete a local variable which became unnecessary with this refactoring.
-
-
-This issue was transformed by using the Coccinelle software.
-
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-=2D--
-
-v2:
-The transformation pattern was adjusted based on advices by known contribu=
-tors.
-
-Examples:
-* Douglas Anderson
-* Geert Uytterhoeven
-* Robin Murphy
-
-
- drivers/gpu/drm/tegra/dsi.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
-index fbfe92a816d4..f9b6b5428b66 100644
-=2D-- a/drivers/gpu/drm/tegra/dsi.c
-+++ b/drivers/gpu/drm/tegra/dsi.c
-@@ -1562,7 +1562,6 @@ static int tegra_dsi_ganged_probe(struct tegra_dsi *=
-dsi)
- static int tegra_dsi_probe(struct platform_device *pdev)
- {
- 	struct tegra_dsi *dsi;
--	struct resource *regs;
- 	int err;
-
- 	dsi =3D devm_kzalloc(&pdev->dev, sizeof(*dsi), GFP_KERNEL);
-@@ -1624,8 +1623,7 @@ static int tegra_dsi_probe(struct platform_device *p=
-dev)
- 		return err;
- 	}
-
--	regs =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	dsi->regs =3D devm_ioremap_resource(&pdev->dev, regs);
-+	dsi->regs =3D devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(dsi->regs))
- 		return PTR_ERR(dsi->regs);
-
-=2D-
-2.43.0
-
+Thanks!
