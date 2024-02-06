@@ -2,58 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347E584AD41
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 05:05:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AAAC84AD70
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 05:29:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EF2D112601;
-	Tue,  6 Feb 2024 04:05:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E77510F44E;
+	Tue,  6 Feb 2024 04:29:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MPt/eZln";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="nrVR97I6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF932112601
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 04:05:29 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id CB0AECE125E
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 04:05:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17819C43399
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 04:05:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1707192323;
- bh=JZvK1LfT5W3Amj1bFNL00t+yJLMnxNwR1b1VLR65yOs=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=MPt/eZlnYkp7bEhcsAHjYYnbGoM/wPjspUhU7heNAHm7nvAt9wh2CeSZy4W9VlOCo
- JdlwMPZIwUNvsteUDmdJfk0oOk8jCt+NQ/o3uJ0Ll8kOdIg5NCCF0/uAFCXJfx/UWT
- 6COn1OGda5RkobnxXhcck246EA3IlA5pwv5hn9kHADqot4Y0Lh7eTj40wEx0aSOPBe
- T8BfbY+Aa0bk5cBQ2lwaw9Ff2O2YbxNXBrFJFhZ1T9vYKeltosDkKJSguxoGt5aE+B
- inC7gHHhiMul6SvSUUoHaxnk877iCHN+I+mUv/707T+PQEEB5735k2EMrnTcXtUiU+
- sRX3fSnf6pU0Q==
-Received: by mail-ed1-f48.google.com with SMTP id
- 4fb4d7f45d1cf-55a035669d5so7296376a12.2
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Feb 2024 20:05:23 -0800 (PST)
-X-Gm-Message-State: AOJu0YwXcqhlAE7i/FL0pxZ/a66lgzDzYE+komaQv2Jlgp9PMl9lxJdb
- TmkJNbKGzek1+VGgNa9zHxJZLMzNCoxkFjl8h+0rFfL2C/kTolKe9frqEBIxZOItVEKEUfnIR0H
- m3dQwyc/7tgLsB7G656wJQUEolL4=
-X-Google-Smtp-Source: AGHT+IHen3DDjJn65TycqVtQ2JRpfTPFrv8QvbyYNgZL27B8U8cm8R2yFgc08uMVz331GpNdpcOu8eqBdOwxRr82YhQ=
-X-Received: by 2002:aa7:d98d:0:b0:560:1372:d950 with SMTP id
- u13-20020aa7d98d000000b005601372d950mr769977eds.22.1707192321526; Mon, 05 Feb
- 2024 20:05:21 -0800 (PST)
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81C9E10F44E;
+ Tue,  6 Feb 2024 04:28:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1707193733;
+ bh=dnMjULAeQjKUoGmPRhe1coGuGskZaD6h8z3MIPfgPs8=;
+ h=Date:From:To:Cc:Subject:From;
+ b=nrVR97I6Ea2OifH65kdK3jSc8ubBFbjquHicHDGHI4TXr5CbSa+P84H03RuJ30ILS
+ OZITWgA7quRjZL/ld+8mqUB2U4r1mqoJ2+W3NzbpPys0Z0Fq8hC+CqUNIyCAQATlIj
+ kG3QY+I0wNckDkDvNq0qaTvHms6Faq2ysNnYZ6DUF0PK3diLRuN49C4C7BQHgxYFsF
+ QEbWbKqo8W9VH+zW32pRgODvCZ8N5NvMzJCz3Hn5mXexLdMNYiCNHArSRV4juaiktx
+ kJp4xKR4fMbe7aOUAgMAZ3QSOOZZEbNap7BxMP2KorgoKXrTxc+D2jsLtVqKMoma9H
+ 3FMHLMtM1etRA==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4TTVch6nrBz4wcC;
+ Tue,  6 Feb 2024 15:28:52 +1100 (AEDT)
+Date: Tue, 6 Feb 2024 15:28:50 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Somalapuram
+ Amaranath <Amaranath.Somalapuram@amd.com>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
+ Mailing List <linux-next@vger.kernel.org>
+Subject: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20240206152850.333f620d@canb.auug.org.au>
 MIME-Version: 1.0
-References: <20240119104049.335449-1-chenhuacai@loongson.cn>
- <081b4b16-0e39-4ab0-9b80-c967e635b909@linux.dev>
-In-Reply-To: <081b4b16-0e39-4ab0-9b80-c967e635b909@linux.dev>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Tue, 6 Feb 2024 12:05:14 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H6z_qwiqtbbnbvBeJT0mqnPhw68_ik33vYwTqYbKf5Www@mail.gmail.com>
-Message-ID: <CAAhV-H6z_qwiqtbbnbvBeJT0mqnPhw68_ik33vYwTqYbKf5Www@mail.gmail.com>
-Subject: Re: drm/loongson: Error out if no VRAM detected
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Cc: Huacai Chen <chenhuacai@loongson.cn>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; boundary="Sig_/3Y6MoHeU/vcVg9/l.X7hCZH";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,55 +59,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Feb 3, 2024 at 1:24=E2=80=AFAM Sui Jingfeng <sui.jingfeng@linux.dev=
-> wrote:
->
->
-> On 2024/1/19 18:40, Huacai Chen wrote:
-> > If there is no VRAM (it is true if there is a discreted card), we get
-> > such an error and Xorg fails to start:
-> >
-> > [  136.401131] loongson 0000:00:06.1: [drm] *ERROR* Requesting(0MiB) fa=
-iled
-> > [  137.444342] loongson 0000:00:06.1: [drm] *ERROR* Requesting(0MiB) fa=
-iled
-> > [  138.871166] loongson 0000:00:06.1: [drm] *ERROR* Requesting(0MiB) fa=
-iled
-> > [  140.444078] loongson 0000:00:06.1: [drm] *ERROR* Requesting(0MiB) fa=
-iled
-> > [  142.403993] loongson 0000:00:06.1: [drm] *ERROR* Requesting(0MiB) fa=
-iled
-> > [  143.970625] loongson 0000:00:06.1: [drm] *ERROR* Requesting(0MiB) fa=
-iled
-> > [  145.862013] loongson 0000:00:06.1: [drm] *ERROR* Requesting(0MiB) fa=
-iled
-> >
-> > So in lsdc_get_dedicated_vram() we error out if no VRAM (or VRAM is les=
-s
-> > than 1MB which is also an unusable case) detected.
-> >
-> > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
-> > ---
-> >   drivers/gpu/drm/loongson/lsdc_drv.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/loongson/lsdc_drv.c b/drivers/gpu/drm/loon=
-gson/lsdc_drv.c
-> > index 89ccc0c43169..d8ff60b46abe 100644
-> > --- a/drivers/gpu/drm/loongson/lsdc_drv.c
-> > +++ b/drivers/gpu/drm/loongson/lsdc_drv.c
-> > @@ -184,7 +184,7 @@ static int lsdc_get_dedicated_vram(struct lsdc_devi=
-ce *ldev,
-> >       drm_info(ddev, "Dedicated vram start: 0x%llx, size: %uMiB\n",
-> >                (u64)base, (u32)(size >> 20));
-> >
-> > -     return 0;
-> > +     return (size > SZ_1M) ? 0 : -ENODEV;
->
->
-> I forget to tell you that you probably should return ENOSPC at here,
-> which stand for no space left on device, not the ENODEV.
-Make sense, will do.
+--Sig_/3Y6MoHeU/vcVg9/l.X7hCZH
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Huacai
->
+Hi all,
+
+After merging the drm-misc tree, today's linux-next build (i386 defconfig)
+failed like this:
+
+In function 'i915_ttm_placement_from_obj',
+    inlined from 'i915_ttm_get_pages' at drivers/gpu/drm/i915/gem/i915_gem_=
+ttm.c:847:2:
+drivers/gpu/drm/i915/gem/i915_gem_ttm.c:165:18: error: 'places[0].flags' is=
+ used uninitialized [-Werror=3Duninitialized]
+  165 |         places[0].flags |=3D TTM_PL_FLAG_DESIRED;
+      |         ~~~~~~~~~^~~~~~
+drivers/gpu/drm/i915/gem/i915_gem_ttm.c: In function 'i915_ttm_get_pages':
+drivers/gpu/drm/i915/gem/i915_gem_ttm.c:837:26: note: 'places' declared here
+  837 |         struct ttm_place places[I915_TTM_MAX_PLACEMENTS + 1];
+      |                          ^~~~~~
+
+Caused by commit
+
+  a78a8da51b36 ("drm/ttm: replace busy placement with flags v6")
+
+I applied the following hack for today:
+
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Tue, 6 Feb 2024 15:17:54 +1100
+Subject: [PATCH] drm/ttm: initialise places
+
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915=
+/gem/i915_gem_ttm.c
+index 80c6cafc8887..34e699e67c25 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -834,7 +834,7 @@ static int __i915_ttm_get_pages(struct drm_i915_gem_obj=
+ect *obj,
+=20
+ static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
+ {
+-	struct ttm_place places[I915_TTM_MAX_PLACEMENTS + 1];
++	struct ttm_place places[I915_TTM_MAX_PLACEMENTS + 1] =3D {};
+ 	struct ttm_placement placement;
+=20
+ 	/* restricted by sg_alloc_table */
+--=20
+2.43.0
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/3Y6MoHeU/vcVg9/l.X7hCZH
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmXBtYIACgkQAVBC80lX
+0GxSHwf7B3D9Ebe7H+C1S84E/g/hlQwxf+jo8X+m4cEWbMKvzTuloTlIBADoL93W
+E4SolMFUwtAQtuAPTJIfJPfCwFGxPBUbqpY3cTzA6rBM6XHvLMjQLPubfeZoX6oB
+u0YtbT36l7g+26YUvQdz6FtFlA+X5A+bpVnX0KP1+sw6yhTNqRZEFjxoEvIeIMt+
+EUOkKoSO6lcokZTcWVWQxiBDPGHFXW+jyzj9JcEI0i0FbcEmvYbUz25NXDSeU6PJ
+3xAxI06Fe2ONdboipZyjWMnZNUO3iy24Wsp4RQ3eYLoL5QWYP8tgrTesTTaA8eyY
+WSqEqGwjt8cAeuR5aDcEoeSW116FbA==
+=rfsv
+-----END PGP SIGNATURE-----
+
+--Sig_/3Y6MoHeU/vcVg9/l.X7hCZH--
