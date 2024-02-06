@@ -2,76 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A547384AB15
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 01:23:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98F0E84AB26
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 01:45:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E7161126D3;
-	Tue,  6 Feb 2024 00:23:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F37B210EC74;
+	Tue,  6 Feb 2024 00:45:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="l9We3r+L";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OwOgPkI7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
- [209.85.222.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3815A1126D3;
- Tue,  6 Feb 2024 00:23:40 +0000 (UTC)
-Received: by mail-qk1-f182.google.com with SMTP id
- af79cd13be357-7853a9eb5daso237169885a.2; 
- Mon, 05 Feb 2024 16:23:40 -0800 (PST)
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com
+ [209.85.222.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E52F10E5ED;
+ Tue,  6 Feb 2024 00:45:47 +0000 (UTC)
+Received: by mail-qk1-f181.google.com with SMTP id
+ af79cd13be357-7838af983c1so383127185a.3; 
+ Mon, 05 Feb 2024 16:45:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1707179020; x=1707783820; darn=lists.freedesktop.org;
- h=in-reply-to:autocrypt:references:cc:to:from:content-language
+ d=gmail.com; s=20230601; t=1707180342; x=1707785142; darn=lists.freedesktop.org;
+ h=in-reply-to:autocrypt:from:references:cc:to:content-language
  :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
  :date:message-id:reply-to;
- bh=IqVU+LiXbuywF9XQaymPLdHIGEL6qQwIS047Nq9mMH4=;
- b=l9We3r+LsygQ0e2CN1fRLb68qq4Ccu2Aqk0vKEpcaV/VmbVBaaewjSMxeV4dlGxKes
- bXyIoru1uN+qvdU0j48F+ur8A3bV2x0iC4kwHRN1c0glpOQqEyKywcHeluuIUA4WKL3B
- dmRMct08HVYhxV7E1VVtaJR+kxuojbodTjbmmvlBjsE4IOy3SEkXAjv5fmeFF/gt3RKs
- +WXuH47j1fjD/U8PkfJ3h0mK1HluQ+SRkjaZrUoH9ObpnLL5eV9pnBG8tktjSWrqrWgI
- Skivfg8kBkUKFSjRCvg86fwn7BHSIWrYUKqTq7rwVhvjxP6ZyW4RrgWNgAU9M/van8AJ
- z4gw==
+ bh=AiTXo+U1NoORgtWSqcY9amJeioYgdHVrGlFE0dsrMJU=;
+ b=OwOgPkI7UAiNOEWyRQQHH7qKC2b/xS+u3ZzN/okzIDc4NNd+ElfNss+bdLgk6nZBg+
+ Bmh7iHLc9+03y/pOqCQ0SZY/3CY+TWajDeK3WZiMFgj6FjzVFjOYq+8O6QofNLDK+Upy
+ oWgHMavABecSmvgQTTPG/RLMUSgNmEdACzNTKWUdMQr8CdtgrscIl9gE5S5nD8R4XNfP
+ Ewh7XtO1mY2qwH6h4K5xq8FYV5RlTuf/mEEUpb1qCzNxjcTq12Tokn767JKBFxjcW53Y
+ rsv1+x+FVNCCc7uKECCXw7R5L9YFh/vX7p7O3yl9lXpxkcfQzkkKCIv8Z99OfJttuVmA
+ uMTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707179020; x=1707783820;
- h=in-reply-to:autocrypt:references:cc:to:from:content-language
+ d=1e100.net; s=20230601; t=1707180342; x=1707785142;
+ h=in-reply-to:autocrypt:from:references:cc:to:content-language
  :subject:user-agent:mime-version:date:message-id:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
- bh=IqVU+LiXbuywF9XQaymPLdHIGEL6qQwIS047Nq9mMH4=;
- b=aYLiyd/kN3wodR07aGlPrs6E9RP5oALgW4fZYU+/SFA4HjLn44qQnWgkUxZ8r8Md7d
- hCDaXAeQpjIwVKQGPfevE3hpqcRSyKISHp2Z+djJpHlqI7BqS3ZwEChSLLIu0aIxkfIb
- 0494qtHCVIQRQR17aIzSd4ucgglBYwgMl3u0YQOxbx6z+ZrBBbK0phXUTck5pwT8WNE8
- PqgN/gPzD2Ga9znE1BpP1ohB6lbSvE5LnYZLafKMsuM82rjJAunZvT5rE4J8IWbmdV61
- fcOs5OIf2QBJiuc/DctGufDVotY8z6u3Du14glDyeMjKh/aNvZLPP/KfQqopsF7OX0m2
- JG6w==
-X-Gm-Message-State: AOJu0YybYvlNtP2x/P0Oq9RV8nJiVhY1vKzpuz0Y7yyYzE+y1RwcvrML
- SAfFFGYhUQzw2DOLWrseApU0bYOEnuYaGp6p8BunEZZkUYaMNi0b
-X-Google-Smtp-Source: AGHT+IFjZzqkyM19R3R+VhfinPLErBcJD194Fy+xHoyiIoOKZuQLQ1pf2dnKPPqHR3yuodxSGJ9P+w==
-X-Received: by 2002:a05:620a:20d2:b0:783:e2d5:a911 with SMTP id
- f18-20020a05620a20d200b00783e2d5a911mr559724qka.48.1707179019697; 
- Mon, 05 Feb 2024 16:23:39 -0800 (PST)
+ bh=AiTXo+U1NoORgtWSqcY9amJeioYgdHVrGlFE0dsrMJU=;
+ b=fibgd6GVEIDC492UPBznuxct2843oN9XmbcQYE3cz4fiWWfxhashg8L2vu1GkzUD0b
+ HSFV7u8VAEhXiHbole5sTMnrjCt0E901+D9iV/Z71hjhA09bfGmVFBtYgdI8q2q+tUWG
+ UYuPl7btVW5S3+yPYidCgAMf8kwCRsZeMyR/p4KbGWZB1tdxO7JbJLJxuGCouY0+urnO
+ qGitC0ba/7zwon8tiJE2TNPSmRNQtTG/OeHIqlgin8If0Sdpt++R0B56iN56y/lna1mc
+ d2JgirMWrlZpTwbwEPubT0vrJFhbjdqbdcvEN5xNQQqyxcozk68amGMaCzpvWPPA+aNR
+ EVJw==
+X-Gm-Message-State: AOJu0Yxk8zt5HQIhvfwdXb42TNVb8CPygVHoa8bAYRS4dhNJD+7vva2W
+ sF65nKQenXU66hc05xWtfWysdQtIwquIrV/tCcUbfoIvRNCQL3CG
+X-Google-Smtp-Source: AGHT+IG5qPqAiuoU6n9LQpTUGxuNIvQkzcyE+qpWsSharuZJNX32nzjNEoTJ7070tRkEVaElFAnA4A==
+X-Received: by 2002:a05:620a:c9a:b0:784:1f7:3af5 with SMTP id
+ q26-20020a05620a0c9a00b0078401f73af5mr715928qki.62.1707180342126; 
+ Mon, 05 Feb 2024 16:45:42 -0800 (PST)
 X-Forwarded-Encrypted: i=0;
- AJvYcCVYjZxXVVqaNPq9jPRv3sXatZshtDUqaatMbAclQM/XAG86/G9MFu5hE0ZkhQAwYV2zPVfSVN/EzhpksdYoxJa6VpUjBuZ6U+j7OHfTld84CtQLORCj4CdlVHm8jA5vrHjiks0i4Yx+2mMYfdpM1kk9bG9FDW7bhzxjpeXtGearg0Y26rHdW0WVkOYRZIQ=
+ AJvYcCX0nOTItdWuVRP5TVxS8axOHGjXbb41OPLB0HUOVEWplZ6UMvr7EG9/eFZ0wczOoR7YeOudFnLqHqKJ8zd3gfeoik7N9h+KWT/DnO2y3HgcH+jXHNNnK0XdmUKyaGVhg4ndr4fmKtFfciAzFsOrUW7bErMQ5GcCoqvTnlwzPvVzWmcFI+y8a21Ukw==
 Received: from [192.168.2.14] ([174.88.31.222])
  by smtp.gmail.com with ESMTPSA id
- l6-20020a05620a210600b00783b6da58a9sm430301qkl.39.2024.02.05.16.23.38
+ h10-20020ac8584a000000b0042c2320e6d7sm430748qth.16.2024.02.05.16.45.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Feb 2024 16:23:39 -0800 (PST)
-Message-ID: <3ca89794-f26b-4129-a4c9-33ae59be069f@gmail.com>
-Date: Mon, 5 Feb 2024 19:23:30 -0500
+ Mon, 05 Feb 2024 16:45:41 -0800 (PST)
+Message-ID: <54820b56-8ac2-46be-9f66-ab8744130ff6@gmail.com>
+Date: Mon, 5 Feb 2024 19:45:32 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
  Thunderbird/115.7.0
-Subject: Re: [PATCH] drm/sched: Add Matthew Brost to maintainers
+Subject: Re: [PATCH] drm/sched: Re-queue run job worker when
+ drm_sched_entity_pop_job() returns NULL
 Content-Language: en-CA, en-US
+To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: airlied@gmail.com, christian.koenig@amd.com
+References: <20240130030413.2031009-1-matthew.brost@intel.com>
 From: Luben Tuikov <ltuikov89@gmail.com>
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Dave Airlie <airlied@redhat.com>
-References: <20240131030302.2088173-1-matthew.brost@intel.com>
- <Zbp_KUvsdcSMHsSE@phenom.ffwll.local>
- <9dac66fd-2d84-488e-93f5-3983cd13d0bd@amd.com>
- <658318d1-25e9-48f0-9e36-9923f38fa431@gmail.com>
 Autocrypt: addr=ltuikov89@gmail.com; keydata=
  xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1APnbnnRHN
  Ikx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoAQRYhBJkj7+VmFO9b
@@ -81,10 +78,10 @@ Autocrypt: addr=ltuikov89@gmail.com; keydata=
  cCE8uGe7FWo8C+nTSyWPXKTx9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl
  10wVR5QxozSvBQJlOiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKo
  aMDzO9eGz69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA==
-In-Reply-To: <658318d1-25e9-48f0-9e36-9923f38fa431@gmail.com>
+In-Reply-To: <20240130030413.2031009-1-matthew.brost@intel.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------cyuwicmEoUyyoes5Z2wqmfu4"
+ boundary="------------A5Hg74ItpbpkiI600Hsfgo0u"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,105 +98,91 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------cyuwicmEoUyyoes5Z2wqmfu4
-Content-Type: multipart/mixed; boundary="------------60kzCsdhM09ZAWTOdBmSu2uB";
+--------------A5Hg74ItpbpkiI600Hsfgo0u
+Content-Type: multipart/mixed; boundary="------------NsJ6c48S3Ne3ObJD7Tgl0CBZ";
  protected-headers="v1"
 From: Luben Tuikov <ltuikov89@gmail.com>
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Dave Airlie <airlied@redhat.com>
-Message-ID: <3ca89794-f26b-4129-a4c9-33ae59be069f@gmail.com>
-Subject: Re: [PATCH] drm/sched: Add Matthew Brost to maintainers
-References: <20240131030302.2088173-1-matthew.brost@intel.com>
- <Zbp_KUvsdcSMHsSE@phenom.ffwll.local>
- <9dac66fd-2d84-488e-93f5-3983cd13d0bd@amd.com>
- <658318d1-25e9-48f0-9e36-9923f38fa431@gmail.com>
-In-Reply-To: <658318d1-25e9-48f0-9e36-9923f38fa431@gmail.com>
+To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: airlied@gmail.com, christian.koenig@amd.com
+Message-ID: <54820b56-8ac2-46be-9f66-ab8744130ff6@gmail.com>
+Subject: Re: [PATCH] drm/sched: Re-queue run job worker when
+ drm_sched_entity_pop_job() returns NULL
+References: <20240130030413.2031009-1-matthew.brost@intel.com>
+In-Reply-To: <20240130030413.2031009-1-matthew.brost@intel.com>
 
---------------60kzCsdhM09ZAWTOdBmSu2uB
-Content-Type: multipart/mixed; boundary="------------avrYEODY7JmUDO1Dl67To4IS"
+--------------NsJ6c48S3Ne3ObJD7Tgl0CBZ
+Content-Type: multipart/mixed; boundary="------------Fk5MWtX1FyhTBRChgExDrOWh"
 
---------------avrYEODY7JmUDO1Dl67To4IS
+--------------Fk5MWtX1FyhTBRChgExDrOWh
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On 2024-02-05 19:06, Luben Tuikov wrote:
-> On 2024-02-01 07:56, Christian K=C3=B6nig wrote:
->> Am 31.01.24 um 18:11 schrieb Daniel Vetter:
->>> On Tue, Jan 30, 2024 at 07:03:02PM -0800, Matthew Brost wrote:
->>>> Add Matthew Brost to DRM scheduler maintainers.
->>>>
->>>> Cc: Luben Tuikov <ltuikov89@gmail.com>
->>>> Cc: Daniel Vetter <daniel@ffwll.ch>
->>>> Cc: Dave Airlie <airlied@redhat.com>
->>>> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
->>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->>> Definitely need more people taking care of drm/sched, so thanks for
->>> volunteering!
->>>
->>> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+On 2024-01-29 22:04, Matthew Brost wrote:
+> Rather then loop over entities until one with a ready job is found,
+> re-queue the run job worker when drm_sched_entity_pop_job() returns NUL=
+L.
 >=20
-> Yeah, that's a good idea.
->=20
-> Acked-by: Luben Tuikov <ltuikov89@gmail.com>
+> Fixes: 6dbd9004a55 ("drm/sched: Drain all entities in DRM sched run job=
+ worker")
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 
-This patch has been pushed to drm-misc-next.
+Indeed, we cannot have any loops in the GPU scheduler work items, as we n=
+eed to bounce
+between submit and free in the same work queue. (Coming from the original=
+ design before
+work items/queues were introduced).
 
-Regards,
-Luben
+Thanks for fixing this, Matt!
 
->=20
-> Regards,
-> Luben
->=20
->>>
->>> I think this also needs an ack from Luben and Christian. And you also=
- need
->>> drm-misc commit rights first, or it's going to be a bit tricky to tak=
-e
->>> care of maintainer duties for merging patches. But since your sched
->>> patches now have landed in upstream this should be just a formality.
->>
->> Ack from my side, I don't have time to look into scheduler stuff anywa=
-y.
->>
->> Maybe I can get somebody from Leo's team to volunteer as another=20
->> reviewer for scheduler related stuff.
->>
->> Cheers,
->> Christian.
->>
->>>
->>> Cheers, Sima
->>>
->>>> ---
->>>>   MAINTAINERS | 1 +
->>>>   1 file changed, 1 insertion(+)
->>>>
->>>> diff --git a/MAINTAINERS b/MAINTAINERS
->>>> index 5c00fad59e91..e968d68a96c8 100644
->>>> --- a/MAINTAINERS
->>>> +++ b/MAINTAINERS
->>>> @@ -7308,6 +7308,7 @@ F:	drivers/gpu/drm/xlnx/
->>>>  =20
->>>>   DRM GPU SCHEDULER
->>>>   M:	Luben Tuikov <ltuikov89@gmail.com>
->>>> +M:	Matthew Brost <matthew.brost@intel.com>
->>>>   L:	dri-devel@lists.freedesktop.org
->>>>   S:	Maintained
->>>>   T:	git git://anongit.freedesktop.org/drm/drm-misc
->>>> --=20
->>>> 2.34.1
->>>>
->>
->=20
-
+Reviewed-by: Luben Tuikov <ltuikov89@gmail.com>
 --=20
 Regards,
 Luben
 
---------------avrYEODY7JmUDO1Dl67To4IS
+> ---
+>  drivers/gpu/drm/scheduler/sched_main.c | 15 +++++++++------
+>  1 file changed, 9 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/s=
+cheduler/sched_main.c
+> index 8acbef7ae53d..7e90c9f95611 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -1178,21 +1178,24 @@ static void drm_sched_run_job_work(struct work_=
+struct *w)
+>  	struct drm_sched_entity *entity;
+>  	struct dma_fence *fence;
+>  	struct drm_sched_fence *s_fence;
+> -	struct drm_sched_job *sched_job =3D NULL;
+> +	struct drm_sched_job *sched_job;
+>  	int r;
+> =20
+>  	if (READ_ONCE(sched->pause_submit))
+>  		return;
+> =20
+>  	/* Find entity with a ready job */
+> -	while (!sched_job && (entity =3D drm_sched_select_entity(sched))) {
+> -		sched_job =3D drm_sched_entity_pop_job(entity);
+> -		if (!sched_job)
+> -			complete_all(&entity->entity_idle);
+> -	}
+> +	entity =3D drm_sched_select_entity(sched);
+>  	if (!entity)
+>  		return;	/* No more work */
+> =20
+> +	sched_job =3D drm_sched_entity_pop_job(entity);
+> +	if (!sched_job) {
+> +		complete_all(&entity->entity_idle);
+> +		drm_sched_run_job_queue(sched);
+> +		return;
+> +	}
+> +
+>  	s_fence =3D sched_job->s_fence;
+> =20
+>  	atomic_add(sched_job->credits, &sched->credit_count);
+
+--------------Fk5MWtX1FyhTBRChgExDrOWh
 Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
 Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
 Content-Description: OpenPGP public key
@@ -219,21 +202,21 @@ z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
 =3DqCaZ
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------avrYEODY7JmUDO1Dl67To4IS--
+--------------Fk5MWtX1FyhTBRChgExDrOWh--
 
---------------60kzCsdhM09ZAWTOdBmSu2uB--
+--------------NsJ6c48S3Ne3ObJD7Tgl0CBZ--
 
---------------cyuwicmEoUyyoes5Z2wqmfu4
+--------------A5Hg74ItpbpkiI600Hsfgo0u
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZcF8AgUDAAAAAAAKCRBMFUeUMaM0r3Np
-AP9nA7Oa01DkdqB6Y2pmuRneijBplCRy7VJZlbSLCn9H+gEAlKMwgBn2CwKwN6OJWtT1n0k03LOh
-4e4wtiIcvrxOWAo=
-=Cksx
+wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZcGBLAUDAAAAAAAKCRBMFUeUMaM0r6Cw
+AP9mc+bCyk+lKxGErzZdeYhEEj3Xd8egr54aAQSrOVb2WgEA0K3QCI/IMHx2XLSEDWgiDGRLsi8a
+VKEoswUcKTYZXg0=
+=AxIt
 -----END PGP SIGNATURE-----
 
---------------cyuwicmEoUyyoes5Z2wqmfu4--
+--------------A5Hg74ItpbpkiI600Hsfgo0u--
