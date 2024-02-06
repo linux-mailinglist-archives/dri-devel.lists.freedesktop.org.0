@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D344D84BB56
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 17:48:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B9AF84BB61
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 17:51:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCCAB112CDA;
-	Tue,  6 Feb 2024 16:48:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C5CE112CE3;
+	Tue,  6 Feb 2024 16:51:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 805C7112CDA;
- Tue,  6 Feb 2024 16:48:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE812112CE4;
+ Tue,  6 Feb 2024 16:51:01 +0000 (UTC)
 Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
  (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Tue, 6 Feb
- 2024 19:48:20 +0300
+ 2024 19:51:00 +0300
 Received: from localhost (10.0.253.138) by Ex16-01.fintech.ru (10.0.10.18)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Tue, 6 Feb 2024
- 19:48:19 +0300
+ 19:50:59 +0300
 From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-To: Alex Deucher <alexander.deucher@amd.com>,
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ "Alex Deucher" <alexander.deucher@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-CC: Nikita Zhandarovich <n.zhandarovich@fintech.ru>, "Pan, Xinhui"
- <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, <amd-gfx@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <lvc-project@linuxtesting.org>
-Subject: [PATCH] drm/radeon/ni: Fix wrong firmware size logging in
- ni_init_microcode()
-Date: Tue, 6 Feb 2024 08:48:14 -0800
-Message-ID: <20240206164814.46984-1-n.zhandarovich@fintech.ru>
+CC: Nikita Zhandarovich <n.zhandarovich@fintech.ru>, Rodrigo Siqueira
+ <Rodrigo.Siqueira@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>
+Subject: [PATCH] drm/amd/display: fix NULL checks for adev->dm.dc in
+ amdgpu_dm_fini()
+Date: Tue, 6 Feb 2024 08:50:56 -0800
+Message-ID: <20240206165056.47116-1-n.zhandarovich@fintech.ru>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -53,31 +54,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clean up a typo in pr_err() erroneously printing NI MC 'rdev->mc_fw->size'
-during SMC firmware load. Log 'rdev->smc_fw->size' instead.
+Since 'adev->dm.dc' in amdgpu_dm_fini() might turn out to be NULL
+before the call to dc_enable_dmub_notifications(), check
+beforehand to ensure there will not be a possible NULL-ptr-deref
+there.
+
+Also, since commit 1e88eb1b2c25 ("drm/amd/display: Drop
+CONFIG_DRM_AMD_DC_HDCP") there are two separate checks for NULL in
+'adev->dm.dc' before dc_deinit_callbacks() and dc_dmub_srv_destroy().
+Clean up by combining them all under one 'if'.
 
 Found by Linux Verification Center (linuxtesting.org) with static
 analysis tool SVACE.
 
-Fixes: 6596afd48af4 ("drm/radeon/kms: add dpm support for btc (v3)")
+Fixes: 81927e2808be ("drm/amd/display: Support for DMUB AUX")
 Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
 ---
- drivers/gpu/drm/radeon/ni.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/ni.c b/drivers/gpu/drm/radeon/ni.c
-index 927e5f42e97d..3e48cbb522a1 100644
---- a/drivers/gpu/drm/radeon/ni.c
-+++ b/drivers/gpu/drm/radeon/ni.c
-@@ -813,7 +813,7 @@ int ni_init_microcode(struct radeon_device *rdev)
- 			err = 0;
- 		} else if (rdev->smc_fw->size != smc_req_size) {
- 			pr_err("ni_mc: Bogus length %zu in firmware \"%s\"\n",
--			       rdev->mc_fw->size, fw_name);
-+			       rdev->smc_fw->size, fw_name);
- 			err = -EINVAL;
- 		}
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index d292f290cd6e..46ac3e6f42bb 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -1938,17 +1938,15 @@ static void amdgpu_dm_fini(struct amdgpu_device *adev)
+ 		adev->dm.hdcp_workqueue = NULL;
  	}
+ 
+-	if (adev->dm.dc)
++	if (adev->dm.dc) {
+ 		dc_deinit_callbacks(adev->dm.dc);
+-
+-	if (adev->dm.dc)
+ 		dc_dmub_srv_destroy(&adev->dm.dc->ctx->dmub_srv);
+-
+-	if (dc_enable_dmub_notifications(adev->dm.dc)) {
+-		kfree(adev->dm.dmub_notify);
+-		adev->dm.dmub_notify = NULL;
+-		destroy_workqueue(adev->dm.delayed_hpd_wq);
+-		adev->dm.delayed_hpd_wq = NULL;
++		if (dc_enable_dmub_notifications(adev->dm.dc)) {
++			kfree(adev->dm.dmub_notify);
++			adev->dm.dmub_notify = NULL;
++			destroy_workqueue(adev->dm.delayed_hpd_wq);
++			adev->dm.delayed_hpd_wq = NULL;
++		}
+ 	}
+ 
+ 	if (adev->dm.dmub_bo)
 -- 
 2.25.1
 
