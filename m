@@ -2,64 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8BFC84B76B
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 15:08:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0892284B64F
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 14:27:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E59BD10EE2C;
-	Tue,  6 Feb 2024 14:08:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEDAC112BD8;
+	Tue,  6 Feb 2024 13:27:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=yeah.net header.i=@yeah.net header.b="VRZjkAx7";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="iYWDzEEn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-177131.yeah.net (mail-177131.yeah.net [123.58.177.131])
- by gabe.freedesktop.org (Postfix) with ESMTP id 47B4710EAE7
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 10:47:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
- s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
- Content-Type; bh=q24x/RFrKCeMLCH08rssYKYmdKI2I63/f28Ucs3/8Sk=;
- b=VRZjkAx7dRfh7UWzGVQzWOM3rp4cy9+xqhAHRvNQR89H715iKPznpbtzs7Zx4P
- mmEFpz6vO/OKXIxiOtzqGx4h+L1sj9FOX8bb057AOBdA3D0KORaXcA2Qhkhi5i8Z
- 9CDzntl873fOCGHUrWR+YXtotFvPKFJyr9jliIKclYDt0=
-Received: from dragon (unknown [183.213.196.254])
- by smtp1 (Coremail) with SMTP id ClUQrADn6+xzC8JlI3j+Ag--.15990S3;
- Tue, 06 Feb 2024 18:35:33 +0800 (CST)
-Date: Tue, 6 Feb 2024 18:35:31 +0800
-From: Shawn Guo <shawnguo2@yeah.net>
-To: Yannic Moog <y.moog@phytec.de>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Primoz Fiser <primoz.fiser@norik.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- upstream@lists.phytec.de
-Subject: Re: [PATCH RFC for upstream 4/4] arm64: defconfig: enable i.MX8MP
- ldb bridge
-Message-ID: <ZcILc05xove6D92V@dragon>
-References: <20240126-wip-y-moog-phytec-de-upstream-pollux-lvds-v1-0-8ec5b48eec05@phytec.de>
- <20240126-wip-y-moog-phytec-de-upstream-pollux-lvds-v1-4-8ec5b48eec05@phytec.de>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9AB1112BD8
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 13:27:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1707226033;
+ bh=hQ+QP63TDympmBm6f1787+x8JkcNvVe7bh5SVgAcn5c=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=iYWDzEEnv1nWRcUIeci/q5vSYZZ9aUERduKYgiTOqA/Kd60fzZRLg84hRqzdEewZh
+ ZFSXZPdOHreGQCVnMMudxUFLJuT/6V+AA7WialF6TuGeV0lUtV5I4f1m0k12ipSrSJ
+ pzlUIjNbWWX2NDZSwoXRuOZqLwWhQ8Kc90oohMV+Qw8dXBoD/1ZDLkiv1WuR6vBw6y
+ L63+4nUOmSSH4qTZlG76DWRn81skPu0ZaCKYI2MclYNREMPdHmOjc06yGoWq8UZi93
+ I+KNZaAEroMP2M5BNfaCtvpHpZuNUQQGoidab5TVMPXbcp1k+dgsoRF2fXCWfbjzdU
+ i4HRrDMGCssEg==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 69A233782072;
+ Tue,  6 Feb 2024 13:27:12 +0000 (UTC)
+Message-ID: <4fe9947f-b190-4dcc-8d1e-f532e6dcb827@collabora.com>
+Date: Tue, 6 Feb 2024 14:27:11 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240126-wip-y-moog-phytec-de-upstream-pollux-lvds-v1-4-8ec5b48eec05@phytec.de>
-X-CM-TRANSID: ClUQrADn6+xzC8JlI3j+Ag--.15990S3
-X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
- VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxU4pBTUUUUU
-X-Originating-IP: [183.213.196.254]
-X-CM-SenderInfo: pvkd40hjxrjqh1hdxhhqhw/1tbiDwd8ZVnxccILPgABs+
-X-Mailman-Approved-At: Tue, 06 Feb 2024 14:08:39 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/7] drm/mediatek: dsi: Use GENMASK() for register mask
+ definitions
+Content-Language: en-US
+To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "kernel@collabora.com" <kernel@collabora.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>
+References: <20240131113434.241929-1-angelogioacchino.delregno@collabora.com>
+ <20240131113434.241929-2-angelogioacchino.delregno@collabora.com>
+ <082bc4d9efd0746d7ec25eab0b3bf96018e997e5.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <082bc4d9efd0746d7ec25eab0b3bf96018e997e5.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,11 +73,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 26, 2024 at 09:57:26AM +0100, Yannic Moog wrote:
-> Enable the i.MX8MP LDB driver used for display support of the i.MX8MP
-> LVDS interface.
+Il 06/02/24 09:57, CK Hu (胡俊光) ha scritto:
+> Hi, Angelo:
 > 
-> Signed-off-by: Yannic Moog <y.moog@phytec.de>
+> On Wed, 2024-01-31 at 12:34 +0100, AngeloGioacchino Del Regno wrote:
+>> Change magic numerical masks with usage of the GENMASK() macro
+>> to improve readability.
+>>
+>> While at it, also fix the DSI_PS_SEL mask to include all bits instead
+>> of just a subset of them.
+>>
+>> This commit brings no functional changes.
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <
+>> angelogioacchino.delregno@collabora.com>
+>> ---
+>>   drivers/gpu/drm/mediatek/mtk_dsi.c | 45 +++++++++++++++-------------
+>> --
+>>   1 file changed, 23 insertions(+), 22 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
+>> b/drivers/gpu/drm/mediatek/mtk_dsi.c
+>> index a2fdfc8ddb15..3b7392c03b4d 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+>> @@ -58,18 +58,18 @@
+>>   
+>>   #define DSI_TXRX_CTRL		0x18
+>>   #define VC_NUM				BIT(1)
+>> -#define LANE_NUM			(0xf << 2)
+>> +#define LANE_NUM			GENMASK(5, 2)
+>>   #define DIS_EOT				BIT(6)
+>>   #define NULL_EN				BIT(7)
+>>   #define TE_FREERUN			BIT(8)
+>>   #define EXT_TE_EN			BIT(9)
+>>   #define EXT_TE_EDGE			BIT(10)
+>> -#define MAX_RTN_SIZE			(0xf << 12)
+>> +#define MAX_RTN_SIZE			GENMASK(15, 12)
+>>   #define HSTX_CKLP_EN			BIT(16)
+>>   
+>>   #define DSI_PSCTRL		0x1c
+>> -#define DSI_PS_WC			0x3fff
+>> -#define DSI_PS_SEL			(3 << 16)
+>> +#define DSI_PS_WC			GENMASK(14, 0)
+>> +#define DSI_PS_SEL			GENMASK(19, 16)
+> 
+> The original definition of DSI_PS_WC/DSI_PS_SEL is correct in MT8173.
+> So both need two definition and let each SoC select its own definition.
+> 
 
-Applied, thanks!
+The additional bits are unused on older SoCs and, if set, will be simply ignored;
+if we want to prevent setting bits that don't exist on the old ones, that should
+be done as a later commit introducing SoC capabilities for those and when the new
+capabilities for the new SoCs are introduced anyway.
+
+As of now, this doesn't break anything.
+
+Regards,
+Angelo
+
 
