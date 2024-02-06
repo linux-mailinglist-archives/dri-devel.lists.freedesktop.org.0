@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6826084BBDD
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 18:28:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFF9284BBDC
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 18:28:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E67B112CFD;
-	Tue,  6 Feb 2024 17:28:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D09C112CFC;
+	Tue,  6 Feb 2024 17:28:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="LKEFZU8/";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="CBSJ6Qu0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com
- [95.215.58.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D97AF10EE4F
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 17:28:25 +0000 (UTC)
+Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com
+ [95.215.58.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB831112CFC
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 17:28:29 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1707240504;
+ t=1707240508;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8HAy2xAuPJeCpNnNishsphDqlFIPREAv9Gabwc+YWgA=;
- b=LKEFZU8/pHxDeB1+ZDDRHLp5JzF2MK73NhgWQzq5uiL9OlgqJN8Z6iG6QCZXR8q+sMXDcO
- E0Cc2OzMBnyaOicvvupO4LwLDe8RWRnTySRNhjIhobJUS8CXg8Sf/LULxmYY1Ipyj9mo/H
- l9mf7hud5VYfhzkShdKgg1s+vkDczBs=
+ bh=dVVAqRzMJsdMeT1oOUAb65qyjBdxIyQ/VJBw576jp8g=;
+ b=CBSJ6Qu0yJEpGwXujNr8pa0XwekuOg2d0/VV3w1I289ams5E59ep2xR/nyVFM6UYx0qUO8
+ /Uf+1eNfcC4j1cK+E16/5jvKTM2f3vxIZ2CBkJBpC95681X9ifZpg2pr+13T8kQQ4Xg1Us
+ AL6jNDSBBuP4gDk4MPYOc2p1Mfmc7uQ=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: Lucas Stach <l.stach@pengutronix.de>
 Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
@@ -37,10 +37,10 @@ Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
  Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
  etnaviv@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [etnaviv-next v13 3/7] drm/etnaviv: Embed struct drm_device in struct
- etnaviv_drm_private
-Date: Wed,  7 Feb 2024 01:27:55 +0800
-Message-Id: <20240206172759.421737-4-sui.jingfeng@linux.dev>
+Subject: [etnaviv-next v13 4/7] drm/etnaviv: Add support for cached coherent
+ caching mode
+Date: Wed,  7 Feb 2024 01:27:56 +0800
+Message-Id: <20240206172759.421737-5-sui.jingfeng@linux.dev>
 In-Reply-To: <20240206172759.421737-1-sui.jingfeng@linux.dev>
 References: <20240206172759.421737-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
@@ -61,340 +61,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Both the instance of struct drm_device and the instance of struct
-etnaviv_drm_private are intended to be shared by all GPU cores. They
-both have only one instance across drm/etnaviv, therefore, embed struct
-drm_device into struct etnaviv_drm_private, and use container_of() to
-retrieve pointer for the containing structure. The benifit is that the
-DRM device can be initialized with devm_drm_dev_alloc() and the DRM device
-created is automatically put on driver detach, so don't need us to call
-drm_dev_put() explicitly on driver teardown. It's also eliminate the need
-to use the .dev_private member, which is deprecated according to the drm
-document.
+In the etnaviv_gem_vmap_impl(), update the page property from writecombine
+to PAGE_KERNEL on cached mapping. Previously, it use writecombine page
+property to vmap cached buffer unconditionally. Many modern CPUs choose to
+define the peripheral devices as DMA coherent by default, to be specific,
+the peripheral devices are capable of snooping CPU's cache. Therefore,
+cached buffers should be accessed with cached mapping.
+
+While at it, probe cached coherent support at the host platform with the
+dev_is_dma_coherent() function. This allows userspace to query on the
+runtime, which avoid compile-time macros (#ifdefs). Modern CPUs choose to
+define the peripheral devices as DMA coherent by default, In other words,
+the peripheral devices are capable of snooping CPU's cache. This means
+that device drivers do not need to maintain the coherency issue between
+a processor and an peripheral I/O for the cached mapping buffers. Such a
+hardware feature is implementation-defined by host CPU platform, not the
+vivante GPU IP core itself. X86-64, LoongArch and Loongson Mips CPU and
+some ARM64 CPU has the hardware maintain cache coherency, but ARM CPU is
+not. So provide mechanism to let userspace know.
 
 Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_drv.c        | 65 ++++++++------------
- drivers/gpu/drm/etnaviv/etnaviv_drv.h        |  7 +++
- drivers/gpu/drm/etnaviv/etnaviv_gem.c        |  6 +-
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |  2 +-
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c        |  6 +-
- drivers/gpu/drm/etnaviv/etnaviv_mmu.c        |  4 +-
- 6 files changed, 40 insertions(+), 50 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c |  3 +++
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h |  8 ++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c | 16 ++++++++++++++--
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c |  4 ++++
+ include/uapi/drm/etnaviv_drm.h        |  1 +
+ 5 files changed, 30 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index 035ac0c6884f..5ba2b3a386b3 100644
+index 5ba2b3a386b3..e3a05b8b9330 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -41,14 +41,9 @@ static struct device_node *etnaviv_of_first_available_node(void)
- 	return NULL;
- }
+@@ -5,6 +5,7 @@
  
--static struct etnaviv_drm_private *etnaviv_alloc_private(struct device *dev)
-+static int etnaviv_private_init(struct device *dev,
-+				struct etnaviv_drm_private *priv)
- {
--	struct etnaviv_drm_private *priv;
--
--	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
--	if (!priv)
--		return ERR_PTR(-ENOMEM);
--
- 	xa_init_flags(&priv->active_contexts, XA_FLAGS_ALLOC);
- 
- 	mutex_init(&priv->gem_lock);
-@@ -58,15 +53,14 @@ static struct etnaviv_drm_private *etnaviv_alloc_private(struct device *dev)
- 
- 	priv->cmdbuf_suballoc = etnaviv_cmdbuf_suballoc_new(dev);
- 	if (IS_ERR(priv->cmdbuf_suballoc)) {
--		kfree(priv);
- 		dev_err(dev, "Failed to create cmdbuf suballocator\n");
--		return ERR_PTR(-ENOMEM);
-+		return -ENOMEM;
+ #include <linux/component.h>
+ #include <linux/dma-mapping.h>
++#include <linux/dma-map-ops.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
+@@ -57,6 +58,8 @@ static int etnaviv_private_init(struct device *dev,
+ 		return -ENOMEM;
  	}
  
--	return priv;
-+	return 0;
++	priv->cached_coherent = dev_is_dma_coherent(dev);
++
+ 	return 0;
  }
  
--static void etnaviv_free_private(struct etnaviv_drm_private *priv)
-+static void etnaviv_private_fini(struct etnaviv_drm_private *priv)
- {
- 	if (!priv)
- 		return;
-@@ -74,13 +68,11 @@ static void etnaviv_free_private(struct etnaviv_drm_private *priv)
- 	etnaviv_cmdbuf_suballoc_destroy(priv->cmdbuf_suballoc);
- 
- 	xa_destroy(&priv->active_contexts);
--
--	kfree(priv);
- }
- 
- static void load_gpu(struct drm_device *dev)
- {
--	struct etnaviv_drm_private *priv = dev->dev_private;
-+	struct etnaviv_drm_private *priv = to_etnaviv_priv(dev);
- 	unsigned int i;
- 
- 	for (i = 0; i < ETNA_MAX_PIPES; i++) {
-@@ -98,7 +90,7 @@ static void load_gpu(struct drm_device *dev)
- 
- static int etnaviv_open(struct drm_device *dev, struct drm_file *file)
- {
--	struct etnaviv_drm_private *priv = dev->dev_private;
-+	struct etnaviv_drm_private *priv = to_etnaviv_priv(dev);
- 	struct etnaviv_file_private *ctx;
- 	int ret, i;
- 
-@@ -141,7 +133,7 @@ static int etnaviv_open(struct drm_device *dev, struct drm_file *file)
- 
- static void etnaviv_postclose(struct drm_device *dev, struct drm_file *file)
- {
--	struct etnaviv_drm_private *priv = dev->dev_private;
-+	struct etnaviv_drm_private *priv = to_etnaviv_priv(dev);
- 	struct etnaviv_file_private *ctx = file->driver_priv;
- 	unsigned int i;
- 
-@@ -166,7 +158,7 @@ static void etnaviv_postclose(struct drm_device *dev, struct drm_file *file)
- #ifdef CONFIG_DEBUG_FS
- static int etnaviv_gem_show(struct drm_device *dev, struct seq_file *m)
- {
--	struct etnaviv_drm_private *priv = dev->dev_private;
-+	struct etnaviv_drm_private *priv = to_etnaviv_priv(dev);
- 
- 	etnaviv_gem_describe_objects(priv, m);
- 
-@@ -260,7 +252,7 @@ static int show_each_gpu(struct seq_file *m, void *arg)
- {
- 	struct drm_info_node *node = (struct drm_info_node *) m->private;
- 	struct drm_device *dev = node->minor->dev;
--	struct etnaviv_drm_private *priv = dev->dev_private;
-+	struct etnaviv_drm_private *priv = to_etnaviv_priv(dev);
- 	struct etnaviv_gpu *gpu;
- 	int (*show)(struct etnaviv_gpu *gpu, struct seq_file *m) =
- 			node->info_ent->data;
-@@ -303,7 +295,7 @@ static void etnaviv_debugfs_init(struct drm_minor *minor)
- static int etnaviv_ioctl_get_param(struct drm_device *dev, void *data,
- 		struct drm_file *file)
- {
--	struct etnaviv_drm_private *priv = dev->dev_private;
-+	struct etnaviv_drm_private *priv = to_etnaviv_priv(dev);
- 	struct drm_etnaviv_param *args = data;
- 	struct etnaviv_gpu *gpu;
- 
-@@ -396,7 +388,7 @@ static int etnaviv_ioctl_wait_fence(struct drm_device *dev, void *data,
- 		struct drm_file *file)
- {
- 	struct drm_etnaviv_wait_fence *args = data;
--	struct etnaviv_drm_private *priv = dev->dev_private;
-+	struct etnaviv_drm_private *priv = to_etnaviv_priv(dev);
- 	struct drm_etnaviv_timespec *timeout = &args->timeout;
- 	struct etnaviv_gpu *gpu;
- 
-@@ -444,7 +436,7 @@ static int etnaviv_ioctl_gem_userptr(struct drm_device *dev, void *data,
- static int etnaviv_ioctl_gem_wait(struct drm_device *dev, void *data,
- 	struct drm_file *file)
- {
--	struct etnaviv_drm_private *priv = dev->dev_private;
-+	struct etnaviv_drm_private *priv = to_etnaviv_priv(dev);
- 	struct drm_etnaviv_gem_wait *args = data;
- 	struct drm_etnaviv_timespec *timeout = &args->timeout;
- 	struct drm_gem_object *obj;
-@@ -478,7 +470,7 @@ static int etnaviv_ioctl_gem_wait(struct drm_device *dev, void *data,
- static int etnaviv_ioctl_pm_query_dom(struct drm_device *dev, void *data,
- 	struct drm_file *file)
- {
--	struct etnaviv_drm_private *priv = dev->dev_private;
-+	struct etnaviv_drm_private *priv = to_etnaviv_priv(dev);
- 	struct drm_etnaviv_pm_domain *args = data;
- 	struct etnaviv_gpu *gpu;
- 
-@@ -495,7 +487,7 @@ static int etnaviv_ioctl_pm_query_dom(struct drm_device *dev, void *data,
- static int etnaviv_ioctl_pm_query_sig(struct drm_device *dev, void *data,
- 	struct drm_file *file)
- {
--	struct etnaviv_drm_private *priv = dev->dev_private;
-+	struct etnaviv_drm_private *priv = to_etnaviv_priv(dev);
- 	struct drm_etnaviv_pm_signal *args = data;
- 	struct etnaviv_gpu *gpu;
- 
-@@ -554,17 +546,14 @@ static int etnaviv_bind(struct device *dev)
- 	struct drm_device *drm;
- 	int ret;
- 
--	drm = drm_dev_alloc(&etnaviv_drm_driver, dev);
--	if (IS_ERR(drm))
--		return PTR_ERR(drm);
-+	priv = devm_drm_dev_alloc(dev, &etnaviv_drm_driver,
-+				  struct etnaviv_drm_private, drm);
-+	if (IS_ERR(priv))
-+		return PTR_ERR(priv);
- 
--	priv = etnaviv_alloc_private(dev);
--	if (IS_ERR(priv)) {
--		ret = PTR_ERR(priv);
--		goto out_put;
--	}
-+	etnaviv_private_init(dev, priv);
- 
--	drm->dev_private = priv;
-+	drm = &priv->drm;
- 
- 	dma_set_max_seg_size(dev, SZ_2G);
- 
-@@ -585,9 +574,7 @@ static int etnaviv_bind(struct device *dev)
- out_unbind:
- 	component_unbind_all(dev, drm);
- out_free_priv:
--	etnaviv_free_private(priv);
--out_put:
--	drm_dev_put(drm);
-+	etnaviv_private_fini(priv);
- 
- 	return ret;
- }
-@@ -595,17 +582,13 @@ static int etnaviv_bind(struct device *dev)
- static void etnaviv_unbind(struct device *dev)
- {
- 	struct drm_device *drm = dev_get_drvdata(dev);
--	struct etnaviv_drm_private *priv = drm->dev_private;
-+	struct etnaviv_drm_private *priv = to_etnaviv_priv(drm);
- 
- 	drm_dev_unregister(drm);
- 
- 	component_unbind_all(dev, drm);
- 
--	etnaviv_free_private(priv);
--
--	drm->dev_private = NULL;
--
--	drm_dev_put(drm);
-+	etnaviv_private_fini(priv);
- }
- 
- static const struct component_master_ops etnaviv_master_ops = {
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-index b3eb1662e90c..1f9b50b5a6aa 100644
+index 1f9b50b5a6aa..9c05f503747a 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-@@ -35,6 +35,7 @@ struct etnaviv_file_private {
- };
+@@ -46,6 +46,14 @@ struct etnaviv_drm_private {
+ 	struct xarray active_contexts;
+ 	u32 next_context_id;
  
- struct etnaviv_drm_private {
-+	struct drm_device drm;
- 	int num_gpus;
- 	struct etnaviv_gpu *gpu[ETNA_MAX_PIPES];
- 	gfp_t shm_gfp_mask;
-@@ -50,6 +51,12 @@ struct etnaviv_drm_private {
- 	struct list_head gem_list;
- };
- 
-+static inline struct etnaviv_drm_private *
-+to_etnaviv_priv(struct drm_device *ddev)
-+{
-+	return container_of(ddev, struct etnaviv_drm_private, drm);
-+}
++	/*
++	 * If true, the cached mapping is consistent for all CPU cores and
++	 * peripheral bus masters in the system. It means that vboth of the
++	 * CPU and GPU will see the same data if the buffer being access is
++	 * cached. And coherency is guaranteed by the arch specific hardware.
++	 */
++	bool cached_coherent;
 +
- int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
- 		struct drm_file *file);
- 
+ 	/* list of GEM objects: */
+ 	struct mutex gem_lock;
+ 	struct list_head gem_list;
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-index 71a6d2b1c80f..aa95a5e98374 100644
+index aa95a5e98374..eed98bb9e446 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-@@ -486,7 +486,7 @@ static const struct etnaviv_gem_ops etnaviv_gem_shmem_ops = {
- void etnaviv_gem_free_object(struct drm_gem_object *obj)
+@@ -342,6 +342,7 @@ void *etnaviv_gem_vmap(struct drm_gem_object *obj)
+ static void *etnaviv_gem_vmap_impl(struct etnaviv_gem_object *obj)
  {
- 	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
--	struct etnaviv_drm_private *priv = obj->dev->dev_private;
-+	struct etnaviv_drm_private *priv = to_etnaviv_priv(obj->dev);
- 	struct etnaviv_vram_mapping *mapping, *tmp;
+ 	struct page **pages;
++	pgprot_t prot;
  
- 	/* object should not be active */
-@@ -517,7 +517,7 @@ void etnaviv_gem_free_object(struct drm_gem_object *obj)
+ 	lockdep_assert_held(&obj->lock);
  
- void etnaviv_gem_obj_add(struct drm_device *dev, struct drm_gem_object *obj)
- {
--	struct etnaviv_drm_private *priv = dev->dev_private;
-+	struct etnaviv_drm_private *priv = to_etnaviv_priv(dev);
- 	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
+@@ -349,8 +350,19 @@ static void *etnaviv_gem_vmap_impl(struct etnaviv_gem_object *obj)
+ 	if (IS_ERR(pages))
+ 		return NULL;
  
- 	mutex_lock(&priv->gem_lock);
-@@ -584,7 +584,7 @@ static int etnaviv_gem_new_impl(struct drm_device *dev, u32 flags,
- int etnaviv_gem_new_handle(struct drm_device *dev, struct drm_file *file,
- 	u32 size, u32 flags, u32 *handle)
- {
--	struct etnaviv_drm_private *priv = dev->dev_private;
-+	struct etnaviv_drm_private *priv = to_etnaviv_priv(dev);
- 	struct drm_gem_object *obj = NULL;
- 	int ret;
+-	return vmap(pages, obj->base.size >> PAGE_SHIFT,
+-			VM_MAP, pgprot_writecombine(PAGE_KERNEL));
++	switch (obj->flags) {
++	case ETNA_BO_CACHED:
++		prot = PAGE_KERNEL;
++		break;
++	case ETNA_BO_UNCACHED:
++		prot = pgprot_noncached(PAGE_KERNEL);
++		break;
++	case ETNA_BO_WC:
++	default:
++		prot = pgprot_writecombine(PAGE_KERNEL);
++	}
++
++	return vmap(pages, obj->base.size >> PAGE_SHIFT, VM_MAP, prot);
+ }
  
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-index 3d0f8d182506..6b40a39fb8cd 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-@@ -413,7 +413,7 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
- 		struct drm_file *file)
- {
- 	struct etnaviv_file_private *ctx = file->driver_priv;
--	struct etnaviv_drm_private *priv = dev->dev_private;
-+	struct etnaviv_drm_private *priv = to_etnaviv_priv(dev);
- 	struct drm_etnaviv_gem_submit *args = data;
- 	struct drm_etnaviv_gem_submit_reloc *relocs;
- 	struct drm_etnaviv_gem_submit_pmr *pmrs;
+ static inline enum dma_data_direction etnaviv_op_to_dma_dir(u32 op)
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 654bf2631755..a407c2c9e140 100644
+index a407c2c9e140..306973660653 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -38,7 +38,7 @@ static const struct platform_device_id gpu_ids[] = {
+@@ -184,6 +184,10 @@ int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u32 param, u64 *value)
+ 		*value = gpu->identity.axi_sram_size;
+ 		break;
  
- int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u32 param, u64 *value)
- {
--	struct etnaviv_drm_private *priv = gpu->drm->dev_private;
-+	struct etnaviv_drm_private *priv = to_etnaviv_priv(gpu->drm);
++	case ETNAVIV_PARAM_CACHED_COHERENT:
++		*value = priv->cached_coherent;
++		break;
++
+ 	default:
+ 		DBG("%s: invalid param: %u", dev_name(gpu->dev), param);
+ 		return -EINVAL;
+diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_drm.h
+index d87410a8443a..7c5d988a5b9f 100644
+--- a/include/uapi/drm/etnaviv_drm.h
++++ b/include/uapi/drm/etnaviv_drm.h
+@@ -82,6 +82,7 @@ struct drm_etnaviv_timespec {
+ #define ETNAVIV_PARAM_GPU_TP_CORE_COUNT             0x21
+ #define ETNAVIV_PARAM_GPU_ON_CHIP_SRAM_SIZE         0x22
+ #define ETNAVIV_PARAM_GPU_AXI_SRAM_SIZE             0x23
++#define ETNAVIV_PARAM_CACHED_COHERENT               0x24
  
- 	switch (param) {
- 	case ETNAVIV_PARAM_GPU_MODEL:
-@@ -801,7 +801,7 @@ static void etnaviv_gpu_hw_init(struct etnaviv_gpu *gpu)
+ #define ETNA_MAX_PIPES 4
  
- int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
- {
--	struct etnaviv_drm_private *priv = gpu->drm->dev_private;
-+	struct etnaviv_drm_private *priv = to_etnaviv_priv(gpu->drm);
- 	dma_addr_t cmdbuf_paddr;
- 	int ret, i;
- 
-@@ -1791,7 +1791,7 @@ static int etnaviv_gpu_bind(struct device *dev, struct device *master,
- 	void *data)
- {
- 	struct drm_device *drm = data;
--	struct etnaviv_drm_private *priv = drm->dev_private;
-+	struct etnaviv_drm_private *priv = to_etnaviv_priv(drm);
- 	struct etnaviv_gpu *gpu = dev_get_drvdata(dev);
- 	int ret;
- 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-index 1661d589bf3e..c38272868328 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-@@ -490,7 +490,7 @@ void etnaviv_iommu_dump(struct etnaviv_iommu_context *context, void *buf)
- int etnaviv_iommu_global_init(struct etnaviv_gpu *gpu)
- {
- 	enum etnaviv_iommu_version version = ETNAVIV_IOMMU_V1;
--	struct etnaviv_drm_private *priv = gpu->drm->dev_private;
-+	struct etnaviv_drm_private *priv = to_etnaviv_priv(gpu->drm);
- 	struct etnaviv_iommu_global *global;
- 	struct device *dev = gpu->drm->dev;
- 
-@@ -550,7 +550,7 @@ int etnaviv_iommu_global_init(struct etnaviv_gpu *gpu)
- 
- void etnaviv_iommu_global_fini(struct etnaviv_gpu *gpu)
- {
--	struct etnaviv_drm_private *priv = gpu->drm->dev_private;
-+	struct etnaviv_drm_private *priv = to_etnaviv_priv(gpu->drm);
- 	struct etnaviv_iommu_global *global = priv->mmu_global;
- 
- 	if (!global)
 -- 
 2.34.1
 
