@@ -2,61 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CAF084BA13
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 16:48:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54AFF84BA28
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 16:54:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A1C4112C9C;
-	Tue,  6 Feb 2024 15:48:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7859310EF39;
+	Tue,  6 Feb 2024 15:54:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sN//mvjt";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="V7K5QaTF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49A58112C9C
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 15:48:01 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B622B615A1;
- Tue,  6 Feb 2024 15:48:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCB66C433F1;
- Tue,  6 Feb 2024 15:47:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1707234480;
- bh=23DzthJXVC7vl2loyVn7P3Oe8LvV0igxtj6YGRqIgLw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=sN//mvjt3Sb3Mpx+5RopHhPSeUGP/jVXTdPXAPxdiimZ52OrZiHopaDdQ2+s7qMCl
- mjrvFoEVyUMF1W92/h5v+3/kyv8bo9p7iD/UGgQMnSmcuPplOv2pS2CxSEk/G79SM3
- YsRTtiJqgmAuQpppFRRqNL0nWeKgOqRi/HSE250se/ZcZzW8YTLEqPoMlFOiYSf/D6
- L5SjDzqmfX3beSFpKEDoUz5ZlYSdd1yIdBbkQ+kpKQ7LvAEFoKBoi4HCFL+WsUBRmN
- No6jZLSH1NwaHZh+zmu+3Oy704l5oWVAnrSffpOOk57h8BGk9fq1W5WvjqxtTlFC0N
- 26h5csDgvGarQ==
-Date: Tue, 6 Feb 2024 15:47:52 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Shengyang Chen <shengyang.chen@starfivetech.com>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org,
- rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, p.zabel@pengutronix.de,
- tomi.valkeinen@ideasonboard.com, r-ravikumar@ti.com,
- aford173@gmail.com, agx@sigxcpu.org, rdunlap@infradead.org,
- u.kleine-koenig@pengutronix.de, sam@ravnborg.org,
- bbrezillon@kernel.org, changhuang.liang@starfivetech.com,
- keith.zhao@starfivetech.com, jack.zhu@starfivetech.com,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: display: bridge: cdns: Add display
- bridge support for dsi on StarFive JH7110 SoC
-Message-ID: <20240206-construct-slum-20f58637a228@spud>
-References: <20240206065709.108684-1-shengyang.chen@starfivetech.com>
- <20240206065709.108684-2-shengyang.chen@starfivetech.com>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE8D510F273
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 15:53:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1707234837;
+ bh=ocHaZpvDjxc0rwWNi54f+f6bams80D+RxoX1ovTeVl4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=V7K5QaTFmBBj0jF9OBR5noaRpQTZDw9Xl5i1A050PYI1Pv9NppAiV7yHeTBDp5nEN
+ 7LckCp+WWAF8/QJQrikGSGvJydLGMjuSlmFWBQa804UzNxojOI2zARlmeMuiejyzcf
+ Gt8wNMvbT7i5xT5flazIdXjg50s6SaJe6ngZnwVVyF9vZyZ76G+lYlbBHypn5L2f3b
+ E+jvFsHCXt/eiaKk8Dt+Ey6G/tsgL0FR58ISC5cJO9vie0l5n9oGkt0XMDUnBqNuS3
+ gc4WgpIO2qQxYRqTR0yVI2BtKWCjnQnbgqwGiqxAMdTot8z9h/xbKNxZTN9lt+0g1d
+ QsBZ3YcbvWHqQ==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id D92CF37803EE;
+ Tue,  6 Feb 2024 15:53:56 +0000 (UTC)
+Message-ID: <c1e2c380-21b5-47c1-b83b-f7f2b481df21@collabora.com>
+Date: Tue, 6 Feb 2024 16:53:56 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="UBTuCz2QbktCyFae"
-Content-Disposition: inline
-In-Reply-To: <20240206065709.108684-2-shengyang.chen@starfivetech.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/9] drm/mediatek: dsi: Use GENMASK() for register mask
+ definitions
+Content-Language: en-US
+To: Alexandre Mergnat <amergnat@baylibre.com>, chunkuang.hu@kernel.org
+Cc: fshao@chromium.org, p.zabel@pengutronix.de, airlied@gmail.com,
+ daniel@ffwll.ch, matthias.bgg@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kernel@collabora.com
+References: <20240206120748.136610-1-angelogioacchino.delregno@collabora.com>
+ <20240206120748.136610-2-angelogioacchino.delregno@collabora.com>
+ <f91db779-ad94-4c18-9a06-1029da4edaab@baylibre.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <f91db779-ad94-4c18-9a06-1029da4edaab@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,34 +66,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Il 06/02/24 15:47, Alexandre Mergnat ha scritto:
+> 
+> 
+> On 06/02/2024 13:07, AngeloGioacchino Del Regno wrote:
+>> Change magic numerical masks with usage of the GENMASK() macro
+>> to improve readability.
+>>
+>> While at it, also fix the DSI_PS_SEL mask to include all bits instead
+>> of just a subset of them.
+>>
+>> This commit brings no functional changes.
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> ---
+>>   drivers/gpu/drm/mediatek/mtk_dsi.c | 45 +++++++++++++++---------------
+>>   1 file changed, 23 insertions(+), 22 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+>> index a2fdfc8ddb15..3b7392c03b4d 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+>> @@ -58,18 +58,18 @@
+> 
+> ...snip...
+> 
+>>   #define DSI_PSCTRL        0x1c
+>> -#define DSI_PS_WC            0x3fff
+>> -#define DSI_PS_SEL            (3 << 16)
+>> +#define DSI_PS_WC            GENMASK(14, 0)
+>> +#define DSI_PS_SEL            GENMASK(19, 16)
+> 
+> 0011 0000 0000 0000 0000 => GENMASK(17, 16)
 
---UBTuCz2QbktCyFae
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Alexandre, the reason for that is in the commit description :-P
 
-On Tue, Feb 06, 2024 at 02:57:08PM +0800, Shengyang Chen wrote:
-> From: Keith Zhao <keith.zhao@starfivetech.com>
->=20
-> Add compatible to support dsi bridge on StarFive JH7110 SoC
->=20
-> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
-> Signed-off-by: Shengyang Chen <shengyang.chen@starfivetech.com>
+"While at it, also fix the DSI_PS_SEL mask to include all bits instead
+of just a subset of them."
 
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Thanks for the reviews, btw!
 
-Cheers,
-Conor.
+Cheers!
+Angelo
 
---UBTuCz2QbktCyFae
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+>>   #define PACKED_PS_16BIT_RGB565        (0 << 16)
+>>   #define LOOSELY_PS_18BIT_RGB666        (1 << 16)
+>>   #define PACKED_PS_18BIT_RGB666        (2 << 16)
+>> @@ -109,26 +109,26 @@
+>>   #define LD0_WAKEUP_EN            BIT(2)
+> 
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZcJUqAAKCRB4tDGHoIJi
-0iT2AP9aMGH7lGOnPX9HNLvvULNe0bBIH2+I3Z3pLGQsIma+8AEAr9ijpMJIqsE3
-Ay6/1CGLrTojHBe+KCsOuZSMRhxUSgs=
-=fZyT
------END PGP SIGNATURE-----
-
---UBTuCz2QbktCyFae--
