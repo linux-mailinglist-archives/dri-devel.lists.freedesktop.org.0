@@ -2,62 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA00684B366
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 12:24:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00C2784B374
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 12:29:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0FCC10E601;
-	Tue,  6 Feb 2024 11:24:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEB26112AA9;
+	Tue,  6 Feb 2024 11:29:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="e5f64p7g";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EsryKiel";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2F9F10E601
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 11:24:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1707218691;
- bh=W9eVxM9U4SL9Oval+gIwwmjbVA2ob2C9cUlB+OFaVvA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=e5f64p7gND16GTg1YhhbvoMrXWlljuooWsiJ1nAVQstieLhpfDpYss7vxXOCcukp9
- bqU3DHZiB5K9jtpWwUdjLDLQGvncm2gGYIW7qoWVJ3kczytkd/NusXDThTFNngZp2C
- 6gu6gCU1OTL1tRKVsuaEprn48G5HRMYgzKz4+Mp3pdAwRXXz7SSSAi0gA88P1SjDGT
- f8MNgqJ4ZcxRnET/5TnaWwoGVWOBD9Dfk4Leilb9+nL314aoIJg1rqOraAU3+qX6a+
- pJ4/SDii/b/xKagaKT1GzoTzdvUAM08ExKWQKtN6dKtQIzROnYqJGBROW5tfzIj5Kr
- aKdW8EzqnJTtw==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id E37003781F8E;
- Tue,  6 Feb 2024 11:24:50 +0000 (UTC)
-Message-ID: <1d6b4a7d-4107-4880-858a-ecd565eee124@collabora.com>
-Date: Tue, 6 Feb 2024 12:24:50 +0100
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31611112AA9;
+ Tue,  6 Feb 2024 11:29:10 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id AC961CE1305;
+ Tue,  6 Feb 2024 11:29:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A18D0C433C7;
+ Tue,  6 Feb 2024 11:29:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1707218942;
+ bh=xItSGKOsHY3nXC2qGy9xvtt+bnUbZopMnd876K04tjk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=EsryKielTwcYBcVxuAxMAD0zvVmbPIbLkTrIBNpyeEXJDILMUGxe5VwThjhAPGnyO
+ rLKJuiVoAMk877bcSrF8uDICB52XvtgnldywkMDYIUPLZfloZfAi3SBNlqPkVA5eMU
+ rtW7cjWZGmSUlCxcZT3OUAe1pwiQ1NEcz1OoSMpGOOP/MQVUe9ovK2gd20aO9bMxUc
+ 7F6rVhcCMrxY0Lj0hbNT1tJTo6qegUW6e2CN95Dy8UeQd1tfvVavKRMi3A2Rafq7dY
+ lxatORJk8dJTp3fusXqMAzr6uJHu5gTp95RSwtKKAotz7xRo64bafcCmGPZI/JkC+R
+ 4KjRAVWhH6ezw==
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/7] drm/mediatek: dsi: Cleanup functions
- mtk_dsi_ps_control{_vact}()
-Content-Language: en-US
-To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "kernel@collabora.com" <kernel@collabora.com>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>
-References: <20240131113434.241929-1-angelogioacchino.delregno@collabora.com>
- <20240131113434.241929-3-angelogioacchino.delregno@collabora.com>
- <14e124f02d82ff151974f99d042c4197e4dd5dd7.camel@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <14e124f02d82ff151974f99d042c4197e4dd5dd7.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Date: Tue, 06 Feb 2024 12:28:58 +0100
+From: Michael Walle <mwalle@kernel.org>
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>, Inki Dae
+ <inki.dae@samsung.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>, Michael Trimarchi
+ <michael@amarulasolutions.com>, Robert Foss <rfoss@kernel.org>
+Subject: Re: linux-next: manual merge of the drm-misc tree with Linus' tree
+In-Reply-To: <20240206120643.1d30764c@canb.auug.org.au>
+References: <20240206115956.4570e9b1@canb.auug.org.au>
+ <20240206120643.1d30764c@canb.auug.org.au>
+Message-ID: <fe0b21360178348543e662e9d620af9c@kernel.org>
+X-Sender: mwalle@kernel.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,168 +65,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 06/02/24 10:50, CK Hu (胡俊光) ha scritto:
-> Hi, Angelo:
+Hi Stephen and all,
+
+>> Today's linux-next merge of the drm-misc tree got a conflict in:
+>> 
+>>   drivers/gpu/drm/bridge/samsung-dsim.c
+>> 
+>> between commit:
+>> 
+>>   ff3d5d04db07 ("drm: bridge: samsung-dsim: Don't use 
+>> FORCE_STOP_STATE")
+>> 
+>> from Linus' tree and commit:
+>> 
+>>   b2fe2292624a ("drm: bridge: samsung-dsim: enter display mode in the 
+>> enable() callback")
+>> 
+>> from the drm-misc tree.
+>> 
+>> I fixed it up (see below, please check) and can carry the fix as
+>> necessary. This is now fixed as far as linux-next is concerned, but 
+>> any
+>> non trivial conflicts should be mentioned to your upstream maintainer
+>> when your tree is submitted for merging.  You may also want to 
+>> consider
+>> cooperating with the maintainer of the conflicting tree to minimise 
+>> any
+>> particularly complex conflicts.
 > 
-> On Wed, 2024-01-31 at 12:34 +0100, AngeloGioacchino Del Regno wrote:
->> Function mtk_dsi_ps_control() is a subset of
->> mtk_dsi_ps_control_vact():
->> merge the two in one mtk_dsi_ps_control() function by adding one
->> function parameter `config_vact` which, when true, writes the VACT
->> related registers.
->>
->> Reviewed-by: Fei Shao <fshao@chromium.org>
->> Signed-off-by: AngeloGioacchino Del Regno <
->> angelogioacchino.delregno@collabora.com>
->> ---
->>   drivers/gpu/drm/mediatek/mtk_dsi.c | 76 +++++++++-------------------
->> --
->>   1 file changed, 23 insertions(+), 53 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
->> b/drivers/gpu/drm/mediatek/mtk_dsi.c
->> index 3b7392c03b4d..8414ce73ce9f 100644
->> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
->> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
->> @@ -351,40 +351,6 @@ static void mtk_dsi_set_vm_cmd(struct mtk_dsi
->> *dsi)
->>   	mtk_dsi_mask(dsi, DSI_VM_CMD_CON, TS_VFP_EN, TS_VFP_EN);
->>   }
->>   
->> -static void mtk_dsi_ps_control_vact(struct mtk_dsi *dsi)
->> -{
->> -	struct videomode *vm = &dsi->vm;
->> -	u32 dsi_buf_bpp, ps_wc;
->> -	u32 ps_bpp_mode;
->> -
->> -	if (dsi->format == MIPI_DSI_FMT_RGB565)
->> -		dsi_buf_bpp = 2;
->> -	else
->> -		dsi_buf_bpp = 3;
->> -
->> -	ps_wc = vm->hactive * dsi_buf_bpp;
->> -	ps_bpp_mode = ps_wc;
->> -
->> -	switch (dsi->format) {
->> -	case MIPI_DSI_FMT_RGB888:
->> -		ps_bpp_mode |= PACKED_PS_24BIT_RGB888;
->> -		break;
->> -	case MIPI_DSI_FMT_RGB666:
->> -		ps_bpp_mode |= PACKED_PS_18BIT_RGB666;
->> -		break;
->> -	case MIPI_DSI_FMT_RGB666_PACKED:
->> -		ps_bpp_mode |= LOOSELY_PS_18BIT_RGB666;
->> -		break;
->> -	case MIPI_DSI_FMT_RGB565:
->> -		ps_bpp_mode |= PACKED_PS_16BIT_RGB565;
->> -		break;
->> -	}
->> -
->> -	writel(vm->vactive, dsi->regs + DSI_VACT_NL);
->> -	writel(ps_bpp_mode, dsi->regs + DSI_PSCTRL);
->> -	writel(ps_wc, dsi->regs + DSI_HSTX_CKL_WC);
->> -}
->> -
->>   static void mtk_dsi_rxtx_control(struct mtk_dsi *dsi)
->>   {
->>   	u32 tmp_reg;
->> @@ -416,36 +382,40 @@ static void mtk_dsi_rxtx_control(struct mtk_dsi
->> *dsi)
->>   	writel(tmp_reg, dsi->regs + DSI_TXRX_CTRL);
->>   }
->>   
->> -static void mtk_dsi_ps_control(struct mtk_dsi *dsi)
->> +static void mtk_dsi_ps_control(struct mtk_dsi *dsi, bool
->> config_vact)
->>   {
->> -	u32 dsi_tmp_buf_bpp;
->> -	u32 tmp_reg;
->> +	struct videomode *vm = &dsi->vm;
->> +	u32 dsi_buf_bpp, ps_wc;
->> +	u32 ps_bpp_mode;
->> +
->> +	if (dsi->format == MIPI_DSI_FMT_RGB565)
->> +		dsi_buf_bpp = 2;
->> +	else
->> +		dsi_buf_bpp = 3;
->> +
->> +	ps_wc = vm->hactive * dsi_buf_bpp;
->> +	ps_bpp_mode = ps_wc;
->>   
->>   	switch (dsi->format) {
->>   	case MIPI_DSI_FMT_RGB888:
->> -		tmp_reg = PACKED_PS_24BIT_RGB888;
->> -		dsi_tmp_buf_bpp = 3;
->> +		ps_bpp_mode |= PACKED_PS_24BIT_RGB888;
->>   		break;
->>   	case MIPI_DSI_FMT_RGB666:
->> -		tmp_reg = LOOSELY_PS_18BIT_RGB666;
->> -		dsi_tmp_buf_bpp = 3;
->> +		ps_bpp_mode |= PACKED_PS_18BIT_RGB666;
->>   		break;
->>   	case MIPI_DSI_FMT_RGB666_PACKED:
->> -		tmp_reg = PACKED_PS_18BIT_RGB666;
->> -		dsi_tmp_buf_bpp = 3;
->> +		ps_bpp_mode |= LOOSELY_PS_18BIT_RGB666;
-> 
-> You change the original logic here. If it is a fixup, separate to a
-> independent patch not hiding in a clean up patch. So we could backport
-> the fixup patch.
-> 
+> I changed my mind and just used the latter version of this file.
 
-Thank you CK! Thanks to you noticing that, I've discovered that actually
-besides the two functions not agreeing on the bit to set, the definitions
-of those bits are actually wrong (as you can verify on datasheets for
-multiple SoCs, including MT8195, MT8188, MT8186, MT8183).
+Bug wise, this is the wrong solution. Because it will reintroduce the
+faulty FORCE_STOP_STATE. Also keep in mind, my fixes commit is/was 
+already
+backported to the stable series.
 
-v4 will fix that by adding a fixup commit to rectify the whole thing.
+See also the discussion at [1]. Unfortunately, there was no conculusion 
+yet.
+I think [2] is the proper resolution, at least for the commit 
+b2fe2292624a
+("drm: bridge: samsung-dsim: enter display mode in the enable() 
+callback")
+I'm not sure in what state the drm-misc tree is.
 
-Cheers,
-Angelo
+-michael
 
-> Regards,
-> CK
-> 
->>   		break;
->>   	case MIPI_DSI_FMT_RGB565:
->> -		tmp_reg = PACKED_PS_16BIT_RGB565;
->> -		dsi_tmp_buf_bpp = 2;
->> -		break;
->> -	default:
->> -		tmp_reg = PACKED_PS_24BIT_RGB888;
->> -		dsi_tmp_buf_bpp = 3;
->> +		ps_bpp_mode |= PACKED_PS_16BIT_RGB565;
->>   		break;
->>   	}
->>   
->> -	tmp_reg += dsi->vm.hactive * dsi_tmp_buf_bpp & DSI_PS_WC;
->> -	writel(tmp_reg, dsi->regs + DSI_PSCTRL);
->> +	if (config_vact) {
->> +		writel(vm->vactive, dsi->regs + DSI_VACT_NL);
->> +		writel(ps_wc, dsi->regs + DSI_HSTX_CKL_WC);
->> +	}
->> +	writel(ps_bpp_mode, dsi->regs + DSI_PSCTRL);
->>   }
->>   
->>   static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
->> @@ -521,7 +491,7 @@ static void mtk_dsi_config_vdo_timing(struct
->> mtk_dsi *dsi)
->>   	writel(horizontal_backporch_byte, dsi->regs + DSI_HBP_WC);
->>   	writel(horizontal_frontporch_byte, dsi->regs + DSI_HFP_WC);
->>   
->> -	mtk_dsi_ps_control(dsi);
->> +	mtk_dsi_ps_control(dsi, false);
->>   }
->>   
->>   static void mtk_dsi_start(struct mtk_dsi *dsi)
->> @@ -666,7 +636,7 @@ static int mtk_dsi_poweron(struct mtk_dsi *dsi)
->>   	mtk_dsi_reset_engine(dsi);
->>   	mtk_dsi_phy_timconfig(dsi);
->>   
->> -	mtk_dsi_ps_control_vact(dsi);
->> +	mtk_dsi_ps_control(dsi, true);
->>   	mtk_dsi_set_vm_cmd(dsi);
->>   	mtk_dsi_config_vdo_timing(dsi);
->>   	mtk_dsi_set_interrupt_enable(dsi);
-
-
+[1] 
+https://lore.kernel.org/dri-devel/CAPM=9tytMB9frxNeD08hu1qsusY=wEE3bJOFmUgA1rSpabwDpg@mail.gmail.com/
+[2] 
+https://lore.kernel.org/dri-devel/31e1a38a1d012a32d6f7bc8372b6360e@kernel.org/
