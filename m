@@ -2,84 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06BBB84AFC9
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 09:18:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DF4684AFCC
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 09:18:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 348A2112A7B;
-	Tue,  6 Feb 2024 08:18:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83121112A7E;
+	Tue,  6 Feb 2024 08:18:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="f7eJWXND";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="faEMXAVW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9454112A7B
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 08:18:02 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id
- ffacd0b85a97d-33aea66a31cso3271408f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Feb 2024 00:18:02 -0800 (PST)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
+ [209.85.208.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40877112A82
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 08:18:27 +0000 (UTC)
+Received: by mail-lj1-f179.google.com with SMTP id
+ 38308e7fff4ca-2d09b21a8bbso6413631fa.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Feb 2024 00:18:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1707207481; x=1707812281; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1707207505; x=1707812305; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=ecxK0OeSx8DU/V9lxqcdeUM2UFGv78q9j2Mxgkb5Lhg=;
- b=f7eJWXNDxhtCEmDpllR4Pg/veBxHYvJisRYDDoNJk9sq5U+OGS4PTSwQnugkKFzFud
- zjKF7Gf/xS0AEivTvA8XmdzCc7uuoiq1an2dggae6K7NfkdNFXhjtAPY6qAi5XyyYxa8
- PsXw152NZVt6CMp+QkyEn4a+i3/Bh2f/9fcDUHWY05DxqH0EeSj+YDMv6XtDv7JVlHkU
- /n6ruU7DijiCkkuE9OLW2NLYGq9UJD0UJPCJd9ZVtCXvQIf9ikyHYLEh7YLUMgPnq34z
- FjEiTChMCOLHcHfbe8ydLUgi6z6m73SK/aGDv9dDTUMLbieb3s1a7L+kJW0DkgxLHQMp
- 7pjA==
+ :reply-to; bh=0NbGjmBXOr3ajqGRcxf6QpNhQ6ZKM1Dxc1E0/xzNWzQ=;
+ b=faEMXAVWPQRn0CPpH+Sv7cW5db81U6PD6Umo8dkmdO4+Fz+MyWOP/w5n3XOLQkwYwX
+ jcqosLBCsgy1aytwsGFnv2C9zAIqJhL3PWnzoiHcCtc7EYeUXnNYadrLrAoVZjB+AQ/S
+ Dh8Ghcp2bZ8xRYjfpdy1rsIzThG5enOZvVjhEVtWMaSEY0mU45bQGqiBjA9G+ok/O5Dh
+ nS0+l0fNeEpMeoQbz18k8eqdk9ytFcQ+kZXyrcSUbrsonjzP4DnHWwVsUAnzO/45Ps85
+ e5bYQyW21/hLMxWh0uJviHjAM1ORiDe0DMVXC/GLEYDkpuLm6AHpECiVWjxr1nhNchdk
+ oIAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707207481; x=1707812281;
+ d=1e100.net; s=20230601; t=1707207505; x=1707812305;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=ecxK0OeSx8DU/V9lxqcdeUM2UFGv78q9j2Mxgkb5Lhg=;
- b=A7zxuR1V9lgC88Jw5816GOrRZUAH9V8X78w3kf8poKM3silfO5/hxsZ01ocZ4NVkKE
- 35HWQsjiNqfo72zj3jaDcLx3TyKjf6Zv4+60/Mp2s36iyQvNq5spVvb00iXSDUQbhEg2
- xQ27TbdApBgSbCh5pmInAFDscn/Djm9+g8WCjTtE5vmbpeEIxrLTc74/2Py+cU/Wevj9
- vRMDPQDr0I+2hYP0pAYHTrHY2G1CHTerns+mYBWMjYQPZ4CZwfltnlJAE3cyxvSSQ9LD
- 1X/Ur5pEp5ns5lWSmUtzs7Sq6KYPO2QjoRhfMgxOBMoSWcXEivzbGwxxbd/LljP250uZ
- XywA==
-X-Gm-Message-State: AOJu0YwwVo8Sv0p5K/NaYWNm/+Udm7/AStCrTu/ftbwLeUm165ylSn+3
- YG/rcGPvEfoH5M4/GnCtCkP7aSukETd9WXee9nGVeDall6vcjWZ2lQPX0IslPdA=
-X-Google-Smtp-Source: AGHT+IEpMcoa6cfEkFvIfvzpfuQ8Yx+dGDw/vR+l5ulMZgEDkKNzC9S0nuR1ItidAKgMFW7/sDqpmA==
-X-Received: by 2002:a5d:55c6:0:b0:33b:287d:412c with SMTP id
- i6-20020a5d55c6000000b0033b287d412cmr598635wrw.43.1707207481106; 
- Tue, 06 Feb 2024 00:18:01 -0800 (PST)
+ bh=0NbGjmBXOr3ajqGRcxf6QpNhQ6ZKM1Dxc1E0/xzNWzQ=;
+ b=a4yAY4h6w2eYwKle0n6xRvKzZiVZGnkt0uNNFVp7UWsd5pDA70CIt1f5ljAZ1lE8mz
+ 984IYLe899bB/6P/tSUCxERVEu7JOVAFwPE3Qfk61WtRxV2QVo9ADeErM75zvo+8gHUy
+ +bWQ91+0VPQQI4SJGXpfYPzUmSNsul9kc2j5RAp9M2AA6u+muiiZwrl31XRR4yvTjtTl
+ W2yLt8BxhLDjA/EG54ljjjM2yxlc88gesg17dHA660KfiKJiqwvQmOOsE8tDx973gmUv
+ 1WoZya0SoYyjuk79o77HtlSJrVGmmUZsEiTk6tRcMNWm7x1DsI7pNo/YvGvnGTc3Ffhm
+ +JKg==
+X-Gm-Message-State: AOJu0YxcH0rdMitEfqlDFgx70jGUqTYDgd/QckImLjvPoRhf+/gJWtHt
+ bb1NgFDWXnL8tukwtdvbK2GR77bPP226aKjIqeP999Esep5RXcpUl970QJFt/2c=
+X-Google-Smtp-Source: AGHT+IHPNkEtW7r21UxRZAk+trReCW8z0LncEllZkLmnlhYb594dP8soanm0ywzv0rr0JUXsHe0xAA==
+X-Received: by 2002:a2e:921a:0:b0:2d0:aa28:6f77 with SMTP id
+ k26-20020a2e921a000000b002d0aa286f77mr1349200ljg.45.1707207505441; 
+ Tue, 06 Feb 2024 00:18:25 -0800 (PST)
 X-Forwarded-Encrypted: i=0;
- AJvYcCWHbtH0YjwFLURKvvaj4m5/n5NPHSzvgoPcHOJvao8oQ289AiAyaZ5GlNthURTVrfwvxHGKwF/HByeoEpD+uZMQpctXoCfGsgiAyaEyYsTs6LfLhec/hMJIhdvM8RXPV+7wCwtHd8sZZgDd4GXS1jAHF5aui6uCObLAEYXcNNqdPt7J9g7TkUH/rxmx1DhYLT8uSV/U/hqzSL72p1q/aKrsVnkOXT7g8wHC1X7FkLKguFAX18M/M9Y62UGCDBCXsQaGxayBlRjZfLAfNfKon+27TgHHviOPrgxIyqs4hV+EekHxC8x5no4M0zewRa1C+jist3lT6cKCEGVn8HdYdujWfObaAUDD5wJz5kp/iEP6LSZ3hNfrXrTSlXcpfrrJhCAlqScMB3qMlxsf87phYRMPGVn4dUiydThdQmv21/QTuS03MvLDuTgufP3V8rsjNunlMsRUCF3He1FMwwC/nlBT1ttm5APCq6KNQy/rmWrRgJ4yWZUcGMYD31PLCggD2R2e0dxSEdgKUf40GI/sb4Na0qpZUpQdBMg/YGbf7UwG9Y3JawmduQdwiiNK3mEhXj3M0uJdPc96IrJsckfaO5aTaDfyWrkSqSoA1na0Ff6a0ipo/klDRxmO7jjBMZ0lYw==
+ AJvYcCWK5ffB5C8uuh8Ip1vs26kwAqeX2afdD/UYpQFXlGPS6AyTgawfdAqCa0JDrDoAcyg0ThorFhtOYRgrexrpRe5BtMXKtE92zRguEVl9wISnYLeb4hlllaPocGL1xN+TLeFrGN+SRPdxHROi6ddBx9TV/9rEFx3EKRg7xmQeadY3SIU6LwH+IuQIV9ZanVeKTsZXNz8oaUptoy8Uh76M5PLpTkMQ76BifLJBlp7Mf8iQdn1kLK83UiujuCw7cx/KHIdwcrz4bhiqRlLCW13BI4Cu58eIqBB5KQsJehYd9q2l1fiTjBCdQyRWRLSUvGSJQexrw2brUhJOl6rGl3HxvRMD7g==
 Received: from ?IPV6:2a01:e0a:982:cbb0:ba23:8574:fa8:28dd?
  ([2a01:e0a:982:cbb0:ba23:8574:fa8:28dd])
  by smtp.gmail.com with ESMTPSA id
- n2-20020a5d67c2000000b0033b4335dce5sm1418976wrw.85.2024.02.06.00.17.59
+ n2-20020a5d67c2000000b0033b4335dce5sm1418976wrw.85.2024.02.06.00.18.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Feb 2024 00:18:00 -0800 (PST)
-Message-ID: <b78d2ca4-9516-4d7e-9ec0-3fe93894523b@linaro.org>
-Date: Tue, 6 Feb 2024 09:17:59 +0100
+ Tue, 06 Feb 2024 00:18:24 -0800 (PST)
+Message-ID: <760f15d7-897f-48b2-b4b8-d64f70f47dd6@linaro.org>
+Date: Tue, 6 Feb 2024 09:18:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 4/5] drm/panel: simple: fix flags on RK043FN48H
+Subject: Re: [PATCH v2] drm/panel: re-alphabetize the menu list
 Content-Language: en-US, fr
-To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg
+ <sam@ravnborg.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: devicetree@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20240205-ltdc_mp13-v1-0-072d24bf1b36@foss.st.com>
- <20240205-ltdc_mp13-v1-4-072d24bf1b36@foss.st.com>
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Aradhya Bhatia <a-bhatia1@ti.com>
+References: <20240205062711.3513-1-rdunlap@infradead.org>
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
  GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
@@ -105,9 +97,9 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro Developer Services
-In-Reply-To: <20240205-ltdc_mp13-v1-4-072d24bf1b36@foss.st.com>
+In-Reply-To: <20240205062711.3513-1-rdunlap@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,32 +116,333 @@ Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/02/2024 10:06, Raphael Gallais-Pou wrote:
-> DISPLAY_FLAGS_SYNC_POSEDGE is missing in the flags on the default
-> timings. When overriding the default mode with one described in the
-> device tree, the mode does not get acked because of this missing flag.
-> Moreover since the panel is driven by the positive edge it makes sense
-> to add it here.
+On 05/02/2024 07:27, Randy Dunlap wrote:
+> A few of the DRM_PANEL entries have become out of alphabetical order,
+> so move them around a bit to restore alpha order.
 > 
-> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: Aradhya Bhatia <a-bhatia1@ti.com>
 > ---
->   drivers/gpu/drm/panel/panel-simple.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+> v2: rebase, move more driver entries around
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 2214cb09678c..7b286382ffb4 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -3523,7 +3523,8 @@ static const struct display_timing rocktech_rk043fn48h_timing = {
->   	.vfront_porch = { 1, 4, 4 },
->   	.vsync_len = { 1, 10, 10 },
->   	.flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW |
-> -		 DISPLAY_FLAGS_DE_HIGH | DISPLAY_FLAGS_PIXDATA_POSEDGE,
-> +		 DISPLAY_FLAGS_DE_HIGH | DISPLAY_FLAGS_PIXDATA_POSEDGE |
-> +		 DISPLAY_FLAGS_SYNC_POSEDGE,
->   };
+> Aradhya Bhatia <a-bhatia1@ti.com> had responded with Reviewed-by:
+> for v1, but I mode quite a few additions in v2 so I didn't include
+> that R-B: here.
+> 
+>   drivers/gpu/drm/panel/Kconfig |  202 ++++++++++++++++----------------
+>   1 file changed, 101 insertions(+), 101 deletions(-)
+> 
+> diff -- a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> --- a/drivers/gpu/drm/panel/Kconfig
+> +++ b/drivers/gpu/drm/panel/Kconfig
+> @@ -76,53 +76,6 @@ config DRM_PANEL_BOE_TV101WUM_NL6
+>   	  Say Y here if you want to support for BOE TV101WUM and AUO KD101N80
+>   	  45NA WUXGA PANEL DSI Video Mode panel
 >   
->   static const struct panel_desc rocktech_rk043fn48h = {
-> 
+> -config DRM_PANEL_DSI_CM
+> -	tristate "Generic DSI command mode panels"
+> -	depends on OF
+> -	depends on DRM_MIPI_DSI
+> -	depends on BACKLIGHT_CLASS_DEVICE
+> -	help
+> -	  DRM panel driver for DSI command mode panels with support for
+> -	  embedded and external backlights.
+> -
+> -config DRM_PANEL_LVDS
+> -	tristate "Generic LVDS panel driver"
+> -	depends on OF
+> -	depends on BACKLIGHT_CLASS_DEVICE
+> -	select VIDEOMODE_HELPERS
+> -	help
+> -	  This driver supports LVDS panels that don't require device-specific
+> -	  handling of power supplies or control signals. It implements automatic
+> -	  backlight handling if the panel is attached to a backlight controller.
+> -
+> -config DRM_PANEL_SIMPLE
+> -	tristate "support for simple panels (other than eDP ones)"
+> -	depends on OF
+> -	depends on BACKLIGHT_CLASS_DEVICE
+> -	depends on PM
+> -	select VIDEOMODE_HELPERS
+> -	help
+> -	  DRM panel driver for dumb non-eDP panels that need at most a regulator
+> -	  and a GPIO to be powered up. Optionally a backlight can be attached so
+> -	  that it can be automatically turned off when the panel goes into a
+> -	  low power state.
+> -
+> -config DRM_PANEL_EDP
+> -	tristate "support for simple Embedded DisplayPort panels"
+> -	depends on OF
+> -	depends on BACKLIGHT_CLASS_DEVICE
+> -	depends on PM
+> -	select VIDEOMODE_HELPERS
+> -	select DRM_DISPLAY_DP_HELPER
+> -	select DRM_DISPLAY_HELPER
+> -	select DRM_DP_AUX_BUS
+> -	select DRM_KMS_HELPER
+> -	help
+> -	  DRM panel driver for dumb eDP panels that need at most a regulator and
+> -	  a GPIO to be powered up. Optionally a backlight can be attached so
+> -	  that it can be automatically turned off when the panel goes into a
+> -	  low power state.
+> -
+>   config DRM_PANEL_EBBG_FT8719
+>   	tristate "EBBG FT8719 panel driver"
+>   	depends on OF
+> @@ -162,6 +115,25 @@ config DRM_PANEL_FEIYANG_FY07024DI26A30D
+>   	  Say Y if you want to enable support for panels based on the
+>   	  Feiyang FY07024DI26A30-D MIPI-DSI interface.
+>   
+> +config DRM_PANEL_DSI_CM
+> +	tristate "Generic DSI command mode panels"
+> +	depends on OF
+> +	depends on DRM_MIPI_DSI
+> +	depends on BACKLIGHT_CLASS_DEVICE
+> +	help
+> +	  DRM panel driver for DSI command mode panels with support for
+> +	  embedded and external backlights.
+> +
+> +config DRM_PANEL_LVDS
+> +	tristate "Generic LVDS panel driver"
+> +	depends on OF
+> +	depends on BACKLIGHT_CLASS_DEVICE
+> +	select VIDEOMODE_HELPERS
+> +	help
+> +	  This driver supports LVDS panels that don't require device-specific
+> +	  handling of power supplies or control signals. It implements automatic
+> +	  backlight handling if the panel is attached to a backlight controller.
+> +
+>   config DRM_PANEL_HIMAX_HX8394
+>   	tristate "HIMAX HX8394 MIPI-DSI LCD panels"
+>   	depends on OF
+> @@ -251,17 +223,6 @@ config DRM_PANEL_JADARD_JD9365DA_H3
+>   	  WXGA MIPI DSI panel. The panel support TFT dot matrix LCD with
+>   	  800RGBx1280 dots at maximum.
+>   
+> -config DRM_PANEL_JDI_LT070ME05000
+> -	tristate "JDI LT070ME05000 WUXGA DSI panel"
+> -	depends on OF
+> -	depends on DRM_MIPI_DSI
+> -	depends on BACKLIGHT_CLASS_DEVICE
+> -	help
+> -	  Say Y here if you want to enable support for JDI DSI video mode
+> -	  panel as found in Google Nexus 7 (2013) devices.
+> -	  The panel has a 1200(RGB)×1920 (WUXGA) resolution and uses
+> -	  24 bit per pixel.
+> -
+>   config DRM_PANEL_JDI_LPM102A188A
+>   	tristate "JDI LPM102A188A DSI panel"
+>   	depends on OF && GPIOLIB
+> @@ -273,6 +234,17 @@ config DRM_PANEL_JDI_LPM102A188A
+>   	  The panel has a 2560×1800 resolution. It provides a MIPI DSI interface
+>   	  to the host.
+>   
+> +config DRM_PANEL_JDI_LT070ME05000
+> +	tristate "JDI LT070ME05000 WUXGA DSI panel"
+> +	depends on OF
+> +	depends on DRM_MIPI_DSI
+> +	depends on BACKLIGHT_CLASS_DEVICE
+> +	help
+> +	  Say Y here if you want to enable support for JDI DSI video mode
+> +	  panel as found in Google Nexus 7 (2013) devices.
+> +	  The panel has a 1200(RGB)×1920 (WUXGA) resolution and uses
+> +	  24 bit per pixel.
+> +
+>   config DRM_PANEL_JDI_R63452
+>   	tristate "JDI R63452 Full HD DSI panel"
+>   	depends on OF
+> @@ -326,12 +298,6 @@ config DRM_PANEL_LEADTEK_LTK500HD1829
+>   	  24 bit RGB per pixel. It provides a MIPI DSI interface to
+>   	  the host and has a built-in LED backlight.
+>   
+> -config DRM_PANEL_SAMSUNG_LD9040
+> -	tristate "Samsung LD9040 RGB/SPI panel"
+> -	depends on OF && SPI
+> -	depends on BACKLIGHT_CLASS_DEVICE
+> -	select VIDEOMODE_HELPERS
+> -
+>   config DRM_PANEL_LG_LB035Q02
+>   	tristate "LG LB035Q024573 RGB panel"
+>   	depends on GPIOLIB && OF && SPI
+> @@ -359,6 +325,17 @@ config DRM_PANEL_MAGNACHIP_D53E6EA8966
+>   	  with the Magnachip D53E6EA8966 panel IC. This panel receives
+>   	  video data via DSI but commands via 9-bit SPI using DBI.
+>   
+> +config DRM_PANEL_MANTIX_MLAF057WE51
+> +	tristate "Mantix MLAF057WE51-X MIPI-DSI LCD panel"
+> +	depends on OF
+> +	depends on DRM_MIPI_DSI
+> +	depends on BACKLIGHT_CLASS_DEVICE
+> +	help
+> +	  Say Y here if you want to enable support for the Mantix
+> +	  MLAF057WE51-X MIPI DSI panel as e.g. used in the Librem 5. It
+> +	  has a resolution of 720x1440 pixels, a built in backlight and touch
+> +	  controller.
+> +
+>   config DRM_PANEL_NEC_NL8048HL11
+>   	tristate "NEC NL8048HL11 RGB panel"
+>   	depends on GPIOLIB && OF && SPI
+> @@ -447,17 +424,6 @@ config DRM_PANEL_NOVATEK_NT39016
+>   	  Say Y here if you want to enable support for the panels built
+>   	  around the Novatek NT39016 display controller.
+>   
+> -config DRM_PANEL_MANTIX_MLAF057WE51
+> -	tristate "Mantix MLAF057WE51-X MIPI-DSI LCD panel"
+> -	depends on OF
+> -	depends on DRM_MIPI_DSI
+> -	depends on BACKLIGHT_CLASS_DEVICE
+> -	help
+> -	  Say Y here if you want to enable support for the Mantix
+> -	  MLAF057WE51-X MIPI DSI panel as e.g. used in the Librem 5. It
+> -	  has a resolution of 720x1440 pixels, a built in backlight and touch
+> -	  controller.
+> -
+>   config DRM_PANEL_OLIMEX_LCD_OLINUXINO
+>   	tristate "Olimex LCD-OLinuXino panel"
+>   	depends on OF
+> @@ -554,6 +520,12 @@ config DRM_PANEL_RONBO_RB070D30
+>   	  Say Y here if you want to enable support for Ronbo Electronics
+>   	  RB070D30 1024x600 DSI panel.
+>   
+> +config DRM_PANEL_SAMSUNG_S6E88A0_AMS452EF01
+> +	tristate "Samsung AMS452EF01 panel with S6E88A0 DSI video mode controller"
+> +	depends on OF
+> +	select DRM_MIPI_DSI
+> +	select VIDEOMODE_HELPERS
+> +
+>   config DRM_PANEL_SAMSUNG_ATNA33XC20
+>   	tristate "Samsung ATNA33XC20 eDP panel"
+>   	depends on OF
+> @@ -577,6 +549,12 @@ config DRM_PANEL_SAMSUNG_DB7430
+>   	  DB7430 DPI display controller used in such devices as the
+>   	  LMS397KF04 480x800 DPI panel.
+>   
+> +config DRM_PANEL_SAMSUNG_LD9040
+> +	tristate "Samsung LD9040 RGB/SPI panel"
+> +	depends on OF && SPI
+> +	depends on BACKLIGHT_CLASS_DEVICE
+> +	select VIDEOMODE_HELPERS
+> +
+>   config DRM_PANEL_SAMSUNG_S6D16D0
+>   	tristate "Samsung S6D16D0 DSI video mode panel"
+>   	depends on OF
+> @@ -642,12 +620,6 @@ config DRM_PANEL_SAMSUNG_S6E63M0_DSI
+>   	  Say Y here if you want to be able to access the Samsung
+>   	  S6E63M0 panel using DSI.
+>   
+> -config DRM_PANEL_SAMSUNG_S6E88A0_AMS452EF01
+> -	tristate "Samsung AMS452EF01 panel with S6E88A0 DSI video mode controller"
+> -	depends on OF
+> -	select DRM_MIPI_DSI
+> -	select VIDEOMODE_HELPERS
+> -
+>   config DRM_PANEL_SAMSUNG_S6E8AA0
+>   	tristate "Samsung S6E8AA0 DSI video mode panel"
+>   	depends on OF
+> @@ -746,15 +718,6 @@ config DRM_PANEL_SITRONIX_ST7789V
+>   	  Say Y here if you want to enable support for the Sitronix
+>   	  ST7789V controller for 240x320 LCD panels
+>   
+> -config DRM_PANEL_SYNAPTICS_R63353
+> -	tristate "Synaptics R63353-based panels"
+> -	depends on OF
+> -	depends on DRM_MIPI_DSI
+> -	depends on BACKLIGHT_CLASS_DEVICE
+> -	help
+> -	  Say Y if you want to enable support for panels based on the
+> -	  Synaptics R63353 controller.
+> -
+>   config DRM_PANEL_SONY_ACX565AKM
+>   	tristate "Sony ACX565AKM panel"
+>   	depends on GPIOLIB && OF && SPI
+> @@ -794,6 +757,43 @@ config DRM_PANEL_STARTEK_KD070FHFID015
+>   	  with a resolution of 1024 x 600 pixels. It provides a MIPI DSI interface to
+>   	  the host, a built-in LED backlight and touch controller.
+>   
+> +config DRM_PANEL_EDP
+> +	tristate "support for simple Embedded DisplayPort panels"
+> +	depends on OF
+> +	depends on BACKLIGHT_CLASS_DEVICE
+> +	depends on PM
+> +	select VIDEOMODE_HELPERS
+> +	select DRM_DISPLAY_DP_HELPER
+> +	select DRM_DISPLAY_HELPER
+> +	select DRM_DP_AUX_BUS
+> +	select DRM_KMS_HELPER
+> +	help
+> +	  DRM panel driver for dumb eDP panels that need at most a regulator and
+> +	  a GPIO to be powered up. Optionally a backlight can be attached so
+> +	  that it can be automatically turned off when the panel goes into a
+> +	  low power state.
+> +
+> +config DRM_PANEL_SIMPLE
+> +	tristate "support for simple panels (other than eDP ones)"
+> +	depends on OF
+> +	depends on BACKLIGHT_CLASS_DEVICE
+> +	depends on PM
+> +	select VIDEOMODE_HELPERS
+> +	help
+> +	  DRM panel driver for dumb non-eDP panels that need at most a regulator
+> +	  and a GPIO to be powered up. Optionally a backlight can be attached so
+> +	  that it can be automatically turned off when the panel goes into a
+> +	  low power state.
+> +
+> +config DRM_PANEL_SYNAPTICS_R63353
+> +	tristate "Synaptics R63353-based panels"
+> +	depends on OF
+> +	depends on DRM_MIPI_DSI
+> +	depends on BACKLIGHT_CLASS_DEVICE
+> +	help
+> +	  Say Y if you want to enable support for panels based on the
+> +	  Synaptics R63353 controller.
+> +
+>   config DRM_PANEL_TDO_TL070WSH30
+>   	tristate "TDO TL070WSH30 DSI panel"
+>   	depends on OF
+> @@ -837,6 +837,17 @@ config DRM_PANEL_TRULY_NT35597_WQXGA
+>   	  Say Y here if you want to enable support for Truly NT35597 WQXGA Dual DSI
+>   	  Video Mode panel
+>   
+> +config DRM_PANEL_VISIONOX_R66451
+> +	tristate "Visionox R66451"
+> +	depends on OF
+> +	depends on DRM_MIPI_DSI
+> +	depends on BACKLIGHT_CLASS_DEVICE
+> +	select DRM_DISPLAY_DP_HELPER
+> +	select DRM_DISPLAY_HELPER
+> +	help
+> +	  Say Y here if you want to enable support for Visionox
+> +	  R66451 1080x2340 AMOLED DSI panel.
+> +
+>   config DRM_PANEL_VISIONOX_RM69299
+>   	tristate "Visionox RM69299"
+>   	depends on OF
+> @@ -854,17 +865,6 @@ config DRM_PANEL_VISIONOX_VTDR6130
+>   	  Say Y here if you want to enable support for Visionox
+>   	  VTDR6130 1080x2400 AMOLED DSI panel.
+>   
+> -config DRM_PANEL_VISIONOX_R66451
+> -	tristate "Visionox R66451"
+> -	depends on OF
+> -	depends on DRM_MIPI_DSI
+> -	depends on BACKLIGHT_CLASS_DEVICE
+> -	select DRM_DISPLAY_DP_HELPER
+> -	select DRM_DISPLAY_HELPER
+> -	help
+> -	  Say Y here if you want to enable support for Visionox
+> -	  R66451 1080x2340 AMOLED DSI panel.
+> -
+>   config DRM_PANEL_WIDECHIPS_WS2401
+>   	tristate "Widechips WS2401 DPI panel driver"
+>   	depends on SPI && GPIOLIB
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
