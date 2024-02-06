@@ -2,149 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A487784BEE3
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 21:46:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9746B84BF37
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 22:30:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A60FB112E1D;
-	Tue,  6 Feb 2024 20:46:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD820112E6F;
+	Tue,  6 Feb 2024 21:30:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RXPufmnK";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="GIx4+Uz1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA0CE112E1D;
- Tue,  6 Feb 2024 20:46:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707252395; x=1738788395;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=aSCkHcyguEM4omrhms6IdrqJGAvgoXndhbTt/jmDqnI=;
- b=RXPufmnKQimeuSnqjURcwlEavqDEC6/KJ9GFhcwaKcVEr3Is9OcAWoOD
- +jPCU2/s2yHK7EqGRhytzH+7At9r+dNWsTgDMGvDe81WhZdZ8C15ZwexA
- IhgSv6Ug0uo7zACxwT1y8mirQ+Mm5TGqLZxlJN3KuqkknJ2jMrmAXRIWq
- 7HgeQY8lYhOg752bYujitUltSdJYyplsxYMPKuLJ3iFG8ASF1GG7skJg7
- CI3rKSroaaFHgHGWMcJHeSTI55W5Td7KnqxxJO8+uhzynos+8/iFE6gv8
- tfc/kYvfhLrMP41kauA77QIDYuEZJcx7CkZWdn23NFBRUuiIvJ82OZZ0e A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="11576724"
-X-IronPort-AV: E=Sophos;i="6.05,248,1701158400"; d="scan'208";a="11576724"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Feb 2024 12:46:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,248,1701158400"; d="scan'208";a="24376916"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 06 Feb 2024 12:46:35 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 6 Feb 2024 12:46:34 -0800
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 6 Feb 2024 12:46:34 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Tue, 6 Feb 2024 12:46:34 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Tue, 6 Feb 2024 12:46:34 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HU3p+MQRNoty4ShBCsOhM3/2VltCxaQ+DQ1Yyp/Gs3rIAtLdo6rl6bI52zZEHtxyJldysr10Fb+kMbRMHpc2k3IPEzLB/4acwWueoVU9WBlCyIHV/GE41opDT5TvIlbLO0ldHa+/8SgJ0kwE3wD3p2X8aztzbNb7Ls2HAvFVVhL/LG6X1gVbVRNp9KRYK/D5lccnT+A+CWWZyx0L0qE5f7mxKGUm/Eldqz+QYYuZZ0hNNxvx1eqMYNSi1AqIaphITb88/PD/1d0kfBeaMpRUU0s6yngIYeFc6ld7cjkKU6obDrw80Q3G9pQMO2Xfv508e82qvHKTHs2NeSIetMlh3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9bqYqA4IJd9ZTBnO4v3lOhB7Z9gJCzPGUqCJb9iqfVs=;
- b=Xw76Wq4ZsvoI3AbWG0UzY+vsHPupVxTJqsJa50rRMrpm8AF58PKtt6Ncprk2lN8WHUhsGW5eH/gOYvuWzIZ/Y0rDwvCqtLdYN7QqU3nDucyFKWDCEX+5aUn9oDxNiFlvOSj4FE3e+eqnHeNyttp3IQx7tQGoLwSagXSdNlT5TYk9WVsC5MTyCtkJcbUUspi2gOCj3yfSM4WFDbMBUEm7Bb+dELkutoCUtBTI/fMvJkac84FiF/8NlXMxpdeMzSljtVOluU2Rv9t/M71xzGzTjcIsOWhg6MFmP9RcH7Bz48P5Pg/NlGkP7ofTeHhnzwMtDP20SL6seZmUosjO43XiFQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM4PR11MB6360.namprd11.prod.outlook.com (2603:10b6:8:bd::12) by
- DS0PR11MB7649.namprd11.prod.outlook.com (2603:10b6:8:146::16) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7249.36; Tue, 6 Feb 2024 20:46:27 +0000
-Received: from DM4PR11MB6360.namprd11.prod.outlook.com
- ([fe80::590:38d5:5c7c:3e4d]) by DM4PR11MB6360.namprd11.prod.outlook.com
- ([fe80::590:38d5:5c7c:3e4d%7]) with mapi id 15.20.7249.035; Tue, 6 Feb 2024
- 20:46:27 +0000
-From: "Shankar, Uma" <uma.shankar@intel.com>
-To: "Deak, Imre" <imre.deak@intel.com>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH 17/19] drm/i915/dp: Call intel_dp_sync_state() always for
- DDI DP encoders
-Thread-Topic: [PATCH 17/19] drm/i915/dp: Call intel_dp_sync_state() always for
- DDI DP encoders
-Thread-Index: AQHaTeccqUSmwxgS5kGdAozabngX4bD93zug
-Date: Tue, 6 Feb 2024 20:46:27 +0000
-Message-ID: <DM4PR11MB6360194E37BF466F3FE436F6F4462@DM4PR11MB6360.namprd11.prod.outlook.com>
-References: <20240123102850.390126-1-imre.deak@intel.com>
- <20240123102850.390126-18-imre.deak@intel.com>
-In-Reply-To: <20240123102850.390126-18-imre.deak@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR11MB6360:EE_|DS0PR11MB7649:EE_
-x-ms-office365-filtering-correlation-id: 7aa490c8-50eb-4874-df4d-08dc2754b090
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: OtjSuukHBofi6OqCFH6doUPRTsy7EUClJOqpDKzCnTi6J/hfUfQDbiwYAEBzPLStINT0SYtT7Xb/xGK4N9DTCqUzvYPx08XOmOU5G1N64oTVryqpn72YGXVX1QbTJGw9qXfVnEJutRXOxaEJ3GOOpjljq3PTjE8aOzLXJ/YICl+Xs9mE3u2+cXX98koAEoZwOGBiTAXSkPOvdV9dv70uWqe3g6+m2A44kh5yKBSKSdPArey7ljDzo+O/VJjaZIl0ZwcolAMTcImxEUkAkIdWl7ppKD5PUvNqj31TTEXHgsTSmFC1Zd3ZNKK6bv+aER59P40EN8TX/ODw+l+7N7yPI1J8PS4ympQ2zvt4GxEOgb47+3YJkpEge0sbMWPOl9HNAvD8k7NTdbEPZPfrzUTo0nIwrq558+bS1LJXHpCxh1XW1yjIxZkgc7xypHSWZSxcBLSG7qHVYZVuiUFc5/BKMqUNxKJJ+qmUoBWhPZtJFZ3cwM8apwzDacn7MQpSLi6K9TVUSOgHwtIBO7I83qRtTm08+FW6k42gzDY0euRSB22m1qoBaMnutc6UATkK/5is1FjP+sNK+X0IEltORAA/FG8NeH5zIBAgRsgrLmEXdvSSh7nQvEIhNP+w2GT/3OLi
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB6360.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366004)(376002)(396003)(136003)(346002)(39860400002)(230922051799003)(451199024)(64100799003)(186009)(1800799012)(41300700001)(26005)(86362001)(64756008)(5660300002)(2906002)(478600001)(110136005)(66476007)(38070700009)(76116006)(66446008)(66946007)(66556008)(450100002)(52536014)(8676002)(8936002)(316002)(4326008)(9686003)(7696005)(33656002)(53546011)(6506007)(55016003)(122000001)(71200400001)(38100700002)(83380400001)(82960400001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?LGSskB8oJ2COBM+LAYWKuXMJxPcDrZAmXd390PrrGDBw98XKzRYPMH0/iq7t?=
- =?us-ascii?Q?BZDyDfe+KfWgSlCkRJVzvNvrLly7VyGpDdHvikzCBgIk8KjG64flc0AsYmOe?=
- =?us-ascii?Q?yZBt9bErqq7wTBnuF6FdvRy8BGo2RbGs6A1jdiGghBpNpDGjFEcpYQFm6tm3?=
- =?us-ascii?Q?hA5dj/pCnEA4Ge47Mg6Kv6iYFr/AyAnFYdgPzuAoPNI0zN6QkbH0HwHjRq+d?=
- =?us-ascii?Q?RpXgfrRAYygnRG+jxshVuWRvbJEx9V7u28UDVVOCEZ3ieD+8jJlXir7IdGZk?=
- =?us-ascii?Q?Oluy/IjIBw/+pF6jl/zYELNdGsLswB6nRa0Rzzh27yVDGMuH0dsvyEdDhbK1?=
- =?us-ascii?Q?SF2imXg4r92sFKtKvYow03D733oHNILbuqB+XxS2Fwl51IHxGgbF01ZkZEYx?=
- =?us-ascii?Q?5NaDU/SPnFvoxPl/6TY1DDzKpZp3BwUBUF87u6VzA/H3CKLUN67UFB+fWlKo?=
- =?us-ascii?Q?hPTg5413DIAdMYeKPXN/werYmsyd2ab4ceixkuctR9qPFe+xJyuhBz1hbX/A?=
- =?us-ascii?Q?l1FkxrI4r0nGqMYu1iA3gpxbdYnoNPByvfKXUBQYmHTmYITMlvBm53SPXbBQ?=
- =?us-ascii?Q?MXlCsQkzt+kaAftu6QUZu7EjjFhLA+elTrl8PmeXJWN5uqr6r3RhALoKBunq?=
- =?us-ascii?Q?NQeSRhNnQ5OMHn1qmOSiYkf/EMBj4oBLxB6B/qmd3gWIbBB4OV3kGhR8jy/5?=
- =?us-ascii?Q?kqk9HWMGhtTb4w7kGAb84qaxLalzdwWQKvzYGzVZXaqN2XgD12UKPesuztm2?=
- =?us-ascii?Q?CsZ79ChANJjUEc8HDQAokr+W8esPs/2PvvUFh/04ReIO2+2PrT750BVgCTtg?=
- =?us-ascii?Q?CMKQ6AriR0u5JKaUjZKkn2ji1uK1Ep54jVp6vkPLJUZYIVcoqv+60JrsVycT?=
- =?us-ascii?Q?yMSAya8U9OPBwxClnbeqNXSO7poWQ+xJSsEDjkfKULC8cYJJJHYR8+E3HRda?=
- =?us-ascii?Q?tfGx4OxmH6UkWEfrTzF8l9r3+uKbQioPoXgCRFKyFKESNer9EueDktNKu9Kq?=
- =?us-ascii?Q?h9LWWDr3JI2xUoqLujk7pzRKjYgN9M1br86f6KFLDlJqlmYdrQIhjNq0lVLU?=
- =?us-ascii?Q?8Fx6IBuxRF8uQYmb7pP2NshtXik0uxcLtLkO3PpLLhtBS+MOA8Mj5SR0IBwO?=
- =?us-ascii?Q?mMw0h98e3GOJDtteLrmtGGZLa4F+DhlNPMwLiGXd7Tu+A29Sp3mjC3P89fB2?=
- =?us-ascii?Q?W6JhJ6mxwrE+oHis3acrgMXd+BMQU5LRWWjCW4BC+OYtn6F+SrPhE4ltkI+Z?=
- =?us-ascii?Q?r49UsuYW95ojaI8S0ITh9jSfNBV6IOqV5B2xU6I4+uM8NcIoTlq0NF1NAOV8?=
- =?us-ascii?Q?PKm97DgaWaQm3WdkFPxvYPetJGPWLyMBWl49BctgDCob1Z4t4Iqo53vzTa0L?=
- =?us-ascii?Q?HlG8oXFzIMF+Ew8tLNTd2jblhJxrDlnKUtEzQVnZyCCyVAzjmj26wdYtTCm2?=
- =?us-ascii?Q?LszUTIFar2sMS7jGwThXaGcMjGWifKpWJc9Za1jFUyroAzvcnLNeRCmewv68?=
- =?us-ascii?Q?M6IK+FQK5FM89vcJ8T6G6W/RnDhCujZXKjn/syAba6yWMl+Ime8ICcaYPIUa?=
- =?us-ascii?Q?xYVobKG9KfvoaBXrKJMZaLJ6/fYS/truCUZhPZiX?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com
+ [209.85.219.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BECB112E6F
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 21:30:37 +0000 (UTC)
+Received: by mail-yb1-f170.google.com with SMTP id
+ 3f1490d57ef6-dc6d5206e96so5641798276.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Feb 2024 13:30:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1707255037; x=1707859837;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=PgLavxpwNtu5smSwfEj3WRmvZ9lABfAdy09TFLdGD/A=;
+ b=GIx4+Uz14lYNpVwq1SQjYutcrtfL/K8QBYqlnJQTxm0ZqdrJ2jstE9pNxRraHh0KNE
+ 7TLaOFPLZYiCnf+GrXbI/yMgS8sMQjEQyfWRYLE/hD5/TgCxjaStd6VIi/Va3MQBzY8R
+ OrjZKPCBFrnqjuH12JtCXwAt+Xu9kTj1qOJ/8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707255037; x=1707859837;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=PgLavxpwNtu5smSwfEj3WRmvZ9lABfAdy09TFLdGD/A=;
+ b=oqtQlkPgOD8mBRkvCXXdjxcuAQETh86M2VtqRfYNe37vBsn8RdfKmFE6u50crhQK9N
+ fspUcXXo1ymJKp2T05RSeIDlpIyf65F1OopvqFVz/5zxq/N357StX7I0xtaSrx00/eaT
+ OtEJ6yfZQgnxz40m2Y4DbvmkM1Jcb29c8WSBx/Qw1IulHzvIdSvVhP+TE2q3IMlaq3Pe
+ StCsR0SZrCQhrcYc9/BaTqRDqdxXbf+6WZPLVF5w4TVs9Apzs5ljZrvW7N06ao2ZomNA
+ 1+hAQXQg6mT4nfHr2hAj+7atDcN516jKQfMKb8tH4kO+k7/G6VONOjDSYZRH83m/VqiJ
+ +mMQ==
+X-Gm-Message-State: AOJu0YwqRFQd0M/117msnwrwA7i6OZj4feffJIGI9udak/A1rpsgvmrI
+ anmgQe7TXfPD4QscY+t+SA/vS9YAly6WPEt2gCv61nKRaJ9hzguFi2CthaXK8UZDR3JhcywIed2
+ ipPB6L8j5pkQp1CTxY498bYMKXmbuj7YR5WL7
+X-Google-Smtp-Source: AGHT+IGxD5lv09x8mPW9z8MP5dL2xz++FIcRESVMOMjei3efQ754ed5MFjFq499UQYDwkmy1GOJabHeZbzV9AzOz2eA=
+X-Received: by 2002:a25:2f0e:0:b0:dc6:cb87:2ddc with SMTP id
+ v14-20020a252f0e000000b00dc6cb872ddcmr2712516ybv.10.1707255035887; Tue, 06
+ Feb 2024 13:30:35 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6360.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7aa490c8-50eb-4874-df4d-08dc2754b090
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Feb 2024 20:46:27.2180 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +F0YAJtZtbw0FEAXcD5K7943dlcnmAeCITdNmtUAScmFXBcGV1wsUngWBMl0IqJu9O6ugGn/puojeo5qcfgM8Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7649
-X-OriginatorOrg: intel.com
+References: <20240112203803.6421-1-ian.forbes@broadcom.com>
+ <20240201051343.9936-1-ian.forbes@broadcom.com>
+ <CABQX2QPru=0O2nWinQEC-GrpvDpvNkECDKQT_CDJGhqnf_mGpw@mail.gmail.com>
+In-Reply-To: <CABQX2QPru=0O2nWinQEC-GrpvDpvNkECDKQT_CDJGhqnf_mGpw@mail.gmail.com>
+From: Ian Forbes <ian.forbes@broadcom.com>
+Date: Tue, 6 Feb 2024 15:30:26 -0600
+Message-ID: <CAO6MGtiHQXzX73jOxW_uSh0UB6FGZ4KoaLgKr-HfEmDwdZ83Ow@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/vmwgfx: Filter modes which exceed 3/4 of graphics
+ memory.
+To: Zack Rusin <zack.rusin@broadcom.com>
+Cc: dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com, 
+ maaz.mombasawala@broadcom.com, martin.krastev@broadcom.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,48 +78,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+So the issue is that SVGA_3D_CMD_DX_PRED_COPY_REGION between 2
+surfaces that are the size of the mode fails. Technically for this to
+work the filter will have to be 1/2 of graphics mem. I was just lucky
+that the next mode in the list was already less than 1/2. 3/4 is not
+actually going to work. Also this only happens on X/Gnome and seems
+more like an issue with the compositor. Wayland/Gnome displays the
+desktop but it's unusable and glitches even with the 1/2 limit. I
+don't think wayland even abides by the mode limits as I see it trying
+to create surfaces larger than the mode. It might be using texture
+limits instead.
 
-
-> -----Original Message-----
-> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of Im=
-re
-> Deak
-> Sent: Tuesday, January 23, 2024 3:59 PM
-> To: intel-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
-> Subject: [PATCH 17/19] drm/i915/dp: Call intel_dp_sync_state() always for=
- DDI
-> DP encoders
->=20
-> A follow-up change will need to resume DP tunnels during system resume, s=
-o call
-> intel_dp_sync_state() always for DDI encoders, so this function can resum=
-e the
-> tunnels for all DP connectors.
-
-Looks good to me.
-Reviewed-by: Uma Shankar <uma.shankar@intel.com>
-
-> Signed-off-by: Imre Deak <imre.deak@intel.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_ddi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c
-> b/drivers/gpu/drm/i915/display/intel_ddi.c
-> index aa6e7da08fbce..1e26e62b82d48 100644
-> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
-> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-> @@ -4131,7 +4131,7 @@ static void intel_ddi_sync_state(struct intel_encod=
-er
-> *encoder,
->  		intel_tc_port_sanitize_mode(enc_to_dig_port(encoder),
->  					    crtc_state);
->=20
-> -	if (crtc_state && intel_crtc_has_dp_encoder(crtc_state))
-> +	if (intel_encoder_is_dp(encoder))
->  		intel_dp_sync_state(encoder, crtc_state);  }
->=20
-> --
-> 2.39.2
-
+On Fri, Feb 2, 2024 at 1:29=E2=80=AFPM Zack Rusin <zack.rusin@broadcom.com>=
+ wrote:
+>
+> On Fri, Feb 2, 2024 at 11:58=E2=80=AFAM Ian Forbes <ian.forbes@broadcom.c=
+om> wrote:
+> >
+> > SVGA requires surfaces to fit within graphics memory (max_mob_pages) wh=
+ich
+> > means that modes with a final buffer size that would exceed graphics me=
+mory
+> > must be pruned otherwise creation will fail.
+>
+> Sorry, I didn't notice this originally but that's not quite true. svga
+> doesn't require all mob memory to stay within max_mob_pages (which is
+> SVGA_REG_GBOBJECT_MEM_SIZE_KB). max_mob_pages is really max resident
+> memory or suggested-guest-memory-for-best-performance. we can grow
+> that memory (and we do). I think what's causing problems on systems
+> with low memory is that cursor mobs and the fb's need to be both
+> resident but can't. Now SVGA_REG_MAX_PRIMARY_MEM is the max memory in
+> which our topology needs to fit in (which is max_primary_mem on
+> vmwgfx) but afaict that's not the issue here and it's checked later in
+> vmw_kms_validate_mode_vram
+>
+> > Additionally, device commands which use multiple graphics resources mus=
+t
+> > have all their resources fit within graphics memory for the duration of=
+ the
+> > command. Thus we need a small carve out of 1/4 of graphics memory to en=
+sure
+> > commands likes surface copies to the primary framebuffer for cursor
+> > composition or damage clips can fit within graphics memory.
+>
+> Yes, we should probably rename max_mob_pages to max_resident_memory
+> instead to make this obvious.
+>
+> > This fixes an issue where VMs with low graphics memory (< 64MiB) config=
+ured
+> > with high resolution mode boot to a black screen because surface creati=
+on
+> > fails.
+>
+> Does this work if you disable gbobjects? Without gbobject's we won't
+> have screen targets and thus won't be offsetting by 1/4 so I wonder if
+> 4mb vram with legacy display would work with 1280x800 resolution.
+>
+> Also, you want to add a "V2" section to your change to describe what
+> changed in v2 vs v1 (and same for any subsequent change).
+>
+> >
+> > Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
+> > ---
+> >  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 22 ++++++++++++++--------
+> >  1 file changed, 14 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwg=
+fx/vmwgfx_kms.c
+> > index cd4925346ed4..84e1b765cda3 100644
+> > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> > @@ -2858,12 +2858,17 @@ enum drm_mode_status vmw_connector_mode_valid(s=
+truct drm_connector *connector,
+> >         struct vmw_private *dev_priv =3D vmw_priv(dev);
+> >         u32 max_width =3D dev_priv->texture_max_width;
+> >         u32 max_height =3D dev_priv->texture_max_height;
+> > -       u32 assumed_cpp =3D 4;
+> > -
+> > -       if (dev_priv->assume_16bpp)
+> > -               assumed_cpp =3D 2;
+> > +       u32 assumed_cpp =3D dev_priv->assume_16bpp ? 2 : 4;
+> > +       u32 pitch =3D mode->hdisplay * assumed_cpp;
+> > +       u64 total =3D mode->vdisplay * pitch;
+> > +       bool using_stdu =3D dev_priv->active_display_unit =3D=3D vmw_du=
+_screen_target;
+> > +       u64 max_mem_for_st =3D dev_priv->max_mob_pages * PAGE_SIZE * 3 =
+/ 4;
+> > +       /* ^^^ Max memory for the mode fb when using Screen Target / MO=
+Bs.
+> > +        * We need a carveout (1/4) to account for other gfx resources =
+that are
+> > +        * required in gfx mem for an fb update to complete with low gf=
+x mem (<64MiB).
+> > +        */
+>
+> Same wording issue as mentioned above and lets use normal comment
+> style (i.e. comments attach to the code below). max_mem_for_st should
+> probably be max_mem_for_mode or max_mem_for_mode_st.
+>
+> > -       if (dev_priv->active_display_unit =3D=3D vmw_du_screen_target) =
+{
+> > +       if (using_stdu) {
+> >                 max_width  =3D min(dev_priv->stdu_max_width,  max_width=
+);
+> >                 max_height =3D min(dev_priv->stdu_max_height, max_heigh=
+t);
+> >         }
+> > @@ -2874,9 +2879,10 @@ enum drm_mode_status vmw_connector_mode_valid(st=
+ruct drm_connector *connector,
+> >         if (max_height < mode->vdisplay)
+> >                 return MODE_BAD_VVALUE;
+> >
+> > -       if (!vmw_kms_validate_mode_vram(dev_priv,
+> > -                                       mode->hdisplay * assumed_cpp,
+> > -                                       mode->vdisplay))
+> > +       if (using_stdu && (total > max_mem_for_st || total > dev_priv->=
+max_mob_size))
+> > +               return MODE_MEM;
+> > +
+> > +       if (!vmw_kms_validate_mode_vram(dev_priv, pitch, mode->vdisplay=
+))
+> >                 return MODE_MEM;
+>
+> It might make sense to just reuse vmw_kms_validate_mode_vram , it does
+> what we're claiming to do here and even though it's called
+> vmw_kms_validate_mode_vram it does actually validate st primary
+> memory.
+>
+> z
