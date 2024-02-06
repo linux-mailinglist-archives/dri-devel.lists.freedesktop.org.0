@@ -2,52 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7D8384B478
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 13:08:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11BBB84B50C
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 13:22:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27B98112B1F;
-	Tue,  6 Feb 2024 12:08:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72329112B45;
+	Tue,  6 Feb 2024 12:22:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ovKTn1GK";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bHBqIP1O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2CE7112B19
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 12:08:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1707221281;
- bh=VDX7AhydHRhOSNhBFLKBelqucKRnbrmvRDj7DrUlgD0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ovKTn1GKOsdkDSM+//FcNhut09sz3Y7AB4VMOlss3fZuDyOJlgSLR7BO0W31sAuaf
- /HRQf1sKvXb/0Pcgfgz6zPapjGDbA4gAXZjJBe+hBdosMqJ0tXXWwS+olIZ3xvvjqV
- SiWZ0XcpY+Ekt1+ImYNbsUW8onjPDewkEF4ynIHvpQkIF2TcnkZi/aZW3UeFS1cOa/
- L2r7FSNTkn5WG+8jiPanSXTWS5VuHkQSa7x2MkkjjFunxk0vtqBOYo7924Ec2G89kQ
- 7/5rmw0XDsx0vphhDY+9ybiU8fk2A1esKbiB6EQu7IFrvNADy1XmqvdUNLLtJHzKIW
- myMD7PJXK4bow==
-Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com
- [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id DEAB63781F8E;
- Tue,  6 Feb 2024 12:08:00 +0000 (UTC)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: chunkuang.hu@kernel.org
-Cc: fshao@chromium.org, p.zabel@pengutronix.de, airlied@gmail.com,
- daniel@ffwll.ch, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, kernel@collabora.com
-Subject: [PATCH v4 9/9] drm/mediatek: dsi: Use mipi_dsi_pixel_format_to_bpp()
- helper function
-Date: Tue,  6 Feb 2024 13:07:48 +0100
-Message-ID: <20240206120748.136610-10-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240206120748.136610-1-angelogioacchino.delregno@collabora.com>
-References: <20240206120748.136610-1-angelogioacchino.delregno@collabora.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5948C112B45
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 12:22:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1707222149; x=1738758149;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=DZ8sXrB+iyH43x7pXen9w9vjRWTUYPjTfwVVUgu3GUc=;
+ b=bHBqIP1Ole2u64GhtTUw9Lc5csqFYP3rTqWa8K7SQX775UpWyFyqhtPi
+ 7pHQZe3CAbtXM3A5qVLmg8R85ThIaCkv5ssD60MfBIbqrnLrpt27JwC+Z
+ Mx7g27pShiXcd0niFfKPqqq20PXRSSw0uQnDArqdE8tEyEP5U+/ctjT9i
+ yK4e4HRyvTa4aHHHgtL5AIkZfwA5ke6e4v2QunC0jMdm4Pp4R0UF+lzql
+ Ut+/Fp8Oq3w9Vz2D2pRsuOBn7IvCELAy2Tzgx7zniIrnDomSv5dYx3n2e
+ Qub8glcYlEIMJ3HPXpILjsdHv7Dpj6gLQ6lid0t5FT64mzVTswGSmQgB3 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10975"; a="18156209"
+X-IronPort-AV: E=Sophos;i="6.05,247,1701158400"; d="scan'208";a="18156209"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Feb 2024 04:22:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10975"; a="909624554"
+X-IronPort-AV: E=Sophos;i="6.05,247,1701158400"; d="scan'208";a="909624554"
+Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.217.160.82])
+ ([10.217.160.82])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Feb 2024 04:22:27 -0800
+Message-ID: <6f102565-70a0-456d-97fb-43af8c9f0fb9@linux.intel.com>
+Date: Tue, 6 Feb 2024 13:22:25 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/7] accel/ivpu: Gracefully shutdown NPU before reset
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, "Wachowski, Karol" <karol.wachowski@intel.com>
+References: <20240126122804.2169129-1-jacek.lawrynowicz@linux.intel.com>
+ <20240126122804.2169129-5-jacek.lawrynowicz@linux.intel.com>
+ <e1c84571-431c-a8ae-eedb-cc0306fff99b@quicinc.com>
+ <db4a3b14-3fc1-4687-ba18-a52f9bc0db82@linux.intel.com>
+Content-Language: en-US
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <db4a3b14-3fc1-4687-ba18-a52f9bc0db82@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,71 +72,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of open coding, use the mipi_dsi_pixel_format_to_bpp() helper
-function from drm_mipi_dsi.h in mtk_dsi_poweron() and for validation
-in mtk_dsi_bridge_mode_valid().
+On 05.02.2024 09:39, Jacek Lawrynowicz wrote:
+> On 26.01.2024 19:23, Jeffrey Hugo wrote:
+>> On 1/26/2024 5:28 AM, Jacek Lawrynowicz wrote:
+>>> From: "Wachowski, Karol" <karol.wachowski@intel.com>
+>>>
+>>> Replace forceful disable of power domains with requests to disable
+>>> TOP NOC CPU_CTRL and HOSTIF_L2CACHE through QREQN.
+>>>
+>>> In case of failure retry multiple times following HAS sequence of
+>>> checking both QACCEPN and QDENYN registers.
+>>>
+>>> This fixes VPU hangs with PCODE released in January 2024 onwards.
+>>>
+>>> Fixes: 3f7c0634926d ("accel/ivpu/37xx: Fix hangs related to MMIO reset")
+>>> Signed-off-by: Wachowski, Karol <karol.wachowski@intel.com>
+>>> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+>>> ---
+>>>   drivers/accel/ivpu/ivpu_hw_37xx.c | 122 +++++++++++++++---------------
+>>>   1 file changed, 60 insertions(+), 62 deletions(-)
+>>>
 
-Note that this function changes the behavior of this driver: previously,
-in case of unknown formats, it would (wrongly) assume that it should
-account for a 24-bits format - now it will return an error and refuse
-to set clocks and/or enable the DSI.
+...
 
-This is done because setting the wrong data rate will only produce a
-garbage output that the display will misinterpret both because this
-driver doesn't actually provide any extra-spec format support and/or
-because the data rate (hence, the HS clock) will be wrong.
+>>>   static void ivpu_boot_no_snoop_enable(struct ivpu_device *vdev)
+>>>   {
+>>>       u32 val = REGV_RD32(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES);
+>>> @@ -618,19 +617,18 @@ static int ivpu_hw_37xx_info_init(struct ivpu_device *vdev)
+>>>     static int ivpu_hw_37xx_reset(struct ivpu_device *vdev)
+>>>   {
+>>> -    int ret = 0;
+>>> +    int retries = 100;
+>>>   -    if (ivpu_boot_pwr_domain_disable(vdev)) {
+>>> -        ivpu_err(vdev, "Failed to disable power domain\n");
+>>> -        ret = -EIO;
+>>> -    }
+>>> +    while (ivpu_boot_host_ss_top_noc_cpu_ctrl_disable(vdev) && --retries > 0)
+>>> +        ivpu_warn(vdev, "Retrying to disable CPU control, retries left: %d\n", retries);
+>>>   -    if (ivpu_pll_disable(vdev)) {
+>>> -        ivpu_err(vdev, "Failed to disable PLL\n");
+>>> -        ret = -EIO;
+>>> -    }
+>>> +    while (ivpu_boot_host_ss_top_noc_hostif_l2cache_disable(vdev) && --retries > 0)
+>>> +        ivpu_warn(vdev, "Retrying to disable HostIf L2 Cache, retries left: %d\n", retries);
+>>>   -    return ret;
+>>> +    while (ivpu_pll_disable(vdev) && --retries > 0)
+>>> +        ivpu_warn(vdev, "Retrying to disable PLL, retries left: %d\n", retries);
+>>> +
+>>> +    return retries > 0 ? 0 : -EIO;
+>>
+>> It seems weird that retries is never reset between operations.  Why is that?
+> 
+> This is intentional.
+> Retries are shared among all operations as we don't exacly know max number of retries for each of them.
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- drivers/gpu/drm/mediatek/mtk_dsi.c | 26 +++++++++-----------------
- 1 file changed, 9 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index 545c5cc071d9..d844a0500e2b 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -598,19 +598,12 @@ static int mtk_dsi_poweron(struct mtk_dsi *dsi)
- 	if (++dsi->refcount != 1)
- 		return 0;
- 
--	switch (dsi->format) {
--	case MIPI_DSI_FMT_RGB565:
--		bit_per_pixel = 16;
--		break;
--	case MIPI_DSI_FMT_RGB666_PACKED:
--		bit_per_pixel = 18;
--		break;
--	case MIPI_DSI_FMT_RGB666:
--	case MIPI_DSI_FMT_RGB888:
--	default:
--		bit_per_pixel = 24;
--		break;
-+	ret = mipi_dsi_pixel_format_to_bpp(dsi->format);
-+	if (ret < 0) {
-+		dev_err(dev, "Unknown MIPI DSI format %d\n", dsi->format);
-+		return ret;
- 	}
-+	bit_per_pixel = ret;
- 
- 	dsi->data_rate = DIV_ROUND_UP_ULL(dsi->vm.pixelclock * bit_per_pixel,
- 					  dsi->lanes);
-@@ -793,12 +786,11 @@ mtk_dsi_bridge_mode_valid(struct drm_bridge *bridge,
- 			  const struct drm_display_mode *mode)
- {
- 	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
--	u32 bpp;
-+	int bpp;
- 
--	if (dsi->format == MIPI_DSI_FMT_RGB565)
--		bpp = 16;
--	else
--		bpp = 24;
-+	bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
-+	if (bpp < 0)
-+		return MODE_ERROR;
- 
- 	if (mode->clock * bpp / dsi->lanes > 1500000)
- 		return MODE_CLOCK_HIGH;
--- 
-2.43.0
-
+We found a better solution to our stability issues. I will drop this patch and submit a new one.
