@@ -2,65 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9746B84BF37
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 22:30:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3AED84BFDB
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 23:13:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD820112E6F;
-	Tue,  6 Feb 2024 21:30:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA96510E6CD;
+	Tue,  6 Feb 2024 22:13:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="GIx4+Uz1";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="NDd1PVxV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com
- [209.85.219.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BECB112E6F
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 21:30:37 +0000 (UTC)
-Received: by mail-yb1-f170.google.com with SMTP id
- 3f1490d57ef6-dc6d5206e96so5641798276.0
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Feb 2024 13:30:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1707255037; x=1707859837;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PgLavxpwNtu5smSwfEj3WRmvZ9lABfAdy09TFLdGD/A=;
- b=GIx4+Uz14lYNpVwq1SQjYutcrtfL/K8QBYqlnJQTxm0ZqdrJ2jstE9pNxRraHh0KNE
- 7TLaOFPLZYiCnf+GrXbI/yMgS8sMQjEQyfWRYLE/hD5/TgCxjaStd6VIi/Va3MQBzY8R
- OrjZKPCBFrnqjuH12JtCXwAt+Xu9kTj1qOJ/8=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C83B10E6CD
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 22:13:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1707257626;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=oV38p0ChUDVFsbxCUF3CmIWxJt8WWKYIrHTwY79TP1s=;
+ b=NDd1PVxVEZK7+ovRm34YtXfExYyN/4MEavm1lfSXi5L53NcGnT4oJVaFKBqSN9MxtZ9YbZ
+ YWUIsG/LVjIzVEcP6jTV8pcrWVaYcLhGvU7HSFoKILaD1lNpWGRC8fl/xdhPhdpGXKXqV+
+ V/sT2bVhokAjPVgb5ZEXBwfMz1JEcx8=
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
+ [209.85.210.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-343-ING7f3hpPkWSu9c_Au0o8Q-1; Tue, 06 Feb 2024 17:13:44 -0500
+X-MC-Unique: ING7f3hpPkWSu9c_Au0o8Q-1
+Received: by mail-ot1-f71.google.com with SMTP id
+ 46e09a7af769-6e2b7965678so134887a34.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Feb 2024 14:13:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707255037; x=1707859837;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=PgLavxpwNtu5smSwfEj3WRmvZ9lABfAdy09TFLdGD/A=;
- b=oqtQlkPgOD8mBRkvCXXdjxcuAQETh86M2VtqRfYNe37vBsn8RdfKmFE6u50crhQK9N
- fspUcXXo1ymJKp2T05RSeIDlpIyf65F1OopvqFVz/5zxq/N357StX7I0xtaSrx00/eaT
- OtEJ6yfZQgnxz40m2Y4DbvmkM1Jcb29c8WSBx/Qw1IulHzvIdSvVhP+TE2q3IMlaq3Pe
- StCsR0SZrCQhrcYc9/BaTqRDqdxXbf+6WZPLVF5w4TVs9Apzs5ljZrvW7N06ao2ZomNA
- 1+hAQXQg6mT4nfHr2hAj+7atDcN516jKQfMKb8tH4kO+k7/G6VONOjDSYZRH83m/VqiJ
- +mMQ==
-X-Gm-Message-State: AOJu0YwqRFQd0M/117msnwrwA7i6OZj4feffJIGI9udak/A1rpsgvmrI
- anmgQe7TXfPD4QscY+t+SA/vS9YAly6WPEt2gCv61nKRaJ9hzguFi2CthaXK8UZDR3JhcywIed2
- ipPB6L8j5pkQp1CTxY498bYMKXmbuj7YR5WL7
-X-Google-Smtp-Source: AGHT+IGxD5lv09x8mPW9z8MP5dL2xz++FIcRESVMOMjei3efQ754ed5MFjFq499UQYDwkmy1GOJabHeZbzV9AzOz2eA=
-X-Received: by 2002:a25:2f0e:0:b0:dc6:cb87:2ddc with SMTP id
- v14-20020a252f0e000000b00dc6cb872ddcmr2712516ybv.10.1707255035887; Tue, 06
- Feb 2024 13:30:35 -0800 (PST)
+ d=1e100.net; s=20230601; t=1707257623; x=1707862423;
+ h=mime-version:user-agent:content-transfer-encoding:organization:date
+ :to:from:subject:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=oV38p0ChUDVFsbxCUF3CmIWxJt8WWKYIrHTwY79TP1s=;
+ b=e9JYtTB0fDf0fRDPqZc+N8xH82+tBa4ZIvtyTQPPe511rpbfjYFjuV+HJhJfgcPUu+
+ 1CAPP9Yk1OSyfUUwtjzIBnDuM9wa8+cTu/fDL+aFWdrE1p7y9bG+0BKEoZDypFhTxP0r
+ 3OV2ywpyikSb6g3A1cjqgs+WqOjRdAY3O3OR3uJCHSwaZN2D1MvoQCdSdaOhVNIuHYri
+ ht9gGaGvrr3eAwRq2f1qlEeD+sJzWEJZZCG3zLE7WXlqYVN8eu2F5NLTkFEaIZlbWJ1q
+ Kd+bn8i84T0eX1fZNNM7AOZNI3y/rByABmyBdliaJYWTRPmd5PYw3x7grYCUW83P4s3j
+ lOew==
+X-Gm-Message-State: AOJu0YxeByqxf9Cqc1R9pv3ES231IVtbcHW8a75sPcr13+b+XUcePGlP
+ BbRLDRmCOblK65cdc9kBxMhMX2KkNjTNks/2x7y7HyqHh1/XKPM2rIR5JsatyGy5SRJPyhVYCT7
+ UxIXLQ5wy1I4Z9T/bguOyE4oKU3VNSj6PXH5eiSuhNfZFz3Sm00HtpWB3ZkV3XKfLHBijIV3dJZ
+ 8AHBq8QKXD5TK92h3auVfQqOyn3iIBSOvL5ZaIgLK+FE7mxQ==
+X-Received: by 2002:a05:6830:1395:b0:6dc:3dad:a540 with SMTP id
+ d21-20020a056830139500b006dc3dada540mr4223795otq.36.1707257623293; 
+ Tue, 06 Feb 2024 14:13:43 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGUqH7ndIvYHGVn8LPUcMZX5DarQZKP9KJ6Tf9U6BoXFRFM4jZeRSt2Jx4weAJpnpJS9i17rg==
+X-Received: by 2002:a05:6830:1395:b0:6dc:3dad:a540 with SMTP id
+ d21-20020a056830139500b006dc3dada540mr4223780otq.36.1707257622909; 
+ Tue, 06 Feb 2024 14:13:42 -0800 (PST)
+X-Forwarded-Encrypted: i=0;
+ AJvYcCVhux5Q1H8vnJKUYkTsUJD1bjl2TlPdmo6yYn9wd1MmTJ4Gtvi22bGl5Y4ujVvZSBLrXaDSzP4eMUaVzCYsOwk/8U7tDYFbVBbBw7BWwg==
+Received: from ?IPv6:2600:4040:5c6c:a300::feb? ([2600:4040:5c6c:a300::feb])
+ by smtp.gmail.com with ESMTPSA id
+ g24-20020ac84b78000000b0042a25f3950esm1288220qts.75.2024.02.06.14.13.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Feb 2024 14:13:42 -0800 (PST)
+Message-ID: <3ed356488c9b0ca93845501425d427309f4cf616.camel@redhat.com>
+Subject: Future of nouveau/nova's display driver, and rvkms introduction!
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
+Date: Tue, 06 Feb 2024 17:13:41 -0500
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38)
 MIME-Version: 1.0
-References: <20240112203803.6421-1-ian.forbes@broadcom.com>
- <20240201051343.9936-1-ian.forbes@broadcom.com>
- <CABQX2QPru=0O2nWinQEC-GrpvDpvNkECDKQT_CDJGhqnf_mGpw@mail.gmail.com>
-In-Reply-To: <CABQX2QPru=0O2nWinQEC-GrpvDpvNkECDKQT_CDJGhqnf_mGpw@mail.gmail.com>
-From: Ian Forbes <ian.forbes@broadcom.com>
-Date: Tue, 6 Feb 2024 15:30:26 -0600
-Message-ID: <CAO6MGtiHQXzX73jOxW_uSh0UB6FGZ4KoaLgKr-HfEmDwdZ83Ow@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/vmwgfx: Filter modes which exceed 3/4 of graphics
- memory.
-To: Zack Rusin <zack.rusin@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com, 
- maaz.mombasawala@broadcom.com, martin.krastev@broadcom.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,131 +90,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-So the issue is that SVGA_3D_CMD_DX_PRED_COPY_REGION between 2
-surfaces that are the size of the mode fails. Technically for this to
-work the filter will have to be 1/2 of graphics mem. I was just lucky
-that the next mode in the list was already less than 1/2. 3/4 is not
-actually going to work. Also this only happens on X/Gnome and seems
-more like an issue with the compositor. Wayland/Gnome displays the
-desktop but it's unusable and glitches even with the 1/2 limit. I
-don't think wayland even abides by the mode limits as I see it trying
-to create surfaces larger than the mode. It might be using texture
-limits instead.
+Hi everyone! As I'm sure a number of you are aware, since Nvidia's release =
+of
+the GSP firmware a lot of things have changed for nouveau. In particular, t=
+he
+interfaces which we use for controlling the hardware from nouveau have chan=
+ged
+pretty dramatically in many areas as a result of going through the GSP inst=
+ead
+of directly interfacing with various hardware registers. Enough so that at
+least outside of modesetting, there isn't much potential for codesharing
+between non-GSP devices and GSP devices.
 
-On Fri, Feb 2, 2024 at 1:29=E2=80=AFPM Zack Rusin <zack.rusin@broadcom.com>=
- wrote:
->
-> On Fri, Feb 2, 2024 at 11:58=E2=80=AFAM Ian Forbes <ian.forbes@broadcom.c=
-om> wrote:
-> >
-> > SVGA requires surfaces to fit within graphics memory (max_mob_pages) wh=
-ich
-> > means that modes with a final buffer size that would exceed graphics me=
-mory
-> > must be pruned otherwise creation will fail.
->
-> Sorry, I didn't notice this originally but that's not quite true. svga
-> doesn't require all mob memory to stay within max_mob_pages (which is
-> SVGA_REG_GBOBJECT_MEM_SIZE_KB). max_mob_pages is really max resident
-> memory or suggested-guest-memory-for-best-performance. we can grow
-> that memory (and we do). I think what's causing problems on systems
-> with low memory is that cursor mobs and the fb's need to be both
-> resident but can't. Now SVGA_REG_MAX_PRIMARY_MEM is the max memory in
-> which our topology needs to fit in (which is max_primary_mem on
-> vmwgfx) but afaict that's not the issue here and it's checked later in
-> vmw_kms_validate_mode_vram
->
-> > Additionally, device commands which use multiple graphics resources mus=
-t
-> > have all their resources fit within graphics memory for the duration of=
- the
-> > command. Thus we need a small carve out of 1/4 of graphics memory to en=
-sure
-> > commands likes surface copies to the primary framebuffer for cursor
-> > composition or damage clips can fit within graphics memory.
->
-> Yes, we should probably rename max_mob_pages to max_resident_memory
-> instead to make this obvious.
->
-> > This fixes an issue where VMs with low graphics memory (< 64MiB) config=
-ured
-> > with high resolution mode boot to a black screen because surface creati=
-on
-> > fails.
->
-> Does this work if you disable gbobjects? Without gbobject's we won't
-> have screen targets and thus won't be offsetting by 1/4 so I wonder if
-> 4mb vram with legacy display would work with 1280x800 resolution.
->
-> Also, you want to add a "V2" section to your change to describe what
-> changed in v2 vs v1 (and same for any subsequent change).
->
-> >
-> > Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
-> > ---
-> >  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 22 ++++++++++++++--------
-> >  1 file changed, 14 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwg=
-fx/vmwgfx_kms.c
-> > index cd4925346ed4..84e1b765cda3 100644
-> > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> > @@ -2858,12 +2858,17 @@ enum drm_mode_status vmw_connector_mode_valid(s=
-truct drm_connector *connector,
-> >         struct vmw_private *dev_priv =3D vmw_priv(dev);
-> >         u32 max_width =3D dev_priv->texture_max_width;
-> >         u32 max_height =3D dev_priv->texture_max_height;
-> > -       u32 assumed_cpp =3D 4;
-> > -
-> > -       if (dev_priv->assume_16bpp)
-> > -               assumed_cpp =3D 2;
-> > +       u32 assumed_cpp =3D dev_priv->assume_16bpp ? 2 : 4;
-> > +       u32 pitch =3D mode->hdisplay * assumed_cpp;
-> > +       u64 total =3D mode->vdisplay * pitch;
-> > +       bool using_stdu =3D dev_priv->active_display_unit =3D=3D vmw_du=
-_screen_target;
-> > +       u64 max_mem_for_st =3D dev_priv->max_mob_pages * PAGE_SIZE * 3 =
-/ 4;
-> > +       /* ^^^ Max memory for the mode fb when using Screen Target / MO=
-Bs.
-> > +        * We need a carveout (1/4) to account for other gfx resources =
-that are
-> > +        * required in gfx mem for an fb update to complete with low gf=
-x mem (<64MiB).
-> > +        */
->
-> Same wording issue as mentioned above and lets use normal comment
-> style (i.e. comments attach to the code below). max_mem_for_st should
-> probably be max_mem_for_mode or max_mem_for_mode_st.
->
-> > -       if (dev_priv->active_display_unit =3D=3D vmw_du_screen_target) =
-{
-> > +       if (using_stdu) {
-> >                 max_width  =3D min(dev_priv->stdu_max_width,  max_width=
-);
-> >                 max_height =3D min(dev_priv->stdu_max_height, max_heigh=
-t);
-> >         }
-> > @@ -2874,9 +2879,10 @@ enum drm_mode_status vmw_connector_mode_valid(st=
-ruct drm_connector *connector,
-> >         if (max_height < mode->vdisplay)
-> >                 return MODE_BAD_VVALUE;
-> >
-> > -       if (!vmw_kms_validate_mode_vram(dev_priv,
-> > -                                       mode->hdisplay * assumed_cpp,
-> > -                                       mode->vdisplay))
-> > +       if (using_stdu && (total > max_mem_for_st || total > dev_priv->=
-max_mob_size))
-> > +               return MODE_MEM;
-> > +
-> > +       if (!vmw_kms_validate_mode_vram(dev_priv, pitch, mode->vdisplay=
-))
-> >                 return MODE_MEM;
->
-> It might make sense to just reuse vmw_kms_validate_mode_vram , it does
-> what we're claiming to do here and even though it's called
-> vmw_kms_validate_mode_vram it does actually validate st primary
-> memory.
->
-> z
+As such a few folks at Red Hat, myself included, have been working on writi=
+ng
+up a new kernel driver intended solely for GSP devices known as nova:
+
+https://gitlab.freedesktop.org/dakr/nova
+
+As well, nova is a rust based driver - something we're hoping will become m=
+uch
+more common in the kernel as a result of this project (and the efforts of
+other projects like Asahi!).
+
+Of course, you'll notice I mentioned earlier that most of the GSP changes h=
+ave
+been outside of the area of modesetting. This is to say that while modesett=
+ing
+with nvidia hardware hasn't remained totally the same, it's mostly the same=
+:
+we've only had a small number of modesetting interfaces moved into the GSP,
+and the evo/nvdisplay architecture remains largely identical to what it loo=
+ked
+like pre-GSP. This of course led us to the question of whether we should tr=
+y
+sharing a modesetting driver with nouveau, or if the effort of having a C
+based modesetting driver alongside a rust counterpart would be too much wor=
+k.
+
+Eventually, while it would have been nice to have done code sharing here - =
+we
+ended up deciding that it probably would be more work then it's worth, and
+that it wouldn't be a bad idea for us also to write up a new modesetting
+driver for nova in rust so that we don't have to maintain a Rust <-> C laye=
+r
+within nova. It's going to be a while before writing this driver starts
+though, since there's not much we can do without having nova a bit further
+ahead in the driver bringup-process. So=E2=80=A6
+
+For the time being, to figure out a set of rust bindings for KMS drivers in
+the kernel I've been working on a small project called rvkms!
+
+https://gitlab.freedesktop.org/lyudess/linux/-/commits/rvkms
+
+The basic idea is to figure out as much of the KMS bindings as we can befor=
+e
+we're at a point where it's possible to start writing up a modesetting driv=
+er
+for nova. RVKMS as you may have guessed, is intended to be a port of VKMS t=
+o
+rust. We choose VKMS since it's got a very small codebase, and only really
+implements the minimum requirements for an atomic KMS driver. Currently I'm
+not planning on upstreaming rvkms itself, however if there's actually enoug=
+h
+interest in such a driver being upstreamed I certainly wouldn't be against =
+it
+:).
+
+At the moment I don't have much more then a basic skeleton driver that's ba=
+sed
+off the nova development branch (currently the 6.6 branch, but I'm currentl=
+y
+rebasing it to the latest 6.7 branch), but I hope to have more in the near
+future as I'm currently working on writing up KMS bindings.
+
+If anyone has any questions or comments feel free to reply :)!
+--=20
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
+
