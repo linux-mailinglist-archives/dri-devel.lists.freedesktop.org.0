@@ -2,75 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49B1784ABEF
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 03:06:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C789684ABF7
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 03:09:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2A1C10FE15;
-	Tue,  6 Feb 2024 02:06:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0427C10FE36;
+	Tue,  6 Feb 2024 02:09:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eX/rbqB0";
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="b+KMj6tv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
- [209.85.218.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5DD310FE18;
- Tue,  6 Feb 2024 02:06:09 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id
- a640c23a62f3a-a3566c0309fso627640466b.1; 
- Mon, 05 Feb 2024 18:06:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1707185167; x=1707789967; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=T1EJ6S2wVGEdnMNc6bKxhmQNElZwLjmlhpytY2Fu/uE=;
- b=eX/rbqB0aspO+BY5rphp9HJ2EHBJQ5HajvoMunCM0tKg3BBU+utYHG9yYBK0Opq2ru
- 8kw2fl2IvKHnStaSVXxUwIsZYU3k7daH6KWqZ1+Roj/i780qXI/M8+p0ILSWV8F7KbSO
- i0kfAQ68IRQI2C4BcFTE6uRQWYclm76GQ8BzAvME3TLmdpYJkBn2TX1O4lt3WhgClqJp
- lwO0cTYnpFFpcMnXDTGc4QZq4RD+eitz2PnCGwR/OLeEbN2brwozS9+fhZ3EohnADnuX
- mtHWDJH8EDoxiVpLW02BVuEzomsdCn187VR6GUAxywkHukb30cRofCqvcVgQa/G3rMYA
- +1mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707185167; x=1707789967;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=T1EJ6S2wVGEdnMNc6bKxhmQNElZwLjmlhpytY2Fu/uE=;
- b=qJQWabtfC4yQP0TukNZnQgmAWMwKhmCQ0+xiTnPYhM/JQc9iL77aw9AQSntxMLKe/S
- tL+parjMDjZ2UqmnT18vHztj626R3NOeZsAkYdnovS0obuKiyw1lHgUh8/3UbpV6xzo2
- aClrw9WtrrlxMDboqS9m+rabOSbqvUHz0mD97ANdY9QHGHK6+X8FVOSecsjTw8my9lZE
- nfIJvWPnHMAIDCDXUxKWk+CyggVGfvBgmat3XpZ7zykLBoqEPY+ocs+JyNxLs/DsmFJR
- Bo5siPK6K53s8f5Vj+8/ZG0sk0Lx6qfsP7eBHsLopnN9nMsNuLX99+b8pCe/kVyZ5Z1r
- Un0A==
-X-Gm-Message-State: AOJu0Yyox0MsFe9c+HxeOnGfjtJZkjBz9/HPcFyfDXJEsfAtUN3LF9Je
- EGQFWAZLK0uCPr+hF0ZES0dbwFfQPpmXYIEIgnAoRlpoNn380ZKrX5iwAOZUvRO5FG9GKZ6NGLf
- zw2JnyqrHAkcZ/hR+yY+sKVF31EY=
-X-Google-Smtp-Source: AGHT+IHG19NldDsKoEZtc3qq+914gFcESUmx3w2nKHHgN+mrdCsoh/bT0fNBX1f4v57W3dTO5biPMp6IWBXL++dNeC0=
-X-Received: by 2002:a17:906:3e09:b0:a37:bd9c:ad74 with SMTP id
- k9-20020a1709063e0900b00a37bd9cad74mr444161eji.75.1707185167471; Mon, 05 Feb
- 2024 18:06:07 -0800 (PST)
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA14B10FE25
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 02:08:49 +0000 (UTC)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 4161EYUn020918; Tue, 6 Feb 2024 02:08:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=corp-2023-11-20;
+ bh=TNBqmrMN0GKiz0meyol2MTt7jK7ZOMX41ADnOQ7L/UU=;
+ b=b+KMj6tvO4efzEbKZhSG/xzlHnsPmbgMlBfcTWawkZTnAIffaQla4J5cVDofspUuJqWS
+ /o00HHnk0n3gN9qp3mx/3E4gJC1I52m2sdoqn6JFMG+i8UwxEXr0NcQnIWxdhEFBJn+E
+ /x8af1pQLtk1k1AM1L7u822p8aQ15VNJPSq8MPE9D4515Gx5HixPyTgAvA3/EgoqxoHI
+ QgW4sF8UUf5WKq6QgWwluTQ92vNZ9x/szjLyibVmDwZBAu8ox17jHGO02Dm+ih1uUcH6
+ DGK4SsClE47m3SK3AzW4xYXw6GyPWvrQpLAswBi0lOq+tWmzWKU14KToHTtMKtqix0Tu 5w== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3w1bwengt7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 06 Feb 2024 02:08:03 +0000
+Received: from pps.filterd
+ (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19)
+ with ESMTP id 4160ucci039478; Tue, 6 Feb 2024 02:08:02 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3w1bx6cdtw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 06 Feb 2024 02:08:02 +0000
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 41627qHJ034652;
+ Tue, 6 Feb 2024 02:08:01 GMT
+Received: from ca-mkp2.ca.oracle.com.com
+ (mpeterse-ol9.allregionaliads.osdevelopmeniad.oraclevcn.com
+ [100.100.251.135])
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id
+ 3w1bx6cdrb-2; Tue, 06 Feb 2024 02:08:01 +0000
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+To: linux-kernel@vger.kernel.org, Li Zhijian <lizhijian@fujitsu.com>
+Cc: "Martin K . Petersen" <martin.petersen@oracle.com>,
+ Adaptec OEM Raid Solutions <aacraid@microsemi.com>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Alistar Popple <alistair@popple.id.au>,
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Artur Paszkiewicz <artur.paszkiewicz@intel.com>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Borislav Petkov <bp@alien8.de>,
+ =?UTF-8?q?Bruno=20Pr=C3=A9mont?= <bonbons@linux-vserver.org>,
+ Chandrakanth patil <chandrakanth.patil@broadcom.com>,
+ Christian Gromm <christian.gromm@microchip.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, cocci@inria.fr,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Don Brace <don.brace@microchip.com>, dri-devel@lists.freedesktop.org,
+ Eddie James <eajames@linux.ibm.com>,
+ GR-QLogic-Storage-Upstream@marvell.com,
+ Hannes Reinecke <hare@kernel.org>, Hannes Reinecke <hare@suse.de>,
+ Hans de Goede <hdegoede@redhat.com>, Helge Deller <deller@gmx.de>,
+ HighPoint Linux Team <linux@highpoint-tech.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, Ian Rogers <irogers@google.com>,
+ =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Ingo Molnar <mingo@redhat.com>, Jack Wang <jinpu.wang@cloud.ionos.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ James Morse <james.morse@arm.com>, Jeremy Kerr <jk@ozlabs.org>,
+ Jiri Kosina <jikos@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
+ Joel Stanley <joel@jms.id.au>, Jonathan Cameron <jic23@kernel.org>,
+ Julia Lawall <Julia.Lawall@inria.fr>,
+ Karan Tilak Kumar <kartilak@cisco.com>,
+ Kashyap Desai <kashyap.desai@broadcom.com>,
+ Ketan Mukadam <ketan.mukadam@broadcom.com>,
+ Laurentiu Tudor <laurentiu.tudor@nxp.com>,
+ linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+ linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-scsi@vger.kernel.org, Manish Rangankar <mrangankar@marvell.com>,
+ Mark Rutland <mark.rutland@arm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ megaraidlinux.pdl@broadcom.com, Michael Cyr <mikecyr@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Michal Januszewski <spock@gentoo.org>,
+ MPT-FusionLinux.pdl@broadcom.com, Namhyung Kim <namhyung@kernel.org>,
+ "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, netdev@vger.kernel.org,
+ Nicholas Piggin <npiggin@gmail.com>, Nicolas Palix <nicolas.palix@imag.fr>,
+ Nilesh Javali <njavali@marvell.com>,
+ Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+ Peter Zijlstra <peterz@infradead.org>, platform-driver-x86@vger.kernel.org,
+ Richard Cochran <richardcochran@gmail.com>,
+ Robert Richter <rric@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Sathya Prakash <sathya.prakash@broadcom.com>,
+ Satish Kharat <satishkh@cisco.com>, Sesidhar Baddela <sebaddel@cisco.com>,
+ Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+ Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Stefan Achatz <erazor_de@users.sourceforge.net>,
+ storagedev@microchip.com, Stuart Yoder <stuyoder@gmail.com>,
+ Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
+ Sumit Saxena <sumit.saxena@broadcom.com>, target-devel@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>, Tony Luck <tony.luck@intel.com>,
+ Tyrel Datwyler <tyreld@linux.ibm.com>,
+ Vadim Pasternak <vadimp@nvidia.com>, x86@kernel.org
+Subject: Re: (subset) [PATCH 00/42] Fix coccicheck warnings
+Date: Mon,  5 Feb 2024 21:07:38 -0500
+Message-ID: <170715263710.945763.16540743989774199712.b4-ty@oracle.com>
+X-Mailer: git-send-email 2.42.1
+In-Reply-To: <20240116041129.3937800-1-lizhijian@fujitsu.com>
+References: <20240116041129.3937800-1-lizhijian@fujitsu.com>
 MIME-Version: 1.0
-References: <20240130030413.2031009-1-matthew.brost@intel.com>
- <e7707834-9298-4392-a7ec-f4e5f382fa02@amd.com> <Zb1ll0rXlbaAaxKP@intel.com>
- <c5a7ae52-98e2-4edf-a539-71e4166fe3a4@amd.com> <ZcDjoek_l_cqE4Rr@intel.com>
- <ed315f43-eb84-430f-bc41-f93f6e3efcd4@gmail.com>
-In-Reply-To: <ed315f43-eb84-430f-bc41-f93f6e3efcd4@gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Tue, 6 Feb 2024 12:05:55 +1000
-Message-ID: <CAPM=9ty7quJGhTRP5fJeTWLYBPzG4Q-PkXfO8OtuALvdn0C=Qg@mail.gmail.com>
-Subject: Re: [PATCH] drm/sched: Re-queue run job worker when
- drm_sched_entity_pop_job() returns NULL
-To: Luben Tuikov <ltuikov89@gmail.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Matthew Brost <matthew.brost@intel.com>, 
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-05_18,2024-01-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ bulkscore=0 phishscore=0
+ spamscore=0 adultscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2402060013
+X-Proofpoint-ORIG-GUID: pTT_U64MvKVXcaNppMcpJ2F1AhkrIKYI
+X-Proofpoint-GUID: pTT_U64MvKVXcaNppMcpJ2F1AhkrIKYI
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,124 +152,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 6 Feb 2024 at 10:56, Luben Tuikov <ltuikov89@gmail.com> wrote:
->
-> On 2024-02-05 08:33, Rodrigo Vivi wrote:
-> > On Mon, Feb 05, 2024 at 09:44:56AM +0100, Christian K=C3=B6nig wrote:
-> >> Am 02.02.24 um 22:58 schrieb Rodrigo Vivi:
-> >>> On Tue, Jan 30, 2024 at 08:05:29AM +0100, Christian K=C3=B6nig wrote:
-> >>>> Am 30.01.24 um 04:04 schrieb Matthew Brost:
-> >>>>> Rather then loop over entities until one with a ready job is found,
-> >>>>> re-queue the run job worker when drm_sched_entity_pop_job() returns=
- NULL.
-> >>>>>
-> >>>>> Fixes: 6dbd9004a55 ("drm/sched: Drain all entities in DRM sched run=
- job worker")
-> >>> First of all there's a small typo in this Fixes tag that needs to be =
-fixed.
-> >>> The correct one is:
-> >>>
-> >>> Fixes: 66dbd9004a55 ("drm/sched: Drain all entities in DRM sched run =
-job worker")
-> >
-> > Cc: Dave Airlie <airlied@redhat.com>
-> >
-> >>>
-> >>> But I couldn't apply this right now in any of our drm-tip trees becau=
-se it
-> >>> is not clear where this is coming from originally.
-> >>>
-> >>> likely amd tree?!
-> >>
-> >> No, this comes from Matthews work on the DRM scheduler.
-> >>
-> >> Matthews patches were most likely merged through drm-misc.
-> >
-> > the original is not there in drm-misc-next.
-> > it looks like Dave had taken that one directly to drm-next.
-> > So we either need the drm-misc maintainers to have a backmerge or
-> > Dave to take this through the drm-fixes directly.
->
-> This is indeed the case.
->
-> I was going to push this patch through drm-misc-next, but the original/ba=
-se patch
-> (<20240124210811.1639040-1-matthew.brost@intel.com>) isn't there.
->
-> If drm-misc maintainers back merge drm-fixes into drm-misc-next,
-> I'll push this patch into drm-misc-next right away, so that it is complet=
-e,
-> and people can run and test it fully.
->
-> Else, Dave will have to pull this patch directly into drm-fixes with our =
-tags,
-> as was done for the base patch.
->
+On Tue, 16 Jan 2024 12:10:47 +0800, Li Zhijian wrote:
 
-I'll pull this into drm-fixes now, as that is where the base patch went.
+> make coccicheck COCCI=$PWD/scripts/coccinelle/api/device_attr_show.cocci`
+> complians some warnnings as following[1]:
+> 
+> Not sure if someone had tried these fixes, feel free to ignore this
+> patch set if we have come to a *NOT-FIX* conclusion before :)
+> 
+> This patch set also fix a few snprintf() beside coccicheck reported.
+> For example, some thing like
+> xxx_show() {
+> 	rc = snprintf();
+> ...
+> 	return rc;
+> }
+> 
+> [...]
 
-Dave.
+Applied to 6.9/scsi-queue, thanks!
 
-> Reviewed-by: Luben Tuikov <ltuikov89@gmail.com>
->
-> Regards,
-> Luben
->
-> >
-> >>
-> >> Regards,
-> >> Christian.
-> >>
-> >>>
-> >>>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> >>>> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >>> Christian, if this came from the amd, could you please apply it there=
- and
-> >>> propagate through your fixes flow?
-> >>>
-> >>> Thanks,
-> >>> Rodrigo.
-> >>>
-> >>>>> ---
-> >>>>>    drivers/gpu/drm/scheduler/sched_main.c | 15 +++++++++------
-> >>>>>    1 file changed, 9 insertions(+), 6 deletions(-)
-> >>>>>
-> >>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/d=
-rm/scheduler/sched_main.c
-> >>>>> index 8acbef7ae53d..7e90c9f95611 100644
-> >>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> >>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> >>>>> @@ -1178,21 +1178,24 @@ static void drm_sched_run_job_work(struct w=
-ork_struct *w)
-> >>>>>           struct drm_sched_entity *entity;
-> >>>>>           struct dma_fence *fence;
-> >>>>>           struct drm_sched_fence *s_fence;
-> >>>>> - struct drm_sched_job *sched_job =3D NULL;
-> >>>>> + struct drm_sched_job *sched_job;
-> >>>>>           int r;
-> >>>>>           if (READ_ONCE(sched->pause_submit))
-> >>>>>                   return;
-> >>>>>           /* Find entity with a ready job */
-> >>>>> - while (!sched_job && (entity =3D drm_sched_select_entity(sched)))=
- {
-> >>>>> -         sched_job =3D drm_sched_entity_pop_job(entity);
-> >>>>> -         if (!sched_job)
-> >>>>> -                 complete_all(&entity->entity_idle);
-> >>>>> - }
-> >>>>> + entity =3D drm_sched_select_entity(sched);
-> >>>>>           if (!entity)
-> >>>>>                   return; /* No more work */
-> >>>>> + sched_job =3D drm_sched_entity_pop_job(entity);
-> >>>>> + if (!sched_job) {
-> >>>>> +         complete_all(&entity->entity_idle);
-> >>>>> +         drm_sched_run_job_queue(sched);
-> >>>>> +         return;
-> >>>>> + }
-> >>>>> +
-> >>>>>           s_fence =3D sched_job->s_fence;
-> >>>>>           atomic_add(sched_job->credits, &sched->credit_count);
-> >>
->
-> --
-> Regards,
-> Luben
+[22/42] drivers/scsi/fnic: Convert snprintf to sysfs_emit
+        https://git.kernel.org/mkp/scsi/c/1ad717c92925
+[25/42] drivers/scsi/ibmvscsi: Convert snprintf to sysfs_emit
+        https://git.kernel.org/mkp/scsi/c/29ff822f466e
+[26/42] drivers/scsi/ibmvscsi_tgt: Convert snprintf to sysfs_emit
+        https://git.kernel.org/mkp/scsi/c/01105c23de42
+[27/42] drivers/scsi/isci: Convert snprintf to sysfs_emit
+        https://git.kernel.org/mkp/scsi/c/5fbf37e53091
+[34/42] drivers/scsi/pm8001: Convert snprintf to sysfs_emit
+        https://git.kernel.org/mkp/scsi/c/8179041f801d
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
