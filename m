@@ -2,77 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0F9084B66A
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 14:31:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8675E84B676
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 14:33:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 615E7112BDA;
-	Tue,  6 Feb 2024 13:31:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C97AE112BE0;
+	Tue,  6 Feb 2024 13:33:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jJt87ajW";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="uTLTAeHt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C53EE112BDB
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 13:31:26 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (85-76-34-85-nat.elisa-mobile.fi
- [85.76.34.85])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id CAB3874A;
- Tue,  6 Feb 2024 14:29:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1707226198;
- bh=KMA/bJybbnWogXygT+8vj+CljyBc90aEvqxIQixKXiE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jJt87ajWVdK89Rfyb+jiky4gvmowtfZOCJZtCWAdBzrxqQjYl8RkDAWw1GjNPt3rj
- Jenek9xQ8efrqfbQWdR/MAB0bf8AjF6cNDJomTaxkqGCx5MqRkTc5onD0kUQ+f/BDi
- E1GhB9QNoRnXcHEKttDqnEeZ9R8xAGJsVuVXKMVI=
-Date: Tue, 6 Feb 2024 15:31:22 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: "Lad,  Prabhakar" <prabhakar.csengg@gmail.com>,
- =?utf-8?Q?=22Uwe_Kleine-K=C3=B6nig=22?= <u.kleine-koenig@pengutronix.de>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, Daniel Vetter <daniel@ffwll.ch>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@gmail.com>,
- Eugen Hristev <eugen.hristev@collabora.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Helge Deller <deller@gmx.de>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Jacopo Mondi <jacopo@jmondi.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Russell King <linux@armlinux.org.uk>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Sam Ravnborg <sam@ravnborg.org>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tim Harvey <tharvey@gateworks.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
- linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH 1/4] gpu: drm: replace of_graph_get_next_endpoint()
-Message-ID: <20240206133122.GA2827@pendragon.ideasonboard.com>
-References: <87ttmmnvzh.wl-kuninori.morimoto.gx@renesas.com>
- <87sf26nvy2.wl-kuninori.morimoto.gx@renesas.com>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BA2D112BE0
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 13:33:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1707226391;
+ bh=asAnDTiyM1UKV/D+XtNg7Nhipxdgbn3XGtYPO+ktEXI=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=uTLTAeHtl3d9sbWZdziFbMQI4TMPPaLAqduivgce2jor2JK9pYMUvq4RIA1d7dvhk
+ 7QHfCzBhxix3WVY2AyJRdQXNNKYWB9P/UEjWu97Rw1ghtSSSfxq6NVt1RhtDEAPc8i
+ F+vJVScyM57NQlfp6SRN+p/h/InqidrUigBc35bnTgzqjnt2Y0k7RLJBW5YrqWug9r
+ 4ZFih9HoJu2MabP/exTV3pVhqg5ApjD+jesYqlflKC0uZp/7uZqTXgmAwbxwpYRmhK
+ IXgOsVYXovG/YwEaSAfHZEuccNgvDyOLaGE95svEzhQwm5/bJsTSYq3njqcOt+TBub
+ LCaFr2L01uO1Q==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id C4CFB3782072;
+ Tue,  6 Feb 2024 13:33:10 +0000 (UTC)
+Message-ID: <072f049a-021f-4f39-81ff-d3cba1e6c47c@collabora.com>
+Date: Tue, 6 Feb 2024 14:33:10 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87sf26nvy2.wl-kuninori.morimoto.gx@renesas.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] drm/mediatek: Dynamically allocate CMDQ and use
+ helper functions
+Content-Language: en-US
+To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "kernel@collabora.com" <kernel@collabora.com>,
+ "wenst@chromium.org" <wenst@chromium.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>
+References: <20230623094931.117918-1-angelogioacchino.delregno@collabora.com>
+ <20230623094931.117918-2-angelogioacchino.delregno@collabora.com>
+ <bd19faf644fa80f8fa77ed0841a724aa3ca871f5.camel@mediatek.com>
+ <0acd286d-d4f4-97b2-c296-b2860a00def6@collabora.com>
+ <e8e60556e53ccf319358cbef203bc84c418a352b.camel@mediatek.com>
+ <d29d342b-37f4-8d7b-ed7d-c441cc928393@collabora.com>
+ <7175ec117988657c2fb7bf6d50b67d60038e3a54.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <7175ec117988657c2fb7bf6d50b67d60038e3a54.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,93 +75,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Morimoto-san,
-
-Thank you for the patch.
-
-On Tue, Feb 06, 2024 at 02:55:01AM +0000, Kuninori Morimoto wrote:
-> From DT point of view, in general, drivers should be asking for a
-> specific port number because their function is fixed in the binding.
+Il 03/08/23 10:37, CK Hu (胡俊光) ha scritto:
+> Hi, Angelo:
 > 
-> of_graph_get_next_endpoint() doesn't match to this concept.
+> On Thu, 2023-08-03 at 10:25 +0200, AngeloGioacchino Del Regno wrote:
+>> Il 03/08/23 08:28, CK Hu (胡俊光) ha scritto:
+>>> Hi, Angelo:
+>>>
+>>> On Wed, 2023-08-02 at 12:41 +0200, AngeloGioacchino Del Regno
+>>> wrote:
+>>>> Il 02/08/23 08:24, CK Hu (胡俊光) ha scritto:
+>>>>> Hi, Angelo:
+>>>>>
+>>>>> On Fri, 2023-06-23 at 11:49 +0200, AngeloGioacchino Del Regno
+>>>>> wrote:
+>>>>>>     	
+>>>>>> External email : Please do not click links or open
+>>>>>> attachments
+>>>>>> until
+>>>>>> you have verified the sender or the content.
+>>>>>>     Instead of stack allocating the cmdq_client and
+>>>>>> cmdq_handle
+>>>>>> structures
+>>>>>> switch them to pointers, allowing us to migrate this driver
+>>>>>> to
+>>>>>> use
+>>>>>> the
+>>>>>> common functions provided by mtk-cmdq-helper.
+>>>>>> In order to do this, it was also necessary to add a `priv`
+>>>>>> pointer to
+>>>>>> struct cmdq_client, as that's used to pass (in this case) a
+>>>>>> mtk_crtc
+>>>>>> handle to the ddp_cmdq_cb() mailbox RX callback function.
+>>>>>>
+>>>>>> Signed-off-by: AngeloGioacchino Del Regno <
+>>>>>> angelogioacchino.delregno@collabora.com>
+>>>>>> ---
+>>>>>>     drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 107 +++++++-----
+>>>>>> ---
+>>>>>> -------
+>>>>>> --
+>>>>>>     include/linux/soc/mediatek/mtk-cmdq.h   |   1 +
+>>>>>>     2 files changed, 32 insertions(+), 76 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+>>>>>> b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+>>>>>> index 0df62b076f49..b63289ab6787 100644
+>>>>>> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+>>>>>> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+>>>>>> @@ -50,8 +50,8 @@ struct mtk_drm_crtc {
+>>>>>>     	bool				pending_async_planes;
+>>>>>>     
+>>>>>>     #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+>>>>>> -	struct cmdq_client		cmdq_client;
+>>>>>> -	struct cmdq_pkt			cmdq_handle;
+>>>>>> +	struct cmdq_client		*cmdq_client;
+>>>>>> +	struct cmdq_pkt			*cmdq_handle;
+>>>>>>     	u32				cmdq_event;
+>>>>>>     	u32				cmdq_vblank_cnt;
+>>>>>>     	wait_queue_head_t		cb_blocking_queue;
+>>>>>> @@ -108,47 +108,6 @@ static void
+>>>>>> mtk_drm_finish_page_flip(struct
+>>>>>> mtk_drm_crtc *mtk_crtc)
+>>>>>>     	}
+>>>>>>     }
+>>>>>>     
+>>>>>> -#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+>>>>>> -static int mtk_drm_cmdq_pkt_create(struct cmdq_client
+>>>>>> *client,
+>>>>>> struct cmdq_pkt *pkt,
+>>>>>> -				   size_t size)
+>>>>>> -{
+>>>>>> -	struct device *dev;
+>>>>>> -	dma_addr_t dma_addr;
+>>>>>> -
+>>>>>> -	pkt->va_base = kzalloc(size, GFP_KERNEL);
+>>>>>> -	if (!pkt->va_base) {
+>>>>>> -		kfree(pkt);
+>>>>>> -		return -ENOMEM;
+>>>>>> -	}
+>>>>>> -	pkt->buf_size = size;
+>>>>>> -	pkt->cl = (void *)client;
+>>>>>
+>>>>> I have a plan to remove cl in struct cmdq_pkt. But this
+>>>>> modification
+>>>>> would make this plan more difficult. So I would pending this
+>>>>> patch
+>>>>> until cl is removed from struct cmdq_pkt.
+>>>>>
+>>>>
+>>>> I think that this ifdef cleanup is more urgent than the removal
+>>>> of
+>>>> `cl` from
+>>>> struct cmdq_pkt, as those ifdefs shouldn't have reached upstream
+>>>> in
+>>>> the first
+>>>> place, don't you agree?
+>>>
+>>> I think removing ifdefs and using helper function are different
+>>> things.
+>>> You could remove ifdefs and keep mtk_drm_cmdq_pkt_create().
+>>>
+>>
+>> I chose to do it like that because this function would otherwise be a
+>> 100% duplicate of the related cmdq helper :-)
 > 
-> Simply replace
+> Removing cl would change the interface of cmdq_pkt_create(). And this
+> is related to different maintainer's tree. So it would be a long time
+> to process. For you, only removing ifdes is urgent, so use
+> cmdq_pkt_create() is not urgent. So let's keep
+> mtk_drm_cmdq_pkt_create() and you could remove ifdefs.
 > 
-> 	- of_graph_get_next_endpoint(xxx, NULL);
-> 	+ of_graph_get_endpoint_by_regs(xxx, 0, -1);
-> 
-> Link: https://lore.kernel.org/r/20240202174941.GA310089-robh@kernel.org
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  drivers/gpu/drm/drm_of.c                              | 2 +-
->  drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c | 2 +-
->  drivers/gpu/drm/tiny/arcpgu.c                         | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-> index 177b600895d3..c2eae9296012 100644
-> --- a/drivers/gpu/drm/drm_of.c
-> +++ b/drivers/gpu/drm/drm_of.c
-> @@ -516,7 +516,7 @@ struct mipi_dsi_host *drm_of_get_dsi_bus(struct device *dev)
->  	/*
->  	 * Get first endpoint child from device.
->  	 */
-> -	endpoint = of_graph_get_next_endpoint(dev->of_node, NULL);
-> +	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
 
-This assumes that the DSI device's port@0 will also be the input. That's
-fine for current users of this function, but we should at least document
-it.
+Hello CK,
 
-diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-index 177b600895d3..012c4d04cf51 100644
---- a/drivers/gpu/drm/drm_of.c
-+++ b/drivers/gpu/drm/drm_of.c
-@@ -504,6 +504,8 @@ EXPORT_SYMBOL_GPL(drm_of_get_data_lanes_count_ep);
-  * Gets parent DSI bus for a DSI device controlled through a bus other
-  * than MIPI-DCS (SPI, I2C, etc.) using the Device Tree.
-  *
-+ * This function assumes that the device's port@0 is the DSI input.
-+ *
-  * Returns pointer to mipi_dsi_host if successful, -EINVAL if the
-  * request is unsupported, -EPROBE_DEFER if the DSI host is found but
-  * not available, or -ENODEV otherwise.
+my CMDQ cleanup has been stuck on your intention to remove `cl` from the CMDQ
+helpers for ** six months ** now.
 
-With this,
+Are you performing that removal, or can we just get this cleanup finally done?
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
->  	if (!endpoint)
->  		return ERR_PTR(-ENODEV);
->  
-> diff --git a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-> index 4618c892cdd6..e10e469aa7a6 100644
-> --- a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-> +++ b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-> @@ -400,7 +400,7 @@ static int rpi_touchscreen_probe(struct i2c_client *i2c)
->  	rpi_touchscreen_i2c_write(ts, REG_POWERON, 0);
->  
->  	/* Look up the DSI host.  It needs to probe before we do. */
-> -	endpoint = of_graph_get_next_endpoint(dev->of_node, NULL);
-> +	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
->  	if (!endpoint)
->  		return -ENODEV;
->  
-> diff --git a/drivers/gpu/drm/tiny/arcpgu.c b/drivers/gpu/drm/tiny/arcpgu.c
-> index e5b10e41554a..04d0053b9315 100644
-> --- a/drivers/gpu/drm/tiny/arcpgu.c
-> +++ b/drivers/gpu/drm/tiny/arcpgu.c
-> @@ -288,7 +288,7 @@ static int arcpgu_load(struct arcpgu_drm_private *arcpgu)
->  	 * There is only one output port inside each device. It is linked with
->  	 * encoder endpoint.
->  	 */
-> -	endpoint_node = of_graph_get_next_endpoint(pdev->dev.of_node, NULL);
-> +	endpoint_node = of_graph_get_endpoint_by_regs(pdev->dev.of_node, 0, -1);
->  	if (endpoint_node) {
->  		encoder_node = of_graph_get_remote_port_parent(endpoint_node);
->  		of_node_put(endpoint_node);
-
--- 
 Regards,
+Angelo
 
-Laurent Pinchart
+
