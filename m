@@ -2,48 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AAAC84AD70
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 05:29:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E142184AE2F
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 06:53:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E77510F44E;
-	Tue,  6 Feb 2024 04:29:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2C74112961;
+	Tue,  6 Feb 2024 05:53:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="nrVR97I6";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="yWtPDNoN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81C9E10F44E;
- Tue,  6 Feb 2024 04:28:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1707193733;
- bh=dnMjULAeQjKUoGmPRhe1coGuGskZaD6h8z3MIPfgPs8=;
- h=Date:From:To:Cc:Subject:From;
- b=nrVR97I6Ea2OifH65kdK3jSc8ubBFbjquHicHDGHI4TXr5CbSa+P84H03RuJ30ILS
- OZITWgA7quRjZL/ld+8mqUB2U4r1mqoJ2+W3NzbpPys0Z0Fq8hC+CqUNIyCAQATlIj
- kG3QY+I0wNckDkDvNq0qaTvHms6Faq2ysNnYZ6DUF0PK3diLRuN49C4C7BQHgxYFsF
- QEbWbKqo8W9VH+zW32pRgODvCZ8N5NvMzJCz3Hn5mXexLdMNYiCNHArSRV4juaiktx
- kJp4xKR4fMbe7aOUAgMAZ3QSOOZZEbNap7BxMP2KorgoKXrTxc+D2jsLtVqKMoma9H
- 3FMHLMtM1etRA==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4TTVch6nrBz4wcC;
- Tue,  6 Feb 2024 15:28:52 +1100 (AEDT)
-Date: Tue, 6 Feb 2024 15:28:50 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Somalapuram
- Amaranath <Amaranath.Somalapuram@amd.com>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
- Mailing List <linux-next@vger.kernel.org>
-Subject: linux-next: build failure after merge of the drm-misc tree
-Message-ID: <20240206152850.333f620d@canb.auug.org.au>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [198.137.202.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FDE111295F;
+ Tue,  6 Feb 2024 05:53:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=w3Q42N/e2eCew/j8uEMfyElkzHhqrTXgEIBh4kRIFbk=; b=yWtPDNoN5tJ5DYCV9E0cJbndTg
+ SwomS3W/+jZdg3CoGSYr41fxanlYFkt7NXd0Z/Hq5DFyn9lyKxXS/hUtEBTi6fXb28L3NZ5XKHhGM
+ BJRUc9RzGxK0qnMI5LXW2p0CKXmY6q8M390rtXsbYyGsNWQasIF+BkCPIzDZzvpeEIbOlspQYLaI1
+ wnUvTVgu87H6eE475HMRPxEMjsa9B+AhT3UKtDABS9zzCSQJGBYB3C0MB2epLIEu1oIn4Cyrbs75o
+ 6P3mm5BNXqlr7HOQDeGZb0P4r2xN7bckWmlAMPQmZ29/yHOBG7HfWe3IxgWTqIaCXHIbPqQNT7BJZ
+ 7OZ7v/Pw==;
+Received: from [50.53.50.0] (helo=[192.168.254.15])
+ by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+ id 1rXEOI-000000069rh-2Xul; Tue, 06 Feb 2024 05:53:06 +0000
+Message-ID: <1b36c0aa-8a41-48e1-b21b-65f0ad521bcb@infradead.org>
+Date: Mon, 5 Feb 2024 21:53:05 -0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/3Y6MoHeU/vcVg9/l.X7hCZH";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla Thunderbird
+Subject: Re: linux-next: Tree for Feb 6 (gpu/drm/amd/display/ kernel-doc
+ warnings)
+Content-Language: en-US
+To: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+References: <20240206154329.6a8464fd@canb.auug.org.au>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240206154329.6a8464fd@canb.auug.org.au>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,78 +62,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/3Y6MoHeU/vcVg9/l.X7hCZH
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
 
-Hi all,
 
-After merging the drm-misc tree, today's linux-next build (i386 defconfig)
-failed like this:
+On 2/5/24 20:43, Stephen Rothwell wrote:
+> Hi all,
+> 
+> Changes since 20240205:
+> 
 
-In function 'i915_ttm_placement_from_obj',
-    inlined from 'i915_ttm_get_pages' at drivers/gpu/drm/i915/gem/i915_gem_=
-ttm.c:847:2:
-drivers/gpu/drm/i915/gem/i915_gem_ttm.c:165:18: error: 'places[0].flags' is=
- used uninitialized [-Werror=3Duninitialized]
-  165 |         places[0].flags |=3D TTM_PL_FLAG_DESIRED;
-      |         ~~~~~~~~~^~~~~~
-drivers/gpu/drm/i915/gem/i915_gem_ttm.c: In function 'i915_ttm_get_pages':
-drivers/gpu/drm/i915/gem/i915_gem_ttm.c:837:26: note: 'places' declared here
-  837 |         struct ttm_place places[I915_TTM_MAX_PLACEMENTS + 1];
-      |                          ^~~~~~
+Hi Rodrigo,
 
-Caused by commit
+Are you aware of these kernel-doc warnings?
+I think they are due to
 
-  a78a8da51b36 ("drm/ttm: replace busy placement with flags v6")
+commit b8c1c3a82e75
+Author: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Date:   Mon Jan 22 14:24:57 2024 -0700
+    Documentation/gpu: Add kernel doc entry for MPC
 
-I applied the following hack for today:
 
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-Date: Tue, 6 Feb 2024 15:17:54 +1100
-Subject: [PATCH] drm/ttm: initialise places
 
-Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
----
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+../drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h:1: warning: no structured comments found
+../drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h:1: warning: no structured comments found
+../drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h:1: warning: no structured comments found
+../drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h:1: warning: no structured comments found
+../drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h:1: warning: no structured comments found
+../drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h:1: warning: no structured comments found
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:1: warning: no structured comments found
+../drivers/gpu/drm/amd/display/dc/inc/hw/opp.h:1: warning: no structured comments found
+../drivers/gpu/drm/amd/display/dc/inc/hw/opp.h:1: warning: no structured comments found
+../drivers/gpu/drm/amd/display/dc/link/hwss/link_hwss_dio.h:1: warning: no structured comments found
+../drivers/gpu/drm/amd/display/dc/link/hwss/link_hwss_dio.h:1: warning: no structured comments found
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915=
-/gem/i915_gem_ttm.c
-index 80c6cafc8887..34e699e67c25 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -834,7 +834,7 @@ static int __i915_ttm_get_pages(struct drm_i915_gem_obj=
-ect *obj,
-=20
- static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
- {
--	struct ttm_place places[I915_TTM_MAX_PLACEMENTS + 1];
-+	struct ttm_place places[I915_TTM_MAX_PLACEMENTS + 1] =3D {};
- 	struct ttm_placement placement;
-=20
- 	/* restricted by sg_alloc_table */
---=20
-2.43.0
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:132: warning: Incorrect use of kernel-doc format:          * @@overlap_only: Whether overlapping of different planes is allowed.
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:132: warning: Incorrect use of kernel-doc format:          * @@overlap_only: Whether overlapping of different planes is allowed.
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:132: warning: Incorrect use of kernel-doc format:          * @@overlap_only: Whether overlapping of different planes is allowed.
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:162: warning: Function parameter or struct member 'pre_multiplied_alpha' not described in 'mpcc_blnd_cfg'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:162: warning: Function parameter or struct member 'overlap_only' not described in 'mpcc_blnd_cfg'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'read_mpcc_state' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'mpc_init_single_inst' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'get_mpcc_for_dpp_from_secondary' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'get_mpcc_for_dpp' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'wait_for_idle' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'assert_mpcc_idle_before_connect' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'init_mpcc_list_from_hw' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'set_denorm' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'set_denorm_clamp' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'set_output_csc' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'set_ocsc_default' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'set_output_gamma' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'power_on_mpc_mem_pwr' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'set_dwb_mux' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'disable_dwb_mux' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'is_dwb_idle' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'set_out_rate_control' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'set_gamut_remap' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'program_1dlut' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'program_shaper' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'acquire_rmu' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'program_3dlut' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'release_rmu' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'get_mpc_out_mux' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'set_bg_color' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:548: warning: Function parameter or struct member 'set_mpc_mem_lp_mode' not described in 'mpc_funcs'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:132: warning: Incorrect use of kernel-doc format:          * @@overlap_only: Whether overlapping of different planes is allowed.
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:162: warning: Function parameter or struct member 'pre_multiplied_alpha' not described in 'mpcc_blnd_cfg'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:162: warning: Function parameter or struct member 'overlap_only' not described in 'mpcc_blnd_cfg'
+../drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:132: warning: Incorrect use of kernel-doc format:          * @@overlap_only: Whether overlapping of different planes is allowed.
 
---=20
-Cheers,
-Stephen Rothwell
 
---Sig_/3Y6MoHeU/vcVg9/l.X7hCZH
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
 
------BEGIN PGP SIGNATURE-----
+Can you address these, please?
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmXBtYIACgkQAVBC80lX
-0GxSHwf7B3D9Ebe7H+C1S84E/g/hlQwxf+jo8X+m4cEWbMKvzTuloTlIBADoL93W
-E4SolMFUwtAQtuAPTJIfJPfCwFGxPBUbqpY3cTzA6rBM6XHvLMjQLPubfeZoX6oB
-u0YtbT36l7g+26YUvQdz6FtFlA+X5A+bpVnX0KP1+sw6yhTNqRZEFjxoEvIeIMt+
-EUOkKoSO6lcokZTcWVWQxiBDPGHFXW+jyzj9JcEI0i0FbcEmvYbUz25NXDSeU6PJ
-3xAxI06Fe2ONdboipZyjWMnZNUO3iy24Wsp4RQ3eYLoL5QWYP8tgrTesTTaA8eyY
-WSqEqGwjt8cAeuR5aDcEoeSW116FbA==
-=rfsv
------END PGP SIGNATURE-----
+Thanks.
 
---Sig_/3Y6MoHeU/vcVg9/l.X7hCZH--
+-- 
+#Randy
