@@ -2,93 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4608084AFB6
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 09:15:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28BF584AFC7
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 09:17:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7F8710E808;
-	Tue,  6 Feb 2024 08:15:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 982B5112A7A;
+	Tue,  6 Feb 2024 08:17:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="HmfvssZJ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vsq2n5V1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD2E7112A95
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 08:15:10 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-40fc22f372cso41381395e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Feb 2024 00:15:10 -0800 (PST)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D00F5112A7A
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 08:17:50 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id
+ ffacd0b85a97d-33b130f605eso3442815f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Feb 2024 00:17:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1707207309; x=1707812109; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=btHhwGxbZA6ve4BPec76cdv8nujipODBvqRCy/GsxP0=;
- b=HmfvssZJ8FNmefC4enT2o1oTZL3W5r3wnHxyTAPtTXTmat97YowsrLOicTMPem86Va
- 0c9VOtLn8VdcpIPH+yUDdnNfWIUJh4l8kF8GfpsBBiKu1ToQ1PhMsvWWNJ/vqzOhfqlz
- WaZhYhRDGBOniWy+Ae28oTdcKu7zFctFlab/he/3zX2dWkQ9rwc8XmO0mrYCreaVHP+q
- 1bftv69Wq79k3ngKXF2xiHiz7J1mqJja+gWP6meA5Hnb+rZwtR8MmigIRgj2gWryMmnS
- ySyNw4x3D8ppIK0i/JjD75HGWgpeIVW1N3D7I3YLPAqZkaxO4AiWRn7SVb99DMwuUAxR
- ZXbw==
+ d=linaro.org; s=google; t=1707207469; x=1707812269; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=UyN5OHMQS53X20sOXqYyX0W/PsIbBopkeWbqDFzNQLU=;
+ b=vsq2n5V1CYaKXY3cEfx3cVvKoM/CApgKW6hQfKnHPK+Zme4b1iDgqZYT/1JpPbXPbx
+ uQshB2dN9fz2NIcPjb3bVNVL6Xwrf0bL0CMXW0sS6CoAzD7WLBC4Ef5tLQAflK1ittrW
+ qUhLzYDAOFSe3INqajFu4LwI0w+74G+G+M4fiFf4YNpVInTvki8GDYuOcgA4Hk+9QWgp
+ i7uyvKt6RUHog4LGtOaKuh4E709aH3LMBDdnxS4PmmND7VDzVKBPrQl/4AvBFKBN48+k
+ kHNMJrNgOCjJidhKPm3lhtwyiLl77ZQWB7Qf6qybmr3jCYcQIH2NmckLiBELW5qQAqcP
+ B25Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707207309; x=1707812109;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=btHhwGxbZA6ve4BPec76cdv8nujipODBvqRCy/GsxP0=;
- b=Y80ATk8Z++iXzkOPYEzQsuSIkjnMBD+AeWK1YYqRFaV4Rb0VEUKkhNMg4xh7tCXYwn
- 4xQeM8SobObDS3nA0DuNo79zMLL85k1V8ZaUfKyUrrxmumo4eTBsIuLc6X2ELeBmZQA2
- A1lHr6DTa2fI33nHOVpX8PGWG0PDq1MNJyzs+bsz5Aulku8J4Y4r1alRJtqdvRmO9CSq
- m2ItkvSQ2hufDUuqxSo/eZvcZ48UZ8J7koqfkCtweUjiIsg42Vg/JWbf6HA/UJY00vv/
- wcD/C7sOmjxbrdH8Dc2D6lZ08UELpdSFG7Xx8/8PWgP+E0sd2iJ0z3vOn0NbYMsNR/l7
- +D9w==
-X-Gm-Message-State: AOJu0YyRNzfMVIauy7zAOXxcnU1HoFgOVvkbMO6WPi7a44iGcPTstAWd
- 8Ye8V0YBsCS0NLQS9TFXtq8r0sahBkzYBsbQJE+Qyfd4GQImDoNynx7wmVINT0I=
-X-Google-Smtp-Source: AGHT+IHAY0id2rUAFIshnMoMYXgfIfqBfIbwnjGvIxqn8bUK+f7tCiKlPakrEgJpmh+5BOErZSPgrA==
-X-Received: by 2002:a05:600c:5117:b0:40f:de5c:d283 with SMTP id
- o23-20020a05600c511700b0040fde5cd283mr957164wms.26.1707207308987; 
- Tue, 06 Feb 2024 00:15:08 -0800 (PST)
+ d=1e100.net; s=20230601; t=1707207469; x=1707812269;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=UyN5OHMQS53X20sOXqYyX0W/PsIbBopkeWbqDFzNQLU=;
+ b=ItMJf8irhjO6Dy3LwEEELDI73HAgtDQ16r9xTgmnvy+6BkpO6O4+BEkSvDn6ZC570Z
+ mHBRoAsnF7tFi2IC1uSO2YdKnd5LZUx/fbBL59lJFtnbT11plwJZCv+gugQAI1NVh+zE
+ /0aJM9TfnDnSbM/fNuBJM6E6Hboq1oW9d8PushcpsZHTvE4rR+3OX26IDpmJap+c6NK/
+ FD0N+9TGX7pt+61S5p5Vv9WrnQkSASNn7jbXJG3Xbyb5QOJyzxSmp/TG13lz35IuGjVf
+ f90gxrg9fMEhtIoP/JrI0b64kwOtxwZiEb46rbSashnq047TxjfF6eXDy099c454vcfJ
+ dT7w==
+X-Gm-Message-State: AOJu0Yz65aoERlhVBaBJ3b+xdnAZl6RuPIOS6T4iTKOL2AQ0N5Q4pPmb
+ HZPrkckIFCKlNimrAdOv8Fpnelp96BQHEwiq+0G9UOmh3a5grImqFpx00vvQcyY=
+X-Google-Smtp-Source: AGHT+IHAWrg8qRK6AZYhEs+t47vN/8OCCIixVZWOXrnHnOpCitooPhNhs+moVNdSthDRAt8USHwP1w==
+X-Received: by 2002:a5d:4986:0:b0:33b:139e:9110 with SMTP id
+ r6-20020a5d4986000000b0033b139e9110mr603630wrq.36.1707207468752; 
+ Tue, 06 Feb 2024 00:17:48 -0800 (PST)
 X-Forwarded-Encrypted: i=0;
- AJvYcCX1hmKw70FzD7bJf7uUXsOKOKjCezkhFYawWz6xg07SYsxhvKv3q3I7MdZBhoJFAtFibPiY+lppQGWokiuhvJpriSDPCGWWvg9GaF5G7QtZAswh1dEJFg8W8CcMgLw1dSmZ7sXXdA/IfouRf7ndIcKbhlB1R8nIejdD7QFT2AuLEXE3QDRtu4Oi4rYDYAk4k0IDcxox5bzKqjI0HOIviksCiIkJYLHVrSo3nhX4vS6IVy1fKzFtFNMSlXsoM56I4rvi+O2xbGRj9kz3KHgEnYGW7BG/cV3dB8Ev9PwSfbQRIl9P27ThziXC2FZVj3+Jlge2Usk9R5sB807bUlqWsXWwVSOiA+sMVqobqtncNIZ7tlODknzocIf9K4Pin07cszcfsLJbcYxqSbHzjY0c2KXCuCElKyD5DbvxRvQth5ycDvE7GscwUWLpoMiCXYRVIqAsx9h1v5Y/xqvcGNdkra6z/tLvTUAGvo+QyfPCuxycSdJTyS8AYc47n3pa0WWh3uDgkfnfNC/HwE59mKN/BA33LBuxc+QNqaNaSnoPU7V56hOr9I8kkJbvLbZgJsa5Cqxe2jlspVAv1UUyjfXZIKAcaOCxtYPOtLxrfQATN8KauuCbNdn3Cm2rIgvzQ79N+KRpG/pYVbHUBQJPMN930iVtdqPu6BgzQo/5vadtYiABOIaTkDm9dxEWzDQ9gc/+UldTJhR77/lR/ab3nMd0CMaqhfoUDxpEm9UR5ywWQkLRcxzPNG9XG+Dtxoc1rqzY2HrQO0GkQQSoccVqaT2mSKOcmKsTnK5UAjicWvXQ+5nzh43HHTJVmXkmCgTn1Jh02bViz58Zh5/ZRwyEZ0FVR+dxOBpX3MuMDv2oTrc9nQullGCLh4UceAncr2COOFpejrRnrvdtoVdbEHEtkwBT9/T1eKNSQFZM9EvfufhNl9ATj7yb93zB3NW1ktFAneBRykJD1w
- huBWIWIirQQa/D77hagZ/LhIx3be1dMivkRxQWPWPFYjSmgBBx4KXysvRNuq0bi2acJDpi+BTqzK+7e5ufYEtNI1pXT54aVeY3fWAnDBMYVlXw1jxRAVFS3xEjM4URX69Ievl8tEmPTD5waLJpGY+w5LuYeqi+2NGkJ0XJkgDLdQY55mg7/dIs0m9u3A==
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ AJvYcCU3BzcUEkoM6juRR1EGp+PLKZxtOtBug1EJ4C0nP92GLAnLGzemAa2sr+2UeW8SX+HXIm5tAGSssUiSqoCjdq773ZxesH70yJdiR2w5jvn5nn1wScia8XUAUuznbFN8g4Y+jyjgXHrRPYleYecfBWF8eTghG8EgqaKlAGX5CikZbjOh5NUHhxmZ72HITcqKM/bjSICAdflkffgroAavUHFrMxcMoTnTd892daW+i5iN9Y//8nEMHlBtLqsxUYrRcphJqn5WVISWqu5aN4+9ga9VExroHbyLDVlsb8jyhC44RgvYZZhsgKLPEJ1pKHeh/0vCjpOh4VCLKGBPO1DaDN0ATLQ+geriTMo1NkVCpk6HJR8AcIwykzU4MaQ7/Z+rDgGuMTH7hyn8ngRd8bKQVuE/JwxmJ1/ZDq6HlZBzNxsPyZ5wjE2q8jfyaBFfSvLh3j2BuK40JSzeIaL/GMfzVRyprYfLf/ewWEM4MN9u0292Bzvx0g5/kxXqxkY3BVcVQIXuecNtOxj7nd+PmjzkqqzeZSM8HMKT2OANFevPDAQI2/o16li6V/8pRFLBJbGQ7OnCSCoWZDAVtUo7Qkc4VORA+PUQgAXIWOfMdfLG1iAS7n1gRj6aAQbfiIwRl3/OGA==
+Received: from ?IPV6:2a01:e0a:982:cbb0:ba23:8574:fa8:28dd?
+ ([2a01:e0a:982:cbb0:ba23:8574:fa8:28dd])
  by smtp.gmail.com with ESMTPSA id
- o28-20020adfa11c000000b0033b3ceda5dbsm1440140wro.44.2024.02.06.00.15.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Feb 2024 00:15:08 -0800 (PST)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: linux-arm-kernel@lists.infradead.org, Adam Ford <aford173@gmail.com>
-Cc: marex@denx.de, alexander.stein@ew.tq-group.com, 
- frieder.schrempf@kontron.de, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Vinod Koul <vkoul@kernel.org>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
- Liu Ying <victor.liu@nxp.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
- Lucas Stach <l.stach@pengutronix.de>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-phy@lists.infradead.org, linux-pm@vger.kernel.org
-In-Reply-To: <20240203165307.7806-1-aford173@gmail.com>
-References: <20240203165307.7806-1-aford173@gmail.com>
-Subject: Re: (subset) [PATCH V8 00/12] soc: imx8mp: Add support for HDMI
-Message-Id: <170720730748.2682504.5723443718654255772.b4-ty@linaro.org>
-Date: Tue, 06 Feb 2024 09:15:07 +0100
+ n2-20020a5d67c2000000b0033b4335dce5sm1418976wrw.85.2024.02.06.00.17.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Feb 2024 00:17:48 -0800 (PST)
+Message-ID: <30648f19-f25b-49cc-94f1-213bc96c67f4@linaro.org>
+Date: Tue, 6 Feb 2024 09:17:47 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 5/5] drm/panel: simple: push blanking limit on RK32FN48H
+To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: devicetree@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20240205-ltdc_mp13-v1-0-116d43ebba75@foss.st.com>
+ <20240205-ltdc_mp13-v1-5-116d43ebba75@foss.st.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro Developer Services
+In-Reply-To: <20240205-ltdc_mp13-v1-5-116d43ebba75@foss.st.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,31 +120,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Sat, 03 Feb 2024 10:52:40 -0600, Adam Ford wrote:
-> The i.MX8M Plus has an HDMI controller, but it depends on two
-> other systems, the Parallel Video Interface (PVI) and the
-> HDMI PHY from Samsung. The LCDIF controller generates the display
-> and routes it to the PVI which converts passes the parallel video
-> to the HDMI bridge.  The HDMI system has a corresponding power
-> domain controller whose driver was partially written, but the
-> device tree for it was never applied, so some changes to the
-> power domain should be harmless because they've not really been
-> used yet.
+On 05/02/2024 10:26, Raphael Gallais-Pou wrote:
+> Push horizontal front porch and vertical back porch blanking limit.
+> This allows to get a 60 fps sharp.
 > 
-> [...]
+> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+> ---
+>   drivers/gpu/drm/panel/panel-simple.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 7b286382ffb4..10b361d603be 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -3516,10 +3516,10 @@ static const struct display_timing rocktech_rk043fn48h_timing = {
+>   	.pixelclock = { 6000000, 9000000, 12000000 },
+>   	.hactive = { 480, 480, 480 },
+>   	.hback_porch = { 8, 43, 43 },
+> -	.hfront_porch = { 2, 8, 8 },
+> +	.hfront_porch = { 2, 8, 10 },
+>   	.hsync_len = { 1, 1, 1 },
+>   	.vactive = { 272, 272, 272 },
+> -	.vback_porch = { 2, 12, 12 },
+> +	.vback_porch = { 2, 12, 26 },
+>   	.vfront_porch = { 1, 4, 4 },
+>   	.vsync_len = { 1, 10, 10 },
+>   	.flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW |
+> 
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
-
-[09/12] dt-bindings: display: imx: add binding for i.MX8MP HDMI TX
-        https://cgit.freedesktop.org/drm/drm-misc/commit/?id=8933d29e7703f6f905bc84186b915b0ab4fe03bb
-[10/12] drm/bridge: imx: add bridge wrapper driver for i.MX8MP DWC HDMI
-        https://cgit.freedesktop.org/drm/drm-misc/commit/?id=1f36d634670d8001a45fe2f2dcae546819f9c7d8
-
--- 
-Neil
-
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
