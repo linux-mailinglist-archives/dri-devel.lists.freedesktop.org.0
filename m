@@ -2,66 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E16784B3DE
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 12:46:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F9584B409
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 12:58:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 796F6112AE3;
-	Tue,  6 Feb 2024 11:46:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2079112B04;
+	Tue,  6 Feb 2024 11:58:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Qjc9efYM";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Xp2ytvYs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB627112AE2;
- Tue,  6 Feb 2024 11:46:24 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF9AF112B04;
+ Tue,  6 Feb 2024 11:58:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707219985; x=1738755985;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=g1yd67TDqY5Jh0DtJ2vM94qZdQRy9Ffyfjqi/oL+iD4=;
- b=Qjc9efYMAmBQzDSJiFEWpK3uj98dX6yyoiBQ56bHRciNM2Cz/QSJP/Hf
- PxXni1U7qQoSrnJvCLBcuZR4idkMqkNcEv5Lv2l31sMT3908hjpivc35T
- VSBCPfYrCCxPc9+TSRMLCxWAHquJD4NN//1sNOLPH8iI892WhMkZgkt31
- Ti93ZsKm8hmX+e3zIkwjWxKEzRGVzmfNpp5VaGrDQb2LiRZn6r7V2JTKn
- g/VYi+4drAnePxGU96loorSjJYpYO7ZHVLz1zOUqAtdn29XbYuo/jZUWe
- RjJcntULEn57xtkzuq9U7rfXrdoJQAUo3prwfDf4C2LM6KDAH1+ajEb63 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10975"; a="625017"
+ t=1707220683; x=1738756683;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=CXNHx6ojWkF6hiBohsH1QU3LwYWg5nIKgaam2KHUH3U=;
+ b=Xp2ytvYs5jp6s4QAUl5rjSuhXEiMcJ59czDrs8T7jFAA4g2K74ApyjZ3
+ 9mo2licZlvTaxviGVuPKhbIVDOxqWCHDQa0n9Q7m0MzQFJlXFvUWasGiI
+ F2jX7TXN8ajGc8MZK9pXcGnIv9V2cI/9N/qBrDHypJ7mwczxFwK2pmJMt
+ IjvZsY/sErVsTbN7XP/IOxEp72q/93bad/opRgFxd4vNMuNyA38MR7qAQ
+ KCRk6ZAHNav6e5v+4jZYudpdqhS6iLn/d+NiTDnF0OnYUPe2bsuimOEZK
+ 4a7f/EsmgRwtx0uk296ULWzILS+o239WnoQ/aPYFEtkG4/C9A7GL+TtAa A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10975"; a="3689104"
 X-IronPort-AV: E=Sophos;i="6.05,247,1701158400"; 
-   d="scan'208";a="625017"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Feb 2024 03:46:24 -0800
+   d="scan'208";a="3689104"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Feb 2024 03:57:59 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,247,1701158400"; 
-   d="scan'208";a="993166"
-Received: from lgrunert-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.42.150])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Feb 2024 03:46:19 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Stephen Rothwell <sfr@canb.auug.org.au>, Daniel Vetter
- <daniel.vetter@ffwll.ch>
-Cc: Matthew Brost <matthew.brost@intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>,
- Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
- Mailing List <linux-next@vger.kernel.org>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Oded Gabbay <ogabbay@kernel.org>, Thomas
- =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-xe@lists.freedesktop.org
-Subject: Re: linux-next: build failure after merge of the drm-misc tree
-In-Reply-To: <20240206122822.12a2df89@canb.auug.org.au>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240206122822.12a2df89@canb.auug.org.au>
-Date: Tue, 06 Feb 2024 13:46:16 +0200
-Message-ID: <87plx9dddj.fsf@intel.com>
+   d="scan'208";a="1345648"
+Received: from johnypau-mobl1.ger.corp.intel.com (HELO
+ ideak-desk.fi.intel.com) ([10.251.218.188])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Feb 2024 03:57:58 -0800
+Date: Tue, 6 Feb 2024 13:58:14 +0200
+From: Imre Deak <imre.deak@intel.com>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 11/19] drm/i915/dp: Add support for DP tunnel BW allocation
+Message-ID: <ZcIcCd1/nNX89Mr3@ideak-desk.fi.intel.com>
+References: <20240123102850.390126-1-imre.deak@intel.com>
+ <20240123102850.390126-12-imre.deak@intel.com>
+ <ZcFlelbJ_GqCy2hx@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZcFlelbJ_GqCy2hx@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,55 +66,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 06 Feb 2024, Stephen Rothwell <sfr@canb.auug.org.au> wrote:
-> Hi all,
->
-> After merging the drm-misc tree, today's linux-next build (x86_64
-> allmodconfig) failed like this:
->
->
-> Caused by commit
->
->   a78a8da51b36 ("drm/ttm: replace busy placement with flags v6")
->
-> interacting with commit
->
->   dd08ebf6c352 ("drm/xe: Introduce a new DRM driver for Intel GPUs")
->
-> (and maybe others) from Linus' tree (v6.8-rc1).
->
-> I have applied the following merge fix patch for today.  This makes it bu=
-ild,
-> but more is likely needed ...
->
-> From: Stephen Rothwell <sfr@canb.auug.org.au>
-> Date: Tue, 6 Feb 2024 12:21:07 +1100
-> Subject: [PATCH] fix up for "drm/ttm: replace busy placement with flags v=
-6"
->
-> interacting with commit
->
->   dd08ebf6c352 ("drm/xe: Introduce a new DRM driver for Intel GPUs")
->
-> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> ---
->  drivers/gpu/drm/xe/xe_bo.c | 11 -----------
->  1 file changed, 11 deletions(-)
+On Tue, Feb 06, 2024 at 12:47:22AM +0200, Ville Syrjälä wrote:
+> On Tue, Jan 23, 2024 at 12:28:42PM +0200, Imre Deak wrote:
+> > +static int check_inherited_tunnel_state(struct intel_atomic_state *state,
+> > +					struct intel_dp *intel_dp,
+> > +					const struct intel_digital_connector_state *old_conn_state)
+> > +{
+> > +	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+> > +	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
+> > +	const struct intel_connector *connector =
+> > +		to_intel_connector(old_conn_state->base.connector);
+> > +	struct intel_crtc *old_crtc;
+> > +	const struct intel_crtc_state *old_crtc_state;
+> > +
+> > +	/*
+> > +	 * If a BWA tunnel gets detected only after the corresponding
+> > +	 * connector got enabled already without a BWA tunnel, or a different
+> > +	 * BWA tunnel (which was removed meanwhile) the old CRTC state won't
+> > +	 * contain the state of the current tunnel. This tunnel still has a
+> > +	 * reserved BW, which needs to be released, add the state for such
+> > +	 * inherited tunnels separately only to this atomic state.
+> > +	 */
+> > +	if (!intel_dp_tunnel_bw_alloc_is_enabled(intel_dp))
+> > +		return 0;
+> > +
+> > +	if (!old_conn_state->base.crtc)
+> > +		return 0;
+> > +
+> > +	old_crtc = to_intel_crtc(old_conn_state->base.crtc);
+> > +	old_crtc_state = intel_atomic_get_old_crtc_state(state, old_crtc);
+> > +
+> > +	if (!old_crtc_state->hw.active ||
+> > +	    old_crtc_state->dp_tunnel_ref.tunnel == intel_dp->tunnel)
+> > +		return 0;
+> > +
+> > +	drm_dbg_kms(&i915->drm,
+> > +		    "[DPTUN %s][CONNECTOR:%d:%s][ENCODER:%d:%s][CRTC:%d:%s] Adding state for inherited tunnel %p\n",
+> > +		    drm_dp_tunnel_name(intel_dp->tunnel),
+> > +		    connector->base.base.id,
+> > +		    connector->base.name,
+> > +		    encoder->base.base.id,
+> > +		    encoder->base.name,
+> > +		    old_crtc->base.base.id,
+> > +		    old_crtc->base.name,
+> > +		    intel_dp->tunnel);
+> > +
+> > +	return add_inherited_tunnel_state(state, intel_dp->tunnel, old_crtc);
+> 
+> I still strongly dislike this "tunnels are magically created by detect
+> behind our back" approach. IMO in an ideal world we'd only ever create the
+> tunnels during modeset/sanitize. What was the reason that didn't work again?
+> I think you explained it to me in person at least once already, but can't
+> remember anymore...
 
-Please see the new MAINTAINERS entry for drm/xe changes:
+The tunnel information, describing which group the tunnel belongs to and
+so how much BW it can use is needed already during detect time: to
+filter the connectors' mode list during connector probing and to
+pass/fail an atomic check of connectors that go through a tunnel/group
+based on the modes the connectors use, the BW these require vs. the
+available BW of the tunnel group.
 
-INTEL DRM XE DRIVER (Lunar Lake and newer)
-M:	Lucas De Marchi <lucas.demarchi@intel.com>
-M:	Oded Gabbay <ogabbay@kernel.org>
-M:	Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-L:	intel-xe@lists.freedesktop.org
+The atomic state for the tunnel - with the required BW through it - is
+only created/added during a modeset.
 
-BR,
-Jani.
-
-
---=20
-Jani Nikula, Intel
+> -- 
+> Ville Syrjälä
+> Intel
