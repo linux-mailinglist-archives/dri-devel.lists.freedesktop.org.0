@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ACAA84B479
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 13:08:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7D8384B478
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Feb 2024 13:08:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BFE0112B24;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27B98112B1F;
 	Tue,  6 Feb 2024 12:08:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="j/XEAJC3";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ovKTn1GK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7920112B19
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 12:08:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2CE7112B19
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Feb 2024 12:08:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1707221280;
- bh=yXoRgeiQ6ZbdAo4rsLu5fJfcoA4FVsw4hwaCPWMqWAY=;
+ s=mail; t=1707221281;
+ bh=VDX7AhydHRhOSNhBFLKBelqucKRnbrmvRDj7DrUlgD0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=j/XEAJC3o4Pi5BjFITL3Xa3wyFVckJh3TSEjUWRS0CNYeDsvWSxkjhmACQ35mIICE
- GTdeho7DPqK9M6qpAKYKXtp+6tstykD3FdOHZ1xJRQqi1SAbUGIYhxMn1y4qWulE5N
- cdtGoUWxRk22E9jkpyqPONPtbpzJdjdgubxiYKiVrmmB6iLCs7SXo8mxspdc0EC5fC
- +TqAkycTsY8ED1wbWL9tMA8VIRxhf4blg/GCXwhcGV6jmS1N+X/6jL3os2t6VFYa+M
- 4+fLEDfr24qb+upb1fvOzuRu4y0aNZ/Q4nMAUqkezJnXdKmrN8/LgQGbXTs7RVsS+K
- qsQpqIEO+Gnfg==
+ b=ovKTn1GKOsdkDSM+//FcNhut09sz3Y7AB4VMOlss3fZuDyOJlgSLR7BO0W31sAuaf
+ /HRQf1sKvXb/0Pcgfgz6zPapjGDbA4gAXZjJBe+hBdosMqJ0tXXWwS+olIZ3xvvjqV
+ SiWZ0XcpY+Ekt1+ImYNbsUW8onjPDewkEF4ynIHvpQkIF2TcnkZi/aZW3UeFS1cOa/
+ L2r7FSNTkn5WG+8jiPanSXTWS5VuHkQSa7x2MkkjjFunxk0vtqBOYo7924Ec2G89kQ
+ 7/5rmw0XDsx0vphhDY+9ybiU8fk2A1esKbiB6EQu7IFrvNADy1XmqvdUNLLtJHzKIW
+ myMD7PJXK4bow==
 Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com
  [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id DFA293782089;
- Tue,  6 Feb 2024 12:07:59 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id DEAB63781F8E;
+ Tue,  6 Feb 2024 12:08:00 +0000 (UTC)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
 Cc: fshao@chromium.org, p.zabel@pengutronix.de, airlied@gmail.com,
@@ -40,10 +40,10 @@ Cc: fshao@chromium.org, p.zabel@pengutronix.de, airlied@gmail.com,
  angelogioacchino.delregno@collabora.com, dri-devel@lists.freedesktop.org,
  linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, kernel@collabora.com
-Subject: [PATCH v4 8/9] drm/mediatek: dsi: Compress of_device_id entries and
- add sentinel
-Date: Tue,  6 Feb 2024 13:07:47 +0100
-Message-ID: <20240206120748.136610-9-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v4 9/9] drm/mediatek: dsi: Use mipi_dsi_pixel_format_to_bpp()
+ helper function
+Date: Tue,  6 Feb 2024 13:07:48 +0100
+Message-ID: <20240206120748.136610-10-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240206120748.136610-1-angelogioacchino.delregno@collabora.com>
 References: <20240206120748.136610-1-angelogioacchino.delregno@collabora.com>
@@ -64,44 +64,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All entries fit in 82 columns, which is acceptable: compress all of
-the mtk_dsi_of_match[] entries to a single line for each.
+Instead of open coding, use the mipi_dsi_pixel_format_to_bpp() helper
+function from drm_mipi_dsi.h in mtk_dsi_poweron() and for validation
+in mtk_dsi_bridge_mode_valid().
 
-While at it, also add the usual sentinel comment to the last entry.
+Note that this function changes the behavior of this driver: previously,
+in case of unknown formats, it would (wrongly) assume that it should
+account for a 24-bits format - now it will return an error and refuse
+to set clocks and/or enable the DSI.
+
+This is done because setting the wrong data rate will only produce a
+garbage output that the display will misinterpret both because this
+driver doesn't actually provide any extra-spec format support and/or
+because the data rate (hence, the HS clock) will be wrong.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dsi.c | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 26 +++++++++-----------------
+ 1 file changed, 9 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index 8d407d71e9db..545c5cc071d9 100644
+index 545c5cc071d9..d844a0500e2b 100644
 --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -1204,17 +1204,12 @@ static const struct mtk_dsi_driver_data mt8188_dsi_driver_data = {
- };
+@@ -598,19 +598,12 @@ static int mtk_dsi_poweron(struct mtk_dsi *dsi)
+ 	if (++dsi->refcount != 1)
+ 		return 0;
  
- static const struct of_device_id mtk_dsi_of_match[] = {
--	{ .compatible = "mediatek,mt2701-dsi",
--	  .data = &mt2701_dsi_driver_data },
--	{ .compatible = "mediatek,mt8173-dsi",
--	  .data = &mt8173_dsi_driver_data },
--	{ .compatible = "mediatek,mt8183-dsi",
--	  .data = &mt8183_dsi_driver_data },
--	{ .compatible = "mediatek,mt8186-dsi",
--	  .data = &mt8186_dsi_driver_data },
--	{ .compatible = "mediatek,mt8188-dsi",
--	  .data = &mt8188_dsi_driver_data },
--	{ },
-+	{ .compatible = "mediatek,mt2701-dsi", .data = &mt2701_dsi_driver_data },
-+	{ .compatible = "mediatek,mt8173-dsi", .data = &mt8173_dsi_driver_data },
-+	{ .compatible = "mediatek,mt8183-dsi", .data = &mt8183_dsi_driver_data },
-+	{ .compatible = "mediatek,mt8186-dsi", .data = &mt8186_dsi_driver_data },
-+	{ .compatible = "mediatek,mt8188-dsi", .data = &mt8188_dsi_driver_data },
-+	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, mtk_dsi_of_match);
+-	switch (dsi->format) {
+-	case MIPI_DSI_FMT_RGB565:
+-		bit_per_pixel = 16;
+-		break;
+-	case MIPI_DSI_FMT_RGB666_PACKED:
+-		bit_per_pixel = 18;
+-		break;
+-	case MIPI_DSI_FMT_RGB666:
+-	case MIPI_DSI_FMT_RGB888:
+-	default:
+-		bit_per_pixel = 24;
+-		break;
++	ret = mipi_dsi_pixel_format_to_bpp(dsi->format);
++	if (ret < 0) {
++		dev_err(dev, "Unknown MIPI DSI format %d\n", dsi->format);
++		return ret;
+ 	}
++	bit_per_pixel = ret;
  
+ 	dsi->data_rate = DIV_ROUND_UP_ULL(dsi->vm.pixelclock * bit_per_pixel,
+ 					  dsi->lanes);
+@@ -793,12 +786,11 @@ mtk_dsi_bridge_mode_valid(struct drm_bridge *bridge,
+ 			  const struct drm_display_mode *mode)
+ {
+ 	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
+-	u32 bpp;
++	int bpp;
+ 
+-	if (dsi->format == MIPI_DSI_FMT_RGB565)
+-		bpp = 16;
+-	else
+-		bpp = 24;
++	bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
++	if (bpp < 0)
++		return MODE_ERROR;
+ 
+ 	if (mode->clock * bpp / dsi->lanes > 1500000)
+ 		return MODE_CLOCK_HIGH;
 -- 
 2.43.0
 
