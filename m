@@ -2,170 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0140D84D323
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 21:47:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A55E84D32A
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 21:48:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2499410E181;
-	Wed,  7 Feb 2024 20:47:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11A1510E2B2;
+	Wed,  7 Feb 2024 20:48:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LQXcw77o";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SHtillYq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 510D110E181;
- Wed,  7 Feb 2024 20:47:50 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18DBC10E1DF;
+ Wed,  7 Feb 2024 20:48:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707338870; x=1738874870;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=hqh2N+3S4QHVSkZM0o20fDoYylJhZY2Rw8v5rZeRcYM=;
- b=LQXcw77oBIQUBfJF5RVoeXgpU0sgrVsxrM42j0lDC0Gn4Z0LL0Ev4Yjn
- nx7hrdru56kQVaebNQDr5O6+NLrhnOtjYCf4gn1V55cxRzp1BedjL6Lc+
- 2xL6bzj7xmOdsdMX/Pu+IvZ12S4ghDeUEnvD+XABAaNzTqtssaXYdOmCl
- wqf7L07UN3Q/EADYl94v1XM5fIQO9wwPTR5hT0j8ke2k2S3MgKi7OQTlU
- OlxyEoMR3pWvf+xjqxJJvT2diD1qKPsBvtguq6xSnytog6a9SaIb6kERb
- TW+MooHW98bJQoQjCHQtOiJW4pjg8Y2FQh6Pm+1N1NgktjzxjllvYOWhJ g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="1224526"
+ t=1707338919; x=1738874919;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=DWIX++44CI/j8sd59uUzKVpRjL153bPvSqoGb4SYlrU=;
+ b=SHtillYq3ms+5YJYRd+/Pq8n8wAgVM5dkBa6e36srDOwpLtXsxvFf0dC
+ 2V2IrXqWast7yuwmMuDSjoUOX+gqBNLiG/OfTwKr9eQQmv/n1V61ds80W
+ 1eeOFCnAtbieMIb9/jFkaerLz0XVyfryHVuRbDXVqDTSiUkWuMnpnrvwb
+ D2hNZ1xCSZV91u2cZaYbq5dqOwnpRUjUwzEVYrlKv06FOPz8o4RyGsPfg
+ ULPKdufZv03HzoAo4IhUPtJVG/VYvIId0sVmCalHt+zSIcP4uOe93WccO
+ CPEownOceYnq00nfE9WSkpwi6vgpxraCvWZ9RVCOdwySq4qbZ+fIHV4dz g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="968318"
 X-IronPort-AV: E=Sophos;i="6.05,251,1701158400"; 
-   d="scan'208";a="1224526"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2024 12:47:49 -0800
+   d="scan'208";a="968318"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2024 12:48:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,251,1701158400"; 
-   d="scan'208";a="1458541"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmviesa007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 07 Feb 2024 12:47:50 -0800
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 7 Feb 2024 12:47:48 -0800
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 7 Feb 2024 12:47:48 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Wed, 7 Feb 2024 12:47:48 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 7 Feb 2024 12:47:47 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NKAz0PU1GDf8CWOblswg17jcBD1pyxEhdRfBP7GPspu6kVcq1oFezEh7YPGgjAepSCqEbUZrr89/H1EdSrS5fIhkBAhqO6IR6P9YP56ib3ejVNTRsajXp/FCWtYwGoZnhM7LtjCVIWgsgQaZM+2iENGlfkvGoFUY5CgKanWLzx/JJaus5nVRwG93QQlpidbGOL3fUL6+rk1iUHB7xHFtJXx21y28wC7c5SSX0WhbFduQNsgsVl8YsPgDCxximDzjLcN4Qdoi38d22h8SzS7a8TTLMKffi/O6LTiNiwa3GMI9RtTjKd/cNWgLelZzYWMbgDeo5/uC4USft4FsYIjPHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hqh2N+3S4QHVSkZM0o20fDoYylJhZY2Rw8v5rZeRcYM=;
- b=kVqoCj34OtKZDdnZjKMOA+J5MUqx+TlbkKITwveY9Q6zPM4viHP1GONrcYJtPqQtLyImznVjb8THOogcglJD+aegUvyw2l6rvvVfGjf7VgSvxaeSyJYElhn//B21A+HkZjRQ94SQNOP7kwuBngOERhf2gwACC1eOqaQzlnjx9w0HHddvpwwPi7aKvr7qQNJ17+G+2vMy6T3kC8lPyri2oqwR+3ePR5q8kXAYCLZFPv9LMD6AMe46TRKUzh9JRrLrTCOdJqGqHYuFpdqBkxWyB0/PquXjjjiyuXUCEl5sGpc4varrmCmU9Ug18/uQQBtz/3HYkoVHGWuuJAYQ/ZZXcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM4PR11MB8179.namprd11.prod.outlook.com (2603:10b6:8:18e::22)
- by DM3PR11MB8716.namprd11.prod.outlook.com (2603:10b6:0:43::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.36; Wed, 7 Feb
- 2024 20:47:46 +0000
-Received: from DM4PR11MB8179.namprd11.prod.outlook.com
- ([fe80::f3a9:7ba0:d19a:a630]) by DM4PR11MB8179.namprd11.prod.outlook.com
- ([fe80::f3a9:7ba0:d19a:a630%7]) with mapi id 15.20.7249.035; Wed, 7 Feb 2024
- 20:47:46 +0000
-From: "Souza, Jose" <jose.souza@intel.com>
-To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Harrison, John C" <john.c.harrison@intel.com>,
- "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
- "Intel-gfx@lists.freedesktop.org" <Intel-gfx@lists.freedesktop.org>
-CC: "Ursulin, Tvrtko" <tvrtko.ursulin@intel.com>, "Ghuge, Sagar"
- <sagar.ghuge@intel.com>, "kenneth@whitecape.org" <kenneth@whitecape.org>,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>, "Nikula, Jani"
- <jani.nikula@intel.com>, "Zanoni, Paulo R" <paulo.r.zanoni@intel.com>,
- "Balasubrawmanian, Vivaik" <vivaik.balasubrawmanian@intel.com>
-Subject: Re: [RFC] drm/i915: Add GuC submission interface version query
-Thread-Topic: [RFC] drm/i915: Add GuC submission interface version query
-Thread-Index: AQHaWbysCb+s/LOlMUOeItDsQ9vHk7D/LwiAgAAKRACAAAyngIAAAn4AgAACZoCAAA96gA==
-Date: Wed, 7 Feb 2024 20:47:46 +0000
-Message-ID: <3f3a8cab587e0f7c205f9170b0ba1feb23d315eb.camel@intel.com>
-References: <20240207115612.1322778-1-tvrtko.ursulin@linux.intel.com>
- <32d9d60b-1cfc-4201-8817-d293abe1b39d@intel.com>
- <82ac1c74-5aa1-484d-9132-9b023c0e7a33@linux.intel.com>
- <1efb4711-80e7-4e22-a2e3-a7190bad69eb@intel.com>
- <cdf2554bdd2774d51bad89e415d4c46732d4fddb.camel@intel.com>
- <1e7161b0-5d42-4980-8a97-61083da15a69@intel.com>
-In-Reply-To: <1e7161b0-5d42-4980-8a97-61083da15a69@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR11MB8179:EE_|DM3PR11MB8716:EE_
-x-ms-office365-filtering-correlation-id: 70ddea56-cfc0-4a9c-0a9e-08dc281e0a01
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 05hheDQmqNVseLQ/M4v2C9AuW/6v4hgkVDydXJmBwMfILmpbcx70o/2qtZjDy/cj1duPWAiRy3XynepTkri5SPSBzakg64eK1+iGBqYEIDdAyHwIkdPT57drZosU0DNVStV1jGirh/phNQ7YwBEK3X40Q9k/07GXV9onMWd91ibnb6rJnIMkgCOuhzmfeOIoTjdegz2r81d+thpqg6P+9F2d23sjIF2kBdwQqsaJibEtdnrOpeMigNb9hZOW+TYIugxeU0FOCNFxqAUsZkr4HoTsfbfetuacLd2I/IPIP0uh/oOvCGS8f2GiFfMAR1Gv8XQOdboPG7ymzwDxqbfEys5A8x/rhWAjCsVMB6YPpgIUQdLL6CQ6cY8h1Ud1KeZJCNGWD2UxVl+UUY+/H/NvRHGkOSvel+ZzJH9S3XVVqr8bEn6PsN5pFU5bwLWxJMosiPIOPJV34y+sCkdj7pbYEoesV3z9LDy6YK5LfmM3sHOnCBOio1MscDBx15TE6fnjuAHsjz1NcPyf2U3u/a402txjNobnq7nNzCtYFAsz4miCx4QWqcWliAUwrTw5V701etHPlUAkHnURSJeBz6BuFyUHDP16sBKeBi5h6ACZYwQ/TkQkzAZcINtBGVicHg78
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB8179.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(346002)(376002)(136003)(366004)(39860400002)(230922051799003)(186009)(64100799003)(451199024)(1800799012)(2906002)(30864003)(41300700001)(36756003)(38070700009)(86362001)(76116006)(83380400001)(478600001)(8936002)(5660300002)(38100700002)(122000001)(82960400001)(8676002)(2616005)(71200400001)(66476007)(66556008)(316002)(6486002)(53546011)(6512007)(110136005)(66446008)(4326008)(6506007)(54906003)(64756008)(66946007)(26005);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NU4zQlZ5NHVVdE5vdS9ackF0dklJYUN5eFREVHBBSEJkQ2pFWkQ2RFpNd0lm?=
- =?utf-8?B?QWQyckdhRm1kZXpsTkxVSElEQXpuREdJRmpHQUkxYkJVaklmNW4zS25JcDNZ?=
- =?utf-8?B?a2dPczM4bjhUcDlxYVc2eEJoWHM3dzVEcG9YVDZndFBVcjFLNkVEb1k1K1B3?=
- =?utf-8?B?WEZlNDE2MG8zWDFGeGVYY1hIeUtoUkdlY3FWVHdmWUlKNGZwMkIwdFZWeGN0?=
- =?utf-8?B?RFczY0FFQnhiOGdqSFRlekhuOXBsc2Nsby9HcnpmNEhxbU9QQlNia3N4TmE4?=
- =?utf-8?B?ZkxHalZ2UHNJUkloT3dVa0VHcUlSM21XQzA2d1V6QUs0cnFNNzh1NWtRd3Bk?=
- =?utf-8?B?NW5Kazcxd0Q2bElVMlEzMEx0SE0yOWs1bnJKUGFKYmZUckM0QysyZzVaYkhI?=
- =?utf-8?B?T2N5K3RVb244RW1JY3pLelFza1FMWk00dUZ5U2E2TDQ5aGwyQXZ2cm5GeFdP?=
- =?utf-8?B?TXp6N21lOC9KeEhuVUF1eUdFY1RRMnpDeSt2b01haVVTTmhjRjZmVDErMTBX?=
- =?utf-8?B?ZElYU2hEYVRQMmYwdSt6YmpzTUJnNUljQ0RrY05neVgybjk5bVVTNDFSSnNv?=
- =?utf-8?B?QjhZclJFZTRFZFI1ZTE4TUtkKzM0dENCcGJnTTVNRWpwZGQxUy9ueW9EZkt6?=
- =?utf-8?B?NEQ2TDFRSWZlZUtGWVZDZkQ4Ums0eVl2a2VCR2NtSEFpS3NBK3crR1RWV1R5?=
- =?utf-8?B?dXpUV2ZzdW9WcUQvL3p3dkRXRUp1dkxyS2NjQlVhUFdQeklNdkNVQzNjRGVZ?=
- =?utf-8?B?MVdlU2R5OWxXdWo0aGtvd0ViOGRhZ2t6VjZRcEVaWk1CeTYrZ0F0K2pINVFt?=
- =?utf-8?B?RTZxb29MajluSnlucVNzQzRzYkd0a0xqRG0rYm5HZFRNcGVQWGU2bitoZE9u?=
- =?utf-8?B?ODFHVHkxRTZsaVExWnJRVVlGUnh5OWQveVI2M2RwN3dLRG9JK0pjRTN0MlBp?=
- =?utf-8?B?Y1pNN3NSSUxtaDZ4eDFNelFvaUdzeS9kcEFwVnRmd1FDOTlmaEJhSGh6NkQ5?=
- =?utf-8?B?dkhTZ3lMOHlXai9za2lNRG43dC9BQ2RDdGFIRXJaVytqbWJJWStXNXQwZ2xh?=
- =?utf-8?B?MVo2RFVONkN2cjMwUUxQak5yLzFOYnFmZ09SUkFNY1dlbEZ2b0djS1B1Q1do?=
- =?utf-8?B?RDRpMGVXVlBoNWxQNURHYjZNSzFPOUVyOUxZVTJwRFNNM2xaWjQyVldhK3FK?=
- =?utf-8?B?Nk9XNytpMEZkNlc4VHdhd01IdngwUWNZM0ZpOE9PdnU4UmlYM0RNM29mc21u?=
- =?utf-8?B?SDFmeDY0QkN6OGFlM1huMDZVb29SVjN5K1Vjb1h1L3NvRzFmd2xpTVhWRjhk?=
- =?utf-8?B?cUNROHFHK0xGZ3lZWURwUFBxdSttcVJMUUxWbmxTZzMxb1lxVkhlZlNTV0xt?=
- =?utf-8?B?SUROUFdOUWo3dWYvR0sydzlmb1llamo2aVJxWVZGazFUYnJyUkh5OXh0VlY3?=
- =?utf-8?B?dXZQNHZWYndtdTlHTmhqNzNjOFJjdEIxWmtQeTUvaTl0WXFqN1FOR3h2cm9Y?=
- =?utf-8?B?LzFNcXNkMENGWkxjM29qdzV0elNkbXljWVdKaVdVSUx0cDFadXJRSXNYZ0ZQ?=
- =?utf-8?B?SkZxazR4UHVUQllyVlhndGRyZi9YWGdZa1lPbUNZYk9ucFFDSHBFWFJ0NmlC?=
- =?utf-8?B?NThsTkQ3b1BONTJrWGpueG85eUF1Z0hZYmdrMys1eUVkMGx6M3hqNTVnajdS?=
- =?utf-8?B?cG80dzZwc2xPT2RONmVHOFl4T2JtNjVxbHhKZlh4ai9lRTFOcjh3SXhMVG5w?=
- =?utf-8?B?dGx6WG5pamZpVkNPTmsvUDdKMnE2dFhzRFNHeVRQT25NUVRmd1Q4MnlVK0Jy?=
- =?utf-8?B?VFFOZmxUd3p3VEg1WXgrdnFMTjFuWVNxRjRSNXdzWVlyN1E5STBFRCthSCtp?=
- =?utf-8?B?dW5TdXdKenN5SGRaUHI5K0F3Y2xISnBaYmFlTXRzR1ZaWVBqOHh0M3R6R0Zr?=
- =?utf-8?B?QWI4OGNiaTduVElGaFp0TVVvbDRDNVJCaUljdXZneEgvWC81ZGZwaEpIOGRU?=
- =?utf-8?B?SHhOWWg0WXd5T3VQMHcrT1Qybi9EdnpZRzNuTHhMTHk2WVgvL2NBaU9RSXpx?=
- =?utf-8?B?U1M1UkJOK1JVYzNUbjNoMVBvd3hHWk12SjRNbUZSeHRCWDgrSlR2VmNXT2NN?=
- =?utf-8?B?UXJOaHJkY0pLQVlJTUFOQnlXd1QvaWpjV095TFUrU1QxOEN4Z0hEa2FzRm5r?=
- =?utf-8?B?SUE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <32FB9E97C6A4974D95E1479485FAFE6E@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+X-IronPort-AV: E=Sophos;i="6.05,251,1701158400"; d="scan'208";a="32245802"
+Received: from jeroenke-mobl.ger.corp.intel.com (HELO ideak-desk.fi.intel.com)
+ ([10.252.43.85])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2024 12:48:26 -0800
+Date: Wed, 7 Feb 2024 22:48:43 +0200
+From: Imre Deak <imre.deak@intel.com>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: Re: [PATCH 02/19] drm/dp: Add support for DP tunneling
+Message-ID: <ZcPsq2WdP7oJQ4Ep@ideak-desk.fi.intel.com>
+References: <20240123102850.390126-1-imre.deak@intel.com>
+ <20240123102850.390126-3-imre.deak@intel.com>
+ <ZcPhyk1RbE5bXcCv@intel.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB8179.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 70ddea56-cfc0-4a9c-0a9e-08dc281e0a01
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Feb 2024 20:47:46.1165 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: mOtFAlSmdRt523N2IhLkJNzAqKPlDGe5X8obQ38ki/wMYXfdkex1qxdC6p6IrWoZCcaGLEYjB0MGzYJDLiWwLg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR11MB8716
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZcPhyk1RbE5bXcCv@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -178,223 +66,1612 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyMDI0LTAyLTA3IGF0IDExOjUyIC0wODAwLCBKb2huIEhhcnJpc29uIHdyb3RlOg0K
-PiBPbiAyLzcvMjAyNCAxMTo0MywgU291emEsIEpvc2Ugd3JvdGU6DQo+ID4gT24gV2VkLCAyMDI0
-LTAyLTA3IGF0IDExOjM0IC0wODAwLCBKb2huIEhhcnJpc29uIHdyb3RlOg0KPiA+ID4gT24gMi83
-LzIwMjQgMTA6NDksIFR2cnRrbyBVcnN1bGluIHdyb3RlOg0KPiA+ID4gPiBPbiAwNy8wMi8yMDI0
-IDE4OjEyLCBKb2huIEhhcnJpc29uIHdyb3RlOg0KPiA+ID4gPiA+IE9uIDIvNy8yMDI0IDAzOjU2
-LCBUdnJ0a28gVXJzdWxpbiB3cm90ZToNCj4gPiA+ID4gPiA+IEZyb206IFR2cnRrbyBVcnN1bGlu
-IDx0dnJ0a28udXJzdWxpbkBpbnRlbC5jb20+DQo+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+IEFk
-ZCBhIG5ldyBxdWVyeSB0byB0aGUgR3VDIHN1Ym1pc3Npb24gaW50ZXJmYWNlIHZlcnNpb24uDQo+
-ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+IE1lc2EgaW50ZW5kcyB0byB1c2UgdGhpcyBpbmZvcm1h
-dGlvbiB0byBjaGVjayBmb3Igb2xkIGZpcm13YXJlIHZlcnNpb25zDQo+ID4gPiA+ID4gPiB3aXRo
-IGEga25vd24gYnVnIHdoZXJlIHVzaW5nIHRoZSByZW5kZXIgYW5kIGNvbXB1dGUgY29tbWFuZCBz
-dHJlYW1lcnMNCj4gPiA+ID4gPiA+IHNpbXVsdGFuZW91c2x5IGNhbiBjYXVzZSBHUFUgaGFuZ3Mg
-ZHVlIGlzc3VlcyBpbiBmaXJtd2FyZSBzY2hlZHVsaW5nLg0KPiA+ID4gPiA+ID4gDQo+ID4gPiA+
-ID4gPiBCYXNlZCBvbiBwYXRjaGVzIGZyb20gVml2YWlrIGFuZCBKb29uYXMuDQo+ID4gPiA+ID4g
-PiANCj4gPiA+ID4gPiA+IFRoZXJlIGlzIGEgbGl0dGxlIGJpdCBvZiBhbiBvcGVuIGFyb3VuZCB0
-aGUgd2lkdGggcmVxdWlyZWQgZm9yDQo+ID4gPiA+ID4gPiB2ZXJzaW9ucy4NCj4gPiA+ID4gPiA+
-IFdoaWxlIHRoZSBHdUMgRlcgaWZhY2UgdGVsbHMgdGhleSBhcmUgdTgsIGk5MTUgR3VDIGNvZGUg
-dXNlcyB1MzI6DQo+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ICDCoCAjZGVmaW5lIENTU19TV19W
-RVJTSU9OX1VDX01BSk9SwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAoMHhGRiA8PCAxNikN
-Cj4gPiA+ID4gPiA+ICDCoCAjZGVmaW5lIENTU19TV19WRVJTSU9OX1VDX01JTk9SwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCAoMHhGRiA8PCA4KQ0KPiA+ID4gPiA+ID4gIMKgICNkZWZpbmUg
-Q1NTX1NXX1ZFUlNJT05fVUNfUEFUQ0jCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICgweEZG
-IDw8IDApDQo+ID4gPiA+ID4gPiAuLi4NCj4gPiA+ID4gPiA+ICDCoCBzdHJ1Y3QgaW50ZWxfdWNf
-ZndfdmVyIHsNCj4gPiA+ID4gPiA+ICDCoMKgwqDCoMKgwqDCoMKgwqAgdTMyIG1ham9yOw0KPiA+
-ID4gPiA+ID4gIMKgwqDCoMKgwqDCoMKgwqDCoCB1MzIgbWlub3I7DQo+ID4gPiA+ID4gPiAgwqDC
-oMKgwqDCoMKgwqDCoMKgIHUzMiBwYXRjaDsNCj4gPiA+ID4gPiA+ICDCoMKgwqDCoMKgwqDCoMKg
-wqAgdTMyIGJ1aWxkOw0KPiA+ID4gPiA+ID4gIMKgIH07DQo+ID4gPiA+ID4gVGhpcyBpcyBjb3Bp
-ZWQgZnJvbSBnZW5lcmljIGNvZGUgd2hpY2ggc3VwcG9ydHMgZmlybXdhcmVzIG90aGVyIHRoYW4N
-Cj4gPiA+ID4gPiBHdUMuIE9ubHkgR3VDIHByb21pc2VzIHRvIHVzZSA4LWJpdCB2ZXJzaW9uIGNv
-bXBvbmVudHMuIE90aGVyDQo+ID4gPiA+ID4gZmlybXdhcmVzIHZlcnkgZGVmaW5pdGVseSBkbyBu
-b3QuIFRoZXJlIGlzIG5vIG9wZW4uDQo+ID4gPiA+IEFjay4NCj4gPiA+ID4gDQo+ID4gPiA+ID4g
-PiBTbyB3ZSBjb3VsZCBtYWtlIHRoZSBxdWVyeSB1OCwgYW5kIHJlZmFjdG9yIHRoZSBzdHJ1Y3Qg
-aW50ZWxfdWNfZndfdmVyDQo+ID4gPiA+ID4gPiB0byB1c2UgdTgsIG9yIG5vdC4gVG8gYXZvaWQg
-YW55IGRvdWJ0cyBvbiB3aHkgYXJlIHdlIGFzc2lnbmluZyB1MzIgdG8NCj4gPiA+ID4gPiA+IHU4
-IEkgc2ltcGx5IG9wdGVkIHRvIHVzZSB1NjQuIFdoaWNoIGF2b2lkcyB0aGUgbmVlZCB0byBhZGQg
-YW55IHBhZGRpbmcNCj4gPiA+ID4gPiA+IHRvby4NCj4gPiA+ID4gPiBJIGRvbid0IGZvbGxvdyBo
-b3cgcG90ZW50aWFsIDggdnMgMzIgY29uZnVzaW9uIG1lYW5zIGp1bXAgdG8gNjQ/IQ0KPiA+ID4g
-PiBTdWdnZXN0aW9uIHdhcyB0byB1c2UgdTggaW4gdGhlIHVhcGkgaW4gb3JkZXIgdG8gYWxpZ24g
-d2l0aCBHdUMgRlcgQUJJDQo+ID4gPiA+IChvciBob3dldmVyIGl0J3MgY2FsbGVkKSwgaW4gd2hp
-Y2ggY2FzZSB0aGVyZSB3b3VsZCBiZToNCj4gPiA+ID4gDQo+ID4gPiA+ICDCoMKgIHZlci5tYWpv
-ciA9IGd1Yy0+c3VibWlzc2lvbl92ZXJzaW9uLm1ham9yOw0KPiA+ID4gPiANCj4gPiA+ID4gd2hp
-Y2ggd291bGQgYmU6DQo+ID4gPiA+IA0KPiA+ID4gPiAgwqDCoCAodTgpID0gKHUzMikNCj4gPiA+
-ID4gDQo+ID4gPiA+IEFuZCBJIHdhcyBhbnRpY2lwYXRpbmcgc29tZW9uZSBub3QgbGlraW5nIHRo
-YXQgZWl0aGVyLiBVc2luZyB0b28gd2lkZQ0KPiA+ID4gPiB1NjQgc2ltcGx5IGF2b2lkcyB0aGUg
-bmVlZCB0byBhZGQgYSBwYWRkaW5nIGVsZW1lbnQgdG8gdGhlIHVhcGkgc3RydWN0Lg0KPiA+ID4g
-PiANCj4gPiA+ID4gSWYgeW91IGFyZSBwb3NpdGl2ZSB3ZSBuZWVkIHRvIGluY2x1ZGUgYSBicmFu
-Y2ggbnVtYmVyLCBldmVuIHRob3VnaCBpdA0KPiA+ID4gPiBkb2VzIG5vdCBzZWVtIHRvIGJlIGlt
-cGxlbWVudGVkIGluIHRoZSBjb2RlIGV2ZW4oKikgdGhlbiBJIGNhbiBtYWtlDQo+ID4gPiA+IHVh
-cGkgNHggdTMyIGFuZCBhY2hpZXZlIHRoZSBzYW1lLg0KPiA+ID4gSXQncyBub3QgaW1wbGVtZW50
-ZWQgaW4gdGhlIGNvZGUgYmVjYXVzZSB3ZSd2ZSBuZXZlciBoYWQgdG8sIGFuZCBpdCBpcw0KPiA+
-ID4geWV0IGFub3RoZXIgdHJhaW4gd3JlY2sgd2FpdGluZyB0byBoYXBwZW4uIFRoZXJlIGFyZSBh
-IGJ1bmNoIG9mIGlzc3Vlcw0KPiA+ID4gYXQgZGlmZmVyZW50IGxldmVscyB0aGF0IG5lZWQgdG8g
-YmUgcmVzb2x2ZWQuIEJ1dCB0aGF0IGlzIGFsbCBpbiB0aGUNCj4gPiA+IGtlcm5lbCBhbmQvb3Ig
-ZmlybXdhcmUgYW5kIHNvIGNhbiBiZSBhZGRlZCBieSBhIGxhdGVyIGtlcm5lbCB1cGRhdGUgd2hl
-bg0KPiA+ID4gbmVjZXNzYXJ5LiBIb3dldmVyLCBpZiB0aGUgVU1EcyBhcmUgbm90IGFscmVhZHkg
-dGFraW5nIGl0IGludG8gYWNjb3VudA0KPiA+ID4gb3IgaXRzIG5vdCBldmVuIGluIHRoZSBVQVBJ
-LCB0aGVuIHdlIGNhbid0IGJhY2sgZmlsbCBpbiB0aGUga2VybmVsDQo+ID4gPiBsYXRlciwgd2Ug
-YXJlIGp1c3QgYnJva2VuLg0KPiA+IFRoaXMgc291bmRzIHRvIG1lIGxpa2UgYSBmaXJtd2FyZSB2
-ZXJzaW9uIGZvciBpbnRlcm5hbCB0ZXN0aW5nIG9yIGZvciBwcmUtcHJvZHVjdGlvbiBIVywgd291
-bGQgYW55IGJyYW5jaGVkIGZpcm13YXJlIGJlIHJlbGVhc2VkIHRvIGN1c3RvbWVycz8NCj4gU2Vl
-IGNvbW1lbnRzIGJlbG93LiBCcmFuY2hpbmcgaXMgYWJvdXQgYmFjayBwb3J0aW5nIGNyaXRpY2Fs
-IGZpeGVzIHRvIA0KPiBvbGRlciByZWxlYXNlcy4gSS5lLiBzdXBwb3J0aW5nIExUUyByZWxlYXNl
-cy4gVGhlcmUgaXMgYWJzb2x1dGVseSANCj4gbm90aGluZyBpbnRlcm5hbCBvbmx5IG9yIHRlc3Rp
-bmcgcmVsYXRlZCBhYm91dCBicmFuY2hpbmcuDQo+IA0KPiBKdXN0IGJlY2F1c2Ugd2UgaGF2ZW4n
-dCBoYWQgdG8gZG8gc28geWV0IGRvZXNuJ3QgbWVhbiB3ZSB3b24ndCBuZWVkIHRvIA0KPiBkbyBz
-byB0b21vcnJvdy4NCj4gDQo+IEpvaG4uDQo+IA0KPiA+IA0KPiA+ID4gPiAoKikNCj4gPiA+ID4g
-c3RhdGljIHZvaWQgdWNfdW5wYWNrX2Nzc192ZXJzaW9uKHN0cnVjdCBpbnRlbF91Y19md192ZXIg
-KnZlciwgdTMyDQo+ID4gPiA+IGNzc192YWx1ZSkNCj4gPiA+ID4gew0KPiA+ID4gPiAgwqDCoMKg
-wqAvKiBHZXQgdmVyc2lvbiBudW1iZXJzIGZyb20gdGhlIENTUyBoZWFkZXIgKi8NCj4gPiA+ID4g
-IMKgwqDCoMKgdmVyLT5tYWpvciA9IEZJRUxEX0dFVChDU1NfU1dfVkVSU0lPTl9VQ19NQUpPUiwg
-Y3NzX3ZhbHVlKTsNCj4gPiA+ID4gIMKgwqDCoMKgdmVyLT5taW5vciA9IEZJRUxEX0dFVChDU1Nf
-U1dfVkVSU0lPTl9VQ19NSU5PUiwgY3NzX3ZhbHVlKTsNCj4gPiA+ID4gIMKgwqDCoMKgdmVyLT5w
-YXRjaCA9IEZJRUxEX0dFVChDU1NfU1dfVkVSU0lPTl9VQ19QQVRDSCwgY3NzX3ZhbHVlKTsNCj4g
-PiA+ID4gfQ0KPiA+ID4gPiANCj4gPiA+ID4gTm8gYnJhbmNoIGZpZWxkIGluIHRoZSBDU1MgaGVh
-ZGVyPw0KPiA+ID4gSSB0aGluayB0aGVyZSBpcywgaXQncyBqdXN0IG5vdCBvZmZpY2lhbGx5IGlt
-cGxlbWVudGVkIHlldC4NCj4gPiA+IA0KPiA+ID4gPiBBbmQgV2h5IGlzIFVNRCBzdXBwb3NlZCB0
-byByZWplY3QgYSBub24temVybyBicmFuY2g/IExpa2UgaG93IHdvdWxkDQo+ID4gPiA+IDEuMS4z
-LjAgYmUgZmluZSBhbmQgMS4xLjMuMSBiZSBiYWQ/IEkgZG9uJ3QgZ2V0IGl0LiBCdXQgYW55d2F5
-LCBJIGNhbg0KPiA+ID4gPiByZXNwaW4gaWYgeW91IGRlZmluaXRlbHkgY29uZmlybS4NCj4gPiA+
-IEJlY2F1c2UgdGhhdCBpcyBiYWNrd2FyZHMuIFRoZSBicmFuY2ggbnVtYmVyIGdvZXMgYXQgdGhl
-IGZyb250Lg0KPiA+ID4gDQo+ID4gPiBTbywgZm9yIGV4YW1wbGUgKHVzaW5nIG1hZGUgdXAgbnVt
-YmVycywgSSBkb24ndCByZWNhbGwgb2ZmaGFuZCB3aGF0DQo+ID4gPiB2ZXJzaW9ucyB3ZSBoYXZl
-IHdoZXJlKSBzYXkgd2UgY3VycmVudGx5IGhhdmUgMC4xLjMuMCBpbiB0aXAgYW5kIDAuMS4xLjAN
-Cj4gPiA+IGluIHRoZSBsYXN0IExUUy4gV2UgdGhlbiBuZWVkIHRvIHNoaXAgYSBjcml0aWNhbCBz
-ZWN1cml0eSBmaXggYW5kIGJhY2sNCj4gPiA+IHBvcnQgaXQgdG8gdGhlIExUUy4gVGlwIGJlY29t
-ZXMgMC4xLjMuMSBidXQgdGhlIExUUyBjYW4ndCBiZWNvbWUgMC4xLjEuMQ0KPiA+ID4gYmVjYXVz
-ZSB0aGF0IHZlcnNpb24gYWxyZWFkeSBleGlzdHMgaW4gdGhlIGhpc3Rvcnkgb2YgdGlwIGFuZCBk
-b2VzIG5vdA0KPiA+ID4gY29udGFpbiB0aGUgZml4LiBTbyB0aGUgTFRTIGdldHMgYnJhbmNoZWQg
-dG8gMS4xLjAuMC4gV2UgdGhlbiBoYXZlIGJvdGgNCj4gPiA+IGJyYW5jaGVzIHBvdGVudGlhbGx5
-IG1vdmluZyBmb3J3YXJkcyB3aXRoIGNvbXBsZXRlbHkgaW5kZXBlbmRlbnQgdmVyc2lvbmluZy4N
-Cj4gPiA+IA0KPiA+ID4gRXhhY3RseSB0aGUgc2FtZSBhcyA1LjgueCwgNS45LHksIDYuMC56LCBl
-dGMgaW4gdGhlIExpbnV4IGtlcm5lbA0KPiA+ID4gdmVyc2lvbmluZy4gWW91IGNhbm5vdCBtYWtl
-IGFueSBhc3N1bXB0aW9ucyBhYm91dCB3aGF0IG1pZ2h0IGJlIGluDQo+ID4gPiAxLjQuNS42IGNv
-bXBhcmVkIHRvIDAuMS4yLjMuIDEuNC41LjYgY291bGQgYWN0dWFsbHkgMC4xLjAuMyB3aXRoIGEg
-c3RhY2sNCj4gPiA+IG9mIHNlY3VyaXR5IGZpeGVzIGJ1dCBub25lIG9mIHRoZSBmZWF0dXJlcywg
-d29ya2Fyb3VuZHMgb3IgYnVnIGZpeGVzDQo+ID4gPiB0aGF0IGFyZSBpbiAwLjEuMi4zLg0KPiA+
-ID4gDQo+ID4gPiBIZW5jZSwgaWYgdGhlIGJyYW5jaCBudW1iZXIgY2hhbmdlcyB0aGVuIGFsbCBi
-ZXRzIGFyZSBvZmYuIFlvdSBoYXZlIHRvDQo+ID4gPiBzdGFydCBvdmVyIGFuZCByZWplY3QgYW55
-dGhpbmcgeW91IGRvIG5vdCBleHBsaWNpdGx5IGtub3cgYWJvdXQuDQo+ID4gPiANCj4gPiA+IFRo
-aXMgaXMgd2h5IHdlIHdlcmUgc2F5aW5nIHRoYXQgZXhwb3NpbmcgdmVyc2lvbiBudW1iZXJzIHRv
-IFVNRHMgYnJlYWtzDQo+ID4gPiBkb3duIGhvcnJpYmx5IGFzIHNvb24gYXMgd2UgaGF2ZSB0byBz
-dGFydCBicmFuY2hpbmcuIFRoZXJlIGlzIG5vIGNsZWFuDQo+ID4gPiBvciBzaW1wbGUgd2F5IHRv
-IGRvIHRoaXMuDQoNCk9kZCB2ZXJzaW9uaW5nLCB3b3VsZCBleHBlY3QgdGhhdCBmaXhlcyBvbiBM
-VFMgd291bGQgaW5jcmVhc2UgcGF0Y2ggdmVyc2lvbi4NCkFueXdheXMgc28gdW5sZXNzIFVNRHMg
-bmVlZHMgdG8gY2hlY2sgZm9yIGEgYnVnIGZpeGVkIGluIGJyYW5jaGVkIHJlbGVhc2Ugd2UgY291
-bGQganVzdCBjaGVjayBmb3IgbWFqb3IubWlub3IucGF0Y2g/DQoNCkp1c3QgdG8gbWFrZSBzdXJl
-IEkgdW5kZXJzdG9vZCBpdCBjb3JyZWN0bHksIHNlZSBteSBleGFtcGxlcyBiZWxvdyB1c2luZyB2
-ZXJzaW9uIGZvcm1hdCBicmFuY2gubWFqb3IubWlub3IucGF0Y2g6DQoNCi0gc3RhcnQNCnRpcCAw
-LjEuNC4wDQpMVFMgMC4xLjAuMA0KDQotIHNlY3VyZSBmaXggbmVlZGVkIGluIHRpcCBhbmQgTFRT
-DQp0aXAgMC4xLjUuMA0KTFRTIDEuMS4wLjANCg0KLSBidWcgZml4IG9uIHRpcA0KdGlwIDAuMS42
-LjANCkxUUyAxLjEuMC4wDQoNCi0gYW5vdGhlciBzZWN1cmUgZml4IG5lZWRlZCBpbiB0aXAgYW5k
-IExUUw0KdGlwIDAuMS43LjANCkxUUyAyLjEuMC4wDQoNCklzIHRoaXMgaG93IHRoZSB2ZXJzaW9u
-IGlzIHN1cHBvc2VkIHRvIHdvcms/DQoNClNvIHllYWggSSB0aGluayBLTUQgbmVlZHMgdG8gcHJv
-dmlkZSBicmFuY2ggdmVyc2lvbiBpbiB0aGUgdUFQSSBldmVuIGZvciBpOTE1Lg0KDQo+ID4gPiAN
-Cj4gPiA+IEpvaG4uDQo+ID4gPiANCj4gPiA+IA0KPiA+ID4gPiBSZWdhcmRzLA0KPiA+ID4gPiAN
-Cj4gPiA+ID4gVHZydGtvDQo+ID4gPiA+IA0KPiA+ID4gPiA+ID4gQ29tcGlsZSB0ZXN0ZWQgb25s
-eS4NCj4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gU2lnbmVkLW9mZi1ieTogVHZydGtvIFVyc3Vs
-aW4gPHR2cnRrby51cnN1bGluQGludGVsLmNvbT4NCj4gPiA+ID4gPiA+IENjOiBLZW5uZXRoIEdy
-YXVua2UgPGtlbm5ldGhAd2hpdGVjYXBlLm9yZz4NCj4gPiA+ID4gPiA+IENjOiBKb3NlIFNvdXph
-IDxqb3NlLnNvdXphQGludGVsLmNvbT4NCj4gPiA+ID4gPiA+IENjOiBTYWdhciBHaHVnZSA8c2Fn
-YXIuZ2h1Z2VAaW50ZWwuY29tPg0KPiA+ID4gPiA+ID4gQ2M6IFBhdWxvIFphbm9uaSA8cGF1bG8u
-ci56YW5vbmlAaW50ZWwuY29tPg0KPiA+ID4gPiA+ID4gQ2M6IEpvaG4gSGFycmlzb24gPEpvaG4u
-Qy5IYXJyaXNvbkBJbnRlbC5jb20+DQo+ID4gPiA+ID4gPiBDYzogUm9kcmlnbyBWaXZpIDxyb2Ry
-aWdvLnZpdmlAaW50ZWwuY29tPg0KPiA+ID4gPiA+ID4gQ2M6IEphbmkgTmlrdWxhIDxqYW5pLm5p
-a3VsYUBpbnRlbC5jb20+DQo+ID4gPiA+ID4gPiBDYzogVHZydGtvIFVyc3VsaW4gPHR2cnRrby51
-cnN1bGluQGludGVsLmNvbT4NCj4gPiA+ID4gPiA+IENjOiBWaXZhaWsgQmFsYXN1YnJhd21hbmlh
-biA8dml2YWlrLmJhbGFzdWJyYXdtYW5pYW5AaW50ZWwuY29tPg0KPiA+ID4gPiA+ID4gLS0tDQo+
-ID4gPiA+ID4gPiAgwqAgZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9xdWVyeS5jIHwgMzINCj4g
-PiA+ID4gPiA+ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysNCj4gPiA+ID4gPiA+ICDC
-oCBpbmNsdWRlL3VhcGkvZHJtL2k5MTVfZHJtLmjCoMKgwqDCoMKgwqAgfCAxMSArKysrKysrKysr
-Kw0KPiA+ID4gPiA+ID4gIMKgIDIgZmlsZXMgY2hhbmdlZCwgNDMgaW5zZXJ0aW9ucygrKQ0KPiA+
-ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUv
-aTkxNV9xdWVyeS5jDQo+ID4gPiA+ID4gPiBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfcXVl
-cnkuYw0KPiA+ID4gPiA+ID4gaW5kZXggMDA4NzFlZjk5NzkyLi45OTk2ODdmNmEzZDQgMTAwNjQ0
-DQo+ID4gPiA+ID4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X3F1ZXJ5LmMNCj4g
-PiA+ID4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfcXVlcnkuYw0KPiA+ID4g
-PiA+ID4gQEAgLTU1MSw2ICs1NTEsMzcgQEAgc3RhdGljIGludCBxdWVyeV9od2NvbmZpZ19ibG9i
-KHN0cnVjdA0KPiA+ID4gPiA+ID4gZHJtX2k5MTVfcHJpdmF0ZSAqaTkxNSwNCj4gPiA+ID4gPiA+
-ICDCoMKgwqDCoMKgIHJldHVybiBod2NvbmZpZy0+c2l6ZTsNCj4gPiA+ID4gPiA+ICDCoCB9DQo+
-ID4gPiA+ID4gPiArc3RhdGljIGludA0KPiA+ID4gPiA+ID4gK3F1ZXJ5X2d1Y19zdWJtaXNzaW9u
-X3ZlcnNpb24oc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmk5MTUsDQo+ID4gPiA+ID4gPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGRybV9pOTE1X3F1ZXJ5X2l0ZW0g
-KnF1ZXJ5KQ0KPiA+ID4gPiA+ID4gK3sNCj4gPiA+ID4gPiA+ICvCoMKgwqAgc3RydWN0IGRybV9p
-OTE1X3F1ZXJ5X2d1Y19zdWJtaXNzaW9uX3ZlcnNpb24gX191c2VyICpxdWVyeV9wdHIgPQ0KPiA+
-ID4gPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-dTY0X3RvX3VzZXJfcHRyKHF1ZXJ5LT5kYXRhX3B0cik7DQo+ID4gPiA+ID4gPiArwqDCoMKgIHN0
-cnVjdCBkcm1faTkxNV9xdWVyeV9ndWNfc3VibWlzc2lvbl92ZXJzaW9uIHZlcjsNCj4gPiA+ID4g
-PiA+ICvCoMKgwqAgc3RydWN0IGludGVsX2d1YyAqZ3VjID0gJnRvX2d0KGk5MTUpLT51Yy5ndWM7
-DQo+ID4gPiA+ID4gPiArwqDCoMKgIGNvbnN0IHNpemVfdCBzaXplID0gc2l6ZW9mKHZlcik7DQo+
-ID4gPiA+ID4gPiArwqDCoMKgIGludCByZXQ7DQo+ID4gPiA+ID4gPiArDQo+ID4gPiA+ID4gPiAr
-wqDCoMKgIGlmICghaW50ZWxfdWNfdXNlc19ndWNfc3VibWlzc2lvbigmdG9fZ3QoaTkxNSktPnVj
-KSkNCj4gPiA+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoCByZXR1cm4gLUVOT0RFVjsNCj4gPiA+ID4g
-PiA+ICsNCj4gPiA+ID4gPiA+ICvCoMKgwqAgcmV0ID0gY29weV9xdWVyeV9pdGVtKCZ2ZXIsIHNp
-emUsIHNpemUsIHF1ZXJ5KTsNCj4gPiA+ID4gPiA+ICvCoMKgwqAgaWYgKHJldCAhPSAwKQ0KPiA+
-ID4gPiA+ID4gK8KgwqDCoMKgwqDCoMKgIHJldHVybiByZXQ7DQo+ID4gPiA+ID4gPiArDQo+ID4g
-PiA+ID4gPiArwqDCoMKgIGlmICh2ZXIubWFqb3IgfHwgdmVyLm1pbm9yIHx8IHZlci5wYXRjaCkN
-Cj4gPiA+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoCByZXR1cm4gLUVJTlZBTDsNCj4gPiA+ID4gPiA+
-ICsNCj4gPiA+ID4gPiA+ICvCoMKgwqAgdmVyLm1ham9yID0gZ3VjLT5zdWJtaXNzaW9uX3ZlcnNp
-b24ubWFqb3I7DQo+ID4gPiA+ID4gPiArwqDCoMKgIHZlci5taW5vciA9IGd1Yy0+c3VibWlzc2lv
-bl92ZXJzaW9uLm1pbm9yOw0KPiA+ID4gPiA+ID4gK8KgwqDCoCB2ZXIucGF0Y2ggPSBndWMtPnN1
-Ym1pc3Npb25fdmVyc2lvbi5wYXRjaDsNCj4gPiA+ID4gPiBUaGlzIG5lZWRzIHRvIGluY2x1ZGUg
-dGhlIGJyYW5jaCB2ZXJzaW9uIChjdXJyZW50bHkgc2V0IHRvIHplcm8pIGluDQo+ID4gPiA+ID4g
-dGhlIGRlZmluaXRpb24uIEFuZCB0aGUgVU1EIG5lZWRzIHRvIGJhcmYgaWYgYnJhbmNoIGNvbWVz
-IGJhY2sgYXMNCj4gPiA+ID4gPiBub24temVyby4gSS5lLiB0aGVyZSBpcyBubyBndWFyYW50ZWUg
-dGhhdCBhIGJyYW5jaGVkIHZlcnNpb24gd2lsbA0KPiA+ID4gPiA+IGhhdmUgdGhlIHcvYSArIGZp
-eCB0aGF0IHRoZXkgYXJlIHdhbnRpbmcuDQo+ID4gPiA+ID4gDQo+ID4gPiA+ID4gSm9obi4NCj4g
-PiA+ID4gPiANCj4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiA+ICvCoMKgwqAg
-aWYgKGNvcHlfdG9fdXNlcihxdWVyeV9wdHIsICZ2ZXIsIHNpemUpKQ0KPiA+ID4gPiA+ID4gK8Kg
-wqDCoMKgwqDCoMKgIHJldHVybiAtRUZBVUxUOw0KPiA+ID4gPiA+ID4gKw0KPiA+ID4gPiA+ID4g
-K8KgwqDCoCByZXR1cm4gMDsNCj4gPiA+ID4gPiA+ICt9DQo+ID4gPiA+ID4gPiArDQo+ID4gPiA+
-ID4gPiAgwqAgc3RhdGljIGludCAoKiBjb25zdCBpOTE1X3F1ZXJ5X2Z1bmNzW10pKHN0cnVjdCBk
-cm1faTkxNV9wcml2YXRlDQo+ID4gPiA+ID4gPiAqZGV2X3ByaXYsDQo+ID4gPiA+ID4gPiAgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBkcm1faTkxNV9x
-dWVyeV9pdGVtICpxdWVyeV9pdGVtKSA9IHsNCj4gPiA+ID4gPiA+ICDCoMKgwqDCoMKgIHF1ZXJ5
-X3RvcG9sb2d5X2luZm8sDQo+ID4gPiA+ID4gPiBAQCAtNTU5LDYgKzU5MCw3IEBAIHN0YXRpYyBp
-bnQgKCogY29uc3QgaTkxNV9xdWVyeV9mdW5jc1tdKShzdHJ1Y3QNCj4gPiA+ID4gPiA+IGRybV9p
-OTE1X3ByaXZhdGUgKmRldl9wcml2LA0KPiA+ID4gPiA+ID4gIMKgwqDCoMKgwqAgcXVlcnlfbWVt
-cmVnaW9uX2luZm8sDQo+ID4gPiA+ID4gPiAgwqDCoMKgwqDCoCBxdWVyeV9od2NvbmZpZ19ibG9i
-LA0KPiA+ID4gPiA+ID4gIMKgwqDCoMKgwqAgcXVlcnlfZ2VvbWV0cnlfc3Vic2xpY2VzLA0KPiA+
-ID4gPiA+ID4gK8KgwqDCoCBxdWVyeV9ndWNfc3VibWlzc2lvbl92ZXJzaW9uLA0KPiA+ID4gPiA+
-ID4gIMKgIH07DQo+ID4gPiA+ID4gPiAgwqAgaW50IGk5MTVfcXVlcnlfaW9jdGwoc3RydWN0IGRy
-bV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwgc3RydWN0DQo+ID4gPiA+ID4gPiBkcm1fZmlsZSAq
-ZmlsZSkNCj4gPiA+ID4gPiA+IGRpZmYgLS1naXQgYS9pbmNsdWRlL3VhcGkvZHJtL2k5MTVfZHJt
-LmggYi9pbmNsdWRlL3VhcGkvZHJtL2k5MTVfZHJtLmgNCj4gPiA+ID4gPiA+IGluZGV4IDU1MGM0
-OTZjZTc2ZC4uZDgwZDliNWUxZWRhIDEwMDY0NA0KPiA+ID4gPiA+ID4gLS0tIGEvaW5jbHVkZS91
-YXBpL2RybS9pOTE1X2RybS5oDQo+ID4gPiA+ID4gPiArKysgYi9pbmNsdWRlL3VhcGkvZHJtL2k5
-MTVfZHJtLmgNCj4gPiA+ID4gPiA+IEBAIC0zMDM4LDYgKzMwMzgsNyBAQCBzdHJ1Y3QgZHJtX2k5
-MTVfcXVlcnlfaXRlbSB7DQo+ID4gPiA+ID4gPiAgwqDCoMKgwqDCoMKgICrCoCAtICVEUk1fSTkx
-NV9RVUVSWV9NRU1PUllfUkVHSU9OUyAoc2VlIHN0cnVjdA0KPiA+ID4gPiA+ID4gZHJtX2k5MTVf
-cXVlcnlfbWVtb3J5X3JlZ2lvbnMpDQo+ID4gPiA+ID4gPiAgwqDCoMKgwqDCoMKgICrCoCAtICVE
-Uk1fSTkxNV9RVUVSWV9IV0NPTkZJR19CTE9CIChzZWUgYEd1QyBIV0NPTkZJRyBibG9iDQo+ID4g
-PiA+ID4gPiB1QVBJYCkNCj4gPiA+ID4gPiA+ICDCoMKgwqDCoMKgwqAgKsKgIC0gJURSTV9JOTE1
-X1FVRVJZX0dFT01FVFJZX1NVQlNMSUNFUyAoc2VlIHN0cnVjdA0KPiA+ID4gPiA+ID4gZHJtX2k5
-MTVfcXVlcnlfdG9wb2xvZ3lfaW5mbykNCj4gPiA+ID4gPiA+ICvCoMKgwqDCoCAqwqAgLSAlRFJN
-X0k5MTVfUVVFUllfR1VDX1NVQk1JU1NJT05fVkVSU0lPTiAoc2VlIHN0cnVjdA0KPiA+ID4gPiA+
-ID4gZHJtX2k5MTVfcXVlcnlfZ3VjX3N1Ym1pc3Npb25fdmVyc2lvbikNCj4gPiA+ID4gPiA+ICDC
-oMKgwqDCoMKgwqAgKi8NCj4gPiA+ID4gPiA+ICDCoMKgwqDCoMKgIF9fdTY0IHF1ZXJ5X2lkOw0K
-PiA+ID4gPiA+ID4gIMKgICNkZWZpbmUgRFJNX0k5MTVfUVVFUllfVE9QT0xPR1lfSU5GT8KgwqDC
-oMKgwqDCoMKgIDENCj4gPiA+ID4gPiA+IEBAIC0zMDQ2LDYgKzMwNDcsNyBAQCBzdHJ1Y3QgZHJt
-X2k5MTVfcXVlcnlfaXRlbSB7DQo+ID4gPiA+ID4gPiAgwqAgI2RlZmluZSBEUk1fSTkxNV9RVUVS
-WV9NRU1PUllfUkVHSU9OU8KgwqDCoMKgwqDCoMKgIDQNCj4gPiA+ID4gPiA+ICDCoCAjZGVmaW5l
-IERSTV9JOTE1X1FVRVJZX0hXQ09ORklHX0JMT0LCoMKgwqDCoMKgwqDCoCA1DQo+ID4gPiA+ID4g
-PiAgwqAgI2RlZmluZSBEUk1fSTkxNV9RVUVSWV9HRU9NRVRSWV9TVUJTTElDRVPCoMKgwqAgNg0K
-PiA+ID4gPiA+ID4gKyNkZWZpbmUgRFJNX0k5MTVfUVVFUllfR1VDX1NVQk1JU1NJT05fVkVSU0lP
-TsKgwqDCoCA3DQo+ID4gPiA+ID4gPiAgwqAgLyogTXVzdCBiZSBrZXB0IGNvbXBhY3QgLS0gbm8g
-aG9sZXMgYW5kIHdlbGwgZG9jdW1lbnRlZCAqLw0KPiA+ID4gPiA+ID4gIMKgwqDCoMKgwqAgLyoq
-DQo+ID4gPiA+ID4gPiBAQCAtMzU5MSw2ICszNTkzLDE1IEBAIHN0cnVjdCBkcm1faTkxNV9xdWVy
-eV9tZW1vcnlfcmVnaW9ucyB7DQo+ID4gPiA+ID4gPiAgwqDCoMKgwqDCoCBzdHJ1Y3QgZHJtX2k5
-MTVfbWVtb3J5X3JlZ2lvbl9pbmZvIHJlZ2lvbnNbXTsNCj4gPiA+ID4gPiA+ICDCoCB9Ow0KPiA+
-ID4gPiA+ID4gKy8qKg0KPiA+ID4gPiA+ID4gKyogc3RydWN0IGRybV9pOTE1X3F1ZXJ5X2d1Y19z
-dWJtaXNzaW9uX3ZlcnNpb24gLSBxdWVyeSBHdUMNCj4gPiA+ID4gPiA+IHN1Ym1pc3Npb24gaW50
-ZXJmYWNlIHZlcnNpb24NCj4gPiA+ID4gPiA+ICsqLw0KPiA+ID4gPiA+ID4gK3N0cnVjdCBkcm1f
-aTkxNV9xdWVyeV9ndWNfc3VibWlzc2lvbl92ZXJzaW9uIHsNCj4gPiA+ID4gPiA+ICvCoMKgwqAg
-X191NjQgbWFqb3I7DQo+ID4gPiA+ID4gPiArwqDCoMKgIF9fdTY0IG1pbm9yOw0KPiA+ID4gPiA+
-ID4gK8KgwqDCoCBfX3U2NCBwYXRjaDsNCj4gPiA+ID4gPiA+ICt9Ow0KPiA+ID4gPiA+ID4gKw0K
-PiA+ID4gPiA+ID4gIMKgIC8qKg0KPiA+ID4gPiA+ID4gIMKgwqAgKiBET0M6IEd1QyBIV0NPTkZJ
-RyBibG9iIHVBUEkNCj4gPiA+ID4gPiA+ICDCoMKgICoNCj4gDQoNCg==
+On Wed, Feb 07, 2024 at 10:02:18PM +0200, Ville Syrjälä wrote:
+> On Tue, Jan 23, 2024 at 12:28:33PM +0200, Imre Deak wrote:
+> > +static char yes_no_chr(int val)
+> > +{
+> > +	return val ? 'Y' : 'N';
+> > +}
+> 
+> We have str_yes_no() already.
+
+Ok, will use this.
+
+> v> +
+> > +#define SKIP_DPRX_CAPS_CHECK		BIT(0)
+> > +#define ALLOW_ALLOCATED_BW_CHANGE	BIT(1)
+> > +
+> > +static bool tunnel_regs_are_valid(struct drm_dp_tunnel_mgr *mgr,
+> > +				  const struct drm_dp_tunnel_regs *regs,
+> > +				  unsigned int flags)
+> > +{
+> > +	int drv_group_id = tunnel_reg_drv_group_id(regs);
+> > +	bool check_dprx = !(flags & SKIP_DPRX_CAPS_CHECK);
+> > +	bool ret = true;
+> > +
+> > +	if (!tunnel_reg_bw_alloc_supported(regs)) {
+> > +		if (tunnel_group_id(drv_group_id)) {
+> > +			drm_dbg_kms(mgr->dev,
+> > +				    "DPTUN: A non-zero group ID is only allowed with BWA support\n");
+> > +			ret = false;
+> > +		}
+> > +
+> > +		if (tunnel_reg(regs, DP_ALLOCATED_BW)) {
+> > +			drm_dbg_kms(mgr->dev,
+> > +				    "DPTUN: BW is allocated without BWA support\n");
+> > +			ret = false;
+> > +		}
+> > +
+> > +		return ret;
+> > +	}
+> > +
+> > +	if (!tunnel_group_id(drv_group_id)) {
+> > +		drm_dbg_kms(mgr->dev,
+> > +			    "DPTUN: BWA support requires a non-zero group ID\n");
+> > +		ret = false;
+> > +	}
+> > +
+> > +	if (check_dprx && hweight8(tunnel_reg_max_dprx_lane_count(regs)) != 1) {
+> > +		drm_dbg_kms(mgr->dev,
+> > +			    "DPTUN: Invalid DPRX lane count: %d\n",
+> > +			    tunnel_reg_max_dprx_lane_count(regs));
+> > +
+> > +		ret = false;
+> > +	}
+> > +
+> > +	if (check_dprx && !tunnel_reg_max_dprx_rate(regs)) {
+> > +		drm_dbg_kms(mgr->dev,
+> > +			    "DPTUN: DPRX rate is 0\n");
+> > +
+> > +		ret = false;
+> > +	}
+> > +
+> > +	if (tunnel_reg(regs, DP_ALLOCATED_BW) > tunnel_reg(regs, DP_ESTIMATED_BW)) {
+> > +		drm_dbg_kms(mgr->dev,
+> > +			    "DPTUN: Allocated BW %d > estimated BW %d Mb/s\n",
+> > +			    DPTUN_BW_ARG(tunnel_reg(regs, DP_ALLOCATED_BW) *
+> > +					 tunnel_reg_bw_granularity(regs)),
+> > +			    DPTUN_BW_ARG(tunnel_reg(regs, DP_ESTIMATED_BW) *
+> > +					 tunnel_reg_bw_granularity(regs)));
+> > +
+> > +		ret = false;
+> > +	}
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static bool tunnel_info_changes_are_valid(struct drm_dp_tunnel *tunnel,
+> > +					  const struct drm_dp_tunnel_regs *regs,
+> > +					  unsigned int flags)
+> > +{
+> > +	int new_drv_group_id = tunnel_reg_drv_group_id(regs);
+> > +	bool ret = true;
+> > +
+> > +	if (tunnel->bw_alloc_supported != tunnel_reg_bw_alloc_supported(regs)) {
+> > +		tun_dbg(tunnel,
+> > +			"BW alloc support has changed %c -> %c\n",
+> > +			yes_no_chr(tunnel->bw_alloc_supported),
+> > +			yes_no_chr(tunnel_reg_bw_alloc_supported(regs)));
+> > +
+> > +		ret = false;
+> > +	}
+> > +
+> > +	if (tunnel->group->drv_group_id != new_drv_group_id) {
+> > +		tun_dbg(tunnel,
+> > +			"Driver/group ID has changed %d:%d:* -> %d:%d:*\n",
+> > +			tunnel_group_drv_id(tunnel->group->drv_group_id),
+> > +			tunnel_group_id(tunnel->group->drv_group_id),
+> > +			tunnel_group_drv_id(new_drv_group_id),
+> > +			tunnel_group_id(new_drv_group_id));
+> > +
+> > +		ret = false;
+> > +	}
+> > +
+> > +	if (!tunnel->bw_alloc_supported)
+> > +		return ret;
+> > +
+> > +	if (tunnel->bw_granularity != tunnel_reg_bw_granularity(regs)) {
+> > +		tun_dbg(tunnel,
+> > +			"BW granularity has changed: %d -> %d Mb/s\n",
+> > +			DPTUN_BW_ARG(tunnel->bw_granularity),
+> > +			DPTUN_BW_ARG(tunnel_reg_bw_granularity(regs)));
+> > +
+> > +		ret = false;
+> > +	}
+> > +
+> > +	/*
+> > +	 * On some devices at least the BW alloc mode enabled status is always
+> > +	 * reported as 0, so skip checking that here.
+> > +	 */
+> 
+> So it's reported as supported and we enable it, but it's never
+> reported back as being enabled?
+
+Yes, at least using an engineering TBT (DP adapter) FW. I'll check if
+this is fixed already on released platforms/FWs.
+
+> > +
+> > +	if (!(flags & ALLOW_ALLOCATED_BW_CHANGE) &&
+> > +	    tunnel->allocated_bw !=
+> > +	    tunnel_reg(regs, DP_ALLOCATED_BW) * tunnel->bw_granularity) {
+> > +		tun_dbg(tunnel,
+> > +			"Allocated BW has changed: %d -> %d Mb/s\n",
+> > +			DPTUN_BW_ARG(tunnel->allocated_bw),
+> > +			DPTUN_BW_ARG(tunnel_reg(regs, DP_ALLOCATED_BW) * tunnel->bw_granularity));
+> > +
+> > +		ret = false;
+> > +	}
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static int
+> > +read_and_verify_tunnel_regs(struct drm_dp_tunnel *tunnel,
+> > +			    struct drm_dp_tunnel_regs *regs,
+> > +			    unsigned int flags)
+> > +{
+> > +	int err;
+> > +
+> > +	err = read_tunnel_regs(tunnel->aux, regs);
+> > +	if (err < 0) {
+> > +		drm_dp_tunnel_set_io_error(tunnel);
+> > +
+> > +		return err;
+> > +	}
+> > +
+> > +	if (!tunnel_regs_are_valid(tunnel->group->mgr, regs, flags))
+> > +		return -EINVAL;
+> > +
+> > +	if (!tunnel_info_changes_are_valid(tunnel, regs, flags))
+> > +		return -EINVAL;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static bool update_dprx_caps(struct drm_dp_tunnel *tunnel, const struct drm_dp_tunnel_regs *regs)
+> > +{
+> > +	bool changed = false;
+> > +
+> > +	if (tunnel_reg_max_dprx_rate(regs) != tunnel->max_dprx_rate) {
+> > +		tunnel->max_dprx_rate = tunnel_reg_max_dprx_rate(regs);
+> > +		changed = true;
+> > +	}
+> > +
+> > +	if (tunnel_reg_max_dprx_lane_count(regs) != tunnel->max_dprx_lane_count) {
+> > +		tunnel->max_dprx_lane_count = tunnel_reg_max_dprx_lane_count(regs);
+> > +		changed = true;
+> > +	}
+> > +
+> > +	return changed;
+> > +}
+> > +
+> > +static int dev_id_len(const u8 *dev_id, int max_len)
+> > +{
+> > +	while (max_len && dev_id[max_len - 1] == '\0')
+> > +		max_len--;
+> > +
+> > +	return max_len;
+> > +}
+> > +
+> > +static int get_max_dprx_bw(const struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	int bw = drm_dp_max_dprx_data_rate(tunnel->max_dprx_rate,
+> > +					   tunnel->max_dprx_lane_count);
+> > +
+> > +	return min(roundup(bw, tunnel->bw_granularity),
+> 
+> Should this round down?
+
+This should round up: whereas in general the TBT CM (thunderbolt driver)
+allocates exactly bw=C*bw_granularity in response to C written to
+DP_REQUEST_BW, if this bw is above the max_dprx_bw=max_dprx_rate *
+max_dprx_lane_count limit (also known to CM), the CM will allocate only
+max_dprx_bw. (This is the only way max_dprx_bw can be allocated even if
+it's not aligned to bw_granularity.) This needs a code comment.
+
+> > +		   MAX_DP_REQUEST_BW * tunnel->bw_granularity);
+> > +}
+> > +
+> > +static int get_max_tunnel_bw(const struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	return min(get_max_dprx_bw(tunnel), tunnel->group->available_bw);
+> > +}
+> > +
+> > +/**
+> > + * drm_dp_tunnel_detect - Detect DP tunnel on the link
+> > + * @mgr: Tunnel manager
+> > + * @aux: DP AUX on which the tunnel will be detected
+> > + *
+> > + * Detect if there is any DP tunnel on the link and add it to the tunnel
+> > + * group's tunnel list.
+> > + *
+> > + * Returns 0 on success, negative error code on failure.
+> > + */
+> > +struct drm_dp_tunnel *
+> > +drm_dp_tunnel_detect(struct drm_dp_tunnel_mgr *mgr,
+> > +		       struct drm_dp_aux *aux)
+> > +{
+> > +	struct drm_dp_tunnel_regs regs;
+> > +	struct drm_dp_tunnel *tunnel;
+> > +	int err;
+> > +
+> > +	err = read_tunnel_regs(aux, &regs);
+> > +	if (err)
+> > +		return ERR_PTR(err);
+> > +
+> > +	if (!(tunnel_reg(&regs, DP_TUNNELING_CAPABILITIES) &
+> > +	      DP_TUNNELING_SUPPORT))
+> > +		return ERR_PTR(-ENODEV);
+> > +
+> > +	/* The DPRX caps are valid only after enabling BW alloc mode. */
+> > +	if (!tunnel_regs_are_valid(mgr, &regs, SKIP_DPRX_CAPS_CHECK))
+> > +		return ERR_PTR(-EINVAL);
+> > +
+> > +	tunnel = create_tunnel(mgr, aux, &regs);
+> > +	if (!tunnel)
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	tun_dbg(tunnel,
+> > +		"OUI:%*phD DevID:%*pE Rev-HW:%d.%d SW:%d.%d PR-Sup:%c BWA-Sup:%c BWA-En:%c\n",
+> > +		DP_TUNNELING_OUI_BYTES,
+> > +			tunnel_reg_ptr(&regs, DP_TUNNELING_OUI),
+> > +		dev_id_len(tunnel_reg_ptr(&regs, DP_TUNNELING_DEV_ID), DP_TUNNELING_DEV_ID_BYTES),
+> > +			tunnel_reg_ptr(&regs, DP_TUNNELING_DEV_ID),
+> > +		(tunnel_reg(&regs, DP_TUNNELING_HW_REV) & DP_TUNNELING_HW_REV_MAJOR_MASK) >>
+> > +			DP_TUNNELING_HW_REV_MAJOR_SHIFT,
+> > +		(tunnel_reg(&regs, DP_TUNNELING_HW_REV) & DP_TUNNELING_HW_REV_MINOR_MASK) >>
+> > +			DP_TUNNELING_HW_REV_MINOR_SHIFT,
+> > +		tunnel_reg(&regs, DP_TUNNELING_SW_REV_MAJOR),
+> > +		tunnel_reg(&regs, DP_TUNNELING_SW_REV_MINOR),
+> > +		yes_no_chr(tunnel_reg(&regs, DP_TUNNELING_CAPABILITIES) &
+> > +			   DP_PANEL_REPLAY_OPTIMIZATION_SUPPORT),
+> > +		yes_no_chr(tunnel->bw_alloc_supported),
+> > +		yes_no_chr(tunnel->bw_alloc_enabled));
+> > +
+> > +	return tunnel;
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_tunnel_detect);
+> > +
+> > +/**
+> > + * drm_dp_tunnel_destroy - Destroy tunnel object
+> > + * @tunnel: Tunnel object
+> > + *
+> > + * Remove the tunnel from the tunnel topology and destroy it.
+> > + */
+> > +int drm_dp_tunnel_destroy(struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	if (drm_WARN_ON(tunnel->group->mgr->dev, tunnel->destroyed))
+> > +		return -ENODEV;
+> > +
+> > +	tun_dbg(tunnel, "destroying\n");
+> > +
+> > +	tunnel->destroyed = true;
+> > +	destroy_tunnel(tunnel);
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_tunnel_destroy);
+> > +
+> > +static int check_tunnel(const struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	if (tunnel->destroyed)
+> > +		return -ENODEV;
+> > +
+> > +	if (tunnel->has_io_error)
+> > +		return -EIO;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int group_allocated_bw(struct drm_dp_tunnel_group *group)
+> > +{
+> > +	struct drm_dp_tunnel *tunnel;
+> > +	int group_allocated_bw = 0;
+> > +
+> > +	for_each_tunnel_in_group(group, tunnel) {
+> > +		if (check_tunnel(tunnel) == 0 &&
+> > +		    tunnel->bw_alloc_enabled)
+> > +			group_allocated_bw += tunnel->allocated_bw;
+> > +	}
+> > +
+> > +	return group_allocated_bw;
+> > +}
+> > +
+> > +static int calc_group_available_bw(const struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	return group_allocated_bw(tunnel->group) -
+> > +	       tunnel->allocated_bw +
+> > +	       tunnel->estimated_bw;
+> 
+> Hmm. So the estimated_bw=actually_free_bw + tunnel->allocated_bw?
+
+Yes.
+
+> Ie. how much bw might be available for this tunnel right now?
+
+Correct.
+
+> And here we're trying to deduce the total bandwidth available by
+> adding in the allocated_bw of all the other tunnels in the group?
+
+Yes.
+
+> Rather weird that we can't just get that number directly...
+
+It is. Imo this could be simply communicated via a DPCD register
+dedicated for this. Perhaps adding this should be requested from TBT
+architects.
+
+I assume this could also use a code comment.
+
+> > +}
+> > +
+> > +static int update_group_available_bw(struct drm_dp_tunnel *tunnel,
+> > +				     const struct drm_dp_tunnel_regs *regs)
+> > +{
+> > +	struct drm_dp_tunnel *tunnel_iter;
+> > +	int group_available_bw;
+> > +	bool changed;
+> > +
+> > +	tunnel->estimated_bw = tunnel_reg(regs, DP_ESTIMATED_BW) * tunnel->bw_granularity;
+> > +
+> > +	if (calc_group_available_bw(tunnel) == tunnel->group->available_bw)
+> > +		return 0;
+> > +
+> > +	for_each_tunnel_in_group(tunnel->group, tunnel_iter) {
+> > +		int err;
+> > +
+> > +		if (tunnel_iter == tunnel)
+> > +			continue;
+> > +
+> > +		if (check_tunnel(tunnel_iter) != 0 ||
+> > +		    !tunnel_iter->bw_alloc_enabled)
+> > +			continue;
+> > +
+> > +		err = drm_dp_dpcd_probe(tunnel_iter->aux, DP_DPCD_REV);
+> > +		if (err) {
+> > +			tun_dbg(tunnel_iter,
+> > +				"Probe failed, assume disconnected (err %pe)\n",
+> > +				ERR_PTR(err));
+> > +			drm_dp_tunnel_set_io_error(tunnel_iter);
+> > +		}
+> > +	}
+> > +
+> > +	group_available_bw = calc_group_available_bw(tunnel);
+> > +
+> > +	tun_dbg(tunnel, "Updated group available BW: %d->%d\n",
+> > +		DPTUN_BW_ARG(tunnel->group->available_bw),
+> > +		DPTUN_BW_ARG(group_available_bw));
+> > +
+> > +	changed = tunnel->group->available_bw != group_available_bw;
+> > +
+> > +	tunnel->group->available_bw = group_available_bw;
+> > +
+> > +	return changed ? 1 : 0;
+> > +}
+> > +
+> > +static int set_bw_alloc_mode(struct drm_dp_tunnel *tunnel, bool enable)
+> > +{
+> > +	u8 mask = DP_DISPLAY_DRIVER_BW_ALLOCATION_MODE_ENABLE | DP_UNMASK_BW_ALLOCATION_IRQ;
+> > +	u8 val;
+> > +
+> > +	if (drm_dp_dpcd_readb(tunnel->aux, DP_DPTX_BW_ALLOCATION_MODE_CONTROL, &val) < 0)
+> > +		goto out_err;
+> > +
+> > +	if (enable)
+> > +		val |= mask;
+> > +	else
+> > +		val &= ~mask;
+> > +
+> > +	if (drm_dp_dpcd_writeb(tunnel->aux, DP_DPTX_BW_ALLOCATION_MODE_CONTROL, val) < 0)
+> > +		goto out_err;
+> > +
+> > +	tunnel->bw_alloc_enabled = enable;
+> > +
+> > +	return 0;
+> > +
+> > +out_err:
+> > +	drm_dp_tunnel_set_io_error(tunnel);
+> > +
+> > +	return -EIO;
+> > +}
+> > +
+> > +/**
+> > + * drm_dp_tunnel_enable_bw_alloc: Enable DP tunnel BW allocation mode
+> > + * @tunnel: Tunnel object
+> > + *
+> > + * Enable the DP tunnel BW allocation mode on @tunnel if it supports it.
+> > + *
+> > + * Returns 0 in case of success, negative error code otherwise.
+> > + */
+> > +int drm_dp_tunnel_enable_bw_alloc(struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	struct drm_dp_tunnel_regs regs;
+> > +	int err = check_tunnel(tunnel);
+> > +
+> > +	if (err)
+> > +		return err;
+> > +
+> > +	if (!tunnel->bw_alloc_supported)
+> > +		return -EOPNOTSUPP;
+> > +
+> > +	if (!tunnel_group_id(tunnel->group->drv_group_id))
+> > +		return -EINVAL;
+> > +
+> > +	err = set_bw_alloc_mode(tunnel, true);
+> > +	if (err)
+> > +		goto out;
+> > +
+> > +	err = read_and_verify_tunnel_regs(tunnel, &regs, 0);
+> > +	if (err) {
+> > +		set_bw_alloc_mode(tunnel, false);
+> > +
+> > +		goto out;
+> > +	}
+> > +
+> > +	if (!tunnel->max_dprx_rate)
+> > +		update_dprx_caps(tunnel, &regs);
+> > +
+> > +	if (tunnel->group->available_bw == -1) {
+> > +		err = update_group_available_bw(tunnel, &regs);
+> > +		if (err > 0)
+> > +			err = 0;
+> > +	}
+> > +out:
+> > +	tun_dbg_stat(tunnel, err,
+> > +		     "Enabling BW alloc mode: DPRX:%dx%d Group alloc:%d/%d Mb/s",
+> > +		     tunnel->max_dprx_rate / 100, tunnel->max_dprx_lane_count,
+> > +		     DPTUN_BW_ARG(group_allocated_bw(tunnel->group)),
+> > +		     DPTUN_BW_ARG(tunnel->group->available_bw));
+> > +
+> > +	return err;
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_tunnel_enable_bw_alloc);
+> > +
+> > +/**
+> > + * drm_dp_tunnel_disable_bw_alloc: Disable DP tunnel BW allocation mode
+> > + * @tunnel: Tunnel object
+> > + *
+> > + * Disable the DP tunnel BW allocation mode on @tunnel.
+> > + *
+> > + * Returns 0 in case of success, negative error code otherwise.
+> > + */
+> > +int drm_dp_tunnel_disable_bw_alloc(struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	int err = check_tunnel(tunnel);
+> > +
+> > +	if (err)
+> > +		return err;
+> > +
+> > +	err = set_bw_alloc_mode(tunnel, false);
+> > +
+> > +	tun_dbg_stat(tunnel, err, "Disabling BW alloc mode");
+> > +
+> > +	return err;
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_tunnel_disable_bw_alloc);
+> > +
+> > +bool drm_dp_tunnel_bw_alloc_is_enabled(const struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	return tunnel->bw_alloc_enabled;
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_tunnel_bw_alloc_is_enabled);
+> > +
+> > +static int bw_req_complete(struct drm_dp_aux *aux, bool *status_changed)
+> > +{
+> > +	u8 bw_req_mask = DP_BW_REQUEST_SUCCEEDED | DP_BW_REQUEST_FAILED;
+> > +	u8 status_change_mask = DP_BW_ALLOCATION_CAPABILITY_CHANGED | DP_ESTIMATED_BW_CHANGED;
+> > +	u8 val;
+> > +
+> > +	if (drm_dp_dpcd_readb(aux, DP_TUNNELING_STATUS, &val) < 0)
+> > +		return -EIO;
+> > +
+> > +	*status_changed = val & status_change_mask;
+> > +
+> > +	val &= bw_req_mask;
+> > +
+> > +	if (!val)
+> > +		return -EAGAIN;
+> > +
+> > +	if (drm_dp_dpcd_writeb(aux, DP_TUNNELING_STATUS, val) < 0)
+> > +		return -EIO;
+> > +
+> > +	return val == DP_BW_REQUEST_SUCCEEDED ? 0 : -ENOSPC;
+> > +}
+> > +
+> > +static int allocate_tunnel_bw(struct drm_dp_tunnel *tunnel, int bw)
+> > +{
+> > +	struct drm_dp_tunnel_mgr *mgr = tunnel->group->mgr;
+> > +	int request_bw = DIV_ROUND_UP(bw, tunnel->bw_granularity);
+> > +	unsigned long wait_expires;
+> > +	DEFINE_WAIT(wait);
+> > +	int err;
+> > +
+> > +	/* Atomic check should prevent the following. */
+> > +	if (drm_WARN_ON(mgr->dev, request_bw > MAX_DP_REQUEST_BW)) {
+> > +		err = -EINVAL;
+> > +		goto out;
+> > +	}
+> > +
+> > +	if (drm_dp_dpcd_writeb(tunnel->aux, DP_REQUEST_BW, request_bw) < 0) {
+> > +		err = -EIO;
+> > +		goto out;
+> > +	}
+> > +
+> > +	wait_expires = jiffies + msecs_to_jiffies(3000);
+> > +
+> > +	for (;;) {
+> > +		bool status_changed;
+> > +
+> > +		err = bw_req_complete(tunnel->aux, &status_changed);
+> > +		if (err != -EAGAIN)
+> > +			break;
+> > +
+> > +		if (status_changed) {
+> > +			struct drm_dp_tunnel_regs regs;
+> > +
+> > +			err = read_and_verify_tunnel_regs(tunnel, &regs,
+> > +							  ALLOW_ALLOCATED_BW_CHANGE);
+> > +			if (err)
+> > +				break;
+> > +		}
+> > +
+> > +		if (time_after(jiffies, wait_expires)) {
+> > +			err = -ETIMEDOUT;
+> > +			break;
+> > +		}
+> > +
+> > +		prepare_to_wait(&mgr->bw_req_queue, &wait, TASK_UNINTERRUPTIBLE);
+> > +		schedule_timeout(msecs_to_jiffies(200));
+> > +	};
+> > +
+> > +	finish_wait(&mgr->bw_req_queue, &wait);
+> > +
+> > +	if (err)
+> > +		goto out;
+> > +
+> > +	tunnel->allocated_bw = request_bw * tunnel->bw_granularity;
+> > +
+> > +out:
+> > +	tun_dbg_stat(tunnel, err, "Allocating %d/%d Mb/s for tunnel: Group alloc:%d/%d Mb/s",
+> > +		     DPTUN_BW_ARG(request_bw * tunnel->bw_granularity),
+> > +		     DPTUN_BW_ARG(get_max_tunnel_bw(tunnel)),
+> > +		     DPTUN_BW_ARG(group_allocated_bw(tunnel->group)),
+> > +		     DPTUN_BW_ARG(tunnel->group->available_bw));
+> > +
+> > +	if (err == -EIO)
+> > +		drm_dp_tunnel_set_io_error(tunnel);
+> > +
+> > +	return err;
+> > +}
+> > +
+> > +int drm_dp_tunnel_alloc_bw(struct drm_dp_tunnel *tunnel, int bw)
+> > +{
+> > +	int err = check_tunnel(tunnel);
+> > +
+> > +	if (err)
+> > +		return err;
+> > +
+> > +	return allocate_tunnel_bw(tunnel, bw);
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_tunnel_alloc_bw);
+> > +
+> > +static int check_and_clear_status_change(struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	u8 mask = DP_BW_ALLOCATION_CAPABILITY_CHANGED | DP_ESTIMATED_BW_CHANGED;
+> > +	u8 val;
+> > +
+> > +	if (drm_dp_dpcd_readb(tunnel->aux, DP_TUNNELING_STATUS, &val) < 0)
+> > +		goto out_err;
+> > +
+> > +	val &= mask;
+> > +
+> > +	if (val) {
+> > +		if (drm_dp_dpcd_writeb(tunnel->aux, DP_TUNNELING_STATUS, val) < 0)
+> > +			goto out_err;
+> > +
+> > +		return 1;
+> > +	}
+> > +
+> > +	if (!drm_dp_tunnel_bw_alloc_is_enabled(tunnel))
+> > +		return 0;
+> > +
+> > +	/*
+> > +	 * Check for estimated BW changes explicitly to account for lost
+> > +	 * BW change notifications.
+> > +	 */
+> > +	if (drm_dp_dpcd_readb(tunnel->aux, DP_ESTIMATED_BW, &val) < 0)
+> > +		goto out_err;
+> > +
+> > +	if (val * tunnel->bw_granularity != tunnel->estimated_bw)
+> > +		return 1;
+> > +
+> > +	return 0;
+> > +
+> > +out_err:
+> > +	drm_dp_tunnel_set_io_error(tunnel);
+> > +
+> > +	return -EIO;
+> > +}
+> > +
+> > +/**
+> > + * drm_dp_tunnel_update_state: Update DP tunnel SW state with the HW state
+> > + * @tunnel: Tunnel object
+> > + *
+> > + * Update the SW state of @tunnel with the HW state.
+> > + *
+> > + * Returns 0 if the state has not changed, 1 if it has changed and got updated
+> > + * successfully and a negative error code otherwise.
+> > + */
+> > +int drm_dp_tunnel_update_state(struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	struct drm_dp_tunnel_regs regs;
+> > +	bool changed = false;
+> > +	int ret = check_tunnel(tunnel);
+> > +
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	ret = check_and_clear_status_change(tunnel);
+> > +	if (ret < 0)
+> > +		goto out;
+> > +
+> > +	if (!ret)
+> > +		return 0;
+> > +
+> > +	ret = read_and_verify_tunnel_regs(tunnel, &regs, 0);
+> > +	if (ret)
+> > +		goto out;
+> > +
+> > +	if (update_dprx_caps(tunnel, &regs))
+> > +		changed = true;
+> > +
+> > +	ret = update_group_available_bw(tunnel, &regs);
+> > +	if (ret == 1)
+> > +		changed = true;
+> > +
+> > +out:
+> > +	tun_dbg_stat(tunnel, ret < 0 ? ret : 0,
+> > +		     "State update: Changed:%c DPRX:%dx%d Tunnel alloc:%d/%d Group alloc:%d/%d Mb/s",
+> > +		     yes_no_chr(changed),
+> > +		     tunnel->max_dprx_rate / 100, tunnel->max_dprx_lane_count,
+> > +		     DPTUN_BW_ARG(tunnel->allocated_bw),
+> > +		     DPTUN_BW_ARG(get_max_tunnel_bw(tunnel)),
+> > +		     DPTUN_BW_ARG(group_allocated_bw(tunnel->group)),
+> > +		     DPTUN_BW_ARG(tunnel->group->available_bw));
+> > +
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	if (changed)
+> > +		return 1;
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_tunnel_update_state);
+> > +
+> > +/*
+> > + * Returns 0 if no re-probe is needed, 1 if a re-probe is needed,
+> > + * a negative error code otherwise.
+> > + */
+> > +int drm_dp_tunnel_handle_irq(struct drm_dp_tunnel_mgr *mgr, struct drm_dp_aux *aux)
+> > +{
+> > +	u8 val;
+> > +
+> > +	if (drm_dp_dpcd_readb(aux, DP_TUNNELING_STATUS, &val) < 0)
+> > +		return -EIO;
+> > +
+> > +	if (val & (DP_BW_REQUEST_SUCCEEDED | DP_BW_REQUEST_FAILED))
+> > +		wake_up_all(&mgr->bw_req_queue);
+> > +
+> > +	if (val & (DP_BW_ALLOCATION_CAPABILITY_CHANGED | DP_ESTIMATED_BW_CHANGED))
+> > +		return 1;
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_tunnel_handle_irq);
+> > +
+> > +/**
+> > + * drm_dp_tunnel_max_dprx_rate - Query the maximum rate of the tunnel's DPRX
+> > + * @tunnel: Tunnel object
+> > + *
+> > + * The function is used to query the maximum link rate of the DPRX connected
+> > + * to @tunnel. Note that this rate will not be limited by the BW limit of the
+> > + * tunnel, as opposed to the standard and extended DP_MAX_LINK_RATE DPCD
+> > + * registers.
+> > + *
+> > + * Returns the maximum link rate in 10 kbit/s units.
+> > + */
+> > +int drm_dp_tunnel_max_dprx_rate(const struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	return tunnel->max_dprx_rate;
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_tunnel_max_dprx_rate);
+> > +
+> > +/**
+> > + * drm_dp_tunnel_max_dprx_lane_count - Query the maximum lane count of the tunnel's DPRX
+> > + * @tunnel: Tunnel object
+> > + *
+> > + * The function is used to query the maximum lane count of the DPRX connected
+> > + * to @tunnel. Note that this lane count will not be limited by the BW limit of
+> > + * the tunnel, as opposed to the standard and extended DP_MAX_LANE_COUNT DPCD
+> > + * registers.
+> > + *
+> > + * Returns the maximum lane count.
+> > + */
+> > +int drm_dp_tunnel_max_dprx_lane_count(const struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	return tunnel->max_dprx_lane_count;
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_tunnel_max_dprx_lane_count);
+> > +
+> > +/**
+> > + * drm_dp_tunnel_available_bw - Query the estimated total available BW of the tunnel
+> > + * @tunnel: Tunnel object
+> > + *
+> > + * This function is used to query the estimated total available BW of the
+> > + * tunnel. This includes the currently allocated and free BW for all the
+> > + * tunnels in @tunnel's group. The available BW is valid only after the BW
+> > + * allocation mode has been enabled for the tunnel and its state got updated
+> > + * calling drm_dp_tunnel_update_state().
+> > + *
+> > + * Returns the @tunnel group's estimated total available bandwidth in kB/s
+> > + * units, or -1 if the available BW isn't valid (the BW allocation mode is
+> > + * not enabled or the tunnel's state hasn't been updated).
+> > + */
+> > +int drm_dp_tunnel_available_bw(const struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	return tunnel->group->available_bw;
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_tunnel_available_bw);
+> > +
+> > +static struct drm_dp_tunnel_group_state *
+> > +drm_dp_tunnel_atomic_get_group_state(struct drm_atomic_state *state,
+> > +				     const struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	return (struct drm_dp_tunnel_group_state *)
+> > +		drm_atomic_get_private_obj_state(state,
+> > +						 &tunnel->group->base);
+> > +}
+> > +
+> > +static struct drm_dp_tunnel_state *
+> > +add_tunnel_state(struct drm_dp_tunnel_group_state *group_state,
+> > +		 struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	struct drm_dp_tunnel_state *tunnel_state;
+> > +
+> > +	tun_dbg_atomic(tunnel,
+> > +		       "Adding state for tunnel %p to group state %p\n",
+> > +		       tunnel, group_state);
+> > +
+> > +	tunnel_state = kzalloc(sizeof(*tunnel_state), GFP_KERNEL);
+> > +	if (!tunnel_state)
+> > +		return NULL;
+> > +
+> > +	tunnel_state->group_state = group_state;
+> > +
+> > +	drm_dp_tunnel_ref_get(tunnel, &tunnel_state->tunnel_ref);
+> > +
+> > +	INIT_LIST_HEAD(&tunnel_state->node);
+> > +	list_add(&tunnel_state->node, &group_state->tunnel_states);
+> > +
+> > +	return tunnel_state;
+> > +}
+> > +
+> > +void drm_dp_tunnel_atomic_clear_state(struct drm_dp_tunnel_state *tunnel_state)
+> > +{
+> > +	tun_dbg_atomic(tunnel_state->tunnel_ref.tunnel,
+> > +		       "Clearing state for tunnel %p\n",
+> > +		       tunnel_state->tunnel_ref.tunnel);
+> > +
+> > +	list_del(&tunnel_state->node);
+> > +
+> > +	kfree(tunnel_state->stream_bw);
+> > +	drm_dp_tunnel_ref_put(&tunnel_state->tunnel_ref);
+> > +
+> > +	kfree(tunnel_state);
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_tunnel_atomic_clear_state);
+> > +
+> > +static void clear_tunnel_group_state(struct drm_dp_tunnel_group_state *group_state)
+> > +{
+> > +	struct drm_dp_tunnel_state *tunnel_state;
+> > +	struct drm_dp_tunnel_state *tunnel_state_tmp;
+> > +
+> > +	for_each_tunnel_state_safe(group_state, tunnel_state, tunnel_state_tmp)
+> > +		drm_dp_tunnel_atomic_clear_state(tunnel_state);
+> > +}
+> > +
+> > +static struct drm_dp_tunnel_state *
+> > +get_tunnel_state(struct drm_dp_tunnel_group_state *group_state,
+> > +		 const struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	struct drm_dp_tunnel_state *tunnel_state;
+> > +
+> > +	for_each_tunnel_state(group_state, tunnel_state)
+> > +		if (tunnel_state->tunnel_ref.tunnel == tunnel)
+> > +			return tunnel_state;
+> > +
+> > +	return NULL;
+> > +}
+> > +
+> > +static struct drm_dp_tunnel_state *
+> > +get_or_add_tunnel_state(struct drm_dp_tunnel_group_state *group_state,
+> > +			struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	struct drm_dp_tunnel_state *tunnel_state;
+> > +
+> > +	tunnel_state = get_tunnel_state(group_state, tunnel);
+> > +	if (tunnel_state)
+> > +		return tunnel_state;
+> > +
+> > +	return add_tunnel_state(group_state, tunnel);
+> > +}
+> > +
+> > +static struct drm_private_state *
+> > +tunnel_group_duplicate_state(struct drm_private_obj *obj)
+> > +{
+> > +	struct drm_dp_tunnel_group_state *group_state = to_group_state(obj->state);
+> > +	struct drm_dp_tunnel_state *tunnel_state;
+> > +
+> > +	group_state = kzalloc(sizeof(*group_state), GFP_KERNEL);
+> > +	if (!group_state)
+> > +		return NULL;
+> > +
+> > +	INIT_LIST_HEAD(&group_state->tunnel_states);
+> > +
+> > +	__drm_atomic_helper_private_obj_duplicate_state(obj, &group_state->base);
+> > +
+> > +	for_each_tunnel_state(to_group_state(obj->state), tunnel_state) {
+> > +		struct drm_dp_tunnel_state *new_tunnel_state;
+> > +
+> > +		new_tunnel_state = get_or_add_tunnel_state(group_state,
+> > +							   tunnel_state->tunnel_ref.tunnel);
+> > +		if (!new_tunnel_state)
+> > +			goto out_free_state;
+> > +
+> > +		new_tunnel_state->stream_mask = tunnel_state->stream_mask;
+> > +		new_tunnel_state->stream_bw = kmemdup(tunnel_state->stream_bw,
+> > +						      sizeof(*tunnel_state->stream_bw) *
+> > +							hweight32(tunnel_state->stream_mask),
+> > +						      GFP_KERNEL);
+> > +
+> > +		if (!new_tunnel_state->stream_bw)
+> > +			goto out_free_state;
+> > +	}
+> > +
+> > +	return &group_state->base;
+> > +
+> > +out_free_state:
+> > +	clear_tunnel_group_state(group_state);
+> > +	kfree(group_state);
+> > +
+> > +	return NULL;
+> > +}
+> > +
+> > +static void tunnel_group_destroy_state(struct drm_private_obj *obj, struct drm_private_state *state)
+> > +{
+> > +	struct drm_dp_tunnel_group_state *group_state = to_group_state(state);
+> > +
+> > +	clear_tunnel_group_state(group_state);
+> > +	kfree(group_state);
+> > +}
+> > +
+> > +static const struct drm_private_state_funcs tunnel_group_funcs = {
+> > +	.atomic_duplicate_state = tunnel_group_duplicate_state,
+> > +	.atomic_destroy_state = tunnel_group_destroy_state,
+> > +};
+> > +
+> > +struct drm_dp_tunnel_state *
+> > +drm_dp_tunnel_atomic_get_state(struct drm_atomic_state *state,
+> > +			       struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	struct drm_dp_tunnel_group_state *group_state =
+> > +		drm_dp_tunnel_atomic_get_group_state(state, tunnel);
+> > +	struct drm_dp_tunnel_state *tunnel_state;
+> > +
+> > +	if (IS_ERR(group_state))
+> > +		return ERR_CAST(group_state);
+> > +
+> > +	tunnel_state = get_or_add_tunnel_state(group_state, tunnel);
+> > +	if (!tunnel_state)
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	return tunnel_state;
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_tunnel_atomic_get_state);
+> > +
+> > +struct drm_dp_tunnel_state *
+> > +drm_dp_tunnel_atomic_get_new_state(struct drm_atomic_state *state,
+> > +				   const struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	struct drm_dp_tunnel_group_state *new_group_state;
+> > +	int i;
+> > +
+> > +	for_each_new_group_in_state(state, new_group_state, i)
+> > +		if (to_group(new_group_state->base.obj) == tunnel->group)
+> > +			return get_tunnel_state(new_group_state, tunnel);
+> > +
+> > +	return NULL;
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_tunnel_atomic_get_new_state);
+> > +
+> > +static bool init_group(struct drm_dp_tunnel_mgr *mgr, struct drm_dp_tunnel_group *group)
+> > +{
+> > +	struct drm_dp_tunnel_group_state *group_state = kzalloc(sizeof(*group_state), GFP_KERNEL);
+> > +
+> > +	if (!group_state)
+> > +		return false;
+> > +
+> > +	INIT_LIST_HEAD(&group_state->tunnel_states);
+> > +
+> > +	group->mgr = mgr;
+> > +	group->available_bw = -1;
+> > +	INIT_LIST_HEAD(&group->tunnels);
+> > +
+> > +	drm_atomic_private_obj_init(mgr->dev, &group->base, &group_state->base,
+> > +				    &tunnel_group_funcs);
+> > +
+> > +	return true;
+> > +}
+> > +
+> > +static void cleanup_group(struct drm_dp_tunnel_group *group)
+> > +{
+> > +	drm_atomic_private_obj_fini(&group->base);
+> > +}
+> > +
+> > +#ifdef CONFIG_DRM_DISPLAY_DEBUG_DP_TUNNEL_STATE
+> > +static void check_unique_stream_ids(const struct drm_dp_tunnel_group_state *group_state)
+> > +{
+> > +	const struct drm_dp_tunnel_state *tunnel_state;
+> > +	u32 stream_mask = 0;
+> > +
+> > +	for_each_tunnel_state(group_state, tunnel_state) {
+> > +		drm_WARN(to_group(group_state->base.obj)->mgr->dev,
+> > +			 tunnel_state->stream_mask & stream_mask,
+> > +			 "[DPTUN %s]: conflicting stream IDs %x (IDs in other tunnels %x)\n",
+> > +			 tunnel_state->tunnel_ref.tunnel->name,
+> > +			 tunnel_state->stream_mask,
+> > +			 stream_mask);
+> > +
+> > +		stream_mask |= tunnel_state->stream_mask;
+> > +	}
+> > +}
+> > +#else
+> > +static void check_unique_stream_ids(const struct drm_dp_tunnel_group_state *group_state)
+> > +{
+> > +}
+> > +#endif
+> > +
+> > +static int stream_id_to_idx(u32 stream_mask, u8 stream_id)
+> > +{
+> > +	return hweight32(stream_mask & (BIT(stream_id) - 1));
+> > +}
+> > +
+> > +static int resize_bw_array(struct drm_dp_tunnel_state *tunnel_state,
+> > +			   unsigned long old_mask, unsigned long new_mask)
+> > +{
+> > +	unsigned long move_mask = old_mask & new_mask;
+> > +	int *new_bws = NULL;
+> > +	int id;
+> > +
+> > +	WARN_ON(!new_mask);
+> > +
+> > +	if (old_mask == new_mask)
+> > +		return 0;
+> > +
+> > +	new_bws = kcalloc(hweight32(new_mask), sizeof(*new_bws), GFP_KERNEL);
+> > +	if (!new_bws)
+> > +		return -ENOMEM;
+> > +
+> > +	for_each_set_bit(id, &move_mask, BITS_PER_TYPE(move_mask))
+> > +		new_bws[stream_id_to_idx(new_mask, id)] =
+> > +			tunnel_state->stream_bw[stream_id_to_idx(old_mask, id)];
+> > +
+> > +	kfree(tunnel_state->stream_bw);
+> > +	tunnel_state->stream_bw = new_bws;
+> > +	tunnel_state->stream_mask = new_mask;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int set_stream_bw(struct drm_dp_tunnel_state *tunnel_state,
+> > +			 u8 stream_id, int bw)
+> > +{
+> > +	int err;
+> > +
+> > +	err = resize_bw_array(tunnel_state,
+> > +			      tunnel_state->stream_mask,
+> > +			      tunnel_state->stream_mask | BIT(stream_id));
+> > +	if (err)
+> > +		return err;
+> > +
+> > +	tunnel_state->stream_bw[stream_id_to_idx(tunnel_state->stream_mask, stream_id)] = bw;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int clear_stream_bw(struct drm_dp_tunnel_state *tunnel_state,
+> > +			   u8 stream_id)
+> > +{
+> > +	if (!(tunnel_state->stream_mask & ~BIT(stream_id))) {
+> > +		drm_dp_tunnel_atomic_clear_state(tunnel_state);
+> > +		return 0;
+> > +	}
+> > +
+> > +	return resize_bw_array(tunnel_state,
+> > +			       tunnel_state->stream_mask,
+> > +			       tunnel_state->stream_mask & ~BIT(stream_id));
+> > +}
+> > +
+> > +int drm_dp_tunnel_atomic_set_stream_bw(struct drm_atomic_state *state,
+> > +					 struct drm_dp_tunnel *tunnel,
+> > +					 u8 stream_id, int bw)
+> > +{
+> > +	struct drm_dp_tunnel_group_state *new_group_state =
+> > +		drm_dp_tunnel_atomic_get_group_state(state, tunnel);
+> > +	struct drm_dp_tunnel_state *tunnel_state;
+> > +	int err;
+> > +
+> > +	if (drm_WARN_ON(tunnel->group->mgr->dev,
+> > +			stream_id > BITS_PER_TYPE(tunnel_state->stream_mask)))
+> > +		return -EINVAL;
+> > +
+> > +	tun_dbg(tunnel,
+> > +		"Setting %d Mb/s for stream %d\n",
+> > +		DPTUN_BW_ARG(bw), stream_id);
+> > +
+> > +	if (bw == 0) {
+> > +		tunnel_state = get_tunnel_state(new_group_state, tunnel);
+> > +		if (!tunnel_state)
+> > +			return 0;
+> > +
+> > +		return clear_stream_bw(tunnel_state, stream_id);
+> > +	}
+> > +
+> > +	tunnel_state = get_or_add_tunnel_state(new_group_state, tunnel);
+> > +	if (drm_WARN_ON(state->dev, !tunnel_state))
+> > +		return -EINVAL;
+> > +
+> > +	err = set_stream_bw(tunnel_state, stream_id, bw);
+> > +	if (err)
+> > +		return err;
+> > +
+> > +	check_unique_stream_ids(new_group_state);
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_tunnel_atomic_set_stream_bw);
+> > +
+> > +int drm_dp_tunnel_atomic_get_tunnel_bw(const struct drm_dp_tunnel_state *tunnel_state)
+> > +{
+> > +	int tunnel_bw = 0;
+> > +	int i;
+> > +
+> > +	for (i = 0; i < hweight32(tunnel_state->stream_mask); i++)
+> > +		tunnel_bw += tunnel_state->stream_bw[i];
+> > +
+> > +	return tunnel_bw;
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_tunnel_atomic_get_tunnel_bw);
+> > +
+> > +int drm_dp_tunnel_atomic_get_group_streams_in_state(struct drm_atomic_state *state,
+> > +						    const struct drm_dp_tunnel *tunnel,
+> > +						    u32 *stream_mask)
+> > +{
+> > +	struct drm_dp_tunnel_group_state *group_state =
+> > +		drm_dp_tunnel_atomic_get_group_state(state, tunnel);
+> > +	struct drm_dp_tunnel_state *tunnel_state;
+> > +
+> > +	if (IS_ERR(group_state))
+> > +		return PTR_ERR(group_state);
+> > +
+> > +	*stream_mask = 0;
+> > +	for_each_tunnel_state(group_state, tunnel_state)
+> > +		*stream_mask |= tunnel_state->stream_mask;
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_tunnel_atomic_get_group_streams_in_state);
+> > +
+> > +static int
+> > +drm_dp_tunnel_atomic_check_group_bw(struct drm_dp_tunnel_group_state *new_group_state,
+> > +				    u32 *failed_stream_mask)
+> > +{
+> > +	struct drm_dp_tunnel_group *group = to_group(new_group_state->base.obj);
+> > +	struct drm_dp_tunnel_state *new_tunnel_state;
+> > +	u32 group_stream_mask = 0;
+> > +	int group_bw = 0;
+> > +
+> > +	for_each_tunnel_state(new_group_state, new_tunnel_state) {
+> > +		struct drm_dp_tunnel *tunnel = new_tunnel_state->tunnel_ref.tunnel;
+> > +		int max_dprx_bw = get_max_dprx_bw(tunnel);
+> > +		int tunnel_bw = drm_dp_tunnel_atomic_get_tunnel_bw(new_tunnel_state);
+> > +
+> > +		tun_dbg(tunnel,
+> > +			"%sRequired %d/%d Mb/s total for tunnel.\n",
+> > +			tunnel_bw > max_dprx_bw ? "Not enough BW: " : "",
+> > +			DPTUN_BW_ARG(tunnel_bw),
+> > +			DPTUN_BW_ARG(max_dprx_bw));
+> > +
+> > +		if (tunnel_bw > max_dprx_bw) {
+> 
+> I'm a bit confused why we're checking this here. Aren't we already
+> checking this somewhere else?
+
+Ah, yes this should be checked already by the encoder compute config +
+the MST link BW check. It can be removed, thanks.
+
+> > +			*failed_stream_mask = new_tunnel_state->stream_mask;
+> > +			return -ENOSPC;
+> > +		}
+> > +
+> > +		group_bw += min(roundup(tunnel_bw, tunnel->bw_granularity),
+> > +				max_dprx_bw);
+> > +		group_stream_mask |= new_tunnel_state->stream_mask;
+> > +	}
+> > +
+> > +	tun_grp_dbg(group,
+> > +		    "%sRequired %d/%d Mb/s total for tunnel group.\n",
+> > +		    group_bw > group->available_bw ? "Not enough BW: " : "",
+> > +		    DPTUN_BW_ARG(group_bw),
+> > +		    DPTUN_BW_ARG(group->available_bw));
+> > +
+> > +	if (group_bw > group->available_bw) {
+> > +		*failed_stream_mask = group_stream_mask;
+> > +		return -ENOSPC;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +int drm_dp_tunnel_atomic_check_stream_bws(struct drm_atomic_state *state,
+> > +					  u32 *failed_stream_mask)
+> > +{
+> > +	struct drm_dp_tunnel_group_state *new_group_state;
+> > +	int i;
+> > +
+> > +	for_each_new_group_in_state(state, new_group_state, i) {
+> > +		int ret;
+> > +
+> > +		ret = drm_dp_tunnel_atomic_check_group_bw(new_group_state,
+> > +							  failed_stream_mask);
+> > +		if (ret)
+> > +			return ret;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_tunnel_atomic_check_stream_bws);
+> > +
+> > +static void destroy_mgr(struct drm_dp_tunnel_mgr *mgr)
+> > +{
+> > +	int i;
+> > +
+> > +	for (i = 0; i < mgr->group_count; i++) {
+> > +		cleanup_group(&mgr->groups[i]);
+> > +		drm_WARN_ON(mgr->dev, !list_empty(&mgr->groups[i].tunnels));
+> > +	}
+> > +
+> > +#ifdef CONFIG_DRM_DISPLAY_DEBUG_DP_TUNNEL_STATE
+> > +	ref_tracker_dir_exit(&mgr->ref_tracker);
+> > +#endif
+> > +
+> > +	kfree(mgr->groups);
+> > +	kfree(mgr);
+> > +}
+> > +
+> > +/**
+> > + * drm_dp_tunnel_mgr_create - Create a DP tunnel manager
+> > + * @i915: i915 driver object
+> > + *
+> > + * Creates a DP tunnel manager.
+> > + *
+> > + * Returns a pointer to the tunnel manager if created successfully or NULL in
+> > + * case of an error.
+> > + */
+> > +struct drm_dp_tunnel_mgr *
+> > +drm_dp_tunnel_mgr_create(struct drm_device *dev, int max_group_count)
+> > +{
+> > +	struct drm_dp_tunnel_mgr *mgr = kzalloc(sizeof(*mgr), GFP_KERNEL);
+> > +	int i;
+> > +
+> > +	if (!mgr)
+> > +		return NULL;
+> > +
+> > +	mgr->dev = dev;
+> > +	init_waitqueue_head(&mgr->bw_req_queue);
+> > +
+> > +	mgr->groups = kcalloc(max_group_count, sizeof(*mgr->groups), GFP_KERNEL);
+> > +	if (!mgr->groups) {
+> > +		kfree(mgr);
+> > +
+> > +		return NULL;
+> > +	}
+> > +
+> > +#ifdef CONFIG_DRM_DISPLAY_DEBUG_DP_TUNNEL_STATE
+> > +	ref_tracker_dir_init(&mgr->ref_tracker, 16, "dptun");
+> > +#endif
+> > +
+> > +	for (i = 0; i < max_group_count; i++) {
+> > +		if (!init_group(mgr, &mgr->groups[i])) {
+> > +			destroy_mgr(mgr);
+> > +
+> > +			return NULL;
+> > +		}
+> > +
+> > +		mgr->group_count++;
+> > +	}
+> > +
+> > +	return mgr;
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_tunnel_mgr_create);
+> > +
+> > +/**
+> > + * drm_dp_tunnel_mgr_destroy - Destroy DP tunnel manager
+> > + * @mgr: Tunnel manager object
+> > + *
+> > + * Destroy the tunnel manager.
+> > + */
+> > +void drm_dp_tunnel_mgr_destroy(struct drm_dp_tunnel_mgr *mgr)
+> > +{
+> > +	destroy_mgr(mgr);
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_tunnel_mgr_destroy);
+> > diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
+> > index 281afff6ee4e5..8bfd5d007be8d 100644
+> > --- a/include/drm/display/drm_dp.h
+> > +++ b/include/drm/display/drm_dp.h
+> > @@ -1382,6 +1382,66 @@
+> >  #define DP_HDCP_2_2_REG_STREAM_TYPE_OFFSET	0x69494
+> >  #define DP_HDCP_2_2_REG_DBG_OFFSET		0x69518
+> >  
+> > +/* DP-tunneling */
+> > +#define DP_TUNNELING_OUI				0xe0000
+> > +#define  DP_TUNNELING_OUI_BYTES				3
+> > +
+> > +#define DP_TUNNELING_DEV_ID				0xe0003
+> > +#define  DP_TUNNELING_DEV_ID_BYTES			6
+> > +
+> > +#define DP_TUNNELING_HW_REV				0xe0009
+> > +#define  DP_TUNNELING_HW_REV_MAJOR_SHIFT		4
+> > +#define  DP_TUNNELING_HW_REV_MAJOR_MASK			(0xf << DP_TUNNELING_HW_REV_MAJOR_SHIFT)
+> > +#define  DP_TUNNELING_HW_REV_MINOR_SHIFT		0
+> > +#define  DP_TUNNELING_HW_REV_MINOR_MASK			(0xf << DP_TUNNELING_HW_REV_MINOR_SHIFT)
+> > +
+> > +#define DP_TUNNELING_SW_REV_MAJOR			0xe000a
+> > +#define DP_TUNNELING_SW_REV_MINOR			0xe000b
+> > +
+> > +#define DP_TUNNELING_CAPABILITIES			0xe000d
+> > +#define  DP_IN_BW_ALLOCATION_MODE_SUPPORT		(1 << 7)
+> > +#define  DP_PANEL_REPLAY_OPTIMIZATION_SUPPORT		(1 << 6)
+> > +#define  DP_TUNNELING_SUPPORT				(1 << 0)
+> > +
+> > +#define DP_IN_ADAPTER_INFO				0xe000e
+> > +#define  DP_IN_ADAPTER_NUMBER_BITS			7
+> > +#define  DP_IN_ADAPTER_NUMBER_MASK			((1 << DP_IN_ADAPTER_NUMBER_BITS) - 1)
+> > +
+> > +#define DP_USB4_DRIVER_ID				0xe000f
+> > +#define  DP_USB4_DRIVER_ID_BITS				4
+> > +#define  DP_USB4_DRIVER_ID_MASK				((1 << DP_USB4_DRIVER_ID_BITS) - 1)
+> > +
+> > +#define DP_USB4_DRIVER_BW_CAPABILITY			0xe0020
+> > +#define  DP_USB4_DRIVER_BW_ALLOCATION_MODE_SUPPORT	(1 << 7)
+> > +
+> > +#define DP_IN_ADAPTER_TUNNEL_INFORMATION		0xe0021
+> > +#define  DP_GROUP_ID_BITS				3
+> > +#define  DP_GROUP_ID_MASK				((1 << DP_GROUP_ID_BITS) - 1)
+> > +
+> > +#define DP_BW_GRANULARITY				0xe0022
+> > +#define  DP_BW_GRANULARITY_MASK				0x3
+> > +
+> > +#define DP_ESTIMATED_BW					0xe0023
+> > +#define DP_ALLOCATED_BW					0xe0024
+> > +
+> > +#define DP_TUNNELING_STATUS				0xe0025
+> > +#define  DP_BW_ALLOCATION_CAPABILITY_CHANGED		(1 << 3)
+> > +#define  DP_ESTIMATED_BW_CHANGED			(1 << 2)
+> > +#define  DP_BW_REQUEST_SUCCEEDED			(1 << 1)
+> > +#define  DP_BW_REQUEST_FAILED				(1 << 0)
+> > +
+> > +#define DP_TUNNELING_MAX_LINK_RATE			0xe0028
+> > +
+> > +#define DP_TUNNELING_MAX_LANE_COUNT			0xe0029
+> > +#define  DP_TUNNELING_MAX_LANE_COUNT_MASK		0x1f
+> > +
+> > +#define DP_DPTX_BW_ALLOCATION_MODE_CONTROL		0xe0030
+> > +#define  DP_DISPLAY_DRIVER_BW_ALLOCATION_MODE_ENABLE	(1 << 7)
+> > +#define  DP_UNMASK_BW_ALLOCATION_IRQ			(1 << 6)
+> > +
+> > +#define DP_REQUEST_BW					0xe0031
+> > +#define  MAX_DP_REQUEST_BW				255
+> > +
+> >  /* LTTPR: Link Training (LT)-tunable PHY Repeaters */
+> >  #define DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV 0xf0000 /* 1.3 */
+> >  #define DP_MAX_LINK_RATE_PHY_REPEATER			    0xf0001 /* 1.4a */
+> > diff --git a/include/drm/display/drm_dp_tunnel.h b/include/drm/display/drm_dp_tunnel.h
+> > new file mode 100644
+> > index 0000000000000..f6449b1b4e6e9
+> > --- /dev/null
+> > +++ b/include/drm/display/drm_dp_tunnel.h
+> > @@ -0,0 +1,270 @@
+> > +/* SPDX-License-Identifier: MIT */
+> > +/*
+> > + * Copyright © 2023 Intel Corporation
+> > + */
+> > +
+> > +#ifndef __DRM_DP_TUNNEL_H__
+> > +#define __DRM_DP_TUNNEL_H__
+> > +
+> > +#include <linux/err.h>
+> > +#include <linux/errno.h>
+> > +#include <linux/types.h>
+> > +
+> > +struct drm_dp_aux;
+> > +
+> > +struct drm_device;
+> > +
+> > +struct drm_atomic_state;
+> > +struct drm_dp_tunnel_mgr;
+> > +struct drm_dp_tunnel_state;
+> > +
+> > +struct ref_tracker;
+> > +
+> > +struct drm_dp_tunnel_ref {
+> > +	struct drm_dp_tunnel *tunnel;
+> > +#ifdef CONFIG_DRM_DISPLAY_DEBUG_DP_TUNNEL_STATE
+> > +	struct ref_tracker *tracker;
+> > +#endif
+> > +};
+> > +
+> > +#ifdef CONFIG_DRM_DISPLAY_DP_TUNNEL
+> > +
+> > +struct drm_dp_tunnel *
+> > +drm_dp_tunnel_get_untracked(struct drm_dp_tunnel *tunnel);
+> > +void drm_dp_tunnel_put_untracked(struct drm_dp_tunnel *tunnel);
+> > +
+> > +#ifdef CONFIG_DRM_DISPLAY_DEBUG_DP_TUNNEL_STATE
+> > +struct drm_dp_tunnel *
+> > +drm_dp_tunnel_get(struct drm_dp_tunnel *tunnel, struct ref_tracker **tracker);
+> > +
+> > +void
+> > +drm_dp_tunnel_put(struct drm_dp_tunnel *tunnel, struct ref_tracker **tracker);
+> > +#else
+> > +#define drm_dp_tunnel_get(tunnel, tracker) \
+> > +	drm_dp_tunnel_get_untracked(tunnel)
+> > +
+> > +#define drm_dp_tunnel_put(tunnel, tracker) \
+> > +	drm_dp_tunnel_put_untracked(tunnel)
+> > +
+> > +#endif
+> > +
+> > +static inline void drm_dp_tunnel_ref_get(struct drm_dp_tunnel *tunnel,
+> > +					   struct drm_dp_tunnel_ref *tunnel_ref)
+> > +{
+> > +	tunnel_ref->tunnel = drm_dp_tunnel_get(tunnel, &tunnel_ref->tracker);
+> > +}
+> > +
+> > +static inline void drm_dp_tunnel_ref_put(struct drm_dp_tunnel_ref *tunnel_ref)
+> > +{
+> > +	drm_dp_tunnel_put(tunnel_ref->tunnel, &tunnel_ref->tracker);
+> > +}
+> > +
+> > +struct drm_dp_tunnel *
+> > +drm_dp_tunnel_detect(struct drm_dp_tunnel_mgr *mgr,
+> > +		     struct drm_dp_aux *aux);
+> > +int drm_dp_tunnel_destroy(struct drm_dp_tunnel *tunnel);
+> > +
+> > +int drm_dp_tunnel_enable_bw_alloc(struct drm_dp_tunnel *tunnel);
+> > +int drm_dp_tunnel_disable_bw_alloc(struct drm_dp_tunnel *tunnel);
+> > +bool drm_dp_tunnel_bw_alloc_is_enabled(const struct drm_dp_tunnel *tunnel);
+> > +int drm_dp_tunnel_alloc_bw(struct drm_dp_tunnel *tunnel, int bw);
+> > +int drm_dp_tunnel_check_state(struct drm_dp_tunnel *tunnel);
+> > +int drm_dp_tunnel_update_state(struct drm_dp_tunnel *tunnel);
+> > +
+> > +void drm_dp_tunnel_set_io_error(struct drm_dp_tunnel *tunnel);
+> > +
+> > +int drm_dp_tunnel_handle_irq(struct drm_dp_tunnel_mgr *mgr,
+> > +			     struct drm_dp_aux *aux);
+> > +
+> > +int drm_dp_tunnel_max_dprx_rate(const struct drm_dp_tunnel *tunnel);
+> > +int drm_dp_tunnel_max_dprx_lane_count(const struct drm_dp_tunnel *tunnel);
+> > +int drm_dp_tunnel_available_bw(const struct drm_dp_tunnel *tunnel);
+> > +
+> > +const char *drm_dp_tunnel_name(const struct drm_dp_tunnel *tunnel);
+> > +
+> > +struct drm_dp_tunnel_state *
+> > +drm_dp_tunnel_atomic_get_state(struct drm_atomic_state *state,
+> > +			       struct drm_dp_tunnel *tunnel);
+> > +struct drm_dp_tunnel_state *
+> > +drm_dp_tunnel_atomic_get_new_state(struct drm_atomic_state *state,
+> > +				   const struct drm_dp_tunnel *tunnel);
+> > +
+> > +void drm_dp_tunnel_atomic_clear_state(struct drm_dp_tunnel_state *tunnel_state);
+> > +
+> > +int drm_dp_tunnel_atomic_set_stream_bw(struct drm_atomic_state *state,
+> > +				       struct drm_dp_tunnel *tunnel,
+> > +				       u8 stream_id, int bw);
+> > +int drm_dp_tunnel_atomic_get_group_streams_in_state(struct drm_atomic_state *state,
+> > +						    const struct drm_dp_tunnel *tunnel,
+> > +						    u32 *stream_mask);
+> > +
+> > +int drm_dp_tunnel_atomic_check_stream_bws(struct drm_atomic_state *state,
+> > +					  u32 *failed_stream_mask);
+> > +
+> > +int drm_dp_tunnel_atomic_get_tunnel_bw(const struct drm_dp_tunnel_state *tunnel_state);
+> > +
+> > +struct drm_dp_tunnel_mgr *
+> > +drm_dp_tunnel_mgr_create(struct drm_device *dev, int max_group_count);
+> > +void drm_dp_tunnel_mgr_destroy(struct drm_dp_tunnel_mgr *mgr);
+> > +
+> > +#else
+> > +
+> > +static inline struct drm_dp_tunnel *
+> > +drm_dp_tunnel_get_untracked(struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	return NULL;
+> > +}
+> > +
+> > +static inline void
+> > +drm_dp_tunnel_put_untracked(struct drm_dp_tunnel *tunnel) {}
+> > +
+> > +static inline struct drm_dp_tunnel *
+> > +drm_dp_tunnel_get(struct drm_dp_tunnel *tunnel, struct ref_tracker **tracker)
+> > +{
+> > +	return NULL;
+> > +}
+> > +
+> > +static inline void
+> > +drm_dp_tunnel_put(struct drm_dp_tunnel *tunnel, struct ref_tracker **tracker) {}
+> > +
+> > +static inline void drm_dp_tunnel_ref_get(struct drm_dp_tunnel *tunnel,
+> > +					   struct drm_dp_tunnel_ref *tunnel_ref) {}
+> > +static inline void drm_dp_tunnel_ref_put(struct drm_dp_tunnel_ref *tunnel_ref) {}
+> > +
+> > +static inline struct drm_dp_tunnel *
+> > +drm_dp_tunnel_detect(struct drm_dp_tunnel_mgr *mgr,
+> > +		     struct drm_dp_aux *aux)
+> > +{
+> > +	return ERR_PTR(-EOPNOTSUPP);
+> > +}
+> > +
+> > +static inline int
+> > +drm_dp_tunnel_destroy(struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	return 0;
+> > +}
+> > +
+> > +static inline int drm_dp_tunnel_enable_bw_alloc(struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	return -EOPNOTSUPP;
+> > +}
+> > +
+> > +static inline int drm_dp_tunnel_disable_bw_alloc(struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	return -EOPNOTSUPP;
+> > +}
+> > +
+> > +static inline bool drm_dp_tunnel_bw_alloc_is_enabled(const struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	return false;
+> > +}
+> > +
+> > +static inline int
+> > +drm_dp_tunnel_alloc_bw(struct drm_dp_tunnel *tunnel, int bw)
+> > +{
+> > +	return -EOPNOTSUPP;
+> > +}
+> > +
+> > +static inline int
+> > +drm_dp_tunnel_check_state(struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	return -EOPNOTSUPP;
+> > +}
+> > +
+> > +static inline int
+> > +drm_dp_tunnel_update_state(struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	return -EOPNOTSUPP;
+> > +}
+> > +
+> > +static inline void drm_dp_tunnel_set_io_error(struct drm_dp_tunnel *tunnel) {}
+> > +static inline int
+> > +drm_dp_tunnel_handle_irq(struct drm_dp_tunnel_mgr *mgr,
+> > +			 struct drm_dp_aux *aux)
+> > +{
+> > +	return -EOPNOTSUPP;
+> > +}
+> > +
+> > +static inline int
+> > +drm_dp_tunnel_max_dprx_rate(const struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	return 0;
+> > +}
+> > +
+> > +static inline int
+> > +drm_dp_tunnel_max_dprx_lane_count(const struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	return 0;
+> > +}
+> > +
+> > +static inline int
+> > +drm_dp_tunnel_available_bw(const struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	return -1;
+> > +}
+> > +
+> > +static inline const char *
+> > +drm_dp_tunnel_name(const struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	return NULL;
+> > +}
+> > +
+> > +static inline struct drm_dp_tunnel_state *
+> > +drm_dp_tunnel_atomic_get_state(struct drm_atomic_state *state,
+> > +			       struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	return ERR_PTR(-EOPNOTSUPP);
+> > +}
+> > +
+> > +static inline struct drm_dp_tunnel_state *
+> > +drm_dp_tunnel_atomic_get_new_state(struct drm_atomic_state *state,
+> > +				   const struct drm_dp_tunnel *tunnel)
+> > +{
+> > +	return ERR_PTR(-EOPNOTSUPP);
+> > +}
+> > +
+> > +static inline void
+> > +drm_dp_tunnel_atomic_clear_state(struct drm_dp_tunnel_state *tunnel_state) {}
+> > +
+> > +static inline int
+> > +drm_dp_tunnel_atomic_set_stream_bw(struct drm_atomic_state *state,
+> > +				   struct drm_dp_tunnel *tunnel,
+> > +				   u8 stream_id, int bw)
+> > +{
+> > +	return -EOPNOTSUPP;
+> > +}
+> > +
+> > +static inline int
+> > +drm_dp_tunnel_atomic_get_group_streams_in_state(struct drm_atomic_state *state,
+> > +						const struct drm_dp_tunnel *tunnel,
+> > +						u32 *stream_mask)
+> > +{
+> > +	return -EOPNOTSUPP;
+> > +}
+> > +
+> > +static inline int
+> > +drm_dp_tunnel_atomic_check_stream_bws(struct drm_atomic_state *state,
+> > +				      u32 *failed_stream_mask)
+> > +{
+> > +	return -EOPNOTSUPP;
+> > +}
+> > +
+> > +static inline int
+> > +drm_dp_tunnel_atomic_get_tunnel_bw(const struct drm_dp_tunnel_state *tunnel_state)
+> > +{
+> > +	return 0;
+> > +}
+> > +
+> > +static inline struct drm_dp_tunnel_mgr *
+> > +drm_dp_tunnel_mgr_create(struct drm_device *dev, int max_group_count)
+> > +{
+> > +	return ERR_PTR(-EOPNOTSUPP);
+> > +}
+> > +
+> > +static inline
+> > +void drm_dp_tunnel_mgr_destroy(struct drm_dp_tunnel_mgr *mgr) {}
+> > +
+> > +
+> > +#endif /* CONFIG_DRM_DISPLAY_DP_TUNNEL */
+> > +
+> > +#endif /* __DRM_DP_TUNNEL_H__ */
+> > -- 
+> > 2.39.2
+> 
+> -- 
+> Ville Syrjälä
+> Intel
