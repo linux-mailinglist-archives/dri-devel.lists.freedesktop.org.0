@@ -2,63 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9506584D26E
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 20:54:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44B2684D276
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 20:56:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B335110E819;
-	Wed,  7 Feb 2024 19:54:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47C3E10E81D;
+	Wed,  7 Feb 2024 19:56:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XXUJ6n2T";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="hAnAEq2E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
- [209.85.208.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49FCA10E7EE;
- Wed,  7 Feb 2024 19:54:17 +0000 (UTC)
-Received: by mail-lj1-f178.google.com with SMTP id
- 38308e7fff4ca-2d04c0b1cacso13135111fa.0; 
- Wed, 07 Feb 2024 11:54:17 -0800 (PST)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com
+ [209.85.128.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 921CD10E803
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Feb 2024 19:56:24 +0000 (UTC)
+Received: by mail-yw1-f172.google.com with SMTP id
+ 00721157ae682-604a05e26c3so3634767b3.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Feb 2024 11:56:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1707335655; x=1707940455; darn=lists.freedesktop.org;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=i7SRBxYoK9LHUFD9hGgBcXZ8tzxyzNmubya79xIxsbE=;
- b=XXUJ6n2TVeGPYzHJMyEYWk9KzBNAE3nI0aJpvX4Dpmlnzih+oEPbJbEKXyiu7p7ZYn
- DTHmVjD8UX1UG6DBUtqPaGTiP4TxuBLnsfVh9BbD9rHaIOy5/loAXJVFMAyUZyZRFqDx
- kxZH6dalVmiVxsld/z6NDyqVnxLcfLyw1h+bEBQe5heiputoI+hhqd7BEL+MKtolzbjv
- Jcn7PipwoR/kuuADjnkiLg5n+ocVJqyW2EKV6+KQuCZwgzgErrOSwc0T5+UVAWpIyZKE
- 3fjom8Dajp9xwbP0gwi5LktxlpfgXgIDh1hzYdN/L8xI1MlA9RMjKXrVB2idJYEi9sRJ
- L9Zw==
+ d=linaro.org; s=google; t=1707335783; x=1707940583; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Wz7RFzUAYR3EUnuo70ELuUi/F3kU5JcqkqBZAyZnJ9g=;
+ b=hAnAEq2ExcMMbwVeV9YRUsGO29XwuxjhYKuiE1CEMUwLtdORdajBR/7rpX7KZL1Q0y
+ biKa/8juGgPNZm9Ggi56bIYmFXVll9fAL9d0rEVhfZj2MrwqSjO7YYtOC9pWR2C/zXhB
+ OS8PxbOMGEsyBRWDLqweiahUtESGxmjtEmJjbcYwlPr4ecrm34fCGwWe4KcuTQj/Quo7
+ l/xXx4cmMjLxfkuUObEINuBqe/2c63Oir3crWS8peJBuaJGoc8HcZvCZecwGsjh4vs/i
+ qR5Ljhite9tnVIYSm76o4Xo7wnCAbe1pX3i3kMAdfBER3zKBfQrhBc+/cHTOeYMTVKwR
+ 1WaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707335655; x=1707940455;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=i7SRBxYoK9LHUFD9hGgBcXZ8tzxyzNmubya79xIxsbE=;
- b=J55hnfXY7G7WYeMGjHdtCG8DlfUeQcglYzMENS9ogy/IcWhh9xKOSkXV3++cUWbcNh
- MWP4N0Z3CtGl6Nt1IidAtkj1s6lcK7r47KbIyVAzFWwZmqARhMxC1hymLSvDEVeCIkKg
- p9r+DBYBPc6Nm+41QGBtGeZoNNP1jHsqykK344R/OWRmLBhRRY1AbYlOvXWOPoRnNcee
- xM2uhiPHlBOaY6Y25vG2oqWEmWI7Ag2cMY5SZdMRgIEbMy2N/p8m+9zYIrplTlKHaBeR
- QmmMGbbBL6cEI+/paVLYEn0ltfUJHEJG6Lx3rWa+ryoc5MiiQOQeC8EYdw1ZZzjPhSLx
- YBoQ==
-X-Gm-Message-State: AOJu0YwGY4fltBuILkjf1B5OGUWAAvkeZht2apANk0Pbwx4NboGgRRkD
- O49pWTkiODKoHi0dp3saMNnYLkKDjR1W9mBmoNMqjAS3bdL+PM2hO0V1xmwIh1zipnvYJz2Oxmo
- lbC3mHfKZMJJep3CLTQFFHCW9pSqBLWkyiFw=
-X-Google-Smtp-Source: AGHT+IF9HE8a4amqQHEhMM6t1EjO3V/7Fs2Qoo+grFeA0gYWq9zuo4Ne8b1XUnMBHprJIRWQoJ4WJd+LAwYLXstRifU=
-X-Received: by 2002:a05:651c:1250:b0:2d0:ce72:570b with SMTP id
- h16-20020a05651c125000b002d0ce72570bmr953313ljh.48.1707335654873; Wed, 07 Feb
- 2024 11:54:14 -0800 (PST)
+ d=1e100.net; s=20230601; t=1707335783; x=1707940583;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Wz7RFzUAYR3EUnuo70ELuUi/F3kU5JcqkqBZAyZnJ9g=;
+ b=ElkSKudGyjDX/0gZZZlBQFlwivANOc+DHzbaYCyM2cNwQWP3q60l2q7AWeQpGzziS0
+ x+hBTiViGm/clMo+EhmE0RPb9Zl1Qy0CHk6z/bNmmQGgLl6gYWKfo0IZ4ONYKOR4Z5nC
+ +6gKpF5vt+wszmOTbgtHlVPRoq7mQT7IoCAqsrgqSNyuziTh8n8c0orHVbY0RvNepRbO
+ TCUSFClkucTxtDB/RPH11LY9M+cAoRM0ipbrQC2ayeX/aetqD05Reo+WZutrQwZC1QGM
+ rcbDONLOz45+Y255C7eLjTuNC2mwWS2/K7FtH3OyvF53Gj+aLLH7nULCOuKrkTIcy5X7
+ Q9Ow==
+X-Gm-Message-State: AOJu0YxvWE+lzal0JnQ6zGRFeqb5lsFBsOKXzTnFTvBPyauokZdNjthc
+ 0VuD7tzAvP9scHC2masezcQ7DLvcs2Lxcj7Xxgo4n7xvHO74BhkeACYLwWos1oDmzDutPnIYwh8
+ Igv/5XEYlQFBWDuGZ34b/CvztGkpyR7neaCbFEA==
+X-Google-Smtp-Source: AGHT+IEFJWETrkFXWbqnsGQ3Y+U0oT2Xdh2NeLWM/a4/aUl/8Lm6tQMK2gYOMBziyv5u+IGBAzvhEeg5M+/sFCO0tQU=
+X-Received: by 2002:a81:e20d:0:b0:603:cf56:2b01 with SMTP id
+ p13-20020a81e20d000000b00603cf562b01mr5309401ywl.29.1707335783601; Wed, 07
+ Feb 2024 11:56:23 -0800 (PST)
 MIME-Version: 1.0
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 7 Feb 2024 11:54:02 -0800
-Message-ID: <CAF6AEGvmW88vi3Ar6yw81t9X-MOL24NdqyZYjduMBfJoBNq5-A@mail.gmail.com>
-Subject: 
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20240106-fd-migrate-mdp5-v3-0-3d2750378063@linaro.org>
+ <20240106-fd-migrate-mdp5-v3-2-3d2750378063@linaro.org>
+ <b10d6097-b13d-4b47-7127-9200e414b7be@quicinc.com>
+In-Reply-To: <b10d6097-b13d-4b47-7127-9200e414b7be@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 7 Feb 2024 21:56:12 +0200
+Message-ID: <CAA8EJppV_PYMyJBEogONrDVmZ91XmMkr=J0tsioO20GaAW8GoQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] drm/msm/dpu: support binding to the mdp5 devices
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,62 +81,202 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+On Wed, 7 Feb 2024 at 20:48, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 1/5/2024 3:34 PM, Dmitry Baryshkov wrote:
+> > Existing MDP5 devices have slightly different bindings. The main
+> > register region is called `mdp_phys' instead of `mdp'. Also vbif
+> > register regions are a part of the parent, MDSS device. Add support for
+> > handling this binding differences.
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 98 ++++++++++++++++++++++++++-------
+> >   drivers/gpu/drm/msm/msm_drv.h           |  3 +
+> >   drivers/gpu/drm/msm/msm_io_utils.c      | 13 +++++
+> >   3 files changed, 93 insertions(+), 21 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> > index 723cc1d82143..aa9e0ad33ebb 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> > @@ -1197,6 +1197,78 @@ static int dpu_kms_init(struct drm_device *ddev)
+> >       return 0;
+> >   }
+> >
+> > +static int dpu_kms_mmap_mdp5(struct dpu_kms *dpu_kms)
+> > +{
+> > +     struct platform_device *pdev = dpu_kms->pdev;
+> > +     struct platform_device *mdss_dev;
+> > +     int ret;
+> > +
+> > +     if (dpu_kms->pdev->dev.bus != &platform_bus_type)
+> > +             return -EINVAL;
+> > +
+>
+> !dev_is_platform() perhaps?
 
-A few fixes for v6.8, description below
+looks good
 
-The following changes since commit d4ca26ac4be0d9aea7005c40df75e6775749671b:
+>
+> But I would like to understand this check a bit more. Can you pls
+> explain for which case this check was added?
 
-  drm/msm/dp: call dp_display_get_next_bridge() during probe
-(2023-12-14 09:27:46 +0200)
+It is necessary to be sure that we can perform to_platform_device() on
+the next line.
 
-are available in the Git repository at:
+>
+> > +     mdss_dev = to_platform_device(dpu_kms->pdev->dev.parent);
+> > +
+> > +     dpu_kms->mmio = msm_ioremap(pdev, "mdp_phys");
+> > +     if (IS_ERR(dpu_kms->mmio)) {
+> > +             ret = PTR_ERR(dpu_kms->mmio);
+> > +             DPU_ERROR("mdp register memory map failed: %d\n", ret);
+> > +             dpu_kms->mmio = NULL;
+> > +             return ret;
+> > +     }
+> > +     DRM_DEBUG("mapped dpu address space @%pK\n", dpu_kms->mmio);
+> > +
+> > +     dpu_kms->vbif[VBIF_RT] = msm_ioremap_mdss(mdss_dev,
+> > +                                               dpu_kms->pdev,
+> > +                                               "vbif_phys");
+> > +     if (IS_ERR(dpu_kms->vbif[VBIF_RT])) {
+> > +             ret = PTR_ERR(dpu_kms->vbif[VBIF_RT]);
+> > +             DPU_ERROR("vbif register memory map failed: %d\n", ret);
+> > +             dpu_kms->vbif[VBIF_RT] = NULL;
+> > +             return ret;
+> > +     }
+> > +
+> > +     dpu_kms->vbif[VBIF_NRT] = msm_ioremap_mdss(mdss_dev,
+> > +                                                dpu_kms->pdev,
+> > +                                                "vbif_nrt_phys");
+>
+> Do you think a "quiet" version would be better?
 
-  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-fixes-2024-02-07
+Yep, why not.
 
-for you to fetch changes up to 8d35217149daa33358c284aca6a56d5ab92cfc6c:
+>
+>
+> > +     if (IS_ERR(dpu_kms->vbif[VBIF_NRT])) {
+> > +             dpu_kms->vbif[VBIF_NRT] = NULL;
+> > +             DPU_DEBUG("VBIF NRT is not defined");
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int dpu_kms_mmap_dpu(struct dpu_kms *dpu_kms)
+> > +{
+> > +     struct platform_device *pdev = dpu_kms->pdev;
+> > +     int ret;
+> > +
+> > +     dpu_kms->mmio = msm_ioremap(pdev, "mdp");
+> > +     if (IS_ERR(dpu_kms->mmio)) {
+> > +             ret = PTR_ERR(dpu_kms->mmio);
+> > +             DPU_ERROR("mdp register memory map failed: %d\n", ret);
+> > +             dpu_kms->mmio = NULL;
+> > +             return ret;
+> > +     }
+> > +     DRM_DEBUG("mapped dpu address space @%pK\n", dpu_kms->mmio);
+> > +
+> > +     dpu_kms->vbif[VBIF_RT] = msm_ioremap(pdev, "vbif");
+> > +     if (IS_ERR(dpu_kms->vbif[VBIF_RT])) {
+> > +             ret = PTR_ERR(dpu_kms->vbif[VBIF_RT]);
+> > +             DPU_ERROR("vbif register memory map failed: %d\n", ret);
+> > +             dpu_kms->vbif[VBIF_RT] = NULL;
+> > +             return ret;
+> > +     }
+> > +
+> > +     dpu_kms->vbif[VBIF_NRT] = msm_ioremap_quiet(pdev, "vbif_nrt");
+> > +     if (IS_ERR(dpu_kms->vbif[VBIF_NRT])) {
+> > +             dpu_kms->vbif[VBIF_NRT] = NULL;
+> > +             DPU_DEBUG("VBIF NRT is not defined");
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> >   static int dpu_dev_probe(struct platform_device *pdev)
+> >   {
+> >       struct device *dev = &pdev->dev;
+> > @@ -1230,28 +1302,12 @@ static int dpu_dev_probe(struct platform_device *pdev)
+> >
+> >       dpu_kms->base.irq = irq;
+> >
+> > -     dpu_kms->mmio = msm_ioremap(pdev, "mdp");
+> > -     if (IS_ERR(dpu_kms->mmio)) {
+> > -             ret = PTR_ERR(dpu_kms->mmio);
+> > -             DPU_ERROR("mdp register memory map failed: %d\n", ret);
+> > -             dpu_kms->mmio = NULL;
+> > -             return ret;
+> > -     }
+> > -     DRM_DEBUG("mapped dpu address space @%pK\n", dpu_kms->mmio);
+> > -
+> > -     dpu_kms->vbif[VBIF_RT] = msm_ioremap(pdev, "vbif");
+> > -     if (IS_ERR(dpu_kms->vbif[VBIF_RT])) {
+> > -             ret = PTR_ERR(dpu_kms->vbif[VBIF_RT]);
+> > -             DPU_ERROR("vbif register memory map failed: %d\n", ret);
+> > -             dpu_kms->vbif[VBIF_RT] = NULL;
+> > +     if (of_device_is_compatible(dpu_kms->pdev->dev.of_node, "qcom,mdp5"))
+> > +             ret = dpu_kms_mmap_mdp5(dpu_kms);
+> > +     else
+> > +             ret = dpu_kms_mmap_dpu(dpu_kms);
+> > +     if (ret)
+> >               return ret;
+> > -     }
+> > -
+> > -     dpu_kms->vbif[VBIF_NRT] = msm_ioremap_quiet(pdev, "vbif_nrt");
+> > -     if (IS_ERR(dpu_kms->vbif[VBIF_NRT])) {
+> > -             dpu_kms->vbif[VBIF_NRT] = NULL;
+> > -             DPU_DEBUG("VBIF NRT is not defined");
+> > -     }
+> >
+> >       ret = dpu_kms_parse_data_bus_icc_path(dpu_kms);
+> >       if (ret)
+> > diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+> > index 16a7cbc0b7dd..01e783130054 100644
+> > --- a/drivers/gpu/drm/msm/msm_drv.h
+> > +++ b/drivers/gpu/drm/msm/msm_drv.h
+> > @@ -476,6 +476,9 @@ void __iomem *msm_ioremap(struct platform_device *pdev, const char *name);
+> >   void __iomem *msm_ioremap_size(struct platform_device *pdev, const char *name,
+> >               phys_addr_t *size);
+> >   void __iomem *msm_ioremap_quiet(struct platform_device *pdev, const char *name);
+> > +void __iomem *msm_ioremap_mdss(struct platform_device *mdss_pdev,
+> > +                            struct platform_device *dev,
+> > +                            const char *name);
+> >
+> >   struct icc_path *msm_icc_get(struct device *dev, const char *name);
+> >
+> > diff --git a/drivers/gpu/drm/msm/msm_io_utils.c b/drivers/gpu/drm/msm/msm_io_utils.c
+> > index 59d2788c4510..afedd61c3e28 100644
+> > --- a/drivers/gpu/drm/msm/msm_io_utils.c
+> > +++ b/drivers/gpu/drm/msm/msm_io_utils.c
+> > @@ -50,6 +50,19 @@ struct clk *msm_clk_get(struct platform_device *pdev, const char *name)
+> >       return clk;
+> >   }
+> >
+> > +void __iomem *msm_ioremap_mdss(struct platform_device *mdss_pdev,
+> > +                            struct platform_device *pdev,
+> > +                            const char *name)
+> > +{
+> > +     struct resource *res;
+> > +
+> > +     res = platform_get_resource_byname(mdss_pdev, IORESOURCE_MEM, name);
+> > +     if (!res)
+> > +             return ERR_PTR(-EINVAL);
+> > +
+> > +     return devm_ioremap_resource(&pdev->dev, res);
+> > +}
+> > +
+> >   static void __iomem *_msm_ioremap(struct platform_device *pdev, const char *name,
+> >                                 bool quiet, phys_addr_t *psize)
+> >   {
+> >
 
-  drm/msm/mdss: specify cfg bandwidth for SDM670 (2024-01-25 14:36:04 -0800)
 
-----------------------------------------------------------------
-Fixes for v6.8-rc4
 
-DPU:
-- fix for kernel doc warnings and smatch warnings in dpu_encoder
-- fix for smatch warning in dpu_encoder
-- fix the bus bandwidth value for SDM670
-
-DP:
-- fixes to handle unknown bpc case correctly for DP. The current code was
-  spilling over into other bits of DP configuration register, had to be
-  fixed to avoid the extra shifts which were causing the spill over
-- fix for MISC0 programming in DP driver to program the correct
-  colorimetry value
-
-GPU:
-- dmabuf vmap fix
-- a610 UBWC corruption fix (incorrect hbb)
-- revert a commit that was making GPU recovery unreliable
-
-----------------------------------------------------------------
-Abhinav Kumar (1):
-      drm/msm/dpu: check for valid hw_pp in dpu_encoder_helper_phys_cleanup
-
-Dmitry Baryshkov (1):
-      drm/msm/mdss: specify cfg bandwidth for SDM670
-
-Kuogee Hsieh (2):
-      drm/msms/dp: fixed link clock divider bits be over written in
-BPC unknown case
-      drm/msm/dp: return correct Colorimetry for DP_TEST_DYNAMIC_RANGE_CEA case
-
-Randy Dunlap (1):
-      drm/msm/dpu: fix kernel-doc warnings
-
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |  8 ++------
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      |  3 ++-
- drivers/gpu/drm/msm/dp/dp_ctrl.c            |  5 -----
- drivers/gpu/drm/msm/dp/dp_link.c            | 22 ++++++++++++++--------
- drivers/gpu/drm/msm/dp/dp_reg.h             |  3 +++
- drivers/gpu/drm/msm/msm_mdss.c              |  1 +
- 6 files changed, 22 insertions(+), 20 deletions(-)
+-- 
+With best wishes
+Dmitry
