@@ -2,100 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55D4984D32F
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 21:49:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D38E484D318
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 21:42:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61B9E10E1DF;
-	Wed,  7 Feb 2024 20:49:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AD3E10E160;
+	Wed,  7 Feb 2024 20:42:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=math.uni-bielefeld.de header.i=@math.uni-bielefeld.de header.b="DpYW5j1v";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NARnY1kQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 552 seconds by postgrey-1.36 at gabe;
- Wed, 07 Feb 2024 20:49:30 UTC
-Received: from smtp1.math.uni-bielefeld.de (smtp1.math.uni-bielefeld.de
- [129.70.45.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B1FF10E1DF
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Feb 2024 20:49:30 +0000 (UTC)
-Received: from [192.168.0.100]
- (dslb-084-060-118-105.084.060.pools.vodafone-ip.de [84.60.118.105])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (Client did not present a certificate)
- by smtp1.math.uni-bielefeld.de (Postfix) with ESMTPSA id C485660FF7;
- Wed,  7 Feb 2024 21:40:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=math.uni-bielefeld.de; s=default; t=1707338412;
- bh=R47pBXrMkcgccNc624V7QB0PVH7o6eckSMxWr8zH5Oc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=DpYW5j1v20zFrslT4tljFdH7bgbjAktssNMWEifa/s5gvMV3JKFIteSZUcv/cVc58
- MixeJ93kOLqaLY2dqP0cTkfg0r59rvrb45I7raE4Uk5cGIxwOrr600k5luXA70mOi8
- fsUMTbcrWJ0CPlniOsiLYzmlEUNpjqIXViTN62jgj8SqMLc3bKdeNOVp0zwSKqzQUF
- Ezanb0hDx53YV5ftu5yd8MTbb0WJQdtqMhOEsIWzjS3Ge6mW5dea5NA/2D6OyBt1La
- KF1f3yb9k1pMXcrKcFAIwSzbtcdNWS5OLFkwHW6+8bHVN2aVP6ZHbsIGehC/ajFs75
- R050bm6S8w4Sw==
-Message-ID: <0e681952-58f4-48f8-9cd3-e0cb26a138b6@math.uni-bielefeld.de>
-Date: Wed, 7 Feb 2024 21:40:07 +0100
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
+ [209.85.208.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7B3F10E160;
+ Wed,  7 Feb 2024 20:42:23 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id
+ 4fb4d7f45d1cf-55c2cf644f3so1376876a12.1; 
+ Wed, 07 Feb 2024 12:42:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1707338542; x=1707943342; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=i7SRBxYoK9LHUFD9hGgBcXZ8tzxyzNmubya79xIxsbE=;
+ b=NARnY1kQKiUOQo2AZceZGKL35iXI7+Ub6wlpMikTljZyUSAyMdsx+T6Immv2yfba+m
+ PERQ+40JGfJQt0K4dyLFbgPUxRcijeJIOBeFP5ZCVic2YEwXv5OmS4t0dzIgS0VAVSfh
+ IzNINatmmFeyowiNKr9LzNJ/Fkl8NIt28yA9HilbfmGZiIHHt6MyeBUO5YPogMrG/kOE
+ 7GbiL/0fx27/DqcW/mkvNxs+7BYZ6guWdHWlteCDCEVBK/Ddw2od6zL/O1DOc0CrCmtF
+ tPA00lJNWwPXMSsFfZkxAkJAk9ofUNJIo2w+Gj9R4EBT4lpokxPeBUsW8DdIgR3rmZgo
+ z5wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707338542; x=1707943342;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=i7SRBxYoK9LHUFD9hGgBcXZ8tzxyzNmubya79xIxsbE=;
+ b=ZzjYJykGsv4Jz8elZ5GYFVR7rhd3hqSPX+mHBqft9dc4Det0sT6oMMa4lxwN1BcZ7r
+ JhJoCIEQ4RTPZLUf7KOCJvZqHjt17vEgSbeW1w0Oy1d6LQ7B4KU4AclJrJmcL85ZUBFp
+ +CkXidEXyaI9+OqdGxtaa6yrvSqvo8w7Vz4Cs8R7ajg7Eg7h7ko8LDNCnTK1cHJXbY3q
+ ihbFI8wN/eg21eKY1hhnk8shGZophCsruPgOOoo1dev84qCeX+xvk/grqmU+TQs59MPW
+ K0MKHSHDuthej7Em0UgIasJQnPgZDKOezli7RhHC8U379zjCLBQ6epBhqtXF8darpqxC
+ pq0Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWtCn7TDuvFTpi0hFaxFQEY5suVKJ8hYAcYf00RmW4cbC21X88igqBopi5z7cNalEklSSiI2zTpRrWRrQaxyfpnpyLm1VFml80NKD3tTXi7
+X-Gm-Message-State: AOJu0Yxcz5SQ4LfgnqPfSYFWadtP+11qRKQmbheEhfcsKc6739WIDOk4
+ SJm4jBxq1ZdWFXp94JvD7EeIeXzgGHwAKbgKeBlgerpZy/8R/fuYomzqWnL3AHDx3lpz6HG5TdC
+ AFMcjyNGvUmQ0cpz6/HbLlQEkkWLImk72y+M=
+X-Google-Smtp-Source: AGHT+IFY3hjMz3ULM/3LgTj/OI5mPF5L/7niwSxy11z7IHfIRFUyp2boumPUFmr4o9DUWE5Yb2lHWlai8l/DVZmKoMc=
+X-Received: by 2002:a50:fb0b:0:b0:55f:ff7b:3a00 with SMTP id
+ d11-20020a50fb0b000000b0055fff7b3a00mr4783718edq.8.1707338541881; Wed, 07 Feb
+ 2024 12:42:21 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: panel-orientation-quirks: Add quirk for Aya Neo KUN
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20240205222556.299481-1-tjakobi@math.uni-bielefeld.de>
- <CAA8EJpqv2moyu6XUtCHb_EK-HLKSCgTa8CgchEVBg06PQKMM+w@mail.gmail.com>
-Content-Language: en-US
-From: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
-Autocrypt: addr=tjakobi@math.uni-bielefeld.de; keydata=
- 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
- JRHWPGCL3BhOxQ==
-In-Reply-To: <CAA8EJpqv2moyu6XUtCHb_EK-HLKSCgTa8CgchEVBg06PQKMM+w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 7 Feb 2024 12:42:09 -0800
+Message-ID: <CAF6AEGv+tb1+_cp7ftxcMZbbxE9810rvxeaC50eL=msQ+zkm0g@mail.gmail.com>
+Subject: [pull] drm/msm: drm-msm-fixes-2024-02-07 for v6.8-rc4
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,20 +77,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+Hi Dave,
 
-On 2/7/24 12:00, Dmitry Baryshkov wrote:
-> On Tue, 6 Feb 2024 at 01:57, <cubic2k@gmail.com> wrote:
->> From: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
->>
->> Similar to the other Aya Neo devices this one features
->> again a portrait screen, here with a native resolution
->> of 1600x2560.
->>
->> Signed-off-by: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
-> As you don't seem to be the author of the patch, this needs your sign-off too.
+A few fixes for v6.8, description below
 
-I'm not sure what you mean. Patch is by me, and signed off by me.
+The following changes since commit d4ca26ac4be0d9aea7005c40df75e6775749671b:
 
-- Tobias
+  drm/msm/dp: call dp_display_get_next_bridge() during probe
+(2023-12-14 09:27:46 +0200)
 
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-fixes-2024-02-07
+
+for you to fetch changes up to 8d35217149daa33358c284aca6a56d5ab92cfc6c:
+
+  drm/msm/mdss: specify cfg bandwidth for SDM670 (2024-01-25 14:36:04 -0800)
+
+----------------------------------------------------------------
+Fixes for v6.8-rc4
+
+DPU:
+- fix for kernel doc warnings and smatch warnings in dpu_encoder
+- fix for smatch warning in dpu_encoder
+- fix the bus bandwidth value for SDM670
+
+DP:
+- fixes to handle unknown bpc case correctly for DP. The current code was
+  spilling over into other bits of DP configuration register, had to be
+  fixed to avoid the extra shifts which were causing the spill over
+- fix for MISC0 programming in DP driver to program the correct
+  colorimetry value
+
+GPU:
+- dmabuf vmap fix
+- a610 UBWC corruption fix (incorrect hbb)
+- revert a commit that was making GPU recovery unreliable
+
+----------------------------------------------------------------
+Abhinav Kumar (1):
+      drm/msm/dpu: check for valid hw_pp in dpu_encoder_helper_phys_cleanup
+
+Dmitry Baryshkov (1):
+      drm/msm/mdss: specify cfg bandwidth for SDM670
+
+Kuogee Hsieh (2):
+      drm/msms/dp: fixed link clock divider bits be over written in
+BPC unknown case
+      drm/msm/dp: return correct Colorimetry for DP_TEST_DYNAMIC_RANGE_CEA case
+
+Randy Dunlap (1):
+      drm/msm/dpu: fix kernel-doc warnings
+
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |  8 ++------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      |  3 ++-
+ drivers/gpu/drm/msm/dp/dp_ctrl.c            |  5 -----
+ drivers/gpu/drm/msm/dp/dp_link.c            | 22 ++++++++++++++--------
+ drivers/gpu/drm/msm/dp/dp_reg.h             |  3 +++
+ drivers/gpu/drm/msm/msm_mdss.c              |  1 +
+ 6 files changed, 22 insertions(+), 20 deletions(-)
