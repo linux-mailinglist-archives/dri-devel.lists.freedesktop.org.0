@@ -2,70 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C9D584C8A4
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 11:29:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFA7984C8C5
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 11:39:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EC671131FA;
-	Wed,  7 Feb 2024 10:29:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0A8B10EED8;
+	Wed,  7 Feb 2024 10:39:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="Rs13nRfU";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="grHVbc4y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.154.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2FB51131FA
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Feb 2024 10:29:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1707301785; x=1738837785;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=R7H9cs6DbGLpBH+H9RkszszDtlqmhCAJkD+Ax/F7B3Y=;
- b=Rs13nRfUxIw/eVpl36DLb2Mk/vJSEwFvrF5HK2wbYv1KKHNDXLTpiUae
- pakzxzAdyjXOceX1Hge1msTFf9awOvYNYTiuQ5giRFVzEjRf4J+PiD1eP
- 5u281nDpLRfILh1UVk/W2ioDUfX7tlXfQ5DaGJvdvKfoSsMvzv8X7VR3y
- 7Wm0F9ApjjAUlxMnwMG58sVODi9eHjFyu2kx1/u64F+gs0ZPFSgVYnnom
- 85yIidaSAWFYwGM/5Gi2Xc0rkfVJEddZUMK7sIkscMMH8kYsyd4Ck2NHH
- NC/AEa85SyhawThdpG5WUg6qUnYYYcyArS/par58KNztwqb6eOXqUUqNz Q==;
-X-CSE-ConnectionGUID: j4AD8RfGT+KjBzGzRGPXfg==
-X-CSE-MsgGUID: yxQHXMHUTNu7ReuQRkJiUw==
-X-IronPort-AV: E=Sophos;i="6.05,250,1701154800"; d="scan'208";a="16412544"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 07 Feb 2024 03:29:43 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 7 Feb 2024 03:29:03 -0700
-Received: from che-lt-i70843lx.microchip.com (10.10.85.11) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Wed, 7 Feb 2024 03:28:51 -0700
-From: Dharma Balasubiramani <dharma.b@microchip.com>
-To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
- <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
- <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>, 
- <conor+dt@kernel.org>, <dharma.b@microchip.com>,
- <manikandan.m@microchip.com>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux@armlinux.org.uk>,
- <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
- <claudiu.beznea@tuxon.dev>, <geert+renesas@glider.be>, <arnd@arndb.de>,
- <palmer@rivosinc.com>, <akpm@linux-foundation.org>, <gerg@linux-m68k.org>,
- <rdunlap@infradead.org>, <vbabka@suse.cz>,
- <linux-arm-kernel@lists.infradead.org>
-CC: Hari Prasath Gujulan Elango <hari.prasathge@microchip.com>
-Subject: [PATCH v3 4/4] ARM: configs: at91: Enable LVDS serializer support
-Date: Wed, 7 Feb 2024 15:58:02 +0530
-Message-ID: <20240207102802.200220-5-dharma.b@microchip.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240207102802.200220-1-dharma.b@microchip.com>
-References: <20240207102802.200220-1-dharma.b@microchip.com>
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA2C210EED8
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Feb 2024 10:39:31 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-51165efb684so804206e87.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Feb 2024 02:39:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1707302370; x=1707907170; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Dfn60JJbW7ZmqouExzAHtYMCfc4R1yQ5pVABs7D1eOk=;
+ b=grHVbc4yFCWcBOG3orsL+3aZopYijDROksKY17Ul/GLxzqHYbbhCPvW/p+XnbHMF3h
+ HyJIlvS4Sjoujwr5ekg6AeTHm/adNU56Q8/ttYJFLrfSEViKuNXYTMvNZ6LBOf6WZ/Qs
+ baQ1AGGj0DPD7x+fs4w76MmUeq+egW4xxu7DHgUwARSbKH0/FVCoApeUKaxzbK90KckR
+ QQ7dQe1JzxbsXbvnC5vuVjwBdRsQiWuQW5ind7g2VTNcfOA4XPtbJZCc3ph8i/gCFRWK
+ 4grBBNM8T5escaeGpFH4U6ojNsNM92MjL01vEkf0G6MrBlPQ8Rnr8x0yk2Vqx82Pi8YU
+ HZLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707302370; x=1707907170;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Dfn60JJbW7ZmqouExzAHtYMCfc4R1yQ5pVABs7D1eOk=;
+ b=WozFQdbfV8oqTxj1KDY/FKGQLTrsK7zw/T6Dzv3J4uVaQte6XQ57uAQtXLBiHzHnTn
+ k93l8Wr3oa65sBOtMpzE2T4ekybzZwR6dQHkWpOQwu6+lf83jlXDDwT9wbaedqpGlz5f
+ GRS9eYjMpQb9yVHROHcxInDNjKdtSfESiS/W/kQreDfC75/qdPXlucWC3EHJ9jYJxiQp
+ cifW3B1LVg3xSUHkWdnFsxbhsy54OSsS/bH/D3m7GM1LHChFRiHK+1FDY0lX17PJGmdT
+ Doj373nOYiAd2vzVaG57JC3omMU0GPAI9E3up7oyfNrUTJsHVZyn6glT5DNcUYk/CoE8
+ IjrQ==
+X-Gm-Message-State: AOJu0YwueP6phVkBVhFR/cJdklHzkxxkBqSiFXhOe2P238vnhgod3JjJ
+ lUqUaA0MTwSY0VJLFk0rzKdfa4Yo1YNBONhZDOCV+zNl2WDRFI+KrJpNZkQ7hqs=
+X-Google-Smtp-Source: AGHT+IEipOfbNK9V08XJPCsd03wUBBzs9t3wZxjrqCsg9IqwLKFhr/huOTxY1ppV6pEIHt6ZJdr1+A==
+X-Received: by 2002:a05:6512:29e:b0:511:4ff2:ee40 with SMTP id
+ j30-20020a056512029e00b005114ff2ee40mr4008102lfp.2.1707302369783; 
+ Wed, 07 Feb 2024 02:39:29 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVD8EdgZc3nksJaP0oIYnia74Z174M64l+MZjJP2i/5YDCnM3T2yVRG8smRau9je/Pk106Y6OLEaHc/LlYnctkgmosO3vqqIH0P5XoHGc1GbH+1Gb6d1n6ZoC3n/1JOx3hWM1siqixifmHRv15dntCs51lnl0um9O2dK86p/CZ6re2NClJo4yZivR4OsYuj9Cg/3gXKhZ35t9JsGFwscFx5WcGaewxtPA8lr5HlHk3nB/mz1vMtx84tV7Vtt30Ssf8Z7YgOXQaqrexJ+A==
+Received: from eriador.lan (dzyjmhyyyyyyyyyyyykxt-3.rev.dnainternet.fi.
+ [2001:14ba:a00e:a300::227]) by smtp.gmail.com with ESMTPSA id
+ z2-20020a056512308200b0051156758496sm135106lfd.92.2024.02.07.02.39.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Feb 2024 02:39:29 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ "Ricardo B. Marliere" <ricardo@marliere.net>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH 0/2] drivers: drm: struct bus_type cleanup
+Date: Wed,  7 Feb 2024 12:39:26 +0200
+Message-ID: <170730233341.360722.2569543187695193129.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240203-bus_cleanup-gpu-v1-0-1b6ecdb5f941@marliere.net>
+References: <20240203-bus_cleanup-gpu-v1-0-1b6ecdb5f941@marliere.net>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,31 +88,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable LVDS serializer support for display pipeline.
+On Sat, 03 Feb 2024 15:25:02 -0300, Ricardo B. Marliere wrote:
+> This series is part of an effort to cleanup the users of the driver
+> core, as can be seen in many recent patches authored by Greg across the
+> tree (e.g. [1]). Specifically, this series is part of the task of
+> splitting one of his TODOs [2].
+> 
 
-Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
-Acked-by: Hari Prasath Gujulan Elango <hari.prasathge@microchip.com>
-Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
----
-Changelog
-v2 -> v3
-- No Changes.
----
- arch/arm/configs/at91_dt_defconfig | 1 +
- 1 file changed, 1 insertion(+)
+Applied to drm-misc-next, thanks!
 
-diff --git a/arch/arm/configs/at91_dt_defconfig b/arch/arm/configs/at91_dt_defconfig
-index 71b5acc78187..6a7714beb099 100644
---- a/arch/arm/configs/at91_dt_defconfig
-+++ b/arch/arm/configs/at91_dt_defconfig
-@@ -143,6 +143,7 @@ CONFIG_VIDEO_OV2640=m
- CONFIG_VIDEO_OV7740=m
- CONFIG_DRM=y
- CONFIG_DRM_ATMEL_HLCDC=y
-+CONFIG_DRM_MICROCHIP_LVDS_SERIALIZER=y
- CONFIG_DRM_PANEL_SIMPLE=y
- CONFIG_DRM_PANEL_EDP=y
- CONFIG_FB_ATMEL=y
+[1/2] drm: display: make dp_aux_bus_type const
+      commit: 78cb1f1d19b600ed288ed7ad1fd7b9378302cbc5
+[2/2] drm: mipi-dsi: make mipi_dsi_bus_type const
+      commit: 2c8ba564a42c7418a726367c73d7c88454848fdc
+
+Best regards,
 -- 
-2.25.1
-
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
