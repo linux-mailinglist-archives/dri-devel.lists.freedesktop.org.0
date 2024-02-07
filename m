@@ -2,60 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D24884CE6B
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 16:52:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58E7084CE8C
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 17:03:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AC7610EDDA;
-	Wed,  7 Feb 2024 15:52:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A5A010E6B7;
+	Wed,  7 Feb 2024 16:03:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HmzJMu7c";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="EMZwGDA6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD42810EDDA
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Feb 2024 15:52:34 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id D887BCE19DE;
- Wed,  7 Feb 2024 15:52:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CF34C433F1;
- Wed,  7 Feb 2024 15:52:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1707321148;
- bh=cHYNDEi3WlHG4angWaXSJlNb7gbznKoIJltmiX4Cfa4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HmzJMu7cKmZvdytEdbGNsrv/J2EM5eMY7C8ep99MQMYPXPSfn5RXk6Pl+W5hxQjgj
- 5cLwXKOmxQ/tmKF1MbH05iRh3y/HS4iLUc5HifLrxW9uA3yXZNRc6eNEPyJgqVc0Gv
- 9yzu21BUaTqV+u7tAOPY/QHvCFi6V+H4WOkZl2Tk7KNGGAuokp6i37yNSprn5+qaR5
- ZQ7BWDjoMTCfchTu6lEgIg+r7D5wm+Jw9AhbuJk1UszZ0E8mXr/LNG0YrnarhABAiH
- kzb6YDDJUpErLBcGRtQRMLk4K/6nvS9ickaC2GYnuW/6jWuefkwskvwVmUoOOSkWcL
- 3WEGQiJt7qE0g==
-Date: Wed, 7 Feb 2024 15:52:19 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Dharma Balasubiramani <dharma.b@microchip.com>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- manikandan.m@microchip.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux@armlinux.org.uk,
- nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
- claudiu.beznea@tuxon.dev, geert+renesas@glider.be, arnd@arndb.de,
- palmer@rivosinc.com, akpm@linux-foundation.org, gerg@linux-m68k.org,
- rdunlap@infradead.org, vbabka@suse.cz,
- linux-arm-kernel@lists.infradead.org, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v3 1/4] dt-bindings: display: bridge: add sam9x75-lvds
- compatible
-Message-ID: <20240207-raving-chatty-7961fb5c5d43@spud>
-References: <20240207102802.200220-1-dharma.b@microchip.com>
- <20240207102802.200220-2-dharma.b@microchip.com>
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
+ [217.70.183.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7672810E6B7
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Feb 2024 16:03:32 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 71B90E0003;
+ Wed,  7 Feb 2024 16:03:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1707321808;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DMJ2m5Th6qWplrx0t7J61CsGhja3NucIGbS+faRx7/A=;
+ b=EMZwGDA6xV2r8cVWsFXSq1IiR7L2EciyAfg1wFvIjlXguHqiOjtrEAuJ361956hIiDzjlY
+ U6pV95ybBs2RWWLJeiZE0qntjU/v5WWuzIWumx1fxOE5PWV2+7l88ypMx1qfrbrDgWllLT
+ gXtiijL8UBi5/z3E1gWHUJitUullmH63jmuLbmH9I+L0Y11OQ+f6NfEH/cddjF2ZvAuhyR
+ 9EpM0iK8bWEf7MmVPwfpMT4O9YW20gwbhtOI2kr8Z8yTxcgMo7juZwb843+FLT4EW3c9Ov
+ CE7Kv1jxMOE82e8+7dgmMc1FhYhCRCXTSljAkjoS1w+M+VaiKkscNZrTajVVBQ==
+Date: Wed, 7 Feb 2024 17:03:26 +0100
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+Cc: Arthur Grillo <arthurgrillo@riseup.net>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Maxime Ripard <mripard@kernel.org>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, marcheu@google.com,
+ seanpaul@google.com, nicolejadeyee@google.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ thomas.petazzoni@bootlin.com
+Subject: Re: [PATCH 2/2] drm/vkms: Use a simpler composition function
+Message-ID: <ZcOpzszyR49_MlqB@localhost.localdomain>
+Mail-Followup-To: Pekka Paalanen <pekka.paalanen@haloniitty.fi>,
+ Arthur Grillo <arthurgrillo@riseup.net>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Maxime Ripard <mripard@kernel.org>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, marcheu@google.com,
+ seanpaul@google.com, nicolejadeyee@google.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ thomas.petazzoni@bootlin.com
+References: <20240201-yuv-v1-2-3ca376f27632@bootlin.com>
+ <20240202105522.43128e19@eldfell> <20240202102601.70b6d49c@xps-13>
+ <3nofkwzgnf4yva2wfogdbii47ohpi2wm5vp6aijtg3emxyoowt@twyreqz7ai3g>
+ <20240202131322.5471e184@xps-13> <20240202174913.789a9db9@eldfell>
+ <20240202170734.3176dfe4@xps-13>
+ <20240202214527.1d97c881@ferris.localdomain>
+ <d258c8dc-78e9-4509-9037-a98f7f33b3a3@riseup.net>
+ <20240207104407.7b06bac2@eldfell>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="tvxf/pUyWbuFS5ma"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240207102802.200220-2-dharma.b@microchip.com>
+In-Reply-To: <20240207104407.7b06bac2@eldfell>
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,28 +90,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello Pekka, Arthur,
 
---tvxf/pUyWbuFS5ma
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+[...]
 
-$subject: dt-bindings: display: bridge: add sam9x75-lvds compatible
+> > > Would it be possible to have a standardised benchmark specifically
+> > > for performance rather than correctness, in IGT or where-ever it
+> > > would make sense? Then it would be simple to tell contributors to
+> > > run this and report the numbers before and after.
+> > > 
+> > > I would propose this kind of KMS layout:
+> > > 
+> > > - CRTC size 3841 x 2161
+> > > - primary plane, XRGB8888, 3639 x 2161 @ 101,0
+> > > - overlay A, XBGR2101010, 3033 x 1777 @ 201,199
+> > > - overlay B, ARGB8888, 1507 x 1400 @ 1800,250
+> > > 
+> > > The sizes and positions are deliberately odd to try to avoid happy
+> > > alignment accidents. The planes are big, which should let the pixel
+> > > operations easily dominate performance measurement. There are
+> > > different pixel formats, both opaque and semi-transparent. There is
+> > > lots of plane overlap. The planes also do not cover the whole CRTC
+> > > leaving the background visible a bit.
+> > > 
+> > > There should be two FBs per each plane, flipped alternatingly each
+> > > frame. Writeback should be active. Run this a number of frames, say,
+> > > 100, and measure the kernel CPU time taken. It's supposed to take at
+> > > least several seconds in total.
+> > > 
+> > > I think something like this should be the base benchmark. One can
+> > > add more to it, like rotated planes, YUV planes, etc. or switch
+> > > settings on the existing planes. Maybe even FB_DAMAGE_CLIPS. Maybe
+> > > one more overlay that is very tall and thin.
+> > > 
+> > > Just an idea, what do you all think?  
+> > 
+> > Hi Pekka,
+> > 
+> > I just finished writing this proposal using IGT.
+> > 
+> > I got pretty interesting results:
+> > 
+> > The mentioned commit 8356b97906503a02125c8d03c9b88a61ea46a05a took
+> > around 13 seconds. While drm-misc/drm-misc-next took 36 seconds.
+> > 
+> > I'm currently bisecting to be certain that the change to the
+> > pixel-by-pixel is the culprit, but I don't see why it wouldn't be.
+> > 
+> > I just need to do some final touches on the benchmark code and it
+> > will be ready for revision.
+> 
+> Awesome, thank you very much for doing that!
+> pq
 
-If there's a respin for some reason, please update the subject to match
-what the commit is actually doing (adding a whole binding).
+I also think it's a good benchmarks for classic configurations. The odd 
+size is a very nice idea to verify the corner cases of line-by-line 
+algorithms.
 
-Cheers,
-Conor.
+When this is ready, please share the test, so I can check if my patch is 
+as performant as before.
 
---tvxf/pUyWbuFS5ma
-Content-Type: application/pgp-signature; name="signature.asc"
+Thank you for this work.
 
------BEGIN PGP SIGNATURE-----
+Have a nice day,
+Louis Chauvet
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZcOnMwAKCRB4tDGHoIJi
-0ue9AQC+O1AcM535fj1ORbNpOe2LbZVdJ/keOqbM5p7WIHcV8gD/aJgptEm38mUu
-e4pTQU4ClUkiAFbmRHcNmXKC7rhfiww=
-=057J
------END PGP SIGNATURE-----
-
---tvxf/pUyWbuFS5ma--
+-- 
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
