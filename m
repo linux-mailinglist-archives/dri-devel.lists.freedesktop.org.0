@@ -2,57 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08C3F84CA60
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 13:09:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 302AB84CB02
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 14:05:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9276E10F07C;
-	Wed,  7 Feb 2024 12:09:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04A36113244;
+	Wed,  7 Feb 2024 13:05:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UMwRn4T9";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="JM1ORoPO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 442D710F062;
- Wed,  7 Feb 2024 12:09:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707307743; x=1738843743;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=PHCEwGbJ8ow88hweQJ0i4wxkKPH1k5fvzwijQq2wZTM=;
- b=UMwRn4T9QmVAS86gTwlyVvvCJWZ6UzLyV/ebciuVfA6du10p1s1ZqKwF
- 7FNpfvuHenx0eOP16KwOAu7y9TE+jJ1RGF2vmSbHRicyJu8Fxrkpwjs4B
- Wu3VAPsZ03ha1F5MmcaJU4u91rGULpYxqqlWV5CskgFgfniMrB7V2qhj9
- yNA48WbeoqwL06o1eQW38AlwoS+WnhQg4K+PTBPGdrYyBLLgNatp+o1vf
- F018LhRjfvKkoQ6Say1F9lm3O0ExUk/kwCf30H/kIQlhgxpBjvpRIxEsH
- fdRZQtTSrSpa8rgw2G3pFbN+m+GkC7kd1/KvodktTNlP9eawt455uu3Wg g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="1251131"
-X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
-   d="scan'208";a="1251131"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2024 04:09:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
-   d="scan'208";a="1675572"
-Received: from unknown (HELO ideak-desk.fi.intel.com) ([10.237.66.155])
- by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2024 04:09:00 -0800
-Date: Wed, 7 Feb 2024 14:09:18 +0200
-From: Imre Deak <imre.deak@intel.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 11/19] drm/i915/dp: Add support for DP tunnel BW allocation
-Message-ID: <ZcNyW76dFv9/gUuC@ideak-desk.fi.intel.com>
-References: <20240123102850.390126-1-imre.deak@intel.com>
- <20240123102850.390126-12-imre.deak@intel.com>
- <ZcK7--cYow8bmnjY@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2086.outbound.protection.outlook.com [40.107.220.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53F6A113244
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Feb 2024 13:05:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QZ1pfEHVQqtPJ6rEJqG1MMc/8kMd2LMeQI8od9HJX9w2FJAbgQjXZeZPnlYJQL+j272ibHmCm17zkWjx+m6gTV27Gy2vWpBncETSYhBNxRP1ySct0tOX7Xk3DCgCEkLjF6kBRkUnzbmAdQNzWU10K2QexH0jPwcPyaNO11WkOO/MD0UtaoKSxhzBJk1ixs8FtSX1nKR7hoIdBFbBJUH6pO4cpAjvmtESNn/qgmhQ8YdT+8Xab8nVsP7eWPCOkVsr40e7teKRUkLaECqjPeT5lAJXmwfurb5xoMTrzbVdLyJkzA1Tum+gmBgv54mJ5SbIjXWFU+n/dM/Z/UaF3pMFXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EQk5WxfSZam0H04DLfTPnYYKdMrgt+GK9LurTEhA+S0=;
+ b=Ybzd0ciuPGV9aL7eUPJgkkka95mpNNHK8DYmtYydx5tDt1mumFg9R9dfWIV22fLlHmO6Auw83MJ4A591xODAG4UTMkVOCu/XCxrD1TRCptFOcg7Iq4GXquUj70MweOn3Bly9KuDeldlrmH+2Zp0yKhN2rKL7veQpCOmmTH2PWSMQCN0l2cNMnTdwNYfrSNQHkNJqMfIasnXGYytQ0onBNupDUPV1vhlj2P7yE294/3YWAMCHBNqapiZBnpEHHxeMfqKJ/HaMurVPguKatrTfOrrQJ63Xlq6DuRwc+BWnUMQKAHzkZ2JZLKuKSNqFMWgk/XFnu/xf+ZLuzl5jkRvwnQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EQk5WxfSZam0H04DLfTPnYYKdMrgt+GK9LurTEhA+S0=;
+ b=JM1ORoPOXoA1zscd33p2owuHOK9hryLqVgJXFWWRCvL4+jd189Yxlk2tiu9hAJ99My3uKuDzMcwZIvdMQRj2UmjyjfZw8gfw5mE31wLJCopWudrzz9K/wdRuJnJqP3KjF+1tw/ifgm2jgIGVNWmEj6KZnO2x36978K3W6R4mDOTccs55mSv8lQicaucozpzxcsm3cGZ+cwBvj4hsWyOf/ibyNzbUnZN0s1OQGIJNACrDr/BZfLf7R0ShZixydViQKEzHRTOAPhxQgRSa7KX1JtIqobICldxsUIljHp+arQnQRHXQSPrLv1aTrf71CEKcmRINxQbVd6FMMo2SnjMMDg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by PH0PR12MB8049.namprd12.prod.outlook.com (2603:10b6:510:28f::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.17; Wed, 7 Feb
+ 2024 13:05:35 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::96dd:1160:6472:9873]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::96dd:1160:6472:9873%6]) with mapi id 15.20.7270.012; Wed, 7 Feb 2024
+ 13:05:34 +0000
+Date: Wed, 7 Feb 2024 09:05:32 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Jon Hunter <jonathanh@nvidia.com>
+Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ iommu@lists.linux.dev, Mikko Perttunen <mperttunen@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, patches@lists.linux.dev
+Subject: Re: [PATCH] drm/tegra: Remove of_dma_configure() from
+ host1x_device_add()
+Message-ID: <20240207130532.GA1833900@nvidia.com>
+References: <0-v1-c76c50cd425e+15298-host1x_no_iommu_conf_jgg@nvidia.com>
+ <583b9145-cbbe-4a03-8120-e2a66a6093c7@nvidia.com>
+ <20240131153312.GM1455070@nvidia.com>
+ <a1597113-3ec9-445c-90d1-62df97406fb2@nvidia.com>
+ <20240201200212.GQ1455070@nvidia.com>
+ <96bc6d37-1000-4651-9a26-a8446dd64803@nvidia.com>
+ <20240202143518.GS1455070@nvidia.com>
+ <361dcaf5-352e-4162-a952-c690783a2251@nvidia.com>
+ <20240202161540.GU1455070@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZcK7--cYow8bmnjY@intel.com>
+In-Reply-To: <20240202161540.GU1455070@nvidia.com>
+X-ClientProxiedBy: DS7PR06CA0012.namprd06.prod.outlook.com
+ (2603:10b6:8:2a::22) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|PH0PR12MB8049:EE_
+X-MS-Office365-Filtering-Correlation-Id: 96ef72e1-d99a-4eaa-20b8-08dc27dd7862
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /HcrIdeFRtmDEWTPgkFTih2dM1a6TRUF4dEzaOpEvMWkShPz7ztMBm1pQGpWLyGm6p1NHjAS+s51m7dN7M+euTNdcxvMb6FL2W+3JaA/wyaBEszXhnmPrQRAFTdtiBKpoV6BjWUB0ssFxtbgd05dOpCE8l2SwLaaw4pFy1SSXP26eNYfngHG88CraiCpkl+/NICeXdixhIO1l93IriA+mYb5NFFPzNgOh+ujqnryWEM/ain4ghxLe1b6FndC1O3URr9pPZqmol/i3LFiS/BEEqmTejeNy8r5eoH9h7/iFc/gJczoPiGd06xm5XWd60yIjw6FtnahuNFD9qBclMylIY8WxQ/0kyKYeRQF3TYzPq9R12y1s63oQmk+BDRrJ3WD10mBCTpXimGuB9nGNGJZnT6ttVa6Uy2jA+XzYkuEtL9IgKb5oFBJZKF9kj03SkNleYbpsBguUMEuQP7UjmqQ+WnpBio0XzL21DoTO+oGhswxb7JZIcr6FMQkdPXEgioirgAVEzv3g9xglDrbehR5Quk2sC/YgYF0CCP927/VijN8YKmZuRfrGObToTUx5lwZ
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39860400002)(376002)(346002)(396003)(136003)(366004)(230922051799003)(186009)(451199024)(1800799012)(64100799003)(66899024)(2616005)(6512007)(1076003)(36756003)(6506007)(478600001)(41300700001)(38100700002)(86362001)(26005)(83380400001)(33656002)(6486002)(8676002)(6862004)(4326008)(8936002)(2906002)(5660300002)(37006003)(66946007)(66556008)(66476007)(54906003)(6636002)(316002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3tkpBnwOZ+BjUiAvGHw3yZtcmbzc1OKHcslEyvJvsK9ZBLlIsIgmeFUhgGao?=
+ =?us-ascii?Q?3RpiulTvgcphJURYMaPVQcsV56sNCQ2VPI2Qc3zBBBdfBAI9p/7/9x6vPxYX?=
+ =?us-ascii?Q?XHIDBNKrYJPrACGYK6Ux+Cs9PuaR2A330qfuVPNtX7eRbE1XsB02P7o+RwDL?=
+ =?us-ascii?Q?ZNM5qoHrvfXQlYyUG0qtTg4m6OY2aa4dxEgk6rLQrsDQlv/0QdKB5X/HgjmW?=
+ =?us-ascii?Q?2hgB6XDLHZKKDYO9vsufxDdMK9rhmxBvlS9AmdSWc/3fBIxwUpMNXrtdmxBw?=
+ =?us-ascii?Q?3vwDIY+4BAhDCtrl6B6DLV+LU7moWQfAKuWHZy5AijkAZxao/jv4fPQUoFZ+?=
+ =?us-ascii?Q?0b7tJNVIxhUpogCpxqaxsIhfHscPaa8CDQuTefD9S2GNAKDvRRDO1tEZSeOK?=
+ =?us-ascii?Q?hZvzcekjxiI4e7+rNlVeKya18IlXrRlmGKiyn8gtVY3mrddEn76AKcVO69bT?=
+ =?us-ascii?Q?m9LBHq+zXxWSU+bEIrYaeMHr3zrsvBy0F8C0n01Nl/5NEfzRNesirvbp6X8v?=
+ =?us-ascii?Q?7k9ZO3j9s904q9vywL8O/hG4vggDzZLyiscY0uElqtNsKDig5yNsdk2npPZ/?=
+ =?us-ascii?Q?a5IsHB2G+XKmqiLy3q8CdaYNgAMsSPb5cFb+RZJBH4I+q5rCj9o/X22CU2Rw?=
+ =?us-ascii?Q?V+7o+YUZpIwpVPaiO2YPTKVtc5U9wSYDg4iNZYM0LAc1HTA6vk5hohJzJnTr?=
+ =?us-ascii?Q?JyJ8Nb2OVfAn2qIPlwdEOX1vNd4t7l0OheabBgJgOh7/zVHJ6yPsahJ5AHBF?=
+ =?us-ascii?Q?4lSW+vcT1Qf4oLzibpnX3qmkKjM69y+/vbc5IwO+jANGRFo0lPXKDsEPpeeY?=
+ =?us-ascii?Q?q+rc9rib90AxyUN/GQYoVCJk6Dh0gavOddXWTJUsxBG27L+AWkiHEuXo2rPp?=
+ =?us-ascii?Q?8vR4CNrj/5BYI/h8eiDE7wRhYSRay/oyy7ZCdpvVosdLBzc1U9ePzSPmC1YT?=
+ =?us-ascii?Q?5QrId4mY/u8ALvou1WBLcfo8nY3qCw+PH2Jv1lgRT/zMTytczLO+oMkNDDwJ?=
+ =?us-ascii?Q?BpPkLnSw26isW82ydoUWiFEw4YCRch1r4gKWpUYNpr47KUJ/Jk9PLjnRSxmu?=
+ =?us-ascii?Q?JXNa0CWxeac72ULoxYi3w6WDvgYkXbCrv0G7CBnas8207iKykchZ5i/X9LvX?=
+ =?us-ascii?Q?dDA8WrknTj3InHFRpiCR95ZDmMA73HZywHK9+b7JG6GpREaL8ojcSahj5cRR?=
+ =?us-ascii?Q?FzjTZUUwEKuYodxW2+FOJ+0Y20LxBL6EpCD9eXWMg2/o3bEBh7nvEoRVLwwN?=
+ =?us-ascii?Q?A5TBjDCdzl17oRGSQ+273tMR3vGnOXOc60H7q+ZrfYzFhY34tBzyAKXQ4T01?=
+ =?us-ascii?Q?PUwtQSIFOKfbU5tYWUCG5n2qLBQBe42bEkqcGYqFlMBxsjj/eUQrS5maf7/q?=
+ =?us-ascii?Q?hJzJX0El7H6i8KSyvK387OG5Qe73toYbc2GTBUzb2f3rO1B7C3YgLilj44uF?=
+ =?us-ascii?Q?20vdu0KGYda/QTGz/NeFyQnGP+Eg9C0ZEi0ETCwJ7jD4ExPNVGKHzgMFCPUx?=
+ =?us-ascii?Q?OotA0KdGQ3sB5iRBy8o7OEx1ITpHcUXLRvy8bnONHLHdamKbyi9iY/rmyoh/?=
+ =?us-ascii?Q?AHdj5N8DF+QCebTX68d40dpIquH/hU5g5fmn+NqS?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 96ef72e1-d99a-4eaa-20b8-08dc27dd7862
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2024 13:05:34.3294 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gioTwllKi0Geja197wZd12K2oSL7weQgCaY4OqZAMDsVzBdhln2aww/hR39CtyeS
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8049
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,1026 +130,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 07, 2024 at 01:08:43AM +0200, Ville Syrjälä wrote:
-> On Tue, Jan 23, 2024 at 12:28:42PM +0200, Imre Deak wrote:
-> > Add support to enable the DP tunnel BW allocation mode. Follow-up
-> > patches will call the required helpers added here to prepare for a
-> > modeset on a link with DP tunnels, the last change in the patchset
-> > actually enabling BWA.
-> > 
-> > With BWA enabled, the driver will expose the full mode list a display
-> > supports, regardless of any BW limitation on a shared (Thunderbolt)
-> > link. Such BW limits will be checked against only during a modeset, when
-> > the driver has the full knowledge of each display's BW requirement.
-> > 
-> > If the link BW changes in a way that a connector's modelist may also
-> > change, userspace will get a hotplug notification for all the connectors
-> > sharing the same link (so it can adjust the mode used for a display).
-> > 
-> > The BW limitation can change at any point, asynchronously to modesets
-> > on a given connector, so a modeset can fail even though the atomic check
-> > for it passed. In such scenarios userspace will get a bad link
-> > notification and in response is supposed to retry the modeset.
-> > 
-> > Signed-off-by: Imre Deak <imre.deak@intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/Kconfig                  |  13 +
-> >  drivers/gpu/drm/i915/Kconfig.debug            |   1 +
-> >  drivers/gpu/drm/i915/Makefile                 |   3 +
-> >  drivers/gpu/drm/i915/display/intel_atomic.c   |   2 +
-> >  .../gpu/drm/i915/display/intel_display_core.h |   1 +
-> >  .../drm/i915/display/intel_display_types.h    |   9 +
-> >  .../gpu/drm/i915/display/intel_dp_tunnel.c    | 642 ++++++++++++++++++
-> >  .../gpu/drm/i915/display/intel_dp_tunnel.h    | 131 ++++
-> >  8 files changed, 802 insertions(+)
-> >  create mode 100644 drivers/gpu/drm/i915/display/intel_dp_tunnel.c
-> >  create mode 100644 drivers/gpu/drm/i915/display/intel_dp_tunnel.h
-> > 
-> > diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
-> > index b5d6e3352071f..4636913c17868 100644
-> > --- a/drivers/gpu/drm/i915/Kconfig
-> > +++ b/drivers/gpu/drm/i915/Kconfig
-> > @@ -155,6 +155,19 @@ config DRM_I915_PXP
-> >  	  protected session and manage the status of the alive software session,
-> >  	  as well as its life cycle.
-> >  
-> > +config DRM_I915_DP_TUNNEL
-> > +	bool "Enable DP tunnel support"
-> > +	depends on DRM_I915
-> > +	select DRM_DISPLAY_DP_TUNNEL
-> > +	default y
-> > +	help
-> > +	  Choose this option to detect DP tunnels and enable the Bandwidth
-> > +	  Allocation mode for such tunnels. This allows using the maximum
-> > +	  resolution allowed by the link BW on all displays sharing the
-> > +	  link BW, for instance on a Thunderbolt link.
-> > +
-> > +	  If in doubt, say "Y".
-> > +
-> >  menu "drm/i915 Debugging"
-> >  depends on DRM_I915
-> >  depends on EXPERT
-> > diff --git a/drivers/gpu/drm/i915/Kconfig.debug b/drivers/gpu/drm/i915/Kconfig.debug
-> > index 5b7162076850c..bc18e2d9ea05d 100644
-> > --- a/drivers/gpu/drm/i915/Kconfig.debug
-> > +++ b/drivers/gpu/drm/i915/Kconfig.debug
-> > @@ -28,6 +28,7 @@ config DRM_I915_DEBUG
-> >  	select STACKDEPOT
-> >  	select STACKTRACE
-> >  	select DRM_DP_AUX_CHARDEV
-> > +	select DRM_DISPLAY_DEBUG_DP_TUNNEL_STATE if DRM_I915_DP_TUNNEL
-> >  	select X86_MSR # used by igt/pm_rpm
-> >  	select DRM_VGEM # used by igt/prime_vgem (dmabuf interop checks)
-> >  	select DRM_DEBUG_MM if DRM=y
-> > diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> > index c13f14edb5088..3ef6ed41e62b4 100644
-> > --- a/drivers/gpu/drm/i915/Makefile
-> > +++ b/drivers/gpu/drm/i915/Makefile
-> > @@ -369,6 +369,9 @@ i915-y += \
-> >  	display/vlv_dsi.o \
-> >  	display/vlv_dsi_pll.o
-> >  
-> > +i915-$(CONFIG_DRM_I915_DP_TUNNEL) += \
-> > +	display/intel_dp_tunnel.o
-> > +
-> >  i915-y += \
-> >  	i915_perf.o
-> >  
-> > diff --git a/drivers/gpu/drm/i915/display/intel_atomic.c b/drivers/gpu/drm/i915/display/intel_atomic.c
-> > index ec0d5168b5035..96ab37e158995 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_atomic.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_atomic.c
-> > @@ -29,6 +29,7 @@
-> >   * See intel_atomic_plane.c for the plane-specific atomic functionality.
-> >   */
-> >  
-> > +#include <drm/display/drm_dp_tunnel.h>
-> >  #include <drm/drm_atomic.h>
-> >  #include <drm/drm_atomic_helper.h>
-> >  #include <drm/drm_fourcc.h>
-> > @@ -38,6 +39,7 @@
-> >  #include "intel_atomic.h"
-> >  #include "intel_cdclk.h"
-> >  #include "intel_display_types.h"
-> > +#include "intel_dp_tunnel.h"
-> >  #include "intel_global_state.h"
-> >  #include "intel_hdcp.h"
-> >  #include "intel_psr.h"
-> > diff --git a/drivers/gpu/drm/i915/display/intel_display_core.h b/drivers/gpu/drm/i915/display/intel_display_core.h
-> > index a90f1aa201be8..0993d25a0a686 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_display_core.h
-> > +++ b/drivers/gpu/drm/i915/display/intel_display_core.h
-> > @@ -522,6 +522,7 @@ struct intel_display {
-> >  	} wq;
-> >  
-> >  	/* Grouping using named structs. Keep sorted. */
-> > +	struct drm_dp_tunnel_mgr *dp_tunnel_mgr;
-> >  	struct intel_audio audio;
-> >  	struct intel_dpll dpll;
-> >  	struct intel_fbc *fbc[I915_MAX_FBCS];
-> > diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-> > index ae2e8cff9d691..b79db78b27728 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> > +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> > @@ -33,6 +33,7 @@
-> >  
-> >  #include <drm/display/drm_dp_dual_mode_helper.h>
-> >  #include <drm/display/drm_dp_mst_helper.h>
-> > +#include <drm/display/drm_dp_tunnel.h>
-> >  #include <drm/display/drm_dsc.h>
-> >  #include <drm/drm_atomic.h>
-> >  #include <drm/drm_crtc.h>
-> > @@ -677,6 +678,8 @@ struct intel_atomic_state {
-> >  
-> >  	struct intel_shared_dpll_state shared_dpll[I915_NUM_PLLS];
-> >  
-> > +	struct intel_dp_tunnel_inherited_state *dp_tunnel_state;
+On Fri, Feb 02, 2024 at 12:15:40PM -0400, Jason Gunthorpe wrote:
+
+> > Yes looks like a race of some sort. Adding a bit of debug also makes the
+> > issue go away so difficult to see what is happening.
 > 
-> 'dp_tunnel_state' is a bit too generic sounding to me.
-> 'inherited_tunnels' or something like that maybe?
+> I'm wondering if it is racing with iommu driver probing? I looked but
+> didn't notice anything obviously wrong there that would cause this
+> though.
 
-Yes, will rename it to inherited_dp_tunnels.
+Oh there is at least one racy thing here..
 
-> > +
-> >  	/*
-> >  	 * Current watermarks can't be trusted during hardware readout, so
-> >  	 * don't bother calculating intermediate watermarks.
-> > @@ -1372,6 +1375,9 @@ struct intel_crtc_state {
-> >  		struct drm_dsc_config config;
-> >  	} dsc;
-> >  
-> > +	/* DP tunnel used for BW allocation. */
-> > +	struct drm_dp_tunnel_ref dp_tunnel_ref;
-> > +
-> >  	/* HSW+ linetime watermarks */
-> >  	u16 linetime;
-> >  	u16 ips_linetime;
-> > @@ -1775,6 +1781,9 @@ struct intel_dp {
-> >  	/* connector directly attached - won't be use for modeset in mst world */
-> >  	struct intel_connector *attached_connector;
-> >  
-> > +	struct drm_dp_tunnel *tunnel;
-> > +	bool tunnel_suspended:1;
-> > +
-> >  	/* mst connector list */
-> >  	struct intel_dp_mst_encoder *mst_encoders[I915_MAX_PIPES];
-> >  	struct drm_dp_mst_topology_mgr mst_mgr;
-> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_tunnel.c b/drivers/gpu/drm/i915/display/intel_dp_tunnel.c
-> > new file mode 100644
-> > index 0000000000000..52dd0108a6c13
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/i915/display/intel_dp_tunnel.c
-> > @@ -0,0 +1,642 @@
-> > +// SPDX-License-Identifier: MIT
-> > +/*
-> > + * Copyright © 2023 Intel Corporation
-> > + */
-> > +
-> > +#include "i915_drv.h"
-> > +
-> > +#include <drm/display/drm_dp_tunnel.h>
-> > +
-> > +#include "intel_atomic.h"
-> > +#include "intel_display_limits.h"
-> > +#include "intel_display_types.h"
-> > +#include "intel_dp.h"
-> > +#include "intel_dp_link_training.h"
-> > +#include "intel_dp_mst.h"
-> > +#include "intel_dp_tunnel.h"
-> > +#include "intel_link_bw.h"
-> > +
-> > +struct intel_dp_tunnel_inherited_state {
-> > +	struct {
-> > +		struct drm_dp_tunnel_ref tunnel_ref;
-> > +	} tunnels[I915_MAX_PIPES];
-> 
-> Hmm. Does the extra middle-man struct buy us anything?
+The of_xlate hackjob is out of order and is racy if you have multiple instances:
 
-The struct used to have a pipe mask as well, but yes, this version can
-be simplified.
+struct tegra_smmu *tegra_smmu_probe(struct device *dev,
+				    const struct tegra_smmu_soc *soc,
+				    struct tegra_mc *mc)
+{
+	/*
+	 * This is a bit of a hack. Ideally we'd want to simply return this
+	 * value. However iommu_device_register() will attempt to add
+	 * all devices to the IOMMU before we get that far. In order
+	 * not to rely on global variables to track the IOMMU instance, we
+	 * set it here so that it can be looked up from the .probe_device()
+	 * callback via the IOMMU device's .drvdata field.
+	 */
+	mc->smmu = smmu;
+         ^^^^^^^^^^^^^
+           After this of_xlate and probe_device will succeed
 
-> > +};
-> > +
-> > +static void destroy_tunnel(struct intel_dp *intel_dp)
-> > +{
-> > +	drm_dp_tunnel_destroy(intel_dp->tunnel);
-> > +	intel_dp->tunnel = NULL;
-> > +}
-> > +
-> > +void intel_dp_tunnel_disconnect(struct intel_dp *intel_dp)
-> > +{
-> > +	if (!intel_dp->tunnel)
-> > +		return;
-> > +
-> > +	destroy_tunnel(intel_dp);
-> > +}
-> > +
-> > +void intel_dp_tunnel_destroy(struct intel_dp *intel_dp)
-> > +{
-> > +	if (!intel_dp->tunnel)
-> > +		return;
-> > +
-> > +	if (intel_dp_tunnel_bw_alloc_is_enabled(intel_dp))
-> > +		drm_dp_tunnel_disable_bw_alloc(intel_dp->tunnel);
-> > +
-> > +	destroy_tunnel(intel_dp);
-> > +}
-> > +
-> > +static int kbytes_to_mbits(int kbytes)
-> > +{
-> > +	return DIV_ROUND_UP(kbytes * 8, 1000);
-> > +}
-> > +
-> > +static int get_current_link_bw(struct intel_dp *intel_dp,
-> > +			       bool *below_dprx_bw)
-> > +{
-> > +	int rate = intel_dp_max_common_rate(intel_dp);
-> > +	int lane_count = intel_dp_max_common_lane_count(intel_dp);
-> > +	int bw;
-> > +
-> > +	bw = intel_dp_max_link_data_rate(intel_dp, rate, lane_count);
-> > +	*below_dprx_bw = bw < drm_dp_max_dprx_data_rate(rate, lane_count);
-> > +
-> > +	return bw;
-> > +}
-> > +
-> > +static int update_tunnel_state(struct intel_dp *intel_dp)
-> > +{
-> > +	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-> > +	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
-> > +	bool old_bw_below_dprx;
-> > +	bool new_bw_below_dprx;
-> > +	int old_bw;
-> > +	int new_bw;
-> > +	int ret;
-> > +
-> > +	old_bw = get_current_link_bw(intel_dp, &old_bw_below_dprx);
-> > +
-> > +	ret = drm_dp_tunnel_update_state(intel_dp->tunnel);
-> > +	if (ret < 0) {
-> > +		drm_dbg_kms(&i915->drm,
-> > +			    "[DPTUN %s][ENCODER:%d:%s] State update failed (err %pe)\n",
-> > +			    drm_dp_tunnel_name(intel_dp->tunnel),
-> > +			    encoder->base.base.id,
-> > +			    encoder->base.name,
-> > +			    ERR_PTR(ret));
-> > +
-> > +		return ret;
-> > +	}
-> > +
-> > +	if (ret == 0 ||
-> > +	    !drm_dp_tunnel_bw_alloc_is_enabled(intel_dp->tunnel))
-> > +		return 0;
-> > +
-> > +	intel_dp_update_sink_caps(intel_dp);
-> > +
-> > +	new_bw = get_current_link_bw(intel_dp, &new_bw_below_dprx);
-> > +
-> > +	/* Suppress the notification if the mode list can't change due to bw. */
-> > +	if (old_bw_below_dprx == new_bw_below_dprx &&
-> > +	    !new_bw_below_dprx)
-> > +		return 0;
-> > +
-> > +	drm_dbg_kms(&i915->drm,
-> > +		    "[DPTUN %s][ENCODER:%d:%s] Notify users about BW change: %d -> %d\n",
-> > +		    drm_dp_tunnel_name(intel_dp->tunnel),
-> > +		    encoder->base.base.id,
-> > +		    encoder->base.name,
-> > +		    kbytes_to_mbits(old_bw),
-> > +		    kbytes_to_mbits(new_bw));
-> > +
-> > +	return 1;
-> > +}
-> > +
-> > +static int allocate_initial_tunnel_bw(struct intel_dp *intel_dp,
-> > +				      struct drm_modeset_acquire_ctx *ctx)
-> > +{
-> > +	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-> > +	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
-> > +	const struct intel_crtc *crtc;
-> > +	int tunnel_bw = 0;
-> > +	u8 pipe_mask;
-> > +	int err;
-> > +
-> > +	err = intel_dp_get_active_pipes(intel_dp, ctx,
-> > +					INTEL_DP_GET_PIPES_SYNC,
-> > +					&pipe_mask);
-> > +	if (err)
-> > +		return err;
-> > +
-> > +	for_each_intel_crtc_in_pipe_mask(&i915->drm, crtc, pipe_mask) {
-> > +		const struct intel_crtc_state *crtc_state =
-> > +			to_intel_crtc_state(crtc->base.state);
-> > +		int stream_bw = intel_dp_config_required_rate(crtc_state);
-> > +
-> > +		drm_dbg_kms(&i915->drm,
-> > +			    "[DPTUN %s][ENCODER:%d:%s][CRTC:%d:%s] Initial BW for stream %d: %d/%d Mb/s\n",
-> > +			    drm_dp_tunnel_name(intel_dp->tunnel),
-> > +			    encoder->base.base.id,
-> > +			    encoder->base.name,
-> 
-> I would try to have the id+name for each object on the same line.
-> Avoids the whole thing eating so many lines, and the two are related
-> so just makes sense.
+        [...]
+       	err = iommu_device_sysfs_add(&smmu->iommu, dev, NULL, dev_name(dev));               
+	err = iommu_device_register(&smmu->iommu, &tegra_smmu_ops, dev);
+        ^^^^^^^^^
+        But the iommu instance is not fully initialized yet.
 
-Ok, will change it.
+So:
 
-> > +			    crtc->base.base.id,
-> > +			    crtc->base.name,
-> > +			    crtc->pipe,
-> > +			    kbytes_to_mbits(stream_bw),
-> > +			    kbytes_to_mbits(tunnel_bw));
-> > +
-> > +		tunnel_bw += stream_bw;
-> > +	}
-> > +
-> > +	err = drm_dp_tunnel_alloc_bw(intel_dp->tunnel, tunnel_bw);
-> > +	if (err) {
-> > +		drm_dbg_kms(&i915->drm,
-> > +			    "[DPTUN %s][ENCODER:%d:%s] Initial BW allocation failed (err %pe)\n",
-> > +			    drm_dp_tunnel_name(intel_dp->tunnel),
-> > +			    encoder->base.base.id,
-> > +			    encoder->base.name,
-> > +			    ERR_PTR(err));
-> > +
-> > +		return err;
-> > +	}
-> > +
-> > +	return update_tunnel_state(intel_dp);
-> > +}
-> > +
-> > +static int detect_new_tunnel(struct intel_dp *intel_dp, struct drm_modeset_acquire_ctx *ctx)
-> > +{
-> > +	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-> > +	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
-> > +	struct drm_dp_tunnel *tunnel;
-> > +	int ret;
-> > +
-> > +	tunnel = drm_dp_tunnel_detect(i915->display.dp_tunnel_mgr,
-> > +					&intel_dp->aux);
-> > +	if (IS_ERR(tunnel))
-> > +		return PTR_ERR(tunnel);
-> > +
-> > +	intel_dp->tunnel = tunnel;
-> > +
-> > +	ret = drm_dp_tunnel_enable_bw_alloc(intel_dp->tunnel);
-> > +	if (ret) {
-> > +		if (ret == -EOPNOTSUPP)
-> > +			return 0;
-> > +
-> > +		drm_dbg_kms(&i915->drm,
-> > +			    "[DPTUN %s][ENCODER:%d:%s] Failed to enable BW allocation mode (ret %pe)\n",
-> > +			    drm_dp_tunnel_name(intel_dp->tunnel),
-> > +			    encoder->base.base.id,
-> > +			    encoder->base.name,
-> > +			    ERR_PTR(ret));
-> > +
-> > +		/* Keep the tunnel with BWA disabled */
-> > +		return 0;
-> > +	}
-> > +
-> > +	ret = allocate_initial_tunnel_bw(intel_dp, ctx);
-> > +	if (ret < 0)
-> > +		intel_dp_tunnel_destroy(intel_dp);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +int intel_dp_tunnel_detect(struct intel_dp *intel_dp, struct drm_modeset_acquire_ctx *ctx)
-> > +{
-> > +	int ret;
-> > +
-> > +	if (intel_dp_is_edp(intel_dp))
-> > +		return 0;
-> > +
-> > +	if (intel_dp->tunnel) {
-> > +		ret = update_tunnel_state(intel_dp);
-> > +		if (ret >= 0)
-> > +			return ret;
-> > +
-> > +		/* Try to recreate the tunnel after an update error. */
-> > +		intel_dp_tunnel_destroy(intel_dp);
-> > +	}
-> > +
-> > +	ret = detect_new_tunnel(intel_dp, ctx);
-> > +	if (ret >= 0 || ret == -EDEADLK)
-> 
-> This if-statement seems to achieve nothing. Was there supposed
-> be some error handling for the actual error cases here?
+static int tegra_smmu_of_xlate(struct device *dev,
+			       struct of_phandle_args *args)
+{
+	struct platform_device *iommu_pdev = of_find_device_by_node(args->np);
+	struct tegra_mc *mc = platform_get_drvdata(iommu_pdev);
 
-Yes, just a left-over from a previous version of the patch limiting the
-number of times a tunnel detection was retried after a failure. It can
-be simplified, thanks for spotting it.
+	dev_iommu_priv_set(dev, mc->smmu);
+                            ^^^^^^^^^^^^
+                             Gets the partially initialized iommu
+			     instance
 
-> > +		return ret;
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +bool intel_dp_tunnel_bw_alloc_is_enabled(struct intel_dp *intel_dp)
-> > +{
-> > +	return intel_dp->tunnel &&
-> > +		drm_dp_tunnel_bw_alloc_is_enabled(intel_dp->tunnel);
-> 
-> We seem to have quite a few wrappers just for the NULL check.
-> I wonder if we should just make drm_dp_tunnel*() accept NULL
-> directly? Maybe something to think for the future...
 
-Yes, makes sense to move the check to the helper funcs, will do that.
+static struct iommu_device *tegra_smmu_probe_device(struct device *dev)
+{
+	smmu = dev_iommu_priv_get(dev);
+	if (!smmu)
+		return ERR_PTR(-ENODEV);
+               ^^^^^^^^^^^^^
+                  Allows the driver to bind to a partially setup instance
 
-> > +}
-> > +
-> > +void intel_dp_tunnel_suspend(struct intel_dp *intel_dp)
-> > +{
-> > +	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-> > +	struct intel_connector *connector = intel_dp->attached_connector;
-> > +	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
-> > +
-> > +	if (!intel_dp_tunnel_bw_alloc_is_enabled(intel_dp))
-> > +		return;
-> > +
-> > +	drm_dbg_kms(&i915->drm, "[DPTUN %s][CONNECTOR:%d:%s][ENCODER:%d:%s] Suspend\n",
-> > +		    drm_dp_tunnel_name(intel_dp->tunnel),
-> > +		    connector->base.base.id, connector->base.name,
-> > +		    encoder->base.base.id, encoder->base.name);
-> > +
-> > +	intel_dp->tunnel_suspended = true;
-> > +}
-> > +
-> > +void intel_dp_tunnel_resume(struct intel_dp *intel_dp, bool dpcd_updated)
-> > +{
-> > +	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-> > +	struct intel_connector *connector = intel_dp->attached_connector;
-> > +	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
-> > +	u8 dpcd[DP_RECEIVER_CAP_SIZE];
-> > +	int err = 0;
-> > +
-> > +	if (!intel_dp->tunnel_suspended)
-> > +		return;
-> > +
-> > +	intel_dp->tunnel_suspended = false;
-> > +
-> > +	drm_dbg_kms(&i915->drm, "[DPTUN %s][CONNECTOR:%d:%s][ENCODER:%d:%s] Resume\n",
-> > +		    drm_dp_tunnel_name(intel_dp->tunnel),
-> > +		    connector->base.base.id, connector->base.name,
-> > +		    encoder->base.base.id, encoder->base.name);
-> > +
-> > +	/* DPRX caps read required by tunnel detection */
-> > +	if (!dpcd_updated)
-> > +		err = intel_dp_read_dprx_caps(intel_dp, dpcd);
-> > +
-> > +	if (err)
-> > +		drm_dp_tunnel_set_io_error(intel_dp->tunnel);
-> > +	else
-> > +		err = drm_dp_tunnel_enable_bw_alloc(intel_dp->tunnel);
-> > +		/* TODO: allocate initial BW */
-> > +
-> > +	if (!err)
-> > +		return;
-> > +
-> > +	drm_dbg_kms(&i915->drm,
-> > +		    "[DPTUN %s][CONNECTOR:%d:%s][ENCODER:%d:%s] Tunnel can't be resumed, will drop and redect it (err %pe)\n",
-> > +		    drm_dp_tunnel_name(intel_dp->tunnel),
-> > +		    connector->base.base.id, connector->base.name,
-> > +		    encoder->base.base.id, encoder->base.name,
-> > +		    ERR_PTR(err));
-> > +}
-> > +
-> > +static struct drm_dp_tunnel *
-> > +get_inherited_tunnel_state(struct intel_atomic_state *state,
-> > +			   const struct intel_crtc *crtc)
-> > +{
-> > +	if (!state->dp_tunnel_state)
-> > +		return NULL;
-> > +
-> > +	return state->dp_tunnel_state->tunnels[crtc->pipe].tunnel_ref.tunnel;
-> > +}
-> > +
-> > +static int
-> > +add_inherited_tunnel_state(struct intel_atomic_state *state,
-> > +			   struct drm_dp_tunnel *tunnel,
-> > +			   const struct intel_crtc *crtc)
-> > +{
-> > +	struct drm_i915_private *i915 = to_i915(state->base.dev);
-> > +	struct drm_dp_tunnel *old_tunnel;
-> > +
-> > +	old_tunnel = get_inherited_tunnel_state(state, crtc);
-> > +	if (old_tunnel) {
-> > +		drm_WARN_ON(&i915->drm, old_tunnel != tunnel);
-> > +		return 0;
-> > +	}
-> > +
-> > +	if (!state->dp_tunnel_state) {
-> > +		state->dp_tunnel_state = kzalloc(sizeof(*state->dp_tunnel_state), GFP_KERNEL);
-> 
-> I was pondering if the dynamic allocation for this is super useful.
-> But I guess we anywya have to deal with various errors in the
-> places where this gets used so maybe not much benefit from
-> avoiding it.
+ie if you have multiple instances of tegra-smmu and you manage to do
+concurrent probe where the iommu instance is probing concurrently with
+the failing device_add flow then you can a situation like you have
+described where the sysfs is not fully setup.
 
-The only related error check is the -ENOMEM one below; it made sense to
-me to allocate it only on-demand. 
+Is this making sense to you? Add a sleep after the mc->smmu store and
+confirm with printing?
 
-> > +		if (!state->dp_tunnel_state)
-> > +			return -ENOMEM;
-> > +	}
-> > +
-> > +	drm_dp_tunnel_ref_get(tunnel,
-> > +			      &state->dp_tunnel_state->tunnels[crtc->pipe].tunnel_ref);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int check_inherited_tunnel_state(struct intel_atomic_state *state,
-> > +					struct intel_dp *intel_dp,
-> > +					const struct intel_digital_connector_state *old_conn_state)
-> > +{
-> > +	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-> > +	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
-> > +	const struct intel_connector *connector =
-> > +		to_intel_connector(old_conn_state->base.connector);
-> > +	struct intel_crtc *old_crtc;
-> > +	const struct intel_crtc_state *old_crtc_state;
-> > +
-> > +	/*
-> > +	 * If a BWA tunnel gets detected only after the corresponding
-> > +	 * connector got enabled already without a BWA tunnel, or a different
-> > +	 * BWA tunnel (which was removed meanwhile) the old CRTC state won't
-> > +	 * contain the state of the current tunnel. This tunnel still has a
-> > +	 * reserved BW, which needs to be released, add the state for such
-> > +	 * inherited tunnels separately only to this atomic state.
-> > +	 */
-> > +	if (!intel_dp_tunnel_bw_alloc_is_enabled(intel_dp))
-> > +		return 0;
-> > +
-> > +	if (!old_conn_state->base.crtc)
-> > +		return 0;
-> > +
-> > +	old_crtc = to_intel_crtc(old_conn_state->base.crtc);
-> > +	old_crtc_state = intel_atomic_get_old_crtc_state(state, old_crtc);
-> > +
-> > +	if (!old_crtc_state->hw.active ||
-> > +	    old_crtc_state->dp_tunnel_ref.tunnel == intel_dp->tunnel)
-> > +		return 0;
-> > +
-> > +	drm_dbg_kms(&i915->drm,
-> > +		    "[DPTUN %s][CONNECTOR:%d:%s][ENCODER:%d:%s][CRTC:%d:%s] Adding state for inherited tunnel %p\n",
-> > +		    drm_dp_tunnel_name(intel_dp->tunnel),
-> > +		    connector->base.base.id,
-> > +		    connector->base.name,
-> > +		    encoder->base.base.id,
-> > +		    encoder->base.name,
-> > +		    old_crtc->base.base.id,
-> > +		    old_crtc->base.name,
-> > +		    intel_dp->tunnel);
-> > +
-> > +	return add_inherited_tunnel_state(state, intel_dp->tunnel, old_crtc);
-> > +}
-> > +
-> > +void intel_dp_tunnel_atomic_cleanup_inherited_state(struct intel_atomic_state *state)
-> > +{
-> > +	enum pipe pipe;
-> > +
-> > +	if (!state->dp_tunnel_state)
-> > +		return;
-> > +
-> > +	for_each_pipe(to_i915(state->base.dev), pipe)
-> > +		if (state->dp_tunnel_state->tunnels[pipe].tunnel_ref.tunnel)
-> > +			drm_dp_tunnel_ref_put(&state->dp_tunnel_state->tunnels[pipe].tunnel_ref);
-> > +
-> > +	kfree(state->dp_tunnel_state);
-> > +	state->dp_tunnel_state = NULL;
-> > +}
-> > +
-> > +static int intel_dp_tunnel_atomic_add_group_state(struct intel_atomic_state *state,
-> > +						  struct drm_dp_tunnel *tunnel)
-> > +{
-> > +	struct drm_i915_private *i915 = to_i915(state->base.dev);
-> > +	u32 pipe_mask;
-> > +	int err;
-> > +
-> > +	if (!tunnel)
-> > +		return 0;
-> > +
-> > +	err = drm_dp_tunnel_atomic_get_group_streams_in_state(&state->base,
-> > +							      tunnel, &pipe_mask);
-> > +	if (err)
-> > +		return err;
-> > +
-> > +	drm_WARN_ON(&i915->drm, pipe_mask & ~((1 << I915_MAX_PIPES) - 1));
-> > +
-> > +	return intel_modeset_pipes_in_mask_early(state, "DPTUN", pipe_mask);
-> > +}
-> > +
-> > +int intel_dp_tunnel_atomic_add_state_for_crtc(struct intel_atomic_state *state,
-> > +					      struct intel_crtc *crtc)
-> > +{
-> > +	const struct intel_crtc_state *new_crtc_state =
-> > +		intel_atomic_get_new_crtc_state(state, crtc);
-> > +	const struct drm_dp_tunnel_state *tunnel_state;
-> > +	struct drm_dp_tunnel *tunnel = new_crtc_state->dp_tunnel_ref.tunnel;
-> > +
-> > +	if (!tunnel)
-> > +		return 0;
-> > +
-> > +	tunnel_state = drm_dp_tunnel_atomic_get_state(&state->base, tunnel);
-> > +	if (IS_ERR(tunnel_state))
-> > +		return PTR_ERR(tunnel_state);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int check_group_state(struct intel_atomic_state *state,
-> > +			     struct intel_dp *intel_dp,
-> > +			     const struct intel_connector *connector,
-> > +			     struct intel_crtc *crtc)
-> > +{
-> > +	struct drm_i915_private *i915 = to_i915(state->base.dev);
-> > +	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
-> > +	const struct intel_crtc_state *crtc_state;
-> > +
-> > +	crtc_state = intel_atomic_get_new_crtc_state(state, crtc);
-> 
-> Doesn't really need to be on its own line here.
+I think this is all an insane design. I fixed this race and removed
+all this hackery in my fwspec removal series. There the iommu instance
+only ever comes out of the locked list that iommu_device_register()
+populates and drivers have a safe and simple flow.
 
-Ok.
+Maybe just moving the store to mc->smmu later would improve it? I
+didn't look closely..
 
-> > +
-> > +	if (!crtc_state->dp_tunnel_ref.tunnel)
-> > +		return 0;
-> > +
-> > +	drm_dbg_kms(&i915->drm,
-> > +		    "[DPTUN %s][CONNECTOR:%d:%s][ENCODER:%d:%s][CRTC:%d:%s] Adding group state for tunnel %p\n",
-> > +		    drm_dp_tunnel_name(intel_dp->tunnel),
-> > +		    connector->base.base.id,
-> > +		    connector->base.name,
-> > +		    encoder->base.base.id,
-> > +		    encoder->base.name,
-> > +		    crtc->base.base.id,
-> > +		    crtc->base.name,
-> > +		    intel_dp->tunnel);
-> > +
-> > +	return intel_dp_tunnel_atomic_add_group_state(state, crtc_state->dp_tunnel_ref.tunnel);
-> > +}
-> > +
-> > +int intel_dp_tunnel_atomic_check_state(struct intel_atomic_state *state,
-> > +				       struct intel_dp *intel_dp,
-> > +				       struct intel_connector *connector)
-> > +{
-> > +	const struct intel_digital_connector_state *old_conn_state =
-> > +		intel_atomic_get_new_connector_state(state, connector);
-> 
-> s/get_new/get_old/
-
-Arg, thanks for catching this, will fix it.
-
-> 
-> > +	const struct intel_digital_connector_state *new_conn_state =
-> > +		intel_atomic_get_new_connector_state(state, connector);
-> > +	int err;
-> > +
-> > +	if (old_conn_state->base.crtc) {
-> > +		err = check_group_state(state, intel_dp, connector,
-> > +					to_intel_crtc(old_conn_state->base.crtc));
-> > +		if (err)
-> > +			return err;
-> > +	}
-> > +
-> > +	if (new_conn_state->base.crtc &&
-> > +	    new_conn_state->base.crtc != old_conn_state->base.crtc) {
-> > +		err = check_group_state(state, intel_dp, connector,
-> > +					to_intel_crtc(new_conn_state->base.crtc));
-> > +		if (err)
-> > +			return err;
-> > +	}
-> > +
-> > +	return check_inherited_tunnel_state(state, intel_dp, old_conn_state);
-> > +}
-> > +
-> > +void intel_dp_tunnel_atomic_compute_stream_bw(struct intel_atomic_state *state,
-> > +					      struct intel_dp *intel_dp,
-> > +					      const struct intel_connector *connector,
-> > +					      struct intel_crtc_state *crtc_state)
-> > +{
-> > +	struct drm_i915_private *i915 = to_i915(state->base.dev);
-> > +	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
-> > +	const struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
-> 
-> We don't usually const anything but the states.
-
-Ok.
-
-> > +	int required_rate = intel_dp_config_required_rate(crtc_state);
-> > +
-> > +	if (!intel_dp_tunnel_bw_alloc_is_enabled(intel_dp))
-> > +		return;
-> > +
-> > +	drm_dbg_kms(&i915->drm,
-> > +		    "[DPTUN %s][CONNECTOR:%d:%s][ENCODER:%d:%s][CRTC:%d:%s] Stream %d required BW %d Mb/s\n",
-> > +		    drm_dp_tunnel_name(intel_dp->tunnel),
-> > +		    connector->base.base.id,
-> > +		    connector->base.name,
-> > +		    encoder->base.base.id,
-> > +		    encoder->base.name,
-> > +		    crtc->base.base.id,
-> > +		    crtc->base.name,
-> > +		    crtc->pipe,
-> > +		    kbytes_to_mbits(required_rate));
-> > +
-> > +	drm_dp_tunnel_atomic_set_stream_bw(&state->base, intel_dp->tunnel,
-> > +					   crtc->pipe, required_rate);
-> > +
-> > +	drm_dp_tunnel_ref_get(intel_dp->tunnel,
-> > +			      &crtc_state->dp_tunnel_ref);
-> > +}
-> > +
-> > +/**
-> > + * intel_dp_tunnel_atomic_check_link - Check the DP tunnel atomic state
-> > + * @state: intel atomic state
-> > + * @limits: link BW limits
-> > + *
-> > + * Check the link configuration for all DP tunnels in @state. If the
-> > + * configuration is invalid @limits will be updated if possible to
-> > + * reduce the total BW, after which the configuration for all CRTCs in
-> > + * @state must be recomputed with the updated @limits.
-> > + *
-> > + * Returns:
-> > + *   - 0 if the confugration is valid
-> > + *   - %-EAGAIN, if the configuration is invalid and @limits got updated
-> > + *     with fallback values with which the configuration of all CRTCs in
-> > + *     @state must be recomputed
-> > + *   - Other negative error, if the configuration is invalid without a
-> > + *     fallback possibility, or the check failed for another reason
-> > + */
-> > +int intel_dp_tunnel_atomic_check_link(struct intel_atomic_state *state,
-> > +				      struct intel_link_bw_limits *limits)
-> > +{
-> > +	u32 failed_stream_mask;
-> > +	int err;
-> > +
-> > +	err = drm_dp_tunnel_atomic_check_stream_bws(&state->base,
-> > +						    &failed_stream_mask);
-> > +	if (err != -ENOSPC)
-> > +		return err;
-> > +
-> > +	err = intel_link_bw_reduce_bpp(state, limits,
-> > +				       failed_stream_mask, "DP tunnel link BW");
-> > +
-> > +	return err ? : -EAGAIN;
-> > +}
-> > +
-> > +void intel_dp_tunnel_atomic_alloc_bw(struct intel_atomic_state *state,
-> > +				     struct intel_encoder *encoder,
-> > +				     const struct intel_crtc_state *new_crtc_state,
-> > +				     const struct drm_connector_state *new_conn_state)
-> > +{
-> > +	struct drm_i915_private *i915 = to_i915(state->base.dev);
-> > +	struct drm_dp_tunnel *tunnel = new_crtc_state->dp_tunnel_ref.tunnel;
-> > +	const struct drm_dp_tunnel_state *new_tunnel_state;
-> > +	int err;
-> > +
-> > +	if (!tunnel)
-> > +		return;
-> > +
-> > +	new_tunnel_state = drm_dp_tunnel_atomic_get_new_state(&state->base, tunnel);
-> > +
-> > +	err = drm_dp_tunnel_alloc_bw(tunnel,
-> > +				     drm_dp_tunnel_atomic_get_tunnel_bw(new_tunnel_state));
-> > +	if (!err)
-> > +		return;
-> > +
-> > +	if (!intel_digital_port_connected(encoder))
-> > +		return;
-> > +
-> > +	drm_dbg_kms(&i915->drm,
-> > +		    "[DPTUN %s][ENCODER:%d:%s] BW allocation failed on a connected sink (err %pe)\n",
-> > +		    drm_dp_tunnel_name(tunnel),
-> > +		    encoder->base.base.id,
-> > +		    encoder->base.name,
-> > +		    ERR_PTR(err));
-> > +
-> > +	intel_dp_queue_modeset_retry_for_link(state, encoder, new_crtc_state, new_conn_state);
-> > +}
-> > +
-> > +void intel_dp_tunnel_atomic_free_bw(struct intel_atomic_state *state,
-> > +				    struct intel_encoder *encoder,
-> > +				    const struct intel_crtc_state *old_crtc_state,
-> > +				    const struct drm_connector_state *old_conn_state)
-> > +{
-> > +	struct drm_i915_private *i915 = to_i915(state->base.dev);
-> > +	struct intel_crtc *old_crtc = to_intel_crtc(old_crtc_state->uapi.crtc);
-> > +	struct drm_dp_tunnel *tunnel;
-> > +	int err;
-> > +
-> > +	tunnel = get_inherited_tunnel_state(state, old_crtc);
-> > +	if (!tunnel)
-> > +		tunnel = old_crtc_state->dp_tunnel_ref.tunnel;
-> 
-> So what happens if we have tunnels in both places?
-> 
-> The one in old_crtc_state is stale enough that we don't
-> have to care about it?
-
-Yes, an old tunnel used in a pervious modeset could be dropped after a
-sink is re-plugged, in which case the newly detected - inherited -
-tunnel state is used here. The old state with its allocated BW is not
-valid (freed by TBT Connection Manager) in this case.
-
-> > +
-> > +	if (!tunnel)
-> > +		return;
-> > +
-> > +	err = drm_dp_tunnel_alloc_bw(tunnel, 0);
-> > +	if (!err)
-> > +		return;
-> > +
-> > +	if (!intel_digital_port_connected(encoder))
-> > +		return;
-> > +
-> > +	drm_dbg_kms(&i915->drm,
-> > +		    "[DPTUN %s][ENCODER:%d:%s] BW freeing failed on a connected sink (err %pe)\n",
-> > +		    drm_dp_tunnel_name(tunnel),
-> > +		    encoder->base.base.id,
-> > +		    encoder->base.name,
-> > +		    ERR_PTR(err));
-> > +
-> > +	intel_dp_queue_modeset_retry_for_link(state, encoder, old_crtc_state, old_conn_state);
-> > +}
-> > +
-> > +int intel_dp_tunnel_mgr_init(struct drm_i915_private *i915)
-> > +{
-> > +	struct drm_dp_tunnel_mgr *tunnel_mgr;
-> > +	struct drm_connector_list_iter connector_list_iter;
-> > +	struct intel_connector *connector;
-> > +	int dp_connectors = 0;
-> > +
-> > +	drm_connector_list_iter_begin(&i915->drm, &connector_list_iter);
-> > +	for_each_intel_connector_iter(connector, &connector_list_iter) {
-> > +		if (connector->base.connector_type != DRM_MODE_CONNECTOR_DisplayPort)
-> > +			continue;
-> > +
-> > +		dp_connectors++;
-> > +	}
-> > +	drm_connector_list_iter_end(&connector_list_iter);
-> > +
-> > +	tunnel_mgr = drm_dp_tunnel_mgr_create(&i915->drm, dp_connectors);
-> > +	if (IS_ERR(tunnel_mgr))
-> > +		return PTR_ERR(tunnel_mgr);
-> > +
-> > +	i915->display.dp_tunnel_mgr = tunnel_mgr;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +void intel_dp_tunnel_mgr_cleanup(struct drm_i915_private *i915)
-> > +{
-> > +	drm_dp_tunnel_mgr_destroy(i915->display.dp_tunnel_mgr);
-> > +	i915->display.dp_tunnel_mgr = NULL;
-> > +}
-> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_tunnel.h b/drivers/gpu/drm/i915/display/intel_dp_tunnel.h
-> > new file mode 100644
-> > index 0000000000000..bedba3ba9ad8d
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/i915/display/intel_dp_tunnel.h
-> > @@ -0,0 +1,131 @@
-> > +/* SPDX-License-Identifier: MIT */
-> > +/*
-> > + * Copyright © 2023 Intel Corporation
-> > + */
-> > +
-> > +#ifndef __INTEL_DP_TUNNEL_H__
-> > +#define __INTEL_DP_TUNNEL_H__
-> > +
-> > +#include <linux/errno.h>
-> > +#include <linux/types.h>
-> > +
-> > +struct drm_i915_private;
-> > +struct drm_connector_state;
-> > +struct drm_modeset_acquire_ctx;
-> > +
-> > +struct intel_atomic_state;
-> > +struct intel_connector;
-> > +struct intel_crtc;
-> > +struct intel_crtc_state;
-> > +struct intel_dp;
-> > +struct intel_encoder;
-> > +struct intel_link_bw_limits;
-> > +
-> > +#if defined(CONFIG_DRM_I915_DP_TUNNEL) && defined(I915)
-> > +
-> > +int intel_dp_tunnel_detect(struct intel_dp *intel_dp, struct drm_modeset_acquire_ctx *ctx);
-> > +void intel_dp_tunnel_disconnect(struct intel_dp *intel_dp);
-> > +void intel_dp_tunnel_destroy(struct intel_dp *intel_dp);
-> > +void intel_dp_tunnel_resume(struct intel_dp *intel_dp, bool dpcd_updated);
-> > +void intel_dp_tunnel_suspend(struct intel_dp *intel_dp);
-> > +
-> > +bool intel_dp_tunnel_bw_alloc_is_enabled(struct intel_dp *intel_dp);
-> > +
-> > +void
-> > +intel_dp_tunnel_atomic_cleanup_inherited_state(struct intel_atomic_state *state);
-> > +
-> > +void intel_dp_tunnel_atomic_compute_stream_bw(struct intel_atomic_state *state,
-> > +					      struct intel_dp *intel_dp,
-> > +					      const struct intel_connector *connector,
-> > +					      struct intel_crtc_state *crtc_state);
-> > +
-> > +int intel_dp_tunnel_atomic_add_state_for_crtc(struct intel_atomic_state *state,
-> > +					      struct intel_crtc *crtc);
-> > +int intel_dp_tunnel_atomic_check_link(struct intel_atomic_state *state,
-> > +				      struct intel_link_bw_limits *limits);
-> > +int intel_dp_tunnel_atomic_check_state(struct intel_atomic_state *state,
-> > +				       struct intel_dp *intel_dp,
-> > +				       struct intel_connector *connector);
-> > +void intel_dp_tunnel_atomic_alloc_bw(struct intel_atomic_state *state,
-> > +				     struct intel_encoder *encoder,
-> > +				     const struct intel_crtc_state *new_crtc_state,
-> > +				     const struct drm_connector_state *new_conn_state);
-> > +void intel_dp_tunnel_atomic_free_bw(struct intel_atomic_state *state,
-> > +				    struct intel_encoder *encoder,
-> > +				    const struct intel_crtc_state *old_crtc_state,
-> > +				    const struct drm_connector_state *old_conn_state);
-> > +
-> > +int intel_dp_tunnel_mgr_init(struct drm_i915_private *i915);
-> > +void intel_dp_tunnel_mgr_cleanup(struct drm_i915_private *i915);
-> > +
-> > +#else
-> > +
-> > +static inline int
-> > +intel_dp_tunnel_detect(struct intel_dp *intel_dp, struct drm_modeset_acquire_ctx *ctx)
-> > +{
-> > +	return -EOPNOTSUPP;
-> > +}
-> > +
-> > +static inline void intel_dp_tunnel_disconnect(struct intel_dp *intel_dp) {}
-> > +static inline void intel_dp_tunnel_destroy(struct intel_dp *intel_dp) {}
-> > +static inline void intel_dp_tunnel_resume(struct intel_dp *intel_dp, bool dpcd_updated) {}
-> > +static inline void intel_dp_tunnel_suspend(struct intel_dp *intel_dp) {}
-> > +
-> > +static inline bool intel_dp_tunnel_bw_alloc_is_enabled(struct intel_dp *intel_dp)
-> > +{
-> > +	return false;
-> > +}
-> > +
-> > +static inline void
-> > +intel_dp_tunnel_atomic_cleanup_inherited_state(struct intel_atomic_state *state) {}
-> > +
-> > +static inline void
-> > +intel_dp_tunnel_atomic_compute_stream_bw(struct intel_atomic_state *state,
-> > +					 struct intel_dp *intel_dp,
-> > +					 const struct intel_connector *connector,
-> > +					 struct intel_crtc_state *crtc_state) {}
-> > +
-> > +static inline int
-> > +intel_dp_tunnel_atomic_add_state_for_crtc(struct intel_atomic_state *state,
-> > +					  struct intel_crtc *crtc)
-> > +{
-> > +	return 0;
-> > +}
-> > +
-> > +static inline int
-> > +intel_dp_tunnel_atomic_check_link(struct intel_atomic_state *state,
-> > +				  struct intel_link_bw_limits *limits)
-> > +{
-> > +	return 0;
-> > +}
-> > +
-> > +static inline int
-> > +intel_dp_tunnel_atomic_check_state(struct intel_atomic_state *state,
-> > +				   struct intel_dp *intel_dp,
-> > +				   struct intel_connector *connector)
-> > +{
-> > +	return 0;
-> > +}
-> > +
-> > +static inline void
-> > +intel_dp_tunnel_atomic_alloc_bw(struct intel_atomic_state *state,
-> > +				struct intel_encoder *encoder,
-> > +				const struct intel_crtc_state *new_crtc_state,
-> > +				const struct drm_connector_state *new_conn_state) {}
-> > +static inline void
-> > +intel_dp_tunnel_atomic_free_bw(struct intel_atomic_state *state,
-> > +			       struct intel_encoder *encoder,
-> > +			       const struct intel_crtc_state *old_crtc_state,
-> > +			       const struct drm_connector_state *old_conn_state) {}
-> > +
-> > +static inline int
-> > +intel_dp_tunnel_mgr_init(struct drm_i915_private *i915)
-> > +{
-> > +	return 0;
-> > +}
-> > +
-> > +static inline void intel_dp_tunnel_mgr_cleanup(struct drm_i915_private *i915) {}
-> > +
-> > +#endif /* CONFIG_DRM_I915_DP_TUNNEL */
-> > +
-> > +#endif /* __INTEL_DP_TUNNEL_H__ */
-> > -- 
-> > 2.39.2
-> 
-> -- 
-> Ville Syrjälä
-> Intel
+Jason
