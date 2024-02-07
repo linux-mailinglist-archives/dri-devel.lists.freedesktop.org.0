@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A57DF84D3D1
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 22:25:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B5DB84D53E
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 23:04:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AE8010E734;
-	Wed,  7 Feb 2024 21:25:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44E9810E874;
+	Wed,  7 Feb 2024 22:04:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UmMaUcaz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lgfDVm2p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92DA010E734;
- Wed,  7 Feb 2024 21:25:41 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id B0BECCE1B17;
- Wed,  7 Feb 2024 21:25:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71566C433F1;
- Wed,  7 Feb 2024 21:25:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1707341139;
- bh=ETw1UgSt30BpklExWxNhFjNShXfG1dH3FHqdG0S9oK8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UmMaUcaz/aWMfoHPqKtG+bcFVejo5yMCDs5gttUqnk3Bgv2zADzSnmIUVAlaT0+pM
- Ss+lvzQ3r3X8acnMZHR8g5ifZBioC04NiyAs3LzKXJSQQJoneJpIeomf8nhaKmTuff
- oj5jTWHAyaued2jlTdXUsbNN58IkdOz/vvArPrhmmBtopvHrDpDfYE6twm8Jq+NoxC
- zNlBCvS4qfHSFltjwBDZo0G/gBTH14Av0wbajwQLplEN+hJbyxd0TLfocLnZn4iNS2
- G7qmfnuz7khD5/P+TeK+9DkrkjJv99S7ZSyTTAskeAi/FRYZ6j/jQ8ybTVAVLTn5yZ
- /ddodhJosiEWA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Sohaib Nadeem <sohaib.nadeem@amd.com>,
- Chaitanya Dhere <chaitanya.dhere@amd.com>, Alvin Lee <alvin.lee2@amd.com>,
- Tom Chung <chiahsuan.chung@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, jun.lei@amd.com, wenjing.liu@amd.com,
- austin.zheng@amd.com, Qingqing.Zhuo@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.1 16/29] drm/amd/display: increased min_dcfclk_mhz
- and min_fclk_mhz
-Date: Wed,  7 Feb 2024 16:24:41 -0500
-Message-ID: <20240207212505.3169-16-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240207212505.3169-1-sashal@kernel.org>
-References: <20240207212505.3169-1-sashal@kernel.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FF4810E866;
+ Wed,  7 Feb 2024 22:03:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1707343442; x=1738879442;
+ h=date:from:to:subject:message-id:reply-to:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=/kkELYd+mzYliLhR0Mo4zGQHOccuQx7CSMoVuhiyreA=;
+ b=lgfDVm2pW/rxD+m1KZ04oZGb6bnR3+syHGIZDpfyzcrmD+14uaT0mUe/
+ 8ge+3vxQm0ue9JIpT2yhGrKRGj6GWul5iNGakfFGFg9SCJ6VDke4EphIY
+ Lvb+3HjLZag0Z6pR56xQgUv1M+FQrwbO0tLW1UqexvXTYbAADHL9QkWn5
+ 50EwGLfGwE6WppqeCdfUh4ZuDdCBCBITF2VYJ6cZnuZlQEMN3C8UThBNn
+ gBZpDXa8XbWREZJuPErAay4zYaQ8sN9wPU52O7Zy/yehR5l3dOOXEsBEi
+ R++f62nsplSzH/wqS2jSwOhlCP5fDFQjh2ZxbGeF7ntVlcG+GVieKAkvD w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="4873798"
+X-IronPort-AV: E=Sophos;i="6.05,251,1701158400"; 
+   d="scan'208";a="4873798"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2024 14:03:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,251,1701158400"; d="scan'208";a="38901902"
+Received: from jeroenke-mobl.ger.corp.intel.com (HELO ideak-desk.fi.intel.com)
+ ([10.252.43.85])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2024 14:03:50 -0800
+Date: Thu, 8 Feb 2024 00:04:07 +0200
+From: Imre Deak <imre.deak@intel.com>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: Re: [PATCH 02/19] drm/dp: Add support for DP tunneling
+Message-ID: <ZcP+V6uYMTnCraY/@ideak-desk.fi.intel.com>
+References: <20240123102850.390126-1-imre.deak@intel.com>
+ <20240123102850.390126-3-imre.deak@intel.com>
+ <ZcPhyk1RbE5bXcCv@intel.com>
+ <ZcPsq2WdP7oJQ4Ep@ideak-desk.fi.intel.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.77
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZcPsq2WdP7oJQ4Ep@ideak-desk.fi.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,47 +67,1325 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sohaib Nadeem <sohaib.nadeem@amd.com>
+On Wed, Feb 07, 2024 at 10:48:43PM +0200, Imre Deak wrote:
+> On Wed, Feb 07, 2024 at 10:02:18PM +0200, Ville Syrjälä wrote:
+> > On Tue, Jan 23, 2024 at 12:28:33PM +0200, Imre Deak wrote:
+> > > + [...]
+> > > +static int group_allocated_bw(struct drm_dp_tunnel_group *group)
+> > > +{
+> > > +	struct drm_dp_tunnel *tunnel;
+> > > +	int group_allocated_bw = 0;
+> > > +
+> > > +	for_each_tunnel_in_group(group, tunnel) {
+> > > +		if (check_tunnel(tunnel) == 0 &&
+> > > +		    tunnel->bw_alloc_enabled)
+> > > +			group_allocated_bw += tunnel->allocated_bw;
+> > > +	}
+> > > +
+> > > +	return group_allocated_bw;
+> > > +}
+> > > +
+> > > +static int calc_group_available_bw(const struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	return group_allocated_bw(tunnel->group) -
+> > > +	       tunnel->allocated_bw +
+> > > +	       tunnel->estimated_bw;
+> > 
+> > Hmm. So the estimated_bw=actually_free_bw + tunnel->allocated_bw?
+> 
+> Yes.
+> 
+> > Ie. how much bw might be available for this tunnel right now?
+> 
+> Correct.
+> 
+> > And here we're trying to deduce the total bandwidth available by
+> > adding in the allocated_bw of all the other tunnels in the group?
+> 
+> Yes.
+> 
+> > Rather weird that we can't just get that number directly...
+> 
+> It is. Imo this could be simply communicated via a DPCD register
+> dedicated for this. Perhaps adding this should be requested from TBT
+> architects.
 
-[ Upstream commit 2ff33c759a4247c84ec0b7815f1f223e155ba82a ]
+One reason for this design can be that a host/driver may not see all the
+tunnels in the group. In that case the tunnel's current usable BW will
+be only its estimated_bw (that is it can't use the BW already allocated
+by other tunnels in the group, until those are released by the other
+host/driver).
 
-[why]
-Originally, PMFW said min FCLK is 300Mhz, but min DCFCLK can be increased
-to 400Mhz because min FCLK is now 600Mhz so FCLK >= 1.5 * DCFCLK hardware
-requirement will still be satisfied. Increasing min DCFCLK addresses
-underflow issues (underflow occurs when phantom pipe is turned on for some
-Sub-Viewport configs).
-
-[how]
-Increasing DCFCLK by raising the min_dcfclk_mhz
-
-Reviewed-by: Chaitanya Dhere <chaitanya.dhere@amd.com>
-Reviewed-by: Alvin Lee <alvin.lee2@amd.com>
-Acked-by: Tom Chung <chiahsuan.chung@amd.com>
-Signed-off-by: Sohaib Nadeem <sohaib.nadeem@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-index 85e0d1c2a908..baecc0ffe758 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-@@ -2123,7 +2123,7 @@ static int build_synthetic_soc_states(struct clk_bw_params *bw_params,
- 	unsigned int max_dcfclk_mhz = 0, max_dispclk_mhz = 0, max_dppclk_mhz = 0,
- 			max_phyclk_mhz = 0, max_dtbclk_mhz = 0, max_fclk_mhz = 0, max_uclk_mhz = 0;
- 
--	unsigned int min_dcfclk_mhz = 199, min_fclk_mhz = 299;
-+	unsigned int min_dcfclk_mhz = 399, min_fclk_mhz = 599;
- 
- 	static const unsigned int num_dcfclk_stas = 5;
- 	unsigned int dcfclk_sta_targets[DC__VOLTAGE_STATES] = {199, 615, 906, 1324, 1564};
--- 
-2.43.0
-
+> I assume this could also use a code comment.
+> 
+> > > +}
+> > > +
+> > > +static int update_group_available_bw(struct drm_dp_tunnel *tunnel,
+> > > +				     const struct drm_dp_tunnel_regs *regs)
+> > > +{
+> > > +	struct drm_dp_tunnel *tunnel_iter;
+> > > +	int group_available_bw;
+> > > +	bool changed;
+> > > +
+> > > +	tunnel->estimated_bw = tunnel_reg(regs, DP_ESTIMATED_BW) * tunnel->bw_granularity;
+> > > +
+> > > +	if (calc_group_available_bw(tunnel) == tunnel->group->available_bw)
+> > > +		return 0;
+> > > +
+> > > +	for_each_tunnel_in_group(tunnel->group, tunnel_iter) {
+> > > +		int err;
+> > > +
+> > > +		if (tunnel_iter == tunnel)
+> > > +			continue;
+> > > +
+> > > +		if (check_tunnel(tunnel_iter) != 0 ||
+> > > +		    !tunnel_iter->bw_alloc_enabled)
+> > > +			continue;
+> > > +
+> > > +		err = drm_dp_dpcd_probe(tunnel_iter->aux, DP_DPCD_REV);
+> > > +		if (err) {
+> > > +			tun_dbg(tunnel_iter,
+> > > +				"Probe failed, assume disconnected (err %pe)\n",
+> > > +				ERR_PTR(err));
+> > > +			drm_dp_tunnel_set_io_error(tunnel_iter);
+> > > +		}
+> > > +	}
+> > > +
+> > > +	group_available_bw = calc_group_available_bw(tunnel);
+> > > +
+> > > +	tun_dbg(tunnel, "Updated group available BW: %d->%d\n",
+> > > +		DPTUN_BW_ARG(tunnel->group->available_bw),
+> > > +		DPTUN_BW_ARG(group_available_bw));
+> > > +
+> > > +	changed = tunnel->group->available_bw != group_available_bw;
+> > > +
+> > > +	tunnel->group->available_bw = group_available_bw;
+> > > +
+> > > +	return changed ? 1 : 0;
+> > > +}
+> > > +
+> > > +static int set_bw_alloc_mode(struct drm_dp_tunnel *tunnel, bool enable)
+> > > +{
+> > > +	u8 mask = DP_DISPLAY_DRIVER_BW_ALLOCATION_MODE_ENABLE | DP_UNMASK_BW_ALLOCATION_IRQ;
+> > > +	u8 val;
+> > > +
+> > > +	if (drm_dp_dpcd_readb(tunnel->aux, DP_DPTX_BW_ALLOCATION_MODE_CONTROL, &val) < 0)
+> > > +		goto out_err;
+> > > +
+> > > +	if (enable)
+> > > +		val |= mask;
+> > > +	else
+> > > +		val &= ~mask;
+> > > +
+> > > +	if (drm_dp_dpcd_writeb(tunnel->aux, DP_DPTX_BW_ALLOCATION_MODE_CONTROL, val) < 0)
+> > > +		goto out_err;
+> > > +
+> > > +	tunnel->bw_alloc_enabled = enable;
+> > > +
+> > > +	return 0;
+> > > +
+> > > +out_err:
+> > > +	drm_dp_tunnel_set_io_error(tunnel);
+> > > +
+> > > +	return -EIO;
+> > > +}
+> > > +
+> > > +/**
+> > > + * drm_dp_tunnel_enable_bw_alloc: Enable DP tunnel BW allocation mode
+> > > + * @tunnel: Tunnel object
+> > > + *
+> > > + * Enable the DP tunnel BW allocation mode on @tunnel if it supports it.
+> > > + *
+> > > + * Returns 0 in case of success, negative error code otherwise.
+> > > + */
+> > > +int drm_dp_tunnel_enable_bw_alloc(struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	struct drm_dp_tunnel_regs regs;
+> > > +	int err = check_tunnel(tunnel);
+> > > +
+> > > +	if (err)
+> > > +		return err;
+> > > +
+> > > +	if (!tunnel->bw_alloc_supported)
+> > > +		return -EOPNOTSUPP;
+> > > +
+> > > +	if (!tunnel_group_id(tunnel->group->drv_group_id))
+> > > +		return -EINVAL;
+> > > +
+> > > +	err = set_bw_alloc_mode(tunnel, true);
+> > > +	if (err)
+> > > +		goto out;
+> > > +
+> > > +	err = read_and_verify_tunnel_regs(tunnel, &regs, 0);
+> > > +	if (err) {
+> > > +		set_bw_alloc_mode(tunnel, false);
+> > > +
+> > > +		goto out;
+> > > +	}
+> > > +
+> > > +	if (!tunnel->max_dprx_rate)
+> > > +		update_dprx_caps(tunnel, &regs);
+> > > +
+> > > +	if (tunnel->group->available_bw == -1) {
+> > > +		err = update_group_available_bw(tunnel, &regs);
+> > > +		if (err > 0)
+> > > +			err = 0;
+> > > +	}
+> > > +out:
+> > > +	tun_dbg_stat(tunnel, err,
+> > > +		     "Enabling BW alloc mode: DPRX:%dx%d Group alloc:%d/%d Mb/s",
+> > > +		     tunnel->max_dprx_rate / 100, tunnel->max_dprx_lane_count,
+> > > +		     DPTUN_BW_ARG(group_allocated_bw(tunnel->group)),
+> > > +		     DPTUN_BW_ARG(tunnel->group->available_bw));
+> > > +
+> > > +	return err;
+> > > +}
+> > > +EXPORT_SYMBOL(drm_dp_tunnel_enable_bw_alloc);
+> > > +
+> > > +/**
+> > > + * drm_dp_tunnel_disable_bw_alloc: Disable DP tunnel BW allocation mode
+> > > + * @tunnel: Tunnel object
+> > > + *
+> > > + * Disable the DP tunnel BW allocation mode on @tunnel.
+> > > + *
+> > > + * Returns 0 in case of success, negative error code otherwise.
+> > > + */
+> > > +int drm_dp_tunnel_disable_bw_alloc(struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	int err = check_tunnel(tunnel);
+> > > +
+> > > +	if (err)
+> > > +		return err;
+> > > +
+> > > +	err = set_bw_alloc_mode(tunnel, false);
+> > > +
+> > > +	tun_dbg_stat(tunnel, err, "Disabling BW alloc mode");
+> > > +
+> > > +	return err;
+> > > +}
+> > > +EXPORT_SYMBOL(drm_dp_tunnel_disable_bw_alloc);
+> > > +
+> > > +bool drm_dp_tunnel_bw_alloc_is_enabled(const struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	return tunnel->bw_alloc_enabled;
+> > > +}
+> > > +EXPORT_SYMBOL(drm_dp_tunnel_bw_alloc_is_enabled);
+> > > +
+> > > +static int bw_req_complete(struct drm_dp_aux *aux, bool *status_changed)
+> > > +{
+> > > +	u8 bw_req_mask = DP_BW_REQUEST_SUCCEEDED | DP_BW_REQUEST_FAILED;
+> > > +	u8 status_change_mask = DP_BW_ALLOCATION_CAPABILITY_CHANGED | DP_ESTIMATED_BW_CHANGED;
+> > > +	u8 val;
+> > > +
+> > > +	if (drm_dp_dpcd_readb(aux, DP_TUNNELING_STATUS, &val) < 0)
+> > > +		return -EIO;
+> > > +
+> > > +	*status_changed = val & status_change_mask;
+> > > +
+> > > +	val &= bw_req_mask;
+> > > +
+> > > +	if (!val)
+> > > +		return -EAGAIN;
+> > > +
+> > > +	if (drm_dp_dpcd_writeb(aux, DP_TUNNELING_STATUS, val) < 0)
+> > > +		return -EIO;
+> > > +
+> > > +	return val == DP_BW_REQUEST_SUCCEEDED ? 0 : -ENOSPC;
+> > > +}
+> > > +
+> > > +static int allocate_tunnel_bw(struct drm_dp_tunnel *tunnel, int bw)
+> > > +{
+> > > +	struct drm_dp_tunnel_mgr *mgr = tunnel->group->mgr;
+> > > +	int request_bw = DIV_ROUND_UP(bw, tunnel->bw_granularity);
+> > > +	unsigned long wait_expires;
+> > > +	DEFINE_WAIT(wait);
+> > > +	int err;
+> > > +
+> > > +	/* Atomic check should prevent the following. */
+> > > +	if (drm_WARN_ON(mgr->dev, request_bw > MAX_DP_REQUEST_BW)) {
+> > > +		err = -EINVAL;
+> > > +		goto out;
+> > > +	}
+> > > +
+> > > +	if (drm_dp_dpcd_writeb(tunnel->aux, DP_REQUEST_BW, request_bw) < 0) {
+> > > +		err = -EIO;
+> > > +		goto out;
+> > > +	}
+> > > +
+> > > +	wait_expires = jiffies + msecs_to_jiffies(3000);
+> > > +
+> > > +	for (;;) {
+> > > +		bool status_changed;
+> > > +
+> > > +		err = bw_req_complete(tunnel->aux, &status_changed);
+> > > +		if (err != -EAGAIN)
+> > > +			break;
+> > > +
+> > > +		if (status_changed) {
+> > > +			struct drm_dp_tunnel_regs regs;
+> > > +
+> > > +			err = read_and_verify_tunnel_regs(tunnel, &regs,
+> > > +							  ALLOW_ALLOCATED_BW_CHANGE);
+> > > +			if (err)
+> > > +				break;
+> > > +		}
+> > > +
+> > > +		if (time_after(jiffies, wait_expires)) {
+> > > +			err = -ETIMEDOUT;
+> > > +			break;
+> > > +		}
+> > > +
+> > > +		prepare_to_wait(&mgr->bw_req_queue, &wait, TASK_UNINTERRUPTIBLE);
+> > > +		schedule_timeout(msecs_to_jiffies(200));
+> > > +	};
+> > > +
+> > > +	finish_wait(&mgr->bw_req_queue, &wait);
+> > > +
+> > > +	if (err)
+> > > +		goto out;
+> > > +
+> > > +	tunnel->allocated_bw = request_bw * tunnel->bw_granularity;
+> > > +
+> > > +out:
+> > > +	tun_dbg_stat(tunnel, err, "Allocating %d/%d Mb/s for tunnel: Group alloc:%d/%d Mb/s",
+> > > +		     DPTUN_BW_ARG(request_bw * tunnel->bw_granularity),
+> > > +		     DPTUN_BW_ARG(get_max_tunnel_bw(tunnel)),
+> > > +		     DPTUN_BW_ARG(group_allocated_bw(tunnel->group)),
+> > > +		     DPTUN_BW_ARG(tunnel->group->available_bw));
+> > > +
+> > > +	if (err == -EIO)
+> > > +		drm_dp_tunnel_set_io_error(tunnel);
+> > > +
+> > > +	return err;
+> > > +}
+> > > +
+> > > +int drm_dp_tunnel_alloc_bw(struct drm_dp_tunnel *tunnel, int bw)
+> > > +{
+> > > +	int err = check_tunnel(tunnel);
+> > > +
+> > > +	if (err)
+> > > +		return err;
+> > > +
+> > > +	return allocate_tunnel_bw(tunnel, bw);
+> > > +}
+> > > +EXPORT_SYMBOL(drm_dp_tunnel_alloc_bw);
+> > > +
+> > > +static int check_and_clear_status_change(struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	u8 mask = DP_BW_ALLOCATION_CAPABILITY_CHANGED | DP_ESTIMATED_BW_CHANGED;
+> > > +	u8 val;
+> > > +
+> > > +	if (drm_dp_dpcd_readb(tunnel->aux, DP_TUNNELING_STATUS, &val) < 0)
+> > > +		goto out_err;
+> > > +
+> > > +	val &= mask;
+> > > +
+> > > +	if (val) {
+> > > +		if (drm_dp_dpcd_writeb(tunnel->aux, DP_TUNNELING_STATUS, val) < 0)
+> > > +			goto out_err;
+> > > +
+> > > +		return 1;
+> > > +	}
+> > > +
+> > > +	if (!drm_dp_tunnel_bw_alloc_is_enabled(tunnel))
+> > > +		return 0;
+> > > +
+> > > +	/*
+> > > +	 * Check for estimated BW changes explicitly to account for lost
+> > > +	 * BW change notifications.
+> > > +	 */
+> > > +	if (drm_dp_dpcd_readb(tunnel->aux, DP_ESTIMATED_BW, &val) < 0)
+> > > +		goto out_err;
+> > > +
+> > > +	if (val * tunnel->bw_granularity != tunnel->estimated_bw)
+> > > +		return 1;
+> > > +
+> > > +	return 0;
+> > > +
+> > > +out_err:
+> > > +	drm_dp_tunnel_set_io_error(tunnel);
+> > > +
+> > > +	return -EIO;
+> > > +}
+> > > +
+> > > +/**
+> > > + * drm_dp_tunnel_update_state: Update DP tunnel SW state with the HW state
+> > > + * @tunnel: Tunnel object
+> > > + *
+> > > + * Update the SW state of @tunnel with the HW state.
+> > > + *
+> > > + * Returns 0 if the state has not changed, 1 if it has changed and got updated
+> > > + * successfully and a negative error code otherwise.
+> > > + */
+> > > +int drm_dp_tunnel_update_state(struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	struct drm_dp_tunnel_regs regs;
+> > > +	bool changed = false;
+> > > +	int ret = check_tunnel(tunnel);
+> > > +
+> > > +	if (ret < 0)
+> > > +		return ret;
+> > > +
+> > > +	ret = check_and_clear_status_change(tunnel);
+> > > +	if (ret < 0)
+> > > +		goto out;
+> > > +
+> > > +	if (!ret)
+> > > +		return 0;
+> > > +
+> > > +	ret = read_and_verify_tunnel_regs(tunnel, &regs, 0);
+> > > +	if (ret)
+> > > +		goto out;
+> > > +
+> > > +	if (update_dprx_caps(tunnel, &regs))
+> > > +		changed = true;
+> > > +
+> > > +	ret = update_group_available_bw(tunnel, &regs);
+> > > +	if (ret == 1)
+> > > +		changed = true;
+> > > +
+> > > +out:
+> > > +	tun_dbg_stat(tunnel, ret < 0 ? ret : 0,
+> > > +		     "State update: Changed:%c DPRX:%dx%d Tunnel alloc:%d/%d Group alloc:%d/%d Mb/s",
+> > > +		     yes_no_chr(changed),
+> > > +		     tunnel->max_dprx_rate / 100, tunnel->max_dprx_lane_count,
+> > > +		     DPTUN_BW_ARG(tunnel->allocated_bw),
+> > > +		     DPTUN_BW_ARG(get_max_tunnel_bw(tunnel)),
+> > > +		     DPTUN_BW_ARG(group_allocated_bw(tunnel->group)),
+> > > +		     DPTUN_BW_ARG(tunnel->group->available_bw));
+> > > +
+> > > +	if (ret < 0)
+> > > +		return ret;
+> > > +
+> > > +	if (changed)
+> > > +		return 1;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +EXPORT_SYMBOL(drm_dp_tunnel_update_state);
+> > > +
+> > > +/*
+> > > + * Returns 0 if no re-probe is needed, 1 if a re-probe is needed,
+> > > + * a negative error code otherwise.
+> > > + */
+> > > +int drm_dp_tunnel_handle_irq(struct drm_dp_tunnel_mgr *mgr, struct drm_dp_aux *aux)
+> > > +{
+> > > +	u8 val;
+> > > +
+> > > +	if (drm_dp_dpcd_readb(aux, DP_TUNNELING_STATUS, &val) < 0)
+> > > +		return -EIO;
+> > > +
+> > > +	if (val & (DP_BW_REQUEST_SUCCEEDED | DP_BW_REQUEST_FAILED))
+> > > +		wake_up_all(&mgr->bw_req_queue);
+> > > +
+> > > +	if (val & (DP_BW_ALLOCATION_CAPABILITY_CHANGED | DP_ESTIMATED_BW_CHANGED))
+> > > +		return 1;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +EXPORT_SYMBOL(drm_dp_tunnel_handle_irq);
+> > > +
+> > > +/**
+> > > + * drm_dp_tunnel_max_dprx_rate - Query the maximum rate of the tunnel's DPRX
+> > > + * @tunnel: Tunnel object
+> > > + *
+> > > + * The function is used to query the maximum link rate of the DPRX connected
+> > > + * to @tunnel. Note that this rate will not be limited by the BW limit of the
+> > > + * tunnel, as opposed to the standard and extended DP_MAX_LINK_RATE DPCD
+> > > + * registers.
+> > > + *
+> > > + * Returns the maximum link rate in 10 kbit/s units.
+> > > + */
+> > > +int drm_dp_tunnel_max_dprx_rate(const struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	return tunnel->max_dprx_rate;
+> > > +}
+> > > +EXPORT_SYMBOL(drm_dp_tunnel_max_dprx_rate);
+> > > +
+> > > +/**
+> > > + * drm_dp_tunnel_max_dprx_lane_count - Query the maximum lane count of the tunnel's DPRX
+> > > + * @tunnel: Tunnel object
+> > > + *
+> > > + * The function is used to query the maximum lane count of the DPRX connected
+> > > + * to @tunnel. Note that this lane count will not be limited by the BW limit of
+> > > + * the tunnel, as opposed to the standard and extended DP_MAX_LANE_COUNT DPCD
+> > > + * registers.
+> > > + *
+> > > + * Returns the maximum lane count.
+> > > + */
+> > > +int drm_dp_tunnel_max_dprx_lane_count(const struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	return tunnel->max_dprx_lane_count;
+> > > +}
+> > > +EXPORT_SYMBOL(drm_dp_tunnel_max_dprx_lane_count);
+> > > +
+> > > +/**
+> > > + * drm_dp_tunnel_available_bw - Query the estimated total available BW of the tunnel
+> > > + * @tunnel: Tunnel object
+> > > + *
+> > > + * This function is used to query the estimated total available BW of the
+> > > + * tunnel. This includes the currently allocated and free BW for all the
+> > > + * tunnels in @tunnel's group. The available BW is valid only after the BW
+> > > + * allocation mode has been enabled for the tunnel and its state got updated
+> > > + * calling drm_dp_tunnel_update_state().
+> > > + *
+> > > + * Returns the @tunnel group's estimated total available bandwidth in kB/s
+> > > + * units, or -1 if the available BW isn't valid (the BW allocation mode is
+> > > + * not enabled or the tunnel's state hasn't been updated).
+> > > + */
+> > > +int drm_dp_tunnel_available_bw(const struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	return tunnel->group->available_bw;
+> > > +}
+> > > +EXPORT_SYMBOL(drm_dp_tunnel_available_bw);
+> > > +
+> > > +static struct drm_dp_tunnel_group_state *
+> > > +drm_dp_tunnel_atomic_get_group_state(struct drm_atomic_state *state,
+> > > +				     const struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	return (struct drm_dp_tunnel_group_state *)
+> > > +		drm_atomic_get_private_obj_state(state,
+> > > +						 &tunnel->group->base);
+> > > +}
+> > > +
+> > > +static struct drm_dp_tunnel_state *
+> > > +add_tunnel_state(struct drm_dp_tunnel_group_state *group_state,
+> > > +		 struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	struct drm_dp_tunnel_state *tunnel_state;
+> > > +
+> > > +	tun_dbg_atomic(tunnel,
+> > > +		       "Adding state for tunnel %p to group state %p\n",
+> > > +		       tunnel, group_state);
+> > > +
+> > > +	tunnel_state = kzalloc(sizeof(*tunnel_state), GFP_KERNEL);
+> > > +	if (!tunnel_state)
+> > > +		return NULL;
+> > > +
+> > > +	tunnel_state->group_state = group_state;
+> > > +
+> > > +	drm_dp_tunnel_ref_get(tunnel, &tunnel_state->tunnel_ref);
+> > > +
+> > > +	INIT_LIST_HEAD(&tunnel_state->node);
+> > > +	list_add(&tunnel_state->node, &group_state->tunnel_states);
+> > > +
+> > > +	return tunnel_state;
+> > > +}
+> > > +
+> > > +void drm_dp_tunnel_atomic_clear_state(struct drm_dp_tunnel_state *tunnel_state)
+> > > +{
+> > > +	tun_dbg_atomic(tunnel_state->tunnel_ref.tunnel,
+> > > +		       "Clearing state for tunnel %p\n",
+> > > +		       tunnel_state->tunnel_ref.tunnel);
+> > > +
+> > > +	list_del(&tunnel_state->node);
+> > > +
+> > > +	kfree(tunnel_state->stream_bw);
+> > > +	drm_dp_tunnel_ref_put(&tunnel_state->tunnel_ref);
+> > > +
+> > > +	kfree(tunnel_state);
+> > > +}
+> > > +EXPORT_SYMBOL(drm_dp_tunnel_atomic_clear_state);
+> > > +
+> > > +static void clear_tunnel_group_state(struct drm_dp_tunnel_group_state *group_state)
+> > > +{
+> > > +	struct drm_dp_tunnel_state *tunnel_state;
+> > > +	struct drm_dp_tunnel_state *tunnel_state_tmp;
+> > > +
+> > > +	for_each_tunnel_state_safe(group_state, tunnel_state, tunnel_state_tmp)
+> > > +		drm_dp_tunnel_atomic_clear_state(tunnel_state);
+> > > +}
+> > > +
+> > > +static struct drm_dp_tunnel_state *
+> > > +get_tunnel_state(struct drm_dp_tunnel_group_state *group_state,
+> > > +		 const struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	struct drm_dp_tunnel_state *tunnel_state;
+> > > +
+> > > +	for_each_tunnel_state(group_state, tunnel_state)
+> > > +		if (tunnel_state->tunnel_ref.tunnel == tunnel)
+> > > +			return tunnel_state;
+> > > +
+> > > +	return NULL;
+> > > +}
+> > > +
+> > > +static struct drm_dp_tunnel_state *
+> > > +get_or_add_tunnel_state(struct drm_dp_tunnel_group_state *group_state,
+> > > +			struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	struct drm_dp_tunnel_state *tunnel_state;
+> > > +
+> > > +	tunnel_state = get_tunnel_state(group_state, tunnel);
+> > > +	if (tunnel_state)
+> > > +		return tunnel_state;
+> > > +
+> > > +	return add_tunnel_state(group_state, tunnel);
+> > > +}
+> > > +
+> > > +static struct drm_private_state *
+> > > +tunnel_group_duplicate_state(struct drm_private_obj *obj)
+> > > +{
+> > > +	struct drm_dp_tunnel_group_state *group_state = to_group_state(obj->state);
+> > > +	struct drm_dp_tunnel_state *tunnel_state;
+> > > +
+> > > +	group_state = kzalloc(sizeof(*group_state), GFP_KERNEL);
+> > > +	if (!group_state)
+> > > +		return NULL;
+> > > +
+> > > +	INIT_LIST_HEAD(&group_state->tunnel_states);
+> > > +
+> > > +	__drm_atomic_helper_private_obj_duplicate_state(obj, &group_state->base);
+> > > +
+> > > +	for_each_tunnel_state(to_group_state(obj->state), tunnel_state) {
+> > > +		struct drm_dp_tunnel_state *new_tunnel_state;
+> > > +
+> > > +		new_tunnel_state = get_or_add_tunnel_state(group_state,
+> > > +							   tunnel_state->tunnel_ref.tunnel);
+> > > +		if (!new_tunnel_state)
+> > > +			goto out_free_state;
+> > > +
+> > > +		new_tunnel_state->stream_mask = tunnel_state->stream_mask;
+> > > +		new_tunnel_state->stream_bw = kmemdup(tunnel_state->stream_bw,
+> > > +						      sizeof(*tunnel_state->stream_bw) *
+> > > +							hweight32(tunnel_state->stream_mask),
+> > > +						      GFP_KERNEL);
+> > > +
+> > > +		if (!new_tunnel_state->stream_bw)
+> > > +			goto out_free_state;
+> > > +	}
+> > > +
+> > > +	return &group_state->base;
+> > > +
+> > > +out_free_state:
+> > > +	clear_tunnel_group_state(group_state);
+> > > +	kfree(group_state);
+> > > +
+> > > +	return NULL;
+> > > +}
+> > > +
+> > > +static void tunnel_group_destroy_state(struct drm_private_obj *obj, struct drm_private_state *state)
+> > > +{
+> > > +	struct drm_dp_tunnel_group_state *group_state = to_group_state(state);
+> > > +
+> > > +	clear_tunnel_group_state(group_state);
+> > > +	kfree(group_state);
+> > > +}
+> > > +
+> > > +static const struct drm_private_state_funcs tunnel_group_funcs = {
+> > > +	.atomic_duplicate_state = tunnel_group_duplicate_state,
+> > > +	.atomic_destroy_state = tunnel_group_destroy_state,
+> > > +};
+> > > +
+> > > +struct drm_dp_tunnel_state *
+> > > +drm_dp_tunnel_atomic_get_state(struct drm_atomic_state *state,
+> > > +			       struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	struct drm_dp_tunnel_group_state *group_state =
+> > > +		drm_dp_tunnel_atomic_get_group_state(state, tunnel);
+> > > +	struct drm_dp_tunnel_state *tunnel_state;
+> > > +
+> > > +	if (IS_ERR(group_state))
+> > > +		return ERR_CAST(group_state);
+> > > +
+> > > +	tunnel_state = get_or_add_tunnel_state(group_state, tunnel);
+> > > +	if (!tunnel_state)
+> > > +		return ERR_PTR(-ENOMEM);
+> > > +
+> > > +	return tunnel_state;
+> > > +}
+> > > +EXPORT_SYMBOL(drm_dp_tunnel_atomic_get_state);
+> > > +
+> > > +struct drm_dp_tunnel_state *
+> > > +drm_dp_tunnel_atomic_get_new_state(struct drm_atomic_state *state,
+> > > +				   const struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	struct drm_dp_tunnel_group_state *new_group_state;
+> > > +	int i;
+> > > +
+> > > +	for_each_new_group_in_state(state, new_group_state, i)
+> > > +		if (to_group(new_group_state->base.obj) == tunnel->group)
+> > > +			return get_tunnel_state(new_group_state, tunnel);
+> > > +
+> > > +	return NULL;
+> > > +}
+> > > +EXPORT_SYMBOL(drm_dp_tunnel_atomic_get_new_state);
+> > > +
+> > > +static bool init_group(struct drm_dp_tunnel_mgr *mgr, struct drm_dp_tunnel_group *group)
+> > > +{
+> > > +	struct drm_dp_tunnel_group_state *group_state = kzalloc(sizeof(*group_state), GFP_KERNEL);
+> > > +
+> > > +	if (!group_state)
+> > > +		return false;
+> > > +
+> > > +	INIT_LIST_HEAD(&group_state->tunnel_states);
+> > > +
+> > > +	group->mgr = mgr;
+> > > +	group->available_bw = -1;
+> > > +	INIT_LIST_HEAD(&group->tunnels);
+> > > +
+> > > +	drm_atomic_private_obj_init(mgr->dev, &group->base, &group_state->base,
+> > > +				    &tunnel_group_funcs);
+> > > +
+> > > +	return true;
+> > > +}
+> > > +
+> > > +static void cleanup_group(struct drm_dp_tunnel_group *group)
+> > > +{
+> > > +	drm_atomic_private_obj_fini(&group->base);
+> > > +}
+> > > +
+> > > +#ifdef CONFIG_DRM_DISPLAY_DEBUG_DP_TUNNEL_STATE
+> > > +static void check_unique_stream_ids(const struct drm_dp_tunnel_group_state *group_state)
+> > > +{
+> > > +	const struct drm_dp_tunnel_state *tunnel_state;
+> > > +	u32 stream_mask = 0;
+> > > +
+> > > +	for_each_tunnel_state(group_state, tunnel_state) {
+> > > +		drm_WARN(to_group(group_state->base.obj)->mgr->dev,
+> > > +			 tunnel_state->stream_mask & stream_mask,
+> > > +			 "[DPTUN %s]: conflicting stream IDs %x (IDs in other tunnels %x)\n",
+> > > +			 tunnel_state->tunnel_ref.tunnel->name,
+> > > +			 tunnel_state->stream_mask,
+> > > +			 stream_mask);
+> > > +
+> > > +		stream_mask |= tunnel_state->stream_mask;
+> > > +	}
+> > > +}
+> > > +#else
+> > > +static void check_unique_stream_ids(const struct drm_dp_tunnel_group_state *group_state)
+> > > +{
+> > > +}
+> > > +#endif
+> > > +
+> > > +static int stream_id_to_idx(u32 stream_mask, u8 stream_id)
+> > > +{
+> > > +	return hweight32(stream_mask & (BIT(stream_id) - 1));
+> > > +}
+> > > +
+> > > +static int resize_bw_array(struct drm_dp_tunnel_state *tunnel_state,
+> > > +			   unsigned long old_mask, unsigned long new_mask)
+> > > +{
+> > > +	unsigned long move_mask = old_mask & new_mask;
+> > > +	int *new_bws = NULL;
+> > > +	int id;
+> > > +
+> > > +	WARN_ON(!new_mask);
+> > > +
+> > > +	if (old_mask == new_mask)
+> > > +		return 0;
+> > > +
+> > > +	new_bws = kcalloc(hweight32(new_mask), sizeof(*new_bws), GFP_KERNEL);
+> > > +	if (!new_bws)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	for_each_set_bit(id, &move_mask, BITS_PER_TYPE(move_mask))
+> > > +		new_bws[stream_id_to_idx(new_mask, id)] =
+> > > +			tunnel_state->stream_bw[stream_id_to_idx(old_mask, id)];
+> > > +
+> > > +	kfree(tunnel_state->stream_bw);
+> > > +	tunnel_state->stream_bw = new_bws;
+> > > +	tunnel_state->stream_mask = new_mask;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int set_stream_bw(struct drm_dp_tunnel_state *tunnel_state,
+> > > +			 u8 stream_id, int bw)
+> > > +{
+> > > +	int err;
+> > > +
+> > > +	err = resize_bw_array(tunnel_state,
+> > > +			      tunnel_state->stream_mask,
+> > > +			      tunnel_state->stream_mask | BIT(stream_id));
+> > > +	if (err)
+> > > +		return err;
+> > > +
+> > > +	tunnel_state->stream_bw[stream_id_to_idx(tunnel_state->stream_mask, stream_id)] = bw;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int clear_stream_bw(struct drm_dp_tunnel_state *tunnel_state,
+> > > +			   u8 stream_id)
+> > > +{
+> > > +	if (!(tunnel_state->stream_mask & ~BIT(stream_id))) {
+> > > +		drm_dp_tunnel_atomic_clear_state(tunnel_state);
+> > > +		return 0;
+> > > +	}
+> > > +
+> > > +	return resize_bw_array(tunnel_state,
+> > > +			       tunnel_state->stream_mask,
+> > > +			       tunnel_state->stream_mask & ~BIT(stream_id));
+> > > +}
+> > > +
+> > > +int drm_dp_tunnel_atomic_set_stream_bw(struct drm_atomic_state *state,
+> > > +					 struct drm_dp_tunnel *tunnel,
+> > > +					 u8 stream_id, int bw)
+> > > +{
+> > > +	struct drm_dp_tunnel_group_state *new_group_state =
+> > > +		drm_dp_tunnel_atomic_get_group_state(state, tunnel);
+> > > +	struct drm_dp_tunnel_state *tunnel_state;
+> > > +	int err;
+> > > +
+> > > +	if (drm_WARN_ON(tunnel->group->mgr->dev,
+> > > +			stream_id > BITS_PER_TYPE(tunnel_state->stream_mask)))
+> > > +		return -EINVAL;
+> > > +
+> > > +	tun_dbg(tunnel,
+> > > +		"Setting %d Mb/s for stream %d\n",
+> > > +		DPTUN_BW_ARG(bw), stream_id);
+> > > +
+> > > +	if (bw == 0) {
+> > > +		tunnel_state = get_tunnel_state(new_group_state, tunnel);
+> > > +		if (!tunnel_state)
+> > > +			return 0;
+> > > +
+> > > +		return clear_stream_bw(tunnel_state, stream_id);
+> > > +	}
+> > > +
+> > > +	tunnel_state = get_or_add_tunnel_state(new_group_state, tunnel);
+> > > +	if (drm_WARN_ON(state->dev, !tunnel_state))
+> > > +		return -EINVAL;
+> > > +
+> > > +	err = set_stream_bw(tunnel_state, stream_id, bw);
+> > > +	if (err)
+> > > +		return err;
+> > > +
+> > > +	check_unique_stream_ids(new_group_state);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +EXPORT_SYMBOL(drm_dp_tunnel_atomic_set_stream_bw);
+> > > +
+> > > +int drm_dp_tunnel_atomic_get_tunnel_bw(const struct drm_dp_tunnel_state *tunnel_state)
+> > > +{
+> > > +	int tunnel_bw = 0;
+> > > +	int i;
+> > > +
+> > > +	for (i = 0; i < hweight32(tunnel_state->stream_mask); i++)
+> > > +		tunnel_bw += tunnel_state->stream_bw[i];
+> > > +
+> > > +	return tunnel_bw;
+> > > +}
+> > > +EXPORT_SYMBOL(drm_dp_tunnel_atomic_get_tunnel_bw);
+> > > +
+> > > +int drm_dp_tunnel_atomic_get_group_streams_in_state(struct drm_atomic_state *state,
+> > > +						    const struct drm_dp_tunnel *tunnel,
+> > > +						    u32 *stream_mask)
+> > > +{
+> > > +	struct drm_dp_tunnel_group_state *group_state =
+> > > +		drm_dp_tunnel_atomic_get_group_state(state, tunnel);
+> > > +	struct drm_dp_tunnel_state *tunnel_state;
+> > > +
+> > > +	if (IS_ERR(group_state))
+> > > +		return PTR_ERR(group_state);
+> > > +
+> > > +	*stream_mask = 0;
+> > > +	for_each_tunnel_state(group_state, tunnel_state)
+> > > +		*stream_mask |= tunnel_state->stream_mask;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +EXPORT_SYMBOL(drm_dp_tunnel_atomic_get_group_streams_in_state);
+> > > +
+> > > +static int
+> > > +drm_dp_tunnel_atomic_check_group_bw(struct drm_dp_tunnel_group_state *new_group_state,
+> > > +				    u32 *failed_stream_mask)
+> > > +{
+> > > +	struct drm_dp_tunnel_group *group = to_group(new_group_state->base.obj);
+> > > +	struct drm_dp_tunnel_state *new_tunnel_state;
+> > > +	u32 group_stream_mask = 0;
+> > > +	int group_bw = 0;
+> > > +
+> > > +	for_each_tunnel_state(new_group_state, new_tunnel_state) {
+> > > +		struct drm_dp_tunnel *tunnel = new_tunnel_state->tunnel_ref.tunnel;
+> > > +		int max_dprx_bw = get_max_dprx_bw(tunnel);
+> > > +		int tunnel_bw = drm_dp_tunnel_atomic_get_tunnel_bw(new_tunnel_state);
+> > > +
+> > > +		tun_dbg(tunnel,
+> > > +			"%sRequired %d/%d Mb/s total for tunnel.\n",
+> > > +			tunnel_bw > max_dprx_bw ? "Not enough BW: " : "",
+> > > +			DPTUN_BW_ARG(tunnel_bw),
+> > > +			DPTUN_BW_ARG(max_dprx_bw));
+> > > +
+> > > +		if (tunnel_bw > max_dprx_bw) {
+> > 
+> > I'm a bit confused why we're checking this here. Aren't we already
+> > checking this somewhere else?
+> 
+> Ah, yes this should be checked already by the encoder compute config +
+> the MST link BW check. It can be removed, thanks.
+> 
+> > > +			*failed_stream_mask = new_tunnel_state->stream_mask;
+> > > +			return -ENOSPC;
+> > > +		}
+> > > +
+> > > +		group_bw += min(roundup(tunnel_bw, tunnel->bw_granularity),
+> > > +				max_dprx_bw);
+> > > +		group_stream_mask |= new_tunnel_state->stream_mask;
+> > > +	}
+> > > +
+> > > +	tun_grp_dbg(group,
+> > > +		    "%sRequired %d/%d Mb/s total for tunnel group.\n",
+> > > +		    group_bw > group->available_bw ? "Not enough BW: " : "",
+> > > +		    DPTUN_BW_ARG(group_bw),
+> > > +		    DPTUN_BW_ARG(group->available_bw));
+> > > +
+> > > +	if (group_bw > group->available_bw) {
+> > > +		*failed_stream_mask = group_stream_mask;
+> > > +		return -ENOSPC;
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +int drm_dp_tunnel_atomic_check_stream_bws(struct drm_atomic_state *state,
+> > > +					  u32 *failed_stream_mask)
+> > > +{
+> > > +	struct drm_dp_tunnel_group_state *new_group_state;
+> > > +	int i;
+> > > +
+> > > +	for_each_new_group_in_state(state, new_group_state, i) {
+> > > +		int ret;
+> > > +
+> > > +		ret = drm_dp_tunnel_atomic_check_group_bw(new_group_state,
+> > > +							  failed_stream_mask);
+> > > +		if (ret)
+> > > +			return ret;
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +EXPORT_SYMBOL(drm_dp_tunnel_atomic_check_stream_bws);
+> > > +
+> > > +static void destroy_mgr(struct drm_dp_tunnel_mgr *mgr)
+> > > +{
+> > > +	int i;
+> > > +
+> > > +	for (i = 0; i < mgr->group_count; i++) {
+> > > +		cleanup_group(&mgr->groups[i]);
+> > > +		drm_WARN_ON(mgr->dev, !list_empty(&mgr->groups[i].tunnels));
+> > > +	}
+> > > +
+> > > +#ifdef CONFIG_DRM_DISPLAY_DEBUG_DP_TUNNEL_STATE
+> > > +	ref_tracker_dir_exit(&mgr->ref_tracker);
+> > > +#endif
+> > > +
+> > > +	kfree(mgr->groups);
+> > > +	kfree(mgr);
+> > > +}
+> > > +
+> > > +/**
+> > > + * drm_dp_tunnel_mgr_create - Create a DP tunnel manager
+> > > + * @i915: i915 driver object
+> > > + *
+> > > + * Creates a DP tunnel manager.
+> > > + *
+> > > + * Returns a pointer to the tunnel manager if created successfully or NULL in
+> > > + * case of an error.
+> > > + */
+> > > +struct drm_dp_tunnel_mgr *
+> > > +drm_dp_tunnel_mgr_create(struct drm_device *dev, int max_group_count)
+> > > +{
+> > > +	struct drm_dp_tunnel_mgr *mgr = kzalloc(sizeof(*mgr), GFP_KERNEL);
+> > > +	int i;
+> > > +
+> > > +	if (!mgr)
+> > > +		return NULL;
+> > > +
+> > > +	mgr->dev = dev;
+> > > +	init_waitqueue_head(&mgr->bw_req_queue);
+> > > +
+> > > +	mgr->groups = kcalloc(max_group_count, sizeof(*mgr->groups), GFP_KERNEL);
+> > > +	if (!mgr->groups) {
+> > > +		kfree(mgr);
+> > > +
+> > > +		return NULL;
+> > > +	}
+> > > +
+> > > +#ifdef CONFIG_DRM_DISPLAY_DEBUG_DP_TUNNEL_STATE
+> > > +	ref_tracker_dir_init(&mgr->ref_tracker, 16, "dptun");
+> > > +#endif
+> > > +
+> > > +	for (i = 0; i < max_group_count; i++) {
+> > > +		if (!init_group(mgr, &mgr->groups[i])) {
+> > > +			destroy_mgr(mgr);
+> > > +
+> > > +			return NULL;
+> > > +		}
+> > > +
+> > > +		mgr->group_count++;
+> > > +	}
+> > > +
+> > > +	return mgr;
+> > > +}
+> > > +EXPORT_SYMBOL(drm_dp_tunnel_mgr_create);
+> > > +
+> > > +/**
+> > > + * drm_dp_tunnel_mgr_destroy - Destroy DP tunnel manager
+> > > + * @mgr: Tunnel manager object
+> > > + *
+> > > + * Destroy the tunnel manager.
+> > > + */
+> > > +void drm_dp_tunnel_mgr_destroy(struct drm_dp_tunnel_mgr *mgr)
+> > > +{
+> > > +	destroy_mgr(mgr);
+> > > +}
+> > > +EXPORT_SYMBOL(drm_dp_tunnel_mgr_destroy);
+> > > diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
+> > > index 281afff6ee4e5..8bfd5d007be8d 100644
+> > > --- a/include/drm/display/drm_dp.h
+> > > +++ b/include/drm/display/drm_dp.h
+> > > @@ -1382,6 +1382,66 @@
+> > >  #define DP_HDCP_2_2_REG_STREAM_TYPE_OFFSET	0x69494
+> > >  #define DP_HDCP_2_2_REG_DBG_OFFSET		0x69518
+> > >  
+> > > +/* DP-tunneling */
+> > > +#define DP_TUNNELING_OUI				0xe0000
+> > > +#define  DP_TUNNELING_OUI_BYTES				3
+> > > +
+> > > +#define DP_TUNNELING_DEV_ID				0xe0003
+> > > +#define  DP_TUNNELING_DEV_ID_BYTES			6
+> > > +
+> > > +#define DP_TUNNELING_HW_REV				0xe0009
+> > > +#define  DP_TUNNELING_HW_REV_MAJOR_SHIFT		4
+> > > +#define  DP_TUNNELING_HW_REV_MAJOR_MASK			(0xf << DP_TUNNELING_HW_REV_MAJOR_SHIFT)
+> > > +#define  DP_TUNNELING_HW_REV_MINOR_SHIFT		0
+> > > +#define  DP_TUNNELING_HW_REV_MINOR_MASK			(0xf << DP_TUNNELING_HW_REV_MINOR_SHIFT)
+> > > +
+> > > +#define DP_TUNNELING_SW_REV_MAJOR			0xe000a
+> > > +#define DP_TUNNELING_SW_REV_MINOR			0xe000b
+> > > +
+> > > +#define DP_TUNNELING_CAPABILITIES			0xe000d
+> > > +#define  DP_IN_BW_ALLOCATION_MODE_SUPPORT		(1 << 7)
+> > > +#define  DP_PANEL_REPLAY_OPTIMIZATION_SUPPORT		(1 << 6)
+> > > +#define  DP_TUNNELING_SUPPORT				(1 << 0)
+> > > +
+> > > +#define DP_IN_ADAPTER_INFO				0xe000e
+> > > +#define  DP_IN_ADAPTER_NUMBER_BITS			7
+> > > +#define  DP_IN_ADAPTER_NUMBER_MASK			((1 << DP_IN_ADAPTER_NUMBER_BITS) - 1)
+> > > +
+> > > +#define DP_USB4_DRIVER_ID				0xe000f
+> > > +#define  DP_USB4_DRIVER_ID_BITS				4
+> > > +#define  DP_USB4_DRIVER_ID_MASK				((1 << DP_USB4_DRIVER_ID_BITS) - 1)
+> > > +
+> > > +#define DP_USB4_DRIVER_BW_CAPABILITY			0xe0020
+> > > +#define  DP_USB4_DRIVER_BW_ALLOCATION_MODE_SUPPORT	(1 << 7)
+> > > +
+> > > +#define DP_IN_ADAPTER_TUNNEL_INFORMATION		0xe0021
+> > > +#define  DP_GROUP_ID_BITS				3
+> > > +#define  DP_GROUP_ID_MASK				((1 << DP_GROUP_ID_BITS) - 1)
+> > > +
+> > > +#define DP_BW_GRANULARITY				0xe0022
+> > > +#define  DP_BW_GRANULARITY_MASK				0x3
+> > > +
+> > > +#define DP_ESTIMATED_BW					0xe0023
+> > > +#define DP_ALLOCATED_BW					0xe0024
+> > > +
+> > > +#define DP_TUNNELING_STATUS				0xe0025
+> > > +#define  DP_BW_ALLOCATION_CAPABILITY_CHANGED		(1 << 3)
+> > > +#define  DP_ESTIMATED_BW_CHANGED			(1 << 2)
+> > > +#define  DP_BW_REQUEST_SUCCEEDED			(1 << 1)
+> > > +#define  DP_BW_REQUEST_FAILED				(1 << 0)
+> > > +
+> > > +#define DP_TUNNELING_MAX_LINK_RATE			0xe0028
+> > > +
+> > > +#define DP_TUNNELING_MAX_LANE_COUNT			0xe0029
+> > > +#define  DP_TUNNELING_MAX_LANE_COUNT_MASK		0x1f
+> > > +
+> > > +#define DP_DPTX_BW_ALLOCATION_MODE_CONTROL		0xe0030
+> > > +#define  DP_DISPLAY_DRIVER_BW_ALLOCATION_MODE_ENABLE	(1 << 7)
+> > > +#define  DP_UNMASK_BW_ALLOCATION_IRQ			(1 << 6)
+> > > +
+> > > +#define DP_REQUEST_BW					0xe0031
+> > > +#define  MAX_DP_REQUEST_BW				255
+> > > +
+> > >  /* LTTPR: Link Training (LT)-tunable PHY Repeaters */
+> > >  #define DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV 0xf0000 /* 1.3 */
+> > >  #define DP_MAX_LINK_RATE_PHY_REPEATER			    0xf0001 /* 1.4a */
+> > > diff --git a/include/drm/display/drm_dp_tunnel.h b/include/drm/display/drm_dp_tunnel.h
+> > > new file mode 100644
+> > > index 0000000000000..f6449b1b4e6e9
+> > > --- /dev/null
+> > > +++ b/include/drm/display/drm_dp_tunnel.h
+> > > @@ -0,0 +1,270 @@
+> > > +/* SPDX-License-Identifier: MIT */
+> > > +/*
+> > > + * Copyright © 2023 Intel Corporation
+> > > + */
+> > > +
+> > > +#ifndef __DRM_DP_TUNNEL_H__
+> > > +#define __DRM_DP_TUNNEL_H__
+> > > +
+> > > +#include <linux/err.h>
+> > > +#include <linux/errno.h>
+> > > +#include <linux/types.h>
+> > > +
+> > > +struct drm_dp_aux;
+> > > +
+> > > +struct drm_device;
+> > > +
+> > > +struct drm_atomic_state;
+> > > +struct drm_dp_tunnel_mgr;
+> > > +struct drm_dp_tunnel_state;
+> > > +
+> > > +struct ref_tracker;
+> > > +
+> > > +struct drm_dp_tunnel_ref {
+> > > +	struct drm_dp_tunnel *tunnel;
+> > > +#ifdef CONFIG_DRM_DISPLAY_DEBUG_DP_TUNNEL_STATE
+> > > +	struct ref_tracker *tracker;
+> > > +#endif
+> > > +};
+> > > +
+> > > +#ifdef CONFIG_DRM_DISPLAY_DP_TUNNEL
+> > > +
+> > > +struct drm_dp_tunnel *
+> > > +drm_dp_tunnel_get_untracked(struct drm_dp_tunnel *tunnel);
+> > > +void drm_dp_tunnel_put_untracked(struct drm_dp_tunnel *tunnel);
+> > > +
+> > > +#ifdef CONFIG_DRM_DISPLAY_DEBUG_DP_TUNNEL_STATE
+> > > +struct drm_dp_tunnel *
+> > > +drm_dp_tunnel_get(struct drm_dp_tunnel *tunnel, struct ref_tracker **tracker);
+> > > +
+> > > +void
+> > > +drm_dp_tunnel_put(struct drm_dp_tunnel *tunnel, struct ref_tracker **tracker);
+> > > +#else
+> > > +#define drm_dp_tunnel_get(tunnel, tracker) \
+> > > +	drm_dp_tunnel_get_untracked(tunnel)
+> > > +
+> > > +#define drm_dp_tunnel_put(tunnel, tracker) \
+> > > +	drm_dp_tunnel_put_untracked(tunnel)
+> > > +
+> > > +#endif
+> > > +
+> > > +static inline void drm_dp_tunnel_ref_get(struct drm_dp_tunnel *tunnel,
+> > > +					   struct drm_dp_tunnel_ref *tunnel_ref)
+> > > +{
+> > > +	tunnel_ref->tunnel = drm_dp_tunnel_get(tunnel, &tunnel_ref->tracker);
+> > > +}
+> > > +
+> > > +static inline void drm_dp_tunnel_ref_put(struct drm_dp_tunnel_ref *tunnel_ref)
+> > > +{
+> > > +	drm_dp_tunnel_put(tunnel_ref->tunnel, &tunnel_ref->tracker);
+> > > +}
+> > > +
+> > > +struct drm_dp_tunnel *
+> > > +drm_dp_tunnel_detect(struct drm_dp_tunnel_mgr *mgr,
+> > > +		     struct drm_dp_aux *aux);
+> > > +int drm_dp_tunnel_destroy(struct drm_dp_tunnel *tunnel);
+> > > +
+> > > +int drm_dp_tunnel_enable_bw_alloc(struct drm_dp_tunnel *tunnel);
+> > > +int drm_dp_tunnel_disable_bw_alloc(struct drm_dp_tunnel *tunnel);
+> > > +bool drm_dp_tunnel_bw_alloc_is_enabled(const struct drm_dp_tunnel *tunnel);
+> > > +int drm_dp_tunnel_alloc_bw(struct drm_dp_tunnel *tunnel, int bw);
+> > > +int drm_dp_tunnel_check_state(struct drm_dp_tunnel *tunnel);
+> > > +int drm_dp_tunnel_update_state(struct drm_dp_tunnel *tunnel);
+> > > +
+> > > +void drm_dp_tunnel_set_io_error(struct drm_dp_tunnel *tunnel);
+> > > +
+> > > +int drm_dp_tunnel_handle_irq(struct drm_dp_tunnel_mgr *mgr,
+> > > +			     struct drm_dp_aux *aux);
+> > > +
+> > > +int drm_dp_tunnel_max_dprx_rate(const struct drm_dp_tunnel *tunnel);
+> > > +int drm_dp_tunnel_max_dprx_lane_count(const struct drm_dp_tunnel *tunnel);
+> > > +int drm_dp_tunnel_available_bw(const struct drm_dp_tunnel *tunnel);
+> > > +
+> > > +const char *drm_dp_tunnel_name(const struct drm_dp_tunnel *tunnel);
+> > > +
+> > > +struct drm_dp_tunnel_state *
+> > > +drm_dp_tunnel_atomic_get_state(struct drm_atomic_state *state,
+> > > +			       struct drm_dp_tunnel *tunnel);
+> > > +struct drm_dp_tunnel_state *
+> > > +drm_dp_tunnel_atomic_get_new_state(struct drm_atomic_state *state,
+> > > +				   const struct drm_dp_tunnel *tunnel);
+> > > +
+> > > +void drm_dp_tunnel_atomic_clear_state(struct drm_dp_tunnel_state *tunnel_state);
+> > > +
+> > > +int drm_dp_tunnel_atomic_set_stream_bw(struct drm_atomic_state *state,
+> > > +				       struct drm_dp_tunnel *tunnel,
+> > > +				       u8 stream_id, int bw);
+> > > +int drm_dp_tunnel_atomic_get_group_streams_in_state(struct drm_atomic_state *state,
+> > > +						    const struct drm_dp_tunnel *tunnel,
+> > > +						    u32 *stream_mask);
+> > > +
+> > > +int drm_dp_tunnel_atomic_check_stream_bws(struct drm_atomic_state *state,
+> > > +					  u32 *failed_stream_mask);
+> > > +
+> > > +int drm_dp_tunnel_atomic_get_tunnel_bw(const struct drm_dp_tunnel_state *tunnel_state);
+> > > +
+> > > +struct drm_dp_tunnel_mgr *
+> > > +drm_dp_tunnel_mgr_create(struct drm_device *dev, int max_group_count);
+> > > +void drm_dp_tunnel_mgr_destroy(struct drm_dp_tunnel_mgr *mgr);
+> > > +
+> > > +#else
+> > > +
+> > > +static inline struct drm_dp_tunnel *
+> > > +drm_dp_tunnel_get_untracked(struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	return NULL;
+> > > +}
+> > > +
+> > > +static inline void
+> > > +drm_dp_tunnel_put_untracked(struct drm_dp_tunnel *tunnel) {}
+> > > +
+> > > +static inline struct drm_dp_tunnel *
+> > > +drm_dp_tunnel_get(struct drm_dp_tunnel *tunnel, struct ref_tracker **tracker)
+> > > +{
+> > > +	return NULL;
+> > > +}
+> > > +
+> > > +static inline void
+> > > +drm_dp_tunnel_put(struct drm_dp_tunnel *tunnel, struct ref_tracker **tracker) {}
+> > > +
+> > > +static inline void drm_dp_tunnel_ref_get(struct drm_dp_tunnel *tunnel,
+> > > +					   struct drm_dp_tunnel_ref *tunnel_ref) {}
+> > > +static inline void drm_dp_tunnel_ref_put(struct drm_dp_tunnel_ref *tunnel_ref) {}
+> > > +
+> > > +static inline struct drm_dp_tunnel *
+> > > +drm_dp_tunnel_detect(struct drm_dp_tunnel_mgr *mgr,
+> > > +		     struct drm_dp_aux *aux)
+> > > +{
+> > > +	return ERR_PTR(-EOPNOTSUPP);
+> > > +}
+> > > +
+> > > +static inline int
+> > > +drm_dp_tunnel_destroy(struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static inline int drm_dp_tunnel_enable_bw_alloc(struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	return -EOPNOTSUPP;
+> > > +}
+> > > +
+> > > +static inline int drm_dp_tunnel_disable_bw_alloc(struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	return -EOPNOTSUPP;
+> > > +}
+> > > +
+> > > +static inline bool drm_dp_tunnel_bw_alloc_is_enabled(const struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	return false;
+> > > +}
+> > > +
+> > > +static inline int
+> > > +drm_dp_tunnel_alloc_bw(struct drm_dp_tunnel *tunnel, int bw)
+> > > +{
+> > > +	return -EOPNOTSUPP;
+> > > +}
+> > > +
+> > > +static inline int
+> > > +drm_dp_tunnel_check_state(struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	return -EOPNOTSUPP;
+> > > +}
+> > > +
+> > > +static inline int
+> > > +drm_dp_tunnel_update_state(struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	return -EOPNOTSUPP;
+> > > +}
+> > > +
+> > > +static inline void drm_dp_tunnel_set_io_error(struct drm_dp_tunnel *tunnel) {}
+> > > +static inline int
+> > > +drm_dp_tunnel_handle_irq(struct drm_dp_tunnel_mgr *mgr,
+> > > +			 struct drm_dp_aux *aux)
+> > > +{
+> > > +	return -EOPNOTSUPP;
+> > > +}
+> > > +
+> > > +static inline int
+> > > +drm_dp_tunnel_max_dprx_rate(const struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static inline int
+> > > +drm_dp_tunnel_max_dprx_lane_count(const struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static inline int
+> > > +drm_dp_tunnel_available_bw(const struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	return -1;
+> > > +}
+> > > +
+> > > +static inline const char *
+> > > +drm_dp_tunnel_name(const struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	return NULL;
+> > > +}
+> > > +
+> > > +static inline struct drm_dp_tunnel_state *
+> > > +drm_dp_tunnel_atomic_get_state(struct drm_atomic_state *state,
+> > > +			       struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	return ERR_PTR(-EOPNOTSUPP);
+> > > +}
+> > > +
+> > > +static inline struct drm_dp_tunnel_state *
+> > > +drm_dp_tunnel_atomic_get_new_state(struct drm_atomic_state *state,
+> > > +				   const struct drm_dp_tunnel *tunnel)
+> > > +{
+> > > +	return ERR_PTR(-EOPNOTSUPP);
+> > > +}
+> > > +
+> > > +static inline void
+> > > +drm_dp_tunnel_atomic_clear_state(struct drm_dp_tunnel_state *tunnel_state) {}
+> > > +
+> > > +static inline int
+> > > +drm_dp_tunnel_atomic_set_stream_bw(struct drm_atomic_state *state,
+> > > +				   struct drm_dp_tunnel *tunnel,
+> > > +				   u8 stream_id, int bw)
+> > > +{
+> > > +	return -EOPNOTSUPP;
+> > > +}
+> > > +
+> > > +static inline int
+> > > +drm_dp_tunnel_atomic_get_group_streams_in_state(struct drm_atomic_state *state,
+> > > +						const struct drm_dp_tunnel *tunnel,
+> > > +						u32 *stream_mask)
+> > > +{
+> > > +	return -EOPNOTSUPP;
+> > > +}
+> > > +
+> > > +static inline int
+> > > +drm_dp_tunnel_atomic_check_stream_bws(struct drm_atomic_state *state,
+> > > +				      u32 *failed_stream_mask)
+> > > +{
+> > > +	return -EOPNOTSUPP;
+> > > +}
+> > > +
+> > > +static inline int
+> > > +drm_dp_tunnel_atomic_get_tunnel_bw(const struct drm_dp_tunnel_state *tunnel_state)
+> > > +{
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static inline struct drm_dp_tunnel_mgr *
+> > > +drm_dp_tunnel_mgr_create(struct drm_device *dev, int max_group_count)
+> > > +{
+> > > +	return ERR_PTR(-EOPNOTSUPP);
+> > > +}
+> > > +
+> > > +static inline
+> > > +void drm_dp_tunnel_mgr_destroy(struct drm_dp_tunnel_mgr *mgr) {}
+> > > +
+> > > +
+> > > +#endif /* CONFIG_DRM_DISPLAY_DP_TUNNEL */
+> > > +
+> > > +#endif /* __DRM_DP_TUNNEL_H__ */
+> > > -- 
+> > > 2.39.2
+> > 
+> > -- 
+> > Ville Syrjälä
+> > Intel
