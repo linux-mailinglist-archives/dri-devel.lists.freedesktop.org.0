@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD8E984D3B0
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 22:23:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A007884D3AC
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 22:22:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55B7010E803;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07A5110E102;
 	Wed,  7 Feb 2024 21:22:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lpyiX8iK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dOcYImax";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 724FC10E483;
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EA5B10E443;
  Wed,  7 Feb 2024 21:22:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id A3AB7CE1B17;
- Wed,  7 Feb 2024 21:22:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6808FC433F1;
- Wed,  7 Feb 2024 21:22:31 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7AABB61A30;
+ Wed,  7 Feb 2024 21:22:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0454C433C7;
+ Wed,  7 Feb 2024 21:22:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1707340953;
- bh=HypDdf2hjjBPIzrRj27Vpyxm10qBsZQ3coQ3zvmXXOo=;
+ s=k20201202; t=1707340961;
+ bh=XQmgObsbR2utlB2lO8x1pRM+8CpAf20TdDR/m8plFKM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lpyiX8iKYCtZuu5CGCqKkaN5b41tB9bg334Y76JV7r1+wdyd9L+aWCaJhmPHFLrRv
- FDj2lpQfYEtT7i/8SdYkfgIP0nYBJurDBh4h/P0RrmI047EKVjmbO2ZK2VClBMAMRE
- GcV9rUx/W550XUv2EVoWMwVBbqMosL9ND55+b3XHNV8N3NbvgXS59/hFYNJyQOp6BR
- XwEK4PpLTSt4O5b9+6H9YkBfPKJEIKjjy6oxQYY5hY4q9qLdkMfLJWktkRxn3Ws9PB
- cWcmpXbAsMXT86EZ6b7MIma4ZTttewmZmHibnFg90v0rR7rwg83goN7Pl4Hv4uPsF1
- ardprOovKwUlg==
+ b=dOcYImaxQPzDWBGPnwr+hfUMqRCUiv4tCXIwyQy+Dkxt6Y+i+NAf+8Z0GfLMMZokG
+ txkKZigh71p3BCVEqY0C6z2UMUJgnj0AIKiQRp9/x/SKfgwIO/5g1cAuNcrQeJaQF0
+ AvAjpVCcXSJS8kGKux3z2NIcBzAQ09+A6l3YI/puV+rp5jjGRzlxreHFhiLi3wQU+J
+ 4fqmfPcmZ7R38N0tqFHms34HCno/8rCN1HbVyW1q4Bd2stH6cWB7Fy3WKHtmsKV/UW
+ guNoNVVgYMc+nG9oi+S9cJipFEBX/7OAtDo3ByCg0W/odwXiU8gJiZDWdI4Lwab1xR
+ BfnRI3GywZiQQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Sohaib Nadeem <sohaib.nadeem@amd.com>,
- Chaitanya Dhere <chaitanya.dhere@amd.com>, Alvin Lee <alvin.lee2@amd.com>,
+Cc: Charlene Liu <charlene.liu@amd.com>, Muhammad Ahmed <ahmed.ahmed@amd.com>,
  Tom Chung <chiahsuan.chung@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, jun.lei@amd.com, wenjing.liu@amd.com,
- austin.zheng@amd.com, Qingqing.Zhuo@amd.com, amd-gfx@lists.freedesktop.org,
+ daniel@ffwll.ch, wayne.lin@amd.com, allen.pan@amd.com,
+ Qingqing.Zhuo@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.7 25/44] drm/amd/display: increased min_dcfclk_mhz
- and min_fclk_mhz
-Date: Wed,  7 Feb 2024 16:20:52 -0500
-Message-ID: <20240207212142.1399-25-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.7 26/44] drm/amd/display: fix USB-C flag update
+ after enc10 feature init
+Date: Wed,  7 Feb 2024 16:20:53 -0500
+Message-ID: <20240207212142.1399-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240207212142.1399-1-sashal@kernel.org>
 References: <20240207212142.1399-1-sashal@kernel.org>
@@ -70,44 +69,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sohaib Nadeem <sohaib.nadeem@amd.com>
+From: Charlene Liu <charlene.liu@amd.com>
 
-[ Upstream commit 2ff33c759a4247c84ec0b7815f1f223e155ba82a ]
+[ Upstream commit b5abd7f983e14054593dc91d6df2aa5f8cc67652 ]
 
 [why]
-Originally, PMFW said min FCLK is 300Mhz, but min DCFCLK can be increased
-to 400Mhz because min FCLK is now 600Mhz so FCLK >= 1.5 * DCFCLK hardware
-requirement will still be satisfied. Increasing min DCFCLK addresses
-underflow issues (underflow occurs when phantom pipe is turned on for some
-Sub-Viewport configs).
+BIOS's integration info table not following the original order
+which is phy instance is ext_displaypath's array index.
 
 [how]
-Increasing DCFCLK by raising the min_dcfclk_mhz
+Move them to follow the original order.
 
-Reviewed-by: Chaitanya Dhere <chaitanya.dhere@amd.com>
-Reviewed-by: Alvin Lee <alvin.lee2@amd.com>
+Reviewed-by: Muhammad Ahmed <ahmed.ahmed@amd.com>
 Acked-by: Tom Chung <chiahsuan.chung@amd.com>
-Signed-off-by: Sohaib Nadeem <sohaib.nadeem@amd.com>
+Signed-off-by: Charlene Liu <charlene.liu@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_dio_link_encoder.c | 4 ++--
+ drivers/gpu/drm/amd/display/dc/dcn35/dcn35_dio_link_encoder.c | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-index 92e2ddc9ab7e..67497d7d66d2 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-@@ -2719,7 +2719,7 @@ static int build_synthetic_soc_states(bool disable_dc_mode_overwrite, struct clk
- 	struct _vcs_dpi_voltage_scaling_st entry = {0};
- 	struct clk_limit_table_entry max_clk_data = {0};
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_dio_link_encoder.c b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_dio_link_encoder.c
+index 501388014855..d761b0df2878 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_dio_link_encoder.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_dio_link_encoder.c
+@@ -203,12 +203,12 @@ void dcn32_link_encoder_construct(
+ 	enc10->base.hpd_source = init_data->hpd_source;
+ 	enc10->base.connector = init_data->connector;
  
--	unsigned int min_dcfclk_mhz = 199, min_fclk_mhz = 299;
-+	unsigned int min_dcfclk_mhz = 399, min_fclk_mhz = 599;
+-	if (enc10->base.connector.id == CONNECTOR_ID_USBC)
+-		enc10->base.features.flags.bits.DP_IS_USB_C = 1;
  
- 	static const unsigned int num_dcfclk_stas = 5;
- 	unsigned int dcfclk_sta_targets[DC__VOLTAGE_STATES] = {199, 615, 906, 1324, 1564};
+ 	enc10->base.preferred_engine = ENGINE_ID_UNKNOWN;
+ 
+ 	enc10->base.features = *enc_features;
++	if (enc10->base.connector.id == CONNECTOR_ID_USBC)
++		enc10->base.features.flags.bits.DP_IS_USB_C = 1;
+ 
+ 	enc10->base.transmitter = init_data->transmitter;
+ 
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn35/dcn35_dio_link_encoder.c b/drivers/gpu/drm/amd/display/dc/dcn35/dcn35_dio_link_encoder.c
+index f91e08895275..3fca3dca61f0 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn35/dcn35_dio_link_encoder.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn35/dcn35_dio_link_encoder.c
+@@ -184,8 +184,6 @@ void dcn35_link_encoder_construct(
+ 	enc10->base.hpd_source = init_data->hpd_source;
+ 	enc10->base.connector = init_data->connector;
+ 
+-	if (enc10->base.connector.id == CONNECTOR_ID_USBC)
+-		enc10->base.features.flags.bits.DP_IS_USB_C = 1;
+ 
+ 	enc10->base.preferred_engine = ENGINE_ID_UNKNOWN;
+ 
+@@ -240,6 +238,8 @@ void dcn35_link_encoder_construct(
+ 	}
+ 
+ 	enc10->base.features.flags.bits.HDMI_6GB_EN = 1;
++	if (enc10->base.connector.id == CONNECTOR_ID_USBC)
++		enc10->base.features.flags.bits.DP_IS_USB_C = 1;
+ 
+ 	if (bp_funcs->get_connector_speed_cap_info)
+ 		result = bp_funcs->get_connector_speed_cap_info(enc10->base.ctx->dc_bios,
 -- 
 2.43.0
 
