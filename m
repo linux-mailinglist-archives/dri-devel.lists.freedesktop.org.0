@@ -2,63 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33A4B84C714
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 10:17:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0C5384C71C
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 10:19:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EED510EB48;
-	Wed,  7 Feb 2024 09:16:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F21B10ECD8;
+	Wed,  7 Feb 2024 09:19:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jvjnieim";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="aPUeZiGs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F17610E641;
- Wed,  7 Feb 2024 09:16:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707297417; x=1738833417;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=zQQCNmahUwZK3qO6Zo+aBo/S2P1qs/t9sW1T2X5nctU=;
- b=jvjnieimSip56EhhQbfZBClFtsraR3CVunTxY2sFGN9Nm7BjwZWRJmG1
- XLvQgfYJVTtGSlzFhImQXYOGaosIoo9j/CBbvbzaMSszytAya/vQmZXhI
- +NjQT9FTxKu0ZHk82cTB7l6fOdx1Ft6bbW3EovO9gyHMrJPMRDNcSor/I
- IW9z5MevZZZAks+NQr7g1RTivXnOkj75zmdtPGwC8Ml330tlD8XMSKujm
- YvHtSh3voa0kEXnShPSC38Yu76SRrKA12k9NjC4wAKXrrmO68AyGU2KL1
- Y7C2AEzz5XOIYYko5ZxdpU3htbGzlbDihytxBza6/DD0KWGRrFi4D1WUj g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="11683700"
-X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; d="scan'208";a="11683700"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2024 01:16:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
-   d="scan'208";a="1559644"
-Received: from ahamill-mobl2.ger.corp.intel.com (HELO [10.213.228.167])
- ([10.213.228.167])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2024 01:16:32 -0800
-Message-ID: <3c63aea1-1a04-45eb-9af1-02f52d4132e4@linux.intel.com>
-Date: Wed, 7 Feb 2024 09:16:30 +0000
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3041910E1AF
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Feb 2024 09:19:18 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-33b0f36b808so301564f8f.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Feb 2024 01:19:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1707297556; x=1707902356; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=THgk+e9Cb62XQUQpCM4anGjiBdgkprTbUp5Xnr6DNDA=;
+ b=aPUeZiGsRiVXwB0m9FZYC9VRfrn1jcCX1/l0lyGttPfJUqqdTRVUhS2Z5PpV7B00fE
+ RllacgfUA25RaMMP9/WnFwE0iFnn/Q1IMaSpo3twM9H9V2IqDONBs+sFJ7BuZj9xiJEr
+ qL4lEteq1vBF2lW6cRpSjT6VtG/ABBQFNKx6GD474iemBeV2YrVuwyFgqpWPzHR6X+b7
+ IyXR2Pl2G/7dEFJFf8Q8vrlKJ12BhSv7Gk/lGRGe1j9+SYHkxCfLnYKpAq8+Hi/RoJgZ
+ m5zvZtGyIlD4zcRz7zFBTuSSIq+JNwhD1FKrCadWA+lHuJ0THu+TbRHqu4IVztJdhqex
+ 1q6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707297556; x=1707902356;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=THgk+e9Cb62XQUQpCM4anGjiBdgkprTbUp5Xnr6DNDA=;
+ b=jqHI6Y5aKupNhr+cRm8k59o98gP4W+ig09QiEZgGVV0n1Tb4i6izve5KXDLODJ7P+p
+ ZG8a2mQw70t5BvhuGMIsMX/BLj8nF1O1xR7qGE03bBAHSwq5s9PLZB6yxa17ZhhilqZl
+ gTCEcrz5fF9L6koRV4oJ8f6PCZHtRCiD8xRdTw7sHcc2jtb+MgPCuO9rbS6A2tP5jZgJ
+ TwRI6cGXURxQkui+COUlKrOcsGaXup0v//7nrPp1sl62IV3+Ru1ACBoW5Ge1NZVPGpgU
+ 5MQWgxwgmv39Lzy6hEtTXw5H9e3x7ZroXnUB4hqHXBvUWIZ704S/JQt7dilfl5/yE9qh
+ iSjA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVCJXMVff6k34M8wkS7cdCDtrUlNFvOjHHH87jahUXKeDQaSv1U3rrsMfle+r+G5XWODqQC8D4QxeXIGpEwO7jPLkcdY9sudD05YRHHWlSr
+X-Gm-Message-State: AOJu0YwHOQGiziC8RXVLojp9vjXxRlDFdiUgP15MJXEaWdOcPNnrNfn2
+ 98kqj+osO0S+Fnom7BlMrgozyQkEA0ly0Y1zJ6O0CufXFdH3ML7VLJNMh/rWZ4Y=
+X-Google-Smtp-Source: AGHT+IFH3IS82L5gMUchaVBxO2U3Dm3TiOIG6AHHKdxNIxx731oN2gzwqakpiXj2hF5Y0reTcfq/wQ==
+X-Received: by 2002:adf:f051:0:b0:33b:26de:ea with SMTP id
+ t17-20020adff051000000b0033b26de00eamr3532439wro.37.1707297556498; 
+ Wed, 07 Feb 2024 01:19:16 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVWiN+qIiZ+TGCqz6O1ozMaHDU937wmh5nPirJyx1NADCaa8DhzV5aRPcP1mlSeh8HS9tGnzuRYwqGdTodkvALK0+mgXVO87Ajgg1qFaP+36SZu+xs4ctMTJbe/QTi8UKQxz3AuxRxWHghJ+tBTDjP4e2aU8XK7L/Zar6hb1TtfUqdDk+Pajvg6A17Z3ehLjk3EtAKAcNlBMimPGFU9ZutwTsgzR1zDTLoB3Vj6BV+7awo2Qd4kKbzadF7nF1q8g23bprCMoLIidVw+9+tnq5/wJx4eYmATRg+HQIU/QdohVTyula19yRXkyRerG3hRJ08bn2+xB2GsYfsmI3x7Ciu69xbME6dZV7T5d2ezhFUXR//dk/5wwIYwptRGp3MyJumTFHXfgpeRfDlhIELN1Fhoio9bOSQak669MwUghfOz1/s5GNChseQ4qFsej674RQuAETJjWjoQeLjMpuqasSopZBGNY7JhW5OTtd5IbYJXWVtXcdhuN3jqbQ5CqWU6gyhqIwIHUwjaWj/CzcoAGniVOfgsonolBAV5O/qlCp7Mk4rMC3UfJxZyxU/B1JkE2Qsh4CuI5z12vEQWa8xue9rfLQP25L6RiTR5WNAvmNXiFNdtpVTZHS0/5oV5iKdcCqEWXasnhSIycPntk8LJkIkVQOm39whjVtj2rFJpbigZyHSFgKvtiJ5B
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ by smtp.gmail.com with ESMTPSA id
+ r20-20020adfb1d4000000b00337d6f0013esm1003490wra.107.2024.02.07.01.19.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Feb 2024 01:19:16 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Cc: devicetree@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, 
+ Yannick Fertre <yannick.fertre@foss.st.com>
+In-Reply-To: <20240205-ltdc_mp13-v1-0-072d24bf1b36@foss.st.com>
+References: <20240205-ltdc_mp13-v1-0-072d24bf1b36@foss.st.com>
+Subject: Re: (subset) [PATCH 0/5] Add display support for stm32mp135f-dk board
+Message-Id: <170729755552.1647630.4818786052103823648.b4-ty@linaro.org>
+Date: Wed, 07 Feb 2024 10:19:15 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/i915/gt: Prevent possible NULL dereference in
- __caps_show()
-Content-Language: en-US
-To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>,
- Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- lvc-project@linuxtesting.org
-References: <20240206164543.46834-1-n.zhandarovich@fintech.ru>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20240206164543.46834-1-n.zhandarovich@fintech.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,76 +97,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
 Hi,
 
-On 06/02/2024 16:45, Nikita Zhandarovich wrote:
-> After falling through the switch statement to default case 'repr' is
-> initialized with NULL, which will lead to incorrect dereference of
-> '!repr[n]' in the following loop.
+On Mon, 05 Feb 2024 10:06:50 +0100, Raphael Gallais-Pou wrote:
+> This serie aims to enable display support for the stm32mp135f-dk board
 > 
-> Fix it with the help of an additional check for NULL.
+> Those are only patches of the device-tree since the driver support has
+> already been added [1].
 > 
-> Found by Linux Verification Center (linuxtesting.org) with static
-> analysis tool SVACE.
+> It respectivelly:
+> 	- adds support for the display controller on stm32mp135
+> 	- adds pinctrl for the display controller
+> 	- enables panel, backlight and display controller on
+> 	  stm32mp135f-dk
 > 
-> Fixes: 4ec76dbeb62b ("drm/i915/gt: Expose engine properties via sysfs")
-> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-> ---
-> P.S. The NULL-deref problem might be dealt with this way but I am
-> not certain that the rest of the __caps_show() behaviour remains
-> correct if we end up in default case. For instance, as far as I
-> can tell, buf might turn out to be w/o '\0'. I could use some
-> direction if this has to be addressed as well.
-> 
->   drivers/gpu/drm/i915/gt/sysfs_engines.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/sysfs_engines.c b/drivers/gpu/drm/i915/gt/sysfs_engines.c
-> index 021f51d9b456..6b130b732867 100644
-> --- a/drivers/gpu/drm/i915/gt/sysfs_engines.c
-> +++ b/drivers/gpu/drm/i915/gt/sysfs_engines.c
-> @@ -105,7 +105,7 @@ __caps_show(struct intel_engine_cs *engine,
->   
->   	len = 0;
->   	for_each_set_bit(n, &caps, show_unknown ? BITS_PER_LONG : count) {
-> -		if (n >= count || !repr[n]) {
-> +		if (n >= count || !repr || !repr[n]) {
+> [...]
 
-There are two input combinations to this function when repr is NULL.
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
 
-First is show_unknown=true and caps=0, which means the for_each_set_bit 
-will not execute its body. (No bits set.)
+[4/5] drm/panel: simple: fix flags on RK043FN48H
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=536090b695c429e9d672f72341a5b6fb147d389d
 
-Second is show_unknown=false and caps=~0, which means count is zero so 
-for_each_set_bit will again not run. (Bitfield size input param is zero.)
+-- 
+Neil
 
-So unless I am missing something I do not see the null pointer dereference.
-
-What could theoretically happen is that a third input combination 
-appears, where caps is not zero in the show_unknown=true case, either 
-via a fully un-handled engine->class (switch), or a new capability bit 
-not added to the static array a bit above.
-
-That would assert during driver development here:
-
-			if (GEM_WARN_ON(show_unknown))
-
-Granted that could be after the dereference in "if (n >= count || 
-!repr[n])", but would be caught in debug builds (CI) and therefore not 
-be able to "ship" (get merge to the repo).
-
-Your second question is about empty buffer returned i.e. len=0 at the 
-end of the function? (Which is when the buffer will not be null 
-terminated - or you see another option?)
-
-That I think is safe too since it just results in a zero length read in 
-sysfs.
-
-Regards,
-
-Tvrtko
-
->   			if (GEM_WARN_ON(show_unknown))
->   				len += sysfs_emit_at(buf, len, "[%x] ", n);
->   		} else {
