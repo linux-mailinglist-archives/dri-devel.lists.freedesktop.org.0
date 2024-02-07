@@ -2,79 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DB1784C71E
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 10:19:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C9C284C72C
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 10:22:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 360FE10ECF4;
-	Wed,  7 Feb 2024 09:19:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0FA5113178;
+	Wed,  7 Feb 2024 09:22:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="hwxtz38g";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lv1EgNrJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 001A710E1AF
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Feb 2024 09:19:19 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-40ffd94a707so3657935e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Feb 2024 01:19:19 -0800 (PST)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+ [209.85.216.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D307211317B
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Feb 2024 09:22:31 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id
+ 98e67ed59e1d1-292655cb454so72125a91.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Feb 2024 01:22:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1707297558; x=1707902358; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1707297751; x=1707902551; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GaRiKb/w4iH5KbxLrr0CsrBk0xODem4EHSIMgHr4BH0=;
- b=hwxtz38gLrcqIi1XCa0gsVG1jhUBQQIVQzKoeBYKlIWBHwAH1wCXuujWPEP05xGcX9
- KyzBWA9FhJ7mIdNNkrbGywg7IdJ522iK6MzRNUq1DhDZE2zV29bufExPiB80eSYnSzgK
- cPyALf5xBFPjuOPdI+1VAYILM5DQcnxKEXd1NFTi4Pi7Qy56FcTLDTtymcGMPMzDhG/S
- G0iKD0ZlshlxWOAEzhwLTUx//spsHNYRjZxmX1iLj9nhb7dUE0s7sUdZ0N2cd+rUFSMr
- KmtJROAvA7jYJrH5COQk8zL297oqF+6G1k0hP3wYcpfK9PcEC08jHZ+EteQ14QpDUVIf
- 8pPA==
+ bh=oat139wFLSjfVKIsAZBBlXueAqHNZFThp0IjSSQQnHk=;
+ b=lv1EgNrJDfCZ19rDjzURK/QcoIExQhL3hUe2fk4ia5E0LInS4ZKnymVtlxeiiK1+e9
+ FvFDDKKx4JLXBnS7c+4SS2qYEWZ74dLsSlCnWFsfyMyIZrlnNP0Ocl57zqa/ViajQacg
+ FbicluVUWqApra9eZ33EkO4Q5Zo5LT5JZrlOFLX7H/NEQ9iyTVGfixZxrY/sN5KZb3gP
+ jbgoWw9QmQuQfNq28DnAiXuTH/j2hyNOaNjfk2lyuty0eBjqYvtwf3PtD3Ixj6ly00+u
+ r1J23DyxbRcOTkgLyef0nPQWua2q4/7a3Crbc8zcd2AoCbSYEyCeb2qqIpH2efRTwt8/
+ Bmww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707297558; x=1707902358;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1707297751; x=1707902551;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GaRiKb/w4iH5KbxLrr0CsrBk0xODem4EHSIMgHr4BH0=;
- b=fI7kZQIXADinDNJQe6rD3FJ5eQnXUNGm0c4BUh3vDYrKFHAAI31ClUnmpk+0OENDf9
- 0Y7nQNr2mgDisusMM70GlBa1F/6PgYpJbaaKopJrc/eXG+pTN5uJvl4ZGT263aTWlCxu
- cIUsuAbCpuxtwgtVdjl8UXmkTcA6OgatGveLfuKwFYk+PKr071Mo3zfVPZonPBKzud1Q
- fCojt+oVaSyCriij1djVx8do1oMs1iNyS4uKcXXXfuvv+sJmfjO0BJSVU0XqbyXaNGsi
- oW8lmZ+6bLe4t4g8zI3M53NBMQHyPN+s7QbwPYK/4t5cHJoMKNWOLxP/oj4Ga7vpj6r1
- 5lFg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVmEJcSrDVex1zkyvNMdaBAyxCFEtCaRQWaeMdwfdXYmZE5xJ7/0+sz9JYlsDv4aHPm4gzQqwuV59SM1ymljkIbE0AS22GWLY5THtofwORT
-X-Gm-Message-State: AOJu0Ywk2alQ0wYQRF+ivwCTRejBoVZAA4GeYFB1CHCcBaHJq2gbsaLy
- oF5cyaUusdj01vwyxcIIEs6rJ8rR/Lmv6JcvnuyqKhxZPy/Koo3A1nPbtoS4+fs=
-X-Google-Smtp-Source: AGHT+IFGQyyZHPIzn2dkD1ijtaQRSJPfvlhiX/TITJ7pLRltia26Y/6md7Btyg2bU3MuWqR3x8jxAQ==
-X-Received: by 2002:a05:600c:1f86:b0:40f:dd3f:ba10 with SMTP id
- je6-20020a05600c1f8600b0040fdd3fba10mr3527983wmb.33.1707297558488; 
- Wed, 07 Feb 2024 01:19:18 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWLdxICuHk9a9uCPjkcqKn8D2izq4JpwnK5k1d2F6IeVq6PIRaTvmsmwfTVEOAFt0A2nwwC3Zpb+8KNn9SiBwy6LN7oXcPExw4oBvu2VEBYjClh4Ynd+fWiuDTvtrtAO1hTsF2ewoWIR/meWKN3YpFTEVdYttq8VbRrVXRdDYXENuA2pC95o6eCsNq6wXFDhfYH1HRCWdKKjUM2TifR0FaiUngrM+wyjVGO2XyCpP57F71z+RX8tNjpSVU6Mm0wrqH4Ue+WGvQ4RJCYV/+2hUqBYQkrCPn3HxSR+Pad7xDDC73t8F2m4c/Rk6SZji+G3eD49QL01HdSY+Gn
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
- by smtp.gmail.com with ESMTPSA id
- r20-20020adfb1d4000000b00337d6f0013esm1003490wra.107.2024.02.07.01.19.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Feb 2024 01:19:18 -0800 (PST)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Sam Ravnborg <sam@ravnborg.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, Aradhya Bhatia <a-bhatia1@ti.com>
-In-Reply-To: <20240205062711.3513-1-rdunlap@infradead.org>
-References: <20240205062711.3513-1-rdunlap@infradead.org>
-Subject: Re: [PATCH v2] drm/panel: re-alphabetize the menu list
-Message-Id: <170729755771.1647630.8570612992728203897.b4-ty@linaro.org>
-Date: Wed, 07 Feb 2024 10:19:17 +0100
+ bh=oat139wFLSjfVKIsAZBBlXueAqHNZFThp0IjSSQQnHk=;
+ b=R3d68WZ03v15SUWM3oELHPcwi5vCeHfcEfACnf7BBDHY0+eIS3Naj/U6ManTRsz0+7
+ IFNA6CkLzUzfQytVHup51C3XtMw/mx5sx+2EIbXnZ/ukYwt4uzFh3B02VKKCi8+ayNhx
+ 5G9cM0HzQ+mJB0+AgEAeEBrhZ5djsB2mK64cB5mrwWQY8GbNm3Bx8kpkGAZK1im2kiWk
+ R5udi2dsZprGTWw0Kb+2IniQidrN5PNnntdDvQ+osmRRPUebAY0oxuK3UAEUmCsXByRm
+ md1W3w7jdIdHZXyyZ5lOwFQ7kz1stTo8ZmcFlXm8mrdLkGTkKEocBxZfcrqWHSqz0/IK
+ ee2g==
+X-Gm-Message-State: AOJu0Yw2KQWKyb7Cv/tsTnLHhnmUhcpQkGsB2f0y0qeWdeuemr9kiFUH
+ hMPLcMj4w0e8XOmzdJELw1/gDPOrzeBezTwYbGB5jgNL1Bi2xsJ/92sx7LfbofggbrMOF9pdqtM
+ sqGjUxS3pdjn+Fu5bqnfK3cJsPLQ=
+X-Google-Smtp-Source: AGHT+IFr9zk9YPtcwwWeLlC+0qNDxpzGCms5VGzeQLl7LWlNxnnXxGzrAQ1FGf43ob5qq9Fq30A0i7bCdw+JtIWPFmA=
+X-Received: by 2002:a17:90b:3a82:b0:296:e236:f69e with SMTP id
+ om2-20020a17090b3a8200b00296e236f69emr946735pjb.4.1707297751332; Wed, 07 Feb
+ 2024 01:22:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.4
+References: <20240207002305.618499-1-aford173@gmail.com>
+In-Reply-To: <20240207002305.618499-1-aford173@gmail.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Wed, 7 Feb 2024 06:22:19 -0300
+Message-ID: <CAOMZO5A1yiXiLOtR=H_4vJYAMGwjpqrErCzvSkmLoB_f6_rN_w@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: imx8mp-hdmi-pvi: Fix build warnings
+To: Adam Ford <aford173@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, nathan@kernel.org, 
+ kernel test robot <lkp@intel.com>, Liu Ying <victor.liu@nxp.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ NXP Linux Team <linux-imx@nxp.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, Lucas Stach <l.stach@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,19 +91,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Adam,
 
-On Sun, 04 Feb 2024 22:27:08 -0800, Randy Dunlap wrote:
-> A few of the DRM_PANEL entries have become out of alphabetical order,
-> so move them around a bit to restore alpha order.
-> 
-> 
+On Tue, Feb 6, 2024 at 9:23=E2=80=AFPM Adam Ford <aford173@gmail.com> wrote=
+:
+>
+> Two separate build warnings were reported.  One from an
+> uninitialized variable, and the other from returning 0
+> instead of NULL from a pointer.
+>
+> Fixes: 059c53e877ca ("drm/bridge: imx: add driver for HDMI TX Parallel Vi=
+deo Interface")
+> Reported-by: nathan@kernel.org
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+The Reported-by line format can be improved:
 
-[1/1] drm/panel: re-alphabetize the menu list
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=aaf7f80996834ae5e2fd46d03f6fdb852cfa9911
+Reported-by: Nathan Chancellor <nathan@kernel.org>
 
--- 
-Neil
-
+Thanks
