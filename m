@@ -2,83 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4ED784D1A2
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 19:48:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AAFB84D1A9
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 19:49:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5575310E84B;
-	Wed,  7 Feb 2024 18:48:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33EA010E6C2;
+	Wed,  7 Feb 2024 18:49:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="aoUer3RD";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XA+/mgx+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55C5A10E709;
- Wed,  7 Feb 2024 18:48:05 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 417Dbo5P030057; Wed, 7 Feb 2024 18:47:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=KQTOkxl/ftFFBzx1cffh2OrscNrCN1Wb3SCmUzyK9eQ=; b=ao
- Uer3RDj38z/jc+4zvEjNpV6BFdangjECzchV7pgw7p6Qa0sswSkvv1+yFzls/4HM
- W56+Cem9F0Tiz0vpL1RodStXrHf7akUYlzghdvaW0bnsIhSk5LRhU16qwm1hqKTm
- LgGFOgRi+M9YeQn0ZGH+fvbwpY4xuiIln6I9tBvPaPyjps4KzBsOBuriIXfIYzHJ
- ui1lH9tQ28m6+yENkxVIo3BuSTx1Gb9Zar527xIjupHgGdlvGV+bo+sn/XfDk5AN
- kNg2iu8dItlnXCq/NtdLIO0PEIXhMp/q87gP0XELAeP++KRHyIkxCGjvJIC68ky6
- viCZyzwOCQifEAFT574g==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w3v912g4j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Feb 2024 18:47:59 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 417Ilakf004941
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 7 Feb 2024 18:47:36 GMT
-Received: from [10.110.9.143] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 7 Feb
- 2024 10:47:36 -0800
-Message-ID: <b10d6097-b13d-4b47-7127-9200e414b7be@quicinc.com>
-Date: Wed, 7 Feb 2024 10:47:35 -0800
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C4B810E3C0;
+ Wed,  7 Feb 2024 18:49:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1707331779; x=1738867779;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=w3TU3DPv4WUE+JfEFSV5dgpQiFFbYIKVyny2PvdjPnk=;
+ b=XA+/mgx+wZ1TQKvh+wtBAVOWKMvttpjzO+K314TTwQgtuGo7rARoU3wB
+ Y4ZH131v5Sm3MB/qLJeeXWioEt+xY3SrAFc/FrDR1krP0BUOdXImo2eEM
+ Y+KRIMFx03dyKgPCKIz/7TZ7NG4S4wfsglV/SkhuNOBD7Ss/95n7iEyfd
+ Hs2pyLQpLPiZSBpz8CzxwOUickLx/eebfsNcLOrFLTREXRuH5oy+/oDfs
+ 7xeol1YtCjWVS0YMV9J8xgH4ZnkK31TBs1WwTbS3k3p4hc4Z+jl+t0edS
+ EMPBoWASoEMKNgFVSNZnkBlnQ9KRQTlMTJ/5d3tPVsSPPb2zrgYQoeh3M A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="4043509"
+X-IronPort-AV: E=Sophos;i="6.05,251,1701158400"; 
+   d="scan'208";a="4043509"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2024 10:49:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,251,1701158400"; 
+   d="scan'208";a="6023902"
+Received: from ahamill-mobl2.ger.corp.intel.com (HELO [10.213.228.167])
+ ([10.213.228.167])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2024 10:49:34 -0800
+Message-ID: <82ac1c74-5aa1-484d-9132-9b023c0e7a33@linux.intel.com>
+Date: Wed, 7 Feb 2024 18:49:32 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v3 2/4] drm/msm/dpu: support binding to the mdp5 devices
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC] drm/i915: Add GuC submission interface version query
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20240106-fd-migrate-mdp5-v3-0-3d2750378063@linaro.org>
- <20240106-fd-migrate-mdp5-v3-2-3d2750378063@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240106-fd-migrate-mdp5-v3-2-3d2750378063@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: si-oD7r7X66Is03tNfQQRURK0azlLl1n
-X-Proofpoint-GUID: si-oD7r7X66Is03tNfQQRURK0azlLl1n
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-07_09,2024-02-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0
- phishscore=0 priorityscore=1501 malwarescore=0 lowpriorityscore=0
- mlxlogscore=999 clxscore=1015 impostorscore=0 mlxscore=0 adultscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402070140
+To: John Harrison <john.c.harrison@intel.com>,
+ Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Kenneth Graunke <kenneth@whitecape.org>, Jose Souza <jose.souza@intel.com>,
+ Sagar Ghuge <sagar.ghuge@intel.com>, Paulo Zanoni
+ <paulo.r.zanoni@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Vivaik Balasubrawmanian <vivaik.balasubrawmanian@intel.com>
+References: <20240207115612.1322778-1-tvrtko.ursulin@linux.intel.com>
+ <32d9d60b-1cfc-4201-8817-d293abe1b39d@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <32d9d60b-1cfc-4201-8817-d293abe1b39d@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,183 +77,188 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+On 07/02/2024 18:12, John Harrison wrote:
+> On 2/7/2024 03:56, Tvrtko Ursulin wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> Add a new query to the GuC submission interface version.
+>>
+>> Mesa intends to use this information to check for old firmware versions
+>> with a known bug where using the render and compute command streamers
+>> simultaneously can cause GPU hangs due issues in firmware scheduling.
+>>
+>> Based on patches from Vivaik and Joonas.
+>>
+>> There is a little bit of an open around the width required for versions.
+>> While the GuC FW iface tells they are u8, i915 GuC code uses u32:
+>>
+>>   #define CSS_SW_VERSION_UC_MAJOR               (0xFF << 16)
+>>   #define CSS_SW_VERSION_UC_MINOR               (0xFF << 8)
+>>   #define CSS_SW_VERSION_UC_PATCH               (0xFF << 0)
+>> ...
+>>   struct intel_uc_fw_ver {
+>>           u32 major;
+>>           u32 minor;
+>>           u32 patch;
+>>           u32 build;
+>>   };
+> This is copied from generic code which supports firmwares other than 
+> GuC. Only GuC promises to use 8-bit version components. Other firmwares 
+> very definitely do not. There is no open.
 
-On 1/5/2024 3:34 PM, Dmitry Baryshkov wrote:
-> Existing MDP5 devices have slightly different bindings. The main
-> register region is called `mdp_phys' instead of `mdp'. Also vbif
-> register regions are a part of the parent, MDSS device. Add support for
-> handling this binding differences.
+Ack.
+
+>>
+>> So we could make the query u8, and refactor the struct intel_uc_fw_ver
+>> to use u8, or not. To avoid any doubts on why are we assigning u32 to
+>> u8 I simply opted to use u64. Which avoids the need to add any padding
+>> too.
+> I don't follow how potential 8 vs 32 confusion means jump to 64?!
+
+Suggestion was to use u8 in the uapi in order to align with GuC FW ABI (or however it's called), in which case there would be:
+
+    ver.major = guc->submission_version.major;
+
+which would be:
+
+    (u8) = (u32)
+
+And I was anticipating someone not liking that either. Using too wide u64 simply avoids the need to add a padding element to the uapi struct.
+
+If you are positive we need to include a branch number, even though it does not seem to be implemented in the code even(*) then I can make uapi 4x u32 and achieve the same.
+
+(*)
+static void uc_unpack_css_version(struct intel_uc_fw_ver *ver, u32 css_value)
+{
+	/* Get version numbers from the CSS header */
+	ver->major = FIELD_GET(CSS_SW_VERSION_UC_MAJOR, css_value);
+	ver->minor = FIELD_GET(CSS_SW_VERSION_UC_MINOR, css_value);
+	ver->patch = FIELD_GET(CSS_SW_VERSION_UC_PATCH, css_value);
+}
+
+No branch field in the CSS header?
+
+And Why is UMD supposed to reject a non-zero branch? Like how would 1.1.3.0 be fine and 1.1.3.1 be bad? I don't get it. But anyway, I can respin if you definitely confirm.
+
+Regards,
+
+Tvrtko
+
+>>
+>> Compile tested only.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> Cc: Kenneth Graunke <kenneth@whitecape.org>
+>> Cc: Jose Souza <jose.souza@intel.com>
+>> Cc: Sagar Ghuge <sagar.ghuge@intel.com>
+>> Cc: Paulo Zanoni <paulo.r.zanoni@intel.com>
+>> Cc: John Harrison <John.C.Harrison@Intel.com>
+>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>> Cc: Jani Nikula <jani.nikula@intel.com>
+>> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> Cc: Vivaik Balasubrawmanian <vivaik.balasubrawmanian@intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/i915_query.c | 32 +++++++++++++++++++++++++++++++
+>>   include/uapi/drm/i915_drm.h       | 11 +++++++++++
+>>   2 files changed, 43 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/i915/i915_query.c 
+>> b/drivers/gpu/drm/i915/i915_query.c
+>> index 00871ef99792..999687f6a3d4 100644
+>> --- a/drivers/gpu/drm/i915/i915_query.c
+>> +++ b/drivers/gpu/drm/i915/i915_query.c
+>> @@ -551,6 +551,37 @@ static int query_hwconfig_blob(struct 
+>> drm_i915_private *i915,
+>>       return hwconfig->size;
+>>   }
+>> +static int
+>> +query_guc_submission_version(struct drm_i915_private *i915,
+>> +                 struct drm_i915_query_item *query)
+>> +{
+>> +    struct drm_i915_query_guc_submission_version __user *query_ptr =
+>> +                        u64_to_user_ptr(query->data_ptr);
+>> +    struct drm_i915_query_guc_submission_version ver;
+>> +    struct intel_guc *guc = &to_gt(i915)->uc.guc;
+>> +    const size_t size = sizeof(ver);
+>> +    int ret;
+>> +
+>> +    if (!intel_uc_uses_guc_submission(&to_gt(i915)->uc))
+>> +        return -ENODEV;
+>> +
+>> +    ret = copy_query_item(&ver, size, size, query);
+>> +    if (ret != 0)
+>> +        return ret;
+>> +
+>> +    if (ver.major || ver.minor || ver.patch)
+>> +        return -EINVAL;
+>> +
+>> +    ver.major = guc->submission_version.major;
+>> +    ver.minor = guc->submission_version.minor;
+>> +    ver.patch = guc->submission_version.patch;
+> This needs to include the branch version (currently set to zero) in the 
+> definition. And the UMD needs to barf if branch comes back as non-zero. 
+> I.e. there is no guarantee that a branched version will have the w/a + 
+> fix that they are wanting.
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 98 ++++++++++++++++++++++++++-------
->   drivers/gpu/drm/msm/msm_drv.h           |  3 +
->   drivers/gpu/drm/msm/msm_io_utils.c      | 13 +++++
->   3 files changed, 93 insertions(+), 21 deletions(-)
+> John.
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index 723cc1d82143..aa9e0ad33ebb 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -1197,6 +1197,78 @@ static int dpu_kms_init(struct drm_device *ddev)
->   	return 0;
->   }
->   
-> +static int dpu_kms_mmap_mdp5(struct dpu_kms *dpu_kms)
-> +{
-> +	struct platform_device *pdev = dpu_kms->pdev;
-> +	struct platform_device *mdss_dev;
-> +	int ret;
-> +
-> +	if (dpu_kms->pdev->dev.bus != &platform_bus_type)
-> +		return -EINVAL;
-> +
-
-!dev_is_platform() perhaps?
-
-But I would like to understand this check a bit more. Can you pls 
-explain for which case this check was added?
-
-> +	mdss_dev = to_platform_device(dpu_kms->pdev->dev.parent);
-> +
-> +	dpu_kms->mmio = msm_ioremap(pdev, "mdp_phys");
-> +	if (IS_ERR(dpu_kms->mmio)) {
-> +		ret = PTR_ERR(dpu_kms->mmio);
-> +		DPU_ERROR("mdp register memory map failed: %d\n", ret);
-> +		dpu_kms->mmio = NULL;
-> +		return ret;
-> +	}
-> +	DRM_DEBUG("mapped dpu address space @%pK\n", dpu_kms->mmio);
-> +
-> +	dpu_kms->vbif[VBIF_RT] = msm_ioremap_mdss(mdss_dev,
-> +						  dpu_kms->pdev,
-> +						  "vbif_phys");
-> +	if (IS_ERR(dpu_kms->vbif[VBIF_RT])) {
-> +		ret = PTR_ERR(dpu_kms->vbif[VBIF_RT]);
-> +		DPU_ERROR("vbif register memory map failed: %d\n", ret);
-> +		dpu_kms->vbif[VBIF_RT] = NULL;
-> +		return ret;
-> +	}
-> +
-> +	dpu_kms->vbif[VBIF_NRT] = msm_ioremap_mdss(mdss_dev,
-> +						   dpu_kms->pdev,
-> +						   "vbif_nrt_phys");
-
-Do you think a "quiet" version would be better?
-
-
-> +	if (IS_ERR(dpu_kms->vbif[VBIF_NRT])) {
-> +		dpu_kms->vbif[VBIF_NRT] = NULL;
-> +		DPU_DEBUG("VBIF NRT is not defined");
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int dpu_kms_mmap_dpu(struct dpu_kms *dpu_kms)
-> +{
-> +	struct platform_device *pdev = dpu_kms->pdev;
-> +	int ret;
-> +
-> +	dpu_kms->mmio = msm_ioremap(pdev, "mdp");
-> +	if (IS_ERR(dpu_kms->mmio)) {
-> +		ret = PTR_ERR(dpu_kms->mmio);
-> +		DPU_ERROR("mdp register memory map failed: %d\n", ret);
-> +		dpu_kms->mmio = NULL;
-> +		return ret;
-> +	}
-> +	DRM_DEBUG("mapped dpu address space @%pK\n", dpu_kms->mmio);
-> +
-> +	dpu_kms->vbif[VBIF_RT] = msm_ioremap(pdev, "vbif");
-> +	if (IS_ERR(dpu_kms->vbif[VBIF_RT])) {
-> +		ret = PTR_ERR(dpu_kms->vbif[VBIF_RT]);
-> +		DPU_ERROR("vbif register memory map failed: %d\n", ret);
-> +		dpu_kms->vbif[VBIF_RT] = NULL;
-> +		return ret;
-> +	}
-> +
-> +	dpu_kms->vbif[VBIF_NRT] = msm_ioremap_quiet(pdev, "vbif_nrt");
-> +	if (IS_ERR(dpu_kms->vbif[VBIF_NRT])) {
-> +		dpu_kms->vbif[VBIF_NRT] = NULL;
-> +		DPU_DEBUG("VBIF NRT is not defined");
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->   static int dpu_dev_probe(struct platform_device *pdev)
->   {
->   	struct device *dev = &pdev->dev;
-> @@ -1230,28 +1302,12 @@ static int dpu_dev_probe(struct platform_device *pdev)
->   
->   	dpu_kms->base.irq = irq;
->   
-> -	dpu_kms->mmio = msm_ioremap(pdev, "mdp");
-> -	if (IS_ERR(dpu_kms->mmio)) {
-> -		ret = PTR_ERR(dpu_kms->mmio);
-> -		DPU_ERROR("mdp register memory map failed: %d\n", ret);
-> -		dpu_kms->mmio = NULL;
-> -		return ret;
-> -	}
-> -	DRM_DEBUG("mapped dpu address space @%pK\n", dpu_kms->mmio);
-> -
-> -	dpu_kms->vbif[VBIF_RT] = msm_ioremap(pdev, "vbif");
-> -	if (IS_ERR(dpu_kms->vbif[VBIF_RT])) {
-> -		ret = PTR_ERR(dpu_kms->vbif[VBIF_RT]);
-> -		DPU_ERROR("vbif register memory map failed: %d\n", ret);
-> -		dpu_kms->vbif[VBIF_RT] = NULL;
-> +	if (of_device_is_compatible(dpu_kms->pdev->dev.of_node, "qcom,mdp5"))
-> +		ret = dpu_kms_mmap_mdp5(dpu_kms);
-> +	else
-> +		ret = dpu_kms_mmap_dpu(dpu_kms);
-> +	if (ret)
->   		return ret;
-> -	}
-> -
-> -	dpu_kms->vbif[VBIF_NRT] = msm_ioremap_quiet(pdev, "vbif_nrt");
-> -	if (IS_ERR(dpu_kms->vbif[VBIF_NRT])) {
-> -		dpu_kms->vbif[VBIF_NRT] = NULL;
-> -		DPU_DEBUG("VBIF NRT is not defined");
-> -	}
->   
->   	ret = dpu_kms_parse_data_bus_icc_path(dpu_kms);
->   	if (ret)
-> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-> index 16a7cbc0b7dd..01e783130054 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.h
-> +++ b/drivers/gpu/drm/msm/msm_drv.h
-> @@ -476,6 +476,9 @@ void __iomem *msm_ioremap(struct platform_device *pdev, const char *name);
->   void __iomem *msm_ioremap_size(struct platform_device *pdev, const char *name,
->   		phys_addr_t *size);
->   void __iomem *msm_ioremap_quiet(struct platform_device *pdev, const char *name);
-> +void __iomem *msm_ioremap_mdss(struct platform_device *mdss_pdev,
-> +			       struct platform_device *dev,
-> +			       const char *name);
->   
->   struct icc_path *msm_icc_get(struct device *dev, const char *name);
->   
-> diff --git a/drivers/gpu/drm/msm/msm_io_utils.c b/drivers/gpu/drm/msm/msm_io_utils.c
-> index 59d2788c4510..afedd61c3e28 100644
-> --- a/drivers/gpu/drm/msm/msm_io_utils.c
-> +++ b/drivers/gpu/drm/msm/msm_io_utils.c
-> @@ -50,6 +50,19 @@ struct clk *msm_clk_get(struct platform_device *pdev, const char *name)
->   	return clk;
->   }
->   
-> +void __iomem *msm_ioremap_mdss(struct platform_device *mdss_pdev,
-> +			       struct platform_device *pdev,
-> +			       const char *name)
-> +{
-> +	struct resource *res;
-> +
-> +	res = platform_get_resource_byname(mdss_pdev, IORESOURCE_MEM, name);
-> +	if (!res)
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	return devm_ioremap_resource(&pdev->dev, res);
-> +}
-> +
->   static void __iomem *_msm_ioremap(struct platform_device *pdev, const char *name,
->   				  bool quiet, phys_addr_t *psize)
->   {
+> 
+>> +
+>> +    if (copy_to_user(query_ptr, &ver, size))
+>> +        return -EFAULT;
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>   static int (* const i915_query_funcs[])(struct drm_i915_private 
+>> *dev_priv,
+>>                       struct drm_i915_query_item *query_item) = {
+>>       query_topology_info,
+>> @@ -559,6 +590,7 @@ static int (* const i915_query_funcs[])(struct 
+>> drm_i915_private *dev_priv,
+>>       query_memregion_info,
+>>       query_hwconfig_blob,
+>>       query_geometry_subslices,
+>> +    query_guc_submission_version,
+>>   };
+>>   int i915_query_ioctl(struct drm_device *dev, void *data, struct 
+>> drm_file *file)
+>> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+>> index 550c496ce76d..d80d9b5e1eda 100644
+>> --- a/include/uapi/drm/i915_drm.h
+>> +++ b/include/uapi/drm/i915_drm.h
+>> @@ -3038,6 +3038,7 @@ struct drm_i915_query_item {
+>>        *  - %DRM_I915_QUERY_MEMORY_REGIONS (see struct 
+>> drm_i915_query_memory_regions)
+>>        *  - %DRM_I915_QUERY_HWCONFIG_BLOB (see `GuC HWCONFIG blob uAPI`)
+>>        *  - %DRM_I915_QUERY_GEOMETRY_SUBSLICES (see struct 
+>> drm_i915_query_topology_info)
+>> +     *  - %DRM_I915_QUERY_GUC_SUBMISSION_VERSION (see struct 
+>> drm_i915_query_guc_submission_version)
+>>        */
+>>       __u64 query_id;
+>>   #define DRM_I915_QUERY_TOPOLOGY_INFO        1
+>> @@ -3046,6 +3047,7 @@ struct drm_i915_query_item {
+>>   #define DRM_I915_QUERY_MEMORY_REGIONS        4
+>>   #define DRM_I915_QUERY_HWCONFIG_BLOB        5
+>>   #define DRM_I915_QUERY_GEOMETRY_SUBSLICES    6
+>> +#define DRM_I915_QUERY_GUC_SUBMISSION_VERSION    7
+>>   /* Must be kept compact -- no holes and well documented */
+>>       /**
+>> @@ -3591,6 +3593,15 @@ struct drm_i915_query_memory_regions {
+>>       struct drm_i915_memory_region_info regions[];
+>>   };
+>> +/**
+>> +* struct drm_i915_query_guc_submission_version - query GuC submission 
+>> interface version
+>> +*/
+>> +struct drm_i915_query_guc_submission_version {
+>> +    __u64 major;
+>> +    __u64 minor;
+>> +    __u64 patch;
+>> +};
+>> +
+>>   /**
+>>    * DOC: GuC HWCONFIG blob uAPI
+>>    *
 > 
