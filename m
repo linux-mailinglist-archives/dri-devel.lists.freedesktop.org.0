@@ -2,85 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 953F484D28F
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 21:05:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1FA984D2BD
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 21:17:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEE6410E00E;
-	Wed,  7 Feb 2024 20:05:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5777110E098;
+	Wed,  7 Feb 2024 20:17:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="H5D3I2wP";
+	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="AkCeYw3r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8D7B10E00D;
- Wed,  7 Feb 2024 20:05:17 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 417GMhfn002137; Wed, 7 Feb 2024 20:05:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=fhRVKEHpe8MsrBlNncNCc93DuwM0zD4mv5ixgCfCuCQ=; b=H5
- D3I2wPmhXrdcCdnVNfue4KWRi7SoVnpgM9ADaSKPcLmiunRhwNtt5DaiTPGU9AkG
- wUCDNaVWftk/MvDa9zTXlQedv6FCrKlcptrWFbAdT/y33NpFvPAbL5DG0HbRqz9z
- /TNGgsx5Opb9Pgk1pxGnmgqRcoj0dJtFcVfWwsXlGkhX/lYS5vRwYFJ/fXP4B7YJ
- CqQwHDBFfNKbJX9KgXrtLAEIMr/F8kdmtktbziEiFN20dtyOj9FoHeKh5rNljosW
- QceLHUx0SJxv2pkUtBpQiI3vcaoCLO3Ku5CP/AzHRMPRVIGjPGmO7rSxXjleZOum
- 2dIym7/m79HAwffRKCHg==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w3x41tc5n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Feb 2024 20:05:13 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 417K5CGs027482
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 7 Feb 2024 20:05:12 GMT
-Received: from [10.110.9.143] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 7 Feb
- 2024 12:05:11 -0800
-Message-ID: <092a230a-05cb-48ae-daa0-607b15b30177@quicinc.com>
-Date: Wed, 7 Feb 2024 12:05:11 -0800
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D13B810E00D;
+ Wed,  7 Feb 2024 20:17:42 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx0.riseup.net (Postfix) with ESMTPS id 4TVWcz5zzfz9wPm;
+ Wed,  7 Feb 2024 20:17:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1707337060; bh=S4EafzedQby0YjM4asycY8BXR/xHskMya+mA6WGRWcQ=;
+ h=From:Date:Subject:To:Cc:From;
+ b=AkCeYw3r9vZ2PI65azcGkDQOpxQhA3FdUqLUmkXIq2+HQtlsjnizoM82sbR0Ln4AC
+ LVR9vKb1NlodgU/AyKnAz9yPzdbDRr4S8lqrK12+P9YHVIK7avscC49G0AS1YpWndF
+ ROyhdy6pbpdLSL/XErPB9KPLL2dNVzD2fSmYzbCg=
+X-Riseup-User-ID: 4FF75529162B83F0A155113A2CD89F34D1CF253F6C4437CB62F4BCFAE3382468
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4TVWct36JQzJq3R;
+ Wed,  7 Feb 2024 20:17:34 +0000 (UTC)
+From: Arthur Grillo <arthurgrillo@riseup.net>
+Date: Wed, 07 Feb 2024 17:17:15 -0300
+Subject: [PATCH i-g-t] benchmarks: Add VKMS benchmark
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v3 2/4] drm/msm/dpu: support binding to the mdp5 devices
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
- Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20240106-fd-migrate-mdp5-v3-0-3d2750378063@linaro.org>
- <20240106-fd-migrate-mdp5-v3-2-3d2750378063@linaro.org>
- <b10d6097-b13d-4b47-7127-9200e414b7be@quicinc.com>
- <CAA8EJppV_PYMyJBEogONrDVmZ91XmMkr=J0tsioO20GaAW8GoQ@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJppV_PYMyJBEogONrDVmZ91XmMkr=J0tsioO20GaAW8GoQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: XUIiVlPM9QKQg9gobVX05fG-ykNAFtQT
-X-Proofpoint-GUID: XUIiVlPM9QKQg9gobVX05fG-ykNAFtQT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-07_09,2024-02-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0
- mlxlogscore=999 clxscore=1015 spamscore=0 priorityscore=1501
- suspectscore=0 adultscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402070149
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20240207-bench-v1-1-7135ad426860@riseup.net>
+X-B4-Tracking: v=1; b=H4sIAErlw2UC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDIwNz3aTUvOQMXWNLY3MLy9TEpEQTcyWg2oKi1LTMCrA50bG1tQDujQn
+ OVwAAAA==
+To: dri-devel@lists.freedesktop.org, igt-dev@lists.freedesktop.org
+Cc: Petri Latvala <adrinael@adrinael.net>, Arkadiusz Hiler <arek@hiler.eu>, 
+ Kamil Konieczny <kamil.konieczny@linux.intel.com>, 
+ Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>, 
+ Bhanuprakash Modem <bhanuprakash.modem@intel.com>, 
+ Ashutosh Dixit <ashutosh.dixit@intel.com>, 
+ Pekka Paalanen <pekka.paalanen@haloniitty.fi>, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, 
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Arthur Grillo <arthurgrillo@riseup.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,206 +69,256 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Create a benchmark for the VKMS driver. Use a KMS layout with deliberate
+odd sizes to try to avoid alignment accidents and run it for FRAME_COUNT
+frames flipping framebuffers in each plane.
 
+Link: https://lore.kernel.org/all/20240202214527.1d97c881@ferris.localdomain/
+Suggested-by: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+---
+This benchmark was suggested by Pekka Paalanen on [1] to better analyse
+possible performance regression on the Virtual Kernel Modesetting(VKMS)
+driver.
 
-On 2/7/2024 11:56 AM, Dmitry Baryshkov wrote:
-> On Wed, 7 Feb 2024 at 20:48, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 1/5/2024 3:34 PM, Dmitry Baryshkov wrote:
->>> Existing MDP5 devices have slightly different bindings. The main
->>> register region is called `mdp_phys' instead of `mdp'. Also vbif
->>> register regions are a part of the parent, MDSS device. Add support for
->>> handling this binding differences.
->>>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 98 ++++++++++++++++++++++++++-------
->>>    drivers/gpu/drm/msm/msm_drv.h           |  3 +
->>>    drivers/gpu/drm/msm/msm_io_utils.c      | 13 +++++
->>>    3 files changed, 93 insertions(+), 21 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>> index 723cc1d82143..aa9e0ad33ebb 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>> @@ -1197,6 +1197,78 @@ static int dpu_kms_init(struct drm_device *ddev)
->>>        return 0;
->>>    }
->>>
->>> +static int dpu_kms_mmap_mdp5(struct dpu_kms *dpu_kms)
->>> +{
->>> +     struct platform_device *pdev = dpu_kms->pdev;
->>> +     struct platform_device *mdss_dev;
->>> +     int ret;
->>> +
->>> +     if (dpu_kms->pdev->dev.bus != &platform_bus_type)
->>> +             return -EINVAL;
->>> +
->>
->> !dev_is_platform() perhaps?
-> 
-> looks good
-> 
->>
->> But I would like to understand this check a bit more. Can you pls
->> explain for which case this check was added?
-> 
-> It is necessary to be sure that we can perform to_platform_device() on
-> the next line.
-> 
+With this benchmark I was able to determine two performance regression:
 
-Got it but on the next line we are using to_platform_device on dpu's 
-parent device. So shouldnt the check also be dpu_kms->pdev->dev.parent.bus?
+- 322d716a3e8a ("drm/vkms: isolate pixel conversion functionality")
+- cc4fd2934d41 ("drm/vkms: Isolate writeback pixel conversion functions")
 
->>
->>> +     mdss_dev = to_platform_device(dpu_kms->pdev->dev.parent);
->>> +
->>> +     dpu_kms->mmio = msm_ioremap(pdev, "mdp_phys");
->>> +     if (IS_ERR(dpu_kms->mmio)) {
->>> +             ret = PTR_ERR(dpu_kms->mmio);
->>> +             DPU_ERROR("mdp register memory map failed: %d\n", ret);
->>> +             dpu_kms->mmio = NULL;
->>> +             return ret;
->>> +     }
->>> +     DRM_DEBUG("mapped dpu address space @%pK\n", dpu_kms->mmio);
->>> +
->>> +     dpu_kms->vbif[VBIF_RT] = msm_ioremap_mdss(mdss_dev,
->>> +                                               dpu_kms->pdev,
->>> +                                               "vbif_phys");
->>> +     if (IS_ERR(dpu_kms->vbif[VBIF_RT])) {
->>> +             ret = PTR_ERR(dpu_kms->vbif[VBIF_RT]);
->>> +             DPU_ERROR("vbif register memory map failed: %d\n", ret);
->>> +             dpu_kms->vbif[VBIF_RT] = NULL;
->>> +             return ret;
->>> +     }
->>> +
->>> +     dpu_kms->vbif[VBIF_NRT] = msm_ioremap_mdss(mdss_dev,
->>> +                                                dpu_kms->pdev,
->>> +                                                "vbif_nrt_phys");
->>
->> Do you think a "quiet" version would be better?
-> 
-> Yep, why not.
-> 
->>
->>
->>> +     if (IS_ERR(dpu_kms->vbif[VBIF_NRT])) {
->>> +             dpu_kms->vbif[VBIF_NRT] = NULL;
->>> +             DPU_DEBUG("VBIF NRT is not defined");
->>> +     }
->>> +
->>> +     return 0;
->>> +}
->>> +
->>> +static int dpu_kms_mmap_dpu(struct dpu_kms *dpu_kms)
->>> +{
->>> +     struct platform_device *pdev = dpu_kms->pdev;
->>> +     int ret;
->>> +
->>> +     dpu_kms->mmio = msm_ioremap(pdev, "mdp");
->>> +     if (IS_ERR(dpu_kms->mmio)) {
->>> +             ret = PTR_ERR(dpu_kms->mmio);
->>> +             DPU_ERROR("mdp register memory map failed: %d\n", ret);
->>> +             dpu_kms->mmio = NULL;
->>> +             return ret;
->>> +     }
->>> +     DRM_DEBUG("mapped dpu address space @%pK\n", dpu_kms->mmio);
->>> +
->>> +     dpu_kms->vbif[VBIF_RT] = msm_ioremap(pdev, "vbif");
->>> +     if (IS_ERR(dpu_kms->vbif[VBIF_RT])) {
->>> +             ret = PTR_ERR(dpu_kms->vbif[VBIF_RT]);
->>> +             DPU_ERROR("vbif register memory map failed: %d\n", ret);
->>> +             dpu_kms->vbif[VBIF_RT] = NULL;
->>> +             return ret;
->>> +     }
->>> +
->>> +     dpu_kms->vbif[VBIF_NRT] = msm_ioremap_quiet(pdev, "vbif_nrt");
->>> +     if (IS_ERR(dpu_kms->vbif[VBIF_NRT])) {
->>> +             dpu_kms->vbif[VBIF_NRT] = NULL;
->>> +             DPU_DEBUG("VBIF NRT is not defined");
->>> +     }
->>> +
->>> +     return 0;
->>> +}
->>> +
->>>    static int dpu_dev_probe(struct platform_device *pdev)
->>>    {
->>>        struct device *dev = &pdev->dev;
->>> @@ -1230,28 +1302,12 @@ static int dpu_dev_probe(struct platform_device *pdev)
->>>
->>>        dpu_kms->base.irq = irq;
->>>
->>> -     dpu_kms->mmio = msm_ioremap(pdev, "mdp");
->>> -     if (IS_ERR(dpu_kms->mmio)) {
->>> -             ret = PTR_ERR(dpu_kms->mmio);
->>> -             DPU_ERROR("mdp register memory map failed: %d\n", ret);
->>> -             dpu_kms->mmio = NULL;
->>> -             return ret;
->>> -     }
->>> -     DRM_DEBUG("mapped dpu address space @%pK\n", dpu_kms->mmio);
->>> -
->>> -     dpu_kms->vbif[VBIF_RT] = msm_ioremap(pdev, "vbif");
->>> -     if (IS_ERR(dpu_kms->vbif[VBIF_RT])) {
->>> -             ret = PTR_ERR(dpu_kms->vbif[VBIF_RT]);
->>> -             DPU_ERROR("vbif register memory map failed: %d\n", ret);
->>> -             dpu_kms->vbif[VBIF_RT] = NULL;
->>> +     if (of_device_is_compatible(dpu_kms->pdev->dev.of_node, "qcom,mdp5"))
->>> +             ret = dpu_kms_mmap_mdp5(dpu_kms);
->>> +     else
->>> +             ret = dpu_kms_mmap_dpu(dpu_kms);
->>> +     if (ret)
->>>                return ret;
->>> -     }
->>> -
->>> -     dpu_kms->vbif[VBIF_NRT] = msm_ioremap_quiet(pdev, "vbif_nrt");
->>> -     if (IS_ERR(dpu_kms->vbif[VBIF_NRT])) {
->>> -             dpu_kms->vbif[VBIF_NRT] = NULL;
->>> -             DPU_DEBUG("VBIF NRT is not defined");
->>> -     }
->>>
->>>        ret = dpu_kms_parse_data_bus_icc_path(dpu_kms);
->>>        if (ret)
->>> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
->>> index 16a7cbc0b7dd..01e783130054 100644
->>> --- a/drivers/gpu/drm/msm/msm_drv.h
->>> +++ b/drivers/gpu/drm/msm/msm_drv.h
->>> @@ -476,6 +476,9 @@ void __iomem *msm_ioremap(struct platform_device *pdev, const char *name);
->>>    void __iomem *msm_ioremap_size(struct platform_device *pdev, const char *name,
->>>                phys_addr_t *size);
->>>    void __iomem *msm_ioremap_quiet(struct platform_device *pdev, const char *name);
->>> +void __iomem *msm_ioremap_mdss(struct platform_device *mdss_pdev,
->>> +                            struct platform_device *dev,
->>> +                            const char *name);
->>>
->>>    struct icc_path *msm_icc_get(struct device *dev, const char *name);
->>>
->>> diff --git a/drivers/gpu/drm/msm/msm_io_utils.c b/drivers/gpu/drm/msm/msm_io_utils.c
->>> index 59d2788c4510..afedd61c3e28 100644
->>> --- a/drivers/gpu/drm/msm/msm_io_utils.c
->>> +++ b/drivers/gpu/drm/msm/msm_io_utils.c
->>> @@ -50,6 +50,19 @@ struct clk *msm_clk_get(struct platform_device *pdev, const char *name)
->>>        return clk;
->>>    }
->>>
->>> +void __iomem *msm_ioremap_mdss(struct platform_device *mdss_pdev,
->>> +                            struct platform_device *pdev,
->>> +                            const char *name)
->>> +{
->>> +     struct resource *res;
->>> +
->>> +     res = platform_get_resource_byname(mdss_pdev, IORESOURCE_MEM, name);
->>> +     if (!res)
->>> +             return ERR_PTR(-EINVAL);
->>> +
->>> +     return devm_ioremap_resource(&pdev->dev, res);
->>> +}
->>> +
->>>    static void __iomem *_msm_ioremap(struct platform_device *pdev, const char *name,
->>>                                  bool quiet, phys_addr_t *psize)
->>>    {
->>>
-> 
-> 
-> 
+[1]: https://lore.kernel.org/all/20240202214527.1d97c881@ferris.localdomain/
+---
+ benchmarks/meson.build   |   1 +
+ benchmarks/vkms_stress.c | 203 +++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 204 insertions(+)
+
+diff --git a/benchmarks/meson.build b/benchmarks/meson.build
+index c451268bc44f..3aa66d6dffe2 100644
+--- a/benchmarks/meson.build
++++ b/benchmarks/meson.build
+@@ -20,6 +20,7 @@ benchmark_progs = [
+ 	'kms_vblank',
+ 	'prime_lookup',
+ 	'vgem_mmap',
++	'vkms_stress',
+ ]
+ 
+ benchmarksdir = join_paths(libexecdir, 'benchmarks')
+diff --git a/benchmarks/vkms_stress.c b/benchmarks/vkms_stress.c
+new file mode 100644
+index 000000000000..b9128c208861
+--- /dev/null
++++ b/benchmarks/vkms_stress.c
+@@ -0,0 +1,203 @@
++/*
++ * Copyright © 2024 Arthur Grillo
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the "Software"),
++ * to deal in the Software without restriction, including without limitation
++ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
++ * and/or sell copies of the Software, and to permit persons to whom the
++ * Software is furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice (including the next
++ * paragraph) shall be included in all copies or substantial portions of the
++ * Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
++ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
++ * IN THE SOFTWARE.
++ *
++ * Authors:
++ *    Arthur Grillo <arthurgrillo@riseup.net>
++ *
++ */
++
++#include "igt.h"
++
++#define FRAME_COUNT 100
++
++struct rect_t {
++	int x, y;
++	int width, height;
++};
++
++struct plane_t {
++	igt_plane_t *base;
++	struct rect_t rect;
++	uint32_t format;
++	struct igt_fb fbs[2];
++};
++
++struct kms_t {
++	struct plane_t primary;
++	struct plane_t overlay_a;
++	struct plane_t overlay_b;
++	struct plane_t writeback;
++};
++
++struct data_t {
++	int fd;
++	igt_display_t display;
++	igt_output_t *wb_output;
++	drmModeModeInfo *mode;
++	struct kms_t kms;
++};
++
++static void plane_create_fb(struct plane_t *plane, int fd, size_t index)
++{
++	igt_create_fb(fd, plane->rect.width, plane->rect.height,
++			plane->format, DRM_FORMAT_MOD_LINEAR,
++			&plane->fbs[index]);
++}
++
++static void plane_create_color_fb(struct plane_t *plane, int fd, size_t index, double r, double g,
++				   double b)
++{
++	igt_create_color_fb(fd, plane->rect.width, plane->rect.height,
++			plane->format, DRM_FORMAT_MOD_LINEAR,
++			r, g, b,
++			&plane->fbs[index]);
++}
++
++static void plane_setup(struct plane_t *plane, int index)
++{
++	igt_plane_set_size(plane->base, plane->rect.width, plane->rect.height);
++	igt_plane_set_position(plane->base, plane->rect.x, plane->rect.y);
++	igt_plane_set_fb(plane->base, &plane->fbs[index]);
++}
++
++static void gen_fbs(struct data_t *data)
++{
++	struct kms_t *kms = &data->kms;
++	drmModeModeInfo *mode = igt_output_get_mode(data->wb_output);
++
++	for (int i = 0; i < 2; i++) {
++		plane_create_color_fb(&kms->primary, data->fd, i, !i, i, i);
++
++		plane_create_color_fb(&kms->overlay_a, data->fd, i, i, !i, i);
++
++		plane_create_color_fb(&kms->overlay_b, data->fd, i, i, i, !i);
++
++		kms->writeback.rect.width = mode->hdisplay;
++		kms->writeback.rect.height = mode->vdisplay;
++		plane_create_fb(&kms->writeback, data->fd, i);
++	}
++}
++
++static igt_output_t *find_wb_output(struct data_t *data)
++{
++	for (int i = 0; i < data->display.n_outputs; i++) {
++		igt_output_t *output = &data->display.outputs[i];
++
++		if (output->config.connector->connector_type != DRM_MODE_CONNECTOR_WRITEBACK)
++			continue;
++
++		return output;
++
++	}
++
++	return NULL;
++}
++
++static struct kms_t default_kms = {
++	.primary = {
++		.rect = {
++			.x = 101, .y = 0,
++			.width = 3639, .height = 2161,
++		},
++		.format = DRM_FORMAT_XRGB8888,
++	},
++	.overlay_a = {
++		.rect = {
++			.x = 201, .y = 199,
++			.width = 3033, .height = 1777,
++		},
++		.format = DRM_FORMAT_XRGB16161616,
++	},
++	.overlay_b = {
++		.rect = {
++			.x = 1800, .y = 250,
++			.width = 1507, .height = 1400,
++		},
++		.format = DRM_FORMAT_ARGB8888,
++	},
++	.writeback = {
++		.rect = {
++			.x = 0, .y = 0,
++			// Size is to be determined at runtime
++		},
++		.format = DRM_FORMAT_XRGB8888,
++	},
++};
++
++
++igt_simple_main
++{
++	struct data_t data;
++	enum pipe pipe = PIPE_NONE;
++
++	data.kms = default_kms;
++
++	data.fd = drm_open_driver_master(DRIVER_ANY);
++
++	igt_display_require(&data.display, data.fd);
++
++	kmstest_set_vt_graphics_mode();
++
++	igt_display_require(&data.display, data.fd);
++	igt_require(data.display.is_atomic);
++
++	igt_display_require_output(&data.display);
++
++	igt_require(data.wb_output);
++	igt_display_reset(&data.display);
++
++	data.wb_output = find_wb_output(&data);
++
++	for_each_pipe(&data.display, pipe) {
++		igt_debug("Selecting pipe %s to %s\n",
++			  kmstest_pipe_name(pipe),
++			  igt_output_name(data.wb_output));
++		igt_output_set_pipe(data.wb_output, pipe);
++	}
++
++	igt_display_commit_atomic(&data.display, DRM_MODE_ATOMIC_ALLOW_MODESET, NULL);
++
++	gen_fbs(&data);
++
++	data.kms.primary.base = igt_output_get_plane_type(data.wb_output, DRM_PLANE_TYPE_PRIMARY);
++	data.kms.overlay_a.base = igt_output_get_plane_type_index(data.wb_output,
++								  DRM_PLANE_TYPE_OVERLAY, 0);
++	data.kms.overlay_b.base = igt_output_get_plane_type_index(data.wb_output,
++								  DRM_PLANE_TYPE_OVERLAY, 1);
++
++	for (int i = 0; i < FRAME_COUNT; i++) {
++		int fb_index = i % 2;
++
++		plane_setup(&data.kms.primary, fb_index);
++
++		plane_setup(&data.kms.overlay_a, fb_index);
++
++		plane_setup(&data.kms.overlay_b, fb_index);
++
++		igt_output_set_writeback_fb(data.wb_output, &data.kms.writeback.fbs[fb_index]);
++
++		igt_display_commit2(&data.display, COMMIT_ATOMIC);
++	}
++
++	igt_display_fini(&data.display);
++	drm_close_driver(data.fd);
++}
+
+---
+base-commit: c58c5fb6aa1cb7d3627a15e364816a7a2add9edc
+change-id: 20240207-bench-393789eaba47
+
+Best regards,
+-- 
+Arthur Grillo <arthurgrillo@riseup.net>
+
