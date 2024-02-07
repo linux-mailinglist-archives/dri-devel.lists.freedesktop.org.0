@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2F5684CD49
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 15:53:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33AF084CD4A
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 15:53:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27D1511301D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D76AC10EEA1;
 	Wed,  7 Feb 2024 14:53:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="4lQ7wFZv";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="h1vJn5ad";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 699F6113282
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67B5C10EEA1
  for <dri-devel@lists.freedesktop.org>; Wed,  7 Feb 2024 14:53:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1707317596;
- bh=B+4BoPKeDWxrOkfeevUGd3P+sMEtbS1rN/IafPC00UE=;
+ s=mail; t=1707317597;
+ bh=jGk/KNxt01mLk7K8ftidsFFvgZjFPmjzURhw+205rOU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=4lQ7wFZvWeJLyWfrstglXGp/Fh2ZY37IqjkR6yvrN1bWBK+oarLqUSBnAGiT1CBXl
- 21k8Pk57jE2QHEZHxpbkBUDl30+eY13NoCAIEO4sTFea3jp4dIvvr7SOab71ak/POf
- tC0XpjDG+UIQC1tY2HhmJiorqkxtVtpqbsTTtaKX6mEF/Xd/3RpODwbF7nQzOzngZJ
- wOQMuDTh6C0HsXL8xNiOoGvM5FBoET30loGPSoqDfPsJgkvy887mklrT5FqIxhKTYz
- FkKpTwwVDYFkb/1MFpiFY0MNxxoCf3zg47cMU0tWpP3RBrTRQ5dKmbQonfYebO1qbN
- eFM3sHKEk6lLw==
+ b=h1vJn5adtIQgUiJTXALxWctWQYA23NNfNQasSD9P+BAt94eWCdLeE1kvP+NnG7E6k
+ FP4AAkZF+K57imDYePkOiH1c8dmtoYFjOalaSKTHFKE+8BHd21ENCLhEUOkQRBBdin
+ STnPebQFCEf+uNV/SXMbQj9fLVgmmqnM5fStUGgdujLvxQXlNww8Nwe9B+7LMsC4an
+ 1J/YhYC9RoAPegTYsAyreWvtpiEJ9fgytLlvrMr98/+I05zHFyCkIOnD853s8rCt8+
+ F2+VWNIk/4l9zvZ4IQuf2iE5RUOm+jDnrvuIQohVQEBPV17rA/lKZ/Ifq+QxKKy2Y/
+ lASxIT3Bca8gg==
 Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com
  [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9BB4A3782073;
- Wed,  7 Feb 2024 14:53:15 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id B34A23782076;
+ Wed,  7 Feb 2024 14:53:16 +0000 (UTC)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
 Cc: fshao@chromium.org, p.zabel@pengutronix.de, airlied@gmail.com,
@@ -41,10 +41,10 @@ Cc: fshao@chromium.org, p.zabel@pengutronix.de, airlied@gmail.com,
  linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
  Alexandre Mergnat <amergnat@baylibre.com>
-Subject: [PATCH v5 2/9] drm/mediatek: dsi: Fix DSI RGB666 formats and
- definitions
-Date: Wed,  7 Feb 2024 15:53:00 +0100
-Message-ID: <20240207145307.1626009-3-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v5 3/9] drm/mediatek: dsi: Cleanup functions
+ mtk_dsi_ps_control{_vact}()
+Date: Wed,  7 Feb 2024 15:53:01 +0100
+Message-ID: <20240207145307.1626009-4-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240207145307.1626009-1-angelogioacchino.delregno@collabora.com>
 References: <20240207145307.1626009-1-angelogioacchino.delregno@collabora.com>
@@ -65,68 +65,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The register bits definitions for RGB666 formats are wrong in multiple
-ways: first, in the DSI_PS_SEL bits region, the Packed 18-bits RGB666
-format is selected with bit 1, while the Loosely Packed one is bit 2,
-and second - the definition name "LOOSELY_PS_18BIT_RGB666" is wrong
-because the loosely packed format is 24 bits instead!
+Function mtk_dsi_ps_control() is a subset of mtk_dsi_ps_control_vact():
+merge the two in one mtk_dsi_ps_control() function by adding one
+function parameter `config_vact` which, when true, writes the VACT
+related registers.
 
-Either way, functions mtk_dsi_ps_control_vact() and mtk_dsi_ps_control()
-do not even agree on the DSI_PS_SEL bit to set in DSI_PSCTRL: one sets
-loosely packed (24) on RGB666, the other sets packed (18), and the other
-way around for RGB666_PACKED.
-
-Fixing this entire stack of issues is done in one go:
- - Use the correct bit for the Loosely Packed RGB666 definition
- - Rename LOOSELY_PS_18BIT_RGB666 to LOOSELY_PS_24BIT_RGB666
- - Change ps_bpp_mode in mtk_dsi_ps_control_vact() to set:
-    - Loosely Packed, 24-bits for MIPI_DSI_FMT_RGB666
-    - Packed, 18-bits for MIPI_DSI_FMT_RGB666_PACKED
-
-Fixes: 2e54c14e310f ("drm/mediatek: Add DSI sub driver")
+Reviewed-by: Fei Shao <fshao@chromium.org>
 Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dsi.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 76 +++++++++---------------------
+ 1 file changed, 23 insertions(+), 53 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index c66e18006070..8af0afbe9e3d 100644
+index 8af0afbe9e3d..7d38e9500700 100644
 --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -71,8 +71,8 @@
- #define DSI_PS_WC			GENMASK(13, 0)
- #define DSI_PS_SEL			GENMASK(17, 16)
- #define PACKED_PS_16BIT_RGB565		(0 << 16)
--#define LOOSELY_PS_18BIT_RGB666		(1 << 16)
--#define PACKED_PS_18BIT_RGB666		(2 << 16)
-+#define PACKED_PS_18BIT_RGB666		(1 << 16)
-+#define LOOSELY_PS_24BIT_RGB666		(2 << 16)
- #define PACKED_PS_24BIT_RGB888		(3 << 16)
+@@ -351,40 +351,6 @@ static void mtk_dsi_set_vm_cmd(struct mtk_dsi *dsi)
+ 	mtk_dsi_mask(dsi, DSI_VM_CMD_CON, TS_VFP_EN, TS_VFP_EN);
+ }
  
- #define DSI_VSA_NL		0x20
-@@ -370,10 +370,10 @@ static void mtk_dsi_ps_control_vact(struct mtk_dsi *dsi)
- 		ps_bpp_mode |= PACKED_PS_24BIT_RGB888;
+-static void mtk_dsi_ps_control_vact(struct mtk_dsi *dsi)
+-{
+-	struct videomode *vm = &dsi->vm;
+-	u32 dsi_buf_bpp, ps_wc;
+-	u32 ps_bpp_mode;
+-
+-	if (dsi->format == MIPI_DSI_FMT_RGB565)
+-		dsi_buf_bpp = 2;
+-	else
+-		dsi_buf_bpp = 3;
+-
+-	ps_wc = vm->hactive * dsi_buf_bpp;
+-	ps_bpp_mode = ps_wc;
+-
+-	switch (dsi->format) {
+-	case MIPI_DSI_FMT_RGB888:
+-		ps_bpp_mode |= PACKED_PS_24BIT_RGB888;
+-		break;
+-	case MIPI_DSI_FMT_RGB666:
+-		ps_bpp_mode |= LOOSELY_PS_24BIT_RGB666;
+-		break;
+-	case MIPI_DSI_FMT_RGB666_PACKED:
+-		ps_bpp_mode |= PACKED_PS_18BIT_RGB666;
+-		break;
+-	case MIPI_DSI_FMT_RGB565:
+-		ps_bpp_mode |= PACKED_PS_16BIT_RGB565;
+-		break;
+-	}
+-
+-	writel(vm->vactive, dsi->regs + DSI_VACT_NL);
+-	writel(ps_bpp_mode, dsi->regs + DSI_PSCTRL);
+-	writel(ps_wc, dsi->regs + DSI_HSTX_CKL_WC);
+-}
+-
+ static void mtk_dsi_rxtx_control(struct mtk_dsi *dsi)
+ {
+ 	u32 tmp_reg;
+@@ -416,36 +382,40 @@ static void mtk_dsi_rxtx_control(struct mtk_dsi *dsi)
+ 	writel(tmp_reg, dsi->regs + DSI_TXRX_CTRL);
+ }
+ 
+-static void mtk_dsi_ps_control(struct mtk_dsi *dsi)
++static void mtk_dsi_ps_control(struct mtk_dsi *dsi, bool config_vact)
+ {
+-	u32 dsi_tmp_buf_bpp;
+-	u32 tmp_reg;
++	struct videomode *vm = &dsi->vm;
++	u32 dsi_buf_bpp, ps_wc;
++	u32 ps_bpp_mode;
++
++	if (dsi->format == MIPI_DSI_FMT_RGB565)
++		dsi_buf_bpp = 2;
++	else
++		dsi_buf_bpp = 3;
++
++	ps_wc = vm->hactive * dsi_buf_bpp;
++	ps_bpp_mode = ps_wc;
+ 
+ 	switch (dsi->format) {
+ 	case MIPI_DSI_FMT_RGB888:
+-		tmp_reg = PACKED_PS_24BIT_RGB888;
+-		dsi_tmp_buf_bpp = 3;
++		ps_bpp_mode |= PACKED_PS_24BIT_RGB888;
  		break;
  	case MIPI_DSI_FMT_RGB666:
--		ps_bpp_mode |= PACKED_PS_18BIT_RGB666;
+-		tmp_reg = LOOSELY_PS_24BIT_RGB666;
+-		dsi_tmp_buf_bpp = 3;
 +		ps_bpp_mode |= LOOSELY_PS_24BIT_RGB666;
  		break;
  	case MIPI_DSI_FMT_RGB666_PACKED:
--		ps_bpp_mode |= LOOSELY_PS_18BIT_RGB666;
+-		tmp_reg = PACKED_PS_18BIT_RGB666;
+-		dsi_tmp_buf_bpp = 3;
 +		ps_bpp_mode |= PACKED_PS_18BIT_RGB666;
  		break;
  	case MIPI_DSI_FMT_RGB565:
- 		ps_bpp_mode |= PACKED_PS_16BIT_RGB565;
-@@ -427,7 +427,7 @@ static void mtk_dsi_ps_control(struct mtk_dsi *dsi)
- 		dsi_tmp_buf_bpp = 3;
+-		tmp_reg = PACKED_PS_16BIT_RGB565;
+-		dsi_tmp_buf_bpp = 2;
+-		break;
+-	default:
+-		tmp_reg = PACKED_PS_24BIT_RGB888;
+-		dsi_tmp_buf_bpp = 3;
++		ps_bpp_mode |= PACKED_PS_16BIT_RGB565;
  		break;
- 	case MIPI_DSI_FMT_RGB666:
--		tmp_reg = LOOSELY_PS_18BIT_RGB666;
-+		tmp_reg = LOOSELY_PS_24BIT_RGB666;
- 		dsi_tmp_buf_bpp = 3;
- 		break;
- 	case MIPI_DSI_FMT_RGB666_PACKED:
+ 	}
+ 
+-	tmp_reg += dsi->vm.hactive * dsi_tmp_buf_bpp & DSI_PS_WC;
+-	writel(tmp_reg, dsi->regs + DSI_PSCTRL);
++	if (config_vact) {
++		writel(vm->vactive, dsi->regs + DSI_VACT_NL);
++		writel(ps_wc, dsi->regs + DSI_HSTX_CKL_WC);
++	}
++	writel(ps_bpp_mode, dsi->regs + DSI_PSCTRL);
+ }
+ 
+ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
+@@ -521,7 +491,7 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
+ 	writel(horizontal_backporch_byte, dsi->regs + DSI_HBP_WC);
+ 	writel(horizontal_frontporch_byte, dsi->regs + DSI_HFP_WC);
+ 
+-	mtk_dsi_ps_control(dsi);
++	mtk_dsi_ps_control(dsi, false);
+ }
+ 
+ static void mtk_dsi_start(struct mtk_dsi *dsi)
+@@ -666,7 +636,7 @@ static int mtk_dsi_poweron(struct mtk_dsi *dsi)
+ 	mtk_dsi_reset_engine(dsi);
+ 	mtk_dsi_phy_timconfig(dsi);
+ 
+-	mtk_dsi_ps_control_vact(dsi);
++	mtk_dsi_ps_control(dsi, true);
+ 	mtk_dsi_set_vm_cmd(dsi);
+ 	mtk_dsi_config_vdo_timing(dsi);
+ 	mtk_dsi_set_interrupt_enable(dsi);
 -- 
 2.43.0
 
