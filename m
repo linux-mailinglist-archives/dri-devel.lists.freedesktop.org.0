@@ -2,62 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17BCB84D2D4
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 21:21:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55D4984D32F
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 21:49:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56F8C10E0A6;
-	Wed,  7 Feb 2024 20:21:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61B9E10E1DF;
+	Wed,  7 Feb 2024 20:49:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="ZyLaurXY";
+	dkim=pass (2048-bit key; secure) header.d=math.uni-bielefeld.de header.i=@math.uni-bielefeld.de header.b="DpYW5j1v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFCDD10E129
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Feb 2024 20:21:49 +0000 (UTC)
-Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+X-Greylist: delayed 552 seconds by postgrey-1.36 at gabe;
+ Wed, 07 Feb 2024 20:49:30 UTC
+Received: from smtp1.math.uni-bielefeld.de (smtp1.math.uni-bielefeld.de
+ [129.70.45.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B1FF10E1DF
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Feb 2024 20:49:30 +0000 (UTC)
+Received: from [192.168.0.100]
+ (dslb-084-060-118-105.084.060.pools.vodafone-ip.de [84.60.118.105])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx0.riseup.net (Postfix) with ESMTPS id 4TVWjn272Rz9wpF;
- Wed,  7 Feb 2024 20:21:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1707337309; bh=i3XpBGDoD9F52CwY8m+nZ5lY1uCjGSkm+bBzMFeSARQ=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=ZyLaurXYGQeBfCIIqx0CFOXmsoYl+R5xYeleD7fdjSbkZJCVFc2q84+aUUerEEEKl
- fuHi8fsW7Vakg8SXCUPogdBvItx/a1fMUHmjUc9t3os8YpaGVEPOk2D4x/PljRzJfD
- gY/EUBwcJDg2eyDa6+7OSqlWw1LQtxLQ1FexwAGQ=
-X-Riseup-User-ID: A119657D52AA30ACBA852831A1D54514D8C49CF4D1DBA5B0DA7DE26AB620A038
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4TVWjh1VkdzFwY8;
- Wed,  7 Feb 2024 20:21:43 +0000 (UTC)
-Message-ID: <902e30af-b917-4cd7-a6bf-2ba13e5cc9ac@riseup.net>
-Date: Wed, 7 Feb 2024 17:21:41 -0300
+ (Client did not present a certificate)
+ by smtp1.math.uni-bielefeld.de (Postfix) with ESMTPSA id C485660FF7;
+ Wed,  7 Feb 2024 21:40:11 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=math.uni-bielefeld.de; s=default; t=1707338412;
+ bh=R47pBXrMkcgccNc624V7QB0PVH7o6eckSMxWr8zH5Oc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=DpYW5j1v20zFrslT4tljFdH7bgbjAktssNMWEifa/s5gvMV3JKFIteSZUcv/cVc58
+ MixeJ93kOLqaLY2dqP0cTkfg0r59rvrb45I7raE4Uk5cGIxwOrr600k5luXA70mOi8
+ fsUMTbcrWJ0CPlniOsiLYzmlEUNpjqIXViTN62jgj8SqMLc3bKdeNOVp0zwSKqzQUF
+ Ezanb0hDx53YV5ftu5yd8MTbb0WJQdtqMhOEsIWzjS3Ge6mW5dea5NA/2D6OyBt1La
+ KF1f3yb9k1pMXcrKcFAIwSzbtcdNWS5OLFkwHW6+8bHVN2aVP6ZHbsIGehC/ajFs75
+ R050bm6S8w4Sw==
+Message-ID: <0e681952-58f4-48f8-9cd3-e0cb26a138b6@math.uni-bielefeld.de>
+Date: Wed, 7 Feb 2024 21:40:07 +0100
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] drm/vkms: Use a simpler composition function
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm: panel-orientation-quirks: Add quirk for Aya Neo KUN
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240205222556.299481-1-tjakobi@math.uni-bielefeld.de>
+ <CAA8EJpqv2moyu6XUtCHb_EK-HLKSCgTa8CgchEVBg06PQKMM+w@mail.gmail.com>
 Content-Language: en-US
-To: Pekka Paalanen <pekka.paalanen@haloniitty.fi>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>,
- Maxime Ripard <mripard@kernel.org>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- marcheu@google.com, seanpaul@google.com, nicolejadeyee@google.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- thomas.petazzoni@bootlin.com
-References: <20240201-yuv-v1-2-3ca376f27632@bootlin.com>
- <20240202105522.43128e19@eldfell> <20240202102601.70b6d49c@xps-13>
- <3nofkwzgnf4yva2wfogdbii47ohpi2wm5vp6aijtg3emxyoowt@twyreqz7ai3g>
- <20240202131322.5471e184@xps-13> <20240202174913.789a9db9@eldfell>
- <20240202170734.3176dfe4@xps-13> <20240202214527.1d97c881@ferris.localdomain>
- <d258c8dc-78e9-4509-9037-a98f7f33b3a3@riseup.net>
- <20240207104407.7b06bac2@eldfell> <ZcOpzszyR49_MlqB@localhost.localdomain>
-From: Arthur Grillo <arthurgrillo@riseup.net>
-In-Reply-To: <ZcOpzszyR49_MlqB@localhost.localdomain>
-Content-Type: text/plain; charset=UTF-8
+From: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
+Autocrypt: addr=tjakobi@math.uni-bielefeld.de; keydata=
+ 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
+ JRHWPGCL3BhOxQ==
+In-Reply-To: <CAA8EJpqv2moyu6XUtCHb_EK-HLKSCgTa8CgchEVBg06PQKMM+w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,74 +111,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dmitry,
 
-
-On 07/02/24 13:03, Louis Chauvet wrote:
-> Hello Pekka, Arthur,
-> 
-> [...]
-> 
->>>> Would it be possible to have a standardised benchmark specifically
->>>> for performance rather than correctness, in IGT or where-ever it
->>>> would make sense? Then it would be simple to tell contributors to
->>>> run this and report the numbers before and after.
->>>>
->>>> I would propose this kind of KMS layout:
->>>>
->>>> - CRTC size 3841 x 2161
->>>> - primary plane, XRGB8888, 3639 x 2161 @ 101,0
->>>> - overlay A, XBGR2101010, 3033 x 1777 @ 201,199
->>>> - overlay B, ARGB8888, 1507 x 1400 @ 1800,250
->>>>
->>>> The sizes and positions are deliberately odd to try to avoid happy
->>>> alignment accidents. The planes are big, which should let the pixel
->>>> operations easily dominate performance measurement. There are
->>>> different pixel formats, both opaque and semi-transparent. There is
->>>> lots of plane overlap. The planes also do not cover the whole CRTC
->>>> leaving the background visible a bit.
->>>>
->>>> There should be two FBs per each plane, flipped alternatingly each
->>>> frame. Writeback should be active. Run this a number of frames, say,
->>>> 100, and measure the kernel CPU time taken. It's supposed to take at
->>>> least several seconds in total.
->>>>
->>>> I think something like this should be the base benchmark. One can
->>>> add more to it, like rotated planes, YUV planes, etc. or switch
->>>> settings on the existing planes. Maybe even FB_DAMAGE_CLIPS. Maybe
->>>> one more overlay that is very tall and thin.
->>>>
->>>> Just an idea, what do you all think?  
->>>
->>> Hi Pekka,
->>>
->>> I just finished writing this proposal using IGT.
->>>
->>> I got pretty interesting results:
->>>
->>> The mentioned commit 8356b97906503a02125c8d03c9b88a61ea46a05a took
->>> around 13 seconds. While drm-misc/drm-misc-next took 36 seconds.
->>>
->>> I'm currently bisecting to be certain that the change to the
->>> pixel-by-pixel is the culprit, but I don't see why it wouldn't be.
->>>
->>> I just need to do some final touches on the benchmark code and it
->>> will be ready for revision.
+On 2/7/24 12:00, Dmitry Baryshkov wrote:
+> On Tue, 6 Feb 2024 at 01:57, <cubic2k@gmail.com> wrote:
+>> From: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
 >>
->> Awesome, thank you very much for doing that!
->> pq
-> 
-> I also think it's a good benchmarks for classic configurations. The odd 
-> size is a very nice idea to verify the corner cases of line-by-line 
-> algorithms.
-> 
-> When this is ready, please share the test, so I can check if my patch is 
-> as performant as before.
-> 
-> Thank you for this work.
-> 
-> Have a nice day,
-> Louis Chauvet
-> 
+>> Similar to the other Aya Neo devices this one features
+>> again a portrait screen, here with a native resolution
+>> of 1600x2560.
+>>
+>> Signed-off-by: Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
+> As you don't seem to be the author of the patch, this needs your sign-off too.
 
-Just sent the benchmark for revision:
-https://lore.kernel.org/r/20240207-bench-v1-1-7135ad426860@riseup.net
+I'm not sure what you mean. Patch is by me, and signed off by me.
+
+- Tobias
+
