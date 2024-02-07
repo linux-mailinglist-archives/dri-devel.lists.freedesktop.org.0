@@ -2,56 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 078FA84C88B
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 11:24:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C29E84C893
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 11:27:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38E2910E229;
-	Wed,  7 Feb 2024 10:24:56 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ECGXHM4q";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30EB91131F4;
+	Wed,  7 Feb 2024 10:27:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF86110E229
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Feb 2024 10:24:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707301489; x=1738837489;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=JqqQrpLxgiPUbKA+wDnZJJDVtrCzIlXMVF4wRY2jVZM=;
- b=ECGXHM4qizf54IK49fuoB716t8EtghlHSrypQ9r24rEXVhiM51aRQiY1
- NkvlP6dHk0Sbny3M7XhIElVosA+uxnDWX1fj6Y2hjmaFRA2ZOwv8W+jNT
- tzQ3wJAHEmXL4bCpwlqxq1Y/48anc6IS9yY55ENz2stipO6fI4Xg8gIq/
- 33S+RP+yNtKriaX/MlaRMaU5n3RNbuuHiuzID7J52Xl2gPsxPwgThNHS6
- 32SDTpaTN5VKqwE3F0mjrKJmpFRRuc4HlFy7v/zmcK8Dw1rsDaLbqcN4/
- jOFC+8WqDVgpK1s18Li2eUChlk1TRPO4YIFWDOGWzQd8pIKIwo5jfyxC2 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="839972"
-X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
-   d="scan'208";a="839972"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2024 02:24:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
-   d="scan'208";a="1603734"
-Received: from jlawryno.igk.intel.com ([10.91.220.59])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2024 02:24:49 -0800
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH v2] accel/ivpu: Fix DevTLB errors on suspend/resume and
- recovery
-Date: Wed,  7 Feb 2024 11:24:46 +0100
-Message-ID: <20240207102446.3126981-1-jacek.lawrynowicz@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240206151927.2925585-1-jacek.lawrynowicz@linux.intel.com>
-References: <20240206151927.2925585-1-jacek.lawrynowicz@linux.intel.com>
+Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 946D61131F4;
+ Wed,  7 Feb 2024 10:27:30 +0000 (UTC)
+Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
+ (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Wed, 7 Feb
+ 2024 13:27:28 +0300
+Received: from [192.168.211.130] (10.0.253.138) by Ex16-01.fintech.ru
+ (10.0.10.18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Wed, 7 Feb 2024
+ 13:27:28 +0300
+Message-ID: <6497acbb-7970-4fd5-bc47-f6896f22efc1@fintech.ru>
+Date: Wed, 7 Feb 2024 02:27:27 -0800
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/i915/gt: Prevent possible NULL dereference in
+ __caps_show()
+Content-Language: en-US
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Jani Nikula
+ <jani.nikula@linux.intel.com>
+CC: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, <intel-gfx@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <lvc-project@linuxtesting.org>
+References: <20240206164543.46834-1-n.zhandarovich@fintech.ru>
+ <3c63aea1-1a04-45eb-9af1-02f52d4132e4@linux.intel.com>
+From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+In-Reply-To: <3c63aea1-1a04-45eb-9af1-02f52d4132e4@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.0.253.138]
+X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
+ (10.0.10.18)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,185 +57,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Issue IP reset before shutdown in order to
-complete all upstream requests to the SOC.
-Without this DevTLB is complaining about
-incomplete transactions and NPU cannot resume from
-suspend.
-This problem is only happening on recent IFWI
-releases.
+Hello,
 
-IP reset in rare corner cases can mess up PCI
-configuration, so save it before the reset.
-After this happens it is also impossible to
-issue PLL requests and D0->D3->D0 cycle is needed
-to recover the NPU. Add WP 0 request on power up,
-so the PUNIT is always notified about NPU reset.
+On 2/7/24 01:16, Tvrtko Ursulin wrote:
+> 
+> Hi,
+> 
+> On 06/02/2024 16:45, Nikita Zhandarovich wrote:
+>> After falling through the switch statement to default case 'repr' is
+>> initialized with NULL, which will lead to incorrect dereference of
+>> '!repr[n]' in the following loop.
+>>
+>> Fix it with the help of an additional check for NULL.
+>>
+>> Found by Linux Verification Center (linuxtesting.org) with static
+>> analysis tool SVACE.
+>>
+>> Fixes: 4ec76dbeb62b ("drm/i915/gt: Expose engine properties via sysfs")
+>> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+>> ---
+>> P.S. The NULL-deref problem might be dealt with this way but I am
+>> not certain that the rest of the __caps_show() behaviour remains
+>> correct if we end up in default case. For instance, as far as I
+>> can tell, buf might turn out to be w/o '\0'. I could use some
+>> direction if this has to be addressed as well.
+>>
+>>   drivers/gpu/drm/i915/gt/sysfs_engines.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/sysfs_engines.c
+>> b/drivers/gpu/drm/i915/gt/sysfs_engines.c
+>> index 021f51d9b456..6b130b732867 100644
+>> --- a/drivers/gpu/drm/i915/gt/sysfs_engines.c
+>> +++ b/drivers/gpu/drm/i915/gt/sysfs_engines.c
+>> @@ -105,7 +105,7 @@ __caps_show(struct intel_engine_cs *engine,
+>>         len = 0;
+>>       for_each_set_bit(n, &caps, show_unknown ? BITS_PER_LONG : count) {
+>> -        if (n >= count || !repr[n]) {
+>> +        if (n >= count || !repr || !repr[n]) {
+> 
+> There are two input combinations to this function when repr is NULL.
+> 
+> First is show_unknown=true and caps=0, which means the for_each_set_bit
+> will not execute its body. (No bits set.)
+> 
+> Second is show_unknown=false and caps=~0, which means count is zero so
+> for_each_set_bit will again not run. (Bitfield size input param is zero.)
+> 
+> So unless I am missing something I do not see the null pointer dereference.
+> 
+> What could theoretically happen is that a third input combination
+> appears, where caps is not zero in the show_unknown=true case, either
+> via a fully un-handled engine->class (switch), or a new capability bit
+> not added to the static array a bit above.
+> 
+> That would assert during driver development here:
+> 
+>             if (GEM_WARN_ON(show_unknown))
+> 
+> Granted that could be after the dereference in "if (n >= count ||
+> !repr[n])", but would be caught in debug builds (CI) and therefore not
+> be able to "ship" (get merge to the repo).
+> 
+> Your second question is about empty buffer returned i.e. len=0 at the
+> end of the function? (Which is when the buffer will not be null
+> terminated - or you see another option?)
+> 
+> That I think is safe too since it just results in a zero length read in
+> sysfs.
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+>>               if (GEM_WARN_ON(show_unknown))
+>>                   len += sysfs_emit_at(buf, len, "[%x] ", n);
+>>           } else {
 
-Use D0/D3 cycle for recovery as it can recover
-from failed IP reset and FLR cannot.
+Thank you for such a full response.
 
-Fixes: 3f7c0634926d ("accel/ivpu/37xx: Fix hangs related to MMIO reset")
-Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
----
- drivers/accel/ivpu/ivpu_hw_37xx.c | 44 ++++++++++++++++++++++---------
- drivers/accel/ivpu/ivpu_pm.c      | 39 +++++++++++++++------------
- 2 files changed, 54 insertions(+), 29 deletions(-)
+I think you are right. I was under the impression that either currently
+or in the future there might be an input combination, as you mentioned,
+that may trigger the NULL dereference. If you feel it will be caught
+beforehand, I am satisfied as well. Same goes for the empty buffer stuff.
 
-diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
-index 77accd029c4a..89af1006df55 100644
---- a/drivers/accel/ivpu/ivpu_hw_37xx.c
-+++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
-@@ -510,16 +510,6 @@ static int ivpu_boot_pwr_domain_enable(struct ivpu_device *vdev)
- 	return ret;
- }
- 
--static int ivpu_boot_pwr_domain_disable(struct ivpu_device *vdev)
--{
--	ivpu_boot_dpu_active_drive(vdev, false);
--	ivpu_boot_pwr_island_isolation_drive(vdev, true);
--	ivpu_boot_pwr_island_trickle_drive(vdev, false);
--	ivpu_boot_pwr_island_drive(vdev, false);
--
--	return ivpu_boot_wait_for_pwr_island_status(vdev, 0x0);
--}
--
- static void ivpu_boot_no_snoop_enable(struct ivpu_device *vdev)
- {
- 	u32 val = REGV_RD32(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES);
-@@ -616,12 +606,37 @@ static int ivpu_hw_37xx_info_init(struct ivpu_device *vdev)
- 	return 0;
- }
- 
-+static int ivpu_hw_37xx_ip_reset(struct ivpu_device *vdev)
-+{
-+	int ret;
-+	u32 val;
-+
-+	if (IVPU_WA(punit_disabled))
-+		return 0;
-+
-+	ret = REGB_POLL_FLD(VPU_37XX_BUTTRESS_VPU_IP_RESET, TRIGGER, 0, TIMEOUT_US);
-+	if (ret) {
-+		ivpu_err(vdev, "Timed out waiting for TRIGGER bit\n");
-+		return ret;
-+	}
-+
-+	val = REGB_RD32(VPU_37XX_BUTTRESS_VPU_IP_RESET);
-+	val = REG_SET_FLD(VPU_37XX_BUTTRESS_VPU_IP_RESET, TRIGGER, val);
-+	REGB_WR32(VPU_37XX_BUTTRESS_VPU_IP_RESET, val);
-+
-+	ret = REGB_POLL_FLD(VPU_37XX_BUTTRESS_VPU_IP_RESET, TRIGGER, 0, TIMEOUT_US);
-+	if (ret)
-+		ivpu_err(vdev, "Timed out waiting for RESET completion\n");
-+
-+	return ret;
-+}
-+
- static int ivpu_hw_37xx_reset(struct ivpu_device *vdev)
- {
- 	int ret = 0;
- 
--	if (ivpu_boot_pwr_domain_disable(vdev)) {
--		ivpu_err(vdev, "Failed to disable power domain\n");
-+	if (ivpu_hw_37xx_ip_reset(vdev)) {
-+		ivpu_err(vdev, "Failed to reset NPU\n");
- 		ret = -EIO;
- 	}
- 
-@@ -661,6 +676,11 @@ static int ivpu_hw_37xx_power_up(struct ivpu_device *vdev)
- {
- 	int ret;
- 
-+	/* PLL requests may fail when powering down, so issue WP 0 here */
-+	ret = ivpu_pll_disable(vdev);
-+	if (ret)
-+		ivpu_warn(vdev, "Failed to disable PLL: %d\n", ret);
-+
- 	ret = ivpu_hw_37xx_d0i3_disable(vdev);
- 	if (ret)
- 		ivpu_warn(vdev, "Failed to disable D0I3: %d\n", ret);
-diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-index f501f27ebafd..5f73854234ba 100644
---- a/drivers/accel/ivpu/ivpu_pm.c
-+++ b/drivers/accel/ivpu/ivpu_pm.c
-@@ -58,11 +58,14 @@ static int ivpu_suspend(struct ivpu_device *vdev)
- {
- 	int ret;
- 
-+	/* Save PCI state before powering down as it sometimes gets corrupted if NPU hangs */
-+	pci_save_state(to_pci_dev(vdev->drm.dev));
-+
- 	ret = ivpu_shutdown(vdev);
--	if (ret) {
-+	if (ret)
- 		ivpu_err(vdev, "Failed to shutdown VPU: %d\n", ret);
--		return ret;
--	}
-+
-+	pci_set_power_state(to_pci_dev(vdev->drm.dev), PCI_D3hot);
- 
- 	return ret;
- }
-@@ -71,6 +74,9 @@ static int ivpu_resume(struct ivpu_device *vdev)
- {
- 	int ret;
- 
-+	pci_set_power_state(to_pci_dev(vdev->drm.dev), PCI_D0);
-+	pci_restore_state(to_pci_dev(vdev->drm.dev));
-+
- retry:
- 	ret = ivpu_hw_power_up(vdev);
- 	if (ret) {
-@@ -120,15 +126,20 @@ static void ivpu_pm_recovery_work(struct work_struct *work)
- 
- 	ivpu_fw_log_dump(vdev);
- 
--retry:
--	ret = pci_try_reset_function(to_pci_dev(vdev->drm.dev));
--	if (ret == -EAGAIN && !drm_dev_is_unplugged(&vdev->drm)) {
--		cond_resched();
--		goto retry;
--	}
-+	atomic_inc(&vdev->pm->reset_counter);
-+	atomic_set(&vdev->pm->reset_pending, 1);
-+	down_write(&vdev->pm->reset_lock);
-+
-+	ivpu_suspend(vdev);
-+	ivpu_pm_prepare_cold_boot(vdev);
-+	ivpu_jobs_abort_all(vdev);
-+
-+	ret = ivpu_resume(vdev);
-+	if (ret)
-+		ivpu_err(vdev, "Failed to resume NPU: %d\n", ret);
- 
--	if (ret && ret != -EAGAIN)
--		ivpu_err(vdev, "Failed to reset VPU: %d\n", ret);
-+	up_write(&vdev->pm->reset_lock);
-+	atomic_set(&vdev->pm->reset_pending, 0);
- 
- 	kobject_uevent_env(&vdev->drm.dev->kobj, KOBJ_CHANGE, evt);
- 	pm_runtime_mark_last_busy(vdev->drm.dev);
-@@ -200,9 +211,6 @@ int ivpu_pm_suspend_cb(struct device *dev)
- 	ivpu_suspend(vdev);
- 	ivpu_pm_prepare_warm_boot(vdev);
- 
--	pci_save_state(to_pci_dev(dev));
--	pci_set_power_state(to_pci_dev(dev), PCI_D3hot);
--
- 	ivpu_dbg(vdev, PM, "Suspend done.\n");
- 
- 	return 0;
-@@ -216,9 +224,6 @@ int ivpu_pm_resume_cb(struct device *dev)
- 
- 	ivpu_dbg(vdev, PM, "Resume..\n");
- 
--	pci_set_power_state(to_pci_dev(dev), PCI_D0);
--	pci_restore_state(to_pci_dev(dev));
--
- 	ret = ivpu_resume(vdev);
- 	if (ret)
- 		ivpu_err(vdev, "Failed to resume: %d\n", ret);
--- 
-2.43.0
+I think dropping the patch is the best option then. Apologies for any
+inconvenience.
 
+Nikita
