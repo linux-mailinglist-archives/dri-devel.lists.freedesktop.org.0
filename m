@@ -2,82 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7CF684C80E
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 10:55:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 078FA84C88B
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Feb 2024 11:24:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFBA810FE43;
-	Wed,  7 Feb 2024 09:55:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38E2910E229;
+	Wed,  7 Feb 2024 10:24:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="RYtFfZ52";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ECGXHM4q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DE0D1131BD
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Feb 2024 09:55:11 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-40fc654a718so3377895e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Feb 2024 01:55:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1707299710; x=1707904510;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=fsRZs51W2huLngb3aSHYllyqQl8VP5fXmWHfrrQr+1k=;
- b=RYtFfZ52biqEwQD6r83ACVtZdbdWnqLnEGOzHJ/3Y9R1aI1IhUGSSltWpY9SL/Dsn9
- 7dG2GlFNbtARorWfVTldolxjYl+3tnS13P6i7MBBDSzb+VxB8i1KzuAlWMk6fJRpk3zX
- ffjBE0Soi8W8lEmHyfGVC94BpRSvkw+hLmjjiSq/KQWEiPPPom/a+bVDJOPqytblFDbC
- s5eNFcMrbOCrkqcLSYwEbrjHujjAkQ8cx2FWC25dCIZ8lVxejNIOc8Df5yETVf32saLQ
- zsjz5FkAZqo4wm2Vnkvp4uhu/iVUPx9vHi/ZtyEguRSTiaIhue+vAbqwH1zfL8dVyFVK
- lwZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707299710; x=1707904510;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fsRZs51W2huLngb3aSHYllyqQl8VP5fXmWHfrrQr+1k=;
- b=R2j4Qknf1dOc2ltiCzoAGIRKRYnWVfHPuB7Ce9kJJHypygbbhtpwNwVPeYHw16Pi1q
- FR2rsZlHQIY3KFEXOvFVeewW6KfnGWpAZhaqhKABgoeyLz7StS8FnEdwIp0AFZtfsfy7
- oouNtrFiS6ObMCa57NQQGZFudjpY8YHhDa4xT425ovmAYS5Nmw3rRe3mOmz8IxH0Ajcj
- ZmcKIC6HzhdAFGry4ocGaYipaJvmNB7C4BELTf/xkksRqx3f6TWw/VDk+43PYlcw9QUH
- GWNO5HWAGigEmb9O0+2zZ2gzIhYeAbKL2vEMBa5wwwlKEQxXC+ObAtoMQcd1hbaMh34I
- X2GQ==
-X-Gm-Message-State: AOJu0YxJ0dsldp8IcPOS+Nn/Rp+JPnq4qJR2BZuxynSW0QlOUX2x1cgp
- XydBF2Gprcb9duxjFsUbquuLORCk7jVKIGwUOH/pdFb54ddGJiA8D/t4AbL0CbU=
-X-Google-Smtp-Source: AGHT+IG7N3OfmAh54zPppxgxnipuAkjejir3UBYj6pe+R+53DlWxcD0lVN8Xy4HfG00GDYpT1e67lg==
-X-Received: by 2002:adf:ce8c:0:b0:33b:136a:95a3 with SMTP id
- r12-20020adfce8c000000b0033b136a95a3mr2875503wrn.28.1707299709759; 
- Wed, 07 Feb 2024 01:55:09 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWomvasDY2y1JGYC41yi3XjKUcCAy+WjDD4t4v3x0Py0iVpS7KfDv1ihzcoSIGyJDs9LYYnSaZ9fVzQIbMxYSQddfp8BcaLQPOmNuHTxP0Iq3nKxKzxCYdg5Amf2xeEnKy64aN9m8kBu/Y+G8fqpLaCgUrbByqQO5y14+C2vcwkn906lbapgjN3P9YUIbT0CwDgRn4OxG9kOMqi2wJLn5digJZ2gLiWgHsG+LSTfjqwUg32N2xvJHUSKhjyYbeycS6tsV13hPkwZlniyYYpr+1XW9zDtc2Jk6XvtZUPvYjgT1Ovve5EMo9BDAjQT2jSLISuzRUJ/qWitiGBJqvLZXczHzEPtiShAn8QqCcU56rFp3agu6i3oSNL9XqzAS1I2ntzuQAt078dz8WPVcmbJz8L2srFCMgE2eVFDg==
-Received: from [10.101.1.8]
- (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id
- f7-20020a5d4dc7000000b0033b51e2b9b8sm23808wru.23.2024.02.07.01.55.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Feb 2024 01:55:09 -0800 (PST)
-Message-ID: <843e34a5-f175-4bda-a2f1-2ea3b56b68f5@baylibre.com>
-Date: Wed, 7 Feb 2024 10:55:07 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF86110E229
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Feb 2024 10:24:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1707301489; x=1738837489;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=JqqQrpLxgiPUbKA+wDnZJJDVtrCzIlXMVF4wRY2jVZM=;
+ b=ECGXHM4qizf54IK49fuoB716t8EtghlHSrypQ9r24rEXVhiM51aRQiY1
+ NkvlP6dHk0Sbny3M7XhIElVosA+uxnDWX1fj6Y2hjmaFRA2ZOwv8W+jNT
+ tzQ3wJAHEmXL4bCpwlqxq1Y/48anc6IS9yY55ENz2stipO6fI4Xg8gIq/
+ 33S+RP+yNtKriaX/MlaRMaU5n3RNbuuHiuzID7J52Xl2gPsxPwgThNHS6
+ 32SDTpaTN5VKqwE3F0mjrKJmpFRRuc4HlFy7v/zmcK8Dw1rsDaLbqcN4/
+ jOFC+8WqDVgpK1s18Li2eUChlk1TRPO4YIFWDOGWzQd8pIKIwo5jfyxC2 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="839972"
+X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
+   d="scan'208";a="839972"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2024 02:24:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
+   d="scan'208";a="1603734"
+Received: from jlawryno.igk.intel.com ([10.91.220.59])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2024 02:24:49 -0800
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH v2] accel/ivpu: Fix DevTLB errors on suspend/resume and
+ recovery
+Date: Wed,  7 Feb 2024 11:24:46 +0100
+Message-ID: <20240207102446.3126981-1-jacek.lawrynowicz@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240206151927.2925585-1-jacek.lawrynowicz@linux.intel.com>
+References: <20240206151927.2925585-1-jacek.lawrynowicz@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/9] drm/mediatek: dsi: Use GENMASK() for register mask
- definitions
-Content-Language: en-US
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- chunkuang.hu@kernel.org
-Cc: fshao@chromium.org, p.zabel@pengutronix.de, airlied@gmail.com,
- daniel@ffwll.ch, matthias.bgg@gmail.com, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, kernel@collabora.com
-References: <20240206120748.136610-1-angelogioacchino.delregno@collabora.com>
- <20240206120748.136610-2-angelogioacchino.delregno@collabora.com>
- <f91db779-ad94-4c18-9a06-1029da4edaab@baylibre.com>
- <c1e2c380-21b5-47c1-b83b-f7f2b481df21@collabora.com>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <c1e2c380-21b5-47c1-b83b-f7f2b481df21@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -94,26 +67,185 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Issue IP reset before shutdown in order to
+complete all upstream requests to the SOC.
+Without this DevTLB is complaining about
+incomplete transactions and NPU cannot resume from
+suspend.
+This problem is only happening on recent IFWI
+releases.
 
+IP reset in rare corner cases can mess up PCI
+configuration, so save it before the reset.
+After this happens it is also impossible to
+issue PLL requests and D0->D3->D0 cycle is needed
+to recover the NPU. Add WP 0 request on power up,
+so the PUNIT is always notified about NPU reset.
 
-On 06/02/2024 16:53, AngeloGioacchino Del Regno wrote:
->>>   #define DSI_PSCTRL        0x1c
->>> -#define DSI_PS_WC            0x3fff
->>> -#define DSI_PS_SEL            (3 << 16)
->>> +#define DSI_PS_WC            GENMASK(14, 0)
->>> +#define DSI_PS_SEL            GENMASK(19, 16)
->>
->> 0011 0000 0000 0000 0000 => GENMASK(17, 16)
-> 
-> Alexandre, the reason for that is in the commit description :-P
-> 
-> "While at it, also fix the DSI_PS_SEL mask to include all bits instead
-> of just a subset of them."
+Use D0/D3 cycle for recovery as it can recover
+from failed IP reset and FLR cannot.
 
-Oh sorry...
+Fixes: 3f7c0634926d ("accel/ivpu/37xx: Fix hangs related to MMIO reset")
+Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+---
+ drivers/accel/ivpu/ivpu_hw_37xx.c | 44 ++++++++++++++++++++++---------
+ drivers/accel/ivpu/ivpu_pm.c      | 39 +++++++++++++++------------
+ 2 files changed, 54 insertions(+), 29 deletions(-)
 
-Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
-
+diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
+index 77accd029c4a..89af1006df55 100644
+--- a/drivers/accel/ivpu/ivpu_hw_37xx.c
++++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
+@@ -510,16 +510,6 @@ static int ivpu_boot_pwr_domain_enable(struct ivpu_device *vdev)
+ 	return ret;
+ }
+ 
+-static int ivpu_boot_pwr_domain_disable(struct ivpu_device *vdev)
+-{
+-	ivpu_boot_dpu_active_drive(vdev, false);
+-	ivpu_boot_pwr_island_isolation_drive(vdev, true);
+-	ivpu_boot_pwr_island_trickle_drive(vdev, false);
+-	ivpu_boot_pwr_island_drive(vdev, false);
+-
+-	return ivpu_boot_wait_for_pwr_island_status(vdev, 0x0);
+-}
+-
+ static void ivpu_boot_no_snoop_enable(struct ivpu_device *vdev)
+ {
+ 	u32 val = REGV_RD32(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES);
+@@ -616,12 +606,37 @@ static int ivpu_hw_37xx_info_init(struct ivpu_device *vdev)
+ 	return 0;
+ }
+ 
++static int ivpu_hw_37xx_ip_reset(struct ivpu_device *vdev)
++{
++	int ret;
++	u32 val;
++
++	if (IVPU_WA(punit_disabled))
++		return 0;
++
++	ret = REGB_POLL_FLD(VPU_37XX_BUTTRESS_VPU_IP_RESET, TRIGGER, 0, TIMEOUT_US);
++	if (ret) {
++		ivpu_err(vdev, "Timed out waiting for TRIGGER bit\n");
++		return ret;
++	}
++
++	val = REGB_RD32(VPU_37XX_BUTTRESS_VPU_IP_RESET);
++	val = REG_SET_FLD(VPU_37XX_BUTTRESS_VPU_IP_RESET, TRIGGER, val);
++	REGB_WR32(VPU_37XX_BUTTRESS_VPU_IP_RESET, val);
++
++	ret = REGB_POLL_FLD(VPU_37XX_BUTTRESS_VPU_IP_RESET, TRIGGER, 0, TIMEOUT_US);
++	if (ret)
++		ivpu_err(vdev, "Timed out waiting for RESET completion\n");
++
++	return ret;
++}
++
+ static int ivpu_hw_37xx_reset(struct ivpu_device *vdev)
+ {
+ 	int ret = 0;
+ 
+-	if (ivpu_boot_pwr_domain_disable(vdev)) {
+-		ivpu_err(vdev, "Failed to disable power domain\n");
++	if (ivpu_hw_37xx_ip_reset(vdev)) {
++		ivpu_err(vdev, "Failed to reset NPU\n");
+ 		ret = -EIO;
+ 	}
+ 
+@@ -661,6 +676,11 @@ static int ivpu_hw_37xx_power_up(struct ivpu_device *vdev)
+ {
+ 	int ret;
+ 
++	/* PLL requests may fail when powering down, so issue WP 0 here */
++	ret = ivpu_pll_disable(vdev);
++	if (ret)
++		ivpu_warn(vdev, "Failed to disable PLL: %d\n", ret);
++
+ 	ret = ivpu_hw_37xx_d0i3_disable(vdev);
+ 	if (ret)
+ 		ivpu_warn(vdev, "Failed to disable D0I3: %d\n", ret);
+diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
+index f501f27ebafd..5f73854234ba 100644
+--- a/drivers/accel/ivpu/ivpu_pm.c
++++ b/drivers/accel/ivpu/ivpu_pm.c
+@@ -58,11 +58,14 @@ static int ivpu_suspend(struct ivpu_device *vdev)
+ {
+ 	int ret;
+ 
++	/* Save PCI state before powering down as it sometimes gets corrupted if NPU hangs */
++	pci_save_state(to_pci_dev(vdev->drm.dev));
++
+ 	ret = ivpu_shutdown(vdev);
+-	if (ret) {
++	if (ret)
+ 		ivpu_err(vdev, "Failed to shutdown VPU: %d\n", ret);
+-		return ret;
+-	}
++
++	pci_set_power_state(to_pci_dev(vdev->drm.dev), PCI_D3hot);
+ 
+ 	return ret;
+ }
+@@ -71,6 +74,9 @@ static int ivpu_resume(struct ivpu_device *vdev)
+ {
+ 	int ret;
+ 
++	pci_set_power_state(to_pci_dev(vdev->drm.dev), PCI_D0);
++	pci_restore_state(to_pci_dev(vdev->drm.dev));
++
+ retry:
+ 	ret = ivpu_hw_power_up(vdev);
+ 	if (ret) {
+@@ -120,15 +126,20 @@ static void ivpu_pm_recovery_work(struct work_struct *work)
+ 
+ 	ivpu_fw_log_dump(vdev);
+ 
+-retry:
+-	ret = pci_try_reset_function(to_pci_dev(vdev->drm.dev));
+-	if (ret == -EAGAIN && !drm_dev_is_unplugged(&vdev->drm)) {
+-		cond_resched();
+-		goto retry;
+-	}
++	atomic_inc(&vdev->pm->reset_counter);
++	atomic_set(&vdev->pm->reset_pending, 1);
++	down_write(&vdev->pm->reset_lock);
++
++	ivpu_suspend(vdev);
++	ivpu_pm_prepare_cold_boot(vdev);
++	ivpu_jobs_abort_all(vdev);
++
++	ret = ivpu_resume(vdev);
++	if (ret)
++		ivpu_err(vdev, "Failed to resume NPU: %d\n", ret);
+ 
+-	if (ret && ret != -EAGAIN)
+-		ivpu_err(vdev, "Failed to reset VPU: %d\n", ret);
++	up_write(&vdev->pm->reset_lock);
++	atomic_set(&vdev->pm->reset_pending, 0);
+ 
+ 	kobject_uevent_env(&vdev->drm.dev->kobj, KOBJ_CHANGE, evt);
+ 	pm_runtime_mark_last_busy(vdev->drm.dev);
+@@ -200,9 +211,6 @@ int ivpu_pm_suspend_cb(struct device *dev)
+ 	ivpu_suspend(vdev);
+ 	ivpu_pm_prepare_warm_boot(vdev);
+ 
+-	pci_save_state(to_pci_dev(dev));
+-	pci_set_power_state(to_pci_dev(dev), PCI_D3hot);
+-
+ 	ivpu_dbg(vdev, PM, "Suspend done.\n");
+ 
+ 	return 0;
+@@ -216,9 +224,6 @@ int ivpu_pm_resume_cb(struct device *dev)
+ 
+ 	ivpu_dbg(vdev, PM, "Resume..\n");
+ 
+-	pci_set_power_state(to_pci_dev(dev), PCI_D0);
+-	pci_restore_state(to_pci_dev(dev));
+-
+ 	ret = ivpu_resume(vdev);
+ 	if (ret)
+ 		ivpu_err(vdev, "Failed to resume: %d\n", ret);
 -- 
-Regards,
-Alexandre
+2.43.0
+
