@@ -2,52 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2A2B84E338
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 15:31:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB0A84E33E
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 15:32:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E562410E817;
-	Thu,  8 Feb 2024 14:31:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C1F810E837;
+	Thu,  8 Feb 2024 14:32:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ImokAwqW";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QRd+WHVi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 476C110E817
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 14:31:47 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A53E461E04;
- Thu,  8 Feb 2024 14:31:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8952CC433C7;
- Thu,  8 Feb 2024 14:31:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1707402706;
- bh=I3KyQ/QgQFzOr93h4IxaJwGTFCBd9ZOO9qHDg18SGoM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ImokAwqW4mjomuflcDGQ5wTs+rZrsZbysZrBjqs+5J6rAc65rq21Cr3zh1nGuq2u8
- sHztjKgok5lVULu1IW+yvPMBHUvAlbBOdVwyjdZnfUqIFN5Ug4SaNZVOV8cUldeA2w
- yd33VvLQ9uXzdCpuaJFFB7Tz6osCDiNTGYHCwh9ndpnBrb6IGKX3HqEGINWKCqSPOI
- CsS/CXnO1IVhttIm0yvrwS4uf0k2Z0RQizZ2Cb0x16lC5RsAZaKNtnHBPYP34JyCbv
- T1iC4plsm9N/9Z00I0wdqW9xh2Uh0ZyaH1Em896Id/DkmkF0GMMnk8+DoAVT0kMQLh
- CatFU53NuZlkA==
-Date: Thu, 8 Feb 2024 14:31:40 +0000
-From: Lee Jones <lee@kernel.org>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: daniel.thompson@linaro.org, jingoohan1@gmail.com, pavel@ucw.cz,
- robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, andersson@kernel.org, quic_kgunda@quicinc.com,
- dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: backlight: qcom-wled: Fix bouncing email
- addresses
-Message-ID: <20240208143140.GU689448@google.com>
-References: <20240202180151.4116329-1-quic_jhugo@quicinc.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E9FB10E834;
+ Thu,  8 Feb 2024 14:32:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1707402727; x=1738938727;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=KLUcyDxIIkcgthwnVcRsPO8Ou2+YvQDl9VrpRHzEETc=;
+ b=QRd+WHVin9nTEjX/JzXeNE7lswMIVuv6dC4SQm5Lut4Wa9grJVQ9Pfwt
+ xUNHErDBxRMXuvILN5DmClBw/N3LiAxkCHYurtKdrIFd9Pb6r7H+BrQwk
+ azgwU8G9++gOXxQ5O+1aToHirIVQUGactxQc5TkndXoT7hsLkuToztV3m
+ Hx140+4coawEGYGVKOE4RKxMMsXXFRL712p+VWRcpkodTdwhteoknRlXu
+ cE2V49thcC1UGA56WzOTkb6jv4kjcIt7wFjFU6rKdXAYzvYGgEUcufHcx
+ Qbq12IErOH6omN8A3HDGH31TfAcYXgvnMaR71wFqK6il10MPHgX0pnQ2W w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="5044953"
+X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; 
+   d="scan'208";a="5044953"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2024 06:32:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="934146115"
+X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; d="scan'208";a="934146115"
+Received: from unknown (HELO localhost) ([10.237.66.162])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2024 06:32:02 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+ amd-gfx@lists.freedesktop.org, "open list:DRM DRIVERS"
+ <dri-devel@lists.freedesktop.org>, "open list:ACPI"
+ <linux-acpi@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
+ Melissa Wen <mwen@igalia.com>, Dave Airlie <airlied@redhat.com>, Daniel
+ Vetter <daniel.vetter@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: Re: Re: [PATCH v4 1/3] drm: Add drm_get_acpi_edid() helper
+In-Reply-To: <ysm2e3vczov7z7vezmexe35fjnkhsakud3elsgggedhk2lknlz@cx7j44y354db>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240207224429.104625-1-mario.limonciello@amd.com>
+ <20240207224429.104625-2-mario.limonciello@amd.com>
+ <87y1bvb7ns.fsf@intel.com>
+ <ysm2e3vczov7z7vezmexe35fjnkhsakud3elsgggedhk2lknlz@cx7j44y354db>
+Date: Thu, 08 Feb 2024 16:31:56 +0200
+Message-ID: <87sf23auxv.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240202180151.4116329-1-quic_jhugo@quicinc.com>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,39 +74,164 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 02 Feb 2024, Jeffrey Hugo wrote:
+On Thu, 08 Feb 2024, Maxime Ripard <mripard@kernel.org> wrote:
+> On Thu, Feb 08, 2024 at 11:57:11AM +0200, Jani Nikula wrote:
+>> On Wed, 07 Feb 2024, Mario Limonciello <mario.limonciello@amd.com> wrote:
+>> > Some manufacturers have intentionally put an EDID that differs from
+>> > the EDID on the internal panel on laptops.  Drivers can call this
+>> > helper to attempt to fetch the EDID from the BIOS's ACPI _DDC method.
+>> >
+>> > Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+>> > ---
+>> >  drivers/gpu/drm/Kconfig    |  5 +++
+>> >  drivers/gpu/drm/drm_edid.c | 77 ++++++++++++++++++++++++++++++++++++++
+>> >  include/drm/drm_edid.h     |  1 +
+>> >  3 files changed, 83 insertions(+)
+>> >
+>> > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+>> > index 6ec33d36f3a4..ec2bb71e8b36 100644
+>> > --- a/drivers/gpu/drm/Kconfig
+>> > +++ b/drivers/gpu/drm/Kconfig
+>> > @@ -21,6 +21,11 @@ menuconfig DRM
+>> >  	select KCMP
+>> >  	select VIDEO_CMDLINE
+>> >  	select VIDEO_NOMODESET
+>> > +	select ACPI_VIDEO if ACPI
+>> > +	select BACKLIGHT_CLASS_DEVICE if ACPI
+>> > +	select INPUT if ACPI
+>> > +	select X86_PLATFORM_DEVICES if ACPI && X86
+>> > +	select ACPI_WMI if ACPI && X86
+>> 
+>> I think I'll defer to drm maintainers on whether this is okay or
+>> something to be avoided.
+>> 
+>> 
+>> >  	help
+>> >  	  Kernel-level support for the Direct Rendering Infrastructure (DRI)
+>> >  	  introduced in XFree86 4.0. If you say Y here, you need to select
+>> > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+>> > index 923c4423151c..c649b4f9fd8e 100644
+>> > --- a/drivers/gpu/drm/drm_edid.c
+>> > +++ b/drivers/gpu/drm/drm_edid.c
+>> > @@ -28,6 +28,7 @@
+>> >   * DEALINGS IN THE SOFTWARE.
+>> >   */
+>> >  
+>> > +#include <acpi/video.h>
+>> >  #include <linux/bitfield.h>
+>> >  #include <linux/cec.h>
+>> >  #include <linux/hdmi.h>
+>> > @@ -2188,6 +2189,49 @@ drm_do_probe_ddc_edid(void *data, u8 *buf, unsigned int block, size_t len)
+>> >  	return ret == xfers ? 0 : -1;
+>> >  }
+>> >  
+>> > +/**
+>> > + * drm_do_probe_acpi_edid() - get EDID information via ACPI _DDC
+>> > + * @data: struct drm_device
+>> > + * @buf: EDID data buffer to be filled
+>> > + * @block: 128 byte EDID block to start fetching from
+>> > + * @len: EDID data buffer length to fetch
+>> > + *
+>> > + * Try to fetch EDID information by calling acpi_video_get_edid() function.
+>> > + *
+>> > + * Return: 0 on success or error code on failure.
+>> > + */
+>> > +static int
+>> > +drm_do_probe_acpi_edid(void *data, u8 *buf, unsigned int block, size_t len)
+>> > +{
+>> > +	struct drm_device *ddev = data;
+>> > +	struct acpi_device *acpidev = ACPI_COMPANION(ddev->dev);
+>> > +	unsigned char start = block * EDID_LENGTH;
+>> > +	void *edid;
+>> > +	int r;
+>> > +
+>> > +	if (!acpidev)
+>> > +		return -ENODEV;
+>> > +
+>> > +	/* fetch the entire edid from BIOS */
+>> > +	r = acpi_video_get_edid(acpidev, ACPI_VIDEO_DISPLAY_LCD, -1, &edid);
+>> > +	if (r < 0) {
+>> > +		DRM_DEBUG_KMS("Failed to get EDID from ACPI: %d\n", r);
+>> > +		return -EINVAL;
+>> > +	}
+>> > +	if (len > r || start > r || start + len > r) {
+>> > +		r = -EINVAL;
+>> > +		goto cleanup;
+>> > +	}
+>> > +
+>> > +	memcpy(buf, edid + start, len);
+>> > +	r = 0;
+>> > +
+>> > +cleanup:
+>> > +	kfree(edid);
+>> > +
+>> > +	return r;
+>> > +}
+>> > +
+>> >  static void connector_bad_edid(struct drm_connector *connector,
+>> >  			       const struct edid *edid, int num_blocks)
+>> >  {
+>> > @@ -2643,6 +2687,39 @@ struct edid *drm_get_edid(struct drm_connector *connector,
+>> >  }
+>> >  EXPORT_SYMBOL(drm_get_edid);
+>> >  
+>> > +/**
+>> > + * drm_get_acpi_edid - get EDID data, if available
+>> 
+>> I'd prefer all the new EDID API to be named drm_edid_*. Makes a clean
+>> break from the old API, and is more consistent.
+>> 
+>> So perhaps drm_edid_read_acpi() to be in line with all the other struct
+>> drm_edid based EDID reading functions.
+>> 
+>> > + * @connector: connector we're probing
+>> > + *
+>> > + * Use the BIOS to attempt to grab EDID data if possible.
+>> > + *
+>> > + * The returned pointer must be freed using drm_edid_free().
+>> > + *
+>> > + * Return: Pointer to valid EDID or NULL if we couldn't find any.
+>> > + */
+>> > +const struct drm_edid *drm_get_acpi_edid(struct drm_connector *connector)
+>> > +{
+>> > +	const struct drm_edid *drm_edid;
+>> > +
+>> > +	switch (connector->connector_type) {
+>> > +	case DRM_MODE_CONNECTOR_LVDS:
+>> > +	case DRM_MODE_CONNECTOR_eDP:
+>> > +		break;
+>> > +	default:
+>> > +		return NULL;
+>> > +	}
+>> > +
+>> > +	if (connector->force == DRM_FORCE_OFF)
+>> > +		return NULL;
+>> > +
+>> > +	drm_edid = drm_edid_read_custom(connector, drm_do_probe_acpi_edid, connector->dev);
+>> > +
+>> > +	/* Note: Do *not* call connector updates here. */
+>> > +
+>> > +	return drm_edid;
+>> > +}
+>> > +EXPORT_SYMBOL(drm_get_acpi_edid);
+>
+> Why shouldn't we use the BIOS/UEFI to retrieve them if it's available?
+>
+> I guess what I'm asking is why should we make this an exported function
+> that drivers would have to call explicitly, instead of just making it
+> part of the usual EDID retrieval interface.
 
-> Bjorn is no longer at Linaro.  Update his email address to @kernel to
-> match the .mailmap entry.
-> 
-> The servers for @codeaurora are long retired and messages sent there
-> will bounce.  Update Kiran's email address to match the .mailmap entry.
-> 
-> This will help anyone that is looking to reach out about this binding
-> and is not using .mailmap to pre-process their message.
-> 
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> ---
->  .../devicetree/bindings/leds/backlight/qcom-wled.yaml         | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
-> index 5f1849bdabba..a8490781011d 100644
-> --- a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
-> +++ b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
-> @@ -7,8 +7,8 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
->  title: Qualcomm Technologies, Inc. WLED driver
->  
->  maintainers:
-> -  - Bjorn Andersson <bjorn.andersson@linaro.org>
-> -  - Kiran Gunda <kgunda@codeaurora.org>
-> +  - Bjorn Andersson <andersson@kernel.org>
-> +  - Kiran Gunda <quic_kgunda@quicinc.com>
->  
->  description: |
->    WLED (White Light Emitting Diode) driver is used for controlling display
+Two main questions:
 
-Applied, thanks
+What if the EDID from ACPI is bogus? Needs to be configurable in the
+connector somehow?
+
+What if you have multiple local panels? This seems to only support one,
+and would return the same EDID for both.
+
+BR,
+Jani.
+
 
 -- 
-Lee Jones [李琼斯]
+Jani Nikula, Intel
