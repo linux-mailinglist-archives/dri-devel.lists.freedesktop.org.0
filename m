@@ -2,62 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CFBC84D7AD
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 02:56:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA06384D9F5
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 07:20:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E805A10E06B;
-	Thu,  8 Feb 2024 01:56:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AABD510E111;
+	Thu,  8 Feb 2024 06:20:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="yUDDt+mZ";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="Oalc83M8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2AC410E06B;
- Thu,  8 Feb 2024 01:56:33 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E43C061B23;
- Thu,  8 Feb 2024 01:56:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F693C433F1;
- Thu,  8 Feb 2024 01:56:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
- s=korg; t=1707357383;
- bh=rVThkiSRe3KkWzz8wgEgHLkSR8j9heMzqKF037jczOY=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=yUDDt+mZSSrAsObYnTUAk/OhxeX96BaLr5Y8tpQe4YqaooWEd4/eS7dpuHp1vkn13
- DGZrF4kxSizzi9e75I5QE0hdsAWZ78TzvC+YzBw9U0qq+uVOGPIEnVyjBDv+JhmoOC
- 7FIzeR1kkM2mME9zqctRaKkRB8AxLyxqsRcDLtyE=
-Date: Wed, 7 Feb 2024 17:56:21 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Matthew Wilcox <willy@infradead.org>, Christoph Hellwig <hch@lst.de>,
- Hugh Dickins <hughd@google.com>, Chandan Babu R <chandan.babu@oracle.com>,
- David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Christian Koenig
- <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- x86@kernel.org, linux-sgx@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, keyrings@vger.kernel.org
-Subject: Re: [PATCH 2/2] xfs: disable large folio support in xfile_create
-Message-Id: <20240207175621.dd773204e7928dbeee7a92bf@linux-foundation.org>
-In-Reply-To: <20240112022250.GU723010@frogsfrogsfrogs>
-References: <20240110092109.1950011-1-hch@lst.de>
- <20240110092109.1950011-3-hch@lst.de>
- <20240110175515.GA722950@frogsfrogsfrogs>
- <20240110200451.GB722950@frogsfrogsfrogs>
- <20240111140053.51948fb3ed10e06d8e389d2e@linux-foundation.org>
- <ZaBvoWCCChU5wHDp@casper.infradead.org>
- <20240112022250.GU723010@frogsfrogsfrogs>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com
+ [95.215.58.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4F3610E14A
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 06:19:49 +0000 (UTC)
+Message-ID: <09701811-70bb-4731-a179-099845c59b4a@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1707373183;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UjHoYwmVlEt5wAy+Z0BauImOiW3XL6t1g/je10Behf0=;
+ b=Oalc83M8S+FfF4j2M3Qtw/UB7UtFIKHHZQqb8HgYHugcv+sXdrnIpiMg0HpwmVdIKDigqL
+ 1wHgjGxbSa9M26fXIs1dIe5CIZCIJXV2YyQwyi7Ud51HZl8pxkR1G0MpbQxiWAbmJKfOjv
+ WiWR44U5u9224PqyoVCu3Y85klW3JCo=
+Date: Thu, 8 Feb 2024 14:19:32 +0800
+MIME-Version: 1.0
+Subject: Re: [PATCH] drm/etnaviv: fix DMA direction handling for cached
+ read/write buffers
+Content-Language: en-US
+To: Daniel Stone <daniel@fooishbar.org>, Lucas Stach <l.stach@pengutronix.de>
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ patchwork-lst@pengutronix.de, Christian Gmeiner
+ <christian.gmeiner@gmail.com>, kernel@pengutronix.de,
+ Russell King <linux+etnaviv@armlinux.org.uk>
+References: <20240126165856.1199387-1-l.stach@pengutronix.de>
+ <CAPj87rNOMYS7g_bU8Xjmh9xEJhuzG+BViXakC7wzgiDaG+9yCg@mail.gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <CAPj87rNOMYS7g_bU8Xjmh9xEJhuzG+BViXakC7wzgiDaG+9yCg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,41 +61,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 11 Jan 2024 18:22:50 -0800 "Darrick J. Wong" <djwong@kernel.org> wrote:
+Hi,
 
-> On Thu, Jan 11, 2024 at 10:45:53PM +0000, Matthew Wilcox wrote:
-> > On Thu, Jan 11, 2024 at 02:00:53PM -0800, Andrew Morton wrote:
-> > > On Wed, 10 Jan 2024 12:04:51 -0800 "Darrick J. Wong" <djwong@kernel.org> wrote:
-> > > 
-> > > > > > Fixing this will require a bit of an API change, and prefeably sorting out
-> > > > > > the hwpoison story for pages vs folio and where it is placed in the shmem
-> > > > > > API.  For now use this one liner to disable large folios.
-> > > > > > 
-> > > > > > Reported-by: Darrick J. Wong <djwong@kernel.org>
-> > > > > > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> > > > > 
-> > > > > Can someone who knows more about shmem.c than I do please review
-> > > > > https://lore.kernel.org/linux-xfs/20240103084126.513354-4-hch@lst.de/
-> > > > > so that I can feel slightly more confident as hch and I sort through the
-> > > > > xfile.c issues?
-> > > > > 
-> > > > > For this patch,
-> > > > > Reviewed-by: Darrick J. Wong <djwong@kernel.org>
-> > > > 
-> > > > ...except that I'm still getting 2M THPs even with this enabled, so I
-> > > > guess either we get to fix it now, or create our own private tmpfs mount
-> > > > so that we can pass in huge=never, similar to what i915 does. :(
-> > > 
-> > > What is "this"?  Are you saying that $Subject doesn't work, or that the
-> > > above-linked please-review patch doesn't work?
-> > 
-> > shmem pays no attention to the mapping_large_folio_support() flag,
-> > so the proposed fix doesn't work.  It ought to, but it has its own way
-> > of doing it that predates mapping_large_folio_support existing.
-> 
-> Yep.  It turned out to be easier to fix xfile.c to deal with large
-> folios than I thought it would be.  Or so I think.  We'll see what
-> happens on fstestscloud overnight.
 
-Where do we stand with this?  Should I merge these two patches into
-6.8-rcX, cc:stable?
+On 2024/1/29 18:29, Daniel Stone wrote:
+> Hi Lucas,
+>
+> On Fri, 26 Jan 2024 at 17:00, Lucas Stach <l.stach@pengutronix.de> wrote:
+>> The dma sync operation needs to be done with DMA_BIDIRECTIONAL when
+>> the BO is prepared for both read and write operations. With the
+>> current inverted if ladder it would only be synced for DMA_FROM_DEVICE.
+>>
+>> [...]
+>>
+>>   static inline enum dma_data_direction etnaviv_op_to_dma_dir(u32 op)
+>>   {
+>> -       if (op & ETNA_PREP_READ)
+>> +       if (op & (ETNA_PREP_READ | ETNA_PREP_WRITE))
+>> +               return DMA_BIDIRECTIONAL;
+> This test will always be true for _either_ read or write.
+
+
+Haha, I think it should be"if ((op & ETNA_PREP_READ) && (op & ETNA_PREP_WRITE))"
+
+
+> Cheers,
+> Daniel
