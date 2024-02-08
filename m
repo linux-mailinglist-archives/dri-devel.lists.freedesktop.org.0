@@ -2,61 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 835E284E95B
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 21:07:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E88BB84EA0C
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 22:06:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4381E10ECB7;
-	Thu,  8 Feb 2024 20:07:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D12C710ED83;
+	Thu,  8 Feb 2024 21:06:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UeqvQWG0";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="bPVMvjuN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7558A10ECB7;
- Thu,  8 Feb 2024 20:07:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707422859; x=1738958859;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=jEFILA4AOQFKP5N74g+wybLTvwBqH/t+DpqAbP4ze7w=;
- b=UeqvQWG0s+88VLr9PLHkm7S/0TB/sqYnyj6uNIrFYwapIOSfP4f69q6/
- 4/VIOkV1hBZmZwiihtHinnWG31qCifqVX3HjeMgbXDMvARWy4LToe34U3
- xAvZE29yrcXEzsAPVHaJxYJcXTfyzQZvw5R8JPNJlbc6cS+E3PRRnsmIo
- o8tBSH9yErF+8HhIV1bPNlFQPtPMrBtgKN0WOWv9zwAP9BI5m258+EBvj
- BcxsUEsES17LkBurlfnyJE+XD7lDyhKpoE0XvImjkO6NGABw4sAZNBXtk
- MyYAhaq/mvLlphh/HIDgliiZIuuPFSxpUNibjAQJIwYPjWPi4QzBdFZlL A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="1463071"
-X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; 
-   d="scan'208";a="1463071"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2024 12:07:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; 
-   d="scan'208";a="6388559"
-Received: from udig-mobl1.ger.corp.intel.com (HELO intel.com) ([10.246.32.229])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2024 12:07:35 -0800
-Date: Thu, 8 Feb 2024 21:07:32 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Yury Norov <yury.norov@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v3 3/3] drm/i915: Convert REG_GENMASK* to fixed-width
- GENMASK_*
-Message-ID: <ZcU0hDSPOmhX76pq@ashyti-mobl2.lan>
-References: <20240208074521.577076-1-lucas.demarchi@intel.com>
- <20240208074521.577076-4-lucas.demarchi@intel.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3A6010ED8C;
+ Thu,  8 Feb 2024 21:06:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=kyFdaFZn5fxDlyBsRXk/mw238QRIyiO/3fj7J8kHjNw=; b=bPVMvjuN+0OiIcqtRCnCv2qXcQ
+ VAxWA+DDjI9bpmt4CiVU4Ac8fEHRJSjJFrdbIdDiYNwvw3H0o8Pv4f1pKTXV7UjoGj0G4YjG1TqmJ
+ dqqi1KNO7NkfPdDq0hmQYpsxDu5JNv9W4LALJCRJMzH836YDGu8j6wyOoOBjNeYP/09BEt+zJf/+o
+ zA6fEfVqC41T22xFVkfqooE1CTg0k6fdXh6YaNTzuL/iyFFh6u6fVbQPo1+9PFSO+pQA4ToHWVLos
+ nUvIIGaTBPedsneHdQjkWIa52dooBitg3MwbIqvEdV80ymjRMl/83Aas/Nb6sApw1MhbCajY44/qn
+ hffwKQhA==;
+Received: from [177.45.63.184] (helo=steammachine.lan)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1rYBak-00FMBk-IJ; Thu, 08 Feb 2024 22:05:54 +0100
+From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: kernel-dev@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ Simon Ser <contact@emersion.fr>, Pekka Paalanen <ppaalanen@gmail.com>,
+ daniel@ffwll.ch, Daniel Stone <daniel@fooishbar.org>,
+ =?UTF-8?q?=27Marek=20Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
+ Dave Airlie <airlied@gmail.com>, ville.syrjala@linux.intel.com,
+ Xaver Hugl <xaver.hugl@gmail.com>, Joshua Ashton <joshua@froggi.es>,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+Subject: [PATCH v4 0/3] drm/atomic: Allow drivers to write their own plane
+ check for async
+Date: Thu,  8 Feb 2024 18:05:39 -0300
+Message-ID: <20240208210542.550626-1-andrealmeid@igalia.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240208074521.577076-4-lucas.demarchi@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,15 +66,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lucas,
+Hi,
 
-...
+AMD hardware can do async flips with overlay planes, so this patchset does a
+small redesign to allow drivers to choose per plane type if they can or cannot
+do async flips.
 
-> +#define REG_GENMASK(__high, __low)	GENMASK_U32(__high, __low)
-> +#define REG_GENMASK64(__high, __low)	GENMASK_U64(__high, __low)
-> +#define REG_GENMASK16(__high, __low)	GENMASK_U16(__high, __low)
-> +#define REG_GENMASK8(__high, __low)	GENMASK_U8(__high, __low)
+It also allows async commits with IN_FENCE_ID in any driver.
 
-I was hoping to use directly GENMASK_U*() functions.
+Changes from v3:
+- Major patchset redesign 
+v3: https://lore.kernel.org/lkml/20240128212515.630345-1-andrealmeid@igalia.com/
 
-Andi
+Changes from v2:
+ - Allow IN_FENCE_ID for any driver
+ - Allow overlay planes again
+v2: https://lore.kernel.org/lkml/20240119181235.255060-1-andrealmeid@igalia.com/
+
+Changes from v1:
+ - Drop overlay planes option for now
+v1: https://lore.kernel.org/dri-devel/20240116045159.1015510-1-andrealmeid@igalia.com/
+
+André Almeida (3):
+  drm/atomic: Allow userspace to use explicit sync with atomic async
+    flips
+  drm: Allow drivers to choose plane types to async flip
+  drm/amdgpu: Make it possible to async flip overlay planes
+
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 1 +
+ drivers/gpu/drm/drm_atomic_uapi.c                       | 8 +++++---
+ drivers/gpu/drm/drm_plane.c                             | 3 +++
+ include/drm/drm_plane.h                                 | 5 +++++
+ 4 files changed, 14 insertions(+), 3 deletions(-)
+
+-- 
+2.43.0
+
