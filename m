@@ -2,95 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C8C984E590
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 17:55:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F68984E5CC
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 17:59:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1588210E997;
-	Thu,  8 Feb 2024 16:55:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8400810E9A2;
+	Thu,  8 Feb 2024 16:59:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Qf+WhVEr";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Xso+MMgb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2057.outbound.protection.outlook.com [40.107.244.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1C9B10E997;
- Thu,  8 Feb 2024 16:55:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IkU66UHdZ7CGm2y1P1YUxcUu4CvOXKQZsHH/ehgmb7mokn5faWjum6plG+k//UdZHnpsvfxCxZP0nGARQnU2lMChegoTd3CXkopPsgZCoOuAjze3Mn5Vwn4VsfmhizJqlutTl5hSq3yWBM+5PapwQjnN1RyNEOtogqd4mNvaZoCd53eUVYOf+3+N2ynuGQdQLj7110Jqv7F3dBX9sO8QgNyGxthbqwvTW+cStX71BDlAEhIEoAEXt/seaOLdGJTK0nXA4JBMEg0aNQ6ldnGm/ZEco3u4ltdM4tPX0gxJ0EDdtXl+AZ1/dtgWbviatAPp+D//59DcDw8nq5+6C+F2GA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ITw1o+elx9uc3SVqjHnTn6Kf9wOv2HA4PUNsP4OlIQw=;
- b=Kl/ZrCI/h2kE1nKx8XZD3jdN+dTeC3OdLgbyId3GkQsqrSl0nlt4GLIlGHj/zSyftApQUbf04/Aw+6F6nY+5X/N7hZP8Mlccn+b0/aOcDW9QiEnu9Gs1YmShgaH3UL5qjAl9izXQ+aNDNxl7/bVzRHuHRjte/UMQKhIyuN9a8TvLv5qfqFzMYZFhOBxD3G5Pe7UlKWZ1FKiqYbCyuxxBHJ1wfgbuDubRY/vimvij+9zd4rqpnU74pK04QJqFKDTyAYhgJY9WrcmO/GVIV66i7b8ahuG9JTa9X0mKXazYW2mIy7zYKvTMEqpQ3iey/vQHXS1y8vQRTVZ4pqJS+XxE8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ITw1o+elx9uc3SVqjHnTn6Kf9wOv2HA4PUNsP4OlIQw=;
- b=Qf+WhVEr1wvGwtvdiidgFbYyYA+AU3TEujqMJXTf6tppnDrUyMec7rUMsXlWh86o5bm5o+Yx/b5V339OymWc/2zSrLzU7IeY2sdAUOIkMd6tKAY52yv3HLdm7hkYas7Ug68fwCRDBEjg4dUr7i6rTh3/YiVDHM7vel917jm7Ku8=
-Received: from BY5PR17CA0065.namprd17.prod.outlook.com (2603:10b6:a03:167::42)
- by PH0PR12MB8049.namprd12.prod.outlook.com (2603:10b6:510:28f::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.17; Thu, 8 Feb
- 2024 16:55:16 +0000
-Received: from SJ1PEPF00001CE6.namprd03.prod.outlook.com
- (2603:10b6:a03:167:cafe::69) by BY5PR17CA0065.outlook.office365.com
- (2603:10b6:a03:167::42) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.36 via Frontend
- Transport; Thu, 8 Feb 2024 16:55:16 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ1PEPF00001CE6.mail.protection.outlook.com (10.167.242.22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7202.16 via Frontend Transport; Thu, 8 Feb 2024 16:55:15 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Thu, 8 Feb
- 2024 10:55:14 -0600
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
-CC: Alex Deucher <alexander.deucher@amd.com>
-Subject: [pull] amdgpu drm-fixes-6.8
-Date: Thu, 8 Feb 2024 11:55:00 -0500
-Message-ID: <20240208165500.4887-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.42.0
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E51E10E9A2;
+ Thu,  8 Feb 2024 16:59:53 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 418FR5Yv021218; Thu, 8 Feb 2024 16:59:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=vJ0Ng4GpEOGSL5tkjSsKqvDm5yvMqpG8nwhhwyAVv08=; b=Xs
+ o+MMgbMSB8SPIwYQA4mp1kEIQsT4hfWJQy+7LhSav2nSphTQtHiizceK/WvkdS+C
+ +aJg9KtGt7NcG+f8/4zkTQmCdgG1/hpJCXJXa3wgfHbhv8KYchWVfRzZRS/R0D39
+ mJUWuXAFNUcl9+otbzZ13kvydue+NLjMrueBEWcNzRr0Zh3c1hsRu8bzolj1U5IA
+ vZkRwWpCxTRTPmpmXCcd2aMUQwMTIJAOskQXDKQqWOkUUA5WE5Y77ZUt2siCeoV2
+ ZPjrkpW+pEE9cdaCzl3mXf1/VCChIjGRPQR7o+9W3Yn2lmpi7xL2CNlcCc9YYoJU
+ hmseroI4JV/KNVIOB3MA==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w4rk81sre-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 08 Feb 2024 16:59:46 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 418GxjS3006929
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 8 Feb 2024 16:59:45 GMT
+Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 8 Feb
+ 2024 08:59:44 -0800
+Message-ID: <66ecb179-a878-bfe0-af8d-0640560e0a9b@quicinc.com>
+Date: Thu, 8 Feb 2024 08:59:43 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE6:EE_|PH0PR12MB8049:EE_
-X-MS-Office365-Filtering-Correlation-Id: e7a203a4-b7dd-489c-01b4-08dc28c6b973
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5cKKPnOFhm0siIuUX2F0DAVdDE/YY6CKeMO07jzTw7Zz+wZLxzXRHA09BOy+wu56HXf1eQgupSC2yUN1uUdYfYICjpBpbZnrONR2gWLAc1yfpRsMQGeR3AeBWU/VXEFL3AT3dC+mf/jm/2fM6YQox20fAkZ4+k472lwlOE26OyaBgn+1cfZvi5OLQbnK0s02HgK0b/PauV8SV2koxDBUp7dfexJkO4wkpaHU8dxMLfWWlhkBrDcAGiCC90pNIAqQgEjo/SNhWpw1n5xtKclSaisve81g3rSwuoAzTHyTdc0+Gtk0PZu3AnmTaXiQztJrvpJ0XAEx5c+S5AemqowaRdXbtiqvone/y/vMAOSOEW66xG8nZ/PEoYOUzzttVn8AFN8qHns8D0R3FQuiXlaZdbepeeKGOa7b3gXxogx1tUllcrvZOLZIonygfyND23ApsBvl8VTY1DpnJPcAErU5poaGGOc2d8w+VaqgfpfLBaoxV+yiOjcVN00fxG6uyF1ugRRcuNHkFH2ojp1zeGLBad0WRYQv5a20bXeMnu2VJSKFuXueunmAEoeohRHv25hU9xm3bsSAiXls9CnvOA+X0g==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(39860400002)(376002)(346002)(136003)(396003)(230922051799003)(64100799003)(186009)(82310400011)(451199024)(1800799012)(46966006)(40470700004)(36840700001)(4326008)(5660300002)(8676002)(8936002)(2906002)(70206006)(110136005)(316002)(70586007)(966005)(83380400001)(36756003)(7696005)(478600001)(6666004)(2616005)(1076003)(81166007)(356005)(82740400003)(336012)(426003)(41300700001)(16526019)(26005)(86362001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2024 16:55:15.8475 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e7a203a4-b7dd-489c-01b4-08dc28c6b973
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00001CE6.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8049
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 3/5] drm/msm: mdss: Add X1E80100 support
+Content-Language: en-US
+To: Abel Vesa <abel.vesa@linaro.org>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
+ Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+References: <20240129-x1e80100-display-v1-0-0d9eb8254df0@linaro.org>
+ <20240129-x1e80100-display-v1-3-0d9eb8254df0@linaro.org>
+ <CAA8EJponbo2vvuj2ftCQuxtrZp0w7JQqJ_ADF80Wd2y1V74BzA@mail.gmail.com>
+ <ZcTZL+fls7A8O9P0@linaro.org>
+ <CAA8EJpr3p286ff1pHhhBdF7GA=g8Pnv9yWDukwnnNaOuykPcTQ@mail.gmail.com>
+ <ZcTbNGVGT/Kwtc68@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <ZcTbNGVGT/Kwtc68@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: QP1-8XBNzTm3HdoaeKnLEIa-nx0-FWo1
+X-Proofpoint-ORIG-GUID: QP1-8XBNzTm3HdoaeKnLEIa-nx0-FWo1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-08_07,2024-02-08_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1015
+ phishscore=0 priorityscore=1501 adultscore=0 bulkscore=0 suspectscore=0
+ spamscore=0 impostorscore=0 mlxlogscore=999 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402080090
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,105 +105,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
 
-Fixes for 6.8.
 
-The following changes since commit d0399da9fb5f8e3d897b9776bffee2d3bfe20210:
+On 2/8/2024 5:46 AM, Abel Vesa wrote:
+> On 24-02-08 15:42:04, Dmitry Baryshkov wrote:
+>> On Thu, 8 Feb 2024 at 15:37, Abel Vesa <abel.vesa@linaro.org> wrote:
+>>>
+>>> On 24-01-29 17:11:25, Dmitry Baryshkov wrote:
+>>>> On Mon, 29 Jan 2024 at 15:19, Abel Vesa <abel.vesa@linaro.org> wrote:
+>>>>>
+>>>>> Add support for MDSS on X1E80100.
+>>>>>
+>>>>> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+>>>>> ---
+>>>>>   drivers/gpu/drm/msm/msm_mdss.c | 10 ++++++++++
+>>>>>   1 file changed, 10 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+>>>>> index 455b2e3a0cdd..eddf7fdbb60a 100644
+>>>>> --- a/drivers/gpu/drm/msm/msm_mdss.c
+>>>>> +++ b/drivers/gpu/drm/msm/msm_mdss.c
+>>>>> @@ -564,6 +564,15 @@ static const struct msm_mdss_data sdm670_data = {
+>>>>>          .highest_bank_bit = 1,
+>>>>>   };
+>>>>>
+>>>>> +static const struct msm_mdss_data x1e80100_data = {
+>>>>> +       .ubwc_enc_version = UBWC_4_0,
+>>>>> +       .ubwc_dec_version = UBWC_4_3,
+>>>>> +       .ubwc_swizzle = 6,
+>>>>> +       .ubwc_static = 1,
+>>>>> +       .highest_bank_bit = 2,
+>>>>> +       .macrotile_mode = 1,
+>>>>
+>>>> Missing .reg_bus_bw, LGTM otherwise
+>>>
+>>> Dmitry, I do not have the exact value yet.
+>>>
+>>> Can I come back with a subsequent (different) patch to add it at a later stage
+>>> when I have that information?
+>>>
+>>> I see no point in holding display support any further since it works
+>>> fine with the default bandwith.
+>>>
+>>> If yes, I'll respin this series right away, but without the reg_bus_bw.
+>>
+>> Please add a TODO or FIXME comment there.
+> 
+> Sure thing. Thanks.
+> 
 
-  drm/sched: Re-queue run job worker when drm_sched_entity_pop_job() returns NULL (2024-02-06 12:47:43 +1000)
+I have not heard back from the clock team on the values.
 
-are available in the Git repository at:
+But, what I can confirm at this point is for basic functional display 
+support, we could let it go back to the default value which we have 
+hard-coded and fill up this entry later.
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.8-2024-02-08
-
-for you to fetch changes up to 534c8a5b9d5d41d30cdcac93cfa1bca5e17be009:
-
-  drm/amdgpu: Fix HDP flush for VFs on nbio v7.9 (2024-02-07 18:30:11 -0500)
-
-----------------------------------------------------------------
-amd-drm-fixes-6.8-2024-02-08:
-
-amdgpu:
-- Misc NULL/bounds check fixes
-- ODM pipe policy fix
-- Aborted suspend fixes
-- JPEG 4.0.5 fix
-- DCN 3.5 fixes
-- PSP fix
-- DP MST fix
-- Phantom pipe fix
-- VRAM vendor fix
-- Clang fix
-- SR-IOV fix
-
-----------------------------------------------------------------
-Alvin Lee (1):
-      drm/amd/display: Update phantom pipe enable / disable sequence
-
-Fangzhi Zuo (1):
-      drm/amd/display: Fix MST Null Ptr for RV
-
-Li Ma (1):
-      drm/amdgpu: remove asymmetrical irq disabling in jpeg 4.0.5 suspend
-
-Lijo Lazar (2):
-      drm/amdgpu: Avoid fetching VRAM vendor info
-      drm/amdgpu: Fix HDP flush for VFs on nbio v7.9
-
-Mario Limonciello (1):
-      drm/amd/display: Clear phantom stream count and plane count
-
-Nathan Chancellor (1):
-      drm/amd/display: Increase frame-larger-than for all display_mode_vba files
-
-Nicholas Kazlauskas (1):
-      drm/amd/display: Increase eval/entry delay for DCN35
-
-Prike Liang (2):
-      drm/amdgpu: skip to program GFXDEC registers for suspend abort
-      drm/amdgpu: reset gpu for s3 suspend abort case
-
-Rodrigo Siqueira (1):
-      drm/amd/display: Disable ODM by default for DCN35
-
-Srinivasan Shanmugam (3):
-      drm/amd/display: Fix 'panel_cntl' could be null in 'dcn21_set_backlight_level()'
-      drm/amd/display: Add NULL test for 'timing generator' in 'dcn21_set_pipe()'
-      drm/amd/display: Implement bounds check for stream encoder creation in DCN301
-
-Stanley.Yang (1):
-      drm/amdgpu: Fix shared buff copy to user
-
-Wenjing Liu (1):
-      drm/amd/display: set odm_combine_policy based on context in dcn32 resource
-
- drivers/gpu/drm/amd/amdgpu/amdgpu.h                |  2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |  2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.c         |  2 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              |  8 +++
- drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c              |  8 ---
- drivers/gpu/drm/amd/amdgpu/jpeg_v4_0.c             |  9 ---
- drivers/gpu/drm/amd/amdgpu/jpeg_v4_0_5.c           | 10 ---
- drivers/gpu/drm/amd/amdgpu/nbio_v7_9.c             |  6 ++
- drivers/gpu/drm/amd/amdgpu/soc15.c                 | 22 +++++++
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 12 ++--
- drivers/gpu/drm/amd/display/dc/core/dc.c           |  4 +-
- drivers/gpu/drm/amd/display/dc/core/dc_state.c     |  3 +
- drivers/gpu/drm/amd/display/dc/dml/Makefile        |  6 +-
- .../gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c   | 15 +++--
- .../drm/amd/display/dc/hwss/dce110/dce110_hwseq.c  |  4 +-
- .../drm/amd/display/dc/hwss/dce110/dce110_hwseq.h  |  4 ++
- .../drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c    |  2 +-
- .../drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.h    |  4 ++
- .../drm/amd/display/dc/hwss/dcn21/dcn21_hwseq.c    | 63 +++++++++---------
- .../drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c    | 76 +++++++++++++++++++---
- .../drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.h    |  2 +
- .../gpu/drm/amd/display/dc/hwss/dcn32/dcn32_init.c |  3 +
- drivers/gpu/drm/amd/display/dc/hwss/hw_sequencer.h |  1 +
- .../drm/amd/display/dc/hwss/hw_sequencer_private.h |  7 ++
- drivers/gpu/drm/amd/display/dc/inc/resource.h      | 20 +++---
- .../display/dc/resource/dcn301/dcn301_resource.c   |  2 +-
- .../amd/display/dc/resource/dcn32/dcn32_resource.c | 16 ++++-
- .../amd/display/dc/resource/dcn35/dcn35_resource.c |  5 +-
- 28 files changed, 220 insertions(+), 98 deletions(-)
+>>
+>>>
+>>>>
+>>>>> +};
+>>>>> +
+>>>>>   static const struct msm_mdss_data sdm845_data = {
+>>>>>          .ubwc_enc_version = UBWC_2_0,
+>>>>>          .ubwc_dec_version = UBWC_2_0,
+>>>>> @@ -655,6 +664,7 @@ static const struct of_device_id mdss_dt_match[] = {
+>>>>>          { .compatible = "qcom,sm8450-mdss", .data = &sm8350_data },
+>>>>>          { .compatible = "qcom,sm8550-mdss", .data = &sm8550_data },
+>>>>>          { .compatible = "qcom,sm8650-mdss", .data = &sm8550_data},
+>>>>> +       { .compatible = "qcom,x1e80100-mdss", .data = &x1e80100_data},
+>>>>>          {}
+>>>>>   };
+>>>>>   MODULE_DEVICE_TABLE(of, mdss_dt_match);
+>>>>>
+>>>>> --
+>>>>> 2.34.1
+>>>>>
+>>>>
+>>>>
+>>>> --
+>>>> With best wishes
+>>>> Dmitry
+>>
+>>
+>>
+>> -- 
+>> With best wishes
+>> Dmitry
