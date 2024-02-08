@@ -2,47 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AD7284DE64
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 11:35:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC8F684DE72
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 11:38:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D34310E0FC;
-	Thu,  8 Feb 2024 10:35:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D38D610E394;
+	Thu,  8 Feb 2024 10:38:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GKfJoNlh";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LUgcpQKR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F7EC10E0FC
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 10:35:13 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7572010E394
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 10:38:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C975861BBD;
- Thu,  8 Feb 2024 10:35:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 677AAC433F1;
- Thu,  8 Feb 2024 10:35:10 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 5E841CE1BC1;
+ Thu,  8 Feb 2024 10:38:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50626C43390;
+ Thu,  8 Feb 2024 10:38:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1707388512;
- bh=0/YRNuXxZuldgKvPMxkRGmiUNw3aBOqxeqR1S9uQF6c=;
+ s=k20201202; t=1707388705;
+ bh=3AETScruqkniEwNPSQ+NMaYC/8cwISq036PBk0cTtnU=;
  h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=GKfJoNlhG3qi82SM3lHOL568A/rTjCfDxuu50jgDXdzpa7fiqU9TxMpmWkSYg0gzb
- SuK5lDR0uBnkmhHkW4++pICqKFBVSsLD/k9MHhKtSNtSHmqjeYcGd1QuyzIXsCaC4k
- GZ89XWlVft+XhdQhYRevc6iiYd5teL6dkgt6yTIkdlf8VIh7yamwP4iin2EoZdsqNI
- n80wFKOrgdor2Gz8QHuvXr5ma2Fis5MEIoqS59VQ/cNCILvaITalu2UA3HpnLEN6+x
- In5sjmWLYr/se5q8eFMalz9eJ5dBtcYBiknyZqt+1R4wTunFz3aSzqs0FLpU29Q6nF
- fBniF7l+3lm4w==
+ b=LUgcpQKRtuhjFJDiKTqdPWjCsggDpcTwYXQhj03kzMUMieEg6DLASSrp5Jjl5S8jM
+ auS6Q2sRso+iCGkthVdLHM+tfFixhfn90rBxv+nPxszTUUL9J1WvYt9GQ7CsbGdyWf
+ efkKt5wNFFRPBeZnuoqICx6JtNtNx8g6me+g08gm+hpr8Cc+vgUDb5ul88Wd74fmHb
+ 2caj3zysLIDePMJTgWBjOvn6+lp9VJa/uSqBBmRp8GJiMuXe04QlY0RCTqq9Mn15mn
+ 7N4AWuCIj4Smb5sD2KYetGz/DmVEFNhDQJgnBuILiEYB6y8r1E2G2EadPQO8K7tEPf
+ KxKWKNWvx7T0Q==
 From: Lee Jones <lee@kernel.org>
-To: Flavio Suligoi <f.suligoi@asem.it>, Lee Jones <lee@kernel.org>, 
- Daniel Thompson <daniel.thompson@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
- Sean Young <sean@mess.org>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
-In-Reply-To: <20240128154905.407302-1-sean@mess.org>
-References: <20240128154905.407302-1-sean@mess.org>
-Subject: Re: (subset) [PATCH] backlight: mp3309c: Use pwm_apply_might_sleep()
-Message-Id: <170738851016.914450.4228723185612575654.b4-ty@kernel.org>
-Date: Thu, 08 Feb 2024 10:35:10 +0000
+To: sam@ravnborg.org, bbrezillon@kernel.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, daniel@ffwll.ch, robh+dt@kernel.org, 
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+ nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
+ claudiu.beznea@tuxon.dev, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, lee@kernel.org, thierry.reding@gmail.com, 
+ u.kleine-koenig@pengutronix.de, linux-pwm@vger.kernel.org, 
+ Dharma Balasubiramani <dharma.b@microchip.com>
+Cc: hari.prasathge@microchip.com, manikandan.m@microchip.com
+In-Reply-To: <20240131033523.577450-4-dharma.b@microchip.com>
+References: <20240131033523.577450-1-dharma.b@microchip.com>
+ <20240131033523.577450-4-dharma.b@microchip.com>
+Subject: Re: (subset) [linux][PATCH v5 3/3] dt-bindings: mfd: atmel,hlcdc:
+ Convert to DT schema format
+Message-Id: <170738870103.916068.17422553727568917627.b4-ty@kernel.org>
+Date: Thu, 08 Feb 2024 10:38:21 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -62,17 +68,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 28 Jan 2024 15:49:04 +0000, Sean Young wrote:
-> pwm_apply_state() is deprecated since commit c748a6d77c06a ("pwm: Rename
-> pwm_apply_state() to pwm_apply_might_sleep()"). This is the final user
-> in the tree.
+On Wed, 31 Jan 2024 09:05:23 +0530, Dharma Balasubiramani wrote:
+> Convert the atmel,hlcdc binding to DT schema format.
 > 
+> Align clocks and clock-names properties to clearly indicate that the LCD
+> controller expects lvds_pll_clk when interfaced with the lvds display. This
+> alignment with the specific hardware requirements ensures accurate device tree
+> configuration for systems utilizing the HLCDC IP.
 > 
+> [...]
 
 Applied, thanks!
 
-[1/1] backlight: mp3309c: Use pwm_apply_might_sleep()
-      commit: 7feb4ec8ec900daf29602bcdf7c04178c63205ac
+[3/3] dt-bindings: mfd: atmel,hlcdc: Convert to DT schema format
+      commit: 7dd93269787781869d3dbb23138ec1455d26b047
 
 --
 Lee Jones [李琼斯]
