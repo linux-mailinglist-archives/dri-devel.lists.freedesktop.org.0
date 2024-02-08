@@ -2,62 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8946984E2FE
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 15:18:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27A9684E327
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 15:29:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B09D10E7F0;
-	Thu,  8 Feb 2024 14:18:04 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dq89AK+b";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA3E810E801;
+	Thu,  8 Feb 2024 14:29:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 087A210E7D3;
- Thu,  8 Feb 2024 14:18:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707401883; x=1738937883;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=WZbhxtgwvgzvLOYjWQKruO6g2DeNP6fb5asAJ3G2zbs=;
- b=dq89AK+brdyiVGJrYH08CC8jwVjPa27JYkf3NB3EvnD+ymvIGo9m3qtm
- ox4GYJqRxA48K6vPj42TY/1bXsEw+5cgfH9En/ymE+PtLpKTjZx6e0xMH
- xKkWTVRAi9Y8SMQa26ek6ENZKeeMzMTtnW0UhN8TcuUfgzY3dornzH+nC
- 9XZjN/jBiuRMG9YlUZuLl1EHuLUW8aY16KqvoEgbQfiSrt8OaODoF3TUj
- Fu1UQohEze+oV32nfaMu3F21lBUtC9OX67dKcpChl9Yf3RGINam5XugXJ
- qPV4ntHll/g2Z/Wod2fz+H2VK70aiLb4zNs1YwgkEdOKyJEoOGERlSxHr A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="1366772"
-X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; 
-   d="scan'208";a="1366772"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2024 06:18:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; 
-   d="scan'208";a="6318682"
-Received: from pkawa-mobl.ger.corp.intel.com (HELO [10.252.20.188])
- ([10.252.20.188])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2024 06:17:58 -0800
-Message-ID: <5c6fdae4-6fb0-4735-afe6-fe35481929fb@intel.com>
-Date: Thu, 8 Feb 2024 14:17:56 +0000
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2F3E710E801
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 14:29:35 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8EF95DA7
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 06:30:16 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 176AD3F762
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 06:29:33 -0800 (PST)
+Date: Thu, 8 Feb 2024 14:29:32 +0000
+From: Liviu Dudau <Liviu.Dudau@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ "Marty E . Plummer" <hanetzer@startmail.com>,
+ Rob Herring <robh@kernel.org>,
+ =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+ Nicolas Boichat <drinkcat@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>,
+ Daniel Stone <daniels@collabora.com>, Steven Price <steven.price@arm.com>,
+ Robin Murphy <robin.murphy@arm.com>, kernel@collabora.com,
+ Heiko Stuebner <heiko@sntech.de>, Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
+ Chris Diamand <chris.diamand@foss.arm.com>,
+ Ketil Johnsen <ketil.johnsen@arm.com>
+Subject: Re: [PATCH v4 01/14] drm/panthor: Add uAPI
+Message-ID: <ZcTlOilAOq8yrVit@e110455-lin.cambridge.arm.com>
+References: <20240122163047.1954733-1-boris.brezillon@collabora.com>
+ <20240122163047.1954733-2-boris.brezillon@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/buddy: Fix alloc_range() error handling code
-Content-Language: en-GB
-To: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-Cc: christian.koenig@amd.com, alexander.deucher@amd.com,
- mario.limonciello@amd.com
-References: <20240207174456.341121-1-Arunpravin.PaneerSelvam@amd.com>
- <c5d75c40-7fb4-44a4-8ea5-327385f88004@intel.com>
- <ba6b433d-e672-bcb2-4d25-66b2db50d7b8@amd.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <ba6b433d-e672-bcb2-4d25-66b2db50d7b8@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240122163047.1954733-2-boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,73 +58,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/02/2024 13:47, Arunpravin Paneer Selvam wrote:
-> Hi Matthew,
+Hi Boris,
+
+Minor spelling issues to raise in the documentation text uAPI:
+
+On Mon, Jan 22, 2024 at 05:30:32PM +0100, Boris Brezillon wrote:
+> Panthor follows the lead of other recently submitted drivers with
+> ioctls allowing us to support modern Vulkan features, like sparse memory
+> binding:
 > 
-> On 2/8/2024 7:00 PM, Matthew Auld wrote:
->> On 07/02/2024 17:44, Arunpravin Paneer Selvam wrote:
->>> Few users have observed display corruption when they boot
->>> the machine to KDE Plasma or playing games. We have root
->>> caused the problem that whenever alloc_range() couldn't
->>> find the required memory blocks the function was returning
->>> SUCCESS in some of the corner cases.
->>
->> Can you please give an example here?
->>
-> In the try hard contiguous allocation, for example the requested memory 
-> is 1024 pages,
-> it might go and pick the highest and last block (of size 512 pages) in 
-> the freelist where
-> there are no more space exist in the total address range. In this kind 
-> of corner case,
-> alloc_range was returning success though the allocated size is less than 
-> the requested size.
-> Hence in try_hard_contiguous_allocation, we will not proceed to the LHS 
-> allocation and
-> we return only with the RHS allocation having only the 512 pages of 
-> allocation. This
-> leads to display corruption in many use cases (I think mainly when 
-> requested for contiguous huge buffer)
-> mainly on APU platforms.
-
-Ok, I guess other thing is doing:
-
-lhs_offset = drm_buddy_block_offset(block) - lhs_size;
-
-I presume it's possible for block_offset < lhs_size here, which might be 
-funny?
-
+> - Pretty standard GEM management ioctls (BO_CREATE and BO_MMAP_OFFSET),
+>   with the 'exclusive-VM' bit to speed-up BO reservation on job submission
+> - VM management ioctls (VM_CREATE, VM_DESTROY and VM_BIND). The VM_BIND
+>   ioctl is loosely based on the Xe model, and can handle both
+>   asynchronous and synchronous requests
+> - GPU execution context creation/destruction, tiler heap context creation
+>   and job submission. Those ioctls reflect how the hardware/scheduler
+>   works and are thus driver specific.
 > 
-> Thanks,
-> Arun.
->>>
->>> The right approach would be if the total allocated size
->>> is less than the required size, the function should
->>> return -ENOSPC.
->>>
->>> Gitlab ticket link - 
->>> https://gitlab.freedesktop.org/drm/amd/-/issues/3097
->>> Fixes: 0a1844bf0b53 ("drm/buddy: Improve contiguous memory allocation")
->>> Signed-off-by: Arunpravin Paneer Selvam 
->>> <Arunpravin.PaneerSelvam@amd.com>
->>> Tested-by: Mario Limonciello <mario.limonciello@amd.com>
->>> ---
->>>   drivers/gpu/drm/drm_buddy.c | 6 ++++++
->>>   1 file changed, 6 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
->>> index f57e6d74fb0e..c1a99bf4dffd 100644
->>> --- a/drivers/gpu/drm/drm_buddy.c
->>> +++ b/drivers/gpu/drm/drm_buddy.c
->>> @@ -539,6 +539,12 @@ static int __alloc_range(struct drm_buddy *mm,
->>>       } while (1);
->>>         list_splice_tail(&allocated, blocks);
->>> +
->>> +    if (total_allocated < size) {
->>> +        err = -ENOSPC;
->>> +        goto err_free;
->>> +    }
->>> +
->>>       return 0;
->>>     err_undo:
+> We also have a way to expose IO regions, such that the usermode driver
+> can directly access specific/well-isolate registers, like the
+> LATEST_FLUSH register used to implement cache-flush reduction.
 > 
+> This uAPI intentionally keeps usermode queues out of the scope, which
+> explains why doorbell registers and command stream ring-buffers are not
+> directly exposed to userspace.
+> 
+> v4:
+> - Add a VM_GET_STATE ioctl
+> - Fix doc
+> - Expose the CORE_FEATURES register so we can deal with variants in the
+>   UMD
+> - Add Steve's R-b
+> 
+
+[snip]
+
+> +
+> +/**
+> + * enum drm_panthor_vm_state - VM states.
+> + */
+> +enum drm_panthor_vm_state {
+> +	/**
+> +	 * @DRM_PANTHOR_VM_STATE_USABLE: VM is usable.
+> +	 *
+> +	 * New VM operations will be accepted on this VM.
+> +	 */
+> +	DRM_PANTHOR_VM_STATE_USABLE,
+> +
+> +	/**
+> +	 * @DRM_PANTHOR_VM_STATE_UNSABLE: VM is unsable.
+
+s/UNSABLE/UNUSABLE/ and s/unsable/unusable/
+
+> +	 *
+> +	 * Something put the VM in an unusable state (like an asynchronous
+> +	 * VM_BIND request failing for any reason).
+> +	 *
+> +	 * Once the VM is in this state, all new MAP operations will be
+> +	 * rejected, and any GPU job targeting this VM will fail.
+> +	 * UNMAP operations are still accepted.
+> +	 *
+> +	 * The only way to recover from an unusable VM is to create a new
+> +	 * VM, and destroy the old one.
+> +	 */
+> +	DRM_PANTHOR_VM_STATE_UNUSABLE,
+> +};
+> +
+
+[snip]
+
+The rest of the patch looks good to me!
+
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+
+Best regards,
+Liviu
+
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
