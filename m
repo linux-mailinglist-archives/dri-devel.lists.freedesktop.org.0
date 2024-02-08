@@ -2,53 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F2B884E350
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 15:37:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBDD884E369
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 15:44:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E323C10E833;
-	Thu,  8 Feb 2024 14:37:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C92B10E487;
+	Thu,  8 Feb 2024 14:44:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BdrjA7Dc";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CEpKPob+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF62210E833
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 14:37:40 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1645210E0EC;
+ Thu,  8 Feb 2024 14:44:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707403060; x=1738939060;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=qLk819BIk9SDpySjLPM5WMTvncZ0hzc27kQLovmlWt4=;
- b=BdrjA7DcIl3hDkRWYMO/t6rSgtE/aXETULrB0r/tZbhXL1rkmovHOzwc
- cuGIeAq29NxjZ2GrZMhCcMBrlH2BxP/8tj+lUVrunXbK/fteD3w/qzd5Q
- fN/tDk5QrFofKBVJqCu6wCm592CO0KINVmFaWFstw1fcKye1vayfgoOLX
- JdHqVGcpkiMKpp3X+LoQinNQ1Gjs6iA8Qulkyu+ongEs8bA97N4gEECZg
- 2bE7FUP/HUIDUABX6KP+Sj08eqMe+sOnLGOpoCX7bxzEu//yztKwbDq+A
- Ix64EDnl8UbxpQTXEO+uIa9Xyoy/WABTX9/kxZU601M/C7mEI+zuTzeYD w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="436364382"
-X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; d="scan'208";a="436364382"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2024 06:37:40 -0800
+ t=1707403457; x=1738939457;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=CekFQl3dh1rfWSZM0f7wwNv5V2EuUlParRdKFc5W/po=;
+ b=CEpKPob+CbR7wBH6dUTRKPFnny6ShfKLnP/E5V6x/Pclu20dN4UKHUdk
+ VC6e6xFDCFD5f8Bcr6qKfrOEECb9StEKzzpWQxCMiaZxYjShP834PdFHO
+ GHOFrX+hv56YfK5Y0kjI/jvE10L5bythmo/IhKi6VnhFAWbG2XwF0LGZE
+ Px0kUKVmTqJqxDo/1hyeVZksc4E3JrnCjGipDnEGCQ1KH/XnasLoffAui
+ g7PmzyEK6NgzzKDjam06Vs5GUTTgA1dp/Nh0XcQai/FjDMeKbNPTQp3EN
+ RCn/5qKvBHIEBYwZn+TUZNgN2CLrV56BHX/8QALZtfV1u/8z3ydz1F8/i g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="5090226"
+X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; 
+   d="scan'208";a="5090226"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2024 06:44:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; d="scan'208";a="32735699"
-Received: from pkawa-mobl.ger.corp.intel.com (HELO mwauld-mobl1.intel.com)
+X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; 
+   d="scan'208";a="1669185"
+Received: from pkawa-mobl.ger.corp.intel.com (HELO [10.252.20.188])
  ([10.252.20.188])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2024 06:37:39 -0800
-From: Matthew Auld <matthew.auld@intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- Limonciello <mario.limonciello@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH] drm/tests/drm_buddy: add alloc_contiguous test
-Date: Thu,  8 Feb 2024 14:36:19 +0000
-Message-ID: <20240208143618.247048-2-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.43.0
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2024 06:44:15 -0800
+Message-ID: <6db55053-8e04-4afa-bc1f-72c4402b586a@intel.com>
+Date: Thu, 8 Feb 2024 14:44:12 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/buddy: Fix alloc_range() error handling code
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+To: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Cc: christian.koenig@amd.com, alexander.deucher@amd.com,
+ mario.limonciello@amd.com
+References: <20240207174456.341121-1-Arunpravin.PaneerSelvam@amd.com>
+ <c5d75c40-7fb4-44a4-8ea5-327385f88004@intel.com>
+ <ba6b433d-e672-bcb2-4d25-66b2db50d7b8@amd.com>
+ <5c6fdae4-6fb0-4735-afe6-fe35481929fb@intel.com>
+In-Reply-To: <5c6fdae4-6fb0-4735-afe6-fe35481929fb@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,131 +74,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sanity check DRM_BUDDY_CONTIGUOUS_ALLOCATION.
+On 08/02/2024 14:17, Matthew Auld wrote:
+> On 08/02/2024 13:47, Arunpravin Paneer Selvam wrote:
+>> Hi Matthew,
+>>
+>> On 2/8/2024 7:00 PM, Matthew Auld wrote:
+>>> On 07/02/2024 17:44, Arunpravin Paneer Selvam wrote:
+>>>> Few users have observed display corruption when they boot
+>>>> the machine to KDE Plasma or playing games. We have root
+>>>> caused the problem that whenever alloc_range() couldn't
+>>>> find the required memory blocks the function was returning
+>>>> SUCCESS in some of the corner cases.
+>>>
+>>> Can you please give an example here?
+>>>
+>> In the try hard contiguous allocation, for example the requested 
+>> memory is 1024 pages,
+>> it might go and pick the highest and last block (of size 512 pages) in 
+>> the freelist where
+>> there are no more space exist in the total address range. In this kind 
+>> of corner case,
+>> alloc_range was returning success though the allocated size is less 
+>> than the requested size.
+>> Hence in try_hard_contiguous_allocation, we will not proceed to the 
+>> LHS allocation and
+>> we return only with the RHS allocation having only the 512 pages of 
+>> allocation. This
+>> leads to display corruption in many use cases (I think mainly when 
+>> requested for contiguous huge buffer)
+>> mainly on APU platforms.
+> 
+> Ok, I guess other thing is doing:
+> 
+> lhs_offset = drm_buddy_block_offset(block) - lhs_size;
+> 
+> I presume it's possible for block_offset < lhs_size here, which might be 
+> funny?
 
-References: https://gitlab.freedesktop.org/drm/amd/-/issues/3097
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-Cc: Limonciello <mario.limonciello@amd.com>
-Cc: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/tests/drm_buddy_test.c | 89 ++++++++++++++++++++++++++
- 1 file changed, 89 insertions(+)
+I think would also be good to add some basic unit test here:
+https://patchwork.freedesktop.org/patch/577497/?series=129671&rev=1
 
-diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
-index ea2af6bd9abe..4215d8b5fcf0 100644
---- a/drivers/gpu/drm/tests/drm_buddy_test.c
-+++ b/drivers/gpu/drm/tests/drm_buddy_test.c
-@@ -8,6 +8,7 @@
- 
- #include <linux/prime_numbers.h>
- #include <linux/sched/signal.h>
-+#include <linux/sizes.h>
- 
- #include <drm/drm_buddy.h>
- 
-@@ -18,6 +19,93 @@ static inline u64 get_size(int order, u64 chunk_size)
- 	return (1 << order) * chunk_size;
- }
- 
-+static void drm_test_buddy_alloc_contiguous(struct kunit *test)
-+{
-+	u64 mm_size, ps = SZ_4K, i, n_pages, total;
-+	struct drm_buddy_block *block;
-+	struct drm_buddy mm;
-+	LIST_HEAD(left);
-+	LIST_HEAD(middle);
-+	LIST_HEAD(right);
-+	LIST_HEAD(allocated);
-+
-+	mm_size = 16 * 3 * SZ_4K;
-+
-+	KUNIT_EXPECT_FALSE(test, drm_buddy_init(&mm, mm_size, ps));
-+
-+	/*
-+	 * Idea is to fragment the address space by alternating block
-+	 * allocations between three different lists; one for left, middle and
-+	 * right. We can then free a list to simulate fragmentation. In
-+	 * particular we want to exercise the DRM_BUDDY_CONTIGUOUS_ALLOCATION,
-+	 * including the try_harder path.
-+	 */
-+
-+	i = 0;
-+	n_pages = mm_size / ps;
-+	do {
-+		struct list_head *list;
-+		int slot = i % 3;
-+
-+		if (slot == 0)
-+			list = &left;
-+		else if (slot == 1)
-+			list = &middle;
-+		else
-+			list = &right;
-+		KUNIT_ASSERT_FALSE_MSG(test,
-+				       drm_buddy_alloc_blocks(&mm, 0, mm_size,
-+							      ps, ps, list, 0),
-+				       "buddy_alloc hit an error size=%d\n",
-+				       ps);
-+	} while (++i < n_pages);
-+
-+	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
-+							   3 * ps, ps, &allocated,
-+							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-+			       "buddy_alloc didn't error size=%d\n", 3 * ps);
-+
-+	drm_buddy_free_list(&mm, &middle);
-+	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
-+							   3 * ps, ps, &allocated,
-+							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-+			       "buddy_alloc didn't error size=%llu\n", 3 * ps);
-+	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
-+							   2 * ps, ps, &allocated,
-+							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-+			       "buddy_alloc didn't error size=%llu\n", 2 * ps);
-+
-+	drm_buddy_free_list(&mm, &right);
-+	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
-+							   3 * ps, ps, &allocated,
-+							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-+			       "buddy_alloc didn't error size=%llu\n", 3 * ps);
-+	/*
-+	 * At this point we should have enough contiguous space for 2 blocks,
-+	 * however they are never buddies (since we freed middle and right) so
-+	 * will require the try_harder logic to find them.
-+	 */
-+	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
-+							   2 * ps, ps, &allocated,
-+							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-+			       "buddy_alloc hit an error size=%d\n", 2 * ps);
-+
-+	drm_buddy_free_list(&mm, &left);
-+	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
-+							   3 * ps, ps, &allocated,
-+							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-+			       "buddy_alloc hit an error size=%d\n", 3 * ps);
-+
-+	total = 0;
-+	list_for_each_entry(block, &allocated, link)
-+		total += drm_buddy_block_size(&mm, block);
-+
-+	KUNIT_ASSERT_EQ(test, total, ps * 2 + ps * 3);
-+
-+	drm_buddy_free_list(&mm, &allocated);
-+	drm_buddy_fini(&mm);
-+}
-+
- static void drm_test_buddy_alloc_pathological(struct kunit *test)
- {
- 	u64 mm_size, size, start = 0;
-@@ -280,6 +368,7 @@ static struct kunit_case drm_buddy_tests[] = {
- 	KUNIT_CASE(drm_test_buddy_alloc_optimistic),
- 	KUNIT_CASE(drm_test_buddy_alloc_pessimistic),
- 	KUNIT_CASE(drm_test_buddy_alloc_pathological),
-+	KUNIT_CASE(drm_test_buddy_alloc_contiguous),
- 	{}
- };
- 
--- 
-2.43.0
+Test passes with your patch, and ofc fails without it.
 
+Just the question of the lhs_offset above,
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+
+> 
+>>
+>> Thanks,
+>> Arun.
+>>>>
+>>>> The right approach would be if the total allocated size
+>>>> is less than the required size, the function should
+>>>> return -ENOSPC.
+>>>>
+>>>> Gitlab ticket link - 
+>>>> https://gitlab.freedesktop.org/drm/amd/-/issues/3097
+>>>> Fixes: 0a1844bf0b53 ("drm/buddy: Improve contiguous memory allocation")
+>>>> Signed-off-by: Arunpravin Paneer Selvam 
+>>>> <Arunpravin.PaneerSelvam@amd.com>
+>>>> Tested-by: Mario Limonciello <mario.limonciello@amd.com>
+>>>> ---
+>>>>   drivers/gpu/drm/drm_buddy.c | 6 ++++++
+>>>>   1 file changed, 6 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+>>>> index f57e6d74fb0e..c1a99bf4dffd 100644
+>>>> --- a/drivers/gpu/drm/drm_buddy.c
+>>>> +++ b/drivers/gpu/drm/drm_buddy.c
+>>>> @@ -539,6 +539,12 @@ static int __alloc_range(struct drm_buddy *mm,
+>>>>       } while (1);
+>>>>         list_splice_tail(&allocated, blocks);
+>>>> +
+>>>> +    if (total_allocated < size) {
+>>>> +        err = -ENOSPC;
+>>>> +        goto err_free;
+>>>> +    }
+>>>> +
+>>>>       return 0;
+>>>>     err_undo:
+>>
