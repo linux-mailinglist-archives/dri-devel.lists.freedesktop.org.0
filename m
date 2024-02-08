@@ -2,46 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64A4284E4A2
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 17:02:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BC7B84E4A6
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 17:03:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4A6510E6B6;
-	Thu,  8 Feb 2024 16:02:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1163110E00F;
+	Thu,  8 Feb 2024 16:03:44 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QXka1czU";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 30F5C10E6B6
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 16:02:35 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 34BFE1FB
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 08:03:17 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A8F8B3F5A1
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 08:02:34 -0800 (PST)
-Date: Thu, 8 Feb 2024 16:02:33 +0000
-From: Liviu Dudau <Liviu.Dudau@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- "Marty E . Plummer" <hanetzer@startmail.com>,
- Rob Herring <robh@kernel.org>,
- =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
- Nicolas Boichat <drinkcat@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Faith Ekstrand <faith.ekstrand@collabora.com>,
- Daniel Stone <daniels@collabora.com>, Steven Price <steven.price@arm.com>,
- Robin Murphy <robin.murphy@arm.com>, kernel@collabora.com,
- Heiko Stuebner <heiko@sntech.de>, Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
- Chris Diamand <chris.diamand@foss.arm.com>,
- Ketil Johnsen <ketil.johnsen@arm.com>
-Subject: Re: [PATCH v4 00/14] drm: Add a driver for CSF-based Mali GPUs
-Message-ID: <ZcT7GcdoPQQDesO4@e110455-lin.cambridge.arm.com>
-References: <20240122163047.1954733-1-boris.brezillon@collabora.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ACC610E00F;
+ Thu,  8 Feb 2024 16:03:42 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 539FFCE1D80;
+ Thu,  8 Feb 2024 16:03:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82305C433C7;
+ Thu,  8 Feb 2024 16:03:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1707408216;
+ bh=Igdsqh4bs6NiYnvDyhbANp18ct18WHK41QmYJ0p6Duk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=QXka1czU0HxJAe9/Z7tqp2IwCy9Q7ND1ud7yKWgr0aPaEVbYVwqMOntZqEIM7tDup
+ fyZ/7DXkg7PF38L7oykrP7viPizC7oA/enqhJFWWvgGBGU7osfq8yChKKHb+9vVdwO
+ elNtxaGsUW1a9WOhIyyvO4IMI+3unJKVWXzamEiVLdFxl3TgXEkfdVfgEC6XFo2r7o
+ /Q9X/yELfNXpTjnehQAQOAIH3aiUBAkAAavp404eHDHl5D5E47vxGbgAJYonZmal0W
+ e9Dm1oRowc9Ml0tArZvIPSo8GFRBsC+d1PMwvQis4p2xEKNRIV9M7qI6OXS9on4RmR
+ jdnJQ2p9qRXJA==
+Date: Thu, 8 Feb 2024 08:03:35 -0800
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Matthew Wilcox <willy@infradead.org>, Christoph Hellwig <hch@lst.de>,
+ Hugh Dickins <hughd@google.com>, Chandan Babu R <chandan.babu@oracle.com>,
+ David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ x86@kernel.org, linux-sgx@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, keyrings@vger.kernel.org
+Subject: Re: [PATCH 2/2] xfs: disable large folio support in xfile_create
+Message-ID: <20240208160335.GN6184@frogsfrogsfrogs>
+References: <20240110092109.1950011-1-hch@lst.de>
+ <20240110092109.1950011-3-hch@lst.de>
+ <20240110175515.GA722950@frogsfrogsfrogs>
+ <20240110200451.GB722950@frogsfrogsfrogs>
+ <20240111140053.51948fb3ed10e06d8e389d2e@linux-foundation.org>
+ <ZaBvoWCCChU5wHDp@casper.infradead.org>
+ <20240112022250.GU723010@frogsfrogsfrogs>
+ <20240207175621.dd773204e7928dbeee7a92bf@linux-foundation.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240122163047.1954733-1-boris.brezillon@collabora.com>
+In-Reply-To: <20240207175621.dd773204e7928dbeee7a92bf@linux-foundation.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,162 +78,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 22, 2024 at 05:30:31PM +0100, Boris Brezillon wrote:
-> Hello,
+On Wed, Feb 07, 2024 at 05:56:21PM -0800, Andrew Morton wrote:
+> On Thu, 11 Jan 2024 18:22:50 -0800 "Darrick J. Wong" <djwong@kernel.org> wrote:
+> 
+> > On Thu, Jan 11, 2024 at 10:45:53PM +0000, Matthew Wilcox wrote:
+> > > On Thu, Jan 11, 2024 at 02:00:53PM -0800, Andrew Morton wrote:
+> > > > On Wed, 10 Jan 2024 12:04:51 -0800 "Darrick J. Wong" <djwong@kernel.org> wrote:
+> > > > 
+> > > > > > > Fixing this will require a bit of an API change, and prefeably sorting out
+> > > > > > > the hwpoison story for pages vs folio and where it is placed in the shmem
+> > > > > > > API.  For now use this one liner to disable large folios.
+> > > > > > > 
+> > > > > > > Reported-by: Darrick J. Wong <djwong@kernel.org>
+> > > > > > > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> > > > > > 
+> > > > > > Can someone who knows more about shmem.c than I do please review
+> > > > > > https://lore.kernel.org/linux-xfs/20240103084126.513354-4-hch@lst.de/
+> > > > > > so that I can feel slightly more confident as hch and I sort through the
+> > > > > > xfile.c issues?
+> > > > > > 
+> > > > > > For this patch,
+> > > > > > Reviewed-by: Darrick J. Wong <djwong@kernel.org>
+> > > > > 
+> > > > > ...except that I'm still getting 2M THPs even with this enabled, so I
+> > > > > guess either we get to fix it now, or create our own private tmpfs mount
+> > > > > so that we can pass in huge=never, similar to what i915 does. :(
+> > > > 
+> > > > What is "this"?  Are you saying that $Subject doesn't work, or that the
+> > > > above-linked please-review patch doesn't work?
+> > > 
+> > > shmem pays no attention to the mapping_large_folio_support() flag,
+> > > so the proposed fix doesn't work.  It ought to, but it has its own way
+> > > of doing it that predates mapping_large_folio_support existing.
+> > 
+> > Yep.  It turned out to be easier to fix xfile.c to deal with large
+> > folios than I thought it would be.  Or so I think.  We'll see what
+> > happens on fstestscloud overnight.
+> 
+> Where do we stand with this?  Should I merge these two patches into
+> 6.8-rcX, cc:stable?
 
-Hi,
+This patchset doesn't actually fix the problem, so no, let's not merge
+it.
 
-> 
-> This is the 4th version of the kernel driver for Mali CSF-based GPUs.
-> 
-> A branch based on drm-misc-next and containing all the dependencies
-> that are not yet available in drm-misc-next here[1], and another [2]
-> containing extra patches to have things working on rk3588. The CSF
-> firmware binary can be found here[3], and should be placed under
-> /lib/firmware/arm/mali/arch10.8/mali_csffw.bin.
+For 6.9 we'll make xfile.c clean w.r.t. large folios:
+https://lore.kernel.org/linux-xfs/20240129143502.189370-1-hch@lst.de/
 
-Since today the linux-firmware 'main' branch also contains an official
-copy of the CSF firmware for the 10.8 architecture. Thanks to Mario for
-the quick inclusion!
+I don't think we need a 6.8 backport since xfile.c is only used by an
+experimental feature that is default n in kconfig.
 
-Best regards,
-Liviu
-
-> 
-> The mesa MR adding v10 support on top of panthor is available here [4].
-> 
-> Steve, I intentionally dropped your R-b on "drm/panthor: Add the heap
-> logical block" and "drm/panthor: Add the scheduler logical block"
-> because the tiler-OOM handling changed enough to require a new review
-> IMHO.
-> 
-> Regarding the GPL2+MIT relicensing, I collected Clément's R-b for the
-> devfreq code, but am still lacking Alexey Sheplyakov for some bits in
-> panthor_gpu.c. The rest of the code is either new, or covered by the
-> Linaro, Arm and Collabora acks.
-> 
-> And here is a non-exhaustive changelog, check each commit for a detailed
-> changelog.
-> 
-> v4:
-> - Fix various bugs in the VM logic
-> - Address comments from Steven, Liviu, Ketil and Chris
-> - Move tiler OOM handling out of the scheduler interrupt handling path
->   so we can properly recover when the system runs out of memory, and
->   panthor is blocked trying to allocate heap chunks
-> - Rework the heap locking to support concurrent chunk allocation. Not
->   sure if this is supposed to happen, but we need to be robust against
->   userspace passing the same heap context to two scheduling groups.
->   Wasn't needed before the tiler_oom rework, because heap allocation
->   base serialized by the scheduler lock.
-> - Make kernel BO destruction robust to NULL/ERR pointers
-> 
-> v3;
-> - Quite a few changes at the MMU/sched level to make the fix some
->   race conditions and deadlocks
-> - Addition of the a sync-only VM_BIND operation (to support
->   vkQueueSparseBind with zero commands).
-> - Addition of a VM_GET_STATE ioctl
-> - Various cosmetic changes (see the commit changelogs for more details)
-> - Various fixes (see the commit changelogs for more details)
-> 
-> v2:
-> - Rename the driver (pancsf -> panthor)
-> - Split the commit adding the driver to ease review
-> - Use drm_sched for dependency tracking/job submission
-> - Add a VM_BIND ioctl
-> - Add the concept of exclusive VM for BOs that are only ever mapped to a
->   single VM
-> - Document the code and uAPI
-> - Add a DT binding doc
-> 
-> Regards,
-> 
-> Boris
-> 
-> [1]https://gitlab.freedesktop.org/panfrost/linux/-/tree/panthor-v4
-> [2]https://gitlab.freedesktop.org/panfrost/linux/-/tree/panthor-v4+rk3588
-> [3]https://gitlab.com/firefly-linux/external/libmali/-/raw/firefly/firmware/g610/mali_csffw.bin
-> [4]https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/26358
-> 
-> Boris Brezillon (13):
->   drm/panthor: Add uAPI
->   drm/panthor: Add GPU register definitions
->   drm/panthor: Add the device logical block
->   drm/panthor: Add the GPU logical block
->   drm/panthor: Add GEM logical block
->   drm/panthor: Add the devfreq logical block
->   drm/panthor: Add the MMU/VM logical block
->   drm/panthor: Add the FW logical block
->   drm/panthor: Add the heap logical block
->   drm/panthor: Add the scheduler logical block
->   drm/panthor: Add the driver frontend block
->   drm/panthor: Allow driver compilation
->   drm/panthor: Add an entry to MAINTAINERS
-> 
-> Liviu Dudau (1):
->   dt-bindings: gpu: mali-valhall-csf: Add support for Arm Mali CSF GPUs
-> 
->  .../bindings/gpu/arm,mali-valhall-csf.yaml    |  147 +
->  Documentation/gpu/driver-uapi.rst             |    5 +
->  MAINTAINERS                                   |   11 +
->  drivers/gpu/drm/Kconfig                       |    2 +
->  drivers/gpu/drm/Makefile                      |    1 +
->  drivers/gpu/drm/panthor/Kconfig               |   23 +
->  drivers/gpu/drm/panthor/Makefile              |   15 +
->  drivers/gpu/drm/panthor/panthor_devfreq.c     |  283 ++
->  drivers/gpu/drm/panthor/panthor_devfreq.h     |   25 +
->  drivers/gpu/drm/panthor/panthor_device.c      |  544 +++
->  drivers/gpu/drm/panthor/panthor_device.h      |  393 ++
->  drivers/gpu/drm/panthor/panthor_drv.c         | 1470 +++++++
->  drivers/gpu/drm/panthor/panthor_fw.c          | 1334 +++++++
->  drivers/gpu/drm/panthor/panthor_fw.h          |  504 +++
->  drivers/gpu/drm/panthor/panthor_gem.c         |  228 ++
->  drivers/gpu/drm/panthor/panthor_gem.h         |  144 +
->  drivers/gpu/drm/panthor/panthor_gpu.c         |  482 +++
->  drivers/gpu/drm/panthor/panthor_gpu.h         |   52 +
->  drivers/gpu/drm/panthor/panthor_heap.c        |  596 +++
->  drivers/gpu/drm/panthor/panthor_heap.h        |   39 +
->  drivers/gpu/drm/panthor/panthor_mmu.c         | 2760 +++++++++++++
->  drivers/gpu/drm/panthor/panthor_mmu.h         |  102 +
->  drivers/gpu/drm/panthor/panthor_regs.h        |  239 ++
->  drivers/gpu/drm/panthor/panthor_sched.c       | 3500 +++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_sched.h       |   48 +
->  include/uapi/drm/panthor_drm.h                |  945 +++++
->  26 files changed, 13892 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
->  create mode 100644 drivers/gpu/drm/panthor/Kconfig
->  create mode 100644 drivers/gpu/drm/panthor/Makefile
->  create mode 100644 drivers/gpu/drm/panthor/panthor_devfreq.c
->  create mode 100644 drivers/gpu/drm/panthor/panthor_devfreq.h
->  create mode 100644 drivers/gpu/drm/panthor/panthor_device.c
->  create mode 100644 drivers/gpu/drm/panthor/panthor_device.h
->  create mode 100644 drivers/gpu/drm/panthor/panthor_drv.c
->  create mode 100644 drivers/gpu/drm/panthor/panthor_fw.c
->  create mode 100644 drivers/gpu/drm/panthor/panthor_fw.h
->  create mode 100644 drivers/gpu/drm/panthor/panthor_gem.c
->  create mode 100644 drivers/gpu/drm/panthor/panthor_gem.h
->  create mode 100644 drivers/gpu/drm/panthor/panthor_gpu.c
->  create mode 100644 drivers/gpu/drm/panthor/panthor_gpu.h
->  create mode 100644 drivers/gpu/drm/panthor/panthor_heap.c
->  create mode 100644 drivers/gpu/drm/panthor/panthor_heap.h
->  create mode 100644 drivers/gpu/drm/panthor/panthor_mmu.c
->  create mode 100644 drivers/gpu/drm/panthor/panthor_mmu.h
->  create mode 100644 drivers/gpu/drm/panthor/panthor_regs.h
->  create mode 100644 drivers/gpu/drm/panthor/panthor_sched.c
->  create mode 100644 drivers/gpu/drm/panthor/panthor_sched.h
->  create mode 100644 include/uapi/drm/panthor_drm.h
-> 
-> -- 
-> 2.43.0
-> 
-
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+--D
