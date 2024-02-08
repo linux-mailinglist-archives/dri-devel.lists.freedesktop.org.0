@@ -2,60 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDBAE84E3C6
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 16:15:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1521684E3DB
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 16:18:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27A7110E072;
-	Thu,  8 Feb 2024 15:15:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E414610E864;
+	Thu,  8 Feb 2024 15:18:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="MDdLPe+V";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gYjDeyBS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90CE210E072
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 15:15:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1707405302;
- bh=7ASHr/bPAiR2s+1Y6axD+L6L0JwOuyKclkGVJ7CralI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=MDdLPe+VfnlM596cQ/6TdRy4cBndStNGHOO8jH16KFghYGNhcrkCL7Dg4Akq4qz+w
- E3t55AYKAQ+1L8Q9Sd5bM41QorU4nyiNdlj+cW5vFG99JCAr3vWCTXxIBm8vHeiiPK
- 42im8AakVG93yr6Wl2FhCwqbImctyho7VTxiA9c2qAeg9XcOd/mJ44vzgLvNUu8+ej
- wpOM8AornA/eii+lA2Dk4jfv0JDyRo18obhM31MbjWP+1Yw+TOKwIR1QfZepq47J6e
- hJfE1PjUAkK+6nJZFGgBHEfghOSKWPgLPkwOnvM2BmsbljVVmJLZAbyBg8Tec0Gv4A
- 48zrjNPofHY0Q==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 150F6378209E;
- Thu,  8 Feb 2024 15:15:01 +0000 (UTC)
-Date: Thu, 8 Feb 2024 16:14:59 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Liviu Dudau <Liviu.Dudau@arm.com>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>, "Marty
- E . Plummer" <hanetzer@startmail.com>, Rob Herring <robh@kernel.org>,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, Nicolas Boichat
- <drinkcat@chromium.org>, Neil Armstrong <neil.armstrong@linaro.org>, Faith
- Ekstrand <faith.ekstrand@collabora.com>, Daniel Stone
- <daniels@collabora.com>, Steven Price <steven.price@arm.com>, Robin Murphy
- <robin.murphy@arm.com>, kernel@collabora.com, Heiko Stuebner
- <heiko@sntech.de>, Tatsuyuki Ishi <ishitatsuyuki@gmail.com>, Chris Diamand
- <chris.diamand@foss.arm.com>, Ketil Johnsen <ketil.johnsen@arm.com>, Grant
- Likely <grant.likely@linaro.org>
-Subject: Re: [PATCH v4 03/14] drm/panthor: Add the device logical block
-Message-ID: <20240208161459.7dd42bcd@collabora.com>
-In-Reply-To: <ZcTlau71Ffsx2f2r@e110455-lin.cambridge.arm.com>
-References: <20240122163047.1954733-1-boris.brezillon@collabora.com>
- <20240122163047.1954733-4-boris.brezillon@collabora.com>
- <ZcTlau71Ffsx2f2r@e110455-lin.cambridge.arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AAD010E864;
+ Thu,  8 Feb 2024 15:18:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1707405512; x=1738941512;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=JME/C0EeXRQRbOsRrDc04RQxGLlUKW8cb8oWVwsFIQk=;
+ b=gYjDeyBSNBCHIpJ1xOL2L7BRlPv+3PcKBpzcZZqOA7ZQjzefbF8KhP1z
+ 1idWRDjD38wxY095zMxCD00ECK6hGyB3I84yEGHPexoBKSyQafEixjqae
+ iTHfrGjNgnG8BLgKWfBAls4ssMQtkix3pB63LC+qyYTq5Tk9Wqa1UupRG
+ LERQoWycadz37eGLo1Mrp7v9fynOK+tpqTPbTL91FJo5vXx7cbUkUInOR
+ 0i35b64NZz/Xocoz14vwBZnQkEbK2+8UPZqoaAlv5VQrG/wUPLwjP28cG
+ LxjRJpxZ3LB9bFD4cOAvrBYfFLAuiiNUvHH+B0FAEHAHsOglgdWsg9ry4 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="4219418"
+X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; 
+   d="scan'208";a="4219418"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2024 07:18:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="824863713"
+X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; d="scan'208";a="824863713"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga001.jf.intel.com with SMTP; 08 Feb 2024 07:18:29 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 08 Feb 2024 17:18:28 +0200
+Date: Thu, 8 Feb 2024 17:18:28 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Imre Deak <imre.deak@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: Re: [PATCH 02/19] drm/dp: Add support for DP tunneling
+Message-ID: <ZcTwxOziN3v_3mDK@intel.com>
+References: <20240123102850.390126-1-imre.deak@intel.com>
+ <20240123102850.390126-3-imre.deak@intel.com>
+ <ZcPhyk1RbE5bXcCv@intel.com>
+ <ZcPsq2WdP7oJQ4Ep@ideak-desk.fi.intel.com>
+ <ZcPv4+0uMpJhcySu@ideak-desk.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZcPv4+0uMpJhcySu@ideak-desk.fi.intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,131 +73,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 8 Feb 2024 14:30:02 +0000
-Liviu Dudau <Liviu.Dudau@arm.com> wrote:
+On Wed, Feb 07, 2024 at 11:02:27PM +0200, Imre Deak wrote:
+> On Wed, Feb 07, 2024 at 10:48:53PM +0200, Imre Deak wrote:
+> > On Wed, Feb 07, 2024 at 10:02:18PM +0200, Ville Syrjälä wrote:
+> > > > [...]
+> > > > +static int
+> > > > +drm_dp_tunnel_atomic_check_group_bw(struct drm_dp_tunnel_group_state *new_group_state,
+> > > > +				    u32 *failed_stream_mask)
+> > > > +{
+> > > > +	struct drm_dp_tunnel_group *group = to_group(new_group_state->base.obj);
+> > > > +	struct drm_dp_tunnel_state *new_tunnel_state;
+> > > > +	u32 group_stream_mask = 0;
+> > > > +	int group_bw = 0;
+> > > > +
+> > > > +	for_each_tunnel_state(new_group_state, new_tunnel_state) {
+> > > > +		struct drm_dp_tunnel *tunnel = new_tunnel_state->tunnel_ref.tunnel;
+> > > > +		int max_dprx_bw = get_max_dprx_bw(tunnel);
+> > > > +		int tunnel_bw = drm_dp_tunnel_atomic_get_tunnel_bw(new_tunnel_state);
+> > > > +
+> > > > +		tun_dbg(tunnel,
+> > > > +			"%sRequired %d/%d Mb/s total for tunnel.\n",
+> > > > +			tunnel_bw > max_dprx_bw ? "Not enough BW: " : "",
+> > > > +			DPTUN_BW_ARG(tunnel_bw),
+> > > > +			DPTUN_BW_ARG(max_dprx_bw));
+> > > > +
+> > > > +		if (tunnel_bw > max_dprx_bw) {
+> > > 
+> > > I'm a bit confused why we're checking this here. Aren't we already
+> > > checking this somewhere else?
+> > 
+> > Ah, yes this should be checked already by the encoder compute config +
+> > the MST link BW check. It can be removed, thanks.
+> 
+> Though neither of that is guaranteed for drivers in general, so
+> shouldn't it be here still?
 
-> > +int panthor_device_init(struct panthor_device *ptdev)
-> > +{
-> > +	struct resource *res;
-> > +	struct page *p;
-> > +	int ret;
-> > +
-> > +	ptdev->coherent = device_get_dma_attr(ptdev->base.dev) == DEV_DMA_COHERENT;
-> > +
-> > +	init_completion(&ptdev->unplug.done);
-> > +	ret = drmm_mutex_init(&ptdev->base, &ptdev->unplug.lock);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret = drmm_mutex_init(&ptdev->base, &ptdev->pm.mmio_lock);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDED);
-> > +	p = alloc_page(GFP_KERNEL | __GFP_ZERO);
-> > +	if (!p)
-> > +		return -ENOMEM;
-> > +
-> > +	ptdev->pm.dummy_latest_flush = page_address(p);
-> > +	ret = drmm_add_action_or_reset(&ptdev->base, panthor_device_free_page,
-> > +				       ptdev->pm.dummy_latest_flush);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	/*
-> > +	 * Set the dummy page holding the latest flush to 1. This will cause the
-> > +	 * flush to avoided as we know it isn't necessary if the submission
-> > +	 * happens while the dummy page is mapped. Zero cannot be used because
-> > +	 * that means 'always flush'.
-> > +	 */
-> > +	*ptdev->pm.dummy_latest_flush = 1;
-> > +
-> > +	INIT_WORK(&ptdev->reset.work, panthor_device_reset_work);
-> > +	ptdev->reset.wq = alloc_ordered_workqueue("panthor-reset-wq", 0);
-> > +	if (!ptdev->reset.wq)
-> > +		return -ENOMEM;
-> > +
-> > +	ret = drmm_add_action_or_reset(&ptdev->base, panthor_device_reset_cleanup, NULL);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret = panthor_clk_init(ptdev);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret = panthor_devfreq_init(ptdev);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ptdev->iomem = devm_platform_get_and_ioremap_resource(to_platform_device(ptdev->base.dev),
-> > +							      0, &res);
-> > +	if (IS_ERR(ptdev->iomem))
-> > +		return PTR_ERR(ptdev->iomem);
-> > +
-> > +	ptdev->phys_addr = res->start;
-> > +
-> > +	ret = devm_pm_runtime_enable(ptdev->base.dev);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret = pm_runtime_resume_and_get(ptdev->base.dev);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret = panthor_gpu_init(ptdev);
-> > +	if (ret)
-> > +		goto err_rpm_put;
-> > +
-> > +	ret = panthor_mmu_init(ptdev);
-> > +	if (ret)
-> > +		goto err_unplug_gpu;
-> > +
-> > +	ret = panthor_fw_init(ptdev);
-> > +	if (ret)
-> > +		goto err_unplug_mmu;
-> > +
-> > +	ret = panthor_sched_init(ptdev);
-> > +	if (ret)
-> > +		goto err_unplug_fw;
-> > +
-> > +	/* ~3 frames */
-> > +	pm_runtime_set_autosuspend_delay(ptdev->base.dev, 50);
-> > +
-> > +	ret = drm_dev_register(&ptdev->base, 0);
-> > +	if (ret)
-> > +		goto err_unplug_sched;  
-> 
-> For sake of replicating the panthor_device_unplus() calls, should we do
-> here:
-> 
-> 	if (ret) {
-> 		pm_runtime_dont_use_autosuspend(ptdev->base.dev);
+I suppose there isn't any real harm in doing it here too.
 
-But pm_runtime_use_autosuspend() is called after that, why do we need
-to call pm_runtime_dont_use_autosuspend() here?
+> 
+> > > > +			*failed_stream_mask = new_tunnel_state->stream_mask;
+> > > > +			return -ENOSPC;
+> > > > +		}
+> > > > +
+> > > > +		group_bw += min(roundup(tunnel_bw, tunnel->bw_granularity),
+> > > > +				max_dprx_bw);
+> > > > +		group_stream_mask |= new_tunnel_state->stream_mask;
+> > > > +	}
+> > > > +
+> > > > +	tun_grp_dbg(group,
+> > > > +		    "%sRequired %d/%d Mb/s total for tunnel group.\n",
+> > > > +		    group_bw > group->available_bw ? "Not enough BW: " : "",
+> > > > +		    DPTUN_BW_ARG(group_bw),
+> > > > +		    DPTUN_BW_ARG(group->available_bw));
+> > > > +
+> > > > +	if (group_bw > group->available_bw) {
+> > > > +		*failed_stream_mask = group_stream_mask;
+> > > > +		return -ENOSPC;
+> > > > +	}
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +
 
-> 		goto err_unplug_sched;
-> 	}
-> 
-> 
-> > +
-> > +	pm_runtime_use_autosuspend(ptdev->base.dev);
-> > +	pm_runtime_put_autosuspend(ptdev->base.dev);
-> > +	return 0;
-> > +
-> > +err_unplug_sched:
-> > +	panthor_sched_unplug(ptdev);
-> > +
-> > +err_unplug_fw:
-> > +	panthor_fw_unplug(ptdev);
-> > +
-> > +err_unplug_mmu:
-> > +	panthor_mmu_unplug(ptdev);
-> > +
-> > +err_unplug_gpu:
-> > +	panthor_gpu_unplug(ptdev);
-> > +
-> > +err_rpm_put:
-> > +	pm_runtime_put_sync_suspend(ptdev->base.dev);
-> > +	return ret;
-> > +}
+-- 
+Ville Syrjälä
+Intel
