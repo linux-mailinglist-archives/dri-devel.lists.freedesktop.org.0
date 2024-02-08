@@ -2,62 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA0F284E673
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 18:15:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BE7184E6A4
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 18:25:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B83510E0E2;
-	Thu,  8 Feb 2024 17:15:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2C3B10E23F;
+	Thu,  8 Feb 2024 17:25:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="R2PFrJ3l";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="CwnOlqt8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A71510E0E2
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 17:15:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707412541; x=1738948541;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=p76xqtocPXxIASp/RvwQN97YAIQh0QlwZC10TmxGnq0=;
- b=R2PFrJ3lyRq8Q2AQQC9qf76RxPRC8zs33WVX3mXIyeXBklYWf4u4tZMk
- dDFMoUQHbESYIM8Oayg9+dXKhkSUk+EFYDVO2LdIUNCKLgfBlimhJ2Wr6
- BVDii8uALpT6oCHXq917BK3VwoZknQWDgst7ZvJH2r9IBPoY0gvpxYQQS
- a3g5VTr+uEFDGMf0AywV/I5inY8aa87PTIocg1c59O08yoRN3Sc3p109J
- WAOL1EWQMqTQTc8Gh9iiE645foUgu9xsWrR1oHlp2w6d1hCO1pI077Phx
- aYIUsynSfuX8kAi5pa2QTgSSxZVNLW1DlZb7MzFLcxT30EK0g38E2wOuz g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="11841742"
-X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; d="scan'208";a="11841742"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2024 09:15:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="910429976"
-X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; d="scan'208";a="910429976"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2024 09:15:34 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1rY7zn-00000002vyu-3v1g; Thu, 08 Feb 2024 19:15:31 +0200
-Date: Thu, 8 Feb 2024 19:15:31 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Lee Jones <lee@kernel.org>
-Cc: Flavio Suligoi <f.suligoi@asem.it>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH v2 0/3] backlight: mp3309c: Allow to use on non-OF
- platforms
-Message-ID: <ZcUMMyV_vBTNw8Rz@smile.fi.intel.com>
-References: <20240201151537.367218-1-andriy.shevchenko@linux.intel.com>
- <20240208113425.GK689448@google.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D86310E23F;
+ Thu,  8 Feb 2024 17:25:41 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 418GNJKE024958; Thu, 8 Feb 2024 17:25:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=YuLiQT5SeV5AmnQh+KaZwXI86kCpG1mlWTn1Bu96vcU=; b=Cw
+ nOlqt8Ep6Rsd8hnvTOybQ6eYB7+2OArv6b1EHddE8MIkqgyhUQdQQwMIbS9uErUi
+ hLcsV6Sl/x5uyFO1B4uMwvbZVgj5tLcv0PqoqPXyXzUXEVWt6i1XGTHegr6AzOOU
+ NsMoUgE372CrK4LHuSrRr/eKWMbBhkgXroeYWJNWSOcQ1MMVHPKtZdlUm8UdMf6x
+ jdBzrcu5qkMVr7EMEyfskRDWA8JeKNZcmhn82BIMTjEGrbDO7Rr8BOjEE5aNyTDW
+ /AGaZ9tqx/HVz55di6pnOyD9ipcr8uRxmv1iJTnm11Faz9MRiB5vQjQBQo5339cg
+ E19sbl0KF1TB525tsQnA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w4h0ujkx3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 08 Feb 2024 17:25:33 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 418HPWFD008665
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 8 Feb 2024 17:25:32 GMT
+Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 8 Feb
+ 2024 09:25:31 -0800
+Message-ID: <c155fe3c-7b3c-048d-aaf3-ec16e4d6b775@quicinc.com>
+Date: Thu, 8 Feb 2024 09:25:31 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240208113425.GK689448@google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v4] drm/msm/dsi: Document DSC related pclk_rate and
+ hdisplay calculations
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>
+References: <20240208-fd_document_dsc_pclk_rate-v4-1-56fe59d0a2e0@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20240208-fd_document_dsc_pclk_rate-v4-1-56fe59d0a2e0@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: IheMLyyGhRidtueSP8wonjInbcTPWn_g
+X-Proofpoint-GUID: IheMLyyGhRidtueSP8wonjInbcTPWn_g
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-08_07,2024-02-08_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0
+ spamscore=0 mlxscore=0 suspectscore=0 phishscore=0 malwarescore=0
+ bulkscore=0 mlxlogscore=839 priorityscore=1501 clxscore=1015
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402080092
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,27 +94,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 08, 2024 at 11:34:25AM +0000, Lee Jones wrote:
-> On Thu, 01 Feb 2024, Andy Shevchenko wrote:
-
-...
-
-> >   backlight: mp3309c: Utilise temporary variable for struct device
-
-(1)
-
-> Set no longer applies.  Please rebase, thanks.
-
-I got a contradictory messages:
-1) email that says that all had been applied;
-2) this email (that tells the complete opposite);
-3) the repository where the first two were applied.
-
-While you can amend your scripts, I think I need to rebase only the last patch
-(1) that may not be found in your tree currently.
-
--- 
-With Best Regards,
-Andy Shevchenko
 
 
+On 2/8/2024 7:23 AM, Dmitry Baryshkov wrote:
+> Provide actual documentation for the pclk and hdisplay calculations in
+> the case of DSC compression being used.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+> Changes since v3:
+> - refresh rate -> transfer time (Abhinav)
+> 
+> Changes since v2:
+> - Followed suggestion by Abhinav and Marijn to improve documentatry
+>    comments.
+> 
+> Changes since v1:
+> - Converted dsi_adjust_pclk_for_compression() into kerneldoc (Marijn)
+> - Added a pointer from dsi_timing_setup() docs to
+>    dsi_adjust_pclk_for_compression() (Marijn)
+> - Fixed two typo (Marijn)
+> ---
+>   drivers/gpu/drm/msm/dsi/dsi_host.c | 33 +++++++++++++++++++++++++++++++--
+>   1 file changed, 31 insertions(+), 2 deletions(-)
+> 
+
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
