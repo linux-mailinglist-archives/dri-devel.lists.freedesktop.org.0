@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96DCE84E7B0
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 19:32:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97C1E84E7D0
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 19:42:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 808BF10E9C6;
-	Thu,  8 Feb 2024 18:32:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEC6D10E9F7;
+	Thu,  8 Feb 2024 18:42:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Wg+bvT2w";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JDoRETfZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD86D10E9C6
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 18:32:30 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B58810E9F7
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 18:42:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707417151; x=1738953151;
+ t=1707417751; x=1738953751;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=8InsWry7BortGoJkrl/sU2aGiKY8qEehwzBkYvlwt+s=;
- b=Wg+bvT2w5+xO8YEzkDWziROs/RwY3GYc3ct51qd96yDP9p2ghuO5AGyK
- cwy5EkT8ctf7LhYTqXHPka+te7vJ2Bfq1xCA83oxauQQGPhhujGpSoIRQ
- VIxgNVxV7SwE7rpdAnWQ//SnaQiLbu6XTMCsYl2L7f2NlA+U9eBed/Ree
- Epjmue5QpmHfUljoLIuvEJdJUo6a8k4BSFfLLoa7uOwlUg62ICo1j9rhB
- YzYuovKNePBV/Iw3W4ejDulmvdgV2II4uzlVOFii+pnKGlY+odIGHwmcG
- ao80J54NIBulWadOA7v8UnWxYIoYRAi3Pp+5MADgv0MxpSyMVpU//1hWj A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="4268801"
+ bh=R8VW3vdNVBtgOG4uxMk33o384NOmy+Axf/iYx44RjkM=;
+ b=JDoRETfZdFRJTaTSTWEPVIhwrJL9wC+YvRH3P4b2Px4411CnLcdts4b0
+ ZC+s1PrbKqXDfrcbs1MgNWbCin5ILP0WxjpJL3QjQorFrCG+1q40G1ESy
+ 8ZMMqQDDVRFl+1erw0ddYyKPzMn8cxNAlK1G6hSYHyFdY1+sznUQ9+IDr
+ USJ5rw0hjbXfgD+eRWynibOKnfp1cRRCGSpaAkIgJJMiBxk9+x9oHb/2f
+ 6vxM9Ki0WeDk7URZr5elCmkCFx2FZvxUu985jlGJBDGsedOT8oWfk33nx
+ Y0Ymr0/Djv2Puo9exJOosIR8GGTgMq9FU/fzGoQ9fbG8uZFZw5zCw+Ngz A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="1184533"
 X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; 
-   d="scan'208";a="4268801"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2024 10:32:30 -0800
+   d="scan'208";a="1184533"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2024 10:42:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="824917166"
-X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; d="scan'208";a="824917166"
+X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="934213664"
+X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; d="scan'208";a="934213664"
 Received: from black.fi.intel.com ([10.237.72.28])
- by orsmga001.jf.intel.com with ESMTP; 08 Feb 2024 10:32:27 -0800
+ by fmsmga001.fm.intel.com with ESMTP; 08 Feb 2024 10:42:26 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1003)
- id C95C31458; Thu,  8 Feb 2024 20:26:09 +0200 (EET)
+ id D63C91529; Thu,  8 Feb 2024 20:26:09 +0200 (EET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Daniel Thompson <daniel.thompson@linaro.org>,
  Flavio Suligoi <f.suligoi@asem.it>,
@@ -48,9 +48,10 @@ To: Daniel Thompson <daniel.thompson@linaro.org>,
  linux-kernel@vger.kernel.org
 Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
  Helge Deller <deller@gmx.de>
-Subject: [PATCH v3 1/3] backlight: mp3309c: Make use of device properties
-Date: Thu,  8 Feb 2024 20:24:46 +0200
-Message-ID: <20240208182608.2224191-2-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v3 2/3] backlight: mp3309c: use dev_err_probe() instead of
+ dev_err()
+Date: Thu,  8 Feb 2024 20:24:47 +0200
+Message-ID: <20240208182608.2224191-3-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
 In-Reply-To: <20240208182608.2224191-1-andriy.shevchenko@linux.intel.com>
 References: <20240208182608.2224191-1-andriy.shevchenko@linux.intel.com>
@@ -71,134 +72,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the module to be property provider agnostic and allow
-it to be used on non-OF platforms.
+Replace dev_err() with dev_err_probe().
 
-Add mod_devicetable.h include.
+This helps in simplifing code and standardizing the error output.
 
 Tested-by: Flavio Suligoi <f.suligoi@asem.it>
 Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/video/backlight/mp3309c.c | 44 +++++++++++++------------------
- 1 file changed, 18 insertions(+), 26 deletions(-)
+ drivers/video/backlight/mp3309c.c | 18 +++++++-----------
+ 1 file changed, 7 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/video/backlight/mp3309c.c b/drivers/video/backlight/mp3309c.c
-index b0d9aef6942b..397f35dafc5e 100644
+index 397f35dafc5e..426e9f2356ad 100644
 --- a/drivers/video/backlight/mp3309c.c
 +++ b/drivers/video/backlight/mp3309c.c
-@@ -15,6 +15,8 @@
- #include <linux/delay.h>
- #include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/property.h>
- #include <linux/pwm.h>
- #include <linux/regmap.h>
- 
-@@ -199,18 +201,15 @@ static const struct backlight_ops mp3309c_bl_ops = {
- 	.update_status = mp3309c_bl_update_status,
- };
- 
--static int pm3309c_parse_dt_node(struct mp3309c_chip *chip,
--				 struct mp3309c_platform_data *pdata)
-+static int mp3309c_parse_fwnode(struct mp3309c_chip *chip,
-+				struct mp3309c_platform_data *pdata)
- {
--	struct device_node *node = chip->dev->of_node;
--	struct property *prop_pwms;
--	struct property *prop_levels = NULL;
--	int length = 0;
- 	int ret, i;
+@@ -208,10 +208,8 @@ static int mp3309c_parse_fwnode(struct mp3309c_chip *chip,
  	unsigned int num_levels, tmp_value;
-+	struct device *dev = chip->dev;
+ 	struct device *dev = chip->dev;
  
--	if (!node) {
--		dev_err(chip->dev, "failed to get DT node\n");
-+	if (!dev_fwnode(dev)) {
-+		dev_err(dev, "failed to get firmware node\n");
- 		return -ENODEV;
- 	}
+-	if (!dev_fwnode(dev)) {
+-		dev_err(dev, "failed to get firmware node\n");
+-		return -ENODEV;
+-	}
++	if (!dev_fwnode(dev))
++		return dev_err_probe(dev, -ENODEV, "failed to get firmware node\n");
  
-@@ -224,8 +223,7 @@ static int pm3309c_parse_dt_node(struct mp3309c_chip *chip,
- 	 * found in the backlight node, the mode switches to PWM mode.
- 	 */
- 	pdata->dimming_mode = DIMMING_ANALOG_I2C;
--	prop_pwms = of_find_property(node, "pwms", &length);
--	if (prop_pwms) {
-+	if (device_property_present(dev, "pwms")) {
- 		chip->pwmd = devm_pwm_get(chip->dev, NULL);
- 		if (IS_ERR(chip->pwmd))
- 			return dev_err_probe(chip->dev, PTR_ERR(chip->pwmd),
-@@ -257,11 +255,9 @@ static int pm3309c_parse_dt_node(struct mp3309c_chip *chip,
- 		/*
- 		 * PWM control mode: check for brightness level in DT
- 		 */
--		prop_levels = of_find_property(node, "brightness-levels",
--					       &length);
--		if (prop_levels) {
-+		if (device_property_present(dev, "brightness-levels")) {
- 			/* Read brightness levels from DT */
--			num_levels = length / sizeof(u32);
-+			num_levels = device_property_count_u32(dev, "brightness-levels");
- 			if (num_levels < 2)
- 				return -EINVAL;
- 		} else {
-@@ -275,10 +271,9 @@ static int pm3309c_parse_dt_node(struct mp3309c_chip *chip,
- 				     sizeof(*pdata->levels), GFP_KERNEL);
- 	if (!pdata->levels)
- 		return -ENOMEM;
--	if (prop_levels) {
--		ret = of_property_read_u32_array(node, "brightness-levels",
--						 pdata->levels,
--						 num_levels);
-+	if (device_property_present(dev, "brightness-levels")) {
-+		ret = device_property_read_u32_array(dev, "brightness-levels",
-+						     pdata->levels, num_levels);
- 		if (ret < 0)
- 			return ret;
- 	} else {
-@@ -288,8 +283,7 @@ static int pm3309c_parse_dt_node(struct mp3309c_chip *chip,
- 
- 	pdata->max_brightness = num_levels - 1;
- 
--	ret = of_property_read_u32(node, "default-brightness",
--				   &pdata->default_brightness);
-+	ret = device_property_read_u32(dev, "default-brightness", &pdata->default_brightness);
+ 	/*
+ 	 * Dimming mode: the MP3309C provides two dimming control mode:
+@@ -287,8 +285,7 @@ static int mp3309c_parse_fwnode(struct mp3309c_chip *chip,
  	if (ret)
  		pdata->default_brightness = pdata->max_brightness;
  	if (pdata->default_brightness > pdata->max_brightness) {
-@@ -310,8 +304,8 @@ static int pm3309c_parse_dt_node(struct mp3309c_chip *chip,
- 	 * If missing, the default value for OVP is 35.5V
- 	 */
- 	pdata->over_voltage_protection = REG_I2C_1_OVP1;
--	if (!of_property_read_u32(node, "mps,overvoltage-protection-microvolt",
--				  &tmp_value)) {
-+	ret = device_property_read_u32(dev, "mps,overvoltage-protection-microvolt", &tmp_value);
-+	if (!ret) {
- 		switch (tmp_value) {
- 		case 13500000:
- 			pdata->over_voltage_protection = 0x00;
-@@ -328,9 +322,7 @@ static int pm3309c_parse_dt_node(struct mp3309c_chip *chip,
+-		dev_err(chip->dev,
+-			"default brightness exceeds max brightness\n");
++		dev_err_probe(dev, -ERANGE, "default brightness exceeds max brightness\n");
+ 		pdata->default_brightness = pdata->max_brightness;
  	}
  
- 	/* Synchronous (default) and non-synchronous mode */
--	pdata->sync_mode = true;
--	if (of_property_read_bool(node, "mps,no-sync-mode"))
--		pdata->sync_mode = false;
-+	pdata->sync_mode = !device_property_read_bool(dev, "mps,no-sync-mode");
+@@ -329,16 +326,15 @@ static int mp3309c_parse_fwnode(struct mp3309c_chip *chip,
  
- 	return 0;
- }
-@@ -366,7 +358,7 @@ static int mp3309c_probe(struct i2c_client *client)
- 		if (!pdata)
- 			return -ENOMEM;
+ static int mp3309c_probe(struct i2c_client *client)
+ {
+-	struct mp3309c_platform_data *pdata = dev_get_platdata(&client->dev);
++	struct device *dev = &client->dev;
++	struct mp3309c_platform_data *pdata = dev_get_platdata(dev);
+ 	struct mp3309c_chip *chip;
+ 	struct backlight_properties props;
+ 	struct pwm_state pwmstate;
+ 	int ret;
  
--		ret = pm3309c_parse_dt_node(chip, pdata);
-+		ret = mp3309c_parse_fwnode(chip, pdata);
- 		if (ret)
- 			return ret;
- 	}
+-	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
+-		dev_err(&client->dev, "failed to check i2c functionality\n");
+-		return -EOPNOTSUPP;
+-	}
++	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
++		return dev_err_probe(dev, -EOPNOTSUPP, "failed to check i2c functionality\n");
+ 
+ 	chip = devm_kzalloc(&client->dev, sizeof(*chip), GFP_KERNEL);
+ 	if (!chip)
 -- 
 2.43.0.rc1.1.gbec44491f096
 
