@@ -2,74 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E49EF84E4F2
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 17:22:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDD7284E58B
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 17:54:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 962C710E976;
-	Thu,  8 Feb 2024 16:22:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C1C410E994;
+	Thu,  8 Feb 2024 16:54:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Scgo93nB";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="lSPRi6h7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7263E10E976
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 16:22:11 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-33b3585518eso427682f8f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Feb 2024 08:22:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1707409330; x=1708014130; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=XVYrR1w3vjSLEoScIT9shiLJlnv8SX7Fv2WGLCdbXnE=;
- b=Scgo93nBo+cMS/wKo3zPSTnF6VbESaFOOV0mLk7cDPVcrkgG/QN3KJ95dNPsNKdFJI
- t514yjinLpLjuSY/FT09OoQ5QY5r96hzCZt+cvt+bFOuwmn2QpJqqVYQzw2G68arKnM3
- OqDlKvXtVscTK4Ojf/typDVfGOYc0p6TzTjrg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707409330; x=1708014130;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XVYrR1w3vjSLEoScIT9shiLJlnv8SX7Fv2WGLCdbXnE=;
- b=eBeBoKsQYpNK/p+T03gHCn99XKQQvuHhQh/mm7T+5lMB281ejFXjCFeaU+hgCoZsmI
- BkELfLrluJFdTygAbGxp5HBTYkwr3Aqo9fWlGZH+Sv9gspVfftFCbeHlkjJ3QqC1L7A9
- P80kaU2jbvNB2sHylgm55y9rbXaqHGN03qcNSWXO9QmZfIVUHi3xf5J9G4VchQCGRprR
- ahqtYPuYg43QtNJxbX8xvWeu74ZRECTWg2iesZlcL544AdFAhuYFQRkxbyyuVItKN8MH
- KC3gbZyg+9Iaxvxqh7unelUUDpsS7vUelZmKBMwl0PoQbvTXBonvcKZTQg9cS4jCsl/b
- Ub+Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW27KuoQMVr5Ierh1Ys8IsthDVWtXAES02L4wWnZJ77JDbXWUBkkuWaMbHFzG8S0Rk7bToL6NtLd7tCn7hZHEw8GNJb43vgnA9b9vqOPOk8
-X-Gm-Message-State: AOJu0YzG9yCN8I6NnleGy1yWNXy0AeWZNowoCCPKfUM6QSnrmBIM2f+t
- eD7cn8k/GAcoaneN+iOs1nmD3Pc1CSW2qr871Ldh54XavyZyVCPG9miWof5PQNs=
-X-Google-Smtp-Source: AGHT+IEpqehU2sVDFuwgY3aqU5z62RyBh8cI+JrmBZ279PiVdpM2i7TBb2Pa1dZbx27FcKxF6pwGGQ==
-X-Received: by 2002:a5d:6a4f:0:b0:33b:48ed:be63 with SMTP id
- t15-20020a5d6a4f000000b0033b48edbe63mr5808547wrw.7.1707409329736; 
- Thu, 08 Feb 2024 08:22:09 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVFwwJwK6EDEnyQPpTrLL90j2o7JHogJYT55y2wUz3v7seTLZhKVP9jydfNYqgKUYMdFzNnN5B7TaTBqYdiFd8SMoFT1Nd3CC/B+wL6+PSf
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- cm20-20020a5d5f54000000b0033b46111d7csm3986258wrb.6.2024.02.08.08.22.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Feb 2024 08:22:09 -0800 (PST)
-Date: Thu, 8 Feb 2024 17:22:07 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
-Cc: Dave Airlie <airlied@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Subject: Re: xe vs amdgpu userptr handling
-Message-ID: <ZcT_r8XfXQOmIQWo@phenom.ffwll.local>
-References: <CAPM=9twPgn+fpbkig0Vhjt=cJdHQFbNH_Z=sRhSZwuvLKhavbA@mail.gmail.com>
- <0c4da8bd-452a-4ba5-9c4c-582cbc7b5dec@igalia.com>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2921110E994
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 16:54:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1707411258;
+ bh=xz8ndxOztTFCKJ9TrELMLvMBLlpkSusQevSdLrxJsUk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=lSPRi6h7iat3q4EY7mnfsZL3GCFMwswWDJsvwVK6SJorw2fFvZN+36ep1J0afA1+t
+ v2rvC5UYeg26EZmIw2gMzN1HaFGoNRZMytJeXc003k431kcAOc66Vekd/sHwupuRDh
+ zJG8vexmFNkrcMi3ZwyZJReHFbajBli4OP6dGQ+72g+Hl5X3ycXbn0sJp08fQkryia
+ g9oPq2MHa5aPK/lYakGNCfpRQfwNhsNBtAswnKlTtLGFx1GRaduQUV6wggd+RG/DCd
+ NE2lgZQMt29Qb0pfv4kDJ7f54XCPFF6xiJ5YlNRCJXGmr+PZrtnJeN/nykMcUqjTN9
+ Lez8nMv5x2KnQ==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 1E77937820AD;
+ Thu,  8 Feb 2024 16:54:17 +0000 (UTC)
+Date: Thu, 8 Feb 2024 17:54:15 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Liviu Dudau <Liviu.Dudau@arm.com>
+Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>, "Marty
+ E . Plummer" <hanetzer@startmail.com>, Rob Herring <robh@kernel.org>,
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, Nicolas Boichat
+ <drinkcat@chromium.org>, Neil Armstrong <neil.armstrong@linaro.org>, Faith
+ Ekstrand <faith.ekstrand@collabora.com>, Daniel Stone
+ <daniels@collabora.com>, Steven Price <steven.price@arm.com>, Robin Murphy
+ <robin.murphy@arm.com>, kernel@collabora.com, Heiko Stuebner
+ <heiko@sntech.de>, Tatsuyuki Ishi <ishitatsuyuki@gmail.com>, Chris Diamand
+ <chris.diamand@foss.arm.com>, Ketil Johnsen <ketil.johnsen@arm.com>, Grant
+ Likely <grant.likely@linaro.org>
+Subject: Re: [PATCH v4 03/14] drm/panthor: Add the device logical block
+Message-ID: <20240208175415.2c969593@collabora.com>
+In-Reply-To: <ZcT-6LvhaiMQm6ij@e110455-lin.cambridge.arm.com>
+References: <20240122163047.1954733-1-boris.brezillon@collabora.com>
+ <20240122163047.1954733-4-boris.brezillon@collabora.com>
+ <ZcTlau71Ffsx2f2r@e110455-lin.cambridge.arm.com>
+ <20240208161459.7dd42bcd@collabora.com>
+ <ZcT5ePyWlie4YyAG@e110455-lin.cambridge.arm.com>
+ <20240208170023.134e2f17@collabora.com>
+ <ZcT-6LvhaiMQm6ij@e110455-lin.cambridge.arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0c4da8bd-452a-4ba5-9c4c-582cbc7b5dec@igalia.com>
-X-Operating-System: Linux phenom 6.6.11-amd64 
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,60 +75,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 07, 2024 at 08:08:42AM -0300, Maíra Canal wrote:
-> Adding another point to this discussion, would it make sense to somehow
-> create a generic structure that all drivers, including shmem drivers, could
-> use it?
+On Thu, 8 Feb 2024 16:18:48 +0000
+Liviu Dudau <Liviu.Dudau@arm.com> wrote:
 
-
-So the issue is a bit that at least the userptr for shmem drivers I've
-seen all just use pin_user_pages(FOLL_LONGTERM), which nails the memory in
-place and makes it unshrinkable. I think that would be fairly easy to
-integrate into shmem helpers, and might already be a win (to catch stuff
-like userspace trying to share these). This memory probably should be
-accounted against mlock rlimit, but that's an entire different can of
-worms.
-
-Going full dynamic cross driver is a lot more infrastructure, because your
-command submission path needs to substantially change. I think that only
-makes when you have a lot more cross-driver code and not just the bare
-minimum buffer helpers, and I think gpuvm might be a good place to fit.
-Since that already has the concepts around "prepare this entire vm", and
-extending that is a lot more reasonable than building an entire new thing.
-
-I'm on board with Dave and agree that we really shouldn't have a diverse
-bouqet of driver specific implementations of all this, but I think
-fundamentally we will end up with the above two flavours for various
-reasons.
-
-So which userptr do you mean?
-
-Cheers, Sima
-
+> On Thu, Feb 08, 2024 at 05:00:23PM +0100, Boris Brezillon wrote:
+> > On Thu, 8 Feb 2024 15:55:36 +0000
+> > Liviu Dudau <Liviu.Dudau@arm.com> wrote:
+> >   
+> > > On Thu, Feb 08, 2024 at 04:14:59PM +0100, Boris Brezillon wrote:  
+> > > > On Thu, 8 Feb 2024 14:30:02 +0000
+> > > > Liviu Dudau <Liviu.Dudau@arm.com> wrote:
+> > > >     
+> > > > > > +int panthor_device_init(struct panthor_device *ptdev)
+> > > > > > +{
+> > > > > > +	struct resource *res;
+> > > > > > +	struct page *p;
+> > > > > > +	int ret;
+> > > > > > +
+> > > > > > +	ptdev->coherent = device_get_dma_attr(ptdev->base.dev) == DEV_DMA_COHERENT;
+> > > > > > +
+> > > > > > +	init_completion(&ptdev->unplug.done);
+> > > > > > +	ret = drmm_mutex_init(&ptdev->base, &ptdev->unplug.lock);
+> > > > > > +	if (ret)
+> > > > > > +		return ret;
+> > > > > > +
+> > > > > > +	ret = drmm_mutex_init(&ptdev->base, &ptdev->pm.mmio_lock);
+> > > > > > +	if (ret)
+> > > > > > +		return ret;
+> > > > > > +
+> > > > > > +	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDED);
+> > > > > > +	p = alloc_page(GFP_KERNEL | __GFP_ZERO);
+> > > > > > +	if (!p)
+> > > > > > +		return -ENOMEM;
+> > > > > > +
+> > > > > > +	ptdev->pm.dummy_latest_flush = page_address(p);
+> > > > > > +	ret = drmm_add_action_or_reset(&ptdev->base, panthor_device_free_page,
+> > > > > > +				       ptdev->pm.dummy_latest_flush);
+> > > > > > +	if (ret)
+> > > > > > +		return ret;
+> > > > > > +
+> > > > > > +	/*
+> > > > > > +	 * Set the dummy page holding the latest flush to 1. This will cause the
+> > > > > > +	 * flush to avoided as we know it isn't necessary if the submission
+> > > > > > +	 * happens while the dummy page is mapped. Zero cannot be used because
+> > > > > > +	 * that means 'always flush'.
+> > > > > > +	 */
+> > > > > > +	*ptdev->pm.dummy_latest_flush = 1;
+> > > > > > +
+> > > > > > +	INIT_WORK(&ptdev->reset.work, panthor_device_reset_work);
+> > > > > > +	ptdev->reset.wq = alloc_ordered_workqueue("panthor-reset-wq", 0);
+> > > > > > +	if (!ptdev->reset.wq)
+> > > > > > +		return -ENOMEM;
+> > > > > > +
+> > > > > > +	ret = drmm_add_action_or_reset(&ptdev->base, panthor_device_reset_cleanup, NULL);
+> > > > > > +	if (ret)
+> > > > > > +		return ret;
+> > > > > > +
+> > > > > > +	ret = panthor_clk_init(ptdev);
+> > > > > > +	if (ret)
+> > > > > > +		return ret;
+> > > > > > +
+> > > > > > +	ret = panthor_devfreq_init(ptdev);
+> > > > > > +	if (ret)
+> > > > > > +		return ret;
+> > > > > > +
+> > > > > > +	ptdev->iomem = devm_platform_get_and_ioremap_resource(to_platform_device(ptdev->base.dev),
+> > > > > > +							      0, &res);
+> > > > > > +	if (IS_ERR(ptdev->iomem))
+> > > > > > +		return PTR_ERR(ptdev->iomem);
+> > > > > > +
+> > > > > > +	ptdev->phys_addr = res->start;
+> > > > > > +
+> > > > > > +	ret = devm_pm_runtime_enable(ptdev->base.dev);
+> > > > > > +	if (ret)
+> > > > > > +		return ret;
+> > > > > > +
+> > > > > > +	ret = pm_runtime_resume_and_get(ptdev->base.dev);
+> > > > > > +	if (ret)
+> > > > > > +		return ret;
+> > > > > > +
+> > > > > > +	ret = panthor_gpu_init(ptdev);
+> > > > > > +	if (ret)
+> > > > > > +		goto err_rpm_put;
+> > > > > > +
+> > > > > > +	ret = panthor_mmu_init(ptdev);
+> > > > > > +	if (ret)
+> > > > > > +		goto err_unplug_gpu;
+> > > > > > +
+> > > > > > +	ret = panthor_fw_init(ptdev);
+> > > > > > +	if (ret)
+> > > > > > +		goto err_unplug_mmu;
+> > > > > > +
+> > > > > > +	ret = panthor_sched_init(ptdev);
+> > > > > > +	if (ret)
+> > > > > > +		goto err_unplug_fw;
+> > > > > > +
+> > > > > > +	/* ~3 frames */
+> > > > > > +	pm_runtime_set_autosuspend_delay(ptdev->base.dev, 50);
+> > > > > > +
+> > > > > > +	ret = drm_dev_register(&ptdev->base, 0);
+> > > > > > +	if (ret)
+> > > > > > +		goto err_unplug_sched;      
+> > > > > 
+> > > > > For sake of replicating the panthor_device_unplus() calls, should we do
+> > > > > here:
+> > > > > 
+> > > > > 	if (ret) {
+> > > > > 		pm_runtime_dont_use_autosuspend(ptdev->base.dev);    
+> > > > 
+> > > > But pm_runtime_use_autosuspend() is called after that, why do we need
+> > > > to call pm_runtime_dont_use_autosuspend() here?    
+> > > 
+> > > This is in the case where ret != 0, so we're going to skip over
+> > > pm_runtime_use_autosuspend(). We've just called
+> > > pm_runtime_set_autosuspend_delay() which by my reading also enables
+> > > runtime PM when it calls update_autosuspend(), so this is needed.  
+> > 
+> > That's not how I understand it. To me,
+> > pm_runtime_set_autosuspend_delay() just updates the delay, but doesn't
+> > change the autosuspend status, and update_autosuspend() doesn't seem to
+> > change it either.  
 > 
-> Best Regards,
-> - Maíra
+> That depends on how you interpret the vague: "If it changes the other way
+> [read: not negative delay and (or?) power.use_autosuspend set], allow runtime
+> suspends".
 > 
-> On 2/7/24 03:56, Dave Airlie wrote:
-> > I'm just looking over the userptr handling in both drivers, and of
-> > course they've chosen different ways to represent things. Again this
-> > is a divergence that is just going to get more annoying over time and
-> > eventually I'd like to make hmm/userptr driver independent as much as
-> > possible, so we get consistent semantics in userspace.
-> > 
-> > AFAICS the main difference is that amdgpu builds the userptr handling
-> > inside a GEM object in the kernel, whereas xe doesn't bother creating
-> > a holding object and just handles things directly in the VM binding
-> > code.
-> > 
-> > Is this just different thinking at different times here?
-> > like since we have VM BIND in xe, it made sense not to bother creating
-> > a gem object for userptrs?
-> > or is there some other advantages to going one way or the other?
-> > 
-> > Dave.
+> The "else" branch in update_autosuspend() is taken when either delay >= 0 *or*
+> dev->power.use_autosuspend is zero. rpm_idle() will then be called regardless
+> of the values for old_delay and old_use.
+> 
+> Maybe we have uncovered a bug?
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Nah, you're right, but that's confusing. I thought by moving
+pm_runtime_set_autosuspend_delay() before the drm_dev_register() we
+wouldn't change the autosuspend state, and at the same time preset a
+default delay that can be changed by userland as soon as the device is
+exposed (when drm_dev_register() is called). If we can't do that,
+there's no point splitting the set_autosuspend_delay() and
+use_autosuspend() calls, we can just move them before
+drm_dev_register() and call dont_use_autosuspend() is something fails
+(as you suggested).
