@@ -2,62 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 658EA84E491
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 17:00:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64A4284E4A2
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 17:02:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D32DC10E4D1;
-	Thu,  8 Feb 2024 16:00:31 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="eg/+GMuU";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4A6510E6B6;
+	Thu,  8 Feb 2024 16:02:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25AE010E4D1
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 16:00:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1707408025;
- bh=/mV6aQxUcb97yRy5SbwKxSz7zWt/ypUX3JOc46vkSbY=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=eg/+GMuU9dv74z7rAMP2HC02YG8lzLBe7O0knYoqlOuZCQtQUC1Rox3ASxIVsQ98F
- cllNPshRq/IQGzTpWcmnESQWfwjK+SCSoxvOJMHrVu3c11svmkQdCtqdNgOqWqzfzP
- EAv1bjZVT031Sb88OoUIgoy2sfAt0PrtStRJhqEG3Jdm3abIni8rHEjbA2p4Vy3yN5
- kXuP1eEjq3infbp0liGMcIFtsKT7HrhvTAcy94HmFTCc38K18WTQqecInnOxBif+3e
- ZuHlkVgyusq5WrplidOR5+xfhWbjiGize+ZfW92tiTZYjY64HpeR6o2p42LP5N9I+B
- nF7bHmV87i7Ow==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 881F7378103D;
- Thu,  8 Feb 2024 16:00:24 +0000 (UTC)
-Date: Thu, 8 Feb 2024 17:00:23 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Liviu Dudau <Liviu.Dudau@arm.com>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>, "Marty
- E . Plummer" <hanetzer@startmail.com>, Rob Herring <robh@kernel.org>,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, Nicolas Boichat
- <drinkcat@chromium.org>, Neil Armstrong <neil.armstrong@linaro.org>, Faith
- Ekstrand <faith.ekstrand@collabora.com>, Daniel Stone
- <daniels@collabora.com>, Steven Price <steven.price@arm.com>, Robin Murphy
- <robin.murphy@arm.com>, kernel@collabora.com, Heiko Stuebner
- <heiko@sntech.de>, Tatsuyuki Ishi <ishitatsuyuki@gmail.com>, Chris Diamand
- <chris.diamand@foss.arm.com>, Ketil Johnsen <ketil.johnsen@arm.com>, Grant
- Likely <grant.likely@linaro.org>
-Subject: Re: [PATCH v4 03/14] drm/panthor: Add the device logical block
-Message-ID: <20240208170023.134e2f17@collabora.com>
-In-Reply-To: <ZcT5ePyWlie4YyAG@e110455-lin.cambridge.arm.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 30F5C10E6B6
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 16:02:35 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 34BFE1FB
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 08:03:17 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A8F8B3F5A1
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 08:02:34 -0800 (PST)
+Date: Thu, 8 Feb 2024 16:02:33 +0000
+From: Liviu Dudau <Liviu.Dudau@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ "Marty E . Plummer" <hanetzer@startmail.com>,
+ Rob Herring <robh@kernel.org>,
+ =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+ Nicolas Boichat <drinkcat@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>,
+ Daniel Stone <daniels@collabora.com>, Steven Price <steven.price@arm.com>,
+ Robin Murphy <robin.murphy@arm.com>, kernel@collabora.com,
+ Heiko Stuebner <heiko@sntech.de>, Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
+ Chris Diamand <chris.diamand@foss.arm.com>,
+ Ketil Johnsen <ketil.johnsen@arm.com>
+Subject: Re: [PATCH v4 00/14] drm: Add a driver for CSF-based Mali GPUs
+Message-ID: <ZcT7GcdoPQQDesO4@e110455-lin.cambridge.arm.com>
 References: <20240122163047.1954733-1-boris.brezillon@collabora.com>
- <20240122163047.1954733-4-boris.brezillon@collabora.com>
- <ZcTlau71Ffsx2f2r@e110455-lin.cambridge.arm.com>
- <20240208161459.7dd42bcd@collabora.com>
- <ZcT5ePyWlie4YyAG@e110455-lin.cambridge.arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240122163047.1954733-1-boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,119 +57,162 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 8 Feb 2024 15:55:36 +0000
-Liviu Dudau <Liviu.Dudau@arm.com> wrote:
+On Mon, Jan 22, 2024 at 05:30:31PM +0100, Boris Brezillon wrote:
+> Hello,
 
-> On Thu, Feb 08, 2024 at 04:14:59PM +0100, Boris Brezillon wrote:
-> > On Thu, 8 Feb 2024 14:30:02 +0000
-> > Liviu Dudau <Liviu.Dudau@arm.com> wrote:
-> >   
-> > > > +int panthor_device_init(struct panthor_device *ptdev)
-> > > > +{
-> > > > +	struct resource *res;
-> > > > +	struct page *p;
-> > > > +	int ret;
-> > > > +
-> > > > +	ptdev->coherent = device_get_dma_attr(ptdev->base.dev) == DEV_DMA_COHERENT;
-> > > > +
-> > > > +	init_completion(&ptdev->unplug.done);
-> > > > +	ret = drmm_mutex_init(&ptdev->base, &ptdev->unplug.lock);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	ret = drmm_mutex_init(&ptdev->base, &ptdev->pm.mmio_lock);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDED);
-> > > > +	p = alloc_page(GFP_KERNEL | __GFP_ZERO);
-> > > > +	if (!p)
-> > > > +		return -ENOMEM;
-> > > > +
-> > > > +	ptdev->pm.dummy_latest_flush = page_address(p);
-> > > > +	ret = drmm_add_action_or_reset(&ptdev->base, panthor_device_free_page,
-> > > > +				       ptdev->pm.dummy_latest_flush);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	/*
-> > > > +	 * Set the dummy page holding the latest flush to 1. This will cause the
-> > > > +	 * flush to avoided as we know it isn't necessary if the submission
-> > > > +	 * happens while the dummy page is mapped. Zero cannot be used because
-> > > > +	 * that means 'always flush'.
-> > > > +	 */
-> > > > +	*ptdev->pm.dummy_latest_flush = 1;
-> > > > +
-> > > > +	INIT_WORK(&ptdev->reset.work, panthor_device_reset_work);
-> > > > +	ptdev->reset.wq = alloc_ordered_workqueue("panthor-reset-wq", 0);
-> > > > +	if (!ptdev->reset.wq)
-> > > > +		return -ENOMEM;
-> > > > +
-> > > > +	ret = drmm_add_action_or_reset(&ptdev->base, panthor_device_reset_cleanup, NULL);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	ret = panthor_clk_init(ptdev);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	ret = panthor_devfreq_init(ptdev);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	ptdev->iomem = devm_platform_get_and_ioremap_resource(to_platform_device(ptdev->base.dev),
-> > > > +							      0, &res);
-> > > > +	if (IS_ERR(ptdev->iomem))
-> > > > +		return PTR_ERR(ptdev->iomem);
-> > > > +
-> > > > +	ptdev->phys_addr = res->start;
-> > > > +
-> > > > +	ret = devm_pm_runtime_enable(ptdev->base.dev);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	ret = pm_runtime_resume_and_get(ptdev->base.dev);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	ret = panthor_gpu_init(ptdev);
-> > > > +	if (ret)
-> > > > +		goto err_rpm_put;
-> > > > +
-> > > > +	ret = panthor_mmu_init(ptdev);
-> > > > +	if (ret)
-> > > > +		goto err_unplug_gpu;
-> > > > +
-> > > > +	ret = panthor_fw_init(ptdev);
-> > > > +	if (ret)
-> > > > +		goto err_unplug_mmu;
-> > > > +
-> > > > +	ret = panthor_sched_init(ptdev);
-> > > > +	if (ret)
-> > > > +		goto err_unplug_fw;
-> > > > +
-> > > > +	/* ~3 frames */
-> > > > +	pm_runtime_set_autosuspend_delay(ptdev->base.dev, 50);
-> > > > +
-> > > > +	ret = drm_dev_register(&ptdev->base, 0);
-> > > > +	if (ret)
-> > > > +		goto err_unplug_sched;    
-> > > 
-> > > For sake of replicating the panthor_device_unplus() calls, should we do
-> > > here:
-> > > 
-> > > 	if (ret) {
-> > > 		pm_runtime_dont_use_autosuspend(ptdev->base.dev);  
-> > 
-> > But pm_runtime_use_autosuspend() is called after that, why do we need
-> > to call pm_runtime_dont_use_autosuspend() here?  
+Hi,
+
 > 
-> This is in the case where ret != 0, so we're going to skip over
-> pm_runtime_use_autosuspend(). We've just called
-> pm_runtime_set_autosuspend_delay() which by my reading also enables
-> runtime PM when it calls update_autosuspend(), so this is needed.
+> This is the 4th version of the kernel driver for Mali CSF-based GPUs.
+> 
+> A branch based on drm-misc-next and containing all the dependencies
+> that are not yet available in drm-misc-next here[1], and another [2]
+> containing extra patches to have things working on rk3588. The CSF
+> firmware binary can be found here[3], and should be placed under
+> /lib/firmware/arm/mali/arch10.8/mali_csffw.bin.
 
-That's not how I understand it. To me,
-pm_runtime_set_autosuspend_delay() just updates the delay, but doesn't
-change the autosuspend status, and update_autosuspend() doesn't seem to
-change it either.
+Since today the linux-firmware 'main' branch also contains an official
+copy of the CSF firmware for the 10.8 architecture. Thanks to Mario for
+the quick inclusion!
+
+Best regards,
+Liviu
+
+> 
+> The mesa MR adding v10 support on top of panthor is available here [4].
+> 
+> Steve, I intentionally dropped your R-b on "drm/panthor: Add the heap
+> logical block" and "drm/panthor: Add the scheduler logical block"
+> because the tiler-OOM handling changed enough to require a new review
+> IMHO.
+> 
+> Regarding the GPL2+MIT relicensing, I collected Clément's R-b for the
+> devfreq code, but am still lacking Alexey Sheplyakov for some bits in
+> panthor_gpu.c. The rest of the code is either new, or covered by the
+> Linaro, Arm and Collabora acks.
+> 
+> And here is a non-exhaustive changelog, check each commit for a detailed
+> changelog.
+> 
+> v4:
+> - Fix various bugs in the VM logic
+> - Address comments from Steven, Liviu, Ketil and Chris
+> - Move tiler OOM handling out of the scheduler interrupt handling path
+>   so we can properly recover when the system runs out of memory, and
+>   panthor is blocked trying to allocate heap chunks
+> - Rework the heap locking to support concurrent chunk allocation. Not
+>   sure if this is supposed to happen, but we need to be robust against
+>   userspace passing the same heap context to two scheduling groups.
+>   Wasn't needed before the tiler_oom rework, because heap allocation
+>   base serialized by the scheduler lock.
+> - Make kernel BO destruction robust to NULL/ERR pointers
+> 
+> v3;
+> - Quite a few changes at the MMU/sched level to make the fix some
+>   race conditions and deadlocks
+> - Addition of the a sync-only VM_BIND operation (to support
+>   vkQueueSparseBind with zero commands).
+> - Addition of a VM_GET_STATE ioctl
+> - Various cosmetic changes (see the commit changelogs for more details)
+> - Various fixes (see the commit changelogs for more details)
+> 
+> v2:
+> - Rename the driver (pancsf -> panthor)
+> - Split the commit adding the driver to ease review
+> - Use drm_sched for dependency tracking/job submission
+> - Add a VM_BIND ioctl
+> - Add the concept of exclusive VM for BOs that are only ever mapped to a
+>   single VM
+> - Document the code and uAPI
+> - Add a DT binding doc
+> 
+> Regards,
+> 
+> Boris
+> 
+> [1]https://gitlab.freedesktop.org/panfrost/linux/-/tree/panthor-v4
+> [2]https://gitlab.freedesktop.org/panfrost/linux/-/tree/panthor-v4+rk3588
+> [3]https://gitlab.com/firefly-linux/external/libmali/-/raw/firefly/firmware/g610/mali_csffw.bin
+> [4]https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/26358
+> 
+> Boris Brezillon (13):
+>   drm/panthor: Add uAPI
+>   drm/panthor: Add GPU register definitions
+>   drm/panthor: Add the device logical block
+>   drm/panthor: Add the GPU logical block
+>   drm/panthor: Add GEM logical block
+>   drm/panthor: Add the devfreq logical block
+>   drm/panthor: Add the MMU/VM logical block
+>   drm/panthor: Add the FW logical block
+>   drm/panthor: Add the heap logical block
+>   drm/panthor: Add the scheduler logical block
+>   drm/panthor: Add the driver frontend block
+>   drm/panthor: Allow driver compilation
+>   drm/panthor: Add an entry to MAINTAINERS
+> 
+> Liviu Dudau (1):
+>   dt-bindings: gpu: mali-valhall-csf: Add support for Arm Mali CSF GPUs
+> 
+>  .../bindings/gpu/arm,mali-valhall-csf.yaml    |  147 +
+>  Documentation/gpu/driver-uapi.rst             |    5 +
+>  MAINTAINERS                                   |   11 +
+>  drivers/gpu/drm/Kconfig                       |    2 +
+>  drivers/gpu/drm/Makefile                      |    1 +
+>  drivers/gpu/drm/panthor/Kconfig               |   23 +
+>  drivers/gpu/drm/panthor/Makefile              |   15 +
+>  drivers/gpu/drm/panthor/panthor_devfreq.c     |  283 ++
+>  drivers/gpu/drm/panthor/panthor_devfreq.h     |   25 +
+>  drivers/gpu/drm/panthor/panthor_device.c      |  544 +++
+>  drivers/gpu/drm/panthor/panthor_device.h      |  393 ++
+>  drivers/gpu/drm/panthor/panthor_drv.c         | 1470 +++++++
+>  drivers/gpu/drm/panthor/panthor_fw.c          | 1334 +++++++
+>  drivers/gpu/drm/panthor/panthor_fw.h          |  504 +++
+>  drivers/gpu/drm/panthor/panthor_gem.c         |  228 ++
+>  drivers/gpu/drm/panthor/panthor_gem.h         |  144 +
+>  drivers/gpu/drm/panthor/panthor_gpu.c         |  482 +++
+>  drivers/gpu/drm/panthor/panthor_gpu.h         |   52 +
+>  drivers/gpu/drm/panthor/panthor_heap.c        |  596 +++
+>  drivers/gpu/drm/panthor/panthor_heap.h        |   39 +
+>  drivers/gpu/drm/panthor/panthor_mmu.c         | 2760 +++++++++++++
+>  drivers/gpu/drm/panthor/panthor_mmu.h         |  102 +
+>  drivers/gpu/drm/panthor/panthor_regs.h        |  239 ++
+>  drivers/gpu/drm/panthor/panthor_sched.c       | 3500 +++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_sched.h       |   48 +
+>  include/uapi/drm/panthor_drm.h                |  945 +++++
+>  26 files changed, 13892 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
+>  create mode 100644 drivers/gpu/drm/panthor/Kconfig
+>  create mode 100644 drivers/gpu/drm/panthor/Makefile
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_devfreq.c
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_devfreq.h
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_device.c
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_device.h
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_drv.c
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_fw.c
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_fw.h
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_gem.c
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_gem.h
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_gpu.c
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_gpu.h
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_heap.c
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_heap.h
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_mmu.c
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_mmu.h
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_regs.h
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_sched.c
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_sched.h
+>  create mode 100644 include/uapi/drm/panthor_drm.h
+> 
+> -- 
+> 2.43.0
+> 
+
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
