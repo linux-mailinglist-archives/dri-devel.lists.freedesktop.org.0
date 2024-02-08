@@ -2,81 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08AAC84DF95
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 12:25:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3940984DF96
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 12:25:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E1A810E60C;
-	Thu,  8 Feb 2024 11:25:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42EB210E65F;
+	Thu,  8 Feb 2024 11:25:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IsCEvLOn";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="O7LyW/Vq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1D0410E1AB;
- Thu,  8 Feb 2024 11:25:30 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 744C310E65F
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 11:25:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707391531; x=1738927531;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=/T8fsiQz9IS5U7ycgKK1gFMQdBOwFnWBZjXLALSAPjI=;
- b=IsCEvLOniy5HtJPdRcHQozIaO5tu6NtPugq9+7sU+lWZzY32zSfrrflp
- Hw9Cqvkkm7mymevfdXNl+C29E4oLJ9b09Lv1fYgMQ24MFGWnUXoeS/Ywx
- XNkZS/uoOx+AGjon07UYXGW5+A+7XSl67HeKEhFEtp01SodtbGcR1UveA
- i8nvIKh4HHvjOwKq4Loa0VjvxxzrPfmJwkcUdXOTBssINR/wPnaVKsMTR
- 891xRB2WMfouNjkDqWC+zZuUYhIywSmmahdgnQY6QLCU9oQgIlIN5IzRz
- 8cIKcJ2Vatwc90Gi2wk2yJYD/9iqDWQVW++RTx90c5Jpx7rAL71rWYV7l Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="1333836"
-X-IronPort-AV: E=Sophos;i="6.05,253,1701158400"; 
-   d="scan'208";a="1333836"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2024 03:25:31 -0800
+ t=1707391539; x=1738927539;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=NbyipODvKhkuT4LeHX9tVJZzkOQYWiWXM+vZyBVCxSc=;
+ b=O7LyW/VqvG4xDOu02l9A6aAi4yjSGgKFcyH9KQguuEMZ9SSTIh9iXxrG
+ OrI7DM5UrrSMSwyPBtverzSgriSVhIeIG7NGNlck9rk82AfWnWHzJ3/0I
+ Fvx2gmUczxh9OfEXz8yNrhnsG1wUu2Xetr3XA+eBBAnhCEhWGUzrBINP3
+ i2HgYAiwyURRJ+EzjBJJ9fngBPwh5D2puHC13SBvIuSXxf902/loryLeA
+ g2BDQ65AQHVysvvdLC3OX95F77q9CHdKKfGU32ByqEkz+DnKB8fIuWIY2
+ 18WgCdg8+HEiw5pqp2dM/t1QfBHatWT9uoxqYmeKmUR+TncHTDyaNZAh/ A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="18619328"
+X-IronPort-AV: E=Sophos;i="6.05,253,1701158400"; d="scan'208";a="18619328"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2024 03:25:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,253,1701158400"; 
-   d="scan'208";a="1619117"
-Received: from kamilkon-desk.igk.intel.com (HELO localhost) ([10.102.138.187])
- by fmviesa009-auth.fm.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2024 03:25:27 -0800
-Date: Thu, 8 Feb 2024 12:25:03 +0100
-From: Kamil Konieczny <kamil.konieczny@linux.intel.com>
-To: igt-dev@lists.freedesktop.org
-Cc: Arthur Grillo <arthurgrillo@riseup.net>, dri-devel@lists.freedesktop.org,
- Petri Latvala <adrinael@adrinael.net>, Arkadiusz Hiler <arek@hiler.eu>,
- Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- Bhanuprakash Modem <bhanuprakash.modem@intel.com>,
- Ashutosh Dixit <ashutosh.dixit@intel.com>,
- Pekka Paalanen <pekka.paalanen@haloniitty.fi>,
- Louis Chauvet <louis.chauvet@bootlin.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH i-g-t] benchmarks: Add VKMS benchmark
-Message-ID: <20240208112503.x2yql2zirapwpue6@kamilkon-desk.igk.intel.com>
-Mail-Followup-To: Kamil Konieczny <kamil.konieczny@linux.intel.com>,
- igt-dev@lists.freedesktop.org,
- Arthur Grillo <arthurgrillo@riseup.net>,
- dri-devel@lists.freedesktop.org,
- Petri Latvala <adrinael@adrinael.net>,
- Arkadiusz Hiler <arek@hiler.eu>,
- Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- Bhanuprakash Modem <bhanuprakash.modem@intel.com>,
- Ashutosh Dixit <ashutosh.dixit@intel.com>,
- Pekka Paalanen <pekka.paalanen@haloniitty.fi>,
- Louis Chauvet <louis.chauvet@bootlin.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20240207-bench-v1-1-7135ad426860@riseup.net>
+X-IronPort-AV: E=Sophos;i="6.05,253,1701158400"; d="scan'208";a="32442856"
+Received: from pplotits-mobl2.ccr.corp.intel.com (HELO [10.249.254.149])
+ ([10.249.254.149])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2024 03:25:38 -0800
+Message-ID: <9ae57d0c2fd78bad24d60044d32860cc66ea193e.camel@linux.intel.com>
+Subject: Re: xe vs amdgpu userptr handling
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Dave
+ Airlie <airlied@gmail.com>, =?ISO-8859-1?Q?Ma=EDra?= Canal
+ <mcanal@igalia.com>, Matthew Brost <matthew.brost@intel.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Date: Thu, 08 Feb 2024 12:25:34 +0100
+In-Reply-To: <42c543f1-c9dd-4342-877c-fd2fd290ea24@amd.com>
+References: <CAPM=9twPgn+fpbkig0Vhjt=cJdHQFbNH_Z=sRhSZwuvLKhavbA@mail.gmail.com>
+ <0c4da8bd-452a-4ba5-9c4c-582cbc7b5dec@igalia.com>
+ <CAPM=9twvcJPdZvaw+TOpTC+6NoNTbSqhy97aJRP5Hg0HBkQE0g@mail.gmail.com>
+ <bafff5df-a382-45fa-b706-47cdf0afe2cf@amd.com>
+ <c12b07c33d11cf668516d92ecf9b908af34bf177.camel@linux.intel.com>
+ <d4fa26cdb32371ce7981cc87203859c10e9e868a.camel@linux.intel.com>
+ <42c543f1-c9dd-4342-877c-fd2fd290ea24@amd.com>
+Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240207-bench-v1-1-7135ad426860@riseup.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,271 +76,187 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Arthur,
-On 2024-02-07 at 17:17:15 -0300, Arthur Grillo wrote:
-> Create a benchmark for the VKMS driver. Use a KMS layout with deliberate
-> odd sizes to try to avoid alignment accidents and run it for FRAME_COUNT
-> frames flipping framebuffers in each plane.
-> 
-> Link: https://lore.kernel.org/all/20240202214527.1d97c881@ferris.localdomain/
-> Suggested-by: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> ---
-> This benchmark was suggested by Pekka Paalanen on [1] to better analyse
-> possible performance regression on the Virtual Kernel Modesetting(VKMS)
-> driver.
-> 
-> With this benchmark I was able to determine two performance regression:
-> 
-> - 322d716a3e8a ("drm/vkms: isolate pixel conversion functionality")
-> - cc4fd2934d41 ("drm/vkms: Isolate writeback pixel conversion functions")
+On Thu, 2024-02-08 at 12:08 +0100, Christian K=C3=B6nig wrote:
+> Am 08.02.24 um 10:43 schrieb Thomas Hellstr=C3=B6m:
+> > On Thu, 2024-02-08 at 10:38 +0100, Thomas Hellstr=C3=B6m wrote:
+> > > Hi,
+> > >=20
+> > > On Thu, 2024-02-08 at 07:30 +0100, Christian K=C3=B6nig wrote:
+> > > > Am 08.02.24 um 01:36 schrieb Dave Airlie:
+> > > > > Just cc'ing some folks. I've also added another question.
+> > > > >=20
+> > > > > On Wed, 7 Feb 2024 at 21:08, Ma=C3=ADra Canal <mcanal@igalia.com>
+> > > > > wrote:
+> > > > > > Adding another point to this discussion, would it make
+> > > > > > sense to
+> > > > > > somehow
+> > > > > > create a generic structure that all drivers, including
+> > > > > > shmem
+> > > > > > drivers,
+> > > > > > could use it?
+> > > > > >=20
+> > > > > > Best Regards,
+> > > > > > - Ma=C3=ADra
+> > > > > >=20
+> > > > > > On 2/7/24 03:56, Dave Airlie wrote:
+> > > > > > > I'm just looking over the userptr handling in both
+> > > > > > > drivers,
+> > > > > > > and
+> > > > > > > of
+> > > > > > > course they've chosen different ways to represent things.
+> > > > > > > Again
+> > > > > > > this
+> > > > > > > is a divergence that is just going to get more annoying
+> > > > > > > over
+> > > > > > > time and
+> > > > > > > eventually I'd like to make hmm/userptr driver
+> > > > > > > independent as
+> > > > > > > much as
+> > > > > > > possible, so we get consistent semantics in userspace.
+> > > > > > >=20
+> > > > > > > AFAICS the main difference is that amdgpu builds the
+> > > > > > > userptr
+> > > > > > > handling
+> > > > > > > inside a GEM object in the kernel, whereas xe doesn't
+> > > > > > > bother
+> > > > > > > creating
+> > > > > > > a holding object and just handles things directly in the
+> > > > > > > VM
+> > > > > > > binding
+> > > > > > > code.
+> > > > > > >=20
+> > > > > > > Is this just different thinking at different times here?
+> > > > > > > like since we have VM BIND in xe, it made sense not to
+> > > > > > > bother
+> > > > > > > creating
+> > > > > > > a gem object for userptrs?
+> > > > > > > or is there some other advantages to going one way or the
+> > > > > > > other?
+> > > > > > >=20
+> > > > > So the current AMD code uses hmm to do userptr work, but xe
+> > > > > doesn't
+> > > > > again, why isn't xe using hmm here, I thought I remembered
+> > > > > scenarios
+> > > > > where plain mmu_notifiers weren't sufficient.
+> > > > Well amdgpu is using hmm_range_fault because that was made
+> > > > mandatory
+> > > > for
+> > > > the userptr handling.
+> > > >=20
+> > > > And yes pure mmu_notifiers are not sufficient, you need the
+> > > > sequence
+> > > > number + retry mechanism hmm_range_fault provides.
+> > > >=20
+> > > > Otherwise you open up security holes you can push an elephant
+> > > > through.
+> > > >=20
+> > > > Regards,
+> > > > Christian.
+> > > Xe also uses a retry mechanism, so no security hole. The main
+> > > difference is we use get_user_pages() + retry instead of
+> > > hmm_range_fault() + retry, with a net effect we're probably
+> > > holding
+> > > the
+> > > page refcounts a little longer, but we drop it immediately after
+> > > obtaining the page pointers, and dirtying the pages.
+> > >=20
+> > > That said we should move over to hmm_range_fault() to align. I
+> > > think
+> > > this was only a result of limited hmm knowledge when the xe code
+> > > was
+> > > written.
+>=20
+> Yeah, that makes sense. In this case it's just a missing cleanup.
+>=20
+> > > As for the userptr not using a backing object in Xe, AFAIK that
+> > > was
+> > > because a backing object was deemed unnecessary with VM_BIND.
+> > > Joonas
+> > > or
+> > > Matt can probably provide more detail, but if we're going to do
+> > > an
+> > > hmmptr, and have userptr only be a special case of that, then the
+> > > object is ofc out of the question.
+>=20
+> Well how do you then store the dma_fence of the operation?
+>=20
+> At least my long term plan was to move some of the logic necessary
+> for=20
+> hmm_range_fault based userptr handling into common GEM code.
 
-Could you move those explanations into commit description?
+Since these are never shared, the dma-fences resulting from both the
+bind operations and the workloads using the user-pointers are stored in
+the vm's dma-resv, just like for local GEM objects. Although this is
+IMHO a bit sub-optimal since I ideally would want the dma-fences
+resulting from the bind operations stored per vma. That is because when
+zapping ptes in faulting VMs we first need to wait for the bind to
+complete, but only that. We don't need to wait for the VM to become
+idle.
 
-> 
-> [1]: https://lore.kernel.org/all/20240202214527.1d97c881@ferris.localdomain/
-> ---
->  benchmarks/meson.build   |   1 +
->  benchmarks/vkms_stress.c | 203 +++++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 204 insertions(+)
-> 
-> diff --git a/benchmarks/meson.build b/benchmarks/meson.build
-> index c451268bc44f..3aa66d6dffe2 100644
-> --- a/benchmarks/meson.build
-> +++ b/benchmarks/meson.build
-> @@ -20,6 +20,7 @@ benchmark_progs = [
->  	'kms_vblank',
->  	'prime_lookup',
->  	'vgem_mmap',
-> +	'vkms_stress',
->  ]
->  
->  benchmarksdir = join_paths(libexecdir, 'benchmarks')
-> diff --git a/benchmarks/vkms_stress.c b/benchmarks/vkms_stress.c
-> new file mode 100644
-> index 000000000000..b9128c208861
-> --- /dev/null
-> +++ b/benchmarks/vkms_stress.c
-> @@ -0,0 +1,203 @@
+>=20
+> One puzzle piece of that is the drm_exec object and for that to work=20
+> userptrs would need to be based on GEM objects as well.
 
-Please add here at begin:
-// SPDX-License-Identifier: MIT
+It does with the above solution. The vm's dma-resv is aliased to a
+suitable GEM object.
 
-> +/*
-> + * Copyright © 2024 Arthur Grillo
-> + *
+>=20
+> > > FWIW i915 also keeps an object, but it also pins the pages and
+> > > relies
+> > > on the shrinker to release that pinning.
+>=20
+> Well what exactly do you pin? The pages backing the userptr?
+>=20
+> Cause that would be a no-go as well I think since it badly clashes
+> with=20
+> NUMA migrations and transparent huge pages.
 
-Keep above copyright and delete below text, it is replaced by SPDX.
+Exactly. I guess just nobody dared to remove the pinning in i915 in
+favor of the pure mmu_notifier protection to see what errors CI might
+come up with. Yet.
 
-Regards,
-Kamil
+/Thomas
 
-> + * Permission is hereby granted, free of charge, to any person obtaining a
-> + * copy of this software and associated documentation files (the "Software"),
-> + * to deal in the Software without restriction, including without limitation
-> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-> + * and/or sell copies of the Software, and to permit persons to whom the
-> + * Software is furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice (including the next
-> + * paragraph) shall be included in all copies or substantial portions of the
-> + * Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-> + * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-> + * IN THE SOFTWARE.
-> + *
-> + * Authors:
-> + *    Arthur Grillo <arthurgrillo@riseup.net>
-> + *
-> + */
-> +
-> +#include "igt.h"
-> +
-> +#define FRAME_COUNT 100
-> +
-> +struct rect_t {
-> +	int x, y;
-> +	int width, height;
-> +};
-> +
-> +struct plane_t {
-> +	igt_plane_t *base;
-> +	struct rect_t rect;
-> +	uint32_t format;
-> +	struct igt_fb fbs[2];
-> +};
-> +
-> +struct kms_t {
-> +	struct plane_t primary;
-> +	struct plane_t overlay_a;
-> +	struct plane_t overlay_b;
-> +	struct plane_t writeback;
-> +};
-> +
-> +struct data_t {
-> +	int fd;
-> +	igt_display_t display;
-> +	igt_output_t *wb_output;
-> +	drmModeModeInfo *mode;
-> +	struct kms_t kms;
-> +};
-> +
-> +static void plane_create_fb(struct plane_t *plane, int fd, size_t index)
-> +{
-> +	igt_create_fb(fd, plane->rect.width, plane->rect.height,
-> +			plane->format, DRM_FORMAT_MOD_LINEAR,
-> +			&plane->fbs[index]);
-> +}
-> +
-> +static void plane_create_color_fb(struct plane_t *plane, int fd, size_t index, double r, double g,
-> +				   double b)
-> +{
-> +	igt_create_color_fb(fd, plane->rect.width, plane->rect.height,
-> +			plane->format, DRM_FORMAT_MOD_LINEAR,
-> +			r, g, b,
-> +			&plane->fbs[index]);
-> +}
-> +
-> +static void plane_setup(struct plane_t *plane, int index)
-> +{
-> +	igt_plane_set_size(plane->base, plane->rect.width, plane->rect.height);
-> +	igt_plane_set_position(plane->base, plane->rect.x, plane->rect.y);
-> +	igt_plane_set_fb(plane->base, &plane->fbs[index]);
-> +}
-> +
-> +static void gen_fbs(struct data_t *data)
-> +{
-> +	struct kms_t *kms = &data->kms;
-> +	drmModeModeInfo *mode = igt_output_get_mode(data->wb_output);
-> +
-> +	for (int i = 0; i < 2; i++) {
-> +		plane_create_color_fb(&kms->primary, data->fd, i, !i, i, i);
-> +
-> +		plane_create_color_fb(&kms->overlay_a, data->fd, i, i, !i, i);
-> +
-> +		plane_create_color_fb(&kms->overlay_b, data->fd, i, i, i, !i);
-> +
-> +		kms->writeback.rect.width = mode->hdisplay;
-> +		kms->writeback.rect.height = mode->vdisplay;
-> +		plane_create_fb(&kms->writeback, data->fd, i);
-> +	}
-> +}
-> +
-> +static igt_output_t *find_wb_output(struct data_t *data)
-> +{
-> +	for (int i = 0; i < data->display.n_outputs; i++) {
-> +		igt_output_t *output = &data->display.outputs[i];
-> +
-> +		if (output->config.connector->connector_type != DRM_MODE_CONNECTOR_WRITEBACK)
-> +			continue;
-> +
-> +		return output;
-> +
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +static struct kms_t default_kms = {
-> +	.primary = {
-> +		.rect = {
-> +			.x = 101, .y = 0,
-> +			.width = 3639, .height = 2161,
-> +		},
-> +		.format = DRM_FORMAT_XRGB8888,
-> +	},
-> +	.overlay_a = {
-> +		.rect = {
-> +			.x = 201, .y = 199,
-> +			.width = 3033, .height = 1777,
-> +		},
-> +		.format = DRM_FORMAT_XRGB16161616,
-> +	},
-> +	.overlay_b = {
-> +		.rect = {
-> +			.x = 1800, .y = 250,
-> +			.width = 1507, .height = 1400,
-> +		},
-> +		.format = DRM_FORMAT_ARGB8888,
-> +	},
-> +	.writeback = {
-> +		.rect = {
-> +			.x = 0, .y = 0,
-> +			// Size is to be determined at runtime
-> +		},
-> +		.format = DRM_FORMAT_XRGB8888,
-> +	},
-> +};
-> +
-> +
-> +igt_simple_main
-> +{
-> +	struct data_t data;
-> +	enum pipe pipe = PIPE_NONE;
-> +
-> +	data.kms = default_kms;
-> +
-> +	data.fd = drm_open_driver_master(DRIVER_ANY);
-> +
-> +	igt_display_require(&data.display, data.fd);
-> +
-> +	kmstest_set_vt_graphics_mode();
-> +
-> +	igt_display_require(&data.display, data.fd);
-> +	igt_require(data.display.is_atomic);
-> +
-> +	igt_display_require_output(&data.display);
-> +
-> +	igt_require(data.wb_output);
-> +	igt_display_reset(&data.display);
-> +
-> +	data.wb_output = find_wb_output(&data);
-> +
-> +	for_each_pipe(&data.display, pipe) {
-> +		igt_debug("Selecting pipe %s to %s\n",
-> +			  kmstest_pipe_name(pipe),
-> +			  igt_output_name(data.wb_output));
-> +		igt_output_set_pipe(data.wb_output, pipe);
-> +	}
-> +
-> +	igt_display_commit_atomic(&data.display, DRM_MODE_ATOMIC_ALLOW_MODESET, NULL);
-> +
-> +	gen_fbs(&data);
-> +
-> +	data.kms.primary.base = igt_output_get_plane_type(data.wb_output, DRM_PLANE_TYPE_PRIMARY);
-> +	data.kms.overlay_a.base = igt_output_get_plane_type_index(data.wb_output,
-> +								  DRM_PLANE_TYPE_OVERLAY, 0);
-> +	data.kms.overlay_b.base = igt_output_get_plane_type_index(data.wb_output,
-> +								  DRM_PLANE_TYPE_OVERLAY, 1);
-> +
-> +	for (int i = 0; i < FRAME_COUNT; i++) {
-> +		int fb_index = i % 2;
-> +
-> +		plane_setup(&data.kms.primary, fb_index);
-> +
-> +		plane_setup(&data.kms.overlay_a, fb_index);
-> +
-> +		plane_setup(&data.kms.overlay_b, fb_index);
-> +
-> +		igt_output_set_writeback_fb(data.wb_output, &data.kms.writeback.fbs[fb_index]);
-> +
-> +		igt_display_commit2(&data.display, COMMIT_ATOMIC);
-> +	}
-> +
-> +	igt_display_fini(&data.display);
-> +	drm_close_driver(data.fd);
-> +}
-> 
-> ---
-> base-commit: c58c5fb6aa1cb7d3627a15e364816a7a2add9edc
-> change-id: 20240207-bench-393789eaba47
-> 
-> Best regards,
-> -- 
-> Arthur Grillo <arthurgrillo@riseup.net>
-> 
+
+>=20
+> Regards,
+> Christian.
+>=20
+> > >=20
+> > > So yes, some common code would come in handy. From looking at all
+> > > implementations I'd
+> > >=20
+> > > - Use hmm_range_fault() - Probably want to temporarily get and
+> > > lock
+> > > the
+> > > pages to dirty them at fault time, though, if gpu mapping is
+> > > write-
+> > > enabled.
+> > > - Don't use a backing object - To be able to unify hmmptr and
+> > > userptr
+> > Oh, and to clarify for people that haven't been following the gpuvm
+> > discussions and the xe SVM discussions,
+> >=20
+> > hmmptr is sparsely populated on-demand allocated (fault aware) and
+> > can
+> > do migration.
+> > userptr is allocated upfront and can't do migration.
+> >=20
+> > Idea has been to create helpers for these in drm_gpuvm().
+> >=20
+> > /Thomas
+> >=20
+> >=20
+> >=20
+> > > Thanks,
+> > > Thomas
+> > >=20
+> > >=20
+> > >=20
+> > >=20
+> > >=20
+> > >=20
+> > >=20
+> > > > > Dave.
+>=20
+
