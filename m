@@ -2,68 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE21A84E79C
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 19:24:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 316E384E7CE
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 19:42:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2DA610E2B9;
-	Thu,  8 Feb 2024 18:24:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E900A10E9FA;
+	Thu,  8 Feb 2024 18:42:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LX7L9kcQ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="k8qSiAet";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1D6910E2B9
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 18:24:12 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9841F10E9F7
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 18:42:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707416653; x=1738952653;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=Dnkp5+FC8tPkB6sWCfSiExpXBoFHcCY2vvqGUmI/Woc=;
- b=LX7L9kcQEL9NJgaduT2KSucGricy2NkqUEK76Drm8xx5R44+megZZL9M
- 0nz93+mbWf06g+zG/cbOROmlp9KISNhAgbCRPDdKRnW5jlpbUYrkUMIXZ
- oD5LetrY/EYujpWHSghbj7HaBtF/0JHoxIVDJyR6TKcNTphfM1kwbBH4G
- N4vcQ3GsZ+t1ntEqVvlIis5w8w5vKw4uhhcUj3UK23EtquMUReR/b+AHU
- 6xRJGCru45KG9nb37a84kjKCHUan4t9mPQkWw5y/Py/ZUAPXf5GuyIs7Q
- G0Hna842wbOQn0mBr/3jAAxVN7eWo+iOQYkG0tU6mm1iC4Nht/gmALPTx g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="1442705"
+ t=1707417751; x=1738953751;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=PVZQea4vz3DuEQPtaVt+MCdeOQtQVI09e+jW/aO8CU8=;
+ b=k8qSiAetiUWRvL8nDQ8Ve/E3SOcmTh+jJyPOzcprvwN67pAXU13GbdGz
+ cVc7RO3pFyLrtAHUt36GW+8SZSO0AWN0PcywPNorNDCV2GR21B/0vFmey
+ ie6xgzqlzbiZTdteDbWbEncP7l6cP1LjPlLJy/z2oDfh6uYE+fOl0JciD
+ kvP0HCKMigvMpDCf+W9ZzDgTOSuF4Gei2LC/9opSHqi7n8oSZrP56ghvR
+ nhZVWdMmTwRUVNhBCn4pCpnNL+5boOBEaMDuA6JYK7rWMDkeZ87yUXbhq
+ ycw0ht0c+O1fCxOd5WKBOBW7urgR1LIPecZXRJVtU/kFmCv8CyJYj+foQ Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="1184542"
 X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; 
-   d="scan'208";a="1442705"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2024 10:24:13 -0800
+   d="scan'208";a="1184542"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2024 10:42:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="910462819"
-X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; d="scan'208";a="910462819"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2024 10:24:09 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1rY94A-00000002wqo-2V3E; Thu, 08 Feb 2024 20:24:06 +0200
-Date: Thu, 8 Feb 2024 20:24:06 +0200
+X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="934213673"
+X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; d="scan'208";a="934213673"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by fmsmga001.fm.intel.com with ESMTP; 08 Feb 2024 10:42:29 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+ id BE757147B; Thu,  8 Feb 2024 20:26:09 +0200 (EET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Lee Jones <lee@kernel.org>
-Cc: Flavio Suligoi <f.suligoi@asem.it>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH v2 0/3] backlight: mp3309c: Allow to use on non-OF
- platforms
-Message-ID: <ZcUcRlcQmQG4s42k@smile.fi.intel.com>
-References: <20240201151537.367218-1-andriy.shevchenko@linux.intel.com>
- <20240208113425.GK689448@google.com>
- <ZcUMMyV_vBTNw8Rz@smile.fi.intel.com>
- <20240208173946.GX689448@google.com>
- <ZcUYZRDVmHhKQu9j@smile.fi.intel.com>
- <20240208181455.GA689448@google.com>
+To: Daniel Thompson <daniel.thompson@linaro.org>,
+ Flavio Suligoi <f.suligoi@asem.it>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>
+Subject: [PATCH v3 0/3] backlight: mp3309c: Allow to use on non-OF platforms
+Date: Thu,  8 Feb 2024 20:24:45 +0200
+Message-ID: <20240208182608.2224191-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240208181455.GA689448@google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,110 +69,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 08, 2024 at 06:14:55PM +0000, Lee Jones wrote:
-> On Thu, 08 Feb 2024, Andy Shevchenko wrote:
-> > On Thu, Feb 08, 2024 at 05:39:46PM +0000, Lee Jones wrote:
-> > > On Thu, 08 Feb 2024, Andy Shevchenko wrote:
-> > > > On Thu, Feb 08, 2024 at 11:34:25AM +0000, Lee Jones wrote:
-> > > > > On Thu, 01 Feb 2024, Andy Shevchenko wrote:
+Allow to use driver on non-OF platforms and other cleanups.
 
-...
+Changelog v3:
+- rebased on top of the last changes against this driver (Lee)
+- added tags to patch 2 (Daniel, Flavio)
 
-> > > > > >   backlight: mp3309c: Utilise temporary variable for struct device
-> > > > 
-> > > > (1)
-> > > > 
-> > > > > Set no longer applies.  Please rebase, thanks.
-> > > > 
-> > > > I got a contradictory messages:
-> > > > 1) email that says that all had been applied;
-> > > > 2) this email (that tells the complete opposite);
-> > > > 3) the repository where the first two were applied.
-> > > > 
-> > > > While you can amend your scripts, I think I need to rebase only the last patch
-> > > 
-> > > This is what I assume happened:
-> > > 
-> > > 1. Attempted to apply the set (as a set)
-> > > 2. 2 commits applied cleanly
-> > > 3. The final commit conflicted
-> > 
-> > Which is really strange. I have just applied (with b4) on top of your changes
-> > and no complains so far.
-> > 
-> > $ git am ./v2_20240201_andriy_shevchenko_backlight_mp3309c_allow_to_use_on_non_of_platforms.mbx
-> > Applying: backlight: mp3309c: Make use of device properties
-> > Applying: backlight: mp3309c: use dev_err_probe() instead of dev_err()
-> > Applying: backlight: mp3309c: Utilise temporary variable for struct device
-> > 
-> > Can you show what b4 tells you about this?
-> 
-> Fetching patch(es)
-> Analyzing 14 messages in the thread
-> Checking attestation on all messages, may take a moment...
-> ---
->   ✓ [PATCH v2 1/3] backlight: mp3309c: Make use of device properties
->     + Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org> (✓ DKIM/linaro.org)
->     + Link: https://lore.kernel.org/r/20240201151537.367218-2-andriy.shevchenko@linux.intel.com
->     + Signed-off-by: Lee Jones <lee@kernel.org>
->   ✓ [PATCH v2 2/3] backlight: mp3309c: use dev_err_probe() instead of dev_err()
->     + Tested-by: Flavio Suligoi <f.suligoi@asem.it> (✗ DKIM/asem.it)
->     + Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org> (✓ DKIM/linaro.org)
->     + Link: https://lore.kernel.org/r/20240201151537.367218-3-andriy.shevchenko@linux.intel.com
->     + Signed-off-by: Lee Jones <lee@kernel.org>
->   ✓ [PATCH v2 3/3] backlight: mp3309c: Utilise temporary variable for struct device
->     + Link: https://lore.kernel.org/r/20240201151537.367218-4-andriy.shevchenko@linux.intel.com
->     + Signed-off-by: Lee Jones <lee@kernel.org>
->   ---
->   ✓ Signed: DKIM/intel.com (From: andriy.shevchenko@linux.intel.com)
-> ---
-> Total patches: 3
-> Prepared a fake commit range for 3-way merge (672ecc5199b5..d507b9f4c5b9)
-> ---
->  Link: https://lore.kernel.org/r/20240201151537.367218-1-andriy.shevchenko@linux.intel.com
->  Base: not specified
-> 
-> Running through checkpatch.pl
-> total: 0 errors, 0 warnings, 103 lines checked
-> 
-> "[PATCH v2 1/3] backlight: mp3309c: Make use of device properties" has no obvious style problems and is ready for submission.
-> total: 0 errors, 0 warnings, 41 lines checked
-> 
-> "[PATCH v2 2/3] backlight: mp3309c: use dev_err_probe() instead of" has no obvious style problems and is ready for submission.
-> total: 0 errors, 0 warnings, 81 lines checked
-> 
-> "[PATCH v2 3/3] backlight: mp3309c: Utilise temporary variable for" has no obvious style problems and is ready for submission.
-> 
-> Check the results (hit return to continue or Ctrl+c to exit)
-> 
-> 
-> Applying patch(es)
-> Applying: backlight: mp3309c: Make use of device properties
-> Applying: backlight: mp3309c: use dev_err_probe() instead of dev_err()
-> Applying: backlight: mp3309c: Utilise temporary variable for struct device
-> Using index info to reconstruct a base tree...
-> M	drivers/video/backlight/mp3309c.c
-> Checking patch drivers/video/backlight/mp3309c.c...
-> Applied patch drivers/video/backlight/mp3309c.c cleanly.
-> Falling back to patching base and 3-way merge...
-> error: Your local changes to the following files would be overwritten by merge:
-> 	drivers/video/backlight/mp3309c.c
-> Please commit your changes or stash them before you merge.
-> Aborting
-> error: Failed to merge in the changes.
-> Patch failed at 0003 backlight: mp3309c: Utilise temporary variable for struct device
-> hint: Use 'git am --show-current-patch=diff' to see the failed patch
-> When you have resolved this problem, run "git am --continue".
-> If you prefer to skip this patch, run "git am --skip" instead.
-> To restore the original branch and stop patching, run "git am --abort".
+Changelog v2:
+- rename pm3309c_parse_dt_node() --> mp3309c_parse_fwnode() (Daniel)                                             - add tags (Daniel, Flavio)
+- new patch 2
 
-Thank you!
+Andy Shevchenko (3):
+  backlight: mp3309c: Make use of device properties
+  backlight: mp3309c: use dev_err_probe() instead of dev_err()
+  backlight: mp3309c: Utilise temporary variable for struct device
 
-It seems I have reduced context, so if you do `git am -C2 ...` it should apply.
-Never mind, I'll send a new version which should work with -C3.
+ drivers/video/backlight/mp3309c.c | 88 ++++++++++++-------------------
+ 1 file changed, 35 insertions(+), 53 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.43.0.rc1.1.gbec44491f096
 
