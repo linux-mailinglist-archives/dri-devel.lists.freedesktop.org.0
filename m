@@ -2,65 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A7A84E760
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 19:07:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3F0084E78F
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 19:19:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAE1D10E9B6;
-	Thu,  8 Feb 2024 18:07:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0171510E28B;
+	Thu,  8 Feb 2024 18:19:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QymQm3CQ";
+	dkim=pass (2048-bit key; secure) header.d=gmx.com header.i=erick.archer@gmx.com header.b="rTP+FBzJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AD5210E9B8
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 18:07:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707415659; x=1738951659;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=X6nLFPQpt9TpuAIYru0WJ9kygI91piLsQjvSadjn4UY=;
- b=QymQm3CQ3safG1miqdqVLCQegFQ7eLitca16V6CLbcmj9BwhUjsyv+Fa
- Mps/bZcX6B70nxa9hGVisMehrsrSj3BGpajAyTONKy+tcH0tJ2rdAa/Fm
- nNmW1E592fHfSpROAPigwLO+Jg+8ZcGIOqmrH/Td/Y2bb0wmf3l5hCFWj
- RbEfcnymCLXoJLEg1EmHFEF1+LDM6ICM0Is8oq74obuHkudqMC1svckOG
- EPFiviWExD9LonyxCpg51GU3Ju2+4TiWwDi/M2N9DJi3PG1lFy5rFbadD
- xIRIC7yNrSjLSK17lOAt8XiPFGXPwzc/lMiPDXJL6LWzHLvb+ZcsSTaQ4 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="1437770"
-X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; 
-   d="scan'208";a="1437770"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2024 10:07:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="910453258"
-X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; d="scan'208";a="910453258"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2024 10:07:36 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1rY8o9-00000002weL-1f5B; Thu, 08 Feb 2024 20:07:33 +0200
-Date: Thu, 8 Feb 2024 20:07:33 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Lee Jones <lee@kernel.org>
-Cc: Flavio Suligoi <f.suligoi@asem.it>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH v2 0/3] backlight: mp3309c: Allow to use on non-OF
- platforms
-Message-ID: <ZcUYZRDVmHhKQu9j@smile.fi.intel.com>
-References: <20240201151537.367218-1-andriy.shevchenko@linux.intel.com>
- <20240208113425.GK689448@google.com>
- <ZcUMMyV_vBTNw8Rz@smile.fi.intel.com>
- <20240208173946.GX689448@google.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09FB110E28B;
+ Thu,  8 Feb 2024 18:19:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.com;
+ s=s31663417; t=1707416351; x=1708021151; i=erick.archer@gmx.com;
+ bh=ysgMn0ZRWUYT/Hge0FlA9uwr6TJWomFtNilVmXv2T/w=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+ b=rTP+FBzJf6c9vHHT+97TkSG/Uvm8g90FqR4Mntv4D4A8H3TAYyI200beD81+vMSD
+ P15SPBwMoO6vN2Vum+oCuRrsL+yqG1yrDgU3qxZK3QhFLycMjU4q4P7vrLNXKJWIR
+ AcdNj1t1+EUHpxlmKnurOg56N5JOfXAaX9ilmI5boKITFbzs66EMftYvAoPA+1G17
+ 55sSMvJtp10q+Yxmsmgbsg8UV6bEueUx0wKXCYOv2R5IntpRJ81O15bsJJ0okP2vA
+ 7yYAKrjOalqbFHHFzgGH/eBG85bSKRO0WCgsUsqS89qOnCZz1F+JZdqPbFBhWLUJF
+ ABOfgyHz/HgpUQG7Lg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from localhost.localdomain ([79.157.194.183]) by mail.gmx.net
+ (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
+ 1M7b6l-1rdLQw2iQn-0081qr; Thu, 08 Feb 2024 19:13:35 +0100
+From: Erick Archer <erick.archer@gmx.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Erick Archer <erick.archer@gmx.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org
+Subject: [PATCH] drm/i915: Add flex arrays to struct i915_syncmap
+Date: Thu,  8 Feb 2024 19:13:18 +0100
+Message-Id: <20240208181318.4259-1-erick.archer@gmx.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240208173946.GX689448@google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:pfHdlpNnJigTy8aCxrOPtJDMrJKf0ixBybkrQ5Vv5mXAzAOCOce
+ kE/56VgSJ24fEWyckAkZBiWw31er/4+LJmrLfiKbxBq0xz8Hfrzpel9d0ON3gwuUpxPyHbE
+ rdS3TQvdJZV2shpo3dlarUHJyNmnOMWYszl8ojPossp4pbrgBMG/j9ZA3TOBvkYMcVXSjOq
+ g75Q7z0uPqbDs2hAyGnmQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:7eioEc7nG0c=;qtwKIX5gPG/Y57aHU7UDVkHMFaE
+ JToO/0XCCcuVFGqULSXsSgP6ptQExfCebO6YXHofeQKSA5VTH3Rx0BPdQ/Jo+sylF13EPbI0T
+ Izh6uiCVr2BeFMb8Mo7ptlutk0GaiuTXhSwPkjMW2B8o5Dc085jjAUMWeB3aQUr8ibqBQO5jZ
+ XHRnAklzfh+g+TOE6RVXLDpqaGMBFNWvkkb7n93+fL/ZGG1GCFSIqWDR7O3FU4gyx0u9cxI2v
+ VKBafIfiDpkzamqgGhBrNA5dBUtqs7+b0MxELAUjjVtkPS9T5LCAA+EaztiioPdaxtDVW/70/
+ +D+579XV0ikBVQipN8Orbe3Cl3wLYyiQ44pDnIzYNc8WAX1mQzvah3tUv89lbMW0BZmpxVX5a
+ 5TG0A6y3sM/WpIuReX/L1EW3P3Xp3E85EIJE9PAbMmEjB+92stmRLuQfsY04ODHTdpoU4crn1
+ Njr+fvCDsoFFu/11gu4og/beC9d/kOrZTyQi7Gjc/mc0XK6TMa8ScEMyvstVIwrFooLiO33Ng
+ bFuGdjFbKoO9cfwt04+XDJ6hWuQF7COASscQ/jtY7AY6eqdsT57r2wXSKUMQArGSm7r4giTRQ
+ Qsnkb5KDaNeKDM5G1EvS0JJ7jcJW+ivpF1VFxshFi1DEDMpa0Q0SWvpRAKMivN9K6RtEh13gs
+ OpoWE3Lu8gIkvo6AdmTPA42MhlEFREt2H/sGt2VLV9+oSMV0kbsrinJQBjPEYscChsW1yIIxo
+ WpkG5/liHV1D7yWyYkWlaKkCv+MkkPM5r7UUu+1Hz7yYdzIbozc/YNZo+V7OPP102kyAZhBle
+ Ez3i3irdlHSE0lnZqSUdAgW7tybDatbHXq7POenIjwzBc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,58 +78,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 08, 2024 at 05:39:46PM +0000, Lee Jones wrote:
-> On Thu, 08 Feb 2024, Andy Shevchenko wrote:
-> > On Thu, Feb 08, 2024 at 11:34:25AM +0000, Lee Jones wrote:
-> > > On Thu, 01 Feb 2024, Andy Shevchenko wrote:
+The "struct i915_syncmap" uses a dynamically sized set of trailing
+elements. It can use an "u32" array or a "struct i915_syncmap *"
+array.
 
-...
+So, use the preferred way in the kernel declaring flexible arrays [1].
+Because there are two possibilities for the trailing arrays, it is
+necessary to declare a union and use the DECLARE_FLEX_ARRAY macro.
 
-> > > >   backlight: mp3309c: Utilise temporary variable for struct device
-> > 
-> > (1)
-> > 
-> > > Set no longer applies.  Please rebase, thanks.
-> > 
-> > I got a contradictory messages:
-> > 1) email that says that all had been applied;
-> > 2) this email (that tells the complete opposite);
-> > 3) the repository where the first two were applied.
-> > 
-> > While you can amend your scripts, I think I need to rebase only the last patch
-> 
-> This is what I assume happened:
-> 
-> 1. Attempted to apply the set (as a set)
-> 2. 2 commits applied cleanly
-> 3. The final commit conflicted
+The comment can be removed as the union is now clear enough.
 
-Which is really strange. I have just applied (with b4) on top of your changes
-and no complains so far.
+Also, avoid the open-coded arithmetic in the memory allocator functions
+[2] using the "struct_size" macro.
 
-$ git am ./v2_20240201_andriy_shevchenko_backlight_mp3309c_allow_to_use_on_non_of_platforms.mbx
-Applying: backlight: mp3309c: Make use of device properties
-Applying: backlight: mp3309c: use dev_err_probe() instead of dev_err()
-Applying: backlight: mp3309c: Utilise temporary variable for struct device
+Moreover, refactor the "__sync_seqno" and "__sync_child" functions due
+to now it is possible to use the union members added to the structure.
+This way, it is also possible to avoid the open-coded arithmetic in
+pointers.
 
-Can you show what b4 tells you about this?
+Link: https://www.kernel.org/doc/html/next/process/deprecated.html#zero-le=
+ngth-and-one-element-arrays [1]
+Link: https://www.kernel.org/doc/html/next/process/deprecated.html#open-co=
+ded-arithmetic-in-allocator-arguments [2]
+Signed-off-by: Erick Archer <erick.archer@gmx.com>
+=2D--
+ drivers/gpu/drm/i915/i915_syncmap.c | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
-> 4. I sent you a message to say that the set failed to apply
-> 5. *** I forgot to remove the 2 successful patches ***
-> 6. I applied another patch
-> 7. b4 noticed the 2 patches that were applied and thanked you for them
-> 8. *** I didn't notice that those tys were sent ***
-> 
-> No need to update the scripts. :)
-> 
-> > (1) that may not be found in your tree currently.
-> 
-> I'm going to remove the other ones now.  Please submit the set.
+diff --git a/drivers/gpu/drm/i915/i915_syncmap.c b/drivers/gpu/drm/i915/i9=
+15_syncmap.c
+index 60404dbb2e9f..df6437c37373 100644
+=2D-- a/drivers/gpu/drm/i915/i915_syncmap.c
++++ b/drivers/gpu/drm/i915/i915_syncmap.c
+@@ -75,13 +75,10 @@ struct i915_syncmap {
+ 	unsigned int height;
+ 	unsigned int bitmap;
+ 	struct i915_syncmap *parent;
+-	/*
+-	 * Following this header is an array of either seqno or child pointers:
+-	 * union {
+-	 *	u32 seqno[KSYNCMAP];
+-	 *	struct i915_syncmap *child[KSYNCMAP];
+-	 * };
+-	 */
++	union {
++		DECLARE_FLEX_ARRAY(u32, seqno);
++		DECLARE_FLEX_ARRAY(struct i915_syncmap *, child);
++	};
+ };
 
-I'll do, but I want to understand better what's going on.
+ /**
+@@ -99,13 +96,13 @@ void i915_syncmap_init(struct i915_syncmap **root)
+ static inline u32 *__sync_seqno(struct i915_syncmap *p)
+ {
+ 	GEM_BUG_ON(p->height);
+-	return (u32 *)(p + 1);
++	return p->seqno;
+ }
 
--- 
-With Best Regards,
-Andy Shevchenko
+ static inline struct i915_syncmap **__sync_child(struct i915_syncmap *p)
+ {
+ 	GEM_BUG_ON(!p->height);
+-	return (struct i915_syncmap **)(p + 1);
++	return p->child;
+ }
 
+ static inline unsigned int
+@@ -200,7 +197,7 @@ __sync_alloc_leaf(struct i915_syncmap *parent, u64 id)
+ {
+ 	struct i915_syncmap *p;
+
+-	p =3D kmalloc(sizeof(*p) + KSYNCMAP * sizeof(u32), GFP_KERNEL);
++	p =3D kmalloc(struct_size(p, seqno, KSYNCMAP), GFP_KERNEL);
+ 	if (unlikely(!p))
+ 		return NULL;
+
+@@ -282,7 +279,7 @@ static noinline int __sync_set(struct i915_syncmap **r=
+oot, u64 id, u32 seqno)
+ 			unsigned int above;
+
+ 			/* Insert a join above the current layer */
+-			next =3D kzalloc(sizeof(*next) + KSYNCMAP * sizeof(next),
++			next =3D kzalloc(struct_size(next, child, KSYNCMAP),
+ 				       GFP_KERNEL);
+ 			if (unlikely(!next))
+ 				return -ENOMEM;
+=2D-
+2.25.1
 
