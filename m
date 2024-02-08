@@ -2,65 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F60384DD2C
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 10:43:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2400084DD3B
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 10:47:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D74E710E448;
-	Thu,  8 Feb 2024 09:43:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD7B310E505;
+	Thu,  8 Feb 2024 09:47:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gnMmRbi4";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ejfPyVKn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 778ED10E448
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 09:43:05 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F87410E505
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 09:47:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707385385; x=1738921385;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=YhM1skIWljwrLgndY4GdQtYXO0XqFKKa+BWhlqrclFw=;
- b=gnMmRbi4WqkV9Y1Mm8S6Djggy5z2+3SclTVjdVXXW133KcEi4hA5BMhT
- aTEu6QWQSPtE8CHkoxXnNqekllWQpsNz4qbB5M7OVhnWmVbpJN00ai5K7
- r1TPSvrvSXIELobuJKiyxS21jm9ngxDBHR3ult2RCf0dxMlhmroLqJ60n
- l93w4+kN8NGg6BjTU1//H3/oExJ2YVgpeTQVeofzplKku/ol7mZvy3pcG
- +nY4NxSNYsux2ZqLVgPKQZO0v/gNlH0O12/iwDJXshOYJuqOnCa1BAIIx
- nQx/+wfR1bDBWscxVqrZtFz6ImL3+YnOqjL5JU6yJym/gLb/rEUatKLwq g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="5002335"
-X-IronPort-AV: E=Sophos;i="6.05,253,1701158400"; 
-   d="scan'208";a="5002335"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2024 01:43:05 -0800
+ t=1707385658; x=1738921658;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=B8cqTdsl61hbTwAme0/u6L8Z4DeauMK0xgKqDax73kI=;
+ b=ejfPyVKnXXRXyNsklI39PmygINOHjpM4SEoDyJAJJhtdINz/oBy2undC
+ Z7UhPWoMoyric4MxDQ6tn1WVZZciSXIVtOom5OCMOov+ZbgQcRsT4QBJJ
+ VjYCamBoghwcDasz2vNMlrWlybUf61fLPfIUuD6cFkCoYfxepsht+MFcz
+ xSPt2o3rcwgIQp8Rxokmp7T3wnbh/seL6feOwjHNaaTQbAnz8B75U7kr8
+ wK/2mz+Wp4sXy7DLuaRwRa94PszlSm/4tTAY28r5s5FbktJuHMvb7kdBY
+ Cjfr6doxZjiGZPUz8c8kPM0PUyAFFd/SzO02LN2LAangx+6RP5IemK5lh w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="23663295"
+X-IronPort-AV: E=Sophos;i="6.05,253,1701158400"; d="scan'208";a="23663295"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2024 01:47:38 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,253,1701158400"; 
-   d="scan'208";a="6235598"
-Received: from pplotits-mobl2.ccr.corp.intel.com (HELO [10.249.254.149])
- ([10.249.254.149])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2024 01:43:03 -0800
-Message-ID: <d4fa26cdb32371ce7981cc87203859c10e9e868a.camel@linux.intel.com>
-Subject: Re: xe vs amdgpu userptr handling
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Dave
- Airlie <airlied@gmail.com>, =?ISO-8859-1?Q?Ma=EDra?= Canal
- <mcanal@igalia.com>, Matthew Brost <matthew.brost@intel.com>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
-Date: Thu, 08 Feb 2024 10:43:01 +0100
-In-Reply-To: <c12b07c33d11cf668516d92ecf9b908af34bf177.camel@linux.intel.com>
-References: <CAPM=9twPgn+fpbkig0Vhjt=cJdHQFbNH_Z=sRhSZwuvLKhavbA@mail.gmail.com>
- <0c4da8bd-452a-4ba5-9c4c-582cbc7b5dec@igalia.com>
- <CAPM=9twvcJPdZvaw+TOpTC+6NoNTbSqhy97aJRP5Hg0HBkQE0g@mail.gmail.com>
- <bafff5df-a382-45fa-b706-47cdf0afe2cf@amd.com>
- <c12b07c33d11cf668516d92ecf9b908af34bf177.camel@linux.intel.com>
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
+   d="scan'208";a="1894976"
+Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
+ by orviesa007.jf.intel.com with ESMTP; 08 Feb 2024 01:47:35 -0800
+Received: from kbuild by 01f0647817ea with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rY10G-0003aQ-0h;
+ Thu, 08 Feb 2024 09:47:32 +0000
+Date: Thu, 8 Feb 2024 17:47:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
+ sui.jingfeng@linux.dev, pjones@redhat.com, deller@gmx.de, ardb@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v3 3/8] firmware/sysfb: Set firmware-framebuffer parent
+ device
+Message-ID: <202402081758.cylLKURZ-lkp@intel.com>
+References: <20240207134932.7321-4-tzimmermann@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240207134932.7321-4-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,129 +70,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2024-02-08 at 10:38 +0100, Thomas Hellstr=C3=B6m wrote:
-> Hi,
->=20
-> On Thu, 2024-02-08 at 07:30 +0100, Christian K=C3=B6nig wrote:
-> > Am 08.02.24 um 01:36 schrieb Dave Airlie:
-> > > Just cc'ing some folks. I've also added another question.
-> > >=20
-> > > On Wed, 7 Feb 2024 at 21:08, Ma=C3=ADra Canal <mcanal@igalia.com>
-> > > wrote:
-> > > > Adding another point to this discussion, would it make sense to
-> > > > somehow
-> > > > create a generic structure that all drivers, including shmem
-> > > > drivers,
-> > > > could use it?
-> > > >=20
-> > > > Best Regards,
-> > > > - Ma=C3=ADra
-> > > >=20
-> > > > On 2/7/24 03:56, Dave Airlie wrote:
-> > > > > I'm just looking over the userptr handling in both drivers,
-> > > > > and
-> > > > > of
-> > > > > course they've chosen different ways to represent things.
-> > > > > Again
-> > > > > this
-> > > > > is a divergence that is just going to get more annoying over
-> > > > > time and
-> > > > > eventually I'd like to make hmm/userptr driver independent as
-> > > > > much as
-> > > > > possible, so we get consistent semantics in userspace.
-> > > > >=20
-> > > > > AFAICS the main difference is that amdgpu builds the userptr
-> > > > > handling
-> > > > > inside a GEM object in the kernel, whereas xe doesn't bother
-> > > > > creating
-> > > > > a holding object and just handles things directly in the VM
-> > > > > binding
-> > > > > code.
-> > > > >=20
-> > > > > Is this just different thinking at different times here?
-> > > > > like since we have VM BIND in xe, it made sense not to bother
-> > > > > creating
-> > > > > a gem object for userptrs?
-> > > > > or is there some other advantages to going one way or the
-> > > > > other?
-> > > > >=20
-> > > So the current AMD code uses hmm to do userptr work, but xe
-> > > doesn't
-> > > again, why isn't xe using hmm here, I thought I remembered
-> > > scenarios
-> > > where plain mmu_notifiers weren't sufficient.
-> >=20
-> > Well amdgpu is using hmm_range_fault because that was made
-> > mandatory
-> > for=20
-> > the userptr handling.
-> >=20
-> > And yes pure mmu_notifiers are not sufficient, you need the
-> > sequence=20
-> > number + retry mechanism hmm_range_fault provides.
-> >=20
-> > Otherwise you open up security holes you can push an elephant
-> > through.
-> >=20
-> > Regards,
-> > Christian.
->=20
-> Xe also uses a retry mechanism, so no security hole. The main
-> difference is we use get_user_pages() + retry instead of
-> hmm_range_fault() + retry, with a net effect we're probably holding
-> the
-> page refcounts a little longer, but we drop it immediately after
-> obtaining the page pointers, and dirtying the pages.
->=20
-> That said we should move over to hmm_range_fault() to align. I think
-> this was only a result of limited hmm knowledge when the xe code was
-> written.
->=20
-> As for the userptr not using a backing object in Xe, AFAIK that was
-> because a backing object was deemed unnecessary with VM_BIND. Joonas
-> or
-> Matt can probably provide more detail, but if we're going to do an
-> hmmptr, and have userptr only be a special case of that, then the
-> object is ofc out of the question.
->=20
-> FWIW i915 also keeps an object, but it also pins the pages and relies
-> on the shrinker to release that pinning.
->=20
-> So yes, some common code would come in handy. From looking at all
-> implementations I'd
->=20
-> - Use hmm_range_fault() - Probably want to temporarily get and lock
-> the
-> pages to dirty them at fault time, though, if gpu mapping is write-
-> enabled.
-> - Don't use a backing object - To be able to unify hmmptr and userptr
+Hi Thomas,
 
-Oh, and to clarify for people that haven't been following the gpuvm
-discussions and the xe SVM discussions,=20
+kernel test robot noticed the following build errors:
 
-hmmptr is sparsely populated on-demand allocated (fault aware) and can
-do migration.
-userptr is allocated upfront and can't do migration.
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm-tip/drm-tip linus/master v6.8-rc3 next-20240208]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Idea has been to create helpers for these in drm_gpuvm().=20
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/video-Add-helpers-for-decoding-screen_info/20240207-215100
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240207134932.7321-4-tzimmermann%40suse.de
+patch subject: [PATCH v3 3/8] firmware/sysfb: Set firmware-framebuffer parent device
+config: x86_64-rhel-8.3-bpf (https://download.01.org/0day-ci/archive/20240208/202402081758.cylLKURZ-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240208/202402081758.cylLKURZ-lkp@intel.com/reproduce)
 
-/Thomas
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402081758.cylLKURZ-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/firmware/sysfb.c:36:
+>> include/linux/sysfb.h:108:1: error: expected identifier or '('
+     108 | {
+         | ^
+   1 error generated.
 
 
+vim +108 include/linux/sysfb.h
 
->=20
-> Thanks,
-> Thomas
->=20
->=20
->=20
->=20
->=20
->=20
->=20
-> >=20
-> > >=20
-> > > Dave.
-> >=20
->=20
+e3263ab389a7bc arch/x86/include/asm/sysfb.h David Rheinsberg         2013-08-02  104  
+9e121040e54abe include/linux/sysfb.h        Javier Martinez Canillas 2022-06-07  105  static inline struct platform_device *sysfb_create_simplefb(const struct screen_info *si,
+c0a4e7e120d3e9 include/linux/sysfb.h        Thomas Zimmermann        2024-02-07  106  							    const struct simplefb_platform_data *mode,
+c0a4e7e120d3e9 include/linux/sysfb.h        Thomas Zimmermann        2024-02-07  107  							    struct device *parent);
+e3263ab389a7bc arch/x86/include/asm/sysfb.h David Rheinsberg         2013-08-02 @108  {
+9e121040e54abe include/linux/sysfb.h        Javier Martinez Canillas 2022-06-07  109  	return ERR_PTR(-EINVAL);
+e3263ab389a7bc arch/x86/include/asm/sysfb.h David Rheinsberg         2013-08-02  110  }
+e3263ab389a7bc arch/x86/include/asm/sysfb.h David Rheinsberg         2013-08-02  111  
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
