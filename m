@@ -2,69 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8638B84E141
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 13:56:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC18A84E1B4
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 14:16:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7517610E50A;
-	Thu,  8 Feb 2024 12:56:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED8F710E720;
+	Thu,  8 Feb 2024 13:16:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="KWVtlXAt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eh4f0EpJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C194710E50A
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 12:56:46 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 418CuPGh074250;
- Thu, 8 Feb 2024 06:56:25 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1707396985;
- bh=kJWir3gepfEI0QDhPbIpModwmcsuWvX/sJYAgHRrEcI=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=KWVtlXAtmDTsSrDqoPrILvRnRBL0tND5PMFGvUiwg9JiqY2V0c6zEG5z7pIhm7bQs
- oboZ76SIbYCKRL2FnK/QIEPTLLoRr0rOefrr5BlwtM4oXAMtGKv6stzkDw42/lgyWe
- u8q91BYLPfoLtmawFERC2C31gBiBLEYJCQbNkjKU=
-Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 418CuPik004649
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 8 Feb 2024 06:56:25 -0600
-Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 8
- Feb 2024 06:56:25 -0600
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 8 Feb 2024 06:56:25 -0600
-Received: from [10.250.146.202] ([10.250.146.202])
- by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 418CuIJ9046995;
- Thu, 8 Feb 2024 06:56:19 -0600
-Message-ID: <88018f5f-a7db-7278-e5c3-bb1dbf0e3f14@ti.com>
-Date: Thu, 8 Feb 2024 18:26:17 +0530
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B85810E4EC;
+ Thu,  8 Feb 2024 12:51:50 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id
+ ffacd0b85a97d-33b5b6236afso274043f8f.1; 
+ Thu, 08 Feb 2024 04:51:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1707396709; x=1708001509; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=IyM3LRHojfXtpDdlO3n3nHot/P0axBrsZHPVL+xl5Gc=;
+ b=eh4f0EpJ5UrfgfXf3l/QePu543kNB2xNEud0orpV83AY6m3/p2dSfGGg5+ZMKyMe4k
+ 8mrk9RBXkii3PQ4z/J8X2wA4oniSQs8kxDJUH/N4fHgJm7A2Y/uRSGeUFcpeuZ8NZpod
+ LBsFF/X82ddcPlKCMXvZGcdU7qCcIiSS7KXEBDs/OQ9CqodgUR2ALzMpakKPHpEvDp9q
+ dWB/fSCJqboITiekMOcmXXuitpygocXkAtWO2yACCNwoFrCa3WcRnBNYq054ueXyuMSf
+ 4EKXeT1QmWjshPSn4SigOnO3uILWOaEWyGeld8hysomhvmr47vuADxzpHJ7ctV+c6ixU
+ qc0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707396709; x=1708001509;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=IyM3LRHojfXtpDdlO3n3nHot/P0axBrsZHPVL+xl5Gc=;
+ b=mSBdmyCopHN5VJhilSl87WsTDv+xboEygPM3vQx5Tr+JGQT9Yf52VOqaMuzoPrx55C
+ uuoMNDQitZ9HqPY6qxM7RCYNv2xrWrtte70s7ZyhRqxxCndNF9dG+peqdiEQADkuRiWN
+ ZBJXlYbv1BE2IjY3YvSyKQ8s6aWYFRy3/LvYh5ilFb4SvODjQVBEKtweEFRiIAER8h1c
+ GkEY72Rf55Is3vpk2YVy7HsgmI/m0aRiUQ2RrAN9J5+exC/DWKOJkuBfLwzxfKPwS2gS
+ 6cfMDoJnAE974B8mhdhB1YXde6TWCtZyTX+oS+9iEcpr+2Rs57+jey3845ZA0p37Zrx0
+ oyBg==
+X-Gm-Message-State: AOJu0Yx3oOiufAMqCF/sHJk+KdeRVOi+OLKK7moczCzbKqJzCVaheauq
+ DsDMarD609c2x6vfgqCtYgkulZ34hs5FXSlx5Y/Xi6wVg+CVW6dL
+X-Google-Smtp-Source: AGHT+IH7AJ+5KhWIcXepVdxUXMe39AGxaALbDf9ere3lqvz3skqmY2fbmUzLZhDxtQCN/lm7LenOJQ==
+X-Received: by 2002:adf:e683:0:b0:33b:2ee3:ba93 with SMTP id
+ r3-20020adfe683000000b0033b2ee3ba93mr5290706wrm.9.1707396708194; 
+ Thu, 08 Feb 2024 04:51:48 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVUsO6E+Q3ScM79VuR8fwyLETYQ+VN0u0hWsEeMrApYA2oVpeh+FqVZKMoAkDQKsai9NDDErQztf6PTfrKHZzWzw5Oxn7QevTtWvyqEtb+sqrETkLUoYQxwV19itg3FcK9KzscxBK47QzAnDJJLckP8HLZwb2LgGdckm7AABhH2CvdVJInH0FY0ystNerntxYTmsxEUrwwkeFGjjlwj5jwtcYN48FJFWeCFIiYbYbA/2ZcQZ8f1Z4pUitcq1bmBG4nrKdBDJ56w+ojbWXqrpgK1nnOUgnQCWT8tyGEpoK+9Cl4LoYIT9XMJ0KsPGirLzUwhoo0VPV6Mxzw84OodEi1ibN2pDQ2ZbdBsmnnblybAPsOQ48Eac11maRXPh8Q41wc4fSaD92vIYaNTbhdk0E6E9lauxTShvM6BhD06rPhoqtCh8ObicazqkqtXO14sYWlF6+mb8I5Bi6UviJ6n1/8S+OrlrElCUUnZRqTELxrkepYkVUkViEkPM4Y2b1iAAmeaLxd7CBE=
+Received: from [0.0.0.0] ([134.134.139.70])
+ by smtp.googlemail.com with ESMTPSA id
+ i16-20020a05600c355000b004103ffb8cfdsm1230714wmq.10.2024.02.08.04.51.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Feb 2024 04:51:47 -0800 (PST)
+Message-ID: <b2be2839-bd27-4ce5-baeb-683700b35207@gmail.com>
+Date: Thu, 8 Feb 2024 14:51:34 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [RFC PATCH 2/3] drm/tidss: Add support for display sharing
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH i-g-t] benchmarks: Add VKMS benchmark
 Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>
-CC: <jyri.sarha@iki.fi>, <tomi.valkeinen@ideasonboard.com>,
- <airlied@gmail.com>, <daniel@ffwll.ch>,
- <maarten.lankhorst@linux.intel.com>, <tzimmermann@suse.de>,
- <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
- <conor+dt@kernel.org>, <dri-devel@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <nm@ti.com>, <vigneshr@ti.com>,
- <kristo@kernel.org>, <praneeth@ti.com>, <a-bhatia1@ti.com>,
- <j-luthra@ti.com>
-References: <20240116134142.2092483-1-devarsht@ti.com>
- <20240116134142.2092483-3-devarsht@ti.com>
- <vgfzhamtiwkpdyk5ndagsb63subclinotoe6tsi3wu6z7454ec@igxfzjc5gyqm>
-From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <vgfzhamtiwkpdyk5ndagsb63subclinotoe6tsi3wu6z7454ec@igxfzjc5gyqm>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+To: Arthur Grillo <arthurgrillo@riseup.net>, dri-devel@lists.freedesktop.org, 
+ igt-dev@lists.freedesktop.org
+Cc: Petri Latvala <adrinael@adrinael.net>, Arkadiusz Hiler <arek@hiler.eu>,
+ Kamil Konieczny <kamil.konieczny@linux.intel.com>,
+ Bhanuprakash Modem <bhanuprakash.modem@intel.com>,
+ Ashutosh Dixit <ashutosh.dixit@intel.com>,
+ Pekka Paalanen <pekka.paalanen@haloniitty.fi>,
+ Louis Chauvet <louis.chauvet@bootlin.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20240207-bench-v1-1-7135ad426860@riseup.net>
+From: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
+In-Reply-To: <20240207-bench-v1-1-7135ad426860@riseup.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 08 Feb 2024 13:16:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,145 +93,283 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: juhapekka.heikkila@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Hi Arthur,
 
-Thanks a lot for checking on this.
+I was taking brief look. Generally things look ok. Few comments below.
 
-On 26/01/24 17:45, Maxime Ripard wrote:
-> Hi,
+On 7.2.2024 22.17, Arthur Grillo wrote:
+> Create a benchmark for the VKMS driver. Use a KMS layout with deliberate
+> odd sizes to try to avoid alignment accidents and run it for FRAME_COUNT
+> frames flipping framebuffers in each plane.
 > 
-> Thanks a lot for working on that.
+> Link: https://lore.kernel.org/all/20240202214527.1d97c881@ferris.localdomain/
+> Suggested-by: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> ---
+> This benchmark was suggested by Pekka Paalanen on [1] to better analyse
+> possible performance regression on the Virtual Kernel Modesetting(VKMS)
+> driver.
 > 
-> On Tue, Jan 16, 2024 at 07:11:41PM +0530, Devarsh Thakkar wrote:
->> Display subsystem present in TI Keystone family of devices supports sharing
->> of display between multiple hosts as it provides separate register space
->> (common* region) for each host to programming display controller and also a
->> unique interrupt line for each host.
->>
->> This adds support for display sharing, by allowing partitioning of
->> resources either at video port level or at video plane level as
->> described below :
->>
->> 1) Linux can own (i.e have write access) completely one or more of video
->> ports along with corresponding resources (viz. overlay managers,
->> video planes) used by Linux in context of those video ports.
->> Even if Linux is owning
->> these video ports it can still share this video port with a remote core
->> which can own one or more video planes associated with this video port.
->>
->> 2) Linux owns one or more of the video planes with video port
->> (along with corresponding overlay manager) associated with these planes
->> being owned and controlled by a remote core. Linux still has read-only
->> access to the associated video port and overlay managers so that it can
->> parse the settings made by remote core.
+> With this benchmark I was able to determine two performance regression:
 > 
-> So, just to make sure we're on the same page. 1) means Linux drives the
-> whole display engine, but can lend planes to the R5? How does that work,
-> is Linux aware of the workload being there (plane size, format, etc) ?
+> - 322d716a3e8a ("drm/vkms: isolate pixel conversion functionality")
+> - cc4fd2934d41 ("drm/vkms: Isolate writeback pixel conversion functions")
 > 
-
-Well, there is no dynamic procedure being followed for lending. The
-partitioning scheme is decided and known before hand, and the remote
-core firmware updated and compiled accordingly, and similarly the
-device-tree overlay for Linux is also updated with partitioning
-information before bootup.
-
-What would happen here is that Linux will know before-hand this
-partitioning information via device-tree properties and won't enumerate
-the plane owned by RTOS, but it will enumerate the rest of the display
-components and initialize the DSS, after which user can load the DSS
-firmware on remote core and this firmware will only have control of
-plane as it was compiled with that configuration.
-
-
-> And 2) would mean that the display engine is under the R5 control and
-> Linux only gets to fill the plane and let the firmware know of what it
-> wants?
+> [1]: https://lore.kernel.org/all/20240202214527.1d97c881@ferris.localdomain/
+> ---
+>   benchmarks/meson.build   |   1 +
+>   benchmarks/vkms_stress.c | 203 +++++++++++++++++++++++++++++++++++++++++++++++
+>   2 files changed, 204 insertions(+)
 > 
+> diff --git a/benchmarks/meson.build b/benchmarks/meson.build
+> index c451268bc44f..3aa66d6dffe2 100644
+> --- a/benchmarks/meson.build
+> +++ b/benchmarks/meson.build
+> @@ -20,6 +20,7 @@ benchmark_progs = [
+>   	'kms_vblank',
+>   	'prime_lookup',
+>   	'vgem_mmap',
+> +	'vkms_stress',
+>   ]
+>   
+>   benchmarksdir = join_paths(libexecdir, 'benchmarks')
+> diff --git a/benchmarks/vkms_stress.c b/benchmarks/vkms_stress.c
+> new file mode 100644
+> index 000000000000..b9128c208861
+> --- /dev/null
+> +++ b/benchmarks/vkms_stress.c
+> @@ -0,0 +1,203 @@
+> +/*
+> + * Copyright © 2024 Arthur Grillo
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a
+> + * copy of this software and associated documentation files (the "Software"),
+> + * to deal in the Software without restriction, including without limitation
+> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> + * and/or sell copies of the Software, and to permit persons to whom the
+> + * Software is furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice (including the next
+> + * paragraph) shall be included in all copies or substantial portions of the
+> + * Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+> + * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+> + * IN THE SOFTWARE.
+> + *
+> + * Authors:
+> + *    Arthur Grillo <arthurgrillo@riseup.net>
+> + *
+> + */
+> +
+> +#include "igt.h"
+> +
+> +#define FRAME_COUNT 100
+> +
+> +struct rect_t {
+> +	int x, y;
+> +	int width, height;
+> +};
+> +
+> +struct plane_t {
+> +	igt_plane_t *base;
+> +	struct rect_t rect;
+> +	uint32_t format;
+> +	struct igt_fb fbs[2];
+> +};
+> +
+> +struct kms_t {
+> +	struct plane_t primary;
+> +	struct plane_t overlay_a;
+> +	struct plane_t overlay_b;
+> +	struct plane_t writeback;
+> +};
+> +
+> +struct data_t {
+> +	int fd;
+> +	igt_display_t display;
+> +	igt_output_t *wb_output;
+> +	drmModeModeInfo *mode;
+> +	struct kms_t kms;
+> +};
+> +
+> +static void plane_create_fb(struct plane_t *plane, int fd, size_t index)
+> +{
+> +	igt_create_fb(fd, plane->rect.width, plane->rect.height,
+> +			plane->format, DRM_FORMAT_MOD_LINEAR,
+> +			&plane->fbs[index]);
+> +}
+> +
+> +static void plane_create_color_fb(struct plane_t *plane, int fd, size_t index, double r, double g,
+> +				   double b)
+> +{
+> +	igt_create_color_fb(fd, plane->rect.width, plane->rect.height,
+> +			plane->format, DRM_FORMAT_MOD_LINEAR,
+> +			r, g, b,
+> +			&plane->fbs[index]);
+> +}
 
-Here too the partitioning information is pre-decided and remote core
-firmware and device-tree overlay for Linux updated accordingly. But in
-this case as remote core firmware owns the display (minus the plane
-owned by Linux) it is started and initialized during the bootloader
-phase itself where it initializes the DSS and starts rendering using the
-plane owned by it and Linux just latches to the DSS without
-re-initializing it, with write access only to the plane that is owned by
-Linux. You can refer [1] for more details on this.
+These two above functions, why not just use the igt_create_* function 
+instead of wrapping them with different name?
+
+> +
+> +static void plane_setup(struct plane_t *plane, int index)
+> +{
+> +	igt_plane_set_size(plane->base, plane->rect.width, plane->rect.height);
+> +	igt_plane_set_position(plane->base, plane->rect.x, plane->rect.y);
+> +	igt_plane_set_fb(plane->base, &plane->fbs[index]);
+> +}
+> +
+> +static void gen_fbs(struct data_t *data)
+> +{
+> +	struct kms_t *kms = &data->kms;
+> +	drmModeModeInfo *mode = igt_output_get_mode(data->wb_output);
+> +
+> +	for (int i = 0; i < 2; i++) {
+
+Maybe something along the lines of ARRAY_SIZE(kms->primary.fbs) instead 
+of '2' ?
+
+> +		plane_create_color_fb(&kms->primary, data->fd, i, !i, i, i);
+> +
+> +		plane_create_color_fb(&kms->overlay_a, data->fd, i, i, !i, i);
+> +
+> +		plane_create_color_fb(&kms->overlay_b, data->fd, i, i, i, !i);
+> +
+> +		kms->writeback.rect.width = mode->hdisplay;
+> +		kms->writeback.rect.height = mode->vdisplay;
+> +		plane_create_fb(&kms->writeback, data->fd, i);
+> +	}
+> +}
+> +
+> +static igt_output_t *find_wb_output(struct data_t *data)
+> +{
+> +	for (int i = 0; i < data->display.n_outputs; i++) {
+> +		igt_output_t *output = &data->display.outputs[i];
+> +
+> +		if (output->config.connector->connector_type != DRM_MODE_CONNECTOR_WRITEBACK)
+> +			continue;
+> +
+> +		return output;
+> +
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +static struct kms_t default_kms = {
+> +	.primary = {
+> +		.rect = {
+> +			.x = 101, .y = 0,
+> +			.width = 3639, .height = 2161,
+> +		},
+> +		.format = DRM_FORMAT_XRGB8888,
+> +	},
+> +	.overlay_a = {
+> +		.rect = {
+> +			.x = 201, .y = 199,
+> +			.width = 3033, .height = 1777,
+> +		},
+> +		.format = DRM_FORMAT_XRGB16161616,
+> +	},
+> +	.overlay_b = {
+> +		.rect = {
+> +			.x = 1800, .y = 250,
+> +			.width = 1507, .height = 1400,
+> +		},
+> +		.format = DRM_FORMAT_ARGB8888,
+> +	},
+> +	.writeback = {
+> +		.rect = {
+> +			.x = 0, .y = 0,
+> +			// Size is to be determined at runtime
+> +		},
+> +		.format = DRM_FORMAT_XRGB8888,
+> +	},
+> +};
+> +
+> +
+> +igt_simple_main
+> +{
+> +	struct data_t data;
+> +	enum pipe pipe = PIPE_NONE;
+> +
+> +	data.kms = default_kms;
+> +
+> +	data.fd = drm_open_driver_master(DRIVER_ANY);
+> +
+> +	igt_display_require(&data.display, data.fd);
+> +
+> +	kmstest_set_vt_graphics_mode();
+> +
+> +	igt_display_require(&data.display, data.fd);
+> +	igt_require(data.display.is_atomic);
+> +
+> +	igt_display_require_output(&data.display);
+> +
+> +	igt_require(data.wb_output);
+> +	igt_display_reset(&data.display);
+> +
+> +	data.wb_output = find_wb_output(&data);
+
+igt_require(data.wb_output)
 
 
-> If so, do we even need the tidss driver in the second case? We could
-> just write a fwkms driver of some sorts that could be used by multiple
-> implementations of the same "defer to firmware" logic.
+I noticed Pekka had already commented on this and those couple of things 
+below.
+
+
+> +
+> +	for_each_pipe(&data.display, pipe) {
+> +		igt_debug("Selecting pipe %s to %s\n",
+> +			  kmstest_pipe_name(pipe),
+> +			  igt_output_name(data.wb_output));
+> +		igt_output_set_pipe(data.wb_output, pipe);
+> +	}
+> +
+> +	igt_display_commit_atomic(&data.display, DRM_MODE_ATOMIC_ALLOW_MODESET, NULL);
+> +
+> +	gen_fbs(&data);
+> +
+> +	data.kms.primary.base = igt_output_get_plane_type(data.wb_output, DRM_PLANE_TYPE_PRIMARY);
+> +	data.kms.overlay_a.base = igt_output_get_plane_type_index(data.wb_output,
+> +								  DRM_PLANE_TYPE_OVERLAY, 0);
+> +	data.kms.overlay_b.base = igt_output_get_plane_type_index(data.wb_output,
+> +								  DRM_PLANE_TYPE_OVERLAY, 1);
+> +
+> +	for (int i = 0; i < FRAME_COUNT; i++) {
+> +		int fb_index = i % 2;
+
+I think this 2 could a be defined in the beginning giving it a name and 
+used everywhere
+
+> +
+> +		plane_setup(&data.kms.primary, fb_index);
+> +
+> +		plane_setup(&data.kms.overlay_a, fb_index);
+> +
+> +		plane_setup(&data.kms.overlay_b, fb_index);
+> +
+> +		igt_output_set_writeback_fb(data.wb_output, &data.kms.writeback.fbs[fb_index]);
+> +
+> +		igt_display_commit2(&data.display, COMMIT_ATOMIC);
+> +	}
+> +
+> +	igt_display_fini(&data.display);
+> +	drm_close_driver(data.fd);
+> +}
 > 
-
-This feature of static partitioning of DSS resources is specific to DSS7
-hardware (which is controlled by tidss driver) which supports dedicated
-register space and interrupt line for each of the hosts [0], so that
-multiple hosts can drive the display controller simultaneously as  per
-the desired static partitioning of resources, and so I don't think a
-separate driver is required here and tidss seems the right place to
-support this, where using this device-tree approach different resource
-partitioning schemas can be achieved as described here [1]. This was
-also aligned with Tomi too where we discussed that tidss is the right
-place to support this as we are simply leveraging the DSS hardware
-capabilities of static partitioning here.
-
-
->> For both the cases, the resources used in context of processing core
->> running Linux along with ownership information are exposed by user as
->> part of device-tree blob and driver uses an updated feature list tailored
->> for this shared mode accordingly. The driver also auto-populates
->> matching overlay managers and output types from shared video
->> port list provided in device-tree blob.
->> In dispc_feature struct remove const access specfier for output_type
->> array as it is required to be updated dynamically in run-time for shared
->> mode.
+> ---
+> base-commit: c58c5fb6aa1cb7d3627a15e364816a7a2add9edc
+> change-id: 20240207-bench-393789eaba47
 > 
-> I'm also not entirely sure that the device tree is the right path there.
-> Surely the firmware capabilities will evolve over time, while the device
-> tree won't. Is there some way to make it discoverable at probe time by
-> the driver?
-> 
+> Best regards,
 
-I think the main highlight of the sharing feature is the hardware
-capability where each host is provided separate irq and register space
-to program display for their display context independently and without
-any sort of inter-processor communication and the current implementation
-just mirrors by specifying the display context information in the form
-of device-tree properties instead of relying on any inter-processor
-communication or negotiation phase.
-
-Having said that, for the second case Linux still has read access to
-display registers which can be read to infer some of the display
-configuration set by the RTOS and we are infact using that to infer some
-of the context like for e.g. what was the display mode set by RTOS, but
-we don't want to rely completely on register reads of RTOS programmed
-registers to gather full information regarding partitioning or even to
-infer that we are in sharing mode.
-
-The remote core firmware is compiled with the partitioning information
-known before-hand and same is fed in the form of DT properties to Linux
-and this looks much cleaner, simple and reliable to us.
-
-But yes we wanted to support firmwares with different partitioning
-schemes/capabilities as you said and so the tidss-shared-mode
-device-tree properties were designed keeping in mind that they should be
-adequate and flexible enough to define all different partition schemes
-which can be supported, this is also demonstrated with an example here [1]
-
-[0]:
-https://software-dl.ti.com/processor-sdk-linux/esd/AM62PX/09_01_00_08/exports/docs/linux/Foundational_Components/Kernel/Kernel_Drivers/Display/DSS7.html#soc-hardware-description
-
-
-[1]:
-https://software-dl.ti.com/processor-sdk-linux/esd/AM62PX/09_01_00_08/exports/docs/linux/How_to_Guides/Target/How_to_enable_display_sharing_between_remotecore_and_Linux.html
-
-
-Regards
-Devarsh
-
-
-> Maxime
