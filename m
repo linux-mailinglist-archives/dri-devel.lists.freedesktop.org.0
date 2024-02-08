@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC8F684DE72
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 11:38:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFF5184DE83
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 11:43:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D38D610E394;
-	Thu,  8 Feb 2024 10:38:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A6E210E3AB;
+	Thu,  8 Feb 2024 10:43:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LUgcpQKR";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tjRY9w2O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7572010E394
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 10:38:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3691710E3AB
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 10:43:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 5E841CE1BC1;
- Thu,  8 Feb 2024 10:38:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50626C43390;
- Thu,  8 Feb 2024 10:38:21 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id BF306CE1B9D;
+ Thu,  8 Feb 2024 10:43:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75C8CC433F1;
+ Thu,  8 Feb 2024 10:43:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1707388705;
- bh=3AETScruqkniEwNPSQ+NMaYC/8cwISq036PBk0cTtnU=;
+ s=k20201202; t=1707388997;
+ bh=KfIx2dvD9Jx16XIaLbt5IT05wsfzW5ISA44UElE5OiE=;
  h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=LUgcpQKRtuhjFJDiKTqdPWjCsggDpcTwYXQhj03kzMUMieEg6DLASSrp5Jjl5S8jM
- auS6Q2sRso+iCGkthVdLHM+tfFixhfn90rBxv+nPxszTUUL9J1WvYt9GQ7CsbGdyWf
- efkKt5wNFFRPBeZnuoqICx6JtNtNx8g6me+g08gm+hpr8Cc+vgUDb5ul88Wd74fmHb
- 2caj3zysLIDePMJTgWBjOvn6+lp9VJa/uSqBBmRp8GJiMuXe04QlY0RCTqq9Mn15mn
- 7N4AWuCIj4Smb5sD2KYetGz/DmVEFNhDQJgnBuILiEYB6y8r1E2G2EadPQO8K7tEPf
- KxKWKNWvx7T0Q==
+ b=tjRY9w2OHQSTLts+RsI6TC0+oV3wVGZBD22CKaiW5JBl++0CGspdttW57gtTtfzJl
+ kpDOu1cAitbOgRgLfkG8Pi3MniPIarNzVujgwmJtpUB6wm082Txijk4aVFKxv8Q81R
+ aglazxU80ynmPCso9AQoyow1pId1abJkrgMA5Rb5jJ6Ky7s9KmfiHRTz6/JBDnvW7q
+ SzX6xghjqAeyMFQqFmwaX05eruWUgL+yoq076ElXhPpnOWegbzWL1O3blyqZFI3STz
+ ulyVk0FUzz1JMeeDtFgVIl4qt9rJajxVORZ1rL0nC6Pwb/y9cbFX/ARrlCq6Hnqe2C
+ BO/573b7JcOkQ==
 From: Lee Jones <lee@kernel.org>
 To: sam@ravnborg.org, bbrezillon@kernel.org, 
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
@@ -41,14 +41,15 @@ To: sam@ravnborg.org, bbrezillon@kernel.org,
  linux-kernel@vger.kernel.org, lee@kernel.org, thierry.reding@gmail.com, 
  u.kleine-koenig@pengutronix.de, linux-pwm@vger.kernel.org, 
  Dharma Balasubiramani <dharma.b@microchip.com>
-Cc: hari.prasathge@microchip.com, manikandan.m@microchip.com
-In-Reply-To: <20240131033523.577450-4-dharma.b@microchip.com>
-References: <20240131033523.577450-1-dharma.b@microchip.com>
- <20240131033523.577450-4-dharma.b@microchip.com>
-Subject: Re: (subset) [linux][PATCH v5 3/3] dt-bindings: mfd: atmel,hlcdc:
+Cc: hari.prasathge@microchip.com, manikandan.m@microchip.com, 
+ Conor Dooley <conor.dooley@microchip.com>
+In-Reply-To: <20240202001733.91455-4-dharma.b@microchip.com>
+References: <20240202001733.91455-1-dharma.b@microchip.com>
+ <20240202001733.91455-4-dharma.b@microchip.com>
+Subject: Re: (subset) [linux][PATCH v6 3/3] dt-bindings: mfd: atmel,hlcdc:
  Convert to DT schema format
-Message-Id: <170738870103.916068.17422553727568917627.b4-ty@kernel.org>
-Date: Thu, 08 Feb 2024 10:38:21 +0000
+Message-Id: <170738899221.920003.15342446791449663430.b4-ty@kernel.org>
+Date: Thu, 08 Feb 2024 10:43:12 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -68,7 +69,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 31 Jan 2024 09:05:23 +0530, Dharma Balasubiramani wrote:
+On Fri, 02 Feb 2024 05:47:33 +0530, Dharma Balasubiramani wrote:
 > Convert the atmel,hlcdc binding to DT schema format.
 > 
 > Align clocks and clock-names properties to clearly indicate that the LCD
@@ -81,7 +82,7 @@ On Wed, 31 Jan 2024 09:05:23 +0530, Dharma Balasubiramani wrote:
 Applied, thanks!
 
 [3/3] dt-bindings: mfd: atmel,hlcdc: Convert to DT schema format
-      commit: 7dd93269787781869d3dbb23138ec1455d26b047
+      commit: cb946db1335b599ece363d33966bf653ed0fa58a
 
 --
 Lee Jones [李琼斯]
