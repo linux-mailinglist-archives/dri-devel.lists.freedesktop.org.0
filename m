@@ -2,59 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2400084DD3B
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 10:47:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7D8E84DD44
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Feb 2024 10:50:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD7B310E505;
-	Thu,  8 Feb 2024 09:47:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CE2B10E565;
+	Thu,  8 Feb 2024 09:50:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ejfPyVKn";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="zDpNDfNO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F87410E505
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 09:47:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707385658; x=1738921658;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=B8cqTdsl61hbTwAme0/u6L8Z4DeauMK0xgKqDax73kI=;
- b=ejfPyVKnXXRXyNsklI39PmygINOHjpM4SEoDyJAJJhtdINz/oBy2undC
- Z7UhPWoMoyric4MxDQ6tn1WVZZciSXIVtOom5OCMOov+ZbgQcRsT4QBJJ
- VjYCamBoghwcDasz2vNMlrWlybUf61fLPfIUuD6cFkCoYfxepsht+MFcz
- xSPt2o3rcwgIQp8Rxokmp7T3wnbh/seL6feOwjHNaaTQbAnz8B75U7kr8
- wK/2mz+Wp4sXy7DLuaRwRa94PszlSm/4tTAY28r5s5FbktJuHMvb7kdBY
- Cjfr6doxZjiGZPUz8c8kPM0PUyAFFd/SzO02LN2LAangx+6RP5IemK5lh w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="23663295"
-X-IronPort-AV: E=Sophos;i="6.05,253,1701158400"; d="scan'208";a="23663295"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2024 01:47:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,253,1701158400"; 
-   d="scan'208";a="1894976"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
- by orviesa007.jf.intel.com with ESMTP; 08 Feb 2024 01:47:35 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rY10G-0003aQ-0h;
- Thu, 08 Feb 2024 09:47:32 +0000
-Date: Thu, 8 Feb 2024 17:47:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
- sui.jingfeng@linux.dev, pjones@redhat.com, deller@gmx.de, ardb@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 3/8] firmware/sysfb: Set firmware-framebuffer parent
- device
-Message-ID: <202402081758.cylLKURZ-lkp@intel.com>
-References: <20240207134932.7321-4-tzimmermann@suse.de>
+Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8970810E565
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Feb 2024 09:50:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
+ In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=VqcN9ycvcXN91vIGfixwynUuGFoqapd48PauLt5pJuQ=; b=zDpNDfNOVI4juyALsVgRWzFBtp
+ OIY/ihDcIF3ObWpei1izrEi5Orvp2fWTRaDxsTyCEH98QooW+bMUZ0xmmpW//o4L5UHgm+V8/tvhH
+ A36mhyqvBpQN6bt7pFi2nL3m8oELEAZzKQ53jPDonBxh+nO2B1MlukNi0pUiiGBNvkYEUCxiuii4t
+ 05LY3Fy6yztELYNTK9hF4EfF7XqWZ0S8SX1ZX56W7oeIRjye9+4rBNr+ObrmE/kETVkCWNYkIDvi2
+ 8jlSrJOzCjdF78NxOh8iVlx3MYot0t1TAD7Tj8YtRYpzT6imMDWJQjXKQkbMxCZ6BnZXTBdjRJhzo
+ 9j2EHhFg==;
+Received: from [194.136.85.206] (port=57114 helo=eldfell)
+ by whm50.louhi.net with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
+ (envelope-from <pekka.paalanen@haloniitty.fi>) id 1rY13U-0007Y3-2E;
+ Thu, 08 Feb 2024 11:50:52 +0200
+Date: Thu, 8 Feb 2024 11:50:50 +0200
+From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+To: Arthur Grillo <arthurgrillo@riseup.net>
+Cc: dri-devel@lists.freedesktop.org, igt-dev@lists.freedesktop.org, Petri
+ Latvala <adrinael@adrinael.net>, Arkadiusz Hiler <arek@hiler.eu>, Kamil
+ Konieczny <kamil.konieczny@linux.intel.com>, Juha-Pekka Heikkila
+ <juhapekka.heikkila@gmail.com>, Bhanuprakash Modem
+ <bhanuprakash.modem@intel.com>, Ashutosh Dixit <ashutosh.dixit@intel.com>,
+ Louis Chauvet <louis.chauvet@bootlin.com>, Rodrigo Siqueira
+ <rodrigosiqueiramelo@gmail.com>, Melissa Wen <melissa.srw@gmail.com>,
+ =?UTF-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>, Haneen Mohammed
+ <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH i-g-t] benchmarks: Add VKMS benchmark
+Message-ID: <20240208115050.73d04796@eldfell>
+In-Reply-To: <20240207-bench-v1-1-7135ad426860@riseup.net>
+References: <20240207-bench-v1-1-7135ad426860@riseup.net>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240207134932.7321-4-tzimmermann@suse.de>
+Content-Type: multipart/signed; boundary="Sig_/Kc9+P6gqpTPXh=giOl0SRyb";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - whm50.louhi.net
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - haloniitty.fi
+X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
+ pekka.paalanen@haloniitty.fi
+X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,49 +79,326 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+--Sig_/Kc9+P6gqpTPXh=giOl0SRyb
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-kernel test robot noticed the following build errors:
+On Wed, 07 Feb 2024 17:17:15 -0300
+Arthur Grillo <arthurgrillo@riseup.net> wrote:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-tip/drm-tip linus/master v6.8-rc3 next-20240208]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> Create a benchmark for the VKMS driver. Use a KMS layout with deliberate
+> odd sizes to try to avoid alignment accidents and run it for FRAME_COUNT
+> frames flipping framebuffers in each plane.
+>=20
+> Link: https://lore.kernel.org/all/20240202214527.1d97c881@ferris.localdom=
+ain/
+> Suggested-by: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> ---
+> This benchmark was suggested by Pekka Paalanen on [1] to better analyse
+> possible performance regression on the Virtual Kernel Modesetting(VKMS)
+> driver.
+>=20
+> With this benchmark I was able to determine two performance regression:
+>=20
+> - 322d716a3e8a ("drm/vkms: isolate pixel conversion functionality")
+> - cc4fd2934d41 ("drm/vkms: Isolate writeback pixel conversion functions")
+>=20
+> [1]: https://lore.kernel.org/all/20240202214527.1d97c881@ferris.localdoma=
+in/
+> ---
+>  benchmarks/meson.build   |   1 +
+>  benchmarks/vkms_stress.c | 203 +++++++++++++++++++++++++++++++++++++++++=
+++++++
+>  2 files changed, 204 insertions(+)
+>=20
+> diff --git a/benchmarks/meson.build b/benchmarks/meson.build
+> index c451268bc44f..3aa66d6dffe2 100644
+> --- a/benchmarks/meson.build
+> +++ b/benchmarks/meson.build
+> @@ -20,6 +20,7 @@ benchmark_progs =3D [
+>  	'kms_vblank',
+>  	'prime_lookup',
+>  	'vgem_mmap',
+> +	'vkms_stress',
+>  ]
+> =20
+>  benchmarksdir =3D join_paths(libexecdir, 'benchmarks')
+> diff --git a/benchmarks/vkms_stress.c b/benchmarks/vkms_stress.c
+> new file mode 100644
+> index 000000000000..b9128c208861
+> --- /dev/null
+> +++ b/benchmarks/vkms_stress.c
+> @@ -0,0 +1,203 @@
+> +/*
+> + * Copyright =C2=A9 2024 Arthur Grillo
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining=
+ a
+> + * copy of this software and associated documentation files (the "Softwa=
+re"),
+> + * to deal in the Software without restriction, including without limita=
+tion
+> + * the rights to use, copy, modify, merge, publish, distribute, sublicen=
+se,
+> + * and/or sell copies of the Software, and to permit persons to whom the
+> + * Software is furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice (including the =
+next
+> + * paragraph) shall be included in all copies or substantial portions of=
+ the
+> + * Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRE=
+SS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILI=
+TY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SH=
+ALL
+> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR =
+OTHER
+> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
+NG
+> + * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER D=
+EALINGS
+> + * IN THE SOFTWARE.
+> + *
+> + * Authors:
+> + *    Arthur Grillo <arthurgrillo@riseup.net>
+> + *
+> + */
+> +
+> +#include "igt.h"
+> +
+> +#define FRAME_COUNT 100
+> +
+> +struct rect_t {
+> +	int x, y;
+> +	int width, height;
+> +};
+> +
+> +struct plane_t {
+> +	igt_plane_t *base;
+> +	struct rect_t rect;
+> +	uint32_t format;
+> +	struct igt_fb fbs[2];
+> +};
+> +
+> +struct kms_t {
+> +	struct plane_t primary;
+> +	struct plane_t overlay_a;
+> +	struct plane_t overlay_b;
+> +	struct plane_t writeback;
+> +};
+> +
+> +struct data_t {
+> +	int fd;
+> +	igt_display_t display;
+> +	igt_output_t *wb_output;
+> +	drmModeModeInfo *mode;
+> +	struct kms_t kms;
+> +};
+> +
+> +static void plane_create_fb(struct plane_t *plane, int fd, size_t index)
+> +{
+> +	igt_create_fb(fd, plane->rect.width, plane->rect.height,
+> +			plane->format, DRM_FORMAT_MOD_LINEAR,
+> +			&plane->fbs[index]);
+> +}
+> +
+> +static void plane_create_color_fb(struct plane_t *plane, int fd, size_t =
+index, double r, double g,
+> +				   double b)
+> +{
+> +	igt_create_color_fb(fd, plane->rect.width, plane->rect.height,
+> +			plane->format, DRM_FORMAT_MOD_LINEAR,
+> +			r, g, b,
+> +			&plane->fbs[index]);
+> +}
+> +
+> +static void plane_setup(struct plane_t *plane, int index)
+> +{
+> +	igt_plane_set_size(plane->base, plane->rect.width, plane->rect.height);
+> +	igt_plane_set_position(plane->base, plane->rect.x, plane->rect.y);
+> +	igt_plane_set_fb(plane->base, &plane->fbs[index]);
+> +}
+> +
+> +static void gen_fbs(struct data_t *data)
+> +{
+> +	struct kms_t *kms =3D &data->kms;
+> +	drmModeModeInfo *mode =3D igt_output_get_mode(data->wb_output);
+> +
+> +	for (int i =3D 0; i < 2; i++) {
+> +		plane_create_color_fb(&kms->primary, data->fd, i, !i, i, i);
+> +
+> +		plane_create_color_fb(&kms->overlay_a, data->fd, i, i, !i, i);
+> +
+> +		plane_create_color_fb(&kms->overlay_b, data->fd, i, i, i, !i);
+> +
+> +		kms->writeback.rect.width =3D mode->hdisplay;
+> +		kms->writeback.rect.height =3D mode->vdisplay;
+> +		plane_create_fb(&kms->writeback, data->fd, i);
+> +	}
+> +}
+> +
+> +static igt_output_t *find_wb_output(struct data_t *data)
+> +{
+> +	for (int i =3D 0; i < data->display.n_outputs; i++) {
+> +		igt_output_t *output =3D &data->display.outputs[i];
+> +
+> +		if (output->config.connector->connector_type !=3D DRM_MODE_CONNECTOR_W=
+RITEBACK)
+> +			continue;
+> +
+> +		return output;
+> +
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +static struct kms_t default_kms =3D {
+> +	.primary =3D {
+> +		.rect =3D {
+> +			.x =3D 101, .y =3D 0,
+> +			.width =3D 3639, .height =3D 2161,
+> +		},
+> +		.format =3D DRM_FORMAT_XRGB8888,
+> +	},
+> +	.overlay_a =3D {
+> +		.rect =3D {
+> +			.x =3D 201, .y =3D 199,
+> +			.width =3D 3033, .height =3D 1777,
+> +		},
+> +		.format =3D DRM_FORMAT_XRGB16161616,
+> +	},
+> +	.overlay_b =3D {
+> +		.rect =3D {
+> +			.x =3D 1800, .y =3D 250,
+> +			.width =3D 1507, .height =3D 1400,
+> +		},
+> +		.format =3D DRM_FORMAT_ARGB8888,
+> +	},
+> +	.writeback =3D {
+> +		.rect =3D {
+> +			.x =3D 0, .y =3D 0,
+> +			// Size is to be determined at runtime
+> +		},
+> +		.format =3D DRM_FORMAT_XRGB8888,
+> +	},
+> +};
+> +
+> +
+> +igt_simple_main
+> +{
+> +	struct data_t data;
+> +	enum pipe pipe =3D PIPE_NONE;
+> +
+> +	data.kms =3D default_kms;
+> +
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/video-Add-helpers-for-decoding-screen_info/20240207-215100
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240207134932.7321-4-tzimmermann%40suse.de
-patch subject: [PATCH v3 3/8] firmware/sysfb: Set firmware-framebuffer parent device
-config: x86_64-rhel-8.3-bpf (https://download.01.org/0day-ci/archive/20240208/202402081758.cylLKURZ-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240208/202402081758.cylLKURZ-lkp@intel.com/reproduce)
+Hi Arthur,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402081758.cylLKURZ-lkp@intel.com/
+all the above looks really good!
 
-All errors (new ones prefixed by >>):
+Some things below look strange to me, but I don't know the igt API.
 
-   In file included from drivers/firmware/sysfb.c:36:
->> include/linux/sysfb.h:108:1: error: expected identifier or '('
-     108 | {
-         | ^
-   1 error generated.
+> +	data.fd =3D drm_open_driver_master(DRIVER_ANY);
+> +
+> +	igt_display_require(&data.display, data.fd);
+> +
+> +	kmstest_set_vt_graphics_mode();
+> +
+> +	igt_display_require(&data.display, data.fd);
+
+Are you supposed to call igt_display_require twice?
+
+> +	igt_require(data.display.is_atomic);
+> +
+> +	igt_display_require_output(&data.display);
+> +
+> +	igt_require(data.wb_output);
+> +	igt_display_reset(&data.display);
+> +
+> +	data.wb_output =3D find_wb_output(&data);
+
+Should igt_require(data.wb_output) be after find_wb_output?
+
+> +
+> +	for_each_pipe(&data.display, pipe) {
+> +		igt_debug("Selecting pipe %s to %s\n",
+> +			  kmstest_pipe_name(pipe),
+> +			  igt_output_name(data.wb_output));
+> +		igt_output_set_pipe(data.wb_output, pipe);
+
+Isn't this strange if there are multiple pipes?
+
+> +	}
+> +
+> +	igt_display_commit_atomic(&data.display, DRM_MODE_ATOMIC_ALLOW_MODESET,=
+ NULL);
+
+What's this commit needed for?
+
+> +
+> +	gen_fbs(&data);
+> +
+> +	data.kms.primary.base =3D igt_output_get_plane_type(data.wb_output, DRM=
+_PLANE_TYPE_PRIMARY);
+> +	data.kms.overlay_a.base =3D igt_output_get_plane_type_index(data.wb_out=
+put,
+> +								  DRM_PLANE_TYPE_OVERLAY, 0);
+> +	data.kms.overlay_b.base =3D igt_output_get_plane_type_index(data.wb_out=
+put,
+> +								  DRM_PLANE_TYPE_OVERLAY, 1);
+> +
+> +	for (int i =3D 0; i < FRAME_COUNT; i++) {
+> +		int fb_index =3D i % 2;
+> +
+> +		plane_setup(&data.kms.primary, fb_index);
+> +
+> +		plane_setup(&data.kms.overlay_a, fb_index);
+> +
+> +		plane_setup(&data.kms.overlay_b, fb_index);
+> +
+> +		igt_output_set_writeback_fb(data.wb_output, &data.kms.writeback.fbs[fb=
+_index]);
+> +
+> +		igt_display_commit2(&data.display, COMMIT_ATOMIC);
+> +	}
+> +
+> +	igt_display_fini(&data.display);
+> +	drm_close_driver(data.fd);
+> +}
+
+Aside those questions, I'm already happy giving a
+
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 
 
-vim +108 include/linux/sysfb.h
+Thanks,
+pq
 
-e3263ab389a7bc arch/x86/include/asm/sysfb.h David Rheinsberg         2013-08-02  104  
-9e121040e54abe include/linux/sysfb.h        Javier Martinez Canillas 2022-06-07  105  static inline struct platform_device *sysfb_create_simplefb(const struct screen_info *si,
-c0a4e7e120d3e9 include/linux/sysfb.h        Thomas Zimmermann        2024-02-07  106  							    const struct simplefb_platform_data *mode,
-c0a4e7e120d3e9 include/linux/sysfb.h        Thomas Zimmermann        2024-02-07  107  							    struct device *parent);
-e3263ab389a7bc arch/x86/include/asm/sysfb.h David Rheinsberg         2013-08-02 @108  {
-9e121040e54abe include/linux/sysfb.h        Javier Martinez Canillas 2022-06-07  109  	return ERR_PTR(-EINVAL);
-e3263ab389a7bc arch/x86/include/asm/sysfb.h David Rheinsberg         2013-08-02  110  }
-e3263ab389a7bc arch/x86/include/asm/sysfb.h David Rheinsberg         2013-08-02  111  
+--Sig_/Kc9+P6gqpTPXh=giOl0SRyb
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXEo/oACgkQI1/ltBGq
+qqfAMw//cs81C60eeabpnTE/Tm7zyrBG2wJ+h574XFR6QFuQsCv4+lGGH49DswaP
+5PnQub2npqYWljQr30aicB5xF8YpAL7NxlSwqZd0I32sdbaJFv0CtbfirsAisAj7
+t25QQ7scaWhxLD0xyZJtz9mQEiMEWqO5sPXihY7of+HOUINjpZdxUm1yrqWX1nWy
+rwv22VZwwhA/O8Nzh7seYUL76o0mUzmMkxZn/dv/VxSlLrbPvfJ7gg2c8Ksx0i3y
+ZwhCzx9/fLt+QjyuGONLkm5y8fEzcYq0lmzaNcAfSHs3Yy/NFJe0O0+K+L72vxuh
+gO8f31DUwIA1B18DUQrifDdLwrPuQx/UE2dVZZH/3h/TpmyOduviNNpMICaGFxBY
+derr18e5+tJMI2BA4rxEjAxRb1+cyhPRWbb50/hb+kHqHLSgFFHDwKJsfNOIuuDT
+g02zpY8P6YhuS0iatRf5vw3VtUjPLUis7TuhMvc8jnsgTneJ4xi9HWZfwFFNvPqr
+u3kl+yNVWX2JEUrSbXE6k9SGFX7vbcKNEAE6EgZJLRfng1rk15vIyJdBR9/7s2Of
+QbQepcjHsSiWssiMIFYEHVyNFLW1G1y5Rhp36zn+IPWa92XLUv0LAsRa0DzDARvN
+2cVmjun9pa4PeaAK1Og90DPTO23ddjGSU/Y9NtyRwfCmT/4vD3U=
+=f/cA
+-----END PGP SIGNATURE-----
+
+--Sig_/Kc9+P6gqpTPXh=giOl0SRyb--
