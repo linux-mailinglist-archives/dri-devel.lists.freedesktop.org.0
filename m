@@ -2,70 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7395F84F834
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 16:09:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D19484F851
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 16:15:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6292D10F5BE;
-	Fri,  9 Feb 2024 15:09:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C59310E2BE;
+	Fri,  9 Feb 2024 15:15:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="W00OKl0h";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZQwO2a2h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6879210E238
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Feb 2024 15:09:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1707491366; x=1739027366;
- h=from:to:subject:date:message-id:in-reply-to:references:
- mime-version:content-transfer-encoding;
- bh=PM51gHeCFEK5iONhCM2ibXVO8eHJ0sHQL+dlsYPqUVM=;
- b=W00OKl0hiof77ncQqc2L04np3bJ1h2hjEqvEFIkxJIa//pabSLSeofZ7
- hSNzFcf3G+lCg8h91eBINpkkzcJGKuFpuBlasFXBUhj7SMchRQ+hKi8Gk
- MIaLTutFq8CcgkTjLY1JNzb27jb8CPMEXe+xeoHcLEk3b8a0gADysKu8n
- U5yD1S1v3wU66UxC7ajGroywjxvDcJcA47cwwbrqUHBhvvuRMiM2IjJQA
- eQcT3t0ZHpkOlnoQ2nmDNOCXHqr69yLok4MFUWFgqWNnYF9eBeK/K53h/
- UT3ZOJ/9kjSYuIWKTu8x2iift84fJEr/JJx5rQ3nFK3sLfaWY+YVgdpm3 A==;
-X-CSE-ConnectionGUID: /ftgHdBDRUKkBO7najs1cw==
-X-CSE-MsgGUID: bbYucXZHQiexd9EbIAja6g==
-X-IronPort-AV: E=Sophos;i="6.05,257,1701154800"; d="scan'208";a="17424564"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 09 Feb 2024 08:09:25 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 9 Feb 2024 08:09:01 -0700
-Received: from che-lt-i70843lx.amer.actel.com (10.10.85.11) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Fri, 9 Feb 2024 08:08:49 -0700
-From: Dharma Balasubiramani <dharma.b@microchip.com>
-To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
- <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
- <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>, 
- <conor+dt@kernel.org>, <linux@armlinux.org.uk>,
- <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
- <claudiu.beznea@tuxon.dev>, <manikandan.m@microchip.com>,
- <dharma.b@microchip.com>, <arnd@arndb.de>, <geert+renesas@glider.be>,
- <Jason@zx2c4.com>, <mpe@ellerman.id.au>, <gerg@linux-m68k.org>,
- <rdunlap@infradead.org>, <vbabka@suse.cz>, <dri-devel@lists.freedesktop.org>, 
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <hari.prasathge@microchip.com>,
- <akpm@linux-foundation.org>, <deller@gmx.de>
-Subject: [PATCH v4 4/4] ARM: configs: at91: Enable LVDS serializer support
-Date: Fri, 9 Feb 2024 20:37:57 +0530
-Message-ID: <20240209150757.66914-5-dharma.b@microchip.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240209150757.66914-1-dharma.b@microchip.com>
-References: <20240209150757.66914-1-dharma.b@microchip.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A32F10E27F;
+ Fri,  9 Feb 2024 15:15:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9B3AF61CA4;
+ Fri,  9 Feb 2024 15:15:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F262CC43390;
+ Fri,  9 Feb 2024 15:15:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1707491722;
+ bh=JTPLE1ema4CnX5398MNCdxiinIwnPuFKQACAa2zXH6o=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=ZQwO2a2hPIEEStloHFLwGlP6SdAamukNj5a2j1yihvm9CyFOZyrrCzpMg/Et2nI9s
+ 8v0y0CD5RQ5gvH60Wpmr1cxl3wE/ZFJcmRsWsZm4dxQF+zkIslK3pHFe5AwzRTyOaf
+ 1wR7lawrXkle+CEN8SwY3pCvf9jpKolnivfBq5VuFaEzIE4WDJTXeI+dTA/H2sppEz
+ Bfp4YX0EIoaOgVt9joDYvNbR6JAUNiG9fE5ZZdIdGIj5ZnZzIjb6sFGuwvwQCmqia9
+ jjxvy6E1qFqzmKWGN3cR7phDu6qUtTGk40J3yd+ByENWtPHbxhmBC7OU2s+tvLYybz
+ RwXsG9GrMNzjg==
+Date: Fri, 9 Feb 2024 16:15:19 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>, 
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, 
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: Re: Re: [etnaviv-next v13 7/7] drm/etnaviv: Add support for
+ vivante GPU cores attached via PCI(e)
+Message-ID: <65qv24hhkmmy4haylh53muvz2xliejysc3uywq44pl3xx7rus4@ynyau4djposv>
+References: <20240206172759.421737-1-sui.jingfeng@linux.dev>
+ <20240206172759.421737-8-sui.jingfeng@linux.dev>
+ <ZcNO9aZwWzyYs-Rv@phenom.ffwll.local>
+ <jahydq72bqb27de2ijwwmdjh4ri326mxhfjn5pbvf7cqcpnauq@rw5hjdiroi5d>
+ <ZcYGWEG8eqAiqqai@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="b3v5afrzvli3zdwb"
+Content-Disposition: inline
+In-Reply-To: <ZcYGWEG8eqAiqqai@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,33 +67,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable LVDS serializer support for display pipeline.
 
-Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
-Acked-by: Hari Prasath Gujulan Elango <hari.prasathge@microchip.com>
-Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
----
-Changelog
-v3 -> v4
-- No Changes.
-v2 -> v3
-- No Changes.
----
- arch/arm/configs/at91_dt_defconfig | 1 +
- 1 file changed, 1 insertion(+)
+--b3v5afrzvli3zdwb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/arch/arm/configs/at91_dt_defconfig b/arch/arm/configs/at91_dt_defconfig
-index 71b5acc78187..6a7714beb099 100644
---- a/arch/arm/configs/at91_dt_defconfig
-+++ b/arch/arm/configs/at91_dt_defconfig
-@@ -143,6 +143,7 @@ CONFIG_VIDEO_OV2640=m
- CONFIG_VIDEO_OV7740=m
- CONFIG_DRM=y
- CONFIG_DRM_ATMEL_HLCDC=y
-+CONFIG_DRM_MICROCHIP_LVDS_SERIALIZER=y
- CONFIG_DRM_PANEL_SIMPLE=y
- CONFIG_DRM_PANEL_EDP=y
- CONFIG_FB_ATMEL=y
--- 
-2.25.1
+On Fri, Feb 09, 2024 at 12:02:48PM +0100, Daniel Vetter wrote:
+> On Thu, Feb 08, 2024 at 04:27:02PM +0100, Maxime Ripard wrote:
+> > On Wed, Feb 07, 2024 at 10:35:49AM +0100, Daniel Vetter wrote:
+> > > On Wed, Feb 07, 2024 at 01:27:59AM +0800, Sui Jingfeng wrote:
+> > > > The component helper functions are the glue, which is used to bind =
+multiple
+> > > > GPU cores to a virtual master platform device. Which is fine and wo=
+rks well
+> > > > for the SoCs who contains multiple GPU cores.
+> > > >=20
+> > > > The problem is that usperspace programs (such as X server and Mesa)=
+ will
+> > > > search the PCIe device to use if it is exist. In other words, usper=
+space
+> > > > programs open the PCIe device with higher priority. Creating a virt=
+ual
+> > > > master platform device for PCI(e) GPUs is unnecessary, as the PCI d=
+evice
+> > > > has been created by the time drm/etnaviv is loaded.
+> > > >=20
+> > > > we create virtual platform devices as a representation for the viva=
+nte GPU
+> > > > ip core. As all of subcomponent are attached via the PCIe master de=
+vice,
+> > > > we reflect this hardware layout by binding all of the virtual child=
+ to the
+> > > > the real master.
+> > > >=20
+> > > > Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+> > >=20
+> > > Uh so my understanding is that drivers really shouldn't create platfo=
+rm
+> > > devices of their own. For this case here I think the aux-bus framewor=
+k is
+> > > the right thing to use. Alternatively would be some infrastructure wh=
+ere
+> > > you feed a DT tree to driver core or pci subsystem and it instantiate=
+s it
+> > > all for you correctly, and especially with hotunplug all done right s=
+ince
+> > > this is pci now, not actually part of the soc that cannot be hotunplu=
+gged.
+> >=20
+> > I don't think we need intermediate platform devices at all. We just need
+> > to register our GPU against the PCI device and that's it. We don't need
+> > a platform device, we don't need the component framework.
+>=20
+> Afaik that's what this series does. The component stuff is for the
+> internal structure of the gpu ip, so that the same modular approach that
+> works for arm-soc also works for pci chips.
 
+But there should be a single PCI device, while we have multiple "DT"
+devices, right? Or is there several PCI devices too on that PCI card?
+
+Maxime
+
+--b3v5afrzvli3zdwb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZcZBhwAKCRDj7w1vZxhR
+xUxpAQDwhK8h9Y4aKOMIUeN+dGGWAvkUG9NwytlYTP3v40H7yAD9HGL3y8d+0QA7
+Z5FPCPhXRz0bY70gPHmS8EVq0UuEQgI=
+=5OJL
+-----END PGP SIGNATURE-----
+
+--b3v5afrzvli3zdwb--
