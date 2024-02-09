@@ -2,67 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F66984FEE0
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 22:29:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3FAD84FEEB
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 22:32:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6F0C10FE27;
-	Fri,  9 Feb 2024 21:29:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ED2C10FE3C;
+	Fri,  9 Feb 2024 21:32:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="omwadLeB";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="inX4cQEn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com
- [209.85.217.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E6AA10EB6E
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Feb 2024 21:29:30 +0000 (UTC)
-Received: by mail-vs1-f46.google.com with SMTP id
- ada2fe7eead31-46d3d03bb35so182144137.2
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Feb 2024 13:29:30 -0800 (PST)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
+ [209.85.208.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FE6310FE3C
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Feb 2024 21:32:48 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id
+ 4fb4d7f45d1cf-55fcceb5f34so1655155a12.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Feb 2024 13:32:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1707514165; x=1708118965; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1707514362; x=1708119162; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=6t7JxYzUYe1G5tyy354y/OPoxlWnEMIYfd55PcMEAnU=;
- b=omwadLeBjD0NecXE/91yLDsk6aa+p1CDQAQ9J/boHInqkIMbMC83iUn7I0ZxhVhmac
- 76h2XByHTDwQ1xHXpL2063MIRb/E/MR7PKSB96lNW8Ed1nsGo1aKOUsq39PGYecLICvk
- /5/cR8G1Y8l4Bp3MAdWXt24KPgV2ZiU+NECW+Y8AL3SiAvTqkOKJqx2/Mv3y8YlyCU1Q
- pXR6Gbn8R+p+BKgM7NBkBpFy1bhAnYBlFxl5vaaxZSDSvJpNDlw+6AomZlSNdrn4DdJz
- 6ZavJVE5gp57TCgS9IjC1qzCLmIlSLg1bgqhwe94NaWjCvYhE9FTMeC3HCj3g4ygC+qV
- 0oyA==
+ bh=Os4qev7suud/YhIU9+WIu+rwnop6A4JmpVMTfm/Akss=;
+ b=inX4cQEnUQRZaB9s62E2AKMiiZBaHd5Q53hKnSYu0DosewSvkssCycsOxIjRL1WuVd
+ LJV84qF2Bd1eb0ySTxDmAd7ocpWt+0FTXwem6HQ6qB/kOAu/3RlS3E5vSwS0bKU+MjyF
+ BAL1PzyECVtuhq8IqMsz/AQujBvIexPg+3DLl+failELsJI+IC8Mzi+YqQ7m9W2QlQH7
+ Rc32x/5wHehIdRrlz1r7/0bnBEUVH6cklEM0LK0kvOimlLMRONv9j2li7TexZklAmUP3
+ dFWEFokgv1j2HjivKNpX25jpRZlrzojuJpT5nfzVcM1uMe5z1Fs3OCxVkK51m9NHB8Hl
+ 6KYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707514165; x=1708118965;
+ d=1e100.net; s=20230601; t=1707514362; x=1708119162;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6t7JxYzUYe1G5tyy354y/OPoxlWnEMIYfd55PcMEAnU=;
- b=pLy0RMu4ZdM3JLyP0akYGWBM7xz0CN4xUL/SucRlk8MCS+dzxSvzlwF9i5RsIrEiG6
- Q6rJ2iUIaDO55kQit1lgrRptqv2EyebrAellcgAx8aX5qKTj0FIPBzwQDHlL5FBuwl3U
- BR68qhZk+uqpUwUNE+l4xSIX3pdlbqWSKrNIH31dSX9FCyD4k8qKTNCZ4qBwS6LGkOV0
- 6qzAdoA2C/MWIIOQedj6XFyx0piGCEv7RUQ10RezNUy0sOfcyKi+9AUIyiv78HKgys6O
- 58quC04SylDX7n/8F1oL4mhJbx1eeT5S5rMY72WnHnbVuHFooXT1QpuSkHTVsKPrbxcG
- UT6w==
+ bh=Os4qev7suud/YhIU9+WIu+rwnop6A4JmpVMTfm/Akss=;
+ b=ifKNZLwSCgm3nkiN7xA7G4kd6kxM4orBhOTVSN3qmlyYuCPbZbB2CUm5c6q/KZt30K
+ slVpO7w9+lvLRSQRGIIXWeVevHhKNGBaM5fNgnFc7WnH18htZM7ZaV87xXSv1NbnQ9NO
+ JJy1spaasC/RfC6C3OcRvQynlxW9XnwJTI0tZJg8H0QgVPkR7cYr9rKBLCwkqaw0QvmY
+ 117vOWawrT8ZWC5wrnH+6yY8DK6aoe0IImiAkZeYGBiOMKfMDCRmC8qaFbYxk3Qw7Mad
+ K0aN22wg81+CFkszuCQ5XB2bmZnD41/IaBeJOOx/tF6c/VprwdAPnftRV0dNjRkwO8mm
+ ZNAQ==
+X-Gm-Message-State: AOJu0YzYkaK93hxrFysqDyY839oOBSm1mndDqfDWWJyIisU8qVVZQ0Di
+ OlYqgLSzW/QXb3Ih+37+phXk+DDdNFDf5g0rJHMn0pGYfK09swJ8opavGGeCNhM=
+X-Google-Smtp-Source: AGHT+IFIoYfxKHL9swRQV0MYgEkbxpFOUINdT2LjlcbSKaf7uj2hPzPUdJudSt8B/nJl4Redq7P9MQ==
+X-Received: by 2002:a05:6402:1295:b0:560:c9b5:c440 with SMTP id
+ w21-20020a056402129500b00560c9b5c440mr99184edv.11.1707514362412; 
+ Fri, 09 Feb 2024 13:32:42 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCX2v5FBedriuejC9VqqUGo0kwdNI/u9suOzF/0ZTQ7J3XsZugWUBjXqGQ4mRp71amnOS9w9w8ZbtyNt5FMCdGCdEfh4Qv1Cn7q3AD/RI5OF
-X-Gm-Message-State: AOJu0Yy48i6VaWbEDkgPOAJ+CPmao3YGqyJf6GGbbH9joq6hA6qAmRAk
- I9U12Rknez26I8DT7JLjZJn3qaNAjHPBFdj68JloF9w0kJLUFhMrHpcgedLjLc8=
-X-Google-Smtp-Source: AGHT+IFhUodESDe8mt61qKpTTqFTzwMEjBVpz0ybXibJ7A3O5xt3dKTI0pK2CAdiM6pE73oilv1FeQ==
-X-Received: by 2002:a05:6102:2322:b0:46d:210f:20fd with SMTP id
- b2-20020a056102232200b0046d210f20fdmr647367vsa.18.1707514165164; 
- Fri, 09 Feb 2024 13:29:25 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUaxdtMY0BJKPa7zdVAd0dpwWZsnh/A3jFMcCGpvSDsERIAP92g7x8mxj4PdyC9EGZhc7uOMmzJrGviP9cAdUHOKRAl2ZjHDak9gqUZZPhnNhhKS/vQkf+4aZ04cdI2T4CFWdUms/HkdFdyUAIfjK4DGQ3Rw+10EY5g2ibFA36ro2CS7Lb3fwmW5nMgCkEwcsHZatTcazhCV8UCfJ73bVVv8zZLNDD9xSY8n1X5dE85NASVc3tYomL0U1sxjP1noD4VjEbcC8muLk4xF6K60jv32xmgNh6nnlBbhGWOhIKlInTvMOXgJAszJhfrvwl9sMIWNxSvjTPvBGg4tuNdLERM0yVXJAEvDeZBIDajp9ksCZOwam59mbQSlKjnU7SbO5z8/yWAJJCBJUEfZmwyEHh/O95I73vWJ+DmZ4OZdWT29ia4G+ug7+rrj2MFjvEN86NBrZrpM+P+zLFfFpcAOdvQCKMLPsa8VrWkvK3XuIV+CEfCl5q9JIhHWRNKO8QaCcpYceZkZPRKFITIM8sS4SqIpON/MjL/VSbuGzjXTsl9tlYYxLrFohCg3scs2PyLea6J8gssBTqyEWhySQu25d2o00rsC+/TH6tQgAlCM2LRF9AQ7c8jRPTDx4lV5Q3zz5GRmqchWOFuT8ZGXnLCBkZNf6Ih6Z+xdq2fMeZAGNamfHbIqw8O5sBGljWxLSfXxPuGCT2W7c8P1NMgOa88EGRa
+ AJvYcCWhM7Wv3B0b9S5Gg/kpkf8Zyy6sMDXu1ZgzNUyTGzK49js1OjK6ncpS4CI4LVbb573p1dvototMWqikdLS+JAaLWAwLtKAddE5qoVXzPaTV6g3SQSBZHG7akvcu7Txw3akiQZn9DRdyg2vq6lJUoeykfivHoYJ65I0Tw/PH7cSOMiJVode4vbNzjhmT79A73gmcx1OgeUZmcSY2uiSbS6R9wUtrdtH4pTTNUMg/Zxiby1ou5Ae43fvq9PqjadAx8BMc9ElOrd4vaqsBtqeod/EPbwDFKAz6gsyoCL0g3YNZOYLa7cPGzxBfymdKTVSJhsYkgZ0I7HwnUJoC+mvjSrhbblPJ5kgt7D3dyJvWDp6PecFX0gSOwJePVom3f6JWNGf1/Z2DPfa3XfUUV2ZDXGKDIjdA3qIUSzzv1kiNdOuV/EuKEMp5Iu2gtUGVi/1FIzxJjSwSWV0unin+mz0VCrir7OznnZbVbtO0g3MOi6w60QC+zBlh5ilnOD83A6F55zhW85i700tT6DhfrWH4C/ADDEBwz3n5DHyi49hNZsOvmv9w7/LLje6t6njem+UHqU+O/u0IK+EkJvYqfQ9brvFNVFUcw2Y6QCcYIVL3OllINFskkS0SnOoDss4Y8yxDZWZtMFCW4xtW9SbbVctxcKpci0SB0dyOfhYIi+BMATmuxUsnQDHSuILaux9ZMB5ky+1EOjKHW6pxAVtcBwthn6da
 Received: from [192.168.192.207] (037008245233.garwolin.vectranet.pl.
  [37.8.245.233]) by smtp.gmail.com with ESMTPSA id
- o35-20020a0561023fa300b0046af097562bsm49535vsv.9.2024.02.09.13.29.21
+ dm24-20020a05640222d800b005607fdd90b8sm114567edb.23.2024.02.09.13.32.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Feb 2024 13:29:24 -0800 (PST)
-Message-ID: <45f8b1a6-9611-41f5-9d50-6a74fcd2382a@linaro.org>
-Date: Fri, 9 Feb 2024 22:29:18 +0100
+ Fri, 09 Feb 2024 13:32:42 -0800 (PST)
+Message-ID: <5e71d9d2-0115-4359-9502-b1cb462c10fd@linaro.org>
+Date: Fri, 9 Feb 2024 22:32:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/8] arm64: dts: qcom: msm8976: Add MDSS nodes
+Subject: Re: [PATCH 6/8] arm64: dts: qcom: msm8976: Add Adreno GPU
 Content-Language: en-US
 To: Adam Skladowski <a39.skl@gmail.com>
 Cc: phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
@@ -79,7 +77,7 @@ Cc: phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20240121194221.13513-1-a39.skl@gmail.com>
- <20240121194221.13513-5-a39.skl@gmail.com>
+ <20240121194221.13513-7-a39.skl@gmail.com>
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -116,7 +114,7 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <20240121194221.13513-5-a39.skl@gmail.com>
+In-Reply-To: <20240121194221.13513-7-a39.skl@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -135,63 +133,78 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 21.01.2024 20:41, Adam Skladowski wrote:
-> Add MDSS nodes to support displays on MSM8976 SoC.
+> Add Adreno GPU node.
 > 
 > Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
 > ---
->  arch/arm64/boot/dts/qcom/msm8976.dtsi | 268 +++++++++++++++++++++++++-
->  1 file changed, 264 insertions(+), 4 deletions(-)
+>  arch/arm64/boot/dts/qcom/msm8976.dtsi | 66 +++++++++++++++++++++++++++
+>  1 file changed, 66 insertions(+)
 > 
 > diff --git a/arch/arm64/boot/dts/qcom/msm8976.dtsi b/arch/arm64/boot/dts/qcom/msm8976.dtsi
-> index 118174cfd4d3..2d71ce34f00e 100644
+> index 2d71ce34f00e..765c90ac14cb 100644
 > --- a/arch/arm64/boot/dts/qcom/msm8976.dtsi
 > +++ b/arch/arm64/boot/dts/qcom/msm8976.dtsi
-> @@ -785,10 +785,10 @@ gcc: clock-controller@1800000 {
->  
->  			clocks = <&rpmcc RPM_SMD_XO_CLK_SRC>,
->  				 <&rpmcc RPM_SMD_XO_A_CLK_SRC>,
-> -				 <0>,
-> -				 <0>,
-> -				 <0>,
-> -				 <0>;
-> +				 <&mdss_dsi0_phy 1>,
-> +				 <&mdss_dsi0_phy 0>,
-> +				 <&mdss_dsi1_phy 1>,
-> +				 <&mdss_dsi1_phy 0>;
->  			clock-names = "xo",
->  				      "xo_a",
->  				      "dsi0pll",
-> @@ -808,6 +808,266 @@ tcsr: syscon@1937000 {
->  			reg = <0x01937000 0x30000>;
+> @@ -1068,6 +1068,72 @@ mdss_dsi1_phy: phy@1a96a00 {
+>  			};
 >  		};
 >  
-> +		mdss: display-subsystem@1a00000 {
-> +			compatible = "qcom,mdss";
+> +		adreno_gpu: gpu@1c00000 {
+> +			compatible = "qcom,adreno-510.0", "qcom,adreno";
 > +
-> +			reg = <0x01a00000 0x1000>,
-> +			      <0x01ab0000 0x3000>;
-> +			reg-names = "mdss_phys", "vbif_phys";
+> +			reg = <0x01c00000 0x40000>;
+> +			reg-names = "kgsl_3d0_reg_memory";
 > +
-> +			power-domains = <&gcc MDSS_GDSC>;
-> +			interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>;
+> +			interrupts = <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
+> +			interrupt-names = "kgsl_3d0_irq";
 > +
-> +			interrupt-controller;
-> +			#interrupt-cells = <1>;
+> +			clock-names = "core",
+> +				      "iface",
+> +				      "mem",
+> +				      "mem_iface",
+> +				      "rbbmtimer",
+> +				      "alwayson";
 > +
-> +			clocks = <&gcc GCC_MDSS_AHB_CLK>,
-> +				 <&gcc GCC_MDSS_AXI_CLK>,
-> +				 <&gcc GCC_MDSS_VSYNC_CLK>,
-> +				  <&gcc GCC_MDSS_MDP_CLK>;
+> +			clocks = <&gcc GCC_GFX3D_OXILI_CLK>,
+> +			    <&gcc GCC_GFX3D_OXILI_AHB_CLK>,
+> +			    <&gcc GCC_GFX3D_OXILI_GMEM_CLK>,
+> +			    <&gcc GCC_GFX3D_BIMC_CLK>,
+> +			    <&gcc GCC_GFX3D_OXILI_TIMER_CLK>,
+> +			    <&gcc GCC_GFX3D_OXILI_AON_CLK>;
 
-The last entry is misaligned
+The entries are misaligned
 
-[...]
+property
+property-names
 
-> +					port@0 {
-> +						reg = <0>;
+(and without a separating newline, please)
 
-Please add a newline between properties and subnodes
+> +
+> +			power-domains = <&rpmpd MSM8976_VDDCX>;
+> +
+> +			iommus = <&gpu_iommu 0>;
+> +
+> +			status = "disabled";
+> +
+> +			operating-points-v2 = <&gpu_opp_table>;
+> +
+> +			gpu_opp_table: opp-table {
+> +				compatible  ="operating-points-v2";
+> +
+> +				opp-200000000 {
+> +					opp-hz = /bits/ 64 <200000000>;
 
-And then the rest looks good, I think!
+A random downstream I took has:
+
+19.2 MHz
+266.6 MHz
+300.0 MHz
+432.0 MHz
+480.0 MHz
+550.0 MHz
+600.0 MHz
+
+> +					opp-level = <RPM_SMD_LEVEL_LOW_SVS>;
+
+you want required-opps here instead
 
 Konrad
