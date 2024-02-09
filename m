@@ -2,126 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E32B84F8A6
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 16:34:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 490C584F8B1
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 16:37:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D45810EE08;
-	Fri,  9 Feb 2024 15:34:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 629C210F615;
+	Fri,  9 Feb 2024 15:37:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Tqs5l68J";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="k6W2HO/6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2056.outbound.protection.outlook.com [40.107.100.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F3B610ED09;
- Fri,  9 Feb 2024 15:34:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ca/u9lzF0+2W6oGCkXQrGcl9Hfgu23Zmui7gJKi1CvXl59T/VCgeWwnLOkDQRtQ8wxN8PN1k4r3OBInDYdIbj1BFYglX5JJ+Y37ylB68PLN1qCURmmRTRwN9/AXG+ERO3rrtQ3seJ7SSOugZQqFHO6c/n4E7Plkh8mQrfZMnYB2HGHIUowe90XXz+he5R0k1tVdOLZvX0rnN8DxCPSptsNgnYLxKPhcv78PvAXr2HDVjoezoEEAxxlaf+tOIv0hTbA2rSdI52DCnq/fNWl8efv4EYOBLkyDbJ5Z+bUhyxbIjb7E6uyKWDmfv/h/T+v2z6dRKCRMoNdSml/B0tpehug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=opgBYu5M2WMnV8XRAg0CHZt91hTOiNC7LdB2UFzcI1A=;
- b=Ch7z865dQ1BbbS/oYmtJzSx4rFTa3Uu+TW/RFGg3xuYESaPP45YEZp3l0/ebBKS7Fm/39WeaSfuVZN27PERlvkeqdrECKDUI/fFdQpPg/2Dfow44CQME/wVJY8ZX/FhN4kbQ9zZx62P9+yoR0IKGg2bSHOLFr4LaiMks0wGxec2zzIDJmBc+pPT123dqum6ubphSkFqic+qHb5sWrE4vobnDDghDhBhWZOi5puUgaftJpyX59RCM8fZMSRYzlO5X9B/Oy7qTO/K1m8Mcw21qpQ33M2Xa2+ZNQ24GORwaQmYC7zzF7bw74LjWtKIAQq0i7+tIsHBWzcqOCzfR0pzQww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=opgBYu5M2WMnV8XRAg0CHZt91hTOiNC7LdB2UFzcI1A=;
- b=Tqs5l68JtM1lq6ts3z7IdFI3VzyYJ5RviKtN98tdEd8eN0ka8O6do8L69iGyy6c4VCRfFz+K2/45Ub+q/Sr9JNfWqmL1Z5ux9DDjjTu6jaLdASrR8OtUSUL6/eaTb7v4hbC2FRr7DeVh5AZty6v3yyQBPnusTqI1NCgERr54C+4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by MN0PR12MB5715.namprd12.prod.outlook.com (2603:10b6:208:372::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.14; Fri, 9 Feb
- 2024 15:34:17 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::f6d2:541d:5eda:d826]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::f6d2:541d:5eda:d826%5]) with mapi id 15.20.7270.016; Fri, 9 Feb 2024
- 15:34:17 +0000
-Message-ID: <9fa0c1ad-dd7d-4350-aad1-4723450850bd@amd.com>
-Date: Fri, 9 Feb 2024 09:34:13 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] drm: Add drm_get_acpi_edid() helper
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>, amd-gfx@lists.freedesktop.org, 
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- "open list:ACPI" <linux-acpi@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, Melissa Wen <mwen@igalia.com>,
- Dave Airlie <airlied@redhat.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-References: <20240207224429.104625-1-mario.limonciello@amd.com>
- <20240207224429.104625-2-mario.limonciello@amd.com>
- <87y1bvb7ns.fsf@intel.com> <ZcYHaXNJ8IqbLIra@phenom.ffwll.local>
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <ZcYHaXNJ8IqbLIra@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DM5PR08CA0039.namprd08.prod.outlook.com
- (2603:10b6:4:60::28) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB1EC10F615
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Feb 2024 15:37:12 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2551761DA0;
+ Fri,  9 Feb 2024 15:37:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70F1EC433F1;
+ Fri,  9 Feb 2024 15:37:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1707493031;
+ bh=pBxvQLSKhW0Vb+9sHbY5CZPr2bjHazBXEcaGBWdKWdA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=k6W2HO/6cdwQN8D0khmZ4Izj4y0QMnmk1xgVLyL3+ROLye1f39SAvjYWgPizyk+B0
+ auM5x/TpYU3TCQ/1Kc2ZjhCpqtHq+VnpmVk3pFZhhRpMdVVnA8icN1CVceii2lUM9N
+ pgyYgtGFB+qPM1gZKs9vQHWCkLMF/1PVs2DBygMSb+asvVKJh0GbF0vpKXxs5UAt2N
+ 2Htauka95menjoN0LDSZLjq1/4Q3MSQiHcq/rf1aZ/+tYYNL21mm3EhQaZcH8cYkwc
+ +9YRz6hnUOu4Q948SR7FCeu752iykRldvkZt+TkA5uo7P9AYQMohtGVpnLE7aAocu/
+ nPqcmZ8ify9IA==
+Date: Fri, 9 Feb 2024 16:37:09 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Keith Zhao <keith.zhao@starfivetech.com>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+ "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>, 
+ "airlied@gmail.com" <airlied@gmail.com>, 
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ William Qiu <william.qiu@starfivetech.com>, 
+ Xingyu Wu <xingyu.wu@starfivetech.com>,
+ "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>, 
+ "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
+ "palmer@dabbelt.com" <palmer@dabbelt.com>, 
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ Shengyang Chen <shengyang.chen@starfivetech.com>, 
+ Jack Zhu <jack.zhu@starfivetech.com>,
+ Changhuang Liang <changhuang.liang@starfivetech.com>, 
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>
+Subject: Re: RE: [v3 4/6] drm/vs: Add KMS crtc&plane
+Message-ID: <veb4fyixov4wqlkpanbgxhd36shrqmsow5hpx4pji7mhfk5mxs@57mpolgixriz>
+References: <20231204123315.28456-1-keith.zhao@starfivetech.com>
+ <20231204123315.28456-5-keith.zhao@starfivetech.com>
+ <o4ica2jg2rqfx6znir6j7mkoojoqzejjuqvlwcnehanw5mvop6@a3t6vi7c55tz>
+ <NTZPR01MB1050C46113AD71AA5E93C67BEE7CA@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
+ <rvwcfjon4hjdx4youknherj2rrvvbfrn4bufdqlcd7tn3l5lc2@74rwotxzgyuq>
+ <NTZPR01MB1050C500508E29152E845511EE43A@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|MN0PR12MB5715:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6e006685-93f9-4c5d-6f4a-08dc2984939b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WgggYGxOCtoZqfd+5vCCG/vLQtfZod3/A+KTxY6JVDvsFeUtohxaXNh07yg7gx1LgBku3Y0ToABoWS5F3BhGgg6RhT5SLjdzy7nBrUgyX6lcL5YqaC6sG/zTX6jxsXIPzwXriGlsmmV1Qsh1+YKGH++Z0CUWvGqOw0dZnclj+KtltqoHyMvmlD3OW7ylarEhVDVw/rKW136asHFISA8sCfQuvLmG2We+WwxzZfp2JK94QFUMmZxM8DD2kNwxZfFZeZOPRvVI5plP7egzNxtMCjTh7WEOVP7isyTj46l4zvWY44NHEB/HZrmFr8WrGq/zMwzk4utHQuSBC+tO9CY+WrUrG/ujQXykdu6e7wAE+GjYFuELaVVwWxyMsz+zRpp2jFWSLhH9NdMe5hn7VuV5CZedtlrqE3ww6llRWYaCH3g9Q4vU2C/97mSIRzPoPiIaZxSZsAn/y+mu1jYGUGq10N4JjFV6XyyXCRBWjBbS5JyMqY0D7o5KPWgHJjsPi8tpc0i2iYvhfGknDvNya7exbxNgXPiA3UeQG1uoF4QghwYKYn5bJ97mAZGRU3D+4O5s27rIHLU72Ekm8d7hpHuNXwnUl+s6BqhYSMqFSJ0KPgA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366004)(136003)(376002)(396003)(39860400002)(346002)(230922051799003)(186009)(64100799003)(451199024)(1800799012)(66899024)(31686004)(110136005)(6486002)(921011)(31696002)(86362001)(41300700001)(36756003)(26005)(66476007)(83380400001)(6512007)(38100700002)(8936002)(478600001)(8676002)(53546011)(2906002)(6506007)(6666004)(66946007)(5660300002)(66556008)(2616005)(7416002)(316002)(44832011);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YW44WU1YSDBsanRRZjNlWGtPU2RVbzRTOXA0MWg0bWxRM1FxTWRuUUZTZ1Z1?=
- =?utf-8?B?QkFtMFFSdVVoSFpJcXRIRHlaRlpMZzIxbWlaU3dTL0tTdk9jUFdMd1E0QlFj?=
- =?utf-8?B?SmFmSlBBZTV2KzdpcmVPV29XZ3VnWGRWWjJGdWdXRnBjb0tYTDBzdkpvZlN2?=
- =?utf-8?B?RVVlMTQ3TzVVZFU2L3c2WTVKTFRwTWVFZ2tkQ0tXSHZ1Ry9WMW81Y2hEZkly?=
- =?utf-8?B?T2R4dDlpbDgvcHhmaTJsVXVLRlQ5S0VTWGd1VG42TEJHL1BJR21UUk9QUFlJ?=
- =?utf-8?B?QTFNSEdRclZ3NjFvY1RUbkJObUo0aFBzQXJZSjJ3WjZBYnFPdTNVc1REWjFj?=
- =?utf-8?B?M29aZTBBZXR4VDNMd2lQVEJRdG90Vnk4aDVvem9VQUlXQzF2REhzU3JHaFZ5?=
- =?utf-8?B?MXp6WUI1K3Y3Zk9xRWRxVzdyNGtIMXZuVHViN0M5TGs1NDZuZlZDVVdtNkVV?=
- =?utf-8?B?eEVxOXRMU1VLL05MNjhabFZBQlFmRitKRzIvaDBZaWFmaFMzNFBmL1kwdXJl?=
- =?utf-8?B?eC9jcmk3ZGprVW9LcUtOREhRVnNNN1MxSEZPTFIyd3A1NzloNHRSaGRXYXds?=
- =?utf-8?B?bTl4alcwRDV5M3hUU09Yc1BWT1V5eEpnbXJjWHhSK2dGdWhWL0ZkK0NwTWNr?=
- =?utf-8?B?d0FsTVFlUlBYY3F5V016YlZtWHQwQmUxRzFIcjg3a3QwY1NoTG5PNGxHL2Qw?=
- =?utf-8?B?VWZZbFRtYVp0NWZVT0lWMkhtU0Q1TE10aVhBQlRjNnVUUzdmeW5hanRSSm5x?=
- =?utf-8?B?RWFzZWNoWlkycVUrTlNaRG1WNkpVQzN3MVAvbDdpNklXOTFLVzhyQjZ0UU9w?=
- =?utf-8?B?cnQ0Sm92ZDNzNm9XQnZoOVA2b1cxd2hMcC9rdVlaMGRjOS85c0FWZjdQcW9p?=
- =?utf-8?B?VnNjYUdmWDZKak1MVzBhY2UvbVFKL25SK056cFR4bU85M29JNUtMM0w3Nlc4?=
- =?utf-8?B?SzBWRXI4eklYYmwvT3VIdllhaWxRdlNvWS84b1ZrcWp2RDZ2MXBCMkNNWE9U?=
- =?utf-8?B?L3dtMVV4YzRxc25CN3cyeW1KNnc1R08vWjloUkdHTkR6TkVCY0pYdjFqUXhV?=
- =?utf-8?B?Y3hHQnNPMS9wRldsaFMvUXY4bFkxQm00UmN0elpWd1ZDUFhlbDBzMDVXc3ZJ?=
- =?utf-8?B?L2loWkdwalJhOEJNNy9YT0p2VWtDbTdjYzc3S2pUUkhyWGwzcExHTTlubHNB?=
- =?utf-8?B?K1VjUk05YjZPakIrWjNab1NTYU05NFkvM1RXZlBmL0hWaWJDOE0vUGU1bGlM?=
- =?utf-8?B?OTUzRjI5ZVFYNnloZmk3K1RJVlFGaktXNmwvWm1ocmlmNWd1MjFocTFORnF3?=
- =?utf-8?B?NGF3S1hjeGRhU0dnaDEvQXNCcEhwWjBtUWtNeW5LRVdoK1pEWGI5STFwQVk0?=
- =?utf-8?B?cTBkNFduSjRQakU5VnJtMGpJeUx2MEhzMWtyZ203cmtZOExaZ0xobHNXZjJm?=
- =?utf-8?B?bmFpUFhEdU8vU2d2bkp5c0NEUmc5ZWJkbzZlS0FOSlR4d0ZHZ29HV20vQ2Yr?=
- =?utf-8?B?ZjFYYkowYWVEMGgvUURyclp0dTFpVWU0OHNFMUFYblU0aG13QnZzUmF2TFF3?=
- =?utf-8?B?a2RNYjVSL0U1QWFHVm5WS2tnc2hDbTJvMTZlSkN0d0NSZEpyb2FXZ0sxNG1O?=
- =?utf-8?B?MStXRzJBQThGRVpCeGFVdXJJcDMraXpVNmwrRW5PMktuRk93azFkYnV6WGda?=
- =?utf-8?B?SVZFYXp2TVNJL0VrK09QL1RJckN2dWY2UTRhUG5YWnYwTjVhVDROU0FFMDRv?=
- =?utf-8?B?Z2tqdnZlbUllSk5LZ0NYYzAyeEswbFRXWG9sWVU4Yzc5cnJNeXlBWmtUbWVz?=
- =?utf-8?B?WGFVQ2EyQUxXMnRWSDM1NENNUGFrZ2xLbno1MHNQZkM5dTNyK0s0VE5tamVs?=
- =?utf-8?B?MWEvdTY3NFVHTGk5VzhqUU5NZnNicnljT05IVFpJTFJFRFZ0eUJsNmhHZ1dU?=
- =?utf-8?B?dDd1VUJXQVhkQmpJbkZsQjVoZXNCWFNYSGFpaGszZ1pRb2RKbytCRDQxWk5O?=
- =?utf-8?B?d2RPZVk1MlVPYXQyNFU0aDFYdXhGWGdUb0p5ZEFwa3Fad2VoNEJRZWZsL3FD?=
- =?utf-8?B?QjJ6UXlwTjZzQ25HSlltQ2xXOHgyWjZMZlZ5RXBSd2hKK1Y3ZlIyWmZWckV0?=
- =?utf-8?Q?HOaCiQdxXSlFcZRUDBf5rF88a?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e006685-93f9-4c5d-6f4a-08dc2984939b
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2024 15:34:16.9879 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DYjkMDVf97qPVqBrbWvOLK2oyBlsacdAAT6plt/TSLpN9bcEhcx73eo60Ts9JJ2DIDp7NjP0EVCV5w3RHVg4cg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5715
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="3gny2qe4uevq2gnc"
+Content-Disposition: inline
+In-Reply-To: <NTZPR01MB1050C500508E29152E845511EE43A@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,197 +78,721 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/9/2024 05:07, Daniel Vetter wrote:
-> On Thu, Feb 08, 2024 at 11:57:11AM +0200, Jani Nikula wrote:
->> On Wed, 07 Feb 2024, Mario Limonciello <mario.limonciello@amd.com> wrote:
->>> Some manufacturers have intentionally put an EDID that differs from
->>> the EDID on the internal panel on laptops.  Drivers can call this
->>> helper to attempt to fetch the EDID from the BIOS's ACPI _DDC method.
->>>
->>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->>> ---
->>>   drivers/gpu/drm/Kconfig    |  5 +++
->>>   drivers/gpu/drm/drm_edid.c | 77 ++++++++++++++++++++++++++++++++++++++
->>>   include/drm/drm_edid.h     |  1 +
->>>   3 files changed, 83 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->>> index 6ec33d36f3a4..ec2bb71e8b36 100644
->>> --- a/drivers/gpu/drm/Kconfig
->>> +++ b/drivers/gpu/drm/Kconfig
->>> @@ -21,6 +21,11 @@ menuconfig DRM
->>>   	select KCMP
->>>   	select VIDEO_CMDLINE
->>>   	select VIDEO_NOMODESET
->>> +	select ACPI_VIDEO if ACPI
->>> +	select BACKLIGHT_CLASS_DEVICE if ACPI
->>> +	select INPUT if ACPI
->>> +	select X86_PLATFORM_DEVICES if ACPI && X86
->>> +	select ACPI_WMI if ACPI && X86
->>
->> I think I'll defer to drm maintainers on whether this is okay or
->> something to be avoided.
-> 
-> Uh yeah this is a bit much, and select just messes with everything. Just
-> #ifdef this in the code with a dummy alternative, if users configure their
-> kernel without acpi but need it, they get to keep all the pieces.
-> 
-> Alternatively make a DRM_ACPI_HELPERS symbol, but imo a Kconfig for every
-> function is also not great. And just using #ifdef in the code also works
-> for CONFIG_OF, which is exactly the same thing for platforms using dt to
-> describe hw.
-> 
-> Also I'd expect ACPI code to already provide dummy functions if ACPI is
-> provided, so you probably dont even need all that much #ifdef in the code.
-> 
-> What we defo cant do is select platform/hw stuff just because you enable
-> CONFIG_DRM.
-> -Sima
 
-The problem was with linking.  I'll experiment with #ifdef for the next 
-version.
+--3gny2qe4uevq2gnc
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
->>
->>
->>>   	help
->>>   	  Kernel-level support for the Direct Rendering Infrastructure (DRI)
->>>   	  introduced in XFree86 4.0. If you say Y here, you need to select
->>> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
->>> index 923c4423151c..c649b4f9fd8e 100644
->>> --- a/drivers/gpu/drm/drm_edid.c
->>> +++ b/drivers/gpu/drm/drm_edid.c
->>> @@ -28,6 +28,7 @@
->>>    * DEALINGS IN THE SOFTWARE.
->>>    */
->>>   
->>> +#include <acpi/video.h>
->>>   #include <linux/bitfield.h>
->>>   #include <linux/cec.h>
->>>   #include <linux/hdmi.h>
->>> @@ -2188,6 +2189,49 @@ drm_do_probe_ddc_edid(void *data, u8 *buf, unsigned int block, size_t len)
->>>   	return ret == xfers ? 0 : -1;
->>>   }
->>>   
->>> +/**
->>> + * drm_do_probe_acpi_edid() - get EDID information via ACPI _DDC
->>> + * @data: struct drm_device
->>> + * @buf: EDID data buffer to be filled
->>> + * @block: 128 byte EDID block to start fetching from
->>> + * @len: EDID data buffer length to fetch
->>> + *
->>> + * Try to fetch EDID information by calling acpi_video_get_edid() function.
->>> + *
->>> + * Return: 0 on success or error code on failure.
->>> + */
->>> +static int
->>> +drm_do_probe_acpi_edid(void *data, u8 *buf, unsigned int block, size_t len)
->>> +{
->>> +	struct drm_device *ddev = data;
->>> +	struct acpi_device *acpidev = ACPI_COMPANION(ddev->dev);
->>> +	unsigned char start = block * EDID_LENGTH;
->>> +	void *edid;
->>> +	int r;
->>> +
->>> +	if (!acpidev)
->>> +		return -ENODEV;
->>> +
->>> +	/* fetch the entire edid from BIOS */
->>> +	r = acpi_video_get_edid(acpidev, ACPI_VIDEO_DISPLAY_LCD, -1, &edid);
->>> +	if (r < 0) {
->>> +		DRM_DEBUG_KMS("Failed to get EDID from ACPI: %d\n", r);
->>> +		return -EINVAL;
->>> +	}
->>> +	if (len > r || start > r || start + len > r) {
->>> +		r = -EINVAL;
->>> +		goto cleanup;
->>> +	}
->>> +
->>> +	memcpy(buf, edid + start, len);
->>> +	r = 0;
->>> +
->>> +cleanup:
->>> +	kfree(edid);
->>> +
->>> +	return r;
->>> +}
->>> +
->>>   static void connector_bad_edid(struct drm_connector *connector,
->>>   			       const struct edid *edid, int num_blocks)
->>>   {
->>> @@ -2643,6 +2687,39 @@ struct edid *drm_get_edid(struct drm_connector *connector,
->>>   }
->>>   EXPORT_SYMBOL(drm_get_edid);
->>>   
->>> +/**
->>> + * drm_get_acpi_edid - get EDID data, if available
->>
->> I'd prefer all the new EDID API to be named drm_edid_*. Makes a clean
->> break from the old API, and is more consistent.
->>
->> So perhaps drm_edid_read_acpi() to be in line with all the other struct
->> drm_edid based EDID reading functions.
->>
->>> + * @connector: connector we're probing
->>> + *
->>> + * Use the BIOS to attempt to grab EDID data if possible.
->>> + *
->>> + * The returned pointer must be freed using drm_edid_free().
->>> + *
->>> + * Return: Pointer to valid EDID or NULL if we couldn't find any.
->>> + */
->>> +const struct drm_edid *drm_get_acpi_edid(struct drm_connector *connector)
->>> +{
->>> +	const struct drm_edid *drm_edid;
->>> +
->>> +	switch (connector->connector_type) {
->>> +	case DRM_MODE_CONNECTOR_LVDS:
->>> +	case DRM_MODE_CONNECTOR_eDP:
->>> +		break;
->>> +	default:
->>> +		return NULL;
->>> +	}
->>> +
->>> +	if (connector->force == DRM_FORCE_OFF)
->>> +		return NULL;
->>> +
->>> +	drm_edid = drm_edid_read_custom(connector, drm_do_probe_acpi_edid, connector->dev);
->>> +
->>> +	/* Note: Do *not* call connector updates here. */
->>> +
->>> +	return drm_edid;
->>> +}
->>> +EXPORT_SYMBOL(drm_get_acpi_edid);
->>> +
->>>   /**
->>>    * drm_edid_read_custom - Read EDID data using given EDID block read function
->>>    * @connector: Connector to use
->>> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
->>> index 7923bc00dc7a..ca41be289fc6 100644
->>> --- a/include/drm/drm_edid.h
->>> +++ b/include/drm/drm_edid.h
->>> @@ -410,6 +410,7 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
->>>   	void *data);
->>>   struct edid *drm_get_edid(struct drm_connector *connector,
->>>   			  struct i2c_adapter *adapter);
->>> +const struct drm_edid *drm_get_acpi_edid(struct drm_connector *connector);
->>
->> There's a comment
->>
->> /* Interface based on struct drm_edid */
->>
->> towards the end of the file, gathering all the new API under it.
->>
->> Other than that, LGTM,
->>
->> BR,
->> Jani.
->>
->>>   u32 drm_edid_get_panel_id(struct i2c_adapter *adapter);
->>>   struct edid *drm_get_edid_switcheroo(struct drm_connector *connector,
->>>   				     struct i2c_adapter *adapter);
->>
->> -- 
->> Jani Nikula, Intel
-> 
+On Thu, Feb 01, 2024 at 02:22:16AM +0000, Keith Zhao wrote:
+>=20
+>=20
+>=20
+>=20
+> > -----Original Message-----
+>=20
+> > From: Maxime Ripard <mripard@kernel.org>
+>=20
+> > Sent: 2024=E5=B9=B41=E6=9C=8831=E6=97=A5 21:24
+>=20
+> > To: Keith Zhao <keith.zhao@starfivetech.com>
+>=20
+> > Cc: devicetree@vger.kernel.org; dri-devel@lists.freedesktop.org;
+>=20
+> > linux-kernel@vger.kernel.org; linux-riscv@lists.infradead.org;
+>=20
+> > tzimmermann@suse.de; airlied@gmail.com; krzysztof.kozlowski+dt@linaro.o=
+rg;
+>=20
+> > William Qiu <william.qiu@starfivetech.com>; Xingyu Wu
+>=20
+> > <xingyu.wu@starfivetech.com>; paul.walmsley@sifive.com;
+>=20
+> > aou@eecs.berkeley.edu; palmer@dabbelt.com; p.zabel@pengutronix.de;
+>=20
+> > Shengyang Chen <shengyang.chen@starfivetech.com>; Jack Zhu
+>=20
+> > <jack.zhu@starfivetech.com>; Changhuang Liang
+>=20
+> > <changhuang.liang@starfivetech.com>; maarten.lankhorst@linux.intel.com
+>=20
+> > Subject: Re: [v3 4/6] drm/vs: Add KMS crtc&plane
+>=20
+> >
+>=20
+> > On Wed, Jan 31, 2024 at 09:33:06AM +0000, Keith Zhao wrote:
+>=20
+> > >
+>=20
+> > >
+>=20
+> > > > -----=E9=82=AE=E4=BB=B6=E5=8E=9F=E4=BB=B6-----
+>=20
+> > > > =E5=8F=91=E4=BB=B6=E4=BA=BA: Maxime Ripard <mripard@kernel.org<mail=
+to:mripard@kernel.org>>
+>=20
+> > > > =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2023=E5=B9=B412=E6=9C=886=E6=
+=97=A5 16:56
+>=20
+> > > > =E6=94=B6=E4=BB=B6=E4=BA=BA: Keith Zhao <keith.zhao@starfivetech.co=
+m<mailto:keith.zhao@starfivetech.com>>
+>=20
+> > > > =E6=8A=84=E9=80=81: devicetree@vger.kernel.org<mailto:devicetree@vg=
+er.kernel.org>; dri-devel@lists.freedesktop.org<mailto:dri-devel@lists.free=
+desktop.org>;
+>=20
+> > > > linux-kernel@vger.kernel.org<mailto:linux-kernel@vger.kernel.org>; =
+linux-riscv@lists.infradead.org<mailto:linux-riscv@lists.infradead.org>;
+>=20
+> > > > tzimmermann@suse.de<mailto:tzimmermann@suse.de>; airlied@gmail.com<=
+mailto:airlied@gmail.com>;
+>=20
+> > > > krzysztof.kozlowski+dt@linaro.org<mailto:krzysztof.kozlowski+dt@lin=
+aro.org>;
+>=20
+> > > > William Qiu <william.qiu@starfivetech.com<mailto:william.qiu@starfi=
+vetech.com>>; Xingyu Wu
+>=20
+> > > > <xingyu.wu@starfivetech.com<mailto:xingyu.wu@starfivetech.com>>; pa=
+ul.walmsley@sifive.com<mailto:paul.walmsley@sifive.com>;
+>=20
+> > > > aou@eecs.berkeley.edu<mailto:aou@eecs.berkeley.edu>; palmer@dabbelt=
+=2Ecom<mailto:palmer@dabbelt.com>; p.zabel@pengutronix.de<mailto:p.zabel@pe=
+ngutronix.de>;
+>=20
+> > > > Shengyang Chen <shengyang.chen@starfivetech.com<mailto:shengyang.ch=
+en@starfivetech.com>>; Jack Zhu
+>=20
+> > > > <jack.zhu@starfivetech.com<mailto:jack.zhu@starfivetech.com>>; Chan=
+ghuang Liang
+>=20
+> > > > <changhuang.liang@starfivetech.com<mailto:changhuang.liang@starfive=
+tech.com>>;
+>=20
+> > > > maarten.lankhorst@linux.intel.com<mailto:maarten.lankhorst@linux.in=
+tel.com>;
+>=20
+> > > > suijingfeng@loongson.cn<mailto:suijingfeng@loongson.cn>
+>=20
+> > > > =E4=B8=BB=E9=A2=98: Re: [v3 4/6] drm/vs: Add KMS crtc&plane
+>=20
+> > > >
+>=20
+> > > > On Mon, Dec 04, 2023 at 08:33:13PM +0800, Keith Zhao wrote:
+>=20
+> > > > > +static const struct vs_plane_info dc_hw_planes_rev0[PLANE_NUM] =
+=3D {
+>=20
+> > > > > +   {
+>=20
+> > > > > +            .name                         =3D "Primary",
+>=20
+> > > > > +            .id                       =3D PRIMARY_PLANE_0,
+>=20
+> > > > > +            .type                            =3D DRM_PLANE_TYPE_=
+PRIMARY,
+>=20
+> > > > > +            .num_formats           =3D ARRAY_SIZE(primary_overla=
+y_format0),
+>=20
+> > > > > +            .formats            =3D primary_overlay_format0,
+>=20
+> > > > > +            .num_modifiers                 =3D ARRAY_SIZE(format=
+_modifier0),
+>=20
+> > > > > +            .modifiers                   =3D format_modifier0,
+>=20
+> > > > > +            .min_width                =3D 0,
+>=20
+> > > > > +            .min_height               =3D 0,
+>=20
+> > > > > +            .max_width               =3D 4096,
+>=20
+> > > > > +            .max_height              =3D 4096,
+>=20
+> > > > > +            .rotation           =3D DRM_MODE_ROTATE_0 |
+>=20
+> > > > > +                                          DRM_MODE_ROTATE_90 |
+>=20
+> > > > > +                                          DRM_MODE_ROTATE_180 |
+>=20
+> > > > > +                                          DRM_MODE_ROTATE_270 |
+>=20
+> > > > > +                                          DRM_MODE_REFLECT_X |
+>=20
+> > > > > +                                          DRM_MODE_REFLECT_Y,
+>=20
+> > > > > +            .blend_mode             =3D BIT(DRM_MODE_BLEND_PIXEL=
+_NONE) |
+>=20
+> > > > > +                                          BIT(DRM_MODE_BLEND_PRE=
+MULTI) |
+>=20
+> > > > > +                                          BIT(DRM_MODE_BLEND_COV=
+ERAGE),
+>=20
+> > > > > +            .color_encoding                 =3D BIT(DRM_COLOR_YC=
+BCR_BT709) |
+>=20
+> > > > > +                                          BIT(DRM_COLOR_YCBCR_BT=
+2020),
+>=20
+> > > > > +            .degamma_size                  =3D DEGAMMA_SIZE,
+>=20
+> > > > > +            .min_scale                 =3D FRAC_16_16(1, 3),
+>=20
+> > > > > +            .max_scale                =3D FRAC_16_16(10, 1),
+>=20
+> > > > > +            .zpos                            =3D 0,
+>=20
+> > > > > +            .watermark               =3D true,
+>=20
+> > > > > +            .color_mgmt             =3D true,
+>=20
+> > > > > +            .roi                      =3D true,
+>=20
+> > > > > +   },
+>=20
+> > > > > +   {
+>=20
+> > > > > +            .name                         =3D "Overlay",
+>=20
+> > > > > +            .id                       =3D OVERLAY_PLANE_0,
+>=20
+> > > > > +            .type                            =3D DRM_PLANE_TYPE_=
+OVERLAY,
+>=20
+> > > > > +            .num_formats           =3D ARRAY_SIZE(primary_overla=
+y_format0),
+>=20
+> > > > > +            .formats            =3D primary_overlay_format0,
+>=20
+> > > > > +            .num_modifiers                 =3D ARRAY_SIZE(format=
+_modifier0),
+>=20
+> > > > > +            .modifiers                   =3D format_modifier0,
+>=20
+> > > > > +            .min_width                =3D 0,
+>=20
+> > > > > +            .min_height               =3D 0,
+>=20
+> > > > > +            .max_width               =3D 4096,
+>=20
+> > > > > +            .max_height              =3D 4096,
+>=20
+> > > > > +            .rotation           =3D DRM_MODE_ROTATE_0 |
+>=20
+> > > > > +                                          DRM_MODE_ROTATE_90 |
+>=20
+> > > > > +                                          DRM_MODE_ROTATE_180 |
+>=20
+> > > > > +                                          DRM_MODE_ROTATE_270 |
+>=20
+> > > > > +                                          DRM_MODE_REFLECT_X |
+>=20
+> > > > > +                                          DRM_MODE_REFLECT_Y,
+>=20
+> > > > > +            .blend_mode             =3D BIT(DRM_MODE_BLEND_PIXEL=
+_NONE) |
+>=20
+> > > > > +                                          BIT(DRM_MODE_BLEND_PRE=
+MULTI) |
+>=20
+> > > > > +                                          BIT(DRM_MODE_BLEND_COV=
+ERAGE),
+>=20
+> > > > > +            .color_encoding                 =3D BIT(DRM_COLOR_YC=
+BCR_BT709) |
+>=20
+> > > > > +                                          BIT(DRM_COLOR_YCBCR_BT=
+2020),
+>=20
+> > > > > +            .degamma_size                  =3D DEGAMMA_SIZE,
+>=20
+> > > > > +            .min_scale                 =3D FRAC_16_16(1, 3),
+>=20
+> > > > > +            .max_scale                =3D FRAC_16_16(10, 1),
+>=20
+> > > > > +            .zpos                            =3D 1,
+>=20
+> > > > > +            .watermark               =3D true,
+>=20
+> > > > > +            .color_mgmt             =3D true,
+>=20
+> > > > > +            .roi                      =3D true,
+>=20
+> > > > > +   },
+>=20
+> > > > > +   {
+>=20
+> > > > > +            .name                         =3D "Overlay_1",
+>=20
+> > > > > +            .id                       =3D OVERLAY_PLANE_1,
+>=20
+> > > > > +            .type                            =3D DRM_PLANE_TYPE_=
+OVERLAY,
+>=20
+> > > > > +            .num_formats           =3D ARRAY_SIZE(primary_overla=
+y_format0),
+>=20
+> > > > > +            .formats            =3D primary_overlay_format0,
+>=20
+> > > > > +            .num_modifiers                 =3D
+>=20
+> > ARRAY_SIZE(secondary_format_modifiers),
+>=20
+> > > > > +            .modifiers                   =3D secondary_format_mo=
+difiers,
+>=20
+> > > > > +            .min_width                =3D 0,
+>=20
+> > > > > +            .min_height               =3D 0,
+>=20
+> > > > > +            .max_width               =3D 4096,
+>=20
+> > > > > +            .max_height              =3D 4096,
+>=20
+> > > > > +            .rotation           =3D 0,
+>=20
+> > > > > +            .blend_mode             =3D BIT(DRM_MODE_BLEND_PIXEL=
+_NONE) |
+>=20
+> > > > > +                                          BIT(DRM_MODE_BLEND_PRE=
+MULTI) |
+>=20
+> > > > > +                                          BIT(DRM_MODE_BLEND_COV=
+ERAGE),
+>=20
+> > > > > +            .color_encoding                 =3D BIT(DRM_COLOR_YC=
+BCR_BT709) |
+>=20
+> > > > > +                                          BIT(DRM_COLOR_YCBCR_BT=
+2020),
+>=20
+> > > > > +            .degamma_size                  =3D DEGAMMA_SIZE,
+>=20
+> > > > > +            .min_scale                 =3D DRM_PLANE_NO_SCALING,
+>=20
+> > > > > +            .max_scale                =3D DRM_PLANE_NO_SCALING,
+>=20
+> > > > > +            .zpos                            =3D 2,
+>=20
+> > > > > +            .watermark               =3D true,
+>=20
+> > > > > +            .color_mgmt             =3D true,
+>=20
+> > > > > +            .roi                      =3D true,
+>=20
+> > > > > +   },
+>=20
+> > > > > +   {
+>=20
+> > > > > +            .name                         =3D "Primary_1",
+>=20
+> > > > > +            .id                       =3D PRIMARY_PLANE_1,
+>=20
+> > > > > +            .type                            =3D DRM_PLANE_TYPE_=
+PRIMARY,
+>=20
+> > > > > +            .num_formats           =3D ARRAY_SIZE(primary_overla=
+y_format0),
+>=20
+> > > > > +            .formats            =3D primary_overlay_format0,
+>=20
+> > > > > +            .num_modifiers                 =3D ARRAY_SIZE(format=
+_modifier0),
+>=20
+> > > > > +            .modifiers                   =3D format_modifier0,
+>=20
+> > > > > +            .min_width                =3D 0,
+>=20
+> > > > > +            .min_height               =3D 0,
+>=20
+> > > > > +            .max_width               =3D 4096,
+>=20
+> > > > > +            .max_height              =3D 4096,
+>=20
+> > > > > +            .rotation           =3D DRM_MODE_ROTATE_0 |
+>=20
+> > > > > +                                          DRM_MODE_ROTATE_90 |
+>=20
+> > > > > +                                          DRM_MODE_ROTATE_180 |
+>=20
+> > > > > +                                          DRM_MODE_ROTATE_270 |
+>=20
+> > > > > +                                          DRM_MODE_REFLECT_X |
+>=20
+> > > > > +                                          DRM_MODE_REFLECT_Y,
+>=20
+> > > > > +            .blend_mode             =3D BIT(DRM_MODE_BLEND_PIXEL=
+_NONE) |
+>=20
+> > > > > +                                          BIT(DRM_MODE_BLEND_PRE=
+MULTI) |
+>=20
+> > > > > +                                          BIT(DRM_MODE_BLEND_COV=
+ERAGE),
+>=20
+> > > > > +            .color_encoding                 =3D BIT(DRM_COLOR_YC=
+BCR_BT709) |
+>=20
+> > > > > +                                          BIT(DRM_COLOR_YCBCR_BT=
+2020),
+>=20
+> > > > > +            .degamma_size                  =3D DEGAMMA_SIZE,
+>=20
+> > > > > +            .min_scale                 =3D FRAC_16_16(1, 3),
+>=20
+> > > > > +            .max_scale                =3D FRAC_16_16(10, 1),
+>=20
+> > > > > +            .zpos                            =3D 3,
+>=20
+> > > > > +            .watermark               =3D true,
+>=20
+> > > > > +            .color_mgmt             =3D true,
+>=20
+> > > > > +            .roi                      =3D true,
+>=20
+> > > > > +   },
+>=20
+> > > > > +   {
+>=20
+> > > > > +            .name                         =3D "Overlay_2",
+>=20
+> > > > > +            .id                       =3D OVERLAY_PLANE_2,
+>=20
+> > > > > +            .type                            =3D DRM_PLANE_TYPE_=
+OVERLAY,
+>=20
+> > > > > +            .num_formats           =3D ARRAY_SIZE(primary_overla=
+y_format0),
+>=20
+> > > > > +            .formats            =3D primary_overlay_format0,
+>=20
+> > > > > +            .num_modifiers                 =3D ARRAY_SIZE(format=
+_modifier0),
+>=20
+> > > > > +            .modifiers                   =3D format_modifier0,
+>=20
+> > > > > +            .min_width                =3D 0,
+>=20
+> > > > > +            .min_height               =3D 0,
+>=20
+> > > > > +            .max_width               =3D 4096,
+>=20
+> > > > > +            .max_height              =3D 4096,
+>=20
+> > > > > +            .rotation           =3D DRM_MODE_ROTATE_0 |
+>=20
+> > > > > +                                          DRM_MODE_ROTATE_90 |
+>=20
+> > > > > +                                          DRM_MODE_ROTATE_180 |
+>=20
+> > > > > +                                          DRM_MODE_ROTATE_270 |
+>=20
+> > > > > +                                          DRM_MODE_REFLECT_X |
+>=20
+> > > > > +                                          DRM_MODE_REFLECT_Y,
+>=20
+> > > > > +            .blend_mode             =3D BIT(DRM_MODE_BLEND_PIXEL=
+_NONE) |
+>=20
+> > > > > +                                          BIT(DRM_MODE_BLEND_PRE=
+MULTI) |
+>=20
+> > > > > +                                          BIT(DRM_MODE_BLEND_COV=
+ERAGE),
+>=20
+> > > > > +            .color_encoding                 =3D BIT(DRM_COLOR_YC=
+BCR_BT709) |
+>=20
+> > > > > +                                          BIT(DRM_COLOR_YCBCR_BT=
+2020),
+>=20
+> > > > > +            .degamma_size                  =3D DEGAMMA_SIZE,
+>=20
+> > > > > +            .min_scale                 =3D FRAC_16_16(1, 3),
+>=20
+> > > > > +            .max_scale                =3D FRAC_16_16(10, 1),
+>=20
+> > > > > +            .zpos                            =3D 4,
+>=20
+> > > > > +            .watermark               =3D true,
+>=20
+> > > > > +            .color_mgmt             =3D true,
+>=20
+> > > > > +            .roi                      =3D true,
+>=20
+> > > > > +   },
+>=20
+> > > > > +   {
+>=20
+> > > > > +            .name                         =3D "Overlay_3",
+>=20
+> > > > > +            .id                       =3D OVERLAY_PLANE_3,
+>=20
+> > > > > +            .type                            =3D DRM_PLANE_TYPE_=
+OVERLAY,
+>=20
+> > > > > +            .num_formats           =3D ARRAY_SIZE(primary_overla=
+y_format0),
+>=20
+> > > > > +            .formats            =3D primary_overlay_format0,
+>=20
+> > > > > +            .num_modifiers                 =3D
+>=20
+> > ARRAY_SIZE(secondary_format_modifiers),
+>=20
+> > > > > +            .modifiers                   =3D secondary_format_mo=
+difiers,
+>=20
+> > > > > +            .min_width                =3D 0,
+>=20
+> > > > > +            .min_height               =3D 0,
+>=20
+> > > > > +            .max_width               =3D 4096,
+>=20
+> > > > > +            .max_height              =3D 4096,
+>=20
+> > > > > +            .rotation           =3D 0,
+>=20
+> > > > > +            .blend_mode             =3D BIT(DRM_MODE_BLEND_PIXEL=
+_NONE) |
+>=20
+> > > > > +                                          BIT(DRM_MODE_BLEND_PRE=
+MULTI) |
+>=20
+> > > > > +                                          BIT(DRM_MODE_BLEND_COV=
+ERAGE),
+>=20
+> > > > > +            .color_encoding                 =3D BIT(DRM_COLOR_YC=
+BCR_BT709) |
+>=20
+> > > > > +                                          BIT(DRM_COLOR_YCBCR_BT=
+2020),
+>=20
+> > > > > +            .degamma_size                  =3D DEGAMMA_SIZE,
+>=20
+> > > > > +            .min_scale                 =3D DRM_PLANE_NO_SCALING,
+>=20
+> > > > > +            .max_scale                =3D DRM_PLANE_NO_SCALING,
+>=20
+> > > > > +            .zpos                            =3D 5,
+>=20
+> > > > > +            .watermark               =3D true,
+>=20
+> > > > > +            .color_mgmt             =3D true,
+>=20
+> > > > > +            .roi                      =3D true,
+>=20
+> > > > > +   },
+>=20
+> > > > > +   {
+>=20
+> > > > > +            .name                         =3D "Cursor",
+>=20
+> > > > > +            .id                       =3D CURSOR_PLANE_0,
+>=20
+> > > > > +            .type                            =3D DRM_PLANE_TYPE_=
+CURSOR,
+>=20
+> > > > > +            .num_formats           =3D ARRAY_SIZE(cursor_formats=
+),
+>=20
+> > > > > +            .formats            =3D cursor_formats,
+>=20
+> > > > > +            .num_modifiers                 =3D 0,
+>=20
+> > > > > +            .modifiers                   =3D NULL,
+>=20
+> > > > > +            .min_width                =3D 32,
+>=20
+> > > > > +            .min_height               =3D 32,
+>=20
+> > > > > +            .max_width               =3D 64,
+>=20
+> > > > > +            .max_height              =3D 64,
+>=20
+> > > > > +            .rotation           =3D 0,
+>=20
+> > > > > +            .degamma_size                  =3D 0,
+>=20
+> > > > > +            .min_scale                 =3D DRM_PLANE_NO_SCALING,
+>=20
+> > > > > +            .max_scale                =3D DRM_PLANE_NO_SCALING,
+>=20
+> > > > > +            .zpos                            =3D 255,
+>=20
+> > > > > +            .watermark               =3D false,
+>=20
+> > > > > +            .color_mgmt             =3D false,
+>=20
+> > > > > +            .roi                      =3D false,
+>=20
+> > > > > +   },
+>=20
+> > > > > +   {
+>=20
+> > > > > +            .name                         =3D "Cursor_1",
+>=20
+> > > > > +            .id                       =3D CURSOR_PLANE_1,
+>=20
+> > > > > +            .type                            =3D DRM_PLANE_TYPE_=
+CURSOR,
+>=20
+> > > > > +            .num_formats           =3D ARRAY_SIZE(cursor_formats=
+),
+>=20
+> > > > > +            .formats            =3D cursor_formats,
+>=20
+> > > > > +            .num_modifiers                 =3D 0,
+>=20
+> > > > > +            .modifiers                   =3D NULL,
+>=20
+> > > > > +            .min_width                =3D 32,
+>=20
+> > > > > +            .min_height               =3D 32,
+>=20
+> > > > > +            .max_width               =3D 64,
+>=20
+> > > > > +            .max_height              =3D 64,
+>=20
+> > > > > +            .rotation           =3D 0,
+>=20
+> > > > > +            .degamma_size                  =3D 0,
+>=20
+> > > > > +            .min_scale                 =3D DRM_PLANE_NO_SCALING,
+>=20
+> > > > > +            .max_scale                =3D DRM_PLANE_NO_SCALING,
+>=20
+> > > > > +            .zpos                            =3D 255,
+>=20
+> > > > > +            .watermark               =3D false,
+>=20
+> > > > > +            .color_mgmt             =3D false,
+>=20
+> > > > > +            .roi                      =3D false,
+>=20
+> > > > > +   },
+>=20
+> > > > > +};
+>=20
+> > > > > +
+>=20
+> > > > > +static const struct vs_dc_info dc8200_info =3D {
+>=20
+> > > > > +   .name                         =3D "DC8200",
+>=20
+> > > > > +   .panel_num               =3D 2,
+>=20
+> > > > > +   .plane_num               =3D 8,
+>=20
+> > > > > +   .planes                        =3D dc_hw_planes_rev0,
+>=20
+> > > > > +   .layer_num                =3D 6,
+>=20
+> > > > > +   .max_bpc          =3D 10,
+>=20
+> > > > > +   .color_formats          =3D DRM_COLOR_FORMAT_RGB444 |
+>=20
+> > > > > +                                 DRM_COLOR_FORMAT_YCBCR444 |
+>=20
+> > > > > +                                 DRM_COLOR_FORMAT_YCBCR422 |
+>=20
+> > > > > +                                 DRM_COLOR_FORMAT_YCBCR420,
+>=20
+> > > > > +   .gamma_size             =3D GAMMA_EX_SIZE,
+>=20
+> > > > > +   .gamma_bits             =3D 12,
+>=20
+> > > > > +   .pitch_alignment     =3D 128,
+>=20
+> > > > > +   .pipe_sync                  =3D false,
+>=20
+> > > > > +   .background              =3D true,
+>=20
+> > > > > +   .panel_sync               =3D true,
+>=20
+> > > > > +   .cap_dec           =3D true,
+>=20
+> > > > > +};
+>=20
+> > > >
+>=20
+> > > > I really think that entire thing is to workaround a suboptimal devi=
+ce tree
+>=20
+> > binding.
+>=20
+> > > > You should have two CRTCs in the device tree, you'll probe twice,
+>=20
+> > > > and you won't get to do that whole dance.
+>=20
+> > > >
+>=20
+> >
+>=20
+> > > I tried to modify it according to this idea Found it too difficult In
+>=20
+> > > terms of hardware, the two crtc designs are too close to separate, and
+>=20
+> > > they are even designed into the same reg with different bits
+>=20
+> > > representing crtc0 and crtc1. It seems not easy to described the 2
+>=20
+> > > ctrc hardware by 2 device nodes
+>=20
+> >
+>=20
+> > What are these bits doing?
+>=20
+>=20
+>=20
+> [cid:image001.png@01DA54F5.ECEA9C10]
+>=20
+> For example:
+>=20
+> like this , bit0 and bit1 match ctrc0 and crtc1 , it is used to start crtc
+>=20
+> A similar situation exists for other register definitions.
+>=20
+>=20
+>=20
+> Another case is that ctrc0 and crtc1 have the same function and their off=
+set is continuous,
+>=20
+> instead of crtc0 being a continuous area, crtc1 being a continuous area
+>=20
+> reg:
+>=20
+> crtc0 X
+>=20
+> crtc1 X+4
+>=20
+> crtc0 X+8
+>=20
+> crtc1 X+12
+>=20
+> if to make it two separate devices, the device node dts reg attribute wou=
+ld be complex
 
+Yeah, ok, that makes sense then.
+
+In which case, if we're going to have one big device in the DT with all
+the planes and CRTCs, why do we need the display-subsystem device? Just
+make your driver probe on the dc8200 device.
+
+Maxime
+
+--3gny2qe4uevq2gnc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZcZGpAAKCRDj7w1vZxhR
+xeYCAQCFaDMj37GQT3knM6ZXa1vkO6nsgIBfYeTxEkLjVbhK5gEAlAzvrCqkQ+dR
+h+x7odM6Dd8NjS/5fn6EytEC6RSN9w8=
+=kOxh
+-----END PGP SIGNATURE-----
+
+--3gny2qe4uevq2gnc--
