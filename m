@@ -2,81 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 557DE84F8B8
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 16:39:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 980DB84F8BD
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 16:42:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EED910F635;
-	Fri,  9 Feb 2024 15:39:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C43210F649;
+	Fri,  9 Feb 2024 15:41:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="MZxvUS37";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VsIgGSvh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C8B810F635
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Feb 2024 15:39:27 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 419FUZHr006294; Fri, 9 Feb 2024 15:39:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=sn30ClCyRJLVUxGp4VywTT0S23XX2C6ZN0bt5ri3Vl4=; b=MZ
- xvUS37DweNNpHYivIZTJaH4WluQXek6hKEMhTqUzm/xNRFyi8D+MeVUuJwGzu2zX
- O9Gvm5xaTFXiquahr67R2yqBSudyZsiInZ15ZoBT+t5y/E38RDb8J7NRZmNfd1kT
- kJULAig0AcewmgN+eZB8NqGjJhIis8W5Nv7kq7riT+Bb0wy4QCIWAt1qRx76g3k5
- OBBRDPveEjbvr0RFfHuPSE9RAqtqzfHIX/nuUBUwKPrwmBganmQfQsMXysdw41Jt
- +i/X7XDmUXj5NRblqaueej9fIITpfVb0cfQZn1psQji/5pUIc2E5ncvECQ1nOHBF
- pzMv7iylbeulaeMWY1FQ==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w4rk84bye-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 09 Feb 2024 15:39:24 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 419FdNHB013082
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 9 Feb 2024 15:39:23 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 9 Feb
- 2024 07:39:23 -0800
-Message-ID: <304ed6e4-945c-0c2c-e0ac-63cc33fdb55b@quicinc.com>
-Date: Fri, 9 Feb 2024 08:39:22 -0700
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F256910F649
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Feb 2024 15:41:57 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 77E8F61E5B;
+ Fri,  9 Feb 2024 15:41:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B72EAC433C7;
+ Fri,  9 Feb 2024 15:41:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1707493317;
+ bh=BYQAgrM0iCoWkiPwDJhO3sbjPQzqGgLvX5Ho5qTAbYE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VsIgGSvhtfchQukDvq4H3WhSTrq7UyqASJZ9pVsLHoPtd2T+vyRlwbP33lWXVmt5+
+ iOkAny1mSRsmzVzfPfCnILsSG0E5SZiXgEz8SJx5RkRCy/Q88kLhOezAl4YpsKSRhn
+ x8pls9kKl3kDWafXSrSJhIP+alK94F+qoAVx/u7jaVriV1B5VlFrMRrL7orK7aVQMr
+ 3rotfhTB0Ztty+mi1VNypLZYFkMoF8/bPi7Q5gthONJtCJJth/N+fcq3d7yMgZx7Ys
+ TJ77P1XNTj/0lelVDgaXfWbBdfiVnsvFPtVOlADeglEZpdXYTuu0u8KcUB4yu6boUj
+ 492zsufl2215A==
+Date: Fri, 9 Feb 2024 16:41:54 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: "Klymenko, Anatoliy" <Anatoliy.Klymenko@amd.com>, 
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>, 
+ "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>, 
+ "Simek, Michal" <michal.simek@amd.com>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: Re: RE: Re: [PATCH 0/4] Fixing live video input in ZynqMP DPSUB
+Message-ID: <casqzvlydzfckbn2glxn2n2ywtiqzuam2hyn3qpbroaykp5drv@ygeuniecym4w>
+References: <20240112234222.913138-1-anatoliy.klymenko@amd.com>
+ <6jhwss2wego6yoo5mwmphwawhsj5bbj62gwrzcpapoixwkrkli@g4fbxdooopby>
+ <20240117142343.GD17920@pendragon.ideasonboard.com>
+ <u5mngxudtdgy3vqkfbpgqng6tdahijnet2jtj345hrowbt47ce@t3e7hul45mr3>
+ <MW4PR12MB7165D35189BEECA8769552AFE6792@MW4PR12MB7165.namprd12.prod.outlook.com>
+ <2ytxhpti53e743b5pca3oa5jmscffi4vpsyeh727bcoh4v6cuw@zkz5pqkcv7v2>
+ <20240204095618.GJ3094@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2] accel/ivpu: Fix DevTLB errors on suspend/resume and
- recovery
-Content-Language: en-US
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-CC: <oded.gabbay@gmail.com>
-References: <20240206151927.2925585-1-jacek.lawrynowicz@linux.intel.com>
- <20240207102446.3126981-1-jacek.lawrynowicz@linux.intel.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20240207102446.3126981-1-jacek.lawrynowicz@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: ehKH2IDwkZgIpfS0tlDULF2KAX6MMxif
-X-Proofpoint-ORIG-GUID: ehKH2IDwkZgIpfS0tlDULF2KAX6MMxif
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-09_12,2024-02-08_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 clxscore=1015
- phishscore=0 priorityscore=1501 adultscore=0 bulkscore=0 suspectscore=0
- spamscore=0 impostorscore=0 mlxlogscore=999 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402090115
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="aaihxypctcsxwq6q"
+Content-Disposition: inline
+In-Reply-To: <20240204095618.GJ3094@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,195 +70,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/7/2024 3:24 AM, Jacek Lawrynowicz wrote:
-> Issue IP reset before shutdown in order to
-> complete all upstream requests to the SOC.
-> Without this DevTLB is complaining about
-> incomplete transactions and NPU cannot resume from
-> suspend.
-> This problem is only happening on recent IFWI
-> releases.
-> 
-> IP reset in rare corner cases can mess up PCI
-> configuration, so save it before the reset.
-> After this happens it is also impossible to
-> issue PLL requests and D0->D3->D0 cycle is needed
-> to recover the NPU. Add WP 0 request on power up,
-> so the PUNIT is always notified about NPU reset.
-> 
-> Use D0/D3 cycle for recovery as it can recover
-> from failed IP reset and FLR cannot.
-> 
-> Fixes: 3f7c0634926d ("accel/ivpu/37xx: Fix hangs related to MMIO reset")
-> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-> ---
 
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+--aaihxypctcsxwq6q
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Nit below
+On Sun, Feb 04, 2024 at 11:56:18AM +0200, Laurent Pinchart wrote:
+> On Thu, Feb 01, 2024 at 06:01:01PM +0100, Maxime Ripard wrote:
+> > On Fri, Jan 26, 2024 at 11:18:30PM +0000, Klymenko, Anatoliy wrote:
+> > > On Friday, January 26, 2024 4:26 AM, Maxime Ripard wrote:
+> > > > On Wed, Jan 17, 2024 at 04:23:43PM +0200, Laurent Pinchart wrote:
+> > > > > On Mon, Jan 15, 2024 at 09:28:39AM +0100, Maxime Ripard wrote:
+> > > > > > On Fri, Jan 12, 2024 at 03:42:18PM -0800, Anatoliy Klymenko wro=
+te:
+> > > > > > > Patches 1/4,2/4,3/4 are minor fixes.
+> > > > > > >
+> > > > > > > DPSUB requires input live video format to be configured.
+> > > > > > > Patch 4/4: The DP Subsystem requires the input live video for=
+mat to be
+> > > > > > > configured. In this patch we are assuming that the CRTC's bus=
+ format is fixed
+> > > > > > > and comes from the device tree. This is a proposed solution, =
+as there are no api
+> > > > > > > to query CRTC output bus format.
+> > > > > > >
+> > > > > > > Is this a good approach to go with?
+> > > > > >
+> > > > > > I guess you would need to expand a bit on what "live video inpu=
+t" is? Is
+> > > > > > it some kind of mechanism to bypass memory and take your pixels=
+ straight
+> > > > > > from a FIFO from another device, or something else?
+> > > > >
+> > > > > Yes and no.
+> > > > >
+> > > > > The DPSUB integrates DMA engines, a blending engine (two planes),=
+ and a
+> > > > > DP encoder. The dpsub driver supports all of this, and creates a =
+DRM
+> > > > > device. The DP encoder hardware always takes its input data from =
+the
+> > > > > output of the blending engine.
+> > > > >
+> > > > > The blending engine can optionally take input data from a bus con=
+nected
+> > > > > to the FPGA fabric, instead of taking it from the DPSUB internal =
+DMA
+> > > > > engines. When operating in that mode, the dpsub driver exposes th=
+e DP
+> > > > > encoder as a bridge, and internally programs the blending engine =
+to
+> > > > > disable blending. Typically, the FPGA fabric will then contain a =
+CRTC of
+> > > > > some sort, with a driver that will acquire the DP encoder bridge =
+as
+> > > > > usually done.
+> > > > >
+> > > > > In this mode of operation, it is typical for the IP cores in FPGA=
+ fabric
+> > > > > to be synthesized with a fixed format (as that saves resources), =
+while
+> > > > > the DPSUB supports multiple input formats.
+> > > >=20
+> > > > Where is that CRTC driver? It's not clear to me why the format would
+> > > > need to be in the device tree at all. Format negociation between the
+> > > > CRTC and whatever comes next is already done in a number of drivers=
+ so
+> > > > it would be useful to have that kind of API outside of the bridge
+> > > > support.
+> > >
+> > > One example of such CRTC driver:
+> > > https://github.com/Xilinx/linux-xlnx/blob/master/drivers/gpu/drm/xlnx=
+/xlnx_mixer.c It's not
+> > > upstreamed yet. Bus format negotiations here are handled by utilizing=
+ Xilinx-specific bridge
+> > > framework. Ideally, it would be nice to rework this to comply with th=
+e upstream DRM bridge
+> > > framework.
+> > >
+> > > > > Bridge drivers in the upstream kernel work the other way around, =
+with
+> > > > > the bridge hardware supporting a limited set of formats, and the =
+CRTC
+> > > > > then being programmed with whatever the bridges chain needs. Here=
+, the
+> > > > > negotiation needs to go the other way around, as the CRTC is the
+> > > > > limiting factor, not the bridge.
+> > > >=20
+> > > > Sounds like there's something to rework in the API then?
+> > > >=20
+> > > Adding an optional CRTC callback imposing CRTC specific bus format re=
+strictions, which may be
+> > > called from here https://github.com/torvalds/linux/blob/master/driver=
+s/gpu/drm/drm_bridge.c#L935
+> > > would solve the problem.
+> >=20
+> > CRTCs and bridges are orthogonal. If anything, I'd expect that callback
+> > to be set at the CRTC, encoder and connector levels and filled by the
+> > drm_bridge code if relevant.
+>=20
+> I'm thinking about a new CRTC operation that would be called by the
+> bridge chain format negotiation helper
+> drm_atomic_bridge_chain_select_bus_fmts() (or one of the functions it
+> calls), to filter the list of formats supported by the chain based on
+> what the CRTC supports, or possibly to pick a format in that list. This
+> needs to be prototyped
 
->   drivers/accel/ivpu/ivpu_hw_37xx.c | 44 ++++++++++++++++++++++---------
->   drivers/accel/ivpu/ivpu_pm.c      | 39 +++++++++++++++------------
->   2 files changed, 54 insertions(+), 29 deletions(-)
-> 
-> diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
-> index 77accd029c4a..89af1006df55 100644
-> --- a/drivers/accel/ivpu/ivpu_hw_37xx.c
-> +++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
-> @@ -510,16 +510,6 @@ static int ivpu_boot_pwr_domain_enable(struct ivpu_device *vdev)
->   	return ret;
->   }
->   
-> -static int ivpu_boot_pwr_domain_disable(struct ivpu_device *vdev)
-> -{
-> -	ivpu_boot_dpu_active_drive(vdev, false);
-> -	ivpu_boot_pwr_island_isolation_drive(vdev, true);
-> -	ivpu_boot_pwr_island_trickle_drive(vdev, false);
-> -	ivpu_boot_pwr_island_drive(vdev, false);
-> -
-> -	return ivpu_boot_wait_for_pwr_island_status(vdev, 0x0);
-> -}
-> -
->   static void ivpu_boot_no_snoop_enable(struct ivpu_device *vdev)
->   {
->   	u32 val = REGV_RD32(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES);
-> @@ -616,12 +606,37 @@ static int ivpu_hw_37xx_info_init(struct ivpu_device *vdev)
->   	return 0;
->   }
->   
-> +static int ivpu_hw_37xx_ip_reset(struct ivpu_device *vdev)
-> +{
-> +	int ret;
-> +	u32 val;
-> +
-> +	if (IVPU_WA(punit_disabled))
-> +		return 0;
-> +
-> +	ret = REGB_POLL_FLD(VPU_37XX_BUTTRESS_VPU_IP_RESET, TRIGGER, 0, TIMEOUT_US);
-> +	if (ret) {
-> +		ivpu_err(vdev, "Timed out waiting for TRIGGER bit\n");
-> +		return ret;
-> +	}
-> +
-> +	val = REGB_RD32(VPU_37XX_BUTTRESS_VPU_IP_RESET);
-> +	val = REG_SET_FLD(VPU_37XX_BUTTRESS_VPU_IP_RESET, TRIGGER, val);
-> +	REGB_WR32(VPU_37XX_BUTTRESS_VPU_IP_RESET, val);
-> +
-> +	ret = REGB_POLL_FLD(VPU_37XX_BUTTRESS_VPU_IP_RESET, TRIGGER, 0, TIMEOUT_US);
-> +	if (ret)
-> +		ivpu_err(vdev, "Timed out waiting for RESET completion\n");
-> +
-> +	return ret;
-> +}
-> +
->   static int ivpu_hw_37xx_reset(struct ivpu_device *vdev)
->   {
->   	int ret = 0;
->   
-> -	if (ivpu_boot_pwr_domain_disable(vdev)) {
-> -		ivpu_err(vdev, "Failed to disable power domain\n");
-> +	if (ivpu_hw_37xx_ip_reset(vdev)) {
-> +		ivpu_err(vdev, "Failed to reset NPU\n");
->   		ret = -EIO;
->   	}
->   
-> @@ -661,6 +676,11 @@ static int ivpu_hw_37xx_power_up(struct ivpu_device *vdev)
->   {
->   	int ret;
->   
-> +	/* PLL requests may fail when powering down, so issue WP 0 here */
-> +	ret = ivpu_pll_disable(vdev);
-> +	if (ret)
-> +		ivpu_warn(vdev, "Failed to disable PLL: %d\n", ret);
-> +
->   	ret = ivpu_hw_37xx_d0i3_disable(vdev);
->   	if (ret)
->   		ivpu_warn(vdev, "Failed to disable D0I3: %d\n", ret);
-> diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-> index f501f27ebafd..5f73854234ba 100644
-> --- a/drivers/accel/ivpu/ivpu_pm.c
-> +++ b/drivers/accel/ivpu/ivpu_pm.c
-> @@ -58,11 +58,14 @@ static int ivpu_suspend(struct ivpu_device *vdev)
->   {
->   	int ret;
->   
-> +	/* Save PCI state before powering down as it sometimes gets corrupted if NPU hangs */
-> +	pci_save_state(to_pci_dev(vdev->drm.dev));
-> +
->   	ret = ivpu_shutdown(vdev);
-> -	if (ret) {
-> +	if (ret)
->   		ivpu_err(vdev, "Failed to shutdown VPU: %d\n", ret);
+As long as we come up with something that works for regular encoders,
+I'm fine with that.
 
-In the two logs you add in this change, the log has "NPU".  Here, there 
-is "VPU".  As far as I understand VPU is the old term and NPU is the new 
-term therefore it seems like all the logs should be updated to use the 
-new term for consistency.  Outside of scope for this change though.
+Maxime
 
-> -		return ret;
-> -	}
-> +
-> +	pci_set_power_state(to_pci_dev(vdev->drm.dev), PCI_D3hot);
->   
->   	return ret;
->   }
-> @@ -71,6 +74,9 @@ static int ivpu_resume(struct ivpu_device *vdev)
->   {
->   	int ret;
->   
-> +	pci_set_power_state(to_pci_dev(vdev->drm.dev), PCI_D0);
-> +	pci_restore_state(to_pci_dev(vdev->drm.dev));
-> +
->   retry:
->   	ret = ivpu_hw_power_up(vdev);
->   	if (ret) {
-> @@ -120,15 +126,20 @@ static void ivpu_pm_recovery_work(struct work_struct *work)
->   
->   	ivpu_fw_log_dump(vdev);
->   
-> -retry:
-> -	ret = pci_try_reset_function(to_pci_dev(vdev->drm.dev));
-> -	if (ret == -EAGAIN && !drm_dev_is_unplugged(&vdev->drm)) {
-> -		cond_resched();
-> -		goto retry;
-> -	}
-> +	atomic_inc(&vdev->pm->reset_counter);
-> +	atomic_set(&vdev->pm->reset_pending, 1);
-> +	down_write(&vdev->pm->reset_lock);
-> +
-> +	ivpu_suspend(vdev);
-> +	ivpu_pm_prepare_cold_boot(vdev);
-> +	ivpu_jobs_abort_all(vdev);
-> +
-> +	ret = ivpu_resume(vdev);
-> +	if (ret)
-> +		ivpu_err(vdev, "Failed to resume NPU: %d\n", ret);
->   
-> -	if (ret && ret != -EAGAIN)
-> -		ivpu_err(vdev, "Failed to reset VPU: %d\n", ret);
-> +	up_write(&vdev->pm->reset_lock);
-> +	atomic_set(&vdev->pm->reset_pending, 0);
->   
->   	kobject_uevent_env(&vdev->drm.dev->kobj, KOBJ_CHANGE, evt);
->   	pm_runtime_mark_last_busy(vdev->drm.dev);
-> @@ -200,9 +211,6 @@ int ivpu_pm_suspend_cb(struct device *dev)
->   	ivpu_suspend(vdev);
->   	ivpu_pm_prepare_warm_boot(vdev);
->   
-> -	pci_save_state(to_pci_dev(dev));
-> -	pci_set_power_state(to_pci_dev(dev), PCI_D3hot);
-> -
->   	ivpu_dbg(vdev, PM, "Suspend done.\n");
->   
->   	return 0;
-> @@ -216,9 +224,6 @@ int ivpu_pm_resume_cb(struct device *dev)
->   
->   	ivpu_dbg(vdev, PM, "Resume..\n");
->   
-> -	pci_set_power_state(to_pci_dev(dev), PCI_D0);
-> -	pci_restore_state(to_pci_dev(dev));
-> -
->   	ret = ivpu_resume(vdev);
->   	if (ret)
->   		ivpu_err(vdev, "Failed to resume: %d\n", ret);
+--aaihxypctcsxwq6q
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZcZHwgAKCRDj7w1vZxhR
+xR4xAQCnQ6B6KaRCdTBxvteV+SMevGOo6sSoUF43CpxDsbz/sgEA63pm3o5vZJBw
+Gkm3OaFel/wkTknuEVjJc+X59sDpagA=
+=H5zw
+-----END PGP SIGNATURE-----
+
+--aaihxypctcsxwq6q--
