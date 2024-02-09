@@ -2,74 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5715984F9EF
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 17:48:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40ACB84FA15
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 17:51:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6570110F77A;
-	Fri,  9 Feb 2024 16:48:35 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Vu974V3H";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90D1010F782;
+	Fri,  9 Feb 2024 16:51:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
- [209.85.128.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2730A10F786;
- Fri,  9 Feb 2024 16:48:34 +0000 (UTC)
-Received: by mail-yw1-f170.google.com with SMTP id
- 00721157ae682-604b23fc6a7so12891447b3.0; 
- Fri, 09 Feb 2024 08:48:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1707497313; x=1708102113; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=BDoPqGVOIDy3+wcfjHtZEb4REQzExwRWYroEz4tWuME=;
- b=Vu974V3HCtdEeH/aoFcxboQFnOncTBg/2Olr42WNTYAYBUU+AeLgIa4BlXDS3nYE29
- 0m3kw0dicYTgK3gBlvPGnKFhI3dOgZ80eofzyq8myv5IfH1aW4Uh9K0BzYhPMsYWW76X
- 2DQL8DnW83zNv8Jvcr5i8UO/SndYWjUJl/qraY5g7EYilitdHO9aMSglOc+h14qUY6XX
- SJJEmBgY7E5oMIwyXNnC7m2llGhhFmlZjmZEXDTIpq8RYWownOekrg5ddcKyNuhVAPfE
- AX1Cdrz/yGJClmgjdEbEiaUHKPgLhlByoA979/cbr7XNbJjxA25owXScf2PBODbx8HMt
- 39jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707497313; x=1708102113;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BDoPqGVOIDy3+wcfjHtZEb4REQzExwRWYroEz4tWuME=;
- b=Q+Gg4FtlmlBBjLQO85L6LzkotavCvbODlUmP+tSjHg1oUSKnfwIyPe5CKIyVXkjr4z
- R48lSbG7+NSWUxiiAGAcCCn75DWdMsoSt4iM7ZbFdQdIHrWQyyWQPP4OmCF2jDbfGiDD
- I2rf2XGylf8PvDEJBP03MtgPaKVN9uExb1hlAz1Z3JF9fYdXWOcOYavLziRBOid1KiP2
- 603e4Tx6wlJc27WBzMB8st0UND1dgobABiEAO1du/lpy3U4hOnNydG+QcIlTJcmjiJIq
- JtMtNt4t34YLn/sHdoMGXlZudTo0q4e26/5WXsGvZZCvFg3zL5R+jhIRdvhBXZYxAL0l
- xiIA==
-X-Gm-Message-State: AOJu0Yz7umDjltqDVmbeuDcB4qlCCsL7oTrImD3AbSycxy7+9F60SMPf
- 3v47BYfvtT7saQpFdctF4cmQ2Dz6a/PJ9RRchlAzPp3QGfnY7obE
-X-Google-Smtp-Source: AGHT+IGHAnv5j3jjPmcR0JvcThZ6kL5WrGr+U2/FCDlRiQcke87L3mDwYTKNqb9aPzjJNAz1t/g7uw==
-X-Received: by 2002:a25:8686:0:b0:dc6:e622:f52 with SMTP id
- z6-20020a258686000000b00dc6e6220f52mr1943504ybk.31.1707497313092; 
- Fri, 09 Feb 2024 08:48:33 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCW1a/+E+9DbNMri1t+AZUcIPf+wUz5mu1p6q31+fZg7aHGQ+BTynXWQVqxWa3/iQqp4U4MVW5MrWnWSm0WmQ19DldbgQ2tEZz0/3YNdMdDlGtqViDcAmRH0VWc4bxs6hnQkMMNvvq0rm+gf7lWdpRehASNNnUAzTj6o6TglEqnf1ukaIx5e0mn0UwNjf9xuEOzBnRYhMW86aYSk8C0HYiIx2RyurvnbhgYV3SDQcBKaIghNqJcXnKTZGkIMNNe2eUf/lA73dsI65yIvzp2tnUCZ
-Received: from localhost ([2601:344:8301:57f0:be3a:6fd4:1110:3284])
- by smtp.gmail.com with ESMTPSA id
- l12-20020a5b0b8c000000b00dc74ac54f5fsm217643ybq.63.2024.02.09.08.48.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Feb 2024 08:48:32 -0800 (PST)
-Date: Fri, 9 Feb 2024 08:48:31 -0800
-From: Yury Norov <yury.norov@gmail.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 2/3] bits: Introduce fixed-type BIT
-Message-ID: <ZcZXXzEBxvyH470g@yury-ThinkPad>
-References: <20240124050205.3646390-1-lucas.demarchi@intel.com>
- <20240124050205.3646390-3-lucas.demarchi@intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B8CA810F782
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Feb 2024 16:51:53 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5E5F9DA7;
+ Fri,  9 Feb 2024 08:52:35 -0800 (PST)
+Received: from [10.1.37.16] (e122027.cambridge.arm.com [10.1.37.16])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8E7303F64C;
+ Fri,  9 Feb 2024 08:51:48 -0800 (PST)
+Message-ID: <ec4d543c-fad6-4742-b271-eac3c7a829bc@arm.com>
+Date: Fri, 9 Feb 2024 16:51:46 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240124050205.3646390-3-lucas.demarchi@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 07/14] drm/panthor: Add the MMU/VM logical block
+Content-Language: en-GB
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel@ffwll.ch>,
+ "Marty E . Plummer" <hanetzer@startmail.com>, Rob Herring <robh@kernel.org>,
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+ Nicolas Boichat <drinkcat@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>,
+ Daniel Stone <daniels@collabora.com>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ Robin Murphy <robin.murphy@arm.com>, kernel@collabora.com,
+ Heiko Stuebner <heiko@sntech.de>, Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
+ Chris Diamand <chris.diamand@foss.arm.com>,
+ Ketil Johnsen <ketil.johnsen@arm.com>, Grant Likely <grant.likely@linaro.org>
+References: <20240122163047.1954733-1-boris.brezillon@collabora.com>
+ <20240122163047.1954733-8-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20240122163047.1954733-8-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,48 +58,211 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 23, 2024 at 09:02:04PM -0800, Lucas De Marchi wrote:
-> Implement fixed-type BIT() to help drivers add stricter checks, like was
-> done for GENMASK.
+On 22/01/2024 16:30, Boris Brezillon wrote:
+> MMU and VM management is related and placed in the same source file.
 > 
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> Page table updates are delegated to the io-pgtable-arm driver that's in
+> the iommu subsystem.
+> 
+> The VM management logic is based on drm_gpuva_mgr, and is assuming the
+> VA space is mostly managed by the usermode driver, except for a reserved
+> portion of this VA-space that's used for kernel objects (like the heap
+> contexts/chunks).
+> 
+> Both asynchronous and synchronous VM operations are supported, and
+> internal helpers are exposed to allow other logical blocks to map their
+> buffers in the GPU VA space.
+> 
+> There's one VM_BIND queue per-VM (meaning the Vulkan driver can only
+> expose one sparse-binding queue), and this bind queue is managed with
+> a 1:1 drm_sched_entity:drm_gpu_scheduler, such that each VM gets its own
+> independent execution queue, avoiding VM operation serialization at the
+> device level (things are still serialized at the VM level).
+> 
+> The rest is just implementation details that are hopefully well explained
+> in the documentation.
 
-Reviewed-by: Yury Norov <yury.norov@gmail.com>
+panthor_vm_map_pages() looks a bit suspect (see below) and there's a
+kerneldoc header which needs updating. But generally it looks fine.
 
+> 
+> v4:
+> - Add an helper to return the VM state
+> - Check drmm_mutex_init() return code
+> - Remove the VM from the AS reclaim list when panthor_vm_active() is
+>   called
+> - Count the number of active VM users instead of considering there's
+>   at most one user (several scheduling groups can point to the same
+>   vM)
+> - Pre-allocate a VMA object for unmap operations (unmaps can trigger
+>   a sm_step_remap() call)
+> - Check vm->root_page_table instead of vm->pgtbl_ops to detect if
+>   the io-pgtable is trying to allocate the root page table
+> - Don't memset() the va_node in panthor_vm_alloc_va(), make it a
+>   caller requirement
+> - Fix the kernel doc in a few places
+> - Drop the panthor_vm::base offset constraint and modify
+>   panthor_vm_put() to explicitly check for a NULL value
+> - Fix unbalanced vm_bo refcount in panthor_gpuva_sm_step_remap()
+> - Drop stale comments about the shared_bos list
+> - Patch mmu_features::va_bits on 32-bit builds to reflect the
+>   io_pgtable limitation and let the UMD know about it
+> 
+> v3:
+> - Add acks for the MIT/GPL2 relicensing
+> - Propagate MMU faults to the scheduler
+> - Move pages pinning/unpinning out of the dma_signalling path
+> - Fix 32-bit support
+> - Rework the user/kernel VA range calculation
+> - Make the auto-VA range explicit (auto-VA range doesn't cover the full
+>   kernel-VA range on the MCU VM)
+> - Let callers of panthor_vm_alloc_va() allocate the drm_mm_node
+>   (embedded in panthor_kernel_bo now)
+> - Adjust things to match the latest drm_gpuvm changes (extobj tracking,
+>   resv prep and more)
+> - Drop the per-AS lock and use slots_lock (fixes a race on vm->as.id)
+> - Set as.id to -1 when reusing an address space from the LRU list
+> - Drop misleading comment about page faults
+> - Remove check for irq being assigned in panthor_mmu_unplug()
+> 
+> Co-developed-by: Steven Price <steven.price@arm.com>
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Acked-by: Steven Price <steven.price@arm.com> # MIT+GPL2 relicensing,Arm
+> Acked-by: Grant Likely <grant.likely@linaro.org> # MIT+GPL2 relicensing,Linaro
+> Acked-by: Boris Brezillon <boris.brezillon@collabora.com> # MIT+GPL2 relicensing,Collabora
 > ---
->  include/linux/bits.h | 9 +++++++++
->  1 file changed, 9 insertions(+)
+>  drivers/gpu/drm/panthor/panthor_mmu.c | 2760 +++++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_mmu.h |  102 +
+>  2 files changed, 2862 insertions(+)
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_mmu.c
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_mmu.h
 > 
-> diff --git a/include/linux/bits.h b/include/linux/bits.h
-> index cb94128171b2..5754a1251078 100644
-> --- a/include/linux/bits.h
-> +++ b/include/linux/bits.h
-> @@ -24,12 +24,16 @@
->  #define GENMASK_INPUT_CHECK(h, l) \
->  	(BUILD_BUG_ON_ZERO(__builtin_choose_expr( \
->  		__is_constexpr((l) > (h)), (l) > (h), 0)))
-> +#define BIT_INPUT_CHECK(type, b) \
-> +	((BUILD_BUG_ON_ZERO(__builtin_choose_expr( \
-> +		__is_constexpr(b), (b) >= BITS_PER_TYPE(type), 0))))
->  #else
->  /*
->   * BUILD_BUG_ON_ZERO is not available in h files included from asm files,
->   * disable the input check if that is the case.
->   */
->  #define GENMASK_INPUT_CHECK(h, l) 0
-> +#define BIT_INPUT_CHECK(type, b) 0
->  #endif
->  
->  #define __GENMASK(t, h, l) \
-> @@ -44,4 +48,9 @@
->  #define GENMASK_U32(h, l)	__GENMASK(u32, h, l)
->  #define GENMASK_U64(h, l)	__GENMASK(u64, h, l)
->  
-> +#define BIT_U8(b)		((u8)(BIT_INPUT_CHECK(u8, b) + BIT(b)))
-> +#define BIT_U16(b)		((u16)(BIT_INPUT_CHECK(u16, b) + BIT(b)))
-> +#define BIT_U32(b)		((u32)(BIT_INPUT_CHECK(u32, b) + BIT(b)))
-> +#define BIT_U64(b)		((u64)(BIT_INPUT_CHECK(u64, b) + BIT(b)))
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> new file mode 100644
+> index 000000000000..d3ce29cd0662
+
+<snip>
+
+> +static int
+> +panthor_vm_map_pages(struct panthor_vm *vm, u64 iova, int prot,
+> +		     struct sg_table *sgt, u64 offset, u64 size)
+> +{
+> +	struct panthor_device *ptdev = vm->ptdev;
+> +	unsigned int count;
+> +	struct scatterlist *sgl;
+> +	struct io_pgtable_ops *ops = vm->pgtbl_ops;
+> +	u64 start_iova = iova;
+> +	int ret;
 > +
->  #endif	/* __LINUX_BITS_H */
-> -- 
-> 2.43.0
+> +	if (!size)
+> +		return 0;
+> +
+> +	for_each_sgtable_dma_sg(sgt, sgl, count) {
+> +		dma_addr_t paddr = sg_dma_address(sgl);
+> +		size_t len = sg_dma_len(sgl);
+> +
+> +		if (len <= offset) {
+> +			offset -= len;
+> +			continue;
+> +		}
+> +
+> +		paddr -= offset;
+
+Shouldn't that be "+="?
+
+> +		len -= offset;
+> +
+> +		if (size >= 0) {
+
+size is unsigned... so this is always true!
+
+> +			len = min_t(size_t, len, size);
+> +			size -= len;
+> +		}
+> +
+> +		drm_dbg(&ptdev->base, "map: as=%d, iova=%llx, paddr=%pad, len=%zx",
+> +			vm->as.id, iova, &paddr, len);
+> +
+> +		while (len) {
+> +			size_t pgcount, mapped = 0;
+> +			size_t pgsize = get_pgsize(iova | paddr, len, &pgcount);
+> +
+> +			ret = ops->map_pages(ops, iova, paddr, pgsize, pgcount, prot,
+> +					     GFP_KERNEL, &mapped);
+> +			iova += mapped;
+> +			paddr += mapped;
+> +			len -= mapped;
+> +
+> +			if (drm_WARN_ON(&ptdev->base, !ret && !mapped))
+> +				ret = -ENOMEM;
+> +
+> +			if (ret) {
+> +				/* If something failed, unmap what we've already mapped before
+> +				 * returning. The unmap call is not supposed to fail.
+> +				 */
+> +				drm_WARN_ON(&ptdev->base,
+> +					    panthor_vm_unmap_pages(vm, start_iova,
+> +								   iova - start_iova));
+> +				return ret;
+> +			}
+> +		}
+> +
+> +		if (!size)
+> +			break;
+> +	}
+> +
+> +	return panthor_vm_flush_range(vm, start_iova, iova - start_iova);
+> +}
+> +
+
+<snip>
+
+> +static void panthor_vm_destroy(struct panthor_vm *vm)
+> +{
+> +	if (!vm)
+> +		return;
+> +
+> +	vm->destroyed = true;
+> +
+> +	mutex_lock(&vm->heaps.lock);
+> +	panthor_heap_pool_destroy(vm->heaps.pool);
+> +	vm->heaps.pool = NULL;
+> +	mutex_unlock(&vm->heaps.lock);
+> +
+> +	drm_WARN_ON(&vm->ptdev->base,
+> +		    panthor_vm_unmap_range(vm, vm->base.mm_start, vm->base.mm_range));
+> +	panthor_vm_put(vm);
+> +}
+> +
+> +/**
+> + * panthor_vm_destroy() - Destroy a VM.
+      ^^^^^^^^^^^^^^^^^^ needs updating to the new function name.
+
+Steve
+
+> + * @pool: VM pool.
+> + * @handle: VM handle.
+> + *
+> + * This function doesn't free the VM object or its resources, it just kills
+> + * all mappings, and makes sure nothing can be mapped after that point.
+> + *
+> + * If there was any active jobs at the time this function is called, these
+> + * jobs should experience page faults and be killed as a result.
+> + *
+> + * The VM resources are freed when the last reference on the VM object is
+> + * dropped.
+> + */
+> +int panthor_vm_pool_destroy_vm(struct panthor_vm_pool *pool, u32 handle)
+> +{
+> +	struct panthor_vm *vm;
+> +
+> +	vm = xa_erase(&pool->xa, handle);
+> +
+> +	panthor_vm_destroy(vm);
+> +
+> +	return vm ? 0 : -EINVAL;
+> +}
+
+<snip>
+
