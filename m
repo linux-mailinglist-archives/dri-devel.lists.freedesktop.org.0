@@ -2,87 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86D1784FB2E
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 18:41:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C60284FB41
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 18:48:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FBC310EB69;
-	Fri,  9 Feb 2024 17:41:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49A5610F87D;
+	Fri,  9 Feb 2024 17:48:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FeECEABP";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Zo15Dvmb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E733610EB69
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Feb 2024 17:41:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1707500502;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Q8cXBiboRfo0of98MkHU2Vfc0DFLaOgC0qAVl8Vrox4=;
- b=FeECEABPv2A+fr+1HTWrQs/j0nkA93Xqwg3SHXXu3FA28tbZ2uwbuC+48KstdKeoxqDxJq
- VYAqu2nbY7F3iI35HjQ2noV/cmrcQOvyttndjXY3o3FxuKuUX9MStzeAzDzmb5lnsLdlF6
- 0LY7Z44IDr6wGGARbZpO1MW15XY9iJs=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-210-AMYHkW00MsK4cxnQzu_wLA-1; Fri, 09 Feb 2024 12:41:37 -0500
-X-MC-Unique: AMYHkW00MsK4cxnQzu_wLA-1
-Received: by mail-ej1-f72.google.com with SMTP id
- a640c23a62f3a-a357c92f241so82055966b.0
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Feb 2024 09:41:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707500496; x=1708105296;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Q8cXBiboRfo0of98MkHU2Vfc0DFLaOgC0qAVl8Vrox4=;
- b=QRoIXmYF2bXWRVwZkay87gM1KOoVLDGHzvplr2Aa9XZaBYV0RfeyHxV5qzeR3nbD93
- 3ZGgNxjbHbtVhJ/fWzrD3IrIXv54bHwPYGICuSgHn8MSt0UobA6xakoITGJ/YEimzhCa
- dPJAz2FAJSri4w80dXFXP1JVHSFPElcWTBpyBSfcOjyibmF14zruW5ndBJb5Zk8JIWxa
- KsTGQq2ci9bO1uzJsoX8uF05gpLrz1MFPb77ojEWUCmZ3lfunVWOtcSBZm5ihXYQ4whp
- dQK/6xruSx0HF+WtV1WSZUI3G8oaJqaYFug7p9POBMlpx1YlxQfgKRjiu/p7L+Eu4V5j
- u8dw==
-X-Gm-Message-State: AOJu0YyrL2lz7mZELBjnLGRqZ+AdW+2VfsfDd51+xgeK0qW8gHyLrPUY
- r6GGaEyqZOTVRoTCGT9c7kRJwiD8pUjRXhyujua/iJV/lQ7NanNQYz0Re4yKvJ2fW2P9aNjW+7n
- zHpPk0ZbEGL/8dulc7R/bUziGWTT/xXNrt9xiWnw0Yxd7LSOWtXnV74KmwtgnrBzNTQ==
-X-Received: by 2002:a17:906:4a59:b0:a3b:b021:57de with SMTP id
- a25-20020a1709064a5900b00a3bb02157demr1622771ejv.1.1707500496144; 
- Fri, 09 Feb 2024 09:41:36 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE4BLqGxaw+J2KCDiFAKvA8Y2np5p5tVtIPTiuNc65jwhq42iS9D8ldpllWAeE6VMNQ5GCIeQ==
-X-Received: by 2002:a17:906:4a59:b0:a3b:b021:57de with SMTP id
- a25-20020a1709064a5900b00a3bb02157demr1622762ejv.1.1707500495795; 
- Fri, 09 Feb 2024 09:41:35 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWQPiLVfXpkISblVZchHlkpfuHTMzVz5Xsu9LLNgEGAJ0rfP8aJjcltB7QY0Ceflkk7aqoIkFhP8R0hEOlB8nt3KlvUgIZ4KvNFOpifEDIKVCC/phGWbXoPOmwrg+N4EWBiZw==
-Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
- ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- r16-20020a1709062cd000b00a36c3e2e52dsm968511ejr.61.2024.02.09.09.41.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Feb 2024 09:41:35 -0800 (PST)
-Message-ID: <a2174cc2-ea65-4bcf-a112-f60f26b7213c@redhat.com>
-Date: Fri, 9 Feb 2024 18:41:32 +0100
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F8F510F87D
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Feb 2024 17:48:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1707500883;
+ bh=RBWJR1Eh8vuN0h9bGi/ckIjItfaKvIijP5GV8KpjA6g=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Zo15DvmbhKiWZ3g8bViki4F8JhXeNxInsld4DiG5mZ0IqCItf+wHi/EIXVzsUat8N
+ UwinPaIi/47rIjEz206GtBO2+FIV0+yztwGFp+NI251s+yIXXOTJH8WcaxRLRD2NLb
+ 5GqXvOHgN5yE9JzyU5Qhs7qrsEMK1Pzwf9KShPl/yKlA3RV1UHN7UGh2vbKwDkCUWJ
+ 3PHBtbTpY4hTt5BMUOLV3zome9GKFPsMeJvg1HmAHlug32EsGCbPpQf42OLJ6vudSC
+ FUz54tiv6WZwAph5yi7v7Qzsw/akbPxnSDpr1WwL9lvuenH6d0lY+1Uex/l9Z2iO1t
+ 1UazI/8BYvrOA==
+Received: from [100.95.196.25] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: koike)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 50EEA37813B6;
+ Fri,  9 Feb 2024 17:47:59 +0000 (UTC)
+Message-ID: <ae4e612a-47d2-4190-8547-2c8dc13b2cd6@collabora.com>
+Date: Fri, 9 Feb 2024 14:47:56 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nouveau: offload fence uevents work to workqueue
-To: Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@gmail.com>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20240129015053.1687418-1-airlied@gmail.com>
- <133266ac-7239-4233-a19d-cdc7563d401c@redhat.com>
- <CAPM=9tyc3zWRhm4xSnnHprU-v7prdZ2fkkLDEfjC_t_2wM-8Kg@mail.gmail.com>
- <3d967763-8f8f-4451-9927-33395e1b4d70@redhat.com>
- <ZcI8GScBEJ0SsuA5@phenom.ffwll.local>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <ZcI8GScBEJ0SsuA5@phenom.ffwll.local>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH v4] drm/ci: add tests on vkms
+To: Vignesh Raman <vignesh.raman@collabora.com>,
+ dri-devel@lists.freedesktop.org
+Cc: hamohammed.sa@gmail.com, daniels@collabora.com,
+ rodrigosiqueiramelo@gmail.com, david.heidelberg@collabora.com,
+ guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
+ linux-kernel@vger.kernel.org, melissa.srw@gmail.com, mairacanal@riseup.net,
+ daniel@ffwll.ch
+References: <20240201065346.801038-1-vignesh.raman@collabora.com>
 Content-Language: en-US
+From: Helen Koike <helen.koike@collabora.com>
+In-Reply-To: <20240201065346.801038-1-vignesh.raman@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -100,72 +65,265 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/6/24 15:03, Daniel Vetter wrote:
-> On Mon, Feb 05, 2024 at 11:00:04PM +0100, Danilo Krummrich wrote:
->> On 2/5/24 22:08, Dave Airlie wrote:
->>> On Tue, 6 Feb 2024 at 02:22, Danilo Krummrich <dakr@redhat.com> wrote:
->>>>
->>>> On 1/29/24 02:50, Dave Airlie wrote:
->>>>> From: Dave Airlie <airlied@redhat.com>
->>>>>
->>>>> This should break the deadlock between the fctx lock and the irq lock.
->>>>>
->>>>> This offloads the processing off the work from the irq into a workqueue.
->>>>>
->>>>> Signed-off-by: Dave Airlie <airlied@redhat.com>
->>>>
->>>> Nouveau's scheduler uses a dedicated wq, hence from this perspective it's
->>>> safe deferring fence signalling to the kernel global wq. However, I wonder
->>>> if we could create deadlocks by building dependency chains into other
->>>> drivers / kernel code that, by chance, makes use of the kernel global wq as
->>>> well.
->>>>
->>>> Admittedly, even if, it's gonna be extremely unlikely given that
->>>> WQ_MAX_ACTIVE == 512. But maybe it'd be safer to use a dedicated wq.
->>>>
->>>> Also, do we need to CC stable?
->>>
->>> I pushed this to Linus at the end of last week, since the hangs in 6.7
->>> take out the complete system and I wanted it in stable.
->>>
->>> It might be safer to use a dedicated wq, is the concern someone is
->>> waiting on a fence in a workqueue somewhere else so we will never
->>> signal it?
->>
->> Yes, if some other work is waiting for this fence (or something else in the same
->> dependency chain) to signal it can prevent executing the work signaling this fence,
->> in case both are scheduled on the same wq. As mentioned, with the kernel global wq
->> this would be rather unlikely to lead to an actual stall with WQ_MAX_ACTIVE == 512,
->> but formally the race condition exists. I guess a malicious attacker could try to
->> intentionally push jobs directly or indirectly depending on this fence to a driver
->> which queues them up on a scheduler using the kernel global wq.
+
+
+On 01/02/2024 03:53, Vignesh Raman wrote:
+> Add job that runs igt on top of vkms.
 > 
-> I think if you add dma_fence_signalling annotations (aside, there's some
-> patch from iirc Thomas Hellstrom to improve them and cut down on some
-> false positives, but I lost track) then I think you won't get any splats
-> because the wq subsystem assumes that WC_MAX_ACTIVE is close enough to
-> infinity to not matter.
-
-As mentioned, for the kernel global wq it's 512. (Intentionally) feeding the kernel
-with enough jobs to to provoke a deadlock doesn't seem impossible to me.
-
-I think it'd be safer to just establish not to use the kernel global wq for executing
-work in the fence signalling critical path.
-
-We could also run into similar problems with a dedicated wq, e.g. when drivers share
-a wq between drm_gpu_scheduler instances (see [1]), however, I'm not sure we can catch
-that with lockdep.
-
-[1] https://elixir.bootlin.com/linux/v6.8-rc3/source/drivers/gpu/drm/nouveau/nouveau_drm.c#L313
-
+> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+> Acked-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> Tested-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> Acked-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+> ---
 > 
-> I'm not sure we should care differently, but I guess it'd be good to
-> annotate it all in case the wq subsystem's idea of how much such deadlocks
-> are real changes.
+> v2:
+> - do not mv modules to /lib/modules in the job definition, leave it to
+>    crosvm-runner.sh
 > 
-> Also Teo is on a mission to get rid of all the global wq flushes, so there
-> should also be no source of deadlocks from that kind of cross-driver
-> dependency. Or at least shouldn't be in the future, I'm not sure it all
-> landed.
-> -Sima
+> v3:
+> - Enable CONFIG_DRM_VKMS in x86_64.config and update xfails
+> 
+> v3:
+> - Build vkms as module and test with latest IGT.
+>    This patch depends on https://lore.kernel.org/dri-devel/20240130150340.687871-1-vignesh.raman@collabora.com/
+> 
 
+Do you have a link of a pipeline with this job passing?
+
+Thanks
+Helen
+
+> ---
+>   MAINTAINERS                                   |  1 +
+>   drivers/gpu/drm/ci/build.sh                   |  1 -
+>   drivers/gpu/drm/ci/gitlab-ci.yml              |  2 +-
+>   drivers/gpu/drm/ci/igt_runner.sh              |  6 ++--
+>   drivers/gpu/drm/ci/image-tags.yml             |  2 +-
+>   drivers/gpu/drm/ci/test.yml                   | 24 +++++++++++++-
+>   drivers/gpu/drm/ci/x86_64.config              |  1 +
+>   .../drm/ci/xfails/virtio_gpu-none-fails.txt   |  1 -
+>   drivers/gpu/drm/ci/xfails/vkms-none-fails.txt | 32 +++++++++++++++++++
+>   .../gpu/drm/ci/xfails/vkms-none-flakes.txt    | 19 +++++++++++
+>   drivers/gpu/drm/ci/xfails/vkms-none-skips.txt | 16 ++++++++++
+>   11 files changed, 97 insertions(+), 8 deletions(-)
+>   create mode 100644 drivers/gpu/drm/ci/xfails/vkms-none-fails.txt
+>   create mode 100644 drivers/gpu/drm/ci/xfails/vkms-none-flakes.txt
+>   create mode 100644 drivers/gpu/drm/ci/xfails/vkms-none-skips.txt
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index bcdc17d1aa26..09310a6f4b5f 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6923,6 +6923,7 @@ L:	dri-devel@lists.freedesktop.org
+>   S:	Maintained
+>   T:	git git://anongit.freedesktop.org/drm/drm-misc
+>   F:	Documentation/gpu/vkms.rst
+> +F:	drivers/gpu/drm/ci/xfails/vkms*
+>   F:	drivers/gpu/drm/vkms/
+>   
+>   DRM DRIVER FOR VIRTUALBOX VIRTUAL GPU
+> diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
+> index 331a61e0d25a..2e089e03f061 100644
+> --- a/drivers/gpu/drm/ci/build.sh
+> +++ b/drivers/gpu/drm/ci/build.sh
+> @@ -152,7 +152,6 @@ fi
+>   
+>   mkdir -p artifacts/install/lib
+>   mv install/* artifacts/install/.
+> -rm -rf artifacts/install/modules
+>   ln -s common artifacts/install/ci-common
+>   cp .config artifacts/${CI_JOB_NAME}_config
+>   
+> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
+> index e2b021616a8e..c69fb6af4cf8 100644
+> --- a/drivers/gpu/drm/ci/gitlab-ci.yml
+> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
+> @@ -107,7 +107,7 @@ stages:
+>     - meson
+>     - msm
+>     - rockchip
+> -  - virtio-gpu
+> +  - software-driver
+>   
+>   # YAML anchors for rule conditions
+>   # --------------------------------
+> diff --git a/drivers/gpu/drm/ci/igt_runner.sh b/drivers/gpu/drm/ci/igt_runner.sh
+> index 2fd09b9b7cf6..3c7f000805e5 100755
+> --- a/drivers/gpu/drm/ci/igt_runner.sh
+> +++ b/drivers/gpu/drm/ci/igt_runner.sh
+> @@ -20,10 +20,10 @@ cat /sys/kernel/debug/dri/*/state
+>   set -e
+>   
+>   case "$DRIVER_NAME" in
+> -    amdgpu)
+> +    amdgpu|vkms)
+>           # Cannot use HWCI_KERNEL_MODULES as at that point we don't have the module in /lib
+> -        mv /install/modules/lib/modules/* /lib/modules/.
+> -        modprobe amdgpu
+> +        mv /install/modules/lib/modules/* /lib/modules/. || true
+> +        modprobe --first-time $DRIVER_NAME
+>           ;;
+>   esac
+>   
+> diff --git a/drivers/gpu/drm/ci/image-tags.yml b/drivers/gpu/drm/ci/image-tags.yml
+> index cf07c3e09b8c..bf861ab8b9c2 100644
+> --- a/drivers/gpu/drm/ci/image-tags.yml
+> +++ b/drivers/gpu/drm/ci/image-tags.yml
+> @@ -4,7 +4,7 @@ variables:
+>      DEBIAN_BASE_TAG: "${CONTAINER_TAG}"
+>   
+>      DEBIAN_X86_64_BUILD_IMAGE_PATH: "debian/x86_64_build"
+> -   DEBIAN_BUILD_TAG: "2023-10-08-config"
+> +   DEBIAN_BUILD_TAG: "2024-01-29-vkms"
+>   
+>      KERNEL_ROOTFS_TAG: "2023-10-06-amd"
+>      PKG_REPO_REV: "67f2c46b"
+> diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
+> index 8ab8a8f56d6a..58c3cf4b18e0 100644
+> --- a/drivers/gpu/drm/ci/test.yml
+> +++ b/drivers/gpu/drm/ci/test.yml
+> @@ -399,7 +399,7 @@ meson:g12b-display:
+>       DRIVER_NAME: meson
+>   
+>   virtio_gpu:none:
+> -  stage: virtio-gpu
+> +  stage: software-driver
+>     variables:
+>       CROSVM_GALLIUM_DRIVER: llvmpipe
+>       DRIVER_NAME: virtio_gpu
+> @@ -419,3 +419,25 @@ virtio_gpu:none:
+>       - debian/x86_64_test-gl
+>       - testing:x86_64
+>       - igt:x86_64
+> +
+> +vkms:none:
+> +  stage: software-driver
+> +  variables:
+> +    DRIVER_NAME: vkms
+> +    GPU_VERSION: vkms-none
+> +  extends:
+> +    - .test-gl
+> +    - .test-rules
+> +  tags:
+> +    - kvm
+> +  script:
+> +    - ln -sf $CI_PROJECT_DIR/install /install
+> +    - mv install/bzImage /lava-files/bzImage
+> +    - mkdir -p /lib/modules
+> +    - mkdir -p $CI_PROJECT_DIR/results
+> +    - ln -sf $CI_PROJECT_DIR/results /results
+> +    - ./install/crosvm-runner.sh ./install/igt_runner.sh
+> +  needs:
+> +    - debian/x86_64_test-gl
+> +    - testing:x86_64
+> +    - igt:x86_64
+> diff --git a/drivers/gpu/drm/ci/x86_64.config b/drivers/gpu/drm/ci/x86_64.config
+> index 1cbd49a5b23a..8eaba388b141 100644
+> --- a/drivers/gpu/drm/ci/x86_64.config
+> +++ b/drivers/gpu/drm/ci/x86_64.config
+> @@ -24,6 +24,7 @@ CONFIG_DRM=y
+>   CONFIG_DRM_PANEL_SIMPLE=y
+>   CONFIG_PWM_CROS_EC=y
+>   CONFIG_BACKLIGHT_PWM=y
+> +CONFIG_DRM_VKMS=m
+>   
+>   # Strip out some stuff we don't need for graphics testing, to reduce
+>   # the build.
+> diff --git a/drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt b/drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt
+> index 007f21e56d89..f82d437909b5 100644
+> --- a/drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt
+> +++ b/drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt
+> @@ -41,7 +41,6 @@ kms_flip@flip-vs-absolute-wf_vblank,Fail
+>   kms_flip@flip-vs-absolute-wf_vblank-interruptible,Fail
+>   kms_flip@flip-vs-blocking-wf-vblank,Fail
+>   kms_flip@flip-vs-expired-vblank,Fail
+> -kms_flip@flip-vs-expired-vblank-interruptible,Fail
+>   kms_flip@flip-vs-modeset-vs-hang,Fail
+>   kms_flip@flip-vs-panning-vs-hang,Fail
+>   kms_flip@flip-vs-wf_vblank-interruptible,Fail
+> diff --git a/drivers/gpu/drm/ci/xfails/vkms-none-fails.txt b/drivers/gpu/drm/ci/xfails/vkms-none-fails.txt
+> new file mode 100644
+> index 000000000000..a8b9d79d9a16
+> --- /dev/null
+> +++ b/drivers/gpu/drm/ci/xfails/vkms-none-fails.txt
+> @@ -0,0 +1,32 @@
+> +kms_cursor_crc@cursor-rapid-movement-128x128,Fail
+> +kms_cursor_crc@cursor-rapid-movement-128x42,Fail
+> +kms_cursor_crc@cursor-rapid-movement-256x256,Fail
+> +kms_cursor_crc@cursor-rapid-movement-256x85,Fail
+> +kms_cursor_crc@cursor-rapid-movement-32x10,Fail
+> +kms_cursor_crc@cursor-rapid-movement-32x32,Fail
+> +kms_cursor_crc@cursor-rapid-movement-512x170,Fail
+> +kms_cursor_crc@cursor-rapid-movement-512x512,Fail
+> +kms_cursor_crc@cursor-rapid-movement-64x21,Fail
+> +kms_cursor_crc@cursor-rapid-movement-64x64,Fail
+> +kms_cursor_legacy@basic-flip-before-cursor-atomic,Fail
+> +kms_cursor_legacy@basic-flip-before-cursor-legacy,Fail
+> +kms_cursor_legacy@cursor-vs-flip-atomic,Fail
+> +kms_cursor_legacy@cursor-vs-flip-legacy,Fail
+> +kms_cursor_legacy@cursor-vs-flip-toggle,Fail
+> +kms_cursor_legacy@cursor-vs-flip-varying-size,Fail
+> +kms_cursor_legacy@flip-vs-cursor-atomic,Fail
+> +kms_cursor_legacy@flip-vs-cursor-crc-atomic,Fail
+> +kms_cursor_legacy@flip-vs-cursor-crc-legacy,Fail
+> +kms_cursor_legacy@flip-vs-cursor-legacy,Fail
+> +kms_flip@flip-vs-modeset-vs-hang,Fail
+> +kms_flip@flip-vs-panning-vs-hang,Fail
+> +kms_pipe_crc_basic@nonblocking-crc,Fail
+> +kms_pipe_crc_basic@nonblocking-crc-frame-sequence,Fail
+> +kms_pipe_crc_basic@suspend-read-crc,Fail
+> +kms_plane@plane-panning-bottom-right-suspend,Fail
+> +kms_universal_plane@universal-plane-pipe-A-sanity,Fail
+> +kms_vblank@pipe-A-ts-continuation-dpms-suspend,Fail
+> +kms_writeback@writeback-check-output,Fail
+> +kms_writeback@writeback-fb-id,Fail
+> +kms_writeback@writeback-invalid-parameters,Fail
+> +kms_writeback@writeback-pixel-formats,Fail
+> diff --git a/drivers/gpu/drm/ci/xfails/vkms-none-flakes.txt b/drivers/gpu/drm/ci/xfails/vkms-none-flakes.txt
+> new file mode 100644
+> index 000000000000..18afbfcc1c52
+> --- /dev/null
+> +++ b/drivers/gpu/drm/ci/xfails/vkms-none-flakes.txt
+> @@ -0,0 +1,19 @@
+> +# Board Name: vkms
+> +# Bug Report: https://lore.kernel.org/dri-devel/005da8f1-8050-bffd-653c-2a87ae6376f7@collabora.com/T/#u
+> +# IGT Version: 1.28-gb0cc8160e
+> +# Linux Version: 6.7.0-rc3
+> +# Failure Rate: 50
+> +
+> +# Reported by deqp-runner
+> +kms_cursor_legacy@cursorA-vs-flipA-legacy
+> +kms_cursor_legacy@cursorA-vs-flipA-varying-size
+> +kms_flip@flip-vs-expired-vblank-interruptible
+> +kms_flip@flip-vs-expired-vblank
+> +kms_flip@plain-flip-fb-recreate
+> +kms_flip@plain-flip-fb-recreate-interruptible
+> +kms_flip@plain-flip-ts-check-interruptible
+> +
+> +# The below test shows inconsistency across multiple runs,
+> +# giving results of Pass and Fail alternately.
+> +kms_cursor_legacy@cursorA-vs-flipA-toggle
+> +kms_pipe_crc_basic@nonblocking-crc
+> diff --git a/drivers/gpu/drm/ci/xfails/vkms-none-skips.txt b/drivers/gpu/drm/ci/xfails/vkms-none-skips.txt
+> new file mode 100644
+> index 000000000000..524e7972c75a
+> --- /dev/null
+> +++ b/drivers/gpu/drm/ci/xfails/vkms-none-skips.txt
+> @@ -0,0 +1,16 @@
+> +# Hits:
+> +# rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
+> +# rcu: 	Tasks blocked on level-0 rcu_node (CPUs 0-1): P749/1:b..l
+> +kms_prop_blob@invalid-get-prop
+> +
+> +# keeps printing vkms_vblank_simulate: vblank timer overrun and never ends
+> +kms_invalid_mode@int-max-clock
+> +
+> +# Suspend seems to be broken
+> +.*suspend.*
+> +
+> +# Hangs machine and timeout occurs
+> +kms_flip@flip-vs-absolute-wf_vblank-interruptible
+> +kms_invalid_mode@zero-hdisplay
+> +kms_invalid_mode@bad-vtotal
+> +kms_cursor_crc.*
