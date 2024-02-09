@@ -2,83 +2,136 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A82C084FD3E
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 20:57:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81BC284FD83
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 21:24:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51D1110FBE6;
-	Fri,  9 Feb 2024 19:57:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA56110EE7B;
+	Fri,  9 Feb 2024 20:24:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="PzQ7/g2r";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="xOQiJ839";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="h8ivNr7Z";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="O56OvfeW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3iMP0oPR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96B8510FBE6;
- Fri,  9 Feb 2024 19:57:36 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 419H05B8009391; Fri, 9 Feb 2024 19:57:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=c8i16nuHIZPlWQ6bvZHYHEgLKUVycdE8mE3j8c8XImw=; b=Pz
- Q7/g2rq3lr1ioEJDrvpTTuMXgysklnrDiqOPZ1TBSL4ZWlmnETVVhVRH0HkHLUHT
- DYsDD+3sP5teRkoDXdYv8nvctcPhTHMrCbjsq/UATnpNBoz7OfMsXZTOrFxXwhq8
- /YhfodDqqmv69Pq++0UQSO8GDAiUPdEvS0oE45x0LQ1DCNe8zecmhyLbe255QdfH
- Y5ioRfkKf1WL6Wxb/tWPjWxJeAPP14FwWvMK+XlerhvKxp6iif40QfBWeMy+EUjN
- fPzVBNaF82Jnnhq4aycOhsBwgvGk4fdB3XN8dnXVOhGDodkCT5wwfQr1H8tBVLOb
- ndW9nHnTzrm3jTl+9+iA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w5m158x86-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 09 Feb 2024 19:57:29 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 419JvSu1030946
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 9 Feb 2024 19:57:28 GMT
-Received: from [10.110.104.98] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 9 Feb
- 2024 11:57:27 -0800
-Message-ID: <28dae7b6-36a0-33b2-d726-af49aa38deba@quicinc.com>
-Date: Fri, 9 Feb 2024 11:57:27 -0800
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01CE310FCA7
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Feb 2024 20:24:16 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2A9C91F82D;
+ Fri,  9 Feb 2024 20:24:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1707510253; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=zQToUzkILW+4W9P7O1nAk21RTzRP9zevwKA9EqPyth8=;
+ b=xOQiJ839u/jesxP8nQcxj9+c03uoIGAKQ7vB+ribAlyJTdGoUxni1eZfXaPdmjbKNdfj80
+ A0kGFuRwDWV65IHM+iZfHU2wWegB1hYJXBuifohdjZ3UG//AFD7uqSqnprWylcBwZ2K8Hp
+ XeCX9t/SfrOHpzh5dmjc6MpjM8a7Azk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1707510253;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=zQToUzkILW+4W9P7O1nAk21RTzRP9zevwKA9EqPyth8=;
+ b=h8ivNr7ZNpwNrdSQ69YQv12VWC8FmWOn0coRfIlmdQ8gb6vw8K5nmSaVjbYFa2kYzMB3wt
+ P9t03yitaj/4Z2Bg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1707510252; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=zQToUzkILW+4W9P7O1nAk21RTzRP9zevwKA9EqPyth8=;
+ b=O56OvfeW4HeEro8+Tymoe1UuaUVZ37KZ4HH5bZ8fW6wOooeXkpXNkpOxiX1HsYtCxf1kkh
+ 6I1u3VgxKxnrY4aSRsXsyVLHk4MQe0jFdXJ4U30VYGKVHqoU3IsN2lu3pHTMrKrnh5POYq
+ eKgBGU1aLuehhBe11TzXZd3TTejFjsI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1707510252;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=zQToUzkILW+4W9P7O1nAk21RTzRP9zevwKA9EqPyth8=;
+ b=3iMP0oPRPtCKptMfgc/iqaqMyMBN0Ekurg626k/UC9HEqeS19PM5TeR7vECjKNMYKPpkgh
+ kCDYXo/4QWifpSBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D1249139E7;
+ Fri,  9 Feb 2024 20:24:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id haeHMeuJxmUUWAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 09 Feb 2024 20:24:11 +0000
+Message-ID: <43ed64aa-17b0-4d04-a1f3-a6e13f59a743@suse.de>
+Date: Fri, 9 Feb 2024 21:24:11 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH RESEND 2/5] drm/msm/dpu: finalise global state object
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drivers/ps3: select VIDEO to provide cmdline functions
+To: Michael Ellerman <mpe@ellerman.id.au>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc: Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ "Aneesh Kumar K . V" <aneesh.kumar@kernel.org>,
+ "Naveen N . Rao" <naveen.n.rao@linux.ibm.com>,
+ linuxppc-dev@lists.ozlabs.org, Geoff Levand <geoff@infradead.org>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20240207161322.8073-1-rdunlap@infradead.org>
+ <e0893d21-606e-429e-a554-c9ee60fd0ae4@suse.de> <8734u28bh8.fsf@mail.lhotse>
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-CC: Rob Clark <robdclark@gmail.com>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>
-References: <20231203000532.1290480-1-dmitry.baryshkov@linaro.org>
- <20231203000532.1290480-3-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20231203000532.1290480-3-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <8734u28bh8.fsf@mail.lhotse>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: p1Y-v36sI3kGU43aKL-8k51kfrMt3hIL
-X-Proofpoint-ORIG-GUID: p1Y-v36sI3kGU43aKL-8k51kfrMt3hIL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-09_17,2024-02-08_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- bulkscore=0 mlxlogscore=884 lowpriorityscore=0 clxscore=1015 spamscore=0
- priorityscore=1501 adultscore=0 malwarescore=0 impostorscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402090146
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -8.29
+X-Spamd-Result: default: False [-8.29 / 50.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; XM_UA_NO_VERSION(0.01)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+ REPLY(-4.00)[]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; RCVD_COUNT_THREE(0.00)[3];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-0.999]; RCPT_COUNT_SEVEN(0.00)[11];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[infradead.org:email,ellerman.id.au:email,csgroup.eu:email,suse.de:email,lists.freedesktop.org:email,ozlabs.org:email];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+];
+ FREEMAIL_CC(0.00)[gmail.com,csgroup.eu,kernel.org,linux.ibm.com,lists.ozlabs.org,infradead.org,vger.kernel.org,lists.freedesktop.org];
+ RCVD_TLS_ALL(0.00)[]; MID_RHS_MATCH_FROM(0.00)[]
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,16 +147,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi
 
+Am 09.02.24 um 06:15 schrieb Michael Ellerman:
+> Thomas Zimmermann <tzimmermann@suse.de> writes:
+>> Am 07.02.24 um 17:13 schrieb Randy Dunlap:
+>>> When VIDEO is not set, there is a build error. Fix that by selecting
+>>> VIDEO for PS3_PS3AV.
+>>>
+>>> ERROR: modpost: ".video_get_options" [drivers/ps3/ps3av_mod.ko] undefined!
+>>>
+>>> Fixes: dae7fbf43fd0 ("driver/ps3: Include <video/cmdline.h> for mode parsing")
+>>> Fixes: a3b6792e990d ("video/cmdline: Introduce CONFIG_VIDEO for video= parameter")
+>>> Cc: Michael Ellerman <mpe@ellerman.id.au>
+>>> Cc: Nicholas Piggin <npiggin@gmail.com>
+>>> Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+>>> Cc: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
+>>> Cc: Naveen N. Rao <naveen.n.rao@linux.ibm.com>
+>>> Cc: linuxppc-dev@lists.ozlabs.org
+>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>>> Cc: Geoff Levand <geoff@infradead.org>
+>>> Acked-by: Geoff Levand <geoff@infradead.org>
+>>> Cc: linux-fbdev@vger.kernel.org
+>>> Cc: dri-devel@lists.freedesktop.org
+>>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Can you take it via whatever tree the CONFIG_VIDEO patch is in?
 
-On 12/2/2023 4:05 PM, Dmitry Baryshkov wrote:
-> Add calls to finalise global state object and corresponding lock.
-> 
-> Fixes: de3916c70a24 ("drm/msm/dpu: Track resources in global state")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
-> 
+The patch is now in drm-misc-next.
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Best regards
+Thomas
+
+>
+> Acked-by: Michael Ellerman <mpe@ellerman.id.au>
+>
+> cheers
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
