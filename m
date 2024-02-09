@@ -2,59 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 980DB84F8BD
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 16:42:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D63A84F8EB
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 16:54:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C43210F649;
-	Fri,  9 Feb 2024 15:41:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7C7210F681;
+	Fri,  9 Feb 2024 15:54:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VsIgGSvh";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="qJq53reP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F256910F649
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Feb 2024 15:41:57 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 77E8F61E5B;
- Fri,  9 Feb 2024 15:41:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B72EAC433C7;
- Fri,  9 Feb 2024 15:41:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1707493317;
- bh=BYQAgrM0iCoWkiPwDJhO3sbjPQzqGgLvX5Ho5qTAbYE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VsIgGSvhtfchQukDvq4H3WhSTrq7UyqASJZ9pVsLHoPtd2T+vyRlwbP33lWXVmt5+
- iOkAny1mSRsmzVzfPfCnILsSG0E5SZiXgEz8SJx5RkRCy/Q88kLhOezAl4YpsKSRhn
- x8pls9kKl3kDWafXSrSJhIP+alK94F+qoAVx/u7jaVriV1B5VlFrMRrL7orK7aVQMr
- 3rotfhTB0Ztty+mi1VNypLZYFkMoF8/bPi7Q5gthONJtCJJth/N+fcq3d7yMgZx7Ys
- TJ77P1XNTj/0lelVDgaXfWbBdfiVnsvFPtVOlADeglEZpdXYTuu0u8KcUB4yu6boUj
- 492zsufl2215A==
-Date: Fri, 9 Feb 2024 16:41:54 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: "Klymenko, Anatoliy" <Anatoliy.Klymenko@amd.com>, 
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>, 
- "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>, 
- "Simek, Michal" <michal.simek@amd.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: Re: RE: Re: [PATCH 0/4] Fixing live video input in ZynqMP DPSUB
-Message-ID: <casqzvlydzfckbn2glxn2n2ywtiqzuam2hyn3qpbroaykp5drv@ygeuniecym4w>
-References: <20240112234222.913138-1-anatoliy.klymenko@amd.com>
- <6jhwss2wego6yoo5mwmphwawhsj5bbj62gwrzcpapoixwkrkli@g4fbxdooopby>
- <20240117142343.GD17920@pendragon.ideasonboard.com>
- <u5mngxudtdgy3vqkfbpgqng6tdahijnet2jtj345hrowbt47ce@t3e7hul45mr3>
- <MW4PR12MB7165D35189BEECA8769552AFE6792@MW4PR12MB7165.namprd12.prod.outlook.com>
- <2ytxhpti53e743b5pca3oa5jmscffi4vpsyeh727bcoh4v6cuw@zkz5pqkcv7v2>
- <20240204095618.GJ3094@pendragon.ideasonboard.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE99510F679
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Feb 2024 15:53:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1707494018; x=1708098818; i=deller@gmx.de;
+ bh=NfxzhdKyztjF8ciazrBlmb+rl5JXJQ+cQZovv89eN0A=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+ In-Reply-To;
+ b=qJq53rePK2vW8Lv3zisaV/7HPKeiY/59o73G2CBKrbefuehS4eDm5t059sdTI7kM
+ bnd3I3zMbKqb3aS1EPyiztXU49TTqtY/BlYZUmmCRegAvmALA1fd+xwLf/TGGE8xH
+ 32jDL3V/WDVyc1rfd1J48HG1cJmY0f6ff2Z0v2uQQCgePs/Wae/i4neq6CgR8a4gy
+ gB60G5HJSj6IiJETALpbvtD84RNgepS1gtMrejhZCMHgPXFo/Q5yESGLO60k/uBLX
+ +OKTqkD226MnUhjm1tvI+BbynlEuehsPHTNHvqbyUFsGF6nBahyHaU1NZcuErTYln
+ nMDBSqqjZsl7M3W4Tw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.55] ([94.134.148.154]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M3UZ6-1rXuxk1fE2-000ZEv; Fri, 09
+ Feb 2024 16:53:38 +0100
+Message-ID: <8f6efa96-0744-4313-bb15-b38a992e05fc@gmx.de>
+Date: Fri, 9 Feb 2024 16:53:37 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="aaihxypctcsxwq6q"
-Content-Disposition: inline
-In-Reply-To: <20240204095618.GJ3094@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] fbdev/hyperv_fb: Fix logic error for Gen2 VMs in
+ hvfb_getmem()
+Content-Language: en-US
+To: Michael Kelley <mhklinux@outlook.com>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
+ "decui@microsoft.com" <decui@microsoft.com>,
+ "drawat.floss@gmail.com" <drawat.floss@gmail.com>,
+ "javierm@redhat.com" <javierm@redhat.com>, "daniel@ffwll.ch"
+ <daniel@ffwll.ch>, "airlied@gmail.com" <airlied@gmail.com>
+References: <20240201060022.233666-1-mhklinux@outlook.com>
+ <f2fe331b-06cb-4729-888f-1f5eafe18d0f@suse.de>
+ <SN6PR02MB4157811F082C62B6132EC283D44B2@SN6PR02MB4157.namprd02.prod.outlook.com>
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <SN6PR02MB4157811F082C62B6132EC283D44B2@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:QSiZ+s4XAjHSPPDYeN2Jp309cR9lAC54p6AHsoDUVta6UMqBck8
+ uBQXIKMGM1WXxKm8/pNobcID9yl2jZVPS3ij5o7/r1mcIc6VdLuXSnxeia4eJeIzPu421Gu
+ SIvaTPW/KceoYB4E2jQutzimEzJURU9fhinfIIaJM76ybv7YUFctYDwGE51YlfzRHV3L5hV
+ 8XWwOJ7ssNXgHhyq+0/fw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:x1QbuVO1suU=;Z+0HoRj/htJU/tvJRZwKRTyrd6J
+ odHg16h6Mdr8rT4caDUlCHget/VV65tATPe9XVIzCRM9TynVBgcYGWh7qSpopMhT4PX/kscum
+ YUOLjmpo60RsJT/Ju11pCiB2pOSFpS2Wh6gSAtiz+fY74HaLGQSnsOkNn/QnGd95q03a7fRiq
+ cG0qIEE4Hh50GMk0r0BTmySTPSGHf0muNRzij364tqOwn3nHdWv++dDK+j9CqDMmoRS5bqM+P
+ XXNwtKxzFOdRO+v3u5eNZdsBY7OwNlamZT9qWvowHvG0OvgGypyu8sv0ILc+OUhdItwhXAUFk
+ BEKF+ThuKDpX9M7DRfFUDtX5HILWn3wFjdjbVw3kyabTGUBYoVD1ei7PjOyRqBBddICLZrVhf
+ SfnStDv+aqZCFgHFmJrMT0jbn8y6jozAXKVoNIUIohPtFE+7Yo/+YEkU2eEHiZ6HpETWzthcs
+ brqZFHSMGT0/mlWGXX+Whi4aFuMDTomL4IwqeZJ8MwiU8aVEBIxxv73isxzb/YJAqV0Qx0I7d
+ ag2Yk1dnf0uZUTtLUHjyLN/mqZGTACjCoohVFEu9kD9UfIYa/gsrwPL98n6zZuzw4LcMqWraA
+ GGXHP2fG2GPD82Wed+88n/Bt2GQ2bdTZBCcClX3uVi1Hqh23Q89Zs12rWRx9oBqKlFOrix57j
+ FHnyl1ahM35aCzJoZ9Q/Bi3KT1+WF7DDpiyOwv+oyz9NdqERHeutsOj+ob4/c93XFCmE8fQNX
+ pdAToYLdIQ0SulrNo4gN0M+7of7OV53NvFQRhTHh5NwBEPfDKZDtR8fkMCfV0egOcXOrKzT7l
+ CvWm4EfPiJRjNnce2CQwKMKRi3ITVO82qkchLCVVHdpHU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,127 +132,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2/9/24 16:23, Michael Kelley wrote:
+> From: Thomas Zimmermann <tzimmermann@suse.de> Sent: Thursday, February 1=
+, 2024 12:17 AM
+>>
+>> Hi
+>>
+>> Am 01.02.24 um 07:00 schrieb mhkelley58@gmail.com:
+>>> From: Michael Kelley <mhklinux@outlook.com>
+>>>
+>>> A recent commit removing the use of screen_info introduced a logic
+>>> error. The error causes hvfb_getmem() to always return -ENOMEM
+>>> for Generation 2 VMs. As a result, the Hyper-V frame buffer
+>>> device fails to initialize. The error was introduced by removing
+>>> an "else if" clause, leaving Gen2 VMs to always take the -ENOMEM
+>>> error path.
+>>>
+>>> Fix the problem by removing the error path "else" clause. Gen 2
+>>> VMs now always proceed through the MMIO memory allocation code,
+>>> but with "base" and "size" defaulting to 0.
+>>
+>> Indeed, that's how it was supposed to work. IDK how I didn't notice thi=
+s
+>> bug. Thanks a lot for the fix.
+>>
+>>>
+>>> Fixes: 0aa0838c84da ("fbdev/hyperv_fb: Remove firmware framebufferswit=
+h aperture helpers")
+>>> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+>>
+>> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>
+> Wei Liu and Helge Deller --
+>
+> Should this fix go through the Hyper-V tree or the fbdev tree?   I'm not
+> aware of a reason that it really matters, but it needs to be one or the
+> other, and sooner rather than later, because the Hyper-V driver is broke=
+n
+> starting in 6.8-rc1.
 
---aaihxypctcsxwq6q
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I'm fine with either.
+If there is an upcoming hyper-v pull request, I'm fine if this is included
+there. If not, let me know and I can take it via fbdev.
 
-On Sun, Feb 04, 2024 at 11:56:18AM +0200, Laurent Pinchart wrote:
-> On Thu, Feb 01, 2024 at 06:01:01PM +0100, Maxime Ripard wrote:
-> > On Fri, Jan 26, 2024 at 11:18:30PM +0000, Klymenko, Anatoliy wrote:
-> > > On Friday, January 26, 2024 4:26 AM, Maxime Ripard wrote:
-> > > > On Wed, Jan 17, 2024 at 04:23:43PM +0200, Laurent Pinchart wrote:
-> > > > > On Mon, Jan 15, 2024 at 09:28:39AM +0100, Maxime Ripard wrote:
-> > > > > > On Fri, Jan 12, 2024 at 03:42:18PM -0800, Anatoliy Klymenko wro=
-te:
-> > > > > > > Patches 1/4,2/4,3/4 are minor fixes.
-> > > > > > >
-> > > > > > > DPSUB requires input live video format to be configured.
-> > > > > > > Patch 4/4: The DP Subsystem requires the input live video for=
-mat to be
-> > > > > > > configured. In this patch we are assuming that the CRTC's bus=
- format is fixed
-> > > > > > > and comes from the device tree. This is a proposed solution, =
-as there are no api
-> > > > > > > to query CRTC output bus format.
-> > > > > > >
-> > > > > > > Is this a good approach to go with?
-> > > > > >
-> > > > > > I guess you would need to expand a bit on what "live video inpu=
-t" is? Is
-> > > > > > it some kind of mechanism to bypass memory and take your pixels=
- straight
-> > > > > > from a FIFO from another device, or something else?
-> > > > >
-> > > > > Yes and no.
-> > > > >
-> > > > > The DPSUB integrates DMA engines, a blending engine (two planes),=
- and a
-> > > > > DP encoder. The dpsub driver supports all of this, and creates a =
-DRM
-> > > > > device. The DP encoder hardware always takes its input data from =
-the
-> > > > > output of the blending engine.
-> > > > >
-> > > > > The blending engine can optionally take input data from a bus con=
-nected
-> > > > > to the FPGA fabric, instead of taking it from the DPSUB internal =
-DMA
-> > > > > engines. When operating in that mode, the dpsub driver exposes th=
-e DP
-> > > > > encoder as a bridge, and internally programs the blending engine =
-to
-> > > > > disable blending. Typically, the FPGA fabric will then contain a =
-CRTC of
-> > > > > some sort, with a driver that will acquire the DP encoder bridge =
-as
-> > > > > usually done.
-> > > > >
-> > > > > In this mode of operation, it is typical for the IP cores in FPGA=
- fabric
-> > > > > to be synthesized with a fixed format (as that saves resources), =
-while
-> > > > > the DPSUB supports multiple input formats.
-> > > >=20
-> > > > Where is that CRTC driver? It's not clear to me why the format would
-> > > > need to be in the device tree at all. Format negociation between the
-> > > > CRTC and whatever comes next is already done in a number of drivers=
- so
-> > > > it would be useful to have that kind of API outside of the bridge
-> > > > support.
-> > >
-> > > One example of such CRTC driver:
-> > > https://github.com/Xilinx/linux-xlnx/blob/master/drivers/gpu/drm/xlnx=
-/xlnx_mixer.c It's not
-> > > upstreamed yet. Bus format negotiations here are handled by utilizing=
- Xilinx-specific bridge
-> > > framework. Ideally, it would be nice to rework this to comply with th=
-e upstream DRM bridge
-> > > framework.
-> > >
-> > > > > Bridge drivers in the upstream kernel work the other way around, =
-with
-> > > > > the bridge hardware supporting a limited set of formats, and the =
-CRTC
-> > > > > then being programmed with whatever the bridges chain needs. Here=
-, the
-> > > > > negotiation needs to go the other way around, as the CRTC is the
-> > > > > limiting factor, not the bridge.
-> > > >=20
-> > > > Sounds like there's something to rework in the API then?
-> > > >=20
-> > > Adding an optional CRTC callback imposing CRTC specific bus format re=
-strictions, which may be
-> > > called from here https://github.com/torvalds/linux/blob/master/driver=
-s/gpu/drm/drm_bridge.c#L935
-> > > would solve the problem.
-> >=20
-> > CRTCs and bridges are orthogonal. If anything, I'd expect that callback
-> > to be set at the CRTC, encoder and connector levels and filled by the
-> > drm_bridge code if relevant.
->=20
-> I'm thinking about a new CRTC operation that would be called by the
-> bridge chain format negotiation helper
-> drm_atomic_bridge_chain_select_bus_fmts() (or one of the functions it
-> calls), to filter the list of formats supported by the chain based on
-> what the CRTC supports, or possibly to pick a format in that list. This
-> needs to be prototyped
+Helge
 
-As long as we come up with something that works for regular encoders,
-I'm fine with that.
 
-Maxime
 
---aaihxypctcsxwq6q
-Content-Type: application/pgp-signature; name="signature.asc"
+>
+> Michael
+>
+>>
+>>> ---
+>>>    drivers/video/fbdev/hyperv_fb.c | 2 --
+>>>    1 file changed, 2 deletions(-)
+>>>
+>>> diff --git a/drivers/video/fbdev/hyperv_fb.c
+>> b/drivers/video/fbdev/hyperv_fb.c
+>>> index c26ee6fd73c9..8fdccf033b2d 100644
+>>> --- a/drivers/video/fbdev/hyperv_fb.c
+>>> +++ b/drivers/video/fbdev/hyperv_fb.c
+>>> @@ -1010,8 +1010,6 @@ static int hvfb_getmem(struct hv_device *hdev,
+>> struct fb_info *info)
+>>>    			goto getmem_done;
+>>>    		}
+>>>    		pr_info("Unable to allocate enough contiguous physical memory on =
+Gen 1 VM. Using MMIO instead.\n");
+>>> -	} else {
+>>> -		goto err1;
+>>>    	}
+>>>
+>>>    	/*
+>>
+>
+>
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZcZHwgAKCRDj7w1vZxhR
-xR4xAQCnQ6B6KaRCdTBxvteV+SMevGOo6sSoUF43CpxDsbz/sgEA63pm3o5vZJBw
-Gkm3OaFel/wkTknuEVjJc+X59sDpagA=
-=H5zw
------END PGP SIGNATURE-----
-
---aaihxypctcsxwq6q--
