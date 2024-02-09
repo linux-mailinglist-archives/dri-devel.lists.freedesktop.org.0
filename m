@@ -2,47 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40ACB84FA15
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 17:51:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2897A84FA32
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 17:54:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90D1010F782;
-	Fri,  9 Feb 2024 16:51:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1382610F796;
+	Fri,  9 Feb 2024 16:54:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id B8CA810F782
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Feb 2024 16:51:53 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5E5F9DA7;
- Fri,  9 Feb 2024 08:52:35 -0800 (PST)
-Received: from [10.1.37.16] (e122027.cambridge.arm.com [10.1.37.16])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8E7303F64C;
- Fri,  9 Feb 2024 08:51:48 -0800 (PST)
-Message-ID: <ec4d543c-fad6-4742-b271-eac3c7a829bc@arm.com>
-Date: Fri, 9 Feb 2024 16:51:46 +0000
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14A3C10F796
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Feb 2024 16:54:25 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-40fe03cd1caso10803325e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Feb 2024 08:54:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707497663; x=1708102463;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=gaeS1h5VpNcLueh2QkyDz5epDwwi2WqLNLn06Yy2Ju0=;
+ b=pQyF93zAUzAefvQIE45IJ/BgYV2eWwUjec2OSBt1P1XcRsWTjPQRaZPhUjf9QqulzQ
+ gBx1xhqTypVpQEct0el+bUyF9UnyC7zGWBraLR2L10elh/f9e5CxGYraMjPxPBqC7HIL
+ JKfszTE32s+mxyCeJTH2j/RFrXvKI52BPvAtNd4RISAboA25DIBUy/92dau46FiGRX9d
+ fgz19ec+dZDyMDJ9OESXtVKbIJX+IHxLHaHp6RpeVn/Rw3ev3Rg5sBTgrFU8BmDZ7XHD
+ PGYZY8wmLasDZecxCFzP6UFex6me75I98dzXATm+ZSBYGmKNOC14uu3rsaT+CAUg4MNs
+ eGHA==
+X-Gm-Message-State: AOJu0YwnWwDEPdTAdxVIjpaA7UJTVzVsBiHoOnmGTiP7PzAzpUNkLhyJ
+ LGHpp/Q46kQXdKXH3y0YznVTyfVmvg7WGDbUaI/F/amkdr2hA8zA49SJeTwxfC4=
+X-Google-Smtp-Source: AGHT+IFFQBdbLfWayHTU8Eyq8ZvAud7LXc4qcTBXSQ4DrOkj/epQ1OHads3NQ5CmHYF2BrxQlm76xw==
+X-Received: by 2002:a5d:4d8e:0:b0:33b:64c6:f9ae with SMTP id
+ b14-20020a5d4d8e000000b0033b64c6f9aemr1367869wru.47.1707497663119; 
+ Fri, 09 Feb 2024 08:54:23 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWBQE4LWBDwbGnoMAWhtz7+4QsEtFEepTMSYVpdz+rG6ssDqSAx4tr0B1oD6jHW94j0Rvk+BktbilfxzdtLg6lfG1DQgyCmHtEU+6s6wlmemq+4Cvq0f+rGhIaDrIVNhDOZmPfNzGGdX65kayUqj2g6mdI=
+Received: from Xavers-PC.fritz.box ([2a04:7d84:aacb:b490:2982:f457:3c53:d3fd])
+ by smtp.gmail.com with ESMTPSA id
+ bp12-20020a5d5a8c000000b0033b4341eb78sm2315607wrb.1.2024.02.09.08.54.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Feb 2024 08:54:22 -0800 (PST)
+From: Xaver Hugl <xaver.hugl@kde.org>
+To: dri-devel@lists.freedesktop.org
+Cc: ville.syrjala@linux.intel.com, contact@emersion.fr,
+ sebastian.wick@redhat.com, Xaver Hugl <xaver.hugl@kde.org>
+Subject: [PATCH] drm: document userspace expectations around the Colorspace
+ connector property
+Date: Fri,  9 Feb 2024 17:53:07 +0100
+Message-ID: <20240209165307.29856-1-xaver.hugl@kde.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 07/14] drm/panthor: Add the MMU/VM logical block
-Content-Language: en-GB
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org
-Cc: Daniel Vetter <daniel@ffwll.ch>,
- "Marty E . Plummer" <hanetzer@startmail.com>, Rob Herring <robh@kernel.org>,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
- Nicolas Boichat <drinkcat@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Faith Ekstrand <faith.ekstrand@collabora.com>,
- Daniel Stone <daniels@collabora.com>, Liviu Dudau <Liviu.Dudau@arm.com>,
- Robin Murphy <robin.murphy@arm.com>, kernel@collabora.com,
- Heiko Stuebner <heiko@sntech.de>, Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
- Chris Diamand <chris.diamand@foss.arm.com>,
- Ketil Johnsen <ketil.johnsen@arm.com>, Grant Likely <grant.likely@linaro.org>
-References: <20240122163047.1954733-1-boris.brezillon@collabora.com>
- <20240122163047.1954733-8-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20240122163047.1954733-8-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,211 +67,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/01/2024 16:30, Boris Brezillon wrote:
-> MMU and VM management is related and placed in the same source file.
-> 
-> Page table updates are delegated to the io-pgtable-arm driver that's in
-> the iommu subsystem.
-> 
-> The VM management logic is based on drm_gpuva_mgr, and is assuming the
-> VA space is mostly managed by the usermode driver, except for a reserved
-> portion of this VA-space that's used for kernel objects (like the heap
-> contexts/chunks).
-> 
-> Both asynchronous and synchronous VM operations are supported, and
-> internal helpers are exposed to allow other logical blocks to map their
-> buffers in the GPU VA space.
-> 
-> There's one VM_BIND queue per-VM (meaning the Vulkan driver can only
-> expose one sparse-binding queue), and this bind queue is managed with
-> a 1:1 drm_sched_entity:drm_gpu_scheduler, such that each VM gets its own
-> independent execution queue, avoiding VM operation serialization at the
-> device level (things are still serialized at the VM level).
-> 
-> The rest is just implementation details that are hopefully well explained
-> in the documentation.
+Signed-off-by: Xaver Hugl <xaver.hugl@kde.org>
+---
+ drivers/gpu/drm/drm_connector.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-panthor_vm_map_pages() looks a bit suspect (see below) and there's a
-kerneldoc header which needs updating. But generally it looks fine.
-
-> 
-> v4:
-> - Add an helper to return the VM state
-> - Check drmm_mutex_init() return code
-> - Remove the VM from the AS reclaim list when panthor_vm_active() is
->   called
-> - Count the number of active VM users instead of considering there's
->   at most one user (several scheduling groups can point to the same
->   vM)
-> - Pre-allocate a VMA object for unmap operations (unmaps can trigger
->   a sm_step_remap() call)
-> - Check vm->root_page_table instead of vm->pgtbl_ops to detect if
->   the io-pgtable is trying to allocate the root page table
-> - Don't memset() the va_node in panthor_vm_alloc_va(), make it a
->   caller requirement
-> - Fix the kernel doc in a few places
-> - Drop the panthor_vm::base offset constraint and modify
->   panthor_vm_put() to explicitly check for a NULL value
-> - Fix unbalanced vm_bo refcount in panthor_gpuva_sm_step_remap()
-> - Drop stale comments about the shared_bos list
-> - Patch mmu_features::va_bits on 32-bit builds to reflect the
->   io_pgtable limitation and let the UMD know about it
-> 
-> v3:
-> - Add acks for the MIT/GPL2 relicensing
-> - Propagate MMU faults to the scheduler
-> - Move pages pinning/unpinning out of the dma_signalling path
-> - Fix 32-bit support
-> - Rework the user/kernel VA range calculation
-> - Make the auto-VA range explicit (auto-VA range doesn't cover the full
->   kernel-VA range on the MCU VM)
-> - Let callers of panthor_vm_alloc_va() allocate the drm_mm_node
->   (embedded in panthor_kernel_bo now)
-> - Adjust things to match the latest drm_gpuvm changes (extobj tracking,
->   resv prep and more)
-> - Drop the per-AS lock and use slots_lock (fixes a race on vm->as.id)
-> - Set as.id to -1 when reusing an address space from the LRU list
-> - Drop misleading comment about page faults
-> - Remove check for irq being assigned in panthor_mmu_unplug()
-> 
-> Co-developed-by: Steven Price <steven.price@arm.com>
-> Signed-off-by: Steven Price <steven.price@arm.com>
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Acked-by: Steven Price <steven.price@arm.com> # MIT+GPL2 relicensing,Arm
-> Acked-by: Grant Likely <grant.likely@linaro.org> # MIT+GPL2 relicensing,Linaro
-> Acked-by: Boris Brezillon <boris.brezillon@collabora.com> # MIT+GPL2 relicensing,Collabora
-> ---
->  drivers/gpu/drm/panthor/panthor_mmu.c | 2760 +++++++++++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_mmu.h |  102 +
->  2 files changed, 2862 insertions(+)
->  create mode 100644 drivers/gpu/drm/panthor/panthor_mmu.c
->  create mode 100644 drivers/gpu/drm/panthor/panthor_mmu.h
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> new file mode 100644
-> index 000000000000..d3ce29cd0662
-
-<snip>
-
-> +static int
-> +panthor_vm_map_pages(struct panthor_vm *vm, u64 iova, int prot,
-> +		     struct sg_table *sgt, u64 offset, u64 size)
-> +{
-> +	struct panthor_device *ptdev = vm->ptdev;
-> +	unsigned int count;
-> +	struct scatterlist *sgl;
-> +	struct io_pgtable_ops *ops = vm->pgtbl_ops;
-> +	u64 start_iova = iova;
-> +	int ret;
-> +
-> +	if (!size)
-> +		return 0;
-> +
-> +	for_each_sgtable_dma_sg(sgt, sgl, count) {
-> +		dma_addr_t paddr = sg_dma_address(sgl);
-> +		size_t len = sg_dma_len(sgl);
-> +
-> +		if (len <= offset) {
-> +			offset -= len;
-> +			continue;
-> +		}
-> +
-> +		paddr -= offset;
-
-Shouldn't that be "+="?
-
-> +		len -= offset;
-> +
-> +		if (size >= 0) {
-
-size is unsigned... so this is always true!
-
-> +			len = min_t(size_t, len, size);
-> +			size -= len;
-> +		}
-> +
-> +		drm_dbg(&ptdev->base, "map: as=%d, iova=%llx, paddr=%pad, len=%zx",
-> +			vm->as.id, iova, &paddr, len);
-> +
-> +		while (len) {
-> +			size_t pgcount, mapped = 0;
-> +			size_t pgsize = get_pgsize(iova | paddr, len, &pgcount);
-> +
-> +			ret = ops->map_pages(ops, iova, paddr, pgsize, pgcount, prot,
-> +					     GFP_KERNEL, &mapped);
-> +			iova += mapped;
-> +			paddr += mapped;
-> +			len -= mapped;
-> +
-> +			if (drm_WARN_ON(&ptdev->base, !ret && !mapped))
-> +				ret = -ENOMEM;
-> +
-> +			if (ret) {
-> +				/* If something failed, unmap what we've already mapped before
-> +				 * returning. The unmap call is not supposed to fail.
-> +				 */
-> +				drm_WARN_ON(&ptdev->base,
-> +					    panthor_vm_unmap_pages(vm, start_iova,
-> +								   iova - start_iova));
-> +				return ret;
-> +			}
-> +		}
-> +
-> +		if (!size)
-> +			break;
-> +	}
-> +
-> +	return panthor_vm_flush_range(vm, start_iova, iova - start_iova);
-> +}
-> +
-
-<snip>
-
-> +static void panthor_vm_destroy(struct panthor_vm *vm)
-> +{
-> +	if (!vm)
-> +		return;
-> +
-> +	vm->destroyed = true;
-> +
-> +	mutex_lock(&vm->heaps.lock);
-> +	panthor_heap_pool_destroy(vm->heaps.pool);
-> +	vm->heaps.pool = NULL;
-> +	mutex_unlock(&vm->heaps.lock);
-> +
-> +	drm_WARN_ON(&vm->ptdev->base,
-> +		    panthor_vm_unmap_range(vm, vm->base.mm_start, vm->base.mm_range));
-> +	panthor_vm_put(vm);
-> +}
-> +
-> +/**
-> + * panthor_vm_destroy() - Destroy a VM.
-      ^^^^^^^^^^^^^^^^^^ needs updating to the new function name.
-
-Steve
-
-> + * @pool: VM pool.
-> + * @handle: VM handle.
-> + *
-> + * This function doesn't free the VM object or its resources, it just kills
-> + * all mappings, and makes sure nothing can be mapped after that point.
-> + *
-> + * If there was any active jobs at the time this function is called, these
-> + * jobs should experience page faults and be killed as a result.
-> + *
-> + * The VM resources are freed when the last reference on the VM object is
-> + * dropped.
-> + */
-> +int panthor_vm_pool_destroy_vm(struct panthor_vm_pool *pool, u32 handle)
-> +{
-> +	struct panthor_vm *vm;
-> +
-> +	vm = xa_erase(&pool->xa, handle);
-> +
-> +	panthor_vm_destroy(vm);
-> +
-> +	return vm ? 0 : -EINVAL;
-> +}
-
-<snip>
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index b0516505f7ae..01e13984629b 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -2158,6 +2158,14 @@ EXPORT_SYMBOL(drm_mode_create_aspect_ratio_property);
+  *     one supported. Sink supported colorspaces should be retrieved by
+  *     userspace from EDID and driver will not explicitly expose them.
+  *
++ *     As userspace can't currently know whether or not the output is using
++ *     RGB or YCC signalling, the driver must translate properties to their
++ *     relevant RGB or YCC counterparts, depending on the actually used
++ *     signalling. Property values that are only valid for either YCC or RGB
++ *     and have no equivalent for the other signalling type must not be
++ *     exposed as supported, unless the driver can guarantee it never uses
++ *     the signalling that doesn't match the property.
++ *
+  *     Basically the expectation from userspace is:
+  *      - Set up CRTC DEGAMMA/CTM/GAMMA to convert to some sink
+  *        colorspace
+-- 
+2.43.0
 
