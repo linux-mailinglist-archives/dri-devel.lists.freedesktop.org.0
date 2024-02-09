@@ -2,56 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2897A84FA32
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 17:54:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BB4884FA2E
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 17:53:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1382610F796;
-	Fri,  9 Feb 2024 16:54:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B349D10F78D;
+	Fri,  9 Feb 2024 16:53:27 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RQMmyu93";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14A3C10F796
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Feb 2024 16:54:25 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-40fe03cd1caso10803325e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Feb 2024 08:54:25 -0800 (PST)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
+ [209.85.128.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2018F10F78D;
+ Fri,  9 Feb 2024 16:53:27 +0000 (UTC)
+Received: by mail-yw1-f170.google.com with SMTP id
+ 00721157ae682-604aaf2d047so13073677b3.0; 
+ Fri, 09 Feb 2024 08:53:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1707497606; x=1708102406; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=0YeJ1Scdeu8JC0fSedQWunMCPmGv7Rv5FN5QxfX78yE=;
+ b=RQMmyu932mXBR8UEGtnJJ+Vej3txoRerIYuntJcGhCaIBb4EvVpt5N0uVEqjVHxbgO
+ SycmZ3etpD5olN+z+iAqONouvQdpc2s5OmfEWaquZttPBp2OC9CvgtTbcw5BlDnRi5t3
+ nnYP7VyCp6MxnBx+Bhs63tuud41j/x2gitzODlsqJw0yxatFMZbbFRNsJA4H7d6ARgt4
+ z0dZJfsnElHNtGVreKfwWKSjoVV5o9Bgsqv+68UwR3CA4B3N3TIpd4mqGkLbPKc0rlqt
+ mID9OBSLU9A6pBUVqB7sOPcL69GPUd9xqGdqOI3GAt432ZfheVtbkz3PO3cm9DUNkpMA
+ uvUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707497663; x=1708102463;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=gaeS1h5VpNcLueh2QkyDz5epDwwi2WqLNLn06Yy2Ju0=;
- b=pQyF93zAUzAefvQIE45IJ/BgYV2eWwUjec2OSBt1P1XcRsWTjPQRaZPhUjf9QqulzQ
- gBx1xhqTypVpQEct0el+bUyF9UnyC7zGWBraLR2L10elh/f9e5CxGYraMjPxPBqC7HIL
- JKfszTE32s+mxyCeJTH2j/RFrXvKI52BPvAtNd4RISAboA25DIBUy/92dau46FiGRX9d
- fgz19ec+dZDyMDJ9OESXtVKbIJX+IHxLHaHp6RpeVn/Rw3ev3Rg5sBTgrFU8BmDZ7XHD
- PGYZY8wmLasDZecxCFzP6UFex6me75I98dzXATm+ZSBYGmKNOC14uu3rsaT+CAUg4MNs
- eGHA==
-X-Gm-Message-State: AOJu0YwnWwDEPdTAdxVIjpaA7UJTVzVsBiHoOnmGTiP7PzAzpUNkLhyJ
- LGHpp/Q46kQXdKXH3y0YznVTyfVmvg7WGDbUaI/F/amkdr2hA8zA49SJeTwxfC4=
-X-Google-Smtp-Source: AGHT+IFFQBdbLfWayHTU8Eyq8ZvAud7LXc4qcTBXSQ4DrOkj/epQ1OHads3NQ5CmHYF2BrxQlm76xw==
-X-Received: by 2002:a5d:4d8e:0:b0:33b:64c6:f9ae with SMTP id
- b14-20020a5d4d8e000000b0033b64c6f9aemr1367869wru.47.1707497663119; 
- Fri, 09 Feb 2024 08:54:23 -0800 (PST)
+ d=1e100.net; s=20230601; t=1707497606; x=1708102406;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0YeJ1Scdeu8JC0fSedQWunMCPmGv7Rv5FN5QxfX78yE=;
+ b=lGRQuN2hU4ElnHQWDyIxRI01fdZJQSTIWy4P270t3kdPhqGBgoCB3Mh4Po6kn5CVzt
+ BmuxqfsbyINQzEGbRdcv6kHWoypPkHsy+qpFtx00q6KjOb+xFXKXj7GFhVQ4r4PC4mFH
+ dZVnwexDKd/5wTi1+jemJAtqKY7LDSeUYIo2w0Taa5qH2tyyTmi946fF63FieiGsBACV
+ jQ1s6sQfzdDyIes+o+bk/K9vweGFu9hqiGNJuoDOTGDluOk46v8xtwTORcQIc/e3q3g5
+ CNxieHadLb8Y4qJuidp3iif8VRpwVXfTVmzBEIJPJ+PKiWy+HIamkKjXfWgTHDdS6iSU
+ PAjg==
+X-Gm-Message-State: AOJu0YzIQR7votQ3YHpzsgg2HVfYnRJElxRZE9VsoNWGHfDQBm4iJ0tx
+ GISNtZRaFcE2KggsUVDTCNRxWex5Q8bAJ6SiDmkgH1oRBLeAdxXuC08rcB8/l4c=
+X-Google-Smtp-Source: AGHT+IHrF/8wgQd8JNTUcMtQGIGtbwT7TsJq0XQLER+HELEUGnHbgwEyGR8OSowd2xtSlMfgTxJ8oA==
+X-Received: by 2002:a81:8541:0:b0:604:aaac:99f7 with SMTP id
+ v62-20020a818541000000b00604aaac99f7mr1933729ywf.37.1707497606183; 
+ Fri, 09 Feb 2024 08:53:26 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCWBQE4LWBDwbGnoMAWhtz7+4QsEtFEepTMSYVpdz+rG6ssDqSAx4tr0B1oD6jHW94j0Rvk+BktbilfxzdtLg6lfG1DQgyCmHtEU+6s6wlmemq+4Cvq0f+rGhIaDrIVNhDOZmPfNzGGdX65kayUqj2g6mdI=
-Received: from Xavers-PC.fritz.box ([2a04:7d84:aacb:b490:2982:f457:3c53:d3fd])
+ AJvYcCUm/ZAq2lpYcT7dz8z8nZVu6F1n/rO1gEfLAC5EvkaTQlVEvagzv67AwSjqvZ2iBWBS6mgBykFYKG5VO7aeJhbTvhEuFSLJJ6q2ZyizC2xlwYJSNYNlTqR8rFAuxG2r71EiJu4fl2YHgkcKSORZ5MZ+U/t5ozjwe8m2eDJjwQAWIFy6XhRCB22wMTK5oeEcsJoSXFwITHJmf7AFR3Vnnqnm3Kdhkyd8G5XqPvv+cHpTcegoufYgIzK2Wg1+h95DlLusLABVfgwftTwwTkrrZNH5okindowqDagtKUTQReqod4NiM52SmLw=
+Received: from localhost ([2601:344:8301:57f0:be3a:6fd4:1110:3284])
  by smtp.gmail.com with ESMTPSA id
- bp12-20020a5d5a8c000000b0033b4341eb78sm2315607wrb.1.2024.02.09.08.54.22
+ x7-20020a814a07000000b006040a13db84sm384525ywa.48.2024.02.09.08.53.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Feb 2024 08:54:22 -0800 (PST)
-From: Xaver Hugl <xaver.hugl@kde.org>
-To: dri-devel@lists.freedesktop.org
-Cc: ville.syrjala@linux.intel.com, contact@emersion.fr,
- sebastian.wick@redhat.com, Xaver Hugl <xaver.hugl@kde.org>
-Subject: [PATCH] drm: document userspace expectations around the Colorspace
- connector property
-Date: Fri,  9 Feb 2024 17:53:07 +0100
-Message-ID: <20240209165307.29856-1-xaver.hugl@kde.org>
-X-Mailer: git-send-email 2.43.0
+ Fri, 09 Feb 2024 08:53:25 -0800 (PST)
+Date: Fri, 9 Feb 2024 08:53:25 -0800
+From: Yury Norov <yury.norov@gmail.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v3 2/3] bits: Introduce fixed-type BIT
+Message-ID: <ZcZYhZbLyzSXX8PU@yury-ThinkPad>
+References: <20240208074521.577076-1-lucas.demarchi@intel.com>
+ <20240208074521.577076-3-lucas.demarchi@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240208074521.577076-3-lucas.demarchi@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,30 +86,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Signed-off-by: Xaver Hugl <xaver.hugl@kde.org>
----
- drivers/gpu/drm/drm_connector.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+On Wed, Feb 07, 2024 at 11:45:20PM -0800, Lucas De Marchi wrote:
+> Implement fixed-type BIT() to help drivers add stricter checks, like was
+> done for GENMASK.
+> 
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> Acked-by: Jani Nikula <jani.nikula@intel.com>
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index b0516505f7ae..01e13984629b 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -2158,6 +2158,14 @@ EXPORT_SYMBOL(drm_mode_create_aspect_ratio_property);
-  *     one supported. Sink supported colorspaces should be retrieved by
-  *     userspace from EDID and driver will not explicitly expose them.
-  *
-+ *     As userspace can't currently know whether or not the output is using
-+ *     RGB or YCC signalling, the driver must translate properties to their
-+ *     relevant RGB or YCC counterparts, depending on the actually used
-+ *     signalling. Property values that are only valid for either YCC or RGB
-+ *     and have no equivalent for the other signalling type must not be
-+ *     exposed as supported, unless the driver can guarantee it never uses
-+ *     the signalling that doesn't match the property.
-+ *
-  *     Basically the expectation from userspace is:
-  *      - Set up CRTC DEGAMMA/CTM/GAMMA to convert to some sink
-  *        colorspace
--- 
-2.43.0
+So I get v1 from Jan.23 in my mailbox, and this one is v3. Did I miss
+a v2? Anyways, please bear my reviewed-by from v1 for this patch.
 
+Thanks,
+Yury
+
+> ---
+>  include/linux/bits.h | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+> 
+> diff --git a/include/linux/bits.h b/include/linux/bits.h
+> index bd56f32de44e..811846ce110e 100644
+> --- a/include/linux/bits.h
+> +++ b/include/linux/bits.h
+> @@ -24,12 +24,16 @@
+>  #define GENMASK_INPUT_CHECK(h, l) \
+>  	(BUILD_BUG_ON_ZERO(__builtin_choose_expr( \
+>  		__is_constexpr((l) > (h)), (l) > (h), 0)))
+> +#define BIT_INPUT_CHECK(type, b) \
+> +	((BUILD_BUG_ON_ZERO(__builtin_choose_expr( \
+> +		__is_constexpr(b), (b) >= BITS_PER_TYPE(type), 0))))
+>  #else
+>  /*
+>   * BUILD_BUG_ON_ZERO is not available in h files included from asm files,
+>   * disable the input check if that is the case.
+>   */
+>  #define GENMASK_INPUT_CHECK(h, l) 0
+> +#define BIT_INPUT_CHECK(type, b) 0
+>  #endif
+>  
+>  /*
+> @@ -54,4 +58,17 @@
+>  #define GENMASK_U32(h, l)	__GENMASK(u32, h, l)
+>  #define GENMASK_U64(h, l)	__GENMASK(u64, h, l)
+>  
+> +/*
+> + * Fixed-type variants of BIT(), with additional checks like __GENMASK().  The
+> + * following examples generate compiler warnings due to shift-count-overflow:
+> + *
+> + * - BIT_U8(8)
+> + * - BIT_U32(-1)
+> + * - BIT_U32(40)
+> + */
+> +#define BIT_U8(b)		((u8)(BIT_INPUT_CHECK(u8, b) + BIT(b)))
+> +#define BIT_U16(b)		((u16)(BIT_INPUT_CHECK(u16, b) + BIT(b)))
+> +#define BIT_U32(b)		((u32)(BIT_INPUT_CHECK(u32, b) + BIT(b)))
+> +#define BIT_U64(b)		((u64)(BIT_INPUT_CHECK(u64, b) + BIT(b)))
+> +
+>  #endif	/* __LINUX_BITS_H */
+> -- 
+> 2.43.0
