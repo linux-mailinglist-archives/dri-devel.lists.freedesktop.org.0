@@ -2,67 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 490C584F8B1
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 16:37:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 557DE84F8B8
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 16:39:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 629C210F615;
-	Fri,  9 Feb 2024 15:37:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EED910F635;
+	Fri,  9 Feb 2024 15:39:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="k6W2HO/6";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="MZxvUS37";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB1EC10F615
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Feb 2024 15:37:12 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2551761DA0;
- Fri,  9 Feb 2024 15:37:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70F1EC433F1;
- Fri,  9 Feb 2024 15:37:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1707493031;
- bh=pBxvQLSKhW0Vb+9sHbY5CZPr2bjHazBXEcaGBWdKWdA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=k6W2HO/6cdwQN8D0khmZ4Izj4y0QMnmk1xgVLyL3+ROLye1f39SAvjYWgPizyk+B0
- auM5x/TpYU3TCQ/1Kc2ZjhCpqtHq+VnpmVk3pFZhhRpMdVVnA8icN1CVceii2lUM9N
- pgyYgtGFB+qPM1gZKs9vQHWCkLMF/1PVs2DBygMSb+asvVKJh0GbF0vpKXxs5UAt2N
- 2Htauka95menjoN0LDSZLjq1/4Q3MSQiHcq/rf1aZ/+tYYNL21mm3EhQaZcH8cYkwc
- +9YRz6hnUOu4Q948SR7FCeu752iykRldvkZt+TkA5uo7P9AYQMohtGVpnLE7aAocu/
- nPqcmZ8ify9IA==
-Date: Fri, 9 Feb 2024 16:37:09 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Keith Zhao <keith.zhao@starfivetech.com>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>, 
- "airlied@gmail.com" <airlied@gmail.com>, 
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- William Qiu <william.qiu@starfivetech.com>, 
- Xingyu Wu <xingyu.wu@starfivetech.com>,
- "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>, 
- "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
- "palmer@dabbelt.com" <palmer@dabbelt.com>, 
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- Shengyang Chen <shengyang.chen@starfivetech.com>, 
- Jack Zhu <jack.zhu@starfivetech.com>,
- Changhuang Liang <changhuang.liang@starfivetech.com>, 
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>
-Subject: Re: RE: [v3 4/6] drm/vs: Add KMS crtc&plane
-Message-ID: <veb4fyixov4wqlkpanbgxhd36shrqmsow5hpx4pji7mhfk5mxs@57mpolgixriz>
-References: <20231204123315.28456-1-keith.zhao@starfivetech.com>
- <20231204123315.28456-5-keith.zhao@starfivetech.com>
- <o4ica2jg2rqfx6znir6j7mkoojoqzejjuqvlwcnehanw5mvop6@a3t6vi7c55tz>
- <NTZPR01MB1050C46113AD71AA5E93C67BEE7CA@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
- <rvwcfjon4hjdx4youknherj2rrvvbfrn4bufdqlcd7tn3l5lc2@74rwotxzgyuq>
- <NTZPR01MB1050C500508E29152E845511EE43A@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C8B810F635
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Feb 2024 15:39:27 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 419FUZHr006294; Fri, 9 Feb 2024 15:39:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=sn30ClCyRJLVUxGp4VywTT0S23XX2C6ZN0bt5ri3Vl4=; b=MZ
+ xvUS37DweNNpHYivIZTJaH4WluQXek6hKEMhTqUzm/xNRFyi8D+MeVUuJwGzu2zX
+ O9Gvm5xaTFXiquahr67R2yqBSudyZsiInZ15ZoBT+t5y/E38RDb8J7NRZmNfd1kT
+ kJULAig0AcewmgN+eZB8NqGjJhIis8W5Nv7kq7riT+Bb0wy4QCIWAt1qRx76g3k5
+ OBBRDPveEjbvr0RFfHuPSE9RAqtqzfHIX/nuUBUwKPrwmBganmQfQsMXysdw41Jt
+ +i/X7XDmUXj5NRblqaueej9fIITpfVb0cfQZn1psQji/5pUIc2E5ncvECQ1nOHBF
+ pzMv7iylbeulaeMWY1FQ==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w4rk84bye-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 09 Feb 2024 15:39:24 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 419FdNHB013082
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 9 Feb 2024 15:39:23 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 9 Feb
+ 2024 07:39:23 -0800
+Message-ID: <304ed6e4-945c-0c2c-e0ac-63cc33fdb55b@quicinc.com>
+Date: Fri, 9 Feb 2024 08:39:22 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="3gny2qe4uevq2gnc"
-Content-Disposition: inline
-In-Reply-To: <NTZPR01MB1050C500508E29152E845511EE43A@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v2] accel/ivpu: Fix DevTLB errors on suspend/resume and
+ recovery
+Content-Language: en-US
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+CC: <oded.gabbay@gmail.com>
+References: <20240206151927.2925585-1-jacek.lawrynowicz@linux.intel.com>
+ <20240207102446.3126981-1-jacek.lawrynowicz@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20240207102446.3126981-1-jacek.lawrynowicz@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: ehKH2IDwkZgIpfS0tlDULF2KAX6MMxif
+X-Proofpoint-ORIG-GUID: ehKH2IDwkZgIpfS0tlDULF2KAX6MMxif
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-09_12,2024-02-08_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1015
+ phishscore=0 priorityscore=1501 adultscore=0 bulkscore=0 suspectscore=0
+ spamscore=0 impostorscore=0 mlxlogscore=999 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402090115
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,721 +92,195 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2/7/2024 3:24 AM, Jacek Lawrynowicz wrote:
+> Issue IP reset before shutdown in order to
+> complete all upstream requests to the SOC.
+> Without this DevTLB is complaining about
+> incomplete transactions and NPU cannot resume from
+> suspend.
+> This problem is only happening on recent IFWI
+> releases.
+> 
+> IP reset in rare corner cases can mess up PCI
+> configuration, so save it before the reset.
+> After this happens it is also impossible to
+> issue PLL requests and D0->D3->D0 cycle is needed
+> to recover the NPU. Add WP 0 request on power up,
+> so the PUNIT is always notified about NPU reset.
+> 
+> Use D0/D3 cycle for recovery as it can recover
+> from failed IP reset and FLR cannot.
+> 
+> Fixes: 3f7c0634926d ("accel/ivpu/37xx: Fix hangs related to MMIO reset")
+> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> ---
 
---3gny2qe4uevq2gnc
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 
-On Thu, Feb 01, 2024 at 02:22:16AM +0000, Keith Zhao wrote:
->=20
->=20
->=20
->=20
-> > -----Original Message-----
->=20
-> > From: Maxime Ripard <mripard@kernel.org>
->=20
-> > Sent: 2024=E5=B9=B41=E6=9C=8831=E6=97=A5 21:24
->=20
-> > To: Keith Zhao <keith.zhao@starfivetech.com>
->=20
-> > Cc: devicetree@vger.kernel.org; dri-devel@lists.freedesktop.org;
->=20
-> > linux-kernel@vger.kernel.org; linux-riscv@lists.infradead.org;
->=20
-> > tzimmermann@suse.de; airlied@gmail.com; krzysztof.kozlowski+dt@linaro.o=
-rg;
->=20
-> > William Qiu <william.qiu@starfivetech.com>; Xingyu Wu
->=20
-> > <xingyu.wu@starfivetech.com>; paul.walmsley@sifive.com;
->=20
-> > aou@eecs.berkeley.edu; palmer@dabbelt.com; p.zabel@pengutronix.de;
->=20
-> > Shengyang Chen <shengyang.chen@starfivetech.com>; Jack Zhu
->=20
-> > <jack.zhu@starfivetech.com>; Changhuang Liang
->=20
-> > <changhuang.liang@starfivetech.com>; maarten.lankhorst@linux.intel.com
->=20
-> > Subject: Re: [v3 4/6] drm/vs: Add KMS crtc&plane
->=20
-> >
->=20
-> > On Wed, Jan 31, 2024 at 09:33:06AM +0000, Keith Zhao wrote:
->=20
-> > >
->=20
-> > >
->=20
-> > > > -----=E9=82=AE=E4=BB=B6=E5=8E=9F=E4=BB=B6-----
->=20
-> > > > =E5=8F=91=E4=BB=B6=E4=BA=BA: Maxime Ripard <mripard@kernel.org<mail=
-to:mripard@kernel.org>>
->=20
-> > > > =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2023=E5=B9=B412=E6=9C=886=E6=
-=97=A5 16:56
->=20
-> > > > =E6=94=B6=E4=BB=B6=E4=BA=BA: Keith Zhao <keith.zhao@starfivetech.co=
-m<mailto:keith.zhao@starfivetech.com>>
->=20
-> > > > =E6=8A=84=E9=80=81: devicetree@vger.kernel.org<mailto:devicetree@vg=
-er.kernel.org>; dri-devel@lists.freedesktop.org<mailto:dri-devel@lists.free=
-desktop.org>;
->=20
-> > > > linux-kernel@vger.kernel.org<mailto:linux-kernel@vger.kernel.org>; =
-linux-riscv@lists.infradead.org<mailto:linux-riscv@lists.infradead.org>;
->=20
-> > > > tzimmermann@suse.de<mailto:tzimmermann@suse.de>; airlied@gmail.com<=
-mailto:airlied@gmail.com>;
->=20
-> > > > krzysztof.kozlowski+dt@linaro.org<mailto:krzysztof.kozlowski+dt@lin=
-aro.org>;
->=20
-> > > > William Qiu <william.qiu@starfivetech.com<mailto:william.qiu@starfi=
-vetech.com>>; Xingyu Wu
->=20
-> > > > <xingyu.wu@starfivetech.com<mailto:xingyu.wu@starfivetech.com>>; pa=
-ul.walmsley@sifive.com<mailto:paul.walmsley@sifive.com>;
->=20
-> > > > aou@eecs.berkeley.edu<mailto:aou@eecs.berkeley.edu>; palmer@dabbelt=
-=2Ecom<mailto:palmer@dabbelt.com>; p.zabel@pengutronix.de<mailto:p.zabel@pe=
-ngutronix.de>;
->=20
-> > > > Shengyang Chen <shengyang.chen@starfivetech.com<mailto:shengyang.ch=
-en@starfivetech.com>>; Jack Zhu
->=20
-> > > > <jack.zhu@starfivetech.com<mailto:jack.zhu@starfivetech.com>>; Chan=
-ghuang Liang
->=20
-> > > > <changhuang.liang@starfivetech.com<mailto:changhuang.liang@starfive=
-tech.com>>;
->=20
-> > > > maarten.lankhorst@linux.intel.com<mailto:maarten.lankhorst@linux.in=
-tel.com>;
->=20
-> > > > suijingfeng@loongson.cn<mailto:suijingfeng@loongson.cn>
->=20
-> > > > =E4=B8=BB=E9=A2=98: Re: [v3 4/6] drm/vs: Add KMS crtc&plane
->=20
-> > > >
->=20
-> > > > On Mon, Dec 04, 2023 at 08:33:13PM +0800, Keith Zhao wrote:
->=20
-> > > > > +static const struct vs_plane_info dc_hw_planes_rev0[PLANE_NUM] =
-=3D {
->=20
-> > > > > +   {
->=20
-> > > > > +            .name                         =3D "Primary",
->=20
-> > > > > +            .id                       =3D PRIMARY_PLANE_0,
->=20
-> > > > > +            .type                            =3D DRM_PLANE_TYPE_=
-PRIMARY,
->=20
-> > > > > +            .num_formats           =3D ARRAY_SIZE(primary_overla=
-y_format0),
->=20
-> > > > > +            .formats            =3D primary_overlay_format0,
->=20
-> > > > > +            .num_modifiers                 =3D ARRAY_SIZE(format=
-_modifier0),
->=20
-> > > > > +            .modifiers                   =3D format_modifier0,
->=20
-> > > > > +            .min_width                =3D 0,
->=20
-> > > > > +            .min_height               =3D 0,
->=20
-> > > > > +            .max_width               =3D 4096,
->=20
-> > > > > +            .max_height              =3D 4096,
->=20
-> > > > > +            .rotation           =3D DRM_MODE_ROTATE_0 |
->=20
-> > > > > +                                          DRM_MODE_ROTATE_90 |
->=20
-> > > > > +                                          DRM_MODE_ROTATE_180 |
->=20
-> > > > > +                                          DRM_MODE_ROTATE_270 |
->=20
-> > > > > +                                          DRM_MODE_REFLECT_X |
->=20
-> > > > > +                                          DRM_MODE_REFLECT_Y,
->=20
-> > > > > +            .blend_mode             =3D BIT(DRM_MODE_BLEND_PIXEL=
-_NONE) |
->=20
-> > > > > +                                          BIT(DRM_MODE_BLEND_PRE=
-MULTI) |
->=20
-> > > > > +                                          BIT(DRM_MODE_BLEND_COV=
-ERAGE),
->=20
-> > > > > +            .color_encoding                 =3D BIT(DRM_COLOR_YC=
-BCR_BT709) |
->=20
-> > > > > +                                          BIT(DRM_COLOR_YCBCR_BT=
-2020),
->=20
-> > > > > +            .degamma_size                  =3D DEGAMMA_SIZE,
->=20
-> > > > > +            .min_scale                 =3D FRAC_16_16(1, 3),
->=20
-> > > > > +            .max_scale                =3D FRAC_16_16(10, 1),
->=20
-> > > > > +            .zpos                            =3D 0,
->=20
-> > > > > +            .watermark               =3D true,
->=20
-> > > > > +            .color_mgmt             =3D true,
->=20
-> > > > > +            .roi                      =3D true,
->=20
-> > > > > +   },
->=20
-> > > > > +   {
->=20
-> > > > > +            .name                         =3D "Overlay",
->=20
-> > > > > +            .id                       =3D OVERLAY_PLANE_0,
->=20
-> > > > > +            .type                            =3D DRM_PLANE_TYPE_=
-OVERLAY,
->=20
-> > > > > +            .num_formats           =3D ARRAY_SIZE(primary_overla=
-y_format0),
->=20
-> > > > > +            .formats            =3D primary_overlay_format0,
->=20
-> > > > > +            .num_modifiers                 =3D ARRAY_SIZE(format=
-_modifier0),
->=20
-> > > > > +            .modifiers                   =3D format_modifier0,
->=20
-> > > > > +            .min_width                =3D 0,
->=20
-> > > > > +            .min_height               =3D 0,
->=20
-> > > > > +            .max_width               =3D 4096,
->=20
-> > > > > +            .max_height              =3D 4096,
->=20
-> > > > > +            .rotation           =3D DRM_MODE_ROTATE_0 |
->=20
-> > > > > +                                          DRM_MODE_ROTATE_90 |
->=20
-> > > > > +                                          DRM_MODE_ROTATE_180 |
->=20
-> > > > > +                                          DRM_MODE_ROTATE_270 |
->=20
-> > > > > +                                          DRM_MODE_REFLECT_X |
->=20
-> > > > > +                                          DRM_MODE_REFLECT_Y,
->=20
-> > > > > +            .blend_mode             =3D BIT(DRM_MODE_BLEND_PIXEL=
-_NONE) |
->=20
-> > > > > +                                          BIT(DRM_MODE_BLEND_PRE=
-MULTI) |
->=20
-> > > > > +                                          BIT(DRM_MODE_BLEND_COV=
-ERAGE),
->=20
-> > > > > +            .color_encoding                 =3D BIT(DRM_COLOR_YC=
-BCR_BT709) |
->=20
-> > > > > +                                          BIT(DRM_COLOR_YCBCR_BT=
-2020),
->=20
-> > > > > +            .degamma_size                  =3D DEGAMMA_SIZE,
->=20
-> > > > > +            .min_scale                 =3D FRAC_16_16(1, 3),
->=20
-> > > > > +            .max_scale                =3D FRAC_16_16(10, 1),
->=20
-> > > > > +            .zpos                            =3D 1,
->=20
-> > > > > +            .watermark               =3D true,
->=20
-> > > > > +            .color_mgmt             =3D true,
->=20
-> > > > > +            .roi                      =3D true,
->=20
-> > > > > +   },
->=20
-> > > > > +   {
->=20
-> > > > > +            .name                         =3D "Overlay_1",
->=20
-> > > > > +            .id                       =3D OVERLAY_PLANE_1,
->=20
-> > > > > +            .type                            =3D DRM_PLANE_TYPE_=
-OVERLAY,
->=20
-> > > > > +            .num_formats           =3D ARRAY_SIZE(primary_overla=
-y_format0),
->=20
-> > > > > +            .formats            =3D primary_overlay_format0,
->=20
-> > > > > +            .num_modifiers                 =3D
->=20
-> > ARRAY_SIZE(secondary_format_modifiers),
->=20
-> > > > > +            .modifiers                   =3D secondary_format_mo=
-difiers,
->=20
-> > > > > +            .min_width                =3D 0,
->=20
-> > > > > +            .min_height               =3D 0,
->=20
-> > > > > +            .max_width               =3D 4096,
->=20
-> > > > > +            .max_height              =3D 4096,
->=20
-> > > > > +            .rotation           =3D 0,
->=20
-> > > > > +            .blend_mode             =3D BIT(DRM_MODE_BLEND_PIXEL=
-_NONE) |
->=20
-> > > > > +                                          BIT(DRM_MODE_BLEND_PRE=
-MULTI) |
->=20
-> > > > > +                                          BIT(DRM_MODE_BLEND_COV=
-ERAGE),
->=20
-> > > > > +            .color_encoding                 =3D BIT(DRM_COLOR_YC=
-BCR_BT709) |
->=20
-> > > > > +                                          BIT(DRM_COLOR_YCBCR_BT=
-2020),
->=20
-> > > > > +            .degamma_size                  =3D DEGAMMA_SIZE,
->=20
-> > > > > +            .min_scale                 =3D DRM_PLANE_NO_SCALING,
->=20
-> > > > > +            .max_scale                =3D DRM_PLANE_NO_SCALING,
->=20
-> > > > > +            .zpos                            =3D 2,
->=20
-> > > > > +            .watermark               =3D true,
->=20
-> > > > > +            .color_mgmt             =3D true,
->=20
-> > > > > +            .roi                      =3D true,
->=20
-> > > > > +   },
->=20
-> > > > > +   {
->=20
-> > > > > +            .name                         =3D "Primary_1",
->=20
-> > > > > +            .id                       =3D PRIMARY_PLANE_1,
->=20
-> > > > > +            .type                            =3D DRM_PLANE_TYPE_=
-PRIMARY,
->=20
-> > > > > +            .num_formats           =3D ARRAY_SIZE(primary_overla=
-y_format0),
->=20
-> > > > > +            .formats            =3D primary_overlay_format0,
->=20
-> > > > > +            .num_modifiers                 =3D ARRAY_SIZE(format=
-_modifier0),
->=20
-> > > > > +            .modifiers                   =3D format_modifier0,
->=20
-> > > > > +            .min_width                =3D 0,
->=20
-> > > > > +            .min_height               =3D 0,
->=20
-> > > > > +            .max_width               =3D 4096,
->=20
-> > > > > +            .max_height              =3D 4096,
->=20
-> > > > > +            .rotation           =3D DRM_MODE_ROTATE_0 |
->=20
-> > > > > +                                          DRM_MODE_ROTATE_90 |
->=20
-> > > > > +                                          DRM_MODE_ROTATE_180 |
->=20
-> > > > > +                                          DRM_MODE_ROTATE_270 |
->=20
-> > > > > +                                          DRM_MODE_REFLECT_X |
->=20
-> > > > > +                                          DRM_MODE_REFLECT_Y,
->=20
-> > > > > +            .blend_mode             =3D BIT(DRM_MODE_BLEND_PIXEL=
-_NONE) |
->=20
-> > > > > +                                          BIT(DRM_MODE_BLEND_PRE=
-MULTI) |
->=20
-> > > > > +                                          BIT(DRM_MODE_BLEND_COV=
-ERAGE),
->=20
-> > > > > +            .color_encoding                 =3D BIT(DRM_COLOR_YC=
-BCR_BT709) |
->=20
-> > > > > +                                          BIT(DRM_COLOR_YCBCR_BT=
-2020),
->=20
-> > > > > +            .degamma_size                  =3D DEGAMMA_SIZE,
->=20
-> > > > > +            .min_scale                 =3D FRAC_16_16(1, 3),
->=20
-> > > > > +            .max_scale                =3D FRAC_16_16(10, 1),
->=20
-> > > > > +            .zpos                            =3D 3,
->=20
-> > > > > +            .watermark               =3D true,
->=20
-> > > > > +            .color_mgmt             =3D true,
->=20
-> > > > > +            .roi                      =3D true,
->=20
-> > > > > +   },
->=20
-> > > > > +   {
->=20
-> > > > > +            .name                         =3D "Overlay_2",
->=20
-> > > > > +            .id                       =3D OVERLAY_PLANE_2,
->=20
-> > > > > +            .type                            =3D DRM_PLANE_TYPE_=
-OVERLAY,
->=20
-> > > > > +            .num_formats           =3D ARRAY_SIZE(primary_overla=
-y_format0),
->=20
-> > > > > +            .formats            =3D primary_overlay_format0,
->=20
-> > > > > +            .num_modifiers                 =3D ARRAY_SIZE(format=
-_modifier0),
->=20
-> > > > > +            .modifiers                   =3D format_modifier0,
->=20
-> > > > > +            .min_width                =3D 0,
->=20
-> > > > > +            .min_height               =3D 0,
->=20
-> > > > > +            .max_width               =3D 4096,
->=20
-> > > > > +            .max_height              =3D 4096,
->=20
-> > > > > +            .rotation           =3D DRM_MODE_ROTATE_0 |
->=20
-> > > > > +                                          DRM_MODE_ROTATE_90 |
->=20
-> > > > > +                                          DRM_MODE_ROTATE_180 |
->=20
-> > > > > +                                          DRM_MODE_ROTATE_270 |
->=20
-> > > > > +                                          DRM_MODE_REFLECT_X |
->=20
-> > > > > +                                          DRM_MODE_REFLECT_Y,
->=20
-> > > > > +            .blend_mode             =3D BIT(DRM_MODE_BLEND_PIXEL=
-_NONE) |
->=20
-> > > > > +                                          BIT(DRM_MODE_BLEND_PRE=
-MULTI) |
->=20
-> > > > > +                                          BIT(DRM_MODE_BLEND_COV=
-ERAGE),
->=20
-> > > > > +            .color_encoding                 =3D BIT(DRM_COLOR_YC=
-BCR_BT709) |
->=20
-> > > > > +                                          BIT(DRM_COLOR_YCBCR_BT=
-2020),
->=20
-> > > > > +            .degamma_size                  =3D DEGAMMA_SIZE,
->=20
-> > > > > +            .min_scale                 =3D FRAC_16_16(1, 3),
->=20
-> > > > > +            .max_scale                =3D FRAC_16_16(10, 1),
->=20
-> > > > > +            .zpos                            =3D 4,
->=20
-> > > > > +            .watermark               =3D true,
->=20
-> > > > > +            .color_mgmt             =3D true,
->=20
-> > > > > +            .roi                      =3D true,
->=20
-> > > > > +   },
->=20
-> > > > > +   {
->=20
-> > > > > +            .name                         =3D "Overlay_3",
->=20
-> > > > > +            .id                       =3D OVERLAY_PLANE_3,
->=20
-> > > > > +            .type                            =3D DRM_PLANE_TYPE_=
-OVERLAY,
->=20
-> > > > > +            .num_formats           =3D ARRAY_SIZE(primary_overla=
-y_format0),
->=20
-> > > > > +            .formats            =3D primary_overlay_format0,
->=20
-> > > > > +            .num_modifiers                 =3D
->=20
-> > ARRAY_SIZE(secondary_format_modifiers),
->=20
-> > > > > +            .modifiers                   =3D secondary_format_mo=
-difiers,
->=20
-> > > > > +            .min_width                =3D 0,
->=20
-> > > > > +            .min_height               =3D 0,
->=20
-> > > > > +            .max_width               =3D 4096,
->=20
-> > > > > +            .max_height              =3D 4096,
->=20
-> > > > > +            .rotation           =3D 0,
->=20
-> > > > > +            .blend_mode             =3D BIT(DRM_MODE_BLEND_PIXEL=
-_NONE) |
->=20
-> > > > > +                                          BIT(DRM_MODE_BLEND_PRE=
-MULTI) |
->=20
-> > > > > +                                          BIT(DRM_MODE_BLEND_COV=
-ERAGE),
->=20
-> > > > > +            .color_encoding                 =3D BIT(DRM_COLOR_YC=
-BCR_BT709) |
->=20
-> > > > > +                                          BIT(DRM_COLOR_YCBCR_BT=
-2020),
->=20
-> > > > > +            .degamma_size                  =3D DEGAMMA_SIZE,
->=20
-> > > > > +            .min_scale                 =3D DRM_PLANE_NO_SCALING,
->=20
-> > > > > +            .max_scale                =3D DRM_PLANE_NO_SCALING,
->=20
-> > > > > +            .zpos                            =3D 5,
->=20
-> > > > > +            .watermark               =3D true,
->=20
-> > > > > +            .color_mgmt             =3D true,
->=20
-> > > > > +            .roi                      =3D true,
->=20
-> > > > > +   },
->=20
-> > > > > +   {
->=20
-> > > > > +            .name                         =3D "Cursor",
->=20
-> > > > > +            .id                       =3D CURSOR_PLANE_0,
->=20
-> > > > > +            .type                            =3D DRM_PLANE_TYPE_=
-CURSOR,
->=20
-> > > > > +            .num_formats           =3D ARRAY_SIZE(cursor_formats=
-),
->=20
-> > > > > +            .formats            =3D cursor_formats,
->=20
-> > > > > +            .num_modifiers                 =3D 0,
->=20
-> > > > > +            .modifiers                   =3D NULL,
->=20
-> > > > > +            .min_width                =3D 32,
->=20
-> > > > > +            .min_height               =3D 32,
->=20
-> > > > > +            .max_width               =3D 64,
->=20
-> > > > > +            .max_height              =3D 64,
->=20
-> > > > > +            .rotation           =3D 0,
->=20
-> > > > > +            .degamma_size                  =3D 0,
->=20
-> > > > > +            .min_scale                 =3D DRM_PLANE_NO_SCALING,
->=20
-> > > > > +            .max_scale                =3D DRM_PLANE_NO_SCALING,
->=20
-> > > > > +            .zpos                            =3D 255,
->=20
-> > > > > +            .watermark               =3D false,
->=20
-> > > > > +            .color_mgmt             =3D false,
->=20
-> > > > > +            .roi                      =3D false,
->=20
-> > > > > +   },
->=20
-> > > > > +   {
->=20
-> > > > > +            .name                         =3D "Cursor_1",
->=20
-> > > > > +            .id                       =3D CURSOR_PLANE_1,
->=20
-> > > > > +            .type                            =3D DRM_PLANE_TYPE_=
-CURSOR,
->=20
-> > > > > +            .num_formats           =3D ARRAY_SIZE(cursor_formats=
-),
->=20
-> > > > > +            .formats            =3D cursor_formats,
->=20
-> > > > > +            .num_modifiers                 =3D 0,
->=20
-> > > > > +            .modifiers                   =3D NULL,
->=20
-> > > > > +            .min_width                =3D 32,
->=20
-> > > > > +            .min_height               =3D 32,
->=20
-> > > > > +            .max_width               =3D 64,
->=20
-> > > > > +            .max_height              =3D 64,
->=20
-> > > > > +            .rotation           =3D 0,
->=20
-> > > > > +            .degamma_size                  =3D 0,
->=20
-> > > > > +            .min_scale                 =3D DRM_PLANE_NO_SCALING,
->=20
-> > > > > +            .max_scale                =3D DRM_PLANE_NO_SCALING,
->=20
-> > > > > +            .zpos                            =3D 255,
->=20
-> > > > > +            .watermark               =3D false,
->=20
-> > > > > +            .color_mgmt             =3D false,
->=20
-> > > > > +            .roi                      =3D false,
->=20
-> > > > > +   },
->=20
-> > > > > +};
->=20
-> > > > > +
->=20
-> > > > > +static const struct vs_dc_info dc8200_info =3D {
->=20
-> > > > > +   .name                         =3D "DC8200",
->=20
-> > > > > +   .panel_num               =3D 2,
->=20
-> > > > > +   .plane_num               =3D 8,
->=20
-> > > > > +   .planes                        =3D dc_hw_planes_rev0,
->=20
-> > > > > +   .layer_num                =3D 6,
->=20
-> > > > > +   .max_bpc          =3D 10,
->=20
-> > > > > +   .color_formats          =3D DRM_COLOR_FORMAT_RGB444 |
->=20
-> > > > > +                                 DRM_COLOR_FORMAT_YCBCR444 |
->=20
-> > > > > +                                 DRM_COLOR_FORMAT_YCBCR422 |
->=20
-> > > > > +                                 DRM_COLOR_FORMAT_YCBCR420,
->=20
-> > > > > +   .gamma_size             =3D GAMMA_EX_SIZE,
->=20
-> > > > > +   .gamma_bits             =3D 12,
->=20
-> > > > > +   .pitch_alignment     =3D 128,
->=20
-> > > > > +   .pipe_sync                  =3D false,
->=20
-> > > > > +   .background              =3D true,
->=20
-> > > > > +   .panel_sync               =3D true,
->=20
-> > > > > +   .cap_dec           =3D true,
->=20
-> > > > > +};
->=20
-> > > >
->=20
-> > > > I really think that entire thing is to workaround a suboptimal devi=
-ce tree
->=20
-> > binding.
->=20
-> > > > You should have two CRTCs in the device tree, you'll probe twice,
->=20
-> > > > and you won't get to do that whole dance.
->=20
-> > > >
->=20
-> >
->=20
-> > > I tried to modify it according to this idea Found it too difficult In
->=20
-> > > terms of hardware, the two crtc designs are too close to separate, and
->=20
-> > > they are even designed into the same reg with different bits
->=20
-> > > representing crtc0 and crtc1. It seems not easy to described the 2
->=20
-> > > ctrc hardware by 2 device nodes
->=20
-> >
->=20
-> > What are these bits doing?
->=20
->=20
->=20
-> [cid:image001.png@01DA54F5.ECEA9C10]
->=20
-> For example:
->=20
-> like this , bit0 and bit1 match ctrc0 and crtc1 , it is used to start crtc
->=20
-> A similar situation exists for other register definitions.
->=20
->=20
->=20
-> Another case is that ctrc0 and crtc1 have the same function and their off=
-set is continuous,
->=20
-> instead of crtc0 being a continuous area, crtc1 being a continuous area
->=20
-> reg:
->=20
-> crtc0 X
->=20
-> crtc1 X+4
->=20
-> crtc0 X+8
->=20
-> crtc1 X+12
->=20
-> if to make it two separate devices, the device node dts reg attribute wou=
-ld be complex
+Nit below
 
-Yeah, ok, that makes sense then.
+>   drivers/accel/ivpu/ivpu_hw_37xx.c | 44 ++++++++++++++++++++++---------
+>   drivers/accel/ivpu/ivpu_pm.c      | 39 +++++++++++++++------------
+>   2 files changed, 54 insertions(+), 29 deletions(-)
+> 
+> diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
+> index 77accd029c4a..89af1006df55 100644
+> --- a/drivers/accel/ivpu/ivpu_hw_37xx.c
+> +++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
+> @@ -510,16 +510,6 @@ static int ivpu_boot_pwr_domain_enable(struct ivpu_device *vdev)
+>   	return ret;
+>   }
+>   
+> -static int ivpu_boot_pwr_domain_disable(struct ivpu_device *vdev)
+> -{
+> -	ivpu_boot_dpu_active_drive(vdev, false);
+> -	ivpu_boot_pwr_island_isolation_drive(vdev, true);
+> -	ivpu_boot_pwr_island_trickle_drive(vdev, false);
+> -	ivpu_boot_pwr_island_drive(vdev, false);
+> -
+> -	return ivpu_boot_wait_for_pwr_island_status(vdev, 0x0);
+> -}
+> -
+>   static void ivpu_boot_no_snoop_enable(struct ivpu_device *vdev)
+>   {
+>   	u32 val = REGV_RD32(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES);
+> @@ -616,12 +606,37 @@ static int ivpu_hw_37xx_info_init(struct ivpu_device *vdev)
+>   	return 0;
+>   }
+>   
+> +static int ivpu_hw_37xx_ip_reset(struct ivpu_device *vdev)
+> +{
+> +	int ret;
+> +	u32 val;
+> +
+> +	if (IVPU_WA(punit_disabled))
+> +		return 0;
+> +
+> +	ret = REGB_POLL_FLD(VPU_37XX_BUTTRESS_VPU_IP_RESET, TRIGGER, 0, TIMEOUT_US);
+> +	if (ret) {
+> +		ivpu_err(vdev, "Timed out waiting for TRIGGER bit\n");
+> +		return ret;
+> +	}
+> +
+> +	val = REGB_RD32(VPU_37XX_BUTTRESS_VPU_IP_RESET);
+> +	val = REG_SET_FLD(VPU_37XX_BUTTRESS_VPU_IP_RESET, TRIGGER, val);
+> +	REGB_WR32(VPU_37XX_BUTTRESS_VPU_IP_RESET, val);
+> +
+> +	ret = REGB_POLL_FLD(VPU_37XX_BUTTRESS_VPU_IP_RESET, TRIGGER, 0, TIMEOUT_US);
+> +	if (ret)
+> +		ivpu_err(vdev, "Timed out waiting for RESET completion\n");
+> +
+> +	return ret;
+> +}
+> +
+>   static int ivpu_hw_37xx_reset(struct ivpu_device *vdev)
+>   {
+>   	int ret = 0;
+>   
+> -	if (ivpu_boot_pwr_domain_disable(vdev)) {
+> -		ivpu_err(vdev, "Failed to disable power domain\n");
+> +	if (ivpu_hw_37xx_ip_reset(vdev)) {
+> +		ivpu_err(vdev, "Failed to reset NPU\n");
+>   		ret = -EIO;
+>   	}
+>   
+> @@ -661,6 +676,11 @@ static int ivpu_hw_37xx_power_up(struct ivpu_device *vdev)
+>   {
+>   	int ret;
+>   
+> +	/* PLL requests may fail when powering down, so issue WP 0 here */
+> +	ret = ivpu_pll_disable(vdev);
+> +	if (ret)
+> +		ivpu_warn(vdev, "Failed to disable PLL: %d\n", ret);
+> +
+>   	ret = ivpu_hw_37xx_d0i3_disable(vdev);
+>   	if (ret)
+>   		ivpu_warn(vdev, "Failed to disable D0I3: %d\n", ret);
+> diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
+> index f501f27ebafd..5f73854234ba 100644
+> --- a/drivers/accel/ivpu/ivpu_pm.c
+> +++ b/drivers/accel/ivpu/ivpu_pm.c
+> @@ -58,11 +58,14 @@ static int ivpu_suspend(struct ivpu_device *vdev)
+>   {
+>   	int ret;
+>   
+> +	/* Save PCI state before powering down as it sometimes gets corrupted if NPU hangs */
+> +	pci_save_state(to_pci_dev(vdev->drm.dev));
+> +
+>   	ret = ivpu_shutdown(vdev);
+> -	if (ret) {
+> +	if (ret)
+>   		ivpu_err(vdev, "Failed to shutdown VPU: %d\n", ret);
 
-In which case, if we're going to have one big device in the DT with all
-the planes and CRTCs, why do we need the display-subsystem device? Just
-make your driver probe on the dc8200 device.
+In the two logs you add in this change, the log has "NPU".  Here, there 
+is "VPU".  As far as I understand VPU is the old term and NPU is the new 
+term therefore it seems like all the logs should be updated to use the 
+new term for consistency.  Outside of scope for this change though.
 
-Maxime
+> -		return ret;
+> -	}
+> +
+> +	pci_set_power_state(to_pci_dev(vdev->drm.dev), PCI_D3hot);
+>   
+>   	return ret;
+>   }
+> @@ -71,6 +74,9 @@ static int ivpu_resume(struct ivpu_device *vdev)
+>   {
+>   	int ret;
+>   
+> +	pci_set_power_state(to_pci_dev(vdev->drm.dev), PCI_D0);
+> +	pci_restore_state(to_pci_dev(vdev->drm.dev));
+> +
+>   retry:
+>   	ret = ivpu_hw_power_up(vdev);
+>   	if (ret) {
+> @@ -120,15 +126,20 @@ static void ivpu_pm_recovery_work(struct work_struct *work)
+>   
+>   	ivpu_fw_log_dump(vdev);
+>   
+> -retry:
+> -	ret = pci_try_reset_function(to_pci_dev(vdev->drm.dev));
+> -	if (ret == -EAGAIN && !drm_dev_is_unplugged(&vdev->drm)) {
+> -		cond_resched();
+> -		goto retry;
+> -	}
+> +	atomic_inc(&vdev->pm->reset_counter);
+> +	atomic_set(&vdev->pm->reset_pending, 1);
+> +	down_write(&vdev->pm->reset_lock);
+> +
+> +	ivpu_suspend(vdev);
+> +	ivpu_pm_prepare_cold_boot(vdev);
+> +	ivpu_jobs_abort_all(vdev);
+> +
+> +	ret = ivpu_resume(vdev);
+> +	if (ret)
+> +		ivpu_err(vdev, "Failed to resume NPU: %d\n", ret);
+>   
+> -	if (ret && ret != -EAGAIN)
+> -		ivpu_err(vdev, "Failed to reset VPU: %d\n", ret);
+> +	up_write(&vdev->pm->reset_lock);
+> +	atomic_set(&vdev->pm->reset_pending, 0);
+>   
+>   	kobject_uevent_env(&vdev->drm.dev->kobj, KOBJ_CHANGE, evt);
+>   	pm_runtime_mark_last_busy(vdev->drm.dev);
+> @@ -200,9 +211,6 @@ int ivpu_pm_suspend_cb(struct device *dev)
+>   	ivpu_suspend(vdev);
+>   	ivpu_pm_prepare_warm_boot(vdev);
+>   
+> -	pci_save_state(to_pci_dev(dev));
+> -	pci_set_power_state(to_pci_dev(dev), PCI_D3hot);
+> -
+>   	ivpu_dbg(vdev, PM, "Suspend done.\n");
+>   
+>   	return 0;
+> @@ -216,9 +224,6 @@ int ivpu_pm_resume_cb(struct device *dev)
+>   
+>   	ivpu_dbg(vdev, PM, "Resume..\n");
+>   
+> -	pci_set_power_state(to_pci_dev(dev), PCI_D0);
+> -	pci_restore_state(to_pci_dev(dev));
+> -
+>   	ret = ivpu_resume(vdev);
+>   	if (ret)
+>   		ivpu_err(vdev, "Failed to resume: %d\n", ret);
 
---3gny2qe4uevq2gnc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZcZGpAAKCRDj7w1vZxhR
-xeYCAQCFaDMj37GQT3knM6ZXa1vkO6nsgIBfYeTxEkLjVbhK5gEAlAzvrCqkQ+dR
-h+x7odM6Dd8NjS/5fn6EytEC6RSN9w8=
-=kOxh
------END PGP SIGNATURE-----
-
---3gny2qe4uevq2gnc--
