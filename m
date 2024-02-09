@@ -2,56 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5566684F10F
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 08:51:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DD6784F12C
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 09:02:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6649310E961;
-	Fri,  9 Feb 2024 07:51:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7636310EC65;
+	Fri,  9 Feb 2024 08:02:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lnPUwN+N";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HrrvUAvL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 687AD10E8E8
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Feb 2024 07:51:04 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E24B261EE9;
- Fri,  9 Feb 2024 07:50:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D91CDC433F1;
- Fri,  9 Feb 2024 07:50:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1707465057;
- bh=4P6Q65OM5G13zMp416D3cDinlUrcM6b83+wzrToei0M=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lnPUwN+N4dSqR1G2m4/Shb6BfsucY08qgzOFcXugXnckCcVdvF1wGZ0aILmxTOMsM
- C56jh6Jw+CakVwpePLel2TaWMoasjS/C5oqvus9tzKaHiA6L7taFAv1I5i6u807TVR
- 90hYAIoQbOYugq8Ay1h/66+tVpfx4BMx2p2BVX55eavp98uoH0SxpiU8L1+AUsyfl0
- sMenFXiE/i9Tt/wyf0vgE4o7czT0/aEAbnlUpAIUIMynHFOWgLVZWMRScY+qG1lhnz
- QqHCuoHfOAlJYzoZSmy6Cowr+AVOiZF2a/7voIyUlS7aEYvEznJhP8c837/SyF/oVw
- cmewdN5M7vZhQ==
-Date: Fri, 9 Feb 2024 07:50:52 +0000
-From: Lee Jones <lee@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Flavio Suligoi <f.suligoi@asem.it>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH v2 0/3] backlight: mp3309c: Allow to use on non-OF
- platforms
-Message-ID: <20240209075052.GB689448@google.com>
-References: <20240201151537.367218-1-andriy.shevchenko@linux.intel.com>
- <20240208113425.GK689448@google.com>
- <ZcUMMyV_vBTNw8Rz@smile.fi.intel.com>
- <20240208173946.GX689448@google.com>
- <ZcUYZRDVmHhKQu9j@smile.fi.intel.com>
- <20240208181455.GA689448@google.com>
- <ZcUcRlcQmQG4s42k@smile.fi.intel.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06C9B10EC65;
+ Fri,  9 Feb 2024 08:02:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1707465729; x=1739001729;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=8hv1yW6IbM58UJxt3tLusyVgrFws3JiyjYCrzaAsMUI=;
+ b=HrrvUAvLhl8rHSwSlPlRAiGYOo2Qn0j/PJ3tFBsLXuGeLJp1Y6UJVO4p
+ U6WPOjPJPwi/InHhlWAolriqp3W0o1kSAKatDJvAyzSImKwluhNxl+6Jv
+ 4fLEStQW+qOei/aDIzT7Clyv5JnOpb9lacaAh7Z/nyCBe6Nc9HKtY1ETJ
+ 9OSDs4f3mwyGzouqDMX2dq1Fh8uBHUNTBYcbGndiKooSgHWi4Z/+wxJQz
+ v84kcRu2h1gWHFnk3JD9n5mUqQKAO1rOP2RRu0X4///TCwJIRvkrc/tTG
+ TNH9+GQtkZ80m0uzeY5pkdJNx6SSLwyChe6YOIeSPZY2x7Z4yLi3IWUR1 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="18802459"
+X-IronPort-AV: E=Sophos;i="6.05,256,1701158400"; d="scan'208";a="18802459"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2024 00:02:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,256,1701158400"; 
+   d="scan'208";a="6500951"
+Received: from mziotti-mobl4.ger.corp.intel.com (HELO localhost)
+ ([10.252.43.29])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2024 00:02:05 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>, Andi Shyti
+ <andi.shyti@linux.intel.com>
+Cc: Yury Norov <yury.norov@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Subject: Re: Re: [PATCH v3 2/3] bits: Introduce fixed-type BIT
+In-Reply-To: <ilppncjskpt52bijaoxlwcklawjpw5cqrndtx2g5xnwpj6bhbm@kn5yjscaha5e>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240208074521.577076-1-lucas.demarchi@intel.com>
+ <20240208074521.577076-3-lucas.demarchi@intel.com>
+ <ZcUz3V56qNeTVq66@ashyti-mobl2.lan>
+ <ilppncjskpt52bijaoxlwcklawjpw5cqrndtx2g5xnwpj6bhbm@kn5yjscaha5e>
+Date: Fri, 09 Feb 2024 10:01:58 +0200
+Message-ID: <87il2yaww9.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZcUcRlcQmQG4s42k@smile.fi.intel.com>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,113 +72,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 08 Feb 2024, Andy Shevchenko wrote:
+On Thu, 08 Feb 2024, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
+> On Thu, Feb 08, 2024 at 09:04:45PM +0100, Andi Shyti wrote:
+>>Hi Lucas,
+>>
+>>looks good, just one idea...
+>>
+>>...
+>>
+>>> +#define BIT_U8(b)		((u8)(BIT_INPUT_CHECK(u8, b) + BIT(b)))
+>>> +#define BIT_U16(b)		((u16)(BIT_INPUT_CHECK(u16, b) + BIT(b)))
+>>> +#define BIT_U32(b)		((u32)(BIT_INPUT_CHECK(u32, b) + BIT(b)))
+>>> +#define BIT_U64(b)		((u64)(BIT_INPUT_CHECK(u64, b) + BIT(b)))
+>>
+>>considering that BIT defines are always referred to unsigned
+>>types, I would just call them
+>>
+>>#define BIT8
+>>#define BIT16
+>>#define BIT32
+>>#define BIT64
+>>
+>>what do you think?
+>
+> it will clash with defines from other headers and not match the ones for
+> GENMASK  so I prefer it the other way.
 
-> On Thu, Feb 08, 2024 at 06:14:55PM +0000, Lee Jones wrote:
-> > On Thu, 08 Feb 2024, Andy Shevchenko wrote:
-> > > On Thu, Feb 08, 2024 at 05:39:46PM +0000, Lee Jones wrote:
-> > > > On Thu, 08 Feb 2024, Andy Shevchenko wrote:
-> > > > > On Thu, Feb 08, 2024 at 11:34:25AM +0000, Lee Jones wrote:
-> > > > > > On Thu, 01 Feb 2024, Andy Shevchenko wrote:
-> 
-> ...
-> 
-> > > > > > >   backlight: mp3309c: Utilise temporary variable for struct device
-> > > > > 
-> > > > > (1)
-> > > > > 
-> > > > > > Set no longer applies.  Please rebase, thanks.
-> > > > > 
-> > > > > I got a contradictory messages:
-> > > > > 1) email that says that all had been applied;
-> > > > > 2) this email (that tells the complete opposite);
-> > > > > 3) the repository where the first two were applied.
-> > > > > 
-> > > > > While you can amend your scripts, I think I need to rebase only the last patch
-> > > > 
-> > > > This is what I assume happened:
-> > > > 
-> > > > 1. Attempted to apply the set (as a set)
-> > > > 2. 2 commits applied cleanly
-> > > > 3. The final commit conflicted
-> > > 
-> > > Which is really strange. I have just applied (with b4) on top of your changes
-> > > and no complains so far.
-> > > 
-> > > $ git am ./v2_20240201_andriy_shevchenko_backlight_mp3309c_allow_to_use_on_non_of_platforms.mbx
-> > > Applying: backlight: mp3309c: Make use of device properties
-> > > Applying: backlight: mp3309c: use dev_err_probe() instead of dev_err()
-> > > Applying: backlight: mp3309c: Utilise temporary variable for struct device
-> > > 
-> > > Can you show what b4 tells you about this?
-> > 
-> > Fetching patch(es)
-> > Analyzing 14 messages in the thread
-> > Checking attestation on all messages, may take a moment...
-> > ---
-> >   ✓ [PATCH v2 1/3] backlight: mp3309c: Make use of device properties
-> >     + Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org> (✓ DKIM/linaro.org)
-> >     + Link: https://lore.kernel.org/r/20240201151537.367218-2-andriy.shevchenko@linux.intel.com
-> >     + Signed-off-by: Lee Jones <lee@kernel.org>
-> >   ✓ [PATCH v2 2/3] backlight: mp3309c: use dev_err_probe() instead of dev_err()
-> >     + Tested-by: Flavio Suligoi <f.suligoi@asem.it> (✗ DKIM/asem.it)
-> >     + Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org> (✓ DKIM/linaro.org)
-> >     + Link: https://lore.kernel.org/r/20240201151537.367218-3-andriy.shevchenko@linux.intel.com
-> >     + Signed-off-by: Lee Jones <lee@kernel.org>
-> >   ✓ [PATCH v2 3/3] backlight: mp3309c: Utilise temporary variable for struct device
-> >     + Link: https://lore.kernel.org/r/20240201151537.367218-4-andriy.shevchenko@linux.intel.com
-> >     + Signed-off-by: Lee Jones <lee@kernel.org>
-> >   ---
-> >   ✓ Signed: DKIM/intel.com (From: andriy.shevchenko@linux.intel.com)
-> > ---
-> > Total patches: 3
-> > Prepared a fake commit range for 3-way merge (672ecc5199b5..d507b9f4c5b9)
-> > ---
-> >  Link: https://lore.kernel.org/r/20240201151537.367218-1-andriy.shevchenko@linux.intel.com
-> >  Base: not specified
-> > 
-> > Running through checkpatch.pl
-> > total: 0 errors, 0 warnings, 103 lines checked
-> > 
-> > "[PATCH v2 1/3] backlight: mp3309c: Make use of device properties" has no obvious style problems and is ready for submission.
-> > total: 0 errors, 0 warnings, 41 lines checked
-> > 
-> > "[PATCH v2 2/3] backlight: mp3309c: use dev_err_probe() instead of" has no obvious style problems and is ready for submission.
-> > total: 0 errors, 0 warnings, 81 lines checked
-> > 
-> > "[PATCH v2 3/3] backlight: mp3309c: Utilise temporary variable for" has no obvious style problems and is ready for submission.
-> > 
-> > Check the results (hit return to continue or Ctrl+c to exit)
-> > 
-> > 
-> > Applying patch(es)
-> > Applying: backlight: mp3309c: Make use of device properties
-> > Applying: backlight: mp3309c: use dev_err_probe() instead of dev_err()
-> > Applying: backlight: mp3309c: Utilise temporary variable for struct device
-> > Using index info to reconstruct a base tree...
-> > M	drivers/video/backlight/mp3309c.c
-> > Checking patch drivers/video/backlight/mp3309c.c...
-> > Applied patch drivers/video/backlight/mp3309c.c cleanly.
-> > Falling back to patching base and 3-way merge...
-> > error: Your local changes to the following files would be overwritten by merge:
-> > 	drivers/video/backlight/mp3309c.c
-> > Please commit your changes or stash them before you merge.
-> > Aborting
-> > error: Failed to merge in the changes.
-> > Patch failed at 0003 backlight: mp3309c: Utilise temporary variable for struct device
-> > hint: Use 'git am --show-current-patch=diff' to see the failed patch
-> > When you have resolved this problem, run "git am --continue".
-> > If you prefer to skip this patch, run "git am --skip" instead.
-> > To restore the original branch and stop patching, run "git am --abort".
-> 
-> Thank you!
-> 
-> It seems I have reduced context, so if you do `git am -C2 ...` it should apply.
-> Never mind, I'll send a new version which should work with -C3.
+Agreed.
 
-I just use the default matching context lines.
-
-Do you have a special config that reduces you context in patches?
 
 -- 
-Lee Jones [李琼斯]
+Jani Nikula, Intel
