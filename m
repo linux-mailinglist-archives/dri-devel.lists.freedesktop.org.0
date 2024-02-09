@@ -2,69 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50D2E84EE86
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 02:10:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3FF884EE9A
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 02:35:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D77B510F0FA;
-	Fri,  9 Feb 2024 01:10:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9337410F101;
+	Fri,  9 Feb 2024 01:35:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="kt50IwQv";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Z6xDGvsN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A251B10F0FA;
- Fri,  9 Feb 2024 01:10:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Sy+89IN8yIqKZQMZ0R/5zjsVvd4zyfJSgaoIdhy1ixI=; b=kt50IwQvFnaz+XFnPQ9P8xP1Kn
- CNbMxfmSqvxl2gQmmMX1j2pvJ8EBsJU73T3qRvMh7ejUoNxNHPsUPFxIYZ3aEMov/Bg7kqr47Y4XX
- 9O2h5xz9WMA03ldcDl+b9hsXrAjFvMkwZ2+GGVO9UADnEBXpW8o86UPMd2YX01rzodul2Kb/mbPgo
- nF+VxPiYmioTcac9zqIT6JJW1fW42jbG4/5s2taVcgr1IxrXkYsYUE7rG4rgxe411bV16ztijhMiB
- WOskwbBJUMvNiEPr3hTSta5eQEdhlnXzZzfK9puboaDUI2Q5mqVrMu7QtAvvC4SXjUSKr6gVYEVxe
- dwJU0bSQ==;
-Received: from [179.234.233.159] (helo=[192.168.1.212])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1rYFP7-00FQDq-2Q; Fri, 09 Feb 2024 02:10:09 +0100
-Message-ID: <1a24cdd6-6e4e-4c5f-95b9-50afe04af0dd@igalia.com>
-Date: Thu, 8 Feb 2024 22:10:00 -0300
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8ED8310F101
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Feb 2024 01:35:09 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 4191TNYb006729; Fri, 9 Feb 2024 01:35:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=zWj7ztsoZE7+/uyJu/2pUz+z0PRwsVAMoPW2j4KL3FU=; b=Z6
+ xDGvsN8GUW6SFkPVVxSeuB9b051xH/zVa7ijBxAHrEce8sGymwa8qSwLSNVoxb3F
+ WWLWtw29mDAE/u4JI1VsQiae2MT1rs8x/kTVD3a45XlzflKBVQKL7EsVZXn3VpfJ
+ vThAZQbtXVT8x2SA2zRKlil2TwZX5aX2M3Lp69AYIqG0xGNe6ww06+MjSsXL0OBV
+ fllctx9BDMxvAM2lL1rQW0QzPr2QXdby51VPndWHsIIhqRHkigd1if3MJ20hBTh5
+ q1d+mXzh5nD6bQjc/P0nKrYA+vft5t7kCgxpWLr1OzOHYwQJsz3iUOaRSEGd8tUz
+ lu+F8cb2R+jz6gZXNNUw==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w4h0ukjpr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 09 Feb 2024 01:35:02 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4191Z1Y0023450
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 9 Feb 2024 01:35:01 GMT
+Received: from [10.71.111.207] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 8 Feb
+ 2024 17:34:58 -0800
+Message-ID: <09ef60d6-8404-4a2f-b2f5-8cd77668e4f0@quicinc.com>
+Date: Thu, 8 Feb 2024 17:34:57 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH i-g-t v2] benchmarks: Add VKMS benchmark
-To: Arthur Grillo <arthurgrillo@riseup.net>, dri-devel@lists.freedesktop.org, 
- igt-dev@lists.freedesktop.org
-Cc: Petri Latvala <adrinael@adrinael.net>, Arkadiusz Hiler <arek@hiler.eu>,
- Kamil Konieczny <kamil.konieczny@linux.intel.com>,
- Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- Bhanuprakash Modem <bhanuprakash.modem@intel.com>,
- Ashutosh Dixit <ashutosh.dixit@intel.com>,
- Pekka Paalanen <pekka.paalanen@haloniitty.fi>,
- Louis Chauvet <louis.chauvet@bootlin.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Pekka Paalanen <pekka.paalanen@collabora.com>
-References: <20240208-bench-v2-1-1eccee1055ad@riseup.net>
+Subject: Re: [PATCH 2/3] drm/panel: add samsung s6e3fa7 panel driver
 Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
- H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
- hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
- GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
- rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
- s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
- GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
- pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <20240208-bench-v2-1-1eccee1055ad@riseup.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Richard Acayan <mailingradian@gmail.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-arm-msm@vger.kernel.org>
+References: <20240209001639.387374-6-mailingradian@gmail.com>
+ <20240209001639.387374-8-mailingradian@gmail.com>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20240209001639.387374-8-mailingradian@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: whfAwEecYt5boIDs4BRxrmtfJ9rWJ_UO
+X-Proofpoint-GUID: whfAwEecYt5boIDs4BRxrmtfJ9rWJ_UO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-08_13,2024-02-08_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0
+ spamscore=0 mlxscore=0 suspectscore=0 phishscore=0 malwarescore=0
+ bulkscore=0 mlxlogscore=999 priorityscore=1501 clxscore=1011
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402090009
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,247 +98,366 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/8/24 17:04, Arthur Grillo wrote:
-> Create a benchmark for the VKMS driver. Use a KMS layout with deliberate
-> odd sizes to try to avoid alignment accidents and run it for FRAME_COUNT
-> frames flipping framebuffers in each plane.
-> 
-> This benchmark was suggested by Pekka Paalanen to better analyse
-> possible performance regression on the Virtual Kernel Modesetting(VKMS)
-> driver.
-> 
-> With this benchmark I was able to determine two performance regression:
-> 
-> - 322d716a3e8a ("drm/vkms: isolate pixel conversion functionality")
-> - cc4fd2934d41 ("drm/vkms: Isolate writeback pixel conversion functions")
-> 
-> Link: https://lore.kernel.org/all/20240202214527.1d97c881@ferris.localdomain/
-> Suggested-by: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 
-Acked-by: Maíra Canal <mcanal@igalia.com>
 
-Let me know if you need someone to push it to the repository.
-
-Best Regards,
-- Maíra
-
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+On 2/8/2024 4:16 PM, Richard Acayan wrote:
+> The S6E3FA7 display controller is enabled in every Pixel 3a (non-XL)
+> variant. Add the driver for it, generated by
+> linux-mdss-dsi-panel-driver-generator.
+> 
+> There are other panels connected to the same S6E3FA7 display controller,
+> such as the AMS604NL01 panel, which are incompatible with this driver.
+> Name the device tree compatible after the panel model according to
+> iFixit.
+> 
+> Link: https://github.com/msm8916-mainline/linux-mdss-dsi-panel-driver-generator
+> Link: https://android.googlesource.com/kernel/msm/+/7fda1cd7b64710dafac5f34899611c6d35eb4cd2/arch/arm64/boot/dts/google/dsi-panel-s6e3fa7-1080p-cmd.dtsi
+> Link: https://github.com/msm8953-mainline/linux/blob/v6.6.12-r0/drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c
+> Link: https://www.ifixit.com/Guide/Image/meta/muyjtLQTHu6MDkhK
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
 > ---
-> Changes in v2:
-> - Zero initialize data
-> - Don't wrap igt_create_* functions (Juha-Pekka Heikkila)
-> - Add a `break;` when a pipe is found (Pekka Paalanen)
-> - Rename file to kms_fb_stress.c (Kamil Konieczny)
-> - Replace 2 by NUM_FBS (Juha-Pekka Heikkila)
-> - Replace license text by SPDX License (Kamil Konieczny)
-> - Move explanations to commit description (Kamil Konieczny)
-> - Require output after find_wb_output() (Pekka Paalanen & Juha-Pekka
->    Heikkila)
-> - Remove unnecessary commit (Pekka Paalanen)
-> - Link to v1: https://lore.kernel.org/r/20240207-bench-v1-1-7135ad426860@riseup.net
-> ---
->   benchmarks/kms_fb_stress.c | 176 +++++++++++++++++++++++++++++++++++++++++++++
->   benchmarks/meson.build     |   1 +
->   2 files changed, 177 insertions(+)
+>   drivers/gpu/drm/panel/Kconfig                 |   9 +
+>   drivers/gpu/drm/panel/Makefile                |   1 +
+>   drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c | 285 ++++++++++++++++++
+>   3 files changed, 295 insertions(+)
+>   create mode 100644 drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c
 > 
-> diff --git a/benchmarks/kms_fb_stress.c b/benchmarks/kms_fb_stress.c
-> new file mode 100644
-> index 000000000000..af0014bed672
-> --- /dev/null
-> +++ b/benchmarks/kms_fb_stress.c
-> @@ -0,0 +1,176 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright © 2024 Arthur Grillo
-> + */
-> +
-> +#include "igt.h"
-> +
-> +#define FRAME_COUNT 100
-> +#define NUM_FBS 2
-> +
-> +struct rect_t {
-> +	int x, y;
-> +	int width, height;
-> +};
-> +
-> +struct plane_t {
-> +	igt_plane_t *base;
-> +	struct rect_t rect;
-> +	uint32_t format;
-> +	struct igt_fb fbs[NUM_FBS];
-> +};
-> +
-> +struct kms_t {
-> +	struct plane_t primary;
-> +	struct plane_t overlay_a;
-> +	struct plane_t overlay_b;
-> +	struct plane_t writeback;
-> +};
-> +
-> +struct data_t {
-> +	int fd;
-> +	igt_display_t display;
-> +	igt_output_t *wb_output;
-> +	drmModeModeInfo *mode;
-> +	struct kms_t kms;
-> +};
-> +
-> +static void plane_setup(struct plane_t *plane, int index)
-> +{
-> +	igt_plane_set_size(plane->base, plane->rect.width, plane->rect.height);
-> +	igt_plane_set_position(plane->base, plane->rect.x, plane->rect.y);
-> +	igt_plane_set_fb(plane->base, &plane->fbs[index]);
-> +}
-> +
-> +static void gen_fbs(struct data_t *data)
-> +{
-> +	struct kms_t *kms = &data->kms;
-> +	drmModeModeInfo *mode = igt_output_get_mode(data->wb_output);
-> +
-> +	for (int i = 0; i < NUM_FBS; i++) {
-> +		igt_create_color_fb(data->fd, kms->primary.rect.width, kms->primary.rect.height,
-> +				    kms->primary.format, DRM_FORMAT_MOD_LINEAR,
-> +				    !i, i, i,
-> +				    &kms->primary.fbs[i]);
-> +
-> +		igt_create_color_fb(data->fd, kms->overlay_a.rect.width, kms->overlay_a.rect.height,
-> +				    kms->overlay_a.format, DRM_FORMAT_MOD_LINEAR,
-> +				    i, !i, i,
-> +				    &kms->overlay_a.fbs[i]);
-> +
-> +		igt_create_color_fb(data->fd, kms->overlay_b.rect.width, kms->overlay_b.rect.height,
-> +				    kms->overlay_b.format, DRM_FORMAT_MOD_LINEAR,
-> +				    i, i, !i,
-> +				    &kms->overlay_b.fbs[i]);
-> +
-> +		kms->writeback.rect.width = mode->hdisplay;
-> +		kms->writeback.rect.height = mode->vdisplay;
-> +		igt_create_fb(data->fd, kms->writeback.rect.width, kms->writeback.rect.height,
-> +			      kms->writeback.format, DRM_FORMAT_MOD_LINEAR,
-> +			      &kms->writeback.fbs[i]);
-> +	}
-> +}
-> +
-> +static igt_output_t *find_wb_output(struct data_t *data)
-> +{
-> +	for (int i = 0; i < data->display.n_outputs; i++) {
-> +		igt_output_t *output = &data->display.outputs[i];
-> +
-> +		if (output->config.connector->connector_type != DRM_MODE_CONNECTOR_WRITEBACK)
-> +			continue;
-> +
-> +		return output;
-> +
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +static struct kms_t default_kms = {
-> +	.primary = {
-> +		.rect = {
-> +			.x = 101, .y = 0,
-> +			.width = 3639, .height = 2161,
-> +		},
-> +		.format = DRM_FORMAT_XRGB8888,
-> +	},
-> +	.overlay_a = {
-> +		.rect = {
-> +			.x = 201, .y = 199,
-> +			.width = 3033, .height = 1777,
-> +		},
-> +		.format = DRM_FORMAT_XRGB16161616,
-> +	},
-> +	.overlay_b = {
-> +		.rect = {
-> +			.x = 1800, .y = 250,
-> +			.width = 1507, .height = 1400,
-> +		},
-> +		.format = DRM_FORMAT_ARGB8888,
-> +	},
-> +	.writeback = {
-> +		.rect = {
-> +			.x = 0, .y = 0,
-> +			// Size is to be determined at runtime
-> +		},
-> +		.format = DRM_FORMAT_XRGB8888,
-> +	},
-> +};
-> +
-> +
-> +igt_simple_main
-> +{
-> +	struct data_t data = {0};
-> +	enum pipe pipe = PIPE_NONE;
-> +
-> +	data.kms = default_kms;
-> +
-> +	data.fd = drm_open_driver_master(DRIVER_ANY);
-> +
-> +	igt_display_require(&data.display, data.fd);
-> +
-> +	kmstest_set_vt_graphics_mode();
-> +
-> +	igt_display_require(&data.display, data.fd);
-> +	igt_require(data.display.is_atomic);
-> +
-> +	igt_display_require_output(&data.display);
-> +
-> +	igt_display_reset(&data.display);
-> +
-> +	data.wb_output = find_wb_output(&data);
-> +	igt_require(data.wb_output);
-> +
-> +	for_each_pipe(&data.display, pipe) {
-> +		igt_debug("Selecting pipe %s to %s\n",
-> +			  kmstest_pipe_name(pipe),
-> +			  igt_output_name(data.wb_output));
-> +		igt_output_set_pipe(data.wb_output, pipe);
-> +		break;
-> +	}
-> +
-> +	gen_fbs(&data);
-> +
-> +	data.kms.primary.base = igt_output_get_plane_type(data.wb_output, DRM_PLANE_TYPE_PRIMARY);
-> +	data.kms.overlay_a.base = igt_output_get_plane_type_index(data.wb_output,
-> +								  DRM_PLANE_TYPE_OVERLAY, 0);
-> +	data.kms.overlay_b.base = igt_output_get_plane_type_index(data.wb_output,
-> +								  DRM_PLANE_TYPE_OVERLAY, 1);
-> +
-> +	for (int i = 0; i < FRAME_COUNT; i++) {
-> +		int fb_index = i % NUM_FBS;
-> +
-> +		plane_setup(&data.kms.primary, fb_index);
-> +
-> +		plane_setup(&data.kms.overlay_a, fb_index);
-> +
-> +		plane_setup(&data.kms.overlay_b, fb_index);
-> +
-> +		igt_output_set_writeback_fb(data.wb_output, &data.kms.writeback.fbs[fb_index]);
-> +
-> +		igt_display_commit2(&data.display, COMMIT_ATOMIC);
-> +	}
-> +
-> +	igt_display_fini(&data.display);
-> +	drm_close_driver(data.fd);
-> +}
-> diff --git a/benchmarks/meson.build b/benchmarks/meson.build
-> index c451268bc44f..e949e6073719 100644
-> --- a/benchmarks/meson.build
-> +++ b/benchmarks/meson.build
-> @@ -20,6 +20,7 @@ benchmark_progs = [
->   	'kms_vblank',
->   	'prime_lookup',
->   	'vgem_mmap',
-> +	'kms_fb_stress',
->   ]
+> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> index 8f3783742208..a693b03f680e 100644
+> --- a/drivers/gpu/drm/panel/Kconfig
+> +++ b/drivers/gpu/drm/panel/Kconfig
+> @@ -577,6 +577,15 @@ config DRM_PANEL_SAMSUNG_DB7430
+>   	  DB7430 DPI display controller used in such devices as the
+>   	  LMS397KF04 480x800 DPI panel.
 >   
->   benchmarksdir = join_paths(libexecdir, 'benchmarks')
+> +config DRM_PANEL_SAMSUNG_S6E3FA7
+> +	tristate "Samsung S6E3FA7 panel driver"
+> +	depends on OF
+> +	depends on DRM_MIPI_DSI
+> +	depends on BACKLIGHT_CLASS_DEVICE
+> +	help
+> +	  Say Y here if you want to enable support for the Samsung S6E3FA7
+> +	  1920x2220 panel.
+> +
+>   config DRM_PANEL_SAMSUNG_S6D16D0
+>   	tristate "Samsung S6D16D0 DSI video mode panel"
+>   	depends on OF
+> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+> index d94a644d0a6c..560b62129f68 100644
+> --- a/drivers/gpu/drm/panel/Makefile
+> +++ b/drivers/gpu/drm/panel/Makefile
+> @@ -59,6 +59,7 @@ obj-$(CONFIG_DRM_PANEL_SAMSUNG_LD9040) += panel-samsung-ld9040.o
+>   obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6D16D0) += panel-samsung-s6d16d0.o
+>   obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6D27A1) += panel-samsung-s6d27a1.o
+>   obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6D7AA0) += panel-samsung-s6d7aa0.o
+> +obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E3FA7) += panel-samsung-s6e3fa7.o
+>   obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E3HA2) += panel-samsung-s6e3ha2.o
+>   obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E63J0X03) += panel-samsung-s6e63j0x03.o
+>   obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E63M0) += panel-samsung-s6e63m0.o
+> diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c b/drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c
+> new file mode 100644
+> index 000000000000..10bc8fb5f1f9
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c
+> @@ -0,0 +1,285 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Driver for the Samsung S6E3FA7 panel.
+> + *
+> + * Copyright (c) 2022-2024, The Linux Foundation. All rights reserved.
+
+
+Hi Richard,
+
+Not really sure about the copyright dates -- since this is a completely 
+new file to this tree, wouldn't the year be just 2024?
+
+The rest LGTM.
+
+Thanks,
+
+Jessica Zhang
+
+> + * Generated with linux-mdss-dsi-panel-driver-generator from vendor device tree:
+> + * Copyright (c) 2013, The Linux Foundation. All rights reserved.
+> + */ > +
+> +#include <linux/backlight.h>
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +
+> +#include <video/mipi_display.h>
+> +
+> +#include <drm/drm_mipi_dsi.h>
+> +#include <drm/drm_modes.h>
+> +#include <drm/drm_panel.h>
+> +
+> +struct s6e3fa7_panel {
+> +	struct drm_panel panel;
+> +	struct mipi_dsi_device *dsi;
+> +	struct gpio_desc *reset_gpio;
+> +};
+> +
+> +static inline struct s6e3fa7_panel *to_s6e3fa7_panel(struct drm_panel *panel)
+> +{
+> +	return container_of(panel, struct s6e3fa7_panel, panel);
+> +}
+> +
+> +static void s6e3fa7_panel_reset(struct s6e3fa7_panel *ctx)
+> +{
+> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> +	usleep_range(1000, 2000);
+> +	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
+> +	usleep_range(10000, 11000);
+> +}
+> +
+> +static int s6e3fa7_panel_on(struct s6e3fa7_panel *ctx)
+> +{
+> +	struct mipi_dsi_device *dsi = ctx->dsi;
+> +	struct device *dev = &dsi->dev;
+> +	int ret;
+> +
+> +	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
+> +		return ret;
+> +	}
+> +	msleep(120);
+> +
+> +	ret = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to set tear on: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xf4,
+> +			       0xbb, 0x23, 0x19, 0x3a, 0x9f, 0x0f, 0x09, 0xc0,
+> +			       0x00, 0xb4, 0x37, 0x70, 0x79, 0x69);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
+> +	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x20);
+> +
+> +	ret = mipi_dsi_dcs_set_display_on(dsi);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to set display on: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int s6e3fa7_panel_prepare(struct drm_panel *panel)
+> +{
+> +	struct s6e3fa7_panel *ctx = to_s6e3fa7_panel(panel);
+> +	struct device *dev = &ctx->dsi->dev;
+> +	int ret;
+> +
+> +	s6e3fa7_panel_reset(ctx);
+> +
+> +	ret = s6e3fa7_panel_on(ctx);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to initialize panel: %d\n", ret);
+> +		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int s6e3fa7_panel_unprepare(struct drm_panel *panel)
+> +{
+> +	struct s6e3fa7_panel *ctx = to_s6e3fa7_panel(panel);
+> +
+> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> +
+> +	return 0;
+> +}
+> +
+> +static int s6e3fa7_panel_disable(struct drm_panel *panel)
+> +{
+> +	struct s6e3fa7_panel *ctx = to_s6e3fa7_panel(panel);
+> +	struct mipi_dsi_device *dsi = ctx->dsi;
+> +	struct device *dev = &dsi->dev;
+> +	int ret;
+> +
+> +	ret = mipi_dsi_dcs_set_display_off(dsi);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to set display off: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
+> +		return ret;
+> +	}
+> +	msleep(120);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct drm_display_mode s6e3fa7_panel_mode = {
+> +	.clock = (1080 + 32 + 32 + 78) * (2220 + 32 + 4 + 78) * 60 / 1000,
+> +	.hdisplay = 1080,
+> +	.hsync_start = 1080 + 32,
+> +	.hsync_end = 1080 + 32 + 32,
+> +	.htotal = 1080 + 32 + 32 + 78,
+> +	.vdisplay = 2220,
+> +	.vsync_start = 2220 + 32,
+> +	.vsync_end = 2220 + 32 + 4,
+> +	.vtotal = 2220 + 32 + 4 + 78,
+> +	.width_mm = 62,
+> +	.height_mm = 127,
+> +};
+> +
+> +static int s6e3fa7_panel_get_modes(struct drm_panel *panel,
+> +				 struct drm_connector *connector)
+> +{
+> +	struct drm_display_mode *mode;
+> +
+> +	mode = drm_mode_duplicate(connector->dev, &s6e3fa7_panel_mode);
+> +	if (!mode)
+> +		return -ENOMEM;
+> +
+> +	drm_mode_set_name(mode);
+> +
+> +	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+> +	connector->display_info.width_mm = mode->width_mm;
+> +	connector->display_info.height_mm = mode->height_mm;
+> +	drm_mode_probed_add(connector, mode);
+> +
+> +	return 1;
+> +}
+> +
+> +static const struct drm_panel_funcs s6e3fa7_panel_funcs = {
+> +	.prepare = s6e3fa7_panel_prepare,
+> +	.unprepare = s6e3fa7_panel_unprepare,
+> +	.disable = s6e3fa7_panel_disable,
+> +	.get_modes = s6e3fa7_panel_get_modes,
+> +};
+> +
+> +static int s6e3fa7_panel_bl_update_status(struct backlight_device *bl)
+> +{
+> +	struct mipi_dsi_device *dsi = bl_get_data(bl);
+> +	u16 brightness = backlight_get_brightness(bl);
+> +	int ret;
+> +
+> +	ret = mipi_dsi_dcs_set_display_brightness_large(dsi, brightness);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+> +static int s6e3fa7_panel_bl_get_brightness(struct backlight_device *bl)
+> +{
+> +	struct mipi_dsi_device *dsi = bl_get_data(bl);
+> +	u16 brightness;
+> +	int ret;
+> +
+> +	ret = mipi_dsi_dcs_get_display_brightness_large(dsi, &brightness);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return brightness;
+> +}
+> +
+> +static const struct backlight_ops s6e3fa7_panel_bl_ops = {
+> +	.update_status = s6e3fa7_panel_bl_update_status,
+> +	.get_brightness = s6e3fa7_panel_bl_get_brightness,
+> +};
+> +
+> +static struct backlight_device *
+> +s6e3fa7_panel_create_backlight(struct mipi_dsi_device *dsi)
+> +{
+> +	struct device *dev = &dsi->dev;
+> +	const struct backlight_properties props = {
+> +		.type = BACKLIGHT_RAW,
+> +		.brightness = 1023,
+> +		.max_brightness = 1023,
+> +	};
+> +
+> +	return devm_backlight_device_register(dev, dev_name(dev), dev, dsi,
+> +					      &s6e3fa7_panel_bl_ops, &props);
+> +}
+> +
+> +static int s6e3fa7_panel_probe(struct mipi_dsi_device *dsi)
+> +{
+> +	struct device *dev = &dsi->dev;
+> +	struct s6e3fa7_panel *ctx;
+> +	int ret;
+> +
+> +	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+> +	if (!ctx)
+> +		return -ENOMEM;
+> +
+> +	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(ctx->reset_gpio))
+> +		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
+> +				     "Failed to get reset-gpios\n");
+> +
+> +	ctx->dsi = dsi;
+> +	mipi_dsi_set_drvdata(dsi, ctx);
+> +
+> +	dsi->lanes = 4;
+> +	dsi->format = MIPI_DSI_FMT_RGB888;
+> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_BURST |
+> +			  MIPI_DSI_CLOCK_NON_CONTINUOUS | MIPI_DSI_MODE_LPM;
+> +
+> +	drm_panel_init(&ctx->panel, dev, &s6e3fa7_panel_funcs,
+> +		       DRM_MODE_CONNECTOR_DSI);
+> +	ctx->panel.prepare_prev_first = true;
+> +
+> +	ctx->panel.backlight = s6e3fa7_panel_create_backlight(dsi);
+> +	if (IS_ERR(ctx->panel.backlight))
+> +		return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
+> +				     "Failed to create backlight\n");
+> +
+> +	drm_panel_add(&ctx->panel);
+> +
+> +	ret = mipi_dsi_attach(dsi);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
+> +		drm_panel_remove(&ctx->panel);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void s6e3fa7_panel_remove(struct mipi_dsi_device *dsi)
+> +{
+> +	struct s6e3fa7_panel *ctx = mipi_dsi_get_drvdata(dsi);
+> +	int ret;
+> +
+> +	ret = mipi_dsi_detach(dsi);
+> +	if (ret < 0)
+> +		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
+> +
+> +	drm_panel_remove(&ctx->panel);
+> +}
+> +
+> +static const struct of_device_id s6e3fa7_panel_of_match[] = {
+> +	{ .compatible = "samsung,s6e3fa7-ams559nk06" },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, s6e3fa7_panel_of_match);
+> +
+> +static struct mipi_dsi_driver s6e3fa7_panel_driver = {
+> +	.probe = s6e3fa7_panel_probe,
+> +	.remove = s6e3fa7_panel_remove,
+> +	.driver = {
+> +		.name = "panel-samsung-s6e3fa7",
+> +		.of_match_table = s6e3fa7_panel_of_match,
+> +	},
+> +};
+> +module_mipi_dsi_driver(s6e3fa7_panel_driver);
+> +
+> +MODULE_AUTHOR("Richard Acayan <mailingradian@gmail.com>");
+> +MODULE_DESCRIPTION("DRM driver for Samsung S6E3FA7 command mode DSI panel");
+> +MODULE_LICENSE("GPL");
+> -- 
+> 2.43.0
 > 
-> ---
-> base-commit: c58c5fb6aa1cb7d3627a15e364816a7a2add9edc
-> change-id: 20240207-bench-393789eaba47
 > 
-> Best regards,
