@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A05C884EE42
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 01:17:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AE3984EE45
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 01:17:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03F5A10EA9A;
-	Fri,  9 Feb 2024 00:17:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AE2010EA8D;
+	Fri,  9 Feb 2024 00:17:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kifYy9TH";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="alBPcwmm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
- [209.85.219.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C32F210EA8D
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Feb 2024 00:17:33 +0000 (UTC)
-Received: by mail-qv1-f44.google.com with SMTP id
- 6a1803df08f44-68ca3ab3358so2301946d6.2
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Feb 2024 16:17:33 -0800 (PST)
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com
+ [209.85.222.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C9D810EAAF
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Feb 2024 00:17:35 +0000 (UTC)
+Received: by mail-ua1-f42.google.com with SMTP id
+ a1e0cc1a2514c-7d2e007751eso175471241.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Feb 2024 16:17:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1707437853; x=1708042653; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=2+MsuxuH9sRLhHUmM6mao4rxTSjWbefmEBS5HyjKTp4=;
- b=kifYy9THR2Y5U9u624SK0pitFjQKuhhLN+bskh9Li1ToMV0f6wIbDD/atc6TvWpSXy
- FgDUPpOw4zY4/fQtfxuAvK8VBA+gKYSc8ZNxjQvN6kTBIFknayhvT017sPWvUqGxkbaq
- bBC3/B/uEjdKUmw8G4g9+tpKVPwBQ8txsDjqR5b940Quc1GfdI/LEds5PuzGdL7uSjU9
- 6B6DjhKHIAR1OXw+n49BhgCHCqj9NCMEpcMmF/ZEReDuF5xZerFtht0Q1BqyqgwfCinL
- oegpbL6N3lIByLwEVMKFdJOMRA6p9pLZA08WTfqCpSsQIVvFGAu2nViV7Ba2ndD8o+Mr
- n8xw==
+ d=gmail.com; s=20230601; t=1707437854; x=1708042654; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=zGPCYfl6jkizLcJNy3cF1Tzjj2+VVbxR8rofDxR90Kw=;
+ b=alBPcwmmmQ5rFcrg1/LqHnjN4msML5YOMIOPqosmOBRu20VMJ9jbDYiaP7Dk4frcHj
+ 9tux2BDDiyofwqAaEN2XrB+hfzWrZLeyWpOt1A77tYNIAluDtvORM+ThnF/UbMal6zD8
+ k0ASda2DfDIEognJ1fnpQQzy4OvmnIcDtdTiQU2w0gM4Qf/5L6qYrhu1aXoMLvNIO1eh
+ 51jstGgjn6/vXuwMZdAFB9AI1htL/PpL18shrXy/jZRKP9xqNl+FWmKOlNR5KMXSkKf0
+ QiHF3LwnNtXOnZ9VQPIsEBsgGb/31ogBhSZxgRd3lDoa6MBb2y2O8Nvl5iotKHoE1UQF
+ LA1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707437853; x=1708042653;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=2+MsuxuH9sRLhHUmM6mao4rxTSjWbefmEBS5HyjKTp4=;
- b=EgkOWE5DZmRu/GnRU2l2uSUtw052QpOuq22vdye3Ycw7g6BM1Qiq4WtgVw+of5XDjB
- vnK9kIyg3637vRm8qm1K/m6SM99lk4IbjsrK/skEmDMPiEGoTwo/DJzQR7tCTJZHZEMr
- NP1vJaPmPKYv8+Yi7wSBFvgfaMMddtd5LmqCkxz1hjsXXyimOK/bAfmJkQqx0w+RtAmQ
- /5yhPPdPTaIagrLGk2+7MpuemCByokp1zUnxpyO8YgTlTZFUUpZOzU0KSIAqS+zr9LMv
- L4mAulVqMmGx+x5o5a0kAqitERSpwnUbT84XA9cAJp9jnjHLJO4xobD/tSLQSq0EsU5Q
- LVNQ==
+ d=1e100.net; s=20230601; t=1707437854; x=1708042654;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=zGPCYfl6jkizLcJNy3cF1Tzjj2+VVbxR8rofDxR90Kw=;
+ b=CAyGenVJD1pCXdeR/6RN3jf7gbViHg1biR0WpGM7nM/aB7JyaXxQMS+zhUjMaSK4O+
+ vcRjMlM1N8GN7OLGrYeCI78rJtcGkXkKEuBGHD2PF2rgss39snHwJSLOwJb1XjwRioEp
+ 1EESi5tEjdOgUEPv5TDvqEInP+fZkJ43OJ64pd4hdWFhiuO0s60aH2AHkyminAr5HJIY
+ yN+OHfQiOfyLMId5yHPkB0ft2w3Gy/QjB1kITyOUx5woyRs2UMtNInoJ4K4qGIzXNfmy
+ D3yJwn+Zb2lTtXInmYYsGknucBdyjzZX8zNdKd1q4ZpAaV9ti0elAHo0KDKgaefY1WIO
+ nZ0g==
+X-Gm-Message-State: AOJu0YwaEujSoXTuKfxp5YYM2Y/cFpoP64iEuzpL/tpaEDukykkWjH3w
+ IXs9deR9d5yGfTD5mlBrZbK/DM5yGiEae72UMmpW2pz41JUxs8J5
+X-Google-Smtp-Source: AGHT+IFQLJIJJYHAosyjO/LKhn9BM1hYHw9cGKBoo4dKEQeGaxZAwSv0pHA/+6SsjUQ5jkLcnh+UCA==
+X-Received: by 2002:a05:6102:32d1:b0:46d:606e:6323 with SMTP id
+ o17-20020a05610232d100b0046d606e6323mr1147551vss.2.1707437854421; 
+ Thu, 08 Feb 2024 16:17:34 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCWxD0qwYYxrXQcgCJl7F6SrXGni6Lr/ZDwD3+GQ3dPbvIUqYRmScyzOtqyrgZpptkZqF1BM6VvJbEy5a95BfalrdRgJTNmo77BZ/vumkKbE
-X-Gm-Message-State: AOJu0YzYccZkf1iKcdKTu4nq92w2hcKMHmg+WgWAyI5vAIMdDQl4qj6T
- R572yjEPnUXyzkBoOuBTxSKm9bHkPkfkKdU/YbvQllXdbl+B56sk
-X-Google-Smtp-Source: AGHT+IGYjRw4HaXNToLSM5TrKo19pvEgzTUhm6rYD5tVnSEZOiLTLkmaO21eP4rpOdrIWvFllWA5lg==
-X-Received: by 2002:a0c:dd14:0:b0:68c:c843:8ac5 with SMTP id
- u20-20020a0cdd14000000b0068cc8438ac5mr10516qvk.42.1707437852717; 
- Thu, 08 Feb 2024 16:17:32 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXjP79Q18y/qU+R7IvuKde5fUJMjwHE/1dDiQNhllyAKW0p+6i7TvPPkrjkzgYMBBbFsFdz8hzVeTN96Bzs8oieW5OaGfGm5l/snpfjO0jgGV4xWa0t2TplBs5Vy0FWxHShlNVCF7plVVd4qrCMitowUJ0TjDUsleOoCtRvhZW96OXHMjz3ExtQEW3lMbXeSZMMflcybMon3CO4p8FVx5mGjuP486L6n4Qck35lh1YP+m1HJM/Jfq09n0iPXjvxJt5DMJS/ixIUnzEzut9YzOe9VosZnpUFJphh+34qjABZ/BMmXaKDM9apmlIZOgk61N5mgUaS++PaD6RsbtVGWtILxg8nszwh6RpKz2ZqItXJaG/S3QwjYK5xDDfHH6wKDpgA2v+eICRirqiYpT4qz65Obw+lI0Jd7CF5ADno2wTGNlzkt4KXrSiuqMcuwhmx7L7ZrFuZhXoeYz8hB5dwnJpEMOfRMYm9t+uiwpCut4iYhBWuCOIF6wHeDxHmsTr4Z+21JkdOYhJlSqw0a939LJRdJowaWNy5TILO79eyR92Cq4ke4Sh4m4Yx63/6vwNRTrGoQHkAODSX8oDd
+ AJvYcCXaG+0KPNKYwMBnfTafKLbOXco7l5jk14UkfdoUmWkFNv1s2BK0jO1hpo2hPxs7cdfZn+kuIVs7tzRkkSvGk2X/8+R6QtNFjIMK7wecD7SPPPDozRkcusqQ9LQrDIyF39qH77hGHhcrUOgHD0coAjfjMU2TU8STy4s27BVf0LamXUiIcJTfMaLL3MD7GAOKcFVh/fkIiKclRyTcXrkSLP6afSQUI3ZSWUTsizAMWG2mEtsvNo0E0gJF1o1uMSJSprUH8mFggE3lwhaaj1t64k0TW93zE84nrr/FSGslcvXXhHs48V0t5y1/5gW7TItpXgonWucgQyBgrJPBtI08BSalSPDM+FVPJ56joZjt4EK7T2Hri0erRpe6/kJ2WPIL2aQpNyYIvvNH5vYsWmDJDzlXKi3N4XqorpfnDGwldpy6KpolhhkkYdy9lzzcaz9QFG3cZRolQoBIuSA1R84tVGFLbQVO1ealOoLGbSAliGI2HCLYmwbUAhHwiFCDKjpqMdykelO9V0M+eV5i04LZb3yHYHXwexuoagxjbKARCjdWUDggDRSycwOFz5U+/6zflGrSR0SfpcHpEVpV
 Received: from localhost ([2607:fea8:52a3:d200::42b6])
  by smtp.gmail.com with ESMTPSA id
- pc8-20020a056214488800b0068c6d56d4f7sm282560qvb.92.2024.02.08.16.17.31
+ ks23-20020a056214311700b0068c87402da6sm291099qvb.14.2024.02.08.16.17.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Feb 2024 16:17:32 -0800 (PST)
+ Thu, 08 Feb 2024 16:17:33 -0800 (PST)
 From: Richard Acayan <mailingradian@gmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
@@ -70,10 +69,13 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org
 Cc: Richard Acayan <mailingradian@gmail.com>
-Subject: [PATCH 0/3] drm/panel: Pixel 3a Panel
-Date: Thu,  8 Feb 2024 19:16:41 -0500
-Message-ID: <20240209001639.387374-6-mailingradian@gmail.com>
+Subject: [PATCH 1/3] dt-bindings: display: panel-simple-dsi: add s6e3fa7
+ ams559nk06 compat
+Date: Thu,  8 Feb 2024 19:16:42 -0500
+Message-ID: <20240209001639.387374-7-mailingradian@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240209001639.387374-6-mailingradian@gmail.com>
+References: <20240209001639.387374-6-mailingradian@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -91,22 +93,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds support for the AMS559NK06 panel with the S6E3FA7 display
-controller and enables the display subsystem on the Pixel 3a.
+The Samsung S6E3FA7 display controller and AMS559NK06 panel are used for
+the display in Pixel 3a devices. Add the compatible for it.
 
-Richard Acayan (3):
-  dt-bindings: display: panel-simple-dsi: add s6e3fa7 ams559nk06 compat
-  drm/panel: add samsung s6e3fa7 panel driver
-  arm64: dts: qcom: sdm670-google-sargo: add panel
+Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+---
+ .../devicetree/bindings/display/panel/panel-simple-dsi.yaml     | 2 ++
+ 1 file changed, 2 insertions(+)
 
- .../display/panel/panel-simple-dsi.yaml       |   2 +
- .../boot/dts/qcom/sdm670-google-sargo.dts     |  64 ++++
- drivers/gpu/drm/panel/Kconfig                 |   9 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c | 285 ++++++++++++++++++
- 5 files changed, 361 insertions(+)
- create mode 100644 drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c
-
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+index f9160d7bac3c..d3abd7f4ebcd 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+@@ -50,6 +50,8 @@ properties:
+       - panasonic,vvx10f004b00
+         # Panasonic 10" WUXGA TFT LCD panel
+       - panasonic,vvx10f034n00
++        # Samsung s6e3fa7 1080x2220 based AMS559NK06 AMOLED panel
++      - samsung,s6e3fa7-ams559nk06
+         # Samsung s6e3fc2x01 1080x2340 AMOLED panel
+       - samsung,s6e3fc2x01
+         # Samsung sofef00 1080x2280 AMOLED panel
 -- 
 2.43.0
 
