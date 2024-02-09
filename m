@@ -2,79 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C455C84F587
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 14:02:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 446AB84F671
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Feb 2024 15:04:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AF9E10E29B;
-	Fri,  9 Feb 2024 13:02:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE3FA10E72A;
+	Fri,  9 Feb 2024 14:04:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="r1nAV0H+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BfeRV0ec";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A468910E29B
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Feb 2024 13:02:48 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id
- 4fb4d7f45d1cf-5600c43caddso1136749a12.2
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Feb 2024 05:02:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1707483766; x=1708088566; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=30ltjS2465HeE6RDkcYZ7gz3HAH/FfBk4VubamB9xlg=;
- b=r1nAV0H+rWum8h+qfNFwbIP6AFYWyZfpTvF1z/fimsA3SlduyjQZqFqb9aKxr5hHBo
- V8jp3ng0YmeXthcg9u826HueOk0Kpaop6IDtHyPzJZ0xNrom0CGnO5+j+mLYJGvE3vuC
- BXCn2+nTftZTR6MrsvLK5RkbDdvUDm3Lty48xmOsXlS4lNdu3WpDuAg3LPQowqnzmMdA
- GCxUNvA0NWZ9SlJjoJCjGhGrttnXL69wZBiTwjDketbBtDTv/yi8vrjElmZVAYiAo2+l
- vZGeakwnT7ox1pildfWc9PGIfKRZL4ZT6JtOPA5kyngBEIErYXehBgEW9JRoRGMrZNIy
- /BMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707483766; x=1708088566;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=30ltjS2465HeE6RDkcYZ7gz3HAH/FfBk4VubamB9xlg=;
- b=pqg1kmsLLnuuPHwEuOXYHDtvgLYQH3omK+O8IpEXwg0zTf9vrUgn9L7qoBApF5lQPx
- gMFXYncPD8FM564ooZptKoqsXmL2Kdadn2x90aJl8wpTkW3FHTCQdpW3S/m6qkrlXwNa
- aNEF/+ff2LS+JMEHoN2HpUwYKXQIRGv5s9JmoU6y8nLPo/K3IZZRJmv+JPHkkUFpMylW
- RdvubdSBzUFNzLL2jS30nuOgElwPZ0evqmveFjjQY+ym8atSIAPFeKxAY4Fo/aLcKYlW
- BPDyK98GZRRFLsoWLbR86tPsABfogYQQVAtIS7kW78/NIsaornqM+/Zq0zsi8t/VhfF4
- tlNQ==
-X-Gm-Message-State: AOJu0Yy1Wn/VtiZXqh6B7SZXH9dUWY7p84L1w7s8o5+gCJpRwJUDkdnu
- aHXaE+8Xy/SFOvbim8faODzwU3GTrbK1y+GjZ/17XI5Lqh+TjMP6rUe0OlWWIp8=
-X-Google-Smtp-Source: AGHT+IGk3Uy6387987t9ObpRRvhmYrzvpBWmjEfnryXbGtmf7Y8JaQxsRglpq2IGmZTRgLgs84PSXQ==
-X-Received: by 2002:a05:6402:12d3:b0:560:8010:b678 with SMTP id
- k19-20020a05640212d300b005608010b678mr1245938edx.30.1707483765418; 
- Fri, 09 Feb 2024 05:02:45 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXJazRu4iYiKzzQwF/gSh1UE3tl7gDgkJUAgPuN+fxfAMMbbBSuIoh8EztuiqybU5H3TAvB3rAuRntIXddfciGZ+rUYMgNDlht9JOhm2NA+3CFgl2l9oxy4aIY8wvySUkAZeB9P9FAb/HBbbnjQHmztNz3OxAMLak+cio07d1ZC0PQZO0p5LMzPTkdxzIC2ziwdv2ps4BuZTsCm45Ww8aaSimOUhpz3Yhjb73sQrezTbTmLmsAJjWKNUK7vMxAx4jBdiodphI7gxv7h0At4mxCCQFDu3SLht/9EraI+2b3syXQgPXRVCeM1G5bJFCuPcox3Hzw7YhI8e9wu2pIILG6FT2wzXkY27tOtIgiREW/Mgu8TQck8rQg/vZ/gjsBR1CMyS0/VHMMfxc4wrT221jhtRJrR+4EgafsOOI4wMwOhpqov18mn1YUtZmU14hCdb+EjYzT858gki30kdpNXnjAuoQ7bffAM7bdxxv23usQGjZjRntEaufxyQmHtkjCLFWi5khB6Lb+TdKRGy9Y2iNpNBzaUsBqPBpEDpNkuPGcbfHwAiUxYTET57A63nO6NKWJcMxQYtMXZt/zX4Xa0Iqs8DAssfIuTgiSVhLmB9O/5+8A6fL8jqM11vm7DPfpqWru2IuB3XA==
-Received: from localhost ([102.222.70.76]) by smtp.gmail.com with ESMTPSA id
- e16-20020a50d4d0000000b005605716e755sm806635edj.52.2024.02.09.05.02.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Feb 2024 05:02:45 -0800 (PST)
-Date: Fri, 9 Feb 2024 16:02:42 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Anthony Koo <Anthony.Koo@amd.com>,
- Josip Pavic <Josip.Pavic@amd.com>, Leon Huang <Leon.Huang1@amd.com>,
- Mounika Adhuri <moadhuri@amd.com>,
- Lewis Huang <lewis.huang@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: [PATCH] drm/amd/display: Fix && vs || typos
-Message-ID: <7482be2a-aca1-41dd-bb6e-d547571b9507@moroto.mountain>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8D6310E72A;
+ Fri,  9 Feb 2024 14:04:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1707487482; x=1739023482;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=vwibz1UBzunx12UaIjzyxed9fPynUv8i4klDAWlf9Ow=;
+ b=BfeRV0eceV4GA6FvsU7lczUfU1mJmrFC4z48eFv0Fb8Jms5asfsGc026
+ kYmns0g22p7W2jUa9fOHorWwPtpeDCkHpJD8hCzoQasaowsnRKYAl8hsN
+ MIcylxrHEic9OlQc9pqkLIfYB9II2bZimp5lneeNDJQRoK1udP4ZY7buP
+ Fl+3H/hh+T/Fj/fRCOkUwrBzJmRuh2XKvwCZLM5PTnFfk515aKUVDF0MH
+ o7c6iWUAKEok9naWUngAmTHQN8vDU7YVdTthU9caUSAQlxTaffTcKD1wZ
+ kSA1b0iK2xO9AEgx2p+52i02BA5qljou7EHPns9Sq8dFQK2ZDUZfdAXqI A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="23911770"
+X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; d="scan'208";a="23911770"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2024 06:04:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="910717014"
+X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; d="scan'208";a="910717014"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2024 06:04:39 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1rYRUa-00000003AOw-0R6p; Fri, 09 Feb 2024 16:04:36 +0200
+Date: Fri, 9 Feb 2024 16:04:35 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Yury Norov <yury.norov@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v3 1/3] bits: introduce fixed-type genmasks
+Message-ID: <ZcYw8xH7xZJPQYpz@smile.fi.intel.com>
+References: <20240208074521.577076-1-lucas.demarchi@intel.com>
+ <20240208074521.577076-2-lucas.demarchi@intel.com>
+ <ZcUwK9DAVMVzq1Mk@ashyti-mobl2.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+In-Reply-To: <ZcUwK9DAVMVzq1Mk@ashyti-mobl2.lan>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,37 +74,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These ANDs should be ORs or it will lead to a NULL dereference.
+On Thu, Feb 08, 2024 at 08:48:59PM +0100, Andi Shyti wrote:
+> On Wed, Feb 07, 2024 at 11:45:19PM -0800, Lucas De Marchi wrote:
 
-Fixes: fb5a3d037082 ("drm/amd/display: Add NULL test for 'timing generator' in 'dcn21_set_pipe()'")
-Fixes: 886571d217d7 ("drm/amd/display: Fix 'panel_cntl' could be null in 'dcn21_set_backlight_level()'")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/gpu/drm/amd/display/dc/hwss/dcn21/dcn21_hwseq.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+...
 
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn21/dcn21_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn21/dcn21_hwseq.c
-index 5c7f380a84f9..7252f5f781f0 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn21/dcn21_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn21/dcn21_hwseq.c
-@@ -211,7 +211,7 @@ void dcn21_set_pipe(struct pipe_ctx *pipe_ctx)
- 	struct dmcu *dmcu = pipe_ctx->stream->ctx->dc->res_pool->dmcu;
- 	uint32_t otg_inst;
- 
--	if (!abm && !tg && !panel_cntl)
-+	if (!abm || !tg || !panel_cntl)
- 		return;
- 
- 	otg_inst = tg->inst;
-@@ -245,7 +245,7 @@ bool dcn21_set_backlight_level(struct pipe_ctx *pipe_ctx,
- 	struct panel_cntl *panel_cntl = pipe_ctx->stream->link->panel_cntl;
- 	uint32_t otg_inst;
- 
--	if (!abm && !tg && !panel_cntl)
-+	if (!abm || !tg || !panel_cntl)
- 		return false;
- 
- 	otg_inst = tg->inst;
+> > Signed-off-by: Yury Norov <yury.norov@gmail.com>
+> > Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> > Acked-by: Jani Nikula <jani.nikula@intel.com>
+> 
+> Lucas' SoB should be at the bottom here. In any case, nice patch:
+
+And it's at the bottom (among SoB lines), there is no violation with Submitting
+Patches.
+
 -- 
-2.43.0
+With Best Regards,
+Andy Shevchenko
+
 
