@@ -2,64 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 239688503AF
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Feb 2024 10:37:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34C3C8503B1
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Feb 2024 10:38:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2455210F42B;
-	Sat, 10 Feb 2024 09:37:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 385FA10F563;
+	Sat, 10 Feb 2024 09:38:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gROZrDXH";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WgMA75vC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com
- [209.85.219.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 907E510F42B
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Feb 2024 09:37:26 +0000 (UTC)
-Received: by mail-yb1-f178.google.com with SMTP id
- 3f1490d57ef6-dc755afdecfso1290439276.2
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Feb 2024 01:37:26 -0800 (PST)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com
+ [209.85.219.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C8B010F563
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Feb 2024 09:38:00 +0000 (UTC)
+Received: by mail-yb1-f182.google.com with SMTP id
+ 3f1490d57ef6-dc6cbe1ac75so1409808276.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Feb 2024 01:38:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1707557846; x=1708162646; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1707557879; x=1708162679; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=traMzP3X3ap8UfhwxLc+Vo63DS4xV+/qhFdckzPcq8g=;
- b=gROZrDXHCVG9NUtXrQIdCvDQW9rv+8GyAhoQbRopFWc0cCSkXp9xIZN5JDCK+qDBPk
- ii/aDlr0eUEmlnNmNqt6DWELbF8D5S+xbfW19mfNYnZcKHGOzSjCiGOdPJpqNFDRi3Hz
- DJxbaK/x7qzmk2TpnnV0QPJGu6VIJLbDuOhLoUnHDxnDAr2KOpKYmtSJDGFKG2AKm5GQ
- XLNPEJ7YCLiiGklo5GbmxwU4pe6q6yw6U32edi+xs8peZaivVdWKcPhSM8iVa3euwUHW
- rKMdDIA5DL583gYqpoP1fDaf2Z5pWUxmG+W/8YMFfSpUGj5mrjwAKLn4AjdXqx1K1uB0
- 3TMw==
+ bh=kyj3Aremed/KUNAD4OBb57Mrn+FOkbsCPQxNdDwPeyo=;
+ b=WgMA75vCV4gtHvrNLv2ZYsH4lRbq6HWevjhNGAvM7Pm/qix8x1jvpJpIwk1YzZ7Aze
+ 24fhQ6d9pbW/hXSjeXIuS5Hoz8Qw/x+Y8y4PQBp/piDo5qLQ5T4uzmG6hURuBNwRT5Ve
+ Y9AF0G6ez8cVX6AfJjAwskGhjrkSiS7SNICAB4ckkPa0D+4aWROlozTDZGECZeibWdWd
+ RBeGS8V+EyQyD+LH1vInH6ElTn0bsL01eGP4JLK9gcxQ41Df9wtSETZ33ZeZjaLtR4Mb
+ 0NfUelezPCya1i6eQZYt0OM2JltnWoG8IFfQMHzFGRyaNttaRiRjhmMDg5sTv7wnpqv3
+ 5jtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707557846; x=1708162646;
+ d=1e100.net; s=20230601; t=1707557879; x=1708162679;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=traMzP3X3ap8UfhwxLc+Vo63DS4xV+/qhFdckzPcq8g=;
- b=eFlk2x/zOdo27OwVgv2ue802Fz+z60zuJwS6ERevIXutWpTcchDmbeYgMb5MbKcjAU
- j/20pk06x7jTmh51KcuTUj2d+vWcuN/W/oQUCsrO2HaKNIh1tJeJapcKkCY6Jajy0xnx
- i/5/Ecyhuhqlc6RbyEPDK0iK7NI/IQ9NVPLsBjy7cbgKjdiLW8rFB2l5N3g9akXQhBpI
- p6W4ATTXKKGYFj/A/vbm0kUQwrVYNNFAtVgc5Z8o/+ckmMb/DtfLRIGFIvflVaPST3zF
- BU8EcaeNzyV0BEEWrNPWLYZz/eYegV4ebnXRZsRmyjvquRN13yB62OE0LMWSywFkWrzS
- kPmg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV1A8oleDLFKQqUEEy1rTEzhHUrV/18SRTX5vw0hWu3SQ5uEmLzAH0aFYjusSfIa4Y6JcuOyoO+JKOsHH3q7zECHZUxNQmXoY+rog5NWMj2
-X-Gm-Message-State: AOJu0Yz9r+x/Ubf5xLvSDaIfNXUO4uC0P/OXClFmQk/yIejUkZd14pRO
- TKrvghafShoZSCyxHilgtrEyHkHBbmvmhm/2uvormIqE3xJHNgQFwQCa4Ou2spLejkvuNdIKEwf
- OC+S/VD5vXWO6qOlmZ7ZbT1TjS7ZJ6fYENtKwYQ==
-X-Google-Smtp-Source: AGHT+IF6CfRLisdVWfw44qvUlYpfj1ay0gD+tPXDhRLqsK2QrMb/MELbcxS5tQsxDr0PefjjkG/NJ46XbAkjEJ5+HGM=
-X-Received: by 2002:a25:d348:0:b0:dc7:43bb:51f6 with SMTP id
- e69-20020a25d348000000b00dc743bb51f6mr1365579ybf.7.1707557845977; Sat, 10 Feb
- 2024 01:37:25 -0800 (PST)
+ bh=kyj3Aremed/KUNAD4OBb57Mrn+FOkbsCPQxNdDwPeyo=;
+ b=Cojj5eqlnC4Bil+iq9q/3FXu7obwmHoT2vf7WPTbmhf9uF5osS8vTzXR1/SF32Cthb
+ FQD7AiSl1D8TR9qoeaf3QL3A+yp5MgaDPpGi85CJi2C9T1dZVYNE7oDes5INg8sRUsO5
+ J+byzrIbTrdhFBGoQ4V6QRPrD491CrhPK/fxHtXvwJ60+SJODRvVRshtImQlcx8htPtQ
+ DvN0Ogh0CRpLjbaUdd73kMOFDnoCOtlE4WmY0ceejcIyPZTROJ/rnGCzTu1jaPlZudx+
+ ndnm5FD/jB9Atqgci1cdF0gUeRe2dNtiglzpiZrt8QwS0nE4LijH51ytwE6D4kQdFYDm
+ ZkPA==
+X-Gm-Message-State: AOJu0YwioVjpuXYbfA4Zea5pukk1fmTPBkvbTr1acHSPCj5/YuccC2QA
+ QTGN13r6S1vjv9nB7lzBFlUZQO9xPeA9cGWLP6Uf5W64ho6Zn5jUH2kOBWOMKHMDs6FQOLNQ5Zb
+ +ubU5z3wxDMVbiFBLsPibeBAS92pxr671lLNwvA==
+X-Google-Smtp-Source: AGHT+IFzkw+SzWXsqTHkTtPzsujNkNWObNd/pIokqsm8EQCoFnl3SfEdRL3myAU8AAkxJJuSGr74rCS8KR2nL86w9Nk=
+X-Received: by 2002:a25:3623:0:b0:dc6:6d0f:8329 with SMTP id
+ d35-20020a253623000000b00dc66d0f8329mr1116788yba.20.1707557879528; Sat, 10
+ Feb 2024 01:37:59 -0800 (PST)
 MIME-Version: 1.0
 References: <20240210015223.24670-1-quic_parellan@quicinc.com>
- <20240210015223.24670-3-quic_parellan@quicinc.com>
-In-Reply-To: <20240210015223.24670-3-quic_parellan@quicinc.com>
+ <20240210015223.24670-4-quic_parellan@quicinc.com>
+In-Reply-To: <20240210015223.24670-4-quic_parellan@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 10 Feb 2024 11:37:15 +0200
-Message-ID: <CAA8EJponSr=EgVe6m-KBWxvjz1bL-0Tczj=fGKZZrevJ3DZzbQ@mail.gmail.com>
-Subject: Re: [PATCH v2 02/19] drm/msm/dp: add an API to indicate if sink
- supports VSC SDP
+Date: Sat, 10 Feb 2024 11:37:48 +0200
+Message-ID: <CAA8EJpoDHLcCHPoDj0QF4CWsLtz=B7DDgkaF=s=aew_5JBPkeg@mail.gmail.com>
+Subject: Re: [PATCH v2 03/19] drm/msm/dpu: pass mode dimensions instead of fb
+ size in CDM setup
 To: Paloma Arellano <quic_parellan@quicinc.com>
 Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, robdclark@gmail.com, seanpaul@chromium.org, 
@@ -82,75 +80,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 10 Feb 2024 at 03:53, Paloma Arellano <quic_parellan@quicinc.com> wrote:
+On Sat, 10 Feb 2024 at 03:52, Paloma Arellano <quic_parellan@quicinc.com> wrote:
 >
-> YUV420 format is supported only in the VSC SDP packet and not through
-> MSA. Hence add an API which indicates the sink support which can be used
-> by the rest of the DP programming.
+> Modify the output width and height parameters of hw_cdm to utilize the
+> physical encoder's data instead of obtaining the information from the
+> framebuffer. CDM is to be set up to utilize the actual output data since
+> at CDM setup, there is no difference between the two sources.
 >
 > Changes in v2:
->         - Move VSC SDP support check API from dp_panel.c to
->           drm_dp_helper.c
+>         - Move the modification of the dimensions for CDM setup to this
+>           new patch
 >
 > Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
 > ---
->  drivers/gpu/drm/display/drm_dp_helper.c | 21 +++++++++++++++++++++
->  include/drm/display/drm_dp_helper.h     |  1 +
->  2 files changed, 22 insertions(+)
->
-> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-> index d72b6f9a352c1..c6ee0f9ab5f8f 100644
-> --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> @@ -2917,6 +2917,27 @@ void drm_dp_vsc_sdp_log(const char *level, struct device *dev,
->  }
->  EXPORT_SYMBOL(drm_dp_vsc_sdp_log);
->
-> +/**
-> + * drm_dp_vsc_sdp_supported() - check if vsc sdp is supported
-> + * @aux: DisplayPort AUX channel
-> + * @dpcd: DisplayPort configuration data
-> + *
-> + * Returns true if vsc sdp is supported, else returns false
-> + */
-> +bool drm_dp_vsc_sdp_supported(struct drm_dp_aux *aux, const u8 dpcd[DP_RECEIVER_CAP_SIZE])
-> +{
-> +       u8 rx_feature;
-> +
-> +       if (drm_dp_dpcd_readb(aux, DP_DPRX_FEATURE_ENUMERATION_LIST, &rx_feature) != 1) {
-> +               drm_dbg_dp(aux->drm_dev, "failed to read DP_DPRX_FEATURE_ENUMERATION_LIST\n");
-> +               return false;
-> +       }
-> +
-> +       return (dpcd[DP_DPCD_REV] >= DP_DPCD_REV_13) &&
-> +               !!(rx_feature & DP_VSC_SDP_EXT_FOR_COLORIMETRY_SUPPORTED);
-
-Nit: we don't even need  the `!!` here. I'll probably drop it while applying.
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 
-> +}
-> +EXPORT_SYMBOL(drm_dp_vsc_sdp_supported);
-> +
->  /**
->   * drm_dp_get_pcon_max_frl_bw() - maximum frl supported by PCON
->   * @dpcd: DisplayPort configuration data
-> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-> index 863b2e7add29e..948381b2b0b1b 100644
-> --- a/include/drm/display/drm_dp_helper.h
-> +++ b/include/drm/display/drm_dp_helper.h
-> @@ -100,6 +100,7 @@ struct drm_dp_vsc_sdp {
->
->  void drm_dp_vsc_sdp_log(const char *level, struct device *dev,
->                         const struct drm_dp_vsc_sdp *vsc);
-> +bool drm_dp_vsc_sdp_supported(struct drm_dp_aux *aux, const u8 dpcd[DP_RECEIVER_CAP_SIZE]);
->
->  int drm_dp_psr_setup_time(const u8 psr_cap[EDP_PSR_RECEIVER_CAP_SIZE]);
->
-> --
-> 2.39.2
->
 
 
 -- 
