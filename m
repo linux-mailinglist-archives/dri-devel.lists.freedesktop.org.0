@@ -2,54 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1F5A850515
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Feb 2024 17:18:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A559885056F
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Feb 2024 17:50:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34E6910F394;
-	Sat, 10 Feb 2024 16:18:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9595E10ED13;
+	Sat, 10 Feb 2024 16:50:20 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=embeddedor.com header.i=@embeddedor.com header.b="mi4KsncL";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.skole.hr (unknown [161.53.165.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DC2610F394
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Feb 2024 16:18:10 +0000 (UTC)
-Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
- by mx.skole.hr (mx.skole.hr) with ESMTP id 59EDD8431B;
- Sat, 10 Feb 2024 17:17:59 +0100 (CET)
-From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Date: Sat, 10 Feb 2024 17:16:17 +0100
-Subject: [PATCH] backlight: ktd2801: make timing struct static
+Received: from omta040.useast.a.cloudfilter.net
+ (omta040.useast.a.cloudfilter.net [44.202.169.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5935810EF29
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Feb 2024 16:50:16 +0000 (UTC)
+Received: from eig-obgw-6001a.ext.cloudfilter.net ([10.0.30.140])
+ by cmsmtp with ESMTPS
+ id YpZArXNpsTHHuYqYFrerA3; Sat, 10 Feb 2024 16:50:03 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with ESMTPS
+ id YqYDrPDRmOH51YqYEr56ue; Sat, 10 Feb 2024 16:50:02 +0000
+X-Authority-Analysis: v=2.4 cv=Y6pbsQeN c=1 sm=1 tr=0 ts=65c7a93a
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=VhncohosazJxI00KdYJ/5A==:17
+ a=IkcTkHD0fZMA:10 a=k7vzHIieQBIA:10 a=wYkD_t78qR0A:10 a=VwQbUJbxAAAA:8
+ a=NEAV23lmAAAA:8 a=7YfXLusrAAAA:8 a=PRyNG9Jn56gaZwuU5SgA:9 a=QEXdDO2ut3YA:10
+ a=1F1461vogZIA:10 a=5kKzt1m56AEA:10 a=AjGcO6oz07-iQ99wixmX:22
+ a=SLz71HocmBbuEhFRYD3r:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=fW1AM9Qzpti44/4DeXbYCV+nbyp1ZPTvg+v3ApEi5WE=; b=mi4KsncL9ls0mGZQ11Gjp11mzj
+ 10mOxb3XBgZtcev9Ui6v7zprTzwWlcitvXnYgcRiFSRTNd4LTHmUzs4muhsKcKtkvqpZTfE4e5uQa
+ FrdzJgl1fmi+KwZAD7RCzfPMe0k8Uhy72r4SRH8MIUes9D65G8EuezoS03N2SBSYnts74l9eijAoH
+ qtpL9wMGe3zb/rCp+B0ulvhTUDWU/ahrjvV3egswBe+ph/IGCNcnHDBAMDy4zEQaan7sWhaIx+ReW
+ 7E67F0ThfVnm2l0zHezQ0L+X+nIQdQ8jn3AsmzD+MUJ2fnQXDSScg7DgQEE2Zs2s6Uv+Ae/Qcy0P9
+ eI2rMiYA==;
+Received: from [201.172.172.225] (port=35494 helo=[192.168.15.10])
+ by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96.2)
+ (envelope-from <gustavo@embeddedor.com>) id 1rYqYC-000VNR-0W;
+ Sat, 10 Feb 2024 10:50:00 -0600
+Message-ID: <30715dc4-3285-4f4a-a041-a718a8509721@embeddedor.com>
+Date: Sat, 10 Feb 2024 10:49:57 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240210-ktd2801-static-v1-1-90ad2e2e8483@skole.hr>
-X-B4-Tracking: v=1; b=H4sIAFChx2UC/x3MMQqAMAxA0atIZgtJFFGvIg7SRg1ClbaIIL27x
- fEN/78QJahEGKsXgtwa9fQFVFdg98VvYtQVAyO3yITmSI57JBPTktQaIcuNo6FDtFCiK8iqzz+
- c5pw/xW2pM2AAAAA=
-To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
-Cc: Karel Balej <balejk@matfyz.cz>, Linus Walleij <linus.walleij@linaro.org>, 
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>, 
- =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1184;
- i=duje.mihanovic@skole.hr; h=from:subject:message-id;
- bh=TFGgvTM2PG0fbMk9Rl9Qb2vgbRJiET6Rp+y64OYoGI4=;
- b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlx6GE2aYXO7i6H7ygEfSoqrSV4LJWg+nPqiTWX
- De1P3tytdqJAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZcehhAAKCRCaEZ6wQi2W
- 4Qc2EACLTotP/+lxPbA4aYMKka8lirI9jsEY2lS37VZxUyOV4vV5MRUFJmJ5DPU11k/c+0NbwX0
- xZ2gMntp/sR/9A6jYFVOfU50N6SaymZRo+vnDQr+CmFj2bnX9NXH7huoyhPWmKXHKB2pxiDCSSy
- 9ZvgazMDi1O078oYI07txn6Mv5yv3+Vru1/UDjZvMTGleuwTsSbPmwYPZ459X7jUZjRE1tbNM0A
- kOkG3pN4qhh1BJ5fA5joSqFkeFHoo/eSZVUX2ZOKUC5UDiSwOXWpmzAWikvVhaCf1HYSCqudBWA
- LYK2von+UkIct5WSYjsC/rcQPaCltcc9M44ZhuQDrTHe0qNwIvz1IX+ErId8ALX8p5/DOsc7Ajx
- Iem5xm1FDD5/OS3lFqZGKnzRV5sniXWzxwwbNxUHTj5exuiu+cfGbHwvi/x6N5K/VOaMrff6oss
- 4m4TtJy71Xz0BfGLE0Gw/uvXVSRSBHm9HJwxAY4NSh//+uSM2TCNH2XPqcELV8wEjT2DDNTO+Im
- CG7zehjHRrhDrwwCp3rp/4AjnQ+lJnDV/ffNTZ8uL9nvs54WEnR4UXw7zH9bRRLLNHBq7WAmXJ4
- gRmj4lX1oCohNrKeIbQ7VHRUkWB1fRldwcfx+3wr+9+jC0gkE6AIbW22R6UJkxa0vV8/+7LuuSO
- EQWdKESlbf/OSrg==
-X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
- fpr=53DF9D4D9C3FE110FB362D789A119EB0422D96E1
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/xe: Prefer struct_size over open coded arithmetic
+Content-Language: en-US
+To: Erick Archer <erick.archer@gmx.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, Oded Gabbay
+ <ogabbay@kernel.org>, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Kees Cook <keescook@chromium.org>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <20240210141913.6611-1-erick.archer@gmx.com>
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <20240210141913.6611-1-erick.archer@gmx.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 201.172.172.225
+X-Source-L: No
+X-Exim-ID: 1rYqYC-000VNR-0W
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.15.10]) [201.172.172.225]:35494
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 3
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfJ0nRcT1Dr/3SAVBxJm+T/3/GalQ5QH9copY0M6i/qJPQblwHqRvUClgd3cW1iHms5JFAzQbdFzT2eW3LoXR2RX7lOR8xqiAW48AAp6T4ELBkG6/T8yL
+ rpp0tGB6/IqLMkGiXVr44IwDYwLohos0xzGZ58oRPjpeYL9AFBsJ/QSdMgH7L4dd6NkLB289pPIfeFoulb8wVt0jInD6Tb6MVcLEFQotITVe0s8rFnb8WLRj
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,37 +102,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The struct containing the KTD2801 timing can be made static as it's not
-referenced outside the KTD2801 driver. Do this to prevent sparse
-complaints.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202402100625.M0RkJhMh-lkp@intel.com/
-Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
----
- drivers/video/backlight/ktd2801-backlight.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/backlight/ktd2801-backlight.c b/drivers/video/backlight/ktd2801-backlight.c
-index c020acff40f1..d295c2766025 100644
---- a/drivers/video/backlight/ktd2801-backlight.c
-+++ b/drivers/video/backlight/ktd2801-backlight.c
-@@ -13,7 +13,7 @@
- #define KTD2801_MAX_BRIGHTNESS		255
- 
- /* These values have been extracted from Samsung's driver. */
--const struct expresswire_timing ktd2801_timing = {
-+static const struct expresswire_timing ktd2801_timing = {
- 	.poweroff_us = 2600,
- 	.detect_delay_us = 150,
- 	.detect_us = 270,
+On 2/10/24 08:19, Erick Archer wrote:
+> This is an effort to get rid of all multiplications from allocation
+> functions in order to prevent integer overflows [1].
+> 
+> As the "q" variable is a pointer to "struct xe_exec_queue" and this
+> structure ends in a flexible array:
+> 
+> struct xe_exec_queue {
+> 	[...]
+> 	struct xe_lrc lrc[];
+> };
+> 
+> the preferred way in the kernel is to use the struct_size() helper to
+> do the arithmetic instead of the argument "size + size * count" in the
+> kzalloc() function.
+> 
+> This way, the code is more readable and more safer.
+> 
+> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments [1]
+> Link: https://github.com/KSPP/linux/issues/160 [2]
+> Signed-off-by: Erick Archer <erick.archer@gmx.com>
 
----
-base-commit: 66c76c1cd984c14660453dfa2118014817924375
-change-id: 20240210-ktd2801-static-e1c23d19600c
+LGTM:
 
-Best regards,
+Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+
+Thanks!
 -- 
-Duje Mihanović <duje.mihanovic@skole.hr>
+Gustavo
 
-
+> ---
+>   drivers/gpu/drm/xe/xe_exec_queue.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/xe/xe_exec_queue.c b/drivers/gpu/drm/xe/xe_exec_queue.c
+> index bcfc4127c7c5..f4e53cbccd04 100644
+> --- a/drivers/gpu/drm/xe/xe_exec_queue.c
+> +++ b/drivers/gpu/drm/xe/xe_exec_queue.c
+> @@ -44,7 +44,7 @@ static struct xe_exec_queue *__xe_exec_queue_create(struct xe_device *xe,
+>   	/* only kernel queues can be permanent */
+>   	XE_WARN_ON((flags & EXEC_QUEUE_FLAG_PERMANENT) && !(flags & EXEC_QUEUE_FLAG_KERNEL));
+> 
+> -	q = kzalloc(sizeof(*q) + sizeof(struct xe_lrc) * width, GFP_KERNEL);
+> +	q = kzalloc(struct_size(q, lrc, width), GFP_KERNEL);
+>   	if (!q)
+>   		return ERR_PTR(-ENOMEM);
+> 
+> --
+> 2.25.1
+> 
+> 
