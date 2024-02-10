@@ -2,70 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 671888504AA
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Feb 2024 15:19:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D73048504B1
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Feb 2024 15:23:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21BF710E7D1;
-	Sat, 10 Feb 2024 14:19:53 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.com header.i=erick.archer@gmx.com header.b="CLYuoMyR";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB96110F9E3;
+	Sat, 10 Feb 2024 14:23:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 498F010EC11;
- Sat, 10 Feb 2024 14:19:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.com;
- s=s31663417; t=1707574768; x=1708179568; i=erick.archer@gmx.com;
- bh=QHEpmhKgjFPc76682sn4sIoMEGMcJgRjxAWR8n1DTeo=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
- b=CLYuoMyR/RfpN1p89s4CKg+E1TB8++6l2iGF2gXvnfMLbE9b6PMz9cd5qyfXvSoM
- LPQHJpXWyckAizctYuZhkFyakdBMG/I7a9DmSRe0tF/0b7WNguKne88f7j/KCte3F
- K4MRd7LRL4DvnLGDvkTCU7TGBV1Q+yNcdO+R6BUancgCipkanPVP2A19nB/NiIflm
- bUXRyvr+amviLy1ui9nOtpmE/RS6NFzEkO7B5md3jJtsyhIHpgNcDbkixk+pmSOup
- gEzlkhqSoHn17evvCwaEg2zGlwXzpf8C4HelCdGUnEB6oZGlTB7H+fCyp4ONfFxw9
- sxlZMwMM86q9H6GQMg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from localhost.localdomain ([79.157.194.183]) by mail.gmx.net
- (mrgmx105 [212.227.17.174]) with ESMTPSA (Nemesis) id
- 1MtfJX-1qiDsO3GNL-00vA8E; Sat, 10 Feb 2024 15:19:27 +0100
-From: Erick Archer <erick.archer@gmx.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Kees Cook <keescook@chromium.org>
-Cc: Erick Archer <erick.archer@gmx.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org
-Subject: [PATCH] drm/xe: Prefer struct_size over open coded arithmetic
-Date: Sat, 10 Feb 2024 15:19:12 +0100
-Message-Id: <20240210141913.6611-1-erick.archer@gmx.com>
-X-Mailer: git-send-email 2.25.1
+Received: from eu-smtp-delivery-151.mimecast.com
+ (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74CB310F9E3
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Feb 2024 14:23:00 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-285-P2GNB8rOM5-27t9QbLe7Bw-1; Sat, 10 Feb 2024 14:22:57 +0000
+X-MC-Unique: P2GNB8rOM5-27t9QbLe7Bw-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sat, 10 Feb
+ 2024 14:22:36 +0000
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Sat, 10 Feb 2024 14:22:36 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Lucas De Marchi' <lucas.demarchi@intel.com>, Andi Shyti
+ <andi.shyti@linux.intel.com>
+CC: Yury Norov <yury.norov@gmail.com>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Jani Nikula
+ <jani.nikula@linux.intel.com>, "intel-xe@lists.freedesktop.org"
+ <intel-xe@lists.freedesktop.org>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>, Jani Nikula <jani.nikula@intel.com>
+Subject: RE: Re: [PATCH v3 2/3] bits: Introduce fixed-type BIT
+Thread-Topic: Re: [PATCH v3 2/3] bits: Introduce fixed-type BIT
+Thread-Index: AQHaWtQsWHNiAo+Zx0GwnNabxeNy8rEDowcg
+Date: Sat, 10 Feb 2024 14:22:36 +0000
+Message-ID: <d42dc197a15649e69d459362849a37f2@AcuMS.aculab.com>
+References: <20240208074521.577076-1-lucas.demarchi@intel.com>
+ <20240208074521.577076-3-lucas.demarchi@intel.com>
+ <ZcUz3V56qNeTVq66@ashyti-mobl2.lan>
+ <ilppncjskpt52bijaoxlwcklawjpw5cqrndtx2g5xnwpj6bhbm@kn5yjscaha5e>
+In-Reply-To: <ilppncjskpt52bijaoxlwcklawjpw5cqrndtx2g5xnwpj6bhbm@kn5yjscaha5e>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Eah5uIlmx1Oy3vyLT4zwqfiQ5COrJpSQE4f6/oguSrE2kY86hdo
- QIjW/Bs/9Xo0Qm3o7B3tEM/5G1hyC3HQsuMpWJx4b/bdceZiEsEWP/KmpQj1NKIEdPx0G5q
- 2eeEy4B3+Csbkv9p9lnZCZE+bd2cADA4HhKSh3suTuHxjpueSp6JUsHY9VUhIBjRrnXfh3t
- 5GbhzX0HiER7+MDJiic/A==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:IhzvHcuJC+E=;GHJKGjSsCANS54bqCQNxN/44ifo
- 9bqCvzBCyyIV5AAQy8U8INvWJk97jyY8ZGzj7mZTzjWOuOt7smSagbXITxKv4geCA3XJVu4vE
- 0hYsfu3sWvy3fCNwJ6s6QkBNQb1BTMGw9mwy3poECc1wxqSWYuf3A2VVqwpBlj8slxgsPgQgq
- syX6sEZDY3swhYf/zAN3socKGOStAUxhxAug7nOsrWmzKpJw/DqVVTEYPq3zH0WRlmTtRHLGA
- 40Rx8L9wLQSnLQyZHuiMAsCXu4LCM5C+S7xIKwZiYPp/sedY8TnWkTGhhUuamhFaP7mQWSAFx
- gWIZblydoT47nujdxItHU4Pchxv21B3hn7DV9t2jo/MFke0/tfxG/YgnjFzHxlTcWJgMK/eRj
- r39nXPlktMP/WGhU9CFgt4RQIjX7+M9oh25lh8MsQG6yLNm/lD/FNsUY7eZ10c1tQYRK9Av6e
- DTUK7/fyJ1mvHCwAGegKsvH4UjIIAw0cNeuXA5CKV1V24aCR94301qCEqn5Of6CSu+ZlCqx1e
- Hc8YLjCL6tR8k/xpWHgnbxdWAw+PQXqfj1BMY9G5Cec/Y8eNrTC31fwJne/V5i2C4u3+PpI/I
- y50J6IUjptVJVwlPulFqoOITs9Qy31YppK2J1pfXkAoC4rRNXMd0nmBFZmF8wP90h9gWAuh3F
- JIM9kAh9YMRL2r//CFBoB5tqqf7+66erb4WC+idlctJvqdFrqlKSYFdgq30bl5RIpAGiOeKUA
- Ns8GvXUrIin1O4SSgzRz2gaESJgvPZYFO+dlQOC78cvP5N7jlsHPru14iWXSwJsGTxUbh/AYI
- 1Th85XbchPMIC00qz2yCW+fCe/5ZJux9ejnMRssskIR/0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,47 +69,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an effort to get rid of all multiplications from allocation
-functions in order to prevent integer overflows [1].
+...
+> >> +#define BIT_U8(b)=09=09((u8)(BIT_INPUT_CHECK(u8, b) + BIT(b)))
+> >> +#define BIT_U16(b)=09=09((u16)(BIT_INPUT_CHECK(u16, b) + BIT(b)))
+> >> +#define BIT_U32(b)=09=09((u32)(BIT_INPUT_CHECK(u32, b) + BIT(b)))
+> >> +#define BIT_U64(b)=09=09((u64)(BIT_INPUT_CHECK(u64, b) + BIT(b)))
+> >
+> >considering that BIT defines are always referred to unsigned
+> >types, I would just call them
 
-As the "q" variable is a pointer to "struct xe_exec_queue" and this
-structure ends in a flexible array:
+Except that pretty much as soon as you breath on them
+the u8 and u16 types get converted to int.
+If you want them to be an unsigned type then you need
+to cast them to (unsigned int).
 
-struct xe_exec_queue {
-	[...]
-	struct xe_lrc lrc[];
-};
+=09David
 
-the preferred way in the kernel is to use the struct_size() helper to
-do the arithmetic instead of the argument "size + size * count" in the
-kzalloc() function.
-
-This way, the code is more readable and more safer.
-
-Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#open-=
-coded-arithmetic-in-allocator-arguments [1]
-Link: https://github.com/KSPP/linux/issues/160 [2]
-Signed-off-by: Erick Archer <erick.archer@gmx.com>
-=2D--
- drivers/gpu/drm/xe/xe_exec_queue.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/xe/xe_exec_queue.c b/drivers/gpu/drm/xe/xe_ex=
-ec_queue.c
-index bcfc4127c7c5..f4e53cbccd04 100644
-=2D-- a/drivers/gpu/drm/xe/xe_exec_queue.c
-+++ b/drivers/gpu/drm/xe/xe_exec_queue.c
-@@ -44,7 +44,7 @@ static struct xe_exec_queue *__xe_exec_queue_create(stru=
-ct xe_device *xe,
- 	/* only kernel queues can be permanent */
- 	XE_WARN_ON((flags & EXEC_QUEUE_FLAG_PERMANENT) && !(flags & EXEC_QUEUE_F=
-LAG_KERNEL));
-
--	q =3D kzalloc(sizeof(*q) + sizeof(struct xe_lrc) * width, GFP_KERNEL);
-+	q =3D kzalloc(struct_size(q, lrc, width), GFP_KERNEL);
- 	if (!q)
- 		return ERR_PTR(-ENOMEM);
-
-=2D-
-2.25.1
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
 
