@@ -2,39 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A51AF85059C
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Feb 2024 18:13:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC16285059E
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Feb 2024 18:13:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 651B610E24F;
-	Sat, 10 Feb 2024 17:13:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25EDD10E2B4;
+	Sat, 10 Feb 2024 17:13:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ixit.cz header.i=@ixit.cz header.b="rfTWOn8h";
+	dkim=pass (1024-bit key; secure) header.d=ixit.cz header.i=@ixit.cz header.b="gOgtqA84";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 436 seconds by postgrey-1.36 at gabe;
- Sat, 10 Feb 2024 17:13:24 UTC
 Received: from ixit.cz (ip-89-177-23-149.bb.vodafone.cz [89.177.23.149])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFCC310E220;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC2BA10E24F;
  Sat, 10 Feb 2024 17:13:24 +0000 (UTC)
 Received: from [10.0.0.200] (unknown [10.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by ixit.cz (Postfix) with ESMTPSA id 2FD87165078;
- Sat, 10 Feb 2024 18:05:59 +0100 (CET)
+ by ixit.cz (Postfix) with ESMTPSA id CB70D165072;
+ Sat, 10 Feb 2024 18:06:40 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
- t=1707584759;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ t=1707584800; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
  bh=Iegw3uSU/jDrRw1wO36FWEmxyFeRwPHeaAd3poNxct8=;
- b=rfTWOn8hsJZ9VO96OhUFvyS7X7tW6HR4nm4yJUON1G88hkdLFHSpP6QNFSfX68Mq/VOS/y
- oCgFAQ870Sab3D6ElhOpIHrhlNikNqSDZkctZYUB3z0M9Tx0vjO06KjLyilLigQj14N/rp
- b+uKFWQksnkgM+R9l/OlKw/9fbdcbp8=
-Message-ID: <fc4d00d3-0bdc-4583-bc25-a34b6632db32@ixit.cz>
-Date: Sat, 10 Feb 2024 18:05:58 +0100
+ b=gOgtqA84MbPtxjevQeqA35TmvVVl/iGM6Fi6Zq3tGgohl4g82DC4Sfmu7dkVwp5goDPO3S
+ mlM7TK0hmOFnhTqUwiroChzdccnT+jITdjMPxm4OIGOO1hJkn0y9cHoDYDYxXKonlGM/Xm
+ KksLfm620h9I3VwPVc6RDVg09QpZVDA=
+Message-ID: <6d15ee60-bd77-413d-be14-0e538f10b649@ixit.cz>
+Date: Sat, 10 Feb 2024 18:06:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird Beta
 To: luca@z3ntu.xyz
@@ -42,15 +40,14 @@ Cc: agross@kernel.org, airlied@gmail.com, andersson@kernel.org,
  conor+dt@kernel.org, daniel@ffwll.ch, devicetree@vger.kernel.org,
  dmitry.baryshkov@linaro.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, konrad.dybcio@linaro.org,
- krzysztof.kozlowski+dt@linaro.org, krzysztof.kozlowski@linaro.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, marijn.suijten@somainline.org,
- mripard@kernel.org, phone-devel@vger.kernel.org, quic_abhinavk@quicinc.com,
- robdclark@gmail.com, robh+dt@kernel.org, sean@poorly.run,
- tzimmermann@suse.de, ~postmarketos/upstreaming@lists.sr.ht
-References: <20240121-msm8226-gpu-v2-1-77f4a6fbbca4@z3ntu.xyz>
-Subject: Re: [PATCH v2 1/2] dt-bindings: display/msm: gpu: Allow multiple
- digits for patchid
+ krzysztof.kozlowski+dt@linaro.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+ marijn.suijten@somainline.org, mripard@kernel.org,
+ phone-devel@vger.kernel.org, quic_abhinavk@quicinc.com, robdclark@gmail.com,
+ robh+dt@kernel.org, sean@poorly.run, tzimmermann@suse.de,
+ ~postmarketos/upstreaming@lists.sr.ht
+References: <20240121-msm8226-gpu-v2-2-77f4a6fbbca4@z3ntu.xyz>
+Subject: Re: [PATCH v2 2/2] drm/msm/adreno: Add A305B support
 Content-Language: en-US
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -96,7 +93,7 @@ Autocrypt: addr=david@ixit.cz; keydata=
  8udw5/rKxFMHhti1wgtklyJBc64JK2vgB6xJz9Zc4WoNnifc8QjyhsQ7K0UI9jykBXrb1ZZO
  DYlcrAqh9Sx4vNTmdi6pJWSsrhDtfmDIw81GIW5pc0QpZPqGeKMi5xEU8se5fQ21DuE5LRKF
  Zd4Uq64igWvLAgHIcJHgNbc5BruuZm9p1+S5SfQGfnOYxJM1PkY/E32H52iV/Babj30=
-In-Reply-To: <20240121-msm8226-gpu-v2-1-77f4a6fbbca4@z3ntu.xyz>
+In-Reply-To: <20240121-msm8226-gpu-v2-2-77f4a6fbbca4@z3ntu.xyz>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -111,6 +108,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: 20240121-msm8226-gpu-v2-2-77f4a6fbbca4@z3ntu.xyz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
