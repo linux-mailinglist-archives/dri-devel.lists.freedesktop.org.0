@@ -2,82 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3082F850204
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Feb 2024 02:53:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A97C0850279
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Feb 2024 04:25:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FE341120E7;
-	Sat, 10 Feb 2024 01:53:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96CD510F5A4;
+	Sat, 10 Feb 2024 03:25:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="lvLPDIZd";
+	dkim=pass (2048-bit key; unprotected) header.d=hotmail.com header.i=@hotmail.com header.b="rxwivDon";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C97D41120D7;
- Sat, 10 Feb 2024 01:52:54 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41A0xQuh030469; Sat, 10 Feb 2024 01:52:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding:content-type; s=
- qcppdkim1; bh=ikbGUJMj1X3THwesThhH4DlzjL3+2JasAu99FZb44K4=; b=lv
- LPDIZdy6krP055iM5a6I4xs9L2Vcr2TB4vfkZpVN1QQ6MkppRoxz4l486JsVediR
- qQWr5zmgox7B1vuFsyUwgwbMdsHZpcn1FUmx2NXG2OE0xGGeJfj7xheCvzgBm+nt
- 5Wl2y+u/3sUqLpQvg00ge8Alsyv4OqJSDWGrWh1Zg5nQdByXhwonSRpAu1zsxd7h
- PLzE/I8HK/J5HbGfHdqipUGhmk2DIXH7vSvF0KTQj2KgDHUAIh5amWW12RvV3I4q
- aGW9xCpzVzh94BxC0XPMc0E+AYze4Vq/Gr9TtfWhouqKYk5XcVoxOJAYW7LNNY5V
- rXgzjJSiq7mcQ31SaY1w==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w5gk2hxhm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 10 Feb 2024 01:52:52 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41A1qp9s022611
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 10 Feb 2024 01:52:51 GMT
-Received: from hu-parellan-lv.qualcomm.com (10.49.16.6) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 9 Feb 2024 17:52:51 -0800
-From: Paloma Arellano <quic_parellan@quicinc.com>
-To: <freedreno@lists.freedesktop.org>
-CC: Paloma Arellano <quic_parellan@quicinc.com>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <robdclark@gmail.com>, <seanpaul@chromium.org>, <swboyd@chromium.org>,
- <dmitry.baryshkov@linaro.org>, <quic_abhinavk@quicinc.com>,
- <quic_jesszhan@quicinc.com>, <quic_khsieh@quicinc.com>,
- <marijn.suijten@somainline.org>, <neil.armstrong@linaro.org>
-Subject: [PATCH v2 19/19] drm/msm/dp: allow YUV420 mode for DP connector when
- CDM available
-Date: Fri, 9 Feb 2024 17:52:10 -0800
-Message-ID: <20240210015223.24670-20-quic_parellan@quicinc.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20240210015223.24670-1-quic_parellan@quicinc.com>
-References: <20240210015223.24670-1-quic_parellan@quicinc.com>
+Received: from BN1PR04CU002.outbound.protection.outlook.com
+ (mail-eastus2azolkn19012005.outbound.protection.outlook.com [52.103.12.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 734A010F35B
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Feb 2024 03:25:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NCQT8TiX2DUJkDw79oiFjCdvNqR60dc0Ohuk6MDAM7IY6dAc5+DKqqfEpInwlqH4pgmYeffiuKK5JqWMDk7fZ/OoXRDsEPeXLpI6Nzy4chXzsuYAKk0gxVuAn8hMeuazNvS6ZT9ZTtvzuaPzIJ6O4dJ2T4L0hs6Pxu3/NCmCsvtscCE7Z7VYofz9ACVx+VLWeoOh9fjaXKo2rbt4xUfRCU15CBxM5caL3BRueM1SINziNapVdHKBInPGQG7nWJ9HHyX0ndLn/0sfdahvHnAhBLuFVKECvJ2kLqxI11bRJ+aL3wC53r4Egf+fUNBsKmrx4vXvJVGuSUg7qCFNKPaU5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+eTAS2Aw0ACfYoteV0pdRm+xhhCz6a/Sqi9d4A3tNNs=;
+ b=hWpILh4LBLeKIH0d7xP8GeCd97CW83UhQAVjoDCcGo5WFKSlFHTiw1riRXy+r1uVjF98uCxMTXqN86vj+8ATlF8XwXpZvH+vtoRotv+gzSlgdSIdteHA+bRBIux+RkAlJl2WKzo6idHWSao97jOUtAWRfx7IKrHUYvJ3MOPBXZRKBIUVGoUSSXFKbNvXS/pXBQXmxLPfP9Z+WL9YJMCdqCRbnS0AZ079rns3LxkRqMxmu1zzqGP6Lxbpx2qKeq299E5ge3EY/uX3uOxcyYhkLTA9roTgwVJsWOZW+3lxB3RRHEb6QmdkKzor8jXuJLeVoCuK57WJ6nBnTWZlPcpTnQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+eTAS2Aw0ACfYoteV0pdRm+xhhCz6a/Sqi9d4A3tNNs=;
+ b=rxwivDon2wi9of/PpfXvLd5q9FyevOZrL7lSgloetJzMgFjQnXJtD+ydqdI5GZXoMrExsfn/GB3EVZQY12tN/HjSSdBraKcpfqh9hdPF8QfAztEIlBArEhdYHmNpvndcnkmiunEJh6G5U9FtwAanyMvDFoLQnji8wNsYxbyhDeDaacNoM7k/qQrvx60LVsBEf3b01wIkBZcYlBaZJyehhbYyljMImX18emx2kMr9GNB269Vp1Vzs1VQ7P2OF/AxAJ9YjKzzAplrOcbCvW7ICyQ1Wd9XjxRPEE3rLVG7qhhmDx8OWf73z8U6q6bm0T7lJO/xe4uqPvyvb98LwRbAXdQ==
+Received: from DM4PR05MB9229.namprd05.prod.outlook.com (2603:10b6:8:88::20) by
+ SJ0PR05MB7343.namprd05.prod.outlook.com (2603:10b6:a03:284::5) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7249.39; Sat, 10 Feb 2024 03:24:59 +0000
+Received: from DM4PR05MB9229.namprd05.prod.outlook.com
+ ([fe80::7592:72b0:48c8:ec43]) by DM4PR05MB9229.namprd05.prod.outlook.com
+ ([fe80::7592:72b0:48c8:ec43%5]) with mapi id 15.20.7249.032; Sat, 10 Feb 2024
+ 03:24:59 +0000
+Date: Fri, 9 Feb 2024 21:24:55 -0600
+From: Chris Morgan <macromorgan@hotmail.com>
+To: Ao Zhong <hacc1225@gmail.com>
+Cc: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v3] drm/panel: st7703: Fix Panel Initialization for
+ Anbernic RG353V-V2
+Message-ID: <DM4PR05MB92290198C5B6153941238E37A54A2@DM4PR05MB9229.namprd05.prod.outlook.com>
+References: <ZcX5ljSCc7nyr_NE@qwark.sigxcpu.org>
+ <20240210002443.5590-1-hacc1225@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240210002443.5590-1-hacc1225@gmail.com>
+X-TMN: [vtPS/5BkaIFy5FvFD30HsVW77BH4fYMC]
+X-ClientProxiedBy: SN6PR05CA0005.namprd05.prod.outlook.com
+ (2603:10b6:805:de::18) To DM4PR05MB9229.namprd05.prod.outlook.com
+ (2603:10b6:8:88::20)
+X-Microsoft-Original-Message-ID: <Zcbsh8nI3xkSjx2t@wintermute.localhost.fail>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: ierV0HC7Z6yUOO-H4uFNT86fjsxWiIR5
-X-Proofpoint-GUID: ierV0HC7Z6yUOO-H4uFNT86fjsxWiIR5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-10_01,2024-02-08_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 lowpriorityscore=0
- phishscore=0 malwarescore=0 mlxlogscore=999 spamscore=0 impostorscore=0
- suspectscore=0 clxscore=1015 bulkscore=0 priorityscore=1501 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2401310000
- definitions=main-2402100012
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR05MB9229:EE_|SJ0PR05MB7343:EE_
+X-MS-Office365-Filtering-Correlation-Id: dcd5f80f-ec0c-430c-8b61-08dc29e7dc80
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /AbH29gsI3vQZdFpD0lVHb2oZ0+McdS2hhhwoZnvc/v+1BHj+9ZeUW/xzWHJXWkM0e7MaLoOrUlYyFenHEH98yTiBpkoiyXP6aBlLiiaDVAf7TldLqZt9pbPVM9dwYpvL6NSYLq3BdtOFV5SOewzM/DRbQWGTFYHt6C5vKfaWhnMx2Or9Xzd7bKlAMtfSSiO8xbU+Dkf0WukbNqrSiOFaRzR+2DxfVgGB4YdH35SJGzazqzVitzr1E+2vXdySI5fllqigQ/AKHIWb68hgdQA+U2XOfDg1ik9RCic72FBELhTn2FoPivMqaCJLcG6+eiDbY8J5AbgfmDyOOehN9vaMnr4ekIW9LM98Lpnd2qb3JikTE3OhUP5vJQQ6PSi5fUWDi6f+04bVTNXiSNzQFQ0o7YFPBdtPL4fxcCjuF8Jks5C2tDXnUzNXjn7vL2W3tKCkG6dwxrfaN7c1SVoyYXubUNs31e5O5hgR1RIT3Il2c1IGCNMoGzYShIP6/nF9VO7YDA+05dpt6KlSd4yyGZaLaTG7XhK8x00j1jdGASAIXaKkW1XqFWdPLvPvzBUuzacykUMSqolIb9wWLQs2zFBOCNwaTM0bBHrDSEl8vCXR/+6h7mL9NUj4qWpOwXNEO6JK0PZg+mrG3nt1P1FZxrSlA==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3HcN9C0nZXo961L8Slz4elOQk8nyztCgSOh7lxdJ4pJt6cayiGCiS02kZa2q?=
+ =?us-ascii?Q?d5FSiVHfb38Pb6kFds44+wpC0pWDSCYcOrKghkpWuVtlbC5lqeaK9FTDhjQD?=
+ =?us-ascii?Q?tw/urUxKOprPfhB06YCXM5MlAQLBeqbikJszCeaxyqYKYMaCb6jzC+YLxNpz?=
+ =?us-ascii?Q?LiJmON6CKZeISf+PC3W5GQtryHnITx+9tX0b6hjL3eNRgTrO1XIciQs1Nusf?=
+ =?us-ascii?Q?qZnjdoPg5Nrk4dCmM4WqaZ1pXifSa7eiy6lvZGbrGGDeX76y0p9zZUH2rkwB?=
+ =?us-ascii?Q?S62WRuI/FL/aFqc/5+c2qLJ5uVyJ67VHKepeiNwXtdVfzgovi0rzI871Yv75?=
+ =?us-ascii?Q?lNzxMAfYxHpaw4m+TnapBm/h5sEPOdvnAuNyJfwjA0K/T3GH+3aWD2U7D8zS?=
+ =?us-ascii?Q?Mmq1sekuMeHN5b19Oxn2csHeO81bWMuKpcNYNjC22VzSy1pe1VGqVW/hQv+0?=
+ =?us-ascii?Q?ezReru0qa+2YpcoAC2N3kBMtx734t3yFZqa4hrFo+7UKhMF05h6Za/SqvOnF?=
+ =?us-ascii?Q?CfLLEfq40dDmu8hmctH1dQNS2hke5EJ4D0LeJfMvDXzOe/TxoOt2FhJqSKVf?=
+ =?us-ascii?Q?iWKCClotU6P7v0furggGUdTvB1N9bMupqmbyulKtdY9p36CNKu7NC+F3lbmd?=
+ =?us-ascii?Q?uOTIFwhisWl8iLy96kKp05SBs0WEvPoAHL2vlp8sr08J6J1pzZtUGSqrQLoB?=
+ =?us-ascii?Q?I/aD96M9koiRcp3wjuMI4Vl7rwMsJzNNDtWM1H4Fjqplygp2SWjwynofgEl6?=
+ =?us-ascii?Q?8O8JjVFVVrk1PHPDs9SbWaKl/928TXY6bAK8Uhma23jmbkqjPcSIoyjXiHit?=
+ =?us-ascii?Q?nhVRTYJ2qconErKZPw89ZFN14PpbCQVaKG2dg0tfkpNWmlCKLAp1aBEayAEm?=
+ =?us-ascii?Q?RSe6d+y5c+8z8vFToJyx9HGBLIpK6EaPE9dVypbjN9yjf+YoWv8JZflI2O8w?=
+ =?us-ascii?Q?l8+WHIvnd/IlmfYKVMlXzN84KMEnSKRz2bLgDiw55rjRq7YxPwPcL9CYz18y?=
+ =?us-ascii?Q?oN0csTGoST1bS/3q/1tUMSfZKi/d5+esH+tBrpxRa8WZ4QA1dUsPFwVAAN/P?=
+ =?us-ascii?Q?xuDK0KwsRXhDCzJMbygbWLsk6z/LdYa6s/D6YVxQGHfc4bj1s1VBtQNTCW7b?=
+ =?us-ascii?Q?wlDm06opYJXjjqS8wV5BiCwu7WrfkG0kGCK8rIm7MfWJp95EiB52leM8RBcV?=
+ =?us-ascii?Q?p0NGbHjgtAmg9aGFHkayPhdaV0Ieet6IaL6I6UsHKL5zcJiQRXkkl6xkvkg?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: sct-15-20-4823-7-msonline-outlook-84f76.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: dcd5f80f-ec0c-430c-8b61-08dc29e7dc80
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR05MB9229.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2024 03:24:59.6075 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR05MB7343
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,132 +112,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All the components of YUV420 over DP are added. Therefore, let's mark the
-connector property as true for DP connector when the DP type is not eDP
-and when there is a CDM block available.
+On Sat, Feb 10, 2024 at 01:24:43AM +0100, Ao Zhong wrote:
+> This patch addresses an issue with the Anbernic RG353V-V2 panel
+> initialization that was caused by incorrect parameter. The correct
+> initialization sequence was derived by referencing the JELOS (Just
+> Enough Linux OS) BSP kernel's device tree for the V2 panel, which is
+> identified by the ID "38 21". The relevant device tree can be found at:
+> 
+> https://github.com/JustEnoughLinuxOS/rk356x-kernel/blob/d4d7335a5ca18fc216a29712d5c6cecfb86147d2/arch/arm64/boot/dts/rockchip/rk3568-evb-rg353v.dtsi#L582
+> 
+> The proper initialization sequence was further informed by dissecting
+> instructions as outlined in the "Rockchip_DRM_Panel_Porting_Guide",
+> specifically in Chapter 3.3 of the document.
+> 
+> https://web.archive.org/web/20240209211932if_/http://download.t-firefly.com/product/Board/Common/Document/Developer/Rockchip_Developer_Guide_DRM_Panel_Porting_CN.pdf
+> 
+> Upon comparing the initialization sequence within the
+> rg353v2_init_sequence function against the device tree in the BSP
+> kernel, discrepancies were identified in two instructions. The relevant
+> instructions in the device tree are:
+> 
+> 1. 15 00 03 b6 7f 7f corresponding to the ST7703_CMD_SETVCOM command
+>    with parameters 7f 7f
+> 2. 39 00 05 b8 26 62 f0 63 corresponding to the ST7703_CMD_SETPOWER_EXT
+>    command with parameters 26 62 f0 63
+> 
+> Adjusting the parameters to match those specified in the BSP kernel's
+> device tree allow the panel to initialize correctly.
+> 
+> Signed-off-by: Ao Zhong <hacc1225@gmail.com>
 
-Changes in v2:
-	- Check for if dp_catalog has a CDM block available instead of
-	  checking if VSC SDP is allowed when setting the dp connector's
-	  ycbcr_420_allowed parameter
+Tested-by: Chris Morgan <macromorgan@hotmail.com>
 
-Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 4 +++-
- drivers/gpu/drm/msm/dp/dp_display.c     | 4 ++--
- drivers/gpu/drm/msm/dp/dp_drm.c         | 8 ++++++--
- drivers/gpu/drm/msm/dp/dp_drm.h         | 3 ++-
- drivers/gpu/drm/msm/msm_drv.h           | 5 +++--
- 5 files changed, 16 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 723cc1d821431..beeaabe499abf 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -565,6 +565,7 @@ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
- {
- 	struct drm_encoder *encoder = NULL;
- 	struct msm_display_info info;
-+	bool yuv_supported;
- 	int rc;
- 	int i;
- 
-@@ -583,7 +584,8 @@ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
- 			return PTR_ERR(encoder);
- 		}
- 
--		rc = msm_dp_modeset_init(priv->dp[i], dev, encoder);
-+		yuv_supported = !!(dpu_kms->catalog->cdm);
-+		rc = msm_dp_modeset_init(priv->dp[i], dev, encoder, yuv_supported);
- 		if (rc) {
- 			DPU_ERROR("modeset_init failed for DP, rc = %d\n", rc);
- 			return rc;
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index ebcc76ef1d590..9b9f5f2921903 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -1471,7 +1471,7 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
- }
- 
- int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
--			struct drm_encoder *encoder)
-+			struct drm_encoder *encoder, bool yuv_supported)
- {
- 	struct dp_display_private *dp_priv;
- 	int ret;
-@@ -1487,7 +1487,7 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
- 		return ret;
- 	}
- 
--	dp_display->connector = dp_drm_connector_init(dp_display, encoder);
-+	dp_display->connector = dp_drm_connector_init(dp_display, encoder, yuv_supported);
- 	if (IS_ERR(dp_display->connector)) {
- 		ret = PTR_ERR(dp_display->connector);
- 		DRM_DEV_ERROR(dev->dev,
-diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-index 46e6889037e88..ab0d0d13b5e2c 100644
---- a/drivers/gpu/drm/msm/dp/dp_drm.c
-+++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-@@ -353,7 +353,8 @@ int dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
- }
- 
- /* connector initialization */
--struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display, struct drm_encoder *encoder)
-+struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display, struct drm_encoder *encoder,
-+					    bool yuv_supported)
- {
- 	struct drm_connector *connector = NULL;
- 
-@@ -361,8 +362,11 @@ struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display, struct dr
- 	if (IS_ERR(connector))
- 		return connector;
- 
--	if (!dp_display->is_edp)
-+	if (!dp_display->is_edp) {
- 		drm_connector_attach_dp_subconnector_property(connector);
-+		if (yuv_supported)
-+			connector->ycbcr_420_allowed = true;
-+	}
- 
- 	drm_connector_attach_encoder(connector, encoder);
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_drm.h b/drivers/gpu/drm/msm/dp/dp_drm.h
-index b3d684db2383b..45e57ac25a4d9 100644
---- a/drivers/gpu/drm/msm/dp/dp_drm.h
-+++ b/drivers/gpu/drm/msm/dp/dp_drm.h
-@@ -19,7 +19,8 @@ struct msm_dp_bridge {
- 
- #define to_dp_bridge(x)     container_of((x), struct msm_dp_bridge, bridge)
- 
--struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display, struct drm_encoder *encoder);
-+struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display, struct drm_encoder *encoder,
-+					    bool yuv_supported);
- int dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
- 			struct drm_encoder *encoder);
- 
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index b876ebd48effe..37335777f5c09 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -385,7 +385,7 @@ static inline struct drm_dsc_config *msm_dsi_get_dsc_config(struct msm_dsi *msm_
- int __init msm_dp_register(void);
- void __exit msm_dp_unregister(void);
- int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
--			 struct drm_encoder *encoder);
-+			 struct drm_encoder *encoder, bool yuv_supported);
- void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp_display);
- bool msm_dp_is_yuv_420_enabled(const struct msm_dp *dp_display,
- 			       const struct drm_display_mode *mode);
-@@ -403,7 +403,8 @@ static inline void __exit msm_dp_unregister(void)
- }
- static inline int msm_dp_modeset_init(struct msm_dp *dp_display,
- 				       struct drm_device *dev,
--				       struct drm_encoder *encoder)
-+				       struct drm_encoder *encoder,
-+				       bool yuv_supported)
- {
- 	return -EINVAL;
- }
--- 
-2.39.2
-
+> ---
+>  drivers/gpu/drm/panel/panel-sitronix-st7703.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+> index b55bafd1a8be..a346d6c3d283 100644
+> --- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+> @@ -357,8 +357,8 @@ static int rg353v2_init_sequence(struct st7703 *ctx)
+>  			       0x28, 0x03, 0xff, 0x00, 0x00, 0x00, 0x00);
+>  	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETCYC, 0x80);
+>  	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETBGP, 0x0a, 0x0a);
+> -	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETVCOM, 0x92, 0x92);
+> -	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER_EXT, 0x25, 0x22,
+> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETVCOM, 0x7f, 0x7f);
+> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER_EXT, 0x26, 0x62,
+>  			       0xf0, 0x63);
+>  	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETMIPI, 0x33, 0x81, 0x05,
+>  			       0xf9, 0x0e, 0x0e, 0x20, 0x00, 0x00, 0x00, 0x00,
+> -- 
+> 2.43.0
+> 
