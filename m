@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EF25850408
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Feb 2024 11:50:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A440850437
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Feb 2024 12:31:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9B851124BB;
-	Sat, 10 Feb 2024 10:50:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA5C110F95F;
+	Sat, 10 Feb 2024 11:31:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="r262qd7H";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="GioHjRXf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com
- [209.85.219.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2484B11271E
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Feb 2024 10:50:47 +0000 (UTC)
-Received: by mail-yb1-f169.google.com with SMTP id
- 3f1490d57ef6-dc75c5e3151so626606276.1
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Feb 2024 02:50:47 -0800 (PST)
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com
+ [209.85.161.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E38F10F95F
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Feb 2024 11:31:31 +0000 (UTC)
+Received: by mail-oo1-f45.google.com with SMTP id
+ 006d021491bc7-598699c0f1eso1178142eaf.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Feb 2024 03:31:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1707562247; x=1708167047; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1707564690; x=1708169490; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=rZ4dvPokh+SvN2BddTUync+wbjk9ePK7aDvjAgf5s8k=;
- b=r262qd7HHKdMnKftQd4DjXK70SfiSX9aIhMRhXeyvVaQlhBuE4zjxVov0UEWqw+POd
- OGaJ+h4x0EUQEaffQDuBrpuerDEUcBvc3hskNhI/4ytLdssps5qcZ5JUzX44LIelEqwm
- qgIsG4xsfVWs/fJpbfliXCsfZAD1bKUqrpR2NLxtl1mU72CY+hjThQsOLxnC96SFtdKy
- 2/HVaDBijsDR7TXGPIjgFxGn53AHDPUCDnT9/L8jh1cR6LwPKGa6tivkZMNp6Qgb8ijx
- f7JOOOp50J0X+MzVKOL5UYvLPbRWQKjleqOlaOSX00bIbfWgqqDbJU7nULL5dOMO5KUa
- Y5SA==
+ bh=M4AqEzTtCCjUhsIjO6HajtAUGJbh5B0Lu9dEnEpAroI=;
+ b=GioHjRXfn/+vb4Y+pBg71NtkWIKCqPcOfTaVbrEgZOaD+Pcs5WrXULLt2cg3uzEZzP
+ pdn8sUZ0LgugZFEJQj75XPBlkEX6mAgxvwpET9HuUv0BY9tJ3+LbDIL3cWJxlpWEtwaQ
+ tCsZyTLS3hw+UyszBWlsmF2BB0wHr3nDw9gLQA9hcvv1ifNPuE5//QnTKhVQz0dn1WuG
+ LZvfzq3Jh+IQGuquuRugXY44XYLNjl2+5GSXyv32YQ58LzcFWTyuZ9of0mr3PBOeG+om
+ MxwHkCaeckspY8Ms/5oaGDNk52vL7z2EwGe+kGx8sAY0XWP/iMJDrbawx65y18U0nCvG
+ Kkkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707562247; x=1708167047;
+ d=1e100.net; s=20230601; t=1707564690; x=1708169490;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=rZ4dvPokh+SvN2BddTUync+wbjk9ePK7aDvjAgf5s8k=;
- b=DrRksSm+rEh8GnVFZgSz03V6GOvY8pncwZUda/xSWxbc0Ru6zhYs5UdewbYQegpQOh
- I/wqTp6JXferqa2nHgBsx7e6TrlAK50SDQBc1k3RR3XoRRWruMzeEx5JapV7H/dFgurd
- YvsA5O6WILN615FTdZpfDZdDXAHKCfAR5Sj6MNN3I52j2n6PH/HxgfO2ppmBgiF1HU2F
- 4zmCuqHahAEER+7WMtFMID/mWqi45FPA7YnM9QhYxgEMHMLnRs1V2K9Y2pdJ9LkyQO0V
- G3c2pLtPXYQqNz3t9p20QZqcu1Ljo38MYp4xD3dB9ogvqnQTqVSMm4WemglN6wdWfb1+
- SA2A==
+ bh=M4AqEzTtCCjUhsIjO6HajtAUGJbh5B0Lu9dEnEpAroI=;
+ b=wO3M2FS3p/nqK0oT1/Wr2pnHMbZgifjEiwQpmSutNCCWyxQCJcqXvOlkQO5m6EFsxS
+ MvYBbo+oCZ1kDD3ttzxMKWdijf2GHZidSkxNcdC1aKAYHqAZufNUPTP9VwJn1qHUVrkb
+ JsY6OL9Iz10emQQ8VN+BsdyCT01MUvZBCMZzvOW103BLCsgvw8TvrYhWS7KZCtlZMo7M
+ aIXbLBRK3lT32RzsbA8/bFVKd3mSPXLyMsOsis7NVg3ujnXXnZ+b6TV/cjXFsNGcA3kK
+ 3dt+w2E+OC3PlNnmZlx8GycdTtfBWzvTmahTVIob/l35iZhgWPImszjAjiHayg2eqZkj
+ C3kQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWAgEy0aX8WADTWhmCFP5nb1JgSIy7tIKXP4JWnoB1ph9KSI7QwOuUq7CMQUkiBu8bUF6RTbEF3F2Ab4pYmtZDyf4EhVsJGZkxxL8nt5qbg
-X-Gm-Message-State: AOJu0YzVWED4UXGydf4nw6zveEIFIeSDB+HmW2oHgl8KRHuGmBxX21Fb
- L7vmoL5Nol8jgc7lQ/syiFfMeMG+Bc3hUcVeNhDJ/xi4SYDKrrQbhcB1ppgokTKv0ZBnAW4o88C
- ueSK8g31+SA2h8L8SySl68eqiLfd0Za7IB/d7rA==
-X-Google-Smtp-Source: AGHT+IHaFEz6gvn0y3KbuSz5ABIu3diqyRfTilMW9TNMEtNKJG3CNgSz1iv2t3Uk0pFFmhIR7PIzkfXoh1usMpcXhRw=
-X-Received: by 2002:a25:818e:0:b0:dc2:1bc4:e06b with SMTP id
- p14-20020a25818e000000b00dc21bc4e06bmr1431004ybk.51.1707562246844; Sat, 10
- Feb 2024 02:50:46 -0800 (PST)
+ AJvYcCWFXUpqh1dRoesBqxq54nSho9b/BHt0FFLdTwuovhC+CSBAVZ0M04viMr4daUlxnHlPQQgYp+lpTXy5L1ykVjLMQlauicjZ4ZMag1ocmBCd
+X-Gm-Message-State: AOJu0YyuziBFsdEcZ7RmOW/omyT1oktwAGr2sh2yPcr+ZOX2xvgueCvm
+ 4iTtkxxc3RK8f3+M1KzkX3YjPS5ITEbHBxWC0HwTX3KCI/1hpBMAZYzeizCaPyen4zA7Na0fQY9
+ NbsnW3ojmqSly1OZUAbvBT5SefP9goIBek6c0Ig==
+X-Google-Smtp-Source: AGHT+IEwbU4Urd+epmxc0Oq7zQyb2ah5l24AnSJhfOyIVqyt2jvHOugDdn5MyWEy7q3O4vfsPa7YZCHwU1rvF2/qAyg=
+X-Received: by 2002:a05:6358:199e:b0:178:8cc8:4c7b with SMTP id
+ v30-20020a056358199e00b001788cc84c7bmr3127825rwn.24.1707564689944; Sat, 10
+ Feb 2024 03:31:29 -0800 (PST)
 MIME-Version: 1.0
 References: <20240210015223.24670-1-quic_parellan@quicinc.com>
- <20240210015223.24670-18-quic_parellan@quicinc.com>
-In-Reply-To: <20240210015223.24670-18-quic_parellan@quicinc.com>
+ <20240210015223.24670-19-quic_parellan@quicinc.com>
+In-Reply-To: <20240210015223.24670-19-quic_parellan@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 10 Feb 2024 12:50:35 +0200
-Message-ID: <CAA8EJprVnNmmpcOpHYOhZvLOGdny2ohqscWyUM8JwT8AGh2tCA@mail.gmail.com>
-Subject: Re: [PATCH v2 17/19] drm/msm/dpu: modify timing engine programming
- for YUV420 over DP
+Date: Sat, 10 Feb 2024 13:31:18 +0200
+Message-ID: <CAA8EJppnT2Rfi8R0yiSwD8TJCw9JS4Q4sVrgUjYg36qMTr85EQ@mail.gmail.com>
+Subject: Re: [PATCH v2 18/19] drm/msm/dpu: reserve CDM blocks for DP if mode
+ is YUV420
 To: Paloma Arellano <quic_parellan@quicinc.com>
 Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, robdclark@gmail.com, seanpaul@chromium.org, 
@@ -84,78 +84,19 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Sat, 10 Feb 2024 at 03:52, Paloma Arellano <quic_parellan@quicinc.com> wrote:
 >
-> Adjust the encoder timing engine setup programming in the case of video
-> mode for YUV420 over DP to accommodate CDM.
+> Reserve CDM blocks for DP if the mode format is YUV420. Currently this
+> reservation only works for writeback and DP if the format is YUV420. But
+> this can be easily extented to other YUV formats for DP.
 >
 > Changes in v2:
->         - Move timing engine programming to this patch
+>         - Minor code simplification
 >
 > Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
 > ---
->  .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 16 ++++++++++++----
->  1 file changed, 12 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> index 3f102b2813ca8..fb46d907312a7 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> @@ -235,8 +235,9 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
->  {
->         struct drm_display_mode mode;
->         struct dpu_hw_intf_timing_params timing_params = { 0 };
-> +       struct dpu_hw_cdm *hw_cdm;
->         const struct dpu_format *fmt = NULL;
-> -       u32 fmt_fourcc = DRM_FORMAT_RGB888;
-> +       u32 fmt_fourcc;
->         unsigned long lock_flags;
->         struct dpu_hw_intf_cfg intf_cfg = { 0 };
->
-> @@ -255,17 +256,21 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
->         DPU_DEBUG_VIDENC(phys_enc, "enabling mode:\n");
->         drm_mode_debug_printmodeline(&mode);
->
-> -       if (phys_enc->split_role != ENC_ROLE_SOLO) {
-> +       fmt_fourcc = dpu_encoder_get_drm_fmt(phys_enc);
-> +
-> +       if (phys_enc->split_role != ENC_ROLE_SOLO || fmt_fourcc == DRM_FORMAT_YUV420) {
->                 mode.hdisplay >>= 1;
->                 mode.htotal >>= 1;
->                 mode.hsync_start >>= 1;
->                 mode.hsync_end >>= 1;
-> +               mode.hskew >>= 1;
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 22 +++++++++++++--------
+>  1 file changed, 14 insertions(+), 8 deletions(-)
 
-hskew change seems to warrant a separate patch with Fixes for
-25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
-
->
->                 DPU_DEBUG_VIDENC(phys_enc,
-> -                       "split_role %d, halve horizontal %d %d %d %d\n",
-> +                       "split_role %d, halve horizontal %d %d %d %d %d\n",
->                         phys_enc->split_role,
->                         mode.hdisplay, mode.htotal,
-> -                       mode.hsync_start, mode.hsync_end);
-> +                       mode.hsync_start, mode.hsync_end,
-> +                       mode.hskew);
->         }
->
->         drm_mode_to_intf_timing_params(phys_enc, &mode, &timing_params);
-> @@ -273,6 +278,9 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
->         fmt = dpu_get_dpu_format(fmt_fourcc);
->         DPU_DEBUG_VIDENC(phys_enc, "fmt_fourcc 0x%X\n", fmt_fourcc);
->
-> +       hw_cdm = phys_enc->hw_cdm;
-> +       if (hw_cdm)
-> +               intf_cfg.cdm = hw_cdm->idx;
-
-No need for a separate local variable.
-
->         intf_cfg.intf = phys_enc->hw_intf->idx;
->         intf_cfg.intf_mode_sel = DPU_CTL_MODE_SEL_VID;
->         intf_cfg.stream_sel = 0; /* Don't care value for video mode */
-> --
-> 2.39.2
->
-
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
 With best wishes
