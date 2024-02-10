@@ -2,60 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E12B8503D0
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Feb 2024 11:09:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2C7E8503D2
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Feb 2024 11:15:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8791410F045;
-	Sat, 10 Feb 2024 10:09:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D26D11269C;
+	Sat, 10 Feb 2024 10:15:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="eHAbpYDC";
-	dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="PNDeQMo9";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="zvXOmDhc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08BD210F045
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Feb 2024 10:09:29 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 3911FFB04;
- Sat, 10 Feb 2024 11:09:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
- t=1707559764; bh=aNPiNKu6n8Eg6JYAtibuxYdgiGZ8n2Cub95HcMJmDVI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eHAbpYDCh7yOizl69U1cqSZP05AO7ldtMPiNBKisTIDL+leI+zdoYa5I1eA/PBjQJ
- FktpGkNbyfYq/rN5HBFls935v2T3OPX6C7WP33e834W0lYiLn6MYrEkRU7Oik0ZAx5
- 9LPh26wBNa8ebESpbWUdUAcvXPNqm68R77TWdDFOGEFWbzzVuCiFCvW2DoF+ppFvER
- jqcke1WeM/zGkwSD8AtEvPg1gt8e3Iq24IZhWU7aU8rmKZ5a1D0uso+GBr2qw7vBUa
- Jb2W1jMOnP2+Z1If4JT9H0vvZ5k4u+VVbo4OqxqgD8B6i1h+pCegrYefquQwJkk9bC
- In9Q6ZLTa279w==
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rJuQlZzD-xG9; Sat, 10 Feb 2024 11:09:22 +0100 (CET)
-Date: Sat, 10 Feb 2024 11:09:21 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
- t=1707559762; bh=aNPiNKu6n8Eg6JYAtibuxYdgiGZ8n2Cub95HcMJmDVI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PNDeQMo9aQu/L2FauSIBvEo3loPVcaaJRYhj7Te0SG/T0TL4MYlLOsIa3/574Yu13
- VbtF3ITM/fT/cj8wE3LLWmgJS9nM8zXmDdmrG62Z6DFuqWDZRJxhX6J8Iw4k8dkuaL
- zeQWU22er07KfTQ0AhDhVpejoUUCHN0AZOOUFJissluAhixcA8CDThj0Qyf/FzUz0V
- 5loCyVPY7IjY7qRSkuRDG0abu1fBOlYvX+vc+blFTjju+SPr2/dMPv5TqntafOuOOd
- PsejJGv2jtWuzKp1uWo/upEC5rGPNqY8Jx7k3MfjyBZDQalKvlf+J1EcIAGdrqS/gj
- fR9dhp7A4u39Q==
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To: Ao Zhong <hacc1225@gmail.com>
-Cc: Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>,
- Chris Morgan <macromorgan@hotmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v3] drm/panel: st7703: Fix Panel Initialization for
- Anbernic RG353V-V2
-Message-ID: <ZcdLUU7nfu6P6U2h@qwark.sigxcpu.org>
-References: <ZcX5ljSCc7nyr_NE@qwark.sigxcpu.org>
- <20240210002443.5590-1-hacc1225@gmail.com>
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
+ [209.85.219.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAF241126A5
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Feb 2024 10:15:52 +0000 (UTC)
+Received: by mail-yb1-f181.google.com with SMTP id
+ 3f1490d57ef6-dc6d8bd612dso1795737276.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Feb 2024 02:15:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1707560152; x=1708164952; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=nTueEFOakGyv2InDAGvYZKbL+VubaYqrJvCf8EJK9lE=;
+ b=zvXOmDhcUCNBDJHNK1d1AcQU8/layoQ3XBKt7owpmokZZIcycsXzdi9wiOZv9QK52Q
+ 14ZQYxNatyg2wEIb60N5+ZEVEJasg3FOLw2R1oUt9/8hE4K1Fq3F8oeuf+5GhtlcjqA0
+ LoCEN2036kjMyhgFeO0eTUC/hHf+DWovzLzJ3NlPByvfwQCYVuon+PsyGuoYnKpq8zP5
+ DdzD8E7icJpQb4VJsxPm5S+gXyJkxKSdgiP3gpxsyEIiyBbHm7D1wg6ozUt6EDpALRG8
+ dFwfGbrAEY9h+3os0TqfzbVwQt0ZL5fTlm8K29VQgHfzH8PY0U41lhpT7mxd4TqQxGT7
+ 4c9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707560152; x=1708164952;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=nTueEFOakGyv2InDAGvYZKbL+VubaYqrJvCf8EJK9lE=;
+ b=P1763nyQO1UCRBiKxBM25WZGxFLVYs3CRtY/ObadnVzVZne/hxTio2jc8PVPd9n567
+ EJh+78nzFr+IHb84qYBdScuTfV4/b2JSKwEqT0bV8d92WmU9rfhWxA5reTYIoTZqeXYb
+ sslixMMTNsgXhboY/Ftm6jO/YnQLpIg37deCale8ZlnZYD/kQw/GivKRH6lwC6Tp4pPW
+ 33+MSDHz2Y1ihuGuEQlYJVQWCvTq+Rt4NfWy8sC31qkbm4VSOeDXuujoPjYF7g3t4+4w
+ mDX7PfFlhTxNzduDkVa2dBzHUtOk0PViY2IaTifkL5xALKaMyF7PfKJ7msUpyeDJV+yc
+ iSBg==
+X-Gm-Message-State: AOJu0Yyfe4nZHtKJwDK2DwLFc65CTeqXrRxFTWi76EPBVijfxm7YY0Ij
+ 8vHDHvSDNHom+qGV1EEXvujmN8zmRtJLSxaka5sLPWgimSTryDUW3Xj80c2xiXW8rA9GRN2kC+U
+ 1sqi8NHxSS5YN+ITH/Ayx71MKa46kKOrolVsu0g==
+X-Google-Smtp-Source: AGHT+IH3pyRrF+bOTqZSKxC6d1uuPmJw/Ln+Vm5zM36cx+v+NuNLqQtQuSRqJnbCNZnhzilvIHKApUIQFwXeMRFi5qI=
+X-Received: by 2002:a25:d08f:0:b0:dc6:48fc:65e4 with SMTP id
+ h137-20020a25d08f000000b00dc648fc65e4mr1465961ybg.40.1707560151817; Sat, 10
+ Feb 2024 02:15:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240210002443.5590-1-hacc1225@gmail.com>
+References: <20240210015223.24670-1-quic_parellan@quicinc.com>
+ <20240210015223.24670-15-quic_parellan@quicinc.com>
+In-Reply-To: <20240210015223.24670-15-quic_parellan@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sat, 10 Feb 2024 12:15:41 +0200
+Message-ID: <CAA8EJpq0GqJapkLMuGSK7CqJ5mAJJJPf0MQWER9Mb6ErHmXrog@mail.gmail.com>
+Subject: Re: [PATCH v2 14/19] drm/msm/dpu: add support of new peripheral flush
+ mechanism
+To: Paloma Arellano <quic_parellan@quicinc.com>
+Cc: freedreno@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ robdclark@gmail.com, seanpaul@chromium.org, swboyd@chromium.org, 
+ quic_abhinavk@quicinc.com, quic_jesszhan@quicinc.com, 
+ marijn.suijten@somainline.org, neil.armstrong@linaro.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,60 +80,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-On Sat, Feb 10, 2024 at 01:24:43AM +0100, Ao Zhong wrote:
-> This patch addresses an issue with the Anbernic RG353V-V2 panel
-> initialization that was caused by incorrect parameter. The correct
-> initialization sequence was derived by referencing the JELOS (Just
-> Enough Linux OS) BSP kernel's device tree for the V2 panel, which is
-> identified by the ID "38 21". The relevant device tree can be found at:
-> 
-> https://github.com/JustEnoughLinuxOS/rk356x-kernel/blob/d4d7335a5ca18fc216a29712d5c6cecfb86147d2/arch/arm64/boot/dts/rockchip/rk3568-evb-rg353v.dtsi#L582
-> 
-> The proper initialization sequence was further informed by dissecting
-> instructions as outlined in the "Rockchip_DRM_Panel_Porting_Guide",
-> specifically in Chapter 3.3 of the document.
-> 
-> https://web.archive.org/web/20240209211932if_/http://download.t-firefly.com/product/Board/Common/Document/Developer/Rockchip_Developer_Guide_DRM_Panel_Porting_CN.pdf
-> 
-> Upon comparing the initialization sequence within the
-> rg353v2_init_sequence function against the device tree in the BSP
-> kernel, discrepancies were identified in two instructions. The relevant
-> instructions in the device tree are:
-> 
-> 1. 15 00 03 b6 7f 7f corresponding to the ST7703_CMD_SETVCOM command
->    with parameters 7f 7f
-> 2. 39 00 05 b8 26 62 f0 63 corresponding to the ST7703_CMD_SETPOWER_EXT
->    command with parameters 26 62 f0 63
-> 
-> Adjusting the parameters to match those specified in the BSP kernel's
-> device tree allow the panel to initialize correctly.
-> 
-> Signed-off-by: Ao Zhong <hacc1225@gmail.com>
+On Sat, 10 Feb 2024 at 03:52, Paloma Arellano <quic_parellan@quicinc.com> wrote:
+>
+> From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>
+> Introduce a peripheral flushing mechanism to decouple peripheral
+> metadata flushing from timing engine related flush.
+>
+> Changes in v2:
+>         - Fixed some misalignment issues
+>
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+
 > ---
->  drivers/gpu/drm/panel/panel-sitronix-st7703.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-> index b55bafd1a8be..a346d6c3d283 100644
-> --- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-> @@ -357,8 +357,8 @@ static int rg353v2_init_sequence(struct st7703 *ctx)
->  			       0x28, 0x03, 0xff, 0x00, 0x00, 0x00, 0x00);
->  	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETCYC, 0x80);
->  	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETBGP, 0x0a, 0x0a);
-> -	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETVCOM, 0x92, 0x92);
-> -	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER_EXT, 0x25, 0x22,
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETVCOM, 0x7f, 0x7f);
-> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER_EXT, 0x26, 0x62,
->  			       0xf0, 0x63);
->  	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETMIPI, 0x33, 0x81, 0x05,
->  			       0xf9, 0x0e, 0x0e, 0x20, 0x00, 0x00, 0x00,
-> 0x00,
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 17 +++++++++++++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h | 10 ++++++++++
+>  2 files changed, 27 insertions(+)
 
-Reviewed-by: Guido Günther <agx@sigxcpu.org>
- -- Guido
 
-> -- 
-> 2.43.0
-> 
+-- 
+With best wishes
+Dmitry
