@@ -2,60 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1B22851495
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 14:16:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B7E4851518
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 14:29:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD01810ED73;
-	Mon, 12 Feb 2024 13:16:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6CBC10E2AD;
+	Mon, 12 Feb 2024 13:29:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MUkunyN2";
+	dkim=pass (2048-bit key; unprotected) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="vw0PaWBD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 137A110ED6B;
- Mon, 12 Feb 2024 13:16:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707743764; x=1739279764;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=PP6/AXI8N1ZB7uTahkyJ97Bokj8Vg9DEe3iPYyte3eE=;
- b=MUkunyN2sOSRhhjrc2mxlMgL/ET8FzZBx1ZGFI8prOAZeQ7IvcfYURAt
- /IBBjXuZ5EUFvfL7K0V8nGXcsHpFgMhMOfRhy0SiRTT1SYnu2FOQcAiaq
- 5JGm8SeOjb5qbjE3kNKl7VNWdpmJbdl8frMDJaDi6HXcaAW+c8GkeW4Bu
- 36CIj395WZOycWgPBFMrvMmADuviH6X3kuPwe0jDnLyC83LYSc0BLQBWY
- vqIis7hiRLV01XlSQnD/JCthDYbXoEEGjgh77VE19EHNDi04P0DgV3oCk
- JV7EZTN0Alkb89SMNyBO1NMv6dLmc93OjvAnwk8Z4SK2D8ZKRptTn6UsD A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="13092583"
-X-IronPort-AV: E=Sophos;i="6.06,263,1705392000"; d="scan'208";a="13092583"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2024 05:16:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,263,1705392000"; 
-   d="scan'208";a="2561132"
-Received: from belyakov-mobl.ccr.corp.intel.com (HELO localhost)
- ([10.252.63.91])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2024 05:15:59 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Stephen Rothwell <sfr@canb.auug.org.au>, Daniel Vetter
- <daniel.vetter@ffwll.ch>
-Cc: Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>, Somalapuram
- Amaranath <Amaranath.Somalapuram@amd.com>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
- Mailing List <linux-next@vger.kernel.org>, zack.rusin@broadcom.com,
- tzimmermann@suse.de, thomas.hellstrom@linux.intel.com, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
- <tvrtko.ursulin@linux.intel.com>
-Subject: Re: linux-next: build failure after merge of the drm-misc tree
-In-Reply-To: <20240206152850.333f620d@canb.auug.org.au>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240206152850.333f620d@canb.auug.org.au>
-Date: Mon, 12 Feb 2024 15:15:54 +0200
-Message-ID: <87y1bp962d.fsf@intel.com>
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D1BE10E245
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 13:29:27 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4TYQKY3z40z9sbq;
+ Mon, 12 Feb 2024 14:29:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+ s=MBO0001; t=1707744561;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=6hQXyKsjxlQOVZTDodnZAiw/5mwBoEpdiKUN3Omtj/4=;
+ b=vw0PaWBD/K1z9/h6KAOxQ33Wa+sXzXwyrc5m8vXDM0DDGmCre4J5jA4GBLZR7mbU47XTIw
+ xmU4VNFK7vajv6HhNe0qeV/VYW0cU6ZN1A9ESzAdmrAYpNG+HsG2hJjuexkJHndxTiZ8dv
+ mzAX4NgZ6Ii525xOHXFDG/DruyFc95+VHeP7H0dzGEwf9wouGAdcNWnWH0dGaQiYojmmdq
+ fmObgubotgbVFOmnNChdzKiMWeCKQXiysg18nifA0/OUb4SJavwo6yv4uruXLn+nA6LQ86
+ k0yfiWnHsdTs68XseNapwFnFCIHwAQc1oBBpyQjNVV+/n7yWOqFwVvR1nOmbOQ==
+References: <20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev>
+ <20240205-pinephone-pll-fixes-v2-5-96a46a2d8c9b@oltmanns.dev>
+ <poua4bzyciiwt65sqjf2whqfdumvoe4h3bkjpf64px2vwgumrf@sai73byg2iju>
+ <87sf1zxb0s.fsf@oltmanns.dev>
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Guido
+ =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>, Purism Kernel Team
+ <kernel@puri.sm>, Ondrej
+ Jirman <megi@xff.cz>, Neil Armstrong <neil.armstrong@linaro.org>, Jessica
+ Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 5/6] drm/panel: st7703: Drive XBD599 panel at higher
+ clock rate
+In-reply-to: <87sf1zxb0s.fsf@oltmanns.dev>
+Date: Mon, 12 Feb 2024 14:29:14 +0100
+Message-ID: <87o7clyfo5.fsf@oltmanns.dev>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,55 +74,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 06 Feb 2024, Stephen Rothwell <sfr@canb.auug.org.au> wrote:
-> Hi all,
->
-> After merging the drm-misc tree, today's linux-next build (i386 defconfig)
-> failed like this:
->
-> In function 'i915_ttm_placement_from_obj',
->     inlined from 'i915_ttm_get_pages' at drivers/gpu/drm/i915/gem/i915_gem_ttm.c:847:2:
-> drivers/gpu/drm/i915/gem/i915_gem_ttm.c:165:18: error: 'places[0].flags' is used uninitialized [-Werror=uninitialized]
->   165 |         places[0].flags |= TTM_PL_FLAG_DESIRED;
->       |         ~~~~~~~~~^~~~~~
-> drivers/gpu/drm/i915/gem/i915_gem_ttm.c: In function 'i915_ttm_get_pages':
-> drivers/gpu/drm/i915/gem/i915_gem_ttm.c:837:26: note: 'places' declared here
->   837 |         struct ttm_place places[I915_TTM_MAX_PLACEMENTS + 1];
->       |                          ^~~~~~
->
-> Caused by commit
->
->   a78a8da51b36 ("drm/ttm: replace busy placement with flags v6")
 
-Cc: more people.
+On 2024-02-11 at 16:42:43 +0100, Frank Oltmanns <frank@oltmanns.dev> wrote:
+> On 2024-02-08 at 20:05:08 +0100, Maxime Ripard <mripard@kernel.org> wrote:
+>> [[PGP Signed Part:Undecided]]
+>> Hi Frank,
+>>
+>> On Mon, Feb 05, 2024 at 04:22:28PM +0100, Frank Oltmanns wrote:
+>>> This panel is used in the pinephone that runs on a Allwinner A64 SOC.
+>>> The SOC requires pll-mipi to run at more than 500 MHz.
+>>>
+>>> This is the relevant clock tree:
+>>>  pll-mipi
+>>>     tcon0
+>>>        tcon-data-clock
+>>>
+>>> tcon-data-clock has to run at 1/4 the DSI per-lane bit rate. The XBD599
+>>> has 24 bpp and 4 lanes. Therefore, the resulting requested
+>>> tcon-data-clock rate is:
+>>>     crtc_clock * 1000 * (24 / 4) / 4
+>>>
+>>> tcon-data-clock runs at tcon0 / 4 (fixed divisor), so it requests a
+>>> parent rate of
+>>>     4 * (crtc_clock * 1000 * (24 / 4) / 4)
+>>>
+>>> Since tcon0 is a ccu_mux, the rate of tcon0 equals the rate of pll-mipi.
+>>>
+>>> pll-mipi's constraint to run at 500MHz or higher forces us to have a
+>>> crtc_clock >= 83333 kHz if we want a 60 Hz vertical refresh rate.
+>>>
+>>> Change [hv]sync_(start|end) so that we reach a clock rate of 83502 kHz
+>>> so that it is high enough to align with pll-pipi limits.
+>>>
+>>> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+>>
+>> That commit log is great, but it's kind of off-topic. It's a panel
+>> driver, it can be used on any MIPI-DSI controller, the only relevant
+>> information there should be the panel timings required in the datasheet.
+>>
+>> The PLL setup is something for the MIPI-DSI driver to adjust, not for
+>> the panel to care for.
+>>
+>
+> I absolutely agree. It even was the reason for my submission of a
+> sunxi-ng patch series last year that was accepted, to make pll-mipi more
+> flexible. :)
+>
+> The only remaining option I currently see for adjusting the sunxi-ng
+> driver to further accomodate the panel, is trying to use a higher
+> divisor than 4 for calculating tcon-data-clock from tcon0. I remember
+> reading a discussion about this, but as far as I remember that proposal
+> was rejected (by you, IIRC).
+>
+> While I appreciate other suggestion as well, I'll look into options for
+> using a different divisor than 4.
+
+I tried the following:
+--- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
++++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+@@ -391,7 +391,7 @@ static void sun4i_tcon0_mode_set_cpu(struct sun4i_tcon *tcon,
+         * dclk is required to run at 1/4 the DSI per-lane bit rate.
+         */
+        tcon->dclk_min_div = SUN6I_DSI_TCON_DIV;
+-       tcon->dclk_max_div = SUN6I_DSI_TCON_DIV;
++       tcon->dclk_max_div = 127;
+        clk_set_rate(tcon->dclk, mode->crtc_clock * 1000 * (bpp / lanes)
+                                                  / SUN6I_DSI_TCON_DIV);
+
+On the pinephone, this selects a divisor of 6 resulting in a 25% frame
+drop. I.e., unless I'm missing something using a divisor other than 4 is
+not an option. This also matches your report from 2019: "Well, it's also
+breaking another panel." [1]
+
+I can currently see the following options:
+
+a. Drive PLL-MIPI outside spec and panel within spec (current situation,
+   but missing a small patch [2] that fixes the crtc_clock and nothing
+   else) and live with the fact that some pinephones will run
+   unreliably.
+
+b. Drive PLL-MIPI and panel within spec and shove data into the panel at
+   a too high rate (i.e., apply the rest of this series but not this
+   specific patch). This seems to mostly work, but hasn't seen any long
+   term testing. Short term testing showed that this approach results in
+   a slight but noticable unsmooth scrolling behavior.
+
+c. Drive PLL-MIPI within spec and panel outside spec (i.e., apply a
+   future version of the whole series). This has been tested for over a
+   month on three devices that I know of. There are no reports of panels
+   not working with the suggested parameters.
+
+All options require additional work on the GPU rate which is currently
+being discussed in a parallel thread of this series. Unless somebody
+comes up with a better idea, I will pause working on fixing PLL-MIPI and
+focus on the GPU instead. While I doubt it, maybe fixing the GPU is
+sufficient and continuing to drive PLL-MIPI outside spec proves to be
+ok.
+
+[1]: https://lore.kernel.org/all/20190828130341.s5z76wejulwdgxlc@flea/
+[2]: https://lore.kernel.org/all/20230219114553.288057-2-frank@oltmanns.dev/
+
+Best regards,
+  Frank
 
 >
-> I applied the following hack for today:
+> Best regards,
+>   Frank
 >
-> From: Stephen Rothwell <sfr@canb.auug.org.au>
-> Date: Tue, 6 Feb 2024 15:17:54 +1100
-> Subject: [PATCH] drm/ttm: initialise places
->
-> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> index 80c6cafc8887..34e699e67c25 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -834,7 +834,7 @@ static int __i915_ttm_get_pages(struct drm_i915_gem_object *obj,
->  
->  static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
->  {
-> -	struct ttm_place places[I915_TTM_MAX_PLACEMENTS + 1];
-> +	struct ttm_place places[I915_TTM_MAX_PLACEMENTS + 1] = {};
->  	struct ttm_placement placement;
->  
->  	/* restricted by sg_alloc_table */
-> -- 
-> 2.43.0
-
--- 
-Jani Nikula, Intel
+>>
+>> Maxime
+>>
+>> [[End of PGP Signed Part]]
