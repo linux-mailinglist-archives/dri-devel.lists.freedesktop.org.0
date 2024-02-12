@@ -2,74 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 813A6851878
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 16:53:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B0A8518F9
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 17:27:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFC8510ED84;
-	Mon, 12 Feb 2024 15:53:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 422A810E800;
+	Mon, 12 Feb 2024 16:26:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="PdPszgOO";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="cj6G+CAN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bSJE8x2A";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cj6G+CAN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bSJE8x2A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com
- [209.85.166.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7523D10ED84
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 15:53:01 +0000 (UTC)
-Received: by mail-io1-f44.google.com with SMTP id
- ca18e2360f4ac-7beda6a274bso132847039f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 07:53:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1707753180; x=1708357980;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8ga0BKab3mro7xv/pvLTvYj5RDzbbT2tT8OrhfimfXY=;
- b=PdPszgOOUJXLrfVE4c4AINrRJmdMkCrEMoQgGDJ13895V67c0jjaiMij85l3Jigsgz
- 1LI+pe3O5VuKPuJKeNVDlN3HlI7M6jDxydAGsa+z0BNCAEzv+u5JiWEAmaOTgDF2IZl6
- Uo5g7/iPzrHWKtl+kBNK/CiDuJoC2bleN28Mk2IsPgvI2Wf761zGq0/qDewbHpXOzjdy
- K3x3vpsgwnLcujiCRh57b2H024jNjS8Xe2oHp+YkgYJLkbP/0pyO6TaC8jTh0+gAmsIS
- THDIIacZbso/k1BwHyowgrN7Y22MV0jI1F8EpowJ+5wv6N9VQgx/zFa2fspF7zng+UuB
- HjeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707753180; x=1708357980;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8ga0BKab3mro7xv/pvLTvYj5RDzbbT2tT8OrhfimfXY=;
- b=oz1GBwsP62xGyFOE2KepNKZTCyZQjatitSCkXp38Bz//elzZhOFGXBsZz7gNeGziEf
- /gYuKj2MuTTdAa7vHjl4r4/KwArzLETHLWkpaN7BCnx5I2a7NjM9b+RW2A5Y6VJKt75h
- imY7kSlf0JEEvP/1GQKTEAjea2o2CvuJa0eB46yNWPtqWwymZMxVfdky0NuGFAiYGLB+
- pYGXWubQ8L/SHLpLxrXDEgyt6rxfcAgkZSZM4k6pNwJiIWOnvEtkTcrJx30z4jYQSB+w
- TbeKioDBJ0ekX4Gfi56o2GZhtwPVmu3ZK8zWEsqRjjgIh//nxNQFWZ2/hCPFZGXDeLBC
- B9+A==
-X-Gm-Message-State: AOJu0YwnvmaRDIAF0pIL88GpNsq0G7v2RO1rSkpoOY9gh6jO+b5MDjrU
- WLy+RN8oXjPwE5rrOFaO8Ylk3Oz165b3i+YvkFgfocH8HlSp6+SGp8yTkfVjL3XmAdOgDqYGY2b
- ueB8K1eth1F0XGH9BgJApiI1OB1Pr3PLwwfTj
-X-Google-Smtp-Source: AGHT+IFaG5EUEd3w22+15UIe+fR9vs0Mizvgy4uB3bklxmWtpF0mFVHrOZPdEsANkshqajsm1XKOVsyrbwBB5whufrc=
-X-Received: by 2002:a5e:8d0b:0:b0:7c4:3b9e:f766 with SMTP id
- m11-20020a5e8d0b000000b007c43b9ef766mr8640816ioj.20.1707753180672; Mon, 12
- Feb 2024 07:53:00 -0800 (PST)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8C8D10E7ED
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 16:26:50 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 332A71F788;
+ Mon, 12 Feb 2024 16:26:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1707755209; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PK3idIyd9gCCDEazD/FLS4OkOLntCLd8x9crOExzJXc=;
+ b=cj6G+CANuvWhcCdqKOGFqJ4ZIRVJXiSEubKBRKuUKnlG2qLbSyt5vhhplNzwTj5x8nuJJq
+ YZb2hTJvXGJ2dxreLJ+bRivxAhVbge7d0OD20WH531EHCuJEzzTy2b4y0x1IPKz8nXTF8s
+ l2Zb6MtHOxyzMCm/QHYKJ9DI0NoTOgw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1707755209;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PK3idIyd9gCCDEazD/FLS4OkOLntCLd8x9crOExzJXc=;
+ b=bSJE8x2A3SRTFrFpwM8rCuyl3RpLfNSzAK9mkUmJy7ZGP0DKewlTlVgDBGoADZrBhkTcwn
+ dDgWWKeHMLD5ExAg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1707755209; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PK3idIyd9gCCDEazD/FLS4OkOLntCLd8x9crOExzJXc=;
+ b=cj6G+CANuvWhcCdqKOGFqJ4ZIRVJXiSEubKBRKuUKnlG2qLbSyt5vhhplNzwTj5x8nuJJq
+ YZb2hTJvXGJ2dxreLJ+bRivxAhVbge7d0OD20WH531EHCuJEzzTy2b4y0x1IPKz8nXTF8s
+ l2Zb6MtHOxyzMCm/QHYKJ9DI0NoTOgw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1707755209;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PK3idIyd9gCCDEazD/FLS4OkOLntCLd8x9crOExzJXc=;
+ b=bSJE8x2A3SRTFrFpwM8rCuyl3RpLfNSzAK9mkUmJy7ZGP0DKewlTlVgDBGoADZrBhkTcwn
+ dDgWWKeHMLD5ExAg==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id E159713A0E;
+ Mon, 12 Feb 2024 16:26:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+ by imap2.dmz-prg2.suse.org with ESMTPSA id Fhp0NchGymXmXgAAn2gu4w
+ (envelope-from <tzimmermann@suse.de>); Mon, 12 Feb 2024 16:26:48 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
+ deller@gmx.de, javierm@redhat.com
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 00/10] backlight: Replace struct fb_info in interfaces
+Date: Mon, 12 Feb 2024 17:16:33 +0100
+Message-ID: <20240212162645.5661-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20240212131323.2162161-1-panikiel@google.com>
- <20240212131323.2162161-9-panikiel@google.com>
- <170774854550.294485.3708612918527188826.robh@kernel.org>
-In-Reply-To: <170774854550.294485.3708612918527188826.robh@kernel.org>
-From: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>
-Date: Mon, 12 Feb 2024 16:52:49 +0100
-Message-ID: <CAM5zL5r69im5OENJa0drmZ=Er=uMgJJUC_d3FemZaLgq12in0A@mail.gmail.com>
-Subject: Re: [PATCH 8/9] media: dt-bindings: Add Intel Displayport RX IP
-To: Rob Herring <robh@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- conor+dt@kernel.org, airlied@gmail.com, mripard@kernel.org, 
- dinguyen@kernel.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, 
- robh+dt@kernel.org, hverkuil-cisco@xs4all.nl, devicetree@vger.kernel.org, 
- ribalda@chromium.org, daniel@ffwll.ch, chromeos-krk-upstreaming@google.com, 
- mchehab@kernel.org, akpm@linux-foundation.org, 
- dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spamd-Result: default: False [0.85 / 50.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_COUNT_THREE(0.00)[3];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCPT_COUNT_SEVEN(0.00)[10]; MID_CONTAINS_FROM(1.00)[];
+ FREEMAIL_TO(0.00)[kernel.org,linaro.org,gmail.com,gmx.de,redhat.com];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
+ BAYES_HAM(-0.05)[59.41%]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: 0.85
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,56 +109,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 12, 2024 at 3:35=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
-:
->
->
-> On Mon, 12 Feb 2024 13:13:22 +0000, Pawe=C5=82 Anikiel wrote:
-> > The Intel Displayport RX IP is a part of the DisplayPort Intel FPGA IP
-> > Core. It implements a DisplayPort 1.4 receiver capable of HBR3 video
-> > capture and Multi-Stream Transport. The user guide can be found here:
-> >
-> > https://www.intel.com/programmable/technical-pdfs/683273.pdf
-> >
-> > Signed-off-by: Pawe=C5=82 Anikiel <panikiel@google.com>
-> > ---
-> >  .../devicetree/bindings/media/intel,dprx.yaml | 125 ++++++++++++++++++
-> >  1 file changed, 125 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/intel,dprx.=
-yaml
-> >
->
-> My bot found errors running 'make DT_CHECKER_FLAGS=3D-m dt_binding_check'
-> on your patch (DT_CHECKER_FLAGS is new in v5.13):
->
-> yamllint warnings/errors:
->
-> dtschema/dtc warnings/errors:
-> Error: Documentation/devicetree/bindings/media/intel,dprx.example.dts:28.=
-27-28 syntax error
-> make[2]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings=
-/media/intel,dprx.example.dtb] Error 1
->
-> doc reference errors (make refcheckdocs):
->
-> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/202402=
-12131323.2162161-9-panikiel@google.com
->
-> The base for the series is generally the latest rc1. A different dependen=
-cy
-> should be noted in *this* patch.
->
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
->
-> pip3 install dtschema --upgrade
->
-> Please check and re-submit after running the above command yourself. Note
-> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-> your schema. However, it must be unset to test all examples with your sch=
-ema.
->
+Backlight drivers implement struct backlight_ops.check_fb, which
+uses struct fb_info in its interface. Replace the callback with one
+the does not use fb_info.
 
-As with the previous patch, I was missing a #include in the example. I
-will include the fix in v2.
+In DRM, we have several drivers that implement backlight support. By
+including <linux/backlight.h> these drivers depend on <linux/fb.h>.
+At the same time, fbdev is deprecated for new drivers and likely to
+be replaced on many systems.
+
+This patchset is part of a larger effort to implement the backlight
+code without depending on fbdev.
+
+Patch 1 makes the backlight core match backlight and framebuffer
+devices via struct fb_info.bl_dev. Patches 2 to 9 then go through
+drivers and remove unnecessary implementations of check_fb. Finally,
+patch 10 replaces the check_fb hook with controls_device, which
+uses the framebuffer's Linux device instead of the framebuffer.
+
+Thomas Zimmermann (10):
+  backlight: Match backlight device against struct fb_info.bl_dev
+  auxdisplay/ht16k33: Remove struct backlight_ops.check_fb
+  hid/hid-picolcd: Fix initialization order
+  hid/hid-picolcd: Remove struct backlight_ops.check_fb
+  backlight/aat2870-backlight: Remove struct backlight.check_fb
+  backlight/pwm-backlight: Remove struct backlight_ops.check_fb
+  fbdev/sh_mobile_lcdc_fb: Remove struct backlight_ops.check_fb
+  fbdev/ssd1307fb: Init backlight before registering framebuffer
+  fbdev/ssd1307fb: Remove struct backlight_ops.check_fb
+  backlight: Add controls_device callback to struct backlight_ops
+
+ drivers/auxdisplay/ht16k33.c             |  8 ------
+ drivers/hid/hid-picolcd_backlight.c      |  7 ------
+ drivers/hid/hid-picolcd_core.c           | 14 +++++------
+ drivers/hid/hid-picolcd_fb.c             |  4 +++
+ drivers/video/backlight/aat2870_bl.c     |  7 ------
+ drivers/video/backlight/backlight.c      |  9 +++++--
+ drivers/video/backlight/bd6107.c         | 12 ++++-----
+ drivers/video/backlight/gpio_backlight.c | 12 ++++-----
+ drivers/video/backlight/lv5207lp.c       | 12 ++++-----
+ drivers/video/backlight/pwm_bl.c         | 12 ---------
+ drivers/video/fbdev/sh_mobile_lcdcfb.c   |  7 ------
+ drivers/video/fbdev/ssd1307fb.c          | 31 +++++++++---------------
+ include/linux/backlight.h                | 16 ++++++------
+ include/linux/pwm_backlight.h            |  1 -
+ 14 files changed, 55 insertions(+), 97 deletions(-)
+
+-- 
+2.43.0
+
