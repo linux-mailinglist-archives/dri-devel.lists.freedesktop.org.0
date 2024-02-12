@@ -2,47 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FDCA851D67
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 19:56:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD330851DD6
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 20:21:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C23410E3BC;
-	Mon, 12 Feb 2024 18:56:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8532910E0C5;
+	Mon, 12 Feb 2024 19:21:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="KhAJpP54";
+	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="nW+VyRJJ";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="yZVCs8cW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7722B10E3BC
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 18:56:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=m1baTKysIwyuQiFpS2joxHLjhtugrGXccjQD8FWaWpM=; b=KhAJpP54KtaON/ePLNbrIZ796l
- oRDSVhHpT0MVSmrExhD+m9suBWnsIAo+aJtfBVjHJPfau9OcjKIN0zNWW9VRryFtcH1ey3isGwqb4
- WIT8o183YuI/QD0oZNlilpYRFGo4hzVAZyhieJ+K03q2/G7TEYVxwJRXaekWMbPkn8mwHhXzIpU73
- ZeiQcfA40Tt7KOas6rApISSP/Oce8pXuQf/SU+Vbw7KBzKUkm4g9dpK6AfgmKVmEH7y7r8ycxHszm
- qfq5QPVkcsyPAQD+JQAYNPsrbTbYxeSIZSJ63ydW1zQmPaYK5Lv782PF92VK+kmgjIgdTh7b1qjxb
- W7qvWR9w==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
- by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
- id 1rZbTt-00000006hRv-1BZe; Mon, 12 Feb 2024 18:56:41 +0000
-Message-ID: <4f3fa9e4-3000-4a96-a7f6-e32e69b57a84@infradead.org>
-Date: Mon, 12 Feb 2024 10:56:40 -0800
+X-Greylist: delayed 378 seconds by postgrey-1.36 at gabe;
+ Mon, 12 Feb 2024 19:21:02 UTC
+Received: from fout8-smtp.messagingengine.com (fout8-smtp.messagingengine.com
+ [103.168.172.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFA1A10E796
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 19:21:02 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailfout.nyi.internal (Postfix) with ESMTP id 2452513800A5;
+ Mon, 12 Feb 2024 14:14:41 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+ by compute5.internal (MEProxy); Mon, 12 Feb 2024 14:14:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to; s=fm3; t=1707765281;
+ x=1707851681; bh=owswN7XU/Fn0mSvnFsqZqiicnFod/NS5cnjRqcaw1U8=; b=
+ nW+VyRJJFFU1Zxtj1eZWKi+KMs2BVX3Z8BA+KwbAyA812Sh6+PcWLAItYIb98btw
+ NY8oHmLn/UzMfA/xzunxmaq8Huh7a230fwMqh+x6rJAmkYm8QrtrrtLK87GirL8u
+ xVArA6xM1ORyPi/gjCkwOsaN214DgGWT1cfJ5Xu7lGEQbz+0FmYEEkpQFjdJ2w7A
+ 6EqXM0zJZwz8xQWyLu9GH3/zMvCdx8W5Ggdvw73T06RtPCpomopN8a0qp91yRFCN
+ dOKfwHOAlkMAa6rzIdnLYueGHL0i8Y8wZZc186AkZ6NrXaDOy2KIiIqj6xq8pGld
+ mehi1NWe3zCevzCya2whlQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1707765281; x=
+ 1707851681; bh=owswN7XU/Fn0mSvnFsqZqiicnFod/NS5cnjRqcaw1U8=; b=y
+ ZVCs8cWJMmS/foQOdJrpUc7TbWBIaLeICwQTavWekPIalfjX48b8dBEW539Mc93C
+ VS8xq+ReDnciLn6eXns6WzMZtZIFeLpjLuYU5/dJLvxccnFTU6a71zYheZTiWbiB
+ xsA6Umg20/zfbV2ejxiHbJivyLYFyVTOlA7q8cE1d2Q+eZU9gqI4IjcUWmivaj6g
+ 9p5Xw5BgnDcMDX1dukXtNVKYvrdK+lBxbpF/pM5Iw41vU2J6u0gDL7xMsIyk8Wf1
+ is0fBYmKuGG/QDCdjz9g/mbFci94I3vnNHMG0610usIiQ6XsVg3CFGawxTDjNKcd
+ Dp7ixXkFLDA2rSqCpMKEA==
+X-ME-Sender: <xms:IG7KZfoXX4N5T5lq4ALykSgSgZ7zogu0GQDjjd59DWI6wh06-fWNBQ>
+ <xme:IG7KZZrtdY2nZl5IlC3uAvPSyF4VvBFTUgrB-VfJnIgEXYVORQw2aoqDzs1CubqgC
+ glS665VZTkx-KeCRRc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudefgdduvdduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
+ rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+ htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
+ gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:IG7KZcPeBrzOTwwpsnH8vneIDZt98fD1SAopAyqNNiwHr1m6B9wBVg>
+ <xmx:IG7KZS53t_XSYXsI5-aZ0ahMbIrePfPA6EP3NOgW6xhsxbjorB7xMw>
+ <xmx:IG7KZe7W3HIdZ1bFhA2U7kxhuAWhL119lTskO0dw9lHFEndu5sGtfA>
+ <xmx:IW7KZRJbyVsb_ls52tp7cqiPAckIN9K9IlBBLfSt8wvAtm5CaBQ9AA>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 5A778B6008D; Mon, 12 Feb 2024 14:14:40 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-144-ge5821d614e-fm-20240125.002-ge5821d61
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND] iosys-map: fix typos
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-References: <20240212042837.21071-1-rdunlap@infradead.org>
- <bf0d02d4-2c90-40a4-8018-bd96a01f2751@suse.de>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <bf0d02d4-2c90-40a4-8018-bd96a01f2751@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Message-Id: <2cacd8dc-6150-4aa2-af9e-830a202fb0a8@app.fastmail.com>
+In-Reply-To: <4869921.GXAFRqVoOG@radijator>
+References: <20240212111819.936815-1-arnd@kernel.org>
+ <20240212124428.GB4593@aspen.lan> <4869921.GXAFRqVoOG@radijator>
+Date: Mon, 12 Feb 2024 20:14:20 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: =?UTF-8?Q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+ "Arnd Bergmann" <arnd@kernel.org>,
+ "Daniel Thompson" <daniel.thompson@linaro.org>
+Cc: "Lee Jones" <lee@kernel.org>, "Jingoo Han" <jingoohan1@gmail.com>,
+ "Helge Deller" <deller@gmx.de>, "Linus Walleij" <linus.walleij@linaro.org>,
+ "Flavio Suligoi" <f.suligoi@asem.it>, "Hans de Goede" <hdegoede@redhat.com>,
+ "Jianhua Lu" <lujianhua000@gmail.com>,
+ "Matthew Wilcox" <willy@infradead.org>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] backlight: ktd2801: fix LED dependency
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,50 +102,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Feb 12, 2024, at 15:31, Duje Mihanovi=C4=87 wrote:
+> On Monday, February 12, 2024 1:44:28 PM CET Daniel Thompson wrote:
+>> On Mon, Feb 12, 2024 at 12:18:12PM +0100, Arnd Bergmann wrote:
+> I believe this would be the best thing to do here. Making LEDS_EXPRESS=
+WIRE=20
+> user selectable doesn't make much sense to me as the library is rather=
+ low-
+> level (a quick grep turns up BTREE as an example of something similar)=
+ and IMO=20
+> the GPIOLIB dependency should be handled by LEDS_EXPRESSWIRE as it's t=
+he one=20
+> actually using the GPIO interface (except maybe for KTD2692 as it has =
+some=20
+> extra GPIOs not present in the other one and thus handles them itself).
 
+Agree, let's do it this way. Maybe the leds-expresswire.c file should
+not be in drivers/leds either, but it's already there and I can't think
+of a better place for it.so just adapting Kconfig should be enough.
 
-On 2/11/24 23:13, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 12.02.24 um 05:28 schrieb Randy Dunlap:
->> Correct spellos/typos in comments.
->>
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: dri-devel@lists.freedesktop.org
->> ---
->>   include/linux/iosys-map.h |    4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff -- a/include/linux/iosys-map.h b/include/linux/iosys-map.h
->> --- a/include/linux/iosys-map.h
->> +++ b/include/linux/iosys-map.h
->> @@ -34,7 +34,7 @@
->>    * the same driver for allocation, read and write operations.
->>    *
->>    * Open-coding access to :c:type:`struct iosys_map <iosys_map>` is considered
->> - * bad style. Rather then accessing its fields directly, use one of the provided
->> + * bad style. Rather than accessing its fields directly, use one of the provided
-> Ok.
->>    * helper functions, or implement your own. For example, instances of
->>    * :c:type:`struct iosys_map <iosys_map>` can be initialized statically with
->>    * IOSYS_MAP_INIT_VADDR(), or at runtime with iosys_map_set_vaddr(). These
->> @@ -85,7 +85,7 @@
->>    *    if (iosys_map_is_equal(&sys_map, &io_map))
->>    *        // always false
->>    *
->> - * A set up instance of struct iosys_map can be used to access or manipulate the
->> + * A setup instance of struct iosys_map can be used to access or manipulate the
-> That's not a typo. This refers to "an instance that has been set up".
-> 
+Please add the corresponding Makefile change as well though:
 
-Thanks. I'll drop that part and resend the other.
+--- a/drivers/Makefile
++++ b/drivers/Makefile
+@@ -135,7 +135,7 @@ obj-$(CONFIG_CPU_IDLE)              +=3D cpuidle/
+ obj-y                          +=3D mmc/
+ obj-y                          +=3D ufs/
+ obj-$(CONFIG_MEMSTICK)         +=3D memstick/
+-obj-$(CONFIG_NEW_LEDS)         +=3D leds/
++obj-y                          +=3D leds/
+ obj-$(CONFIG_INFINIBAND)       +=3D infiniband/
+ obj-y                          +=3D firmware/
+ obj-$(CONFIG_CRYPTO)           +=3D crypto/
 
-> 
->>    * buffer memory. Depending on the location of the memory, the provided helpers
->>    * will pick the correct operations. Data can be copied into the memory with
->>    * iosys_map_memcpy_to(). The address can be manipulated with iosys_map_incr().
-> 
+Without this, the expresswire library module won't
+get built unless NEW_LEDS is enabled.
 
--- 
-#Randy
+     Arnd
