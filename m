@@ -2,123 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1417851940
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 17:31:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C8418519A9
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 17:39:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D7E510EBD3;
-	Mon, 12 Feb 2024 16:31:19 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="EvSbM/Aq";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3909810E7CA;
+	Mon, 12 Feb 2024 16:39:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2050.outbound.protection.outlook.com [40.107.220.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1204610EDFF;
- Mon, 12 Feb 2024 16:31:18 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B2BLAY/bKMKQJd/MwXjr2iQwSEtSLD02wPgM/ZcuAxR14yzxnnYE1XfDRxKIdIBTNW0YUYVCozD+46cUH3yVG8me9egotcODKBNw5FP12o4ID1unX3iZMY9zLXN2G/63yVOYAALx11yVzNyhxfNoeUZDn1eSGyEC2qYha3gpCg+uS9zby8y9Bqh0IdYgrYxaYUsBtLd03WjCoXnpzY2eCgdiFS4DCfsLDUaJtyQQUzCWWZPJPB9NOiEdP3R4J+rNht44LGHrMbhUm4ag5QHxYQff+wjTf3A7DbZP7ZzE+rtXmwaLsSP7dm+6niiXls07uDWqsb0PTqK6YpI0Hv6B2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uWvisoDDPrjELF0J08m9VyVmtr8yMEDaJxd90x+PuQk=;
- b=Gv2lS3/coyGhETNCrKyLpUj+7bpgq++IJ+TDDTT9YxUo7hRYkW+Qn/FcVnPAkl5k5hssg6/Rj9a+8JEwElscsII87lBDBvFvF7jzHHc+mvwvcT9CJlVbtMzXdEkrRSiI1KRBQUZGKCtLbDc//at0ZAQt2/EabzqnfSjyLOtlvkmOabE5rMkcy9hVETAqv1nHOF/KKBGx3UXXXiOdlOqzDgjp+ZvFdtUj7MWSbprMM+n5Ss1nieKBZbZOwKQhAMNK7dm0ovCQhHlq6xZrm0JP55vugzyGO7crpv252OpEBwLVGC9+qYmivf/pjfm7a2OnTAVdYI4bNdMs6BockH3EBg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uWvisoDDPrjELF0J08m9VyVmtr8yMEDaJxd90x+PuQk=;
- b=EvSbM/Aqd2Fb2qx13i4Z5JXwnVaq/1vrbF8mZZtFTGd1M4VmV4TZ1pUXuTgbewQv2PRv2TNkLnz8c7hqVznW2OcWDFCYFtPDjWhPpLefmN/kJ9bnmI0tNHfWTq8jGueyDiSNe/IVyWPFWJmO2EiAWYTh5E4wcQOp/kwYx6n6DtM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by DS7PR12MB6095.namprd12.prod.outlook.com (2603:10b6:8:9c::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.24; Mon, 12 Feb
- 2024 16:31:15 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::dd00:9ab5:4d11:2d1a]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::dd00:9ab5:4d11:2d1a%7]) with mapi id 15.20.7292.019; Mon, 12 Feb 2024
- 16:31:15 +0000
-Message-ID: <08ced68d-99bc-4a5e-90e7-f6a4b4b20e93@amd.com>
-Date: Mon, 12 Feb 2024 10:31:12 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/3] drm: Add support to get EDID from ACPI
-To: amd-gfx@lists.freedesktop.org,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
-Cc: "open list:ACPI" <linux-acpi@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, Melissa Wen <mwen@igalia.com>,
- Mark Pearson <mpearson-lenovo@squebb.ca>
-References: <20240211055011.3583-1-mario.limonciello@amd.com>
- <20240211055011.3583-2-mario.limonciello@amd.com>
-Content-Language: en-US
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20240211055011.3583-2-mario.limonciello@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DM6PR04CA0027.namprd04.prod.outlook.com
- (2603:10b6:5:334::32) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4A1010E7CA
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 16:39:15 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 65BA260FF0;
+ Mon, 12 Feb 2024 16:39:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C339C433C7;
+ Mon, 12 Feb 2024 16:39:05 +0000 (UTC)
+Message-ID: <0b3e31e6-34ae-46e3-a43d-bc4895542d8a@xs4all.nl>
+Date: Mon, 12 Feb 2024 17:39:03 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|DS7PR12MB6095:EE_
-X-MS-Office365-Filtering-Correlation-Id: 322f7ccd-51b5-48b9-23a3-08dc2be8081f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nzJTITkh27vVkHpzw46ShOEkrPZNcdOEeu4q1OUPXa30cTYrrhAI0AtL6gupCFGvEEsXltUORjXUuWNp3jOedemKyfGdQ/gvxXvFFvVk5Z5GSc3nxeJgpPjYeqGWtLKufH70X4lcBJe5NDt634iqMg9PUMgEp4W4/2hix8Aq9z5lasZCY2EfT+qp2y88nzMPlYNSphihzQ5DPKA632yMgJG1IDv04kKgvMMIPYNv653LptQBuUCrMuZtxzjtSGBHRAikloiWDwSe+JGKbAcfFqwyvB2bfFyYHJrflD61MCSPtpkPX4PBJphg5R1+t5w9LkBONRN/w/STe2uH/l9ljF7ijLYojinYLdhXEa8xNePFouRU8mOhnD5YBu9CyVc1eTMfKlDdBCKm/F+5uZVBeFB5x+6tdbtaA4x2HmxDrdnZ9nDK2GYSpAndUR6td54K4A9EOCL0O/KU3PN1jujq39Q1PY+sP9m8au6bkMM5f55GongfSGUBAWBp670DQ6NdadMhGfMppQIe8xod79ZYexmFiXfwJokARr324UHbfOGYfn6RQSDXzdYe2hSVUFCk
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(346002)(136003)(396003)(376002)(366004)(39860400002)(230922051799003)(186009)(64100799003)(451199024)(1800799012)(86362001)(31696002)(31686004)(6916009)(5660300002)(66476007)(66946007)(66556008)(8676002)(8936002)(4326008)(478600001)(6486002)(6506007)(6512007)(2906002)(44832011)(2616005)(41300700001)(83380400001)(38100700002)(66899024)(26005)(316002)(6666004)(53546011)(36756003)(54906003);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?emdTemJYOUFIaDFYSFNNNjZzaDl2b0puMTRZbFRyRnovbk54ZGh0dnhjYlZn?=
- =?utf-8?B?MWVkVS9wdjRQWExHSnlxNUhwSEUwZmFMcUdwVjlFY0txWXBxL3NJcWowejRG?=
- =?utf-8?B?Yit0SHlWRWcyMGhpUUVZMjF0Q0dycEJYUW5wS2hEUnBUS3d0ZjArYnlLQjBl?=
- =?utf-8?B?U0d4SU1HMzQzN3ZuelgybGlRUkFtYXY4RXdFckgySjA5V3pZMzlHZEVZVVdV?=
- =?utf-8?B?UVpVUFRreWZIbnY3VHlGUXlrK3Q2QjFjVDRiQ2o5eTJYSDlvaUorbTVtQk96?=
- =?utf-8?B?QXhucGtjeWg3UmgzZHZ6L0JDVGZDM1ROODFKTzFyL2dnbVFaVThmUSt4aUhV?=
- =?utf-8?B?Qjk2VXFoY0tiYy9WcmZ5UDFhNW5nLzhtNGRBZ3NnTkVqclpUZHFwM29kQzZi?=
- =?utf-8?B?dVdhUk5xSjJsWUxoV29HQ0RBdXJ1RlgwSXNZdFZjOVE4dFFURDdEZmJkRTlE?=
- =?utf-8?B?SDUzKzU3K0lUVDMwalR1b2Y0NzhBc3hqeFNaUXRMOGhkU2FWa3FZR0NCSzUy?=
- =?utf-8?B?dzBuWlpQcUI0c2tUTTllaUxXME1MNFNhQjZzbVlQODhJVFo1SERPVTdNVGhy?=
- =?utf-8?B?bisyZGttTzZIVEprS3N6eHdoMVhseEs5eDZ5c2hTRjZ3WjRiTnpZZW1iMXN1?=
- =?utf-8?B?ZGYwYUFRR2l4WjJFSnRVNWRRT2ExNFkzVkdmdXlxVTY2SStjajdDMEcvaHl4?=
- =?utf-8?B?TDBpYlFyVTVaNkduNDg3MUtjNlJCckNxVUlObFJWY3czQWVzM1U4ZDA1cXNh?=
- =?utf-8?B?b010YjZka2lQeEN4ZTZ2ZlQ4MVl5dDc4OURSMXF4bTJmOWMrb21VaSt4VGFr?=
- =?utf-8?B?b29xRmVudzJjRmc3NENmR3hTdU5rZzZRRE91eXpHSzlNL1RhUUN4cTU2UDZS?=
- =?utf-8?B?MWpXaThCSG8ralpMRHFHUDFrQ2h6OFhqS0ZxOEJ2TUdZOFZUb0lPT3hxekx1?=
- =?utf-8?B?eUhLc3dtQ1pUVjNiS2FhcW05RHdUaG1jeVkxb3VMWGk4VUFhcTBvQU1CcWJ5?=
- =?utf-8?B?TEw2Z2tyeUUxTUFsTWhyNXU2SitYSkFDaHJ4Rnk1UXVyL0ZtR1dwTnBVY1dB?=
- =?utf-8?B?WXJiNlBKaXJnRlduTDI4L3lpaXg0TVNWWUE3S2tkb1Q4Uk5wSWlnS2tBRHNW?=
- =?utf-8?B?c2FBeVcwMENlZyszN1ZjMXE2SkZidWp2V1BsQlRzWmlMMFV1U3prbk12K0pp?=
- =?utf-8?B?L2dtcGlpVnZyY21yMjZrZTBMU2xPcUpBSnNZSFhsNUU4YnMya2UwOFBzN2lo?=
- =?utf-8?B?aVNLY0xpcVREMkRDN0w5bldPYlpJMHhXWUJQOEp3UHVZT25IVWRsbkdUYy9x?=
- =?utf-8?B?TDlYeGh2TjNpdkJrWFREZmE4RERRODlXMmVZbDkwTzR6akc5b09pNnQ4b1NY?=
- =?utf-8?B?Q1BQcXl1OG5OVXJVYkR0TTk1ODhVc2N4cUZKZmhocXhUNndBaDExV1lkODNL?=
- =?utf-8?B?dkd2V0pyd3NWbGU1K083eTNublFEbVoybUNyTWx4V0sxYkg4b21BSHFzV0Ir?=
- =?utf-8?B?QjhDcmFMUVpIcmljbnlKbTZIZ0MrL21ib1k5RGthRVJScHh1cnpKdXpxeEdi?=
- =?utf-8?B?UjkrNzlyc2NDNWR2TjR4REYxY3hrQUk2WWdEM0RTbDdjbnArcVN0elQ5Qnc4?=
- =?utf-8?B?ZGJ3OFBmR3VNUEgwSVdWOUhWcnp2RkxIL2tUQ1ZDVmdvRStIZUNMYTlXYmc4?=
- =?utf-8?B?Mk9UbHRTaXBEMnA3VTJ4OUNXR1Q5UG1Md1hqOWUzcmpoT0tMZ3I2SE05Z21B?=
- =?utf-8?B?ZFl5OGtYa0ErQW0rUno0N3kwU2VCeHd4S3ZwKzl6UUN6TjJybmlkb2Z1YzE2?=
- =?utf-8?B?ZnBwTEN2MEREeGNXU3htSzd3cnltMXdGeGhwZndoY0txQWErTW5SWHNDcVZN?=
- =?utf-8?B?YWhtNFFPSEorUWl1bnVWbk40d01BZWdDSU11aEg5ajNPU1lFakZOaHY0Y01T?=
- =?utf-8?B?R0lKdGEwYUVXdUtGSDRrMjJzVk9uVXlGQndQeFM4dWFNQ3QxcG5JWVcwQksr?=
- =?utf-8?B?UGN6RDd2Y2w4MTlhbFZkQTZuWFNQa244YjVrbkJUOXRkWExpTTBYQ0NFU3NB?=
- =?utf-8?B?NFZYbFFnek5Wdk1KVXYwVko2RWdPRGUxSitrWjdMQ3Zoczlvc3Brd2t2ZFpz?=
- =?utf-8?Q?P6F6Ax5VuPQsqgtPCjaWYXR53?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 322f7ccd-51b5-48b9-23a3-08dc2be8081f
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2024 16:31:14.9593 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aRfHhnVW8wQ+lyERg+UPIHmUUg/BxGlAxkX1mUUgHLjnYQdhsyRoV2cS9p4fXcCg5P+R5uYP0C2YYEAMp8UH/Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6095
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB property
+Content-Language: en-US, nl
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
+ Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+References: <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
+ <20240115143308.GA159345@toolbox> <20240115143720.GA160656@toolbox>
+ <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
+ <Zb0M_2093UwPXK8y@intel.com>
+ <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
+ <Zb0aYAapkxQ2kopt@intel.com>
+ <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
+ <20240209203435.GB996172@toolbox>
+ <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
+ <Zco-DQaXqae7B1jt@intel.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <Zco-DQaXqae7B1jt@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,271 +108,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/10/2024 23:50, Mario Limonciello wrote:
-> Some manufacturers have intentionally put an EDID that differs from
-> the EDID on the internal panel on laptops.  Drivers that prefer to
-> fetch this EDID can set a bit on the drm_connector to indicate that
-> the DRM EDID helpers should try to fetch it and it is preferred if
-> it's present.
+On 12/02/2024 16:49, Ville Syrjälä wrote:
+> On Mon, Feb 12, 2024 at 11:01:07AM +0100, Maxime Ripard wrote:
+>> On Fri, Feb 09, 2024 at 09:34:35PM +0100, Sebastian Wick wrote:
+>>> On Mon, Feb 05, 2024 at 10:39:38AM +0100, Maxime Ripard wrote:
+>>>> On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrjälä wrote:
+>>>>> On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
+>>>>>> On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrjälä wrote:
+>>>>>>> On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
+>>>>>>>> Hi,
+>>>>>>>>
+>>>>>>>> On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
+>>>>>>>>>>>  /**
+>>>>>>>>>>>   * DOC: HDMI connector properties
+>>>>>>>>>>>   *
+>>>>>>>>>>> + * Broadcast RGB
+>>>>>>>>>>> + *      Indicates the RGB Quantization Range (Full vs Limited) used.
+>>>>>>>>>>> + *      Infoframes will be generated according to that value.
+>>>>>>>>>>> + *
+>>>>>>>>>>> + *      The value of this property can be one of the following:
+>>>>>>>>>>> + *
+>>>>>>>>>>> + *      Automatic:
+>>>>>>>>>>> + *              RGB Range is selected automatically based on the mode
+>>>>>>>>>>> + *              according to the HDMI specifications.
+>>>>>>>>>>> + *
+>>>>>>>>>>> + *      Full:
+>>>>>>>>>>> + *              Full RGB Range is forced.
+>>>>>>>>>>> + *
+>>>>>>>>>>> + *      Limited 16:235:
+>>>>>>>>>>> + *              Limited RGB Range is forced. Unlike the name suggests,
+>>>>>>>>>>> + *              this works for any number of bits-per-component.
+>>>>>>>>>>> + *
+>>>>>>>>>>> + *      Drivers can set up this property by calling
+>>>>>>>>>>> + *      drm_connector_attach_broadcast_rgb_property().
+>>>>>>>>>>> + *
+>>>>>>>>>>
+>>>>>>>>>> This is a good time to document this in more detail. There might be two
+>>>>>>>>>> different things being affected:
+>>>>>>>>>>
+>>>>>>>>>> 1. The signalling (InfoFrame/SDP/...)
+>>>>>>>>>> 2. The color pipeline processing
+>>>>>>>>>>
+>>>>>>>>>> All values of Broadcast RGB always affect the color pipeline processing
+>>>>>>>>>> such that a full-range input to the CRTC is converted to either full- or
+>>>>>>>>>> limited-range, depending on what the monitor is supposed to accept.
+>>>>>>>>>>
+>>>>>>>>>> When automatic is selected, does that mean that there is no signalling,
+>>>>>>>>>> or that the signalling matches what the monitor is supposed to accept
+>>>>>>>>>> according to the spec? Also, is this really HDMI specific?
+>>>>>>>>>>
+>>>>>>>>>> When full or limited is selected and the monitor doesn't support the
+>>>>>>>>>> signalling, what happens?
+>>>>>>>>>
+>>>>>>>>> Forgot to mention: user-space still has no control over RGB vs YCbCr on
+>>>>>>>>> the cable, so is this only affecting RGB? If not, how does it affect
+>>>>>>>>> YCbCr?
+>>>>>>>>
+>>>>>>>> So I dug a bit into both the i915 and vc4 drivers, and it looks like if
+>>>>>>>> we're using a YCbCr format, i915 will always use a limited range while
+>>>>>>>> vc4 will follow the value of the property.
+>>>>>>>
+>>>>>>> The property is literally called "Broadcast *RGB*".
+>>>>>>> That should explain why it's only affecting RGB.
+>>>>>>
+>>>>>> Right. And the limited range option is called "Limited 16:235" despite
+>>>>>> being usable on bpc > 8 bits. Naming errors occurs, and history happens
+>>>>>> to make names inconsistent too, that's fine and not an argument in
+>>>>>> itself.
+>>>>>>
+>>>>>>> Full range YCbCr is a much rarer beast so we've never bothered
+>>>>>>> to enable it.
+>>>>>>
+>>>>>> vc4 supports it.
+>>>>>
+>>>>> Someone implemented it incorrectly then.
+>>>>
+>>>> Incorrectly according to what documentation / specification? I'm sorry,
+>>>> but I find it super ironic that i915 gets to do its own thing, not
+>>>> document any of it, and when people try to clean things up they get told
+>>>> that we got it all wrong.
+>>>
+>>> FWIW, this was an i915 property and if another driver uses the same
+>>> property name it must have the same behavior. Yes, it isn't standardized
+>>> and yes, it's not documented (hence this effort here) but it's still on
+>>> vc4 to make the property compatible.
+>>
+>> How is it not compatible? It's a superset of what i915 provides, but
+>> it's strictly compatible with it.
 > 
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> ---
-> v1->v2:
->   * Split code from previous amdgpu specific helper to generic drm helper.
-> v2->v3:
->   * Add an extra select to fix a variety of randconfig errors found from
->     LKP robot.
-> v3->v4:
->   * Return struct drm_edid
-> v4->v5:
->   * Rename to drm_edid_read_acpi
->   * Drop selects
-> ---
->   drivers/gpu/drm/Kconfig     |   7 +++
->   drivers/gpu/drm/drm_edid.c  | 113 +++++++++++++++++++++++++++++++++---
->   include/drm/drm_connector.h |   6 ++
->   include/drm/drm_edid.h      |   1 +
->   4 files changed, 119 insertions(+), 8 deletions(-)
+> No it is not. Eg. what happens if you set the thing to full range for
+> RGB (which you must on many broken monitors), and then the kernel
+> automagically switches to YCbCr (for whatever reason) but the monitor
+> doesn't support full range YCbCr? Answer: you get crap output.
+
+The Broadcast RGB setting is really specific to RGB output. That's where
+you need it, since due to messed up standards in the past it is common to
+have to override this.
+
+For YCbCr it is not needed since it is always limited range in practice.
+If there is ever a need to support full range YCbCr, then a new "Broadcast YCbCr"
+setting should be created.
+
+The only place were you see full range YCbCr being used is in combination with
+JPEG codecs, since JPEG uses full range YCbCr. But it does not normally occur
+on video output interfaces.
+
+Regards,
+
+	Hans
+
 > 
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 2520db0b776e..a49740c528b9 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -103,6 +103,13 @@ config DRM_KMS_HELPER
->   	help
->   	  CRTC helpers for KMS drivers.
->   
-> +config DRM_ACPI_HELPER
-> +	tristate "ACPI support in DRM"
-> +	depends on DRM
-> +	depends on (ACPI_VIDEO || ACPI_VIDEO=n)
-> +	help
-> +	  ACPI helpers for DRM drivers.
-> +
-
-Unfortunately in my wider testing this still fails with a few combinations.
-
-This combination fails to link:
-
-CONFIG_ACPI_VIDEO=m
-CONFIG_DRM_ACPI_HELPER=y
-CONFIG_DRM=y
-
-This combination links but doesn't work because the IS_REACHABLE() fails 
-(-EOPNOTSUPP):
-
-CONFIG_ACPI_VIDEO=m
-CONFIG_DRM_ACPI_HELPER=M
-CONFIG_DRM=y
-
-I'm tempted to split off all of drm_edid to it's own module instead  of 
-CONFIG_DRM_ACPI_HELPER which has a depends on (ACPI_VIDEO || ACPI_VIDEIO=n).
-
-Or Daniel, any better ideas?
-
->   config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
->           bool "Enable refcount backtrace history in the DP MST helpers"
->   	depends on STACKTRACE_SUPPORT
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 69c68804023f..096c278b6f66 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -28,6 +28,7 @@
->    * DEALINGS IN THE SOFTWARE.
->    */
->   
-> +#include <acpi/video.h>
->   #include <linux/bitfield.h>
->   #include <linux/cec.h>
->   #include <linux/hdmi.h>
-> @@ -2188,6 +2189,62 @@ drm_do_probe_ddc_edid(void *data, u8 *buf, unsigned int block, size_t len)
->   	return ret == xfers ? 0 : -1;
->   }
->   
-> +/**
-> + * drm_do_probe_acpi_edid() - get EDID information via ACPI _DDC
-> + * @data: struct drm_connector
-> + * @buf: EDID data buffer to be filled
-> + * @block: 128 byte EDID block to start fetching from
-> + * @len: EDID data buffer length to fetch
-> + *
-> + * Try to fetch EDID information by calling acpi_video_get_edid() function.
-> + *
-> + * Return: 0 on success or error code on failure.
-> + */
-> +static int
-> +drm_do_probe_acpi_edid(void *data, u8 *buf, unsigned int block, size_t len)
-> +{
-> +	struct drm_connector *connector = data;
-> +	struct drm_device *ddev = connector->dev;
-> +	struct acpi_device *acpidev = ACPI_COMPANION(ddev->dev);
-> +	unsigned char start = block * EDID_LENGTH;
-> +	void *edid;
-> +	int r;
-> +
-> +	if (!acpidev)
-> +		return -ENODEV;
-> +
-> +	switch (connector->connector_type) {
-> +	case DRM_MODE_CONNECTOR_LVDS:
-> +	case DRM_MODE_CONNECTOR_eDP:
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* fetch the entire edid from BIOS */
-> +	if (IS_REACHABLE(CONFIG_DRM_ACPI_HELPER)) {
-> +		r = acpi_video_get_edid(acpidev, ACPI_VIDEO_DISPLAY_LCD, -1, &edid);
-> +		if (r < 0) {
-> +			DRM_DEBUG_KMS("Failed to get EDID from ACPI: %d\n", r);
-> +			return -EINVAL;
-> +		}
-> +	} else {
-> +		r = -EOPNOTSUPP;
-> +	}
-> +	if (len > r || start > r || start + len > r) {
-> +		r = -EINVAL;
-> +		goto cleanup;
-> +	}
-> +
-> +	memcpy(buf, edid + start, len);
-> +	r = 0;
-> +
-> +cleanup:
-> +	kfree(edid);
-> +
-> +	return r;
-> +}
-> +
->   static void connector_bad_edid(struct drm_connector *connector,
->   			       const struct edid *edid, int num_blocks)
->   {
-> @@ -2621,7 +2678,8 @@ EXPORT_SYMBOL(drm_probe_ddc);
->    * @connector: connector we're probing
->    * @adapter: I2C adapter to use for DDC
->    *
-> - * Poke the given I2C channel to grab EDID data if possible.  If found,
-> + * If the connector allows it, try to fetch EDID data using ACPI. If not found
-> + * poke the given I2C channel to grab EDID data if possible.  If found,
->    * attach it to the connector.
->    *
->    * Return: Pointer to valid EDID or NULL if we couldn't find any.
-> @@ -2629,20 +2687,50 @@ EXPORT_SYMBOL(drm_probe_ddc);
->   struct edid *drm_get_edid(struct drm_connector *connector,
->   			  struct i2c_adapter *adapter)
->   {
-> -	struct edid *edid;
-> +	struct edid *edid = NULL;
->   
->   	if (connector->force == DRM_FORCE_OFF)
->   		return NULL;
->   
-> -	if (connector->force == DRM_FORCE_UNSPECIFIED && !drm_probe_ddc(adapter))
-> -		return NULL;
-> +	if (connector->acpi_edid_allowed)
-> +		edid = _drm_do_get_edid(connector, drm_do_probe_acpi_edid, connector, NULL);
-> +
-> +	if (!edid) {
-> +		if (connector->force == DRM_FORCE_UNSPECIFIED && !drm_probe_ddc(adapter))
-> +			return NULL;
-> +		edid = _drm_do_get_edid(connector, drm_do_probe_ddc_edid, adapter, NULL);
-> +	}
->   
-> -	edid = _drm_do_get_edid(connector, drm_do_probe_ddc_edid, adapter, NULL);
->   	drm_connector_update_edid_property(connector, edid);
->   	return edid;
->   }
->   EXPORT_SYMBOL(drm_get_edid);
->   
-> +/**
-> + * drm_edid_read_acpi - get EDID data, if available
-> + * @connector: connector we're probing
-> + *
-> + * Use the BIOS to attempt to grab EDID data if possible.
-> + *
-> + * The returned pointer must be freed using drm_edid_free().
-> + *
-> + * Return: Pointer to valid EDID or NULL if we couldn't find any.
-> + */
-> +const struct drm_edid *drm_edid_read_acpi(struct drm_connector *connector)
-> +{
-> +	const struct drm_edid *drm_edid;
-> +
-> +	if (connector->force == DRM_FORCE_OFF)
-> +		return NULL;
-> +
-> +	drm_edid = drm_edid_read_custom(connector, drm_do_probe_acpi_edid, connector);
-> +
-> +	/* Note: Do *not* call connector updates here. */
-> +
-> +	return drm_edid;
-> +}
-> +EXPORT_SYMBOL(drm_edid_read_acpi);
-> +
->   /**
->    * drm_edid_read_custom - Read EDID data using given EDID block read function
->    * @connector: Connector to use
-> @@ -2727,10 +2815,11 @@ const struct drm_edid *drm_edid_read_ddc(struct drm_connector *connector,
->   EXPORT_SYMBOL(drm_edid_read_ddc);
->   
->   /**
-> - * drm_edid_read - Read EDID data using connector's I2C adapter
-> + * drm_edid_read - Read EDID data using BIOS or connector's I2C adapter
->    * @connector: Connector to use
->    *
-> - * Read EDID using the connector's I2C adapter.
-> + * Read EDID from BIOS if allowed by connector or by using the connector's
-> + * I2C adapter.
->    *
->    * The EDID may be overridden using debugfs override_edid or firmware EDID
->    * (drm_edid_load_firmware() and drm.edid_firmware parameter), in this priority
-> @@ -2742,10 +2831,18 @@ EXPORT_SYMBOL(drm_edid_read_ddc);
->    */
->   const struct drm_edid *drm_edid_read(struct drm_connector *connector)
->   {
-> +	const struct drm_edid *drm_edid = NULL;
-> +
->   	if (drm_WARN_ON(connector->dev, !connector->ddc))
->   		return NULL;
->   
-> -	return drm_edid_read_ddc(connector, connector->ddc);
-> +	if (connector->acpi_edid_allowed)
-> +		drm_edid = drm_edid_read_acpi(connector);
-> +
-> +	if (!drm_edid)
-> +		drm_edid = drm_edid_read_ddc(connector, connector->ddc);
-> +
-> +	return drm_edid;
->   }
->   EXPORT_SYMBOL(drm_edid_read);
->   
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index fe88d7fc6b8f..74ed47f37a69 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -1886,6 +1886,12 @@ struct drm_connector {
->   
->   	/** @hdr_sink_metadata: HDR Metadata Information read from sink */
->   	struct hdr_sink_metadata hdr_sink_metadata;
-> +
-> +	/**
-> +	 * @acpi_edid_allowed: Get the EDID from the BIOS, if available.
-> +	 * This is only applicable to eDP and LVDS displays.
-> +	 */
-> +	bool acpi_edid_allowed;
->   };
->   
->   #define obj_to_connector(x) container_of(x, struct drm_connector, base)
-> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-> index 518d1b8106c7..38b5e1b5c773 100644
-> --- a/include/drm/drm_edid.h
-> +++ b/include/drm/drm_edid.h
-> @@ -463,5 +463,6 @@ bool drm_edid_is_digital(const struct drm_edid *drm_edid);
->   
->   const u8 *drm_find_edid_extension(const struct drm_edid *drm_edid,
->   				  int ext_id, int *ext_index);
-> +const struct drm_edid *drm_edid_read_acpi(struct drm_connector *connector);
->   
->   #endif /* __DRM_EDID_H__ */
+>>
+>> I would argue that i915 is the broken one since userspace could force a
+>> full range output, but since the driver takes the YUV vs RGB decision
+>> itself and only supports limited range for YUV, the driver would
+>> effectively ignore that user-space property, without the user-space
+>> being able to tell it was ignored in the first place.
+>>
+>>> Trying to make the property handle YCbCr is very much in the "let's try
+>>> to fix the property" territory that I want to avoid, so I'm in favor of
+>>> adjusting vc4.
+>>
+>> Breaking the ABI in the process. For something that is explicitly
+>> supported by the spec, the driver, and the hardware. On a property that
+>> never said it wasn't meant to be used that way, and with semantics based
+>> on a driver that never provided a way to check those restrictions in the
+>> first place.
+>>
+>> And it's not like i915 is going to use that code anyway.
+>>
+>> Maxime
+> 
+> 
+> 
 
