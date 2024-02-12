@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95113851871
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 16:51:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 813A6851878
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 16:53:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB3C810E73D;
-	Mon, 12 Feb 2024 15:51:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFC8510ED84;
+	Mon, 12 Feb 2024 15:53:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="b55YFvcs";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="PdPszgOO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
- [209.85.166.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FA8C10E73D
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 15:51:26 +0000 (UTC)
-Received: by mail-io1-f43.google.com with SMTP id
- ca18e2360f4ac-7baa8097064so220830239f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 07:51:26 -0800 (PST)
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com
+ [209.85.166.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7523D10ED84
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 15:53:01 +0000 (UTC)
+Received: by mail-io1-f44.google.com with SMTP id
+ ca18e2360f4ac-7beda6a274bso132847039f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 07:53:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1707753085; x=1708357885;
+ d=google.com; s=20230601; t=1707753180; x=1708357980;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9CrURRj1kgeVHOJ09dw9bNpmlpnJTIS71/+YJ9slDyw=;
- b=b55YFvcsRBINiBXwoyYMhdELad3UAdFGWKyp2AuMM2ZGMIYEG3KTgzALgD6AcSRHZq
- t0biYgZCLyQ2kjlCvc3a0iW6EP9WEGu0hQ4kma0cBOeBUK/Y0Nw1GW9zIuY0RFudFqsR
- KnoYXqqaupTeHZbj2lA01tYfD7h1u6wmuHHgDwTNG1EEaZ3gLLoGDvAo1jb7TfHOGghO
- XbcJpJuHS+MSCp4YCF3VQ/FR/IfWKGgHaJVZI+hUybjKfCUuTfdLYxbnJ+ZELygqK2tP
- L/+jd42jHGnrN+LKYrRhVlejlX1QBqKsgwiO+iT/OoFuiKCrxj/qeHG+NoS47Sr0YdO6
- Mksg==
+ bh=8ga0BKab3mro7xv/pvLTvYj5RDzbbT2tT8OrhfimfXY=;
+ b=PdPszgOOUJXLrfVE4c4AINrRJmdMkCrEMoQgGDJ13895V67c0jjaiMij85l3Jigsgz
+ 1LI+pe3O5VuKPuJKeNVDlN3HlI7M6jDxydAGsa+z0BNCAEzv+u5JiWEAmaOTgDF2IZl6
+ Uo5g7/iPzrHWKtl+kBNK/CiDuJoC2bleN28Mk2IsPgvI2Wf761zGq0/qDewbHpXOzjdy
+ K3x3vpsgwnLcujiCRh57b2H024jNjS8Xe2oHp+YkgYJLkbP/0pyO6TaC8jTh0+gAmsIS
+ THDIIacZbso/k1BwHyowgrN7Y22MV0jI1F8EpowJ+5wv6N9VQgx/zFa2fspF7zng+UuB
+ HjeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707753085; x=1708357885;
+ d=1e100.net; s=20230601; t=1707753180; x=1708357980;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9CrURRj1kgeVHOJ09dw9bNpmlpnJTIS71/+YJ9slDyw=;
- b=LH31eGpuTivxwpVWcStqxUANXOhGTTJCc02LxkU1Z2iBsDoYuEy3MVcm8PJZ4n8/LQ
- lKKHoA75TMBnE3bL5n06O7iWFt4ETenxVJjJyQKJ0CaXrpoybBgh8csBSzZP8TSVASQ8
- O4bVO5BnLHJeRxiqvNH5ExfRJ3k0+zvaNwrPNR+HRcBlh2aPkQaXjWb3xROKV68skzaq
- K0tQqdQBnit3IA+u/4a7VKycIdUlhDiZSPYRQqyMQkZC2H76zX1vpAm6OUHKMt3pmhJb
- PcV7oJYxv5ukLX+gp0SJCbfVMd7x8eE8MewgPaXPUUFEcKo5nKeRaqsTCregGEnT3WAG
- d2zQ==
-X-Gm-Message-State: AOJu0Yx/ZTneGo3JF/Xerdrh1JC35RQCcbmDVN9cnlS4wIpKpunPB5Wx
- s0wlHNXNsmOzvERSPqnB9VMT3C/guqeLnGd0Rtqm3TK6vTr2GA7Q2THmAeTKsMWGr4/popjKHcA
- eSlOGZWaWr2IudemylEk83i3G8bEmq8EXwEgA
-X-Google-Smtp-Source: AGHT+IF4XWpo6trnD/hLTaZqecOY8VBPzcdUAPevFQVBcwQrHB7XjKhGtpeRKxncyFpZQb70F6+pazsovg8kIEz3Ijs=
-X-Received: by 2002:a05:6602:179b:b0:7c4:3510:92f with SMTP id
- y27-20020a056602179b00b007c43510092fmr7761730iox.12.1707753085037; Mon, 12
- Feb 2024 07:51:25 -0800 (PST)
+ bh=8ga0BKab3mro7xv/pvLTvYj5RDzbbT2tT8OrhfimfXY=;
+ b=oz1GBwsP62xGyFOE2KepNKZTCyZQjatitSCkXp38Bz//elzZhOFGXBsZz7gNeGziEf
+ /gYuKj2MuTTdAa7vHjl4r4/KwArzLETHLWkpaN7BCnx5I2a7NjM9b+RW2A5Y6VJKt75h
+ imY7kSlf0JEEvP/1GQKTEAjea2o2CvuJa0eB46yNWPtqWwymZMxVfdky0NuGFAiYGLB+
+ pYGXWubQ8L/SHLpLxrXDEgyt6rxfcAgkZSZM4k6pNwJiIWOnvEtkTcrJx30z4jYQSB+w
+ TbeKioDBJ0ekX4Gfi56o2GZhtwPVmu3ZK8zWEsqRjjgIh//nxNQFWZ2/hCPFZGXDeLBC
+ B9+A==
+X-Gm-Message-State: AOJu0YwnvmaRDIAF0pIL88GpNsq0G7v2RO1rSkpoOY9gh6jO+b5MDjrU
+ WLy+RN8oXjPwE5rrOFaO8Ylk3Oz165b3i+YvkFgfocH8HlSp6+SGp8yTkfVjL3XmAdOgDqYGY2b
+ ueB8K1eth1F0XGH9BgJApiI1OB1Pr3PLwwfTj
+X-Google-Smtp-Source: AGHT+IFaG5EUEd3w22+15UIe+fR9vs0Mizvgy4uB3bklxmWtpF0mFVHrOZPdEsANkshqajsm1XKOVsyrbwBB5whufrc=
+X-Received: by 2002:a5e:8d0b:0:b0:7c4:3b9e:f766 with SMTP id
+ m11-20020a5e8d0b000000b007c43b9ef766mr8640816ioj.20.1707753180672; Mon, 12
+ Feb 2024 07:53:00 -0800 (PST)
 MIME-Version: 1.0
 References: <20240212131323.2162161-1-panikiel@google.com>
- <20240212131323.2162161-8-panikiel@google.com>
- <170774854498.294434.14234480400138512065.robh@kernel.org>
-In-Reply-To: <170774854498.294434.14234480400138512065.robh@kernel.org>
+ <20240212131323.2162161-9-panikiel@google.com>
+ <170774854550.294485.3708612918527188826.robh@kernel.org>
+In-Reply-To: <170774854550.294485.3708612918527188826.robh@kernel.org>
 From: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>
-Date: Mon, 12 Feb 2024 16:51:14 +0100
-Message-ID: <CAM5zL5qx1sw=NSWE7gv3E80MCMJ4=tvc44WDAnBrfsJ2qQB3iw@mail.gmail.com>
-Subject: Re: [PATCH 7/9] media: dt-bindings: Add Chameleon v3 framebuffer
+Date: Mon, 12 Feb 2024 16:52:49 +0100
+Message-ID: <CAM5zL5r69im5OENJa0drmZ=Er=uMgJJUC_d3FemZaLgq12in0A@mail.gmail.com>
+Subject: Re: [PATCH 8/9] media: dt-bindings: Add Intel Displayport RX IP
 To: Rob Herring <robh@kernel.org>
-Cc: chromeos-krk-upstreaming@google.com, tzimmermann@suse.de, 
- maarten.lankhorst@linux.intel.com, hverkuil-cisco@xs4all.nl, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- mchehab@kernel.org, ribalda@chromium.org, robh+dt@kernel.org, 
- mripard@kernel.org, airlied@gmail.com, linux-media@vger.kernel.org, 
- akpm@linux-foundation.org, dinguyen@kernel.org, devicetree@vger.kernel.org, 
- daniel@ffwll.ch, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ conor+dt@kernel.org, airlied@gmail.com, mripard@kernel.org, 
+ dinguyen@kernel.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, 
+ robh+dt@kernel.org, hverkuil-cisco@xs4all.nl, devicetree@vger.kernel.org, 
+ ribalda@chromium.org, daniel@ffwll.ch, chromeos-krk-upstreaming@google.com, 
+ mchehab@kernel.org, akpm@linux-foundation.org, 
+ dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,16 +89,19 @@ On Mon, Feb 12, 2024 at 3:35=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
 :
 >
 >
-> On Mon, 12 Feb 2024 13:13:21 +0000, Pawe=C5=82 Anikiel wrote:
-> > The Chameleon v3 uses the framebuffer IP core to take the video signal
-> > from different sources and directly write frames into memory.
+> On Mon, 12 Feb 2024 13:13:22 +0000, Pawe=C5=82 Anikiel wrote:
+> > The Intel Displayport RX IP is a part of the DisplayPort Intel FPGA IP
+> > Core. It implements a DisplayPort 1.4 receiver capable of HBR3 video
+> > capture and Multi-Stream Transport. The user guide can be found here:
+> >
+> > https://www.intel.com/programmable/technical-pdfs/683273.pdf
 > >
 > > Signed-off-by: Pawe=C5=82 Anikiel <panikiel@google.com>
 > > ---
-> >  .../bindings/media/google,chv3-fb.yaml        | 77 +++++++++++++++++++
-> >  1 file changed, 77 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/google,chv3=
--fb.yaml
+> >  .../devicetree/bindings/media/intel,dprx.yaml | 125 ++++++++++++++++++
+> >  1 file changed, 125 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/intel,dprx.=
+yaml
 > >
 >
 > My bot found errors running 'make DT_CHECKER_FLAGS=3D-m dt_binding_check'
@@ -107,20 +110,15 @@ On Mon, Feb 12, 2024 at 3:35=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
 > yamllint warnings/errors:
 >
 > dtschema/dtc warnings/errors:
-> Error: Documentation/devicetree/bindings/media/google,chv3-fb.example.dts=
-:28.27-28 syntax error
-> FATAL ERROR: Unable to parse input tree
+> Error: Documentation/devicetree/bindings/media/intel,dprx.example.dts:28.=
+27-28 syntax error
 > make[2]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings=
-/media/google,chv3-fb.example.dtb] Error 1
-> make[2]: *** Waiting for unfinished jobs....
-> make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1428: dt_bin=
-ding_check] Error 2
-> make: *** [Makefile:240: __sub-make] Error 2
+/media/intel,dprx.example.dtb] Error 1
 >
 > doc reference errors (make refcheckdocs):
 >
 > See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/202402=
-12131323.2162161-8-panikiel@google.com
+12131323.2162161-9-panikiel@google.com
 >
 > The base for the series is generally the latest rc1. A different dependen=
 cy
@@ -138,7 +136,5 @@ cy
 ema.
 >
 
-I was missing a '#include
-<dt-bindings/interrupt-controller/arm-gic.h>' in the dt binding
-example. I ran dt_binding_check after adding it and it reports no
-errors. I will include the fix in v2.
+As with the previous patch, I was missing a #include in the example. I
+will include the fix in v2.
