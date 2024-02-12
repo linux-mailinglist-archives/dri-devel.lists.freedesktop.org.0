@@ -2,86 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1654851D0E
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 19:43:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 698E1851D3D
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 19:50:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7861810E59E;
-	Mon, 12 Feb 2024 18:43:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3108010E793;
+	Mon, 12 Feb 2024 18:50:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="P7mFXT5+";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="E5yeGUe1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB16510E59E;
- Mon, 12 Feb 2024 18:43:20 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41CC9FDc025596; Mon, 12 Feb 2024 18:43:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=2lRD5Dd0AwXbDvgCUJCpzOmZfZq6gZvy4b/lpffqpVA=; b=P7
- mFXT5+10GjyR2KKBKOPtTHERu9WvgTTMj7z6L5fHBuIL/KtLpJSRTOBpRy3FRcrl
- 1YpS1jcE6ilTN2t+vrXytVrPK0ekMpUqQXCeqpYYbDuYs9hVTM3hnxLaAMI6zWLP
- MAaFPRuHD0NLmoH0uSRG0NiSw5U5O2UTJMxG5xxopqu8zJcFvsN9jg9/krgp/2nQ
- bzcB1k0p8bDIYZSTUq/fuuNJJtY95V2xilI3CkyCYioni2SUSsdmbKiYCc/unNjG
- Gqz5uQGWQRiEdgBSYFq1IzW+sJU6hHwVmO5s5s5j56+XTKGmWK4l8UraoWNCYOqe
- OzDMxFqpBJXJ1x1J1xhQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w62nwm6du-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Feb 2024 18:43:17 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
- [10.47.97.35])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41CIhGea022680
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Feb 2024 18:43:16 GMT
-Received: from [10.71.111.96] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 12 Feb
- 2024 10:43:15 -0800
-Message-ID: <a48f14ff-611e-e9d6-368b-89578d31b0bb@quicinc.com>
-Date: Mon, 12 Feb 2024 10:43:15 -0800
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com
+ [209.85.210.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C19C010E633
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 18:49:58 +0000 (UTC)
+Received: by mail-ot1-f46.google.com with SMTP id
+ 46e09a7af769-6e2ee49ebaaso354987a34.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 10:49:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1707763798; x=1708368598; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=BLzcSEHbNUSeOFrNtcrpXIPfOMtCBqOUofoVjSWgQKU=;
+ b=E5yeGUe13leS0CpPlJdAcugTVop1uCIg0wOB29EIzobb4VgtFCXTdoqs5dC6VUvdxB
+ 4tDBhpWtPMsNDLUXwUcWFtvpWWsTiDq9gLXd4mPXfXk1yaNwPWNYLLD1MCyCJ28UaGGe
+ NA5HysyJjCoNLaNQ9MdcOoeTFC7mqPHEU34L9RvuR++RO/NWrQDy/k6nPfCHdO0Vlw/K
+ U1YbSZF9ZbE6D5UwVUEmfvsKZbOW1P1MGjBnq+qJqzcRlsaZDixOYoHjTNd6P3q4EGXB
+ mrRwlTdg/9hhW8TezssQ91kuRy7oowx8XetchN97FVKf7+6zQhtBTF1NMnUrHD7/gm8W
+ 4qFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707763798; x=1708368598;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=BLzcSEHbNUSeOFrNtcrpXIPfOMtCBqOUofoVjSWgQKU=;
+ b=If4JsWpSZJIrFLOJ5U3/Lfk4oAYhHQQnmyD/8NcsUdjk9a1odZoNWlm1G7WusxSsiF
+ 9PIPOpmo9crdlQGPDdS8CoZD5kvke1suVOheblB+VqyZOPcEm+WfcqtZeWNcWqGwkkUN
+ LkWkaVL6VcisHVRkaVv5nM2/tyJ7uK/RjAdtOWyUjpiZzUasow3y+2qMOUPp+51cyqn9
+ bVwVHm/s+jSr+pU0kZ1pPErftUcp12WcAjvVKyStGHoEfxGczGnPXwBsfiDPD6MW1xhU
+ tigffj9jJJZLwFNTA/tage8gQvVuIRhljuy97MOVwR9KtEp5zfXFu847iQsaYodiM+au
+ 0JcQ==
+X-Gm-Message-State: AOJu0YzCOSrn8fRJVT7cuCFJkNMP7UzET2EeZo4/d0v7+166bqYmOpNi
+ RcoOPVS64BehT2yhHBcU3e4FZAjvvEdG8vKy9+tCYLUDfMHJp5yG
+X-Google-Smtp-Source: AGHT+IHneg5XD8S4MizRHRt/A1l7Ent/MUBvmmK/9w/tsrBI3iKx6+jgmxqd49TSSEHch/JK9vCwvg==
+X-Received: by 2002:a05:6820:d87:b0:59d:3ada:e3dd with SMTP id
+ ek7-20020a0568200d8700b0059d3adae3ddmr5725639oob.0.1707763797902; 
+ Mon, 12 Feb 2024 10:49:57 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWHcL7AtxWani3dggaoRAzrQC/P6uqNHc1JJtDf2wpBkcvKsUYL+Mn7PrL8YZRQLocnfPPeQz5C8DGAVmTrTxLhbWYbJ11eaV+hYG9IL/cO9tA16yA0uDP+/2gSK8rz72DBbrhUcGk3PAW97VdpdNpOii0/MEDbA+hxZH0hQPYv+f57lSrrSgGWdWSGbzx5Trf4o0l/kv7wOGz9pd7VbzC9pQSgtieEQC40NKGVdK8IrtWCIVpZVbBAfo691Y81XhkcF8skiqKeEvhDVeQiygVDaueAyf9COSoxBEgrRl8LwAhgPY8Rukz9sY1MdJnD6VeDL/n4SPFoNYyo8ljXUGxrDs+dsZWfndr5+Ds1ygJfq5hG440zQ5EYbCyo5rTfOGSdMO427pycf2/FurDo68VZ/AapVtlqsSnAlq/Kuwr2WxJXoVYFn+9OC8aJ0VNNZtuazEq2Kcx+wTwK/hEAUY1PsBhQEjP/w/9vEp7SaFsGDjWfvLnKgTuOnzWnNlV5EThGVUyiGxQdKgVtPkAmj3B/MgAc/wK9p1hxG5tBXZP5Hjl09nEhD4ONTIZy
+Received: from localhost.localdomain ([75.28.21.198])
+ by smtp.gmail.com with ESMTPSA id
+ b7-20020a4a3407000000b0059d5360c62esm171939ooa.11.2024.02.12.10.49.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Feb 2024 10:49:57 -0800 (PST)
+From: Chris Morgan <macroalpha82@gmail.com>
+To: linux-rockchip@lists.infradead.org
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ daniel@ffwll.ch, airlied@gmail.com, sam@ravnborg.org,
+ quic_jesszhan@quicinc.com, neil.armstrong@linaro.org, megi@xff.cz,
+ kernel@puri.sm, agx@sigxcpu.org, heiko@sntech.de, conor+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+ Chris Morgan <macromorgan@hotmail.com>
+Subject: [PATCH 0/7] Add Support for RK3566 Powkiddy RGB10MAX3
+Date: Mon, 12 Feb 2024 12:49:43 -0600
+Message-Id: <20240212184950.52210-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 17/19] drm/msm/dpu: modify timing engine programming
- for YUV420 over DP
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <freedreno@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <seanpaul@chromium.org>, <swboyd@chromium.org>,
- <quic_abhinavk@quicinc.com>, <quic_jesszhan@quicinc.com>,
- <quic_khsieh@quicinc.com>, <marijn.suijten@somainline.org>,
- <neil.armstrong@linaro.org>
-References: <20240210015223.24670-1-quic_parellan@quicinc.com>
- <20240210015223.24670-18-quic_parellan@quicinc.com>
- <CAA8EJprVnNmmpcOpHYOhZvLOGdny2ohqscWyUM8JwT8AGh2tCA@mail.gmail.com>
-From: Paloma Arellano <quic_parellan@quicinc.com>
-In-Reply-To: <CAA8EJprVnNmmpcOpHYOhZvLOGdny2ohqscWyUM8JwT8AGh2tCA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: XaBCVzZtEa6mYeTnr_NisjIIx4mzdHhU
-X-Proofpoint-ORIG-GUID: XaBCVzZtEa6mYeTnr_NisjIIx4mzdHhU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-12_16,2024-02-12_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=798 spamscore=0
- adultscore=0 bulkscore=0 impostorscore=0 malwarescore=0 suspectscore=0
- phishscore=0 clxscore=1015 mlxscore=0 lowpriorityscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402120143
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,85 +85,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Chris Morgan <macromorgan@hotmail.com>
 
-On 2/10/2024 2:50 AM, Dmitry Baryshkov wrote:
-> On Sat, 10 Feb 2024 at 03:52, Paloma Arellano <quic_parellan@quicinc.com> wrote:
->> Adjust the encoder timing engine setup programming in the case of video
->> mode for YUV420 over DP to accommodate CDM.
->>
->> Changes in v2:
->>          - Move timing engine programming to this patch
->>
->> Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
->> ---
->>   .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 16 ++++++++++++----
->>   1 file changed, 12 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
->> index 3f102b2813ca8..fb46d907312a7 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
->> @@ -235,8 +235,9 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
->>   {
->>          struct drm_display_mode mode;
->>          struct dpu_hw_intf_timing_params timing_params = { 0 };
->> +       struct dpu_hw_cdm *hw_cdm;
->>          const struct dpu_format *fmt = NULL;
->> -       u32 fmt_fourcc = DRM_FORMAT_RGB888;
->> +       u32 fmt_fourcc;
->>          unsigned long lock_flags;
->>          struct dpu_hw_intf_cfg intf_cfg = { 0 };
->>
->> @@ -255,17 +256,21 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
->>          DPU_DEBUG_VIDENC(phys_enc, "enabling mode:\n");
->>          drm_mode_debug_printmodeline(&mode);
->>
->> -       if (phys_enc->split_role != ENC_ROLE_SOLO) {
->> +       fmt_fourcc = dpu_encoder_get_drm_fmt(phys_enc);
->> +
->> +       if (phys_enc->split_role != ENC_ROLE_SOLO || fmt_fourcc == DRM_FORMAT_YUV420) {
->>                  mode.hdisplay >>= 1;
->>                  mode.htotal >>= 1;
->>                  mode.hsync_start >>= 1;
->>                  mode.hsync_end >>= 1;
->> +               mode.hskew >>= 1;
-> hskew change seems to warrant a separate patch with Fixes for
-> 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+Add support for the Powkiddy RGB10MAX3 handheld gaming console.
 
+[1] https://powkiddy.com/products/pre-sale-powkiddy-rgb10max3-handheld-game-console
 
-Ack
+Chris Morgan (7):
+  dt-bindings: display: st7703: Add Powkiddy RGB10MAX3 panel
+  drm/panel: st7703: Add Powkiddy RGB10MAX3 Panel Support
+  dt-bindings: display: Document ST7703 panel rotation
+  drm/panel: st7703: Add Panel Rotation Support
+  arm64: dts: rockchip: Update powkiddy rk2023 dtsi for RGB10MAX3
+  dt-bindings: arm: rockchip: Add Powkiddy RGB10MAX3
+  arm64: dts: rockchip: Add Powkiddy RGB10MAX3
 
+ .../devicetree/bindings/arm/rockchip.yaml     |   1 +
+ .../display/panel/rocktech,jh057n00900.yaml   |   4 +
+ arch/arm64/boot/dts/rockchip/Makefile         |   1 +
+ .../rockchip/rk3566-powkiddy-rgb10max3.dts    |  87 +++++++++++++++
+ .../dts/rockchip/rk3566-powkiddy-rgb30.dts    |  18 +++
+ .../dts/rockchip/rk3566-powkiddy-rk2023.dts   |  18 +++
+ .../dts/rockchip/rk3566-powkiddy-rk2023.dtsi  |  18 +--
+ drivers/gpu/drm/panel/panel-sitronix-st7703.c | 104 ++++++++++++++++++
+ 8 files changed, 234 insertions(+), 17 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rgb10max3.dts
 
->
->>                  DPU_DEBUG_VIDENC(phys_enc,
->> -                       "split_role %d, halve horizontal %d %d %d %d\n",
->> +                       "split_role %d, halve horizontal %d %d %d %d %d\n",
->>                          phys_enc->split_role,
->>                          mode.hdisplay, mode.htotal,
->> -                       mode.hsync_start, mode.hsync_end);
->> +                       mode.hsync_start, mode.hsync_end,
->> +                       mode.hskew);
->>          }
->>
->>          drm_mode_to_intf_timing_params(phys_enc, &mode, &timing_params);
->> @@ -273,6 +278,9 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
->>          fmt = dpu_get_dpu_format(fmt_fourcc);
->>          DPU_DEBUG_VIDENC(phys_enc, "fmt_fourcc 0x%X\n", fmt_fourcc);
->>
->> +       hw_cdm = phys_enc->hw_cdm;
->> +       if (hw_cdm)
->> +               intf_cfg.cdm = hw_cdm->idx;
-> No need for a separate local variable.
+-- 
+2.34.1
 
-
-Ack
-
-
->
->>          intf_cfg.intf = phys_enc->hw_intf->idx;
->>          intf_cfg.intf_mode_sel = DPU_CTL_MODE_SEL_VID;
->>          intf_cfg.stream_sel = 0; /* Don't care value for video mode */
->> --
->> 2.39.2
->>
->
