@@ -2,133 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D958510A1
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 11:23:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A8288510A9
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 11:24:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF5E010EBD7;
-	Mon, 12 Feb 2024 10:23:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E77810E4C3;
+	Mon, 12 Feb 2024 10:24:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="X7nlUQ+w";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DFTOp/aJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A718F10EBD7
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 10:23:07 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-51165a488baso3934303e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 02:23:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1707733386; x=1708338186; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=n9fh2iXaf9mWXqm/97L5o2MUUaqTpGZ/oXWiM893Shg=;
- b=X7nlUQ+w/uiZ5PYwQnvVBuSoj02sDncwz5pWxz+zL0KnPLbouHeR5BWdb+PGH0U/vi
- Fifgp30V1oNXWB2ldvJ/qp4X4+RVl5bR0cwOVpUBqay1kbezruzhL6dScHJnff95aCDT
- Mm9/k08sIDSVxWIWHrGqF723TuIAhtmGx/+qje4+I1jaowG9VeK9tnxlmBbwiSnmifC8
- RPrcP6GbOVjC1XU914JojjJaaz87QT2uVqlX20ij9IFJarOXkovV+saO9w0QRW9YbDms
- vMmwEYgYDFKyEQ6pSoNBGE8AC7ye4HAgcCewKR8pTQcX7Ik4EqptAIRvyRpA2YLUy1nr
- bJBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707733386; x=1708338186;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=n9fh2iXaf9mWXqm/97L5o2MUUaqTpGZ/oXWiM893Shg=;
- b=PIvgogreF8TZMPEVVRaHPCKDsWTj0uh9+sId3DDFZ56gOwhyyJIC//9GVzgCsnlQRG
- +GnDOWqe7qkmqmAKciIpD002GOmhICRVgVYqBDh/Fz+Tg5UnsLfzd6OkhzzUzknpG8xN
- XQb6OBzhJNXO3lcsjL9m9K77VkqoHcdwoelZo74bhrEs7+NZrdkjnTeLhRQAigaVCFa8
- iLZmCO5LzvpkwaiiDGF+T6JbzFmJIR5c4ODnCevCLH1g39yLRNMUy/Ezhq2HdHRb2L/q
- FYf6YfsCClCiNzWAGPTjXJxav/5DhQlg8Jd4T0ImsmWsy2eFV8Ek5poQcDmD6mqbdoj+
- abYQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX2VC55RxNMbussgvbHGMMnQlVSfLVKutaRs8ehgtXTmos13l/kKV070UfSYA4lO5hNMK14HR3KQNEBTvZAnNEQq1kMXu0+xOfok2E0ud2T
-X-Gm-Message-State: AOJu0YzD9kHFzjkgW7WaldPmZiuy8DftPpup/z0XTm322DdWgCag3I3M
- iT/crKbC8yHynEZe70JhhocPCk8wkGGJ9k9izm0VfCjQyJ3YZ7y4psjj8AFkaq0=
-X-Google-Smtp-Source: AGHT+IFlLX3CeBCPvENEbK1xgGBy6h2tY9ws8EbkNh72didKb0RgKv7r4DlH7yMQ6VO70GccFPPZng==
-X-Received: by 2002:ac2:41c4:0:b0:511:7a72:6524 with SMTP id
- d4-20020ac241c4000000b005117a726524mr4118011lfi.15.1707733385777; 
- Mon, 12 Feb 2024 02:23:05 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXumGYap/VaSfGXEQkZIx0T40X+6CIc/yC8ajgt/Id01JfOVBERCHqTaXq5bYZaTkZM6jxerfDomh9UcKAZ1VKbfZ1pJgEoojnf+ffqCXHHZcPEmyCLxWFLvkbpAfBcuU4GUA8gF6L7FHWIgOUaC59ujUWbGCml47+YCac1nzQWHaLiCtC846GfmFEzjqqHgzntWcPoY5iwGhz1K62u0mugH3tEmoYbrSI9QCrrLRoPlR5pNWqpRULQUupNfhPgg3uZILlalrj7r8tTT7jok2Kkaxkvhi2pn5obqR5rjC6Hi9f05iKS7P016D0odhnigG618n/VLDzgVSrFEAyMVa0FHbijexfBe7w5TN+fYtzgdeSdf7Nr9Y6l09hvFaz8lsguxbFBGjaF/Y0PHiDKv0UD4n3IF/Op2OeJrWgs8Sty2EY3IglUCjo+Bcrf6L8Ha9TobMz88DrL+rIttd6SvKP4ub2yGgCxZcoyc4G0eV3Pu4ll2UHPmuv0g+XT9506ylRSff2Tp0mPFPwMax0AIaHB4/4tiYaL5Zoak9eRAZ6TIIHthHWDeCwzPAp5vGrGnHkeadm4uFgSm4j64Mljk0OfGI2g0NZ/U+G8Td9dkvrSvKxhpDQTC6iVj4mI/0nvGkNjH2Bgc4K5xm4c3Oi61PS8+ZMKQ8emA4BmmMYC6bsNk/A/jqvDRBFEFdYwjROn7QvkQEZPJmyzfnIEpyWkB9zNWjf4D8gFm71AiKPGHdlKOsAuofZe/leyoKCCOeXMVk/8tXZ+x7bbSgSqzUvvtJnZjGRWFQl+NUyO9APtXRaY6KzQBwuu6qc583FJ11Q/YduTcj8NIT8N0HXRGsAVLsOgEUkKCJS0sKHroB8R5QuK
-Received: from [192.168.1.20] ([178.197.223.6])
- by smtp.gmail.com with ESMTPSA id
- n5-20020a05600c3b8500b00410e90e82ebsm1230545wms.4.2024.02.12.02.23.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Feb 2024 02:23:05 -0800 (PST)
-Message-ID: <cedecdb7-fe4a-42ea-9a11-faa82f84b57d@linaro.org>
-Date: Mon, 12 Feb 2024 11:23:02 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA00810EBF4;
+ Mon, 12 Feb 2024 10:24:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1707733462; x=1739269462;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=kgJzasOTqA/QM4g2pnkAsDRjPkNj88gkjh5db8vbYc4=;
+ b=DFTOp/aJUTzgs14sBOxub1rcx63Ai9ERGTTwDV+JhhxMuuGKiaGK7uKD
+ AMOR8tPFxpmdN5Hk9HnMCBlidFJ7SaHZuJbzLOfgOsZrXwjfnXUO3DXuE
+ hyyoI4ggYLpHBSykidPb1iDajpVONPZ4KkcXqVYtcG8WLmrj1A4Iw0EcX
+ suWMjtUjPeFb6pbEVsVvg0xJ+Sqcu4P+wh9JSCkwHKY6yGLs6QOW3kwF6
+ 2dY5CQVkUJsSGvs5exTX79bcS0hve/AjmaClF9dB828Il1R0LyED0Hr5d
+ 0iHa2UOOSx/gAjJhsvKvPBE12Ea8pwbOfJ6r9WZrXjNj1yYEScb+4WTph w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="24175622"
+X-IronPort-AV: E=Sophos;i="6.05,262,1701158400"; d="scan'208";a="24175622"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Feb 2024 02:24:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,262,1701158400"; 
+   d="scan'208";a="7206433"
+Received: from belyakov-mobl.ccr.corp.intel.com (HELO localhost)
+ ([10.252.63.91])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Feb 2024 02:24:15 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
+ kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com, daniel@ffwll.ch,
+ airlied@gmail.com
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 0/7] fbdev: Clean up include dependencies in header
+In-Reply-To: <20240212101712.23675-1-tzimmermann@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240212101712.23675-1-tzimmermann@suse.de>
+Date: Mon, 12 Feb 2024 12:24:11 +0200
+Message-ID: <87frxy9e0k.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: (subset) [linux][PATCH v6 3/3] dt-bindings: mfd: atmel,hlcdc:
- Convert to DT schema format
-To: Lee Jones <lee@kernel.org>, sam@ravnborg.org, bbrezillon@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
- claudiu.beznea@tuxon.dev, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, thierry.reding@gmail.com,
- u.kleine-koenig@pengutronix.de, linux-pwm@vger.kernel.org,
- Dharma Balasubiramani <dharma.b@microchip.com>
-Cc: hari.prasathge@microchip.com, manikandan.m@microchip.com,
- Conor Dooley <conor.dooley@microchip.com>
-References: <20240202001733.91455-1-dharma.b@microchip.com>
- <20240202001733.91455-4-dharma.b@microchip.com>
- <170738899221.920003.15342446791449663430.b4-ty@kernel.org>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <170738899221.920003.15342446791449663430.b4-ty@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,31 +68,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/02/2024 11:43, Lee Jones wrote:
-> On Fri, 02 Feb 2024 05:47:33 +0530, Dharma Balasubiramani wrote:
->> Convert the atmel,hlcdc binding to DT schema format.
->>
->> Align clocks and clock-names properties to clearly indicate that the LCD
->> controller expects lvds_pll_clk when interfaced with the lvds display. This
->> alignment with the specific hardware requirements ensures accurate device tree
->> configuration for systems utilizing the HLCDC IP.
->>
->> [...]
-> 
-> Applied, thanks!
-> 
-> [3/3] dt-bindings: mfd: atmel,hlcdc: Convert to DT schema format
->       commit: cb946db1335b599ece363d33966bf653ed0fa58a
-> 
+On Mon, 12 Feb 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> Remove unnecessary dependencies in the include statements of the
+> header file <linux/fb.h>. Several files throughout the kernel include
+> the fbdev header, so reducing dependencies positively affects other
+> subsystems as well. Also fix up nouveau, which needs backlight.h in
+> one of its source files.
 
-Next is still failing.
+On the series,
 
-Dharma,
-You must explain and clearly mark dependencies between patches.
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
-Lee,
-Can you pick up two previous patches as well?
+> Thomas Zimmermann (7):
+>   drm/nouveau: Include <linux/backlight.h>
+>   fbdev: Do not include <linux/backlight.h> in header
+>   fbdev: Do not include <linux/fs.h> in header
+>   fbdev: Do not include <linux/notifier.h> in header
+>   fbdev: Do not include <linux/slab.h> in header
+>   fbdev: Clean up forward declarations in header file
+>   fbdev: Clean up include statements in header file
+>
+>  drivers/gpu/drm/nouveau/dispnv50/disp.c |  1 +
+>  include/linux/fb.h                      | 24 +++++++++++++-----------
+>  2 files changed, 14 insertions(+), 11 deletions(-)
 
-Best regards,
-Krzysztof
-
+-- 
+Jani Nikula, Intel
