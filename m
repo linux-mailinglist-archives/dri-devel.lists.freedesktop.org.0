@@ -2,91 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD330851DD6
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 20:21:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30315851DDC
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 20:26:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8532910E0C5;
-	Mon, 12 Feb 2024 19:21:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A070210E0A2;
+	Mon, 12 Feb 2024 19:25:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="nW+VyRJJ";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="yZVCs8cW";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Xdf1t+y6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 378 seconds by postgrey-1.36 at gabe;
- Mon, 12 Feb 2024 19:21:02 UTC
-Received: from fout8-smtp.messagingengine.com (fout8-smtp.messagingengine.com
- [103.168.172.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFA1A10E796
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 19:21:02 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailfout.nyi.internal (Postfix) with ESMTP id 2452513800A5;
- Mon, 12 Feb 2024 14:14:41 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
- by compute5.internal (MEProxy); Mon, 12 Feb 2024 14:14:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm3; t=1707765281;
- x=1707851681; bh=owswN7XU/Fn0mSvnFsqZqiicnFod/NS5cnjRqcaw1U8=; b=
- nW+VyRJJFFU1Zxtj1eZWKi+KMs2BVX3Z8BA+KwbAyA812Sh6+PcWLAItYIb98btw
- NY8oHmLn/UzMfA/xzunxmaq8Huh7a230fwMqh+x6rJAmkYm8QrtrrtLK87GirL8u
- xVArA6xM1ORyPi/gjCkwOsaN214DgGWT1cfJ5Xu7lGEQbz+0FmYEEkpQFjdJ2w7A
- 6EqXM0zJZwz8xQWyLu9GH3/zMvCdx8W5Ggdvw73T06RtPCpomopN8a0qp91yRFCN
- dOKfwHOAlkMAa6rzIdnLYueGHL0i8Y8wZZc186AkZ6NrXaDOy2KIiIqj6xq8pGld
- mehi1NWe3zCevzCya2whlQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1707765281; x=
- 1707851681; bh=owswN7XU/Fn0mSvnFsqZqiicnFod/NS5cnjRqcaw1U8=; b=y
- ZVCs8cWJMmS/foQOdJrpUc7TbWBIaLeICwQTavWekPIalfjX48b8dBEW539Mc93C
- VS8xq+ReDnciLn6eXns6WzMZtZIFeLpjLuYU5/dJLvxccnFTU6a71zYheZTiWbiB
- xsA6Umg20/zfbV2ejxiHbJivyLYFyVTOlA7q8cE1d2Q+eZU9gqI4IjcUWmivaj6g
- 9p5Xw5BgnDcMDX1dukXtNVKYvrdK+lBxbpF/pM5Iw41vU2J6u0gDL7xMsIyk8Wf1
- is0fBYmKuGG/QDCdjz9g/mbFci94I3vnNHMG0610usIiQ6XsVg3CFGawxTDjNKcd
- Dp7ixXkFLDA2rSqCpMKEA==
-X-ME-Sender: <xms:IG7KZfoXX4N5T5lq4ALykSgSgZ7zogu0GQDjjd59DWI6wh06-fWNBQ>
- <xme:IG7KZZrtdY2nZl5IlC3uAvPSyF4VvBFTUgrB-VfJnIgEXYVORQw2aoqDzs1CubqgC
- glS665VZTkx-KeCRRc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudefgdduvdduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
- rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
- htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
- gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:IG7KZcPeBrzOTwwpsnH8vneIDZt98fD1SAopAyqNNiwHr1m6B9wBVg>
- <xmx:IG7KZS53t_XSYXsI5-aZ0ahMbIrePfPA6EP3NOgW6xhsxbjorB7xMw>
- <xmx:IG7KZe7W3HIdZ1bFhA2U7kxhuAWhL119lTskO0dw9lHFEndu5sGtfA>
- <xmx:IW7KZRJbyVsb_ls52tp7cqiPAckIN9K9IlBBLfSt8wvAtm5CaBQ9AA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 5A778B6008D; Mon, 12 Feb 2024 14:14:40 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-144-ge5821d614e-fm-20240125.002-ge5821d61
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 457B310E0A3;
+ Mon, 12 Feb 2024 19:25:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1707765957; x=1739301957;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=J/MHatstWn38K1DNK96JUzl/2l6I7HyrZOSz07os770=;
+ b=Xdf1t+y6NAZEJgzV4vejKZMBNwkMQuXZ0YMWeRFxru4aRwmVb6wVayi0
+ bQoS6hBfsJOX3rkYtYGb/7FuXgIMfv2fwp/0etbKe2vja1UGIDMJaJlqm
+ AGyNQxcuddzVMJ6n0Y/FwZUlUzQwXdlO7bbVp1Jjp8yvmuV3XvIFpcD3s
+ ltUTQ8nBLBp1yPhWOybdA6h2PCr+nG0PIN5j5hUUnCv8gkXNtRyJqsE8I
+ Be1K3Mbxdz1tGSulhRvMl7LmAbvzp/vCRGxSBw2TTY07+lUATEliyYFCW
+ wbKOV15CatOeEa8znXHpIqcyaFIZcZYCVgt6HJnrhADd8DW/3vvb8VLQS w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="1610673"
+X-IronPort-AV: E=Sophos;i="6.06,155,1705392000"; 
+   d="scan'208";a="1610673"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Feb 2024 11:25:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,155,1705392000"; 
+   d="scan'208";a="7420855"
+Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
+ by orviesa004.jf.intel.com with ESMTP; 12 Feb 2024 11:25:46 -0800
+Received: from kbuild by 01f0647817ea with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rZbvz-0007KY-2e;
+ Mon, 12 Feb 2024 19:25:43 +0000
+Date: Tue, 13 Feb 2024 03:25:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
+ kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com,
+ daniel@ffwll.ch, airlied@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/7] fbdev: Do not include <linux/backlight.h> in header
+Message-ID: <202402130207.8ZFxCEYs-lkp@intel.com>
+References: <20240212101712.23675-3-tzimmermann@suse.de>
 MIME-Version: 1.0
-Message-Id: <2cacd8dc-6150-4aa2-af9e-830a202fb0a8@app.fastmail.com>
-In-Reply-To: <4869921.GXAFRqVoOG@radijator>
-References: <20240212111819.936815-1-arnd@kernel.org>
- <20240212124428.GB4593@aspen.lan> <4869921.GXAFRqVoOG@radijator>
-Date: Mon, 12 Feb 2024 20:14:20 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: =?UTF-8?Q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
- "Arnd Bergmann" <arnd@kernel.org>,
- "Daniel Thompson" <daniel.thompson@linaro.org>
-Cc: "Lee Jones" <lee@kernel.org>, "Jingoo Han" <jingoohan1@gmail.com>,
- "Helge Deller" <deller@gmx.de>, "Linus Walleij" <linus.walleij@linaro.org>,
- "Flavio Suligoi" <f.suligoi@asem.it>, "Hans de Goede" <hdegoede@redhat.com>,
- "Jianhua Lu" <lujianhua000@gmail.com>,
- "Matthew Wilcox" <willy@infradead.org>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] backlight: ktd2801: fix LED dependency
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240212101712.23675-3-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,40 +72,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 12, 2024, at 15:31, Duje Mihanovi=C4=87 wrote:
-> On Monday, February 12, 2024 1:44:28 PM CET Daniel Thompson wrote:
->> On Mon, Feb 12, 2024 at 12:18:12PM +0100, Arnd Bergmann wrote:
-> I believe this would be the best thing to do here. Making LEDS_EXPRESS=
-WIRE=20
-> user selectable doesn't make much sense to me as the library is rather=
- low-
-> level (a quick grep turns up BTREE as an example of something similar)=
- and IMO=20
-> the GPIOLIB dependency should be handled by LEDS_EXPRESSWIRE as it's t=
-he one=20
-> actually using the GPIO interface (except maybe for KTD2692 as it has =
-some=20
-> extra GPIOs not present in the other one and thus handles them itself).
+Hi Thomas,
 
-Agree, let's do it this way. Maybe the leds-expresswire.c file should
-not be in drivers/leds either, but it's already there and I can't think
-of a better place for it.so just adapting Kconfig should be enough.
+kernel test robot noticed the following build warnings:
 
-Please add the corresponding Makefile change as well though:
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.8-rc4 next-20240212]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
---- a/drivers/Makefile
-+++ b/drivers/Makefile
-@@ -135,7 +135,7 @@ obj-$(CONFIG_CPU_IDLE)              +=3D cpuidle/
- obj-y                          +=3D mmc/
- obj-y                          +=3D ufs/
- obj-$(CONFIG_MEMSTICK)         +=3D memstick/
--obj-$(CONFIG_NEW_LEDS)         +=3D leds/
-+obj-y                          +=3D leds/
- obj-$(CONFIG_INFINIBAND)       +=3D infiniband/
- obj-y                          +=3D firmware/
- obj-$(CONFIG_CRYPTO)           +=3D crypto/
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-nouveau-Include-linux-backlight-h/20240212-181930
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240212101712.23675-3-tzimmermann%40suse.de
+patch subject: [PATCH 2/7] fbdev: Do not include <linux/backlight.h> in header
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20240213/202402130207.8ZFxCEYs-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240213/202402130207.8ZFxCEYs-lkp@intel.com/reproduce)
 
-Without this, the expresswire library module won't
-get built unless NEW_LEDS is enabled.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402130207.8ZFxCEYs-lkp@intel.com/
 
-     Arnd
+All warnings (new ones prefixed by >>):
+
+   drivers/staging/fbtft/fb_ssd1351.c: In function 'update_onboard_backlight':
+   drivers/staging/fbtft/fb_ssd1351.c:192:33: error: implicit declaration of function 'bl_get_data'; did you mean 'acpi_get_data'? [-Werror=implicit-function-declaration]
+     192 |         struct fbtft_par *par = bl_get_data(bd);
+         |                                 ^~~~~~~~~~~
+         |                                 acpi_get_data
+>> drivers/staging/fbtft/fb_ssd1351.c:192:33: warning: initialization of 'struct fbtft_par *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   In file included from include/linux/device.h:15,
+                    from include/linux/acpi.h:14,
+                    from include/linux/spi/spi.h:9,
+                    from drivers/staging/fbtft/fb_ssd1351.c:5:
+   drivers/staging/fbtft/fb_ssd1351.c:197:35: error: invalid use of undefined type 'struct backlight_device'
+     197 |                       __func__, bd->props.power, bd->props.fb_blank);
+         |                                   ^~
+   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                                     ^~~~~~~~~~~
+   drivers/staging/fbtft/fbtft.h:433:17: note: in expansion of macro 'dev_info'
+     433 |                 dev_info((par)->info->device, format, ##arg);  \
+         |                 ^~~~~~~~
+   drivers/staging/fbtft/fb_ssd1351.c:195:9: note: in expansion of macro 'fbtft_par_dbg'
+     195 |         fbtft_par_dbg(DEBUG_BACKLIGHT, par,
+         |         ^~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_ssd1351.c:197:52: error: invalid use of undefined type 'struct backlight_device'
+     197 |                       __func__, bd->props.power, bd->props.fb_blank);
+         |                                                    ^~
+   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                                     ^~~~~~~~~~~
+   drivers/staging/fbtft/fbtft.h:433:17: note: in expansion of macro 'dev_info'
+     433 |                 dev_info((par)->info->device, format, ##arg);  \
+         |                 ^~~~~~~~
+   drivers/staging/fbtft/fb_ssd1351.c:195:9: note: in expansion of macro 'fbtft_par_dbg'
+     195 |         fbtft_par_dbg(DEBUG_BACKLIGHT, par,
+         |         ^~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_ssd1351.c:199:15: error: implicit declaration of function 'backlight_is_blank' [-Werror=implicit-function-declaration]
+     199 |         on = !backlight_is_blank(bd);
+         |               ^~~~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_ssd1351.c: At top level:
+   drivers/staging/fbtft/fb_ssd1351.c:206:21: error: variable 'bl_ops' has initializer but incomplete type
+     206 | static const struct backlight_ops bl_ops = {
+         |                     ^~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_ssd1351.c:207:10: error: 'const struct backlight_ops' has no member named 'update_status'
+     207 |         .update_status = update_onboard_backlight,
+         |          ^~~~~~~~~~~~~
+>> drivers/staging/fbtft/fb_ssd1351.c:207:26: warning: excess elements in struct initializer
+     207 |         .update_status = update_onboard_backlight,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_ssd1351.c:207:26: note: (near initialization for 'bl_ops')
+   drivers/staging/fbtft/fb_ssd1351.c: In function 'register_onboard_backlight':
+   drivers/staging/fbtft/fb_ssd1351.c:213:16: error: variable 'bl_props' has initializer but incomplete type
+     213 |         struct backlight_properties bl_props = { 0, };
+         |                ^~~~~~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_ssd1351.c:213:50: warning: excess elements in struct initializer
+     213 |         struct backlight_properties bl_props = { 0, };
+         |                                                  ^
+   drivers/staging/fbtft/fb_ssd1351.c:213:50: note: (near initialization for 'bl_props')
+   drivers/staging/fbtft/fb_ssd1351.c:213:37: error: storage size of 'bl_props' isn't known
+     213 |         struct backlight_properties bl_props = { 0, };
+         |                                     ^~~~~~~~
+   drivers/staging/fbtft/fb_ssd1351.c:215:25: error: 'BACKLIGHT_RAW' undeclared (first use in this function); did you mean 'FB_BACKLIGHT_MAX'?
+     215 |         bl_props.type = BACKLIGHT_RAW;
+         |                         ^~~~~~~~~~~~~
+         |                         FB_BACKLIGHT_MAX
+   drivers/staging/fbtft/fb_ssd1351.c:215:25: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/staging/fbtft/fb_ssd1351.c:218:14: error: implicit declaration of function 'backlight_device_register'; did you mean 'root_device_register'? [-Werror=implicit-function-declaration]
+     218 |         bd = backlight_device_register(dev_driver_string(par->info->device),
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |              root_device_register
+>> drivers/staging/fbtft/fb_ssd1351.c:213:37: warning: unused variable 'bl_props' [-Wunused-variable]
+     213 |         struct backlight_properties bl_props = { 0, };
+         |                                     ^~~~~~~~
+   drivers/staging/fbtft/fb_ssd1351.c: At top level:
+   drivers/staging/fbtft/fb_ssd1351.c:206:35: error: storage size of 'bl_ops' isn't known
+     206 | static const struct backlight_ops bl_ops = {
+         |                                   ^~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +192 drivers/staging/fbtft/fb_ssd1351.c
+
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  189  
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  190  static int update_onboard_backlight(struct backlight_device *bd)
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  191  {
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31 @192  	struct fbtft_par *par = bl_get_data(bd);
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  193  	bool on;
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  194  
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  195  	fbtft_par_dbg(DEBUG_BACKLIGHT, par,
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  196  		      "%s: power=%d, fb_blank=%d\n",
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  197  		      __func__, bd->props.power, bd->props.fb_blank);
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  198  
+66d653c37228cb Stephen Kitt     2022-06-07  199  	on = !backlight_is_blank(bd);
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  200  	/* Onboard backlight connected to GPIO0 on SSD1351, GPIO1 unused */
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  201  	write_reg(par, 0xB5, on ? 0x03 : 0x02);
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  202  
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  203  	return 0;
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  204  }
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  205  
+23801e3438f6ce Mike Rapoport    2015-09-03 @206  static const struct backlight_ops bl_ops = {
+23801e3438f6ce Mike Rapoport    2015-09-03 @207  	.update_status = update_onboard_backlight,
+23801e3438f6ce Mike Rapoport    2015-09-03  208  };
+23801e3438f6ce Mike Rapoport    2015-09-03  209  
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  210  static void register_onboard_backlight(struct fbtft_par *par)
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  211  {
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  212  	struct backlight_device *bd;
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31 @213  	struct backlight_properties bl_props = { 0, };
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  214  
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31 @215  	bl_props.type = BACKLIGHT_RAW;
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  216  	bl_props.power = FB_BLANK_POWERDOWN;
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  217  
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  218  	bd = backlight_device_register(dev_driver_string(par->info->device),
+333c7b940526be Leonardo Brás    2018-08-07  219  				       par->info->device, par, &bl_ops,
+333c7b940526be Leonardo Brás    2018-08-07  220  				       &bl_props);
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  221  	if (IS_ERR(bd)) {
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  222  		dev_err(par->info->device,
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  223  			"cannot register backlight device (%ld)\n",
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  224  			PTR_ERR(bd));
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  225  		return;
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  226  	}
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  227  	par->info->bl_dev = bd;
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  228  
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  229  	if (!par->fbtftops.unregister_backlight)
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  230  		par->fbtftops.unregister_backlight = fbtft_unregister_backlight;
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  231  }
+883daf0a5c35c8 Thomas Petazzoni 2014-12-31  232  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
