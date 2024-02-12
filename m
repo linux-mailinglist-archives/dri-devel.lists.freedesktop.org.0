@@ -2,62 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD5D7850F0D
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 09:46:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11836850F59
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 10:08:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7141C10E03A;
-	Mon, 12 Feb 2024 08:46:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1E2710EB61;
+	Mon, 12 Feb 2024 09:08:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="fQdMmeIN";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Xm+dzZTE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="quJaPzB0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Xm+dzZTE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="quJaPzB0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B60210E03A
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 08:46:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=EuNggq+azN/d4DUim7Y3SUc/9/QLyzMSTboMTlt+rhM=; b=fQdMmeINIw/OVcHaw06BpgUPDl
- fw5dQ6HI/JQ7zkRBwx5o//kaJ4pgKMTqEVZYM+6WX4aiAezuJZg6YoEK3GLFB9+Klm3KAAhaXP/JI
- PwhjV5/Yl/ptsR7PKiyxkcJ1leGX/BohehwAutxt9ZX/EF5EOYfmXlWSyl/8jsrVbHn0D9fUdsUCM
- iDO6CBt5kzlinKJGMuCrBQLd+bdBgvBua5Xt2oGn1LCO33QCfoKk8d2Ms5HtslUj8qRCrzNEKU+KL
- YXA7v42c1UhxUSGXr0CaWIWbt+/jDa1R55mL7Qh4fTE/mwPSsYWZrsDkzNq1xTFxBQGIVd71tgxog
- etSMr1BA==;
-Received: from [194.136.85.206] (port=52286 helo=eldfell)
- by whm50.louhi.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
- (envelope-from <pekka.paalanen@haloniitty.fi>) id 1rZRxV-0004fe-2j;
- Mon, 12 Feb 2024 10:46:37 +0200
-Date: Mon, 12 Feb 2024 10:46:36 +0200
-From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-To: Xaver Hugl <xaver.hugl@kde.org>
-Cc: dri-devel@lists.freedesktop.org, ville.syrjala@linux.intel.com,
- contact@emersion.fr, sebastian.wick@redhat.com
-Subject: Re: [PATCH] drm: document userspace expectations around the
- Colorspace connector property
-Message-ID: <20240212104636.5a411226@eldfell>
-In-Reply-To: <20240209165307.29856-1-xaver.hugl@kde.org>
-References: <20240209165307.29856-1-xaver.hugl@kde.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD3CA10EB3D
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 09:07:43 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:98])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 28CFC1F457;
+ Mon, 12 Feb 2024 09:07:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1707728861; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=hHBR/2KzafDsROlbPYcqYXrsN2vBfu5YNMNkVRtC9JM=;
+ b=Xm+dzZTE5yxW8eFJnhZAAzI7gjUf2WdFuxoMUiMxl43bumy2o4snLe91Q3FCKchQjZNg27
+ cUujjblr/LfbqaMewzXp/z99ktqKauokCpP4md2vKn6eXVOJmdWi42ygLWBGvN1KO7Vewy
+ dsL3N7lGQTFJW3qyE05j5lA9ZEh2dy0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1707728861;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=hHBR/2KzafDsROlbPYcqYXrsN2vBfu5YNMNkVRtC9JM=;
+ b=quJaPzB0KH4hirCbnt13ALM3muoXYpc/JDwfv3DxIraL4HzD/2jy2loED7vmYUh3eylvv6
+ HXDo6tax5madHwBQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1707728861; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=hHBR/2KzafDsROlbPYcqYXrsN2vBfu5YNMNkVRtC9JM=;
+ b=Xm+dzZTE5yxW8eFJnhZAAzI7gjUf2WdFuxoMUiMxl43bumy2o4snLe91Q3FCKchQjZNg27
+ cUujjblr/LfbqaMewzXp/z99ktqKauokCpP4md2vKn6eXVOJmdWi42ygLWBGvN1KO7Vewy
+ dsL3N7lGQTFJW3qyE05j5lA9ZEh2dy0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1707728861;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=hHBR/2KzafDsROlbPYcqYXrsN2vBfu5YNMNkVRtC9JM=;
+ b=quJaPzB0KH4hirCbnt13ALM3muoXYpc/JDwfv3DxIraL4HzD/2jy2loED7vmYUh3eylvv6
+ HXDo6tax5madHwBQ==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id D9BC313212;
+ Mon, 12 Feb 2024 09:07:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+ by imap2.dmz-prg2.suse.org with ESMTPSA id vOFxM9zfyWXecwAAn2gu4w
+ (envelope-from <tzimmermann@suse.de>); Mon, 12 Feb 2024 09:07:40 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com, sui.jingfeng@linux.dev, pjones@redhat.com,
+ deller@gmx.de, ardb@kernel.org
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v4 0/8] firmware/sysfb: Track parent device for screen_info
+Date: Mon, 12 Feb 2024 10:06:08 +0100
+Message-ID: <20240212090736.11464-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/LCW_TU_jfeMT7rE1RMr6441";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - whm50.louhi.net
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - haloniitty.fi
-X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
- pekka.paalanen@haloniitty.fi
-X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Bar: /
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Xm+dzZTE;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=quJaPzB0
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [0.49 / 50.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+ TO_DN_SOME(0.00)[]; R_MISSING_CHARSET(2.50)[];
+ BROKEN_CONTENT_TYPE(1.50)[]; RCVD_COUNT_THREE(0.00)[3];
+ DKIM_TRACE(0.00)[suse.de:+]; MX_GOOD(-0.01)[];
+ RCPT_COUNT_SEVEN(0.00)[8]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ FREEMAIL_TO(0.00)[redhat.com,linux.dev,gmx.de,kernel.org];
+ FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+];
+ BAYES_HAM(-3.00)[100.00%]; ARC_NA(0.00)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmx.de];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MID_CONTAINS_FROM(1.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: 0.49
+X-Rspamd-Queue-Id: 28CFC1F457
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,69 +114,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/LCW_TU_jfeMT7rE1RMr6441
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Detect the firmware framebuffer's parent device from the global
+screen_info state and set up the framebuffer's device accordingly.
+Remove the equivalent functionality from efifb. Other drivers for
+firmware framebuffers, such as simpledrm or vesafb, now add these
+new features.
 
-On Fri,  9 Feb 2024 17:53:07 +0100
-Xaver Hugl <xaver.hugl@kde.org> wrote:
+Patches 1 and 2 provide a set of helper functions to avoid parsing
+the screen_info values manually. Decoding screen_info is fragile and
+many drivers get it wrong. We should later adopt these helpers in
+existing drivers, such as efifb, vesafb, as well.
 
-> Signed-off-by: Xaver Hugl <xaver.hugl@kde.org>
-> ---
->  drivers/gpu/drm/drm_connector.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
-tor.c
-> index b0516505f7ae..01e13984629b 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -2158,6 +2158,14 @@ EXPORT_SYMBOL(drm_mode_create_aspect_ratio_propert=
-y);
->   *     one supported. Sink supported colorspaces should be retrieved by
->   *     userspace from EDID and driver will not explicitly expose them.
->   *
-> + *     As userspace can't currently know whether or not the output is us=
-ing
-> + *     RGB or YCC signalling, the driver must translate properties to th=
-eir
-> + *     relevant RGB or YCC counterparts, depending on the actually used
-> + *     signalling. Property values that are only valid for either YCC or=
- RGB
-> + *     and have no equivalent for the other signalling type must not be
-> + *     exposed as supported, unless the driver can guarantee it never us=
-es
-> + *     the signalling that doesn't match the property.
-> + *
->   *     Basically the expectation from userspace is:
->   *      - Set up CRTC DEGAMMA/CTM/GAMMA to convert to some sink
->   *        colorspace
+Patches 3 and 4 set the firmware framebuffer's parent device. There
+is code in efifb to do something similar for power management. That
+is now obsolete and being cleaned up. Setting the parent device makes
+Linux track the power management correctly.
 
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+Patches 5 and 6 track the parent device's enable state. We don't
+create framebuffer devices if the underlying hardware device has been
+disabled. Remove the functionality from efifb.
 
+Patches 7 and 8 track the parent device's PCI BAR location. It can
+happen on aarch64 that the firmware framebuffer moves its location
+during the kernel's boot. We now fix up the screen_info state to
+point to the correct location. Again remove such functionality from
+efifb.
 
-Thanks,
-pq
+v4:
+	* fix sysfb.h header file
+v3:
+	* filter PCI device list with pci_get_base_class() (Sui)
+	* fix error handling for screen_info_pci_dev() (Sui)
+	* fix build for CONFIG_SYSFB_SIMPLEFB=n (Sui)
+	* small cleanups
+v2:
+	* small refactorings throughout the patchset
 
---Sig_/LCW_TU_jfeMT7rE1RMr6441
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Thomas Zimmermann (8):
+  video: Add helpers for decoding screen_info
+  video: Provide screen_info_get_pci_dev() to find screen_info's PCI
+    device
+  firmware/sysfb: Set firmware-framebuffer parent device
+  fbdev/efifb: Remove PM for parent device
+  firmware/sysfb: Create firmware device only for enabled PCI devices
+  fbdev/efifb: Do not track parent device status
+  firmware/sysfb: Update screen_info for relocated EFI framebuffers
+  fbdev/efifb: Remove framebuffer relocation tracking
 
------BEGIN PGP SIGNATURE-----
+ drivers/firmware/Kconfig            |   1 +
+ drivers/firmware/sysfb.c            |  51 +++++++++-
+ drivers/firmware/sysfb_simplefb.c   |   5 +-
+ drivers/video/Kconfig               |   4 +
+ drivers/video/Makefile              |   4 +
+ drivers/video/fbdev/efifb.c         |  97 +-----------------
+ drivers/video/screen_info_generic.c | 146 ++++++++++++++++++++++++++++
+ drivers/video/screen_info_pci.c     | 136 ++++++++++++++++++++++++++
+ include/linux/screen_info.h         | 126 ++++++++++++++++++++++++
+ include/linux/sysfb.h               |   6 +-
+ 10 files changed, 480 insertions(+), 96 deletions(-)
+ create mode 100644 drivers/video/screen_info_generic.c
+ create mode 100644 drivers/video/screen_info_pci.c
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXJ2uwACgkQI1/ltBGq
-qqdGew//dpu8QJgwrjxKBt8fQ8UjZY2nbRQZXHfNBkuqKpX4U1LsoxfqgHCL9e8/
-SGlobXM93e0riX7v+1Tkm5YSWv/Nbirdg26dHLg6Qs5AxMQsK41ayKyS9KZeagXw
-1d1lSrb4IASlGAp9OEkrBXm4QOsDfzqqtF8U6mWyQN0RJhkmnKIR3F13+EH3Kioa
-sCLM8jsYgGr56o6Lma8Vi5vyGS4B0FL3+3xWN6u86Q8zZZRnLMb6BxCVSPddVZfJ
-xAgN6rSYFzONYCLaLFj0N6GHMyTgAV1kBUlvtGA8W0mkpIge0MpE1Ui7wlKAviBq
-Z0Q3p6O+0NpO73bvgm+heYDtuv3YkQkFePt8dmgqGEwxsh34spEcasvLj0B9S6jp
-4SmSY3hVqzldOZ4k+09xVvOimvSFXy3xrGYZ9Z75/Yfd+2HU4B8OU9BLQhwodQhg
-r7MV1ZUXKzTxy5WEPDSYmDz4eeGqxU0vS0QC89tJXp2BVfdmNsuWHR8dBrAEfK30
-o6ewRIjKQ7TufwulvCHvC+D57BtkK29BjGMxFZwrYxhiCmRq1Lxl0yjEFola2NN3
-3PAvi4XqcY+WP7YOEogCrWR0iGN3nNh6Kl3R8LhJv8EAUoRWl+ZB8CGX8m8tyAtv
-DZeORkHatRTlW7IuW6Oy3GeCist9xe6+zGis12ts+zuCSH7w+qs=
-=ruZy
------END PGP SIGNATURE-----
+-- 
+2.43.0
 
---Sig_/LCW_TU_jfeMT7rE1RMr6441--
