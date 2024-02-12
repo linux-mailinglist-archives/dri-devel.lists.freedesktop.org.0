@@ -2,55 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C02F6851ED5
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 21:46:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 184D2851F04
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 22:04:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5224B10E195;
-	Mon, 12 Feb 2024 20:46:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0F5810E00E;
+	Mon, 12 Feb 2024 21:04:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dofZfdfp";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="jvlPhP6f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C5EC10E195
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 20:46:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707770813; x=1739306813;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=43rYMnzoKxs+g1rFQoFJuws32YY+vCTRr/KVq4oGhIQ=;
- b=dofZfdfpMdvkzxFMpyHaHXctWsCejCxINiTz2IncY6+dOMZ8hdvrKEiC
- aO/S0K3UkSC+CogTv/gBObRU+HNfEHGLOCzTM8WgruMdXP8ePInG1iAcE
- l4t9atoL+AMqL3acKPqS6XrINNRhTapX7hwSw5VqBph36cwPK8wF9Jtng
- trLfbOHttpTJyVpBS17Jc48C4pjNsthCanNktlieCYdKgGoU01XR9PrT0
- yxdkZ1yqT+FvVDyZoYT7l9I0J6pTqi5lnbKgROQMCMQzMpvrnG2TDFCzp
- e0YlXMI0sr2aworlmA4vtwSjdFSYg5kZRfPe8ckXd8ghum+caI/1Aur35 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="27210515"
-X-IronPort-AV: E=Sophos;i="6.06,155,1705392000"; d="scan'208";a="27210515"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2024 12:46:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,155,1705392000"; 
-   d="scan'208";a="7321571"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
- by fmviesa004.fm.intel.com with ESMTP; 12 Feb 2024 12:46:51 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rZdCS-0007ME-37;
- Mon, 12 Feb 2024 20:46:48 +0000
-Date: Tue, 13 Feb 2024 04:46:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Luca Coelho <luciano.coelho@intel.com>
-Subject: [drm-misc:for-linux-next 40/49]
- drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c:317:48: error: passing argument
- 1 of 'drm_err_printer' from incompatible pointer type
-Message-ID: <202402130446.4SBrCdZH-lkp@intel.com>
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2080.outbound.protection.outlook.com [40.107.94.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 100A010E00D;
+ Mon, 12 Feb 2024 21:04:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Qb5kZtyQMPNXjxzES5qlilXUKabffLIzrgwBhGw5nkt/+xb78yclBPGiD1sB5vcop4T624fx7B14UZq9E0jxLJwqvAvV4ua4IzuC+L8TLB8nS5f/rpUl3AD+wfW1gYJDN2CSk3UBF3GmKwtRcF8eDuM2pns4+BpLvsPaQ59dRiq/Ea3vwzDoMpkm5tME4tSXt4ICRcl0B5bSHGOJRTfCma68a1LMVYo/0sRPmPYSwwvmRM5CVEEuQDSpV/QVAhhMV2RiSsu74RnTHK5uKuIAnV5J0pZJcUXoiNMvDNSfFANxXds7rMXrFtn536metTl/DNZMHNky75tyT+Oe7Jwd+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VYqQVMgOIW9zUllg74H1o31HO9Pjr6X39FuuGEUKJF0=;
+ b=ZREH8si/L/8XCpOPsMfpTp1pnpaYO1G0vipJfMPKAYiA61trHgOEaG7ZLZoqMZN/BODpL1JAhaTvF7XHH6IiDlfT1PRt0YXjXWDg8MeSMnTOfB2a4F8FuLal790eimYslD8kp2FxiVfzLYYG1k/VEX1MESMXQIPjrrVuHrgoPtD11X+czU/rBfORWD9Qc6cHICZQV5EVHAUkd4KqllNjync8EwvJJ/IPj2r5jrXc0N5cM5qySlojeygc67G60aGW2yywjSIk50TjdHQqTiqJ8B9//57YizStf+FUJBse1BhaT/tQIE12/2tldCNkoXz1H02fS/LoaXFoyl6abfU2cg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VYqQVMgOIW9zUllg74H1o31HO9Pjr6X39FuuGEUKJF0=;
+ b=jvlPhP6fFFQvmkmOrS4Oimbr/oWejRJmKlloxZ8VoT6eLB3lrbLD+AwEXa0mcDhRAUcBbQSYIPweaHhK2NOlrNtWeJQoyHIHA1tbtYMoKdKtOoWtg4eT9zhMjXBir+nlf7OkDXEuJXn8PfuykGO2PeAuAmxXBcMLF8v/vIx3Vvk=
+Received: from CH0PR04CA0073.namprd04.prod.outlook.com (2603:10b6:610:74::18)
+ by DS0PR12MB7677.namprd12.prod.outlook.com (2603:10b6:8:136::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.21; Mon, 12 Feb
+ 2024 21:04:44 +0000
+Received: from CH3PEPF0000000E.namprd04.prod.outlook.com
+ (2603:10b6:610:74:cafe::fd) by CH0PR04CA0073.outlook.office365.com
+ (2603:10b6:610:74::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.38 via Frontend
+ Transport; Mon, 12 Feb 2024 21:04:43 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CH3PEPF0000000E.mail.protection.outlook.com (10.167.244.42) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7249.19 via Frontend Transport; Mon, 12 Feb 2024 21:04:43 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Mon, 12 Feb
+ 2024 15:04:42 -0600
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <tvrtko.ursulin@linux.intel.com>, <daniel@ffwll.ch>
+CC: Alex Deucher <alexander.deucher@amd.com>
+Subject: [PATCH 0/6 V4] fdinfo shared stats
+Date: Mon, 12 Feb 2024 16:04:22 -0500
+Message-ID: <20240212210428.851952-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PEPF0000000E:EE_|DS0PR12MB7677:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5d48f21f-f31f-4ec9-5367-08dc2c0e3c88
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ZSTjmkKnAGZ1o/3gZzSq5N9Szu9/XkvWQvTtIj8gD9Gaqb7g606X1YD8Avt/Cr6ZAvVrJsLW0S3MJlAaDYyteuZCm6nrl3pXG48eNv2/r44CdEumprGIv2CAnQt7EXJNbL6dwjojZ0cKMiCE8AmDszu2IBU6WvelqfV+KMTh0McQWX5TB0oEuLbIdcWXqaDsitHm51Bpfb44NEL9cxDH9e9g8j4/MDlqY1tWZQ8/W1RwJsgkT1YC+Rx6mJw2QTeXSTjmwAEP0ETgIGeppJ3QUzN89ymsmjnRgfniW7AkWPfbq8+CjclsCM5SKjW/PHiCFl+Vu3O0AzMHsThq1R2MRr75oXeui6zk6t8Er8/r8YtqReJWC4bLZKUyHbEHzNYY0P4c3Yfi/QvsSJ+PCoh7wo//Lj/V1KIjGB2Juc63DO4qjnAvmewpsVIhr8uFPkYdxnpCj8KmPZT1gO721007RdLsM72q12dBPgxhBhuaoKVb3TXjxfzlccQfQ4NmH3EzS5a4kvEbIKyxJ38N2iZmWNTAa73Me/KAUadJ2adj4ctBZQBFN7blIPBeOTgSk561p8pyJqUqgJQqAwv+fv4P1Oj4G1qEr6m0ExAu8N7SPu0=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(4636009)(39860400002)(376002)(346002)(136003)(396003)(230922051799003)(1800799012)(186009)(64100799003)(82310400011)(451199024)(46966006)(40470700004)(36840700001)(86362001)(81166007)(82740400003)(356005)(41300700001)(2906002)(316002)(478600001)(16526019)(7696005)(83380400001)(26005)(1076003)(2616005)(6666004)(336012)(426003)(5660300002)(36756003)(8676002)(70586007)(8936002)(4326008)(110136005)(70206006);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2024 21:04:43.5874 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5d48f21f-f31f-4ec9-5367-08dc2c0e3c88
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CH3PEPF0000000E.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7677
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,90 +107,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
-head:   247f2ee4498cfcaf18b3c3486dffd2302d56fc17
-commit: 5e0c04c8c40b69ab165d52964433859d8b666376 [40/49] drm/print: make drm_err_printer() device specific by using drm_err()
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240213/202402130446.4SBrCdZH-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240213/202402130446.4SBrCdZH-lkp@intel.com/reproduce)
+We had a request to add shared buffer stats to fdinfo for amdgpu and
+while implementing that, Christian mentioned that just looking at
+the GEM handle count doesn't take into account buffers shared with other
+subsystems like V4L or RDMA.  Those subsystems don't use GEM, so it
+doesn't really matter from a GPU top perspective, but it's more
+correct if you actually want to see shared buffers.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402130446.4SBrCdZH-lkp@intel.com/
+After further discussions, add a helper and update all fdinfo
+implementations to use that helper for consistency.
 
-Note: the drm-misc/for-linux-next HEAD 247f2ee4498cfcaf18b3c3486dffd2302d56fc17 builds fine.
-      It only hurts bisectability.
+v4: switch drm_gem_object_is_shared_for_memory_stats() to an inline function
 
-All errors (new ones prefixed by >>):
+Alex Deucher (6):
+  Documentation/gpu: Update documentation on drm-shared-*
+  drm: add drm_gem_object_is_shared_for_memory_stats() helper
+  drm: update drm_show_memory_stats() for dma-bufs
+  drm/amdgpu: add shared fdinfo stats
+  drm/i915: Update shared stats to use the new gem helper
+  drm/xe: Update shared stats to use the new gem helper
 
-   drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c: In function 'xe_gt_tlb_invalidation_wait':
->> drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c:317:48: error: passing argument 1 of 'drm_err_printer' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     317 |         struct drm_printer p = drm_err_printer(__func__);
-         |                                                ^~~~~~~~
-         |                                                |
-         |                                                const char *
-   In file included from include/drm/ttm/ttm_resource.h:34,
-                    from include/drm/ttm/ttm_device.h:30,
-                    from drivers/gpu/drm/xe/xe_device_types.h:13,
-                    from drivers/gpu/drm/xe/xe_device.h:15,
-                    from drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c:9:
-   include/drm/drm_print.h:247:69: note: expected 'struct drm_device *' but argument is of type 'const char *'
-     247 | static inline struct drm_printer drm_err_printer(struct drm_device *drm,
-         |                                                  ~~~~~~~~~~~~~~~~~~~^~~
->> drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c:317:32: error: too few arguments to function 'drm_err_printer'
-     317 |         struct drm_printer p = drm_err_printer(__func__);
-         |                                ^~~~~~~~~~~~~~~
-   include/drm/drm_print.h:247:34: note: declared here
-     247 | static inline struct drm_printer drm_err_printer(struct drm_device *drm,
-         |                                  ^~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/drm_err_printer +317 drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c
-
-a9351846d94568 Matthew Brost  2023-01-17  302  
-c6b0948ff8d084 Matthew Brost  2023-01-20  303  /**
-c6b0948ff8d084 Matthew Brost  2023-01-20  304   * xe_gt_tlb_invalidation_wait - Wait for TLB to complete
-c6b0948ff8d084 Matthew Brost  2023-01-20  305   * @gt: graphics tile
-c6b0948ff8d084 Matthew Brost  2023-01-20  306   * @seqno: seqno to wait which was returned from xe_gt_tlb_invalidation
-c6b0948ff8d084 Matthew Brost  2023-01-20  307   *
-c6b0948ff8d084 Matthew Brost  2023-01-20  308   * Wait for 200ms for a TLB invalidation to complete, in practice we always
-c6b0948ff8d084 Matthew Brost  2023-01-20  309   * should receive the TLB invalidation within 200ms.
-c6b0948ff8d084 Matthew Brost  2023-01-20  310   *
-c6b0948ff8d084 Matthew Brost  2023-01-20  311   * Return: 0 on success, -ETIME on TLB invalidation timeout
-c6b0948ff8d084 Matthew Brost  2023-01-20  312   */
-a9351846d94568 Matthew Brost  2023-01-17  313  int xe_gt_tlb_invalidation_wait(struct xe_gt *gt, int seqno)
-a9351846d94568 Matthew Brost  2023-01-17  314  {
-a9351846d94568 Matthew Brost  2023-01-17  315  	struct xe_device *xe = gt_to_xe(gt);
-a9351846d94568 Matthew Brost  2023-01-17  316  	struct xe_guc *guc = &gt->uc.guc;
-ebb00b285bef8b Pallavi Mishra 2023-11-01 @317  	struct drm_printer p = drm_err_printer(__func__);
-a9351846d94568 Matthew Brost  2023-01-17  318  	int ret;
-a9351846d94568 Matthew Brost  2023-01-17  319  
-a9351846d94568 Matthew Brost  2023-01-17  320  	/*
-a9351846d94568 Matthew Brost  2023-01-17  321  	 * XXX: See above, this algorithm only works if seqno are always in
-a9351846d94568 Matthew Brost  2023-01-17  322  	 * order
-a9351846d94568 Matthew Brost  2023-01-17  323  	 */
-a9351846d94568 Matthew Brost  2023-01-17  324  	ret = wait_event_timeout(guc->ct.wq,
-a9351846d94568 Matthew Brost  2023-01-17  325  				 tlb_invalidation_seqno_past(gt, seqno),
-38224c00d9c284 Matthew Brost  2023-01-24  326  				 TLB_TIMEOUT);
-a9351846d94568 Matthew Brost  2023-01-17  327  	if (!ret) {
-a5cecbac92d5a5 Nirmoy Das     2023-05-05  328  		drm_err(&xe->drm, "gt%d: TLB invalidation time'd out, seqno=%d, recv=%d\n",
-a5cecbac92d5a5 Nirmoy Das     2023-05-05  329  			gt->info.id, seqno, gt->tlb_invalidation.seqno_recv);
-ebb00b285bef8b Pallavi Mishra 2023-11-01  330  		xe_guc_ct_print(&guc->ct, &p, true);
-a9351846d94568 Matthew Brost  2023-01-17  331  		return -ETIME;
-a9351846d94568 Matthew Brost  2023-01-17  332  	}
-a9351846d94568 Matthew Brost  2023-01-17  333  
-a9351846d94568 Matthew Brost  2023-01-17  334  	return 0;
-a9351846d94568 Matthew Brost  2023-01-17  335  }
-a9351846d94568 Matthew Brost  2023-01-17  336  
-
-:::::: The code at line 317 was first introduced by commit
-:::::: ebb00b285bef8bcdc46ac4e344d5748539bdd213 drm/xe: Dump CTB during TLB timeout
-
-:::::: TO: Pallavi Mishra <pallavi.mishra@intel.com>
-:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
+ Documentation/gpu/drm-usage-stats.rst      |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c |  4 ++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 11 +++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.h |  6 ++++++
+ drivers/gpu/drm/drm_file.c                 |  2 +-
+ drivers/gpu/drm/i915/i915_drm_client.c     |  2 +-
+ drivers/gpu/drm/xe/xe_drm_client.c         |  2 +-
+ include/drm/drm_gem.h                      | 13 +++++++++++++
+ 8 files changed, 38 insertions(+), 4 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.42.0
+
