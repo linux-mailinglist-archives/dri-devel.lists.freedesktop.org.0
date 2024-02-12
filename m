@@ -2,67 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DAD5851053
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 11:08:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 050B3851072
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 11:17:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C212B10E2A9;
-	Mon, 12 Feb 2024 10:01:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C56C710E667;
+	Mon, 12 Feb 2024 10:17:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vRdcfGdN";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ryzjXKVx";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FcUi8Fm1";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ryzjXKVx";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FcUi8Fm1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 749D410E2A9
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 10:01:12 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 886C5CE0FC8;
- Mon, 12 Feb 2024 10:01:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76253C433F1;
- Mon, 12 Feb 2024 10:01:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1707732069;
- bh=ZV4pECgPYcbYpTFYE/HHDZCGaJXwRLM519uxPcGBl0I=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=vRdcfGdNCOnmnB8/dcuM1aTGBkhnZCU+s8sdi2HDhKo1bAM9sweGpXpaiAluc56DU
- 6M+uTI+N44afTG92KjSZS06Cfpa3OKXGNfTgQHDL2jFuLI3Rng7DXh+ZJI3cWNlsJS
- BrKiT9j7VQH3iQOQrybjasLvm2WVuEaU0eflNduPT/sjhtKqTrydzL3flueiwkwNlu
- f/aJmEAyfDnbIhycldNE2lW71I6zwId6r2BydT7BXebgkkBpsQreTcUL1iJlcsiVx/
- 1f3nRZU3Jb4tGQY9zd4Z/FxH4FKFD7uYhtz7fG5gF60eK1onGRgp31xxYoRYOP9X6S
- MgypK9eU7VjMA==
-Date: Mon, 12 Feb 2024 11:01:07 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Sebastian Wick <sebastian.wick@redhat.com>
-Cc: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Emma Anholt <emma@anholt.net>, 
- Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: Re: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add
- Broadcast RGB property
-Message-ID: <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
- <20240115143308.GA159345@toolbox> <20240115143720.GA160656@toolbox>
- <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
- <Zb0M_2093UwPXK8y@intel.com>
- <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
- <Zb0aYAapkxQ2kopt@intel.com>
- <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
- <20240209203435.GB996172@toolbox>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B92BD10EBE1;
+ Mon, 12 Feb 2024 10:17:17 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:98])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 5270F1F460;
+ Mon, 12 Feb 2024 10:17:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1707733036; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=AlSDol0ID8BkiAee4D1BJaommVQ+eVsswz4SH2nEE5g=;
+ b=ryzjXKVxVyivz8X+4s04GmNvCMAYSpn/MhtM1FQXRNWg6sd+zNgEskFY29ckMNLqhkOF0k
+ 1/FqdEWFfkLoTDEavrdM3TIyYr4y7j+RpFLWTB1RzmOmmnE8VmHqvJE41yB33eSI5WLOTl
+ HC0ACK32pG7aTDvY5OiwbffAC6ohQZc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1707733036;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=AlSDol0ID8BkiAee4D1BJaommVQ+eVsswz4SH2nEE5g=;
+ b=FcUi8Fm1S40Wg4ISOVuq2pgpeJ+0DVfhSraJv91TV3aVMr88DrrqCZN7lhR0IMJuT5fj+L
+ AFAJxj8xRsfBGoCA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1707733036; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=AlSDol0ID8BkiAee4D1BJaommVQ+eVsswz4SH2nEE5g=;
+ b=ryzjXKVxVyivz8X+4s04GmNvCMAYSpn/MhtM1FQXRNWg6sd+zNgEskFY29ckMNLqhkOF0k
+ 1/FqdEWFfkLoTDEavrdM3TIyYr4y7j+RpFLWTB1RzmOmmnE8VmHqvJE41yB33eSI5WLOTl
+ HC0ACK32pG7aTDvY5OiwbffAC6ohQZc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1707733036;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=AlSDol0ID8BkiAee4D1BJaommVQ+eVsswz4SH2nEE5g=;
+ b=FcUi8Fm1S40Wg4ISOVuq2pgpeJ+0DVfhSraJv91TV3aVMr88DrrqCZN7lhR0IMJuT5fj+L
+ AFAJxj8xRsfBGoCA==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 0368D13A0E;
+ Mon, 12 Feb 2024 10:17:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+ by imap2.dmz-prg2.suse.org with ESMTPSA id h7YgOyvwyWVdBgAAn2gu4w
+ (envelope-from <tzimmermann@suse.de>); Mon, 12 Feb 2024 10:17:15 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: deller@gmx.de, kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com,
+ daniel@ffwll.ch, airlied@gmail.com
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 0/7] fbdev: Clean up include dependencies in header
+Date: Mon, 12 Feb 2024 11:13:12 +0100
+Message-ID: <20240212101712.23675-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="jve3saefgwx6cqdm"
-Content-Disposition: inline
-In-Reply-To: <20240209203435.GB996172@toolbox>
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ryzjXKVx;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=FcUi8Fm1
+X-Spamd-Result: default: False [2.67 / 50.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+ R_MISSING_CHARSET(2.50)[]; MIME_GOOD(-0.10)[text/plain];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; BROKEN_CONTENT_TYPE(1.50)[];
+ DWL_DNSWL_MED(-2.00)[suse.de:dkim]; RCVD_COUNT_THREE(0.00)[3];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DKIM_TRACE(0.00)[suse.de:+]; MX_GOOD(-0.01)[];
+ RCPT_COUNT_SEVEN(0.00)[10]; MID_CONTAINS_FROM(1.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+ FREEMAIL_TO(0.00)[gmx.de,redhat.com,ffwll.ch,gmail.com];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
+ BAYES_HAM(-0.02)[52.36%]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: 2.67
+X-Rspamd-Queue-Id: 5270F1F460
+X-Spam-Level: **
+X-Spam-Flag: NO
+X-Spamd-Bar: ++
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,146 +114,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Remove unnecessary dependencies in the include statements of the
+header file <linux/fb.h>. Several files throughout the kernel include
+the fbdev header, so reducing dependencies positively affects other
+subsystems as well. Also fix up nouveau, which needs backlight.h in
+one of its source files.
 
---jve3saefgwx6cqdm
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thomas Zimmermann (7):
+  drm/nouveau: Include <linux/backlight.h>
+  fbdev: Do not include <linux/backlight.h> in header
+  fbdev: Do not include <linux/fs.h> in header
+  fbdev: Do not include <linux/notifier.h> in header
+  fbdev: Do not include <linux/slab.h> in header
+  fbdev: Clean up forward declarations in header file
+  fbdev: Clean up include statements in header file
 
-On Fri, Feb 09, 2024 at 09:34:35PM +0100, Sebastian Wick wrote:
-> On Mon, Feb 05, 2024 at 10:39:38AM +0100, Maxime Ripard wrote:
-> > On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrj=E4l=E4 wrote:
-> > > On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
-> > > > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrj=E4l=E4 wrote:
-> > > > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
-> > > > > > Hi,
-> > > > > >=20
-> > > > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
-> > > > > > > > >  /**
-> > > > > > > > >   * DOC: HDMI connector properties
-> > > > > > > > >   *
-> > > > > > > > > + * Broadcast RGB
-> > > > > > > > > + *      Indicates the RGB Quantization Range (Full vs Li=
-mited) used.
-> > > > > > > > > + *      Infoframes will be generated according to that v=
-alue.
-> > > > > > > > > + *
-> > > > > > > > > + *      The value of this property can be one of the fol=
-lowing:
-> > > > > > > > > + *
-> > > > > > > > > + *      Automatic:
-> > > > > > > > > + *              RGB Range is selected automatically base=
-d on the mode
-> > > > > > > > > + *              according to the HDMI specifications.
-> > > > > > > > > + *
-> > > > > > > > > + *      Full:
-> > > > > > > > > + *              Full RGB Range is forced.
-> > > > > > > > > + *
-> > > > > > > > > + *      Limited 16:235:
-> > > > > > > > > + *              Limited RGB Range is forced. Unlike the =
-name suggests,
-> > > > > > > > > + *              this works for any number of bits-per-co=
-mponent.
-> > > > > > > > > + *
-> > > > > > > > > + *      Drivers can set up this property by calling
-> > > > > > > > > + *      drm_connector_attach_broadcast_rgb_property().
-> > > > > > > > > + *
-> > > > > > > >=20
-> > > > > > > > This is a good time to document this in more detail. There =
-might be two
-> > > > > > > > different things being affected:
-> > > > > > > >=20
-> > > > > > > > 1. The signalling (InfoFrame/SDP/...)
-> > > > > > > > 2. The color pipeline processing
-> > > > > > > >=20
-> > > > > > > > All values of Broadcast RGB always affect the color pipelin=
-e processing
-> > > > > > > > such that a full-range input to the CRTC is converted to ei=
-ther full- or
-> > > > > > > > limited-range, depending on what the monitor is supposed to=
- accept.
-> > > > > > > >=20
-> > > > > > > > When automatic is selected, does that mean that there is no=
- signalling,
-> > > > > > > > or that the signalling matches what the monitor is supposed=
- to accept
-> > > > > > > > according to the spec? Also, is this really HDMI specific?
-> > > > > > > >=20
-> > > > > > > > When full or limited is selected and the monitor doesn't su=
-pport the
-> > > > > > > > signalling, what happens?
-> > > > > > >=20
-> > > > > > > Forgot to mention: user-space still has no control over RGB v=
-s YCbCr on
-> > > > > > > the cable, so is this only affecting RGB? If not, how does it=
- affect
-> > > > > > > YCbCr?
-> > > > > >=20
-> > > > > > So I dug a bit into both the i915 and vc4 drivers, and it looks=
- like if
-> > > > > > we're using a YCbCr format, i915 will always use a limited rang=
-e while
-> > > > > > vc4 will follow the value of the property.
-> > > > >=20
-> > > > > The property is literally called "Broadcast *RGB*".
-> > > > > That should explain why it's only affecting RGB.
-> > > >=20
-> > > > Right. And the limited range option is called "Limited 16:235" desp=
-ite
-> > > > being usable on bpc > 8 bits. Naming errors occurs, and history hap=
-pens
-> > > > to make names inconsistent too, that's fine and not an argument in
-> > > > itself.
-> > > >=20
-> > > > > Full range YCbCr is a much rarer beast so we've never bothered
-> > > > > to enable it.
-> > > >=20
-> > > > vc4 supports it.
-> > >=20
-> > > Someone implemented it incorrectly then.
-> >=20
-> > Incorrectly according to what documentation / specification? I'm sorry,
-> > but I find it super ironic that i915 gets to do its own thing, not
-> > document any of it, and when people try to clean things up they get told
-> > that we got it all wrong.
->=20
-> FWIW, this was an i915 property and if another driver uses the same
-> property name it must have the same behavior. Yes, it isn't standardized
-> and yes, it's not documented (hence this effort here) but it's still on
-> vc4 to make the property compatible.
+ drivers/gpu/drm/nouveau/dispnv50/disp.c |  1 +
+ include/linux/fb.h                      | 24 +++++++++++++-----------
+ 2 files changed, 14 insertions(+), 11 deletions(-)
 
-How is it not compatible? It's a superset of what i915 provides, but
-it's strictly compatible with it.
+-- 
+2.43.0
 
-I would argue that i915 is the broken one since userspace could force a
-full range output, but since the driver takes the YUV vs RGB decision
-itself and only supports limited range for YUV, the driver would
-effectively ignore that user-space property, without the user-space
-being able to tell it was ignored in the first place.
-
-> Trying to make the property handle YCbCr is very much in the "let's try
-> to fix the property" territory that I want to avoid, so I'm in favor of
-> adjusting vc4.
-
-Breaking the ABI in the process. For something that is explicitly
-supported by the spec, the driver, and the hardware. On a property that
-never said it wasn't meant to be used that way, and with semantics based
-on a driver that never provided a way to check those restrictions in the
-first place.
-
-And it's not like i915 is going to use that code anyway.
-
-Maxime
-
---jve3saefgwx6cqdm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZcnsYgAKCRDj7w1vZxhR
-xbXvAQCwcVIa0ZIBiFB60+Djxs5Q9r6KT+VmRcFEid+4vu5kmAD/SoSSxALs4Fec
-o0UKGT8WuF+A9QWBqCkljcQ1i+X1aAA=
-=q4Ag
------END PGP SIGNATURE-----
-
---jve3saefgwx6cqdm--
