@@ -2,59 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55C628517FC
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 16:31:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D99D85180F
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 16:33:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F163B10E79F;
-	Mon, 12 Feb 2024 15:31:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 222A210EDBB;
+	Mon, 12 Feb 2024 15:33:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TRXuDINf";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Co2aU8UO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24AB610E9DE;
- Mon, 12 Feb 2024 15:31:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707751861; x=1739287861;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=51KmCr/57YkOOiF/b5x/9PQhRk3ATwGzqTy8A1e4CL4=;
- b=TRXuDINf2JuO4vhjAWsavS8Mb1TNgE/iif2qZRWBLdQ+GcO4S0uLMy2C
- 8baTzyaR/z8+iqQP2obnMkyBj0lvlgWDt8qGSQdS8sSpdl4W0gIIohPwG
- QefXVkLpNmL4DIIdAJEyugcr1cnXojGwbVkbkXJoSgMjkOJMlN7s0x/u1
- 0DfScXi69HSAJBcgKFHX7YmrgF/haL2eyD6GjXhqD9oM+2LZQI5x57JwU
- Y5+cPcv3P03TXWTdQaEyDTf7HUpiGWRQrEydvnk8LuvUwSfBBCMSM4glS
- cLJd5hSiJaG7/eFqfWeDvZIYI4h4gl4YB4pc1MTZ+Q1DKa2ABlxdUk5/X g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="13113196"
-X-IronPort-AV: E=Sophos;i="6.06,264,1705392000"; d="scan'208";a="13113196"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2024 07:30:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,264,1705392000"; 
-   d="scan'208";a="2594117"
-Received: from belyakov-mobl.ccr.corp.intel.com (HELO localhost)
- ([10.252.63.91])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2024 07:30:44 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, Arun R
- Murthy <arun.r.murthy@intel.com>
-Subject: Re: [RFC 4/4] drm/i915/mst: enable MST mode for 128b/132b
- single-stream sideband
-In-Reply-To: <Zb0QJGZ0RE-5KBQb@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1706882590.git.jani.nikula@intel.com>
- <a2c9faf86b5d93013fdd0be9bf3d6ba6228f0a8f.1706882591.git.jani.nikula@intel.com>
- <Zb0QJGZ0RE-5KBQb@intel.com>
-Date: Mon, 12 Feb 2024 17:30:40 +0200
-Message-ID: <87sf1x8ztr.fsf@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F5BE10EDD4
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 15:33:22 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id E07B860BAD;
+ Mon, 12 Feb 2024 15:33:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CD66C433F1;
+ Mon, 12 Feb 2024 15:33:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1707752000;
+ bh=GFsfkdOmJKsuZtWQAq7OhjxHg4IKHiDCDNVd+Gd58aw=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=Co2aU8UOdKL4W8SUaaEqV0BTVAuiZ9niMqI5QuXmkWRQqRD+bsuUp32djuJPfJQ7M
+ J0AdS/WqPhUm+WDhNwj0PIl1NFZPSx4kaz74w8AVaBO2niEWSvmitVVz0AuwMwTUcd
+ 8MtOvRT2s7ojnBMUpDpCQjuzEzxH0//zOgasqtDHJDU6fjIDBJFEa6lJkzge7aVnIn
+ 65sRlXZGfvNWKRj6hhoF+/MvmClp/yoVXWTT6Lqc/PTFBqTwhuA4fpNCA+K8uTOths
+ DH2aamg+A5g3aeMmWit1ZUc4X0oSEYy8EtlcvJyPFhdziLYkgWINAXOkx2oWF2pGNL
+ vlKQQFPbdC2Dw==
+From: Mark Brown <broonie@kernel.org>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: kernel@pengutronix.de, Moritz Fischer <mdf@kernel.org>, 
+ Wu Hao <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>, 
+ Tom Rix <trix@redhat.com>, linux-fpga@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Alexander Aring <alex.aring@gmail.com>, 
+ Stefan Schmidt <stefan@datenfreihafen.org>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ linux-wpan@vger.kernel.org, netdev@vger.kernel.org, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org, 
+ Ulf Hansson <ulf.hansson@linaro.org>, Rayyan Ansari <rayyan@ansari.sh>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+ Martin Tuma <martin.tuma@digiteqautomotive.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+ Sergey Kozlov <serjk@netup.ru>, Arnd Bergmann <arnd@arndb.de>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Yang Yingliang <yangyingliang@huawei.com>, linux-mmc@vger.kernel.org, 
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Rob Herring <robh@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Michal Simek <michal.simek@amd.com>, 
+ Amit Kumar Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>, 
+ linux-mtd@lists.infradead.org, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
+ Simon Horman <horms@kernel.org>, Ronald Wahl <ronald.wahl@raritan.com>, 
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, 
+ Max Filippov <jcmvbkbc@gmail.com>, linux-spi@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ linux-mediatek@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Javier Martinez Canillas <javierm@redhat.com>, 
+ Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, 
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-staging@lists.linux.dev, Viresh Kumar <vireshk@kernel.org>, 
+ Rui Miguel Silva <rmfrfs@gmail.com>, Johan Hovold <johan@kernel.org>, 
+ Alex Elder <elder@kernel.org>, greybus-dev@lists.linaro.org, 
+ Peter Huewe <peterhuewe@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, linux-integrity@vger.kernel.org, 
+ Herve Codina <herve.codina@bootlin.com>, 
+ Alan Stern <stern@rowland.harvard.edu>, 
+ Aaro Koskinen <aaro.koskinen@iki.fi>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ linux-usb@vger.kernel.org, Helge Deller <deller@gmx.de>, 
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>, 
+ Kalle Valo <kvalo@kernel.org>, Dmitry Antipov <dmantipov@yandex.ru>, 
+ libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org, 
+ Jonathan Corbet <corbet@lwn.net>, James Clark <james.clark@arm.com>, 
+ Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org
+In-Reply-To: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
+References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
+Subject: Re: (subset) [PATCH v2 00/33] spi: get rid of some legacy macros
+Message-Id: <170775198078.46149.4700126128576800564.b4-ty@kernel.org>
+Date: Mon, 12 Feb 2024 15:33:00 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.13-dev-a684c
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,65 +113,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 02 Feb 2024, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
-> wrote:
-> On Fri, Feb 02, 2024 at 04:05:34PM +0200, Jani Nikula wrote:
->> If the sink supports 128b/132b and single-stream sideband messaging,
->> enable MST mode.
->>=20
->> With this, the topology manager will still write DP_MSTM_CTRL, which
->> should be ignored by the sink. In the future,
->> drm_dp_mst_topology_mgr_set_mst() bool mst_state parameter should
->> probably be turned into an enum drm_dp_mst_mode mst_mode parameter.
->
-> Rather I'd say the topology manager should stop concerning itself
-> with the MST enable bit and just frob the sideband enable bit.
-> The MST enable bit should be configured at modeset time to
-> reflect whether we're about to transmit in MST or SST mode.
+On Mon, 22 Jan 2024 19:06:55 +0100, Uwe Kleine-König wrote:
+> this is v2 of this patch set.
+> 
+> Changes since (implicit) v1, sent with Message-Id:
+> cover.1705348269.git.u.kleine-koenig@pengutronix.de:
+> 
+>  - Rebase to v6.8-rc1
+>  - Fix a build failure on sh
+>  - Added the tags received in (implicit) v1.
+> 
+> [...]
 
-Are you suggesting the driver should write the MST vs. SST mode in
-DP_MSTM_CTRL?
+Applied to
 
-I worry a bit about the rmw on DPCD regs. The topology manager only does
-writes.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-BR,
-Jani.
+Thanks!
 
+[01/33] fpga: ice40-spi: Follow renaming of SPI "master" to "controller"
+        commit: 227ab73b89d66e3064b3c2bcb5fe382b1815763d
+[02/33] ieee802154: ca8210: Follow renaming of SPI "master" to "controller"
+        commit: 167b78446706bb4d19f7dd93ca320aed25ae1bbd
+[03/33] iio: adc: ad_sigma_delta: Follow renaming of SPI "master" to "controller"
+        commit: 2780e7b716a605781dbee753ef4983d775a65427
+[04/33] Input: pxspad - follow renaming of SPI "master" to "controller"
+        commit: a78acec53b8524593afeed7258a442adc3450818
+[05/33] Input: synaptics-rmi4 - follow renaming of SPI "master" to "controller"
+        commit: 1245633c61baf159fcc1303d7f0855f49831b9c1
+[06/33] media: mgb4: Follow renaming of SPI "master" to "controller"
+        commit: 2c2f93fbfba7186cc081e23120f169eac3b5b62a
+[07/33] media: netup_unidvb: Follow renaming of SPI "master" to "controller"
+        commit: cfa13a64bd631d8f04a1c385923706fcef9a63ed
+[08/33] media: usb/msi2500: Follow renaming of SPI "master" to "controller"
+        commit: dd868ae646d5770f80f90dc056d06eb2e6d39c62
+[09/33] media: v4l2-subdev: Follow renaming of SPI "master" to "controller"
+        commit: d920b3a672b7f79cd13b341234aebd49233f836c
+[10/33] misc: gehc-achc: Follow renaming of SPI "master" to "controller"
+        commit: 26dcf09ee5d9ceba2c627ae3ba174a229f25638f
+[11/33] mmc: mmc_spi: Follow renaming of SPI "master" to "controller"
+        commit: b0a6776e53403aa380411f2a43cdefb9f00ff50a
+[12/33] mtd: dataflash: Follow renaming of SPI "master" to "controller"
+        commit: 44ee998db9eef84bf005c39486566a67cb018354
+[14/33] net: ks8851: Follow renaming of SPI "master" to "controller"
+        commit: 1cc711a72ae7fd44e90839f0c8d3226664de55a2
+[15/33] net: vertexcom: mse102x: Follow renaming of SPI "master" to "controller"
+        commit: 7969b98b80c0332f940c547f84650a20aab33841
+[16/33] platform/chrome: cros_ec_spi: Follow renaming of SPI "master" to "controller"
+        commit: 85ad0ec049a771c4910c8aebb2d0bd9ce9311fd9
+[17/33] spi: bitbang: Follow renaming of SPI "master" to "controller"
+        commit: 2259233110d90059187c5ba75537eb93eba8417b
+[18/33] spi: cadence-quadspi: Don't emit error message on allocation error
+        commit: e71011dacc3413bed4118d2c42f10736ffcd762c
+[19/33] spi: cadence-quadspi: Follow renaming of SPI "master" to "controller"
+        commit: 28e59d8bf1ace0ddf05f989a48d6824d75731267
+[20/33] spi: cavium: Follow renaming of SPI "master" to "controller"
+        commit: 1747fbdedba8b6b3fd459895ed5d57e534549884
+[21/33] spi: geni-qcom: Follow renaming of SPI "master" to "controller"
+        commit: 14cea92338a0776c1615994150e738ac0f5fbb2c
+[22/33] spi: loopback-test: Follow renaming of SPI "master" to "controller"
+        commit: 2c2310c17fac13aa7e78756d7f3780c7891f9397
+[23/33] spi: slave-mt27xx: Follow renaming of SPI "master" to "controller"
+        commit: 8197b136bbbe64a7cab1020a4b067020e5977d98
+[24/33] spi: spidev: Follow renaming of SPI "master" to "controller"
+        commit: d934cd6f0e5d0052772612db4b07df60cb9da387
+[25/33] staging: fbtft: Follow renaming of SPI "master" to "controller"
+        commit: bbd25d7260eeeaef89f7371cbadcd33dd7f7bff9
+[26/33] staging: greybus: spi: Follow renaming of SPI "master" to "controller"
+        commit: ee3c668dda3d2783b0fff4091461356fe000e4d8
+[27/33] tpm_tis_spi: Follow renaming of SPI "master" to "controller"
+        commit: b6af14eacc8814b0986e20507df423cebe9fd859
+[28/33] usb: gadget: max3420_udc: Follow renaming of SPI "master" to "controller"
+        commit: 8c716f4a3d4fcbec976247e3443d36cbc24c0512
+[29/33] video: fbdev: mmp: Follow renaming of SPI "master" to "controller"
+        commit: b23031e730e72ec9067b7c38c25e776c5e27e116
+[30/33] wifi: libertas: Follow renaming of SPI "master" to "controller"
+        commit: 30060d57cee194d6b70283f2faf787e2fdc61b6e
+[31/33] spi: fsl-lib: Follow renaming of SPI "master" to "controller"
+        commit: 801185efa2402dce57828930e9684884fc8d62da
+[32/33] spi: Drop compat layer from renaming "master" to "controller"
+        commit: 620d269f29a569ba37419cc03cf1da2d55f6252a
+[33/33] Documentation: spi: Update documentation for renaming "master" to "controller"
+        commit: 76b31eb4c2da3ddb3195cc14f6aad24908adf524
 
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
->
->>=20
->> Cc: Arun R Murthy <arun.r.murthy@intel.com>
->> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> ---
->>  drivers/gpu/drm/i915/display/intel_dp.c | 4 +++-
->>  1 file changed, 3 insertions(+), 1 deletion(-)
->>=20
->> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i=
-915/display/intel_dp.c
->> index 4dd9c50226d1..16130e87dc23 100644
->> --- a/drivers/gpu/drm/i915/display/intel_dp.c
->> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
->> @@ -4020,7 +4020,9 @@ static bool intel_dp_mst_detect(struct intel_dp *i=
-ntel_dp)
->>=20=20
->>  	intel_dp->is_mst =3D i915->display.params.enable_dp_mst &&
->>  		intel_dp_mst_source_support(intel_dp) &&
->> -		sink_mst_mode =3D=3D DP_MST_CAPABLE;
->> +		(sink_mst_mode =3D=3D DP_MST_CAPABLE ||
->> +		 (sink_mst_mode =3D=3D DP_MST_SIDEBAND_MSG &&
->> +		  intel_dp->dpcd[DP_MAIN_LINK_CHANNEL_CODING] & DP_CAP_ANSI_128B132B)=
-);
->>=20=20
->>  	drm_dbg_kms(&i915->drm,
->>  		    "[ENCODER:%d:%s] MST support: port: %s, sink: %s, modparam: %s ->=
- enable: %s\n",
->> --=20
->> 2.39.2
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
---=20
-Jani Nikula, Intel
+Thanks,
+Mark
+
