@@ -2,98 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 793B1851F16
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 22:05:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2097A851F47
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 22:13:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8620E10E724;
-	Mon, 12 Feb 2024 21:04:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 478CB10E11C;
+	Mon, 12 Feb 2024 21:13:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="mYvBnzb8";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="HdZP9eWX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2074.outbound.protection.outlook.com [40.107.220.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 175D710E56D;
- Mon, 12 Feb 2024 21:04:51 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IUTKtUWnpkGauod+rpSoHHTNoDRXWfIgM3Tvrm7tFaEg19RwextUNPsL7A35852uArVglQtS4EMIqm3cHSR6aYg7bS/ePnO2qQEBdIsymbRtYlqKw7RbBxGcKsdMi+2cq7SolvLqHtK/kO+BNr0I6NaX+m8OhzjyMK00KYZACb2nWySmvf5zqxUhgsQ+ni2vqRxH3yJ+LANxWNHnKMj5we793vI+Zf25wKLfOsRW0gg1j1EbIpI0ZPMJE9oirJf9fp9kdVqq3VYUeBlDAa4Bhx5q28ex5xJ9xpfzqhi77bHqN3tcpuiGFi1GGsYVp1xt4yLShNW/Jv+/C+8eAxxcYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FRtM1wsUyneTByH711abrNxiqsruk/2WT67jRGs7CKc=;
- b=Mltbwsmwt4s/xGEvhx7zAIOdVMtGiOWYA9X62oE633WUQmBOzdsFPb6aG9OQeFp1e1eFxN/2tSXL2z01Ci8V0F+08QVpTR2VSEvMcYgDI0Ham+JQM6kC42D1J2GacZXVkpnZ9DnxfyaayPUnF4bbg1ywpAd09wflntZDw+U5fASCDtWRS8tEPk/qTDNhriA19RoUnM5OKs8Hb5jxqdXhWQmzBx/Ohqeg/IlGgUqVNMXuP4mPYP8mO++3rWqh6CtJ9XelAZeWaMZ/lDQSZBTzGbnKmOj8ZzKhtr+rwBnbmfjTKtdhzXyNDTB8FzGrPxd3PsqWo3BsS3M374x+zvo9lg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FRtM1wsUyneTByH711abrNxiqsruk/2WT67jRGs7CKc=;
- b=mYvBnzb8HHndQMZJff/p2sbVwEEk4SBkhju77Qbv9Xm4s2JF9k1QdmfMhZSGmOqlacw+uv6jwyj4SHQL94Z58kysL3XVRFzG56fxS/FgYV8EHuUSs7tupbKY4W0K7ZlJGDChwsRCwjnJfZxHI8hvziiFybjvzLzOyRJiaL3N5bU=
-Received: from CH0PR04CA0083.namprd04.prod.outlook.com (2603:10b6:610:74::28)
- by BL1PR12MB5047.namprd12.prod.outlook.com (2603:10b6:208:31a::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.23; Mon, 12 Feb
- 2024 21:04:48 +0000
-Received: from CH3PEPF0000000E.namprd04.prod.outlook.com
- (2603:10b6:610:74:cafe::fb) by CH0PR04CA0083.outlook.office365.com
- (2603:10b6:610:74::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.38 via Frontend
- Transport; Mon, 12 Feb 2024 21:04:48 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CH3PEPF0000000E.mail.protection.outlook.com (10.167.244.42) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7249.19 via Frontend Transport; Mon, 12 Feb 2024 21:04:48 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Mon, 12 Feb
- 2024 15:04:47 -0600
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
- <tvrtko.ursulin@linux.intel.com>, <daniel@ffwll.ch>
-CC: Alex Deucher <alexander.deucher@amd.com>
-Subject: [PATCH 6/6] drm/xe: Update shared stats to use the new gem helper
-Date: Mon, 12 Feb 2024 16:04:28 -0500
-Message-ID: <20240212210428.851952-7-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20240212210428.851952-1-alexander.deucher@amd.com>
-References: <20240212210428.851952-1-alexander.deucher@amd.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A883B10E098;
+ Mon, 12 Feb 2024 21:13:40 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 41CJ09e9000678; Mon, 12 Feb 2024 21:13:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=dqVmm3pBAhEns04UFo6H2VS6wl1oYOeegL/1Xdq6Lts=; b=Hd
+ ZP9eWX+m9GIeZEedobdjRWIuhs141rg1Zx6OtGVnNf2FAkjuC6QeMPNDYgs8L7AM
+ niZOS6ihAGJqdxqtnnv5uXqLBluuMHcznqHhAgLsAX1fzu4PV55Lo4iQ+WVNko1c
+ c3xoWEHCsYki9n5iYG7lQZZM8hqnvMvXmkIeh322dgdQzyDHpkZrfyfhZYtNokA0
+ SkrkDEi40laylfDCPOvo5XXQO/ySI6pYXTsU4FcC7KfQsqunBr/YUiLW3BYNES9a
+ 3y2/SW4t/+VsM1IOVld2Gz/8iARn0tqlHduq3+2agOtkzZvk40CTYtnw06IChMz0
+ jIXTxCkoPwUFqoeOtxgA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w7ju79880-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Feb 2024 21:13:37 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41CLDaFE002811
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Feb 2024 21:13:36 GMT
+Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 12 Feb
+ 2024 13:13:36 -0800
+Message-ID: <04df55f1-9430-727b-426b-81d762b3b2e6@quicinc.com>
+Date: Mon, 12 Feb 2024 13:13:35 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PEPF0000000E:EE_|BL1PR12MB5047:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0ed80f1d-a569-4b89-0a7b-08dc2c0e3f88
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QOD4OR9ED8xqw/UXMk9LYLHifHYgi8XocO/HdIrrDH0XJBMtu+dJPP0gpEsBbQvHLTYD6WjSugEIP/L9a0lleV/IGtuGVEfPZyd6SSuHu+XCH4dgxp94WRLxNY90mD60DYYURw/EWKsyeyEFyx+ahXUdLa+VMm7qizc5M2gW3WnJUX8zuQuUWmDnhaRoihylqF3B74U14+oC9ecrI+jHQ1m0dPcUgFCdTVKwHCjfNNe2AlcHpuME9ZoIU8OKcVIznudMj1nwT46YCspvHv3xAwsgWnKxpw7oQkspuMFBp+JtNTj2lh09g/NVxxHEAvuCt80ztJNt97unQp0tbCj1ihkZITClfhKplnFaoexgabQvKWUnnM6p+zCUWGk8xu+sqN2GSldqlFEtVwoXd54mh0YAvYPOz9OOUyJtI9pOlPT2GXdvxffeI03eI3uJNUMgohye7mh484fNZBg0pnC7pYUcGDD6UoRogZrP+7gg57BuXiBV4PzJHoiqOCmbAcaHurF1v+q8iSn+RHMUF/BtQvP5YgXxlCIN4AgiLaVM82Dg7Ei08fsptbxlBMz/yMRVaAKrxbltfOCyFQjG+VfdXA==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(396003)(136003)(376002)(346002)(39860400002)(230922051799003)(82310400011)(451199024)(186009)(1800799012)(64100799003)(36840700001)(46966006)(40470700004)(36756003)(2906002)(966005)(7696005)(6666004)(336012)(110136005)(83380400001)(82740400003)(316002)(478600001)(426003)(26005)(41300700001)(16526019)(8676002)(1076003)(70586007)(70206006)(8936002)(86362001)(4326008)(5660300002)(4744005)(81166007)(2616005)(356005);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2024 21:04:48.6187 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0ed80f1d-a569-4b89-0a7b-08dc2c0e3f88
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CH3PEPF0000000E.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5047
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 19/19] drm/msm/dp: allow YUV420 mode for DP connector
+ when CDM available
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Paloma Arellano <quic_parellan@quicinc.com>,
+ <freedreno@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
+ <seanpaul@chromium.org>, <swboyd@chromium.org>,
+ <quic_jesszhan@quicinc.com>, <quic_khsieh@quicinc.com>,
+ <marijn.suijten@somainline.org>, <neil.armstrong@linaro.org>
+References: <20240210015223.24670-1-quic_parellan@quicinc.com>
+ <20240210015223.24670-20-quic_parellan@quicinc.com>
+ <CAA8EJpq15w_Gjx+rPzN8vBg5Z8PGzABAztqmLpfnafuvNVLmRw@mail.gmail.com>
+ <56e521ab-ae57-9296-59a1-0bdbad60f882@quicinc.com>
+ <CAA8EJprUeJvL_mP0x19YQCdTbErzy-RRF6GmSOK_eApsRiTALw@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAA8EJprUeJvL_mP0x19YQCdTbErzy-RRF6GmSOK_eApsRiTALw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: d5nEktbuKIA0eH7fp28CPtbVWIPVcDP7
+X-Proofpoint-GUID: d5nEktbuKIA0eH7fp28CPtbVWIPVcDP7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-12_16,2024-02-12_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ mlxlogscore=999 lowpriorityscore=0 spamscore=0 clxscore=1015
+ priorityscore=1501 mlxscore=0 malwarescore=0 suspectscore=0 phishscore=0
+ adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402120164
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,28 +99,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Switch to using the new gem shared memory stats helper
-rather than hand rolling it.
 
-Link: https://lore.kernel.org/all/20231207180225.439482-1-alexander.deucher@amd.com/
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
----
- drivers/gpu/drm/xe/xe_drm_client.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_drm_client.c b/drivers/gpu/drm/xe/xe_drm_client.c
-index 82d1305e831f..ecf2eb67d310 100644
---- a/drivers/gpu/drm/xe/xe_drm_client.c
-+++ b/drivers/gpu/drm/xe/xe_drm_client.c
-@@ -113,7 +113,7 @@ static void bo_meminfo(struct xe_bo *bo,
- 	else
- 		mem_type = XE_PL_TT;
- 
--	if (bo->ttm.base.handle_count > 1)
-+	if (drm_gem_object_is_shared_for_memory_stats(&bo->ttm.base))
- 		stats[mem_type].shared += sz;
- 	else
- 		stats[mem_type].private += sz;
--- 
-2.42.0
+On 2/10/2024 1:17 PM, Dmitry Baryshkov wrote:
+> On Sat, 10 Feb 2024 at 21:19, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>
+>>
+>>
+>> On 2/10/2024 3:33 AM, Dmitry Baryshkov wrote:
+>>> On Sat, 10 Feb 2024 at 03:52, Paloma Arellano <quic_parellan@quicinc.com> wrote:
+>>>>
+>>>> All the components of YUV420 over DP are added. Therefore, let's mark the
+>>>> connector property as true for DP connector when the DP type is not eDP
+>>>> and when there is a CDM block available.
+>>>>
+>>>> Changes in v2:
+>>>>           - Check for if dp_catalog has a CDM block available instead of
+>>>>             checking if VSC SDP is allowed when setting the dp connector's
+>>>>             ycbcr_420_allowed parameter
+>>>>
+>>>> Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
+>>>> ---
+>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 4 +++-
+>>>>    drivers/gpu/drm/msm/dp/dp_display.c     | 4 ++--
+>>>>    drivers/gpu/drm/msm/dp/dp_drm.c         | 8 ++++++--
+>>>>    drivers/gpu/drm/msm/dp/dp_drm.h         | 3 ++-
+>>>>    drivers/gpu/drm/msm/msm_drv.h           | 5 +++--
+>>>>    5 files changed, 16 insertions(+), 8 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>>>> index 723cc1d821431..beeaabe499abf 100644
+>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>>>> @@ -565,6 +565,7 @@ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
+>>>>    {
+>>>>           struct drm_encoder *encoder = NULL;
+>>>>           struct msm_display_info info;
+>>>> +       bool yuv_supported;
+>>>>           int rc;
+>>>>           int i;
+>>>>
+>>>> @@ -583,7 +584,8 @@ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
+>>>>                           return PTR_ERR(encoder);
+>>>>                   }
+>>>>
+>>>> -               rc = msm_dp_modeset_init(priv->dp[i], dev, encoder);
+>>>> +               yuv_supported = !!(dpu_kms->catalog->cdm);
+>>>
+>>> Drop parentheses please.
+>>>
+>>>> +               rc = msm_dp_modeset_init(priv->dp[i], dev, encoder, yuv_supported);
+>>>>                   if (rc) {
+>>>>                           DPU_ERROR("modeset_init failed for DP, rc = %d\n", rc);
+>>>>                           return rc;
+>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+>>>> index ebcc76ef1d590..9b9f5f2921903 100644
+>>>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>>>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>>>> @@ -1471,7 +1471,7 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
+>>>>    }
+>>>>
+>>>>    int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
+>>>> -                       struct drm_encoder *encoder)
+>>>> +                       struct drm_encoder *encoder, bool yuv_supported)
+>>>>    {
+>>>>           struct dp_display_private *dp_priv;
+>>>>           int ret;
+>>>> @@ -1487,7 +1487,7 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
+>>>>                   return ret;
+>>>>           }
+>>>>
+>>>> -       dp_display->connector = dp_drm_connector_init(dp_display, encoder);
+>>>> +       dp_display->connector = dp_drm_connector_init(dp_display, encoder, yuv_supported);
+>>>>           if (IS_ERR(dp_display->connector)) {
+>>>>                   ret = PTR_ERR(dp_display->connector);
+>>>>                   DRM_DEV_ERROR(dev->dev,
+>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
+>>>> index 46e6889037e88..ab0d0d13b5e2c 100644
+>>>> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
+>>>> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
+>>>> @@ -353,7 +353,8 @@ int dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
+>>>>    }
+>>>>
+>>>>    /* connector initialization */
+>>>> -struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display, struct drm_encoder *encoder)
+>>>> +struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display, struct drm_encoder *encoder,
+>>>> +                                           bool yuv_supported)
+>>>>    {
+>>>>           struct drm_connector *connector = NULL;
+>>>>
+>>>> @@ -361,8 +362,11 @@ struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display, struct dr
+>>>>           if (IS_ERR(connector))
+>>>>                   return connector;
+>>>>
+>>>> -       if (!dp_display->is_edp)
+>>>> +       if (!dp_display->is_edp) {
+>>>>                   drm_connector_attach_dp_subconnector_property(connector);
+>>>> +               if (yuv_supported)
+>>>> +                       connector->ycbcr_420_allowed = true;
+>>>
+>>> Is there any reason to disallow YUV420 for eDP connectors?
+>>>
+>>>> +       }
+>>>>
+>>
+>> Major reason was certainly validation but thinking about it more
+>> closely, I need to check whether CDM over eDP is even possible.
+>>
+>> Historically, CDM could output only to HDMI OR WB using the bit we
+>> program while setting up CDM and the same HDMI path is being used by DP
+>> as well. But I need to check whether CDM can even output to eDP with the
+>> same DP path. I dont have any documentation on this part yet.
+> 
+> I had the feeling that the DP / eDP difference on the chips is mostly
+> on the PHY and software side. So I assumed that it should be possible
+> to output YUV data to the eDP port in the same way as it is done for
+> the DP port.
+> 
 
+This is true. I was not worried about DP / eDP controller but mostly 
+whether eDP spec really allows YUV. From what I can read, it does.
+
+So this check shall remain only because CDM has not been validated with eDP.
+
+Do you need a TODO here and if we ever get a eDP panel which supports 
+that, we can validate and relax this.
