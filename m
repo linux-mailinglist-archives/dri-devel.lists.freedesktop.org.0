@@ -2,76 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E349851477
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 14:14:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1B22851495
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 14:16:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77F5C10ED30;
-	Mon, 12 Feb 2024 13:14:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD01810ED73;
+	Mon, 12 Feb 2024 13:16:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ruoZny77";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MUkunyN2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com
- [209.85.221.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81F7710ED5D
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 13:14:39 +0000 (UTC)
-Received: by mail-wr1-f74.google.com with SMTP id
- ffacd0b85a97d-33b0c264abbso1861808f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 05:14:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1707743678; x=1708348478;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:from:subject:message-id:references
- :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
- :reply-to; bh=oX2+cr2GJmybLTxSkR2z2RsI+0zR7H0TC6zqB4mg2qY=;
- b=ruoZny77gVL+ZDHHhF5wyAqi4FNJmQeXzCVTWCyy+NPDGJZoOeRP+iF1JhUk4HT+B8
- pgb+7/45UfBUOy0+GnFeYTolOJWb3T4HiJpwtOh5wWBj1khwLhdLfrFpAZKjpOmDiSU8
- lN4BoLzOmzhS1KlaCBdfzXXA8BQ/0OR7VDC3BX1Pc2sal6lokkeB2ZBe+W9ReQ94anMO
- gZgysznEZrjZZc7broHNQRub2lkXHFIiJAPH/bEzUX8s9RT4Pd6df3wH1jIqoARdgN7B
- 4MCa6TTH8y3ucDP2eHQ2Yw2gws5xe74wm3fzLj1ylCSYfPdwXhxjNPEtocn2b4FFtWaU
- /XFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707743678; x=1708348478;
- h=content-transfer-encoding:cc:to:from:subject:message-id:references
- :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=oX2+cr2GJmybLTxSkR2z2RsI+0zR7H0TC6zqB4mg2qY=;
- b=GC+Lu6QYvhxwixOpE5XfE1tw0S8CjUlM1McZIDOrmPuMT0Y5PyS1MKbtIXuOy8Zhzk
- dsgJmDQVtFsK8VlUe91G5giikhwVkH6aK3Zst6Oto4iIw9SuGnj7j/J4rqfiemUNzrUe
- r39BdALd31frmNmo0tk1UqtQFbFrzk4nBmo4zRBvIgDGRy4oELQz5j1DD1F0n7RdsWHY
- HT+cR1UWeOvUYIjeTbuiYtKbhXDd6ZFhFz5oE13kqpgalMmWcKfuZ52wJicmw7j2k7vj
- qqniZDzSyraqahk7kqH2zAXBv8XUCU4YrMcGsCX1sK4o32hbqSM9T1OJkzb6bkcnmLsZ
- mUGw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWFPh0plbV34fjVjZWZiMhSMdBNN8IG9HcBrIvK3PO95YkvK7pXG2Ine5RESCj+B8Xvsrvj0syUMoA81fL10mC4OYG251MmUmc1KhaQfjG5
-X-Gm-Message-State: AOJu0YwxbDwrYZUI2T+p6WYYo8XANm18SQsxaL1BNmxguuMZu226DWXe
- Mrw3GBrq+UAAFSVVj2GV7ZtHBo3FAmh/wbWsFs4xlffdZKXpHX1bkaXetEpnoSplmEXznstAW38
- czWp6wrEZcg==
-X-Google-Smtp-Source: AGHT+IFkFcklODkA+IZce15OW7imyMehYzYa0bp9Q+4UUqUKMp1QHbHOQZVoAphFa93JEGMlAaRIokbaJqszdw==
-X-Received: from szatan.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:2d83])
- (user=panikiel job=sendgmr) by 2002:a05:6000:1751:b0:33b:8f6:2a77 with SMTP
- id m17-20020a056000175100b0033b08f62a77mr15650wrf.2.1707743677947; Mon, 12
- Feb 2024 05:14:37 -0800 (PST)
-Date: Mon, 12 Feb 2024 13:13:23 +0000
-In-Reply-To: <20240212131323.2162161-1-panikiel@google.com>
-Mime-Version: 1.0
-References: <20240212131323.2162161-1-panikiel@google.com>
-X-Mailer: git-send-email 2.43.0.687.g38aa6559b0-goog
-Message-ID: <20240212131323.2162161-10-panikiel@google.com>
-Subject: [PATCH 9/9] ARM: dts: chameleonv3: Add video device nodes
-From: "=?UTF-8?q?Pawe=C5=82=20Anikiel?=" <panikiel@google.com>
-To: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org, 
- daniel@ffwll.ch, dinguyen@kernel.org, hverkuil-cisco@xs4all.nl, 
- krzysztof.kozlowski+dt@linaro.org, maarten.lankhorst@linux.intel.com, 
- mchehab@kernel.org, mripard@kernel.org, robh+dt@kernel.org, 
- tzimmermann@suse.de
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- chromeos-krk-upstreaming@google.com, ribalda@chromium.org, 
- "=?UTF-8?q?Pawe=C5=82=20Anikiel?=" <panikiel@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 137A110ED6B;
+ Mon, 12 Feb 2024 13:16:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1707743764; x=1739279764;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=PP6/AXI8N1ZB7uTahkyJ97Bokj8Vg9DEe3iPYyte3eE=;
+ b=MUkunyN2sOSRhhjrc2mxlMgL/ET8FzZBx1ZGFI8prOAZeQ7IvcfYURAt
+ /IBBjXuZ5EUFvfL7K0V8nGXcsHpFgMhMOfRhy0SiRTT1SYnu2FOQcAiaq
+ 5JGm8SeOjb5qbjE3kNKl7VNWdpmJbdl8frMDJaDi6HXcaAW+c8GkeW4Bu
+ 36CIj395WZOycWgPBFMrvMmADuviH6X3kuPwe0jDnLyC83LYSc0BLQBWY
+ vqIis7hiRLV01XlSQnD/JCthDYbXoEEGjgh77VE19EHNDi04P0DgV3oCk
+ JV7EZTN0Alkb89SMNyBO1NMv6dLmc93OjvAnwk8Z4SK2D8ZKRptTn6UsD A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="13092583"
+X-IronPort-AV: E=Sophos;i="6.06,263,1705392000"; d="scan'208";a="13092583"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Feb 2024 05:16:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,263,1705392000"; 
+   d="scan'208";a="2561132"
+Received: from belyakov-mobl.ccr.corp.intel.com (HELO localhost)
+ ([10.252.63.91])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Feb 2024 05:15:59 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Stephen Rothwell <sfr@canb.auug.org.au>, Daniel Vetter
+ <daniel.vetter@ffwll.ch>
+Cc: Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>, Somalapuram
+ Amaranath <Amaranath.Somalapuram@amd.com>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
+ Mailing List <linux-next@vger.kernel.org>, zack.rusin@broadcom.com,
+ tzimmermann@suse.de, thomas.hellstrom@linux.intel.com, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
+ <tvrtko.ursulin@linux.intel.com>
+Subject: Re: linux-next: build failure after merge of the drm-misc tree
+In-Reply-To: <20240206152850.333f620d@canb.auug.org.au>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240206152850.333f620d@canb.auug.org.au>
+Date: Mon, 12 Feb 2024 15:15:54 +0200
+Message-ID: <87y1bp962d.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,156 +73,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add device nodes for the video system present on the Chameleon v3.
-It consists of six framebuffers and two Intel Displayport receivers.
+On Tue, 06 Feb 2024, Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+> Hi all,
+>
+> After merging the drm-misc tree, today's linux-next build (i386 defconfig)
+> failed like this:
+>
+> In function 'i915_ttm_placement_from_obj',
+>     inlined from 'i915_ttm_get_pages' at drivers/gpu/drm/i915/gem/i915_gem_ttm.c:847:2:
+> drivers/gpu/drm/i915/gem/i915_gem_ttm.c:165:18: error: 'places[0].flags' is used uninitialized [-Werror=uninitialized]
+>   165 |         places[0].flags |= TTM_PL_FLAG_DESIRED;
+>       |         ~~~~~~~~~^~~~~~
+> drivers/gpu/drm/i915/gem/i915_gem_ttm.c: In function 'i915_ttm_get_pages':
+> drivers/gpu/drm/i915/gem/i915_gem_ttm.c:837:26: note: 'places' declared here
+>   837 |         struct ttm_place places[I915_TTM_MAX_PLACEMENTS + 1];
+>       |                          ^~~~~~
+>
+> Caused by commit
+>
+>   a78a8da51b36 ("drm/ttm: replace busy placement with flags v6")
 
-Signed-off-by: Pawe=C5=82 Anikiel <panikiel@google.com>
----
- .../socfpga/socfpga_arria10_chameleonv3.dts   | 130 ++++++++++++++++++
- 1 file changed, 130 insertions(+)
+Cc: more people.
 
-diff --git a/arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dt=
-s b/arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dts
-index 422d00cd4c74..9bc0c1672b18 100644
---- a/arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dts
-+++ b/arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dts
-@@ -10,6 +10,136 @@ / {
- 	compatible =3D "google,chameleon-v3", "enclustra,mercury-aa1",
- 		     "altr,socfpga-arria10", "altr,socfpga";
-=20
-+	soc {
-+		fb0: video@c0060500 {
-+			compatible =3D "google,chv3-fb";
-+			reg =3D <0xc0060500 0x100>,
-+			      <0xc0060f20 0x10>;
-+			interrupts =3D <GIC_SPI 19 IRQ_TYPE_LEVEL_HIGH>;
-+			google,legacy-format;
-+			google,no-endpoint;
-+		};
-+
-+		fb_mst0: video@c0060600 {
-+			compatible =3D "google,chv3-fb";
-+			reg =3D <0xc0060600 0x100>,
-+			      <0xc0060f30 0x10>;
-+			interrupts =3D <GIC_SPI 22 IRQ_TYPE_LEVEL_HIGH>;
-+
-+			port {
-+				fb_mst0_0: endpoint {
-+					remote-endpoint =3D <&dprx_mst_0>;
-+				};
-+			};
-+		};
-+
-+		fb_mst1: video@c0060700 {
-+			compatible =3D "google,chv3-fb";
-+			reg =3D <0xc0060700 0x100>,
-+			      <0xc0060f40 0x10>;
-+			interrupts =3D <GIC_SPI 23 IRQ_TYPE_LEVEL_HIGH>;
-+
-+			port {
-+				fb_mst1_0: endpoint {
-+					remote-endpoint =3D <&dprx_mst_1>;
-+				};
-+			};
-+		};
-+
-+		fb_mst2: video@c0060800 {
-+			compatible =3D "google,chv3-fb";
-+			reg =3D <0xc0060800 0x100>,
-+			      <0xc0060f50 0x10>;
-+			interrupts =3D <GIC_SPI 24 IRQ_TYPE_LEVEL_HIGH>;
-+
-+			port {
-+				fb_mst2_0: endpoint {
-+					remote-endpoint =3D <&dprx_mst_2>;
-+				};
-+			};
-+		};
-+
-+		fb_mst3: video@c0060900 {
-+			compatible =3D "google,chv3-fb";
-+			reg =3D <0xc0060900 0x100>,
-+			      <0xc0060f60 0x10>;
-+			interrupts =3D <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
-+
-+			port {
-+				fb_mst3_0: endpoint {
-+					remote-endpoint =3D <&dprx_mst_3>;
-+				};
-+			};
-+		};
-+
-+		fb_sst: video@c0060a00 {
-+			compatible =3D "google,chv3-fb";
-+			reg =3D <0xc0060a00 0x100>,
-+			      <0xc0060f70 0x10>;
-+			interrupts =3D <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
-+
-+			port {
-+				fb_sst_0: endpoint {
-+					remote-endpoint =3D <&dprx_sst_0>;
-+				};
-+			};
-+		};
-+
-+		dprx_mst: dprx@c0062000 {
-+			compatible =3D "intel,dprx";
-+			reg =3D <0xc0062000 0x800>,
-+			      <0xc0060f80 0x10>;
-+			interrupts =3D <GIC_SPI 27 IRQ_TYPE_LEVEL_HIGH>;
-+			intel,has-mst;
-+
-+			ports {
-+				#address-cells =3D <1>;
-+				#size-cells =3D <0>;
-+
-+				port@0 {
-+					reg =3D <0>;
-+					dprx_mst_0: endpoint {
-+						remote-endpoint =3D <&fb_mst0_0>;
-+					};
-+				};
-+
-+				port@1 {
-+					reg =3D <1>;
-+					dprx_mst_1: endpoint {
-+						remote-endpoint =3D <&fb_mst1_0>;
-+					};
-+				};
-+
-+				port@2 {
-+					reg =3D <2>;
-+					dprx_mst_2: endpoint {
-+						remote-endpoint =3D <&fb_mst2_0>;
-+					};
-+				};
-+
-+				port@3 {
-+					reg =3D <3>;
-+					dprx_mst_3: endpoint {
-+						remote-endpoint =3D <&fb_mst3_0>;
-+					};
-+				};
-+			};
-+		};
-+
-+		dprx_sst: dprx@c0064000 {
-+			compatible =3D "intel,dprx";
-+			reg =3D <0xc0064000 0x800>,
-+			      <0xc0060fe0 0x10>;
-+			interrupts =3D <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
-+
-+			port {
-+				dprx_sst_0: endpoint {
-+					remote-endpoint =3D <&fb_sst_0>;
-+				};
-+			};
-+		};
-+	};
-+
- 	aliases {
- 		serial0 =3D &uart0;
- 		i2c0 =3D &i2c0;
---=20
-2.43.0.687.g38aa6559b0-goog
+>
+> I applied the following hack for today:
+>
+> From: Stephen Rothwell <sfr@canb.auug.org.au>
+> Date: Tue, 6 Feb 2024 15:17:54 +1100
+> Subject: [PATCH] drm/ttm: initialise places
+>
+> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> index 80c6cafc8887..34e699e67c25 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -834,7 +834,7 @@ static int __i915_ttm_get_pages(struct drm_i915_gem_object *obj,
+>  
+>  static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
+>  {
+> -	struct ttm_place places[I915_TTM_MAX_PLACEMENTS + 1];
+> +	struct ttm_place places[I915_TTM_MAX_PLACEMENTS + 1] = {};
+>  	struct ttm_placement placement;
+>  
+>  	/* restricted by sg_alloc_table */
+> -- 
+> 2.43.0
 
+-- 
+Jani Nikula, Intel
