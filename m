@@ -2,62 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E3A6850F5F
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 10:10:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FB72850F6A
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 10:12:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFEFF10E0A5;
-	Mon, 12 Feb 2024 09:10:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 812D110E8F5;
+	Mon, 12 Feb 2024 09:12:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="UU+Dz0Pv";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HRbEmBMT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA1C510E0A5
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 09:10:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=agIpmtZmjTn0iCPZfL+BWytr7HU+ooqFB12nwZhp8tY=; b=UU+Dz0Pv3Lc6S4bZuHQCRaIIbT
- IRelgT8nTR7NxqL9a0QQMyc4MMPKDz5RCfinWlFSwMMP+vUEzH0fFSwdtZNkc8nWqMW1DH3krUDci
- ho8LK9Jb0cMABFcEhzlmliJu3zg5uYJG1HIyRHhktmVUX4sSrdKjEfbLKPAEKC9PCFtd+9jDGFuJu
- CqbBhbxgcOnB/1CHnB2+E6c7tQNO2v71poHtE1JmJpfnl5DN34qwshhPg/6j8MFFW5/EX4Po6dorW
- 7jRe2Et5VrxJrpAjvfA4a6uiJ7qWP3trAgLeVLIOqvHxfbNL3lfPSt98gUzr+dOEM/dSwq3v2FIu3
- WesettZw==;
-Received: from [194.136.85.206] (port=55636 helo=eldfell)
- by whm50.louhi.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
- (envelope-from <pekka.paalanen@haloniitty.fi>) id 1rZSKP-0003N7-0P;
- Mon, 12 Feb 2024 11:10:17 +0200
-Date: Mon, 12 Feb 2024 11:10:15 +0200
-From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-To: Xaver Hugl <xaver.hugl@kde.org>
-Cc: dri-devel@lists.freedesktop.org, ville.syrjala@linux.intel.com,
- contact@emersion.fr, sebastian.wick@redhat.com
-Subject: Re: [PATCH] drm: document userspace expectations around the
- Colorspace connector property
-Message-ID: <20240212111015.2d22f0fa@eldfell>
-In-Reply-To: <20240209165307.29856-1-xaver.hugl@kde.org>
-References: <20240209165307.29856-1-xaver.hugl@kde.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1263D10E8F5
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 09:12:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1707729169; x=1739265169;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=f1IjCLcD7GLwi06C3CamdOa+baqlCOo1ZzjbhtyyJ+A=;
+ b=HRbEmBMTaDQs2G5bltzFh2abj/noCuHQ2VuRR5orSgk4E/2ZZ8vnmW/j
+ GeP545Echlqa8nRONmj0CTP0UI/N4uINLnM8C1w33GgnueQqaI8kLQqf3
+ DdauRLeyu5KTjoYVrhJ6BznsmxbXkR+9NLhvqq7wFu/8tG5GRnbwubRGv
+ u0I9Y1gSnAa/lrJtcvrgAiG81DvhFofsltin7mRHU4tAX8tDY4IRf+i/4
+ jIpks6loGbbjjfMTkwk6ipBohgSgNkrNmqTSv22mOJysx1diK9DcLOJsU
+ 5TM0MYw6TI+/GEj9l2qVCfjbhRIP1vcZ0HPEqirKB3MyemfqUSxWI532b w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="1576606"
+X-IronPort-AV: E=Sophos;i="6.05,262,1701158400"; 
+   d="scan'208";a="1576606"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Feb 2024 01:12:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,262,1701158400"; 
+   d="scan'208";a="2541893"
+Received: from sdepeste-mobl.ger.corp.intel.com (HELO [10.252.21.18])
+ ([10.252.21.18])
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Feb 2024 01:12:42 -0800
+Message-ID: <a3c6dcf9-265b-4c9a-90fb-145f6d6693a0@intel.com>
+Date: Mon, 12 Feb 2024 09:12:39 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/ufBGtH0IYeNZ2gRdlJeAyWh";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - whm50.louhi.net
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - haloniitty.fi
-X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
- pekka.paalanen@haloniitty.fi
-X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/tests/drm_buddy: add alloc_contiguous test
+To: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Limonciello <mario.limonciello@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Deucher, Alexander" <alexander.deucher@amd.com>
+References: <20240208143618.247048-2-matthew.auld@intel.com>
+ <81c1db17-e324-6e45-5d55-4308dba99605@amd.com>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <81c1db17-e324-6e45-5d55-4308dba99605@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,70 +72,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/ufBGtH0IYeNZ2gRdlJeAyWh
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 12/02/2024 08:23, Arunpravin Paneer Selvam wrote:
+> Hi Matthew,
+> 
+> Can I push this test case along with the bug fix patch.
 
-On Fri,  9 Feb 2024 17:53:07 +0100
-Xaver Hugl <xaver.hugl@kde.org> wrote:
+Sure. Please go ahead.
 
-> Signed-off-by: Xaver Hugl <xaver.hugl@kde.org>
-> ---
->  drivers/gpu/drm/drm_connector.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
-tor.c
-> index b0516505f7ae..01e13984629b 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -2158,6 +2158,14 @@ EXPORT_SYMBOL(drm_mode_create_aspect_ratio_propert=
-y);
->   *     one supported. Sink supported colorspaces should be retrieved by
->   *     userspace from EDID and driver will not explicitly expose them.
->   *
-> + *     As userspace can't currently know whether or not the output is us=
-ing
-> + *     RGB or YCC signalling, the driver must translate properties to th=
-eir
-> + *     relevant RGB or YCC counterparts, depending on the actually used
-> + *     signalling. Property values that are only valid for either YCC or=
- RGB
-> + *     and have no equivalent for the other signalling type must not be
-> + *     exposed as supported, unless the driver can guarantee it never us=
-es
-> + *     the signalling that doesn't match the property.
-> + *
->   *     Basically the expectation from userspace is:
->   *      - Set up CRTC DEGAMMA/CTM/GAMMA to convert to some sink
->   *        colorspace
-
-While this addition is good, I have another question:
-
-Does "Colorspace" property choose also the RGB->YCbCr matrix that the
-driver will use when it happens to use YCbCr signalling?
-
-So far we have only been talking about the primaries and white point.
-
---Sig_/ufBGtH0IYeNZ2gRdlJeAyWh
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXJ4HcACgkQI1/ltBGq
-qqc6KRAAhR2LsUsAHRZ+z+shvZm2Lzj89qvtdpWeq8+iouhonROYIIYR9u0y489I
-lOrpwONcCdzU5RGj1fDbC9xwLSLiA8XKAPG8liJAU94+s9zOatA84/HXvdS4VzqK
-ALaeyradE7aoVUXTEgcwGL7Xo5lX3RcFTvblHoVSTpw4srajBhw7DGlT6qhimXuv
-9+h0wVeDm0enLa7dvGlxIapXbZY0QMzgs6rGsCJZRGH7RN/A68tM2lSUsQsghcjW
-z51IJyy1g3+UJxnk9HGTqswaetJDoYKD4F2zunIeiu2d21OCDtFR6fNM/BKYvBH6
-K+gylpUkTv7tlz9DVNCbS7DaKD0z5PJhbnKhjGiPbwJU9wOyv4RfC/25mpqsEfxI
-gKSqOZooJH5O1V5nnaBrZiw0ldCuZ69ngY+lPtnF+aHavpeBka1DfdcbS9z52K8t
-aHd6QTmsLcQgyH8UVXhq/BHRrxmLx+8RHk035MLqUO+KxKEStIqBalVwq2FGyUDp
-bInOgAtnyikP9pdQXqKk4UjDyRkD/ylhUJ71FNeZxJqCm+jsYgXDC+iTHU5CtYyx
-THUSmB1o/EfEkyItdXj+rTyTooViztQMpQ2oJQLOSuJzR0IuKtvh65Su9ahd7+9h
-ife3GDRImR5uJDFIhF9xvDDAf1WbzUZL81xdqyiP+cWcLKtmsKw=
-=mCsK
------END PGP SIGNATURE-----
-
---Sig_/ufBGtH0IYeNZ2gRdlJeAyWh--
+> 
+> Thanks,
+> Arun.
+> 
+> On 2/8/2024 8:06 PM, Matthew Auld wrote:
+>> Sanity check DRM_BUDDY_CONTIGUOUS_ALLOCATION.
+>>
+>> References: https://gitlab.freedesktop.org/drm/amd/-/issues/3097
+>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>> Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+>> Cc: Limonciello <mario.limonciello@amd.com>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> ---
+>>   drivers/gpu/drm/tests/drm_buddy_test.c | 89 ++++++++++++++++++++++++++
+>>   1 file changed, 89 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c 
+>> b/drivers/gpu/drm/tests/drm_buddy_test.c
+>> index ea2af6bd9abe..4215d8b5fcf0 100644
+>> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
+>> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
+>> @@ -8,6 +8,7 @@
+>>   #include <linux/prime_numbers.h>
+>>   #include <linux/sched/signal.h>
+>> +#include <linux/sizes.h>
+>>   #include <drm/drm_buddy.h>
+>> @@ -18,6 +19,93 @@ static inline u64 get_size(int order, u64 chunk_size)
+>>       return (1 << order) * chunk_size;
+>>   }
+>> +static void drm_test_buddy_alloc_contiguous(struct kunit *test)
+>> +{
+>> +    u64 mm_size, ps = SZ_4K, i, n_pages, total;
+>> +    struct drm_buddy_block *block;
+>> +    struct drm_buddy mm;
+>> +    LIST_HEAD(left);
+>> +    LIST_HEAD(middle);
+>> +    LIST_HEAD(right);
+>> +    LIST_HEAD(allocated);
+>> +
+>> +    mm_size = 16 * 3 * SZ_4K;
+>> +
+>> +    KUNIT_EXPECT_FALSE(test, drm_buddy_init(&mm, mm_size, ps));
+>> +
+>> +    /*
+>> +     * Idea is to fragment the address space by alternating block
+>> +     * allocations between three different lists; one for left, 
+>> middle and
+>> +     * right. We can then free a list to simulate fragmentation. In
+>> +     * particular we want to exercise the 
+>> DRM_BUDDY_CONTIGUOUS_ALLOCATION,
+>> +     * including the try_harder path.
+>> +     */
+>> +
+>> +    i = 0;
+>> +    n_pages = mm_size / ps;
+>> +    do {
+>> +        struct list_head *list;
+>> +        int slot = i % 3;
+>> +
+>> +        if (slot == 0)
+>> +            list = &left;
+>> +        else if (slot == 1)
+>> +            list = &middle;
+>> +        else
+>> +            list = &right;
+>> +        KUNIT_ASSERT_FALSE_MSG(test,
+>> +                       drm_buddy_alloc_blocks(&mm, 0, mm_size,
+>> +                                  ps, ps, list, 0),
+>> +                       "buddy_alloc hit an error size=%d\n",
+>> +                       ps);
+>> +    } while (++i < n_pages);
+>> +
+>> +    KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
+>> +                               3 * ps, ps, &allocated,
+>> +                               DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+>> +                   "buddy_alloc didn't error size=%d\n", 3 * ps);
+>> +
+>> +    drm_buddy_free_list(&mm, &middle);
+>> +    KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
+>> +                               3 * ps, ps, &allocated,
+>> +                               DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+>> +                   "buddy_alloc didn't error size=%llu\n", 3 * ps);
+>> +    KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
+>> +                               2 * ps, ps, &allocated,
+>> +                               DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+>> +                   "buddy_alloc didn't error size=%llu\n", 2 * ps);
+>> +
+>> +    drm_buddy_free_list(&mm, &right);
+>> +    KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
+>> +                               3 * ps, ps, &allocated,
+>> +                               DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+>> +                   "buddy_alloc didn't error size=%llu\n", 3 * ps);
+>> +    /*
+>> +     * At this point we should have enough contiguous space for 2 
+>> blocks,
+>> +     * however they are never buddies (since we freed middle and 
+>> right) so
+>> +     * will require the try_harder logic to find them.
+>> +     */
+>> +    KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
+>> +                               2 * ps, ps, &allocated,
+>> +                               DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+>> +                   "buddy_alloc hit an error size=%d\n", 2 * ps);
+>> +
+>> +    drm_buddy_free_list(&mm, &left);
+>> +    KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
+>> +                               3 * ps, ps, &allocated,
+>> +                               DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+>> +                   "buddy_alloc hit an error size=%d\n", 3 * ps);
+>> +
+>> +    total = 0;
+>> +    list_for_each_entry(block, &allocated, link)
+>> +        total += drm_buddy_block_size(&mm, block);
+>> +
+>> +    KUNIT_ASSERT_EQ(test, total, ps * 2 + ps * 3);
+>> +
+>> +    drm_buddy_free_list(&mm, &allocated);
+>> +    drm_buddy_fini(&mm);
+>> +}
+>> +
+>>   static void drm_test_buddy_alloc_pathological(struct kunit *test)
+>>   {
+>>       u64 mm_size, size, start = 0;
+>> @@ -280,6 +368,7 @@ static struct kunit_case drm_buddy_tests[] = {
+>>       KUNIT_CASE(drm_test_buddy_alloc_optimistic),
+>>       KUNIT_CASE(drm_test_buddy_alloc_pessimistic),
+>>       KUNIT_CASE(drm_test_buddy_alloc_pathological),
+>> +    KUNIT_CASE(drm_test_buddy_alloc_contiguous),
+>>       {}
+>>   };
+> 
