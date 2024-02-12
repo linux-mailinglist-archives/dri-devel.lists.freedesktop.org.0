@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C54C851202
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 12:18:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12D91851218
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 12:22:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6341A10E2FF;
-	Mon, 12 Feb 2024 11:18:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CA6F10EB58;
+	Mon, 12 Feb 2024 11:22:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m1OuXjK8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CygLBY8X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7751F10E2FF
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 11:18:32 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 664D910E548;
+ Mon, 12 Feb 2024 11:22:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id C2E09CE1152;
- Mon, 12 Feb 2024 11:18:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2547EC433F1;
- Mon, 12 Feb 2024 11:18:22 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9BF0C60F55;
+ Mon, 12 Feb 2024 11:22:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81EFDC433C7;
+ Mon, 12 Feb 2024 11:22:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1707736706;
- bh=1lR4IsJGmLUexDJX/zjNYB7tgsa4JkZ3HcVTMHB2dNc=;
+ s=k20201202; t=1707736956;
+ bh=4C5nZGco26sonFA2eNFl58Z2ow6XP0jrBTogGeyvF7M=;
  h=From:To:Cc:Subject:Date:From;
- b=m1OuXjK8CZ+NAI6SOCsY1TaOBBI3XiORFTXfFMQ9vxA3c3yftkO8wpysTgFM97Q3q
- bJUqMUv9ebPvJdBSdzXnkFLHSJgYchoroVRa8XgogGgE8l064Eo3Ghdhf3jg5hwyJl
- 4fqFxaCSroYO4hMXj0JJr2eCkQeJH2FsKa/XxCMLTF08OZi4sDZhk5d4EIO8VIn81v
- 9kacs51BlOrxwHS56vkiZ6hTcegnAOltkl8drmJ0SKdBFZ0zjLBdIfO6cP9mvxB/gj
- zi1/nt8vcFiDJd/NTcmShtimOwOfvSTY+uyVdS4rcFPqrYrg+WxiRuF1nN9IH6umil
- 1JgxnCfdxJT7g==
+ b=CygLBY8XhV8HOEbO2Yhqk49rWMjOa8t2XLVwB952Zz4Bn5kxp5qwPCPwj6HZhry+M
+ ONK37SaoxMjxxOqj6C4rHrZzvJp/ArzDLuID/k7Ii2qYxHlnmZ7Y022pDFbWlcEq2i
+ xaYEp2k8aUx4AkjEA4ekWKpu+lqThQHgBVjee8XR4SI3IJVazSwqTit59Mhqt60bs7
+ ZqpVppMJxzsAiodFBPS9eJ3C+3oDXxa/00VxMMGxnPpkfVU9t7QfG7XwQUR0JmP9Jx
+ rDGkdxt3oHqtyzYakpPU2f085hoUlMnvvb3VDUNrmjscFJAe4gkI+/yMqEj0h+mfb+
+ 6xwEdiygBPvKg==
 From: Arnd Bergmann <arnd@kernel.org>
-To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- =?UTF-8?q?Duje=20Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
- Linus Walleij <linus.walleij@linaro.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Flavio Suligoi <f.suligoi@asem.it>,
- Hans de Goede <hdegoede@redhat.com>, Jianhua Lu <lujianhua000@gmail.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] backlight: ktd2801: fix LED dependency
-Date: Mon, 12 Feb 2024 12:18:12 +0100
-Message-Id: <20240212111819.936815-1-arnd@kernel.org>
+To: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@redhat.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Kees Cook <keescook@chromium.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Dave Airlie <airlied@redhat.com>,
+ Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] nouveau/svm: fix kvcalloc() argument order
+Date: Mon, 12 Feb 2024 12:22:17 +0100
+Message-Id: <20240212112230.1117284-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -63,36 +62,37 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The new backlight driver unconditionally selects LEDS_EXPRESSWIRE, which
-is in a different subsystem that may be disabled here:
+The conversion to kvcalloc() mixed up the object size and count
+arguments, causing a warning:
 
-WARNING: unmet direct dependencies detected for LEDS_EXPRESSWIRE
-  Depends on [n]: NEW_LEDS [=n] && GPIOLIB [=y]
-  Selected by [y]:
-  - BACKLIGHT_KTD2801 [=y] && HAS_IOMEM [=y] && BACKLIGHT_CLASS_DEVICE [=y]
+drivers/gpu/drm/nouveau/nouveau_svm.c: In function 'nouveau_svm_fault_buffer_ctor':
+drivers/gpu/drm/nouveau/nouveau_svm.c:1010:40: error: 'kvcalloc' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Werror=calloc-transposed-args]
+ 1010 |         buffer->fault = kvcalloc(sizeof(*buffer->fault), buffer->entries, GFP_KERNEL);
+      |                                        ^
+drivers/gpu/drm/nouveau/nouveau_svm.c:1010:40: note: earlier argument should specify number of elements, later size of each element
 
-Change the select to depends, to ensure the indirect dependency is
-met as well even when LED support is disabled.
+The behavior is still correct aside from the warning, but fixing it avoids
+the warnings and can help the compiler track the individual objects better.
 
-Fixes: 66c76c1cd984 ("backlight: Add Kinetic KTD2801 backlight support")
+Fixes: 71e4bbca070e ("nouveau/svm: Use kvcalloc() instead of kvzalloc()")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/video/backlight/Kconfig | 2 +-
+ drivers/gpu/drm/nouveau/nouveau_svm.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
-index 230bca07b09d..f83f9ef037fc 100644
---- a/drivers/video/backlight/Kconfig
-+++ b/drivers/video/backlight/Kconfig
-@@ -185,7 +185,7 @@ config BACKLIGHT_KTD253
+diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
+index 4d1008915499..b4da82ddbb6b 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_svm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
+@@ -1007,7 +1007,7 @@ nouveau_svm_fault_buffer_ctor(struct nouveau_svm *svm, s32 oclass, int id)
+ 	if (ret)
+ 		return ret;
  
- config BACKLIGHT_KTD2801
- 	tristate "Backlight Driver for Kinetic KTD2801"
--	select LEDS_EXPRESSWIRE
-+	depends on LEDS_EXPRESSWIRE
- 	help
- 	  Say Y to enable the backlight driver for the Kinetic KTD2801 1-wire
- 	  GPIO-controlled backlight found in Samsung Galaxy Core Prime VE LTE.
+-	buffer->fault = kvcalloc(sizeof(*buffer->fault), buffer->entries, GFP_KERNEL);
++	buffer->fault = kvcalloc(buffer->entries, sizeof(*buffer->fault), GFP_KERNEL);
+ 	if (!buffer->fault)
+ 		return -ENOMEM;
+ 
 -- 
 2.39.2
 
