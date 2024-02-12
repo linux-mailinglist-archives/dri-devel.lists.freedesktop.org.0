@@ -2,122 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 311EB850ED5
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 09:23:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CBE2850EFC
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 09:40:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E801B10E941;
-	Mon, 12 Feb 2024 08:23:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A90110EABA;
+	Mon, 12 Feb 2024 08:40:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="EdWeIwBi";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lSPOfdVP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2082.outbound.protection.outlook.com [40.107.223.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41A7F10E8AD
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 08:23:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=clsc1l/fLoi49ok0sFHR+ktQhORpSl3tTtnDBr/2SRbTlSu//y279ij56oGB2Mc3I/PMtvK/2Wt7VAK3xK+fNf+oEp2uYPTXcmSxhZu71qUi9COGj1XIO6NS8Ac+duUDGuvbm0WHhcyPXi+MXirvcpHMDDp9+0JimxCSAJFvL6y7CERNHU3fonRx2FlfSWqXHYVMvIONtuz4wEFsxKB4Dx/pChs6mrqtBb1yQW+b2BCSkEN9Ps/MbU1GNy+FpCPCTJSnt7qmVXhXZhefiUNaL3VJz5SX0PqjhNQAarnmKRl+3TjFimYSY6hD8GIy4g4pCw8isW8RefoOBehguCZ0yQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kUnyHEK2Z0iy+7pS5lWZzqOg8fP/5l5P/TOGosabA6s=;
- b=Z9wR+oUzBl1j6z3n78PF+yTd5NCWn1MB0tVBGxb98tWiRp+iT+WxCm6dszoA8JnClAW2IXiY+/wzPvzmK19Nh9GAhgxV8HnFw874B3Hko0OtHKR9CoqFJZQguT3yguPcPf0+3T2E/ifQot9fYIt7EcL59aa9M6gS9XixfI17VPxMlzJBgC1YZhaW85cmnDlfjfdDwhUxsqEBoD5zcMMpeNRd2sg+6/S3xZQ4CW4/KMrNsaB3dfN/cGPWXMGWT4Q8rB0IpoXck+3MyEsWm+IvHTBdatB40cCrimi6oLLxZ6fbr5INTDp01/rNz49byCdQAF9aJR9Ku3smYlIYZRVcUQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kUnyHEK2Z0iy+7pS5lWZzqOg8fP/5l5P/TOGosabA6s=;
- b=EdWeIwBiypovRUZB9QklGxGd0OfSG3KA9iAVjhkEqSPReO4fQf1+YHI1jajjqJBZ5RZiz0nNG9VGNbC9IUvflsspovc/4WMKttiL/LUOwGqLXgcX7VI8JtC5QRK73BLbDFmGuwjlPwTd8+/IFDG7OdVvrqFR4nHaHipvVPSlO0U=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB4342.namprd12.prod.outlook.com (2603:10b6:208:264::7)
- by SN7PR12MB8818.namprd12.prod.outlook.com (2603:10b6:806:34b::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.24; Mon, 12 Feb
- 2024 08:23:41 +0000
-Received: from MN2PR12MB4342.namprd12.prod.outlook.com
- ([fe80::e3ee:6c2c:4e87:a6d6]) by MN2PR12MB4342.namprd12.prod.outlook.com
- ([fe80::e3ee:6c2c:4e87:a6d6%5]) with mapi id 15.20.7292.022; Mon, 12 Feb 2024
- 08:23:41 +0000
-Message-ID: <81c1db17-e324-6e45-5d55-4308dba99605@amd.com>
-Date: Mon, 12 Feb 2024 13:53:32 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] drm/tests/drm_buddy: add alloc_contiguous test
-Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org
-Cc: Limonciello <mario.limonciello@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- "Deucher, Alexander" <alexander.deucher@amd.com>
-References: <20240208143618.247048-2-matthew.auld@intel.com>
-From: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>
-In-Reply-To: <20240208143618.247048-2-matthew.auld@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BMXPR01CA0091.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:54::31) To MN2PR12MB4342.namprd12.prod.outlook.com
- (2603:10b6:208:264::7)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DBA210EAB4;
+ Mon, 12 Feb 2024 08:40:16 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id
+ a640c23a62f3a-a3850ce741bso276266266b.3; 
+ Mon, 12 Feb 2024 00:40:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1707727214; x=1708332014; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=k2xx3qmM5DQGb345GrWzFVJ1pSbmuD2ER1Bx8oiyhcA=;
+ b=lSPOfdVPY4Y+2dcTLfo6Q4+yWigQEDB2tD3h4q6wNboI9Kwch538cGesqU8/wjVieO
+ BLyWSHJEhwq4JTiBbcL+5KyOgtUsSmmsgX8ZopcWtYTu5yyT1RS9ETWmP26JmWECXIVH
+ CvJgJKN6jj1YWmqvQjB/gWjlp2SdZhNTHOe8mModZUn+yC/4Qmomw1nMNXKAknnu5ew9
+ rRegLXzEGp0cwghcqMbf7pi+7elNmWiYtgNMUXFI/2uAcqwS28A0lS0s2IwohtBM9FPu
+ xtMlcYCjK6lhart58GnrLGGcXXc18ZjtOG2kW9840pHMUcWTwJm5N6X5bm9eGKhPsnTw
+ m8ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707727214; x=1708332014;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=k2xx3qmM5DQGb345GrWzFVJ1pSbmuD2ER1Bx8oiyhcA=;
+ b=T2OOCz7hApsfmn29O9Z+MEZIx2GlArhZPyQzO0crBR5sTOXYHQkpd02NdT3wFB+gkc
+ Cl0w/iaADCclduDVz4aaQFgjmNaOo2tyKOh8Png03JQxhaCTiwx6V0x1h8zU/RBHmQyE
+ fdfj2mPL2v4TKPsN/K62cea9pV9zlD2PiqNHQnpSx0m/TuyIZrf/DB9kGLxIfR+WmGpA
+ 1WWcIGXLRW91bdFlGUAl5GL7q7zqJY6rA6UN7enlHo7mKnUldAIE73yngghWjQo4AVRN
+ wjjSAEKPPB9a4jzwfnqxXf3GAW6XNVvVGymZpKrepW5sTBrw4Q3efDPguqPyNDK27v4y
+ 3B3A==
+X-Gm-Message-State: AOJu0YzZ8SDgy4WPWtSMqdgiZ9QcP22Gauo97b04ENLTtbf2LLnrmnzQ
+ uAKjKLmP0/+EWqtwpSGuzM0CKamyD51hdDTu7/2+EM23wP+R++citOvbW/WBrN1GbO/fnPwLYQb
+ hcsOy2b5HnQqH5QJsjOfDOuQVUA0gFQIqwyI=
+X-Google-Smtp-Source: AGHT+IGHu8Gu6lx/Z58M3WTUbZ2FP4tKJEXJaK+dLgiGcDi7Ai/qCtNWUA3mugM69D/IODos2t/68TUhBhZndZsFhU4=
+X-Received: by 2002:a17:906:195b:b0:a3c:aace:1649 with SMTP id
+ b27-20020a170906195b00b00a3caace1649mr937573eje.26.1707727214079; Mon, 12 Feb
+ 2024 00:40:14 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4342:EE_|SN7PR12MB8818:EE_
-X-MS-Office365-Filtering-Correlation-Id: 86d68c1d-e38d-439e-45c0-08dc2ba3eb74
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ctEyKtMvNvpVLUH1j0pJXARCNETXAV/ISwwJUgan1SnlXPx8xG+Rz0wYLpKVp6kWKk4tCfwDWkeIp13Cb9OWb+8mZgfhZEjlvhVtUfZKJzTI4NNtaVYqbA4HtnqW7k311Am48pFmJQeF+GNPxFcsZMOAKKR6c/SsnbnAy6L834EE4xGoFPtJMjjs3zlNTCUi13rOxRJXjJIfofAF7VH9oZUMIE2nYK3zHbOvC9/xTHyaZz6GIlsiwkhfDyzY6vvBkkQ9wWvab07OIICzNpCHOQI3oB5lOyn6H/CdhiAdm+pJIqHJFY9+FbMG+gYsEPS/Gy7/Q5tmFJBHYv/alfAeCBFMIrkPXFh4+wfTaFhOu/foix0w0FR7mppp3ix2W2BeWY1J9qfUJVLxDnDfU0kJWu6O62UWffhwzVpCV+asF9IucUcLVjCvsC8up8nGaJJ/nzZlbTrRXGHgxD9Qb9sYuf7h2cCg6/cMEZi2XrU0g5ndDitXW4iV0SoBsRuJoGSQvIU770gDZoWtWoKpA9VwU7xNlXX/zmKr751aoQnse+Q=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4342.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(376002)(136003)(366004)(346002)(39860400002)(230922051799003)(64100799003)(186009)(1800799012)(451199024)(83380400001)(38100700002)(41300700001)(2616005)(26005)(66574015)(966005)(4326008)(5660300002)(66476007)(8936002)(8676002)(66556008)(66946007)(2906002)(478600001)(6486002)(6512007)(6506007)(53546011)(6666004)(316002)(54906003)(36756003)(86362001)(31696002)(31686004);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UVFVOWN6aXRNQzZDQWV6RUtPb1AxSkRrREdLTFMxS1F4UTAxRWJ1SkV5WVZp?=
- =?utf-8?B?WWZGdVBUMk9KSUxWMWFsYTFvNSsyUEJ2OHdsRjB1bEYyZ0Z3eFdpRmJicnlT?=
- =?utf-8?B?R014NU1vb0ZmaGRXZjB0M1hTanVjQ2taVXIrWkgwVnhqOEI4RUVMaXY3cHFs?=
- =?utf-8?B?SXRESm1KQ2w5UG4xNlJHd3NVcnNVN2RJUmxrb2NrMUIwalM3TnRvNnhycFlL?=
- =?utf-8?B?dTdweVBQMzJjMkFQSnJ0S1liVndRUFNnaFVvM2d0eEVUSjZEaTV6ZmJGblB2?=
- =?utf-8?B?ZmtDaVpUb3E1bjk4RkhWZW5sSSswZUpBbHNSY3NtSzRXVnR4ZjFnZ1JvRDdu?=
- =?utf-8?B?WWRMVkN0ZUpWTG9YZVB6RkZ4WExkRHQ2ODkzRW1GSzdXczZyL2FZN3RQRFVl?=
- =?utf-8?B?MUZoZzQvbVJNZk9lWjVmaG9ZK2JhajU2cUU2a3ArZTNiWFZoZDNXZlBOaHJq?=
- =?utf-8?B?TmQ1elF0OGE3SjVJR0FQN05COTRUMlhMM01HWWpDRERLa2pvS0tneFZ1Mk5V?=
- =?utf-8?B?SVkvbytrNllFNFBQYjNlSmVCVC9CYzRjTGhNeWFNQ0pZWTJ6RExNSHZ4bkRv?=
- =?utf-8?B?OG1Qc3dBNG5NRjM4YjVzU1ErZWJEREsrUWQxaWpncHdOZmtHRXdpc3NnZVNa?=
- =?utf-8?B?aUQ4dFNZSnVtQ2traWxWWC9IRThQc3VYcWFqOXlMYVBXYmNDM0ZMSmVVbzlk?=
- =?utf-8?B?QkpxOXNWQTh6LzQxclNERjdGMzRhV1ZtSFp1ZHlSVWpEOVBldk5ycHI5M1dX?=
- =?utf-8?B?VkFuaU5DR2swMFB1d3ZvYlpVNHFjUWE4NSt5emJtcHF2c21qSm8rZGxZODlO?=
- =?utf-8?B?RHE5WHExTW5FbEdLWXNqQjh4TTR0N015aUQwUXR4Ym1XWThGenN6QWIyUmtJ?=
- =?utf-8?B?ZHpEcXVSUzhKK2JZZGxRd2dXYnlUSGVrQURySThWVnNpOVkrejNYVFgvSlFI?=
- =?utf-8?B?WWZqK3JTNEtUaThPdlhCZmdLS3dEdWJUNVkyZ0s4UHI2ZlNJeEFFVitOeTBF?=
- =?utf-8?B?WStnNUFLQmwzOVhPQ1p1dFJmRWoyTkMySnNLQmc1akxnTEVJUTdFTTVjVUlK?=
- =?utf-8?B?eFZoQzExc28xR1Zhekt4ckNxNnhQcktuOVZURjgweTlIeUVmM1ZVU0Q1S0pr?=
- =?utf-8?B?dDAzTEs0VjlzRUJsalhxNGhzZWJQc0ovR3A2QmFRM3Q4aUY2N1VreUhCdWFK?=
- =?utf-8?B?QUxqVjI2L1FOZHAva0pKQzU5YzdwbGRVa1dDdHNkRVExN0NyMml0aW1iNW1U?=
- =?utf-8?B?b0QvUTE1bkwwckpSNmNDdEpIeXRZNnkzbjF3UStPRitJY2FzWUEzZzhuc0xz?=
- =?utf-8?B?c0hxTlBweThrVFg4WENuUlpxQ0I5bG0yYVVSVXdIQ2EvQXZ2QkRERC9GeUdv?=
- =?utf-8?B?WUtxeEJCU2Q1WWs5aE5FdCt5N0ZNOVlGUFI5WHJvQ3RUQm1Kc3hRU2NXa0Yx?=
- =?utf-8?B?ckFDK3dYVVdCNlRGY2FXRjBBN01ZWjZxeUZkOVZicWU2YkFJb21HSTQwMVVR?=
- =?utf-8?B?WW5FcG5KV3N2aC9YeU5WVTJEb1FnZ2Y0aTJ1a2FlM0hOYkd3cnl1VC8zWDdK?=
- =?utf-8?B?Mk10NDB2SDE1UmdzaWxEZ2pDNXdvaFlNS1MzeThkR3FwMGxaa25EQ2ZhTmNa?=
- =?utf-8?B?WkFKT1NsZGVicnFySkxza05idURCTkoxRmZtZUdUQ2Fpd1ExbWRrRy9qUXFa?=
- =?utf-8?B?K3RVU2pSalR4QlkvTWd6RHJaY3JHczgxTDdOUitncllPOUQyL0JlRVdmVGZh?=
- =?utf-8?B?NnJqOFN4dXZzNmNpRXkzNjQyNVJ6ZXdzZlBxeGJwSTlLNjNNSEZwTUc1cStj?=
- =?utf-8?B?by92Y3J3VXlaOGROSHV3S05tZng3Q3UyRzBPOHFTT1dIbWk0c0Jqd01wdFg2?=
- =?utf-8?B?d3oyQi9pRHhBSjhjdklYRE5KcFpCZzhyN2dDZmhTS3crQ00vZ0ZCeGwvQ3Yr?=
- =?utf-8?B?OHNzUjFOeDQ3bFk3M2VUL3lSc1pHdzkwb0ZXRGxrUHRBSTFEUUZhN0ZaTnh2?=
- =?utf-8?B?SVZCa2k0UDRlSHFpTm9xWTJ4dis3ZGJQNlJzQ3E2ODZDbG9WcTlxK1FhR2tv?=
- =?utf-8?B?MWp6UUE0NGdCWTB4THRPcWlpMEpwR3dmb2hvUzhSTzNsb1p3bFNLWUFTNnho?=
- =?utf-8?Q?FSf0kjth5vKUx8C2DJ9QQ0ep7?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 86d68c1d-e38d-439e-45c0-08dc2ba3eb74
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4342.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2024 08:23:41.3684 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eq9ki4PrEsCW2fPuUYjHescipd+4fXIWGue7SW3D3jFfTjQ3azD1zhT/GV68LteCn1OmBbp1j2vzkPKxixcmTw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8818
+References: <20240124025947.2110659-1-nunes.erico@gmail.com>
+ <CAKGbVbtAe5jnAwb7O8epq3g4FqLC-ggof3D=5gO9hJf5OuH0OQ@mail.gmail.com>
+In-Reply-To: <CAKGbVbtAe5jnAwb7O8epq3g4FqLC-ggof3D=5gO9hJf5OuH0OQ@mail.gmail.com>
+From: Qiang Yu <yuq825@gmail.com>
+Date: Mon, 12 Feb 2024 16:40:02 +0800
+Message-ID: <CAKGbVbvOcAmiUPUQak3VA_2=KeAQZryG=vTTn7pydjmSSLwBPA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/8] drm/lima: fixes and improvements to error recovery
+To: Erico Nunes <nunes.erico@gmail.com>
+Cc: anarsoul@gmail.com, christian.koenig@amd.com, 
+ dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,137 +83,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matthew,
+applied to drm-misc-next
 
-Can I push this test case along with the bug fix patch.
-
-Thanks,
-Arun.
-
-On 2/8/2024 8:06 PM, Matthew Auld wrote:
-> Sanity check DRM_BUDDY_CONTIGUOUS_ALLOCATION.
+On Tue, Jan 30, 2024 at 9:07=E2=80=AFAM Qiang Yu <yuq825@gmail.com> wrote:
 >
-> References: https://gitlab.freedesktop.org/drm/amd/-/issues/3097
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-> Cc: Limonciello <mario.limonciello@amd.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> ---
->   drivers/gpu/drm/tests/drm_buddy_test.c | 89 ++++++++++++++++++++++++++
->   1 file changed, 89 insertions(+)
+> Serial is Reviewed-by: QIang Yu <yuq825@gmail.com>
 >
-> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
-> index ea2af6bd9abe..4215d8b5fcf0 100644
-> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
-> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
-> @@ -8,6 +8,7 @@
->   
->   #include <linux/prime_numbers.h>
->   #include <linux/sched/signal.h>
-> +#include <linux/sizes.h>
->   
->   #include <drm/drm_buddy.h>
->   
-> @@ -18,6 +19,93 @@ static inline u64 get_size(int order, u64 chunk_size)
->   	return (1 << order) * chunk_size;
->   }
->   
-> +static void drm_test_buddy_alloc_contiguous(struct kunit *test)
-> +{
-> +	u64 mm_size, ps = SZ_4K, i, n_pages, total;
-> +	struct drm_buddy_block *block;
-> +	struct drm_buddy mm;
-> +	LIST_HEAD(left);
-> +	LIST_HEAD(middle);
-> +	LIST_HEAD(right);
-> +	LIST_HEAD(allocated);
-> +
-> +	mm_size = 16 * 3 * SZ_4K;
-> +
-> +	KUNIT_EXPECT_FALSE(test, drm_buddy_init(&mm, mm_size, ps));
-> +
-> +	/*
-> +	 * Idea is to fragment the address space by alternating block
-> +	 * allocations between three different lists; one for left, middle and
-> +	 * right. We can then free a list to simulate fragmentation. In
-> +	 * particular we want to exercise the DRM_BUDDY_CONTIGUOUS_ALLOCATION,
-> +	 * including the try_harder path.
-> +	 */
-> +
-> +	i = 0;
-> +	n_pages = mm_size / ps;
-> +	do {
-> +		struct list_head *list;
-> +		int slot = i % 3;
-> +
-> +		if (slot == 0)
-> +			list = &left;
-> +		else if (slot == 1)
-> +			list = &middle;
-> +		else
-> +			list = &right;
-> +		KUNIT_ASSERT_FALSE_MSG(test,
-> +				       drm_buddy_alloc_blocks(&mm, 0, mm_size,
-> +							      ps, ps, list, 0),
-> +				       "buddy_alloc hit an error size=%d\n",
-> +				       ps);
-> +	} while (++i < n_pages);
-> +
-> +	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
-> +							   3 * ps, ps, &allocated,
-> +							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-> +			       "buddy_alloc didn't error size=%d\n", 3 * ps);
-> +
-> +	drm_buddy_free_list(&mm, &middle);
-> +	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
-> +							   3 * ps, ps, &allocated,
-> +							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-> +			       "buddy_alloc didn't error size=%llu\n", 3 * ps);
-> +	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
-> +							   2 * ps, ps, &allocated,
-> +							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-> +			       "buddy_alloc didn't error size=%llu\n", 2 * ps);
-> +
-> +	drm_buddy_free_list(&mm, &right);
-> +	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
-> +							   3 * ps, ps, &allocated,
-> +							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-> +			       "buddy_alloc didn't error size=%llu\n", 3 * ps);
-> +	/*
-> +	 * At this point we should have enough contiguous space for 2 blocks,
-> +	 * however they are never buddies (since we freed middle and right) so
-> +	 * will require the try_harder logic to find them.
-> +	 */
-> +	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
-> +							   2 * ps, ps, &allocated,
-> +							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-> +			       "buddy_alloc hit an error size=%d\n", 2 * ps);
-> +
-> +	drm_buddy_free_list(&mm, &left);
-> +	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
-> +							   3 * ps, ps, &allocated,
-> +							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-> +			       "buddy_alloc hit an error size=%d\n", 3 * ps);
-> +
-> +	total = 0;
-> +	list_for_each_entry(block, &allocated, link)
-> +		total += drm_buddy_block_size(&mm, block);
-> +
-> +	KUNIT_ASSERT_EQ(test, total, ps * 2 + ps * 3);
-> +
-> +	drm_buddy_free_list(&mm, &allocated);
-> +	drm_buddy_fini(&mm);
-> +}
-> +
->   static void drm_test_buddy_alloc_pathological(struct kunit *test)
->   {
->   	u64 mm_size, size, start = 0;
-> @@ -280,6 +368,7 @@ static struct kunit_case drm_buddy_tests[] = {
->   	KUNIT_CASE(drm_test_buddy_alloc_optimistic),
->   	KUNIT_CASE(drm_test_buddy_alloc_pessimistic),
->   	KUNIT_CASE(drm_test_buddy_alloc_pathological),
-> +	KUNIT_CASE(drm_test_buddy_alloc_contiguous),
->   	{}
->   };
->   
-
+> On Wed, Jan 24, 2024 at 11:00=E2=80=AFAM Erico Nunes <nunes.erico@gmail.c=
+om> wrote:
+> >
+> > v1 reference:
+> > https://patchwork.kernel.org/project/dri-devel/cover/20240117031212.110=
+4034-1-nunes.erico@gmail.com/
+> >
+> > Changes v1 -> v2:
+> > - Dropped patch 1 which aimed to fix
+> > https://gitlab.freedesktop.org/mesa/mesa/-/issues/8415 .
+> > That will require more testing and an actual fix to the irq/timeout
+> > handler race. It can be solved separately so I am deferring it to a
+> > followup patch and keeping that issue open.
+> >
+> > - Added patches 2 and 4 to cover "reset time out" and bus stop bit to
+> > hard reset in gp as well.
+> >
+> > - Added handling of all processors in synchronize_irq in patch 5 to
+> > cover multiple pp. Dropped unnecessary duplicate fence in patch 5.
+> >
+> > - Added patch 7 in v2. After some discussion in patch 4 (v1), it seems
+> > to be reasonable to bump our timeout value so that we further decrease
+> > the chance of users actually hitting any of these timeouts by default.
+> >
+> > - Reworked patch 8 in v2. Since I broadened the work to not only focus
+> > in pp anymore, I also included the change to the other blocks as well.
+> >
+> > - Collected some reviews and acks in unmodified patches.
+> >
+> >
+> > Erico Nunes (8):
+> >   drm/lima: reset async_reset on pp hard reset
+> >   drm/lima: reset async_reset on gp hard reset
+> >   drm/lima: set pp bus_stop bit before hard reset
+> >   drm/lima: set gp bus_stop bit before hard reset
+> >   drm/lima: handle spurious timeouts due to high irq latency
+> >   drm/lima: remove guilty drm_sched context handling
+> >   drm/lima: increase default job timeout to 10s
+> >   drm/lima: standardize debug messages by ip name
+> >
+> >  drivers/gpu/drm/lima/lima_ctx.c      |  2 +-
+> >  drivers/gpu/drm/lima/lima_ctx.h      |  1 -
+> >  drivers/gpu/drm/lima/lima_gp.c       | 39 +++++++++++++++++++++-------
+> >  drivers/gpu/drm/lima/lima_l2_cache.c |  6 +++--
+> >  drivers/gpu/drm/lima/lima_mmu.c      | 18 ++++++-------
+> >  drivers/gpu/drm/lima/lima_pmu.c      |  3 ++-
+> >  drivers/gpu/drm/lima/lima_pp.c       | 37 ++++++++++++++++++++------
+> >  drivers/gpu/drm/lima/lima_sched.c    | 38 ++++++++++++++++++++++-----
+> >  drivers/gpu/drm/lima/lima_sched.h    |  3 +--
+> >  9 files changed, 107 insertions(+), 40 deletions(-)
+> >
+> > --
+> > 2.43.0
+> >
