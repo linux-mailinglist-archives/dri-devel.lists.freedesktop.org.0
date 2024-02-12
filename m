@@ -2,52 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83802851B53
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 18:25:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D1E0851B98
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 18:34:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26AAB10E83E;
-	Mon, 12 Feb 2024 17:25:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8EE710EE37;
+	Mon, 12 Feb 2024 17:34:23 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="oV93OjvV";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2030210E83E
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 17:25:13 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1rZa3E-0005W6-7L; Mon, 12 Feb 2024 18:25:04 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1rZa3D-000KX0-Ah; Mon, 12 Feb 2024 18:25:03 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
- (envelope-from <ukl@pengutronix.de>) id 1rZa3D-003LAE-0m;
- Mon, 12 Feb 2024 18:25:03 +0100
-Date: Mon, 12 Feb 2024 18:25:03 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com, 
- deller@gmx.de, javierm@redhat.com, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, linux-input@vger.kernel.org,
- linux-pwm@vger.kernel.org
-Subject: Re: [PATCH 06/10] backlight/pwm-backlight: Remove struct
- backlight_ops.check_fb
-Message-ID: <nzebylqpe2jvwuig72jvlmkgwqidehkreqif3wglz5xecv5uop@xopxbalfnczt>
-References: <20240212162645.5661-1-tzimmermann@suse.de>
- <20240212162645.5661-7-tzimmermann@suse.de>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBDAB10E881;
+ Mon, 12 Feb 2024 17:34:20 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 41CExrak009925; Mon, 12 Feb 2024 17:34:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding:content-type; s=qcppdkim1; bh=M48vkdZ
+ 0s2Pyp9OxRZ4mN+0EZPXt65Mq0CLdaBP2Bag=; b=oV93OjvVOEBir3PASs91FQ8
+ vr1jwuS5B5FziIhrj11H+JET01w8AIIe4PMEii8EC+Zel3WhV6vvnPQYxn/P6KeG
+ OBGCY8dx/4dCku6ICS73732PK3M6oRg/RcMaBmzW3X7zRl0lXFTTZfymxoMrbLTW
+ d8NJD2p6TFFpqHOZkouGldrVWDslpJYyirsjpBckMV8EKEyE6cs9HRFrYnu2H/i8
+ OVnUz4CZmQ/DhJ856/nfWHu6fj7GwQ3YS0cH1xGKDEmoBgoUiCQcs62veVjPaakP
+ u5KfmZqEoTiDh7U1NpKteXEusdZe+f/8yoGxfMHm4+2YakU+1oOhz6EGHiUQZ9w=
+ =
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w7nk90bp1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Feb 2024 17:34:06 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41CHY5Zo021330
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Feb 2024 17:34:05 GMT
+Received: from abhinavk-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Mon, 12 Feb 2024 09:34:04 -0800
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <dri-devel@lists.freedesktop.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+CC: Paloma Arellano <quic_parellan@quicinc.com>, <robdclark@gmail.com>,
+ <freedreno@lists.freedesktop.org>, <dmitry.baryshkov@linaro.org>,
+ <intel-gfx@lists.freedesktop.org>, <jani.nikula@linux.intel.com>,
+ <ville.syrjala@linux.intel.com>, <quic_jesszhan@quicinc.com>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4] drm/dp: add an API to indicate if sink supports VSC SDP
+Date: Mon, 12 Feb 2024 09:33:55 -0800
+Message-ID: <20240212173355.1857757-1-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="c5qbx3hsze67vw7s"
-Content-Disposition: inline
-In-Reply-To: <20240212162645.5661-7-tzimmermann@suse.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: P8GmQe4ttF1H-u5Kesrhqz8l7SQF7vzY
+X-Proofpoint-ORIG-GUID: P8GmQe4ttF1H-u5Kesrhqz8l7SQF7vzY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-12_14,2024-02-12_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0
+ lowpriorityscore=0 adultscore=0 spamscore=0 malwarescore=0 mlxscore=0
+ bulkscore=0 priorityscore=1501 mlxlogscore=999 impostorscore=0
+ clxscore=1015 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2401310000 definitions=main-2402120133
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,47 +92,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Paloma Arellano <quic_parellan@quicinc.com>
 
---c5qbx3hsze67vw7s
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+YUV420 format is supported only in the VSC SDP packet and not through
+MSA. Hence add an API which indicates the sink support which can be used
+by the rest of the DP programming.
 
-Hello Thomas,
+changes in v4:
+	- bail out early if dpcd rev check fails
 
-On Mon, Feb 12, 2024 at 05:16:39PM +0100, Thomas Zimmermann wrote:
-> The internal check_fb callback from struct pwm_bl_data is never
-> implemented. thus the driver's implementation of check_fb always
-> returns true, which is the backlight core's default if no
-> implementation has been set. So remove the code from the driver.
->=20
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: "Uwe Kleine-K=F6nig" <u.kleine-koenig@pengutronix.de>
+changes in v3:
+	- fix the commit title prefix to drm/dp
+	- get rid of redundant !!
+	- break out this change from series [1] to get acks from drm core
+	  maintainers
 
-Looks reasonable.
+Changes in v2:
+	- Move VSC SDP support check API from dp_panel.c to
+	  drm_dp_helper.c
 
-Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+[1]: https://patchwork.freedesktop.org/series/129180/
 
-Best regards
-Uwe
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+---
+ drivers/gpu/drm/display/drm_dp_helper.c | 23 +++++++++++++++++++++++
+ include/drm/display/drm_dp_helper.h     |  1 +
+ 2 files changed, 24 insertions(+)
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+index b1ca3a1100da..b10fb2be837e 100644
+--- a/drivers/gpu/drm/display/drm_dp_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_helper.c
+@@ -2916,6 +2916,29 @@ void drm_dp_vsc_sdp_log(const char *level, struct device *dev,
+ }
+ EXPORT_SYMBOL(drm_dp_vsc_sdp_log);
+ 
++/**
++ * drm_dp_vsc_sdp_supported() - check if vsc sdp is supported
++ * @aux: DisplayPort AUX channel
++ * @dpcd: DisplayPort configuration data
++ *
++ * Returns true if vsc sdp is supported, else returns false
++ */
++bool drm_dp_vsc_sdp_supported(struct drm_dp_aux *aux, const u8 dpcd[DP_RECEIVER_CAP_SIZE])
++{
++	u8 rx_feature;
++
++	if (dpcd[DP_DPCD_REV] < DP_DPCD_REV_13)
++		return false;
++
++	if (drm_dp_dpcd_readb(aux, DP_DPRX_FEATURE_ENUMERATION_LIST, &rx_feature) != 1) {
++		drm_dbg_dp(aux->drm_dev, "failed to read DP_DPRX_FEATURE_ENUMERATION_LIST\n");
++		return false;
++	}
++
++	return (rx_feature & DP_VSC_SDP_EXT_FOR_COLORIMETRY_SUPPORTED);
++}
++EXPORT_SYMBOL(drm_dp_vsc_sdp_supported);
++
+ /**
+  * drm_dp_get_pcon_max_frl_bw() - maximum frl supported by PCON
+  * @dpcd: DisplayPort configuration data
+diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+index 863b2e7add29..948381b2b0b1 100644
+--- a/include/drm/display/drm_dp_helper.h
++++ b/include/drm/display/drm_dp_helper.h
+@@ -100,6 +100,7 @@ struct drm_dp_vsc_sdp {
+ 
+ void drm_dp_vsc_sdp_log(const char *level, struct device *dev,
+ 			const struct drm_dp_vsc_sdp *vsc);
++bool drm_dp_vsc_sdp_supported(struct drm_dp_aux *aux, const u8 dpcd[DP_RECEIVER_CAP_SIZE]);
+ 
+ int drm_dp_psr_setup_time(const u8 psr_cap[EDP_PSR_RECEIVER_CAP_SIZE]);
+ 
+-- 
+2.34.1
 
---c5qbx3hsze67vw7s
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmXKVG4ACgkQj4D7WH0S
-/k6lcAf/S/waxaRzh8CBsJTpus638Jmp0simMq6KwNoL65Tqp1IznymjbXp6SgXi
-h+YyIEzBVLl+oLwayRZdbFqGAl/WvWrJ52XZ5npbBjtI8BtGCaJFr1khzwEqeRjJ
-vlNQa08I/stRJPCVF4qHYVzC16pco3hATs44U1BiRt5z6XwVBJqcbkThwGEjX90d
-Be74R0eZyOpPJBgPsbRKiz4ALHK8qdurOxFGDdZYeAV1G1AbPli84fZ7Uew2oNfK
-DnQTur4DC4FJ3/gbaTKLztvLb+PDhX+PypUsPbdhnDE6PpVXvZywL3i2OaEB43K9
-+RhfBDcct5CQxwmOqe8Ts4n7hvAKgQ==
-=FXhc
------END PGP SIGNATURE-----
-
---c5qbx3hsze67vw7s--
