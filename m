@@ -2,74 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AB88851469
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 14:14:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64E46851485
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 14:15:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21F4310ED3A;
-	Mon, 12 Feb 2024 13:14:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE05810ED6A;
+	Mon, 12 Feb 2024 13:15:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="FjrD8B8n";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="II8RWzCC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com
- [209.85.219.202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEF9510ED2E
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 13:14:20 +0000 (UTC)
-Received: by mail-yb1-f202.google.com with SMTP id
- 3f1490d57ef6-dc64b659a9cso5459404276.3
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 05:14:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1707743656; x=1708348456;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:from:subject:message-id
- :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
- bh=kvuLvApdM/ZlGaK4NZuFt8gRWwgyTlGJWJvpEXVTb1w=;
- b=FjrD8B8nRkLXGyOwD9NtBuD+mMY73/B5Wk7iloAqEYH+E629sDMtwj05chGUZ+8jJE
- 4bIgTdhJK+z1atzYLGyUU1Xfm0soYkJHs71ooP2Sjuvv7eI+9oHHANkIcTkGFq8ETVxe
- JL7Qnisaf4TgJWH01P7Ora6bcTN4SgmQjhQYeerMvqH/Qw38w3BGoJmMVkahPkD9hsjY
- BYWWPdSALWqjUdD4v7klO5si2CCZgejn5EbfUi1TYZxplEPcLOZP2tJs9caGyKsuf1EZ
- 4Smke758zlu3fWlI202Feo4zyTjeTREyMzqO87hCB+LuwajKCmpBCDRW47FY5TtvgKrg
- TQwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707743656; x=1708348456;
- h=content-transfer-encoding:cc:to:from:subject:message-id
- :mime-version:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kvuLvApdM/ZlGaK4NZuFt8gRWwgyTlGJWJvpEXVTb1w=;
- b=hqxvlrbSCbQvC4xJ5sphJ2Y1yWT4JxKiOLXNdFZemLpcBwziIjmdjo5o4mloe68lke
- 7p4vgqT2mWwrq/mEtCBBEvT/VG1JOtmcM2CRl34r4DiAm6/CyQ9ZMZfcgXW7DEqmamiM
- 3ujQGm5vHu8Vt7d979xnIz1R6jY3Tfm5lXlhJGWzpGI9kWGD1uMUJf49BEjLaYFi24Dh
- JbOsSmB2aKWpwy+pNZVs9EuIKx57Qjrm78lNTJzofRmmZqj5iq4gywTjSxUIhF5dtfBW
- iBcMJppyNsHW+eoPwKJhV0HS05/fnEtORPLicLAfx8hxgoWr6hmfi4qVa3db4aW+ifuf
- /YmQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVPrkX0CFXPwCdQ6vRv44pHmaZ4cPr50UsO3rBSJXKgbm9S3n+FzT9ymySlazqhstMIkg75fma4M/GBYfzRL5hwDVKJ6mstmpy4309pZDEg
-X-Gm-Message-State: AOJu0Ywuagvp94lxA11SxkQbDbj12w+xNc7REc7/l2W+PMlnxH5m73aa
- rcPn6JJq1WThKXolkcrMsNsYrfZopq+FHLjGA7wIA/Ltw7PnB2N+juPUr+RaXTk3jf/Qq+5YWSF
- /v68axxPRog==
-X-Google-Smtp-Source: AGHT+IFr9+EiSzPAdqxdDrunMziFdLc97Szl2+/YcVLrl65gByrGUTWmItIayvjwjfIhJaI2on5s096RjZxdJg==
-X-Received: from szatan.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:2d83])
- (user=panikiel job=sendgmr) by 2002:a05:6902:120c:b0:dc6:e5d3:5f03 with SMTP
- id s12-20020a056902120c00b00dc6e5d35f03mr1820499ybu.4.1707743656565; Mon, 12
- Feb 2024 05:14:16 -0800 (PST)
-Date: Mon, 12 Feb 2024 13:13:14 +0000
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.43.0.687.g38aa6559b0-goog
-Message-ID: <20240212131323.2162161-1-panikiel@google.com>
-Subject: [PATCH 0/9] Add Chameleon v3 video support
-From: "=?UTF-8?q?Pawe=C5=82=20Anikiel?=" <panikiel@google.com>
-To: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org, 
- daniel@ffwll.ch, dinguyen@kernel.org, hverkuil-cisco@xs4all.nl, 
- krzysztof.kozlowski+dt@linaro.org, maarten.lankhorst@linux.intel.com, 
- mchehab@kernel.org, mripard@kernel.org, robh+dt@kernel.org, 
- tzimmermann@suse.de
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 195B210ED60
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 13:15:01 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 70CD060FB2;
+ Mon, 12 Feb 2024 13:15:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB408C433C7;
+ Mon, 12 Feb 2024 13:14:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1707743700;
+ bh=XmyfHygn/0NwHwPlcl1l0xEMP+Wb3sl9opud5sJQ1uw=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=II8RWzCCQrg/YyY6R0vK3fI7RE91Th0aFgqPb/fF+/wr1y8F95U79/RZKCCAba6cj
+ quBbB0OMcB5/WKdBO7tGFejZQ2KcBhI8XQzfyJcFNHcYeSw9PvYk5TerDeu/ieAaQr
+ R4k6XW6DGZhLmgd12OuR3D5kGsTZvr5+tZMHo5O8cx+za8KpeQCDazbbZw8C1IyHGV
+ sCf/1Sf1D+FxssMVZnj1HjxFdIbipBkrFwOyLosU2AVtycvaz4W3pmpDTMk0j/56XJ
+ /Tas1Qx7UgRd08UyeVgzaqAWOpa+ax9BHWw8QoN/Ge7sutF2yfhNdGMdHjXWAWFxZT
+ 4mIyPa0xPVCdA==
+From: Maxime Ripard <mripard@kernel.org>
+Date: Mon, 12 Feb 2024 14:13:15 +0100
+Subject: [PATCH v6 32/36] drm/sun4i: hdmi: Convert encoder to atomic
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240212-kms-hdmi-connector-state-v6-32-f4bcdc979e6f@kernel.org>
+References: <20240212-kms-hdmi-connector-state-v6-0-f4bcdc979e6f@kernel.org>
+In-Reply-To: <20240212-kms-hdmi-connector-state-v6-0-f4bcdc979e6f@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, 
+ Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- chromeos-krk-upstreaming@google.com, ribalda@chromium.org, 
- "=?UTF-8?q?Pawe=C5=82=20Anikiel?=" <panikiel@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ Maxime Ripard <mripard@kernel.org>, Sui Jingfeng <sui.jingfeng@linux.dev>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2360; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=XmyfHygn/0NwHwPlcl1l0xEMP+Wb3sl9opud5sJQ1uw=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKmnJIsT558IjGlQL4r5Ffg5I+T2jeKQTbL3Ljwvd3ZX7
+ im693pDRykLgxgXg6yYIkuMsPmSuFOzXney8c2DmcPKBDKEgYtTACay/hMjw4b0yXcumjEvnPlF
+ KfLT0WUC8R/OsjdJ8rksyNV22DKloIPhf2TL5As6rTqrVDp/ftSLEo3fI/LO+tzkIqGc5w/Ffr8
+ sYAEA
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,72 +75,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Google Chameleon v3 is a testing device capable of emulating multiple
-DisplayPort monitors, used for testing purposes.  It is based on an Arria
-10 SoCFPGA.  This patchset adds V4L2 drivers for two IP blocks used in
-the device's FPGA: the Chameleon v3 framebuffer, and the Intel DisplayPort
-RX IP.  The former is a video capture device that takes video signal and
-writes frames into memory, which can be later processed by userspace.
-The latter is a DisplayPort receiver IP from Intel, its datasheet can
-be found at:
-https://www.intel.com/programmable/technical-pdfs/683273.pdf
+The sun4i_hdmi driver still uses the non-atomic variants of the encoder
+hooks, so let's convert to their atomic equivalents.
 
-The framebuffer driver is a regular v4l2 capture device driver, while
-the DP RX driver is a v4l2 subdevice driver. In order to avoid code
-duplication, some parts of the DisplayPort code from the DRM subsystem
-were put into headers usable by the DP RX driver. Apart from that, the
-patchset adds a new callback to the internal v4l2 subdevice API to allow
-querying the dv timings of individual video streams of the DP receiver.
+Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
-Pawe=C5=82 Anikiel (9):
-  media: v4l2-subdev: Add a pad variant of .query_dv_timings()
-  media: Add Chameleon v3 framebuffer driver
-  drm/dp_mst: Move DRM-independent structures to separate header
-  lib: Move DisplayPort CRC functions to common lib
-  drm/display: Add mask definitions for DP_PAYLOAD_ALLOCATE_* registers
-  media: intel: Add Displayport RX IP driver
-  media: dt-bindings: Add Chameleon v3 framebuffer
-  media: dt-bindings: Add Intel Displayport RX IP
-  ARM: dts: chameleonv3: Add video device nodes
+diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+index 152375f3de2e..799a26215cc2 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
++++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+@@ -82,7 +82,8 @@ static int sun4i_hdmi_atomic_check(struct drm_encoder *encoder,
+ 	return 0;
+ }
+ 
+-static void sun4i_hdmi_disable(struct drm_encoder *encoder)
++static void sun4i_hdmi_disable(struct drm_encoder *encoder,
++			       struct drm_atomic_state *state)
+ {
+ 	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
+ 	u32 val;
+@@ -96,7 +97,8 @@ static void sun4i_hdmi_disable(struct drm_encoder *encoder)
+ 	clk_disable_unprepare(hdmi->tmds_clk);
+ }
+ 
+-static void sun4i_hdmi_enable(struct drm_encoder *encoder)
++static void sun4i_hdmi_enable(struct drm_encoder *encoder,
++			      struct drm_atomic_state *state)
+ {
+ 	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
+ 	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
+@@ -120,9 +122,10 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder)
+ }
+ 
+ static void sun4i_hdmi_mode_set(struct drm_encoder *encoder,
+-				struct drm_display_mode *mode,
+-				struct drm_display_mode *adjusted_mode)
++				struct drm_crtc_state *crtc_state,
++				struct drm_connector_state *conn_state)
+ {
++	const struct drm_display_mode *mode = &crtc_state->mode;
+ 	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
+ 	unsigned int x, y;
+ 	u32 val;
+@@ -201,9 +204,9 @@ static enum drm_mode_status sun4i_hdmi_mode_valid(struct drm_encoder *encoder,
+ 
+ static const struct drm_encoder_helper_funcs sun4i_hdmi_helper_funcs = {
+ 	.atomic_check	= sun4i_hdmi_atomic_check,
+-	.disable	= sun4i_hdmi_disable,
+-	.enable		= sun4i_hdmi_enable,
+-	.mode_set	= sun4i_hdmi_mode_set,
++	.atomic_disable	= sun4i_hdmi_disable,
++	.atomic_enable	= sun4i_hdmi_enable,
++	.atomic_mode_set	= sun4i_hdmi_mode_set,
+ 	.mode_valid	= sun4i_hdmi_mode_valid,
+ };
+ 
 
- .../bindings/media/google,chv3-fb.yaml        |   77 +
- .../devicetree/bindings/media/intel,dprx.yaml |  125 +
- .../socfpga/socfpga_arria10_chameleonv3.dts   |  130 +
- drivers/gpu/drm/display/Kconfig               |    1 +
- drivers/gpu/drm/display/drm_dp_mst_topology.c |   76 +-
- drivers/media/platform/Kconfig                |    1 +
- drivers/media/platform/Makefile               |    1 +
- drivers/media/platform/google/Kconfig         |    3 +
- drivers/media/platform/google/Makefile        |    2 +
- .../media/platform/google/chameleonv3/Kconfig |   13 +
- .../platform/google/chameleonv3/Makefile      |    3 +
- .../platform/google/chameleonv3/chv3-fb.c     |  897 +++++++
- drivers/media/platform/intel/Kconfig          |   12 +
- drivers/media/platform/intel/Makefile         |    1 +
- drivers/media/platform/intel/intel-dprx.c     | 2171 +++++++++++++++++
- drivers/media/v4l2-core/v4l2-subdev.c         |   11 +
- include/drm/display/drm_dp.h                  |    9 +-
- include/drm/display/drm_dp_mst.h              |  238 ++
- include/drm/display/drm_dp_mst_helper.h       |  232 +-
- include/linux/crc-dp.h                        |   10 +
- include/media/v4l2-subdev.h                   |    5 +
- lib/Kconfig                                   |    8 +
- lib/Makefile                                  |    1 +
- lib/crc-dp.c                                  |   78 +
- 24 files changed, 3801 insertions(+), 304 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/google,chv3-fb.=
-yaml
- create mode 100644 Documentation/devicetree/bindings/media/intel,dprx.yaml
- create mode 100644 drivers/media/platform/google/Kconfig
- create mode 100644 drivers/media/platform/google/Makefile
- create mode 100644 drivers/media/platform/google/chameleonv3/Kconfig
- create mode 100644 drivers/media/platform/google/chameleonv3/Makefile
- create mode 100644 drivers/media/platform/google/chameleonv3/chv3-fb.c
- create mode 100644 drivers/media/platform/intel/intel-dprx.c
- create mode 100644 include/drm/display/drm_dp_mst.h
- create mode 100644 include/linux/crc-dp.h
- create mode 100644 lib/crc-dp.c
-
---=20
-2.43.0.687.g38aa6559b0-goog
+-- 
+2.43.0
 
