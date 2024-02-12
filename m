@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EF18851470
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 14:14:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A381851472
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 14:14:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8A4510ED41;
-	Mon, 12 Feb 2024 13:14:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E6DF10ED45;
+	Mon, 12 Feb 2024 13:14:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="nhkb1S9W";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ZABjeSSt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com
- [209.85.128.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D85DE10ED53
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 13:14:34 +0000 (UTC)
-Received: by mail-wm1-f74.google.com with SMTP id
- 5b1f17b1804b1-40fd2fe490bso19555815e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 05:14:34 -0800 (PST)
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com
+ [209.85.221.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A55D10ED50
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 13:14:37 +0000 (UTC)
+Received: by mail-wr1-f74.google.com with SMTP id
+ ffacd0b85a97d-33b28f50eadso1436271f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 05:14:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1707743673; x=1708348473;
+ d=google.com; s=20230601; t=1707743675; x=1708348475;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:from:subject:message-id:references
  :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
- :reply-to; bh=rRe13GXsBNZ8mkxLlyJ1MfL527/NzLwP4cfZxeK7UxI=;
- b=nhkb1S9WE177Lyq65zzgt4H6Of8ti7AhvTTHoj5gdNstE1zhVZXTjv5IVmT8hj704y
- Q3MBClGpIpMroKEIKPazGy6kTVZhObPjI9PCVOTuWRPsyHMzIJZyg59TbEUC3BApjmTT
- QdOF1XH4BKwp08J+IyICbGRC+pwe4FgxOieFWqyuygQO0myS817SqkOxhi71ztjIoELS
- W9hJeKavAmWUPmSMDsDiGAD2buSaXXDdlXlnZ4YDNgC6W0D9yl0Y7a6VrQQbTEzkU45F
- cN17q8NrJQ6Z9JFCHx1+5R2vk5Pgk350+JVE6mhmTlE7xU9hhdXA7gONsbTXdhNxyioy
- m3VA==
+ :reply-to; bh=weAbudB3k3wPqp+4oDt/WoN+euSYJ/f5cRIeaqwfqjk=;
+ b=ZABjeSStpZte7eaHmbDXqg8JbNLM1iOobxsaT/DjhUysXQtxw4iF6LSWm6DoTQQoS0
+ qzSmTznrOMAUqwepMktGS4sj3hpzG+Sti9UfJidTVnNpvHqpI0T5W6Q85H2UjZ9tSLj+
+ Rq3tjmCCp3Wa3208ysl64fXmMIldvBxhMZQj6LNEwji6TxxREtTgFyj37YXfpExP4RWY
+ 16duu9t4HVxAA0Bxafi69gFSxPwYvg3VAd23Lc9aZGjpXETpsiGUla7dZs83m0H2wlEt
+ jqjTTyukJ7Dpd7NCmZ0/ByvL0dzl9IEfZlAT/lXOIadMnjs4QlYjbabAuaCJcm3DtmfW
+ tjmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707743673; x=1708348473;
+ d=1e100.net; s=20230601; t=1707743675; x=1708348475;
  h=content-transfer-encoding:cc:to:from:subject:message-id:references
  :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=rRe13GXsBNZ8mkxLlyJ1MfL527/NzLwP4cfZxeK7UxI=;
- b=aECfC9h3uCKTqIQ8Z41Ykw7jGfH9DJHrdkUywRu+/LoFGzq4U1WC0A/aTe3keBmkUM
- UHlAYMCHkDyjoN9fyUXTY4H/sU7qrtAD7m4H1G0z1qdkl1ruRi1Tu0N1LfFReArKU/6K
- zz44t4p/dA5BHVkPEcDpK1ry91uhVJC6FkTqargUypSeUpBmBJ88B63DjUBwZa+LH59z
- ZLSv/jiAa8c5X52HUv/FqJRVhXAZIT3B7EEcIGkle9SqJZJNB0Y0tmxcHjxOVdHQZa6d
- 4LLo1yLf4HJwYnuj4g2GrDNFMHapGpxigGezDMLvzq25v7yAdE+BARsx4FzCQac3sOZw
- UcAg==
-X-Gm-Message-State: AOJu0YyR+3jwaK0bGY6JB/gH/nA2Lq+bZKRQ5NJlpSWjEfbjHWKZHBjP
- ANduF2TG7ApbJxilSJ9RS0sDIJ6DV1rKToJf4xALNgxaTkDmGsLJvD2d9gDq04z9xSaDKluvysI
- skRD2dcepDw==
-X-Google-Smtp-Source: AGHT+IHeUQzQJMGFa36yvvo79Gf3XEOqIP1Fw3gP4UC8etm91PZ2z+b4H4rGeV3pFlboBijII39ElfpdFik0Kw==
+ bh=weAbudB3k3wPqp+4oDt/WoN+euSYJ/f5cRIeaqwfqjk=;
+ b=ieIOAr8HNLLtlb8r0AtADzD4TOJ3EunLDP0szmWkl6gNT4l/61epbPh6IeFOsI28QP
+ +/zoXhiFdsr3yndTGBIlPWbJ8YCM8XR+ka6gnB2V0+fU3FPV8MSacZlwpIk1WQSBUHn2
+ MFqSCkiOqIJRsnViKmNhVxbMoyk+sWz2OVfT0hIqea8a6mEPMhoAjO7BMZmmAyBPDsWI
+ gWrea2NFSwa8/CkynD1r6DNG770mSrgGHd3eJu+nVYIsSWVyIO3iY5+cGHFGf3ZFUq7t
+ hr+/vrY8PsRq8xg4UWqWJxv757K9YQ+bVfBTG+XpTntTMQSA3bNONxwrplH1y2RZcj2X
+ KH5g==
+X-Gm-Message-State: AOJu0Yyc0rSLa488/bGK86K2poHvX/NH5Cr/KM2TIqHgwPOVHpsE4lf5
+ j66CZtIgKvl7C+U6fEzDqm4FvlOXf/uLK4A3bHczF/iwkbOnnwa8p79pDMPaGrTPWP2KZi0CjEv
+ IYVmVMdlQeA==
+X-Google-Smtp-Source: AGHT+IFZySJWx+sJiH1D/tqRLGTEXs/l+QZVWepQz6m1RRZuOBSja+jh8SjmiG4dW0L1Nwzda60ddfO2GObytg==
 X-Received: from szatan.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:2d83])
- (user=panikiel job=sendgmr) by 2002:a05:600c:4c96:b0:410:bb99:7ea2 with SMTP
- id g22-20020a05600c4c9600b00410bb997ea2mr35246wmp.3.1707743673486; Mon, 12
- Feb 2024 05:14:33 -0800 (PST)
-Date: Mon, 12 Feb 2024 13:13:21 +0000
+ (user=panikiel job=sendgmr) by 2002:a05:6000:a16:b0:33b:6489:a97d with SMTP
+ id co22-20020a0560000a1600b0033b6489a97dmr13629wrb.14.1707743675651; Mon, 12
+ Feb 2024 05:14:35 -0800 (PST)
+Date: Mon, 12 Feb 2024 13:13:22 +0000
 In-Reply-To: <20240212131323.2162161-1-panikiel@google.com>
 Mime-Version: 1.0
 References: <20240212131323.2162161-1-panikiel@google.com>
 X-Mailer: git-send-email 2.43.0.687.g38aa6559b0-goog
-Message-ID: <20240212131323.2162161-8-panikiel@google.com>
-Subject: [PATCH 7/9] media: dt-bindings: Add Chameleon v3 framebuffer
+Message-ID: <20240212131323.2162161-9-panikiel@google.com>
+Subject: [PATCH 8/9] media: dt-bindings: Add Intel Displayport RX IP
 From: "=?UTF-8?q?Pawe=C5=82=20Anikiel?=" <panikiel@google.com>
 To: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org, 
  daniel@ffwll.ch, dinguyen@kernel.org, hverkuil-cisco@xs4all.nl, 
@@ -85,37 +85,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Chameleon v3 uses the framebuffer IP core to take the video signal
-from different sources and directly write frames into memory.
+The Intel Displayport RX IP is a part of the DisplayPort Intel FPGA IP
+Core. It implements a DisplayPort 1.4 receiver capable of HBR3 video
+capture and Multi-Stream Transport. The user guide can be found here:
+
+https://www.intel.com/programmable/technical-pdfs/683273.pdf
 
 Signed-off-by: Pawe=C5=82 Anikiel <panikiel@google.com>
 ---
- .../bindings/media/google,chv3-fb.yaml        | 77 +++++++++++++++++++
- 1 file changed, 77 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/google,chv3-fb.=
-yaml
+ .../devicetree/bindings/media/intel,dprx.yaml | 125 ++++++++++++++++++
+ 1 file changed, 125 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/intel,dprx.yaml
 
-diff --git a/Documentation/devicetree/bindings/media/google,chv3-fb.yaml b/=
-Documentation/devicetree/bindings/media/google,chv3-fb.yaml
+diff --git a/Documentation/devicetree/bindings/media/intel,dprx.yaml b/Docu=
+mentation/devicetree/bindings/media/intel,dprx.yaml
 new file mode 100644
-index 000000000000..ba6643cc7232
+index 000000000000..3ed37e0a4a94
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/media/google,chv3-fb.yaml
-@@ -0,0 +1,77 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++++ b/Documentation/devicetree/bindings/media/intel,dprx.yaml
+@@ -0,0 +1,125 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/media/google,chv3-fb.yaml#
++$id: http://devicetree.org/schemas/media/intel,dprx.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Google Chameleon v3 video framebuffer
++title: Intel DisplayPort RX IP
 +
 +maintainers:
 +  - Pawe=C5=82 Anikiel <panikiel@google.com>
 +
 +properties:
 +  compatible:
-+    const: google,chv3-fb
++    const: intel,dprx
 +
 +  reg:
 +    items:
@@ -125,20 +127,33 @@ index 000000000000..ba6643cc7232
 +  interrupts:
 +    maxItems: 1
 +
-+  google,legacy-format:
++  intel,has-mst:
 +    type: boolean
-+    description: The incoming video stream is in 32-bit padded mode.
-+
-+  google,no-endpoint:
-+    type: boolean
-+    description:
-+      The framebuffer isn't connected to a controllable endpoint.
-+      The video interface still works, but EDID control is unavailable
-+      and DV timing information only reports the active video width/height=
-.
++    description: The device supports Multi-Stream Transport
 +
 +  port:
 +    $ref: /schemas/graph.yaml#/properties/port
++    description: SST main link
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: MST virtual channel 0 or SST main link
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: MST virtual channel 1
++
++      port@2:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: MST virtual channel 2
++
++      port@3:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: MST virtual channel 3
 +
 +required:
 +  - compatible
@@ -147,10 +162,12 @@ index 000000000000..ba6643cc7232
 +
 +allOf:
 +  - if:
-+      not:
-+        required:
-+          - google,no-endpoint
++      required:
++        - intel,has-mst
 +    then:
++      required:
++        - ports
++    else:
 +      required:
 +        - port
 +
@@ -158,25 +175,57 @@ index 000000000000..ba6643cc7232
 +
 +examples:
 +  - |
-+    video@c0060500 {
-+        compatible =3D "google,chv3-fb";
-+        reg =3D <0xc0060500 0x100>,
-+              <0xc0060f20 0x10>;
-+        interrupts =3D <GIC_SPI 19 IRQ_TYPE_LEVEL_HIGH>;
-+        google,legacy-format;
-+        google,no-endpoint;
++    dprx@c0062000 {
++        compatible =3D "intel,dprx";
++        reg =3D <0xc0062000 0x800>,
++              <0xc0060f80 0x10>;
++        interrupts =3D <GIC_SPI 27 IRQ_TYPE_LEVEL_HIGH>;
++        intel,has-mst;
++
++        ports {
++            #address-cells =3D <1>;
++            #size-cells =3D <0>;
++
++            port@0 {
++                reg =3D <0>;
++                dprx_mst_0: endpoint {
++                    remote-endpoint =3D <&fb_mst0_0>;
++                };
++            };
++
++            port@1 {
++                reg =3D <1>;
++                dprx_mst_1: endpoint {
++                    remote-endpoint =3D <&fb_mst1_0>;
++                };
++            };
++
++            port@2 {
++                reg =3D <2>;
++                dprx_mst_2: endpoint {
++                    remote-endpoint =3D <&fb_mst2_0>;
++                };
++            };
++
++            port@3 {
++                reg =3D <3>;
++                dprx_mst_3: endpoint {
++                    remote-endpoint =3D <&fb_mst3_0>;
++                };
++            };
++        };
 +    };
 +
 +  - |
-+    video@c0060600 {
-+        compatible =3D "google,chv3-fb";
-+        reg =3D <0xc0060600 0x100>,
-+              <0xc0060f30 0x10>;
-+        interrupts =3D <GIC_SPI 22 IRQ_TYPE_LEVEL_HIGH>;
++    dprx@c0064000 {
++        compatible =3D "intel,dprx";
++        reg =3D <0xc0064000 0x800>,
++              <0xc0060fe0 0x10>;
++        interrupts =3D <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
 +
 +        port {
-+            fb_mst0_0: endpoint {
-+                remote-endpoint =3D <&dprx_mst_0>;
++            dprx_sst_0: endpoint {
++                remote-endpoint =3D <&fb_sst_0>;
 +            };
 +        };
 +    };
