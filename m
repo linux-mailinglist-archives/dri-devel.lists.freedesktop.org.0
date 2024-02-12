@@ -2,76 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B010D851F76
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 22:20:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9635A8520CB
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 22:55:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 546CB10E705;
-	Mon, 12 Feb 2024 21:20:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59E0F10E02F;
+	Mon, 12 Feb 2024 21:55:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LWnumCJz";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VKlJW4F8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com
- [209.85.219.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEC2210E665
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 21:20:49 +0000 (UTC)
-Received: by mail-yb1-f182.google.com with SMTP id
- 3f1490d57ef6-dc74e33fe1bso3607034276.0
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 13:20:49 -0800 (PST)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
+ [209.85.210.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A18110E02F
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 21:55:47 +0000 (UTC)
+Received: by mail-pf1-f173.google.com with SMTP id
+ d2e1a72fcca58-6e09a890341so1502515b3a.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 13:55:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1707772848; x=1708377648; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=iV9U9eXYCJcvJrj6H/0WsRlgw1HkWWp0lw6ZqsXTu3w=;
- b=LWnumCJzk1pToX8r4cU60U6CjKfYbPJW7fBP5g5EfPXqeTza0TjrwieQrVDYZeLsIa
- rGF2QmFOzPfVTZ6NVomkvJ4rX/iv9XAqpFgWGOyTo+pX5Jfppydfng6AAFvYnLR2Isv2
- a+DN4QdQHnFEHyG/fzcFzD6KTQyxip0f0iriHnDjbePi3btJb6zcgh+oSIbfIy19KCaZ
- 7Ay4yLCgK1jGbASwPsOrhp1NyvAt1IqTXMDSxCkdrxt04VEOq4w0Zn9TXuRsAqEOBYRO
- KGcalWzv3jMjG+6LTxRx5dR12RH86imGl1Jta4NbNM8dsUBQDrqLCSXFlySgcVm9CWG4
- idnQ==
+ d=gmail.com; s=20230601; t=1707774945; x=1708379745; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Hsqc1DvmmxB3axNP5BMsYZJAEgwUf5CF4YmTNlqSGbA=;
+ b=VKlJW4F8Zu5lVGgBLKKaIp3f+2E5QP2Ru8/6wbY6TYk5j+aVTTUaffycTxeydrc/fj
+ EFmHN8rKLY4dMO67JTwYulX7FcN8ifqacI7KaPpm5I2BoZwrQzaOHQ7E/oASJ0rrTLJf
+ 1kqYeQGeYlkmYvW+1hBe2tn36wtU0/99YTg8/I4mTcZqj2yL67z0ZdmMMWxayqDiP0k5
+ kcp+ebI8kLmxLlY2c4dWTVJP5LST9f27GgxKqxIu7M9/anUaH1qayMRYOa0PRcaMCmSE
+ C2Hmko2xJGNSwPUkyUVw0ElwVa3PGnFU4jw9E0eIudGQWQPLTM1VRpSlhNk4fr39sLjg
+ Dr2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707772848; x=1708377648;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1707774945; x=1708379745;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=iV9U9eXYCJcvJrj6H/0WsRlgw1HkWWp0lw6ZqsXTu3w=;
- b=u+VLn/enot+BA5nnCCx6NwF4quJYNrI3ACe5HX915shZDJQI2JVjXk+e/5aKXpa1f1
- TaDh3pF/6SikZ02xw/dHn5g4pWnAZFJGWMK+B70cYyQIS/oqUKiU54VyHyctf1rSkASL
- 57cpx1RvKjod3QeWn43Rq9l2g7r7I9sszb9vY6jij1onmnesfnlbuePZDKqbCgZQc7Oh
- xYbGlaVdR/CSWm5drxXnSQDOcyCnd+gIuDd2VHP5GPSOmXKJgbQ48GNz01klNTk1ZBjr
- 6THmtX3L40xKsUs7Mg0cz8AQVGO0zHVuM9po/76BK1jD/z0Bc0G1YLDVGH3u1iD+jOIs
- bN6w==
+ bh=Hsqc1DvmmxB3axNP5BMsYZJAEgwUf5CF4YmTNlqSGbA=;
+ b=mWD278ENBCeJ1z7ScUcb4qkTngTzK/qgPIlpBcKj4nGl1YhTHomtfAXQyDFpphCRsK
+ 3EruUZ/UtNVWowKwaPz/6E5S//h2/CnWw8S83Hjvj1UORTcfj40a29XnGo9s77fK4euQ
+ hCm8gMrObKKJHeWDSxXCH2Y/WlrmwnuEEMxkqQCPo9hHf5HUIwVy4TogFD+6Q/zte4jY
+ h0/vbgUEYLbhYuciEdmCrmrBvNgBGdKst8uiwYI7yXURTWTkpoHv7PDwSHVZqpQj34RE
+ MR79QkoYxqQdee24DhofMJPCcrH81W13oua1spiZ06GBi/ya4BaQASl6ezLBl9rNSV+9
+ 74jQ==
+X-Gm-Message-State: AOJu0YwNI1/7fSDTuDnWs66LekoIInU5iDA06Y9xYciZ7S5pynRoPTLv
+ h2ZiJHyEdO6i8Xdslow34cfcGF23QzrTwD18Gmtou/b9glg3enfB4Rors9la
+X-Google-Smtp-Source: AGHT+IHj0WR5Hcj8YnPlvwL3CWPRbYDSlTvLoG6xlnQ2L0rpNKUIXQY5hf+J5qTYTqzkRqu0OnLLOw==
+X-Received: by 2002:a62:8104:0:b0:6e0:ce45:d781 with SMTP id
+ t4-20020a628104000000b006e0ce45d781mr4163831pfd.16.1707774945160; 
+ Mon, 12 Feb 2024 13:55:45 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCVmcrsXSwd4vogQkEvFfiWX4SuRqVHgunBlNLh+m6h95OzQV5ELLzkYolU54ZfcZ1NYiD1Yb8HM3oYFov7PAVWkYAYXjRZrrglA/Q+sEubp
-X-Gm-Message-State: AOJu0Yx/YX4sLkkAg3pBhqZGStAzrOwtg4/WsHS+ZmJNbkq/4ezM39Fq
- U7/Q8uYWCgkPNh9LkqMbxEIchzPY7mjFeFIgi3+1SqQ1smTyNgpeSnGNPleCcVaKn8BohMSpAMM
- eixCjd/eN9wViPmf/sp1Qnj5dVaHv2o5Z5rzH1Q==
-X-Google-Smtp-Source: AGHT+IESmQ7wY2Dyevaw+NSSNF8ORzP3IV5t3PljHIorAJTXf9UszM0B7+uTaQmBATW5GJM+KBdolgUJ9P3K+CL8P/c=
-X-Received: by 2002:a25:b11a:0:b0:dcc:32cb:cb3b with SMTP id
- g26-20020a25b11a000000b00dcc32cbcb3bmr657729ybj.44.1707772848660; Mon, 12 Feb
- 2024 13:20:48 -0800 (PST)
+ AJvYcCViaMU7RDTULr51gacAoII6GxPSl9070X2jrfpZ4ePcCBd1Goqto+8N6lV2b4AqT324A0uKvwTqU1GRhYPx9NcDC3TlDc/qbwLTe/47kMpxnnyIxnzJnsrkBi4MjXuiKBbTGgfRn6AbD0xett601m4qicEJgBFx4TCt+u8nTWsP2SCKorkkIsu/EqMwJT0CdYQ5innk83OfUJgBcTbRYEZv1JopsOkqCp7y2nmJwNbeloE8TSOF8hSYNKjkyihP7BWjpKnIpkoFUeBhzwhD8bCCUGBN
+Received: from localhost ([2a00:79e1:2e00:1301:e1c5:6354:b45d:8ffc])
+ by smtp.gmail.com with ESMTPSA id
+ r18-20020a62e412000000b006e03ab56acbsm5977451pfh.217.2024.02.12.13.55.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Feb 2024 13:55:43 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@intel.com>,
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] drm/crtc: fix uninitialized variable use even harder
+Date: Mon, 12 Feb 2024 13:55:34 -0800
+Message-ID: <20240212215534.190682-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20240210015223.24670-1-quic_parellan@quicinc.com>
- <20240210015223.24670-20-quic_parellan@quicinc.com>
- <CAA8EJpq15w_Gjx+rPzN8vBg5Z8PGzABAztqmLpfnafuvNVLmRw@mail.gmail.com>
- <56e521ab-ae57-9296-59a1-0bdbad60f882@quicinc.com>
- <CAA8EJprUeJvL_mP0x19YQCdTbErzy-RRF6GmSOK_eApsRiTALw@mail.gmail.com>
- <04df55f1-9430-727b-426b-81d762b3b2e6@quicinc.com>
-In-Reply-To: <04df55f1-9430-727b-426b-81d762b3b2e6@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 12 Feb 2024 23:20:33 +0200
-Message-ID: <CAA8EJpqZT+Z-1oH6pRs05kZj16XdUyzi15ko3W3cS1DGC36pew@mail.gmail.com>
-Subject: Re: [PATCH v2 19/19] drm/msm/dp: allow YUV420 mode for DP connector
- when CDM available
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Paloma Arellano <quic_parellan@quicinc.com>,
- freedreno@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- robdclark@gmail.com, seanpaul@chromium.org, swboyd@chromium.org, 
- quic_jesszhan@quicinc.com, quic_khsieh@quicinc.com, 
- marijn.suijten@somainline.org, neil.armstrong@linaro.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,136 +84,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 12 Feb 2024 at 23:13, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 2/10/2024 1:17 PM, Dmitry Baryshkov wrote:
-> > On Sat, 10 Feb 2024 at 21:19, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >>
-> >>
-> >>
-> >> On 2/10/2024 3:33 AM, Dmitry Baryshkov wrote:
-> >>> On Sat, 10 Feb 2024 at 03:52, Paloma Arellano <quic_parellan@quicinc.com> wrote:
-> >>>>
-> >>>> All the components of YUV420 over DP are added. Therefore, let's mark the
-> >>>> connector property as true for DP connector when the DP type is not eDP
-> >>>> and when there is a CDM block available.
-> >>>>
-> >>>> Changes in v2:
-> >>>>           - Check for if dp_catalog has a CDM block available instead of
-> >>>>             checking if VSC SDP is allowed when setting the dp connector's
-> >>>>             ycbcr_420_allowed parameter
-> >>>>
-> >>>> Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
-> >>>> ---
-> >>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 4 +++-
-> >>>>    drivers/gpu/drm/msm/dp/dp_display.c     | 4 ++--
-> >>>>    drivers/gpu/drm/msm/dp/dp_drm.c         | 8 ++++++--
-> >>>>    drivers/gpu/drm/msm/dp/dp_drm.h         | 3 ++-
-> >>>>    drivers/gpu/drm/msm/msm_drv.h           | 5 +++--
-> >>>>    5 files changed, 16 insertions(+), 8 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> >>>> index 723cc1d821431..beeaabe499abf 100644
-> >>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> >>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> >>>> @@ -565,6 +565,7 @@ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
-> >>>>    {
-> >>>>           struct drm_encoder *encoder = NULL;
-> >>>>           struct msm_display_info info;
-> >>>> +       bool yuv_supported;
-> >>>>           int rc;
-> >>>>           int i;
-> >>>>
-> >>>> @@ -583,7 +584,8 @@ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
-> >>>>                           return PTR_ERR(encoder);
-> >>>>                   }
-> >>>>
-> >>>> -               rc = msm_dp_modeset_init(priv->dp[i], dev, encoder);
-> >>>> +               yuv_supported = !!(dpu_kms->catalog->cdm);
-> >>>
-> >>> Drop parentheses please.
-> >>>
-> >>>> +               rc = msm_dp_modeset_init(priv->dp[i], dev, encoder, yuv_supported);
-> >>>>                   if (rc) {
-> >>>>                           DPU_ERROR("modeset_init failed for DP, rc = %d\n", rc);
-> >>>>                           return rc;
-> >>>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> >>>> index ebcc76ef1d590..9b9f5f2921903 100644
-> >>>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> >>>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> >>>> @@ -1471,7 +1471,7 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
-> >>>>    }
-> >>>>
-> >>>>    int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
-> >>>> -                       struct drm_encoder *encoder)
-> >>>> +                       struct drm_encoder *encoder, bool yuv_supported)
-> >>>>    {
-> >>>>           struct dp_display_private *dp_priv;
-> >>>>           int ret;
-> >>>> @@ -1487,7 +1487,7 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
-> >>>>                   return ret;
-> >>>>           }
-> >>>>
-> >>>> -       dp_display->connector = dp_drm_connector_init(dp_display, encoder);
-> >>>> +       dp_display->connector = dp_drm_connector_init(dp_display, encoder, yuv_supported);
-> >>>>           if (IS_ERR(dp_display->connector)) {
-> >>>>                   ret = PTR_ERR(dp_display->connector);
-> >>>>                   DRM_DEV_ERROR(dev->dev,
-> >>>> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-> >>>> index 46e6889037e88..ab0d0d13b5e2c 100644
-> >>>> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
-> >>>> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-> >>>> @@ -353,7 +353,8 @@ int dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
-> >>>>    }
-> >>>>
-> >>>>    /* connector initialization */
-> >>>> -struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display, struct drm_encoder *encoder)
-> >>>> +struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display, struct drm_encoder *encoder,
-> >>>> +                                           bool yuv_supported)
-> >>>>    {
-> >>>>           struct drm_connector *connector = NULL;
-> >>>>
-> >>>> @@ -361,8 +362,11 @@ struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display, struct dr
-> >>>>           if (IS_ERR(connector))
-> >>>>                   return connector;
-> >>>>
-> >>>> -       if (!dp_display->is_edp)
-> >>>> +       if (!dp_display->is_edp) {
-> >>>>                   drm_connector_attach_dp_subconnector_property(connector);
-> >>>> +               if (yuv_supported)
-> >>>> +                       connector->ycbcr_420_allowed = true;
-> >>>
-> >>> Is there any reason to disallow YUV420 for eDP connectors?
-> >>>
-> >>>> +       }
-> >>>>
-> >>
-> >> Major reason was certainly validation but thinking about it more
-> >> closely, I need to check whether CDM over eDP is even possible.
-> >>
-> >> Historically, CDM could output only to HDMI OR WB using the bit we
-> >> program while setting up CDM and the same HDMI path is being used by DP
-> >> as well. But I need to check whether CDM can even output to eDP with the
-> >> same DP path. I dont have any documentation on this part yet.
-> >
-> > I had the feeling that the DP / eDP difference on the chips is mostly
-> > on the PHY and software side. So I assumed that it should be possible
-> > to output YUV data to the eDP port in the same way as it is done for
-> > the DP port.
-> >
->
-> This is true. I was not worried about DP / eDP controller but mostly
-> whether eDP spec really allows YUV. From what I can read, it does.
->
-> So this check shall remain only because CDM has not been validated with eDP.
->
-> Do you need a TODO here and if we ever get a eDP panel which supports
-> that, we can validate and relax this.
+From: Rob Clark <robdclark@chromium.org>
 
-Just move it out of the eDP check.
+DRM_MODESET_LOCK_ALL_BEGIN() has a hidden trap-door (aka retry loop),
+which means we can't rely too much on variable initializers.
 
+Fixes: 6e455f5dcdd1 ("drm/crtc: fix uninitialized variable use")
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+I have mixed feelings about DRM_MODESET_LOCK_ALL_BEGIN() (and friends)
+magic.  On one hand it simplifies the deadlock/back dance.  OTOH it
+conceals a nasty sharp edge.  Maybe it is better to have the complicated
+restart path a bit more explicit, like it was originally.
+
+ drivers/gpu/drm/drm_crtc.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+index cb90e70d85e8..65f9f66933bb 100644
+--- a/drivers/gpu/drm/drm_crtc.c
++++ b/drivers/gpu/drm/drm_crtc.c
+@@ -904,6 +904,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
+ 	connector_set = NULL;
+ 	fb = NULL;
+ 	mode = NULL;
++	num_connectors = 0;
+ 
+ 	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+ 
 -- 
-With best wishes
-Dmitry
+2.43.0
+
