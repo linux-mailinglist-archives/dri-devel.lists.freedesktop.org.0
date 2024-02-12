@@ -2,48 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EC71851391
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 13:31:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 997358513B6
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 13:44:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF6FE10E681;
-	Mon, 12 Feb 2024 12:31:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A3B810E125;
+	Mon, 12 Feb 2024 12:44:37 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IN3hfphm";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6F4D410E6CF
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 12:31:12 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 45020DA7
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 04:31:53 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 92CC43F7BD
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 04:31:11 -0800 (PST)
-Date: Mon, 12 Feb 2024 12:31:09 +0000
-From: Liviu Dudau <Liviu.Dudau@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- "Marty E . Plummer" <hanetzer@startmail.com>,
- Rob Herring <robh@kernel.org>,
- =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
- Nicolas Boichat <drinkcat@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Faith Ekstrand <faith.ekstrand@collabora.com>,
- Daniel Stone <daniels@collabora.com>, Steven Price <steven.price@arm.com>,
- Robin Murphy <robin.murphy@arm.com>, kernel@collabora.com,
- Heiko Stuebner <heiko@sntech.de>, Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
- Chris Diamand <chris.diamand@foss.arm.com>,
- Ketil Johnsen <ketil.johnsen@arm.com>,
- Grant Likely <grant.likely@linaro.org>
-Subject: Re: [PATCH v4 05/14] drm/panthor: Add GEM logical block
-Message-ID: <ZcoPjTRAhotaIpoF@e110455-lin.cambridge.arm.com>
-References: <20240122163047.1954733-1-boris.brezillon@collabora.com>
- <20240122163047.1954733-6-boris.brezillon@collabora.com>
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5330E10E125
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 12:44:35 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-51187830d6dso1117271e87.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 04:44:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1707741872; x=1708346672; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=XvN0mE8+X+sOTUoptopXTmTpNcPMMCKjy4OSqGx44gE=;
+ b=IN3hfphmeKNYrwjxBjeDEoLXAyCaBrhiZwF+Hi1f1Szedayp5Ich75qNmKdt5Mg4WT
+ XWYiX9JFTQfto8Lu59y62z4s/6CcjvK/VyT7UdBTI+yyXUlSBEOnEJNd0T5GVvGK0Eph
+ dWcRubcQNL7o6pNZWz5maqIAOaiREHJJmS2SDiTD2RfNbdyaIwB3G2D3jlZ26HlNRU4A
+ jJqXiNZf8YcmN+M7VSgsM7fAV+Itu2JoGFmraB3C483gq4UfPKie5EmL2wBZhibd871U
+ 8QM349Fe5X7uL/L6V6XdMhdbGC9/JZ7sNocP3eb1bGPvJkts5CAlK/qrOx2ikkXF7fL0
+ 8I3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707741872; x=1708346672;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=XvN0mE8+X+sOTUoptopXTmTpNcPMMCKjy4OSqGx44gE=;
+ b=K5rrXjxP1xfRYvHM+X0KSAyQ+dQFsls45Vn3/pwiXv29CyJTcGmGpeROnU9UOBOW6R
+ 6VvYMLZg9xuS10+88I+l4toRhmhurUoWdjDhG+07wbCYB9G+mAwur7zCMDeoAcoULhtS
+ QmMwpl/PT3guxYDFJ7X49FiaDn86UAJUtKsSUJMgNQcU0XqZrK/LafzBvubHEmGwH+ZD
+ h7X7FYnjjkP3fq/WV3FHs8Mx9VsKN3fw+ZAK+KkpoCyz17u7M62/2JTIhvzKTBbZgqCu
+ NYmtanxh3TYPvZPlELP/bvPvyfG6+KDnV5xbN4YtbE7liXOvLGEUphIlwRU3ORch/u6F
+ 2eOA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXFwpltVp9bsE/jQvi2LZZQJkViJnMd2aNB0NWMwVOvlFh2tKuvLeQW8PqdHSzhjpghgX8v88qlyCOY34KEBQ5g2N37nMfeBYeJ2wx0MZr/
+X-Gm-Message-State: AOJu0YxG+hg2+k2ctlg+xFtv0qskqZz2dj3yaMxen684zQGa5rn/hrXk
+ 04TPMzeXaPtLaLW6ziHqmjp3UaK4HycF6DzzOfqI8F8Wz4xpijPgRCPV33YYUYE=
+X-Google-Smtp-Source: AGHT+IECaQR8SxGdAuBdoh2ITf4ZKxq5Ebe9H8QzZh9YQ3kzq6zuiVOl/DFf3eiPYe3IBXg8A7rqMw==
+X-Received: by 2002:a05:6512:12cc:b0:511:86f8:f6a9 with SMTP id
+ p12-20020a05651212cc00b0051186f8f6a9mr3076899lfg.22.1707741872466; 
+ Mon, 12 Feb 2024 04:44:32 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXQsyLmcNz7AYCWiLFIm8eWdCgWxh+lwKbempYrtW3ICNHWg++T6oOCAsu15mIwbSj7xBE5Pml36z949yFxdSfbFZiOJHiSd2jMydY2g0oJNeQb3u0ojclTjj/XA2C6BydwAX5Q441VrduzhUdJlOuZB3hd1Mhu8CFIqwY2KC5ggXBixcxSjrWAOOt8IA/2aJu461D76jqi5nX48TALXh322aRUgGDRcmslPG9Mnlezh9zHHqhO/wDGkJefoc1aCgdO6iO+XygCM3w2dt7QyWon1GSITb66+vzDNlKwG8Ti1so6E8m9Zn2+m0CdUgSoV1zPZGZkGDmlOBROoPt9dXJWJIfYs/sTLnrTxbMVr12ASfOEKLTUG/khxdb94p9GDw8ToaLtpn6BqfkWIRFfsJwhJrF8FsZA4i2PAHhpwjNLA8RpGjtpWA==
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ 7-20020a05600c248700b0040fddaf9ff4sm8470964wms.40.2024.02.12.04.44.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Feb 2024 04:44:30 -0800 (PST)
+Date: Mon, 12 Feb 2024 12:44:28 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>,
+ Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Arnd Bergmann <arnd@arndb.de>, Flavio Suligoi <f.suligoi@asem.it>,
+ Hans de Goede <hdegoede@redhat.com>, Jianhua Lu <lujianhua000@gmail.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] backlight: ktd2801: fix LED dependency
+Message-ID: <20240212124428.GB4593@aspen.lan>
+References: <20240212111819.936815-1-arnd@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240122163047.1954733-6-boris.brezillon@collabora.com>
+In-Reply-To: <20240212111819.936815-1-arnd@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,434 +92,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 22, 2024 at 05:30:36PM +0100, Boris Brezillon wrote:
-> Anything relating to GEM object management is placed here. Nothing
-> particularly interesting here, given the implementation is based on
-> drm_gem_shmem_object, which is doing most of the work.
-> 
-> v4:
-> - Force kernel BOs to be GPU mapped
-> - Make panthor_kernel_bo_destroy() robust against ERR/NULL BO pointers
->   to simplify the call sites
-> 
-> v3:
-> - Add acks for the MIT/GPL2 relicensing
-> - Provide a panthor_kernel_bo abstraction for buffer objects managed by
->   the kernel (will replace panthor_fw_mem and be used everywhere we were
->   using panthor_gem_create_and_map() before)
-> - Adjust things to match drm_gpuvm changes
-> - Change return of panthor_gem_create_with_handle() to int
-> 
-> Co-developed-by: Steven Price <steven.price@arm.com>
-> Signed-off-by: Steven Price <steven.price@arm.com>
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Acked-by: Steven Price <steven.price@arm.com> # MIT+GPL2 relicensing,Arm
-> Acked-by: Grant Likely <grant.likely@linaro.org> # MIT+GPL2 relicensing,Linaro
-> Acked-by: Boris Brezillon <boris.brezillon@collabora.com> # MIT+GPL2 relicensing,Collabora
-
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-
+On Mon, Feb 12, 2024 at 12:18:12PM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> The new backlight driver unconditionally selects LEDS_EXPRESSWIRE, which
+> is in a different subsystem that may be disabled here:
+>
+> WARNING: unmet direct dependencies detected for LEDS_EXPRESSWIRE
+>   Depends on [n]: NEW_LEDS [=n] && GPIOLIB [=y]
+>   Selected by [y]:
+>   - BACKLIGHT_KTD2801 [=y] && HAS_IOMEM [=y] && BACKLIGHT_CLASS_DEVICE [=y]
+>
+> Change the select to depends, to ensure the indirect dependency is
+> met as well even when LED support is disabled.
+>
+> Fixes: 66c76c1cd984 ("backlight: Add Kinetic KTD2801 backlight support")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  drivers/gpu/drm/panthor/panthor_gem.c | 228 ++++++++++++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_gem.h | 144 ++++++++++++++++
->  2 files changed, 372 insertions(+)
->  create mode 100644 drivers/gpu/drm/panthor/panthor_gem.c
->  create mode 100644 drivers/gpu/drm/panthor/panthor_gem.h
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> new file mode 100644
-> index 000000000000..42e342fcad19
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> @@ -0,0 +1,228 @@
-> +// SPDX-License-Identifier: GPL-2.0 or MIT
-> +/* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
-> +/* Copyright 2023 Collabora ltd. */
-> +
-> +#include <linux/err.h>
-> +#include <linux/slab.h>
-> +#include <linux/dma-buf.h>
-> +#include <linux/dma-mapping.h>
-> +
-> +#include <drm/panthor_drm.h>
-> +
-> +#include "panthor_device.h"
-> +#include "panthor_gem.h"
-> +#include "panthor_mmu.h"
-> +
-> +static void panthor_gem_free_object(struct drm_gem_object *obj)
-> +{
-> +	struct panthor_gem_object *bo = to_panthor_bo(obj);
-> +	struct drm_gem_object *vm_root_gem = bo->exclusive_vm_root_gem;
-> +
-> +	drm_gem_free_mmap_offset(&bo->base.base);
-> +	mutex_destroy(&bo->gpuva_list_lock);
-> +	drm_gem_shmem_free(&bo->base);
-> +	drm_gem_object_put(vm_root_gem);
-> +}
-> +
-> +/**
-> + * panthor_kernel_bo_destroy() - Destroy a kernel buffer object
-> + * @vm: The VM this BO was mapped to.
-> + * @bo: Kernel buffer object to destroy. If NULL or an ERR_PTR(), the destruction
-> + * is skipped.
-> + */
-> +void panthor_kernel_bo_destroy(struct panthor_vm *vm,
-> +			       struct panthor_kernel_bo *bo)
-> +{
-> +	int ret;
-> +
-> +	if (IS_ERR_OR_NULL(bo))
-> +		return;
-> +
-> +	panthor_kernel_bo_vunmap(bo);
-> +
-> +	if (drm_WARN_ON(bo->obj->dev,
-> +			to_panthor_bo(bo->obj)->exclusive_vm_root_gem != panthor_vm_root_gem(vm)))
-> +		goto out_free_bo;
-> +
-> +	ret = panthor_vm_unmap_range(vm, bo->va_node.start,
-> +				     panthor_kernel_bo_size(bo));
-> +	if (ret)
-> +		goto out_free_bo;
-> +
-> +	panthor_vm_free_va(vm, &bo->va_node);
-> +	drm_gem_object_put(bo->obj);
-> +
-> +out_free_bo:
-> +	kfree(bo);
-> +}
-> +
-> +/**
-> + * panthor_kernel_bo_create() - Create and map a GEM object to a VM
-> + * @ptdev: Device.
-> + * @vm: VM to map the GEM to. If NULL, the kernel object is not GPU mapped.
-> + * @size: Size of the buffer object.
-> + * @bo_flags: Combination of drm_panthor_bo_flags flags.
-> + * @vm_map_flags: Combination of drm_panthor_vm_bind_op_flags (only those
-> + * that are related to map operations).
-> + * @gpu_va: GPU address assigned when mapping to the VM.
-> + * If gpu_va == PANTHOR_VM_KERNEL_AUTO_VA, the virtual address will be
-> + * automatically allocated.
-> + *
-> + * Return: A valid pointer in case of success, an ERR_PTR() otherwise.
-> + */
-> +struct panthor_kernel_bo *
-> +panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
-> +			 size_t size, u32 bo_flags, u32 vm_map_flags,
-> +			 u64 gpu_va)
-> +{
-> +	struct drm_gem_shmem_object *obj;
-> +	struct panthor_kernel_bo *kbo;
-> +	struct panthor_gem_object *bo;
-> +	int ret;
-> +
-> +	if (drm_WARN_ON(&ptdev->base, !vm))
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	kbo = kzalloc(sizeof(*kbo), GFP_KERNEL);
-> +	if (!kbo)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	obj = drm_gem_shmem_create(&ptdev->base, size);
-> +	if (IS_ERR(obj)) {
-> +		ret = PTR_ERR(obj);
-> +		goto err_free_bo;
-> +	}
-> +
-> +	bo = to_panthor_bo(&obj->base);
-> +	size = obj->base.size;
-> +	kbo->obj = &obj->base;
-> +	bo->flags = bo_flags;
-> +
-> +	ret = panthor_vm_alloc_va(vm, gpu_va, size, &kbo->va_node);
-> +	if (ret)
-> +		goto err_put_obj;
-> +
-> +	ret = panthor_vm_map_bo_range(vm, bo, 0, size, kbo->va_node.start, vm_map_flags);
-> +	if (ret)
-> +		goto err_free_va;
-> +
-> +	bo->exclusive_vm_root_gem = panthor_vm_root_gem(vm);
-> +	drm_gem_object_get(bo->exclusive_vm_root_gem);
-> +	bo->base.base.resv = bo->exclusive_vm_root_gem->resv;
-> +	return kbo;
-> +
-> +err_free_va:
-> +	panthor_vm_free_va(vm, &kbo->va_node);
-> +
-> +err_put_obj:
-> +	drm_gem_object_put(&obj->base);
-> +
-> +err_free_bo:
-> +	kfree(kbo);
-> +	return ERR_PTR(ret);
-> +}
-> +
-> +static int panthor_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
-> +{
-> +	struct panthor_gem_object *bo = to_panthor_bo(obj);
-> +
-> +	/* Don't allow mmap on objects that have the NO_MMAP flag set. */
-> +	if (bo->flags & DRM_PANTHOR_BO_NO_MMAP)
-> +		return -EINVAL;
-> +
-> +	return drm_gem_shmem_object_mmap(obj, vma);
-> +}
-> +
-> +static struct dma_buf *
-> +panthor_gem_prime_export(struct drm_gem_object *obj, int flags)
-> +{
-> +	/* We can't export GEMs that have an exclusive VM. */
-> +	if (to_panthor_bo(obj)->exclusive_vm_root_gem)
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	return drm_gem_prime_export(obj, flags);
-> +}
-> +
-> +static const struct drm_gem_object_funcs panthor_gem_funcs = {
-> +	.free = panthor_gem_free_object,
-> +	.print_info = drm_gem_shmem_object_print_info,
-> +	.pin = drm_gem_shmem_object_pin,
-> +	.unpin = drm_gem_shmem_object_unpin,
-> +	.get_sg_table = drm_gem_shmem_object_get_sg_table,
-> +	.vmap = drm_gem_shmem_object_vmap,
-> +	.vunmap = drm_gem_shmem_object_vunmap,
-> +	.mmap = panthor_gem_mmap,
-> +	.export = panthor_gem_prime_export,
-> +	.vm_ops = &drm_gem_shmem_vm_ops,
-> +};
-> +
-> +/**
-> + * panthor_gem_create_object - Implementation of driver->gem_create_object.
-> + * @ddev: DRM device
-> + * @size: Size in bytes of the memory the object will reference
-> + *
-> + * This lets the GEM helpers allocate object structs for us, and keep
-> + * our BO stats correct.
-> + */
-> +struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t size)
-> +{
-> +	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
-> +	struct panthor_gem_object *obj;
-> +
-> +	obj = kzalloc(sizeof(*obj), GFP_KERNEL);
-> +	if (!obj)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	obj->base.base.funcs = &panthor_gem_funcs;
-> +	obj->base.map_wc = !ptdev->coherent;
-> +	mutex_init(&obj->gpuva_list_lock);
-> +	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
-> +
-> +	return &obj->base.base;
-> +}
-> +
-> +/**
-> + * panthor_gem_create_with_handle() - Create a GEM object and attach it to a handle.
-> + * @file: DRM file.
-> + * @ddev: DRM device.
-> + * @exclusive_vm: Exclusive VM. Not NULL if the GEM object can't be shared.
-> + * @size: Size of the GEM object to allocate.
-> + * @flags: Combination of drm_panthor_bo_flags flags.
-> + * @handle: Pointer holding the handle pointing to the new GEM object.
-> + *
-> + * Return: Zero on success
-> + */
-> +int
-> +panthor_gem_create_with_handle(struct drm_file *file,
-> +			       struct drm_device *ddev,
-> +			       struct panthor_vm *exclusive_vm,
-> +			       size_t size,
-> +			       u32 flags, u32 *handle)
-> +{
-> +	int ret;
-> +	struct drm_gem_shmem_object *shmem;
-> +	struct panthor_gem_object *bo;
-> +
-> +	shmem = drm_gem_shmem_create(ddev, size);
-> +	if (IS_ERR(shmem))
-> +		return PTR_ERR(shmem);
-> +
-> +	bo = to_panthor_bo(&shmem->base);
-> +	bo->flags = flags;
-> +
-> +	if (exclusive_vm) {
-> +		bo->exclusive_vm_root_gem = panthor_vm_root_gem(exclusive_vm);
-> +		drm_gem_object_get(bo->exclusive_vm_root_gem);
-> +		bo->base.base.resv = bo->exclusive_vm_root_gem->resv;
-> +	}
-> +
-> +	/*
-> +	 * Allocate an id of idr table where the obj is registered
-> +	 * and handle has the id what user can see.
-> +	 */
-> +	ret = drm_gem_handle_create(file, &shmem->base, handle);
-> +	/* drop reference from allocate - handle holds it now. */
-> +	drm_gem_object_put(&shmem->base);
-> +
-> +	return ret;
-> +}
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-> new file mode 100644
-> index 000000000000..6c8010ceb641
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
-> @@ -0,0 +1,144 @@
-> +/* SPDX-License-Identifier: GPL-2.0 or MIT */
-> +/* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
-> +/* Copyright 2023 Collabora ltd. */
-> +
-> +#ifndef __PANTHOR_GEM_H__
-> +#define __PANTHOR_GEM_H__
-> +
-> +#include <drm/drm_gem_shmem_helper.h>
-> +#include <drm/drm_mm.h>
-> +
-> +#include <linux/iosys-map.h>
-> +#include <linux/rwsem.h>
-> +
-> +struct panthor_vm;
-> +
-> +/**
-> + * struct panthor_gem_object - Driver specific GEM object.
-> + */
-> +struct panthor_gem_object {
-> +	/** @base: Inherit from drm_gem_shmem_object. */
-> +	struct drm_gem_shmem_object base;
-> +
-> +	/**
-> +	 * @exclusive_vm_root_gem: Root GEM of the exclusive VM this GEM object
-> +	 * is attached to.
-> +	 *
-> +	 * If @exclusive_vm_root_gem != NULL, any attempt to bind the GEM to a
-> +	 * different VM will fail.
-> +	 *
-> +	 * All FW memory objects have this field set to the root GEM of the MCU
-> +	 * VM.
-> +	 */
-> +	struct drm_gem_object *exclusive_vm_root_gem;
-> +
-> +	/**
-> +	 * @gpuva_list_lock: Custom GPUVA lock.
-> +	 *
-> +	 * Used to protect insertion of drm_gpuva elements to the
-> +	 * drm_gem_object.gpuva.list list.
-> +	 *
-> +	 * We can't use the GEM resv for that, because drm_gpuva_link() is
-> +	 * called in a dma-signaling path, where we're not allowed to take
-> +	 * resv locks.
-> +	 */
-> +	struct mutex gpuva_list_lock;
-> +
-> +	/** @flags: Combination of drm_panthor_bo_flags flags. */
-> +	u32 flags;
-> +};
-> +
-> +/**
-> + * struct panthor_kernel_bo - Kernel buffer object.
-> + *
-> + * These objects are only manipulated by the kernel driver and not
-> + * directly exposed to the userspace. The GPU address of a kernel
-> + * BO might be passed to userspace though.
-> + */
-> +struct panthor_kernel_bo {
-> +	/**
-> +	 * @obj: The GEM object backing this kernel buffer object.
-> +	 */
-> +	struct drm_gem_object *obj;
-> +
-> +	/**
-> +	 * @va_node: VA space allocated to this GEM.
-> +	 */
-> +	struct drm_mm_node va_node;
-> +
-> +	/**
-> +	 * @kmap: Kernel CPU mapping of @gem.
-> +	 */
-> +	void *kmap;
-> +};
-> +
-> +static inline
-> +struct panthor_gem_object *to_panthor_bo(struct drm_gem_object *obj)
-> +{
-> +	return container_of(to_drm_gem_shmem_obj(obj), struct panthor_gem_object, base);
-> +}
-> +
-> +struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t size);
-> +
-> +struct drm_gem_object *
-> +panthor_gem_prime_import_sg_table(struct drm_device *ddev,
-> +				  struct dma_buf_attachment *attach,
-> +				  struct sg_table *sgt);
-> +
-> +int
-> +panthor_gem_create_with_handle(struct drm_file *file,
-> +			       struct drm_device *ddev,
-> +			       struct panthor_vm *exclusive_vm,
-> +			       size_t size,
-> +			       u32 flags,
-> +			       uint32_t *handle);
-> +
-> +static inline u64
-> +panthor_kernel_bo_gpuva(struct panthor_kernel_bo *bo)
-> +{
-> +	return bo->va_node.start;
-> +}
-> +
-> +static inline size_t
-> +panthor_kernel_bo_size(struct panthor_kernel_bo *bo)
-> +{
-> +	return bo->obj->size;
-> +}
-> +
-> +static inline int
-> +panthor_kernel_bo_vmap(struct panthor_kernel_bo *bo)
-> +{
-> +	struct iosys_map map;
-> +	int ret;
-> +
-> +	if (bo->kmap)
-> +		return 0;
-> +
-> +	ret = drm_gem_vmap_unlocked(bo->obj, &map);
-> +	if (ret)
-> +		return ret;
-> +
-> +	bo->kmap = map.vaddr;
-> +	return 0;
-> +}
-> +
-> +static inline void
-> +panthor_kernel_bo_vunmap(struct panthor_kernel_bo *bo)
-> +{
-> +	if (bo->kmap) {
-> +		struct iosys_map map = IOSYS_MAP_INIT_VADDR(bo->kmap);
-> +
-> +		drm_gem_vunmap_unlocked(bo->obj, &map);
-> +		bo->kmap = NULL;
-> +	}
-> +}
-> +
-> +struct panthor_kernel_bo *
-> +panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
-> +			 size_t size, u32 bo_flags, u32 vm_map_flags,
-> +			 u64 gpu_va);
-> +
-> +void panthor_kernel_bo_destroy(struct panthor_vm *vm,
-> +			       struct panthor_kernel_bo *bo);
-> +
-> +#endif /* __PANTHOR_GEM_H__ */
-> -- 
-> 2.43.0
-> 
+>  drivers/video/backlight/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+> index 230bca07b09d..f83f9ef037fc 100644
+> --- a/drivers/video/backlight/Kconfig
+> +++ b/drivers/video/backlight/Kconfig
+> @@ -185,7 +185,7 @@ config BACKLIGHT_KTD253
+>
+>  config BACKLIGHT_KTD2801
+>  	tristate "Backlight Driver for Kinetic KTD2801"
+> -	select LEDS_EXPRESSWIRE
+> +	depends on LEDS_EXPRESSWIRE
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+As far as I can tell this resolves the warning by making it impossible
+to enable BACKLIGHT_KTD2801 unless a largely unrelated driver
+(LEDS_KTD2692) is also enabled!
+
+A better way to resolve this problem might be to eliminate the NEW_LEDS
+dependency entirely:
+~~~
+diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+index 64bb2de237e95..a08816cde78ae 100644
+--- a/drivers/leds/Kconfig
++++ b/drivers/leds/Kconfig
+@@ -186,10 +186,6 @@ config LEDS_EL15203000
+          To compile this driver as a module, choose M here: the module
+          will be called leds-el15203000.
+
+-config LEDS_EXPRESSWIRE
+-       bool
+-       depends on GPIOLIB
+-
+ config LEDS_TURRIS_OMNIA
+        tristate "LED support for CZ.NIC's Turris Omnia"
+        depends on LEDS_CLASS_MULTICOLOR
+@@ -936,3 +932,10 @@ comment "Simple LED drivers"
+ source "drivers/leds/simple/Kconfig"
+
+ endif # NEW_LEDS
++
++# This is library code that is useful for LEDs but can be enable/disabled
++# independently of NEW_LEDS. In fact it must be independent so it can be
++# selected from other sub-systems.
++config LEDS_EXPRESSWIRE
++       bool
++       depends on GPIOLIB
+~~~
+
+Alternatively we could add a "depends on NEW_LEDS" alongside the
+existing select or just make LEDS_EXPRESSWIRE user selectable.
+
+It also looks like we should put back the GPIOLIB dependency to both
+ KTD2801 and KTD2692... and I'll take a mea-culpa for providing bad
+ advice during the review cycles!
+
+
+Daniel.
