@@ -2,132 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50244851240
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 12:30:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F2C2851279
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 12:41:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A16DA10EC8E;
-	Mon, 12 Feb 2024 11:30:18 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Y4HBa9Ws";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BF9A10ECA0;
+	Mon, 12 Feb 2024 11:41:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0919A10EC82
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 11:30:17 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-411a5a8653aso96945e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 03:30:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1707737415; x=1708342215; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Uxlapuek86W8/QXmwsjsmNOho8DTbK1Ty9+zFOy1tAQ=;
- b=Y4HBa9WskufWeaNAW++dx8BRMacewisjxlFaxWClNzwDaqXmExhD4m7/ohf4IxdJRV
- lyjj2nvEYPSxDCfEMlBPmDhy2FzZUL2HKzPXfxroWg0aXGr6qTDlDt+O8FzBJPtxS6wz
- cil7R+h0l5zbXCQfV9mKfmAa4R++Ot8FTHm7grDDt8Fqs05BidhZpJ5QddpzKpdB9IVl
- X2xwM0wn+Sw1WrUQdfTlQY5dcFUPRHMrOJWPtdQQiy9xG0EKnPT0RtskIXtC7qm+wAg/
- DMaRYToJj1ziVErPoaGYOhGGhQl/IIkpNh7trlGZ5UiipD3l6azPKrIS84K7e/FprXll
- ZtHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707737415; x=1708342215;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Uxlapuek86W8/QXmwsjsmNOho8DTbK1Ty9+zFOy1tAQ=;
- b=bxD5Z4/LbWjJo/crjNX/F62HYjBsylWvVLdRAY9J4DI5/4vlojEv5WxtkLjhGNX3H3
- YS+8XopAz74aX2UUjwXVNDLFJt5ll/GtFYft8nZf3t2mbExdK3WXrBpPzc5pBzLBP9gS
- EJjGfo0VrlPqZZdNhpDSrCh82X0PCMwquU5Emzen6kas+biD02B0A/lVrqQ2vcuBj8Ad
- GtijBzVjq7VPxRCpKRp1l1xystZ5hn151M+9a6XaqBjNrmaVmuODKvDtp+xZIDTq/VXv
- XPSmFzA2szTEkWH1WAtEzxOlnziTREpxoixw/Gbyt2r89KtEVcw9iJOb7GL2Jd2l0xVg
- L86A==
-X-Gm-Message-State: AOJu0YwtvjtM0mhBkU5LlFtpTGneAHDXN4lWf/Xw8mv4lXjYyQdq3xxy
- SrXhg5bBS6BM9klYi3WfVnDcgdMsAJQnREV3FgPBEN1Tyk2fSA47aEWbEkl98IU=
-X-Google-Smtp-Source: AGHT+IEfKLuLIfmv3xTAaNaH2Lc7dj+hd7wrkuABr7TaMAYdEoI3jbw6o+WR8PO0UM2K6JvhHnVM/Q==
-X-Received: by 2002:a05:600c:4f8e:b0:410:7897:6c68 with SMTP id
- n14-20020a05600c4f8e00b0041078976c68mr5287185wmq.3.1707737415301; 
- Mon, 12 Feb 2024 03:30:15 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCV7UfSCmLO/NnenfQwExOgJBtlEPCtR3iy28XqvihDZ/Pr1H0dFWyvckXzje+yQp3wk2+i74YqR6F8pPSmQy5lzvWoOQXhWcRqrtkokZINPnKZ5OWfrj6cr01AGvUjdVPJ0mUJO4MxwxVONCJqHPV8YU3ywOq56ZOT4cfeMCxZ9zrCfs0s0x7PmCYkr89QG9iCFOM/w16+nB+HwkQj4VZhLMsvha9C5UE26EBb24VtmJcVSD7R1Wm4aP+x/B2CuKz9YVWCzO/PKf0xDDQr5enZMS3K2CpANjdDorTRK34BIhGZecjiJo1QdaaTxa+XxWo0rFEs2gUu+x1XQvZu6HIDkyxPCqH10/y2SLTiQdHpzWBTMy1hECVsgL+gPG8EEoSOsA3b8hNvA8HbM9dRrh5egC1TwzIiNj7JWZCXuk5d5stYrihabVJByqDeLl15IqEpGKwE0QIcfHudkOHnYKGbvPP5aiIk+FYdscXjqh57hxlFa+GHrRvl0dwoh4bYFSLBBtevrtOAMhjbcDjFDxWrw+r/myVSp+y2ZEWBECHfL70yNHpuXJVlEvJRbOI3odfI+5RRHmfL4tj9LKoeDZ59KxJgqzhx3OgK65CBPCL8kqHZJEltw3uLMZHdjgZ8NGCRgpFHIOF7XwKg15qlYXMP7R19AwqBjPW0=
-Received: from [192.168.1.20] ([178.197.223.6])
- by smtp.gmail.com with ESMTPSA id
- dx9-20020a05600c63c900b0040d5ae2906esm8284156wmb.30.2024.02.12.03.30.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Feb 2024 03:30:14 -0800 (PST)
-Message-ID: <d6ecc1aa-419d-4f3c-8ba2-b124e5423293@linaro.org>
-Date: Mon, 12 Feb 2024 12:30:12 +0100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9A07B10ECA0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 11:40:58 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 07FE6DA7;
+ Mon, 12 Feb 2024 03:41:39 -0800 (PST)
+Received: from [10.57.64.31] (unknown [10.57.64.31])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CCC213F762;
+ Mon, 12 Feb 2024 03:40:53 -0800 (PST)
+Message-ID: <e43ec7bb-1104-40b4-a031-3b6fa7be1eb4@arm.com>
+Date: Mon, 12 Feb 2024 11:40:55 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 03/10] dt-bindings: display: bridge: tc358775: Add
- support for tc358765
-Content-Language: en-US
-To: Tony Lindgren <tony@atomide.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Simha BN <simhavcs@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Michael Walle <mwalle@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
-References: <20240211095144.2589-1-tony@atomide.com>
- <20240211095144.2589-4-tony@atomide.com>
- <adeb3ebb-76ed-4f00-8b46-a1b9c36cfc64@linaro.org>
- <20240212081744.GE5299@atomide.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240212081744.GE5299@atomide.com>
+Subject: Re: [PATCH v4 09/14] drm/panthor: Add the heap logical block
+Content-Language: en-GB
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel@ffwll.ch>,
+ "Marty E . Plummer" <hanetzer@startmail.com>, Rob Herring <robh@kernel.org>,
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+ Nicolas Boichat <drinkcat@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>,
+ Daniel Stone <daniels@collabora.com>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ Robin Murphy <robin.murphy@arm.com>, kernel@collabora.com,
+ Heiko Stuebner <heiko@sntech.de>, Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
+ Chris Diamand <chris.diamand@foss.arm.com>,
+ Ketil Johnsen <ketil.johnsen@arm.com>
+References: <20240122163047.1954733-1-boris.brezillon@collabora.com>
+ <20240122163047.1954733-10-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20240122163047.1954733-10-boris.brezillon@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -145,49 +58,718 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/02/2024 09:17, Tony Lindgren wrote:
-> * Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> [240212 08:06]:
->> On 11/02/2024 10:51, Tony Lindgren wrote:
->>> The tc358765 is similar to tc358775. The tc358765 just an earlier version
->>> of the hardware, and it's pin and register compatible with tc358775 for
->>> most part.
->>>
->>> From the binding point of view the only difference is that the tc358765
->>> does not have stdby-gpios.
->>>
->>> Signed-off-by: Tony Lindgren <tony@atomide.com>
->>> ---
->>
->> It does not look like you tested the bindings, at least after quick
->> look. Please run `make dt_binding_check` (see
->> Documentation/devicetree/bindings/writing-schema.rst for instructions).
->> Maybe you need to update your dtschema and yamllint.
+On 22/01/2024 16:30, Boris Brezillon wrote:
+> Tiler heap growing requires some kernel driver involvement: when the
+> tiler runs out of heap memory, it will raise an exception which is
+> either directly handled by the firmware if some free heap chunks are
+> available in the heap context, or passed back to the kernel otherwise.
+> The heap helpers will be used by the scheduler logic to allocate more
+> heap chunks to a heap context, when such a situation happens.
 > 
-> I did.. But I did not notice that this no longer works:
+> Heap context creation is explicitly requested by userspace (using
+> the TILER_HEAP_CREATE ioctl), and the returned context is attached to a
+> queue through some command stream instruction.
 > 
-> $ make dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
->   LINT    Documentation/devicetree/bindings
-> usage: yamllint [-h] [-] [-c CONFIG_FILE | -d CONFIG_DATA] [--list-files] [-f {parsable,standard,colored,github,auto}] [-s] [--no-warnings] [-v] [FILE_OR_DIR ...]
-> yamllint: error: one of the arguments FILE_OR_DIR - is required
->   CHKDT   Documentation/devicetree/bindings/processed-schema.json
->   SCHEMA  Documentation/devicetree/bindings/processed-schema.json
+> All the kernel does is keep the list of heap chunks allocated to a
+> context, so they can be freed when TILER_HEAP_DESTROY is called, or
+> extended when the FW requests a new chunk.
 > 
-> After removing the ">2&1" from the Makefile, there's some more info:
+> v4:
+> - Rework locking to allow concurrent calls to panthor_heap_grow()
+> - Add a helper to return a heap chunk if we couldn't pass it to the
+>   FW because the group was scheduled out
 > 
-> yamllint: error: one of the arguments FILE_OR_DIR - is required
+> v3:
+> - Add a FIXME for the heap OOM deadlock
+> - Use the panthor_kernel_bo abstraction for the heap context and heap
+>   chunks
+> - Drop the panthor_heap_gpu_ctx struct as it is opaque to the driver
+> - Ensure that the heap context is aligned to the GPU cache line size
+> - Minor code tidy ups
 > 
-> Where DT_SCHEMA_FILES ends up empty. I guess dt_binding_check needs
-> to be now run with just:
-> 
-> $ make dt_binding_check DT_SCHEMA_FILES=toshiba,tc358775.yaml
-> 
+> Co-developed-by: Steven Price <steven.price@arm.com>
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Yes, since June last year. Rob later brought (in July) backwards
-compatible way, but apparently something changed now in Makefile.
+It looks fine, but there's a confusing FIXME comment:
 
-Anyway full Linux path should be considered deprecated. The same for
-dtbs_check.
+> +	/* FIXME: panthor_alloc_heap_chunk() triggers a kernel BO creation, which
+> +	 * relies on blocking allocations (both for the BO itself, and backing
+> +	 * memory), which might cause a deadlock because we're called from a context
+> +	 * where we hold the panthor scheduler lock, thus preventing job cleanups
+> +	 * that could free up some memory. The jobs themselves will timeout, but
+> +	 * we'll still be blocked there. The only solution here is to implement
+> +	 * something similar to shmem_sg_alloc_table() in i915, so we can do
+> +	 * non-blocking allocations, and just kill the job when we run out-of-memory
+> +	 * for the tiler context.
+> +	 */
 
-Best regards,
-Krzysztof
+Whereas at the call site (group_process_tiler_oom()) there's the comment:
+
+> 		/* We do the allocation without holding the scheduler lock to avoid
+> 		 * blocking the scheduling.
+> 		 */
+
+AFAICT that FIXME comment can just be deleted now. Assuming you agree
+then with that change:
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+Thanks,
+Steve
+
+> ---
+>  drivers/gpu/drm/panthor/panthor_heap.c | 596 +++++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_heap.h |  39 ++
+>  2 files changed, 635 insertions(+)
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_heap.c
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_heap.h
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
+> new file mode 100644
+> index 000000000000..fac51c24b3e9
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panthor/panthor_heap.c
+> @@ -0,0 +1,596 @@
+> +// SPDX-License-Identifier: GPL-2.0 or MIT
+> +/* Copyright 2023 Collabora ltd. */
+> +
+> +#include <linux/iosys-map.h>
+> +#include <linux/rwsem.h>
+> +
+> +#include <drm/panthor_drm.h>
+> +
+> +#include "panthor_device.h"
+> +#include "panthor_gem.h"
+> +#include "panthor_heap.h"
+> +#include "panthor_mmu.h"
+> +#include "panthor_regs.h"
+> +
+> +/*
+> + * The GPU heap context is an opaque structure used by the GPU to track the
+> + * heap allocations. The driver should only touch it to initialize it (zero all
+> + * fields). Because the CPU and GPU can both access this structure it is
+> + * required to be GPU cache line aligned.
+> + */
+> +#define HEAP_CONTEXT_SIZE	32
+> +
+> +/**
+> + * struct panthor_heap_chunk_header - Heap chunk header
+> + */
+> +struct panthor_heap_chunk_header {
+> +	/**
+> +	 * @next: Next heap chunk in the list.
+> +	 *
+> +	 * This is a GPU VA.
+> +	 */
+> +	u64 next;
+> +
+> +	/** @unknown: MBZ. */
+> +	u32 unknown[14];
+> +};
+> +
+> +/**
+> + * struct panthor_heap_chunk - Structure used to keep track of allocated heap chunks.
+> + */
+> +struct panthor_heap_chunk {
+> +	/** @node: Used to insert the heap chunk in panthor_heap::chunks. */
+> +	struct list_head node;
+> +
+> +	/** @bo: Buffer object backing the heap chunk. */
+> +	struct panthor_kernel_bo *bo;
+> +};
+> +
+> +/**
+> + * struct panthor_heap - Structure used to manage tiler heap contexts.
+> + */
+> +struct panthor_heap {
+> +	/** @chunks: List containing all heap chunks allocated so far. */
+> +	struct list_head chunks;
+> +
+> +	/** @lock: Lock protecting insertion in the chunks list. */
+> +	struct mutex lock;
+> +
+> +	/** @chunk_size: Size of each chunk. */
+> +	u32 chunk_size;
+> +
+> +	/** @max_chunks: Maximum number of chunks. */
+> +	u32 max_chunks;
+> +
+> +	/**
+> +	 * @target_in_flight: Number of in-flight render passes after which
+> +	 * we'd let the FW wait for fragment job to finish instead of allocating new chunks.
+> +	 */
+> +	u32 target_in_flight;
+> +
+> +	/** @chunk_count: Number of heap chunks currently allocated. */
+> +	u32 chunk_count;
+> +};
+> +
+> +#define MAX_HEAPS_PER_POOL    128
+> +
+> +/**
+> + * struct panthor_heap_pool - Pool of heap contexts
+> + *
+> + * The pool is attached to a panthor_file and can't be shared across processes.
+> + */
+> +struct panthor_heap_pool {
+> +	/** @refcount: Reference count. */
+> +	struct kref refcount;
+> +
+> +	/** @ptdev: Device. */
+> +	struct panthor_device *ptdev;
+> +
+> +	/** @vm: VM this pool is bound to. */
+> +	struct panthor_vm *vm;
+> +
+> +	/** @lock: Lock protecting access to @xa. */
+> +	struct rw_semaphore lock;
+> +
+> +	/** @xa: Array storing panthor_heap objects. */
+> +	struct xarray xa;
+> +
+> +	/** @gpu_contexts: Buffer object containing the GPU heap contexts. */
+> +	struct panthor_kernel_bo *gpu_contexts;
+> +};
+> +
+> +static int panthor_heap_ctx_stride(struct panthor_device *ptdev)
+> +{
+> +	u32 l2_features = ptdev->gpu_info.l2_features;
+> +	u32 gpu_cache_line_size = GPU_L2_FEATURES_LINE_SIZE(l2_features);
+> +
+> +	return ALIGN(HEAP_CONTEXT_SIZE, gpu_cache_line_size);
+> +}
+> +
+> +static int panthor_get_heap_ctx_offset(struct panthor_heap_pool *pool, int id)
+> +{
+> +	return panthor_heap_ctx_stride(pool->ptdev) * id;
+> +}
+> +
+> +static void *panthor_get_heap_ctx(struct panthor_heap_pool *pool, int id)
+> +{
+> +	return pool->gpu_contexts->kmap +
+> +	       panthor_get_heap_ctx_offset(pool, id);
+> +}
+> +
+> +static void panthor_free_heap_chunk(struct panthor_vm *vm,
+> +				    struct panthor_heap *heap,
+> +				    struct panthor_heap_chunk *chunk)
+> +{
+> +	mutex_lock(&heap->lock);
+> +	list_del(&chunk->node);
+> +	heap->chunk_count--;
+> +	mutex_unlock(&heap->lock);
+> +
+> +	panthor_kernel_bo_destroy(vm, chunk->bo);
+> +	kfree(chunk);
+> +}
+> +
+> +static int panthor_alloc_heap_chunk(struct panthor_device *ptdev,
+> +				    struct panthor_vm *vm,
+> +				    struct panthor_heap *heap,
+> +				    bool initial_chunk)
+> +{
+> +	struct panthor_heap_chunk *chunk;
+> +	struct panthor_heap_chunk_header *hdr;
+> +	int ret;
+> +
+> +	chunk = kmalloc(sizeof(*chunk), GFP_KERNEL);
+> +	if (!chunk)
+> +		return -ENOMEM;
+> +
+> +	chunk->bo = panthor_kernel_bo_create(ptdev, vm, heap->chunk_size,
+> +					     DRM_PANTHOR_BO_NO_MMAP,
+> +					     DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
+> +					     PANTHOR_VM_KERNEL_AUTO_VA);
+> +	if (IS_ERR(chunk->bo)) {
+> +		ret = PTR_ERR(chunk->bo);
+> +		goto err_free_chunk;
+> +	}
+> +
+> +	ret = panthor_kernel_bo_vmap(chunk->bo);
+> +	if (ret)
+> +		goto err_destroy_bo;
+> +
+> +	hdr = chunk->bo->kmap;
+> +	memset(hdr, 0, sizeof(*hdr));
+> +
+> +	if (initial_chunk && !list_empty(&heap->chunks)) {
+> +		struct panthor_heap_chunk *prev_chunk;
+> +		u64 prev_gpuva;
+> +
+> +		prev_chunk = list_first_entry(&heap->chunks,
+> +					      struct panthor_heap_chunk,
+> +					      node);
+> +
+> +		prev_gpuva = panthor_kernel_bo_gpuva(prev_chunk->bo);
+> +		hdr->next = (prev_gpuva & GENMASK_ULL(63, 12)) |
+> +			    (heap->chunk_size >> 12);
+> +	}
+> +
+> +	panthor_kernel_bo_vunmap(chunk->bo);
+> +
+> +	mutex_lock(&heap->lock);
+> +	list_add(&chunk->node, &heap->chunks);
+> +	heap->chunk_count++;
+> +	mutex_unlock(&heap->lock);
+> +
+> +	return 0;
+> +
+> +err_destroy_bo:
+> +	panthor_kernel_bo_destroy(vm, chunk->bo);
+> +
+> +err_free_chunk:
+> +	kfree(chunk);
+> +
+> +	return ret;
+> +}
+> +
+> +static void panthor_free_heap_chunks(struct panthor_vm *vm,
+> +				     struct panthor_heap *heap)
+> +{
+> +	struct panthor_heap_chunk *chunk, *tmp;
+> +
+> +	list_for_each_entry_safe(chunk, tmp, &heap->chunks, node)
+> +		panthor_free_heap_chunk(vm, heap, chunk);
+> +}
+> +
+> +static int panthor_alloc_heap_chunks(struct panthor_device *ptdev,
+> +				     struct panthor_vm *vm,
+> +				     struct panthor_heap *heap,
+> +				     u32 chunk_count)
+> +{
+> +	int ret;
+> +	u32 i;
+> +
+> +	for (i = 0; i < chunk_count; i++) {
+> +		ret = panthor_alloc_heap_chunk(ptdev, vm, heap, true);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int
+> +panthor_heap_destroy_locked(struct panthor_heap_pool *pool, u32 handle)
+> +{
+> +	struct panthor_heap *heap;
+> +
+> +	heap = xa_erase(&pool->xa, handle);
+> +	if (!heap)
+> +		return -EINVAL;
+> +
+> +	panthor_free_heap_chunks(pool->vm, heap);
+> +	mutex_destroy(&heap->lock);
+> +	kfree(heap);
+> +	return 0;
+> +}
+> +
+> +/**
+> + * panthor_heap_destroy() - Destroy a heap context
+> + * @pool: Pool this context belongs to.
+> + * @handle: Handle returned by panthor_heap_create().
+> + */
+> +int panthor_heap_destroy(struct panthor_heap_pool *pool, u32 handle)
+> +{
+> +	int ret;
+> +
+> +	down_write(&pool->lock);
+> +	ret = panthor_heap_destroy_locked(pool, handle);
+> +	up_write(&pool->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +/**
+> + * panthor_heap_create() - Create a heap context
+> + * @pool: Pool to instantiate the heap context from.
+> + * @initial_chunk_count: Number of chunk allocated at initialization time.
+> + * Must be at least 1.
+> + * @chunk_size: The size of each chunk. Must be a power of two between 256k
+> + * and 2M.
+> + * @max_chunks: Maximum number of chunks that can be allocated.
+> + * @target_in_flight: Maximum number of in-flight render passes.
+> + * @heap_ctx_gpu_va: Pointer holding the GPU address of the allocated heap
+> + * context.
+> + * @first_chunk_gpu_va: Pointer holding the GPU address of the first chunk
+> + * assigned to the heap context.
+> + *
+> + * Return: a positive handle on success, a negative error otherwise.
+> + */
+> +int panthor_heap_create(struct panthor_heap_pool *pool,
+> +			u32 initial_chunk_count,
+> +			u32 chunk_size,
+> +			u32 max_chunks,
+> +			u32 target_in_flight,
+> +			u64 *heap_ctx_gpu_va,
+> +			u64 *first_chunk_gpu_va)
+> +{
+> +	struct panthor_heap *heap;
+> +	struct panthor_heap_chunk *first_chunk;
+> +	struct panthor_vm *vm;
+> +	int ret = 0;
+> +	u32 id;
+> +
+> +	if (initial_chunk_count == 0)
+> +		return -EINVAL;
+> +
+> +	if (hweight32(chunk_size) != 1 ||
+> +	    chunk_size < SZ_256K || chunk_size > SZ_2M)
+> +		return -EINVAL;
+> +
+> +	down_read(&pool->lock);
+> +	vm = panthor_vm_get(pool->vm);
+> +	up_read(&pool->lock);
+> +
+> +	/* The pool has been destroyed, we can't create a new heap. */
+> +	if (!vm)
+> +		return -EINVAL;
+> +
+> +	heap = kzalloc(sizeof(*heap), GFP_KERNEL);
+> +	if (!heap) {
+> +		ret = -ENOMEM;
+> +		goto err_put_vm;
+> +	}
+> +
+> +	mutex_init(&heap->lock);
+> +	INIT_LIST_HEAD(&heap->chunks);
+> +	heap->chunk_size = chunk_size;
+> +	heap->max_chunks = max_chunks;
+> +	heap->target_in_flight = target_in_flight;
+> +
+> +	ret = panthor_alloc_heap_chunks(pool->ptdev, vm, heap,
+> +					initial_chunk_count);
+> +	if (ret)
+> +		goto err_free_heap;
+> +
+> +	first_chunk = list_first_entry(&heap->chunks,
+> +				       struct panthor_heap_chunk,
+> +				       node);
+> +	*first_chunk_gpu_va = panthor_kernel_bo_gpuva(first_chunk->bo);
+> +
+> +	down_write(&pool->lock);
+> +	/* The pool has been destroyed, we can't create a new heap. */
+> +	if (!pool->vm) {
+> +		ret = -EINVAL;
+> +	} else {
+> +		ret = xa_alloc(&pool->xa, &id, heap, XA_LIMIT(1, MAX_HEAPS_PER_POOL), GFP_KERNEL);
+> +		if (!ret) {
+> +			void *gpu_ctx = panthor_get_heap_ctx(pool, id);
+> +
+> +			memset(gpu_ctx, 0, panthor_heap_ctx_stride(pool->ptdev));
+> +			*heap_ctx_gpu_va = panthor_kernel_bo_gpuva(pool->gpu_contexts) +
+> +					   panthor_get_heap_ctx_offset(pool, id);
+> +		}
+> +	}
+> +	up_write(&pool->lock);
+> +
+> +	if (ret)
+> +		goto err_free_heap;
+> +
+> +	panthor_vm_put(vm);
+> +	return id;
+> +
+> +err_free_heap:
+> +	panthor_free_heap_chunks(pool->vm, heap);
+> +	mutex_destroy(&heap->lock);
+> +	kfree(heap);
+> +
+> +err_put_vm:
+> +	panthor_vm_put(vm);
+> +	return ret;
+> +}
+> +
+> +/**
+> + * panthor_heap_return_chunk() - Return an unused heap chunk
+> + * @pool: The pool this heap belongs to.
+> + * @heap_gpu_va: The GPU address of the heap context.
+> + * @chunk_gpu_va: The chunk VA to return.
+> + *
+> + * This function is used when a chunk allocated with panthor_heap_grow()
+> + * couldn't be linked to the heap context through the FW interface because
+> + * the group requesting the allocation was scheduled out in the meantime.
+> + */
+> +int panthor_heap_return_chunk(struct panthor_heap_pool *pool,
+> +			      u64 heap_gpu_va,
+> +			      u64 chunk_gpu_va)
+> +{
+> +	u64 offset = heap_gpu_va - panthor_kernel_bo_gpuva(pool->gpu_contexts);
+> +	u32 heap_id = (u32)offset / panthor_heap_ctx_stride(pool->ptdev);
+> +	struct panthor_heap_chunk *chunk, *tmp, *removed = NULL;
+> +	struct panthor_heap *heap;
+> +	int ret;
+> +
+> +	if (offset > U32_MAX || heap_id >= MAX_HEAPS_PER_POOL)
+> +		return -EINVAL;
+> +
+> +	down_read(&pool->lock);
+> +	heap = xa_load(&pool->xa, heap_id);
+> +	if (!heap) {
+> +		ret = -EINVAL;
+> +		goto out_unlock;
+> +	}
+> +
+> +	chunk_gpu_va &= GENMASK_ULL(63, 12);
+> +
+> +	mutex_lock(&heap->lock);
+> +	list_for_each_entry_safe(chunk, tmp, &heap->chunks, node) {
+> +		if (panthor_kernel_bo_gpuva(chunk->bo) == chunk_gpu_va) {
+> +			removed = chunk;
+> +			list_del(&chunk->node);
+> +			heap->chunk_count--;
+> +			break;
+> +		}
+> +	}
+> +	mutex_unlock(&heap->lock);
+> +
+> +	if (removed) {
+> +		panthor_kernel_bo_destroy(pool->vm, chunk->bo);
+> +		kfree(chunk);
+> +		ret = 0;
+> +	} else {
+> +		ret = -EINVAL;
+> +	}
+> +
+> +out_unlock:
+> +	up_read(&pool->lock);
+> +	return ret;
+> +}
+> +
+> +/**
+> + * panthor_heap_grow() - Make a heap context grow.
+> + * @pool: The pool this heap belongs to.
+> + * @heap_gpu_va: The GPU address of the heap context.
+> + * @renderpasses_in_flight: Number of render passes currently in-flight.
+> + * @pending_frag_count: Number of fragment jobs waiting for execution/completion.
+> + * @new_chunk_gpu_va: Pointer used to return the chunk VA.
+> + */
+> +int panthor_heap_grow(struct panthor_heap_pool *pool,
+> +		      u64 heap_gpu_va,
+> +		      u32 renderpasses_in_flight,
+> +		      u32 pending_frag_count,
+> +		      u64 *new_chunk_gpu_va)
+> +{
+> +	u64 offset = heap_gpu_va - panthor_kernel_bo_gpuva(pool->gpu_contexts);
+> +	u32 heap_id = (u32)offset / panthor_heap_ctx_stride(pool->ptdev);
+> +	struct panthor_heap_chunk *chunk;
+> +	struct panthor_heap *heap;
+> +	int ret;
+> +
+> +	if (offset > U32_MAX || heap_id >= MAX_HEAPS_PER_POOL)
+> +		return -EINVAL;
+> +
+> +	down_read(&pool->lock);
+> +	heap = xa_load(&pool->xa, heap_id);
+> +	if (!heap) {
+> +		ret = -EINVAL;
+> +		goto out_unlock;
+> +	}
+> +
+> +	/* If we reached the target in-flight render passes, or if we
+> +	 * reached the maximum number of chunks, let the FW figure another way to
+> +	 * find some memory (wait for render passes to finish, or call the exception
+> +	 * handler provided by the userspace driver, if any).
+> +	 */
+> +	if (renderpasses_in_flight > heap->target_in_flight ||
+> +	    (pending_frag_count > 0 && heap->chunk_count >= heap->max_chunks)) {
+> +		ret = -EBUSY;
+> +		goto out_unlock;
+> +	} else if (heap->chunk_count >= heap->max_chunks) {
+> +		ret = -ENOMEM;
+> +		goto out_unlock;
+> +	}
+> +
+> +	/* FIXME: panthor_alloc_heap_chunk() triggers a kernel BO creation, which
+> +	 * relies on blocking allocations (both for the BO itself, and backing
+> +	 * memory), which might cause a deadlock because we're called from a context
+> +	 * where we hold the panthor scheduler lock, thus preventing job cleanups
+> +	 * that could free up some memory. The jobs themselves will timeout, but
+> +	 * we'll still be blocked there. The only solution here is to implement
+> +	 * something similar to shmem_sg_alloc_table() in i915, so we can do
+> +	 * non-blocking allocations, and just kill the job when we run out-of-memory
+> +	 * for the tiler context.
+> +	 */
+> +	ret = panthor_alloc_heap_chunk(pool->ptdev, pool->vm, heap, false);
+> +	if (ret)
+> +		goto out_unlock;
+> +
+> +	chunk = list_first_entry(&heap->chunks,
+> +				 struct panthor_heap_chunk,
+> +				 node);
+> +	*new_chunk_gpu_va = (panthor_kernel_bo_gpuva(chunk->bo) & GENMASK_ULL(63, 12)) |
+> +			    (heap->chunk_size >> 12);
+> +	ret = 0;
+> +
+> +out_unlock:
+> +	up_read(&pool->lock);
+> +	return ret;
+> +}
+> +
+> +static void panthor_heap_pool_release(struct kref *refcount)
+> +{
+> +	struct panthor_heap_pool *pool =
+> +		container_of(refcount, struct panthor_heap_pool, refcount);
+> +
+> +	xa_destroy(&pool->xa);
+> +	kfree(pool);
+> +}
+> +
+> +/**
+> + * panthor_heap_pool_put() - Release a heap pool reference
+> + * @pool: Pool to release the reference on. Can be NULL.
+> + */
+> +void panthor_heap_pool_put(struct panthor_heap_pool *pool)
+> +{
+> +	if (pool)
+> +		kref_put(&pool->refcount, panthor_heap_pool_release);
+> +}
+> +
+> +/**
+> + * panthor_heap_pool_get() - Get a heap pool reference
+> + * @pool: Pool to get the reference on. Can be NULL.
+> + *
+> + * Return: @pool.
+> + */
+> +struct panthor_heap_pool *
+> +panthor_heap_pool_get(struct panthor_heap_pool *pool)
+> +{
+> +	if (pool)
+> +		kref_get(&pool->refcount);
+> +
+> +	return pool;
+> +}
+> +
+> +/**
+> + * panthor_heap_pool_create() - Create a heap pool
+> + * @ptdev: Device.
+> + * @vm: The VM this heap pool will be attached to.
+> + *
+> + * Heap pools might contain up to 128 heap contexts, and are per-VM.
+> + *
+> + * Return: A valid pointer on success, a negative error code otherwise.
+> + */
+> +struct panthor_heap_pool *
+> +panthor_heap_pool_create(struct panthor_device *ptdev, struct panthor_vm *vm)
+> +{
+> +	size_t bosize = ALIGN(MAX_HEAPS_PER_POOL *
+> +			      panthor_heap_ctx_stride(ptdev),
+> +			      4096);
+> +	struct panthor_heap_pool *pool;
+> +	int ret = 0;
+> +
+> +	pool = kzalloc(sizeof(*pool), GFP_KERNEL);
+> +	if (!pool)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	/* We want a weak ref here: the heap pool belongs to the VM, so we're
+> +	 * sure that, as long as the heap pool exists, the VM exists too.
+> +	 */
+> +	pool->vm = vm;
+> +	pool->ptdev = ptdev;
+> +	init_rwsem(&pool->lock);
+> +	xa_init_flags(&pool->xa, XA_FLAGS_ALLOC1);
+> +	kref_init(&pool->refcount);
+> +
+> +	pool->gpu_contexts = panthor_kernel_bo_create(ptdev, vm, bosize,
+> +						      DRM_PANTHOR_BO_NO_MMAP,
+> +						      DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
+> +						      PANTHOR_VM_KERNEL_AUTO_VA);
+> +	if (IS_ERR(pool->gpu_contexts)) {
+> +		ret = PTR_ERR(pool->gpu_contexts);
+> +		goto err_destroy_pool;
+> +	}
+> +
+> +	ret = panthor_kernel_bo_vmap(pool->gpu_contexts);
+> +	if (ret)
+> +		goto err_destroy_pool;
+> +
+> +	return pool;
+> +
+> +err_destroy_pool:
+> +	panthor_heap_pool_destroy(pool);
+> +	return ERR_PTR(ret);
+> +}
+> +
+> +/**
+> + * panthor_heap_pool_destroy() - Destroy a heap pool.
+> + * @pool: Pool to destroy.
+> + *
+> + * This function destroys all heap contexts and their resources. Thus
+> + * preventing any use of the heap context or the chunk attached to them
+> + * after that point.
+> + *
+> + * If the GPU still has access to some heap contexts, a fault should be
+> + * triggered, which should flag the command stream groups using these
+> + * context as faulty.
+> + *
+> + * The heap pool object is only released when all references to this pool
+> + * are released.
+> + */
+> +void panthor_heap_pool_destroy(struct panthor_heap_pool *pool)
+> +{
+> +	struct panthor_heap *heap;
+> +	unsigned long i;
+> +
+> +	if (!pool)
+> +		return;
+> +
+> +	down_write(&pool->lock);
+> +	xa_for_each(&pool->xa, i, heap)
+> +		drm_WARN_ON(&pool->ptdev->base, panthor_heap_destroy_locked(pool, i));
+> +
+> +	if (!IS_ERR_OR_NULL(pool->gpu_contexts))
+> +		panthor_kernel_bo_destroy(pool->vm, pool->gpu_contexts);
+> +
+> +	/* Reflects the fact the pool has been destroyed. */
+> +	pool->vm = NULL;
+> +	up_write(&pool->lock);
+> +
+> +	panthor_heap_pool_put(pool);
+> +}
+> diff --git a/drivers/gpu/drm/panthor/panthor_heap.h b/drivers/gpu/drm/panthor/panthor_heap.h
+> new file mode 100644
+> index 000000000000..25a5f2bba445
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panthor/panthor_heap.h
+> @@ -0,0 +1,39 @@
+> +/* SPDX-License-Identifier: GPL-2.0 or MIT */
+> +/* Copyright 2023 Collabora ltd. */
+> +
+> +#ifndef __PANTHOR_HEAP_H__
+> +#define __PANTHOR_HEAP_H__
+> +
+> +#include <linux/types.h>
+> +
+> +struct panthor_device;
+> +struct panthor_heap_pool;
+> +struct panthor_vm;
+> +
+> +int panthor_heap_create(struct panthor_heap_pool *pool,
+> +			u32 initial_chunk_count,
+> +			u32 chunk_size,
+> +			u32 max_chunks,
+> +			u32 target_in_flight,
+> +			u64 *heap_ctx_gpu_va,
+> +			u64 *first_chunk_gpu_va);
+> +int panthor_heap_destroy(struct panthor_heap_pool *pool, u32 handle);
+> +
+> +struct panthor_heap_pool *
+> +panthor_heap_pool_create(struct panthor_device *ptdev, struct panthor_vm *vm);
+> +void panthor_heap_pool_destroy(struct panthor_heap_pool *pool);
+> +
+> +struct panthor_heap_pool *
+> +panthor_heap_pool_get(struct panthor_heap_pool *pool);
+> +void panthor_heap_pool_put(struct panthor_heap_pool *pool);
+> +
+> +int panthor_heap_grow(struct panthor_heap_pool *pool,
+> +		      u64 heap_gpu_va,
+> +		      u32 renderpasses_in_flight,
+> +		      u32 pending_frag_count,
+> +		      u64 *new_chunk_gpu_va);
+> +int panthor_heap_return_chunk(struct panthor_heap_pool *pool,
+> +			      u64 heap_gpu_va,
+> +			      u64 chunk_gpu_va);
+> +
+> +#endif
 
