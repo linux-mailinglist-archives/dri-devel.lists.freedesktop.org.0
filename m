@@ -2,60 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D68E851185
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 11:53:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D493851190
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 11:54:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 216FC10EC69;
-	Mon, 12 Feb 2024 10:53:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60A7C10EC74;
+	Mon, 12 Feb 2024 10:54:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cMVVJw7E";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cEnF3nlB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 587F010EC69;
- Mon, 12 Feb 2024 10:53:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707735192; x=1739271192;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=CL5HdaZKoB0vw5DnIoCygRfMvzBUXpegZdJmlYcx8uc=;
- b=cMVVJw7EfYlmKZfrI/6HXxTlnA3cvFEIwcqPV5/aDMxsns2WX4iGuH1C
- YiSMUazszQpigikGJ+63V++OhLeB/jl6X4Kzz1+F7aCAZkdRVO+TkWvvs
- npbGZJbJZy8273A08sywGyFTBdHUPdjMzi7JuH0mpNRIeeKojTvf6jXbE
- 2+Ra83ieQ6rYyF/TPyjGQLZNbBC4yGcULPU0pTQ9uzlpdP/Nw3G2imtug
- Jw/flbkEjvOcrn+5upEhlYuAz7OvnL7ZTugbibtVuk7uBEAQUDmVMxAPe
- bFMeP6V+ATGiNFZTsXU1LgEVk6a+fpW94QTIT8WlPkuFczDdx/FokwEv9 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="1609454"
-X-IronPort-AV: E=Sophos;i="6.05,263,1701158400"; 
-   d="scan'208";a="1609454"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2024 02:53:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,263,1701158400"; 
-   d="scan'208";a="2563842"
-Received: from belyakov-mobl.ccr.corp.intel.com (HELO localhost)
- ([10.252.63.91])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2024 02:53:10 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: intel-xe@lists.freedesktop.org, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, Luca Coelho
- <luciano.coelho@intel.com>, Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH drm-misc-next] drm/xe: Fix a missing argument to
- drm_err_printer
-In-Reply-To: <20240212103833.138263-1-thomas.hellstrom@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240212103833.138263-1-thomas.hellstrom@linux.intel.com>
-Date: Mon, 12 Feb 2024 12:53:05 +0200
-Message-ID: <87bk8m9coe.fsf@intel.com>
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E61F10EC74
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 10:54:41 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-410e8412b54so3594555e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 02:54:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1707735279; x=1708340079; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=AN73LICug5VW++U499t0Wayh8Nvzz5HHvSHgzNyjW2E=;
+ b=cEnF3nlB8j+nijSa21eUmjkaurd3SqcWbjAiyL+A2pRQeaSHQSMahClmLM9mEH6ZYK
+ ipVf34i2jXEk43r7LLESUUX/69HPcsjgyMldgpEOGiQOqwPJi8VwGP5yue5kdRSi7XGT
+ gtRJdoaAQWxhRDLSkpOPJGx5umdiFS7By40GKYOiTLtt3gkwIwqVYpubtBlgRvXPV/cs
+ NfVJaeGNzk+YiNLjvFmu9yEt6HBf6ZhTroA5v19MpOFgh8Njsc8oWbhnqlcGvH+7CjLJ
+ pC+tK4DsMWPaXKm9ECZ6NrZE1e4Lkc9WljEtDa1ANL7c8XhHRXifQ0oOiEAqGqlw7j/f
+ 6KDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707735279; x=1708340079;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=AN73LICug5VW++U499t0Wayh8Nvzz5HHvSHgzNyjW2E=;
+ b=dJuwTFuS3PIAy1qYrh1EBcSFznDTjAmBCWPXLdKjtoRUJfK2rpi1HwAUXqmcKytvNg
+ xCh9oMvHfFBzuTXYdtKwSsoFgKBv20kjRDEGA14TnT30p8Uq6hI/Y8QAYtpPq6EQxqIf
+ Q/9BgcDUWUiPC9GvKjR7shxez3ISpQHsgUE1sFyhTrK0d4CVTYyDDDWUdaVWjBbC7RID
+ HQqDfbMKY/Kl+aqCdMhckP+yTzp1/Tvbalqzbey1NNNeXnfauFy75EjJ7CmuV3dhAhc8
+ V5ZzuVuLgnEAoHDtdQFcDuvPS0tbUz5OM91IYC8Tuf0HEDbynwERXuivx1qYYfvcK5IX
+ 0X6w==
+X-Gm-Message-State: AOJu0Yw9PPF80Hn/vNYFfwbGETIPGecdP16ImFZqEmIaMWvRh+g/LLAs
+ 0nyir3bGnNVTNtaBSSrKu1xm/OV4CoBYAnQF2+q5apBSZaO15rlbD/u5Y4OkfroQQRdTMbi/Gbc
+ ekOY=
+X-Google-Smtp-Source: AGHT+IHSe4H9vS5lPNXIEa7nwJk3bFBhiBabiLH5VYY4Y79eetaSZxnzvF+amgrzd0Ufd1oi5wt6wA==
+X-Received: by 2002:adf:e441:0:b0:33b:60ba:d990 with SMTP id
+ t1-20020adfe441000000b0033b60bad990mr4371624wrm.19.1707735279570; 
+ Mon, 12 Feb 2024 02:54:39 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUCe2LrvntnsOtdZ25erDPdrpNU0Pkuuo26fivdkvy0LpaVzwmyVxiMipi/TjvBVoLO9tSja2KfIgxo39/LF8ZZKy971lfFj0uGuYDx+hXduyixJ7m2zvDCJR/CL1bBaj8wgx/MRAFx2GIMdmJUngscf1naw/2ab1L4SA3TlW4AYI50IWqiD8Dwevo2r9ZpxFwEK06jBUUgvpUYco1fjh4E8XHGQw0wG4Uc5htxi5gHOiMbfn97Vf7CFenQPkqsbhnXGzl94bt/1nOrN79/8R9pKwF0ylax7jpvsveEFSqBUnP3QQTI606SpqMNvOxY5A409mHcK3fPyNqjMz6y/+ZqbgkbGOZyhfP8ZRnp0APrGaqE/Af8ocgj6OdGI0ucQJxZYdVYAt4rA4EpzdRxug==
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ ce9-20020a5d5e09000000b0033b8808355fsm592374wrb.28.2024.02.12.02.54.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Feb 2024 02:54:38 -0800 (PST)
+Date: Mon, 12 Feb 2024 10:54:37 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
+Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, Karel Balej <balejk@matfyz.cz>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] backlight: ktd2801: make timing struct static
+Message-ID: <20240212105437.GA4593@aspen.lan>
+References: <20240210-ktd2801-static-v1-1-90ad2e2e8483@skole.hr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240210-ktd2801-static-v1-1-90ad2e2e8483@skole.hr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,41 +90,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 12 Feb 2024, Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.co=
-m> wrote:
-> The indicated commit below added a device argument to the
-> function, but there was a call in the xe driver that was
-> not properly changed.
-
-Aww, crap. Looks like my drm-misc-next configs don't have xe enabled.
-
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-
-> Fixes: 5e0c04c8c40b ("drm/print: make drm_err_printer() device specific b=
-y using drm_err()")
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Luca Coelho <luciano.coelho@intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> ---
->  drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Sat, Feb 10, 2024 at 05:16:17PM +0100, Duje Mihanović wrote:
+> The struct containing the KTD2801 timing can be made static as it's not
+> referenced outside the KTD2801 driver. Do this to prevent sparse
+> complaints.
 >
-> diff --git a/drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c b/drivers/gpu/dr=
-m/xe/xe_gt_tlb_invalidation.c
-> index 7eef23a00d77..d42645fdfc02 100644
-> --- a/drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c
-> +++ b/drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c
-> @@ -314,7 +314,7 @@ int xe_gt_tlb_invalidation_wait(struct xe_gt *gt, int=
- seqno)
->  {
->  	struct xe_device *xe =3D gt_to_xe(gt);
->  	struct xe_guc *guc =3D &gt->uc.guc;
-> -	struct drm_printer p =3D drm_err_printer(__func__);
-> +	struct drm_printer p =3D drm_err_printer(&xe->drm, __func__);
->  	int ret;
->=20=20
->  	/*
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202402100625.M0RkJhMh-lkp@intel.com/
+> Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
 
---=20
-Jani Nikula, Intel
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+
+
+Daniel.
