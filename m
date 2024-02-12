@@ -2,59 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 166A6850F6D
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 10:13:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71646850F91
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 10:16:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B339610EBD4;
-	Mon, 12 Feb 2024 09:13:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED32310EB80;
+	Mon, 12 Feb 2024 09:16:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fAgdnnT7";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mxC2tp+u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4260910EB80;
- Mon, 12 Feb 2024 09:13:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707729186; x=1739265186;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=zQg70D7zlwaT01vgAiLlUs8t5uerkv7D7w9ZxCQ0BBg=;
- b=fAgdnnT7HgOb6h549/uwEoAn/bBnLi0mACC8HjbvTCbwiHEbr7kufcFh
- QTd1YP5b2HGvndBwSPcae4lUN3Js7RnTHYmv09zXd1Q8YLr/TEzVGu8LA
- vkj9ICP5zyZ2uKQs/6YpzweR1EOuQS3ezNsvgUwDamfBnJ6v7+oYpgca9
- CIU+IZF8e7g/eYsB9vS35ZK+TCl883M/nmSPG9K7wn1cd0KziW2Ijo08m
- MTXNecdARFEsslJ8Mr1rP0CRShg0IKB+R+bsNvT8CUiWjaPMnnTwM5wJS
- PT2ueA4X4Je2YGpsck+lsAlg4ZjqG0uw/kg2Hcm6VpBxaedjTF8VRmT37 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="1576665"
-X-IronPort-AV: E=Sophos;i="6.05,262,1701158400"; 
-   d="scan'208";a="1576665"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2024 01:13:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,262,1701158400"; 
-   d="scan'208";a="2541949"
-Received: from belyakov-mobl.ccr.corp.intel.com (HELO localhost)
- ([10.252.63.91])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2024 01:13:03 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Stephen Rothwell <sfr@canb.auug.org.au>, Daniel Vetter
- <daniel.vetter@ffwll.ch>
-Cc: Dave Airlie <airlied@redhat.com>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
- Mailing List <linux-next@vger.kernel.org>
-Subject: Re: linux-next: build failure after merge of the drm-misc tree
-In-Reply-To: <20240212122652.0961dc7c@canb.auug.org.au>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240212122652.0961dc7c@canb.auug.org.au>
-Date: Mon, 12 Feb 2024 11:12:58 +0200
-Message-ID: <87le7q9hb9.fsf@intel.com>
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
+ [209.85.208.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38B0B10EB7F;
+ Mon, 12 Feb 2024 09:16:43 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id
+ 38308e7fff4ca-2d0a4e1789cso33916241fa.3; 
+ Mon, 12 Feb 2024 01:16:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1707729401; x=1708334201; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=AxW0bWP9rC9TBnm8nLzYxQGxIyi/0W+4SfDA3jONu9w=;
+ b=mxC2tp+unR8RM+aD1zuXV0tJk+gS9N8Sr59W5x0niG9STw+P9tdoP6aM/BkSxhMmcy
+ yq+WdYT+u2Z68cZcDne8OYoDgjiDNswNpgje8w0l0dB3zTkNKv99lLwPwlChrywWEs6V
+ /OG38wejtkXFqJWnHkMjZcAn1UBG3fWfFy69ihavN6jrETSBPJIXeKNfC6f8C3gFM/Zc
+ Jm938D2pB+JvVCFhwh+AY3sA6wFgXyVL6iPlKSa73jAJJTyf0pMMAts9h6dsXLshTcRE
+ wgIy/Lt5chHAFUD7rURp9mWjzEImrzKL2N4qOPF51nJaUZpmXJIvAbkERjHuJnvLcO7V
+ qxqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707729401; x=1708334201;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=AxW0bWP9rC9TBnm8nLzYxQGxIyi/0W+4SfDA3jONu9w=;
+ b=WmpnPIMMYJLgCXfcyn4kgK3aX3+jLsAC1eTH97ZU0St1LfhqlPiJ3eZf5RcxCNZ6wb
+ pDqYXufXuj1CLxSOlPKAfo1oa48HoudWj/icdWsokj6i/ywJW4wIvV62G8tDNtlkQvtx
+ +wFpTJS+PWqAdowCHiPvLYPJozJE07hM+Xmq/qP3kHMIfWD7n1Coptt8HPj7mwTQe08h
+ ikqZAg2UT0bhH3mbmwi92NAB/SoxxXeO5LgPUIiRmAqY0svEehgIxluzHHYDUgj7S/Xh
+ 7L9i+TP8HSq1+NyJH8sm+4kbzhZP8OpgDEf1A/yPELR3wmq8Fb7vxxjTJl99Axb41oNr
+ YvyQ==
+X-Gm-Message-State: AOJu0YyAYgc2fVCsIVxZaVEVHeoDPIZQzh/vVxpuKkoVALOKPlcxgoXF
+ t4Nw2OCZHsg4tudWXb/owZXOGMzvY1snWLMeplgic0K+2qJ+FPoyB3wU5LZWBew=
+X-Google-Smtp-Source: AGHT+IGMxAeXQ73tEFCKuRljVUNbVHyrutNzbh8cK2XcTkZS6b8oVk1/1ZkV2eKuK/O/B1GzmYXnPg==
+X-Received: by 2002:a2e:984f:0:b0:2d0:ef5a:345 with SMTP id
+ e15-20020a2e984f000000b002d0ef5a0345mr2416399ljj.49.1707729401109; 
+ Mon, 12 Feb 2024 01:16:41 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVVryjAGIlEjHJv74r/GrMu9mtF/di1P8Kq7huZsrTf966i9h2a8GAHPY0aVzLf+sD76wJMBAWgQPCS98J2eBAJLqhU9xJfD6ex7BizcqXJaNxCV/va751zFHjBkrv4zWi7yMSXtzJzHpwM3skZlxqFzs8fd/I4OSO5qqmFIAh0jTON0Hhn+Pt80h39wjOBFIkR7NabrytaTN9JmHg1Sq7YVh1UB4d0dDQl3DYYjxl0hNdlLSKPxetK4qfvQy1IDhQog546CHYwuo/iI4kTjPpbswVoH9NA8sTFe3tP9x47UG2WKi+gTrVLlbU8r1WU0+CCdCJADgeIaEmMkuFNcqg2us82mJ6bBSpCPJBJauyAX7wjp9PRvOA/6wNpKQJdu/eYPVU+dRWa8aA8blQyu3f0NEvfpsq9k2DZ1kDXobjcjftOL3uun/h2Xp+Kdya0t4PeOX2G75D86Pwe1VWpOndJB6IVuMLEAbB5mQ==
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
+ cc5-20020a5d5c05000000b0033b75a1e8cfsm4811375wrb.24.2024.02.12.01.16.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Feb 2024 01:16:40 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] drm/msm/dp: Fix spelling mistake "enale" -> "enable"
+Date: Mon, 12 Feb 2024 09:16:39 +0000
+Message-Id: <20240212091639.2397424-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,34 +87,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 12 Feb 2024, Stephen Rothwell <sfr@canb.auug.org.au> wrote:
-> Hi all,
->
-> After merging the drm-misc tree, today's linux-next build (x86_64
-> allmodconfig) failed like this:
->
-> drivers/gpu/drm/tests/drm_mm_test.c: In function 'drm_test_mm_debug':
-> drivers/gpu/drm/tests/drm_mm_test.c:191:32: error: implicit declaration of function 'drm_debug_printer'; did you mean 'drm_dbg_printer'? [-Werror=implicit-function-declaration]
->   191 |         struct drm_printer p = drm_debug_printer(test->name);
->       |                                ^~~~~~~~~~~~~~~~~
->       |                                drm_dbg_printer
-> drivers/gpu/drm/tests/drm_mm_test.c:191:32: error: invalid initializer
-> cc1: all warnings being treated as errors
->
-> Caused by commit
->
->   e154c4fc7bf2 ("drm: remove drm_debug_printer in favor of drm_dbg_printer")
->
-> I have used the drm-misc tree from next-20240209 for today.
+There is a spelling mistake in a drm_dbg_dp message. Fix it.
 
-Fix at [1].
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/msm/dp/dp_ctrl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-BR,
-Jani.
-
-
-[1] https://lore.kernel.org/r/20240209140818.106685-1-michal.winiarski@intel.com
-
-
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+index 03bbdf865d26..320f17fce9a6 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+@@ -1409,7 +1409,7 @@ static int dp_ctrl_link_clk_enable(struct dp_ctrl *dp_ctrl)
+ 
+ 	ctrl->link_clks_on = true;
+ 
+-	drm_dbg_dp(ctrl->drm_dev, "enale link clocks\n");
++	drm_dbg_dp(ctrl->drm_dev, "enable link clocks\n");
+ 	drm_dbg_dp(ctrl->drm_dev, "stream_clks:%s link_clks:%s core_clks:%s\n",
+ 		   ctrl->stream_clks_on ? "on" : "off",
+ 		   ctrl->link_clks_on ? "on" : "off",
 -- 
-Jani Nikula, Intel
+2.39.2
+
