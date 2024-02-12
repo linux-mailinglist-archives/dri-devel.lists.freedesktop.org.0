@@ -2,58 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEA5E85185E
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 16:46:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16BEA851868
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 16:49:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BEF210E108;
-	Mon, 12 Feb 2024 15:46:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99E3210E1B1;
+	Mon, 12 Feb 2024 15:49:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HdxUBSe9";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RL/orzrv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DE2310E07F;
- Mon, 12 Feb 2024 15:46:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2B0710E1B1
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 15:49:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707752790; x=1739288790;
+ t=1707752981; x=1739288981;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:content-transfer-encoding:in-reply-to;
- bh=WfX1OeIo++ciRg18ZhbvPH5CfPfDwvB05+eESoeALcc=;
- b=HdxUBSe9oiOJpyYbN9tQh8K6OrNLD3GyUXum3mYduKMNnD60jp0qtlZG
- +mzXPS41MN8tu5k1LFmbKAc/txAUNfUZkqh98zMfANR4moYqYHyiq/WrU
- SYsxby/OYFfvpMNt+lbjaOj3/RcsiGCSRTTvhF0uRwisATJCidaClfW/z
- ktDI/matjPNs+RSeWuq449YgR5acU/mXA5pVf0YvBHsFLRcFM3UTzro9d
- JFO4Sfsc/7GMPyGUk6+SA1pL5uT+lEMlySevC+GpKEth8T4dDZ5JBJWX0
- 6bRceoKdDHEhXY6VDzqzx6T+tdySRxBg2UaK+550D7aBMK2GIIn11s0Hw A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="24202564"
-X-IronPort-AV: E=Sophos;i="6.06,264,1705392000"; d="scan'208";a="24202564"
+ bh=RaXsYzelOZvoa5TGyCbteu+6xy/YY/Aun1Nfajjsacg=;
+ b=RL/orzrvXlqP8EY6ifNpMwHX3cEJNtJuK/rutdRdI4jrO8VHkR7EQEZf
+ Mvzn3G16FLqHQ8jaBCJXBWFWonJ9LR/gNdJIPR14Bax0VgEsCj9b7XYnM
+ DTFsseEYqzQu7JYygZC0eDfkAE36OLXd5XgJ3Wm093Z7rtqdxNXLMPLYQ
+ fA+pNtGSm+EEuTwNT9KV1QSr3lCcr9bgJEnvoCca+bxJaELpSIhs+Sala
+ V+IeKWeLEGi98hP1pwONlh/12H3yMjjkmbR7g4jXmjQJAEaKOEOS/2a+u
+ ++UyyZtU7oWJ3KtKUeM/yjZq6kvfWuXvCP3DaXqEVT6YVpaFRPU/9rXdq Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="24202750"
+X-IronPort-AV: E=Sophos;i="6.06,264,1705392000"; d="scan'208";a="24202750"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2024 07:46:30 -0800
+ 12 Feb 2024 07:49:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="825840081"
-X-IronPort-AV: E=Sophos;i="6.06,264,1705392000"; d="scan'208";a="825840081"
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="825840546"
+X-IronPort-AV: E=Sophos;i="6.06,264,1705392000"; d="scan'208";a="825840546"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 12 Feb 2024 07:46:27 -0800
+ by orsmga001.jf.intel.com with SMTP; 12 Feb 2024 07:49:34 -0800
 Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 12 Feb 2024 17:46:26 +0200
-Date: Mon, 12 Feb 2024 17:46:26 +0200
+ Mon, 12 Feb 2024 17:49:33 +0200
+Date: Mon, 12 Feb 2024 17:49:33 +0200
 From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Arun R Murthy <arun.r.murthy@intel.com>
-Subject: Re: [RFC 2/4] drm/i915/dp: refactor DP MST detection and configuration
-Message-ID: <Zco9UijJGIN2ZDHZ@intel.com>
-References: <cover.1706882590.git.jani.nikula@intel.com>
- <d789334e1f31ba6eff1c7e2913e6a03cea8227e7.1706882591.git.jani.nikula@intel.com>
- <Zb0PZldnyLe59Vb0@intel.com> <87v86t9020.fsf@intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Hans Verkuil <hverkuil@xs4all.nl>,
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: Re: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add
+ Broadcast RGB property
+Message-ID: <Zco-DQaXqae7B1jt@intel.com>
+References: <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
+ <20240115143308.GA159345@toolbox> <20240115143720.GA160656@toolbox>
+ <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
+ <Zb0M_2093UwPXK8y@intel.com>
+ <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
+ <Zb0aYAapkxQ2kopt@intel.com>
+ <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
+ <20240209203435.GB996172@toolbox>
+ <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87v86t9020.fsf@intel.com>
+In-Reply-To: <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
 X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,135 +88,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 12, 2024 at 05:25:43PM +0200, Jani Nikula wrote:
-> On Fri, 02 Feb 2024, Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
-> > On Fri, Feb 02, 2024 at 04:05:32PM +0200, Jani Nikula wrote:
-> >> Currently we've split MST capability detection in two places,
-> >> intel_dp_can_mst() and intel_dp_configure_mst(). They check essentially
-> >> the same things.
-> >> 
-> >> Move bulk of the work, including logging, to intel_dp_can_mst() and
-> >> rename it intel_dp_mst_detect(). Set intel_dp->is_mst there to avoid
-> >> duplicate work.
-> >
-> > This seems confusing. is_mst is supposed to reflect the state
-> > of the topology manager, nothing more.
+On Mon, Feb 12, 2024 at 11:01:07AM +0100, Maxime Ripard wrote:
+> On Fri, Feb 09, 2024 at 09:34:35PM +0100, Sebastian Wick wrote:
+> > On Mon, Feb 05, 2024 at 10:39:38AM +0100, Maxime Ripard wrote:
+> > > On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrjälä wrote:
+> > > > On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
+> > > > > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrjälä wrote:
+> > > > > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
+> > > > > > > Hi,
+> > > > > > > 
+> > > > > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
+> > > > > > > > > >  /**
+> > > > > > > > > >   * DOC: HDMI connector properties
+> > > > > > > > > >   *
+> > > > > > > > > > + * Broadcast RGB
+> > > > > > > > > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
+> > > > > > > > > > + *      Infoframes will be generated according to that value.
+> > > > > > > > > > + *
+> > > > > > > > > > + *      The value of this property can be one of the following:
+> > > > > > > > > > + *
+> > > > > > > > > > + *      Automatic:
+> > > > > > > > > > + *              RGB Range is selected automatically based on the mode
+> > > > > > > > > > + *              according to the HDMI specifications.
+> > > > > > > > > > + *
+> > > > > > > > > > + *      Full:
+> > > > > > > > > > + *              Full RGB Range is forced.
+> > > > > > > > > > + *
+> > > > > > > > > > + *      Limited 16:235:
+> > > > > > > > > > + *              Limited RGB Range is forced. Unlike the name suggests,
+> > > > > > > > > > + *              this works for any number of bits-per-component.
+> > > > > > > > > > + *
+> > > > > > > > > > + *      Drivers can set up this property by calling
+> > > > > > > > > > + *      drm_connector_attach_broadcast_rgb_property().
+> > > > > > > > > > + *
+> > > > > > > > > 
+> > > > > > > > > This is a good time to document this in more detail. There might be two
+> > > > > > > > > different things being affected:
+> > > > > > > > > 
+> > > > > > > > > 1. The signalling (InfoFrame/SDP/...)
+> > > > > > > > > 2. The color pipeline processing
+> > > > > > > > > 
+> > > > > > > > > All values of Broadcast RGB always affect the color pipeline processing
+> > > > > > > > > such that a full-range input to the CRTC is converted to either full- or
+> > > > > > > > > limited-range, depending on what the monitor is supposed to accept.
+> > > > > > > > > 
+> > > > > > > > > When automatic is selected, does that mean that there is no signalling,
+> > > > > > > > > or that the signalling matches what the monitor is supposed to accept
+> > > > > > > > > according to the spec? Also, is this really HDMI specific?
+> > > > > > > > > 
+> > > > > > > > > When full or limited is selected and the monitor doesn't support the
+> > > > > > > > > signalling, what happens?
+> > > > > > > > 
+> > > > > > > > Forgot to mention: user-space still has no control over RGB vs YCbCr on
+> > > > > > > > the cable, so is this only affecting RGB? If not, how does it affect
+> > > > > > > > YCbCr?
+> > > > > > > 
+> > > > > > > So I dug a bit into both the i915 and vc4 drivers, and it looks like if
+> > > > > > > we're using a YCbCr format, i915 will always use a limited range while
+> > > > > > > vc4 will follow the value of the property.
+> > > > > > 
+> > > > > > The property is literally called "Broadcast *RGB*".
+> > > > > > That should explain why it's only affecting RGB.
+> > > > > 
+> > > > > Right. And the limited range option is called "Limited 16:235" despite
+> > > > > being usable on bpc > 8 bits. Naming errors occurs, and history happens
+> > > > > to make names inconsistent too, that's fine and not an argument in
+> > > > > itself.
+> > > > > 
+> > > > > > Full range YCbCr is a much rarer beast so we've never bothered
+> > > > > > to enable it.
+> > > > > 
+> > > > > vc4 supports it.
+> > > > 
+> > > > Someone implemented it incorrectly then.
+> > > 
+> > > Incorrectly according to what documentation / specification? I'm sorry,
+> > > but I find it super ironic that i915 gets to do its own thing, not
+> > > document any of it, and when people try to clean things up they get told
+> > > that we got it all wrong.
+> > 
+> > FWIW, this was an i915 property and if another driver uses the same
+> > property name it must have the same behavior. Yes, it isn't standardized
+> > and yes, it's not documented (hence this effort here) but it's still on
+> > vc4 to make the property compatible.
 > 
-> We'll, that's still exactly what we're going to set the topology manager
-> state to. It's just that now we figure it out just a little earlier, so
-> we don't have to duplicate the dpcd reads and logic to two places.
+> How is it not compatible? It's a superset of what i915 provides, but
+> it's strictly compatible with it.
 
-That may be desiresable, but I don't think the current is_mst
-flag is really the correct thing to track that. We now set it
-somewhere deep down in the detect path wihtout configuring
-the mst manager to match, but we clear it much higher up
-and there we do assume it 100% matches the state of the topology
-manager.
-
-Eg. what happens now if we were previosuly using MST, and now
-intel_dp_mst_detect() clears the flag? It looks to me like
-we're going to completely forget to call
-drm_dp_mst_topology_mgr_set_mst(...,false).
+No it is not. Eg. what happens if you set the thing to full range for
+RGB (which you must on many broken monitors), and then the kernel
+automagically switches to YCbCr (for whatever reason) but the monitor
+doesn't support full range YCbCr? Answer: you get crap output.
 
 > 
-> BR,
-> Jani.
+> I would argue that i915 is the broken one since userspace could force a
+> full range output, but since the driver takes the YUV vs RGB decision
+> itself and only supports limited range for YUV, the driver would
+> effectively ignore that user-space property, without the user-space
+> being able to tell it was ignored in the first place.
 > 
+> > Trying to make the property handle YCbCr is very much in the "let's try
+> > to fix the property" territory that I want to avoid, so I'm in favor of
+> > adjusting vc4.
 > 
-> >
-> >> 
-> >> Rename intel_dp_configure_mst() to intel_dp_mst_configure(), and only
-> >> set the topology manager state there.
-> >> 
-> >> The main functional difference is that the DP_MSTM_CAP DPCD register is
-> >> now only read once at detect, unconditionally, and the MST support is
-> >> always logged. Everything else should remain the same.
-> >> 
-> >> Cc: Arun R Murthy <arun.r.murthy@intel.com>
-> >> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> >> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> >> ---
-> >>  drivers/gpu/drm/i915/display/intel_dp.c | 36 ++++++++++---------------
-> >>  1 file changed, 14 insertions(+), 22 deletions(-)
-> >> 
-> >> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> >> index 7af09f2c008d..e0b8ee6bde79 100644
-> >> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> >> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> >> @@ -4004,23 +4004,15 @@ intel_dp_get_dpcd(struct intel_dp *intel_dp)
-> >>  					   intel_dp->downstream_ports) == 0;
-> >>  }
-> >>  
-> >> -static bool
-> >> -intel_dp_can_mst(struct intel_dp *intel_dp)
-> >> +static bool intel_dp_mst_detect(struct intel_dp *intel_dp)
-> >>  {
-> >>  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-> >> +	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
-> >> +	bool sink_can_mst = drm_dp_read_mst_cap(&intel_dp->aux, intel_dp->dpcd) == DP_MST_CAPABLE;
-> >>  
-> >> -	return i915->display.params.enable_dp_mst &&
-> >> +	intel_dp->is_mst = i915->display.params.enable_dp_mst &&
-> >>  		intel_dp_mst_source_support(intel_dp) &&
-> >> -		drm_dp_read_mst_cap(&intel_dp->aux, intel_dp->dpcd) == DP_MST_CAPABLE;
-> >> -}
-> >> -
-> >> -static void
-> >> -intel_dp_configure_mst(struct intel_dp *intel_dp)
-> >> -{
-> >> -	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-> >> -	struct intel_encoder *encoder =
-> >> -		&dp_to_dig_port(intel_dp)->base;
-> >> -	bool sink_can_mst = drm_dp_read_mst_cap(&intel_dp->aux, intel_dp->dpcd) == DP_MST_CAPABLE;
-> >> +		sink_can_mst;
-> >>  
-> >>  	drm_dbg_kms(&i915->drm,
-> >>  		    "[ENCODER:%d:%s] MST support: port: %s, sink: %s, modparam: %s\n",
-> >> @@ -4029,14 +4021,14 @@ intel_dp_configure_mst(struct intel_dp *intel_dp)
-> >>  		    str_yes_no(sink_can_mst),
-> >>  		    str_yes_no(i915->display.params.enable_dp_mst));
-> >>  
-> >> -	if (!intel_dp_mst_source_support(intel_dp))
-> >> -		return;
-> >> -
-> >> -	intel_dp->is_mst = sink_can_mst &&
-> >> -		i915->display.params.enable_dp_mst;
-> >> +	return intel_dp->is_mst;
-> >> +}
-> >>  
-> >> -	drm_dp_mst_topology_mgr_set_mst(&intel_dp->mst_mgr,
-> >> -					intel_dp->is_mst);
-> >> +static void intel_dp_mst_configure(struct intel_dp *intel_dp)
-> >> +{
-> >> +	if (intel_dp_mst_source_support(intel_dp))
-> >> +		drm_dp_mst_topology_mgr_set_mst(&intel_dp->mst_mgr,
-> >> +						intel_dp->is_mst);
-> >>  }
-> >>  
-> >>  static bool
-> >> @@ -5387,7 +5379,7 @@ intel_dp_detect_dpcd(struct intel_dp *intel_dp)
-> >>  		connector_status_connected : connector_status_disconnected;
-> >>  	}
-> >>  
-> >> -	if (intel_dp_can_mst(intel_dp))
-> >> +	if (intel_dp_mst_detect(intel_dp))
-> >>  		return connector_status_connected;
-> >>  
-> >>  	/* If no HPD, poke DDC gently */
-> >> @@ -5706,7 +5698,7 @@ intel_dp_detect(struct drm_connector *connector,
-> >>  
-> >>  	intel_dp_detect_dsc_caps(intel_dp, intel_connector);
-> >>  
-> >> -	intel_dp_configure_mst(intel_dp);
-> >> +	intel_dp_mst_configure(intel_dp);
-> >>  
-> >>  	/*
-> >>  	 * TODO: Reset link params when switching to MST mode, until MST
-> >> -- 
-> >> 2.39.2
+> Breaking the ABI in the process. For something that is explicitly
+> supported by the spec, the driver, and the hardware. On a property that
+> never said it wasn't meant to be used that way, and with semantics based
+> on a driver that never provided a way to check those restrictions in the
+> first place.
 > 
-> -- 
-> Jani Nikula, Intel
+> And it's not like i915 is going to use that code anyway.
+> 
+> Maxime
+
+
 
 -- 
 Ville Syrjälä
