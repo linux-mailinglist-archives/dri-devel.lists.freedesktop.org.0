@@ -2,68 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB743850E8D
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 09:05:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ADE0850E90
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 09:06:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1098B10E6FD;
-	Mon, 12 Feb 2024 08:05:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93ADE10E713;
+	Mon, 12 Feb 2024 08:06:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="n6HCQplX";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="COeLNtwu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22BB610E6FD
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 08:05:29 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-410ec928b83so1085925e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 00:05:29 -0800 (PST)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC49C10E754
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 08:06:13 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-5116b017503so3915077e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 00:06:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1707725127; x=1708329927; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1707725172; x=1708329972; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=jfCaG4VvMyKMzOb/1e6Q0Brw7CIgAIOkySvxonDdoYQ=;
- b=n6HCQplXsrU1n/ekPXXanKbfgld1cq6hw3MH0sv9CbRr4oCcxyKyy2mwUqOAM4ZvQ1
- lcx3odc7b1U83PWca9Qkh98zq1lwu72K05xuaSGquiLcDgwQkT4JiKymt//oHsvJxrgh
- hTOZAaVURdRPmJJPo97qvvkOWWvfOSV5vGP8uBCfCSq8X2+BQkJlgAeCFQvRYV8bjLJk
- GC0vx40iCSYsiVIzLE80N1a3wARjW8bfRSaYky5HSLZHiKAZ3is+rZVD8Fqw+LOEmyuR
- Rpv0LwAzhVtUvf0RI+Bz7ruKlh70lR4n9oodJphaZ2uZK0WY2L8xm6jD3kNSqSe6BEwJ
- UP+w==
+ bh=CbQOlcS38lNorYOFMdrL1FUETrD2W5+o8O5DySchflQ=;
+ b=COeLNtwuagaw+vJMpBfmJS0Cz8sYrj2zrHw5tkINYUXWhmf21p8AK57JDSFdzIN//O
+ jgfTE1ZeXseryr1uBIY4fq1U+Lf2RLc1QDUQGvFPLx8uYaGhsguPkVOujBGWt3nf4Yue
+ KUmYpSOZLtNFzoalXAJYR4xcJbjFv3Vnrxwc4WUy5/gB4jlKPX4W4ssCGJBZmfIY+wmW
+ 0tQoG/8Jqw8tZE35oFpbgiygluSjaSUFLIn1UsXn3fqRewtVUI/u0rLJ4JaASbVB9hVE
+ v4oEt416Ff2uVAOgFzmBFdF4Y7pY57KYgNPI87eaHErcwux6N737XmGG8TTDPnQhOp2A
+ TEQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707725127; x=1708329927;
+ d=1e100.net; s=20230601; t=1707725172; x=1708329972;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jfCaG4VvMyKMzOb/1e6Q0Brw7CIgAIOkySvxonDdoYQ=;
- b=KRPDf9eTnnvVQBfuFuQ0uTyzwSfR4AGDJsYonYk1jsiM9pXFLpu23MB4/cFt8kbuGk
- RqMZonx6FZbIat9DTdbYqH0BUvCkQIsgnpoflDR+q02vqdN66BkWu825p7A2fTbEbrQq
- ITubFgNKFVMsG4bCXZEsYSrFGRvrMONNxuP/L09w7N/7L4yyHuKZVRbbTlQLkDhH554G
- IBd6ScFlunQsxYYiH7d+L54R1UW1OgZ5omfe2mCy8IqZvl1dMzpJgN66Qq/cpIPutbkz
- ZFRgQU9A4SZlptlPZCHZcWNyg/2ZHwCOpgRmYg+vhtbaROpcJsbxsSGvzlA6nuRnaRnM
- cudg==
+ bh=CbQOlcS38lNorYOFMdrL1FUETrD2W5+o8O5DySchflQ=;
+ b=OxnyLZHwPe98rltbpn3+DZbI9dJOKqkM7GfEZ3bYCb6y9f4+OSlzRwrx35k4JTrLQs
+ xAFHrGM8EXsqJLJ62H0kUAKWBu6VcoYuwLBYeNh2RVoTixS66XTs1W40h3p763LaGXQI
+ U/Kx/eRI6KP7s+fOaTQnyNxZpiWIdDwJH5z0A20b/H7W/Bpu8wdQzAiDni9XA0deNFrX
+ GL9ejFzgfuqpo0+FAYt+G8Ij4JbWDnpDeNZOhE/lC3rsdYzNjYGzYjsq6GFMbj7TKzlb
+ embB9Dg6ZCqBjsaysxDiuru5V5xw6eTHtnBsqO/gHjlYHrLfwPI9YI1qtmHEJj+GRhCD
+ XjYg==
+X-Gm-Message-State: AOJu0Yw3ID+Orw9apo43MsuxcctP+4ufXVNpO3mUVmGuJozLMRFMnlCx
+ 1uzWSNHHPef/wkcGN3a4C862h4NZvers6FAvKM4ucAM8pwgZRf/7ZffYv0W3I5k=
+X-Google-Smtp-Source: AGHT+IFpW16b4m/9wQZgcZ5u0hre5D1K3WEKW27nJjwubvdGFaxOrN9QSXyQ7/cdWCy0dyRWRO5+FQ==
+X-Received: by 2002:a05:6512:39c4:b0:511:8b95:1384 with SMTP id
+ k4-20020a05651239c400b005118b951384mr2421709lfu.26.1707725171788; 
+ Mon, 12 Feb 2024 00:06:11 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCW7me8u61Ow2MEd+REsqYbdkq0CHv0W4u8JEO0UzLO52DJUTLvQcBUgGYMJNucZLPeHecaZNggOucHJVy0JlZt5QablmAMxEgQ4Mf4djrd5
-X-Gm-Message-State: AOJu0Yw0RT4JOBoHMMhyG8EloH4Kg1h6VQKP1R85ErNwbrU3Boae7aZs
- B84FoBmRJ+EHwBvpMxGHHKEi7U9vGQP1zDa5jDg2ru2LGkNwwIN0vCOIm7kY/Eg=
-X-Google-Smtp-Source: AGHT+IGFvpZ+DhrGn6aZ+iLL7W/S1HVWUzzzGBjdqb6If0h2Pd3HSrWq3vtSqF7tA5j4lFTjtbBcUA==
-X-Received: by 2002:a05:600c:5192:b0:411:2e20:fce4 with SMTP id
- fa18-20020a05600c519200b004112e20fce4mr209864wmb.29.1707725127609; 
- Mon, 12 Feb 2024 00:05:27 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCULvRkI3fws/kkH0muhMSkByhjEhxf06pagPgVPje9ftMMUJxmk6jnNoJYVxURzaVaHWy5utV/EM05HRJz0ztPSKrW7sa31qVOBQJuqUoKAtH2QI+/WM7WLgPdxSxJwOrr2F2vi9SEUbu6PzBczhTT25A3fjPlX2l25hK1FgfFarR4NbCWZ913JGjMu+zBC8qe1tMbEKIx6d3GDIxvJ+mvHPmLW9jY7XFycrfP1nhiP9GJe35IPLhmJ44WFLHPjd3ygpxJt2Lt36PyqXLe9XDlOCSlrwLTRxsTcwDuecesRfPPtP79IV79RW1i8n/eGqNxXGA/4VfjB+2hHLvin27N73b/7lNyXUaewuBgYkqghqnf8hoHI1Q6nxTWCfNCYtLqK4mxz7M3kuqzZE1V3khBLJq4zglEl2dNvJ4lYxNpMS8NEqudR+EuHW/jUUuBb/Zih1grNi1E8laLTufkeT4kMDuf1wCynzkeouWkfI1/7HkKupi8AOq3eNyaapBxm1zh53rrj0EJlaTI5zyhiyqGn8/FG2P7LIbD02gHjay5mzPhRwb/8aEwwp7IgKDVEOihhScq1YEt3H8Dm9Mvmh7BHIqCEiF02AHhq3aV61hNLWVOUaEjdNCvQL8yfNg3uqPv1dIclBwFShQSDTc2vFNF7XPVAwA==
+ AJvYcCWFSpXChVUyjQMK2D6qSa+WZAyVhOJze/M6O+MXzry1OU56mmiQ8nEfO738tsY+l3HFMNp+u5Wy/HrfqoGVh1r1a1OOsUjRyk8sIxcR5xgoX6t2TEd7v+vY9gRk+RGYAO25Pfw0qoLnlDxKn+cRIYGA417aKTXMuVAnhKl8duC9YlpWsWyrB4jGuToVlK3Oywtje20TYtk/FwSDzxioXmn6xJhk8aKE5IDWlTkcOBVfH7DVCZkUaR5/48jzM4TdlRIAqShCJc5bFE2xfq80vOQL39gQ7PhyeHGA6mVAIVpCoIl1ged+eN1MraF4bgi2Q9Z10agNHUoVllWXX1SlkVFSpDcsTwRWOY4tqgvJCXsNVO3ukLHRH/UD81wTbHyO1uaT/2I+KnkETJryMgclT7Wa2qy342prK9L97FBVZBEadKgQIUJK2rmcLD6VcKtnY+gC1ClrXwcKw4Sa3dMC/1o8zUp+clSG5SyJ8BbQC9z1lR1Af6Yu9wkNsb+PdXyp8KQYO81DzCgVOWyLFH6216cgyOOrVFIzKpjcD4bwwJ8JdI44nG5IsQhoihNFpC+54w6yYLDN+s4r061Xd2qbsJ5gX55+vN/OmW4DxFkUTITf/hgaqep5wKLBNQ8nGULmif1R4n1YQEGaiX9fL65ihsLJozF6Og==
 Received: from [192.168.1.20] ([178.197.223.6])
  by smtp.gmail.com with ESMTPSA id
- h16-20020a05600c351000b00410e6a6403esm980417wmq.34.2024.02.12.00.05.25
+ h16-20020a05600c351000b00410e6a6403esm980417wmq.34.2024.02.12.00.06.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Feb 2024 00:05:27 -0800 (PST)
-Message-ID: <de359646-2bf2-4fd9-9b98-c6fb809b2de6@linaro.org>
-Date: Mon, 12 Feb 2024 09:05:25 +0100
+ Mon, 12 Feb 2024 00:06:11 -0800 (PST)
+Message-ID: <adeb3ebb-76ed-4f00-8b46-a1b9c36cfc64@linaro.org>
+Date: Mon, 12 Feb 2024 09:06:09 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/10] dt-bindings: display: bridge: tc358775: Add
- data-lanes
+Subject: Re: [PATCH v3 03/10] dt-bindings: display: bridge: tc358775: Add
+ support for tc358765
 Content-Language: en-US
 To: Tony Lindgren <tony@atomide.com>, Andrzej Hajda
  <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
@@ -81,7 +79,7 @@ Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Michael Walle <mwalle@kernel.org>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org
 References: <20240211095144.2589-1-tony@atomide.com>
- <20240211095144.2589-3-tony@atomide.com>
+ <20240211095144.2589-4-tony@atomide.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -127,7 +125,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240211095144.2589-3-tony@atomide.com>
+In-Reply-To: <20240211095144.2589-4-tony@atomide.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -146,18 +144,20 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 11/02/2024 10:51, Tony Lindgren wrote:
-> The device uses a clock lane, and 1 to 4 DSI data lanes. Let's add the
-> data-lanes property starting at 1 similar to what the other bridge
-> bindings are doing.
+> The tc358765 is similar to tc358775. The tc358765 just an earlier version
+> of the hardware, and it's pin and register compatible with tc358775 for
+> most part.
 > 
-> Let's also drop the data-lanes properties in the example for the DSI host
-> controller to avoid confusion. The configuration of the DSI host depends
-> on the controller used and is unrelated to the bridge binding.
+> From the binding point of view the only difference is that the tc358765
+> does not have stdby-gpios.
 > 
 > Signed-off-by: Tony Lindgren <tony@atomide.com>
 > ---
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+It does not look like you tested the bindings, at least after quick
+look. Please run `make dt_binding_check` (see
+Documentation/devicetree/bindings/writing-schema.rst for instructions).
+Maybe you need to update your dtschema and yamllint.
 
 Best regards,
 Krzysztof
