@@ -2,56 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C3EB850E7B
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 09:04:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43C71850E86
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 09:04:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5D7010E69A;
-	Mon, 12 Feb 2024 08:04:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63EF410E6A5;
+	Mon, 12 Feb 2024 08:04:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PGRgZPHU";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LnvLT406";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1246F10E69A
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 08:04:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707725041; x=1739261041;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Cl/9lMDTj/JkU/Mo7PlVHBVUW25RG6HKnU5Bt0KgqbQ=;
- b=PGRgZPHUpMPaJqZlUCyRR2doAJZIVUbZGGIK+IkKs2eQA6mzNlVEX5Ld
- 7+jTkrK8FTY8pnZLJ6rQv2aRZihWhhUF8td2VSGAroQQs84wqJ/myT+Ej
- hY2NB+gpSSsxYdulqdH2XyRRmesQAcdJtZSa6ROzrkMrUjSwKcccTL4u0
- ImalSV7chPtnZlsOxAl/BVdFdBS+2GlV+q7WL7M4j88qvlxpgjWNW+d3G
- 6pdtpzU/K4GB9KWwXzLWqS2xYQPWwEsTXntjLaAhDdB7Fx6MUdROxpqV6
- wO2QVs0V+fAxy6YybpcPmJmudFF4Jdpw93XNM2gdYmLMA2fP3R0fDhfIB w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="13068393"
-X-IronPort-AV: E=Sophos;i="6.05,262,1701158400"; d="scan'208";a="13068393"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2024 00:04:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="935012799"
-X-IronPort-AV: E=Sophos;i="6.05,262,1701158400"; d="scan'208";a="935012799"
-Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.217.168.63])
- ([10.217.168.63])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2024 00:02:14 -0800
-Message-ID: <d29625c2-f348-41e3-b13c-a2f1dfd2d076@linux.intel.com>
-Date: Mon, 12 Feb 2024 09:02:12 +0100
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E64810E6A5
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 08:04:35 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-410e8412b54so2371595e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 00:04:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1707725073; x=1708329873; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=u7bOM1o3/YN1AMyucpozgMnHKjgJ77fwWLYg66eRFrc=;
+ b=LnvLT406Sbjk/g2j1wfOt7bJw4Vwha/TzncEouLtp5i3clR4CH6OVklC3xGSk+EcUm
+ 9LnzJXpoZA3yfAIb9bW3tHY5OLpIbu+ZNWWKGBDiTub9jf+JhyGKWImtnvKOqyqq54/z
+ rtSX/f1oijIvUbDRU+O8wgIYtCAhmZ0nxhDCRVOI/WD0SCYl3D/2nMbR+8VeucAS/CmN
+ rKx80BHsaEvRRNI7pw9FLFB9JR8zc+vypq1pg3tO/diZDYC9UCAV3MF6yft3FlI/rW0O
+ xj9xi6lCI/lUYK4lz2Q5uqF9/KkJQDFn/RNDD4jLd/+OKk3FEQ6n0SbwLRAkmC+iwELM
+ I8Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707725073; x=1708329873;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=u7bOM1o3/YN1AMyucpozgMnHKjgJ77fwWLYg66eRFrc=;
+ b=LA2iJwornJ998VDVLUUZ8yE4Yz2H916P8AnnwmetjqxyTLj74Q801XLmPUCLAMw67a
+ 0JzaQnMYBPILnCng1rDzC7vyIq7H/Y7by82nZXEzSrMLWBPdmDfpUnpMpikrYzfTdxK3
+ yIDHSWQH5+AxKyX6LmVH2CPulXP98rJ2boCUZ0+jKVGEjko+P1Zd8Gz7URdXPzof4dXg
+ O+44pznEvT1hUAbltbYbxgdNeNlQNNuCa3jrTB1iiyDrR6jlqGlBINOz3n/0PEsjKb5i
+ s2NMuFHR57VCYI+fsKm1Re6iPxoQbI+9al17xVzgiEPudWW7qS7IPz4RIjw6BVvtLKV+
+ b+Hg==
+X-Gm-Message-State: AOJu0YwOhcAi26PfB2+almuYc7h/zy76o8Fs80X0lsNfjdkHw9SBs/jC
+ m3wmpQwtmMaylgc8lR9l5f84DYdovceUnnFMTCBuF7Z2uOEO5rreGocSg/O1Zio=
+X-Google-Smtp-Source: AGHT+IFFXfUinvWsrRLRvD6REKumcNib65455btudcRkZpnKKiMA28IrVolucYQiHTCIfqnvdaaxmQ==
+X-Received: by 2002:a05:600c:198a:b0:410:2ab8:d16b with SMTP id
+ t10-20020a05600c198a00b004102ab8d16bmr4416939wmq.26.1707725072842; 
+ Mon, 12 Feb 2024 00:04:32 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWMTvl71JQoLZpoGXggPeVEVLYb6b2QYnxFxwIMHZ4l/+BdC0TSfrapA+eLdp/KvUMsEvv8T+7e9JPd6sYm6nLbH5jY2dhMxEI+L32Dy0Po2KByVQuOsFBLdgj1XwvkHoBGSQ98HE2KE7wM/Me124ZYKWWVUI1tZmHZB68u+8BaZGw/KOGl4fHKmxG/7lxe30yr4FSJAABcTq14FcGKLT22DKupy46pyCJ4cyxC+prXz++HhSxxNquaWwHXhyYx0B3VF7w9SS/pN4JFJpHsm3Fthlx7k/R7Cg/WxjJQb1dd7Z5/W8uXPNdavFvlmZIIDA3+AGhvZfObioGxvETzS13hGqC7u9nT4rzLmFoHvCOp3uOvkXVKj1yhgeb3KBuCyhAJY2MaR6aaIX0BDjFZN2VjdEVmErgPoL85wRjB1qWt5InQEN4moaBGNlzhRlvIHNL0CQR4HCeHXfA3/MD092355u6x1uiKoGKI7XBvhH50TLGDp+5ZT8OKMGn6swD4x9QXb7l54GZ5DXC4kVdY/lmKf2arjrhqPOnm3UsHle7zYBcH6RMIopDZnziB/SzphOWFn0n2Jz0kBSfbXWkoRViobRNmMzagvGEFbAmpAh0i5J/xBXY0ZN+URoUi9o7dVRk/8T6wdDtKQXJdd/MJ2Hh/W1c8ZAPWqPrITiOtw74=
+Received: from [192.168.1.20] ([178.197.223.6])
+ by smtp.gmail.com with ESMTPSA id
+ h16-20020a05600c351000b00410e6a6403esm980417wmq.34.2024.02.12.00.04.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Feb 2024 00:04:32 -0800 (PST)
+Message-ID: <11d92847-e459-4350-af00-862a65f90663@linaro.org>
+Date: Mon, 12 Feb 2024 09:04:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Fix DevTLB errors on suspend/resume
+Subject: Re: [PATCH v3 01/10] dt-bindings: display: bridge: tc358775: make
+ stby gpio optional
 Content-Language: en-US
-To: dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com
-References: <20240206151927.2925585-1-jacek.lawrynowicz@linux.intel.com>
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20240206151927.2925585-1-jacek.lawrynowicz@linux.intel.com>
+To: Tony Lindgren <tony@atomide.com>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Simha BN <simhavcs@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Cc: Michael Walle <mwalle@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
+References: <20240211095144.2589-1-tony@atomide.com>
+ <20240211095144.2589-2-tony@atomide.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240211095144.2589-2-tony@atomide.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,133 +143,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied to drm-misc-fixes
-
-On 06.02.2024 16:19, Jacek Lawrynowicz wrote:
-> Issue IP reset before shutdown in order to
-> complete all upstream requests to the SOC.
-> Without this DevTLB is complaining about
-> incomplete transactions and NPU cannot resume from
-> suspend.
-> This problem is only happening on recent IFWI
-> releases.
+On 11/02/2024 10:51, Tony Lindgren wrote:
+> From: Michael Walle <mwalle@kernel.org>
 > 
-> IP reset in rare corner cases can mess up PCI
-> configuration, so save it before the reset.
-> After this happens it is also impossible to
-> issue PLL requests and D0->D3->D0 cycle is needed
-> to recover the NPU. Add WP 0 request on power up,
-> so the PUNIT is always notified about NPU reset.
+> For a normal operation, the stby GPIO is not needed.
 > 
-> Fixes: 3f7c0634926d ("accel/ivpu/37xx: Fix hangs related to MMIO reset")
-> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> The reset pin is required because once the PPI (PHY protocol interface)
+> is started, it can only be stopped by asserting the reset pin.
+> 
+> Signed-off-by: Michael Walle <mwalle@kernel.org>
+> [tony@atomide.com: dropped regulator related changes]
+> Signed-off-by: Tony Lindgren <tony@atomide.com>
 > ---
->  drivers/accel/ivpu/ivpu_hw_37xx.c | 44 ++++++++++++++++++++++---------
->  drivers/accel/ivpu/ivpu_pm.c      | 12 ++++-----
->  2 files changed, 38 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
-> index 77accd029c4a..89af1006df55 100644
-> --- a/drivers/accel/ivpu/ivpu_hw_37xx.c
-> +++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
-> @@ -510,16 +510,6 @@ static int ivpu_boot_pwr_domain_enable(struct ivpu_device *vdev)
->  	return ret;
->  }
->  
-> -static int ivpu_boot_pwr_domain_disable(struct ivpu_device *vdev)
-> -{
-> -	ivpu_boot_dpu_active_drive(vdev, false);
-> -	ivpu_boot_pwr_island_isolation_drive(vdev, true);
-> -	ivpu_boot_pwr_island_trickle_drive(vdev, false);
-> -	ivpu_boot_pwr_island_drive(vdev, false);
-> -
-> -	return ivpu_boot_wait_for_pwr_island_status(vdev, 0x0);
-> -}
-> -
->  static void ivpu_boot_no_snoop_enable(struct ivpu_device *vdev)
->  {
->  	u32 val = REGV_RD32(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES);
-> @@ -616,12 +606,37 @@ static int ivpu_hw_37xx_info_init(struct ivpu_device *vdev)
->  	return 0;
->  }
->  
-> +static int ivpu_hw_37xx_ip_reset(struct ivpu_device *vdev)
-> +{
-> +	int ret;
-> +	u32 val;
-> +
-> +	if (IVPU_WA(punit_disabled))
-> +		return 0;
-> +
-> +	ret = REGB_POLL_FLD(VPU_37XX_BUTTRESS_VPU_IP_RESET, TRIGGER, 0, TIMEOUT_US);
-> +	if (ret) {
-> +		ivpu_err(vdev, "Timed out waiting for TRIGGER bit\n");
-> +		return ret;
-> +	}
-> +
-> +	val = REGB_RD32(VPU_37XX_BUTTRESS_VPU_IP_RESET);
-> +	val = REG_SET_FLD(VPU_37XX_BUTTRESS_VPU_IP_RESET, TRIGGER, val);
-> +	REGB_WR32(VPU_37XX_BUTTRESS_VPU_IP_RESET, val);
-> +
-> +	ret = REGB_POLL_FLD(VPU_37XX_BUTTRESS_VPU_IP_RESET, TRIGGER, 0, TIMEOUT_US);
-> +	if (ret)
-> +		ivpu_err(vdev, "Timed out waiting for RESET completion\n");
-> +
-> +	return ret;
-> +}
-> +
->  static int ivpu_hw_37xx_reset(struct ivpu_device *vdev)
->  {
->  	int ret = 0;
->  
-> -	if (ivpu_boot_pwr_domain_disable(vdev)) {
-> -		ivpu_err(vdev, "Failed to disable power domain\n");
-> +	if (ivpu_hw_37xx_ip_reset(vdev)) {
-> +		ivpu_err(vdev, "Failed to reset NPU\n");
->  		ret = -EIO;
->  	}
->  
-> @@ -661,6 +676,11 @@ static int ivpu_hw_37xx_power_up(struct ivpu_device *vdev)
->  {
->  	int ret;
->  
-> +	/* PLL requests may fail when powering down, so issue WP 0 here */
-> +	ret = ivpu_pll_disable(vdev);
-> +	if (ret)
-> +		ivpu_warn(vdev, "Failed to disable PLL: %d\n", ret);
-> +
->  	ret = ivpu_hw_37xx_d0i3_disable(vdev);
->  	if (ret)
->  		ivpu_warn(vdev, "Failed to disable D0I3: %d\n", ret);
-> diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-> index f501f27ebafd..fcc319ee0018 100644
-> --- a/drivers/accel/ivpu/ivpu_pm.c
-> +++ b/drivers/accel/ivpu/ivpu_pm.c
-> @@ -58,11 +58,14 @@ static int ivpu_suspend(struct ivpu_device *vdev)
->  {
->  	int ret;
->  
-> +	/* Save PCI state before powering down as it sometimes gets corrupted if NPU hangs */
-> +	pci_save_state(to_pci_dev(vdev->drm.dev));
-> +
->  	ret = ivpu_shutdown(vdev);
-> -	if (ret) {
-> +	if (ret)
->  		ivpu_err(vdev, "Failed to shutdown VPU: %d\n", ret);
-> -		return ret;
-> -	}
-> +
-> +	pci_set_power_state(to_pci_dev(vdev->drm.dev), PCI_D3hot);
->  
->  	return ret;
->  }
-> @@ -200,9 +203,6 @@ int ivpu_pm_suspend_cb(struct device *dev)
->  	ivpu_suspend(vdev);
->  	ivpu_pm_prepare_warm_boot(vdev);
->  
-> -	pci_save_state(to_pci_dev(dev));
-> -	pci_set_power_state(to_pci_dev(dev), PCI_D3hot);
-> -
->  	ivpu_dbg(vdev, PM, "Suspend done.\n");
->  
->  	return 0;
+
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
+
