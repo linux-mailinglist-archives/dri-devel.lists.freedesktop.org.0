@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50EBB851E51
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 21:04:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EA5D851E4F
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 21:04:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B90C510E32C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47E4010E24E;
 	Mon, 12 Feb 2024 20:04:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED7F710E24E
+Received: from mx.skole.hr (mx2.hosting.skole.hr [161.53.165.186])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE9CB10E32C
  for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 20:04:44 +0000 (UTC)
-Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
- by mx.skole.hr (mx.skole.hr) with ESMTP id E072683BA7;
- Mon, 12 Feb 2024 21:04:36 +0100 (CET)
+Received: from mx2.hosting.skole.hr (localhost.localdomain [127.0.0.1])
+ by mx.skole.hr (mx.skole.hr) with ESMTP id DE5BB8507B;
+ Mon, 12 Feb 2024 21:04:37 +0100 (CET)
 From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Subject: [PATCH 0/2] leds: expresswire: Fix dependencies
-Date: Mon, 12 Feb 2024 21:03:24 +0100
-Message-Id: <20240212-expresswire-deps-v1-0-685ad10cd693@skole.hr>
+Date: Mon, 12 Feb 2024 21:03:25 +0100
+Subject: [PATCH 1/2] Revert "leds: Only descend into leds directory when
+ CONFIG_NEW_LEDS is set"
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAIx5ymUC/x2MQQqAIBQFrxJ/naBWYF0lWki+6m8q/FCCePek5
- TDMZBJEhtDUZIp4WPg6K5i2ofXw5w7FoTJZbXttjVVId4TIyxEq4BYFNw5wwTv4jmpW9cbpX85
- LKR8kQUMcYgAAAA==
+Message-Id: <20240212-expresswire-deps-v1-1-685ad10cd693@skole.hr>
+References: <20240212-expresswire-deps-v1-0-685ad10cd693@skole.hr>
+In-Reply-To: <20240212-expresswire-deps-v1-0-685ad10cd693@skole.hr>
 To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
  Daniel Thompson <daniel.thompson@linaro.org>, 
  Linus Walleij <linus.walleij@linaro.org>, Arnd Bergmann <arnd@arndb.de>
@@ -37,21 +37,21 @@ Cc: Flavio Suligoi <f.suligoi@asem.it>, Hans de Goede <hdegoede@redhat.com>,
  linux-leds@vger.kernel.org, 
  =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=675;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1040;
  i=duje.mihanovic@skole.hr; h=from:subject:message-id;
- bh=H5SASPixAqUHq3Nu5xj+/KLu5M1naq1Am/HTSAj4Qig=;
- b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlynmgj96tx0yxiCk6LRKUNqTO/ibINXBCd6K5R
- Kv13Nu7/QWJAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZcp5oAAKCRCaEZ6wQi2W
- 4UtOD/9CIR17mjfkoT3abEQNFhCVDJXwkykj/eV70cTOXmLHQYJqogh+3EJOfkyCEG8Xg5jDGx1
- jRe5pKs4RXoKgOpZNN7dZ9PlGpJdTc+cW4IxpbBrAlVqKltFH5x1OBOiQgrObxnTOqe4q6u5rfB
- cW2nW8fTnLL+pFOupFa+onY+wNLeRyDXXh0/dJPEdBsDIMVzxX8VZdXN4aKbTTViXvHWWiRFljP
- cknU797dHb6Tf1K+/Dq4XgVMqCYPpQJxkgyDql9hiSuQSaYlQUc+nf0RjFOHL4NreWQX+jtipxG
- 9pUAdh5AcoDVUp+PhT9giIZUSPKGaBlsnomNN2BcP4uCXh9OOleOgPzuk7yEGhnXb4/EgxrIMxx
- TVUkyYUFqQpMvAN2OlsG1roXKQm1ow/yODTY7y0Cst46f41R8n/pZ2HJ6E9UjBLG/S5P21wc7k6
- eD0ghlPYG5knL3dk9VD0npSPY9PmD13y0ixup6J1GfROEtWMdWmyUBnplvpSjdVOACrSGRSW/LO
- lL+YEx2Ccc+KBme2eTZYjkdtggldwF9XpDGCHmaoTKO8YoxNCj2A4dMOWyFPBuEVek3gsq0l1qE
- WxD0CWMpkokK8LnYySyUvjyLTrikpqRSUWiTTuQqrVZytxuihgUP+iiVQOee5y0AtWyexIron7X
- kS/qxZVpmhMJHFw==
+ bh=PSXGPCrqbnaDBfgcrLl0RTka3gT8h50OxpcbtqLKeVY=;
+ b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlynmg1AO2BNWzA/ObjvKoEbirvyIXAvvYxitfx
+ MmcK/0fNv2JAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZcp5oAAKCRCaEZ6wQi2W
+ 4ctmD/4tcF0fuxA0coVon4C8C7312+ldyuaC8IMNaeizEWBKHkJm0mENe1UP33oiF5dAyGssI44
+ 95H+dwlBtvzANNwvK6g/oKe/1Qt/OJrcPpxaFinTRGdGF2a7/YVIPbWdRGdxUI0D+kOGpHkjKJ8
+ Nl7wrt9TWpqs2ABy5Aiwr0y1a3tNTx57hHkCTIWrdB/MZW3c6yxOcYeyBo+lT6zEcUuGsuEaiql
+ 0k/BMoMtI9IPG3K84mn8KlbY1tqAjaEiL+HiusXzi88t+IgfiIi2NxP6sxpeSQrCqvlkFRo8mLY
+ f99AfHzmk54jks9GuUMTmArCD0TdROur7XqcHoM/kt8M/B3xh0Kevs4qGQXi9COv5+bTc2LWdXU
+ xB7NOqva9vj785yNN98a60IEct2wT0Au/zuSA94KqQmrRRLD9MqlKZqHzfYjcmg2yW1kJbWG2V4
+ tKsHMGRNxl1/mNti1iZy5SfKnPoQY7TyoBLBz7eHLfDTrPCVWudNcyzomdhqVG1r7hNVpNQdeDN
+ FJImywxVWRgLegz1/5kVkdUhyNrP6nJz1Nbw0EanENzJH+3FjGJci3RybAAm6S6C3rYNee8QJtF
+ eFM3JQS1+C0AOhRpnyHQaKKI/SkvEphXmU5iVyON3BO8crU8TJPJqGETm4X2Z+upytZmQTZbMNh
+ vdemFIgFU3AMFtQ==
 X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
  fpr=53DF9D4D9C3FE110FB362D789A119EB0422D96E1
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,25 +69,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-LEDS_EXPRESSWIRE does not depend on NEW_LEDS in practice but still does
-in Kconfig. Fix up its Kconfig entry to reflect this and fix a Kconfig
-warning.
+This reverts commit b1ae40a5db6191c42e2e45d726407096f030ee08.
 
+The ExpressWire library introduced in 25ae5f5f4168 ("leds: Introduce
+ExpressWire library") does not depend on NEW_LEDS, but without this
+revert it would never get compiled if NEW_LEDS is not enabled. Revert
+this commit to allow the library to be compiled.
+
+Link: https://lore.kernel.org/2cacd8dc-6150-4aa2-af9e-830a202fb0a8@app.fastmail.com
+Suggested-by: Arnd Bergmann <arnd@arndb.de>
 Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
 ---
-Duje Mihanović (2):
-      Revert "leds: Only descend into leds directory when CONFIG_NEW_LEDS is set"
-      leds: expresswire: don't depend on NEW_LEDS
+ drivers/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/Makefile     |  2 +-
- drivers/leds/Kconfig | 10 ++++++----
- 2 files changed, 7 insertions(+), 5 deletions(-)
----
-base-commit: ae00c445390b349e070a64dc62f08aa878db7248
-change-id: 20240212-expresswire-deps-e895e8da8ea3
+diff --git a/drivers/Makefile b/drivers/Makefile
+index 37fd6ce3bd7f..3bf5cab4b451 100644
+--- a/drivers/Makefile
++++ b/drivers/Makefile
+@@ -135,7 +135,7 @@ obj-$(CONFIG_CPU_IDLE)		+= cpuidle/
+ obj-y				+= mmc/
+ obj-y				+= ufs/
+ obj-$(CONFIG_MEMSTICK)		+= memstick/
+-obj-$(CONFIG_NEW_LEDS)		+= leds/
++obj-y				+= leds/
+ obj-$(CONFIG_INFINIBAND)	+= infiniband/
+ obj-y				+= firmware/
+ obj-$(CONFIG_CRYPTO)		+= crypto/
 
-Best regards,
 -- 
-Duje Mihanović <duje.mihanovic@skole.hr>
+2.43.1
 
 
