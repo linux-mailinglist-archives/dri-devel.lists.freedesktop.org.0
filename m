@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 150EF851E4E
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 21:04:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C02F6851ED5
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 21:46:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C78010E306;
-	Mon, 12 Feb 2024 20:04:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5224B10E195;
+	Mon, 12 Feb 2024 20:46:54 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dofZfdfp";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE1C410E306
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 20:04:44 +0000 (UTC)
-Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
- by mx.skole.hr (mx.skole.hr) with ESMTP id 982CF83C56;
- Mon, 12 Feb 2024 21:04:38 +0100 (CET)
-From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Date: Mon, 12 Feb 2024 21:03:26 +0100
-Subject: [PATCH 2/2] leds: expresswire: don't depend on NEW_LEDS
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C5EC10E195
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 20:46:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1707770813; x=1739306813;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=43rYMnzoKxs+g1rFQoFJuws32YY+vCTRr/KVq4oGhIQ=;
+ b=dofZfdfpMdvkzxFMpyHaHXctWsCejCxINiTz2IncY6+dOMZ8hdvrKEiC
+ aO/S0K3UkSC+CogTv/gBObRU+HNfEHGLOCzTM8WgruMdXP8ePInG1iAcE
+ l4t9atoL+AMqL3acKPqS6XrINNRhTapX7hwSw5VqBph36cwPK8wF9Jtng
+ trLfbOHttpTJyVpBS17Jc48C4pjNsthCanNktlieCYdKgGoU01XR9PrT0
+ yxdkZ1yqT+FvVDyZoYT7l9I0J6pTqi5lnbKgROQMCMQzMpvrnG2TDFCzp
+ e0YlXMI0sr2aworlmA4vtwSjdFSYg5kZRfPe8ckXd8ghum+caI/1Aur35 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="27210515"
+X-IronPort-AV: E=Sophos;i="6.06,155,1705392000"; d="scan'208";a="27210515"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Feb 2024 12:46:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,155,1705392000"; 
+   d="scan'208";a="7321571"
+Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
+ by fmviesa004.fm.intel.com with ESMTP; 12 Feb 2024 12:46:51 -0800
+Received: from kbuild by 01f0647817ea with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rZdCS-0007ME-37;
+ Mon, 12 Feb 2024 20:46:48 +0000
+Date: Tue, 13 Feb 2024 04:46:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Luca Coelho <luciano.coelho@intel.com>
+Subject: [drm-misc:for-linux-next 40/49]
+ drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c:317:48: error: passing argument
+ 1 of 'drm_err_printer' from incompatible pointer type
+Message-ID: <202402130446.4SBrCdZH-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240212-expresswire-deps-v1-2-685ad10cd693@skole.hr>
-References: <20240212-expresswire-deps-v1-0-685ad10cd693@skole.hr>
-In-Reply-To: <20240212-expresswire-deps-v1-0-685ad10cd693@skole.hr>
-To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
- Daniel Thompson <daniel.thompson@linaro.org>, 
- Linus Walleij <linus.walleij@linaro.org>, Arnd Bergmann <arnd@arndb.de>
-Cc: Flavio Suligoi <f.suligoi@asem.it>, Hans de Goede <hdegoede@redhat.com>, 
- Jianhua Lu <lujianhua000@gmail.com>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
- Helge Deller <deller@gmx.de>, Jingoo Han <jingoohan1@gmail.com>, 
- Karel Balej <balejk@matfyz.cz>, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-leds@vger.kernel.org, 
- =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1760;
- i=duje.mihanovic@skole.hr; h=from:subject:message-id;
- bh=8oXLHu5mf6GCO+ZMr+tU6h6oKIscP7uIjmv7rxzg+zo=;
- b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlynmgL8L0kP8ZVEOL1g3BmNLjNbTU+Q9Ykoclo
- JRlY2qTALGJAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZcp5oAAKCRCaEZ6wQi2W
- 4ZkvD/9Tm0AdqRYDjoU8A+UDGagpNQJX5o2MxYzKRI15Kjuili8GVVflTvViVBi8H34/ML2TaNa
- jEeaHxyeQssz/2zcEpflayLn02Sq1FOwKnbvzp7VjdvltWyeAkIPn6Nx3gLszasLNrh3FisGZ+8
- pg4FlXvlkDpxnflQ7tu8hTKLCnPWnbzIX8dZqP2JDTTljWc0fqL8CvLXfOqz3W4kdj3JYmGpAB+
- NPcKfhUn+aP+MUzP3j0hxCUiaywhKiR5e0hvgIgyiXYY7KHcD/tfh6P5nefeV3x6nD/NsStw5eO
- sOkyzOe3hc0KlLT2sgdzGw7t1Zm5ytPX6LYjwfBwiBG9vvCC0Cxa6xbqpdr5cUPjmJL0wRFO3/Z
- E0baLz6BFlGEs64xGzWz1dTG+VMlG2V3Or2CKO4p4AIsx7QEio/Rjm6tGChAcqupljAZCeetnSA
- 4GcUqixr4W8gbqcFkylk86tIXZmqaI4YsTEyObgqQwmSFIHwUhnU8aV2pLH7JBtJQHABysUjUXz
- P97uJRkCfNs1CVOYbBgH3tYIKH3aSkzIuv4i+gf/8LPtge3BGEOEUHYXc8E4TvJJTnZ1tFP2Zh4
- qzDs5rdjQ6ZsABIz4sdsizTeQjIJytLO0ZIWgZGxjtXnH1U9iT5vCcdUe6qTMkpr20jL9/XqD28
- eOvZ3avwrFwS2jg==
-X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
- fpr=53DF9D4D9C3FE110FB362D789A119EB0422D96E1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,56 +66,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ExpressWire library does not depend on NEW_LEDS and selecting it
-from a subsystem other than LEDs may cause Kconfig warnings:
+tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
+head:   247f2ee4498cfcaf18b3c3486dffd2302d56fc17
+commit: 5e0c04c8c40b69ab165d52964433859d8b666376 [40/49] drm/print: make drm_err_printer() device specific by using drm_err()
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240213/202402130446.4SBrCdZH-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240213/202402130446.4SBrCdZH-lkp@intel.com/reproduce)
 
-WARNING: unmet direct dependencies detected for LEDS_EXPRESSWIRE
-  Depends on [n]: NEW_LEDS [=n] && GPIOLIB [=y]
-  Selected by [y]:
-  - BACKLIGHT_KTD2801 [=y] && HAS_IOMEM [=y] && BACKLIGHT_CLASS_DEVICE [=y]
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402130446.4SBrCdZH-lkp@intel.com/
 
-Move it out of the "if NEW_LEDS" block to allow selection from other
-subsystems (in particular backlight) without raising this warning.
+Note: the drm-misc/for-linux-next HEAD 247f2ee4498cfcaf18b3c3486dffd2302d56fc17 builds fine.
+      It only hurts bisectability.
 
-Link: https://lore.kernel.org/20240212111819.936815-1-arnd@kernel.org
-Reported-by: Arnd Bergmann <arnd@arndb.de>
-Suggested-by: Daniel Thompson <daniel.thompson@linaro.org>
-Fixes: 25ae5f5f4168 ("leds: Introduce ExpressWire library")
-Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
----
- drivers/leds/Kconfig | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+All errors (new ones prefixed by >>):
 
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index 52328d295b4e..66998b938ed3 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -6,6 +6,12 @@ config LEDS_GPIO_REGISTER
- 	  As this function is used by arch code it must not be compiled as a
- 	  module.
- 
-+# This library does not depend on NEW_LEDS and must be independent so it can be
-+# selected from other subsystems (specifically backlight).
-+config LEDS_EXPRESSWIRE
-+	bool
-+	depends on GPIOLIB
-+
- menuconfig NEW_LEDS
- 	bool "LED Support"
- 	help
-@@ -186,10 +192,6 @@ config LEDS_EL15203000
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called leds-el15203000.
- 
--config LEDS_EXPRESSWIRE
--	bool
--	depends on GPIOLIB
--
- config LEDS_TURRIS_OMNIA
- 	tristate "LED support for CZ.NIC's Turris Omnia"
- 	depends on LEDS_CLASS_MULTICOLOR
+   drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c: In function 'xe_gt_tlb_invalidation_wait':
+>> drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c:317:48: error: passing argument 1 of 'drm_err_printer' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     317 |         struct drm_printer p = drm_err_printer(__func__);
+         |                                                ^~~~~~~~
+         |                                                |
+         |                                                const char *
+   In file included from include/drm/ttm/ttm_resource.h:34,
+                    from include/drm/ttm/ttm_device.h:30,
+                    from drivers/gpu/drm/xe/xe_device_types.h:13,
+                    from drivers/gpu/drm/xe/xe_device.h:15,
+                    from drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c:9:
+   include/drm/drm_print.h:247:69: note: expected 'struct drm_device *' but argument is of type 'const char *'
+     247 | static inline struct drm_printer drm_err_printer(struct drm_device *drm,
+         |                                                  ~~~~~~~~~~~~~~~~~~~^~~
+>> drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c:317:32: error: too few arguments to function 'drm_err_printer'
+     317 |         struct drm_printer p = drm_err_printer(__func__);
+         |                                ^~~~~~~~~~~~~~~
+   include/drm/drm_print.h:247:34: note: declared here
+     247 | static inline struct drm_printer drm_err_printer(struct drm_device *drm,
+         |                                  ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/drm_err_printer +317 drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c
+
+a9351846d94568 Matthew Brost  2023-01-17  302  
+c6b0948ff8d084 Matthew Brost  2023-01-20  303  /**
+c6b0948ff8d084 Matthew Brost  2023-01-20  304   * xe_gt_tlb_invalidation_wait - Wait for TLB to complete
+c6b0948ff8d084 Matthew Brost  2023-01-20  305   * @gt: graphics tile
+c6b0948ff8d084 Matthew Brost  2023-01-20  306   * @seqno: seqno to wait which was returned from xe_gt_tlb_invalidation
+c6b0948ff8d084 Matthew Brost  2023-01-20  307   *
+c6b0948ff8d084 Matthew Brost  2023-01-20  308   * Wait for 200ms for a TLB invalidation to complete, in practice we always
+c6b0948ff8d084 Matthew Brost  2023-01-20  309   * should receive the TLB invalidation within 200ms.
+c6b0948ff8d084 Matthew Brost  2023-01-20  310   *
+c6b0948ff8d084 Matthew Brost  2023-01-20  311   * Return: 0 on success, -ETIME on TLB invalidation timeout
+c6b0948ff8d084 Matthew Brost  2023-01-20  312   */
+a9351846d94568 Matthew Brost  2023-01-17  313  int xe_gt_tlb_invalidation_wait(struct xe_gt *gt, int seqno)
+a9351846d94568 Matthew Brost  2023-01-17  314  {
+a9351846d94568 Matthew Brost  2023-01-17  315  	struct xe_device *xe = gt_to_xe(gt);
+a9351846d94568 Matthew Brost  2023-01-17  316  	struct xe_guc *guc = &gt->uc.guc;
+ebb00b285bef8b Pallavi Mishra 2023-11-01 @317  	struct drm_printer p = drm_err_printer(__func__);
+a9351846d94568 Matthew Brost  2023-01-17  318  	int ret;
+a9351846d94568 Matthew Brost  2023-01-17  319  
+a9351846d94568 Matthew Brost  2023-01-17  320  	/*
+a9351846d94568 Matthew Brost  2023-01-17  321  	 * XXX: See above, this algorithm only works if seqno are always in
+a9351846d94568 Matthew Brost  2023-01-17  322  	 * order
+a9351846d94568 Matthew Brost  2023-01-17  323  	 */
+a9351846d94568 Matthew Brost  2023-01-17  324  	ret = wait_event_timeout(guc->ct.wq,
+a9351846d94568 Matthew Brost  2023-01-17  325  				 tlb_invalidation_seqno_past(gt, seqno),
+38224c00d9c284 Matthew Brost  2023-01-24  326  				 TLB_TIMEOUT);
+a9351846d94568 Matthew Brost  2023-01-17  327  	if (!ret) {
+a5cecbac92d5a5 Nirmoy Das     2023-05-05  328  		drm_err(&xe->drm, "gt%d: TLB invalidation time'd out, seqno=%d, recv=%d\n",
+a5cecbac92d5a5 Nirmoy Das     2023-05-05  329  			gt->info.id, seqno, gt->tlb_invalidation.seqno_recv);
+ebb00b285bef8b Pallavi Mishra 2023-11-01  330  		xe_guc_ct_print(&guc->ct, &p, true);
+a9351846d94568 Matthew Brost  2023-01-17  331  		return -ETIME;
+a9351846d94568 Matthew Brost  2023-01-17  332  	}
+a9351846d94568 Matthew Brost  2023-01-17  333  
+a9351846d94568 Matthew Brost  2023-01-17  334  	return 0;
+a9351846d94568 Matthew Brost  2023-01-17  335  }
+a9351846d94568 Matthew Brost  2023-01-17  336  
+
+:::::: The code at line 317 was first introduced by commit
+:::::: ebb00b285bef8bcdc46ac4e344d5748539bdd213 drm/xe: Dump CTB during TLB timeout
+
+:::::: TO: Pallavi Mishra <pallavi.mishra@intel.com>
+:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
 -- 
-2.43.1
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
