@@ -2,49 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12D91851218
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 12:22:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A8B1851233
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Feb 2024 12:26:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CA6F10EB58;
-	Mon, 12 Feb 2024 11:22:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33D2E10EBB8;
+	Mon, 12 Feb 2024 11:26:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CygLBY8X";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G4r9VQZB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 664D910E548;
- Mon, 12 Feb 2024 11:22:40 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41B9810EBB8
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Feb 2024 11:26:47 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9BF0C60F55;
- Mon, 12 Feb 2024 11:22:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81EFDC433C7;
- Mon, 12 Feb 2024 11:22:33 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 61884CE10C2;
+ Mon, 12 Feb 2024 11:26:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 267C7C433C7;
+ Mon, 12 Feb 2024 11:26:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1707736956;
- bh=4C5nZGco26sonFA2eNFl58Z2ow6XP0jrBTogGeyvF7M=;
- h=From:To:Cc:Subject:Date:From;
- b=CygLBY8XhV8HOEbO2Yhqk49rWMjOa8t2XLVwB952Zz4Bn5kxp5qwPCPwj6HZhry+M
- ONK37SaoxMjxxOqj6C4rHrZzvJp/ArzDLuID/k7Ii2qYxHlnmZ7Y022pDFbWlcEq2i
- xaYEp2k8aUx4AkjEA4ekWKpu+lqThQHgBVjee8XR4SI3IJVazSwqTit59Mhqt60bs7
- ZqpVppMJxzsAiodFBPS9eJ3C+3oDXxa/00VxMMGxnPpkfVU9t7QfG7XwQUR0JmP9Jx
- rDGkdxt3oHqtyzYakpPU2f085hoUlMnvvb3VDUNrmjscFJAe4gkI+/yMqEj0h+mfb+
- 6xwEdiygBPvKg==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Kees Cook <keescook@chromium.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Dave Airlie <airlied@redhat.com>,
- Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] nouveau/svm: fix kvcalloc() argument order
-Date: Mon, 12 Feb 2024 12:22:17 +0100
-Message-Id: <20240212112230.1117284-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ s=k20201202; t=1707737204;
+ bh=K3N8ZPAAOKo0KZHQ34c8vMe/Mid0bAJ1+AspKF2Ta2E=;
+ h=Date:Subject:Cc:From:To:References:In-Reply-To:From;
+ b=G4r9VQZBjq2Ug7fVbtqc1J2XD24jen1ATbmQqVGMxsRqcBujjXcbqtoIbCsMkG7HT
+ VP06Z4eDclY3lVzoSAlb/lKUwuUC5ue2Ts1jG5tWmUisOPd65RSNxwj46nzLDhb6pO
+ moaMQdqnzuVwFwzn0TJ/ul5HPW2VTEM7+/8Pis0743uvHVPaenBQ9zrAe1Mbmml94j
+ godjMfQ/ZRx+CMzPK7MDLHAV5wIlxWRnhtuRtxKhSI56nsKiDjztOmInBPJiULfUrc
+ PNsCU/IzaIwUGt1E45ouVNzL/XafWJh2GAhh4FD7Rz5I9W0VCOmXypgSOXCuva5dv0
+ bHSleyO3mCP/g==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 12 Feb 2024 12:26:32 +0100
+Message-Id: <CZ32B7Z5AD1C.15PCL5XYCYOP7@kernel.org>
+Subject: Re: [PATCH v3 10/10] drm/bridge: tc358775: Configure hs_rate and
+ lp_rate
+Cc: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
+ <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>
+From: "Michael Walle" <mwalle@kernel.org>
+To: "Tony Lindgren" <tony@atomide.com>, "Andrzej Hajda"
+ <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
+ <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>, "Rob Herring"
+ <robh+dt@kernel.org>, "Krzysztof Kozlowski"
+ <krzysztof.kozlowski+dt@linaro.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Simha BN" <simhavcs@gmail.com>, "Sam Ravnborg" <sam@ravnborg.org>
+X-Mailer: aerc 0.16.0
+References: <20240211095144.2589-1-tony@atomide.com>
+ <20240211095144.2589-11-tony@atomide.com>
+In-Reply-To: <20240211095144.2589-11-tony@atomide.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,39 +70,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Sun Feb 11, 2024 at 10:51 AM CET, Tony Lindgren wrote:
+> The hs_rate and lp_rate may be used by the dsi host for timing
+> calculations. The tc358775 has a maximum bit rate of 1 Gbps/lane,
+> tc358765 has maximurate of 800 Mbps per lane.
+>
+> Signed-off-by: Tony Lindgren <tony@atomide.com>
+Reviewed-by: Michael Walle <mwalle@kernel.org>
 
-The conversion to kvcalloc() mixed up the object size and count
-arguments, causing a warning:
-
-drivers/gpu/drm/nouveau/nouveau_svm.c: In function 'nouveau_svm_fault_buffer_ctor':
-drivers/gpu/drm/nouveau/nouveau_svm.c:1010:40: error: 'kvcalloc' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Werror=calloc-transposed-args]
- 1010 |         buffer->fault = kvcalloc(sizeof(*buffer->fault), buffer->entries, GFP_KERNEL);
-      |                                        ^
-drivers/gpu/drm/nouveau/nouveau_svm.c:1010:40: note: earlier argument should specify number of elements, later size of each element
-
-The behavior is still correct aside from the warning, but fixing it avoids
-the warnings and can help the compiler track the individual objects better.
-
-Fixes: 71e4bbca070e ("nouveau/svm: Use kvcalloc() instead of kvzalloc()")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/gpu/drm/nouveau/nouveau_svm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
-index 4d1008915499..b4da82ddbb6b 100644
---- a/drivers/gpu/drm/nouveau/nouveau_svm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
-@@ -1007,7 +1007,7 @@ nouveau_svm_fault_buffer_ctor(struct nouveau_svm *svm, s32 oclass, int id)
- 	if (ret)
- 		return ret;
- 
--	buffer->fault = kvcalloc(sizeof(*buffer->fault), buffer->entries, GFP_KERNEL);
-+	buffer->fault = kvcalloc(buffer->entries, sizeof(*buffer->fault), GFP_KERNEL);
- 	if (!buffer->fault)
- 		return -ENOMEM;
- 
--- 
-2.39.2
-
+-michael
