@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F411385231D
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 01:19:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9CBD852323
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 01:20:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B14510E23D;
-	Tue, 13 Feb 2024 00:19:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20B4E10E483;
+	Tue, 13 Feb 2024 00:19:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TNon0623";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jNxlG2KB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 720E510E23D;
- Tue, 13 Feb 2024 00:19:34 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 884B110E483
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 00:19:56 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 7EE7E6101E;
- Tue, 13 Feb 2024 00:19:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 923D9C433F1;
- Tue, 13 Feb 2024 00:19:28 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id BACB4CE188B;
+ Tue, 13 Feb 2024 00:19:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBE94C433C7;
+ Tue, 13 Feb 2024 00:19:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1707783570;
- bh=YtZoeSc5wThDzrqhQZJibdxh6/kPDakwPfAOeT08oRM=;
+ s=k20201202; t=1707783590;
+ bh=QGj5j0oEDjjnBXJCwY1815nVn1vrlL+NkbYjRzcy7qg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TNon0623S6n1nNqshilUgpLxj4aKpvMlq6rHfLzXuWN10BjzXF7VqpQkMBp96Zb/u
- LRCubuodZnx7nwBHWkqiFsjj8elZnZsuETScUFqZn78rJFfq13S1EqIg3yJy/+3iou
- R8eP9trz3XeV/4ex3MX+Fte6WFLYv11xXI8rV54LKhMxP/TLypqsZ6p1xMbXSBoXes
- 7iPDNnyjM8t+wfgwHnfs2XYAcL9fxvEkcZp5vK5z6ZUg/OyOTXrVbAcS0xlXxIMYa9
- LxKZhWI23rUlXGTrzMoAIqhIJKfJB8+tUAlBr2c/rjF15I8z8fRWHuJt6teFvmq86w
- RyBZP1FShvxog==
+ b=jNxlG2KBDhk9ksqueWhPLERSUO+PHPUuA68K0IlRtp8J2sHryz6nFryDhPrxohAZ/
+ JtihtLlXnCBTzRbCTh813v61R7/Jk9+FgzVNR5AgL498/41YgO8syMUOTrGcGoCLoV
+ rertq50f0qP3HUKVzW8lK0U9jWYLa1yKPsiNCBLiUvJXMXl5aLrpeZlK5a2+DMdPBR
+ UADq8u6CdwykSLPDK0hFvPdoMmcc8ua/98EYTEgksRfMvCW0fdoG4i7FST3SG+jiBd
+ 7DfNbL+85MmivRFb4fWws9eC/Kx5tS7BCk8R1IEhhMNwoQLAw0LwQq5MDnSeKoFiVM
+ Vhg+1cEHXkUsA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Timur Tabi <ttabi@nvidia.com>, Danilo Krummrich <dakr@redhat.com>,
- Sasha Levin <sashal@kernel.org>, kherbst@redhat.com, lyude@redhat.com,
- airlied@gmail.com, daniel@ffwll.ch, airlied@redhat.com, bskeggs@redhat.com,
- dan.carpenter@linaro.org, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.7 35/58] drm/nouveau: nvkm_gsp_radix3_sg() should
- use nvkm_gsp_mem_ctor()
-Date: Mon, 12 Feb 2024 19:17:41 -0500
-Message-ID: <20240213001837.668862-35-sashal@kernel.org>
+Cc: "Wachowski, Karol" <karol.wachowski@intel.com>,
+	Wachowski@freedesktop.org,
+	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+	Jeffrey Hugo <quic_jhugo@quicinc.com>,
+	Sasha Levin <sashal@kernel.org>, stanislaw.gruszka@linux.intel.com,
+	ogabbay@kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.7 43/58] accel/ivpu: Force snooping for MMU writes
+Date: Mon, 12 Feb 2024 19:17:49 -0500
+Message-ID: <20240213001837.668862-43-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240213001837.668862-1-sashal@kernel.org>
 References: <20240213001837.668862-1-sashal@kernel.org>
@@ -65,72 +65,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Timur Tabi <ttabi@nvidia.com>
+From: "Wachowski, Karol" <karol.wachowski@intel.com>
 
-[ Upstream commit 34e659f34a7559ecfd9c1f5b24d4c291f3f54711 ]
+[ Upstream commit c9da9a1f17bf4fa96b115950fd389c917b583c1c ]
 
-Function nvkm_gsp_radix3_sg() uses nvkm_gsp_mem objects to allocate the
-radix3 tables, but it unnecessarily creates those objects manually
-instead of using the standard nvkm_gsp_mem_ctor() function like the
-rest of the code does.
+Set AW_SNOOP_OVERRIDE bit in VPU_37/40XX_HOST_IF_TCU_PTW_OVERRIDES
+to force snooping for MMU write accesses (setting event queue events).
 
-Signed-off-by: Timur Tabi <ttabi@nvidia.com>
-Signed-off-by: Danilo Krummrich <dakr@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240202230608.1981026-2-ttabi@nvidia.com
+MMU event queue buffer is the only buffer written by MMU and
+mapped as write-back which break cache coherency. Force write
+transactions to be snooped solving the problem.
+
+Signed-off-by: Wachowski, Karol <karol.wachowski@intel.com>
+Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240126122804.2169129-2-jacek.lawrynowicz@linux.intel.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ drivers/accel/ivpu/ivpu_hw_37xx.c | 2 +-
+ drivers/accel/ivpu/ivpu_hw_40xx.c | 2 +-
+ drivers/accel/ivpu/ivpu_mmu.c     | 3 ---
+ 3 files changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-index 9ee58e2a0eb2..09e2eb1369cb 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-@@ -1938,20 +1938,20 @@ nvkm_gsp_radix3_dtor(struct nvkm_gsp *gsp, struct nvkm_gsp_radix3 *rx3)
-  * See kgspCreateRadix3_IMPL
-  */
- static int
--nvkm_gsp_radix3_sg(struct nvkm_device *device, struct sg_table *sgt, u64 size,
-+nvkm_gsp_radix3_sg(struct nvkm_gsp *gsp, struct sg_table *sgt, u64 size,
- 		   struct nvkm_gsp_radix3 *rx3)
- {
- 	u64 addr;
+diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
+index d530384f8d60..e658fcf849f7 100644
+--- a/drivers/accel/ivpu/ivpu_hw_37xx.c
++++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
+@@ -523,7 +523,7 @@ static void ivpu_boot_no_snoop_enable(struct ivpu_device *vdev)
+ 	u32 val = REGV_RD32(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES);
  
- 	for (int i = ARRAY_SIZE(rx3->mem) - 1; i >= 0; i--) {
- 		u64 *ptes;
--		int idx;
-+		size_t bufsize;
-+		int ret, idx;
+ 	val = REG_SET_FLD(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, NOSNOOP_OVERRIDE_EN, val);
+-	val = REG_SET_FLD(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, AW_NOSNOOP_OVERRIDE, val);
++	val = REG_CLR_FLD(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, AW_NOSNOOP_OVERRIDE, val);
+ 	val = REG_SET_FLD(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, AR_NOSNOOP_OVERRIDE, val);
  
--		rx3->mem[i].size = ALIGN((size / GSP_PAGE_SIZE) * sizeof(u64), GSP_PAGE_SIZE);
--		rx3->mem[i].data = dma_alloc_coherent(device->dev, rx3->mem[i].size,
--						      &rx3->mem[i].addr, GFP_KERNEL);
--		if (WARN_ON(!rx3->mem[i].data))
--			return -ENOMEM;
-+		bufsize = ALIGN((size / GSP_PAGE_SIZE) * sizeof(u64), GSP_PAGE_SIZE);
-+		ret = nvkm_gsp_mem_ctor(gsp, bufsize, &rx3->mem[i]);
-+		if (ret)
-+			return ret;
+ 	REGV_WR32(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, val);
+diff --git a/drivers/accel/ivpu/ivpu_hw_40xx.c b/drivers/accel/ivpu/ivpu_hw_40xx.c
+index e691c49c9841..8a7440bcd6df 100644
+--- a/drivers/accel/ivpu/ivpu_hw_40xx.c
++++ b/drivers/accel/ivpu/ivpu_hw_40xx.c
+@@ -526,7 +526,7 @@ static void ivpu_boot_no_snoop_enable(struct ivpu_device *vdev)
+ 	u32 val = REGV_RD32(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES);
  
- 		ptes = rx3->mem[i].data;
- 		if (i == 2) {
-@@ -1991,7 +1991,7 @@ r535_gsp_fini(struct nvkm_gsp *gsp, bool suspend)
- 		if (ret)
- 			return ret;
+ 	val = REG_SET_FLD(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, SNOOP_OVERRIDE_EN, val);
+-	val = REG_CLR_FLD(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, AW_SNOOP_OVERRIDE, val);
++	val = REG_SET_FLD(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, AW_SNOOP_OVERRIDE, val);
+ 	val = REG_CLR_FLD(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, AR_SNOOP_OVERRIDE, val);
  
--		ret = nvkm_gsp_radix3_sg(gsp->subdev.device, &gsp->sr.sgt, len, &gsp->sr.radix3);
-+		ret = nvkm_gsp_radix3_sg(gsp, &gsp->sr.sgt, len, &gsp->sr.radix3);
- 		if (ret)
- 			return ret;
+ 	REGV_WR32(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, val);
+diff --git a/drivers/accel/ivpu/ivpu_mmu.c b/drivers/accel/ivpu/ivpu_mmu.c
+index 2538c78fbebe..9898946174fd 100644
+--- a/drivers/accel/ivpu/ivpu_mmu.c
++++ b/drivers/accel/ivpu/ivpu_mmu.c
+@@ -533,7 +533,6 @@ static int ivpu_mmu_reset(struct ivpu_device *vdev)
+ 	mmu->cmdq.cons = 0;
  
-@@ -2194,7 +2194,7 @@ r535_gsp_oneinit(struct nvkm_gsp *gsp)
- 	memcpy(gsp->sig.data, data, size);
+ 	memset(mmu->evtq.base, 0, IVPU_MMU_EVTQ_SIZE);
+-	clflush_cache_range(mmu->evtq.base, IVPU_MMU_EVTQ_SIZE);
+ 	mmu->evtq.prod = 0;
+ 	mmu->evtq.cons = 0;
  
- 	/* Build radix3 page table for ELF image. */
--	ret = nvkm_gsp_radix3_sg(device, &gsp->fw.mem.sgt, gsp->fw.len, &gsp->radix3);
-+	ret = nvkm_gsp_radix3_sg(gsp, &gsp->fw.mem.sgt, gsp->fw.len, &gsp->radix3);
- 	if (ret)
- 		return ret;
+@@ -847,8 +846,6 @@ static u32 *ivpu_mmu_get_event(struct ivpu_device *vdev)
+ 	if (!CIRC_CNT(IVPU_MMU_Q_IDX(evtq->prod), IVPU_MMU_Q_IDX(evtq->cons), IVPU_MMU_Q_COUNT))
+ 		return NULL;
+ 
+-	clflush_cache_range(evt, IVPU_MMU_EVTQ_CMD_SIZE);
+-
+ 	evtq->cons = (evtq->cons + 1) & IVPU_MMU_Q_WRAP_MASK;
+ 	REGV_WR32(IVPU_MMU_REG_EVTQ_CONS_SEC, evtq->cons);
  
 -- 
 2.43.0
