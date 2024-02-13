@@ -2,91 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34F6085387A
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 18:37:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2013D8538A3
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 18:39:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA13F10E0A4;
-	Tue, 13 Feb 2024 17:37:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A639610E0D7;
+	Tue, 13 Feb 2024 17:39:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Nr6zhF+h";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Zi9OTKMn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1D4810E08F
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 17:37:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50A4610E0E2
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 17:39:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1707845869;
+ s=mimecast20190719; t=1707845964;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I6CePIDfsDcVvbRAJ1gcQ0gDJK1NiHScRn5OrLlnFnw=;
- b=Nr6zhF+h4U02/sEOzXNK5Qw8ewOukCtUWO4iXLqfiMqJaAUeqQ0YNmADjmFQrxgW21BhWr
- aciUlTlFpJwHb16R3eZs3XdLvgiJiFu+tzN8ZpzWwBf4MDgXILOMZboj9lEJLm+aMF3ntZ
- gGS8gz/22md6AAiH26S43r2WpBQ2lag=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7p4JDbtJm1cogqhFZW34xhMu5zMD7LEdMdg/0QPw0Cw=;
+ b=Zi9OTKMnyxhwMZEOml048h+zuI7CSl3wd1qM52uO+QbTrC9NjJThqNhoe5yP0Qj+bnt9vt
+ Da5/ALsd+/wgWO2u2qc9f2msm3jKTjeKYSKVsg8Hq7iEyC/rMcyAORhgvbU4q+h9jDnLcF
+ V7xYeaejt8q0Q0crL2XR2PihzQyXzTs=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-695-8Vz7fO5FPcGZEYetf7aqaA-1; Tue, 13 Feb 2024 12:37:47 -0500
-X-MC-Unique: 8Vz7fO5FPcGZEYetf7aqaA-1
-Received: by mail-ej1-f72.google.com with SMTP id
- a640c23a62f3a-a2c4e9cb449so311073366b.1
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 09:37:47 -0800 (PST)
+ us-mta-121-JINLG1CVOYO2vrVxcV4Vxg-1; Tue, 13 Feb 2024 12:39:23 -0500
+X-MC-Unique: JINLG1CVOYO2vrVxcV4Vxg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ 4fb4d7f45d1cf-55ffcfed2ffso6268478a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 09:39:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707845866; x=1708450666;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :from:content-language:subject:user-agent:mime-version:date
+ d=1e100.net; s=20230601; t=1707845961; x=1708450761;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=I6CePIDfsDcVvbRAJ1gcQ0gDJK1NiHScRn5OrLlnFnw=;
- b=H33NtOjADoqb2Eh+AXiXAmjcSSayNuWO2w52fl1/+73C+wgG1p3ePbvoJcs7WdiP/r
- QgkLmro1lZVIydFb+UhXUo552nUSkchk3AXafQ9T9XrCMxztCE8pk7LKBvkqOsmVCedJ
- 2B6oWMZp5IxjS1uAKBRCqdTFVVbPWIShOxtkdeO3XIW1xUW8s01orSG7MlPMIYgKGX9S
- znSa6tZgKslfxK8fQFXZ8rf15pgn57E+eD4vlq0CLr5y/GKx5SjUUKqKcXEzIx9Erfak
- dPVKWmzNc6mLRzKV2AnwTcXSGqCvGf/gUmz7TeC6/ae1H66lm2fy91deS8GoJmSAehi0
- tOOw==
+ bh=7p4JDbtJm1cogqhFZW34xhMu5zMD7LEdMdg/0QPw0Cw=;
+ b=tOYKLc3fIM0hYeBP9hYeTeoMqs9zOUNlPbdSm9qIKrvttUyJL8JacwdzwvVlFpyldr
+ FdMvIYOWr8b38X/f2vjyhwcJnhVbKsMbbAyO9IPVTwOnUA190qGu2hTvvPNNWv3xTr/K
+ bwnuLqauh+CwCKQw+ChAjZrIRhTl48eg6aaoDli16oFDtz7znpUB/J/8gVkp/9KmJFfJ
+ UhC2zqVnYpUnXQuT+3cd65oLriDVbnYu0CTIbV7OGw9t7nCp8VXb/dHoDzjFIdB8tOEx
+ t9uYy5gNGPQMj75ssGuliNSiAAquiVSV96vkCmGah/HcAHX3hscGF5NS4pZEt+zmeYUe
+ 8eOQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV7asaq0VeXeSVdbrMkhqUaZSEy81jcbUs3vHx9pQf2I1hkmbZYQ11/eBXJuPORYdK5nM4J1hWIqDv5Zh3qP7g8wQhWn3xXHovi0ENdq8Hv
-X-Gm-Message-State: AOJu0YwF66/ybUbAO9gAyZefqjA0n1ApgEEHfY5gOW92579SslPkxn1d
- N3zSs/n4Pv/A70TRitqN2BtFyMkJ6Tq3NtXBLmj7U0Tm0A/JqZ9k9+fvOEWAabexk1SKq7wYeA9
- XfpAfo7LDdKXMcHo6CgzJOJP2BnhTXWoSMSxuBEMakxhu8nBUoFAOhCi/Giw1LaVaUQ==
-X-Received: by 2002:aa7:db4f:0:b0:55f:4464:d044 with SMTP id
- n15-20020aa7db4f000000b0055f4464d044mr305571edt.6.1707845866328; 
- Tue, 13 Feb 2024 09:37:46 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGtvJRGogEF8rUGzRcOwIN19jHR5qXH0OeLCVPqM0CDYoGGWj+yUFIRdlxf9ZYW0VSdWWKqKw==
-X-Received: by 2002:aa7:db4f:0:b0:55f:4464:d044 with SMTP id
- n15-20020aa7db4f000000b0055f4464d044mr305549edt.6.1707845865948; 
- Tue, 13 Feb 2024 09:37:45 -0800 (PST)
+ AJvYcCVbY34tZfHXyiGG86UPfsdrZFSzLJoc2sFedoI98wuFlyds2jT3vWFuOvEhDXTEXsWT+NP2eBDFjso6A2V81lpDTb7XeYXCnuYeGqk8okQ7
+X-Gm-Message-State: AOJu0YyEgd+DShzz+6IJBFXO+cG75BnW2zjEvfHMRIpC9N8NQ0PCDAxC
+ zK8Pv+qie1mYFihpMx/MxjVsWe0NNliSqvGAjCGsGvlRlabmfSQRyu1QlROcZeoxNIHadbo88VC
+ 79w2sK8m8v8TGMmr1Z0FROrWxAeT5ZAKUazlNQGjqOmKheNke3R5GaNRV1X7uBcj/RrknUSp8Bg
+ ==
+X-Received: by 2002:a05:6402:1f03:b0:55f:ce14:337a with SMTP id
+ b3-20020a0564021f0300b0055fce14337amr3370961edb.11.1707845961533; 
+ Tue, 13 Feb 2024 09:39:21 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEgrdfmK0g+Ywab6m3Flje1TWrp4F6K+oXf5dXG9V6kAdl3FWJz/RFUgY54zRXSoj+gGM5t8g==
+X-Received: by 2002:a05:6402:1f03:b0:55f:ce14:337a with SMTP id
+ b3-20020a0564021f0300b0055fce14337amr3370943edb.11.1707845961155; 
+ Tue, 13 Feb 2024 09:39:21 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCWVEMXOsIBtmPxaox1ubEb95Qj5cm042MaOjEgt50MQiPGG3+rbtrRhdj7jC0d7UQ39xq7TZCpHTyU45JxsztRb83seorjhOKFGxNIOCpGObMSkbgeYjkp6alnw+NdMd8aNwD3TPbzAXpfpGVd9DMNuyWW9Ihh329+++EjZ0alPxNAxQP7fFip0ltHwjBYdZ4MhQRZVWsnmP2xFpdNvJuwKc2xr3eGz2Nzci0O6tn60BUKWIKybI1a1Czbjl+Cqmp/AtT3iVWgQnbiPYhd/NGdiJnWZCutCub+MEnSKMd7C2s1k
+ AJvYcCX9j/9qClzTVGDZpurtbdHmr3dv+QQWJ+XFT3AvRwmEgHHbcrJgMtIIuKgg3fe7r5Oy64c3kSL2cnFAMqB6rihu0Di1mOjMkUWTixru2UosXa7WnPdIkrTBJOlMr9X3C8K7FdVTFlTRwvXSdOFEGw==
 Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
  ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
  by smtp.gmail.com with ESMTPSA id
- c19-20020aa7c993000000b0056211a1635esm242219edt.47.2024.02.13.09.37.44
+ c19-20020aa7c993000000b0056211a1635esm242219edt.47.2024.02.13.09.39.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Feb 2024 09:37:45 -0800 (PST)
-Message-ID: <b38ea934-ea53-422f-aaa9-34ec468ea52c@redhat.com>
-Date: Tue, 13 Feb 2024 18:37:44 +0100
+ Tue, 13 Feb 2024 09:39:20 -0800 (PST)
+Message-ID: <c13596a5-f672-46e4-8ca6-4f1e449f3267@redhat.com>
+Date: Tue, 13 Feb 2024 18:39:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/scheduler: improve GPU scheduler documentation v2
+Subject: Re: [PATCH] nouveau: offload fence uevents work to workqueue
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: Dave Airlie <airlied@gmail.com>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20240129015053.1687418-1-airlied@gmail.com>
+ <133266ac-7239-4233-a19d-cdc7563d401c@redhat.com>
+ <CAPM=9tyc3zWRhm4xSnnHprU-v7prdZ2fkkLDEfjC_t_2wM-8Kg@mail.gmail.com>
+ <3d967763-8f8f-4451-9927-33395e1b4d70@redhat.com>
+ <ZcI8GScBEJ0SsuA5@phenom.ffwll.local>
+ <a2174cc2-ea65-4bcf-a112-f60f26b7213c@redhat.com>
+ <ZcZ0UXfbKYNhhBiC@phenom.ffwll.local>
 From: Danilo Krummrich <dakr@redhat.com>
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: airlied@gmail.com, ltuikov89@gmail.com, matthew.brost@intel.com,
- boris.brezillon@collabora.com, daniel@ffwll.ch, alexander.deucher@amd.com,
- dri-devel@lists.freedesktop.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>
-References: <20231116141547.206695-1-christian.koenig@amd.com>
- <ZVaWVH+mX+PXKqfD@pollux>
 Organization: RedHat
-In-Reply-To: <ZVaWVH+mX+PXKqfD@pollux>
+In-Reply-To: <ZcZ0UXfbKYNhhBiC@phenom.ffwll.local>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,356 +106,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+On 2/9/24 19:52, Daniel Vetter wrote:
+> On Fri, Feb 09, 2024 at 06:41:32PM +0100, Danilo Krummrich wrote:
+>> On 2/6/24 15:03, Daniel Vetter wrote:
+>>> On Mon, Feb 05, 2024 at 11:00:04PM +0100, Danilo Krummrich wrote:
+>>>> On 2/5/24 22:08, Dave Airlie wrote:
+>>>>> On Tue, 6 Feb 2024 at 02:22, Danilo Krummrich <dakr@redhat.com> wrote:
+>>>>>>
+>>>>>> On 1/29/24 02:50, Dave Airlie wrote:
+>>>>>>> From: Dave Airlie <airlied@redhat.com>
+>>>>>>>
+>>>>>>> This should break the deadlock between the fctx lock and the irq lock.
+>>>>>>>
+>>>>>>> This offloads the processing off the work from the irq into a workqueue.
+>>>>>>>
+>>>>>>> Signed-off-by: Dave Airlie <airlied@redhat.com>
+>>>>>>
+>>>>>> Nouveau's scheduler uses a dedicated wq, hence from this perspective it's
+>>>>>> safe deferring fence signalling to the kernel global wq. However, I wonder
+>>>>>> if we could create deadlocks by building dependency chains into other
+>>>>>> drivers / kernel code that, by chance, makes use of the kernel global wq as
+>>>>>> well.
+>>>>>>
+>>>>>> Admittedly, even if, it's gonna be extremely unlikely given that
+>>>>>> WQ_MAX_ACTIVE == 512. But maybe it'd be safer to use a dedicated wq.
+>>>>>>
+>>>>>> Also, do we need to CC stable?
+>>>>>
+>>>>> I pushed this to Linus at the end of last week, since the hangs in 6.7
+>>>>> take out the complete system and I wanted it in stable.
+>>>>>
+>>>>> It might be safer to use a dedicated wq, is the concern someone is
+>>>>> waiting on a fence in a workqueue somewhere else so we will never
+>>>>> signal it?
+>>>>
+>>>> Yes, if some other work is waiting for this fence (or something else in the same
+>>>> dependency chain) to signal it can prevent executing the work signaling this fence,
+>>>> in case both are scheduled on the same wq. As mentioned, with the kernel global wq
+>>>> this would be rather unlikely to lead to an actual stall with WQ_MAX_ACTIVE == 512,
+>>>> but formally the race condition exists. I guess a malicious attacker could try to
+>>>> intentionally push jobs directly or indirectly depending on this fence to a driver
+>>>> which queues them up on a scheduler using the kernel global wq.
+>>>
+>>> I think if you add dma_fence_signalling annotations (aside, there's some
+>>> patch from iirc Thomas Hellstrom to improve them and cut down on some
+>>> false positives, but I lost track) then I think you won't get any splats
+>>> because the wq subsystem assumes that WC_MAX_ACTIVE is close enough to
+>>> infinity to not matter.
+>>
+>> As mentioned, for the kernel global wq it's 512. (Intentionally) feeding the kernel
+>> with enough jobs to to provoke a deadlock doesn't seem impossible to me.
+>>
+>> I think it'd be safer to just establish not to use the kernel global wq for executing
+>> work in the fence signalling critical path.
+>>
+>> We could also run into similar problems with a dedicated wq, e.g. when drivers share
+>> a wq between drm_gpu_scheduler instances (see [1]), however, I'm not sure we can catch
+>> that with lockdep.
+> 
+> I think if you want to fix it perfectly you'd need to set the max number
+> of wq to the number of engines (or for dynamic/fw scheduled engines to the
+> number of context) you have. Or whatever limit to the number of parallel
+> timelines there is.> 
+> I guess this would need a new wq function to update? drm/sched code could
+> be able to set that for drivers, so drivers cannot get this wrong.
 
-What's the status of this effort? Was there ever a follow-up?
+Not sure I can follow. The scheduler instance might be per context and bind
+queue. In this case it gets the shared wq passed, but doesn't know how many
+other scheduler instances share the same one.
+
+Additionally, there might be drivers not using the DRM scheduler for for bind
+queues at all (I think Xe does not).
+
+> 
+> If we don't do something like that then I'm not sure there's really much
+> benefit - instead of carefully timing 512 dma_fence on the global wq you
+> just need to create a pile of context (at least on intel's guc that's
+> absolutely no issue) and then careful time them.
+
+Well, that's true. I'd still argue that there is a slight difference. From a
+drivers isolated perspective using the global kernel wq might be entirely fine,
+as in this patch. However, in combination with another driver doing the same
+thing, things can blow up. For the case you illustrated it's at least possible
+to spot it from a driver's perspective.
+
+> 
+> I still feel like we have bigger fish to fry ... But might be worth the
+> effort to at least make the parallel timeline limit a lot more explicit?
+
+I agree, and it'd be great if we can find a solution such bugs can be detected
+systematically (e.g. through lockdep), but maybe we can start to at least
+document that we should never use the kernel global wq and where we need to be
+careful in sharing driver wqs.
 
 - Danilo
 
-On 11/16/23 23:23, Danilo Krummrich wrote:
-> Hi Christian,
 > 
-> Thanks for sending an update of this patch!
+> Cheers, Sima
 > 
-> On Thu, Nov 16, 2023 at 03:15:46PM +0100, Christian König wrote:
->> Start to improve the scheduler document. Especially document the
->> lifetime of each of the objects as well as the restrictions around
->> DMA-fence handling and userspace compatibility.
 >>
->> v2: Some improvements suggested by Danilo, add section about error
->>      handling.
+>> [1] https://elixir.bootlin.com/linux/v6.8-rc3/source/drivers/gpu/drm/nouveau/nouveau_drm.c#L313
 >>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> ---
->>   Documentation/gpu/drm-mm.rst           |  36 +++++
->>   drivers/gpu/drm/scheduler/sched_main.c | 174 +++++++++++++++++++++----
->>   2 files changed, 188 insertions(+), 22 deletions(-)
+>>>
+>>> I'm not sure we should care differently, but I guess it'd be good to
+>>> annotate it all in case the wq subsystem's idea of how much such deadlocks
+>>> are real changes.
+>>>
+>>> Also Teo is on a mission to get rid of all the global wq flushes, so there
+>>> should also be no source of deadlocks from that kind of cross-driver
+>>> dependency. Or at least shouldn't be in the future, I'm not sure it all
+>>> landed.
+>>> -Sima
 >>
->> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
->> index acc5901ac840..112463fa9f3a 100644
->> --- a/Documentation/gpu/drm-mm.rst
->> +++ b/Documentation/gpu/drm-mm.rst
->> @@ -552,12 +552,48 @@ Overview
->>   .. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
->>      :doc: Overview
->>   
->> +Job Object
->> +----------
->> +
->> +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
->> +   :doc: Job Object
->> +
->> +Entity Object
->> +-------------
->> +
->> +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
->> +   :doc: Entity Object
->> +
->> +Hardware Fence Object
->> +---------------------
->> +
->> +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
->> +   :doc: Hardware Fence Object
->> +
->> +Scheduler Fence Object
->> +----------------------
->> +
->> +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
->> +   :doc: Scheduler Fence Object
->> +
->> +Scheduler and Run Queue Objects
->> +-------------------------------
->> +
->> +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
->> +   :doc: Scheduler and Run Queue Objects
->> +
->>   Flow Control
->>   ------------
->>   
->>   .. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
->>      :doc: Flow Control
->>   
->> +Error and Timeout handling
->> +--------------------------
->> +
->> +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
->> +   :doc: Error and Timeout handling
->> +
->>   Scheduler Function References
->>   -----------------------------
->>   
->> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->> index 044a8c4875ba..026123497b0e 100644
->> --- a/drivers/gpu/drm/scheduler/sched_main.c
->> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->> @@ -24,28 +24,122 @@
->>   /**
->>    * DOC: Overview
->>    *
->> - * The GPU scheduler provides entities which allow userspace to push jobs
->> - * into software queues which are then scheduled on a hardware run queue.
->> - * The software queues have a priority among them. The scheduler selects the entities
->> - * from the run queue using a FIFO. The scheduler provides dependency handling
->> - * features among jobs. The driver is supposed to provide callback functions for
->> - * backend operations to the scheduler like submitting a job to hardware run queue,
->> - * returning the dependencies of a job etc.
->> - *
->> - * The organisation of the scheduler is the following:
->> - *
->> - * 1. Each hw run queue has one scheduler
->> - * 2. Each scheduler has multiple run queues with different priorities
->> - *    (e.g., HIGH_HW,HIGH_SW, KERNEL, NORMAL)
->> - * 3. Each scheduler run queue has a queue of entities to schedule
->> - * 4. Entities themselves maintain a queue of jobs that will be scheduled on
->> - *    the hardware.
->> - *
->> - * The jobs in a entity are always scheduled in the order that they were pushed.
->> - *
->> - * Note that once a job was taken from the entities queue and pushed to the
->> - * hardware, i.e. the pending queue, the entity must not be referenced anymore
->> - * through the jobs entity pointer.
->> + * The GPU scheduler implements some logic to decide which command submission
->> + * to push next to the hardware. Another major use case of the GPU scheduler
->> + * is to enforce correct driver behavior around those command submissions.
->> + * Because of this it's also used by drivers which don't need the actual
->> + * scheduling functionality.
 > 
-> This reads a bit like we're already right in the middle of the documentation.
-> I'd propose to start with something like "The DRM GPU scheduler serves as a
-> common component intended to help drivers to manage command submissions." And
-> then mention the different solutions the scheduler provides, e.g. ordering of
-> command submissions, dma-fence handling in the context of command submissions,
-> etc.
-> 
-> Also, I think it would be good to give a rough overview of the topology of the
-> scheduler's components. And since you already mention that the component is
-> "also used by drivers which don't need the actual scheduling functionality", I'd
-> also mention the special case of a single entity and a single run-queue per
-> scheduler.
-> 
->> + *
->> + * All callbacks the driver needs to implement are restricted by DMA-fence
->> + * signaling rules to guarantee deadlock free forward progress. This especially
->> + * means that for normal operation no memory can be allocated in a callback.
->> + * All memory which is needed for pushing the job to the hardware must be
->> + * allocated before arming a job. It also means that no locks can be taken
->> + * under which memory might be allocated as well.
-> 
-> I think that's good. Even though, with the recently merged workqueue patches,
-> drivers can actually create a setup where the free_job callback isn't part of
-> the fence signalling critical path anymore. But I agree with Sima that this is
-> probably too error prone to give drivers ideas. So, this paragraph is probably
-> good as it is. :-)
-> 
->> + *
->> + * Memory which is optional to allocate, for example for device core dumping or
->> + * debugging, *must* be allocated with GFP_NOWAIT and appropriate error
->> + * handling taking if that allocation fails. GFP_ATOMIC should only be used if
->> + * absolutely necessary since dipping into the special atomic reserves is
->> + * usually not justified for a GPU driver.
->> + */
->> +
->> +/**
->> + * DOC: Job Object
->> + *
->> + * The base job object contains submission dependencies in the form of DMA-fence
->> + * objects. Drivers can also implement an optional prepare_job callback which
->> + * returns additional dependencies as DMA-fence objects. It's important to note
->> + * that this callback can't allocate memory or grab locks under which memory is
->> + * allocated.
->> + *
->> + * Drivers should use this as base class for an object which contains the
->> + * necessary state to push the command submission to the hardware.
->> + *
->> + * The lifetime of the job object should at least be from pushing it into the
-> 
-> "should at least last from"
-> 
->> + * scheduler until the scheduler notes through the free callback that a job
-> 
-> What about "until the free_job callback has been called and hence the scheduler
-> does not require the job object anymore."?
-> 
->> + * isn't needed any more. Drivers can of course keep their job object alive
->> + * longer than that, but that's outside of the scope of the scheduler
->> + * component. Job initialization is split into two parts, drm_sched_job_init()
->> + * and drm_sched_job_arm(). It's important to note that after arming a job
-> 
-> I suggest to add a brief comment on why job initialization is split up.
-> 
->> + * drivers must follow the DMA-fence rules and can't easily allocate memory
->> + * or takes locks under which memory is allocated.
->> + */
->> +
->> +/**
->> + * DOC: Entity Object
->> + *
->> + * The entity object which is a container for jobs which should execute
->> + * sequentially. Drivers should create an entity for each individual context
->> + * they maintain for command submissions which can run in parallel.
->> + *
->> + * The lifetime of the entity should *not* exceed the lifetime of the
->> + * userspace process it was created for and drivers should call the
->> + * drm_sched_entity_flush() function from their file_operations.flush
->> + * callback. So it's possible that an entity object is not alive any
-> 
-> "Note that it is possible..."
-> 
->> + * more while jobs from it are still running on the hardware.
-> 
-> "while jobs previously fetched from this entity are still..."
-> 
->> + *
->> + * Background is that for compatibility reasons with existing
->> + * userspace all results of a command submission should become visible
->> + * externally even after after a process exits. This is normal POSIX behavior
->> + * for I/O operations.
->> + *
->> + * The problem with this approach is that GPU submissions contain executable
->> + * shaders enabling processes to evade their termination by offloading work to
->> + * the GPU. So when a process is terminated with a SIGKILL the entity object
->> + * makes sure that jobs are freed without running them while still maintaining
->> + * correct sequential order for signaling fences.
->> + */
->> +
->> +/**
->> + * DOC: Hardware Fence Object
->> + *
->> + * The hardware fence object is a DMA-fence provided by the driver as result of
->> + * running jobs. Drivers need to make sure that the normal DMA-fence semantics
->> + * are followed for this object. It's important to note that the memory for
->> + * this object can *not* be allocated in the run_job callback since that would
->> + * violate the requirements for the DMA-fence implementation. The scheduler
->> + * maintains a timeout handler which triggers if this fence doesn't signal in
->> + * a configurable time frame.
->> + *
->> + * The lifetime of this object follows DMA-fence ref-counting rules, the
->> + * scheduler takes ownership of the reference returned by the driver and drops
->> + * it when it's not needed any more.
->> + */
->> +
->> +/**
->> + * DOC: Scheduler Fence Object
->> + *
->> + * The scheduler fence object which encapsulates the whole time from pushing
->> + * the job into the scheduler until the hardware has finished processing it.
->> + * This is internally managed by the scheduler, but drivers can grab additional
->> + * reference to it after arming a job. The implementation provides DMA-fence
->> + * interfaces for signaling both scheduling of a command submission as well as
->> + * finishing of processing.
->> + *
->> + * The lifetime of this object also follows normal DMA-fence ref-counting
->> + * rules. The finished fence is the one normally exposed outside of the
->> + * scheduler, but the driver can grab references to both the scheduled as well
->> + * as the finished fence when needed for pipe-lining optimizations.
->> + */
->> +
->> +/**
->> + * DOC: Scheduler and Run Queue Objects
->> + *
->> + * The scheduler object itself does the actual work of selecting a job and
->> + * pushing it to the hardware. Both FIFO and RR selection algorithm are
->> + * supported, but FIFO is preferred for many use cases.
-> 
-> I suggest to name the use cases FIFO scheduling is preferred for and why.
-> 
-> If, instead, it's just a general recommendation, I also suggest to explain why.
-> 
->> + *
->> + * The lifetime of the scheduler is managed by the driver using it. Before
->> + * destroying the scheduler the driver must ensure that all hardware processing
->> + * involving this scheduler object has finished by calling for example
->> + * disable_irq(). It is *not* sufficient to wait for the hardware fence here
->> + * since this doesn't guarantee that all callback processing has finished.
-> 
-> This is the part I'm most concerned about, since I feel like we leave drivers
-> "up in the air" entirely. Hence, I think here we need to be more verbose and
-> detailed about the options drivers have to ensure that.
-> 
-> For instance, let's assume we have the single-entity-per-scheduler topology
-> because the driver only uses the GPU scheduler to feed a firmware scheduler with
-> dynamically allocated ring buffers.
-> 
-> In this case the entity, scheduler and ring buffer are bound to the lifetime of
-> a userspace process.
-> 
-> What do we expect the driver to do if the userspace process is killed? As you
-> mentioned, only waiting for the ring to be idle (which implies all HW fences
-> are signalled) is not enough. This doesn't guarantee all the free_job()
-> callbacks have been called yet and hence stopping the scheduler before the
-> pending_list is actually empty would leak the memory of the jobs on the
-> pending_list waiting to be freed.
-> 
-> I already brought this up when we were discussing Matt's Xe inspired scheduler
-> patch series and it seems there was no interest to provide drivers with some
-> common mechanism that gurantees that the pending_list is empty. Hence, I really
-> think we should at least give recommendations how drivers should deal with that.
-> 
->> + *
->> + * The run queue object is a container of entities for a certain priority
->> + * level. This object is internally managed by the scheduler and drivers
->> + * shouldn't touch them directly. The lifetime of run queues are bound to the
->> + * schedulers lifetime.
-> 
-> I think we should also mention that we support a variable number of run-queues
-> up to DRM_SCHED_PRIORITY_COUNT. Also there is this weird restriction on which
-> priorities a driver can use when choosing less than DRM_SCHED_PRIORITY_COUNT
-> run-queues.
-> 
-> For instance, initializing the scheduler with a single run-queue, requires the
-> corresponding entities to pick DRM_SCHED_PRIORITY_MIN, otherwise we'll just
-> fault since the priority is also used as an array index into sched->sched_rq[].
-> 
->>    */
->>   
->>   /**
->> @@ -72,6 +166,42 @@
->>    * limit.
->>    */
->>   
->> +/**
->> + * DOC: Error and Timeout handling
->> + *
->> + * Errors schould be signaled by using dma_fence_set_error() on the hardware
->> + * fence object before signaling it. Errors are then bubbled up from the
->> + * hardware fence to the scheduler fence.
->> + *
->> + * The entity allows querying errors on the last run submission using the
->> + * drm_sched_entity_error() function which can be used to cancel queued
->> + * submissions in the run_job callback as well as preventing pushing further
->> + * ones into the entity in the drivers submission function.
->> + *
->> + * When the hardware fence fails to signal in a configurable amount of time the
->> + * timedout_job callback is issued. The driver should then follow the procedure
->> + * described on the &struct drm_sched_backend_ops.timedout_job callback (TODO:
->> + * The timeout handler should probably switch to using the hardware fence as
->> + * parameter instead of the job. Otherwise the handling will always race
->> + * between timing out and signaling the fence).
->> + *
->> + * The scheduler also used to provided functionality for re-submitting jobs
->> + * with replacing the hardware fence during reset handling. This functionality
->> + * is now marked as deprecated. This has proven to be fundamentally racy and
->> + * not compatible with DMA-fence rules and shouldn't be used in any new code.
->> + *
->> + * Additional there is the drm_sched_increase_karma() function which tries to
->   
-> "Additionally"
-> 
->> + * find the entity which submitted a job and increases it's 'karma'
->> + * atomic variable to prevent re-submitting jobs from this entity. This has
->> + * quite some overhead and re-submitting jobs is now marked as deprecated. So
->> + * using this function is rather discouraged.
->> + *
->> + * Drivers can still re-create the GPU state should it be lost during timeout
->> + * handling when they can guarantee that forward progress is made and this
->> + * doesn't cause another timeout. But this is strongly hardware specific and
->> + * out of the scope of the general GPU scheduler.
->> + */
->> +
->>   #include <linux/wait.h>
->>   #include <linux/sched.h>
->>   #include <linux/completion.h>
->> -- 
->> 2.34.1
->>
 
