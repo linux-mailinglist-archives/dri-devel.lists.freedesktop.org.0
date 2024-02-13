@@ -2,83 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA4598522EF
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 01:10:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F411385231D
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 01:19:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0286D10E163;
-	Tue, 13 Feb 2024 00:10:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B14510E23D;
+	Tue, 13 Feb 2024 00:19:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="T25wJcfY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TNon0623";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AC1C10E163
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 00:10:03 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41CNNWC9002327; Tue, 13 Feb 2024 00:09:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=SKTZ/3gDrjTrmPt81XU/FfX33drgx94XxgkNqX5kp7Y=; b=T2
- 5wJcfYBq8HUo5ZGxsokAPOP8K9BC2QvE3Iz8ZTy/DCE2WQ1eRui+5C/9cXtsAghE
- QSNETroOGAfpQ6aPqx3GfXel40SyCKBP9FzmHNJELPk5o1xuJJgmUFTxZF5pFDf/
- 3TaeuDikn35hJ1BnViB4fQ5buOj5uiFjQfXBJnywCEW0q0izkeSPTsOj5WIwuntQ
- Ox1b3z8sgTJBtWSDhuCfRpZttQ6sIOgS+IhfAwuKHBUv29kL5iD64Tb29GfEiQJR
- 0ctWmM4Nnchg6jcYpqc68DAxLNU9OZC08uqHy5IY4+UfQ8Otb6EVgo4el2ORsc0h
- kXui0XdyyNup2vXQYylw==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w7gvjhsv4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Feb 2024 00:09:53 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41D09qgn001486
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Feb 2024 00:09:52 GMT
-Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 12 Feb
- 2024 16:09:51 -0800
-Message-ID: <e5dd6d92-0d9d-fcfe-2aac-8302b421c0a0@quicinc.com>
-Date: Mon, 12 Feb 2024 16:09:50 -0800
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 720E510E23D;
+ Tue, 13 Feb 2024 00:19:34 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7EE7E6101E;
+ Tue, 13 Feb 2024 00:19:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 923D9C433F1;
+ Tue, 13 Feb 2024 00:19:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1707783570;
+ bh=YtZoeSc5wThDzrqhQZJibdxh6/kPDakwPfAOeT08oRM=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=TNon0623S6n1nNqshilUgpLxj4aKpvMlq6rHfLzXuWN10BjzXF7VqpQkMBp96Zb/u
+ LRCubuodZnx7nwBHWkqiFsjj8elZnZsuETScUFqZn78rJFfq13S1EqIg3yJy/+3iou
+ R8eP9trz3XeV/4ex3MX+Fte6WFLYv11xXI8rV54LKhMxP/TLypqsZ6p1xMbXSBoXes
+ 7iPDNnyjM8t+wfgwHnfs2XYAcL9fxvEkcZp5vK5z6ZUg/OyOTXrVbAcS0xlXxIMYa9
+ LxKZhWI23rUlXGTrzMoAIqhIJKfJB8+tUAlBr2c/rjF15I8z8fRWHuJt6teFvmq86w
+ RyBZP1FShvxog==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Timur Tabi <ttabi@nvidia.com>, Danilo Krummrich <dakr@redhat.com>,
+ Sasha Levin <sashal@kernel.org>, kherbst@redhat.com, lyude@redhat.com,
+ airlied@gmail.com, daniel@ffwll.ch, airlied@redhat.com, bskeggs@redhat.com,
+ dan.carpenter@linaro.org, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.7 35/58] drm/nouveau: nvkm_gsp_radix3_sg() should
+ use nvkm_gsp_mem_ctor()
+Date: Mon, 12 Feb 2024 19:17:41 -0500
+Message-ID: <20240213001837.668862-35-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240213001837.668862-1-sashal@kernel.org>
+References: <20240213001837.668862-1-sashal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/crtc: fix uninitialized variable use even harder
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>, <dri-devel@lists.freedesktop.org>
-CC: Rob Clark <robdclark@chromium.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jani Nikula <jani.nikula@intel.com>, open
- list <linux-kernel@vger.kernel.org>
-References: <20240212215534.190682-1-robdclark@gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240212215534.190682-1-robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: Z6k0dI9SZ8x1JhC7HruQaOgew-bmVxBU
-X-Proofpoint-ORIG-GUID: Z6k0dI9SZ8x1JhC7HruQaOgew-bmVxBU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-12_19,2024-02-12_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0
- suspectscore=0 spamscore=0 mlxscore=0 lowpriorityscore=0
- priorityscore=1501 impostorscore=0 mlxlogscore=881 adultscore=0
- bulkscore=0 clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402120186
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.7.4
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,26 +65,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Timur Tabi <ttabi@nvidia.com>
 
+[ Upstream commit 34e659f34a7559ecfd9c1f5b24d4c291f3f54711 ]
 
-On 2/12/2024 1:55 PM, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> DRM_MODESET_LOCK_ALL_BEGIN() has a hidden trap-door (aka retry loop),
-> which means we can't rely too much on variable initializers.
-> 
-> Fixes: 6e455f5dcdd1 ("drm/crtc: fix uninitialized variable use")
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
-> I have mixed feelings about DRM_MODESET_LOCK_ALL_BEGIN() (and friends)
-> magic.  On one hand it simplifies the deadlock/back dance.  OTOH it
-> conceals a nasty sharp edge.  Maybe it is better to have the complicated
-> restart path a bit more explicit, like it was originally.
-> 
->   drivers/gpu/drm/drm_crtc.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
+Function nvkm_gsp_radix3_sg() uses nvkm_gsp_mem objects to allocate the
+radix3 tables, but it unnecessarily creates those objects manually
+instead of using the standard nvkm_gsp_mem_ctor() function like the
+rest of the code does.
 
-Nice catch !!
+Signed-off-by: Timur Tabi <ttabi@nvidia.com>
+Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240202230608.1981026-2-ttabi@nvidia.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+index 9ee58e2a0eb2..09e2eb1369cb 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+@@ -1938,20 +1938,20 @@ nvkm_gsp_radix3_dtor(struct nvkm_gsp *gsp, struct nvkm_gsp_radix3 *rx3)
+  * See kgspCreateRadix3_IMPL
+  */
+ static int
+-nvkm_gsp_radix3_sg(struct nvkm_device *device, struct sg_table *sgt, u64 size,
++nvkm_gsp_radix3_sg(struct nvkm_gsp *gsp, struct sg_table *sgt, u64 size,
+ 		   struct nvkm_gsp_radix3 *rx3)
+ {
+ 	u64 addr;
+ 
+ 	for (int i = ARRAY_SIZE(rx3->mem) - 1; i >= 0; i--) {
+ 		u64 *ptes;
+-		int idx;
++		size_t bufsize;
++		int ret, idx;
+ 
+-		rx3->mem[i].size = ALIGN((size / GSP_PAGE_SIZE) * sizeof(u64), GSP_PAGE_SIZE);
+-		rx3->mem[i].data = dma_alloc_coherent(device->dev, rx3->mem[i].size,
+-						      &rx3->mem[i].addr, GFP_KERNEL);
+-		if (WARN_ON(!rx3->mem[i].data))
+-			return -ENOMEM;
++		bufsize = ALIGN((size / GSP_PAGE_SIZE) * sizeof(u64), GSP_PAGE_SIZE);
++		ret = nvkm_gsp_mem_ctor(gsp, bufsize, &rx3->mem[i]);
++		if (ret)
++			return ret;
+ 
+ 		ptes = rx3->mem[i].data;
+ 		if (i == 2) {
+@@ -1991,7 +1991,7 @@ r535_gsp_fini(struct nvkm_gsp *gsp, bool suspend)
+ 		if (ret)
+ 			return ret;
+ 
+-		ret = nvkm_gsp_radix3_sg(gsp->subdev.device, &gsp->sr.sgt, len, &gsp->sr.radix3);
++		ret = nvkm_gsp_radix3_sg(gsp, &gsp->sr.sgt, len, &gsp->sr.radix3);
+ 		if (ret)
+ 			return ret;
+ 
+@@ -2194,7 +2194,7 @@ r535_gsp_oneinit(struct nvkm_gsp *gsp)
+ 	memcpy(gsp->sig.data, data, size);
+ 
+ 	/* Build radix3 page table for ELF image. */
+-	ret = nvkm_gsp_radix3_sg(device, &gsp->fw.mem.sgt, gsp->fw.len, &gsp->radix3);
++	ret = nvkm_gsp_radix3_sg(gsp, &gsp->fw.mem.sgt, gsp->fw.len, &gsp->radix3);
+ 	if (ret)
+ 		return ret;
+ 
+-- 
+2.43.0
+
