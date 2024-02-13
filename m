@@ -2,90 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4F71853CB9
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 22:10:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B73D853CBF
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 22:11:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F0C310E28A;
-	Tue, 13 Feb 2024 21:10:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3098010E4C1;
+	Tue, 13 Feb 2024 21:11:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="EDkGBSFc";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="mRgnV+mg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C09AF10E28A;
- Tue, 13 Feb 2024 21:10:28 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41DK1Sud026716; Tue, 13 Feb 2024 21:10:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=Jbz2qBtbdhtdSCb+zAfl/NZGMtlAwJpe16WCbuAH2Ps=; b=ED
- kGBSFcbo62r6mCyavNVwu1g5EnTCKMCamVX4k8cSGvJpVNwQa4jyCoPIxnrEkLBK
- gu83gIk1WYTBczl/x/0o7sJKpzx354sK/yoKYGk8+21vIzl1hucXISVr5KOIrt56
- eVNU8RBuZEehE7ESMT/3CA/id4CG6qtISsqKn+CDJKNZUBic1LVVxVY8fB9iC2Lv
- vHGHYK/npjD68FfXQmD3ipOmeOAspkr8GvvLKr0NjTDU5YurJOEJh7IToDIFZdeW
- teXkREvvIjIMP01Mwc9kc7v7Hki20PEXpJKmWIh5QLalT8egp8RAvNOInMBEBpU+
- kkh6YfrHTzOxJL5qj+MA==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w8eks85ry-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Feb 2024 21:10:25 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41DLAOQb027748
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Feb 2024 21:10:25 GMT
-Received: from [10.110.23.109] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 13 Feb
- 2024 13:10:23 -0800
-Message-ID: <9c8536d3-9292-c223-0c25-e3516cd6c402@quicinc.com>
-Date: Tue, 13 Feb 2024 13:10:22 -0800
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
+ [209.85.218.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95AAF10E4C1
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 21:11:42 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id
+ a640c23a62f3a-a3d01a9a9a2so122887766b.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 13:11:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1707858701; x=1708463501;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=zsOIUemMTVXHoEVROLysOcQX18quXE3mcOSmusaiTVU=;
+ b=mRgnV+mgLTRi3GRsNQ8aC7G0bgai/18vKFA3TFDK+rGn+u4KJYslgk064rea7tNqHS
+ 0J+YKCqECPgDlfL+s0tJNrM7FKvZTIqfNzeMjTLvU3L26AK1wzxrlMhCWiqhw4UgJGc1
+ sPXt/nBfxQkskSWFZLzwSOvFQAsZXm2MaiA5sPAChTg5/A7q9gn9BRQGR15bQF8r08HS
+ V6zbyglvHGmwdTIXPM9CUw1BKC0U3LxYSFDh3oxiwPN3mxfMYrKicNF0yZfBbkAQQuJn
+ Smd6u6GpCqxn9lWQZ1n3lSDFjaD1yIspo/DZwG5c1akG2UJhn0bWyNQP01hi3QPld12x
+ sf1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707858701; x=1708463501;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=zsOIUemMTVXHoEVROLysOcQX18quXE3mcOSmusaiTVU=;
+ b=Yk0dUzRc1kqEFogV8+YcooGLUOnWgk/6Rfanf8FT4dReuRyui9O0lT/pJfx87mirJ5
+ keCNCsZ5/pwWHsdHEZM49hM8g/PPHlXOTdXxlfPl+XpUyUv7EXiGyO+hnOEZrSiizLBL
+ v8JrUxZTyXQ6675Qn3U/GPQFpVW1rCvZs7iarKGWtZw71iT3Qa7uqpIfnEtr0NUP3P79
+ lJ4SxBqrKi6s6V4HZaXZfLv/5Fr36JYBpfsKQE4wTDEiFQKe7xHqu6vqt6rNJReAkAhb
+ w//jMHos9dydsITcdXhIA58mv0d/Y6T+2AD+RwfFnhFFov574yZqCDITy3gZ2Ew/lQDO
+ sIWA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWhQsLZs5n7PpGIWl+HLvQuqqfmEkbjAM2IcAhHzlmFu1NoN7QfQdN7EtkyjjBkk7GPIFNkRORVHJ04N+s/kCXETwybNPKgSdeH5kavvvq+
+X-Gm-Message-State: AOJu0YxL7pr4SvOf6DvPO51GUMEftljAEUXRhAwHMmVBEswroslKTWpP
+ +ljBl+GkfxaSBmqPzgTpNTZ1e4CbLIW/Y43TTyy+Wn2wPXMIjWqdhAoUgAqLn24/vsg8t1tPAsI
+ HyQER6t4n1QUx6QGlmN1gp9C2dDcv/kjroCzg
+X-Google-Smtp-Source: AGHT+IExITBQize1fGZuvy7b+0mnYFOUMkpqQ+6ifMmjq7oa8jqrG3qPbdpWEJmCURVq8IK8JranwyOGOl5XdgYpzX0=
+X-Received: by 2002:a17:906:8410:b0:a3c:eb18:8a4d with SMTP id
+ n16-20020a170906841000b00a3ceb188a4dmr349416ejx.62.1707858700745; Tue, 13 Feb
+ 2024 13:11:40 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 16/19] drm/msm/dpu: modify encoder programming for CDM
- over DP
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Paloma Arellano <quic_parellan@quicinc.com>,
- <freedreno@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <seanpaul@chromium.org>, <swboyd@chromium.org>,
- <quic_jesszhan@quicinc.com>, <quic_khsieh@quicinc.com>,
- <marijn.suijten@somainline.org>, <neil.armstrong@linaro.org>
-References: <20240210015223.24670-1-quic_parellan@quicinc.com>
- <20240210015223.24670-17-quic_parellan@quicinc.com>
- <CAA8EJprttbMgM=HEwctePZOwKny+nM2=qRJsPWmP4Ar0H8ATEg@mail.gmail.com>
- <217dbec7-d7b9-688f-ce40-2a62179cb507@quicinc.com>
- <CAA8EJprLvEn7ndCHqkw4RuGq_AE1nOxyONZx832Wv8Y2dGtRhQ@mail.gmail.com>
- <58578bb9-6f2e-e57f-d40e-2306c336a442@quicinc.com>
- <CAA8EJpp2AhGXg-M0KRLTRL6s5wnmcoXWra4mUHwC8U39aOcuFg@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJpp2AhGXg-M0KRLTRL6s5wnmcoXWra4mUHwC8U39aOcuFg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: ZX4cuFL8G2GdXft27W0j3Kd3v8w5iWbd
-X-Proofpoint-GUID: ZX4cuFL8G2GdXft27W0j3Kd3v8w5iWbd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-13_13,2024-02-12_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 mlxscore=0
- lowpriorityscore=0 phishscore=0 adultscore=0 malwarescore=0 suspectscore=0
- spamscore=0 mlxlogscore=999 impostorscore=0 priorityscore=1501
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402130167
+References: <20231218024024.3516870-1-almasrymina@google.com>
+ <20231218024024.3516870-8-almasrymina@google.com>
+ <3374356e-5f4b-4a6f-bb19-8cb7c56103bc@gmail.com>
+In-Reply-To: <3374356e-5f4b-4a6f-bb19-8cb7c56103bc@gmail.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Tue, 13 Feb 2024 13:11:28 -0800
+Message-ID: <CAHS8izO2zARuMovrYU3kdwSXsQAM6+SajQjDT3ckSvVOfHwaCQ@mail.gmail.com>
+Subject: Re: [RFC PATCH net-next v5 07/14] page_pool: devmem support
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Martin KaFai Lau <martin.lau@linux.dev>, 
+ Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, 
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, 
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, 
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Andrii Nakryiko <andrii@kernel.org>, David Ahern <dsahern@kernel.org>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Yunsheng Lin <linyunsheng@huawei.com>, 
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>, 
+ Shakeel Butt <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>, 
+ Praveen Kaligineedi <pkaligineedi@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,310 +114,229 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Feb 13, 2024 at 5:28=E2=80=AFAM Pavel Begunkov <asml.silence@gmail.=
+com> wrote:
+>
+> On 12/18/23 02:40, Mina Almasry wrote:
+> > Convert netmem to be a union of struct page and struct netmem. Overload
+> > the LSB of struct netmem* to indicate that it's a net_iov, otherwise
+> > it's a page.
+> >
+> > Currently these entries in struct page are rented by the page_pool and
+> > used exclusively by the net stack:
+> >
+> > struct {
+> >       unsigned long pp_magic;
+> >       struct page_pool *pp;
+> >       unsigned long _pp_mapping_pad;
+> >       unsigned long dma_addr;
+> >       atomic_long_t pp_ref_count;
+> > };
+> >
+> > Mirror these (and only these) entries into struct net_iov and implement
+> > netmem helpers that can access these common fields regardless of
+> > whether the underlying type is page or net_iov.
+> > Implement checks for net_iov in netmem helpers which delegate to mm
+> > APIs, to ensure net_iov are never passed to the mm stack.
+> >
+> > Signed-off-by: Mina Almasry <almasrymina@google.com>
+> >
+> > ---
+> >
+> > RFCv5:
+> > - Use netmem instead of page* with LSB set.
+> > - Use pp_ref_count for refcounting net_iov.
+> > - Removed many of the custom checks for netmem.
+> >
+> > v1:
+> > - Disable fragmentation support for iov properly.
+> > - fix napi_pp_put_page() path (Yunsheng).
+> > - Use pp_frag_count for devmem refcounting.
+> >
+> > ---
+> >   include/net/netmem.h            | 145 ++++++++++++++++++++++++++++++-=
+-
+> >   include/net/page_pool/helpers.h |  25 +++---
+> >   net/core/page_pool.c            |  26 +++---
+> >   net/core/skbuff.c               |   9 +-
+> >   4 files changed, 164 insertions(+), 41 deletions(-)
+> >
+> > diff --git a/include/net/netmem.h b/include/net/netmem.h
+> > index 31f338f19da0..7557aecc0f78 100644
+> > --- a/include/net/netmem.h
+> > +++ b/include/net/netmem.h
+> > @@ -12,11 +12,47 @@
+> >
+> >   /* net_iov */
+> >
+> > +DECLARE_STATIC_KEY_FALSE(page_pool_mem_providers);
+> > +
+> > +/*  We overload the LSB of the struct page pointer to indicate whether=
+ it's
+> > + *  a page or net_iov.
+> > + */
+> > +#define NET_IOV 0x01UL
+> > +
+> >   struct net_iov {
+> > +     unsigned long __unused_padding;
+> > +     unsigned long pp_magic;
+> > +     struct page_pool *pp;
+> >       struct dmabuf_genpool_chunk_owner *owner;
+> >       unsigned long dma_addr;
+> > +     atomic_long_t pp_ref_count;
+> >   };
+>
+> I wonder if it would be better to extract a common sub-struct
+> used in struct page, struct_group_tagged can help to avoid
+> touching old code:
+>
+> struct page {
+>         unsigned long flags;
+>         union {
+>                 ...
+>                 struct_group_tagged(<struct_name>, ...,
+>                         /**
+>                          * @pp_magic: magic value to avoid recycling non
+>                          * page_pool allocated pages.
+>                          */
+>                         unsigned long pp_magic;
+>                         struct page_pool *pp;
+>                         unsigned long _pp_mapping_pad;
+>                         unsigned long dma_addr;
+>                         atomic_long_t pp_ref_count;
+>                 );
+>         };
+> }
+>
+> struct net_iov {
+>         unsigned long pad;
+>         struct <struct_name> p;
+> };
+>
+>
+> A bit of a churn with the padding and nesting net_iov but looks
+> sturdier. No duplication, and you can just check positions of the
+> structure instead of per-field NET_IOV_ASSERT_OFFSET, which you
+> have to not forget to update e.g. when adding a new field. Also,
+
+Yes, this is nicer. If possible I'll punt it to a minor cleanup as a
+follow up change. Logistically I think if this series need-not touch
+code outside of net/, that's better.
+
+> with the change __netmem_clear_lsb can return a pointer to that
+> structure, casting struct net_iov when it's a page is a bit iffy.
+>
+> And the next question would be whether it'd be a good idea to encode
+> iov vs page not by setting a bit but via one of the fields in the
+> structure, maybe pp_magic.
+>
+
+I will push back against this, for 2 reasons:
+
+1. I think pp_magic's first 2 bits (and maybe more) are used by mm
+code and thus I think extending usage of pp_magic in this series is a
+bit iffy and I would like to avoid it. I just don't want to touch the
+semantics of struct page if I don't have to.
+2. I think this will be a measurable perf regression. Currently we can
+tell if a pointer is a page or net_iov without dereferencing the
+pointer and dirtying the cache-line. This will cause us to possibly
+dereference the pointer in areas where we don't need to. I think I had
+an earlier version of this code that required a dereference to tell if
+a page was devmem and Eric pointed to me it was a perf regression.
+
+I also don't see any upside of using pp_magic, other than making the
+code slightly more readable, maybe.
+
+> With that said I'm a bit concerned about the net_iov size. If each
+> represents 4096 bytes and you're registering 10MB, then you need
+> 30 pages worth of memory just for the iov array. Makes kvmalloc
+> a must even for relatively small sizes.
+>
+
+This I think is an age-old challenge with pages. 1.6% of the machine's
+memory is 'wasted' on every machine because a struct page needs to be
+allocated for each PAGE_SIZE region. We're running into the same issue
+here where if we want to refer to PAGE_SIZE regions of memory we need
+to allocate some reference to it. Note that net_iov can be relatively
+easily extended to support N order pages. Also note that in the devmem
+TCP use case it's not really an issue; the minor increase in mem
+utilization is more than offset by the saving in memory bw as compared
+to using host memory as a bounce buffer. All in all I vote this is
+something that can be tuned or improved in the future if someone finds
+the extra memory usage a hurdle to using devmem TCP or this net_iov
+infra.
+
+> And the final bit, I don't believe the overlay is necessary in
+> this series. Optimisations are great, but this one is a bit more on
+> the controversial side. Unless I missed something and it does make
+> things easier, it might make sense to do it separately later.
+>
+
+I completely agree, the overlay is not necessary. I implemented the
+overlay in response to Yunsheng's  strong requests for more 'unified'
+processing between page and devmem. This is the most unification I can
+do IMO without violating the requirements from Jason. I'm prepared to
+remove the overlay if it turns out controversial, but so far I haven't
+seen any complaints. Jason, please do take a look if you have not
+already.
+
+>
+> > +/* These fields in struct page are used by the page_pool and net stack=
+:
+> > + *
+> > + *   struct {
+> > + *           unsigned long pp_magic;
+> > + *           struct page_pool *pp;
+> > + *           unsigned long _pp_mapping_pad;
+> > + *           unsigned long dma_addr;
+> > + *           atomic_long_t pp_ref_count;
+> > + *   };
+> > + *
+> > + * We mirror the page_pool fields here so the page_pool can access the=
+se fields
+> > + * without worrying whether the underlying fields belong to a page or =
+net_iov.
+> > + *
+> > + * The non-net stack fields of struct page are private to the mm stack=
+ and must
+> > + * never be mirrored to net_iov.
+> > + */
+> > +#define NET_IOV_ASSERT_OFFSET(pg, iov)             \
+> > +     static_assert(offsetof(struct page, pg) =3D=3D \
+> > +                   offsetof(struct net_iov, iov))
+> > +NET_IOV_ASSERT_OFFSET(pp_magic, pp_magic);
+> > +NET_IOV_ASSERT_OFFSET(pp, pp);
+> > +NET_IOV_ASSERT_OFFSET(dma_addr, dma_addr);
+> > +NET_IOV_ASSERT_OFFSET(pp_ref_count, pp_ref_count);
+> > +#undef NET_IOV_ASSERT_OFFSET
+> > +
+> >   static inline struct dmabuf_genpool_chunk_owner *
+> >   net_iov_owner(const struct net_iov *niov)
+> >   {
+> > @@ -47,19 +83,25 @@ net_iov_binding(const struct net_iov *niov)
+> >   struct netmem {
+> >       union {
+> >               struct page page;
+> > -
+> > -             /* Stub to prevent compiler implicitly converting from pa=
+ge*
+> > -              * to netmem_t* and vice versa.
+> > -              *
+> > -              * Other memory type(s) net stack would like to support
+> > -              * can be added to this union.
+> > -              */
+> > -             void *addr;
+> > +             struct net_iov niov;
+> >       };
+> >   };
+> >
+> ...
+>
+> --
+> Pavel Begunkov
 
 
-On 2/13/2024 11:31 AM, Dmitry Baryshkov wrote:
-> On Tue, 13 Feb 2024 at 20:46, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 2/13/2024 10:23 AM, Dmitry Baryshkov wrote:
->>> On Tue, 13 Feb 2024 at 19:32, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>>>
->>>>
->>>>
->>>> On 2/13/2024 3:18 AM, Dmitry Baryshkov wrote:
->>>>> On Sat, 10 Feb 2024 at 03:53, Paloma Arellano <quic_parellan@quicinc.com> wrote:
->>>>>>
->>>>>> Adjust the encoder format programming in the case of video mode for DP
->>>>>> to accommodate CDM related changes.
->>>>>>
->>>>>> Changes in v2:
->>>>>>            - Move timing engine programming to a separate patch from this
->>>>>>              one
->>>>>>            - Move update_pending_flush_periph() invocation completely to
->>>>>>              this patch
->>>>>>            - Change the logic of dpu_encoder_get_drm_fmt() so that it only
->>>>>>              calls drm_mode_is_420_only() instead of doing additional
->>>>>>              unnecessary checks
->>>>>>            - Create new functions msm_dp_needs_periph_flush() and it's
->>>>>>              supporting function dpu_encoder_needs_periph_flush() to check
->>>>>>              if the mode is YUV420 and VSC SDP is enabled before doing a
->>>>>>              peripheral flush
->>>>>>
->>>>>> Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
->>>>>> ---
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 35 +++++++++++++++++++
->>>>>>     .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  | 13 +++++++
->>>>>>     .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  | 19 ++++++++++
->>>>>>     drivers/gpu/drm/msm/dp/dp_display.c           | 18 ++++++++++
->>>>>>     drivers/gpu/drm/msm/msm_drv.h                 | 17 ++++++++-
->>>>>>     5 files changed, 101 insertions(+), 1 deletion(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>>>>> index 7e7796561009a..6280c6be6dca9 100644
->>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>>>>> @@ -222,6 +222,41 @@ static u32 dither_matrix[DITHER_MATRIX_SZ] = {
->>>>>>            15, 7, 13, 5, 3, 11, 1, 9, 12, 4, 14, 6, 0, 8, 2, 10
->>>>>>     };
->>>>>>
->>>>>> +u32 dpu_encoder_get_drm_fmt(struct dpu_encoder_phys *phys_enc)
->>>>>> +{
->>>>>> +       struct drm_encoder *drm_enc;
->>>>>> +       struct dpu_encoder_virt *dpu_enc;
->>>>>> +       struct drm_display_info *info;
->>>>>> +       struct drm_display_mode *mode;
->>>>>> +
->>>>>> +       drm_enc = phys_enc->parent;
->>>>>> +       dpu_enc = to_dpu_encoder_virt(drm_enc);
->>>>>> +       info = &dpu_enc->connector->display_info;
->>>>>> +       mode = &phys_enc->cached_mode;
->>>>>> +
->>>>>> +       if (drm_mode_is_420_only(info, mode))
->>>>>> +               return DRM_FORMAT_YUV420;
->>>>>> +
->>>>>> +       return DRM_FORMAT_RGB888;
->>>>>> +}
->>>>>> +
->>>>>> +bool dpu_encoder_needs_periph_flush(struct dpu_encoder_phys *phys_enc)
->>>>>> +{
->>>>>> +       struct drm_encoder *drm_enc;
->>>>>> +       struct dpu_encoder_virt *dpu_enc;
->>>>>> +       struct msm_display_info *disp_info;
->>>>>> +       struct msm_drm_private *priv;
->>>>>> +       struct drm_display_mode *mode;
->>>>>> +
->>>>>> +       drm_enc = phys_enc->parent;
->>>>>> +       dpu_enc = to_dpu_encoder_virt(drm_enc);
->>>>>> +       disp_info = &dpu_enc->disp_info;
->>>>>> +       priv = drm_enc->dev->dev_private;
->>>>>> +       mode = &phys_enc->cached_mode;
->>>>>> +
->>>>>> +       return phys_enc->hw_intf->cap->type == INTF_DP && phys_enc->hw_cdm &&
->>>>>
->>>>> Do we really need to check for phys_enc->hw_cdm here?
->>>>>
->>>>
->>>> hmmm I dont think so. If CDM was not there, then after the last patch,
->>>> YUV420 removes will not be present at all.
->>>>
->>>> The only other case I could think of was, if for some reason CDM was
->>>> used by some other interface such as WB, then hw_cdm will not be assigned.
->>>>
->>>> But, I think even for that msm_dp_needs_periph_flush() will take care of
->>>> it because we use the cached_mode which is assigned only in mode_set().
->>>>
->>>>>> +              msm_dp_needs_periph_flush(priv->dp[disp_info->h_tile_instance[0]], mode);
->>>>>> +}
->>>>>>
->>>>>>     bool dpu_encoder_is_widebus_enabled(const struct drm_encoder *drm_enc)
->>>>>>     {
->>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->>>>>> index f43d57d9c74e1..211a3d90eb690 100644
->>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->>>>>> @@ -341,6 +341,19 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
->>>>>>      */
->>>>>>     unsigned int dpu_encoder_helper_get_dsc(struct dpu_encoder_phys *phys_enc);
->>>>>>
->>>>>> +/**
->>>>>> + * dpu_encoder_get_drm_fmt - return DRM fourcc format
->>>>>> + * @phys_enc: Pointer to physical encoder structure
->>>>>> + */
->>>>>> +u32 dpu_encoder_get_drm_fmt(struct dpu_encoder_phys *phys_enc);
->>>>>> +
->>>>>> +/**
->>>>>> + * dpu_encoder_needs_periph_flush - return true if physical encoder requires
->>>>>> + *     peripheral flush
->>>>>> + * @phys_enc: Pointer to physical encoder structure
->>>>>> + */
->>>>>> +bool dpu_encoder_needs_periph_flush(struct dpu_encoder_phys *phys_enc);
->>>>>> +
->>>>>>     /**
->>>>>>      * dpu_encoder_helper_split_config - split display configuration helper function
->>>>>>      *     This helper function may be used by physical encoders to configure
->>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
->>>>>> index f562beb6f7971..3f102b2813ca8 100644
->>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
->>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
->>>>>> @@ -413,8 +413,15 @@ static int dpu_encoder_phys_vid_control_vblank_irq(
->>>>>>     static void dpu_encoder_phys_vid_enable(struct dpu_encoder_phys *phys_enc)
->>>>>>     {
->>>>>>            struct dpu_hw_ctl *ctl;
->>>>>> +       struct dpu_hw_cdm *hw_cdm;
->>>>>> +       const struct dpu_format *fmt = NULL;
->>>>>> +       u32 fmt_fourcc = DRM_FORMAT_RGB888;
->>>>>>
->>>>>>            ctl = phys_enc->hw_ctl;
->>>>>> +       hw_cdm = phys_enc->hw_cdm;
->>>>>> +       if (hw_cdm)
->>>>>> +               fmt_fourcc = dpu_encoder_get_drm_fmt(phys_enc);
->>>>>
->>>>> Please move if(hw_cdm) inside dpu_encoder_get_drm_fmt().
->>>>>
->>>>
->>>> I think we dont need to check for if (hw_cdm) at all.
->>>> dpu_encoder_get_drm_fmt() was just supposed to be a helper which returns
->>>> the fourcc code based on the mode. It doesnt need to know if there is
->>>> cdm or not.
->>>>
->>>> We cannot move it inside dpu_encoder_helper_phys_setup_cdm() because for
->>>> WB, we do not change the fourcc based on the mode. Its specific to video
->>>> mode.
->>>
->>> Wait... In the case of the WB we use the fourcc + modifier from the
->>> framebuffer. Ok, this looks fine then.
->>>
->>>
->>>>
->>>>>> +       fmt = dpu_get_dpu_format(fmt_fourcc);
->>>>>
->>>>> Can this be moved into dpu_encoder_helper_phys_setup_cdm() ? Or maybe
->>>>> we can move both calls into the helper? I mean, fmt_fourcc is not used
->>>>> at all if the CDM is not used.
->>>>>
->>>>
->>>> fourcc is always used to get the fmt to setup the timing engine params.
->>>> Its just that it was always hard-coded to RGB. With CDM, it can change
->>>> based on the mode. Thats why this utility was introduced to return the
->>>> fourcc from the mode information.
->>>
->>> Yes, I perfectly understand that. I just disliked the idea of calling
->>> dpu_get_dpu_format() if the result gets unused.
->>> What about passing fourcc + modifier to
->>> dpu_encoder_helper_phys_setup_cdm() instead?
->>>
->>
->> Why would it be unused? Its returning YUV420 if the mode is YUV420 and
->> RGB otherwise.
-> 
-> I thought about it being unused if there is no CDM in play.
-> 
->>
->> We need fourcc + modifier for video mode timing engine setup. I didnt
->> quite follow your suggestion of passing these to
->> dpu_encoder_helper_phys_setup_cdm().
-> 
-> Ah, this is modified in the next patch...
-> 
-> Maybe passing fmt_fourcc from this function to setup_timing_engine
-> will solve my troubles.
-> 
 
-Sorry but isnt that what the next patch is doing?
-
-dpu_encoder_phys_vid_setup_timing_engine() gets the fourcc from 
-dpu_encoder_get_drm_fmt() now.
-
-There should be no link between setup_cdm() and setup_timing_engine().
-
-What we have right now makes looks fine.
-
->>
->>
->>>>
->>>>>>
->>>>>>            DPU_DEBUG_VIDENC(phys_enc, "\n");
->>>>>>
->>>>>> @@ -423,6 +430,8 @@ static void dpu_encoder_phys_vid_enable(struct dpu_encoder_phys *phys_enc)
->>>>>>
->>>>>>            dpu_encoder_helper_split_config(phys_enc, phys_enc->hw_intf->idx);
->>>>>>
->>>>>> +       dpu_encoder_helper_phys_setup_cdm(phys_enc, fmt, CDM_CDWN_OUTPUT_HDMI);
->>>>>> +
->>>>>>            dpu_encoder_phys_vid_setup_timing_engine(phys_enc);
->>>>>>
->>>>>>            /*
->>>>>> @@ -438,6 +447,16 @@ static void dpu_encoder_phys_vid_enable(struct dpu_encoder_phys *phys_enc)
->>>>>>            if (ctl->ops.update_pending_flush_merge_3d && phys_enc->hw_pp->merge_3d)
->>>>>>                    ctl->ops.update_pending_flush_merge_3d(ctl, phys_enc->hw_pp->merge_3d->idx);
->>>>>>
->>>>>> +       if (ctl->ops.update_pending_flush_cdm && phys_enc->hw_cdm)
->>>>>> +               ctl->ops.update_pending_flush_cdm(ctl, hw_cdm->idx);
->>>>>> +
->>>>>> +       /*
->>>>>> +        * Peripheral flush must be updated whenever flushing SDP packets is needed.
->>>>>> +        * SDP packets are required for any YUV format (YUV420, YUV422, YUV444).
->>>>>> +        */
->>>>>> +       if (ctl->ops.update_pending_flush_periph && dpu_encoder_needs_periph_flush(phys_enc))
->>>>>> +               ctl->ops.update_pending_flush_periph(ctl, phys_enc->hw_intf->idx);
->>>>>> +
->>>>>>     skip_flush:
->>>>>>            DPU_DEBUG_VIDENC(phys_enc,
->>>>>>                    "update pending flush ctl %d intf %d\n",
->>>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
->>>>>> index 4b04388719363..ebcc76ef1d590 100644
->>>>>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->>>>>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->>>>>> @@ -1397,6 +1397,24 @@ void __exit msm_dp_unregister(void)
->>>>>>            platform_driver_unregister(&dp_display_driver);
->>>>>>     }
->>>>>>
->>>>>> +bool msm_dp_is_yuv_420_enabled(const struct msm_dp *dp_display,
->>>>>> +                              const struct drm_display_mode *mode)
->>>>>> +{
->>>>>> +       struct dp_display_private *dp;
->>>>>> +       const struct drm_display_info *info;
->>>>>> +
->>>>>> +       dp = container_of(dp_display, struct dp_display_private, dp_display);
->>>>>> +       info = &dp_display->connector->display_info;
->>>>>> +
->>>>>> +       return dp->panel->vsc_sdp_supported && drm_mode_is_420_only(info, mode);
->>>>>> +}
->>>>>> +
->>>>>> +bool msm_dp_needs_periph_flush(const struct msm_dp *dp_display,
->>>>>> +                              const struct drm_display_mode *mode)
->>>>>> +{
->>>>>> +       return msm_dp_is_yuv_420_enabled(dp_display, mode);
->>>>>> +}
->>>>>> +
->>>>>>     bool msm_dp_wide_bus_available(const struct msm_dp *dp_display)
->>>>>>     {
->>>>>>            struct dp_display_private *dp;
->>>>>> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
->>>>>> index 16a7cbc0b7dd8..b876ebd48effe 100644
->>>>>> --- a/drivers/gpu/drm/msm/msm_drv.h
->>>>>> +++ b/drivers/gpu/drm/msm/msm_drv.h
->>>>>> @@ -387,7 +387,10 @@ void __exit msm_dp_unregister(void);
->>>>>>     int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
->>>>>>                             struct drm_encoder *encoder);
->>>>>>     void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp_display);
->>>>>> -
->>>>>> +bool msm_dp_is_yuv_420_enabled(const struct msm_dp *dp_display,
->>>>>> +                              const struct drm_display_mode *mode);
->>>>>> +bool msm_dp_needs_periph_flush(const struct msm_dp *dp_display,
->>>>>> +                              const struct drm_display_mode *mode);
->>>>>>     bool msm_dp_wide_bus_available(const struct msm_dp *dp_display);
->>>>>>
->>>>>>     #else
->>>>>> @@ -409,6 +412,18 @@ static inline void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm
->>>>>>     {
->>>>>>     }
->>>>>>
->>>>>> +static inline bool msm_dp_is_yuv_420_enabled(const struct msm_dp *dp_display,
->>>>>> +                                            const struct drm_display_mode *mode)
->>>>>> +{
->>>>>> +       return false;
->>>>>> +}
->>>>>> +
->>>>>> +static inline bool msm_dp_needs_periph_flush(const struct msm_dp *dp_display,
->>>>>> +                                            const struct drm_display_mode *mode)
->>>>>> +{
->>>>>> +       return false;
->>>>>> +}
->>>>>> +
->>>>>>     static inline bool msm_dp_wide_bus_available(const struct msm_dp *dp_display)
->>>>>>     {
->>>>>>            return false;
->>>>>> --
->>>>>> 2.39.2
->>>>>>
->>>>>
->>>>>
->>>
->>>
->>>
-> 
-> 
-> 
+--
+Thanks,
+Mina
