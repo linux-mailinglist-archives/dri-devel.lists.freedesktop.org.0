@@ -2,70 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A393852DF0
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 11:32:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54C03852C68
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 10:38:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F017310E31A;
-	Tue, 13 Feb 2024 10:32:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 439D310E2C6;
+	Tue, 13 Feb 2024 09:37:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="02Bz8N4U";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="durSmcD5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7901310E343;
- Tue, 13 Feb 2024 10:32:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=E5JrAIpbnYaWglgEM6fTqJL0DcVqvMScwS4tXv+HrBk=; b=02Bz8N4UO2PtlH4w/fjiDCkrKa
- svENhLtsJi5e/fQ9dx/62Zox0hex1Egff170zlANYG8AyV+IJZQQQsvraj3ordM+BvIT5qlgoeKqE
- 40RO1VHG+QP+LHyv3ds/eGE2GJHFnk3gh+1Gy9iUs95TuCvxm/sLoH1cMn4S+m+S5TcIu0+vxs3RP
- hsStHMuccW/66mUbPCwCzNRYHLPITsgg6Af1w0g68kbJbnhvzp6Z+o09Mw1McE14YPiI4xSFwTyph
- mfO4JYLgen9DNk/mhCYs0GPekySE00XcVBNySxkIdJCEE5dK0EknTDv34AnTL29NXBhgKzbHeTmID
- O7bwD8bw==;
-Received: from [194.136.85.206] (port=39056 helo=eldfell)
- by whm50.louhi.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
- (envelope-from <pekka.paalanen@haloniitty.fi>) id 1rZpEK-0004Je-1R;
- Tue, 13 Feb 2024 11:37:32 +0200
-Date: Tue, 13 Feb 2024 11:37:27 +0200
-From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-To: Uma Shankar <uma.shankar@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- ville.syrjala@linux.intel.com, contact@emersion.fr, harry.wentland@amd.com,
- mwen@igalia.com, jadahl@redhat.com, sebastian.wick@redhat.com,
- shashank.sharma@amd.com, agoins@nvidia.com, joshua@froggi.es,
- mdaenzer@redhat.com, aleixpol@kde.org, xaver.hugl@gmail.com,
- victoria@system76.com, daniel@ffwll.ch, quic_naseer@quicinc.com,
- quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com,
- arthurgrillo@riseup.net, marcan@marcan.st, Liviu.Dudau@arm.com,
- sashamcintosh@google.com, sean@poorly.run
-Subject: Re: [PATCH 17/28] drm/i915: Define segmented Lut and add
- capabilities to colorop
-Message-ID: <20240213113727.22f9c8e5@eldfell>
-In-Reply-To: <20240213064835.139464-18-uma.shankar@intel.com>
-References: <20240213064835.139464-1-uma.shankar@intel.com>
- <20240213064835.139464-18-uma.shankar@intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA82210E1E4;
+ Tue, 13 Feb 2024 09:37:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1707817078; x=1739353078;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=p90uA94Z+LZxE9uZCXBI6vm07ZWueT4WnR7skAj2mHY=;
+ b=durSmcD50OzMPBpa4VR8r5qhFOPTKT1M/GnRo8UaASCJV/0e3wBFmt62
+ eEXB+eVlIqtnJp7Fm+S3u8Xu3zMfxWJTwTG8TiWOHjyCN4mNYL9zGk955
+ 3Qef8nr6nVlPYLKYZGYWVam1DdFZhtmtG6ePXuM3NpLtzTYMOObR+L4Oq
+ P4NuGdZMbJtdeaUpEuU4uxtoZZIMIcAFhOd29XZnNbf97zFl+CdkxBRYG
+ pe3YJ2HljueUZfrVVgE/NrwTBDJrEsksM6GE8UhbTEFv49Dpa7L6Xy/Y1
+ J0V5R1kef00eFzKbVhKpsgAtHUE+SQNQ5Vxdn94HGjUvqHG2H1k02VvF9 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="1668795"
+X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; 
+   d="scan'208";a="1668795"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2024 01:37:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; 
+   d="scan'208";a="3017159"
+Received: from dstacken-mobl1.ger.corp.intel.com (HELO [10.249.254.89])
+ ([10.249.254.89])
+ by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2024 01:37:55 -0800
+Message-ID: <46f95691c86388a510f78187855d69a3d0132b82.camel@linux.intel.com>
+Subject: Re: [PATCH drm-misc-next] drm/xe: fix arguments to drm_err_printer()
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>, intel-xe@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Luca Coelho
+ <luciano.coelho@intel.com>, Maxime Ripard <mripard@kernel.org>
+Date: Tue, 13 Feb 2024 10:37:53 +0100
+In-Reply-To: <20240213084954.878643-1-jani.nikula@intel.com>
+References: <20240213084954.878643-1-jani.nikula@intel.com>
+Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/GumYXEvH0+hIJLMx5TY1sLo";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - whm50.louhi.net
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - haloniitty.fi
-X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
- pekka.paalanen@haloniitty.fi
-X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,202 +72,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/GumYXEvH0+hIJLMx5TY1sLo
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, 13 Feb 2024 12:18:24 +0530
-Uma Shankar <uma.shankar@intel.com> wrote:
-
-> This defines the lut segments and create the color pipeline
+On Tue, 2024-02-13 at 10:49 +0200, Jani Nikula wrote:
+> The commit below changed drm_err_printer() arguments, but failed to
+> update all places.
 >=20
-> Signed-off-by: Uma Shankar <uma.shankar@intel.com>
-> Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Closes:
+> https://lore.kernel.org/r/20240213120410.75c45763@canb.auug.org.au
+> Fixes: 5e0c04c8c40b ("drm/print: make drm_err_printer() device
+> specific by using drm_err()")
+> Cc: Luca Coelho <luciano.coelho@intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+
+Reviewed-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+
+>=20
 > ---
->  drivers/gpu/drm/i915/display/intel_color.c | 109 +++++++++++++++++++++
->  1 file changed, 109 insertions(+)
 >=20
-> diff --git a/drivers/gpu/drm/i915/display/intel_color.c b/drivers/gpu/drm=
-/i915/display/intel_color.c
-> index e223edbe4c13..223cd1ff7291 100644
-> --- a/drivers/gpu/drm/i915/display/intel_color.c
-> +++ b/drivers/gpu/drm/i915/display/intel_color.c
-> @@ -3811,6 +3811,105 @@ static const struct intel_color_funcs ilk_color_f=
-uncs =3D {
->  	.get_config =3D ilk_get_config,
->  };
-> =20
-> +static const struct drm_color_lut_range xelpd_degamma_hdr[] =3D {
-> +	/* segment 1 */
-> +	{
-> +		.flags =3D (DRM_MODE_LUT_REFLECT_NEGATIVE |
-> +				DRM_MODE_LUT_INTERPOLATE |
-> +				DRM_MODE_LUT_NON_DECREASING),
+> Argh. This is getting embarrassing. This one was hiding behind
+> CONFIG_DRM_XE_SIMPLE_ERROR_CAPTURE=3Dy.
+> ---
+> =C2=A0drivers/gpu/drm/xe/xe_guc_submit.c | 3 ++-
+> =C2=A01 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c
+> b/drivers/gpu/drm/xe/xe_guc_submit.c
+> index 4744668ef60a..0c763ceafbed 100644
+> --- a/drivers/gpu/drm/xe/xe_guc_submit.c
+> +++ b/drivers/gpu/drm/xe/xe_guc_submit.c
+> @@ -812,7 +812,8 @@ static void guc_exec_queue_print(struct
+> xe_exec_queue *q, struct drm_printer *p)
+> =C2=A0static void simple_error_capture(struct xe_exec_queue *q)
+> =C2=A0{
+> =C2=A0	struct xe_guc *guc =3D exec_queue_to_guc(q);
+> -	struct drm_printer p =3D drm_err_printer("");
+> +	struct xe_device *xe =3D guc_to_xe(guc);
+> +	struct drm_printer p =3D drm_err_printer(&xe->drm, NULL);
+> =C2=A0	struct xe_hw_engine *hwe;
+> =C2=A0	enum xe_hw_engine_id id;
+> =C2=A0	u32 adj_logical_mask =3D q->logical_mask;
 
-Hi Uma,
-
-is it a good idea to have these flags per-segment?
-
-I would find it very strange, unusable really, if REFLECT_NEGATIVE
-applied on some but not all segments, for example. Is such flexibility
-really necessary in the hardware description?
-
-> +		.count =3D 128,
-> +		.input_bpc =3D 24, .output_bpc =3D 16,
-
-The same question about input_bpc and output_bpc.
-
-> +		.start =3D 0, .end =3D (1 << 24) - 1,
-> +		.min =3D 0, .max =3D (1 << 24) - 1,
-> +	},
-> +	/* segment 2 */
-> +	{
-> +		.flags =3D (DRM_MODE_LUT_REFLECT_NEGATIVE |
-> +				DRM_MODE_LUT_INTERPOLATE |
-> +				DRM_MODE_LUT_REUSE_LAST |
-> +				DRM_MODE_LUT_NON_DECREASING),
-> +		.count =3D 1,
-> +		.input_bpc =3D 24, .output_bpc =3D 16,
-> +		.start =3D (1 << 24) - 1, .end =3D 1 << 24,
-
-What if there is a gap or overlap between the previous segment .end and
-the next segment .start? Is it forbidden? Will the kernel common code
-verify that drivers don't make mistakes? Or IGT?
-
-
-Thanks,
-pq
-
-> +		.min =3D 0, .max =3D (1 << 27) - 1,
-> +	},
-> +	/* Segment 3 */
-> +	{
-> +		.flags =3D (DRM_MODE_LUT_REFLECT_NEGATIVE |
-> +				DRM_MODE_LUT_INTERPOLATE |
-> +				DRM_MODE_LUT_REUSE_LAST |
-> +				DRM_MODE_LUT_NON_DECREASING),
-> +		.count =3D 1,
-> +		.input_bpc =3D 24, .output_bpc =3D 16,
-> +		.start =3D 1 << 24, .end =3D 3 << 24,
-> +		.min =3D 0, .max =3D (1 << 27) - 1,
-> +	},
-> +	/* Segment 4 */
-> +	{
-> +		.flags =3D (DRM_MODE_LUT_REFLECT_NEGATIVE |
-> +				DRM_MODE_LUT_INTERPOLATE |
-> +				DRM_MODE_LUT_REUSE_LAST |
-> +				DRM_MODE_LUT_NON_DECREASING),
-> +		.count =3D 1,
-> +		.input_bpc =3D 24, .output_bpc =3D 16,
-> +		.start =3D 3 << 24, .end =3D 7 << 24,
-> +		.min =3D 0, .max =3D (1 << 27) - 1,
-> +	}
-> +};
-> +
-> +/* FIXME input bpc? */
-> +static const struct drm_color_lut_range xelpd_gamma_hdr[] =3D {
-> +	/*
-> +	 * ToDo: Add Segment 1
-> +	 * There is an optional fine segment added with 9 lut values
-> +	 * Will be added later
-> +	 */
-> +
-> +	/* segment 2 */
-> +	{
-> +		.flags =3D (DRM_MODE_LUT_REFLECT_NEGATIVE |
-> +				DRM_MODE_LUT_INTERPOLATE |
-> +				DRM_MODE_LUT_NON_DECREASING),
-> +		.count =3D 32,
-> +		.input_bpc =3D 24, .output_bpc =3D 16,
-> +		.start =3D 0, .end =3D (1 << 24) - 1,
-> +		.min =3D 0, .max =3D (1 << 24) - 1,
-> +	},
-> +	/* segment 3 */
-> +	{
-> +		.flags =3D (DRM_MODE_LUT_REFLECT_NEGATIVE |
-> +				DRM_MODE_LUT_INTERPOLATE |
-> +				DRM_MODE_LUT_REUSE_LAST |
-> +				DRM_MODE_LUT_NON_DECREASING),
-> +		.count =3D 1,
-> +		.input_bpc =3D 24, .output_bpc =3D 16,
-> +		.start =3D (1 << 24) - 1, .end =3D 1 << 24,
-> +		.min =3D 0, .max =3D 1 << 24,
-> +	},
-> +	/* Segment 4 */
-> +	{
-> +		.flags =3D (DRM_MODE_LUT_REFLECT_NEGATIVE |
-> +				DRM_MODE_LUT_INTERPOLATE |
-> +				DRM_MODE_LUT_REUSE_LAST |
-> +				DRM_MODE_LUT_NON_DECREASING),
-> +		.count =3D 1,
-> +		.input_bpc =3D 24, .output_bpc =3D 16,
-> +		.start =3D 1 << 24, .end =3D 3 << 24,
-> +		.min =3D 0, .max =3D (3 << 24),
-> +	},
-> +	/* Segment 5 */
-> +	{
-> +		.flags =3D (DRM_MODE_LUT_REFLECT_NEGATIVE |
-> +				DRM_MODE_LUT_INTERPOLATE |
-> +				DRM_MODE_LUT_REUSE_LAST |
-> +				DRM_MODE_LUT_NON_DECREASING),
-> +		.count =3D 1,
-> +		.input_bpc =3D 24, .output_bpc =3D 16,
-> +		.start =3D 3 << 24, .end =3D 7 << 24,
-> +		.min =3D 0, .max =3D (7 << 24),
-> +	},
-> +};
-> +
->  /* TODO: Move to another file */
->  struct intel_plane_colorop *intel_colorop_alloc(void)
->  {
-> @@ -3865,6 +3964,11 @@ int intel_plane_tf_pipeline_init(struct drm_plane =
-*plane, struct drm_prop_enum_l
->  	if (ret)
->  		return ret;
-> =20
-> +	if (icl_is_hdr_plane(i915, to_intel_plane(plane)->id)) {
-> +		drm_colorop_lutcaps_init(&colorop->base, plane, xelpd_degamma_hdr,
-> +					 sizeof(xelpd_degamma_hdr));
-> +	}
-> +
->  	list->type =3D colorop->base.base.id;
->  	list->name =3D kasprintf(GFP_KERNEL, "Color Pipeline %d", colorop->base=
-.base.id);
-> =20
-> @@ -3886,6 +3990,11 @@ int intel_plane_tf_pipeline_init(struct drm_plane =
-*plane, struct drm_prop_enum_l
->  	if (ret)
->  		return ret;
-> =20
-> +	if (icl_is_hdr_plane(i915, to_intel_plane(plane)->id)) {
-> +		drm_colorop_lutcaps_init(&colorop->base, plane, xelpd_gamma_hdr,
-> +					 sizeof(xelpd_gamma_hdr));
-> +	}
-> +
->  	drm_colorop_set_next_property(prev_op, &colorop->base);
-> =20
->  	return 0;
-
-
---Sig_/GumYXEvH0+hIJLMx5TY1sLo
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXLOFgACgkQI1/ltBGq
-qqcYUxAAih8TeDOo0nAk+aQ/+bgON6KNYeHfj820ykbaPToUpU7XGsMgiRZEkkDA
-4A9dgKu2Sm27les9YBF3KjxCSDK6GwnrDjnRhGXWIP2GvULhBgRlV9imy6lCMuPL
-+HyqrfJUenGuNNIoAsU71cQn45woIqM/grMMtoYoX5IQ2ByTiihrImAtz3/YYCca
-ze9if1NmjP62cfxUlYfh0pkwfrt/aLqDGRV61N4oOY/d8dajHZrXirLgsipCKAWi
-5RxKyu/niX64mix+S1qwEXbTCzh3qKag8DsOch0FMlUGmK48/ZWJ8e102tRXneYD
-m4iPZ5dsI0CzusFDYy+1n1gDobcnBlkX/CfL4p+iuab/yH929x2t7vgR07abyL7f
-UYoDAXhJP0I1KEQuKqka1P/fAsujx1bzOxtK6YweCZULXSEgHNpX5dvJszMTkIs0
-7q2p/wxV8Z6FBq8atrCysDBhzQHYDKbIbc2GLv7PEvOtC/Sc4zJTbiX8MX9GFmXG
-BDZ44gHohNtBFMuM5GhlQpuuum8tTOS4lK/NGpAWScDEUWv/WomLiAAPTwSwyzqG
-TIgCGp/z2JrQ1WMI5V8B6wmpzMR+sQ5WOWOy3zB7P3RqR6FgOFqJ7hcetKXVCWTg
-HSHmKMp7BB3qrkTfSakHCVdxOAi9HWgr5CtbT3pFN9JLXThGBlo=
-=ZCVa
------END PGP SIGNATURE-----
-
---Sig_/GumYXEvH0+hIJLMx5TY1sLo--
