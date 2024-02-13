@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4963485293E
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 07:42:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCC20852941
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 07:42:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4871110E92F;
-	Tue, 13 Feb 2024 06:42:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D30C10E93B;
+	Tue, 13 Feb 2024 06:42:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cfQiH7pm";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="X/AtTVtq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0781F10E92F;
- Tue, 13 Feb 2024 06:42:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 210C310E984;
+ Tue, 13 Feb 2024 06:42:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707806551; x=1739342551;
+ t=1707806558; x=1739342558;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=F87/RNmv9vUWKz7+zpqh9rekZyIG53RK2FY1AL4GM+k=;
- b=cfQiH7pmF00mX0buw35WxwEBsZq6PRhphYS61GIzjc2erR9Gxuxf55e5
- RjUE+s9pG6saHZEJXgSn3HLmCjO+c9rk0jqimwzgIlgIMwIPqTtAEn/27
- 0kJ9mi77TENOEiQAn7EWLaTBDgV/VgzL1xH7bGiA6KcycKykzVy7LjtgO
- U82S48dY2Pg70YfbSmzpWP5p8oECuBJBsqBgavtX3W8a3c6fOOSy0fcZs
- lrGIxJW3OZU7rf0FpWEehTB/NDOpIYQQK4TpFgijv1f7lZQth7Yp2S1xF
- z8eBe9MmFKuG2/JXPXjtJ137U+8j3IBr4ZPqFCPJes5wcC5swi3+1h3Yo w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="436948077"
-X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; d="scan'208";a="436948077"
+ bh=0CobSQBiQKht45WDEnAnR49BFFFe7E5JizxsVKKS1ws=;
+ b=X/AtTVtqXkts5EuoxZ9j4bepVYVH0QwRnq1BQ7jkGG9tQJqkpWjh033t
+ 9coC19ysy3sqJuS3XA2j8iUwCaMxMW3XAFJVMeAeSc2EhsQon4GbSfSJd
+ t8aptR5DAQmFrpfuHyoBLiUk85FngqzQ9YLzDgEa8TD6bIzHIa+6fTiDw
+ gH+FsJ+HIsiNDGbA7tG4LqwJ+RoYI84qNP4ztQVQNsRGBS92b+M+v2/Wm
+ QQqa0V2QQgUoAvGav2f8seGezB0IziCAf/tvNd0Xijq7AnDM9OpOrni26
+ E36t6GewU/2lUDiwHLUtdHRgujmQxi47fdY4HJe5nSdRnzhnqfnVXUJXM g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="436948101"
+X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; d="scan'208";a="436948101"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2024 22:42:30 -0800
+ 12 Feb 2024 22:42:37 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; 
-   d="scan'208";a="7450506"
+   d="scan'208";a="7450543"
 Received: from cfl-desktop.iind.intel.com ([10.190.239.20])
- by orviesa003.jf.intel.com with ESMTP; 12 Feb 2024 22:42:23 -0800
+ by orviesa003.jf.intel.com with ESMTP; 12 Feb 2024 22:42:30 -0800
 From: Uma Shankar <uma.shankar@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
@@ -48,11 +48,12 @@ Cc: ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com,
  quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
  quic_abhinavk@quicinc.com, arthurgrillo@riseup.net, marcan@marcan.st,
  Liviu.Dudau@arm.com, sashamcintosh@google.com, sean@poorly.run,
+ Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
  Uma Shankar <uma.shankar@intel.com>
-Subject: [PATCH 17/28] drm/i915: Define segmented Lut and add capabilities to
- colorop
-Date: Tue, 13 Feb 2024 12:18:24 +0530
-Message-ID: <20240213064835.139464-18-uma.shankar@intel.com>
+Subject: [PATCH 18/28] drm/i915/color: Add and attach COLORPIPELINE plane
+ property
+Date: Tue, 13 Feb 2024 12:18:25 +0530
+Message-ID: <20240213064835.139464-19-uma.shankar@intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20240213064835.139464-1-uma.shankar@intel.com>
 References: <20240213064835.139464-1-uma.shankar@intel.com>
@@ -73,148 +74,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This defines the lut segments and create the color pipeline
+From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 
-Signed-off-by: Uma Shankar <uma.shankar@intel.com>
+Add supported color pipelines and attach it to plane.
+
 Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+Signed-off-by: Uma Shankar <uma.shankar@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_color.c | 109 +++++++++++++++++++++
- 1 file changed, 109 insertions(+)
+ drivers/gpu/drm/i915/display/intel_color.c | 37 ++++++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_color.h |  3 ++
+ 2 files changed, 40 insertions(+)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_color.c b/drivers/gpu/drm/i915/display/intel_color.c
-index e223edbe4c13..223cd1ff7291 100644
+index 223cd1ff7291..d6d5e56b4f2c 100644
 --- a/drivers/gpu/drm/i915/display/intel_color.c
 +++ b/drivers/gpu/drm/i915/display/intel_color.c
-@@ -3811,6 +3811,105 @@ static const struct intel_color_funcs ilk_color_funcs = {
- 	.get_config = ilk_get_config,
- };
- 
-+static const struct drm_color_lut_range xelpd_degamma_hdr[] = {
-+	/* segment 1 */
-+	{
-+		.flags = (DRM_MODE_LUT_REFLECT_NEGATIVE |
-+				DRM_MODE_LUT_INTERPOLATE |
-+				DRM_MODE_LUT_NON_DECREASING),
-+		.count = 128,
-+		.input_bpc = 24, .output_bpc = 16,
-+		.start = 0, .end = (1 << 24) - 1,
-+		.min = 0, .max = (1 << 24) - 1,
-+	},
-+	/* segment 2 */
-+	{
-+		.flags = (DRM_MODE_LUT_REFLECT_NEGATIVE |
-+				DRM_MODE_LUT_INTERPOLATE |
-+				DRM_MODE_LUT_REUSE_LAST |
-+				DRM_MODE_LUT_NON_DECREASING),
-+		.count = 1,
-+		.input_bpc = 24, .output_bpc = 16,
-+		.start = (1 << 24) - 1, .end = 1 << 24,
-+		.min = 0, .max = (1 << 27) - 1,
-+	},
-+	/* Segment 3 */
-+	{
-+		.flags = (DRM_MODE_LUT_REFLECT_NEGATIVE |
-+				DRM_MODE_LUT_INTERPOLATE |
-+				DRM_MODE_LUT_REUSE_LAST |
-+				DRM_MODE_LUT_NON_DECREASING),
-+		.count = 1,
-+		.input_bpc = 24, .output_bpc = 16,
-+		.start = 1 << 24, .end = 3 << 24,
-+		.min = 0, .max = (1 << 27) - 1,
-+	},
-+	/* Segment 4 */
-+	{
-+		.flags = (DRM_MODE_LUT_REFLECT_NEGATIVE |
-+				DRM_MODE_LUT_INTERPOLATE |
-+				DRM_MODE_LUT_REUSE_LAST |
-+				DRM_MODE_LUT_NON_DECREASING),
-+		.count = 1,
-+		.input_bpc = 24, .output_bpc = 16,
-+		.start = 3 << 24, .end = 7 << 24,
-+		.min = 0, .max = (1 << 27) - 1,
-+	}
-+};
-+
-+/* FIXME input bpc? */
-+static const struct drm_color_lut_range xelpd_gamma_hdr[] = {
-+	/*
-+	 * ToDo: Add Segment 1
-+	 * There is an optional fine segment added with 9 lut values
-+	 * Will be added later
-+	 */
-+
-+	/* segment 2 */
-+	{
-+		.flags = (DRM_MODE_LUT_REFLECT_NEGATIVE |
-+				DRM_MODE_LUT_INTERPOLATE |
-+				DRM_MODE_LUT_NON_DECREASING),
-+		.count = 32,
-+		.input_bpc = 24, .output_bpc = 16,
-+		.start = 0, .end = (1 << 24) - 1,
-+		.min = 0, .max = (1 << 24) - 1,
-+	},
-+	/* segment 3 */
-+	{
-+		.flags = (DRM_MODE_LUT_REFLECT_NEGATIVE |
-+				DRM_MODE_LUT_INTERPOLATE |
-+				DRM_MODE_LUT_REUSE_LAST |
-+				DRM_MODE_LUT_NON_DECREASING),
-+		.count = 1,
-+		.input_bpc = 24, .output_bpc = 16,
-+		.start = (1 << 24) - 1, .end = 1 << 24,
-+		.min = 0, .max = 1 << 24,
-+	},
-+	/* Segment 4 */
-+	{
-+		.flags = (DRM_MODE_LUT_REFLECT_NEGATIVE |
-+				DRM_MODE_LUT_INTERPOLATE |
-+				DRM_MODE_LUT_REUSE_LAST |
-+				DRM_MODE_LUT_NON_DECREASING),
-+		.count = 1,
-+		.input_bpc = 24, .output_bpc = 16,
-+		.start = 1 << 24, .end = 3 << 24,
-+		.min = 0, .max = (3 << 24),
-+	},
-+	/* Segment 5 */
-+	{
-+		.flags = (DRM_MODE_LUT_REFLECT_NEGATIVE |
-+				DRM_MODE_LUT_INTERPOLATE |
-+				DRM_MODE_LUT_REUSE_LAST |
-+				DRM_MODE_LUT_NON_DECREASING),
-+		.count = 1,
-+		.input_bpc = 24, .output_bpc = 16,
-+		.start = 3 << 24, .end = 7 << 24,
-+		.min = 0, .max = (7 << 24),
-+	},
-+};
-+
- /* TODO: Move to another file */
- struct intel_plane_colorop *intel_colorop_alloc(void)
- {
-@@ -3865,6 +3964,11 @@ int intel_plane_tf_pipeline_init(struct drm_plane *plane, struct drm_prop_enum_l
- 	if (ret)
- 		return ret;
- 
-+	if (icl_is_hdr_plane(i915, to_intel_plane(plane)->id)) {
-+		drm_colorop_lutcaps_init(&colorop->base, plane, xelpd_degamma_hdr,
-+					 sizeof(xelpd_degamma_hdr));
-+	}
-+
- 	list->type = colorop->base.base.id;
- 	list->name = kasprintf(GFP_KERNEL, "Color Pipeline %d", colorop->base.base.id);
- 
-@@ -3886,6 +3990,11 @@ int intel_plane_tf_pipeline_init(struct drm_plane *plane, struct drm_prop_enum_l
- 	if (ret)
- 		return ret;
- 
-+	if (icl_is_hdr_plane(i915, to_intel_plane(plane)->id)) {
-+		drm_colorop_lutcaps_init(&colorop->base, plane, xelpd_gamma_hdr,
-+					 sizeof(xelpd_gamma_hdr));
-+	}
-+
- 	drm_colorop_set_next_property(prev_op, &colorop->base);
- 
+@@ -4000,6 +4000,43 @@ int intel_plane_tf_pipeline_init(struct drm_plane *plane, struct drm_prop_enum_l
  	return 0;
+ }
+ 
++int intel_plane_color_init(struct drm_plane *plane)
++{
++	struct drm_device *dev = plane->dev;
++	struct drm_property *prop;
++	struct drm_prop_enum_list pipelines[MAX_COLOR_PIPELINES];
++	int len = 0;
++	int ret;
++
++	/* Add "Bypass" (i.e. NULL) pipeline */
++	pipelines[len].type = 0;
++	pipelines[len].name = "Bypass";
++	len++;
++
++	/* Add pipeline consisting of transfer functions */
++	ret = intel_plane_tf_pipeline_init(plane, &pipelines[len]);
++	if (ret)
++		return ret;
++	len++;
++
++	/* Create COLOR_PIPELINE property and attach */
++	prop = drm_property_create_enum(dev, DRM_MODE_PROP_ATOMIC,
++					"COLOR_PIPELINE",
++					pipelines, len);
++	if (!prop)
++		return -ENOMEM;
++
++	plane->color_pipeline_property = prop;
++
++	drm_object_attach_property(&plane->base, prop, 0);
++
++	/* TODO check if needed */
++	if (plane->state)
++		plane->state->color_pipeline = NULL;
++
++	return 0;
++}
++
+ void intel_color_crtc_init(struct intel_crtc *crtc)
+ {
+ 	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
+diff --git a/drivers/gpu/drm/i915/display/intel_color.h b/drivers/gpu/drm/i915/display/intel_color.h
+index e0b75dcb1b65..df0e1f6be067 100644
+--- a/drivers/gpu/drm/i915/display/intel_color.h
++++ b/drivers/gpu/drm/i915/display/intel_color.h
+@@ -16,6 +16,8 @@ struct drm_plane;
+ struct drm_prop_enum_list;
+ enum intel_color_block;
+ 
++#define MAX_COLOR_PIPELINES 5
++
+ void intel_color_init_hooks(struct drm_i915_private *i915);
+ int intel_color_init(struct drm_i915_private *i915);
+ void intel_color_crtc_init(struct intel_crtc *crtc);
+@@ -37,5 +39,6 @@ void intel_color_assert_luts(const struct intel_crtc_state *crtc_state);
+ struct intel_plane_colorop *intel_colorop_alloc(void);
+ struct intel_plane_colorop *intel_plane_colorop_create(enum intel_color_block id);
+ int intel_plane_tf_pipeline_init(struct drm_plane *plane, struct drm_prop_enum_list *list);
++int intel_plane_color_init(struct drm_plane *plane);
+ 
+ #endif /* __INTEL_COLOR_H__ */
 -- 
 2.42.0
 
