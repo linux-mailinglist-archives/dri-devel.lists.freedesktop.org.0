@@ -2,58 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ECBC853511
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 16:48:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07ABE85352D
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 16:52:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F06310E7D3;
-	Tue, 13 Feb 2024 15:48:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0683D10E7D5;
+	Tue, 13 Feb 2024 15:52:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="cUUxxoWJ";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="biCTxmX6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com
- [91.218.175.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31CCA10E7D3
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 15:48:21 +0000 (UTC)
-Message-ID: <45292232-af27-4945-9285-e1c42f1ba65e@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1707839297;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NdXff2HKhkHBa8EZi7NPSQYCYp0SJeGlooiKKxB4EZU=;
- b=cUUxxoWJ+nEcgp1Xd4gvcJnoOUn0IX/OwvYELXLEKAWWrEcb8XV0n6dcmiw6kAa9mDNXtM
- ZNjZ99/1Uj5N1nfkBVASWW5ycGUGXRcDf6+1FOrS0eeG5PeU4MQhJlPyFYAOvZwjHsY8lk
- m3gQ/BmN+r3r7wR+pjvbzeHpC6Guaas=
-Date: Tue, 13 Feb 2024 23:48:07 +0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2066.outbound.protection.outlook.com [40.107.93.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A3FC10E7F8;
+ Tue, 13 Feb 2024 15:52:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VY6zrQUIqbKIbKSZQhhgqU2E93u4GKXtdQaWsAy8N5ZIH82PJLv2znPJxOTwd8RgtNBQrYjnYb/RcSLI5r8zs/fEPIQkN0hIBaaG+1lR9T6hvuABNCCxMgMz5it0RQhKFJkgCKZW1w7YRWaY7NAoxDiGWHN+jZQMjBKiGlhRUunVXsByTHNpRIKaPQ9S/3Y5IGWK/OT7hyjS9nPsga7u/P8fmhObXTR05+h9AVTqj2OIFhwUH5w9EMunP3J13I7vnIw01+CRxQIHgR7PFIZ3/8LZaeBCsnxQWrkwsV87TrPNmQ1IDiqjj4sjouSOD72pW+hTZ3hnftMIXDJvsYRcKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=q7jFe7sbDFC8g+iVL+61kDWJcJ94dzZAgNLl3+StFfc=;
+ b=Z/pJ/nGFWicGjbToBny7zVqIHry+Nwq8RgwttQF6w7UniQLY8+Ac+0qOEsS8vRLzQEYmcCa9uFjdGp2+9d0zBxrrZ/RoCOrmy+NxHWcenlQClhauuIw1ICbm7Zc8B+CTP17FD2+4taPCuzRui9i+eMStOrnPbofMJD13IdRi0sHjDnPNQ3nDChGtgcXTlozQXtP83Mtgo92fymfbivBz6FI0OGnjgFmGpdxMI9Zm1SIpp6Ed+ElRlaEVbKOr+pHw3nl5m37Uz2GObipwNmXsnvIpCtUHjzJDl4hNLgKUu3fMXKA9n5t2vSuO+02F5+/20AExq0TxFmHAluGXzwBQVA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linaro.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q7jFe7sbDFC8g+iVL+61kDWJcJ94dzZAgNLl3+StFfc=;
+ b=biCTxmX6krTy7y4eaKLxQU24rpW5f0c2Yv1FNLGJsjbLgzARMjnV1mi4ISP6GuZ0TevWcY384bJ2aVLDl5RxqIqBxnhB7+sV4y0E+gw3Hb/sSgSrPk+291R8Z7qcuBU2KvR5Y6xptGc4mzDTiRocmzPlHZohJ0nmiUNAG7/O3kU=
+Received: from DM6PR12CA0018.namprd12.prod.outlook.com (2603:10b6:5:1c0::31)
+ by MN2PR12MB4061.namprd12.prod.outlook.com (2603:10b6:208:19a::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.25; Tue, 13 Feb
+ 2024 15:52:14 +0000
+Received: from DS3PEPF000099DC.namprd04.prod.outlook.com
+ (2603:10b6:5:1c0:cafe::f2) by DM6PR12CA0018.outlook.office365.com
+ (2603:10b6:5:1c0::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.39 via Frontend
+ Transport; Tue, 13 Feb 2024 15:52:13 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS3PEPF000099DC.mail.protection.outlook.com (10.167.17.198) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7292.25 via Frontend Transport; Tue, 13 Feb 2024 15:52:13 +0000
+Received: from patedamande.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Tue, 13 Feb
+ 2024 09:52:10 -0600
+From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+To: Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
+ <gustavo@padovan.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>, Steven Rostedt <rostedt@goodmis.org>, "Masami
+ Hiramatsu" <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-media@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>, "Alex
+ Deucher" <alexander.deucher@amd.com>, <amd-gfx@lists.freedesktop.org>
+CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Subject: [PATCH v2 0/6] dma-fence, drm, amdgpu new trace events
+Date: Tue, 13 Feb 2024 16:50:25 +0100
+Message-ID: <20240213155112.156537-1-pierre-eric.pelloux-prayer@amd.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20240117184329.479554-1-pierre-eric.pelloux-prayer@amd.com>
+References: <20240117184329.479554-1-pierre-eric.pelloux-prayer@amd.com>
 MIME-Version: 1.0
-Subject: Re: [etnaviv-next v13 7/7] drm/etnaviv: Add support for vivante GPU
- cores attached via PCI(e)
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240206172759.421737-1-sui.jingfeng@linux.dev>
- <20240206172759.421737-8-sui.jingfeng@linux.dev>
- <ZcNO9aZwWzyYs-Rv@phenom.ffwll.local>
- <jahydq72bqb27de2ijwwmdjh4ri326mxhfjn5pbvf7cqcpnauq@rw5hjdiroi5d>
- <ZcYGWEG8eqAiqqai@phenom.ffwll.local>
- <65qv24hhkmmy4haylh53muvz2xliejysc3uywq44pl3xx7rus4@ynyau4djposv>
- <67936300-7bfb-4f5e-9b80-ee339313fd61@linux.dev>
- <7ejh5uoppa257ap64ps33wrtabn4iu6flf4fn5lqhuuhbtmpjj@25rqv7mnko5q>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <7ejh5uoppa257ap64ps33wrtabn4iu6flf4fn5lqhuuhbtmpjj@25rqv7mnko5q>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS3PEPF000099DC:EE_|MN2PR12MB4061:EE_
+X-MS-Office365-Filtering-Correlation-Id: f41fd065-f2aa-495a-b99a-08dc2cabbf31
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: FlxAWIne639omW37PPXrAw+8wPOWdEwfJTXP+iEWRr6gPuZ/Silzt+ZfwO341BVrdfzP3j4qRTu+ajRhUSwbXojlfJ10WkxrZu/p1IBaAD7sLAmxY3NyJP5KmawN27VlPWnxGNZarvv3VFSxrRjcwd5JCg66RL+VqAtI8uTCgzgTSCXwOtCg30IkYoVG5QXQA94yzkTBm5saHUl5M2u1aLqk/MK9kQdnIYmCmozUPkNECsbPfTLd0e+NWVCHymMx3jSZoyRA4gMjh+hSfOTNICDj9UnXLcn1IVuO4zk95kGUKRwt11JR6gmpSm6o4saJpwJNTbsbz3v9fV9fPyyE8bXbYHj0DnAMrkSwJF9bYHEHSIjIqqJHnTorY/IDDl5LrAWSj1HrfnrQM4XPgaxukz7aGCyP2EhdGS9dNcuVEij6+8xOFyEBZsQLDCsWBrzfaVGTKvsBDLgyNnEc8fvafxGQ6oC7LBSF9fzBSDa7FvM+Z4VskBP1bnXUe08YhmS2yY2vOx3u9V4AGmS6v6Gz52WUH4NbmORIAYOryt+KaZk1So8gtLb+V74ielJk9eX9SxAq9x82Eh/SeUnImrRtf/Za83wmkbJcMlIcFcsyZq1ZFx9TsYzH6DUShh8FAc3mQ9Zr8uoblMzeGybC046e3f5OEAyMEEr8OE6cmPx/ZpI=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(4636009)(376002)(136003)(39860400002)(346002)(396003)(230922051799003)(64100799003)(451199024)(186009)(82310400011)(1800799012)(40470700004)(46966006)(36840700001)(2906002)(478600001)(41300700001)(83380400001)(966005)(1076003)(4326008)(70586007)(8676002)(70206006)(16526019)(5660300002)(8936002)(26005)(336012)(36756003)(426003)(921011)(81166007)(356005)(110136005)(2616005)(6666004)(7696005)(316002)(82740400003)(86362001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2024 15:52:13.7723 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f41fd065-f2aa-495a-b99a-08dc2cabbf31
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS3PEPF000099DC.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4061
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,102 +113,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This series adds new events to make it easier for tools
+like gpuvis or umr to graph the GPUs, kernel and applications
+activity.
 
-On 2024/2/13 22:38, Maxime Ripard wrote:
-> On Sat, Feb 10, 2024 at 12:25:33AM +0800, Sui Jingfeng wrote:
->> On 2024/2/9 23:15, Maxime Ripard wrote:
->>> On Fri, Feb 09, 2024 at 12:02:48PM +0100, Daniel Vetter wrote:
->>>> On Thu, Feb 08, 2024 at 04:27:02PM +0100, Maxime Ripard wrote:
->>>>> On Wed, Feb 07, 2024 at 10:35:49AM +0100, Daniel Vetter wrote:
->>>>>> On Wed, Feb 07, 2024 at 01:27:59AM +0800, Sui Jingfeng wrote:
->>>>>>> The component helper functions are the glue, which is used to bind multiple
->>>>>>> GPU cores to a virtual master platform device. Which is fine and works well
->>>>>>> for the SoCs who contains multiple GPU cores.
->>>>>>>
->>>>>>> The problem is that usperspace programs (such as X server and Mesa) will
->>>>>>> search the PCIe device to use if it is exist. In other words, usperspace
->>>>>>> programs open the PCIe device with higher priority. Creating a virtual
->>>>>>> master platform device for PCI(e) GPUs is unnecessary, as the PCI device
->>>>>>> has been created by the time drm/etnaviv is loaded.
->>>>>>>
->>>>>>> we create virtual platform devices as a representation for the vivante GPU
->>>>>>> ip core. As all of subcomponent are attached via the PCIe master device,
->>>>>>> we reflect this hardware layout by binding all of the virtual child to the
->>>>>>> the real master.
->>>>>>>
->>>>>>> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
->>>>>> Uh so my understanding is that drivers really shouldn't create platform
->>>>>> devices of their own. For this case here I think the aux-bus framework is
->>>>>> the right thing to use. Alternatively would be some infrastructure where
->>>>>> you feed a DT tree to driver core or pci subsystem and it instantiates it
->>>>>> all for you correctly, and especially with hotunplug all done right since
->>>>>> this is pci now, not actually part of the soc that cannot be hotunplugged.
->>>>> I don't think we need intermediate platform devices at all. We just need
->>>>> to register our GPU against the PCI device and that's it. We don't need
->>>>> a platform device, we don't need the component framework.
->>>> Afaik that's what this series does. The component stuff is for the
->>>> internal structure of the gpu ip, so that the same modular approach that
->>>> works for arm-soc also works for pci chips.
->>> But there should be a single PCI device, while we have multiple "DT"
->>> devices, right? Or is there several PCI devices too on that PCI card?
->>
->> There is only a single PCI(e) device on that PCI(e) card, this single
->> PCI(e) device is selected as the component master. All other Hardware IP
->> blocks are shipped by the single PCI(e) master. It may includes Display
->> controllers, GPUs, video decoders, HDMI display bridges hardware unit etc.
->>
->> But all of those Hardware IP share the same MMIO registers PCI BAR, this
->> PCI BAR is a kind of PCI(e) MEM resource. It is a relative *big* chunk,
->> as large as 32MB in address ranges for the JingJia Macro dGPU. Therefore,
->> I break the whole registers memory(MMIO) resource into smaller pieces by
->> creating platform device manually, manually created platform device is
->> called as virtual child in this series.
->>
->> In short, we cut the whole into smaller piece, each smaller piece is a
->> single hardware IP block, thus deserve a single device driver. We will
->> have multiple platform devices if the dGPU contains multiple hardware
->> IP block. On the driver side, we bind all of the scattered driver module
->> with component.
-> That's kind of my point then. If there's a single device, there's no
-> need to create intermediate devices and use the component framework to
-> tie them all together. You can have a simpler approach where you create
-> a function that takes the memory area it operates on (and whatever
-> additional resource it needs: interrupt, clocks, etc.) and call that
-> directly from the PCIe device probe, and the MMIO device bind.
+UMR patches using these events can be found here:
+https://gitlab.freedesktop.org/tomstdenis/umr/-/merge_requests/37
 
+V1:
+https://patchwork.kernel.org/project/linux-media/patch/20240117184329.479554-1-pierre-eric.pelloux-prayer@amd.com/
 
-Yes, you are right. I have implemented the method just as you told me at
-V12 of this series (see 0004 patch at [1]). But at V13, I suddenly realized
-that the component code path plus(+) non-component code path yield a
-"side-by-side" implement. The old non-component approach can not support
-binding multiple sub-core, it can only support one Vivante GPU IP core case.
-But there are dGPU which shipping two identical core.
+Changes from V1:
+* uses trace_dma_fence_sync_to from dma-fence-chain.c
+* new amdgpu events
+* new drm plane commit event
 
-While, the component-based approach implemented at this version is the most
-universal and the most flexible and extensible. We could bind a virtual
-display driver and/or a real display driver to the real master (refer to the
-PCI(e) device).  The PCI(e) device is responsible for present the DRM service
-to userspace, like a leader or agent. All other sub hardware and software are
-hiding behind of the master.
+Pierre-Eric Pelloux-Prayer (6):
+  tracing, dma-buf: add a trace_dma_fence_sync_to event
+  dma-buf/fence-chain: use trace_dma_fence_sync_to
+  amdgpu: use trace_dma_fence_sync_to in amdgpu_fence_sync
+  drm/amdgpu: add BO clear event
+  drm/amdgpu: add a amdgpu_cs_ioctl2 event
+  drm: add drm_mode_atomic_commit event
 
+ drivers/dma-buf/dma-fence-chain.c             |  4 +++
+ drivers/dma-buf/dma-fence.c                   |  1 +
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |  8 ++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        | 16 +++++----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c       |  8 ++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c       |  4 +--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    |  2 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c      | 11 ++++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h      |  3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h     | 28 +++++++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_umsch_mm.c  |  4 +--
+ drivers/gpu/drm/drm_atomic_uapi.c             | 19 +++++++++++
+ drivers/gpu/drm/drm_trace.h                   | 28 +++++++++++++--
+ include/trace/events/dma_fence.h              | 34 +++++++++++++++++++
+ 14 files changed, 144 insertions(+), 26 deletions(-)
 
-Besides, Lucas asked me implement the driver like this way at V10 (see [2])
+-- 
+2.40.1
 
-Lucas said:
-
-"My favorite option would be to just always use the component path
-even when the GPU is on a PCI device to keep both paths mostly aligned.
-One could easily image both a 3D and a 2D core being made available
-though the same PCI device."
-
-Lucas, are you watching? How about this version? Can you help to review please?
-
-
-[1] https://patchwork.freedesktop.org/series/127084/
-
-[2] 
-https://lore.kernel.org/dri-devel/0f1095ef333da7ea103486a1121ca9038815e57c.camel@pengutronix.de/
-
-
-> Maxime
