@@ -2,55 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80C8185239A
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 01:29:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC62D85246A
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 01:51:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FB5E10E4EC;
-	Tue, 13 Feb 2024 00:29:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EBC210E49A;
+	Tue, 13 Feb 2024 00:51:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NDeSTVte";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=w_armin@gmx.de header.b="BELHSyJh";
 	dkim-atps=neutral
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B25C10E3A9;
- Tue, 13 Feb 2024 00:29:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707784185; x=1739320185;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=CUji2c5PQndNwpUyO63Kb53yvZdQC2V6uumXpWz5L9k=;
- b=NDeSTVteRZ1wszZ9wbzVcDNeexJo12I0GKwjY4hy0y9B98ScFWZqKXfa
- ne/OoMJr/KGWhgmamsH++792FbDbZ95zPdK6OgkkMcCjnSp3Vs4sVIn6e
- ISTTv2SHuAoTO+5BnGp8zL3jcsTh8QpVVB3pU3fHU7SyR68xZUlJo3GPF
- ti4QseBQuHKAsdpiv27PYJMe+tMdAEDmcsGmFOJvVj73SmHk0l9bc7wFP
- q07FPWoeqGzIisCB9z/E0/7puP1WvIcBg/x5f8U5Dt+YnqNf+zGhAgs0I
- HVFdocM8Mm9ANymxaorVg4iRmD9CSJ+mxV6evJkpUDCJEepLEic5bVUHG A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="436924757"
-X-IronPort-AV: E=Sophos;i="6.06,155,1705392000"; d="scan'208";a="436924757"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2024 16:29:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,155,1705392000"; 
-   d="scan'208";a="2920516"
-Received: from lchaves-mobl1.amr.corp.intel.com (HELO intel.com)
- ([10.246.48.59])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2024 16:29:40 -0800
-Date: Tue, 13 Feb 2024 01:29:37 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: John.C.Harrison@intel.com
-Cc: Intel-GFX@lists.freedesktop.org, DRI-Devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/i915/gt: Restart the heartbeat timer when forcing a
- pulse
-Message-ID: <Zcq38SQlghqliSLw@ashyti-mobl2.lan>
-References: <20240110210216.4125092-1-John.C.Harrison@Intel.com>
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D65810E49A;
+ Tue, 13 Feb 2024 00:51:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1707785454; x=1708390254; i=w_armin@gmx.de;
+ bh=ey7reqdyEMdyt0U+wc6isCd5i2G3QaAEjU6W+bXRcdM=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+ b=BELHSyJhEmz3uAJ55HzjRL1FY6oYkh5fSPAP4VrjPTwQiIHWxjzBGiH7zNjhIX5M
+ o1hL7CaND0ByRF5MC4FhkV7cuRHatvZe/wJP4N5+RQ2/TrCgqo1GAbHOBi4BgzYFj
+ EM/J+Lc3rrUAXj+bCT1Q5OYyztmUvK/420LcOJvX/72Yi0DYFuh64G/2iS5w6ckJK
+ NL7V1J/EiOu9wuwe3g4J/5wFss7Glpqspx4oBFayqscxnAlTGTivKqB2Qz/IY9Ldd
+ Sngu3fskSSSRCVRd/KmthbvIgM/O7XKk1ZK6hNZwMvfZn5cLUr5yUYnZ4c0TeANaP
+ /+qE2jxK9wf0YEJ1zw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from mx-amd-b650.users.agdsn.de ([141.30.226.129]) by mail.gmx.net
+ (mrgmx005 [212.227.17.190]) with ESMTPSA (Nemesis) id
+ 1MryT9-1rEsNn2fbh-00nvoP; Tue, 13 Feb 2024 01:50:54 +0100
+From: Armin Wolf <W_Armin@gmx.de>
+To: harry.wentland@amd.com,
+	sunpeng.li@amd.com,
+	Rodrigo.Siqueira@amd.com
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/amd/display: Fix memory leak in dm_sw_fini()
+Date: Tue, 13 Feb 2024 01:50:50 +0100
+Message-Id: <20240213005050.4442-1-W_Armin@gmx.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240110210216.4125092-1-John.C.Harrison@Intel.com>
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:txK5GIP1CJKI2+qnEyUyucXhG2X+JRy/QYC3OoT7DjNOn2mydAp
+ M5bHds0vbZWQFEiZccqvIGQ3d8NxzQxJV4kmpqIyjK2KJc5MKQLebUpgnQhoPazXAiYhRqV
+ nYnD1BztfPyXVTHvnuc70xzX0L0mzh0UqcoRy/77BAzaf+yU0IeFE//r5PdBiaccRI9j5Hg
+ wnM+ChIcuLfQACJilY3eg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:9GILGb7t888=;Xkv/X0SRY9RV0DtgulGZhg+N60c
+ kXd80iCFIP+MnX0QRtvOj4FK9592oNVlPshqD5jaOXnN8jbNWNQEr/xLMEuOICuMb2fECsOLM
+ tJ5yE0LrTqakgngNZQvPs6/9PuFOiu6thEEkvjibkrsz1ETv2wNYT3diL1B0Qj+UkTT+OLRG5
+ gwDl/6cT0y0aztnY6IRv/Ej9v3jAgCo6sdyrSSwGjRaDDXQz1VFwAotYPPH/LTLQ+YmgXMdhf
+ OrrYOPkPIMZBOlQJgGzOCgJvuApzQX8vTDf95Q00lAOgffjXHTHRMzrBtyBUCfQYuuFCWA7ma
+ F2xW+rOTNXqAMdvDEUvZRt36aMDY4TCV/+ti/LWQucxcGgjIPD1z/UebXOgjqBHyLiJL1+Rkf
+ UyAOLsIS9PGF3Bfx42mBDd6hUDA9Xl9lS59Yqy8Tnwt4MbCAZooxrATzx5fHeqtCvSd/IKe9u
+ qG/RBwq03VAQr7vCuzjY8bbBg0xUSe40/ztv4ucFgaT51BRPS6m1m7EbaWqFuljHGUG/rJBrd
+ uPfSrB4I0DpPmoeGCqtlzvTBGE6/TQ31Uyd+zMelQC8BXrdJFuICXLGw8Bw+R8cr7LWO48QSu
+ WVZWsSdl2Qv26NwrgnON5Fk33QvA+DOj0rGiaYwKmiXyBJ+/UqeC4BU5XmSJG+FtZzZ8xaoSo
+ bEt3ytnMnqACCOjeWkyFsetBWrHPqtsBZ8X7Xte33QQk85epyVvuegcHi8s+qFH5hGkU8MHSO
+ P14oiseodVgV23otrKGBzohb/hxBimX7xthiqndXcq1/pPIcX+PEilgJqo4t8eDp0AHjvSq+r
+ /ZLxVojYaO7l6KnAI8ZbfUbFtDLJq2vS65vae9WW6giGA=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,54 +75,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi John,
+After destroying dmub_srv, the memory associated with it is
+not freed, causing a memory leak:
 
-On Wed, Jan 10, 2024 at 01:02:16PM -0800, John.C.Harrison@Intel.com wrote:
-> From: John Harrison <John.C.Harrison@Intel.com>
-> 
-> The context persistence code does things like send super high priority
-> heartbeat pulses to ensure any leaked context can still be pre-empted
-> and thus isn't a total denial of service but only a minor denial of
-> service. Unfortunately, it wasn't bothering to restart the heatbeat
+unreferenced object 0xffff896302b45800 (size 1024):
+  comm "(udev-worker)", pid 222, jiffies 4294894636
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace (crc 6265fd77):
+    [<ffffffff993495ed>] kmalloc_trace+0x29d/0x340
+    [<ffffffffc0ea4a94>] dm_dmub_sw_init+0xb4/0x450 [amdgpu]
+    [<ffffffffc0ea4e55>] dm_sw_init+0x15/0x2b0 [amdgpu]
+    [<ffffffffc0ba8557>] amdgpu_device_init+0x1417/0x24e0 [amdgpu]
+    [<ffffffffc0bab285>] amdgpu_driver_load_kms+0x15/0x190 [amdgpu]
+    [<ffffffffc0ba09c7>] amdgpu_pci_probe+0x187/0x4e0 [amdgpu]
+    [<ffffffff9968fd1e>] local_pci_probe+0x3e/0x90
+    [<ffffffff996918a3>] pci_device_probe+0xc3/0x230
+    [<ffffffff99805872>] really_probe+0xe2/0x480
+    [<ffffffff99805c98>] __driver_probe_device+0x78/0x160
+    [<ffffffff99805daf>] driver_probe_device+0x1f/0x90
+    [<ffffffff9980601e>] __driver_attach+0xce/0x1c0
+    [<ffffffff99803170>] bus_for_each_dev+0x70/0xc0
+    [<ffffffff99804822>] bus_add_driver+0x112/0x210
+    [<ffffffff99807245>] driver_register+0x55/0x100
+    [<ffffffff990012d1>] do_one_initcall+0x41/0x300
 
-/heatbeat/heartbeat/
+Fix this by freeing dmub_srv after destroying it.
 
-> worker with a fresh timeout. Thus, if a persistent context happened to
-> be closed just before the heartbeat was going to go ping anyway then
-> the forced pulse would get a negligble execution time. And as the
-> forced pulse is super high priority, the worker thread's next step is
-> a reset. Which means a potentially innocent system randomly goes boom
-> when attempting to close a context. So, force a re-schedule of the
-> worker thread with the appropriate timeout.
-> 
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
-> index 1a8e2b7db0138..4ae2fa0b61dd4 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
-> @@ -290,6 +290,9 @@ static int __intel_engine_pulse(struct intel_engine_cs *engine)
->  	heartbeat_commit(rq, &attr);
->  	GEM_BUG_ON(rq->sched.attr.priority < I915_PRIORITY_BARRIER);
->  
-> +	/* Ensure the forced pulse gets a full period to execute */
-> +	next_heartbeat(engine);
+Fixes: 743b9786b14a ("drm/amd/display: Hook up the DMUB service in DM")
+Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+=2D--
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-I think it makes sense to have this extra heardbeat here and,
-as I've been mulling over it, I don't any harm.
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/g=
+pu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 59d2eee72a32..9cbfc8d39dee 100644
+=2D-- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -2287,6 +2287,7 @@ static int dm_sw_fini(void *handle)
 
-The failure doesn't look related, either.
+ 	if (adev->dm.dmub_srv) {
+ 		dmub_srv_destroy(adev->dm.dmub_srv);
++		kfree(adev->dm.dmub_srv);
+ 		adev->dm.dmub_srv =3D NULL;
+ 	}
 
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+=2D-
+2.39.2
 
-Thanks,
-Andi
-
->  	return 0;
->  }
->  
-> -- 
-> 2.43.0
