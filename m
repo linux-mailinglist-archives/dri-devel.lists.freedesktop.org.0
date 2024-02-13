@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2E0C85233B
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 01:21:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0850F85233D
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 01:21:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23CC010E4C8;
-	Tue, 13 Feb 2024 00:21:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 464AC10E4EA;
+	Tue, 13 Feb 2024 00:21:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="L3Jth6gE";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="S49AixcS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27F5910E4C8
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 00:21:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3202F10E4EA
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 00:21:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 703A8611D6;
+ by dfw.source.kernel.org (Postfix) with ESMTP id A52D3611D8;
+ Tue, 13 Feb 2024 00:21:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E18CC43399;
  Tue, 13 Feb 2024 00:21:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2B42C43601;
- Tue, 13 Feb 2024 00:21:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1707783710;
- bh=UgzG8GfobsDYimcbdrx2RqxzhsKbSTEF4rLtVP4bQmg=;
+ s=k20201202; t=1707783711;
+ bh=vldSKRNTJjwJ6UGBGCtx5oArb3tRvtDaR38H6SWACvM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=L3Jth6gElLO4VnMcgLuSRiAJqmAL6qctfh9k6tJO5Na6gV/XmI3VTbj1BEk18K4rc
- oPnwEbJ0DeLozGcNgLLA6LC5vqb4Hmf3ugmKHsP5rp11YLOB7Bn/reksGghVP4hATH
- 94QX4UgJq0SpreekwUHY2QZwg6KkYuARFtp0s90K7B5I3j4XKtZ4Fhrdj2xUWTRKOD
- IdzlnaB98z/R5Ue8jOH1OM4n4irx9oVvsq9hbZt+xDK9128hFoNSYxnfZAPbwsAAYA
- daPgrFWCDPFUVsKEXKtIUEoMSIp8uWVlIpSZBelveVVp9g7ghv+sRFWeglM5HqI888
- tJLAqLb27WRng==
+ b=S49AixcSLf68OKtavkvutiUeZbPrfa/wWBtHopT0vUEC9mMJXptdO3k0wuP4Z7VJ6
+ JWWaq1XxX7srLgyXLg4iep3M/99cTMXnUCd7rkK1R3gNKENIP2yJELiBi+qozJUfVI
+ dRhCc4knLD8D5ymOPZdep2IrjxGMBAe6pQzUbDal/rUyRMUVLHamx7MVDlsEunrvcg
+ X7Nuj6GqiMx9SECDwhevQZcMaNFrwjAUxGY8NRCF1dO6tUoCdGrCrkHi8Noo9amiyy
+ TsZe8T0epMg89wRPDoW52cpX1rQZz7SfW7ajVETDhMue4Ep3p0qHPTXCqap59S9g4G
+ HqCZJsntCuVGQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: "Wachowski, Karol" <karol.wachowski@intel.com>,
-	Wachowski@freedesktop.org,
-	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
-	Jeffrey Hugo <quic_jhugo@quicinc.com>,
-	Sasha Levin <sashal@kernel.org>, stanislaw.gruszka@linux.intel.com,
-	ogabbay@kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 37/51] accel/ivpu: Force snooping for MMU writes
-Date: Mon, 12 Feb 2024 19:20:14 -0500
-Message-ID: <20240213002052.670571-37-sashal@kernel.org>
+Cc: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, Sasha Levin <sashal@kernel.org>,
+ stanislaw.gruszka@linux.intel.com, ogabbay@kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 38/51] accel/ivpu: Disable d3hot_delay on all NPU
+ generations
+Date: Mon, 12 Feb 2024 19:20:15 -0500
+Message-ID: <20240213002052.670571-38-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240213002052.670571-1-sashal@kernel.org>
 References: <20240213002052.670571-1-sashal@kernel.org>
@@ -65,75 +64,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Wachowski, Karol" <karol.wachowski@intel.com>
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
-[ Upstream commit c9da9a1f17bf4fa96b115950fd389c917b583c1c ]
+[ Upstream commit a7f31091ddf457352e3dd7ac183fdbd26b4dcd04 ]
 
-Set AW_SNOOP_OVERRIDE bit in VPU_37/40XX_HOST_IF_TCU_PTW_OVERRIDES
-to force snooping for MMU write accesses (setting event queue events).
+NPU does not require this delay regardless of the generation.
+All generations are integrated into the SOC.
 
-MMU event queue buffer is the only buffer written by MMU and
-mapped as write-back which break cache coherency. Force write
-transactions to be snooped solving the problem.
-
-Signed-off-by: Wachowski, Karol <karol.wachowski@intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240126122804.2169129-2-jacek.lawrynowicz@linux.intel.com
+Link: https://patchwork.freedesktop.org/patch/msgid/20240126122804.2169129-4-jacek.lawrynowicz@linux.intel.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/accel/ivpu/ivpu_hw_37xx.c | 2 +-
- drivers/accel/ivpu/ivpu_hw_40xx.c | 2 +-
- drivers/accel/ivpu/ivpu_mmu.c     | 3 ---
- 3 files changed, 2 insertions(+), 5 deletions(-)
+ drivers/accel/ivpu/ivpu_drv.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
-index ddf03498fd4c..c0de7c0c991f 100644
---- a/drivers/accel/ivpu/ivpu_hw_37xx.c
-+++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
-@@ -562,7 +562,7 @@ static void ivpu_boot_no_snoop_enable(struct ivpu_device *vdev)
- 	u32 val = REGV_RD32(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES);
+diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
+index 7e9359611d69..8fb70e3c7b9c 100644
+--- a/drivers/accel/ivpu/ivpu_drv.c
++++ b/drivers/accel/ivpu/ivpu_drv.c
+@@ -467,9 +467,8 @@ static int ivpu_pci_init(struct ivpu_device *vdev)
+ 	/* Clear any pending errors */
+ 	pcie_capability_clear_word(pdev, PCI_EXP_DEVSTA, 0x3f);
  
- 	val = REG_SET_FLD(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, NOSNOOP_OVERRIDE_EN, val);
--	val = REG_SET_FLD(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, AW_NOSNOOP_OVERRIDE, val);
-+	val = REG_CLR_FLD(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, AW_NOSNOOP_OVERRIDE, val);
- 	val = REG_SET_FLD(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, AR_NOSNOOP_OVERRIDE, val);
+-	/* VPU 37XX does not require 10m D3hot delay */
+-	if (ivpu_hw_gen(vdev) == IVPU_HW_37XX)
+-		pdev->d3hot_delay = 0;
++	/* NPU does not require 10m D3hot delay */
++	pdev->d3hot_delay = 0;
  
- 	REGV_WR32(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, val);
-diff --git a/drivers/accel/ivpu/ivpu_hw_40xx.c b/drivers/accel/ivpu/ivpu_hw_40xx.c
-index 03600a7a5aca..65c6a82bb13f 100644
---- a/drivers/accel/ivpu/ivpu_hw_40xx.c
-+++ b/drivers/accel/ivpu/ivpu_hw_40xx.c
-@@ -523,7 +523,7 @@ static void ivpu_boot_no_snoop_enable(struct ivpu_device *vdev)
- 	u32 val = REGV_RD32(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES);
- 
- 	val = REG_SET_FLD(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, SNOOP_OVERRIDE_EN, val);
--	val = REG_CLR_FLD(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, AW_SNOOP_OVERRIDE, val);
-+	val = REG_SET_FLD(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, AW_SNOOP_OVERRIDE, val);
- 	val = REG_CLR_FLD(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, AR_SNOOP_OVERRIDE, val);
- 
- 	REGV_WR32(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, val);
-diff --git a/drivers/accel/ivpu/ivpu_mmu.c b/drivers/accel/ivpu/ivpu_mmu.c
-index baefaf7bb3cb..d04a28e05248 100644
---- a/drivers/accel/ivpu/ivpu_mmu.c
-+++ b/drivers/accel/ivpu/ivpu_mmu.c
-@@ -491,7 +491,6 @@ static int ivpu_mmu_reset(struct ivpu_device *vdev)
- 	mmu->cmdq.cons = 0;
- 
- 	memset(mmu->evtq.base, 0, IVPU_MMU_EVTQ_SIZE);
--	clflush_cache_range(mmu->evtq.base, IVPU_MMU_EVTQ_SIZE);
- 	mmu->evtq.prod = 0;
- 	mmu->evtq.cons = 0;
- 
-@@ -805,8 +804,6 @@ static u32 *ivpu_mmu_get_event(struct ivpu_device *vdev)
- 	if (!CIRC_CNT(IVPU_MMU_Q_IDX(evtq->prod), IVPU_MMU_Q_IDX(evtq->cons), IVPU_MMU_Q_COUNT))
- 		return NULL;
- 
--	clflush_cache_range(evt, IVPU_MMU_EVTQ_CMD_SIZE);
--
- 	evtq->cons = (evtq->cons + 1) & IVPU_MMU_Q_WRAP_MASK;
- 	REGV_WR32(VPU_37XX_HOST_MMU_EVTQ_CONS_SEC, evtq->cons);
- 
+ 	ret = pcim_enable_device(pdev);
+ 	if (ret) {
 -- 
 2.43.0
 
