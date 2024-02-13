@@ -2,95 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2013D8538A3
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 18:39:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF0C1853947
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 19:00:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A639610E0D7;
-	Tue, 13 Feb 2024 17:39:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C04710E39F;
+	Tue, 13 Feb 2024 18:00:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Zi9OTKMn";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="GZWk6ttF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50A4610E0E2
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 17:39:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1707845964;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7p4JDbtJm1cogqhFZW34xhMu5zMD7LEdMdg/0QPw0Cw=;
- b=Zi9OTKMnyxhwMZEOml048h+zuI7CSl3wd1qM52uO+QbTrC9NjJThqNhoe5yP0Qj+bnt9vt
- Da5/ALsd+/wgWO2u2qc9f2msm3jKTjeKYSKVsg8Hq7iEyC/rMcyAORhgvbU4q+h9jDnLcF
- V7xYeaejt8q0Q0crL2XR2PihzQyXzTs=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-121-JINLG1CVOYO2vrVxcV4Vxg-1; Tue, 13 Feb 2024 12:39:23 -0500
-X-MC-Unique: JINLG1CVOYO2vrVxcV4Vxg-1
-Received: by mail-ed1-f72.google.com with SMTP id
- 4fb4d7f45d1cf-55ffcfed2ffso6268478a12.0
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 09:39:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707845961; x=1708450761;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=7p4JDbtJm1cogqhFZW34xhMu5zMD7LEdMdg/0QPw0Cw=;
- b=tOYKLc3fIM0hYeBP9hYeTeoMqs9zOUNlPbdSm9qIKrvttUyJL8JacwdzwvVlFpyldr
- FdMvIYOWr8b38X/f2vjyhwcJnhVbKsMbbAyO9IPVTwOnUA190qGu2hTvvPNNWv3xTr/K
- bwnuLqauh+CwCKQw+ChAjZrIRhTl48eg6aaoDli16oFDtz7znpUB/J/8gVkp/9KmJFfJ
- UhC2zqVnYpUnXQuT+3cd65oLriDVbnYu0CTIbV7OGw9t7nCp8VXb/dHoDzjFIdB8tOEx
- t9uYy5gNGPQMj75ssGuliNSiAAquiVSV96vkCmGah/HcAHX3hscGF5NS4pZEt+zmeYUe
- 8eOQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVbY34tZfHXyiGG86UPfsdrZFSzLJoc2sFedoI98wuFlyds2jT3vWFuOvEhDXTEXsWT+NP2eBDFjso6A2V81lpDTb7XeYXCnuYeGqk8okQ7
-X-Gm-Message-State: AOJu0YyEgd+DShzz+6IJBFXO+cG75BnW2zjEvfHMRIpC9N8NQ0PCDAxC
- zK8Pv+qie1mYFihpMx/MxjVsWe0NNliSqvGAjCGsGvlRlabmfSQRyu1QlROcZeoxNIHadbo88VC
- 79w2sK8m8v8TGMmr1Z0FROrWxAeT5ZAKUazlNQGjqOmKheNke3R5GaNRV1X7uBcj/RrknUSp8Bg
- ==
-X-Received: by 2002:a05:6402:1f03:b0:55f:ce14:337a with SMTP id
- b3-20020a0564021f0300b0055fce14337amr3370961edb.11.1707845961533; 
- Tue, 13 Feb 2024 09:39:21 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEgrdfmK0g+Ywab6m3Flje1TWrp4F6K+oXf5dXG9V6kAdl3FWJz/RFUgY54zRXSoj+gGM5t8g==
-X-Received: by 2002:a05:6402:1f03:b0:55f:ce14:337a with SMTP id
- b3-20020a0564021f0300b0055fce14337amr3370943edb.11.1707845961155; 
- Tue, 13 Feb 2024 09:39:21 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCX9j/9qClzTVGDZpurtbdHmr3dv+QQWJ+XFT3AvRwmEgHHbcrJgMtIIuKgg3fe7r5Oy64c3kSL2cnFAMqB6rihu0Di1mOjMkUWTixru2UosXa7WnPdIkrTBJOlMr9X3C8K7FdVTFlTRwvXSdOFEGw==
-Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
- ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- c19-20020aa7c993000000b0056211a1635esm242219edt.47.2024.02.13.09.39.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Feb 2024 09:39:20 -0800 (PST)
-Message-ID: <c13596a5-f672-46e4-8ca6-4f1e449f3267@redhat.com>
-Date: Tue, 13 Feb 2024 18:39:20 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CDF910E252;
+ Tue, 13 Feb 2024 18:00:27 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 41DDAvjj029424; Tue, 13 Feb 2024 18:00:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=uHSjEZZv5LhPxGfb2xIn9VtOM3pAfHSS36rJfvlkgS8=; b=GZ
+ Wk6ttFRJOi+4P/1ZuZpUj3dwKvYyFk/DQTvsbaNGAgpPaokcw//qqYysedh4jDtj
+ 9vT1WZ/CQhFzIhAyhZ2I6QBQLq8fVG1Wy7gMdVZ4PxASbjhjZwPxyxqq2xb3f/mc
+ mHe/9MX1uEv02GBt93Ie2F7rWWhN1EqY+ZneAolpIRiwBohmag/JPLQYOzeArBkP
+ 1JGqVI4+BDY0NUQRwlUPPeZ9XgtLTV7LlNayDqneoFZOT4mmk5bV4V9IJcm3yfLQ
+ OuvA07H8NtT+hZFH6rBR/Zt0Hdi7TVsTeE9yylUZF7pwU2xgaDcgpja6Ef4HJsuh
+ bA6DChb6Bhpwk5IT+2dA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w7q2y2q65-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 13 Feb 2024 18:00:16 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41DI0FWC015189
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 13 Feb 2024 18:00:15 GMT
+Received: from [10.110.23.109] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 13 Feb
+ 2024 10:00:14 -0800
+Message-ID: <343710b1-f0f4-5c05-70e6-3c221cdc9580@quicinc.com>
+Date: Tue, 13 Feb 2024 10:00:13 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nouveau: offload fence uevents work to workqueue
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Dave Airlie <airlied@gmail.com>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20240129015053.1687418-1-airlied@gmail.com>
- <133266ac-7239-4233-a19d-cdc7563d401c@redhat.com>
- <CAPM=9tyc3zWRhm4xSnnHprU-v7prdZ2fkkLDEfjC_t_2wM-8Kg@mail.gmail.com>
- <3d967763-8f8f-4451-9927-33395e1b4d70@redhat.com>
- <ZcI8GScBEJ0SsuA5@phenom.ffwll.local>
- <a2174cc2-ea65-4bcf-a112-f60f26b7213c@redhat.com>
- <ZcZ0UXfbKYNhhBiC@phenom.ffwll.local>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <ZcZ0UXfbKYNhhBiC@phenom.ffwll.local>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: drm/msm: DisplayPort regressions in 6.8-rc1
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Johan Hovold <johan@kernel.org>, Rob Clark <robdclark@gmail.com>, "Dmitry
+ Baryshkov" <dmitry.baryshkov@linaro.org>, Kuogee Hsieh
+ <quic_khsieh@quicinc.com>
+CC: Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>, Bjorn Andersson <quic_bjorande@quicinc.com>,
+ <quic_jesszhan@quicinc.com>, <quic_sbillaka@quicinc.com>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-arm-msm@vger.kernel.org>, <regressions@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>
+References: <ZctVmLK4zTwcpW3A@hovoldconsulting.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <ZctVmLK4zTwcpW3A@hovoldconsulting.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: IDbmomjLwl_cvJs5QxFrpwNYt3hwSqIG
+X-Proofpoint-ORIG-GUID: IDbmomjLwl_cvJs5QxFrpwNYt3hwSqIG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-13_10,2024-02-12_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ bulkscore=0 malwarescore=0 suspectscore=0 priorityscore=1501 clxscore=1011
+ adultscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402130141
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,117 +97,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/9/24 19:52, Daniel Vetter wrote:
-> On Fri, Feb 09, 2024 at 06:41:32PM +0100, Danilo Krummrich wrote:
->> On 2/6/24 15:03, Daniel Vetter wrote:
->>> On Mon, Feb 05, 2024 at 11:00:04PM +0100, Danilo Krummrich wrote:
->>>> On 2/5/24 22:08, Dave Airlie wrote:
->>>>> On Tue, 6 Feb 2024 at 02:22, Danilo Krummrich <dakr@redhat.com> wrote:
->>>>>>
->>>>>> On 1/29/24 02:50, Dave Airlie wrote:
->>>>>>> From: Dave Airlie <airlied@redhat.com>
->>>>>>>
->>>>>>> This should break the deadlock between the fctx lock and the irq lock.
->>>>>>>
->>>>>>> This offloads the processing off the work from the irq into a workqueue.
->>>>>>>
->>>>>>> Signed-off-by: Dave Airlie <airlied@redhat.com>
->>>>>>
->>>>>> Nouveau's scheduler uses a dedicated wq, hence from this perspective it's
->>>>>> safe deferring fence signalling to the kernel global wq. However, I wonder
->>>>>> if we could create deadlocks by building dependency chains into other
->>>>>> drivers / kernel code that, by chance, makes use of the kernel global wq as
->>>>>> well.
->>>>>>
->>>>>> Admittedly, even if, it's gonna be extremely unlikely given that
->>>>>> WQ_MAX_ACTIVE == 512. But maybe it'd be safer to use a dedicated wq.
->>>>>>
->>>>>> Also, do we need to CC stable?
->>>>>
->>>>> I pushed this to Linus at the end of last week, since the hangs in 6.7
->>>>> take out the complete system and I wanted it in stable.
->>>>>
->>>>> It might be safer to use a dedicated wq, is the concern someone is
->>>>> waiting on a fence in a workqueue somewhere else so we will never
->>>>> signal it?
->>>>
->>>> Yes, if some other work is waiting for this fence (or something else in the same
->>>> dependency chain) to signal it can prevent executing the work signaling this fence,
->>>> in case both are scheduled on the same wq. As mentioned, with the kernel global wq
->>>> this would be rather unlikely to lead to an actual stall with WQ_MAX_ACTIVE == 512,
->>>> but formally the race condition exists. I guess a malicious attacker could try to
->>>> intentionally push jobs directly or indirectly depending on this fence to a driver
->>>> which queues them up on a scheduler using the kernel global wq.
->>>
->>> I think if you add dma_fence_signalling annotations (aside, there's some
->>> patch from iirc Thomas Hellstrom to improve them and cut down on some
->>> false positives, but I lost track) then I think you won't get any splats
->>> because the wq subsystem assumes that WC_MAX_ACTIVE is close enough to
->>> infinity to not matter.
->>
->> As mentioned, for the kernel global wq it's 512. (Intentionally) feeding the kernel
->> with enough jobs to to provoke a deadlock doesn't seem impossible to me.
->>
->> I think it'd be safer to just establish not to use the kernel global wq for executing
->> work in the fence signalling critical path.
->>
->> We could also run into similar problems with a dedicated wq, e.g. when drivers share
->> a wq between drm_gpu_scheduler instances (see [1]), however, I'm not sure we can catch
->> that with lockdep.
+Hi Johan
+
+Thanks for the report.
+
+I do agree that pm runtime eDP driver got merged that time but I think 
+the issue is either a combination of that along with DRM aux bridge 
+https://patchwork.freedesktop.org/series/122584/ OR just the latter as 
+even that went in around the same time.
+
+Thats why perhaps this issue was not seen with the chromebooks we tested 
+on as they do not use pmic_glink (aux bridge).
+
+So we will need to debug this on sc8280xp specifically or an equivalent 
+device which uses aux bridge.
+
+Thanks
+
+Abhinav
+
+On 2/13/2024 3:42 AM, Johan Hovold wrote:
+> Hi,
 > 
-> I think if you want to fix it perfectly you'd need to set the max number
-> of wq to the number of engines (or for dynamic/fw scheduled engines to the
-> number of context) you have. Or whatever limit to the number of parallel
-> timelines there is.> 
-> I guess this would need a new wq function to update? drm/sched code could
-> be able to set that for drivers, so drivers cannot get this wrong.
-
-Not sure I can follow. The scheduler instance might be per context and bind
-queue. In this case it gets the shared wq passed, but doesn't know how many
-other scheduler instances share the same one.
-
-Additionally, there might be drivers not using the DRM scheduler for for bind
-queues at all (I think Xe does not).
-
+> Since 6.8-rc1 the internal eDP display on the Lenovo ThinkPad X13s does
+> not always show up on boot.
 > 
-> If we don't do something like that then I'm not sure there's really much
-> benefit - instead of carefully timing 512 dma_fence on the global wq you
-> just need to create a pile of context (at least on intel's guc that's
-> absolutely no issue) and then careful time them.
-
-Well, that's true. I'd still argue that there is a slight difference. From a
-drivers isolated perspective using the global kernel wq might be entirely fine,
-as in this patch. However, in combination with another driver doing the same
-thing, things can blow up. For the case you illustrated it's at least possible
-to spot it from a driver's perspective.
-
+> The logs indicate problems with the runtime PM and eDP rework that went
+> into 6.8-rc1:
 > 
-> I still feel like we have bigger fish to fry ... But might be worth the
-> effort to at least make the parallel timeline limit a lot more explicit?
-
-I agree, and it'd be great if we can find a solution such bugs can be detected
-systematically (e.g. through lockdep), but maybe we can start to at least
-document that we should never use the kernel global wq and where we need to be
-careful in sharing driver wqs.
-
-- Danilo
-
+> 	[    6.006236] Console: switching to colour dummy device 80x25
+> 	[    6.007542] [drm:dpu_kms_hw_init:1048] dpu hardware revision:0x80000000
+> 	[    6.007872] [drm:drm_bridge_attach [drm]] *ERROR* failed to attach bridge /soc@0/phy@88eb000 to encoder TMDS-31: -16
+> 	[    6.007934] [drm:dp_bridge_init [msm]] *ERROR* failed to attach panel bridge: -16
+> 	[    6.007983] msm_dpu ae01000.display-controller: [drm:msm_dp_modeset_init [msm]] *ERROR* failed to create dp bridge: -16
+> 	[    6.008030] [drm:_dpu_kms_initialize_displayport:588] [dpu error]modeset_init failed for DP, rc = -16
+> 	[    6.008050] [drm:_dpu_kms_setup_displays:681] [dpu error]initialize_DP failed, rc = -16
+> 	[    6.008068] [drm:dpu_kms_hw_init:1153] [dpu error]modeset init failed: -16
+> 	[    6.008388] msm_dpu ae01000.display-controller: [drm:msm_drm_kms_init [msm]] *ERROR* kms hw init failed: -16
+> 	
+> and this can also manifest itself as a NULL-pointer dereference:
 > 
-> Cheers, Sima
+> 	[    7.339447] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
+> 	
+> 	[    7.643705] pc : drm_bridge_attach+0x70/0x1a8 [drm]
+> 	[    7.686415] lr : drm_aux_bridge_attach+0x24/0x38 [aux_bridge]
+> 	
+> 	[    7.769039] Call trace:
+> 	[    7.771564]  drm_bridge_attach+0x70/0x1a8 [drm]
+> 	[    7.776234]  drm_aux_bridge_attach+0x24/0x38 [aux_bridge]
+> 	[    7.781782]  drm_bridge_attach+0x80/0x1a8 [drm]
+> 	[    7.786454]  dp_bridge_init+0xa8/0x15c [msm]
+> 	[    7.790856]  msm_dp_modeset_init+0x28/0xc4 [msm]
+> 	[    7.795617]  _dpu_kms_drm_obj_init+0x19c/0x680 [msm]
+> 	[    7.800731]  dpu_kms_hw_init+0x348/0x4c4 [msm]
+> 	[    7.805306]  msm_drm_kms_init+0x84/0x324 [msm]
+> 	[    7.809891]  msm_drm_bind+0x1d8/0x3a8 [msm]
+> 	[    7.814196]  try_to_bring_up_aggregate_device+0x1f0/0x2f8
+> 	[    7.819747]  __component_add+0xa4/0x18c
+> 	[    7.823703]  component_add+0x14/0x20
+> 	[    7.827389]  dp_display_probe+0x47c/0x568 [msm]
+> 	[    7.832052]  platform_probe+0x68/0xd8
 > 
->>
->> [1] https://elixir.bootlin.com/linux/v6.8-rc3/source/drivers/gpu/drm/nouveau/nouveau_drm.c#L313
->>
->>>
->>> I'm not sure we should care differently, but I guess it'd be good to
->>> annotate it all in case the wq subsystem's idea of how much such deadlocks
->>> are real changes.
->>>
->>> Also Teo is on a mission to get rid of all the global wq flushes, so there
->>> should also be no source of deadlocks from that kind of cross-driver
->>> dependency. Or at least shouldn't be in the future, I'm not sure it all
->>> landed.
->>> -Sima
->>
+> Users have also reported random crashes at boot since 6.8-rc1, and I've
+> been able to trigger hard crashes twice when testing an external display
+> (USB-C/DP), which may also be related to the DP regressions.
 > 
-
+> I've opened an issue here:
+> 
+> 	https://gitlab.freedesktop.org/drm/msm/-/issues/51
+> 
+> but I also want Thorsten's help to track this so that it gets fixed
+> before 6.8 is released.
+> 
+> #regzbot introduced: v6.7..v6.8-rc1
+> 
+> The following series is likely the culprit:
+> 
+> 	https://lore.kernel.org/all/1701472789-25951-1-git-send-email-quic_khsieh@quicinc.com/
+> 
+> Johan
