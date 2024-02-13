@@ -2,74 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C36853B4C
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 20:39:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE7D7853BBA
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 21:00:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB91510E4D6;
-	Tue, 13 Feb 2024 19:39:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFD2C10E1CA;
+	Tue, 13 Feb 2024 20:00:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="TixsQV/Q";
+	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="K51R2Ko6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E24DE10E907
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 19:39:34 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-51165a488baso6254907e87.2
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 11:39:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1707853172; x=1708457972; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=KS+nZriVXEOlOUhqDmz6bynpER81YQ2GlHfDyunox3A=;
- b=TixsQV/QKbxv2c+G1lUzRvVbzFYINNDmlr4wQycFDwtUTNAm1MrIQnxIhSoicHnBAW
- WZfWh2V6L1L2j0dHf79YLNpw9eYdecfoW+LmSFxMimrjxS0iluVoZNjX4jtJM/WajMCP
- 8rKb8xYXR5PLGkAv52R3kz424w28U6D3B06e52rISJagedGJXlgcNLt90KVXS6DKNGVE
- /tdMJ0MGkiAFEUoxeBVE2huYsqSwqBKPDH3T9clUsiAOmouArXg1/udSG7GhZsGJWV+i
- CVO4k9lFZbkGQpECs3PdxtB1O/3pX46M5FEnG5+HG0U0HwSrQWf12IDVEt1dFQ4j3rmy
- Amew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707853172; x=1708457972;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KS+nZriVXEOlOUhqDmz6bynpER81YQ2GlHfDyunox3A=;
- b=dZBn1l95WiN60sWO4c+FN2NQqnmMOp5xy909kl9fHJ+A9DR/vNkfHSS5eSWuZho1yZ
- DOSxZjsM+OpdeiYTgzKJH5c4UyMWr9iRZGAjhncJGfpcHIrTNABAGw3K8t0gqjAo7Dnj
- K4C3CTt7mGM+x9juHeYg7xIQZg9y5+LWHyScMIenH2gjPK5hrX7OyD6dvtF4JhMXY/6x
- CPDtEyG2ituwcpgBAxb4C1sk3sCKxfGLacnfbp6cWvwXbw5k/hX9HKMK0gEnpwCaG9bp
- 9G2vNLdClpb23wFajvE/qFce2HJFXZhWdBmNK6B1Cpb2OUiWnf7rPShzz/2/tzk/wF0t
- 4o/w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVovw34gDlEWWcJttLzwUuX2gaar1sDYTCHV3TIPHjAsiN3jES1aa1oKLfksrZwZX3LdgR6KE1Ns5o64s5CNnfgw9gFGvA/SjUBEve9+OR5
-X-Gm-Message-State: AOJu0YzsSCvdAhmGCBQM8CZOGw0VAtOBbKoewZ+hVKGVar4enYYKCjEI
- MaLyhZ8W4/yqY/umqLQDTAayFGXPwkq0ECJuyaYJuK4IueFEWMzjgB7Ueif16J4=
-X-Google-Smtp-Source: AGHT+IH7dW95cPuN7+RBRc/qxtYwNeyEb6fJNfD5rZ1ck+OTWOfqAtrkhCjcxiRkuJE0+EJZ76m0cw==
-X-Received: by 2002:ac2:47fb:0:b0:511:4175:8d16 with SMTP id
- b27-20020ac247fb000000b0051141758d16mr311735lfp.55.1707853172142; 
- Tue, 13 Feb 2024 11:39:32 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCX50LG5uJynhzj073kpTvcvBhBl0Nb3LkP4QB8K/+QvnZXWX71PydWeYYhwBRAFkXL9Ap5jxiWhTBRZfxVrOxlMsT2HzxBsikuJDvE14kgbHs3dce6qyBO/0SRnNgFDkb9k3vdJxhe5kyXbRNGrfawY/q/jWgvUo+jG7Y7w6NYnIoN00vwyciL3SLTNtZfvIyR40qkW7CuzOseovz46cMUeaFBQVKZTnOAJ76VGmwXXp1aWYfObc4g9ElX79hDMid/N7xIeAU27XmQb8KUtBkFxJavU7P7lg8uydCZBWqDf7QEv0hbmW/AEnJwylsH9+IKH2HES1tlQhnBhknwbWeohscii/xHxICUJoq3vxdZApsPu
-Received: from umbar.unikie.fi ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- y5-20020ac255a5000000b0051186931619sm1181823lfg.146.2024.02.13.11.39.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Feb 2024 11:39:31 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Helen Koike <helen.koike@collabora.com>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org
-Subject: [PATCH] drm: ci: use clk_ignore_unused for apq8016
-Date: Tue, 13 Feb 2024 21:39:31 +0200
-Message-Id: <20240213193931.2300211-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CB9F10E1CA;
+ Tue, 13 Feb 2024 20:00:13 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx0.riseup.net (Postfix) with ESMTPS id 4TZBy41mtZz9trd;
+ Tue, 13 Feb 2024 20:00:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1707854412; bh=9p/m2peXL9nwChbZw30B0xPCinauuWzYQnwP6dzBJ9M=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=K51R2Ko6YM3k6veWJDdZq+ZVgVIP+XZ/iqeBTtupENi9XszqJGKeiewG6aHOcwCS1
+ E93PJLa4UZi2hsTWbamYG8ZauuQHjaBvplTNoVB9VARDxbiDBdd0Wg2FVhaAyRCYgf
+ aaaZbxUQwhUPU02nZZWZRcekZeh/JspvSGP1erDc=
+X-Riseup-User-ID: 0F3AA7F1BE5ED04C7A9CB1610F5C3B70ABEDDB8718B3246DCFF6B2837AFE6BBE
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4TZBxk6S6kzJq4W;
+ Tue, 13 Feb 2024 19:59:54 +0000 (UTC)
+Message-ID: <56bcced1-d8ab-491d-b677-2691bf238944@riseup.net>
+Date: Tue, 13 Feb 2024 16:59:51 -0300
 MIME-Version: 1.0
+Subject: Re: [PATCH i-g-t v3] benchmarks: Add VKMS benchmark
+Content-Language: en-US
+To: Kamil Konieczny <kamil.konieczny@linux.intel.com>,
+ igt-dev@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Petri Latvala <adrinael@adrinael.net>, Arkadiusz Hiler <arek@hiler.eu>,
+ Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
+ Bhanuprakash Modem <bhanuprakash.modem@intel.com>,
+ Ashutosh Dixit <ashutosh.dixit@intel.com>,
+ Pekka Paalanen <pekka.paalanen@haloniitty.fi>,
+ Louis Chauvet <louis.chauvet@bootlin.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+References: <20240209-bench-v3-1-24a01f366d3b@riseup.net>
+ <20240213180627.6czpykflxpfpms7j@kamilkon-desk.igk.intel.com>
+From: Arthur Grillo <arthurgrillo@riseup.net>
+In-Reply-To: <20240213180627.6czpykflxpfpms7j@kamilkon-desk.igk.intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,35 +71,303 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the ADV7511 bridge driver is compiled as a module, while DRM_MSM is
-built-in, the clk_disable_unused congests with the runtime PM handling
-of the DSI PHY for the clk_prepare_lock(). This causes apq8016 runner to
-fail without completing any jobs ([1]). Drop the BM_CMDLINE which
-duplicate the command line from the .baremetal-igt-arm64 clause and
-enforce the clk_ignore_unused kernelarg instead to make apq8016 runner
-work.
 
-[1] https://gitlab.freedesktop.org/drm/msm/-/jobs/54990475
 
-Fixes: 0119c894ab0d ("drm: Add initial ci/ subdirectory")
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/ci/test.yml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 13/02/24 15:06, Kamil Konieczny wrote:
+> Hi Arthur,
+> On 2024-02-09 at 16:39:09 -0300, Arthur Grillo wrote:
+> 
+> I will merge this with different description:
+> 
+> [PATCH i-g-t v3] benchmarks: Add KMS frambuffer stress benchmark
+> 
+> Is this ok?
 
-diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
-index 355b794ef2b1..b9f864e062df 100644
---- a/drivers/gpu/drm/ci/test.yml
-+++ b/drivers/gpu/drm/ci/test.yml
-@@ -119,7 +119,7 @@ msm:apq8016:
-     DRIVER_NAME: msm
-     BM_DTB: https://${PIPELINE_ARTIFACTS_BASE}/arm64/apq8016-sbc-usb-host.dtb
-     GPU_VERSION: apq8016
--    BM_CMDLINE: "ip=dhcp console=ttyMSM0,115200n8 $BM_KERNEL_EXTRA_ARGS root=/dev/nfs rw nfsrootdebug nfsroot=,tcp,nfsvers=4.2 init=/init $BM_KERNELARGS"
-+    BM_KERNEL_EXTRA_ARGS: clk_ignore_unused
-     RUNNER_TAG: google-freedreno-db410c
-   script:
-     - ./install/bare-metal/fastboot.sh
--- 
-2.39.2
+Its ok
 
+Best Regards,
+~Arthur Grillo
+
+> 
+> Regards,
+> Kamil
+> 
+>> Create a benchmark for the VKMS driver. Use a KMS layout with deliberate
+>> odd sizes to try to avoid alignment accidents and run it for FRAME_COUNT
+>> frames flipping framebuffers in each plane.
+>>
+>> This benchmark was suggested by Pekka Paalanen to better analyse
+>> possible performance regression on the Virtual Kernel Modesetting(VKMS)
+>> driver.
+>>
+>> With this benchmark I was able to determine two performance regression:
+>>
+>> - 322d716a3e8a ("drm/vkms: isolate pixel conversion functionality")
+>> - cc4fd2934d41 ("drm/vkms: Isolate writeback pixel conversion functions")
+>>
+>> Link: https://lore.kernel.org/all/20240202214527.1d97c881@ferris.localdomain/
+>> Suggested-by: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+>> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+>> Acked-by: Maíra Canal <mcanal@igalia.com>
+>> Acked-by: Kamil Konieczny <kamil.konieczny@linux.intel.com>
+>> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+>> ---
+>> Changes in v3:
+>> - Change primary plane width to not extend outside the CRTC size
+>> - Explicitly set a big CRTC size (Peeka Paalanen)
+>> - Report time spent in the loop (Peeka Paalanen)
+>> - Put file name in alphabetical order on meson script (Kamil Konieczny)
+>> - Link to v2: https://lore.kernel.org/r/20240208-bench-v2-1-1eccee1055ad@riseup.net
+>>
+>> Changes in v2:
+>> - Zero initialize data
+>> - Don't wrap igt_create_* functions (Juha-Pekka Heikkila)
+>> - Add a `break;` when a pipe is found (Pekka Paalanen)
+>> - Rename file to kms_fb_stress.c (Kamil Konieczny)
+>> - Replace 2 by NUM_FBS (Juha-Pekka Heikkila)
+>> - Replace license text by SPDX License (Kamil Konieczny)
+>> - Move explanations to commit description (Kamil Konieczny)
+>> - Require output after find_wb_output() (Pekka Paalanen & Juha-Pekka
+>>   Heikkila)
+>> - Remove unnecessary commit (Pekka Paalanen)
+>> - Link to v1: https://lore.kernel.org/r/20240207-bench-v1-1-7135ad426860@riseup.net
+>> ---
+>>  benchmarks/kms_fb_stress.c | 208 +++++++++++++++++++++++++++++++++++++++++++++
+>>  benchmarks/meson.build     |   1 +
+>>  2 files changed, 209 insertions(+)
+>>
+>> diff --git a/benchmarks/kms_fb_stress.c b/benchmarks/kms_fb_stress.c
+>> new file mode 100644
+>> index 000000000000..9a0e98bed8ad
+>> --- /dev/null
+>> +++ b/benchmarks/kms_fb_stress.c
+>> @@ -0,0 +1,208 @@
+>> +// SPDX-License-Identifier: MIT
+>> +/*
+>> + * Copyright © 2024 Arthur Grillo
+>> + */
+>> +
+>> +#include "igt.h"
+>> +
+>> +#define FRAME_COUNT 100
+>> +#define NUM_FBS 2
+>> +
+>> +struct rect_t {
+>> +	int x, y;
+>> +	int width, height;
+>> +};
+>> +
+>> +struct plane_t {
+>> +	igt_plane_t *base;
+>> +	struct rect_t rect;
+>> +	uint32_t format;
+>> +	struct igt_fb fbs[NUM_FBS];
+>> +};
+>> +
+>> +struct kms_t {
+>> +	struct rect_t crtc;
+>> +	struct plane_t primary;
+>> +	struct plane_t overlay_a;
+>> +	struct plane_t overlay_b;
+>> +	struct plane_t writeback;
+>> +};
+>> +
+>> +struct data_t {
+>> +	int fd;
+>> +	igt_display_t display;
+>> +	igt_output_t *wb_output;
+>> +	drmModeModeInfo *mode;
+>> +	struct kms_t kms;
+>> +};
+>> +
+>> +static void plane_setup(struct plane_t *plane, int index)
+>> +{
+>> +	igt_plane_set_size(plane->base, plane->rect.width, plane->rect.height);
+>> +	igt_plane_set_position(plane->base, plane->rect.x, plane->rect.y);
+>> +	igt_plane_set_fb(plane->base, &plane->fbs[index]);
+>> +}
+>> +
+>> +static void gen_fbs(struct data_t *data)
+>> +{
+>> +	struct kms_t *kms = &data->kms;
+>> +	drmModeModeInfo *mode = igt_output_get_mode(data->wb_output);
+>> +
+>> +	for (int i = 0; i < NUM_FBS; i++) {
+>> +		igt_create_color_fb(data->fd, kms->primary.rect.width, kms->primary.rect.height,
+>> +				    kms->primary.format, DRM_FORMAT_MOD_LINEAR,
+>> +				    !i, i, i,
+>> +				    &kms->primary.fbs[i]);
+>> +
+>> +		igt_create_color_fb(data->fd, kms->overlay_a.rect.width, kms->overlay_a.rect.height,
+>> +				    kms->overlay_a.format, DRM_FORMAT_MOD_LINEAR,
+>> +				    i, !i, i,
+>> +				    &kms->overlay_a.fbs[i]);
+>> +
+>> +		igt_create_color_fb(data->fd, kms->overlay_b.rect.width, kms->overlay_b.rect.height,
+>> +				    kms->overlay_b.format, DRM_FORMAT_MOD_LINEAR,
+>> +				    i, i, !i,
+>> +				    &kms->overlay_b.fbs[i]);
+>> +
+>> +		kms->writeback.rect.width = mode->hdisplay;
+>> +		kms->writeback.rect.height = mode->vdisplay;
+>> +		igt_create_fb(data->fd, kms->writeback.rect.width, kms->writeback.rect.height,
+>> +			      kms->writeback.format, DRM_FORMAT_MOD_LINEAR,
+>> +			      &kms->writeback.fbs[i]);
+>> +	}
+>> +}
+>> +
+>> +static igt_output_t *find_wb_output(struct data_t *data)
+>> +{
+>> +	for (int i = 0; i < data->display.n_outputs; i++) {
+>> +		igt_output_t *output = &data->display.outputs[i];
+>> +
+>> +		if (output->config.connector->connector_type != DRM_MODE_CONNECTOR_WRITEBACK)
+>> +			continue;
+>> +
+>> +		return output;
+>> +
+>> +	}
+>> +
+>> +	return NULL;
+>> +}
+>> +
+>> +static void set_crtc_size(struct data_t *data)
+>> +{
+>> +	drmModeModeInfo *mode;
+>> +	struct rect_t *crtc = &data->kms.crtc;
+>> +
+>> +	for_each_connector_mode(data->wb_output) {
+>> +		mode = &data->wb_output->config.connector->modes[j__];
+>> +		if (mode->hdisplay == crtc->width && mode->vdisplay == crtc->height) {
+>> +			igt_output_override_mode(data->wb_output, mode);
+>> +			return;
+>> +		}
+>> +	}
+>> +
+>> +
+>> +	igt_assert_f(0, "CRTC size %dx%d not supported\n", crtc->width, crtc->height);
+>> +}
+>> +
+>> +static struct kms_t default_kms = {
+>> +	.crtc = {
+>> +		.width = 4096, .height = 2160,
+>> +	},
+>> +	.primary = {
+>> +		.rect = {
+>> +			.x = 101, .y = 0,
+>> +			.width = 3639, .height = 2160,
+>> +		},
+>> +		.format = DRM_FORMAT_XRGB8888,
+>> +	},
+>> +	.overlay_a = {
+>> +		.rect = {
+>> +			.x = 201, .y = 199,
+>> +			.width = 3033, .height = 1777,
+>> +		},
+>> +		.format = DRM_FORMAT_XRGB16161616,
+>> +	},
+>> +	.overlay_b = {
+>> +		.rect = {
+>> +			.x = 1800, .y = 250,
+>> +			.width = 1507, .height = 1400,
+>> +		},
+>> +		.format = DRM_FORMAT_ARGB8888,
+>> +	},
+>> +	.writeback = {
+>> +		.rect = {
+>> +			.x = 0, .y = 0,
+>> +			// Size is to be determined at runtime
+>> +		},
+>> +		.format = DRM_FORMAT_XRGB8888,
+>> +	},
+>> +};
+>> +
+>> +
+>> +igt_simple_main
+>> +{
+>> +	struct data_t data = {0};
+>> +	enum pipe pipe = PIPE_NONE;
+>> +	struct timespec then, now;
+>> +	double elapsed;
+>> +
+>> +	data.kms = default_kms;
+>> +
+>> +	data.fd = drm_open_driver_master(DRIVER_ANY);
+>> +
+>> +	igt_display_require(&data.display, data.fd);
+>> +
+>> +	kmstest_set_vt_graphics_mode();
+>> +
+>> +	igt_display_require(&data.display, data.fd);
+>> +	igt_require(data.display.is_atomic);
+>> +
+>> +	igt_display_require_output(&data.display);
+>> +
+>> +	igt_display_reset(&data.display);
+>> +
+>> +	data.wb_output = find_wb_output(&data);
+>> +	igt_require(data.wb_output);
+>> +
+>> +	for_each_pipe(&data.display, pipe) {
+>> +		igt_debug("Selecting pipe %s to %s\n",
+>> +			  kmstest_pipe_name(pipe),
+>> +			  igt_output_name(data.wb_output));
+>> +		igt_output_set_pipe(data.wb_output, pipe);
+>> +		break;
+>> +	}
+>> +
+>> +	set_crtc_size(&data);
+>> +
+>> +	gen_fbs(&data);
+>> +
+>> +	data.kms.primary.base = igt_output_get_plane_type(data.wb_output, DRM_PLANE_TYPE_PRIMARY);
+>> +	data.kms.overlay_a.base = igt_output_get_plane_type_index(data.wb_output,
+>> +								  DRM_PLANE_TYPE_OVERLAY, 0);
+>> +	data.kms.overlay_b.base = igt_output_get_plane_type_index(data.wb_output,
+>> +								  DRM_PLANE_TYPE_OVERLAY, 1);
+>> +
+>> +	igt_assert_eq(igt_gettime(&then), 0);
+>> +
+>> +	for (int i = 0; i < FRAME_COUNT; i++) {
+>> +		int fb_index = i % NUM_FBS;
+>> +
+>> +		plane_setup(&data.kms.primary, fb_index);
+>> +
+>> +		plane_setup(&data.kms.overlay_a, fb_index);
+>> +
+>> +		plane_setup(&data.kms.overlay_b, fb_index);
+>> +
+>> +		igt_output_set_writeback_fb(data.wb_output, &data.kms.writeback.fbs[fb_index]);
+>> +
+>> +		igt_display_commit2(&data.display, COMMIT_ATOMIC);
+>> +	}
+>> +
+>> +	igt_assert_eq(igt_gettime(&now), 0);
+>> +	elapsed = igt_time_elapsed(&then, &now);
+>> +
+>> +	igt_info("Time spent in the loop with %d frames: %lfs.\n", FRAME_COUNT, elapsed);
+>> +
+>> +	igt_display_fini(&data.display);
+>> +	drm_close_driver(data.fd);
+>> +}
+>> diff --git a/benchmarks/meson.build b/benchmarks/meson.build
+>> index c451268bc44f..2c9a88fd3b00 100644
+>> --- a/benchmarks/meson.build
+>> +++ b/benchmarks/meson.build
+>> @@ -17,6 +17,7 @@ benchmark_progs = [
+>>  	'intel_upload_blit_large_gtt',
+>>  	'intel_upload_blit_large_map',
+>>  	'intel_upload_blit_small',
+>> +	'kms_fb_stress',
+>>  	'kms_vblank',
+>>  	'prime_lookup',
+>>  	'vgem_mmap',
+>>
+>> ---
+>> base-commit: c58c5fb6aa1cb7d3627a15e364816a7a2add9edc
+>> change-id: 20240207-bench-393789eaba47
+>>
+>> Best regards,
+>> -- 
+>> Arthur Grillo <arthurgrillo@riseup.net>
+>>
