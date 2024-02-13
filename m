@@ -2,51 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73231852F53
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 12:31:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 715F3852F55
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 12:31:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 314E010E4D8;
-	Tue, 13 Feb 2024 11:31:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4019F10E53E;
+	Tue, 13 Feb 2024 11:31:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QXKrYiTG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="e9lXj5V6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB3CB10E3F9;
- Tue, 13 Feb 2024 11:31:12 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1389C10E520;
+ Tue, 13 Feb 2024 11:31:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707823873; x=1739359873;
+ t=1707823878; x=1739359878;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=NLemxEzjIsq5wq9YYw5ds5o5vwtZ3P5nnN+pOxPDU/A=;
- b=QXKrYiTG0h+yWnB8+xztnWv08s46Qg9F/5EO1HNMsgxHp8PMQtfDMDs7
- P5uh0mSWaNWctkhNXkb2iJrT6T4xYGV5b/m91w9w681fOWQ0yLJjX/Yor
- oqwOOVmwLDBd0GBKiUItorc+OEm+a1U0+AyVWsnsgd6NrArnUNRCZ6z+/
- wVQnufnlnPqN+FLqV5INWDnZgYufDmzlbYQq8Pvbfk/8e1lJqRkHCH26H
- VHC7Ar6ihQPByGAv9DigiEgG/ktx1t2GF+vo0GEktuqXgNOQKGMsxfsty
- NE4ghVXb6F3ucVDiUvpOhnvUmqDIJYm+wRBBpB7svXGtV9EBY4AM2h81a Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="24297298"
-X-IronPort-AV: E=Sophos;i="6.06,157,1705392000"; d="scan'208";a="24297298"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2024 03:31:12 -0800
+ bh=3YJxBGnaG8HakIiKuKobXHkmRuQ6+zc2S0zuBDQF4Ac=;
+ b=e9lXj5V6HdUMZqmd4G74qM7+xZ48JU0jQYFTs/8SMKHv4CvwwNmUyctS
+ 0mzhRzY2TiBbT/hqOTH8UqkiWOi7XE7OvpTrEVtSJQjsusDZK5rjwDpLJ
+ TX15BaLd0PQLruhEgMPJczAU4irlcAa+RHlyz/2akmDq0tvAh+4qlgc4f
+ 6q/8vrUGvt0NgslL6msjSzOANmnlmV9IgKsjoRWrti6Lj3+3xmuHa/Wh4
+ eEWyE8zR4ENHqLVkiwWR0zLEejGQhJY6RcC2L8a0ECODIeCkDSQbSBNVD
+ OrsbBzvVrIIv54wXOFPhQDcLVmz0p/mB3qZFOtfVuRk3wxbU9u3c2si7U w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="1965666"
+X-IronPort-AV: E=Sophos;i="6.06,157,1705392000"; 
+   d="scan'208";a="1965666"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2024 03:31:17 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,157,1705392000"; 
-   d="scan'208";a="7440221"
+   d="scan'208";a="7607616"
 Received: from snasibli-mobl2.ccr.corp.intel.com (HELO localhost)
  ([10.252.44.50])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2024 03:31:10 -0800
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2024 03:31:15 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: intel-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  jani.nikula@intel.com, Arun R Murthy <arun.r.murthy@intel.com>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-Subject: [PATCH v2 1/6] drm/mst: read sideband messaging cap
-Date: Tue, 13 Feb 2024 13:30:56 +0200
-Message-Id: <507901114b7e4f0e4149747c8052747a22fe8ead.1707823736.git.jani.nikula@intel.com>
+Subject: [PATCH v2 2/6] drm/i915/mst: improve debug logging of DP MST mode
+ detect
+Date: Tue, 13 Feb 2024 13:30:57 +0200
+Message-Id: <26cddf53e9f7697fc422d19e14bfaf215d6548a6.1707823736.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1707823736.git.jani.nikula@intel.com>
 References: <cover.1707823736.git.jani.nikula@intel.com>
@@ -69,134 +71,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Amend drm_dp_read_mst_cap() to return an enum, indicating "SST", "SST
-with sideband messaging", or "MST". Modify all call sites to take the
-new return value into account.
-
-v2:
-- Rename enumerators (Ville)
+Rename intel_dp_can_mst() to intel_dp_mst_detect(), and move all DP MST
+detect debug logging there. Debug log the sink's MST capability,
+including single-stream sideband messaging support, and the decision
+whether to enable MST mode or not. Do this regardless of whether we're
+actually enabling MST or not.
 
 Cc: Arun R Murthy <arun.r.murthy@intel.com>
 Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 20 ++++++++++------
- drivers/gpu/drm/i915/display/intel_dp.c       |  4 ++--
- drivers/gpu/drm/nouveau/nouveau_dp.c          |  2 +-
- include/drm/display/drm_dp_mst_helper.h       | 23 ++++++++++++++++++-
- 4 files changed, 38 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dp.c | 45 +++++++++++++++++--------
+ 1 file changed, 31 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index 03d528209426..c193be3577f7 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -3608,24 +3608,30 @@ fixed20_12 drm_dp_get_vc_payload_bw(const struct drm_dp_mst_topology_mgr *mgr,
- EXPORT_SYMBOL(drm_dp_get_vc_payload_bw);
- 
- /**
-- * drm_dp_read_mst_cap() - check whether or not a sink supports MST
-+ * drm_dp_read_mst_cap() - Read the sink's MST mode capability
-  * @aux: The DP AUX channel to use
-  * @dpcd: A cached copy of the DPCD capabilities for this sink
-  *
-- * Returns: %True if the sink supports MST, %false otherwise
-+ * Returns: enum drm_dp_mst_mode to indicate MST mode capability
-  */
--bool drm_dp_read_mst_cap(struct drm_dp_aux *aux,
--			 const u8 dpcd[DP_RECEIVER_CAP_SIZE])
-+enum drm_dp_mst_mode drm_dp_read_mst_cap(struct drm_dp_aux *aux,
-+					 const u8 dpcd[DP_RECEIVER_CAP_SIZE])
- {
- 	u8 mstm_cap;
- 
- 	if (dpcd[DP_DPCD_REV] < DP_DPCD_REV_12)
--		return false;
-+		return DRM_DP_SST;
- 
- 	if (drm_dp_dpcd_readb(aux, DP_MSTM_CAP, &mstm_cap) != 1)
--		return false;
-+		return DRM_DP_SST;
-+
-+	if (mstm_cap & DP_MST_CAP)
-+		return DRM_DP_MST;
-+
-+	if (mstm_cap & DP_SINGLE_STREAM_SIDEBAND_MSG)
-+		return DRM_DP_SST_SIDEBAND_MSG;
- 
--	return mstm_cap & DP_MST_CAP;
-+	return DRM_DP_SST;
- }
- EXPORT_SYMBOL(drm_dp_read_mst_cap);
- 
 diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 5045c34a16be..a1c304f451bd 100644
+index a1c304f451bd..944f566525dd 100644
 --- a/drivers/gpu/drm/i915/display/intel_dp.c
 +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -4014,7 +4014,7 @@ intel_dp_can_mst(struct intel_dp *intel_dp)
+@@ -4007,31 +4007,48 @@ intel_dp_get_dpcd(struct intel_dp *intel_dp)
+ 					   intel_dp->downstream_ports) == 0;
+ }
  
- 	return i915->display.params.enable_dp_mst &&
- 		intel_dp_mst_source_support(intel_dp) &&
--		drm_dp_read_mst_cap(&intel_dp->aux, intel_dp->dpcd);
-+		drm_dp_read_mst_cap(&intel_dp->aux, intel_dp->dpcd) == DRM_DP_MST;
++static const char *intel_dp_mst_mode_str(enum drm_dp_mst_mode mst_mode)
++{
++	if (mst_mode == DRM_DP_SST_SIDEBAND_MSG)
++		return "single-stream sideband messaging";
++	else
++		return str_yes_no(mst_mode == DRM_DP_MST);
++}
++
+ static bool
+-intel_dp_can_mst(struct intel_dp *intel_dp)
++intel_dp_mst_detect(struct intel_dp *intel_dp)
+ {
+ 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
++	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
++	enum drm_dp_mst_mode sink_mst_mode;
++	enum drm_dp_mst_mode mst_detect;
++
++	sink_mst_mode = drm_dp_read_mst_cap(&intel_dp->aux, intel_dp->dpcd);
++
++	if (i915->display.params.enable_dp_mst &&
++	    intel_dp_mst_source_support(intel_dp) &&
++	    sink_mst_mode == DRM_DP_MST)
++		mst_detect = DRM_DP_MST;
++	else
++		mst_detect = DRM_DP_SST;
+ 
+-	return i915->display.params.enable_dp_mst &&
+-		intel_dp_mst_source_support(intel_dp) &&
+-		drm_dp_read_mst_cap(&intel_dp->aux, intel_dp->dpcd) == DRM_DP_MST;
++	drm_dbg_kms(&i915->drm,
++		    "[ENCODER:%d:%s] MST support: port: %s, sink: %s, modparam: %s -> enable: %s\n",
++		    encoder->base.base.id, encoder->base.name,
++		    str_yes_no(intel_dp_mst_source_support(intel_dp)),
++		    intel_dp_mst_mode_str(sink_mst_mode),
++		    str_yes_no(i915->display.params.enable_dp_mst),
++		    intel_dp_mst_mode_str(mst_detect));
++
++	return mst_detect != DRM_DP_SST;
  }
  
  static void
-@@ -4023,7 +4023,7 @@ intel_dp_configure_mst(struct intel_dp *intel_dp)
+ intel_dp_configure_mst(struct intel_dp *intel_dp)
+ {
  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
- 	struct intel_encoder *encoder =
- 		&dp_to_dig_port(intel_dp)->base;
--	bool sink_can_mst = drm_dp_read_mst_cap(&intel_dp->aux, intel_dp->dpcd);
-+	bool sink_can_mst = drm_dp_read_mst_cap(&intel_dp->aux, intel_dp->dpcd) == DRM_DP_MST;
+-	struct intel_encoder *encoder =
+-		&dp_to_dig_port(intel_dp)->base;
+ 	bool sink_can_mst = drm_dp_read_mst_cap(&intel_dp->aux, intel_dp->dpcd) == DRM_DP_MST;
  
- 	drm_dbg_kms(&i915->drm,
- 		    "[ENCODER:%d:%s] MST support: port: %s, sink: %s, modparam: %s\n",
-diff --git a/drivers/gpu/drm/nouveau/nouveau_dp.c b/drivers/gpu/drm/nouveau/nouveau_dp.c
-index 7de7707ec6a8..fb06ee17d9e5 100644
---- a/drivers/gpu/drm/nouveau/nouveau_dp.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_dp.c
-@@ -181,7 +181,7 @@ nouveau_dp_probe_dpcd(struct nouveau_connector *nv_connector,
- 	if (nouveau_mst) {
- 		mstm = outp->dp.mstm;
- 		if (mstm)
--			mstm->can_mst = drm_dp_read_mst_cap(aux, dpcd);
-+			mstm->can_mst = drm_dp_read_mst_cap(aux, dpcd) == DRM_DP_MST;
+-	drm_dbg_kms(&i915->drm,
+-		    "[ENCODER:%d:%s] MST support: port: %s, sink: %s, modparam: %s\n",
+-		    encoder->base.base.id, encoder->base.name,
+-		    str_yes_no(intel_dp_mst_source_support(intel_dp)),
+-		    str_yes_no(sink_can_mst),
+-		    str_yes_no(i915->display.params.enable_dp_mst));
+-
+ 	if (!intel_dp_mst_source_support(intel_dp))
+ 		return;
+ 
+@@ -5390,7 +5407,7 @@ intel_dp_detect_dpcd(struct intel_dp *intel_dp)
+ 		connector_status_connected : connector_status_disconnected;
  	}
  
- 	if (nouveau_dp_has_sink_count(connector, outp)) {
-diff --git a/include/drm/display/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
-index 9b19d8bd520a..3c9e128c444a 100644
---- a/include/drm/display/drm_dp_mst_helper.h
-+++ b/include/drm/display/drm_dp_mst_helper.h
-@@ -818,7 +818,28 @@ int drm_dp_mst_topology_mgr_init(struct drm_dp_mst_topology_mgr *mgr,
+-	if (intel_dp_can_mst(intel_dp))
++	if (intel_dp_mst_detect(intel_dp))
+ 		return connector_status_connected;
  
- void drm_dp_mst_topology_mgr_destroy(struct drm_dp_mst_topology_mgr *mgr);
- 
--bool drm_dp_read_mst_cap(struct drm_dp_aux *aux, const u8 dpcd[DP_RECEIVER_CAP_SIZE]);
-+/**
-+ * enum drm_dp_mst_mode - sink's MST mode capability
-+ */
-+enum drm_dp_mst_mode {
-+	/**
-+	 * @DRM_DP_SST: The sink does not support MST nor single stream sideband
-+	 * messaging.
-+	 */
-+	DRM_DP_SST,
-+	/**
-+	 * @DRM_DP_MST: Sink supports MST, more than one stream and single
-+	 * stream sideband messaging.
-+	 */
-+	DRM_DP_MST,
-+	/**
-+	 * @DRM_DP_SST_SIDEBAND_MSG: Sink supports only one stream and single
-+	 * stream sideband messaging.
-+	 */
-+	DRM_DP_SST_SIDEBAND_MSG,
-+};
-+
-+enum drm_dp_mst_mode drm_dp_read_mst_cap(struct drm_dp_aux *aux, const u8 dpcd[DP_RECEIVER_CAP_SIZE]);
- int drm_dp_mst_topology_mgr_set_mst(struct drm_dp_mst_topology_mgr *mgr, bool mst_state);
- 
- int drm_dp_mst_hpd_irq_handle_event(struct drm_dp_mst_topology_mgr *mgr,
+ 	/* If no HPD, poke DDC gently */
 -- 
 2.39.2
 
