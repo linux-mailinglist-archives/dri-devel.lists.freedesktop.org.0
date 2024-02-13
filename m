@@ -2,50 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88E2D852D34
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 10:57:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEDFB852D37
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 10:58:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7747110E081;
-	Tue, 13 Feb 2024 09:57:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 467A810E083;
+	Tue, 13 Feb 2024 09:58:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HLGi7my8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZD68QcUv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A5C210E081;
- Tue, 13 Feb 2024 09:57:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36A3710E083;
+ Tue, 13 Feb 2024 09:58:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B293B61252;
- Tue, 13 Feb 2024 09:57:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D55E0C433F1;
- Tue, 13 Feb 2024 09:57:22 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id AC2BA61252;
+ Tue, 13 Feb 2024 09:57:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E178C433F1;
+ Tue, 13 Feb 2024 09:57:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1707818246;
- bh=kvqVpaVk50IzPZXU0zbw6srWa1WNF8IF4uR3vDkrvns=;
+ s=k20201202; t=1707818279;
+ bh=Glcc2MGW7elmBxt2g9iRaVB3TCJHQ7FpBrYtJp1jN/s=;
  h=From:To:Cc:Subject:Date:From;
- b=HLGi7my8bug6KjC9594j1s1zjeyGPS67H4uIlBCSZTwYYt3hKHFOep4cu2crIbocS
- 8ZDjbcKKRvREI+oWMYpbd1R092rAAR2t7MuXElt/XsMzg4YKA1bFykJ3vvtZvixfav
- B4aJ7bTn9pp6AOe5GiZxTQxjkCgLEulvISVc+0KAnMzVLOtrDw9ajDmptCpR1W6mhb
- 6yjEoJqSQqeuK62ts3lf8wIxGoPNDYTYcEozb6i8+2nMyBDcIxqkqtURhUdtWOBuR7
- 0OkXKuzvXnmbofOY7tQoAe57fFV4+WU3C1vzBgFIG8asp/w9Sx8BabAPFGgar5KoWU
- Mw0bqGOnWx4sw==
+ b=ZD68QcUv2ZwGhDjFT+aX2PpfQ0DNORu4GNAQoEqkZcUP5+/AKgE8mLG6d5P+Ala/2
+ JgsEzVcOHxTLoiZS/JJa0v+ed59naCZ+hJgCDf/8QvC+C8+QfIXm+SnV1ol1EfdYgU
+ 69ueNLZZTxa9OsqmWkri/TRLM7yaydQIeYZDTIMQqGfqV+XiCEQo3nf3oJaYUvwT6D
+ hx92u6Dd/yAG6nP2/dJ5Je9ptkKV4AGtYYCyxqNzOYkLgZReLTChxkUMtJ4dSIszum
+ kUZ0r1tK7DZoezWKznY/o55nG1ArKoFbSH/fWYOxK/rliNgBuPgNX/ech4pFC6lb1Q
+ APD1uBMpOdQmw==
 From: Arnd Bergmann <arnd@kernel.org>
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+To: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@redhat.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Nathan Chancellor <nathan@kernel.org>,
  Nick Desaulniers <ndesaulniers@google.com>,
  Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Subject: [PATCH] drm/xe: avoid function cast warnings
-Date: Tue, 13 Feb 2024 10:56:48 +0100
-Message-Id: <20240213095719.454865-1-arnd@kernel.org>
+ Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev
+Subject: [PATCH] nouveau: fix function cast warnings
+Date: Tue, 13 Feb 2024 10:57:37 +0100
+Message-Id: <20240213095753.455062-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -66,36 +63,44 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-clang-16 warns about a cast between incompatible function types:
+clang-16 warns about casting between incompatible function types:
 
-drivers/gpu/drm/xe/xe_range_fence.c:155:10: error: cast from 'void (*)(const void *)' to 'void (*)(struct xe_range_fence *)' converts to incompatible function type [-Werror,-Wcast-function-type-strict]
-  155 |         .free = (void (*)(struct xe_range_fence *rfence)) kfree,
-      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c:161:10: error: cast from 'void (*)(const struct firmware *)' to 'void (*)(void *)' converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+  161 |         .fini = (void(*)(void *))release_firmware,
 
-Avoid this with a trivial helper function that calls kfree() here.
+This one was done to use the generic shadow_fw_release() function as a
+callback for struct nvbios_source. Change it to use the same prototype
+as the other five instances, with a trivial helper function that actually
+calls release_firmware.
 
-Fixes: 845f64bdbfc9 ("drm/xe: Introduce a range-fence utility")
+Fixes: 70c0f263cc2e ("drm/nouveau/bios: pull in basic vbios subdev, more to come later")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/gpu/drm/xe/xe_range_fence.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_range_fence.c b/drivers/gpu/drm/xe/xe_range_fence.c
-index d35d9ec58e86..8510be4466eb 100644
---- a/drivers/gpu/drm/xe/xe_range_fence.c
-+++ b/drivers/gpu/drm/xe/xe_range_fence.c
-@@ -151,6 +151,11 @@ xe_range_fence_tree_next(struct xe_range_fence *rfence, u64 start, u64 last)
- 	return xe_range_fence_tree_iter_next(rfence, start, last);
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
+index 19188683c8fc..8c2bf1c16f2a 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
+@@ -154,11 +154,17 @@ shadow_fw_init(struct nvkm_bios *bios, const char *name)
+ 	return (void *)fw;
  }
  
-+static void xe_range_fence_free(struct xe_range_fence * rfence)
++static void
++shadow_fw_release(void *fw)
 +{
-+	kfree(rfence);
++	release_firmware(fw);
 +}
 +
- const struct xe_range_fence_ops xe_range_fence_kfree_ops = {
--	.free = (void (*)(struct xe_range_fence *rfence)) kfree,
-+	.free = xe_range_fence_free,
+ static const struct nvbios_source
+ shadow_fw = {
+ 	.name = "firmware",
+ 	.init = shadow_fw_init,
+-	.fini = (void(*)(void *))release_firmware,
++	.fini = shadow_fw_release,
+ 	.read = shadow_fw_read,
+ 	.rw = false,
  };
 -- 
 2.39.2
