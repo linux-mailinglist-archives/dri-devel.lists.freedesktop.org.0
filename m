@@ -2,126 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43736852FDD
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 12:52:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A22285301B
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 13:04:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C68110E5E7;
-	Tue, 13 Feb 2024 11:52:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60F4110E650;
+	Tue, 13 Feb 2024 12:04:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="wfR3reh+";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="YfL67+/v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC4D210E5E7
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 11:52:26 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-411bf7e4fc0so3277045e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 03:52:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1707825144; x=1708429944; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=5d3Z/NF6a7ZPQfF9qbF966oZ0kG4Ex+JXd6p8X8s4Fo=;
- b=wfR3reh+7VWUdt/8IwBbFnudt2VRZ4+s1h1BUZZCvF3dWpce/ySaKmJDMOYwifAw4G
- HyGqPrl6OPBnwi7oET9mg/yMFiCtXbY/ySQTsgGnVG52C+CrNoP8D84aRWngoDs51WaN
- kwKNe6s5p1Fsk+pIBVzVE5uYnFfzZHq3DgMi3NDQ70XvsRj6cSOQMjT/r8lmyUJjSDL+
- PByks5aqpnz/egRf7eKZOQAAct/m7QX+kiM1TpwKlIquCz0RXL98UcY3bfiEuwm8kYZT
- OmR4hM4l86dLUsywaLyYRq0eFPRfsLZXheLyn8vmJj2aySzs1CATyJclikT70lS6S/2v
- Fg1g==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86DDE10E62F
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 12:04:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1707825850;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0dz3MhdeXJwal6GrE8xe1bhPmGVi5+hb8mJ2p/1t9dg=;
+ b=YfL67+/vBG5PVUYek2y+IbntIqPyLcv9YEI13R7WqjJLRJkBcvgxIkTRGu1Z7SWfkdhnqf
+ ZZAs+27fPhsnAnLwTsi5xDmwHAWbRVxH/7wG0NEraYJeY0ZXA3ABJicngkJfEwlpAjcgFX
+ XZ22OfDPuYSg4bUrhP2rFfP4z2Xn6k4=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-8-lwHEerMRORudrsXOSOALmw-1; Tue, 13 Feb 2024 07:04:08 -0500
+X-MC-Unique: lwHEerMRORudrsXOSOALmw-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ 38308e7fff4ca-2d0e2ff7d8eso30059931fa.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 04:04:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707825144; x=1708429944;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5d3Z/NF6a7ZPQfF9qbF966oZ0kG4Ex+JXd6p8X8s4Fo=;
- b=Ol56vGkCT9YRyG9H0gGpTQEM4HJi439xOzpHF5ihKjLdgSLkpr5FBSrGIrsj0LTvxv
- ODNrcroMzcULU2z7HBK31lC8EKRqOuWEIN0asarZhx8f/EnjpyKHM/BlhJZLfxkqXy8n
- eWhs3iq6NZF8q3s6Ry/RTAi2GTkdjqP52exnjh1nko7y/ko4AhhbLK1F+lRi0Z/Jw+0K
- wK/+JNYAdRFTJzlNfttJ30GESHLdyIjSswhFVzFCKxEpcDLr/s13jg5DtE8ms7G3EsTz
- EyvnylZY6Jxxx//meqTpqavuczoZQLcyJWwCixDXYxLXmNsjXb33YiStEDxSobMOrfB1
- Ikvw==
+ d=1e100.net; s=20230601; t=1707825847; x=1708430647;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0dz3MhdeXJwal6GrE8xe1bhPmGVi5+hb8mJ2p/1t9dg=;
+ b=nQTwWZe69l3NSDUIUfabRW4Ve+ttr1BFAhZfwZt9rN0ahSK0sjFNop2ZmNY6FIAaqu
+ ItMhLbWFHu9iN+8GhYY2zzY0NENlvtff/rln//Gy9jGsJtoxgyyu2Njm2mpMk4cpGWch
+ MRI8H84kR08OjBZ53sMlA1rXK161ItDfTBirV5+gh6yPy7CI3u8WPmG6NaNzFtxW0ZNh
+ H9QErHkpwpQzNXoL/J7kJdO9XR9YWDjj2Ot6uAweA4c8eSS0hyf2YZZhrPqfS4JJEkre
+ sAEh3+29J8XulymV0YbOzTSGLm62H6Ys3tKDEQOSRlrM5b80XkjI+/tzKFpy0hm1XEen
+ RmuQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWAjMoqoVYZ+GqVXXvwyVNCwCKN2HYHff8wEhD/F5ikiJpyWV7KP5YCnFsiSp0HeobgTD2ZWvuAgHTHeUBGmJmXiTwoZEphiOsee5p5dVTx
-X-Gm-Message-State: AOJu0Yyj19gqs6dnCGj8RflQSyWHsUbkktbR+xx/K4h/SNR71Bz8eBa2
- MFwpor7rtSQZxfJrfpglEAD8ziJ6LDLUUY6Sdt/fil430fi1vD8hOAx47fpngDM=
-X-Google-Smtp-Source: AGHT+IH1dvPhAF1Xt3/TWhNxmonPxt9a1r+G7hgR3bKZsuaAkpwAgTvfN0Kf34ArTknAa1l9pZSQGQ==
-X-Received: by 2002:a05:600c:3503:b0:40f:ddc8:f804 with SMTP id
- h3-20020a05600c350300b0040fddc8f804mr8193229wmq.17.1707825144512; 
- Tue, 13 Feb 2024 03:52:24 -0800 (PST)
+ AJvYcCUMlSHsJ0xQVCsr2axHBScQnlRTQUqjZLPFhpnHXNPWG4ROgJBhX4BCmhA/61AAXGO2PCQlXJdNGB6ROeFzGCblo/SBrv9CPj5/8AqoZn5I
+X-Gm-Message-State: AOJu0YztptjYcU2gS64USPVhqj5I+gFPCmGpCL7Tp3iM5/ujwDeHNKpG
+ FC8NO7pGPY3KKfNC1YjmCwNlXG+i5LAMGLkAN95/7KkKuJyYuieP6IXem4IyXIhZeRQVARytotq
+ UKboIp9vySovUku0jDTZ+JLs/Fcm0BcG4Vltahf/8LHVQHc9dHUf0SFs9W4hJi+7cUQ==
+X-Received: by 2002:a2e:9f53:0:b0:2d0:63af:b27c with SMTP id
+ v19-20020a2e9f53000000b002d063afb27cmr6214607ljk.13.1707825847502; 
+ Tue, 13 Feb 2024 04:04:07 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHjA9a0pe4X4ixrcmcI3plD0++x3ZzYBuaC/qw1aKtnfsFtunV/8ncfKJPVub+AfnMz3p3N+g==
+X-Received: by 2002:a2e:9f53:0:b0:2d0:63af:b27c with SMTP id
+ v19-20020a2e9f53000000b002d063afb27cmr6214587ljk.13.1707825847149; 
+ Tue, 13 Feb 2024 04:04:07 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXChUvc/75NNUW6EN33sG4iwtLsk0ZiYXD+6BjO/sA3gZr7XERA51BtWD3sdapR0sVAMGwjRBdj4KcByp8Hvs1m3jxQ+vLLzRvwVFH41SPlDUK2Q5AEfEl4e7dEledSTM5bUrRfHyhL6rbqC2I0kfWhgmy08M5Mky0bkg8nj7glhBfyc2h3V0Ik1ZMLpd56EVVEzNES8qvYNTux0ZHclFJeEbgdbBWPg0aM5Du2IzmmXp12mfvMlQuoN280U0RFKiv6tMYO8ZBqumuKsjyxifh+etP9YYLrCR0tgOUjB0qf6c76kkgTJu1gTcH40dSMBgj/fjfxnr7XO7DSHcyMqs6O69eSvws/MBkRuGnuokUl435sHPLr+P50N6DbmPC4NWFPW1xJ2GaGTQyEDSlaAbik9hmUXyGcCh7Efn4tSbRQJCF66HtY7oThePcwIpzwNi/NgeiiPIUMPfLqsRQWTYW5lQM7vBt50MTdEvCQpgfduW3rLjsQw18MFwiV+d6rm09g0KjXnoKMyEbV8fL6wCPTWADgo0COCY0/cAQNYfnmZdtWL5l8sva7LJJCQNTrtQf1FQh7O1LPgacYtwyEOR3Te8z3antuM8HcH4GS64Bh
-Received: from [192.168.1.20] ([178.197.223.6])
+ AJvYcCUd8l9qXxAvYkdk+BYc1+OvLWJjB+9cmnyoE5kAZJq88qtV2uAqode4QciVJMSQ9+vDgDqJiFbX+B7x4KY3ahukOX4+3RXwA1H1RiHbCmDGaHtPv5k0pk/zEuLf2lJbVAgRPOv+uMJDR6F8yJIVVpxQOHD2iKQ7A7GrYY3xI5HkW/7M2qUrzsPRwTUM9HMI5CDnbmFIg60Yluh9jjbscW2/9Ie9n6lPDgNtlimk7LfwxaCL2u4skrR4uEVmQTDdQAtxqYuORehB0irkpHn38yX8ESrhu/v+Hm8KAkIezmgmu6ELTluW6Eodwl/AZfqfZP6UCDOM3IXZSzPRh1nnKP8ELgNaUs9x/TUxUtldsYM+70lhowkYIR8T9ec6427DErqlr4m2uDH4lG/SxExK1ZpqMzLi8DUAKFnXfFE3f0vuYwuy+gP2FgMiF34JjSziC/ecGX3njoj/BmR9mwuN2o6V4wBeF/TfjnOH7nutnBfnM1P+Z5ILusvNCsYxRY6ol48DhWiWQh/CBer68rvVhD2+ZGfUH3LUCJoPljI9oPrMNd7DW1orbCrlv8Ajios5bomrESJWedZAVH4cyZHivGTl4x27vnJXlYS5TtJYFWVSxANaLoWhtY7jWITWtHqMz9uVxoT0QssFGRfkziRuMBxCMetvlfAy5g/00uAF0X/UjzfXBzsMn+JU6GfKU5O1G4bA7JF4e5Vy9LzOcefTKiAtYdwPcY/F1KGMuIYJ9hE2O6d/CGxOR1B+
+Received: from toolbox ([2001:9e8:8981:e100:f9ea:cd3e:137d:ecc8])
  by smtp.gmail.com with ESMTPSA id
- ce9-20020a5d5e09000000b0033cddadde6esm1090631wrb.80.2024.02.13.03.52.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Feb 2024 03:52:24 -0800 (PST)
-Message-ID: <b1653331-2ccf-4d0b-bc1d-a5b39e6d9a9a@linaro.org>
-Date: Tue, 13 Feb 2024 12:52:22 +0100
+ js26-20020a05600c565a00b0040fe3147babsm11480665wmb.0.2024.02.13.04.04.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Feb 2024 04:04:06 -0800 (PST)
+Date: Tue, 13 Feb 2024 13:04:04 +0100
+From: Sebastian Wick <sebastian.wick@redhat.com>
+To: Uma Shankar <uma.shankar@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com,
+ contact@emersion.fr, harry.wentland@amd.com, mwen@igalia.com,
+ jadahl@redhat.com, shashank.sharma@amd.com, agoins@nvidia.com,
+ joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
+ xaver.hugl@gmail.com, victoria@system76.com, daniel@ffwll.ch,
+ quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
+ quic_abhinavk@quicinc.com, arthurgrillo@riseup.net,
+ marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com,
+ sean@poorly.run
+Subject: Re: [PATCH 08/28] drm: Add Color lut range attributes
+Message-ID: <20240213120404.GB1372043@toolbox>
+References: <20240213064835.139464-1-uma.shankar@intel.com>
+ <20240213064835.139464-9-uma.shankar@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/7] dt-bindings: arm: rockchip: Add Powkiddy RGB10MAX3
-Content-Language: en-US
-To: Chris Morgan <macroalpha82@gmail.com>, linux-rockchip@lists.infradead.org
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- daniel@ffwll.ch, airlied@gmail.com, sam@ravnborg.org,
- quic_jesszhan@quicinc.com, neil.armstrong@linaro.org, megi@xff.cz,
- kernel@puri.sm, agx@sigxcpu.org, heiko@sntech.de, conor+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
- Chris Morgan <macromorgan@hotmail.com>
-References: <20240212184950.52210-1-macroalpha82@gmail.com>
- <20240212184950.52210-7-macroalpha82@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240212184950.52210-7-macroalpha82@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20240213064835.139464-9-uma.shankar@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,17 +102,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/02/2024 19:49, Chris Morgan wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
+On Tue, Feb 13, 2024 at 12:18:15PM +0530, Uma Shankar wrote:
+> This defines a new structure to define color lut ranges,
+> along with related macro definitions and enums. This will help
+> describe segmented lut ranges/PWL LUTs in the hardware.
 > 
-> The Powkiddy RGB10MAX3 is a handheld gaming device made by Powkiddy and
-> powered by the Rockchip RK3566 SoC.
-> 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> Signed-off-by: Uma Shankar <uma.shankar@intel.com>
+> Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 > ---
+>  include/uapi/drm/drm_mode.h | 58 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 58 insertions(+)
+> 
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index af67f32e0087..376498715d0e 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -1014,6 +1014,64 @@ struct hdr_output_metadata {
+>  				  DRM_MODE_PAGE_FLIP_ASYNC | \
+>  				  DRM_MODE_PAGE_FLIP_TARGET)
+>
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+All of this uses DRM_MODE_LUT namespace but it seems specifically for
+the drm colorop of type DRM_COLOROP_1D_LUT. Let's be consistent with the
+naming.
 
-Best regards,
-Krzysztof
+> +/**
+> + * DRM_MODE_LUT_INTERPOLATE
+> + *
+> + * linearly interpolate between the points
+> + */
+> +#define DRM_MODE_LUT_INTERPOLATE BIT(0)
+> +
+> +/**
+> + * DRM_MODE_LUT_REUSE_LAST
+> + *
+> + * the last value of the previous range is the
+> + * first value of the current range.
+> + */
+> +#define DRM_MODE_LUT_REUSE_LAST BIT(1)
+> +
+> +/**
+> + * DRM_MODE_LUT_NON_DECREASING
+> + *
+> + * the curve must be non-decreasing
+> + */
+> +#define DRM_MODE_LUT_NON_DECREASING BIT(2)
+> +
+> +/**
+> + * DRM_MODE_LUT_REFLECT_NEGATIVE
+> + *
+> + *  the curve is reflected across origin for negative inputs
+> + */
+> +#define DRM_MODE_LUT_REFLECT_NEGATIVE BIT(3)
+> +
+> +/**
+> + * DRM_MODE_LUT_SINGLE_CHANNEL
+> + *
+> + * the same curve (red) is used for blue and green channels as well
+> + */
+> +#define DRM_MODE_LUT_SINGLE_CHANNEL BIT(4)
+> +
+> +/**
+> + * struct drm_color_lut_range
+> + *
+> + * structure to advertise capability of a color hardware
+> + * block that accepts LUT values.  It can represent LUTs with
+> + * varied number of entries and distributions
+> + * (Multi segmented, Logarithmic etc).
+> + */
+> +
+> +struct drm_color_lut_range {
+> +	/* DRM_MODE_LUT_* */
+> +	__u32 flags;
+> +	/* number of points on the curve */
+> +	__u16 count;
+> +	/* input/output bits per component */
+> +	__u8 input_bpc, output_bpc;
+> +	/* input start/end values */
+> +	__s32 start, end;
+> +	/* output min/max values */
+> +	__s32 min, max;
+> +};
+> +
+>  /*
+>   * Request a page flip on the specified crtc.
+>   *
+> -- 
+> 2.42.0
+> 
 
