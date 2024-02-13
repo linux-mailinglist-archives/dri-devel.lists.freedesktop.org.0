@@ -2,51 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1AC3852BB4
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 09:54:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09B3F852BE1
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 10:04:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E609C10E0B7;
-	Tue, 13 Feb 2024 08:54:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB25510E3D5;
+	Tue, 13 Feb 2024 09:04:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="UpDzlKQK";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="NTlBAkEv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FD8610E0B7
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 08:54:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC85710E3D5
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 09:04:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
  In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
  Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
  List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=uePU3PnyL6D/BxhRRJc2bye5hUMApdcy6S92UbVmQp8=; b=UpDzlKQKQp7hg+Pz4wGHAkD3o3
- rz5EAM7TeKC/eBj5jgQbrBYitsWO4OPcU4gmdqFd0Q+fvv+Gso4vGkMYQ5OJLdSmBcins2KjCL4Gs
- m05UA5RuH9kJLMlr/KOmOVzin6anLyNoK5N54I/lgUt/eu7XvoJgJhz13N+6AW/zDzZyWiDfgKy5S
- bHJy7pDRtMhWD3Nr5GshGY8gvNwsstYizWEr1gSlSFpxnVdfSSceH6dwQH19MA/2ln1UklvwqswOK
- 3xvmdzRGx3d4W8HHq/gS+vWeopbq7ZZvDZtSv6wog95GeiD4leLo0o0UQ1HNREBKl4jwqpHdvYaGG
- 88RR5hGA==;
-Received: from [194.136.85.206] (port=45322 helo=eldfell)
+ bh=Dqvjpi3gCIFY1y588HKBH0osAieBB4j+AjlVItPgKd4=; b=NTlBAkEvk/1WemzjE/6G/dWwmy
+ ycEmLjF+03GDFUC4BvFLu+LZppfhL0XZlu5MSN/B4qoTnw2TnH467RdcluoX/Hz2FuBDEz7Spufk4
+ 1eaPqKdwmdqU/iJTVnsr36Vm7UFOxrBERJQrmojlBgLBeUmaFvcMF9KuDuwuk6IKkwlu3iDkAaQ0P
+ vr2H/+KIQz6R0xLvH4lynHs9JRUVsIQNs5bJ9E1JykbgbZZ/tE48cOrSiUKfADL+BS56A9YUGt186
+ VH7lm6FzwBxxPu1eBCKPhY+u9KiTRip7D9G9orE1zazvUuZH99ug+WiuaGyYKJLWTzmszpUM4TMgf
+ dbmShoYw==;
+Received: from [194.136.85.206] (port=33796 helo=eldfell)
  by whm50.louhi.net with esmtpsa (TLS1.2) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
- (envelope-from <pekka.paalanen@haloniitty.fi>) id 1rZoYt-0005xO-1P;
- Tue, 13 Feb 2024 10:54:43 +0200
-Date: Tue, 13 Feb 2024 10:54:32 +0200
+ (envelope-from <pekka.paalanen@haloniitty.fi>) id 1rZoiY-0002vt-1d;
+ Tue, 13 Feb 2024 11:04:42 +0200
+Date: Tue, 13 Feb 2024 11:04:40 +0200
 From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-To: Sebastian Wick <sebastian.wick@redhat.com>
-Cc: Xaver Hugl <xaver.hugl@kde.org>, dri-devel@lists.freedesktop.org,
- ville.syrjala@linux.intel.com, contact@emersion.fr
-Subject: Re: [PATCH] drm: document userspace expectations around the
- Colorspace connector property
-Message-ID: <20240213105432.50def8ab@eldfell>
-In-Reply-To: <20240212165036.GA1370407@toolbox>
-References: <20240209165307.29856-1-xaver.hugl@kde.org>
- <20240212111015.2d22f0fa@eldfell>
- <20240212165036.GA1370407@toolbox>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Jyri Sarha <jyri.sarha@iki.fi>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>, Devarsh
+ Thakkar <devarsht@ti.com>, Aradhya Bhatia <a-bhatia1@ti.com>, Francesco
+ Dolcini <francesco@dolcini.it>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ "wayland-devel@lists.freedesktop.org" <wayland-devel@lists.freedesktop.org>
+Subject: Re: [PATCH 1/2] drm/tidss: Fix initial plane zpos values
+Message-ID: <20240213110440.13af335a@eldfell>
+In-Reply-To: <20240213-tidss-fixes-v1-1-d709e8dfa505@ideasonboard.com>
+References: <20240213-tidss-fixes-v1-0-d709e8dfa505@ideasonboard.com>
+ <20240213-tidss-fixes-v1-1-d709e8dfa505@ideasonboard.com>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/QzJnrEo=LYkLizQ2av2ETOb";
+Content-Type: multipart/signed; boundary="Sig_/sNODGAuo=/Hxc1/SQ_PTM=+";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-AntiAbuse: This header was added to track abuse,
  please include it with any abuse report
@@ -75,96 +79,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/QzJnrEo=LYkLizQ2av2ETOb
+--Sig_/sNODGAuo=/Hxc1/SQ_PTM=+
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 12 Feb 2024 17:50:36 +0100
-Sebastian Wick <sebastian.wick@redhat.com> wrote:
+On Tue, 13 Feb 2024 10:16:36 +0200
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> wrote:
 
-> On Mon, Feb 12, 2024 at 11:10:15AM +0200, Pekka Paalanen wrote:
-> > On Fri,  9 Feb 2024 17:53:07 +0100
-> > Xaver Hugl <xaver.hugl@kde.org> wrote:
-> >  =20
-> > > Signed-off-by: Xaver Hugl <xaver.hugl@kde.org>
-> > > ---
-> > >  drivers/gpu/drm/drm_connector.c | 8 ++++++++
-> > >  1 file changed, 8 insertions(+)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_co=
-nnector.c
-> > > index b0516505f7ae..01e13984629b 100644
-> > > --- a/drivers/gpu/drm/drm_connector.c
-> > > +++ b/drivers/gpu/drm/drm_connector.c
-> > > @@ -2158,6 +2158,14 @@ EXPORT_SYMBOL(drm_mode_create_aspect_ratio_pro=
-perty);
-> > >   *     one supported. Sink supported colorspaces should be retrieved=
- by
-> > >   *     userspace from EDID and driver will not explicitly expose the=
-m.
-> > >   *
-> > > + *     As userspace can't currently know whether or not the output i=
-s using
-> > > + *     RGB or YCC signalling, the driver must translate properties t=
-o their
-> > > + *     relevant RGB or YCC counterparts, depending on the actually u=
-sed
-> > > + *     signalling. Property values that are only valid for either YC=
-C or RGB
-> > > + *     and have no equivalent for the other signalling type must not=
- be
-> > > + *     exposed as supported, unless the driver can guarantee it neve=
-r uses
-> > > + *     the signalling that doesn't match the property.
-> > > + *
-> > >   *     Basically the expectation from userspace is:
-> > >   *      - Set up CRTC DEGAMMA/CTM/GAMMA to convert to some sink
-> > >   *        colorspace =20
-> >=20
-> > While this addition is good, I have another question:
-> >=20
-> > Does "Colorspace" property choose also the RGB->YCbCr matrix that the
-> > driver will use when it happens to use YCbCr signalling?
-> >=20
-> > So far we have only been talking about the primaries and white point. =
-=20
+> When the driver sets up the zpos property it sets the default zpos value
+> to the HW id of the plane. That is fine as such, but as on many DSS
+> versions the driver arranges the DRM planes in a different order than
+> the HW planes (to keep the non-scalable planes first), this leads to odd
+> initial zpos values. An example is J721e, where the initial zpos values
+> for DRM planes are 1, 3, 0, 2.
 >=20
-> Uh, yeah, good point. The InfoFrames do affect both the YCbCr conversion
-> and the transfer characteristics that the sink expects. Drivers should
-> do the RGB to YCbCr conversion with the new matrix. I think (and very
-> much hope) that drivers don't rely on the TF for any internal processing
-> but if they did, they also should use the one the sink expects.
+> In theory the userspace should configure the zpos values properly when
+> using multiple planes, and in that sense the initial zpos values
+> shouldn't matter, but there's really no reason not to fix this and help
+> the userspace apps which don't handle zpos perfectly. In particular,
+> Weston seems to have issues dealing with the planes with the current
+> default zpos values.
+>=20
+> So let's change the zpos values for the DRM planes to 0, 1, 2, 3.
+>=20
+> Another option would be to configure the planes marked as primary planes
+> to zpos 0. On a two display system this would give us plane zpos values
+> of 0, 0, 1, 2. The end result and behavior would be very similar in this
+> option, and I'm not aware that this would actually help us in any way.
+> So, to keep the code simple, I opted for the 0, 1, 2, 3 values.
+>=20
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Fixes: 32a1795f57ee ("drm/tidss: New driver for TI Keystone platform Disp=
+lay SubSystem")
 
-Oh, is transfer function also somehow associated here? That would be a
-third thing. Are there any "Colorspace" values that target a display
-with not gamma 2.2 TF (possibly extended/mirrored)?
+Hi Tomi,
 
-The only TF metadata control I've known so far is the one in
-HDR_OUTPUT_METADATA.
+have you reported this to Weston? What exactly is the problem?
+
+It doesn't seem like a good idea to work around userspace bugs
+(non-regression, I presume?) with kernel changes.
 
 
 Thanks,
 pq
 
---Sig_/QzJnrEo=LYkLizQ2av2ETOb
+> ---
+>  drivers/gpu/drm/tidss/tidss_plane.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/=
+tidss_plane.c
+> index e1c0ef0c3894..68fed531f6a7 100644
+> --- a/drivers/gpu/drm/tidss/tidss_plane.c
+> +++ b/drivers/gpu/drm/tidss/tidss_plane.c
+> @@ -213,7 +213,7 @@ struct tidss_plane *tidss_plane_create(struct tidss_d=
+evice *tidss,
+> =20
+>  	drm_plane_helper_add(&tplane->plane, &tidss_plane_helper_funcs);
+> =20
+> -	drm_plane_create_zpos_property(&tplane->plane, hw_plane_id, 0,
+> +	drm_plane_create_zpos_property(&tplane->plane, tidss->num_planes, 0,
+>  				       num_planes - 1);
+> =20
+>  	ret =3D drm_plane_create_color_properties(&tplane->plane,
+>=20
+
+
+--Sig_/sNODGAuo=/Hxc1/SQ_PTM=+
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXLLkgACgkQI1/ltBGq
-qqctyg/8CrRcsVBkoe82db8WdjRvUtrbrS5PVVS0fsyKhrZJzOIcmSPxgfeHBHE+
-oCMOWEcT6++eXYAQHyyC7IoVm9AIf+al1BXljXwLTIPEVULVhwtcxwDhC3SgM22W
-KyukT+SP+uYft4PPHn1UBlqeKjbbXpRqnwP1Bvsnw81FLNZHifP9fAiETJ4pMM3K
-cpJaytuHIZmn3+u40hXyu1R3KlOhJWbhclk3J/N/3kyJPq2ofGF/u7mgOg0ECyRY
-2v8yUodVMgtIxBoUqcluAykijPpIqX1MPc41EsaQWwYyeP8qelw+CdpY0W6841m3
-9+8A93PRSvwDbeesvGPRWIpVxd/yiwlD67qfUga+4yMlV0ugqFwYHbuf2qZuris9
-Ko7Vyr5Dm+O+IPknshmanCmVaYRfOLOh8Gyn6CgLWBeU+hOFeU2jXXieyfpctnAL
-D8ta2R4nZF4VI7ddslG570NRKGdTVpyq4mZjeSITW7+0rarDAX/S85zVgx8W4FRI
-ZxHTL1E3RNqDTJV5/QoF92Yblszrn/MsCaVZkR7i3sOOP2qheWsmIu5BWANiEOMv
-tU4bdp9B1ZMFE7sa3I6glfLgvJeh9+WuJWP7ZO8gsbl/Mdo4vgdfveI6EVq3ZVl2
-+jRUzJ6f+5CnhqfuZgwFBDACxRqtuhjxEp9J4hStU01b+vSFHC8=
-=GNHE
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXLMKgACgkQI1/ltBGq
+qqdp1w/8DVuos7vQvXFbkwEi2MmS22UH5pJRSEhtktlmNyHvlwnpQbKg7EPlh48M
+fqjxA28Rxf/CMw0kAz0E6j+IIZ9mfnAUY6GQNtwmV442IfTD5NrkewgVFKA3JpWG
+Ezs1BozIj9KI71Po/4pcIVFfJm5HgUBXMALfz8gp4E/voWBUFPNqyPFVFg6BDiz8
+rinLwLVFVJqzEK40FW9p7LFfwOT2XaN0gkl09ql1XDBuA3CpXNuz53p8KDQy3rnZ
+vu/BmvZYxPCMzULbiqiJelqk0RYwR/XfHPh/sKK88BYvrjtvIKAuOoQd2sBpvcIO
+XoJWb2VtlyMR7jZk+9d8aLrJ+kNoe2GSlo/7CtYBIQYKTR+Zu9oZu+UdiWEFRopM
+tXukYecHIVpG7sDpGgkoIMDcJ32LJDx4ynZcP1173Jrc1sgbmJF+uxRu4JhD7qDN
+/I7uUYbooRFLv+yXu0C19IsSm8NK2T6foeKrj0YPU9idZp2OwEbW9HuKmH7igNdS
+RIIerNbwgOiAbIBTvdzisnlPUDg4K3WIM54faPGBnoKp47xtjNS4ZxbhYWaBsgeM
+j2v2tzIvoac/mNQJswGS5gpB/Gh9wqhtbvzU2c9aPlK3Q8XT3BjYHD2+Lj/tyUV8
+W7ZZ0lfpnk6nNnR7EIYFB609pP/khWL0VotfNxJJJMRFMH9/rc0=
+=iaMj
 -----END PGP SIGNATURE-----
 
---Sig_/QzJnrEo=LYkLizQ2av2ETOb--
+--Sig_/sNODGAuo=/Hxc1/SQ_PTM=+--
