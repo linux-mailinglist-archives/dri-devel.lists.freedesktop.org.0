@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7353B852926
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 07:41:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A9D852928
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 07:41:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83E0C10E898;
-	Tue, 13 Feb 2024 06:41:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 918FF10E8D0;
+	Tue, 13 Feb 2024 06:41:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WKnSwv+X";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EvtOehBj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 856D710E898;
- Tue, 13 Feb 2024 06:41:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5806110E8CE;
+ Tue, 13 Feb 2024 06:41:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707806480; x=1739342480;
+ t=1707806487; x=1739342487;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=HsJESYgWzw+EFynu+Zn1jFv7D7G0JMROoe52I5guucc=;
- b=WKnSwv+Xgck8DlKkWDCpksD2cRrEZ0E1ZiQbMpT5NvNJzT/iKJYbrSKi
- 99l14i/yfsZOtEcNlXNvCmDN4tnEO01ui0q3u4lg5Otm+tMqr5fZuxnp7
- pdYwjXOB2EX4+pZyqAEHZ6iOYeTdtnsl3a+Q3dh/VEVD8eJzMDMJR+CqR
- 0jhmCzr2GzYhTTEbeT4D5jJoQNl7ZFl7x1rfIvXThYQXTPlmRSA6qEZz6
- e5yPlIyaL4Dbj3pNU7yR5dlWNqZOwcfOQq8WrwDpSoKdq13j7fbiEEphX
- 09cfTbLuqCULbzrtVBKj8lloiT1vDoA8frLWdGFeSdMO6LPpP5NDWXxBb g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="436947788"
-X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; d="scan'208";a="436947788"
+ bh=oB1Os/PM8Qqd1aXgMEWLlGkqyJHRiZh3qNxqyr3VYnI=;
+ b=EvtOehBjYEstOizbAwYGU0WyRF5K6JUFaKeSZfvgvt4vTCjxltkzfngt
+ uXcSsPgpLig8Xv3zv7dsAQoHyK/COCYdKO2oDpmAxSS82v77+g0xoMZVX
+ cjQRuwKVO9jkBroofpa7tX1R2l9+MG3vXlY69RX9J5mmKzwtJ8aeZBAfH
+ wijRedkfPBMM44znzoGW6zbYU+ahr6WhSKmyaUp4Uq1dD1NtGp0xfnHzu
+ fJXpKD2XWKz/VqSQVXM1gp86igw9ajQsjMhQcvHUKPKE8o2BBo4sXXM1v
+ nj6S7Crhq90/ha+7mhWZ7S1qnkJZZzrlF3zTva/78+ZxG7+28vwH4kmql g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="436947842"
+X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; d="scan'208";a="436947842"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2024 22:41:19 -0800
+ 12 Feb 2024 22:41:26 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; 
-   d="scan'208";a="7450273"
+   d="scan'208";a="7450290"
 Received: from cfl-desktop.iind.intel.com ([10.190.239.20])
- by orviesa003.jf.intel.com with ESMTP; 12 Feb 2024 22:41:13 -0800
+ by orviesa003.jf.intel.com with ESMTP; 12 Feb 2024 22:41:20 -0800
 From: Uma Shankar <uma.shankar@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
@@ -48,11 +48,10 @@ Cc: ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com,
  quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
  quic_abhinavk@quicinc.com, arthurgrillo@riseup.net, marcan@marcan.st,
  Liviu.Dudau@arm.com, sashamcintosh@google.com, sean@poorly.run,
- Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
  Uma Shankar <uma.shankar@intel.com>
-Subject: [PATCH 07/28] drm: Add 1D LUT color op
-Date: Tue, 13 Feb 2024 12:18:14 +0530
-Message-ID: <20240213064835.139464-8-uma.shankar@intel.com>
+Subject: [PATCH 08/28] drm: Add Color lut range attributes
+Date: Tue, 13 Feb 2024 12:18:15 +0530
+Message-ID: <20240213064835.139464-9-uma.shankar@intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20240213064835.139464-1-uma.shankar@intel.com>
 References: <20240213064835.139464-1-uma.shankar@intel.com>
@@ -73,58 +72,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+This defines a new structure to define color lut ranges,
+along with related macro definitions and enums. This will help
+describe segmented lut ranges/PWL LUTs in the hardware.
 
-Add support for color ops that can be programmed
-by 1 dimensional Look Up Tables.
-
-Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 Signed-off-by: Uma Shankar <uma.shankar@intel.com>
+Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 ---
- drivers/gpu/drm/drm_atomic_uapi.c | 3 +++
- drivers/gpu/drm/drm_colorop.c     | 2 +-
- include/uapi/drm/drm_mode.h       | 1 +
- 3 files changed, 5 insertions(+), 1 deletion(-)
+ include/uapi/drm/drm_mode.h | 58 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 58 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index c54b0d6c133e..9f6a3a1c8020 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -719,6 +719,9 @@ static int drm_atomic_color_set_data_property(struct drm_colorop *colorop,
- 	case DRM_COLOROP_CTM_3X3:
- 		size = sizeof(struct drm_color_ctm);
- 		break;
-+	case DRM_COLOROP_1D_LUT:
-+		elem_size = sizeof(struct drm_color_lut_ext);
-+		break;
- 	default:
- 		/* should never get here */
- 		return -EINVAL;
-diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
-index 6bae6dc8e54b..4d57eaef04aa 100644
---- a/drivers/gpu/drm/drm_colorop.c
-+++ b/drivers/gpu/drm/drm_colorop.c
-@@ -107,7 +107,7 @@ int drm_colorop_init(struct drm_device *dev, struct drm_colorop *colorop,
- 				   0);
- 
- 	/* data */
--	if (type == DRM_COLOROP_CTM_3X4 || type == DRM_COLOROP_CTM_3X3) {
-+	if (type == DRM_COLOROP_CTM_3X4 || type == DRM_COLOROP_CTM_3X3 || DRM_COLOROP_1D_LUT) {
- 		prop = drm_property_create(dev, DRM_MODE_PROP_ATOMIC | DRM_MODE_PROP_BLOB,
- 					   "DATA", 0);
- 		if (!prop)
 diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index bbc5be97c80f..af67f32e0087 100644
+index af67f32e0087..376498715d0e 100644
 --- a/include/uapi/drm/drm_mode.h
 +++ b/include/uapi/drm/drm_mode.h
-@@ -885,6 +885,7 @@ struct drm_color_lut_ext {
+@@ -1014,6 +1014,64 @@ struct hdr_output_metadata {
+ 				  DRM_MODE_PAGE_FLIP_ASYNC | \
+ 				  DRM_MODE_PAGE_FLIP_TARGET)
  
- enum drm_colorop_type {
- 	DRM_COLOROP_1D_CURVE,
-+	DRM_COLOROP_1D_LUT,
- 	DRM_COLOROP_CTM_3X3,
- 	DRM_COLOROP_CTM_3X4,
- };
++/**
++ * DRM_MODE_LUT_INTERPOLATE
++ *
++ * linearly interpolate between the points
++ */
++#define DRM_MODE_LUT_INTERPOLATE BIT(0)
++
++/**
++ * DRM_MODE_LUT_REUSE_LAST
++ *
++ * the last value of the previous range is the
++ * first value of the current range.
++ */
++#define DRM_MODE_LUT_REUSE_LAST BIT(1)
++
++/**
++ * DRM_MODE_LUT_NON_DECREASING
++ *
++ * the curve must be non-decreasing
++ */
++#define DRM_MODE_LUT_NON_DECREASING BIT(2)
++
++/**
++ * DRM_MODE_LUT_REFLECT_NEGATIVE
++ *
++ *  the curve is reflected across origin for negative inputs
++ */
++#define DRM_MODE_LUT_REFLECT_NEGATIVE BIT(3)
++
++/**
++ * DRM_MODE_LUT_SINGLE_CHANNEL
++ *
++ * the same curve (red) is used for blue and green channels as well
++ */
++#define DRM_MODE_LUT_SINGLE_CHANNEL BIT(4)
++
++/**
++ * struct drm_color_lut_range
++ *
++ * structure to advertise capability of a color hardware
++ * block that accepts LUT values.  It can represent LUTs with
++ * varied number of entries and distributions
++ * (Multi segmented, Logarithmic etc).
++ */
++
++struct drm_color_lut_range {
++	/* DRM_MODE_LUT_* */
++	__u32 flags;
++	/* number of points on the curve */
++	__u16 count;
++	/* input/output bits per component */
++	__u8 input_bpc, output_bpc;
++	/* input start/end values */
++	__s32 start, end;
++	/* output min/max values */
++	__s32 min, max;
++};
++
+ /*
+  * Request a page flip on the specified crtc.
+  *
 -- 
 2.42.0
 
