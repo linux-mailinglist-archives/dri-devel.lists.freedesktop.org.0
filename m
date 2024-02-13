@@ -2,90 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8C67852313
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 01:18:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2E0C85233B
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 01:21:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F9AF10E39A;
-	Tue, 13 Feb 2024 00:18:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23CC010E4C8;
+	Tue, 13 Feb 2024 00:21:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="gPJwJjs6";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="L3Jth6gE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 042BB10E39A;
- Tue, 13 Feb 2024 00:18:22 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41D0GG5j012583; Tue, 13 Feb 2024 00:18:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=O2CfOfFchegrmCEQaAWcmFlON940ps0W/l0ElSE5YdM=; b=gP
- JwJjs6q1eFbhcker3osoaereCGrnlqfXAx4eVe9H0Uib0yhpD/1OAgnGWSojJYl2
- z2974CjYGVgKO0+AOlIP14SEPlStXoZKf8v2+pQfXo3gXtgHzzpcfPhT4QzG44kY
- kIS/24WCpsOr6cH20F42NpMGF/Kdk+q2uVqxwg7kiqdFKa6slHG/jaHUcMV15MeS
- 3G0MRUGC8TQhQBKqqypZ8gYWlB9mZ2xKNJ+6Yr291LWrJLYYOkSahZdD6gkqPQz3
- WuK2tywhAiHAoZcdnZYXNzJiUtWYKgp2emjNV0JfdKq3NfzOHQGQhFza6ObZuR3b
- eEcF1TisSShIml190JdQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w62ps4q8g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Feb 2024 00:18:20 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41D0IJw3020625
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Feb 2024 00:18:19 GMT
-Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 12 Feb
- 2024 16:18:18 -0800
-Message-ID: <a72f0efd-1f7d-1621-9786-fa3497d90c28@quicinc.com>
-Date: Mon, 12 Feb 2024 16:18:17 -0800
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27F5910E4C8
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 00:21:51 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 703A8611D6;
+ Tue, 13 Feb 2024 00:21:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2B42C43601;
+ Tue, 13 Feb 2024 00:21:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1707783710;
+ bh=UgzG8GfobsDYimcbdrx2RqxzhsKbSTEF4rLtVP4bQmg=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=L3Jth6gElLO4VnMcgLuSRiAJqmAL6qctfh9k6tJO5Na6gV/XmI3VTbj1BEk18K4rc
+ oPnwEbJ0DeLozGcNgLLA6LC5vqb4Hmf3ugmKHsP5rp11YLOB7Bn/reksGghVP4hATH
+ 94QX4UgJq0SpreekwUHY2QZwg6KkYuARFtp0s90K7B5I3j4XKtZ4Fhrdj2xUWTRKOD
+ IdzlnaB98z/R5Ue8jOH1OM4n4irx9oVvsq9hbZt+xDK9128hFoNSYxnfZAPbwsAAYA
+ daPgrFWCDPFUVsKEXKtIUEoMSIp8uWVlIpSZBelveVVp9g7ghv+sRFWeglM5HqI888
+ tJLAqLb27WRng==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: "Wachowski, Karol" <karol.wachowski@intel.com>,
+	Wachowski@freedesktop.org,
+	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+	Jeffrey Hugo <quic_jhugo@quicinc.com>,
+	Sasha Levin <sashal@kernel.org>, stanislaw.gruszka@linux.intel.com,
+	ogabbay@kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 37/51] accel/ivpu: Force snooping for MMU writes
+Date: Mon, 12 Feb 2024 19:20:14 -0500
+Message-ID: <20240213002052.670571-37-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240213002052.670571-1-sashal@kernel.org>
+References: <20240213002052.670571-1-sashal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 19/19] drm/msm/dp: allow YUV420 mode for DP connector
- when CDM available
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Paloma Arellano <quic_parellan@quicinc.com>,
- <freedreno@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <seanpaul@chromium.org>, <swboyd@chromium.org>,
- <quic_jesszhan@quicinc.com>, <quic_khsieh@quicinc.com>,
- <marijn.suijten@somainline.org>, <neil.armstrong@linaro.org>
-References: <20240210015223.24670-1-quic_parellan@quicinc.com>
- <20240210015223.24670-20-quic_parellan@quicinc.com>
- <CAA8EJpq15w_Gjx+rPzN8vBg5Z8PGzABAztqmLpfnafuvNVLmRw@mail.gmail.com>
- <56e521ab-ae57-9296-59a1-0bdbad60f882@quicinc.com>
- <CAA8EJprUeJvL_mP0x19YQCdTbErzy-RRF6GmSOK_eApsRiTALw@mail.gmail.com>
- <04df55f1-9430-727b-426b-81d762b3b2e6@quicinc.com>
- <CAA8EJpqZT+Z-1oH6pRs05kZj16XdUyzi15ko3W3cS1DGC36pew@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJpqZT+Z-1oH6pRs05kZj16XdUyzi15ko3W3cS1DGC36pew@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: tzOF-vYhE2EIWn7hLCRwEwXIqzUOo-YA
-X-Proofpoint-GUID: tzOF-vYhE2EIWn7hLCRwEwXIqzUOo-YA
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-12_20,2024-02-12_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- malwarescore=0 bulkscore=0 spamscore=0 phishscore=0 suspectscore=0
- mlxscore=0 priorityscore=1501 adultscore=0 clxscore=1015 mlxlogscore=999
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402130000
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.6.16
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,141 +65,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: "Wachowski, Karol" <karol.wachowski@intel.com>
 
+[ Upstream commit c9da9a1f17bf4fa96b115950fd389c917b583c1c ]
 
-On 2/12/2024 1:20 PM, Dmitry Baryshkov wrote:
-> On Mon, 12 Feb 2024 at 23:13, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 2/10/2024 1:17 PM, Dmitry Baryshkov wrote:
->>> On Sat, 10 Feb 2024 at 21:19, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>>>
->>>>
->>>>
->>>> On 2/10/2024 3:33 AM, Dmitry Baryshkov wrote:
->>>>> On Sat, 10 Feb 2024 at 03:52, Paloma Arellano <quic_parellan@quicinc.com> wrote:
->>>>>>
->>>>>> All the components of YUV420 over DP are added. Therefore, let's mark the
->>>>>> connector property as true for DP connector when the DP type is not eDP
->>>>>> and when there is a CDM block available.
->>>>>>
->>>>>> Changes in v2:
->>>>>>            - Check for if dp_catalog has a CDM block available instead of
->>>>>>              checking if VSC SDP is allowed when setting the dp connector's
->>>>>>              ycbcr_420_allowed parameter
->>>>>>
->>>>>> Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
->>>>>> ---
->>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 4 +++-
->>>>>>     drivers/gpu/drm/msm/dp/dp_display.c     | 4 ++--
->>>>>>     drivers/gpu/drm/msm/dp/dp_drm.c         | 8 ++++++--
->>>>>>     drivers/gpu/drm/msm/dp/dp_drm.h         | 3 ++-
->>>>>>     drivers/gpu/drm/msm/msm_drv.h           | 5 +++--
->>>>>>     5 files changed, 16 insertions(+), 8 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>>>>> index 723cc1d821431..beeaabe499abf 100644
->>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>>>>> @@ -565,6 +565,7 @@ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
->>>>>>     {
->>>>>>            struct drm_encoder *encoder = NULL;
->>>>>>            struct msm_display_info info;
->>>>>> +       bool yuv_supported;
->>>>>>            int rc;
->>>>>>            int i;
->>>>>>
->>>>>> @@ -583,7 +584,8 @@ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
->>>>>>                            return PTR_ERR(encoder);
->>>>>>                    }
->>>>>>
->>>>>> -               rc = msm_dp_modeset_init(priv->dp[i], dev, encoder);
->>>>>> +               yuv_supported = !!(dpu_kms->catalog->cdm);
->>>>>
->>>>> Drop parentheses please.
->>>>>
->>>>>> +               rc = msm_dp_modeset_init(priv->dp[i], dev, encoder, yuv_supported);
->>>>>>                    if (rc) {
->>>>>>                            DPU_ERROR("modeset_init failed for DP, rc = %d\n", rc);
->>>>>>                            return rc;
->>>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
->>>>>> index ebcc76ef1d590..9b9f5f2921903 100644
->>>>>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->>>>>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->>>>>> @@ -1471,7 +1471,7 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
->>>>>>     }
->>>>>>
->>>>>>     int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
->>>>>> -                       struct drm_encoder *encoder)
->>>>>> +                       struct drm_encoder *encoder, bool yuv_supported)
->>>>>>     {
->>>>>>            struct dp_display_private *dp_priv;
->>>>>>            int ret;
->>>>>> @@ -1487,7 +1487,7 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
->>>>>>                    return ret;
->>>>>>            }
->>>>>>
->>>>>> -       dp_display->connector = dp_drm_connector_init(dp_display, encoder);
->>>>>> +       dp_display->connector = dp_drm_connector_init(dp_display, encoder, yuv_supported);
->>>>>>            if (IS_ERR(dp_display->connector)) {
->>>>>>                    ret = PTR_ERR(dp_display->connector);
->>>>>>                    DRM_DEV_ERROR(dev->dev,
->>>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
->>>>>> index 46e6889037e88..ab0d0d13b5e2c 100644
->>>>>> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
->>>>>> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
->>>>>> @@ -353,7 +353,8 @@ int dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
->>>>>>     }
->>>>>>
->>>>>>     /* connector initialization */
->>>>>> -struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display, struct drm_encoder *encoder)
->>>>>> +struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display, struct drm_encoder *encoder,
->>>>>> +                                           bool yuv_supported)
->>>>>>     {
->>>>>>            struct drm_connector *connector = NULL;
->>>>>>
->>>>>> @@ -361,8 +362,11 @@ struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display, struct dr
->>>>>>            if (IS_ERR(connector))
->>>>>>                    return connector;
->>>>>>
->>>>>> -       if (!dp_display->is_edp)
->>>>>> +       if (!dp_display->is_edp) {
->>>>>>                    drm_connector_attach_dp_subconnector_property(connector);
->>>>>> +               if (yuv_supported)
->>>>>> +                       connector->ycbcr_420_allowed = true;
->>>>>
->>>>> Is there any reason to disallow YUV420 for eDP connectors?
->>>>>
->>>>>> +       }
->>>>>>
->>>>
->>>> Major reason was certainly validation but thinking about it more
->>>> closely, I need to check whether CDM over eDP is even possible.
->>>>
->>>> Historically, CDM could output only to HDMI OR WB using the bit we
->>>> program while setting up CDM and the same HDMI path is being used by DP
->>>> as well. But I need to check whether CDM can even output to eDP with the
->>>> same DP path. I dont have any documentation on this part yet.
->>>
->>> I had the feeling that the DP / eDP difference on the chips is mostly
->>> on the PHY and software side. So I assumed that it should be possible
->>> to output YUV data to the eDP port in the same way as it is done for
->>> the DP port.
->>>
->>
->> This is true. I was not worried about DP / eDP controller but mostly
->> whether eDP spec really allows YUV. From what I can read, it does.
->>
->> So this check shall remain only because CDM has not been validated with eDP.
->>
->> Do you need a TODO here and if we ever get a eDP panel which supports
->> that, we can validate and relax this.
-> 
-> Just move it out of the eDP check.
-> 
+Set AW_SNOOP_OVERRIDE bit in VPU_37/40XX_HOST_IF_TCU_PTW_OVERRIDES
+to force snooping for MMU write accesses (setting event queue events).
 
-I would have said a no to this because it opens a trap door for untested 
-path which I usually hesitate but in this case, I am also curious to 
-know if there is going to be a eDP panel to test this out for us because 
-I have not seen any yet. So lets go ahead with the removal of !is_edp.
+MMU event queue buffer is the only buffer written by MMU and
+mapped as write-back which break cache coherency. Force write
+transactions to be snooped solving the problem.
+
+Signed-off-by: Wachowski, Karol <karol.wachowski@intel.com>
+Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240126122804.2169129-2-jacek.lawrynowicz@linux.intel.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/accel/ivpu/ivpu_hw_37xx.c | 2 +-
+ drivers/accel/ivpu/ivpu_hw_40xx.c | 2 +-
+ drivers/accel/ivpu/ivpu_mmu.c     | 3 ---
+ 3 files changed, 2 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
+index ddf03498fd4c..c0de7c0c991f 100644
+--- a/drivers/accel/ivpu/ivpu_hw_37xx.c
++++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
+@@ -562,7 +562,7 @@ static void ivpu_boot_no_snoop_enable(struct ivpu_device *vdev)
+ 	u32 val = REGV_RD32(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES);
+ 
+ 	val = REG_SET_FLD(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, NOSNOOP_OVERRIDE_EN, val);
+-	val = REG_SET_FLD(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, AW_NOSNOOP_OVERRIDE, val);
++	val = REG_CLR_FLD(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, AW_NOSNOOP_OVERRIDE, val);
+ 	val = REG_SET_FLD(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, AR_NOSNOOP_OVERRIDE, val);
+ 
+ 	REGV_WR32(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, val);
+diff --git a/drivers/accel/ivpu/ivpu_hw_40xx.c b/drivers/accel/ivpu/ivpu_hw_40xx.c
+index 03600a7a5aca..65c6a82bb13f 100644
+--- a/drivers/accel/ivpu/ivpu_hw_40xx.c
++++ b/drivers/accel/ivpu/ivpu_hw_40xx.c
+@@ -523,7 +523,7 @@ static void ivpu_boot_no_snoop_enable(struct ivpu_device *vdev)
+ 	u32 val = REGV_RD32(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES);
+ 
+ 	val = REG_SET_FLD(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, SNOOP_OVERRIDE_EN, val);
+-	val = REG_CLR_FLD(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, AW_SNOOP_OVERRIDE, val);
++	val = REG_SET_FLD(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, AW_SNOOP_OVERRIDE, val);
+ 	val = REG_CLR_FLD(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, AR_SNOOP_OVERRIDE, val);
+ 
+ 	REGV_WR32(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, val);
+diff --git a/drivers/accel/ivpu/ivpu_mmu.c b/drivers/accel/ivpu/ivpu_mmu.c
+index baefaf7bb3cb..d04a28e05248 100644
+--- a/drivers/accel/ivpu/ivpu_mmu.c
++++ b/drivers/accel/ivpu/ivpu_mmu.c
+@@ -491,7 +491,6 @@ static int ivpu_mmu_reset(struct ivpu_device *vdev)
+ 	mmu->cmdq.cons = 0;
+ 
+ 	memset(mmu->evtq.base, 0, IVPU_MMU_EVTQ_SIZE);
+-	clflush_cache_range(mmu->evtq.base, IVPU_MMU_EVTQ_SIZE);
+ 	mmu->evtq.prod = 0;
+ 	mmu->evtq.cons = 0;
+ 
+@@ -805,8 +804,6 @@ static u32 *ivpu_mmu_get_event(struct ivpu_device *vdev)
+ 	if (!CIRC_CNT(IVPU_MMU_Q_IDX(evtq->prod), IVPU_MMU_Q_IDX(evtq->cons), IVPU_MMU_Q_COUNT))
+ 		return NULL;
+ 
+-	clflush_cache_range(evt, IVPU_MMU_EVTQ_CMD_SIZE);
+-
+ 	evtq->cons = (evtq->cons + 1) & IVPU_MMU_Q_WRAP_MASK;
+ 	REGV_WR32(VPU_37XX_HOST_MMU_EVTQ_CONS_SEC, evtq->cons);
+ 
+-- 
+2.43.0
+
