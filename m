@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDD7A852959
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 07:43:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F4B985295A
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 07:43:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9FAA10E1CF;
-	Tue, 13 Feb 2024 06:43:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 717C010EB0F;
+	Tue, 13 Feb 2024 06:43:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="R855FCn1";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Jp7vllI8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8A9910E1CF;
- Tue, 13 Feb 2024 06:43:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D54B310EB0F;
+ Tue, 13 Feb 2024 06:43:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707806621; x=1739342621;
+ t=1707806628; x=1739342628;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=bIyIxBrBFVizwyfBukGCLyCV9/2yxvvzpCMrmZ+AJoM=;
- b=R855FCn1OP2Kvx0I4BLNTBwnikt14ALDu6Xx1XuQhJJXf0aTJBV8TbXt
- mt+LNsdd3WARG2XMCPKfTcJwYshNes5CJcW5jb2/oZ1AvI347O8PG1gDZ
- owZ6xg1klZfRtgmQRK+f4uh7qTYHHD+4PcO7631Cj5XbQLqhkaB5Vbe7j
- JGMSBKZ4XKqPIIjGE0eUDhLRisbe2ovatxEbEqvZOqwTO0mV+LqnlOuLE
- iNuWwEAILTAEtlWBXirRtkC0q8/dLE9EqPAyRSF7IQPcyWpIguBlGce3a
- bpSoOgDQQ/HH6AeEBMqQrVqTvT0p3loPiIdvjO+IrvOfT8ItmwAukkdJ/ w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="436948306"
-X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; d="scan'208";a="436948306"
+ bh=bDkeXF73zakQH63leGMY5eCTZzrzCq3q6yvVSB08JrI=;
+ b=Jp7vllI8fMB2PICwAeAOWhSx7pzHS4Yfv1U8+UolIa4iolvPOeWbO5aZ
+ sfgmQAT1DlJPLrx471hjdByHijvGw23LA0p6tWgg9o0wzcXBKK4t2l9Bp
+ Bn/F2GPpv3xkB4+ymM6vzNSzNHZPxVSjCBKeaPjNpDHb9asD9mmsh13s6
+ PlCk940b1rw79pFOv3cxdHi4K5N8693nczvqy2wjjoqYrFqrLxlZIu5mD
+ 2A4XUY8U9yPQ4Mk35UJYHZXC/TLni1OfY9HE9q//cwg+d7qgr4q5dQQNz
+ UJN7s6OvTA5R9r73nGrpuuGgFZHNp4YRLwaXDzYsx0JzjQ0ZnVlGqcJzG w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="436948334"
+X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; d="scan'208";a="436948334"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2024 22:43:41 -0800
+ 12 Feb 2024 22:43:48 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; 
-   d="scan'208";a="7450717"
+   d="scan'208";a="7450741"
 Received: from cfl-desktop.iind.intel.com ([10.190.239.20])
- by orviesa003.jf.intel.com with ESMTP; 12 Feb 2024 22:43:35 -0800
+ by orviesa003.jf.intel.com with ESMTP; 12 Feb 2024 22:43:41 -0800
 From: Uma Shankar <uma.shankar@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
@@ -48,11 +48,11 @@ Cc: ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com,
  quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
  quic_abhinavk@quicinc.com, arthurgrillo@riseup.net, marcan@marcan.st,
  Liviu.Dudau@arm.com, sashamcintosh@google.com, sean@poorly.run,
- Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-Subject: [PATCH 27/28] FIXME: force disable legacy plane color properties for
- TGL and beyond
-Date: Tue, 13 Feb 2024 12:18:34 +0530
-Message-ID: <20240213064835.139464-28-uma.shankar@intel.com>
+ Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
+ Uma Shankar <uma.shankar@intel.com>
+Subject: [PATCH 28/28] drm/i915/color: Enable Plane Color Pipelines
+Date: Tue, 13 Feb 2024 12:18:35 +0530
+Message-ID: <20240213064835.139464-29-uma.shankar@intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20240213064835.139464-1-uma.shankar@intel.com>
 References: <20240213064835.139464-1-uma.shankar@intel.com>
@@ -75,37 +75,41 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 
-The decision should be made based on the
-DRM_CLIENT_CAP_PLANE_COLOR_PIPELINE.
-Right now the value of this cap is not passed on to the driver.
+Expose color pipeline and add capability to program it.
 
 Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+Signed-off-by: Uma Shankar <uma.shankar@intel.com>
 ---
- drivers/gpu/drm/i915/display/skl_universal_plane.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/i915/display/skl_universal_plane.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-index e941e2e4fd14..7096ea8a3454 100644
+index 7096ea8a3454..64e70cc34ddb 100644
 --- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
 +++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-@@ -2424,12 +2424,14 @@ skl_universal_plane_create(struct drm_i915_private *dev_priv,
- 	if (DISPLAY_VER(dev_priv) >= 10)
- 		supported_csc |= BIT(DRM_COLOR_YCBCR_BT2020);
+@@ -11,6 +11,7 @@
+ #include "i915_drv.h"
+ #include "i915_reg.h"
+ #include "intel_atomic_plane.h"
++#include "intel_color.h"
+ #include "intel_de.h"
+ #include "intel_display_irq.h"
+ #include "intel_display_types.h"
+@@ -1279,6 +1280,8 @@ icl_plane_update_noarm(struct intel_plane *plane,
+ 	plane_color_ctl = plane_state->color_ctl |
+ 		glk_plane_color_ctl_crtc(crtc_state);
  
--	drm_plane_create_color_properties(&plane->base,
--					  supported_csc,
--					  BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
--					  BIT(DRM_COLOR_YCBCR_FULL_RANGE),
--					  DRM_COLOR_YCBCR_BT709,
--					  DRM_COLOR_YCBCR_LIMITED_RANGE);
-+	/* TODO: Make it based on client cap */
-+	if (DISPLAY_VER(dev_priv) <= 11)
-+		drm_plane_create_color_properties(&plane->base,
-+						  supported_csc,
-+						  BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
-+						  BIT(DRM_COLOR_YCBCR_FULL_RANGE),
-+						  DRM_COLOR_YCBCR_BT709,
-+						  DRM_COLOR_YCBCR_LIMITED_RANGE);
++	intel_program_pipeline(&plane_state->uapi, &plane_color_ctl);
++
+ 	/* The scaler will handle the output position */
+ 	if (plane_state->scaler_id >= 0) {
+ 		crtc_x = 0;
+@@ -2432,6 +2435,8 @@ skl_universal_plane_create(struct drm_i915_private *dev_priv,
+ 						  BIT(DRM_COLOR_YCBCR_FULL_RANGE),
+ 						  DRM_COLOR_YCBCR_BT709,
+ 						  DRM_COLOR_YCBCR_LIMITED_RANGE);
++	else
++		intel_plane_color_init(&plane->base);
  
  	drm_plane_create_alpha_property(&plane->base);
  	drm_plane_create_blend_mode_property(&plane->base,
