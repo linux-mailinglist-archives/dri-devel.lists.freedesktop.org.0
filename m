@@ -2,60 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F5E9852F5C
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 12:31:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDD08852FAE
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 12:40:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7645A10E5A1;
-	Tue, 13 Feb 2024 11:31:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C8CB10E3AB;
+	Tue, 13 Feb 2024 11:40:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lTWA15nV";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar-org.20230601.gappssmtp.com header.i=@fooishbar-org.20230601.gappssmtp.com header.b="IldmvrG/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6288710E5A1;
- Tue, 13 Feb 2024 11:31:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707823899; x=1739359899;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=XhFbI8oMAqO9iC6QbK/uNbbiHBGr2xPLP9eao8iLkDw=;
- b=lTWA15nVJccoZy3yoQLKinA16IjhP6eCueb3n7Y8rjpANSRNGvcLvTFQ
- wgjikioEnzKTgtRgRYmy5UknfjP6Xq0Dls/GSM4HRTAfknE+00H/7QkNc
- 6eu3OIzISpPvjiIgIPSBXFHCJ0wb5YwwRu9+bNJeHiQzyMEiXy6lxk15N
- dnhJp0nuLIjwfStu+2sSdOXeWkAx7MrqDEwfxCUpet2B/ZIV7MzvO/bhb
- TZfdKoO9AEmrt0MzBSaQMZlXQAYrSIvIZFuu36iuWAn5t6/pmsuy/qwYV
- 4Xt7Vn3hiBVNeEDP6+IgowUQ/8sOs904ZWRwztr17fXirHgWF7Tzs9iaf w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="1694711"
-X-IronPort-AV: E=Sophos;i="6.06,157,1705392000"; 
-   d="scan'208";a="1694711"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2024 03:31:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,157,1705392000"; 
-   d="scan'208";a="7517596"
-Received: from snasibli-mobl2.ccr.corp.intel.com (HELO localhost)
- ([10.252.44.50])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2024 03:31:36 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- jani.nikula@intel.com, Arun R Murthy <arun.r.murthy@intel.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-Subject: [PATCH v2 6/6] drm/i915/mst: enable MST mode for 128b/132b
- single-stream sideband
-Date: Tue, 13 Feb 2024 13:31:01 +0200
-Message-Id: <4384082efdd1ec894b6f71a3f79c1393234e2995.1707823736.git.jani.nikula@intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <cover.1707823736.git.jani.nikula@intel.com>
-References: <cover.1707823736.git.jani.nikula@intel.com>
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com
+ [209.85.167.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB75C10E597
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 11:40:05 +0000 (UTC)
+Received: by mail-oi1-f169.google.com with SMTP id
+ 5614622812f47-3c0471954faso129462b6e.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 03:40:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20230601.gappssmtp.com; s=20230601; t=1707824405; x=1708429205;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=5Q2HXSgg+WfNCJ48Lf3xpfGuoRZjbywT1xHUXRUUcU4=;
+ b=IldmvrG/66/T4B5jgpBBPaWJm9S8gtMUnv9L9VzoF0HPUjBzM1IgpgFg+FLD52MqBx
+ dV6RVKcmgqCqaeRvuS7QLu9B5Pjp3zfydZk90UfzsN2k27mdmTgzd1Fwlyk465CO1Wvc
+ Ox6xiLwC5uorFbEvBO9lTXp/Y+vrkgZPj1R8pWXYJLAdZfEOhA83YC/ZkXAF0m7DLfFR
+ sTO4SNUEth67NQ+fIoYO9UONNKJk90kZ4MSURs0rl+BdEvdEUByuBVsvQyj7UBnq7/jf
+ bJOrSxaM5j3kpi5br7OKatbVVY7Us9nAC/SM+2CTqFapStLXv5x7f4xPH1U3ZTUtu4+4
+ ILQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707824405; x=1708429205;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5Q2HXSgg+WfNCJ48Lf3xpfGuoRZjbywT1xHUXRUUcU4=;
+ b=BsKrJoGSwxG4D2jSv0mgm0Cw/4JP1EI8Z7DVcqlpyRlj9uBey05IhE2/ubwPrS5dq/
+ V/RToaeN1q+rH7k32bRQ2jdPdk/1a19L91Xj1V48molMfKRC7+lhUpEhiAO49kWdzEoX
+ 1xnAol8X5zgrUMRbmHD8qteBou7Tbx0+zKkbjnUf0Yz3s7dIxCWFQG8dfj/1oQU3FRoK
+ 0pnj+tLA3ytAGlym1SWmZej78Y2rzSo+aBlU7Dmw17yYfNAP1TQwQPKpZ4lxmPkuqL6B
+ cIsgUecb8KUc1dlm4ypPKenR7ccWz4oS5l7A53rmaRXMJz68dN2u7xyzVtA7ioh+y09g
+ 38MQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXZeSiMmaPKdwXO6xasB0Mj03SfQE4F5k/8YJO6xxhI5kEHJPSNRqpHPzUlxRO3A4u5IHNfiMM2lxNpsAISPKBnxs4RkcHHP2iJfU5BAQRM
+X-Gm-Message-State: AOJu0YxzIva4JUTJvCftG2oR9y/Sx5r9pTsjcHYzd10Gi0o0JfXHo1dz
+ nWkfUd4tjL1eV/rUX62TvLIu8bhZPxgyIAGdDtaWa9UVf5w7ImrMIZ/mpoLDExata8yh8RJYAtz
+ Kj7IAP2o/qPJuufrFnX9JuKoh0IcRMjZAhO7dNA==
+X-Google-Smtp-Source: AGHT+IGY/umyWm9bGSp8LHaGaJz80J84aewnjhUP9V6Jb+gnCRdR0+blD57TP5/5wjkX/1eM5Zy3sDhyNB6cBCf5o5M=
+X-Received: by 2002:a05:6808:302a:b0:3c0:32d7:b93b with SMTP id
+ ay42-20020a056808302a00b003c032d7b93bmr8548576oib.50.1707824404899; Tue, 13
+ Feb 2024 03:40:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+References: <20240213-tidss-fixes-v1-0-d709e8dfa505@ideasonboard.com>
+ <20240213-tidss-fixes-v1-1-d709e8dfa505@ideasonboard.com>
+ <20240213110440.13af335a@eldfell>
+ <bb8089cd-2a57-4ed0-a8bd-2140a89b0887@ideasonboard.com>
+ <ZctCCCJORdDEaDl1@xpredator>
+In-Reply-To: <ZctCCCJORdDEaDl1@xpredator>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Tue, 13 Feb 2024 11:39:53 +0000
+Message-ID: <CAPj87rPpdOQLLu5oGVfqDUh0_j9NXqc3XgZe5=tcOzUfVoeeqg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/tidss: Fix initial plane zpos values
+To: Marius Vlad <marius.vlad@collabora.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Pekka Paalanen <pekka.paalanen@haloniitty.fi>, Jyri Sarha <jyri.sarha@iki.fi>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Sam Ravnborg <sam@ravnborg.org>, Devarsh Thakkar <devarsht@ti.com>,
+ Aradhya Bhatia <a-bhatia1@ti.com>, 
+ Francesco Dolcini <francesco@dolcini.it>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ "wayland-devel@lists.freedesktop.org" <wayland-devel@lists.freedesktop.org>,
+ Randolph Sapp <rs@ti.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,35 +93,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the sink supports 128b/132b and single-stream sideband messaging,
-enable MST mode.
+Hi,
 
-With this, the topology manager will still write DP_MSTM_CTRL, which
-should be ignored by the sink. In the future, the topology manager
-should probably only set the sideband messaging related parts of the
-register.
+On Tue, 13 Feb 2024 at 10:18, Marius Vlad <marius.vlad@collabora.com> wrote:
+> On Tue, Feb 13, 2024 at 11:57:59AM +0200, Tomi Valkeinen wrote:
+> > I haven't. I'm quite unfamiliar with Weston, and Randolph from TI (cc'd) has
+> > been working on the Weston side of things. I also don't know if there's
+> > something TI specific here, as the use case is with non-mainline GPU drivers
+> > and non-mainline Mesa. I should have been a bit clearer in the patch
+> > description, as I didn't mean that upstream Weston has a bug (maybe it has,
+> > maybe it has not).
 
-Cc: Arun R Murthy <arun.r.murthy@intel.com>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/i915/display/intel_dp.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Don't worry about it. We've had bugs in the past and I'm sure we'll
+have more. :) Either way, it's definitely better to have the kernel
+expose sensible behaviour rather than weird workarounds, unless
+they've been around for so long that they're basically baked into ABI.
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 7f97d5512a3e..689d5c8ba6b0 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -4027,7 +4027,8 @@ intel_dp_mst_mode_choose(struct intel_dp *intel_dp,
- 	if (!intel_dp_mst_source_support(intel_dp))
- 		return DRM_DP_SST;
- 
--	if (sink_mst_mode == DRM_DP_SST_SIDEBAND_MSG)
-+	if (sink_mst_mode == DRM_DP_SST_SIDEBAND_MSG &&
-+	    !(intel_dp->dpcd[DP_MAIN_LINK_CHANNEL_CODING] & DP_CAP_ANSI_128B132B))
- 		return DRM_DP_SST;
- 
- 	return sink_mst_mode;
--- 
-2.39.2
+> > The issue seen is that when Weston decides to use DRM planes for
+> > composition, the plane zpositions are not configured correctly (or at all?).
+> > Afaics, this leads to e.g. weston showing a window with a DRM "overlay"
+> > plane that is behind the "primary" root plane, so the window is not visible.
+> > And as Weston thinks that the area supposedly covered by the overlay plane
+> > does not need to be rendered on the root plane, there are also artifacts on
+> > that area.
+> >
+> > Also, the Weston I used is a bit older one (10.0.1), as I needed to go back
+> > in my buildroot versions to get all that non-mainline GPU stuff compiled and
+> > working. A more recent Weston may behave differently.
+>
+> Right after Weston 10, we had a few minor changes related to the
+> zpos-sorting list of planes and how we parse the plan list without having
+> a temporary zpos ordered list to pick planes from.
+>
+> And there's another fix for missing out to set out the zpos for scanout
+> to the minimum available - which seems like a good candidate to explain
+> what happens in the issue described above. So if trying Weston again,
+> please try with at least Weston 12, which should have those changes
+> in.
 
+Specifically, you probably want commits 4cde507be6a1 and 58dde0e0c000.
+I think the window of breakage was small enough that - assuming either
+those commits or an upgrade to Weston 12/13 fixes it - we can just ask
+people to upgrade to a fixed Weston.
+
+> > Presuming this is not related to any TI specific code, I guess it's a
+> > regression in the sense that at some point Weston added the support to use
+> > planes for composition, so previously with only a single plane per display
+> > there was no issue.
+
+That point was 12 years ago, so not that novel. ;)
+
+Cheers,
+Daniel
