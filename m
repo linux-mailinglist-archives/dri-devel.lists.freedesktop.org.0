@@ -2,62 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52269852D03
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 10:52:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88E2D852D34
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 10:57:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2E3B10E1E4;
-	Tue, 13 Feb 2024 09:52:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7747110E081;
+	Tue, 13 Feb 2024 09:57:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OUuIqwL+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HLGi7my8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 865D810E1E4
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 09:52:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707817969; x=1739353969;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=TWjIIYxvPFkc36kIc6UBZiZzo/ccXERIOjGsYHm8iUo=;
- b=OUuIqwL+fc+JuiJ4K8G/2DFEQq7+7jzSjy7ZnWXlHmYSw+y4g6c2+sEx
- 0HV3k9eaejc5r2/1RZGigNcyMt2LqA92TJ1nvdal+5N5pK1ygua03ZbWH
- K//fdrdocBN4aLgulfRb4KQ9fMYns0nqco5+vqr2pCwzjSiDfcZBy/bMX
- Obe1bxdXYGnHeltEaH1I2K4GwqWP0cyrxwZBpiD3ZzBHIb71LG4Y3EDQi
- hgB6J1L+xcfh6V6/cC+Q3VC+edo5qMsOGcfFrvRS8xKUxARvNwGKvxgCJ
- 6NYW9r75ROuaHO1QDunHAbgHLQLvvWH+pZQPh777Kyhvp3CNSeM6zVx6j w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="12368717"
-X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; d="scan'208";a="12368717"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2024 01:52:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; 
-   d="scan'208";a="7474576"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
- by fmviesa005.fm.intel.com with ESMTP; 13 Feb 2024 01:52:45 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rZpT0-0007dh-2B;
- Tue, 13 Feb 2024 09:52:42 +0000
-Date: Tue, 13 Feb 2024 17:52:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: "mac.shen" <mac.shen@mediatek.com>, chunkuang.hu@kernel.org,
- p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
- matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
- jitao.shi@mediatek.com
-Cc: oe-kbuild-all@lists.linux.dev, mac.shen@mediatek.com,
- shuijing.li@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 2/3] Subject: [PATCH] drm/mediatek/dp: Add HDCP2.x
- feature for DisplayPort
-Message-ID: <202402131731.OMfzWywy-lkp@intel.com>
-References: <20240205055055.25340-3-mac.shen@mediatek.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A5C210E081;
+ Tue, 13 Feb 2024 09:57:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id B293B61252;
+ Tue, 13 Feb 2024 09:57:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D55E0C433F1;
+ Tue, 13 Feb 2024 09:57:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1707818246;
+ bh=kvqVpaVk50IzPZXU0zbw6srWa1WNF8IF4uR3vDkrvns=;
+ h=From:To:Cc:Subject:Date:From;
+ b=HLGi7my8bug6KjC9594j1s1zjeyGPS67H4uIlBCSZTwYYt3hKHFOep4cu2crIbocS
+ 8ZDjbcKKRvREI+oWMYpbd1R092rAAR2t7MuXElt/XsMzg4YKA1bFykJ3vvtZvixfav
+ B4aJ7bTn9pp6AOe5GiZxTQxjkCgLEulvISVc+0KAnMzVLOtrDw9ajDmptCpR1W6mhb
+ 6yjEoJqSQqeuK62ts3lf8wIxGoPNDYTYcEozb6i8+2nMyBDcIxqkqtURhUdtWOBuR7
+ 0OkXKuzvXnmbofOY7tQoAe57fFV4+WU3C1vzBgFIG8asp/w9Sx8BabAPFGgar5KoWU
+ Mw0bqGOnWx4sw==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: [PATCH] drm/xe: avoid function cast warnings
+Date: Tue, 13 Feb 2024 10:56:48 +0100
+Message-Id: <20240213095719.454865-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240205055055.25340-3-mac.shen@mediatek.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,39 +64,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi mac.shen,
+From: Arnd Bergmann <arnd@arndb.de>
 
-kernel test robot noticed the following build errors:
+clang-16 warns about a cast between incompatible function types:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on pza/reset/next linus/master v6.8-rc4 next-20240213]
-[cannot apply to pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+drivers/gpu/drm/xe/xe_range_fence.c:155:10: error: cast from 'void (*)(const void *)' to 'void (*)(struct xe_range_fence *)' converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+  155 |         .free = (void (*)(struct xe_range_fence *rfence)) kfree,
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-url:    https://github.com/intel-lab-lkp/linux/commits/mac-shen/Subject-PATCH-drm-mediatek-dp-Add-tee-client-application-for-HDCP-feature/20240205-163727
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240205055055.25340-3-mac.shen%40mediatek.com
-patch subject: [PATCH v2 2/3] Subject: [PATCH] drm/mediatek/dp: Add HDCP2.x feature for DisplayPort
-config: arm-randconfig-001-20240213 (https://download.01.org/0day-ci/archive/20240213/202402131731.OMfzWywy-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240213/202402131731.OMfzWywy-lkp@intel.com/reproduce)
+Avoid this with a trivial helper function that calls kfree() here.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402131731.OMfzWywy-lkp@intel.com/
+Fixes: 845f64bdbfc9 ("drm/xe: Introduce a range-fence utility")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/gpu/drm/xe/xe_range_fence.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-All errors (new ones prefixed by >>):
-
-   arm-linux-gnueabi-ld: drivers/gpu/drm/mediatek/mtk_dp.o: in function `mtk_dp_get_system_time':
->> mtk_dp.c:(.text+0x41c0): undefined reference to `__aeabi_uldivmod'
->> arm-linux-gnueabi-ld: mtk_dp.c:(.text+0x41ce): undefined reference to `__aeabi_uldivmod'
-   arm-linux-gnueabi-ld: drivers/gpu/drm/mediatek/mtk_dp.o: in function `mtk_dp_get_time_diff':
-   mtk_dp.c:(.text+0x41ea): undefined reference to `__aeabi_uldivmod'
-   arm-linux-gnueabi-ld: mtk_dp.c:(.text+0x41f8): undefined reference to `__aeabi_uldivmod'
-
+diff --git a/drivers/gpu/drm/xe/xe_range_fence.c b/drivers/gpu/drm/xe/xe_range_fence.c
+index d35d9ec58e86..8510be4466eb 100644
+--- a/drivers/gpu/drm/xe/xe_range_fence.c
++++ b/drivers/gpu/drm/xe/xe_range_fence.c
+@@ -151,6 +151,11 @@ xe_range_fence_tree_next(struct xe_range_fence *rfence, u64 start, u64 last)
+ 	return xe_range_fence_tree_iter_next(rfence, start, last);
+ }
+ 
++static void xe_range_fence_free(struct xe_range_fence * rfence)
++{
++	kfree(rfence);
++}
++
+ const struct xe_range_fence_ops xe_range_fence_kfree_ops = {
+-	.free = (void (*)(struct xe_range_fence *rfence)) kfree,
++	.free = xe_range_fence_free,
+ };
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.2
+
