@@ -2,74 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4397C8539D2
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 19:23:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A1168539DB
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 19:26:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96BE110E32A;
-	Tue, 13 Feb 2024 18:23:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57BA010E8CC;
+	Tue, 13 Feb 2024 18:25:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="mKirDWdJ";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="XFAZjafF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com
- [209.85.219.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 413D410E7FE
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 18:23:42 +0000 (UTC)
-Received: by mail-yb1-f169.google.com with SMTP id
- 3f1490d57ef6-dcc80d6006aso951229276.0
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 10:23:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1707848621; x=1708453421; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=fkE7klX7XNiSTQoWMiVmKEm1+UjPMHYgC73Fg53elTk=;
- b=mKirDWdJebvCmI6GtYwpko4YNm74yXviHWzISoCH6cRph/5q2RDHDYZjJJ+SSFc2Y3
- 8jo4GnGwpHG1TVP2ap7h9mcj3EbJ6m6feL1c/Cvh9uWcnORu1gm4ZJ3EI6vjh1hTfL27
- jlZJIZyGq7+rDMCTAA56ippkQJgwfdmi+MqBXYz37UVZM1UfvdaaGj5AZEGhghp77d+R
- J6Or1tkJwM5UEGafpqoMeOoW/Gs/VoGjLIL5atOvWVyjJfXG3XJ/8DCzFHiglh2zIyNh
- VgcTcbGR0v3c7d8xQSdRSGkf0hFznSw7eXoEPv/l1q9N2aM6ys5eIWU+IqsvEZDOJzIL
- eWkg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FDCA10E8D9
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 18:25:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1707848755;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0+lItpgF1xlay88BZPDVmR2YqVIquoyLBDxcxYTZTL0=;
+ b=XFAZjafF6bhtBSKaiUw1MEbLvPWaUqmAdNEtivJ4aU4O0VJj6lgxODYTC83PEKLn+Ild7B
+ L/htixSO11MNfZ8AcCcrTS9GcTT5BRNeEeXI/EdhH5hEsYxeLvGv8/+AZHAXSD5pgd47QX
+ nmMPjLtQ4DpxDr/xDO25e5YQWYJUGU8=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-270-rW1SQIgpN6eyXmZHj6Y6rw-1; Tue, 13 Feb 2024 13:25:54 -0500
+X-MC-Unique: rW1SQIgpN6eyXmZHj6Y6rw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ 4fb4d7f45d1cf-56210d9b12dso228967a12.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 10:25:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707848621; x=1708453421;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1707848752; x=1708453552;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=fkE7klX7XNiSTQoWMiVmKEm1+UjPMHYgC73Fg53elTk=;
- b=pB/IsWg6AGR+mHsujry834LU5aACfN/YjQFozanLwKp1qu4iQjWRWQbHpyEYykjit4
- 9Dz9kXFBjbOsdHRdTfHB/Krg65DAfjHKgBKsIyes1IwWcShSVxyftsZXZt2AcQ8V/jQf
- Z08nsBE7acPp7z5PF/w/rWUISf47ArrT57tbnel9U4N42CMa0TG/wiPeMVgCpj4EwBXR
- KayAtT/5CZPOD54o6wCKeKMt0tIKRhbQnVh54nLZQcatqIzAWZKijthJhctzqoBe0TrF
- ahectB6gks7QNQ8ueWxxbWWqJ5bY8DVlRVVxIkQKPKqhY64tMBXS42/SdMKqE/v7XDOb
- b+Ow==
+ bh=0+lItpgF1xlay88BZPDVmR2YqVIquoyLBDxcxYTZTL0=;
+ b=QEmIH7p3HJfCmPfgn+TSUMaigksCEPHvBp1x9LQQi4dIH/Lt63MO4ur7EpcQoYQXAV
+ uaVjXQGrzy0X7dVM01lWiMvf/8ifh0VNoA4nOybfgyLDfWwuUTB+4zH7NR6pBeV7kyO9
+ lIbCLUBlo2/7pjTvK675MaoUSHW1Huroan7UJ8EL1Im0PJdBTkNBYY1QNoD1uJxB4hyg
+ 0O390vufTy0Si99ynZ/hgsyEbTLCklMcrUtNL+YcTM79H1mBjGTopmLMYwPbHAvaSx6g
+ 7DbmnDGlVNlDWTkXLSHTjBezpn1Q/l+EKYpXNB/jLZA7MT3e6F7fSTy7xcP0kh4JTjA8
+ hjKQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUrfuE7tyt+WlepS1cB8funW3PNjx1kS4bbS8yyzgjccyhwhwunjxvqSyiOVqLSYFUX/ZECOm0b2dwfPCSOdpI1TB/4bvJDE9Q6h4jOSbJ3
-X-Gm-Message-State: AOJu0Yz6zaQ8AFDncAPNc++yXLzMlvdaZa0TmHAoKEwqZR1M5yeByXSu
- eXDc4w4kTqUhn5AdP6dHZdMjqKW9xQBUWGOvLtYKL25hk9uWj9LaT3dGqPjLZwpSnmZFp82UNgz
- WZC8Iop0JTBmkyUULV4nK8ljS0A+ujnot/jYA8g==
-X-Google-Smtp-Source: AGHT+IHPEcvTPrTpsArVtgDoVOviSAZns5rt7zwUv1ceQVVZm5sUBuZ5CtnML8JYHAsVTo/0clSpq0TXPI9c02oUX6A=
-X-Received: by 2002:a25:c58a:0:b0:dcc:8f97:9744 with SMTP id
- v132-20020a25c58a000000b00dcc8f979744mr63961ybe.43.1707848621125; Tue, 13 Feb
- 2024 10:23:41 -0800 (PST)
+ AJvYcCUgRb3VF0DS7hBF+awyXVFW41SKRaYMdb+KfToXe43YkHzYGlCc77Yg7h8WjOW5Z1r5TkYoZmP8pZ0KC1C/CArZmLXCbq2Aw5wM4TGGBoOB
+X-Gm-Message-State: AOJu0Ywq1kL34ZKIiKSC1S/Cpeyygcq5/PvbEwYC8RnYDf344AbwBBbZ
+ isWl8al9itw5OOLHCw1ljA/1Fvu8NsYc7uZMq0je89SC5p/4as0687nVPW8le/7XErSeoGvPbcd
+ Sc5yy5apYoGCVAMlBYHAQ5qUGngWWrv9+21TGIBjROQp0NUKwCnO7Bb3veKMTQ5nc7jjrycZOMQ
+ ==
+X-Received: by 2002:aa7:c48c:0:b0:560:c9b5:c440 with SMTP id
+ m12-20020aa7c48c000000b00560c9b5c440mr355384edq.11.1707848752818; 
+ Tue, 13 Feb 2024 10:25:52 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEGvG/ugCy95i+6QJDIT+zqNvQ1nPRmrp7FznbPCU6OYd2A88lvUcIert84/4Y0uAfaVTg0jg==
+X-Received: by 2002:aa7:c48c:0:b0:560:c9b5:c440 with SMTP id
+ m12-20020aa7c48c000000b00560c9b5c440mr355374edq.11.1707848752541; 
+ Tue, 13 Feb 2024 10:25:52 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXVeA4+7ORknTp4+q9DNEB2b+kfn820bd4LxEzlAZFd/Ay4nVQi0oyx7D+TSmkNJ0z8u1iqLmJU6O0mpeMUs2+C8otYqBr6WVbjPoRs+hYHU7B2MMvENZUhMGmvVAF7IAT+ibPiDiNIHA4/aV770+1VYAQwNSj3XhTEDRhSwNMVEA==
+Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
+ ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
+ by smtp.gmail.com with ESMTPSA id
+ ef13-20020a05640228cd00b005612025465asm3932829edb.74.2024.02.13.10.25.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Feb 2024 10:25:52 -0800 (PST)
+Message-ID: <65c06619-9078-4be7-8fb8-0c57e11ec756@redhat.com>
+Date: Tue, 13 Feb 2024 19:25:50 +0100
 MIME-Version: 1.0
-References: <20240210015223.24670-1-quic_parellan@quicinc.com>
- <20240210015223.24670-17-quic_parellan@quicinc.com>
- <CAA8EJprttbMgM=HEwctePZOwKny+nM2=qRJsPWmP4Ar0H8ATEg@mail.gmail.com>
- <217dbec7-d7b9-688f-ce40-2a62179cb507@quicinc.com>
-In-Reply-To: <217dbec7-d7b9-688f-ce40-2a62179cb507@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 13 Feb 2024 20:23:29 +0200
-Message-ID: <CAA8EJprLvEn7ndCHqkw4RuGq_AE1nOxyONZx832Wv8Y2dGtRhQ@mail.gmail.com>
-Subject: Re: [PATCH v2 16/19] drm/msm/dpu: modify encoder programming for CDM
- over DP
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Paloma Arellano <quic_parellan@quicinc.com>,
- freedreno@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- robdclark@gmail.com, seanpaul@chromium.org, swboyd@chromium.org, 
- quic_jesszhan@quicinc.com, quic_khsieh@quicinc.com, 
- marijn.suijten@somainline.org, neil.armstrong@linaro.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] [v3] drm/nouveau: expose GSP-RM logging buffers via
+ debugfs
+To: Timur Tabi <ttabi@nvidia.com>
+Cc: "airlied@redhat.com" <airlied@redhat.com>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "lyude@redhat.com" <lyude@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+References: <20240212211548.1094496-1-ttabi@nvidia.com>
+ <20240212211548.1094496-3-ttabi@nvidia.com>
+ <62204be5-9367-4e52-9d25-be9c99a1a856@redhat.com>
+ <42cbb398d41273d8f743fff24015bbd0e535b151.camel@nvidia.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <42cbb398d41273d8f743fff24015bbd0e535b151.camel@nvidia.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,274 +106,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 13 Feb 2024 at 19:32, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 2/13/2024 3:18 AM, Dmitry Baryshkov wrote:
-> > On Sat, 10 Feb 2024 at 03:53, Paloma Arellano <quic_parellan@quicinc.com> wrote:
-> >>
-> >> Adjust the encoder format programming in the case of video mode for DP
-> >> to accommodate CDM related changes.
-> >>
-> >> Changes in v2:
-> >>          - Move timing engine programming to a separate patch from this
-> >>            one
-> >>          - Move update_pending_flush_periph() invocation completely to
-> >>            this patch
-> >>          - Change the logic of dpu_encoder_get_drm_fmt() so that it only
-> >>            calls drm_mode_is_420_only() instead of doing additional
-> >>            unnecessary checks
-> >>          - Create new functions msm_dp_needs_periph_flush() and it's
-> >>            supporting function dpu_encoder_needs_periph_flush() to check
-> >>            if the mode is YUV420 and VSC SDP is enabled before doing a
-> >>            peripheral flush
-> >>
-> >> Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
-> >> ---
-> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 35 +++++++++++++++++++
-> >>   .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  | 13 +++++++
-> >>   .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  | 19 ++++++++++
-> >>   drivers/gpu/drm/msm/dp/dp_display.c           | 18 ++++++++++
-> >>   drivers/gpu/drm/msm/msm_drv.h                 | 17 ++++++++-
-> >>   5 files changed, 101 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> >> index 7e7796561009a..6280c6be6dca9 100644
-> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> >> @@ -222,6 +222,41 @@ static u32 dither_matrix[DITHER_MATRIX_SZ] = {
-> >>          15, 7, 13, 5, 3, 11, 1, 9, 12, 4, 14, 6, 0, 8, 2, 10
-> >>   };
-> >>
-> >> +u32 dpu_encoder_get_drm_fmt(struct dpu_encoder_phys *phys_enc)
-> >> +{
-> >> +       struct drm_encoder *drm_enc;
-> >> +       struct dpu_encoder_virt *dpu_enc;
-> >> +       struct drm_display_info *info;
-> >> +       struct drm_display_mode *mode;
-> >> +
-> >> +       drm_enc = phys_enc->parent;
-> >> +       dpu_enc = to_dpu_encoder_virt(drm_enc);
-> >> +       info = &dpu_enc->connector->display_info;
-> >> +       mode = &phys_enc->cached_mode;
-> >> +
-> >> +       if (drm_mode_is_420_only(info, mode))
-> >> +               return DRM_FORMAT_YUV420;
-> >> +
-> >> +       return DRM_FORMAT_RGB888;
-> >> +}
-> >> +
-> >> +bool dpu_encoder_needs_periph_flush(struct dpu_encoder_phys *phys_enc)
-> >> +{
-> >> +       struct drm_encoder *drm_enc;
-> >> +       struct dpu_encoder_virt *dpu_enc;
-> >> +       struct msm_display_info *disp_info;
-> >> +       struct msm_drm_private *priv;
-> >> +       struct drm_display_mode *mode;
-> >> +
-> >> +       drm_enc = phys_enc->parent;
-> >> +       dpu_enc = to_dpu_encoder_virt(drm_enc);
-> >> +       disp_info = &dpu_enc->disp_info;
-> >> +       priv = drm_enc->dev->dev_private;
-> >> +       mode = &phys_enc->cached_mode;
-> >> +
-> >> +       return phys_enc->hw_intf->cap->type == INTF_DP && phys_enc->hw_cdm &&
-> >
-> > Do we really need to check for phys_enc->hw_cdm here?
-> >
->
-> hmmm I dont think so. If CDM was not there, then after the last patch,
-> YUV420 removes will not be present at all.
->
-> The only other case I could think of was, if for some reason CDM was
-> used by some other interface such as WB, then hw_cdm will not be assigned.
->
-> But, I think even for that msm_dp_needs_periph_flush() will take care of
-> it because we use the cached_mode which is assigned only in mode_set().
->
-> >> +              msm_dp_needs_periph_flush(priv->dp[disp_info->h_tile_instance[0]], mode);
-> >> +}
-> >>
-> >>   bool dpu_encoder_is_widebus_enabled(const struct drm_encoder *drm_enc)
-> >>   {
-> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> >> index f43d57d9c74e1..211a3d90eb690 100644
-> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> >> @@ -341,6 +341,19 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
-> >>    */
-> >>   unsigned int dpu_encoder_helper_get_dsc(struct dpu_encoder_phys *phys_enc);
-> >>
-> >> +/**
-> >> + * dpu_encoder_get_drm_fmt - return DRM fourcc format
-> >> + * @phys_enc: Pointer to physical encoder structure
-> >> + */
-> >> +u32 dpu_encoder_get_drm_fmt(struct dpu_encoder_phys *phys_enc);
-> >> +
-> >> +/**
-> >> + * dpu_encoder_needs_periph_flush - return true if physical encoder requires
-> >> + *     peripheral flush
-> >> + * @phys_enc: Pointer to physical encoder structure
-> >> + */
-> >> +bool dpu_encoder_needs_periph_flush(struct dpu_encoder_phys *phys_enc);
-> >> +
-> >>   /**
-> >>    * dpu_encoder_helper_split_config - split display configuration helper function
-> >>    *     This helper function may be used by physical encoders to configure
-> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> >> index f562beb6f7971..3f102b2813ca8 100644
-> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> >> @@ -413,8 +413,15 @@ static int dpu_encoder_phys_vid_control_vblank_irq(
-> >>   static void dpu_encoder_phys_vid_enable(struct dpu_encoder_phys *phys_enc)
-> >>   {
-> >>          struct dpu_hw_ctl *ctl;
-> >> +       struct dpu_hw_cdm *hw_cdm;
-> >> +       const struct dpu_format *fmt = NULL;
-> >> +       u32 fmt_fourcc = DRM_FORMAT_RGB888;
-> >>
-> >>          ctl = phys_enc->hw_ctl;
-> >> +       hw_cdm = phys_enc->hw_cdm;
-> >> +       if (hw_cdm)
-> >> +               fmt_fourcc = dpu_encoder_get_drm_fmt(phys_enc);
-> >
-> > Please move if(hw_cdm) inside dpu_encoder_get_drm_fmt().
-> >
->
-> I think we dont need to check for if (hw_cdm) at all.
-> dpu_encoder_get_drm_fmt() was just supposed to be a helper which returns
-> the fourcc code based on the mode. It doesnt need to know if there is
-> cdm or not.
->
-> We cannot move it inside dpu_encoder_helper_phys_setup_cdm() because for
-> WB, we do not change the fourcc based on the mode. Its specific to video
-> mode.
+On 2/13/24 18:10, Timur Tabi wrote:
+> On Tue, 2024-02-13 at 17:57 +0100, Danilo Krummrich wrote:
+>>> +	struct debugfs_blob_wrapper blob_init;
+>>> +	struct debugfs_blob_wrapper blob_intr;
+>>> +	struct debugfs_blob_wrapper blob_rm;
+>>> +	struct debugfs_blob_wrapper blob_pmu;
+>>> +	struct dentry *debugfs_logging_dir;
+>>
+>> I think we should not create those from within the nvkm layer, but rather pass
+>> them down through nvkm_device_pci_new().
+> 
+> Should they be created in nvkm_device_pci_new() also, even though we have no idea whether GSP is involved at that point?
 
-Wait... In the case of the WB we use the fourcc + modifier from the
-framebuffer. Ok, this looks fine then.
+We can pass some structure to nvkm_device_pci_new() where GSP sets the pointers to
+the buffers and maybe a callback to clean them up. Once nvkm_device_pci_new() returns
+we'd see if something has been set or not. If so, we can go ahead and create the
+debugfs nodes.
 
+> 
+>>
+>> Lifecycle wise I think we should ensure that removing the Nouveau kernel module
+>> also cleans up those buffers. Even though keep-gsp-logging is considered unsafe,
+>> we shouldn't leak memory.
+> 
+> I agree, but then there needs to be some way to keep these debugfs entries until the driver unloads.  I don't know how to do that without creating some ugly global variables.
 
->
-> >> +       fmt = dpu_get_dpu_format(fmt_fourcc);
-> >
-> > Can this be moved into dpu_encoder_helper_phys_setup_cdm() ? Or maybe
-> > we can move both calls into the helper? I mean, fmt_fourcc is not used
-> > at all if the CDM is not used.
-> >
->
-> fourcc is always used to get the fmt to setup the timing engine params.
-> Its just that it was always hard-coded to RGB. With CDM, it can change
-> based on the mode. Thats why this utility was introduced to return the
-> fourcc from the mode information.
+I fear that might be the only option. However, I still prefer a global list over a
+memory leak.
 
-Yes, I perfectly understand that. I just disliked the idea of calling
-dpu_get_dpu_format() if the result gets unused.
-What about passing fourcc + modifier to
-dpu_encoder_helper_phys_setup_cdm() instead?
+> 
+>>
+>> For instance, can we allocate corresponding buffers in the driver layer, copy
+>> things over and keep those buffers until nouveau_drm_exit()? This would also
+>> avoid exposing those DMA buffers via debugfs.
+> 
+> The whole point behind this patch is to expose the buffers via debugfs.  How else should they be exposed?
+> 
 
->
-> >>
-> >>          DPU_DEBUG_VIDENC(phys_enc, "\n");
-> >>
-> >> @@ -423,6 +430,8 @@ static void dpu_encoder_phys_vid_enable(struct dpu_encoder_phys *phys_enc)
-> >>
-> >>          dpu_encoder_helper_split_config(phys_enc, phys_enc->hw_intf->idx);
-> >>
-> >> +       dpu_encoder_helper_phys_setup_cdm(phys_enc, fmt, CDM_CDWN_OUTPUT_HDMI);
-> >> +
-> >>          dpu_encoder_phys_vid_setup_timing_engine(phys_enc);
-> >>
-> >>          /*
-> >> @@ -438,6 +447,16 @@ static void dpu_encoder_phys_vid_enable(struct dpu_encoder_phys *phys_enc)
-> >>          if (ctl->ops.update_pending_flush_merge_3d && phys_enc->hw_pp->merge_3d)
-> >>                  ctl->ops.update_pending_flush_merge_3d(ctl, phys_enc->hw_pp->merge_3d->idx);
-> >>
-> >> +       if (ctl->ops.update_pending_flush_cdm && phys_enc->hw_cdm)
-> >> +               ctl->ops.update_pending_flush_cdm(ctl, hw_cdm->idx);
-> >> +
-> >> +       /*
-> >> +        * Peripheral flush must be updated whenever flushing SDP packets is needed.
-> >> +        * SDP packets are required for any YUV format (YUV420, YUV422, YUV444).
-> >> +        */
-> >> +       if (ctl->ops.update_pending_flush_periph && dpu_encoder_needs_periph_flush(phys_enc))
-> >> +               ctl->ops.update_pending_flush_periph(ctl, phys_enc->hw_intf->idx);
-> >> +
-> >>   skip_flush:
-> >>          DPU_DEBUG_VIDENC(phys_enc,
-> >>                  "update pending flush ctl %d intf %d\n",
-> >> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> >> index 4b04388719363..ebcc76ef1d590 100644
-> >> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> >> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> >> @@ -1397,6 +1397,24 @@ void __exit msm_dp_unregister(void)
-> >>          platform_driver_unregister(&dp_display_driver);
-> >>   }
-> >>
-> >> +bool msm_dp_is_yuv_420_enabled(const struct msm_dp *dp_display,
-> >> +                              const struct drm_display_mode *mode)
-> >> +{
-> >> +       struct dp_display_private *dp;
-> >> +       const struct drm_display_info *info;
-> >> +
-> >> +       dp = container_of(dp_display, struct dp_display_private, dp_display);
-> >> +       info = &dp_display->connector->display_info;
-> >> +
-> >> +       return dp->panel->vsc_sdp_supported && drm_mode_is_420_only(info, mode);
-> >> +}
-> >> +
-> >> +bool msm_dp_needs_periph_flush(const struct msm_dp *dp_display,
-> >> +                              const struct drm_display_mode *mode)
-> >> +{
-> >> +       return msm_dp_is_yuv_420_enabled(dp_display, mode);
-> >> +}
-> >> +
-> >>   bool msm_dp_wide_bus_available(const struct msm_dp *dp_display)
-> >>   {
-> >>          struct dp_display_private *dp;
-> >> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-> >> index 16a7cbc0b7dd8..b876ebd48effe 100644
-> >> --- a/drivers/gpu/drm/msm/msm_drv.h
-> >> +++ b/drivers/gpu/drm/msm/msm_drv.h
-> >> @@ -387,7 +387,10 @@ void __exit msm_dp_unregister(void);
-> >>   int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
-> >>                           struct drm_encoder *encoder);
-> >>   void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp_display);
-> >> -
-> >> +bool msm_dp_is_yuv_420_enabled(const struct msm_dp *dp_display,
-> >> +                              const struct drm_display_mode *mode);
-> >> +bool msm_dp_needs_periph_flush(const struct msm_dp *dp_display,
-> >> +                              const struct drm_display_mode *mode);
-> >>   bool msm_dp_wide_bus_available(const struct msm_dp *dp_display);
-> >>
-> >>   #else
-> >> @@ -409,6 +412,18 @@ static inline void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm
-> >>   {
-> >>   }
-> >>
-> >> +static inline bool msm_dp_is_yuv_420_enabled(const struct msm_dp *dp_display,
-> >> +                                            const struct drm_display_mode *mode)
-> >> +{
-> >> +       return false;
-> >> +}
-> >> +
-> >> +static inline bool msm_dp_needs_periph_flush(const struct msm_dp *dp_display,
-> >> +                                            const struct drm_display_mode *mode)
-> >> +{
-> >> +       return false;
-> >> +}
-> >> +
-> >>   static inline bool msm_dp_wide_bus_available(const struct msm_dp *dp_display)
-> >>   {
-> >>          return false;
-> >> --
-> >> 2.39.2
-> >>
-> >
-> >
+I think I only thought about the fail case where we could just copy over the data from
+the DMA buffer to another buffer and expose that one instead. However, that doesn't
+work if GSP loads successfully.
 
+Hence, as mentioned above, we might just want to have some structure that we can add to
+the global list that contains the pointers to the DMA buffers and maybe a callback
+function to clean them up defined by the GSP code that we can simply call from
+nouveau_drm_exit().
 
-
--- 
-With best wishes
-Dmitry
