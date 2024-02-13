@@ -2,68 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F85853243
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 14:51:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0669B85324E
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 14:52:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00D8710E51B;
-	Tue, 13 Feb 2024 13:50:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02FDA10E547;
+	Tue, 13 Feb 2024 13:52:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="DWyPsOkO";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="H7NRehpK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
- [209.85.219.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C761110E50A
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 13:50:50 +0000 (UTC)
-Received: by mail-yb1-f180.google.com with SMTP id
- 3f1490d57ef6-dcbcea9c261so1441351276.3
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 05:50:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1707832250; x=1708437050; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=EJDZaN3+N6WSLw4IYEvxsp0tQKnp1DRHMOiyVaOY74w=;
- b=DWyPsOkO0BD2olsm5xcoxgPc6s1Uj6fajT9b3fOdQFhGN354nhtAufgzAKvdvZ9tYc
- l8nMs63d5PK8oM6w0ENFVYRUgSgppUwKNX6coS/g2U6z2XlMwmLY95Cm3VQZeQ8HKcrS
- 2iCbzNe61T4JeFtfC3tLp2Fsky0kVojPM3Hq/JM64IKLW+NK6pzfnW88ldffYiN+oBGp
- 8bytEsGxuWAjXhWk54xs56CLoSDQK9eLVT1N9bBNxN58XS/SZGMnnIdQKkBxO/LmlZ6W
- Qq0ojBXzhFtor4s1KH9/DInLz9FJn/wK+cu8wZI00fl3OuIDGoGtOmqHTi3gEk1NeM17
- Br0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707832250; x=1708437050;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=EJDZaN3+N6WSLw4IYEvxsp0tQKnp1DRHMOiyVaOY74w=;
- b=W6ZwmxWIO+PoDKXRsAKGpsVf0jkiJvaypGnbsnEM4ZVYcZUdMkuSE4BDQyYF3eKyrU
- ad9Sf4EO6AqgIhBWqGymHethvtpOOCMB55EW4Ngf2BYgH0s1WNA0hxLlpDSzMc6SHlUM
- yZacVxW4wWVgbcZJVFoH1ELmDSe2iUcWeeg9YUJdMWWfAsS2woxTmWi7dDjhmw6twO5r
- o+yd2tInZ8zIkn0PWk6L1xVW4UIuVRoJMj3fI5jLUCNrLNLtwpi1hMkumeKSiLazxX2T
- Z4s94os0qcO9eu/RJwYtFwlMsYqGVEw/sjpskgxWVXDCZpMVEJwuq3mdBNd0vXx2SQmm
- mcJw==
-X-Gm-Message-State: AOJu0Yz+SligT6Cj7LrJv3lKEMqmBoTrkLzECJAmay6nRsEZpUx1kRwD
- vKhOgUcw04KGq7E1XCafOYiuLJqd4JMKo7onaLlj3dQv28zPgGNaO7MD19JlPJQ5rAl2UPzSKh8
- HInhSNEV4CCkMLlceQyCVR2s4FT4v1300i/0WRw==
-X-Google-Smtp-Source: AGHT+IH//JrMrAcncgTbPsl96Zl5MVioD7SaPlvEvcAaeg5x1AezZYU2/UzHtnwmWGxuuLdzzWCZmu9OEPWluIHoQA8=
-X-Received: by 2002:a25:dbc8:0:b0:dcc:a58:63d9 with SMTP id
- g191-20020a25dbc8000000b00dcc0a5863d9mr2949330ybf.44.1707832249951; Tue, 13
- Feb 2024 05:50:49 -0800 (PST)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2083.outbound.protection.outlook.com [40.107.93.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1502410E50A;
+ Tue, 13 Feb 2024 13:52:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=b7GsuWZOue09rq2+bfZi6sQ8TYwpAY/2YbLUUCK6mjfJDxJumehJoNc0AvCyTio3dPbtYCaLaq/ONni8R/pyy8uRo8ygh0jKz1t2Y6ZhuOiAuRL+bU1tmu57tuMBgh61g8l8gIOuIFPagDeHi99apciJIS7nie1IOPK64msoa1TXE7GYW6kFoMszxoE/+Q/ZQHjfaR2fWuIH9P2+QQhg8KbeyNeM2wj7XNQVTLIjPxe9MsVNmMXfloyj3NgtT5xsM/krsWZj21H04nyLZO5A5mxOdbMtc2Fv4ENQ+vLSb6GeVchOCNLVj9lcKCa/SI/jwkbC0m/RaiAjN3prsMLYnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qkdu6Myyqg8Cmg4PTCDnX9YhrNcYLp3uOeKpuuacY9c=;
+ b=PDkh3DRKr0zm87HRBB5KvOZcJ6cxhaq8sthf0aUDhnTCl/8duydm7wyA0CNi3KMYdU+eh3nDfEoxjN6/mbwGP+mTd2CJ4esPfNhcs6iA7K1CdTO1DwU18sdgjdPqvai2pbG70hXzGSeIsv2XFIsSlA6JlpqJZLVzZ0e0isNE73HxTLW2X7sFGzP0D70KRVLbE0L16FbxO5tm+1zB9i/ZdwybKgvtwCnAvQauDGDLtE4yCGVkVC6+JFP20POWumcGRDR526oBMIyVGUCBaW3ZdZqxTq46aJhBFY4Cp2BPFehc21wkGqpCUGvfYniurqGUMonmgqTrUSmK5d+PxAhW2A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qkdu6Myyqg8Cmg4PTCDnX9YhrNcYLp3uOeKpuuacY9c=;
+ b=H7NRehpK2QMevVH3yod4JheWK9cteY++5naOgSEtKTnM76NJyKlSa60JTN782MWI3B2AK1IzyUWtTblXUyz0FaS8q2BNi/CmEg+N0ZsDQevQ8rygr04xJFCGiTgnSFiz4W0G4ekgpeqPHCDxIDp2GnOsbbRyJTzSYbsixh2WQyI=
+Received: from BN0PR04CA0152.namprd04.prod.outlook.com (2603:10b6:408:eb::7)
+ by DM6PR12MB4894.namprd12.prod.outlook.com (2603:10b6:5:209::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.25; Tue, 13 Feb
+ 2024 13:52:27 +0000
+Received: from BN2PEPF000044A2.namprd02.prod.outlook.com
+ (2603:10b6:408:eb:cafe::98) by BN0PR04CA0152.outlook.office365.com
+ (2603:10b6:408:eb::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.39 via Frontend
+ Transport; Tue, 13 Feb 2024 13:52:27 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN2PEPF000044A2.mail.protection.outlook.com (10.167.243.153) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7292.25 via Frontend Transport; Tue, 13 Feb 2024 13:52:26 +0000
+Received: from amd-X570-AORUS-ELITE.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 13 Feb 2024 07:52:23 -0600
+From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>
+CC: <christian.koenig@amd.com>, <alexander.deucher@amd.com>,
+ <matthew.auld@intel.com>, <mario.limonciello@amd.com>, <daniel@ffwll.ch>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ <stable@vger.kernel.org>
+Subject: [PATCH 1/2] drm/buddy: Fix alloc_range() error handling code
+Date: Tue, 13 Feb 2024 19:22:02 +0530
+Message-ID: <20240213135203.348050-1-Arunpravin.PaneerSelvam@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20240212215534.190682-1-robdclark@gmail.com>
-In-Reply-To: <20240212215534.190682-1-robdclark@gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 13 Feb 2024 15:50:38 +0200
-Message-ID: <CAA8EJpofXjwFG3NhwSJQadoe6eR0vkX2Y4knC55b7qGn46UA_g@mail.gmail.com>
-Subject: Re: [PATCH] drm/crtc: fix uninitialized variable use even harder
-To: Rob Clark <robdclark@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Jani Nikula <jani.nikula@intel.com>, open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF000044A2:EE_|DM6PR12MB4894:EE_
+X-MS-Office365-Filtering-Correlation-Id: eafe824f-e4fc-4818-7cb5-08dc2c9b037d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: DyqHOr59FuRgZPvbb8CHwvCdvrT4uqVQvvTfqFGkxMhXprg+7OlGUrTuVs7vzI118Kr5unSIWZOxm+soYYvFWa6p8Dn6hgsQKj7GaGcx/1PvZB45EkRbAKDseD9O8WJ1GXPzw3agm74EMFsCtSEsjVOjuGMZBZUQoGA2hnPcjEebw/iD91Xhnt62Kov/aWrTociJFFx3uVWlGDMnKsh/L//XIqlulqwfaEOBYyRhpy4e4gA/wkU8G5mmkm3jw5UzU4pQxdIzcXj81LYfVQsQtjBswSrRUXdZ2+R3ivL8Rv4IvuibDOVu+592316Ru1H9sbxgpw/JzDiLEQimE3lRIefF/5MGbxg6EnoRKUXiQtD//NBCday24ptwsUNgQ2pP4KNMNE5+/2mW6JiMmXTThAC/E0wOulZotRx5TCMV0d9s4MBVAAfUFgBVJEmrLC8tJ6dbGVxpKHr+4VAvY+R3lrVYYUR5jozh/NamCtZ2JW24jtuuY5gi4PeHrD94jxA65aFc9SKp0ksMc9RorXUH3tZZ9xHhkA261TQ+9vg+S7fDZ76DiJ/3R/eY7ceq56QF2qBz2URAfrLebkyKqt7CSQ==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(4636009)(136003)(39860400002)(396003)(346002)(376002)(230922051799003)(1800799012)(64100799003)(451199024)(186009)(82310400011)(46966006)(40470700004)(36840700001)(8936002)(8676002)(5660300002)(70206006)(70586007)(2906002)(4326008)(16526019)(36756003)(81166007)(356005)(82740400003)(86362001)(83380400001)(110136005)(478600001)(316002)(7696005)(54906003)(6666004)(966005)(1076003)(26005)(426003)(41300700001)(336012)(2616005);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2024 13:52:26.9407 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: eafe824f-e4fc-4818-7cb5-08dc2c9b037d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF000044A2.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4894
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,44 +109,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 12 Feb 2024 at 23:55, Rob Clark <robdclark@gmail.com> wrote:
->
-> From: Rob Clark <robdclark@chromium.org>
->
-> DRM_MODESET_LOCK_ALL_BEGIN() has a hidden trap-door (aka retry loop),
-> which means we can't rely too much on variable initializers.
->
-> Fixes: 6e455f5dcdd1 ("drm/crtc: fix uninitialized variable use")
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
-> I have mixed feelings about DRM_MODESET_LOCK_ALL_BEGIN() (and friends)
-> magic.  On one hand it simplifies the deadlock/back dance.  OTOH it
-> conceals a nasty sharp edge.  Maybe it is better to have the complicated
-> restart path a bit more explicit, like it was originally.
->
->  drivers/gpu/drm/drm_crtc.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
-> index cb90e70d85e8..65f9f66933bb 100644
-> --- a/drivers/gpu/drm/drm_crtc.c
-> +++ b/drivers/gpu/drm/drm_crtc.c
-> @@ -904,6 +904,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
->         connector_set = NULL;
->         fb = NULL;
->         mode = NULL;
-> +       num_connectors = 0;
+Few users have observed display corruption when they boot
+the machine to KDE Plasma or playing games. We have root
+caused the problem that whenever alloc_range() couldn't
+find the required memory blocks the function was returning
+SUCCESS in some of the corner cases.
 
-Nit: I think we should move all this next to the
-DRM_MODESET_LOCK_ALL_BEGIN() and drop initialisation from the prologue
-of the function, but it's definitely a separate and more intrusive
-story.
+The right approach would be if the total allocated size
+is less than the required size, the function should
+return -ENOSPC.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: <stable@vger.kernel.org> # 6.7+
+Fixes: 0a1844bf0b53 ("drm/buddy: Improve contiguous memory allocation")
+Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3097
+Tested-by: Mario Limonciello <mario.limonciello@amd.com>
+Link: https://patchwork.kernel.org/project/dri-devel/patch/20240207174456.341121-1-Arunpravin.PaneerSelvam@amd.com/
+Acked-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+---
+ drivers/gpu/drm/drm_buddy.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
->         DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+index f57e6d74fb0e..c1a99bf4dffd 100644
+--- a/drivers/gpu/drm/drm_buddy.c
++++ b/drivers/gpu/drm/drm_buddy.c
+@@ -539,6 +539,12 @@ static int __alloc_range(struct drm_buddy *mm,
+ 	} while (1);
+ 
+ 	list_splice_tail(&allocated, blocks);
++
++	if (total_allocated < size) {
++		err = -ENOSPC;
++		goto err_free;
++	}
++
+ 	return 0;
+ 
+ err_undo:
 
-
+base-commit: 2c80a2b715df75881359d07dbaacff8ad411f40e
 -- 
-With best wishes
-Dmitry
+2.25.1
+
