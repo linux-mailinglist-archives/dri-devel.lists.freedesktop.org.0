@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0850F85233D
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 01:21:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CDD885233E
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 01:21:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 464AC10E4EA;
-	Tue, 13 Feb 2024 00:21:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13BEF10E509;
+	Tue, 13 Feb 2024 00:21:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="S49AixcS";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tCzvuuO0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3202F10E4EA
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 00:21:52 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 142A110E4EA
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 00:21:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A52D3611D8;
+ by sin.source.kernel.org (Postfix) with ESMTP id 5D84DCE1877;
+ Tue, 13 Feb 2024 00:21:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEB41C433F1;
  Tue, 13 Feb 2024 00:21:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E18CC43399;
- Tue, 13 Feb 2024 00:21:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1707783711;
- bh=vldSKRNTJjwJ6UGBGCtx5oArb3tRvtDaR38H6SWACvM=;
+ s=k20201202; t=1707783713;
+ bh=kcc+u4KbzlVoh42OFnpyRdLSr+gaYAJJhrBWSqfzEzc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=S49AixcSLf68OKtavkvutiUeZbPrfa/wWBtHopT0vUEC9mMJXptdO3k0wuP4Z7VJ6
- JWWaq1XxX7srLgyXLg4iep3M/99cTMXnUCd7rkK1R3gNKENIP2yJELiBi+qozJUfVI
- dRhCc4knLD8D5ymOPZdep2IrjxGMBAe6pQzUbDal/rUyRMUVLHamx7MVDlsEunrvcg
- X7Nuj6GqiMx9SECDwhevQZcMaNFrwjAUxGY8NRCF1dO6tUoCdGrCrkHi8Noo9amiyy
- TsZe8T0epMg89wRPDoW52cpX1rQZz7SfW7ajVETDhMue4Ep3p0qHPTXCqap59S9g4G
- HqCZJsntCuVGQ==
+ b=tCzvuuO0vRQ1zy/FMT8mFTmEwcH5i+5GSp1wq9xk8YKaledffqjymlSrQv6h+A6Z8
+ U+whXiaJstnbrHE9BkziOWB1uef7LN03ZTfuI7d1PxBU59hvyprLsIt3oQRvlhb5WZ
+ CwL8S5pnU93DiTjJU0vwM+5OKL9SevWqakR7LaCZiBhvGrfBXo4eJUPB+wdGHVpdUl
+ XMC4X0CW3QNM6hco8AFquWIHlh47ICAggZQjHNyduh46XF5gTX9D9IebnWGeH4MQcs
+ tu7oUvBfW454f6zvLeR5PHZ1/MICQIPLz9QZmHgwyqpQgnkafcEg6yVit47ysryrFq
+ tKkgtcSCujZlA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+Cc: Krystian Pradzynski <krystian.pradzynski@intel.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
  Jeffrey Hugo <quic_jhugo@quicinc.com>, Sasha Levin <sashal@kernel.org>,
  stanislaw.gruszka@linux.intel.com, ogabbay@kernel.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 38/51] accel/ivpu: Disable d3hot_delay on all NPU
- generations
-Date: Mon, 12 Feb 2024 19:20:15 -0500
-Message-ID: <20240213002052.670571-38-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 39/51] accel/ivpu/40xx: Stop passing SKU boot
+ parameters to FW
+Date: Mon, 12 Feb 2024 19:20:16 -0500
+Message-ID: <20240213002052.670571-39-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240213002052.670571-1-sashal@kernel.org>
 References: <20240213002052.670571-1-sashal@kernel.org>
@@ -64,37 +65,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+From: Krystian Pradzynski <krystian.pradzynski@intel.com>
 
-[ Upstream commit a7f31091ddf457352e3dd7ac183fdbd26b4dcd04 ]
+[ Upstream commit 553099da45397914a995dce6307d6c26523c2567 ]
 
-NPU does not require this delay regardless of the generation.
-All generations are integrated into the SOC.
+This parameter was never used by the 40xx FW.
 
+Signed-off-by: Krystian Pradzynski <krystian.pradzynski@intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240126122804.2169129-4-jacek.lawrynowicz@linux.intel.com
+Link: https://patchwork.freedesktop.org/patch/msgid/20240126122804.2169129-7-jacek.lawrynowicz@linux.intel.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/accel/ivpu/ivpu_drv.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/accel/ivpu/ivpu_hw_40xx.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index 7e9359611d69..8fb70e3c7b9c 100644
---- a/drivers/accel/ivpu/ivpu_drv.c
-+++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -467,9 +467,8 @@ static int ivpu_pci_init(struct ivpu_device *vdev)
- 	/* Clear any pending errors */
- 	pcie_capability_clear_word(pdev, PCI_EXP_DEVSTA, 0x3f);
+diff --git a/drivers/accel/ivpu/ivpu_hw_40xx.c b/drivers/accel/ivpu/ivpu_hw_40xx.c
+index 65c6a82bb13f..ae6be0d5aacc 100644
+--- a/drivers/accel/ivpu/ivpu_hw_40xx.c
++++ b/drivers/accel/ivpu/ivpu_hw_40xx.c
+@@ -697,7 +697,6 @@ static int ivpu_hw_40xx_info_init(struct ivpu_device *vdev)
+ {
+ 	struct ivpu_hw_info *hw = vdev->hw;
+ 	u32 tile_disable;
+-	u32 tile_enable;
+ 	u32 fuse;
  
--	/* VPU 37XX does not require 10m D3hot delay */
--	if (ivpu_hw_gen(vdev) == IVPU_HW_37XX)
--		pdev->d3hot_delay = 0;
-+	/* NPU does not require 10m D3hot delay */
-+	pdev->d3hot_delay = 0;
+ 	fuse = REGB_RD32(VPU_40XX_BUTTRESS_TILE_FUSE);
+@@ -718,10 +717,6 @@ static int ivpu_hw_40xx_info_init(struct ivpu_device *vdev)
+ 	else
+ 		ivpu_dbg(vdev, MISC, "Fuse: All %d tiles enabled\n", TILE_MAX_NUM);
  
- 	ret = pcim_enable_device(pdev);
- 	if (ret) {
+-	tile_enable = (~tile_disable) & TILE_MAX_MASK;
+-
+-	hw->sku = REG_SET_FLD_NUM(SKU, HW_ID, LNL_HW_ID, hw->sku);
+-	hw->sku = REG_SET_FLD_NUM(SKU, TILE, tile_enable, hw->sku);
+ 	hw->tile_fuse = tile_disable;
+ 	hw->pll.profiling_freq = PLL_PROFILING_FREQ_DEFAULT;
+ 
 -- 
 2.43.0
 
