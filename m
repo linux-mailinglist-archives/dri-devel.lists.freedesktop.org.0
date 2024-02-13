@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 787C2852922
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 07:41:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08525852924
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 07:41:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5960E10E87B;
-	Tue, 13 Feb 2024 06:41:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0294F10E8AB;
+	Tue, 13 Feb 2024 06:41:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Swh08F1Z";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aYW/p67Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21E0610E88F;
- Tue, 13 Feb 2024 06:41:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50A9A10E891;
+ Tue, 13 Feb 2024 06:41:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707806466; x=1739342466;
+ t=1707806473; x=1739342473;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=DO7fd7xwxlCNbpixebrBnyO2ngWuTMW8bLq8bHfdoS0=;
- b=Swh08F1Z4Z8qFvhLIDVBgbRijwnUvpKb+Eep1pBldv5MsO0XVjcT7qnW
- CPjeOqTL97YovuRocp2LJBubXlGHF5Wg7Vys4NHW50kmKfxiLjJfJpaMt
- W30QECN/O0kQMujWb9fKvgTF8UH6GGhyDxH7nzkLPHIFfQHeAFQ+st+7z
- hDH7N4rDqeqLqXCmqKZBgSDDnkEt9RBGTLqG5fuKxBF+MeDuss03WTgyk
- 1c9ETQsM+RVr9nvilRazeXhvY+YT+G5Np8km9uJOyBzC1PoryDD99Exhi
- bouHpb7JQjR3lEiS55Izp6zTWEXn37jpbhL4b8/t2jU+yt7aKaEp509Ch Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="436947735"
-X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; d="scan'208";a="436947735"
+ bh=XuktVCu169jLPhMivaiIJajr+NMwpwOfAyYRpodR8K0=;
+ b=aYW/p67ZpeVQKn3wa/hZFkxEPLVtdjxbvQpZ0uEngMUBD+MH24D16kAJ
+ kPzkvaqUG03lIk6vxQ9/CKISuVpVaioKwcMYdTmE63PcebJIbh+bBwjy3
+ bSYRomf8M3Rd7Ya//fgkyw8de73QRESnmOnAJ/fWiOyFuZAywGmOkzT2J
+ IuS16hW2mqoE7tvGB1fduT2lwTG7aMyH+r6H+0q8QzMaICoVql09UNG/h
+ OGZx/1DxFioTlyZaYBc9AquOXAXthDdSw+3+S2OuiGMXTecuYle17bALO
+ 6WpA5N5w2Dbymt46Yr+Q7OZ5tCb7Rmc5sxxqyAngTL/UZyAqzprXcqO+O w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="436947754"
+X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; d="scan'208";a="436947754"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2024 22:41:05 -0800
+ 12 Feb 2024 22:41:12 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; 
-   d="scan'208";a="7450221"
+   d="scan'208";a="7450248"
 Received: from cfl-desktop.iind.intel.com ([10.190.239.20])
- by orviesa003.jf.intel.com with ESMTP; 12 Feb 2024 22:40:59 -0800
+ by orviesa003.jf.intel.com with ESMTP; 12 Feb 2024 22:41:06 -0800
 From: Uma Shankar <uma.shankar@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
@@ -48,11 +48,10 @@ Cc: ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com,
  quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
  quic_abhinavk@quicinc.com, arthurgrillo@riseup.net, marcan@marcan.st,
  Liviu.Dudau@arm.com, sashamcintosh@google.com, sean@poorly.run,
- Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
  Uma Shankar <uma.shankar@intel.com>
-Subject: [PATCH 05/28] drm: Add support for 3x3 CTM
-Date: Tue, 13 Feb 2024 12:18:12 +0530
-Message-ID: <20240213064835.139464-6-uma.shankar@intel.com>
+Subject: [PATCH 06/28] drm: Add Enhanced LUT precision structure
+Date: Tue, 13 Feb 2024 12:18:13 +0530
+Message-ID: <20240213064835.139464-7-uma.shankar@intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20240213064835.139464-1-uma.shankar@intel.com>
 References: <20240213064835.139464-1-uma.shankar@intel.com>
@@ -73,57 +72,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+Existing LUT precision structure is having only 16 bit
+precision. This is not enough for upcoming enhanced hardwares
+and advance usecases like HDR processing. Hence added a new
+structure with 32 bit precision values.
 
-Add support for 3x3 Color Transformation Matrices in Color Pipeline.
-
-Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 Signed-off-by: Uma Shankar <uma.shankar@intel.com>
+Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 ---
- drivers/gpu/drm/drm_atomic_uapi.c | 3 +++
- drivers/gpu/drm/drm_colorop.c     | 2 +-
- include/uapi/drm/drm_mode.h       | 1 +
- 3 files changed, 5 insertions(+), 1 deletion(-)
+ include/drm/drm_color_mgmt.h | 23 +++++++++++++++++++++++
+ include/uapi/drm/drm_mode.h  | 17 +++++++++++++++++
+ 2 files changed, 40 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index e7bf1fb054af..c54b0d6c133e 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -716,6 +716,9 @@ static int drm_atomic_color_set_data_property(struct drm_colorop *colorop,
- 	case DRM_COLOROP_CTM_3X4:
- 		size = sizeof(struct drm_color_ctm_3x4);
- 		break;
-+	case DRM_COLOROP_CTM_3X3:
-+		size = sizeof(struct drm_color_ctm);
-+		break;
- 	default:
- 		/* should never get here */
- 		return -EINVAL;
-diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
-index 462ffec42cdf..6bae6dc8e54b 100644
---- a/drivers/gpu/drm/drm_colorop.c
-+++ b/drivers/gpu/drm/drm_colorop.c
-@@ -107,7 +107,7 @@ int drm_colorop_init(struct drm_device *dev, struct drm_colorop *colorop,
- 				   0);
+diff --git a/include/drm/drm_color_mgmt.h b/include/drm/drm_color_mgmt.h
+index ed81741036d7..72a08b5f7d14 100644
+--- a/include/drm/drm_color_mgmt.h
++++ b/include/drm/drm_color_mgmt.h
+@@ -50,6 +50,29 @@ static inline u32 drm_color_lut_extract(u32 user_input, int bit_precision)
+ 					 (1 << 16) - 1);
+ }
  
- 	/* data */
--	if (type == DRM_COLOROP_CTM_3X4) {
-+	if (type == DRM_COLOROP_CTM_3X4 || type == DRM_COLOROP_CTM_3X3) {
- 		prop = drm_property_create(dev, DRM_MODE_PROP_ATOMIC | DRM_MODE_PROP_BLOB,
- 					   "DATA", 0);
- 		if (!prop)
++/* TODO: Add uapi documentation
++ * Added to accommodate enhanced LUT precision.
++ * Max LUT precision is 32 bits.
++ */
++static inline u64 drm_color_lut_extract_ext(u64 user_input, u32 bit_precision)
++{
++	u64 val = user_input & 0xffffffff;
++	u32 max;
++
++	if (bit_precision > 32)
++		return 0;
++
++	max = 0xffffffff >> (32 - bit_precision);
++	/* Round only if we're not using full precision. */
++	if (bit_precision < 32) {
++		val += 1UL << (32 - bit_precision - 1);
++		val >>= 32 - bit_precision;
++	}
++
++	return ((user_input & 0xffffffff00000000) |
++		clamp_val(val, 0, max));
++}
++
+ u64 drm_color_ctm_s31_32_to_qm_n(u64 user_input, u32 m, u32 n);
+ 
+ void drm_crtc_enable_color_mgmt(struct drm_crtc *crtc,
 diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index f16318f1785f..68696253867e 100644
+index 68696253867e..bbc5be97c80f 100644
 --- a/include/uapi/drm/drm_mode.h
 +++ b/include/uapi/drm/drm_mode.h
-@@ -868,6 +868,7 @@ struct drm_color_lut {
- 
- enum drm_colorop_type {
- 	DRM_COLOROP_1D_CURVE,
-+	DRM_COLOROP_CTM_3X3,
- 	DRM_COLOROP_CTM_3X4,
+@@ -866,6 +866,23 @@ struct drm_color_lut {
+ 	__u16 reserved;
  };
  
++/**
++ * struct drm_color_lut_ext - Represents high precision lut values
++ *
++ * Creating 64 bit palette entries for better data
++ * precision. This will be required for HDR and
++ * similar color processing usecases.
++ */
++struct drm_color_lut_ext {
++	/*
++	 * Data is U32.32 fixed point format.
++	 */
++	__u64 red;
++	__u64 green;
++	__u64 blue;
++	__u64 reserved;
++};
++
+ enum drm_colorop_type {
+ 	DRM_COLOROP_1D_CURVE,
+ 	DRM_COLOROP_CTM_3X3,
 -- 
 2.42.0
 
