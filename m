@@ -2,79 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E7FA852B4D
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 09:39:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D005B852B76
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 09:44:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DF3B10E0F1;
-	Tue, 13 Feb 2024 08:39:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBC9C10E45F;
+	Tue, 13 Feb 2024 08:44:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Nq+FAIFG";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="o+4m7vdC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="r2i4WuDH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="o+4m7vdC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="r2i4WuDH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F250A10E0F1
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 08:39:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707813545; x=1739349545;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=EW4hyg6ywuwUU3ETBIP6P9hAzw5rF+JafXM/qqClrws=;
- b=Nq+FAIFGZ+vbGpaspxZZQWfqyNugROV6PtXFRLG/ecZM05I1/hnl5Pch
- 1RfZ+UCB4q1eY0D1957NvXPYbXm1dN0/NHh1y3Na4VTGMVkqeZ4GUQSNQ
- FzuqXLKQ+CmnNYP2uFwgegqjOUA1fH/lfeM38NOhD0qF92noIQkCoigF8
- 28JL7YE2j7XLam03dRHI4NiiDeWnBPpAq5j3bOjFZ/GHAQuTkzs0ucVTT
- IayjMpdrHnakqd9B6+uKfNjOLjOvrVsK7KWA/U/Jt1jBfJbAxL5oUxWnW
- 03GgYBbZTd3mldytNV4biVsnNmBs4ohpCeBeqKIsUhk2qGofs3scxjyxR w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="5629253"
-X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; 
-   d="scan'208";a="5629253"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2024 00:39:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="826052613"
-X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; d="scan'208";a="826052613"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 13 Feb 2024 00:38:57 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 13 Feb 2024 10:38:56 +0200
-Date: Tue, 13 Feb 2024 10:38:56 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Hans Verkuil <hverkuil@xs4all.nl>,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: Re: Re: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add
- Broadcast RGB property
-Message-ID: <ZcsqoPCJDjA5PJUF@intel.com>
-References: <20240115143720.GA160656@toolbox>
- <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
- <Zb0M_2093UwPXK8y@intel.com>
- <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
- <Zb0aYAapkxQ2kopt@intel.com>
- <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
- <20240209203435.GB996172@toolbox>
- <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
- <Zco-DQaXqae7B1jt@intel.com>
- <yx2t7xltxxgsngdsxamsfq6y7dze3wzegxcqwmsb5yrxen73x6@u3vilqhpci4w>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9D5D10E0E9;
+ Tue, 13 Feb 2024 08:44:07 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 447C41FC29;
+ Tue, 13 Feb 2024 08:44:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1707813846; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=vM/MI9GQVcz0kQq4kuMC8GufU8ZlfC4eQUgNWb4/vqs=;
+ b=o+4m7vdCMQ1oQJGHgg9R9ZAbeqsKqs+xisXdoLzNFytGQsP5y76kF+0w3h5f26OaLKpQEG
+ VWZn0LejH6A8I7IgrtSaQU3TrjYIf/zUx11LAdZbcYqmAnWlg+3+T4YsXwvEa1zBZXGOc2
+ AyTd42hsBrkdTooLAVXDhr50ZwMEsIo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1707813846;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=vM/MI9GQVcz0kQq4kuMC8GufU8ZlfC4eQUgNWb4/vqs=;
+ b=r2i4WuDHFqcpPOtI5fXgZJOuSWIYvH5YMM0gfu8lJr6vNaOu+kFjSd+0QEfEfxLtzt+7Sa
+ x8gveR1Xo1Pa8sDg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1707813846; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=vM/MI9GQVcz0kQq4kuMC8GufU8ZlfC4eQUgNWb4/vqs=;
+ b=o+4m7vdCMQ1oQJGHgg9R9ZAbeqsKqs+xisXdoLzNFytGQsP5y76kF+0w3h5f26OaLKpQEG
+ VWZn0LejH6A8I7IgrtSaQU3TrjYIf/zUx11LAdZbcYqmAnWlg+3+T4YsXwvEa1zBZXGOc2
+ AyTd42hsBrkdTooLAVXDhr50ZwMEsIo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1707813846;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=vM/MI9GQVcz0kQq4kuMC8GufU8ZlfC4eQUgNWb4/vqs=;
+ b=r2i4WuDHFqcpPOtI5fXgZJOuSWIYvH5YMM0gfu8lJr6vNaOu+kFjSd+0QEfEfxLtzt+7Sa
+ x8gveR1Xo1Pa8sDg==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id E21DF1329E;
+ Tue, 13 Feb 2024 08:44:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+ by imap2.dmz-prg2.suse.org with ESMTPSA id lNu2NdUry2VOFwAAn2gu4w
+ (envelope-from <tzimmermann@suse.de>); Tue, 13 Feb 2024 08:44:05 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: deller@gmx.de, kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com,
+ jani.nikula@linux.intel.com, daniel@ffwll.ch, airlied@gmail.com,
+ gregkh@linuxfoundation.org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-staging@lists.linux.dev,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 0/8] fbdev: Clean up include dependencies in header
+Date: Tue, 13 Feb 2024 09:42:18 +0100
+Message-ID: <20240213084403.20995-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <yx2t7xltxxgsngdsxamsfq6y7dze3wzegxcqwmsb5yrxen73x6@u3vilqhpci4w>
-X-Patchwork-Hint: comment
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: ***
+X-Spam-Score: 3.70
+X-Spamd-Result: default: False [3.70 / 50.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; R_MISSING_CHARSET(2.50)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+ MIME_GOOD(-0.10)[text/plain]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ BROKEN_CONTENT_TYPE(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ RCVD_COUNT_THREE(0.00)[3];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; RCPT_COUNT_TWELVE(0.00)[13];
+ MID_CONTAINS_FROM(1.00)[];
+ FREEMAIL_TO(0.00)[gmx.de,redhat.com,linux.intel.com,ffwll.ch,gmail.com,linuxfoundation.org];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
+ BAYES_HAM(-0.00)[14.48%]
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,110 +108,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 12, 2024 at 05:53:48PM +0100, Maxime Ripard wrote:
-> On Mon, Feb 12, 2024 at 05:49:33PM +0200, Ville Syrjälä wrote:
-> > On Mon, Feb 12, 2024 at 11:01:07AM +0100, Maxime Ripard wrote:
-> > > On Fri, Feb 09, 2024 at 09:34:35PM +0100, Sebastian Wick wrote:
-> > > > On Mon, Feb 05, 2024 at 10:39:38AM +0100, Maxime Ripard wrote:
-> > > > > On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrjälä wrote:
-> > > > > > On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
-> > > > > > > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrjälä wrote:
-> > > > > > > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
-> > > > > > > > > Hi,
-> > > > > > > > > 
-> > > > > > > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
-> > > > > > > > > > > >  /**
-> > > > > > > > > > > >   * DOC: HDMI connector properties
-> > > > > > > > > > > >   *
-> > > > > > > > > > > > + * Broadcast RGB
-> > > > > > > > > > > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
-> > > > > > > > > > > > + *      Infoframes will be generated according to that value.
-> > > > > > > > > > > > + *
-> > > > > > > > > > > > + *      The value of this property can be one of the following:
-> > > > > > > > > > > > + *
-> > > > > > > > > > > > + *      Automatic:
-> > > > > > > > > > > > + *              RGB Range is selected automatically based on the mode
-> > > > > > > > > > > > + *              according to the HDMI specifications.
-> > > > > > > > > > > > + *
-> > > > > > > > > > > > + *      Full:
-> > > > > > > > > > > > + *              Full RGB Range is forced.
-> > > > > > > > > > > > + *
-> > > > > > > > > > > > + *      Limited 16:235:
-> > > > > > > > > > > > + *              Limited RGB Range is forced. Unlike the name suggests,
-> > > > > > > > > > > > + *              this works for any number of bits-per-component.
-> > > > > > > > > > > > + *
-> > > > > > > > > > > > + *      Drivers can set up this property by calling
-> > > > > > > > > > > > + *      drm_connector_attach_broadcast_rgb_property().
-> > > > > > > > > > > > + *
-> > > > > > > > > > > 
-> > > > > > > > > > > This is a good time to document this in more detail. There might be two
-> > > > > > > > > > > different things being affected:
-> > > > > > > > > > > 
-> > > > > > > > > > > 1. The signalling (InfoFrame/SDP/...)
-> > > > > > > > > > > 2. The color pipeline processing
-> > > > > > > > > > > 
-> > > > > > > > > > > All values of Broadcast RGB always affect the color pipeline processing
-> > > > > > > > > > > such that a full-range input to the CRTC is converted to either full- or
-> > > > > > > > > > > limited-range, depending on what the monitor is supposed to accept.
-> > > > > > > > > > > 
-> > > > > > > > > > > When automatic is selected, does that mean that there is no signalling,
-> > > > > > > > > > > or that the signalling matches what the monitor is supposed to accept
-> > > > > > > > > > > according to the spec? Also, is this really HDMI specific?
-> > > > > > > > > > > 
-> > > > > > > > > > > When full or limited is selected and the monitor doesn't support the
-> > > > > > > > > > > signalling, what happens?
-> > > > > > > > > > 
-> > > > > > > > > > Forgot to mention: user-space still has no control over RGB vs YCbCr on
-> > > > > > > > > > the cable, so is this only affecting RGB? If not, how does it affect
-> > > > > > > > > > YCbCr?
-> > > > > > > > > 
-> > > > > > > > > So I dug a bit into both the i915 and vc4 drivers, and it looks like if
-> > > > > > > > > we're using a YCbCr format, i915 will always use a limited range while
-> > > > > > > > > vc4 will follow the value of the property.
-> > > > > > > > 
-> > > > > > > > The property is literally called "Broadcast *RGB*".
-> > > > > > > > That should explain why it's only affecting RGB.
-> > > > > > > 
-> > > > > > > Right. And the limited range option is called "Limited 16:235" despite
-> > > > > > > being usable on bpc > 8 bits. Naming errors occurs, and history happens
-> > > > > > > to make names inconsistent too, that's fine and not an argument in
-> > > > > > > itself.
-> > > > > > > 
-> > > > > > > > Full range YCbCr is a much rarer beast so we've never bothered
-> > > > > > > > to enable it.
-> > > > > > > 
-> > > > > > > vc4 supports it.
-> > > > > > 
-> > > > > > Someone implemented it incorrectly then.
-> > > > > 
-> > > > > Incorrectly according to what documentation / specification? I'm sorry,
-> > > > > but I find it super ironic that i915 gets to do its own thing, not
-> > > > > document any of it, and when people try to clean things up they get told
-> > > > > that we got it all wrong.
-> > > > 
-> > > > FWIW, this was an i915 property and if another driver uses the same
-> > > > property name it must have the same behavior. Yes, it isn't standardized
-> > > > and yes, it's not documented (hence this effort here) but it's still on
-> > > > vc4 to make the property compatible.
-> > > 
-> > > How is it not compatible? It's a superset of what i915 provides, but
-> > > it's strictly compatible with it.
-> > 
-> > No it is not.
-> 
-> The property is compatible with i915 interpretation of it, whether you
-> like it or not. And that's what Sebastian was referring to.
-> 
-> > Eg. what happens if you set the thing to full range for RGB (which you
-> > must on many broken monitors), and then the kernel automagically
-> > switches to YCbCr (for whatever reason) but the monitor doesn't
-> > support full range YCbCr? Answer: you get crap output.
-> 
-> And that part is just moving goalposts.
+Remove unnecessary dependencies in the include statements of the
+header file <linux/fb.h>. Several files throughout the kernel include
+the fbdev header, so reducing dependencies positively affects other
+subsystems as well. Also fix up nouveau and fbtft, which need backlight.h
+in some their source files.
 
-No. Allowing users to get correct colors with broken displays
-is the sole reason why this property even exists.
+v2:
+	* include backlight.h in fbtft (kernel test robot)
+
+Thomas Zimmermann (8):
+  drm/nouveau: Include <linux/backlight.h>
+  staging/fbtft: Include <linux/backlight.h>
+  fbdev: Do not include <linux/backlight.h> in header
+  fbdev: Do not include <linux/fs.h> in header
+  fbdev: Do not include <linux/notifier.h> in header
+  fbdev: Do not include <linux/slab.h> in header
+  fbdev: Clean up forward declarations in header file
+  fbdev: Clean up include statements in header file
+
+ drivers/gpu/drm/nouveau/dispnv50/disp.c |  1 +
+ drivers/staging/fbtft/fb_ssd1351.c      |  2 ++
+ include/linux/fb.h                      | 24 +++++++++++++-----------
+ 3 files changed, 16 insertions(+), 11 deletions(-)
 
 -- 
-Ville Syrjälä
-Intel
+2.43.0
+
