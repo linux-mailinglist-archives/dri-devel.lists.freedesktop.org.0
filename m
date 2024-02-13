@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2AFD8533A7
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 15:54:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03E1C8533A4
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Feb 2024 15:54:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FCA710E561;
-	Tue, 13 Feb 2024 14:54:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11CC510E039;
+	Tue, 13 Feb 2024 14:54:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=gaisler.com header.i=@gaisler.com header.b="fxRUG6+y";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QRfiOkum";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 524 seconds by postgrey-1.36 at gabe;
- Tue, 13 Feb 2024 14:54:05 UTC
-Received: from smtp-out3.simply.com (smtp-out3.simply.com [94.231.106.210])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9605F10E561;
- Tue, 13 Feb 2024 14:54:05 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp.simply.com (Simply.com) with ESMTP id 4TZ3yd4Dj4z681k;
- Tue, 13 Feb 2024 15:45:13 +0100 (CET)
-Received: from [192.168.0.25] (h-98-128-223-123.NA.cust.bahnhof.se
- [98.128.223.123])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client did not present a certificate)
- by smtp.simply.com (Simply.com) with ESMTPSA id 4TZ3yH6LD4z67wS;
- Tue, 13 Feb 2024 15:44:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gaisler.com;
- s=unoeuro; t=1707835513;
- bh=v6NrxM1eJN7Z7yzkWSBTKUltm5dbJ2HTXi9hG2LMSTA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To;
- b=fxRUG6+yBSU+BFXn6+rebuuiiuqqWopqe29Vz2GaIf78w+V69ZIB+Af31iKeLr62p
- qpQdz7sWHzQ58CP3tqsZon5MfZ78+Sms5m4nebpjjUITGZQ1A2ZnKMsF4BxSh1OMBa
- S898RixpmWtD3+3XqXRY4JGgZ7I8bBk64Oy1wp1k=
-Message-ID: <4582ff28-a443-4b0f-ba92-f48c414e2248@gaisler.com>
-Date: Tue, 13 Feb 2024 15:44:53 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D18D510E039
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Feb 2024 14:54:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1707836041; x=1739372041;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=iYF8WahbSGmckYny6pSe2Hgyn29rEHyghu89jQLTNso=;
+ b=QRfiOkumo3GLDK9sS8ytYsJVkpVjhyaNxHe4u+9rmMBAYV7qHIuJbbho
+ cIZyckCb3aAn3JCVPctSFlz2tZW9+kokiv6VKqQuP38xU0eyB1oRgMMJp
+ qC3XsUzk4MNQHGX93It+JOleDLczfloqpI+IgzD+1Frc37gULdIm6CKJ8
+ 92OMjrr/rABSYfj/GV7u3xmbSWYnForq/JAA1oE4hkNvWvuWRZz5zB5Vk
+ H43Nv2C29SoGt7CuFmomDwInx4nRW1X+QQ+7Mt0HTfAGlbZSpYbXZ50sN
+ zg5xIbNlXZzRQxEN4WJnKwsy765Mng0qMAK1mObh7gx7cl/6TXZVmYmTa w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="13239188"
+X-IronPort-AV: E=Sophos;i="6.06,157,1705392000"; d="scan'208";a="13239188"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2024 06:54:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,157,1705392000"; 
+   d="scan'208";a="2858172"
+Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
+ by fmviesa010.fm.intel.com with ESMTP; 13 Feb 2024 06:53:56 -0800
+Received: from kbuild by 01f0647817ea with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rZuAU-0007oc-0r;
+ Tue, 13 Feb 2024 14:53:54 +0000
+Date: Tue, 13 Feb 2024 22:53:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, lee@kernel.org,
+ daniel.thompson@linaro.org, jingoohan1@gmail.com, deller@gmx.de,
+ javierm@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Bruno =?iso-8859-1?Q?Pr=E9mont?= <bonbons@linux-vserver.org>
+Subject: Re: [PATCH 04/10] hid/hid-picolcd: Remove struct
+ backlight_ops.check_fb
+Message-ID: <202402132248.A5ky78Hx-lkp@intel.com>
+References: <20240212162645.5661-5-tzimmermann@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Build regressions/improvements in v6.8-rc1
-Content-Language: en-US
-To: Arnd Bergmann <arnd@arndb.de>, Geert Uytterhoeven <geert@linux-m68k.org>, 
- linux-kernel@vger.kernel.org
-Cc: linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
- sparclinux@vger.kernel.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-mtd@lists.infradead.org,
- mpi3mr-linuxdrv.pdl@broadcom.com, linux-scsi@vger.kernel.org,
- Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
- linux-hardening@vger.kernel.org, qat-linux@intel.com,
- linux-crypto@vger.kernel.org,
- "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
- Netdev <netdev@vger.kernel.org>
-References: <CAHk-=wiB4iHTtfZKiy5pC24uOjun4fbj4kSX0=ZnGsOXadMf6g@mail.gmail.com>
- <20240123111235.3097079-1-geert@linux-m68k.org>
- <d03e90ca-8485-4d1b-5ec1-c3398e0e8da@linux-m68k.org>
- <0229fa60-2d87-4b1c-b9f0-6f04c6e4dbdd@app.fastmail.com>
-From: Andreas Larsson <andreas@gaisler.com>
-In-Reply-To: <0229fa60-2d87-4b1c-b9f0-6f04c6e4dbdd@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240212162645.5661-5-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,17 +73,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-01-23 15:21, Arnd Bergmann wrote:
->>>  + /kisskb/src/arch/sparc/include/asm/floppy_64.h: error: no previous prototype for 'sparc_floppy_irq' [-Werror=missing-prototypes]:  => 200:13
->>>  + /kisskb/src/arch/sparc/include/asm/floppy_64.h: error: no previous prototype for 'sun_pci_fd_dma_callback' [-Werror=missing-prototypes]:  => 437:6
->>
->> sparc64-gcc{5,11,12,13}/sparc64-allmodconfig
-> 
-> Andrew Morton did a patch for the sparc warnings, and Andreas Larsson
-> is joining as a maintainer, so hopefully he can pick that up soon.
-Which patch do you refer to here? I can not seem to find a patch fixing
-these ones in particular on lore.kernel.org.
+Hi Thomas,
 
-Thanks,
-Andreas
+kernel test robot noticed the following build errors:
 
+[auto build test ERROR on lee-backlight/for-backlight-next]
+[also build test ERROR on lee-backlight/for-backlight-fixes hid/for-next lee-leds/for-leds-next linus/master v6.8-rc4 next-20240213]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/backlight-Match-backlight-device-against-struct-fb_info-bl_dev/20240213-002853
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git for-backlight-next
+patch link:    https://lore.kernel.org/r/20240212162645.5661-5-tzimmermann%40suse.de
+patch subject: [PATCH 04/10] hid/hid-picolcd: Remove struct backlight_ops.check_fb
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240213/202402132248.A5ky78Hx-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240213/202402132248.A5ky78Hx-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402132248.A5ky78Hx-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/hid/hid-picolcd_fb.c:497:8: error: no member named 'bl_dev' in 'struct fb_info'
+     497 |         info->bl_dev = data->backlight;
+         |         ~~~~  ^
+   1 error generated.
+
+
+vim +497 drivers/hid/hid-picolcd_fb.c
+
+   459	
+   460	static DEVICE_ATTR(fb_update_rate, 0664, picolcd_fb_update_rate_show,
+   461			picolcd_fb_update_rate_store);
+   462	
+   463	/* initialize Framebuffer device */
+   464	int picolcd_init_framebuffer(struct picolcd_data *data)
+   465	{
+   466		struct device *dev = &data->hdev->dev;
+   467		struct fb_info *info = NULL;
+   468		struct picolcd_fb_data *fbdata = NULL;
+   469		int i, error = -ENOMEM;
+   470		u32 *palette;
+   471	
+   472		/* The extra memory is:
+   473		 * - 256*u32 for pseudo_palette
+   474		 * - struct fb_deferred_io
+   475		 */
+   476		info = framebuffer_alloc(256 * sizeof(u32) +
+   477				sizeof(struct fb_deferred_io) +
+   478				sizeof(struct picolcd_fb_data) +
+   479				PICOLCDFB_SIZE, dev);
+   480		if (!info)
+   481			goto err_nomem;
+   482	
+   483		info->fbdefio = info->par;
+   484		*info->fbdefio = picolcd_fb_defio;
+   485		info->par += sizeof(struct fb_deferred_io);
+   486		palette = info->par;
+   487		info->par += 256 * sizeof(u32);
+   488		for (i = 0; i < 256; i++)
+   489			palette[i] = i > 0 && i < 16 ? 0xff : 0;
+   490		info->pseudo_palette = palette;
+   491		info->fbops = &picolcdfb_ops;
+   492		info->var = picolcdfb_var;
+   493		info->fix = picolcdfb_fix;
+   494		info->fix.smem_len   = PICOLCDFB_SIZE*8;
+   495	
+   496	#ifdef CONFIG_HID_PICOLCD_BACKLIGHT
+ > 497		info->bl_dev = data->backlight;
+   498	#endif
+   499	
+   500		fbdata = info->par;
+   501		spin_lock_init(&fbdata->lock);
+   502		fbdata->picolcd = data;
+   503		fbdata->update_rate = PICOLCDFB_UPDATE_RATE_DEFAULT;
+   504		fbdata->bpp     = picolcdfb_var.bits_per_pixel;
+   505		fbdata->force   = 1;
+   506		fbdata->vbitmap = info->par + sizeof(struct picolcd_fb_data);
+   507		fbdata->bitmap  = vmalloc(PICOLCDFB_SIZE*8);
+   508		if (fbdata->bitmap == NULL) {
+   509			dev_err(dev, "can't get a free page for framebuffer\n");
+   510			goto err_nomem;
+   511		}
+   512		info->flags |= FBINFO_VIRTFB;
+   513		info->screen_buffer = fbdata->bitmap;
+   514		info->fix.smem_start = (unsigned long)fbdata->bitmap;
+   515		memset(fbdata->vbitmap, 0xff, PICOLCDFB_SIZE);
+   516		data->fb_info = info;
+   517	
+   518		error = picolcd_fb_reset(data, 1);
+   519		if (error) {
+   520			dev_err(dev, "failed to configure display\n");
+   521			goto err_cleanup;
+   522		}
+   523	
+   524		error = device_create_file(dev, &dev_attr_fb_update_rate);
+   525		if (error) {
+   526			dev_err(dev, "failed to create sysfs attributes\n");
+   527			goto err_cleanup;
+   528		}
+   529	
+   530		fb_deferred_io_init(info);
+   531		error = register_framebuffer(info);
+   532		if (error) {
+   533			dev_err(dev, "failed to register framebuffer\n");
+   534			goto err_sysfs;
+   535		}
+   536		return 0;
+   537	
+   538	err_sysfs:
+   539		device_remove_file(dev, &dev_attr_fb_update_rate);
+   540		fb_deferred_io_cleanup(info);
+   541	err_cleanup:
+   542		data->fb_info    = NULL;
+   543	
+   544	err_nomem:
+   545		if (fbdata)
+   546			vfree(fbdata->bitmap);
+   547		framebuffer_release(info);
+   548		return error;
+   549	}
+   550	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
