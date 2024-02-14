@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D50985515A
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 19:04:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91959855148
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 19:04:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D82AD10E981;
-	Wed, 14 Feb 2024 18:04:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D01F310E862;
+	Wed, 14 Feb 2024 18:04:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="L99uywML";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="V2BsudT4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E49110E7E6;
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0639310E7E6;
  Wed, 14 Feb 2024 18:04:15 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41EGWCnM025559; Wed, 14 Feb 2024 18:04:13 GMT
+ 41E7RQoF023859; Wed, 14 Feb 2024 18:04:14 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:content-type; s=
- qcppdkim1; bh=NN67YLeg2SLUayBz2xKP1OoKdwT10ziaes0srzN7JrQ=; b=L9
- 9uywMLFtwhkmTW/rZYAojBUTSn8KSF4UxKaPK4sr/wjc+6R6skadTxGXZEHZghZS
- hgqwVDOnCQxfwm4r8lTv29xS9mD7jcWP/JIS8zR/pjflFKN/wnk/WhPKLfLOSSJY
- 8jLbqa5R72q3Bdkuk6Xcaibbrr6CgWAh5MgaSZOEPtF/7K1dPhbJOcAUbx+y9sub
- Zt/Te20zZHlNj9pPT74xSlKJAhHFncsc7hHA0It0TyHJAm9EsEY0YVFHB2sukGvs
- 25UcnEgu+XV6Nd6DJQwSDl56mgoDgymHkY//y4HYWIK52RsdnVoN9u0a9nkCNTWM
- LyfN2jJG3EpnLgS9c1JQ==
+ qcppdkim1; bh=5kZSM8x2E6ghP+1bxDUMQjSS9DJEqNolYD7TSJo8cSQ=; b=V2
+ BsudT4NDXjL7QkRIIFJXVfazY5RH9pMEYePihD0rcgAlEnFIcNAlJe2i+rk3ReOs
+ RhJ45BALG6JL+3LuT31dUaWukzQetE16u26WUY0vi1+h4i3+u7/b/hrHP3aKJoCI
+ 8mRKW5xbXea6DERUBJitAptNbGZWzKkKEUxCuA11syGCuUuScbuef0TzMRrINweP
+ 9SDZUZzwwhkzZF5KV+isLpFsnSNb20kQRQlt1pINqXjRfWzzFG9xr7FoCF+n7YGA
+ Qi7XTlQ39/ck4rSgARc4xzQ4IC6qhummnrPJUEgt9IUr1pQsir0Z+eelyRZw8SKJ
+ Ye9wk7FRrYY7FMtRJOww==
 Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w8jn9hwb7-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w8jrj9y9r-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 14 Feb 2024 18:04:12 +0000 (GMT)
+ Wed, 14 Feb 2024 18:04:13 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41EI4BGt009364
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41EI4CNE009368
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 14 Feb 2024 18:04:12 GMT
 Received: from hu-parellan-lv.qualcomm.com (10.49.16.6) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Wed, 14 Feb 2024 10:04:11 -0800
+ 15.2.1118.40; Wed, 14 Feb 2024 10:04:12 -0800
 From: Paloma Arellano <quic_parellan@quicinc.com>
 To: <freedreno@lists.freedesktop.org>
 CC: Paloma Arellano <quic_parellan@quicinc.com>,
@@ -51,10 +51,9 @@ CC: Paloma Arellano <quic_parellan@quicinc.com>,
  <dmitry.baryshkov@linaro.org>, <quic_abhinavk@quicinc.com>,
  <quic_jesszhan@quicinc.com>, <quic_khsieh@quicinc.com>,
  <marijn.suijten@somainline.org>, <neil.armstrong@linaro.org>
-Subject: [PATCH v3 11/19] drm/msm/dp: change clock related programming for
- YUV420 over DP
-Date: Wed, 14 Feb 2024 10:03:33 -0800
-Message-ID: <20240214180347.1399-12-quic_parellan@quicinc.com>
+Subject: [PATCH v3 12/19] drm/msm/dp: move parity calculation to dp_utils
+Date: Wed, 14 Feb 2024 10:03:34 -0800
+Message-ID: <20240214180347.1399-13-quic_parellan@quicinc.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20240214180347.1399-1-quic_parellan@quicinc.com>
 References: <20240214180347.1399-1-quic_parellan@quicinc.com>
@@ -67,17 +66,17 @@ X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: ydzaxLS_io-nUPyoF_L0SRzYQoe-S2EJ
-X-Proofpoint-ORIG-GUID: ydzaxLS_io-nUPyoF_L0SRzYQoe-S2EJ
+X-Proofpoint-GUID: dk3NhkqER2mcmcJuHqqRZasDdsoo9WSf
+X-Proofpoint-ORIG-GUID: dk3NhkqER2mcmcJuHqqRZasDdsoo9WSf
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-02-14_10,2024-02-14_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- adultscore=0 mlxlogscore=999 bulkscore=0 priorityscore=1501 clxscore=1015
- phishscore=0 suspectscore=0 malwarescore=0 spamscore=0 mlxscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402140141
+ clxscore=1015
+ priorityscore=1501 impostorscore=0 bulkscore=0 lowpriorityscore=0
+ suspectscore=0 mlxlogscore=999 mlxscore=0 spamscore=0 phishscore=0
+ adultscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2401310000 definitions=main-2402140141
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,117 +92,368 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change all relevant DP controller related programming for YUV420 cases.
-Namely, change the pixel clock math to consider YUV420 and modify the
-MVID programming to consider YUV420.
+Parity calculation is necessary for VSC SDP implementation. Therefore
+create new files dp_utils.c and dp_utils.h and move the parity
+calculating functions here. This ensures that they are usable by SDP
+programming in both dp_catalog.c and dp_audio.c
+
+Changes in v3:
+	- Change ordering of the header byte macros
 
 Changes in v2:
-	- Move configuration control programming to a different commit
-	- Slight code simplification
-	- Add VSC SDP check when doing mode_pclk_khz division in
-	  dp_bridge_mode_valid
+	- Create new files dp_utils.c and dp_utils.h
+	- Move the parity calculation to these new files instead of
+	  having them in dp_catalog.c and dp_catalog.h
 
 Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/dp/dp_catalog.c | 5 ++++-
- drivers/gpu/drm/msm/dp/dp_catalog.h | 2 +-
- drivers/gpu/drm/msm/dp/dp_ctrl.c    | 9 ++++++---
- drivers/gpu/drm/msm/dp/dp_display.c | 4 ++++
- 4 files changed, 15 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/msm/Makefile      |   3 +-
+ drivers/gpu/drm/msm/dp/dp_audio.c | 101 +++++-------------------------
+ drivers/gpu/drm/msm/dp/dp_utils.c |  73 +++++++++++++++++++++
+ drivers/gpu/drm/msm/dp/dp_utils.h |  22 +++++++
+ 4 files changed, 112 insertions(+), 87 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_utils.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_utils.h
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-index 5142aeb705a44..5d84c089e520a 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-@@ -442,7 +442,7 @@ void dp_catalog_ctrl_config_misc(struct dp_catalog *dp_catalog,
+diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
+index b1173128b5b97..998b155e4a979 100644
+--- a/drivers/gpu/drm/msm/Makefile
++++ b/drivers/gpu/drm/msm/Makefile
+@@ -129,7 +129,8 @@ msm-$(CONFIG_DRM_MSM_DP)+= dp/dp_aux.o \
+ 	dp/dp_panel.o \
+ 	dp/dp_parser.o \
+ 	dp/dp_power.o \
+-	dp/dp_audio.o
++	dp/dp_audio.o \
++	dp/dp_utils.o
  
- void dp_catalog_ctrl_config_msa(struct dp_catalog *dp_catalog,
- 					u32 rate, u32 stream_rate_khz,
--					bool fixed_nvid)
-+					bool fixed_nvid, bool is_ycbcr_420)
- {
- 	u32 pixel_m, pixel_n;
- 	u32 mvid, nvid, pixel_div = 0, dispcc_input_rate;
-@@ -485,6 +485,9 @@ void dp_catalog_ctrl_config_msa(struct dp_catalog *dp_catalog,
- 		nvid = temp;
- 	}
+ msm-$(CONFIG_DRM_FBDEV_EMULATION) += msm_fbdev.o
  
-+	if (is_ycbcr_420)
-+		mvid /= 2;
+diff --git a/drivers/gpu/drm/msm/dp/dp_audio.c b/drivers/gpu/drm/msm/dp/dp_audio.c
+index 4a2e479723a85..7634e4b742084 100644
+--- a/drivers/gpu/drm/msm/dp/dp_audio.c
++++ b/drivers/gpu/drm/msm/dp/dp_audio.c
+@@ -15,13 +15,7 @@
+ #include "dp_audio.h"
+ #include "dp_panel.h"
+ #include "dp_display.h"
+-
+-#define HEADER_BYTE_2_BIT	 0
+-#define PARITY_BYTE_2_BIT	 8
+-#define HEADER_BYTE_1_BIT	16
+-#define PARITY_BYTE_1_BIT	24
+-#define HEADER_BYTE_3_BIT	16
+-#define PARITY_BYTE_3_BIT	24
++#include "dp_utils.h"
+ 
+ struct dp_audio_private {
+ 	struct platform_device *audio_pdev;
+@@ -36,71 +30,6 @@ struct dp_audio_private {
+ 	struct dp_audio dp_audio;
+ };
+ 
+-static u8 dp_audio_get_g0_value(u8 data)
+-{
+-	u8 c[4];
+-	u8 g[4];
+-	u8 ret_data = 0;
+-	u8 i;
+-
+-	for (i = 0; i < 4; i++)
+-		c[i] = (data >> i) & 0x01;
+-
+-	g[0] = c[3];
+-	g[1] = c[0] ^ c[3];
+-	g[2] = c[1];
+-	g[3] = c[2];
+-
+-	for (i = 0; i < 4; i++)
+-		ret_data = ((g[i] & 0x01) << i) | ret_data;
+-
+-	return ret_data;
+-}
+-
+-static u8 dp_audio_get_g1_value(u8 data)
+-{
+-	u8 c[4];
+-	u8 g[4];
+-	u8 ret_data = 0;
+-	u8 i;
+-
+-	for (i = 0; i < 4; i++)
+-		c[i] = (data >> i) & 0x01;
+-
+-	g[0] = c[0] ^ c[3];
+-	g[1] = c[0] ^ c[1] ^ c[3];
+-	g[2] = c[1] ^ c[2];
+-	g[3] = c[2] ^ c[3];
+-
+-	for (i = 0; i < 4; i++)
+-		ret_data = ((g[i] & 0x01) << i) | ret_data;
+-
+-	return ret_data;
+-}
+-
+-static u8 dp_audio_calculate_parity(u32 data)
+-{
+-	u8 x0 = 0;
+-	u8 x1 = 0;
+-	u8 ci = 0;
+-	u8 iData = 0;
+-	u8 i = 0;
+-	u8 parity_byte;
+-	u8 num_byte = (data & 0xFF00) > 0 ? 8 : 2;
+-
+-	for (i = 0; i < num_byte; i++) {
+-		iData = (data >> i*4) & 0xF;
+-
+-		ci = iData ^ x1;
+-		x1 = x0 ^ dp_audio_get_g1_value(ci);
+-		x0 = dp_audio_get_g0_value(ci);
+-	}
+-
+-	parity_byte = x1 | (x0 << 4);
+-
+-	return parity_byte;
+-}
+-
+ static u32 dp_audio_get_header(struct dp_catalog *catalog,
+ 		enum dp_catalog_audio_sdp_type sdp,
+ 		enum dp_catalog_audio_header_type header)
+@@ -134,7 +63,7 @@ static void dp_audio_stream_sdp(struct dp_audio_private *audio)
+ 			DP_AUDIO_SDP_STREAM, DP_AUDIO_SDP_HEADER_1);
+ 
+ 	new_value = 0x02;
+-	parity_byte = dp_audio_calculate_parity(new_value);
++	parity_byte = dp_utils_calculate_parity(new_value);
+ 	value |= ((new_value << HEADER_BYTE_1_BIT)
+ 			| (parity_byte << PARITY_BYTE_1_BIT));
+ 	drm_dbg_dp(audio->drm_dev,
+@@ -147,7 +76,7 @@ static void dp_audio_stream_sdp(struct dp_audio_private *audio)
+ 	value = dp_audio_get_header(catalog,
+ 			DP_AUDIO_SDP_STREAM, DP_AUDIO_SDP_HEADER_2);
+ 	new_value = value;
+-	parity_byte = dp_audio_calculate_parity(new_value);
++	parity_byte = dp_utils_calculate_parity(new_value);
+ 	value |= ((new_value << HEADER_BYTE_2_BIT)
+ 			| (parity_byte << PARITY_BYTE_2_BIT));
+ 	drm_dbg_dp(audio->drm_dev,
+@@ -162,7 +91,7 @@ static void dp_audio_stream_sdp(struct dp_audio_private *audio)
+ 			DP_AUDIO_SDP_STREAM, DP_AUDIO_SDP_HEADER_3);
+ 
+ 	new_value = audio->channels - 1;
+-	parity_byte = dp_audio_calculate_parity(new_value);
++	parity_byte = dp_utils_calculate_parity(new_value);
+ 	value |= ((new_value << HEADER_BYTE_3_BIT)
+ 			| (parity_byte << PARITY_BYTE_3_BIT));
+ 	drm_dbg_dp(audio->drm_dev,
+@@ -184,7 +113,7 @@ static void dp_audio_timestamp_sdp(struct dp_audio_private *audio)
+ 			DP_AUDIO_SDP_TIMESTAMP, DP_AUDIO_SDP_HEADER_1);
+ 
+ 	new_value = 0x1;
+-	parity_byte = dp_audio_calculate_parity(new_value);
++	parity_byte = dp_utils_calculate_parity(new_value);
+ 	value |= ((new_value << HEADER_BYTE_1_BIT)
+ 			| (parity_byte << PARITY_BYTE_1_BIT));
+ 	drm_dbg_dp(audio->drm_dev,
+@@ -198,7 +127,7 @@ static void dp_audio_timestamp_sdp(struct dp_audio_private *audio)
+ 			DP_AUDIO_SDP_TIMESTAMP, DP_AUDIO_SDP_HEADER_2);
+ 
+ 	new_value = 0x17;
+-	parity_byte = dp_audio_calculate_parity(new_value);
++	parity_byte = dp_utils_calculate_parity(new_value);
+ 	value |= ((new_value << HEADER_BYTE_2_BIT)
+ 			| (parity_byte << PARITY_BYTE_2_BIT));
+ 	drm_dbg_dp(audio->drm_dev,
+@@ -212,7 +141,7 @@ static void dp_audio_timestamp_sdp(struct dp_audio_private *audio)
+ 			DP_AUDIO_SDP_TIMESTAMP, DP_AUDIO_SDP_HEADER_3);
+ 
+ 	new_value = (0x0 | (0x11 << 2));
+-	parity_byte = dp_audio_calculate_parity(new_value);
++	parity_byte = dp_utils_calculate_parity(new_value);
+ 	value |= ((new_value << HEADER_BYTE_3_BIT)
+ 			| (parity_byte << PARITY_BYTE_3_BIT));
+ 	drm_dbg_dp(audio->drm_dev,
+@@ -233,7 +162,7 @@ static void dp_audio_infoframe_sdp(struct dp_audio_private *audio)
+ 			DP_AUDIO_SDP_INFOFRAME, DP_AUDIO_SDP_HEADER_1);
+ 
+ 	new_value = 0x84;
+-	parity_byte = dp_audio_calculate_parity(new_value);
++	parity_byte = dp_utils_calculate_parity(new_value);
+ 	value |= ((new_value << HEADER_BYTE_1_BIT)
+ 			| (parity_byte << PARITY_BYTE_1_BIT));
+ 	drm_dbg_dp(audio->drm_dev,
+@@ -247,7 +176,7 @@ static void dp_audio_infoframe_sdp(struct dp_audio_private *audio)
+ 			DP_AUDIO_SDP_INFOFRAME, DP_AUDIO_SDP_HEADER_2);
+ 
+ 	new_value = 0x1b;
+-	parity_byte = dp_audio_calculate_parity(new_value);
++	parity_byte = dp_utils_calculate_parity(new_value);
+ 	value |= ((new_value << HEADER_BYTE_2_BIT)
+ 			| (parity_byte << PARITY_BYTE_2_BIT));
+ 	drm_dbg_dp(audio->drm_dev,
+@@ -261,7 +190,7 @@ static void dp_audio_infoframe_sdp(struct dp_audio_private *audio)
+ 			DP_AUDIO_SDP_INFOFRAME, DP_AUDIO_SDP_HEADER_3);
+ 
+ 	new_value = (0x0 | (0x11 << 2));
+-	parity_byte = dp_audio_calculate_parity(new_value);
++	parity_byte = dp_utils_calculate_parity(new_value);
+ 	value |= ((new_value << HEADER_BYTE_3_BIT)
+ 			| (parity_byte << PARITY_BYTE_3_BIT));
+ 	drm_dbg_dp(audio->drm_dev,
+@@ -282,7 +211,7 @@ static void dp_audio_copy_management_sdp(struct dp_audio_private *audio)
+ 			DP_AUDIO_SDP_COPYMANAGEMENT, DP_AUDIO_SDP_HEADER_1);
+ 
+ 	new_value = 0x05;
+-	parity_byte = dp_audio_calculate_parity(new_value);
++	parity_byte = dp_utils_calculate_parity(new_value);
+ 	value |= ((new_value << HEADER_BYTE_1_BIT)
+ 			| (parity_byte << PARITY_BYTE_1_BIT));
+ 	drm_dbg_dp(audio->drm_dev,
+@@ -296,7 +225,7 @@ static void dp_audio_copy_management_sdp(struct dp_audio_private *audio)
+ 			DP_AUDIO_SDP_COPYMANAGEMENT, DP_AUDIO_SDP_HEADER_2);
+ 
+ 	new_value = 0x0F;
+-	parity_byte = dp_audio_calculate_parity(new_value);
++	parity_byte = dp_utils_calculate_parity(new_value);
+ 	value |= ((new_value << HEADER_BYTE_2_BIT)
+ 			| (parity_byte << PARITY_BYTE_2_BIT));
+ 	drm_dbg_dp(audio->drm_dev,
+@@ -310,7 +239,7 @@ static void dp_audio_copy_management_sdp(struct dp_audio_private *audio)
+ 			DP_AUDIO_SDP_COPYMANAGEMENT, DP_AUDIO_SDP_HEADER_3);
+ 
+ 	new_value = 0x0;
+-	parity_byte = dp_audio_calculate_parity(new_value);
++	parity_byte = dp_utils_calculate_parity(new_value);
+ 	value |= ((new_value << HEADER_BYTE_3_BIT)
+ 			| (parity_byte << PARITY_BYTE_3_BIT));
+ 	drm_dbg_dp(audio->drm_dev,
+@@ -331,7 +260,7 @@ static void dp_audio_isrc_sdp(struct dp_audio_private *audio)
+ 			DP_AUDIO_SDP_ISRC, DP_AUDIO_SDP_HEADER_1);
+ 
+ 	new_value = 0x06;
+-	parity_byte = dp_audio_calculate_parity(new_value);
++	parity_byte = dp_utils_calculate_parity(new_value);
+ 	value |= ((new_value << HEADER_BYTE_1_BIT)
+ 			| (parity_byte << PARITY_BYTE_1_BIT));
+ 	drm_dbg_dp(audio->drm_dev,
+@@ -345,7 +274,7 @@ static void dp_audio_isrc_sdp(struct dp_audio_private *audio)
+ 			DP_AUDIO_SDP_ISRC, DP_AUDIO_SDP_HEADER_2);
+ 
+ 	new_value = 0x0F;
+-	parity_byte = dp_audio_calculate_parity(new_value);
++	parity_byte = dp_utils_calculate_parity(new_value);
+ 	value |= ((new_value << HEADER_BYTE_2_BIT)
+ 			| (parity_byte << PARITY_BYTE_2_BIT));
+ 	drm_dbg_dp(audio->drm_dev,
+diff --git a/drivers/gpu/drm/msm/dp/dp_utils.c b/drivers/gpu/drm/msm/dp/dp_utils.c
+new file mode 100644
+index 0000000000000..3a44fe738c004
+--- /dev/null
++++ b/drivers/gpu/drm/msm/dp/dp_utils.c
+@@ -0,0 +1,73 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (c) 2024, The Linux Foundation. All rights reserved.
++ */
 +
- 	if (link_rate_hbr2 == rate)
- 		nvid *= 2;
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-index 38786e855b51a..6cb5e2a243de2 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-@@ -96,7 +96,7 @@ void dp_catalog_ctrl_mainlink_ctrl(struct dp_catalog *dp_catalog, bool enable);
- void dp_catalog_ctrl_psr_mainlink_enable(struct dp_catalog *dp_catalog, bool enable);
- void dp_catalog_ctrl_config_misc(struct dp_catalog *dp_catalog, u32 cc, u32 tb);
- void dp_catalog_ctrl_config_msa(struct dp_catalog *dp_catalog, u32 rate,
--				u32 stream_rate_khz, bool fixed_nvid);
-+				u32 stream_rate_khz, bool fixed_nvid, bool is_ycbcr_420);
- int dp_catalog_ctrl_set_pattern_state_bit(struct dp_catalog *dp_catalog, u32 pattern);
- u32 dp_catalog_hw_revision(const struct dp_catalog *dp_catalog);
- void dp_catalog_ctrl_reset(struct dp_catalog *dp_catalog);
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index da8f0d9f98718..209cf2a35642f 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -960,7 +960,7 @@ static void dp_ctrl_calc_tu_parameters(struct dp_ctrl_private *ctrl,
- 	in.hporch = drm_mode->htotal - drm_mode->hdisplay;
- 	in.nlanes = ctrl->link->link_params.num_lanes;
- 	in.bpp = ctrl->panel->dp_mode.bpp;
--	in.pixel_enc = 444;
-+	in.pixel_enc = ctrl->panel->dp_mode.out_fmt_is_yuv_420 ? 420 : 444;
- 	in.dsc_en = 0;
- 	in.async_en = 0;
- 	in.fec_en = 0;
-@@ -1766,6 +1766,8 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
- 		ctrl->link->link_params.rate = rate;
- 		ctrl->link->link_params.num_lanes =
- 			ctrl->panel->link_info.num_lanes;
-+		if (ctrl->panel->dp_mode.out_fmt_is_yuv_420)
-+			pixel_rate >>= 1;
- 	}
- 
- 	drm_dbg_dp(ctrl->drm_dev, "rate=%d, num_lanes=%d, pixel_rate=%lu\n",
-@@ -1881,7 +1883,7 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl, bool force_link_train)
- 
- 	pixel_rate = pixel_rate_orig = ctrl->panel->dp_mode.drm_mode.clock;
- 
--	if (dp_ctrl->wide_bus_en)
-+	if (dp_ctrl->wide_bus_en || ctrl->panel->dp_mode.out_fmt_is_yuv_420)
- 		pixel_rate >>= 1;
- 
- 	drm_dbg_dp(ctrl->drm_dev, "rate=%d, num_lanes=%d, pixel_rate=%lu\n",
-@@ -1920,7 +1922,8 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl, bool force_link_train)
- 
- 	dp_catalog_ctrl_config_msa(ctrl->catalog,
- 		ctrl->link->link_params.rate,
--		pixel_rate_orig, dp_ctrl_use_fixed_nvid(ctrl));
-+		pixel_rate_orig, dp_ctrl_use_fixed_nvid(ctrl),
-+		ctrl->panel->dp_mode.out_fmt_is_yuv_420);
- 
- 	dp_ctrl_setup_tr_unit(ctrl);
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 6323dc08d5eb8..4b04388719363 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -933,6 +933,10 @@ enum drm_mode_status dp_bridge_mode_valid(struct drm_bridge *bridge,
- 	dp_display = container_of(dp, struct dp_display_private, dp_display);
- 	link_info = &dp_display->panel->link_info;
- 
-+	if (drm_mode_is_420_only(&dp->connector->display_info, mode) &&
-+	    dp_display->panel->vsc_sdp_supported)
-+		mode_pclk_khz /= 2;
++#include <linux/types.h>
 +
- 	mode_bpp = dp->connector->display_info.bpc * num_components;
- 	if (!mode_bpp)
- 		mode_bpp = default_bpp;
++#include "dp_utils.h"
++
++u8 dp_utils_get_g0_value(u8 data)
++{
++	u8 c[4];
++	u8 g[4];
++	u8 ret_data = 0;
++	u8 i;
++
++	for (i = 0; i < 4; i++)
++		c[i] = (data >> i) & 0x01;
++
++	g[0] = c[3];
++	g[1] = c[0] ^ c[3];
++	g[2] = c[1];
++	g[3] = c[2];
++
++	for (i = 0; i < 4; i++)
++		ret_data = ((g[i] & 0x01) << i) | ret_data;
++
++	return ret_data;
++}
++
++u8 dp_utils_get_g1_value(u8 data)
++{
++	u8 c[4];
++	u8 g[4];
++	u8 ret_data = 0;
++	u8 i;
++
++	for (i = 0; i < 4; i++)
++		c[i] = (data >> i) & 0x01;
++
++	g[0] = c[0] ^ c[3];
++	g[1] = c[0] ^ c[1] ^ c[3];
++	g[2] = c[1] ^ c[2];
++	g[3] = c[2] ^ c[3];
++
++	for (i = 0; i < 4; i++)
++		ret_data = ((g[i] & 0x01) << i) | ret_data;
++
++	return ret_data;
++}
++
++u8 dp_utils_calculate_parity(u32 data)
++{
++	u8 x0 = 0;
++	u8 x1 = 0;
++	u8 ci = 0;
++	u8 iData = 0;
++	u8 i = 0;
++	u8 parity_byte;
++	u8 num_byte = (data & 0xFF00) > 0 ? 8 : 2;
++
++	for (i = 0; i < num_byte; i++) {
++		iData = (data >> i * 4) & 0xF;
++
++		ci = iData ^ x1;
++		x1 = x0 ^ dp_utils_get_g1_value(ci);
++		x0 = dp_utils_get_g0_value(ci);
++	}
++
++	parity_byte = x1 | (x0 << 4);
++
++	return parity_byte;
++}
+diff --git a/drivers/gpu/drm/msm/dp/dp_utils.h b/drivers/gpu/drm/msm/dp/dp_utils.h
+new file mode 100644
+index 0000000000000..5a505cbf3432b
+--- /dev/null
++++ b/drivers/gpu/drm/msm/dp/dp_utils.h
+@@ -0,0 +1,22 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (c) 2024, The Linux Foundation. All rights reserved.
++ */
++
++#ifndef _DP_UTILS_H_
++#define _DP_UTILS_H_
++
++#define HEADER_BYTE_0_BIT	 0
++#define PARITY_BYTE_0_BIT	 8
++#define HEADER_BYTE_1_BIT	16
++#define PARITY_BYTE_1_BIT	24
++#define HEADER_BYTE_2_BIT	 0
++#define PARITY_BYTE_2_BIT	 8
++#define HEADER_BYTE_3_BIT	16
++#define PARITY_BYTE_3_BIT	24
++
++u8 dp_utils_get_g0_value(u8 data);
++u8 dp_utils_get_g1_value(u8 data);
++u8 dp_utils_calculate_parity(u32 data);
++
++#endif /* _DP_UTILS_H_ */
 -- 
 2.39.2
 
