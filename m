@@ -2,74 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CE9B8543E5
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 09:15:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14BDC8543F1
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 09:19:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59AE110E32F;
-	Wed, 14 Feb 2024 08:15:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11A7110E3D1;
+	Wed, 14 Feb 2024 08:19:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xZ3uOlr8";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="N4HEVpZA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Tf4VzyG5";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="N4HEVpZA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Tf4VzyG5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com
- [209.85.219.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E09C10E51D
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 08:15:39 +0000 (UTC)
-Received: by mail-yb1-f178.google.com with SMTP id
- 3f1490d57ef6-dcd7c526cc0so834025276.1
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 00:15:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1707898538; x=1708503338; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=EKXGtE0o7nACfq6pe512roREe48CDHHUhw9NIs9DgqY=;
- b=xZ3uOlr8GM+Qp7uGyglB+XlL4GsUz3k0hefFBVNf/Si73TG8c8MU48EWuNTOUKIl9T
- L44HsKktvM+1/Q3T2lJgL5f0BQx+xT1ukUyXMKDILZbNfGmqiXdOrW+NTJZetfrcV5j7
- P64Rz/Zl8njNpt+vOXJjAQiQgjB/dDukSZdJs2BKeN4J05WutknzjDDYOoylTRhb9qAW
- UlIEK9tuKaBQrt8fo5tKxdUnP6Anrm/XVvOGiXx7EuqchIrKk1Zr756H7H2Sz4/Yl34t
- XgwSYam0kVKuqnDqs4n1KZmanQsup/iifAoPRpeQNx+DckQ4XHtfYBDaxpsTWvOP8wBN
- WY+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707898538; x=1708503338;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=EKXGtE0o7nACfq6pe512roREe48CDHHUhw9NIs9DgqY=;
- b=MyW/YrIx1JBdajmk8MI8BIylW6LGmS7JTEAExqruh0YPZz/r1lxOITk/cc1eMLSurM
- F+97ZfVUgm+K5A1JtmxyJMpE0JT/H568b+bxwizg2cUR3gp6lM1aUe3iNcMB9Duy4yUg
- QT0rhr1Dcx+C0xolaDyoE8si2cWAS9JWNVv75lbMftMABVHYNioZJvJgHNQ20Md5kyIq
- u4mKoOoZfjgbyAcjFQh3lLjPOgSMXqhFL1iCsKIgBGAk3MGNqSvNbxu2U6xq5X+o1ncR
- Ob/I7Fr+4eOyS4VRt0S2lL37KJEUwb6l6x4Gz4q7enHVwHfGnOFHPs10uv8oidmxNkaV
- bFVQ==
-X-Gm-Message-State: AOJu0YzQgMEt020CRmVnywGbeZIfhHd6MJxxmyL2CB7jO3nzMfsXmtp1
- KEzEHgQ86+pHjP5UoxP10MFtqjq0pKB8mC4Zb+O968U9QoV8CPBXClx3zES73SrHjyg344SO3dX
- Tdoi3fxsLJcunfwi/xeUJoDOinmvD/SeQ5ytwPQ==
-X-Google-Smtp-Source: AGHT+IFI6XgUc51w44SGa4dFJZmddk/Aj01+ufuewKBsrzYVS9b+Kup4A4AKPQTJHjDr+FyB9b7AIUFcQMO+GV9FPR8=
-X-Received: by 2002:a5b:dc6:0:b0:dcd:36c1:ecb7 with SMTP id
- t6-20020a5b0dc6000000b00dcd36c1ecb7mr1383363ybr.54.1707898537795; Wed, 14 Feb
- 2024 00:15:37 -0800 (PST)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE27A10E3D1
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 08:19:45 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 606331F7E6;
+ Wed, 14 Feb 2024 08:19:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1707898784; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=aA5f7ggNHWMTJ6KErm2u4TZReewmf5jev0AIcYNDBPw=;
+ b=N4HEVpZA2Nvs/8/vStSVwzYRVDcMyhJLyBb5fQvSlhu0ejHc0Yd/xLzcHJPTI8Nprs/JY/
+ tF7m5BYGSGIGq2uXmqU0KMtEB/yPeSmZEkSXokgb9tsWlTRWCjs84VAUmDaAcE5x/TMRn/
+ Fo+tRMSIC5gTQPG4BOvCFufdw4OnNQE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1707898784;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=aA5f7ggNHWMTJ6KErm2u4TZReewmf5jev0AIcYNDBPw=;
+ b=Tf4VzyG5GMr1z8vhCJGW9UHBsjuzbN3C413EjPXO+Zeix/wjdEnoyLtsBDwtk9456S+NRK
+ WOBs9kdd8GF3BrBQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1707898784; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=aA5f7ggNHWMTJ6KErm2u4TZReewmf5jev0AIcYNDBPw=;
+ b=N4HEVpZA2Nvs/8/vStSVwzYRVDcMyhJLyBb5fQvSlhu0ejHc0Yd/xLzcHJPTI8Nprs/JY/
+ tF7m5BYGSGIGq2uXmqU0KMtEB/yPeSmZEkSXokgb9tsWlTRWCjs84VAUmDaAcE5x/TMRn/
+ Fo+tRMSIC5gTQPG4BOvCFufdw4OnNQE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1707898784;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=aA5f7ggNHWMTJ6KErm2u4TZReewmf5jev0AIcYNDBPw=;
+ b=Tf4VzyG5GMr1z8vhCJGW9UHBsjuzbN3C413EjPXO+Zeix/wjdEnoyLtsBDwtk9456S+NRK
+ WOBs9kdd8GF3BrBQ==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 437A913A0B;
+ Wed, 14 Feb 2024 08:19:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap2.dmz-prg2.suse.org with ESMTPSA id oVQND6B3zGX6NwAAn2gu4w
+ (envelope-from <tzimmermann@suse.de>); Wed, 14 Feb 2024 08:19:44 +0000
+Message-ID: <c8e0fbab-5d20-4d28-ba52-73cd7fa46473@suse.de>
+Date: Wed, 14 Feb 2024 09:19:43 +0100
 MIME-Version: 1.0
-References: <20240213234513.2411604-1-quic_abhinavk@quicinc.com>
-In-Reply-To: <20240213234513.2411604-1-quic_abhinavk@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 14 Feb 2024 10:15:27 +0200
-Message-ID: <CAA8EJpo0yeLyCkVvLFX7wUEV4+i+ORbaCB2qxN0izaWLdFqCrA@mail.gmail.com>
-Subject: Re: [PATCH] drm/dp: move intel_dp_vsc_sdp_pack() to generic helper
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: dri-devel@lists.freedesktop.org, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, robdclark@gmail.com, 
- freedreno@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- ville.syrjala@linux.intel.com, quic_jesszhan@quicinc.com, 
- linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] iosys-map: fix typo
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+References: <20240213224219.10644-1-rdunlap@infradead.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240213224219.10644-1-rdunlap@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spamd-Result: default: False [-1.97 / 50.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; XM_UA_NO_VERSION(0.01)[];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_THREE(0.00)[3];
+ TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ MIME_GOOD(-0.10)[text/plain]; BAYES_HAM(-1.88)[94.30%];
+ RCVD_COUNT_THREE(0.00)[3];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -1.97
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,233 +137,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 14 Feb 2024 at 01:45, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
-> intel_dp_vsc_sdp_pack() can be re-used by other DRM drivers as well.
-> Lets move this to drm_dp_helper to achieve this.
->
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-My preference would be to have packing functions in
-drivers/video/hdmi.c, as we already have
-hdmi_audio_infoframe_pack_for_dp() there.
+
+Am 13.02.24 um 23:42 schrieb Randy Dunlap:
+> Correct a spello/typo in comments.
+>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: dri-devel@lists.freedesktop.org
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Thanks. I'll add the patch to our tree.
 
 > ---
->  drivers/gpu/drm/display/drm_dp_helper.c | 78 +++++++++++++++++++++++++
->  drivers/gpu/drm/i915/display/intel_dp.c | 73 +----------------------
->  include/drm/display/drm_dp_helper.h     |  3 +
->  3 files changed, 84 insertions(+), 70 deletions(-)
+> v2: don't change "set up" to "setup" (Thomas)
 >
-> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-> index b1ca3a1100da..066cfbbf7a91 100644
-> --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> @@ -2916,6 +2916,84 @@ void drm_dp_vsc_sdp_log(const char *level, struct device *dev,
->  }
->  EXPORT_SYMBOL(drm_dp_vsc_sdp_log);
+>   include/linux/iosys-map.h |    2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> +/**
-> + * drm_dp_vsc_sdp_pack() - pack a given vsc sdp into generic dp_sdp
-> + * @vsc: vsc sdp initialized according to its purpose as defined in
-> + *       table 2-118 - table 2-120 in DP 1.4a specification
-> + * @sdp: valid handle to the generic dp_sdp which will be packed
-> + * @size: valid size of the passed sdp handle
-> + *
-> + * Returns length of sdp on success and error code on failure
-> + */
-> +ssize_t drm_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
-> +                           struct dp_sdp *sdp, size_t size)
-
-I know that you are just moving the function. Maybe there can be
-patch#2, which drops the size argument? The struct dp_sdp already has
-a defined size. The i915 driver just passes sizeof(sdp), which is more
-or less useless.
-
-> +{
-> +       size_t length = sizeof(struct dp_sdp);
-> +
-> +       if (size < length)
-> +               return -ENOSPC;
-> +
-> +       memset(sdp, 0, size);
-> +
-> +       /*
-> +        * Prepare VSC Header for SU as per DP 1.4a spec, Table 2-119
-> +        * VSC SDP Header Bytes
-> +        */
-> +       sdp->sdp_header.HB0 = 0; /* Secondary-Data Packet ID = 0 */
-> +       sdp->sdp_header.HB1 = vsc->sdp_type; /* Secondary-data Packet Type */
-> +       sdp->sdp_header.HB2 = vsc->revision; /* Revision Number */
-> +       sdp->sdp_header.HB3 = vsc->length; /* Number of Valid Data Bytes */
-> +
-> +       if (vsc->revision == 0x6) {
-> +               sdp->db[0] = 1;
-> +               sdp->db[3] = 1;
-> +       }
-> +
-> +       /*
-> +        * Revision 0x5 and revision 0x7 supports Pixel Encoding/Colorimetry
-> +        * Format as per DP 1.4a spec and DP 2.0 respectively.
-> +        */
-> +       if (!(vsc->revision == 0x5 || vsc->revision == 0x7))
-> +               goto out;
-> +
-> +       /* VSC SDP Payload for DB16 through DB18 */
-> +       /* Pixel Encoding and Colorimetry Formats  */
-> +       sdp->db[16] = (vsc->pixelformat & 0xf) << 4; /* DB16[7:4] */
-> +       sdp->db[16] |= vsc->colorimetry & 0xf; /* DB16[3:0] */
-> +
-> +       switch (vsc->bpc) {
-> +       case 6:
-> +               /* 6bpc: 0x0 */
-> +               break;
-> +       case 8:
-> +               sdp->db[17] = 0x1; /* DB17[3:0] */
-> +               break;
-> +       case 10:
-> +               sdp->db[17] = 0x2;
-> +               break;
-> +       case 12:
-> +               sdp->db[17] = 0x3;
-> +               break;
-> +       case 16:
-> +               sdp->db[17] = 0x4;
-> +               break;
-> +       default:
-> +               WARN(1, "Missing case %d\n", vsc->bpc);
-> +               return -EINVAL;
-> +       }
-> +
-> +       /* Dynamic Range and Component Bit Depth */
-> +       if (vsc->dynamic_range == DP_DYNAMIC_RANGE_CTA)
-> +               sdp->db[17] |= 0x80;  /* DB17[7] */
-> +
-> +       /* Content Type */
-> +       sdp->db[18] = vsc->content_type & 0x7;
-> +
-> +out:
-> +       return length;
-> +}
-> +EXPORT_SYMBOL(drm_dp_vsc_sdp_pack);
-> +
->  /**
->   * drm_dp_get_pcon_max_frl_bw() - maximum frl supported by PCON
->   * @dpcd: DisplayPort configuration data
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> index f5ef95da5534..e94db51aeeb7 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -4110,73 +4110,6 @@ intel_dp_needs_vsc_sdp(const struct intel_crtc_state *crtc_state,
->         return false;
->  }
->
-> -static ssize_t intel_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
-> -                                    struct dp_sdp *sdp, size_t size)
-> -{
-> -       size_t length = sizeof(struct dp_sdp);
-> -
-> -       if (size < length)
-> -               return -ENOSPC;
-> -
-> -       memset(sdp, 0, size);
-> -
-> -       /*
-> -        * Prepare VSC Header for SU as per DP 1.4a spec, Table 2-119
-> -        * VSC SDP Header Bytes
-> -        */
-> -       sdp->sdp_header.HB0 = 0; /* Secondary-Data Packet ID = 0 */
-> -       sdp->sdp_header.HB1 = vsc->sdp_type; /* Secondary-data Packet Type */
-> -       sdp->sdp_header.HB2 = vsc->revision; /* Revision Number */
-> -       sdp->sdp_header.HB3 = vsc->length; /* Number of Valid Data Bytes */
-> -
-> -       if (vsc->revision == 0x6) {
-> -               sdp->db[0] = 1;
-> -               sdp->db[3] = 1;
-> -       }
-> -
-> -       /*
-> -        * Revision 0x5 and revision 0x7 supports Pixel Encoding/Colorimetry
-> -        * Format as per DP 1.4a spec and DP 2.0 respectively.
-> -        */
-> -       if (!(vsc->revision == 0x5 || vsc->revision == 0x7))
-> -               goto out;
-> -
-> -       /* VSC SDP Payload for DB16 through DB18 */
-> -       /* Pixel Encoding and Colorimetry Formats  */
-> -       sdp->db[16] = (vsc->pixelformat & 0xf) << 4; /* DB16[7:4] */
-> -       sdp->db[16] |= vsc->colorimetry & 0xf; /* DB16[3:0] */
-> -
-> -       switch (vsc->bpc) {
-> -       case 6:
-> -               /* 6bpc: 0x0 */
-> -               break;
-> -       case 8:
-> -               sdp->db[17] = 0x1; /* DB17[3:0] */
-> -               break;
-> -       case 10:
-> -               sdp->db[17] = 0x2;
-> -               break;
-> -       case 12:
-> -               sdp->db[17] = 0x3;
-> -               break;
-> -       case 16:
-> -               sdp->db[17] = 0x4;
-> -               break;
-> -       default:
-> -               MISSING_CASE(vsc->bpc);
-> -               break;
-> -       }
-> -       /* Dynamic Range and Component Bit Depth */
-> -       if (vsc->dynamic_range == DP_DYNAMIC_RANGE_CTA)
-> -               sdp->db[17] |= 0x80;  /* DB17[7] */
-> -
-> -       /* Content Type */
-> -       sdp->db[18] = vsc->content_type & 0x7;
-> -
-> -out:
-> -       return length;
-> -}
-> -
->  static ssize_t
->  intel_dp_hdr_metadata_infoframe_sdp_pack(struct drm_i915_private *i915,
->                                          const struct hdmi_drm_infoframe *drm_infoframe,
-> @@ -4269,8 +4202,8 @@ static void intel_write_dp_sdp(struct intel_encoder *encoder,
->
->         switch (type) {
->         case DP_SDP_VSC:
-> -               len = intel_dp_vsc_sdp_pack(&crtc_state->infoframes.vsc, &sdp,
-> -                                           sizeof(sdp));
-> +               len = drm_dp_vsc_sdp_pack(&crtc_state->infoframes.vsc, &sdp,
-> +                                         sizeof(sdp));
->                 break;
->         case HDMI_PACKET_TYPE_GAMUT_METADATA:
->                 len = intel_dp_hdr_metadata_infoframe_sdp_pack(dev_priv,
-> @@ -4297,7 +4230,7 @@ void intel_write_dp_vsc_sdp(struct intel_encoder *encoder,
->         struct dp_sdp sdp = {};
->         ssize_t len;
->
-> -       len = intel_dp_vsc_sdp_pack(vsc, &sdp, sizeof(sdp));
-> +       len = drm_dp_vsc_sdp_pack(vsc, &sdp, sizeof(sdp));
->
->         if (drm_WARN_ON(&dev_priv->drm, len < 0))
->                 return;
-> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-> index 863b2e7add29..f8db34a2f7a5 100644
-> --- a/include/drm/display/drm_dp_helper.h
-> +++ b/include/drm/display/drm_dp_helper.h
-> @@ -813,4 +813,7 @@ int drm_dp_bw_overhead(int lane_count, int hactive,
->                        int bpp_x16, unsigned long flags);
->  int drm_dp_bw_channel_coding_efficiency(bool is_uhbr);
->
-> +ssize_t drm_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
-> +                           struct dp_sdp *sdp, size_t size);
-> +
->  #endif /* _DRM_DP_HELPER_H_ */
-> --
-> 2.34.1
->
-
+> diff -- a/include/linux/iosys-map.h b/include/linux/iosys-map.h
+> --- a/include/linux/iosys-map.h
+> +++ b/include/linux/iosys-map.h
+> @@ -34,7 +34,7 @@
+>    * the same driver for allocation, read and write operations.
+>    *
+>    * Open-coding access to :c:type:`struct iosys_map <iosys_map>` is considered
+> - * bad style. Rather then accessing its fields directly, use one of the provided
+> + * bad style. Rather than accessing its fields directly, use one of the provided
+>    * helper functions, or implement your own. For example, instances of
+>    * :c:type:`struct iosys_map <iosys_map>` can be initialized statically with
+>    * IOSYS_MAP_INIT_VADDR(), or at runtime with iosys_map_set_vaddr(). These
 
 -- 
-With best wishes
-Dmitry
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
