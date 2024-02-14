@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5C438549A1
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 13:52:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F1CD8549A3
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 13:52:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F00A410E219;
-	Wed, 14 Feb 2024 12:52:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76DA910E221;
+	Wed, 14 Feb 2024 12:52:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="xhFTB4xw";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="CwertjnW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B802410E0D3
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 12:52:08 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 41ECpsBx046986;
- Wed, 14 Feb 2024 06:51:54 -0600
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0129E10E221
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 12:52:13 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 41ECptst008400;
+ Wed, 14 Feb 2024 06:51:55 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1707915114;
- bh=9drq11wZTisZijPvJJM8MH1DpunI3GKUmCw2q0B7AEo=;
+ s=ti-com-17Q1; t=1707915116;
+ bh=kuoeBUR4o4+sd1G1Nxv5Un7Uktabr5/pM9BWB3fx2HY=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=xhFTB4xwMxpo1VJ8GodGbL6nn61mh3xAsqmZ4UL8Wf33ZslqGrud9+MS2dYAh0u2s
- 2nX8ggmbG0GAGhyfParpK6vfbjU823i3xIwY+j3B1dC+QYTbaI408StFDRqClBSBPg
- 1lOpZqTT71M3ZeGE4r020aytCKQHqMun9FqmDZdE=
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 41ECpsHt072714
+ b=CwertjnW7LcohMDThCNa/jRApyrXKYeO5YOGIvmNxLFDfPVeZRhmc7D2mWe7Et5Sw
+ c3X7MaXVfTF37+3FJC7LzJXKnsFDgavmNFZvaWv52LQQzzgbfSXKQbEjDY4NmeB8qS
+ x2gFSOfksnTRuJRKrdbosxRCSmLrzFxQJReyMBrA=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 41ECpthd100144
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 14 Feb 2024 06:51:54 -0600
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ Wed, 14 Feb 2024 06:51:55 -0600
+Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 14
- Feb 2024 06:51:54 -0600
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ Feb 2024 06:51:55 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 14 Feb 2024 06:51:54 -0600
+ Frontend Transport; Wed, 14 Feb 2024 06:51:55 -0600
 Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
- by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 41ECprfd056051;
- Wed, 14 Feb 2024 06:51:53 -0600
+ by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 41ECpsTq092363;
+ Wed, 14 Feb 2024 06:51:55 -0600
 From: Devarsh Thakkar <devarsht@ti.com>
 To: <jyri.sarha@iki.fi>, <tomi.valkeinen@ideasonboard.com>,
  <airlied@gmail.com>, <daniel@ffwll.ch>,
@@ -50,10 +50,10 @@ To: <jyri.sarha@iki.fi>, <tomi.valkeinen@ideasonboard.com>,
  <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
  <nm@ti.com>, <vigneshr@ti.com>, <kristo@kernel.org>
 CC: <praneeth@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>, <devarsht@ti.com>
-Subject: [PATCH v2 1/2] dt-bindings: display: ti,
- am65x-dss: Add support for common1 region
-Date: Wed, 14 Feb 2024 18:21:50 +0530
-Message-ID: <20240214125151.1965137-2-devarsht@ti.com>
+Subject: [PATCH v2 2/2] arm64: dts: ti: Add common1 register space for AM62x,
+ AM62A & AM65x SoCs
+Date: Wed, 14 Feb 2024 18:21:51 +0530
+Message-ID: <20240214125151.1965137-3-devarsht@ti.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240214125151.1965137-1-devarsht@ti.com>
 References: <20240214125151.1965137-1-devarsht@ti.com>
@@ -76,69 +76,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TI keystone display subsystem present in AM65 and other SoCs such as AM62
-support two separate register spaces namely "common" and "common1" which
-can be used by two separate hosts to program the display controller as
-described in respective Technical Reference Manuals [1].
-
-The common1 register space has similar set of configuration registers as
-supported in common register space except the global configuration
-registers which are exclusive to common region.
-
-This adds binding for "common1" register region too as supported by the
-hardware.
-
-[1]:
-AM62x TRM:
-https://www.ti.com/lit/pdf/spruiv7 (Section 14.8.9.1 DSS Registers)
-
-AM65x TRM:
-https://www.ti.com/lit/pdf/spruid7 (Section 12.6.5 DSS Registers)
-
-AM62A TRM:
-https://www.ti.com/lit/pdf/spruj16 (Section 14.9.9.1 DSS Registers)
+This adds common1 register space for AM62x, AM62A and AM65x SoC's which are
+using TI's Keystone display hardware and supporting it as described in
+Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
 
 Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
 ---
-V2: Add Acked-by tag
+V2: Add common1 region for AM62A SoC too
 ---
- .../devicetree/bindings/display/ti/ti,am65x-dss.yaml       | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ arch/arm64/boot/dts/ti/k3-am62-main.dtsi  | 5 +++--
+ arch/arm64/boot/dts/ti/k3-am62a-main.dtsi | 5 +++--
+ arch/arm64/boot/dts/ti/k3-am65-main.dtsi  | 5 +++--
+ 3 files changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-index b6767ef0d24d..55e3e490d0e6 100644
---- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-+++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-@@ -37,6 +37,7 @@ properties:
-       - description: OVR2 overlay manager for vp2
-       - description: VP1 video port 1
-       - description: VP2 video port 2
-+      - description: common1 DSS register area
+diff --git a/arch/arm64/boot/dts/ti/k3-am62-main.dtsi b/arch/arm64/boot/dts/ti/k3-am62-main.dtsi
+index fe0cc4a9a501..8cee4d94cdd3 100644
+--- a/arch/arm64/boot/dts/ti/k3-am62-main.dtsi
++++ b/arch/arm64/boot/dts/ti/k3-am62-main.dtsi
+@@ -779,9 +779,10 @@ dss: dss@30200000 {
+ 		      <0x00 0x30207000 0x00 0x1000>, /* ovr1 */
+ 		      <0x00 0x30208000 0x00 0x1000>, /* ovr2 */
+ 		      <0x00 0x3020a000 0x00 0x1000>, /* vp1: Used for OLDI */
+-		      <0x00 0x3020b000 0x00 0x1000>; /* vp2: Used as DPI Out */
++		      <0x00 0x3020b000 0x00 0x1000>, /* vp2: Used as DPI Out */
++		      <0x00 0x30201000 0x00 0x1000>; /* common1 */
+ 		reg-names = "common", "vidl1", "vid",
+-			    "ovr1", "ovr2", "vp1", "vp2";
++			    "ovr1", "ovr2", "vp1", "vp2", "common1";
+ 		power-domains = <&k3_pds 186 TI_SCI_PD_EXCLUSIVE>;
+ 		clocks = <&k3_clks 186 6>,
+ 			 <&dss_vp1_clk>,
+diff --git a/arch/arm64/boot/dts/ti/k3-am62a-main.dtsi b/arch/arm64/boot/dts/ti/k3-am62a-main.dtsi
+index 972971159a62..f475daea548e 100644
+--- a/arch/arm64/boot/dts/ti/k3-am62a-main.dtsi
++++ b/arch/arm64/boot/dts/ti/k3-am62a-main.dtsi
+@@ -994,9 +994,10 @@ dss: dss@30200000 {
+ 		      <0x00 0x30207000 0x00 0x1000>, /* ovr1 */
+ 		      <0x00 0x30208000 0x00 0x1000>, /* ovr2 */
+ 		      <0x00 0x3020a000 0x00 0x1000>, /* vp1: Tied OFF in the SoC */
+-		      <0x00 0x3020b000 0x00 0x1000>; /* vp2: Used as DPI Out */
++		      <0x00 0x3020b000 0x00 0x1000>, /* vp2: Used as DPI Out */
++		      <0x00 0x30201000 0x00 0x1000>; /* common1 */
+ 		reg-names = "common", "vidl1", "vid",
+-			    "ovr1", "ovr2", "vp1", "vp2";
++			    "ovr1", "ovr2", "vp1", "vp2", "common1";
+ 		power-domains = <&k3_pds 186 TI_SCI_PD_EXCLUSIVE>;
+ 		clocks = <&k3_clks 186 6>,
+ 			 <&k3_clks 186 0>,
+diff --git a/arch/arm64/boot/dts/ti/k3-am65-main.dtsi b/arch/arm64/boot/dts/ti/k3-am65-main.dtsi
+index 07010d31350e..ff857117d719 100644
+--- a/arch/arm64/boot/dts/ti/k3-am65-main.dtsi
++++ b/arch/arm64/boot/dts/ti/k3-am65-main.dtsi
+@@ -991,9 +991,10 @@ dss: dss@4a00000 {
+ 		      <0x0 0x04a07000 0x0 0x1000>, /* ovr1 */
+ 		      <0x0 0x04a08000 0x0 0x1000>, /* ovr2 */
+ 		      <0x0 0x04a0a000 0x0 0x1000>, /* vp1 */
+-		      <0x0 0x04a0b000 0x0 0x1000>; /* vp2 */
++		      <0x0 0x04a0b000 0x0 0x1000>, /* vp2 */
++		      <0x0 0x04a01000 0x0 0x1000>; /* common1 */
+ 		reg-names = "common", "vidl1", "vid",
+-			"ovr1", "ovr2", "vp1", "vp2";
++			"ovr1", "ovr2", "vp1", "vp2", "common1";
  
-   reg-names:
-     items:
-@@ -47,6 +48,7 @@ properties:
-       - const: ovr2
-       - const: vp1
-       - const: vp2
-+      - const: common1
+ 		ti,am65x-oldi-io-ctrl = <&dss_oldi_io_ctrl>;
  
-   clocks:
-     items:
-@@ -147,9 +149,10 @@ examples:
-                     <0x04a07000 0x1000>, /* ovr1 */
-                     <0x04a08000 0x1000>, /* ovr2 */
-                     <0x04a0a000 0x1000>, /* vp1 */
--                    <0x04a0b000 0x1000>; /* vp2 */
-+                    <0x04a0b000 0x1000>, /* vp2 */
-+                    <0x04a01000 0x1000>; /* common1 */
-             reg-names = "common", "vidl1", "vid",
--                    "ovr1", "ovr2", "vp1", "vp2";
-+                    "ovr1", "ovr2", "vp1", "vp2", "common1";
-             ti,am65x-oldi-io-ctrl = <&dss_oldi_io_ctrl>;
-             power-domains = <&k3_pds 67 TI_SCI_PD_EXCLUSIVE>;
-             clocks =        <&k3_clks 67 1>,
 -- 
 2.34.1
 
