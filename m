@@ -2,90 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FC54854FB7
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 18:17:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65B7B855066
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 18:33:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A21910E714;
-	Wed, 14 Feb 2024 17:17:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A71610E4FD;
+	Wed, 14 Feb 2024 17:33:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="IHSRuXpl";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ze/yCpcn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CE5D10E4FD;
- Wed, 14 Feb 2024 17:17:44 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41E90aaG004320; Wed, 14 Feb 2024 17:17:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=cpgWYEWq6DP+jNNJl+5t63QHfxeoJvHVCyCtujNb1Sw=; b=IH
- SRuXplkPZZ/86a1haB8VQIlP619AFNbdBNEKGQIyUB2F7OgKeM7g/gVePl/3liqM
- 3QtHlBFLSpK0t//gka85eU+T5ecJwCwAh01Hlh1uqDc4VhOk8zC50Vuphka12t90
- wrMq9d0dksrqJtAAM53Y+tPGXqASEf9rmx8cPGm1ggfpIw7ngVja+RVnbFst/ShO
- YFqS5sszrrgx/JGnsfapc1RM+JIqZJUosVD5xC422qjXh5Q0mngi/H9iKEg+FeDd
- D58t3gg1bPdD3kk4MTDrOhD3GK2d9yXoI0qENggNlxxCD6ZscUdBuIVsAX6mstRi
- p0XWu6jVLOiI0meSbdFg==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w8enna89h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 14 Feb 2024 17:17:37 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41EHHafN003490
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 14 Feb 2024 17:17:36 GMT
-Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 14 Feb
- 2024 09:17:35 -0800
-Message-ID: <eb8b3bac-5f97-8efd-721e-08e9544be3f8@quicinc.com>
-Date: Wed, 14 Feb 2024 09:17:34 -0800
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0EE410E4FD
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 17:33:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1707932022;
+ bh=i0FUp+GiwyJKrR5UQ+BmdgMqs4ue1B/A9hkZbtoD1YE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=ze/yCpcnAq+aVkqR2QLb9G9sNlZrMZhf0g/m0oe7VZhqP4lsAuAotR6nC4zpeInfG
+ hNB610YvsZ7gGtBak1h99/Y/L8arlAXgSEPKOiz/YEa9z/lEoB39ggr2D4ZMRTAwFO
+ js+QvU2+77mq++YxSsLvqLgbk8wlHToTxgXt+8kcddY5axeDzbtoivfhn1+Wgnl45T
+ pLQEDu32nTBBtWYXmMFrzcu0F5bjaGQYKyFxK0LnvJCElVoSy3V39LoVOetqhsAFHG
+ ks8DpVfzXJ41FWqkomSUbUf+a1zVFN4IS4q1c9fVQJ2saclut/ci9B7cjvw4oL7rYP
+ Kb5OzhmBEd87A==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 67E643781FEF;
+ Wed, 14 Feb 2024 17:33:41 +0000 (UTC)
+Date: Wed, 14 Feb 2024 18:33:39 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>, "Marty
+ E . Plummer" <hanetzer@startmail.com>, Rob Herring <robh@kernel.org>,
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, Nicolas Boichat
+ <drinkcat@chromium.org>, Neil Armstrong <neil.armstrong@linaro.org>, Faith
+ Ekstrand <faith.ekstrand@collabora.com>, Daniel Stone
+ <daniels@collabora.com>, Liviu Dudau <Liviu.Dudau@arm.com>, Robin Murphy
+ <robin.murphy@arm.com>, kernel@collabora.com, Heiko Stuebner
+ <heiko@sntech.de>, Tatsuyuki Ishi <ishitatsuyuki@gmail.com>, Chris Diamand
+ <chris.diamand@foss.arm.com>, Ketil Johnsen <ketil.johnsen@arm.com>
+Subject: Re: [PATCH v4 09/14] drm/panthor: Add the heap logical block
+Message-ID: <20240214183339.1f690c9d@collabora.com>
+In-Reply-To: <e43ec7bb-1104-40b4-a031-3b6fa7be1eb4@arm.com>
+References: <20240122163047.1954733-1-boris.brezillon@collabora.com>
+ <20240122163047.1954733-10-boris.brezillon@collabora.com>
+ <e43ec7bb-1104-40b4-a031-3b6fa7be1eb4@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/dp: move intel_dp_vsc_sdp_pack() to generic helper
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <dri-devel@lists.freedesktop.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
- <tvrtko.ursulin@linux.intel.com>,
- <robdclark@gmail.com>, <freedreno@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>, <ville.syrjala@linux.intel.com>,
- <quic_jesszhan@quicinc.com>, <linux-kernel@vger.kernel.org>,
- <intel-xe@lists.freedesktop.org>
-References: <20240213234513.2411604-1-quic_abhinavk@quicinc.com>
- <CAA8EJpo0yeLyCkVvLFX7wUEV4+i+ORbaCB2qxN0izaWLdFqCrA@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJpo0yeLyCkVvLFX7wUEV4+i+ORbaCB2qxN0izaWLdFqCrA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: _-kD4V7i3gEHIiLo4KbsIDDpjrMh6YEY
-X-Proofpoint-ORIG-GUID: _-kD4V7i3gEHIiLo4KbsIDDpjrMh6YEY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-14_10,2024-02-14_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- suspectscore=0 phishscore=0 mlxscore=0 impostorscore=0 priorityscore=1501
- spamscore=0 malwarescore=0 bulkscore=0 adultscore=0 mlxlogscore=999
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402140135
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,254 +70,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 12 Feb 2024 11:40:55 +0000
+Steven Price <steven.price@arm.com> wrote:
 
-
-On 2/14/2024 12:15 AM, Dmitry Baryshkov wrote:
-> On Wed, 14 Feb 2024 at 01:45, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->> intel_dp_vsc_sdp_pack() can be re-used by other DRM drivers as well.
->> Lets move this to drm_dp_helper to achieve this.
->>
->> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> On 22/01/2024 16:30, Boris Brezillon wrote:
+> > Tiler heap growing requires some kernel driver involvement: when the
+> > tiler runs out of heap memory, it will raise an exception which is
+> > either directly handled by the firmware if some free heap chunks are
+> > available in the heap context, or passed back to the kernel otherwise.
+> > The heap helpers will be used by the scheduler logic to allocate more
+> > heap chunks to a heap context, when such a situation happens.
+> > 
+> > Heap context creation is explicitly requested by userspace (using
+> > the TILER_HEAP_CREATE ioctl), and the returned context is attached to a
+> > queue through some command stream instruction.
+> > 
+> > All the kernel does is keep the list of heap chunks allocated to a
+> > context, so they can be freed when TILER_HEAP_DESTROY is called, or
+> > extended when the FW requests a new chunk.
+> > 
+> > v4:
+> > - Rework locking to allow concurrent calls to panthor_heap_grow()
+> > - Add a helper to return a heap chunk if we couldn't pass it to the
+> >   FW because the group was scheduled out
+> > 
+> > v3:
+> > - Add a FIXME for the heap OOM deadlock
+> > - Use the panthor_kernel_bo abstraction for the heap context and heap
+> >   chunks
+> > - Drop the panthor_heap_gpu_ctx struct as it is opaque to the driver
+> > - Ensure that the heap context is aligned to the GPU cache line size
+> > - Minor code tidy ups
+> > 
+> > Co-developed-by: Steven Price <steven.price@arm.com>
+> > Signed-off-by: Steven Price <steven.price@arm.com>
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>  
 > 
-> My preference would be to have packing functions in
-> drivers/video/hdmi.c, as we already have
-> hdmi_audio_infoframe_pack_for_dp() there.
+> It looks fine, but there's a confusing FIXME comment:
 > 
-
-My preference is drm_dp_helper because it already has some VSC SDP stuff 
-and after discussion with Ville on IRC, I decided to post it this way.
-
-hdmi_audio_infoframe_pack_for_dp() is an exception from my PoV as the 
-hdmi audio infoframe fields were re-used and packed into a DP SDP 
-thereby re-using the existing struct hdmi_audio_infoframe .
-
-This is not like that. Here we pack from struct drm_dp_vsc_sdp to struct 
-dp_sdp both of which had prior usages already in this file.
-
-So it all adds up and makes sense to me to be in this file.
-
-I will let the other DRM core maintainers comment on this.
-
-Ville, Jani?
-
->> ---
->>   drivers/gpu/drm/display/drm_dp_helper.c | 78 +++++++++++++++++++++++++
->>   drivers/gpu/drm/i915/display/intel_dp.c | 73 +----------------------
->>   include/drm/display/drm_dp_helper.h     |  3 +
->>   3 files changed, 84 insertions(+), 70 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
->> index b1ca3a1100da..066cfbbf7a91 100644
->> --- a/drivers/gpu/drm/display/drm_dp_helper.c
->> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
->> @@ -2916,6 +2916,84 @@ void drm_dp_vsc_sdp_log(const char *level, struct device *dev,
->>   }
->>   EXPORT_SYMBOL(drm_dp_vsc_sdp_log);
->>
->> +/**
->> + * drm_dp_vsc_sdp_pack() - pack a given vsc sdp into generic dp_sdp
->> + * @vsc: vsc sdp initialized according to its purpose as defined in
->> + *       table 2-118 - table 2-120 in DP 1.4a specification
->> + * @sdp: valid handle to the generic dp_sdp which will be packed
->> + * @size: valid size of the passed sdp handle
->> + *
->> + * Returns length of sdp on success and error code on failure
->> + */
->> +ssize_t drm_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
->> +                           struct dp_sdp *sdp, size_t size)
+> > +	/* FIXME: panthor_alloc_heap_chunk() triggers a kernel BO creation, which
+> > +	 * relies on blocking allocations (both for the BO itself, and backing
+> > +	 * memory), which might cause a deadlock because we're called from a context
+> > +	 * where we hold the panthor scheduler lock, thus preventing job cleanups
+> > +	 * that could free up some memory. The jobs themselves will timeout, but
+> > +	 * we'll still be blocked there. The only solution here is to implement
+> > +	 * something similar to shmem_sg_alloc_table() in i915, so we can do
+> > +	 * non-blocking allocations, and just kill the job when we run out-of-memory
+> > +	 * for the tiler context.
+> > +	 */  
 > 
-> I know that you are just moving the function. Maybe there can be
-> patch#2, which drops the size argument? The struct dp_sdp already has
-> a defined size. The i915 driver just passes sizeof(sdp), which is more
-> or less useless.
+> Whereas at the call site (group_process_tiler_oom()) there's the comment:
 > 
+> > 		/* We do the allocation without holding the scheduler lock to avoid
+> > 		 * blocking the scheduling.
+> > 		 */  
+> 
+> AFAICT that FIXME comment can just be deleted now. Assuming you agree
+> then with that change:
 
-Yes this is a valid point, I also noticed this. I can post it on top of 
-this once we get an agreement and ack on this patch first.
+The FIXME is no longer accurate indeed, but I'd like to keep a FIXME
+here to reflect the fact the solution we have is not the one we want, as
+it prevents the GPU from immediately falling back to the user provided
+OOM exception handler, or killing the job if there's no way it can
+reclaim tiler memory.
 
->> +{
->> +       size_t length = sizeof(struct dp_sdp);
->> +
->> +       if (size < length)
->> +               return -ENOSPC;
->> +
->> +       memset(sdp, 0, size);
->> +
->> +       /*
->> +        * Prepare VSC Header for SU as per DP 1.4a spec, Table 2-119
->> +        * VSC SDP Header Bytes
->> +        */
->> +       sdp->sdp_header.HB0 = 0; /* Secondary-Data Packet ID = 0 */
->> +       sdp->sdp_header.HB1 = vsc->sdp_type; /* Secondary-data Packet Type */
->> +       sdp->sdp_header.HB2 = vsc->revision; /* Revision Number */
->> +       sdp->sdp_header.HB3 = vsc->length; /* Number of Valid Data Bytes */
->> +
->> +       if (vsc->revision == 0x6) {
->> +               sdp->db[0] = 1;
->> +               sdp->db[3] = 1;
->> +       }
->> +
->> +       /*
->> +        * Revision 0x5 and revision 0x7 supports Pixel Encoding/Colorimetry
->> +        * Format as per DP 1.4a spec and DP 2.0 respectively.
->> +        */
->> +       if (!(vsc->revision == 0x5 || vsc->revision == 0x7))
->> +               goto out;
->> +
->> +       /* VSC SDP Payload for DB16 through DB18 */
->> +       /* Pixel Encoding and Colorimetry Formats  */
->> +       sdp->db[16] = (vsc->pixelformat & 0xf) << 4; /* DB16[7:4] */
->> +       sdp->db[16] |= vsc->colorimetry & 0xf; /* DB16[3:0] */
->> +
->> +       switch (vsc->bpc) {
->> +       case 6:
->> +               /* 6bpc: 0x0 */
->> +               break;
->> +       case 8:
->> +               sdp->db[17] = 0x1; /* DB17[3:0] */
->> +               break;
->> +       case 10:
->> +               sdp->db[17] = 0x2;
->> +               break;
->> +       case 12:
->> +               sdp->db[17] = 0x3;
->> +               break;
->> +       case 16:
->> +               sdp->db[17] = 0x4;
->> +               break;
->> +       default:
->> +               WARN(1, "Missing case %d\n", vsc->bpc);
->> +               return -EINVAL;
->> +       }
->> +
->> +       /* Dynamic Range and Component Bit Depth */
->> +       if (vsc->dynamic_range == DP_DYNAMIC_RANGE_CTA)
->> +               sdp->db[17] |= 0x80;  /* DB17[7] */
->> +
->> +       /* Content Type */
->> +       sdp->db[18] = vsc->content_type & 0x7;
->> +
->> +out:
->> +       return length;
->> +}
->> +EXPORT_SYMBOL(drm_dp_vsc_sdp_pack);
->> +
->>   /**
->>    * drm_dp_get_pcon_max_frl_bw() - maximum frl supported by PCON
->>    * @dpcd: DisplayPort configuration data
->> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
->> index f5ef95da5534..e94db51aeeb7 100644
->> --- a/drivers/gpu/drm/i915/display/intel_dp.c
->> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
->> @@ -4110,73 +4110,6 @@ intel_dp_needs_vsc_sdp(const struct intel_crtc_state *crtc_state,
->>          return false;
->>   }
->>
->> -static ssize_t intel_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
->> -                                    struct dp_sdp *sdp, size_t size)
->> -{
->> -       size_t length = sizeof(struct dp_sdp);
->> -
->> -       if (size < length)
->> -               return -ENOSPC;
->> -
->> -       memset(sdp, 0, size);
->> -
->> -       /*
->> -        * Prepare VSC Header for SU as per DP 1.4a spec, Table 2-119
->> -        * VSC SDP Header Bytes
->> -        */
->> -       sdp->sdp_header.HB0 = 0; /* Secondary-Data Packet ID = 0 */
->> -       sdp->sdp_header.HB1 = vsc->sdp_type; /* Secondary-data Packet Type */
->> -       sdp->sdp_header.HB2 = vsc->revision; /* Revision Number */
->> -       sdp->sdp_header.HB3 = vsc->length; /* Number of Valid Data Bytes */
->> -
->> -       if (vsc->revision == 0x6) {
->> -               sdp->db[0] = 1;
->> -               sdp->db[3] = 1;
->> -       }
->> -
->> -       /*
->> -        * Revision 0x5 and revision 0x7 supports Pixel Encoding/Colorimetry
->> -        * Format as per DP 1.4a spec and DP 2.0 respectively.
->> -        */
->> -       if (!(vsc->revision == 0x5 || vsc->revision == 0x7))
->> -               goto out;
->> -
->> -       /* VSC SDP Payload for DB16 through DB18 */
->> -       /* Pixel Encoding and Colorimetry Formats  */
->> -       sdp->db[16] = (vsc->pixelformat & 0xf) << 4; /* DB16[7:4] */
->> -       sdp->db[16] |= vsc->colorimetry & 0xf; /* DB16[3:0] */
->> -
->> -       switch (vsc->bpc) {
->> -       case 6:
->> -               /* 6bpc: 0x0 */
->> -               break;
->> -       case 8:
->> -               sdp->db[17] = 0x1; /* DB17[3:0] */
->> -               break;
->> -       case 10:
->> -               sdp->db[17] = 0x2;
->> -               break;
->> -       case 12:
->> -               sdp->db[17] = 0x3;
->> -               break;
->> -       case 16:
->> -               sdp->db[17] = 0x4;
->> -               break;
->> -       default:
->> -               MISSING_CASE(vsc->bpc);
->> -               break;
->> -       }
->> -       /* Dynamic Range and Component Bit Depth */
->> -       if (vsc->dynamic_range == DP_DYNAMIC_RANGE_CTA)
->> -               sdp->db[17] |= 0x80;  /* DB17[7] */
->> -
->> -       /* Content Type */
->> -       sdp->db[18] = vsc->content_type & 0x7;
->> -
->> -out:
->> -       return length;
->> -}
->> -
->>   static ssize_t
->>   intel_dp_hdr_metadata_infoframe_sdp_pack(struct drm_i915_private *i915,
->>                                           const struct hdmi_drm_infoframe *drm_infoframe,
->> @@ -4269,8 +4202,8 @@ static void intel_write_dp_sdp(struct intel_encoder *encoder,
->>
->>          switch (type) {
->>          case DP_SDP_VSC:
->> -               len = intel_dp_vsc_sdp_pack(&crtc_state->infoframes.vsc, &sdp,
->> -                                           sizeof(sdp));
->> +               len = drm_dp_vsc_sdp_pack(&crtc_state->infoframes.vsc, &sdp,
->> +                                         sizeof(sdp));
->>                  break;
->>          case HDMI_PACKET_TYPE_GAMUT_METADATA:
->>                  len = intel_dp_hdr_metadata_infoframe_sdp_pack(dev_priv,
->> @@ -4297,7 +4230,7 @@ void intel_write_dp_vsc_sdp(struct intel_encoder *encoder,
->>          struct dp_sdp sdp = {};
->>          ssize_t len;
->>
->> -       len = intel_dp_vsc_sdp_pack(vsc, &sdp, sizeof(sdp));
->> +       len = drm_dp_vsc_sdp_pack(vsc, &sdp, sizeof(sdp));
->>
->>          if (drm_WARN_ON(&dev_priv->drm, len < 0))
->>                  return;
->> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
->> index 863b2e7add29..f8db34a2f7a5 100644
->> --- a/include/drm/display/drm_dp_helper.h
->> +++ b/include/drm/display/drm_dp_helper.h
->> @@ -813,4 +813,7 @@ int drm_dp_bw_overhead(int lane_count, int hactive,
->>                         int bpp_x16, unsigned long flags);
->>   int drm_dp_bw_channel_coding_efficiency(bool is_uhbr);
->>
->> +ssize_t drm_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
->> +                           struct dp_sdp *sdp, size_t size);
->> +
->>   #endif /* _DRM_DP_HELPER_H_ */
->> --
->> 2.34.1
->>
+How about:
+
+FIXME: panthor_alloc_heap_chunk() triggers a kernel BO creation, which
+goes through the blocking allocation path. Ultimately, we want
+a non-blocking allocation, so we can immediately report to the FW when
+the system is running out of memory. In that case, the FW can call a
+user-provided exception handler, which might try to free some tiler
+memory by issuing an intermediate fragment job. If the exception handler
+can't do anything, it will flag the queue as faulty so the job that
+triggered this tiler chunk allocation and all further jobs in this
+queue fail immediately instead of having to wait for the job
+timeout.
+
 > 
-> 
+> Reviewed-by: Steven Price <steven.price@arm.com>
