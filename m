@@ -2,86 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F5598556E2
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 00:08:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64BC48556EE
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 00:13:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 965CF10E04D;
-	Wed, 14 Feb 2024 23:08:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 752B810E37B;
+	Wed, 14 Feb 2024 23:13:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="NfoHoEng";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hCw1MKmv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
- [209.85.160.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 088E410E04D
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 23:08:05 +0000 (UTC)
-Received: by mail-qt1-f177.google.com with SMTP id
- d75a77b69052e-42c754ddbdbso1580321cf.0
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 15:08:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1707952083; x=1708556883;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=po6FB+Baujb9bEueLyWoU1S6jvmJIc+PouEW/zdHIJk=;
- b=NfoHoEngU8n4uEmR9DTIiZPkPj69FmCK779KkeUQuAd2OuClUXRJ6P/c3Zdz7Egc77
- BDQOsxrHQMCKfN+al0KMB49LQxNdPElZpsZptmRQCqM/bAcVyYIGnmVV6Zm9ZHjGoUrF
- fiqReXbIHI3L3/eifk6sSVaUR/VypNTYUZcyw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707952083; x=1708556883;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=po6FB+Baujb9bEueLyWoU1S6jvmJIc+PouEW/zdHIJk=;
- b=vEKWTBjDJteaYIUc8FMZcsc+zvnxQ8DLn+jH3+atafBLmkxFnNKdRnI3t7AQRC0S+K
- pGS3rx34xuhi2Ff8CQSxt5V6SOL4avC/2j4aKbCmfgsudQ2zc1AfG9oUrHs/K74pstGM
- foBBXJik1SCLBKBz7yg2vtP0hgrhJzVIhJHP/YrIDhV6wnDB2cub/G3pbey9msYhZvJ0
- hmwD7M8s3wYddB8/AIYaacX9dZwgWjZ0DDcCvP2BBIM27Zp6iHF3A2f7PwCpcyVYNJJH
- VRiwUz7absxWH4jknEBc8Q6VDJ9TC6h0aMH4ed0YowmGkbXMWKG+inSeOQOR57RuAZWY
- T6lw==
-X-Gm-Message-State: AOJu0YwWb0zOxOQ4CnpB+aUrSHvvRPVNUvUyYszaMphmiMSuBjpAUUJf
- XjMia9NoJqxmCzD4XzdQgxKlLtotXeeZ8mszA+RB9ObwSfY0VvbAaCOF/zkwU6C5/FbUUqep+w2
- h8Igc
-X-Google-Smtp-Source: AGHT+IHLFZVFL+Q7jxRC8r+PUYZq5XE6ZTTTU0uF/HIGNI0PlMBOphJrD76/WITP08Z54MSKKg+tGA==
-X-Received: by 2002:ac8:7f94:0:b0:42c:14b7:b617 with SMTP id
- z20-20020ac87f94000000b0042c14b7b617mr308245qtj.3.1707952083599; 
- Wed, 14 Feb 2024 15:08:03 -0800 (PST)
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com.
- [209.85.160.181]) by smtp.gmail.com with ESMTPSA id
- ic14-20020a05622a68ce00b0042c5a47df18sm11751qtb.55.2024.02.14.15.08.02
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Feb 2024 15:08:02 -0800 (PST)
-Received: by mail-qt1-f181.google.com with SMTP id
- d75a77b69052e-42c70247923so36141cf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 15:08:02 -0800 (PST)
-X-Received: by 2002:ac8:6207:0:b0:42d:c8b2:8dca with SMTP id
- ks7-20020ac86207000000b0042dc8b28dcamr118141qtb.4.1707952082055; Wed, 14 Feb
- 2024 15:08:02 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B977E10E0F8;
+ Wed, 14 Feb 2024 23:13:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1707952410; x=1739488410;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=Z1/yl5RJ77QqCCp71GxnprkzPjJyVEnw3bnTqBlUQMY=;
+ b=hCw1MKmvNqiDO7/1L/9VPDy6alVhEDrY7mK+AXV5JxG95XwyGYLqL7OH
+ l+z2TcQ8uPpgkrVAfwJhJCRt4zsYf6GdUm4qIncp7dGbl8gY6+99hz6mH
+ SvoSkIYlr3LXkPQgWdt9lHaRKq0TEEGnKrGnZ1Ju65oIDtQmclNgCq8Ug
+ iCYzktPoSYuEkLKXIdpTEqDgcT48Bn5nLHdZHAQXszir1t9XakAUkJK12
+ voQQ6jjM2iIOtBU7tNlMkfv4yMmyxdC/i6Zgu84ZcqegOPbbqOuUNjBMR
+ eL4bBtrpJfTHCnlfc/0xFG6WubCVSnuy0oZNaCZC/iRrE15q1oEd8mYfw A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="13422005"
+X-IronPort-AV: E=Sophos;i="6.06,160,1705392000"; d="scan'208";a="13422005"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2024 15:13:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="826369893"
+X-IronPort-AV: E=Sophos;i="6.06,160,1705392000"; d="scan'208";a="826369893"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga001.jf.intel.com with SMTP; 14 Feb 2024 15:13:23 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 15 Feb 2024 01:13:22 +0200
+Date: Thu, 15 Feb 2024 01:13:22 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ amd-gfx@lists.freedesktop.org,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ linux-fbdev@vger.kernel.org, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org,
+ platform-driver-x86@vger.kernel.org, intel-xe@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org,
+ "open list:ACPI" <linux-acpi@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, Melissa Wen <mwen@igalia.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>
+Subject: Re: [PATCH v6 3/5] drm: Add support to get EDID from ACPI
+Message-ID: <Zc1JEg5mC0ww_BeU@intel.com>
+References: <20240214215756.6530-1-mario.limonciello@amd.com>
+ <20240214215756.6530-4-mario.limonciello@amd.com>
 MIME-Version: 1.0
-References: <20240202141109.1.I24277520ac754ea538c9b14578edc94e1df11b48@changeid>
- <CAJMQK-it9YMod4rHKnACq4O-iaGieK2SN4x5vQ018CghsA631A@mail.gmail.com>
-In-Reply-To: <CAJMQK-it9YMod4rHKnACq4O-iaGieK2SN4x5vQ018CghsA631A@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 14 Feb 2024 15:07:46 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=VfuFrK1cSKA0maMzT5dxzKEzADqrd69fZKXuAGrU2rmA@mail.gmail.com>
-Message-ID: <CAD=FV=VfuFrK1cSKA0maMzT5dxzKEzADqrd69fZKXuAGrU2rmA@mail.gmail.com>
-Subject: Re: [PATCH] drm/dp: Don't attempt AUX transfers when eDP panels are
- not powered
-To: Hsin-Yi Wang <hsinyi@chromium.org>, Jani Nikula <jani.nikula@intel.com>
-Cc: dri-devel@lists.freedesktop.org, eizan@chromium.org, 
- Ankit Nautiyal <ankit.k.nautiyal@intel.com>, Daniel Vetter <daniel@ffwll.ch>, 
- David Airlie <airlied@gmail.com>, Heiner Kallweit <hkallweit1@gmail.com>, 
- Imre Deak <imre.deak@intel.com>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>, 
- Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240214215756.6530-4-mario.limonciello@amd.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,55 +80,251 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, Feb 14, 2024 at 03:57:54PM -0600, Mario Limonciello wrote:
+> Some manufacturers have intentionally put an EDID that differs from
+> the EDID on the internal panel on laptops.  Drivers that prefer to
+> fetch this EDID can set a bit on the drm_connector to indicate that
+> the DRM EDID helpers should try to fetch it and it is preferred if
+> it's present.
+> 
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> ---
+>  drivers/gpu/drm/Kconfig     |   1 +
+>  drivers/gpu/drm/drm_edid.c  | 109 +++++++++++++++++++++++++++++++++---
+>  include/drm/drm_connector.h |   6 ++
+>  include/drm/drm_edid.h      |   1 +
+>  4 files changed, 109 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 872edb47bb53..3db89e6af01d 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -8,6 +8,7 @@
+>  menuconfig DRM
+>  	tristate "Direct Rendering Manager (XFree86 4.1.0 and higher DRI support)"
+>  	depends on (AGP || AGP=n) && !EMULATED_CMPXCHG && HAS_DMA
+> +	depends on (ACPI_VIDEO || ACPI_VIDEO=n)
+>  	select DRM_PANEL_ORIENTATION_QUIRKS
+>  	select DRM_KMS_HELPER if DRM_FBDEV_EMULATION
+>  	select FB_CORE if DRM_FBDEV_EMULATION
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 923c4423151c..cdc30c6d05d5 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -28,6 +28,7 @@
+>   * DEALINGS IN THE SOFTWARE.
+>   */
+>  
+> +#include <acpi/video.h>
+>  #include <linux/bitfield.h>
+>  #include <linux/cec.h>
+>  #include <linux/hdmi.h>
+> @@ -2188,6 +2189,58 @@ drm_do_probe_ddc_edid(void *data, u8 *buf, unsigned int block, size_t len)
+>  	return ret == xfers ? 0 : -1;
+>  }
+>  
+> +/**
+> + * drm_do_probe_acpi_edid() - get EDID information via ACPI _DDC
+> + * @data: struct drm_connector
+> + * @buf: EDID data buffer to be filled
+> + * @block: 128 byte EDID block to start fetching from
+> + * @len: EDID data buffer length to fetch
+> + *
+> + * Try to fetch EDID information by calling acpi_video_get_edid() function.
+> + *
+> + * Return: 0 on success or error code on failure.
+> + */
+> +static int
+> +drm_do_probe_acpi_edid(void *data, u8 *buf, unsigned int block, size_t len)
+> +{
+> +	struct drm_connector *connector = data;
+> +	struct drm_device *ddev = connector->dev;
+> +	struct acpi_device *acpidev = ACPI_COMPANION(ddev->dev);
+> +	unsigned char start = block * EDID_LENGTH;
+> +	void *edid;
+> +	int r;
+> +
+> +	if (!acpidev)
+> +		return -ENODEV;
+> +
+> +	switch (connector->connector_type) {
+> +	case DRM_MODE_CONNECTOR_LVDS:
+> +	case DRM_MODE_CONNECTOR_eDP:
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
 
-On Tue, Feb 13, 2024 at 10:25=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromium.org>=
- wrote:
->
-> On Wed, Feb 14, 2024 at 2:23=E2=80=AFPM Douglas Anderson <dianders@chromi=
-um.org> wrote:
-> >
-> > If an eDP panel is not powered on then any attempts to talk to it over
-> > the DP AUX channel will timeout. Unfortunately these attempts may be
-> > quite slow. Userspace can initiate these attempts either via a
-> > /dev/drm_dp_auxN device or via the created i2c device.
-> >
-> > Making the DP AUX drivers timeout faster is a difficult proposition.
-> > In theory we could just poll the panel's HPD line in the AUX transfer
-> > function and immediately return an error there. However, this is
-> > easier said than done. For one thing, there's no hard requirement to
-> > hook the HPD line up for eDP panels and it's OK to just delay a fixed
-> > amount. For another thing, the HPD line may not be fast to probe. On
-> > parade-ps8640 we need to wait for the bridge chip's firmware to boot
-> > before we can get the HPD line and this is a slow process.
-> >
-> > The fact that the transfers are taking so long to timeout is causing
-> > real problems. The open source fwupd daemon sometimes scans DP busses
-> > looking for devices whose firmware need updating. If it happens to
-> > scan while a panel is turned off this scan can take a long time. The
-> > fwupd daemon could try to be smarter and only scan when eDP panels are
-> > turned on, but we can also improve the behavior in the kernel.
-> >
-> > Let's let eDP panels drivers specify that a panel is turned off and
-> > then modify the common AUX transfer code not to attempt a transfer in
-> > this case.
-> >
-> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > ---
->
-> Reviewed-by: Hsin-Yi Wang <hsinyi@chromium.org>
+We could have other types of connectors that want this too.
+I don't see any real benefit in having this check tbh. Drivers
+should simply notset the flag on connectors where it won't work,
+and only the driver can really know that.
 
-Thanks for the review!
+> +	/* fetch the entire edid from BIOS */
+> +	r = acpi_video_get_edid(acpidev, ACPI_VIDEO_DISPLAY_LCD, -1, &edid);
+> +	if (r < 0) {
+> +		DRM_DEBUG_KMS("Failed to get EDID from ACPI: %d\n", r);
+> +		return r;
+> +	}
+> +	if (len > r || start > r || start + len > r) {
+> +		r = -EINVAL;
+> +		goto cleanup;
+> +	}
+> +
+> +	memcpy(buf, edid + start, len);
+> +	r = 0;
+> +
+> +cleanup:
+> +	kfree(edid);
+> +
+> +	return r;
+> +}
+> +
+>  static void connector_bad_edid(struct drm_connector *connector,
+>  			       const struct edid *edid, int num_blocks)
+>  {
+> @@ -2621,7 +2674,8 @@ EXPORT_SYMBOL(drm_probe_ddc);
+>   * @connector: connector we're probing
+>   * @adapter: I2C adapter to use for DDC
+>   *
+> - * Poke the given I2C channel to grab EDID data if possible.  If found,
+> + * If the connector allows it, try to fetch EDID data using ACPI. If not found
+> + * poke the given I2C channel to grab EDID data if possible.  If found,
+>   * attach it to the connector.
+>   *
+>   * Return: Pointer to valid EDID or NULL if we couldn't find any.
+> @@ -2629,20 +2683,50 @@ EXPORT_SYMBOL(drm_probe_ddc);
+>  struct edid *drm_get_edid(struct drm_connector *connector,
+>  			  struct i2c_adapter *adapter)
+>  {
+> -	struct edid *edid;
+> +	struct edid *edid = NULL;
+>  
+>  	if (connector->force == DRM_FORCE_OFF)
+>  		return NULL;
+>  
+> -	if (connector->force == DRM_FORCE_UNSPECIFIED && !drm_probe_ddc(adapter))
+> -		return NULL;
+> +	if (connector->acpi_edid_allowed)
+> +		edid = _drm_do_get_edid(connector, drm_do_probe_acpi_edid, connector, NULL);
+> +
+> +	if (!edid) {
+> +		if (connector->force == DRM_FORCE_UNSPECIFIED && !drm_probe_ddc(adapter))
+> +			return NULL;
+> +		edid = _drm_do_get_edid(connector, drm_do_probe_ddc_edid, adapter, NULL);
+> +	}
+>  
+> -	edid = _drm_do_get_edid(connector, drm_do_probe_ddc_edid, adapter, NULL);
+>  	drm_connector_update_edid_property(connector, edid);
+>  	return edid;
+>  }
+>  EXPORT_SYMBOL(drm_get_edid);
+>  
+> +/**
+> + * drm_edid_read_acpi - get EDID data, if available
+> + * @connector: connector we're probing
+> + *
+> + * Use the BIOS to attempt to grab EDID data if possible.
+> + *
+> + * The returned pointer must be freed using drm_edid_free().
+> + *
+> + * Return: Pointer to valid EDID or NULL if we couldn't find any.
+> + */
+> +const struct drm_edid *drm_edid_read_acpi(struct drm_connector *connector)
+> +{
+> +	const struct drm_edid *drm_edid;
+> +
+> +	if (connector->force == DRM_FORCE_OFF)
+> +		return NULL;
+> +
+> +	drm_edid = drm_edid_read_custom(connector, drm_do_probe_acpi_edid, connector);
+> +
+> +	/* Note: Do *not* call connector updates here. */
+> +
+> +	return drm_edid;
+> +}
+> +EXPORT_SYMBOL(drm_edid_read_acpi);
+> +
+>  /**
+>   * drm_edid_read_custom - Read EDID data using given EDID block read function
+>   * @connector: Connector to use
+> @@ -2727,10 +2811,11 @@ const struct drm_edid *drm_edid_read_ddc(struct drm_connector *connector,
+>  EXPORT_SYMBOL(drm_edid_read_ddc);
+>  
+>  /**
+> - * drm_edid_read - Read EDID data using connector's I2C adapter
+> + * drm_edid_read - Read EDID data using BIOS or connector's I2C adapter
+>   * @connector: Connector to use
+>   *
+> - * Read EDID using the connector's I2C adapter.
+> + * Read EDID from BIOS if allowed by connector or by using the connector's
+> + * I2C adapter.
+>   *
+>   * The EDID may be overridden using debugfs override_edid or firmware EDID
+>   * (drm_edid_load_firmware() and drm.edid_firmware parameter), in this priority
+> @@ -2742,10 +2827,18 @@ EXPORT_SYMBOL(drm_edid_read_ddc);
+>   */
+>  const struct drm_edid *drm_edid_read(struct drm_connector *connector)
+>  {
+> +	const struct drm_edid *drm_edid = NULL;
+> +
+>  	if (drm_WARN_ON(connector->dev, !connector->ddc))
+>  		return NULL;
+>  
+> -	return drm_edid_read_ddc(connector, connector->ddc);
+> +	if (connector->acpi_edid_allowed)
 
-Given that this touches core DRM code and that I never got
-confirmation that Jani's concerns were addressed with my previous
-response, I'm still going to wait a little while before applying. I'm
-on vacation for most of next week, but if there are no further replies
-between now and then I'll plan to apply this to "drm-misc-next" the
-week of Feb 26th. If someone else wants to apply this before I do then
-I certainly won't object. Jani: if you feel this needs more discussion
-or otherwise object to this patch landing then please yell. Likewise
-if anyone else in the community wants to throw in their opinion, feel
-free.
+That should probably be called 'prefer_acpi_edid' or something
+since it's the first choice when the flag is set.
 
--Doug
+But I'm not so sure there's any real benefit in having this
+flag at all. You anyway have to modify the driver to use this,
+so why not just have the driver do the call directly instead of
+adding this extra detour via the flag?
+
+> +		drm_edid = drm_edid_read_acpi(connector);
+> +
+> +	if (!drm_edid)
+> +		drm_edid = drm_edid_read_ddc(connector, connector->ddc);
+> +
+> +	return drm_edid;
+>  }
+>  EXPORT_SYMBOL(drm_edid_read);
+>  
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index fe88d7fc6b8f..74ed47f37a69 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -1886,6 +1886,12 @@ struct drm_connector {
+>  
+>  	/** @hdr_sink_metadata: HDR Metadata Information read from sink */
+>  	struct hdr_sink_metadata hdr_sink_metadata;
+> +
+> +	/**
+> +	 * @acpi_edid_allowed: Get the EDID from the BIOS, if available.
+> +	 * This is only applicable to eDP and LVDS displays.
+> +	 */
+> +	bool acpi_edid_allowed;
+
+Aren't there other bools/small stuff in there for tighter packing?
+
+>  };
+>  
+>  #define obj_to_connector(x) container_of(x, struct drm_connector, base)
+> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+> index 7923bc00dc7a..1c1ee927de9c 100644
+> --- a/include/drm/drm_edid.h
+> +++ b/include/drm/drm_edid.h
+> @@ -459,5 +459,6 @@ bool drm_edid_is_digital(const struct drm_edid *drm_edid);
+>  
+>  const u8 *drm_find_edid_extension(const struct drm_edid *drm_edid,
+>  				  int ext_id, int *ext_index);
+> +const struct drm_edid *drm_edid_read_acpi(struct drm_connector *connector);
+>  
+>  #endif /* __DRM_EDID_H__ */
+> -- 
+> 2.34.1
+
+-- 
+Ville Syrjälä
+Intel
