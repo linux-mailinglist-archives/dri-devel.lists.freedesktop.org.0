@@ -2,65 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B396A855290
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 19:47:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A7888552E5
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 20:07:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D3DA10E0C3;
-	Wed, 14 Feb 2024 18:47:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5855C10E34A;
+	Wed, 14 Feb 2024 19:07:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Y4JuY8Zq";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="LwNrfRgR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F06EB10E0C3;
- Wed, 14 Feb 2024 18:47:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707936440; x=1739472440;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=kv9GFhLGcM/tJ0uJ9XtGtdsnS/iKDHwH/idb+LGM6iU=;
- b=Y4JuY8ZqqN58t8zlxRQbR4MBeZwXCoDMSODqOi5Wnf+4w9GEW7eLi4gZ
- 6zIHw69FfYNs3IwUzJ1l3P9fsQ8hp0z6z7REwt9nLNotcMHcM6AeXjLVU
- pt6UQy2XkAaTnN5HNKk+UGNnLrxA1gqszsb0kap+KOp2ZNBgvF+RfmCt6
- 4wCKJsEL4pi+261iE4Cg+dIIbGRlbZ+aDYrPttF6I4nVqHRRbaJoxBtOL
- Z55yS7D4Sh1Oqz+GVPPj2zSDs8hjZYRjztE9a1a+2Ma5wqC6jbrZprumL
- CyPei8fXBpxSty/+jCE45JTncVmKTefKiLsTlfjLFCQlSNuMQiQB3yIpk Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="1874245"
-X-IronPort-AV: E=Sophos;i="6.06,160,1705392000"; 
-   d="scan'208";a="1874245"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2024 10:47:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="826369713"
-X-IronPort-AV: E=Sophos;i="6.06,160,1705392000"; d="scan'208";a="826369713"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 14 Feb 2024 10:47:14 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 14 Feb 2024 20:47:13 +0200
-Date: Wed, 14 Feb 2024 20:47:13 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [PATCH v3 01/12] drm/atomic-helper: split not-scaling part of
- drm_atomic_helper_check_plane_state
-Message-ID: <Zc0KsfrI57XL7Efk@intel.com>
-References: <20230914050706.1058620-1-dmitry.baryshkov@linaro.org>
- <20230914050706.1058620-2-dmitry.baryshkov@linaro.org>
- <Zc0ITrmhQ8CWMXMq@intel.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AC6910E38C;
+ Wed, 14 Feb 2024 19:07:27 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 41EDJWwq032121; Wed, 14 Feb 2024 19:07:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=S0GpnYRvSVVFrmzzJ26wRTcnSobcuw4iJFNC0OyDquM=; b=Lw
+ NrfRgRHy2JUgcGVTbH7GkqIPS5x7/RxmA6FEe79tHEsHZXIPgvMoOz3m9WjSCAma
+ VGxq4mqUf4fPWx7lS2sPhaz3+qfBrJZ/5lbQghp5xFx1wsbs6fBbRekrApwr14aR
+ HJi+oYb47/hgRKHyTXbRzUBf+s4VEA4g/EjQ91FFj4PxM1nMenHVQik08LTvqVw0
+ cOXu+DgJk0OU5ZKBMYRYuUD3/7vJ2y3QPg1nVu/rezSMolZY2G7HJx5ekCmCtTUt
+ T6ifR5q6xN2Vkx6/ll62QV/tSHXMfZh8OcpllyEBPxs4+O1f0HB7aky77y04JVGi
+ W41QYjfzuhQirrX58QDA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w8kkrj1sm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 14 Feb 2024 19:07:21 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41EJ7KEq020472
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 14 Feb 2024 19:07:20 GMT
+Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 14 Feb
+ 2024 11:07:19 -0800
+Message-ID: <377d79d6-1cd8-95c8-7aea-4b715f96fa0a@quicinc.com>
+Date: Wed, 14 Feb 2024 11:07:18 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zc0ITrmhQ8CWMXMq@intel.com>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v3 03/12] drm/msm/dpu: take plane rotation into account
+ for wide planes
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>
+CC: Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>
+References: <20230914050706.1058620-1-dmitry.baryshkov@linaro.org>
+ <20230914050706.1058620-4-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230914050706.1058620-4-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: JCjtkxxo8RDpuqBbpprYOx2-PPnLYL2l
+X-Proofpoint-ORIG-GUID: JCjtkxxo8RDpuqBbpprYOx2-PPnLYL2l
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-14_11,2024-02-14_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 mlxlogscore=999
+ clxscore=1015 priorityscore=1501 adultscore=0 bulkscore=0
+ lowpriorityscore=0 mlxscore=0 malwarescore=0 suspectscore=0 phishscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402140148
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,204 +96,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 14, 2024 at 08:37:02PM +0200, Ville Syrjälä wrote:
-> On Thu, Sep 14, 2023 at 08:06:55AM +0300, Dmitry Baryshkov wrote:
-> > The helper drm_atomic_helper_check_plane_state() runs several checks on
-> > plane src and dst rectangles, including the check whether required
-> > scaling fits into the required margins. The msm driver would benefit
-> > from having a function that does all these checks except the scaling
-> > one. Split them into a new helper called
-> > drm_atomic_helper_check_plane_noscale().
-> 
-> What's the point in eliminating a nop scaling check?
 
-Actually, what are you even doing in there? Are you saying that
-the hardware has absolutely no limits on how much it can scale
-in either direction?
 
+On 9/13/2023 10:06 PM, Dmitry Baryshkov wrote:
+> Take into account the plane rotation and flipping when calculating src
+> positions for the wide plane parts.
 > 
-> > 
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >  drivers/gpu/drm/drm_atomic_helper.c | 110 ++++++++++++++++++++++------
-> >  include/drm/drm_atomic_helper.h     |   7 ++
-> >  2 files changed, 96 insertions(+), 21 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> > index 292e38eb6218..2d7dd66181c9 100644
-> > --- a/drivers/gpu/drm/drm_atomic_helper.c
-> > +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> > @@ -825,11 +825,9 @@ drm_atomic_helper_check_wb_encoder_state(struct drm_encoder *encoder,
-> >  EXPORT_SYMBOL(drm_atomic_helper_check_wb_encoder_state);
-> >  
-> >  /**
-> > - * drm_atomic_helper_check_plane_state() - Check plane state for validity
-> > + * drm_atomic_helper_check_plane_noscale() - Check plane state for validity
-> >   * @plane_state: plane state to check
-> >   * @crtc_state: CRTC state to check
-> > - * @min_scale: minimum @src:@dest scaling factor in 16.16 fixed point
-> > - * @max_scale: maximum @src:@dest scaling factor in 16.16 fixed point
-> >   * @can_position: is it legal to position the plane such that it
-> >   *                doesn't cover the entire CRTC?  This will generally
-> >   *                only be false for primary planes.
-> > @@ -845,19 +843,16 @@ EXPORT_SYMBOL(drm_atomic_helper_check_wb_encoder_state);
-> >   * RETURNS:
-> >   * Zero if update appears valid, error code on failure
-> >   */
-> > -int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
-> > -					const struct drm_crtc_state *crtc_state,
-> > -					int min_scale,
-> > -					int max_scale,
-> > -					bool can_position,
-> > -					bool can_update_disabled)
-> > +int drm_atomic_helper_check_plane_noscale(struct drm_plane_state *plane_state,
-> > +					  const struct drm_crtc_state *crtc_state,
-> > +					  bool can_position,
-> > +					  bool can_update_disabled)
-> >  {
-> >  	struct drm_framebuffer *fb = plane_state->fb;
-> >  	struct drm_rect *src = &plane_state->src;
-> >  	struct drm_rect *dst = &plane_state->dst;
-> >  	unsigned int rotation = plane_state->rotation;
-> >  	struct drm_rect clip = {};
-> > -	int hscale, vscale;
-> >  
-> >  	WARN_ON(plane_state->crtc && plane_state->crtc != crtc_state->crtc);
-> >  
-> > @@ -883,17 +878,6 @@ int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
-> >  
-> >  	drm_rect_rotate(src, fb->width << 16, fb->height << 16, rotation);
-> >  
-> > -	/* Check scaling */
-> > -	hscale = drm_rect_calc_hscale(src, dst, min_scale, max_scale);
-> > -	vscale = drm_rect_calc_vscale(src, dst, min_scale, max_scale);
-> > -	if (hscale < 0 || vscale < 0) {
-> > -		drm_dbg_kms(plane_state->plane->dev,
-> > -			    "Invalid scaling of plane\n");
-> > -		drm_rect_debug_print("src: ", &plane_state->src, true);
-> > -		drm_rect_debug_print("dst: ", &plane_state->dst, false);
-> > -		return -ERANGE;
-> > -	}
-> > -
-> >  	if (crtc_state->enable)
-> >  		drm_mode_get_hv_timing(&crtc_state->mode, &clip.x2, &clip.y2);
-> >  
-> > @@ -921,6 +905,90 @@ int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
-> >  
-> >  	return 0;
-> >  }
-> > +EXPORT_SYMBOL(drm_atomic_helper_check_plane_noscale);
-> > +
-> > +/**
-> > + * drm_atomic_helper_check_plane_scale() - Check whether plane can be scaled
-> > + * @plane_state: plane state to check
-> > + * @min_scale: minimum @src:@dest scaling factor in 16.16 fixed point
-> > + * @max_scale: maximum @src:@dest scaling factor in 16.16 fixed point
-> > + *
-> > + * Checks that a desired plane scale fits into the min_scale..max_scale
-> > + * boundaries.
-> > + * Drivers that provide their own plane handling rather than helper-provided
-> > + * implementations may still wish to call this function to avoid duplication of
-> > + * error checking code.
-> > + *
-> > + * RETURNS:
-> > + * Zero if update appears valid, error code on failure
-> > + */
-> > +int drm_atomic_helper_check_plane_scale(struct drm_plane_state *plane_state,
-> > +					int min_scale,
-> > +					int max_scale)
-> > +{
-> > +	struct drm_framebuffer *fb = plane_state->fb;
-> > +	struct drm_rect src;
-> > +	struct drm_rect dst;
-> > +	int hscale, vscale;
-> > +
-> > +	if (!plane_state->visible)
-> > +		return 0;
-> > +
-> > +	src = drm_plane_state_src(plane_state);
-> > +	dst = drm_plane_state_dest(plane_state);
-> > +
-> > +	drm_rect_rotate(&src, fb->width << 16, fb->height << 16, plane_state->rotation);
-> > +
-> > +	hscale = drm_rect_calc_hscale(&src, &dst, min_scale, max_scale);
-> > +	vscale = drm_rect_calc_vscale(&src, &dst, min_scale, max_scale);
-> > +	if (hscale < 0 || vscale < 0) {
-> > +		drm_dbg_kms(plane_state->plane->dev,
-> > +			    "Invalid scaling of plane\n");
-> > +		drm_rect_debug_print("src: ", &plane_state->src, true);
-> > +		drm_rect_debug_print("dst: ", &plane_state->dst, false);
-> > +		return -ERANGE;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +EXPORT_SYMBOL(drm_atomic_helper_check_plane_scale);
-> > +
-> > +/**
-> > + * drm_atomic_helper_check_plane_state() - Check plane state for validity
-> > + * @plane_state: plane state to check
-> > + * @crtc_state: CRTC state to check
-> > + * @min_scale: minimum @src:@dest scaling factor in 16.16 fixed point
-> > + * @max_scale: maximum @src:@dest scaling factor in 16.16 fixed point
-> > + * @can_position: is it legal to position the plane such that it
-> > + *                doesn't cover the entire CRTC?  This will generally
-> > + *                only be false for primary planes.
-> > + * @can_update_disabled: can the plane be updated while the CRTC
-> > + *                       is disabled?
-> > + *
-> > + * Checks that a desired plane update is valid, and updates various
-> > + * bits of derived state (clipped coordinates etc.). Drivers that provide
-> > + * their own plane handling rather than helper-provided implementations may
-> > + * still wish to call this function to avoid duplication of error checking
-> > + * code.
-> > + *
-> > + * RETURNS:
-> > + * Zero if update appears valid, error code on failure
-> > + */
-> > +int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
-> > +					const struct drm_crtc_state *crtc_state,
-> > +					int min_scale,
-> > +					int max_scale,
-> > +					bool can_position,
-> > +					bool can_update_disabled)
-> > +{
-> > +	int ret;
-> > +
-> > +	ret = drm_atomic_helper_check_plane_noscale(plane_state, crtc_state, can_position, can_update_disabled);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	return drm_atomic_helper_check_plane_scale(plane_state, min_scale, max_scale);
-> > +}
-> >  EXPORT_SYMBOL(drm_atomic_helper_check_plane_state);
-> >  
-> >  /**
-> > diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
-> > index 536a0b0091c3..32ac55aea94e 100644
-> > --- a/include/drm/drm_atomic_helper.h
-> > +++ b/include/drm/drm_atomic_helper.h
-> > @@ -52,6 +52,13 @@ int drm_atomic_helper_check_modeset(struct drm_device *dev,
-> >  int
-> >  drm_atomic_helper_check_wb_encoder_state(struct drm_encoder *encoder,
-> >  					 struct drm_connector_state *conn_state);
-> > +int drm_atomic_helper_check_plane_noscale(struct drm_plane_state *plane_state,
-> > +					  const struct drm_crtc_state *crtc_state,
-> > +					  bool can_position,
-> > +					  bool can_update_disabled);
-> > +int drm_atomic_helper_check_plane_scale(struct drm_plane_state *plane_state,
-> > +					int min_scale,
-> > +					int max_scale);
-> >  int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
-> >  					const struct drm_crtc_state *crtc_state,
-> >  					int min_scale,
-> > -- 
-> > 2.39.2
+> This is not an issue yet, because rotation is only supported for the
+> UBWC planes and wide UBWC planes are rejected anyway because in parallel
+> multirect case only the half of the usual width is supported for tiled
+> formats. However it's better to fix this now rather than stumbling upon
+> it later.
 > 
-> -- 
-> Ville Syrjälä
-> Intel
+> Fixes: 80e8ae3b38ab ("drm/msm/dpu: add support for wide planes")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 27 ++++++++++++++---------
+>   1 file changed, 17 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index c2aaaded07ed..67f9c2a62a17 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -827,16 +827,6 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+>   		return -EINVAL;
+>   	}
+>   
+> -	pipe_cfg->src_rect = new_plane_state->src;
+> -
+> -	/* state->src is 16.16, src_rect is not */
+> -	pipe_cfg->src_rect.x1 >>= 16;
+> -	pipe_cfg->src_rect.x2 >>= 16;
+> -	pipe_cfg->src_rect.y1 >>= 16;
+> -	pipe_cfg->src_rect.y2 >>= 16;
+> -
+> -	pipe_cfg->dst_rect = new_plane_state->dst;
+> -
 
--- 
-Ville Syrjälä
-Intel
+Why were these lines moved down?
+
+So this change is doing two things:
+
+1) Using drm_rect_fp_to_int() instead of the hand-rolled right shifting
+2) Considering rotation for wide plane cases
+
+Do we need to break this up into 2?
+
+>   	fb_rect.x2 = new_plane_state->fb->width;
+>   	fb_rect.y2 = new_plane_state->fb->height;
+>   
+> @@ -852,6 +842,15 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+>   
+>   	max_linewidth = pdpu->catalog->caps->max_linewidth;
+>   
+> +	/* state->src is 16.16, src_rect is not */
+> +	drm_rect_fp_to_int(&pipe_cfg->src_rect, &new_plane_state->src);
+> +
+> +	pipe_cfg->dst_rect = new_plane_state->dst;
+> +
+> +	drm_rect_rotate(&pipe_cfg->src_rect,
+> +			new_plane_state->fb->width, new_plane_state->fb->height,
+> +			new_plane_state->rotation);
+> +
+>   	if (drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) {
+>   		/*
+>   		 * In parallel multirect case only the half of the usual width
+> @@ -899,6 +898,14 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+>   		r_pipe_cfg->dst_rect.x1 = pipe_cfg->dst_rect.x2;
+>   	}
+>   
+> +	drm_rect_rotate_inv(&pipe_cfg->src_rect,
+> +			    new_plane_state->fb->width, new_plane_state->fb->height,
+> +			    new_plane_state->rotation);
+> +	if (r_pipe->sspp)
+> +		drm_rect_rotate_inv(&r_pipe_cfg->src_rect,
+> +				    new_plane_state->fb->width, new_plane_state->fb->height,
+> +				    new_plane_state->rotation);
+> +
+
+iiuc, so we do
+
+1) rotate() on full plane
+2) rotate_inv() on left half-plane
+3) rotate_inv() on right half-plane
+
+If so, looks right to me.
+
+
+>   	ret = dpu_plane_atomic_check_pipe(pdpu, pipe, pipe_cfg, fmt);
+>   	if (ret)
+>   		return ret;
