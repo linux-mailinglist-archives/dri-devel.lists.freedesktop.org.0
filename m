@@ -2,111 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85FC1854CC9
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 16:31:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63040854D3D
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 16:47:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D369610E3A3;
-	Wed, 14 Feb 2024 15:31:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19B3610E457;
+	Wed, 14 Feb 2024 15:47:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kBzJeoVY";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="jugqqVoC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
- [209.85.208.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA0A510E402
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 15:31:51 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id
- 4fb4d7f45d1cf-5610cc8cc1aso6306234a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 07:31:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1707924710; x=1708529510; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vE8/xX9uxStoXuIsHuY6FjGx2HBrbtcyHjIC0Q0+HAE=;
- b=kBzJeoVYJ92OZKAw6T49tMTUcUVb5+wJgO1rX44IYKzpKhMtlSTtywBdKeppX8SHZx
- tCPX6b+qOc+lhWd0sCPXJUT6e3DzQkbzrbNDuZSloeCltcuMHpJDAEgqUJx5OI5m2Aq6
- Q7j+UmTUM7fMQVZNcrRVvZCSxrOCFN8DGtqyUyC3/qy4Lz+HIuxF0QgtZGknOWx4HY8N
- Z+HqAdrrBg+spOV+UJIfnuAIo3FeZTty7vhTgYRIAGmIfd/n53tNvz14c14fK3HM2tDx
- 7BC1w21ErRRk+4O9KINXTVA5pk5Q6qFANzaKFg2Pk4EP9EmmlioJBVjLplZjELMevVCF
- veEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707924710; x=1708529510;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vE8/xX9uxStoXuIsHuY6FjGx2HBrbtcyHjIC0Q0+HAE=;
- b=qb63bRfKflbKOGkLsD5lXJq3xbu+f1J20/kP0tcZfnr0E6fw3l/zF3oNxS4Bw2Gw45
- hTAnGMbPbvaLT0qaU4EbrvkblJf/xf0dqVIEcCIuyrY0uLpb2kbuUHW98CvmB93WrzCo
- NsQ6rno+87hbOwvJn+noWQVK15lmFcMXd9eG6jGAucz3fboKHj5d1VV2Rs9nvZhJeXPB
- TTPgZmbUm+03F1n7okMHhzhiGNuoqS4BD6QGI2SDFEx2kCoF+mcUUoUNJ8gQUNmMc/TM
- aPBNkEcuKEooZdX4oXTwycqC3rdws4jsRQKfovDyDKta5lhVfk1il94NkUN+J3l9ptV8
- 5wRA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWH3S0NHRRx/skwDRrrVl3ggKdit1jYKXMfrO6TC4fKPyUx9Fi3CBgAmArEwqrpxokVcg3VAVY0a7nbXO1kEGe8BaT30mYBbVpJXXek3hJt
-X-Gm-Message-State: AOJu0Ywx/ed5kd0Dbiocs5qi1Xi7h1zOkQAQmAYNT3Y+NbcsqtwK1kGm
- YfO7FhvgIDi4JB8r1asPsxxOnkEnshBObJXR3dDxBfhFFB7DOmYi
-X-Google-Smtp-Source: AGHT+IFJjeHJkhu4E/5PQL7Dr2d77iKz2i3apIzpMMgqPcQHi77X+UE8B2mD6qzLMtE6+dUYVhK/OA==
-X-Received: by 2002:a17:906:4091:b0:a3d:1458:3db9 with SMTP id
- u17-20020a170906409100b00a3d14583db9mr2033804ejj.18.1707924709571; 
- Wed, 14 Feb 2024 07:31:49 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWIAccAWgK4lRqfWAiTFf2zOmFvQ0cjuzenXB/9W2eZuobq9WyoNFiLAq2+XZEu2KOwhDhUl08prR0TdsNqdt/p3fpS9OUX1dkDg7gMrca8l0pMYcjca3KdKCHAbXzom2/SHjYBQRvzRQOm0yWyInuamEGg2Pd+Tbd0vhH0EK/PYfsXk/0D7tnStMVzl8NvP4nE6Bm9xf0XXnPDt+BWsU+fVlOW0fRFcRJt68nbjiuUymX8Ihykx4Bi5UI7l8MmYHivujIr3jrYd5OmNiULju6LqVQ03h9J2mVBr6Y4kzJq7y0O7Y+ruaIY8dfB3gAotuMx8fmGXmej+7OAM+CcDmS8GZusMWnjhcYnmSN9iEw2XGLFRDv/zEzfWiCb7k33Gf9N+dpzm+tkstNr2Gv3qd/4aII5CgI+apL16oBzPzLR4RdWuDLHRKBFMmbiG2GUg5AnYJrWI/4HkU0G59qJGf1LzoIKp7SoSz2PUuCtBd514aE91bAYOarQ980ubpMjW2voJ2og6U0AJ8p6S/p9Utx56Iv7xID1qdz9xFxK79njnb00TS9bn6KS3ONPx/m481JXuEoeIU8pUzwiaJy1g/stIFY6RBxPgYLb8VfuaxiMjn4lPPr1ide8Wejcsvmcp9yU6ddXzx9BOYhdv+iwf/4gSyB25dMQtXKhMRZFA1hdzaJaynUszbGA5ez1fsjJmuIdeHIos+gF/xdADWxZU8R1eTCy1Vr60X1ySsGcZTeUp/1brqlaxAOH0K5vdvoYlIaU/pfEfOpj9RIc+ecCLcimJczreESQYF2PsecL7g2H5UJ0QiS89kiIaBbSPuyWtmWyWnQxyHtQG+QRb4cc0uiguUzZ/X96gxQWoGE2ogXIEoZ40Q4TB5oqV+RZbOR+phuAGVeDNVyT1JeYVeXZnPaBL+zoE4cNc9MPgLb+7hp5KWodx26/txiDdRRn81u7Y8uOET
- Rnm5a54n8LY+pNVqm5CnENC/aQlazL9whyTZqQDlzTgJJG6l/C7EYlZEweZxiHjDpP/74qNMrYpjA99qdtlWh/2b/hzjZeOXV0OOOU+rocIfsYQxVz8kw91HRewTVN1gKiLDHy/niFZoMQgdxB3ZUmOOvlZljJ4yvu19cGehAMo0FAjoXIzIRqGdjKPnJfcbxadZKphWyKeUSGU9KQueszPKDRdfZDLMzBRofZNCIjKv/CR1jIrVveae6Pd+K86hHHAfU3kEuXlu15R9X+G37gMcknMRcdazHnScHuIkr/IHyyHAvazM8sgkmfz73WoxATV7VXEw5EXn2NrWHl+BIDhc1ZktbbLtUQFQ+M9OA+N8LHBQqZeoUvfGps63MAly944RryRFGlG+qOZsmvZqccm3MissuaLU8rlcmFDT2T80P7vGr2SbUcFMzRDkAKRoQiNLLJkLXXCurYv6LyrF8CuLq3v7mzm2QysNKEfPzeM2agEDFVxXyiKqJOVWP7HnzPQI89geXQUy5CNF1Gte1i7RLyTqi/oV7FtdsN1PxVMr0sZd3ffQmAbB7fRu42ueEjbAcz4ZxfUr1wnFzznCSy/ffFm7dJs9Iu+1t4PzbZwkd8U4TmvDxqWyAyUKavcPnbSX0y7o+iJorMgo79HW+r5LSzwjoroqXVA8lAg7Mt1smJJye8qFRlnTWpKKoiU2zQ8IFaWIC5Ih5sr/Tmaie9syohfdfLfuaeMQrQepLF1JE=
-Received: from ?IPV6:2620:10d:c096:310::23d8? ([2620:10d:c092:600::1:1e51])
- by smtp.gmail.com with ESMTPSA id
- o14-20020a1709061d4e00b00a3d5efc65e8sm403200ejh.221.2024.02.14.07.31.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Feb 2024 07:31:49 -0800 (PST)
-Message-ID: <c28e1f66-84c8-40f7-b200-f18bee06cb33@gmail.com>
-Date: Wed, 14 Feb 2024 15:30:25 +0000
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41CBB10E402
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 15:47:34 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 41EFlJKq059688;
+ Wed, 14 Feb 2024 09:47:19 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1707925639;
+ bh=42OOgF4IEsciCzy4HGPu7+BcjYJ3RR40X6NYVnnz8qE=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=jugqqVoCuwykHtv+V+RHovowjbVT0dMBwGRm75SNMdD8jr/39Jk9z52BxcXTPTCG7
+ j/CS8ikCqgCT3FdvlaY4OKVFgwIHquVY/xQp4U/yOyuNmZCMuj9pNsqSxOBnMPhxAz
+ JJ1RPu6S1Eim6LTEggNcUv7QF/XRruh4koR4lNg8=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 41EFlJtg030857
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 14 Feb 2024 09:47:19 -0600
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 14
+ Feb 2024 09:47:19 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Wed, 14 Feb 2024 09:47:19 -0600
+Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193])
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 41EFlC25046625;
+ Wed, 14 Feb 2024 09:47:13 -0600
+Message-ID: <2f4cf2a7-ce7a-bb34-f722-7e66ea41def7@ti.com>
+Date: Wed, 14 Feb 2024 21:17:12 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH net-next v5 07/14] page_pool: devmem support
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [RFC PATCH 2/3] drm/tidss: Add support for display sharing
 Content-Language: en-US
-To: Mina Almasry <almasrymina@google.com>
-Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>,
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>
-References: <20231218024024.3516870-1-almasrymina@google.com>
- <20231218024024.3516870-8-almasrymina@google.com>
- <3374356e-5f4b-4a6f-bb19-8cb7c56103bc@gmail.com>
- <CAHS8izO2zARuMovrYU3kdwSXsQAM6+SajQjDT3ckSvVOfHwaCQ@mail.gmail.com>
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <CAHS8izO2zARuMovrYU3kdwSXsQAM6+SajQjDT3ckSvVOfHwaCQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Maxime Ripard <mripard@kernel.org>
+CC: <jyri.sarha@iki.fi>, <tomi.valkeinen@ideasonboard.com>,
+ <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <maarten.lankhorst@linux.intel.com>, <tzimmermann@suse.de>,
+ <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+ <conor+dt@kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <nm@ti.com>, <vigneshr@ti.com>,
+ <kristo@kernel.org>, <praneeth@ti.com>, <a-bhatia1@ti.com>,
+ <j-luthra@ti.com>
+References: <20240116134142.2092483-1-devarsht@ti.com>
+ <20240116134142.2092483-3-devarsht@ti.com>
+ <vgfzhamtiwkpdyk5ndagsb63subclinotoe6tsi3wu6z7454ec@igxfzjc5gyqm>
+ <88018f5f-a7db-7278-e5c3-bb1dbf0e3f14@ti.com>
+ <qiqrhpqtnox47wj6az7t3fjp4vc6k32fw42tp5slqggrhe6utb@i7lkpaf3v3od>
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <qiqrhpqtnox47wj6az7t3fjp4vc6k32fw42tp5slqggrhe6utb@i7lkpaf3v3od>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,96 +82,207 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/13/24 21:11, Mina Almasry wrote:
-> On Tue, Feb 13, 2024 at 5:28 AM Pavel Begunkov <asml.silence@gmail.com> wrote:
->>
-...
->>
->> A bit of a churn with the padding and nesting net_iov but looks
->> sturdier. No duplication, and you can just check positions of the
->> structure instead of per-field NET_IOV_ASSERT_OFFSET, which you
->> have to not forget to update e.g. when adding a new field. Also,
+Hi Maxime,
+
+Thanks for the quick reply.
+
+On 13/02/24 19:34, Maxime Ripard wrote:
+> Hi Devarsh,
 > 
-> Yes, this is nicer. If possible I'll punt it to a minor cleanup as a
-> follow up change. Logistically I think if this series need-not touch
-> code outside of net/, that's better.
-
-Outside of net it should only be a small change in struct page
-layout, but otherwise with struct_group_tagged things like
-page->pp_magic would still work. Anyway, I'm not insisting.
-
-
->> with the change __netmem_clear_lsb can return a pointer to that
->> structure, casting struct net_iov when it's a page is a bit iffy.
+> On Thu, Feb 08, 2024 at 06:26:17PM +0530, Devarsh Thakkar wrote:
+>> Hi Maxime,
 >>
->> And the next question would be whether it'd be a good idea to encode
->> iov vs page not by setting a bit but via one of the fields in the
->> structure, maybe pp_magic.
+>> Thanks a lot for checking on this.
 >>
-> 
-> I will push back against this, for 2 reasons:
-> 
-> 1. I think pp_magic's first 2 bits (and maybe more) are used by mm
-> code and thus I think extending usage of pp_magic in this series is a
-> bit iffy and I would like to avoid it. I just don't want to touch the
-> semantics of struct page if I don't have to.
-> 2. I think this will be a measurable perf regression. Currently we can
-> tell if a pointer is a page or net_iov without dereferencing the
-> pointer and dirtying the cache-line. This will cause us to possibly
-> dereference the pointer in areas where we don't need to. I think I had
-> an earlier version of this code that required a dereference to tell if
-> a page was devmem and Eric pointed to me it was a perf regression.
-
-fair enough
-
-> I also don't see any upside of using pp_magic, other than making the
-> code slightly more readable, maybe.
-> 
->> With that said I'm a bit concerned about the net_iov size. If each
->> represents 4096 bytes and you're registering 10MB, then you need
->> 30 pages worth of memory just for the iov array. Makes kvmalloc
->> a must even for relatively small sizes.
+>> On 26/01/24 17:45, Maxime Ripard wrote:
+>>> Hi,
+>>>
+>>> Thanks a lot for working on that.
+>>>
+>>> On Tue, Jan 16, 2024 at 07:11:41PM +0530, Devarsh Thakkar wrote:
+>>>> Display subsystem present in TI Keystone family of devices supports sharing
+>>>> of display between multiple hosts as it provides separate register space
+>>>> (common* region) for each host to programming display controller and also a
+>>>> unique interrupt line for each host.
+>>>>
+>>>> This adds support for display sharing, by allowing partitioning of
+>>>> resources either at video port level or at video plane level as
+>>>> described below :
+>>>>
+>>>> 1) Linux can own (i.e have write access) completely one or more of video
+>>>> ports along with corresponding resources (viz. overlay managers,
+>>>> video planes) used by Linux in context of those video ports.
+>>>> Even if Linux is owning
+>>>> these video ports it can still share this video port with a remote core
+>>>> which can own one or more video planes associated with this video port.
+>>>>
+>>>> 2) Linux owns one or more of the video planes with video port
+>>>> (along with corresponding overlay manager) associated with these planes
+>>>> being owned and controlled by a remote core. Linux still has read-only
+>>>> access to the associated video port and overlay managers so that it can
+>>>> parse the settings made by remote core.
+>>>
+>>> So, just to make sure we're on the same page. 1) means Linux drives the
+>>> whole display engine, but can lend planes to the R5? How does that work,
+>>> is Linux aware of the workload being there (plane size, format, etc) ?
+>>>
 >>
-> 
-> This I think is an age-old challenge with pages. 1.6% of the machine's
-> memory is 'wasted' on every machine because a struct page needs to be
-> allocated for each PAGE_SIZE region. We're running into the same issue
-> here where if we want to refer to PAGE_SIZE regions of memory we need
-> to allocate some reference to it. Note that net_iov can be relatively
-> easily extended to support N order pages. Also note that in the devmem
-> TCP use case it's not really an issue; the minor increase in mem
-> utilization is more than offset by the saving in memory bw as compared
-> to using host memory as a bounce buffer.
-
-It's not about memory consumption per se but rather the need
-to vmalloc everything because of size.
-
-> All in all I vote this is
-> something that can be tuned or improved in the future if someone finds
-> the extra memory usage a hurdle to using devmem TCP or this net_iov
-> infra.
-
-That's exactly what I was saying about overlaying it with
-struct page, where the increase in size came from, but I agree
-it's not critical
-
->> And the final bit, I don't believe the overlay is necessary in
->> this series. Optimisations are great, but this one is a bit more on
->> the controversial side. Unless I missed something and it does make
->> things easier, it might make sense to do it separately later.
+>> Well, there is no dynamic procedure being followed for lending. The
+>> partitioning scheme is decided and known before hand, and the remote
+>> core firmware updated and compiled accordingly, and similarly the
+>> device-tree overlay for Linux is also updated with partitioning
+>> information before bootup.
 >>
+>> What would happen here is that Linux will know before-hand this
+>> partitioning information via device-tree properties and won't enumerate
+>> the plane owned by RTOS, but it will enumerate the rest of the display
+>> components and initialize the DSS, after which user can load the DSS
+>> firmware on remote core and this firmware will only have control of
+>> plane as it was compiled with that configuration.
 > 
-> I completely agree, the overlay is not necessary. I implemented the
-> overlay in response to Yunsheng's  strong requests for more 'unified'
-> processing between page and devmem. This is the most unification I can
-> do IMO without violating the requirements from Jason. I'm prepared to
-> remove the overlay if it turns out controversial, but so far I haven't
-> seen any complaints. Jason, please do take a look if you have not
-> already.
+> Right. If the RTOS is in control of a single plane, how it is expected
+> to deal with Linux shutting the CRTC down, or enforcing a configuration
+> that isn't compatible with what the RTOS expects (like a plane with a
+> higher zpos masking its plane), what is the mechanism to reconcile it?
+> 
 
-Just to be clear, I have no objections to the change but noting
-that IMHO it can be removed for now if it'd be dragging down
-the set.
+Just for the note, for this "RTOS control single plane" mode, we don't have a
+firmware available to test (right now we are only supporting example for "RTOS
+controlling the display mode" as shared here [1]) and hence this is not
+validated but the idea was to keep dt-bindings generic enough to support them
+in future and that's why I referred to it here.
 
--- 
-Pavel Begunkov
+Coming back to your questions, with the current scheme the Linux (tidss) would
+be expected to make sure the CRTC being shared with RTOS is never shutdown and
+the RTOS plane should never gets masked.
+
+I think the IPC based scheme would have been mainly needed for the case where
+you have a single entity controlling the display for e.g you have a single
+display controller register space and a single IRQ but you have multiple
+planes and say you want to divide these planes to different host processors.
+In that case you want a single entity to act as a main entity and be in
+control of DSS and rest of the processors communicate with the "main entity"
+to request display resources and plane updates and main entity also programs
+dss on their behalf.
+
+But unlike above, TI DSS7 is designed to support static partitioning of
+display resources among multiple hosts, where each host can program the
+display hardware independently using separate register space and having a
+separate irq and without requirement of any communication between the hosts.
+Now as this feature is unique to TI DSS7 we want to support this feature in
+tidss driver. The DSS resource partitioning feature is described in detail
+here [2]
+
+>>> And 2) would mean that the display engine is under the R5 control and
+>>> Linux only gets to fill the plane and let the firmware know of what it
+>>> wants?
+>>>
+>>
+>> Here too the partitioning information is pre-decided and remote core
+>> firmware and device-tree overlay for Linux updated accordingly. But in
+>> this case as remote core firmware owns the display (minus the plane
+>> owned by Linux) it is started and initialized during the bootloader
+>> phase itself where it initializes the DSS and starts rendering using the
+>> plane owned by it and Linux just latches to the DSS without
+>> re-initializing it, with write access only to the plane that is owned by
+>> Linux. You can refer [1] for more details on this.
+>>
+>>> If so, do we even need the tidss driver in the second case? We could
+>>> just write a fwkms driver of some sorts that could be used by multiple
+>>> implementations of the same "defer to firmware" logic.
+>>>
+>>
+>> This feature of static partitioning of DSS resources is specific to DSS7
+>> hardware (which is controlled by tidss driver) which supports dedicated
+>> register space and interrupt line for each of the hosts [0], so that
+>> multiple hosts can drive the display controller simultaneously as  per
+>> the desired static partitioning of resources, and so I don't think a
+>> separate driver is required here and tidss seems the right place to
+>> support this, where using this device-tree approach different resource
+>> partitioning schemas can be achieved as described here [1]. This was
+>> also aligned with Tomi too where we discussed that tidss is the right
+>> place to support this as we are simply leveraging the DSS hardware
+>> capabilities of static partitioning here.
+> 
+> If the only thing tidss does in the "owned by RTOS" is forwarding KMS
+> atomic states to the RTOS, then I'm still not sure why we need to
+> involve tidss at all.
+> 
+
+I think maybe here is the point of misunderstanding. We are not forwarding
+atomic states to RTOS here. Linux (tidss) is infact, accessing the display
+register space assigned to it (common1 assigned to Linux, commmon0 assigned to
+RTOS) and also writing to DSS plane registers for the plane assigned to it
+(say VID assigned to Linux and VIDL assigned to RTOS).
+
+> It's not just about interrupts, it's also about how your arbitrate
+> between what Linux wants and what the RTOS wants. Like if the RTOS still
+> wants to output something but Linux wants to disable it, how do you
+> reconcile the two?
+> 
+
+The scheme involves static partitioning of display resource which are assigned
+compile-time to RTOS and Linux. Here the RTOS firmware is compiled with
+specific ownership/display resources as desired by user and this assignment
+stays intact.
+
+If there is a more complex use-case which requires dynamic
+assignment/arbitration of resources then I agree those require some sort of
+IPC scheme but this is not what we target with these series. This series is
+simply to support static partitioning feature (separate register space,
+separate irq, firewalling support etc) of TI DSS hardware across the multiple
+hosts and there are use-cases too for which this scheme suffices.
+
+> You have to have something that reconciles both, and typically for
+> firmware-based setup this will be the firmware's job.
+> 
+> That's very similar to what the RaspberryPi did with fkms, and I believe
+> that having a generic KMS-on-remoteproc driver when the firmware has
+> control over the display is the path forward.
+> 
+
+The kms-on-remoteproc scheme is different and maybe more useful for those
+processors not supporting this static partitioning hardware feature. On the
+other hand, I believe there are still use-cases where this unique static
+partitioning hardware feature of TI DSS will suffice without any requirement
+of IPC. And it makes the firmware simpler (and the job of RTOS developer
+easier too) as no IPC is required.
+
+I am curious to understand Rpi DSS hardware and take a look at fkms and it's
+firmware code though if it is public ?
+
+>>>> For both the cases, the resources used in context of processing core
+>>>> running Linux along with ownership information are exposed by user as
+>>>> part of device-tree blob and driver uses an updated feature list tailored
+>>>> for this shared mode accordingly. The driver also auto-populates
+>>>> matching overlay managers and output types from shared video
+>>>> port list provided in device-tree blob.
+>>>> In dispc_feature struct remove const access specfier for output_type
+>>>> array as it is required to be updated dynamically in run-time for shared
+>>>> mode.
+>>>
+>>> I'm also not entirely sure that the device tree is the right path there.
+>>> Surely the firmware capabilities will evolve over time, while the device
+>>> tree won't. Is there some way to make it discoverable at probe time by
+>>> the driver?
+>>
+>> I think the main highlight of the sharing feature is the hardware
+>> capability where each host is provided separate irq and register space
+>> to program display for their display context independently
+> 
+> Wait, what do you mean by display context here?
+> 
+
+By context I mean to what that specific host wants to display. For e.g. if
+RTOS is owning a plane, then it can update it's framebuffer and update plane
+registers independently.
+
+[1]
+https://software-dl.ti.com/processor-sdk-linux/esd/AM62PX/09_01_00_08/exports/docs/system/Demo_User_Guides/Display_Cluster_User_Guide.html
+[2] https://www.ti.com/lit/zip/spruj52 ((Section 12.6.3.14 DISPC Resources
+Sharing))
+
+Regards
+Devarsh
+
+> Maxime
