@@ -2,59 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31A2385560A
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 23:36:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 332D4855766
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 00:40:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C56EC10E248;
-	Wed, 14 Feb 2024 22:36:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7114910E2CC;
+	Wed, 14 Feb 2024 23:40:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="km3p9V3n";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KstEo+x+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F19FB10E241;
- Wed, 14 Feb 2024 22:36:28 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id D14ABCE23CB;
- Wed, 14 Feb 2024 22:36:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE028C43390;
- Wed, 14 Feb 2024 22:36:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1707950179;
- bh=HCthTh2EHFiykooSADJUqIjdFXj2miq8U9qp/oonkpU=;
- h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
- b=km3p9V3noxQ1ZIql9oPAAJNkN82df2B+dTnOlCaozOme/mIueOuFFLUlOjaQcpHan
- gZwam76ZriDpwAbvAc37Ttc0K2BBYpZVGDyrXm+/AHylMuLHB/ZuywqVWPhAjNxUhA
- jYDoxAeOBjD0FrlYRHfvpiaQjfImiOlDOw3VIbQFqZ1954BLeDlq8JV2NUsGN3dC/Y
- ihhRfkLqG77zNIKQV4fpvj2MNyEK7YUtt4u90FqXmgSn4pUAZPfGkIxieojLMNO8/M
- h3CUoZJW84MCqw9D09tC/xdIXEJXLA53BOeccE4Vzety2hN6OblSpvsLIZfQf3QzTp
- MQS9HrwvpULEA==
-Date: Wed, 14 Feb 2024 16:36:17 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+ [209.85.214.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55E6110E0BE;
+ Wed, 14 Feb 2024 22:44:33 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id
+ d9443c01a7336-1d94323d547so2094535ad.3; 
+ Wed, 14 Feb 2024 14:44:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1707950673; x=1708555473; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=3JywjW54T+fBYIkPqZ0r52IU6fFZGd6Cdajg00iAyqA=;
+ b=KstEo+x++Fx+d2CiBW4Yd4fcclmwZdbLrgmdGRpePjA4Ha/ptR/lJATHvy2mR5A7fu
+ wfeXIjF/NtrA0NOvbqpx94Hvx3hehr94LvoFEGY3NumQE4orIiBIAdZ30086aQe37ALW
+ GSvUMBcJ6gNyxYTxZoy24AkCSH8K+PMbiFldNyaLDV0vUKN1CYqKg3nTveNF4JUXCgNf
+ JfHJmbKkHsi9XGvueIBsgVDN9XrDQhZjYQYpJ8OyCwggaVtyyAo5o9NuD1Aji0NVpfRl
+ sYE0/NxlJ6Q+JDFM961i6dCctevF8Zxhn4i179PXfV6X/lCYT3BS7f3pIfr6SWcxW88B
+ FCmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707950673; x=1708555473;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3JywjW54T+fBYIkPqZ0r52IU6fFZGd6Cdajg00iAyqA=;
+ b=l1QPD+KFvh8CVBHz339ViiqzadaCpUhapIr9Wu8T20N/H86VLUQ3vtuiG8tBDu9GYq
+ XIRRypuf1H2Q2acDoG92bXJ7dGvbUs1r9noHxBSP8ZMpbHgT/pEz/jjB2mROG7sFldKS
+ c97jXxY3aFC1QmFPcuvZh+F9kqarZ77DoaAft2HRxAtds+4t758ylLdq0LNNqLG5LAtT
+ PES8U342l2PuKKqRD8i09hFJN8q7n5dEjWG3TKOfdWJQfvXYuNQWSUH75dFM/dOnmFbB
+ ck7VUVQX/MZth/0Q1ZbxCn3KTrO10DGeocCQyQ7R3XFPZ+YvhgmyMvoFk+ZtncH5cnFX
+ VA4w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVDFEApHM2VdXnVxAvFFQLjSMp/0laSl+38NeXWls2TgC/oY4OemZcX+aNSMWX6LBKZYUDFHWpOaPDuv1aGSlWEJqPbooApUsmpDWuITuUeARgU1D3DRZGFNSI1vW38cnXpeS+Qx1fYG/agt6IXlw==
+X-Gm-Message-State: AOJu0YwlcgQ2El8h7WBdelZezYqS2sSsZlR0e+XJ3JkhkOCQ8OdP0gb2
+ KminZ6VcfDDCWwcvwj8KHCDDnVceOU8m8xsInvgx+/+mAogLyrKeP13YgV86sZs=
+X-Google-Smtp-Source: AGHT+IGgJS7SuGWw/rt854cSssOAUSoxcDTXrkdQaT/B8eKFuwMa5+suH8+Q7FIOm96zpY1FtOJQ/Q==
+X-Received: by 2002:a17:902:7ec1:b0:1d7:133e:5c09 with SMTP id
+ p1-20020a1709027ec100b001d7133e5c09mr14830plb.22.1707950672419; 
+ Wed, 14 Feb 2024 14:44:32 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUVMhRyDVtH+n6FXXZIp5pFOCOGy05TdDDqMk1HAt1yI4T9JpOnOy+RYeaVujTfvjuZ4d6wPHnaDaLcqbWl8WcZ4nFaVk8l5HcFuRMCwrozhMQSO5LuKSehygfOTfUPL5/nzE+gTVYDtlxtoP0PyX9IaLwnA6lfi+fedemrPgN3YOxbnfWA7DzyGtXAOb3ShwUkc5JtouYs/dMxZ4myPtLBdfw4BkVyIBlOLVsYwD5w/n3oLc1aqwwClf5kzVBrz7PL9u9qGiZsuMH/bzI+8OpUIXDWIRxmEEkK9Ug9BPTGrYOHegTq4+bLK7ML6kOIzJNWbV4Ygb8x17BCu6jqrxKMKRyTqJefmR0cd1b49Jc=
+Received: from localhost.localdomain ([179.225.251.251])
+ by smtp.gmail.com with ESMTPSA id
+ jv12-20020a170903058c00b001d6f29c12f7sm1077950plb.135.2024.02.14.14.44.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 14 Feb 2024 14:44:31 -0800 (PST)
+From: Marcelo Mendes Spessoto Junior <marcelomspessoto@gmail.com>
+To: airlied@gmail.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ daniel@ffwll.ch, harry.wentland@amd.com, Rodrigo.Siqueira@amd.com,
+ sunpeng.li@amd.com, Xinhui.Pan@amd.com
+Cc: Marcelo Mendes Spessoto Junior <marcelomspessoto@gmail.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/3] drm/amd/display: fix codestyle for some dmub files 
+Date: Wed, 14 Feb 2024 19:42:14 -0300
+Message-Id: <20240214224217.15514-1-marcelomspessoto@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Abel Vesa <abel.vesa@linaro.org>
-Cc: linux-kernel@vger.kernel.org, 
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Clark <robdclark@gmail.com>, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Daniel Vetter <daniel@ffwll.ch>, Maxime Ripard <mripard@kernel.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
- Rob Herring <robh+dt@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Sean Paul <sean@poorly.run>, Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20240214-x1e80100-display-v2-2-cf05ba887453@linaro.org>
-References: <20240214-x1e80100-display-v2-0-cf05ba887453@linaro.org>
- <20240214-x1e80100-display-v2-2-cf05ba887453@linaro.org>
-Message-Id: <170795017402.2201397.8209800287591911549.robh@kernel.org>
-Subject: Re: [PATCH v2 2/4] dt-bindings: display/msm: Document the DPU for
- X1E80100
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 14 Feb 2024 23:40:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,39 +85,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Marcelo Mendes Spessoto Junior (3):
+  drm/amd/display: clean codestyle errors
+  drm/amd/display: clean codestyle errors
+  drm/amd/display: clean codestyle errors
 
-On Wed, 14 Feb 2024 23:24:31 +0200, Abel Vesa wrote:
-> Document the DPU for Qualcomm X1E80100 platform in the SM8650 schema, as
-> they are similar.
-> 
-> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
-> ---
->  Documentation/devicetree/bindings/display/msm/qcom,sm8650-dpu.yaml | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
+ drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h   | 6 +++---
+ drivers/gpu/drm/amd/display/dmub/src/dmub_dcn32.c | 2 +-
+ drivers/gpu/drm/amd/display/dmub/src/dmub_dcn35.c | 5 +++--
+ 3 files changed, 7 insertions(+), 6 deletions(-)
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240214-x1e80100-display-v2-2-cf05ba887453@linaro.org
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+-- 
+2.39.2
 
