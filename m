@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64394855163
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 19:04:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54599855164
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 19:04:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8505C10E991;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 951FC10E99F;
 	Wed, 14 Feb 2024 18:04:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="jZaWenaW";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="RbHMMy2J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96A1010E861;
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E262410E8C0;
  Wed, 14 Feb 2024 18:04:20 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41EHD0fV020852; Wed, 14 Feb 2024 18:04:18 GMT
+ 41E6rEYx030116; Wed, 14 Feb 2024 18:04:19 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:content-type; s=
- qcppdkim1; bh=iqWUUDBDIzlwCCeHaDKR4thzTxTFVXuuSkvLb7Qi8pU=; b=jZ
- aWenaWG0yfBpAZgz+CSViYXhLbQO+VPQ6g3Fx7JLNEXnCVede6reOUeJfWOpsAXk
- P9lQMND1XusZbTVjaF7QmsUKypa8oQdv/ArAA1UiD3D1IbxSlu9APMzqRJwL7jQn
- s0PTZJPTkKjr+0faPJsMn0ibiQTOibSKTRaLftv3d5AnweV6xpuyCmCSO+pfldMB
- rO+V5nGfokb7i8LwNMT0ApXupP5jB01MUUdCGZvHXvp4Oc1k8hfkkvomPuyEw5ye
- rS9LbUaNwra7Yaz/1K2ce3CDHR8levl7RB/g5QPD7H3gcGIySSa4R3Qh8G9QMADN
- ixKxoMgSExpSbkGY1/1A==
+ qcppdkim1; bh=0xgXmforspy5CNI48E+kOSpW6rzmLUnOALYg31ywLm0=; b=Rb
+ HMMy2J1KvGKJUsiM/XlZeTvw/plyGfgVYlU5piSb5r5x4lml1LBRmKDwioOP28Es
+ PyleL1TnxswhIzi3ZMMtKZCgPlTeajIRtkpEw0ZWXEgChdcdKrBcfBmi5EOKOKM6
+ N7jwr+Vn+di/5O07YWi4qOXkMvjgxYNIH1q2ISozA6cIxLRDD02Cd9tjx4dwHP0u
+ tFeCxDYxoq5lorAI3QWWgSsi5BrjIhtYFlE4kob9cYsQQ3E+66X5zk0+yA6qow7J
+ /c84gRMqacWpziATNAd/LiJZdNNMlY84KijbsS87SN7Nv0K+iRASeWV0fg+6k4Dr
+ /kIVGpfY+96j/stOLHig==
 Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w8jn9hwbk-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w8myg1s5d-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 14 Feb 2024 18:04:17 +0000 (GMT)
+ Wed, 14 Feb 2024 18:04:18 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41EI4Gih011767
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41EI4HHA011792
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 14 Feb 2024 18:04:16 GMT
+ Wed, 14 Feb 2024 18:04:17 GMT
 Received: from hu-parellan-lv.qualcomm.com (10.49.16.6) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
@@ -51,10 +51,10 @@ CC: Paloma Arellano <quic_parellan@quicinc.com>,
  <dmitry.baryshkov@linaro.org>, <quic_abhinavk@quicinc.com>,
  <quic_jesszhan@quicinc.com>, <quic_khsieh@quicinc.com>,
  <marijn.suijten@somainline.org>, <neil.armstrong@linaro.org>
-Subject: [PATCH v3 17/19] drm/msm/dpu: modify timing engine programming for
- YUV420 over DP
-Date: Wed, 14 Feb 2024 10:03:39 -0800
-Message-ID: <20240214180347.1399-18-quic_parellan@quicinc.com>
+Subject: [PATCH v3 18/19] drm/msm/dpu: reserve CDM blocks for DP if mode is
+ YUV420
+Date: Wed, 14 Feb 2024 10:03:40 -0800
+Message-ID: <20240214180347.1399-19-quic_parellan@quicinc.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20240214180347.1399-1-quic_parellan@quicinc.com>
 References: <20240214180347.1399-1-quic_parellan@quicinc.com>
@@ -67,17 +67,17 @@ X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: S5Ls2Rh0pi-odxMgJm7fRsqO3BPe-tez
-X-Proofpoint-ORIG-GUID: S5Ls2Rh0pi-odxMgJm7fRsqO3BPe-tez
+X-Proofpoint-GUID: 9WOomfPq02tRQ3eYtM4Q6cj9AKppVkMj
+X-Proofpoint-ORIG-GUID: 9WOomfPq02tRQ3eYtM4Q6cj9AKppVkMj
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-02-14_10,2024-02-14_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- adultscore=0 mlxlogscore=659 bulkscore=0 priorityscore=1501 clxscore=1015
- phishscore=0 suspectscore=0 malwarescore=0 spamscore=0 mlxscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402140141
+ phishscore=0 suspectscore=0
+ mlxlogscore=999 priorityscore=1501 impostorscore=0 bulkscore=0 mlxscore=0
+ adultscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2401310000
+ definitions=main-2402140141
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,54 +93,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adjust the encoder timing engine setup programming in the case of video
-mode for YUV420 over DP to accommodate CDM.
-
-Changes in v3:
-	- Move drm_display_mode's hskew division to another patch
-	- Minor cleanup
+Reserve CDM blocks for DP if the mode format is YUV420. Currently this
+reservation only works for writeback and DP if the format is YUV420. But
+this can be easily extented to other YUV formats for DP.
 
 Changes in v2:
-	- Move timing engine programming to this patch
+	- Minor code simplification
 
 Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 22 +++++++++++++--------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-index e29bc4bd39208..04df501d23bfa 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-@@ -236,7 +236,7 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
- 	struct drm_display_mode mode;
- 	struct dpu_hw_intf_timing_params timing_params = { 0 };
- 	const struct dpu_format *fmt = NULL;
--	u32 fmt_fourcc = DRM_FORMAT_RGB888;
-+	u32 fmt_fourcc;
- 	unsigned long lock_flags;
- 	struct dpu_hw_intf_cfg intf_cfg = { 0 };
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 6280c6be6dca9..ec53e5f4a696d 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -639,6 +639,7 @@ static int dpu_encoder_virt_atomic_check(
+ 	struct dpu_kms *dpu_kms;
+ 	struct drm_display_mode *adj_mode;
+ 	struct msm_display_topology topology;
++	struct msm_display_info *disp_info;
+ 	struct dpu_global_state *global_state;
+ 	struct drm_framebuffer *fb;
+ 	struct drm_dsc_config *dsc;
+@@ -655,6 +656,7 @@ static int dpu_encoder_virt_atomic_check(
+ 	DPU_DEBUG_ENC(dpu_enc, "\n");
  
-@@ -255,7 +255,9 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
- 	DPU_DEBUG_VIDENC(phys_enc, "enabling mode:\n");
- 	drm_mode_debug_printmodeline(&mode);
+ 	priv = drm_enc->dev->dev_private;
++	disp_info = &dpu_enc->disp_info;
+ 	dpu_kms = to_dpu_kms(priv->kms);
+ 	adj_mode = &crtc_state->adjusted_mode;
+ 	global_state = dpu_kms_get_global_state(crtc_state->state);
+@@ -682,21 +684,24 @@ static int dpu_encoder_virt_atomic_check(
+ 	topology = dpu_encoder_get_topology(dpu_enc, dpu_kms, adj_mode, crtc_state, dsc);
  
--	if (phys_enc->split_role != ENC_ROLE_SOLO) {
-+	fmt_fourcc = dpu_encoder_get_drm_fmt(phys_enc);
-+
-+	if (phys_enc->split_role != ENC_ROLE_SOLO || fmt_fourcc == DRM_FORMAT_YUV420) {
- 		mode.hdisplay >>= 1;
- 		mode.htotal >>= 1;
- 		mode.hsync_start >>= 1;
-@@ -275,6 +277,8 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
- 	fmt = dpu_get_dpu_format(fmt_fourcc);
- 	DPU_DEBUG_VIDENC(phys_enc, "fmt_fourcc 0x%X\n", fmt_fourcc);
+ 	/*
+-	 * Use CDM only for writeback at the moment as other interfaces cannot handle it.
+-	 * if writeback itself cannot handle cdm for some reason it will fail in its atomic_check()
++	 * Use CDM only for writeback or DP at the moment as other interfaces cannot handle it.
++	 * If writeback itself cannot handle cdm for some reason it will fail in its atomic_check()
+ 	 * earlier.
+ 	 */
+-	if (dpu_enc->disp_info.intf_type == INTF_WB && conn_state->writeback_job) {
++	if (disp_info->intf_type == INTF_WB && conn_state->writeback_job) {
+ 		fb = conn_state->writeback_job->fb;
  
-+	if (phys_enc->hw_cdm)
-+		intf_cfg.cdm = phys_enc->hw_cdm->idx;
- 	intf_cfg.intf = phys_enc->hw_intf->idx;
- 	intf_cfg.intf_mode_sel = DPU_CTL_MODE_SEL_VID;
- 	intf_cfg.stream_sel = 0; /* Don't care value for video mode */
+ 		if (fb && DPU_FORMAT_IS_YUV(to_dpu_format(msm_framebuffer_format(fb))))
+ 			topology.needs_cdm = true;
+-		if (topology.needs_cdm && !dpu_enc->cur_master->hw_cdm)
+-			crtc_state->mode_changed = true;
+-		else if (!topology.needs_cdm && dpu_enc->cur_master->hw_cdm)
+-			crtc_state->mode_changed = true;
++	} else if (disp_info->intf_type == INTF_DP) {
++		if (msm_dp_is_yuv_420_enabled(priv->dp[disp_info->h_tile_instance[0]], adj_mode))
++			topology.needs_cdm = true;
+ 	}
+ 
++	if (topology.needs_cdm && !dpu_enc->cur_master->hw_cdm)
++		crtc_state->mode_changed = true;
++	else if (!topology.needs_cdm && dpu_enc->cur_master->hw_cdm)
++		crtc_state->mode_changed = true;
+ 	/*
+ 	 * Release and Allocate resources on every modeset
+ 	 * Dont allocate when active is false.
+@@ -1137,7 +1142,8 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+ 
+ 	dpu_enc->dsc_mask = dsc_mask;
+ 
+-	if (dpu_enc->disp_info.intf_type == INTF_WB && conn_state->writeback_job) {
++	if ((dpu_enc->disp_info.intf_type == INTF_WB && conn_state->writeback_job) ||
++	    dpu_enc->disp_info.intf_type == INTF_DP) {
+ 		struct dpu_hw_blk *hw_cdm = NULL;
+ 
+ 		dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
 -- 
 2.39.2
 
