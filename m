@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D581855161
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 19:04:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D50985515A
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 19:04:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DE2C10E99A;
-	Wed, 14 Feb 2024 18:04:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D82AD10E981;
+	Wed, 14 Feb 2024 18:04:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="CR/aILZd";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="L99uywML";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC00D10E832;
- Wed, 14 Feb 2024 18:04:14 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E49110E7E6;
+ Wed, 14 Feb 2024 18:04:15 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41EDk6W3017833; Wed, 14 Feb 2024 18:04:12 GMT
+ 41EGWCnM025559; Wed, 14 Feb 2024 18:04:13 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:content-type; s=
- qcppdkim1; bh=cNPNes2kBNFHGgoDx+nWoH3vQXAPhWmfs6aX3rGbr44=; b=CR
- /aILZdjAGaYLwkqWcGpZjxyyXHOT0WW4WNrEX0AUWOdKtZEhZg8gzoF7lWZgBGfr
- qcEz2AhaZeGqlwg8hNislhB7PTCIqLm7Nzaq9FHuqOu+y27Jky4aana/aj2ns3uU
- 5xMLnpoeR8B1ciHhuym+iFDx9tr46T6+IIYYnnFZgx4iEHThMixGs9cziTFNUIA3
- /z7fXs6nOYsWF8LqCgD1FL58TdJ9Xk3VYmcPoYug6uLov2OywHlaRRZjP9Rm48Av
- gF1GqfJsCvwAfXeHx1GaA3QR549Dv7S1Ki6VbOdduQJ9yExQ1u9biemLPzz8sxTe
- uQN78HRqkpsYmaviyw4w==
+ qcppdkim1; bh=NN67YLeg2SLUayBz2xKP1OoKdwT10ziaes0srzN7JrQ=; b=L9
+ 9uywMLFtwhkmTW/rZYAojBUTSn8KSF4UxKaPK4sr/wjc+6R6skadTxGXZEHZghZS
+ hgqwVDOnCQxfwm4r8lTv29xS9mD7jcWP/JIS8zR/pjflFKN/wnk/WhPKLfLOSSJY
+ 8jLbqa5R72q3Bdkuk6Xcaibbrr6CgWAh5MgaSZOEPtF/7K1dPhbJOcAUbx+y9sub
+ Zt/Te20zZHlNj9pPT74xSlKJAhHFncsc7hHA0It0TyHJAm9EsEY0YVFHB2sukGvs
+ 25UcnEgu+XV6Nd6DJQwSDl56mgoDgymHkY//y4HYWIK52RsdnVoN9u0a9nkCNTWM
+ LyfN2jJG3EpnLgS9c1JQ==
 Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w8nt41p3g-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w8jn9hwb7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 14 Feb 2024 18:04:12 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41EI4Bjt009343
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41EI4BGt009364
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 14 Feb 2024 18:04:11 GMT
+ Wed, 14 Feb 2024 18:04:12 GMT
 Received: from hu-parellan-lv.qualcomm.com (10.49.16.6) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Wed, 14 Feb 2024 10:04:10 -0800
+ 15.2.1118.40; Wed, 14 Feb 2024 10:04:11 -0800
 From: Paloma Arellano <quic_parellan@quicinc.com>
 To: <freedreno@lists.freedesktop.org>
 CC: Paloma Arellano <quic_parellan@quicinc.com>,
@@ -51,9 +51,10 @@ CC: Paloma Arellano <quic_parellan@quicinc.com>,
  <dmitry.baryshkov@linaro.org>, <quic_abhinavk@quicinc.com>,
  <quic_jesszhan@quicinc.com>, <quic_khsieh@quicinc.com>,
  <marijn.suijten@somainline.org>, <neil.armstrong@linaro.org>
-Subject: [PATCH v3 10/19] drm/msm/dp: program config ctrl for YUV420 over DP
-Date: Wed, 14 Feb 2024 10:03:32 -0800
-Message-ID: <20240214180347.1399-11-quic_parellan@quicinc.com>
+Subject: [PATCH v3 11/19] drm/msm/dp: change clock related programming for
+ YUV420 over DP
+Date: Wed, 14 Feb 2024 10:03:33 -0800
+Message-ID: <20240214180347.1399-12-quic_parellan@quicinc.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20240214180347.1399-1-quic_parellan@quicinc.com>
 References: <20240214180347.1399-1-quic_parellan@quicinc.com>
@@ -66,16 +67,16 @@ X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: r3e0e00_dh7jFZ_rClNEBW7G37Dlo05j
-X-Proofpoint-ORIG-GUID: r3e0e00_dh7jFZ_rClNEBW7G37Dlo05j
+X-Proofpoint-GUID: ydzaxLS_io-nUPyoF_L0SRzYQoe-S2EJ
+X-Proofpoint-ORIG-GUID: ydzaxLS_io-nUPyoF_L0SRzYQoe-S2EJ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-02-14_10,2024-02-14_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- lowpriorityscore=0 clxscore=1015 priorityscore=1501 bulkscore=0
- impostorscore=0 adultscore=0 malwarescore=0 phishscore=0 spamscore=0
- mlxlogscore=854 classifier=spam adjust=0 reason=mlx scancount=1
+ lowpriorityscore=0
+ adultscore=0 mlxlogscore=999 bulkscore=0 priorityscore=1501 clxscore=1015
+ phishscore=0 suspectscore=0 malwarescore=0 spamscore=0 mlxscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2401310000 definitions=main-2402140141
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,32 +93,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change relevant DP controller related programming for YUV420 cases.
-Program the configuration control register to indicate YUV420.
+Change all relevant DP controller related programming for YUV420 cases.
+Namely, change the pixel clock math to consider YUV420 and modify the
+MVID programming to consider YUV420.
 
 Changes in v2:
-	- Create a new patch only for configuration control programming
+	- Move configuration control programming to a different commit
+	- Slight code simplification
+	- Add VSC SDP check when doing mode_pclk_khz division in
+	  dp_bridge_mode_valid
 
 Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/dp/dp_ctrl.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/msm/dp/dp_catalog.c | 5 ++++-
+ drivers/gpu/drm/msm/dp/dp_catalog.h | 2 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.c    | 9 ++++++---
+ drivers/gpu/drm/msm/dp/dp_display.c | 4 ++++
+ 4 files changed, 15 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
+index 5142aeb705a44..5d84c089e520a 100644
+--- a/drivers/gpu/drm/msm/dp/dp_catalog.c
++++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+@@ -442,7 +442,7 @@ void dp_catalog_ctrl_config_misc(struct dp_catalog *dp_catalog,
+ 
+ void dp_catalog_ctrl_config_msa(struct dp_catalog *dp_catalog,
+ 					u32 rate, u32 stream_rate_khz,
+-					bool fixed_nvid)
++					bool fixed_nvid, bool is_ycbcr_420)
+ {
+ 	u32 pixel_m, pixel_n;
+ 	u32 mvid, nvid, pixel_div = 0, dispcc_input_rate;
+@@ -485,6 +485,9 @@ void dp_catalog_ctrl_config_msa(struct dp_catalog *dp_catalog,
+ 		nvid = temp;
+ 	}
+ 
++	if (is_ycbcr_420)
++		mvid /= 2;
++
+ 	if (link_rate_hbr2 == rate)
+ 		nvid *= 2;
+ 
+diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
+index 38786e855b51a..6cb5e2a243de2 100644
+--- a/drivers/gpu/drm/msm/dp/dp_catalog.h
++++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
+@@ -96,7 +96,7 @@ void dp_catalog_ctrl_mainlink_ctrl(struct dp_catalog *dp_catalog, bool enable);
+ void dp_catalog_ctrl_psr_mainlink_enable(struct dp_catalog *dp_catalog, bool enable);
+ void dp_catalog_ctrl_config_misc(struct dp_catalog *dp_catalog, u32 cc, u32 tb);
+ void dp_catalog_ctrl_config_msa(struct dp_catalog *dp_catalog, u32 rate,
+-				u32 stream_rate_khz, bool fixed_nvid);
++				u32 stream_rate_khz, bool fixed_nvid, bool is_ycbcr_420);
+ int dp_catalog_ctrl_set_pattern_state_bit(struct dp_catalog *dp_catalog, u32 pattern);
+ u32 dp_catalog_hw_revision(const struct dp_catalog *dp_catalog);
+ void dp_catalog_ctrl_reset(struct dp_catalog *dp_catalog);
 diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index 77a8d9366ed7b..da8f0d9f98718 100644
+index da8f0d9f98718..209cf2a35642f 100644
 --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
 +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -128,6 +128,9 @@ static void dp_ctrl_config_ctrl(struct dp_ctrl_private *ctrl)
- 	/* Default-> LSCLK DIV: 1/4 LCLK  */
- 	config |= (2 << DP_CONFIGURATION_CTRL_LSCLK_DIV_SHIFT);
+@@ -960,7 +960,7 @@ static void dp_ctrl_calc_tu_parameters(struct dp_ctrl_private *ctrl,
+ 	in.hporch = drm_mode->htotal - drm_mode->hdisplay;
+ 	in.nlanes = ctrl->link->link_params.num_lanes;
+ 	in.bpp = ctrl->panel->dp_mode.bpp;
+-	in.pixel_enc = 444;
++	in.pixel_enc = ctrl->panel->dp_mode.out_fmt_is_yuv_420 ? 420 : 444;
+ 	in.dsc_en = 0;
+ 	in.async_en = 0;
+ 	in.fec_en = 0;
+@@ -1766,6 +1766,8 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
+ 		ctrl->link->link_params.rate = rate;
+ 		ctrl->link->link_params.num_lanes =
+ 			ctrl->panel->link_info.num_lanes;
++		if (ctrl->panel->dp_mode.out_fmt_is_yuv_420)
++			pixel_rate >>= 1;
+ 	}
  
-+	if (ctrl->panel->dp_mode.out_fmt_is_yuv_420)
-+		config |= DP_CONFIGURATION_CTRL_RGB_YUV; /* YUV420 */
+ 	drm_dbg_dp(ctrl->drm_dev, "rate=%d, num_lanes=%d, pixel_rate=%lu\n",
+@@ -1881,7 +1883,7 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl, bool force_link_train)
+ 
+ 	pixel_rate = pixel_rate_orig = ctrl->panel->dp_mode.drm_mode.clock;
+ 
+-	if (dp_ctrl->wide_bus_en)
++	if (dp_ctrl->wide_bus_en || ctrl->panel->dp_mode.out_fmt_is_yuv_420)
+ 		pixel_rate >>= 1;
+ 
+ 	drm_dbg_dp(ctrl->drm_dev, "rate=%d, num_lanes=%d, pixel_rate=%lu\n",
+@@ -1920,7 +1922,8 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl, bool force_link_train)
+ 
+ 	dp_catalog_ctrl_config_msa(ctrl->catalog,
+ 		ctrl->link->link_params.rate,
+-		pixel_rate_orig, dp_ctrl_use_fixed_nvid(ctrl));
++		pixel_rate_orig, dp_ctrl_use_fixed_nvid(ctrl),
++		ctrl->panel->dp_mode.out_fmt_is_yuv_420);
+ 
+ 	dp_ctrl_setup_tr_unit(ctrl);
+ 
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 6323dc08d5eb8..4b04388719363 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -933,6 +933,10 @@ enum drm_mode_status dp_bridge_mode_valid(struct drm_bridge *bridge,
+ 	dp_display = container_of(dp, struct dp_display_private, dp_display);
+ 	link_info = &dp_display->panel->link_info;
+ 
++	if (drm_mode_is_420_only(&dp->connector->display_info, mode) &&
++	    dp_display->panel->vsc_sdp_supported)
++		mode_pclk_khz /= 2;
 +
- 	/* Scrambler reset enable */
- 	if (drm_dp_alternate_scrambler_reset_cap(dpcd))
- 		config |= DP_CONFIGURATION_CTRL_ASSR;
+ 	mode_bpp = dp->connector->display_info.bpc * num_components;
+ 	if (!mode_bpp)
+ 		mode_bpp = default_bpp;
 -- 
 2.39.2
 
