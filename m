@@ -2,50 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95E95854844
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 12:27:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C2F5854846
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 12:28:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 796FD10E22B;
-	Wed, 14 Feb 2024 11:27:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B894E10E103;
+	Wed, 14 Feb 2024 11:28:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cQah1lxq";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ns6jvKwm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C9E010E226;
- Wed, 14 Feb 2024 11:27:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20D4510E103;
+ Wed, 14 Feb 2024 11:28:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707910068; x=1739446068;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=o4KzElueeiq4yz1b+6Q9X1xk1rhBxSoSIUAg6/V4x7I=;
- b=cQah1lxqGR+o/+g9Z4m9boebbBFZFGJXcXpLUDeBVc9pqVN7GTvFoHP9
- wsoncaY4rloZTgaipIVDauVOAjE4MtIEaEUyjOBZVOxyZHsrPXfZgESz4
- 4fFKU1q7A3X9/PxFxCPM4+MMAA6o5bClXfzi2PzVa9SMunQQbKXP5N1lN
- WzegKaWOhZAV4MTkAOTUf3QC9sMGpmWL/2a7vPhWq24VeXf/K1iTIFgkT
- naLTlVS3A4G5Xl3FyvB/snCZ5ikeHItnINfbiQza3gegS6/bB3UNKAVpQ
- JRFkYcGlGmmfqLroIgAVrzjJJj5iCc4w+aXF9JFxXnZm6EVK+Fqeij6My g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="1826918"
+ t=1707910088; x=1739446088;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=UlskkK0B0GTTd6Q234lVAe4MOy8qUdQoI2gCmd4QWWA=;
+ b=Ns6jvKwmL5V8vDE15Vx/jk0S3SFZlfOLR0tPd/M12ap9vdCdNBvkdZuC
+ YitVmy4utf77fJhPi8tvGPdDg9wrlg2g+5+/MPPRkNdq/ufR3JUx5KzTn
+ djkmSK9hr+vG4zR+8wepeRf82AJNiI8vZHft95ro9IiByFZEQ2fIVDVMU
+ 4H0IL6lW7sr6zhGzt3nsItmMwCssL0Y1nhyK6nLrDt5e9klPNvid37eow
+ axX2WCToHHQF9/YyohCCbgMDC5unr9GAugzn5qcSauKiJO7vHNjfBVnsl
+ mSDOAg5KITSsuIyWVMeRDQtUW2Zac5YwT2awmdsMLThHAnIIeQ+MpKn1v g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="1826950"
 X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
-   d="scan'208";a="1826918"
+   d="scan'208";a="1826950"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2024 03:27:48 -0800
+ 14 Feb 2024 03:28:07 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
-   d="scan'208";a="7827961"
+   d="scan'208";a="7828011"
 Received: from nemesa.iind.intel.com ([10.190.239.22])
- by orviesa003.jf.intel.com with ESMTP; 14 Feb 2024 03:27:47 -0800
+ by orviesa003.jf.intel.com with ESMTP; 14 Feb 2024 03:28:06 -0800
 From: Nemesa Garg <nemesa.garg@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: Nemesa Garg <nemesa.garg@intel.com>
-Subject: [RFC 0/5]  Introduce drm sharpening property
-Date: Wed, 14 Feb 2024 16:54:52 +0530
-Message-Id: <20240214112457.3734871-1-nemesa.garg@intel.com>
+Subject: [RFC 1/5] drm: Introduce sharpeness mode property
+Date: Wed, 14 Feb 2024 16:54:53 +0530
+Message-Id: <20240214112457.3734871-2-nemesa.garg@intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240214112457.3734871-1-nemesa.garg@intel.com>
+References: <20240214112457.3734871-1-nemesa.garg@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,55 +65,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-	Many a times images are blurred or upscaled content is also not as
-crisp as original rendered image. Traditional sharpening techniques often
-apply a uniform level of enhancement across entire image, which sometimes
-result in over-sharpening of some areas and potential loss of natural details. 
+This allows the user to set the intensity
+so as to get the sharpness effect.
 
-Intel has come up with Display Engine based adaptive sharpening filter 
-with minimal power and performance impact. From LNL onwards, the Display
-hardware can use one of the pipe scaler for adaptive sharpness filter.
-This can be used for both gaming and non-gaming use cases like photos,
-image viewing. It works on a region of pixels depending on the tap size.
+It is useful in scenario when the output is blurry
+and user want to sharpen the pixels.
 
-This RFC is an attempt to introduce an adaptive sharpness solution which
-helps in improving the image quality. For this new CRTC property is added.
-The user can set this property with desired sharpness strength value with
-0-255. A value of 1 representing minimum sharpening strength and 255
-representing maximum sharpness strength. A strength value of 0 means no
-sharpening or sharpening feature disabled.
-It works on a region of pixels depending on the tap size. The coefficients
-are used to generate an alpha value which is used to blend the sharpened
-image to original image.
+Signed-off-by: Nemesa Garg <nemesa.garg@intel.com>
+---
+ drivers/gpu/drm/drm_atomic_uapi.c |  4 ++++
+ drivers/gpu/drm/drm_crtc.c        | 17 +++++++++++++++++
+ include/drm/drm_crtc.h            | 17 +++++++++++++++++
+ 3 files changed, 38 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+index 29d4940188d4..773873726b87 100644
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -417,6 +417,8 @@ static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
+ 		set_out_fence_for_crtc(state->state, crtc, fence_ptr);
+ 	} else if (property == crtc->scaling_filter_property) {
+ 		state->scaling_filter = val;
++	} else if (property == crtc->sharpening_strength_prop) {
++		state->sharpeness_strength = val;
+ 	} else if (crtc->funcs->atomic_set_property) {
+ 		return crtc->funcs->atomic_set_property(crtc, state, property, val);
+ 	} else {
+@@ -454,6 +456,8 @@ drm_atomic_crtc_get_property(struct drm_crtc *crtc,
+ 		*val = 0;
+ 	else if (property == crtc->scaling_filter_property)
+ 		*val = state->scaling_filter;
++	else if (property == crtc->sharpening_strength_prop)
++		*val = state->sharpeness_strength;
+ 	else if (crtc->funcs->atomic_get_property)
+ 		return crtc->funcs->atomic_get_property(crtc, state, property, val);
+ 	else {
+diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+index cb90e70d85e8..d01ab76a719f 100644
+--- a/drivers/gpu/drm/drm_crtc.c
++++ b/drivers/gpu/drm/drm_crtc.c
+@@ -955,3 +955,20 @@ int drm_crtc_create_scaling_filter_property(struct drm_crtc *crtc,
+ 	return 0;
+ }
+ EXPORT_SYMBOL(drm_crtc_create_scaling_filter_property);
++
++int drm_crtc_create_sharpening_strength_property(struct drm_crtc *crtc)
++{
++	struct drm_device *dev = crtc->dev;
++
++	struct drm_property *prop =
++		drm_property_create_range(dev, 0, "SHARPENESS_STRENGTH", 0, 255);
++
++	if (!prop)
++		return -ENOMEM;
++
++	crtc->sharpening_strength_prop = prop;
++	drm_object_attach_property(&crtc->base, prop, 0);
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_crtc_create_sharpening_strength_property);
+diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
+index 8b48a1974da3..241514fc3eea 100644
+--- a/include/drm/drm_crtc.h
++++ b/include/drm/drm_crtc.h
+@@ -317,6 +317,16 @@ struct drm_crtc_state {
+ 	 */
+ 	enum drm_scaling_filter scaling_filter;
  
-Userspace implementation for sharpening feature and IGT implementation
-is in progress.
-
-Nemesa Garg (5):
-  drm: Introduce sharpeness mode property
-  drm/i915/display/: Compute the scaler filter coefficients
-  drm/i915/dispaly/: Enable the second scaler
-  drm/i915/display/: Add registers and compute the strength
-  drm/i915/display: Load the lut values and enable sharpness
-
- drivers/gpu/drm/drm_atomic_uapi.c             |   4 +
- drivers/gpu/drm/drm_crtc.c                    |  17 ++
- drivers/gpu/drm/i915/Makefile                 |   1 +
- drivers/gpu/drm/i915/display/intel_crtc.c     |   3 +
- drivers/gpu/drm/i915/display/intel_display.c  |  20 +-
- .../drm/i915/display/intel_display_types.h    |  11 +
- .../drm/i915/display/intel_modeset_verify.c   |   1 +
- .../drm/i915/display/intel_sharpen_filter.c   | 214 ++++++++++++++++++
- .../drm/i915/display/intel_sharpen_filter.h   |  31 +++
- drivers/gpu/drm/i915/display/skl_scaler.c     |  86 ++++++-
- drivers/gpu/drm/i915/display/skl_scaler.h     |   1 +
- drivers/gpu/drm/i915/i915_reg.h               |  19 ++
- drivers/gpu/drm/xe/Makefile                   |   1 +
- include/drm/drm_crtc.h                        |  17 ++
- 14 files changed, 416 insertions(+), 10 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/display/intel_sharpen_filter.c
- create mode 100644 drivers/gpu/drm/i915/display/intel_sharpen_filter.h
-
++	/**
++	 * @sharpness_strength
++	 *
++	 * Used by the user to set the sharpness intensity.
++	 * The value ranges from 0-255.
++	 * Any value greater than 0 means enabling the featuring
++	 * along with setting the value for sharpness.
++	 */
++	u8 sharpeness_strength;
++
+ 	/**
+ 	 * @event:
+ 	 *
+@@ -1088,6 +1098,12 @@ struct drm_crtc {
+ 	 */
+ 	struct drm_property *scaling_filter_property;
+ 
++	/**
++	 * @sharpening_strength_prop: property to apply
++	 * the intensity of the sharpness requested.
++	 */
++	struct drm_property *sharpening_strength_prop;
++
+ 	/**
+ 	 * @state:
+ 	 *
+@@ -1324,4 +1340,5 @@ static inline struct drm_crtc *drm_crtc_find(struct drm_device *dev,
+ int drm_crtc_create_scaling_filter_property(struct drm_crtc *crtc,
+ 					    unsigned int supported_filters);
+ 
++int drm_crtc_create_sharpening_strength_property(struct drm_crtc *crtc);
+ #endif /* __DRM_CRTC_H__ */
 -- 
 2.25.1
 
