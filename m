@@ -2,58 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC2D9855236
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 19:34:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CB9385523B
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 19:37:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2B3010E14C;
-	Wed, 14 Feb 2024 18:34:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DD9B10E1A6;
+	Wed, 14 Feb 2024 18:37:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="n+8gsCkL";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DI1c2Myk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B32A10E090;
- Wed, 14 Feb 2024 18:34:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 405F710E0C3;
+ Wed, 14 Feb 2024 18:37:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707935670; x=1739471670;
+ t=1707935828; x=1739471828;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:content-transfer-encoding:in-reply-to;
- bh=rOnNQdH7oNbEkeS/0Lx5DM+c9aU2T0FkvK6qsYMvCdI=;
- b=n+8gsCkLJry47w4j/pQITUwkAIsP42bhWVahrXehtoRFYf456Y0sKfcs
- irK6YpQzrqrITmN9tyj1kfZXr6Pvb3VzSlE+RvlMwhAgqYuRVSUvSPg1v
- v5y1oG4wI9Rh6NOVvvxV1QenQlcGhs/Bm4zRXzh4+27+GmGk7Q8y3y2fv
- d+C/+YeHKPIpvkiYOrf42V0C5XAHoPvYzYK1YpCGfOUDCG4+gismyoUYv
- ZzXcqaUXZRdCs2cMzBoAakfBT9bE1wtBTnYZ6vjlJAOjQDg8ZIa+flvCv
- WyZ9rRJraPiOxut2G02aO2n9nfZ+NVnZt8a0Q56JQ7LJnycRM/K6diVab w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="1872615"
+ bh=UrEEb5quc78wOsXy6JAcbCfTcVsvQ1QNPX+Y5Evyklo=;
+ b=DI1c2MykYJ/HJNMbVa0PHMDM3YznewJvMTaw4bJWRN6CP8jfcKLbkMF7
+ HjWEaudf38X8B85x33arIeUykl3PErcRdYhO2CID0zzE97yivDuh9RhOF
+ bc8TeODc6jbcI1FIpnttua9X/sSkLdwlBwFNPpcdo/nFCOuuWYN3Qhxvv
+ nFnj7EiQfSQXVXDCjPfh/ZkVudrLm08equtwMuEGEPtaEdcFB5A329yzk
+ 7j1k/lkmh4/bvQdv6usYPFT8kmzADDJz0cNUnq9kH3UjKcV7OHpFxupzj
+ hwLCGIup9/P9ZUP0dS+y0jiu+NlmZc+JZ2Xur1aR+X8i+PPemJKIw8f1b w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="1872996"
 X-IronPort-AV: E=Sophos;i="6.06,160,1705392000"; 
-   d="scan'208";a="1872615"
+   d="scan'208";a="1872996"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2024 10:34:30 -0800
+ 14 Feb 2024 10:37:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="826369707"
-X-IronPort-AV: E=Sophos;i="6.06,160,1705392000"; d="scan'208";a="826369707"
+X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="826369708"
+X-IronPort-AV: E=Sophos;i="6.06,160,1705392000"; d="scan'208";a="826369708"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 14 Feb 2024 10:34:26 -0800
+ by orsmga001.jf.intel.com with SMTP; 14 Feb 2024 10:37:03 -0800
 Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 14 Feb 2024 20:34:25 +0200
-Date: Wed, 14 Feb 2024 20:34:25 +0200
+ Wed, 14 Feb 2024 20:37:02 +0200
+Date: Wed, 14 Feb 2024 20:37:02 +0200
 From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, Arun R Murthy <arun.r.murthy@intel.com>
-Subject: Re: [PATCH v2 5/6] drm/i915/mst: add intel_dp_mst_disconnect()
-Message-ID: <Zc0HsbQRvxJ2emwb@intel.com>
-References: <cover.1707823736.git.jani.nikula@intel.com>
- <19287946420a86aaea54f3ee7ee8507978ea7c31.1707823736.git.jani.nikula@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH v3 01/12] drm/atomic-helper: split not-scaling part of
+ drm_atomic_helper_check_plane_state
+Message-ID: <Zc0ITrmhQ8CWMXMq@intel.com>
+References: <20230914050706.1058620-1-dmitry.baryshkov@linaro.org>
+ <20230914050706.1058620-2-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <19287946420a86aaea54f3ee7ee8507978ea7c31.1707823736.git.jani.nikula@intel.com>
+In-Reply-To: <20230914050706.1058620-2-dmitry.baryshkov@linaro.org>
 X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,61 +75,191 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 13, 2024 at 01:31:00PM +0200, Jani Nikula wrote:
-> Abstract the MST mode disconnect to a separate function.
+On Thu, Sep 14, 2023 at 08:06:55AM +0300, Dmitry Baryshkov wrote:
+> The helper drm_atomic_helper_check_plane_state() runs several checks on
+> plane src and dst rectangles, including the check whether required
+> scaling fits into the required margins. The msm driver would benefit
+> from having a function that does all these checks except the scaling
+> one. Split them into a new helper called
+> drm_atomic_helper_check_plane_noscale().
+
+What's the point in eliminating a nop scaling check?
+
 > 
-> Cc: Arun R Murthy <arun.r.murthy@intel.com>
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->  drivers/gpu/drm/i915/display/intel_dp.c | 24 +++++++++++++++---------
->  1 file changed, 15 insertions(+), 9 deletions(-)
+>  drivers/gpu/drm/drm_atomic_helper.c | 110 ++++++++++++++++++++++------
+>  include/drm/drm_atomic_helper.h     |   7 ++
+>  2 files changed, 96 insertions(+), 21 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> index 72e91322e310..7f97d5512a3e 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -4069,6 +4069,20 @@ intel_dp_mst_configure(struct intel_dp *intel_dp)
->  	intel_dp->mst_detect = DRM_DP_SST;
->  }
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index 292e38eb6218..2d7dd66181c9 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -825,11 +825,9 @@ drm_atomic_helper_check_wb_encoder_state(struct drm_encoder *encoder,
+>  EXPORT_SYMBOL(drm_atomic_helper_check_wb_encoder_state);
 >  
-> +static void
-> +intel_dp_mst_disconnect(struct intel_dp *intel_dp)
-> +{
-> +	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-> +
-> +	if (!intel_dp->is_mst)
-> +		return;
-> +
-> +	drm_dbg_kms(&i915->drm, "MST device may have disappeared %d vs %d\n",
-> +		    intel_dp->is_mst, intel_dp->mst_mgr.mst_state);
-> +	intel_dp->is_mst = false;
-> +	drm_dp_mst_topology_mgr_set_mst(&intel_dp->mst_mgr, intel_dp->is_mst);
-> +}
-> +
->  static bool
->  intel_dp_get_sink_irq_esi(struct intel_dp *intel_dp, u8 *esi)
+>  /**
+> - * drm_atomic_helper_check_plane_state() - Check plane state for validity
+> + * drm_atomic_helper_check_plane_noscale() - Check plane state for validity
+>   * @plane_state: plane state to check
+>   * @crtc_state: CRTC state to check
+> - * @min_scale: minimum @src:@dest scaling factor in 16.16 fixed point
+> - * @max_scale: maximum @src:@dest scaling factor in 16.16 fixed point
+>   * @can_position: is it legal to position the plane such that it
+>   *                doesn't cover the entire CRTC?  This will generally
+>   *                only be false for primary planes.
+> @@ -845,19 +843,16 @@ EXPORT_SYMBOL(drm_atomic_helper_check_wb_encoder_state);
+>   * RETURNS:
+>   * Zero if update appears valid, error code on failure
+>   */
+> -int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
+> -					const struct drm_crtc_state *crtc_state,
+> -					int min_scale,
+> -					int max_scale,
+> -					bool can_position,
+> -					bool can_update_disabled)
+> +int drm_atomic_helper_check_plane_noscale(struct drm_plane_state *plane_state,
+> +					  const struct drm_crtc_state *crtc_state,
+> +					  bool can_position,
+> +					  bool can_update_disabled)
 >  {
-> @@ -5721,15 +5735,7 @@ intel_dp_detect(struct drm_connector *connector,
->  		memset(intel_connector->dp.dsc_dpcd, 0, sizeof(intel_connector->dp.dsc_dpcd));
->  		intel_dp->psr.sink_panel_replay_support = false;
+>  	struct drm_framebuffer *fb = plane_state->fb;
+>  	struct drm_rect *src = &plane_state->src;
+>  	struct drm_rect *dst = &plane_state->dst;
+>  	unsigned int rotation = plane_state->rotation;
+>  	struct drm_rect clip = {};
+> -	int hscale, vscale;
 >  
-> -		if (intel_dp->is_mst) {
-> -			drm_dbg_kms(&dev_priv->drm,
-> -				    "MST device may have disappeared %d vs %d\n",
-> -				    intel_dp->is_mst,
-> -				    intel_dp->mst_mgr.mst_state);
-> -			intel_dp->is_mst = false;
-> -			drm_dp_mst_topology_mgr_set_mst(&intel_dp->mst_mgr,
-> -							intel_dp->is_mst);
-> -		}
-> +		intel_dp_mst_disconnect(intel_dp);
+>  	WARN_ON(plane_state->crtc && plane_state->crtc != crtc_state->crtc);
 >  
->  		goto out;
->  	}
+> @@ -883,17 +878,6 @@ int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
+>  
+>  	drm_rect_rotate(src, fb->width << 16, fb->height << 16, rotation);
+>  
+> -	/* Check scaling */
+> -	hscale = drm_rect_calc_hscale(src, dst, min_scale, max_scale);
+> -	vscale = drm_rect_calc_vscale(src, dst, min_scale, max_scale);
+> -	if (hscale < 0 || vscale < 0) {
+> -		drm_dbg_kms(plane_state->plane->dev,
+> -			    "Invalid scaling of plane\n");
+> -		drm_rect_debug_print("src: ", &plane_state->src, true);
+> -		drm_rect_debug_print("dst: ", &plane_state->dst, false);
+> -		return -ERANGE;
+> -	}
+> -
+>  	if (crtc_state->enable)
+>  		drm_mode_get_hv_timing(&crtc_state->mode, &clip.x2, &clip.y2);
+>  
+> @@ -921,6 +905,90 @@ int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
+>  
+>  	return 0;
+>  }
+> +EXPORT_SYMBOL(drm_atomic_helper_check_plane_noscale);
+> +
+> +/**
+> + * drm_atomic_helper_check_plane_scale() - Check whether plane can be scaled
+> + * @plane_state: plane state to check
+> + * @min_scale: minimum @src:@dest scaling factor in 16.16 fixed point
+> + * @max_scale: maximum @src:@dest scaling factor in 16.16 fixed point
+> + *
+> + * Checks that a desired plane scale fits into the min_scale..max_scale
+> + * boundaries.
+> + * Drivers that provide their own plane handling rather than helper-provided
+> + * implementations may still wish to call this function to avoid duplication of
+> + * error checking code.
+> + *
+> + * RETURNS:
+> + * Zero if update appears valid, error code on failure
+> + */
+> +int drm_atomic_helper_check_plane_scale(struct drm_plane_state *plane_state,
+> +					int min_scale,
+> +					int max_scale)
+> +{
+> +	struct drm_framebuffer *fb = plane_state->fb;
+> +	struct drm_rect src;
+> +	struct drm_rect dst;
+> +	int hscale, vscale;
+> +
+> +	if (!plane_state->visible)
+> +		return 0;
+> +
+> +	src = drm_plane_state_src(plane_state);
+> +	dst = drm_plane_state_dest(plane_state);
+> +
+> +	drm_rect_rotate(&src, fb->width << 16, fb->height << 16, plane_state->rotation);
+> +
+> +	hscale = drm_rect_calc_hscale(&src, &dst, min_scale, max_scale);
+> +	vscale = drm_rect_calc_vscale(&src, &dst, min_scale, max_scale);
+> +	if (hscale < 0 || vscale < 0) {
+> +		drm_dbg_kms(plane_state->plane->dev,
+> +			    "Invalid scaling of plane\n");
+> +		drm_rect_debug_print("src: ", &plane_state->src, true);
+> +		drm_rect_debug_print("dst: ", &plane_state->dst, false);
+> +		return -ERANGE;
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_atomic_helper_check_plane_scale);
+> +
+> +/**
+> + * drm_atomic_helper_check_plane_state() - Check plane state for validity
+> + * @plane_state: plane state to check
+> + * @crtc_state: CRTC state to check
+> + * @min_scale: minimum @src:@dest scaling factor in 16.16 fixed point
+> + * @max_scale: maximum @src:@dest scaling factor in 16.16 fixed point
+> + * @can_position: is it legal to position the plane such that it
+> + *                doesn't cover the entire CRTC?  This will generally
+> + *                only be false for primary planes.
+> + * @can_update_disabled: can the plane be updated while the CRTC
+> + *                       is disabled?
+> + *
+> + * Checks that a desired plane update is valid, and updates various
+> + * bits of derived state (clipped coordinates etc.). Drivers that provide
+> + * their own plane handling rather than helper-provided implementations may
+> + * still wish to call this function to avoid duplication of error checking
+> + * code.
+> + *
+> + * RETURNS:
+> + * Zero if update appears valid, error code on failure
+> + */
+> +int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
+> +					const struct drm_crtc_state *crtc_state,
+> +					int min_scale,
+> +					int max_scale,
+> +					bool can_position,
+> +					bool can_update_disabled)
+> +{
+> +	int ret;
+> +
+> +	ret = drm_atomic_helper_check_plane_noscale(plane_state, crtc_state, can_position, can_update_disabled);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return drm_atomic_helper_check_plane_scale(plane_state, min_scale, max_scale);
+> +}
+>  EXPORT_SYMBOL(drm_atomic_helper_check_plane_state);
+>  
+>  /**
+> diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
+> index 536a0b0091c3..32ac55aea94e 100644
+> --- a/include/drm/drm_atomic_helper.h
+> +++ b/include/drm/drm_atomic_helper.h
+> @@ -52,6 +52,13 @@ int drm_atomic_helper_check_modeset(struct drm_device *dev,
+>  int
+>  drm_atomic_helper_check_wb_encoder_state(struct drm_encoder *encoder,
+>  					 struct drm_connector_state *conn_state);
+> +int drm_atomic_helper_check_plane_noscale(struct drm_plane_state *plane_state,
+> +					  const struct drm_crtc_state *crtc_state,
+> +					  bool can_position,
+> +					  bool can_update_disabled);
+> +int drm_atomic_helper_check_plane_scale(struct drm_plane_state *plane_state,
+> +					int min_scale,
+> +					int max_scale);
+>  int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
+>  					const struct drm_crtc_state *crtc_state,
+>  					int min_scale,
 > -- 
 > 2.39.2
 
