@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D498544AE
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 10:10:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03391854509
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 10:23:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 396BF10E639;
-	Wed, 14 Feb 2024 09:10:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A288710E58B;
+	Wed, 14 Feb 2024 09:23:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vlDXD7CU";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="d2oZ0m8B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1ACB10E6B2
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 09:10:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4790D10E4F4
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 09:23:10 +0000 (UTC)
 Received: from [192.168.88.20] (91-154-35-128.elisa-laajakaista.fi
  [91.154.35.128])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9DB30673;
- Wed, 14 Feb 2024 10:10:09 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 62DEB673;
+ Wed, 14 Feb 2024 10:23:05 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1707901810;
- bh=3YwKRfcPdFsjeEMhHnvS47aZ2jLEkh8n77Xdcl6IJK4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=vlDXD7CUtsM3S/0Kz1c/9k/2uJ15zie2ru4qiPbPFxnFfRO9QmlO5MsDt9J9HxZ5+
- 00K9e0JtFYQyp0FLB2F/wiupPQvvJIJZ8G40b0q9WHcscXp00bLhCcPjQb5rdprG+g
- s2EfB4gNZNBwmG75ASpDPFl63dc9oQbzy363A5nM=
-Message-ID: <f8cc383e-1150-45d2-8325-a8dd69969300@ideasonboard.com>
-Date: Wed, 14 Feb 2024 11:10:09 +0200
+ s=mail; t=1707902586;
+ bh=BzXd7RuiwCTqBRO3TrKhE8xbVkPb0y7sK2NROp8pCZo=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=d2oZ0m8Bhk2IB/H2j5z6rKeUnA1tftzalI8uarCo30Bsq4XiRVAv6lFroGxGJIDYb
+ 1ILjo5z1NnlFOC/nFHkXLCuFPyWMMg9PWQXgfy2htLK/ShBui/5FOqIPvfd/r3z7Hh
+ c02gDS7di1d7lTCdSoZ0s6hOWAa7GMGL1HqE1ijg=
+Message-ID: <839d6de4-b396-4799-8a62-9249727b6dcc@ideasonboard.com>
+Date: Wed, 14 Feb 2024 11:23:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/2] dt-bindings: display: ti,am65x-dss: Add support for
  common1 region
 Content-Language: en-US
-To: Devarsh Thakkar <devarsht@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To: Devarsh Thakkar <devarsht@ti.com>, conor+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org
 Cc: praneeth@ti.com, nm@ti.com, vigneshr@ti.com, a-bhatia1@ti.com,
  j-luthra@ti.com, kristo@kernel.org, jyri.sarha@iki.fi, airlied@gmail.com,
  daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20240115125716.560363-1-devarsht@ti.com>
  <20240115125716.560363-2-devarsht@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+ <f8cc383e-1150-45d2-8325-a8dd69969300@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
  wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
@@ -87,9 +88,9 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240115125716.560363-2-devarsht@ti.com>
+In-Reply-To: <f8cc383e-1150-45d2-8325-a8dd69969300@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,68 +106,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 14/02/2024 11:10, Tomi Valkeinen wrote:
+> Hi,
+> 
+> On 15/01/2024 14:57, Devarsh Thakkar wrote:
+>> TI keystone display subsystem present in AM65 and other SoCs such as AM62
+>> support two separate register spaces namely "common" and "common1" which
+>> can be used by two separate hosts to program the display controller as
+>> described in respective Technical Reference Manuals [1].
+>>
+>> The common1 register space has similar set of configuration registers as
+>> supported in common register space except the global configuration
+>> registers which are exclusive to common region.
+>>
+>> This adds binding for "common1" register region too as supported by the
+>> hardware.
+>>
+>> [1]:
+>> AM62x TRM:
+>> https://www.ti.com/lit/pdf/spruiv7 (Section 14.8.9.1 DSS Registers)
+>>
+>> AM65x TRM:
+>> https://www.ti.com/lit/pdf/spruid7 (Section 12.6.5 DSS Registers)
+>>
+>> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+>> ---
+>>   .../devicetree/bindings/display/ti/ti,am65x-dss.yaml       | 7 +++++--
+>>   1 file changed, 5 insertions(+), 2 deletions(-)
+>>
+>> diff --git 
+>> a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml 
+>> b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+>> index b6767ef0d24d..55e3e490d0e6 100644
+>> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+>> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+>> @@ -37,6 +37,7 @@ properties:
+>>         - description: OVR2 overlay manager for vp2
+>>         - description: VP1 video port 1
+>>         - description: VP2 video port 2
+>> +      - description: common1 DSS register area
+>>     reg-names:
+>>       items:
+>> @@ -47,6 +48,7 @@ properties:
+>>         - const: ovr2
+>>         - const: vp1
+>>         - const: vp2
+>> +      - const: common1
+>>     clocks:
+>>       items:
+>> @@ -147,9 +149,10 @@ examples:
+>>                       <0x04a07000 0x1000>, /* ovr1 */
+>>                       <0x04a08000 0x1000>, /* ovr2 */
+>>                       <0x04a0a000 0x1000>, /* vp1 */
+>> -                    <0x04a0b000 0x1000>; /* vp2 */
+>> +                    <0x04a0b000 0x1000>, /* vp2 */
+>> +                    <0x04a01000 0x1000>; /* common1 */
+>>               reg-names = "common", "vidl1", "vid",
+>> -                    "ovr1", "ovr2", "vp1", "vp2";
+>> +                    "ovr1", "ovr2", "vp1", "vp2", "common1";
+>>               ti,am65x-oldi-io-ctrl = <&dss_oldi_io_ctrl>;
+>>               power-domains = <&k3_pds 67 TI_SCI_PD_EXCLUSIVE>;
+>>               clocks =        <&k3_clks 67 1>,
+> 
+> Looks fine to me, I'll apply to drm-misc-next.
 
-On 15/01/2024 14:57, Devarsh Thakkar wrote:
-> TI keystone display subsystem present in AM65 and other SoCs such as AM62
-> support two separate register spaces namely "common" and "common1" which
-> can be used by two separate hosts to program the display controller as
-> described in respective Technical Reference Manuals [1].
-> 
-> The common1 register space has similar set of configuration registers as
-> supported in common register space except the global configuration
-> registers which are exclusive to common region.
-> 
-> This adds binding for "common1" register region too as supported by the
-> hardware.
-> 
-> [1]:
-> AM62x TRM:
-> https://www.ti.com/lit/pdf/spruiv7 (Section 14.8.9.1 DSS Registers)
-> 
-> AM65x TRM:
-> https://www.ti.com/lit/pdf/spruid7 (Section 12.6.5 DSS Registers)
-> 
-> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-> ---
->   .../devicetree/bindings/display/ti/ti,am65x-dss.yaml       | 7 +++++--
->   1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> index b6767ef0d24d..55e3e490d0e6 100644
-> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> @@ -37,6 +37,7 @@ properties:
->         - description: OVR2 overlay manager for vp2
->         - description: VP1 video port 1
->         - description: VP2 video port 2
-> +      - description: common1 DSS register area
->   
->     reg-names:
->       items:
-> @@ -47,6 +48,7 @@ properties:
->         - const: ovr2
->         - const: vp1
->         - const: vp2
-> +      - const: common1
->   
->     clocks:
->       items:
-> @@ -147,9 +149,10 @@ examples:
->                       <0x04a07000 0x1000>, /* ovr1 */
->                       <0x04a08000 0x1000>, /* ovr2 */
->                       <0x04a0a000 0x1000>, /* vp1 */
-> -                    <0x04a0b000 0x1000>; /* vp2 */
-> +                    <0x04a0b000 0x1000>, /* vp2 */
-> +                    <0x04a01000 0x1000>; /* common1 */
->               reg-names = "common", "vidl1", "vid",
-> -                    "ovr1", "ovr2", "vp1", "vp2";
-> +                    "ovr1", "ovr2", "vp1", "vp2", "common1";
->               ti,am65x-oldi-io-ctrl = <&dss_oldi_io_ctrl>;
->               power-domains = <&k3_pds 67 TI_SCI_PD_EXCLUSIVE>;
->               clocks =        <&k3_clks 67 1>,
-
-Looks fine to me, I'll apply to drm-misc-next.
+Hmm, now thinking about this, doesn't this cause dtb checks to start 
+failing, as the dtbs are missing one entry? Is it better to merge these 
+kind of changes with the dts changes? Or does it matter?
 
   Tomi
 
