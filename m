@@ -2,54 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A91385484F
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 12:28:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B1EA854915
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 13:21:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C818010E690;
-	Wed, 14 Feb 2024 11:28:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB70F10E095;
+	Wed, 14 Feb 2024 12:21:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IswvESQ4";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=kapsi.fi header.i=@kapsi.fi header.b="sMkVIARR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FD6310E5BA;
- Wed, 14 Feb 2024 11:28:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707910104; x=1739446104;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=2+YCJ/335IYb7jjbpPtlbGueH+MNrByAn8mrcTnD3iE=;
- b=IswvESQ4RjhcuxpeAL/8BAbK6GElxIUVqOMO5XeScuM6637vZGHL7liM
- BGa+zXQUUNfgCsjej4PEYwUJMZoFm9KcBtoaLK4JC73QWW1H0re9vs8JS
- VX+7srCblNN10/tuADCNbSJNz6sMdDKNSQQS4tZG2CR46x4i01uxFjNjZ
- WMWa2Qgb9wLbxC5/K/0mYzWpQL4BvXoZ/LzG+HgDCYTqmkjIwObLE6HZy
- dMlab+5QU1EbPevg7W4j37qz7CQNZI68r5Ydpz06tiSFmlevaQprOiNEg
- kQZHlgd+/N0l/Is9PhJt1N2VScaRR+JXC9s0kD4yq2rd+yqaubGwEZMAI A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="1826974"
-X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
-   d="scan'208";a="1826974"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2024 03:28:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
-   d="scan'208";a="7828059"
-Received: from nemesa.iind.intel.com ([10.190.239.22])
- by orviesa003.jf.intel.com with ESMTP; 14 Feb 2024 03:28:22 -0800
-From: Nemesa Garg <nemesa.garg@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: Nemesa Garg <nemesa.garg@intel.com>
-Subject: [RFC 5/5] drm/i915/display: Load the lut values and enable sharpness
-Date: Wed, 14 Feb 2024 16:54:57 +0530
-Message-Id: <20240214112457.3734871-6-nemesa.garg@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240214112457.3734871-1-nemesa.garg@intel.com>
-References: <20240214112457.3734871-1-nemesa.garg@intel.com>
+X-Greylist: delayed 2414 seconds by postgrey-1.36 at gabe;
+ Wed, 14 Feb 2024 12:21:37 UTC
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92CF610E095
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 12:21:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=RzxRRhtdAnPm0aM2h8vavNmIk+E7Tg9BqH5yNtCHY5Y=; b=sMkVIARRDo2Z0YF97eLEIbunGL
+ g6UAVfZQ6BOec6wHg5lB95LiExD63s4N9kht2mbKrHL0dxX8a432fZT7ivNNx8+CQJIE88YI9uYB8
+ bGXG9HrJM4YAuFLE+ljdsoHyyg2CH12sZQELBtj/wCsvc0EVIdT+DTAMVMD0nhKahDz8XKoFDLsW+
+ WQBzgu0ktcPg5LRgBdq1oDu0F2Xc7LPSffhAknnFbJ6xkBleOwggnvh5vUvgSAt41u8nJinLiOyQr
+ roUmsbQTFHUYVR3uxMW2hwo59d0nfwUShJVwPs3e62YJSqW1EU/fxtFpDkmjXpjpjOvH+LDBKP/wT
+ CR+j+wzA==;
+Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
+ helo=toshino.localdomain) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
+ (envelope-from <cyndis@kapsi.fi>) id 1raDdd-00ChIO-0X;
+ Wed, 14 Feb 2024 13:41:17 +0200
+From: Mikko Perttunen <cyndis@kapsi.fi>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Mikko Perttunen <mperttunen@nvidia.com>, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org
+Subject: [PATCH] gpu: host1x: Skip reset assert on Tegra186
+Date: Wed, 14 Feb 2024 13:40:49 +0200
+Message-ID: <20240214114049.1421463-1-cyndis@kapsi.fi>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 91.158.25.70
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,96 +62,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Load the lut values during pipe enable.
+From: Mikko Perttunen <mperttunen@nvidia.com>
 
-Signed-off-by: Nemesa Garg <nemesa.garg@intel.com>
+On Tegra186, other software components may rely on the kernel to
+keep Host1x operational even during suspend. As such, as a quirk,
+skip asserting Host1x's reset on Tegra186.
+
+We don't need to keep the clocks enabled, as BPMP ensures the clock
+stays on while Host1x is being used. On newer SoC's, the reset line
+is inaccessible, so there is no need for the quirk.
+
+Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- drivers/gpu/drm/i915/display/intel_crtc.c    |  3 +++
- drivers/gpu/drm/i915/display/intel_display.c | 12 +++++++++++-
- drivers/gpu/drm/i915/display/skl_scaler.c    | 11 ++++++++++-
- 3 files changed, 24 insertions(+), 2 deletions(-)
+ drivers/gpu/host1x/dev.c | 15 +++++++++------
+ drivers/gpu/host1x/dev.h |  1 +
+ 2 files changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_crtc.c b/drivers/gpu/drm/i915/display/intel_crtc.c
-index 25593f6aae7d..74c498733283 100644
---- a/drivers/gpu/drm/i915/display/intel_crtc.c
-+++ b/drivers/gpu/drm/i915/display/intel_crtc.c
-@@ -383,6 +383,9 @@ int intel_crtc_init(struct drm_i915_private *dev_priv, enum pipe pipe)
+diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
+index 42fd504abbcd..89983d7d73ca 100644
+--- a/drivers/gpu/host1x/dev.c
++++ b/drivers/gpu/host1x/dev.c
+@@ -169,6 +169,7 @@ static const struct host1x_info host1x06_info = {
+ 	.num_sid_entries = ARRAY_SIZE(tegra186_sid_table),
+ 	.sid_table = tegra186_sid_table,
+ 	.reserve_vblank_syncpts = false,
++	.skip_reset_assert = true,
+ };
  
- 	drm_WARN_ON(&dev_priv->drm, drm_crtc_index(&crtc->base) != crtc->pipe);
+ static const struct host1x_sid_entry tegra194_sid_table[] = {
+@@ -680,13 +681,15 @@ static int __maybe_unused host1x_runtime_suspend(struct device *dev)
+ 	host1x_intr_stop(host);
+ 	host1x_syncpt_save(host);
  
-+	if (DISPLAY_VER(dev_priv) >= 20)
-+		drm_crtc_create_sharpening_strength_property(&crtc->base);
-+
- 	return 0;
+-	err = reset_control_bulk_assert(host->nresets, host->resets);
+-	if (err) {
+-		dev_err(dev, "failed to assert reset: %d\n", err);
+-		goto resume_host1x;
+-	}
++	if (!host->info->skip_reset_assert) {
++		err = reset_control_bulk_assert(host->nresets, host->resets);
++		if (err) {
++			dev_err(dev, "failed to assert reset: %d\n", err);
++			goto resume_host1x;
++		}
  
- fail:
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 3d05bd203ca8..e8bd615e6977 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -1722,6 +1722,9 @@ static void hsw_crtc_enable(struct intel_atomic_state *state,
- 		intel_crtc_wait_for_next_vblank(wa_crtc);
- 		intel_crtc_wait_for_next_vblank(wa_crtc);
- 	}
-+
-+	if (new_crtc_state->hw.casf_params.strength_changed)
-+		intel_filter_lut_load(crtc, new_crtc_state);
- }
- 
- void ilk_pfit_disable(const struct intel_crtc_state *old_crtc_state)
-@@ -2444,8 +2447,12 @@ static int intel_crtc_compute_config(struct intel_atomic_state *state,
- 	if (crtc_state->has_pch_encoder)
- 		return ilk_fdi_compute_config(crtc, crtc_state);
- 
--	if (crtc_state->hw.casf_params.strength_changed)
-+	intel_sharpen_strength_changed(state);
-+
-+	if (crtc_state->hw.casf_params.strength_changed) {
- 		intel_sharpness_scaler_compute_config(crtc_state);
-+		intel_filter_compute_config(crtc_state);
+-	usleep_range(1000, 2000);
++		usleep_range(1000, 2000);
 +	}
  
- 	return 0;
- }
-@@ -6744,6 +6751,9 @@ static void intel_update_crtc(struct intel_atomic_state *state,
- 	if (intel_crtc_needs_fastset(new_crtc_state) &&
- 	    old_crtc_state->inherited)
- 		intel_crtc_arm_fifo_underrun(crtc, new_crtc_state);
-+
-+	if (new_crtc_state->hw.casf_params.strength_changed)
-+		intel_sharpen_filter_enable(new_crtc_state);
- }
+ 	clk_disable_unprepare(host->clk);
+ 	reset_control_bulk_release(host->nresets, host->resets);
+diff --git a/drivers/gpu/host1x/dev.h b/drivers/gpu/host1x/dev.h
+index c8e302de7625..9c13e71a31ff 100644
+--- a/drivers/gpu/host1x/dev.h
++++ b/drivers/gpu/host1x/dev.h
+@@ -116,6 +116,7 @@ struct host1x_info {
+ 	 * the display driver disables VBLANK increments.
+ 	 */
+ 	bool reserve_vblank_syncpts;
++	bool skip_reset_assert;
+ };
  
- static void intel_old_crtc_state_disables(struct intel_atomic_state *state,
-diff --git a/drivers/gpu/drm/i915/display/skl_scaler.c b/drivers/gpu/drm/i915/display/skl_scaler.c
-index be61a6ebd7e3..cb828b3880b2 100644
---- a/drivers/gpu/drm/i915/display/skl_scaler.c
-+++ b/drivers/gpu/drm/i915/display/skl_scaler.c
-@@ -925,7 +925,7 @@ void skl_scaler_get_config(struct intel_crtc_state *crtc_state)
- 
- 	/* find scaler attached to this pipe */
- 	for (i = 0; i < crtc->num_scalers; i++) {
--		u32 ctl, pos, size;
-+		u32 ctl, pos, size, sharp;
- 
- 		ctl = intel_de_read(dev_priv, SKL_PS_CTRL(crtc->pipe, i));
- 		if ((ctl & (PS_SCALER_EN | PS_BINDING_MASK)) != (PS_SCALER_EN | PS_BINDING_PIPE))
-@@ -933,6 +933,15 @@ void skl_scaler_get_config(struct intel_crtc_state *crtc_state)
- 
- 		id = i;
- 
-+		sharp = intel_de_read(dev_priv, SHARPNESS_CTL(crtc->pipe));
-+		if (sharp & FILTER_EN) {
-+			crtc_state->hw.casf_params.strength =
-+				REG_FIELD_GET(FILTER_STRENGTH_MASK, sharp) - 16;
-+			crtc_state->hw.casf_params.need_scaler = true;
-+			crtc_state->hw.casf_params.win_size =
-+				REG_FIELD_GET(FILTER_SIZE_MASK, sharp);
-+		}
-+
- 		if (!crtc_state->hw.casf_params.need_scaler)
- 			crtc_state->pch_pfit.enabled = true;
- 
+ struct host1x {
 -- 
-2.25.1
+2.42.0
 
