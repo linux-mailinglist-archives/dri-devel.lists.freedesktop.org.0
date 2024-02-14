@@ -2,54 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F236C8543DD
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 09:13:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CE9B8543E5
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 09:15:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD0CA10E4F1;
-	Wed, 14 Feb 2024 08:13:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59AE110E32F;
+	Wed, 14 Feb 2024 08:15:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Dkqoq/D/";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xZ3uOlr8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7B6D10E4AC
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 08:13:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707898400; x=1739434400;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=rvns5rNiH1ThenXfY3DtxJX0hHKtbgUADPkv7qsIZkI=;
- b=Dkqoq/D/deCjggMNwtdvlvrBnEOVBnrUn05EGVeP5OutCIvI6OnbCci2
- q+oc9K/qZODYoPFgEVmrXT2WfMhKmIG0KXrVk63jSbkdOqBli8vIFXmpR
- 5C8a+q1zag/9guwWqFhxjKpxNWDBnExdNTtHmCH9c5DEhB8irNZzYHMjZ
- U4zooLA31ewHH7Ygg0VgSevLNVzVXjAI5mzar3ngGDMnID+BSm+tYuFRr
- 3xTCpSXekRNCQ774tyzli9mfLOirc7KjWgYxw/90tExsCIu+u4nriIEw/
- 0NG4XPqJb5kuuopddom1+8pkyB8FgRKFOpJZ0IiA0x8AlezBpiqjzzgcz w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="12651677"
-X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; d="scan'208";a="12651677"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2024 00:13:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
-   d="scan'208";a="3407435"
-Received: from jlawryno.igk.intel.com ([10.91.220.59])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2024 00:13:18 -0800
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH 8/8] accel/ivpu: Rename VPU to NPU in message strings
-Date: Wed, 14 Feb 2024 09:13:05 +0100
-Message-ID: <20240214081305.290108-9-jacek.lawrynowicz@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240214081305.290108-1-jacek.lawrynowicz@linux.intel.com>
-References: <20240214081305.290108-1-jacek.lawrynowicz@linux.intel.com>
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com
+ [209.85.219.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E09C10E51D
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 08:15:39 +0000 (UTC)
+Received: by mail-yb1-f178.google.com with SMTP id
+ 3f1490d57ef6-dcd7c526cc0so834025276.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 00:15:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1707898538; x=1708503338; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=EKXGtE0o7nACfq6pe512roREe48CDHHUhw9NIs9DgqY=;
+ b=xZ3uOlr8GM+Qp7uGyglB+XlL4GsUz3k0hefFBVNf/Si73TG8c8MU48EWuNTOUKIl9T
+ L44HsKktvM+1/Q3T2lJgL5f0BQx+xT1ukUyXMKDILZbNfGmqiXdOrW+NTJZetfrcV5j7
+ P64Rz/Zl8njNpt+vOXJjAQiQgjB/dDukSZdJs2BKeN4J05WutknzjDDYOoylTRhb9qAW
+ UlIEK9tuKaBQrt8fo5tKxdUnP6Anrm/XVvOGiXx7EuqchIrKk1Zr756H7H2Sz4/Yl34t
+ XgwSYam0kVKuqnDqs4n1KZmanQsup/iifAoPRpeQNx+DckQ4XHtfYBDaxpsTWvOP8wBN
+ WY+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707898538; x=1708503338;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EKXGtE0o7nACfq6pe512roREe48CDHHUhw9NIs9DgqY=;
+ b=MyW/YrIx1JBdajmk8MI8BIylW6LGmS7JTEAExqruh0YPZz/r1lxOITk/cc1eMLSurM
+ F+97ZfVUgm+K5A1JtmxyJMpE0JT/H568b+bxwizg2cUR3gp6lM1aUe3iNcMB9Duy4yUg
+ QT0rhr1Dcx+C0xolaDyoE8si2cWAS9JWNVv75lbMftMABVHYNioZJvJgHNQ20Md5kyIq
+ u4mKoOoZfjgbyAcjFQh3lLjPOgSMXqhFL1iCsKIgBGAk3MGNqSvNbxu2U6xq5X+o1ncR
+ Ob/I7Fr+4eOyS4VRt0S2lL37KJEUwb6l6x4Gz4q7enHVwHfGnOFHPs10uv8oidmxNkaV
+ bFVQ==
+X-Gm-Message-State: AOJu0YzQgMEt020CRmVnywGbeZIfhHd6MJxxmyL2CB7jO3nzMfsXmtp1
+ KEzEHgQ86+pHjP5UoxP10MFtqjq0pKB8mC4Zb+O968U9QoV8CPBXClx3zES73SrHjyg344SO3dX
+ Tdoi3fxsLJcunfwi/xeUJoDOinmvD/SeQ5ytwPQ==
+X-Google-Smtp-Source: AGHT+IFI6XgUc51w44SGa4dFJZmddk/Aj01+ufuewKBsrzYVS9b+Kup4A4AKPQTJHjDr+FyB9b7AIUFcQMO+GV9FPR8=
+X-Received: by 2002:a5b:dc6:0:b0:dcd:36c1:ecb7 with SMTP id
+ t6-20020a5b0dc6000000b00dcd36c1ecb7mr1383363ybr.54.1707898537795; Wed, 14 Feb
+ 2024 00:15:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240213234513.2411604-1-quic_abhinavk@quicinc.com>
+In-Reply-To: <20240213234513.2411604-1-quic_abhinavk@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 14 Feb 2024 10:15:27 +0200
+Message-ID: <CAA8EJpo0yeLyCkVvLFX7wUEV4+i+ORbaCB2qxN0izaWLdFqCrA@mail.gmail.com>
+Subject: Re: [PATCH] drm/dp: move intel_dp_vsc_sdp_pack() to generic helper
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: dri-devel@lists.freedesktop.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, robdclark@gmail.com, 
+ freedreno@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ ville.syrjala@linux.intel.com, quic_jesszhan@quicinc.com, 
+ linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,210 +85,233 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VPU was renamed to NPU but due to large overhead of renaming
-all the sources only user visible messages are being updated.
+On Wed, 14 Feb 2024 at 01:45, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+> intel_dp_vsc_sdp_pack() can be re-used by other DRM drivers as well.
+> Lets move this to drm_dp_helper to achieve this.
+>
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
----
- drivers/accel/ivpu/ivpu_drv.c     |  8 ++++----
- drivers/accel/ivpu/ivpu_drv.h     |  2 +-
- drivers/accel/ivpu/ivpu_fw.c      |  2 +-
- drivers/accel/ivpu/ivpu_fw_log.c  |  6 +++---
- drivers/accel/ivpu/ivpu_hw_37xx.c |  6 +++---
- drivers/accel/ivpu/ivpu_hw_40xx.c | 10 +++++-----
- drivers/accel/ivpu/ivpu_pm.c      | 10 +++++-----
- 7 files changed, 22 insertions(+), 22 deletions(-)
+My preference would be to have packing functions in
+drivers/video/hdmi.c, as we already have
+hdmi_audio_infoframe_pack_for_dp() there.
 
-diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index a0461e3caeec..3f2439117582 100644
---- a/drivers/accel/ivpu/ivpu_drv.c
-+++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -45,11 +45,11 @@ MODULE_PARM_DESC(test_mode, "Test mode mask. See IVPU_TEST_MODE_* macros.");
- 
- u8 ivpu_pll_min_ratio;
- module_param_named(pll_min_ratio, ivpu_pll_min_ratio, byte, 0644);
--MODULE_PARM_DESC(pll_min_ratio, "Minimum PLL ratio used to set VPU frequency");
-+MODULE_PARM_DESC(pll_min_ratio, "Minimum PLL ratio used to set NPU frequency");
- 
- u8 ivpu_pll_max_ratio = U8_MAX;
- module_param_named(pll_max_ratio, ivpu_pll_max_ratio, byte, 0644);
--MODULE_PARM_DESC(pll_max_ratio, "Maximum PLL ratio used to set VPU frequency");
-+MODULE_PARM_DESC(pll_max_ratio, "Maximum PLL ratio used to set NPU frequency");
- 
- bool ivpu_disable_mmu_cont_pages;
- module_param_named(disable_mmu_cont_pages, ivpu_disable_mmu_cont_pages, bool, 0644);
-@@ -328,13 +328,13 @@ static int ivpu_wait_for_ready(struct ivpu_device *vdev)
- 	ivpu_ipc_consumer_del(vdev, &cons);
- 
- 	if (!ret && ipc_hdr.data_addr != IVPU_IPC_BOOT_MSG_DATA_ADDR) {
--		ivpu_err(vdev, "Invalid VPU ready message: 0x%x\n",
-+		ivpu_err(vdev, "Invalid NPU ready message: 0x%x\n",
- 			 ipc_hdr.data_addr);
- 		return -EIO;
- 	}
- 
- 	if (!ret)
--		ivpu_dbg(vdev, PM, "VPU ready message received successfully\n");
-+		ivpu_dbg(vdev, PM, "NPU ready message received successfully\n");
- 
- 	return ret;
- }
-diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
-index 03454f16a535..7be0500d9bb8 100644
---- a/drivers/accel/ivpu/ivpu_drv.h
-+++ b/drivers/accel/ivpu/ivpu_drv.h
-@@ -194,7 +194,7 @@ static inline int ivpu_hw_gen(struct ivpu_device *vdev)
- 	case PCI_DEVICE_ID_LNL:
- 		return IVPU_HW_40XX;
- 	default:
--		ivpu_err(vdev, "Unknown VPU device\n");
-+		ivpu_err(vdev, "Unknown NPU device\n");
- 		return 0;
- 	}
- }
-diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
-index 21c4082ea68c..dfa91d48f901 100644
---- a/drivers/accel/ivpu/ivpu_fw.c
-+++ b/drivers/accel/ivpu/ivpu_fw.c
-@@ -46,7 +46,7 @@
- 
- static char *ivpu_firmware;
- module_param_named_unsafe(firmware, ivpu_firmware, charp, 0644);
--MODULE_PARM_DESC(firmware, "VPU firmware binary in /lib/firmware/..");
-+MODULE_PARM_DESC(firmware, "NPU firmware binary in /lib/firmware/..");
- 
- static struct {
- 	int gen;
-diff --git a/drivers/accel/ivpu/ivpu_fw_log.c b/drivers/accel/ivpu/ivpu_fw_log.c
-index f6770f5e82a2..ef0adb5e0fbe 100644
---- a/drivers/accel/ivpu/ivpu_fw_log.c
-+++ b/drivers/accel/ivpu/ivpu_fw_log.c
-@@ -20,7 +20,7 @@
- unsigned int ivpu_log_level = IVPU_FW_LOG_ERROR;
- module_param(ivpu_log_level, uint, 0444);
- MODULE_PARM_DESC(ivpu_log_level,
--		 "VPU firmware default trace level: debug=" __stringify(IVPU_FW_LOG_DEBUG)
-+		 "NPU firmware default trace level: debug=" __stringify(IVPU_FW_LOG_DEBUG)
- 		 " info=" __stringify(IVPU_FW_LOG_INFO)
- 		 " warn=" __stringify(IVPU_FW_LOG_WARN)
- 		 " error=" __stringify(IVPU_FW_LOG_ERROR)
-@@ -121,11 +121,11 @@ void ivpu_fw_log_print(struct ivpu_device *vdev, bool only_new_msgs, struct drm_
- 	u32 next = 0;
- 
- 	while (fw_log_ptr(vdev, vdev->fw->mem_log_crit, &next, &log_header) == 0)
--		fw_log_print_buffer(vdev, log_header, "VPU critical", only_new_msgs, p);
-+		fw_log_print_buffer(vdev, log_header, "NPU critical", only_new_msgs, p);
- 
- 	next = 0;
- 	while (fw_log_ptr(vdev, vdev->fw->mem_log_verb, &next, &log_header) == 0)
--		fw_log_print_buffer(vdev, log_header, "VPU verbose", only_new_msgs, p);
-+		fw_log_print_buffer(vdev, log_header, "NPU verbose", only_new_msgs, p);
- }
- 
- void ivpu_fw_log_clear(struct ivpu_device *vdev)
-diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
-index 0e7cde1bb422..be91c6744b12 100644
---- a/drivers/accel/ivpu/ivpu_hw_37xx.c
-+++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
-@@ -228,7 +228,7 @@ static int ivpu_pll_drive(struct ivpu_device *vdev, bool enable)
- 
- 		ret = ivpu_hw_37xx_wait_for_vpuip_bar(vdev);
- 		if (ret) {
--			ivpu_err(vdev, "Timed out waiting for VPUIP bar\n");
-+			ivpu_err(vdev, "Timed out waiting for NPU IP bar\n");
- 			return ret;
- 		}
- 	}
-@@ -742,10 +742,10 @@ static int ivpu_hw_37xx_power_down(struct ivpu_device *vdev)
- 	ivpu_hw_37xx_save_d0i3_entry_timestamp(vdev);
- 
- 	if (!ivpu_hw_37xx_is_idle(vdev))
--		ivpu_warn(vdev, "VPU not idle during power down\n");
-+		ivpu_warn(vdev, "NPU not idle during power down\n");
- 
- 	if (ivpu_hw_37xx_reset(vdev)) {
--		ivpu_err(vdev, "Failed to reset VPU\n");
-+		ivpu_err(vdev, "Failed to reset NPU\n");
- 		ret = -EIO;
- 	}
- 
-diff --git a/drivers/accel/ivpu/ivpu_hw_40xx.c b/drivers/accel/ivpu/ivpu_hw_40xx.c
-index 704288084f37..d4663a42416b 100644
---- a/drivers/accel/ivpu/ivpu_hw_40xx.c
-+++ b/drivers/accel/ivpu/ivpu_hw_40xx.c
-@@ -80,11 +80,11 @@ static char *ivpu_platform_to_str(u32 platform)
- {
- 	switch (platform) {
- 	case IVPU_PLATFORM_SILICON:
--		return "IVPU_PLATFORM_SILICON";
-+		return "SILICON";
- 	case IVPU_PLATFORM_SIMICS:
--		return "IVPU_PLATFORM_SIMICS";
-+		return "SIMICS";
- 	case IVPU_PLATFORM_FPGA:
--		return "IVPU_PLATFORM_FPGA";
-+		return "FPGA";
- 	default:
- 		return "Invalid platform";
- 	}
-@@ -773,7 +773,7 @@ static int ivpu_hw_40xx_reset(struct ivpu_device *vdev)
- 	int ret = 0;
- 
- 	if (ivpu_hw_40xx_ip_reset(vdev)) {
--		ivpu_err(vdev, "Failed to reset VPU IP\n");
-+		ivpu_err(vdev, "Failed to reset NPU IP\n");
- 		ret = -EIO;
- 	}
- 
-@@ -931,7 +931,7 @@ static int ivpu_hw_40xx_power_down(struct ivpu_device *vdev)
- 	ivpu_hw_40xx_save_d0i3_entry_timestamp(vdev);
- 
- 	if (!ivpu_hw_40xx_is_idle(vdev) && ivpu_hw_40xx_ip_reset(vdev))
--		ivpu_warn(vdev, "Failed to reset the VPU\n");
-+		ivpu_warn(vdev, "Failed to reset the NPU\n");
- 
- 	if (ivpu_pll_disable(vdev)) {
- 		ivpu_err(vdev, "Failed to disable PLL\n");
-diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-index f501f27ebafd..280fd3936f60 100644
---- a/drivers/accel/ivpu/ivpu_pm.c
-+++ b/drivers/accel/ivpu/ivpu_pm.c
-@@ -22,7 +22,7 @@
- 
- static bool ivpu_disable_recovery;
- module_param_named_unsafe(disable_recovery, ivpu_disable_recovery, bool, 0644);
--MODULE_PARM_DESC(disable_recovery, "Disables recovery when VPU hang is detected");
-+MODULE_PARM_DESC(disable_recovery, "Disables recovery when NPU hang is detected");
- 
- static unsigned long ivpu_tdr_timeout_ms;
- module_param_named(tdr_timeout_ms, ivpu_tdr_timeout_ms, ulong, 0644);
-@@ -112,11 +112,11 @@ static void ivpu_pm_recovery_work(struct work_struct *work)
- 	char *evt[2] = {"IVPU_PM_EVENT=IVPU_RECOVER", NULL};
- 	int ret;
- 
--	ivpu_err(vdev, "Recovering the VPU (reset #%d)\n", atomic_read(&vdev->pm->reset_counter));
-+	ivpu_err(vdev, "Recovering the NPU (reset #%d)\n", atomic_read(&vdev->pm->reset_counter));
- 
- 	ret = pm_runtime_resume_and_get(vdev->drm.dev);
- 	if (ret)
--		ivpu_err(vdev, "Failed to resume VPU: %d\n", ret);
-+		ivpu_err(vdev, "Failed to resume NPU: %d\n", ret);
- 
- 	ivpu_fw_log_dump(vdev);
- 
-@@ -255,10 +255,10 @@ int ivpu_pm_runtime_suspend_cb(struct device *dev)
- 
- 	ret = ivpu_suspend(vdev);
- 	if (ret)
--		ivpu_err(vdev, "Failed to set suspend VPU: %d\n", ret);
-+		ivpu_err(vdev, "Failed to suspend NPU: %d\n", ret);
- 
- 	if (!hw_is_idle) {
--		ivpu_err(vdev, "VPU failed to enter idle, force suspended.\n");
-+		ivpu_err(vdev, "NPU failed to enter idle, force suspended.\n");
- 		ivpu_fw_log_dump(vdev);
- 		ivpu_pm_prepare_cold_boot(vdev);
- 	} else {
+> ---
+>  drivers/gpu/drm/display/drm_dp_helper.c | 78 +++++++++++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_dp.c | 73 +----------------------
+>  include/drm/display/drm_dp_helper.h     |  3 +
+>  3 files changed, 84 insertions(+), 70 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+> index b1ca3a1100da..066cfbbf7a91 100644
+> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> @@ -2916,6 +2916,84 @@ void drm_dp_vsc_sdp_log(const char *level, struct device *dev,
+>  }
+>  EXPORT_SYMBOL(drm_dp_vsc_sdp_log);
+>
+> +/**
+> + * drm_dp_vsc_sdp_pack() - pack a given vsc sdp into generic dp_sdp
+> + * @vsc: vsc sdp initialized according to its purpose as defined in
+> + *       table 2-118 - table 2-120 in DP 1.4a specification
+> + * @sdp: valid handle to the generic dp_sdp which will be packed
+> + * @size: valid size of the passed sdp handle
+> + *
+> + * Returns length of sdp on success and error code on failure
+> + */
+> +ssize_t drm_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
+> +                           struct dp_sdp *sdp, size_t size)
+
+I know that you are just moving the function. Maybe there can be
+patch#2, which drops the size argument? The struct dp_sdp already has
+a defined size. The i915 driver just passes sizeof(sdp), which is more
+or less useless.
+
+> +{
+> +       size_t length = sizeof(struct dp_sdp);
+> +
+> +       if (size < length)
+> +               return -ENOSPC;
+> +
+> +       memset(sdp, 0, size);
+> +
+> +       /*
+> +        * Prepare VSC Header for SU as per DP 1.4a spec, Table 2-119
+> +        * VSC SDP Header Bytes
+> +        */
+> +       sdp->sdp_header.HB0 = 0; /* Secondary-Data Packet ID = 0 */
+> +       sdp->sdp_header.HB1 = vsc->sdp_type; /* Secondary-data Packet Type */
+> +       sdp->sdp_header.HB2 = vsc->revision; /* Revision Number */
+> +       sdp->sdp_header.HB3 = vsc->length; /* Number of Valid Data Bytes */
+> +
+> +       if (vsc->revision == 0x6) {
+> +               sdp->db[0] = 1;
+> +               sdp->db[3] = 1;
+> +       }
+> +
+> +       /*
+> +        * Revision 0x5 and revision 0x7 supports Pixel Encoding/Colorimetry
+> +        * Format as per DP 1.4a spec and DP 2.0 respectively.
+> +        */
+> +       if (!(vsc->revision == 0x5 || vsc->revision == 0x7))
+> +               goto out;
+> +
+> +       /* VSC SDP Payload for DB16 through DB18 */
+> +       /* Pixel Encoding and Colorimetry Formats  */
+> +       sdp->db[16] = (vsc->pixelformat & 0xf) << 4; /* DB16[7:4] */
+> +       sdp->db[16] |= vsc->colorimetry & 0xf; /* DB16[3:0] */
+> +
+> +       switch (vsc->bpc) {
+> +       case 6:
+> +               /* 6bpc: 0x0 */
+> +               break;
+> +       case 8:
+> +               sdp->db[17] = 0x1; /* DB17[3:0] */
+> +               break;
+> +       case 10:
+> +               sdp->db[17] = 0x2;
+> +               break;
+> +       case 12:
+> +               sdp->db[17] = 0x3;
+> +               break;
+> +       case 16:
+> +               sdp->db[17] = 0x4;
+> +               break;
+> +       default:
+> +               WARN(1, "Missing case %d\n", vsc->bpc);
+> +               return -EINVAL;
+> +       }
+> +
+> +       /* Dynamic Range and Component Bit Depth */
+> +       if (vsc->dynamic_range == DP_DYNAMIC_RANGE_CTA)
+> +               sdp->db[17] |= 0x80;  /* DB17[7] */
+> +
+> +       /* Content Type */
+> +       sdp->db[18] = vsc->content_type & 0x7;
+> +
+> +out:
+> +       return length;
+> +}
+> +EXPORT_SYMBOL(drm_dp_vsc_sdp_pack);
+> +
+>  /**
+>   * drm_dp_get_pcon_max_frl_bw() - maximum frl supported by PCON
+>   * @dpcd: DisplayPort configuration data
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index f5ef95da5534..e94db51aeeb7 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -4110,73 +4110,6 @@ intel_dp_needs_vsc_sdp(const struct intel_crtc_state *crtc_state,
+>         return false;
+>  }
+>
+> -static ssize_t intel_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
+> -                                    struct dp_sdp *sdp, size_t size)
+> -{
+> -       size_t length = sizeof(struct dp_sdp);
+> -
+> -       if (size < length)
+> -               return -ENOSPC;
+> -
+> -       memset(sdp, 0, size);
+> -
+> -       /*
+> -        * Prepare VSC Header for SU as per DP 1.4a spec, Table 2-119
+> -        * VSC SDP Header Bytes
+> -        */
+> -       sdp->sdp_header.HB0 = 0; /* Secondary-Data Packet ID = 0 */
+> -       sdp->sdp_header.HB1 = vsc->sdp_type; /* Secondary-data Packet Type */
+> -       sdp->sdp_header.HB2 = vsc->revision; /* Revision Number */
+> -       sdp->sdp_header.HB3 = vsc->length; /* Number of Valid Data Bytes */
+> -
+> -       if (vsc->revision == 0x6) {
+> -               sdp->db[0] = 1;
+> -               sdp->db[3] = 1;
+> -       }
+> -
+> -       /*
+> -        * Revision 0x5 and revision 0x7 supports Pixel Encoding/Colorimetry
+> -        * Format as per DP 1.4a spec and DP 2.0 respectively.
+> -        */
+> -       if (!(vsc->revision == 0x5 || vsc->revision == 0x7))
+> -               goto out;
+> -
+> -       /* VSC SDP Payload for DB16 through DB18 */
+> -       /* Pixel Encoding and Colorimetry Formats  */
+> -       sdp->db[16] = (vsc->pixelformat & 0xf) << 4; /* DB16[7:4] */
+> -       sdp->db[16] |= vsc->colorimetry & 0xf; /* DB16[3:0] */
+> -
+> -       switch (vsc->bpc) {
+> -       case 6:
+> -               /* 6bpc: 0x0 */
+> -               break;
+> -       case 8:
+> -               sdp->db[17] = 0x1; /* DB17[3:0] */
+> -               break;
+> -       case 10:
+> -               sdp->db[17] = 0x2;
+> -               break;
+> -       case 12:
+> -               sdp->db[17] = 0x3;
+> -               break;
+> -       case 16:
+> -               sdp->db[17] = 0x4;
+> -               break;
+> -       default:
+> -               MISSING_CASE(vsc->bpc);
+> -               break;
+> -       }
+> -       /* Dynamic Range and Component Bit Depth */
+> -       if (vsc->dynamic_range == DP_DYNAMIC_RANGE_CTA)
+> -               sdp->db[17] |= 0x80;  /* DB17[7] */
+> -
+> -       /* Content Type */
+> -       sdp->db[18] = vsc->content_type & 0x7;
+> -
+> -out:
+> -       return length;
+> -}
+> -
+>  static ssize_t
+>  intel_dp_hdr_metadata_infoframe_sdp_pack(struct drm_i915_private *i915,
+>                                          const struct hdmi_drm_infoframe *drm_infoframe,
+> @@ -4269,8 +4202,8 @@ static void intel_write_dp_sdp(struct intel_encoder *encoder,
+>
+>         switch (type) {
+>         case DP_SDP_VSC:
+> -               len = intel_dp_vsc_sdp_pack(&crtc_state->infoframes.vsc, &sdp,
+> -                                           sizeof(sdp));
+> +               len = drm_dp_vsc_sdp_pack(&crtc_state->infoframes.vsc, &sdp,
+> +                                         sizeof(sdp));
+>                 break;
+>         case HDMI_PACKET_TYPE_GAMUT_METADATA:
+>                 len = intel_dp_hdr_metadata_infoframe_sdp_pack(dev_priv,
+> @@ -4297,7 +4230,7 @@ void intel_write_dp_vsc_sdp(struct intel_encoder *encoder,
+>         struct dp_sdp sdp = {};
+>         ssize_t len;
+>
+> -       len = intel_dp_vsc_sdp_pack(vsc, &sdp, sizeof(sdp));
+> +       len = drm_dp_vsc_sdp_pack(vsc, &sdp, sizeof(sdp));
+>
+>         if (drm_WARN_ON(&dev_priv->drm, len < 0))
+>                 return;
+> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+> index 863b2e7add29..f8db34a2f7a5 100644
+> --- a/include/drm/display/drm_dp_helper.h
+> +++ b/include/drm/display/drm_dp_helper.h
+> @@ -813,4 +813,7 @@ int drm_dp_bw_overhead(int lane_count, int hactive,
+>                        int bpp_x16, unsigned long flags);
+>  int drm_dp_bw_channel_coding_efficiency(bool is_uhbr);
+>
+> +ssize_t drm_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
+> +                           struct dp_sdp *sdp, size_t size);
+> +
+>  #endif /* _DRM_DP_HELPER_H_ */
+> --
+> 2.34.1
+>
+
+
 -- 
-2.43.0
-
+With best wishes
+Dmitry
