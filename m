@@ -2,59 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65B7B855066
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 18:33:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3050D85512B
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 19:02:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A71610E4FD;
-	Wed, 14 Feb 2024 17:33:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6B4210E3E3;
+	Wed, 14 Feb 2024 18:02:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ze/yCpcn";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="TdLmQ0K5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0EE410E4FD
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 17:33:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1707932022;
- bh=i0FUp+GiwyJKrR5UQ+BmdgMqs4ue1B/A9hkZbtoD1YE=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ze/yCpcnAq+aVkqR2QLb9G9sNlZrMZhf0g/m0oe7VZhqP4lsAuAotR6nC4zpeInfG
- hNB610YvsZ7gGtBak1h99/Y/L8arlAXgSEPKOiz/YEa9z/lEoB39ggr2D4ZMRTAwFO
- js+QvU2+77mq++YxSsLvqLgbk8wlHToTxgXt+8kcddY5axeDzbtoivfhn1+Wgnl45T
- pLQEDu32nTBBtWYXmMFrzcu0F5bjaGQYKyFxK0LnvJCElVoSy3V39LoVOetqhsAFHG
- ks8DpVfzXJ41FWqkomSUbUf+a1zVFN4IS4q1c9fVQJ2saclut/ci9B7cjvw4oL7rYP
- Kb5OzhmBEd87A==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 67E643781FEF;
- Wed, 14 Feb 2024 17:33:41 +0000 (UTC)
-Date: Wed, 14 Feb 2024 18:33:39 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>, "Marty
- E . Plummer" <hanetzer@startmail.com>, Rob Herring <robh@kernel.org>,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, Nicolas Boichat
- <drinkcat@chromium.org>, Neil Armstrong <neil.armstrong@linaro.org>, Faith
- Ekstrand <faith.ekstrand@collabora.com>, Daniel Stone
- <daniels@collabora.com>, Liviu Dudau <Liviu.Dudau@arm.com>, Robin Murphy
- <robin.murphy@arm.com>, kernel@collabora.com, Heiko Stuebner
- <heiko@sntech.de>, Tatsuyuki Ishi <ishitatsuyuki@gmail.com>, Chris Diamand
- <chris.diamand@foss.arm.com>, Ketil Johnsen <ketil.johnsen@arm.com>
-Subject: Re: [PATCH v4 09/14] drm/panthor: Add the heap logical block
-Message-ID: <20240214183339.1f690c9d@collabora.com>
-In-Reply-To: <e43ec7bb-1104-40b4-a031-3b6fa7be1eb4@arm.com>
-References: <20240122163047.1954733-1-boris.brezillon@collabora.com>
- <20240122163047.1954733-10-boris.brezillon@collabora.com>
- <e43ec7bb-1104-40b4-a031-3b6fa7be1eb4@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D469110E8A8;
+ Wed, 14 Feb 2024 18:02:37 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 41EHPS46029136; Wed, 14 Feb 2024 18:02:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=QoMDsaCSkkb16GXrIH1bJHTndnxHaOKSYN4y2bjArSc=; b=Td
+ LmQ0K54PsMs37BGTPVqoe1qWW3ToSayaEHXmQUP1ebSGFYBDGUUYMjnhunVMJH1C
+ uS4E6JZa0DaJn4RBrlanFP7tn1Uo0cTwrRsGSi4c0hw0TrmSCQIyy9zcyfbzXYMQ
+ VF+A4my/eGgPp8JOOyBwZedT3HC+1KObN25LLxi2rvMjdSYMdy9grAHNfXGMb+Ec
+ qYhfeadggdBFxrYOs8ogxgamoQCQITcxYo8205+matQH94XrAEEVt8IkBFPqRcM8
+ jZ/kzV/NXCou5dZ1hZ/d3ME/wGtTnYVv7IORPYqwlkPRBTBDb5+7NmG0a6r+c9lq
+ BBy78fZcACVle+GVU3YQ==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w8myg1rxs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 14 Feb 2024 18:02:34 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41EI2E5C009061
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 14 Feb 2024 18:02:14 GMT
+Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 14 Feb
+ 2024 10:02:13 -0800
+Message-ID: <1cb90bff-ce5b-c6d1-a3df-24f6306f833a@quicinc.com>
+Date: Wed, 14 Feb 2024 10:02:12 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2] drm/msm/dpu: make "vblank timeout" more useful
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20240208-fd-dpu-debug-timeout-v2-1-9f907f1bdd87@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20240208-fd-dpu-debug-timeout-v2-1-9f907f1bdd87@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: tQaPJv5Iy1j9aGOR7INtSGMYbv6ZM4fi
+X-Proofpoint-ORIG-GUID: tQaPJv5Iy1j9aGOR7INtSGMYbv6ZM4fi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-14_10,2024-02-14_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 suspectscore=0
+ mlxlogscore=999 priorityscore=1501 impostorscore=0 bulkscore=0 mlxscore=0
+ adultscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2401310000
+ definitions=main-2402140141
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,82 +93,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 12 Feb 2024 11:40:55 +0000
-Steven Price <steven.price@arm.com> wrote:
 
-> On 22/01/2024 16:30, Boris Brezillon wrote:
-> > Tiler heap growing requires some kernel driver involvement: when the
-> > tiler runs out of heap memory, it will raise an exception which is
-> > either directly handled by the firmware if some free heap chunks are
-> > available in the heap context, or passed back to the kernel otherwise.
-> > The heap helpers will be used by the scheduler logic to allocate more
-> > heap chunks to a heap context, when such a situation happens.
-> > 
-> > Heap context creation is explicitly requested by userspace (using
-> > the TILER_HEAP_CREATE ioctl), and the returned context is attached to a
-> > queue through some command stream instruction.
-> > 
-> > All the kernel does is keep the list of heap chunks allocated to a
-> > context, so they can be freed when TILER_HEAP_DESTROY is called, or
-> > extended when the FW requests a new chunk.
-> > 
-> > v4:
-> > - Rework locking to allow concurrent calls to panthor_heap_grow()
-> > - Add a helper to return a heap chunk if we couldn't pass it to the
-> >   FW because the group was scheduled out
-> > 
-> > v3:
-> > - Add a FIXME for the heap OOM deadlock
-> > - Use the panthor_kernel_bo abstraction for the heap context and heap
-> >   chunks
-> > - Drop the panthor_heap_gpu_ctx struct as it is opaque to the driver
-> > - Ensure that the heap context is aligned to the GPU cache line size
-> > - Minor code tidy ups
-> > 
-> > Co-developed-by: Steven Price <steven.price@arm.com>
-> > Signed-off-by: Steven Price <steven.price@arm.com>
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>  
-> 
-> It looks fine, but there's a confusing FIXME comment:
-> 
-> > +	/* FIXME: panthor_alloc_heap_chunk() triggers a kernel BO creation, which
-> > +	 * relies on blocking allocations (both for the BO itself, and backing
-> > +	 * memory), which might cause a deadlock because we're called from a context
-> > +	 * where we hold the panthor scheduler lock, thus preventing job cleanups
-> > +	 * that could free up some memory. The jobs themselves will timeout, but
-> > +	 * we'll still be blocked there. The only solution here is to implement
-> > +	 * something similar to shmem_sg_alloc_table() in i915, so we can do
-> > +	 * non-blocking allocations, and just kill the job when we run out-of-memory
-> > +	 * for the tiler context.
-> > +	 */  
-> 
-> Whereas at the call site (group_process_tiler_oom()) there's the comment:
-> 
-> > 		/* We do the allocation without holding the scheduler lock to avoid
-> > 		 * blocking the scheduling.
-> > 		 */  
-> 
-> AFAICT that FIXME comment can just be deleted now. Assuming you agree
-> then with that change:
 
-The FIXME is no longer accurate indeed, but I'd like to keep a FIXME
-here to reflect the fact the solution we have is not the one we want, as
-it prevents the GPU from immediately falling back to the user provided
-OOM exception handler, or killing the job if there's no way it can
-reclaim tiler memory.
-
-How about:
-
-FIXME: panthor_alloc_heap_chunk() triggers a kernel BO creation, which
-goes through the blocking allocation path. Ultimately, we want
-a non-blocking allocation, so we can immediately report to the FW when
-the system is running out of memory. In that case, the FW can call a
-user-provided exception handler, which might try to free some tiler
-memory by issuing an intermediate fragment job. If the exception handler
-can't do anything, it will flag the queue as faulty so the job that
-triggered this tiler chunk allocation and all further jobs in this
-queue fail immediately instead of having to wait for the job
-timeout.
-
+On 2/8/2024 6:50 AM, Dmitry Baryshkov wrote:
+> We have several reports of vblank timeout messages. However after some
+> debugging it was found that there might be different causes to that.
+> To allow us to identify the DPU block that gets stuck, include the
+> actual CTL_FLUSH value into the timeout message and trigger the devcore
+> snapshot capture.
 > 
-> Reviewed-by: Steven Price <steven.price@arm.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+> Changes in v2:
+> - Added a call to msm_disp_snapshot_state() to trigger devcore dump
+>    (Abhinav)
+> - Link to v1: https://lore.kernel.org/r/20240106-fd-dpu-debug-timeout-v1-1-6d9762884641@linaro.org
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> index d0f56c5c4cce..a8d6165b3c0a 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> @@ -489,7 +489,8 @@ static int dpu_encoder_phys_vid_wait_for_commit_done(
+>   		(hw_ctl->ops.get_flush_register(hw_ctl) == 0),
+>   		msecs_to_jiffies(50));
+>   	if (ret <= 0) {
+> -		DPU_ERROR("vblank timeout\n");
+> +		DPU_ERROR("vblank timeout: %x\n", hw_ctl->ops.get_flush_register(hw_ctl));
+> +		msm_disp_snapshot_state(phys_enc->parent->dev);
+
+
+There is no rate limiting in this piece of code unfortunately. So this 
+will flood the number of snapshots.
+
+Short-term solution is you can go with a vblank_timeout_cnt and reset it 
+in the enable() like other similar error counters.
+
+long-term solution is we need to centralize these error locations to one 
+single dpu_encoder_error_handler() with a single counter and the error 
+handler will print out the error code along with the snapshot instead of 
+the snapshot being called from all over the place.
+
+
+
+>   		return -ETIMEDOUT;
+>   	}
+>   
+> 
+> ---
+> base-commit: 39676dfe52331dba909c617f213fdb21015c8d10
+> change-id: 20240106-fd-dpu-debug-timeout-e917f0bc8063
+> 
+> Best regards,
