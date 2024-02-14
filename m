@@ -2,64 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C812E8541EF
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 05:07:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5E83854224
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 05:55:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A58D10E2A0;
-	Wed, 14 Feb 2024 04:07:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C910710E2B9;
+	Wed, 14 Feb 2024 04:55:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kPzQTNxg";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="dvza0EGk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9353B10E1D5;
- Wed, 14 Feb 2024 04:07:08 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-51182f8590bso4277911e87.0; 
- Tue, 13 Feb 2024 20:07:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1707883626; x=1708488426; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=5ZXfQB71HxIQgrSQJJpuPCI9XbT5yqli7HqbSUk3/QI=;
- b=kPzQTNxgyv3romgNap9SAdqrEYnN5H2vLAINgIpQAIbXnlx1L0iFYEfmemvvrzFDxY
- WmGiVfi1FU9VAHnNTERGwYIAJ7N8vXK+kb8sH9ZVo3p3iQel7y5pszWcZhV/8d5MKKX0
- vyfghIxcrhjnoh5dZgCLX0a9ZXoazMXHfDH+nGapVGZl/8ju3ThEP3HQnQ7grdBetWCX
- hmMB2IRJxGfcqV7iXhxi92IkihRc/dn5jk+wM0R1EtCQX60w3KSJRytwX7m7S8ip4Hc8
- vjGIUEV+eOrnFMYCWQCX6gKz+GUFzGEC4HtzsfPFm/RE81uwdKD3K1l7fQofGd9vMf9x
- h9kA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707883626; x=1708488426;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5ZXfQB71HxIQgrSQJJpuPCI9XbT5yqli7HqbSUk3/QI=;
- b=f8j5yU2wHcWwYiX5vR3uUMhTDeM9zBUZ9OZlyKy6WaCaKHjYFWFEAYxxPQLvpI6Vgt
- GnwTbK8EA6hqZ+wHuCEYDM6KneVJqzAMJY6fybMe/VVF3l0VV+7Hcr0r6XudaKI2Rtg1
- b4ccqGTXYg4bXvfkbko/+E0pUXJCLoqZdScMkoDSJyBAvmTWYNUomRPwlLj1Mc1Hba1a
- abyP61neI50Y+C7abcK8als+3xJb6e/XBiKJNqfspPLv9yq9Cf4SI6DKTgcTp4YiKlz6
- GawfZC1DRRj3zhX9JFjL6hn6Ib0mzuIEpkWSRsEqVvloXQmmAp6YLLKErnoD8rn1BT0u
- GU8g==
-X-Gm-Message-State: AOJu0YyiVDusBiLncvXefvc/2jDuFKFXIouhpR1QMegDVHhz6hdt07/4
- IdM09ZZeZ6eFSuoG+yyIt9ABzxvtYUByKD1/8dPDi/fkIjYc5SrzHgzE+Lr17m7Zmpxi1s1k6K6
- T8HfjniI81qMM9dwOL3e+vgM946NoQhm809M=
-X-Google-Smtp-Source: AGHT+IEAX4klNHOsJYaO2Oq6GaGzz2vwdvad30ffEYRYeg4r9Kim7/Ou7kbT1c3N/057cbxwTWiHkHa/RDHYFw7yrjg=
-X-Received: by 2002:a05:6512:3a8b:b0:511:6764:a8c7 with SMTP id
- q11-20020a0565123a8b00b005116764a8c7mr1283527lfu.10.1707883625892; Tue, 13
- Feb 2024 20:07:05 -0800 (PST)
+Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com
+ [95.215.58.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29ABC10E2B9
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 04:54:58 +0000 (UTC)
+Message-ID: <854345d2-201e-481f-8d6c-e59a788683d5@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1707886493;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4382P76+Y7tKDUvDdheaaNMjB6c+0ejXl5XBSiHG0io=;
+ b=dvza0EGkf4toDKv/2JsRvuJlHsbLqIhVlhRjTndgfvTr4v/W64+oDC2L7gtqTo7Q8iPAwW
+ zztKYU1tSd9MqBG9M4MocOkfAdKHzzsX7Ue07CzbrSO2gWBR76gzZcfITNclnNP1dXgpJN
+ Aludn9trCW46xmCGzc1JHGjvfbdHu1c=
+Date: Wed, 14 Feb 2024 12:54:43 +0800
 MIME-Version: 1.0
-References: <20240214034036.660921-1-airlied@gmail.com>
-In-Reply-To: <20240214034036.660921-1-airlied@gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Wed, 14 Feb 2024 14:06:53 +1000
-Message-ID: <CAPM=9txd9gqY7SZ_F6X-0Hk4kaXYRwQWrA+L4_j4kLw4fODkfA@mail.gmail.com>
-Subject: Re: [PATCH] nouveau/gsp: add kconfig option to enable GSP paths by
- default
-To: dri-devel@lists.freedesktop.org
-Cc: nouveau@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [etnaviv-next v13 7/7] drm/etnaviv: Add support for vivante GPU
+ cores attached via PCI(e)
+Content-Language: en-US
+To: Maxime Ripard <mripard@kernel.org>, Lucas Stach <l.stach@pengutronix.de>, 
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240206172759.421737-1-sui.jingfeng@linux.dev>
+ <20240206172759.421737-8-sui.jingfeng@linux.dev>
+ <ZcNO9aZwWzyYs-Rv@phenom.ffwll.local>
+ <jahydq72bqb27de2ijwwmdjh4ri326mxhfjn5pbvf7cqcpnauq@rw5hjdiroi5d>
+ <ZcYGWEG8eqAiqqai@phenom.ffwll.local>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <ZcYGWEG8eqAiqqai@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,51 +65,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-(ignore this one, sent another just after)
+Hi,
 
-On Wed, 14 Feb 2024 at 13:40, Dave Airlie <airlied@gmail.com> wrote:
+
+On 2024/2/9 19:02, Daniel Vetter wrote:
+> On Thu, Feb 08, 2024 at 04:27:02PM +0100, Maxime Ripard wrote:
+>> On Wed, Feb 07, 2024 at 10:35:49AM +0100, Daniel Vetter wrote:
+>>> On Wed, Feb 07, 2024 at 01:27:59AM +0800, Sui Jingfeng wrote:
+>>>> The component helper functions are the glue, which is used to bind multiple
+>>>> GPU cores to a virtual master platform device. Which is fine and works well
+>>>> for the SoCs who contains multiple GPU cores.
+>>>>
+>>>> The problem is that usperspace programs (such as X server and Mesa) will
+>>>> search the PCIe device to use if it is exist. In other words, usperspace
+>>>> programs open the PCIe device with higher priority. Creating a virtual
+>>>> master platform device for PCI(e) GPUs is unnecessary, as the PCI device
+>>>> has been created by the time drm/etnaviv is loaded.
+>>>>
+>>>> we create virtual platform devices as a representation for the vivante GPU
+>>>> ip core. As all of subcomponent are attached via the PCIe master device,
+>>>> we reflect this hardware layout by binding all of the virtual child to the
+>>>> the real master.
+>>>>
+>>>> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+>>> Uh so my understanding is that drivers really shouldn't create platform
+>>> devices of their own. For this case here I think the aux-bus framework is
+>>> the right thing to use. Alternatively would be some infrastructure where
+>>> you feed a DT tree to driver core or pci subsystem and it instantiates it
+>>> all for you correctly, and especially with hotunplug all done right since
+>>> this is pci now, not actually part of the soc that cannot be hotunplugged.
+>> I don't think we need intermediate platform devices at all. We just need
+>> to register our GPU against the PCI device and that's it. We don't need
+>> a platform device, we don't need the component framework.
+> Afaik that's what this series does. The component stuff is for the
+> internal structure of the gpu ip, so that the same modular approach that
+> works for arm-soc also works for pci chips.
 >
-> From: Dave Airlie <airlied@redhat.com>
+> Otherwise we end up with each driver hand-rolling that stuff, which is
+> defacto what both nouveau and amdgpu do (intel hw is too much a mess for
+> that component-driver based approach to actually work reasonably well).
+
+
+Emmm, I spend years to achieve this, and only to find that you have fully
+understand my patch within two days.
+
+
+> Cheers, Sima
 >
-> Turing and Ampere will continue to use the old paths by default,
-> but we should allow distros to decide what the policy is.
->
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
-> ---
->  drivers/gpu/drm/nouveau/Kconfig                | 8 ++++++++
->  drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c | 3 +++
->  2 files changed, 11 insertions(+)
->
-> diff --git a/drivers/gpu/drm/nouveau/Kconfig b/drivers/gpu/drm/nouveau/Kconfig
-> index 1e6aaf95ff7c..ceef470c9fbf 100644
-> --- a/drivers/gpu/drm/nouveau/Kconfig
-> +++ b/drivers/gpu/drm/nouveau/Kconfig
-> @@ -100,3 +100,11 @@ config DRM_NOUVEAU_SVM
->         help
->           Say Y here if you want to enable experimental support for
->           Shared Virtual Memory (SVM).
-> +
-> +config DRM_NOUVEAU_GSP_DEFAULT
-> +       bool "Use GSP firmware for Turing/Ampere (needs firmware installed)"
-> +       depends on DRM_NOUVEAU
-> +       default n
-> +       help
-> +         Say Y here if you want to use the GSP codepaths by default on
-> +         Turing and Ampere GPUs.
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-> index a41735ab6068..fadbb89ffff2 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-> @@ -2313,6 +2313,9 @@ r535_gsp_load(struct nvkm_gsp *gsp, int ver, const struct nvkm_gsp_fwif *fwif)
->         struct nvkm_subdev *subdev = &gsp->subdev;
->         int ret;
->
-> +#if IS_ENABLED(CONFIG_DRM_NOUVEAU_GSP_DEFAULT)
-> +       fwif->enable = true;
-> +#endif
->         if (!nvkm_boolopt(subdev->device->cfgopt, "NvGspRm", fwif->enable))
->                 return -EINVAL;
->
-> --
-> 2.43.0
->
+>>> I think I've seen some other pci devices from arm soc designs that would
+>>> benefit from this too, so lifting this logic into a pci function would
+>>> make sense imo.
+
+
+Yes, as you said, we are trying to avoid the hand-rolling stuff.
+I guess, extremely advanced drivers(like i915, amdgpu, and nouveau)
+won't need this. So I'm not sure if lifting this logic into PCI
+core would benefit to other people. While investigating the aux-bus
+framework a few days, I find it is not as concise as this one. It
+introduce a lot of new structure, I fear that it may cause namespace
+pollution if adopt it. So, I thinks I should choose the alternative
+way.
+
+While taking a lot from contribution, we are really want to do some
+feedback(pay-back). We are happy if there are other users(or new
+drivers) would like to adopt this idea, I think, the idea itself
+has already been conveyed. Which probably can be seen as a trivial
+contribution. Other programmer are free to copy and modify.
+
+But as a initial commit, I minimized the mount of changes  as required
+by Locus. meanwhile, I'm willing to following the expectation in the
+long term. If there are other users or other problem need to solve,
+I would like help to improve and to cooperate to testing in the future.
+
