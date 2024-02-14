@@ -2,71 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69192855130
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 19:03:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5D1D85514D
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 19:04:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 171D010E6F9;
-	Wed, 14 Feb 2024 18:03:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F24910E8A8;
+	Wed, 14 Feb 2024 18:04:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EA6mXqr+";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="lv4Zf9Yu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29AC510E577;
- Wed, 14 Feb 2024 18:02:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707933779; x=1739469779;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=e/LgkL0SqgQjKtc6j1iYXMsm83QxdYgrvDI5Mfb6UGs=;
- b=EA6mXqr+t2X8YCrj3/wUB/k+9u9UnlQe/0UZ6SJTTyB878PKVtAaQagm
- YW89CUVJHbumOO4kJU4G0Er3OmCrM8vBtcGH08s6wodFIWKYAknIPczlY
- lNR+ubaJ+p72BlLWysXqCZgOEnlSYwO3EVcIQSYc/gc50/U3+afUiL3tr
- KhMQwpsGDdFUqKh4BPVk9UFVNni/ZY8RNeDbBWD0ITQMfmFjNcZ6ZUuYA
- KoQp/MRZv8fNIL8Se19zbPoZR/sqzQD0Z6RFijp72+8S+mCUrKeiTa5qs
- kKJD+Xp1zmqFkZYBiXUNT8fpqMQ+o/SHPkN66+EFIkplo6L8AgpIzAyjZ A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="5811628"
-X-IronPort-AV: E=Sophos;i="6.06,160,1705392000"; 
-   d="scan'208";a="5811628"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2024 10:02:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="826369674"
-X-IronPort-AV: E=Sophos;i="6.06,160,1705392000"; d="scan'208";a="826369674"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 14 Feb 2024 10:02:48 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 14 Feb 2024 20:02:47 +0200
-Date: Wed, 14 Feb 2024 20:02:47 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- robdclark@gmail.com, freedreno@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, quic_jesszhan@quicinc.com,
- linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH] drm/dp: move intel_dp_vsc_sdp_pack() to generic helper
-Message-ID: <Zc0AR6pdLzDjCrAB@intel.com>
-References: <20240213234513.2411604-1-quic_abhinavk@quicinc.com>
- <CAA8EJpo0yeLyCkVvLFX7wUEV4+i+ORbaCB2qxN0izaWLdFqCrA@mail.gmail.com>
- <eb8b3bac-5f97-8efd-721e-08e9544be3f8@quicinc.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CABE910E815;
+ Wed, 14 Feb 2024 18:04:06 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 41ECj9kI023312; Wed, 14 Feb 2024 18:04:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding:content-type; s=qcppdkim1; bh=MlwUdWq
+ 2xcVfINmjaa4JvheiJqdVeHPJ3zhI6K2Rtes=; b=lv4Zf9YuyhD6oqLrfVFvwl2
+ 8gWoo2zCP8fmj3dVSryq8B7dOI5NnNLDw0QV7PE0Hp6leWgdwYHv2v7Olh1rIV05
+ yNcqEaJNvfv6aepb8ge7AfsM8bqj0cmtYQv1chCx9dzqdGBL/qD5uXdaYW0hx9i5
+ hGtVu52T/y8dVB5VYa7lmflKE/Om1Zbdci4u2Tnn5lvYZtSTHmnp/lkzaXHQjPti
+ G33ZfjSCyT50PuXJiYVcKmqbGWPjdW646TXznyIipfWrKwoJyojr1ueHmtObnyfP
+ b/2nMalSKjNkXX28e+O7Hlu4qCIJ9B5bjzfvYwfwvm+7Qd/3Ga0rwWBP/kwo8tw=
+ =
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w8kkrhw2v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 14 Feb 2024 18:04:04 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41EI42fN009168
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 14 Feb 2024 18:04:02 GMT
+Received: from hu-parellan-lv.qualcomm.com (10.49.16.6) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Wed, 14 Feb 2024 10:04:01 -0800
+From: Paloma Arellano <quic_parellan@quicinc.com>
+To: <freedreno@lists.freedesktop.org>
+CC: Paloma Arellano <quic_parellan@quicinc.com>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <robdclark@gmail.com>, <seanpaul@chromium.org>, <swboyd@chromium.org>,
+ <dmitry.baryshkov@linaro.org>, <quic_abhinavk@quicinc.com>,
+ <quic_jesszhan@quicinc.com>, <quic_khsieh@quicinc.com>,
+ <marijn.suijten@somainline.org>, <neil.armstrong@linaro.org>
+Subject: [PATCH v3 00/19] Add support for CDM over DP
+Date: Wed, 14 Feb 2024 10:03:22 -0800
+Message-ID: <20240214180347.1399-1-quic_parellan@quicinc.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <eb8b3bac-5f97-8efd-721e-08e9544be3f8@quicinc.com>
-X-Patchwork-Hint: comment
+Content-Type: text/plain
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: E8F3v4xJgtXvR4510sJgErJSqwUfxv7S
+X-Proofpoint-ORIG-GUID: E8F3v4xJgtXvR4510sJgErJSqwUfxv7S
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-14_10,2024-02-14_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 mlxlogscore=999
+ clxscore=1015 priorityscore=1501 adultscore=0 bulkscore=0
+ lowpriorityscore=0 mlxscore=0 malwarescore=0 suspectscore=0 phishscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402140141
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,273 +90,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 14, 2024 at 09:17:34AM -0800, Abhinav Kumar wrote:
-> 
-> 
-> On 2/14/2024 12:15 AM, Dmitry Baryshkov wrote:
-> > On Wed, 14 Feb 2024 at 01:45, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >>
-> >> intel_dp_vsc_sdp_pack() can be re-used by other DRM drivers as well.
-> >> Lets move this to drm_dp_helper to achieve this.
-> >>
-> >> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> > 
-> > My preference would be to have packing functions in
-> > drivers/video/hdmi.c, as we already have
-> > hdmi_audio_infoframe_pack_for_dp() there.
-> > 
-> 
-> My preference is drm_dp_helper because it already has some VSC SDP stuff 
-> and after discussion with Ville on IRC, I decided to post it this way.
-> 
-> hdmi_audio_infoframe_pack_for_dp() is an exception from my PoV as the 
-> hdmi audio infoframe fields were re-used and packed into a DP SDP 
-> thereby re-using the existing struct hdmi_audio_infoframe .
-> 
-> This is not like that. Here we pack from struct drm_dp_vsc_sdp to struct 
-> dp_sdp both of which had prior usages already in this file.
-> 
-> So it all adds up and makes sense to me to be in this file.
-> 
-> I will let the other DRM core maintainers comment on this.
-> 
-> Ville, Jani?
+The Chroma Down Sampling (CDM) block is a hardware component in the DPU
+pipeline that includes a CSC block capable of converting RGB input from
+the DPU to YUV data.
 
-Yeah, I'm not sure bloating the (poorly named) hdmi.c with all
-SDP stuff is a great idea. Since other related stuff already
-lives in the drm_dp_helper.c that seems reasonable to me at this
-time. And if we get a decent amount of this then probably all
-DP SDP stuff should be extracted into its own file.
+This block can be used with either HDMI, DP, or writeback interfaces.
+This series adds support for the CDM block to be used with DP in
+YUV420 mode format.
 
-There are of course a few overlaps here andthere (the audio SDP
-I guess, and the CTA infoframe SDP). But I'm not sure that actually
-needs any SDP specific stuff in hdmi.c, or could we just let hdmi.c
-deal with the actual CTA-861 stuff and then have the DP SDP code
-wrap that up in its own thing externally? Dunno, haven't really
-looked at the details.
+This series allows selection of the YUV420 format for monitors which support
+certain resolutions only in YUV420 thus unblocking the validation of many
+other resolutions which were previously filtered out if the connector did
+not support YUV420.
 
-> 
-> >> ---
-> >>   drivers/gpu/drm/display/drm_dp_helper.c | 78 +++++++++++++++++++++++++
-> >>   drivers/gpu/drm/i915/display/intel_dp.c | 73 +----------------------
-> >>   include/drm/display/drm_dp_helper.h     |  3 +
-> >>   3 files changed, 84 insertions(+), 70 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-> >> index b1ca3a1100da..066cfbbf7a91 100644
-> >> --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> >> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> >> @@ -2916,6 +2916,84 @@ void drm_dp_vsc_sdp_log(const char *level, struct device *dev,
-> >>   }
-> >>   EXPORT_SYMBOL(drm_dp_vsc_sdp_log);
-> >>
-> >> +/**
-> >> + * drm_dp_vsc_sdp_pack() - pack a given vsc sdp into generic dp_sdp
-> >> + * @vsc: vsc sdp initialized according to its purpose as defined in
-> >> + *       table 2-118 - table 2-120 in DP 1.4a specification
-> >> + * @sdp: valid handle to the generic dp_sdp which will be packed
-> >> + * @size: valid size of the passed sdp handle
-> >> + *
-> >> + * Returns length of sdp on success and error code on failure
-> >> + */
-> >> +ssize_t drm_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
-> >> +                           struct dp_sdp *sdp, size_t size)
-> > 
-> > I know that you are just moving the function. Maybe there can be
-> > patch#2, which drops the size argument? The struct dp_sdp already has
-> > a defined size. The i915 driver just passes sizeof(sdp), which is more
-> > or less useless.
-> > 
-> 
-> Yes this is a valid point, I also noticed this. I can post it on top of 
-> this once we get an agreement and ack on this patch first.
-> 
-> >> +{
-> >> +       size_t length = sizeof(struct dp_sdp);
-> >> +
-> >> +       if (size < length)
-> >> +               return -ENOSPC;
-> >> +
-> >> +       memset(sdp, 0, size);
-> >> +
-> >> +       /*
-> >> +        * Prepare VSC Header for SU as per DP 1.4a spec, Table 2-119
-> >> +        * VSC SDP Header Bytes
-> >> +        */
-> >> +       sdp->sdp_header.HB0 = 0; /* Secondary-Data Packet ID = 0 */
-> >> +       sdp->sdp_header.HB1 = vsc->sdp_type; /* Secondary-data Packet Type */
-> >> +       sdp->sdp_header.HB2 = vsc->revision; /* Revision Number */
-> >> +       sdp->sdp_header.HB3 = vsc->length; /* Number of Valid Data Bytes */
-> >> +
-> >> +       if (vsc->revision == 0x6) {
-> >> +               sdp->db[0] = 1;
-> >> +               sdp->db[3] = 1;
-> >> +       }
-> >> +
-> >> +       /*
-> >> +        * Revision 0x5 and revision 0x7 supports Pixel Encoding/Colorimetry
-> >> +        * Format as per DP 1.4a spec and DP 2.0 respectively.
-> >> +        */
-> >> +       if (!(vsc->revision == 0x5 || vsc->revision == 0x7))
-> >> +               goto out;
-> >> +
-> >> +       /* VSC SDP Payload for DB16 through DB18 */
-> >> +       /* Pixel Encoding and Colorimetry Formats  */
-> >> +       sdp->db[16] = (vsc->pixelformat & 0xf) << 4; /* DB16[7:4] */
-> >> +       sdp->db[16] |= vsc->colorimetry & 0xf; /* DB16[3:0] */
-> >> +
-> >> +       switch (vsc->bpc) {
-> >> +       case 6:
-> >> +               /* 6bpc: 0x0 */
-> >> +               break;
-> >> +       case 8:
-> >> +               sdp->db[17] = 0x1; /* DB17[3:0] */
-> >> +               break;
-> >> +       case 10:
-> >> +               sdp->db[17] = 0x2;
-> >> +               break;
-> >> +       case 12:
-> >> +               sdp->db[17] = 0x3;
-> >> +               break;
-> >> +       case 16:
-> >> +               sdp->db[17] = 0x4;
-> >> +               break;
-> >> +       default:
-> >> +               WARN(1, "Missing case %d\n", vsc->bpc);
-> >> +               return -EINVAL;
-> >> +       }
-> >> +
-> >> +       /* Dynamic Range and Component Bit Depth */
-> >> +       if (vsc->dynamic_range == DP_DYNAMIC_RANGE_CTA)
-> >> +               sdp->db[17] |= 0x80;  /* DB17[7] */
-> >> +
-> >> +       /* Content Type */
-> >> +       sdp->db[18] = vsc->content_type & 0x7;
-> >> +
-> >> +out:
-> >> +       return length;
-> >> +}
-> >> +EXPORT_SYMBOL(drm_dp_vsc_sdp_pack);
-> >> +
-> >>   /**
-> >>    * drm_dp_get_pcon_max_frl_bw() - maximum frl supported by PCON
-> >>    * @dpcd: DisplayPort configuration data
-> >> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> >> index f5ef95da5534..e94db51aeeb7 100644
-> >> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> >> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> >> @@ -4110,73 +4110,6 @@ intel_dp_needs_vsc_sdp(const struct intel_crtc_state *crtc_state,
-> >>          return false;
-> >>   }
-> >>
-> >> -static ssize_t intel_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
-> >> -                                    struct dp_sdp *sdp, size_t size)
-> >> -{
-> >> -       size_t length = sizeof(struct dp_sdp);
-> >> -
-> >> -       if (size < length)
-> >> -               return -ENOSPC;
-> >> -
-> >> -       memset(sdp, 0, size);
-> >> -
-> >> -       /*
-> >> -        * Prepare VSC Header for SU as per DP 1.4a spec, Table 2-119
-> >> -        * VSC SDP Header Bytes
-> >> -        */
-> >> -       sdp->sdp_header.HB0 = 0; /* Secondary-Data Packet ID = 0 */
-> >> -       sdp->sdp_header.HB1 = vsc->sdp_type; /* Secondary-data Packet Type */
-> >> -       sdp->sdp_header.HB2 = vsc->revision; /* Revision Number */
-> >> -       sdp->sdp_header.HB3 = vsc->length; /* Number of Valid Data Bytes */
-> >> -
-> >> -       if (vsc->revision == 0x6) {
-> >> -               sdp->db[0] = 1;
-> >> -               sdp->db[3] = 1;
-> >> -       }
-> >> -
-> >> -       /*
-> >> -        * Revision 0x5 and revision 0x7 supports Pixel Encoding/Colorimetry
-> >> -        * Format as per DP 1.4a spec and DP 2.0 respectively.
-> >> -        */
-> >> -       if (!(vsc->revision == 0x5 || vsc->revision == 0x7))
-> >> -               goto out;
-> >> -
-> >> -       /* VSC SDP Payload for DB16 through DB18 */
-> >> -       /* Pixel Encoding and Colorimetry Formats  */
-> >> -       sdp->db[16] = (vsc->pixelformat & 0xf) << 4; /* DB16[7:4] */
-> >> -       sdp->db[16] |= vsc->colorimetry & 0xf; /* DB16[3:0] */
-> >> -
-> >> -       switch (vsc->bpc) {
-> >> -       case 6:
-> >> -               /* 6bpc: 0x0 */
-> >> -               break;
-> >> -       case 8:
-> >> -               sdp->db[17] = 0x1; /* DB17[3:0] */
-> >> -               break;
-> >> -       case 10:
-> >> -               sdp->db[17] = 0x2;
-> >> -               break;
-> >> -       case 12:
-> >> -               sdp->db[17] = 0x3;
-> >> -               break;
-> >> -       case 16:
-> >> -               sdp->db[17] = 0x4;
-> >> -               break;
-> >> -       default:
-> >> -               MISSING_CASE(vsc->bpc);
-> >> -               break;
-> >> -       }
-> >> -       /* Dynamic Range and Component Bit Depth */
-> >> -       if (vsc->dynamic_range == DP_DYNAMIC_RANGE_CTA)
-> >> -               sdp->db[17] |= 0x80;  /* DB17[7] */
-> >> -
-> >> -       /* Content Type */
-> >> -       sdp->db[18] = vsc->content_type & 0x7;
-> >> -
-> >> -out:
-> >> -       return length;
-> >> -}
-> >> -
-> >>   static ssize_t
-> >>   intel_dp_hdr_metadata_infoframe_sdp_pack(struct drm_i915_private *i915,
-> >>                                           const struct hdmi_drm_infoframe *drm_infoframe,
-> >> @@ -4269,8 +4202,8 @@ static void intel_write_dp_sdp(struct intel_encoder *encoder,
-> >>
-> >>          switch (type) {
-> >>          case DP_SDP_VSC:
-> >> -               len = intel_dp_vsc_sdp_pack(&crtc_state->infoframes.vsc, &sdp,
-> >> -                                           sizeof(sdp));
-> >> +               len = drm_dp_vsc_sdp_pack(&crtc_state->infoframes.vsc, &sdp,
-> >> +                                         sizeof(sdp));
-> >>                  break;
-> >>          case HDMI_PACKET_TYPE_GAMUT_METADATA:
-> >>                  len = intel_dp_hdr_metadata_infoframe_sdp_pack(dev_priv,
-> >> @@ -4297,7 +4230,7 @@ void intel_write_dp_vsc_sdp(struct intel_encoder *encoder,
-> >>          struct dp_sdp sdp = {};
-> >>          ssize_t len;
-> >>
-> >> -       len = intel_dp_vsc_sdp_pack(vsc, &sdp, sizeof(sdp));
-> >> +       len = drm_dp_vsc_sdp_pack(vsc, &sdp, sizeof(sdp));
-> >>
-> >>          if (drm_WARN_ON(&dev_priv->drm, len < 0))
-> >>                  return;
-> >> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-> >> index 863b2e7add29..f8db34a2f7a5 100644
-> >> --- a/include/drm/display/drm_dp_helper.h
-> >> +++ b/include/drm/display/drm_dp_helper.h
-> >> @@ -813,4 +813,7 @@ int drm_dp_bw_overhead(int lane_count, int hactive,
-> >>                         int bpp_x16, unsigned long flags);
-> >>   int drm_dp_bw_channel_coding_efficiency(bool is_uhbr);
-> >>
-> >> +ssize_t drm_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
-> >> +                           struct dp_sdp *sdp, size_t size);
-> >> +
-> >>   #endif /* _DRM_DP_HELPER_H_ */
-> >> --
-> >> 2.34.1
-> >>
-> > 
-> > 
+This was validated using a DP connected monitor requiring the use of
+YUV420 format.
+
+This series is dependent on [1], [2], and [3]:
+[1] https://patchwork.freedesktop.org/series/118831/
+[2] https://patchwork.freedesktop.org/series/129395/
+[3] https://patchwork.freedesktop.org/series/129864/
+
+Changes in v3:
+	- Change ordering of the header byte macros in dp_utils.h
+	- Create a new struct, msm_dp_sdp_with_parity
+ 	- Utilize drm_dp_vsc_sdp_pack() from a new added dependency of
+	  series [3] to pack the VSC SDP data into the new
+	  msm_dp_sdp_with_parity struct instead of packing only for
+	  YUV420
+	- Modify dp_catalog_panel_send_vsc_sdp() so that it sends the VSC SDP data
+	  using the new msm_dp_sdp_with_parity struct
+	- Clear up that the DP_MAINLINK_FLUSH_MODE_SDE_PERIPH_UPDATE macro is setting
+	  multiple bits and not just one
+	- Move the connector's ycbcr_420_allowed parameter so it is no longer
+	  dependent on if the dp_display is not eDP
+
+Changes in v2:
+	- Minor formatting changes throughout
+	- Move 'fixes' patch to the top
+	- Move VSC SDP support check API from dp_panel.c to drm_dp_helper.c
+	- Create a separate patch for modifying the dimensions for CDM setup to be
+	  non-WB specific
+	- Remove a patch that modified the INTF_CONFIG2 register in favor of having
+	  this series be dependent on [2]
+	- Separate configuration ctrl programming from clock related programming into
+	  two patches
+	- Add a VSC SDP check in dp_bridge_mode_valid()
+	- Move parity calculation functions to new files dp_utils.c and dp_utils.h
+	- Remove dp_catalog_hw_revision() changes and utilize the original version of
+	  the function when checking the DP hardware version
+	- Create separate packing and programming functions for the VSC SDP
+	- Make the packing header bytes function generic so it can be used with
+	  dp_audio.c
+	- Create two separate enable/disable VSC SDP functions instead of having one
+	  with the ability to do both
+	- Move timing engine programming to a separate patch from original encoder
+	  programming patch
+	- Move update_pending_flush_periph() code to be in the same patch as the
+	  encoder programming
+	- Create new API's to check if the dpu encoder needs a peripheral flush
+	- Allow YUV420 modes for the DP connector when there's a CDM block available
+	  instead of checking if VSC SDP is supported
+
+Kuogee Hsieh (1):
+  drm/msm/dpu: add support of new peripheral flush mechanism
+
+Paloma Arellano (18):
+  drm/msm/dpu: allow certain formats for CDM for DP
+  drm/msm/dpu: add division of drm_display_mode's hskew parameter
+  drm/msm/dpu: pass mode dimensions instead of fb size in CDM setup
+  drm/msm/dpu: allow dpu_encoder_helper_phys_setup_cdm to work for DP
+  drm/msm/dpu: move dpu_encoder_helper_phys_setup_cdm to dpu_encoder
+  drm/msm/dp: rename wide_bus_en to wide_bus_supported
+  drm/msm/dp: store mode YUV420 information to be used by rest of DP
+  drm/msm/dp: check if VSC SDP is supported in DP programming
+  drm/msm/dpu: move widebus logic to its own API
+  drm/msm/dp: program config ctrl for YUV420 over DP
+  drm/msm/dp: change clock related programming for YUV420 over DP
+  drm/msm/dp: move parity calculation to dp_utils
+  drm/msm/dp: add VSC SDP support for YUV420 over DP
+  drm/msm/dp: enable SDP and SDE periph flush update
+  drm/msm/dpu: modify encoder programming for CDM over DP
+  drm/msm/dpu: modify timing engine programming for YUV420 over DP
+  drm/msm/dpu: reserve CDM blocks for DP if mode is YUV420
+  drm/msm/dp: allow YUV420 mode for DP connector when CDM available
+
+ drivers/gpu/drm/msm/Makefile                  |   3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 164 +++++++++++++++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h   |   4 +
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |  26 ++-
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  |  33 +++-
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   | 100 +----------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c    |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    |  17 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h    |  10 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   4 +-
+ drivers/gpu/drm/msm/dp/dp_audio.c             | 101 ++---------
+ drivers/gpu/drm/msm/dp/dp_catalog.c           | 135 +++++++++++++-
+ drivers/gpu/drm/msm/dp/dp_catalog.h           |  10 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.c              |  17 +-
+ drivers/gpu/drm/msm/dp/dp_display.c           |  82 ++++++---
+ drivers/gpu/drm/msm/dp/dp_drm.c               |   6 +-
+ drivers/gpu/drm/msm/dp/dp_drm.h               |   3 +-
+ drivers/gpu/drm/msm/dp/dp_panel.c             |  56 ++++++
+ drivers/gpu/drm/msm/dp/dp_panel.h             |   2 +
+ drivers/gpu/drm/msm/dp/dp_reg.h               |   8 +
+ drivers/gpu/drm/msm/dp/dp_utils.c             | 121 +++++++++++++
+ drivers/gpu/drm/msm/dp/dp_utils.h             |  40 +++++
+ drivers/gpu/drm/msm/msm_drv.h                 |  22 ++-
+ 23 files changed, 725 insertions(+), 241 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_utils.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_utils.h
 
 -- 
-Ville Syrjälä
-Intel
+2.39.2
+
