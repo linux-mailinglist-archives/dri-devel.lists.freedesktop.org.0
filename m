@@ -2,85 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D75F85525D
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 19:41:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E984A855263
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 19:41:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 331CC10E76B;
-	Wed, 14 Feb 2024 18:41:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8F6E10E2C4;
+	Wed, 14 Feb 2024 18:41:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="oni+oIuN";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Iih6pa8E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57B6E10E559;
- Wed, 14 Feb 2024 18:41:01 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41EGuLEZ004598; Wed, 14 Feb 2024 18:40:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=c/cLrnLdZUrGF6n22LVuDughOu+ccdALAAFFIHa4NFw=; b=on
- i+oIuNBRFCcgegVXk6f2diLVYgITS0KRH1ka1b8/nM4hvitIeD8I1PfUyPmonjY6
- qL4Z53sm749dE/rDlH1brL0PJeal5sho4fWLI44bTee8Uwe6qCJNBu7FqoY7uIhM
- OE4o1ErpGX/LXX5urpDoemtRxwa+xgx2UMGGwX7a55E7WrBp2esasyK7o47TpC9w
- hxfsaDTQ7NuoEMIOZeOfgtGfMmfGyF0PgKIL4av0WTa/P+Zj8w0Lp79vtGNTo8bo
- LF7Gc4nNIPRGj0AePVV9v3707ikLkKF/OuKz4UgU3EjquHir9jmnJc+WBYi4vM2d
- gpuyuCF2Psgdzumyhm5A==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w8nt41rte-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 14 Feb 2024 18:40:56 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41EIetkJ007247
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 14 Feb 2024 18:40:55 GMT
-Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 14 Feb
- 2024 10:40:54 -0800
-Message-ID: <311b5714-47a8-7170-5b14-cde3ac05a314@quicinc.com>
-Date: Wed, 14 Feb 2024 10:40:53 -0800
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3063310E3F4;
+ Wed, 14 Feb 2024 18:41:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1707936085; x=1739472085;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=InTT6bYSM0w+PF/r5zeveMuJFdQywHuVLtuRMFh/qQI=;
+ b=Iih6pa8EjqDoWmPqTVVHaXzJ5caRRj8N9rAP5MPiKCaJ5S+CeZR5rpT9
+ qlAfsYaNZuL6YEbQP+aRWcBz/3Tn+EAOtRG8CAlXVfmlxbJ04ctGSAurF
+ vuO6TxNehfVmvBrg3ObMYEWnseTI8XW8U8qby080QiYA71F0xC1ABvyc9
+ +imvt1Mk/jY4CFRhgK3jnHU3wuv4MpSTlNfZL+ruAyBiSXnpbCUU7cit3
+ tI0Og8KAGFkiXEWQc+1Yk8iZ2J1ilm1Dc9jhA5ezXmBXaGLVuDgKTs02A
+ Eehi2pF5ccOrNFf5eLWT2SVRnJFK4i9NlQ7f34Aoi2Ph72dAvMjscdbnZ g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="13387697"
+X-IronPort-AV: E=Sophos;i="6.06,160,1705392000"; d="scan'208";a="13387697"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2024 10:41:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,160,1705392000"; 
+   d="scan'208";a="3352533"
+Received: from kwszolek-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.63.190])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2024 10:41:22 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, Arun R Murthy <arun.r.murthy@intel.com>
+Subject: Re: [PATCH v2 4/6] drm/i915/mst: use the MST mode detected previously
+In-Reply-To: <Zc0HmRxIj4ePnh4I@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1707823736.git.jani.nikula@intel.com>
+ <4fb849117a31940a3fbc26287c09ee3928e91991.1707823736.git.jani.nikula@intel.com>
+ <Zc0HmRxIj4ePnh4I@intel.com>
+Date: Wed, 14 Feb 2024 20:41:19 +0200
+Message-ID: <87v86q6g8g.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v3 02/12] drm/msm/dpu: add current resource allocation to
- dumped state
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>
-CC: Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>
-References: <20230914050706.1058620-1-dmitry.baryshkov@linaro.org>
- <20230914050706.1058620-3-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230914050706.1058620-3-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: K1GRpiyUdFpedqfiLRLqMVRkON8aBo3j
-X-Proofpoint-ORIG-GUID: K1GRpiyUdFpedqfiLRLqMVRkON8aBo3j
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-14_11,2024-02-14_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- lowpriorityscore=0 clxscore=1015 priorityscore=1501 bulkscore=0
- impostorscore=0 adultscore=0 malwarescore=0 phishscore=0 spamscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402140145
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,136 +69,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 14 Feb 2024, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
+> wrote:
+> On Tue, Feb 13, 2024 at 01:30:59PM +0200, Jani Nikula wrote:
+>> Drop the duplicate read of DP_MSTM_CAP DPCD register, and the duplicate
+>> logic for choosing MST mode, and store the chosen mode in struct
+>> intel_dp. Rename intel_dp_configure_mst() to intel_dp_mst_configure()
+>> while at it.
+>>=20
+>> Cc: Arun R Murthy <arun.r.murthy@intel.com>
+>> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>> ---
+>>  .../drm/i915/display/intel_display_types.h    |  1 +
+>>  drivers/gpu/drm/i915/display/intel_dp.c       | 23 ++++++++-----------
+>>  2 files changed, 11 insertions(+), 13 deletions(-)
+>>=20
+>> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/driver=
+s/gpu/drm/i915/display/intel_display_types.h
+>> index 01eb6e4e6049..4a8440a3a812 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+>> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+>> @@ -1780,6 +1780,7 @@ struct intel_dp {
+>>=20=20
+>>  	bool is_mst;
+>>  	int active_mst_links;
+>> +	enum drm_dp_mst_mode mst_detect;
+>>=20=20
+>>  	/* connector directly attached - won't be use for modeset in mst world=
+ */
+>>  	struct intel_connector *attached_connector;
+>> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i=
+915/display/intel_dp.c
+>> index 007cb2a04e38..72e91322e310 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+>> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+>> @@ -4039,11 +4039,10 @@ intel_dp_mst_detect(struct intel_dp *intel_dp)
+>>  	struct drm_i915_private *i915 =3D dp_to_i915(intel_dp);
+>>  	struct intel_encoder *encoder =3D &dp_to_dig_port(intel_dp)->base;
+>>  	enum drm_dp_mst_mode sink_mst_mode;
+>> -	enum drm_dp_mst_mode mst_detect;
+>>=20=20
+>>  	sink_mst_mode =3D drm_dp_read_mst_cap(&intel_dp->aux, intel_dp->dpcd);
+>>=20=20
+>> -	mst_detect =3D intel_dp_mst_mode_choose(intel_dp, sink_mst_mode);
+>> +	intel_dp->mst_detect =3D intel_dp_mst_mode_choose(intel_dp, sink_mst_m=
+ode);
+>>=20=20
+>>  	drm_dbg_kms(&i915->drm,
+>>  		    "[ENCODER:%d:%s] MST support: port: %s, sink: %s, modparam: %s ->=
+ enable: %s\n",
+>> @@ -4051,25 +4050,23 @@ intel_dp_mst_detect(struct intel_dp *intel_dp)
+>>  		    str_yes_no(intel_dp_mst_source_support(intel_dp)),
+>>  		    intel_dp_mst_mode_str(sink_mst_mode),
+>>  		    str_yes_no(i915->display.params.enable_dp_mst),
+>> -		    intel_dp_mst_mode_str(mst_detect));
+>> +		    intel_dp_mst_mode_str(intel_dp->mst_detect));
+>>=20=20
+>> -	return mst_detect !=3D DRM_DP_SST;
+>> +	return intel_dp->mst_detect !=3D DRM_DP_SST;
+>>  }
+>>=20=20
+>>  static void
+>> -intel_dp_configure_mst(struct intel_dp *intel_dp)
+>> +intel_dp_mst_configure(struct intel_dp *intel_dp)
+>>  {
+>> -	struct drm_i915_private *i915 =3D dp_to_i915(intel_dp);
+>> -	bool sink_can_mst =3D drm_dp_read_mst_cap(&intel_dp->aux, intel_dp->dp=
+cd) =3D=3D DRM_DP_MST;
+>> -
+>>  	if (!intel_dp_mst_source_support(intel_dp))
+>>  		return;
+>
+> I was wondering if we even need that, but it looks to be just a
+> check to see if we actually initialized the mst_mgt or not.
+> We should probably rename it or something... Or perhaps we could
+> tweak the topology manager a bit so we wouldn't need to check...
 
+Yeah, I figured we should address this in
+follow-up. intel_dp_mst_suspend() and intel_dp_mst_resume() would
+benefit too.
 
-On 9/13/2023 10:06 PM, Dmitry Baryshkov wrote:
-> Provide atomic_print_state callback to the DPU's private object. This
-> way the debugfs/dri/0/state will also include RM's internal state.
-> 
+>
+>>=20=20
+>> -	intel_dp->is_mst =3D sink_can_mst &&
+>> -		i915->display.params.enable_dp_mst;
+>> +	intel_dp->is_mst =3D intel_dp->mst_detect !=3D DRM_DP_SST;
+>> +
+>> +	drm_dp_mst_topology_mgr_set_mst(&intel_dp->mst_mgr, intel_dp->is_mst);
+>>=20=20
+>> -	drm_dp_mst_topology_mgr_set_mst(&intel_dp->mst_mgr,
+>> -					intel_dp->is_mst);
+>> +	/* Avoid stale info on the next detect cycle. */
+>> +	intel_dp->mst_detect =3D DRM_DP_SST;
+>
+> Hmm. Not sure I like having ephemeral stuff like this in intel_dp,
+> but I guess the alternative would be plumb it up from detect_dpcd()
+> by hand, which might not be super pretty either. Oh well.
 
-I like this idea !
+Trust me, I went back and forth with this, and this felt least ugly. The
+main reason for resetting it back here was to ensure nobody tries to use
+it for anything else, and to ensure it gets reset.
 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c |  4 +++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h |  2 ++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c  | 48 +++++++++++++++++++++++++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h  |  8 +++++
->   4 files changed, 62 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index ee84160592ce..172b64dc60e6 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -362,6 +362,7 @@ static void dpu_kms_global_destroy_state(struct drm_private_obj *obj,
->   static const struct drm_private_state_funcs dpu_kms_global_state_funcs = {
->   	.atomic_duplicate_state = dpu_kms_global_duplicate_state,
->   	.atomic_destroy_state = dpu_kms_global_destroy_state,
-> +	.atomic_print_state = dpu_rm_print_state,
->   };
->   
->   static int dpu_kms_global_obj_init(struct dpu_kms *dpu_kms)
-> @@ -375,6 +376,9 @@ static int dpu_kms_global_obj_init(struct dpu_kms *dpu_kms)
->   	drm_atomic_private_obj_init(dpu_kms->dev, &dpu_kms->global_state,
->   				    &state->base,
->   				    &dpu_kms_global_state_funcs);
-> +
-> +	state->rm = &dpu_kms->rm;
-> +
->   	return 0;
->   }
->   
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> index ed549f0f7c65..dd2be279b366 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> @@ -130,6 +130,8 @@ struct vsync_info {
->   struct dpu_global_state {
->   	struct drm_private_state base;
->   
-> +	struct dpu_rm *rm;
-> +
->   	uint32_t pingpong_to_enc_id[PINGPONG_MAX - PINGPONG_0];
->   	uint32_t mixer_to_enc_id[LM_MAX - LM_0];
->   	uint32_t ctl_to_enc_id[CTL_MAX - CTL_0];
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> index f9215643c71a..5e3442fb8678 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> @@ -652,3 +652,51 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
->   
->   	return num_blks;
->   }
-> +
-> +void dpu_rm_print_state(struct drm_printer *p,
-> +			const struct drm_private_state *state)
-> +{
-> +	const struct dpu_global_state *global_state = to_dpu_global_state(state);
-> +	const struct dpu_rm *rm = global_state->rm;
-> +	int i;
-> +
-> +	drm_puts(p, "pingpong:");
-> +	for (i = 0; i < ARRAY_SIZE(global_state->pingpong_to_enc_id); i++)
-> +		if (rm->pingpong_blks[i])
-> +			drm_printf(p, " %d,", global_state->pingpong_to_enc_id[i]);
-> +		else
-> +			drm_puts(p, " -,");
-> +	drm_puts(p, "\n");
-> +
-> +	drm_puts(p, "mixer:");
-> +	for (i = 0; i < ARRAY_SIZE(global_state->mixer_to_enc_id); i++)
-> +		if (rm->mixer_blks[i])
-> +			drm_printf(p, " %d,", global_state->mixer_to_enc_id[i]);
-> +		else
-> +			drm_puts(p, " -,");
-> +	drm_puts(p, "\n");
-> +
-> +	drm_puts(p, "ctl:");
-> +	for (i = 0; i < ARRAY_SIZE(global_state->ctl_to_enc_id); i++)
-> +		if (rm->ctl_blks[i])
-> +			drm_printf(p, " %d,", global_state->ctl_to_enc_id[i]);
-> +		else
-> +			drm_puts(p, " -,");
-> +	drm_puts(p, "\n");
-> +
-> +	drm_puts(p, "dspp:");
-> +	for (i = 0; i < ARRAY_SIZE(global_state->dspp_to_enc_id); i++)
-> +		if (rm->dspp_blks[i])
-> +			drm_printf(p, " %d,", global_state->dspp_to_enc_id[i]);
-> +		else
-> +			drm_puts(p, " -,");
-> +	drm_puts(p, "\n");
-> +
-> +	drm_puts(p, "dsc:");
-> +	for (i = 0; i < ARRAY_SIZE(global_state->dsc_to_enc_id); i++)
-> +		if (rm->dsc_blks[i])
-> +			drm_printf(p, " %d,", global_state->dsc_to_enc_id[i]);
-> +		else
-> +			drm_puts(p, " -,");
-> +	drm_puts(p, "\n");
-> +}
+>
+> Reviewed-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
 
-You also need to include cdm_to_enc_id now. But otherwise LGTM.
+Thanks!
 
-If you have run this before, do you have a sample output to share?
+>
+>>  }
+>>=20=20
+>>  static bool
+>> @@ -5739,7 +5736,7 @@ intel_dp_detect(struct drm_connector *connector,
+>>=20=20
+>>  	intel_dp_detect_dsc_caps(intel_dp, intel_connector);
+>>=20=20
+>> -	intel_dp_configure_mst(intel_dp);
+>> +	intel_dp_mst_configure(intel_dp);
+>>=20=20
+>>  	/*
+>>  	 * TODO: Reset link params when switching to MST mode, until MST
+>> --=20
+>> 2.39.2
 
-
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> index 2b551566cbf4..913baca81a42 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> @@ -92,6 +92,14 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
->   	struct dpu_global_state *global_state, uint32_t enc_id,
->   	enum dpu_hw_blk_type type, struct dpu_hw_blk **blks, int blks_size);
->   
-> +/**
-> + * dpu_rm_print_state - output the RM private state
-> + * @p: DRM printer
-> + * @state: private object state
-> + */
-> +void dpu_rm_print_state(struct drm_printer *p,
-> +			const struct drm_private_state *state);
-> +
->   /**
->    * dpu_rm_get_intf - Return a struct dpu_hw_intf instance given it's index.
->    * @rm: DPU Resource Manager handle
+--=20
+Jani Nikula, Intel
