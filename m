@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE1528543D6
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 09:13:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A99C8543D9
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 09:13:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE8A210E3FC;
-	Wed, 14 Feb 2024 08:13:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 829C910E45C;
+	Wed, 14 Feb 2024 08:13:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EmcWj4cm";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EiODcbGh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D8AC10E3E8
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 08:13:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D990E10E3E8
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 08:13:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707898392; x=1739434392;
+ t=1707898393; x=1739434393;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Pw/jgyeQp4EnqOSLDOpKLLh+AEHTjDlBu1RG/K9EjNU=;
- b=EmcWj4cmmWgwkKUypowAmUeB8GfbM0LRG088nUABm/3SyuVpWONWMc1T
- lEZqq0aAqMmCqoDOCKn/lLJGO8TI6H5xm+T5zJ+aK94u6i/6lgy99OnMV
- 0V9j0OR5TsvFsLvJo2izzpxdnSKPUb+F4kQHCuQQ3z2luMbdYBcKRupVM
- j4TdWSKV6tUHjAT7MJJZrYFKUNNs3egzaeFLE2TOIsOxn09qvR/kALG5e
- yupTTWQN9tGPUnM38GXVIHHSSshcSb2LyHxIPdr2zvz3RDBBaRz3VneSp
- vn7qGJKlVvpLTtDsTbNHNq7CI9w6+pJMLsKoVq5xoJ2fY8IHFFCZp1yuC Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="12651650"
-X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; d="scan'208";a="12651650"
+ bh=aLRGaq/i1okKbwZq2WDyaV/HX6EhKcLnFCnHYbGL7ts=;
+ b=EiODcbGhTioZVj7k7BmECfth5cFgI9cg2LC9eQHke7oQRe46SdWqnb9K
+ kZTRUPF3wk9oLjaTkyuQn26wR08KoQnPNNUq3wCYsOzAJ41+69aw2SRPu
+ aYHJ+9xQ5boPAMXXv2sr6PMw8uf8AFP5QjfFfKKBEt0/flFmR0efzuyTb
+ DL6tqwsv6c1JLOsWKWjyS662mBAL0O7xm0X14CKb/wdHZKrBGTSSPexC4
+ moc9DIJwC8UOq8TI6f/xq2vvyaX4LOyAuYQZHRTsL2nxkyMkUoXcMoExR
+ HBTsdlll9se9tidimzVbECB2a6CStP8F0BF7RWlEw8Ain0zZVJtYZUlh1 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="12651657"
+X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; d="scan'208";a="12651657"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2024 00:13:11 -0800
+ 14 Feb 2024 00:13:13 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
-   d="scan'208";a="3407372"
+   d="scan'208";a="3407385"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2024 00:13:10 -0800
+ 14 Feb 2024 00:13:11 -0800
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH 2/8] accel/ivpu: Remove legacy firmware name
-Date: Wed, 14 Feb 2024 09:12:59 +0100
-Message-ID: <20240214081305.290108-3-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH 3/8] accel/ivpu: Update FW API headers
+Date: Wed, 14 Feb 2024 09:13:00 +0100
+Message-ID: <20240214081305.290108-4-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240214081305.290108-1-jacek.lawrynowicz@linux.intel.com>
 References: <20240214081305.290108-1-jacek.lawrynowicz@linux.intel.com>
@@ -65,32 +65,196 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We are now using NPU IP generation based FW names instead of platform
-code names, so mtl_vpu.bin can be removed.
+Update Boot API to 3.22.0 and JSM API to 3.15.6
 
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_fw.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/accel/ivpu/vpu_boot_api.h | 46 ++++++++++++++++++++++---------
+ drivers/accel/ivpu/vpu_jsm_api.h  | 32 ++++++++++++++-------
+ 2 files changed, 55 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
-index 6576232f3e67..186d0857410c 100644
---- a/drivers/accel/ivpu/ivpu_fw.c
-+++ b/drivers/accel/ivpu/ivpu_fw.c
-@@ -48,13 +48,11 @@ static char *ivpu_firmware;
- module_param_named_unsafe(firmware, ivpu_firmware, charp, 0644);
- MODULE_PARM_DESC(firmware, "VPU firmware binary in /lib/firmware/..");
+diff --git a/drivers/accel/ivpu/vpu_boot_api.h b/drivers/accel/ivpu/vpu_boot_api.h
+index 04c954258563..87cac7bc730a 100644
+--- a/drivers/accel/ivpu/vpu_boot_api.h
++++ b/drivers/accel/ivpu/vpu_boot_api.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: MIT */
+ /*
+- * Copyright (C) 2020-2023 Intel Corporation
++ * Copyright (c) 2020-2023, Intel Corporation.
+  */
  
--/* TODO: Remove mtl_vpu.bin from names after transition to generation based FW names */
- static struct {
- 	int gen;
- 	const char *name;
- } fw_names[] = {
- 	{ IVPU_HW_37XX, "vpu_37xx.bin" },
--	{ IVPU_HW_37XX, "mtl_vpu.bin" },
- 	{ IVPU_HW_37XX, "intel/vpu/vpu_37xx_v0.0.bin" },
- 	{ IVPU_HW_40XX, "vpu_40xx.bin" },
- 	{ IVPU_HW_40XX, "intel/vpu/vpu_40xx_v0.0.bin" },
+ #ifndef VPU_BOOT_API_H
+@@ -27,12 +27,12 @@
+  * Minor version changes when API backward compatibility is preserved.
+  * Resets to 0 if Major version is incremented.
+  */
+-#define VPU_BOOT_API_VER_MINOR 20
++#define VPU_BOOT_API_VER_MINOR 22
+ 
+ /*
+  * API header changed (field names, documentation, formatting) but API itself has not been changed
+  */
+-#define VPU_BOOT_API_VER_PATCH 4
++#define VPU_BOOT_API_VER_PATCH 0
+ 
+ /*
+  * Index in the API version table
+@@ -41,7 +41,7 @@
+ #define VPU_BOOT_API_VER_INDEX 0
+ /* ------------ FW API version information end ---------------------*/
+ 
+-#pragma pack(push, 1)
++#pragma pack(push, 4)
+ 
+ /*
+  * Firmware image header format
+@@ -66,9 +66,17 @@ struct vpu_firmware_header {
+ 	/* Size of memory require for firmware execution */
+ 	u32 runtime_size;
+ 	u32 shave_nn_fw_size;
+-	/* Size of primary preemption buffer. */
++	/*
++	 * Size of primary preemption buffer, assuming a 2-job submission queue.
++	 * NOTE: host driver is expected to adapt size accordingly to actual
++	 * submission queue size and device capabilities.
++	 */
+ 	u32 preemption_buffer_1_size;
+-	/* Size of secondary preemption buffer. */
++	/*
++	 * Size of secondary preemption buffer, assuming a 2-job submission queue.
++	 * NOTE: host driver is expected to adapt size accordingly to actual
++	 * submission queue size and device capabilities.
++	 */
+ 	u32 preemption_buffer_2_size;
+ 	/* Space reserved for future preemption-related fields. */
+ 	u32 preemption_reserved[6];
+@@ -181,10 +189,10 @@ struct vpu_warm_boot_section {
+ #define VPU_PRESENT_CALL_PERIOD_MS_MAX	   10000
+ 
+ /**
+- * Macros to enable various operation modes within the VPU.
++ * Macros to enable various power profiles within the NPU.
+  * To be defined as part of 32 bit mask.
+  */
+-#define VPU_OP_MODE_SURVIVABILITY 0x1
++#define POWER_PROFILE_SURVIVABILITY 0x1
+ 
+ struct vpu_boot_params {
+ 	u32 magic;
+@@ -317,7 +325,15 @@ struct vpu_boot_params {
+ 	u64 d0i3_residency_time_us;
+ 	/* Value of VPU perf counter at the time of entering D0i3 state . */
+ 	u64 d0i3_entry_vpu_ts;
+-	u32 pad4[20];
++	/*
++	 * The system time of the host operating system in microseconds.
++	 * E.g the number of microseconds since 1st of January 1970, or whatever date the
++	 * host operating system uses to maintain system time.
++	 * This value will be used to track system time on the VPU.
++	 * The KMD is required to update this value on every VPU reset.
++	 */
++	u64 system_time_us;
++	u32 pad4[18];
+ 	/* Warm boot information: 0x400 - 0x43F */
+ 	u32 warm_boot_sections_count;
+ 	u32 warm_boot_start_address_reference;
+@@ -344,10 +360,14 @@ struct vpu_boot_params {
+ 	u32 vpu_focus_present_timer_ms;
+ 	/* VPU ECC Signaling */
+ 	u32 vpu_uses_ecc_mca_signal;
+-	/* Values defined by VPU_OP_MODE* macros */
+-	u32 vpu_operation_mode;
+-	/* Unused/reserved: 0x480 - 0xFFF */
+-	u32 pad6[736];
++	/* Values defined by POWER_PROFILE* macros */
++	u32 power_profile;
++	/* Microsecond value for DCT active cycle */
++	u32 dct_active_us;
++	/* Microsecond value for DCT inactive cycle */
++	u32 dct_inactive_us;
++	/* Unused/reserved: 0x488 - 0xFFF */
++	u32 pad6[734];
+ };
+ 
+ /*
+diff --git a/drivers/accel/ivpu/vpu_jsm_api.h b/drivers/accel/ivpu/vpu_jsm_api.h
+index 7da7622742be..e46f3531211a 100644
+--- a/drivers/accel/ivpu/vpu_jsm_api.h
++++ b/drivers/accel/ivpu/vpu_jsm_api.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: MIT */
+ /*
+- * Copyright (C) 2020-2023 Intel Corporation
++ * Copyright (c) 2020-2023, Intel Corporation.
+  */
+ 
+ /**
+@@ -27,7 +27,7 @@
+ /*
+  * API header changed (field names, documentation, formatting) but API itself has not been changed
+  */
+-#define VPU_JSM_API_VER_PATCH 0
++#define VPU_JSM_API_VER_PATCH 6
+ 
+ /*
+  * Index in the API version table
+@@ -43,8 +43,11 @@
+ /* Max number of impacted contexts that can be dealt with the engine reset command */
+ #define VPU_MAX_ENGINE_RESET_IMPACTED_CONTEXTS 3
+ 
+-/** Pack the API structures for now, once alignment issues are fixed this can be removed */
+-#pragma pack(push, 1)
++/*
++ * Pack the API structures to enforce binary compatibility
++ * Align to 8 bytes for optimal performance
++ */
++#pragma pack(push, 8)
+ 
+ /*
+  * Engine indexes.
+@@ -124,6 +127,19 @@
+  */
+ #define VPU_HWS_MAX_REALTIME_PRIORITY_LEVEL 31U
+ 
++/*
++ * vpu_jsm_engine_reset_context flag definitions
++ */
++#define VPU_ENGINE_RESET_CONTEXT_FLAG_COLLATERAL_DAMAGE_MASK BIT(0)
++#define VPU_ENGINE_RESET_CONTEXT_HANG_PRIMARY_CAUSE	     0
++#define VPU_ENGINE_RESET_CONTEXT_COLLATERAL_DAMAGE	     1
++
++/*
++ * Invalid command queue handle identifier. Applies to cmdq_id and cmdq_group
++ * in this API.
++ */
++#define VPU_HWS_INVALID_CMDQ_HANDLE 0ULL
++
+ /*
+  * Job format.
+  */
+@@ -613,7 +629,7 @@ struct vpu_jsm_engine_reset_context {
+ 	u32 reserved_0;
+ 	/* Command queue id */
+ 	u64 cmdq_id;
+-	/* Flags: 0: cause of hang; 1: collateral damage of reset */
++	/* See VPU_ENGINE_RESET_CONTEXT_* defines */
+ 	u64 flags;
+ };
+ 
+@@ -730,11 +746,7 @@ struct vpu_ipc_msg_payload_hws_create_cmdq {
+ 	u32 host_ssid;
+ 	/* Engine for which queue is being created */
+ 	u32 engine_idx;
+-	/*
+-	 * Cmdq group may be set to 0 or equal to
+-	 * cmdq_id while each priority band contains
+-	 * only single engine instances.
+-	 */
++	/* Cmdq group: only used for HWS logging of state changes */
+ 	u64 cmdq_group;
+ 	/* Command queue id */
+ 	u64 cmdq_id;
 -- 
 2.43.0
 
