@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AD8B85437E
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 08:34:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55637854381
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 08:36:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F8AD10E116;
-	Wed, 14 Feb 2024 07:34:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C801710E148;
+	Wed, 14 Feb 2024 07:36:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bqW5RAFr";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fn/dS0md";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAF4C10E148;
- Wed, 14 Feb 2024 07:34:38 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8ED2210E0C9;
+ Wed, 14 Feb 2024 07:36:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707896078; x=1739432078;
+ t=1707896206; x=1739432206;
  h=from:to:cc:subject:date:message-id:references:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=AUJSbxQl/dwaqmI2bPnTgrhBPKty6DeExzAe4d2HXqY=;
- b=bqW5RAFrxXbkY527JaZOSsGDpQedo0z6qHteIJxrw9SJMQWFyu9yGVqp
- 9zEg5ZLB6wgGaxzZoXGdH7kKJlGUZXUp/2UlTJ5LQ7v9Dl66u41HDca9X
- pHAkrgfdh+N2h6EYn2XIkzXq/YB5HOWGgWsbePh07GXb8DJL2Oi/htaDk
- 2yiQ1BJrlodCUdeZA4H+6PmjRM6TYQeisOKW79LlMrAmEVvrXdpxYcqMa
- BCQgGHamxY3hjG+kAJ40K44uwV+mx1B6EnZYLuHYqOrM6Oz4KbEjR6ROu
- ZKZ5ebVivDCeylIwJAifm6ngf5qMvsHH3Y0tawuo2kTmPWc2oD98T/3v/ A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="5762115"
-X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
-   d="scan'208";a="5762115"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2024 23:34:37 -0800
+ bh=uUhp5lSFJSsBpubfGlrYtt4tno8fC9bWCnhXbWQAh+s=;
+ b=fn/dS0mdxqTCnHDrt2GB6z7EYNIBFrYwEHOT4FzVulcjkwI2fQbpo/rf
+ xsYnsbl5APdX+Iswuuo5TwqnwsrXoEqLV97Qr4sfbANPE9C/IO+Piq/Gd
+ 0CRZ+SvKCoLvt3OUCkmMimiRK2gY6HUz47fLXlzaM66/QOoXEbGdCHCx5
+ wIj+QPOwaxDIPkf07Whi2elharFF9LRBLcgqfBevXJQOGtftrzQC3rXAP
+ WtCKAYHYcE09liOLyluzcXPy51mVU/jPj+iqrzQkyfVsHJdXA0gguwT0J
+ 92v1VT83cBaaLUd7AMZbrGR61KF3Z2Yn91y4wJqSDNzw2duspLi+0dFk5 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="12476723"
+X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; d="scan'208";a="12476723"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2024 23:36:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; d="scan'208";a="34178565"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 13 Feb 2024 23:34:37 -0800
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
+   d="scan'208";a="7717145"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by fmviesa004.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 13 Feb 2024 23:36:45 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 13 Feb 2024 23:34:37 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ 15.1.2507.35; Tue, 13 Feb 2024 23:36:44 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Tue, 13 Feb 2024 23:34:37 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ 15.1.2507.35 via Frontend Transport; Tue, 13 Feb 2024 23:36:44 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Tue, 13 Feb 2024 23:34:36 -0800
+ 15.1.2507.35; Tue, 13 Feb 2024 23:36:43 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WU7r6Vj4bRmC7T1XIyXaMNj6dXaU/iaMOo0AkxqAPNAxu6z/9p1NR275YgQGFSYVwhpgHQEZPYPQR9MVf24310poSrcXd8Co/dBHrBAH89IwMN2Dv09RDbn5XqI3bHnqAGmwUjplX0Jg/08gpfJDKjz33N3J+lIbEgUfHqvzfIWxhibG0/WJkD3vxgSopkLo0eIwKvM1njRa41jgwCOO9pBuEqkHUTeD6OSaKy0sVNNKs+HnYW7kUvisCISNqvDQ5JD7oN8LgNKbqjvQ871znB0RApbyRmn7pzFil6FnZCfBk4/2mt7u5l10Tytye0gshtCD4z062et37skLLMVaqQ==
+ b=PaYlXfMVdE/LveTA2G5aDaw/ppJ+xoNykgRqZ5q0OtjXfT7hbQsBK02Db9UmhVGDVS+I9zm4xrs4ctthH9lbnKFGkPOC+aFe7du5ybsmMkhjykmyV9kTAAclCvOuspACRW3OkuiTfIuDakcIu56qOKkvbzA7ExDpvMkac0XQ5pfSJvPM/1HhDf9hXhTdRHRPFy4Ficzn6qGNSAzvOM5xQO7EZ4nXcFp4Dl+ouoh68XxctpD2upRA1ic9OXuIvBCvu5FN+zarshFY0nFxn7u/97/UxpfTybCaq1meK8HtIjWnt1vFpeLC1P7SJY0H73qnDRy8d4R4zWUK9RFkopOtsg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j368k2kNxFcA5rzoStJxCCYghhFidBKSCiaqUtz/nG0=;
- b=mYhi3Ec1rTR0BcPWmOMmow4o0x4WcWm7lju9uwCuzHDTyU3LzD68vjU9FOkVsI0t/SdUWC9XOf0xIyenTnrD3Ik5T0SLgCZ+Mf6SQwmG2yojKVi6L5Q98hW7lbhI+SSpfXrnEaBcsuMvT+JWcr1BYR1RCKNkgMhl8FPYKmH4JTXBkaEXz10M5ANwYKFkkhr7VIIRGuMZ5hFzELWwIMW9LGTwdK/9/0TO5kYvC0590pIBsDLo1eMG10lo3zdvgfsuHUH6zOrZZePZPgoRPbX19DlGm121cI9oGppYkZqeOOYnEkL6xBidJXilzMS2F1MtnwLiRsItHyX3VP6fQ2Mdfg==
+ bh=j9hVLyqOfCm913Zh+RViGqGZkZ4FxSsDbmCnGVtH1CQ=;
+ b=XhmjaRh/YiUP85wupFXxSBcDvKmIieBE8jpSX6Non+5UY74WyZhz12eZFhE+wwmA34Ekl0OYT9NnfmucnX0OKBK9PDRY0L/nB83qt6Omhx7DLKPVfzVb2QsKLiH8IOm037EYNjihpR6g3miP1oEIfgL7dkVmc8qjdOXdJp7KkQUoMiiQ+JSaLO5JwA2DvnDnr29FHWPGcmETAfOL5zBI+bu3IyJYvShPXPdJ4aSCOhfeW9mdy2YosLL6QN5X8NHGcI0OZ8m6vFzufxbW9cTs9ChWJO+Jo7xw+WpK+QUNUI4iwTucMxbE3rJGOh3rnjaIOZj0+9hg1o0sDOHQ/H1U4Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -64,11 +64,11 @@ Received: from DM4PR11MB6360.namprd11.prod.outlook.com (2603:10b6:8:bd::12) by
  CH0PR11MB5284.namprd11.prod.outlook.com (2603:10b6:610:bf::8) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7292.25; Wed, 14 Feb 2024 07:34:35 +0000
+ 15.20.7292.25; Wed, 14 Feb 2024 07:36:42 +0000
 Received: from DM4PR11MB6360.namprd11.prod.outlook.com
  ([fe80::590:38d5:5c7c:3e4d]) by DM4PR11MB6360.namprd11.prod.outlook.com
  ([fe80::590:38d5:5c7c:3e4d%7]) with mapi id 15.20.7292.022; Wed, 14 Feb 2024
- 07:34:35 +0000
+ 07:36:42 +0000
 From: "Shankar, Uma" <uma.shankar@intel.com>
 To: Sebastian Wick <sebastian.wick@redhat.com>
 CC: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
@@ -90,15 +90,15 @@ CC: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
  <marcan@marcan.st>, "Liviu.Dudau@arm.com" <Liviu.Dudau@arm.com>,
  "sashamcintosh@google.com" <sashamcintosh@google.com>, "sean@poorly.run"
  <sean@poorly.run>
-Subject: RE: [PATCH 08/28] drm: Add Color lut range attributes
-Thread-Topic: [PATCH 08/28] drm: Add Color lut range attributes
-Thread-Index: AQHaXkeuYL82CuXAtk6wMt0hcqbj/bEILOoAgAFGxiA=
-Date: Wed, 14 Feb 2024 07:34:35 +0000
-Message-ID: <DM4PR11MB63601F7AC6CF0FFBBFDC2559F44E2@DM4PR11MB6360.namprd11.prod.outlook.com>
+Subject: RE: [PATCH 09/28] drm: Add Color ops capability property
+Thread-Topic: [PATCH 09/28] drm: Add Color ops capability property
+Thread-Index: AQHaXkexJ9UNQ2Kd0EiAps+C64td4LEILRGAgAFG67A=
+Date: Wed, 14 Feb 2024 07:36:42 +0000
+Message-ID: <DM4PR11MB6360F1E36B43C1C926D8B693F44E2@DM4PR11MB6360.namprd11.prod.outlook.com>
 References: <20240213064835.139464-1-uma.shankar@intel.com>
- <20240213064835.139464-9-uma.shankar@intel.com>
- <20240213120404.GB1372043@toolbox>
-In-Reply-To: <20240213120404.GB1372043@toolbox>
+ <20240213064835.139464-10-uma.shankar@intel.com>
+ <20240213120437.GC1372043@toolbox>
+In-Reply-To: <20240213120437.GC1372043@toolbox>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -107,54 +107,54 @@ authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: DM4PR11MB6360:EE_|CH0PR11MB5284:EE_
-x-ms-office365-filtering-correlation-id: a6a4e350-2044-4e9f-634a-08dc2d2f6465
+x-ms-office365-filtering-correlation-id: 95d603bf-0001-4ac1-73a7-08dc2d2fb03e
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 82D2FXbHGe9p2b7GAU3EjlrW23m3lkUSlKusTvu8INK7eK6b98ZFNFfj5a54gNoYvwGdRnbOLRypkHwNbZaKTJscVVECDt8zLFa81D5nU9S67EDqMaD3gvUjs15IqFFnnBmXH+O0lHI8Taos9867+GO7PGWQDA1dxnIXA+Omrv8GlBbbrIHKbMF3aEbnBYCPLq5sdibu28S6SpolaWRJt5pXRsNNRJUy0r4UgFZz7lMKf8Gz9z9mUV0GTl8i4kyywmZA8Jq86Kq6/ujhpWnjlSbDxvVro63PXWSe3kzNERxWMGBTUeAGqQgdk+gVhNSi95rs8Hrul47lFI9lTGfNSUgcT4ZZ+r2oCMexbyJPvHtFwStr7xTmONGjWb0uMUmTDBMAtIJHCy4CfAxZ9BVUllH1IEgJQJuGsNBYx34lQjaGNrtC2tsbxM+8ZDpzh0RQ5x16eCnkdvRSH6IKLiSUqv2Y986XDrq5tSZ9DbZlcSEYRlptWSA/tTmjSYnG0wfTTnBcRry43E9X749yZ6TU12hqeuaZ3UogNZn3ruCOr2EhIMzH3DUzH0n3Cb4GGnhzhqGI1Ur2RovIkKTy/GbJRardClpeCCQIQEsRQPUJi1T1NLPk991S6o8mLpNxEOgl
+x-microsoft-antispam-message-info: qx2RbBwH0BAPK0WFwV7LZwuCyYKdGiB0C72fTO6miCNpoz9fUd+SjRX1IO7l3eopyOS0LMkTpgXwHu76I8PcH7BMOYTU39nPrqmTanU7EaWt6lHjeg2TVScr/qZsNRFurdg6qDJD2ScV4QIs8fDxD9X+kZ0Gytl8wljrNKjmTJME7d0GvQb6J58licYkDV/C2MEJ5ALN7xNG5H6CVAfsjb2zMv718cWKU/MAyRksht8WdhW1oR7QSQT6VlPoYdwtIjl8M4fCb2YfY8GS0Vxsp2ekOz6eJZ/9WL6SoevRfYzS8NzsyA87FHDeWyM9oPVoNB1mk6jXBlsmW5J1+abWADct8DM0aMoSY0M3QYfFXSooe+YAiGaUMUtrGi3vKl9IsFt72zmYGHwovFeQE6ic4HGwwiASshbBtGpb9Gtm1xJs58JaK33IhZAN22cpGrxDPgVdwCHAEzrR7p8RwGd7+CQXy4P22RQiUdL4UGfWi63O0MyvElv1hcOCtkkRPXq4egfZ5GbUUohFc//G6DV8VLD9sClV/K2H4viCN3d5m1m+hSeZy5zgKGqrV3+L5p/9wt8pjrGGhScrP7p0yP1GZkCLTK7FqZkjXnqn44TjwcQrAsF0ArX4HlBp5eq8S+sB
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB6360.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230031)(39860400002)(396003)(136003)(346002)(366004)(376002)(230922051799003)(64100799003)(1800799012)(186009)(451199024)(9686003)(478600001)(55016003)(41300700001)(7696005)(8936002)(8676002)(5660300002)(4326008)(7416002)(2906002)(52536014)(6506007)(38070700009)(66556008)(316002)(71200400001)(53546011)(6916009)(76116006)(66946007)(66476007)(64756008)(54906003)(66446008)(83380400001)(86362001)(122000001)(82960400001)(26005)(38100700002)(33656002);
  DIR:OUT; SFP:1101; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Im5YHCRa8yE+X6Nrs+ydwa/K71TxqNXYu2wKy9Q1RX9E8Gg/gHG33hXeHH+J?=
- =?us-ascii?Q?OXUyoCmStUmF4eVUH0iS5U4iNVXEkJktuMOvFK43/EjzTLTABDqj5VR35L5y?=
- =?us-ascii?Q?swr02vVHVd+3oS8Iz1ln60xJ/6FfiHeCIyuc3kt9sDO8YJ9jSRRZad3baX6x?=
- =?us-ascii?Q?GqkEZhMNldXDE7o/+HyIBYrDOaLEVYghLqF0YQyyFX0oaZBI6/ZyxOEpA5WC?=
- =?us-ascii?Q?luOERV6k9w7I9j1PxbCWPE07mYafpplBLf8XoR1Ne+5CZKGoJ6nLN90L07im?=
- =?us-ascii?Q?CsOFpXEzZBFchqV0Myh1+qun3xKfm2zHIPfvOk/uKVlRaMNq/VbmF76P8BVB?=
- =?us-ascii?Q?WotxMjX2L/hwj52fSC3EkN8nsAWbs7zwIKdwYWcN1eJXRSWwgi/kidQzlVHv?=
- =?us-ascii?Q?R7qUG7qwk4MIkBW37eduI1jX0XCuzpMKZ0LcArYdWhH5LiNxIAguyCPCFMoH?=
- =?us-ascii?Q?/DPanFgYqDdRaZltPZhJKHMSrKB3WOyR1PWS+DlxtkQBNZEvXltTeBWaWyod?=
- =?us-ascii?Q?5mVlsoktHysrVCx0QBo17CQ7ao3l6Pa1y6WGgVGZMo9H/Gt2/6GPVyH9++/0?=
- =?us-ascii?Q?GGWAnMhd4eKjx05yzrITB69RyBvresK4QwEA/ksIdaTWhhiL7PcmX2F9Eutb?=
- =?us-ascii?Q?DXAsgZ2XSe70MyQPMmgN/eEDQXD9Ieva/13U2zSVJJxi/4+mz1J4VBMBheNt?=
- =?us-ascii?Q?mKHp/rTWHGGzRuwbvkII77nhHmtt2p14amJTGmbuKIi8qpIHq8C6MAv9yNBF?=
- =?us-ascii?Q?kuLLvYS/crrJr8bWglGvyeYYXaEI6/D6fd16LXhEssfnRHgj3fTW3iS6LXCl?=
- =?us-ascii?Q?IE939iymCegquhnZ/4CxiH0uYUBqLzGOcgWGCuyVAu29KQA+dr0TKlIZ6fku?=
- =?us-ascii?Q?H0mfTV5dCyYr8WMq1Lb+cPHQJ8sC9XvCydq4LitK7Xua0xqrGcVM47fL32O/?=
- =?us-ascii?Q?+pfb6jcZszfdxvr4X7H8/34agMzZK89vQS+Kfrbl/ht889Zr/ZeX6hyBwiuV?=
- =?us-ascii?Q?OvlVTgNg9UrGD1O/tmR8Yj2mTC4xkDb+VHFoXMSsUFtZUut5y8MnnILN3j3c?=
- =?us-ascii?Q?LaGe5EyWihv8STzZqeu6fZoQaimJvD9gquwpR9SWULzXtKfmzomB3f4F/+S7?=
- =?us-ascii?Q?ezn+Pwq2csxR+W0Xb55XJNSXig7Nd6tywASU7Zo1YKW9KCPKQAg2ciT9kbGP?=
- =?us-ascii?Q?lxfKvKcGbhX9lm+lBRzXRBUzM+VDbCnHkeqUMIg6P6D46BNd6iOH6DqezBI4?=
- =?us-ascii?Q?NuBp898QUgAxhSSofLXQ73dCGgk/8p8y9zrznJ2DSdR2sBuaZwf6/W7U7QCc?=
- =?us-ascii?Q?0I0LAnD5B+Y3aLQ7lpFJ2hG9ybV5YvjhdozdPtNaUkKDTqgspokbiZ21v2sn?=
- =?us-ascii?Q?Y7Q+9WlvZUeH9SXyhTOvUXc7yaNvs8fZls6AWU/JwlAMp3U37YEPGj0wOmDy?=
- =?us-ascii?Q?EuR1eLQ/QJCMX+0fIrrSRNG4vPEaHpOp8XR7HPIcDyqueGBWIRgGdYr4OZnI?=
- =?us-ascii?Q?dTGvMVyAtmGnAvvYNHho+FGMU3f44njPJmd2D6YIh941aRwBIgE2Zhwjo3Sh?=
- =?us-ascii?Q?T3Z8fwoM+d2Ik+bVJntb7nTXwHu12OS3QY3CQPNj?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?/YtmcRaRWgd1qFRSfj2QBPEvPiX8fAYcerCUvJS1umBb/1kz2T4QjNjxowUv?=
+ =?us-ascii?Q?pl/h01ZJY/wtPuDwlngt7BfvaF0v8ZSiy8WljIty/MlRqz30iAvWu1oBJydF?=
+ =?us-ascii?Q?88vR05aivpRu+0dvcynpHvKjOWfeBQulgnFUSJO37M6j4zpOV9PjRJ3QBSJ7?=
+ =?us-ascii?Q?0I8i013/SJ+uUSz1SmFm+UdBYR49Pj46zq2aSA4oxmmg+rtNlB4FB8rSLZJj?=
+ =?us-ascii?Q?0lkDVvWq+DB27jwlOoqPU9rMeYBTU6odjlHyUxWKj9BMpa9xCed36oLgIQ+U?=
+ =?us-ascii?Q?lx4XLGfDWz6JBRZHR8iBQxvT17oqjkhFQfR72QgYh7LNAR4u+ypbIxVEGAIu?=
+ =?us-ascii?Q?hF41/0XAOmn5tvpzo0qXofpb7ltmfBq/4ISYI05C5I0U8iezt+JYrVbYOx4w?=
+ =?us-ascii?Q?MEY35Rkv5Vs1kSVvGEPOyBRMguQi5nRnq4GxTRNcg6OJQOouDGtavoMmXFh8?=
+ =?us-ascii?Q?wpq5at0qK5ojOL0zDdHcZa2WqeLnwIfvPrg2fgduAo+Lj/vcXo4XN0LwZePo?=
+ =?us-ascii?Q?ZBIn7w14qL5VCC+qjlkWyrrTyU50g+dKeLTr3T9VBhv4fPdgCEi7K3fdauQz?=
+ =?us-ascii?Q?39zt3dLrAhyaQ4bd/nJqsZHD8WpDf7c0LQhnKJYx+DLZwQhYxUxi/22rEbGj?=
+ =?us-ascii?Q?npKuRDOf7wydoKynvMw7jQOcbZmjXV66d7lqOUlK3zJikjNrMSx+jKo1u9LZ?=
+ =?us-ascii?Q?v7pSo08y6yYzYJfsKWXvW7WwO/BaUjuvfhdRTDyxKQxi1S7+7rS4kR2QJx9N?=
+ =?us-ascii?Q?uuepNCgmJGbkqFAAZBWwujtA4W4ACDy0q9pHmfj/fXD7PL7Ml6BJWF1WtERL?=
+ =?us-ascii?Q?J0cTqyXTFASLYYd03rUZJiabvP/UIG6RcntG48beGSzF0TkK5M7yeE2rwp5c?=
+ =?us-ascii?Q?Qc8msbUJiEvr+Xgt5vLMHiAIbgCCJbnFVpf1Iav46zS+3ZKPOol2lkJVopMP?=
+ =?us-ascii?Q?ft2ozAcBKqOfnUU+edZoHGU8nL8ztH77wdy8jH+GL8kn31aNoj1r/LkhriZG?=
+ =?us-ascii?Q?WUffnlb/OlJv321hrDRDG9m2xFHAYnij7xEWdswJEyuFNFXSOL+ccwEcGXB0?=
+ =?us-ascii?Q?BQKB/ojcKpNxu0VPHHLmNCqQTznMnVsqHJjtQ0DCbGT72O4loyVEI5YCsbHi?=
+ =?us-ascii?Q?YUcl2qOpEoGVdMpTMGLdOwdLvJOu+FjcCPL66zzu826VK5JCs/l+pos+4a0b?=
+ =?us-ascii?Q?aH6PEB5ClSLQi1nMtezlj19Bjlzrp4zWQCALiiH+N6kOAsvslVIInZtymNQn?=
+ =?us-ascii?Q?4hHzaXfCRhDbgMZ1xiyqNxgyloQh24Q2/NchHs5yiBqG6Tor2eGbiQUV6Dyx?=
+ =?us-ascii?Q?3JfvPytxdVNmoNkMLM96deypuzsVWQsNfenjnvx9mecMTo0ZDR9SGU01ym/S?=
+ =?us-ascii?Q?qshaK5FzHlgLh0nu/R3hGbytNHDFAEM2SaOMsgORKGoQQUVZnAgsuTqtu5c6?=
+ =?us-ascii?Q?tkxGJw71Ui02YLd8UZzDdBfzkmxEUWTSE2+skEMWs2l0M2Z6WSFleJSecXH2?=
+ =?us-ascii?Q?DXPHrH0ilRjeGHdoNUrbJuLqm0Wpea6E1cRXGwxPCQte2Ev0+DUEF7RuMrsa?=
+ =?us-ascii?Q?mSPAydLEu2+mmVIde5K0ZWDlA71rxR9RRTOiPmRo?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6360.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a6a4e350-2044-4e9f-634a-08dc2d2f6465
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Feb 2024 07:34:35.0599 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 95d603bf-0001-4ac1-73a7-08dc2d2fb03e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Feb 2024 07:36:42.3254 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: V6XvZje0viITJl2LK2Ts0de+ZQIOIGAjZTjWHcJlKwpo4jPXgqDQ+XI8bOj1k+I7odaF6c8L9vmskc4iKcThWg==
+X-MS-Exchange-CrossTenant-userprincipalname: w8XdJpIraPXcJXOu51UmxDNd7USku5dlqCV6/KMIgBkmxR/cEwTREoWH5hvF9zSXErUUddm7F0RH556yY4zmlw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5284
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -176,7 +176,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 > -----Original Message-----
 > From: Sebastian Wick <sebastian.wick@redhat.com>
-> Sent: Tuesday, February 13, 2024 5:34 PM
+> Sent: Tuesday, February 13, 2024 5:35 PM
 > To: Shankar, Uma <uma.shankar@intel.com>
 > Cc: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org;
 > ville.syrjala@linux.intel.com; pekka.paalanen@collabora.com;
@@ -187,97 +187,79 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 > quic_naseer@quicinc.com; quic_cbraga@quicinc.com;
 > quic_abhinavk@quicinc.com; arthurgrillo@riseup.net; marcan@marcan.st;
 > Liviu.Dudau@arm.com; sashamcintosh@google.com; sean@poorly.run
-> Subject: Re: [PATCH 08/28] drm: Add Color lut range attributes
+> Subject: Re: [PATCH 09/28] drm: Add Color ops capability property
 >=20
-> On Tue, Feb 13, 2024 at 12:18:15PM +0530, Uma Shankar wrote:
-> > This defines a new structure to define color lut ranges, along with
-> > related macro definitions and enums. This will help describe segmented
-> > lut ranges/PWL LUTs in the hardware.
+> On Tue, Feb 13, 2024 at 12:18:16PM +0530, Uma Shankar wrote:
+> > Add capability property which a colorop can expose it's hardware's
+> > abilities. It's a blob property that can be filled with respective
+> > data structures depending on the colorop. The user space is expected
+> > to read this property and program the colorop accordingly.
 > >
 > > Signed-off-by: Uma Shankar <uma.shankar@intel.com>
 > > Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 > > ---
-> >  include/uapi/drm/drm_mode.h | 58
-> > +++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 58 insertions(+)
+> >  drivers/gpu/drm/drm_atomic_uapi.c |  3 +++
+> >  include/drm/drm_colorop.h         | 13 +++++++++++++
+> >  2 files changed, 16 insertions(+)
 > >
-> > diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> > index af67f32e0087..376498715d0e 100644
-> > --- a/include/uapi/drm/drm_mode.h
-> > +++ b/include/uapi/drm/drm_mode.h
-> > @@ -1014,6 +1014,64 @@ struct hdr_output_metadata {
-> >  				  DRM_MODE_PAGE_FLIP_ASYNC | \
-> >  				  DRM_MODE_PAGE_FLIP_TARGET)
+> > diff --git a/drivers/gpu/drm/drm_atomic_uapi.c
+> > b/drivers/gpu/drm/drm_atomic_uapi.c
+> > index 9f6a3a1c8020..95f1df73209c 100644
+> > --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> > +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> > @@ -770,6 +770,9 @@ drm_atomic_colorop_get_property(struct drm_colorop
+> *colorop,
+> >  		*val =3D state->curve_1d_type;
+> >  	} else if (property =3D=3D colorop->data_property) {
+> >  		*val =3D (state->data) ? state->data->base.id : 0;
+> > +	} else if (property =3D=3D colorop->hw_caps_property) {
+> > +		*val =3D state->hw_caps ?
+> > +			state->hw_caps->base.id : 0;
+> >  	} else {
+> >  		return -EINVAL;
+> >  	}
+> > diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
+> > index 5b8c36538491..f417e109c40a 100644
+> > --- a/include/drm/drm_colorop.h
+> > +++ b/include/drm/drm_colorop.h
+> > @@ -59,6 +59,12 @@ struct drm_colorop_state {
+> >  	 */
+> >  	enum drm_colorop_curve_1d_type curve_1d_type;
 > >
+> > +	/**
+> > +	 * @hw_caps:
+> > +	 *
+> > +	 */
+> > +	struct drm_property_blob *hw_caps;
+> > +
 >=20
-> All of this uses DRM_MODE_LUT namespace but it seems specifically for the=
- drm
-> colorop of type DRM_COLOROP_1D_LUT. Let's be consistent with the naming.
+> Is this supposed to be generic for any colorop or specifically for
+> DRM_COLOROP_1D_LUT?
 
-Yeah Sebastian, we will update this and get it aligned.
-Thanks for pointing out.
+We have intentionally kept it generic so that it can be used for any kind
+of hardware color block (1D LUT, 3D LUT etc.). Differentiation can be done
+by using the Color op type.
 
 Regards,
 Uma Shankar
 
-> > +/**
-> > + * DRM_MODE_LUT_INTERPOLATE
-> > + *
-> > + * linearly interpolate between the points  */ #define
-> > +DRM_MODE_LUT_INTERPOLATE BIT(0)
+> >  	/**
+> >  	 * @data:
+> >  	 *
+> > @@ -167,6 +173,13 @@ struct drm_colorop {
+> >  	 */
+> >  	struct drm_property *bypass_property;
+> >
+> > +	/**
+> > +	 * @hwlut_caps_property:
+> > +	 *
+> > +	 * Property to expose hardware lut capbilities.
+> > +	 */
+> > +	struct drm_property *hw_caps_property;
 > > +
-> > +/**
-> > + * DRM_MODE_LUT_REUSE_LAST
-> > + *
-> > + * the last value of the previous range is the
-> > + * first value of the current range.
-> > + */
-> > +#define DRM_MODE_LUT_REUSE_LAST BIT(1)
-> > +
-> > +/**
-> > + * DRM_MODE_LUT_NON_DECREASING
-> > + *
-> > + * the curve must be non-decreasing
-> > + */
-> > +#define DRM_MODE_LUT_NON_DECREASING BIT(2)
-> > +
-> > +/**
-> > + * DRM_MODE_LUT_REFLECT_NEGATIVE
-> > + *
-> > + *  the curve is reflected across origin for negative inputs  */
-> > +#define DRM_MODE_LUT_REFLECT_NEGATIVE BIT(3)
-> > +
-> > +/**
-> > + * DRM_MODE_LUT_SINGLE_CHANNEL
-> > + *
-> > + * the same curve (red) is used for blue and green channels as well
-> > +*/ #define DRM_MODE_LUT_SINGLE_CHANNEL BIT(4)
-> > +
-> > +/**
-> > + * struct drm_color_lut_range
-> > + *
-> > + * structure to advertise capability of a color hardware
-> > + * block that accepts LUT values.  It can represent LUTs with
-> > + * varied number of entries and distributions
-> > + * (Multi segmented, Logarithmic etc).
-> > + */
-> > +
-> > +struct drm_color_lut_range {
-> > +	/* DRM_MODE_LUT_* */
-> > +	__u32 flags;
-> > +	/* number of points on the curve */
-> > +	__u16 count;
-> > +	/* input/output bits per component */
-> > +	__u8 input_bpc, output_bpc;
-> > +	/* input start/end values */
-> > +	__s32 start, end;
-> > +	/* output min/max values */
-> > +	__s32 min, max;
-> > +};
-> > +
-> >  /*
-> >   * Request a page flip on the specified crtc.
-> >   *
+> >  	/**
+> >  	 * @curve_1d_type:
+> >  	 *
 > > --
 > > 2.42.0
 > >
