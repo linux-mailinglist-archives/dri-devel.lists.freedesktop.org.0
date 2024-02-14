@@ -2,52 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AFB4854638
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 10:38:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E6A0854705
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 11:21:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22AE910E723;
-	Wed, 14 Feb 2024 09:38:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DD2F10E4BE;
+	Wed, 14 Feb 2024 10:21:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YgdNLp5E";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="DbxQsStQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88E2510E71D;
- Wed, 14 Feb 2024 09:38:32 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 2F6B6CE1712;
- Wed, 14 Feb 2024 09:38:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18034C433C7;
- Wed, 14 Feb 2024 09:38:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1707903504;
- bh=mX6h8xLpvjfFMxB5/TrWr4gEAKLkQB72f27+0IUqRiI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YgdNLp5E0hJrXDlFPdTqhbOU7/dPpSWPzTnb8X9mMy70CAxFjGPCCqd/3LmBxT9ni
- sU2/LJc7trzXOTSs9pmMTOaa7xPKdftfCxU5Ot7g8QwjexKNtM2tGcwbfuevTE+zxa
- rZ19gpWP3zObR09Cr4XTVDh5AKFPKc7TC2oBWmWn5qG+xp+Ywofz9GAjsuwc6OJio5
- AVTaMoNffc4edAOm2hTZKepWG3UuuWUu5BNQzAqLt0wP6n69r1/Xykur2osClfAb0y
- g1LLrotHxuzgbXz6IqmK6vVZC+ajuCqktSnIyXI0H0sF83OhZvBgMjLkMDIv4YrvQA
- 06PPILnxwWv5w==
-Date: Wed, 14 Feb 2024 10:38:21 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- Luca Coelho <luciano.coelho@intel.com>
-Subject: Re: Re: Re: [PATCH drm-misc-next] drm/xe: Fix a missing argument to
- drm_err_printer
-Message-ID: <ks6hj65wd73sv6gwxfpndtaodxlvszlb6562slpafuea6d6gf4@ucotvvdxgz6t>
-References: <20240212103833.138263-1-thomas.hellstrom@linux.intel.com>
- <87bk8m9coe.fsf@intel.com>
- <yjeqfuxc3az2j5bbvt7g5wtjmulcuxhill2n2hspjsmiokxfnb@pdd27bmfvd2m>
- <87a5o48m24.fsf@intel.com>
+X-Greylist: delayed 1986 seconds by postgrey-1.36 at gabe;
+ Wed, 14 Feb 2024 10:21:24 UTC
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCEF810E4BE
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 10:21:24 +0000 (UTC)
+Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 41E4PkVV027555; Wed, 14 Feb 2024 10:47:58 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ selector1; bh=eSy7L3CTERV//puboplNFJezkHQTuY2RwI75nCRMoRo=; b=Db
+ xQsStQFzxDpY2CmGS1SwUk03Z+cjxrIfBBoJB65qUBm7TvK9Rdk0Nau3FMg4EnOZ
+ h9Z0DPPyMCm31cQa0zo7z7ghGFqDb5KrxgVDJUgCmX6SkxLzNga0Yvz3s1fYkWMg
+ /XQ7XVB8HfhSOwfDMU3OVmX8cvNkNPB0NpI8dp3cDwNiLG8SKjThKkfKMM15EULr
+ 83a2dCmAaM1fyWJqABHZ/qVVL7msb9zqUq6Q8KWMfoNZGgn/6p4NruJy6+EQKH7d
+ IeIn37Ta+Ligwm10zJggcQP60zIh+t85zidkpV+erYLOPaWMXGsCOn2KWalT1ltC
+ 8qwpYHJE/l2ybi6wlEvw==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3w6kk4v82b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 14 Feb 2024 10:47:58 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 830BF4002D;
+ Wed, 14 Feb 2024 10:47:46 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 98CC2235F2C;
+ Wed, 14 Feb 2024 10:46:34 +0100 (CET)
+Received: from [10.201.21.122] (10.201.21.122) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 14 Feb
+ 2024 10:46:33 +0100
+Message-ID: <494b51fa-0f0e-4c1b-add3-73b5fe0b3c29@foss.st.com>
+Date: Wed, 14 Feb 2024 10:46:32 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="q5ey5jh6ipvnd7vu"
-Content-Disposition: inline
-In-Reply-To: <87a5o48m24.fsf@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [drm-drm-misc:drm-misc-next v2] dt-bindings: nt35510: document
+ 'port' property
+To: Conor Dooley <conor@kernel.org>, Dario Binacchi
+ <dario.binacchi@amarulasolutions.com>, Heiko Stuebner <heiko@sntech.de>
+CC: <linux-kernel@vger.kernel.org>, Conor Dooley <conor+dt@kernel.org>, Daniel
+ Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Jessica Zhang
+ <quic_jesszhan@quicinc.com>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Linus Walleij
+ <linus.walleij@linaro.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, <devicetree@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>
+References: <20240131092852.643844-1-dario.binacchi@amarulasolutions.com>
+ <20240131-gap-making-59055befaf04@spud>
+Content-Language: en-US
+From: Alexandre TORGUE <alexandre.torgue@foss.st.com>
+In-Reply-To: <20240131-gap-making-59055befaf04@spud>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.201.21.122]
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-14_03,2024-02-12_03,2023-05-22_02
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,45 +91,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Heiko
 
---q5ey5jh6ipvnd7vu
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 1/31/24 16:53, Conor Dooley wrote:
+> On Wed, Jan 31, 2024 at 10:28:44AM +0100, Dario Binacchi wrote:
+>> Allow 'port' property (coming from panel-common.yaml) to be used in DTS:
+>>
+>>    st/stm32f769-disco-mb1166-reva09.dtb: panel@0: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
+>>
+>> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+>> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+> 
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> 
+> 
+>>
+>> ---
+>>
+>> Changes in v2:
+>> - Rework the patch to drop errors found by command
+>>    'make DT_CHECKER_FLAGS=-m dt_binding_check'.
+>>
+>>   .../devicetree/bindings/display/panel/novatek,nt35510.yaml       | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
+>> index a4afaff483b7..91921f4b0e5f 100644
+>> --- a/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
+>> +++ b/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
+>> @@ -31,6 +31,7 @@ properties:
+>>     vddi-supply:
+>>       description: regulator that supplies the vddi voltage
+>>     backlight: true
+>> +  port: true
+>>   
+>>   required:
+>>     - compatible
+>> -- 
+>> 2.43.0
+>>
 
-On Tue, Feb 13, 2024 at 04:40:19PM +0200, Jani Nikula wrote:
-> On Tue, 13 Feb 2024, Maxime Ripard <mripard@kernel.org> wrote:
-> > On Mon, Feb 12, 2024 at 12:53:05PM +0200, Jani Nikula wrote:
-> >> On Mon, 12 Feb 2024, Thomas Hellstr=F6m <thomas.hellstrom@linux.intel.=
-com> wrote:
-> >> > The indicated commit below added a device argument to the
-> >> > function, but there was a call in the xe driver that was
-> >> > not properly changed.
-> >>=20
-> >> Aww, crap. Looks like my drm-misc-next configs don't have xe enabled.
-> >
-> > FTR, there's defconfigs in the drm-rerere repo that are fairly well mai=
-ntained.
->=20
-> None of them have CONFIG_DRM_XE enabled.
->=20
-> What's the procedure for updating the defconfigs? Do we have it
-> documented somewhere?
+Do you plan to take this patch in drm-misc next branch ? As I have a 
+dependency with it to merge a DT patch I can take in my tree 
+(stm32-next) if you prefer. Let me know.
 
-I'm not sure there's a procedure, everytime I needed it I just changed
-the defconfig, committed and pushed.
-
-Maxime
-
---q5ey5jh6ipvnd7vu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZcyKDQAKCRDj7w1vZxhR
-xYP0AQDohCaqOvlfW6+mUouwoK1wGXGXm682OweS9p+fhF4JOwD/a2ZzkeCTTC0K
-ik7HY3+kF4cafGpEXp2CI1tb8/H4Iwc=
-=p1f9
------END PGP SIGNATURE-----
-
---q5ey5jh6ipvnd7vu--
+Cheers
+Alex
