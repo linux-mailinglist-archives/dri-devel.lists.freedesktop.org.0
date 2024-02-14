@@ -2,85 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A7888552E5
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 20:07:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60F348552F7
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Feb 2024 20:10:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5855C10E34A;
-	Wed, 14 Feb 2024 19:07:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59F8C10E239;
+	Wed, 14 Feb 2024 19:10:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="LwNrfRgR";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bTZPDRYP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AC6910E38C;
- Wed, 14 Feb 2024 19:07:27 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41EDJWwq032121; Wed, 14 Feb 2024 19:07:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=S0GpnYRvSVVFrmzzJ26wRTcnSobcuw4iJFNC0OyDquM=; b=Lw
- NrfRgRHy2JUgcGVTbH7GkqIPS5x7/RxmA6FEe79tHEsHZXIPgvMoOz3m9WjSCAma
- VGxq4mqUf4fPWx7lS2sPhaz3+qfBrJZ/5lbQghp5xFx1wsbs6fBbRekrApwr14aR
- HJi+oYb47/hgRKHyTXbRzUBf+s4VEA4g/EjQ91FFj4PxM1nMenHVQik08LTvqVw0
- cOXu+DgJk0OU5ZKBMYRYuUD3/7vJ2y3QPg1nVu/rezSMolZY2G7HJx5ekCmCtTUt
- T6ifR5q6xN2Vkx6/ll62QV/tSHXMfZh8OcpllyEBPxs4+O1f0HB7aky77y04JVGi
- W41QYjfzuhQirrX58QDA==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w8kkrj1sm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 14 Feb 2024 19:07:21 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41EJ7KEq020472
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 14 Feb 2024 19:07:20 GMT
-Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 14 Feb
- 2024 11:07:19 -0800
-Message-ID: <377d79d6-1cd8-95c8-7aea-4b715f96fa0a@quicinc.com>
-Date: Wed, 14 Feb 2024 11:07:18 -0800
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com
+ [209.85.219.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFF8E10E239
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 19:10:36 +0000 (UTC)
+Received: by mail-yb1-f177.google.com with SMTP id
+ 3f1490d57ef6-dcc71031680so2197734276.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Feb 2024 11:10:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1707937836; x=1708542636; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Uq831+oypzfGO9lO95Fszd/4mrvaWFJLcRrSZ1YqWm8=;
+ b=bTZPDRYPjYBqCNRhnf8d7we8w1ERzIk31tvOD2cuF8EuUYhXIMva/KmofOeo9hVgHX
+ JKbfonA1wUNIYL1j1O8busQYoWcWTgAviOJgoO01iEnrAiwn8VW5ORVpnBdJ2H+Zl4Ue
+ M1ceewVLJED2uQSz5L5u4bMtMdeCw0s6WKKgaYZW7lv2SxAca7jzSCSDzcdjgRVrgEgi
+ yp+tl+rXwNsIeglcQy5bwgPDqaRksq33cSonRoluhqcbZmpl5Qoo359f1p8zS1UtCvE/
+ zbYNCg+pLToXSROIcyxTkNk8VetUUJD+B9K36NrIo4DbRxOmFylss/mJfDCW7TXHAhHG
+ sEaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707937836; x=1708542636;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Uq831+oypzfGO9lO95Fszd/4mrvaWFJLcRrSZ1YqWm8=;
+ b=SbzXenAzvVuRpDfrhWuOTD9DqEGYpQ8yKV2kMFXwLlTLV8r7DI0O/522OSYrnRG2fr
+ L4uPPZ4v6GfRDlgwoQH/6dM17KF6OGJKStKxxP/kg0u4F3XLTvEtkBkK310ueViIu1e7
+ 4qFrLM7e8kmzB0+0iSDNouH2DO8Qk8hAylUeoQR3spKiuTJbe0cZGQ3QDDVGwVx11s3a
+ nt0indx8DQPnASX7MwzpX/+KbWSI7qW+Zok4oNyH8SZgISfNvNm06lHUoDtFiHaTFc/k
+ 9lauxeBYpmeOXrG8Do3LxnjTMymZNByWgJtP/EYhCurr5uZ2SFy23/Pf+AsAEhiFQX2t
+ aW4A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUUDHD4eSpNTD5zrMSgl+tO5EGQeyM9DSw4yxHFPgpKSGtx/BVrm+4qSFaNtPRNEbV5L+XnNOGuWkXJont1uFEQtDqMrz59E3oMH7L28JF9
+X-Gm-Message-State: AOJu0YxUs7TGY3zsLTbFtYkK0QI6eM/VvdcnkLwwWl9QdhJhORjnIubr
+ x2EAehPHDeao03HbJJgSJHWxwk6LzvGsjwxKspY4FonVN5w/gSSlyEocnqfUPUaAiZleDbn4h8C
+ izB5LDT7/cYibUYWNKd1ksgSnG6zu53n6L6bQ8A==
+X-Google-Smtp-Source: AGHT+IFmsVR2aJSFUOiWSYzFcUYy50TjKK+2YxD61ipvFBAbBI+bFm3GfY2tdB3QV5bM1o3Q0AKeikm65DKhHmKecag=
+X-Received: by 2002:a25:83cf:0:b0:dcd:5c7:8466 with SMTP id
+ v15-20020a2583cf000000b00dcd05c78466mr3316434ybm.44.1707937835898; Wed, 14
+ Feb 2024 11:10:35 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v3 03/12] drm/msm/dpu: take plane rotation into account
- for wide planes
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>
-CC: Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>
-References: <20230914050706.1058620-1-dmitry.baryshkov@linaro.org>
- <20230914050706.1058620-4-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230914050706.1058620-4-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: JCjtkxxo8RDpuqBbpprYOx2-PPnLYL2l
-X-Proofpoint-ORIG-GUID: JCjtkxxo8RDpuqBbpprYOx2-PPnLYL2l
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-14_11,2024-02-14_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 mlxlogscore=999
- clxscore=1015 priorityscore=1501 adultscore=0 bulkscore=0
- lowpriorityscore=0 mlxscore=0 malwarescore=0 suspectscore=0 phishscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402140148
+References: <20240213234513.2411604-1-quic_abhinavk@quicinc.com>
+ <CAA8EJpo0yeLyCkVvLFX7wUEV4+i+ORbaCB2qxN0izaWLdFqCrA@mail.gmail.com>
+ <eb8b3bac-5f97-8efd-721e-08e9544be3f8@quicinc.com>
+ <Zc0AR6pdLzDjCrAB@intel.com>
+ <fa63e9c1-3cec-41df-c643-33950346b76c@quicinc.com>
+In-Reply-To: <fa63e9c1-3cec-41df-c643-33950346b76c@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 14 Feb 2024 21:10:24 +0200
+Message-ID: <CAA8EJppqMZFG=wN3kdn75Mx6zYX58LDJHV6Vv3Zuk=bw-h3mRg@mail.gmail.com>
+Subject: Re: [PATCH] drm/dp: move intel_dp_vsc_sdp_pack() to generic helper
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, robdclark@gmail.com, 
+ freedreno@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ quic_jesszhan@quicinc.com, linux-kernel@vger.kernel.org, 
+ intel-xe@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,93 +94,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 14 Feb 2024 at 20:08, Abhinav Kumar <quic_abhinavk@quicinc.com> wro=
+te:
+>
+>
+>
+> On 2/14/2024 10:02 AM, Ville Syrj=C3=A4l=C3=A4 wrote:
+> > On Wed, Feb 14, 2024 at 09:17:34AM -0800, Abhinav Kumar wrote:
+> >>
+> >>
+> >> On 2/14/2024 12:15 AM, Dmitry Baryshkov wrote:
+> >>> On Wed, 14 Feb 2024 at 01:45, Abhinav Kumar <quic_abhinavk@quicinc.co=
+m> wrote:
+> >>>>
+> >>>> intel_dp_vsc_sdp_pack() can be re-used by other DRM drivers as well.
+> >>>> Lets move this to drm_dp_helper to achieve this.
+> >>>>
+> >>>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> >>>
+> >>> My preference would be to have packing functions in
+> >>> drivers/video/hdmi.c, as we already have
+> >>> hdmi_audio_infoframe_pack_for_dp() there.
+> >>>
+> >>
+> >> My preference is drm_dp_helper because it already has some VSC SDP stu=
+ff
+> >> and after discussion with Ville on IRC, I decided to post it this way.
+> >>
+> >> hdmi_audio_infoframe_pack_for_dp() is an exception from my PoV as the
+> >> hdmi audio infoframe fields were re-used and packed into a DP SDP
+> >> thereby re-using the existing struct hdmi_audio_infoframe .
+> >>
+> >> This is not like that. Here we pack from struct drm_dp_vsc_sdp to stru=
+ct
+> >> dp_sdp both of which had prior usages already in this file.
+> >>
+> >> So it all adds up and makes sense to me to be in this file.
+> >>
+> >> I will let the other DRM core maintainers comment on this.
+> >>
+> >> Ville, Jani?
+> >
+> > Yeah, I'm not sure bloating the (poorly named) hdmi.c with all
+> > SDP stuff is a great idea. Since other related stuff already
+> > lives in the drm_dp_helper.c that seems reasonable to me at this
+> > time. And if we get a decent amount of this then probably all
+> > DP SDP stuff should be extracted into its own file.
+> >
+>
+> Yes, thanks.
+>
+> > There are of course a few overlaps here andthere (the audio SDP
+> > I guess, and the CTA infoframe SDP). But I'm not sure that actually
+> > needs any SDP specific stuff in hdmi.c, or could we just let hdmi.c
+> > deal with the actual CTA-861 stuff and then have the DP SDP code
+> > wrap that up in its own thing externally? Dunno, haven't really
+> > looked at the details.
+> >
+>
+> Thats a good way to look at it. this packing is from DP spec and not CTA
+> so makes more sense to be in this file.
+>
+> In that case, R-b?
+>
+> >>
+> >>>> ---
+> >>>>    drivers/gpu/drm/display/drm_dp_helper.c | 78 ++++++++++++++++++++=
++++++
+> >>>>    drivers/gpu/drm/i915/display/intel_dp.c | 73 +-------------------=
+---
+> >>>>    include/drm/display/drm_dp_helper.h     |  3 +
+> >>>>    3 files changed, 84 insertions(+), 70 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/d=
+rm/display/drm_dp_helper.c
+> >>>> index b1ca3a1100da..066cfbbf7a91 100644
+> >>>> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> >>>> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> >>>> @@ -2916,6 +2916,84 @@ void drm_dp_vsc_sdp_log(const char *level, st=
+ruct device *dev,
+> >>>>    }
+> >>>>    EXPORT_SYMBOL(drm_dp_vsc_sdp_log);
+> >>>>
+> >>>> +/**
+> >>>> + * drm_dp_vsc_sdp_pack() - pack a given vsc sdp into generic dp_sdp
+> >>>> + * @vsc: vsc sdp initialized according to its purpose as defined in
+> >>>> + *       table 2-118 - table 2-120 in DP 1.4a specification
+> >>>> + * @sdp: valid handle to the generic dp_sdp which will be packed
+> >>>> + * @size: valid size of the passed sdp handle
+> >>>> + *
+> >>>> + * Returns length of sdp on success and error code on failure
+> >>>> + */
+> >>>> +ssize_t drm_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
+> >>>> +                           struct dp_sdp *sdp, size_t size)
+> >>>
+> >>> I know that you are just moving the function. Maybe there can be
+> >>> patch#2, which drops the size argument? The struct dp_sdp already has
+> >>> a defined size. The i915 driver just passes sizeof(sdp), which is mor=
+e
+> >>> or less useless.
+> >>>
+> >>
+> >> Yes this is a valid point, I also noticed this. I can post it on top o=
+f
+> >> this once we get an agreement and ack on this patch first.
+> >>
+
+From my side, with the promise of the size fixup.
+
+Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 
-On 9/13/2023 10:06 PM, Dmitry Baryshkov wrote:
-> Take into account the plane rotation and flipping when calculating src
-> positions for the wide plane parts.
-> 
-> This is not an issue yet, because rotation is only supported for the
-> UBWC planes and wide UBWC planes are rejected anyway because in parallel
-> multirect case only the half of the usual width is supported for tiled
-> formats. However it's better to fix this now rather than stumbling upon
-> it later.
-> 
-> Fixes: 80e8ae3b38ab ("drm/msm/dpu: add support for wide planes")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 27 ++++++++++++++---------
->   1 file changed, 17 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index c2aaaded07ed..67f9c2a62a17 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -827,16 +827,6 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->   		return -EINVAL;
->   	}
->   
-> -	pipe_cfg->src_rect = new_plane_state->src;
-> -
-> -	/* state->src is 16.16, src_rect is not */
-> -	pipe_cfg->src_rect.x1 >>= 16;
-> -	pipe_cfg->src_rect.x2 >>= 16;
-> -	pipe_cfg->src_rect.y1 >>= 16;
-> -	pipe_cfg->src_rect.y2 >>= 16;
-> -
-> -	pipe_cfg->dst_rect = new_plane_state->dst;
-> -
-
-Why were these lines moved down?
-
-So this change is doing two things:
-
-1) Using drm_rect_fp_to_int() instead of the hand-rolled right shifting
-2) Considering rotation for wide plane cases
-
-Do we need to break this up into 2?
-
->   	fb_rect.x2 = new_plane_state->fb->width;
->   	fb_rect.y2 = new_plane_state->fb->height;
->   
-> @@ -852,6 +842,15 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->   
->   	max_linewidth = pdpu->catalog->caps->max_linewidth;
->   
-> +	/* state->src is 16.16, src_rect is not */
-> +	drm_rect_fp_to_int(&pipe_cfg->src_rect, &new_plane_state->src);
-> +
-> +	pipe_cfg->dst_rect = new_plane_state->dst;
-> +
-> +	drm_rect_rotate(&pipe_cfg->src_rect,
-> +			new_plane_state->fb->width, new_plane_state->fb->height,
-> +			new_plane_state->rotation);
-> +
->   	if (drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) {
->   		/*
->   		 * In parallel multirect case only the half of the usual width
-> @@ -899,6 +898,14 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->   		r_pipe_cfg->dst_rect.x1 = pipe_cfg->dst_rect.x2;
->   	}
->   
-> +	drm_rect_rotate_inv(&pipe_cfg->src_rect,
-> +			    new_plane_state->fb->width, new_plane_state->fb->height,
-> +			    new_plane_state->rotation);
-> +	if (r_pipe->sspp)
-> +		drm_rect_rotate_inv(&r_pipe_cfg->src_rect,
-> +				    new_plane_state->fb->width, new_plane_state->fb->height,
-> +				    new_plane_state->rotation);
-> +
-
-iiuc, so we do
-
-1) rotate() on full plane
-2) rotate_inv() on left half-plane
-3) rotate_inv() on right half-plane
-
-If so, looks right to me.
-
-
->   	ret = dpu_plane_atomic_check_pipe(pdpu, pipe, pipe_cfg, fmt);
->   	if (ret)
->   		return ret;
+--=20
+With best wishes
+Dmitry
