@@ -2,53 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3945856B6F
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 18:46:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A462856B6C
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 18:46:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 428B010E401;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0812210E377;
 	Thu, 15 Feb 2024 17:46:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ngGxD5bJ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SdqqSvEF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 358DC10E136;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D317110E18F;
  Thu, 15 Feb 2024 17:46:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708019206; x=1739555206;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=ydBIJ4BSOuMNv4/d1kEpcsLwARN5fMaGVW2a+5OgKdE=;
- b=ngGxD5bJHXUr7ph1JZw176wfNxGFr2aestoliCf1sRvZaPLke98JGB29
- i5163OrAPzCVCq7rn4voD/slBYLIF8ltKU/qIVtRYBJCxNTpOF8TN+zdA
- ADtlHTSww2oWn+OVy0xdv0HaODBWLeeFp0q9544FwG0y6FbYYi97CzgNQ
- HkQTOYSzHO8L8l8Zb0Um0IRN38TeKAsU/NNZywvE5utHBeSwrtbWQmHgK
- 4EaII5a6VjPIBGrXDQX4hYVJd4EfcvHitN9l8M0jWjubS46YppGBo1jWF
- Jai2337NCUVPrhoByavYMKnF2zaF0apB5AnDDGoPVXncDjKCWOtmdkthq A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="13513978"
-X-IronPort-AV: E=Sophos;i="6.06,162,1705392000"; d="scan'208";a="13513978"
+ t=1708019207; x=1739555207;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=QsAcbwqS9NG5zOC8meKG7XXp4iiGY4OFkDlGSkASW1E=;
+ b=SdqqSvEF2fQ5YHAl8wexDDquArKRctin5PCrdeOFgF7yX29iXoGLmJ0u
+ lioLzoyMdhLB25UNG0xunFu0hosvRVLwO8dsNI4PhjSM4ggQa3FPXuBd2
+ ACF9EzwFVi3V9nXu+/XXGfuptbG7+xiIPB/yf/kv6JexJA/1s1CO1A6w3
+ BcVdfm2Rzcl54HvL2AzYrHzZ0dNYAqdbuOClZ/H6A0sWeYHcBnyyv4gK9
+ x7jZlAaQcX3MqwPnjfkVPFSNTfCwOe/y5RPX09QPYlcynb6UHV5QTmh/9
+ 0aAImthOfKb70spcyIWkwRKwq+k9aj2yeKayA0GKDiphj7DORIGAJDftR w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="13513990"
+X-IronPort-AV: E=Sophos;i="6.06,162,1705392000"; d="scan'208";a="13513990"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2024 09:46:41 -0800
+ 15 Feb 2024 09:46:42 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,162,1705392000"; 
-   d="scan'208";a="3892065"
+   d="scan'208";a="3892077"
 Received: from dhalpin-mobl1.ger.corp.intel.com (HELO mwauld-mobl1.intel.com)
  ([10.252.21.158])
  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2024 09:46:39 -0800
+ 15 Feb 2024 09:46:40 -0800
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-xe@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+Cc: dri-devel@lists.freedesktop.org,
  Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Maxime Ripard <mripard@redhat.com>
-Subject: [PATCH 1/6] drm/tests/drm_buddy: fix 32b build
-Date: Thu, 15 Feb 2024 17:44:32 +0000
-Message-ID: <20240215174431.285069-7-matthew.auld@intel.com>
+ stable@vger.kernel.org
+Subject: [PATCH 2/6] drm/buddy: fix range bias
+Date: Thu, 15 Feb 2024 17:44:33 +0000
+Message-ID: <20240215174431.285069-8-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240215174431.285069-7-matthew.auld@intel.com>
+References: <20240215174431.285069-7-matthew.auld@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -67,85 +69,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Doesn't seem to compile on 32b, presumably due to u64 mod/division.
-Simplest is to just switch over to u32 here. Also make print modifiers
-consistent with that.
+There is a corner case here where start/end is after/before the block
+range we are currently checking. If so we need to be sure that splitting
+the block will eventually give use the block size we need. To do that we
+should adjust the block range to account for the start/end, and only
+continue with the split if the size/alignment will fit the requested
+size. Not doing so can result in leaving split blocks unmerged when it
+eventually fails.
 
-Fixes: a64056bb5a32 ("drm/tests/drm_buddy: add alloc_contiguous test")
-Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Fixes: afea229fe102 ("drm: improve drm_buddy_alloc function")
 Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
 Cc: Christian König <christian.koenig@amd.com>
-Cc: Maxime Ripard <mripard@redhat.com>
+Cc: <stable@vger.kernel.org> # v5.18+
 ---
- drivers/gpu/drm/tests/drm_buddy_test.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/drm_buddy.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
-index fee6bec757d1..edacc1adb28f 100644
---- a/drivers/gpu/drm/tests/drm_buddy_test.c
-+++ b/drivers/gpu/drm/tests/drm_buddy_test.c
-@@ -21,7 +21,7 @@ static inline u64 get_size(int order, u64 chunk_size)
- 
- static void drm_test_buddy_alloc_contiguous(struct kunit *test)
+diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+index c1a99bf4dffd..d09540d4065b 100644
+--- a/drivers/gpu/drm/drm_buddy.c
++++ b/drivers/gpu/drm/drm_buddy.c
+@@ -332,6 +332,7 @@ alloc_range_bias(struct drm_buddy *mm,
+ 		 u64 start, u64 end,
+ 		 unsigned int order)
  {
--	u64 mm_size, ps = SZ_4K, i, n_pages, total;
-+	u32 mm_size, ps = SZ_4K, i, n_pages, total;
++	u64 req_size = mm->chunk_size << order;
  	struct drm_buddy_block *block;
- 	struct drm_buddy mm;
- 	LIST_HEAD(left);
-@@ -56,30 +56,30 @@ static void drm_test_buddy_alloc_contiguous(struct kunit *test)
- 		KUNIT_ASSERT_FALSE_MSG(test,
- 				       drm_buddy_alloc_blocks(&mm, 0, mm_size,
- 							      ps, ps, list, 0),
--				       "buddy_alloc hit an error size=%d\n",
-+				       "buddy_alloc hit an error size=%u\n",
- 				       ps);
- 	} while (++i < n_pages);
+ 	struct drm_buddy_block *buddy;
+ 	LIST_HEAD(dfs);
+@@ -367,6 +368,15 @@ alloc_range_bias(struct drm_buddy *mm,
+ 		if (drm_buddy_block_is_allocated(block))
+ 			continue;
  
- 	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
- 							   3 * ps, ps, &allocated,
- 							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
--			       "buddy_alloc didn't error size=%d\n", 3 * ps);
-+			       "buddy_alloc didn't error size=%u\n", 3 * ps);
- 
- 	drm_buddy_free_list(&mm, &middle);
- 	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
- 							   3 * ps, ps, &allocated,
- 							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
--			       "buddy_alloc didn't error size=%llu\n", 3 * ps);
-+			       "buddy_alloc didn't error size=%u\n", 3 * ps);
- 	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
- 							   2 * ps, ps, &allocated,
- 							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
--			       "buddy_alloc didn't error size=%llu\n", 2 * ps);
-+			       "buddy_alloc didn't error size=%u\n", 2 * ps);
- 
- 	drm_buddy_free_list(&mm, &right);
- 	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
- 							   3 * ps, ps, &allocated,
- 							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
--			       "buddy_alloc didn't error size=%llu\n", 3 * ps);
-+			       "buddy_alloc didn't error size=%u\n", 3 * ps);
- 	/*
- 	 * At this point we should have enough contiguous space for 2 blocks,
- 	 * however they are never buddies (since we freed middle and right) so
-@@ -88,13 +88,13 @@ static void drm_test_buddy_alloc_contiguous(struct kunit *test)
- 	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
- 							    2 * ps, ps, &allocated,
- 							    DRM_BUDDY_CONTIGUOUS_ALLOCATION),
--			       "buddy_alloc hit an error size=%d\n", 2 * ps);
-+			       "buddy_alloc hit an error size=%u\n", 2 * ps);
- 
- 	drm_buddy_free_list(&mm, &left);
- 	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
- 							    3 * ps, ps, &allocated,
- 							    DRM_BUDDY_CONTIGUOUS_ALLOCATION),
--			       "buddy_alloc hit an error size=%d\n", 3 * ps);
-+			       "buddy_alloc hit an error size=%u\n", 3 * ps);
- 
- 	total = 0;
- 	list_for_each_entry(block, &allocated, link)
++		if (block_start < start || block_end > end) {
++			u64 adjusted_start = max(block_start, start);
++			u64 adjusted_end = min(block_end, end);
++
++			if (round_down(adjusted_end + 1, req_size) <=
++			    round_up(adjusted_start, req_size))
++				continue;
++		}
++
+ 		if (contains(start, end, block_start, block_end) &&
+ 		    order == drm_buddy_block_order(block)) {
+ 			/*
 -- 
 2.43.0
 
