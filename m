@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8910B856470
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 14:32:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C6E1856472
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 14:32:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD94710E7BC;
-	Thu, 15 Feb 2024 13:32:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 272CF10E7DA;
+	Thu, 15 Feb 2024 13:32:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kBtNp5uS";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QxJJV9Rc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD32A10E7BC;
- Thu, 15 Feb 2024 13:32:09 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F27D10E7DA;
+ Thu, 15 Feb 2024 13:32:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708003930; x=1739539930;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=xP2x+0oCU2VUeBJg+acvjjGA26vEwKMDv8882I1yP2E=;
- b=kBtNp5uSGwbXNxDjanMDlmvKMOnyYul6tiGr5QD5Z+nnDMh3ybRMd/7C
- sk9FQI8Rl1qTzWsGM21HK2CubNOz1SZ49zK+NUhi4DjXafY/abMcE2Lxt
- 9MlclU+ytUBusu1aQkF3iBdgl+52XLLcCSZcAmAaesIzCOM8eb4gGIHQC
- frC4hqBzdsZ3qcdtwnpmIvZnEV5SSsB4ztp5prmUWbDWO3fVOeU9zjo+l
- IUpqvSt1qAW+LJvkO9uSI0ig1tWGA6t/GTlQV2HaM7WCb7xDf4LXtC8n8
- QnbwO2igKPbFPLixGXX/NwPrtP/GnIGHkxsC3CQNIq9SSVheXlKpsaywa Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="2000318"
+ t=1708003941; x=1739539941;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=O4jJ8i/gK8Pis+sDOmjDFyNSBQ1DPWMyPahef8wSofw=;
+ b=QxJJV9RcrGT3kaXmxftvn4m9kCoE2jyM11BkxXo9cUVvjSf/CllfJuBq
+ +f4DpfUVXRN0aXD79uKcooH9mnClax0pMrq3MsIl52GyPx0lzWad2V6hU
+ EgFKlq/0Fel+KcMajiHUsoj98TDXlNQOSvw8/dQXTMfjWhP4EvSC+nox5
+ 1AAC4NJR3MVif9BbFpiVvem1hmcrPtGYxXnBXHAPrhKO869fM7Szmi0dG
+ +ANtYhpualRe8z5P4i4tsr7pJvN5eHuD4eAp15FRSWpcE3n00w9a8/1ly
+ kzjd3WQzCUhA6iGVgVwJ4C1tlvF5vNucUjahemfFRcj3mCM+ULaSJ8l5d w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="1943624"
 X-IronPort-AV: E=Sophos;i="6.06,161,1705392000"; 
-   d="scan'208";a="2000318"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2024 05:32:10 -0800
+   d="scan'208";a="1943624"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2024 05:32:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,161,1705392000"; 
-   d="scan'208";a="3489788"
+X-IronPort-AV: E=Sophos;i="6.06,161,1705392000"; d="scan'208";a="26690872"
 Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost)
  ([10.246.32.150])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2024 05:32:05 -0800
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2024 05:32:14 -0800
 From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
 To: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
  Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
@@ -48,11 +47,14 @@ To: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
  Leon Romanovsky <leon@kernel.org>, linux-kernel@vger.kernel.org,
  linux-rdma@vger.kernel.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [PATCH 0/3] PCI LNKCTL2 RMW Accessor Cleanup
-Date: Thu, 15 Feb 2024 15:31:52 +0200
-Message-Id: <20240215133155.9198-1-ilpo.jarvinen@linux.intel.com>
+Cc: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Lukas Wunner <lukas@wunner.de>
+Subject: [PATCH 1/3] drm/radeon: Use RMW accessors for changing LNKCTL2
+Date: Thu, 15 Feb 2024 15:31:53 +0200
+Message-Id: <20240215133155.9198-2-ilpo.jarvinen@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240215133155.9198-1-ilpo.jarvinen@linux.intel.com>
+References: <20240215133155.9198-1-ilpo.jarvinen@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -71,28 +73,151 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series converts open-coded LNKCTL2 RMW accesses to use RMW
-accessor. These patches used to be part of PCIe BW controller series
-[1] which will require RMW ops to LNKCTL2 be properly locked.
+Convert open coded RMW accesses for LNKCTL2 to use
+pcie_capability_clear_and_set_word() which makes its easier to
+understand what the code tries to do.
 
-However, since these RMW accessor patches are useful as cleanups on
-their own I chose to send them now separately to reduce the size of the
-BW controller series.
+LNKCTL2 is not really owned by any driver because it is a collection of
+control bits that PCI core might need to touch. RMW accessors already
+have support for proper locking for a selected set of registers
+(LNKCTL2 is not yet among them but likely will be in the future) to
+avoid losing concurrent updates.
 
-[1] https://lore.kernel.org/linux-pci/20240105112547.7301-1-ilpo.jarvinen@linux.intel.com/
+Suggested-by: Lukas Wunner <lukas@wunner.de>
+Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+---
+ drivers/gpu/drm/radeon/cik.c | 40 ++++++++++++++----------------------
+ drivers/gpu/drm/radeon/si.c  | 40 ++++++++++++++----------------------
+ 2 files changed, 30 insertions(+), 50 deletions(-)
 
-Ilpo Järvinen (3):
-  drm/radeon: Use RMW accessors for changing LNKCTL2
-  drm/amdgpu: Use RMW accessors for changing LNKCTL2
-  RDMA/hfi1: Use RMW accessors for changing LNKCTL2
-
- drivers/gpu/drm/amd/amdgpu/cik.c  | 41 +++++++++++--------------------
- drivers/gpu/drm/amd/amdgpu/si.c   | 41 +++++++++++--------------------
- drivers/gpu/drm/radeon/cik.c      | 40 +++++++++++-------------------
- drivers/gpu/drm/radeon/si.c       | 40 +++++++++++-------------------
- drivers/infiniband/hw/hfi1/pcie.c | 30 ++++++----------------
- 5 files changed, 68 insertions(+), 124 deletions(-)
-
+diff --git a/drivers/gpu/drm/radeon/cik.c b/drivers/gpu/drm/radeon/cik.c
+index 10be30366c2b..b5e96a8fc2c1 100644
+--- a/drivers/gpu/drm/radeon/cik.c
++++ b/drivers/gpu/drm/radeon/cik.c
+@@ -9592,28 +9592,18 @@ static void cik_pcie_gen3_enable(struct radeon_device *rdev)
+ 								   PCI_EXP_LNKCTL_HAWD);
+ 
+ 				/* linkctl2 */
+-				pcie_capability_read_word(root, PCI_EXP_LNKCTL2,
+-							  &tmp16);
+-				tmp16 &= ~(PCI_EXP_LNKCTL2_ENTER_COMP |
+-					   PCI_EXP_LNKCTL2_TX_MARGIN);
+-				tmp16 |= (bridge_cfg2 &
+-					  (PCI_EXP_LNKCTL2_ENTER_COMP |
+-					   PCI_EXP_LNKCTL2_TX_MARGIN));
+-				pcie_capability_write_word(root,
+-							   PCI_EXP_LNKCTL2,
+-							   tmp16);
+-
+-				pcie_capability_read_word(rdev->pdev,
+-							  PCI_EXP_LNKCTL2,
+-							  &tmp16);
+-				tmp16 &= ~(PCI_EXP_LNKCTL2_ENTER_COMP |
+-					   PCI_EXP_LNKCTL2_TX_MARGIN);
+-				tmp16 |= (gpu_cfg2 &
+-					  (PCI_EXP_LNKCTL2_ENTER_COMP |
+-					   PCI_EXP_LNKCTL2_TX_MARGIN));
+-				pcie_capability_write_word(rdev->pdev,
+-							   PCI_EXP_LNKCTL2,
+-							   tmp16);
++				pcie_capability_clear_and_set_word(root, PCI_EXP_LNKCTL2,
++								   PCI_EXP_LNKCTL2_ENTER_COMP |
++								   PCI_EXP_LNKCTL2_TX_MARGIN,
++								   bridge_cfg2 |
++								   (PCI_EXP_LNKCTL2_ENTER_COMP |
++								    PCI_EXP_LNKCTL2_TX_MARGIN));
++				pcie_capability_clear_and_set_word(rdev->pdev, PCI_EXP_LNKCTL2,
++								   PCI_EXP_LNKCTL2_ENTER_COMP |
++								   PCI_EXP_LNKCTL2_TX_MARGIN,
++								   gpu_cfg2 |
++								   (PCI_EXP_LNKCTL2_ENTER_COMP |
++								    PCI_EXP_LNKCTL2_TX_MARGIN));
+ 
+ 				tmp = RREG32_PCIE_PORT(PCIE_LC_CNTL4);
+ 				tmp &= ~LC_SET_QUIESCE;
+@@ -9627,15 +9617,15 @@ static void cik_pcie_gen3_enable(struct radeon_device *rdev)
+ 	speed_cntl &= ~LC_FORCE_DIS_SW_SPEED_CHANGE;
+ 	WREG32_PCIE_PORT(PCIE_LC_SPEED_CNTL, speed_cntl);
+ 
+-	pcie_capability_read_word(rdev->pdev, PCI_EXP_LNKCTL2, &tmp16);
+-	tmp16 &= ~PCI_EXP_LNKCTL2_TLS;
++	tmp16 = 0;
+ 	if (speed_cap == PCIE_SPEED_8_0GT)
+ 		tmp16 |= PCI_EXP_LNKCTL2_TLS_8_0GT; /* gen3 */
+ 	else if (speed_cap == PCIE_SPEED_5_0GT)
+ 		tmp16 |= PCI_EXP_LNKCTL2_TLS_5_0GT; /* gen2 */
+ 	else
+ 		tmp16 |= PCI_EXP_LNKCTL2_TLS_2_5GT; /* gen1 */
+-	pcie_capability_write_word(rdev->pdev, PCI_EXP_LNKCTL2, tmp16);
++	pcie_capability_clear_and_set_word(rdev->pdev, PCI_EXP_LNKCTL2,
++					   PCI_EXP_LNKCTL2_TLS, tmp16);
+ 
+ 	speed_cntl = RREG32_PCIE_PORT(PCIE_LC_SPEED_CNTL);
+ 	speed_cntl |= LC_INITIATE_LINK_SPEED_CHANGE;
+diff --git a/drivers/gpu/drm/radeon/si.c b/drivers/gpu/drm/radeon/si.c
+index 85e9cba49cec..8eeaea64c75d 100644
+--- a/drivers/gpu/drm/radeon/si.c
++++ b/drivers/gpu/drm/radeon/si.c
+@@ -7193,28 +7193,18 @@ static void si_pcie_gen3_enable(struct radeon_device *rdev)
+ 								   PCI_EXP_LNKCTL_HAWD);
+ 
+ 				/* linkctl2 */
+-				pcie_capability_read_word(root, PCI_EXP_LNKCTL2,
+-							  &tmp16);
+-				tmp16 &= ~(PCI_EXP_LNKCTL2_ENTER_COMP |
+-					   PCI_EXP_LNKCTL2_TX_MARGIN);
+-				tmp16 |= (bridge_cfg2 &
+-					  (PCI_EXP_LNKCTL2_ENTER_COMP |
+-					   PCI_EXP_LNKCTL2_TX_MARGIN));
+-				pcie_capability_write_word(root,
+-							   PCI_EXP_LNKCTL2,
+-							   tmp16);
+-
+-				pcie_capability_read_word(rdev->pdev,
+-							  PCI_EXP_LNKCTL2,
+-							  &tmp16);
+-				tmp16 &= ~(PCI_EXP_LNKCTL2_ENTER_COMP |
+-					   PCI_EXP_LNKCTL2_TX_MARGIN);
+-				tmp16 |= (gpu_cfg2 &
+-					  (PCI_EXP_LNKCTL2_ENTER_COMP |
+-					   PCI_EXP_LNKCTL2_TX_MARGIN));
+-				pcie_capability_write_word(rdev->pdev,
+-							   PCI_EXP_LNKCTL2,
+-							   tmp16);
++				pcie_capability_clear_and_set_word(root, PCI_EXP_LNKCTL2,
++								   PCI_EXP_LNKCTL2_ENTER_COMP |
++								   PCI_EXP_LNKCTL2_TX_MARGIN,
++								   bridge_cfg2 &
++								   (PCI_EXP_LNKCTL2_ENTER_COMP |
++								    PCI_EXP_LNKCTL2_TX_MARGIN));
++				pcie_capability_clear_and_set_word(rdev->pdev, PCI_EXP_LNKCTL2,
++								   PCI_EXP_LNKCTL2_ENTER_COMP |
++								   PCI_EXP_LNKCTL2_TX_MARGIN,
++								   gpu_cfg2 &
++								   (PCI_EXP_LNKCTL2_ENTER_COMP |
++								    PCI_EXP_LNKCTL2_TX_MARGIN));
+ 
+ 				tmp = RREG32_PCIE_PORT(PCIE_LC_CNTL4);
+ 				tmp &= ~LC_SET_QUIESCE;
+@@ -7228,15 +7218,15 @@ static void si_pcie_gen3_enable(struct radeon_device *rdev)
+ 	speed_cntl &= ~LC_FORCE_DIS_SW_SPEED_CHANGE;
+ 	WREG32_PCIE_PORT(PCIE_LC_SPEED_CNTL, speed_cntl);
+ 
+-	pcie_capability_read_word(rdev->pdev, PCI_EXP_LNKCTL2, &tmp16);
+-	tmp16 &= ~PCI_EXP_LNKCTL2_TLS;
++	tmp16 = 0;
+ 	if (speed_cap == PCIE_SPEED_8_0GT)
+ 		tmp16 |= PCI_EXP_LNKCTL2_TLS_8_0GT; /* gen3 */
+ 	else if (speed_cap == PCIE_SPEED_5_0GT)
+ 		tmp16 |= PCI_EXP_LNKCTL2_TLS_5_0GT; /* gen2 */
+ 	else
+ 		tmp16 |= PCI_EXP_LNKCTL2_TLS_2_5GT; /* gen1 */
+-	pcie_capability_write_word(rdev->pdev, PCI_EXP_LNKCTL2, tmp16);
++	pcie_capability_clear_and_set_word(rdev->pdev, PCI_EXP_LNKCTL2,
++					   PCI_EXP_LNKCTL2_TLS, tmp16);
+ 
+ 	speed_cntl = RREG32_PCIE_PORT(PCIE_LC_SPEED_CNTL);
+ 	speed_cntl |= LC_INITIATE_LINK_SPEED_CHANGE;
 -- 
 2.39.2
 
