@@ -2,71 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05147855CC7
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 09:45:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44922855CD4
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 09:50:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1860110E119;
-	Thu, 15 Feb 2024 08:45:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5379910E21A;
+	Thu, 15 Feb 2024 08:50:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="CsJhA48i";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="MHgn7VXr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com
- [209.85.128.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C64AE10E295
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 08:45:43 +0000 (UTC)
-Received: by mail-yw1-f177.google.com with SMTP id
- 00721157ae682-607d8506099so2223817b3.0
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 00:45:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1707986742; x=1708591542; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=IDB6oJU318rjrhCQ1hGZkP4wdh542f+aaw58PBz7AZ0=;
- b=CsJhA48iaaxCk1p2Az/MwE9X/lAm0NuLGhrF96w9QcgTTkLPcPlou6JDZb6KHAhXhI
- GVpHupjootdwTbVanETJhMsePu63tU3jkA2TGckDA5kMIerJ/lMMByrvS552FamUPmuu
- RwVMOGnjA3dVvO1QKueHTS4BQijRCenzJ2IlbWlcnHOlOIi3703Fsvhd4jW6VDD6aMp3
- lo0kId1UcWe4sXuYOp2b1S+D5r8lKpE+DaNWxyBu6byr8BfS0LaX52tMfg710tcz3GEe
- bhoQSorUNQXgYbsT3s2S/tEgstFHGW3c9R+ov7Xq8Eg/9A41YP32ot4MEpyRIglOS3yZ
- fHgQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E186510E21A
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 08:50:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1707987002;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=sX3oVMyy9XRTy9yx5EbbzgkZnCPKuMcmoALywqbasxE=;
+ b=MHgn7VXrKHzxquys6MBXNzqZLrVsFNYpJvBFZX6DE+v7Ec1s6mZLZD+v1BHIwgtYdy49dV
+ K7yLV6Fuxf2Vw6pVWMXDIFvB2HEfoFtbRTp92AmcDeH6T/c22DZoYpX+COl0mtUs96gJQW
+ zBnNSlTqKFOLYQwqTxSXCMTIIewzr1o=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-679-S9dyy_FbPE-6Kg1zsfxkTg-1; Thu, 15 Feb 2024 03:49:59 -0500
+X-MC-Unique: S9dyy_FbPE-6Kg1zsfxkTg-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-42dc9d738cfso5739301cf.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 00:49:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707986742; x=1708591542;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=IDB6oJU318rjrhCQ1hGZkP4wdh542f+aaw58PBz7AZ0=;
- b=CJ8uYCdy6XioSCl3bSLqOJhiFt7fOBKBIc2TyUs5hfMyNOqcUTsdBKGjcqaBlF8Ote
- QW8XckC8eh9q5MImg2CMsab8Onu/T5XjSRLuBjHyb5vSNCokLFTcilIEP3G6z+GmY4no
- S+JW2MwO74NdPaFkA+LrTt9HzHnjNl0UHB8NCLcFSoWZtqF2/5fkAUFGfqEYrVdLDTqB
- Mvc0Lt3hLgenR/rFC/njyulINNYSo/+vlaUhhxYGwazRDUS89FO8WwMqMynlg+x/whA0
- N1JSRaRa+RzF6AYBvdyevOmEHrMX5a07PNz/M5/ydHjNzIT19I/B2Ei0q1tnFTWDmCO3
- FFew==
+ d=1e100.net; s=20230601; t=1707986999; x=1708591799;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sX3oVMyy9XRTy9yx5EbbzgkZnCPKuMcmoALywqbasxE=;
+ b=eHd7dCYH72AJoPx0cZ3VH4EpLHOVvRMV15q1OEbnpSaE7KxB/JeaQAuqXmNWD5qCGQ
+ rgf6x3mXHFFlMrmaahMspIbxCqGv+O51KnRrber0DHzUfPc/NzYRaKTjK37biRSdA6wd
+ e9DLl4mQXjfmKHIqcLiLR51/eW2ix2ok5FaDLWDOyFzSaH6pucJrF5j0Z2hMjGF+XXam
+ CKC58SRNPS9/yQy+jCmODDXJw6iNIkz2L1IjNJPbWlaEr9eukC7Tr5BqB8suSg0Ar9sj
+ JNtJz7b5gNH6l3RcAkEpMnA8paYrO5aDUWu1HlRtzKWfyqOxvXskqHhsgzMES7oUlkjK
+ zehA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXJg7BHOMjv/6V8hkeuTCfLR1yxMJF8yfmYnbYLwy/QJmcEP81Y3CpKoXqINQFLzjQqTwY011pUI/Lrn99FarkcbQI0VVbmohm8VQwnwJDv
-X-Gm-Message-State: AOJu0YwEzMuH8V51iR1ClwGLjvdUxo7VwL5tuMeAuE4CzFR1nELMv/Pe
- xdlgi9wFiFLOlU2KNPadvMwd5HvC0axyvDZivFnEKtoVBFzpErMjT09bhfiTxjxDR3tMQo75reU
- JUkk17XScpHndTeIXRXwyTD80KuErPIwnqVrC+Y+SqstDOemN
-X-Google-Smtp-Source: AGHT+IFzc71r1OL/JY6adDM6klR65tkU0P7RysIBbCnoPUE2T9XlewvFmLVCz330Isl1bQG7NkJmffZ0Wr+GEFrCTbo=
-X-Received: by 2002:a05:6902:1ac2:b0:dcd:8a5:d5b8 with SMTP id
- db2-20020a0569021ac200b00dcd08a5d5b8mr1106283ybb.49.1707986742341; Thu, 15
- Feb 2024 00:45:42 -0800 (PST)
+ AJvYcCW+qMZ8TmAjgizODTX2ULi7XqTdHKKyj1zFyBdzhl/Ni2Ec8YDLURQB7SiHJRfTIRFfaUsXTsPq+rsLWxWlx6Y6+4DvwESw2NCS2YniABuW
+X-Gm-Message-State: AOJu0YxlWQ4MT8noMJC6REaNxjwapmg7TAWlSpL9dlkHAtj5ghgdskYi
+ 7lrCUG5UCWkK2COV/1PHNLbPyHYcRndcr3UV3jcHDwV8U2oa5xAVdISvkhjjgigHhf2QjCihkwM
+ k8NJPl9y9gRce+KlTp/E3ev2LrG54jBU9XrkUFL/4Myd+esT60vb02X6+APFLB83uOQ==
+X-Received: by 2002:ac8:6b54:0:b0:42d:cff1:7bb7 with SMTP id
+ x20-20020ac86b54000000b0042dcff17bb7mr639521qts.15.1707986998883; 
+ Thu, 15 Feb 2024 00:49:58 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE3B9fZ09ND00SBjtT6N26t6zEKQ5EZUvT+XzYQCT6zkY+YvFMumJXRAkJRqaoOsMt2NE0/7A==
+X-Received: by 2002:ac8:6b54:0:b0:42d:cff1:7bb7 with SMTP id
+ x20-20020ac86b54000000b0042dcff17bb7mr639506qts.15.1707986998591; 
+ Thu, 15 Feb 2024 00:49:58 -0800 (PST)
+Received: from localhost ([2a01:e0a:b25:f902::ff])
+ by smtp.gmail.com with ESMTPSA id
+ d22-20020a05622a15d600b0042dbcf23a64sm390258qty.1.2024.02.15.00.49.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Feb 2024 00:49:58 -0800 (PST)
+Date: Thu, 15 Feb 2024 09:49:56 +0100
+From: Maxime Ripard <mripard@redhat.com>
+To: Dave Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-fixes
+Message-ID: <b4ffqzigtfh6cgzdpwuk6jlrv3dnk4hu6etiizgvibysqgtl2p@42n2gdfdd5eu>
 MIME-Version: 1.0
-References: <20240214180347.1399-1-quic_parellan@quicinc.com>
- <20240214180347.1399-17-quic_parellan@quicinc.com>
-In-Reply-To: <20240214180347.1399-17-quic_parellan@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 15 Feb 2024 10:45:32 +0200
-Message-ID: <CAA8EJppvxr_Cc6xYkrTPQtiDDqMrErByvz9a532ccbdDgsM7GQ@mail.gmail.com>
-Subject: Re: [PATCH v3 16/19] drm/msm/dpu: modify encoder programming for CDM
- over DP
-To: Paloma Arellano <quic_parellan@quicinc.com>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, robdclark@gmail.com, seanpaul@chromium.org, 
- swboyd@chromium.org, quic_abhinavk@quicinc.com, quic_jesszhan@quicinc.com, 
- quic_khsieh@quicinc.com, marijn.suijten@somainline.org, 
- neil.armstrong@linaro.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="iqzyv4n4wkdriy45"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,222 +95,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 14 Feb 2024 at 20:04, Paloma Arellano <quic_parellan@quicinc.com> wrote:
->
-> Adjust the encoder format programming in the case of video mode for DP
-> to accommodate CDM related changes.
->
-> Changes in v2:
->         - Move timing engine programming to a separate patch from this
->           one
->         - Move update_pending_flush_periph() invocation completely to
->           this patch
->         - Change the logic of dpu_encoder_get_drm_fmt() so that it only
->           calls drm_mode_is_420_only() instead of doing additional
->           unnecessary checks
->         - Create new functions msm_dp_needs_periph_flush() and it's
->           supporting function dpu_encoder_needs_periph_flush() to check
->           if the mode is YUV420 and VSC SDP is enabled before doing a
->           peripheral flush
->
-> Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 35 +++++++++++++++++++
->  .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  | 13 +++++++
->  .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  | 19 ++++++++++
->  drivers/gpu/drm/msm/dp/dp_display.c           | 18 ++++++++++
->  drivers/gpu/drm/msm/msm_drv.h                 | 17 ++++++++-
->  5 files changed, 101 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 7e7796561009a..6280c6be6dca9 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -222,6 +222,41 @@ static u32 dither_matrix[DITHER_MATRIX_SZ] = {
->         15, 7, 13, 5, 3, 11, 1, 9, 12, 4, 14, 6, 0, 8, 2, 10
->  };
->
-> +u32 dpu_encoder_get_drm_fmt(struct dpu_encoder_phys *phys_enc)
-> +{
-> +       struct drm_encoder *drm_enc;
-> +       struct dpu_encoder_virt *dpu_enc;
-> +       struct drm_display_info *info;
-> +       struct drm_display_mode *mode;
-> +
-> +       drm_enc = phys_enc->parent;
-> +       dpu_enc = to_dpu_encoder_virt(drm_enc);
-> +       info = &dpu_enc->connector->display_info;
-> +       mode = &phys_enc->cached_mode;
-> +
-> +       if (drm_mode_is_420_only(info, mode))
-> +               return DRM_FORMAT_YUV420;
-> +
-> +       return DRM_FORMAT_RGB888;
-> +}
-> +
-> +bool dpu_encoder_needs_periph_flush(struct dpu_encoder_phys *phys_enc)
-> +{
-> +       struct drm_encoder *drm_enc;
-> +       struct dpu_encoder_virt *dpu_enc;
-> +       struct msm_display_info *disp_info;
-> +       struct msm_drm_private *priv;
-> +       struct drm_display_mode *mode;
-> +
-> +       drm_enc = phys_enc->parent;
-> +       dpu_enc = to_dpu_encoder_virt(drm_enc);
-> +       disp_info = &dpu_enc->disp_info;
-> +       priv = drm_enc->dev->dev_private;
-> +       mode = &phys_enc->cached_mode;
-> +
-> +       return phys_enc->hw_intf->cap->type == INTF_DP && phys_enc->hw_cdm &&
-> +              msm_dp_needs_periph_flush(priv->dp[disp_info->h_tile_instance[0]], mode);
-> +}
->
->  bool dpu_encoder_is_widebus_enabled(const struct drm_encoder *drm_enc)
->  {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> index f43d57d9c74e1..211a3d90eb690 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> @@ -341,6 +341,19 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
->   */
->  unsigned int dpu_encoder_helper_get_dsc(struct dpu_encoder_phys *phys_enc);
->
-> +/**
-> + * dpu_encoder_get_drm_fmt - return DRM fourcc format
-> + * @phys_enc: Pointer to physical encoder structure
-> + */
-> +u32 dpu_encoder_get_drm_fmt(struct dpu_encoder_phys *phys_enc);
-> +
-> +/**
-> + * dpu_encoder_needs_periph_flush - return true if physical encoder requires
-> + *     peripheral flush
-> + * @phys_enc: Pointer to physical encoder structure
-> + */
-> +bool dpu_encoder_needs_periph_flush(struct dpu_encoder_phys *phys_enc);
-> +
->  /**
->   * dpu_encoder_helper_split_config - split display configuration helper function
->   *     This helper function may be used by physical encoders to configure
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> index f02411b062c4c..e29bc4bd39208 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> @@ -415,8 +415,15 @@ static int dpu_encoder_phys_vid_control_vblank_irq(
->  static void dpu_encoder_phys_vid_enable(struct dpu_encoder_phys *phys_enc)
->  {
->         struct dpu_hw_ctl *ctl;
-> +       struct dpu_hw_cdm *hw_cdm;
-> +       const struct dpu_format *fmt = NULL;
-> +       u32 fmt_fourcc = DRM_FORMAT_RGB888;
->
->         ctl = phys_enc->hw_ctl;
-> +       hw_cdm = phys_enc->hw_cdm;
-> +       if (hw_cdm)
 
-I thought that Abhinav proposed to drop the if(hw_cdm) condition here.
-LGTM otherwise.
+--iqzyv4n4wkdriy45
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> +               fmt_fourcc = dpu_encoder_get_drm_fmt(phys_enc);
-> +       fmt = dpu_get_dpu_format(fmt_fourcc);
->
->         DPU_DEBUG_VIDENC(phys_enc, "\n");
->
-> @@ -425,6 +432,8 @@ static void dpu_encoder_phys_vid_enable(struct dpu_encoder_phys *phys_enc)
->
->         dpu_encoder_helper_split_config(phys_enc, phys_enc->hw_intf->idx);
->
-> +       dpu_encoder_helper_phys_setup_cdm(phys_enc, fmt, CDM_CDWN_OUTPUT_HDMI);
-> +
->         dpu_encoder_phys_vid_setup_timing_engine(phys_enc);
->
->         /*
-> @@ -440,6 +449,16 @@ static void dpu_encoder_phys_vid_enable(struct dpu_encoder_phys *phys_enc)
->         if (ctl->ops.update_pending_flush_merge_3d && phys_enc->hw_pp->merge_3d)
->                 ctl->ops.update_pending_flush_merge_3d(ctl, phys_enc->hw_pp->merge_3d->idx);
->
-> +       if (ctl->ops.update_pending_flush_cdm && phys_enc->hw_cdm)
-> +               ctl->ops.update_pending_flush_cdm(ctl, hw_cdm->idx);
-> +
-> +       /*
-> +        * Peripheral flush must be updated whenever flushing SDP packets is needed.
-> +        * SDP packets are required for any YUV format (YUV420, YUV422, YUV444).
-> +        */
-> +       if (ctl->ops.update_pending_flush_periph && dpu_encoder_needs_periph_flush(phys_enc))
-> +               ctl->ops.update_pending_flush_periph(ctl, phys_enc->hw_intf->idx);
-> +
->  skip_flush:
->         DPU_DEBUG_VIDENC(phys_enc,
->                 "update pending flush ctl %d intf %d\n",
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 4b04388719363..ebcc76ef1d590 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -1397,6 +1397,24 @@ void __exit msm_dp_unregister(void)
->         platform_driver_unregister(&dp_display_driver);
->  }
->
-> +bool msm_dp_is_yuv_420_enabled(const struct msm_dp *dp_display,
-> +                              const struct drm_display_mode *mode)
-> +{
-> +       struct dp_display_private *dp;
-> +       const struct drm_display_info *info;
-> +
-> +       dp = container_of(dp_display, struct dp_display_private, dp_display);
-> +       info = &dp_display->connector->display_info;
-> +
-> +       return dp->panel->vsc_sdp_supported && drm_mode_is_420_only(info, mode);
-> +}
-> +
-> +bool msm_dp_needs_periph_flush(const struct msm_dp *dp_display,
-> +                              const struct drm_display_mode *mode)
-> +{
-> +       return msm_dp_is_yuv_420_enabled(dp_display, mode);
-> +}
-> +
->  bool msm_dp_wide_bus_available(const struct msm_dp *dp_display)
->  {
->         struct dp_display_private *dp;
-> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-> index 16a7cbc0b7dd8..b876ebd48effe 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.h
-> +++ b/drivers/gpu/drm/msm/msm_drv.h
-> @@ -387,7 +387,10 @@ void __exit msm_dp_unregister(void);
->  int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
->                          struct drm_encoder *encoder);
->  void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp_display);
-> -
-> +bool msm_dp_is_yuv_420_enabled(const struct msm_dp *dp_display,
-> +                              const struct drm_display_mode *mode);
-> +bool msm_dp_needs_periph_flush(const struct msm_dp *dp_display,
-> +                              const struct drm_display_mode *mode);
->  bool msm_dp_wide_bus_available(const struct msm_dp *dp_display);
->
->  #else
-> @@ -409,6 +412,18 @@ static inline void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm
->  {
->  }
->
-> +static inline bool msm_dp_is_yuv_420_enabled(const struct msm_dp *dp_display,
-> +                                            const struct drm_display_mode *mode)
-> +{
-> +       return false;
-> +}
-> +
-> +static inline bool msm_dp_needs_periph_flush(const struct msm_dp *dp_display,
-> +                                            const struct drm_display_mode *mode)
-> +{
-> +       return false;
-> +}
-> +
->  static inline bool msm_dp_wide_bus_available(const struct msm_dp *dp_display)
->  {
->         return false;
-> --
-> 2.39.2
->
+Hi,
 
+Here's this week drm-misc-fixes PR
 
--- 
-With best wishes
-Dmitry
+Maxime
+
+drm-misc-fixes-2024-02-15:
+A suspend/resume error fix for ivpu, a couple of scheduler fixes for
+nouveau, a patch to support large page arrays in prime, a uninitialized
+variable fix in crtc, a locking fix in rockchip/vop2 and a buddy
+allocator error reporting fix.
+The following changes since commit 5f8408aca66772d3aa9b4831577b2ac5ec41bcd9:
+
+  accel/ivpu: Add job status for jobs aborted by the driver (2024-02-06 13:37:34 +0100)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2024-02-15
+
+for you to fetch changes up to a64056bb5a3215bd31c8ce17d609ba0f4d5c55ea:
+
+  drm/tests/drm_buddy: add alloc_contiguous test (2024-02-14 15:22:21 +0100)
+
+----------------------------------------------------------------
+A suspend/resume error fix for ivpu, a couple of scheduler fixes for
+nouveau, a patch to support large page arrays in prime, a uninitialized
+variable fix in crtc, a locking fix in rockchip/vop2 and a buddy
+allocator error reporting fix.
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      nouveau/svm: fix kvcalloc() argument order
+
+Arunpravin Paneer Selvam (1):
+      drm/buddy: Fix alloc_range() error handling code
+
+Danilo Krummrich (2):
+      drm/nouveau: don't fini scheduler if not initialized
+      drm/nouveau: omit to create schedulers using the legacy uAPI
+
+Harshit Mogalapalli (1):
+      drm/rockchip: vop2: add a missing unlock in vop2_crtc_atomic_enable()
+
+Jacek Lawrynowicz (1):
+      accel/ivpu: Fix DevTLB errors on suspend/resume and recovery
+
+Matthew Auld (1):
+      drm/tests/drm_buddy: add alloc_contiguous test
+
+Philip Yang (1):
+      drm/prime: Support page array >= 4GB
+
+Rob Clark (1):
+      drm/crtc: fix uninitialized variable use even harder
+
+ drivers/accel/ivpu/ivpu_hw_37xx.c            | 44 ++++++++++----
+ drivers/accel/ivpu/ivpu_pm.c                 | 39 ++++++------
+ drivers/gpu/drm/drm_buddy.c                  |  6 ++
+ drivers/gpu/drm/drm_crtc.c                   |  1 +
+ drivers/gpu/drm/drm_prime.c                  |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_abi16.c      | 20 +++++--
+ drivers/gpu/drm/nouveau/nouveau_abi16.h      |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_drm.c        |  7 ++-
+ drivers/gpu/drm/nouveau/nouveau_drv.h        |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_exec.c       |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_sched.c      | 38 +++++++++++-
+ drivers/gpu/drm/nouveau/nouveau_sched.h      |  6 +-
+ drivers/gpu/drm/nouveau/nouveau_svm.c        |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_uvmm.c       |  2 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c |  4 +-
+ drivers/gpu/drm/tests/drm_buddy_test.c       | 89 ++++++++++++++++++++++++++++
+ 16 files changed, 216 insertions(+), 50 deletions(-)
+
+--iqzyv4n4wkdriy45
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZc3QMwAKCRDj7w1vZxhR
+xRZAAQC1+lM9MSha6mE5SXxoPZ4TxfLFiO1UB8coWlOMMZo0jQD8CLKKSFmarIZU
+afZUz6ljN/nYUxdsvWWGUEUIG7wBtwg=
+=Ku2g
+-----END PGP SIGNATURE-----
+
+--iqzyv4n4wkdriy45--
+
