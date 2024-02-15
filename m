@@ -2,66 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F302B8562CA
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 13:13:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F7638562CB
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 13:13:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6285910E730;
-	Thu, 15 Feb 2024 12:13:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79D3410E738;
+	Thu, 15 Feb 2024 12:13:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="vn0WNA4H";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Y0UMQMog";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 446B610E730
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 12:13:21 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 41FCD1RD110654;
- Thu, 15 Feb 2024 06:13:01 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1707999181;
- bh=TJ0yNevOP636XIwjw9GslgubE0f5OWjcY8GZRp0ladc=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=vn0WNA4HZuuMrikuBDPLvnNW0/+LvmCmlwdntaPvMCWr0iWqMGnHA2wo6S0P5x542
- QHTCFicqV0TKFot4t5NM8ckUsM4vWi/xTTOgPPEyWhql+c7p/q+SsPYd+8Mv5u56dp
- 0lOl31pORu3qnzZcC68ettBy4Xp5ZzafrJjmk2pQ=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 41FCD14q109834
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 15 Feb 2024 06:13:01 -0600
-Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 15
- Feb 2024 06:13:01 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 15 Feb 2024 06:13:01 -0600
-Received: from [172.24.227.31] (uda0496377.dhcp.ti.com [172.24.227.31])
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 41FCC4qn059758;
- Thu, 15 Feb 2024 06:12:58 -0600
-Message-ID: <1a056ce4-3f43-4ca7-bc29-d297cb38a1d0@ti.com>
-Date: Thu, 15 Feb 2024 17:42:57 +0530
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EE6710E738
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 12:13:29 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id
+ ffacd0b85a97d-33aeb088324so411672f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 04:13:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1707999208; x=1708604008; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ztKOJXZUQlmom6xQKGWtUiTuW3B1WQBrh5Kjye/DMFE=;
+ b=Y0UMQMogAyE1qGREmt+Rqpxl4DqEimgrn3YZL5gvgWcBVg5kGWvWyWr+BBoxqd4+Ig
+ vH57zSd2zS+EuvSjpgPOpTgglt5QUfiErkYq3p9nTlXan3cp/a8ANq8oaA6gIcpVRD8x
+ n3h1m68qqoO99Jhj2A5q52Oy8GTm3wvkrSIhoINcSIPAzrE/gOy32heyeEKrl3HpftpX
+ KFoEDefI4W6dPbfqZ0XOvwJtHhCI9MPv0SLF/Wx87QJGQ/1W7M5J00nK8RDsiAp0NFXi
+ uy1OZi2oJ+i74hdxacRYbjfxwYujiB6iybuDqYl+yd0mKz/kLVSihyg1Idfr95dIww4k
+ marw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707999208; x=1708604008;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ztKOJXZUQlmom6xQKGWtUiTuW3B1WQBrh5Kjye/DMFE=;
+ b=R673fxqRn1Akng+Xz6s0G72f5nYr/IXcRjoLikUPASsJdlg/t0KbIE74AiWqQ17Dj0
+ BzdKcM8iZjg6VkBLjBYEWnX6tQrJ9NxevyW8rkmxmRtFvG15gM2ivt/AUCLSdV4s4wPj
+ PGNT3NlPsHZ1HsiSpFQKiaTmJyDVBQ8dqP2r92PyrtvUEvLK+NgqwcIiON4Qd+qvn/Y3
+ OhtozsYAClVeS466DpN0HSeZU7TOZpqw6A7ADlDtvWsUPJb9Hchi2EpjuYFoqMI+gzND
+ ALvAEurI0N1K8XA5dUgc+T3oOqi0yzvSehmwaE7R6VByLGgg8Z5jIM2Dw2jkpduhSDuW
+ iECQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWxRNfw4E0FcekAksA4wISb/3kmFKEQ3rxoQ97Uhj32Rbyq/TaP5+OMXlt6GxqjRVka7YBSOKxMrATSVo30zL970HodP/JtzO/3KIu1/T2t
+X-Gm-Message-State: AOJu0Yxw7gopvjWNSaEF6PYCGETHLEcThrrzTc3d40GNQabfX+6x+WeU
+ gu3j5liiS7mDBQ1ikbqAkUj2ySnuyuqAFBtBppt07XwirgAbR3I5XEb0HpdWWBE=
+X-Google-Smtp-Source: AGHT+IG3P5/6JWNhRAZMxDeU3U+UujVMo6057seoNpz5jKX5VhBBtJ3zIzJ42dclINgr2k0ttUEtXg==
+X-Received: by 2002:adf:f489:0:b0:33b:49db:c719 with SMTP id
+ l9-20020adff489000000b0033b49dbc719mr1501651wro.39.1707999208004; 
+ Thu, 15 Feb 2024 04:13:28 -0800 (PST)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ z3-20020a5d6543000000b0033b583ba5e0sm1591192wrv.92.2024.02.15.04.13.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Feb 2024 04:13:27 -0800 (PST)
+Date: Thu, 15 Feb 2024 12:13:26 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: lee@kernel.org, jingoohan1@gmail.com, deller@gmx.de, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH 00/10] backlight: Replace struct fb_info in interfaces
+Message-ID: <20240215121326.GL9758@aspen.lan>
+References: <20240212162645.5661-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/tidss: Fix sync-lost issue with two displays
-Content-Language: en-US
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Jyri Sarha
- <jyri.sarha@iki.fi>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, "Sam
- Ravnborg" <sam@ravnborg.org>, Devarsh Thakkar <devarsht@ti.com>, "Francesco
- Dolcini" <francesco@dolcini.it>
-CC: Tomi Valkeinen <tomi.valkeinen@ti.com>, <dri-devel@lists.freedesktop.org>, 
- <linux-kernel@vger.kernel.org>
-References: <20240213-tidss-fixes-v1-0-d709e8dfa505@ideasonboard.com>
- <20240213-tidss-fixes-v1-2-d709e8dfa505@ideasonboard.com>
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-In-Reply-To: <20240213-tidss-fixes-v1-2-d709e8dfa505@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240212162645.5661-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,59 +84,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Feb 12, 2024 at 05:16:33PM +0100, Thomas Zimmermann wrote:
+> Backlight drivers implement struct backlight_ops.check_fb, which
+> uses struct fb_info in its interface. Replace the callback with one
+> the does not use fb_info.
+>
+> In DRM, we have several drivers that implement backlight support. By
+> including <linux/backlight.h> these drivers depend on <linux/fb.h>.
+> At the same time, fbdev is deprecated for new drivers and likely to
+> be replaced on many systems.
+>
+> This patchset is part of a larger effort to implement the backlight
+> code without depending on fbdev.
+>
+> Patch 1 makes the backlight core match backlight and framebuffer
+> devices via struct fb_info.bl_dev. Patches 2 to 9 then go through
+> drivers and remove unnecessary implementations of check_fb. Finally,
+> patch 10 replaces the check_fb hook with controls_device, which
+> uses the framebuffer's Linux device instead of the framebuffer.
+
+I won't reply individually but I also took a look at the patches for
+the combo devices and it all looked good to me from a backlight
+point of view.
+
+However I don't want to drop Reviewed-by: on them since it risks those
+bit being mistaken for an ack and merged ahead of the patch 1...
 
 
-On 13/02/24 13:46, Tomi Valkeinen wrote:
-> A sync lost issue can be observed with two displays, when moving a plane
-> from one disabled display to an another disabled display, and then
-> enabling the display to which the plane was moved to. The exact
-> requirements for this to trigger are not clear.
-> 
-> It looks like the issue is that the layers are left enabled in the first
-> display's OVR registers. Even if the corresponding VP is disabled, it
-> still causes an issue, as if the disabled VP and its OVR would still be
-> in use, leading to the same VID being used by two OVRs. However, this is
-> just speculation based on testing the DSS behavior.
-> 
-> Experimentation shows that as a workaround, we can disable all the
-> layers in the OVR when disabling a VP. There should be no downside to
-> this, as the OVR is anyway effectively disabled if its VP is disabled,
-> and it seems to solve the sync lost issue.
-> 
-> However, there may be a bigger issue in play here, related to J721e
-> erratum i2097 ("DSS: Disabling a Layer Connected to Overlay May Result
-> in Synclost During the Next Frame"). Experimentation also shows that the
-> OVR's CHANNELIN field has similar issue. So we may need to revisit this
-> when we find out more about the core issue.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Fixes: 32a1795f57ee ("drm/tidss: New driver for TI Keystone platform Display SubSystem")
-
-Reviewed-by: Aradhya Bhatia <a-bhatia1@ti.com>
-
-> ---
->  drivers/gpu/drm/tidss/tidss_crtc.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
-> index 5f838980c7a1..94f8e3178df5 100644
-> --- a/drivers/gpu/drm/tidss/tidss_crtc.c
-> +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
-> @@ -265,6 +265,16 @@ static void tidss_crtc_atomic_disable(struct drm_crtc *crtc,
->  
->  	reinit_completion(&tcrtc->framedone_completion);
->  
-> +	/*
-> +	 * If a layer is left enabled when the videoport is disabled, and the
-> +	 * vid pipeline that was used for the layer is taken into use on
-> +	 * another videoport, the DSS will report sync lost issues. Disable all
-> +	 * the layers here as a work-around.
-> +	 */
-> +	for (u32 layer = 0; layer < tidss->feat->num_planes; layer++)
-> +		dispc_ovr_enable_layer(tidss->dispc, tcrtc->hw_videoport, layer,
-> +				       false);
-> +
->  	dispc_vp_disable(tidss->dispc, tcrtc->hw_videoport);
->  
->  	if (!wait_for_completion_timeout(&tcrtc->framedone_completion,
-> 
+Daniel.
