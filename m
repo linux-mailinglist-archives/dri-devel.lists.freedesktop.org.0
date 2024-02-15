@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 151F0855FE2
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 11:46:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B435B855FE7
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 11:46:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F407610E06C;
-	Thu, 15 Feb 2024 10:46:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B34C510E463;
+	Thu, 15 Feb 2024 10:46:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="tCDSnKve";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="3xpIKCTi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D9ED10E4B7
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 10:46:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1578610E57F
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 10:46:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1707993956;
- bh=wuxysMNMqCk725hkpLxM7t6pHbp0NDW7ymjHD5cQXRI=;
+ s=mail; t=1707993983;
+ bh=YbT37hERPMotSbqysWVXhccVGhmIL5NWBAzDOuVxwJo=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=tCDSnKveaq5j/GLl1+L0oFpMDQgbIQ4NMt/FmFS8WugixvZe9Ca7nobUxropZiPHj
- 8/1+UaHZg3GK+4Y1zbP7J3z2QTF61t+UES2J59VDtFVVDNFzUcoD8c29/qqIN7FB6v
- 6Wh4nvjRgff92JXI3pyhNyk9ZhrHuyE4rowP5v/jt6Lo8Zhf/sKbboxkk0kby0nrdZ
- D4MGUcnBXn1tD87uY36SsuivaK79yi+QVYTl3behqlYMoBcgx5YqlTeV8zgE5ZCJkM
- 9H0R2PeS5Q+i6tKSPdEP+IHw/llXSoy6vkGTwLBvH4IO58v/VZ7SpT+J0oGVkq+uvv
- Upa/r6mNPmr3g==
+ b=3xpIKCTiI4T2EIGKteQ1V5vk5Ykel3u0GclVdzPNz2BVTzI+JuiTpjFJ9OO8VrMQn
+ Q7Z12jsjx/DJGyab5s9d0jv5M1DhUkaHD9hyLV4yn+5mnONLSWcXJ8ysyRtBQJXJEZ
+ 3TzWRL2OpuvR3gZxxAZ1xkgqbwJoNEhlG5cmPL4b8uWp+/RZpR41s5Ys24593D9hUX
+ SBiPR2kqz7O06TpoKA+buky6hJincltVxPygzHSYS8cjkSY/FxJgwkYJEGGafwqNWA
+ 4xlA9DWhjyFSIV6DVNOgifAVu72GEMWw4gMQZzy+kQ+W28gal2MX2ddqJuVh2taRHY
+ qXnHq6ptKefnw==
 Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 7FC843780FC7;
- Thu, 15 Feb 2024 10:45:55 +0000 (UTC)
-Message-ID: <1fdf2c07-8240-4711-a708-b555932dabc6@collabora.com>
-Date: Thu, 15 Feb 2024 11:45:54 +0100
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id D0DF83780FC7;
+ Thu, 15 Feb 2024 10:46:21 +0000 (UTC)
+Message-ID: <96cbca68-052f-42dd-a410-da9061d54c06@collabora.com>
+Date: Thu, 15 Feb 2024 11:46:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 06/13] drm/mediatek: Turn off the layers with zero
- width or height
+Subject: Re: [PATCH v5 07/13] drm/mediatek: Support alpha blending in display
+ driver
 Content-Language: en-US
 To: Hsiao Chien Sung <shawn.sung@mediatek.com>,
  Chun-Kuang Hu <chunkuang.hu@kernel.org>
@@ -50,9 +50,9 @@ Cc: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
  linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org
 References: <20240215101119.12629-1-shawn.sung@mediatek.com>
- <20240215101119.12629-7-shawn.sung@mediatek.com>
+ <20240215101119.12629-8-shawn.sung@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20240215101119.12629-7-shawn.sung@mediatek.com>
+In-Reply-To: <20240215101119.12629-8-shawn.sung@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,60 +71,34 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 15/02/24 11:11, Hsiao Chien Sung ha scritto:
-> We found that IGT (Intel GPU Tool) will try to commit layers with
-> zero width or height and lead to undefined behaviors in hardware.
-> Disable the layers in such a situation.
+> Support "Pre-multiplied" and "None" blend mode on MediaTek's chips by
+> adding correct blend mode property when the planes init.
+> Before this patch, only the "Coverage" mode (default) is supported.
 > 
-> Fixes: 777b7bc86a0a3 ("drm/mediatek: Add ovl_adaptor support for MT8195")
-> Fixes: fa97fe71f6f93 ("drm/mediatek: Add ETHDR support for MT8195")
+> For more information, there are three pixel blend modes in DRM driver:
+> "None", "Pre-multiplied", and "Coverage".
+> 
+> To understand the difference between these modes, let's take a look at
+> the following two approaches to do alpha blending:
+> 
+> 1. Straight:
+> dst.RGB = src.RGB * src.A + dst.RGB * (1 - src.A)
+> This is straightforward and easy to understand, when the source layer is
+> compositing with the destination layer, it's alpha will affect the
+> result. This is also known as "post-multiplied", or "Coverage" mode.
+> 
+> 2. Pre-multiplied:
+> dst.RGB = src.RGB + dst.RGB * (1 - src.A)
+> Since the source RGB have already multiplied its alpha, only destination
+> RGB need to multiply it. This is the "Pre-multiplied" mode in DRM.
+> 
+> For the "None" blend mode in DRM, it means the pixel alpha is ignored
+> when compositing the layers, only the constant alpha for the composited
+> layer will take effects.
 > 
 > Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
-
-This commit should be sent separately from this series, as it is fixing things
-that are not related just to IGT, but also to corner cases in regular non-testing
-usecases.
-
-In any case, it's not mandatory as that depends on what the maintainer prefers,
-so it's CK's call anyway.
-
-Besides that,
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
 
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-> ---
->   drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c | 2 +-
->   drivers/gpu/drm/mediatek/mtk_ethdr.c            | 7 ++++++-
->   2 files changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-> index d4a13a1402148..68a20312ac6f1 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-> @@ -157,7 +157,7 @@ void mtk_ovl_adaptor_layer_config(struct device *dev, unsigned int idx,
->   	merge = ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_MERGE0 + idx];
->   	ethdr = ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0];
->   
-> -	if (!pending->enable) {
-> +	if (!pending->enable || !pending->width || !pending->height) {
->   		mtk_merge_stop_cmdq(merge, cmdq_pkt);
->   		mtk_mdp_rdma_stop(rdma_l, cmdq_pkt);
->   		mtk_mdp_rdma_stop(rdma_r, cmdq_pkt);
-> diff --git a/drivers/gpu/drm/mediatek/mtk_ethdr.c b/drivers/gpu/drm/mediatek/mtk_ethdr.c
-> index 73dc4da3ba3bd..69872b77922eb 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_ethdr.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_ethdr.c
-> @@ -160,7 +160,12 @@ void mtk_ethdr_layer_config(struct device *dev, unsigned int idx,
->   	if (idx >= 4)
->   		return;
->   
-> -	if (!pending->enable) {
-> +	if (!pending->enable || !pending->width || !pending->height) {
-> +		/*
-> +		 * instead of disabling layer with MIX_SRC_CON directly
-> +		 * set the size to 0 to avoid screen shift due to mixer
-> +		 * mode switch (hardware behavior)
-> +		 */
->   		mtk_ddp_write(cmdq_pkt, 0, &mixer->cmdq_base, mixer->regs, MIX_L_SRC_SIZE(idx));
->   		return;
->   	}
 
