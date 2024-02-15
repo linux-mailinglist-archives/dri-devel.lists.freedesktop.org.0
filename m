@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 099CB855ECA
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 11:11:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 743A6855ED1
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 11:11:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45E1F10E055;
-	Thu, 15 Feb 2024 10:11:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75A2210E4D2;
+	Thu, 15 Feb 2024 10:11:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="oMbC1yy+";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="mgUhkzgD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C25110E055
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 10:11:25 +0000 (UTC)
-X-UUID: 91e8cbc2cbea11ee9e680517dc993faa-20240215
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1173110E295
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 10:11:28 +0000 (UTC)
+X-UUID: 924c372acbea11eea2298b7352fd921d-20240215
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
- h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=XOJkWQuYj8nCONUrUw96w7cCOMuC7FXFo4cEfRB5HGg=; 
- b=oMbC1yy+BJvyJ2JVBRW60MimjBV9AI17enxm+I8CJruSociS50XHneIfR2IUNm+7+cUZ1uvG7F8eJkRwmchjkmecvq9tGM/d68Epqd0gORkQ/xZnYrC/4m09WXABpUQh6RL/cgU7V2ANi1sPbDl0k+pSFIJtEqGqFMJED/B+okQ=;
+ h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
+ bh=o7dMHDyYlKWxpD3CFPLXVYn1RcqkLJwusXwZ46FWLUw=; 
+ b=mgUhkzgDPI3PhNxBYgJe/ZMbcJ49HnHUmjENgV1QhkM+i0mOaZCbxkrgNgJ+2Mk91nPdCZhejkg5DIjoaGytoT8ZCBihOM4ICzh8U1M8zKTyp4/3N5z2xVsZzy8Yo66O1hYtmSHIzLyvOt/6CzDQaA6PUFcXOneGWK1M5pFSZpw=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.37, REQID:dfc447f9-b73a-44a7-bb09-241cf3ac133c, IP:0,
+X-CID-O-INFO: VERSION:1.1.37, REQID:d8f8ba44-cbbc-4343-94ae-e9a66f7f55c2, IP:0,
  U
  RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
  release,TS:0
-X-CID-META: VersionHash:6f543d0, CLOUDID:4d636b80-4f93-4875-95e7-8c66ea833d57,
+X-CID-META: VersionHash:6f543d0, CLOUDID:b54d528f-e2c0-40b0-a8fe-7c7e47299109,
  B
  ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
  RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
@@ -34,13 +34,13 @@ X-CID-META: VersionHash:6f543d0, CLOUDID:4d636b80-4f93-4875-95e7-8c66ea833d57,
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 91e8cbc2cbea11ee9e680517dc993faa-20240215
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw01.mediatek.com (envelope-from <shawn.sung@mediatek.com>)
+X-UUID: 924c372acbea11eea2298b7352fd921d-20240215
+Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by
+ mailgw02.mediatek.com (envelope-from <shawn.sung@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 21792639; Thu, 15 Feb 2024 18:11:22 +0800
+ with ESMTP id 68608691; Thu, 15 Feb 2024 18:11:23 +0800
 Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1118.26; Thu, 15 Feb 2024 18:11:21 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
@@ -56,14 +56,27 @@ CC: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
  <jason-ch.chen@mediatek.corp-partner.google.com>, "Nancy . Lin"
  <nancy.lin@mediatek.com>, <dri-devel@lists.freedesktop.org>,
  <linux-mediatek@lists.infradead.org>, <linux-arm-kernel@lists.infradead.org>, 
- <linux-kernel@vger.kernel.org>, Hsiao Chien Sung
- <shawn.sung@mediatek.corp-partner.google.com>
-Subject: [PATCH v5 00/13] Support IGT in display driver
-Date: Thu, 15 Feb 2024 18:11:06 +0800
-Message-ID: <20240215101119.12629-1-shawn.sung@mediatek.com>
+ <linux-kernel@vger.kernel.org>, Hsiao Chien Sung <shawn.sung@mediatek.com>
+Subject: [PATCH v5 01/13] soc: mediatek: Disable 9-bit alpha in ETHDR
+Date: Thu, 15 Feb 2024 18:11:07 +0800
+Message-ID: <20240215101119.12629-2-shawn.sung@mediatek.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20240215101119.12629-1-shawn.sung@mediatek.com>
+References: <20240215101119.12629-1-shawn.sung@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--4.084300-8.000000
+X-TMASE-MatchedRID: Rj8ugvyJmEO+Yp4vsvc0tLMsPmSZxbpksvllF/5zpT3jsTquy0JRi0fp
+ kQx2u0Ks+qmOSYkzMxl1VEmx7sTk/25/NyTKlG694bl1FkKDELcoteqd/zXaI/ufvd3T2+v3dHv
+ iJhofy1Hi8zVgXoAltsIJ+4gwXrEtJ0RPnyOnrZJwhH7yAuWrPPJZnPx9vad3szm63XzKi/h9jP
+ F3getekOuu3S58dvEz2cmO8/NMzsW9I44FsV4xl6RiSHghYnKatreCV5++y/GAhOcaQrQ0U1GyR
+ coeF18qmKP0zzpTAeGwod8xOMKmvA1Aka/KIp/p
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--4.084300-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: 1B42D6AF1AC7EC4A5BDE7B4B622C00193883788785C070178D5B5D961F7FCE572000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,69 +93,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
+ETHDR 9-bit alpha should be disabled by default,
+otherwise alpha blending will not work.
 
-This series is based on 20240207021510.24035-2-shawn.sung@mediatek.com.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
+---
+ drivers/soc/mediatek/mtk-mmsys.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-This series adds support for running IGT (Intel GPU Tool) tests
-with MediaTek display driver. The following changes will be
-applied:
-
-1. Add a new API for creating GCE thread loop to retrieve CRCs
-   from the hardware component
-2. Support hardware CRC calculation in both VDOSYS0 and VDOSYS1
-3. Support alpha blending in both VDOSYS0 and VDOSYS1
-
-Changes in v5:
-- Add more descriptions to the codes
-- Add DRM mode configs to the driver data
-- Squash and rearrange the commits
-
-Changes in v4:
-- Separate the patch into smaller ones
-- Change the title of some patches
-- Revert the changes that are not related to the series
-
-Changes in v3:
-- Modify the dt-binding document of Mediatek OVL
-- Set DRM mode configs accroding to the hardware capabilities
-- Replace cmdq_pkt_jump_absolute() with cmdq_pkt_jump()
-
-Changes in v2:
-- Simplify CMDQ by adding commands that are currently used only
-- Integrate CRC related codes into new APIs for Mixer and OVL to reuse
-- Add CPU version CRC retrieval when CMDQ is disabled
-
-Hsiao Chien Sung (13):
-  soc: mediatek: Disable 9-bit alpha in ETHDR
-  drm/mediatek: Add OVL compatible name for MT8195
-  drm/mediatek: Add missing plane settings when async update
-  drm/mediatek: Fix errors when reporting rotation capability
-  drm/mediatek: Set DRM mode configs accordingly
-  drm/mediatek: Turn off the layers with zero width or height
-  drm/mediatek: Support alpha blending in display driver
-  drm/mediatek: Support alpha blending in OVL
-  drm/mediatek: Support alpha blending in Mixer
-  drm/mediatek: Support CRC in display driver
-  drm/mediatek: Support CRC in OVL
-  drm/mediatek: Support CRC in OVL adaptor
-  drm/mediatek: Add comments for the structures
-
- drivers/gpu/drm/mediatek/mtk_disp_drv.h       |   7 +
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c       | 320 ++++++++++++++++--
- .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   |  32 +-
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c       | 261 +++++++++++++-
- drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |  39 +++
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |   7 +
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  35 ++
- drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  27 ++
- drivers/gpu/drm/mediatek/mtk_drm_drv.h        |  20 ++
- drivers/gpu/drm/mediatek/mtk_drm_plane.c      |  15 +-
- drivers/gpu/drm/mediatek/mtk_ethdr.c          | 106 +++++-
- drivers/gpu/drm/mediatek/mtk_ethdr.h          |   5 +
- drivers/soc/mediatek/mtk-mmsys.c              |   1 +
- 13 files changed, 828 insertions(+), 47 deletions(-)
-
---
+diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
+index afb2c40c85c15..00eff18a3bcea 100644
+--- a/drivers/soc/mediatek/mtk-mmsys.c
++++ b/drivers/soc/mediatek/mtk-mmsys.c
+@@ -236,6 +236,7 @@ void mtk_mmsys_mixer_in_config(struct device *dev, int idx, bool alpha_sel, u16
+ 
+ 	mtk_mmsys_update_bits(mmsys, MT8195_VDO1_MIXER_IN1_ALPHA + (idx - 1) * 4, ~0,
+ 			      alpha << 16 | alpha, cmdq_pkt);
++	mtk_mmsys_update_bits(mmsys, MT8195_VDO1_HDR_TOP_CFG, BIT(15 + idx), 0, cmdq_pkt);
+ 	mtk_mmsys_update_bits(mmsys, MT8195_VDO1_HDR_TOP_CFG, BIT(19 + idx),
+ 			      alpha_sel << (19 + idx), cmdq_pkt);
+ 	mtk_mmsys_update_bits(mmsys, MT8195_VDO1_MIXER_IN1_PAD + (idx - 1) * 4,
+-- 
 2.18.0
 
