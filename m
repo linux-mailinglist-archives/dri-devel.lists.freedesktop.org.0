@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98636856354
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 13:37:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B386C856359
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 13:38:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1F7F10E672;
-	Thu, 15 Feb 2024 12:37:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF1B810E73F;
+	Thu, 15 Feb 2024 12:38:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=atomide.com header.i=@atomide.com header.b="qkzUVCIK";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=atomide.com header.i=@atomide.com header.b="ZOu65O7W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail5.25mail.st (mail5.25mail.st [74.50.62.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D77610E672
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 12:37:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6083C10E6F1
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 12:38:11 +0000 (UTC)
 Received: from localhost (91-158-86-216.elisa-laajakaista.fi [91.158.86.216])
- by mail5.25mail.st (Postfix) with ESMTPSA id CFC90603EE;
- Thu, 15 Feb 2024 12:36:39 +0000 (UTC)
+ by mail5.25mail.st (Postfix) with ESMTPSA id 8E6D4603EE;
+ Thu, 15 Feb 2024 12:37:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=atomide.com;
- s=25mailst; t=1708000643;
- bh=V2mEp9oEvcmr4hMbt6NFHaZLrPOvc7ilqQ9ACpZGNbk=;
+ s=25mailst; t=1708000690;
+ bh=QIgybrXkLOP2rAeWXJ7yytQCxPbiBA+P+RtAFhDDGsg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qkzUVCIKGL2T67oGjc8sPeoqJ44Mro+ZK243BIfNdpFsKf9G/nSMSgWgDT0xcPcmq
- Mb8HSfeowEkuzJ9aAA8IhrSPUuvBadlH7ITFL/19j0KGvERC14I+/tuMqehYPM/S6z
- XKn6h1WBy7qkdgDuhSSuVS7JZRFkJz0Y7KL90BbejPnwzHK1gPom6rowtPsVOARyDe
- eMK3fsXQkr0NWp4pIkPqhAEmB7cqK+7ymv3KZyR5D8ZonKytrvK1rS2SdKpwxZyVY/
- GEE9oH/THJpPzNmsBy9PffSEfkdT8+gy9nB9A+m9ue+K9sr4KYFy7fIIOz7R103ev6
- uY5PU0bK8ZANg==
+ b=ZOu65O7WndKtAk2EgLxtI5mgXdGeMxFNwiP2xb9vk/r2A7F2FTBOsnqldSSCR7+N9
+ 7wVQovZN0zTtkrBWG6bDGTax8uzpxwqG9Hi9uN6wkrkcZUfmwKWAJwXWs8kx11OQID
+ YwfuNvrriMa2pirtWDQ/uWTuQEg5pI9ZDD221Y+++LW3TAoHMdfBI9jBEDVFypu4rf
+ FrLZgB7QBQq5pSlFMMVnQ/6K2+Ajr1nyUCnGDQcVwcBW+BrNM/9NmrOTDBOzNK7w/l
+ WZWKCve1l/8VXh2vOyWz1v62dxP1gQNFYYZ8LH+CkJ22whnos6GuXQFs+rgNJkZDV7
+ KeITImkeFx+Sg==
 From: Tony Lindgren <tony@atomide.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Simha BN <simhavcs@gmail.com>,
  Sam Ravnborg <sam@ravnborg.org>
-Cc: Michael Walle <mwalle@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [PATCH v4 05/10] drm/bridge: tc358775: make standby GPIO optional
-Date: Thu, 15 Feb 2024 14:31:48 +0200
-Message-ID: <20240215123222.42609-6-tony@atomide.com>
+ Michael Walle <mwalle@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+Subject: [PATCH v4 06/10] drm/bridge: tc358775: Get bridge data lanes instead
+ of the DSI host lanes
+Date: Thu, 15 Feb 2024 14:31:49 +0200
+Message-ID: <20240215123222.42609-7-tony@atomide.com>
 X-Mailer: git-send-email 2.43.1
 In-Reply-To: <20240215123222.42609-1-tony@atomide.com>
 References: <20240215123222.42609-1-tony@atomide.com>
@@ -67,40 +68,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michael Walle <mwalle@kernel.org>
+The current code assumes the data-lanes property is configured on the
+DSI host side instead of the bridge side, and assumes DSI host endpoint 1.
 
-The stby pin is optional. It is only needed for power-up and down
-sequencing. It is not needed, if the power rails cannot by dynamically
-enabled.
+Let's standardize on what the other bridge drivers are doing and parse the
+data-lanes property for the bridge. Only if data-lanes property is not found,
+let's be nice and also check the DSI host for old dtb in use and warn.
 
-Because the GPIO is now optional, remove the error message.
+And as Dmitry pointed out, the lanes for the host and the bridge may be
+different because the lanes may be swapped on the host side.
 
-Signed-off-by: Michael Walle <mwalle@kernel.org>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Michael Walle <mwalle@kernel.org>
 Signed-off-by: Tony Lindgren <tony@atomide.com>
 ---
- drivers/gpu/drm/bridge/tc358775.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/bridge/tc358775.c | 25 +++++++++++--------------
+ 1 file changed, 11 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
 --- a/drivers/gpu/drm/bridge/tc358775.c
 +++ b/drivers/gpu/drm/bridge/tc358775.c
-@@ -669,12 +669,9 @@ static int tc_probe(struct i2c_client *client)
- 		return ret;
+@@ -525,27 +525,24 @@ tc_mode_valid(struct drm_bridge *bridge,
+ static int tc358775_parse_dt(struct device_node *np, struct tc_data *tc)
+ {
+ 	struct device_node *endpoint;
+-	struct device_node *parent;
+ 	struct device_node *remote;
+ 	int dsi_lanes = -1;
+ 
+-	/*
+-	 * To get the data-lanes of dsi, we need to access the dsi0_out of port1
+-	 *  of dsi0 endpoint from bridge port0 of d2l_in
+-	 */
+ 	endpoint = of_graph_get_endpoint_by_regs(tc->dev->of_node,
+ 						 TC358775_DSI_IN, -1);
+-	if (endpoint) {
+-		/* dsi0_out node */
+-		parent = of_graph_get_remote_port_parent(endpoint);
+-		of_node_put(endpoint);
+-		if (parent) {
+-			/* dsi0 port 1 */
+-			dsi_lanes = drm_of_get_data_lanes_count_ep(parent, 1, -1, 1, 4);
+-			of_node_put(parent);
+-		}
++	dsi_lanes = drm_of_get_data_lanes_count(endpoint, 1, 4);
++
++	/* Quirk old dtb: Use data lanes from the DSI host side instead of bridge */
++	if (dsi_lanes == -EINVAL || dsi_lanes == -ENODEV) {
++		remote = of_graph_get_remote_endpoint(endpoint);
++		dsi_lanes = drm_of_get_data_lanes_count(remote, 1, 4);
++		of_node_put(remote);
++		if (dsi_lanes >= 1)
++			dev_warn(tc->dev, "no dsi-lanes for the bridge, using host lanes\n");
  	}
  
--	tc->stby_gpio = devm_gpiod_get(dev, "stby", GPIOD_OUT_HIGH);
--	if (IS_ERR(tc->stby_gpio)) {
--		ret = PTR_ERR(tc->stby_gpio);
--		dev_err(dev, "cannot get stby-gpio %d\n", ret);
--		return ret;
--	}
-+	tc->stby_gpio = devm_gpiod_get_optional(dev, "stby", GPIOD_OUT_HIGH);
-+	if (IS_ERR(tc->stby_gpio))
-+		return PTR_ERR(tc->stby_gpio);
++	of_node_put(endpoint);
++
+ 	if (dsi_lanes < 0)
+ 		return dsi_lanes;
  
- 	tc->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
- 	if (IS_ERR(tc->reset_gpio)) {
 -- 
 2.43.1
