@@ -2,48 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A853E855E46
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 10:35:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D686855E60
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 10:40:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0544A10E54C;
-	Thu, 15 Feb 2024 09:35:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E023110E0D0;
+	Thu, 15 Feb 2024 09:40:20 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=theobroma-systems.com header.i=@theobroma-systems.com header.b="LNKI3kcf";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id DD11510E54C
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 09:35:00 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 851A31FB;
- Thu, 15 Feb 2024 01:35:39 -0800 (PST)
-Received: from [10.1.39.40] (e122027.cambridge.arm.com [10.1.39.40])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 52C693F766;
- Thu, 15 Feb 2024 01:34:55 -0800 (PST)
-Message-ID: <39438e11-b5c0-47af-9f09-66fb0621844e@arm.com>
-Date: Thu, 15 Feb 2024 09:34:53 +0000
-MIME-Version: 1.0
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05on2112.outbound.protection.outlook.com [40.107.20.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A86C610E0DF
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 09:40:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=T80WeXO4uN6+KswvXJGo1z+0Ej6cCRuBwTo+Sw56Y/wTlclaAoywQzuURdC9m+3DWieNswKX+BdEyjgXn5uoOybGtd652TBR1QDJQK6bI87li3nDNmsDhdnfL45lTyvTwYkDrg+Zu7hNnpCXer7n+fJD3Htnp4tLveCMynQ37RuBzX2aqQTcXFYbO1G+cLEBEtWdQg4OFFKO69CrTN5Ak2gPIk7gaa5JH5iolg5sBF31vIWB7ynsB3rJrE/CVy9bxub7D+r6iHoWzY8WDp1Z/eEMsmdRfUYRb8RNU34bsO2L8PBjS/ZgOlGwz3cwT+5WcH8AYGhUZPQd9nOoAmq/1g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ek7jdNq2FcvPAL1ie6iI2jeUqX2TQsjrPh1JH+pNv0w=;
+ b=YNznfkpChLld4viKDmobA5mpT8YHGFixnb0KZvipWu7NsZ0RHx5xE3rfKHVhTDP6GpOVajHbnLSl4E/CVP1KsvD9CDiCspEAiuXuWnk+L5VneJO/3KGFsiKty7VjmUJrU26oUxxKR+TyK2MEHm5ONsZfDCRCWAE24I4tXhfVx9UkzIxWykiq8JwCJaDm2/26lZuy+0ggrJ/HrI4kk6Iq6NDSSuyAGuCesJXWveM1Ptm8UxsN64jP/sqXxcFNAoYiIKd9xNLrzNi19d4VKePrEktKGswfrguEffEx/w6bu5iTZFPhaRHBBHvrQD2n76xtESg+3Oh9NkJPK6KYcJoP5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=theobroma-systems.com; dmarc=pass action=none
+ header.from=theobroma-systems.com; dkim=pass header.d=theobroma-systems.com;
+ arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=theobroma-systems.com; 
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ek7jdNq2FcvPAL1ie6iI2jeUqX2TQsjrPh1JH+pNv0w=;
+ b=LNKI3kcfVC7UaVQ5xLzWjo9maytCTOZLclsGbL1aXNZuJaACpVsboSgKxbSAMli3et2GSAdDmC1FWR+P/t5vu6czQkRBNbfuXySaX1k7FQvlefV+Tb6koU7JjoRbxup67XgxZyfqVRway4shkT8fkyQeM8E8g6L8CH1xbGv1XNdKNZUOgxpPnNi6fzWQpedIXzidZCcVil0uT1uOG2GmvEJRpnptcFZXF+a2XEGYU6hc5rwhfqAVXZhH/uCg4/UvcyIFx4STMLuTlsrxvmaC9YXeaTJNr2YCs2msMeHNVxnre3qXPCmnqd0J9PYXd202KY8JaXOgriDRNZnzXphl7w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=theobroma-systems.com;
+Received: from DU2PR04MB8536.eurprd04.prod.outlook.com (2603:10a6:10:2d7::10)
+ by DBBPR04MB7546.eurprd04.prod.outlook.com (2603:10a6:10:1f7::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.29; Thu, 15 Feb
+ 2024 09:40:07 +0000
+Received: from DU2PR04MB8536.eurprd04.prod.outlook.com
+ ([fe80::550d:ad96:e3cb:9a6e]) by DU2PR04MB8536.eurprd04.prod.outlook.com
+ ([fe80::550d:ad96:e3cb:9a6e%5]) with mapi id 15.20.7292.029; Thu, 15 Feb 2024
+ 09:40:07 +0000
+Message-ID: <6498807b-2e93-44a6-b985-808e7fa261ad@theobroma-systems.com>
+Date: Thu, 15 Feb 2024 10:40:04 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 09/14] drm/panthor: Add the heap logical block
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- "Marty E . Plummer" <hanetzer@startmail.com>, Rob Herring <robh@kernel.org>,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
- Nicolas Boichat <drinkcat@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Faith Ekstrand <faith.ekstrand@collabora.com>,
- Daniel Stone <daniels@collabora.com>, Liviu Dudau <Liviu.Dudau@arm.com>,
- Robin Murphy <robin.murphy@arm.com>, kernel@collabora.com,
- Heiko Stuebner <heiko@sntech.de>, Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
- Chris Diamand <chris.diamand@foss.arm.com>,
- Ketil Johnsen <ketil.johnsen@arm.com>
-References: <20240122163047.1954733-1-boris.brezillon@collabora.com>
- <20240122163047.1954733-10-boris.brezillon@collabora.com>
- <e43ec7bb-1104-40b4-a031-3b6fa7be1eb4@arm.com>
- <20240214183339.1f690c9d@collabora.com>
-Content-Language: en-GB
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20240214183339.1f690c9d@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH 0/3] drm/panel: add one more Leadtek panel, the
+ ltk101b4029w
+Content-Language: en-US
+To: Heiko Stuebner <heiko@sntech.de>, neil.armstrong@linaro.org
+Cc: quic_jesszhan@quicinc.com, sam@ravnborg.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240215090515.3513817-1-heiko@sntech.de>
+From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+In-Reply-To: <20240215090515.3513817-1-heiko@sntech.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0009.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a::19) To DU2PR04MB8536.eurprd04.prod.outlook.com
+ (2603:10a6:10:2d7::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8536:EE_|DBBPR04MB7546:EE_
+X-MS-Office365-Filtering-Correlation-Id: d73d2ac3-c496-4ede-98e6-08dc2e0a1810
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /uZgvg/CMJ9+0BeBNZz8zSooYNzsED1I5JZr6MhgHqy2GmFv5HlzA5dGxzqa89myMdnB7kwpulOzZy1K0I22Dm9fdK/VoSDedub4V57zb6GCRYZFC4tuB2g8Rmf8WuP8aUEIPZ0DCsshgp29uqIqAcd4nfetINaXsva0nlMe97LAdy96z5Vp4Ih7ArgVHBiP0xK3LguDBqA4Wpuz61DHBKGRxEF4uVP5aubRL/ETawD64ZXFeH8REB397RSCSX4k4lNthFuWaP9juK24r7QJblMrsfFMURdz7QrA6TNqFRG7F8CLiR8uP+8wsEnKQUIuIUDMJw8JGcvnHMp1g5BmHk08YFbAJ68QduD5Dg0hAIqNwaaYIChQP//tEHapJ+Zn+afCjOSZreKM1Be7vDZPBevPsIsvjKzyHGWdMZfshxcA++p+mitD/2D/PmfFnveJzpSEwkPsmDKwU0AOqV5TTQmyyBkKNhtznEy4wSBMSc2aKMeDNcSpv68L8WMymJ6jHH4aycz022AoQpl3OCexuGVN5TkOe9Wv1p38kfilIDznuVds8OJDGEGDfNeXo/2F
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DU2PR04MB8536.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(346002)(136003)(376002)(396003)(39850400004)(230922051799003)(64100799003)(186009)(1800799012)(451199024)(31686004)(6666004)(316002)(4744005)(7416002)(5660300002)(2906002)(44832011)(66946007)(66476007)(8676002)(66556008)(6486002)(86362001)(31696002)(6512007)(4326008)(8936002)(41300700001)(2616005)(478600001)(36756003)(6506007)(53546011)(38100700002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ak5WNDBvMGtMQVVJVXV1cW5hYXVaM2RJSnhoSFNpWU5vRHlBVmZzYmltOFgv?=
+ =?utf-8?B?dDhsN0orU0tBRVB1bWI1UmNZbnpxZC9sZ3ZzSmNkNjdydXRDUVpJYU9IKzdF?=
+ =?utf-8?B?V3pvcDdHMXRLbFdlWG5ZT2d1SjU5VnAySWQ2eU9XTHFOQkNYbmtUSFZIbmJU?=
+ =?utf-8?B?UEpCajlaU1dSTDNWSzkzbkhOb1ZOSlN1T3RsSnBndUUrY1V0dTFFQzZIYXV6?=
+ =?utf-8?B?OWVmdTdxUXAreW5qN2Y0clRibndvaDRvd0k5cGlXeXl3Sy9OQTAwQno0TTFY?=
+ =?utf-8?B?cVRQdDFFc0tlZVdIRUQ3dWVwNGw1ZFlnNnQ1VkNUTkZFL3Z1ckF4QUVsMDlZ?=
+ =?utf-8?B?YjN2MlFzakVENVpqRnVxSFhGQ1g1RDU2Vi8yQjZuc2NrcXJxSjdNS3dHb1BE?=
+ =?utf-8?B?bzB6bjFuZi9tVTNwVldMcGc3R3llVXdRTGxmbjk1ZWJrLzJDNm94czlxTERy?=
+ =?utf-8?B?TWdEenM3YnF4akxHMkRwRGNKMVI3ajZCTVNjYVVkUCtrbmt6TjJOaHFzaGxY?=
+ =?utf-8?B?Sk9rMVNtRDVGS04weVVGS3JnS0lHVlNaUW8zV0xpRDhLYnRZTmlndlNBaGR0?=
+ =?utf-8?B?NEJPMkdMZnZrRUFHMEFUb1Joakx6dktsbE5XS0g5QzZCVktTU29CMDAvNDdO?=
+ =?utf-8?B?UTl1OFF4ZnNTMVRyOEgydkNCSXA4aWwrUm9uWFpTTEJOc29FTWNMVUdhbTh3?=
+ =?utf-8?B?eGRzUUZxOURheHhQNzEzbG5PMUhWRWNocWd5bm1CZ1NwYTNDUjBGRWI1bFha?=
+ =?utf-8?B?UDkrMnZGQjFiSmlZZEl2Nk03QWRvUElhV1RkbnZlWnNHeE5yVmxNNFdIaFRO?=
+ =?utf-8?B?a3ZWbi90RXV4WlZtT3pNOWdvSVpWWGVTSWNQTGhkRTRQZVBiTE9pMzNXZnVO?=
+ =?utf-8?B?TXNYVDdFZkFNdEx5NmFIYjdlVDFxZC9zRUNDUHRFQ3pZb2tYemowMERHd0F2?=
+ =?utf-8?B?dVlXenBaMmRzTTVTemJCNHhLbUFybEtETFY3bTNQVnpyZk5jc3FEc05maHRq?=
+ =?utf-8?B?ZHc0bGhYODM5NWpXZmJVMXl6VC8yYU9IMjZ3dm9rUkRndVFaWHc0b2FQZGxR?=
+ =?utf-8?B?YmFMeTZHc3BHUlNrbVlZU3RBUXo3VHliZEJqOVY1KzVjVmszU1dDZ1lZZVJT?=
+ =?utf-8?B?ME04RThzT1QwZXBCZjU2anZWSGhGSmxONHAydTREb0liT0I5cUVPTW1GRmxp?=
+ =?utf-8?B?Q2ZlYUVtSUVVVDdiZEdNMXRvaStmOEdEUVhtMnUyUGpJcXkvdlVrbGtVVGRI?=
+ =?utf-8?B?cEJSSEU4Nmtya0dnYURQLy9zU1ZqdkJUcC96OENWZmpBOG1kejMwNGVCc3RX?=
+ =?utf-8?B?Z3FmOXUxYzZDc3l0YmdlK3RGUXlJdDdaejBVUnhoY1p0QXhFeDQ4dHJneHFM?=
+ =?utf-8?B?K3JZS21rMzVNUnhvOXJweDQ5MEVIS2x6eFNENGNWc1NOeUtITmpsSXJoMjYr?=
+ =?utf-8?B?SjlxZUluUTlGU2JNekxRZ3Izb25LSEgzZmNsRm9HYk04TDQxczRLenpRaEF2?=
+ =?utf-8?B?dERGRXVpaGp5Wmhxck4wVmRKSnR0K3lnaVhzU2kzb25pMnlSWWJnTDFUL2lX?=
+ =?utf-8?B?VEJsUlBxTUVPajIvclFxSFBra0F6V3c5RkVUdXZTNDFsOGJiM0x6OVhsT1V5?=
+ =?utf-8?B?K1lZYytVc2UvT1o0TFNvYkJWQ3Z0RmtTMzl5MklzT1YzdDRCTThFbVJ4N1V3?=
+ =?utf-8?B?M2R1a09mb2lkNTlJZDlSVzJwbnR5TitNZkducG1sRHdCYzhEYTR0VkVkZ0g0?=
+ =?utf-8?B?TStMbGZta2VWL3lBcFoycGJJNW5iYlBQa0J2VER1QUpjOVFUTjVWR0tPaktO?=
+ =?utf-8?B?SXh6R3lXd0ZhSDhId0NQQVp6cnFuaU0rcHZ4emU0TmROdEtIa1RVSUlwSVJ4?=
+ =?utf-8?B?WVA2NDRVSUdOalBaMCs3d1gzVWxIWFZiRjVwYS9hS2MyWW8zY2RaM3ZsMmZR?=
+ =?utf-8?B?SGgyc2tka3NnaUllck5zbHZLdzNRcERhRzk5MUNGeEc0Zkl2UWZjai91eUsx?=
+ =?utf-8?B?NTlQbldiWnlJRjRrY0Y2bUpxY2kzbTd3UnIycVIrMzl4WWQvWW1lZ3gvbDRq?=
+ =?utf-8?B?RnMrUFNnK09yZlpiWHROYXd6QnVyWjdWR1VpQUkrems1a2VPOE1LOE5rVDBX?=
+ =?utf-8?B?bXVRb1VyaFlvMHdKbXcxcm1lQUZwNnJIK0hMcUJ0MFE3STQ4c2o2ODZWMERv?=
+ =?utf-8?B?V01uMXJPek5aaGRwWVR3T0xUUEpyUnd5UXBKY1ZJN0U4TWEwd3VRaHJOSmVM?=
+ =?utf-8?B?VHo4eEQzVlVqbjZ5SGYzUE1OTzNBPT0=?=
+X-OriginatorOrg: theobroma-systems.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d73d2ac3-c496-4ede-98e6-08dc2e0a1810
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8536.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2024 09:40:07.0028 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RRHGR7KcT9su2/NU7i1cvMxT3qX1S1TlT7S+NqAnV/97GrNtk8b9Oki9sW5aZM4DBewysV8dGk0cGiFQqz8FaxQ1hj6lwhOQoN3vM0gpYwqo/28d53EltfTjrn3Jr1xD
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7546
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,91 +139,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/02/2024 17:33, Boris Brezillon wrote:
-> On Mon, 12 Feb 2024 11:40:55 +0000
-> Steven Price <steven.price@arm.com> wrote:
-> 
->> On 22/01/2024 16:30, Boris Brezillon wrote:
->>> Tiler heap growing requires some kernel driver involvement: when the
->>> tiler runs out of heap memory, it will raise an exception which is
->>> either directly handled by the firmware if some free heap chunks are
->>> available in the heap context, or passed back to the kernel otherwise.
->>> The heap helpers will be used by the scheduler logic to allocate more
->>> heap chunks to a heap context, when such a situation happens.
->>>
->>> Heap context creation is explicitly requested by userspace (using
->>> the TILER_HEAP_CREATE ioctl), and the returned context is attached to a
->>> queue through some command stream instruction.
->>>
->>> All the kernel does is keep the list of heap chunks allocated to a
->>> context, so they can be freed when TILER_HEAP_DESTROY is called, or
->>> extended when the FW requests a new chunk.
->>>
->>> v4:
->>> - Rework locking to allow concurrent calls to panthor_heap_grow()
->>> - Add a helper to return a heap chunk if we couldn't pass it to the
->>>   FW because the group was scheduled out
->>>
->>> v3:
->>> - Add a FIXME for the heap OOM deadlock
->>> - Use the panthor_kernel_bo abstraction for the heap context and heap
->>>   chunks
->>> - Drop the panthor_heap_gpu_ctx struct as it is opaque to the driver
->>> - Ensure that the heap context is aligned to the GPU cache line size
->>> - Minor code tidy ups
->>>
->>> Co-developed-by: Steven Price <steven.price@arm.com>
->>> Signed-off-by: Steven Price <steven.price@arm.com>
->>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>  
->>
->> It looks fine, but there's a confusing FIXME comment:
->>
->>> +	/* FIXME: panthor_alloc_heap_chunk() triggers a kernel BO creation, which
->>> +	 * relies on blocking allocations (both for the BO itself, and backing
->>> +	 * memory), which might cause a deadlock because we're called from a context
->>> +	 * where we hold the panthor scheduler lock, thus preventing job cleanups
->>> +	 * that could free up some memory. The jobs themselves will timeout, but
->>> +	 * we'll still be blocked there. The only solution here is to implement
->>> +	 * something similar to shmem_sg_alloc_table() in i915, so we can do
->>> +	 * non-blocking allocations, and just kill the job when we run out-of-memory
->>> +	 * for the tiler context.
->>> +	 */  
->>
->> Whereas at the call site (group_process_tiler_oom()) there's the comment:
->>
->>> 		/* We do the allocation without holding the scheduler lock to avoid
->>> 		 * blocking the scheduling.
->>> 		 */  
->>
->> AFAICT that FIXME comment can just be deleted now. Assuming you agree
->> then with that change:
-> 
-> The FIXME is no longer accurate indeed, but I'd like to keep a FIXME
-> here to reflect the fact the solution we have is not the one we want, as
-> it prevents the GPU from immediately falling back to the user provided
-> OOM exception handler, or killing the job if there's no way it can
-> reclaim tiler memory.
-> 
-> How about:
-> 
-> FIXME: panthor_alloc_heap_chunk() triggers a kernel BO creation, which
-> goes through the blocking allocation path. Ultimately, we want
-> a non-blocking allocation, so we can immediately report to the FW when
-> the system is running out of memory. In that case, the FW can call a
-> user-provided exception handler, which might try to free some tiler
-> memory by issuing an intermediate fragment job. If the exception handler
-> can't do anything, it will flag the queue as faulty so the job that
-> triggered this tiler chunk allocation and all further jobs in this
-> queue fail immediately instead of having to wait for the job
-> timeout.
+Hi Heiko,
 
-Sounds good - it was mostly the talk of deadlock that worried me. The
-code as it stands is good enough for merging (as it's not going to
-deadlock the kernel) but we can obviously look to improve the low-memory
-behaviour in future.
+On 2/15/24 10:05, Heiko Stuebner wrote:
+> Similar in setup to the ltk500hd1829, group it with this driver.
+>  > Heiko Stuebner (3):
+>    drm/panel: ltk500hd1829: make room for more similar panels
+>    dt-bindings: display: ltk500hd1829: add variant compatible for
+>      ltk101b4029w
+>    drm/panel: ltk500hd1829: add panel type for ltk101b4029w
+> 
 
-Steve
+For the whole series:
 
->>
->> Reviewed-by: Steven Price <steven.price@arm.com>
+Reviewed-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
 
+Thanks,
+Quentin
