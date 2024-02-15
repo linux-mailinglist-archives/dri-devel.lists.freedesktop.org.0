@@ -2,72 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF1A85646E
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 14:32:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8910B856470
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 14:32:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9920610E802;
-	Thu, 15 Feb 2024 13:31:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD94710E7BC;
+	Thu, 15 Feb 2024 13:32:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WCrOGHzG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kBtNp5uS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com
- [209.85.219.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9097110E7BC
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 13:31:49 +0000 (UTC)
-Received: by mail-yb1-f172.google.com with SMTP id
- 3f1490d57ef6-dcd94fb9e4dso739715276.2
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 05:31:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708003909; x=1708608709; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yGh//nbX6ksAbjoH86pu+1OoxjeTYU/3tdUOfH2WwY4=;
- b=WCrOGHzGCSvZE3bDS1YnUwRLFEl+Ifp+43EOUK7bkgAjY3bhAzDz32MtFJMOpEFY24
- cDxrOSYj1a7M2ac2+ao6iYU4w1uVGepZWA3+/O7eDJfum7axnkNjlB8jAzB4ZviI5f7C
- SKY+lS6Bkh+lymWm7w31BxvSuPW9JRMm8j7JlgAeXetsr9CFu2sMVitaJblcO6SQ3JiP
- v3cs0MCy6zzYXpXvxoisgwNRl5EGeaxfde+PHYNI+Gj7l/uf7jtIhU8EfWGxqritk+eV
- 4I3YwhF6O/BbOieRwVwxFcp/neAMjTIPojRSAkYDpxP5eybEI5/lDlD0cZC9nlu0epdP
- eLtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708003909; x=1708608709;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yGh//nbX6ksAbjoH86pu+1OoxjeTYU/3tdUOfH2WwY4=;
- b=c6uZ0iOZ3zBdkJqLyZmVaQauT1mTlfgQGQf/S+4OZisMfHlBDOkbvfOp0U+JMqDP8W
- tA4/WzXgLfXpHRrUjCsvx4ZZ1G07rxDgjzKLWGydK69Vt6fhe3QgmjwaOShD+iVw9Au5
- hc6WL3C+mcSPWkMOU8vN9BOQUF4u5LiS9w6wu/W48T5k9uBssjQ5NEhBzjcjjQ6cOgNZ
- fcHr+LJEJ1xHNllVE/tWM3q49h8stiVq/gPplRxmVwUOa9ttxd4xsdwRpD6GgZemiYa8
- iQxqZpqc9BVHe6PC61UOSQ3UgyKE9+JSgRj0Mo5H91i98eNTy7AecD1KKvm8v7TbNzN+
- P0Kg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXSieB81WonhHnn4wwRMFJTY0MQ5WSMV1ah+0kqI8/yzf0ZD/Ph3XaMxCcayjW0qOnTrQFph+o5k+x3aoGKHTk74nn1wSlAHAHJ6m8cbEIs
-X-Gm-Message-State: AOJu0YxLss3P0YXtg3Z0pS+8Zd/NyUCbif94Ahp+Uqski8k14gbi0gRr
- yOLPm98kOHT68zBzCghCEt6GnILEvvAWwfbjQ+l7dg7HK1tHbnYBMegL7MWZnwFykZkomBWQITz
- gfIrkKlHAFco6L3jRGu2fBcZ63pu92Q7qK87zLw==
-X-Google-Smtp-Source: AGHT+IHl3qgWvQCqRJMe39KHtu2wuTpCX4Lckf3lqFQQ+kVziMGrJ7Juv/tfm7isqbWZN8sE5IWX6zuYqEnZ+zYcRZE=
-X-Received: by 2002:a25:b949:0:b0:dcb:b41c:77ef with SMTP id
- s9-20020a25b949000000b00dcbb41c77efmr1387473ybm.24.1708003908799; Thu, 15 Feb
- 2024 05:31:48 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD32A10E7BC;
+ Thu, 15 Feb 2024 13:32:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1708003930; x=1739539930;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=xP2x+0oCU2VUeBJg+acvjjGA26vEwKMDv8882I1yP2E=;
+ b=kBtNp5uSGwbXNxDjanMDlmvKMOnyYul6tiGr5QD5Z+nnDMh3ybRMd/7C
+ sk9FQI8Rl1qTzWsGM21HK2CubNOz1SZ49zK+NUhi4DjXafY/abMcE2Lxt
+ 9MlclU+ytUBusu1aQkF3iBdgl+52XLLcCSZcAmAaesIzCOM8eb4gGIHQC
+ frC4hqBzdsZ3qcdtwnpmIvZnEV5SSsB4ztp5prmUWbDWO3fVOeU9zjo+l
+ IUpqvSt1qAW+LJvkO9uSI0ig1tWGA6t/GTlQV2HaM7WCb7xDf4LXtC8n8
+ QnbwO2igKPbFPLixGXX/NwPrtP/GnIGHkxsC3CQNIq9SSVheXlKpsaywa Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="2000318"
+X-IronPort-AV: E=Sophos;i="6.06,161,1705392000"; 
+   d="scan'208";a="2000318"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2024 05:32:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,161,1705392000"; 
+   d="scan'208";a="3489788"
+Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost)
+ ([10.246.32.150])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2024 05:32:05 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+ dri-devel@lists.freedesktop.org, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH 0/3] PCI LNKCTL2 RMW Accessor Cleanup
+Date: Thu, 15 Feb 2024 15:31:52 +0200
+Message-Id: <20240215133155.9198-1-ilpo.jarvinen@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20240213-ktd2801-deps-v1-1-7feb5385eb9a@skole.hr>
-In-Reply-To: <20240213-ktd2801-deps-v1-1-7feb5385eb9a@skole.hr>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 15 Feb 2024 14:31:37 +0100
-Message-ID: <CACRpkdYm0dNZZvzAZ-VQ+MaHeL7NmGCmCVw42WMx6BFf4Lw0Pw@mail.gmail.com>
-Subject: Re: [PATCH] backlight: ktd2801: depend on GPIOLIB
-To: =?UTF-8?Q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Arnd Bergmann <arnd@kernel.org>, 
- Karel Balej <balejk@matfyz.cz>, dri-devel@lists.freedesktop.org, 
- linux-leds@vger.kernel.org, linux-fbdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,25 +71,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 13, 2024 at 7:13=E2=80=AFPM Duje Mihanovi=C4=87 <duje.mihanovic=
-@skole.hr> wrote:
+This series converts open-coded LNKCTL2 RMW accesses to use RMW
+accessor. These patches used to be part of PCIe BW controller series
+[1] which will require RMW ops to LNKCTL2 be properly locked.
 
-> LEDS_EXPRESSWIRE depends on GPIOLIB, and so must anything selecting it:
->
-> WARNING: unmet direct dependencies detected for LEDS_EXPRESSWIRE
->   Depends on [n]: NEW_LEDS [=3Dy] && GPIOLIB [=3Dn]
->   Selected by [m]:
->   - BACKLIGHT_KTD2801 [=3Dm] && HAS_IOMEM [=3Dy] && BACKLIGHT_CLASS_DEVIC=
-E [=3Dm]
->
-> Fixes: 66c76c1cd984 ("backlight: Add Kinetic KTD2801 backlight support")
-> Signed-off-by: Duje Mihanovi=C4=87 <duje.mihanovic@skole.hr>
+However, since these RMW accessor patches are useful as cleanups on
+their own I chose to send them now separately to reduce the size of the
+BW controller series.
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+[1] https://lore.kernel.org/linux-pci/20240105112547.7301-1-ilpo.jarvinen@linux.intel.com/
 
-Technically you can also select GPIOLIB, because it is available on
-all platforms, so it may be easier for users, but then you never know
-which GPIOs you get in practice.
+Ilpo Järvinen (3):
+  drm/radeon: Use RMW accessors for changing LNKCTL2
+  drm/amdgpu: Use RMW accessors for changing LNKCTL2
+  RDMA/hfi1: Use RMW accessors for changing LNKCTL2
 
-Yours,
-Linus Walleij
+ drivers/gpu/drm/amd/amdgpu/cik.c  | 41 +++++++++++--------------------
+ drivers/gpu/drm/amd/amdgpu/si.c   | 41 +++++++++++--------------------
+ drivers/gpu/drm/radeon/cik.c      | 40 +++++++++++-------------------
+ drivers/gpu/drm/radeon/si.c       | 40 +++++++++++-------------------
+ drivers/infiniband/hw/hfi1/pcie.c | 30 ++++++----------------
+ 5 files changed, 68 insertions(+), 124 deletions(-)
+
+-- 
+2.39.2
+
