@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A462856B6C
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 18:46:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B87F9856B70
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 18:47:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0812210E377;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BEA010E41C;
 	Thu, 15 Feb 2024 17:46:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SdqqSvEF";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HVhiXsVM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D317110E18F;
- Thu, 15 Feb 2024 17:46:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2706310E349;
+ Thu, 15 Feb 2024 17:46:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708019207; x=1739555207;
+ t=1708019208; x=1739555208;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=QsAcbwqS9NG5zOC8meKG7XXp4iiGY4OFkDlGSkASW1E=;
- b=SdqqSvEF2fQ5YHAl8wexDDquArKRctin5PCrdeOFgF7yX29iXoGLmJ0u
- lioLzoyMdhLB25UNG0xunFu0hosvRVLwO8dsNI4PhjSM4ggQa3FPXuBd2
- ACF9EzwFVi3V9nXu+/XXGfuptbG7+xiIPB/yf/kv6JexJA/1s1CO1A6w3
- BcVdfm2Rzcl54HvL2AzYrHzZ0dNYAqdbuOClZ/H6A0sWeYHcBnyyv4gK9
- x7jZlAaQcX3MqwPnjfkVPFSNTfCwOe/y5RPX09QPYlcynb6UHV5QTmh/9
- 0aAImthOfKb70spcyIWkwRKwq+k9aj2yeKayA0GKDiphj7DORIGAJDftR w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="13513990"
-X-IronPort-AV: E=Sophos;i="6.06,162,1705392000"; d="scan'208";a="13513990"
+ bh=buAiuefRHwWbEFIpK0sT1GYX6pLKRgPn9ZYVE986lHk=;
+ b=HVhiXsVMDPlzpiiQtE4ecjxkY7kwjIKrVtUYAeBilBEHrMJIs+Egao8V
+ jODvsJcYnr2bnZued9dIX8i1gr8PZNSKq7bdP9JsWhPRikyHYttvvKdEN
+ mSuuEDP7UzbmC+Z2/L9pk34f9LnmGx+oSz3KwdDra/zAj5LaFAg+7+hzl
+ 65bLvrqGst+tiJ7MZV5JgDKTQZjIujErs4A/kRGrucdNV9piFSBOO8iQU
+ U29DVc3XiRK6kOlIqI6OIsexyROypsIcg4Y7TX1+YW6SdK/LTuNfW8w0f
+ 9/9xg7aQxbcFxSUhYEiuhZbpjv2u/3Aw1xSSbK8QXIv5gWyTcCvA+Stya g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="13514005"
+X-IronPort-AV: E=Sophos;i="6.06,162,1705392000"; d="scan'208";a="13514005"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2024 09:46:42 -0800
+ 15 Feb 2024 09:46:44 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,162,1705392000"; 
-   d="scan'208";a="3892077"
+   d="scan'208";a="3892094"
 Received: from dhalpin-mobl1.ger.corp.intel.com (HELO mwauld-mobl1.intel.com)
  ([10.252.21.158])
  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2024 09:46:40 -0800
+ 15 Feb 2024 09:46:42 -0800
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org,
  Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- stable@vger.kernel.org
-Subject: [PATCH 2/6] drm/buddy: fix range bias
-Date: Thu, 15 Feb 2024 17:44:33 +0000
-Message-ID: <20240215174431.285069-8-matthew.auld@intel.com>
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH 3/6] drm/buddy: check range allocation matches alignment
+Date: Thu, 15 Feb 2024 17:44:34 +0000
+Message-ID: <20240215174431.285069-9-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240215174431.285069-7-matthew.auld@intel.com>
 References: <20240215174431.285069-7-matthew.auld@intel.com>
@@ -69,51 +68,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a corner case here where start/end is after/before the block
-range we are currently checking. If so we need to be sure that splitting
-the block will eventually give use the block size we need. To do that we
-should adjust the block range to account for the start/end, and only
-continue with the split if the size/alignment will fit the requested
-size. Not doing so can result in leaving split blocks unmerged when it
-eventually fails.
+Likely not a big deal for real users, but for consistency we should
+respect the min_page_size here. Main issue is that bias allocations
+turns into normal range allocation if the range and size matches
+exactly, and in the next patch we want to add some unit tests for this
+part of the api.
 
-Fixes: afea229fe102 ("drm: improve drm_buddy_alloc function")
 Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
 Cc: Christian König <christian.koenig@amd.com>
-Cc: <stable@vger.kernel.org> # v5.18+
 ---
- drivers/gpu/drm/drm_buddy.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/gpu/drm/drm_buddy.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-index c1a99bf4dffd..d09540d4065b 100644
+index d09540d4065b..ee9913016626 100644
 --- a/drivers/gpu/drm/drm_buddy.c
 +++ b/drivers/gpu/drm/drm_buddy.c
-@@ -332,6 +332,7 @@ alloc_range_bias(struct drm_buddy *mm,
- 		 u64 start, u64 end,
- 		 unsigned int order)
- {
-+	u64 req_size = mm->chunk_size << order;
- 	struct drm_buddy_block *block;
- 	struct drm_buddy_block *buddy;
- 	LIST_HEAD(dfs);
-@@ -367,6 +368,15 @@ alloc_range_bias(struct drm_buddy *mm,
- 		if (drm_buddy_block_is_allocated(block))
- 			continue;
+@@ -771,8 +771,12 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+ 		return -EINVAL;
  
-+		if (block_start < start || block_end > end) {
-+			u64 adjusted_start = max(block_start, start);
-+			u64 adjusted_end = min(block_end, end);
+ 	/* Actual range allocation */
+-	if (start + size == end)
++	if (start + size == end) {
++		if (!IS_ALIGNED(start | end, min_block_size))
++			return -EINVAL;
 +
-+			if (round_down(adjusted_end + 1, req_size) <=
-+			    round_up(adjusted_start, req_size))
-+				continue;
-+		}
-+
- 		if (contains(start, end, block_start, block_end) &&
- 		    order == drm_buddy_block_order(block)) {
- 			/*
+ 		return __drm_buddy_alloc_range(mm, start, size, NULL, blocks);
++	}
+ 
+ 	original_size = size;
+ 	original_min_size = min_block_size;
 -- 
 2.43.0
 
