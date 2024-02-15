@@ -2,67 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99CFF855F4A
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 11:33:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5772C855F9E
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 11:41:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 233A010E333;
-	Thu, 15 Feb 2024 10:24:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A55510E5C2;
+	Thu, 15 Feb 2024 10:41:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lYrNatWY";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="esBbUJao";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E462310E333
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 10:24:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1707992696; x=1739528696;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=EwTmMAAMBHJ/7Fdsm8CudM1CTIgpHEqpKsIwBjpniro=;
- b=lYrNatWYojyWa0L3+yXdk2WRb6YcZt0xkyvQ/OiA6MvZcj3TeHsYu78d
- fWpCs3MTsG8qxXbfMOLzi467oqoUcMqEbZPCazKLzxg7DId+B378Dkszc
- iEZaL6+927oxSAs1BjTlALM1D1pmmO6mU35aUn7FZvBoBMAPeDQWtx4vI
- 8BCPcGvwu/f+ciA/AuEhZxhbdPTMDCHYtRAbhGYBhWOLCeR1IPY99sQE5
- 3OCr67EXbJDnf2RA4BixSFujch305daCsRl/rLerx3FAU2jmw6719Lvhi
- oMhvWJ5r5FE4mCPKzEirfpU+VbUCiRrhOKmqglfd19a/UNOh8iaoA5Giw w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="5846384"
-X-IronPort-AV: E=Sophos;i="6.06,161,1705392000"; 
-   d="scan'208";a="5846384"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2024 02:24:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,161,1705392000"; 
-   d="scan'208";a="8207115"
-Received: from kraszkow-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.44.13])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2024 02:24:50 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Doug Anderson <dianders@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>
-Cc: dri-devel@lists.freedesktop.org, eizan@chromium.org, Ankit Nautiyal
- <ankit.k.nautiyal@intel.com>, Daniel Vetter <daniel@ffwll.ch>, David
- Airlie <airlied@gmail.com>, Heiner Kallweit <hkallweit1@gmail.com>, Imre
- Deak <imre.deak@intel.com>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, Sam
- Ravnborg <sam@ravnborg.org>, Stanislav Lisovskiy
- <stanislav.lisovskiy@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/dp: Don't attempt AUX transfers when eDP panels are
- not powered
-In-Reply-To: <CAD=FV=VfuFrK1cSKA0maMzT5dxzKEzADqrd69fZKXuAGrU2rmA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240202141109.1.I24277520ac754ea538c9b14578edc94e1df11b48@changeid>
- <CAJMQK-it9YMod4rHKnACq4O-iaGieK2SN4x5vQ018CghsA631A@mail.gmail.com>
- <CAD=FV=VfuFrK1cSKA0maMzT5dxzKEzADqrd69fZKXuAGrU2rmA@mail.gmail.com>
-Date: Thu, 15 Feb 2024 12:24:47 +0200
-Message-ID: <87sf1u58k0.fsf@intel.com>
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1439110E46A
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 10:41:39 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-51178bbb5d9so772933e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 02:41:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1707993696; x=1708598496; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=VUYBcKj53WAi3y6gltiMvu5JfERqWvi9YPUJbVOf3Mo=;
+ b=esBbUJaoeHYSWL8UyNPEPgeO/FqxJXQGYJWudzR/vAL1BbviqDwR9kOOJann8tHiYu
+ McxFM9+5OaOrBYyAzrIZmHAMIaYLrTNi2ppQ3Z8yFSwluhiowEzRQyqCKS9HU+GREsZB
+ DdD3NA4xK/jdcIb46MD7ykKam+h7gG4DT6wyTELu+trXAp1HQBqz5Y5eV8yYjPq5ao1H
+ 0AF2AEMhN9dG3AN5Hhh20+DvZ2kkI0/TjH8XB4BUZQtpZgIdRrcP4s9Ta1WYTj8nGyTA
+ j7cjOXsh03GLqYTl9+JpBCcJN4hs56etCz2Ij4erQ7Jw6946LGEbjdQaxUgwv7DeTDXk
+ Ndvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1707993696; x=1708598496;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=VUYBcKj53WAi3y6gltiMvu5JfERqWvi9YPUJbVOf3Mo=;
+ b=FptKb6JdOzv6rDBCftmr0dEy0/xkGSBFGkPB0e9kxCGiYFGKMQGox70kGDmmJKLVKH
+ mYou6g0Lk/WwKgZrZKmdksOjZ3oVbSIjfF694E18G7cfsSzsWOXGcSF6cUWEhbJywT8S
+ pet42gq998WF2+aTxjFu7AIHUFiX76lkPc34zls6sVAVTJ76GNzSHn18Fb0DFZ8iqp/3
+ XST8jAX1NqEx79NLyoQVB5SOVN6+u3w/kGeSmIS1geFSLFEXRdYqfEeWpFIP8aafTIwP
+ +5HLDWt45pEJi4zziDzsMwM7Gthrzc5VJT6wplh0nWhk4fPQoOZJsrWqXsNobE8GxIA/
+ 6hKQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXpy32Rmz1yZbygVlpV3FMLQTV8raG+1OoMUk/yFWB2QZ1t6X/7NjCqNtBFDVkO9kweGsq79ZdAS9wbeOuvrwFW+r54AsZjwsaHWLA4Qv51
+X-Gm-Message-State: AOJu0YyS/UcOP1TWHh415HIMh+LQDnU9nBQpK1rfSjtmzbD4rq7OtvMh
+ TZyr7MXg/T497ahhltQHm0KKMDTfxIBa8vKKNOL3MHNfzM3HP1vXfQ/ygDttSxY=
+X-Google-Smtp-Source: AGHT+IEcAT4U/SeoV9QZ1GoMtyBdueDaX8N8avvtZi0g2w+pf1DVcF9RtUYsg2KCjzAVQ534XzYb1w==
+X-Received: by 2002:a05:6512:3ca5:b0:511:87c6:3060 with SMTP id
+ h37-20020a0565123ca500b0051187c63060mr1648595lfv.12.1707993696399; 
+ Thu, 15 Feb 2024 02:41:36 -0800 (PST)
+Received: from [192.168.192.135] (078088045141.garwolin.vectranet.pl.
+ [78.88.45.141]) by smtp.gmail.com with ESMTPSA id
+ t26-20020ac243ba000000b005119fdbac87sm189167lfl.289.2024.02.15.02.41.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Feb 2024 02:41:35 -0800 (PST)
+Message-ID: <20ab318e-e79f-419e-b68b-85ae0e5ab128@linaro.org>
+Date: Thu, 15 Feb 2024 11:41:32 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/4] drm/panel: Add driver for DJN HX83112A LCD panel
+Content-Language: en-US
+To: neil.armstrong@linaro.org, Luca Weiss <luca.weiss@fairphone.com>,
+ Linus Walleij <linus.walleij@linaro.org>
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg
+ <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Andy Gross <agross@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org
+References: <20240110-fp4-panel-v2-0-8ad11174f65b@fairphone.com>
+ <20240110-fp4-panel-v2-2-8ad11174f65b@fairphone.com>
+ <CACRpkdaWTfPDCin_L6pefHsokjNyO8Mo6hWPdzPLLi1EUkKUuA@mail.gmail.com>
+ <CYBZEZ4IM6IL.VR04W7933VI@fairphone.com>
+ <CACRpkdZQbVXfBa70nhDOqfWPbsh-6DgX-uvZOxr19pzMmF2giQ@mail.gmail.com>
+ <CYCLSCKPPBOC.1B1MP3VOOC0Q8@fairphone.com>
+ <cdc18e2a-b7eb-4b54-a513-481148fb3b0d@linaro.org>
+ <CYCMVXHYVDCI.HVH1TR8MWEUK@fairphone.com>
+ <CACRpkdacS9ojXUuogygkz6xxCf3mMq6GG_75sze8ukUu=rxVyw@mail.gmail.com>
+ <f99d363c-d4a6-44b3-8057-3925f8dac1d5@linaro.org>
+ <CYL76M5KT424.G3BC6JX74XVN@fairphone.com>
+ <CZ4P5PWJTODV.3UJ89H6M8W07H@fairphone.com>
+ <f9164049-6529-42c1-a35a-e91132c823b9@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <f9164049-6529-42c1-a35a-e91132c823b9@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,71 +143,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 14 Feb 2024, Doug Anderson <dianders@chromium.org> wrote:
-> Hi,
->
-> On Tue, Feb 13, 2024 at 10:25=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromium.or=
-g> wrote:
+On 14.02.2024 10:50, neil.armstrong@linaro.org wrote:
+> On 14/02/2024 10:33, Luca Weiss wrote:
+>> On Mon Jan 22, 2024 at 12:27 PM CET, Luca Weiss wrote:
+>>> On Fri Jan 12, 2024 at 11:26 AM CET,  wrote:
+>>>> On 12/01/2024 11:23, Linus Walleij wrote:
+>>>>> On Fri, Jan 12, 2024 at 10:52 AM Luca Weiss <luca.weiss@fairphone.com> wrote:
+>>>>>
+>>>>>> Since there's zero indication Truly is involved in this panel in my
+>>>>>> documentation - much less the number 5P65 - I'm not going to add that.
+>>>>
+>>>> Ack
+>>>>
+>>>>>
+>>>>> OK then, I fold, thanks for looking into it.
+>>>>> Keep the Himax hx83112a file name and symbols.
+>>>>>
+>>>>>> So in short this panel is the model 9A-3R063-1102B from DJN, which uses
+>>>>>> a Himax HX83112A driver IC.
+>>>>>
+>>>>> So compatible = "djn,9a-3r063-1102b" since the setup sequences for
+>>>>> hx83112a are clearly for this one display?
+>>>>
+>>>> Yep let's settle on that!
+>>>
 >>
->> On Wed, Feb 14, 2024 at 2:23=E2=80=AFPM Douglas Anderson <dianders@chrom=
-ium.org> wrote:
->> >
->> > If an eDP panel is not powered on then any attempts to talk to it over
->> > the DP AUX channel will timeout. Unfortunately these attempts may be
->> > quite slow. Userspace can initiate these attempts either via a
->> > /dev/drm_dp_auxN device or via the created i2c device.
->> >
->> > Making the DP AUX drivers timeout faster is a difficult proposition.
->> > In theory we could just poll the panel's HPD line in the AUX transfer
->> > function and immediately return an error there. However, this is
->> > easier said than done. For one thing, there's no hard requirement to
->> > hook the HPD line up for eDP panels and it's OK to just delay a fixed
->> > amount. For another thing, the HPD line may not be fast to probe. On
->> > parade-ps8640 we need to wait for the bridge chip's firmware to boot
->> > before we can get the HPD line and this is a slow process.
->> >
->> > The fact that the transfers are taking so long to timeout is causing
->> > real problems. The open source fwupd daemon sometimes scans DP busses
->> > looking for devices whose firmware need updating. If it happens to
->> > scan while a panel is turned off this scan can take a long time. The
->> > fwupd daemon could try to be smarter and only scan when eDP panels are
->> > turned on, but we can also improve the behavior in the kernel.
->> >
->> > Let's let eDP panels drivers specify that a panel is turned off and
->> > then modify the common AUX transfer code not to attempt a transfer in
->> > this case.
->> >
->> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
->> > ---
+>> Hi Neil and Linus,
 >>
->> Reviewed-by: Hsin-Yi Wang <hsinyi@chromium.org>
->
-> Thanks for the review!
->
-> Given that this touches core DRM code and that I never got
-> confirmation that Jani's concerns were addressed with my previous
-> response, I'm still going to wait a little while before applying. I'm
-> on vacation for most of next week, but if there are no further replies
-> between now and then I'll plan to apply this to "drm-misc-next" the
-> week of Feb 26th. If someone else wants to apply this before I do then
-> I certainly won't object. Jani: if you feel this needs more discussion
-> or otherwise object to this patch landing then please yell. Likewise
-> if anyone else in the community wants to throw in their opinion, feel
-> free.
+>> Any feedback about the below question?
+>>
+>> Regards
+>> Luca
+>>
+>>> It's clear to me to use "djn,9a-3r063-1102b" in the driver now but what
+>>> about dts?
+>>>
+>>> Currently here in v2 we have this:
+>>> compatible = "fairphone,fp4-hx83112a-djn", "himax,hx83112a";
+>>>
+>>> Should this just become this?
+>>> compatible = "djn,9a-3r063-1102b";
+>>>
+>>> Or e.g. this?
+>>> compatible = "djn,9a-3r063-1102b", "himax,hx83112a";
+>>>
+>>> Or something else completely? Do we have some documentation / best
+>>> practises around this maybe?
+> 
+> Sorry I totally missed the question.
+> 
+> Not sure if "himax,hx83112a" is needed here, the "djn,9a-3r063-1102b" is enough to know the IC is hx83112a.
+> 
+> I don't think you'll ever find a "djn,9a-3r063-1102b" with another controller IC ?
+> 
+> And "himax,hx83112a" alone as fallback is not enough to describe the panel hardware, so I think it should be dropped.
 
-Sorry for dropping the ball after my initial response. I simply have not
-had the time to look into this.
++1
 
-It would be great to get, say, drm-misc maintainer ack on this before
-merging. It's not fair for me to stall this any longer, I'll trust their
-judgement.
-
-Reasonable?
-
-
-BR,
-Jani.
-
-
---=20
-Jani Nikula, Intel
+Konrad
