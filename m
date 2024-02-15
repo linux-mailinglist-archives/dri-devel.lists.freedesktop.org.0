@@ -2,77 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74F7E8569DD
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 17:46:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D7878569F0
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 17:48:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F90F10E9E3;
-	Thu, 15 Feb 2024 16:46:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFFCE10E9EA;
+	Thu, 15 Feb 2024 16:48:43 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hbUF4Cei";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
- [209.85.128.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E175610E9E3;
- Thu, 15 Feb 2024 16:46:03 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id
- 00721157ae682-60495209415so11256627b3.3; 
- Thu, 15 Feb 2024 08:46:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708015562; x=1708620362;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/aJPR1+qU/nSDxDAaQk+wL6tkp4mOhhqNfm962/6hfU=;
- b=U7rWYnK/jKaQjEmI8qhaqu/jDGxNr8Yr7lllOvSoZWvYmWLhQUlBorGvmZDKOLaPrO
- SRFq69s/nDRXjUNTPjsEYnhkp/S8IH5slMBton54N2XDW73iqSt1kyMZAl6pUlvwFSVd
- Ak1JcICMsy4TSJ/6hEvWPN9KnjXz+2P0ljisP65YuN5KskKD8/UXvL7X58JWCvcKa6hy
- kILU76CPJ2WAeCqqdPi0TlEplLZb0qT5PfPr/LnwCbUz140FeHxbdeLyJrkYqBTurZFa
- 4exSeXV5JWSTHTP1N+Uoqagh+D2bNSm3MN9vNUPnefkxM1WCEirxsE3iWsQjBFIbZzxo
- zbdw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW8BS7sRR+lgmwAMkbKkj92g7JtNmzyzSwPcw1Ne5t/1oWyR9BIp+2jJJUFXy+jIRf6kHwUOep7DynjNTwZS0NIOyeLFi31NSeWm02QhAH8yX64TMWhkA4IJO13o8u0hVfTPYtTfOul3EFFmf+M0n+ZtqGNwutOJbxATR8HsGowr4HEFRceqKFzJaxxCFg02SlB
-X-Gm-Message-State: AOJu0YzjjNWIKg/CqKtAUelBzsuX2bTIlFMVQXFJ2ntHjhFBW8REVx7G
- rip/kjRIkF08tX8Ttuec/w97VJMNVju32LP8BSQNcDxY9GOPOz3pQ++4n7NHCFYCow==
-X-Google-Smtp-Source: AGHT+IGgNJIk2JTQpMYo7w6YgeKr2jCrNs9ong9Dz7OrNGhYPcsBbm4bYfAcYSKkfLt+6SQajuskCg==
-X-Received: by 2002:a81:6d43:0:b0:603:fdee:abd2 with SMTP id
- i64-20020a816d43000000b00603fdeeabd2mr2214343ywc.48.1708015562211; 
- Thu, 15 Feb 2024 08:46:02 -0800 (PST)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com.
- [209.85.128.178]) by smtp.gmail.com with ESMTPSA id
- o2-20020a0de502000000b0060410ee94a7sm305607ywe.143.2024.02.15.08.46.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Feb 2024 08:46:01 -0800 (PST)
-Received: by mail-yw1-f178.google.com with SMTP id
- 00721157ae682-607d9c4fa90so7111947b3.2; 
- Thu, 15 Feb 2024 08:46:01 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWNaSCRrhPLExnF4ay4o+fABjnM6c0xsdbipXUSgIh6JPYIDbsKJ9mqFdcZU7hG0BIeeW60JC5zmcfvx+T4NKB4aggE7U9Olgcb+SwFUo1qDBuUbjCyxfENDDJ05efPS8ELtKzWk+Xf9LTLv9OXm5pbePRZohwK7pXXJq32rsvSfJ6Qnb5n5Zc0Tuk0RT+OcGtm
-X-Received: by 2002:a0d:d944:0:b0:5ff:5232:8aa1 with SMTP id
- b65-20020a0dd944000000b005ff52328aa1mr2492432ywe.21.1708015561677; Thu, 15
- Feb 2024 08:46:01 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DBFA10E9E4;
+ Thu, 15 Feb 2024 16:48:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1708015720; x=1739551720;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=xgq4Ds/kAjzWrXkDesVD/FKc1lwyP5obgf32WIjrkRg=;
+ b=hbUF4CeidLRg/cMKKQpjqdOItfYWXw0c/yScb09K4d79YJ1nlhkP00oh
+ GJfp0TMyeNJxhQc+QSvj3WTWVvbDi6+/imHP0skoagjXsmJexAQga8dhR
+ trq/aNhOvtVfVxw0M6OBlJWgUEuAuAh13foOREnu4xxryHtGt/62zEAzG
+ f6dFm3MXpvUHHGbKcWe0ryvmbqqFMxr+8q8evWJsNlNSHxnY+3m39ynqE
+ 1HpBVOhBNhiiS9J3KF26vK12HNDafgCPlBJmT2QsnGFsvKut1TegR++17
+ 0pajILlcARi11giKUt1nN/blnbS9irS5S6YK8Pc/axfkZF0UCQ3beanIp A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="2253787"
+X-IronPort-AV: E=Sophos;i="6.06,162,1705392000"; 
+   d="scan'208";a="2253787"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2024 08:48:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="826435556"
+X-IronPort-AV: E=Sophos;i="6.06,162,1705392000"; d="scan'208";a="826435556"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga001.jf.intel.com with SMTP; 15 Feb 2024 08:48:37 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 15 Feb 2024 18:48:36 +0200
+Date: Thu, 15 Feb 2024 18:48:36 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Cc: Nemesa Garg <nemesa.garg@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Pekka Paalanen <ppaalanen@gmail.com>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ Xaver Hugl <xaver.hugl@gmail.com>
+Subject: Re: [RFC 0/5] Introduce drm sharpening property
+Message-ID: <Zc5AZKR3yZGcCoat@intel.com>
+References: <20240214112457.3734871-1-nemesa.garg@intel.com>
+ <640e06ab-73f6-450a-97c2-8ef2e9ebe8b7@amd.com>
 MIME-Version: 1.0
-References: <b4ffqzigtfh6cgzdpwuk6jlrv3dnk4hu6etiizgvibysqgtl2p@42n2gdfdd5eu>
- <723b78e0-5462-23f-a7d4-c8b9b614c0@linux-m68k.org>
- <ff7yoxjo64ykf5x3rvjiwvqyalddronfgzlz3kzs4f7r2nlxjd@lua6wp6wcp3p>
-In-Reply-To: <ff7yoxjo64ykf5x3rvjiwvqyalddronfgzlz3kzs4f7r2nlxjd@lua6wp6wcp3p>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 15 Feb 2024 17:45:50 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUUGX+TSrW8KhWagocXv5UcBkxSW8xdyzUesHBrzFtZPw@mail.gmail.com>
-Message-ID: <CAMuHMdUUGX+TSrW8KhWagocXv5UcBkxSW8xdyzUesHBrzFtZPw@mail.gmail.com>
-Subject: Re: Re: [PULL] drm-misc-fixes
-To: Maxime Ripard <mripard@redhat.com>
-Cc: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Oded Gabbay <ogabbay@kernel.org>, Lucas De Marchi <lucas.demarchi@intel.com>, 
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- dim-tools@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <640e06ab-73f6-450a-97c2-8ef2e9ebe8b7@amd.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,55 +72,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+On Thu, Feb 15, 2024 at 11:37:54AM -0500, Harry Wentland wrote:
+> Adding a couple of compositor devs as they might be interested in this.
+> 
+> On 2024-02-14 06:24, Nemesa Garg wrote:
+> > 	Many a times images are blurred or upscaled content is also not as
+> > crisp as original rendered image. Traditional sharpening techniques often
+> > apply a uniform level of enhancement across entire image, which sometimes
+> > result in over-sharpening of some areas and potential loss of natural details. 
+> > 
+> > Intel has come up with Display Engine based adaptive sharpening filter 
+> > with minimal power and performance impact. From LNL onwards, the Display
+> > hardware can use one of the pipe scaler for adaptive sharpness filter.
+> > This can be used for both gaming and non-gaming use cases like photos,
+> > image viewing. It works on a region of pixels depending on the tap size.
+> > 
+> > This RFC is an attempt to introduce an adaptive sharpness solution which
+> > helps in improving the image quality. For this new CRTC property is added.
+> 
+> I don't think CRTC is the right place for this. Scaling tends to be more
+> of a plane thing. Planes can be scaled independently, or is that not the
+> case for Intel? Or does Intel HW do this sharpening operation independent
+> of any scaling, on the entire output?
 
-On Thu, Feb 15, 2024 at 5:09=E2=80=AFPM Maxime Ripard <mripard@redhat.com> =
-wrote:
- On Thu, Feb 15, 2024 at 01:41:24PM +0100, Geert Uytterhoeven wrote:
-> > On Thu, 15 Feb 2024, Maxime Ripard wrote:
-> > > Matthew Auld (1):
-> > >      drm/tests/drm_buddy: add alloc_contiguous test
-> >
-> > Please drop this one.
-> >
-> > noreply@ellerman.id.au reported a build failure on m68k (and presumably
-> > other 32-bit platforms) in next-20240215:
-> >
-> > ERROR: modpost: "__umoddi3" [drivers/gpu/drm/tests/drm_buddy_test.ko] u=
-ndefined!
-> > ERROR: modpost: "__moddi3" [drivers/gpu/drm/tests/drm_buddy_test.ko] un=
-defined!
-> >
-> > Reverting commit a64056bb5a3215bd ("drm/tests/drm_buddy: add
-> > alloc_contiguous test") fixes the issue.
->
-> From a quick cross-compile test with arm(32), it seems to work there
-> interestingly:
->
-> ./tools/testing/kunit/kunit.py run \
->         --kunitconfig=3Ddrivers/gpu/drm//tests \
->         --cross_compile arm-linux-gnu- --arch arm
+We can scale either individual planes, or the entire crtc.
 
-shmobile_defconfig + CONFIG_DRM_KUNIT_TEST=3Dy + CONFIG_KUNIT=3Dy:
+> 
+> > The user can set this property with desired sharpness strength value with
+> > 0-255. A value of 1 representing minimum sharpening strength and 255
+> > representing maximum sharpness strength. A strength value of 0 means no
+> > sharpening or sharpening feature disabled.
+> > It works on a region of pixels depending on the tap size. The coefficients
+> > are used to generate an alpha value which is used to blend the sharpened
+> > image to original image.
+> >  
+> > Userspace implementation for sharpening feature and IGT implementation
+> > is in progress.
+> 
+> It would be very helpful to have an idea how this looks in userspace, and
+> which compositors will implement this.
 
-arm-linux-gnueabihf-ld: drivers/gpu/drm/tests/drm_buddy_test.o: in
-function `drm_test_buddy_alloc_contiguous':
-drm_buddy_test.c:(.text+0xe0): undefined reference to `__aeabi_uldivmod'
+Someone will probably need to spend some real time thinking
+how this interacts with the scaling filter propery (eg. if
+we want to extend that property with new values) and
+the laptop panel scaling mode property. We also want to
+implement the margin properties for external displays
+which also involves scaling. Ie. we need some kind of
+consistent story how all those things will work together.
 
-> But I agree, with should wait for a fix or a revert before merging this.
+> 
+> Harry
+> 
+> > 
+> > Nemesa Garg (5):
+> >   drm: Introduce sharpeness mode property
+> >   drm/i915/display/: Compute the scaler filter coefficients
+> >   drm/i915/dispaly/: Enable the second scaler
+> >   drm/i915/display/: Add registers and compute the strength
+> >   drm/i915/display: Load the lut values and enable sharpness
+> > 
+> >  drivers/gpu/drm/drm_atomic_uapi.c             |   4 +
+> >  drivers/gpu/drm/drm_crtc.c                    |  17 ++
+> >  drivers/gpu/drm/i915/Makefile                 |   1 +
+> >  drivers/gpu/drm/i915/display/intel_crtc.c     |   3 +
+> >  drivers/gpu/drm/i915/display/intel_display.c  |  20 +-
+> >  .../drm/i915/display/intel_display_types.h    |  11 +
+> >  .../drm/i915/display/intel_modeset_verify.c   |   1 +
+> >  .../drm/i915/display/intel_sharpen_filter.c   | 214 ++++++++++++++++++
+> >  .../drm/i915/display/intel_sharpen_filter.h   |  31 +++
+> >  drivers/gpu/drm/i915/display/skl_scaler.c     |  86 ++++++-
+> >  drivers/gpu/drm/i915/display/skl_scaler.h     |   1 +
+> >  drivers/gpu/drm/i915/i915_reg.h               |  19 ++
+> >  drivers/gpu/drm/xe/Makefile                   |   1 +
+> >  include/drm/drm_crtc.h                        |  17 ++
+> >  14 files changed, 416 insertions(+), 10 deletions(-)
+> >  create mode 100644 drivers/gpu/drm/i915/display/intel_sharpen_filter.c
+> >  create mode 100644 drivers/gpu/drm/i915/display/intel_sharpen_filter.h
+> > 
 
-Great, thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+Ville Syrjälä
+Intel
