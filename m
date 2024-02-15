@@ -2,78 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36964856ADC
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 18:22:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5825F856AF0
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 18:26:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E81910E25E;
-	Thu, 15 Feb 2024 17:22:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5361610E5B9;
+	Thu, 15 Feb 2024 17:26:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KedpxOtr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Emff3pkv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
- [209.85.216.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BD7B10E25E
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 17:22:50 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id
- 98e67ed59e1d1-296a02b7104so858560a91.2
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 09:22:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1708017769; x=1708622569; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JCdIxf+MdHUM0w19oPm6Hp9wHlfMiiR6Tc593XFKLQ8=;
- b=KedpxOtr2NG8zBwfap0zmDKeV/unW1iMhR5wf4aZE6osf0s9FOVld54g45v0dwrykT
- rMLIQcsSr0H9RznKKq325K0vG48lpHOLXXqRN1ujzidmj58G9TZN+IYCTeivKQvdN8P5
- 3NxMPtrbOOPFNMCHmpl8X9WOfxHtCjSWA1hSOxHtnMNf0U8T4BnC0WBq5eA46a6iuiRm
- A/KxvWOhFmEDMKLgKVhyA/HLIbjHBApxn9w03pnE276xAJDlT+zbY/ea0HgXgqg4TFYd
- rQzYfAuRGFc8x35sljosJSk5bqRmlqAhwQeMilIp1WN0QDQLcUDgmVE2S+AGoBYjBkph
- sqXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708017769; x=1708622569;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=JCdIxf+MdHUM0w19oPm6Hp9wHlfMiiR6Tc593XFKLQ8=;
- b=ke6kmTFbp2CAp3dn9idotI5x6SY2MMzGuDDp5yn7KLPP9n1V9q3pUdo5ZEE5R2Pnf/
- h0NkPjImJ91hj0MkCyMlUnXGzD3fLXYTkBRAqVJeoQPUsaofBq/irgyKplNL4D5l8z8R
- mtNJh4EN3rCUrH0NpKq/gNvBrZTkndie9UaofSn7t+HIL016pVDGqn6RBmO6EcNm77Tt
- PmIvLrQYAagmBBZdVrodlFxl//GNUcOP+OLZLVsaqnuobFPqu3U1zsa4yVB3zuXrbYOk
- SvpfZ20MWkIosr/IWRmdsB8+ydugW4ybOvZEbTJ61c8ECSSlftz2Hc8QUPK6fKdDqqJF
- Vn7Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX227PCPEmRAsuMZ1IG56DHUtiYMjd2dvNM85c4zhLPCqc1SP90yi5d0CmPLiVWpriKsRnYtpWfmFLN5IkhtfTQ9VnUbhXvDDPPqS9RfT2v
-X-Gm-Message-State: AOJu0YzI/pDuLF4K1AEtnL3NMeuqI9lKBbLBpCcnHPezle9VyJUwQEo7
- CdUDmj9AcUqUDPKJCo3rAOIfBl5MG1gPafcgTkoEjpJ7PU2tOIO8Dk7erpkpNz7Rm6N9eHXtNtQ
- Zt5QLEFixBCfZNHJD61f230SycA4=
-X-Google-Smtp-Source: AGHT+IF/k0/r55Dh8x6cWEdqsL08/CFLYMXa0asdRWlpnR/QDBrP/5PA5VHD9tvIkfuojErk/doTP31/d0bkOBiqvho=
-X-Received: by 2002:a17:90a:c78a:b0:299:1f85:6fdc with SMTP id
- gn10-20020a17090ac78a00b002991f856fdcmr1221911pjb.48.1708017769367; Thu, 15
- Feb 2024 09:22:49 -0800 (PST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 432CE10EA0F
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 17:26:33 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 45C9461DE9;
+ Thu, 15 Feb 2024 17:26:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72583C433C7;
+ Thu, 15 Feb 2024 17:26:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1708017989;
+ bh=eSq19Hx9R3mJB4qxGio917FATDQAO4ZEh4JWZW2Mwcg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Emff3pkv9SMwmr52IwT3QfZi8fKIdBD5hhfK9jDgUY0Xykumd+Hw8LHlyZvF644tZ
+ Wh+kitCoR8zbNcriaHGLEUuHQ4F0uG2i2Pxa44S+DkojGiZ4SECBwbxYuej/uw2cNY
+ J7onXGVpGHFcU7pByOsf1fAAOASYSFxGNdmifzhi4/yf+6br22aeFFOFb2aKrLog0g
+ Pxb1gzXNxi7QIMdbobSa/FvMtewoPlVC79zVB0uF8kaP/4t6IkbOY8AUspr4+nSjwu
+ X8IP1FMKwppSvrY6E32K1ga6ZqFjysf3iRifNN3TqddSTGzlABefXMhqzCXWYsUq6U
+ 2wXRrNyh3rKuw==
+Date: Thu, 15 Feb 2024 17:26:23 +0000
+From: Conor Dooley <conor@kernel.org>
+To: =?utf-8?B?UGF3ZcWC?= Anikiel <panikiel@google.com>
+Cc: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org,
+ daniel@ffwll.ch, dinguyen@kernel.org, hverkuil-cisco@xs4all.nl,
+ krzysztof.kozlowski+dt@linaro.org,
+ maarten.lankhorst@linux.intel.com, mchehab@kernel.org,
+ mripard@kernel.org, robh+dt@kernel.org, tzimmermann@suse.de,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ chromeos-krk-upstreaming@google.com, ribalda@chromium.org
+Subject: Re: [PATCH 8/9] media: dt-bindings: Add Intel Displayport RX IP
+Message-ID: <20240215-moodiness-concert-0050a16f644c@spud>
+References: <20240212131323.2162161-1-panikiel@google.com>
+ <20240212131323.2162161-9-panikiel@google.com>
 MIME-Version: 1.0
-References: <6be2558b8462fc08095c24c9257563ab5f3ae013.1708001398.git.geert+renesas@glider.be>
- <kycepdxukfsww3tnxoo5hoiuo3vcgpqqmynokzhtl4vodgm6zc@ih4uhw7gz4jh>
- <CAMuHMdVf7ophCwKt-n_N-LBHV4+t14Gjb4d1O0T8FDk_9xMFtA@mail.gmail.com>
- <CAHCN7xJ65RP8TO7cS0p5DwE6zru5NEF0_JA+8siT_OpSeLD7pA@mail.gmail.com>
-In-Reply-To: <CAHCN7xJ65RP8TO7cS0p5DwE6zru5NEF0_JA+8siT_OpSeLD7pA@mail.gmail.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Thu, 15 Feb 2024 11:22:38 -0600
-Message-ID: <CAHCN7x+EnSU8qk5dBFco=0vkeknGq18qEN7vFmZs0_q83T_3+w@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/imagination: DRM_POWERVR should depend on ARCH_K3
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Maxime Ripard <mripard@kernel.org>, Frank Binns <frank.binns@imgtec.com>, 
- Matt Coster <matt.coster@imgtec.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Sarah Walker <sarah.walker@imgtec.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>, 
- Nishanth Menon <nm@ti.com>, Marek Vasut <marek.vasut@mailbox.org>, 
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="hSfnCMcAR7JL8pIR"
+Content-Disposition: inline
+In-Reply-To: <20240212131323.2162161-9-panikiel@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,84 +65,197 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 15, 2024 at 11:10=E2=80=AFAM Adam Ford <aford173@gmail.com> wro=
-te:
->
-> On Thu, Feb 15, 2024 at 10:54=E2=80=AFAM Geert Uytterhoeven
-> <geert@linux-m68k.org> wrote:
-> >
-> > Hi Maxime,
-> >
-> > On Thu, Feb 15, 2024 at 5:18=E2=80=AFPM Maxime Ripard <mripard@kernel.o=
-rg> wrote:
-> > > On Thu, Feb 15, 2024 at 01:50:09PM +0100, Geert Uytterhoeven wrote:
-> > > > Using the Imagination Technologies PowerVR Series 6 GPU requires a
-> > > > proprietary firmware image, which is currently only available for T=
-exas
-> > > > Instruments K3 AM62x SoCs.  Hence add a dependency on ARCH_K3, to
-> > > > prevent asking the user about this driver when configuring a kernel
-> > > > without Texas Instruments K3 Multicore SoC support.
-> > >
-> > > This wasn't making sense the first time you sent it, and now that com=
-mit
-> > > log is just plain wrong. We have firmwares for the G6110, GX6250,
-> > > GX6650, BXE-4-32, and BXS-4-64 models, which can be found on (at leas=
-t)
-> > > Renesas, Mediatek, Rockchip, TI and StarFive, so across three
-> >
-> > I am so happy to be proven wrong!
-> > Yeah, GX6650 is found on e.g. R-Car H3, and GX6250 on e.g. R-Car M3-W.
-> >
-> > > architectures and 5 platforms. In two months.
-> >
-> > That sounds like great progress, thanks a lot!
-> >
-> Geert,
->
-> > Where can I find these firmwares? Linux-firmware[1] seems to lack all
-> > but the original K3 AM62x one.
->
-> I think PowerVR has a repo [1], but the last time I checked it, the
-> BVNC for the firmware didn't match what was necessary for the GX6250
-> on the RZ/G2M.  I can't remember what the corresponding R-Car3 model
-> is.  I haven't tried recently because I was told more documentation
-> for firmware porting would be delayed until everything was pushed into
-> the kernel and Mesa.  Maybe there is a better repo and/or newer
-> firmware somewhere else.
->
-I should have doubled checked the repo contents before I sent my last
-e-mail , but it appears the firmware  [2] for the RZ/G2M, might be
-present now. I don't know if there are driver updates necessary. I
-checked my e-mails, but I didn't see any notification, or I would have
-tried it earlier.  Either way, thank you Frank for adding it.  I'll
-try to test when I have some time.
 
-> adam
->
-> [1] https://gitlab.freedesktop.org/frankbinns/linux-firmware/-/tree/power=
-vr/powervr?ref_type=3Dheads
+--hSfnCMcAR7JL8pIR
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[2] - https://gitlab.freedesktop.org/frankbinns/linux-firmware/-/commit/fec=
-b3caebf29f37221fe0a20236e5e1415d39d0b
+Yo,
 
->
->
-> >
-> > Thanks again!
-> >
-> > [1] https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firm=
-ware.git/
-> >
-> > Gr{oetje,eeting}s,
-> >
-> >                         Geert
-> >
-> > --
-> > Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-=
-m68k.org
-> >
-> > In personal conversations with technical people, I call myself a hacker=
-. But
-> > when I'm talking to journalists I just say "programmer" or something li=
-ke that.
-> >                                 -- Linus Torvalds
+On Mon, Feb 12, 2024 at 01:13:22PM +0000, Pawe=C5=82 Anikiel wrote:
+> The Intel Displayport RX IP is a part of the DisplayPort Intel FPGA IP
+> Core. It implements a DisplayPort 1.4 receiver capable of HBR3 video
+> capture and Multi-Stream Transport. The user guide can be found here:
+>=20
+> https://www.intel.com/programmable/technical-pdfs/683273.pdf
+>=20
+> Signed-off-by: Pawe=C5=82 Anikiel <panikiel@google.com>
+> ---
+>  .../devicetree/bindings/media/intel,dprx.yaml | 125 ++++++++++++++++++
+>  1 file changed, 125 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/intel,dprx.ya=
+ml
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/intel,dprx.yaml b/Do=
+cumentation/devicetree/bindings/media/intel,dprx.yaml
+> new file mode 100644
+> index 000000000000..3ed37e0a4a94
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/intel,dprx.yaml
+> @@ -0,0 +1,125 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/intel,dprx.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Intel DisplayPort RX IP
+> +
+> +maintainers:
+> +  - Pawe=C5=82 Anikiel <panikiel@google.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: intel,dprx
+
+Please version this compatible, given that is it for an FPGA IP.
+I could not find an example of another intel IP that had versioning, but
+there's plenty of xilinx stuff you can get inspiration from.
+
+> +  reg:
+> +    items:
+> +      - description: core registers
+> +      - description: irq registers
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  intel,has-mst:
+
+Mostly this looks fine, but this property drew my eye.
+Firstly, I'd probably call this "intel,multi-stream-support" rather than
+"intel,has-mst".
+
+> +    type: boolean
+> +    description: The device supports Multi-Stream Transport
+
+Secondly, there are many many configuration parameters for this IP,
+but you have chosen to document just one.
+Are all other configuration parameters currently in their default
+states or ignored by the driver? If not, please at least document all
+configuration settings that you rely on - for example the max stream
+count or audio packet encoding.
+
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/properties/port
+> +    description: SST main link
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: MST virtual channel 0 or SST main link
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: MST virtual channel 1
+> +
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: MST virtual channel 2
+> +
+> +      port@3:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: MST virtual channel 3
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +
+> +allOf:
+> +  - if:
+> +      required:
+> +        - intel,has-mst
+> +    then:
+> +      required:
+> +        - ports
+> +    else:
+> +      required:
+> +        - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    dprx@c0062000 {
+
+"dprx" isn't a class of device, please try to use a generic node name
+here.
+
+Thanks,
+Conor.
+
+> +        compatible =3D "intel,dprx";
+> +        reg =3D <0xc0062000 0x800>,
+> +              <0xc0060f80 0x10>;
+> +        interrupts =3D <GIC_SPI 27 IRQ_TYPE_LEVEL_HIGH>;
+> +        intel,has-mst;
+> +
+> +        ports {
+> +            #address-cells =3D <1>;
+> +            #size-cells =3D <0>;
+> +
+> +            port@0 {
+> +                reg =3D <0>;
+> +                dprx_mst_0: endpoint {
+> +                    remote-endpoint =3D <&fb_mst0_0>;
+> +                };
+> +            };
+> +
+> +            port@1 {
+> +                reg =3D <1>;
+> +                dprx_mst_1: endpoint {
+> +                    remote-endpoint =3D <&fb_mst1_0>;
+> +                };
+> +            };
+> +
+> +            port@2 {
+> +                reg =3D <2>;
+> +                dprx_mst_2: endpoint {
+> +                    remote-endpoint =3D <&fb_mst2_0>;
+> +                };
+> +            };
+> +
+> +            port@3 {
+> +                reg =3D <3>;
+> +                dprx_mst_3: endpoint {
+> +                    remote-endpoint =3D <&fb_mst3_0>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +  - |
+> +    dprx@c0064000 {
+> +        compatible =3D "intel,dprx";
+> +        reg =3D <0xc0064000 0x800>,
+> +              <0xc0060fe0 0x10>;
+> +        interrupts =3D <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
+> +
+> +        port {
+> +            dprx_sst_0: endpoint {
+> +                remote-endpoint =3D <&fb_sst_0>;
+> +            };
+> +        };
+> +    };
+> --=20
+> 2.43.0.687.g38aa6559b0-goog
+>=20
+
+--hSfnCMcAR7JL8pIR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZc5JPwAKCRB4tDGHoIJi
+0gBLAQDhmoTNTAhTFhv9uO2IJ/2GJs5qeqMZXhKTI+ttHPKd1wEA43adUWXt/iGD
+f7ogI1OIq4ytqQCW75qGuHEwYznCAQ8=
+=drWq
+-----END PGP SIGNATURE-----
+
+--hSfnCMcAR7JL8pIR--
