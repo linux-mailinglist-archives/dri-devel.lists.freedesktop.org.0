@@ -2,95 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0DB2856DA3
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 20:25:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B11CE856DE6
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 20:40:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1386B10E936;
-	Thu, 15 Feb 2024 19:25:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6E4410E22C;
+	Thu, 15 Feb 2024 19:40:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Rs17/uYS";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="R6GfjO8m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2060.outbound.protection.outlook.com [40.107.237.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B68010E908;
- Thu, 15 Feb 2024 19:25:13 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2064.outbound.protection.outlook.com [40.107.220.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 136F010E22C
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 19:40:51 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FcnH1EBKdEx12DuYdr+WYwbSdqbFK6JgD3oBzpLZ9Nu2lohIrxeMzv6tvssiDpKQ+pAo9Ll1hpZqw2xI4sxY3jyR4muKm8Xbq2jdf2OWv7UQDFPvclFrbj8pdDaXOlK7o5+OhsNff5dU7oY+/1p1LHoOLrX7KLNmvJtOoS998K7WGHxvNGPSu1biSYmBjgzLOhRAEEhY0jNaJ7gdLCJI5nSVIfeJIiRiC2ZDqiOtM9Y+YYVj13mB07Oh+f9KTOYtM7VsE3Dr72uO8hh4RFRhZhVGqNBhDVyIlVDvUSgi6c9rY9HbKvxGjwxn7OE2GFm3sj9m+Um9yYZ/2Y/gtewe+w==
+ b=AKEwO2g0efOEJid5ErS1UdHXbwKuTfpnx2IcmvLcUW7+xxB6obyDqSEO6iYWWo/ccJWt773ZSCzCtiUc8WeC4guX+6WKf4t3fsnqhwTXUe+pJQYSB8EVwuO8V+5OCX/FoteFTJfBUEitzHvnWpkcD2+4vi5TspAr2j62GI0wTSMvDetPXWtFUpkBxKPcCEi+Cb//BRBF8KBqMLAmV638PgqVaRJxRHRGJuw35d3QlaNQA6ayCcBRy7V5/nEPHwVS6dz3WbjgBjXxYhcTs7kA4urk69I0lgk9GmaTjTvzcl4/fan8921fHx4GLExUb7p+PPHRzs1PahX5AQzbyC1nag==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4aQ/HAysVaqHPp/azgOB0TR0rx3tiZV3s0brCgkTtGY=;
- b=gRmHcE6Qr5AEUmSgttk4lRDLIwKvryBChsmCD2uSzOTH7gsr7zYpp++XSy7+KOawtGUL6mFFLaFpre5QkuebgQYJZ0KtZwskmU4ggML5zkwO7o6zDIPjzLqXVkv8YVs3IzaiEUwUm9OiwzvNlt3iqDfCsG0OTnEwbSuq8Od26OwAVs6pddniS4HnbbiSVCeU4uZAtB4uvWI3hl1V1Rsn5fqYfQLbXwctkcpSRnAEypq4AJTRfJHf2rkNrVRCiuzha47y3rDw545320x12BV6JGngtU72v/nFh5fOFhYAMgcqysH+QuQvmmx4f9jqXecugeT2Suv10F2qK5NkoaFsuA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
+ bh=Yjzb9UPsFsOZlGhlPYdVL1SAW7gno/53FSEL3EuZYjI=;
+ b=T4TI9vDEDmHypBMGKjhTYfx+hmzwqxAZikHx4G5P//vC5fRetRnqeKgT8MId+9wIsWERdWeeWpSvGsRM1LcErPmOmTcCRSfE0pOpKiITtuGEcJtWjZFEZi2FpOPzl9vi7Z2UQn1/JLg5AVWERYjYQHnQb6L3t5uewBICJ6r4hXH16/j2vGmtmP96qXMZ4smKE9tIlaE/jclOhrsYi7yAttjBqjyN7JtBqCjvscBZKBilYP8xfAo33gFjzLy7jc6eMIzyDpMysL/siqbHVEQXH+bBMQ3G5DxCadMKIg0q+xQxCi/1BUGlPvTUVgv/AOJduIAtQ4w9p9Z9xCFRYrcFuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4aQ/HAysVaqHPp/azgOB0TR0rx3tiZV3s0brCgkTtGY=;
- b=Rs17/uYSJduGFppdbWWEjcqlr09/ER0Akzv2N2ro9esyQRrb6gLCFPvB+/mlJgUM1tBNWkqVhhZXfiETSn8v0R8J/L8/9Alqwdrl1QqLdDn7LZTR0PjnHn+sFnsfPzhkI2TXz2iKlBNvJ3pML7wsjUT1F7n+eARv8jW/RuOrLb8=
-Received: from BYAPR06CA0047.namprd06.prod.outlook.com (2603:10b6:a03:14b::24)
- by IA0PR12MB8648.namprd12.prod.outlook.com (2603:10b6:208:486::19)
+ bh=Yjzb9UPsFsOZlGhlPYdVL1SAW7gno/53FSEL3EuZYjI=;
+ b=R6GfjO8mMsvIWTUqGGYN3wmoSB2VtvLmDPBOOsZ+nz6qDyGVGVSk9lf0842pN5qLaalvh8oActlW3pKO65/+NBzmdCdwfewQb2hPtFWrZZOPYCSNKngLMV5n2pRLSk7yvpK/PZa/Te7EmHlPGDzlWZkbyPUmQvIIVJK1MjShFqY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by PH8PR12MB7136.namprd12.prod.outlook.com (2603:10b6:510:22b::5)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.25; Thu, 15 Feb
- 2024 19:25:08 +0000
-Received: from SJ1PEPF00001CEA.namprd03.prod.outlook.com
- (2603:10b6:a03:14b:cafe::79) by BYAPR06CA0047.outlook.office365.com
- (2603:10b6:a03:14b::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.26 via Frontend
- Transport; Thu, 15 Feb 2024 19:25:08 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ1PEPF00001CEA.mail.protection.outlook.com (10.167.242.26) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7292.25 via Frontend Transport; Thu, 15 Feb 2024 19:25:08 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Thu, 15 Feb
- 2024 13:25:06 -0600
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
-CC: Alex Deucher <alexander.deucher@amd.com>
-Subject: [pull v2] amdgpu, amdkfd drm-fixes-6.8
-Date: Thu, 15 Feb 2024 14:24:52 -0500
-Message-ID: <20240215192452.11805-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.42.0
+ 2024 19:40:46 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::dd00:9ab5:4d11:2d1a]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::dd00:9ab5:4d11:2d1a%7]) with mapi id 15.20.7316.012; Thu, 15 Feb 2024
+ 19:40:46 +0000
+Message-ID: <bb8d631d-9f6c-48e8-a504-8931ee21014d@amd.com>
+Date: Thu, 15 Feb 2024 13:40:43 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] fbcon: Defer console takeover for splash screens
+ to first switch
+Content-Language: en-US
+To: Daniel van Vugt <daniel.van.vugt@canonical.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Helge Deller <deller@gmx.de>, Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Jani Nikula <jani.nikula@intel.com>, Maxime Ripard <mripard@kernel.org>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <f2c54ff7-d601-49d0-b5ad-9b111d743ded@canonical.com>
+ <20240214052412.22770-1-daniel.van.vugt@canonical.com>
+ <20240214052412.22770-2-daniel.van.vugt@canonical.com>
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <20240214052412.22770-2-daniel.van.vugt@canonical.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN7PR04CA0181.namprd04.prod.outlook.com
+ (2603:10b6:806:126::6) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CEA:EE_|IA0PR12MB8648:EE_
-X-MS-Office365-Filtering-Correlation-Id: a455bf44-32e7-431a-8ac6-08dc2e5bd21d
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|PH8PR12MB7136:EE_
+X-MS-Office365-Filtering-Correlation-Id: b93f765b-08c5-4aa0-6f1c-08dc2e5e0133
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dTCcMex0eBhh9bEHn9M7Nx+3uiX2ss/imQEI8jyuq933wR0UeRyc7BjW8A6cJVGQ4S+hkhmHKtefyPIOn9FxgPjv5q3oqeRlXIZp8cFw0gMJy+AbhMJ+od+Am409CERNSeCVfS1d3NsF9aV0Mui5Rirax1HSoTwiHyQ1/J/MnhAWEtDSzRUxHtwj+b3gT6sYkF/KmsNV+ESrBPH9kJFmVyxoZyPa6mUmitRXA1QM7RDToMcapaTbZsSa3ixG1kpdXL+nHA8dqfiyLzP89tEKsmR5hQRzC3IK1mdAX1oIZ6MzwH0FZCMv5wfl2HHS0Pkf3tuHBGt84B1YoiXroqaM9fGVIASxaU5b0cE4W/PdZKV50sNO4dQLy/SqSbNkyRevmAp20fMYLSNK5cm+GZgSbTfFGOlEmDVJW4azIHHOrH/2qzDTRmDqUYUBMutsGfT8YGNzN9b+qlg3QebPTIK6vLQPldVA7ePvL30js1JyAxW/ztDccTrjij0+S/G2HqorCFxvAvJM16VZujW6h07Zd3ozl0Kjdi9usgaqSdiHVqgLzLOPv9XedGqXA0lz5w1YzmKvdlcYpksqaqGgT85WMz2777llPkC/z8gb1FdfJtozLZ+7fpnzLLTL8yxjYOEy+hxFlMs0GMX2tdr8lotu8g==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(39860400002)(346002)(376002)(396003)(136003)(230922051799003)(64100799003)(1800799012)(186009)(82310400011)(36860700004)(451199024)(40470700004)(46966006)(8936002)(8676002)(2906002)(5660300002)(4326008)(2616005)(336012)(426003)(83380400001)(16526019)(356005)(82740400003)(36756003)(26005)(1076003)(81166007)(70586007)(6666004)(316002)(110136005)(86362001)(70206006)(7696005)(966005)(478600001)(41300700001);
+X-Microsoft-Antispam-Message-Info: 0fu6ottflXg7W3CLSXlbE1qDpEVSlsmaOoBqVJon+70AX6eu4IeddgYj/g+ne8Ow//vbb7PTTOoEhkC5/BgTrKvIju80Mbl14NOebRP4xD5Qy3nMMnQ6jdDDXhN/izruIyQ7tdyQd9XEH1AkaRy7bHNwo3au7Ehxqb2jAiRmufzKgBf7TmpjG6+3ikAObX2MxpgAZQWb03Z8zoVUqhAcX/lXth2TjH5xGewhEBMSzNKcQGexrwLUljQE5MtaeJ5jJ/EJUaUF0vXwLRQxhHC5849YmbVD5BwC4QlY+fZSTjJV9zNCXHP3kzWYkg9Iz4AIVz7khJnSDxzGpzWYkb/HKVJ1YWoFLwY3N5FDp0ddRREgCbisU8FdfhusPE5Q8EWdWOQNHZify02Qt82R8qoQCP2WOO2fTtfbP5wnfUXLy9hnqe/Rlf65eslLJPcuivkttCgI4bSYNrK2itNqAN4/CsqvU9dD4Z7qh45jE5Dj2V2pBESclQ7OGtbI01jqnQ+YicL1NQJ7vZdH2DOLSAN/kkQpXws/8/VmZ1aO+o0HmPg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(376002)(366004)(396003)(39860400002)(346002)(230922051799003)(1800799012)(186009)(64100799003)(451199024)(6666004)(2906002)(316002)(31686004)(54906003)(7416002)(44832011)(5660300002)(66946007)(66476007)(66556008)(966005)(4326008)(86362001)(31696002)(83380400001)(6916009)(8676002)(8936002)(6506007)(478600001)(26005)(36756003)(41300700001)(2616005)(6486002)(6512007)(53546011)(38100700002);
  DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?c2twTGw5WWdnSHY3dlk4YjlVcEkzMXlMTHhWSkFRZG1yRW9UUFFqbHVTK014?=
+ =?utf-8?B?UGJucS9BOUp2azVzdjhrQ2cxK0ZoS2lYN0c0R3o4TFMxaVJCWVJDcWF5SXdj?=
+ =?utf-8?B?U2h3Yk1FWXNqMm1LdTRPQnhzMFhjaG1OTzZBUmF6NjlydVJrbEo1R1drNStp?=
+ =?utf-8?B?V0ErdUZiVTVuVnl3bEhBVjE3MVpUSDBHeW5kSkNNeUQ3S21zYncrNDRHSGNs?=
+ =?utf-8?B?RFF4U0VVOWI5Qzk3Q3I4SnV0N0IzVWhkUVpsTDVLU0ZLMzN3S3ppNE54QTdI?=
+ =?utf-8?B?N3JwclBRdU93K3k0RlVmMndDZnZPdTN5OHgrZHhkUG94TXBpRGdGUUVibEN1?=
+ =?utf-8?B?YTNBTk9VeUpZUDJnNmtWRDUwYkJTZElyalNuT1JNYnVLN3c5NTBCUS9mU0Va?=
+ =?utf-8?B?SFlPT2FNakVxVm5GWnBVcW8weGM4N3g5Mnl3NUVWbVZuMEpXTk1FL05nMVg4?=
+ =?utf-8?B?KzlSdnAwWnh2MUhPMkVkaWF4TDJhSFUzRGZxWE5hcGM4L25nZkEzaEpYYjVC?=
+ =?utf-8?B?U2diMWZxYitzR2xtOVppMHFWd0VTS3l1QkdsY0RwR2dxemE0SmlVREVXZzc3?=
+ =?utf-8?B?bC9KQ0Y0RllCaDNENDBFeUZWRnlGVTMxVlN5R08reWpkK3RIb0R2NXhHd1Fu?=
+ =?utf-8?B?U01YdDVpTHVPRW4yRU16TE81SkowZUpHRmE3bTUzL1dHZVljNkpWUFJsOUVM?=
+ =?utf-8?B?MUtNVG9uMlNzQmJqNk5xaW5ScWdwazhVRmU3cjdHRWxER2NiMXk4UU1DUWw3?=
+ =?utf-8?B?elJkOGZSWkVsWGEwdXcwTUZnWGZlMFNJdDRkZW9Yd1FUUXhkMis3WDVCRUth?=
+ =?utf-8?B?bVZraG1mek9kZFErSlRQWE5pcGp0ek90d0F3aHV0R0tTdHBaVWQ4YnU2aXBZ?=
+ =?utf-8?B?YmlDeTRNL0tPYkdMeHZnTEJzVjZMblpjL3ZqcjhHek1ScDJLNE5HSWNQSXhs?=
+ =?utf-8?B?OXM5VkJ5QUw0VkQwNUNVZWVISytnREdrS1RJNkQzM0ZYbTZ6dUZuTDNXQ0U0?=
+ =?utf-8?B?UHpuOUNZQ3IzWmFlZFgrM3N0RUxqNEt5bE5aUzRyUlZYbDNUR2JZQVFwTTYr?=
+ =?utf-8?B?UWxIbk9BN3g0bG16bGJwaWYvbW1ob0pHRGV2V1E5amNNYzJJdjVPQzI0alJj?=
+ =?utf-8?B?b0NnODFkYTh1bDBEQTBCMkNwSlMvQUQ5UWhMeUdaeWtTTU1qVEdNUCtobVo4?=
+ =?utf-8?B?cDdhc2FCNkJSNnNFV1oxY2cvM0tMZ29vbTZadFZzUmdWVGRMSWwzNHFldm96?=
+ =?utf-8?B?dk9WRjZlaVdHc2NPVGN5OFB5RnlHTSthRlNBMnpFZVcvTUwwdDZ1Kzl3dW9S?=
+ =?utf-8?B?K05oM3V5Nk9KSVRaMGJTcndBTUdCTHgrS0dwSFFpZXVZMWFPQXphSGxHcHNZ?=
+ =?utf-8?B?aGtRN1JaQ2FCWXBGYTcrWldvNVRYUnllSEZFRURJOThPczVidUlQbDZCaHU1?=
+ =?utf-8?B?S3ROOGhrSTgzMzhFS1dnS1o2REF3czB4ckVXZGJBR3dPcm9SbXlSeDNkT0xo?=
+ =?utf-8?B?aUVEWE96NHZ5aENFWHhSbCtNWE5NdmhTV1hIdnhhYVYxV2JhWjBIRHNQaGp5?=
+ =?utf-8?B?UGlrMnFTWUVYVHJhVXdETnV5ekxwSG1XTHBVSTVUajlKQTNPUElHc0ZMVFRs?=
+ =?utf-8?B?dGIvYWVGRWZNRGVpdWg4RExDbkFjekt5d3MvNHcvYzFzY2Joais5VzNVeFkz?=
+ =?utf-8?B?ZU5tYjBqMDRqLzUyZ1JkbEJlZUZWNW1OUm9uN3pjK0pPZG5UdTQzQ3FsTXIy?=
+ =?utf-8?B?S1hoYjVXRy9NdUQ3L3l0eUJXdWtXSlZ5N1drV1F3bmxzVDdkcmEvNWZ3K0J0?=
+ =?utf-8?B?My82bGJOREw5a1F3bWR1L0VHSEJvNkxPaFNRdU9VM0tFYmY2dVhwRXhWb01Z?=
+ =?utf-8?B?WUM0SXozSmRGMS8rSzh5RklCd2JJSWc1ZkovRDI3NUxPTWVLUG5CZHJXQ09V?=
+ =?utf-8?B?V0ZsTW90WmdWR1lyR21RSUVKQTBhT1M5dWFwMGd1b3VHZFdUTHd6all6bXlz?=
+ =?utf-8?B?dzVXOGxNQVpOQzYwcnhwenFBVFZDTlc3QmdHY015YndzVkc3dEt2bVlhbTRQ?=
+ =?utf-8?B?WW5WWWJRUUdTa0lacjRFNmFVRzhLVTBlUnV0OVY2VHVFMS9XNnkzeVZkOTJP?=
+ =?utf-8?Q?EXX8O0Rxd7kRP0btI4rF4Sf5i?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2024 19:25:08.0570 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a455bf44-32e7-431a-8ac6-08dc2e5bd21d
+X-MS-Exchange-CrossTenant-Network-Message-Id: b93f765b-08c5-4aa0-6f1c-08dc2e5e0133
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2024 19:40:46.3176 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00001CEA.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8648
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: iWSyuPn2bQR1DPzNGxst6HU5hOb4pQsZRmjkKNDLyebt6l9AKlS7LjCFZx2ZGxAkMWpwtjIEI9bo6iz6e37fSQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7136
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,106 +138,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+On 2/13/2024 23:24, Daniel van Vugt wrote:
+> Until now, deferred console takeover only meant defer until there is
+> output. But that risks stepping on the toes of userspace splash screens,
+> as console messages may appear before the splash screen. So check the
+> command line for the expectation of userspace splash and if present then
+> extend the deferral until the first switch.
 
-Same PR as earlier today, but drop the panel power saving debugging patches
-for now at Harry's request.
+I think your comment from the earlier version that this can still happen 
+on simpledrm (albeit less frequently) is very relevant here for the 
+commit message.
 
-The following changes since commit 841c35169323cd833294798e58b9bf63fa4fa1de:
+> 
+> v2: Added Kconfig option instead of hard coding "splash".
+> v3: Default to disabled, not "splash". If enabled then take over on
+>      switch rather than on first output after switch.
+> 
 
-  Linux 6.8-rc4 (2024-02-11 12:18:13 -0800)
+These you'll want below the cutlist (---)
 
-are available in the Git repository at:
+Also I think you should mention in the commit message that the 
+indication of a userspace splash is set by the Kconfig.
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.8-2024-02-15-2
+> Closes: https://bugs.launchpad.net/bugs/1970069
+> Cc: Mario Limonciello <mario.limonciello@amd.com>
+> Signed-off-by: Daniel van Vugt <daniel.van.vugt@canonical.com>
+> ---
+>   drivers/video/console/Kconfig    | 12 +++++++++
+>   drivers/video/fbdev/core/fbcon.c | 44 +++++++++++++++++++++++++++++---
+>   2 files changed, 52 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/video/console/Kconfig b/drivers/video/console/Kconfig
+> index bc31db6ef7..2f9435335f 100644
+> --- a/drivers/video/console/Kconfig
+> +++ b/drivers/video/console/Kconfig
+> @@ -138,6 +138,18 @@ config FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER
+>   	  by the firmware in place, rather then replacing the contents with a
+>   	  black screen as soon as fbcon loads.
+>   
+> +config FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER_CONDITION
+> +	string "Command line parameter to defer takeover to first switch"
+> +	depends on FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER
+> +	default ""
+> +	help
+> +	  If enabled this defers further the framebuffer console taking over
+> +	  until the first console switch has occurred. And even then only if
+> +	  the specified parameter is found on the command line. This ensures
+> +	  fbcon does not interrupt userspace splash screens such as Plymouth
+> +	  which may be yet to start rendering at the time of the first console
+> +	  output.
+> +
+>   config STI_CONSOLE
+>   	bool "STI text console"
+>   	depends on PARISC && HAS_IOMEM
+> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+> index 1183e7a871..e5d841ab03 100644
+> --- a/drivers/video/fbdev/core/fbcon.c
+> +++ b/drivers/video/fbdev/core/fbcon.c
+> @@ -76,6 +76,7 @@
+>   #include <linux/crc32.h> /* For counting font checksums */
+>   #include <linux/uaccess.h>
+>   #include <asm/irq.h>
+> +#include <asm/cmdline.h>
+>   
+>   #include "fbcon.h"
+>   #include "fb_internal.h"
+> @@ -3348,7 +3349,7 @@ static int fbcon_output_notifier(struct notifier_block *nb,
+>   {
+>   	WARN_CONSOLE_UNLOCKED();
+>   
+> -	pr_info("fbcon: Taking over console\n");
+> +	pr_info("fbcon: Taking over console for output\n");
+>   
+>   	dummycon_unregister_output_notifier(&fbcon_output_nb);
+>   
+> @@ -3357,6 +3358,27 @@ static int fbcon_output_notifier(struct notifier_block *nb,
+>   
+>   	return NOTIFY_OK;
+>   }
+> +
+> +#ifdef CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER_CONDITION
+> +static int initial_console;
+> +static struct notifier_block fbcon_switch_nb;
+> +
+> +static int fbcon_switch_notifier(struct notifier_block *nb,
+> +				 unsigned long action, void *data)
+> +{
+> +	struct vc_data *vc = data;
+> +
+> +	WARN_CONSOLE_UNLOCKED();
+> +
+> +	if (vc->vc_num != initial_console) {
+> +		pr_info("fbcon: Taking over console for switch\n");
+> +		dummycon_unregister_switch_notifier(&fbcon_switch_nb);
+> +		schedule_work(&fbcon_deferred_takeover_work);
+> +	}
+> +
+> +	return NOTIFY_OK;
+> +}
+> +#endif
+>   #endif
 
-for you to fetch changes up to a8ac4bcaeb660c5eeb273507e8dbf713ba56de44:
+Once you start adding nested #ifdef, I think it's very useful to add a 
+comment on the #endif to make it easier to follow the code.
 
-  drm/amdgpu: Fix implicit assumtion in gfx11 debug flags (2024-02-15 14:18:44 -0500)
+IE
+#endif /* CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER_CONDITION */
 
-----------------------------------------------------------------
-amd-drm-fixes-6.8-2024-02-15-2:
+>   
+>   static void fbcon_start(void)
+> @@ -3368,8 +3390,18 @@ static void fbcon_start(void)
+>   		deferred_takeover = false;
+>   
+>   	if (deferred_takeover) {
+> -		fbcon_output_nb.notifier_call = fbcon_output_notifier;
+> -		dummycon_register_output_notifier(&fbcon_output_nb);
+> +#ifdef CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER_CONDITION
+> +		if (cmdline_find_option_bool(boot_command_line,
+> +		      CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER_CONDITION)) {
+> +			initial_console = fg_console;
+> +			fbcon_switch_nb.notifier_call = fbcon_switch_notifier;
+> +			dummycon_register_switch_notifier(&fbcon_switch_nb);
+> +		} else
+> +#endif
+> +		{
+> +			fbcon_output_nb.notifier_call = fbcon_output_notifier;
+> +			dummycon_register_output_notifier(&fbcon_output_nb);
+> +		}
+>   		return;
+>   	}
+>   #endif
+> @@ -3416,8 +3448,12 @@ void __exit fb_console_exit(void)
+>   {
+>   #ifdef CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER
+>   	console_lock();
+> -	if (deferred_takeover)
+> +	if (deferred_takeover) {
+>   		dummycon_unregister_output_notifier(&fbcon_output_nb);
+> +#ifdef CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER_CONDITION
+> +		dummycon_unregister_switch_notifier(&fbcon_switch_nb);
+> +#endif
+> +	}
+>   	console_unlock();
+>   
+>   	cancel_work_sync(&fbcon_deferred_takeover_work);
 
-amdgpu:
-- PSR fixes
-- Suspend/resume fixes
-- Link training fix
-- Aspect ratio fix
-- DCN 3.5 fixes
-- VCN 4.x fix
-- GFX 11 fix
-- Misc display fixes
-- Misc small fixes
-
-amdkfd:
-- Cache size reporting fix
-- SIMD distribution fix
-
-----------------------------------------------------------------
-Dan Carpenter (1):
-      drm/amd/display: Fix && vs || typos
-
-Hamza Mahfooz (1):
-      drm/amdgpu: make damage clips support configurable
-
-Kent Russell (1):
-      drm/amdkfd: Fix L2 cache size reporting in GFX9.4.3
-
-Mario Limonciello (2):
-      drm/amd: Stop evicting resources on APUs in suspend
-      Revert "drm/amd: flush any delayed gfxoff on suspend entry"
-
-Nicholas Kazlauskas (1):
-      drm/amd/display: Increase ips2_eval delay for DCN35
-
-Rajneesh Bhardwaj (2):
-      drm/amdkfd: update SIMD distribution algo for GFXIP 9.4.2 onwards
-      drm/amdgpu: Fix implicit assumtion in gfx11 debug flags
-
-Roman Li (1):
-      drm/amd/display: Fix array-index-out-of-bounds in dcn35_clkmgr
-
-Sohaib Nadeem (2):
-      Revert "drm/amd/display: increased min_dcfclk_mhz and min_fclk_mhz"
-      drm/amd/display: fixed integer types and null check locations
-
-Srinivasan Shanmugam (5):
-      drm/amd/display: Initialize 'wait_time_microsec' variable in link_dp_training_dpia.c
-      drm/amd/display: Fix possible use of uninitialized 'max_chunks_fbc_mode' in 'calculate_bandwidth()'
-      drm/amd/display: Fix possible buffer overflow in 'find_dcfclk_for_voltage()'
-      drm/amd/display: Fix possible NULL dereference on device remove/driver unload
-      drm/amdgpu/display: Initialize gamma correction mode variable in dcn30_get_gamcor_current()
-
-Thong (1):
-      drm/amdgpu/soc21: update VCN 4 max HEVC encoding resolution
-
-Tom Chung (1):
-      drm/amd/display: Preserve original aspect ratio in create stream
-
-Zhikai Zhai (1):
-      drm/amd/display: Add align done check
-
- drivers/gpu/drm/amd/amdgpu/amdgpu.h                      |  3 +++
- drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c                 | 15 +++++++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c               | 12 +++++++++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c                  | 13 +++++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c                  |  9 ++++++++-
- drivers/gpu/drm/amd/amdgpu/soc21.c                       |  4 ++--
- drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v11.c         |  4 ++--
- drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c          |  9 +++++++++
- drivers/gpu/drm/amd/amdkfd/kfd_priv.h                    |  1 +
- drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c   |  4 +++-
- drivers/gpu/drm/amd/amdkfd/kfd_topology.c                | 10 ++++------
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c        | 11 ++++++++++-
- drivers/gpu/drm/amd/display/dc/basics/dce_calcs.c        |  2 +-
- drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c       | 16 ++++++++++------
- .../gpu/drm/amd/display/dc/clk_mgr/dcn301/vg_clk_mgr.c   |  2 ++
- .../gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c | 15 +++++++++++----
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dpp_cm.c      |  5 +----
- drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c     |  2 +-
- drivers/gpu/drm/amd/display/dc/hwss/dcn21/dcn21_hwseq.c  |  4 ++--
- drivers/gpu/drm/amd/display/dc/link/link_validation.c    |  2 +-
- .../drm/amd/display/dc/link/protocols/link_dp_training.c |  5 ++++-
- .../display/dc/link/protocols/link_dp_training_dpia.c    |  2 +-
- .../drm/amd/display/dc/resource/dcn35/dcn35_resource.c   |  2 +-
- 23 files changed, 114 insertions(+), 38 deletions(-)
