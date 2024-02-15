@@ -2,76 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 482EF856299
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 13:09:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B74168562C4
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 13:12:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4477A10E6E8;
-	Thu, 15 Feb 2024 12:09:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D055C10E754;
+	Thu, 15 Feb 2024 12:12:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fuYqr2BA";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="p5R8Z1Jq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 910C810E6E8
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 12:09:24 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-411f165ef9bso6989115e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 04:09:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1707998963; x=1708603763; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=oD1Kge1MAKO3hFilPPdHPuunG9YKQPJxbOfsT7xxHI8=;
- b=fuYqr2BAhNgjR/kSbIh5pGwCABUEkJBrfeRCRmQQdzr9pfsNhq1APajWz3sPuU36Ss
- mdcNYKX8iu/EK6JvEbTmZlC5PvN38SCmod7kgfUhM0XMls2VPzxdadZOvKcjYZmINWdR
- xVkpa7sERKrytLdQHR/ssEdFyJ5Vsk7p700EUv+2Rma6pbIbSX8m5tzm6/LoJP9pyz/l
- MXXW6LXKDtgy2DrOYpzgtjE2BM23iv6209dCUkNw3KoyvFUXX8Tlm+H9zgFtauJFbVGN
- yTHNcEdEQGlZHOFOzoTGza6RrqGdftI/vY4rJr8PEHmlcpg9rsCgSqOFSlYNRHcDrPRi
- GQHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1707998963; x=1708603763;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oD1Kge1MAKO3hFilPPdHPuunG9YKQPJxbOfsT7xxHI8=;
- b=rsWnMqsbSdm1Ggi7KGkuzs8t3sj6BExIjJq11S83s68PuqP5q06Sup4yuePGUEBTMj
- pM4bnuPxocx5BEgUE34bW/gAddFVEVEj+cvlcgUnxwXdZXvM1JpDpkfPfPbGMFNr1306
- wyJaquTCyt7+4vPtNg4sgMziDu3S0/TPXL9ocKeKy9pcst8gTZ9EesLshbYYBN7kTYTM
- P4MqUMgiPf/nel0yLWnYtu3wwJEDyCWzGohbk7rB97VB5vczyv8vu07/wGGdLS5QA1UG
- jhlErIPVvgp8piTTow3oGfIy+ja0O7cI9awib3ZJ8T1y+vNRo0xBRU3MdGbgA9sXS0oq
- jprA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVhKZNF4u+5FP+cWH1ZAOTWKwOn6jfNfKGneOW+EmXd9P80sd13JQPCFlo6C3D9+SW8O5RriedxrannIkiYADbn4y95y2F9Jyj/oYbKIqqw
-X-Gm-Message-State: AOJu0YxsWR88Eg0SHYn1Hocqg+EOmME6YAOJ2sKVxXwPdxukEgvD5sNT
- s/IQxoNvDlxv5x+D5uxWT5f48n+ZRnmH8ZOpP2U6AHh3TAZW0HAlA18s0hogpje0shlMSMpWTKJ
- zUrs=
-X-Google-Smtp-Source: AGHT+IG2RWNKEhhSg5HPPp/aSl+Iy5VHARrddXWKFyyt57h+xu5XyxV2XCipKx1e6muRaSLbb7hNeA==
-X-Received: by 2002:a05:600c:b87:b0:410:1da3:2ccf with SMTP id
- fl7-20020a05600c0b8700b004101da32ccfmr1211452wmb.21.1707998962990; 
- Thu, 15 Feb 2024 04:09:22 -0800 (PST)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
- by smtp.gmail.com with ESMTPSA id
- q17-20020a05600c46d100b00411e3cc0e0asm1772092wmo.44.2024.02.15.04.09.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Feb 2024 04:09:22 -0800 (PST)
-Date: Thu, 15 Feb 2024 12:09:20 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: lee@kernel.org, jingoohan1@gmail.com, deller@gmx.de, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH 10/10] backlight: Add controls_device callback to struct
- backlight_ops
-Message-ID: <20240215120920.GK9758@aspen.lan>
-References: <20240212162645.5661-1-tzimmermann@suse.de>
- <20240212162645.5661-11-tzimmermann@suse.de>
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D6E310E74E
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 12:12:35 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 41FCC8jU101571;
+ Thu, 15 Feb 2024 06:12:08 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1707999128;
+ bh=MpjFvrJHEvLR1rwljrTCryuXjkaerLLnurehV7C17yE=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=p5R8Z1Jq1zJxh8mHjct8FxoDXlmH4WfFpUqvrqATGfyh91xrKbL+G1+VCHnJKfMmw
+ oKMbYHRkeRSSG4O62nPpRncOjluu3ERmJvdroxATubJa+FrFbxF6JDRd6IT/PJMCOA
+ WQASiCmlo1jQL8SokFJcgJ65pJZzs2uGonwHAWcQ=
+Received: from DLEE110.ent.ti.com (dlee110.ent.ti.com [157.170.170.21])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 41FCC85d012101
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 15 Feb 2024 06:12:08 -0600
+Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 15
+ Feb 2024 06:12:08 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 15 Feb 2024 06:12:08 -0600
+Received: from [172.24.227.31] (uda0496377.dhcp.ti.com [172.24.227.31])
+ by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 41FCC4qm059758;
+ Thu, 15 Feb 2024 06:12:05 -0600
+Message-ID: <8928f697-560c-423f-b618-c60b6f4dda6b@ti.com>
+Date: Thu, 15 Feb 2024 17:42:03 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240212162645.5661-11-tzimmermann@suse.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/tidss: Fix initial plane zpos values
+Content-Language: en-US
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Jyri Sarha
+ <jyri.sarha@iki.fi>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, "Sam
+ Ravnborg" <sam@ravnborg.org>, Devarsh Thakkar <devarsht@ti.com>, "Francesco
+ Dolcini" <francesco@dolcini.it>
+CC: Tomi Valkeinen <tomi.valkeinen@ti.com>, <dri-devel@lists.freedesktop.org>, 
+ <linux-kernel@vger.kernel.org>
+References: <20240213-tidss-fixes-v1-0-d709e8dfa505@ideasonboard.com>
+ <20240213-tidss-fixes-v1-1-d709e8dfa505@ideasonboard.com>
+From: Aradhya Bhatia <a-bhatia1@ti.com>
+In-Reply-To: <20240213-tidss-fixes-v1-1-d709e8dfa505@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,17 +77,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 12, 2024 at 05:16:43PM +0100, Thomas Zimmermann wrote:
-> Replace check_fb with controls_device in struct backlight_ops. The
-> new callback interface takes a Linux device instead of a framebuffer.
-> Resolves one of the dependencies of backlight.h on fb.h.
->
-> The few drivers that had custom implementations of check_fb can easily
-> use the framebuffer's Linux device instead. Update them accordingly.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Tomi, thank you for the fixes.
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+On 13/02/24 13:46, Tomi Valkeinen wrote:
+> When the driver sets up the zpos property it sets the default zpos value
+> to the HW id of the plane. That is fine as such, but as on many DSS
+> versions the driver arranges the DRM planes in a different order than
+> the HW planes (to keep the non-scalable planes first), this leads to odd
+> initial zpos values. An example is J721e, where the initial zpos values
+> for DRM planes are 1, 3, 0, 2.
+> 
+> In theory the userspace should configure the zpos values properly when
+> using multiple planes, and in that sense the initial zpos values
+> shouldn't matter, but there's really no reason not to fix this and help
+> the userspace apps which don't handle zpos perfectly. In particular,
+> Weston seems to have issues dealing with the planes with the current
+> default zpos values.
+> 
+> So let's change the zpos values for the DRM planes to 0, 1, 2, 3.
+> 
+> Another option would be to configure the planes marked as primary planes
+> to zpos 0. On a two display system this would give us plane zpos values
+> of 0, 0, 1, 2. The end result and behavior would be very similar in this
+> option, and I'm not aware that this would actually help us in any way.
+> So, to keep the code simple, I opted for the 0, 1, 2, 3 values.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Fixes: 32a1795f57ee ("drm/tidss: New driver for TI Keystone platform Display SubSystem")
 
+Reviewed-by: Aradhya Bhatia <a-bhatia1@ti.com>
 
-Daniel.
+> ---
+>  drivers/gpu/drm/tidss/tidss_plane.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
+> index e1c0ef0c3894..68fed531f6a7 100644
+> --- a/drivers/gpu/drm/tidss/tidss_plane.c
+> +++ b/drivers/gpu/drm/tidss/tidss_plane.c
+> @@ -213,7 +213,7 @@ struct tidss_plane *tidss_plane_create(struct tidss_device *tidss,
+>  
+>  	drm_plane_helper_add(&tplane->plane, &tidss_plane_helper_funcs);
+>  
+> -	drm_plane_create_zpos_property(&tplane->plane, hw_plane_id, 0,
+> +	drm_plane_create_zpos_property(&tplane->plane, tidss->num_planes, 0,
+>  				       num_planes - 1);
+>  
+>  	ret = drm_plane_create_color_properties(&tplane->plane,
+> 
