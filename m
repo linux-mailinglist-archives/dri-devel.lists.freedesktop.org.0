@@ -2,71 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53FF28565C8
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 15:21:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49C318565CF
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 15:21:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E3FC10E8B1;
-	Thu, 15 Feb 2024 14:21:00 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MZqFWn/q";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88BF610E8B0;
+	Thu, 15 Feb 2024 14:21:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
- [209.85.216.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E2C810E8A1;
- Thu, 15 Feb 2024 14:20:58 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id
- 98e67ed59e1d1-296b2e44a3cso704044a91.2; 
- Thu, 15 Feb 2024 06:20:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1708006855; x=1708611655; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8saq9D0aDE2k6BKx1vz1+kPI1dWkpRnC38SDFbo2hVs=;
- b=MZqFWn/qb2okgIYUN9uwSDcHRtzqGBzhTgdaswQjv91MhaZlltb+Hym9gniQ87AkZz
- MZzYQDxvonnsORUebzZNmZhFyGY3UT66e8ywhEGhCsSXqADxekYahjfGFuji98TiS+9e
- Zv9LA6iZPiIfLUGT9mzV0RiIHZqynUHj2ghgoaUEYr8EPwZ4420gix8MwPp1InjqvkMx
- XBmKlS/aHao81VNUnHA/n4Ig56CKDjb1zjsjj/67iRp6SeS8cqCxlLFMcAmQMfMS86ad
- RFPXmc62IRN/uqy1HdO+E8fMd7rGoPwZqBGWWe0eVON6y7kSNskYta1pT8/iaKCD2JGH
- LZXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708006855; x=1708611655;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8saq9D0aDE2k6BKx1vz1+kPI1dWkpRnC38SDFbo2hVs=;
- b=bi8IriRQo3e7PJfwN9lu3Q/kOaufiQ8Hg0xG56I/6Abboyu/c41ryf94N1NWcuO0aw
- c1Byr+cNHMALzpkPg/jo2f7+Rpql9hI9+//PUHp+gqPDtU77jDIPQ1lvzrFdUJv316nP
- Lo0DZSKuQ2oRYl70wO43e2+Q2w9Ml/lqUmUv6eDFJi3ckqaA8F1Wrd/ez1szczMG0hdY
- l4NBYjmG+yEy+J4SciCgntqFYnn0TPd6LVCZHLxjwUdXPWRqfDzzLEpWj3Ai97Q5xnHN
- EpUDj2lR2u4EZcXmA4sW1/3i+dIZqdEpUCJsSa7EtHVMZx27dXW7Cr9MH7Bdc3wjOOug
- kX8w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUkkRm8GvdzoPrCAl72293KFd9BNtFGWrSbrBdA9vAFFOY/XKDAVJx3SgkGU/+CGw2iOeLosNF8dmcLx8vKcGceg1AigYSpT9YTiK6eTWusEwidBiiWUJ5dW6IAa5z4+8TN9WQ4yobAX9SFF8uePnkcHmhwi0N2y+7qFXa1JW645+Rf8DwCQXWQzdobTAPVU7r5c0vb5rZ1dIDgLCD2TJDxrCRLeDyTOmpRJpuuryEE
-X-Gm-Message-State: AOJu0YyEB1AtSMP8dbaAWa3eJ60Ei6aLVTTwkvtTHxM0B1iyjaIbzJ7T
- mkyrZHCoii6wpkSmSm9k3btM4cfHB9omjsFVIyK7ui1P/k93tcSjlsvS0yeisVclIGOA63x1KlC
- gNqqgv5LCKgbllqgYYE0KCQyM+nZQK5nV
-X-Google-Smtp-Source: AGHT+IGi9SFoRSDX1BukAHEbyw99sybx8/9zS92dvONLojpkxJqo0+b3ukoj8BSj8P5amuT5fEUeZhGQaLjIrdqUazQ=
-X-Received: by 2002:a17:90a:34c5:b0:28c:fb86:23ce with SMTP id
- m5-20020a17090a34c500b0028cfb8623cemr1703811pjf.44.1708006854542; Thu, 15 Feb
- 2024 06:20:54 -0800 (PST)
+Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D83A110E8B0
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 14:21:46 +0000 (UTC)
+Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
+ by mx.skole.hr (mx.skole.hr) with ESMTP id 2C97E92570;
+ Thu, 15 Feb 2024 15:21:45 +0100 (CET)
+From: Duje =?utf-8?B?TWloYW5vdmnEhw==?= <duje.mihanovic@skole.hr>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ Arnd Bergmann <arnd@kernel.org>, Karel Balej <balejk@matfyz.cz>,
+ dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] backlight: ktd2801: depend on GPIOLIB
+Date: Thu, 15 Feb 2024 15:20:50 +0100
+Message-ID: <5772702.DvuYhMxLoT@radijator>
+In-Reply-To: <CACRpkdYm0dNZZvzAZ-VQ+MaHeL7NmGCmCVw42WMx6BFf4Lw0Pw@mail.gmail.com>
+References: <20240213-ktd2801-deps-v1-1-7feb5385eb9a@skole.hr>
+ <CACRpkdYm0dNZZvzAZ-VQ+MaHeL7NmGCmCVw42WMx6BFf4Lw0Pw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20240212210428.851952-1-alexander.deucher@amd.com>
- <b883e82e-9042-4656-b152-065ed31a81de@gmail.com>
-In-Reply-To: <b883e82e-9042-4656-b152-065ed31a81de@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 15 Feb 2024 09:20:42 -0500
-Message-ID: <CADnq5_MwEB_=2uySBmiOu3mBcA=uRDvsoA_jT9umHNnwLELWZQ@mail.gmail.com>
-Subject: Re: [PATCH 0/6 V4] fdinfo shared stats
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, tvrtko.ursulin@linux.intel.com, 
- daniel@ffwll.ch
-Content-Type: text/plain; charset="UTF-8"
+Autocrypt: addr=duje.mihanovic@skole.hr; keydata=
+ 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
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,62 +98,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 15, 2024 at 9:18=E2=80=AFAM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Am 12.02.24 um 22:04 schrieb Alex Deucher:
-> > We had a request to add shared buffer stats to fdinfo for amdgpu and
-> > while implementing that, Christian mentioned that just looking at
-> > the GEM handle count doesn't take into account buffers shared with othe=
-r
-> > subsystems like V4L or RDMA.  Those subsystems don't use GEM, so it
-> > doesn't really matter from a GPU top perspective, but it's more
-> > correct if you actually want to see shared buffers.
-> >
-> > After further discussions, add a helper and update all fdinfo
-> > implementations to use that helper for consistency.
-> >
-> > v4: switch drm_gem_object_is_shared_for_memory_stats() to an inline fun=
-ction
->
-> I'm still not sure if looking at the actual handle count is the right
-> approach, but it's certainly better than before.
+On Thursday, February 15, 2024 2:31:37 PM CET Linus Walleij wrote:
+> On Tue, Feb 13, 2024 at 7:13=E2=80=AFPM Duje Mihanovi=C4=87 <duje.mihanov=
+ic@skole.hr>=20
+wrote:
+> > LEDS_EXPRESSWIRE depends on GPIOLIB, and so must anything selecting it:
+> >=20
+> > WARNING: unmet direct dependencies detected for LEDS_EXPRESSWIRE
+> >=20
+> >   Depends on [n]: NEW_LEDS [=3Dy] && GPIOLIB [=3Dn]
+> >   Selected by [m]:
+> >   - BACKLIGHT_KTD2801 [=3Dm] && HAS_IOMEM [=3Dy] && BACKLIGHT_CLASS_DEV=
+ICE=20
+[=3Dm]
+> >=20
+> > Fixes: 66c76c1cd984 ("backlight: Add Kinetic KTD2801 backlight support")
+> > Signed-off-by: Duje Mihanovi=C4=87 <duje.mihanovic@skole.hr>
+>=20
+> Acked-by: Linus Walleij <linus.walleij@linaro.org>
+>=20
+> Technically you can also select GPIOLIB, because it is available on
+> all platforms, so it may be easier for users, but then you never know
+> which GPIOs you get in practice.
 
-Well, it's consistent across drivers.
+Now that I think of it, wouldn't that be the better solution? I opted for=20
+"depends on" only because Arnd did the same in his KTD2692 patch, but if=20
+select is better (and it seems to be for users) then I'd go for that in bot=
+h=20
+patches.
 
->
-> So Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com> for the
-> entire series.
->
-> Should I take this through drm-misc-next?
+Regards,
+=2D-=20
+Duje
 
-Yes, please.
 
-Thanks,
 
-Alex
-
->
-> Regards,
-> Christian.
->
-> >
-> > Alex Deucher (6):
-> >    Documentation/gpu: Update documentation on drm-shared-*
-> >    drm: add drm_gem_object_is_shared_for_memory_stats() helper
-> >    drm: update drm_show_memory_stats() for dma-bufs
-> >    drm/amdgpu: add shared fdinfo stats
-> >    drm/i915: Update shared stats to use the new gem helper
-> >    drm/xe: Update shared stats to use the new gem helper
-> >
-> >   Documentation/gpu/drm-usage-stats.rst      |  2 +-
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c |  4 ++++
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 11 +++++++++++
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_object.h |  6 ++++++
-> >   drivers/gpu/drm/drm_file.c                 |  2 +-
-> >   drivers/gpu/drm/i915/i915_drm_client.c     |  2 +-
-> >   drivers/gpu/drm/xe/xe_drm_client.c         |  2 +-
-> >   include/drm/drm_gem.h                      | 13 +++++++++++++
-> >   8 files changed, 38 insertions(+), 4 deletions(-)
-> >
->
