@@ -2,127 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BC8B85577A
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 00:48:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2A84855907
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 03:55:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A315110E1EA;
-	Wed, 14 Feb 2024 23:48:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71B0810E130;
+	Thu, 15 Feb 2024 02:55:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="IbSW0wKo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ae70Zxqo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23CAF10E1EA;
- Wed, 14 Feb 2024 23:48:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=b5Mqv709ZFOQ+kMi6wDlvn985zK5LZeH6Hh9lKwgCO53Y+DLZYSJN4xQbNnFZPmFE8DlCpDAlKa//FW7wHq0MARwZzpU3v8bx183BwIMGhimHKDu43HU0lK12ihxH1o4dgZBrjC964kT713ZhiYzSZfIF/4uy26yVKcqnZO6zokS5IqBfgKclyvFbiPZqFjv8T/QX1ksIJGTvQMrU4MU5xSUDWVjO7jVfEZlcDbS8ovD8eqDTim25DsFoPP217zL505yOfFQJF7CU1MMnd5B0wnYjUMNuBQaZh1uIS+HC4MVcE3xaum/BWLYi/xmfzF+mq0Itu/EOZBp4SgXpQDeWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uk5naQ+u/tK+bRgg3S5TEBMglJICvuhjgvy37sjvKeA=;
- b=BZTkIEV69XV/dwicmewsyzc//Hb6SCwehjpKUyUdLMjxRRJ5278k/b6Srfs2fBWi+BzHW7hDEqWyteBL2hfYSjKPw1/YMdfSV4zQYkTHMuGfpM9nF33zj/1Twb/BwFwc8xHpww9WXnd1XdLRN/s5mJlXtA7VoGr+TDmrOKADo5Q4p3HosklJrGzaEko7YhUwq4rhsNDzCePV8hkLdZmh09N+x27ayjQquYr9JEgm/xCF2XEtoPfnAi5qalXG1+2GP0dt/34XQ56ll82V2CTEfDlpM0JV/OL9tqwPf10KVO943juygVUd4fs0vABb9jAZ5evIKJ7AxVcSDF44x6X7UA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uk5naQ+u/tK+bRgg3S5TEBMglJICvuhjgvy37sjvKeA=;
- b=IbSW0wKo2Tanw5F4u2bCqunY2Q2+15R6vQ51JSP9H/0i6fkgCgWChjSMNIcmOj0mo1uVig9ch+2cwE0at2AnMWyEXJoo/LwRPO7diMWnIP5LfF0ZGqlt54PJJQOT9YMlS3xj1MZ3kHyRO5X8CIDHmvEPqUy++S0NSmcs22JAXpXHY4pWE1vsiDo11+7jCikGDmL/12P8QrqKO3ICo7EZcwqNFKIabxzSG0o/PnQzrL+/oIJVR1EX8TfBB7/xOKlWpUUEuGFuSpUIJ3kGGxfpF/owanlcpO5cE/SRn69oJUBslBITJEPVYt6vhNe/Zir5y3nim88/DvUvFr9wpyECZg==
-Received: from SN7PR12MB8769.namprd12.prod.outlook.com (2603:10b6:806:34b::12)
- by PH7PR12MB7329.namprd12.prod.outlook.com (2603:10b6:510:20c::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.14; Wed, 14 Feb
- 2024 23:48:43 +0000
-Received: from SN7PR12MB8769.namprd12.prod.outlook.com
- ([fe80::a969:afd:ee0a:796b]) by SN7PR12MB8769.namprd12.prod.outlook.com
- ([fe80::a969:afd:ee0a:796b%7]) with mapi id 15.20.7292.018; Wed, 14 Feb 2024
- 23:48:42 +0000
-From: Timur Tabi <ttabi@nvidia.com>
-To: "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- "dakr@redhat.com" <dakr@redhat.com>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "kherbst@redhat.com" <kherbst@redhat.com>, "lyude@redhat.com"
- <lyude@redhat.com>, "airlied@gmail.com" <airlied@gmail.com>
-Subject: Re: [PATCH 1/2] drm/nouveau: don't fini scheduler if not initialized
-Thread-Topic: [PATCH 1/2] drm/nouveau: don't fini scheduler if not initialized
-Thread-Index: AQHaVWujZdZ67CmKRUWEtG0ranjbRrD3S7cAgBNKHoA=
-Date: Wed, 14 Feb 2024 23:48:42 +0000
-Message-ID: <0cabb3e4e1f00dd0b0b3328a4da9bc8fa3ba6929.camel@nvidia.com>
-References: <20240202000606.3526-1-dakr@redhat.com>
- <eeecdd4b5daff8a831b6f11671a2205504e5173a.camel@nvidia.com>
-In-Reply-To: <eeecdd4b5daff8a831b6f11671a2205504e5173a.camel@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.44.4-0ubuntu2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN7PR12MB8769:EE_|PH7PR12MB7329:EE_
-x-ms-office365-filtering-correlation-id: 2b860a54-a0d9-4972-9295-08dc2db779b1
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: OMtzj3FH93KZebTbjEXm7+mkD+/7e3np/2mFanHfaKfByP58UKuqAF64u5ZlQf0taRTF7n6e4e9jG5oxI6fRb8E6y3UNgemqbq/DvJMopsP+LJq6IT03MYp+XPi6z55hkegwSdvZwmcdjUY7dHUjVfvviyzHeMBkOZANS4uOlgX48gMnpL+NHmQ+9Zov7sDpOE+/nV2XAFgWc3CXk3Q2XVmlfAREULlKrRvRyGkv0UeZ+hZ6mcllP6yaOh1c5w1TTLMrDFWNK4BxfyBJ+nMGS6uvBSvV0scJM5pj79pawu8upeqvLXjrRlOKbOFbUgjxpB0lC3iIAJgWwumX28GNUC9hddzyXKg/pxbhy+JQSM66lHsAgmEMduFpZbU06f0hvZEdn+4+r+s16oheBUwoAv3M3PUGwn5ivQAw15R+NX++NZ/eeapvE4Cdptpkyz0Yk6VaJwcJvK1QKgGGuul/uUpV/Mo7WdKfWzyEmE4q7unzSw/0DHkHVzqH8HC5lxW3SeU3ifi5jfRA/dCBWl1/eEevLGzHVZwzZ3CJfyx5+bWSiMRSYILbLdudsi9jgwngeH/+yT07dpTds0joh0JZtUOsgndPh03I6+hzY0widhYSQ5eCUekHle6f732QJWXS
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN7PR12MB8769.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(376002)(346002)(366004)(136003)(39860400002)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(2906002)(41300700001)(36756003)(2616005)(38070700009)(66446008)(54906003)(6486002)(26005)(83380400001)(6506007)(110136005)(8676002)(66476007)(8936002)(71200400001)(66556008)(64756008)(66946007)(76116006)(4744005)(4326008)(316002)(5660300002)(6512007)(478600001)(122000001)(38100700002)(86362001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eUdjMG8xREU1amIvc2NETnpwdnBYVmUwOUh6dXJ3WWhHNDR2Q0pFWlBJQ1Bp?=
- =?utf-8?B?clltT2JtcTI4bFU5MzNmZ0tmcldGUk4zRkFhbkRYM2tva2dkWUlrOFU0N3Vp?=
- =?utf-8?B?OTc2OUI4WG1kL3RsKzlrWTBpMnkwc2F3TWFUWGVoWElGaEdqdmJaZHc5MEtJ?=
- =?utf-8?B?eFE2UXg5RlR6L2pPQUZFSzZYRVlDam5lc1RGVnFnWmdnZ1FUaXlSVWRFMVpy?=
- =?utf-8?B?YldsTHZRdHBLdWJ0aEdndm5CS0ROYWVRWDFCRE1JL3VSbzNlT1U5ZXpJZVBJ?=
- =?utf-8?B?V0s4WVllMVU5YjNQam80VzVwVU5odEJvNnlRZGRHWm5vY0VLVHBSMHpNUzRE?=
- =?utf-8?B?YmF3M0IranNaVWV1YmF6V0F2RGl6M1VPTXJ3eVk4dnVNTW5rbXZKVVpsYlZ2?=
- =?utf-8?B?TjhXVlAxRFFTUXlpMmQ0aG1pOXNWbWtla0VpdW1kN1lWQ3Vza0ZTTlNKaEt5?=
- =?utf-8?B?NTlVRkJCT0RESVdtRTlJOXlIdTRsNHBwNHoydzRyUmpvZ0tHeEcxT3BXUWRw?=
- =?utf-8?B?NHdPeC9KV2N1ZE15ZmMydFVTZDdLTFhZNVkxMEora2NOZjM3d3E4TUhJc3RJ?=
- =?utf-8?B?V1VRZmoyRUJaK2pGUTlkUjJnc1NzNjdQeFQxOUkyMVlEV0tUNXJEY2ZRYkdq?=
- =?utf-8?B?TytHRncxODY0SlV0YUoxazVld2ZLbm9BSklIeC8weHBUN1ZOU0U1SUczQU1j?=
- =?utf-8?B?Y2txWFE4K1FuRE0xUDVYMExYTjg2V1F6L3ZVWmM5R3dYbHNyb2FvdU5POXl4?=
- =?utf-8?B?a2ZQUi90RzhSRDdwb1ROUlhGek5HbCttNnZsNFpWU1BvcW9sYjRydHM2VXNW?=
- =?utf-8?B?OUxFRGFGY3RKVnFKWHBidFB1dGl3MGNmTWVzWGtqeWFDaEpWdTZoQzN6K0RY?=
- =?utf-8?B?d3p6S3FELzNsU3JTaW9qSURIeUFEV0lmY1E2YmpjdkVWQkEwVTg4WWlSYlZp?=
- =?utf-8?B?NlNIbTdmSytNd25QQzBQbzBkSkhtdE9SeS9OMVVlQjJ6T2Vyc1NuMDFXNDc1?=
- =?utf-8?B?bUI2TElobmsxNnpyZmdhUmw0VTgzd0FCMU5WMVV0REdDTE1QUEVRVjRNaEJV?=
- =?utf-8?B?TWVBc2R2WGJnbjljUXpoMXI1VytOanBjYzEzNlpUbTNBaFh4L04yb3V1R21J?=
- =?utf-8?B?NmZPOUtSSk9jbEN4R1E2QmN0UjhSUmVuWUlmWkxXa2k4UXlHZ2JIOFhjbkJj?=
- =?utf-8?B?MnBBVExrcDZFUUVYdWtXZlhPTlIvUEJuYmN0RlU1WXUzTVpXVm8xc2o4S0dI?=
- =?utf-8?B?QXRqeXJFQUF6VHhCaUVOaVM4UG9sZnp1UFZXOTdNVnNoajZjRmlpSS9JQkxK?=
- =?utf-8?B?cXhoajNoVVJDUFdob2RVcFNtVlhGRVNzQ3NZS1NVb1hhT0lSbGdidkZPUE1j?=
- =?utf-8?B?eHQyYTZiZlA1bk12THhHa3Vxd0hBckV6K25XTGJPVFZZVjRrZk9yUHU0Ritl?=
- =?utf-8?B?Tk4yMmhBZWswZzBSMnVjeEFERHcyQUZJbWRmU1pIQmRuRTFCcVV6eHBEZXhx?=
- =?utf-8?B?Sms1bS9TN052YmI2ZDNjZkxDS21lemFkWWdjWUw3TXYwTGpDQ0pCcDllUGNG?=
- =?utf-8?B?S0VHK0Q1V3p2VFB1SXFqWmdmTVMxK3lNTHN1Z1ppSkRSSjRPQmhPUmRjZEFn?=
- =?utf-8?B?bFdTSFJHUWFuT2FuS01WRGhKZVRXR05oMm5KSXFFQldLRzBTSytzWWJydlhT?=
- =?utf-8?B?dlVtdmpnMkF6aVoxajJDNStKTEttNmkxdTV0aXhxM2NxejRYaGxuUW4vb3R5?=
- =?utf-8?B?TEZyc01PVlM3c28rRnNvZm91OXN3T1FpRFowdVoya1ZEa3pIajJ0L2pqczZW?=
- =?utf-8?B?V2NLNnhLckFWdDlIU1A0dXBMRlZreXI3VkV0Z0JFTG9taG9xTk9TUENwRTJZ?=
- =?utf-8?B?VkUvR1p5bXlROXYrVDJuSjk3d0YzNEtyaTc5WXJzN1hQV1NxWTBWVi8rem1s?=
- =?utf-8?B?Q3RENWtkMkY3REhNTlhiS3JlQy9kMDM1WW9ZQ2d3cVlKeHpTUGhhN3NhdXF2?=
- =?utf-8?B?aCttT2JEMnVBRVFnZ1NzTFVpZDhkYUxKTFdmZ01jSjdwTk5yMENCNTRWS201?=
- =?utf-8?B?NGtJUE9sZlEvbGp3TGpqN2lmSkhCbWlsc1l6aGJwOFQ1VEZvUmVmU2pjdDZY?=
- =?utf-8?Q?cbRkD39sOn4Q4O9ulHCtIFjnR?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6F8026866AAA4B4D9EEB0FA4ED742776@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E9E210E130;
+ Thu, 15 Feb 2024 02:55:29 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 35F5C61BF4;
+ Thu, 15 Feb 2024 02:55:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1AC8C433F1;
+ Thu, 15 Feb 2024 02:55:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1707965727;
+ bh=ATGHlAvsAW+y6+mj3ZNmwt5QwE0bbGk9HcB1S/+IKBg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Ae70ZxqoIRwhsZypwAxCUSpOjEezfcsLJqxjTxAhW50/I7akynItB1ayLtMzCmCE6
+ EhfUEhEaXMshxL59rwFswLI92LTiO/HWLFMG4CVHtSdawVSGrFG53NRfLeasyJICLj
+ CjnxADwPYaxMCJrqeLztVUT/4XWuRZEo6m8OW2VW+TyvPGdbVXUwmBzBj55d6MbvWQ
+ IRoNGzLhmpvynruYNd84Ca/XO0JL0kpYBIUnt8B8om4ljusNjgvvsE6LvqXnzoLxmD
+ B8awoc4ivZiGwTXZBwnCK02D7EgEAdlpMTh6NkaBav3MqoXel1gjWGwlWqYyfi/xiB
+ Tl3Qy4sbISpdQ==
+Date: Wed, 14 Feb 2024 20:55:25 -0600
+From: Rob Herring <robh@kernel.org>
+To: Abel Vesa <abel.vesa@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v2 1/4] dt-bindings: display/msm: document MDSS on X1E80100
+Message-ID: <20240215025525.GA2574098-robh@kernel.org>
+References: <20240214-x1e80100-display-v2-0-cf05ba887453@linaro.org>
+ <20240214-x1e80100-display-v2-1-cf05ba887453@linaro.org>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8769.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2b860a54-a0d9-4972-9295-08dc2db779b1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Feb 2024 23:48:42.3352 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: mTBpHB3FKYNxjAbPcUHgU3krWCQ20MA2wcdcaf28o2Rkommy8qwZ8uBPbUFQjXIyQQ6wJM3U384+VLPVqzzvhg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7329
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240214-x1e80100-display-v2-1-cf05ba887453@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,17 +71,287 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAyMDI0LTAyLTAyIGF0IDE3OjE0ICswMDAwLCBUaW11ciBUYWJpIHdyb3RlOg0KPiBP
-biBGcmksIDIwMjQtMDItMDIgYXQgMDE6MDUgKzAxMDAsIERhbmlsbyBLcnVtbXJpY2ggd3JvdGU6
-DQo+ID4gbm91dmVhdV9hYmkxNl9pb2N0bF9jaGFubmVsX2FsbG9jKCkgYW5kIG5vdXZlYXVfY2xp
-X2luaXQoKSBzaW1wbHkgY2FsbA0KPiA+IHRoZWlyIGNvcnJlc3BvbmRpbmcgKl9maW5pKCkgY291
-bnRlcnBhcnQuIFRoaXMgY2FuIGxlYWQgdG8NCj4gPiBub3V2ZWF1X3NjaGVkX2ZpbmkoKSBiZWlu
-ZyBjYWxsZWQgd2l0aG91dCBzdHJ1Y3Qgbm91dmVhdV9zY2hlZCBldmVyDQo+ID4gYmVpbmcgaW5p
-dGlhbGl6ZWQgaW4gdGhlIGZpcnN0IHBsYWNlLg0KPiANCj4gVGhhbmtzLCBJJ3ZlIGNvbmZpcm1l
-ZCB0aGF0IHRoZXNlIHBhdGNoZXMgZG8gZml4IHRoZSBwcm9ibGVtLiAgDQoNCkxvb2tzIGxpa2Ug
-SSBzcG9rZSB0b28gc29vbiwgSSBqdXN0IGhpdCB0aGUgcHJvYmxlbSB3aXRoIHRoZSBkcm0tbmV4
-dCB0cmVlLg0KDQpJJ20gYWJsZSB0byByZXBybyB0aGUgcHJvYmxlbSBieSBoYXZpbmcgcjUzNV9n
-c3BfaW5pdCgpIHJldHVybiBhbiBlcnJvci4gDQoJcjUzNV9nc3BfcnBjX3BvbGwgcmV0dXJuIC1F
-SU5WQUwgKEknbSB0ZXN0aW5nIG15IG93biBHU1AtUk0gYnVpbGQpIGFuZA0Kbm91dmVhdV9zY2hl
-ZF9maW5pKCkgaXMgY2FsbGVkIGV2ZW4gdGhvdWdoIG5vdXZlYXVfc2NoZWRfaW5pdCgpIHdhcyBu
-ZXZlcg0KY2FsbGVkLg0K
+On Wed, Feb 14, 2024 at 11:24:30PM +0200, Abel Vesa wrote:
+> Document the MDSS hardware found on the Qualcomm X1E80100 platform.
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+> ---
+>  .../bindings/display/msm/qcom,x1e80100-mdss.yaml   | 252 +++++++++++++++++++++
+>  1 file changed, 252 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,x1e80100-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,x1e80100-mdss.yaml
+> new file mode 100644
+> index 000000000000..c3e38afab76e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,x1e80100-mdss.yaml
+> @@ -0,0 +1,252 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/msm/qcom,x1e80100-mdss.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm X1E80100 Display MDSS
+> +
+> +maintainers:
+> +  - Abel Vesa <abel.vesa@linaro.org>
+> +
+> +description:
+> +  X1E80100 MSM Mobile Display Subsystem(MDSS), which encapsulates sub-blocks like
+> +  DPU display controller, DP interfaces, etc.
+> +
+> +$ref: /schemas/display/msm/mdss-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,x1e80100-mdss
+> +
+> +  clocks:
+> +    items:
+> +      - description: Display AHB
+> +      - description: Display hf AXI
+> +      - description: Display core
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  interconnects:
+> +    maxItems: 3
+> +
+> +  interconnect-names:
+> +    maxItems: 3
+> +
+> +patternProperties:
+> +  "^display-controller@[0-9a-f]+$":
+> +    type: object
+
+       additionalProperties: true
+
+> +    properties:
+> +      compatible:
+> +        const: qcom,x1e80100-dpu
+> +
+> +  "^displayport-controller@[0-9a-f]+$":
+> +    type: object
+
+       additionalProperties: true
+
+> +    properties:
+> +      compatible:
+> +        const: qcom,x1e80100-dp
+> +
+> +  "^phy@[0-9a-f]+$":
+> +    type: object
+
+       additionalProperties: true
+
+> +    properties:
+> +      compatible:
+> +        const: qcom,x1e80100-dp-phy
+> +
+> +required:
+> +  - compatible
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/qcom,x1e80100-dispcc.h>
+> +    #include <dt-bindings/clock/qcom,x1e80100-gcc.h>
+> +    #include <dt-bindings/clock/qcom,rpmh.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/interconnect/qcom,x1e80100-rpmh.h>
+> +    #include <dt-bindings/phy/phy-qcom-qmp.h>
+> +    #include <dt-bindings/power/qcom,rpmhpd.h>
+> +
+> +    display-subsystem@ae00000 {
+> +        compatible = "qcom,x1e80100-mdss";
+> +        reg = <0x0ae00000 0x1000>;
+> +        reg-names = "mdss";
+> +
+> +        interconnects = <&mmss_noc MASTER_MDP 0 &gem_noc SLAVE_LLCC 0>,
+> +                        <&mc_virt MASTER_LLCC 0 &mc_virt SLAVE_EBI1 0>,
+> +                        <&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_DISPLAY_CFG 0>;
+> +        interconnect-names = "mdp0-mem", "mdp1-mem", "cpu-cfg";
+> +
+> +        resets = <&dispcc_core_bcr>;
+> +
+> +        power-domains = <&dispcc_gdsc>;
+> +
+> +        clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
+> +                 <&gcc GCC_DISP_HF_AXI_CLK>,
+> +                 <&dispcc DISP_CC_MDSS_MDP_CLK>;
+> +        clock-names = "bus", "nrt_bus", "core";
+> +
+> +        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> +        interrupt-controller;
+> +        #interrupt-cells = <1>;
+> +
+> +        iommus = <&apps_smmu 0x1c00 0x2>;
+> +
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +        ranges;
+> +
+> +        display-controller@ae01000 {
+> +            compatible = "qcom,x1e80100-dpu";
+> +            reg = <0x0ae01000 0x8f000>,
+> +                  <0x0aeb0000 0x2008>;
+> +            reg-names = "mdp", "vbif";
+> +
+> +            clocks = <&gcc_axi_clk>,
+> +                     <&dispcc_ahb_clk>,
+> +                     <&dispcc_mdp_lut_clk>,
+> +                     <&dispcc_mdp_clk>,
+> +                     <&dispcc_mdp_vsync_clk>;
+> +            clock-names = "nrt_bus",
+> +                          "iface",
+> +                          "lut",
+> +                          "core",
+> +                          "vsync";
+> +
+> +            assigned-clocks = <&dispcc_mdp_vsync_clk>;
+> +            assigned-clock-rates = <19200000>;
+> +
+> +            operating-points-v2 = <&mdp_opp_table>;
+> +            power-domains = <&rpmhpd RPMHPD_MMCX>;
+> +
+> +            interrupt-parent = <&mdss>;
+> +            interrupts = <0>;
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +                    dpu_intf1_out: endpoint {
+> +                        remote-endpoint = <&dsi0_in>;
+> +                    };
+> +                };
+> +
+> +                port@1 {
+> +                    reg = <1>;
+> +                    dpu_intf2_out: endpoint {
+> +                        remote-endpoint = <&dsi1_in>;
+> +                    };
+> +                };
+> +            };
+> +
+> +            mdp_opp_table: opp-table {
+> +                compatible = "operating-points-v2";
+> +
+> +                opp-200000000 {
+> +                    opp-hz = /bits/ 64 <200000000>;
+> +                    required-opps = <&rpmhpd_opp_low_svs>;
+> +                };
+> +
+> +                opp-325000000 {
+> +                    opp-hz = /bits/ 64 <325000000>;
+> +                    required-opps = <&rpmhpd_opp_svs>;
+> +                };
+> +
+> +                opp-375000000 {
+> +                    opp-hz = /bits/ 64 <375000000>;
+> +                    required-opps = <&rpmhpd_opp_svs_l1>;
+> +                };
+> +
+> +                opp-514000000 {
+> +                    opp-hz = /bits/ 64 <514000000>;
+> +                    required-opps = <&rpmhpd_opp_nom>;
+> +                };
+> +            };
+> +        };
+> +
+> +        displayport-controller@ae90000 {
+> +            compatible = "qcom,x1e80100-dp";
+> +            reg = <0 0xae90000 0 0x200>,
+> +                  <0 0xae90200 0 0x200>,
+> +                  <0 0xae90400 0 0x600>,
+> +                  <0 0xae91000 0 0x400>,
+> +                  <0 0xae91400 0 0x400>;
+> +
+> +            interrupt-parent = <&mdss>;
+> +            interrupts = <12>;
+> +
+> +            clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
+> +               <&dispcc DISP_CC_MDSS_DPTX0_AUX_CLK>,
+> +               <&dispcc DISP_CC_MDSS_DPTX0_LINK_CLK>,
+> +               <&dispcc DISP_CC_MDSS_DPTX0_LINK_INTF_CLK>,
+> +               <&dispcc DISP_CC_MDSS_DPTX0_PIXEL0_CLK>;
+> +            clock-names = "core_iface", "core_aux",
+> +                    "ctrl_link",
+> +                    "ctrl_link_iface",
+> +                    "stream_pixel";
+> +
+> +            assigned-clocks = <&dispcc DISP_CC_MDSS_DPTX0_LINK_CLK_SRC>,
+> +                  <&dispcc DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>;
+> +            assigned-clock-parents = <&usb_1_ss0_qmpphy QMP_USB43DP_DP_LINK_CLK>,
+> +                  <&usb_1_ss0_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>;
+> +
+> +            operating-points-v2 = <&mdss_dp0_opp_table>;
+> +
+> +            power-domains = <&rpmhpd RPMHPD_MMCX>;
+> +
+> +            phys = <&usb_1_ss0_qmpphy QMP_USB43DP_DP_PHY>;
+> +            phy-names = "dp";
+> +
+> +            #sound-dai-cells = <0>;
+> +
+> +            status = "disabled";
+
+Examples should be enabled.
+
+
+> +
+> +            ports {
+> +              #address-cells = <1>;
+> +              #size-cells = <0>;
+> +
+> +              port@0 {
+> +                  reg = <0>;
+> +
+> +                  mdss_dp0_in: endpoint {
+> +                    remote-endpoint = <&mdss_intf0_out>;
+> +                  };
+> +              };
+> +
+> +              port@1 {
+> +                  reg = <1>;
+> +
+> +                  mdss_dp0_out: endpoint {
+> +                  };
+> +              };
+> +            };
+> +
+> +            mdss_dp0_opp_table: opp-table {
+> +              compatible = "operating-points-v2";
+> +
+> +              opp-160000000 {
+> +                 opp-hz = /bits/ 64 <160000000>;
+> +                 required-opps = <&rpmhpd_opp_low_svs>;
+> +              };
+> +
+> +              opp-270000000 {
+> +                 opp-hz = /bits/ 64 <270000000>;
+> +                 required-opps = <&rpmhpd_opp_svs>;
+> +              };
+> +
+> +              opp-540000000 {
+> +                 opp-hz = /bits/ 64 <540000000>;
+> +                 required-opps = <&rpmhpd_opp_svs_l1>;
+> +              };
+> +
+> +              opp-810000000 {
+> +                 opp-hz = /bits/ 64 <810000000>;
+> +                 required-opps = <&rpmhpd_opp_nom>;
+> +              };
+> +            };
+> +        };
+> +    };
+> +...
+> 
+> -- 
+> 2.34.1
+> 
