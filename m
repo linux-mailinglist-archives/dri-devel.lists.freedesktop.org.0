@@ -2,84 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19724857802
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 09:52:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C5F2857803
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 09:52:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A2AC10E4CE;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E0F510E4E6;
 	Fri, 16 Feb 2024 08:52:21 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TNRHE2Nv";
-	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55D9A10E89B
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 15:06:49 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id
- d9443c01a7336-1d911c2103aso5973485ad.0
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 07:06:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1708009609; x=1708614409; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=wRHZqIOyBrytKgjz2NXJfF7uGwSTiUJd7ozSIo4Rz5Y=;
- b=TNRHE2NvukHgQZSetUHn8kirLBNMsLUVIsUnjQAQN90AS4YwKRuwfQsgvH9NV7rIp9
- uGlHv1NCJb/0xCmI6pDz2skF5m/ys39oTESfAajvGYVCCUdw5vBF3XHVnvIRGDGhjT4B
- 5REBytjHqcuph2/aYJBDEKSsKTl+mOVnQdwMQ5BAWyXA35mmUPapyimV/iP04W1E3T4j
- kfw2qa5xy/gCmEh9nNuHNr8dxHq2RcPTlQB0Lhd/5N0n+H+H4GY24dexcMZF2ZLAqGDN
- PaaFcDhyhUiRzBoTuLs4k+aX2RJhvl8l3oNxJ24X5Q2TsT40T3EZ8AqRyhq5EnlSdmKo
- 5g1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708009609; x=1708614409;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wRHZqIOyBrytKgjz2NXJfF7uGwSTiUJd7ozSIo4Rz5Y=;
- b=WfD6quBSSKj7jM/L42+8L0pcJOlPq96hPuH7X6vOs0eENDybAKjVBBpEupm7196Kud
- egz9DrfgeGiX5247ajFgcFnsBnJshhEjMz+BuWaftsxRr2xEy9HbTkq7Nvl9ZsirB4dS
- q55aI90geK2CLc/dfzO+n/MAb0cbCwjmhbdfbLvrPP5v8jOpWxO0LtsUppTp+dpVxtbB
- S2A0Tg6NjeV9Tl+BVBmZvZY9x4eGGYuJ5Pg6J5iTgDnGRkWK8SJsT9sgeXRqgAamQ3um
- GTVG0lpBAHmo/raqroJCHuk8uZ+DXN4TMDQYNm97nrLw2By/CU5FYq/q6qgPCok0GlSa
- 4upA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWh7GJTRJfMUqYNZMBMqMiYS73dAeSpAJYQNgggi63D8dx95C2RWe9rFo65jXsEb1oXYaodCrF/PoNHF0g8EqGM+EIQgHw59VfoWOxKnLXN
-X-Gm-Message-State: AOJu0YwMOmGs1uQYvsrY/KkgIcPZgRr530hSjaPT8lm1PJgms1WFZbnK
- k4dbzwJvIpEz0B4yGnErLiOoyebrcSU5fzYmVxy2DYRhnE7Z7eI16xH2Qn4jN9s=
-X-Google-Smtp-Source: AGHT+IEblop9x6atphDkcaL7O9OM5+yWMRm/XmJEMDeW45mWdx6pdQdYqGT8NM/WQeUzq7tk9pqffA==
-X-Received: by 2002:a17:902:c948:b0:1da:2b52:52d4 with SMTP id
- i8-20020a170902c94800b001da2b5252d4mr2938295pla.39.1708009608588; 
- Thu, 15 Feb 2024 07:06:48 -0800 (PST)
-Received: from joaog-nb.. ([152.249.118.214]) by smtp.gmail.com with ESMTPSA id
- u5-20020a17090282c500b001d8aadaa7easm1375987plz.96.2024.02.15.07.06.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Feb 2024 07:06:47 -0800 (PST)
-From: Joao Paulo Goncalves <jpaulo.silvagoncalves@gmail.com>
-To: aford173@gmail.com
-Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
- alexander.stein@ew.tq-group.com, andrzej.hajda@intel.com,
- catalin.marinas@arm.com, conor+dt@kernel.org, daniel@ffwll.ch,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- festevam@gmail.com, frieder.schrempf@kontron.de, jernej.skrabec@gmail.com,
- jonas@kwiboo.se, kernel@pengutronix.de, kishon@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, l.stach@pengutronix.de,
- linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-pm@vger.kernel.org, maarten.lankhorst@linux.intel.com, marex@denx.de,
- mripard@kernel.org, neil.armstrong@linaro.org, p.zabel@pengutronix.de,
- rfoss@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
- shawnguo@kernel.org, tzimmermann@suse.de, ulf.hansson@linaro.org,
- victor.liu@nxp.com, vkoul@kernel.org, will@kernel.org,
- Joao Paulo Goncalves <joao.goncalves@toradex.com>
-Subject: Re: [PATCH V8 00/12] soc: imx8mp: Add support for HDMI
-Date: Thu, 15 Feb 2024 12:05:59 -0300
-Message-Id: <20240215150559.287571-1-jpaulo.silvagoncalves@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240203165307.7806-1-aford173@gmail.com>
-References: <20240203165307.7806-1-aford173@gmail.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0359310E9BA;
+ Thu, 15 Feb 2024 16:05:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Subject:From:To:MIME-Version:Date:Message-ID:Content-Type:
+ Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=F7i2wcZPXzPlISGZ5Rwmm2JMfVHrFuKhNZ+KW9wD2+k=; b=RKGXI8r5Zt/4vWBnoTOtikLYBd
+ tUFZAJwddN/u8Mw0uMCpHxPoJS/ozuESe0tzMLRrb4Y0bWJdS/mriDYvFdDk792g7M6747tsqE5qn
+ f0vVXpgogDQ9D1z1qUNH8LHZhHOCG1RKOiaoiuhIS6IGQj73J/TaRNVf/vm3JG+x8Dng1Xhh0O5X0
+ WtwDJpFRY31Xk1jg0aTHqAhpCa0Sx8+VSvGl+Yc5WzfWSqwN+lsG7dxUQjsHLoCfcSgqT4b8lbnDg
+ m0h/KVeLsIIpAxljrdsq83Dp935Jz+9NQXT5GVRkkrGTbCxD4kJYHUOdxYMhVS3Qe+Ibj1bc7GXdV
+ uTfLZYZQ==;
+Received: from c-71-59-88-35.hsd1.nj.comcast.net ([71.59.88.35]
+ helo=[192.168.1.99]) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1raeF7-0007OW-TO; Thu, 15 Feb 2024 17:05:46 +0100
+Content-Type: multipart/alternative;
+ boundary="------------gTR4d6Hug0celd0p923byl7c"
+Message-ID: <0efcdfe3-ea9e-43e5-ab07-6d69dca2c04a@igalia.com>
+Date: Thu, 15 Feb 2024 11:05:40 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: events@lists.x.org, xorg-devel@lists.x.org,
+ wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ libre-soc-dev@lists.libre-soc.org, elections@x.org, members@x.org,
+ xorg@lists.freedesktop.org
+From: Christopher Michael <cmichael@igalia.com>
+Subject: 2024 X.Org Board of Directors Elections Nomination period is NOW
 X-Mailman-Approved-At: Fri, 16 Feb 2024 08:52:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -96,29 +61,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->The i.MX8M Plus has an HDMI controller, but it depends on two
->other systems, the Parallel Video Interface (PVI) and the
->HDMI PHY from Samsung. The LCDIF controller generates the display
->and routes it to the PVI which converts passes the parallel video
->to the HDMI bridge.  The HDMI system has a corresponding power
->domain controller whose driver was partially written, but the
->device tree for it was never applied, so some changes to the
->power domain should be harmless because they've not really been
->used yet.
+This is a multi-part message in MIME format.
+--------------gTR4d6Hug0celd0p923byl7c
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
->This series is adapted from multiple series from Lucas Stach with
->edits and suggestions from feedback from various series, but it
->since it's difficult to use and test them independently,
->I merged them into on unified series.  The version history is a
->bit ambiguous since different components were submitted at different
-times and had different amount of retries.  In an effort to merge them
->I used the highest version attempt.
+We are seeking nominations for candidates for election to the X.Org 
+Foundation Board of Directors. All X.Org Foundation members are eligible 
+for election to the board.
 
-Tested-by: Joao Paulo Goncalves <joao.goncalves@toradex.com>
+Nominations for the 2024 election are now open and will remain open 
+until 23:59 UTC on 26 February 2024.
 
-Tested on Toradex Verdin-iMX8MP.
+The Board consists of directors elected from the membership. Each year, 
+an election is held to bring the total number of directors to eight. The 
+four members receiving the highest vote totals will serve as directors 
+for two year terms.
 
-Thanks!
+The directors who received two year terms starting in 2023 were 
+Arkadiusz Hiler, Christopher Michael, Lyude Paul, and Daniel Vetter. 
+They will continue to serve until their term ends in 2024. Current 
+directors whose term expires in 2024 are Emma Anholt, Mark Filion, 
+Ricardo Garcia, and Alyssa Rosenzweig.
+<https://rosenzweig.io/>
 
-Regards,
-Joao Paulo Goncalves
+A director is expected to participate in the fortnightly IRC meeting to 
+discuss current business and to attend the annual meeting of the X.Org 
+Foundation, which will be held at a location determined in advance by 
+the Board of Directors.
+
+A member may nominate themselves or any other member they feel is 
+qualified. Nominations should be sent to the Election Committee at 
+elections@x.org.
+
+Nominees shall be required to be current members of the X.Org 
+Foundation, and submit a personal statement of up to 200 words that will 
+be provided to prospective voters. The collected statements, along with 
+the statement of contribution to the X.Org Foundation in the member's 
+account page on http://members.x.org, will be made available to all 
+voters to help them make their voting decisions.
+
+Nominations, membership applications or renewals and completed personal 
+statements must be received no later than 23:59 UTC on 26 February 2024.
+
+The slate of candidates will be published 04 March 2024 and candidate 
+Q&A will begin then. The deadline for Xorg membership applications and 
+renewals is 07 March 2024.
+
+
+Cheers,
+
+Christopher Michael, on behalf of the X.Org BoD
+
+
+--------------gTR4d6Hug0celd0p923byl7c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>We are seeking nominations for candidates for election to the
+      X.Org Foundation Board of Directors. All X.Org Foundation members
+      are eligible for election to the board.</p>
+    <p>Nominations for the 2024 election are now open and will remain
+      open until 23:59 UTC on 26 February 2024.</p>
+    The Board consists of directors elected from the membership. Each
+    year, an election is held to bring the total number of directors to
+    eight. The four members receiving the highest vote totals will serve
+    as directors for two year terms.
+    <p>The directors who received two year terms starting in 2023 were <span
+        class="createlink">Arkadiusz Hiler, </span><span
+        class="createlink">Christopher Michael, </span><span
+        class="createlink">Lyude Paul, and Daniel Vetter</span>. They
+      will continue to serve until their term ends in 2024. Current
+      directors whose term expires in 2024 are <span class="createlink">Emma
+        Anholt, </span><span class="createlink">Mark Filion, </span><span
+        class="createlink">Ricardo Garcia, and Alyssa Rosenzweig.</span><a
+        href="https://rosenzweig.io/"><br>
+      </a></p>
+    <p>A director is expected to participate in the fortnightly IRC
+      meeting to discuss current business and to attend the annual
+      meeting of the X.Org Foundation, which will be held at a location
+      determined in advance by the Board of Directors.</p>
+    <p>A member may nominate themselves or any other member they feel is
+      qualified. Nominations should be sent to the Election Committee at
+      <a class="moz-txt-link-abbreviated" href="mailto:elections@x.org">elections@x.org</a>.<br>
+    </p>
+    <p>Nominees shall be required to be current members of the X.Org
+      Foundation, and submit a personal statement of up to 200 words
+      that will be provided to prospective voters. The collected
+      statements, along with the statement of contribution to the X.Org
+      Foundation in the member's account page on <a class="moz-txt-link-freetext" href="http://members.x.org">http://members.x.org</a>,
+      will be made available to all voters to help them make their
+      voting decisions.</p>
+    <p>Nominations, membership applications or renewals and completed
+      personal statements must be received no later than 23:59 UTC on 26
+      February 2024.</p>
+    <p>The slate of candidates will be published 04 March 2024 and
+      candidate Q&amp;A will begin then. The deadline for Xorg
+      membership applications and renewals is 07 March 2024.</p>
+    <p><br>
+    </p>
+    <p>Cheers,</p>
+    <p>Christopher Michael, on behalf of the X.Org BoD</p>
+    <p><br>
+    </p>
+    <p></p>
+  </body>
+</html>
+
+--------------gTR4d6Hug0celd0p923byl7c--
