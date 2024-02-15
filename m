@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CDCB85609E
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 12:03:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EA788560C8
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Feb 2024 12:06:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16AA610E634;
-	Thu, 15 Feb 2024 11:03:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D917610E653;
+	Thu, 15 Feb 2024 11:06:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="OOHlvkaY";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="WapOTuJM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8245810E634
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 11:03:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 341E810E653
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 11:06:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1707995012;
- bh=kzVcnFNNmOzs8GOwtdRGbBUIEmsIgui7Ywhz5JyEn4I=;
+ s=mail; t=1707995200;
+ bh=fTMk6kpGDD0am7FVybzJCZuM86RqERCd+fAxCEDkTH8=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=OOHlvkaYWNTke3pqt/4FzLNGWD1eIML9eIavJsoffiGO3wXred/AEM1ag73zXgWHX
- pynJjtKjObXzNhw13Bx7Ff/zOAGLvtTGPN/G1TVDdakVqPzWJE6WKd/TiEfOge646C
- WrYA/0e/x9Bg1BcD6DEWikTlQGOVKdSAxcB+kQ698h3B5VfOGQk0gcLm5EvPlOaaZv
- gNnKjmB2G6f2vTvx9Ybs53sqA0w5OrGV1Vzghf6egNm4JO5wupYNeOn/FsvRhn6Iw3
- He3p+9CIYOkCW3TxsUeFR+aF5OWEwaXSbwdrQLxXK3fJQ1xenzlccAInyEBK0aA/QE
- hOTysuuzCOV3A==
+ b=WapOTuJMLSUvc3jt26olqTmyJloaIN0SXhbVHbpZ+5VugPrNtvoyf1WNNWLCCnFBa
+ hghmVz3GJ8bs7QiZEjAxa3yZjdw2fkp6Mzq1Iuw5brCZjYYVUfvWF934B0SxifV7/6
+ PNQPit8oMRaAyEI1uJ4kLdMdre2iMsp54AaCrlho2csFeZe6deH2eqeHcmjVom/1/w
+ qfVe34pfH2+mEH8RJBFWCAaooq5lTbR9J3vb+011bcSJFCszSooLOgYnlsHomxkzo2
+ /RAfT6SS/PS7qWGXfgcKqxni6mqbYZgcxpvcZVJZoMYlcEDVdr+epVC/IizhVX9WFc
+ zXXlZO7RILYzQ==
 Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 71B223781144;
- Thu, 15 Feb 2024 11:03:31 +0000 (UTC)
-Message-ID: <7664fece-c29a-4374-a59c-4ce8fe831494@collabora.com>
-Date: Thu, 15 Feb 2024 12:02:22 +0100
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 950BF3781144;
+ Thu, 15 Feb 2024 11:06:39 +0000 (UTC)
+Message-ID: <44529502-250b-4c8a-94c3-2c481d1385cf@collabora.com>
+Date: Thu, 15 Feb 2024 12:06:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 08/13] drm/mediatek: Support alpha blending in OVL
+Subject: Re: [PATCH v5 10/13] drm/mediatek: Support CRC in display driver
 Content-Language: en-US
 To: Hsiao Chien Sung <shawn.sung@mediatek.com>,
  Chun-Kuang Hu <chunkuang.hu@kernel.org>
@@ -49,9 +49,9 @@ Cc: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
  linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org
 References: <20240215101119.12629-1-shawn.sung@mediatek.com>
- <20240215101119.12629-9-shawn.sung@mediatek.com>
+ <20240215101119.12629-11-shawn.sung@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20240215101119.12629-9-shawn.sung@mediatek.com>
+In-Reply-To: <20240215101119.12629-11-shawn.sung@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,135 +70,170 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 15/02/24 11:11, Hsiao Chien Sung ha scritto:
-> Support "Pre-multiplied" and "None" blend mode on MediaTek's chips.
-> Before this patch, only the "Coverage" mode is supported.
-> 
-> Please refer to the description of the commit
-> "drm/mediatek: Support alpha blending in display driver"
-> for more information.
+> Register CRC related function pointers to support
+> CRC retrieval.
 > 
 > Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
 > ---
->   drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 83 +++++++++++++++++++++----
->   1 file changed, 72 insertions(+), 11 deletions(-)
+>   drivers/gpu/drm/mediatek/mtk_drm_crtc.c     | 239 ++++++++++++++++++++
+>   drivers/gpu/drm/mediatek/mtk_drm_crtc.h     |  39 ++++
+>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   3 +
+>   3 files changed, 281 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> index c42fce38a35eb..98c989fddcc08 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> @@ -39,6 +39,7 @@
->   #define DISP_REG_OVL_PITCH_MSB(n)		(0x0040 + 0x20 * (n))
->   #define OVL_PITCH_MSB_2ND_SUBBUF			BIT(16)
->   #define DISP_REG_OVL_PITCH(n)			(0x0044 + 0x20 * (n))
-> +#define OVL_CONST_BLEND					BIT(28)
->   #define DISP_REG_OVL_RDMA_CTRL(n)		(0x00c0 + 0x20 * (n))
->   #define DISP_REG_OVL_RDMA_GMC(n)		(0x00c8 + 0x20 * (n))
->   #define DISP_REG_OVL_ADDR_MT2701		0x0040
-> @@ -52,13 +53,16 @@
->   #define GMC_THRESHOLD_HIGH	((1 << GMC_THRESHOLD_BITS) / 4)
->   #define GMC_THRESHOLD_LOW	((1 << GMC_THRESHOLD_BITS) / 8)
->   
-> +#define OVL_CON_CLRFMT_MAN	BIT(23)
->   #define OVL_CON_BYTE_SWAP	BIT(24)
-> -#define OVL_CON_MTX_YUV_TO_RGB	(6 << 16)
-> +#define OVL_CON_RGB_SWAP	BIT(25)
->   #define OVL_CON_CLRFMT_RGB	(1 << 12)
->   #define OVL_CON_CLRFMT_RGBA8888	(2 << 12)
->   #define OVL_CON_CLRFMT_ARGB8888	(3 << 12)
->   #define OVL_CON_CLRFMT_UYVY	(4 << 12)
->   #define OVL_CON_CLRFMT_YUYV	(5 << 12)
-> +#define OVL_CON_MTX_YUV_TO_RGB	(6 << 16)
-> +#define OVL_CON_CLRFMT_PARGB8888	(OVL_CON_CLRFMT_ARGB8888 | OVL_CON_CLRFMT_MAN)
->   #define OVL_CON_CLRFMT_RGB565(ovl)	((ovl)->data->fmt_rgb565_is_0 ? \
->   					0 : OVL_CON_CLRFMT_RGB)
->   #define OVL_CON_CLRFMT_RGB888(ovl)	((ovl)->data->fmt_rgb565_is_0 ? \
-> @@ -72,6 +76,22 @@
->   #define	OVL_CON_VIRT_FLIP	BIT(9)
->   #define	OVL_CON_HORZ_FLIP	BIT(10)
->   
-> +static inline bool is_10bit_rgb(u32 fmt)
-> +{
-> +	switch (fmt) {
-> +	case DRM_FORMAT_XRGB2101010:
-> +	case DRM_FORMAT_ARGB2101010:
-> +	case DRM_FORMAT_RGBX1010102:
-> +	case DRM_FORMAT_RGBA1010102:
-> +	case DRM_FORMAT_XBGR2101010:
-> +	case DRM_FORMAT_ABGR2101010:
-> +	case DRM_FORMAT_BGRX1010102:
-> +	case DRM_FORMAT_BGRA1010102:
-> +		return true;
-> +	}
-> +	return false;
-> +}
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> index 14cf75fa217f9..6cb1ed419dee7 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> @@ -68,6 +68,9 @@ struct mtk_drm_crtc {
+>   	/* lock for display hardware access */
+>   	struct mutex			hw_lock;
+>   	bool				config_updating;
 > +
->   static const u32 mt8173_formats[] = {
->   	DRM_FORMAT_XRGB8888,
->   	DRM_FORMAT_ARGB8888,
-> @@ -89,12 +109,20 @@ static const u32 mt8173_formats[] = {
->   static const u32 mt8195_formats[] = {
->   	DRM_FORMAT_XRGB8888,
->   	DRM_FORMAT_ARGB8888,
-> +	DRM_FORMAT_XRGB2101010,
->   	DRM_FORMAT_ARGB2101010,
->   	DRM_FORMAT_BGRX8888,
->   	DRM_FORMAT_BGRA8888,
-> +	DRM_FORMAT_BGRX1010102,
->   	DRM_FORMAT_BGRA1010102,
->   	DRM_FORMAT_ABGR8888,
->   	DRM_FORMAT_XBGR8888,
-> +	DRM_FORMAT_XBGR2101010,
-> +	DRM_FORMAT_ABGR2101010,
-> +	DRM_FORMAT_RGBX8888,
-> +	DRM_FORMAT_RGBA8888,
-> +	DRM_FORMAT_RGBX1010102,
-> +	DRM_FORMAT_RGBA1010102,
->   	DRM_FORMAT_RGB888,
->   	DRM_FORMAT_BGR888,
->   	DRM_FORMAT_RGB565,
-> @@ -254,9 +282,7 @@ static void mtk_ovl_set_bit_depth(struct device *dev, int idx, u32 format,
->   	reg = readl(ovl->regs + DISP_REG_OVL_CLRFMT_EXT);
->   	reg &= ~OVL_CON_CLRFMT_BIT_DEPTH_MASK(idx);
+> +	struct mtk_ddp_comp		*crc_provider;
+> +	unsigned int			frames;
+>   };
 >   
-> -	if (format == DRM_FORMAT_RGBA1010102 ||
-> -	    format == DRM_FORMAT_BGRA1010102 ||
-> -	    format == DRM_FORMAT_ARGB2101010)
-> +	if (is_10bit_rgb(format))
->   		bit_depth = OVL_CON_CLRFMT_10_BIT;
->   
->   	reg |= OVL_CON_CLRFMT_BIT_DEPTH(bit_depth, idx);
-> @@ -274,7 +300,13 @@ void mtk_ovl_config(struct device *dev, unsigned int w,
->   	if (w != 0 && h != 0)
->   		mtk_ddp_write_relaxed(cmdq_pkt, h << 16 | w, &ovl->cmdq_reg, ovl->regs,
->   				      DISP_REG_OVL_ROI_SIZE);
-> -	mtk_ddp_write_relaxed(cmdq_pkt, 0x0, &ovl->cmdq_reg, ovl->regs, DISP_REG_OVL_ROI_BGCLR);
+>   struct mtk_crtc_state {
+> @@ -635,6 +638,14 @@ static void mtk_crtc_ddp_irq(void *data)
+>   	struct drm_crtc *crtc = data;
+>   	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
+>   	struct mtk_drm_private *priv = crtc->dev->dev_private;
+> +	struct mtk_ddp_comp *comp = mtk_crtc->crc_provider;
 > +
 > +	/*
-> +	 * The background color should be opaque black (ARGB),
-> +	 * otherwise there will be no effect with alpha blend
+> +	 * crc providers should make sure the crc is always correct
+> +	 * by resetting it in .crc_read()
 > +	 */
-> +	mtk_ddp_write_relaxed(cmdq_pkt, 0xff000000, &ovl->cmdq_reg,
-> +			      ovl->regs, DISP_REG_OVL_ROI_BGCLR);
+> +	if (crtc->crc.opened)
+> +		comp->funcs->crc_read(comp->dev);
+>   
+>   #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+>   	if (!priv->data->shadow_register && !mtk_crtc->cmdq_client.chan)
+> @@ -646,6 +657,24 @@ static void mtk_crtc_ddp_irq(void *data)
+>   	if (!priv->data->shadow_register)
+>   		mtk_crtc_ddp_config(crtc, NULL);
+>   #endif
+> +
+> +	/*
+> +	 * drm_crtc_add_crc_entry() could take more than 50ms to finish
+> +	 * put it at the end of the isr
+> +	 */
+> +	if (crtc->crc.opened) {
+> +		/*
+> +		 * skip the first crc because the first frame is configured by
+> +		 * mtk_crtc_ddp_hw_init() when atomic enable
+> +		 */
+> +		if (++mtk_crtc->frames > 1) {
+> +			drm_crtc_add_crc_entry(crtc, true,
+> +					       drm_crtc_vblank_count(crtc),
+> +					       comp->funcs->crc_entry(comp->dev));
+> +		}
+> +	} else {
+> +		mtk_crtc->frames = 0;
+> +	}
+>   	mtk_drm_finish_page_flip(mtk_crtc);
+>   }
+>   
+> @@ -704,6 +733,40 @@ static void mtk_drm_crtc_update_output(struct drm_crtc *crtc,
+>   	}
+>   }
+>   
+> +static int mtk_drm_crtc_set_crc_source(struct drm_crtc *crtc, const char *src)
+> +{
+> +	if (src && strcmp(src, "auto") != 0) {
+> +		DRM_ERROR("%s(crtc-%d): unknown source '%s'\n",
+> +			  __func__, drm_crtc_index(crtc), src);
+> +		return -EINVAL;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int mtk_drm_crtc_verify_crc_source(struct drm_crtc *crtc,
+> +					  const char *src,
+> +					  size_t *cnt)
+> +{
+> +	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
+> +	struct mtk_ddp_comp *comp = mtk_crtc->crc_provider;
+> +
+> +	if (!comp) {
+> +		DRM_ERROR("%s(crtc-%d): no crc provider\n",
+> +			  __func__, drm_crtc_index(crtc));
+> +		return -ENOENT;
+> +	}
+> +
+> +	if (src && strcmp(src, "auto") != 0) {
+> +		DRM_ERROR("%s(crtc-%d): unknown source '%s'\n",
+> +			  __func__, drm_crtc_index(crtc), src);
+> +		return -EINVAL;
+> +	}
+> +
+> +	*cnt = comp->funcs->crc_cnt(comp->dev);
+> +
+> +	return 0;
+> +}
+> +
+>   int mtk_drm_crtc_plane_check(struct drm_crtc *crtc, struct drm_plane *plane,
+>   			     struct mtk_plane_state *state)
+>   {
+> @@ -841,6 +904,8 @@ static const struct drm_crtc_funcs mtk_crtc_funcs = {
+>   	.atomic_destroy_state	= mtk_drm_crtc_destroy_state,
+>   	.enable_vblank		= mtk_drm_crtc_enable_vblank,
+>   	.disable_vblank		= mtk_drm_crtc_disable_vblank,
+> +	.set_crc_source		= mtk_drm_crtc_set_crc_source,
+> +	.verify_crc_source	= mtk_drm_crtc_verify_crc_source,
+>   };
+>   
+>   static const struct drm_crtc_helper_funcs mtk_crtc_helper_funcs = {
+> @@ -1033,6 +1098,11 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>   
+>   			if (comp->funcs->ctm_set)
+>   				has_ctm = true;
+> +
+> +			if (comp->funcs->crc_cnt &&
+> +			    comp->funcs->crc_entry &&
+> +			    comp->funcs->crc_read)
+> +				mtk_crtc->crc_provider = comp;
+>   		}
+>   
+>   		mtk_ddp_comp_register_vblank_cb(comp, mtk_crtc_ddp_irq,
+> @@ -1137,3 +1207,172 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>   
+>   	return 0;
+>   }
+> +
+> +void mtk_drm_crc_init(struct mtk_drm_crc *crc,
+> +		      const u32 *crc_offset_table, size_t crc_count,
+> +		      u32 reset_offset, u32 reset_mask)
+> +{
+> +	crc->ofs = crc_offset_table;
+> +	crc->cnt = crc_count;
+> +	crc->rst_ofs = reset_offset;
+> +	crc->rst_msk = reset_mask;
+> +	crc->va = kcalloc(crc->cnt, sizeof(*crc->va), GFP_KERNEL);
+> +	if (!crc->va) {
+> +		DRM_ERROR("failed to allocate memory for crc\n");
+> +		crc->cnt = 0;
+> +	}
+> +}
+> +
+> +void mtk_drm_crc_read(struct mtk_drm_crc *crc, void __iomem *reg)
+> +{
 
-Multiple (all of?) OVL color registers, like{L0-3,EL0-2}_YUV1BIT_COLOR(x),
-ROI_BGCLR, L{0-3}_CLR and others do follow this exact layout:
+	u32 n; goes here
 
-#define OVL_COLOR_ALPHA				GENMASK(31, 24)
-#define OVL_COLOR_GREEN				GENMASK(23, 16)
-#define OVL_COLOR_RED				GENMASK(15, 8)
-#define OVL_COLOR_BLUE				GENMASK(7, 0)
+> +	if (!crc->cnt || !crc->ofs || !crc->va)
+> +		return;
+> +
+> +#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> +	/* sync to see the most up-to-date copy of the DMA buffer */
+> +	dma_sync_single_for_cpu(crc->cmdq_client.chan->mbox->dev,
+> +				crc->pa, crc->cnt * sizeof(*crc->va),
+> +				DMA_FROM_DEVICE);
+> +#else
+> +	/* read crc with cpu for the platforms without cmdq */
+> +	{
 
-...so we can define those as they're valid for multiple registers, and then
-we can use the definition instead of an apparently random value.
-
-/*
-  * The background color should be opaque black (ARGB),
-  * otherwise there will be no effect with alpha blend
-  */
-mtk_ddp_write_relaxed(cmdq_pkt, OVL_COLOR_ALPHA, &ovl->cmdq_reg,
-		      ovl->regs, DISP_REG_OVL_ROI_BGCLR);
-
-Everything else looks ok.
+then you don't need the braces.
 
 Regards,
 Angelo
