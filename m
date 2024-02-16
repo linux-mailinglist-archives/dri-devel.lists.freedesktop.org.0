@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08355858053
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 16:13:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D84F6858059
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 16:13:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25F3010EBB4;
-	Fri, 16 Feb 2024 15:13:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EB6810EB8F;
+	Fri, 16 Feb 2024 15:13:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="rcaDrJB1";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ZOZZX9xc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2088.outbound.protection.outlook.com [40.107.93.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4D8110EBB4;
- Fri, 16 Feb 2024 15:13:03 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2049.outbound.protection.outlook.com [40.107.223.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C840010EB8F;
+ Fri, 16 Feb 2024 15:13:16 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jaSWrR3h/YUPwlC4stR/Qdvjg74ZtJYoAuFhEzjg2Y63IiMWoFroX3ykRx3fF8AvwJS6CzJXcORNCsWbJQRARADt//leT+DUD93gr/QQbvt52+OtDmJAauBFvtl9W0bafL1bFIqqpraIDRHtb4xlNjpluIKm0iJtuSmAyJYLMeNch8EuwW2NdqFNeNrg4P1I6oDZ0ssGRFOTSW5z7eNdnE+DJxcHSNarDOHvggm4tx0+QaMktD040bjGKbSaB5nNQnD/tYQtwwM0ThLdPrRMDZrW+QxdezBtg2Tb24j8qxfUXt+AHtT7wx+ZU07/WNhvePqgg2Q+g/5XOtpspeDXEw==
+ b=LTPz8CrHfM+FIJRFYKXsxbBVMrGXBOAuCGJ8/eIA+Mdlr3n2UPgzV5qD0lC45PBwLrD66tkcusRr2Aigsvv+Rb4SQ9q/J1RF6x2BEI9CplFkSinzwlZwN8AX/DTWT6L0qDw0at8ub/izSAjcx6amsBhdsAH2nwM5tlDvq9awrHAELxT9SyYl89rb8ci0wKewDbGfn/XPGHED7ikj2gsRNA7X/v7SZn5xu2eBS0oi5NMHi+0WPceHhoagY5VbPZepWju9J4QB01YogSBZpNN4T2ydQDOKM7ldIU1CPBVT9DeTfmiFKessIdxSBUGOZTgKDQwkbs2VE5fYxlJ+GxUorw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ljojgy8rwY5qa00A4ybe260/3tI9/pfNwX8PxXXmDvQ=;
- b=YNidFxa/pGTQmH4xz90Pdrx8KXt4ihk2HMAsWunk3gUYrQH/luD5BM+ARQquv5nz97qsx6FxT/H7uohJUS4yOesQB8vy5Ko2QHFLofZ4UtsVDJCEbdlD8tE8XaGhChZ6XVfKFxKAR/VbuGTQJKMOQSoExjd2TAnHjDqu9eIW/aXqzVx9hhhrfKxKAuPPNOsv6VhBjzw5yaMZrgfSMLvcchR0ZUEjoRNSoIA2RqEwfryPytsAJHHqo2eshHvmyy6QRgdxgbypBMqy8xn93chlCeclDE5lg/uth113tq+ljdF6l5miYbVi+CcR4Qi3GGZcIzwCZ7TPGc7hfknTuge8PA==
+ bh=JdkNUzs3n8SktVyT8ddjNXfd+jBe9xhPGSbbxW9DBSs=;
+ b=mcl8Etn1Eth3NH2UMFX2AYf4lqhs2gZDhIBuvj6JM8lsVQpcTrjbAzZnBBbD+W7CWosVUenGfhX/rGvgFt90NsyTxp3MQOC2WTFBoWovNFCNhNc8l5xkr7STkRh0RpzqNfUC1CpyJux6zSb5FVGHrs8HaKYOk2pacr6iJ4scvZ+3BriObf0tWsNh8NAL6eBEQsz6iVhDiF/yCYaeseUb+NDodjujIAlZJFvkdRvBCdzB7GuQu/rEODt0eljNAhTPtfLk9ybqkGxV2C4G7L/GOC54S6Bf/QTDOHC90j+onb7FBeKFJgNOAQPpwKAxYlNZh/P9n/aWkcUdfiEPmOlakw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=linaro.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ljojgy8rwY5qa00A4ybe260/3tI9/pfNwX8PxXXmDvQ=;
- b=rcaDrJB1P/IiWmg4yAU2Egvu0mpq38J1SJkMv0ThaM7tOGCO3j3q4cpaZdAWKdDVjCY4V/BfpcH6BL+lYwaxPtrX9zuA37NrPsyxD+lwjqjQuEueKRWJVBuh/rTOY1GzZRyKMUwYdUPiM3U6v5kofsAxHqNTmqCza+2OoYNg6jw=
-Received: from BL0PR02CA0137.namprd02.prod.outlook.com (2603:10b6:208:35::42)
- by DM4PR12MB5151.namprd12.prod.outlook.com (2603:10b6:5:392::8) with
+ bh=JdkNUzs3n8SktVyT8ddjNXfd+jBe9xhPGSbbxW9DBSs=;
+ b=ZOZZX9xcynaYRUFCjuQ22UvMzb4MqJfsnvEGDv8t+Hxv6oOV7jGx1+bWo6FrDtKScFm+tWXrkkv6BEL/IW8kmR4Ks3a7EVBZVKONPnqWuQUTMOYUmUJbT47Q3RyJAZXzMmIH02EQvkGNYyO8GO3z8Jo0nzUXfxg7nkbSu8eqo84=
+Received: from BL1PR13CA0336.namprd13.prod.outlook.com (2603:10b6:208:2c6::11)
+ by DS0PR12MB7702.namprd12.prod.outlook.com (2603:10b6:8:130::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.15; Fri, 16 Feb
- 2024 15:13:00 +0000
-Received: from MN1PEPF0000F0E4.namprd04.prod.outlook.com
- (2603:10b6:208:35:cafe::d0) by BL0PR02CA0137.outlook.office365.com
- (2603:10b6:208:35::42) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.26 via Frontend
- Transport; Fri, 16 Feb 2024 15:12:59 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.28; Fri, 16 Feb
+ 2024 15:13:14 +0000
+Received: from MN1PEPF0000F0E1.namprd04.prod.outlook.com
+ (2603:10b6:208:2c6:cafe::56) by BL1PR13CA0336.outlook.office365.com
+ (2603:10b6:208:2c6::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.12 via Frontend
+ Transport; Fri, 16 Feb 2024 15:13:14 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- MN1PEPF0000F0E4.mail.protection.outlook.com (10.167.242.42) with Microsoft
+ MN1PEPF0000F0E1.mail.protection.outlook.com (10.167.242.39) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7292.25 via Frontend Transport; Fri, 16 Feb 2024 15:12:59 +0000
+ 15.20.7292.25 via Frontend Transport; Fri, 16 Feb 2024 15:13:14 +0000
 Received: from patedamande.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Fri, 16 Feb
- 2024 09:12:56 -0600
+ 2024 09:13:11 -0600
 From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, "Sumit
  Semwal" <sumit.semwal@linaro.org>, Gustavo Padovan <gustavo@padovan.org>,
@@ -64,9 +64,9 @@ To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, "Sumit
  <dri-devel@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
  <linux-trace-kernel@vger.kernel.org>, Alex Deucher
  <alexander.deucher@amd.com>, <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH v3 6/8] drm: add drm_mode_atomic_commit event
-Date: Fri, 16 Feb 2024 16:09:55 +0100
-Message-ID: <20240216151006.475077-7-pierre-eric.pelloux-prayer@amd.com>
+Subject: [PATCH v3 7/8] drm/sched: use trace_dma_fence_used_as_dependency
+Date: Fri, 16 Feb 2024 16:09:56 +0100
+Message-ID: <20240216151006.475077-8-pierre-eric.pelloux-prayer@amd.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20240216151006.475077-1-pierre-eric.pelloux-prayer@amd.com>
 References: <20240216151006.475077-1-pierre-eric.pelloux-prayer@amd.com>
@@ -78,26 +78,26 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0E4:EE_|DM4PR12MB5151:EE_
-X-MS-Office365-Filtering-Correlation-Id: ff27c672-5678-491e-7dd7-08dc2f01c355
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0E1:EE_|DS0PR12MB7702:EE_
+X-MS-Office365-Filtering-Correlation-Id: e5a1f602-ef32-4fd8-760c-08dc2f01cbfb
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6/rWuyC38DI0OIusBk4W7Be6pdd+VrcFmRLwnFECXuEsJqZ40p8npDiV1o3TrWyOTYMZzaVC6MPkHp3LKPH2lPj7DBBqa45YrU1Ctt94p4GnJRTlgMeiFfTQHCd87qkrONAFw7HPFwPoC1PXhjk5CYVYfuZCP2p1V8l2rNrxQKZ6kPlUYtNS8zX7VfL+sBfs2Hh2wKZUGOu8CQmhSUvjxwfeISd2/v9fi8LYPLt8nIwwxK04yf47r9ewRptTqbSFii8NU8V5KUi1YbbMC9Kaqi49b32iOpZ0ScGOlbHDvmJ0RTLn5jVYJ7CaqIE+GtxwVvAeqNwm7aaqW0H19m82fLHKlgBmmCKYHKoYDEPH44k3m7RyFccF1ITEKutTcDgbprk5wwJF7MIOFYEAVCNfnmN6T8BrN/PVMKKdnNMH4w++lR5Io8JoeM8VxX0R4ehQFydYyQhSUfru/ZqcnYwDDWwteYi9jPBK9f448GXTpp2QLUwh3FHjEw00O3XdgE6To2vlohM5IXGGCF6vLhOjGMMMMtmlCZufTw/URg0QM6pecSoNJB++oVqFSGHEMRdo7GYlSah6VP4byyr6hlJQ3+Y/CFzyuf3YPR2vOGs3RZtiJmArd0AfSjX3OYor3mYLwyd8ZFDaq+HxhpcMKIJnAK+P018lbuiq2A8omSVzWqg=
+X-Microsoft-Antispam-Message-Info: 9Q9Hkb2NKr1S2LlfX+AfHzukQEbY4kgqMdEPxGbNHLA4oW5gabcBSqznAkC3IqYOsNvSS89WP6ImLHiCuBHqLAY1R5wWi4xPcVxrqqdm3xsHSwc4b4f2EqSSW8UJV4mvwVQGFgmb0oaTMsrV2bqDhZyvQvYRADhFdfiEQM5fBS3Py3t9AVtDwo/D+QdmgRYJytAXVQiXFLSvNPQ7igljlth1uB3wEiC+oZWpX0oX+msMA76+WTb3/5tc1ztV6S2mR+VWxEkhWmA8F2R/M8iBHI3vbXV59GmYa/B599iRUlmXJ4epdJ/W56SLLRGxU9/AXxKzbrOQsR7COrNGVrz/7tpfgFDNchh0cjTy+s4mLOg6GDFAzlFlD1V1D41dBqbZnLJZUU8Wm7W3LBrWQNFAV87F9xSNk326tf7DDRgQ4GiR6gKZ5ltcE0iSUqULr0Se+5/fm4PZIrGsUiYpUI0oVz7FWBxbz1gF83875paokNFc+svbfPjxSDe+G7V929vXX2vVxFlTqyBaGlmlDFVf9/+wLpAmJmpP3I5ReGGmd/93OBLPs0fRNYt0v4ZXESeRpVsi4lqSWeoyM2XctrN2pWnJnlUvMkmlHN/oSSbYA3RwzhVpwqhGSQO73K4u7x6+MI8S6M4eJMLWoRVn0lZDeutzaBEfy/iJu9FMxXuX0LQ=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(39860400002)(346002)(396003)(136003)(376002)(230922051799003)(1800799012)(36860700004)(186009)(82310400011)(451199024)(64100799003)(46966006)(40470700004)(478600001)(41300700001)(2906002)(8676002)(8936002)(5660300002)(316002)(7696005)(70206006)(110136005)(70586007)(2616005)(1076003)(26005)(356005)(86362001)(81166007)(16526019)(426003)(921011)(336012)(36756003)(82740400003);
+ SFS:(13230031)(4636009)(346002)(136003)(396003)(39860400002)(376002)(230922051799003)(1800799012)(82310400011)(186009)(451199024)(36860700004)(64100799003)(40470700004)(46966006)(6666004)(478600001)(41300700001)(70206006)(7696005)(4744005)(8936002)(2906002)(5660300002)(8676002)(110136005)(86362001)(316002)(70586007)(81166007)(356005)(426003)(336012)(2616005)(26005)(16526019)(921011)(82740400003)(1076003)(36756003);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2024 15:12:59.8087 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ff27c672-5678-491e-7dd7-08dc2f01c355
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2024 15:13:14.3026 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e5a1f602-ef32-4fd8-760c-08dc2f01cbfb
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: MN1PEPF0000F0E4.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: MN1PEPF0000F0E1.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5151
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7702
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,99 +113,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With this and the dma_fence_used_as_dependency event, a tool can draw the
-relationship between the compositing draw, the atomic commit, and vblank.
-
-An example on a 2 monitors system look like this:
-
-gnome-shell-1638    [018] .....  2571.905124: drm_mode_atomic_commit: file=00000000245c3f0c, pid=    1165, flags=00000201, crtcs={0x1}
-gnome-shell-1638    [018] .....  2571.905147: dma_fence_used_as_dependency: driver=drm_sched timeline=gfx_0.0.0 context=270 seqno=73240 reason=dma_fence_chain_init
-gnome-shell-1638    [018] .....  2571.913226: drm_mode_atomic_commit: file=00000000245c3f0c, pid=    1165, flags=00000201, crtcs={0x0}
-gnome-shell-1638    [018] .....  2571.913250: dma_fence_used_as_dependency: driver=drm_sched timeline=gfx_0.0.0 context=270 seqno=73241 reason=dma_fence_chain_init
-    <idle>-0       [018] d.h3.  2571.915687: drm_vblank_event: crtc=1, seq=155747, time=2571916093743, high-prec=true
-    <idle>-0       [018] d.h3.  2571.915968: drm_vblank_event: crtc=0, seq=153862, time=2571916377180, high-prec=true
-
-v2: fix unchecked memory allocation
+drm_sched_job_add_dependency adds dependencies so use the new
+trace event.
 
 Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 ---
- drivers/gpu/drm/drm_atomic_uapi.c | 21 +++++++++++++++++++++
- drivers/gpu/drm/drm_trace.h       | 23 +++++++++++++++++++++++
- 2 files changed, 44 insertions(+)
+ drivers/gpu/drm/scheduler/sched_main.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index 29d4940188d4..f31b5c6f870b 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -41,6 +41,7 @@
- #include <linux/file.h>
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 7e90c9f95611..6ee49f70d319 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -84,6 +84,8 @@
+ #include <drm/gpu_scheduler.h>
+ #include <drm/spsc_queue.h>
  
- #include "drm_crtc_internal.h"
-+#include "drm_trace.h"
++#include <trace/events/dma_fence.h>
++
+ #define CREATE_TRACE_POINTS
+ #include "gpu_scheduler_trace.h"
  
- /**
-  * DOC: overview
-@@ -1503,6 +1504,26 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
- 		drm_mode_object_put(obj);
- 	}
+@@ -879,6 +881,8 @@ int drm_sched_job_add_dependency(struct drm_sched_job *job,
+ 		if (entry->context != fence->context)
+ 			continue;
  
-+	if (trace_drm_mode_atomic_commit_enabled()) {
-+		struct drm_crtc_state *crtc_state;
-+		struct drm_crtc *crtc;
-+		int *crtcs;
-+		int i, num_crtcs;
++		trace_dma_fence_used_as_dependency(fence, __func__);
 +
-+		crtcs = kcalloc(dev->mode_config.num_crtc, sizeof(int),
-+				GFP_KERNEL);
-+
-+		if (crtcs) {
-+			num_crtcs = 0;
-+			for_each_new_crtc_in_state(state, crtc, crtc_state, i)
-+				crtcs[num_crtcs++] = drm_crtc_index(crtc);
-+
-+			trace_drm_mode_atomic_commit(file_priv, crtcs, num_crtcs, arg->flags);
-+
-+			kfree(crtcs);
-+		}
-+	}
-+
- 	ret = prepare_signaling(dev, state, arg, file_priv, &fence_state,
- 				&num_fences);
- 	if (ret)
-diff --git a/drivers/gpu/drm/drm_trace.h b/drivers/gpu/drm/drm_trace.h
-index 11c6dd577e8e..63489923c289 100644
---- a/drivers/gpu/drm/drm_trace.h
-+++ b/drivers/gpu/drm/drm_trace.h
-@@ -66,6 +66,29 @@ TRACE_EVENT(drm_vblank_event_delivered,
- 		      __entry->seq)
- );
- 
-+TRACE_EVENT(drm_mode_atomic_commit,
-+	    TP_PROTO(struct drm_file *file, int *crtcs, int ncrtcs, uint32_t flags),
-+	    TP_ARGS(file, crtcs, ncrtcs, flags),
-+	    TP_STRUCT__entry(
-+		    __field(struct drm_file *, file)
-+		    __dynamic_array(u32, crtcs, ncrtcs)
-+		    __field(uint32_t, ncrtcs)
-+		    __field(uint32_t, flags)
-+		    ),
-+	    TP_fast_assign(
-+		    unsigned int i;
-+
-+		    __entry->file = file;
-+		    for (i = 0; i < ncrtcs; i++)
-+			((u32 *)__get_dynamic_array(crtcs))[i] = crtcs[i];
-+		    __entry->ncrtcs = ncrtcs;
-+		    __entry->flags = flags;
-+		    ),
-+	    TP_printk("file=%p, pid=%8d, flags=%08x, crtcs=%s", __entry->file,
-+		      pid_nr(__entry->file->pid), __entry->flags,
-+		      __print_array(__get_dynamic_array(crtcs), __entry->ncrtcs, 4))
-+);
-+
- #endif /* _DRM_TRACE_H_ */
- 
- /* This part must be outside protection */
+ 		if (dma_fence_is_later(fence, entry)) {
+ 			dma_fence_put(entry);
+ 			xa_store(&job->dependencies, index, fence, GFP_KERNEL);
 -- 
 2.40.1
 
