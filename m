@@ -2,71 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70EC2858322
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 17:57:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A40858331
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 17:59:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5437010EC43;
-	Fri, 16 Feb 2024 16:57:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D8A410E98A;
+	Fri, 16 Feb 2024 16:59:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="SCqHLMjo";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ANOesA0t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com
- [209.85.167.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11C1E10EC3F
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 16:57:20 +0000 (UTC)
-Received: by mail-oi1-f181.google.com with SMTP id
- 5614622812f47-3bc21303a35so770164b6e.0
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 08:57:20 -0800 (PST)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
+ [209.85.215.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDCAA10E98A;
+ Fri, 16 Feb 2024 16:59:54 +0000 (UTC)
+Received: by mail-pg1-f178.google.com with SMTP id
+ 41be03b00d2f7-53fbf2c42bfso795401a12.3; 
+ Fri, 16 Feb 2024 08:59:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1708102639; x=1708707439; darn=lists.freedesktop.org; 
+ d=gmail.com; s=20230601; t=1708102794; x=1708707594; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=a54mBlPJQ0nr4LxEOnQe6E9J05YCJwMg6dbDW6Ogvwk=;
- b=SCqHLMjovb4SsRFlp7ZuO44arOtB+8C/BbN101rPMDxHXIOOraktu3C/tvxsTob8/1
- 6ezDLXgffe42KNWadHP0uLuediN8AeuI0rCHiASzUOF+ToG5NaRs0VaM7K6xEnXTFn6W
- 5r16HtH753y0huNElcX67CPFnHFyVoJm4Bys0=
+ bh=/x+pl6pSSD4011o2sxhi3tmE0ghNOP6YOH/ewDjwkTI=;
+ b=ANOesA0tn5covcHEeomMCr5XbitC1sdzvH54eH2Zb6I/D1PXVqgq4GU/n+XfhMqoIN
+ dExLK0nvE0n0UqMpoJpm3GXjmo+1H/xv5TemyxpJbT2R2vLbLhbdnxhOwCiFCktR3NsD
+ BAVKjWaJcQexsqrCZu8XLTnlo+7q1wQREwyCdfr4YN0SYNb6AzkQ8Lg6+mufNft7+C1G
+ aiwPdZxa8OUPI0JDn7ZWSPxBoPhZyK3V/oIklTvlD4seDmkWO3SoULEr1WRT2eQjrEwb
+ bXXiPGCzAw0pZ8JDduwVXqCEe6eY9kPdPfrEysLYLh5+vcYgtultAYg1Re0vJNtR4Gg5
+ AftA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708102639; x=1708707439;
+ d=1e100.net; s=20230601; t=1708102794; x=1708707594;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=a54mBlPJQ0nr4LxEOnQe6E9J05YCJwMg6dbDW6Ogvwk=;
- b=REMOGSFmIiAqYM3TduB4fn958AmIKKDCY+dayk0uKaWZsMJmfyxplkLaVPWlT+/L9j
- QFd0RUzrMFs5OsD2z6H8WTYe2ub8AsN8T8EK39XentgogTKRWYl47qjLQM/+dAwAHI6g
- URCsqC/3XAFWtfRjiTNTAIVskJpb0OpDqqumBdaDiJMeqCx3HmfuPHHtPQ+RzHf4uvXJ
- LhG1arGm0Y658M5c0Jbx16RaoYkqHPWMezRD062p0LQ/xl2f3xjXOdwt/PUqV9vUX1Ak
- Ntgy9KR8ladAi7ujOkC/65n1oSfOLG4lIbsmNtdoGxYSHEHjZVzPXmWBxukga7BctjwO
- HpCQ==
+ bh=/x+pl6pSSD4011o2sxhi3tmE0ghNOP6YOH/ewDjwkTI=;
+ b=Ao83KCx21Ru/DN2HTk/NHf8XOiRvOTtHoDHpOeGmerGv2BS1b80AHU0hepmRimB2nZ
+ ZHRGo+WLA78aDlOB9ymLBLS5c+qsPmaWaLnJnDYdscA7iVY/ZSB/ra+rakprLWEo1yMF
+ lfXtpNunqsfbdRwFRTBwdOhgAWhl3vX6oIqK+xLXvoHmZkdQ3DklujHjtDIwdRxB+1ty
+ djwd3fp74/xHpN74iwNmeqU3IqGfKw/nOVVawiUgehaO8YOQNPbqi4bOHKWs9Dq8wU/l
+ xNPXs8B4zo7FyC0GJP32BXFjOjbOSBKCrZ1PLlJwM7PMhmXRMAzLlMIIJJ+P9l/LD6NM
+ WXLw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWR7s5PpgY/e/unhDuCCpMm/OCsFfYk7D2bWnTUQavN+H/EVaqYwH1mItB62TJu1PCgM1NMKdMCIGx4/upAi0cdKSVDbtGk8aWcPExuh4hc
-X-Gm-Message-State: AOJu0YwingOUAUqax467kv8DbPldxpG5/dzV5Qa42V9f4jJ7uZHRSxPk
- N2CqhsnTR34/ILvNVGCrJuzjvx6XcRFs8ZBwc6Dpp629/L+bdayY3BvuZHhYGXsYmbL1gNeCEU6
- GhBs3tei/jwR2yJTtqrbDW/0Ese+PKsAhkYIFzQ==
-X-Google-Smtp-Source: AGHT+IFZi9RDzwhwyq7Vgbb6tf8+xOs817Ulf+ClWV8voToU7JWM1HF+f6JVnrAvqqhyZKtEyjz2rl5PGCwyv6GOjVw=
-X-Received: by 2002:a05:6870:b528:b0:21e:3794:9e24 with SMTP id
- v40-20020a056870b52800b0021e37949e24mr5556668oap.3.1708102639106; Fri, 16 Feb
- 2024 08:57:19 -0800 (PST)
+ AJvYcCXyTbUEM0D0VJAKCMgnqZiBgFrKZdVkUGuvX9p5ZqN34owq8xeit8VQyQB1h4H5moIcNQaemAs0gBRddsfXnDOfkZZeUpjHy/qesTAAUx/m5Zlb9EINKtprLy5HtZho4FFnB2c3K9J9PX3Ka8lZ5A==
+X-Gm-Message-State: AOJu0YzNcabvWWQpTvrZM17cQIl34wX51NT44t5xpz4i3sbI8xF/sGY4
+ FpcoCRU6zWeZPRzIKeDUmTRcX+SaVHwFy++461dPlT1K/rBT+fC8svX9Pr2yY1LwPSE/gU+MEsX
+ xEibGq+zIMAvvOVmJahZK95bgkY0=
+X-Google-Smtp-Source: AGHT+IFCDrkANKvivOACqcEya2zGfx4wIMBdPgjxD/0svYgSjKn3pI/eIrsX+aXebJhmfR73YSorrnNo7W7edSVRpl8=
+X-Received: by 2002:a17:90b:1009:b0:297:1196:3716 with SMTP id
+ gm9-20020a17090b100900b0029711963716mr5572994pjb.18.1708102794502; Fri, 16
+ Feb 2024 08:59:54 -0800 (PST)
 MIME-Version: 1.0
-References: <20240214121435.3813983-1-adrian.larumbe@collabora.com>
- <ba987da3-b4aa-410c-95ae-434e94793d85@arm.com>
-In-Reply-To: <ba987da3-b4aa-410c-95ae-434e94793d85@arm.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 16 Feb 2024 17:57:07 +0100
-Message-ID: <CAKMK7uH=QKSyMgsOYCHMwE7iv6jQZRwUMcKq=HiXsBXBCv5BCQ@mail.gmail.com>
-Subject: Re: [PATCH 0/1] Always record job cycle and timestamp information
-To: Steven Price <steven.price@arm.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, 
- Lionel Landwerlin <lionel.g.landwerlin@linux.intel.com>
-Cc: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>, 
- Boris Brezillon <boris.brezillon@collabora.com>, Rob Herring <robh@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20240215133155.9198-1-ilpo.jarvinen@linux.intel.com>
+ <20240215133155.9198-2-ilpo.jarvinen@linux.intel.com>
+ <BL1PR12MB51440761895B3DF935840BF0F74D2@BL1PR12MB5144.namprd12.prod.outlook.com>
+ <dd2da980-d114-e30e-fa91-79ff9ec353e7@linux.intel.com>
+In-Reply-To: <dd2da980-d114-e30e-fa91-79ff9ec353e7@linux.intel.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 16 Feb 2024 11:59:42 -0500
+Message-ID: <CADnq5_MCQX+vP9aGsYdKejQtPF=rgKqNauDwqCLa39Ug8Nd-zg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] drm/radeon: Use RMW accessors for changing LNKCTL2
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>, 
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, 
+ "Koenig, Christian" <Christian.Koenig@amd.com>, Lukas Wunner <lukas@wunner.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,81 +90,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 14, 2024 at 01:52:05PM +0000, Steven Price wrote:
-> Hi Adri=C3=A1n,
+Applied.  Thanks.
+
+Alex
+
+On Fri, Feb 16, 2024 at 5:38=E2=80=AFAM Ilpo J=C3=A4rvinen
+<ilpo.jarvinen@linux.intel.com> wrote:
 >
-> On 14/02/2024 12:14, Adri=C3=A1n Larumbe wrote:
-> > A driver user expressed interest in being able to access engine usage s=
-tats
-> > through fdinfo when debugfs is not built into their kernel. In the curr=
-ent
-> > implementation, this wasn't possible, because it was assumed even for
-> > inflight jobs enabling the cycle counter and timestamp registers would
-> > incur in additional power consumption, so both were kept disabled until
-> > toggled through debugfs.
+> On Thu, 15 Feb 2024, Deucher, Alexander wrote:
+>
+> > [Public]
 > >
-> > A second read of the TRM made me think otherwise, but this is something
-> > that would be best clarified by someone from ARM's side.
->
-> I'm afraid I can't give a definitive answer. This will probably vary
-> depending on implementation. The command register enables/disables
-> "propagation" of the cycle/timestamp values. This propagation will cost
-> some power (gates are getting toggled) but whether that power is
-> completely in the noise of the GPU as a whole I can't say.
->
-> The out-of-tree kbase driver only enables the counters for jobs
-> explicitly marked (BASE_JD_REQ_PERMON) or due to an explicit connection
-> from a profiler.
->
-> I'd be happier moving the debugfs file to sysfs rather than assuming
-> that the power consumption is small enough for all platforms.
->
-> Ideally we'd have some sort of kernel interface for a profiler to inform
-> the kernel what it is interested in, but I can't immediately see how to
-> make that useful across different drivers. kbase's profiling support is
-> great with our profiling tools, but there's a very strong connection
-> between the two.
-
-Yeah I'm not sure whether a magic (worse probably per-driver massively
-different) file in sysfs is needed to enable gpu perf monitoring stats in
-fdinfo.
-
-I get that we do have a bit a gap because the linux perf pmu stuff is
-global, and you want per-process, and there's kinda no per-process support
-for perf stats for devices. But that's probably the direction we want to
-go, not so much fdinfo. At least for hardware performance counters and
-things like that.
-
-Iirc the i915 pmu support had some integration for per-process support,
-you might want to chat with Tvrtko for kernel side and Lionel for more
-userspace side. At least if I'm not making a complete mess and my memory
-is vaguely related to reality. Adding them both.
-
-Cheers, Sima
-
-
->
-> Steve
->
-> > Adri=C3=A1n Larumbe (1):
-> >   drm/panfrost: Always record job cycle and timestamp information
+> > > -----Original Message-----
+> > > From: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
+> > > Sent: Thursday, February 15, 2024 8:32 AM
+> > > To: Deucher, Alexander <Alexander.Deucher@amd.com>; amd-
+> > > gfx@lists.freedesktop.org; Daniel Vetter <daniel@ffwll.ch>; David Air=
+lie
+> > > <airlied@gmail.com>; Dennis Dalessandro
+> > > <dennis.dalessandro@cornelisnetworks.com>; dri-
+> > > devel@lists.freedesktop.org; Jason Gunthorpe <jgg@ziepe.ca>; Leon
+> > > Romanovsky <leon@kernel.org>; linux-kernel@vger.kernel.org; linux-
+> > > rdma@vger.kernel.org; Pan, Xinhui <Xinhui.Pan@amd.com>; Koenig, Chris=
+tian
+> > > <Christian.Koenig@amd.com>
+> > > Cc: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>; Lukas Wunner
+> > > <lukas@wunner.de>
+> > > Subject: [PATCH 1/3] drm/radeon: Use RMW accessors for changing LNKCT=
+L2
+> > >
+> > > Convert open coded RMW accesses for LNKCTL2 to use
+> > > pcie_capability_clear_and_set_word() which makes its easier to unders=
+tand
+> > > what the code tries to do.
+> > >
+> > > LNKCTL2 is not really owned by any driver because it is a collection =
+of control
+> > > bits that PCI core might need to touch. RMW accessors already have su=
+pport
+> > > for proper locking for a selected set of registers
+> > > (LNKCTL2 is not yet among them but likely will be in the future) to a=
+void losing
+> > > concurrent updates.
+> > >
+> > > Suggested-by: Lukas Wunner <lukas@wunner.de>
+> > > Signed-off-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
 > >
-> >  drivers/gpu/drm/panfrost/Makefile           |  2 --
-> >  drivers/gpu/drm/panfrost/panfrost_debugfs.c | 21 ------------------
-> >  drivers/gpu/drm/panfrost/panfrost_debugfs.h | 14 ------------
-> >  drivers/gpu/drm/panfrost/panfrost_device.h  |  1 -
-> >  drivers/gpu/drm/panfrost/panfrost_drv.c     |  5 -----
-> >  drivers/gpu/drm/panfrost/panfrost_job.c     | 24 ++++++++-------------
-> >  drivers/gpu/drm/panfrost/panfrost_job.h     |  1 -
-> >  7 files changed, 9 insertions(+), 59 deletions(-)
-> >  delete mode 100644 drivers/gpu/drm/panfrost/panfrost_debugfs.c
-> >  delete mode 100644 drivers/gpu/drm/panfrost/panfrost_debugfs.h
+> > The radeon and amdgpu patches are:
+> > Acked-by: Alex Deucher <alexander.deucher@amd.com>
 > >
-> >
-> > base-commit: 6b1f93ea345947c94bf3a7a6e668a2acfd310918
+> > Are you looking for me to pick them up or do you want to land them as
+> > part of some larger change?  Either way is fine with me.
 >
-
---
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> Hi,
+>
+> You please take them, I intentionally took them apart from the BW
+> controller series so they can go through the usual trees, not along with
+> the BW controller. (I don't expect the BW controller to be accepted durin=
+g
+> this cycle).
+>
+> --
+>  i.
