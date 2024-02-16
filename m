@@ -2,64 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A5038576B8
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 08:20:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2583E857768
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 09:20:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D56F110E3D0;
-	Fri, 16 Feb 2024 07:20:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7667710E256;
+	Fri, 16 Feb 2024 08:20:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aGQJcDCQ";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="bXDEcl+Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
- [209.85.208.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 549A010E3D0
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 07:20:53 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-55f50cf2021so2299332a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Feb 2024 23:20:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1708068052; x=1708672852; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=z3fnE8lu4OwnmF+xCktEvTcMyuCb+rBJsjQn+t81tu8=;
- b=aGQJcDCQ89XJS5lP3+VVpBqWYOxdFZEr1Rk6z4eaLo8cTftGndVfhrQocD2bvS0V3H
- 1GeUXPYjoeKGfwwjDpxKhqaV4v5XNLl8pYi16534O38o9fuP9UUa0rOoCHrEeoQBZy4i
- llkxTPFiu9lp6pUsHp+il0S5XNFf+uzd/tl3v+6sbxlVjJkKDZeUTeoMndnbDrtW9spX
- nZuXhFUuGGi4rZcz+ZkXCaY+3UaUDu9juLuNBiOI6vvyY1RKSKrkej/bV5FeIKgit/Da
- PH3ig9kq0lWNnFkEw0JRMP9tBXUX0lGCIDM8fhsKbVCGdUZlSEv+NV+b9pHxwfFyI60k
- dolg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708068052; x=1708672852;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=z3fnE8lu4OwnmF+xCktEvTcMyuCb+rBJsjQn+t81tu8=;
- b=bkbXpp7d8Nde7CbCRVGU2NNkK21fAWlWqUhLFXFvcYn1t0/yxHKEdWKONbAGD3KCOb
- xa0PbSF3JE6P2B7IDzwCzKEQIN9HtTErrOEjyzsAinNrwGQfl2r4QeeD3cq1WG5283hI
- 7hkvK+f/0+3MAr+YLSAgfhPQ8ZJf6e0M3gdNFTW6eWiQC71aZUiU9bJ0P+dTkBJ1CpDk
- WF5zvtYbwKaWnfd0pB/vVDv2UlvL+qkH9VZtsfo5lsHwofzrbu+M7wUecCCWMNqTozBL
- JwuFVowglN5v4GlolQQarEF7Bmjzml0wQ9ym2MGPhSA2zqibvPv2Ay7kkHa7QOOeatUD
- bdmQ==
-X-Gm-Message-State: AOJu0YyeQyt8NYo191JUi3xbQazRJNqI+K3HbLwWaFrM8Kg24ZKw2R3C
- 6e6iRBHbOGgWK5klY4pZJmr/R6rdhN8640r7oJNd1veUWF788O0gft/Ib9m2Dbyv8JcVayI4iZh
- 1Bh3pGo1NB1FaL+9O5oATphxbKOM=
-X-Google-Smtp-Source: AGHT+IEUsKHwEk2Ruab0YAEA9zOuKmflD6/WuhtPZWfs9PJBkMyDYVmuCtdcHJe6LwNgjUc1i+VzPUJG8wx634SQ5Q4=
-X-Received: by 2002:a17:906:451:b0:a3d:9962:f05f with SMTP id
- e17-20020a170906045100b00a3d9962f05fmr2410505eja.74.1708068051261; Thu, 15
- Feb 2024 23:20:51 -0800 (PST)
+Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A31E910E256;
+ Fri, 16 Feb 2024 08:19:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
+ In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=SwArZZWoMGaUCC+AgKvruw60znKf1jRE+TFnKaPirqQ=; b=bXDEcl+YuVId6rnVYekHhMzP3m
+ 8VFTkcifS/od+wIoEWEZmqojntpPTVvKkyPo/o6Ct9sDh7TXU28ldRbXwmrVoiJ/ELzBp8eKhR3p7
+ kxss9xDt1E1B6oKtymfcp3oh36SLnfh04pA94ai2xmrQPRqlxLT47gaW6CttbAzuty6YYjsUMsqxu
+ VkvJMYkf7XdvLUS4u77ltc72S42TOxLAqGeQO03Vf1FM8pQ9R2wMcvUuHCGwJSEKxl3pz9LCkOPZe
+ 5Zl2xs9kwZUu7go8VrYgbYjEuWpH2tfm+EoV3HK/bm57WzBYE57KnTwdg8kVEE6GpmfDjlkTnJn4y
+ QsEbgJvQ==;
+Received: from [194.136.85.206] (port=48728 helo=eldfell)
+ by whm50.louhi.net with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
+ (envelope-from <pekka.paalanen@haloniitty.fi>) id 1ratRf-0004TR-1u;
+ Fri, 16 Feb 2024 10:19:43 +0200
+Date: Fri, 16 Feb 2024 10:19:36 +0200
+From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Cc: <amd-gfx@lists.freedesktop.org>, Mario Limonciello
+ <mario.limonciello@amd.com>, Harry Wentland <harry.wentland@amd.com>, Leo
+ Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, "Alex
+ Deucher" <alexander.deucher@amd.com>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>, David
+ Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Alex Hung
+ <alex.hung@amd.com>, Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Wayne Lin <wayne.lin@amd.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] drm/amd/display: add panel_power_savings sysfs entry
+ to eDP connectors
+Message-ID: <20240216101936.2e210be2@eldfell>
+In-Reply-To: <20240202152837.7388-1-hamza.mahfooz@amd.com>
+References: <20240202152837.7388-1-hamza.mahfooz@amd.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 16 Feb 2024 17:20:39 +1000
-Message-ID: <CAPM=9tz=LsdsWYZ0hG3Zuw_pLTsV-7wBh7C3hUmAcY9fcJf_ww@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.8-rc5
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; boundary="Sig_/N0j5fPzI_9+T2QzPPLs30WV";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - whm50.louhi.net
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - haloniitty.fi
+X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
+ pekka.paalanen@haloniitty.fi
+X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,293 +80,173 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+--Sig_/N0j5fPzI_9+T2QzPPLs30WV
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Regular weekly fixes, nothing too major, mostly amdgpu, then i915, xe,
-msm and nouveau with some scattered bits elsewhere.
+On Fri, 2 Feb 2024 10:28:35 -0500
+Hamza Mahfooz <hamza.mahfooz@amd.com> wrote:
 
-Dave.
+> We want programs besides the compositor to be able to enable or disable
+> panel power saving features.
 
-drm-fixes-2024-02-16:
-drm fixes for 6.8-rc5
+Could you also explain why, in the commit message, please?
 
-crtc:
-- fix uninit variable
+It is unexpected for arbitrary programs to be able to override the KMS
+client, and certainly new ways to do so should not be added without an
+excellent justification.
 
-prime:
-- support > 4GB page arrays
+Maybe debugfs would be more appropriate if the purpose is only testing
+rather than production environments?
 
-buddy:
-- fix error handling in allocations
+> However, since they are currently only
+> configurable through DRM properties, that isn't possible. So, to remedy
+> that issue introduce a new "panel_power_savings" sysfs attribute.
 
-i915:
-- fix blankscreen on JSL chromebooks
-- stable fix to limit DP sst link rates
+When the DRM property was added, what was used as the userspace to
+prove its workings?
 
-xe:
-- Fix an out-of-bounds shift.
-- Fix the display code thinking xe uses shmem
-- Fix a warning about index out-of-bound
-- Fix a clang-16 compilation warning
 
-amdgpu:
-- PSR fixes
-- Suspend/resume fixes
-- Link training fix
-- Aspect ratio fix
-- DCN 3.5 fixes
-- VCN 4.x fix
-- GFX 11 fix
-- Misc display fixes
-- Misc small fixes
+Thanks,
+pq
 
-amdkfd:
-- Cache size reporting fix
-- SIMD distribution fix
+>=20
+> Cc: Mario Limonciello <mario.limonciello@amd.com>
+> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+> ---
+> v2: hide ABM_LEVEL_IMMEDIATE_DISABLE in the read case, force an atomic
+>     commit when setting the value, call sysfs_remove_group() in
+>     amdgpu_dm_connector_unregister() and add some documentation.
+> ---
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 76 +++++++++++++++++++
+>  1 file changed, 76 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/=
+gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 8590c9f1dda6..3c62489d03dc 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -6436,10 +6436,79 @@ int amdgpu_dm_connector_atomic_get_property(struc=
+t drm_connector *connector,
+>  	return ret;
+>  }
+> =20
+> +/**
+> + * DOC: panel power savings
+> + *
+> + * The display manager allows you to set your desired **panel power savi=
+ngs**
+> + * level (between 0-4, with 0 representing off), e.g. using the followin=
+g::
+> + *
+> + *   # echo 3 > /sys/class/drm/card0-eDP-1/amdgpu/panel_power_savings
+> + *
+> + * Modifying this value can have implications on color accuracy, so tread
+> + * carefully.
+> + */
+> +
+> +static ssize_t panel_power_savings_show(struct device *device,
+> +					struct device_attribute *attr,
+> +					char *buf)
+> +{
+> +	struct drm_connector *connector =3D dev_get_drvdata(device);
+> +	struct drm_device *dev =3D connector->dev;
+> +	u8 val;
+> +
+> +	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
+> +	val =3D to_dm_connector_state(connector->state)->abm_level =3D=3D
+> +		ABM_LEVEL_IMMEDIATE_DISABLE ? 0 :
+> +		to_dm_connector_state(connector->state)->abm_level;
+> +	drm_modeset_unlock(&dev->mode_config.connection_mutex);
+> +
+> +	return sysfs_emit(buf, "%u\n", val);
+> +}
+> +
+> +static ssize_t panel_power_savings_store(struct device *device,
+> +					 struct device_attribute *attr,
+> +					 const char *buf, size_t count)
+> +{
+> +	struct drm_connector *connector =3D dev_get_drvdata(device);
+> +	struct drm_device *dev =3D connector->dev;
+> +	long val;
+> +	int ret;
+> +
+> +	ret =3D kstrtol(buf, 0, &val);
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (val < 0 || val > 4)
+> +		return -EINVAL;
+> +
+> +	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
+> +	to_dm_connector_state(connector->state)->abm_level =3D val ?:
+> +		ABM_LEVEL_IMMEDIATE_DISABLE;
+> +	drm_modeset_unlock(&dev->mode_config.connection_mutex);
+> +
+> +	drm_kms_helper_hotplug_event(dev);
+> +
+> +	return count;
+> +}
+> +
+> +static DEVICE_ATTR_RW(panel_power_savings);
+> +
+> +static struct attribute *amdgpu_attrs[] =3D {
+> +	&dev_attr_panel_power_savings.attr,
+> +	NULL
+> +};
+> +
+> +static const struct attribute_group amdgpu_group =3D {
+> +	.name =3D "amdgpu",
+> +	.attrs =3D amdgpu_attrs
+> +};
+> +
+>  static void amdgpu_dm_connector_unregister(struct drm_connector *connect=
+or)
+>  {
+>  	struct amdgpu_dm_connector *amdgpu_dm_connector =3D to_amdgpu_dm_connec=
+tor(connector);
+> =20
+> +	sysfs_remove_group(&connector->kdev->kobj, &amdgpu_group);
+>  	drm_dp_aux_unregister(&amdgpu_dm_connector->dm_dp_aux.aux);
+>  }
+> =20
+> @@ -6541,6 +6610,13 @@ amdgpu_dm_connector_late_register(struct drm_conne=
+ctor *connector)
+>  		to_amdgpu_dm_connector(connector);
+>  	int r;
+> =20
+> +	if (connector->connector_type =3D=3D DRM_MODE_CONNECTOR_eDP) {
+> +		r =3D sysfs_create_group(&connector->kdev->kobj,
+> +				       &amdgpu_group);
+> +		if (r)
+> +			return r;
+> +	}
+> +
+>  	amdgpu_dm_register_backlight_device(amdgpu_dm_connector);
+> =20
+>  	if ((connector->connector_type =3D=3D DRM_MODE_CONNECTOR_DisplayPort) ||
 
-msm:
-- GPU:
-- dmabuf vmap fix
-- a610 UBWC corruption fix (incorrect hbb)
-- revert a commit that was making GPU recovery unreliable
- - tlb invalidation fix
 
-ivpu:
-- suspend/resume fix
+--Sig_/N0j5fPzI_9+T2QzPPLs30WV
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-nouveau:
-- fix scheduler cleanup path
-- fix pointless scheduler creation
-- fix kvalloc argument order
+-----BEGIN PGP SIGNATURE-----
 
-rockchip:
-- vop2 locking fix
-The following changes since commit 841c35169323cd833294798e58b9bf63fa4fa1de=
-:
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXPGpgACgkQI1/ltBGq
+qqc/7hAAlGiJifPdESkeAkI4ecEIa/VhPtuaQOWtX9tA2Lv+8u5VMhA0YyAn2ql2
+dYiw24Gu1A1b69qvyUvKzQPbhBX80PT9LEfzysYMpjCVZMv/9VlvANNZaQUojoYV
+a9+ETsbiugKUxWLgj8q7a522nPTfqZ4Hg0X0wlt31qQ9eRQDZv8v2z+x6FvEn70V
+R3C3Pi2NXCjYkqG3F+n9fcN2JDUSFFFrIZuwPJIi4MO8PWUNk47a+nyxOVKmAI/E
+MwoGilxW7pm/B7W1A1FfKo/FS+G8KhWchNB70nsE+x1fxEOLd0YypFH8fIlT86T5
+rkUNueHG73/do6FEdx5TOB//stiSnG7RRSJA2xOYd2iwPZB5VdQ/v9YB9EyW2zun
+ba9Ne51RpmT1VDBxrknWZV/wCtoRiMzRAXl4YPLlXkYZtWids7+OzJR9R2oDGw13
+8k0lgfgvV3cWFtEXpNXdcL1ErTOeow8/vmST2BTPVhuDw04pdU0RsQriV8ZygEwz
+cXmpEgkfpn/Ay8Ppe5l0Jw0IuSGRW90Sf4hmd7SQ5klLB/lV4CxLAF+xtoMDbzfP
+Ok8485dWkxEntrpGLvR/LcLXRyLuRIAFD5znUbKlBKCWQcPn8l+4gt93S2e9jiWV
+bU3eKOG1TEAOgW7hSD/yWeFQr5ceYxERSdPaMn2rN6pp2X5NiGw=
+=N/D3
+-----END PGP SIGNATURE-----
 
-  Linux 6.8-rc4 (2024-02-11 12:18:13 -0800)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2024-02-16
-
-for you to fetch changes up to ea69f782d0e37d9658d4b7df241661e651c43af5:
-
-  Merge tag 'drm-msm-fixes-2024-02-15' of
-https://gitlab.freedesktop.org/drm/msm into drm-fixes (2024-02-16
-15:47:15 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.8-rc5
-
-crtc:
-- fix uninit variable
-
-prime:
-- support > 4GB page arrays
-
-buddy:
-- fix error handling in allocations
-
-i915:
-- fix blankscreen on JSL chromebooks
-- stable fix to limit DP sst link rates
-
-xe:
-- Fix an out-of-bounds shift.
-- Fix the display code thinking xe uses shmem
-- Fix a warning about index out-of-bound
-- Fix a clang-16 compilation warning
-
-amdgpu:
-- PSR fixes
-- Suspend/resume fixes
-- Link training fix
-- Aspect ratio fix
-- DCN 3.5 fixes
-- VCN 4.x fix
-- GFX 11 fix
-- Misc display fixes
-- Misc small fixes
-
-amdkfd:
-- Cache size reporting fix
-- SIMD distribution fix
-
-msm:
-- GPU:
-- dmabuf vmap fix
-- a610 UBWC corruption fix (incorrect hbb)
-- revert a commit that was making GPU recovery unreliable
- - tlb invalidation fix
-
-ivpu:
-- suspend/resume fix
-
-nouveau:
-- fix scheduler cleanup path
-- fix pointless scheduler creation
-- fix kvalloc argument order
-
-rockchip:
-- vop2 locking fix
-
-----------------------------------------------------------------
-Arnd Bergmann (2):
-      nouveau/svm: fix kvcalloc() argument order
-      drm/xe: avoid function cast warnings
-
-Arunpravin Paneer Selvam (1):
-      drm/buddy: Fix alloc_range() error handling code
-
-Dan Carpenter (1):
-      drm/amd/display: Fix && vs || typos
-
-Danilo Krummrich (2):
-      drm/nouveau: don't fini scheduler if not initialized
-      drm/nouveau: omit to create schedulers using the legacy uAPI
-
-Dave Airlie (5):
-      Merge tag 'drm-misc-fixes-2024-02-15' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-      Merge tag 'drm-intel-fixes-2024-02-15' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-      Merge tag 'drm-xe-fixes-2024-02-15' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-      Merge tag 'amd-drm-fixes-6.8-2024-02-15-2' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-msm-fixes-2024-02-15' of
-https://gitlab.freedesktop.org/drm/msm into drm-fixes
-
-Dmitry Baryshkov (1):
-      drm/msm/a6xx: set highest_bank_bit to 13 for a610
-
-Hamza Mahfooz (1):
-      drm/amdgpu: make damage clips support configurable
-
-Harshit Mogalapalli (1):
-      drm/rockchip: vop2: add a missing unlock in vop2_crtc_atomic_enable()
-
-Jacek Lawrynowicz (1):
-      accel/ivpu: Fix DevTLB errors on suspend/resume and recovery
-
-Kent Russell (1):
-      drm/amdkfd: Fix L2 cache size reporting in GFX9.4.3
-
-Manasi Navare (1):
-      drm/i915/dsc: Fix the macro that calculates DSCC_/DSCA_ PPS reg addre=
-ss
-
-Mario Limonciello (2):
-      drm/amd: Stop evicting resources on APUs in suspend
-      Revert "drm/amd: flush any delayed gfxoff on suspend entry"
-
-Matthew Auld (2):
-      drm/tests/drm_buddy: add alloc_contiguous test
-      drm/xe/display: fix i915_gem_object_is_shmem() wrapper
-
-Nicholas Kazlauskas (1):
-      drm/amd/display: Increase ips2_eval delay for DCN35
-
-Philip Yang (1):
-      drm/prime: Support page array >=3D 4GB
-
-Rajneesh Bhardwaj (2):
-      drm/amdkfd: update SIMD distribution algo for GFXIP 9.4.2 onwards
-      drm/amdgpu: Fix implicit assumtion in gfx11 debug flags
-
-Rob Clark (4):
-      drm/msm/gem: Fix double resv lock aquire
-      Revert "drm/msm/gpu: Push gpu lock down past runpm"
-      drm/crtc: fix uninitialized variable use even harder
-      drm/msm: Wire up tlb ops
-
-Roman Li (1):
-      drm/amd/display: Fix array-index-out-of-bounds in dcn35_clkmgr
-
-Sohaib Nadeem (2):
-      Revert "drm/amd/display: increased min_dcfclk_mhz and min_fclk_mhz"
-      drm/amd/display: fixed integer types and null check locations
-
-Srinivasan Shanmugam (5):
-      drm/amd/display: Initialize 'wait_time_microsec' variable in
-link_dp_training_dpia.c
-      drm/amd/display: Fix possible use of uninitialized
-'max_chunks_fbc_mode' in 'calculate_bandwidth()'
-      drm/amd/display: Fix possible buffer overflow in
-'find_dcfclk_for_voltage()'
-      drm/amd/display: Fix possible NULL dereference on device
-remove/driver unload
-      drm/amdgpu/display: Initialize gamma correction mode variable in
-dcn30_get_gamcor_current()
-
-Thomas Hellstr=C3=B6m (2):
-      drm/xe/vm: Avoid reserving zero fences
-      drm/xe/pt: Allow for stricter type- and range checking
-
-Thong (1):
-      drm/amdgpu/soc21: update VCN 4 max HEVC encoding resolution
-
-Tom Chung (1):
-      drm/amd/display: Preserve original aspect ratio in create stream
-
-Ville Syrj=C3=A4l=C3=A4 (1):
-      drm/i915/dp: Limit SST link rate to <=3D8.1Gbps
-
-Zhikai Zhai (1):
-      drm/amd/display: Add align done check
-
- drivers/accel/ivpu/ivpu_hw_37xx.c                  | 44 ++++++++---
- drivers/accel/ivpu/ivpu_pm.c                       | 39 +++++-----
- drivers/gpu/drm/amd/amdgpu/amdgpu.h                |  3 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c           | 15 ++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         | 12 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            | 13 ++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c            |  9 ++-
- drivers/gpu/drm/amd/amdgpu/soc21.c                 |  4 +-
- drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v11.c   |  4 +-
- drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c    |  9 +++
- drivers/gpu/drm/amd/amdkfd/kfd_priv.h              |  1 +
- .../gpu/drm/amd/amdkfd/kfd_process_queue_manager.c |  4 +-
- drivers/gpu/drm/amd/amdkfd/kfd_topology.c          | 10 +--
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 11 ++-
- drivers/gpu/drm/amd/display/dc/basics/dce_calcs.c  |  2 +-
- drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c | 16 ++--
- .../drm/amd/display/dc/clk_mgr/dcn301/vg_clk_mgr.c |  2 +
- .../amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c   | 15 +++-
- .../gpu/drm/amd/display/dc/dcn30/dcn30_dpp_cm.c    |  5 +-
- .../gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c   |  2 +-
- .../drm/amd/display/dc/hwss/dcn21/dcn21_hwseq.c    |  4 +-
- .../gpu/drm/amd/display/dc/link/link_validation.c  |  2 +-
- .../display/dc/link/protocols/link_dp_training.c   |  5 +-
- .../dc/link/protocols/link_dp_training_dpia.c      |  2 +-
- .../amd/display/dc/resource/dcn35/dcn35_resource.c |  2 +-
- drivers/gpu/drm/drm_buddy.c                        |  6 ++
- drivers/gpu/drm/drm_crtc.c                         |  1 +
- drivers/gpu/drm/drm_prime.c                        |  2 +-
- drivers/gpu/drm/i915/display/intel_dp.c            |  3 +
- drivers/gpu/drm/i915/display/intel_vdsc_regs.h     |  4 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |  2 +-
- drivers/gpu/drm/msm/msm_gem_prime.c                |  4 +-
- drivers/gpu/drm/msm/msm_gpu.c                      | 11 ++-
- drivers/gpu/drm/msm/msm_iommu.c                    | 32 +++++++-
- drivers/gpu/drm/msm/msm_ringbuffer.c               |  7 +-
- drivers/gpu/drm/nouveau/nouveau_abi16.c            | 20 +++--
- drivers/gpu/drm/nouveau/nouveau_abi16.h            |  2 +-
- drivers/gpu/drm/nouveau/nouveau_drm.c              |  7 +-
- drivers/gpu/drm/nouveau/nouveau_drv.h              |  2 +-
- drivers/gpu/drm/nouveau/nouveau_exec.c             |  2 +-
- drivers/gpu/drm/nouveau/nouveau_sched.c            | 38 ++++++++-
- drivers/gpu/drm/nouveau/nouveau_sched.h            |  6 +-
- drivers/gpu/drm/nouveau/nouveau_svm.c              |  2 +-
- drivers/gpu/drm/nouveau/nouveau_uvmm.c             |  2 +-
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c       |  4 +-
- drivers/gpu/drm/tests/drm_buddy_test.c             | 89 ++++++++++++++++++=
-++++
- .../xe/compat-i915-headers/gem/i915_gem_object.h   |  2 +-
- drivers/gpu/drm/xe/xe_pt.c                         | 39 ++++++----
- drivers/gpu/drm/xe/xe_pt_walk.c                    |  2 +-
- drivers/gpu/drm/xe/xe_pt_walk.h                    | 19 +----
- drivers/gpu/drm/xe/xe_range_fence.c                |  7 +-
- drivers/gpu/drm/xe/xe_vm.c                         | 13 +++-
- 52 files changed, 423 insertions(+), 140 deletions(-)
+--Sig_/N0j5fPzI_9+T2QzPPLs30WV--
