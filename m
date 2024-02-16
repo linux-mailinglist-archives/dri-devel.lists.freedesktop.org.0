@@ -2,121 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE6B857B89
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 12:23:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92CF7857B91
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 12:25:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 667BD10E4BF;
-	Fri, 16 Feb 2024 11:23:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E92E10E5EB;
+	Fri, 16 Feb 2024 11:25:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="22F+wEuP";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="RHy+rmQq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2063.outbound.protection.outlook.com [40.107.101.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA38C10E4BF;
- Fri, 16 Feb 2024 11:23:47 +0000 (UTC)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2087.outbound.protection.outlook.com [40.107.93.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A716910E24B;
+ Fri, 16 Feb 2024 11:25:45 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kmSXRNp2EGxsRxqX5ia7mA40PSRTEqcBYXzVtSKBMjFFji8Yda1K2J51KnGuUoloNawUgYPvoyG8nQ6ZFVk24HJggXDTLnP6R2cUm42ETmc1zrv1zRPfNZ9ENACunkmdENMILzFhqr1WJNmC452trmSYSQzxyohTCBp7ryHiMtGL9FS9/k8q8NnRleqnAVhyIbXUidjXzJh1ie+OKNnycwB+VQXZ6SAZu8H6avebbx5yVi8h4Wk45vXR2VP5mcrcDAcEUtMsGb3JdSsCWhi4+yt945W/JP9aOLKTE8RJzCaGThPspdaLA9IoHzPu9NecZ6H2SVNnfjg/IYJUO0u36g==
+ b=hzaMUvq73O1YvZyRrOU95GRyASU7EtUuG+yfCO5o2ixx4b42tTaqvLWvq0Raih9Y2AyG0HAKkNgqBALQZGWniqbDUzCLhPz0qzuSWoz9aQNVbj5Z6dcxDtua9ocwBvz2+zU5bMzSUx1BMAAQInPfM1txwx+Q9hraB7PurrcUisFwnZjsPE30nyuUcKr9M99rzhG45rURNHcqOeqSjco+WVTj9EDFG0ngaeYkN44TMA0VSF0S/Q3L1DRbpnJ18jnfMAXRX9bOti7MfLUyjZktWDapyF3iZnaB6staHVUBBeJemjMXhBa7FcA50yefXgO+/EUM8qkl/npYAGwi3yvQzQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rtRlbMnanYULBhgkjLdBJ96DoU8ah32aWn6SNr8wZVo=;
- b=VeoeEe4pUmONlT1Q6CADkKRQCY9DopgLPMYLGHZjsC/C8NedUKma0w+mkt3zTT2adm5H6Wi5qFB6Cox1VJ9Y2O2UAHA2J1vWvGDadPTx8uhdPxNbwaocVXqnnVhkv99CmON736T2x7+VsOjtv3yBH08z0/5VwheXZaErJmJauOzrCJ5XhOIG71ueB0+dZJwjR5GRk3+QAmDIrOVe297dLGaNoqC2tbkK7qajO7zj+4Uvcl0YAD3kjCDLeaFUhTF78NsIbaYefma5SwYCf41XgUANmtSYbBQzvoW7lKLeCVGcFnsRjQElhF1uAEXbxXptfym/NCEaYqJwMM5Kks9bgA==
+ bh=nRGh0yZhnqscBovahDUUIvZTi7BuvPDKzFwl26vQ3ls=;
+ b=HZtc1As45pjUoGNFdQDo9nQVVCkXezSEaDcKQOKsvB2/DfGubOYaVEPl5wbGN+ZTa1B4EYTo1vbZzhzz5wulxr9PWZwJ2y7U7r9BC8KAxAWRgWSb3fqQkteyxufPOojACXaZiVUwHyk2QEaDJrEJbbbLee6qgJHw8ieubgxfGRzX2cVM3HlMpuK123Zs17W5JasvMUVRV3P5rxXNl/UsDBLW/BufzMQIgVfdVA9ZLvrqAUjZsz9Qj1lSsRbtCgd4ZHXYrcxjDzkiRw3AmQxbvpKb/PsumSzBtij7lCdJ0kttTAwmiWMnoFCT0dswGyGuJ3aXFFfECn7eHm72KTqOWA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rtRlbMnanYULBhgkjLdBJ96DoU8ah32aWn6SNr8wZVo=;
- b=22F+wEuPxTdixlxIEWPeXGddy3uVi/oh4zr+OgrBPPA70JUlRB4ePVuDQ1joiYWiRTez3k0kIxkPBeO+JTd4Pk3Gy5kbVhOt/7YjQ53Faja8FF/4zY9PGVm3d/14a4CRCEaYavgfXG92Qc2JoTZaS3cFTu6isdWDIShELj5Ojwg=
+ bh=nRGh0yZhnqscBovahDUUIvZTi7BuvPDKzFwl26vQ3ls=;
+ b=RHy+rmQqug+X0KM+Y6QQYuiyr/08TQuQkTz7rw/8dyuj2jvYveC0F78XXs4OPuaehwYoicxdSOKXT0LfxNQxkZoORgaeFCR1QK5SYho7iHeDeCT8AGG0CHt86uYCC8slGFZynkNhc8a61lHn+UxtZnrXgvNUe2McFmtmKHWoU78=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from MN2PR12MB4342.namprd12.prod.outlook.com (2603:10b6:208:264::7)
  by IA1PR12MB7544.namprd12.prod.outlook.com (2603:10b6:208:42c::7)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.14; Fri, 16 Feb
- 2024 11:23:45 +0000
+ 2024 11:25:39 +0000
 Received: from MN2PR12MB4342.namprd12.prod.outlook.com
  ([fe80::e3ee:6c2c:4e87:a6d6]) by MN2PR12MB4342.namprd12.prod.outlook.com
  ([fe80::e3ee:6c2c:4e87:a6d6%5]) with mapi id 15.20.7316.012; Fri, 16 Feb 2024
- 11:23:45 +0000
+ 11:25:39 +0000
 Content-Type: multipart/alternative;
- boundary="------------JeGxHCGedouUf7VKHfSomBk9"
-Message-ID: <992b9dbb-f4d5-9de6-0d07-7378178d5b40@amd.com>
-Date: Fri, 16 Feb 2024 16:53:35 +0530
+ boundary="------------ERP4qmwu21Gn9NYwCNks0xQ4"
+Message-ID: <2f43cb5d-492c-fd7c-4f55-e65cf50a7559@amd.com>
+Date: Fri, 16 Feb 2024 16:55:32 +0530
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH 1/6] drm/tests/drm_buddy: fix 32b build
+Subject: Re: [PATCH 3/6] drm/buddy: check range allocation matches alignment
 Content-Language: en-US
 To: Matthew Auld <matthew.auld@intel.com>, intel-xe@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Geert Uytterhoeven
- <geert@linux-m68k.org>, =?UTF-8?Q?Christian_K=c3=b6nig?=
- <christian.koenig@amd.com>, Maxime Ripard <mripard@redhat.com>
+Cc: dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 References: <20240215174431.285069-7-matthew.auld@intel.com>
+ <20240215174431.285069-9-matthew.auld@intel.com>
 From: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>
-In-Reply-To: <20240215174431.285069-7-matthew.auld@intel.com>
-X-ClientProxiedBy: PN3PR01CA0042.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:98::7) To MN2PR12MB4342.namprd12.prod.outlook.com
+In-Reply-To: <20240215174431.285069-9-matthew.auld@intel.com>
+X-ClientProxiedBy: PN3PR01CA0134.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:bf::22) To MN2PR12MB4342.namprd12.prod.outlook.com
  (2603:10b6:208:264::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: MN2PR12MB4342:EE_|IA1PR12MB7544:EE_
-X-MS-Office365-Filtering-Correlation-Id: f2be8576-0036-4165-2c48-08dc2ee1bce2
+X-MS-Office365-Filtering-Correlation-Id: 7a26fe25-cc11-4957-6af9-08dc2ee200d8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: gLzYN/2/id8FbCRpcsB4GNroCcvHAjIIYwzk40aetSXTyUw2jeo01uwTcwZ5NLEly1bBii4wEMH7mlBCvDgJQ3LtPTC2X7zMO3dW6HcGVg4Q78B3iPSiTcaInGuv49dwijefrnTu7I2OyT9syqFXOH80t7qMLSABj3Po3lWENq+ZyxOnwouxIHb7NtOzwDyuPZONrVNF0q31EGsioH86C7A2DeIWtZbL/c40tZtHknJzLqts6enFo/vOqwzBpCX+AWESvJTGT3EYAHa/O1kwBNibajihOnRCKD/9Y9guDskgJkF66eOXumz7xqqb4Wt5gPemAucLmyi4s/IjC62sJ1i+IEqAyd+7qd3MHK0KiXTCBVmvwvUyNmLU4eE7kyUa0oE/jDxE8FjB0HKmKD7nQse8O6H3hNytccYRb66hQSHEqzkLpffeDrZOvmanRRrzJ/iSkPWprk8LFTFLznm+A9XoB99yYITosGjkivFwdJ410BnntWusTdLO7C8qEmZmNShGdyVknmpl6gDlkngfQ8E4fRfVGZD6m8VwX2aVivlVM41fAhqT+urB3QthMyCH
+X-Microsoft-Antispam-Message-Info: ensrEqGgW3bvB2Xja0CRC0ySfDBx682/mu9AGSP9x9bBH/sfMTeoSL5NVV6eTpHJoxLVWN1CQnFEXK4GQbDs5pIJ3DkAdnP/uaAjWo498upBK2jg+lSgStX7Zt6xFnEVBwnoMN26FS4Lj8rKvkFYs4+/IMdoL+9T1PxwC8EGX80f2Vn3jFCZTysgIg4zBNqNgZoDZHY19cfBu9vvt7HkzGTGmnUa0JZALgOElFLrQW7Hufa2ZiCVo1avHEgELjBxKMzWUFdVCusca8cKQ6kC6fnqh/nVF1Wo1a6US71RieZiuF0HGhS4z40cnOfijsy7ZF51V0uZ94CO47obSUy1jET7MmqTyhwiLh+B11ItikDDHdJYPDYm4c0FWzwxbrRe3ZfdI9J20dLPAKAlHJiTmx8eBJFWA+T3puW+R3Yy7a2099NsThIv8BO0PCbql/2ODdWksdAgzrC8My+t01lZ3otvW2cBcRX3i0f+jNWc983AgvRA2V/l9Fto4sBsMUeDuwz8SOlzKMI3jvbkOXSb66EL8ApewPSlePdw4tXVlWR90s3tGxuqzhJrrDION3T+
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR12MB4342.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(376002)(136003)(39850400004)(366004)(346002)(230922051799003)(1800799012)(186009)(64100799003)(451199024)(31686004)(2906002)(5660300002)(26005)(83380400001)(2616005)(36756003)(38100700002)(6512007)(6666004)(478600001)(53546011)(33964004)(6486002)(66476007)(31696002)(66946007)(54906003)(66556008)(316002)(6506007)(66574015)(8936002)(8676002)(41300700001)(4326008)(86362001);
+ SFS:(13230031)(396003)(376002)(136003)(39850400004)(366004)(346002)(230922051799003)(1800799012)(186009)(64100799003)(451199024)(31686004)(2906002)(5660300002)(26005)(83380400001)(2616005)(36756003)(66899024)(38100700002)(6512007)(6666004)(478600001)(53546011)(33964004)(6486002)(66476007)(31696002)(66946007)(66556008)(316002)(6506007)(66574015)(8936002)(8676002)(41300700001)(4326008)(86362001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YWFFYnVzM01PTkNOSDJ0dlNnUW80ZGVFV2VSamVWRzBCV1F3bGwzdXlQTHNL?=
- =?utf-8?B?b2tTNWh4NDFOWExIL3VVeXRBU3VlUm9STWRSZWY1VHBNUEdpT0xrR3d5ajlx?=
- =?utf-8?B?M3I5R1BOWTVjM3N0ZVRCY1gwVi9HWVhtbDg5TDJyL21LS1F3RjlvczNWYlFM?=
- =?utf-8?B?Y3pnZ0xBN1ZOMzZvQmdiOTVOUWJnNlFMR2h0bEUxYnN3L2IycUlxMnVvVlNw?=
- =?utf-8?B?R2FEa1JTYmVuMVVpLzMvYm5LSC9iOUYzRDJDd3ltYXhsSlBDRWNlZU1JUzJu?=
- =?utf-8?B?Y3RUYkdrWHVXQWJNTUJpWHVSQTJZTUFXaGU5WTc1eW1FcXdPN0pEdjFsRjJM?=
- =?utf-8?B?UTIwOXBwTWsxU2dzM0pNUDFub2NTWEk1dXVxMlhtMHYwNmUxWk9wKzQxaitM?=
- =?utf-8?B?Znl5S3RnSk5CV3NIRTVEaUFNbHVvNWprcWYra1drNTlXQ0lGRGo4cHNUMVlt?=
- =?utf-8?B?SjlqMWl0c2tYQ3Y3U1Jxayt0TjMwc1B1czVlcU1HSmJZdE9NL0N4NXVXRlpM?=
- =?utf-8?B?ZDRaVnBva3BucEZYNGJiYXM2YVc1QnVOTTF6b0dmUjBBbFNWVlVBOHR3d3NS?=
- =?utf-8?B?bTF0UGdEUmxGQ3ZrMXRybXpEZU96MlJzN2xqdzQ1K3FzeVMwL1JGYVBvcGNO?=
- =?utf-8?B?MzEyY29RWkpVUmN6TDhwUVd0aGgwT1J6QW4rTnVHdVJmVkw2T1RCa3VYVG4z?=
- =?utf-8?B?VklEUDZjQlk4NFFBbmpjVVpFZkI3Y2NYRS8rUUdPT1dxa000YXZjVWFscUsr?=
- =?utf-8?B?TFl0VmI2TVpCbzQvOVNrRXZaTVRHd0VheE4rb0U5YlZwa1N3K3kxK1RCRHVW?=
- =?utf-8?B?WFFpRi9iYWxMcUhpRFkyQTJHWVdJeUprdk0rRTRWbHZHdGozdEVNd2pzWEVh?=
- =?utf-8?B?M2xPUW5DZVFvSFZoNjVkNTZyOXNTQnNRRU5GZ09TL3haZzNTTDR6V3RHWkVG?=
- =?utf-8?B?cm16M2hUcG1aWkt2Skpoc2dveGhMRWZiZXpiTWN6M0JVblBiRlNGcW15Ym1B?=
- =?utf-8?B?SVBCZHR5R0w5bEFxYkMzNExCdHVwOVBaYXdjbWFzN01yWDNBdnFBWGdWUzRa?=
- =?utf-8?B?VE41UU84L0tnWUZuWEpvaXhzNWNicGVYRk10L3R6TTZERFREL0RMeFdlVURu?=
- =?utf-8?B?bk40SW90S1grME9YR2plNWNDR3hkSkdYQ3g2M3F0Z0diTHNRRytwQlRXUXRk?=
- =?utf-8?B?RC9FYU82QitCdkpvUXVEdjcxck9mb2hJYzZHREtEWUl3cm14QnRCRmpzWFIy?=
- =?utf-8?B?S3lodm1Sa2dzTFlqNGYwK2dqaWZzZGxoUlRWWDdqM052Zks3VS9Cem5rZ01V?=
- =?utf-8?B?K2J3SFo5dUltb3BPQ0xaSkYwUUc5YUpKZXhQQ0ozNk12Y1FNb09pdWhRR2Yr?=
- =?utf-8?B?b1dyeUhuMUhBT2J4dHZ3ZnlQT2paT00rVG1KTFFkbDR6ODNtN21hRHZ3SEx4?=
- =?utf-8?B?ci9sMWRYK25vQmlyWU1jK3N6N2tic1hQSENBcmxuMzlVYktxT01HcTdTM042?=
- =?utf-8?B?U0JwT1B2MGZFZDZJZ0FmMlBoZWZtR0dxc05ma0RINnhiTm56ekRsMHBNZE50?=
- =?utf-8?B?MUdMSlE2dGxKQjA3Mk5BajZ3MlQwZklWVldlekFZaFY5QmxBbEsxdlROaGUz?=
- =?utf-8?B?NktoUHgzS1FwU2ZOUjBoTVhvOUU0dkFxSm1KdTBWOTZvQ00xYUYzcDlJckM3?=
- =?utf-8?B?MTc0VWFOeXlrdG1ia0FEY1RSWFVZd2dFWURIWldOcWRja3hwWjZoWk85NG1J?=
- =?utf-8?B?ZklBNTNnZzM4bTFOTjFuaDduUFF6dHpQanBYRjU4LzRCTlBURXlSTUZ0TjI2?=
- =?utf-8?B?dU9IUVp5K1Jlb24rTGsrL2M4a2hrVTVuUlppNXZxUmUyakNEZ1orL3VxS2ZO?=
- =?utf-8?B?YnJvZjZSM0g0d21haURBLy9Kbk5qWHR1clZrckxWV3lhZWFZTVFSVVFkMlNr?=
- =?utf-8?B?Ly9GaXJTbnlSdFY2KzdudXpNVk9BLzZpcEx1dmduK3FRSXhaYlRVZWczazFz?=
- =?utf-8?B?aXNrL202V3p3OUE5OE1RcHBvNzNZaU5TdmJsTFBSeGVtRFhzQUdIN1hlZ0RO?=
- =?utf-8?B?VzVPK2FQc0M0dEVVSVVyMUpyd3YxNzFtTHd4YSttYVdyVUY0NzRKK0UwSHo4?=
- =?utf-8?Q?xOSwIQnATsblnynOPxpUK6nm4?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RWNRWlVBb2d4bWxjNVZZbmZYNjBkVWJ6WjRBZWxjL3JGVUtmZHhlR01HTXZD?=
+ =?utf-8?B?cUMrdzRzU2xVNXZQc2RjRXVMMmpjUnNjdk1hZ3ZldWMzeTNiUjRpUEFxcDZY?=
+ =?utf-8?B?dnF1TlQ3WVE1TzRWcEhuV2ZEc3FBMWJHRk4wdnlFVmlPb0hlS3V0L21hZHJr?=
+ =?utf-8?B?cjd2aytURHFKY25nT25mNG1jRWVjdGU0NG5HeFdPZUFVSTUvU29INXlKN0xx?=
+ =?utf-8?B?QVZ6WlFIYjUwWnBpbGJjTDVGZEEzQWYwRXowa05EbndzY3hmcmc0bnNCMCtu?=
+ =?utf-8?B?VThZRXNsS1JPK2sxZjZ0K0dKelRnR3pqRWg0RVJXTTZCTWV2MkExd2ZLb3BF?=
+ =?utf-8?B?U1Ria25wQ2p5RFRXWGxZTU1KYVVRRys4OTM2SG9TV3RoRzVoWUpVWlJYaGxa?=
+ =?utf-8?B?aDZscXpjcUNrVVNxK1NpcHVtMFJEaEtFSjd1UnJPODVXa2hadkcvRWhrSGRh?=
+ =?utf-8?B?VUFDUk5IOGFqN3NPQ3dXKy9MNTdNa1FzYUZtNmF2MEZFYzREQnlDUjJlVlVh?=
+ =?utf-8?B?ZjRMY2RRZ1FKWVpXY25QLzZVRFFzVWtRUEFSbG9JbHRGOVgzRkdYaGQ4QnlI?=
+ =?utf-8?B?Z0EraVJwNmViUWRXVGJaN1VGSitjZTAvWXNzL1hlYTg1emFtYjFSaE8vVEJM?=
+ =?utf-8?B?UlRzdzhpN1hjNUNrYTZFczNkNnY4cnZYcTJMQlRSZmtGcTVXSDRob0JKSVpi?=
+ =?utf-8?B?QklwTEFYZFhtVHVFdGROMGN4cVFoWHpaTDFpMzB4dXIyTnBZUmxmaDVlRG9r?=
+ =?utf-8?B?OGoxK0RPZjU3NmFzRlp6RXBmbjVkdGphUGVoM2ZsZ2F4bUc2cEl3QXphQkQy?=
+ =?utf-8?B?Z3UwcXlaWEZOK3lHZDBYWURmS1BFcWRqWjBjL3BWbXRWWkkwd3JxRWJBTTU2?=
+ =?utf-8?B?SHgxQy9nb25Oc0R2ZFFYQlZNTWFiRnB2SGdtSHN1Qzd1YzlGSklRcVlZbmR4?=
+ =?utf-8?B?eUFMYzhTSG91Q2d1WUdFSkk4UmRwRnR5YTFUbjNHcXJOeTBaR2NUbk1MSHVM?=
+ =?utf-8?B?VFF2SFQ1SzcvN21QUGhqc0NWcjJrc1J2RVYzY3hpSURMOHM0ckk2K0JHRnoy?=
+ =?utf-8?B?TEhNUlFLbEtna2J0aFpzL1NRdlNvY0UyYzFneEU1TFB1VnJjL205eE0zdWVy?=
+ =?utf-8?B?NVZqZktGTnd6SFZtTmthaVBvdnBObERGTHpwYmdQNHU3ZWlHQ2xzbkNzYlpP?=
+ =?utf-8?B?SG1RWkxYYmN3QXhvaFg5TWRKaDBjTS9MREw5bEMrUGtBcTJtcVZqVjhacEpX?=
+ =?utf-8?B?WnZrcjJKTDVjdEkvZW5BNFZUejlzTFB4bnVyRDc4Rk5DNzVkeW93U0l5Nk1l?=
+ =?utf-8?B?a0x4Qi9WaERPTkZmR3V6cnpQNVZWdC9jdUQyTmRXdHZpd0tDUTNrSkNRbEJ5?=
+ =?utf-8?B?QWI5NFloZlhUYnpFbHliVVZIUnJMTjhJUmlhT1B0YXZaQXgxZThtajQ0Q3Nm?=
+ =?utf-8?B?Y1hTUFo4cVFHZWQzMHNnMzRZSk9vSC9ab1ZGVnlPaUxVdjArMTJhUTVkY2lu?=
+ =?utf-8?B?bXZBbDZXTWNEMjJoN1k2RUF0cy9iVVorQW5Wb3VVNHl6eVFubUxrODI0ckVz?=
+ =?utf-8?B?aHl0R0pWSTZuN29lR0VyZkxNNFY3Qk4ybmdzdWpDbGhPMVpkbVV0UlczWjFE?=
+ =?utf-8?B?UGl0c3pFMUlzSjVrZmtRVmF5VUxLK056ZCtZQk9qV1Y3NnEyZWEzOHpGWmZF?=
+ =?utf-8?B?SWQ3c0NndTBiZVpkUE9ITTNTV0ZHZzJmN3JTQjJzbVFEYUpFSlIvenoxS1JE?=
+ =?utf-8?B?MmhMeDUwR0dzYTdzemIyYUEvTElCTUc5c0E2dEZjUWFQSmwvRnNra1VUOXFj?=
+ =?utf-8?B?dm0yU3krcnM2bHNGa2wzaHUvT09GTTMwSkpDUUlGY3JSMlUwSllaWnUvZFJC?=
+ =?utf-8?B?ZWVOUTNQWmxSN0Z2R0hsaTJTTys3Q0FYclNkOGxEV1RnTk5nOTlFaXViV2R4?=
+ =?utf-8?B?TlNqSGlNNzBmYlJoZ0Y5TTE3b1hOakZ1U2pwZzJzVUdyMjFXWWFGOXhCS2lT?=
+ =?utf-8?B?aTNZc2toZnA3SWNzWTVaVktSdlpWWUQxRmJMZlVNanRBMnRyYmZ0R09yWWpa?=
+ =?utf-8?B?Q1hwNlNDMlZQNUNpLzRaYzlsQmFSSzRHcldqckY4NEx3RktPeDlJTGd6cy9D?=
+ =?utf-8?Q?I0XwfFXAusRdtrek0V3x0W2+h?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f2be8576-0036-4165-2c48-08dc2ee1bce2
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7a26fe25-cc11-4957-6af9-08dc2ee200d8
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4342.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2024 11:23:45.6404 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2024 11:25:39.4359 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qAoIvqy3QGqS/lBt9KifH2nnLsTv+W+iaSWrdbRUDmWPMZMCAwzwFlWe6K0leKcI1qQdRpKceorfzYAfxYsosA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4ZoX5OgqXE5OA/1EDeB5/9h1467Q0bX6kvygjL03723/vXY7GsHHNNaN/BwoE/paMjSUcG/xMgwizz4UeR+ctg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7544
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -133,96 +133,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------JeGxHCGedouUf7VKHfSomBk9
+--------------ERP4qmwu21Gn9NYwCNks0xQ4
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+
+Its good to check the alignment
 
 Reviewed-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
 
 
 
 On 2/15/2024 11:14 PM, Matthew Auld wrote:
-> Doesn't seem to compile on 32b, presumably due to u64 mod/division.
-> Simplest is to just switch over to u32 here. Also make print modifiers
-> consistent with that.
+> Likely not a big deal for real users, but for consistency we should
+> respect the min_page_size here. Main issue is that bias allocations
+> turns into normal range allocation if the range and size matches
+> exactly, and in the next patch we want to add some unit tests for this
+> part of the api.
 >
-> Fixes: a64056bb5a32 ("drm/tests/drm_buddy: add alloc_contiguous test")
-> Reported-by: Geert Uytterhoeven<geert@linux-m68k.org>
 > Signed-off-by: Matthew Auld<matthew.auld@intel.com>
 > Cc: Arunpravin Paneer Selvam<Arunpravin.PaneerSelvam@amd.com>
 > Cc: Christian König<christian.koenig@amd.com>
-> Cc: Maxime Ripard<mripard@redhat.com>
 > ---
->   drivers/gpu/drm/tests/drm_buddy_test.c | 16 ++++++++--------
->   1 file changed, 8 insertions(+), 8 deletions(-)
+>   drivers/gpu/drm/drm_buddy.c | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
-> index fee6bec757d1..edacc1adb28f 100644
-> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
-> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
-> @@ -21,7 +21,7 @@ static inline u64 get_size(int order, u64 chunk_size)
+> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+> index d09540d4065b..ee9913016626 100644
+> --- a/drivers/gpu/drm/drm_buddy.c
+> +++ b/drivers/gpu/drm/drm_buddy.c
+> @@ -771,8 +771,12 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>   		return -EINVAL;
 >   
->   static void drm_test_buddy_alloc_contiguous(struct kunit *test)
->   {
-> -	u64 mm_size, ps = SZ_4K, i, n_pages, total;
-> +	u32 mm_size, ps = SZ_4K, i, n_pages, total;
->   	struct drm_buddy_block *block;
->   	struct drm_buddy mm;
->   	LIST_HEAD(left);
-> @@ -56,30 +56,30 @@ static void drm_test_buddy_alloc_contiguous(struct kunit *test)
->   		KUNIT_ASSERT_FALSE_MSG(test,
->   				       drm_buddy_alloc_blocks(&mm, 0, mm_size,
->   							      ps, ps, list, 0),
-> -				       "buddy_alloc hit an error size=%d\n",
-> +				       "buddy_alloc hit an error size=%u\n",
->   				       ps);
->   	} while (++i < n_pages);
+>   	/* Actual range allocation */
+> -	if (start + size == end)
+> +	if (start + size == end) {
+> +		if (!IS_ALIGNED(start | end, min_block_size))
+> +			return -EINVAL;
+> +
+>   		return __drm_buddy_alloc_range(mm, start, size, NULL, blocks);
+> +	}
 >   
->   	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
->   							   3 * ps, ps, &allocated,
->   							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-> -			       "buddy_alloc didn't error size=%d\n", 3 * ps);
-> +			       "buddy_alloc didn't error size=%u\n", 3 * ps);
->   
->   	drm_buddy_free_list(&mm, &middle);
->   	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
->   							   3 * ps, ps, &allocated,
->   							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-> -			       "buddy_alloc didn't error size=%llu\n", 3 * ps);
-> +			       "buddy_alloc didn't error size=%u\n", 3 * ps);
->   	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
->   							   2 * ps, ps, &allocated,
->   							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-> -			       "buddy_alloc didn't error size=%llu\n", 2 * ps);
-> +			       "buddy_alloc didn't error size=%u\n", 2 * ps);
->   
->   	drm_buddy_free_list(&mm, &right);
->   	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
->   							   3 * ps, ps, &allocated,
->   							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-> -			       "buddy_alloc didn't error size=%llu\n", 3 * ps);
-> +			       "buddy_alloc didn't error size=%u\n", 3 * ps);
->   	/*
->   	 * At this point we should have enough contiguous space for 2 blocks,
->   	 * however they are never buddies (since we freed middle and right) so
-> @@ -88,13 +88,13 @@ static void drm_test_buddy_alloc_contiguous(struct kunit *test)
->   	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
->   							    2 * ps, ps, &allocated,
->   							    DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-> -			       "buddy_alloc hit an error size=%d\n", 2 * ps);
-> +			       "buddy_alloc hit an error size=%u\n", 2 * ps);
->   
->   	drm_buddy_free_list(&mm, &left);
->   	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
->   							    3 * ps, ps, &allocated,
->   							    DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-> -			       "buddy_alloc hit an error size=%d\n", 3 * ps);
-> +			       "buddy_alloc hit an error size=%u\n", 3 * ps);
->   
->   	total = 0;
->   	list_for_each_entry(block, &allocated, link)
+>   	original_size = size;
+>   	original_min_size = min_block_size;
 
---------------JeGxHCGedouUf7VKHfSomBk9
+--------------ERP4qmwu21Gn9NYwCNks0xQ4
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -230,6 +184,7 @@ Content-Transfer-Encoding: 8bit
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   </head>
   <body>
+    Its good to check the alignment<br>
     <p style="margin:0in;font-family:Calibri;font-size:11.0pt">Reviewed-by:
       Arunpravin Paneer Selvam &lt;<a href="mailto:Arunpravin.PaneerSelvam@amd.com" class="moz-txt-link-freetext">Arunpravin.PaneerSelvam@amd.com</a>&gt;</p>
     <br>
@@ -237,90 +192,42 @@ Content-Transfer-Encoding: 8bit
     <div class="moz-cite-prefix">On 2/15/2024 11:14 PM, Matthew Auld
       wrote:<br>
     </div>
-    <blockquote type="cite" cite="mid:20240215174431.285069-7-matthew.auld@intel.com">
-      <pre class="moz-quote-pre" wrap="">Doesn't seem to compile on 32b, presumably due to u64 mod/division.
-Simplest is to just switch over to u32 here. Also make print modifiers
-consistent with that.
+    <blockquote type="cite" cite="mid:20240215174431.285069-9-matthew.auld@intel.com">
+      <pre class="moz-quote-pre" wrap="">Likely not a big deal for real users, but for consistency we should
+respect the min_page_size here. Main issue is that bias allocations
+turns into normal range allocation if the range and size matches
+exactly, and in the next patch we want to add some unit tests for this
+part of the api.
 
-Fixes: a64056bb5a32 (&quot;drm/tests/drm_buddy: add alloc_contiguous test&quot;)
-Reported-by: Geert Uytterhoeven <a class="moz-txt-link-rfc2396E" href="mailto:geert@linux-m68k.org">&lt;geert@linux-m68k.org&gt;</a>
 Signed-off-by: Matthew Auld <a class="moz-txt-link-rfc2396E" href="mailto:matthew.auld@intel.com">&lt;matthew.auld@intel.com&gt;</a>
 Cc: Arunpravin Paneer Selvam <a class="moz-txt-link-rfc2396E" href="mailto:Arunpravin.PaneerSelvam@amd.com">&lt;Arunpravin.PaneerSelvam@amd.com&gt;</a>
 Cc: Christian König <a class="moz-txt-link-rfc2396E" href="mailto:christian.koenig@amd.com">&lt;christian.koenig@amd.com&gt;</a>
-Cc: Maxime Ripard <a class="moz-txt-link-rfc2396E" href="mailto:mripard@redhat.com">&lt;mripard@redhat.com&gt;</a>
 ---
- drivers/gpu/drm/tests/drm_buddy_test.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/drm_buddy.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
-index fee6bec757d1..edacc1adb28f 100644
---- a/drivers/gpu/drm/tests/drm_buddy_test.c
-+++ b/drivers/gpu/drm/tests/drm_buddy_test.c
-@@ -21,7 +21,7 @@ static inline u64 get_size(int order, u64 chunk_size)
+diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+index d09540d4065b..ee9913016626 100644
+--- a/drivers/gpu/drm/drm_buddy.c
++++ b/drivers/gpu/drm/drm_buddy.c
+@@ -771,8 +771,12 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+ 		return -EINVAL;
  
- static void drm_test_buddy_alloc_contiguous(struct kunit *test)
- {
--	u64 mm_size, ps = SZ_4K, i, n_pages, total;
-+	u32 mm_size, ps = SZ_4K, i, n_pages, total;
- 	struct drm_buddy_block *block;
- 	struct drm_buddy mm;
- 	LIST_HEAD(left);
-@@ -56,30 +56,30 @@ static void drm_test_buddy_alloc_contiguous(struct kunit *test)
- 		KUNIT_ASSERT_FALSE_MSG(test,
- 				       drm_buddy_alloc_blocks(&amp;mm, 0, mm_size,
- 							      ps, ps, list, 0),
--				       &quot;buddy_alloc hit an error size=%d\n&quot;,
-+				       &quot;buddy_alloc hit an error size=%u\n&quot;,
- 				       ps);
- 	} while (++i &lt; n_pages);
+ 	/* Actual range allocation */
+-	if (start + size == end)
++	if (start + size == end) {
++		if (!IS_ALIGNED(start | end, min_block_size))
++			return -EINVAL;
++
+ 		return __drm_buddy_alloc_range(mm, start, size, NULL, blocks);
++	}
  
- 	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&amp;mm, 0, mm_size,
- 							   3 * ps, ps, &amp;allocated,
- 							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
--			       &quot;buddy_alloc didn't error size=%d\n&quot;, 3 * ps);
-+			       &quot;buddy_alloc didn't error size=%u\n&quot;, 3 * ps);
- 
- 	drm_buddy_free_list(&amp;mm, &amp;middle);
- 	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&amp;mm, 0, mm_size,
- 							   3 * ps, ps, &amp;allocated,
- 							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
--			       &quot;buddy_alloc didn't error size=%llu\n&quot;, 3 * ps);
-+			       &quot;buddy_alloc didn't error size=%u\n&quot;, 3 * ps);
- 	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&amp;mm, 0, mm_size,
- 							   2 * ps, ps, &amp;allocated,
- 							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
--			       &quot;buddy_alloc didn't error size=%llu\n&quot;, 2 * ps);
-+			       &quot;buddy_alloc didn't error size=%u\n&quot;, 2 * ps);
- 
- 	drm_buddy_free_list(&amp;mm, &amp;right);
- 	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&amp;mm, 0, mm_size,
- 							   3 * ps, ps, &amp;allocated,
- 							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
--			       &quot;buddy_alloc didn't error size=%llu\n&quot;, 3 * ps);
-+			       &quot;buddy_alloc didn't error size=%u\n&quot;, 3 * ps);
- 	/*
- 	 * At this point we should have enough contiguous space for 2 blocks,
- 	 * however they are never buddies (since we freed middle and right) so
-@@ -88,13 +88,13 @@ static void drm_test_buddy_alloc_contiguous(struct kunit *test)
- 	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&amp;mm, 0, mm_size,
- 							    2 * ps, ps, &amp;allocated,
- 							    DRM_BUDDY_CONTIGUOUS_ALLOCATION),
--			       &quot;buddy_alloc hit an error size=%d\n&quot;, 2 * ps);
-+			       &quot;buddy_alloc hit an error size=%u\n&quot;, 2 * ps);
- 
- 	drm_buddy_free_list(&amp;mm, &amp;left);
- 	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&amp;mm, 0, mm_size,
- 							    3 * ps, ps, &amp;allocated,
- 							    DRM_BUDDY_CONTIGUOUS_ALLOCATION),
--			       &quot;buddy_alloc hit an error size=%d\n&quot;, 3 * ps);
-+			       &quot;buddy_alloc hit an error size=%u\n&quot;, 3 * ps);
- 
- 	total = 0;
- 	list_for_each_entry(block, &amp;allocated, link)
+ 	original_size = size;
+ 	original_min_size = min_block_size;
 </pre>
     </blockquote>
     <br>
   </body>
 </html>
 
---------------JeGxHCGedouUf7VKHfSomBk9--
+--------------ERP4qmwu21Gn9NYwCNks0xQ4--
