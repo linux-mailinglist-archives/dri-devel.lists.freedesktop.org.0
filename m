@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99C5585898A
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Feb 2024 00:02:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E894858987
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Feb 2024 00:02:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 130FF10ECE3;
-	Fri, 16 Feb 2024 23:02:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2EB110ECE4;
+	Fri, 16 Feb 2024 23:02:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ZzD/9R44";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="mMxq5cdC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74CAA10ECDC;
- Fri, 16 Feb 2024 23:02:45 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13D1410ECE2;
+ Fri, 16 Feb 2024 23:02:47 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41GMtds4007347; Fri, 16 Feb 2024 23:02:43 GMT
+ 41GN2JeB011685; Fri, 16 Feb 2024 23:02:45 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:content-type; s=
- qcppdkim1; bh=s7GKlOVkfJsJdGPJFzGXijumOoNZH8brsun2KM72eVI=; b=Zz
- D/9R44ZRP5ydArSont5yddvg2WqyHQbxIaUkgdOeaZG8oZzjvJFzVo7bj8tMITun
- gC7jEVwgeZ1gOj059vfzgvKWEZ+STSFMvxAxBdnAnVTRbJ/l5VAFPHTnUc0Tx+VI
- RYtUe08nq/j1kMtLb26tgjDzNR0wjB+QVtyLk593Y5jIvJmoxSRuKLymDYmUWD59
- ErBAjQKxU8OBrBvHkTme90C4XIwoDukeJqq+GCBgUntkHYZqYPCTlhxClykoYofe
- 2nR9PI6Wi7VMrnNLB1JqVsps/trsF0iHafVO5bEkX59WqriQcqh02ae3JBjADWUQ
- 6q/4eIOntOaqr5bLAo5Q==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ qcppdkim1; bh=+vBcTzOaGVfpKvunYVqvY2DUYLLVpP/IVPHY49gkZeQ=; b=mM
+ xq5cdCuaHaehhxC2QN2jFNATyQIJskPgYNgHKydGOZey3k2JA1DMv1LjR0ZBnwCX
+ Gs5ykK7OYZXouu6AwgR2NL92odaOGJFh3lgQRqfFL6OaGqOIJFRLkn4hHr39/pPg
+ OaMRrNeEqUNdZjKESXjajLg6xzNScfK5P9bgdb9jBHv6myIhGuUPC5jHuBrAP1dh
+ HHQz5wOygcKwaYCA5HiGnUSgyrEBpWPlyrMmIOKQWinlrzdiClsfwobzKX9uEZ/f
+ OQoqmN4qCRDJ2NGBTO8gMnCsHjqcv9plOTE1Ctj3wEDZhXXU+pdsmIKISwzM10GU
+ gnXPZ1tBmrR0Etj+K8LQ==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wa6nk9ax7-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w9fkfcrrw-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Feb 2024 23:02:42 +0000 (GMT)
+ Fri, 16 Feb 2024 23:02:44 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41GN2fHY003809
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41GN2gZH031008
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Feb 2024 23:02:41 GMT
+ Fri, 16 Feb 2024 23:02:42 GMT
 Received: from hu-parellan-lv.qualcomm.com (10.49.16.6) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 16 Feb 2024 15:02:41 -0800
+ 15.2.1118.40; Fri, 16 Feb 2024 15:02:42 -0800
 From: Paloma Arellano <quic_parellan@quicinc.com>
 To: <freedreno@lists.freedesktop.org>
 CC: Paloma Arellano <quic_parellan@quicinc.com>,
@@ -51,9 +51,10 @@ CC: Paloma Arellano <quic_parellan@quicinc.com>,
  <dmitry.baryshkov@linaro.org>, <quic_abhinavk@quicinc.com>,
  <quic_jesszhan@quicinc.com>, <quic_khsieh@quicinc.com>,
  <marijn.suijten@somainline.org>, <neil.armstrong@linaro.org>
-Subject: [PATCH v4 01/19] drm/msm/dpu: allow certain formats for CDM for DP
-Date: Fri, 16 Feb 2024 15:01:49 -0800
-Message-ID: <20240216230228.26713-2-quic_parellan@quicinc.com>
+Subject: [PATCH v4 02/19] drm/msm/dpu: add division of drm_display_mode's
+ hskew parameter
+Date: Fri, 16 Feb 2024 15:01:50 -0800
+Message-ID: <20240216230228.26713-3-quic_parellan@quicinc.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20240216230228.26713-1-quic_parellan@quicinc.com>
 References: <20240216230228.26713-1-quic_parellan@quicinc.com>
@@ -66,17 +67,17 @@ X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: uQiuGgnJ0CdYTn4uvW5tGqLAoO3Ca1oo
-X-Proofpoint-ORIG-GUID: uQiuGgnJ0CdYTn4uvW5tGqLAoO3Ca1oo
+X-Proofpoint-ORIG-GUID: BY2ak_weKm_r62I7irvBSZpPXg09ZuHM
+X-Proofpoint-GUID: BY2ak_weKm_r62I7irvBSZpPXg09ZuHM
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-02-16_22,2024-02-16_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- suspectscore=0 phishscore=0 mlxlogscore=589 priorityscore=1501
- lowpriorityscore=0 spamscore=0 bulkscore=0 mlxscore=0 adultscore=0
- clxscore=1015 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2401310000 definitions=main-2402160182
+ clxscore=1015 malwarescore=0
+ adultscore=0 lowpriorityscore=0 impostorscore=0 mlxlogscore=999
+ spamscore=0 bulkscore=0 suspectscore=0 mlxscore=0 phishscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402160182
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,34 +93,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CDM block supports formats other than H1V2 for DP. Since we are now
-adding support for CDM over DP, relax the checks to allow all other
-formats for DP other than H1V2.
+Setting up the timing engine when the physical encoder has a split role
+neglects dividing the drm_display_mode's hskew parameter. Let's fix this
+since this must also be done in preparation for implementing YUV420 over
+DP.
 
-Changes in v2:
-	- Add fixes tag
-	- Move patch to top of series
-
-Fixes: 0afac0ba6024 ("drm/msm/dpu: add dpu_hw_cdm abstraction for CDM block")
+Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
 Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c
-index e9cdc7934a499..9016b3ade6bc3 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c
-@@ -186,7 +186,7 @@ static int dpu_hw_cdm_enable(struct dpu_hw_cdm *ctx, struct dpu_hw_cdm_cfg *cdm)
- 	dpu_hw_cdm_setup_cdwn(ctx, cdm);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+index f562beb6f7971..f02411b062c4c 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+@@ -260,12 +260,14 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
+ 		mode.htotal >>= 1;
+ 		mode.hsync_start >>= 1;
+ 		mode.hsync_end >>= 1;
++		mode.hskew >>= 1;
  
- 	if (cdm->output_type == CDM_CDWN_OUTPUT_HDMI) {
--		if (fmt->chroma_sample != DPU_CHROMA_H1V2)
-+		if (fmt->chroma_sample == DPU_CHROMA_H1V2)
- 			return -EINVAL; /*unsupported format */
- 		opmode = CDM_HDMI_PACK_OP_MODE_EN;
- 		opmode |= (fmt->chroma_sample << 1);
+ 		DPU_DEBUG_VIDENC(phys_enc,
+-			"split_role %d, halve horizontal %d %d %d %d\n",
++			"split_role %d, halve horizontal %d %d %d %d %d\n",
+ 			phys_enc->split_role,
+ 			mode.hdisplay, mode.htotal,
+-			mode.hsync_start, mode.hsync_end);
++			mode.hsync_start, mode.hsync_end,
++			mode.hskew);
+ 	}
+ 
+ 	drm_mode_to_intf_timing_params(phys_enc, &mode, &timing_params);
 -- 
 2.39.2
 
