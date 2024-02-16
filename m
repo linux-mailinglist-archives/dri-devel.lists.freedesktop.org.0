@@ -2,85 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DD108579FC
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 11:11:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80675857A4C
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 11:30:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E165E10EAD8;
-	Fri, 16 Feb 2024 10:11:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81A7B10E352;
+	Fri, 16 Feb 2024 10:30:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fairphone.com header.i=@fairphone.com header.b="16udBSZB";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Q03FHTlq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90A7910EAD8
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 10:10:57 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id
- a640c23a62f3a-a30f7c9574eso245375466b.0
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 02:10:57 -0800 (PST)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FC0810E352;
+ Fri, 16 Feb 2024 10:30:00 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id
+ ffacd0b85a97d-33d152a34c7so455193f8f.3; 
+ Fri, 16 Feb 2024 02:30:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fairphone.com; s=fair; t=1708078256; x=1708683056; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=AmseNUB8XmILHTMGFvZmTPWMBMRG2oDjG5cDxIINlKQ=;
- b=16udBSZB0rN7TOz2BIsLPwJs/8LgKjaRnlSD0148f3ZtPjikfZV95MUDVt1DKI+k0e
- V7j6BNDZP3CqR8a8VDQfQ0zuiEUXqdZc5Q1WnZG86YEGGANFIwAG1Hod3LM7BYtR8nNW
- sd6dGE2RWGjSwf90sWoN/t9SEfqc3VsiVHHx5m0gH3JKYeQTuXnMPOwswEHJW/atCY+1
- tCOcyufHqDBUCieJ4Z4NjP1wIn5mrbodLl21HYJS8oxZF6rUSY54c+FzF3oK3yqj73XC
- 4Jxehv1AboXzseIjgFYhfoZT1QC2hEW5rrxxWv/IkzOGbwaQzm1bi2kyaosqK6Tlfmi+
- hrTw==
+ d=gmail.com; s=20230601; t=1708079399; x=1708684199; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=GKevrJOYIycMmtJhAGuLF6g1H2Kc16hvAKk7YFtZO5A=;
+ b=Q03FHTlqT/I8PZ+V/322yFF83U2gjj5xVd2HQjJMm2V1BeVsu/ioW3bMbiyGXQuRxy
+ UAdUpL2ezfQ4p/wwBUDpeH58Hguyyf5dzVT1RaIAIu56safCUMttk96TLmDrVR51WENb
+ a8SYiFZYtvpnPHluG5z2RknTVbEyCaF58u69K/2B9H5lt0BIp7cD9aksGQsVh6bhIu5w
+ R1Dd3E31E5urmP+EBX1RZL2G+JGijY5kIABL3xgPhh2ITKhD5eVYCGzCSw5fQtGK18g9
+ FNZKIx8FPdZWAu9f3xC7ZcWTm8CGeWwkhX+Pf+rgHEdtZWoDe+ba7FXy2nCycqdm0lek
+ FPIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708078256; x=1708683056;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=AmseNUB8XmILHTMGFvZmTPWMBMRG2oDjG5cDxIINlKQ=;
- b=g1XNjHm9KzQgmaCIRbecGUEpWJMNyNEPTAUhmlF9OzbCfMc/7RvKh2aNV4wz4YRXc2
- aODZxY94255fEGNGfnqEOFkdIL+DJpay8JbZrsnG8RbowN5etlBbCOrshlEZeFjCrRsd
- RADIOXIfNH5kSSoa+E8gPm9qknpnlQF6bFEBeUA1InyIvCdrLWqEL2ZsJBelsLifZWkR
- yXrCvMN8f7eiVLEil1fnhT4wc9bLjIgoIYfN7W8StKR8/LNeg1lADWRnqVYz+LYwpiUQ
- VlNukf1Ev+fMmPOT/qXOJcZ/GvLchsVEoA4381R6DZEO5/rdEaictQ47j2B/ibdN5ckH
- lrxg==
+ d=1e100.net; s=20230601; t=1708079399; x=1708684199;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=GKevrJOYIycMmtJhAGuLF6g1H2Kc16hvAKk7YFtZO5A=;
+ b=n6mTrBRsz+hBvIyP/XJ1ZsF0oOoSwkvf+qg8YtHfOKj3gRda+alFsKUPP4E2NN+Z66
+ y00OdaMJLJak36sh6+qQlbrxflbdOGvtqh5fJvHAHWpy2ZkKuzH9Szx31nVAkerwyfCd
+ lJyls+r0PJXMey9Yc3P20NWc/X47lCw/b5fSn7tpXHl22r0afAbPRwExTGybsfwUCa6F
+ 6S90RcR+/ikNdYUX4jrSYW1f6yPbv7K2PBHh2j8zslzPNW9Ggq3/u5ZYjsQ1gcTnprnf
+ 3rIgF017WXP06Z4n+2dFkWG4CUBnZo7iEsf1l+/2dkj1TMInZLWv2C75VGbYzfnjxEBt
+ nrIQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVTUafNz/DB+Ga0t4BTSEvUIsOQ3dRZWE86+MlpvZBkixGQlaWu+MuofNYOyAHmEkHhNdmzAvAY95hTMhbnHtiphT1Nb5g3MZI8CEV45wer
-X-Gm-Message-State: AOJu0YxcsHi+ArMcRQIy2fSrISEykeYqk+eT0UPmFQnmjIlbfhUdErww
- DN1bwqjhMf7mzNg/VF6/TGVolC+dYnbmJc2wU+ZtgCit4SqdgJzx9YwAUAyIF9b+yAIQ5E8J+pq
- /
-X-Google-Smtp-Source: AGHT+IGal/6tJIPm3J0RtSc6ctiEJ5BTu7plrarS8+4pAaRz8meufv50XtRwP5cMKv1YKhUbtkQgvA==
-X-Received: by 2002:a17:906:6bcc:b0:a3d:f81a:d50b with SMTP id
- t12-20020a1709066bcc00b00a3df81ad50bmr112120ejs.70.1708078255900; 
- Fri, 16 Feb 2024 02:10:55 -0800 (PST)
-Received: from otso.luca.vpn.lucaweiss.eu
- (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+ AJvYcCW7lDtM1Peo4eNUzD8iJJsuD/5ExgZB7Q7C1rk6xn5bWNH0w6ir8j2P0QO6vSu3Kf5jhy7rcQgOwPR4FBCahNsKO75k6Qogj/bONAUExFirJLigswIoJDQEZpIBMKT2JR1LEvM6AKvty1Pckwxx+Q==
+X-Gm-Message-State: AOJu0YzdXZ5zHnZ4FuyX3MmJd3lqMxd760CLas+DseyXDqcXueB1LF1Q
+ RAHd3HHfL4dSacf0U5Sh0rlanaN1nPmUOJsgMr41mmxEZ+tF4uWJ
+X-Google-Smtp-Source: AGHT+IGX25jBo8lBEAOfpYHIMUzW49tCJpni1AVlTfEoZVCupl+SQQH/VCfYoINBpYmPXgMDyXyBFg==
+X-Received: by 2002:a5d:6190:0:b0:33c:e206:3517 with SMTP id
+ j16-20020a5d6190000000b0033ce2063517mr3800297wru.43.1708079398403; 
+ Fri, 16 Feb 2024 02:29:58 -0800 (PST)
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
  by smtp.gmail.com with ESMTPSA id
- s18-20020a170906169200b00a3d1897ab68sm1398019ejd.113.2024.02.16.02.10.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Feb 2024 02:10:55 -0800 (PST)
-From: Luca Weiss <luca.weiss@fairphone.com>
-Date: Fri, 16 Feb 2024 11:10:51 +0100
-Subject: [PATCH v3 4/4] arm64: dts: qcom: sm7225-fairphone-fp4: Enable
- display and GPU
+ x11-20020adff64b000000b0033d157bb26esm1800611wrp.32.2024.02.16.02.29.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Feb 2024 02:29:57 -0800 (PST)
+Message-ID: <446bb875-7849-43b0-bb8e-be706aa3c666@gmail.com>
+Date: Fri, 16 Feb 2024 11:29:54 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/amd/display: add panel_power_savings sysfs entry
+ to eDP connectors
+Content-Language: en-US
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>, amd-gfx@lists.freedesktop.org
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Alex Hung <alex.hung@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Wayne Lin <wayne.lin@amd.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240202152837.7388-1-hamza.mahfooz@amd.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20240202152837.7388-1-hamza.mahfooz@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240216-fp4-panel-v3-4-a556e4b79640@fairphone.com>
-References: <20240216-fp4-panel-v3-0-a556e4b79640@fairphone.com>
-In-Reply-To: <20240216-fp4-panel-v3-0-a556e4b79640@fairphone.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, Andy Gross <agross@kernel.org>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Luca Weiss <luca.weiss@fairphone.com>
-X-Mailer: b4 0.12.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,112 +94,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the description for the display panel found on this phone.
-Unfortunately the LCDB module on PM6150L isn't yet supported upstream so
-we need to use a dummy regulator-fixed in the meantime.
+Am 02.02.24 um 16:28 schrieb Hamza Mahfooz:
+> We want programs besides the compositor to be able to enable or disable
+> panel power saving features.
 
-And with this done we can also enable the GPU and set the zap shader
-firmware path.
+Well I don't know the full background, but that is usually a no-go.
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
----
- arch/arm64/boot/dts/qcom/sm6350.dtsi              |  2 +-
- arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts | 53 +++++++++++++++++++++++
- 2 files changed, 54 insertions(+), 1 deletion(-)
+> However, since they are currently only
+> configurable through DRM properties, that isn't possible.
 
-diff --git a/arch/arm64/boot/dts/qcom/sm6350.dtsi b/arch/arm64/boot/dts/qcom/sm6350.dtsi
-index 5a05f14669be..c8099b10ddc4 100644
---- a/arch/arm64/boot/dts/qcom/sm6350.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm6350.dtsi
-@@ -1328,7 +1328,7 @@ gpu: gpu@3d00000 {
- 
- 			status = "disabled";
- 
--			zap-shader {
-+			gpu_zap_shader: zap-shader {
- 				memory-region = <&pil_gpu_mem>;
- 			};
- 
-diff --git a/arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts b/arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts
-index ade619805519..4e61da8078d1 100644
---- a/arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts
-+++ b/arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts
-@@ -68,6 +68,14 @@ key-volume-up {
- 		};
- 	};
- 
-+	/* Dummy regulator until PM6150L has LCDB VSP/VSN support */
-+	lcdb_dummy: regulator-lcdb-dummy {
-+		compatible = "regulator-fixed";
-+		regulator-name = "lcdb_dummy";
-+		regulator-min-microvolt = <5500000>;
-+		regulator-max-microvolt = <5500000>;
-+	};
-+
- 	reserved-memory {
- 		/*
- 		 * The rmtfs memory region in downstream is 'dynamically allocated'
-@@ -373,6 +381,14 @@ &gpi_dma1 {
- 	status = "okay";
- };
- 
-+&gpu {
-+	status = "okay";
-+};
-+
-+&gpu_zap_shader {
-+	firmware-name = "qcom/sm7225/fairphone4/a615_zap.mbn";
-+};
-+
- &i2c0 {
- 	clock-frequency = <400000>;
- 	status = "okay";
-@@ -404,6 +420,43 @@ &ipa {
- 	status = "okay";
- };
- 
-+&mdss {
-+	status = "okay";
-+};
-+
-+&mdss_dsi0 {
-+	vdda-supply = <&vreg_l22a>;
-+	status = "okay";
-+
-+	panel@0 {
-+		compatible = "djn,9a-3r063-1102b";
-+		reg = <0>;
-+
-+		backlight = <&pm6150l_wled>;
-+		reset-gpios = <&pm6150l_gpios 9 GPIO_ACTIVE_LOW>;
-+
-+		vdd1-supply = <&vreg_l1e>;
-+		vsn-supply = <&lcdb_dummy>;
-+		vsp-supply = <&lcdb_dummy>;
-+
-+		port {
-+			panel_in: endpoint {
-+				remote-endpoint = <&mdss_dsi0_out>;
-+			};
-+		};
-+	};
-+};
-+
-+&mdss_dsi0_out {
-+	data-lanes = <0 1 2 3>;
-+	remote-endpoint = <&panel_in>;
-+};
-+
-+&mdss_dsi0_phy {
-+	vdds-supply = <&vreg_l18a>;
-+	status = "okay";
-+};
-+
- &mpss {
- 	firmware-name = "qcom/sm7225/fairphone4/modem.mdt";
- 	status = "okay";
+Maybe I'm repeating others, but I wanted to point it out explicitly: 
+This is intentional and not that easily changeable.
 
--- 
-2.43.2
+If it's a common DRM property, e.g. something standardized among all 
+drivers, then amdgpu is not allowed to circumvent that.
+
+Regards,
+Christian.
+
+>   So, to remedy
+> that issue introduce a new "panel_power_savings" sysfs attribute.
+>
+> Cc: Mario Limonciello <mario.limonciello@amd.com>
+> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+> ---
+> v2: hide ABM_LEVEL_IMMEDIATE_DISABLE in the read case, force an atomic
+>      commit when setting the value, call sysfs_remove_group() in
+>      amdgpu_dm_connector_unregister() and add some documentation.
+> ---
+>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 76 +++++++++++++++++++
+>   1 file changed, 76 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 8590c9f1dda6..3c62489d03dc 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -6436,10 +6436,79 @@ int amdgpu_dm_connector_atomic_get_property(struct drm_connector *connector,
+>   	return ret;
+>   }
+>   
+> +/**
+> + * DOC: panel power savings
+> + *
+> + * The display manager allows you to set your desired **panel power savings**
+> + * level (between 0-4, with 0 representing off), e.g. using the following::
+> + *
+> + *   # echo 3 > /sys/class/drm/card0-eDP-1/amdgpu/panel_power_savings
+> + *
+> + * Modifying this value can have implications on color accuracy, so tread
+> + * carefully.
+> + */
+> +
+> +static ssize_t panel_power_savings_show(struct device *device,
+> +					struct device_attribute *attr,
+> +					char *buf)
+> +{
+> +	struct drm_connector *connector = dev_get_drvdata(device);
+> +	struct drm_device *dev = connector->dev;
+> +	u8 val;
+> +
+> +	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
+> +	val = to_dm_connector_state(connector->state)->abm_level ==
+> +		ABM_LEVEL_IMMEDIATE_DISABLE ? 0 :
+> +		to_dm_connector_state(connector->state)->abm_level;
+> +	drm_modeset_unlock(&dev->mode_config.connection_mutex);
+> +
+> +	return sysfs_emit(buf, "%u\n", val);
+> +}
+> +
+> +static ssize_t panel_power_savings_store(struct device *device,
+> +					 struct device_attribute *attr,
+> +					 const char *buf, size_t count)
+> +{
+> +	struct drm_connector *connector = dev_get_drvdata(device);
+> +	struct drm_device *dev = connector->dev;
+> +	long val;
+> +	int ret;
+> +
+> +	ret = kstrtol(buf, 0, &val);
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (val < 0 || val > 4)
+> +		return -EINVAL;
+> +
+> +	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
+> +	to_dm_connector_state(connector->state)->abm_level = val ?:
+> +		ABM_LEVEL_IMMEDIATE_DISABLE;
+> +	drm_modeset_unlock(&dev->mode_config.connection_mutex);
+> +
+> +	drm_kms_helper_hotplug_event(dev);
+> +
+> +	return count;
+> +}
+> +
+> +static DEVICE_ATTR_RW(panel_power_savings);
+> +
+> +static struct attribute *amdgpu_attrs[] = {
+> +	&dev_attr_panel_power_savings.attr,
+> +	NULL
+> +};
+> +
+> +static const struct attribute_group amdgpu_group = {
+> +	.name = "amdgpu",
+> +	.attrs = amdgpu_attrs
+> +};
+> +
+>   static void amdgpu_dm_connector_unregister(struct drm_connector *connector)
+>   {
+>   	struct amdgpu_dm_connector *amdgpu_dm_connector = to_amdgpu_dm_connector(connector);
+>   
+> +	sysfs_remove_group(&connector->kdev->kobj, &amdgpu_group);
+>   	drm_dp_aux_unregister(&amdgpu_dm_connector->dm_dp_aux.aux);
+>   }
+>   
+> @@ -6541,6 +6610,13 @@ amdgpu_dm_connector_late_register(struct drm_connector *connector)
+>   		to_amdgpu_dm_connector(connector);
+>   	int r;
+>   
+> +	if (connector->connector_type == DRM_MODE_CONNECTOR_eDP) {
+> +		r = sysfs_create_group(&connector->kdev->kobj,
+> +				       &amdgpu_group);
+> +		if (r)
+> +			return r;
+> +	}
+> +
+>   	amdgpu_dm_register_backlight_device(amdgpu_dm_connector);
+>   
+>   	if ((connector->connector_type == DRM_MODE_CONNECTOR_DisplayPort) ||
 
