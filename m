@@ -2,99 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE373858344
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 18:01:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61C81858368
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 18:04:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBE3410EC47;
-	Fri, 16 Feb 2024 17:01:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D7BC10EC42;
+	Fri, 16 Feb 2024 17:04:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="A2lWRHfj";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="kVlhpXZq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
- [209.85.208.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D64CB10EC5D
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 17:01:27 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id
- 4fb4d7f45d1cf-563cc707c7cso2871626a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 09:01:27 -0800 (PST)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85F9710E631
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 17:04:48 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-412032b2aedso3054375e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 09:04:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708102886; x=1708707686; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=mXXcyuPilQ9nXPlOaKhEVr0yZRCsEUndDUsEgWHiPIw=;
- b=A2lWRHfjSslDdcP8yjHkxpevJIORJH0YyL1piQGTFjEEGAJtlunYlyVeSd8GMWnEQh
- QF7LScUSjVz8THZ3sGIYeTKZm/X+qcKqjRgXJjg9Guopl10j0MyN8F1oUx657nMpVlrr
- PI8Exw4hOJTCOZlSZg3zapQZVPJAoZLWxdQvmeFPtBjyHfVYMOrWKwJtCZ07n0YvhdNT
- hebXy95ig323RSe2rqNRxKt/0q/iBPgXQBhV5IteL1gaFlEwIZb+2/zscS3jLrHsOZqw
- PZU/yrTSrJR5vbQ3NWTtjNho2/rB+rahqPxHZ9xBBla09avRPVriLqqtgcx5No6uY8Qh
- jpmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708102886; x=1708707686;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ d=ffwll.ch; s=google; t=1708103087; x=1708707887; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
  :subject:date:message-id:reply-to;
- bh=mXXcyuPilQ9nXPlOaKhEVr0yZRCsEUndDUsEgWHiPIw=;
- b=gIyJcdZBrjKSY7duZwYfOurHmtQMJP62BGxmi635+ouwVlWWpqp116PbZlbC3kv4lp
- 3u5D2ZK6XYboyrwO6X/jQ319vEniResy1j9RhXDq3m3rXtqNxvf0zOc6bg+AQNZOfEGC
- gX+E3KsYKu8KWDGOzMO3E0K+TQzyRDuNPHC2qUERTHfFJ7nJ8G+mp901CYdiaMI00/Rs
- rp18zU/B9wQ/OFQm/1kYn0TYSoQy9UPZiP5anjNNXQ4vdzsTc3sOjaAEafqeIZW2740E
- /N1/RTFQqMuLoQSb1eE8+1U3JT5Ls/C4YdDJYFGmYLDZaTIKcIb2fY+QRiYai/DuSaKB
- OoiA==
+ bh=ivwhLebdUuD1A5Otgnd7/ZhxAtbeQ+cN+CSubuJmL3g=;
+ b=kVlhpXZqQOPBBV76TkiLAxzR3wy4HexLcgdlkQkFOUMsW7cy5buXChedTGIKDnTC4F
+ 9KRYKbQhEPzAncNAWTMp04irHjOXfFuQq9weNAsYx4QZxSriQtODY7dhI8DugC0wyV0h
+ u9WKTmKFXiCYYS8KTF+O6uxpv07Wh4yDmnr3w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708103087; x=1708707887;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ivwhLebdUuD1A5Otgnd7/ZhxAtbeQ+cN+CSubuJmL3g=;
+ b=QxYn7BiuVKNdGY4Uk78w88nTohZHQtxtTh07UecMNpvIqG3q+nqmd1esYDp2+o3mbr
+ dhcpkn8YwOP3FhPWd63qXrwXpN6KbovfMapUdhVBaJ4DQwwdfVQ1S+mpDdYzUtlmbPL7
+ MSiRGSDwRphjQ0i6lFqegPR99Z8MXTT4PVYvRsGzMk51ay07/WpIBOSi18lvIE4akPXo
+ pyiZUUHNFrYR7yzaPmCloQa+V2X0AOuIH84zAL6UsUbyqYtS2TE0FE79JDOejHt0j7HX
+ ox6QHVbpx2IJYLWYxBrrah6cxoNeAEjy0rnAWCT5gvetP+7NegziaqYS7VpfR8X0OkIz
+ 2KxQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW2KbgO4dtKTDpNJqffylGjaagyZGJUyygXGdl1R4h8MG9KIxYwx1ZUzj4CIGFjdpmt1MKwjyUYp5IqD+XA8of26r2mciDZmaIVsmju2xr6
-X-Gm-Message-State: AOJu0YypYQ5BBGlSSMdSPuNGtScBwvKVFBtboIb0WAxalt+z5PDvUPoQ
- Qe1PtAS9A6EdcHhmrilrdgf2LM8NkPMOgi4oCRFXbEpGK7xFylXH9KY2cFmhV1o=
-X-Google-Smtp-Source: AGHT+IEj0TiS8SMzqziJFwnfImfE3MIXes3M8tKnCzm6riauWQLMtts2l65koB4duqgvoSEFr89vUA==
-X-Received: by 2002:a05:6402:1cc4:b0:561:7832:d35 with SMTP id
- ds4-20020a0564021cc400b0056178320d35mr9431639edb.15.1708102886311; 
- Fri, 16 Feb 2024 09:01:26 -0800 (PST)
-Received: from [127.0.1.1] ([188.24.162.93]) by smtp.gmail.com with ESMTPSA id
- u20-20020aa7d894000000b00563a6c9fd71sm159706edq.16.2024.02.16.09.01.24
+ AJvYcCWBR/edD0vZSE+aot3rEY37FNsABLZnM1OVnXXCiFrqvJZh3qAffs2zyEOBQFnZK7JB9YBfQhZGSUJMjbBUKFlATWAyh38xfimdSLR7KeFD
+X-Gm-Message-State: AOJu0YwdhmMpAUetFrdMXd6AYqIMnfeZ8QzmsmfXxU3Xz5XINM3vdS7z
+ Ns5aZ8Do34sBEhFVDuZkBcKR0RKV34pd/n2yTzW6KZGpSGbvYo1/6tfbhINCO3U=
+X-Google-Smtp-Source: AGHT+IGxIbJQdotpNxoYDDuZqhrA0VU+pE2iwUZz2LV9N47mgjCflPHbe0NI9pdRvHAvhxRb9JEmlQ==
+X-Received: by 2002:a05:600c:4446:b0:412:cd2:2ce6 with SMTP id
+ v6-20020a05600c444600b004120cd22ce6mr1930753wmn.3.1708103086789; 
+ Fri, 16 Feb 2024 09:04:46 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ k10-20020a7bc40a000000b004101f27737asm2849571wmi.29.2024.02.16.09.04.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Feb 2024 09:01:25 -0800 (PST)
-From: Abel Vesa <abel.vesa@linaro.org>
-Date: Fri, 16 Feb 2024 19:01:08 +0200
-Subject: [PATCH v3 4/4] drm/msm/dpu: Add X1E80100 support
+ Fri, 16 Feb 2024 09:04:45 -0800 (PST)
+Date: Fri, 16 Feb 2024 18:04:43 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Hsiao Chien Sung <shawn.sung@mediatek.com>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Bibby Hsieh <bibby.hsieh@mediatek.com>, CK Hu <ck.hu@mediatek.com>,
+ Sean Paul <seanpaul@chromium.org>, Fei Shao <fshao@chromium.org>,
+ Jason Chen <jason-ch.chen@mediatek.corp-partner.google.com>,
+ "Nancy . Lin" <nancy.lin@mediatek.com>,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 10/13] drm/mediatek: Support CRC in display driver
+Message-ID: <Zc-Vq2MeG9X37JJe@phenom.ffwll.local>
+Mail-Followup-To: Hsiao Chien Sung <shawn.sung@mediatek.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ David Airlie <airlied@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Bibby Hsieh <bibby.hsieh@mediatek.com>, CK Hu <ck.hu@mediatek.com>,
+ Sean Paul <seanpaul@chromium.org>, Fei Shao <fshao@chromium.org>,
+ Jason Chen <jason-ch.chen@mediatek.corp-partner.google.com>,
+ "Nancy . Lin" <nancy.lin@mediatek.com>,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20240215101119.12629-1-shawn.sung@mediatek.com>
+ <20240215101119.12629-11-shawn.sung@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240216-x1e80100-display-v3-4-28b1c33ac8c0@linaro.org>
-References: <20240216-x1e80100-display-v3-0-28b1c33ac8c0@linaro.org>
-In-Reply-To: <20240216-x1e80100-display-v3-0-28b1c33ac8c0@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Abel Vesa <abel.vesa@linaro.org>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=15961; i=abel.vesa@linaro.org; 
- h=from:subject:message-id;
- bh=Wjo+0pOGgXnx4YaZ4l1uyPRnvTzMVxrVJy0mXHIFY5A=; 
- b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBlz5Tbzdi1p4lwt7Q8DYso6+WpunWYfvxSHrB+v
- XRp0NgqjlCJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCZc+U2wAKCRAbX0TJAJUV
- VtPqD/9gT7zJ0K/qj0yOcSNTOFnfRUfZ67zB7HBCuX5wLyOW6gff3SWsWqUPY83w+zeQ6miUjRP
- ur/0rvt+7l3OhaETFxiLsBqBCdEbhR2kwAoZ8zmSmHX9gfUE9C9Cn+ma+HrsqK88iTWSt7pav9W
- oREMf50KWQILrt2zNxUJS5UZUCHOD7PizBuysCbAP4cBMLycIBNdliAJpSf+/V4UaoEMhjlBUoD
- dW2XPpVQB6xuoxo57L3n8jHMnVfhGC3PvIhiHsrX/ef/gu/kZrTwMGtozNljLzkOJr6JnoOUTzR
- i/SKFpagICr4bW9jmpUaFxaUrQSzKfwBDJBGTfXklpTRHJfAA/T/6h+yRrKTPA5v6xwxcgXhfuU
- QQb9YBZeYA298atWEfC7RyQt2g1jAze+e4dGlp4PvH78lk23Hf8dVAMaUBkp+1SGasuQvuBQXsT
- hGYlxUuGx/jSCwWaPbEo2seGbYm0d4YM2xHEVlS1kzsB2XlB97WJw7F2b6dwKvh7ejkG5P016o5
- y3/bJagoMtiIwHa++Zl9VoTjj6bUL3b6ESHch2mrBCXZ8F6ztHU41PvMp7n8pJDu56WX20z6HOZ
- fV5BkNTAwQbaHJSGKYPDSW0fryHCKAIhdtuOh6ONns8uhAWf5LX8mmCOyopSLt3cve3pxrLxi6D
- bguYG4VB3bY+J6g==
-X-Developer-Key: i=abel.vesa@linaro.org; a=openpgp;
- fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240215101119.12629-11-shawn.sung@mediatek.com>
+X-Operating-System: Linux phenom 6.6.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,510 +103,397 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add definitions for the display hardware used on the Qualcomm X1E80100
-platform.
+On Thu, Feb 15, 2024 at 06:11:16PM +0800, Hsiao Chien Sung wrote:
+> Register CRC related function pointers to support
+> CRC retrieval.
+> 
+> Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c     | 239 ++++++++++++++++++++
+>  drivers/gpu/drm/mediatek/mtk_drm_crtc.h     |  39 ++++
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   3 +
+>  3 files changed, 281 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> index 14cf75fa217f9..6cb1ed419dee7 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> @@ -68,6 +68,9 @@ struct mtk_drm_crtc {
+>  	/* lock for display hardware access */
+>  	struct mutex			hw_lock;
+>  	bool				config_updating;
+> +
+> +	struct mtk_ddp_comp		*crc_provider;
+> +	unsigned int			frames;
+>  };
+>  
+>  struct mtk_crtc_state {
+> @@ -635,6 +638,14 @@ static void mtk_crtc_ddp_irq(void *data)
+>  	struct drm_crtc *crtc = data;
+>  	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
+>  	struct mtk_drm_private *priv = crtc->dev->dev_private;
+> +	struct mtk_ddp_comp *comp = mtk_crtc->crc_provider;
+> +
+> +	/*
+> +	 * crc providers should make sure the crc is always correct
+> +	 * by resetting it in .crc_read()
+> +	 */
+> +	if (crtc->crc.opened)
+> +		comp->funcs->crc_read(comp->dev);
+>  
+>  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+>  	if (!priv->data->shadow_register && !mtk_crtc->cmdq_client.chan)
+> @@ -646,6 +657,24 @@ static void mtk_crtc_ddp_irq(void *data)
+>  	if (!priv->data->shadow_register)
+>  		mtk_crtc_ddp_config(crtc, NULL);
+>  #endif
+> +
+> +	/*
+> +	 * drm_crtc_add_crc_entry() could take more than 50ms to finish
+> +	 * put it at the end of the isr
+> +	 */
 
-Co-developed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
----
- .../drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h   | 449 +++++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   2 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
- 4 files changed, 453 insertions(+)
+Uh this looks really scary, especially since you put this before the call
+to drm_crtc_handle_vblank in the function below, which really shouldn't be
+unecessarily delayed (because that's the one that takes the vblank
+timestamp).
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
-new file mode 100644
-index 000000000000..9a9f7092c526
---- /dev/null
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
-@@ -0,0 +1,449 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2023, Linaro Limited
-+ */
-+
-+#ifndef _DPU_9_2_X1E80100_H
-+#define _DPU_9_2_X1E80100_H
-+
-+static const struct dpu_caps x1e80100_dpu_caps = {
-+	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
-+	.max_mixer_blendstages = 0xb,
-+	.has_src_split = true,
-+	.has_dim_layer = true,
-+	.has_idle_pc = true,
-+	.has_3d_merge = true,
-+	.max_linewidth = 5120,
-+	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
-+};
-+
-+static const struct dpu_mdp_cfg x1e80100_mdp = {
-+	.name = "top_0",
-+	.base = 0, .len = 0x494,
-+	.features = BIT(DPU_MDP_PERIPH_0_REMOVED),
-+	.clk_ctrls = {
-+		[DPU_CLK_CTRL_REG_DMA] = { .reg_off = 0x2bc, .bit_off = 20 },
-+	},
-+};
-+
-+/* FIXME: get rid of DPU_CTL_SPLIT_DISPLAY in favour of proper ACTIVE_CTL support */
-+static const struct dpu_ctl_cfg x1e80100_ctl[] = {
-+	{
-+		.name = "ctl_0", .id = CTL_0,
-+		.base = 0x15000, .len = 0x290,
-+		.features = CTL_SM8550_MASK | BIT(DPU_CTL_SPLIT_DISPLAY),
-+		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 9),
-+	}, {
-+		.name = "ctl_1", .id = CTL_1,
-+		.base = 0x16000, .len = 0x290,
-+		.features = CTL_SM8550_MASK | BIT(DPU_CTL_SPLIT_DISPLAY),
-+		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 10),
-+	}, {
-+		.name = "ctl_2", .id = CTL_2,
-+		.base = 0x17000, .len = 0x290,
-+		.features = CTL_SM8550_MASK,
-+		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 11),
-+	}, {
-+		.name = "ctl_3", .id = CTL_3,
-+		.base = 0x18000, .len = 0x290,
-+		.features = CTL_SM8550_MASK,
-+		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 12),
-+	}, {
-+		.name = "ctl_4", .id = CTL_4,
-+		.base = 0x19000, .len = 0x290,
-+		.features = CTL_SM8550_MASK,
-+		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 13),
-+	}, {
-+		.name = "ctl_5", .id = CTL_5,
-+		.base = 0x1a000, .len = 0x290,
-+		.features = CTL_SM8550_MASK,
-+		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 23),
-+	},
-+};
-+
-+static const struct dpu_sspp_cfg x1e80100_sspp[] = {
-+	{
-+		.name = "sspp_0", .id = SSPP_VIG0,
-+		.base = 0x4000, .len = 0x344,
-+		.features = VIG_SDM845_MASK_SDMA,
-+		.sblk = &dpu_vig_sblk_qseed3_3_3,
-+		.xin_id = 0,
-+		.type = SSPP_TYPE_VIG,
-+	}, {
-+		.name = "sspp_1", .id = SSPP_VIG1,
-+		.base = 0x6000, .len = 0x344,
-+		.features = VIG_SDM845_MASK_SDMA,
-+		.sblk = &dpu_vig_sblk_qseed3_3_3,
-+		.xin_id = 4,
-+		.type = SSPP_TYPE_VIG,
-+	}, {
-+		.name = "sspp_2", .id = SSPP_VIG2,
-+		.base = 0x8000, .len = 0x344,
-+		.features = VIG_SDM845_MASK_SDMA,
-+		.sblk = &dpu_vig_sblk_qseed3_3_3,
-+		.xin_id = 8,
-+		.type = SSPP_TYPE_VIG,
-+	}, {
-+		.name = "sspp_3", .id = SSPP_VIG3,
-+		.base = 0xa000, .len = 0x344,
-+		.features = VIG_SDM845_MASK_SDMA,
-+		.sblk = &dpu_vig_sblk_qseed3_3_3,
-+		.xin_id = 12,
-+		.type = SSPP_TYPE_VIG,
-+	}, {
-+		.name = "sspp_8", .id = SSPP_DMA0,
-+		.base = 0x24000, .len = 0x344,
-+		.features = DMA_SDM845_MASK_SDMA,
-+		.sblk = &dpu_dma_sblk,
-+		.xin_id = 1,
-+		.type = SSPP_TYPE_DMA,
-+	}, {
-+		.name = "sspp_9", .id = SSPP_DMA1,
-+		.base = 0x26000, .len = 0x344,
-+		.features = DMA_SDM845_MASK_SDMA,
-+		.sblk = &dpu_dma_sblk,
-+		.xin_id = 5,
-+		.type = SSPP_TYPE_DMA,
-+	}, {
-+		.name = "sspp_10", .id = SSPP_DMA2,
-+		.base = 0x28000, .len = 0x344,
-+		.features = DMA_SDM845_MASK_SDMA,
-+		.sblk = &dpu_dma_sblk,
-+		.xin_id = 9,
-+		.type = SSPP_TYPE_DMA,
-+	}, {
-+		.name = "sspp_11", .id = SSPP_DMA3,
-+		.base = 0x2a000, .len = 0x344,
-+		.features = DMA_SDM845_MASK_SDMA,
-+		.sblk = &dpu_dma_sblk,
-+		.xin_id = 13,
-+		.type = SSPP_TYPE_DMA,
-+	}, {
-+		.name = "sspp_12", .id = SSPP_DMA4,
-+		.base = 0x2c000, .len = 0x344,
-+		.features = DMA_CURSOR_SDM845_MASK_SDMA,
-+		.sblk = &dpu_dma_sblk,
-+		.xin_id = 14,
-+		.type = SSPP_TYPE_DMA,
-+	}, {
-+		.name = "sspp_13", .id = SSPP_DMA5,
-+		.base = 0x2e000, .len = 0x344,
-+		.features = DMA_CURSOR_SDM845_MASK_SDMA,
-+		.sblk = &dpu_dma_sblk,
-+		.xin_id = 15,
-+		.type = SSPP_TYPE_DMA,
-+	},
-+};
-+
-+static const struct dpu_lm_cfg x1e80100_lm[] = {
-+	{
-+		.name = "lm_0", .id = LM_0,
-+		.base = 0x44000, .len = 0x320,
-+		.features = MIXER_SDM845_MASK,
-+		.sblk = &sdm845_lm_sblk,
-+		.lm_pair = LM_1,
-+		.pingpong = PINGPONG_0,
-+		.dspp = DSPP_0,
-+	}, {
-+		.name = "lm_1", .id = LM_1,
-+		.base = 0x45000, .len = 0x320,
-+		.features = MIXER_SDM845_MASK,
-+		.sblk = &sdm845_lm_sblk,
-+		.lm_pair = LM_0,
-+		.pingpong = PINGPONG_1,
-+		.dspp = DSPP_1,
-+	}, {
-+		.name = "lm_2", .id = LM_2,
-+		.base = 0x46000, .len = 0x320,
-+		.features = MIXER_SDM845_MASK,
-+		.sblk = &sdm845_lm_sblk,
-+		.lm_pair = LM_3,
-+		.pingpong = PINGPONG_2,
-+	}, {
-+		.name = "lm_3", .id = LM_3,
-+		.base = 0x47000, .len = 0x320,
-+		.features = MIXER_SDM845_MASK,
-+		.sblk = &sdm845_lm_sblk,
-+		.lm_pair = LM_2,
-+		.pingpong = PINGPONG_3,
-+	}, {
-+		.name = "lm_4", .id = LM_4,
-+		.base = 0x48000, .len = 0x320,
-+		.features = MIXER_SDM845_MASK,
-+		.sblk = &sdm845_lm_sblk,
-+		.lm_pair = LM_5,
-+		.pingpong = PINGPONG_4,
-+	}, {
-+		.name = "lm_5", .id = LM_5,
-+		.base = 0x49000, .len = 0x320,
-+		.features = MIXER_SDM845_MASK,
-+		.sblk = &sdm845_lm_sblk,
-+		.lm_pair = LM_4,
-+		.pingpong = PINGPONG_5,
-+	},
-+};
-+
-+static const struct dpu_dspp_cfg x1e80100_dspp[] = {
-+	{
-+		.name = "dspp_0", .id = DSPP_0,
-+		.base = 0x54000, .len = 0x1800,
-+		.features = DSPP_SC7180_MASK,
-+		.sblk = &sdm845_dspp_sblk,
-+	}, {
-+		.name = "dspp_1", .id = DSPP_1,
-+		.base = 0x56000, .len = 0x1800,
-+		.features = DSPP_SC7180_MASK,
-+		.sblk = &sdm845_dspp_sblk,
-+	}, {
-+		.name = "dspp_2", .id = DSPP_2,
-+		.base = 0x58000, .len = 0x1800,
-+		.features = DSPP_SC7180_MASK,
-+		.sblk = &sdm845_dspp_sblk,
-+	}, {
-+		.name = "dspp_3", .id = DSPP_3,
-+		.base = 0x5a000, .len = 0x1800,
-+		.features = DSPP_SC7180_MASK,
-+		.sblk = &sdm845_dspp_sblk,
-+	},
-+};
-+
-+static const struct dpu_pingpong_cfg x1e80100_pp[] = {
-+	{
-+		.name = "pingpong_0", .id = PINGPONG_0,
-+		.base = 0x69000, .len = 0,
-+		.features = BIT(DPU_PINGPONG_DITHER),
-+		.sblk = &sc7280_pp_sblk,
-+		.merge_3d = MERGE_3D_0,
-+		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
-+	}, {
-+		.name = "pingpong_1", .id = PINGPONG_1,
-+		.base = 0x6a000, .len = 0,
-+		.features = BIT(DPU_PINGPONG_DITHER),
-+		.sblk = &sc7280_pp_sblk,
-+		.merge_3d = MERGE_3D_0,
-+		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
-+	}, {
-+		.name = "pingpong_2", .id = PINGPONG_2,
-+		.base = 0x6b000, .len = 0,
-+		.features = BIT(DPU_PINGPONG_DITHER),
-+		.sblk = &sc7280_pp_sblk,
-+		.merge_3d = MERGE_3D_1,
-+		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
-+	}, {
-+		.name = "pingpong_3", .id = PINGPONG_3,
-+		.base = 0x6c000, .len = 0,
-+		.features = BIT(DPU_PINGPONG_DITHER),
-+		.sblk = &sc7280_pp_sblk,
-+		.merge_3d = MERGE_3D_1,
-+		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
-+	}, {
-+		.name = "pingpong_4", .id = PINGPONG_4,
-+		.base = 0x6d000, .len = 0,
-+		.features = BIT(DPU_PINGPONG_DITHER),
-+		.sblk = &sc7280_pp_sblk,
-+		.merge_3d = MERGE_3D_2,
-+		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 30),
-+	}, {
-+		.name = "pingpong_5", .id = PINGPONG_5,
-+		.base = 0x6e000, .len = 0,
-+		.features = BIT(DPU_PINGPONG_DITHER),
-+		.sblk = &sc7280_pp_sblk,
-+		.merge_3d = MERGE_3D_2,
-+		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 31),
-+	}, {
-+		.name = "pingpong_6", .id = PINGPONG_6,
-+		.base = 0x66000, .len = 0,
-+		.features = BIT(DPU_PINGPONG_DITHER),
-+		.sblk = &sc7280_pp_sblk,
-+		.merge_3d = MERGE_3D_3,
-+	}, {
-+		.name = "pingpong_7", .id = PINGPONG_7,
-+		.base = 0x66400, .len = 0,
-+		.features = BIT(DPU_PINGPONG_DITHER),
-+		.sblk = &sc7280_pp_sblk,
-+		.merge_3d = MERGE_3D_3,
-+	},
-+};
-+
-+static const struct dpu_merge_3d_cfg x1e80100_merge_3d[] = {
-+	{
-+		.name = "merge_3d_0", .id = MERGE_3D_0,
-+		.base = 0x4e000, .len = 0x8,
-+	}, {
-+		.name = "merge_3d_1", .id = MERGE_3D_1,
-+		.base = 0x4f000, .len = 0x8,
-+	}, {
-+		.name = "merge_3d_2", .id = MERGE_3D_2,
-+		.base = 0x50000, .len = 0x8,
-+	}, {
-+		.name = "merge_3d_3", .id = MERGE_3D_3,
-+		.base = 0x66700, .len = 0x8,
-+	},
-+};
-+
-+/*
-+ * NOTE: Each display compression engine (DCE) contains dual hard
-+ * slice DSC encoders so both share same base address but with
-+ * its own different sub block address.
-+ */
-+static const struct dpu_dsc_cfg x1e80100_dsc[] = {
-+	{
-+		.name = "dce_0_0", .id = DSC_0,
-+		.base = 0x80000, .len = 0x4,
-+		.features = BIT(DPU_DSC_HW_REV_1_2),
-+		.sblk = &dsc_sblk_0,
-+	}, {
-+		.name = "dce_0_1", .id = DSC_1,
-+		.base = 0x80000, .len = 0x4,
-+		.features = BIT(DPU_DSC_HW_REV_1_2),
-+		.sblk = &dsc_sblk_1,
-+	}, {
-+		.name = "dce_1_0", .id = DSC_2,
-+		.base = 0x81000, .len = 0x4,
-+		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-+		.sblk = &dsc_sblk_0,
-+	}, {
-+		.name = "dce_1_1", .id = DSC_3,
-+		.base = 0x81000, .len = 0x4,
-+		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-+		.sblk = &dsc_sblk_1,
-+	},
-+};
-+
-+static const struct dpu_wb_cfg x1e80100_wb[] = {
-+	{
-+		.name = "wb_2", .id = WB_2,
-+		.base = 0x65000, .len = 0x2c8,
-+		.features = WB_SM8250_MASK,
-+		.format_list = wb2_formats_rgb,
-+		.num_formats = ARRAY_SIZE(wb2_formats_rgb),
-+		.xin_id = 6,
-+		.vbif_idx = VBIF_RT,
-+		.maxlinewidth = 4096,
-+		.intr_wb_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 4),
-+	},
-+};
-+
-+static const struct dpu_intf_cfg x1e80100_intf[] = {
-+	{
-+		.name = "intf_0", .id = INTF_0,
-+		.base = 0x34000, .len = 0x280,
-+		.features = INTF_SC7280_MASK,
-+		.type = INTF_DP,
-+		.controller_id = MSM_DP_CONTROLLER_0,
-+		.prog_fetch_lines_worst_case = 24,
-+		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
-+		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25),
-+	}, {
-+		.name = "intf_1", .id = INTF_1,
-+		.base = 0x35000, .len = 0x300,
-+		.features = INTF_SC7280_MASK,
-+		.type = INTF_DSI,
-+		.controller_id = MSM_DSI_CONTROLLER_0,
-+		.prog_fetch_lines_worst_case = 24,
-+		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
-+		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
-+		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2),
-+	}, {
-+		.name = "intf_2", .id = INTF_2,
-+		.base = 0x36000, .len = 0x300,
-+		.features = INTF_SC7280_MASK,
-+		.type = INTF_DSI,
-+		.controller_id = MSM_DSI_CONTROLLER_1,
-+		.prog_fetch_lines_worst_case = 24,
-+		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
-+		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
-+		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF2_TEAR_INTR, 2),
-+	}, {
-+		.name = "intf_3", .id = INTF_3,
-+		.base = 0x37000, .len = 0x280,
-+		.features = INTF_SC7280_MASK,
-+		.type = INTF_DP,
-+		.controller_id = MSM_DP_CONTROLLER_1,
-+		.prog_fetch_lines_worst_case = 24,
-+		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
-+		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31),
-+	}, {
-+		.name = "intf_4", .id = INTF_4,
-+		.base = 0x38000, .len = 0x280,
-+		.features = INTF_SC7280_MASK,
-+		.type = INTF_DP,
-+		.controller_id = MSM_DP_CONTROLLER_2,
-+		.prog_fetch_lines_worst_case = 24,
-+		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 20),
-+		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 21),
-+	}, {
-+		.name = "intf_5", .id = INTF_5,
-+		.base = 0x39000, .len = 0x280,
-+		.features = INTF_SC7280_MASK,
-+		.type = INTF_DP,
-+		.controller_id = MSM_DP_CONTROLLER_3,
-+		.prog_fetch_lines_worst_case = 24,
-+		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 22),
-+		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 23),
-+	},
-+};
-+
-+static const struct dpu_perf_cfg x1e80100_perf_data = {
-+	.max_bw_low = 13600000,
-+	.max_bw_high = 18200000,
-+	.min_core_ib = 2500000,
-+	.min_llcc_ib = 0,
-+	.min_dram_ib = 800000,
-+	.min_prefill_lines = 35,
-+	/* FIXME: lut tables */
-+	.danger_lut_tbl = {0x3ffff, 0x3ffff, 0x0},
-+	.safe_lut_tbl = {0xfe00, 0xfe00, 0xffff},
-+	.qos_lut_tbl = {
-+		{.nentry = ARRAY_SIZE(sc7180_qos_linear),
-+		.entries = sc7180_qos_linear
-+		},
-+		{.nentry = ARRAY_SIZE(sc7180_qos_macrotile),
-+		.entries = sc7180_qos_macrotile
-+		},
-+		{.nentry = ARRAY_SIZE(sc7180_qos_nrt),
-+		.entries = sc7180_qos_nrt
-+		},
-+		/* TODO: macrotile-qseed is different from macrotile */
-+	},
-+	.cdp_cfg = {
-+		{.rd_enable = 1, .wr_enable = 1},
-+		{.rd_enable = 1, .wr_enable = 0}
-+	},
-+	.clk_inefficiency_factor = 105,
-+	.bw_inefficiency_factor = 120,
-+};
-+
-+static const struct dpu_mdss_version x1e80100_mdss_ver = {
-+	.core_major_ver = 9,
-+	.core_minor_ver = 2,
-+};
-+
-+const struct dpu_mdss_cfg dpu_x1e80100_cfg = {
-+	.mdss_ver = &x1e80100_mdss_ver,
-+	.caps = &x1e80100_dpu_caps,
-+	.mdp = &x1e80100_mdp,
-+	.ctl_count = ARRAY_SIZE(x1e80100_ctl),
-+	.ctl = x1e80100_ctl,
-+	.sspp_count = ARRAY_SIZE(x1e80100_sspp),
-+	.sspp = x1e80100_sspp,
-+	.mixer_count = ARRAY_SIZE(x1e80100_lm),
-+	.mixer = x1e80100_lm,
-+	.dspp_count = ARRAY_SIZE(x1e80100_dspp),
-+	.dspp = x1e80100_dspp,
-+	.pingpong_count = ARRAY_SIZE(x1e80100_pp),
-+	.pingpong = x1e80100_pp,
-+	.dsc_count = ARRAY_SIZE(x1e80100_dsc),
-+	.dsc = x1e80100_dsc,
-+	.merge_3d_count = ARRAY_SIZE(x1e80100_merge_3d),
-+	.merge_3d = x1e80100_merge_3d,
-+	.wb_count = ARRAY_SIZE(x1e80100_wb),
-+	.wb = x1e80100_wb,
-+	.intf_count = ARRAY_SIZE(x1e80100_intf),
-+	.intf = x1e80100_intf,
-+	.vbif_count = ARRAY_SIZE(sm8550_vbif),
-+	.vbif = sm8550_vbif,
-+	.perf = &x1e80100_perf_data,
-+};
-+
-+#endif
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 54e8717403a0..31ade66a3c87 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -703,4 +703,6 @@ static const struct dpu_qos_lut_entry sc7180_qos_nrt[] = {
- 
- #include "catalog/dpu_9_0_sm8550.h"
- 
-+#include "catalog/dpu_9_2_x1e80100.h"
-+
- #include "catalog/dpu_10_0_sm8650.h"
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index ba82ef4560a6..572a25f7f62d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -849,5 +849,6 @@ extern const struct dpu_mdss_cfg dpu_sc8280xp_cfg;
- extern const struct dpu_mdss_cfg dpu_sm8450_cfg;
- extern const struct dpu_mdss_cfg dpu_sm8550_cfg;
- extern const struct dpu_mdss_cfg dpu_sm8650_cfg;
-+extern const struct dpu_mdss_cfg dpu_x1e80100_cfg;
- 
- #endif /* _DPU_HW_CATALOG_H */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 48728be27e15..fc420b805bbf 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -1337,6 +1337,7 @@ static const struct of_device_id dpu_dt_match[] = {
- 	{ .compatible = "qcom,sm8450-dpu", .data = &dpu_sm8450_cfg, },
- 	{ .compatible = "qcom,sm8550-dpu", .data = &dpu_sm8550_cfg, },
- 	{ .compatible = "qcom,sm8650-dpu", .data = &dpu_sm8650_cfg, },
-+	{ .compatible = "qcom,x1e80100-dpu", .data = &dpu_x1e80100_cfg, },
- 	{}
- };
- MODULE_DEVICE_TABLE(of, dpu_dt_match);
+This sounds like the perfect application for a vblank worker though, so
+you please look into drm_vblank_work.h. And if that is not useable due to
+hardware constraint, then please explain in a comment here and in the
+commit message why you cannot use that and have to roll your own. vblank
+work really should be your first choice here, because:
+- it's designed for expensive vblank work
+- it gives you all the flush/cancel_sync functions you need for disabling
+  crc again, and in a race-free implementation. Much better to use common
+  code than to reinvent synchronization wheels in drivers :-)
+
+> +	if (crtc->crc.opened) {
+
+Because this is probably not race-free, so we need something solid here.
+
+Cheers, Sima
+
+
+> +		/*
+> +		 * skip the first crc because the first frame is configured by
+> +		 * mtk_crtc_ddp_hw_init() when atomic enable
+> +		 */
+> +		if (++mtk_crtc->frames > 1) {
+> +			drm_crtc_add_crc_entry(crtc, true,
+> +					       drm_crtc_vblank_count(crtc),
+> +					       comp->funcs->crc_entry(comp->dev));
+> +		}
+> +	} else {
+> +		mtk_crtc->frames = 0;
+> +	}
+>  	mtk_drm_finish_page_flip(mtk_crtc);
+>  }
+>  
+> @@ -704,6 +733,40 @@ static void mtk_drm_crtc_update_output(struct drm_crtc *crtc,
+>  	}
+>  }
+>  
+> +static int mtk_drm_crtc_set_crc_source(struct drm_crtc *crtc, const char *src)
+> +{
+> +	if (src && strcmp(src, "auto") != 0) {
+> +		DRM_ERROR("%s(crtc-%d): unknown source '%s'\n",
+> +			  __func__, drm_crtc_index(crtc), src);
+> +		return -EINVAL;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int mtk_drm_crtc_verify_crc_source(struct drm_crtc *crtc,
+> +					  const char *src,
+> +					  size_t *cnt)
+> +{
+> +	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
+> +	struct mtk_ddp_comp *comp = mtk_crtc->crc_provider;
+> +
+> +	if (!comp) {
+> +		DRM_ERROR("%s(crtc-%d): no crc provider\n",
+> +			  __func__, drm_crtc_index(crtc));
+> +		return -ENOENT;
+> +	}
+> +
+> +	if (src && strcmp(src, "auto") != 0) {
+> +		DRM_ERROR("%s(crtc-%d): unknown source '%s'\n",
+> +			  __func__, drm_crtc_index(crtc), src);
+> +		return -EINVAL;
+> +	}
+> +
+> +	*cnt = comp->funcs->crc_cnt(comp->dev);
+> +
+> +	return 0;
+> +}
+> +
+>  int mtk_drm_crtc_plane_check(struct drm_crtc *crtc, struct drm_plane *plane,
+>  			     struct mtk_plane_state *state)
+>  {
+> @@ -841,6 +904,8 @@ static const struct drm_crtc_funcs mtk_crtc_funcs = {
+>  	.atomic_destroy_state	= mtk_drm_crtc_destroy_state,
+>  	.enable_vblank		= mtk_drm_crtc_enable_vblank,
+>  	.disable_vblank		= mtk_drm_crtc_disable_vblank,
+> +	.set_crc_source		= mtk_drm_crtc_set_crc_source,
+> +	.verify_crc_source	= mtk_drm_crtc_verify_crc_source,
+>  };
+>  
+>  static const struct drm_crtc_helper_funcs mtk_crtc_helper_funcs = {
+> @@ -1033,6 +1098,11 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>  
+>  			if (comp->funcs->ctm_set)
+>  				has_ctm = true;
+> +
+> +			if (comp->funcs->crc_cnt &&
+> +			    comp->funcs->crc_entry &&
+> +			    comp->funcs->crc_read)
+> +				mtk_crtc->crc_provider = comp;
+>  		}
+>  
+>  		mtk_ddp_comp_register_vblank_cb(comp, mtk_crtc_ddp_irq,
+> @@ -1137,3 +1207,172 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>  
+>  	return 0;
+>  }
+> +
+> +void mtk_drm_crc_init(struct mtk_drm_crc *crc,
+> +		      const u32 *crc_offset_table, size_t crc_count,
+> +		      u32 reset_offset, u32 reset_mask)
+> +{
+> +	crc->ofs = crc_offset_table;
+> +	crc->cnt = crc_count;
+> +	crc->rst_ofs = reset_offset;
+> +	crc->rst_msk = reset_mask;
+> +	crc->va = kcalloc(crc->cnt, sizeof(*crc->va), GFP_KERNEL);
+> +	if (!crc->va) {
+> +		DRM_ERROR("failed to allocate memory for crc\n");
+> +		crc->cnt = 0;
+> +	}
+> +}
+> +
+> +void mtk_drm_crc_read(struct mtk_drm_crc *crc, void __iomem *reg)
+> +{
+> +	if (!crc->cnt || !crc->ofs || !crc->va)
+> +		return;
+> +
+> +#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> +	/* sync to see the most up-to-date copy of the DMA buffer */
+> +	dma_sync_single_for_cpu(crc->cmdq_client.chan->mbox->dev,
+> +				crc->pa, crc->cnt * sizeof(*crc->va),
+> +				DMA_FROM_DEVICE);
+> +#else
+> +	/* read crc with cpu for the platforms without cmdq */
+> +	{
+> +		u32 n;
+> +
+> +		for (n = 0; n < crc->cnt; n++)
+> +			crc->va[n] = readl(reg + crc->ofs[n]);
+> +
+> +		n = readl(reg + crc->rst_ofs);
+> +
+> +		/* pull reset bit */
+> +		n |= crc->rst_msk;
+> +		writel(n, reg + crc->rst_ofs);
+> +
+> +		/* release reset bit */
+> +		n &= ~crc->rst_msk;
+> +		writel(n, reg + crc->rst_ofs);
+> +	}
+> +#endif
+> +}
+> +
+> +void mtk_drm_crc_destroy(struct mtk_drm_crc *crc)
+> +{
+> +	if (!crc->cnt)
+> +		return;
+> +
+> +#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> +	if (crc->pa) {
+> +		dma_unmap_single(crc->cmdq_client.chan->mbox->dev,
+> +				 crc->pa, crc->cnt * sizeof(*crc->va),
+> +				 DMA_TO_DEVICE);
+> +		crc->pa = 0;
+> +	}
+> +	if (crc->cmdq_client.chan) {
+> +		mtk_drm_cmdq_pkt_destroy(&crc->cmdq_handle);
+> +		mbox_free_channel(crc->cmdq_client.chan);
+> +		crc->cmdq_client.chan = NULL;
+> +	}
+> +#endif
+> +	kfree(crc->va);
+> +	crc->va = NULL;
+> +	crc->cnt = 0;
+> +}
+> +
+> +#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> +void mtk_drm_crc_cmdq_create(struct device *dev, struct mtk_drm_crc *crc)
+> +{
+> +	int i;
+> +
+> +	if (!crc->cnt) {
+> +		dev_warn(dev, "%s: not support\n", __func__);
+> +		goto cleanup;
+> +	}
+> +
+> +	if (!crc->ofs) {
+> +		dev_warn(dev, "%s: not defined\n", __func__);
+> +		goto cleanup;
+> +	}
+> +
+> +	crc->cmdq_client.client.dev = dev;
+> +	crc->cmdq_client.client.tx_block = false;
+> +	crc->cmdq_client.client.knows_txdone = true;
+> +	crc->cmdq_client.client.rx_callback = NULL;
+> +	crc->cmdq_client.chan = mbox_request_channel(&crc->cmdq_client.client, 0);
+> +	if (IS_ERR(crc->cmdq_client.chan)) {
+> +		dev_warn(dev, "%s: failed to create mailbox client\n", __func__);
+> +		crc->cmdq_client.chan = NULL;
+> +		goto cleanup;
+> +	}
+> +
+> +	if (mtk_drm_cmdq_pkt_create(&crc->cmdq_client, &crc->cmdq_handle, PAGE_SIZE)) {
+> +		dev_warn(dev, "%s: failed to create cmdq packet\n", __func__);
+> +		goto cleanup;
+> +	}
+> +
+> +	if (!crc->va) {
+> +		dev_warn(dev, "%s: no memory\n", __func__);
+> +		goto cleanup;
+> +	}
+> +
+> +	/* map the entry to get a dma address for cmdq to store the crc */
+> +	crc->pa = dma_map_single(crc->cmdq_client.chan->mbox->dev,
+> +				 crc->va, crc->cnt * sizeof(*crc->va),
+> +				 DMA_FROM_DEVICE);
+> +
+> +	if (dma_mapping_error(crc->cmdq_client.chan->mbox->dev, crc->pa)) {
+> +		dev_err(dev, "%s: failed to map dma\n", __func__);
+> +		goto cleanup;
+> +	}
+> +
+> +	if (crc->cmdq_event)
+> +		cmdq_pkt_wfe(&crc->cmdq_handle, crc->cmdq_event, true);
+> +
+> +	for (i = 0; i < crc->cnt; i++) {
+> +		/* put crc to spr1 register */
+> +		cmdq_pkt_read_s(&crc->cmdq_handle, crc->cmdq_reg->subsys,
+> +				crc->cmdq_reg->offset + crc->ofs[i],
+> +				CMDQ_THR_SPR_IDX1);
+> +
+> +		/* copy spr1 register to physical address of the crc */
+> +		cmdq_pkt_assign(&crc->cmdq_handle, CMDQ_THR_SPR_IDX0,
+> +				CMDQ_ADDR_HIGH(crc->pa + i * sizeof(*crc->va)));
+> +		cmdq_pkt_write_s(&crc->cmdq_handle, CMDQ_THR_SPR_IDX0,
+> +				 CMDQ_ADDR_LOW(crc->pa + i * sizeof(*crc->va)),
+> +				 CMDQ_THR_SPR_IDX1);
+> +	}
+> +	/* reset crc */
+> +	mtk_ddp_write_mask(&crc->cmdq_handle, ~0, crc->cmdq_reg, 0,
+> +			   crc->rst_ofs, crc->rst_msk);
+> +
+> +	/* clear reset bit */
+> +	mtk_ddp_write_mask(&crc->cmdq_handle, 0, crc->cmdq_reg, 0,
+> +			   crc->rst_ofs, crc->rst_msk);
+> +
+> +	/* jump to head of the cmdq packet */
+> +	cmdq_pkt_jump(&crc->cmdq_handle, crc->cmdq_handle.pa_base);
+> +
+> +	return;
+> +cleanup:
+> +	mtk_drm_crc_destroy(crc);
+> +}
+> +
+> +void mtk_drm_crc_cmdq_start(struct mtk_drm_crc *crc)
+> +{
+> +	if (!crc->cmdq_client.chan)
+> +		return;
+> +
+> +	dma_sync_single_for_device(crc->cmdq_client.chan->mbox->dev,
+> +				   crc->cmdq_handle.pa_base,
+> +				   crc->cmdq_handle.cmd_buf_size,
+> +				   DMA_TO_DEVICE);
+> +	mbox_send_message(crc->cmdq_client.chan, &crc->cmdq_handle);
+> +	mbox_client_txdone(crc->cmdq_client.chan, 0);
+> +}
+> +
+> +void mtk_drm_crc_cmdq_stop(struct mtk_drm_crc *crc)
+> +{
+> +	if (!crc->cmdq_client.chan)
+> +		return;
+> +
+> +	mbox_flush(crc->cmdq_client.chan, 2000);
+> +}
+> +#endif
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.h b/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
+> index 3c224595fa714..0683ec4bc26f6 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
+> @@ -15,6 +15,45 @@
+>  #define MTK_MAX_BPC	10
+>  #define MTK_MIN_BPC	3
+>  
+> +/**
+> + * struct mtk_drm_crc - crc related information
+> + * @ofs: register offset of crc
+> + * @rst_ofs: register offset of crc reset
+> + * @rst_msk: register mask of crc reset
+> + * @cnt: count of crc
+> + * @va: pointer to the start of crc array
+> + * @pa: physical address of the crc for gce to access
+> + * @cmdq_event: the event to trigger the cmdq
+> + * @cmdq_reg: address of the register that cmdq is going to access
+> + * @cmdq_client: handler to control cmdq (mbox channel, thread ...etc.)
+> + * @cmdq_handle: cmdq packet to store the commands
+> + */
+> +struct mtk_drm_crc {
+> +	const u32 *ofs;
+> +	u32 rst_ofs;
+> +	u32 rst_msk;
+> +	size_t cnt;
+> +	u32 *va;
+> +#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> +	dma_addr_t pa;
+> +	u32 cmdq_event;
+> +	struct cmdq_client_reg *cmdq_reg;
+> +	struct cmdq_client cmdq_client;
+> +	struct cmdq_pkt cmdq_handle;
+> +#endif
+> +};
+> +
+> +void mtk_drm_crc_init(struct mtk_drm_crc *crc,
+> +		      const u32 *crc_offset_table, size_t crc_count,
+> +		      u32 reset_offset, u32 reset_mask);
+> +void mtk_drm_crc_read(struct mtk_drm_crc *crc, void __iomem *reg);
+> +void mtk_drm_crc_destroy(struct mtk_drm_crc *crc);
+> +#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> +void mtk_drm_crc_cmdq_create(struct device *dev, struct mtk_drm_crc *crc);
+> +void mtk_drm_crc_cmdq_start(struct mtk_drm_crc *crc);
+> +void mtk_drm_crc_cmdq_stop(struct mtk_drm_crc *crc);
+> +#endif
+> +
+>  void mtk_drm_crtc_commit(struct drm_crtc *crtc);
+>  int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>  			const unsigned int *path,
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> index 215b7234ff13c..231017470607e 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> @@ -87,6 +87,9 @@ struct mtk_ddp_comp_funcs {
+>  	void (*remove)(struct device *dev, struct mtk_mutex *mutex);
+>  	unsigned int (*encoder_index)(struct device *dev);
+>  	enum drm_mode_status (*mode_valid)(struct device *dev, const struct drm_display_mode *mode);
+> +	size_t (*crc_cnt)(struct device *dev);
+> +	u32 *(*crc_entry)(struct device *dev);
+> +	void (*crc_read)(struct device *dev);
+>  };
+>  
+>  struct mtk_ddp_comp {
+> -- 
+> 2.18.0
+> 
 
 -- 
-2.34.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
