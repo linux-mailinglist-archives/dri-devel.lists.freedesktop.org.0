@@ -2,74 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3930A8586C0
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 21:31:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 338EB858782
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 21:57:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1BEC10E296;
-	Fri, 16 Feb 2024 20:31:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD80210E2AF;
+	Fri, 16 Feb 2024 20:57:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Ny0EannU";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="t39jwBu8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4EDC10E296
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 20:31:24 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-1d51ba18e1bso25786355ad.0
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 12:31:24 -0800 (PST)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+ [209.85.208.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D90FF10E10E
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 20:56:54 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-2d0a4e8444dso11795401fa.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 12:56:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1708115483; x=1708720283;
- darn=lists.freedesktop.org; 
+ d=linaro.org; s=google; t=1708117012; x=1708721812; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=t1QGMxYLAPKWTt9tAmquOnzICTheF4ZELz33st39yQM=;
- b=Ny0EannU45R7QqfMNY3B85p8qzpX+jDPOwufOKK0EwBenm8Fz3h8XyqDvCNgN4KrMS
- 6Pywib8EOLFNIVl+p4oUb1hMmhUkywpx53BhtHqLn6jwJGHxT6OriwYVFT78Rld8DTik
- uKQEE+bfUDK2FLKpCy0fs4xUelBssfw6F1o/M=
+ bh=7xYbkxmMMrwdBVoQTAnpcbDCTQJDagUmUMz2Jfts6Ho=;
+ b=t39jwBu8TCODTGFRreIlHyEnZI51NhVQuMrU7BFMbt9VpvsBBFCvTTm+FJhmMfLYyA
+ Ee4KtwobxYB4qJhcXVUI8YYLTjKujCZInD7b3KAV3r7uJ7Po1eVGP6I6KBrK3bKwEn6N
+ 04ABscrBrpPf7pAzcOxUvf6i8Pt/MF4f18AlbMxWt2bq93KcW3QqeaOghv8fpL1XkNRg
+ npKskg6f6i2D2inaNzFiSBa+r8QUIvSNw87jIcEHLZjSYWYH2r+7EE9KJ15i+yZ/Tlmz
+ j/s9RzUG3cJxA8vYi3AvmcAhSE9T3HCXGDZ8vqUiDVkddNh7CH9ISNeO1qtICky6GcaT
+ tPEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708115483; x=1708720283;
+ d=1e100.net; s=20230601; t=1708117012; x=1708721812;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=t1QGMxYLAPKWTt9tAmquOnzICTheF4ZELz33st39yQM=;
- b=F1Cu7SoarPmaov5bvJ4lnkNQfe6PTt1mb5OZVaL4NA2GJ4EDl2jvFtNi1ld5ng5myD
- ++hZsAMMjBdx8P+lz7LFI29753ZZA9TKUsrDeD4lKCFb1kuPE9XP7VfugF8zMvGtLoYN
- DLTGDtxyCm+vL9EaWG8d8mUtkjhSPnPMsMbdEevEUth7vdnIOkqtGMB9XTThJU6qgix3
- Pq89M9S1HSNfCvdUypj9lri+dXNqmkVohlKZoe3Y3lapWUps+bU97abnprXImZAywCp1
- lMX27biBpDblGfjLZgej+K9MGeZ6MJ2eVdoXbEMkioEHLQimdy8+yofW1TVfu9j/f8eH
- 9HEg==
-X-Gm-Message-State: AOJu0Yx7h+yX8gnrcs/7mNPmu81kGIGNWIZZgxtuHyEQpMf/TXbiNaiU
- GdJO52hk3L+/avF/B/0YiOv4mr1aZ7LlgdQu0yKMUaM31/JsWMThtayfCW8jKDiZHRy6z9uhYZs
- chRgW
-X-Google-Smtp-Source: AGHT+IGUbn1iYkQLFfxLEFg8HdmzNiQ64QZ+0XQ0PfIFQHFg5DYWMKahwJDc3Zqky4rFFvT6nDE9PQ==
-X-Received: by 2002:a17:902:d486:b0:1db:b36c:7165 with SMTP id
- c6-20020a170902d48600b001dbb36c7165mr2073885plg.14.1708115483260; 
- Fri, 16 Feb 2024 12:31:23 -0800 (PST)
-Received: from dianders.sjc.corp.google.com
- ([2620:15c:9d:2:b6bd:4419:377:da7a])
+ bh=7xYbkxmMMrwdBVoQTAnpcbDCTQJDagUmUMz2Jfts6Ho=;
+ b=XD/yHSoTIMxJ2kZ/6ZFK8Vh/UR7ith0s8j/AGSpugXxQ5aYmaTxv6MPi6JyPQofdW4
+ SB0rXPsXhDlMLEPwwcr4fFItncxYq01peVYKPBnFLjWpYaQRpi6NWvi0RXDOa+WK8wd8
+ p/oNJgwomX6ovbzvcog1iz8T9AMBiXrQPT/nJSlr+XviwuQxqNp+tcJFZZBrRku98oDJ
+ L1n6l2bRqguHw7bGegIcYuGTVOqGvmd/AkSNNv92gkYpKnDUYCzDkIPM1PnmzELuXaSt
+ N7kRUMRIMWvVMWwLzaEP98o1QOyXdu2+OsPJAbAgtFf/AobM2+krx8zx7vAHlWmAgcyA
+ DrLA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUbosaFRIRaElJs5cmYPfj/BqzesHYec4Q8rHNdLviBJdw04XllGvz1r/NaDDHfQU9wdivW+SSp7im5sDxxMx6iQUS/0ZsqCryDRahXplGj
+X-Gm-Message-State: AOJu0YwqMWXXS1Fql9kV91PNchpHPSHTYt6lcjDIlteIKSQhiPutWWjG
+ eGYq4o7Gl+S/He20+zDKA78dopR486CPaj7uG2TZl9kFCBnXhhb61ecmbL9kiJE=
+X-Google-Smtp-Source: AGHT+IGrTctNJyjUXCP1oMJ5jDQJgWyno/PfTuIM6XxobEQJpt0zug9PyFFoIx4M7PGCeGN1zI14Kw==
+X-Received: by 2002:a05:651c:11c7:b0:2d2:1bf2:ec5a with SMTP id
+ z7-20020a05651c11c700b002d21bf2ec5amr1563846ljo.35.1708117011926; 
+ Fri, 16 Feb 2024 12:56:51 -0800 (PST)
+Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- f19-20020a170902e99300b001d944b3c5f1sm256966plb.178.2024.02.16.12.31.22
+ l13-20020a2e99cd000000b002d2236952b1sm73758ljj.121.2024.02.16.12.56.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Feb 2024 12:31:22 -0800 (PST)
-From: Douglas Anderson <dianders@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Cc: Stephen Boyd <swboyd@chromium.org>,
- Douglas Anderson <dianders@chromium.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Fri, 16 Feb 2024 12:56:51 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/panel: boe-tv101wum-nl6: make use of prepare_prev_first
-Date: Fri, 16 Feb 2024 12:31:12 -0800
-Message-ID: <20240216123111.1.I71c103720909790e1ec5a3f5bd96b18ab7b596fa@changeid>
-X-Mailer: git-send-email 2.44.0.rc0.258.g7320e95886-goog
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Helen Koike <helen.koike@collabora.com>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org
+Subject: [PATCH] drm/ci: skip suspend tests for both msm-sc7180 machines
+Date: Fri, 16 Feb 2024 22:56:50 +0200
+Message-Id: <20240216205650.2446153-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,39 +84,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The panel on sc7180-trogdor-wormdingler and
-sc7180-trogdor-quackingstick hasn't been coming up since commit
-9e15123eca79 ("drm/msm/dsi: Stop unconditionally powering up DSI hosts
-at modeset"). Let's add "prepare_prev_first" as has been done for many
-other DSI panels.
+The commit ea489a3d983b ("drm/ci: add sc7180-trogdor-kingoftown")
+dropped the msm-sc7180-skips.txt file, which disabled suspend-to-RAM
+tests. However testing shows that STR tests still can fail. Restore the
+skiplist, applying it to both limozeen and kingoftown machines.
 
-Fixes: 9e15123eca79 ("drm/msm/dsi: Stop unconditionally powering up DSI hosts at modeset")
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
+Fixes: ea489a3d983b ("drm/ci: add sc7180-trogdor-kingoftown")
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-This of course gets into debates about getting a nicer solution that
-doesn't involve adding "prepare_prev_first" to every DSI panel out
-there, maybe building on Dmitry's work [1]. While it would be nice if
-we could get there, getting this landed is easy to backport to stable
-trees and gets the panel working again.
+ .../gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-skips.txt   | 2 ++
+ .../drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-skips.txt   | 2 ++
+ 2 files changed, 4 insertions(+)
+ create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-skips.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-skips.txt
 
-[1] https://lore.kernel.org/r/20231016165355.1327217-4-dmitry.baryshkov@linaro.org
-
- drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-index c4c0f08e9202..bc08814954f9 100644
---- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-+++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-@@ -1871,6 +1871,8 @@ static int boe_panel_add(struct boe_panel *boe)
- 
- 	gpiod_set_value(boe->enable_gpio, 0);
- 
-+	boe->base.prepare_prev_first = true;
-+
- 	drm_panel_init(&boe->base, dev, &boe_panel_funcs,
- 		       DRM_MODE_CONNECTOR_DSI);
- 	err = of_drm_get_panel_orientation(dev->of_node, &boe->orientation);
+diff --git a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-skips.txt b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-skips.txt
+new file mode 100644
+index 000000000000..327039f70252
+--- /dev/null
++++ b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-skips.txt
+@@ -0,0 +1,2 @@
++# Suspend to RAM seems to be broken on this machine
++.*suspend.*
+diff --git a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-skips.txt b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-skips.txt
+new file mode 100644
+index 000000000000..327039f70252
+--- /dev/null
++++ b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-skips.txt
+@@ -0,0 +1,2 @@
++# Suspend to RAM seems to be broken on this machine
++.*suspend.*
 -- 
-2.44.0.rc0.258.g7320e95886-goog
+2.39.2
 
