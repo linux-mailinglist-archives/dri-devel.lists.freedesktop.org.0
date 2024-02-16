@@ -2,64 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30965857959
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 10:52:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECDEB8579C4
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 11:02:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7369A10E1C1;
-	Fri, 16 Feb 2024 09:52:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CE0C10EAE3;
+	Fri, 16 Feb 2024 10:02:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="c9JY2yn4";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="p9owmrwI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EBF210E187;
- Fri, 16 Feb 2024 09:52:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708077124; x=1739613124;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=1DmYPShGc1WqUllF/gBgHGJAcAVWQWXf2YSAvLKPay0=;
- b=c9JY2yn4aIqQXuMhK47puFQnbOrYO7GPCZliex8X34k7QMZ+ypIMo7xQ
- HR0ifF53J9uQDmXMJCjl3DINRTTD3QGZW+QzU8RuUGlqmq4E9TebCs+6z
- mwUhQZjWeEVbMFKG47hq5t4Xo4ESCkfgEv/TfOsUCMiH7ZSNY2r0qqLnA
- eZoEYiHC1UuLQ3GAfbev2ONpGDdoMuJzPgCEvtMCndAAXVlZpR/OL8Is5
- lblJKPTF0OfAjd6dyxOMHrWy20s8NnP/7O42TBJT2YKG1O9jmY8zzyrMU
- NwmnneuZ9RlBuGwGTKo1g6Po2SX8kV6ddKeDtLI9aIRyxDdu7k+apxV36 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="13305123"
-X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; d="scan'208";a="13305123"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2024 01:52:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="935815479"
-X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; d="scan'208";a="935815479"
-Received: from pshishpo-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.48.79])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2024 01:51:57 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
- <tvrtko.ursulin@linux.intel.com>
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, robdclark@gmail.com,
- freedreno@lists.freedesktop.org, dmitry.baryshkov@linaro.org,
- intel-gfx@lists.freedesktop.org, ville.syrjala@linux.intel.com,
- quic_jesszhan@quicinc.com, linux-kernel@vger.kernel.org,
- intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH v2] drm/dp: move intel_dp_vsc_sdp_pack() to generic helper
-In-Reply-To: <20240215190834.3222812-1-quic_abhinavk@quicinc.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240215190834.3222812-1-quic_abhinavk@quicinc.com>
-Date: Fri, 16 Feb 2024 11:51:54 +0200
-Message-ID: <87eddc4tz9.fsf@intel.com>
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2044.outbound.protection.outlook.com [40.107.93.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD41E10EAD8;
+ Fri, 16 Feb 2024 10:02:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SuIsCsGdIK3H3CwNfRdUrm5jDqw4J4DGm9F4Kv97uNwaLPKFcD91KvSchz/gXcPyIe+iSRe+xc1OV9yiOxAV6EIVgsX5qVEXT4vEZ2j2XBY4pzORn7vqEiphFmJk2GtvynkqhppzB8CHE8yWc/QHrBIifOuCpvOyaL2V6XjOcAQRZe+g5wn1kJgXjtGO5JNWL1cMmCxlWGxzSuvl7ucVwWbl+TtnEz5L1cLXlLRK1z7ezmOcj78kUVWiD4eTVTtE1EIwf0kmTc488SMQV/CramaFt75GunqzCwZlmHJMZTQXcor01qFzXqutKQtSZHUK/PpiCLhILVB6UFdK5l+7zw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Z/xcixKgnLNo5NyGN37eGiMo+OVvkM+2G77a5CFkEes=;
+ b=NB9pho5Zk6SSUBSbwzi42IDZow/d7RW+PIgRnTYpmdZPiqr3fY3A21bTC+s04hZ2OBAdU0ZfX4H++M/Th6qAs1tWRrYkcrA0I+C0w9EY6x0M3wY1hhDov17l2kTp7xehJjRSwp27va17+Lj3+Raoif18nfzCDm71zhILINHZ9q6q0flI0y5dwTZWPVsVXinLiAQktrippYIc+JOUn6RNRAtAICQYfVK3f0M8YFqtKR5eRXTZJTqOQu7m2UuigFBS6jvQzSpi9Kaa09XKu+x9N9NuRp1JbhnxPu1pcenYJgAPCdMOqhtAxkafpujNTRrM+Sryd4XfdO4Ir1hUl0vqwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z/xcixKgnLNo5NyGN37eGiMo+OVvkM+2G77a5CFkEes=;
+ b=p9owmrwIqHr4kmbtjpoDIKZf0M/z74+mOHXK+NVfUbv22gtONw16xlor1CEtZOgiyfRChEwXmfkesUUCJae/sljNl02Miw34B5aZr/9BiISKz2GRGb3ZuF7O/VLWIVmYNyxHGsdaoZo4wlsX9I53dOS/vbYUjYQULHlx/ldo+u8=
+Received: from BY3PR10CA0001.namprd10.prod.outlook.com (2603:10b6:a03:255::6)
+ by BL3PR12MB6570.namprd12.prod.outlook.com (2603:10b6:208:38d::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.31; Fri, 16 Feb
+ 2024 10:02:23 +0000
+Received: from SJ1PEPF00001CE7.namprd03.prod.outlook.com
+ (2603:10b6:a03:255:cafe::56) by BY3PR10CA0001.outlook.office365.com
+ (2603:10b6:a03:255::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.26 via Frontend
+ Transport; Fri, 16 Feb 2024 10:02:23 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SJ1PEPF00001CE7.mail.protection.outlook.com (10.167.242.23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7292.25 via Frontend Transport; Fri, 16 Feb 2024 10:02:22 +0000
+Received: from amd-X570-AORUS-ELITE.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 16 Feb 2024 04:02:19 -0600
+From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>
+CC: <christian.koenig@amd.com>, <alexander.deucher@amd.com>,
+ <matthew.auld@intel.com>, <mario.limonciello@amd.com>, <spasswolf@web.de>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ <stable@vger.kernel.org>
+Subject: [PATCH] drm/buddy: Modify duplicate list_splice_tail call
+Date: Fri, 16 Feb 2024 15:30:48 +0530
+Message-ID: <20240216100048.4101-1-Arunpravin.PaneerSelvam@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE7:EE_|BL3PR12MB6570:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5b46a83d-cea3-4a8b-5381-08dc2ed65ec4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: OOvDl0mSWU0RAsUe2ySFo2cp8dau3RoiDp5jcDTmpxVP2riUJA0CT1oDvZ4wX0RhlpxKiwZhJmcVBZKq/mwo1qmlwYEZJvjKMW62pBGckfJQ8oo7GiNcIVl9vIsMR5c4GEz1V6XqnMS0LN90crSLJU/+HSaiH8lPeMZI6uv+NH7A6MN6lri6a8ynofd8nNdSfoCdxDpCgucdj3HpFC+HtcRxXQtnD3EY7QUyAeRJYHXIhjCMVFQpFbMcsTOI9Mf2GfUnmUO/BLqOCnsD+aYNW7Ad1v4aGnRma1vLtsMKPlFw1CxUNqm0ybNkS13q8/lK0jHX+d3gy6PdDYH575aVvLrpmJ1D4X24wRrkDghdsQJ1Ykbpqlmu61HeKtgGBhVvNKERlalI/Bo66PGI+EGEYi9oP+wWbpwhgYdRQZC6Qubq9rJC2LJiyX5fyqqt2qgm2fsviUBzgMkdrTnc99mE90kWIvrFTCkdSjDxq11SJfJN4UcEXvgRPz7xvAcFwzdz3EBjqjxI/8ZuT4nZIqPTp0gAkzQIfRNzysNkaij3lVkIpsR29lXmutXWQ/BdKM4DbjhZQur0F+Bcx5q8+vAz6z163AtErnmSODYjqweBz8zPvXn6uE/QnCf5K8Fq6XwnxkR6nD5NGzzIuBnmjAYqlgwGqelST+4NYuFMlV2g63I=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(4636009)(376002)(136003)(396003)(39860400002)(346002)(230922051799003)(451199024)(82310400011)(1800799012)(36860700004)(186009)(64100799003)(40470700004)(46966006)(2906002)(83380400001)(6666004)(316002)(426003)(2616005)(478600001)(7696005)(4326008)(8936002)(110136005)(8676002)(336012)(4744005)(41300700001)(70206006)(5660300002)(26005)(70586007)(54906003)(1076003)(16526019)(82740400003)(356005)(81166007)(86362001)(36756003);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2024 10:02:22.6321 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b46a83d-cea3-4a8b-5381-08dc2ed65ec4
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00001CE7.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6570
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,214 +109,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 15 Feb 2024, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> intel_dp_vsc_sdp_pack() can be re-used by other DRM drivers as well.
-> Lets move this to drm_dp_helper to achieve this.
->
-> changes in v2:
-> 	- rebased on top of drm-tip
->
-> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Remove the duplicate list_splice_tail call when the
+total_allocated < size condition is true.
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
+Cc: <stable@vger.kernel.org> # 6.7+
+Fixes: 8746c6c9dfa3 ("drm/buddy: Fix alloc_range() error handling code")
+Reported-by: Bert Karwatzki <spasswolf@web.de>
+Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+---
+ drivers/gpu/drm/drm_buddy.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> ---
->  drivers/gpu/drm/display/drm_dp_helper.c | 78 +++++++++++++++++++++++++
->  drivers/gpu/drm/i915/display/intel_dp.c | 71 +---------------------
->  include/drm/display/drm_dp_helper.h     |  3 +
->  3 files changed, 83 insertions(+), 69 deletions(-)
->
-> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-> index 8d6ce46471ae..6c91f400ecb1 100644
-> --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> @@ -2913,6 +2913,84 @@ void drm_dp_vsc_sdp_log(struct drm_printer *p, const struct drm_dp_vsc_sdp *vsc)
->  }
->  EXPORT_SYMBOL(drm_dp_vsc_sdp_log);
->  
-> +/**
-> + * drm_dp_vsc_sdp_pack() - pack a given vsc sdp into generic dp_sdp
-> + * @vsc: vsc sdp initialized according to its purpose as defined in
-> + *       table 2-118 - table 2-120 in DP 1.4a specification
-> + * @sdp: valid handle to the generic dp_sdp which will be packed
-> + * @size: valid size of the passed sdp handle
-> + *
-> + * Returns length of sdp on success and error code on failure
-> + */
-> +ssize_t drm_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
-> +			    struct dp_sdp *sdp, size_t size)
-> +{
-> +	size_t length = sizeof(struct dp_sdp);
-> +
-> +	if (size < length)
-> +		return -ENOSPC;
-> +
-> +	memset(sdp, 0, size);
-> +
-> +	/*
-> +	 * Prepare VSC Header for SU as per DP 1.4a spec, Table 2-119
-> +	 * VSC SDP Header Bytes
-> +	 */
-> +	sdp->sdp_header.HB0 = 0; /* Secondary-Data Packet ID = 0 */
-> +	sdp->sdp_header.HB1 = vsc->sdp_type; /* Secondary-data Packet Type */
-> +	sdp->sdp_header.HB2 = vsc->revision; /* Revision Number */
-> +	sdp->sdp_header.HB3 = vsc->length; /* Number of Valid Data Bytes */
-> +
-> +	if (vsc->revision == 0x6) {
-> +		sdp->db[0] = 1;
-> +		sdp->db[3] = 1;
-> +	}
-> +
-> +	/*
-> +	 * Revision 0x5 and revision 0x7 supports Pixel Encoding/Colorimetry
-> +	 * Format as per DP 1.4a spec and DP 2.0 respectively.
-> +	 */
-> +	if (!(vsc->revision == 0x5 || vsc->revision == 0x7))
-> +		goto out;
-> +
-> +	/* VSC SDP Payload for DB16 through DB18 */
-> +	/* Pixel Encoding and Colorimetry Formats  */
-> +	sdp->db[16] = (vsc->pixelformat & 0xf) << 4; /* DB16[7:4] */
-> +	sdp->db[16] |= vsc->colorimetry & 0xf; /* DB16[3:0] */
-> +
-> +	switch (vsc->bpc) {
-> +	case 6:
-> +		/* 6bpc: 0x0 */
-> +		break;
-> +	case 8:
-> +		sdp->db[17] = 0x1; /* DB17[3:0] */
-> +		break;
-> +	case 10:
-> +		sdp->db[17] = 0x2;
-> +		break;
-> +	case 12:
-> +		sdp->db[17] = 0x3;
-> +		break;
-> +	case 16:
-> +		sdp->db[17] = 0x4;
-> +		break;
-> +	default:
-> +		WARN(1, "Missing case %d\n", vsc->bpc);
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* Dynamic Range and Component Bit Depth */
-> +	if (vsc->dynamic_range == DP_DYNAMIC_RANGE_CTA)
-> +		sdp->db[17] |= 0x80;  /* DB17[7] */
-> +
-> +	/* Content Type */
-> +	sdp->db[18] = vsc->content_type & 0x7;
-> +
-> +out:
-> +	return length;
-> +}
-> +EXPORT_SYMBOL(drm_dp_vsc_sdp_pack);
-> +
->  /**
->   * drm_dp_get_pcon_max_frl_bw() - maximum frl supported by PCON
->   * @dpcd: DisplayPort configuration data
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> index 217196196e50..a9458df475e2 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -4089,73 +4089,6 @@ intel_dp_needs_vsc_sdp(const struct intel_crtc_state *crtc_state,
->  	return false;
->  }
->  
-> -static ssize_t intel_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
-> -				     struct dp_sdp *sdp, size_t size)
-> -{
-> -	size_t length = sizeof(struct dp_sdp);
-> -
-> -	if (size < length)
-> -		return -ENOSPC;
-> -
-> -	memset(sdp, 0, size);
-> -
-> -	/*
-> -	 * Prepare VSC Header for SU as per DP 1.4a spec, Table 2-119
-> -	 * VSC SDP Header Bytes
-> -	 */
-> -	sdp->sdp_header.HB0 = 0; /* Secondary-Data Packet ID = 0 */
-> -	sdp->sdp_header.HB1 = vsc->sdp_type; /* Secondary-data Packet Type */
-> -	sdp->sdp_header.HB2 = vsc->revision; /* Revision Number */
-> -	sdp->sdp_header.HB3 = vsc->length; /* Number of Valid Data Bytes */
-> -
-> -	if (vsc->revision == 0x6) {
-> -		sdp->db[0] = 1;
-> -		sdp->db[3] = 1;
-> -	}
-> -
-> -	/*
-> -	 * Revision 0x5 and revision 0x7 supports Pixel Encoding/Colorimetry
-> -	 * Format as per DP 1.4a spec and DP 2.0 respectively.
-> -	 */
-> -	if (!(vsc->revision == 0x5 || vsc->revision == 0x7))
-> -		goto out;
-> -
-> -	/* VSC SDP Payload for DB16 through DB18 */
-> -	/* Pixel Encoding and Colorimetry Formats  */
-> -	sdp->db[16] = (vsc->pixelformat & 0xf) << 4; /* DB16[7:4] */
-> -	sdp->db[16] |= vsc->colorimetry & 0xf; /* DB16[3:0] */
-> -
-> -	switch (vsc->bpc) {
-> -	case 6:
-> -		/* 6bpc: 0x0 */
-> -		break;
-> -	case 8:
-> -		sdp->db[17] = 0x1; /* DB17[3:0] */
-> -		break;
-> -	case 10:
-> -		sdp->db[17] = 0x2;
-> -		break;
-> -	case 12:
-> -		sdp->db[17] = 0x3;
-> -		break;
-> -	case 16:
-> -		sdp->db[17] = 0x4;
-> -		break;
-> -	default:
-> -		MISSING_CASE(vsc->bpc);
-> -		break;
-> -	}
-> -	/* Dynamic Range and Component Bit Depth */
-> -	if (vsc->dynamic_range == DP_DYNAMIC_RANGE_CTA)
-> -		sdp->db[17] |= 0x80;  /* DB17[7] */
-> -
-> -	/* Content Type */
-> -	sdp->db[18] = vsc->content_type & 0x7;
-> -
-> -out:
-> -	return length;
-> -}
-> -
->  static ssize_t
->  intel_dp_hdr_metadata_infoframe_sdp_pack(struct drm_i915_private *i915,
->  					 const struct hdmi_drm_infoframe *drm_infoframe,
-> @@ -4248,8 +4181,8 @@ static void intel_write_dp_sdp(struct intel_encoder *encoder,
->  
->  	switch (type) {
->  	case DP_SDP_VSC:
-> -		len = intel_dp_vsc_sdp_pack(&crtc_state->infoframes.vsc, &sdp,
-> -					    sizeof(sdp));
-> +		len = drm_dp_vsc_sdp_pack(&crtc_state->infoframes.vsc, &sdp,
-> +					  sizeof(sdp));
->  		break;
->  	case HDMI_PACKET_TYPE_GAMUT_METADATA:
->  		len = intel_dp_hdr_metadata_infoframe_sdp_pack(dev_priv,
-> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-> index d02014a87f12..8474504d4c88 100644
-> --- a/include/drm/display/drm_dp_helper.h
-> +++ b/include/drm/display/drm_dp_helper.h
-> @@ -812,4 +812,7 @@ int drm_dp_bw_overhead(int lane_count, int hactive,
->  		       int bpp_x16, unsigned long flags);
->  int drm_dp_bw_channel_coding_efficiency(bool is_uhbr);
->  
-> +ssize_t drm_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
-> +			    struct dp_sdp *sdp, size_t size);
-> +
->  #endif /* _DRM_DP_HELPER_H_ */
+diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+index c1a99bf4dffd..c4222b886db7 100644
+--- a/drivers/gpu/drm/drm_buddy.c
++++ b/drivers/gpu/drm/drm_buddy.c
+@@ -538,13 +538,13 @@ static int __alloc_range(struct drm_buddy *mm,
+ 		list_add(&block->left->tmp_link, dfs);
+ 	} while (1);
+ 
+-	list_splice_tail(&allocated, blocks);
+-
+ 	if (total_allocated < size) {
+ 		err = -ENOSPC;
+ 		goto err_free;
+ 	}
+ 
++	list_splice_tail(&allocated, blocks);
++
+ 	return 0;
+ 
+ err_undo:
 
+base-commit: a64056bb5a3215bd31c8ce17d609ba0f4d5c55ea
 -- 
-Jani Nikula, Intel
+2.25.1
+
