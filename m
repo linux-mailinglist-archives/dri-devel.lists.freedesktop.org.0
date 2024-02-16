@@ -2,63 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C67C6857871
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 10:05:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA30857893
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 10:10:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FC3A10E7E3;
-	Fri, 16 Feb 2024 09:05:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F5BD10E50B;
+	Fri, 16 Feb 2024 09:10:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UM8xGeTM";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aQh742IY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C437F10E4E9
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 09:05:31 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 10B2661DC7;
- Fri, 16 Feb 2024 09:05:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E738C433F1;
- Fri, 16 Feb 2024 09:05:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1708074330;
- bh=f2wh1QsEa1UsaNBdVYAdNAwqa6OdTmucGngu4R41lrA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UM8xGeTMH6VNRn/x6xgWIILBOdW34CH016Ah5Pr6BtdNOWDTxVNYW7CVYcjQKnx1C
- oB5UPpxsHWVvIdjJAzVtSMQU2V2sCRbbA6okH2gzQqM55bJNyurZ3V9m16wNQKzcBI
- xbQtyywF85B8kP55MK6T9GMZz7OIE1VF9jlrqZIqGRCJtOAENKRua7ITqvH084oTdk
- CDH6T1WPnCSGYlp+hP7LCiw/y4DJMdkWXLlPbc6xuwQ9znxLEFkxNFw2mVujk9oxsf
- Bxykp6LgWXWczNPjJYc/nkNtzxQrkhiFcXBVqjWJeIYl4mYek0RVZel6m0MKgL3F6i
- gj/V8zESMI34A==
-Date: Fri, 16 Feb 2024 10:05:27 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Adam Ford <aford173@gmail.com>, 
- Geert Uytterhoeven <geert@linux-m68k.org>, Frank Binns <frank.binns@imgtec.com>,
- Matt Coster <matt.coster@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Sarah Walker <sarah.walker@imgtec.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- Javier Martinez Canillas <javierm@redhat.com>, Nishanth Menon <nm@ti.com>, 
- Marek Vasut <marek.vasut@mailbox.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: RE: [PATCH v2] drm/imagination: DRM_POWERVR should depend on
- ARCH_K3
-Message-ID: <nzrkujogauvn262ucxippwidyub6ikcohcjpbpn4hzj7rymctm@4owntgrmcquf>
-References: <6be2558b8462fc08095c24c9257563ab5f3ae013.1708001398.git.geert+renesas@glider.be>
- <kycepdxukfsww3tnxoo5hoiuo3vcgpqqmynokzhtl4vodgm6zc@ih4uhw7gz4jh>
- <CAMuHMdVf7ophCwKt-n_N-LBHV4+t14Gjb4d1O0T8FDk_9xMFtA@mail.gmail.com>
- <CAHCN7xJ65RP8TO7cS0p5DwE6zru5NEF0_JA+8siT_OpSeLD7pA@mail.gmail.com>
- <CAHCN7x+EnSU8qk5dBFco=0vkeknGq18qEN7vFmZs0_q83T_3+w@mail.gmail.com>
- <CAHCN7xKffJ29zyjoJVAcy3b_d=-zkFzbL=URj4yWJWzYvRdB_Q@mail.gmail.com>
- <TYCPR01MB11269CBE8429A31DE5002A5A5864C2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCE9210EAB8
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 09:10:16 +0000 (UTC)
+Received: from [192.168.88.20] (91-154-35-128.elisa-laajakaista.fi
+ [91.154.35.128])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2E9CD6B3;
+ Fri, 16 Feb 2024 10:10:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1708074611;
+ bh=pX7JMjia3f8IZ1xtc+dpQB+HCwVwI4T6Gmsse1DOXaw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=aQh742IYvoolK5My4S/EJjipf+woHXwjn4yjaGmX27lEBVKGvvpacJ6xqq+EfJkFh
+ z0FyP+tzzgul10HWShWvt480LwPLl1DWtPxavxyJJFe7pOASWnF01dIX5nMvE7R/bj
+ LDVnz63UN/SArXeL3/+Dg8wcS384p+gNMC61h/ZI=
+Message-ID: <b2052bc9-b2da-489b-9e5b-3c9b4f6c1c99@ideasonboard.com>
+Date: Fri, 16 Feb 2024 11:10:11 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="7qyxpf6ga5atuhgo"
-Content-Disposition: inline
-In-Reply-To: <TYCPR01MB11269CBE8429A31DE5002A5A5864C2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] drm/bridge: tc358767: Fix
+ DRM_BRIDGE_ATTACH_NO_CONNECTOR case
+Content-Language: en-US
+To: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Aradhya Bhatia <a-bhatia1@ti.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ marex@denx.de, Jan Kiszka <jan.kiszka@siemens.com>
+Cc: linux-kernel@vger.kernel.org
+References: <20231108-tc358767-v2-0-25c5f70a2159@ideasonboard.com>
+ <f6af46e0-aadb-450a-9349-eec1337ea870@ti.com>
+ <2f3bb86b-6f8c-4807-985e-344a0c47864c@siemens.com>
+ <3277848.aeNJFYEL58@steina-w>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <3277848.aeNJFYEL58@steina-w>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,102 +111,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 15/02/2024 11:03, Alexander Stein wrote:
+> Hi everyone,
+> 
+> Am Donnerstag, 15. Februar 2024, 09:53:54 CET schrieb Jan Kiszka:
+>> On 11.12.23 09:07, Aradhya Bhatia wrote:
+>>> On 06/12/23 17:41, Tomi Valkeinen wrote:
+>>>> Hi,
+>>>>
+>>>> On 08/11/2023 14:45, Alexander Stein wrote:
+>>>>> Hi Tomi,
+>>>>>
+>>>>> Am Mittwoch, 8. November 2023, 12:27:21 CET schrieb Tomi Valkeinen:
+>>>>>> These two patches are needed to make tc358767 work in the
+>>>>>> DRM_BRIDGE_ATTACH_NO_CONNECTOR case, at least when using a DP
+>>>>>> connector.
+>>>>>>
+>>>>>> I have tested this with TI AM654 EVM with a tc358767 add-on card
+>>>>>> connected to a DP monitor.
+>>>>>
+>>>>> Just a question regarding the usage of this DSI-DP bridge.
+>>>>> What is the state of the DSI lanes after the DSI host has been
+>>>>> initialized,
+>>>>> but before calling atomic_pre_enable? AFAIK this bridge requires LP-11
+>>>>> on DSI
+>>>>> at any time for accessing the AUX channel.
+>>>
+>>> + Marek
+>>>
+>>> Marek, Alexander,
+>>>
+>>> A quick grep tells me that you have added devicetree for tc358767 in DSI
+>>> to (e)DP mode on other platforms. Could you please test these patches
+>>> and report if you find any issue?
+> 
+> Sorry, I can't provide any feedback here. I've yet to setup the DSI-DP
+> correctly.
 
---7qyxpf6ga5atuhgo
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ok. Does anyone have a worry that these patches make the situation worse 
+for the DSI case than it was before? Afaics, if the DSI lanes are not 
+set up early enough by the DSI host, the driver would break with and 
+without these patches.
 
-On Fri, Feb 16, 2024 at 08:47:46AM +0000, Biju Das wrote:
-> Hi Adam Ford,
->=20
-> > -----Original Message-----
-> > From: Adam Ford <aford173@gmail.com>
-> > Sent: Thursday, February 15, 2024 11:36 PM
-> > Subject: Re: [PATCH v2] drm/imagination: DRM_POWERVR should depend on
-> > ARCH_K3
-> >=20
-> > On Thu, Feb 15, 2024 at 11:22=E2=80=AFAM Adam Ford <aford173@gmail.com>=
- wrote:
-> > >
-> > > On Thu, Feb 15, 2024 at 11:10=E2=80=AFAM Adam Ford <aford173@gmail.co=
-m> wrote:
-> > > >
-> > > > On Thu, Feb 15, 2024 at 10:54=E2=80=AFAM Geert Uytterhoeven
-> > > > <geert@linux-m68k.org> wrote:
-> > > > >
-> > > > > Hi Maxime,
-> > > > >
-> > > > > On Thu, Feb 15, 2024 at 5:18=E2=80=AFPM Maxime Ripard <mripard@ke=
-rnel.org>
-> > wrote:
-> > > > > > On Thu, Feb 15, 2024 at 01:50:09PM +0100, Geert Uytterhoeven
-> > wrote:
-> > > > > > > Using the Imagination Technologies PowerVR Series 6 GPU
-> > > > > > > requires a proprietary firmware image, which is currently only
-> > > > > > > available for Texas Instruments K3 AM62x SoCs.  Hence add a
-> > > > > > > dependency on ARCH_K3, to prevent asking the user about this
-> > > > > > > driver when configuring a kernel without Texas Instruments K3
-> > Multicore SoC support.
-> > > > > >
-> > > > > > This wasn't making sense the first time you sent it, and now
-> > > > > > that commit log is just plain wrong. We have firmwares for the
-> > > > > > G6110, GX6250, GX6650, BXE-4-32, and BXS-4-64 models, which can
-> > > > > > be found on (at least) Renesas, Mediatek, Rockchip, TI and
-> > > > > > StarFive, so across three
-> > > > >
-> > > > > I am so happy to be proven wrong!
-> > > > > Yeah, GX6650 is found on e.g. R-Car H3, and GX6250 on e.g. R-Car =
-M3-
-> > W.
-> > > > >
-> > > > > > architectures and 5 platforms. In two months.
-> > > > >
-> > > > > That sounds like great progress, thanks a lot!
-> > > > >
-> > > > Geert,
-> > > >
-> > > > > Where can I find these firmwares? Linux-firmware[1] seems to lack
-> > > > > all but the original K3 AM62x one.
-> > > >
-> > > > I think PowerVR has a repo [1], but the last time I checked it, the
-> > > > BVNC for the firmware didn't match what was necessary for the GX6250
-> > > > on the RZ/G2M.  I can't remember what the corresponding R-Car3 model
-> > > > is.  I haven't tried recently because I was told more documentation
-> > > > for firmware porting would be delayed until everything was pushed
-> > > > into the kernel and Mesa.  Maybe there is a better repo and/or newer
-> > > > firmware somewhere else.
-> > > >
-> > > I should have doubled checked the repo contents before I sent my last
-> > > e-mail , but it appears the firmware  [2] for the RZ/G2M, might be
-> > > present now. I don't know if there are driver updates necessary. I
-> > > checked my e-mails, but I didn't see any notification, or I would have
-> > > tried it earlier.  Either way, thank you Frank for adding it.  I'll
-> > > try to test when I have some time.
-> > >
-> >=20
-> > I don't have the proper version of Mesa setup yet, but for what it's
-> > worth, the firmware loads without error, and it doesn't hang.
->=20
-> Based on [1] and [2],
->=20
-> kmscube should work on R-Car as it works on RZ/G2L with panfrost as earli=
-er version of RZ/G2L
-> which uses drm based on RCar-Du, later changed to rzg2l-du.
+These do fix the driver for DRM_BRIDGE_ATTACH_NO_CONNECTOR and DPI, so 
+I'd like to merge these unless these cause a regression with the DSI case.
 
-IIRC, the mesa support isn't there yet for kmscube to start.
+  Tomi
 
-Maxime
-
---7qyxpf6ga5atuhgo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZc8lVgAKCRDj7w1vZxhR
-xepyAQCELyUwolN79rHm8W/imYO1o+sXScI/7WVY7KyqlDvzfwD/af+pQ1kUutaA
-1pOy7cp+cy96j/y6GiXH461qSXg2GAQ=
-=qTsf
------END PGP SIGNATURE-----
-
---7qyxpf6ga5atuhgo--
