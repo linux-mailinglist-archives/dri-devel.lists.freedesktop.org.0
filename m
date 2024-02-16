@@ -2,80 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DDE18582B0
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 17:37:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62A378582B2
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 17:37:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F43E10E054;
-	Fri, 16 Feb 2024 16:37:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB25010EC2F;
+	Fri, 16 Feb 2024 16:37:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="bWeBw4WU";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="fwfYTuwe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4460210E054
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 16:37:11 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41GCorNt007416; Fri, 16 Feb 2024 16:37:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=s0DCTqRrSpQgH0PxwytwPBrC7NH+2iJcIR4BOPyjtQE=; b=bW
- eBw4WUbkoxm96EpjFCtL/M9oOmLECXtvcIDwfVeSHTwfYs0Hq1Sw7uq1+4Ydyqf+
- RKoS7KzcEBERvHUY26JSIW3IPNSqZgGVdEw6HRxixG4rYHZQ6TudjLtzjLO/fuJs
- Pvz0lCDVmYGGru02PNCqttZKhU88vd+2hv3uL4m1G0EfGB6eyTemhUZN9yUqtVlq
- PGJoFWJNeQEnXGAsiZyJ5e97IDspGMDC7+joo9ENkTq4Ocvssu5EI/XQmGdqWyw9
- 2kxM9+SHqC+Owpq1f4oTTo+k6UBH+YgQxHpA3MPkG6HE9HO257BSdoZV7aoSpBkt
- M5FmTIswQ8Auyv7h2Inw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w9fkfc2e1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Feb 2024 16:37:07 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41GGb51i001730
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Feb 2024 16:37:05 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 16 Feb
- 2024 08:37:05 -0800
-Message-ID: <c7f853e6-c3b5-0d70-535d-4c3ee6ffed77@quicinc.com>
-Date: Fri, 16 Feb 2024 09:37:04 -0700
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3191010E677
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 16:37:28 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-2d12bdd9a64so7963051fa.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 08:37:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1708101446; x=1708706246; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=2BJidT3hS5vkgQ0xTVUzjojqrGFxsDATBuEs0RRAQ6o=;
+ b=fwfYTuwevGkkvJTj/b3/b5xmMoPeqnYJspWmhOroZNeN8fQFpja0NavaOqwS3yc8Km
+ MZ150fYaTVnVZ27Vb47u2gYXDcjlYtgJDHubxb/JZgWLPswCWkThwQvVWV+bWTEMEH0I
+ HevTbrYFMtXe4jrNinjCGYugH2l4NZ0MykXx0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708101446; x=1708706246;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2BJidT3hS5vkgQ0xTVUzjojqrGFxsDATBuEs0RRAQ6o=;
+ b=rLVZkhmFTIBZutm0idVvFUUkg5Umwg/h/rvLcjGGjoXwfY36eM3b+HYVDX2Y70Ob8X
+ hTbvk/Us6TrPjlvB/bc1zFqjELhZgJbcq2vNjxGWuR0akuj7dHwaJ+tfJgcijQ8kayX5
+ kg++aukT6/6Q8Xvnx1FgHeF2F+8dCWO8KtHeafu+tUlmckmdAOGJycu4+NCASH3GqbUX
+ FQWONPBXtHYuz0zgLj3adiPcR4vC0FelxW2Kk7R7bJqaYvdCuVKNWEbI2Xs/pChtuUCn
+ QtW8Oq6a9/SK4Sf4xxY1EYWHzIdJV3ZZfs8lTQkKg0PNq9F31T6npE3jC8arlMC6Wadl
+ StUg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV0nzGZx2s2TVRpCHVK5FvXW+peunIPByhnGnl0hwlG6Sz+Gg2OX/Dm+ZyJfEuDBbwSdAUe9dU5cznJZV8ZozbH8+n8w3iCJdoCH/I2lBGm
+X-Gm-Message-State: AOJu0Yz+yJ4D2C1xdInDzU57Ffeaua9aBL1L4WwIRegJaFCP3WUpVZKP
+ 2GkcUfULtwzrHM8P58QOIxzWS2BTzaQ9WgEkgwpVuC0bqGhOgDnrSEmUu7Ccj0k=
+X-Google-Smtp-Source: AGHT+IGS0GDo5tChpTazykXSgETAvi5nJVe9c/sifb50z1ANJBtBWxRUCH2PLe/YXqHGMMtGcrzHyw==
+X-Received: by 2002:a2e:a9a6:0:b0:2d2:233f:1ae0 with SMTP id
+ x38-20020a2ea9a6000000b002d2233f1ae0mr247313ljq.1.1708101446154; 
+ Fri, 16 Feb 2024 08:37:26 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ bg22-20020a05600c3c9600b0040fc56712e8sm2881166wmb.17.2024.02.16.08.37.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Feb 2024 08:37:25 -0800 (PST)
+Date: Fri, 16 Feb 2024 17:37:23 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v2 6/6] drm: add drm_mode_atomic_commit event
+Message-ID: <Zc-PQ9Yx4fk4TK43@phenom.ffwll.local>
+References: <20240117184329.479554-1-pierre-eric.pelloux-prayer@amd.com>
+ <20240213155112.156537-1-pierre-eric.pelloux-prayer@amd.com>
+ <20240213155112.156537-7-pierre-eric.pelloux-prayer@amd.com>
+ <20240213112017.726016f0@gandalf.local.home>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 7/8] accel/ivpu: Refactor BO creation functions
-Content-Language: en-US
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-CC: <oded.gabbay@gmail.com>, "Wachowski, Karol" <karol.wachowski@intel.com>
-References: <20240214081305.290108-1-jacek.lawrynowicz@linux.intel.com>
- <20240214081305.290108-8-jacek.lawrynowicz@linux.intel.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20240214081305.290108-8-jacek.lawrynowicz@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: xcNP6RzWL4nrHIunAAoI9tYHKbCWmnEU
-X-Proofpoint-GUID: xcNP6RzWL4nrHIunAAoI9tYHKbCWmnEU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-16_15,2024-02-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- adultscore=0 lowpriorityscore=0 impostorscore=0 mlxlogscore=694
- spamscore=0 bulkscore=0 suspectscore=0 mlxscore=0 phishscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402160130
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240213112017.726016f0@gandalf.local.home>
+X-Operating-System: Linux phenom 6.6.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,19 +90,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/14/2024 1:13 AM, Jacek Lawrynowicz wrote:
-> From: "Wachowski, Karol" <karol.wachowski@intel.com>
+On Tue, Feb 13, 2024 at 11:20:17AM -0500, Steven Rostedt wrote:
+> On Tue, 13 Feb 2024 16:50:31 +0100
+> Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com> wrote:
 > 
-> Rename BO allocate/create functions, so the code is more consistent.
-> There are now two matching buffer creation functions:
->    - ivpu_bo_create_ioctl() - create a BO from user space
->    - ivpu_bo_create() - create a BO from kernel space
+> > @@ -1503,6 +1504,24 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
+> >  		drm_mode_object_put(obj);
+> >  	}
+> >  
+> > +	if (trace_drm_mode_atomic_commit_enabled()) {
+> > +		struct drm_crtc_state *crtc_state;
+> > +		struct drm_crtc *crtc;
+> > +		int *crtcs;
+> > +		int i, num_crtcs;
+> > +
+> > +		crtcs = kcalloc(dev->mode_config.num_crtc, sizeof(int),
+> > +				GFP_KERNEL);
 > 
-> ivpu_bo_alloc() is now only used to allocate struct ivpu_bo which better
-> matches its name.
-> 
-> Signed-off-by: Wachowski, Karol <karol.wachowski@intel.com>
+> If the above allocation fails, this will cause a NULL kernel dereference.
 
-Missing your SOB.  Otherwise looks good to me.
+Yeah can't we somehow iterate directly into the trace subsystem? If
+nothing else works I guess just a per-crtc event should do.
 
--Jeff
+The more fundamental issue: I don't get how this works. For atomic we
+have:
+- explicitly handed in in-fences as dependencies with the IN_FENCE
+  property
+- dependencies that drivers fish out of the dma_resv object of the
+  underlying gem buffer objects for each framebuffer. That has become
+  pretty much entirely generic code since everyone uses the same, and so
+  imo the dependency tracking should be fully generic too
+
+- atomic has an out-fence too, so we could even do the full fence->fence
+  dependency tracking. It's just not created as a userspace object if all
+  userspace asks for is a drm vblank event, but it is very much there. And
+  I think if you want fence tracking, we really should have fence tracking
+  :-) Also the out-fence should be 100% generic (or it's a driver bug)
+  because the driver functions hide the differences between generating a
+  vblank event and signalling a dma_fence.
+
+Cheers, Sima
+
+
+> 
+> -- Steve
+> 
+> > +
+> > +		num_crtcs = 0;
+> > +		for_each_new_crtc_in_state(state, crtc, crtc_state, i)
+> > +			crtcs[num_crtcs++] = drm_crtc_index(crtc);
+> > +
+> > +		trace_drm_mode_atomic_commit(file_priv, crtcs, num_crtcs, arg->flags);
+> > +
+> > +		kfree(crtcs);
+> > +	}
+> > +
+> >  	ret = prepare_signaling(dev, state, arg, file_priv, &fence_state,
+> >  				&num_fences);
+> >  	if (ret)
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
