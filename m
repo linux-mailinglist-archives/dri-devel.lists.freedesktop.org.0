@@ -2,73 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 338EB858782
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 21:57:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 455398587D1
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 22:17:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD80210E2AF;
-	Fri, 16 Feb 2024 20:57:00 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="t39jwBu8";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A41B10E4E4;
+	Fri, 16 Feb 2024 21:16:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D90FF10E10E
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 20:56:54 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-2d0a4e8444dso11795401fa.2
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 12:56:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708117012; x=1708721812; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=7xYbkxmMMrwdBVoQTAnpcbDCTQJDagUmUMz2Jfts6Ho=;
- b=t39jwBu8TCODTGFRreIlHyEnZI51NhVQuMrU7BFMbt9VpvsBBFCvTTm+FJhmMfLYyA
- Ee4KtwobxYB4qJhcXVUI8YYLTjKujCZInD7b3KAV3r7uJ7Po1eVGP6I6KBrK3bKwEn6N
- 04ABscrBrpPf7pAzcOxUvf6i8Pt/MF4f18AlbMxWt2bq93KcW3QqeaOghv8fpL1XkNRg
- npKskg6f6i2D2inaNzFiSBa+r8QUIvSNw87jIcEHLZjSYWYH2r+7EE9KJ15i+yZ/Tlmz
- j/s9RzUG3cJxA8vYi3AvmcAhSE9T3HCXGDZ8vqUiDVkddNh7CH9ISNeO1qtICky6GcaT
- tPEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708117012; x=1708721812;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=7xYbkxmMMrwdBVoQTAnpcbDCTQJDagUmUMz2Jfts6Ho=;
- b=XD/yHSoTIMxJ2kZ/6ZFK8Vh/UR7ith0s8j/AGSpugXxQ5aYmaTxv6MPi6JyPQofdW4
- SB0rXPsXhDlMLEPwwcr4fFItncxYq01peVYKPBnFLjWpYaQRpi6NWvi0RXDOa+WK8wd8
- p/oNJgwomX6ovbzvcog1iz8T9AMBiXrQPT/nJSlr+XviwuQxqNp+tcJFZZBrRku98oDJ
- L1n6l2bRqguHw7bGegIcYuGTVOqGvmd/AkSNNv92gkYpKnDUYCzDkIPM1PnmzELuXaSt
- N7kRUMRIMWvVMWwLzaEP98o1QOyXdu2+OsPJAbAgtFf/AobM2+krx8zx7vAHlWmAgcyA
- DrLA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUbosaFRIRaElJs5cmYPfj/BqzesHYec4Q8rHNdLviBJdw04XllGvz1r/NaDDHfQU9wdivW+SSp7im5sDxxMx6iQUS/0ZsqCryDRahXplGj
-X-Gm-Message-State: AOJu0YwqMWXXS1Fql9kV91PNchpHPSHTYt6lcjDIlteIKSQhiPutWWjG
- eGYq4o7Gl+S/He20+zDKA78dopR486CPaj7uG2TZl9kFCBnXhhb61ecmbL9kiJE=
-X-Google-Smtp-Source: AGHT+IGrTctNJyjUXCP1oMJ5jDQJgWyno/PfTuIM6XxobEQJpt0zug9PyFFoIx4M7PGCeGN1zI14Kw==
-X-Received: by 2002:a05:651c:11c7:b0:2d2:1bf2:ec5a with SMTP id
- z7-20020a05651c11c700b002d21bf2ec5amr1563846ljo.35.1708117011926; 
- Fri, 16 Feb 2024 12:56:51 -0800 (PST)
-Received: from umbar.unikie.fi ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- l13-20020a2e99cd000000b002d2236952b1sm73758ljj.121.2024.02.16.12.56.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Feb 2024 12:56:51 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Helen Koike <helen.koike@collabora.com>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org
-Subject: [PATCH] drm/ci: skip suspend tests for both msm-sc7180 machines
-Date: Fri, 16 Feb 2024 22:56:50 +0200
-Message-Id: <20240216205650.2446153-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
+Received: from mx.skole.hr (mx2.hosting.skole.hr [161.53.165.186])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 461D410E3E1
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 21:16:52 +0000 (UTC)
+Received: from mx2.hosting.skole.hr (localhost.localdomain [127.0.0.1])
+ by mx.skole.hr (mx.skole.hr) with ESMTP id AA20687245;
+ Fri, 16 Feb 2024 22:16:45 +0100 (CET)
+From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
+Subject: [PATCH v2 0/2] leds: expresswire: Fix dependencies
+Date: Fri, 16 Feb 2024 22:15:42 +0100
+Message-Id: <20240216-expresswire-deps-v2-0-8be59c4a75f5@skole.hr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAH7Qz2UC/32NQQrCMBBFr1JmbSRJbUldeQ/pIjSjGZSmzEisl
+ Nzd2AO4fP/z399AkAkFzs0GjJmE0lzBHhqYop/vqChUBqvtSVtjFa4Lo8ibGFXARRS6oUMXvEP
+ fQp3V+kbrrryOlSPJK/Fnf8jml/6RZaO06l3ng9FT6If2Io/0xGNkGEspX9WBO7uvAAAA
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Daniel Thompson <daniel.thompson@linaro.org>, 
+ Linus Walleij <linus.walleij@linaro.org>, Arnd Bergmann <arnd@arndb.de>
+Cc: Flavio Suligoi <f.suligoi@asem.it>, Hans de Goede <hdegoede@redhat.com>, 
+ Jianhua Lu <lujianhua000@gmail.com>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+ Helge Deller <deller@gmx.de>, Jingoo Han <jingoohan1@gmail.com>, 
+ Karel Balej <balejk@matfyz.cz>, dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-leds@vger.kernel.org, 
+ =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>, 
+ kernel test robot <lkp@intel.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=846;
+ i=duje.mihanovic@skole.hr; h=from:subject:message-id;
+ bh=vsUzdyJf3pTQ7iUhH2zrKBom94/d9kxFvZKujmQlDa8=;
+ b=owEBbQKS/ZANAwAIAZoRnrBCLZbhAcsmYgBlz9CFR8jXTTpNjeM5Z13FI+8f8Uv4Ix9lAQpaT
+ Jn64esMzpWJAjMEAAEIAB0WIQRT351NnD/hEPs2LXiaEZ6wQi2W4QUCZc/QhQAKCRCaEZ6wQi2W
+ 4RfwEACDN/l5D7tzp7o766y36S3GhsHIEtzUEBCRk0smhUo5lpciXjTWgIQ6I+0jjopw+PcFgIG
+ keEipaCgUGqaHg5rT3DMbhUYiQlloAX+Il3q4dXGtQPa66bp5+LAkMSyLiiFJd5jYNYlDED3vg5
+ PDxTaXZxFKf437PJv0/9XwzMVhuDScudoKLp05K1rzil3WWxjqRnh9ljn/wlUDYZzKvnrYU73tb
+ 8utBDSnh7YF8/o7MLJrhH53zTya1Qd9LYXJiXcVMTG0fNaWWQLnse0LKnzjhMAL4nNiF32Uxi+h
+ te2BisSHEzflz04dBfXWT3VUQZzuz5nzUDJvfSz08Hm7E9yxBLPV/bg2yhUlXkrvt1qGX2oLxQA
+ iNOap3FLdazQfgl9sUPcVh6HazF9grJQ3Uo08ZQW/y00HdBgkOTtP3RIMLAt0qZIVdc3NSe0nRy
+ dGARsxhrs3BzXZqh9CpZdEDP2m1xEK1Ywx8zXksC8n0Dd1+MwymROLay2ut/6i1Qxm2XN0UWovi
+ HB0d+iE9JiFYKTmA9rsdpz0H8izcEbwrmonCYFiv0PywgcYqtgrzsdVeruX3qWCEu/8a9Im4Ker
+ hEoPoIWK3sSX4gXRUbNs6QGiw2E5xtTiU2ztPMyerPn7Rb5OSRVV1ChUEf0xbsq2TA4h1Z86dM1
+ duaZbd+56zSXTCg==
+X-Developer-Key: i=duje.mihanovic@skole.hr; a=openpgp;
+ fpr=53DF9D4D9C3FE110FB362D789A119EB0422D96E1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,36 +70,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The commit ea489a3d983b ("drm/ci: add sc7180-trogdor-kingoftown")
-dropped the msm-sc7180-skips.txt file, which disabled suspend-to-RAM
-tests. However testing shows that STR tests still can fail. Restore the
-skiplist, applying it to both limozeen and kingoftown machines.
+LEDS_EXPRESSWIRE does not depend on NEW_LEDS in practice but still does
+in Kconfig. Fix up its Kconfig entry to reflect this and fix a Kconfig
+warning.
 
-Fixes: ea489a3d983b ("drm/ci: add sc7180-trogdor-kingoftown")
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
 ---
- .../gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-skips.txt   | 2 ++
- .../drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-skips.txt   | 2 ++
- 2 files changed, 4 insertions(+)
- create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-skips.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-skips.txt
+Changes in v2:
+- Fix checkpatch errors
+- Pull Daniel's Reviewed-by
+- Link to v1: https://lore.kernel.org/r/20240212-expresswire-deps-v1-0-685ad10cd693@skole.hr
 
-diff --git a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-skips.txt b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-skips.txt
-new file mode 100644
-index 000000000000..327039f70252
---- /dev/null
-+++ b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-skips.txt
-@@ -0,0 +1,2 @@
-+# Suspend to RAM seems to be broken on this machine
-+.*suspend.*
-diff --git a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-skips.txt b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-skips.txt
-new file mode 100644
-index 000000000000..327039f70252
---- /dev/null
-+++ b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-skips.txt
-@@ -0,0 +1,2 @@
-+# Suspend to RAM seems to be broken on this machine
-+.*suspend.*
+---
+Duje Mihanović (2):
+      Revert "leds: Only descend into leds directory when CONFIG_NEW_LEDS is set"
+      leds: expresswire: don't depend on NEW_LEDS
+
+ drivers/Makefile     |  2 +-
+ drivers/leds/Kconfig | 10 ++++++----
+ 2 files changed, 7 insertions(+), 5 deletions(-)
+---
+base-commit: ae00c445390b349e070a64dc62f08aa878db7248
+change-id: 20240212-expresswire-deps-e895e8da8ea3
+
+Best regards,
 -- 
-2.39.2
+Duje Mihanović <duje.mihanovic@skole.hr>
+
 
