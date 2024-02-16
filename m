@@ -2,70 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63604857D5F
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 14:13:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A4B9857D62
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 14:13:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9587110EA3B;
-	Fri, 16 Feb 2024 13:13:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5242F10E9E8;
+	Fri, 16 Feb 2024 13:13:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="insdE1+R";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gwtkkwjl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7820310E9E8
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 13:13:04 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 895FA10E9E8;
+ Fri, 16 Feb 2024 13:13:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708089185; x=1739625185;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=w7PxYeL2YJi5lLDMuxgVxDRatSZggnbIIYFFi/StyVM=;
- b=insdE1+RVAg7Bx2xLsdsMnNePf2jYsZrEgFsktLRZH9ktM8Fl5jvnsTd
- LpSww8++PvMNWnWVe/p5jDMoAk/tCDYSYD7mDSajLeXrRfHpb9JMLKBkp
- 71DOP0nteDwb9zJnHi+5UFvFUdnDTwsW6oF6RjAWfDyd9jLBN0OPfzwRF
- kAJzr+tptI9g7AeFUp9LZAIyIQpDm4H2jeO5R05V+Dv4ADRnTn/7VmGI2
- i/zY+vVAIdS+wn0P4KF5Ljp9u2HZKm1ru6JF6cMpZ0W3PyOf/AJ6AigSK
- keKlK+J4AJzZsYUMcY5GtvrFCF93QAjcahjdjFEkqCnXg/xBCseLBn0E2 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="2083629"
+ t=1708089204; x=1739625204;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=za6dwamLYFvS+h15elZ3UIcxd7EpsGHZCih5L0xsXSk=;
+ b=gwtkkwjl3FqaBbD7daTLJUTOBWFmDaz5AZZuGrVBa9FZ3bzNc86j4mpx
+ IfIV2ooci+gfSJP3JclL64GJnCkdCdzz6Us3dlSRr+5GK2zHKJr0aIm+z
+ iiqFEBSe4GYlmI0ECXRBDa/05h0vvhGq61c38X8LqdSSYCjTKqluA/RKo
+ 9vxrbMGrMeXMRVNtS8igBmkHPoDbSHp5C/yuRe3cD1bYUAD9TOaQNMuEe
+ AMW8dDDYR8gijRIX0z/jukHJxMYb0T8sFqfq850LkpodEBEogiXd1B394
+ ZMRxhOODHTdOxvwveAPCsy0GAhgDkDQ2/M7GKhuqD8ieaZWxGnC5OG9mw g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="2328523"
 X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
-   d="scan'208";a="2083629"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2024 05:13:03 -0800
+   d="scan'208";a="2328523"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2024 05:13:23 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
-   d="scan'208";a="3801537"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
- by fmviesa009.fm.intel.com with ESMTP; 16 Feb 2024 05:12:58 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1ray1N-0001IA-17;
- Fri, 16 Feb 2024 13:12:54 +0000
-Date: Fri, 16 Feb 2024 21:12:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-Subject: Re: [PATCH v5 2/3] drm/stm: lvds: add new STM32 LVDS Display
- Interface Transmitter driver
-Message-ID: <202402162038.HP7VzIHX-lkp@intel.com>
-References: <20240206-lvds-v5-2-bd16797b0f09@foss.st.com>
+   d="scan'208";a="8504786"
+Received: from lapeders-mobl1.ger.corp.intel.com (HELO fedora..)
+ ([10.249.254.121])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2024 05:13:22 -0800
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-xe@lists.freedesktop.org,
+	intel-gfx@list.freedesktop.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/4] TTM unlockable restartable LRU list iteration
+Date: Fri, 16 Feb 2024 14:13:02 +0100
+Message-ID: <20240216131306.101932-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240206-lvds-v5-2-bd16797b0f09@foss.st.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,69 +68,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Raphael,
+This patch-set is a prerequisite for a standalone TTM shrinker
+and for exhaustive TTM eviction using sleeping dma_resv locks,
+which is the motivation it.
 
-kernel test robot noticed the following build warnings:
+Currently when unlocking the TTM lru list lock, iteration needs
+to be restarted from the beginning, rather from the next LRU list
+node. This can potentially be a big problem, because if eviction
+or shrinking fails for whatever reason after unlock, restarting
+is likely to cause the same failure over and over again.
 
-[auto build test WARNING on bb3bc3eac316b7c388733e625cc2343131b69dee]
+There are various schemes to be able to continue the list
+iteration from where we left off. One such scheme used by the
+GEM LRU list traversal is to pull items already considered off
+the LRU list and reinsert them when iteration is done.
+This has the drawback that concurrent list iteration doesn't see
+the complete list (which is bad for exhaustive eviction) and also
+doesn't lend itself well to bulk-move sublists since these will
+be split in the process where items from those lists are
+temporarily pulled from the list and moved to the list tail.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Raphael-Gallais-Pou/dt-bindings-display-add-STM32-LVDS-device/20240206-194740
-base:   bb3bc3eac316b7c388733e625cc2343131b69dee
-patch link:    https://lore.kernel.org/r/20240206-lvds-v5-2-bd16797b0f09%40foss.st.com
-patch subject: [PATCH v5 2/3] drm/stm: lvds: add new STM32 LVDS Display Interface Transmitter driver
-config: arm-randconfig-r132-20240214 (https://download.01.org/0day-ci/archive/20240216/202402162038.HP7VzIHX-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20240216/202402162038.HP7VzIHX-lkp@intel.com/reproduce)
+The approach taken here is that list iterators insert themselves
+into the list next position using a special list node. Iteration
+is then using that list node as starting point when restarting.
+Concurrent iterators just skip over the special list nodes.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402162038.HP7VzIHX-lkp@intel.com/
+This is implemented in patch 1 and 2.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/stm/lvds.c:318:17: sparse: sparse: symbol 'lvds_bitmap_jeida_rgb888' was not declared. Should it be static?
->> drivers/gpu/drm/stm/lvds.c:335:17: sparse: sparse: symbol 'lvds_bitmap_vesa_rgb888' was not declared. Should it be static?
-   drivers/gpu/drm/stm/lvds.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/stackdepot.h, ...):
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+For bulk move sublist the approach is the same, but when a bulk
+move sublist is moved to the tail, the iterator is also moved,
+causing us to skip parts of the list. That is undesirable.
+Patch 3 deals with that, and when iterator detects it is
+traversing a sublist, it inserts a second restarting point just
+after the sublist and if the sublist is moved to the tail,
+it just uses the second restarting point instead.
 
-vim +/lvds_bitmap_jeida_rgb888 +318 drivers/gpu/drm/stm/lvds.c
+This is implemented in patch 3.
 
-   308	
-   309	/*
-   310	 * Expected JEIDA-RGB888 data to be sent in LSB format
-   311	 *	    bit6 ............................bit0
-   312	 * CHAN0   {ONE, ONE, ZERO, ZERO, ZERO, ONE, ONE}
-   313	 * CHAN1   {G2,  R7,  R6,   R5,   R4,   R3,  R2}
-   314	 * CHAN2   {B3,  B2,  G7,   G6,   G5,   G4,  G3}
-   315	 * CHAN3   {DE,  VS,  HS,   B7,   B6,   B5,  B4}
-   316	 * CHAN4   {CE,  B1,  B0,   G1,   G0,   R1,  R0}
-   317	 */
- > 318	enum lvds_pixel lvds_bitmap_jeida_rgb888[5][7] = {
-   319		{ PIX_ONE, PIX_ONE, PIX_ZER, PIX_ZER, PIX_ZER, PIX_ONE, PIX_ONE },
-   320		{ PIX_G_2, PIX_R_7, PIX_R_6, PIX_R_5, PIX_R_4, PIX_R_3, PIX_R_2 },
-   321		{ PIX_B_3, PIX_B_2, PIX_G_7, PIX_G_6, PIX_G_5, PIX_G_4, PIX_G_3 },
-   322		{ PIX_D_E, PIX_V_S, PIX_H_S, PIX_B_7, PIX_B_6, PIX_B_5, PIX_B_4 },
-   323		{ PIX_C_E, PIX_B_1, PIX_B_0, PIX_G_1, PIX_G_0, PIX_R_1, PIX_R_0 }
-   324	};
-   325	
-   326	/*
-   327	 * Expected VESA-RGB888 data to be sent in LSB format
-   328	 *	    bit6 ............................bit0
-   329	 * CHAN0   {ONE, ONE, ZERO, ZERO, ZERO, ONE, ONE}
-   330	 * CHAN1   {G0,  R5,  R4,   R3,   R2,   R1,  R0}
-   331	 * CHAN2   {B1,  B0,  G5,   G4,   G3,   G2,  G1}
-   332	 * CHAN3   {DE,  VS,  HS,   B5,   B4,   B3,  B2}
-   333	 * CHAN4   {CE,  B7,  B6,   G7,   G6,   R7,  R6}
-   334	 */
- > 335	enum lvds_pixel lvds_bitmap_vesa_rgb888[5][7] = {
-   336		{ PIX_ONE, PIX_ONE, PIX_ZER, PIX_ZER, PIX_ZER, PIX_ONE, PIX_ONE },
-   337		{ PIX_G_0, PIX_R_5, PIX_R_4, PIX_R_3, PIX_R_2, PIX_R_1, PIX_R_0 },
-   338		{ PIX_B_1, PIX_B_0, PIX_G_5, PIX_G_4, PIX_G_3, PIX_G_2, PIX_G_1 },
-   339		{ PIX_D_E, PIX_V_S, PIX_H_S, PIX_B_5, PIX_B_4, PIX_B_3, PIX_B_2 },
-   340		{ PIX_C_E, PIX_B_7, PIX_B_6, PIX_G_7, PIX_G_6, PIX_R_7, PIX_R_6 }
-   341	};
-   342	
+The restartable property is used in patch 4 to restart swapout if
+needed, but the main purpose is this paves the way for
+shrinker- and exhaustive eviction.
+
+Cc: Christian König <christian.koenig@amd.com>
+Cc: <dri-devel@lists.freedesktop.org>
+
+Thomas Hellström (4):
+  drm/ttm: Allow TTM LRU list nodes of different types
+  drm/ttm: Use LRU hitches
+  drm/ttm: Consider hitch moves within bulk sublist moves
+  drm/ttm: Allow continued swapout after -ENOSPC falure
+
+ drivers/gpu/drm/ttm/ttm_bo.c       |   1 +
+ drivers/gpu/drm/ttm/ttm_device.c   |  33 +++--
+ drivers/gpu/drm/ttm/ttm_resource.c | 202 +++++++++++++++++++++++------
+ include/drm/ttm/ttm_resource.h     |  91 +++++++++++--
+ 4 files changed, 267 insertions(+), 60 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
