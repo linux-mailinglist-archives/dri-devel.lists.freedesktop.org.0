@@ -2,50 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F759857CF2
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 13:51:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4C18857D1D
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 14:01:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C880310E9AD;
-	Fri, 16 Feb 2024 12:51:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCD7E10EB51;
+	Fri, 16 Feb 2024 13:01:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ispras.ru header.i=@ispras.ru header.b="l530KQlS";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EAjzLwx3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBAFD10E900
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 12:51:22 +0000 (UTC)
-Received: from lvc-arm12.ispras.local (unknown [83.149.199.78])
- by mail.ispras.ru (Postfix) with ESMTPSA id BE57B40241B8;
- Fri, 16 Feb 2024 12:51:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru BE57B40241B8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
- s=default; t=1708087878;
- bh=S1r8Mq3qgF/963ARXbA2g2vgUJ1UOzD2+uwWm8hvuMU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=l530KQlS2F9fEvWEyHl8g2mcEv5y1S8LDqebs9zWqV1IBJoQpJB2NWVvHu1/byxMK
- /7f0bxZaBr3BjfVZmVEoS2lzkVSq2rYwDfOsAO4nmCgr7cbEofREBynkQkJM808RiS
- lqUSHobGdoN8Dl115yt8N6JYyQeh5nLP3fKFt1YY=
-From: Katya Orlova <e.orlova@ispras.ru>
-To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-Cc: Katya Orlova <e.orlova@ispras.ru>,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, dri-devel@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- lvc-project@linuxtesting.org
-Subject: [PATCH v4] drm/stm: Avoid use-after-free issues with crtc and plane
-Date: Fri, 16 Feb 2024 15:50:40 +0300
-Message-Id: <20240216125040.8968-1-e.orlova@ispras.ru>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20240122111128.10852-1-e.orlova@ispras.ru>
-References: 
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C28610EB46;
+ Fri, 16 Feb 2024 13:01:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1708088504; x=1739624504;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=3oDy60zjdhTLSBPxSAfy1GIJx1bPsmJfTGaygN2Eg4w=;
+ b=EAjzLwx3shFEdf5a5w3t5SpBicTMXsNyGcSXpryqfpFnlzWT/Q2+u8DG
+ vkBGiXeTLe2UWzZetcjpKI0bWwRC6PUxPGvoZD00ySxxuX2U1O9rZfBee
+ kX15jU/AOPuVoWSk6fEFqy2A8on1w1HiJIG2ls3FV29+uib7vk6qhBjGv
+ aICisJANaUJ09CnlvMUOrY9dWxsuqGTSXBvMEad0AOetaJdxAoyrT5roU
+ NAFlg76wKPuE41mVmR83fCOK0tUn2lsdDescUEyc+ppPT5QZDjexhBpMt
+ Ki+7h52ztLJHCU5C8VX0ms8m/0BYNMBN9pUIccEukQcafSJIJPGJF4ezd A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="2348186"
+X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
+   d="scan'208";a="2348186"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2024 05:01:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
+   d="scan'208";a="3859933"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+ by orviesa009.jf.intel.com with ESMTP; 16 Feb 2024 05:01:39 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1raxqR-0001Hi-2T;
+ Fri, 16 Feb 2024 13:01:35 +0000
+Date: Fri, 16 Feb 2024 21:01:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+ Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, amd-gfx@lists.freedesktop.org,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ linux-fbdev@vger.kernel.org, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org,
+ platform-driver-x86@vger.kernel.org, intel-xe@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org,
+ "open list:ACPI" <linux-acpi@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, Melissa Wen <mwen@igalia.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH v6 1/5] drm: Stop using `select ACPI_VIDEO` in all drivers
+Message-ID: <202402162046.Jr7HgB8P-lkp@intel.com>
+References: <20240214215756.6530-2-mario.limonciello@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240214215756.6530-2-mario.limonciello@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,246 +82,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ltdc_load() calls functions drm_crtc_init_with_planes(),
-drm_universal_plane_init() and drm_encoder_init(). These functions
-should not be called with parameters allocated with devm_kzalloc()
-to avoid use-after-free issues [1].
+Hi Mario,
 
-Use allocations managed by the DRM framework.
+kernel test robot noticed the following build warnings:
 
-Found by Linux Verification Center (linuxtesting.org).
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.8-rc4 next-20240216]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-[1]
-https://lore.kernel.org/lkml/u366i76e3qhh3ra5oxrtngjtm2u5lterkekcz6y2jkndhuxzli@diujon4h7qwb/
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/drm-Stop-using-select-ACPI_VIDEO-in-all-drivers/20240215-055936
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240214215756.6530-2-mario.limonciello%40amd.com
+patch subject: [PATCH v6 1/5] drm: Stop using `select ACPI_VIDEO` in all drivers
+config: alpha-kismet-CONFIG_FB_BACKLIGHT-CONFIG_FB_RADEON-0-0 (https://download.01.org/0day-ci/archive/20240216/202402162046.Jr7HgB8P-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240216/202402162046.Jr7HgB8P-lkp@intel.com/reproduce)
 
-Signed-off-by: Katya Orlova <e.orlova@ispras.ru>
----
-v4: rebase on the drm-misc
-v3: style problems
-v2: use allocations managed by the DRM as
-Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com> suggested.
-Also add a fix for encoder.
- drivers/gpu/drm/stm/drv.c  |  3 +-
- drivers/gpu/drm/stm/ltdc.c | 73 ++++++++++----------------------------
- 2 files changed, 20 insertions(+), 56 deletions(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402162046.Jr7HgB8P-lkp@intel.com/
 
-diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
-index e8523abef27a..152bec2c0238 100644
---- a/drivers/gpu/drm/stm/drv.c
-+++ b/drivers/gpu/drm/stm/drv.c
-@@ -25,6 +25,7 @@
- #include <drm/drm_module.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
-+#include <drm/drm_managed.h>
- 
- #include "ltdc.h"
- 
-@@ -75,7 +76,7 @@ static int drv_load(struct drm_device *ddev)
- 
- 	DRM_DEBUG("%s\n", __func__);
- 
--	ldev = devm_kzalloc(ddev->dev, sizeof(*ldev), GFP_KERNEL);
-+	ldev = drmm_kzalloc(ddev, sizeof(*ldev), GFP_KERNEL);
- 	if (!ldev)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-index 5576fdae4962..eeaabb4e10d3 100644
---- a/drivers/gpu/drm/stm/ltdc.c
-+++ b/drivers/gpu/drm/stm/ltdc.c
-@@ -36,6 +36,7 @@
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
- #include <drm/drm_vblank.h>
-+#include <drm/drm_managed.h>
- 
- #include <video/videomode.h>
- 
-@@ -1199,7 +1200,6 @@ static void ltdc_crtc_atomic_print_state(struct drm_printer *p,
- }
- 
- static const struct drm_crtc_funcs ltdc_crtc_funcs = {
--	.destroy = drm_crtc_cleanup,
- 	.set_config = drm_atomic_helper_set_config,
- 	.page_flip = drm_atomic_helper_page_flip,
- 	.reset = drm_atomic_helper_crtc_reset,
-@@ -1212,7 +1212,6 @@ static const struct drm_crtc_funcs ltdc_crtc_funcs = {
- };
- 
- static const struct drm_crtc_funcs ltdc_crtc_with_crc_support_funcs = {
--	.destroy = drm_crtc_cleanup,
- 	.set_config = drm_atomic_helper_set_config,
- 	.page_flip = drm_atomic_helper_page_flip,
- 	.reset = drm_atomic_helper_crtc_reset,
-@@ -1545,7 +1544,6 @@ static void ltdc_plane_atomic_print_state(struct drm_printer *p,
- static const struct drm_plane_funcs ltdc_plane_funcs = {
- 	.update_plane = drm_atomic_helper_update_plane,
- 	.disable_plane = drm_atomic_helper_disable_plane,
--	.destroy = drm_plane_cleanup,
- 	.reset = drm_atomic_helper_plane_reset,
- 	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
-@@ -1572,7 +1570,6 @@ static struct drm_plane *ltdc_plane_create(struct drm_device *ddev,
- 	const u64 *modifiers = ltdc_format_modifiers;
- 	u32 lofs = index * LAY_OFS;
- 	u32 val;
--	int ret;
- 
- 	/* Allocate the biggest size according to supported color formats */
- 	formats = devm_kzalloc(dev, (ldev->caps.pix_fmt_nb +
-@@ -1613,14 +1610,10 @@ static struct drm_plane *ltdc_plane_create(struct drm_device *ddev,
- 		}
- 	}
- 
--	plane = devm_kzalloc(dev, sizeof(*plane), GFP_KERNEL);
--	if (!plane)
--		return NULL;
--
--	ret = drm_universal_plane_init(ddev, plane, possible_crtcs,
--				       &ltdc_plane_funcs, formats, nb_fmt,
--				       modifiers, type, NULL);
--	if (ret < 0)
-+	plane = drmm_universal_plane_alloc(ddev, struct drm_plane, dev,
-+					   possible_crtcs, &ltdc_plane_funcs, formats,
-+					   nb_fmt, modifiers, type, NULL);
-+	if (IS_ERR(plane))
- 		return NULL;
- 
- 	if (ldev->caps.ycbcr_input) {
-@@ -1643,15 +1636,6 @@ static struct drm_plane *ltdc_plane_create(struct drm_device *ddev,
- 	return plane;
- }
- 
--static void ltdc_plane_destroy_all(struct drm_device *ddev)
--{
--	struct drm_plane *plane, *plane_temp;
--
--	list_for_each_entry_safe(plane, plane_temp,
--				 &ddev->mode_config.plane_list, head)
--		drm_plane_cleanup(plane);
--}
--
- static int ltdc_crtc_init(struct drm_device *ddev, struct drm_crtc *crtc)
- {
- 	struct ltdc_device *ldev = ddev->dev_private;
-@@ -1677,14 +1661,14 @@ static int ltdc_crtc_init(struct drm_device *ddev, struct drm_crtc *crtc)
- 
- 	/* Init CRTC according to its hardware features */
- 	if (ldev->caps.crc)
--		ret = drm_crtc_init_with_planes(ddev, crtc, primary, NULL,
--						&ltdc_crtc_with_crc_support_funcs, NULL);
-+		ret = drmm_crtc_init_with_planes(ddev, crtc, primary, NULL,
-+						 &ltdc_crtc_with_crc_support_funcs, NULL);
- 	else
--		ret = drm_crtc_init_with_planes(ddev, crtc, primary, NULL,
--						&ltdc_crtc_funcs, NULL);
-+		ret = drmm_crtc_init_with_planes(ddev, crtc, primary, NULL,
-+						 &ltdc_crtc_funcs, NULL);
- 	if (ret) {
- 		DRM_ERROR("Can not initialize CRTC\n");
--		goto cleanup;
-+		return ret;
- 	}
- 
- 	drm_crtc_helper_add(crtc, &ltdc_crtc_helper_funcs);
-@@ -1698,9 +1682,8 @@ static int ltdc_crtc_init(struct drm_device *ddev, struct drm_crtc *crtc)
- 	for (i = 1; i < ldev->caps.nb_layers; i++) {
- 		overlay = ltdc_plane_create(ddev, DRM_PLANE_TYPE_OVERLAY, i);
- 		if (!overlay) {
--			ret = -ENOMEM;
- 			DRM_ERROR("Can not create overlay plane %d\n", i);
--			goto cleanup;
-+			return -ENOMEM;
- 		}
- 		if (ldev->caps.dynamic_zorder)
- 			drm_plane_create_zpos_property(overlay, i, 0, ldev->caps.nb_layers - 1);
-@@ -1713,10 +1696,6 @@ static int ltdc_crtc_init(struct drm_device *ddev, struct drm_crtc *crtc)
- 	}
- 
- 	return 0;
--
--cleanup:
--	ltdc_plane_destroy_all(ddev);
--	return ret;
- }
- 
- static void ltdc_encoder_disable(struct drm_encoder *encoder)
-@@ -1776,23 +1755,19 @@ static int ltdc_encoder_init(struct drm_device *ddev, struct drm_bridge *bridge)
- 	struct drm_encoder *encoder;
- 	int ret;
- 
--	encoder = devm_kzalloc(ddev->dev, sizeof(*encoder), GFP_KERNEL);
--	if (!encoder)
--		return -ENOMEM;
-+	encoder = drmm_simple_encoder_alloc(ddev, struct drm_encoder, dev,
-+					    DRM_MODE_ENCODER_DPI);
-+	if (IS_ERR(encoder))
-+		return PTR_ERR(encoder);
- 
- 	encoder->possible_crtcs = CRTC_MASK;
- 	encoder->possible_clones = 0;	/* No cloning support */
- 
--	drm_simple_encoder_init(ddev, encoder, DRM_MODE_ENCODER_DPI);
--
- 	drm_encoder_helper_add(encoder, &ltdc_encoder_helper_funcs);
- 
- 	ret = drm_bridge_attach(encoder, bridge, NULL, 0);
--	if (ret) {
--		if (ret != -EPROBE_DEFER)
--			drm_encoder_cleanup(encoder);
-+	if (ret)
- 		return ret;
--	}
- 
- 	DRM_DEBUG_DRIVER("Bridge encoder:%d created\n", encoder->base.id);
- 
-@@ -1962,8 +1937,7 @@ int ltdc_load(struct drm_device *ddev)
- 			goto err;
- 
- 		if (panel) {
--			bridge = drm_panel_bridge_add_typed(panel,
--							    DRM_MODE_CONNECTOR_DPI);
-+			bridge = drmm_panel_bridge_add(ddev, panel);
- 			if (IS_ERR(bridge)) {
- 				DRM_ERROR("panel-bridge endpoint %d\n", i);
- 				ret = PTR_ERR(bridge);
-@@ -2045,7 +2019,7 @@ int ltdc_load(struct drm_device *ddev)
- 		}
- 	}
- 
--	crtc = devm_kzalloc(dev, sizeof(*crtc), GFP_KERNEL);
-+	crtc = drmm_kzalloc(ddev, sizeof(*crtc), GFP_KERNEL);
- 	if (!crtc) {
- 		DRM_ERROR("Failed to allocate crtc\n");
- 		ret = -ENOMEM;
-@@ -2072,9 +2046,6 @@ int ltdc_load(struct drm_device *ddev)
- 
- 	return 0;
- err:
--	for (i = 0; i < nb_endpoints; i++)
--		drm_of_panel_bridge_remove(ddev->dev->of_node, 0, i);
--
- 	clk_disable_unprepare(ldev->pixel_clk);
- 
- 	return ret;
-@@ -2082,16 +2053,8 @@ int ltdc_load(struct drm_device *ddev)
- 
- void ltdc_unload(struct drm_device *ddev)
- {
--	struct device *dev = ddev->dev;
--	int nb_endpoints, i;
--
- 	DRM_DEBUG_DRIVER("\n");
- 
--	nb_endpoints = of_graph_get_endpoint_count(dev->of_node);
--
--	for (i = 0; i < nb_endpoints; i++)
--		drm_of_panel_bridge_remove(ddev->dev->of_node, 0, i);
--
- 	pm_runtime_disable(ddev->dev);
- }
- 
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for FB_BACKLIGHT when selected by FB_RADEON
+   .config:171:warning: symbol value 'n' invalid for PANEL_LCD_PIN_E
+   .config:253:warning: symbol value 'n' invalid for SATA_MOBILE_LPM_POLICY
+   .config:358:warning: symbol value 'n' invalid for PSTORE_BLK_MAX_REASON
+   .config:438:warning: symbol value 'n' invalid for KFENCE_SAMPLE_INTERVAL
+   .config:623:warning: symbol value 'n' invalid for DRM_XE_JOB_TIMEOUT_MIN
+   .config:662:warning: symbol value 'n' invalid for CRYPTO_DEV_QCE_SW_MAX_LEN
+   .config:677:warning: symbol value 'n' invalid for AIC79XX_DEBUG_MASK
+   .config:773:warning: symbol value 'n' invalid for PANEL_LCD_CHARSET
+   .config:804:warning: symbol value 'n' invalid for SND_AC97_POWER_SAVE_DEFAULT
+   .config:870:warning: symbol value 'n' invalid for MAGIC_SYSRQ_DEFAULT_ENABLE
+   .config:891:warning: symbol value 'n' invalid for DRM_I915_MAX_REQUEST_BUSYWAIT
+   .config:918:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MIN
+   .config:928:warning: symbol value 'n' invalid for NET_EMATCH_STACK
+   .config:930:warning: symbol value 'n' invalid for VMCP_CMA_SIZE
+   .config:935:warning: symbol value 'n' invalid for SND_AT73C213_TARGET_BITRATE
+   .config:1064:warning: symbol value 'n' invalid for AIC79XX_CMDS_PER_DEVICE
+   .config:1162:warning: symbol value 'n' invalid for RCU_CPU_STALL_TIMEOUT
+   .config:1182:warning: symbol value 'n' invalid for PANEL_LCD_PIN_SDA
+   .config:1190:warning: symbol value 'n' invalid for MTDRAM_ERASE_SIZE
+   .config:1220:warning: symbol value 'n' invalid for AIC79XX_RESET_DELAY_MS
+   .config:1312:warning: symbol value 'n' invalid for SERIAL_UARTLITE_NR_UARTS
+   .config:1493:warning: symbol value 'n' invalid for LEGACY_PTY_COUNT
+   .config:1636:warning: symbol value 'n' invalid for AIC7XXX_RESET_DELAY_MS
+   .config:1637:warning: symbol value 'n' invalid for WATCHDOG_OPEN_TIMEOUT
+   .config:1782:warning: symbol value 'n' invalid for IBM_EMAC_POLL_WEIGHT
+   .config:1788:warning: symbol value 'n' invalid for MTD_REDBOOT_DIRECTORY_BLOCK
+   .config:1939:warning: symbol value 'n' invalid for DRM_I915_STOP_TIMEOUT
+   .config:2157:warning: symbol value 'n' invalid for SND_HDA_PREALLOC_SIZE
+   .config:2205:warning: symbol value 'n' invalid for RCU_FANOUT_LEAF
+   .config:2353:warning: symbol value 'n' invalid for PANEL_LCD_BWIDTH
+   .config:2384:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MAX
+   .config:2400:warning: symbol value 'n' invalid for SERIAL_AR933X_NR_UARTS
+   .config:2594:warning: symbol value 'n' invalid for PANEL_PARPORT
+   .config:2634:warning: symbol value 'n' invalid for KCOV_IRQ_AREA_SIZE
+   .config:2681:warning: symbol value 'n' invalid for NOUVEAU_DEBUG_DEFAULT
+   .config:2872:warning: symbol value 'n' invalid for KCSAN_REPORT_ONCE_IN_MS
+   .config:2971:warning: symbol value 'n' invalid for KCSAN_UDELAY_INTERRUPT
+   .config:2994:warning: symbol value 'n' invalid for PANEL_LCD_PIN_BL
+   .config:3020:warning: symbol value 'n' invalid for INITRAMFS_ROOT_GID
+   .config:3048:warning: symbol value 'n' invalid for FTRACE_RECORD_RECURSION_SIZE
+   .config:3128:warning: symbol value 'n' invalid for ATM_FORE200E_TX_RETRY
+   .config:3165:warning: symbol value 'n' invalid for FB_OMAP2_DSS_MIN_FCK_PER_PCK
+   .config:3203:warning: symbol value 'n' invalid for SND_SOC_SOF_DEBUG_IPC_FLOOD_TEST_NUM
+   .config:3465:warning: symbol value 'n' invalid for PSTORE_BLK_CONSOLE_SIZE
+   .config:3493:warning: symbol value 'n' invalid for KCSAN_UDELAY_TASK
+   .config:3514:warning: symbol value 'n' invalid for MMC_BLOCK_MINORS
+   .config:3518:warning: symbol value 'n' invalid for INET_TABLE_PERTURB_ORDER
+   .config:3561:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_SYNC
+   .config:3619:warning: symbol value 'n' invalid for BOOKE_WDT_DEFAULT_TIMEOUT
+   .config:3682:warning: symbol value 'n' invalid for UCLAMP_BUCKETS_COUNT
+   .config:3810:warning: symbol value 'n' invalid for IP_VS_MH_TAB_INDEX
+   .config:3844:warning: symbol value 'n' invalid for SERIAL_MCF_BAUDRATE
+   .config:3914:warning: symbol value 'n' invalid for DE2104X_DSL
+   .config:3931:warning: symbol value 'n' invalid for BLK_DEV_RAM_COUNT
+   .config:4194:warning: symbol value 'n' invalid for IP_VS_SH_TAB_BITS
+   .config:4224:warning: symbol value 'n' invalid for STACK_MAX_DEFAULT_SIZE_MB
+   .config:4276:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_X
+   .config:4306:warning: symbol value 'n' invalid for PANEL_LCD_PIN_RW
+   .config:4349:warning: symbol value 'n' invalid for USBIP_VHCI_HC_PORTS
+   .config:4393:warning: symbol value 'n' invalid for RIONET_RX_SIZE
+   .config:4668:warning: symbol value 'n' invalid for RADIO_TYPHOON_PORT
+   .config:4705:warning: symbol value 'n' invalid for IBM_EMAC_TXB
+   .config:4799:warning: symbol value 'n' invalid for SERIAL_TXX9_NR_UARTS
+   .config:4937:warning: symbol value 'n' invalid for SND_MAX_CARDS
+   .config:5092:warning: symbol value 'n' invalid for ARCH_MMAP_RND_BITS
+   .config:5174:warning: symbol value 'n' invalid for DRM_I915_FENCE_TIMEOUT
+   .config:5180:warning: symbol value 'n' invalid for RCU_BOOST_DELAY
+   .config:5196:warning: symbol value 'n' invalid for TTY_PRINTK_LEVEL
+   .config:5355:warning: symbol value 'n' invalid for MIPS_EJTAG_FDC_KGDB_CHAN
+   .config:5368:warning: symbol value 'n' invalid for XEN_MEMORY_HOTPLUG_LIMIT
+   .config:5453:warning: symbol value 'n' invalid for KDB_DEFAULT_ENABLE
+   .config:5471:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_MAXPORTS
+   .config:5680:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MAX
+   .config:5681:warning: symbol value 'n' invalid for PPC_EARLY_DEBUG_EHV_BC_HANDLE
+   .config:5733:warning: symbol value 'n' invalid for PANEL_LCD_HWIDTH
+   .config:5766:warning: symbol value 'n' invalid for LOCKDEP_CHAINS_BITS
+   .config:5861:warning: symbol value 'n' invalid for DRM_I915_HEARTBEAT_INTERVAL
+   .config:5867:warning: symbol value 'n' invalid for KCSAN_SKIP_WATCH
+   .config:5891:warning: symbol value 'n' invalid for PSTORE_BLK_KMSG_SIZE
+   .config:6093:warning: symbol value 'n' invalid for SERIAL_8250_RUNTIME_UARTS
+   .config:6189:warning: symbol value 'n' invalid for ARCH_MMAP_RND_COMPAT_BITS
+   .config:6272:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_MAX_TAGS
+   .config:6289:warning: symbol value 'n' invalid for CRYPTO_DEV_FSL_CAAM_INTC_TIME_THLD
+   .config:6359:warning: symbol value 'n' invalid for RADIO_TRUST_PORT
+   .config:6399:warning: symbol value 'n' invalid for MTD_UBI_WL_THRESHOLD
+   .config:6420:warning: symbol value 'n' invalid for RIONET_TX_SIZE
+   .config:6526:warning: symbol value 'n' invalid for SERIAL_SH_SCI_NR_UARTS
+   .config:6547:warning: symbol value 'n' invalid for VIDEO_VIVID_MAX_DEVS
+   .config:6739:warning: symbol value 'n' invalid for CMA_SIZE_PERCENTAGE
+   .config:6801:warning: symbol value 'n' invalid for OMAP2_DSS_MIN_FCK_PER_PCK
+   .config:6887:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MIN
+   .config:7085:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_MAX_TAGS
+   .config:7089:warning: symbol value 'n' invalid for DVB_MAX_ADAPTERS
+   .config:7106:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_DMA_ADDRESSING_MODE
+   .config:7367:warning: symbol value 'n' invalid for SERIAL_ARC_NR_PORTS
+   .config:7411:warning: symbol value 'n' invalid for KDB_CONTINUE_CATASTROPHIC
+   .config:7483:warning: symbol value 'n' invalid for IBM_EMAC_RXB
+   .config:7545:warning: symbol value 'n' invalid for SCSI_MPT3SAS_MAX_SGE
+   .config:7675:warning: symbol value 'n' invalid for PSTORE_DEFAULT_KMSG_BYTES
+   .config:7720:warning: symbol value 'n' invalid for RCU_FANOUT
+
 -- 
-2.30.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
