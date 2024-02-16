@@ -2,61 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5631857F2A
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 15:21:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F096A857F6C
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 15:34:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B36110E967;
-	Fri, 16 Feb 2024 14:21:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9DC410EB5D;
+	Fri, 16 Feb 2024 14:34:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WUr3K5Zu";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="lPJmKbxe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A184910E26B;
- Fri, 16 Feb 2024 14:21:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708093261; x=1739629261;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=ykg37I/qJvwz9QoLSQSS9kzALaE+IdnEw+jxJXYs1Zk=;
- b=WUr3K5ZuhmJF7JYSTgArSq8AI3y/Hx3nt2rt+tKs2jU2eZUWOujbzJ1A
- z3eTWl+lyzKdZQ6iTrEE58B3VexreJNwB+wHlQc2LP26auel38RWXWLGN
- vgbKfbaVL92Eh5mJAY6fZaPsFlKMdErMT/7AVYkcpl5i2nyvcb9lAo+iR
- gseeGzox7v901fif4Xmb5PLPadYPF9SJAfyvm6V76zykqYMOJYbVyxbJ6
- pRzbj+t2yMlZ5xnf5Q/aFyJ6sI9p/UxqyCj59pFOn01rVqN7VpBJgy8t4
- NWJ41JSgG14aBJD/fKiBvYEOR/j3nnmwgSh45FRjMA9sYThaG+Qqdu1oe g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="2127720"
-X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
-   d="scan'208";a="2127720"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2024 06:21:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="935853767"
-X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; d="scan'208";a="935853767"
-Received: from lapeders-mobl1.ger.corp.intel.com (HELO [10.249.254.121])
- ([10.249.254.121])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2024 06:20:58 -0800
-Message-ID: <47fc8e42dcfd868341ffc32754c302e58ac49484.camel@linux.intel.com>
-Subject: Re: [PATCH 0/4] TTM unlockable restartable LRU list iteration
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- intel-xe@lists.freedesktop.org, intel-gfx@list.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Date: Fri, 16 Feb 2024 15:20:56 +0100
-In-Reply-To: <29000a0d-19ce-4727-945b-d5734313c7f1@amd.com>
-References: <20240216131306.101932-1-thomas.hellstrom@linux.intel.com>
- <29000a0d-19ce-4727-945b-d5734313c7f1@amd.com>
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99C8710E44C;
+ Fri, 16 Feb 2024 14:33:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Wg1eipjYPcrboO5hikk2zW/8A6vlW2l6r9lPhPQBrqEvH9JJNjLw0pZbxjNdM7fhL1YPmEfmfuyrPnwOqEmTfItMFjId9uzQrURiEonkoClRHEMg4Lo6CGPxyDLBF1dbIigQ+Vx6s4btSW6RpIbtVI+QqBQNZlkjfiAafTCGNLJ8Bd8NZD2ba6ZCDFTECYaMiuk+D7cQxrQHzpR5zH/5wBUebVdo7xdWVHjNF1SQh1ZqWbSq8E0dR6mJDUMgR7p/QDnneckTGWrEBWj69FV3VF3B0Z2GXe7IIw2QAwtfkaCw5IkPekvLVNWN851kXgihjjgUiMf6y7ukKVhL7kYD7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uFVhAunchAkTmYVql5K2/oEO15MRr+ap4bcrovN59CI=;
+ b=l6sfH7dC2ddqWn4Wk3SoZVKCt53fdFMVB0DrvqkKoLvyed83HV3qM4yxBdyIBNnCBXP3JnKN42oajluWiq6ERXSOCRs+3iyyLEa50tCFQq0JHVKSJmmJS3dm/cTuD3gFfG9V3oOfdFrCDKDztonuMbSjh9T+2R5Hawj3/zmFCbTcJwgZ+z9ZDdhF6wAjvnj6ZXy0SY6C4hWOh4RcrWI9tZpw6fEGS0gnKUj45XH0TEBlGvZ/uA02+uc7q2Ood2y2eNF33zwbyDK/fFaPfjJZwr8Xx96+zh7HWwZ3U54T8Y8pBlSyfzHF0bbYnifld0kUYgVSAiCqYdzMU93ZM8SPcA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uFVhAunchAkTmYVql5K2/oEO15MRr+ap4bcrovN59CI=;
+ b=lPJmKbxerdy/Guh299Ib62dkh/TJBSK3mOyOQ2ulUf9FrXkPJactopkLu5eZ9xsn2eTIgTHwtHuJxHNs3qv5UYS+319k9bXlt/l4cBL2GOm/O2XI+8bqVhFje9a2CM6WaroIh14Ki8EIqIdEXGjz53onPoB0G0PAsEW2HrGSSKU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by SA3PR12MB8804.namprd12.prod.outlook.com (2603:10b6:806:31f::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.14; Fri, 16 Feb
+ 2024 14:33:52 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::3f6b:792d:4233:f994]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::3f6b:792d:4233:f994%6]) with mapi id 15.20.7316.012; Fri, 16 Feb 2024
+ 14:33:52 +0000
+Message-ID: <82280a39-4e1d-41ee-82fb-758ceed953e4@amd.com>
+Date: Fri, 16 Feb 2024 09:33:47 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/amd/display: add panel_power_savings sysfs entry
+ to eDP connectors
+To: Pekka Paalanen <pekka.paalanen@haloniitty.fi>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>
+Cc: amd-gfx@lists.freedesktop.org,
+ Mario Limonciello <mario.limonciello@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Alex Hung <alex.hung@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Wayne Lin <wayne.lin@amd.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240202152837.7388-1-hamza.mahfooz@amd.com>
+ <20240216101936.2e210be2@eldfell>
+Content-Language: en-US
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <20240216101936.2e210be2@eldfell>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YT4PR01CA0144.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:d5::10) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|SA3PR12MB8804:EE_
+X-MS-Office365-Filtering-Correlation-Id: 13e87c63-7762-4398-96d2-08dc2efc4bf4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2T0ZWczJO/je3ZkEtmIj9jDASG7X8DMVLKFxyBL8Al40PvaXkG08EDqmga2ZteSJ83VJIueiD46U4BD3HNkkVwYDmqcinhsSpXwv1rq1XVG4DFFDIA3/z+9H4mKh4XRw/wRiZHuhfuKXAUYnIkGKCcNa1oJfFyW/SEbHirapOMQ9gPU4i1q0XzmdmuCfPYUN52+laqNBWpnFEiTAdUSTeXHmEQLdKCA/J7WuUA8RLtvqTsCxm2eplQZ27bJBXcGMDB+BUV3L/l2Reo87eAWuv468qg/zL3R/swt4nrE54XZqOpbC7NOwrBA2wESlejrMVl5tGnG7PwfJlXZakws60g1eDk3AUj92luyETf1r6uKJK8LPDFmoz6sXySekoD8W0tPMb2FkJS8SJW2zTkkFpNnNlgs78nb5i0CIXhCnkrXaHIz4N799aFqmuaYNx/I3H89V86eRqj/kiYClMsAeTsVkjhDAz9UJXyEaoNiPKUmaqRbchcKWM5zNyzqVuzibdtpMbqgkRMiLXXNwV7h+6ROZ7b5mu6BdGrKG+hN3hRj9rPL+K04TKlyv5wO24Szt
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(39860400002)(136003)(376002)(396003)(346002)(230922051799003)(1800799012)(186009)(451199024)(64100799003)(8936002)(4326008)(8676002)(2906002)(5660300002)(44832011)(26005)(83380400001)(2616005)(38100700002)(36756003)(86362001)(31696002)(316002)(66556008)(66946007)(54906003)(110136005)(6506007)(53546011)(6636002)(66476007)(6512007)(6486002)(6666004)(478600001)(41300700001)(31686004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eHJqeVJrSzBYZXJtZVNCL0ZkRUp5OW0wSFM4RkVLVmRkOVkranRwOFNMUHMw?=
+ =?utf-8?B?SHRGQkFKU1JxSXZWblV6QzVLNEh2cDdvekd3Q293cnMzUWZpWFpBcjU5aFhr?=
+ =?utf-8?B?Q0pheTR2NEh4T3Y1cGxwWUVrcEdieU1ISERKTExZbWVwVE1JNjlPR3c2MnlY?=
+ =?utf-8?B?dlVLUGVYRndtMnJHaHl4QlNoTHZnRnF5dDYxdmRXOFpoanFTS3ZZZmlQL3Bm?=
+ =?utf-8?B?UTFRV3VEa2dhQVhyaEcxbGdpMzR3TUNtcUFNUlFoM3ZvRmwvNXdER1dxTjdq?=
+ =?utf-8?B?MWZmRXcweTViMVNvdWU3bGNOZ3hMdC82L2tISHEyYzhRblZmN1ZSbFRPejBp?=
+ =?utf-8?B?RGY5T3c2dlV6bE5iR1Mxd0NBbGRhWGVyRmY4MFVZbHFyd0J0TmcrWDFaejZC?=
+ =?utf-8?B?ZDhpcDlDNloycUJkWEdwTGFvTWNFLzZaZTh4dE9zMlo3Z0psUEJpS1kxd1ZJ?=
+ =?utf-8?B?TWJCUnFKd1B4dDRqcmpqZmtLUmY5OWdSdER0SHdDcTNlcHZReHpmTDByQWdT?=
+ =?utf-8?B?RVZGZVpPS2xCNkZQY1RQS3QyNEJjcXNvZDY4ZGJuSHEyNFR0VUtLNTFVNVgy?=
+ =?utf-8?B?NmxNRHBCSW15NHFNWHl1RCtZWnFaUm00bUhaeFBDclJWdVNOSm9HQ3J1cVEr?=
+ =?utf-8?B?dTZyWUplYithTjk3SzNReGEzSUIxdjZuQnFnRnRNTXZMb3M1MVFFQzZiNHNE?=
+ =?utf-8?B?amFjRXpVcU5yL2hocUlkQ2RJWTViaUV0SzN5SVNtOGpha0EvRU4wdTlRb1Fa?=
+ =?utf-8?B?ZE5CYmp4Y21zcjIvWXRRd2lxVjhoZGtDVUN3RUZpcTZGK0R5NGVITFZUNHZ2?=
+ =?utf-8?B?YWs1UjZjOW1KVUsyMkR3WUg3a3lhME9zOXl6NkZOVmtraXNRaEl5d0VkbXU3?=
+ =?utf-8?B?OStkM2J5WEh6WmpGZStTaDAvL2lFZzJ3aS9ob1hva05SaEFBTnhYOUxRSVIz?=
+ =?utf-8?B?Ty81VmQ5V3BpSE0wazlHdTRodzkzSENwcmQ2cUd1R2V1UXVLSlV5cGQvek5W?=
+ =?utf-8?B?ZngvYlMvTktuZUtaUnV1Qis2cjBoeEdlWjhzYmNzOW5tRjJGc0FZYmVMVHNS?=
+ =?utf-8?B?emRLSXZhQzJMNFdMSHZKd1ZrQXN1K1RxNzhCSnlJeXpZeHJIU1FVaGNXSEVW?=
+ =?utf-8?B?NURoVTIyZjl0aFFsLy9kK244L3Z3bjZGT3c0a1R3WEVKeEl6ejRxU3M0a3ht?=
+ =?utf-8?B?bHhHejVvYW40SkFETFQwSXBFNU9iVDdRdTYrQ2hZZmJmRmNWL2pBa0J4UUdv?=
+ =?utf-8?B?eEkzWnhqYnNPcXdsbFpWem9uaHV0aFA5NlZtRjJ4VlRyaGVSM3dHYXY0czJE?=
+ =?utf-8?B?MEUvdjZGMlRpN0V2ZjVxSHV5MndvK1VQdTlGRDZGRUFUWlJ0M2MxcVcvMit0?=
+ =?utf-8?B?bFhGK2tXdjN3Y1NmWnppY2FPOTBFN1FQalc1VEVsNHJXZ3dhNW91cWM3akI3?=
+ =?utf-8?B?TnVUY0NZa3BEZHRUNnAvU29DUmx5UHFLUm9haURXbzBPUjZ1L0ltcVlpRTF2?=
+ =?utf-8?B?ZHBQcnhIV0poU1QrK21ZTmxBYnNvOTFlUkdjUnV0ZVUwRkpVMWtFZGxSV3NY?=
+ =?utf-8?B?NTVGbUVXTWpKQk1scW5kRkdSK3dKam0wT0FSRmYvZ2JURzJYK2RzZU5oMnJB?=
+ =?utf-8?B?MGV0ZnlnUnJtTUtDOXVuaUhjU2RwdXRveWNIM0xEekJjWi9vOXd5ekRMWHFt?=
+ =?utf-8?B?M2k2ZGpTdkwxNGR6VUgrVFdaRTJkTDlDaXpaRTRCdnJvajhDV2liU0luYVN6?=
+ =?utf-8?B?UnRUNmhQM0pIRmhQaHlLdGhIS0hEYVFGUGJmNjhKSTJsYUFWREpFNXE2azRr?=
+ =?utf-8?B?cHhpU1d5aERWMnpOaER4NGp6RGJlUDlzbU5yajZ4a0J6TVNlVW9YNHF6Si94?=
+ =?utf-8?B?a3VWT3h5TjM2ZDBIckF6OWt5UFgvSVlEaXRkajdrT09LOUlzM294RGE2L2NP?=
+ =?utf-8?B?U0pYN3Zmc2NsZXNRL0R0TVhlNXpLaUZwYzNEUTZWQ1g3em9helYrNWlINk15?=
+ =?utf-8?B?SS8xSENzSzBBbTBaZVdFbXpqUVE1b3I5ZVY3RE82aWxDTU5tTkc0NGV1OTFW?=
+ =?utf-8?B?aHpaU0Zwd3dLandPcGNvZ2ZKTG1jRDBTSXJONGtZYWx6cWtnT1FVZnJHTEdE?=
+ =?utf-8?Q?ZhdIkXDzgazRtxW+n9fqAFPcP?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 13e87c63-7762-4398-96d2-08dc2efc4bf4
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2024 14:33:52.2649 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6HJPRzRyU/QbydENJ5xyLRshYFQPQwQ9ynHQXuj+b3MoYpTy/wpV9HWZc2WM4oEW1R9AEMvMNq70m9dZsHwtMg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB8804
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,106 +142,160 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2024-02-16 at 15:00 +0100, Christian K=C3=B6nig wrote:
-> Am 16.02.24 um 14:13 schrieb Thomas Hellstr=C3=B6m:
-> > This patch-set is a prerequisite for a standalone TTM shrinker
-> > and for exhaustive TTM eviction using sleeping dma_resv locks,
-> > which is the motivation it.
-> >=20
-> > Currently when unlocking the TTM lru list lock, iteration needs
-> > to be restarted from the beginning, rather from the next LRU list
-> > node. This can potentially be a big problem, because if eviction
-> > or shrinking fails for whatever reason after unlock, restarting
-> > is likely to cause the same failure over and over again.
->=20
-> Oh, yes please. I have been working on that problem before as well,
-> but=20
-> wasn't able to come up with something working.
->=20
-> > There are various schemes to be able to continue the list
-> > iteration from where we left off. One such scheme used by the
-> > GEM LRU list traversal is to pull items already considered off
-> > the LRU list and reinsert them when iteration is done.
-> > This has the drawback that concurrent list iteration doesn't see
-> > the complete list (which is bad for exhaustive eviction) and also
-> > doesn't lend itself well to bulk-move sublists since these will
-> > be split in the process where items from those lists are
-> > temporarily pulled from the list and moved to the list tail.
->=20
-> Completely agree that this is not a desirable solution.
->=20
-> > The approach taken here is that list iterators insert themselves
-> > into the list next position using a special list node. Iteration
-> > is then using that list node as starting point when restarting.
-> > Concurrent iterators just skip over the special list nodes.
-> >=20
-> > This is implemented in patch 1 and 2.
-> >=20
-> > For bulk move sublist the approach is the same, but when a bulk
-> > move sublist is moved to the tail, the iterator is also moved,
-> > causing us to skip parts of the list. That is undesirable.
-> > Patch 3 deals with that, and when iterator detects it is
-> > traversing a sublist, it inserts a second restarting point just
-> > after the sublist and if the sublist is moved to the tail,
-> > it just uses the second restarting point instead.
-> >=20
-> > This is implemented in patch 3.
->=20
-> Interesting approach, that is probably even better than what I tried.
->=20
-> My approach was basically to not only lock the current BO, but also
-> the=20
-> next one. Since only a locked BO can move on the LRU we effectively=20
-> created an anchor.
->=20
-> Before I dig into the code a couple of questions:
-These are described in the patches but brief comments inline.
-
-> 1. How do you distinct BOs and iteration anchors on the LRU?
-Using a struct ttm_lru_item, containing a struct list_head and the
-type. List nodes embeds this instead of a struct list_head. This is
-larger than the list head but makes it explicit what we're doing.
-=20
-
-> 2. How do you detect that a bulk list moved on the LRU?
-An age u64 counter on the bulk move that we're comparing against. It's
-updated each time it moves.
 
 
-> 3. How do you remove the iteration anchors from the bulk list?
-A function call at the end of iteration, that the function iterating is
-requried to call.
+On 2024-02-16 03:19, Pekka Paalanen wrote:
+> On Fri, 2 Feb 2024 10:28:35 -0500
+> Hamza Mahfooz <hamza.mahfooz@amd.com> wrote:
+> 
+>> We want programs besides the compositor to be able to enable or disable
+>> panel power saving features.
+> 
+> Could you also explain why, in the commit message, please?
+> 
+> It is unexpected for arbitrary programs to be able to override the KMS
+> client, and certainly new ways to do so should not be added without an
+> excellent justification.
+> 
+> Maybe debugfs would be more appropriate if the purpose is only testing
+> rather than production environments?
+> 
+>> However, since they are currently only
+>> configurable through DRM properties, that isn't possible. So, to remedy
+>> that issue introduce a new "panel_power_savings" sysfs attribute.
+> 
+> When the DRM property was added, what was used as the userspace to
+> prove its workings?
+> 
 
+I don't think there ever was a userspace implementation and doubt any
+exists today. Part of that is on me. In hindsight, the KMS prop should
+have never gone upstream.
 
-/Thomas
+I suggest we drop the KMS prop entirely.
 
->=20
-> Regards,
-> Christian.
->=20
-> >=20
-> > The restartable property is used in patch 4 to restart swapout if
-> > needed, but the main purpose is this paves the way for
-> > shrinker- and exhaustive eviction.
-> >=20
-> > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > Cc: <dri-devel@lists.freedesktop.org>
-> >=20
-> > Thomas Hellstr=C3=B6m (4):
-> > =C2=A0=C2=A0 drm/ttm: Allow TTM LRU list nodes of different types
-> > =C2=A0=C2=A0 drm/ttm: Use LRU hitches
-> > =C2=A0=C2=A0 drm/ttm: Consider hitch moves within bulk sublist moves
-> > =C2=A0=C2=A0 drm/ttm: Allow continued swapout after -ENOSPC falure
-> >=20
-> > =C2=A0 drivers/gpu/drm/ttm/ttm_bo.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0=C2=A0 1 +
-> > =C2=A0 drivers/gpu/drm/ttm/ttm_device.c=C2=A0=C2=A0 |=C2=A0 33 +++--
-> > =C2=A0 drivers/gpu/drm/ttm/ttm_resource.c | 202 +++++++++++++++++++++++=
--
-> > -----
-> > =C2=A0 include/drm/ttm/ttm_resource.h=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 9=
-1 +++++++++++--
-> > =C2=A0 4 files changed, 267 insertions(+), 60 deletions(-)
-> >=20
->=20
+As for the color accuracy topic, I think it is important that compositors
+can have full control over that if needed, while it's also important
+for HW vendors to optimize for power when absolute color accuracy is not
+needed. An average end-user writing code or working on their slides
+would rather have a longer battery life than a perfectly color-accurate
+display. We should probably think of a solution that can support both
+use-cases.
+
+Harry
+
+> 
+> Thanks,
+> pq
+> 
+>>
+>> Cc: Mario Limonciello <mario.limonciello@amd.com>
+>> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+>> ---
+>> v2: hide ABM_LEVEL_IMMEDIATE_DISABLE in the read case, force an atomic
+>>     commit when setting the value, call sysfs_remove_group() in
+>>     amdgpu_dm_connector_unregister() and add some documentation.
+>> ---
+>>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 76 +++++++++++++++++++
+>>  1 file changed, 76 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>> index 8590c9f1dda6..3c62489d03dc 100644
+>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>> @@ -6436,10 +6436,79 @@ int amdgpu_dm_connector_atomic_get_property(struct drm_connector *connector,
+>>  	return ret;
+>>  }
+>>  
+>> +/**
+>> + * DOC: panel power savings
+>> + *
+>> + * The display manager allows you to set your desired **panel power savings**
+>> + * level (between 0-4, with 0 representing off), e.g. using the following::
+>> + *
+>> + *   # echo 3 > /sys/class/drm/card0-eDP-1/amdgpu/panel_power_savings
+>> + *
+>> + * Modifying this value can have implications on color accuracy, so tread
+>> + * carefully.
+>> + */
+>> +
+>> +static ssize_t panel_power_savings_show(struct device *device,
+>> +					struct device_attribute *attr,
+>> +					char *buf)
+>> +{
+>> +	struct drm_connector *connector = dev_get_drvdata(device);
+>> +	struct drm_device *dev = connector->dev;
+>> +	u8 val;
+>> +
+>> +	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
+>> +	val = to_dm_connector_state(connector->state)->abm_level ==
+>> +		ABM_LEVEL_IMMEDIATE_DISABLE ? 0 :
+>> +		to_dm_connector_state(connector->state)->abm_level;
+>> +	drm_modeset_unlock(&dev->mode_config.connection_mutex);
+>> +
+>> +	return sysfs_emit(buf, "%u\n", val);
+>> +}
+>> +
+>> +static ssize_t panel_power_savings_store(struct device *device,
+>> +					 struct device_attribute *attr,
+>> +					 const char *buf, size_t count)
+>> +{
+>> +	struct drm_connector *connector = dev_get_drvdata(device);
+>> +	struct drm_device *dev = connector->dev;
+>> +	long val;
+>> +	int ret;
+>> +
+>> +	ret = kstrtol(buf, 0, &val);
+>> +
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	if (val < 0 || val > 4)
+>> +		return -EINVAL;
+>> +
+>> +	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
+>> +	to_dm_connector_state(connector->state)->abm_level = val ?:
+>> +		ABM_LEVEL_IMMEDIATE_DISABLE;
+>> +	drm_modeset_unlock(&dev->mode_config.connection_mutex);
+>> +
+>> +	drm_kms_helper_hotplug_event(dev);
+>> +
+>> +	return count;
+>> +}
+>> +
+>> +static DEVICE_ATTR_RW(panel_power_savings);
+>> +
+>> +static struct attribute *amdgpu_attrs[] = {
+>> +	&dev_attr_panel_power_savings.attr,
+>> +	NULL
+>> +};
+>> +
+>> +static const struct attribute_group amdgpu_group = {
+>> +	.name = "amdgpu",
+>> +	.attrs = amdgpu_attrs
+>> +};
+>> +
+>>  static void amdgpu_dm_connector_unregister(struct drm_connector *connector)
+>>  {
+>>  	struct amdgpu_dm_connector *amdgpu_dm_connector = to_amdgpu_dm_connector(connector);
+>>  
+>> +	sysfs_remove_group(&connector->kdev->kobj, &amdgpu_group);
+>>  	drm_dp_aux_unregister(&amdgpu_dm_connector->dm_dp_aux.aux);
+>>  }
+>>  
+>> @@ -6541,6 +6610,13 @@ amdgpu_dm_connector_late_register(struct drm_connector *connector)
+>>  		to_amdgpu_dm_connector(connector);
+>>  	int r;
+>>  
+>> +	if (connector->connector_type == DRM_MODE_CONNECTOR_eDP) {
+>> +		r = sysfs_create_group(&connector->kdev->kobj,
+>> +				       &amdgpu_group);
+>> +		if (r)
+>> +			return r;
+>> +	}
+>> +
+>>  	amdgpu_dm_register_backlight_device(amdgpu_dm_connector);
+>>  
+>>  	if ((connector->connector_type == DRM_MODE_CONNECTOR_DisplayPort) ||
+> 
 
