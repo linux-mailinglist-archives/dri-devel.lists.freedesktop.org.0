@@ -2,69 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2583E857768
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 09:20:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C9F4857773
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 09:21:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7667710E256;
-	Fri, 16 Feb 2024 08:20:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B0A910E109;
+	Fri, 16 Feb 2024 08:21:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="bXDEcl+Y";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="RIFzwYQO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A31E910E256;
- Fri, 16 Feb 2024 08:19:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=SwArZZWoMGaUCC+AgKvruw60znKf1jRE+TFnKaPirqQ=; b=bXDEcl+YuVId6rnVYekHhMzP3m
- 8VFTkcifS/od+wIoEWEZmqojntpPTVvKkyPo/o6Ct9sDh7TXU28ldRbXwmrVoiJ/ELzBp8eKhR3p7
- kxss9xDt1E1B6oKtymfcp3oh36SLnfh04pA94ai2xmrQPRqlxLT47gaW6CttbAzuty6YYjsUMsqxu
- VkvJMYkf7XdvLUS4u77ltc72S42TOxLAqGeQO03Vf1FM8pQ9R2wMcvUuHCGwJSEKxl3pz9LCkOPZe
- 5Zl2xs9kwZUu7go8VrYgbYjEuWpH2tfm+EoV3HK/bm57WzBYE57KnTwdg8kVEE6GpmfDjlkTnJn4y
- QsEbgJvQ==;
-Received: from [194.136.85.206] (port=48728 helo=eldfell)
- by whm50.louhi.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
- (envelope-from <pekka.paalanen@haloniitty.fi>) id 1ratRf-0004TR-1u;
- Fri, 16 Feb 2024 10:19:43 +0200
-Date: Fri, 16 Feb 2024 10:19:36 +0200
-From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-To: Hamza Mahfooz <hamza.mahfooz@amd.com>
-Cc: <amd-gfx@lists.freedesktop.org>, Mario Limonciello
- <mario.limonciello@amd.com>, Harry Wentland <harry.wentland@amd.com>, Leo
- Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, "Alex
- Deucher" <alexander.deucher@amd.com>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Alex Hung
- <alex.hung@amd.com>, Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
- Wayne Lin <wayne.lin@amd.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] drm/amd/display: add panel_power_savings sysfs entry
- to eDP connectors
-Message-ID: <20240216101936.2e210be2@eldfell>
-In-Reply-To: <20240202152837.7388-1-hamza.mahfooz@amd.com>
-References: <20240202152837.7388-1-hamza.mahfooz@amd.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8AFB10E109
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 08:21:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1708071680;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HsCdI41uNLdj9vWH20xULzyDarTlzF8V7YTORvhNJQ0=;
+ b=RIFzwYQOdrOVoC+4e38DQKMTRMslJ8OGosxgeKEwTMRAIXxdWAMFSR0yLBpYNhX/MPJwdX
+ 76USLn6JStyXkBWuo8/4iTuDvXchdVt2bKHnj+kqF3JzlG04d7zFD4YZflkLfXDqw1+8Vg
+ xZvtMqxKhUnbNUbWx/HKo5AA+MAeWmU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-338-daBfv3zRPz6V0z-34rBtog-1; Fri, 16 Feb 2024 03:21:19 -0500
+X-MC-Unique: daBfv3zRPz6V0z-34rBtog-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-33d19eea6c3so244797f8f.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 00:21:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708071678; x=1708676478;
+ h=content-transfer-encoding:mime-version:message-id:date:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=HsCdI41uNLdj9vWH20xULzyDarTlzF8V7YTORvhNJQ0=;
+ b=phbDE0MEsudO5uCJ1eyfoFiYYp4H81Qx6AbcH3C3kRE/YyBelwvwls/z4bJ/TbO5vu
+ 8n5m5XKio4193WOdeOXlv/kz74GuiqAa3CGjFykNqLy/nzAwV960k7EZJG4ZodbRKXZQ
+ ZWBcjjBjATkbUo0H4EUuh7VTx5H1NjB44JDOLLYInH/r2ZyDMdvojyY7n79Q9tWV6OPX
+ FW1sZOWClJaFHIFUo/EIRisYXlwvc9If8iNrrHHFl+5ou0A/v1hE7LY9s9RuWsWzP4xM
+ h77yvnF5xktOCzM7BbaTaIvSJsY5MSUpe3Zp43nbrvbq2QVHpA1fGpeupeg30s+yunMl
+ Kb0A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVZikTmmB11Huwa7ccr2sLfvAHCpgnBJkiU2QlZEwwRZ/35ZZIAtfbfDHBaCeovGD3UMg0QJiH8fcHePcYWtgYFmDQH5/iDFACQSZWItLjx
+X-Gm-Message-State: AOJu0YxY/m+RS4nXOBokwNLThuWCv9hbNIo5bIUy4n+zky/s1RXxTwLd
+ ezinroFgVnXOZ2RomxeaBMYuEk88uwALRtk3ElI9S8Gny7L4buW0J3gRQgyyXrNfWnyXoXh1Suj
+ mxCkeg2/U4ACf8Gg54elPzqUsJI30gid2bI1YEWCOec4wVaqaVQnmHvqKisfEx4StmQ==
+X-Received: by 2002:a5d:6109:0:b0:33d:228f:f4ab with SMTP id
+ v9-20020a5d6109000000b0033d228ff4abmr105147wrt.15.1708071678169; 
+ Fri, 16 Feb 2024 00:21:18 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGFhNSykPbcaVP9rvuI+Pxyv/DedRPTjhi4bZfskagZIPLeSAgm7zKS8dwtr+tsW9UaRRKMAg==
+X-Received: by 2002:a5d:6109:0:b0:33d:228f:f4ab with SMTP id
+ v9-20020a5d6109000000b0033d228ff4abmr105131wrt.15.1708071677787; 
+ Fri, 16 Feb 2024 00:21:17 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ b7-20020a5d6347000000b0033d14455c99sm1468403wrw.101.2024.02.16.00.21.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Feb 2024 00:21:17 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Doug Anderson <dianders@chromium.org>, neil.armstrong@linaro.org
+Cc: Jani Nikula <jani.nikula@intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ dri-devel@lists.freedesktop.org, eizan@chromium.org, Ankit Nautiyal
+ <ankit.k.nautiyal@intel.com>, Daniel Vetter <daniel@ffwll.ch>, David
+ Airlie <airlied@gmail.com>, Heiner Kallweit <hkallweit1@gmail.com>, Imre
+ Deak <imre.deak@intel.com>, Jessica Zhang <quic_jesszhan@quicinc.com>, Sam
+ Ravnborg <sam@ravnborg.org>, Stanislav Lisovskiy
+ <stanislav.lisovskiy@intel.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/dp: Don't attempt AUX transfers when eDP panels are
+ not powered
+In-Reply-To: <CAD=FV=UtakQZ6OEKwERW5gNeAfS88EqkuQAHkrQoN=SicDG1JA@mail.gmail.com>
+References: <20240202141109.1.I24277520ac754ea538c9b14578edc94e1df11b48@changeid>
+ <CAJMQK-it9YMod4rHKnACq4O-iaGieK2SN4x5vQ018CghsA631A@mail.gmail.com>
+ <CAD=FV=VfuFrK1cSKA0maMzT5dxzKEzADqrd69fZKXuAGrU2rmA@mail.gmail.com>
+ <87sf1u58k0.fsf@intel.com>
+ <CAD=FV=XQdLm3PcjEd_g_dBJ9QO8zAJtj5nrXS9=cjC80+-Jbfg@mail.gmail.com>
+ <cbcd981f-bd5d-477e-8482-d3414be17057@linaro.org>
+ <CAD=FV=UtakQZ6OEKwERW5gNeAfS88EqkuQAHkrQoN=SicDG1JA@mail.gmail.com>
+Date: Fri, 16 Feb 2024 09:21:16 +0100
+Message-ID: <87frxskef7.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/N0j5fPzI_9+T2QzPPLs30WV";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - whm50.louhi.net
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - haloniitty.fi
-X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
- pekka.paalanen@haloniitty.fi
-X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,173 +106,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/N0j5fPzI_9+T2QzPPLs30WV
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Doug Anderson <dianders@chromium.org> writes:
 
-On Fri, 2 Feb 2024 10:28:35 -0500
-Hamza Mahfooz <hamza.mahfooz@amd.com> wrote:
+Hello Doug,
 
-> We want programs besides the compositor to be able to enable or disable
-> panel power saving features.
+> Hi,
+>
+> On Thu, Feb 15, 2024 at 8:53=E2=80=AFAM Neil Armstrong
+> <neil.armstrong@linaro.org> wrote:
+>>
+>> Hi Doug,
+>>
+>> On 15/02/2024 16:08, Doug Anderson wrote:
+>> > Hi,
+>> >
+>> > On Thu, Feb 15, 2024 at 2:24=E2=80=AFAM Jani Nikula <jani.nikula@intel=
+.com> wrote:
+>> >>
+>> >> On Wed, 14 Feb 2024, Doug Anderson <dianders@chromium.org> wrote:
+>> >>> Hi,
+>> >>>
+>> >>> On Tue, Feb 13, 2024 at 10:25=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromi=
+um.org> wrote:
+>> >>>>
+>> >>>> On Wed, Feb 14, 2024 at 2:23=E2=80=AFPM Douglas Anderson <dianders@=
+chromium.org> wrote:
+>> >>>>>
+>> >>>>> If an eDP panel is not powered on then any attempts to talk to it =
+over
+>> >>>>> the DP AUX channel will timeout. Unfortunately these attempts may =
+be
+>> >>>>> quite slow. Userspace can initiate these attempts either via a
+>> >>>>> /dev/drm_dp_auxN device or via the created i2c device.
+>> >>>>>
+>> >>>>> Making the DP AUX drivers timeout faster is a difficult propositio=
+n.
+>> >>>>> In theory we could just poll the panel's HPD line in the AUX trans=
+fer
+>> >>>>> function and immediately return an error there. However, this is
+>> >>>>> easier said than done. For one thing, there's no hard requirement =
+to
+>> >>>>> hook the HPD line up for eDP panels and it's OK to just delay a fi=
+xed
+>> >>>>> amount. For another thing, the HPD line may not be fast to probe. =
+On
+>> >>>>> parade-ps8640 we need to wait for the bridge chip's firmware to bo=
+ot
+>> >>>>> before we can get the HPD line and this is a slow process.
+>> >>>>>
 
-Could you also explain why, in the commit message, please?
+[...]
 
-It is unexpected for arbitrary programs to be able to override the KMS
-client, and certainly new ways to do so should not be added without an
-excellent justification.
+>
+> The kernel tree we landed on was the v5.15 tree, which is currently
+> serving all Qualcomm sc7180-based Chromebooks, all Mediatek 8173
+> Chromebooks and all Mediatek 8186 Chromebooks. There are also a pile
+> of x86 Chromebooks running our v5.15 kernel. This code shouldn't
+> affect them because (unless I'm mistaken) they don't use the two
+> affected panel drivers. In any case, I haven't heard any screams from
+> them either. Given my landing plans of "the week of the 26th", this
+> still gives another 1.5 weeks for any screams to reach my ears.
+>
+> ...or are you looking for non-ChromeOS test reports? I'm not sure how
+> to encourage those. I suppose sometimes folks at Red Hat end up
+> stumbling over similar panel problems to those of us in ChromeOS.
+> Maybe +Javier would be interested in providing a Tested-by?
+>
 
-Maybe debugfs would be more appropriate if the purpose is only testing
-rather than production environments?
+I do have a SC7180 based HP X2 Chromebook and could test your patch (not
+today but I could do it early next week), although I haven't followed so
+if you could please let me know what exactly do you want me to verify.
 
-> However, since they are currently only
-> configurable through DRM properties, that isn't possible. So, to remedy
-> that issue introduce a new "panel_power_savings" sysfs attribute.
+AFAIU the problem is that the fwupd daemon tries to scan DP busses even if
+the panel is turned off and that's what takes a lot of time (due retries),
+and your patch makes the driver to bail out immediately ? If that's the
+case, I guess that just starting fwupd daemon with an without your patch
+while the panel is turned off could be a good test ?
 
-When the DRM property was added, what was used as the userspace to
-prove its workings?
+> [1] https://crrev.com/c/5277322
+> [2] https://crrev.com/c/5277736
+>
 
+--=20
+Best regards,
 
-Thanks,
-pq
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
->=20
-> Cc: Mario Limonciello <mario.limonciello@amd.com>
-> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
-> ---
-> v2: hide ABM_LEVEL_IMMEDIATE_DISABLE in the read case, force an atomic
->     commit when setting the value, call sysfs_remove_group() in
->     amdgpu_dm_connector_unregister() and add some documentation.
-> ---
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 76 +++++++++++++++++++
->  1 file changed, 76 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/=
-gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 8590c9f1dda6..3c62489d03dc 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -6436,10 +6436,79 @@ int amdgpu_dm_connector_atomic_get_property(struc=
-t drm_connector *connector,
->  	return ret;
->  }
-> =20
-> +/**
-> + * DOC: panel power savings
-> + *
-> + * The display manager allows you to set your desired **panel power savi=
-ngs**
-> + * level (between 0-4, with 0 representing off), e.g. using the followin=
-g::
-> + *
-> + *   # echo 3 > /sys/class/drm/card0-eDP-1/amdgpu/panel_power_savings
-> + *
-> + * Modifying this value can have implications on color accuracy, so tread
-> + * carefully.
-> + */
-> +
-> +static ssize_t panel_power_savings_show(struct device *device,
-> +					struct device_attribute *attr,
-> +					char *buf)
-> +{
-> +	struct drm_connector *connector =3D dev_get_drvdata(device);
-> +	struct drm_device *dev =3D connector->dev;
-> +	u8 val;
-> +
-> +	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
-> +	val =3D to_dm_connector_state(connector->state)->abm_level =3D=3D
-> +		ABM_LEVEL_IMMEDIATE_DISABLE ? 0 :
-> +		to_dm_connector_state(connector->state)->abm_level;
-> +	drm_modeset_unlock(&dev->mode_config.connection_mutex);
-> +
-> +	return sysfs_emit(buf, "%u\n", val);
-> +}
-> +
-> +static ssize_t panel_power_savings_store(struct device *device,
-> +					 struct device_attribute *attr,
-> +					 const char *buf, size_t count)
-> +{
-> +	struct drm_connector *connector =3D dev_get_drvdata(device);
-> +	struct drm_device *dev =3D connector->dev;
-> +	long val;
-> +	int ret;
-> +
-> +	ret =3D kstrtol(buf, 0, &val);
-> +
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (val < 0 || val > 4)
-> +		return -EINVAL;
-> +
-> +	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
-> +	to_dm_connector_state(connector->state)->abm_level =3D val ?:
-> +		ABM_LEVEL_IMMEDIATE_DISABLE;
-> +	drm_modeset_unlock(&dev->mode_config.connection_mutex);
-> +
-> +	drm_kms_helper_hotplug_event(dev);
-> +
-> +	return count;
-> +}
-> +
-> +static DEVICE_ATTR_RW(panel_power_savings);
-> +
-> +static struct attribute *amdgpu_attrs[] =3D {
-> +	&dev_attr_panel_power_savings.attr,
-> +	NULL
-> +};
-> +
-> +static const struct attribute_group amdgpu_group =3D {
-> +	.name =3D "amdgpu",
-> +	.attrs =3D amdgpu_attrs
-> +};
-> +
->  static void amdgpu_dm_connector_unregister(struct drm_connector *connect=
-or)
->  {
->  	struct amdgpu_dm_connector *amdgpu_dm_connector =3D to_amdgpu_dm_connec=
-tor(connector);
-> =20
-> +	sysfs_remove_group(&connector->kdev->kobj, &amdgpu_group);
->  	drm_dp_aux_unregister(&amdgpu_dm_connector->dm_dp_aux.aux);
->  }
-> =20
-> @@ -6541,6 +6610,13 @@ amdgpu_dm_connector_late_register(struct drm_conne=
-ctor *connector)
->  		to_amdgpu_dm_connector(connector);
->  	int r;
-> =20
-> +	if (connector->connector_type =3D=3D DRM_MODE_CONNECTOR_eDP) {
-> +		r =3D sysfs_create_group(&connector->kdev->kobj,
-> +				       &amdgpu_group);
-> +		if (r)
-> +			return r;
-> +	}
-> +
->  	amdgpu_dm_register_backlight_device(amdgpu_dm_connector);
-> =20
->  	if ((connector->connector_type =3D=3D DRM_MODE_CONNECTOR_DisplayPort) ||
-
-
---Sig_/N0j5fPzI_9+T2QzPPLs30WV
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXPGpgACgkQI1/ltBGq
-qqc/7hAAlGiJifPdESkeAkI4ecEIa/VhPtuaQOWtX9tA2Lv+8u5VMhA0YyAn2ql2
-dYiw24Gu1A1b69qvyUvKzQPbhBX80PT9LEfzysYMpjCVZMv/9VlvANNZaQUojoYV
-a9+ETsbiugKUxWLgj8q7a522nPTfqZ4Hg0X0wlt31qQ9eRQDZv8v2z+x6FvEn70V
-R3C3Pi2NXCjYkqG3F+n9fcN2JDUSFFFrIZuwPJIi4MO8PWUNk47a+nyxOVKmAI/E
-MwoGilxW7pm/B7W1A1FfKo/FS+G8KhWchNB70nsE+x1fxEOLd0YypFH8fIlT86T5
-rkUNueHG73/do6FEdx5TOB//stiSnG7RRSJA2xOYd2iwPZB5VdQ/v9YB9EyW2zun
-ba9Ne51RpmT1VDBxrknWZV/wCtoRiMzRAXl4YPLlXkYZtWids7+OzJR9R2oDGw13
-8k0lgfgvV3cWFtEXpNXdcL1ErTOeow8/vmST2BTPVhuDw04pdU0RsQriV8ZygEwz
-cXmpEgkfpn/Ay8Ppe5l0Jw0IuSGRW90Sf4hmd7SQ5klLB/lV4CxLAF+xtoMDbzfP
-Ok8485dWkxEntrpGLvR/LcLXRyLuRIAFD5znUbKlBKCWQcPn8l+4gt93S2e9jiWV
-bU3eKOG1TEAOgW7hSD/yWeFQr5ceYxERSdPaMn2rN6pp2X5NiGw=
-=N/D3
------END PGP SIGNATURE-----
-
---Sig_/N0j5fPzI_9+T2QzPPLs30WV--
