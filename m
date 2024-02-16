@@ -2,66 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0E6A857C4D
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 13:08:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11833857C79
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 13:23:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BB9510E86B;
-	Fri, 16 Feb 2024 12:08:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8086110E2E0;
+	Fri, 16 Feb 2024 12:23:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KdkLMHE4";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TLohVyJg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29B7710E86B;
- Fri, 16 Feb 2024 12:08:53 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2C0910E2E0;
+ Fri, 16 Feb 2024 12:23:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708085333; x=1739621333;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=QkLD/XHG9+NuCQzZHPbebqKmxkWVbMevBNZ3+AaFDQg=;
- b=KdkLMHE4XdCqsY2wcQYDSh03tzeL41MbSLk/PyMlMMO0pE1Q9ZljbT6g
- sIozXzD4DwbXdj1lsiwkWucXSR/Dn3eh9GNOUDDMvEetsCgFaBrKUnXo5
- BzdoP/g0CVX5QV6ax7BiijOEF0Afmuacw7jmER6wQfE1SoJsAS6I6M7DF
- QkDP6HjkHxTNw19a3QXnH+cGTKqOOUosZJJX/pgr4e4FhzKHEsffi3yqo
- f41CLxfUDnDILO5+E7GlPZsqrbbp5ZxT7oaWXLjUvsbcqs3YFGR8LkxK8
- HEnzmmKRg7h8i20UEZ4vHZUn32Dyxm5zclYeHr00DQ3AVwqvtKIL8TkVf Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="2117040"
+ t=1708086216; x=1739622216;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=GVz4vskNutUmwAIAsWOWy6Lj3SbNewc+xr4L2WeQE6A=;
+ b=TLohVyJgMHn0nzR1o1pv/Rt1K+orUneASFr08DTkbSlV+uBgcokbfha5
+ RrsuuJjLGwYqUlVfLcSWXbbvgJXgCJnwBlp1rAOVdbiIp5NFne4RD1fgc
+ BOZ8Xs/odb8qQFuTHt9NqksUyFPphxGsRCNL3kx+f/jXAeQJnUIRsfsv8
+ bXavOD+Rl8ooCahOfuHZ9bKpht/+ELA9fSnV8PCzGPOoD4tK8WM1fU1zq
+ j1KxQsqqRAVbaidOmCGZcr+yRvVOdp9PkunLoMQeDmxz04SKGXtJKpA5Z
+ uoGaVLs/HpNYgRlS2mQKimUuK+BLXtAqbsuRLWEByP9v8SOvBmfTsQCsl A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="2362365"
 X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
-   d="scan'208";a="2117040"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2024 04:08:52 -0800
+   d="scan'208";a="2362365"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2024 04:23:34 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
-   d="scan'208";a="3901578"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
- by orviesa010.jf.intel.com with ESMTP; 16 Feb 2024 04:08:47 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rax1H-0001Ei-37;
- Fri, 16 Feb 2024 12:08:43 +0000
-Date: Fri, 16 Feb 2024 20:07:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Uma Shankar <uma.shankar@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, ville.syrjala@linux.intel.com,
- pekka.paalanen@collabora.com, contact@emersion.fr,
- harry.wentland@amd.com, mwen@igalia.com, jadahl@redhat.com,
- sebastian.wick@redhat.com, shashank.sharma@amd.com,
- agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com,
- aleixpol@kde.org, xaver.hugl@gmail.com, victoria@system76.com,
- daniel@ffwll.ch, quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
- quic_abhinavk@quicinc.com, arthurgrillo@riseup.net,
- marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com,
- sean@poorly.run, Uma Shankar <uma.shankar@intel.com>
-Subject: Re: [PATCH 01/28] [NOT FOR REVIEW] drm: color pipeline base work
-Message-ID: <202402161931.6Z8xdViq-lkp@intel.com>
-References: <20240213064835.139464-2-uma.shankar@intel.com>
+   d="scan'208";a="4144135"
+Received: from fcrowe-mobl2.ger.corp.intel.com (HELO [10.252.21.243])
+ ([10.252.21.243])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2024 04:23:32 -0800
+Message-ID: <af43196c-d926-454b-8914-c5753f5d3799@intel.com>
+Date: Fri, 16 Feb 2024 12:23:29 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240213064835.139464-2-uma.shankar@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 3/3] drm/buddy: Add defragmentation support
+Content-Language: en-GB
+To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Cc: christian.koenig@amd.com, alexander.deucher@amd.com,
+ felix.kuehling@amd.com, mario.limonciello@amd.com
+References: <20240208155000.339325-1-Arunpravin.PaneerSelvam@amd.com>
+ <20240208155000.339325-3-Arunpravin.PaneerSelvam@amd.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20240208155000.339325-3-Arunpravin.PaneerSelvam@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,111 +72,174 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Uma,
+On 08/02/2024 15:50, Arunpravin Paneer Selvam wrote:
+> Add a function to support defragmentation.
+> 
+> v1: Defragment the memory beginning from min_order
+>      till the required memory space is available.
+> 
+> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+> Suggested-by: Matthew Auld <matthew.auld@intel.com>
+> ---
+>   drivers/gpu/drm/drm_buddy.c | 67 +++++++++++++++++++++++++++++++------
+>   include/drm/drm_buddy.h     |  3 ++
 
-kernel test robot noticed the following build warnings:
+No users?
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next next-20240216]
-[cannot apply to drm-intel/for-linux-next drm-intel/for-linux-next-fixes linus/master v6.8-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>   2 files changed, 59 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+> index 33ad0cfbd54c..fac423d2cb73 100644
+> --- a/drivers/gpu/drm/drm_buddy.c
+> +++ b/drivers/gpu/drm/drm_buddy.c
+> @@ -276,10 +276,12 @@ drm_get_buddy(struct drm_buddy_block *block)
+>   }
+>   EXPORT_SYMBOL(drm_get_buddy);
+>   
+> -static void __drm_buddy_free(struct drm_buddy *mm,
+> -			     struct drm_buddy_block *block)
+> +static unsigned int __drm_buddy_free(struct drm_buddy *mm,
+> +				     struct drm_buddy_block *block,
+> +				     bool defrag)
+>   {
+>   	struct drm_buddy_block *parent;
+> +	unsigned int order;
+>   
+>   	while ((parent = block->parent)) {
+>   		struct drm_buddy_block *buddy;
+> @@ -289,12 +291,14 @@ static void __drm_buddy_free(struct drm_buddy *mm,
+>   		if (!drm_buddy_block_is_free(buddy))
+>   			break;
+>   
+> -		if (drm_buddy_block_is_clear(block) !=
+> -		    drm_buddy_block_is_clear(buddy))
+> -			break;
+> +		if (!defrag) {
+> +			if (drm_buddy_block_is_clear(block) !=
+> +			    drm_buddy_block_is_clear(buddy))
+> +				break;
+>   
+> -		if (drm_buddy_block_is_clear(block))
+> -			mark_cleared(parent);
+> +			if (drm_buddy_block_is_clear(block))
+> +				mark_cleared(parent);
+> +		}
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Uma-Shankar/drm-color-pipeline-base-work/20240213-144544
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240213064835.139464-2-uma.shankar%40intel.com
-patch subject: [PATCH 01/28] [NOT FOR REVIEW] drm: color pipeline base work
-config: x86_64-randconfig-121-20240214 (https://download.01.org/0day-ci/archive/20240216/202402161931.6Z8xdViq-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240216/202402161931.6Z8xdViq-lkp@intel.com/reproduce)
+Maybe check if the two blocks are incompatible and chuck a warn if they 
+are not? Main thing is not to hide issues with split blocks that should 
+have been merged before.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402161931.6Z8xdViq-lkp@intel.com/
+>   
+>   		list_del(&buddy->link);
+>   
+> @@ -304,8 +308,49 @@ static void __drm_buddy_free(struct drm_buddy *mm,
+>   		block = parent;
+>   	}
+>   
+> +	order = drm_buddy_block_order(block);
+>   	mark_free(mm, block);
+> +
+> +	return order;
+> +}
+> +
+> +/**
+> + * drm_buddy_defrag - Defragmentation routine
+> + *
+> + * @mm: DRM buddy manager
+> + * @min_order: minimum order in the freelist to begin
+> + * the defragmentation process
+> + *
+> + * Driver calls the defragmentation function when the
+> + * requested memory allocation returns -ENOSPC.
+> + */
+> +void drm_buddy_defrag(struct drm_buddy *mm,
+> +		      unsigned int min_order)
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/vkms/vkms_colorop.c:11:11: sparse: sparse: symbol 'vkms_initialize_tf_pipeline' was not declared. Should it be static?
---
-   drivers/gpu/drm/vkms/vkms_composer.c: note: in included file:
->> drivers/gpu/drm/vkms/tests/vkms_color_tests.c:29:29: sparse: sparse: symbol 'test_linear_lut' was not declared. Should it be static?
->> drivers/gpu/drm/vkms/tests/vkms_color_tests.c:87:32: sparse: sparse: symbol 'test_matrix_3x4_50_desat' was not declared. Should it be static?
->> drivers/gpu/drm/vkms/tests/vkms_color_tests.c:146:32: sparse: sparse: symbol 'test_matrix_3x4_bt709_enc' was not declared. Should it be static?
+Just wondering if we need "full defag" also? We would probably need to 
+call this at fini() anyway.
 
-vim +/vkms_initialize_tf_pipeline +11 drivers/gpu/drm/vkms/vkms_colorop.c
+> +{
+> +	struct drm_buddy_block *block;
+> +	struct list_head *list;
+> +	unsigned int order;
+> +	int i;
+> +
+> +	if (min_order > mm->max_order)
+> +		return;
+> +
+> +	for (i = min_order - 1; i >= 0; i--) {
 
-    10	
-  > 11	const int vkms_initialize_tf_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list)
-    12	{
-    13	
-    14		struct drm_colorop *op, *prev_op;
-    15		struct drm_device *dev = plane->dev;
-    16		int ret;
-    17	
-    18		/* 1st op: 1d curve */
-    19		op = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
-    20		if (!op) {
-    21			DRM_ERROR("KMS: Failed to allocate colorop\n");
-    22			return -ENOMEM;
-    23		}
-    24	
-    25		ret = drm_colorop_init(dev, op, plane, DRM_COLOROP_1D_CURVE);
-    26		if (ret)
-    27			return ret;
-    28	
-    29		list->type = op->base.id;
-    30		list->name = kasprintf(GFP_KERNEL, "Color Pipeline %d", op->base.id);
-    31	
-    32		prev_op = op;
-    33	
-    34		/* 2nd op: 3x4 matrix */
-    35		op = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
-    36		if (!op) {
-    37			DRM_ERROR("KMS: Failed to allocate colorop\n");
-    38			return -ENOMEM;
-    39		}
-    40	
-    41		ret = drm_colorop_init(dev, op, plane, DRM_COLOROP_CTM_3X4);
-    42		if (ret)
-    43			return ret;
-    44	
-    45		drm_colorop_set_next_property(prev_op, op);
-    46	
-    47		prev_op = op;
-    48	
-    49		/* 3rd op: 3x4 matrix */
-    50		op = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
-    51		if (!op) {
-    52			DRM_ERROR("KMS: Failed to allocate colorop\n");
-    53			return -ENOMEM;
-    54		}
-    55	
-    56		ret = drm_colorop_init(dev, op, plane, DRM_COLOROP_CTM_3X4);
-    57		if (ret)
-    58			return ret;
-    59	
-    60		drm_colorop_set_next_property(prev_op, op);
-    61	
-    62		prev_op = op;
-    63	
-    64		/* 4th op: 1d curve */
-    65		op = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
-    66		if (!op) {
-    67			DRM_ERROR("KMS: Failed to allocate colorop\n");
-    68			return -ENOMEM;
-    69		}
-    70	
-    71		ret = drm_colorop_init(dev, op, plane, DRM_COLOROP_1D_CURVE);
-    72		if (ret)
-    73			return ret;
-    74	
-    75		drm_colorop_set_next_property(prev_op, op);
-    76	
-    77		return 0;
-    78	}
-    79	
+Need to be careful with min_order = 0 ?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> +		list = &mm->free_list[i];
+> +		if (list_empty(list))
+> +			continue;
+> +
+> +		list_for_each_entry_reverse(block, list, link) {
+
+Don't we need the safe_reverse() variant here, since this is removing 
+from the list?
+
+> +			if (!block->parent)
+> +				continue;
+> +
+> +			order = __drm_buddy_free(mm, block, 1);
+> +			if (order >= min_order)
+> +				return;
+> +		}
+> +	}
+>   }
+> +EXPORT_SYMBOL(drm_buddy_defrag);
+>   
+>   /**
+>    * drm_buddy_free_block - free a block
+> @@ -321,7 +366,7 @@ void drm_buddy_free_block(struct drm_buddy *mm,
+>   	if (drm_buddy_block_is_clear(block))
+>   		mm->clear_avail += drm_buddy_block_size(mm, block);
+>   
+> -	__drm_buddy_free(mm, block);
+> +	__drm_buddy_free(mm, block, 0);
+>   }
+>   EXPORT_SYMBOL(drm_buddy_free_block);
+>   
+> @@ -470,7 +515,7 @@ __alloc_range_bias(struct drm_buddy *mm,
+>   	if (buddy &&
+>   	    (drm_buddy_block_is_free(block) &&
+>   	     drm_buddy_block_is_free(buddy)))
+> -		__drm_buddy_free(mm, block);
+> +		__drm_buddy_free(mm, block, 0);
+>   	return ERR_PTR(err);
+>   }
+>   
+> @@ -588,7 +633,7 @@ alloc_from_freelist(struct drm_buddy *mm,
+>   
+>   err_undo:
+>   	if (tmp != order)
+> -		__drm_buddy_free(mm, block);
+> +		__drm_buddy_free(mm, block, 0);
+>   	return ERR_PTR(err);
+>   }
+>   
+> @@ -668,7 +713,7 @@ static int __alloc_range(struct drm_buddy *mm,
+>   	if (buddy &&
+>   	    (drm_buddy_block_is_free(block) &&
+>   	     drm_buddy_block_is_free(buddy)))
+> -		__drm_buddy_free(mm, block);
+> +		__drm_buddy_free(mm, block, 0);
+>   
+>   err_free:
+>   	if (err == -ENOSPC && total_allocated_on_err) {
+> diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
+> index d81c596dfa38..d0f63e7b5915 100644
+> --- a/include/drm/drm_buddy.h
+> +++ b/include/drm/drm_buddy.h
+> @@ -166,6 +166,9 @@ void drm_buddy_free_list(struct drm_buddy *mm,
+>   			 struct list_head *objects,
+>   			 unsigned int flags);
+>   
+> +void drm_buddy_defrag(struct drm_buddy *mm,
+> +		      unsigned int min_order);
+> +
+>   void drm_buddy_print(struct drm_buddy *mm, struct drm_printer *p);
+>   void drm_buddy_block_print(struct drm_buddy *mm,
+>   			   struct drm_buddy_block *block,
