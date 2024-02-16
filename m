@@ -2,103 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 830FF85784E
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 10:00:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6E18857869
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 10:05:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7507910E6CC;
-	Fri, 16 Feb 2024 09:00:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 388EF10E4F2;
+	Fri, 16 Feb 2024 09:05:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YCzORuYA";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KBPpEo2j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADF6410E67E;
- Fri, 16 Feb 2024 09:00:22 +0000 (UTC)
-Received: from [192.168.88.20] (91-154-35-128.elisa-laajakaista.fi
- [91.154.35.128])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 56387564;
- Fri, 16 Feb 2024 10:00:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1708074017;
- bh=SkPF05zi1FFkC5mvRTPYwqGozbga3ft2n9Q6OzdOph0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=YCzORuYAlZghv2vuK2qntd9dZivp26YGwNW4MEzYH6S7cjxtTmaFtqrx7WskQR7Pa
- YdbAqY4gN4QCDEqsJNsF6eWW3x89tjVVwFTdboNIIVNr0J9/Axlrck25Ds7xdYuDbC
- 1vuKzmF2zc9fpnu+sYzC9oJWHvr87DgFv8BOeK3o=
-Message-ID: <263c5e9b-d6fb-41a8-9d8a-84ea49eef51c@ideasonboard.com>
-Date: Fri, 16 Feb 2024 11:00:17 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 748B810E4DA;
+ Fri, 16 Feb 2024 09:05:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1708074305; x=1739610305;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=g8hPbA2/gYF/CSzjwdouvtoWbto1dwGMcgtNCz6PS5Y=;
+ b=KBPpEo2j8JJeST/zPxgMcq7nVxBH3jCgg3tzTuBdFKMBHfZ62cpnMh0L
+ b6DfU4HO2KW0/LTFt8n1PuTSWwDq7HObuiJBBnXWrbAHXY6Sxm9D7wNa9
+ fmXp0gg8ZLL5HE4+w45B3BsirVTadgTGnTViJBGKPpNStwz4wIBo2b10M
+ jfj/VpWSWKkphqZ0O5Q9TyyYG85yN+Ag6Y8LfW1lrbarPMz4pQn7lWgWV
+ Ukw1behg1wZRtICvumJQWAHZtWh8jyjBoD/iFML31T5WE3ROVZsaW5xXS
+ f5Btw+ZtOOrhCqwu6cjWyusJE4/BIREHmGlfsxNKJTFxQfB44hj3MAKZh w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="12825804"
+X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; d="scan'208";a="12825804"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2024 01:05:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; d="scan'208";a="41279178"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+ by orviesa001.jf.intel.com with ESMTP; 16 Feb 2024 01:04:52 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rau9J-00017c-24;
+ Fri, 16 Feb 2024 09:04:49 +0000
+Date: Fri, 16 Feb 2024 17:03:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+ Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, amd-gfx@lists.freedesktop.org,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ linux-fbdev@vger.kernel.org, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org,
+ platform-driver-x86@vger.kernel.org, intel-xe@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org,
+ "open list:ACPI" <linux-acpi@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, Melissa Wen <mwen@igalia.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH v6 1/5] drm: Stop using `select ACPI_VIDEO` in all drivers
+Message-ID: <202402161633.zhmOGq2G-lkp@intel.com>
+References: <20240214215756.6530-2-mario.limonciello@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/tidss: Fix initial plane zpos values
-Content-Language: en-US
-To: Daniel Stone <daniel@fooishbar.org>,
- Marius Vlad <marius.vlad@collabora.com>
-Cc: Pekka Paalanen <pekka.paalanen@haloniitty.fi>,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sam Ravnborg <sam@ravnborg.org>, Devarsh Thakkar <devarsht@ti.com>,
- Aradhya Bhatia <a-bhatia1@ti.com>, Francesco Dolcini <francesco@dolcini.it>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- "wayland-devel@lists.freedesktop.org" <wayland-devel@lists.freedesktop.org>,
- Randolph Sapp <rs@ti.com>
-References: <20240213-tidss-fixes-v1-0-d709e8dfa505@ideasonboard.com>
- <20240213-tidss-fixes-v1-1-d709e8dfa505@ideasonboard.com>
- <20240213110440.13af335a@eldfell>
- <bb8089cd-2a57-4ed0-a8bd-2140a89b0887@ideasonboard.com>
- <ZctCCCJORdDEaDl1@xpredator>
- <CAPj87rPpdOQLLu5oGVfqDUh0_j9NXqc3XgZe5=tcOzUfVoeeqg@mail.gmail.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <CAPj87rPpdOQLLu5oGVfqDUh0_j9NXqc3XgZe5=tcOzUfVoeeqg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240214215756.6530-2-mario.limonciello@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,66 +80,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Mario,
 
-On 13/02/2024 13:39, Daniel Stone wrote:
-> Hi,
-> 
-> On Tue, 13 Feb 2024 at 10:18, Marius Vlad <marius.vlad@collabora.com> wrote:
->> On Tue, Feb 13, 2024 at 11:57:59AM +0200, Tomi Valkeinen wrote:
->>> I haven't. I'm quite unfamiliar with Weston, and Randolph from TI (cc'd) has
->>> been working on the Weston side of things. I also don't know if there's
->>> something TI specific here, as the use case is with non-mainline GPU drivers
->>> and non-mainline Mesa. I should have been a bit clearer in the patch
->>> description, as I didn't mean that upstream Weston has a bug (maybe it has,
->>> maybe it has not).
-> 
-> Don't worry about it. We've had bugs in the past and I'm sure we'll
-> have more. :) Either way, it's definitely better to have the kernel
-> expose sensible behaviour rather than weird workarounds, unless
-> they've been around for so long that they're basically baked into ABI.
+kernel test robot noticed the following build warnings:
 
-Yeah, that's always a worry. I do hope that no user of tidss expects the 
-plane zpos values to be the current funny ones. But we'll probably find 
-out when I merge this =).
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.8-rc4 next-20240216]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->>> The issue seen is that when Weston decides to use DRM planes for
->>> composition, the plane zpositions are not configured correctly (or at all?).
->>> Afaics, this leads to e.g. weston showing a window with a DRM "overlay"
->>> plane that is behind the "primary" root plane, so the window is not visible.
->>> And as Weston thinks that the area supposedly covered by the overlay plane
->>> does not need to be rendered on the root plane, there are also artifacts on
->>> that area.
->>>
->>> Also, the Weston I used is a bit older one (10.0.1), as I needed to go back
->>> in my buildroot versions to get all that non-mainline GPU stuff compiled and
->>> working. A more recent Weston may behave differently.
->>
->> Right after Weston 10, we had a few minor changes related to the
->> zpos-sorting list of planes and how we parse the plan list without having
->> a temporary zpos ordered list to pick planes from.
->>
->> And there's another fix for missing out to set out the zpos for scanout
->> to the minimum available - which seems like a good candidate to explain
->> what happens in the issue described above. So if trying Weston again,
->> please try with at least Weston 12, which should have those changes
->> in.
-> 
-> Specifically, you probably want commits 4cde507be6a1 and 58dde0e0c000.
-> I think the window of breakage was small enough that - assuming either
-> those commits or an upgrade to Weston 12/13 fixes it - we can just ask
-> people to upgrade to a fixed Weston.
-> 
->>> Presuming this is not related to any TI specific code, I guess it's a
->>> regression in the sense that at some point Weston added the support to use
->>> planes for composition, so previously with only a single plane per display
->>> there was no issue.
-> 
-> That point was 12 years ago, so not that novel. ;)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/drm-Stop-using-select-ACPI_VIDEO-in-all-drivers/20240215-055936
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240214215756.6530-2-mario.limonciello%40amd.com
+patch subject: [PATCH v6 1/5] drm: Stop using `select ACPI_VIDEO` in all drivers
+config: alpha-kismet-CONFIG_FB_BACKLIGHT-CONFIG_FB_NVIDIA-0-0 (https://download.01.org/0day-ci/archive/20240216/202402161633.zhmOGq2G-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240216/202402161633.zhmOGq2G-lkp@intel.com/reproduce)
 
-Hmm, so do I understand it right, the plane code from 12 years back 
-supposedly works ok, but somewhere around Weston 10 something broke, but 
-was fixed with the commits you mention above?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402161633.zhmOGq2G-lkp@intel.com/
 
-  Tomi
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for FB_BACKLIGHT when selected by FB_NVIDIA
+   .config:98:warning: symbol value 'n' invalid for SERIAL_AR933X_NR_UARTS
+   .config:208:warning: symbol value 'n' invalid for USB_GADGET_STORAGE_NUM_BUFFERS
+   .config:244:warning: symbol value 'n' invalid for SATA_MOBILE_LPM_POLICY
+   .config:345:warning: symbol value 'n' invalid for PSTORE_BLK_MAX_REASON
+   .config:427:warning: symbol value 'n' invalid for AIC79XX_DEBUG_MASK
+   .config:432:warning: symbol value 'n' invalid for KFENCE_SAMPLE_INTERVAL
+   .config:620:warning: symbol value 'n' invalid for DRM_XE_JOB_TIMEOUT_MIN
+   .config:652:warning: symbol value 'n' invalid for CRYPTO_DEV_QCE_SW_MAX_LEN
+   .config:687:warning: symbol value 'n' invalid for PANEL_LCD_PIN_E
+   .config:757:warning: symbol value 'n' invalid for PANEL_LCD_CHARSET
+   .config:800:warning: symbol value 'n' invalid for SND_AC97_POWER_SAVE_DEFAULT
+   .config:848:warning: symbol value 'n' invalid for MAGIC_SYSRQ_DEFAULT_ENABLE
+   .config:853:warning: symbol value 'n' invalid for AIC79XX_CMDS_PER_DEVICE
+   .config:865:warning: symbol value 'n' invalid for DRM_I915_MAX_REQUEST_BUSYWAIT
+   .config:896:warning: symbol value 'n' invalid for SND_AT73C213_TARGET_BITRATE
+   .config:907:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MIN
+   .config:913:warning: symbol value 'n' invalid for PANEL_LCD_PIN_SDA
+   .config:915:warning: symbol value 'n' invalid for NET_EMATCH_STACK
+   .config:917:warning: symbol value 'n' invalid for VMCP_CMA_SIZE
+   .config:1149:warning: symbol value 'n' invalid for RCU_CPU_STALL_TIMEOUT
+   .config:1176:warning: symbol value 'n' invalid for MTDRAM_ERASE_SIZE
+   .config:1282:warning: symbol value 'n' invalid for SERIAL_UARTLITE_NR_UARTS
+   .config:1453:warning: symbol value 'n' invalid for LEGACY_PTY_COUNT
+   .config:1591:warning: symbol value 'n' invalid for AIC7XXX_RESET_DELAY_MS
+   .config:1592:warning: symbol value 'n' invalid for WATCHDOG_OPEN_TIMEOUT
+   .config:1710:warning: symbol value 'n' invalid for AIC79XX_RESET_DELAY_MS
+   .config:1757:warning: symbol value 'n' invalid for IBM_EMAC_POLL_WEIGHT
+   .config:1891:warning: symbol value 'n' invalid for DRM_I915_STOP_TIMEOUT
+   .config:2178:warning: symbol value 'n' invalid for RCU_FANOUT_LEAF
+   .config:2192:warning: symbol value 'n' invalid for KCOV_IRQ_AREA_SIZE
+   .config:2327:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MAX
+   .config:2328:warning: symbol value 'n' invalid for PANEL_LCD_BWIDTH
+   .config:2378:warning: symbol value 'n' invalid for MTD_REDBOOT_DIRECTORY_BLOCK
+   .config:2570:warning: symbol value 'n' invalid for PANEL_PARPORT
+   .config:2655:warning: symbol value 'n' invalid for NOUVEAU_DEBUG_DEFAULT
+   .config:2846:warning: symbol value 'n' invalid for KCSAN_REPORT_ONCE_IN_MS
+   .config:2860:warning: symbol value 'n' invalid for SND_SOC_SOF_DEBUG_IPC_FLOOD_TEST_NUM
+   .config:2934:warning: symbol value 'n' invalid for XEN_MEMORY_HOTPLUG_LIMIT
+   .config:2944:warning: symbol value 'n' invalid for KCSAN_UDELAY_INTERRUPT
+   .config:2969:warning: symbol value 'n' invalid for PANEL_LCD_PIN_BL
+   .config:2995:warning: symbol value 'n' invalid for INITRAMFS_ROOT_GID
+   .config:3101:warning: symbol value 'n' invalid for ATM_FORE200E_TX_RETRY
+   .config:3142:warning: symbol value 'n' invalid for FB_OMAP2_DSS_MIN_FCK_PER_PCK
+   .config:3223:warning: symbol value 'n' invalid for PSTORE_BLK_CONSOLE_SIZE
+   .config:3344:warning: symbol value 'n' invalid for BOOKE_WDT_DEFAULT_TIMEOUT
+   .config:3426:warning: symbol value 'n' invalid for KCSAN_UDELAY_TASK
+   .config:3481:warning: symbol value 'n' invalid for MMC_BLOCK_MINORS
+   .config:3524:warning: symbol value 'n' invalid for FTRACE_RECORD_RECURSION_SIZE
+   .config:3528:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_SYNC
+   .config:3543:warning: symbol value 'n' invalid for PANEL_PROFILE
+   .config:3648:warning: symbol value 'n' invalid for UCLAMP_BUCKETS_COUNT
+   .config:3770:warning: symbol value 'n' invalid for SERIAL_MCF_BAUDRATE
+   .config:3837:warning: symbol value 'n' invalid for DE2104X_DSL
+   .config:3851:warning: symbol value 'n' invalid for BLK_DEV_RAM_COUNT
+   .config:4005:warning: symbol value 'n' invalid for STACK_MAX_DEFAULT_SIZE_MB
+   .config:4173:warning: symbol value 'n' invalid for CMA_AREAS
+   .config:4233:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_X
+   .config:4254:warning: symbol value 'n' invalid for USBIP_VHCI_HC_PORTS
+   .config:4346:warning: symbol value 'n' invalid for RIONET_RX_SIZE
+   .config:4562:warning: symbol value 'n' invalid for RADIO_TYPHOON_PORT
+   .config:4652:warning: symbol value 'n' invalid for IBM_EMAC_TXB
+   .config:4686:warning: symbol value 'n' invalid for SERIAL_TXX9_NR_UARTS
+   .config:4722:warning: symbol value 'n' invalid for PANEL_LCD_PIN_RW
+   .config:5034:warning: symbol value 'n' invalid for ARCH_MMAP_RND_BITS
+   .config:5118:warning: symbol value 'n' invalid for DRM_I915_FENCE_TIMEOUT
+   .config:5138:warning: symbol value 'n' invalid for TTY_PRINTK_LEVEL
+   .config:5300:warning: symbol value 'n' invalid for MIPS_EJTAG_FDC_KGDB_CHAN
+   .config:5389:warning: symbol value 'n' invalid for SND_MAX_CARDS
+   .config:5394:warning: symbol value 'n' invalid for KDB_DEFAULT_ENABLE
+   .config:5411:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_MAXPORTS
+   .config:5549:warning: symbol value 'n' invalid for RCU_BOOST_DELAY
+   .config:5552:warning: symbol value 'n' invalid for PPC_EARLY_DEBUG_EHV_BC_HANDLE
+   .config:5667:warning: symbol value 'n' invalid for PANEL_LCD_HWIDTH
+   .config:5700:warning: symbol value 'n' invalid for LOCKDEP_CHAINS_BITS
+   .config:5789:warning: symbol value 'n' invalid for DRM_I915_HEARTBEAT_INTERVAL
+   .config:5797:warning: symbol value 'n' invalid for KCSAN_SKIP_WATCH
+   .config:5821:warning: symbol value 'n' invalid for PSTORE_BLK_KMSG_SIZE
+   .config:5941:warning: symbol value 'n' invalid for CRYPTO_DEV_FSL_CAAM_INTC_TIME_THLD
+   .config:6039:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MAX
+   .config:6118:warning: symbol value 'n' invalid for ARCH_MMAP_RND_COMPAT_BITS
+   .config:6287:warning: symbol value 'n' invalid for RADIO_TRUST_PORT
+   .config:6538:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_MAX_TAGS
+   .config:6653:warning: symbol value 'n' invalid for MTD_UBI_WL_THRESHOLD
+   .config:6663:warning: symbol value 'n' invalid for CMA_SIZE_PERCENTAGE
+   .config:6675:warning: symbol value 'n' invalid for RIONET_TX_SIZE
+   .config:6811:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MIN
+   .config:6938:warning: symbol value 'n' invalid for DVB_MAX_ADAPTERS
+   .config:6939:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_MAX_TAGS
+   .config:6951:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_DMA_ADDRESSING_MODE
+   .config:7048:warning: symbol value 'n' invalid for OMAP2_DSS_MIN_FCK_PER_PCK
+   .config:7278:warning: symbol value 'n' invalid for SERIAL_ARC_NR_PORTS
+   .config:7329:warning: symbol value 'n' invalid for IBM_EMAC_RXB
+   .config:7358:warning: symbol value 'n' invalid for ZSMALLOC_CHAIN_SIZE
+   .config:7452:warning: symbol value 'n' invalid for SCSI_MPT3SAS_MAX_SGE
+   .config:7582:warning: symbol value 'n' invalid for PSTORE_DEFAULT_KMSG_BYTES
+   .config:7595:warning: symbol value 'n' invalid for KDB_CONTINUE_CATASTROPHIC
+   .config:7623:warning: symbol value 'n' invalid for LOCKDEP_BITS
+   .config:7629:warning: symbol value 'n' invalid for RCU_FANOUT
+   .config:7707:warning: symbol value 'n' invalid for PANEL_LCD
+   .config:7873:warning: symbol value 'n' invalid for VIDEO_VIVID_MAX_DEVS
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
