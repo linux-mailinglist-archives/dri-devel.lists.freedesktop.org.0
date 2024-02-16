@@ -2,124 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05C4B858023
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 16:06:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E89885802D
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 16:08:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A19810EAB9;
-	Fri, 16 Feb 2024 15:06:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B65310E3A6;
+	Fri, 16 Feb 2024 15:08:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="R1PTm20e";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="zjhpQflv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2076.outbound.protection.outlook.com [40.107.220.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAFE610E1B6;
- Fri, 16 Feb 2024 15:06:06 +0000 (UTC)
+ (mail-co1nam11on2045.outbound.protection.outlook.com [40.107.220.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7293610E3A6;
+ Fri, 16 Feb 2024 15:08:35 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SKUnINeaU6b8DBoNbIwP3D+bvvF038zLHMjr+x7/bV2jXiZzsZXBCxdikxWz5FLiojyKlTHqOyJKffLcDKqFXzPRtoIz4oELnINs0pp5tC1+ItvUln26kUOkBlWBGiU5mBi5Yi85oImd5s9rVmWPXL66s4E56gWv+waYDT8A2yirJ7ekQMHzkNHoIDGHLF/gisSOIFLKtvzpmOpSa2NYKQu7xBtcrrZ7/yetwKUDJeNO/LDGqeXoW2B40JLGUSoKPseSRC2JYkz+nYPM42t+NLYZKBJV4OT8tOAgA6uYtvIon8ir79GNuU0ZpkHLGapFGG9CW2HD1E36nBh1fS+lYA==
+ b=LBP3M5w8Xi2DmE+zwsSduFxXzQA1+slYHA9KWr8YNg/nmtQpDvX3dD0t9ZboTeMsSn3ZGMxt3Xqs+ax3yEn18yC+cCAOetKftXndPmo7l75nceN3EYEIrGzMfW/STp77FOT9TmNIJuU4kj9RfsTG8Opd6V3xL/oXmkvSYD7JfDMvIbs3VBlXamPPIaT25kr42DSYTU4Woj0Oi2g9VJ175/giIzsDadTKpx01MR0Si2UEu7aYRWrTfmoJc7+mPN6Xerz3XGfsgNxjLoGHukMBjH6nSK1d4gqL2JkRMCI1Xg0r92IRfVVxrfuHtXkuWzCWeSYHBkbRme4U2e567X5bkQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J/FxKDlAeJxaRWRoZ8WfuFkvWpytRMt0UsFjxW85tgU=;
- b=FkgcVKXE4h4zT7D7MrLHtTB9tGx1YIMICAuSpiCvAjLaW20Qtkp7QzlhWhjheiJZFZrFsjix8WYbh3PGXyCVmgo7lIef6q4HvM5vwRTiHuxBiUCBaDwCVwmm/jixlGRWyzjevvsdMW+QPHYNbJLAL+2AqSWQLXorPAY00EgR4UgGbELUR08elmQ9yO5U2VNy1n33XpQbSe1M31i/x0fUagmw2I3g8SzmsOkojP4WjkEdXjpVL25FiRDZayW4EZzs8bt+rMAN9F6lglNJlHlSv0Qva1CAvuPQXmFYs9ZAbeh7e6Sq432KsSYbDBhErczCWv5dl08drMdpxE3iwxq9FA==
+ bh=0es5ATqrVQETTXcQibyaq5bGkIm28TCUwGZza/ETTco=;
+ b=Qwk8/80bWqLrCRcdFN7hjeiUsLCScCzKywHAi6fCbrWWI3mzqLILBTGTH5X3EXZ5GIits0RkMQg6SDPH+eNmAR1DPztdPpYTzhgvOi61t9txgUgATCQ8hdywnc2X5OFw3h10XjBBQsgKG8EL3yg0SkVNJytUO1d1sy4LR967A4eChdGJRSmCS9dOrO40/uxq2NkJFWxF+au2X/AsOWtaa8C97zjX2vj8hzr3csGBIhheWuAoZEiq1Vjf4fmiD1lOdJSgft5lqIzeQ+D19X+yGXpQOMpuUrHxEhzaxN32qiSz0VPnSBqeRNOampE/i+l9Pi7moo1/WLxe8BNtvAUfKw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J/FxKDlAeJxaRWRoZ8WfuFkvWpytRMt0UsFjxW85tgU=;
- b=R1PTm20eXvXGxADuLwWj21Z5eQJsUNW92KShDcCBt2O+SXKwfVAkZYXT99neS0NurAYpLCAenvGOqOOBBkC7ze4zIKWnC71l8gozEku17Q6k/GI2LUL0Nconhw70FdSMlhQCUERKhPZ7DTkwKsJ4usJvKmP9d3DMp+pCQPIyBX8=
+ bh=0es5ATqrVQETTXcQibyaq5bGkIm28TCUwGZza/ETTco=;
+ b=zjhpQflvgdRl2iul9E5YZmkZgX0z1eOSoOpyiAViRqJ7PsEJrXDaj5gx5uYYEsHN62MXmH607njrsHUchdWAWIUUOnmV4YOXVfsD+xGtJa2GbzlAGOjGkrAEzZBOsd/iJDT8l3/HJ3z0erv0e7XwHqLy6cT1J6jDvGb5kjgFY7o=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by CH0PR12MB5250.namprd12.prod.outlook.com (2603:10b6:610:d1::16) with
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DM4PR12MB7741.namprd12.prod.outlook.com (2603:10b6:8:103::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.15; Fri, 16 Feb
- 2024 15:06:02 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::3f6b:792d:4233:f994]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::3f6b:792d:4233:f994%6]) with mapi id 15.20.7316.012; Fri, 16 Feb 2024
- 15:06:01 +0000
-Message-ID: <20361f26-2c83-4619-8f9e-ec8788b8280f@amd.com>
-Date: Fri, 16 Feb 2024 10:05:57 -0500
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.12; Fri, 16 Feb
+ 2024 15:08:30 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7292.022; Fri, 16 Feb 2024
+ 15:08:30 +0000
+Message-ID: <935d91d6-c5e2-48ea-854f-8041b0ca2adb@amd.com>
+Date: Fri, 16 Feb 2024 16:08:23 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amd: Only allow one entity to control ABM
+Subject: Re: [PATCH v6 3/3] drm/buddy: Add defragmentation support
 Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Mario Limonciello <mario.limonciello@amd.com>, amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Hamza Mahfooz <Hamza.Mahfooz@amd.com>,
- Sun peng Li <Sunpeng.Li@amd.com>
-References: <20240216140709.73708-1-mario.limonciello@amd.com>
- <8970de85-3117-4e28-82b4-3b35c5beb7cf@gmail.com>
- <6b9e6f24-8fa5-43c5-88a2-068dfcb9996e@amd.com>
- <e47b859d-eb0c-49f8-8a96-6f454fa18592@gmail.com>
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <e47b859d-eb0c-49f8-8a96-6f454fa18592@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+To: Matthew Auld <matthew.auld@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Cc: alexander.deucher@amd.com, felix.kuehling@amd.com,
+ mario.limonciello@amd.com
+References: <20240208155000.339325-1-Arunpravin.PaneerSelvam@amd.com>
+ <20240208155000.339325-3-Arunpravin.PaneerSelvam@amd.com>
+ <af43196c-d926-454b-8914-c5753f5d3799@intel.com>
+ <8f218231-68ae-4a9f-880c-11a37fac91f2@amd.com>
+ <292710a7-27be-497d-b6a7-67f964e41ed5@intel.com>
+ <26d13e0c-c52a-4681-bea8-4a631b514edd@gmail.com>
+ <8224c34a-aca5-415e-9d6f-c061471f0cff@intel.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <8224c34a-aca5-415e-9d6f-c061471f0cff@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQBPR0101CA0175.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:f::18) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+X-ClientProxiedBy: FRYP281CA0014.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::24)
+ To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|CH0PR12MB5250:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3153f203-2039-47c8-99e1-08dc2f00c9f5
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB7741:EE_
+X-MS-Office365-Filtering-Correlation-Id: a1ba747a-a45f-4b91-a305-08dc2f01225b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: B1VqLk1S88R0zfxQmuP9eeLZMfKD/Hgst2jVBdp4c4Wf0iiEG783Ztdx9FMgcK0jSoDOIJLb6gbER5jletcQcomFF5+8vjrBdY/18GKgMpOfzRIIBVbENgJfSvIJ4Pfc3TeDGW5W5Um9UhGk/WLTRCDaFVWEE4AJT8hiPORit1RCEad8M0tK0PQz8bZ0gKtQ4HbwMxqeL+TGJmv/QXGLeCzblq4ppqvh6DycEBeQr8o+vyGVb95o7HEUd1s1LNMm5Ruc68z4w1OUoLi2HjHo+63qNtTExYTxEgmgp32RysCscM6RO9yUjhiEgtpBBTQS0l4iZwPFfG64qd0AsNDimWTUCjhfPebRmiRATKmxCyntbnSyO7OPRVzEWMPw145agAzAiK/XXtBtZ2oGZtscMiU9HwIOcSikYKceR8KKqeNX7/BuRjQYAGk7jQYVhXTPwtFoL5Kd0OSMKmIQr9uoJqzikoVxyiMZsTp5+tQfc8i14+XAOQMGUu8Bvt1kyqjp8pupKqf0BF1eEVz/a/ynnrlbss9rm2NJwZwnDulG/g2JG2WS4R771IkZrDsmEK9E
+X-Microsoft-Antispam-Message-Info: fDdDHHgWkxHZAH1H55Rjk3CDk3SHo+DOKEaJsyETM03Zo6HLrF6zbrrm4t9YZ9jee4OP68vej0y8cA3HuTJG1Y4lgE1CrpXX7SV8W7uPBovibO5Edc73kCSR6XYMpfpQyx21Sh4ZFud/MjAvlHwSy6aF3Fidb68yc0xz7bu6EDcc7xYARJWxgMTOwSx9HcAYW5azTpPMOY/TuK0kQ/uJvO6izW0pwUgynLY8oSICnF2lswsXNLqln4ndaksRpNJREK+tEj6UshTUYk4SGEzWP30AgMu5+so/Ul5+OojHQzNeKihXTJXmni8AXPD3CFNawRPnpBeCHyS7AzuA171mK1AKyDmzt0w/bC9fjXjd2XwROAHuIXDb97JqBAIu5NS/utvM53/Zv9R4ChFLn0NVnaySVXYGYoTw2oT9R8SJR42jkpaxpy84J6ve5CbrzAmB/rHhmV+DjyAVnvNjQEJ8AdkIoHHoGYWlsMdGxmwNni3QvtHD4NsC+1Gnrsi5yH1gpzFWoOBigi+amiq7xdIZ6pOLorLsUNEhTXGT4RLaTisv/ZJqZXY42ffFKvyXbik1
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376002)(346002)(39860400002)(396003)(136003)(366004)(230273577357003)(230922051799003)(451199024)(1800799012)(64100799003)(186009)(2616005)(8676002)(8936002)(4326008)(5660300002)(66946007)(66556008)(66476007)(110136005)(2906002)(44832011)(66574015)(83380400001)(26005)(36756003)(31696002)(86362001)(38100700002)(54906003)(316002)(6666004)(41300700001)(478600001)(6486002)(6512007)(6506007)(53546011)(31686004);
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(346002)(396003)(39860400002)(376002)(366004)(230922051799003)(230273577357003)(64100799003)(451199024)(1800799012)(186009)(6666004)(6512007)(478600001)(6486002)(31686004)(41300700001)(5660300002)(2906002)(8936002)(4326008)(8676002)(6506007)(66476007)(53546011)(316002)(110136005)(66556008)(66946007)(66574015)(83380400001)(31696002)(86362001)(38100700002)(36756003)(26005)(2616005);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YVBPZThXTWZET2F5ZVBaYVVSVlNXOGw0MUkzaExEWVRwSlBFdWw1UlJWNElj?=
- =?utf-8?B?V2dHeFE0cjBlWk53UEZVYVIwcUw1eG5wb3hDVmFDUlAyWTRYZHdHNTVnNkJh?=
- =?utf-8?B?T2dKR3JCLy9zZU1HL2ZnTDlMREpPT0pRKzhYVk1HUnNZNXp1RzlCNmhVUXQ2?=
- =?utf-8?B?ZkJ0QkdSc0FQUkVSemVacGxHR3Z5ZVpXZnprcDBjYXE0a0xlT0VJWjF6aVNL?=
- =?utf-8?B?QW9UNDFHT2Z3bEg1UGZabXdOYUJ5QS9YZ2pKMW9VYjhpUGNuVXdxd1VENDJH?=
- =?utf-8?B?aXJ4V0FCNDZMRnFFS24vYjU5TWs0c1FYQjBWNHFHMlBJbktZMVIyZHN3R0hG?=
- =?utf-8?B?eEtMVXBSdTZCNGhkTE5jUWlVNGVyVVpTdWhoY001R0wvVEZVb0xhSy9RNm55?=
- =?utf-8?B?ZVdTY09MS3JQckJDeWJqY3ZNQVBhMHAzOVhHZkxNZnl5SHFVUEpuZ1c4UG03?=
- =?utf-8?B?b0xTYzhINFVXcmpFczM0aGI2TjlmMUNoTENndlJseGpMcDNEdE0zMkdlWlht?=
- =?utf-8?B?ZlM5djlnS0Qrd01PZHFUVUtneThiUE00YXA0NUJMQit0Yk5ZQjF2NlZzc2k5?=
- =?utf-8?B?aDFZVStzYkFvN3VXQjJPcGpjU2tJSFJXZy85dVEyU2tBUVJLc2VvM3NrRzcx?=
- =?utf-8?B?ZmpOdFlFcC8xSnh4VjFxb25tM2liYnB4WStHblZnakFkTlVuOTREbGdzWm9V?=
- =?utf-8?B?OFhMUXJSd0VsVEZTYlBZUHdyNzcrK3FEYll3VTFEa2IyeEFEUklvZGRjNG1L?=
- =?utf-8?B?Slp6OW9MNjJCSkZmZStKQy9WODRpdEd5eXJUd0hUNFQzZ2xjc043YjBENE91?=
- =?utf-8?B?aWZtT09YN3dUeXJSNnEwOWNQRG12Sk4yRkppVXlaN1hQSGpLa3YvNmFjbnVz?=
- =?utf-8?B?NFh4aDBMVkV1cDlKdXdWN2dBZmJEaW1uVmlLS3M0VlB5UGxhcVo0ZnRxdnJw?=
- =?utf-8?B?U21GSjU2eklwUm9ta21SM0NxSklvY1RCaXNWV1RrSCtsMEs2TjZtNVppd0RQ?=
- =?utf-8?B?SXRld0hIcFV3Vy95dVJwdU5kWE1xVU53UTdyY0lia05DcUg1cnphOXJLUXhj?=
- =?utf-8?B?cG5BeVZsWHZiMEw3OXJtSVZaWG5Fb2sxVitOeGVGRDNpQWFOMW83YkdpN3BF?=
- =?utf-8?B?RUFNS0pyaVZLU2JHb1lCLzN5d2dKVWs5L3pRNFNoaXhRZGZQTmJNQUZiOHdM?=
- =?utf-8?B?TVRDRGRpSDlOZS9NKy80Z0FMbW9XdFhPeEg1anRneEhmUW1RVWxNQUlXRlp6?=
- =?utf-8?B?RWJsNXRhdnl5aGllZTNwQnpkNFNhTEdMSVhxWmRTbHhjelBKY0lteVpoTlRL?=
- =?utf-8?B?V1kxUFRBZCtvZGJVV0ZqYjdISzBRWWJtMmZudEpadnU0dXdKUjJDclFkOVpE?=
- =?utf-8?B?dDk1NXBaSTJHc0VKeUdlR3ZDK1VJYlFqMWdVa1lXN0RlT2xLQnI4ellZWStu?=
- =?utf-8?B?UGs1d082NzBTTk1Bd2Q5RzNPVEhUb0svWUFTeG5nYlRMd1QzVHE5S2lHWFVL?=
- =?utf-8?B?ZEhNZlVPZWIvVG02dldpQ0dCR1lGVWx2TU5lL0ZEZmdtYktIUWU1NmJjdFBF?=
- =?utf-8?B?VlFkUnJqTG1jVmFNWUNOQnZiZWIzODAzZXdweE95dDF5N2hjcHlFZTdFQVZS?=
- =?utf-8?B?SWc2THpUeHZPdnNmV0lDbTZLM3dSaFpVZlo5RmYvVG1PazQ2ajNjL2FUTzAw?=
- =?utf-8?B?YjFzWTFmcDRLbGpwRDg4Q3VOOWVreGxYSko5enF0MERFdEcxMVo1NGlRaVhZ?=
- =?utf-8?B?bm9GZHR0dlVrUHB0bTRLZG5qYUkwOWNqbGF5aFRQc0I0RThWMjU2dTF2VTFZ?=
- =?utf-8?B?aStyenNNV20yYjZHd0xwbEVPSWJNWG45T0N4TElySEh1REhkMmVTZUcxaVEy?=
- =?utf-8?B?YWZWNHY3RUFoVUVyTDRpeHliU2NwZTdQRXprRVBwMDJ1cWxVTU1CeVZiaUlz?=
- =?utf-8?B?d0FCTWxWQmNHM0k5YldFNTQwckpnYjZOMWtubjR0RFhNMWU3d205MVcwSFdS?=
- =?utf-8?B?bDZoVnFYa0x0MDd3ZjZZc25Kdit6eDdHVmoydnhkWXAzbUtRVkxNRUVyUXBC?=
- =?utf-8?B?RUpPWHpKVTBkN0xrdUJ5bldwTkg2YXhBUkt4U29pY2RwR1doZCswVVZ0eU04?=
- =?utf-8?Q?nyzyiiiOfSijyqXNUkjVixZ8J?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eTNpa08zcG1IVEZIL2p3WHlQMEFOdDJEOUJqMlFkcjZ0em4xa08xSWQ4MjM4?=
+ =?utf-8?B?QkYvVjB3OFFYL2NWZ3pDZjArblJPQklsTUdERlR0aFU5NDFmR0RPM0VuQnlV?=
+ =?utf-8?B?MExuTVo0MzQ4dzlFMUtYbmJzdlZ5dEVDRCtQQ1hrTng2SUR1NFZJdE9LcS9l?=
+ =?utf-8?B?Um8xUU1LbG9BZU9vU3lOczY1M0dBam1zM2phcjEza2UwcUZGZ0txS2NqcCsr?=
+ =?utf-8?B?aVB1QVNXbmFVWjh1VjhRY3VYU3NzTndVdktINkJPbmhaV3N5bjBKMGRwTU1S?=
+ =?utf-8?B?dHAzZjdIZVVBUDlIamFsK2x0ZWpKMEJuRUVlcUppUnEySzVwdUFwMS82bEd0?=
+ =?utf-8?B?dWg0L3ZkMzROTXhmcGtLbTlrb01WLzJ3dko2QVRFS2p6QmRVMlVaYkFDMTZF?=
+ =?utf-8?B?OE1kMlI0bU52U2xLbHhqU0hvVzhmeGdWaytLR0RCSndPYXU5UzNxVGJ5enpM?=
+ =?utf-8?B?RVlxVmJBcThPb3daSzNxckh0dVhFMEl0SW5zNTJGcEphUGxFT1dKc21rVUFO?=
+ =?utf-8?B?MWxnSVY3THJaSE8vanZBTWVzb3FVSzJsaGhwQkx0VHdQaTBDK0plakNheE5n?=
+ =?utf-8?B?dzZ5YVR6RXNFcFRjcHVpaldrbjU5bWdBR08rZDR6QlZpd1RtTzRGTjNubGFO?=
+ =?utf-8?B?SFU0cmY2YjJqdkFzQmFpYk5oZnJlNGdjS3FqeVhTSmdDUzVLVU96K0VVWGYz?=
+ =?utf-8?B?QVNSM1R4L0phZjAyNVB3TG1HSlBGZHhmZGttMVhQRGhXcDVkL1doR1VmYWdi?=
+ =?utf-8?B?ZWlQZXAyODhQMUNGN29qV2gyK0JXUkxtZXdTbml4UkdRYzdMaUtCNVhIUmZ1?=
+ =?utf-8?B?L0lhQjdmSVNoM21ydk1zMmNWVzVtSTVkemxnemJTM0hQc3FacXkySlNoV1Vo?=
+ =?utf-8?B?ZHllWmI2bUU4SUJ4YUNsWFlLbFI1THVMR2paalh1d2JZbThDS2RUZWxkQUhD?=
+ =?utf-8?B?ZlRlamFMdnlXb2RnNm82b1MvTUNXbEx3S2F6ZGxxdW1EdHlzditlZTJ0SHZo?=
+ =?utf-8?B?T1JBaVJuSFlRNGxWZktkUzZZS3YzSXZsMy9mTDBOUVFJZDcyR2FhcXpOMjhE?=
+ =?utf-8?B?MW9mMzRhRXJpb0hHZ0N3OVpPaHhEcThZemZkd2ZzeDhmbys0dDlYWDFVMGVn?=
+ =?utf-8?B?OU1lUDdSbFFiSjIwVHJCbm1QdGxZY0NkUS81bDhNM1FTNWNTS0h3R3JGYThn?=
+ =?utf-8?B?Z3JrNkFwVytFR1dsRXhlUFVFQ202NFp6RVdpdHlVVUJzYmhDYTEwMG5oNERu?=
+ =?utf-8?B?M3NJUTJnR0YwdXV6RzBrRU10clVvQjhSeEFmOGJkZ1VPTzNPRVJSTmhJeng5?=
+ =?utf-8?B?blZaeGRORG5WVW1YTnVUOGpQVC9GQVFLbkM4TEFsSzRwM2gzZEVaMm5KMVBT?=
+ =?utf-8?B?RDFHSFJOUC80QkdtMEFyeDJMZi8rV0J2bTM4R3lLWnRpYmIvc1ZPaUhuSHc1?=
+ =?utf-8?B?SVlMTThydnBpelJsRmYyUUhYS3h0aDJOd0hDditGcExhd2EyRlA5dEJxVjZS?=
+ =?utf-8?B?T0ZiWGdvRHM0M20rT2xVU2RacHdVWE5mWkJJN0ljRDhVdkkyZXZpblRqV1Zj?=
+ =?utf-8?B?OVA4V0V4RldFRUR5MnlqMmJ0cGJGZXRYK1V4TWpGWm1qMWR3WnRoazRUdFI3?=
+ =?utf-8?B?bUg2WWpJV0h1WVlKcjhHd293ZGhDTFQ3SjhSOG9SVk05WEVVcHhIRFJ4SkVU?=
+ =?utf-8?B?bEVkTks4eDlHRklTMWJtZU5MTXh2em1OaUhPeDVFUnFockw4WGpsQnJzbitp?=
+ =?utf-8?B?NWFsSTI1UmhyaE5VeDNJU0F4N2tLTEFISEFBOGUzc3lrR0xoWmFRUzBTRkxP?=
+ =?utf-8?B?RG5TVVJkMmNzVVg0ZTNUaXR4TWZBMDVVWTE3c2E4NWRqMi9teXhCcUQ2ZGVr?=
+ =?utf-8?B?MENkNlNON1AxT21vbExSREdtYzBaK2c4YUl0S1I5ZVBYeGdhQUNONG5WeFZ4?=
+ =?utf-8?B?YXdTMXlJcTBXNGMyZzVRNTJnWEthaW1KN0Yzd3RRTFhGeGNBU3dXZkZvVkJT?=
+ =?utf-8?B?SGVSb2VuZEtJWjVOOUlqWWR4aG9obU40Zi9QdGlPQXNmVjdCMFBlRXYxNGRB?=
+ =?utf-8?B?YjRCZk8zQ3Z5MktVZ3JkdGJpQkpPOTB2bFRIbkY1VUdJWGdhMlVrbUdCT1hO?=
+ =?utf-8?Q?HeZknt5lhSjcNDSEa37oYreZw?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3153f203-2039-47c8-99e1-08dc2f00c9f5
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a1ba747a-a45f-4b91-a305-08dc2f01225b
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2024 15:06:01.6064 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2024 15:08:29.9870 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1iU2Bimbx4MWm04e3MDZ68VKdHE0CERNnQM9oBw6D8/dc0wEQnM6dk65BZzTl1a46doC0Yprux4RljhCCJIC/w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5250
+X-MS-Exchange-CrossTenant-UserPrincipalName: hoDLbvVz24/FosHH7Rz4dTktayt9M2O1YnVMiwrcmkGNRY32tOB/LM5Aifmmi/fB
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7741
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,208 +141,217 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2024-02-16 09:47, Christian König wrote:
-> Am 16.02.24 um 15:42 schrieb Mario Limonciello:
->> On 2/16/2024 08:38, Christian König wrote:
->>> Am 16.02.24 um 15:07 schrieb Mario Limonciello:
->>>> By exporting ABM to sysfs it's possible that DRM master and software
->>>> controlling the sysfs file fight over the value programmed for ABM.
+Am 16.02.24 um 15:47 schrieb Matthew Auld:
+> On 16/02/2024 14:02, Christian König wrote:
+>> Am 16.02.24 um 14:21 schrieb Matthew Auld:
+>>> On 16/02/2024 12:33, Christian König wrote:
+>>>> Am 16.02.24 um 13:23 schrieb Matthew Auld:
+>>>>> On 08/02/2024 15:50, Arunpravin Paneer Selvam wrote:
+>>>>>> Add a function to support defragmentation.
+>>>>>>
+>>>>>> v1: Defragment the memory beginning from min_order
+>>>>>>      till the required memory space is available.
+>>>>>>
+>>>>>> Signed-off-by: Arunpravin Paneer Selvam 
+>>>>>> <Arunpravin.PaneerSelvam@amd.com>
+>>>>>> Suggested-by: Matthew Auld <matthew.auld@intel.com>
+>>>>>> ---
+>>>>>>   drivers/gpu/drm/drm_buddy.c | 67 
+>>>>>> +++++++++++++++++++++++++++++++------
+>>>>>>   include/drm/drm_buddy.h     |  3 ++
+>>>>>
+>>>>> No users?
 >>>>
->>>> Adjust the module parameter behavior to control who control ABM:
->>>> -2: DRM
->>>> -1: sysfs (IE via software like power-profiles-daemon)
+>>>> Other question is how can a buddy allocator fragment in the first 
+>>>> place?
 >>>
->>> Well that sounds extremely awkward. Why should a power-profiles-deamon has control over the panel power saving features?
->>>
->>> I mean we are talking about things like reducing backlight level when the is inactivity, don't we?
+>>> The fragmentation is due to pages now being tracked as dirty/clear. 
+>>> Should the allocator merge together a page that is dirty with a page 
+>>> that is cleared? When should it do that? User wants to be able to 
+>>> keep the two separate if possible. For example, freeing one single 
+>>> dirty page can dirty a huge swathe of your already cleared pages if 
+>>> they are merged together. Or do you have some some other ideas here?
 >>
->> We're talking about activating the ABM algorithm when the system is in power saving mode; not from inactivity.  This allows the user to squeeze out some extra power "just" in that situation.
+>> Sorry, that was not what I meant. I should probably have been clearer.
 >>
->> But given the comments on the other patch, I tend to agree with Harry's proposal instead that we just drop the DRM property entirely as there are no consumers of it.
-> 
-> Yeah, but even then the design to let this be controlled by an userspace deamon is questionable. Stuff like that is handled inside the kernel and not exposed to userspace usually.
-> 
+>> That dirty and clean pages are now kept separated is obvious, but why 
+>> do you need to de-fragment them at some point?
+>
+> Ah, right. At the very least we need to do something similar to this 
+> at fini(), just to ensure we properly merge everything back together 
+> so we can correctly tear down the mm. Outside of that the thinking was 
+> that it might be useful to call when allocating larger min page-sizes. 
+> You might now be failing the allocation due to fragmentation, and so 
+> in some cases might be better off running some kind of defrag step 
+> first, instead of failing the allocation and trying to evict stuff. 
+> Anyway, if that is not a concern for amdgpu, then we just need to 
+> handle the fini() case and can keep this internal.
 
-I think we'll need a bit in our kernel docs describing ABM. Assumptions around what it is and does seem to lead to confusion.
+Ah, yes that makes more sense.
 
-The thing is that ABM has a visual impact that not all users like. It would make sense for users to be able to change the ABM level as desired, and/or configure their power profiles to select a certain ABM level.
+So you basically force merge the pages before fini to avoid warnings 
+that the buddy isn't empty.
 
-ABM will reduce the backlight and compensate by adjusting brightness and contrast of the image. It has 5 levels: 0, 1, 2, 3, 4. 0 means off. 4 means maximum backlight reduction. IMO, 1 and 2 look okay. 3 and 4 can be quite impactful, both to power and visual fidelity.
+Thanks, that answers my curiosity. But I unfortunately still don't have 
+time to dig deep enough into this for a review.
 
-Harry
+Thanks,
+Christian.
 
-> Regards,
-> Christian.
-> 
+>
+>>
+>> Christian.
 >>
 >>>
->>> Regards,
->>> Christian.
->>>
->>>> 0-4: User via command line
 >>>>
->>>> Also introduce a Kconfig option that allows distributions to choose
->>>> the default policy that is appropriate for them.
+>>>> Christian.
 >>>>
->>>> Fixes: f97e4303da16 ("drm/amd/display: add panel_power_savings sysfs entry to eDP connectors")
->>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->>>> ---
->>>> Cc: Hamza Mahfooz <Hamza.Mahfooz@amd.com>
->>>> Cc: Harry Wentland <Harry.Wentland@amd.com>
->>>> Cc: Sun peng (Leo) Li <Sunpeng.Li@amd.com>
->>>>   drivers/gpu/drm/amd/amdgpu/Kconfig            | 72 +++++++++++++++++++
->>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       | 23 +++---
->>>>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  6 +-
->>>>   3 files changed, 90 insertions(+), 11 deletions(-)
+>>>>>
+>>>>>>   2 files changed, 59 insertions(+), 11 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/drm_buddy.c 
+>>>>>> b/drivers/gpu/drm/drm_buddy.c
+>>>>>> index 33ad0cfbd54c..fac423d2cb73 100644
+>>>>>> --- a/drivers/gpu/drm/drm_buddy.c
+>>>>>> +++ b/drivers/gpu/drm/drm_buddy.c
+>>>>>> @@ -276,10 +276,12 @@ drm_get_buddy(struct drm_buddy_block *block)
+>>>>>>   }
+>>>>>>   EXPORT_SYMBOL(drm_get_buddy);
+>>>>>>   -static void __drm_buddy_free(struct drm_buddy *mm,
+>>>>>> -                 struct drm_buddy_block *block)
+>>>>>> +static unsigned int __drm_buddy_free(struct drm_buddy *mm,
+>>>>>> +                     struct drm_buddy_block *block,
+>>>>>> +                     bool defrag)
+>>>>>>   {
+>>>>>>       struct drm_buddy_block *parent;
+>>>>>> +    unsigned int order;
+>>>>>>         while ((parent = block->parent)) {
+>>>>>>           struct drm_buddy_block *buddy;
+>>>>>> @@ -289,12 +291,14 @@ static void __drm_buddy_free(struct 
+>>>>>> drm_buddy *mm,
+>>>>>>           if (!drm_buddy_block_is_free(buddy))
+>>>>>>               break;
+>>>>>>   -        if (drm_buddy_block_is_clear(block) !=
+>>>>>> -            drm_buddy_block_is_clear(buddy))
+>>>>>> -            break;
+>>>>>> +        if (!defrag) {
+>>>>>> +            if (drm_buddy_block_is_clear(block) !=
+>>>>>> +                drm_buddy_block_is_clear(buddy))
+>>>>>> +                break;
+>>>>>>   -        if (drm_buddy_block_is_clear(block))
+>>>>>> -            mark_cleared(parent);
+>>>>>> +            if (drm_buddy_block_is_clear(block))
+>>>>>> +                mark_cleared(parent);
+>>>>>> +        }
+>>>>>
+>>>>> Maybe check if the two blocks are incompatible and chuck a warn if 
+>>>>> they are not? Main thing is not to hide issues with split blocks 
+>>>>> that should have been merged before.
+>>>>>
+>>>>>> list_del(&buddy->link);
+>>>>>>   @@ -304,8 +308,49 @@ static void __drm_buddy_free(struct 
+>>>>>> drm_buddy *mm,
+>>>>>>           block = parent;
+>>>>>>       }
+>>>>>>   +    order = drm_buddy_block_order(block);
+>>>>>>       mark_free(mm, block);
+>>>>>> +
+>>>>>> +    return order;
+>>>>>> +}
+>>>>>> +
+>>>>>> +/**
+>>>>>> + * drm_buddy_defrag - Defragmentation routine
+>>>>>> + *
+>>>>>> + * @mm: DRM buddy manager
+>>>>>> + * @min_order: minimum order in the freelist to begin
+>>>>>> + * the defragmentation process
+>>>>>> + *
+>>>>>> + * Driver calls the defragmentation function when the
+>>>>>> + * requested memory allocation returns -ENOSPC.
+>>>>>> + */
+>>>>>> +void drm_buddy_defrag(struct drm_buddy *mm,
+>>>>>> +              unsigned int min_order)
+>>>>>
+>>>>> Just wondering if we need "full defag" also? We would probably 
+>>>>> need to call this at fini() anyway.
+>>>>>
+>>>>>> +{
+>>>>>> +    struct drm_buddy_block *block;
+>>>>>> +    struct list_head *list;
+>>>>>> +    unsigned int order;
+>>>>>> +    int i;
+>>>>>> +
+>>>>>> +    if (min_order > mm->max_order)
+>>>>>> +        return;
+>>>>>> +
+>>>>>> +    for (i = min_order - 1; i >= 0; i--) {
+>>>>>
+>>>>> Need to be careful with min_order = 0 ?
+>>>>>
+>>>>>> +        list = &mm->free_list[i];
+>>>>>> +        if (list_empty(list))
+>>>>>> +            continue;
+>>>>>> +
+>>>>>> +        list_for_each_entry_reverse(block, list, link) {
+>>>>>
+>>>>> Don't we need the safe_reverse() variant here, since this is 
+>>>>> removing from the list?
+>>>>>
+>>>>>> +            if (!block->parent)
+>>>>>> +                continue;
+>>>>>> +
+>>>>>> +            order = __drm_buddy_free(mm, block, 1);
+>>>>>> +            if (order >= min_order)
+>>>>>> +                return;
+>>>>>> +        }
+>>>>>> +    }
+>>>>>>   }
+>>>>>> +EXPORT_SYMBOL(drm_buddy_defrag);
+>>>>>>     /**
+>>>>>>    * drm_buddy_free_block - free a block
+>>>>>> @@ -321,7 +366,7 @@ void drm_buddy_free_block(struct drm_buddy *mm,
+>>>>>>       if (drm_buddy_block_is_clear(block))
+>>>>>>           mm->clear_avail += drm_buddy_block_size(mm, block);
+>>>>>>   -    __drm_buddy_free(mm, block);
+>>>>>> +    __drm_buddy_free(mm, block, 0);
+>>>>>>   }
+>>>>>>   EXPORT_SYMBOL(drm_buddy_free_block);
+>>>>>>   @@ -470,7 +515,7 @@ __alloc_range_bias(struct drm_buddy *mm,
+>>>>>>       if (buddy &&
+>>>>>>           (drm_buddy_block_is_free(block) &&
+>>>>>>            drm_buddy_block_is_free(buddy)))
+>>>>>> -        __drm_buddy_free(mm, block);
+>>>>>> +        __drm_buddy_free(mm, block, 0);
+>>>>>>       return ERR_PTR(err);
+>>>>>>   }
+>>>>>>   @@ -588,7 +633,7 @@ alloc_from_freelist(struct drm_buddy *mm,
+>>>>>>     err_undo:
+>>>>>>       if (tmp != order)
+>>>>>> -        __drm_buddy_free(mm, block);
+>>>>>> +        __drm_buddy_free(mm, block, 0);
+>>>>>>       return ERR_PTR(err);
+>>>>>>   }
+>>>>>>   @@ -668,7 +713,7 @@ static int __alloc_range(struct drm_buddy *mm,
+>>>>>>       if (buddy &&
+>>>>>>           (drm_buddy_block_is_free(block) &&
+>>>>>>            drm_buddy_block_is_free(buddy)))
+>>>>>> -        __drm_buddy_free(mm, block);
+>>>>>> +        __drm_buddy_free(mm, block, 0);
+>>>>>>     err_free:
+>>>>>>       if (err == -ENOSPC && total_allocated_on_err) {
+>>>>>> diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
+>>>>>> index d81c596dfa38..d0f63e7b5915 100644
+>>>>>> --- a/include/drm/drm_buddy.h
+>>>>>> +++ b/include/drm/drm_buddy.h
+>>>>>> @@ -166,6 +166,9 @@ void drm_buddy_free_list(struct drm_buddy *mm,
+>>>>>>                struct list_head *objects,
+>>>>>>                unsigned int flags);
+>>>>>>   +void drm_buddy_defrag(struct drm_buddy *mm,
+>>>>>> +              unsigned int min_order);
+>>>>>> +
+>>>>>>   void drm_buddy_print(struct drm_buddy *mm, struct drm_printer *p);
+>>>>>>   void drm_buddy_block_print(struct drm_buddy *mm,
+>>>>>>                  struct drm_buddy_block *block,
 >>>>
->>>> diff --git a/drivers/gpu/drm/amd/amdgpu/Kconfig b/drivers/gpu/drm/amd/amdgpu/Kconfig
->>>> index 22d88f8ef527..2ab57ccf6f21 100644
->>>> --- a/drivers/gpu/drm/amd/amdgpu/Kconfig
->>>> +++ b/drivers/gpu/drm/amd/amdgpu/Kconfig
->>>> @@ -80,6 +80,78 @@ config DRM_AMDGPU_WERROR
->>>>         Add -Werror to the build flags for amdgpu.ko.
->>>>         Only enable this if you are warning code for amdgpu.ko.
->>>> +choice
->>>> +    prompt "Amdgpu panel power Savings"
->>>> +    default AMDGPU_SYSFS_ABM
->>>> +    help
->>>> +        Control the default behavior for adaptive panel power savings.
->>>> +
->>>> +        Panel power savings features will sacrifice color accuracy
->>>> +        in exchange for power savings.
->>>> +
->>>> +        This can be configured for:
->>>> +        - dynamic control by the DRM master
->>>> +        - dynamic control by sysfs nodes
->>>> +        - statically by the user at kernel compile time
->>>> +
->>>> +        This value can also be overridden by the amdgpu.abmlevel
->>>> +        module parameter.
->>>> +
->>>> +config AMDGPU_DRM_ABM
->>>> +    bool "DRM Master control"
->>>> +    help
->>>> +        Export a property called 'abm_level' that can be
->>>> +        manipulated by the DRM master for supported hardware.
->>>> +
->>>> +config AMDGPU_SYSFS_ABM
->>>> +    bool "sysfs control"
->>>> +    help
->>>> +        Export a sysfs file 'panel_power_savings' that can be
->>>> +        manipulated by userspace for supported hardware.
->>>> +
->>>> +config AMDGPU_HARDCODE_ABM0
->>>> +    bool "No Panel power savings"
->>>> +    help
->>>> +        Disable panel power savings.
->>>> +        It can only overridden by the kernel command line.
->>>> +
->>>> +config AMDGPU_HARDCODE_ABM1
->>>> +    bool "25% Panel power savings"
->>>> +    help
->>>> +        Set the ABM panel power savings algorithm to 25%.
->>>> +        It can only overridden by the kernel command line.
->>>> +
->>>> +config AMDGPU_HARDCODE_ABM2
->>>> +    bool "50% Panel power savings"
->>>> +    help
->>>> +        Set the ABM panel power savings algorithm to 50%.
->>>> +        It can only overridden by the kernel command line.
->>>> +
->>>> +config AMDGPU_HARDCODE_ABM3
->>>> +    bool "75% Panel power savings"
->>>> +    help
->>>> +        Set the ABM panel power savings algorithm to 75%.
->>>> +        It can only overridden by the kernel command line.
->>>> +
->>>> +config AMDGPU_HARDCODE_ABM4
->>>> +    bool "100% Panel power savings"
->>>> +    help
->>>> +        Set the ABM panel power savings algorithm to 100%.
->>>> +        It can only overridden by the kernel command line.
->>>> +endchoice
->>>> +
->>>> +config AMDGPU_ABM_POLICY
->>>> +    int
->>>> +    default -2 if AMDGPU_DRM_ABM
->>>> +    default -1 if AMDGPU_SYSFS_ABM
->>>> +    default 0 if AMDGPU_HARDCODE_ABM0
->>>> +    default 1 if AMDGPU_HARDCODE_ABM1
->>>> +    default 2 if AMDGPU_HARDCODE_ABM2
->>>> +    default 3 if AMDGPU_HARDCODE_ABM3
->>>> +    default 4 if AMDGPU_HARDCODE_ABM4
->>>> +    default -1
->>>> +
->>>> +
->>>>   source "drivers/gpu/drm/amd/acp/Kconfig"
->>>>   source "drivers/gpu/drm/amd/display/Kconfig"
->>>>   source "drivers/gpu/drm/amd/amdkfd/Kconfig"
->>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
->>>> index af7fae7907d7..00d6c8b58716 100644
->>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
->>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
->>>> @@ -844,17 +844,24 @@ module_param_named(visualconfirm, amdgpu_dc_visual_confirm, uint, 0444);
->>>>    * DOC: abmlevel (uint)
->>>>    * Override the default ABM (Adaptive Backlight Management) level used for DC
->>>>    * enabled hardware. Requires DMCU to be supported and loaded.
->>>> - * Valid levels are 0-4. A value of 0 indicates that ABM should be disabled by
->>>> - * default. Values 1-4 control the maximum allowable brightness reduction via
->>>> - * the ABM algorithm, with 1 being the least reduction and 4 being the most
->>>> - * reduction.
->>>> + * Valid levels are -2 through 4.
->>>>    *
->>>> - * Defaults to -1, or disabled. Userspace can only override this level after
->>>> - * boot if it's set to auto.
->>>> + *  -2: indicates that ABM should be controlled by DRM property 'abm_level.
->>>> + *  -1: indicates that ABM should be controlled by the sysfs file
->>>> + *      'panel_power_savings'.
->>>> + *   0: indicates that ABM should be disabled.
->>>> + * 1-4: control the maximum allowable brightness reduction via
->>>> + *      the ABM algorithm, with 1 being the least reduction and 4 being the most
->>>> + *      reduction.
->>>> + *
->>>> + * Both the DRM property 'abm_level' and the sysfs file 'panel_power_savings'
->>>> + * will only be available on supported hardware configurations.
->>>> + *
->>>> + * The default value is configured by kernel configuration option AMDGPU_ABM_POLICY
->>>>    */
->>>> -int amdgpu_dm_abm_level = -1;
->>>> +int amdgpu_dm_abm_level = CONFIG_AMDGPU_ABM_POLICY;
->>>>   MODULE_PARM_DESC(abmlevel,
->>>> -         "ABM level (0 = off, 1-4 = backlight reduction level, -1 auto (default))");
->>>> +         "ABM level (0 = off, 1-4 = backlight reduction level, -1 = sysfs control, -2 = drm control");
->>>>   module_param_named(abmlevel, amdgpu_dm_abm_level, int, 0444);
->>>>   int amdgpu_backlight = -1;
->>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->>>> index b9ac3d2f8029..147fe744f82e 100644
->>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->>>> @@ -6515,7 +6515,7 @@ static void amdgpu_dm_connector_unregister(struct drm_connector *connector)
->>>>       struct amdgpu_dm_connector *amdgpu_dm_connector = to_amdgpu_dm_connector(connector);
->>>>       if (connector->connector_type == DRM_MODE_CONNECTOR_eDP &&
->>>> -        amdgpu_dm_abm_level < 0)
->>>> +        amdgpu_dm_abm_level == -1)
->>>>           sysfs_remove_group(&connector->kdev->kobj, &amdgpu_group);
->>>> drm_dp_aux_unregister(&amdgpu_dm_connector->dm_dp_aux.aux);
->>>> @@ -6623,7 +6623,7 @@ amdgpu_dm_connector_late_register(struct drm_connector *connector)
->>>>       int r;
->>>>       if (connector->connector_type == DRM_MODE_CONNECTOR_eDP &&
->>>> -        amdgpu_dm_abm_level < 0) {
->>>> +        amdgpu_dm_abm_level == -1) {
->>>>           r = sysfs_create_group(&connector->kdev->kobj,
->>>>                          &amdgpu_group);
->>>>           if (r)
->>>> @@ -7654,7 +7654,7 @@ void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
->>>>       if (connector_type == DRM_MODE_CONNECTOR_eDP &&
->>>>           (dc_is_dmcu_initialized(adev->dm.dc) ||
->>>> -         adev->dm.dc->ctx->dmub_srv) && amdgpu_dm_abm_level < 0) {
->>>> +         adev->dm.dc->ctx->dmub_srv) && amdgpu_dm_abm_level == -2) {
->>>> drm_object_attach_property(&aconnector->base.base,
->>>>                   adev->mode_info.abm_level_property, 0);
->>>>       }
->>>
 >>
-> 
 
