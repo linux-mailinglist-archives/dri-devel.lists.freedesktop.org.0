@@ -2,90 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE0A285851E
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 19:28:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B458685853F
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 19:32:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA9FB10E0DC;
-	Fri, 16 Feb 2024 18:28:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FBA810E110;
+	Fri, 16 Feb 2024 18:32:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JwhJwy5q";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JIjUVToZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35DC310E0DC
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 18:28:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1708108086;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=04otk5iNZ32itm1hBkllWfSwBWl7wL1ic55X2+oUtF8=;
- b=JwhJwy5qe+xVS8UwmsC5swxdPPnMfzjYbXz7tcoP0AaOYmujgufdlQP0Q3ngauVP6qrofx
- g7S7xBz18BrsdM0yHDB8Fsyg+1qtJouRbJtIWergcXwAxeR34IfUw4bovO75KJBCCl+iAv
- 9Gj/Zva6gycutX72Mf9A8QhAzXPSiD8=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-397-UyP2NP43MWCZlkAXiToHAw-1; Fri, 16 Feb 2024 13:28:04 -0500
-X-MC-Unique: UyP2NP43MWCZlkAXiToHAw-1
-Received: by mail-lf1-f71.google.com with SMTP id
- 2adb3069b0e04-5115b1e3facso2462990e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 10:28:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708108082; x=1708712882;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=04otk5iNZ32itm1hBkllWfSwBWl7wL1ic55X2+oUtF8=;
- b=urPLF4AzOSJ4B/TNXmauUOLvK+88EqrrLA3n5vsFpQwe4VDj6nhbPPRKIqLXebh6IG
- RT5MjLRBudTPfBCUQQVqmtdUz71BpQlJB9XUXafeZpEQw8elvcEIJgh8+Fy7gbvReq6A
- aPn0Ls3T+rFRc3NWtSyMi86iQ8bdzwo9FwWTWswUnXVM3ubzOQSFJ117O25zGhW6Xj3O
- /9CwgNcOnupOXkWXK0t9WBkpbMz1qOSKOm+8YEBgmkcoo2dPetug90i7qrPC8zHJw/RE
- vYhLqAC9VgD0GnMl49D9as8rQzQmaFys5ENWUE3dYAiJGWTTIuoVg3qOmC/NGgsv3WEj
- elkw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWbyrbh0GJd2POTIAoFnf5drwbop6P4+4z2Z0z5JAzDBA+FMjxAedlvVaiJwBE7kBGznOnYmHBIAFH31iD1ZiN8OGUg8Gx01bLkgxOov6xk
-X-Gm-Message-State: AOJu0YzzxLunCWwUD2DFr9cjE0IpU2E38oEv0cp7c7U2ZbUd+bUGhO8J
- ErZsiMal5h/PrLwXaeoHmW7X09CkpLWczMwLr1xCtggvjdrkxmiC6d9Rec7xcGHKoGOP/MK0Bik
- Sm4Zb2C18A65xJbal9L1mVDyNGLv1VG1Wwv2aq5y5/xasMlhL/PTg5TvR5XXnR6nF8A==
-X-Received: by 2002:a05:6512:6d5:b0:512:86fa:a781 with SMTP id
- u21-20020a05651206d500b0051286faa781mr5126927lff.62.1708108082053; 
- Fri, 16 Feb 2024 10:28:02 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFlTdqcYB6gYrq3Gc55U5e1iav+rzbv+UkBZ9iNFp6WAozBF1MgQrgrIw9sAy+0/Uzd7DC4mA==
-X-Received: by 2002:a05:6512:6d5:b0:512:86fa:a781 with SMTP id
- u21-20020a05651206d500b0051286faa781mr5126912lff.62.1708108081675; 
- Fri, 16 Feb 2024 10:28:01 -0800 (PST)
-Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
- ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- p27-20020a056402501b00b00562d908daf4sm224163eda.84.2024.02.16.10.28.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Feb 2024 10:28:01 -0800 (PST)
-Message-ID: <6536ebe0-4577-41dd-b3f1-1525b9fe30b7@redhat.com>
-Date: Fri, 16 Feb 2024 19:28:00 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AC0410EC5C;
+ Fri, 16 Feb 2024 18:32:09 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 29F2561EA7;
+ Fri, 16 Feb 2024 18:32:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6E82C433C7;
+ Fri, 16 Feb 2024 18:32:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1708108323;
+ bh=EuQ0oWNycJc6EUI4ZgzFYPB2MfQHGg5k+ggiEumBsng=;
+ h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+ b=JIjUVToZ9OnNPRW7wZ74ZAXQQlIcXyhcK2EAgw6bEzGMA96/l9Xd7ImlVnHC/HSAA
+ AHp2+W08dKHJh4ynlYb8oC1vIqJUnjz/XHaw/Git88hTRb6S7T27UZAlW7HzwbtGaE
+ dm0L+KbwQX9tKFdiwbF3rjc3v9vtOQNzWrSig5Ss89NDi1ArxCLMZynVlP0YG3BOzY
+ VQ5i8oLalUDpiLoMop1oM9vz4DCHALT1OkCJDXKELTO84yhaKTPDsSofHOulle52zg
+ yeFghWg60WN9u/87wAo2PLiNihR7A5n+nIvour5wfyw4UHCFHWpJJy8mttA348xfOl
+ ZxsitMFTnBynw==
+Date: Fri, 16 Feb 2024 12:32:02 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/nouveau/mmu/r535: uninitialized variable in
- r535_bar_new_()
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@redhat.com>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Karol Herbst <kherbst@redhat.com>
-References: <dab21df7-4d90-4479-97d8-97e5d228c714@moroto.mountain>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <dab21df7-4d90-4479-97d8-97e5d228c714@moroto.mountain>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Rob Herring <robh@kernel.org>
+To: Abel Vesa <abel.vesa@linaro.org>
+Cc: Sean Paul <sean@poorly.run>, Maxime Ripard <mripard@kernel.org>, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Rob Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ David Airlie <airlied@gmail.com>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Rob Clark <robdclark@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20240216-x1e80100-display-v3-2-28b1c33ac8c0@linaro.org>
+References: <20240216-x1e80100-display-v3-0-28b1c33ac8c0@linaro.org>
+ <20240216-x1e80100-display-v3-2-28b1c33ac8c0@linaro.org>
+Message-Id: <170810832158.3497594.1997532394027797497.robh@kernel.org>
+Subject: Re: [PATCH v3 2/4] dt-bindings: display/msm: Document MDSS on X1E80100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,39 +70,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/13/24 19:09, Dan Carpenter wrote:
-> If gf100_bar_new_() fails then "bar" is not initialized.
+
+On Fri, 16 Feb 2024 19:01:06 +0200, Abel Vesa wrote:
+> Document the MDSS hardware found on the Qualcomm X1E80100 platform.
 > 
-> Fixes: 5bf0257136a2 ("drm/nouveau/mmu/r535: initial support")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-
-Applied to drm-misc-fixes, thanks!
-
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
 > ---
-> It looks like this was intended to handle a failure from the "rm" func
-> but "rm" can't actually fail so it's easier to write the error handling
-> for the code as-is.
+>  .../bindings/display/msm/qcom,x1e80100-mdss.yaml   | 253 +++++++++++++++++++++
+>  1 file changed, 253 insertions(+)
 > 
->   drivers/gpu/drm/nouveau/nvkm/subdev/bar/r535.c | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bar/r535.c b/drivers/gpu/drm/nouveau/nvkm/subdev/bar/r535.c
-> index 4135690326f4..3a30bea30e36 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bar/r535.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bar/r535.c
-> @@ -168,12 +168,11 @@ r535_bar_new_(const struct nvkm_bar_func *hw, struct nvkm_device *device,
->   	rm->flush = r535_bar_flush;
->   
->   	ret = gf100_bar_new_(rm, device, type, inst, &bar);
-> -	*pbar = bar;
->   	if (ret) {
-> -		if (!bar)
-> -			kfree(rm);
-> +		kfree(rm);
->   		return ret;
->   	}
-> +	*pbar = bar;
->   
->   	bar->flushBAR2PhysMode = ioremap(device->func->resource_addr(device, 3), PAGE_SIZE);
->   	if (!bar->flushBAR2PhysMode)
+
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/display/msm/qcom,x1e80100-mdss.example.dts:24:18: fatal error: dt-bindings/clock/qcom,x1e80100-dispcc.h: No such file or directory
+   24 |         #include <dt-bindings/clock/qcom,x1e80100-dispcc.h>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[2]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/display/msm/qcom,x1e80100-mdss.example.dtb] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1428: dt_binding_check] Error 2
+make: *** [Makefile:240: __sub-make] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240216-x1e80100-display-v3-2-28b1c33ac8c0@linaro.org
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
