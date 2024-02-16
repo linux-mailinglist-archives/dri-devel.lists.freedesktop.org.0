@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AAD585899C
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Feb 2024 00:03:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAC1A858997
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Feb 2024 00:03:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C28A10ED01;
-	Fri, 16 Feb 2024 23:02:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D3C210ECFC;
+	Fri, 16 Feb 2024 23:02:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="a59hjOPi";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ElK86Usz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F8F410ECF1;
- Fri, 16 Feb 2024 23:02:52 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE81010ECF8;
+ Fri, 16 Feb 2024 23:02:53 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41GMJV2A010529; Fri, 16 Feb 2024 23:02:50 GMT
+ 41GMUEvE032244; Fri, 16 Feb 2024 23:02:51 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:content-type; s=
- qcppdkim1; bh=Q7t9OJC0ojL4yxbW9lA6PYhl1OcPicECa2MRPnBpSXA=; b=a5
- 9hjOPimN7pbGGXnVAbLpjTaHYpi6w4U1ksAg5jDn7fwAmSQR9/nLvCcSt2lqimpt
- C7rEcltUJafMzuPaZ36RDSnLaLt66oU9TjpRuV8JEPyTFZV93NFkeoSE8jCP5Els
- 9X8DUcoR2rbxGm4pRFvtV/kcYy5dmB88arLeRTXfrXzgHKAIVVMprYWfJrdTIR78
- jyjtu79ra2HVg5SY+Sxi2aj+WKQMCgOGAl/G1GW9dHU+tF6qyfk/rsIL8V5Mr9Ge
- JnF5eaSar/eKcYh0+b1KPAqGuY5aOQ4ch3ArjuGL9ApFRwVVsk02cqVSin6FpqR9
- XHfKyQDLJS1ZPwFcrqbg==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ qcppdkim1; bh=XVM0awCe9wQcpKgEcvaY+xJAlnKcMPfQgy1aHvg2n2s=; b=El
+ K86UszWMxDH54+XzhYP0QXiJl+tT40V9zlfo1N68ue6EZ4XLY+4MYnqEAfHLDtpx
+ 0Zf+053VInC+L+jgAo/tsJLbQwsLk21pzPsHD3Vv33Hw3+q0E+TFdG9sRS9tcjt3
+ ZY6e10p+3eb5NV9IJvpb89T1eUfhUMoz3TW7oWZBJ5+0LzytfRpQBTsLAwA4xANS
+ TlnB/1IjUt2LafQFR8HLGL65idNULMTa9TwW9rcAnXmvXzXAxboQ+xj55PlV3VDU
+ 6ynxVASGCoctsG3FNH5lPND0mePz/hvp98/hXCCNyr3xGUa3EIS36wog3hwvcnlm
+ 2Ugj2f7DD6wqnX3s1hqQ==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wabeernt8-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wa3bh1r41-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Feb 2024 23:02:50 +0000 (GMT)
+ Fri, 16 Feb 2024 23:02:51 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41GN2nrs031048
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41GN2ou6012553
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Feb 2024 23:02:49 GMT
+ Fri, 16 Feb 2024 23:02:50 GMT
 Received: from hu-parellan-lv.qualcomm.com (10.49.16.6) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 16 Feb 2024 15:02:48 -0800
+ 15.2.1118.40; Fri, 16 Feb 2024 15:02:49 -0800
 From: Paloma Arellano <quic_parellan@quicinc.com>
 To: <freedreno@lists.freedesktop.org>
 CC: Paloma Arellano <quic_parellan@quicinc.com>,
@@ -51,10 +51,10 @@ CC: Paloma Arellano <quic_parellan@quicinc.com>,
  <dmitry.baryshkov@linaro.org>, <quic_abhinavk@quicinc.com>,
  <quic_jesszhan@quicinc.com>, <quic_khsieh@quicinc.com>,
  <marijn.suijten@somainline.org>, <neil.armstrong@linaro.org>
-Subject: [PATCH v4 07/19] drm/msm/dp: store mode YUV420 information to be used
- by rest of DP
-Date: Fri, 16 Feb 2024 15:01:55 -0800
-Message-ID: <20240216230228.26713-8-quic_parellan@quicinc.com>
+Subject: [PATCH v4 08/19] drm/msm/dp: check if VSC SDP is supported in DP
+ programming
+Date: Fri, 16 Feb 2024 15:01:56 -0800
+Message-ID: <20240216230228.26713-9-quic_parellan@quicinc.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20240216230228.26713-1-quic_parellan@quicinc.com>
 References: <20240216230228.26713-1-quic_parellan@quicinc.com>
@@ -67,16 +67,16 @@ X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: 6DCyYW3HmV11pXD52njna2ymRdMGMo4e
-X-Proofpoint-GUID: 6DCyYW3HmV11pXD52njna2ymRdMGMo4e
+X-Proofpoint-GUID: IrFWuhxd-ySnUJWEXeSwGcBekQet061p
+X-Proofpoint-ORIG-GUID: IrFWuhxd-ySnUJWEXeSwGcBekQet061p
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-02-16_22,2024-02-16_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- priorityscore=1501 phishscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0
- clxscore=1015 impostorscore=0 suspectscore=0 mlxlogscore=999 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ spamscore=0 impostorscore=0
+ mlxscore=0 bulkscore=0 clxscore=1015 adultscore=0 priorityscore=1501
+ malwarescore=0 mlxlogscore=897 phishscore=0 lowpriorityscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2401310000 definitions=main-2402160182
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -93,80 +93,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Wide bus is not supported when the mode is YUV420 in DP. In preparation
-for changing the DPU programming to reflect this, the value and
-assignment location of wide_bus_en for the DP submodules must be
-changed. Move it from boot time in dp_init_sub_modules() to run time in
-dp_display_mode_set.
+In the DP driver, check if VSC SDP is supported and propagate this value
+to dp_panel. In dp_display's dp_mode, the out_fmt_is_yuv_420 parameter
+must also utilize this value since YUV420 is only allowed when VSC SDP
+is supported.
+
+Changes in v2:
+	- Move DP programming when VSC SDP is supported to this patch
 
 Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/dp/dp_display.c | 17 +++++++++++++----
- drivers/gpu/drm/msm/dp/dp_panel.h   |  1 +
- 2 files changed, 14 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_display.c | 5 ++++-
+ drivers/gpu/drm/msm/dp/dp_panel.c   | 1 +
+ drivers/gpu/drm/msm/dp/dp_panel.h   | 1 +
+ 3 files changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 792191f67717f..1a84f68e2b59a 100644
+index 1a84f68e2b59a..4b1b79b74bc72 100644
 --- a/drivers/gpu/drm/msm/dp/dp_display.c
 +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -785,10 +785,6 @@ static int dp_init_sub_modules(struct dp_display_private *dp)
- 		goto error_ctrl;
- 	}
+@@ -1596,8 +1596,10 @@ void dp_bridge_mode_set(struct drm_bridge *drm_bridge,
+ 	struct msm_dp_bridge *dp_bridge = to_dp_bridge(drm_bridge);
+ 	struct msm_dp *dp = dp_bridge->dp_display;
+ 	struct dp_display_private *dp_display;
++	struct dp_panel *dp_panel;
  
--	/* populate wide_bus_supported to different layers */
--	dp->ctrl->wide_bus_en = dp->wide_bus_supported;
--	dp->catalog->wide_bus_en = dp->wide_bus_supported;
--
- 	return rc;
+ 	dp_display = container_of(dp, struct dp_display_private, dp_display);
++	dp_panel = dp_display->panel;
  
- error_ctrl:
-@@ -809,6 +805,7 @@ static int dp_display_set_mode(struct msm_dp *dp_display,
- 	drm_mode_copy(&dp->panel->dp_mode.drm_mode, &mode->drm_mode);
- 	dp->panel->dp_mode.bpp = mode->bpp;
- 	dp->panel->dp_mode.capabilities = mode->capabilities;
-+	dp->panel->dp_mode.out_fmt_is_yuv_420 = mode->out_fmt_is_yuv_420;
- 	dp_panel_init_panel_info(dp->panel);
- 	return 0;
- }
-@@ -1403,6 +1400,9 @@ bool msm_dp_wide_bus_available(const struct msm_dp *dp_display)
+ 	memset(&dp_display->dp_mode, 0x0, sizeof(struct dp_display_mode));
  
- 	dp = container_of(dp_display, struct dp_display_private, dp_display);
- 
-+	if (dp->dp_mode.out_fmt_is_yuv_420)
-+		return false;
-+
- 	return dp->wide_bus_supported;
- }
- 
-@@ -1616,6 +1616,15 @@ void dp_bridge_mode_set(struct drm_bridge *drm_bridge,
- 
- 	dp_display->dp_mode.h_active_low =
+@@ -1618,7 +1620,8 @@ void dp_bridge_mode_set(struct drm_bridge *drm_bridge,
  		!!(dp_display->dp_mode.drm_mode.flags & DRM_MODE_FLAG_NHSYNC);
-+
-+	dp_display->dp_mode.out_fmt_is_yuv_420 =
-+		drm_mode_is_420_only(&dp->connector->display_info, adjusted_mode);
-+
-+	/* populate wide_bus_support to different layers */
-+	dp_display->ctrl->wide_bus_en =
-+		dp_display->dp_mode.out_fmt_is_yuv_420 ? false : dp_display->wide_bus_supported;
-+	dp_display->catalog->wide_bus_en =
-+		dp_display->dp_mode.out_fmt_is_yuv_420 ? false : dp_display->wide_bus_supported;
- }
  
- void dp_bridge_hpd_enable(struct drm_bridge *bridge)
+ 	dp_display->dp_mode.out_fmt_is_yuv_420 =
+-		drm_mode_is_420_only(&dp->connector->display_info, adjusted_mode);
++		drm_mode_is_420_only(&dp->connector->display_info, adjusted_mode) &&
++		dp_panel->vsc_sdp_supported;
+ 
+ 	/* populate wide_bus_support to different layers */
+ 	dp_display->ctrl->wide_bus_en =
+diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
+index 127f6af995cd1..db1942794f1a4 100644
+--- a/drivers/gpu/drm/msm/dp/dp_panel.c
++++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+@@ -53,6 +53,7 @@ static int dp_panel_read_dpcd(struct dp_panel *dp_panel)
+ 	if (rc)
+ 		return rc;
+ 
++	dp_panel->vsc_sdp_supported = drm_dp_vsc_sdp_supported(panel->aux, dpcd);
+ 	link_info = &dp_panel->link_info;
+ 	link_info->revision = dpcd[DP_DPCD_REV];
+ 	major = (link_info->revision >> 4) & 0x0f;
 diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm/dp/dp_panel.h
-index a0dfc579c5f9f..6ec68be9f2366 100644
+index 6ec68be9f2366..e843f5062d1f6 100644
 --- a/drivers/gpu/drm/msm/dp/dp_panel.h
 +++ b/drivers/gpu/drm/msm/dp/dp_panel.h
-@@ -19,6 +19,7 @@ struct dp_display_mode {
- 	u32 bpp;
- 	u32 h_active_low;
- 	u32 v_active_low;
-+	bool out_fmt_is_yuv_420;
- };
+@@ -46,6 +46,7 @@ struct dp_panel {
+ 	struct dp_display_mode dp_mode;
+ 	struct dp_panel_psr psr_cap;
+ 	bool video_test;
++	bool vsc_sdp_supported;
  
- struct dp_panel_in {
+ 	u32 vic;
+ 	u32 max_dp_lanes;
 -- 
 2.39.2
 
