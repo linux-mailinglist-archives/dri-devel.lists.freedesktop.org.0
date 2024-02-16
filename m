@@ -2,76 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C120D857E18
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 14:53:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 796C1857E52
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 14:59:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 886F810EBA5;
-	Fri, 16 Feb 2024 13:52:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFA1A10EB4A;
+	Fri, 16 Feb 2024 13:59:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OJ6N45/L";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RHJCYZqD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 788DE10EBA1
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 13:52:54 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-33aeb088324so1073361f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 05:52:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708091573; x=1708696373; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PvI32FQ4nm5FS2E6NUBcZLhBYHDUHTwrrFx6puVW3L4=;
- b=OJ6N45/LfTWoym/2pdvmy1/U8t9+NqJuXalaoPngHO4Jjqd0ogS4ms4QytBxkD0ADw
- V1KAT9fCnyJN26QVzyhhvi9S0YD1ec0ecrI+CAkuIoWliwcrsa7dndovUO2aSGM7u3s6
- 5G5/Od9pG1mFCwUon55P849byLp8r1oDuvjmuX4Xiq/06/dCMip0bQJwNxJzqL1EFhc4
- /q9s+/pvWY7HvrnNwpvl9w5rkiLdCi2qIjpCFNm0lIj3qGedxvyyYBBu9PUYVbfygMro
- ZalAElbEM/7aotW5290tC4GHrrovrhJPjCwDhL2X9tGImRim2IVVY8yQOh+BpMW6WC3/
- jfsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708091573; x=1708696373;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=PvI32FQ4nm5FS2E6NUBcZLhBYHDUHTwrrFx6puVW3L4=;
- b=jrls7bXO4FT3W5kG6+4dZshtt2JM8Qa4tY/WvZnWT6IX93tEUfrPO5DL6hTVtU1QAw
- G8bAJCBlfCQSAxAiuy6M4U7VwfpB2cjUZTQPy3fmrF5eq3r03d5RoIoaoIKs7vduGMTf
- 92lS9WLBJoZWnH2w99SRhxMsyoHhoshNdsdrlvnLX/kzCeJ1JYkP6tZ/4S7wl1yLTWXQ
- 3OwwvxVlqUQQn/YT/DjsadcpxXrNLgq9oURUnqh8snNL0tkBRqSZbZFxQWbDJOnxxnFn
- H4XPfajDopWIltpy7HoTqi0aJuH8NzFThdILMvBjFzP13/txlAuJ9CjWTLmO4UzZRIbg
- pw7w==
-X-Gm-Message-State: AOJu0YyvktubnuNR9SLLA6ntgwHUkAFky2aR5+H5LhpPu9YuEC2JDBx9
- /PsGtGmZ0sGhIAeLAv3+ISzQvd4toPDgz3XBiCsFkCwve6YylKqgFf6qXJp4a4o=
-X-Google-Smtp-Source: AGHT+IGvhbMlbHXuakezCC4b3U3zd7ifYbRzXbL5tSRNVyiku/IPxHI7g3kEQ6pzNqVn4XOPF4zbiA==
-X-Received: by 2002:adf:f310:0:b0:33b:4965:cccc with SMTP id
- i16-20020adff310000000b0033b4965ccccmr4102354wro.46.1708091572975; 
- Fri, 16 Feb 2024 05:52:52 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
- by smtp.gmail.com with ESMTPSA id
- m12-20020a5d4a0c000000b0033b60bad2fcsm2253706wrq.113.2024.02.16.05.52.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Feb 2024 05:52:52 -0800 (PST)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: dri-devel@lists.freedesktop.org
-In-Reply-To: <20240108152514.533414-1-alexander.stein@ew.tq-group.com>
-References: <20240108152514.533414-1-alexander.stein@ew.tq-group.com>
-Subject: Re: [PATCH 1/1] drm: bridge: dw_hdmi: Set DRM bridge type
-Message-Id: <170809157211.3599882.8383475830404744849.b4-ty@linaro.org>
-Date: Fri, 16 Feb 2024 14:52:52 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E7D310EAEE;
+ Fri, 16 Feb 2024 13:59:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1708091970; x=1739627970;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=yW9r0Q30BshXjM48S3raf19S6QID4htBM4J1v6hvykU=;
+ b=RHJCYZqDJLePZ6Xgzc5PnYg+o1oH6SwvbFQygPrgQzO0TPDLWYRPpikG
+ IUWQXt2mWEke2aPPXusR3WqrSiz7G7HyIPM6U0AR+wIwmpo/6k0Yi6dpc
+ PEvz/AG1TUBlJozk4BRmtyCNVtXgqwOYYp7esqsSRrDwp1U28StIiZ5vT
+ qqBo0zWgOwm6kBohStL1fDdBfjlm5mTyr25eOhaiNsw8RJnPrg/nERNCW
+ IyWbICF1+v8oc3Bw1ogvG2zU64wkDE8QtgH6VhWghm/88vx+bYX4Qj5v2
+ TYR8XS6HFaHgI92bXF5b9NTMyV81FgAn1LN3MREW7K5ZmuhZeGfIXIrKO Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="2086179"
+X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
+   d="scan'208";a="2086179"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2024 05:59:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
+   d="scan'208";a="4014272"
+Received: from bducamp-mobl.ger.corp.intel.com (HELO [10.249.43.162])
+ ([10.249.43.162])
+ by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2024 05:59:27 -0800
+Message-ID: <ac82f1e0-4731-4420-ab57-ff2160a2f3d6@linux.intel.com>
+Date: Fri, 16 Feb 2024 14:59:25 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/6] drm/xe/stolen: ignore first page for FBC
+Content-Language: en-US
+To: Matthew Auld <matthew.auld@intel.com>, intel-xe@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Matt Roper <matthew.d.roper@intel.com>
+References: <20240215174431.285069-7-matthew.auld@intel.com>
+ <20240215174431.285069-12-matthew.auld@intel.com>
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20240215174431.285069-12-matthew.auld@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,28 +69,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Mon, 08 Jan 2024 16:25:14 +0100, Alexander Stein wrote:
-> The bridge type was set to default (Unknown). Set proper bridge type.
-> With this fixed, debugfs output imx8mp looks proper.
-> $ cat /sys/kernel/debug/dri/1/encoder-0/bridges
-> bridge[0]: imx_hdmi_pvi_bridge_funcs [imx8mp_hdmi_pvi]
->         type: [0] Unknown
->         OF: /soc@0/bus@32c00000/display-bridge@32fc4000:fsl,imx8mp-hdmi-pvi
->         ops: [0x0]
-> bridge[1]: dw_hdmi_bridge_funcs [dw_hdmi]
->         type: [11] HDMI-A
->         OF: /soc@0/bus@32c00000/hdmi@32fd8000:fsl,imx8mp-hdmi
->         ops: [0x7] detect edid hpd
+
+On 2024-02-15 18:44, Matthew Auld wrote:
+> Seems like we can potentially hit underruns if the CFB offset is within
+> the first page of stolen. Just like i915 skip the first page.
 > 
-> [...]
+> BSpec: 50214
+> Reported-by: Matt Roper <matthew.d.roper@intel.com>
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> ---
+>   drivers/gpu/drm/xe/compat-i915-headers/i915_gem_stolen.h | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/xe/compat-i915-headers/i915_gem_stolen.h b/drivers/gpu/drm/xe/compat-i915-headers/i915_gem_stolen.h
+> index bd233007c1b7..003474cfdf31 100644
+> --- a/drivers/gpu/drm/xe/compat-i915-headers/i915_gem_stolen.h
+> +++ b/drivers/gpu/drm/xe/compat-i915-headers/i915_gem_stolen.h
+> @@ -19,6 +19,9 @@ static inline int i915_gem_stolen_insert_node_in_range(struct xe_device *xe,
+>   	int err;
+>   	u32 flags = XE_BO_CREATE_PINNED_BIT | XE_BO_CREATE_STOLEN_BIT;
+>   
+> +	if (start < SZ_4K)
+> +		start = SZ_4K;
+> +
+>   	if (align)
+>   		size = ALIGN(size, align);
+>   
+Should start also be aligned?
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
-
-[1/1] drm: bridge: dw_hdmi: Set DRM bridge type
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=f63f24488571fdd6f6aa910f2db5a7f3d44a4da6
-
--- 
-Neil
-
+If that's taken care of by other code, for both patches:
+Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
