@@ -2,64 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07EA38577C2
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 09:36:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B3ED8577C9
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 09:38:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09E0C10E21D;
-	Fri, 16 Feb 2024 08:36:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02D8F10E42C;
+	Fri, 16 Feb 2024 08:38:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="CcmsHjWh";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="i5x/9QOJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEBA210E411;
- Fri, 16 Feb 2024 08:36:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=7Fbzp3gSvOknwiKu5ZEsEJYpJCaCvuMggAeqwHbLDew=; b=CcmsHjWhdx/TI1JhuigqDhMjrq
- ENg+Y1XhxmQCrVadjnh7X0Iw+M0EzR5FwggP3trCeWvBXBby1J5asN33528ctLa81KuEiE89iENvE
- wCbV1gjs1QKLNVsP/EvuZ3kX4NNfozDo75mVRtaC4wFBHyrPG/8Qca2T2QL17St5D3G/EXJxWNQ+9
- oEhmvoVSyjgExQpOOCo4VPfM/OEOOCx9hGIsAd9X2kxXNlYP6NTvLC80OW3ZOSAdNLxefGzuD/8ii
- tb4xH88OVTOry6QjYq60IJONGpFsPznYMB63ZvC+A9SZPbqJhMRy+LBVtzL1bUu/TisohEcN9GZi1
- RhEcrIog==;
-Received: from [194.136.85.206] (port=38292 helo=eldfell)
- by whm50.louhi.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
- (envelope-from <pekka.paalanen@haloniitty.fi>) id 1rathl-0006fq-0d;
- Fri, 16 Feb 2024 10:36:21 +0200
-Date: Fri, 16 Feb 2024 10:36:20 +0200
-From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-To: "Garg, Nemesa" <nemesa.garg@intel.com>
-Cc: Simon Ser <contact@emersion.fr>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "G M, Adarsh" <adarsh.g.m@intel.com>
-Subject: Re: [RFC 0/5]  Introduce drm sharpening property
-Message-ID: <20240216103620.33deabb1@eldfell>
-In-Reply-To: <IA1PR11MB6467A91412978DE0FFCAB50FE34C2@IA1PR11MB6467.namprd11.prod.outlook.com>
-References: <20240214112457.3734871-1-nemesa.garg@intel.com>
- <8Ma-GlU3bFAuSPpFhGbYYuXQ8OeeDjMK9WiWO6KP-4pPO41fLnLrgABkRfhjHY6XlIh5u67vcEbD8ejDq7-zo5BXf-too0Pt7oTDhWCOPlU=@emersion.fr>
- <IA1PR11MB6467A91412978DE0FFCAB50FE34C2@IA1PR11MB6467.namprd11.prod.outlook.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E2A010E42C
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 08:38:28 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-511acd26c2bso2543281e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 00:38:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1708072703; x=1708677503; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=Ngo+x1ISyMh3dIrNdqAUb75XtmSi0d4XUY9AETqB4qI=;
+ b=i5x/9QOJDWAy7Nyy4YsHwTDlV8Fx4+kkYISfcHyEWsmMThuwGPQkiRZ0g6/GOm6tkX
+ rL+CwvDcSdKdhQFzzbeTobRYhh++rHjBaNrliB5HhxfsLQu7SpdInzOjjLI/wZKRMdDS
+ 29jXFFNj7os2ksV2KOeWz4E/nzb2JNqP6HkNTsC+LF0DxdNLrD7pkQS7UrUBzosldx1p
+ 68dfwPmyozj3rdKfKKzafDe5RA0yShH+IeqXuTBrLdA+1rz3Lk9uXKL7hv6vZjkBmr1o
+ ToEhiWRaDu1UDko7aLKZobUgquBys5gbgQ2CO92specI6KIrZFDAx6TPhp+JC63I1fit
+ zANw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708072703; x=1708677503;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=Ngo+x1ISyMh3dIrNdqAUb75XtmSi0d4XUY9AETqB4qI=;
+ b=MwCPDnl7gnNWI6OySikouizLNaBh/eVkOFs53rfW7J3fxCN9pEtt6kFF1jfjec4RXT
+ xPpmD5u3kzrsv8fJ2mldS+N8bn0L6tfMSUS0mP4sRkM1APVW1Mx70JXe8ZHy/M3JJ7ei
+ BLSgW0wXIIGnzvuCNyLbz2qIfY8vQisGZ2T0J6aDHYcO7p/x7Ts8GPckDboWsmfyPJ/w
+ mhjgY5Bp9TS9z1uM9L369QTpGzn2nVI1xYOH47C9cx0yRewNOVbvfnEJsvMUNVGWn9+X
+ 2F6VDPbEYRvMbL1MDnDzmsE56HJVBfrLaUBMDIcPsQsOKmXlj6Kzl7hJ1o/GNyOFsTFy
+ 4+OA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV/f3TH9m79vBA5pUGbOrjJZmURkrYoa2Fk7XsTlPi2umUHXkLESKfTn0aMGvq6iZa8iymZZ4tqG5ZxY2iP7rqp96Wh/k31532o40ZxYY+X
+X-Gm-Message-State: AOJu0YyDGhooPYXZ0RCxXS1M2riX3JjtVD9X8Gd7IlKRyGnr0AJ/v/Gj
+ tz45iRJ4KBiF9loOiHuW1if1YoOOOPoBaEttayFIo04YnTxmfGUdcOpz6bUwfQg=
+X-Google-Smtp-Source: AGHT+IG0IqZfjgZJS4CNZqd7PPymI1uvvJj8A/XLg3FGcA9awMv4M/Z6g5sqhsU4QXf+mbUJCQvbLA==
+X-Received: by 2002:a05:6512:4019:b0:512:8a9b:a960 with SMTP id
+ br25-20020a056512401900b005128a9ba960mr2914808lfb.4.1708072703342; 
+ Fri, 16 Feb 2024 00:38:23 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:814e:29c1:3729:78fa?
+ ([2a01:e0a:982:cbb0:814e:29c1:3729:78fa])
+ by smtp.gmail.com with ESMTPSA id
+ ay33-20020a05600c1e2100b004124be777a7sm768741wmb.7.2024.02.16.00.38.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Feb 2024 00:38:22 -0800 (PST)
+Message-ID: <6acd8776-cc59-496a-ad80-47613a8283a3@linaro.org>
+Date: Fri, 16 Feb 2024 09:38:21 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/cZ7.UGIY1.XAE0XM6h4znm5";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - whm50.louhi.net
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - haloniitty.fi
-X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
- pekka.paalanen@haloniitty.fi
-X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH] drm/dp: Don't attempt AUX transfers when eDP panels are
+ not powered
+Content-Language: en-US, fr
+To: Doug Anderson <dianders@chromium.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Johan Hovold <johan+linaro@kernel.org>
+Cc: Jani Nikula <jani.nikula@intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, dri-devel@lists.freedesktop.org,
+ eizan@chromium.org, Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Imre Deak <imre.deak@intel.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+ linux-kernel@vger.kernel.org
+References: <20240202141109.1.I24277520ac754ea538c9b14578edc94e1df11b48@changeid>
+ <CAJMQK-it9YMod4rHKnACq4O-iaGieK2SN4x5vQ018CghsA631A@mail.gmail.com>
+ <CAD=FV=VfuFrK1cSKA0maMzT5dxzKEzADqrd69fZKXuAGrU2rmA@mail.gmail.com>
+ <87sf1u58k0.fsf@intel.com>
+ <CAD=FV=XQdLm3PcjEd_g_dBJ9QO8zAJtj5nrXS9=cjC80+-Jbfg@mail.gmail.com>
+ <cbcd981f-bd5d-477e-8482-d3414be17057@linaro.org>
+ <CAD=FV=UtakQZ6OEKwERW5gNeAfS88EqkuQAHkrQoN=SicDG1JA@mail.gmail.com>
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro Developer Services
+In-Reply-To: <CAD=FV=UtakQZ6OEKwERW5gNeAfS88EqkuQAHkrQoN=SicDG1JA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,96 +128,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/cZ7.UGIY1.XAE0XM6h4znm5
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
++ Bjorn
++ Konrad
++ Johan
 
-On Fri, 16 Feb 2024 04:28:41 +0000
-"Garg, Nemesa" <nemesa.garg@intel.com> wrote:
+On 15/02/2024 18:08, Doug Anderson wrote:
+> Hi,
+> 
+> On Thu, Feb 15, 2024 at 8:53 AM Neil Armstrong
+> <neil.armstrong@linaro.org> wrote:
+>>
+>> Hi Doug,
+>>
+>> On 15/02/2024 16:08, Doug Anderson wrote:
+>>> Hi,
+>>>
+>>> On Thu, Feb 15, 2024 at 2:24 AM Jani Nikula <jani.nikula@intel.com> wrote:
+>>>>
+>>>> On Wed, 14 Feb 2024, Doug Anderson <dianders@chromium.org> wrote:
+>>>>> Hi,
+>>>>>
+>>>>> On Tue, Feb 13, 2024 at 10:25 PM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
+>>>>>>
+>>>>>> On Wed, Feb 14, 2024 at 2:23 PM Douglas Anderson <dianders@chromium.org> wrote:
+>>>>>>>
+>>>>>>> If an eDP panel is not powered on then any attempts to talk to it over
+>>>>>>> the DP AUX channel will timeout. Unfortunately these attempts may be
+>>>>>>> quite slow. Userspace can initiate these attempts either via a
+>>>>>>> /dev/drm_dp_auxN device or via the created i2c device.
+>>>>>>>
+>>>>>>> Making the DP AUX drivers timeout faster is a difficult proposition.
+>>>>>>> In theory we could just poll the panel's HPD line in the AUX transfer
+>>>>>>> function and immediately return an error there. However, this is
+>>>>>>> easier said than done. For one thing, there's no hard requirement to
+>>>>>>> hook the HPD line up for eDP panels and it's OK to just delay a fixed
+>>>>>>> amount. For another thing, the HPD line may not be fast to probe. On
+>>>>>>> parade-ps8640 we need to wait for the bridge chip's firmware to boot
+>>>>>>> before we can get the HPD line and this is a slow process.
+>>>>>>>
+>>>>>>> The fact that the transfers are taking so long to timeout is causing
+>>>>>>> real problems. The open source fwupd daemon sometimes scans DP busses
+>>>>>>> looking for devices whose firmware need updating. If it happens to
+>>>>>>> scan while a panel is turned off this scan can take a long time. The
+>>>>>>> fwupd daemon could try to be smarter and only scan when eDP panels are
+>>>>>>> turned on, but we can also improve the behavior in the kernel.
+>>>>>>>
+>>>>>>> Let's let eDP panels drivers specify that a panel is turned off and
+>>>>>>> then modify the common AUX transfer code not to attempt a transfer in
+>>>>>>> this case.
+>>>>>>>
+>>>>>>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+>>>>>>> ---
+>>>>>>
+>>>>>> Reviewed-by: Hsin-Yi Wang <hsinyi@chromium.org>
+>>>>>
+>>>>> Thanks for the review!
+>>>>>
+>>>>> Given that this touches core DRM code and that I never got
+>>>>> confirmation that Jani's concerns were addressed with my previous
+>>>>> response, I'm still going to wait a little while before applying. I'm
+>>>>> on vacation for most of next week, but if there are no further replies
+>>>>> between now and then I'll plan to apply this to "drm-misc-next" the
+>>>>> week of Feb 26th. If someone else wants to apply this before I do then
+>>>>> I certainly won't object. Jani: if you feel this needs more discussion
+>>>>> or otherwise object to this patch landing then please yell. Likewise
+>>>>> if anyone else in the community wants to throw in their opinion, feel
+>>>>> free.
+>>>>
+>>>> Sorry for dropping the ball after my initial response. I simply have not
+>>>> had the time to look into this.
+>>>>
+>>>> It would be great to get, say, drm-misc maintainer ack on this before
+>>>> merging. It's not fair for me to stall this any longer, I'll trust their
+>>>> judgement.
+>>>>
+>>>> Reasonable?
+>>>
+>>> I'd be more than happy for one of the drm-misc maintainers to Ack.
+>>> I'll move Maxime, Thomas, and Maarten to the "To:" line to see if that
+>>> helps get through their filters.
+>>
+>> I'll like some test reports to be sure it doesn't break anything,
+>> then I'll be happy to give my ack !
+> 
+> Sounds good. I know Eizan (CCed, but also a ChromeOS person) was going
+> to poke at it a bit and seemed willing to provide a Tested-by. I'll
+> let him chime in.
+> 
+> ...but perhaps some better evidence that it's not breaking hardware is
+> that we actually landed this into one (but not all) ChromeOS kernel
+> trees [1] and it's rolled out to at least "beta" channel without
+> anyone screaming. Normally we like things to land upstream before
+> picking, but in this case we needed to land another patch to gather
+> in-field data [2] that would have made the problem even worse.
+> 
+> The kernel tree we landed on was the v5.15 tree, which is currently
+> serving all Qualcomm sc7180-based Chromebooks, all Mediatek 8173
+> Chromebooks and all Mediatek 8186 Chromebooks. There are also a pile
+> of x86 Chromebooks running our v5.15 kernel. This code shouldn't
+> affect them because (unless I'm mistaken) they don't use the two
+> affected panel drivers. In any case, I haven't heard any screams from
+> them either. Given my landing plans of "the week of the 26th", this
+> still gives another 1.5 weeks for any screams to reach my ears.
+> 
+> ...or are you looking for non-ChromeOS test reports? I'm not sure how
+> to encourage those. I suppose sometimes folks at Red Hat end up
+> stumbling over similar panel problems to those of us in ChromeOS.
+> Maybe +Javier would be interested in providing a Tested-by?
 
-> It is not intel specific and the goal is to have a generic API for
-> configuring Sharpness, accessible to various vendors. Intel currently
-> offers sharpness support through the Display Engine, while other
-> vendors seem to support Sharpness through the GPU using GL shaders
-> (Vulcan/Open GL based).=20
+Bjorn, Konrad, Johan,
 
-Do you mean that all vendors use the exact same mathematical algorithm
-(with only differences in operation precision at most)?
-
-If yes, good.
-
-If not, then we need to know where exactly in the virtual KMS color
-pipeline the operation happens, whether this can be generic or not.
-
-Does this also work the same regardless of pixel formats, dynamic
-range, color gamut, transfer functions etc. on both plane input and
-connector output configurations?
-
-> In terms of sharpness intensity adjustment, the plan is to provide
-> users with the ability to customize and regulate sharpness levels. We
-> suggest setting a minimum and maximum strength range from 1 to 255,
-> where a value of 0 signifies that the sharpness feature is disabled,
-> indicated by a u8 data type. For now we have mapped the strength
-> value 0.0 to 14.9375 to 0-239 but as the datatype is u8 user can give
-> value upto 255 which is gets clamped to 239.
-
-Naturally you will need to document all that, so that all drivers and
-vendors do the exact same thing.
-
-I did not see any actual documentation in the patch series yet, e.g. a
-reference to a specific algorithm.
-
-As Ville pointed out, there was also no specification at which point of
-the virtual color pipeline this operation will apply. Before/after
-DEGAMMA/CTM/GAMMA/scaling in plane/blending/CRTC?
-
-Is the property being added to the list in
-https://dri.freedesktop.org/docs/drm/gpu/drm-kms.html#standard-crtc-propert=
-ies
-or where-ever it belongs?
-
+Could one of you somehow try this on the X13s or other Laptop using eDP ?
 
 Thanks,
-pq
+Neil
 
-> We are also open to have alternative scales, such as 1-100 or 1-10,
-> as long as a general consensus is reached within the community
-> comprising OEMs and vendors.
->=20
-> > -----Original Message-----
-> > From: Simon Ser <contact@emersion.fr>
-> > Sent: Thursday, February 15, 2024 2:03 PM
-> > To: Garg, Nemesa <nemesa.garg@intel.com>
-> > Cc: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
-> > Subject: Re: [RFC 0/5] Introduce drm sharpening property
-> >=20
-> > How much of this is Intel-specific? Are there any hardware vendors
-> > with a similar feature? How much is the "sharpness" knob tied to
-> > Intel hardware? =20
+> 
+> [1] https://crrev.com/c/5277322
+> [2] https://crrev.com/c/5277736
 
-
---Sig_/cZ7.UGIY1.XAE0XM6h4znm5
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXPHoQACgkQI1/ltBGq
-qqdijxAAlNioQxoeVqHpBPu147ymVB7UnfY/U5gSvff/16qEk7J+L1kAGQgURcPT
-vbv4TqHKFIAMgDKY6pzd+OF3t54b9jcMDoEsFxHwVdp37dJLaq+F9yaWLWDYg3UP
-V8MRJXBxoWa0zjlSdCSBf1JubisMr/HiMdShpKqt3TzPQGjU7aLP6qu5YFYPEDQC
-ZNKZyw38jjsnANK8vcBKytF3+kK5VLybrXLRbjFTdAl3VjS9QfvczrK2pZ27HOxe
-wVAKWmqRKKr4VLsJGCfXgWtH8zG2WeGYhCOLoIZ23SJoi1aZXhXv0vH4o6kf4xhq
-c56OiGRJrMJMt6MzhPG23CSWmwD3/drWiP0Pd2sfjPXvf5QlDi2LTffQbF+b1H3J
-FByYHpPo/X6z7dF1SIXLlLyiGovqFbQWuS3TCrWkxgSO9ck3Top0yTMUnBU8I8WL
-0eaiMMANwp/pE8YA7ktxDdUe8rMCYmh8IVbiGctq3AE9HddX/bg48DL9TBhfJ2Hb
-WZBDwF/3S46NrxImBlDlROI8UW0TkEkithSFriJtfGI581vCB6XcX13qw5u8UYIZ
-8LVu/Z93DE6vV25X3oqxKrCgVxh/ZyCkM5g/7VNzTFQiDyaajT6wtOBqoO75iHtC
-1+j09x0cDc9xn4UGJtdENz8SLvSli8J4p90sh4atnfkh7cEv/0s=
-=LWXR
------END PGP SIGNATURE-----
-
---Sig_/cZ7.UGIY1.XAE0XM6h4znm5--
