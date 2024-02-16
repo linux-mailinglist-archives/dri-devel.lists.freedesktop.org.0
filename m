@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B53E3857AF4
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 12:04:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E777E857AEE
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 12:04:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76CE210E71E;
-	Fri, 16 Feb 2024 11:04:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64D5810EB08;
+	Fri, 16 Feb 2024 11:04:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="HJb9k3SA";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rWYRQMEd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1E5610EAF3
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 11:04:02 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-5116ec49365so731702e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 03:04:02 -0800 (PST)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42A7110EB04
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 11:04:04 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-51299d29e43so141707e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 03:04:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708081441; x=1708686241; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1708081442; x=1708686242; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=eoTug8oI3rc0EGfqabXi49TIa0elLz1yO0hJ7mVAsJQ=;
- b=HJb9k3SAeYkmoDKgpqcb/FS7nJYxcoXTX/zvZ+5PjbVxphpW09wrGDpXJZwLpbQXOq
- ylb8xRIWuj8Cgv9RSSo3jDdyxNNcZruw7PxB30NWzJVDqcKpsg2qPpn+fAwxC1CE9dkV
- WiDHKLcDMNoZDGckr1zQNyuZYZn1JfxOkMHU/Aihd2hxM7qrPTzaUpAPh0jZjEZH21DQ
- j7MVeRy4MjZbTw6nOZXH+lA1zMwixtD2jGEoO9M0Ox6kzu0Nd5ydzyDpM0VdPT4OEHVe
- FobpQLMklcsDaaUP2V62EHLwZ52f7+bz4JZU/1ejmDc/eaFLKcdc3oY/5h0Bpm8nopUG
- 9Y6g==
+ :reply-to; bh=M4VUVivuxhBItwCnLx0xGdHQH3tLZmkPnVy151EVhso=;
+ b=rWYRQMEdHKZFZpFE6OGpYr9DXWK3dNdelT44ZprkQY3qil6H2BMRtFrql+owYspK1c
+ 5m4bZahKFsuKNJiiy3KluRdFtPm6dcCB7krctdifOkIwRJ/ncfb8WqRF++m7Fwh3+8dV
+ rc8f8uLoLxnUppVV0fog/E/7ZFcKYVGwjwj2K2kwQa4WWaiRBuvWa7BKrNvjOd20XCo5
+ 3YWPrwJz1ot25VlQ+Tfy30n1m+1togH9RTHtLZIQbStD4c48DbsjNBMQVd++IQwlWPNA
+ t2uq1hynSC0yEmUUWUz5O2eSCdMbU5OkzbzfXFGahR8o14LquJ7MdBMuwXE/H8m9kRC5
+ Ul0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708081441; x=1708686241;
+ d=1e100.net; s=20230601; t=1708081442; x=1708686242;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=eoTug8oI3rc0EGfqabXi49TIa0elLz1yO0hJ7mVAsJQ=;
- b=WILyGQ0d7kQXuZGV3gDcM59ohtLjSc8I1v7jUf2jXR9T/pmyk74HOFxfU5ZwThDm7M
- UiStN9IIhcvrIcIcBCU22T148kTZkiF+dpJOEiqXKiOh/sN4B+e7bLTrhQTa7b7JY2lU
- x/Hp1Vmvr1q93/kl8KGsMcenz48Ec3empnRglEZ3dHNS4UjMP9gwGLdFk7670cYLYivW
- xXxOkHiImMsX1foIuREiEADUz3P3BRehVGDexQr8ckcJDOswO6g/DweSWhMKxWw745Et
- PUa73KLqCg1QEdpio7zwB40NRWhgIDiTVm4h2f4DFP2+f6R19Qro3URWV4As5V3u75Zd
- 5X6A==
+ bh=M4VUVivuxhBItwCnLx0xGdHQH3tLZmkPnVy151EVhso=;
+ b=pil7LfDAb6/OpkNsvvpAzi69WQ78QToI1xndC0xx4qEQrQn310/jjeJU74Vi4D8YRw
+ eNkx//I13R18xGEGjXoVqSIuwvYTP7Kdc38qC1TmRQJA3pYA/FCYc9sjqEed/AmkThDX
+ d4tHYGXGA5e+8WoVelMfBKuNP5y5y9UM8fpY/Dn3CV1Sn7oVDbxq8cnsVxOpNea66Ng6
+ 4igloUKeLIQdsturDy2+4haF69ICUvsK07af5kUkLnFnZX9Or1h/vgCRnJ3ShsKhBnxM
+ kTZ9PqmtyijsTYAKexOrYHgzeJJnNW1CqfNolF35uI/iSCmSEtuERU/VvSEB9pS2GMZN
+ sHeA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXpmhBnKziBTlSTbg64q0j+xkJw0Ak+j1bIMITvRL1lfPlmhubFqxXIqgEQGKgDNNxJ+P6GcA30zG0O2+gLiG2rtor1Nj5ev7/SppcFvwFZ
-X-Gm-Message-State: AOJu0YxIArIbpsFcgATv9Cyfxpl9lFgOCLgWr2wKQ8ZO/RUixXsMvGY2
- WJwcCCPQgGJLEADKQokIZlG9Bf/NEg/kco1ZzG1K4CcRq2FGf+2LTOgzeP4mphA=
-X-Google-Smtp-Source: AGHT+IGgy6ifdMfZjZdNLwnOMo0WQysyGJ5gI0bzwsoEE/gUN5DhE5K8JJiVngICStweqFy9QnhFmQ==
-X-Received: by 2002:a19:7707:0:b0:511:3283:e3af with SMTP id
- s7-20020a197707000000b005113283e3afmr3198713lfc.27.1708081440926; 
- Fri, 16 Feb 2024 03:04:00 -0800 (PST)
+ AJvYcCWCrg+SqILzMK14Ay1WPJXZTauKA/E9kcetXltiPW2k0H0d0giV/+l8VuV5cMo0qKEWwL22QJ8NWqmxui42OxYAuw5cy969q410EUMwOWVI
+X-Gm-Message-State: AOJu0YzTApQUKJ6LPpYGKQe6KfW2fWShx3FNcFpBRdptXPyv4OYARcBB
+ 7LtYRrQhydXZuxK15MUFyILWfarBpsk5gO3wRUiRVuXp+6vqL4zjHNpUyKEMAgc=
+X-Google-Smtp-Source: AGHT+IHxB3djXOGZfctfeVjRtqPgl9AKJgisKXW/R9yWRkrHNQlUHO3cV2qVMp5FEgY5CP4mPAbs/A==
+X-Received: by 2002:a19:5e17:0:b0:511:ac7d:97ea with SMTP id
+ s23-20020a195e17000000b00511ac7d97eamr3150124lfb.64.1708081442471; 
+ Fri, 16 Feb 2024 03:04:02 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
  by smtp.gmail.com with ESMTPSA id
- r2-20020a05600c35c200b004123b049f86sm1993174wmq.37.2024.02.16.03.03.59
+ r2-20020a05600c35c200b004123b049f86sm1993174wmq.37.2024.02.16.03.04.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Feb 2024 03:04:00 -0800 (PST)
+ Fri, 16 Feb 2024 03:04:01 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Fri, 16 Feb 2024 12:03:53 +0100
-Subject: [PATCH v3 6/7] arm64: dts: qcom: sm8650: add GPU nodes
+Date: Fri, 16 Feb 2024 12:03:54 +0100
+Subject: [PATCH v3 7/7] arm64: dts: qcom: sm8650-qrd: enable GPU
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240216-topic-sm8650-gpu-v3-6-eb1f4b86d8d3@linaro.org>
+Message-Id: <20240216-topic-sm8650-gpu-v3-7-eb1f4b86d8d3@linaro.org>
 References: <20240216-topic-sm8650-gpu-v3-0-eb1f4b86d8d3@linaro.org>
 In-Reply-To: <20240216-topic-sm8650-gpu-v3-0-eb1f4b86d8d3@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -83,20 +83,20 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  iommu@lists.linux.dev, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
  Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5727;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=771;
  i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=YnfJMxPEw+Crbp0x61Gr7hpcpYLyCY6opDQJsdz5YLA=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBlz0EXwDY7Yg7aqci7SJjR9nKSoD54wIwV2Vb+CdAy
- SVfXnDKJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZc9BFwAKCRB33NvayMhJ0fq1D/
- 0eVUzJBgVh7s/6KY8RP210qpWDN8Vcdh5LSPux3vDXKfQzkirc0B1hlpVU6oWrO9BCE6IFuvisnKAH
- r7t1p9kHhbErqX9yBsMFoRm+YCOs2lEQtiN7ur+M8r5rbkvy6vycF0UTn1lsu1F6VsK0ADiwqbuaRf
- 9EmUNyMt1WkvYjQXV0zjBy6GEMj+IW94G6/Y48MHOBzOhcAQq7KnO5I4shutgepEzmFljLC4ZS5BJ8
- YO0Me3cggxTS1ltUSANtNpKLHzj4pYcP4gl29/lMj1HPE5MBCkzO9FsZNNexuFQ+dnxsw+Sfm5t7YB
- 4mLfP/iWaZAHUdo96idrEd4kP/I7oLMA8tB5c2lIJrpvfqQH5vkVBRbbSCRm6W2RehqYriSlemWc1F
- tYLh8KvL7zWcGxv6VKSH6XT4bPbOfveXv2y/8dKICBEUfGWX+7rNE80o6xraWpAe8B7ToejmrbYPZD
- qDY5OwNZq8FR+20G8AlHhlWI0WNcIAMtQ17vB8IiLKf4WVi9NynXpoLFV2FjhX/Zp5dcbYB9iuMSt/
- jrqLVuTVY/4G7CzBsRs+bF0rKOF1rn60XXS8pZxWy/dQLW6HO10FMeZfKjgCqzTKRvCS9wTSJ5xNPW
- sBQKAZpB83oGAHXe6xC2l/GViUFra/G2P6u4o7wYIRHIRyxUEFbTgJuvI50A==
+ bh=eK619A8Ja/rJOcWssIzBbWM6D0kuHt0880KvRuYuMKM=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBlz0EXgNVUxVocIorRrq0+P4C1WxED54Xsx9AbKddq
+ wgYEbneJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZc9BFwAKCRB33NvayMhJ0YOAD/
+ 9ZA0e00w5hdxUVtWcA6R6L8Sgxzl3TGs4M3N2DO257wMbYrseQYYIgISUaSYCbllijwpWn1MBoP8Qd
+ kzme7tsEGbUVLG9O6BJPJbjX09Zv7bXFZVw9RycdKfud7WcBFwmzeqpRbC7QwjLciEp8zDR7znYBqV
+ haPQJktNh0x/DL7qpS5EQ3VaKKLL1pQiTBjBNCKPsGaDS+Cqkam4OmvgE7b/l3cLSdMZrIrLxwMejY
+ uhvkCzU0vPLhb8Jq9mCQ1qtn08KIiyMEcwTKtgmByA1HeGgDfqiaM2g1otALWizNT7rgK4UawovqPd
+ FDd4LqZFqfELA5MCRnccpH6cBKOpygQPnTvNLUDHVnQOmHFYw+Z2mtWZZ1r+OoS8i5Np0BsS8/lVIh
+ eG2fNRzvP2bMWyMNFmvFBaJ7iFLOF1+Hg5rf0p1cmhL0i44NaMJUTU55ETQG07vaI576kx8EySb38r
+ FSYOk1qFs39QNdP0Im4SfbF0JmSDnmfiu8/yTBNkkAjm8hPNqZIk30Ff8E79573ZtHkrk3QT1X02bT
+ S8ktDMv0EQkAkRe5UTAoxMeDd9LRLPU/H1jCPotM9oPddQn5Tu+Eta6m3nz2eAHYhymFLrbRehF+oy
+ /bZ3CeZECCad5xmda0Mz37zofKY/CPQaeae/Pv0QG6vSxXdAsaFD4yNhkLaA==
 X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -114,197 +114,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add GPU nodes for the SM8650 platform.
+Add path of the GPU firmware for the SM8650-QRD board
 
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/sm8650.dtsi | 166 +++++++++++++++++++++++++++++++++++
- 1 file changed, 166 insertions(+)
+ arch/arm64/boot/dts/qcom/sm8650-qrd.dts | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/sm8650.dtsi b/arch/arm64/boot/dts/qcom/sm8650.dtsi
-index 62e6ae93a9a8..27dcef27b6ad 100644
---- a/arch/arm64/boot/dts/qcom/sm8650.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8650.dtsi
-@@ -2589,6 +2589,128 @@ tcsr: clock-controller@1fc0000 {
- 			#reset-cells = <1>;
- 		};
+diff --git a/arch/arm64/boot/dts/qcom/sm8650-qrd.dts b/arch/arm64/boot/dts/qcom/sm8650-qrd.dts
+index b07cac2e5bc8..dc91f0bf4b8c 100644
+--- a/arch/arm64/boot/dts/qcom/sm8650-qrd.dts
++++ b/arch/arm64/boot/dts/qcom/sm8650-qrd.dts
+@@ -766,6 +766,14 @@ &ipa {
+ 	status = "okay";
+ };
  
-+		gpu: gpu@3d00000 {
-+			compatible = "qcom,adreno-43051401", "qcom,adreno";
-+			reg = <0x0 0x03d00000 0x0 0x40000>,
-+			      <0x0 0x03d9e000 0x0 0x1000>,
-+			      <0x0 0x03d61000 0x0 0x800>;
-+			reg-names = "kgsl_3d0_reg_memory",
-+				    "cx_mem",
-+				    "cx_dbgc";
++&gpu {
++	status = "okay";
 +
-+			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
++	zap-shader {
++		firmware-name = "qcom/sm8650/gen70900_zap.mbn";
++	};
++};
 +
-+			iommus = <&adreno_smmu 0 0x0>,
-+				 <&adreno_smmu 1 0x0>;
-+
-+			operating-points-v2 = <&gpu_opp_table>;
-+
-+			qcom,gmu = <&gmu>;
-+
-+			status = "disabled";
-+
-+			zap-shader {
-+				memory-region = <&gpu_micro_code_mem>;
-+			};
-+
-+			/* Speedbin needs more work on A740+, keep only lower freqs */
-+			gpu_opp_table: opp-table {
-+				compatible = "operating-points-v2";
-+
-+				opp-680000000 {
-+					opp-hz = /bits/ 64 <680000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
-+				};
-+
-+				opp-629000000 {
-+					opp-hz = /bits/ 64 <629000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L0>;
-+				};
-+
-+				opp-578000000 {
-+					opp-hz = /bits/ 64 <578000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
-+				};
-+
-+				opp-500000000 {
-+					opp-hz = /bits/ 64 <500000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS_L1>;
-+				};
-+
-+				opp-422000000 {
-+					opp-hz = /bits/ 64 <422000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
-+				};
-+
-+				opp-366000000 {
-+					opp-hz = /bits/ 64 <366000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS_D0>;
-+				};
-+
-+				opp-310000000 {
-+					opp-hz = /bits/ 64 <310000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS_D1>;
-+				};
-+
-+				opp-231000000 {
-+					opp-hz = /bits/ 64 <231000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS_D2>;
-+				};
-+			};
-+		};
-+
-+		gmu: gmu@3d6a000 {
-+			compatible = "qcom,adreno-gmu-750.1", "qcom,adreno-gmu";
-+			reg = <0x0 0x03d6a000 0x0 0x35000>,
-+			      <0x0 0x03d50000 0x0 0x10000>,
-+			      <0x0 0x0b280000 0x0 0x10000>;
-+			reg-names = "gmu", "rscc", "gmu_pdc";
-+
-+			interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "hfi", "gmu";
-+
-+			clocks = <&gpucc GPU_CC_AHB_CLK>,
-+				 <&gpucc GPU_CC_CX_GMU_CLK>,
-+				 <&gpucc GPU_CC_CXO_CLK>,
-+				 <&gcc GCC_DDRSS_GPU_AXI_CLK>,
-+				 <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
-+				 <&gpucc GPU_CC_HUB_CX_INT_CLK>,
-+				 <&gpucc GPU_CC_DEMET_CLK>;
-+			clock-names = "ahb",
-+				      "gmu",
-+				      "cxo",
-+				      "axi",
-+				      "memnoc",
-+				      "hub",
-+				      "demet";
-+
-+			power-domains = <&gpucc GPU_CX_GDSC>,
-+					<&gpucc GPU_GX_GDSC>;
-+			power-domain-names = "cx",
-+					     "gx";
-+
-+			iommus = <&adreno_smmu 5 0x0>;
-+
-+			qcom,qmp = <&aoss_qmp>;
-+
-+			operating-points-v2 = <&gmu_opp_table>;
-+
-+			gmu_opp_table: opp-table {
-+				compatible = "operating-points-v2";
-+
-+				opp-625000000 {
-+					opp-hz = /bits/ 64 <625000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
-+				};
-+
-+				opp-260000000 {
-+					opp-hz = /bits/ 64 <260000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
-+				};
-+			};
-+		};
-+
- 		gpucc: clock-controller@3d90000 {
- 			compatible = "qcom,sm8650-gpucc";
- 			reg = <0 0x03d90000 0 0xa000>;
-@@ -2602,6 +2724,50 @@ gpucc: clock-controller@3d90000 {
- 			#power-domain-cells = <1>;
- 		};
- 
-+		adreno_smmu: iommu@3da0000 {
-+			compatible = "qcom,sm8650-smmu-500", "qcom,adreno-smmu",
-+				     "qcom,smmu-500", "arm,mmu-500";
-+			reg = <0x0 0x03da0000 0x0 0x40000>;
-+			#iommu-cells = <2>;
-+			#global-interrupts = <1>;
-+			interrupts = <GIC_SPI 673 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 677 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 678 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 679 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 680 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 681 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 682 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 683 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 684 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 685 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 686 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 687 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 422 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 476 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 574 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 575 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 576 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 577 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 659 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 661 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 664 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 665 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 666 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 668 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 669 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 699 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>,
-+				 <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
-+				 <&gcc GCC_GPU_SNOC_DVM_GFX_CLK>,
-+				 <&gpucc GPU_CC_AHB_CLK>;
-+			clock-names = "hlos",
-+				      "bus",
-+				      "iface",
-+				      "ahb";
-+			power-domains = <&gpucc GPU_CX_GDSC>;
-+			dma-coherent;
-+		};
-+
- 		ipa: ipa@3f40000 {
- 			compatible = "qcom,sm8650-ipa", "qcom,sm8550-ipa";
- 
+ &lpass_tlmm {
+ 	spkr_1_sd_n_active: spkr-1-sd-n-active-state {
+ 		pins = "gpio21";
 
 -- 
 2.34.1
