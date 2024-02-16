@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC18857AF0
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 12:04:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A3F857AEF
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 12:04:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27CA510EB10;
-	Fri, 16 Feb 2024 11:04:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73E0010E5BC;
+	Fri, 16 Feb 2024 11:04:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SGT97MOJ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gWJVSVmz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A62F210EB04
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 11:03:58 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-41243d19ecaso3265745e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 03:03:58 -0800 (PST)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBA6010EB18
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 11:03:59 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id
+ ffacd0b85a97d-33b29b5ea96so922224f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 03:03:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708081437; x=1708686237; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1708081438; x=1708686238; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=R8jQXdAWc83YqnRTlVrzU/De4ogxASBLVUqo6LYFo1E=;
- b=SGT97MOJhlfH/C3wn2kXu+kg2TEEKC2gIvar2piwib9hGvBazoJnE/kIqTkkZl/YrO
- JE8nkEnibFgABjhC+qFMROzxCjUbQ8Qc4du/oT6lPBEZHuCtCBx3V0D2ZQUrO2kBZ1ln
- PSCLX7qzYXKJosF0rql1JVmJfEy968HaK/UQO/gLsmWYyGAerEMJ/WdHhSniX4XymprH
- DMPTKJJTPCyw9bZFlH9k61qjoZKzR7LAyxubYL2zefIPcXWYnN4wt/bYJZCXGJP1TVgi
- MBvSKD8oy/LrjvmHFMjkTgnH+WU3745gPMIIruulJY79WR/6Xged5rad6LaVj7es1CCw
- NRoA==
+ :reply-to; bh=5ygFt5WEvBpqUpx/ZfEWpp/27W6mJ4fXmmus9YC0aao=;
+ b=gWJVSVmzHZzEk2iNCmiKGNa07Bz3ncuVzbmi41sULuGR9Eo+DCZI1SptraWmWk5XEO
+ Qk9mkmlf4RrM6f+mMIMtVM2n+n5FVeLpq92SEr1IDqnk74WlRxWWsOrTiQ+cUq6o2xI9
+ lIgMcn4ZTQQorifpV7TmdBM9jcbyXkH0G+gEPohgQ8eQMnAwOMEJKJyUqXMxTWY28T1r
+ MQJilx36HZdqB4191zjndosk1KZhLUKgZUi80u3r1ELFQgz1p9r51g7MXj8grmaQhhpK
+ 1FNa8e0MZ51PwkdyiHkS4PYTNKV81fGOvkvO88gcn1OQG/F/mk3tsiLZCTZMRX68edLn
+ 3RVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708081437; x=1708686237;
+ d=1e100.net; s=20230601; t=1708081438; x=1708686238;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=R8jQXdAWc83YqnRTlVrzU/De4ogxASBLVUqo6LYFo1E=;
- b=wjXkvvi0tWIW28CYwwmhfweSzusr1PSdj4qbFESGq1bpVdEOYZKPUBC6EKeCqsAmTN
- M96lmyr93AqSsxm6fHcWiN9a0fezMmfzH11lMtGMq3kKCkCmBtbW5NyTkQcuFTdnb8tU
- THxM/hH1zcoIJYFpsFA3HbtM+hCi0y1hkGVD57dSJpQoWfZPL5BFz3vY4cYqBb1e6vlF
- 5IiQlZFr0c+oO+2qqcqH9hzC3FRNsaMIIz1wOgzE5egdP20lYkTu1f0aDe6N66MxD1bX
- sRY90SqMOFBHHnkonHqafnhiMu6AgrBjOunCfCB7EUspOO7ySB4l5GMfmUX/L2sYQnbW
- 6fpA==
+ bh=5ygFt5WEvBpqUpx/ZfEWpp/27W6mJ4fXmmus9YC0aao=;
+ b=NWYf1TU2WU8pz/CqyJC/2zKZ+z3G2ilhUZgwoGW+E5FSIfmph0vF3Wkw2796Uf19nL
+ KGWAKob8YgAdtx9QQb0e39Zz6P08JRQUUsMqIghzfmRVsxPfvrZ/rUykcFGLaQqDFR05
+ ecpMVW6TwWaZQf9dgNpMhu2FvzLQd1LwOzdqiZLbEyZc6cipLdeTz5RqeZtcGlNWA6KM
+ jF9LsFw3mB7++Py/qnobchHDIMOUHNwy8zbdKc4umu04bl4Xz54wc88zF5NAxuOa5Qda
+ e4h3X1ffstRn97QQ3xkAKFvgAqKdWAhS/R7v2sXlTcFDlz0urKvyCa671PoR6QcEjRPp
+ C0sg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU024SNbXWET279jDCF3+m0Xwe6DfEA3Re/F5pvb+RtCd7qj1TBu3zq4cj1vroxcTtiGF41TMp1Ko02AKBOitVlaOpx7Mg5UzjQXxZ2vdWo
-X-Gm-Message-State: AOJu0YxQ4Yw+qghubhYxFxnXQCerVuOPM5artje2/jS9QfYqYxTdScFv
- XrzFhmg5in+W3QattKPKe6CnRD4a5Zmzz0Tnj1EX1wOmBXaI50pCoTQJowM2HA4=
-X-Google-Smtp-Source: AGHT+IFzz9cIIZTolTBZ+3VO8UaeUFnQ9Pv0L3AFv1B/Cdpl3JFGoVyw6+dpFPhP+R/v9EVwpKUaqw==
-X-Received: by 2002:a05:600c:4588:b0:411:e0f0:7a71 with SMTP id
- r8-20020a05600c458800b00411e0f07a71mr3644178wmo.33.1708081437101; 
- Fri, 16 Feb 2024 03:03:57 -0800 (PST)
+ AJvYcCXl9DwjDLtIg6MiALELGiEftRSf2FfPr3QKkU5vMkg+lUp2UL3SWdq2NM3ozzR8h4GkrLEAJGor7IbVUY1inLDvVXTYRJ+43+xsKmc9sS6+
+X-Gm-Message-State: AOJu0YxdDXa+0I0Fuhu4xg/HS1tZ1Ku4uOBcoi+jrM/2J5ZWTYlwpkjQ
+ DG4isCyZzJz+yrtLsTTYnRfNPnaCcTEb8fpzZLlelQ4YikrRuA7m5j4ctn1ZyVU=
+X-Google-Smtp-Source: AGHT+IEP3yiwcmF/JpddO+6q/ETD/OND3uScQVe3XPgZiAJ6sWVnA1HI/hScYmOVoLQdLn2nwzPXPA==
+X-Received: by 2002:adf:f9c6:0:b0:33a:d28c:222c with SMTP id
+ w6-20020adff9c6000000b0033ad28c222cmr6833643wrr.11.1708081438346; 
+ Fri, 16 Feb 2024 03:03:58 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
  by smtp.gmail.com with ESMTPSA id
- r2-20020a05600c35c200b004123b049f86sm1993174wmq.37.2024.02.16.03.03.55
+ r2-20020a05600c35c200b004123b049f86sm1993174wmq.37.2024.02.16.03.03.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Feb 2024 03:03:56 -0800 (PST)
+ Fri, 16 Feb 2024 03:03:57 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Fri, 16 Feb 2024 12:03:50 +0100
-Subject: [PATCH v3 3/7] dt-bindings: arm-smmu: Document SM8650 GPU SMMU
+Date: Fri, 16 Feb 2024 12:03:51 +0100
+Subject: [PATCH v3 4/7] drm/msm/a6xx: Add missing regs for A750
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240216-topic-sm8650-gpu-v3-3-eb1f4b86d8d3@linaro.org>
+Message-Id: <20240216-topic-sm8650-gpu-v3-4-eb1f4b86d8d3@linaro.org>
 References: <20240216-topic-sm8650-gpu-v3-0-eb1f4b86d8d3@linaro.org>
 In-Reply-To: <20240216-topic-sm8650-gpu-v3-0-eb1f4b86d8d3@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -83,20 +83,20 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  iommu@lists.linux.dev, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
  Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1438;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1661;
  i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=6iOcnqwhICNEx1Y6vAHfd+4RDSuZsONu8Es38mDvAfI=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBlz0EWWkZTzHjh7vkQKJ9hbFCgC/WFN7MzqEHvZaxY
- 8sk4gjyJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZc9BFgAKCRB33NvayMhJ0RvZEA
- Crl2phZ1jwOzdI4NighnxwfVUB8UXbrQi2GpTJhQkO5V+FITUCJ7L2gAkxXOUPc+U3nyAuKEcjoltT
- J42WrBFVTMuOApzNr/jXoJE4o8uYVPLbeFsz29N8byY6FSUSQ5bCmyAY8d7KtE5YiHBTyIhAzy28XQ
- C/NCVlTbQFRELxV5xFOyCzFdR3KDEoUvx1CT3J1ZnUVYAaMzAT67hju0duvjxzZ41IHVS3nR6QD7bQ
- JJRe3hOYw1yIKfzbV/R7nJBEQCa4JGiBh+CMlapH9gpELgXgpI3vsS5ND1xxS++m1cnIA5enyKpha3
- ESG8nJ252LOKDPSk2FyhoOQFKNaPfbdnk2btPGRdQHM0dtYuSZcJU+cajnDwavOFHJLhWLosoi7Gly
- ABqQ/Sf4KX7dFVCLGAOeoI2kC5AKjTMyN2vAObTttURE8LmYrg66hII1WQGAIQbRmtsZFvVs+m0EX5
- 3hbl11a6AEJ++2Q4+XIbpbiuSpqm6uOqLll92/+Be7DWhCfpq+V4mEeRCbRnLK08GSGvHhgohmf/sZ
- hcKBZ5qWJjc/SU/Bo3ishf62Vi3fDL6DOkFFjOcgfjW4Uvrc3llb31nEdfwdEYRBSfWizuMZ/4afOz
- 5xz5YmhER81YC4D06c9p+f4wX2tDWXp0WY7T3lUiu3qIbOGSUzRN9pV55bOQ==
+ bh=B2VkxjrRCyr4kbi/Ih6iBNEXikEKFqg0faRJON0SE+g=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBlz0EWLv15OOt84prn+zzezyX4bsOfCsjeKZ0p7RdD
+ 9nUyGtCJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZc9BFgAKCRB33NvayMhJ0QcTEA
+ CS2n5fqoqmYy9GHm6c4t2zLB5dDvZtmceau88GuV5umatO4fIxWOJ2NVqQz0VOvJbPEtS7xPrnA3o7
+ JAnZ6MUVuh2noUioy3nxLe7FSMkh/ZPU2LRXwfKk4dwEZ0jF+MsRF3ZmZ2Hfw+elII/+aN7mJqw52s
+ W8eyo/MgX0PgcTEKTYrqq0QRtGygwFwY4l1nxJV0IOtMGboM1VDlRq/BxaiUIyjIxFcNjuzz+Xh3w+
+ Zr3SAVhHwGmNGYJmfIBHL8afHrOBGBloWT4rsKve+hzQ4NQIbt8MAblLGzeUTZSHpwwDPrIMBmO1rF
+ vS+I1A12OTe4bEUDLXkmNEJPSs6NyxRsgGdOySmv3GJakcqJ+nbKW8sg1qR9tiNtCGmARKrnEnGPOL
+ eEcxzYm8wlfIvLMMmxVQCKPv6tvaLo/Y0e5vo2YLoE8hsN1WTcOjSGnKCzxIXdLEeH+y+794HFWyc1
+ 1Dt8glMqWYagPv+aiZhsjdO3gFo0NuovcYjgjuxnr3SQ1nOXsS9q8YT6l+/q4pr47E2lOXRgqNttWo
+ BnMpIc+sS5r8L9x4jpkteunntBHt8+6nQZTtFHCt/zok5FjqaNK/DGrKOiWDRm9xWQtEsBff6yphGC
+ 9JcXauVI9RI/gN52Cv42EbKaIhM09ziGBnkjek3NhTCJGhmUhay3i0Sj6n7A==
 X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -114,44 +114,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document the GPU SMMU found on the SM8650 platform.
+Sync missing regs for A750 clock gating control related registers
+from Mesa a6xx.xml.h generated file.
+
+Those registers were added in the !27576 merge request [1].
+
+[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/27576
 
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/msm/adreno/a6xx.xml.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-index 38c48131e6e7..740631782540 100644
---- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-+++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-@@ -93,6 +93,7 @@ properties:
-               - qcom,sm8350-smmu-500
-               - qcom,sm8450-smmu-500
-               - qcom,sm8550-smmu-500
-+              - qcom,sm8650-smmu-500
-           - const: qcom,adreno-smmu
-           - const: qcom,smmu-500
-           - const: arm,mmu-500
-@@ -514,7 +515,9 @@ allOf:
-       properties:
-         compatible:
-           items:
--            - const: qcom,sm8550-smmu-500
-+            - enum:
-+                - qcom,sm8550-smmu-500
-+                - qcom,sm8650-smmu-500
-             - const: qcom,adreno-smmu
-             - const: qcom,smmu-500
-             - const: arm,mmu-500
-@@ -553,7 +556,6 @@ allOf:
-               - qcom,sdx65-smmu-500
-               - qcom,sm6350-smmu-500
-               - qcom,sm6375-smmu-500
--              - qcom,sm8650-smmu-500
-               - qcom,x1e80100-smmu-500
-     then:
-       properties:
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx.xml.h b/drivers/gpu/drm/msm/adreno/a6xx.xml.h
+index 863b5e3b0e67..58877464692a 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx.xml.h
++++ b/drivers/gpu/drm/msm/adreno/a6xx.xml.h
+@@ -1725,6 +1725,8 @@ static inline uint32_t REG_A6XX_RBBM_PERFCTR_RBBM_SEL(uint32_t i0) { return 0x00
+ 
+ #define REG_A6XX_RBBM_BLOCK_SW_RESET_CMD2			0x00000046
+ 
++#define REG_A7XX_RBBM_CLOCK_CNTL_GLOBAL				0x000000ad
++
+ #define REG_A6XX_RBBM_CLOCK_CNTL				0x000000ae
+ 
+ #define REG_A6XX_RBBM_CLOCK_CNTL_SP0				0x000000b0
+@@ -1939,12 +1941,19 @@ static inline uint32_t REG_A6XX_RBBM_PERFCTR_RBBM_SEL(uint32_t i0) { return 0x00
+ 
+ #define REG_A6XX_RBBM_CLOCK_HYST_HLSQ				0x0000011d
+ 
++#define REG_A7XX_RBBM_CGC_GLOBAL_LOAD_CMD			0x0000011e
++
++#define REG_A7XX_RBBM_CGC_P2S_TRIG_CMD				0x0000011f
++
+ #define REG_A6XX_RBBM_CLOCK_CNTL_TEX_FCHE			0x00000120
+ 
+ #define REG_A6XX_RBBM_CLOCK_DELAY_TEX_FCHE			0x00000121
+ 
+ #define REG_A6XX_RBBM_CLOCK_HYST_TEX_FCHE			0x00000122
+ 
++#define REG_A7XX_RBBM_CGC_P2S_STATUS				0x00000122
++#define A7XX_RBBM_CGC_P2S_STATUS_TXDONE				0x00000001
++
+ #define REG_A7XX_RBBM_CLOCK_HYST2_VFD				0x0000012f
+ 
+ #define REG_A6XX_RBBM_LPAC_GBIF_CLIENT_QOS_CNTL			0x000005ff
 
 -- 
 2.34.1
