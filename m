@@ -2,71 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4C18857D1D
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 14:01:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63604857D5F
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 14:13:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCD7E10EB51;
-	Fri, 16 Feb 2024 13:01:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9587110EA3B;
+	Fri, 16 Feb 2024 13:13:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EAjzLwx3";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="insdE1+R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C28610EB46;
- Fri, 16 Feb 2024 13:01:44 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7820310E9E8
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 13:13:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708088504; x=1739624504;
+ t=1708089185; x=1739625185;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=3oDy60zjdhTLSBPxSAfy1GIJx1bPsmJfTGaygN2Eg4w=;
- b=EAjzLwx3shFEdf5a5w3t5SpBicTMXsNyGcSXpryqfpFnlzWT/Q2+u8DG
- vkBGiXeTLe2UWzZetcjpKI0bWwRC6PUxPGvoZD00ySxxuX2U1O9rZfBee
- kX15jU/AOPuVoWSk6fEFqy2A8on1w1HiJIG2ls3FV29+uib7vk6qhBjGv
- aICisJANaUJ09CnlvMUOrY9dWxsuqGTSXBvMEad0AOetaJdxAoyrT5roU
- NAFlg76wKPuE41mVmR83fCOK0tUn2lsdDescUEyc+ppPT5QZDjexhBpMt
- Ki+7h52ztLJHCU5C8VX0ms8m/0BYNMBN9pUIccEukQcafSJIJPGJF4ezd A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="2348186"
+ bh=w7PxYeL2YJi5lLDMuxgVxDRatSZggnbIIYFFi/StyVM=;
+ b=insdE1+RVAg7Bx2xLsdsMnNePf2jYsZrEgFsktLRZH9ktM8Fl5jvnsTd
+ LpSww8++PvMNWnWVe/p5jDMoAk/tCDYSYD7mDSajLeXrRfHpb9JMLKBkp
+ 71DOP0nteDwb9zJnHi+5UFvFUdnDTwsW6oF6RjAWfDyd9jLBN0OPfzwRF
+ kAJzr+tptI9g7AeFUp9LZAIyIQpDm4H2jeO5R05V+Dv4ADRnTn/7VmGI2
+ i/zY+vVAIdS+wn0P4KF5Ljp9u2HZKm1ru6JF6cMpZ0W3PyOf/AJ6AigSK
+ keKlK+J4AJzZsYUMcY5GtvrFCF93QAjcahjdjFEkqCnXg/xBCseLBn0E2 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="2083629"
 X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
-   d="scan'208";a="2348186"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2024 05:01:44 -0800
+   d="scan'208";a="2083629"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2024 05:13:03 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
-   d="scan'208";a="3859933"
+   d="scan'208";a="3801537"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
- by orviesa009.jf.intel.com with ESMTP; 16 Feb 2024 05:01:39 -0800
+ by fmviesa009.fm.intel.com with ESMTP; 16 Feb 2024 05:12:58 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1raxqR-0001Hi-2T;
- Fri, 16 Feb 2024 13:01:35 +0000
-Date: Fri, 16 Feb 2024 21:01:31 +0800
+ (envelope-from <lkp@intel.com>) id 1ray1N-0001IA-17;
+ Fri, 16 Feb 2024 13:12:54 +0000
+Date: Fri, 16 Feb 2024 21:12:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Hans de Goede <hdegoede@redhat.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
- Necip Fazil Yildiran <fazilyildiran@gmail.com>,
- oe-kbuild-all@lists.linux.dev, amd-gfx@lists.freedesktop.org,
- "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
- linux-fbdev@vger.kernel.org, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org,
- platform-driver-x86@vger.kernel.org, intel-xe@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org,
- "open list:ACPI" <linux-acpi@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, Melissa Wen <mwen@igalia.com>,
- Mark Pearson <mpearson-lenovo@squebb.ca>,
- Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v6 1/5] drm: Stop using `select ACPI_VIDEO` in all drivers
-Message-ID: <202402162046.Jr7HgB8P-lkp@intel.com>
-References: <20240214215756.6530-2-mario.limonciello@amd.com>
+To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Subject: Re: [PATCH v5 2/3] drm/stm: lvds: add new STM32 LVDS Display
+ Interface Transmitter driver
+Message-ID: <202402162038.HP7VzIHX-lkp@intel.com>
+References: <20240206-lvds-v5-2-bd16797b0f09@foss.st.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240214215756.6530-2-mario.limonciello@amd.com>
+In-Reply-To: <20240206-lvds-v5-2-bd16797b0f09@foss.st.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,130 +81,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mario,
+Hi Raphael,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.8-rc4 next-20240216]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on bb3bc3eac316b7c388733e625cc2343131b69dee]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/drm-Stop-using-select-ACPI_VIDEO-in-all-drivers/20240215-055936
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240214215756.6530-2-mario.limonciello%40amd.com
-patch subject: [PATCH v6 1/5] drm: Stop using `select ACPI_VIDEO` in all drivers
-config: alpha-kismet-CONFIG_FB_BACKLIGHT-CONFIG_FB_RADEON-0-0 (https://download.01.org/0day-ci/archive/20240216/202402162046.Jr7HgB8P-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240216/202402162046.Jr7HgB8P-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Raphael-Gallais-Pou/dt-bindings-display-add-STM32-LVDS-device/20240206-194740
+base:   bb3bc3eac316b7c388733e625cc2343131b69dee
+patch link:    https://lore.kernel.org/r/20240206-lvds-v5-2-bd16797b0f09%40foss.st.com
+patch subject: [PATCH v5 2/3] drm/stm: lvds: add new STM32 LVDS Display Interface Transmitter driver
+config: arm-randconfig-r132-20240214 (https://download.01.org/0day-ci/archive/20240216/202402162038.HP7VzIHX-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20240216/202402162038.HP7VzIHX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402162046.Jr7HgB8P-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402162038.HP7VzIHX-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for FB_BACKLIGHT when selected by FB_RADEON
-   .config:171:warning: symbol value 'n' invalid for PANEL_LCD_PIN_E
-   .config:253:warning: symbol value 'n' invalid for SATA_MOBILE_LPM_POLICY
-   .config:358:warning: symbol value 'n' invalid for PSTORE_BLK_MAX_REASON
-   .config:438:warning: symbol value 'n' invalid for KFENCE_SAMPLE_INTERVAL
-   .config:623:warning: symbol value 'n' invalid for DRM_XE_JOB_TIMEOUT_MIN
-   .config:662:warning: symbol value 'n' invalid for CRYPTO_DEV_QCE_SW_MAX_LEN
-   .config:677:warning: symbol value 'n' invalid for AIC79XX_DEBUG_MASK
-   .config:773:warning: symbol value 'n' invalid for PANEL_LCD_CHARSET
-   .config:804:warning: symbol value 'n' invalid for SND_AC97_POWER_SAVE_DEFAULT
-   .config:870:warning: symbol value 'n' invalid for MAGIC_SYSRQ_DEFAULT_ENABLE
-   .config:891:warning: symbol value 'n' invalid for DRM_I915_MAX_REQUEST_BUSYWAIT
-   .config:918:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MIN
-   .config:928:warning: symbol value 'n' invalid for NET_EMATCH_STACK
-   .config:930:warning: symbol value 'n' invalid for VMCP_CMA_SIZE
-   .config:935:warning: symbol value 'n' invalid for SND_AT73C213_TARGET_BITRATE
-   .config:1064:warning: symbol value 'n' invalid for AIC79XX_CMDS_PER_DEVICE
-   .config:1162:warning: symbol value 'n' invalid for RCU_CPU_STALL_TIMEOUT
-   .config:1182:warning: symbol value 'n' invalid for PANEL_LCD_PIN_SDA
-   .config:1190:warning: symbol value 'n' invalid for MTDRAM_ERASE_SIZE
-   .config:1220:warning: symbol value 'n' invalid for AIC79XX_RESET_DELAY_MS
-   .config:1312:warning: symbol value 'n' invalid for SERIAL_UARTLITE_NR_UARTS
-   .config:1493:warning: symbol value 'n' invalid for LEGACY_PTY_COUNT
-   .config:1636:warning: symbol value 'n' invalid for AIC7XXX_RESET_DELAY_MS
-   .config:1637:warning: symbol value 'n' invalid for WATCHDOG_OPEN_TIMEOUT
-   .config:1782:warning: symbol value 'n' invalid for IBM_EMAC_POLL_WEIGHT
-   .config:1788:warning: symbol value 'n' invalid for MTD_REDBOOT_DIRECTORY_BLOCK
-   .config:1939:warning: symbol value 'n' invalid for DRM_I915_STOP_TIMEOUT
-   .config:2157:warning: symbol value 'n' invalid for SND_HDA_PREALLOC_SIZE
-   .config:2205:warning: symbol value 'n' invalid for RCU_FANOUT_LEAF
-   .config:2353:warning: symbol value 'n' invalid for PANEL_LCD_BWIDTH
-   .config:2384:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MAX
-   .config:2400:warning: symbol value 'n' invalid for SERIAL_AR933X_NR_UARTS
-   .config:2594:warning: symbol value 'n' invalid for PANEL_PARPORT
-   .config:2634:warning: symbol value 'n' invalid for KCOV_IRQ_AREA_SIZE
-   .config:2681:warning: symbol value 'n' invalid for NOUVEAU_DEBUG_DEFAULT
-   .config:2872:warning: symbol value 'n' invalid for KCSAN_REPORT_ONCE_IN_MS
-   .config:2971:warning: symbol value 'n' invalid for KCSAN_UDELAY_INTERRUPT
-   .config:2994:warning: symbol value 'n' invalid for PANEL_LCD_PIN_BL
-   .config:3020:warning: symbol value 'n' invalid for INITRAMFS_ROOT_GID
-   .config:3048:warning: symbol value 'n' invalid for FTRACE_RECORD_RECURSION_SIZE
-   .config:3128:warning: symbol value 'n' invalid for ATM_FORE200E_TX_RETRY
-   .config:3165:warning: symbol value 'n' invalid for FB_OMAP2_DSS_MIN_FCK_PER_PCK
-   .config:3203:warning: symbol value 'n' invalid for SND_SOC_SOF_DEBUG_IPC_FLOOD_TEST_NUM
-   .config:3465:warning: symbol value 'n' invalid for PSTORE_BLK_CONSOLE_SIZE
-   .config:3493:warning: symbol value 'n' invalid for KCSAN_UDELAY_TASK
-   .config:3514:warning: symbol value 'n' invalid for MMC_BLOCK_MINORS
-   .config:3518:warning: symbol value 'n' invalid for INET_TABLE_PERTURB_ORDER
-   .config:3561:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_SYNC
-   .config:3619:warning: symbol value 'n' invalid for BOOKE_WDT_DEFAULT_TIMEOUT
-   .config:3682:warning: symbol value 'n' invalid for UCLAMP_BUCKETS_COUNT
-   .config:3810:warning: symbol value 'n' invalid for IP_VS_MH_TAB_INDEX
-   .config:3844:warning: symbol value 'n' invalid for SERIAL_MCF_BAUDRATE
-   .config:3914:warning: symbol value 'n' invalid for DE2104X_DSL
-   .config:3931:warning: symbol value 'n' invalid for BLK_DEV_RAM_COUNT
-   .config:4194:warning: symbol value 'n' invalid for IP_VS_SH_TAB_BITS
-   .config:4224:warning: symbol value 'n' invalid for STACK_MAX_DEFAULT_SIZE_MB
-   .config:4276:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_X
-   .config:4306:warning: symbol value 'n' invalid for PANEL_LCD_PIN_RW
-   .config:4349:warning: symbol value 'n' invalid for USBIP_VHCI_HC_PORTS
-   .config:4393:warning: symbol value 'n' invalid for RIONET_RX_SIZE
-   .config:4668:warning: symbol value 'n' invalid for RADIO_TYPHOON_PORT
-   .config:4705:warning: symbol value 'n' invalid for IBM_EMAC_TXB
-   .config:4799:warning: symbol value 'n' invalid for SERIAL_TXX9_NR_UARTS
-   .config:4937:warning: symbol value 'n' invalid for SND_MAX_CARDS
-   .config:5092:warning: symbol value 'n' invalid for ARCH_MMAP_RND_BITS
-   .config:5174:warning: symbol value 'n' invalid for DRM_I915_FENCE_TIMEOUT
-   .config:5180:warning: symbol value 'n' invalid for RCU_BOOST_DELAY
-   .config:5196:warning: symbol value 'n' invalid for TTY_PRINTK_LEVEL
-   .config:5355:warning: symbol value 'n' invalid for MIPS_EJTAG_FDC_KGDB_CHAN
-   .config:5368:warning: symbol value 'n' invalid for XEN_MEMORY_HOTPLUG_LIMIT
-   .config:5453:warning: symbol value 'n' invalid for KDB_DEFAULT_ENABLE
-   .config:5471:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_MAXPORTS
-   .config:5680:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MAX
-   .config:5681:warning: symbol value 'n' invalid for PPC_EARLY_DEBUG_EHV_BC_HANDLE
-   .config:5733:warning: symbol value 'n' invalid for PANEL_LCD_HWIDTH
-   .config:5766:warning: symbol value 'n' invalid for LOCKDEP_CHAINS_BITS
-   .config:5861:warning: symbol value 'n' invalid for DRM_I915_HEARTBEAT_INTERVAL
-   .config:5867:warning: symbol value 'n' invalid for KCSAN_SKIP_WATCH
-   .config:5891:warning: symbol value 'n' invalid for PSTORE_BLK_KMSG_SIZE
-   .config:6093:warning: symbol value 'n' invalid for SERIAL_8250_RUNTIME_UARTS
-   .config:6189:warning: symbol value 'n' invalid for ARCH_MMAP_RND_COMPAT_BITS
-   .config:6272:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_MAX_TAGS
-   .config:6289:warning: symbol value 'n' invalid for CRYPTO_DEV_FSL_CAAM_INTC_TIME_THLD
-   .config:6359:warning: symbol value 'n' invalid for RADIO_TRUST_PORT
-   .config:6399:warning: symbol value 'n' invalid for MTD_UBI_WL_THRESHOLD
-   .config:6420:warning: symbol value 'n' invalid for RIONET_TX_SIZE
-   .config:6526:warning: symbol value 'n' invalid for SERIAL_SH_SCI_NR_UARTS
-   .config:6547:warning: symbol value 'n' invalid for VIDEO_VIVID_MAX_DEVS
-   .config:6739:warning: symbol value 'n' invalid for CMA_SIZE_PERCENTAGE
-   .config:6801:warning: symbol value 'n' invalid for OMAP2_DSS_MIN_FCK_PER_PCK
-   .config:6887:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MIN
-   .config:7085:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_MAX_TAGS
-   .config:7089:warning: symbol value 'n' invalid for DVB_MAX_ADAPTERS
-   .config:7106:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_DMA_ADDRESSING_MODE
-   .config:7367:warning: symbol value 'n' invalid for SERIAL_ARC_NR_PORTS
-   .config:7411:warning: symbol value 'n' invalid for KDB_CONTINUE_CATASTROPHIC
-   .config:7483:warning: symbol value 'n' invalid for IBM_EMAC_RXB
-   .config:7545:warning: symbol value 'n' invalid for SCSI_MPT3SAS_MAX_SGE
-   .config:7675:warning: symbol value 'n' invalid for PSTORE_DEFAULT_KMSG_BYTES
-   .config:7720:warning: symbol value 'n' invalid for RCU_FANOUT
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/stm/lvds.c:318:17: sparse: sparse: symbol 'lvds_bitmap_jeida_rgb888' was not declared. Should it be static?
+>> drivers/gpu/drm/stm/lvds.c:335:17: sparse: sparse: symbol 'lvds_bitmap_vesa_rgb888' was not declared. Should it be static?
+   drivers/gpu/drm/stm/lvds.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/stackdepot.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+
+vim +/lvds_bitmap_jeida_rgb888 +318 drivers/gpu/drm/stm/lvds.c
+
+   308	
+   309	/*
+   310	 * Expected JEIDA-RGB888 data to be sent in LSB format
+   311	 *	    bit6 ............................bit0
+   312	 * CHAN0   {ONE, ONE, ZERO, ZERO, ZERO, ONE, ONE}
+   313	 * CHAN1   {G2,  R7,  R6,   R5,   R4,   R3,  R2}
+   314	 * CHAN2   {B3,  B2,  G7,   G6,   G5,   G4,  G3}
+   315	 * CHAN3   {DE,  VS,  HS,   B7,   B6,   B5,  B4}
+   316	 * CHAN4   {CE,  B1,  B0,   G1,   G0,   R1,  R0}
+   317	 */
+ > 318	enum lvds_pixel lvds_bitmap_jeida_rgb888[5][7] = {
+   319		{ PIX_ONE, PIX_ONE, PIX_ZER, PIX_ZER, PIX_ZER, PIX_ONE, PIX_ONE },
+   320		{ PIX_G_2, PIX_R_7, PIX_R_6, PIX_R_5, PIX_R_4, PIX_R_3, PIX_R_2 },
+   321		{ PIX_B_3, PIX_B_2, PIX_G_7, PIX_G_6, PIX_G_5, PIX_G_4, PIX_G_3 },
+   322		{ PIX_D_E, PIX_V_S, PIX_H_S, PIX_B_7, PIX_B_6, PIX_B_5, PIX_B_4 },
+   323		{ PIX_C_E, PIX_B_1, PIX_B_0, PIX_G_1, PIX_G_0, PIX_R_1, PIX_R_0 }
+   324	};
+   325	
+   326	/*
+   327	 * Expected VESA-RGB888 data to be sent in LSB format
+   328	 *	    bit6 ............................bit0
+   329	 * CHAN0   {ONE, ONE, ZERO, ZERO, ZERO, ONE, ONE}
+   330	 * CHAN1   {G0,  R5,  R4,   R3,   R2,   R1,  R0}
+   331	 * CHAN2   {B1,  B0,  G5,   G4,   G3,   G2,  G1}
+   332	 * CHAN3   {DE,  VS,  HS,   B5,   B4,   B3,  B2}
+   333	 * CHAN4   {CE,  B7,  B6,   G7,   G6,   R7,  R6}
+   334	 */
+ > 335	enum lvds_pixel lvds_bitmap_vesa_rgb888[5][7] = {
+   336		{ PIX_ONE, PIX_ONE, PIX_ZER, PIX_ZER, PIX_ZER, PIX_ONE, PIX_ONE },
+   337		{ PIX_G_0, PIX_R_5, PIX_R_4, PIX_R_3, PIX_R_2, PIX_R_1, PIX_R_0 },
+   338		{ PIX_B_1, PIX_B_0, PIX_G_5, PIX_G_4, PIX_G_3, PIX_G_2, PIX_G_1 },
+   339		{ PIX_D_E, PIX_V_S, PIX_H_S, PIX_B_5, PIX_B_4, PIX_B_3, PIX_B_2 },
+   340		{ PIX_C_E, PIX_B_7, PIX_B_6, PIX_G_7, PIX_G_6, PIX_R_7, PIX_R_6 }
+   341	};
+   342	
 
 -- 
 0-DAY CI Kernel Test Service
