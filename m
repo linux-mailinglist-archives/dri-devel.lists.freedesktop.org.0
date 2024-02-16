@@ -2,49 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FFBD8586B0
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 21:25:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3930A8586C0
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 21:31:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 048AC10E1FC;
-	Fri, 16 Feb 2024 20:24:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1BEC10E296;
+	Fri, 16 Feb 2024 20:31:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o4pyvA3u";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Ny0EannU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8ADCA10E1FC
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 20:24:55 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id AEFA86201E;
- Fri, 16 Feb 2024 20:24:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 918C0C433F1;
- Fri, 16 Feb 2024 20:24:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1708115088;
- bh=O3Vq/9iekbJvfivB8fPNqfc/VdUr6NW92uCL9/WplH8=;
- h=From:To:Cc:Subject:Date:From;
- b=o4pyvA3urDBZ5absWA/kHxTMsUxqDiraqvUHzCvCZsa7S0GmRjiXDAtU2otgYDGdq
- rFd7s2UI/6YOfwxfkRxyCzlxvmo9OxpsJT94IKgMtTq2yv3aMJlJUp7xbmbUym6AAx
- R2AVyJN9VY+gL9kRUqn9IeL+UdYV+I99jKHPtrKm2GnBCmSvhTaxKMD6/rminmP/9s
- Yg53Bk7R26epRSUPyl6s/TZWVFmjKU80plf8NXxpnBjeteQXHD05VIxUBo7/ZqgGAW
- j7t48iqo3h3QX6HuTT6gyPHYao49ciSc9jw0I/VRd8BbE121S1BGrTbjAt5zxKO4Fv
- w39jyPvupSZaQ==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Gow <davidgow@google.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org,
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
+ [209.85.214.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4EDC10E296
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 20:31:24 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id
+ d9443c01a7336-1d51ba18e1bso25786355ad.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 12:31:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1708115483; x=1708720283;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=t1QGMxYLAPKWTt9tAmquOnzICTheF4ZELz33st39yQM=;
+ b=Ny0EannU45R7QqfMNY3B85p8qzpX+jDPOwufOKK0EwBenm8Fz3h8XyqDvCNgN4KrMS
+ 6Pywib8EOLFNIVl+p4oUb1hMmhUkywpx53BhtHqLn6jwJGHxT6OriwYVFT78Rld8DTik
+ uKQEE+bfUDK2FLKpCy0fs4xUelBssfw6F1o/M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708115483; x=1708720283;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=t1QGMxYLAPKWTt9tAmquOnzICTheF4ZELz33st39yQM=;
+ b=F1Cu7SoarPmaov5bvJ4lnkNQfe6PTt1mb5OZVaL4NA2GJ4EDl2jvFtNi1ld5ng5myD
+ ++hZsAMMjBdx8P+lz7LFI29753ZZA9TKUsrDeD4lKCFb1kuPE9XP7VfugF8zMvGtLoYN
+ DLTGDtxyCm+vL9EaWG8d8mUtkjhSPnPMsMbdEevEUth7vdnIOkqtGMB9XTThJU6qgix3
+ Pq89M9S1HSNfCvdUypj9lri+dXNqmkVohlKZoe3Y3lapWUps+bU97abnprXImZAywCp1
+ lMX27biBpDblGfjLZgej+K9MGeZ6MJ2eVdoXbEMkioEHLQimdy8+yofW1TVfu9j/f8eH
+ 9HEg==
+X-Gm-Message-State: AOJu0Yx7h+yX8gnrcs/7mNPmu81kGIGNWIZZgxtuHyEQpMf/TXbiNaiU
+ GdJO52hk3L+/avF/B/0YiOv4mr1aZ7LlgdQu0yKMUaM31/JsWMThtayfCW8jKDiZHRy6z9uhYZs
+ chRgW
+X-Google-Smtp-Source: AGHT+IGUbn1iYkQLFfxLEFg8HdmzNiQ64QZ+0XQ0PfIFQHFg5DYWMKahwJDc3Zqky4rFFvT6nDE9PQ==
+X-Received: by 2002:a17:902:d486:b0:1db:b36c:7165 with SMTP id
+ c6-20020a170902d48600b001dbb36c7165mr2073885plg.14.1708115483260; 
+ Fri, 16 Feb 2024 12:31:23 -0800 (PST)
+Received: from dianders.sjc.corp.google.com
+ ([2620:15c:9d:2:b6bd:4419:377:da7a])
+ by smtp.gmail.com with ESMTPSA id
+ f19-20020a170902e99300b001d944b3c5f1sm256966plb.178.2024.02.16.12.31.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Feb 2024 12:31:22 -0800 (PST)
+From: Douglas Anderson <dianders@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Cc: Stephen Boyd <swboyd@chromium.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/tests/drm_buddy: avoid 64-bit calculation
-Date: Fri, 16 Feb 2024 21:24:30 +0100
-Message-Id: <20240216202442.2493031-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+Subject: [PATCH] drm/panel: boe-tv101wum-nl6: make use of prepare_prev_first
+Date: Fri, 16 Feb 2024 12:31:12 -0800
+Message-ID: <20240216123111.1.I71c103720909790e1ec5a3f5bd96b18ab7b596fa@changeid>
+X-Mailer: git-send-email 2.44.0.rc0.258.g7320e95886-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,59 +87,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+The panel on sc7180-trogdor-wormdingler and
+sc7180-trogdor-quackingstick hasn't been coming up since commit
+9e15123eca79 ("drm/msm/dsi: Stop unconditionally powering up DSI hosts
+at modeset"). Let's add "prepare_prev_first" as has been done for many
+other DSI panels.
 
-The newly added drm_test_buddy_alloc_contiguous() test fails to link on
-32-bit targets because of inadvertent 64-bit calculations:
-
-ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/tests/drm_buddy_test.ko] undefined!
-ERROR: modpost: "__aeabi_ldivmod" [drivers/gpu/drm/tests/drm_buddy_test.ko] undefined!
-
-From what I can tell, the numbers cannot possibly overflow a 32-bit size,
-so use different types for these.
-
-I noticed that the function has another possible flaw in that is mixes
-what it calls pages with 4KB units. This is a big confusing at best,
-or possibly broken when built on machines with larger pages.
-
-Fixes: a64056bb5a32 ("drm/tests/drm_buddy: add alloc_contiguous test")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Fixes: 9e15123eca79 ("drm/msm/dsi: Stop unconditionally powering up DSI hosts at modeset")
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
- drivers/gpu/drm/tests/drm_buddy_test.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+This of course gets into debates about getting a nicer solution that
+doesn't involve adding "prepare_prev_first" to every DSI panel out
+there, maybe building on Dmitry's work [1]. While it would be nice if
+we could get there, getting this landed is easy to backport to stable
+trees and gets the panel working again.
 
-diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
-index fee6bec757d1..50a5f98cd5bd 100644
---- a/drivers/gpu/drm/tests/drm_buddy_test.c
-+++ b/drivers/gpu/drm/tests/drm_buddy_test.c
-@@ -21,7 +21,8 @@ static inline u64 get_size(int order, u64 chunk_size)
+[1] https://lore.kernel.org/r/20231016165355.1327217-4-dmitry.baryshkov@linaro.org
+
+ drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+index c4c0f08e9202..bc08814954f9 100644
+--- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
++++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+@@ -1871,6 +1871,8 @@ static int boe_panel_add(struct boe_panel *boe)
  
- static void drm_test_buddy_alloc_contiguous(struct kunit *test)
- {
--	u64 mm_size, ps = SZ_4K, i, n_pages, total;
-+	u64 mm_size, total;
-+	u32 i, ps = SZ_4K, n_pages;
- 	struct drm_buddy_block *block;
- 	struct drm_buddy mm;
- 	LIST_HEAD(left);
-@@ -29,7 +30,8 @@ static void drm_test_buddy_alloc_contiguous(struct kunit *test)
- 	LIST_HEAD(right);
- 	LIST_HEAD(allocated);
+ 	gpiod_set_value(boe->enable_gpio, 0);
  
--	mm_size = 16 * 3 * SZ_4K;
-+	n_pages = 16 * 3;
-+	mm_size = n_pages * SZ_4K;
- 
- 	KUNIT_EXPECT_FALSE(test, drm_buddy_init(&mm, mm_size, ps));
- 
-@@ -42,7 +44,6 @@ static void drm_test_buddy_alloc_contiguous(struct kunit *test)
- 	 */
- 
- 	i = 0;
--	n_pages = mm_size / ps;
- 	do {
- 		struct list_head *list;
- 		int slot = i % 3;
++	boe->base.prepare_prev_first = true;
++
+ 	drm_panel_init(&boe->base, dev, &boe_panel_funcs,
+ 		       DRM_MODE_CONNECTOR_DSI);
+ 	err = of_drm_get_panel_orientation(dev->of_node, &boe->orientation);
 -- 
-2.39.2
+2.44.0.rc0.258.g7320e95886-goog
 
