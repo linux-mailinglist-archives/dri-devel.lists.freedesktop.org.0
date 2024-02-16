@@ -2,82 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F4E8589B7
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Feb 2024 00:03:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7AB18589DB
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Feb 2024 00:11:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E54610ED1F;
-	Fri, 16 Feb 2024 23:03:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F244710E021;
+	Fri, 16 Feb 2024 23:11:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Ab6y4qs0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kKH5BHyD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1919710ED16;
- Fri, 16 Feb 2024 23:03:05 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41GMPtbI002978; Fri, 16 Feb 2024 23:03:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding:content-type; s=
- qcppdkim1; bh=ILzb6aKN2MjDQVs26DskX3I+ET9WbODrzd0bVH+kB/8=; b=Ab
- 6y4qs0GafZziIzqzwBm61JmTNysY6rwz/x827XVxU/4Wej2JzOVGNOIU2EeDgtqd
- DQgkls4eu0DoraofBiF2/5U0UNTFP6Du+CfQsl+YTHwWxlHDJNc629NbrvFa7UEj
- SH2qVsQoOJ78acL9BZDEBXpmuVGZ5BjYOMjB6r6pr39N/5SGov9326MkHJri7YrD
- e2G5nAikePdCyULj2S9y5ygEuZMvEcPouXrnUKMGOUCS/ssPY5Z5X95ko+1XP9li
- cSJcLCIV4lEH7iD/aufjcF0KRP7Rn3znTcsYY1YsYez6DhecCxIyc7itrxN2Z83c
- p4BXGAZJyJQex+xcfCqg==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w9xv9j4wr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Feb 2024 23:03:02 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41GN31n6031595
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Feb 2024 23:03:01 GMT
-Received: from hu-parellan-lv.qualcomm.com (10.49.16.6) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 16 Feb 2024 15:03:01 -0800
-From: Paloma Arellano <quic_parellan@quicinc.com>
-To: <freedreno@lists.freedesktop.org>
-CC: Paloma Arellano <quic_parellan@quicinc.com>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <robdclark@gmail.com>, <seanpaul@chromium.org>, <swboyd@chromium.org>,
- <dmitry.baryshkov@linaro.org>, <quic_abhinavk@quicinc.com>,
- <quic_jesszhan@quicinc.com>, <quic_khsieh@quicinc.com>,
- <marijn.suijten@somainline.org>, <neil.armstrong@linaro.org>
-Subject: [PATCH v4 19/19] drm/msm/dp: allow YUV420 mode for DP connector when
- CDM available
-Date: Fri, 16 Feb 2024 15:02:07 -0800
-Message-ID: <20240216230228.26713-20-quic_parellan@quicinc.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20240216230228.26713-1-quic_parellan@quicinc.com>
-References: <20240216230228.26713-1-quic_parellan@quicinc.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2E1F10E021
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 23:11:01 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 63FDA620F1;
+ Fri, 16 Feb 2024 23:10:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51347C433C7;
+ Fri, 16 Feb 2024 23:10:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1708125057;
+ bh=kFscJpd4PtsMos7FcDnb8F7Hy9BzwMNBGQNhfikpbx4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=kKH5BHyDT91jVZ0ealppnCoK5yciKRR/2GfTUnStw5YLAhlMAU7Nf+6Y5PfI3oiIr
+ fx75y2ZDjTmVJM20qdggTyrWgROO+SnUeG4KJpK7Q9/2S8faBcHWoyLSEWGU8wWrin
+ nuMlHQa4HnWrHijWy26LWRQITPhROVZb31Nxz1xqk+1fFyoJEQK2cyuheTToQtN2Vb
+ +dHUxN/04NmCqS37iF1SYkULVu/MWKvHCQ4ManwU1h/JhbDH8XRUqJqwafr+AcAB89
+ 6k2q303xGWixAxDx6L9t1lyT8y/LTzntZynZ0w4szl+XFPovg0Yp+NiS3l7H6cFIsw
+ aGGiIuB6kZadQ==
+From: Bjorn Andersson <andersson@kernel.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Andy Gross <agross@kernel.org>,
+ Luca Weiss <luca.weiss@fairphone.com>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: (subset) [PATCH v3 0/4] Add display support for Fairphone 4
+Date: Fri, 16 Feb 2024 17:10:40 -0600
+Message-ID: <170812504021.18043.10678302937679130651.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240216-fp4-panel-v3-0-a556e4b79640@fairphone.com>
+References: <20240216-fp4-panel-v3-0-a556e4b79640@fairphone.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: pm5ESVFT_ukpJP33zQDGkbMqq4hrwGgh
-X-Proofpoint-GUID: pm5ESVFT_ukpJP33zQDGkbMqq4hrwGgh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-16_22,2024-02-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015
- bulkscore=0 adultscore=0 mlxscore=0 priorityscore=1501 suspectscore=0
- spamscore=0 phishscore=0 lowpriorityscore=0 mlxlogscore=999
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402160182
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,134 +69,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All the components of YUV420 over DP are added. Therefore, let's mark the
-connector property as true for DP connector when the DP type is not eDP
-and when there is a CDM block available.
 
-Changes in v3:
-	- Move setting the connector's ycbcr_420_allowed parameter so
-	  that it is not dependent on if the dp_display is not eDP
+On Fri, 16 Feb 2024 11:10:47 +0100, Luca Weiss wrote:
+> Introduce the bindings and panel driver for the LCD panel with the model
+> number 9A-3R063-1102B from DJN which is using the HX83112A driver IC. It
+> is used on the Fairphone 4 smartphone.
+> 
+> Then we can add the panel to the device dts and also enable the GPU.
+> 
+> 
+> [...]
 
-Changes in v2:
-	- Check for if dp_catalog has a CDM block available instead of
-	  checking if VSC SDP is allowed when setting the dp connector's
-	  ycbcr_420_allowed parameter
+Applied, thanks!
 
-Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 4 +++-
- drivers/gpu/drm/msm/dp/dp_display.c     | 4 ++--
- drivers/gpu/drm/msm/dp/dp_drm.c         | 6 +++++-
- drivers/gpu/drm/msm/dp/dp_drm.h         | 3 ++-
- drivers/gpu/drm/msm/msm_drv.h           | 5 +++--
- 5 files changed, 15 insertions(+), 7 deletions(-)
+[3/4] arm64: dts: qcom: sm6350: Remove "disabled" state of GMU
+      commit: 2abe4a310cc742332038aed5f9f4a15e65a0bcc1
+[4/4] arm64: dts: qcom: sm7225-fairphone-fp4: Enable display and GPU
+      commit: 891af1aa1ea42514b9a7f42caaa1fa0c32f8e232
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 723cc1d821431..8d326fb36550a 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -565,6 +565,7 @@ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
- {
- 	struct drm_encoder *encoder = NULL;
- 	struct msm_display_info info;
-+	bool yuv_supported;
- 	int rc;
- 	int i;
- 
-@@ -583,7 +584,8 @@ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
- 			return PTR_ERR(encoder);
- 		}
- 
--		rc = msm_dp_modeset_init(priv->dp[i], dev, encoder);
-+		yuv_supported = !!dpu_kms->catalog->cdm;
-+		rc = msm_dp_modeset_init(priv->dp[i], dev, encoder, yuv_supported);
- 		if (rc) {
- 			DPU_ERROR("modeset_init failed for DP, rc = %d\n", rc);
- 			return rc;
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index b5a67835ce6d1..a435847f1d948 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -1472,7 +1472,7 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
- }
- 
- int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
--			struct drm_encoder *encoder)
-+			struct drm_encoder *encoder, bool yuv_supported)
- {
- 	struct dp_display_private *dp_priv;
- 	int ret;
-@@ -1488,7 +1488,7 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
- 		return ret;
- 	}
- 
--	dp_display->connector = dp_drm_connector_init(dp_display, encoder);
-+	dp_display->connector = dp_drm_connector_init(dp_display, encoder, yuv_supported);
- 	if (IS_ERR(dp_display->connector)) {
- 		ret = PTR_ERR(dp_display->connector);
- 		DRM_DEV_ERROR(dev->dev,
-diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-index 46e6889037e88..a819a4ff76a9f 100644
---- a/drivers/gpu/drm/msm/dp/dp_drm.c
-+++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-@@ -353,7 +353,8 @@ int dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
- }
- 
- /* connector initialization */
--struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display, struct drm_encoder *encoder)
-+struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display, struct drm_encoder *encoder,
-+					    bool yuv_supported)
- {
- 	struct drm_connector *connector = NULL;
- 
-@@ -364,6 +365,9 @@ struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display, struct dr
- 	if (!dp_display->is_edp)
- 		drm_connector_attach_dp_subconnector_property(connector);
- 
-+	if (yuv_supported)
-+		connector->ycbcr_420_allowed = true;
-+
- 	drm_connector_attach_encoder(connector, encoder);
- 
- 	return connector;
-diff --git a/drivers/gpu/drm/msm/dp/dp_drm.h b/drivers/gpu/drm/msm/dp/dp_drm.h
-index b3d684db2383b..45e57ac25a4d9 100644
---- a/drivers/gpu/drm/msm/dp/dp_drm.h
-+++ b/drivers/gpu/drm/msm/dp/dp_drm.h
-@@ -19,7 +19,8 @@ struct msm_dp_bridge {
- 
- #define to_dp_bridge(x)     container_of((x), struct msm_dp_bridge, bridge)
- 
--struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display, struct drm_encoder *encoder);
-+struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display, struct drm_encoder *encoder,
-+					    bool yuv_supported);
- int dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
- 			struct drm_encoder *encoder);
- 
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index b876ebd48effe..37335777f5c09 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -385,7 +385,7 @@ static inline struct drm_dsc_config *msm_dsi_get_dsc_config(struct msm_dsi *msm_
- int __init msm_dp_register(void);
- void __exit msm_dp_unregister(void);
- int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
--			 struct drm_encoder *encoder);
-+			 struct drm_encoder *encoder, bool yuv_supported);
- void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp_display);
- bool msm_dp_is_yuv_420_enabled(const struct msm_dp *dp_display,
- 			       const struct drm_display_mode *mode);
-@@ -403,7 +403,8 @@ static inline void __exit msm_dp_unregister(void)
- }
- static inline int msm_dp_modeset_init(struct msm_dp *dp_display,
- 				       struct drm_device *dev,
--				       struct drm_encoder *encoder)
-+				       struct drm_encoder *encoder,
-+				       bool yuv_supported)
- {
- 	return -EINVAL;
- }
+Best regards,
 -- 
-2.39.2
-
+Bjorn Andersson <andersson@kernel.org>
