@@ -2,120 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95414857E59
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 15:00:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B8E9857E5B
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 15:00:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A752E10EB96;
-	Fri, 16 Feb 2024 14:00:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F262110EB97;
+	Fri, 16 Feb 2024 14:00:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="OybV0Fih";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="aZ07qCt5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2069.outbound.protection.outlook.com [40.107.100.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB67310EB84;
- Fri, 16 Feb 2024 14:00:18 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2077.outbound.protection.outlook.com [40.107.244.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD97610EB90;
+ Fri, 16 Feb 2024 14:00:38 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AuGCsXET4efEud9gxyon+rZD10XJ34JhF7JRwssTT/Ru96/sr8vsTyXQdSfR0SyUoEisfqkEEvj14xdqyhY/yJq9KTuLJfvQ/bJ4bHef5g9hBYloEu0NJLIvcp/3t8APCIUgT6eisvp9AT8SWRm91oh569bgzN6o+1lfPbSDw7vbFwbHiKlnL8ymyvbeyJHlZ3VZWOdELHCKgw62HmlNcZRwNjV/VEq+F5NqQMqqCKL2P+grpbQgVBbcL2OmAf4KEvMGBoExuI4ZqVdGslHOgKTes7KeyVPiU/KVPyKgBsu6YbGeD+A3MdNOljYcXrb2Y4c/64Bi0IjDvi7PrqY6ow==
+ b=dy/etnGJkpilJP+9yx9JAdGIVO106iSwBQPtZfwBcUGZo3kv7JZrFMeCB954Zr4NG4ETbfsd2sDZ79pHCpIFm+DAWOhmlMP6plgXKNkLO9q3Nod273d4SfwWGFW2Exef4adiTltiqHVgEisxbR7bQ7O8UgKEFg70mSWQfVkBraGTTqHknYX85B2GnBvP2oSD5TyVqHBxFbiDnlfm/iQX7LkJFeYds5bd66WDuYlEogyAuHXLP9BPQPA2cZbmM5pyimSSusEMp8mG2QqXqF+BjmcI0jbSn8wXXQyP5I3MOoWOrPfZdCPjBOUdwZ9wcvKuWh9u08bkTkBq8ZxQW2rvyw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KIlevAmxZYauIzpKe1ZFfdg4gqynkk2I0z9iv53Fkls=;
- b=czFIrKp9CQZXe+GLj6RK0iPSpZg+CklctF6HrDJkiHDMkzVttOcOSMxXQ1O0TipgH0umnBdfF1vroFo4VOPTTswrQDYO4CzgFh7mA/2nrNPfmVw5VZSX22yl3A5ssfjr8p9Xq8EloXLlJAcFzRpceAaOgNVEtbGJbFfk+5XwNlHJXT6tCgLgohlFOGn1wvKTBCRa+jbNx4WOWN6CaGOhRZuZBh1UWOzFML/I+t+dBFb7n8gA1gTbzph/HykZn93hmpWBFDlapu5iMjHqABgXMTa2V8D2J+42sAk/SO7Ungjr+7WU5blkb6qK63UCDDGh9LK131HWXF74roPwutt8gQ==
+ bh=5gRPrF8RIDFdtyKDd5EBOyIx8xNVl+rgtoZCzouaxig=;
+ b=VqY7R2L/5Wkdxwy0NwuVYA5s3wgPGsdif2pIWSa5rWST4YWiXfNYlJ5sgjIhESwdBWn3r/R62BEgykKBquUExWTZftAZ2Av4rWaosBCUJ2DvNi10qcC5l0OXKVdfSuD79fG3n3oNvlg6IKPNvgOSMEMt91Ig+l0BBjpUuEtB44WfSt0hMmusEy3rIAo3cl7dQgwpWtAlF4C0/GJQFID9wCWt8NdspZRBfP8BLlVVlO8kxtum3tzDleIrVba/pmLxgilW2KiOmIQoMzqWCPgK0K5BU0V3h85MfGE7LalAoEvaF4sPstwIEHMIHzyubsLnjy7lXc/q4kd62LNptPDMEg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KIlevAmxZYauIzpKe1ZFfdg4gqynkk2I0z9iv53Fkls=;
- b=OybV0FihVHvb838Jy+n9T65DO8aeMd2nqAGGZqlrqv9daf9Pd0tsofeUps1ZxbFN4ZrfZ3sKBRYYr72E9AB9byK9XW5Kt1jSPQlUzt76PFM5pvkxY6vMn5VfDAc8okDspj2JqA2zknaIEORKZzkG+xQLvtv4HDYLlcJeCR5VDaE=
+ bh=5gRPrF8RIDFdtyKDd5EBOyIx8xNVl+rgtoZCzouaxig=;
+ b=aZ07qCt5zzKZEemS9ZAumkiV+Z4JAT+CiDex/8NXW541hWBJhq8tXpsRpCWmD5upMswBmqUV3zFp1C/bpDix1N5KRPfNaMiMGS6TTJNvaidym1IGvng6lFBVD51DyEO6m3lIvEKW0dI5uhkrPUCeGSXW0HLhknM3uQ2HiEY6/Gc=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CH3PR12MB8511.namprd12.prod.outlook.com (2603:10b6:610:15c::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.31; Fri, 16 Feb
- 2024 14:00:16 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7292.022; Fri, 16 Feb 2024
- 14:00:16 +0000
-Message-ID: <29000a0d-19ce-4727-945b-d5734313c7f1@amd.com>
-Date: Fri, 16 Feb 2024 15:00:11 +0100
+Received: from DM4PR12MB6280.namprd12.prod.outlook.com (2603:10b6:8:a2::11) by
+ SJ0PR12MB5471.namprd12.prod.outlook.com (2603:10b6:a03:300::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.14; Fri, 16 Feb
+ 2024 14:00:36 +0000
+Received: from DM4PR12MB6280.namprd12.prod.outlook.com
+ ([fe80::3301:dfb9:528a:1fa5]) by DM4PR12MB6280.namprd12.prod.outlook.com
+ ([fe80::3301:dfb9:528a:1fa5%7]) with mapi id 15.20.7316.012; Fri, 16 Feb 2024
+ 14:00:36 +0000
+Message-ID: <b52d47d1-7748-4560-94a6-520c82eb3fa2@amd.com>
+Date: Fri, 16 Feb 2024 09:00:32 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] TTM unlockable restartable LRU list iteration
+Subject: Re: [PATCH v2] drm/amd/display: add panel_power_savings sysfs entry
+ to eDP connectors
 Content-Language: en-US
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-xe@lists.freedesktop.org, intel-gfx@list.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-References: <20240216131306.101932-1-thomas.hellstrom@linux.intel.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20240216131306.101932-1-thomas.hellstrom@linux.intel.com>
+To: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+Cc: amd-gfx@lists.freedesktop.org,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Alex Hung <alex.hung@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Wayne Lin <wayne.lin@amd.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240202152837.7388-1-hamza.mahfooz@amd.com>
+ <20240216101936.2e210be2@eldfell>
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+In-Reply-To: <20240216101936.2e210be2@eldfell>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0164.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:99::14) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBP288CA0023.CANP288.PROD.OUTLOOK.COM
+ (2603:10b6:c01:6a::19) To DM4PR12MB6280.namprd12.prod.outlook.com
+ (2603:10b6:8:a2::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB8511:EE_
-X-MS-Office365-Filtering-Correlation-Id: b5448219-3c0e-48fb-b6f2-08dc2ef79a05
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6280:EE_|SJ0PR12MB5471:EE_
+X-MS-Office365-Filtering-Correlation-Id: 016fac1c-ba33-4d61-864b-08dc2ef7a651
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: amVEceJ/+ULdTMsmdFxFIB9v2pprsYIN0v7gC67yljdn8XUB2aAHn6IxPA5EcjJWBR17BaQCy3BuUwGjiD41mVNCaYSa5P3YXd09dnpH0fEHP5oeU6NoO9l9i350oAp7V5MdBdqY78YBAU0W4s1/S/fn06Fj6hQEoR8dvRsTSDpEs1NYTs4MOX8NxXFwRZmd+EWAl5ltH+jVrq5JtBV9F5jhGTc0URneJOZNYD4S756Ac/fzdSWS7Il1t346PvSMgnqJZ8Jo8ZgBe+VL52AojC3/YKrmvv1h0HcAsbdsU0PjTgFNot1U6xMY8ty3T0sznSMCg31gi6jkw2+Wzm2Na5FOun0m2t67Mdjr3eeJqOEW8GNApj4IfEeoUjSzljZT+lq+0PCy8rUfUyX2aCJm059FK4ArS9Xj0noxnbIEOHHcZKEOou52eHG1vxocWbtMcEOBa6yFjeRGDBujZdnSlx+GT042og6aMnDmvPr/RAMVRNkriJEsf1YPEI3uBtbd1s6vmjG62oZ65XMxI/U/UPhMHzrRfEYqVXb5Dc9fDv2HDixojCqF93FAYKlbKUDo
+X-Microsoft-Antispam-Message-Info: E8wUFT/ZToZZJ0gdO7eVXo5JtjFLkflXk5p7sEKaRWIYiwOYJ6PvT1cE5+PkSz2DUoKiorXOCvs7qLd/d0lXq7nDznlwJ3jWxrB/3/AW9mFw2Q2DLMsfKgzVNbC/cT3NwVB2vXA2Uo++Ok1zI90DwDlmi6atgYH6huhW0irbIRCtfv11ZNBJy32ukLwshFrFm436Akq+o55jGfZ0kmJBiR8n6fBGJCx0wRwtLqiqzMoWzQ0Njm0m8oSxMOtDy54XUCJOiNOE1PVgeRS6viI7cX7YFyJkSRN0lyDEQ7psT8h8HZTuuVRy73QRfre7ohwE1UeNqkoSphyCx0QQPU02OJ7i80A99ly/9SIMYUY9riFXT8J8mYXLC8w4B0H/5PGlZUxYM37RSf/yW3t4hWr9dKRG2beMVkM+SNye0bQ9bh8jB3mlAYlL0SSCNu1NUv4tMHdAy7GCY2PBqcY0CsyTb/OYNXh72dUPQOWXonFUnU4VxV5G5+OFbUNS/fj3HmAiZT6D2F6PcD2LhHFM6RWRKcFYJezbIQN9e/sTVUdUzZ6BelhuBqRTqphRyDu6Vun7
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(366004)(376002)(136003)(396003)(346002)(230922051799003)(186009)(64100799003)(451199024)(1800799012)(36756003)(86362001)(31696002)(31686004)(4326008)(8936002)(8676002)(66476007)(66946007)(66556008)(5660300002)(2906002)(66574015)(38100700002)(83380400001)(66899024)(478600001)(26005)(316002)(6666004)(2616005)(41300700001)(6486002)(6506007)(6512007);
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB6280.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376002)(396003)(136003)(346002)(39860400002)(366004)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(36756003)(86362001)(31696002)(31686004)(4326008)(8936002)(8676002)(6916009)(66476007)(66556008)(66946007)(44832011)(5660300002)(2906002)(83380400001)(38100700002)(53546011)(6666004)(41300700001)(316002)(54906003)(26005)(2616005)(478600001)(6486002)(6512007)(6506007);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cS9FZDJvc1VoS2pwVk1iWGtoZUJLMytPRVlpakNvZVlBVG0rc0pUajJhOGg5?=
- =?utf-8?B?V0x2YzlhUzg4MWYxcWdKM09lZ3MwbjRKV1dPTjdCaXE3endyWCt4TTVBVDFH?=
- =?utf-8?B?TlR0RzRvalc5N2p3ZURqTmljc2ZERXFGNDRpdHBBWjIrVXFYQXIyVlNoVkpR?=
- =?utf-8?B?SXR3TXNNUVJNTkJhWGlxdVVBYldreWR1QmhhR2ZKUGJEZFFXVE4rRzM2V2NS?=
- =?utf-8?B?azZLM3g1dks2ZkIvR0NzZ0pObDhiNlpxbEtEWXdIWm5Ra0EvZ09hWVFqaS9w?=
- =?utf-8?B?eFlOWW84QjIxRGM3cHlScG1wL3VvM1kwTFhCVjZhOXREYjVzMmVZSlI1STB4?=
- =?utf-8?B?eTJDYkQvRVJTaktrUHlXcGxFT1ExTXRrL09OOEVlNVFJKzJTSGpxRUpVQmN2?=
- =?utf-8?B?QWtldkdwbmJlMmhPRXBKRm9pd0F3WERpS3pmVVR5enlGM05WNVUrUDBmMlhj?=
- =?utf-8?B?VHVYWVNrZ0JhcHJ3eHJBUTlmV0RXNUpMbm4xZEJIV0o3MzYyMVdtWHZVY1c2?=
- =?utf-8?B?R285Um9sZWlYTFBEYUFMd0dCVjZjWFR2TisxbjlWUFZhZ0xSWEJLWE5QYUl0?=
- =?utf-8?B?UGVFSmV6NWZXdi9VZ0oxMGpXY3JuWDViZHBabHdLSnJiYzViay9GaEZ5UzZ6?=
- =?utf-8?B?bXZwMTFTN1Jza0xBeHJYQ0w2a3FKV2NUa0ErTncvcFIzZFJHV2pJbzg2V1Fp?=
- =?utf-8?B?QmR4Qzg3L01TRXRveHFtV0FpbTQ5NEtKNU83SFRuNDlkeVI1TnVRdHphZkFL?=
- =?utf-8?B?Nnc5WTVCRHhJY3cyTEd4ditKcHVReFJnNG5QNHZGZUt6SWxFU1JFdE9lMUdZ?=
- =?utf-8?B?bUNoRHVVSVNyYkErcVVwa1IvWXMxSk84dEZRM2RXakxHYmNoY0ltVlNxNGVj?=
- =?utf-8?B?S1RNa2NrWnVqd3BZMzlXYjJBTEZCZndreTN5N3ZEUmxHeVBHeWtRb3NhT1Yw?=
- =?utf-8?B?TUNGTkJmbzRPVnZwTDN2emVkRFdjQU4yTFlMcXVvOStmSlliRkh3YUxDR2lz?=
- =?utf-8?B?SnF3dkkxN2R3cWlJOE1NME1ibWo4cWZwemc3YW5haHJjYVVyVFpkeG0zZU9z?=
- =?utf-8?B?UlNBYkZEcmtsSUxzWGIrQWNIdlhYVWw2K0UrV2JkQTJLdXhpQ3UzRlk2bENP?=
- =?utf-8?B?dVRjV3BpT1hmUmhmcUNWaDFldlBGRzQ0R1BNeFVvUEZTUmFtbmEwV2RQV0d2?=
- =?utf-8?B?eWQzNzR2QklGWmRUZzI5WUdnN090ODhvVkJML0JWaFVtSkRCeCtJeWM3bDJG?=
- =?utf-8?B?TE45Zjk2L2NWejhqbVRhZ2t3S2g3K1c2RXNOUjM4amVXSzAxNDVkdG9FZkxO?=
- =?utf-8?B?RGFUWUw1OVZiUTBYcVBSd1hZdi9ER1c2TzJLQmRrR0xBeGZZaHh0b3kyRExr?=
- =?utf-8?B?eWdKM2Q3SWpXNzVVbyswSkQvNXVqcldrajU3N1kzcXpyNjZQQVFOay9PUWQ3?=
- =?utf-8?B?VmE0d1kvU3hTZndPTGxIWTQ0Z0wwRUc1dGJlUW9HY0RvaTFkRjI3RnY2UUZI?=
- =?utf-8?B?NWNCVmtSMVdSdTQvMHZLbWlpWnUvVnFkRWNDZzUrNVZJUXMyTGJnZWlXakZK?=
- =?utf-8?B?c0N5US91dk5TVzMzQnAyZWZSYUF4TkxLcjk0OFhkV3pocHBkZGI5Q09UZDlp?=
- =?utf-8?B?cVdVdkJTcDFCOTc0MURwMnV2dnNlbDRXOEhUNk91OStCUlBrbGpEVXcrNEJN?=
- =?utf-8?B?Y2xIM25VZGVEUHpwb0MxY05OM2lBanpyamU3WC9uTlc5Q1Z6b1dOZlhCZEU5?=
- =?utf-8?B?NlZXeVdLTTlodXJEb2lvTlhFWFlNaS90cXZHUklnOVp5RnZPSEpOVUkwSVdC?=
- =?utf-8?B?SC85amJUcGVpUms2VDMwZTRZeVlicXNDS1o5bUxKT2k1eXdaMVlYYStlMWhs?=
- =?utf-8?B?Vm41QmZUaWJXSitka09hSUlmZG5GUkFramZtdGpaeXgyRDFjMVYrbmt0TWlt?=
- =?utf-8?B?TEZVRjlGSTlxV2FOS09JVE5Mbm00MTVVR0tMUzI5cDdOLzNFV0hnVWNpK3V0?=
- =?utf-8?B?MUczb21UbnhOb1BENFl1QzgvdmkwYjNrN2gyUTNnY0N6R0c3RmwzdFBhY1Z1?=
- =?utf-8?B?VUlEeFZpTlJjRTRIUC9helF2a1JuR1FiekpqS0ozY3lSTlo2Y1JHRDI4S2dx?=
- =?utf-8?Q?16QMKFDf0qIUn9sejVarct+Fk?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RmgvMFpJcjlJTXBKU2RrVnRmdjN6OXdBWnJjQzRJdXI5ZGRIcitpaVY2OVdT?=
+ =?utf-8?B?WGZJNlNjMXlHUk1PSklkRmVaTitlQ0VBWEZXS0ZLU081T2lIdHRMbCs0ZnJR?=
+ =?utf-8?B?WUlob01VWGlhaGdjczQvTnpYMFlqWUhPampkTXZIdFFtaEpvcVlMcXBjSEND?=
+ =?utf-8?B?YUhjNjhBaHEvaGdkdWZCRCtBamkyRzJ1S0lEeFpuZGpWVklKbzgvc1ZpaHFz?=
+ =?utf-8?B?dEpUQVlOSWxSNE1BQUM2Uy9ON21DMEVSMDhEVm44dHZabjZEM1NYakRSeDZa?=
+ =?utf-8?B?RlhkM1dNcTdyRmR4U3FOQjhUSXFkUHJ4eEowbmpjQmRyYlNZaXdSN1ppWTBz?=
+ =?utf-8?B?SjI0R01TQWZPTHZGMzZOcWUzT0hqOFEvU0NlT1pSUkd4VmJuL2xIU3JWaHBs?=
+ =?utf-8?B?c1M4T1cxbjYrSlFsQXJmOURqYzVFbFlZQXNQWUVjbk9CcXczOUIwbUZ5aS9n?=
+ =?utf-8?B?dExpQktRTlFvVFA4Z2hHM00wUnh1UG0vajBKTTRONVRtTW40TzY3bWtZMng0?=
+ =?utf-8?B?WlJPVGswZXlsR3hkTzF3YVpZUUtpS09XS29hNG10b0JjWUs0dTJzNWhML3Zu?=
+ =?utf-8?B?SUxNK29ncUNqRWNFM21oRlY1NjYxVWQzYUcwSC9CUHpIZklmRE1VeEhUQTJU?=
+ =?utf-8?B?dGNJNHQvWmY4ZjcxNjhXOVFRSGVUUnRYNzBCVzRGTmJnUmg3UTd3QVdjMktZ?=
+ =?utf-8?B?Q0VDeGNNamV4UDBmR0xBS2J0S3A2Z29SUktsY1pneThpMEVyVWNjODFnSjQy?=
+ =?utf-8?B?QW1YNXV0WW9tS0N6anlhdmVPcjQzS1BiMzRpdFIxb2dnTnFKUDN4a2Zmek5w?=
+ =?utf-8?B?UDk2cE1jaWxGdmhCOVl2R09zdmRtckhIa0pETHRWb213blZYT3BWazhrQXN4?=
+ =?utf-8?B?cmhDTWpSYXRBQ0xLZWFLV1VENG9YSjJLMUpwUVVTUVZXc21MMXd4RG1aeHIr?=
+ =?utf-8?B?UXd5T0JTT29RdHZLc2wxMkExeTdQeEowcnJqKzR3SEZNMTBwRzhlM1VWUnhQ?=
+ =?utf-8?B?eVQ0QUNpY1FVUjJucVVIbHplU0FQeXRuQndDN3daVU9XNU1TVGdNL0E3RkVP?=
+ =?utf-8?B?bzJIRkFxaWNFOXNqbGJaTUJ6L3RVcy8vbTZsQm5tOWcrcUtKUlFoeHVQbmFp?=
+ =?utf-8?B?YWttSkVieTlpczZYTmhyMjlHcmppNkxIb29qSTFQNTFpcWZwSTFjMEoyV0x1?=
+ =?utf-8?B?ODFsd25SZCs4Vm55WFIrY1ZRYWlLb3R4K0VobEVTcEFmMEFLdnhtR1VKWC9U?=
+ =?utf-8?B?Z3pWK2VNS2FWdlY1Y0FmTHBzaDhQNTNnS1Z6YnBkZ0dXdWlwREYrMHA3K3RR?=
+ =?utf-8?B?RVVvcjcwV0M3TFVvc3NhajF6NzRpSi8wclRmT2JsQmxjREQwTVRQa3ppdXZW?=
+ =?utf-8?B?NW5sT1JrMTE1VXd4TlJwZHF0UGhaN2tneVQyQ0kwRUJ6UjA4bDZNaWRSb3NL?=
+ =?utf-8?B?T0VUdUhSeTVDVGtCVC9jcWpORXZVNks5Wkc4bWlBTXdjZHdsRVJ6cnRTKzcr?=
+ =?utf-8?B?MkowUVg4S0lzRkxLWXNDc1oyeSs5S01LMzc3QUFCZ3ZtdGg1eFI3K0wwUUZQ?=
+ =?utf-8?B?VVZob3BoYXl1SU15U2FmRnpJaHlGTWxVZ1BuTk1jN2srbG52OTBsZWE0RFJR?=
+ =?utf-8?B?eG9KOXdxbjlQSU1UalpkUzcvZTZNVG9RTVVVS0FxM2RGRHJ3ckM0WC9BV3hH?=
+ =?utf-8?B?MEpPM1g4bjZiS1NaS21WaWZUdmxVZ0pkTVhYb0ovL0kxZUZEck04U2I1T2ta?=
+ =?utf-8?B?L3BXYWEwYmtOckFLQ0l3Tmp2QzM4MGFFWlAwcDh4LzVvVW40RjFVWERpbWw5?=
+ =?utf-8?B?c2lSTWNuWk94SmpaazR2NklOZU84TDBub0NzdmVDODZiMElHblB0NjJ6Ui9O?=
+ =?utf-8?B?S1hocGtEZEp3cG9DN3UrWHN5d21QL2VSYk1KUU1GRW9pYXpqdGFrdHV6MFhx?=
+ =?utf-8?B?Tjg1d2p2QTR0SjNMK3ZWVXZCQ3J5SjlmSzlCdnQ5YjRaV1ZqLzl2N0x3VmFt?=
+ =?utf-8?B?TnBIa3pldDN5KzlhelQrNXlQYzJvUHgxUlBZS0NHcUFGQkx1a0RTUmRDaEFB?=
+ =?utf-8?B?ZFlUWWtVYWZwRjVPaVRFQzJvRVNTT1EwQjIzdmxnbWNVVDVUU2I3V1R3dVhB?=
+ =?utf-8?Q?J0NVan56aCKPGN+BSuIVmobKm?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b5448219-3c0e-48fb-b6f2-08dc2ef79a05
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 016fac1c-ba33-4d61-864b-08dc2ef7a651
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6280.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2024 14:00:15.9505 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2024 14:00:36.3400 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EAdHwTxJKQvBwEG4HrrVP5cIWyfotSQmIjAZBQz9bKxCbE2dBo50PkX8UNhJpkP3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8511
+X-MS-Exchange-CrossTenant-UserPrincipalName: RtO3nDGMiLWBZKStOGSe6Kvi6Bd0wKf4uRybEZzGyEZedJWQxY/tYMLb+TcOaOYxu5q1wAvtmppaSg1kHoVPpw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5471
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,81 +142,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 16.02.24 um 14:13 schrieb Thomas Hellström:
-> This patch-set is a prerequisite for a standalone TTM shrinker
-> and for exhaustive TTM eviction using sleeping dma_resv locks,
-> which is the motivation it.
->
-> Currently when unlocking the TTM lru list lock, iteration needs
-> to be restarted from the beginning, rather from the next LRU list
-> node. This can potentially be a big problem, because if eviction
-> or shrinking fails for whatever reason after unlock, restarting
-> is likely to cause the same failure over and over again.
+On 2/16/24 03:19, Pekka Paalanen wrote:
+> On Fri, 2 Feb 2024 10:28:35 -0500
+> Hamza Mahfooz <hamza.mahfooz@amd.com> wrote:
+> 
+>> We want programs besides the compositor to be able to enable or disable
+>> panel power saving features.
+> 
+> Could you also explain why, in the commit message, please?
+> 
+> It is unexpected for arbitrary programs to be able to override the KMS
+> client, and certainly new ways to do so should not be added without an
+> excellent justification.
 
-Oh, yes please. I have been working on that problem before as well, but 
-wasn't able to come up with something working.
+Also, to be completely honest with you, I'm not sure why it was
+initially exposed as a DRM prop, since it's a power management feature.
+Which is to say, that it doesn't really make sense to have the
+compositor control it.
 
-> There are various schemes to be able to continue the list
-> iteration from where we left off. One such scheme used by the
-> GEM LRU list traversal is to pull items already considered off
-> the LRU list and reinsert them when iteration is done.
-> This has the drawback that concurrent list iteration doesn't see
-> the complete list (which is bad for exhaustive eviction) and also
-> doesn't lend itself well to bulk-move sublists since these will
-> be split in the process where items from those lists are
-> temporarily pulled from the list and moved to the list tail.
-
-Completely agree that this is not a desirable solution.
-
-> The approach taken here is that list iterators insert themselves
-> into the list next position using a special list node. Iteration
-> is then using that list node as starting point when restarting.
-> Concurrent iterators just skip over the special list nodes.
->
-> This is implemented in patch 1 and 2.
->
-> For bulk move sublist the approach is the same, but when a bulk
-> move sublist is moved to the tail, the iterator is also moved,
-> causing us to skip parts of the list. That is undesirable.
-> Patch 3 deals with that, and when iterator detects it is
-> traversing a sublist, it inserts a second restarting point just
-> after the sublist and if the sublist is moved to the tail,
-> it just uses the second restarting point instead.
->
-> This is implemented in patch 3.
-
-Interesting approach, that is probably even better than what I tried.
-
-My approach was basically to not only lock the current BO, but also the 
-next one. Since only a locked BO can move on the LRU we effectively 
-created an anchor.
-
-Before I dig into the code a couple of questions:
-1. How do you distinct BOs and iteration anchors on the LRU?
-2. How do you detect that a bulk list moved on the LRU?
-3. How do you remove the iteration anchors from the bulk list?
-
-Regards,
-Christian.
-
->
-> The restartable property is used in patch 4 to restart swapout if
-> needed, but the main purpose is this paves the way for
-> shrinker- and exhaustive eviction.
->
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: <dri-devel@lists.freedesktop.org>
->
-> Thomas Hellström (4):
->    drm/ttm: Allow TTM LRU list nodes of different types
->    drm/ttm: Use LRU hitches
->    drm/ttm: Consider hitch moves within bulk sublist moves
->    drm/ttm: Allow continued swapout after -ENOSPC falure
->
->   drivers/gpu/drm/ttm/ttm_bo.c       |   1 +
->   drivers/gpu/drm/ttm/ttm_device.c   |  33 +++--
->   drivers/gpu/drm/ttm/ttm_resource.c | 202 +++++++++++++++++++++++------
->   include/drm/ttm/ttm_resource.h     |  91 +++++++++++--
->   4 files changed, 267 insertions(+), 60 deletions(-)
->
+> 
+> Maybe debugfs would be more appropriate if the purpose is only testing
+> rather than production environments?
+> 
+>> However, since they are currently only
+>> configurable through DRM properties, that isn't possible. So, to remedy
+>> that issue introduce a new "panel_power_savings" sysfs attribute.
+> 
+> When the DRM property was added, what was used as the userspace to
+> prove its workings?
+> 
+> 
+> Thanks,
+> pq
+> 
+>>
+>> Cc: Mario Limonciello <mario.limonciello@amd.com>
+>> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+>> ---
+>> v2: hide ABM_LEVEL_IMMEDIATE_DISABLE in the read case, force an atomic
+>>      commit when setting the value, call sysfs_remove_group() in
+>>      amdgpu_dm_connector_unregister() and add some documentation.
+>> ---
+>>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 76 +++++++++++++++++++
+>>   1 file changed, 76 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>> index 8590c9f1dda6..3c62489d03dc 100644
+>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>> @@ -6436,10 +6436,79 @@ int amdgpu_dm_connector_atomic_get_property(struct drm_connector *connector,
+>>   	return ret;
+>>   }
+>>   
+>> +/**
+>> + * DOC: panel power savings
+>> + *
+>> + * The display manager allows you to set your desired **panel power savings**
+>> + * level (between 0-4, with 0 representing off), e.g. using the following::
+>> + *
+>> + *   # echo 3 > /sys/class/drm/card0-eDP-1/amdgpu/panel_power_savings
+>> + *
+>> + * Modifying this value can have implications on color accuracy, so tread
+>> + * carefully.
+>> + */
+>> +
+>> +static ssize_t panel_power_savings_show(struct device *device,
+>> +					struct device_attribute *attr,
+>> +					char *buf)
+>> +{
+>> +	struct drm_connector *connector = dev_get_drvdata(device);
+>> +	struct drm_device *dev = connector->dev;
+>> +	u8 val;
+>> +
+>> +	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
+>> +	val = to_dm_connector_state(connector->state)->abm_level ==
+>> +		ABM_LEVEL_IMMEDIATE_DISABLE ? 0 :
+>> +		to_dm_connector_state(connector->state)->abm_level;
+>> +	drm_modeset_unlock(&dev->mode_config.connection_mutex);
+>> +
+>> +	return sysfs_emit(buf, "%u\n", val);
+>> +}
+>> +
+>> +static ssize_t panel_power_savings_store(struct device *device,
+>> +					 struct device_attribute *attr,
+>> +					 const char *buf, size_t count)
+>> +{
+>> +	struct drm_connector *connector = dev_get_drvdata(device);
+>> +	struct drm_device *dev = connector->dev;
+>> +	long val;
+>> +	int ret;
+>> +
+>> +	ret = kstrtol(buf, 0, &val);
+>> +
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	if (val < 0 || val > 4)
+>> +		return -EINVAL;
+>> +
+>> +	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
+>> +	to_dm_connector_state(connector->state)->abm_level = val ?:
+>> +		ABM_LEVEL_IMMEDIATE_DISABLE;
+>> +	drm_modeset_unlock(&dev->mode_config.connection_mutex);
+>> +
+>> +	drm_kms_helper_hotplug_event(dev);
+>> +
+>> +	return count;
+>> +}
+>> +
+>> +static DEVICE_ATTR_RW(panel_power_savings);
+>> +
+>> +static struct attribute *amdgpu_attrs[] = {
+>> +	&dev_attr_panel_power_savings.attr,
+>> +	NULL
+>> +};
+>> +
+>> +static const struct attribute_group amdgpu_group = {
+>> +	.name = "amdgpu",
+>> +	.attrs = amdgpu_attrs
+>> +};
+>> +
+>>   static void amdgpu_dm_connector_unregister(struct drm_connector *connector)
+>>   {
+>>   	struct amdgpu_dm_connector *amdgpu_dm_connector = to_amdgpu_dm_connector(connector);
+>>   
+>> +	sysfs_remove_group(&connector->kdev->kobj, &amdgpu_group);
+>>   	drm_dp_aux_unregister(&amdgpu_dm_connector->dm_dp_aux.aux);
+>>   }
+>>   
+>> @@ -6541,6 +6610,13 @@ amdgpu_dm_connector_late_register(struct drm_connector *connector)
+>>   		to_amdgpu_dm_connector(connector);
+>>   	int r;
+>>   
+>> +	if (connector->connector_type == DRM_MODE_CONNECTOR_eDP) {
+>> +		r = sysfs_create_group(&connector->kdev->kobj,
+>> +				       &amdgpu_group);
+>> +		if (r)
+>> +			return r;
+>> +	}
+>> +
+>>   	amdgpu_dm_register_backlight_device(amdgpu_dm_connector);
+>>   
+>>   	if ((connector->connector_type == DRM_MODE_CONNECTOR_DisplayPort) ||
+> 
+-- 
+Hamza
 
