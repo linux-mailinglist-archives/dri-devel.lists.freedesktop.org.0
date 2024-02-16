@@ -2,127 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2276085791B
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 10:43:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30965857959
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 10:52:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E2C310EACA;
-	Fri, 16 Feb 2024 09:43:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7369A10E1C1;
+	Fri, 16 Feb 2024 09:52:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vlkPL87I";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="c9JY2yn4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
- [209.85.218.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E132A10EACA
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 09:43:08 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id
- a640c23a62f3a-a2a17f3217aso230310966b.2
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 01:43:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708076582; x=1708681382; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=50f7zKmZnRI9LrVHCKInlnIFfogg3BhO8mJWvUu8tZs=;
- b=vlkPL87IABP51Wvebq1ott9SckUYKcoUGCLJwicoKV/jkrxkIEYjDUKlmrynUvgeDV
- Aex7mIlYx3tz6uj6Q06Kh2J2j7k5tk7GK6cdqlQPOO7eHDoqEkEBB1tUyT3lB7lJblO7
- LeCYJfyJ9sUx9dcaU2ZyeCXpObweufTLVqB9FjQJkGReSHchEeydYvusliO9KVEecgOd
- aDEWvq/7hCiM0manJdb36OHs7mYMmW/tCqWc2ngh4/SxPvHrh5CchWvwMOdHPnxPsY1E
- Fk0Y/L2PyRR0yKMuNthzkGGuQJgvfONelxJ/THD0UXqPoh/O+4Kk5kehEM5MO/Hy2GPC
- ZH3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708076582; x=1708681382;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=50f7zKmZnRI9LrVHCKInlnIFfogg3BhO8mJWvUu8tZs=;
- b=pTlScNJte5Q4qEa2SmDk5qr42wPPEhj2Nrv+p9cds9namJaGJzzip90ofSVVKlGV7K
- fmUwEk1vYD+CXIvHl5TIlBN9Xac5LwXEEviZDo64xcDxw4r5J1UQZWpuRJFpDjTnCr72
- QXkDNNfrI0Ek5JUoCL2zrK53sd5mEJGCEH548oSBVk/XIiUXxjWC4/L5akuaAAAPdPed
- R1IhoSUT5Y/uT8BGQLVztRdaq9yOFBCE8p8UVOuLKn4GowY/t5o3W65L+DTVASGX4bo0
- W4dQAUhArbl6JLfljWIozWpuhZkdWz0dbU1ZGRTt89NeNFf1Di0JrSD4O7iBIbJyduZS
- egNA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXthUDyTLLscIQWKlfpwxoUgttWQntzHpOgt1zZRrZBEQwK9+rQy50LiE7d8V09AvT+wiNDkk0dIxf68qO3wILXAF5I3tMAPTeSe/hg56jw
-X-Gm-Message-State: AOJu0Yx6syCyZOpW8CsOXKEOa2cgBvI36LPLY1RC+p24oK/aQnnKFu9y
- Gm+TbDyWuP1OnnJff8P7ei9tZwc5a7FzzZwKqtH9CQCeK3Pek34td2W9K4u+8CI=
-X-Google-Smtp-Source: AGHT+IE1PPpt5WXjLMqsV+j10ORMRQbg86LRvVNhA6Wu9P6fc3uH1nDSTRPe/hwaqeL9gfQQqKyPDA==
-X-Received: by 2002:a17:906:9a8d:b0:a3d:5db0:120d with SMTP id
- ag13-20020a1709069a8d00b00a3d5db0120dmr3006253ejc.23.1708076582527; 
- Fri, 16 Feb 2024 01:43:02 -0800 (PST)
-Received: from [192.168.0.22] ([78.10.207.130])
- by smtp.gmail.com with ESMTPSA id
- br21-20020a170906d15500b00a3d64b37a35sm1380977ejb.137.2024.02.16.01.43.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Feb 2024 01:43:02 -0800 (PST)
-Message-ID: <df33fe7c-8732-4e30-8e9e-0c74252c8c76@linaro.org>
-Date: Fri, 16 Feb 2024 10:43:00 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EBF210E187;
+ Fri, 16 Feb 2024 09:52:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1708077124; x=1739613124;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=1DmYPShGc1WqUllF/gBgHGJAcAVWQWXf2YSAvLKPay0=;
+ b=c9JY2yn4aIqQXuMhK47puFQnbOrYO7GPCZliex8X34k7QMZ+ypIMo7xQ
+ HR0ifF53J9uQDmXMJCjl3DINRTTD3QGZW+QzU8RuUGlqmq4E9TebCs+6z
+ mwUhQZjWeEVbMFKG47hq5t4Xo4ESCkfgEv/TfOsUCMiH7ZSNY2r0qqLnA
+ eZoEYiHC1UuLQ3GAfbev2ONpGDdoMuJzPgCEvtMCndAAXVlZpR/OL8Is5
+ lblJKPTF0OfAjd6dyxOMHrWy20s8NnP/7O42TBJT2YKG1O9jmY8zzyrMU
+ NwmnneuZ9RlBuGwGTKo1g6Po2SX8kV6ddKeDtLI9aIRyxDdu7k+apxV36 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="13305123"
+X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; d="scan'208";a="13305123"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2024 01:52:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="935815479"
+X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; d="scan'208";a="935815479"
+Received: from pshishpo-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.48.79])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2024 01:51:57 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
+ <tvrtko.ursulin@linux.intel.com>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, robdclark@gmail.com,
+ freedreno@lists.freedesktop.org, dmitry.baryshkov@linaro.org,
+ intel-gfx@lists.freedesktop.org, ville.syrjala@linux.intel.com,
+ quic_jesszhan@quicinc.com, linux-kernel@vger.kernel.org,
+ intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH v2] drm/dp: move intel_dp_vsc_sdp_pack() to generic helper
+In-Reply-To: <20240215190834.3222812-1-quic_abhinavk@quicinc.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240215190834.3222812-1-quic_abhinavk@quicinc.com>
+Date: Fri, 16 Feb 2024 11:51:54 +0200
+Message-ID: <87eddc4tz9.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/9] media: dt-bindings: Add Chameleon v3 framebuffer
-Content-Language: en-US
-To: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>,
- Rob Herring <robh@kernel.org>
-Cc: chromeos-krk-upstreaming@google.com, tzimmermann@suse.de,
- maarten.lankhorst@linux.intel.com, hverkuil-cisco@xs4all.nl,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- mchehab@kernel.org, ribalda@chromium.org, robh+dt@kernel.org,
- mripard@kernel.org, airlied@gmail.com, linux-media@vger.kernel.org,
- akpm@linux-foundation.org, dinguyen@kernel.org, devicetree@vger.kernel.org,
- daniel@ffwll.ch, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org
-References: <20240212131323.2162161-1-panikiel@google.com>
- <20240212131323.2162161-8-panikiel@google.com>
- <170774854498.294434.14234480400138512065.robh@kernel.org>
- <CAM5zL5qx1sw=NSWE7gv3E80MCMJ4=tvc44WDAnBrfsJ2qQB3iw@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <CAM5zL5qx1sw=NSWE7gv3E80MCMJ4=tvc44WDAnBrfsJ2qQB3iw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,26 +75,214 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/02/2024 16:51, Paweł Anikiel wrote:
->>
->> If you already ran 'make dt_binding_check' and didn't see the above
->> error(s), then make sure 'yamllint' is installed and dt-schema is up to
->> date:
->>
->> pip3 install dtschema --upgrade
->>
->> Please check and re-submit after running the above command yourself. Note
->> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
->> your schema. However, it must be unset to test all examples with your schema.
->>
-> 
-> I was missing a '#include
-> <dt-bindings/interrupt-controller/arm-gic.h>' in the dt binding
-> example. I ran dt_binding_check after adding it and it reports no
-> errors. I will include the fix in v2.
+On Thu, 15 Feb 2024, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> intel_dp_vsc_sdp_pack() can be re-used by other DRM drivers as well.
+> Lets move this to drm_dp_helper to achieve this.
+>
+> changes in v2:
+> 	- rebased on top of drm-tip
+>
+> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-Please test the patch before sending...
+Acked-by: Jani Nikula <jani.nikula@intel.com>
 
-Best regards,
-Krzysztof
+> ---
+>  drivers/gpu/drm/display/drm_dp_helper.c | 78 +++++++++++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_dp.c | 71 +---------------------
+>  include/drm/display/drm_dp_helper.h     |  3 +
+>  3 files changed, 83 insertions(+), 69 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+> index 8d6ce46471ae..6c91f400ecb1 100644
+> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> @@ -2913,6 +2913,84 @@ void drm_dp_vsc_sdp_log(struct drm_printer *p, const struct drm_dp_vsc_sdp *vsc)
+>  }
+>  EXPORT_SYMBOL(drm_dp_vsc_sdp_log);
+>  
+> +/**
+> + * drm_dp_vsc_sdp_pack() - pack a given vsc sdp into generic dp_sdp
+> + * @vsc: vsc sdp initialized according to its purpose as defined in
+> + *       table 2-118 - table 2-120 in DP 1.4a specification
+> + * @sdp: valid handle to the generic dp_sdp which will be packed
+> + * @size: valid size of the passed sdp handle
+> + *
+> + * Returns length of sdp on success and error code on failure
+> + */
+> +ssize_t drm_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
+> +			    struct dp_sdp *sdp, size_t size)
+> +{
+> +	size_t length = sizeof(struct dp_sdp);
+> +
+> +	if (size < length)
+> +		return -ENOSPC;
+> +
+> +	memset(sdp, 0, size);
+> +
+> +	/*
+> +	 * Prepare VSC Header for SU as per DP 1.4a spec, Table 2-119
+> +	 * VSC SDP Header Bytes
+> +	 */
+> +	sdp->sdp_header.HB0 = 0; /* Secondary-Data Packet ID = 0 */
+> +	sdp->sdp_header.HB1 = vsc->sdp_type; /* Secondary-data Packet Type */
+> +	sdp->sdp_header.HB2 = vsc->revision; /* Revision Number */
+> +	sdp->sdp_header.HB3 = vsc->length; /* Number of Valid Data Bytes */
+> +
+> +	if (vsc->revision == 0x6) {
+> +		sdp->db[0] = 1;
+> +		sdp->db[3] = 1;
+> +	}
+> +
+> +	/*
+> +	 * Revision 0x5 and revision 0x7 supports Pixel Encoding/Colorimetry
+> +	 * Format as per DP 1.4a spec and DP 2.0 respectively.
+> +	 */
+> +	if (!(vsc->revision == 0x5 || vsc->revision == 0x7))
+> +		goto out;
+> +
+> +	/* VSC SDP Payload for DB16 through DB18 */
+> +	/* Pixel Encoding and Colorimetry Formats  */
+> +	sdp->db[16] = (vsc->pixelformat & 0xf) << 4; /* DB16[7:4] */
+> +	sdp->db[16] |= vsc->colorimetry & 0xf; /* DB16[3:0] */
+> +
+> +	switch (vsc->bpc) {
+> +	case 6:
+> +		/* 6bpc: 0x0 */
+> +		break;
+> +	case 8:
+> +		sdp->db[17] = 0x1; /* DB17[3:0] */
+> +		break;
+> +	case 10:
+> +		sdp->db[17] = 0x2;
+> +		break;
+> +	case 12:
+> +		sdp->db[17] = 0x3;
+> +		break;
+> +	case 16:
+> +		sdp->db[17] = 0x4;
+> +		break;
+> +	default:
+> +		WARN(1, "Missing case %d\n", vsc->bpc);
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* Dynamic Range and Component Bit Depth */
+> +	if (vsc->dynamic_range == DP_DYNAMIC_RANGE_CTA)
+> +		sdp->db[17] |= 0x80;  /* DB17[7] */
+> +
+> +	/* Content Type */
+> +	sdp->db[18] = vsc->content_type & 0x7;
+> +
+> +out:
+> +	return length;
+> +}
+> +EXPORT_SYMBOL(drm_dp_vsc_sdp_pack);
+> +
+>  /**
+>   * drm_dp_get_pcon_max_frl_bw() - maximum frl supported by PCON
+>   * @dpcd: DisplayPort configuration data
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index 217196196e50..a9458df475e2 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -4089,73 +4089,6 @@ intel_dp_needs_vsc_sdp(const struct intel_crtc_state *crtc_state,
+>  	return false;
+>  }
+>  
+> -static ssize_t intel_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
+> -				     struct dp_sdp *sdp, size_t size)
+> -{
+> -	size_t length = sizeof(struct dp_sdp);
+> -
+> -	if (size < length)
+> -		return -ENOSPC;
+> -
+> -	memset(sdp, 0, size);
+> -
+> -	/*
+> -	 * Prepare VSC Header for SU as per DP 1.4a spec, Table 2-119
+> -	 * VSC SDP Header Bytes
+> -	 */
+> -	sdp->sdp_header.HB0 = 0; /* Secondary-Data Packet ID = 0 */
+> -	sdp->sdp_header.HB1 = vsc->sdp_type; /* Secondary-data Packet Type */
+> -	sdp->sdp_header.HB2 = vsc->revision; /* Revision Number */
+> -	sdp->sdp_header.HB3 = vsc->length; /* Number of Valid Data Bytes */
+> -
+> -	if (vsc->revision == 0x6) {
+> -		sdp->db[0] = 1;
+> -		sdp->db[3] = 1;
+> -	}
+> -
+> -	/*
+> -	 * Revision 0x5 and revision 0x7 supports Pixel Encoding/Colorimetry
+> -	 * Format as per DP 1.4a spec and DP 2.0 respectively.
+> -	 */
+> -	if (!(vsc->revision == 0x5 || vsc->revision == 0x7))
+> -		goto out;
+> -
+> -	/* VSC SDP Payload for DB16 through DB18 */
+> -	/* Pixel Encoding and Colorimetry Formats  */
+> -	sdp->db[16] = (vsc->pixelformat & 0xf) << 4; /* DB16[7:4] */
+> -	sdp->db[16] |= vsc->colorimetry & 0xf; /* DB16[3:0] */
+> -
+> -	switch (vsc->bpc) {
+> -	case 6:
+> -		/* 6bpc: 0x0 */
+> -		break;
+> -	case 8:
+> -		sdp->db[17] = 0x1; /* DB17[3:0] */
+> -		break;
+> -	case 10:
+> -		sdp->db[17] = 0x2;
+> -		break;
+> -	case 12:
+> -		sdp->db[17] = 0x3;
+> -		break;
+> -	case 16:
+> -		sdp->db[17] = 0x4;
+> -		break;
+> -	default:
+> -		MISSING_CASE(vsc->bpc);
+> -		break;
+> -	}
+> -	/* Dynamic Range and Component Bit Depth */
+> -	if (vsc->dynamic_range == DP_DYNAMIC_RANGE_CTA)
+> -		sdp->db[17] |= 0x80;  /* DB17[7] */
+> -
+> -	/* Content Type */
+> -	sdp->db[18] = vsc->content_type & 0x7;
+> -
+> -out:
+> -	return length;
+> -}
+> -
+>  static ssize_t
+>  intel_dp_hdr_metadata_infoframe_sdp_pack(struct drm_i915_private *i915,
+>  					 const struct hdmi_drm_infoframe *drm_infoframe,
+> @@ -4248,8 +4181,8 @@ static void intel_write_dp_sdp(struct intel_encoder *encoder,
+>  
+>  	switch (type) {
+>  	case DP_SDP_VSC:
+> -		len = intel_dp_vsc_sdp_pack(&crtc_state->infoframes.vsc, &sdp,
+> -					    sizeof(sdp));
+> +		len = drm_dp_vsc_sdp_pack(&crtc_state->infoframes.vsc, &sdp,
+> +					  sizeof(sdp));
+>  		break;
+>  	case HDMI_PACKET_TYPE_GAMUT_METADATA:
+>  		len = intel_dp_hdr_metadata_infoframe_sdp_pack(dev_priv,
+> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+> index d02014a87f12..8474504d4c88 100644
+> --- a/include/drm/display/drm_dp_helper.h
+> +++ b/include/drm/display/drm_dp_helper.h
+> @@ -812,4 +812,7 @@ int drm_dp_bw_overhead(int lane_count, int hactive,
+>  		       int bpp_x16, unsigned long flags);
+>  int drm_dp_bw_channel_coding_efficiency(bool is_uhbr);
+>  
+> +ssize_t drm_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
+> +			    struct dp_sdp *sdp, size_t size);
+> +
+>  #endif /* _DRM_DP_HELPER_H_ */
 
+-- 
+Jani Nikula, Intel
