@@ -2,84 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BF688584BE
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 19:02:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6F1E858517
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Feb 2024 19:27:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A742E10E6F3;
-	Fri, 16 Feb 2024 18:02:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F3DA10E011;
+	Fri, 16 Feb 2024 18:27:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="jSBqkTdb";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="b7G1oYpE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 905B010E6F3
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 18:02:52 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id
- a640c23a62f3a-a3d2422f1b5so66926066b.1
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 10:02:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1708106571; x=1708711371; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=kWOeJUy90KVtiP9YXPoGesfXE8zdwI8eJnlf9+BtZ90=;
- b=jSBqkTdbiNLKqjWS5rhefpqQQpTwk/U8Evxn0q10KODn1R1Hwqjv9LiOSU7OZ91NMT
- 7NrOPxCe6DGdUtt16pobvFN1VciIbIcPCCYGy+/lgIL/qS1tPB+nf+YKhPoh6zM306ko
- nq0GTegUIf27jpuoE+RxcCU3rmIwwirtPFlRg=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D886010E011
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 18:27:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1708108054;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3pAxnKiY0v6Unt1MeteP4zhCiQHYAe7S4qrGIbBvNAI=;
+ b=b7G1oYpE/YgSTfOcsSCobBMlXADGINEKcigntHlhFWa1FXuf+ZasoN4B1Eo38x66uE3TvU
+ lQnlr2l93l/31xJuqvH+ZUpvwJ3G/3sTUeiMbDeeuTWnW2LQK4Vhq80htFQS6lVecE84V5
+ Yj8w2ev+7WCNJ447CjTFfb0G6EqS/nM=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-296-CLBupTgEPXSM-N2jmF_OMA-1; Fri, 16 Feb 2024 13:27:33 -0500
+X-MC-Unique: CLBupTgEPXSM-N2jmF_OMA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ 4fb4d7f45d1cf-563ee06be88so584473a12.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Feb 2024 10:27:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708106571; x=1708711371;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kWOeJUy90KVtiP9YXPoGesfXE8zdwI8eJnlf9+BtZ90=;
- b=b2UNaMBHYDp61hiZXT1JMyh33By651moZRrZA7sAznABI5KGtBcKBBxKMd5gpc/CHW
- ISml03Lucivu4WN3X+hHEIcmrM0jINivEb3yW+M7KfP94es3QfmEzKXszY/cFbxu95rg
- p4KLIAqKUMe3APPp3nuPu0l1LaNzIQOpArGacmi0P6emtl3a6NMgc5Fo0jyVa2Er8bhl
- ZgnDhkE3io1ERDoHDM4ainVZOs1l0nrm+9WrschCXY6hGItlcNF0kis7P/qXkatm7xqa
- Wj5Lg7v3wjDUTBNfM8cnFSOTrZCEtG0VKMmvqYGoyEFN0l7NEbH9AGRXqwOactL6r/pO
- 1nQg==
+ d=1e100.net; s=20230601; t=1708108052; x=1708712852;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3pAxnKiY0v6Unt1MeteP4zhCiQHYAe7S4qrGIbBvNAI=;
+ b=S1BfJSmXUP1xwwARoEwI56uaOgtGU019lc53U4LEfB5XGj0G4ECWF12t128Y6C3y8i
+ Cj3PS/YXL6ngyVM2ylTCoBkQ3GxBeZ5m73nXpSL2YjPaDS4BifX5t/o2LZW0VTzKuT2N
+ owlsHr7rjTaP6VZdo3/l/qdWd8lXmSTgXLnqODCL4MmoIv++6HjWGYQ5pyvR9v0YmBQj
+ ylhoFt3Xz4yciy7RcKfPYGyvtCRGocKfELoUvjyIu9gsbHyb418gzMS1qrfKSrmKU8mJ
+ lPTJzvUUewwBqjRYSHHhn46jGNDdNqQ5Ls7rdFP7m1QMwvKaWIamuSIxYmZKgX4X1Tdw
+ e3ew==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXZTavJJ+laWQXe4A3YovgCrmTgXRAX3j6WbdH1mNzkn+eHg2vIK0qQbOawN6JqlgaHFc8Pqdzo1GSh3OjO5ugcEHAqoYF+OqX+cKUsNDxD
-X-Gm-Message-State: AOJu0YzR3hpX62q58DQUeXomYrbY+4naNSoAyWNEYOCrzUimmkZu5hGd
- 3C7zjtun8KiUv01+Fyc39EHU68AAvVFkjy/Ec8kKivnyl9EQGOkYCYKQPcN04Fg=
-X-Google-Smtp-Source: AGHT+IHSmOAy3oa2La7yssKepZFC0ok9e49lHpBPZtwML9qSR/4sCtqzMn/r6OGKsb48uF7ZvrRmBQ==
-X-Received: by 2002:a17:907:1604:b0:a38:526e:78ed with SMTP id
- cw4-20020a170907160400b00a38526e78edmr4205804ejd.7.1708106570987; 
- Fri, 16 Feb 2024 10:02:50 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ AJvYcCWRd2du+BYKA/kge+vOrUqulHhrWyfvsknT+SxIteBtZbCTx3fHlVDoQzEV5JPuRaa7F0UMMwI0k4KrjhMzhct6uflide0d2kCBGm68rfvA
+X-Gm-Message-State: AOJu0YzzqHKIMrBrVlbWjcRbTi6vRT4GCjKs1R0X3lzURDw2SmMdo+sy
+ tIND1SLfBaVeJ2HbrAmdUyX6vT9d5sEx/Ten0drNitVLHw6XTpuqwojPSYg+5z3oBhY99N+Tlvz
+ sg9Wc7NIf3aFXcaNy8FOF3e2gJ+VZHuO8cangApigJ2QpWzRW3/NfGxwdRARj+vt1rw==
+X-Received: by 2002:aa7:de0e:0:b0:564:7b9:8c18 with SMTP id
+ h14-20020aa7de0e000000b0056407b98c18mr1164594edv.22.1708108052537; 
+ Fri, 16 Feb 2024 10:27:32 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHc7HnCrb8Q59cHQe9Z/g3oIfkHjAxB+9md3uAcAJ23mrUVRozwXdVXewL5xF6l4JirE/riHw==
+X-Received: by 2002:aa7:de0e:0:b0:564:7b9:8c18 with SMTP id
+ h14-20020aa7de0e000000b0056407b98c18mr1164581edv.22.1708108052264; 
+ Fri, 16 Feb 2024 10:27:32 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:ee94:abf:b8ff:feee:998b?
+ ([2a02:810d:4b3f:ee94:abf:b8ff:feee:998b])
  by smtp.gmail.com with ESMTPSA id
- lc5-20020a170906f90500b00a3d6ff5f087sm191930ejb.55.2024.02.16.10.02.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Feb 2024 10:02:50 -0800 (PST)
-Date: Fri, 16 Feb 2024 19:02:48 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v2 1/6] tracing, dma-buf: add a trace_dma_fence_sync_to
- event
-Message-ID: <Zc-jSH4BVrBrkj5d@phenom.ffwll.local>
-References: <20240117184329.479554-1-pierre-eric.pelloux-prayer@amd.com>
- <20240213155112.156537-1-pierre-eric.pelloux-prayer@amd.com>
- <20240213155112.156537-2-pierre-eric.pelloux-prayer@amd.com>
- <Zc-OJAXlApzcOfYQ@phenom.ffwll.local>
- <b719d7b9-8a9a-42ad-b35b-145d6a835964@amd.com>
+ p27-20020a056402501b00b00562d908daf4sm224163eda.84.2024.02.16.10.27.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Feb 2024 10:27:31 -0800 (PST)
+Message-ID: <9d9fcdeb-4d0c-4371-b871-ad1fb8055033@redhat.com>
+Date: Fri, 16 Feb 2024 19:27:29 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b719d7b9-8a9a-42ad-b35b-145d6a835964@amd.com>
-X-Operating-System: Linux phenom 6.6.11-amd64 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nouveau: fix function cast warnings
+To: Arnd Bergmann <arnd@kernel.org>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev
+References: <20240213095753.455062-1-arnd@kernel.org>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <20240213095753.455062-1-arnd@kernel.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,117 +103,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 16, 2024 at 05:51:59PM +0100, Christian König wrote:
-> Am 16.02.24 um 17:32 schrieb Daniel Vetter:
-> > On Tue, Feb 13, 2024 at 04:50:26PM +0100, Pierre-Eric Pelloux-Prayer wrote:
-> > > This new event can be used to trace where a given dma_fence is added
-> > > as a dependency of some other work.
-> > How?
-> > 
-> > What I'd expected here is that you add a dependency chain from one fence
-> > to another, but this only has one fence.
+On 2/13/24 10:57, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> That's what I though initially as well, but at the point we add the
-> dependency fences to the scheduler job we don't have the scheduler fence
-> initialized yet.
+> clang-16 warns about casting between incompatible function types:
 > 
-> We could change this so that we only trace all the fences after we have
-> initialized the scheduler fence, but then we loose the information where the
-> dependency comes from.
+> drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c:161:10: error: cast from 'void (*)(const struct firmware *)' to 'void (*)(void *)' converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+>    161 |         .fini = (void(*)(void *))release_firmware,
+> 
+> This one was done to use the generic shadow_fw_release() function as a
+> callback for struct nvbios_source. Change it to use the same prototype
+> as the other five instances, with a trivial helper function that actually
+> calls release_firmware.
+> 
+> Fixes: 70c0f263cc2e ("drm/nouveau/bios: pull in basic vbios subdev, more to come later")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Hm right, I thought we'd dump the hashed pointe value into the fence
-events too, then you could make the connection. But we don't, so this is a
-bit annoying ...
+Applied to drm-misc-fixes, thanks!
 
-And walking the entire scheduler dependency chain at trace_dma_fence_emit
-time (or something similar) maybe?
--Sima
+> ---
+>   drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c | 8 +++++++-
+>   1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
+> index 19188683c8fc..8c2bf1c16f2a 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
+> @@ -154,11 +154,17 @@ shadow_fw_init(struct nvkm_bios *bios, const char *name)
+>   	return (void *)fw;
+>   }
+>   
+> +static void
+> +shadow_fw_release(void *fw)
+> +{
+> +	release_firmware(fw);
+> +}
+> +
+>   static const struct nvbios_source
+>   shadow_fw = {
+>   	.name = "firmware",
+>   	.init = shadow_fw_init,
+> -	.fini = (void(*)(void *))release_firmware,
+> +	.fini = shadow_fw_release,
+>   	.read = shadow_fw_read,
+>   	.rw = false,
+>   };
 
-> > How do you figure out what's the
-> > next dma_fence that will stall on this dependency?
-> 
-> I'm not fully sure on that either. Pierre?
-> 
-> Christian.
-> 
-> 
-> >   Like in the gpu
-> > scheduler we do know what will be the fence that userspace gets back, so
-> > we can make that connection. And same for the atomic code (although you
-> > don't wire that up at all).
-> > 
-> > I'm very confused on how this works and rather worried it's a brittle
-> > amdgpu-only solution ...
-> > -Sima
-> > 
-> > > I plan to use it in amdgpu.
-> > > 
-> > > Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-> > > ---
-> > >   drivers/dma-buf/dma-fence.c      |  1 +
-> > >   include/trace/events/dma_fence.h | 34 ++++++++++++++++++++++++++++++++
-> > >   2 files changed, 35 insertions(+)
-> > > 
-> > > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> > > index e0fd99e61a2d..671a499a5ccd 100644
-> > > --- a/drivers/dma-buf/dma-fence.c
-> > > +++ b/drivers/dma-buf/dma-fence.c
-> > > @@ -23,6 +23,7 @@
-> > >   EXPORT_TRACEPOINT_SYMBOL(dma_fence_emit);
-> > >   EXPORT_TRACEPOINT_SYMBOL(dma_fence_enable_signal);
-> > >   EXPORT_TRACEPOINT_SYMBOL(dma_fence_signaled);
-> > > +EXPORT_TRACEPOINT_SYMBOL(dma_fence_sync_to);
-> > >   static DEFINE_SPINLOCK(dma_fence_stub_lock);
-> > >   static struct dma_fence dma_fence_stub;
-> > > diff --git a/include/trace/events/dma_fence.h b/include/trace/events/dma_fence.h
-> > > index 3963e79ca7b4..9b3875f7aa79 100644
-> > > --- a/include/trace/events/dma_fence.h
-> > > +++ b/include/trace/events/dma_fence.h
-> > > @@ -83,6 +83,40 @@ DEFINE_EVENT(dma_fence, dma_fence_wait_end,
-> > >   	TP_ARGS(fence)
-> > >   );
-> > > +DECLARE_EVENT_CLASS(dma_fence_from,
-> > > +
-> > > +	TP_PROTO(struct dma_fence *fence, const char *reason),
-> > > +
-> > > +	TP_ARGS(fence, reason),
-> > > +
-> > > +	TP_STRUCT__entry(
-> > > +		__string(driver, fence->ops->get_driver_name(fence))
-> > > +		__string(timeline, fence->ops->get_timeline_name(fence))
-> > > +		__field(unsigned int, context)
-> > > +		__field(unsigned int, seqno)
-> > > +		__string(reason, reason)
-> > > +	),
-> > > +
-> > > +	TP_fast_assign(
-> > > +		__assign_str(driver, fence->ops->get_driver_name(fence));
-> > > +		__assign_str(timeline, fence->ops->get_timeline_name(fence));
-> > > +		__entry->context = fence->context;
-> > > +		__entry->seqno = fence->seqno;
-> > > +		__assign_str(reason, reason);
-> > > +	),
-> > > +
-> > > +	TP_printk("driver=%s timeline=%s context=%u seqno=%u reason=%s",
-> > > +		  __get_str(driver), __get_str(timeline), __entry->context,
-> > > +		  __entry->seqno, __get_str(reason))
-> > > +);
-> > > +
-> > > +DEFINE_EVENT(dma_fence_from, dma_fence_sync_to,
-> > > +
-> > > +	TP_PROTO(struct dma_fence *fence, const char *reason),
-> > > +
-> > > +	TP_ARGS(fence, reason)
-> > > +);
-> > > +
-> > >   #endif /*  _TRACE_DMA_FENCE_H */
-> > >   /* This part must be outside protection */
-> > > -- 
-> > > 2.40.1
-> > > 
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
