@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7019185904E
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Feb 2024 16:03:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78E93859057
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Feb 2024 16:03:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04F8A10E27C;
-	Sat, 17 Feb 2024 15:03:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7302610E57D;
+	Sat, 17 Feb 2024 15:03:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OPPejr3i";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YYCrcRG2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3139110E213;
- Sat, 17 Feb 2024 15:03:05 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE21D10E35E;
+ Sat, 17 Feb 2024 15:03:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6708861440;
+ by sin.source.kernel.org (Postfix) with ESMTP id 3B865CE09F0;
  Sat, 17 Feb 2024 15:03:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A5D9C433A6;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D7A2C43394;
  Sat, 17 Feb 2024 15:03:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1708182183;
- bh=7NJQ8xLcC4Pw/NsMyFhL+x4rzV/sXkDltG7OfC8mrxE=;
+ bh=gXXEjah83df2mjIZE6PBMMf9QLss5RTOxJWznY2GGWw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OPPejr3iLm85A6MmkuPGuNxKa4BBDq8CYhN+l0KtRM9OD7ghOkDGHoPPEp8ffRASy
- XdJCp6RK8lS8pgXlDs1Hj5Xj9vFREwv0rv9cxi9CblKdvcPX50V+6bk+7meChV7gxV
- BGdsS44UNHKTl7J9O6w2HIrZNhFWVyiCbTBKK8eArhami/C6L8mZvn5uTQeLCIeqmH
- 09ykI0yrNAre727AXakVzgdElSudSpRnaXkjo7eznqZzajpBrvC1z5qsqfojO9EnpM
- IPow9UV6iG/nabuvgkoFtCJGXW0BtmctJjMHkiKMMJ/xOu1O+ls7EsYicfRiA5jfsG
- 8PDu0oWeigPgg==
+ b=YYCrcRG2Bd4HtdSjVhBFoyvNHGakjwLypXKacKIBHXJrLfhpQut/AO/LcBQ3Y0KjF
+ sPdXqHSXykK74eTVnJeNok7niPfXO0Czt/1YPR768rWKLabFR6u9U6X5zIoNHXtfCO
+ USZHcA9Rm8QSNKTbGnvdNY/kIjWyg4w+1ZXDETyizCJSpTAN1qQacxjTa7UDJF9A2O
+ msphIG/8uQP28WXSj7qoecFU1NmlhQEAP7CJjIeye7CoVAI4y/049aiTpZjWH59Xcd
+ XI5S8l0Qbk9Ya0xxP0z0xuzlJ6QUvVP0P3e4nAwJAmqIZ/HBGy+WfJdIV0A5NlROZa
+ yxMde5QWQVT1A==
 Received: from johan by xi.lan with local (Exim 4.97.1)
- (envelope-from <johan+linaro@kernel.org>) id 1rbMDW-000000001Vu-3Stp;
+ (envelope-from <johan+linaro@kernel.org>) id 1rbMDW-000000001Vw-3n8S;
  Sat, 17 Feb 2024 16:03:02 +0100
 From: Johan Hovold <johan+linaro@kernel.org>
 To: Bjorn Andersson <andersson@kernel.org>,
@@ -51,11 +51,11 @@ Cc: Jonas Karlman <jonas@kwiboo.se>,
  Kuogee Hsieh <quic_khsieh@quicinc.com>, freedreno@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- Rob Clark <robdclark@chromium.org>, stable@vger.kernel.org,
- Johan Hovold <johan+linaro@kernel.org>
-Subject: [PATCH 4/6] soc: qcom: pmic_glink: Fix boot when QRTR=m
-Date: Sat, 17 Feb 2024 16:02:26 +0100
-Message-ID: <20240217150228.5788-5-johan+linaro@kernel.org>
+ Johan Hovold <johan+linaro@kernel.org>, stable@vger.kernel.org,
+ Bjorn Andersson <quic_bjorande@quicinc.com>
+Subject: [PATCH 5/6] phy: qcom-qmp-combo: fix drm bridge registration
+Date: Sat, 17 Feb 2024 16:02:27 +0100
+Message-ID: <20240217150228.5788-6-johan+linaro@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240217150228.5788-1-johan+linaro@kernel.org>
 References: <20240217150228.5788-1-johan+linaro@kernel.org>
@@ -76,89 +76,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Due to a long-standing issue in driver core, drivers may not probe defer
+after having registered child devices to avoid triggering a probe
+deferral loop (see fbc35b45f9f6 ("Add documentation on meaning of
+-EPROBE_DEFER")).
 
-We need to bail out before adding/removing devices if we are going to
--EPROBE_DEFER. Otherwise boot can get stuck in a probe deferral loop due
-to a long-standing issue in driver core (see fbc35b45f9f6 ("Add
-documentation on meaning of -EPROBE_DEFER")).
+This could potentially also trigger a bug in the DRM bridge
+implementation which does not expect bridges to go away even if device
+links may avoid triggering this (when enabled).
 
-Deregistering the altmode child device can potentially also trigger bugs
-in the DRM bridge implementation, which does not expect bridges to go
-away.
+Move registration of the DRM aux bridge to after looking up clocks and
+other resources.
 
-Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Rob Clark <robdclark@chromium.org>
-Link: https://lore.kernel.org/r/20231213210644.8702-1-robdclark@gmail.com
-[ johan: rebase on 6.8-rc4, amend commit message and mention DRM ]
-Fixes: 58ef4ece1e41 ("soc: qcom: pmic_glink: Introduce base PMIC GLINK driver")
-Cc: stable@vger.kernel.org      # 6.3
-Cc: Bjorn Andersson <andersson@kernel.org>
+Note that PHY creation can in theory also trigger a probe deferral when
+a 'phy' supply is used. This does not seem to affect the QMP PHY driver
+but the PHY subsystem should be reworked to address this (i.e. by
+separating initialisation and registration of the PHY).
+
+Fixes: 35921910bbd0 ("phy: qcom: qmp-combo: switch to DRM_AUX_BRIDGE")
+Fixes: 1904c3f578dc ("phy: qcom-qmp-combo: Introduce drm_bridge")
+Cc: stable@vger.kernel.org      # 6.5
+Cc: Bjorn Andersson <quic_bjorande@quicinc.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 ---
- drivers/soc/qcom/pmic_glink.c | 21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
+ drivers/phy/qualcomm/phy-qcom-qmp-combo.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/soc/qcom/pmic_glink.c b/drivers/soc/qcom/pmic_glink.c
-index f4bfd24386f1..f913e9bd57ed 100644
---- a/drivers/soc/qcom/pmic_glink.c
-+++ b/drivers/soc/qcom/pmic_glink.c
-@@ -265,10 +265,17 @@ static int pmic_glink_probe(struct platform_device *pdev)
+diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
+index 1ad10110dd25..e19d6a084f10 100644
+--- a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
++++ b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
+@@ -3566,10 +3566,6 @@ static int qmp_combo_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
  
- 	pg->client_mask = *match_data;
- 
-+	pg->pdr = pdr_handle_alloc(pmic_glink_pdr_callback, pg);
-+	if (IS_ERR(pg->pdr)) {
-+		ret = dev_err_probe(&pdev->dev, PTR_ERR(pg->pdr),
-+				    "failed to initialize pdr\n");
-+		return ret;
-+	}
-+
- 	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_UCSI)) {
- 		ret = pmic_glink_add_aux_device(pg, &pg->ucsi_aux, "ucsi");
- 		if (ret)
--			return ret;
-+			goto out_release_pdr_handle;
- 	}
- 	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_ALTMODE)) {
- 		ret = pmic_glink_add_aux_device(pg, &pg->altmode_aux, "altmode");
-@@ -281,17 +288,11 @@ static int pmic_glink_probe(struct platform_device *pdev)
- 			goto out_release_altmode_aux;
- 	}
- 
--	pg->pdr = pdr_handle_alloc(pmic_glink_pdr_callback, pg);
--	if (IS_ERR(pg->pdr)) {
--		ret = dev_err_probe(&pdev->dev, PTR_ERR(pg->pdr), "failed to initialize pdr\n");
--		goto out_release_aux_devices;
--	}
+-	ret = drm_aux_bridge_register(dev);
+-	if (ret)
+-		return ret;
 -
- 	service = pdr_add_lookup(pg->pdr, "tms/servreg", "msm/adsp/charger_pd");
- 	if (IS_ERR(service)) {
- 		ret = dev_err_probe(&pdev->dev, PTR_ERR(service),
- 				    "failed adding pdr lookup for charger_pd\n");
--		goto out_release_pdr_handle;
-+		goto out_release_aux_devices;
- 	}
+ 	/* Check for legacy binding with child nodes. */
+ 	usb_np = of_get_child_by_name(dev->of_node, "usb3-phy");
+ 	if (usb_np) {
+@@ -3589,6 +3585,10 @@ static int qmp_combo_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto err_node_put;
  
- 	mutex_lock(&__pmic_glink_lock);
-@@ -300,8 +301,6 @@ static int pmic_glink_probe(struct platform_device *pdev)
- 
- 	return 0;
- 
--out_release_pdr_handle:
--	pdr_handle_release(pg->pdr);
- out_release_aux_devices:
- 	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_BATT))
- 		pmic_glink_del_aux_device(pg, &pg->ps_aux);
-@@ -311,6 +310,8 @@ static int pmic_glink_probe(struct platform_device *pdev)
- out_release_ucsi_aux:
- 	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_UCSI))
- 		pmic_glink_del_aux_device(pg, &pg->ucsi_aux);
-+out_release_pdr_handle:
-+	pdr_handle_release(pg->pdr);
- 
- 	return ret;
- }
++	ret = drm_aux_bridge_register(dev);
++	if (ret)
++		goto err_node_put;
++
+ 	pm_runtime_set_active(dev);
+ 	ret = devm_pm_runtime_enable(dev);
+ 	if (ret)
 -- 
 2.43.0
 
