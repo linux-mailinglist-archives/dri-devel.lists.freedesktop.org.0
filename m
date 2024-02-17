@@ -2,64 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD79F859065
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Feb 2024 16:13:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B19FC85906F
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Feb 2024 16:15:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8672810E2D8;
-	Sat, 17 Feb 2024 15:13:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5290810E2F5;
+	Sat, 17 Feb 2024 15:15:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="hwImWSyG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nE7HsySo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DB3610E2D8
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Feb 2024 15:13:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=s31663417; t=1708182784; x=1708787584; i=wahrenst@gmx.net;
- bh=QGuTKRj2N/lP5XJpmnq3PGjh1xg9yd5nqLJ2t63uGsw=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
- b=hwImWSyG99533J0EhThVkJyzF2VqniyG+4T+YDuzMBPMFZKe66pjS8RvXKuu+yqT
- gMK+zA2lGRwuZNmY5JLocc97OHj5BcQWG8qslh8JCpE39OID3khxrebYJ6yC1urYU
- d3FU/mXc7mrJ0SCP+T2dSk6TOzWIdH7b26L3CDUbBp9xK8XVAWfDyNqRkY3cE2Qy7
- SKPOTOcydPnWDW0ElBUFEJMklYpST9ac83zAq7YZKk+0uwfZuNpmdDPSqdojX7S1f
- YGDFFQfvMgEpkbiBhJ0MZs2QOXlY0P7r9KFs/8eoyY6KoL0OjoBl3OvVEpNQRFOqA
- 27R0PvsVJ54kagSCOw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MmDIo-1rArB42c0O-00iCKo; Sat, 17
- Feb 2024 16:07:46 +0100
-From: Stefan Wahren <wahrenst@gmx.net>
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, Dom Cobley <popcornmix@gmail.com>,
- Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH] drm/vc4: drv: Avoid possible NPD when booted without KMS
-Date: Sat, 17 Feb 2024 16:07:20 +0100
-Message-Id: <20240217150720.33257-1-wahrenst@gmx.net>
-X-Mailer: git-send-email 2.34.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6ECBC10E069;
+ Sat, 17 Feb 2024 15:14:59 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id D398C61281;
+ Sat, 17 Feb 2024 15:14:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E663C433F1;
+ Sat, 17 Feb 2024 15:14:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1708182898;
+ bh=TLjN2HulsLngOJVgAuYf4Pn7GqZqS3+GGjKKcBZ0KkM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=nE7HsySov90y/vHtMCfJXd23d7y6KBAtm1F4lITB4vg8MBRjnFV0snYu57pS04AHo
+ /4GtJZiH7KWwW1kKACjE3hCQSRcfwb9zXVHDpI9D753TxbzIaK4lhFJEtHxBG9n5Cs
+ zc5SamBHZXw6g1u5F2JyYpiKNIpsG/XcMtmnzbbiaXsAvHrHx1xsXxqGhXmv+soR+O
+ DNBUfMQUqod4rzw4eInf23Mt96swC3oHpbUFe0NtdiEwXmXh0vKjPofCQQYpgqhI33
+ lmJj0Mc8dg1t7sOVpEAJzbgnyeeIJ1dL8sGY9i04DZT1pGS/3sw8gjbjI7tLYyIGVx
+ 6b//0l8cHdAsQ==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+ (envelope-from <johan@kernel.org>) id 1rbMP4-000000001bL-1zG3;
+ Sat, 17 Feb 2024 16:14:58 +0100
+Date: Sat, 17 Feb 2024 16:14:58 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>,
+ quic_jesszhan@quicinc.com, quic_sbillaka@quicinc.com,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, regressions@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: drm/msm: DisplayPort regressions in 6.8-rc1
+Message-ID: <ZdDNcrf4KpflGeYQ@hovoldconsulting.com>
+References: <ZctVmLK4zTwcpW3A@hovoldconsulting.com>
+ <343710b1-f0f4-5c05-70e6-3c221cdc9580@quicinc.com>
+ <ZczFhVjHIm55JTfO@hovoldconsulting.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:DKi8TUNuA4L12xrwfFyBj7572a545/hxDT/r7151wrFJK+3T5Hv
- FU3TnIGkI+TYZM4fY1WzoLzt4zqbncRA7mrbTuCPcm5sFj7sIqB/O1IxtCAV4eEzaJieDt7
- 0Z3/6R7xnVPXdYnHVWZ3rfHZJSnJiBhlDOWzFqCVZjYTxQW+DT4eHgOOFtWva4a4BL78S9r
- a5QMRX9wSk1VRFf/5ELpg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:dE6o7e5FFDQ=;0HUdUCnXVVAIAm1UzLS5JpQB8gF
- a1U66GJHTa46Ci5aN0NhnqdVijNlP/Yz6ad7XhVV9JdjuuRK3joPWkvb/RH9KRGrderSWXkMY
- DTW8CdUH0M9yGLNEsENwhT6PEJDaud96n3UbCyvPV5JVZqTimnSiFT2yswnrMk8nCwnKOcEeD
- a6ojceyLaBr+oggeTg2ATkAaTd2GwoMUsG7qccwY2pl7cs5tUhsatnv0dEnxn4PlrgSdkg7NK
- vIFLNs8D+57jJfaxWebWzw10XJaLtYfy+LoEDKeZDRHdYcG+n1RQJuhbEmXR5Nxu9ph8C+uNF
- PJZ53ZBODKKOu9LGj8MoAmbV6ok2h32IIuGoFS9V9Hg6BTo6H7Fh1zDESzEiqsjFO+TysDPU2
- nQvvgDoGcEkIOI63Qp1GUn8pg6Ddn1qwjPxsF2vdOKODzMLzGIix4K0aME1P+KPi0zEvGq39N
- x6R/jZQ0GcSVu3Cc5vXh7vYd91XeF3YHhcc5WrqvPiDlnGINqJZA8YenLR6NXVOOUa9c+67vG
- 1zgyjc2ScSAhzk2rDnR5ZT/jZDgdKhyHisjSTNc/slUnL/u8uAQcXWvTKchXOVRRtrvEUzBxi
- O0XqYMgOUStdJ1nCEZe7ldYsq0qF6/ldREpqj70vOoI9Qyh5ZSvHTrulGBzmmK1LilYO8gXW4
- s7rMv0geBEMJDV/9Eo1ocA1O8sv8j0YndJ8cXLX7Ey8cGZg531UBo+cyAzSB/sWN4SQ3vNw5q
- ToBThjguOTLOjvDMlK+MiRDN55jAsPacHj7bJgL+WqExa7Zm6TDuJrHdGibMD2Wnr+9/Z2Yxd
- EoM1+yVHpuIyzvWd9WSk4ozqILGxZsmpQp1lchY6r0OUk=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZczFhVjHIm55JTfO@hovoldconsulting.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,34 +70,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dom Cobley <popcornmix@gmail.com>
+On Wed, Feb 14, 2024 at 02:52:06PM +0100, Johan Hovold wrote:
+> On Tue, Feb 13, 2024 at 10:00:13AM -0800, Abhinav Kumar wrote:
+> 
+> > I do agree that pm runtime eDP driver got merged that time but I think 
+> > the issue is either a combination of that along with DRM aux bridge 
+> > https://patchwork.freedesktop.org/series/122584/ OR just the latter as 
+> > even that went in around the same time.
+> 
+> Yes, indeed there was a lot of changes that went into the MSM drm driver
+> in 6.8-rc1 and since I have not tried to debug this myself I can't say
+> for sure which change or changes that triggered this regression (or
+> possibly regressions).
+> 
+> The fact that the USB-C/DP PHY appears to be involved
+> (/soc@0/phy@88eb000) could indeed point to the series you mentioned.
+> 
+> > Thats why perhaps this issue was not seen with the chromebooks we tested 
+> > on as they do not use pmic_glink (aux bridge).
+> > 
+> > So we will need to debug this on sc8280xp specifically or an equivalent 
+> > device which uses aux bridge.
+> 
+> I've hit the NULL-pointer deference three times now in the last few days
+> on the sc8280xp CRD. But since it doesn't trigger on every boot it seems
+> you need to go back to the series that could potentially have caused
+> this regression and review them again. There's clearly something quite
+> broken here.
 
-In case there is no matching KMS, the function vc4_match_add_driver
-won't change the match pointer which is initialized with NULL.
-Since component_master_add_with_match doesn't expected match
-to be a NULL pointer, this results into a NPD.
+Since Dmitry had trouble reproducing this issue I took a closer look at
+the DRM aux bridge series that Abhinav pointed and was able to track
+down the bridge regressions and come up with a reproducer. I just posted
+a series fixing this here:
 
-Fixes: c8b75bca92cb ("drm/vc4: Add KMS support for Raspberry Pi.")
-Signed-off-by: Dom Cobley <popcornmix@gmail.com>
-Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-=2D--
- drivers/gpu/drm/vc4/vc4_drv.c | 2 ++
- 1 file changed, 2 insertions(+)
+	https://lore.kernel.org/lkml/20240217150228.5788-1-johan+linaro@kernel.org/
 
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-index c133e96b8aca..4f17840df9d3 100644
-=2D-- a/drivers/gpu/drm/vc4/vc4_drv.c
-+++ b/drivers/gpu/drm/vc4/vc4_drv.c
-@@ -439,6 +439,8 @@ static int vc4_platform_drm_probe(struct platform_devi=
-ce *pdev)
+As I mentioned in the cover letter, I am still seeing intermittent hard
+resets around the time that the DRM subsystem is initialising, which
+suggests that we may be dealing with two separate DRM regressions here
+however.
 
- 	vc4_match_add_drivers(dev, &match,
- 			      component_drivers, ARRAY_SIZE(component_drivers));
-+	if (!match)
-+		return -ENODEV;
+If the hard resets are triggered by something like unclocked hardware,
+perhaps that bit could this be related to the runtime PM rework?
 
- 	return component_master_add_with_match(dev, &vc4_drm_ops, match);
- }
-=2D-
-2.34.1
-
+Johan
