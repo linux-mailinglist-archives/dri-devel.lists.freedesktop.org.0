@@ -2,76 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62C98858EE8
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Feb 2024 12:04:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 475A7858F1C
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Feb 2024 12:39:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E11B10E077;
-	Sat, 17 Feb 2024 11:04:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92F3D10E202;
+	Sat, 17 Feb 2024 11:39:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="Rs25/BLc";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tFTGe24g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5118010E0F6
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Feb 2024 11:04:26 +0000 (UTC)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41H4iBek028987; Sat, 17 Feb 2024 12:04:06 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- from:date:subject:mime-version:content-type
- :content-transfer-encoding:message-id:references:in-reply-to:to
- :cc; s=selector1; bh=RnhRbd/hclbstXd7Q3NPDVDNjfAippsXAKSovZiaCJg
- =; b=Rs25/BLctHvzsAXjDLDQ6PuOhH0RPprK6ImbHWKJB4ggXElnwrey2IMElUE
- DFZ2yxK5VKcduqooM2Bl0wcuslxrmT6r9M3yDfEa9Rnc/tvveM1iuLz0t1ZOpAH8
- 8AAhLeAxqL1RIL196lQhbZjy7hPeZIVA08yfc7rCGOMX0RTeL86ZWyYpsCM+gcZl
- K+xXCph+LtfXysAKv8Vg9lovwj9yQ4QQOdTOllJJnx/lXcItJCLTcmtFA5+DyQ7U
- AbX5P5RTubdacf3cn6XqESP6BBcWkfNA31N/VhjX14d2E/4tIhK595xCX+W2ppn/
- s3oK59BK7PDkRs1Bcw55C/u0SWQ==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3wamjh0tbx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 17 Feb 2024 12:04:05 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id C72F840046;
- Sat, 17 Feb 2024 12:03:58 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 8345F253B49;
- Sat, 17 Feb 2024 12:03:12 +0100 (CET)
-Received: from localhost (10.252.12.210) by SHFDAG1NODE2.st.com (10.75.129.70)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Sat, 17 Feb
- 2024 12:03:12 +0100
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-Date: Sat, 17 Feb 2024 12:02:58 +0100
-Subject: [PATCH v2 4/4] dt-bindings: display: simple: hardware can use
- several properties
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+ [209.85.208.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5882E10E27C
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Feb 2024 11:39:51 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id
+ 4fb4d7f45d1cf-563f675be29so1619595a12.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Feb 2024 03:39:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1708169989; x=1708774789; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=1C+Hkp9mF5Xdg3l0hgYcA9Z6irk/GvuEVb1RZfBg7lc=;
+ b=tFTGe24gkDePc5zek43Pc9VhMWAgs5NiumxIrtqkqfyJmrfjfIneXpnXOQ/Skpi4dM
+ mLylbYkGfsAGMzsSSYfR2QXQXWogej1CvD30IB20mkTkozJNKoQRbiqEMNoI/KQXdr/o
+ 2c3XumbR5rhaxkltwq7499aVeImgEXkY0IHJS/nxkL2elRSV+/oPHGqGfXujP6rUpAHn
+ CNrHFw/IzDooeF3sjtEaqR8fYi3AQMv7XRBhxciayZ7JGrPSizU+Vr1qltVD6PSVc/8v
+ G+LxVfWWoRGJ5PpsDTOsktpxIMahUWj9o9W1YNzp7JAPQB+4PYYYfRKPleo4AUJ++xLL
+ wqKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708169989; x=1708774789;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1C+Hkp9mF5Xdg3l0hgYcA9Z6irk/GvuEVb1RZfBg7lc=;
+ b=ryGiLQlTYjBdoF/lUtOMp/k7DB1aCD6ruhG5nwzW/UrIzraFexV2E5hOKl4tu3qk4K
+ jIerDGA8xCJ5Xwk47acr7qSo08dAwaSMS4TsDfbjhMgA22JfzVFAf4luRXp5rANItK2c
+ NopGArWQwBS0P6P9d7eXZhhNIXD3HpTqU2ev7DXZD6Q7qGi8YN6UbvZqA+SJ5r53tcfG
+ mcgsXfY3fOvcF2xKrKpO/qB7LTEAF6Q6emi3SE/40tON2i0S7VexW7NtL6NEPXHJ8jFH
+ W0uuLEtq50rdpPPPhDjLKAcPw53Gy+CUH81IiMrZqJdRQPLIe4DoTqlGmwVpywzokSDI
+ 4NNg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXxee6+2Me9Of/w2HZXjRHqTfiIxvfqiz2e0LB9fhBGEwVVt+6bH6N555SVBxIg6/GWLNvzFm5UyhErFASl7v4t49Im2ggvBshzsBd61Sgn
+X-Gm-Message-State: AOJu0YyB9YUQCYg7upHYWmItvhw4UPxrw+j8VFIysjP9U4hV2zMd4laS
+ VIKOMAL+fi+lhkhoXPktmgD33dTVWHiZASR6aPu/qjyQf9lO28eTzwMXuamzfVE=
+X-Google-Smtp-Source: AGHT+IHC8q9jk1V+NICBbpC1WNnMyrhtKdpmvofzMtMFylRK1DYfLGy8RvSLVqogHDYFEu79JIpj6g==
+X-Received: by 2002:aa7:d313:0:b0:564:2fbb:a869 with SMTP id
+ p19-20020aa7d313000000b005642fbba869mr524179edq.38.1708169989449; 
+ Sat, 17 Feb 2024 03:39:49 -0800 (PST)
+Received: from linaro.org ([188.24.162.93]) by smtp.gmail.com with ESMTPSA id
+ ek23-20020a056402371700b0055edfb81384sm803108edb.60.2024.02.17.03.39.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 17 Feb 2024 03:39:48 -0800 (PST)
+Date: Sat, 17 Feb 2024 13:39:46 +0200
+From: Abel Vesa <abel.vesa@linaro.org>
+To: Rob Herring <robh@kernel.org>
+Cc: Sean Paul <sean@poorly.run>, Maxime Ripard <mripard@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ David Airlie <airlied@gmail.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Rob Clark <robdclark@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v3 2/4] dt-bindings: display/msm: Document MDSS on X1E80100
+Message-ID: <ZdCbAjnga8HCMdYf@linaro.org>
+References: <20240216-x1e80100-display-v3-0-28b1c33ac8c0@linaro.org>
+ <20240216-x1e80100-display-v3-2-28b1c33ac8c0@linaro.org>
+ <170810832158.3497594.1997532394027797497.robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20240217-ltdc_mp13-v2-4-50881f1b394e@foss.st.com>
-References: <20240217-ltdc_mp13-v2-0-50881f1b394e@foss.st.com>
-In-Reply-To: <20240217-ltdc_mp13-v2-0-50881f1b394e@foss.st.com>
-To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-CC: <devicetree@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>, 
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, Raphael Gallais-Pou
- <raphael.gallais-pou@foss.st.com>
-X-Mailer: b4 0.12.4
-X-Originating-IP: [10.252.12.210]
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-17_07,2024-02-16_01,2023-05-22_02
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <170810832158.3497594.1997532394027797497.robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,35 +95,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Setting a panel-timing in the device-tree overwrite the one specified in
-the driver and set it as preferred.  In that case 'height-mm',
-'width-mm' and 'panel-timing' are properties that can be use for simple
-panels, according to panel-common.yaml
+On 24-02-16 12:32:02, Rob Herring wrote:
+> 
+> On Fri, 16 Feb 2024 19:01:06 +0200, Abel Vesa wrote:
+> > Document the MDSS hardware found on the Qualcomm X1E80100 platform.
+> > 
+> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+> > ---
+> >  .../bindings/display/msm/qcom,x1e80100-mdss.yaml   | 253 +++++++++++++++++++++
+> >  1 file changed, 253 insertions(+)
+> > 
+> 
+> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+> 
+> yamllint warnings/errors:
+> 
+> dtschema/dtc warnings/errors:
+> Documentation/devicetree/bindings/display/msm/qcom,x1e80100-mdss.example.dts:24:18: fatal error: dt-bindings/clock/qcom,x1e80100-dispcc.h: No such file or directory
+>    24 |         #include <dt-bindings/clock/qcom,x1e80100-dispcc.h>
+>       |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> compilation terminated.
+> make[2]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/display/msm/qcom,x1e80100-mdss.example.dtb] Error 1
+> make[2]: *** Waiting for unfinished jobs....
+> make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1428: dt_binding_check] Error 2
+> make: *** [Makefile:240: __sub-make] Error 2
+> 
 
-Fixes following warnings:
-arch/arm/boot/dts/st/stm32mp135f-dk.dtb: panel-rgb: 'height-mm', 'panel-timing', 'width-mm' do not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/display/panel/panel-simple.yaml#
+These bindings headers are already in -next.
 
-Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
----
- Documentation/devicetree/bindings/display/panel/panel-simple.yaml | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index 634a10c6f2dd..c02cbbc7a100 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -352,6 +352,9 @@ properties:
-   no-hpd: true
-   hpd-gpios: true
-   data-mapping: true
-+  height-mm: true
-+  width-mm: true
-+  panel-timing: true
- 
- if:
-   not:
-
--- 
-2.25.1
-
+> doc reference errors (make refcheckdocs):
+> 
+> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240216-x1e80100-display-v3-2-28b1c33ac8c0@linaro.org
+> 
+> The base for the series is generally the latest rc1. A different dependency
+> should be noted in *this* patch.
+> 
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure 'yamllint' is installed and dt-schema is up to
+> date:
+> 
+> pip3 install dtschema --upgrade
+> 
+> Please check and re-submit after running the above command yourself. Note
+> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+> your schema. However, it must be unset to test all examples with your schema.
+> 
