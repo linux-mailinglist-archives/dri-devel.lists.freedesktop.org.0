@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECCFD859051
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Feb 2024 16:03:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7019185904E
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Feb 2024 16:03:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 156C410E412;
-	Sat, 17 Feb 2024 15:03:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04F8A10E27C;
+	Sat, 17 Feb 2024 15:03:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bsxF0O0z";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OPPejr3i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23B3C10E388;
- Sat, 17 Feb 2024 15:03:07 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3139110E213;
+ Sat, 17 Feb 2024 15:03:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id CEEDCCE09EE;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6708861440;
+ Sat, 17 Feb 2024 15:03:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A5D9C433A6;
  Sat, 17 Feb 2024 15:03:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02076C433C7;
- Sat, 17 Feb 2024 15:03:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1708182183;
- bh=7qfwQMTk/6XmuQTgWrrAU6QDNKvMnI+7NUmGueoQmuc=;
+ bh=7NJQ8xLcC4Pw/NsMyFhL+x4rzV/sXkDltG7OfC8mrxE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=bsxF0O0zWvPp505t1lswvS1c07/vMyEj6NoWQGyVmOanlWHTgZy+BXheaA1LpqFsK
- 0EOGVlB6+Di9XgzmDKXGhgICuKHjiyS6StSQM/iKM/sGiYqjrPqy58nroPER5ekRMJ
- ukkP8NVixapjyuC4ugenR6sCoqfLLmhTDNOMMn9M1VDKUa4mcZi8ihmX+5Y1opV6Ik
- cAlY6KX71aBxy8Juy5Al0MNjz9km7CAkvJjYa8BHjMsEVAAPe66JRSkhhApIMwI48C
- RfvbdwgLwUXJfb++tbEMIfG0AHo6XVwD7DgIkjQTI9ERYmkSr4oXtVy7IP2V8shnfc
- yxVs5lHpLMx5Q==
+ b=OPPejr3iLm85A6MmkuPGuNxKa4BBDq8CYhN+l0KtRM9OD7ghOkDGHoPPEp8ffRASy
+ XdJCp6RK8lS8pgXlDs1Hj5Xj9vFREwv0rv9cxi9CblKdvcPX50V+6bk+7meChV7gxV
+ BGdsS44UNHKTl7J9O6w2HIrZNhFWVyiCbTBKK8eArhami/C6L8mZvn5uTQeLCIeqmH
+ 09ykI0yrNAre727AXakVzgdElSudSpRnaXkjo7eznqZzajpBrvC1z5qsqfojO9EnpM
+ IPow9UV6iG/nabuvgkoFtCJGXW0BtmctJjMHkiKMMJ/xOu1O+ls7EsYicfRiA5jfsG
+ 8PDu0oWeigPgg==
 Received: from johan by xi.lan with local (Exim 4.97.1)
- (envelope-from <johan+linaro@kernel.org>) id 1rbMDW-000000001Vs-35SB;
+ (envelope-from <johan+linaro@kernel.org>) id 1rbMDW-000000001Vu-3Stp;
  Sat, 17 Feb 2024 16:03:02 +0100
 From: Johan Hovold <johan+linaro@kernel.org>
 To: Bjorn Andersson <andersson@kernel.org>,
@@ -51,11 +51,11 @@ Cc: Jonas Karlman <jonas@kwiboo.se>,
  Kuogee Hsieh <quic_khsieh@quicinc.com>, freedreno@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- Johan Hovold <johan+linaro@kernel.org>, stable@vger.kernel.org
-Subject: [PATCH 3/6] soc: qcom: pmic_glink_altmode: fix drm bridge
- use-after-free
-Date: Sat, 17 Feb 2024 16:02:25 +0100
-Message-ID: <20240217150228.5788-4-johan+linaro@kernel.org>
+ Rob Clark <robdclark@chromium.org>, stable@vger.kernel.org,
+ Johan Hovold <johan+linaro@kernel.org>
+Subject: [PATCH 4/6] soc: qcom: pmic_glink: Fix boot when QRTR=m
+Date: Sat, 17 Feb 2024 16:02:26 +0100
+Message-ID: <20240217150228.5788-5-johan+linaro@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240217150228.5788-1-johan+linaro@kernel.org>
 References: <20240217150228.5788-1-johan+linaro@kernel.org>
@@ -76,111 +76,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A recent DRM series purporting to simplify support for "transparent
-bridges" and handling of probe deferrals ironically exposed a
-use-after-free issue on pmic_glink_altmode probe deferral.
+From: Rob Clark <robdclark@chromium.org>
 
-This has manifested itself as the display subsystem occasionally failing
-to initialise and NULL-pointer dereferences during boot of machines like
-the Lenovo ThinkPad X13s.
+We need to bail out before adding/removing devices if we are going to
+-EPROBE_DEFER. Otherwise boot can get stuck in a probe deferral loop due
+to a long-standing issue in driver core (see fbc35b45f9f6 ("Add
+documentation on meaning of -EPROBE_DEFER")).
 
-Specifically, the dp-hpd bridge is currently registered before all
-resources have been acquired which means that it can also be
-deregistered on probe deferrals.
+Deregistering the altmode child device can potentially also trigger bugs
+in the DRM bridge implementation, which does not expect bridges to go
+away.
 
-In the meantime there is a race window where the new aux bridge driver
-(or PHY driver previously) may have looked up the dp-hpd bridge and
-stored a (non-reference-counted) pointer to the bridge which is about to
-be deallocated.
-
-When the display controller is later initialised, this triggers a
-use-after-free when attaching the bridges:
-
-	dp -> aux -> dp-hpd (freed)
-
-which may, for example, result in the freed bridge failing to attach:
-
-	[drm:drm_bridge_attach [drm]] *ERROR* failed to attach bridge /soc@0/phy@88eb000 to encoder TMDS-31: -16
-
-or a NULL-pointer dereference:
-
-	Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
-	...
-	Call trace:
-	  drm_bridge_attach+0x70/0x1a8 [drm]
-	  drm_aux_bridge_attach+0x24/0x38 [aux_bridge]
-	  drm_bridge_attach+0x80/0x1a8 [drm]
-	  dp_bridge_init+0xa8/0x15c [msm]
-	  msm_dp_modeset_init+0x28/0xc4 [msm]
-
-The DRM bridge implementation is clearly fragile and implicitly built on
-the assumption that bridges may never go away. In this case, the fix is
-to move the bridge registration in the pmic_glink_altmode driver to
-after all resources have been looked up.
-
-Incidentally, with the new dp-hpd bridge implementation, which registers
-child devices, this is also a requirement due to a long-standing issue
-in driver core that can otherwise lead to a probe deferral loop (see
-fbc35b45f9f6 ("Add documentation on meaning of -EPROBE_DEFER")).
-
-Fixes: 080b4e24852b ("soc: qcom: pmic_glink: Introduce altmode support")
-Fixes: 2bcca96abfbf ("soc: qcom: pmic-glink: switch to DRM_AUX_HPD_BRIDGE")
+Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+Link: https://lore.kernel.org/r/20231213210644.8702-1-robdclark@gmail.com
+[ johan: rebase on 6.8-rc4, amend commit message and mention DRM ]
+Fixes: 58ef4ece1e41 ("soc: qcom: pmic_glink: Introduce base PMIC GLINK driver")
 Cc: stable@vger.kernel.org      # 6.3
 Cc: Bjorn Andersson <andersson@kernel.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 ---
- drivers/soc/qcom/pmic_glink_altmode.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+ drivers/soc/qcom/pmic_glink.c | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/soc/qcom/pmic_glink_altmode.c b/drivers/soc/qcom/pmic_glink_altmode.c
-index 5fcd0fdd2faa..b3808fc24c69 100644
---- a/drivers/soc/qcom/pmic_glink_altmode.c
-+++ b/drivers/soc/qcom/pmic_glink_altmode.c
-@@ -76,7 +76,7 @@ struct pmic_glink_altmode_port {
+diff --git a/drivers/soc/qcom/pmic_glink.c b/drivers/soc/qcom/pmic_glink.c
+index f4bfd24386f1..f913e9bd57ed 100644
+--- a/drivers/soc/qcom/pmic_glink.c
++++ b/drivers/soc/qcom/pmic_glink.c
+@@ -265,10 +265,17 @@ static int pmic_glink_probe(struct platform_device *pdev)
  
- 	struct work_struct work;
+ 	pg->client_mask = *match_data;
  
--	struct device *bridge;
-+	struct auxiliary_device *bridge;
- 
- 	enum typec_orientation orientation;
- 	u16 svid;
-@@ -230,7 +230,7 @@ static void pmic_glink_altmode_worker(struct work_struct *work)
- 	else
- 		pmic_glink_altmode_enable_usb(altmode, alt_port);
- 
--	drm_aux_hpd_bridge_notify(alt_port->bridge,
-+	drm_aux_hpd_bridge_notify(&alt_port->bridge->dev,
- 				  alt_port->hpd_state ?
- 				  connector_status_connected :
- 				  connector_status_disconnected);
-@@ -454,7 +454,7 @@ static int pmic_glink_altmode_probe(struct auxiliary_device *adev,
- 		alt_port->index = port;
- 		INIT_WORK(&alt_port->work, pmic_glink_altmode_worker);
- 
--		alt_port->bridge = drm_dp_hpd_bridge_register(dev, to_of_node(fwnode));
-+		alt_port->bridge = devm_drm_dp_hpd_bridge_alloc(dev, to_of_node(fwnode));
- 		if (IS_ERR(alt_port->bridge)) {
- 			fwnode_handle_put(fwnode);
- 			return PTR_ERR(alt_port->bridge);
-@@ -510,6 +510,16 @@ static int pmic_glink_altmode_probe(struct auxiliary_device *adev,
- 		}
- 	}
- 
-+	for (port = 0; port < ARRAY_SIZE(altmode->ports); port++) {
-+		alt_port = &altmode->ports[port];
-+		if (!alt_port->bridge)
-+			continue;
-+
-+		ret = devm_drm_dp_hpd_bridge_add(dev, alt_port->bridge);
-+		if (ret)
-+			return ret;
++	pg->pdr = pdr_handle_alloc(pmic_glink_pdr_callback, pg);
++	if (IS_ERR(pg->pdr)) {
++		ret = dev_err_probe(&pdev->dev, PTR_ERR(pg->pdr),
++				    "failed to initialize pdr\n");
++		return ret;
 +	}
 +
- 	altmode->client = devm_pmic_glink_register_client(dev,
- 							  altmode->owner_id,
- 							  pmic_glink_altmode_callback,
+ 	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_UCSI)) {
+ 		ret = pmic_glink_add_aux_device(pg, &pg->ucsi_aux, "ucsi");
+ 		if (ret)
+-			return ret;
++			goto out_release_pdr_handle;
+ 	}
+ 	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_ALTMODE)) {
+ 		ret = pmic_glink_add_aux_device(pg, &pg->altmode_aux, "altmode");
+@@ -281,17 +288,11 @@ static int pmic_glink_probe(struct platform_device *pdev)
+ 			goto out_release_altmode_aux;
+ 	}
+ 
+-	pg->pdr = pdr_handle_alloc(pmic_glink_pdr_callback, pg);
+-	if (IS_ERR(pg->pdr)) {
+-		ret = dev_err_probe(&pdev->dev, PTR_ERR(pg->pdr), "failed to initialize pdr\n");
+-		goto out_release_aux_devices;
+-	}
+-
+ 	service = pdr_add_lookup(pg->pdr, "tms/servreg", "msm/adsp/charger_pd");
+ 	if (IS_ERR(service)) {
+ 		ret = dev_err_probe(&pdev->dev, PTR_ERR(service),
+ 				    "failed adding pdr lookup for charger_pd\n");
+-		goto out_release_pdr_handle;
++		goto out_release_aux_devices;
+ 	}
+ 
+ 	mutex_lock(&__pmic_glink_lock);
+@@ -300,8 +301,6 @@ static int pmic_glink_probe(struct platform_device *pdev)
+ 
+ 	return 0;
+ 
+-out_release_pdr_handle:
+-	pdr_handle_release(pg->pdr);
+ out_release_aux_devices:
+ 	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_BATT))
+ 		pmic_glink_del_aux_device(pg, &pg->ps_aux);
+@@ -311,6 +310,8 @@ static int pmic_glink_probe(struct platform_device *pdev)
+ out_release_ucsi_aux:
+ 	if (pg->client_mask & BIT(PMIC_GLINK_CLIENT_UCSI))
+ 		pmic_glink_del_aux_device(pg, &pg->ucsi_aux);
++out_release_pdr_handle:
++	pdr_handle_release(pg->pdr);
+ 
+ 	return ret;
+ }
 -- 
 2.43.0
 
