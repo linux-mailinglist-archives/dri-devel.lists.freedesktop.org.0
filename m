@@ -2,70 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66D72858D5D
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Feb 2024 06:37:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35C42858E2C
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Feb 2024 09:57:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4321910E39E;
-	Sat, 17 Feb 2024 05:37:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 067C910E69A;
+	Sat, 17 Feb 2024 08:57:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YYUHNDGE";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jLDIylYr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0413B10E0C8;
- Sat, 17 Feb 2024 05:37:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708148243; x=1739684243;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=UcrjHHCLf48qRWhBN9fennqcYtTDrQyju80s0KOzzEY=;
- b=YYUHNDGECr/FDeuFIdAWvHXLF6JP15TtTkCGBGQo/e4Ug6iXuBJ35gq0
- C8MBOog7SnV/JXlox3u7YixpMfrlIi8KQK/V4wsr5EMAxaThwVIaZOWo3
- /H0v9yk4ugsJExJyYX7GkLD6qzICUlpL0w9rfs9bGQ2qORNio53rhJk4B
- g6gB2ZQn+LEVpMNUTRJhKdOVZbOboaH/CbdAA0rLCiUDhkTek3G3MRfb6
- 6cfaH5QyOps6MTLcPIBlxG6xeRfFJ96hH6xXdZTXN46cX5WXfL//rZul3
- E/GOblrAhbqc4GZ2krG/yIcgabiiF1B7HVIynFXflHyFCSBCqlGhWrUEH A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="19710479"
-X-IronPort-AV: E=Sophos;i="6.06,165,1705392000"; d="scan'208";a="19710479"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2024 21:37:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,165,1705392000"; 
-   d="scan'208";a="4072629"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
- by orviesa010.jf.intel.com with ESMTP; 16 Feb 2024 21:37:16 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rbDNt-0001sK-1G;
- Sat, 17 Feb 2024 05:37:11 +0000
-Date: Sat, 17 Feb 2024 13:36:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Hans de Goede <hdegoede@redhat.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
- Necip Fazil Yildiran <fazilyildiran@gmail.com>,
- oe-kbuild-all@lists.linux.dev, amd-gfx@lists.freedesktop.org,
- "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
- linux-fbdev@vger.kernel.org, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org,
- platform-driver-x86@vger.kernel.org, intel-xe@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org,
- "open list:ACPI" <linux-acpi@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, Melissa Wen <mwen@igalia.com>,
- Mark Pearson <mpearson-lenovo@squebb.ca>,
- Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v6 1/5] drm: Stop using `select ACPI_VIDEO` in all drivers
-Message-ID: <202402171302.HKl1Cpkb-lkp@intel.com>
-References: <20240214215756.6530-2-mario.limonciello@amd.com>
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com
+ [209.85.128.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B21910E68E
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Feb 2024 08:56:59 +0000 (UTC)
+Received: by mail-yw1-f180.google.com with SMTP id
+ 00721157ae682-608170eb5efso1100117b3.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Feb 2024 00:56:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1708160218; x=1708765018; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=RUEfzjoew9j+QLs5DN2Fo+ki26fkaj9Og/wwuf6tOns=;
+ b=jLDIylYrmS7O36xR/hJAsisENWoz3MOoB8aeozeol7tXpkQm9IW8Z18plZNSXxc5gi
+ v2WmtrbC4Ys+TGrf34w+xjZ6Y3BDshXf37VTMAHI8AJz9ae3V44WtRAYk1mvRfHqJqlg
+ +/x8VWORaQj25SaKZ+4oxQhsgh+kk7IeGSurP+bCh3jDgUmfcSOzh71pNAgqJJtJdxN1
+ wmH8+rrSm5LPQVfNNFAJTSM74d2BR0bhm7O5d5M/72NWtqyuc/5aBhegtwTK2P8yPX/9
+ I5gbiH9/C62Mvb2mP2Pwv7XhVYrDjALRwL7PZj3VzYl9cm3vfecK4wDx2IOzVcqGDhB8
+ uc7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708160218; x=1708765018;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=RUEfzjoew9j+QLs5DN2Fo+ki26fkaj9Og/wwuf6tOns=;
+ b=GULsGnWE1P8uFkoGlZ9pVwhwgjaVpZvypt/N3RA6l/7BRP+GtQfpCA+T/FqIAz1Hd2
+ pSqVTfmMxQkaMGC52UH6FKKgQB1zJ8hGooCQB2Gk37U0googRn5fUfzLiLZWUK2cwNWF
+ 8YMnfSA3bajza1ifNfHh8G6hv5jkZbwTE9fFn2EMClFZl1GD1vAnWJXkIQqQHj3dXTLz
+ /3HJGOO/M/Xe0QgZ62/llsWwAJkMjut3MW8zduvaPWSMW6lgtrIwxn5KLPHxjKCnKWBj
+ IaQNcSxW6/O6y1F1U4PyjHwEp52JpZD8n39PGKNLhPwtYGYUyNUxhXS9nKd89ctyO0R2
+ wbRg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU9V2+Cd+p0yVD4X64lESwJC924GERFaY2Ng4ugsNo3xr2EakVYyp1x+WGxgunQ8OVYcFfmNRphaUQl1Eflr/Y+S2av6LaaVwOTtCr1KqUz
+X-Gm-Message-State: AOJu0YxWjRzglvXWF+AWsiVbE7f8pj9CFQQHMCXUc21Hik8aRG6UW1qO
+ enEzNI+iMszPyMfD2N7H6IbC0P4Z8CcqP5kU76y6pUqnQgo/mFJgoRki+hN3jyE4VDVZcDuaakW
+ lMeOPe0mumHY5C2kRJ/23+69SzsdV4cBmv7FOdQ==
+X-Google-Smtp-Source: AGHT+IFerLn7GLlc3VOTSIvWnsCD6LuQEAoqpzxWLTMZrPS7z58TSphiolDLjdJf80miHTuyaRcphS8gR1GQK/QsW/8=
+X-Received: by 2002:a81:6c8b:0:b0:608:a11:2d25 with SMTP id
+ h133-20020a816c8b000000b006080a112d25mr2150392ywc.41.1708160217854; Sat, 17
+ Feb 2024 00:56:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240214215756.6530-2-mario.limonciello@amd.com>
+References: <20240216230228.26713-1-quic_parellan@quicinc.com>
+ <20240216230228.26713-14-quic_parellan@quicinc.com>
+In-Reply-To: <20240216230228.26713-14-quic_parellan@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sat, 17 Feb 2024 10:56:46 +0200
+Message-ID: <CAA8EJppO4FcJJex8mBbPoDyUbkn4zFvDFR0h3sOY75Qth15Rng@mail.gmail.com>
+Subject: Re: [PATCH v4 13/19] drm/msm/dp: add VSC SDP support for YUV420 over
+ DP
+To: Paloma Arellano <quic_parellan@quicinc.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, robdclark@gmail.com, seanpaul@chromium.org, 
+ swboyd@chromium.org, quic_abhinavk@quicinc.com, quic_jesszhan@quicinc.com, 
+ quic_khsieh@quicinc.com, marijn.suijten@somainline.org, 
+ neil.armstrong@linaro.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,131 +82,468 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mario,
+On Sat, 17 Feb 2024 at 01:03, Paloma Arellano <quic_parellan@quicinc.com> wrote:
+>
+> Add support to pack and send the VSC SDP packet for DP. This therefore
+> allows the transmision of format information to the sinks which is
+> needed for YUV420 support over DP.
+>
+> Changes in v4:
+>         - Remove struct msm_dp_sdp_with_parity
+>         - Use dp_utils_pack_sdp_header() to pack the SDP header and
+>           parity bytes into a buffer
+>         - Use this buffer when writing the VSC SDP data in
+>           dp_catalog_panel_send_vsc_sdp()
+>         - Write to all of the MMSS_DP_GENERIC0 registers instead of just
+>           the ones with non-zero values
+>
+> Changes in v3:
+>         - Create a new struct, msm_dp_sdp_with_parity, which holds the
+>           packing information for VSC SDP
+>         - Use drm_dp_vsc_sdp_pack() to pack the data into the new
+>           msm_dp_sdp_with_parity struct instead of specifically packing
+>           for YUV420 format
+>         - Modify dp_catalog_panel_send_vsc_sdp() to send the VSC SDP
+>           data using the new msm_dp_sdp_with_parity struct
+>
+> Changes in v2:
+>         - Rename GENERIC0_SDPSIZE macro to GENERIC0_SDPSIZE_VALID
+>         - Remove dp_sdp from the dp_catalog struct since this data is
+>           being allocated at the point used
+>         - Create a new function in dp_utils to pack the VSC SDP data
+>           into a buffer
+>         - Create a new function that packs the SDP header bytes into a
+>           buffer. This function is made generic so that it can be
+>           utilized by dp_audio
+>           header bytes into a buffer
+>         - Create a new function in dp_utils that takes the packed buffer
+>           and writes to the DP_GENERIC0_* registers
+>         - Split the dp_catalog_panel_config_vsc_sdp() function into two
+>           to disable/enable sending VSC SDP packets
+>         - Check the DP HW version using the original useage of
+>           dp_catalog_hw_revision() and correct the version checking
+>           logic
+>         - Rename dp_panel_setup_vsc_sdp() to
+>           dp_panel_setup_vsc_sdp_yuv_420() to explicitly state that
+>           currently VSC SDP is only being set up to support YUV420 modes
+>
+> Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_catalog.c | 107 ++++++++++++++++++++++++++++
+>  drivers/gpu/drm/msm/dp/dp_catalog.h |   7 ++
+>  drivers/gpu/drm/msm/dp/dp_ctrl.c    |   4 ++
+>  drivers/gpu/drm/msm/dp/dp_panel.c   |  55 ++++++++++++++
+>  drivers/gpu/drm/msm/dp/dp_reg.h     |   3 +
+>  drivers/gpu/drm/msm/dp/dp_utils.c   |  56 +++++++++++++++
+>  drivers/gpu/drm/msm/dp/dp_utils.h   |   4 ++
+>  7 files changed, 236 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> index 5d84c089e520a..c6e57812a239e 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> @@ -901,6 +901,113 @@ int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog)
+>         return 0;
+>  }
+>
+> +static void dp_catalog_panel_send_vsc_sdp(struct dp_catalog *dp_catalog, struct dp_sdp *vsc_sdp,
+> +                                         u32 *header)
+> +{
+> +       struct dp_catalog_private *catalog;
+> +       u32 val;
+> +       int i;
+> +
+> +       if (!dp_catalog) {
+> +               DRM_ERROR("invalid input\n");
+> +               return;
+> +       }
 
-kernel test robot noticed the following build warnings:
+We are two or three levels deep in the dp_catalog. Do we really need
+to check that dp_catalog is not NULL?
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.8-rc4 next-20240216]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Side note: I think we should drop most of such checks. They add
+nothing, just clobber the code.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/drm-Stop-using-select-ACPI_VIDEO-in-all-drivers/20240215-055936
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240214215756.6530-2-mario.limonciello%40amd.com
-patch subject: [PATCH v6 1/5] drm: Stop using `select ACPI_VIDEO` in all drivers
-config: alpha-kismet-CONFIG_FB_BACKLIGHT-CONFIG_FB_TFT-0-0 (https://download.01.org/0day-ci/archive/20240217/202402171302.HKl1Cpkb-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240217/202402171302.HKl1Cpkb-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402171302.HKl1Cpkb-lkp@intel.com/
+> +       catalog = container_of(dp_catalog, struct dp_catalog_private, dp_catalog);
+> +
+> +       dp_write_link(catalog, MMSS_DP_GENERIC0_0, header[0]);
+> +       dp_write_link(catalog, MMSS_DP_GENERIC0_1, header[1]);
+> +
+> +       for (i = 0; i < sizeof(vsc_sdp->db); i += 4) {
+> +               val = ((vsc_sdp->db[i]) | (vsc_sdp->db[i + 1] << 8) | (vsc_sdp->db[i + 2] << 16) |
+> +                      (vsc_sdp->db[i + 3] << 24));
+> +               dp_write_link(catalog, MMSS_DP_GENERIC0_2 + i, val);
+> +       }
+> +}
+> +
+> +static void dp_catalog_panel_update_sdp(struct dp_catalog *dp_catalog)
+> +{
+> +       struct dp_catalog_private *catalog;
+> +       u32 hw_revision;
+> +
+> +       catalog = container_of(dp_catalog, struct dp_catalog_private, dp_catalog);
+> +
+> +       hw_revision = dp_catalog_hw_revision(dp_catalog);
+> +       if (hw_revision < DP_HW_VERSION_1_2 && hw_revision >= DP_HW_VERSION_1_0) {
+> +               dp_write_link(catalog, MMSS_DP_SDP_CFG3, 0x01);
+> +               dp_write_link(catalog, MMSS_DP_SDP_CFG3, 0x00);
+> +       }
+> +}
+> +
+> +void dp_catalog_panel_enable_vsc_sdp(struct dp_catalog *dp_catalog, struct dp_sdp *vsc_sdp,
+> +                                    u32 *header)
+> +{
+> +       struct dp_catalog_private *catalog;
+> +       u32 cfg, cfg2, misc;
+> +
+> +       if (!dp_catalog) {
+> +               DRM_ERROR("invalid input\n");
+> +               return;
+> +       }
+> +
+> +       catalog = container_of(dp_catalog, struct dp_catalog_private, dp_catalog);
+> +
+> +       cfg = dp_read_link(catalog, MMSS_DP_SDP_CFG);
+> +       cfg2 = dp_read_link(catalog, MMSS_DP_SDP_CFG2);
+> +       misc = dp_read_link(catalog, REG_DP_MISC1_MISC0);
+> +
+> +       cfg |= GEN0_SDP_EN;
+> +       dp_write_link(catalog, MMSS_DP_SDP_CFG, cfg);
+> +
+> +       cfg2 |= GENERIC0_SDPSIZE_VALID;
+> +       dp_write_link(catalog, MMSS_DP_SDP_CFG2, cfg2);
+> +
+> +       dp_catalog_panel_send_vsc_sdp(dp_catalog, vsc_sdp, header);
+> +
+> +       /* indicates presence of VSC (BIT(6) of MISC1) */
+> +       misc |= DP_MISC1_VSC_SDP;
+> +
+> +       drm_dbg_dp(catalog->drm_dev, "vsc sdp enable=1\n");
+> +
+> +       pr_debug("misc settings = 0x%x\n", misc);
+> +       dp_write_link(catalog, REG_DP_MISC1_MISC0, misc);
+> +
+> +       dp_catalog_panel_update_sdp(dp_catalog);
+> +}
+> +
+> +void dp_catalog_panel_disable_vsc_sdp(struct dp_catalog *dp_catalog)
+> +{
+> +       struct dp_catalog_private *catalog;
+> +       u32 cfg, cfg2, misc;
+> +
+> +       if (!dp_catalog) {
+> +               DRM_ERROR("invalid input\n");
+> +               return;
+> +       }
+> +
+> +       catalog = container_of(dp_catalog, struct dp_catalog_private, dp_catalog);
+> +
+> +       cfg = dp_read_link(catalog, MMSS_DP_SDP_CFG);
+> +       cfg2 = dp_read_link(catalog, MMSS_DP_SDP_CFG2);
+> +       misc = dp_read_link(catalog, REG_DP_MISC1_MISC0);
+> +
+> +       cfg &= ~GEN0_SDP_EN;
+> +       dp_write_link(catalog, MMSS_DP_SDP_CFG, cfg);
+> +
+> +       cfg2 &= ~GENERIC0_SDPSIZE_VALID;
+> +       dp_write_link(catalog, MMSS_DP_SDP_CFG2, cfg2);
+> +
+> +       /* switch back to MSA */
+> +       misc &= ~DP_MISC1_VSC_SDP;
+> +
+> +       drm_dbg_dp(catalog->drm_dev, "vsc sdp enable=0\n");
+> +
+> +       pr_debug("misc settings = 0x%x\n", misc);
+> +       dp_write_link(catalog, REG_DP_MISC1_MISC0, misc);
+> +
+> +       dp_catalog_panel_update_sdp(dp_catalog);
+> +}
+> +
+>  void dp_catalog_panel_tpg_enable(struct dp_catalog *dp_catalog,
+>                                 struct drm_display_mode *drm_mode)
+>  {
+> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
+> index 6cb5e2a243de2..4bdc087410a68 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
+> @@ -9,6 +9,7 @@
+>  #include <drm/drm_modes.h>
+>
+>  #include "dp_parser.h"
+> +#include "dp_utils.h"
+>  #include "disp/msm_disp_snapshot.h"
+>
+>  /* interrupts */
+> @@ -30,6 +31,9 @@
+>
+>  #define DP_AUX_CFG_MAX_VALUE_CNT 3
+>
+> +#define DP_HW_VERSION_1_0      0x10000000
+> +#define DP_HW_VERSION_1_2      0x10020000
+> +
+>  /* PHY AUX config registers */
+>  enum dp_phy_aux_config_type {
+>         PHY_AUX_CFG0,
+> @@ -124,6 +128,9 @@ u32 dp_catalog_ctrl_read_phy_pattern(struct dp_catalog *dp_catalog);
+>
+>  /* DP Panel APIs */
+>  int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog);
+> +void dp_catalog_panel_enable_vsc_sdp(struct dp_catalog *dp_catalog, struct dp_sdp *vsc_sdp,
+> +                                    u32 *header);
+> +void dp_catalog_panel_disable_vsc_sdp(struct dp_catalog *dp_catalog);
+>  void dp_catalog_dump_regs(struct dp_catalog *dp_catalog);
+>  void dp_catalog_panel_tpg_enable(struct dp_catalog *dp_catalog,
+>                                 struct drm_display_mode *drm_mode);
+> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> index bffb7bac2c2c8..a42b29f9902c1 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> @@ -1947,6 +1947,8 @@ int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl)
+>         dp_io = &ctrl->parser->io;
+>         phy = dp_io->phy;
+>
+> +       dp_catalog_panel_disable_vsc_sdp(ctrl->catalog);
+> +
+>         /* set dongle to D3 (power off) mode */
+>         dp_link_psm_config(ctrl->link, &ctrl->panel->link_info, true);
+>
+> @@ -2021,6 +2023,8 @@ int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
+>         dp_io = &ctrl->parser->io;
+>         phy = dp_io->phy;
+>
+> +       dp_catalog_panel_disable_vsc_sdp(ctrl->catalog);
+> +
+>         dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, false);
+>
+>         dp_catalog_ctrl_reset(ctrl->catalog);
+> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
+> index db1942794f1a4..417655dca2bba 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+> @@ -4,6 +4,7 @@
+>   */
+>
+>  #include "dp_panel.h"
+> +#include "dp_utils.h"
+>
+>  #include <drm/drm_connector.h>
+>  #include <drm/drm_edid.h>
+> @@ -281,6 +282,56 @@ void dp_panel_tpg_config(struct dp_panel *dp_panel, bool enable)
+>         dp_catalog_panel_tpg_enable(catalog, &panel->dp_panel.dp_mode.drm_mode);
+>  }
+>
+> +static int dp_panel_setup_vsc_sdp_yuv_420(struct dp_panel *dp_panel)
+> +{
+> +       struct dp_catalog *catalog;
+> +       struct dp_panel_private *panel;
+> +       struct dp_display_mode *dp_mode;
+> +       struct drm_dp_vsc_sdp vsc_sdp_data;
+> +       struct dp_sdp vsc_sdp;
+> +       ssize_t len;
+> +       u32 header[2];
+> +       int rc = 0;
+> +
+> +       if (!dp_panel) {
+> +               DRM_ERROR("invalid input\n");
+> +               rc = -EINVAL;
+> +               return rc;
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for FB_BACKLIGHT when selected by FB_TFT
-   .config:262:warning: symbol value 'n' invalid for SATA_MOBILE_LPM_POLICY
-   .config:360:warning: symbol value 'n' invalid for PSTORE_BLK_MAX_REASON
-   .config:445:warning: symbol value 'n' invalid for KFENCE_SAMPLE_INTERVAL
-   .config:599:warning: symbol value 'n' invalid for AIC79XX_DEBUG_MASK
-   .config:634:warning: symbol value 'n' invalid for AIC79XX_RESET_DELAY_MS
-   .config:638:warning: symbol value 'n' invalid for DRM_XE_JOB_TIMEOUT_MIN
-   .config:680:warning: symbol value 'n' invalid for CRYPTO_DEV_QCE_SW_MAX_LEN
-   .config:780:warning: symbol value 'n' invalid for PANEL_LCD_CHARSET
-   .config:820:warning: symbol value 'n' invalid for SND_AC97_POWER_SAVE_DEFAULT
-   .config:881:warning: symbol value 'n' invalid for MAGIC_SYSRQ_DEFAULT_ENABLE
-   .config:894:warning: symbol value 'n' invalid for DRM_I915_MAX_REQUEST_BUSYWAIT
-   .config:928:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MIN
-   .config:939:warning: symbol value 'n' invalid for SND_AT73C213_TARGET_BITRATE
-   .config:940:warning: symbol value 'n' invalid for NET_EMATCH_STACK
-   .config:942:warning: symbol value 'n' invalid for VMCP_CMA_SIZE
-   .config:1112:warning: symbol value 'n' invalid for AIC79XX_CMDS_PER_DEVICE
-   .config:1181:warning: symbol value 'n' invalid for PANEL_LCD_PIN_SDA
-   .config:1208:warning: symbol value 'n' invalid for MTDRAM_ERASE_SIZE
-   .config:1238:warning: symbol value 'n' invalid for MTD_REDBOOT_DIRECTORY_BLOCK
-   .config:1330:warning: symbol value 'n' invalid for SERIAL_UARTLITE_NR_UARTS
-   .config:1516:warning: symbol value 'n' invalid for LEGACY_PTY_COUNT
-   .config:1666:warning: symbol value 'n' invalid for AIC7XXX_RESET_DELAY_MS
-   .config:1808:warning: symbol value 'n' invalid for IBM_EMAC_POLL_WEIGHT
-   .config:1972:warning: symbol value 'n' invalid for DRM_I915_STOP_TIMEOUT
-   .config:2387:warning: symbol value 'n' invalid for PANEL_LCD_BWIDTH
-   .config:2412:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MAX
-   .config:2427:warning: symbol value 'n' invalid for FTRACE_RECORD_RECURSION_SIZE
-   .config:2607:warning: symbol value 'n' invalid for KCOV_IRQ_AREA_SIZE
-   .config:2633:warning: symbol value 'n' invalid for PANEL_PARPORT
-   .config:2722:warning: symbol value 'n' invalid for NOUVEAU_DEBUG_DEFAULT
-   .config:2919:warning: symbol value 'n' invalid for KCSAN_REPORT_ONCE_IN_MS
-   .config:3017:warning: symbol value 'n' invalid for KCSAN_UDELAY_INTERRUPT
-   .config:3041:warning: symbol value 'n' invalid for PANEL_LCD_PIN_BL
-   .config:3066:warning: symbol value 'n' invalid for INITRAMFS_ROOT_GID
-   .config:3113:warning: symbol value 'n' invalid for SND_SOC_SOF_DEBUG_IPC_FLOOD_TEST_NUM
-   .config:3132:warning: symbol value 'n' invalid for SCSI_MESH_RESET_DELAY_MS
-   .config:3173:warning: symbol value 'n' invalid for ATM_FORE200E_TX_RETRY
-   .config:3216:warning: symbol value 'n' invalid for FB_OMAP2_DSS_MIN_FCK_PER_PCK
-   .config:3306:warning: symbol value 'n' invalid for IP_VS_MH_TAB_INDEX
-   .config:3454:warning: symbol value 'n' invalid for PSTORE_BLK_CONSOLE_SIZE
-   .config:3554:warning: symbol value 'n' invalid for KCSAN_UDELAY_TASK
-   .config:3564:warning: symbol value 'n' invalid for MMC_BLOCK_MINORS
-   .config:3567:warning: symbol value 'n' invalid for INET_TABLE_PERTURB_ORDER
-   .config:3612:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_SYNC
-   .config:3638:warning: symbol value 'n' invalid for BOOKE_WDT_DEFAULT_TIMEOUT
-   .config:3730:warning: symbol value 'n' invalid for UCLAMP_BUCKETS_COUNT
-   .config:3815:warning: symbol value 'n' invalid for PANEL_LCD_PIN_RW
-   .config:3901:warning: symbol value 'n' invalid for SERIAL_MCF_BAUDRATE
-   .config:3983:warning: symbol value 'n' invalid for DE2104X_DSL
-   .config:3998:warning: symbol value 'n' invalid for BLK_DEV_RAM_COUNT
-   .config:4187:warning: symbol value 'n' invalid for SERIAL_AR933X_NR_UARTS
-   .config:4267:warning: symbol value 'n' invalid for IP_VS_SH_TAB_BITS
-   .config:4338:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_X
-   .config:4405:warning: symbol value 'n' invalid for STACK_MAX_DEFAULT_SIZE_MB
-   .config:4425:warning: symbol value 'n' invalid for USBIP_VHCI_HC_PORTS
-   .config:4456:warning: symbol value 'n' invalid for RIONET_RX_SIZE
-   .config:4667:warning: symbol value 'n' invalid for RCU_BOOST_DELAY
-   .config:4750:warning: symbol value 'n' invalid for RADIO_TYPHOON_PORT
-   .config:4769:warning: symbol value 'n' invalid for IBM_EMAC_TXB
-   .config:4884:warning: symbol value 'n' invalid for SERIAL_TXX9_NR_UARTS
-   .config:4960:warning: symbol value 'n' invalid for VIDEO_VIVID_MAX_DEVS
-   .config:5156:warning: symbol value 'n' invalid for ARCH_MMAP_RND_BITS
-   .config:5237:warning: symbol value 'n' invalid for DRM_I915_FENCE_TIMEOUT
-   .config:5259:warning: symbol value 'n' invalid for TTY_PRINTK_LEVEL
-   .config:5261:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MAX
-   .config:5423:warning: symbol value 'n' invalid for MIPS_EJTAG_FDC_KGDB_CHAN
-   .config:5520:warning: symbol value 'n' invalid for KDB_DEFAULT_ENABLE
-   .config:5539:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_MAXPORTS
-   .config:5772:warning: symbol value 'n' invalid for PPC_EARLY_DEBUG_EHV_BC_HANDLE
-   .config:5808:warning: symbol value 'n' invalid for PANEL_LCD_HWIDTH
-   .config:5843:warning: symbol value 'n' invalid for LOCKDEP_CHAINS_BITS
-   .config:5872:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_MAX_TAGS
-   .config:5937:warning: symbol value 'n' invalid for DRM_I915_HEARTBEAT_INTERVAL
-   .config:5944:warning: symbol value 'n' invalid for KCSAN_SKIP_WATCH
-   .config:5968:warning: symbol value 'n' invalid for PSTORE_BLK_KMSG_SIZE
-   .config:6011:warning: symbol value 'n' invalid for MTD_UBI_WL_THRESHOLD
-   .config:6030:warning: symbol value 'n' invalid for RIONET_TX_SIZE
-   .config:6268:warning: symbol value 'n' invalid for ARCH_MMAP_RND_COMPAT_BITS
-   .config:6431:warning: symbol value 'n' invalid for CRYPTO_DEV_FSL_CAAM_INTC_TIME_THLD
-   .config:6437:warning: symbol value 'n' invalid for RADIO_TRUST_PORT
-   .config:6464:warning: symbol value 'n' invalid for OMAP2_DSS_MIN_FCK_PER_PCK
-   .config:6652:warning: symbol value 'n' invalid for SERIAL_SH_SCI_NR_UARTS
-   .config:6767:warning: symbol value 'n' invalid for XEN_MEMORY_HOTPLUG_LIMIT
-   .config:6820:warning: symbol value 'n' invalid for CMA_SIZE_PERCENTAGE
-   .config:6969:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MIN
-   .config:7104:warning: symbol value 'n' invalid for KDB_CONTINUE_CATASTROPHIC
-   .config:7210:warning: symbol value 'n' invalid for DVB_MAX_ADAPTERS
-   .config:7213:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_MAX_TAGS
-   .config:7233:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_DMA_ADDRESSING_MODE
-   .config:7446:warning: symbol value 'n' invalid for SERIAL_ARC_NR_PORTS
-   .config:7557:warning: symbol value 'n' invalid for IIO_CONSUMERS_PER_TRIGGER
-   .config:7600:warning: symbol value 'n' invalid for IBM_EMAC_RXB
-   .config:7621:warning: symbol value 'n' invalid for SCSI_MPT3SAS_MAX_SGE
-   .config:7752:warning: symbol value 'n' invalid for PSTORE_DEFAULT_KMSG_BYTES
-   .config:7918:warning: symbol value 'n' invalid for VGA_ARB_MAX_GPUS
-   .config:7998:warning: symbol value 'n' invalid for PANEL_LCD
-   .config:7999:warning: symbol value 'n' invalid for ZSMALLOC_CHAIN_SIZE
-   .config:8147:warning: symbol value 'n' invalid for CRYPTO_DEV_FSL_CAAM_RINGSIZE
-   .config:8240:warning: symbol value 'n' invalid for MTDRAM_TOTAL_SIZE
-   .config:8329:warning: symbol value 'n' invalid for LOCKDEP_BITS
+return -EINVAL directly.
+
+> +       }
+> +
+> +       panel = container_of(dp_panel, struct dp_panel_private, dp_panel);
+> +       catalog = panel->catalog;
+> +       dp_mode = &dp_panel->dp_mode;
+> +
+> +       memset(&vsc_sdp_data, 0, sizeof(vsc_sdp_data));
+> +
+> +       /* VSC SDP header as per table 2-118 of DP 1.4 specification */
+> +       vsc_sdp_data.sdp_type = DP_SDP_VSC;
+> +       vsc_sdp_data.revision = 0x05;
+> +       vsc_sdp_data.length = 0x13;
+> +
+> +       /* VSC SDP Payload for DB16 */
+> +       vsc_sdp_data.pixelformat = DP_PIXELFORMAT_YUV420;
+> +       vsc_sdp_data.colorimetry = DP_COLORIMETRY_DEFAULT;
+> +
+> +       /* VSC SDP Payload for DB17 */
+> +       vsc_sdp_data.bpc = dp_mode->bpp / 3;
+> +       vsc_sdp_data.dynamic_range = DP_DYNAMIC_RANGE_CTA;
+> +
+> +       /* VSC SDP Payload for DB18 */
+> +       vsc_sdp_data.content_type = DP_CONTENT_TYPE_GRAPHICS;
+> +
+> +       len = dp_utils_pack_vsc_sdp(&vsc_sdp_data, &vsc_sdp, header);
+> +       if (len < 0) {
+> +               DRM_ERROR("unable to pack vsc sdp\n");
+> +               return len;
+> +       }
+
+So, at this point we have the header data both in vsc_sdp.sdp_header
+and in the packed header. The relationship between them becomes less
+obvious. Could you please pack dp_sdp_header into u32[2] just before
+writing it? It really makes little sense to pass both at the same
+time.
+
+> +
+> +       dp_catalog_panel_enable_vsc_sdp(catalog, &vsc_sdp, header);
+> +
+> +       return rc;
+
+return 0;
+
+> +}
+> +
+>  void dp_panel_dump_regs(struct dp_panel *dp_panel)
+>  {
+>         struct dp_catalog *catalog;
+> @@ -344,6 +395,10 @@ int dp_panel_timing_cfg(struct dp_panel *dp_panel)
+>         catalog->dp_active = data;
+>
+>         dp_catalog_panel_timing_cfg(catalog);
+> +
+> +       if (dp_panel->dp_mode.out_fmt_is_yuv_420)
+> +               dp_panel_setup_vsc_sdp_yuv_420(dp_panel);
+> +
+>         panel->panel_on = true;
+>
+>         return 0;
+> diff --git a/drivers/gpu/drm/msm/dp/dp_reg.h b/drivers/gpu/drm/msm/dp/dp_reg.h
+> index 78785ed4b40c4..aa9f6c3e4ddeb 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_reg.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_reg.h
+> @@ -142,6 +142,7 @@
+>  #define DP_MISC0_SYNCHRONOUS_CLK               (0x00000001)
+>  #define DP_MISC0_COLORIMETRY_CFG_SHIFT         (0x00000001)
+>  #define DP_MISC0_TEST_BITS_DEPTH_SHIFT         (0x00000005)
+> +#define DP_MISC1_VSC_SDP                       (0x00004000)
+>
+>  #define DP_MISC0_COLORIMERY_CFG_LEGACY_RGB     (0)
+>  #define DP_MISC0_COLORIMERY_CFG_CEA_RGB                (0x04)
+> @@ -204,9 +205,11 @@
+>  #define MMSS_DP_AUDIO_CTRL_RESET               (0x00000214)
+>
+>  #define MMSS_DP_SDP_CFG                                (0x00000228)
+> +#define GEN0_SDP_EN                            (0x00020000)
+>  #define MMSS_DP_SDP_CFG2                       (0x0000022C)
+>  #define MMSS_DP_AUDIO_TIMESTAMP_0              (0x00000230)
+>  #define MMSS_DP_AUDIO_TIMESTAMP_1              (0x00000234)
+> +#define GENERIC0_SDPSIZE_VALID                 (0x00010000)
+>
+>  #define MMSS_DP_AUDIO_STREAM_0                 (0x00000240)
+>  #define MMSS_DP_AUDIO_STREAM_1                 (0x00000244)
+> diff --git a/drivers/gpu/drm/msm/dp/dp_utils.c b/drivers/gpu/drm/msm/dp/dp_utils.c
+> index 3a44fe738c004..5577e2366a520 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_utils.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_utils.c
+> @@ -4,9 +4,12 @@
+>   */
+>
+>  #include <linux/types.h>
+> +#include <drm/drm_print.h>
+>
+>  #include "dp_utils.h"
+>
+> +#define DP_SDP_HEADER_SIZE             8
+> +
+>  u8 dp_utils_get_g0_value(u8 data)
+>  {
+>         u8 c[4];
+> @@ -71,3 +74,56 @@ u8 dp_utils_calculate_parity(u32 data)
+>
+>         return parity_byte;
+>  }
+> +
+> +ssize_t dp_utils_pack_sdp_header(struct dp_sdp_header *sdp_header, u32 *header_buff)
+> +{
+> +       size_t length;
+> +       u8 header, parity;
+> +
+> +       length = sizeof(header_buff);
+> +       if (length < DP_SDP_HEADER_SIZE)
+> +               return -ENOSPC;
+> +
+> +       memset(header_buff, 0, sizeof(header_buff));
+> +
+> +       /* HEADER BYTE 0 */
+> +       header = sdp_header->HB0;
+> +       parity = dp_utils_calculate_parity(header);
+> +       header_buff[0]   = ((header << HEADER_BYTE_0_BIT) | (parity << PARITY_BYTE_0_BIT));
+
+Drop extra parentheses, please. Also it might be easier to just call:
+
+header_buff[0] = FIELD_PREP(HEADER_0_MASK, sdp_header->HB0) |
+     FIELD_PREP(PARITY_0_MASK, dp_utils_calculate_parity(sdp_header->HB0) |
+     FIELD_PREP(HEADER_1_MASK, sdp_header->HB1) |
+     FIELD_PREP(PARITY_1_MASK, dp_utils_calculate_parity(sdp_header->HB1);
+
+This is more error proof and (I think) easier to comprehend.
+
+> +
+> +       /* HEADER BYTE 1 */
+> +       header = sdp_header->HB1;
+> +       parity = dp_utils_calculate_parity(header);
+> +       header_buff[0]  |= ((header << HEADER_BYTE_1_BIT) | (parity << PARITY_BYTE_1_BIT));
+> +
+> +       /* HEADER BYTE 2 */
+> +       header = sdp_header->HB2;
+> +       parity = dp_utils_calculate_parity(header);
+> +       header_buff[1]   = ((header << HEADER_BYTE_2_BIT) | (parity << PARITY_BYTE_2_BIT));
+> +
+> +       /* HEADER BYTE 3 */
+> +       header = sdp_header->HB3;
+> +       parity = dp_utils_calculate_parity(header);
+> +       header_buff[1]  |= ((header << HEADER_BYTE_3_BIT) | (parity << PARITY_BYTE_3_BIT));
+> +
+> +       return length;
+> +}
+> +
+> +ssize_t dp_utils_pack_vsc_sdp(struct drm_dp_vsc_sdp *vsc, struct dp_sdp *vsc_sdp, u32 *header)
+> +{
+> +       ssize_t len;
+> +
+> +       len = drm_dp_vsc_sdp_pack(vsc, vsc_sdp, sizeof(*vsc_sdp));
+> +       if (len < 0) {
+> +               DRM_ERROR("unable to pack vsc sdp\n");
+> +               return len;
+> +       }
+> +
+> +       len = dp_utils_pack_sdp_header(&vsc_sdp->sdp_header, header);
+> +       if (len < 0) {
+> +               DRM_ERROR("unable to pack sdp header\n");
+> +               return len;
+> +       }
+> +
+> +       return len;
+> +}
+> diff --git a/drivers/gpu/drm/msm/dp/dp_utils.h b/drivers/gpu/drm/msm/dp/dp_utils.h
+> index 5a505cbf3432b..9d1057bd5a24c 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_utils.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_utils.h
+> @@ -6,6 +6,8 @@
+>  #ifndef _DP_UTILS_H_
+>  #define _DP_UTILS_H_
+>
+> +#include <drm/display/drm_dp_helper.h>
+> +
+>  #define HEADER_BYTE_0_BIT       0
+>  #define PARITY_BYTE_0_BIT       8
+>  #define HEADER_BYTE_1_BIT      16
+> @@ -18,5 +20,7 @@
+>  u8 dp_utils_get_g0_value(u8 data);
+>  u8 dp_utils_get_g1_value(u8 data);
+>  u8 dp_utils_calculate_parity(u32 data);
+> +ssize_t dp_utils_pack_sdp_header(struct dp_sdp_header *sdp_header, u32 *header_buff);
+> +ssize_t dp_utils_pack_vsc_sdp(struct drm_dp_vsc_sdp *vsc, struct dp_sdp *vsc_sdp, u32 *header);
+>
+>  #endif /* _DP_UTILS_H_ */
+> --
+> 2.39.2
+>
+
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With best wishes
+Dmitry
