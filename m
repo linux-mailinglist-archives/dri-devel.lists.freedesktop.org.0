@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2F5E859053
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Feb 2024 16:03:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECCFD859051
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Feb 2024 16:03:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87B2510E473;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 156C410E412;
 	Sat, 17 Feb 2024 15:03:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NaZiHiRT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bsxF0O0z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFD2210E213;
- Sat, 17 Feb 2024 15:03:04 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23B3C10E388;
+ Sat, 17 Feb 2024 15:03:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id DF901611BE;
+ by sin.source.kernel.org (Postfix) with ESMTP id CEEDCCE09EE;
  Sat, 17 Feb 2024 15:03:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12F4AC43390;
- Sat, 17 Feb 2024 15:03:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02076C433C7;
+ Sat, 17 Feb 2024 15:03:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1708182183;
- bh=UrO8iSOZ0DaThfpdYnA1yNkyhVkUZHq2oInX+0bHaNU=;
+ bh=7qfwQMTk/6XmuQTgWrrAU6QDNKvMnI+7NUmGueoQmuc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NaZiHiRTPIbfPSO9V0T+nG2YbfYd4RoH8ksqJQQ1dehfcWd2IBpfDfHByIOYR552k
- nFE6hEIT8qeuW8E1DS42blBrIgHYehI0FYTJGCYTibnUeVmyZJiOsvTtME4KgkAEe1
- 2DZMp8TbZu2Mg7JL+VzvP8/SC4bf+EeS4GljpXWaWwPxOIFZ7DYN71gVu5IEEVjh+w
- DzXELAT5AkdX51DLJnuyzx5+kHBA06WxIT15EspnGNlrpCt7XfgVUA4CP7eTv9tjWo
- yjnjggK8Df0jykaNcY2Dpx0NYTW6TsHn3D25leWURtAkgUtuWIOc5QR84HO7i0InVS
- Lg+4YkPkvcdxQ==
+ b=bsxF0O0zWvPp505t1lswvS1c07/vMyEj6NoWQGyVmOanlWHTgZy+BXheaA1LpqFsK
+ 0EOGVlB6+Di9XgzmDKXGhgICuKHjiyS6StSQM/iKM/sGiYqjrPqy58nroPER5ekRMJ
+ ukkP8NVixapjyuC4ugenR6sCoqfLLmhTDNOMMn9M1VDKUa4mcZi8ihmX+5Y1opV6Ik
+ cAlY6KX71aBxy8Juy5Al0MNjz9km7CAkvJjYa8BHjMsEVAAPe66JRSkhhApIMwI48C
+ RfvbdwgLwUXJfb++tbEMIfG0AHo6XVwD7DgIkjQTI9ERYmkSr4oXtVy7IP2V8shnfc
+ yxVs5lHpLMx5Q==
 Received: from johan by xi.lan with local (Exim 4.97.1)
- (envelope-from <johan+linaro@kernel.org>) id 1rbMDW-000000001Vq-2fLy;
+ (envelope-from <johan+linaro@kernel.org>) id 1rbMDW-000000001Vs-35SB;
  Sat, 17 Feb 2024 16:03:02 +0100
 From: Johan Hovold <johan+linaro@kernel.org>
 To: Bjorn Andersson <andersson@kernel.org>,
@@ -51,10 +51,11 @@ Cc: Jonas Karlman <jonas@kwiboo.se>,
  Kuogee Hsieh <quic_khsieh@quicinc.com>, freedreno@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- Johan Hovold <johan+linaro@kernel.org>
-Subject: [PATCH 2/6] drm/bridge: aux-hpd: separate allocation and registration
-Date: Sat, 17 Feb 2024 16:02:24 +0100
-Message-ID: <20240217150228.5788-3-johan+linaro@kernel.org>
+ Johan Hovold <johan+linaro@kernel.org>, stable@vger.kernel.org
+Subject: [PATCH 3/6] soc: qcom: pmic_glink_altmode: fix drm bridge
+ use-after-free
+Date: Sat, 17 Feb 2024 16:02:25 +0100
+Message-ID: <20240217150228.5788-4-johan+linaro@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240217150228.5788-1-johan+linaro@kernel.org>
 References: <20240217150228.5788-1-johan+linaro@kernel.org>
@@ -75,163 +76,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Combining allocation and registration is an anti-pattern that should be
-avoided. Add two new functions for allocating and registering an dp-hpd
-bridge with a proper 'devm' prefix so that it is clear that these are
-device managed interfaces.
+A recent DRM series purporting to simplify support for "transparent
+bridges" and handling of probe deferrals ironically exposed a
+use-after-free issue on pmic_glink_altmode probe deferral.
 
-	devm_drm_dp_hpd_bridge_alloc()
-	devm_drm_dp_hpd_bridge_add()
+This has manifested itself as the display subsystem occasionally failing
+to initialise and NULL-pointer dereferences during boot of machines like
+the Lenovo ThinkPad X13s.
 
-The new interface will be used to fix a use-after-free bug in the
-Qualcomm PMIC GLINK driver and may prevent similar issues from being
-introduced elsewhere.
+Specifically, the dp-hpd bridge is currently registered before all
+resources have been acquired which means that it can also be
+deregistered on probe deferrals.
 
-The existing drm_dp_hpd_bridge_register() is reimplemented using the
-above and left in place for now.
+In the meantime there is a race window where the new aux bridge driver
+(or PHY driver previously) may have looked up the dp-hpd bridge and
+stored a (non-reference-counted) pointer to the bridge which is about to
+be deallocated.
 
+When the display controller is later initialised, this triggers a
+use-after-free when attaching the bridges:
+
+	dp -> aux -> dp-hpd (freed)
+
+which may, for example, result in the freed bridge failing to attach:
+
+	[drm:drm_bridge_attach [drm]] *ERROR* failed to attach bridge /soc@0/phy@88eb000 to encoder TMDS-31: -16
+
+or a NULL-pointer dereference:
+
+	Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
+	...
+	Call trace:
+	  drm_bridge_attach+0x70/0x1a8 [drm]
+	  drm_aux_bridge_attach+0x24/0x38 [aux_bridge]
+	  drm_bridge_attach+0x80/0x1a8 [drm]
+	  dp_bridge_init+0xa8/0x15c [msm]
+	  msm_dp_modeset_init+0x28/0xc4 [msm]
+
+The DRM bridge implementation is clearly fragile and implicitly built on
+the assumption that bridges may never go away. In this case, the fix is
+to move the bridge registration in the pmic_glink_altmode driver to
+after all resources have been looked up.
+
+Incidentally, with the new dp-hpd bridge implementation, which registers
+child devices, this is also a requirement due to a long-standing issue
+in driver core that can otherwise lead to a probe deferral loop (see
+fbc35b45f9f6 ("Add documentation on meaning of -EPROBE_DEFER")).
+
+Fixes: 080b4e24852b ("soc: qcom: pmic_glink: Introduce altmode support")
+Fixes: 2bcca96abfbf ("soc: qcom: pmic-glink: switch to DRM_AUX_HPD_BRIDGE")
+Cc: stable@vger.kernel.org      # 6.3
+Cc: Bjorn Andersson <andersson@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 ---
- drivers/gpu/drm/bridge/aux-hpd-bridge.c | 67 +++++++++++++++++++------
- include/drm/bridge/aux-bridge.h         | 15 ++++++
- 2 files changed, 67 insertions(+), 15 deletions(-)
+ drivers/soc/qcom/pmic_glink_altmode.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/aux-hpd-bridge.c b/drivers/gpu/drm/bridge/aux-hpd-bridge.c
-index 9e71daf95bde..6886db2d9e00 100644
---- a/drivers/gpu/drm/bridge/aux-hpd-bridge.c
-+++ b/drivers/gpu/drm/bridge/aux-hpd-bridge.c
-@@ -30,16 +30,13 @@ static void drm_aux_hpd_bridge_release(struct device *dev)
- 	kfree(adev);
- }
+diff --git a/drivers/soc/qcom/pmic_glink_altmode.c b/drivers/soc/qcom/pmic_glink_altmode.c
+index 5fcd0fdd2faa..b3808fc24c69 100644
+--- a/drivers/soc/qcom/pmic_glink_altmode.c
++++ b/drivers/soc/qcom/pmic_glink_altmode.c
+@@ -76,7 +76,7 @@ struct pmic_glink_altmode_port {
  
--static void drm_aux_hpd_bridge_unregister_adev(void *_adev)
-+static void drm_aux_hpd_bridge_free_adev(void *_adev)
- {
--	struct auxiliary_device *adev = _adev;
--
--	auxiliary_device_delete(adev);
--	auxiliary_device_uninit(adev);
-+	auxiliary_device_uninit(_adev);
- }
+ 	struct work_struct work;
  
- /**
-- * drm_dp_hpd_bridge_register - Create a simple HPD DisplayPort bridge
-+ * devm_drm_dp_hpd_bridge_alloc - allocate a HPD DisplayPort bridge
-  * @parent: device instance providing this bridge
-  * @np: device node pointer corresponding to this bridge instance
-  *
-@@ -47,11 +44,9 @@ static void drm_aux_hpd_bridge_unregister_adev(void *_adev)
-  * DRM_MODE_CONNECTOR_DisplayPort, which terminates the bridge chain and is
-  * able to send the HPD events.
-  *
-- * Return: device instance that will handle created bridge or an error code
-- * encoded into the pointer.
-+ * Return: bridge auxiliary device pointer or an error pointer
-  */
--struct device *drm_dp_hpd_bridge_register(struct device *parent,
--					  struct device_node *np)
-+struct auxiliary_device *devm_drm_dp_hpd_bridge_alloc(struct device *parent, struct device_node *np)
- {
- 	struct auxiliary_device *adev;
- 	int ret;
-@@ -82,13 +77,55 @@ struct device *drm_dp_hpd_bridge_register(struct device *parent,
- 		return ERR_PTR(ret);
+-	struct device *bridge;
++	struct auxiliary_device *bridge;
+ 
+ 	enum typec_orientation orientation;
+ 	u16 svid;
+@@ -230,7 +230,7 @@ static void pmic_glink_altmode_worker(struct work_struct *work)
+ 	else
+ 		pmic_glink_altmode_enable_usb(altmode, alt_port);
+ 
+-	drm_aux_hpd_bridge_notify(alt_port->bridge,
++	drm_aux_hpd_bridge_notify(&alt_port->bridge->dev,
+ 				  alt_port->hpd_state ?
+ 				  connector_status_connected :
+ 				  connector_status_disconnected);
+@@ -454,7 +454,7 @@ static int pmic_glink_altmode_probe(struct auxiliary_device *adev,
+ 		alt_port->index = port;
+ 		INIT_WORK(&alt_port->work, pmic_glink_altmode_worker);
+ 
+-		alt_port->bridge = drm_dp_hpd_bridge_register(dev, to_of_node(fwnode));
++		alt_port->bridge = devm_drm_dp_hpd_bridge_alloc(dev, to_of_node(fwnode));
+ 		if (IS_ERR(alt_port->bridge)) {
+ 			fwnode_handle_put(fwnode);
+ 			return PTR_ERR(alt_port->bridge);
+@@ -510,6 +510,16 @@ static int pmic_glink_altmode_probe(struct auxiliary_device *adev,
+ 		}
  	}
  
--	ret = auxiliary_device_add(adev);
--	if (ret) {
--		auxiliary_device_uninit(adev);
-+	ret = devm_add_action_or_reset(parent, drm_aux_hpd_bridge_free_adev, adev);
-+	if (ret)
- 		return ERR_PTR(ret);
--	}
- 
--	ret = devm_add_action_or_reset(parent, drm_aux_hpd_bridge_unregister_adev, adev);
-+	return adev;
-+}
-+EXPORT_SYMBOL_GPL(devm_drm_dp_hpd_bridge_alloc);
++	for (port = 0; port < ARRAY_SIZE(altmode->ports); port++) {
++		alt_port = &altmode->ports[port];
++		if (!alt_port->bridge)
++			continue;
 +
-+static void drm_aux_hpd_bridge_del_adev(void *_adev)
-+{
-+	auxiliary_device_delete(_adev);
-+}
++		ret = devm_drm_dp_hpd_bridge_add(dev, alt_port->bridge);
++		if (ret)
++			return ret;
++	}
 +
-+/**
-+ * devm_drm_dp_hpd_bridge_add - register a HDP DisplayPort bridge
-+ * @dev: struct device to tie registration lifetime to
-+ * @adev: bridge auxiliary device to be registered
-+ *
-+ * Returns: zero on success or a negative errno
-+ */
-+int devm_drm_dp_hpd_bridge_add(struct device *dev, struct auxiliary_device *adev)
-+{
-+	int ret;
-+
-+	ret = auxiliary_device_add(adev);
-+	if (ret)
-+		return ret;
-+
-+	return devm_add_action_or_reset(dev, drm_aux_hpd_bridge_del_adev, adev);
-+}
-+EXPORT_SYMBOL_GPL(devm_drm_dp_hpd_bridge_add);
-+
-+/**
-+ * drm_dp_hpd_bridge_register - allocate and register a HDP DisplayPort bridge
-+ * @parent: device instance providing this bridge
-+ * @np: device node pointer corresponding to this bridge instance
-+ *
-+ * Return: device instance that will handle created bridge or an error pointer
-+ */
-+struct device *drm_dp_hpd_bridge_register(struct device *parent, struct device_node *np)
-+{
-+	struct auxiliary_device *adev;
-+	int ret;
-+
-+	adev = devm_drm_dp_hpd_bridge_alloc(parent, np);
-+	if (IS_ERR(adev))
-+		return ERR_CAST(adev);
-+
-+	ret = devm_drm_dp_hpd_bridge_add(parent, adev);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
-diff --git a/include/drm/bridge/aux-bridge.h b/include/drm/bridge/aux-bridge.h
-index c4c423e97f06..4453906105ca 100644
---- a/include/drm/bridge/aux-bridge.h
-+++ b/include/drm/bridge/aux-bridge.h
-@@ -9,6 +9,8 @@
- 
- #include <drm/drm_connector.h>
- 
-+struct auxiliary_device;
-+
- #if IS_ENABLED(CONFIG_DRM_AUX_BRIDGE)
- int drm_aux_bridge_register(struct device *parent);
- #else
-@@ -19,10 +21,23 @@ static inline int drm_aux_bridge_register(struct device *parent)
- #endif
- 
- #if IS_ENABLED(CONFIG_DRM_AUX_HPD_BRIDGE)
-+struct auxiliary_device *devm_drm_dp_hpd_bridge_alloc(struct device *parent, struct device_node *np);
-+int devm_drm_dp_hpd_bridge_add(struct device *dev, struct auxiliary_device *adev);
- struct device *drm_dp_hpd_bridge_register(struct device *parent,
- 					  struct device_node *np);
- void drm_aux_hpd_bridge_notify(struct device *dev, enum drm_connector_status status);
- #else
-+static inline struct auxiliary_device *devm_drm_dp_hpd_bridge_alloc(struct device *parent,
-+								    struct device_node *np)
-+{
-+	return NULL;
-+}
-+
-+static inline int devm_drm_dp_hpd_bridge_add(struct auxiliary_device *adev)
-+{
-+	return 0;
-+}
-+
- static inline struct device *drm_dp_hpd_bridge_register(struct device *parent,
- 							struct device_node *np)
- {
+ 	altmode->client = devm_pmic_glink_register_client(dev,
+ 							  altmode->owner_id,
+ 							  pmic_glink_altmode_callback,
 -- 
 2.43.0
 
