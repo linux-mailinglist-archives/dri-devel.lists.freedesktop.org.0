@@ -2,71 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93E4185948B
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Feb 2024 05:18:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C9B48594CD
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Feb 2024 06:47:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF2FA10E098;
-	Sun, 18 Feb 2024 04:18:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2816410E06D;
+	Sun, 18 Feb 2024 05:47:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sV4zdIZo";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="V2p35qsx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com
- [209.85.128.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D4B610E098
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Feb 2024 04:18:03 +0000 (UTC)
-Received: by mail-yw1-f179.google.com with SMTP id
- 00721157ae682-6077444cb51so30828797b3.1
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Feb 2024 20:18:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708229882; x=1708834682; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=EzD4Pv6p9Be8l8eNEWsH1WgYTIMlRyAnHGABnOcxnhU=;
- b=sV4zdIZolUU1Irtqv6S1d3Eg/OwTaoigYIgxYabHDh0DjLwoJaLNwLr8uJJgDxYm5p
- Cudcb6x4G1LMR/Le9KgQ84ZNyQFt2xvEEvOnkYiF+D8b+BsUiYPvDcbJ/MNmAwfRmdo7
- DGqiPDWzyYGVYePUYeQ7Ep75qjQJZ9p0PooKfqUJ4GrV7cRYWEf+udJA0dPJLKbv7RLm
- wLSwFMVMCWXQk570bWLcYcxTaiC8+eQAnfn7nMLhYVwuesTi7jU/WyLBd9qL9SiXlL4M
- bxJ7wSCvEF79UomChjP/3cZpWdJYPdliidBG9nVYz2UCnO07hIG6F5fw4QTQIEcLbl9x
- tSsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708229882; x=1708834682;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=EzD4Pv6p9Be8l8eNEWsH1WgYTIMlRyAnHGABnOcxnhU=;
- b=iGva4s0UfD0pWVh0VdciMkCZOYF9jrtO4TrMCteRB3w/+ujSOnCwozjDyPcA5rL4+r
- b8JIHSM3fhfSIUJyzEJARo8dsgPUH/zc5svshOFI+WLgfzIhN8cnYohxEgG/nR4+UpZ9
- 0oMPmolM1/cgpXEJ48ZPRQZPmF1HNsJ9bu+qANzNelG1aH74f/LmRMbL5wAggVMxXjx5
- +fl0t7RTZ7nbEYYhOlBZNi36wvZh/8HP86jW9k1u8d4VXa4Axv/Nt9iqxqUY/0EpBiO/
- sYnw9hpl8ffwaPJdSnKIpJjA9PyKyPJ5wNlnWdLiTmpadtdRqWQ6rtTdSYsZn2YZd6J+
- MQLw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWnFzp0yXvc2/82ahEJu1Ai9+JBxXiEU9VpJ8Rk69GmlAlJPpNzrzJ8c92ngnXWRIcj4jOJ0yAi6eg8ix/EiJOiUV3cabVS8IWD5FwMeuU1
-X-Gm-Message-State: AOJu0YxdWb/8syGOZjXW7W53D7fX8pkuelafRtFqIRZHuMymL28aKEX8
- uZr1ej5k4/GuQ0G/mgvSqackit7SK+GgPOrhhZj9vBCGv5fAhEFnc+mNVSUIs41DwSejaJBIIdt
- yrWoPe0MrNmythxwyYGvCMGzUEQHs77ojoqze8Q==
-X-Google-Smtp-Source: AGHT+IEpgMf3VvMWakVwv7fghI9Fa7G7wYfMJAdAyHJSmdQW1S3Ff0ESfxQKn12qZsKW7JtlMbzrJ7Lgo1P4FfdpkMU=
-X-Received: by 2002:a05:690c:16:b0:608:b86:7c9f with SMTP id
- bc22-20020a05690c001600b006080b867c9fmr2610027ywb.7.1708229882487; Sat, 17
- Feb 2024 20:18:02 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4F6C10E06D;
+ Sun, 18 Feb 2024 05:47:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1708235260; x=1739771260;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=8+FuBGczDq1rJWrkyOjPnlHQZxd8VoZSiM4iuNK9nZo=;
+ b=V2p35qsxwhoqsQekr8Zjep8zSe1yyKacwhbTTHzjy46cgMz5+DRfGV6c
+ 2V4xciGlhlC4S3w59EMfOyc/aEjkFg+Pg3v5G2SqVVLP6rNjRjBMbjga9
+ agxA0cIlUEVsCxolyKjUIH6X9mrPL8Gw1Y1W5Sp7bD1SsUeL9IXlqYbk3
+ 0xtYkQXmP/Kg4Q/l56J99Mz/6aboao1rza7fgwqC6pN1InaruzQCDLK2z
+ L3UMSaJetkBwpgoOEdRRR9IoF5sdGWpOZzs5DEMQQ+Y7xJhNL+FDqHBGm
+ 6eOMO7WGgw4JD2b7L1zLd6WWhFlJb8XmF/oNrKXcn/qnwk8frUbmUZeZV Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="24793922"
+X-IronPort-AV: E=Sophos;i="6.06,168,1705392000"; d="scan'208";a="24793922"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2024 21:47:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,168,1705392000"; d="scan'208";a="34988417"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+ by orviesa002.jf.intel.com with ESMTP; 17 Feb 2024 21:47:21 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rba0t-0002pB-1z;
+ Sun, 18 Feb 2024 05:47:02 +0000
+Date: Sun, 18 Feb 2024 13:46:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
+ kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com,
+ jani.nikula@linux.intel.com, daniel@ffwll.ch, airlied@gmail.com,
+ gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-staging@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v2 3/8] fbdev: Do not include <linux/backlight.h> in header
+Message-ID: <202402181344.8XWxJ6fV-lkp@intel.com>
+References: <20240213084403.20995-4-tzimmermann@suse.de>
 MIME-Version: 1.0
-References: <20240216230228.26713-1-quic_parellan@quicinc.com>
- <20240216230228.26713-17-quic_parellan@quicinc.com>
-In-Reply-To: <20240216230228.26713-17-quic_parellan@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 18 Feb 2024 06:17:51 +0200
-Message-ID: <CAA8EJpoVFEXRCnePop20cv7vy0+=gsZ_cgdgkLSoQ0QsHjNYdg@mail.gmail.com>
-Subject: Re: [PATCH v4 16/19] drm/msm/dpu: modify encoder programming for CDM
- over DP
-To: Paloma Arellano <quic_parellan@quicinc.com>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, robdclark@gmail.com, seanpaul@chromium.org, 
- swboyd@chromium.org, quic_abhinavk@quicinc.com, quic_jesszhan@quicinc.com, 
- quic_khsieh@quicinc.com, marijn.suijten@somainline.org, 
- neil.armstrong@linaro.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240213084403.20995-4-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,42 +71,266 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 17 Feb 2024 at 01:03, Paloma Arellano <quic_parellan@quicinc.com> wrote:
->
-> Adjust the encoder format programming in the case of video mode for DP
-> to accommodate CDM related changes.
->
-> Changes in v4:
->         - Remove hw_cdm check in dpu_encoder_needs_periph_flush()
->         - Remove hw_cdm check when getting the fmt_fourcc in
->           dpu_encoder_phys_vid_enable()
->
-> Changes in v2:
->         - Move timing engine programming to a separate patch from this
->           one
->         - Move update_pending_flush_periph() invocation completely to
->           this patch
->         - Change the logic of dpu_encoder_get_drm_fmt() so that it only
->           calls drm_mode_is_420_only() instead of doing additional
->           unnecessary checks
->         - Create new functions msm_dp_needs_periph_flush() and it's
->           supporting function dpu_encoder_needs_periph_flush() to check
->           if the mode is YUV420 and VSC SDP is enabled before doing a
->           peripheral flush
->
-> Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 35 +++++++++++++++++++
->  .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  | 13 +++++++
->  .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  | 16 +++++++++
->  drivers/gpu/drm/msm/dp/dp_display.c           | 18 ++++++++++
->  drivers/gpu/drm/msm/msm_drv.h                 | 17 ++++++++-
->  5 files changed, 98 insertions(+), 1 deletion(-)
->
+Hi Thomas,
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+kernel test robot noticed the following build warnings:
 
+[auto build test WARNING on staging/staging-testing]
+[also build test WARNING on staging/staging-next staging/staging-linus drm-misc/drm-misc-next linus/master v6.8-rc4 next-20240216]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-nouveau-Include-linux-backlight-h/20240213-164639
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20240213084403.20995-4-tzimmermann%40suse.de
+patch subject: [PATCH v2 3/8] fbdev: Do not include <linux/backlight.h> in header
+config: arm-spitz_defconfig (https://download.01.org/0day-ci/archive/20240218/202402181344.8XWxJ6fV-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240218/202402181344.8XWxJ6fV-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402181344.8XWxJ6fV-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/video/backlight/corgi_lcd.c: In function 'corgi_bl_get_intensity':
+   drivers/video/backlight/corgi_lcd.c:390:33: error: implicit declaration of function 'bl_get_data'; did you mean 'lcd_get_data'? [-Werror=implicit-function-declaration]
+     390 |         struct corgi_lcd *lcd = bl_get_data(bd);
+         |                                 ^~~~~~~~~~~
+         |                                 lcd_get_data
+>> drivers/video/backlight/corgi_lcd.c:390:33: warning: initialization of 'struct corgi_lcd *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   drivers/video/backlight/corgi_lcd.c: In function 'corgi_bl_update_status':
+   drivers/video/backlight/corgi_lcd.c:422:33: warning: initialization of 'struct corgi_lcd *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     422 |         struct corgi_lcd *lcd = bl_get_data(bd);
+         |                                 ^~~~~~~~~~~
+   drivers/video/backlight/corgi_lcd.c:423:25: error: implicit declaration of function 'backlight_get_brightness' [-Werror=implicit-function-declaration]
+     423 |         int intensity = backlight_get_brightness(bd);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/backlight/corgi_lcd.c: In function 'corgi_lcd_limit_intensity':
+   drivers/video/backlight/corgi_lcd.c:441:9: error: implicit declaration of function 'backlight_update_status' [-Werror=implicit-function-declaration]
+     441 |         backlight_update_status(the_corgi_lcd->bl_dev);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/backlight/corgi_lcd.c: At top level:
+   drivers/video/backlight/corgi_lcd.c:445:21: error: variable 'corgi_bl_ops' has initializer but incomplete type
+     445 | static const struct backlight_ops corgi_bl_ops = {
+         |                     ^~~~~~~~~~~~~
+   drivers/video/backlight/corgi_lcd.c:446:10: error: 'const struct backlight_ops' has no member named 'get_brightness'
+     446 |         .get_brightness = corgi_bl_get_intensity,
+         |          ^~~~~~~~~~~~~~
+>> drivers/video/backlight/corgi_lcd.c:446:27: warning: excess elements in struct initializer
+     446 |         .get_brightness = corgi_bl_get_intensity,
+         |                           ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/backlight/corgi_lcd.c:446:27: note: (near initialization for 'corgi_bl_ops')
+   drivers/video/backlight/corgi_lcd.c:447:10: error: 'const struct backlight_ops' has no member named 'update_status'
+     447 |         .update_status  = corgi_bl_update_status,
+         |          ^~~~~~~~~~~~~
+   drivers/video/backlight/corgi_lcd.c:447:27: warning: excess elements in struct initializer
+     447 |         .update_status  = corgi_bl_update_status,
+         |                           ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/backlight/corgi_lcd.c:447:27: note: (near initialization for 'corgi_bl_ops')
+   drivers/video/backlight/corgi_lcd.c: In function 'corgi_lcd_probe':
+   drivers/video/backlight/corgi_lcd.c:494:37: error: storage size of 'props' isn't known
+     494 |         struct backlight_properties props;
+         |                                     ^~~~~
+   drivers/video/backlight/corgi_lcd.c:518:34: error: invalid application of 'sizeof' to incomplete type 'struct backlight_properties'
+     518 |         memset(&props, 0, sizeof(struct backlight_properties));
+         |                                  ^~~~~~
+   drivers/video/backlight/corgi_lcd.c:519:22: error: 'BACKLIGHT_RAW' undeclared (first use in this function); did you mean 'FB_BACKLIGHT_MAX'?
+     519 |         props.type = BACKLIGHT_RAW;
+         |                      ^~~~~~~~~~~~~
+         |                      FB_BACKLIGHT_MAX
+   drivers/video/backlight/corgi_lcd.c:519:22: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/video/backlight/corgi_lcd.c:521:23: error: implicit declaration of function 'devm_backlight_device_register'; did you mean 'devm_lcd_device_register'? [-Werror=implicit-function-declaration]
+     521 |         lcd->bl_dev = devm_backlight_device_register(&spi->dev, "corgi_bl",
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                       devm_lcd_device_register
+   drivers/video/backlight/corgi_lcd.c:527:20: error: invalid use of undefined type 'struct backlight_device'
+     527 |         lcd->bl_dev->props.brightness = pdata->default_intensity;
+         |                    ^~
+   drivers/video/backlight/corgi_lcd.c:528:20: error: invalid use of undefined type 'struct backlight_device'
+     528 |         lcd->bl_dev->props.power = FB_BLANK_UNBLANK;
+         |                    ^~
+>> drivers/video/backlight/corgi_lcd.c:494:37: warning: unused variable 'props' [-Wunused-variable]
+     494 |         struct backlight_properties props;
+         |                                     ^~~~~
+   drivers/video/backlight/corgi_lcd.c: In function 'corgi_lcd_remove':
+   drivers/video/backlight/corgi_lcd.c:549:20: error: invalid use of undefined type 'struct backlight_device'
+     549 |         lcd->bl_dev->props.power = FB_BLANK_UNBLANK;
+         |                    ^~
+   drivers/video/backlight/corgi_lcd.c:550:20: error: invalid use of undefined type 'struct backlight_device'
+     550 |         lcd->bl_dev->props.brightness = 0;
+         |                    ^~
+   drivers/video/backlight/corgi_lcd.c: At top level:
+   drivers/video/backlight/corgi_lcd.c:445:35: error: storage size of 'corgi_bl_ops' isn't known
+     445 | static const struct backlight_ops corgi_bl_ops = {
+         |                                   ^~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +390 drivers/video/backlight/corgi_lcd.c
+
+b18250a8f66050 Eric Miao        2008-08-29  387  
+b18250a8f66050 Eric Miao        2008-08-29  388  static int corgi_bl_get_intensity(struct backlight_device *bd)
+b18250a8f66050 Eric Miao        2008-08-29  389  {
+4d89c3b38927be Jingoo Han       2013-02-21 @390  	struct corgi_lcd *lcd = bl_get_data(bd);
+b18250a8f66050 Eric Miao        2008-08-29  391  
+b18250a8f66050 Eric Miao        2008-08-29  392  	return lcd->intensity;
+b18250a8f66050 Eric Miao        2008-08-29  393  }
+b18250a8f66050 Eric Miao        2008-08-29  394  
+b18250a8f66050 Eric Miao        2008-08-29  395  static int corgi_bl_set_intensity(struct corgi_lcd *lcd, int intensity)
+b18250a8f66050 Eric Miao        2008-08-29  396  {
+ff7a4c7130c0ad Eric Miao        2008-09-07  397  	int cont;
+ff7a4c7130c0ad Eric Miao        2008-09-07  398  
+b18250a8f66050 Eric Miao        2008-08-29  399  	if (intensity > 0x10)
+b18250a8f66050 Eric Miao        2008-08-29  400  		intensity += 0x10;
+b18250a8f66050 Eric Miao        2008-08-29  401  
+b18250a8f66050 Eric Miao        2008-08-29  402  	corgi_ssp_lcdtg_send(lcd, DUTYCTRL_ADRS, intensity);
+b18250a8f66050 Eric Miao        2008-08-29  403  
+ff7a4c7130c0ad Eric Miao        2008-09-07  404  	/* Bit 5 via GPIO_BACKLIGHT_CONT */
+ee0c8e494cc3c1 Linus Walleij    2020-02-20  405  	cont = !!(intensity & 0x20);
+ff7a4c7130c0ad Eric Miao        2008-09-07  406  
+ee0c8e494cc3c1 Linus Walleij    2020-02-20  407  	if (lcd->backlight_cont)
+ee0c8e494cc3c1 Linus Walleij    2020-02-20  408  		gpiod_set_value_cansleep(lcd->backlight_cont, cont);
+ff7a4c7130c0ad Eric Miao        2008-09-07  409  
+ee0c8e494cc3c1 Linus Walleij    2020-02-20  410  	if (lcd->backlight_on)
+ee0c8e494cc3c1 Linus Walleij    2020-02-20  411  		gpiod_set_value_cansleep(lcd->backlight_on, intensity);
+b18250a8f66050 Eric Miao        2008-08-29  412  
+b18250a8f66050 Eric Miao        2008-08-29  413  	if (lcd->kick_battery)
+b18250a8f66050 Eric Miao        2008-08-29  414  		lcd->kick_battery();
+b18250a8f66050 Eric Miao        2008-08-29  415  
+ff7a4c7130c0ad Eric Miao        2008-09-07  416  	lcd->intensity = intensity;
+b18250a8f66050 Eric Miao        2008-08-29  417  	return 0;
+b18250a8f66050 Eric Miao        2008-08-29  418  }
+b18250a8f66050 Eric Miao        2008-08-29  419  
+b18250a8f66050 Eric Miao        2008-08-29  420  static int corgi_bl_update_status(struct backlight_device *bd)
+b18250a8f66050 Eric Miao        2008-08-29  421  {
+4d89c3b38927be Jingoo Han       2013-02-21  422  	struct corgi_lcd *lcd = bl_get_data(bd);
+51d53e5b06b8e7 Sam Ravnborg     2020-07-19  423  	int intensity = backlight_get_brightness(bd);
+b18250a8f66050 Eric Miao        2008-08-29  424  
+bfdcaa3b6899bb Eric Miao        2008-08-29  425  	if (corgibl_flags & CORGIBL_SUSPENDED)
+bfdcaa3b6899bb Eric Miao        2008-08-29  426  		intensity = 0;
+716bdf18746471 Pavel Machek     2009-11-06  427  
+716bdf18746471 Pavel Machek     2009-11-06  428  	if ((corgibl_flags & CORGIBL_BATTLOW) && intensity > lcd->limit_mask)
+716bdf18746471 Pavel Machek     2009-11-06  429  		intensity = lcd->limit_mask;
+bfdcaa3b6899bb Eric Miao        2008-08-29  430  
+b18250a8f66050 Eric Miao        2008-08-29  431  	return corgi_bl_set_intensity(lcd, intensity);
+b18250a8f66050 Eric Miao        2008-08-29  432  }
+b18250a8f66050 Eric Miao        2008-08-29  433  
+5cbff9603a77d0 Dmitry Baryshkov 2008-10-28  434  void corgi_lcd_limit_intensity(int limit)
+bfdcaa3b6899bb Eric Miao        2008-08-29  435  {
+bfdcaa3b6899bb Eric Miao        2008-08-29  436  	if (limit)
+bfdcaa3b6899bb Eric Miao        2008-08-29  437  		corgibl_flags |= CORGIBL_BATTLOW;
+bfdcaa3b6899bb Eric Miao        2008-08-29  438  	else
+bfdcaa3b6899bb Eric Miao        2008-08-29  439  		corgibl_flags &= ~CORGIBL_BATTLOW;
+bfdcaa3b6899bb Eric Miao        2008-08-29  440  
+bfdcaa3b6899bb Eric Miao        2008-08-29  441  	backlight_update_status(the_corgi_lcd->bl_dev);
+bfdcaa3b6899bb Eric Miao        2008-08-29  442  }
+5cbff9603a77d0 Dmitry Baryshkov 2008-10-28  443  EXPORT_SYMBOL(corgi_lcd_limit_intensity);
+bfdcaa3b6899bb Eric Miao        2008-08-29  444  
+9905a43b2d563e Emese Revfy      2009-12-14  445  static const struct backlight_ops corgi_bl_ops = {
+b18250a8f66050 Eric Miao        2008-08-29 @446  	.get_brightness	= corgi_bl_get_intensity,
+b18250a8f66050 Eric Miao        2008-08-29  447  	.update_status  = corgi_bl_update_status,
+b18250a8f66050 Eric Miao        2008-08-29  448  };
+b18250a8f66050 Eric Miao        2008-08-29  449  
+bb0747105728fb Jingoo Han       2013-04-29  450  #ifdef CONFIG_PM_SLEEP
+bb0747105728fb Jingoo Han       2013-04-29  451  static int corgi_lcd_suspend(struct device *dev)
+b18250a8f66050 Eric Miao        2008-08-29  452  {
+bb0747105728fb Jingoo Han       2013-04-29  453  	struct corgi_lcd *lcd = dev_get_drvdata(dev);
+b18250a8f66050 Eric Miao        2008-08-29  454  
+bfdcaa3b6899bb Eric Miao        2008-08-29  455  	corgibl_flags |= CORGIBL_SUSPENDED;
+b18250a8f66050 Eric Miao        2008-08-29  456  	corgi_bl_set_intensity(lcd, 0);
+b18250a8f66050 Eric Miao        2008-08-29  457  	corgi_lcd_set_power(lcd->lcd_dev, FB_BLANK_POWERDOWN);
+b18250a8f66050 Eric Miao        2008-08-29  458  	return 0;
+b18250a8f66050 Eric Miao        2008-08-29  459  }
+b18250a8f66050 Eric Miao        2008-08-29  460  
+bb0747105728fb Jingoo Han       2013-04-29  461  static int corgi_lcd_resume(struct device *dev)
+b18250a8f66050 Eric Miao        2008-08-29  462  {
+bb0747105728fb Jingoo Han       2013-04-29  463  	struct corgi_lcd *lcd = dev_get_drvdata(dev);
+b18250a8f66050 Eric Miao        2008-08-29  464  
+bfdcaa3b6899bb Eric Miao        2008-08-29  465  	corgibl_flags &= ~CORGIBL_SUSPENDED;
+b18250a8f66050 Eric Miao        2008-08-29  466  	corgi_lcd_set_power(lcd->lcd_dev, FB_BLANK_UNBLANK);
+b18250a8f66050 Eric Miao        2008-08-29  467  	backlight_update_status(lcd->bl_dev);
+b18250a8f66050 Eric Miao        2008-08-29  468  	return 0;
+b18250a8f66050 Eric Miao        2008-08-29  469  }
+b18250a8f66050 Eric Miao        2008-08-29  470  #endif
+b18250a8f66050 Eric Miao        2008-08-29  471  
+bb0747105728fb Jingoo Han       2013-04-29  472  static SIMPLE_DEV_PM_OPS(corgi_lcd_pm_ops, corgi_lcd_suspend, corgi_lcd_resume);
+bb0747105728fb Jingoo Han       2013-04-29  473  
+ff7a4c7130c0ad Eric Miao        2008-09-07  474  static int setup_gpio_backlight(struct corgi_lcd *lcd,
+ff7a4c7130c0ad Eric Miao        2008-09-07  475  				struct corgi_lcd_platform_data *pdata)
+ff7a4c7130c0ad Eric Miao        2008-09-07  476  {
+ff7a4c7130c0ad Eric Miao        2008-09-07  477  	struct spi_device *spi = lcd->spi_dev;
+ff7a4c7130c0ad Eric Miao        2008-09-07  478  
+ee0c8e494cc3c1 Linus Walleij    2020-02-20  479  	lcd->backlight_on = devm_gpiod_get_optional(&spi->dev,
+ee0c8e494cc3c1 Linus Walleij    2020-02-20  480  						    "BL_ON", GPIOD_OUT_LOW);
+ee0c8e494cc3c1 Linus Walleij    2020-02-20  481  	if (IS_ERR(lcd->backlight_on))
+ee0c8e494cc3c1 Linus Walleij    2020-02-20  482  		return PTR_ERR(lcd->backlight_on);
+ff7a4c7130c0ad Eric Miao        2008-09-07  483  
+ee0c8e494cc3c1 Linus Walleij    2020-02-20  484  	lcd->backlight_cont = devm_gpiod_get_optional(&spi->dev, "BL_CONT",
+ee0c8e494cc3c1 Linus Walleij    2020-02-20  485  						      GPIOD_OUT_LOW);
+ee0c8e494cc3c1 Linus Walleij    2020-02-20  486  	if (IS_ERR(lcd->backlight_cont))
+ee0c8e494cc3c1 Linus Walleij    2020-02-20  487  		return PTR_ERR(lcd->backlight_cont);
+ff7a4c7130c0ad Eric Miao        2008-09-07  488  
+ff7a4c7130c0ad Eric Miao        2008-09-07  489  	return 0;
+ff7a4c7130c0ad Eric Miao        2008-09-07  490  }
+ff7a4c7130c0ad Eric Miao        2008-09-07  491  
+1b9e450de105c1 Bill Pemberton   2012-11-19  492  static int corgi_lcd_probe(struct spi_device *spi)
+b18250a8f66050 Eric Miao        2008-08-29  493  {
+a19a6ee6cad2b2 Matthew Garrett  2010-02-17 @494  	struct backlight_properties props;
+c512794cada491 Jingoo Han       2013-11-12  495  	struct corgi_lcd_platform_data *pdata = dev_get_platdata(&spi->dev);
+b18250a8f66050 Eric Miao        2008-08-29  496  	struct corgi_lcd *lcd;
+b18250a8f66050 Eric Miao        2008-08-29  497  	int ret = 0;
+b18250a8f66050 Eric Miao        2008-08-29  498  
+b18250a8f66050 Eric Miao        2008-08-29  499  	if (pdata == NULL) {
+b18250a8f66050 Eric Miao        2008-08-29  500  		dev_err(&spi->dev, "platform data not available\n");
+b18250a8f66050 Eric Miao        2008-08-29  501  		return -EINVAL;
+b18250a8f66050 Eric Miao        2008-08-29  502  	}
+b18250a8f66050 Eric Miao        2008-08-29  503  
+06c96f189bf944 Jingoo Han       2012-05-29  504  	lcd = devm_kzalloc(&spi->dev, sizeof(struct corgi_lcd), GFP_KERNEL);
+3b20b894d4b342 Jingoo Han       2014-04-03  505  	if (!lcd)
+b18250a8f66050 Eric Miao        2008-08-29  506  		return -ENOMEM;
+b18250a8f66050 Eric Miao        2008-08-29  507  
+b18250a8f66050 Eric Miao        2008-08-29  508  	lcd->spi_dev = spi;
+b18250a8f66050 Eric Miao        2008-08-29  509  
+10645a1d1878cf Jingoo Han       2013-11-12  510  	lcd->lcd_dev = devm_lcd_device_register(&spi->dev, "corgi_lcd",
+10645a1d1878cf Jingoo Han       2013-11-12  511  						&spi->dev, lcd, &corgi_lcd_ops);
+06c96f189bf944 Jingoo Han       2012-05-29  512  	if (IS_ERR(lcd->lcd_dev))
+06c96f189bf944 Jingoo Han       2012-05-29  513  		return PTR_ERR(lcd->lcd_dev);
+06c96f189bf944 Jingoo Han       2012-05-29  514  
+b18250a8f66050 Eric Miao        2008-08-29  515  	lcd->power = FB_BLANK_POWERDOWN;
+b18250a8f66050 Eric Miao        2008-08-29  516  	lcd->mode = (pdata) ? pdata->init_mode : CORGI_LCD_MODE_VGA;
+b18250a8f66050 Eric Miao        2008-08-29  517  
+a19a6ee6cad2b2 Matthew Garrett  2010-02-17  518  	memset(&props, 0, sizeof(struct backlight_properties));
+bb7ca747f8d624 Matthew Garrett  2011-03-22  519  	props.type = BACKLIGHT_RAW;
+a19a6ee6cad2b2 Matthew Garrett  2010-02-17  520  	props.max_brightness = pdata->max_intensity;
+10645a1d1878cf Jingoo Han       2013-11-12  521  	lcd->bl_dev = devm_backlight_device_register(&spi->dev, "corgi_bl",
+10645a1d1878cf Jingoo Han       2013-11-12  522  						&spi->dev, lcd, &corgi_bl_ops,
+10645a1d1878cf Jingoo Han       2013-11-12  523  						&props);
+10645a1d1878cf Jingoo Han       2013-11-12  524  	if (IS_ERR(lcd->bl_dev))
+10645a1d1878cf Jingoo Han       2013-11-12  525  		return PTR_ERR(lcd->bl_dev);
+10645a1d1878cf Jingoo Han       2013-11-12  526  
+b18250a8f66050 Eric Miao        2008-08-29  527  	lcd->bl_dev->props.brightness = pdata->default_intensity;
+b18250a8f66050 Eric Miao        2008-08-29  528  	lcd->bl_dev->props.power = FB_BLANK_UNBLANK;
+b18250a8f66050 Eric Miao        2008-08-29  529  
+ff7a4c7130c0ad Eric Miao        2008-09-07  530  	ret = setup_gpio_backlight(lcd, pdata);
+ff7a4c7130c0ad Eric Miao        2008-09-07  531  	if (ret)
+10645a1d1878cf Jingoo Han       2013-11-12  532  		return ret;
+ff7a4c7130c0ad Eric Miao        2008-09-07  533  
+b18250a8f66050 Eric Miao        2008-08-29  534  	lcd->kick_battery = pdata->kick_battery;
+b18250a8f66050 Eric Miao        2008-08-29  535  
+9319dfa1e08700 Jingoo Han       2013-02-21  536  	spi_set_drvdata(spi, lcd);
+b18250a8f66050 Eric Miao        2008-08-29  537  	corgi_lcd_set_power(lcd->lcd_dev, FB_BLANK_UNBLANK);
+b18250a8f66050 Eric Miao        2008-08-29  538  	backlight_update_status(lcd->bl_dev);
+bfdcaa3b6899bb Eric Miao        2008-08-29  539  
+bfdcaa3b6899bb Eric Miao        2008-08-29  540  	lcd->limit_mask = pdata->limit_mask;
+bfdcaa3b6899bb Eric Miao        2008-08-29  541  	the_corgi_lcd = lcd;
+b18250a8f66050 Eric Miao        2008-08-29  542  	return 0;
+b18250a8f66050 Eric Miao        2008-08-29  543  }
+b18250a8f66050 Eric Miao        2008-08-29  544  
 
 -- 
-With best wishes
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
