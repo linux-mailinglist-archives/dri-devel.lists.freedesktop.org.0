@@ -2,41 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF378597D9
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Feb 2024 17:49:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C51D859841
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Feb 2024 18:47:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED1B910E0B4;
-	Sun, 18 Feb 2024 16:49:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD26610E029;
+	Sun, 18 Feb 2024 17:47:00 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="SD9wlefO";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
- [210.160.252.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id B900010E0C0
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Feb 2024 16:49:18 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="6.06,168,1705330800"; d="scan'208";a="198244695"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie6.idc.renesas.com with ESMTP; 19 Feb 2024 01:49:18 +0900
-Received: from localhost.localdomain (unknown [10.226.92.34])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id 0D2934004D08;
- Mon, 19 Feb 2024 01:49:13 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v17 5/5] MAINTAINERS: Create entry for Renesas RZ DRM drivers
-Date: Sun, 18 Feb 2024 16:48:40 +0000
-Message-Id: <20240218164840.57662-6-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240218164840.57662-1-biju.das.jz@bp.renesas.com>
-References: <20240218164840.57662-1-biju.das.jz@bp.renesas.com>
+Received: from smtp.smtpout.orange.fr (smtp-19.smtpout.orange.fr
+ [80.12.242.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2947510E029
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Feb 2024 17:46:59 +0000 (UTC)
+Received: from fedora.home ([92.140.202.140]) by smtp.orange.fr with ESMTPA
+ id blFbr8qYHiCLsblFer7StJ; Sun, 18 Feb 2024 18:46:57 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1708278417;
+ bh=y2+kKbrWEFY2/pmLK9szqs3+euOSxAcesJDdReAip00=;
+ h=From:To:Cc:Subject:Date;
+ b=SD9wlefOwXg6avVhwSrVQdg+pRLNLNGc+ZUkn8lC/1XFjrHZc30uIj2jPvkEWP5cb
+ wiHSjYsY5V2op+Ln67qbUlLXw/7k3gDzmSapsEgNjU2FE7ZQFZeRAuDAkPHNJi0+9i
+ 3O0ClCSTsfy7DletOKheud1v1mlIm1LkH2827FumbJLNPbd7ozcZdiM34zTIQM6eIp
+ iFy+zsBoGPfT58YXmqfV0/faepuFDWLu0whT+sljy78xCEZdC8SGTXALv3bim/xS+r
+ z6Hjxmm8jvIpbKthLpg3OcdQEbqDKstm8BPQdu3EnvoPuV1rqWapIbUpBqLWwioruD
+ Hs+GmnM6RYFgQ==
+X-ME-Helo: fedora.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 18 Feb 2024 18:46:57 +0100
+X-ME-IP: 92.140.202.140
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: gustavo@embeddedor.com, keescook@chromium.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: [PATCH v2] udmabuf: Fix a potential (and unlikely) access to
+ unallocated memory
+Date: Sun, 18 Feb 2024 18:46:44 +0100
+Message-ID: <f75d0426a17b57dbddacd7da345c1c62a3dbb7ce.1708278363.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.43.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -54,60 +63,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Create entry for Renesas RZ DRM drivers and add my self as a maintainer.
+If 'list_limit' is set to a very high value, 'lsize' computation could
+overflow if 'head.count' is big enough.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
-v16->v17:
- * No change
-v15->v16:
- * No change
-v14->v15:
- * Added drm-misc tree entry.
- * Sorted the entry(Placed before SHMOBILE)
-v13->v14:
- * Now SHMOBILE has maintainer entries. So dropped updating
-   DRM DRIVERS FOR RENESAS RCAR AND SHMOBILE.
- * Updated comment header and description.
- * The above changes are trivial, so kept the Rb tag from Laurent.
-v12->v13:
- * No change.
-v11->v12:
- * No change.
-v10->v11:
- * No change.
-v9->v10:
- * No change.
-v8->v9:
- * Added Rb tag from Laurent.
- * Updated entries for common parts(Makefile and Kconfig).
-v8:
- * New patch
----
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+In such a case, udmabuf_create() would access to memory beyond 'list'.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ffd316d141b8..3527a2ece6cd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7193,6 +7193,15 @@ F:	Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
- F:	Documentation/devicetree/bindings/display/renesas,du.yaml
- F:	drivers/gpu/drm/renesas/rcar-du/
+Use memdup_array_user() which checks for overflow.
+
+While at it, include <linux/string.h>.
+
+Fixes: fbb0de795078 ("Add udmabuf misc device")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+v2: - Use memdup_array_user()   [Kees Cook]
+    - Use sizeof(*list)   [Gustavo A. R. Silva]
+    - Add include <linux/string.h>
+
+v1: https://lore.kernel.org/all/3e37f05c7593f1016f0a46de188b3357cbbd0c0b.1695060389.git.christophe.jaillet@wanadoo.fr/
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/dma-buf/udmabuf.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index c40645999648..5728948ea6f2 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -11,6 +11,7 @@
+ #include <linux/module.h>
+ #include <linux/shmem_fs.h>
+ #include <linux/slab.h>
++#include <linux/string.h>
+ #include <linux/udmabuf.h>
+ #include <linux/vmalloc.h>
+ #include <linux/iosys-map.h>
+@@ -314,14 +315,13 @@ static long udmabuf_ioctl_create_list(struct file *filp, unsigned long arg)
+ 	struct udmabuf_create_list head;
+ 	struct udmabuf_create_item *list;
+ 	int ret = -EINVAL;
+-	u32 lsize;
  
-+DRM DRIVERS FOR RENESAS RZ
-+M:	Biju Das <biju.das.jz@bp.renesas.com>
-+L:	dri-devel@lists.freedesktop.org
-+L:	linux-renesas-soc@vger.kernel.org
-+S:	Maintained
-+T:	git git://anongit.freedesktop.org/drm/drm-misc
-+F:	Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-+F:	drivers/gpu/drm/renesas/rz-du/
-+
- DRM DRIVERS FOR RENESAS SHMOBILE
- M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
- M:	Geert Uytterhoeven <geert+renesas@glider.be>
+ 	if (copy_from_user(&head, (void __user *)arg, sizeof(head)))
+ 		return -EFAULT;
+ 	if (head.count > list_limit)
+ 		return -EINVAL;
+-	lsize = sizeof(struct udmabuf_create_item) * head.count;
+-	list = memdup_user((void __user *)(arg + sizeof(head)), lsize);
++	list = memdup_array_user((void __user *)(arg + sizeof(head)),
++				 sizeof(*list), head.count);
+ 	if (IS_ERR(list))
+ 		return PTR_ERR(list);
+ 
 -- 
-2.25.1
+2.43.2
 
