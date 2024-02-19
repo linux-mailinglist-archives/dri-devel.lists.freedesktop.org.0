@@ -2,63 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA17785A1BE
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 12:16:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B4A685A1D5
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 12:22:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 201CB10E308;
-	Mon, 19 Feb 2024 11:16:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7D0A10E31E;
+	Mon, 19 Feb 2024 11:22:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lmRszKxJ";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="UNn4CoMd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B77B10E2D9;
- Mon, 19 Feb 2024 11:16:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708341395; x=1739877395;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=fI/xuoTrzJOxWvDHx/Gdn2cdzI4ltJbKPX1loVrgIvw=;
- b=lmRszKxJKFZx3zzpc+N87TJjqmMfjVVwGcQUFT2eqZH9Q/nIoVKOLMb2
- 7LaSbB6dIiyGAad/da16jkbFQhAYhO4WP4RtXjQgY8GYo++F34HjYPriQ
- WLheVeZiuW56SSUdvXowZNwRDj7pg/8JA+P4PgGGMK8UcTQUPJXnaJ7NF
- 0ZhXBMUOuJXU5zHB6LEGrKLPCXYIJbY4WDngPBJi0CTNZD0Fny2jAzX/r
- NwluWmESyR1MrceW6Zs6rgGRBhjcUKSi7l8jO+WraBhzOPLyU8C2RqPQg
- bC4Ic6NIv+qgbxFyUFN4kBDMZj0wLaSZahpRSMGrsKd+lysWteG3JpbuV g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10988"; a="2279451"
-X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
-   d="scan'208";a="2279451"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2024 03:16:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; d="scan'208";a="35238332"
-Received: from coldacre-mobl1.ger.corp.intel.com (HELO [10.213.215.68])
- ([10.213.215.68])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2024 03:16:31 -0800
-Message-ID: <d61391f6-ff1d-4241-bd9e-2a3bee53c860@linux.intel.com>
-Date: Mon, 19 Feb 2024 11:16:29 +0000
-MIME-Version: 1.0
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02on2040.outbound.protection.outlook.com [40.107.95.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0657710E31C
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 11:22:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fxMM21grzKvHxRmLPV4m0yzXBmxSMpVLvDa4GFLRHXCoJbz6kdfILUYGbd3mVwDQDRMP2AauxrlauF4JMvmiiG6F8wk54+OSH/qRcl5jkc3/vAmux3/jxTFGDscfdhUApGT16XW5v5BBCKNJMH++vuzhcu/RuShmylM7e8wrTKNa1aEHvYttkKDvavsWGUY++iJJLjdlGwamjK10YyCTDtqLgG+a8in7iREUJKz/sBbjmPf24+12jmQVzjn8duZPp8GLf//OJowLhOhEZWoctO2mft2MUICj4NFW23quxuScpXuUwzuvcXGqxM5WAmPSUOddjzg/QdnhMCkzGPXYjA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=q+nY4mWRD16ZJiod1LL5PjN0FJNbrv6NgDYtnJzjoZY=;
+ b=gcZhbAbMw06oY8p/K0vJiPsNhEA3h2WJgojOQvDrvZqVT1W8wI8a68I2/rygtnkTp5X/arQIgiJDOi2/hBv+oWiGb8an66oNNik4xV2TH5+S5E/CHuMWTRNjYkpSfSpWUrr+tCAtYLEHGs1jzkxw4tzjgg57rbqF6L+pSes9OILEnFH0GxOTLKdf29DB6FLYcNvfusu8BkFw4MgkKcm77oOxhX0kMrUulAlO5JX3Ai41IDlXWIX9R11GUdz3r3ilgU87Dmu5DYrDxWnzGuSImLuO9RcHhw7gekqYHretk73Ce75Dl+LzrFMNWAWnALup46Eq3eF8ULsFW9vzg/N5IQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q+nY4mWRD16ZJiod1LL5PjN0FJNbrv6NgDYtnJzjoZY=;
+ b=UNn4CoMdb6SBHAUaMEtOm0sN4sl6NaZOO04LhALBLiwnrrWvN5OGIpUMtCxCO9rKSJ+Zmd3v/pTSMDrCKF5pf+z3eaKacSOPjGGn2mMad6SVMKqPEtwaXl74oGupx/VAq8TfQbyxU58uwfiawTzvRWJb1DWsp+dtohK9SP74Nts=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MW3PR12MB4396.namprd12.prod.outlook.com (2603:10b6:303:59::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.19; Mon, 19 Feb
+ 2024 11:22:35 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7316.018; Mon, 19 Feb 2024
+ 11:22:35 +0000
+Message-ID: <4cdc5b58-11c1-490d-8c3b-6352d8f1b8cb@amd.com>
+Date: Mon, 19 Feb 2024 12:22:28 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/i915/gt: Set default CCS mode '1'
+Subject: Re: [PATCH] drm/tests/drm_buddy: avoid 64-bit calculation
 Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Matt Roper <matthew.d.roper@intel.com>, stable@vger.kernel.org,
- Andi Shyti <andi.shyti@kernel.org>
-References: <20240215135924.51705-1-andi.shyti@linux.intel.com>
- <20240215135924.51705-3-andi.shyti@linux.intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20240215135924.51705-3-andi.shyti@linux.intel.com>
+To: Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ David Gow <davidgow@google.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>, Matthew Auld <matthew.auld@intel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240216202442.2493031-1-arnd@kernel.org>
+ <745e156e-c3ec-427f-98ad-bfc7d3cfd846@infradead.org>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <745e156e-c3ec-427f-98ad-bfc7d3cfd846@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0183.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a4::11) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW3PR12MB4396:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8233f01c-1763-4bb2-f37f-08dc313d1246
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: olalifhMNxtbxoIYwVkzaFoprluWdHwVj5l1zK0QmEPoiJ7DAbLEbs/vA/Miooj3pkKN7GBAPreHIn28We0V5t0NILBKkr8p3pYGuizCmsqk/LIaw+A42PmeeKzDoeAbRDuTzAnW+EqvwceTtnDDV/zHG+Y3id3DODMMx4leocQplqBxUqCHDor+6vpgzknmBCjLHcZntCOPCl8G1zsFPXx9pfKzoQjyPwMuoCZA/VXpFipQOXl0q594h0NMHtrMfMgRb9vlQu6UtPXeIYGvmEE16yQ//jgzJgsFQxXMR2enSUU4lPs7JnFLbRSvhuWuUo+XwWtzumqxw24Ec19OcjRRxazJ8Ex5CCxOFPGworFdz/1PcV63eAsTCS851iKVUsATd4GDSYWGv4VbvX6z8I29oBuMYCQTICatteqkBoZSWJL17/37RSSkSSCU2f3G6vhc0w+biovgOWaNlvq+ykCmZZ4Hd8lLUwIwnln5twy/eq+sRtB7RJNcGk0rphtq/zIQlhKZlycqp9NWPkxn3ZAn240kVDPqCOT/QO3ybRs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YkJtNklveS9VL0x5Q2tOZDZaMVV6enplaHZEOFc4dVlhbW5Qb2pDZ3p5S1Jz?=
+ =?utf-8?B?c2NOUHpTUHdPc29KQTFIVm1oS0VkQytkeWl2M3JsNWtVcEYvajdZSU0zYlM2?=
+ =?utf-8?B?aW03OFRia05MZ3VkZTZkeUJXRmY3SllGdmxkbjVBT1dtV0hxMHc4dWRDMlRy?=
+ =?utf-8?B?bkhWSjYrY1hxdnprU2hrTk5RMHRxbTgrR0o3bWtWakRyVisrVW5HTURUZ1dQ?=
+ =?utf-8?B?U21jaW1KVzVabG9yblBURUFXbkhaWW5JTktiOXJQL1RZK3djMWFhRjRPSm1i?=
+ =?utf-8?B?ME9OYmNKeURBMG1MK3Nxa1FPeVVUc2tLa3BuYzhhNmlnNlpTTjNsQnB2Tnh0?=
+ =?utf-8?B?OEh5VXVrcCs4endZS1UwM3BpOCtyNWIwZUlvMEdaSVBRZDg4WnRLcEI1eHVH?=
+ =?utf-8?B?MW9pZUpCK0R1MmZpWWtaZ0ZFeFFPODZUY05Da2hvZmNRSlBSU09MSWVMRUNr?=
+ =?utf-8?B?ZzZBSHNFT0RIakdSR2o2dmN4QzBRN0RvZXEzRjFlWHpGcnMvSzRPNy8xWnJj?=
+ =?utf-8?B?MitabUZFcDV2YkpvK3Z3MGxnbWhKd3g1bldrUExvN3V2UFlhekUxc1Evd0xN?=
+ =?utf-8?B?V2d6MzQ2c1hqdUtTazljTDBzNGo4WmZnMkNlSVdLcXlBMHNKVm9ZcmNkTHVW?=
+ =?utf-8?B?RkFHaWhCbkhuaE1BM1pmSWFNRGlBeEREUHFwS0FJdGFDTWZjbUNiNG1IR0Ey?=
+ =?utf-8?B?K2tBMll3bFlpR0ZnMW4zM3ZDeTZRRjNWVHdNdFZMeE5kcGNUdHNVbnJWU3RK?=
+ =?utf-8?B?MnNXN09aMHdpWGovdkdPTWYwR1RLeTJRbER0QjZTWGpmeDJpTGpoYWlmZkcv?=
+ =?utf-8?B?clJ2TnRJYks5UGxQQjJNdGZhZXJZdXlyYk5VNHZWTGJna2hmWS9ZMFZ3SzAr?=
+ =?utf-8?B?MzZva3grYndrZzlBeEFjWVRsWnh4WmxKUjFwaWhBNzFqa21GdGhhRWRFREdE?=
+ =?utf-8?B?RDlJZ0h0Y2xpZmR1MEMxNURQQUJPRGErbHVXQ2h4MzV2dyt2SEs4dTFINElS?=
+ =?utf-8?B?Ukc1M3lDYUxMd3JxKzdyMUQ4blQ3a3ZJQ0hIZmRNOWtidVJQbTQwbFhpdzVx?=
+ =?utf-8?B?aEF3ZWRYN0lrSURjSjhPb2N6emdUZzhJSjh6TVpIc1JER1dmWjV0Z1pHMGxT?=
+ =?utf-8?B?S0wxbjRVLzBvSGpXVGRqcFNobURKQ3FNVHFJaUU2TkhXN0FMSk93cXZUWmp0?=
+ =?utf-8?B?MjUvcGh2UEtoU2k0M2hkMjlsaXEzN0dNaWJjTzRLVTNyT2pVbEV6NzdhdWNk?=
+ =?utf-8?B?eUVWaythQUl1MVpSa1AyR1d0QmRhMXFWOGpOVkNYR1ZHb1NDVkNhTmdKbllQ?=
+ =?utf-8?B?b2ZtMWQ3SmdBcHVHZFhob2tsRCtWQVF3OS9rdmhNbEdXaFJnU3FlRHhjZ3FS?=
+ =?utf-8?B?ekljcnBuTFJTTVpCd0xObklXNU5UYnJvQjdvbkxvRWplaDVWQm9sU2I1Ry9O?=
+ =?utf-8?B?YmNRUG5rNHU4Q09ZWDU5NVp1dkJvNVExVHMwN3Fmdi85eG1lZ0lZem56dEds?=
+ =?utf-8?B?MWwrVEJ3SVV2R3lDS0JQVlB2UDljUlNNYjdzSjdwUTdkTEgrYjljcWZRcnhp?=
+ =?utf-8?B?T2UrdDJpMjZRdTR2aHFkTzBQV2NKVGhhL3JCcG5HWTkyN25HVkVVQ1NuUXBH?=
+ =?utf-8?B?UWFSZzNseUJlMHVONFovMXUzSWo0RzlXMGNyZHRRczkwN2svQVIycmNDVkl1?=
+ =?utf-8?B?S0JwUldsck1ObUd1ZHVXOTFwcUNQckZpQ0x3bk1nU0g4QVF5Z2xSZXFObWtV?=
+ =?utf-8?B?cUNUNUo1RGo1TUYxdTFoeVhuMTBicGpWU2ZHWXhFQTRoREp5VmVrUW5PZDJ2?=
+ =?utf-8?B?TnZqeTgxa0RtOVl2UGZKa1NjZ0phR3pCaGVPdDJrVjRrQ2ZNWk5VVmlvTFd0?=
+ =?utf-8?B?T1FlUEN5Z3ZFL2xtV3p0eWd6SHlEWXplbWhHWnBmTFNOSlNwa0FpRlpFVTFX?=
+ =?utf-8?B?Y2ZvQTFFSWxEKy93L3Brd2g5b0RCcnFUV3hRcTd6ZytPaXJ3cGpPUjBNclVq?=
+ =?utf-8?B?anh0QlJjNnJhR3JTYVFrSmpNeUU4TWJGdENPa1VReGU3UGFKakdhQWZUdkxq?=
+ =?utf-8?B?Q1VjUHNkRUQzQTVhbThCWHhYN1dWZys0Mm9RUVEyem1qT083eUxGUXJVSzUv?=
+ =?utf-8?Q?8D/PxI3PHnE3sv+zrYiccyipa?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8233f01c-1763-4bb2-f37f-08dc313d1246
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2024 11:22:35.0631 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ocB/o1spiA5pehYy6HoF66SzjSfhuZ89jgT1Cek7kYBAvShKGVS6iyjP/e2HZY3F
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4396
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,139 +137,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Am 17.02.24 um 02:31 schrieb Randy Dunlap:
+> On 2/16/24 12:24, Arnd Bergmann wrote:
+>> From: Arnd Bergmann <arnd@arndb.de>
+>>
+>> The newly added drm_test_buddy_alloc_contiguous() test fails to link on
+>> 32-bit targets because of inadvertent 64-bit calculations:
+>>
+>> ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/tests/drm_buddy_test.ko] undefined!
+>> ERROR: modpost: "__aeabi_ldivmod" [drivers/gpu/drm/tests/drm_buddy_test.ko] undefined!
+>>
+>> >From what I can tell, the numbers cannot possibly overflow a 32-bit size,
+>> so use different types for these.
+>>
+>> I noticed that the function has another possible flaw in that is mixes
+>> what it calls pages with 4KB units. This is a big confusing at best,
+>> or possibly broken when built on machines with larger pages.
+>>
+>> Fixes: a64056bb5a32 ("drm/tests/drm_buddy: add alloc_contiguous test")
+>> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-On 15/02/2024 13:59, Andi Shyti wrote:
-> Since CCS automatic load balancing is disabled, we will impose a
-> fixed balancing policy that involves setting all the CCS engines
-> to work together on the same load.
-> 
-> Simultaneously, the user will see only 1 CCS rather than the
-> actual number. As of now, this change affects only DG2.
-> 
-> Fixes: d2eae8e98d59 ("drm/i915/dg2: Drop force_probe requirement")
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Matt Roper <matthew.d.roper@intel.com>
-> Cc: <stable@vger.kernel.org> # v6.2+
-> ---
->   drivers/gpu/drm/i915/gt/intel_gt.c      | 11 +++++++++++
->   drivers/gpu/drm/i915/gt/intel_gt_regs.h |  2 ++
->   drivers/gpu/drm/i915/i915_drv.h         | 17 +++++++++++++++++
->   drivers/gpu/drm/i915/i915_query.c       |  5 +++--
->   4 files changed, 33 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-> index a425db5ed3a2..e19df4ef47f6 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> @@ -168,6 +168,14 @@ static void init_unused_rings(struct intel_gt *gt)
->   	}
->   }
->   
-> +static void intel_gt_apply_ccs_mode(struct intel_gt *gt)
-> +{
-> +	if (!IS_DG2(gt->i915))
-> +		return;
-> +
-> +	intel_uncore_write(gt->uncore, XEHP_CCS_MODE, 0);
-> +}
-> +
->   int intel_gt_init_hw(struct intel_gt *gt)
->   {
->   	struct drm_i915_private *i915 = gt->i915;
-> @@ -195,6 +203,9 @@ int intel_gt_init_hw(struct intel_gt *gt)
->   
->   	intel_gt_init_swizzling(gt);
->   
-> +	/* Configure CCS mode */
-> +	intel_gt_apply_ccs_mode(gt);
-> +
->   	/*
->   	 * At least 830 can leave some of the unused rings
->   	 * "active" (ie. head != tail) after resume which
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> index cf709f6c05ae..c148113770ea 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> @@ -1605,6 +1605,8 @@
->   #define   GEN12_VOLTAGE_MASK			REG_GENMASK(10, 0)
->   #define   GEN12_CAGF_MASK			REG_GENMASK(19, 11)
->   
-> +#define XEHP_CCS_MODE                          _MMIO(0x14804)
-> +
->   #define GEN11_GT_INTR_DW(x)			_MMIO(0x190018 + ((x) * 4))
->   #define   GEN11_CSME				(31)
->   #define   GEN12_HECI_2				(30)
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index e81b3b2858ac..0853ffd3cb8d 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -396,6 +396,23 @@ static inline struct intel_gt *to_gt(const struct drm_i915_private *i915)
->   	     (engine__); \
->   	     (engine__) = rb_to_uabi_engine(rb_next(&(engine__)->uabi_node)))
->   
-> +/*
-> + * Exclude unavailable engines.
-> + *
-> + * Only the first CCS engine is utilized due to the disabling of CCS auto load
-> + * balancing. As a result, all CCS engines operate collectively, functioning
-> + * essentially as a single CCS engine, hence the count of active CCS engines is
-> + * considered '1'.
-> + * Currently, this applies to platforms with more than one CCS engine,
-> + * specifically DG2.
-> + */
-> +#define for_each_available_uabi_engine(engine__, i915__) \
-> +	for_each_uabi_engine(engine__, i915__) \
-> +		if ((IS_DG2(i915__)) && \
-> +		    ((engine__)->uabi_class == I915_ENGINE_CLASS_COMPUTE) && \
-> +		    ((engine__)->uabi_instance)) { } \
-> +		else
-> +
+I've just pushed a similar patch Mathew came up a bit earlier to 
+drm-misc-fixes.
 
-If you don't want userspace to see some engines, just don't add them to 
-the uabi list in intel_engines_driver_register or thereabouts?
+Sorry for the noise, I have to catch up on picking up patches for 
+misc-fixes and misc-next.
 
-Similar as we do for gsc which uses I915_NO_UABI_CLASS, although for ccs 
-you can choose a different approach, whatever is more elegant.
+Christian.
 
-That is also needed for i915->engine_uabi_class_count to be right, so 
-userspace stats which rely on it are correct.
+>
+> Thanks.
+>
+>> ---
+>>   drivers/gpu/drm/tests/drm_buddy_test.c | 7 ++++---
+>>   1 file changed, 4 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
+>> index fee6bec757d1..50a5f98cd5bd 100644
+>> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
+>> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
+>> @@ -21,7 +21,8 @@ static inline u64 get_size(int order, u64 chunk_size)
+>>   
+>>   static void drm_test_buddy_alloc_contiguous(struct kunit *test)
+>>   {
+>> -	u64 mm_size, ps = SZ_4K, i, n_pages, total;
+>> +	u64 mm_size, total;
+>> +	u32 i, ps = SZ_4K, n_pages;
+>>   	struct drm_buddy_block *block;
+>>   	struct drm_buddy mm;
+>>   	LIST_HEAD(left);
+>> @@ -29,7 +30,8 @@ static void drm_test_buddy_alloc_contiguous(struct kunit *test)
+>>   	LIST_HEAD(right);
+>>   	LIST_HEAD(allocated);
+>>   
+>> -	mm_size = 16 * 3 * SZ_4K;
+>> +	n_pages = 16 * 3;
+>> +	mm_size = n_pages * SZ_4K;
+>>   
+>>   	KUNIT_EXPECT_FALSE(test, drm_buddy_init(&mm, mm_size, ps));
+>>   
+>> @@ -42,7 +44,6 @@ static void drm_test_buddy_alloc_contiguous(struct kunit *test)
+>>   	 */
+>>   
+>>   	i = 0;
+>> -	n_pages = mm_size / ps;
+>>   	do {
+>>   		struct list_head *list;
+>>   		int slot = i % 3;
 
-Regards,
-
-Tvrtko
-
->   #define INTEL_INFO(i915)	((i915)->__info)
->   #define RUNTIME_INFO(i915)	(&(i915)->__runtime)
->   #define DRIVER_CAPS(i915)	(&(i915)->caps)
-> diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
-> index fa3e937ed3f5..2d41bda626a6 100644
-> --- a/drivers/gpu/drm/i915/i915_query.c
-> +++ b/drivers/gpu/drm/i915/i915_query.c
-> @@ -124,6 +124,7 @@ static int query_geometry_subslices(struct drm_i915_private *i915,
->   	return fill_topology_info(sseu, query_item, sseu->geometry_subslice_mask);
->   }
->   
-> +
->   static int
->   query_engine_info(struct drm_i915_private *i915,
->   		  struct drm_i915_query_item *query_item)
-> @@ -140,7 +141,7 @@ query_engine_info(struct drm_i915_private *i915,
->   	if (query_item->flags)
->   		return -EINVAL;
->   
-> -	for_each_uabi_engine(engine, i915)
-> +	for_each_available_uabi_engine(engine, i915)
->   		num_uabi_engines++;
->   
->   	len = struct_size(query_ptr, engines, num_uabi_engines);
-> @@ -155,7 +156,7 @@ query_engine_info(struct drm_i915_private *i915,
->   
->   	info_ptr = &query_ptr->engines[0];
->   
-> -	for_each_uabi_engine(engine, i915) {
-> +	for_each_available_uabi_engine(engine, i915) {
->   		info.engine.engine_class = engine->uabi_class;
->   		info.engine.engine_instance = engine->uabi_instance;
->   		info.flags = I915_ENGINE_INFO_HAS_LOGICAL_INSTANCE;
