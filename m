@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC14985AF9D
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 00:11:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 041D085AFB0
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 00:12:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAD5610E009;
-	Mon, 19 Feb 2024 23:11:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DEB910E095;
+	Mon, 19 Feb 2024 23:12:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=z3ntu.xyz header.i=@z3ntu.xyz header.b="1bEuaatO";
+	dkim=pass (1024-bit key; unprotected) header.d=z3ntu.xyz header.i=@z3ntu.xyz header.b="vGsHYTAa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ahti.lucaweiss.eu (ahti.lucaweiss.eu [128.199.32.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E77410E009
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 23:11:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A89E10E08D
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 23:12:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=s1;
- t=1708384300; bh=4FVN1lsdigo7viniW4HQplRB1ye5k50DGqYItrjf0oQ=;
+ t=1708384300; bh=tgSDAwlrVTzUIqiZyqw7iiUTatrOj4HaquGU5a8EzIU=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc;
- b=1bEuaatOD1fd9xD70XSQxeSdxxdIvvmBFP2Gdb9ZbycwZtGPxi8rlZJkihq0UWmFe
- rcthh3ZWuu1dzYuxfTwxCsHH4GG4h33s5o6JRgO+rD6tZuPyKiJERctJm4IBkZHYpc
- 9d2mJJxvitmqJT7tYY7+YbT4WJzy6aDVfjrkAwr8=
+ b=vGsHYTAaubBzb2bYsXKkzfudGfH7qgOPou2A89bhFI7dVoNZtUuqZKndldkTDoges
+ m4nnpyNEXOtzzLO2I2n/E4w505BcJhS81oI3ojXv3bqGQRX+7bAU0fVpqfiIyixtEZ
+ IudaTj5Wajeq1MYkLlTuMhbRd3/PbV7BGms8PvcU=
 From: Luca Weiss <luca@z3ntu.xyz>
-Date: Tue, 20 Feb 2024 00:11:20 +0100
-Subject: [PATCH 2/4] backlight: lm3630a: Don't set bl->props.brightness in
- get_brightness
+Date: Tue, 20 Feb 2024 00:11:21 +0100
+Subject: [PATCH 3/4] backlight: lm3630a: Use backlight_get_brightness
+ helper in update_status
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240220-lm3630a-fixups-v1-2-9ca62f7e4a33@z3ntu.xyz>
+Message-Id: <20240220-lm3630a-fixups-v1-3-9ca62f7e4a33@z3ntu.xyz>
 References: <20240220-lm3630a-fixups-v1-0-9ca62f7e4a33@z3ntu.xyz>
 In-Reply-To: <20240220-lm3630a-fixups-v1-0-9ca62f7e4a33@z3ntu.xyz>
 To: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
@@ -45,20 +45,20 @@ Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  devicetree@vger.kernel.org, Luca Weiss <luca@z3ntu.xyz>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1906; i=luca@z3ntu.xyz;
- h=from:subject:message-id; bh=4FVN1lsdigo7viniW4HQplRB1ye5k50DGqYItrjf0oQ=;
- b=owEBbQKS/ZANAwAIAXLYQ7idTddWAcsmYgBl0+AnYpKXaDh4PR2QorZC1//Jx6rBuSWTvVmRQ
- ss0kIhVH7mJAjMEAAEIAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCZdPgJwAKCRBy2EO4nU3X
- VpElEADPFLgNHVWgOTwC2O0e7/NUR5zzEQnnFlqCsJBvQqF8rZ/gmLqtpf1YSlBjltHklrDcCM4
- gnHZ5XCeF+JQqGh+5w3Y3xRDhM8EVtv10ubomUNe3h2jbLyb26lt5/vUz2GfoJJTBN/2yQPZMMI
- jwzpQ8T5ojxpYeKlsRhTZ8cAtu7dobFXxxwjeI+kj+diFjnh57XbS3ddJAaI+tXKAC5fb798oNd
- VzVsNUg79xo6ZWYsJdvhyNMyxg3TuqVUYeV2yvy/vWX9Z3Y0fOTGWFwY5OyGBqd+Zu1i7Yl5/c4
- Kg7Ijq0Q2Lkx5rhD+k+VUNW3mNGwYO77xYre8C+DBvtE37DqJz8GrdhSe1sXKeVSnYoy1hJ2j6p
- OltUTu/OKh/K/VK24W/Ldj42oEYAyYM4t6/J0f5Qf1LGm6I4Z/IC5qcBOgyOZ8QZK04alIxBCZ+
- 7sk+Lp5bE/zBSGw7EOcgZKo8hnQaqk3tfSo4Bdna2B7KUaJtabDwDbTv1lJf31u006rkkG/2Hhb
- VRiNJYWlDbF+ZhRXr4sr5bwNKxRPJRoqiDZzpXxdOfuNyBy89DUA+hx4frbZ+nn3owi6HyiZdh+
- 7DE8RTwwEN6DNh4iajbZ9eJOtuNWe/Be8n/l3FN79wR1EzdbkZxpfnR/fxJdotAs2Cxi+nVlO8l
- iFu1Pjz0fHEmQXg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2663; i=luca@z3ntu.xyz;
+ h=from:subject:message-id; bh=tgSDAwlrVTzUIqiZyqw7iiUTatrOj4HaquGU5a8EzIU=;
+ b=owEBbQKS/ZANAwAIAXLYQ7idTddWAcsmYgBl0+AoTixhJbLZliq9WxIhxRszJgCAbf5dK6Uaz
+ 3FQbTd6OhKJAjMEAAEIAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCZdPgKAAKCRBy2EO4nU3X
+ Vul3D/40hfXK/hCXfw+Oi4sNLlrVTWbF3wGBLJv0EYE+UIYALtzpvViG6lquEEohZzR8nJOGd5m
+ SOCn4lYVrh69CX4YGafx/Z035y23A3f7lOGlhkCZHxCmC7TkCz7jUZDIESfH2TGyxYG4im6sVnn
+ 71RPTiAzOyD89Qv8Tr0TKWPgA/K8bbf+U2BtESebvJpkVMcWuMHtSiE67fqAacK7iheq+glGzjc
+ DHwBzbL7/3YFJKZL9j18yXpSoKNZJZEFTtvWKPzCv75tB9Hd6h3Q7zbkN6cvOPsO9PWdjkFa/NI
+ QCfymKnd9v1CPuENWvC5ADh+6z+j3N6l/moHLDtMLu6t1HTbDLYz9nVi1EplW/ECfW5LRKMM3Aw
+ KvoArTl1OzAZ7kVLFAR7U9kCRYsrRUD28dcVJ9dK8Rm1ce4svScTKNQA7VtlfpogEzQlrbcB/BY
+ 09cpxfGmPN8exdgSWL8cOhY89TSZqQgHVN+YzhE+COLgm0LExv7pp4wzTr4DAejtjeQxjIwfcSy
+ +2UJrKAhEIz3mFyQw9t7aj8dlmiNey9T0lemmUXe+PJpnwHYcmyndCRiiYw8j0FE08de3ECwrBL
+ 837t9lFnkz1VbucT4TL+uSBfcB4qjUqDAEkb2w1uUsOSrSSJIHubbZsL/JjrCaK7jST+ZPV4ICW
+ fv/vS9d1qz9CyDg==
 X-Developer-Key: i=luca@z3ntu.xyz; a=openpgp;
  fpr=BD04DA24C971B8D587B2B8D7FAF69CF6CD2D02CD
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,67 +76,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There's no need to set bl->props.brightness, the get_brightness function
-is just supposed to return the current brightness and not touch the
-struct.
+As per documentation "drivers are expected to use this function in their
+update_status() operation to get the brightness value.".
 
-With that done we can also remove the 'goto out' and just return the
-value.
+With this we can also drop the manual backlight_is_blank() handling
+since backlight_get_brightness() is already handling this correctly.
 
-Fixes: 0c2a665a648e ("backlight: add Backlight driver for lm3630 chip")
 Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
 ---
- drivers/video/backlight/lm3630a_bl.c | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
+ drivers/video/backlight/lm3630a_bl.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/video/backlight/lm3630a_bl.c b/drivers/video/backlight/lm3630a_bl.c
-index 8e275275b808..26ff4178cc16 100644
+index 26ff4178cc16..e6c0916ec88b 100644
 --- a/drivers/video/backlight/lm3630a_bl.c
 +++ b/drivers/video/backlight/lm3630a_bl.c
-@@ -233,7 +233,7 @@ static int lm3630a_bank_a_get_brightness(struct backlight_device *bl)
- 		if (rval < 0)
- 			goto out_i2c_err;
- 		brightness |= rval;
--		goto out;
-+		return brightness;
- 	}
+@@ -189,10 +189,11 @@ static int lm3630a_bank_a_update_status(struct backlight_device *bl)
+ 	int ret;
+ 	struct lm3630a_chip *pchip = bl_get_data(bl);
+ 	enum lm3630a_pwm_ctrl pwm_ctrl = pchip->pdata->pwm_ctrl;
++	int brightness = backlight_get_brightness(bl);
+ 
+ 	/* pwm control */
+ 	if ((pwm_ctrl & LM3630A_PWM_BANK_A) != 0)
+-		return lm3630a_pwm_ctrl(pchip, bl->props.brightness,
++		return lm3630a_pwm_ctrl(pchip, brightness,
+ 					bl->props.max_brightness);
  
  	/* disable sleep */
-@@ -244,11 +244,8 @@ static int lm3630a_bank_a_get_brightness(struct backlight_device *bl)
- 	rval = lm3630a_read(pchip, REG_BRT_A);
- 	if (rval < 0)
+@@ -201,9 +202,9 @@ static int lm3630a_bank_a_update_status(struct backlight_device *bl)
  		goto out_i2c_err;
--	brightness = rval;
-+	return rval;
+ 	usleep_range(1000, 2000);
+ 	/* minimum brightness is 0x04 */
+-	ret = lm3630a_write(pchip, REG_BRT_A, bl->props.brightness);
++	ret = lm3630a_write(pchip, REG_BRT_A, brightness);
  
--out:
--	bl->props.brightness = brightness;
--	return bl->props.brightness;
- out_i2c_err:
- 	dev_err(pchip->dev, "i2c failed to access register\n");
- 	return 0;
-@@ -310,7 +307,7 @@ static int lm3630a_bank_b_get_brightness(struct backlight_device *bl)
- 		if (rval < 0)
- 			goto out_i2c_err;
- 		brightness |= rval;
--		goto out;
-+		return brightness;
- 	}
+-	if (backlight_is_blank(bl) || (backlight_get_brightness(bl) < 0x4))
++	if (brightness < 0x4)
+ 		/* turn the string off  */
+ 		ret |= lm3630a_update(pchip, REG_CTRL, LM3630A_LEDA_ENABLE, 0);
+ 	else
+@@ -263,10 +264,11 @@ static int lm3630a_bank_b_update_status(struct backlight_device *bl)
+ 	int ret;
+ 	struct lm3630a_chip *pchip = bl_get_data(bl);
+ 	enum lm3630a_pwm_ctrl pwm_ctrl = pchip->pdata->pwm_ctrl;
++	int brightness = backlight_get_brightness(bl);
+ 
+ 	/* pwm control */
+ 	if ((pwm_ctrl & LM3630A_PWM_BANK_B) != 0)
+-		return lm3630a_pwm_ctrl(pchip, bl->props.brightness,
++		return lm3630a_pwm_ctrl(pchip, brightness,
+ 					bl->props.max_brightness);
  
  	/* disable sleep */
-@@ -321,11 +318,8 @@ static int lm3630a_bank_b_get_brightness(struct backlight_device *bl)
- 	rval = lm3630a_read(pchip, REG_BRT_B);
- 	if (rval < 0)
+@@ -275,9 +277,9 @@ static int lm3630a_bank_b_update_status(struct backlight_device *bl)
  		goto out_i2c_err;
--	brightness = rval;
-+	return rval;
+ 	usleep_range(1000, 2000);
+ 	/* minimum brightness is 0x04 */
+-	ret = lm3630a_write(pchip, REG_BRT_B, bl->props.brightness);
++	ret = lm3630a_write(pchip, REG_BRT_B, brightness);
  
--out:
--	bl->props.brightness = brightness;
--	return bl->props.brightness;
- out_i2c_err:
- 	dev_err(pchip->dev, "i2c failed to access register\n");
- 	return 0;
+-	if (backlight_is_blank(bl) || (backlight_get_brightness(bl) < 0x4))
++	if (brightness < 0x4)
+ 		/* turn the string off  */
+ 		ret |= lm3630a_update(pchip, REG_CTRL, LM3630A_LEDB_ENABLE, 0);
+ 	else
 
 -- 
 2.43.2
