@@ -2,80 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44DC485A689
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 15:54:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBA1685A68E
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 15:54:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E65710E37D;
-	Mon, 19 Feb 2024 14:54:50 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="GGwreiAy";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE19C10E3B2;
+	Mon, 19 Feb 2024 14:54:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
- [209.85.128.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D947510E272
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 14:54:44 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id
- 00721157ae682-607eefeea90so30215687b3.1
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 06:54:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708354484; x=1708959284; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=/+Vf6X891RpEKNXrdBrteASyRB3a3/HliSNBQV8d1lo=;
- b=GGwreiAyUJWWwDl/pmeMKXAa26tg/Zb6joibQowkrL0x8wt+ACL2eguI0Ux+PYjzWS
- 6a19iJ41849VeQtf+nO24XwvV3c6aNCzMEJjw3eY7n2Swr3CRRJ75SLtDF+PGabmDYKs
- ngI8qusT+6iJ1xjGEUOSMc5TW8ldFG67H9HIYcTk7DhSRh31DAjo7h6E7CYDKyk7y1jq
- COi9q+AnglOT83VfnbPBDQ61nQ1KlaDH3EmbgDItyPoyPg1jK+Klv5qJyKM5qBYbTl4m
- Pcg91pltGmObwMaluPOdLObZgpSZ44eme6MD9V2A0+QGGThzDiMgqYf31l/rZSFgQ1pq
- /ODw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708354484; x=1708959284;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/+Vf6X891RpEKNXrdBrteASyRB3a3/HliSNBQV8d1lo=;
- b=uobTzGa3V/CI3lxWNuW4UeAk+sgPnm06c6I6f9d5CdLO7e/RobueMp/YM2tAjQK63p
- XKYDuV1gS/meTeMChLNBrOdZFKnvVMw4iA6WDtqZLyeUx/7mjk4ArZG3huEH55jsChey
- BqNePV/zkF+Uf+iu/FKvai/gERd4bjAO73y60vHayME1C0vXBxDY9I+qs2mltJkije9u
- 9ZyzD8po+y8XnhLtIrB16kHePyFjY7rvucRN/GAxspUbvms4nCNJwRpRyFRwlaFZVTXJ
- DgJSJOV013bMbkCdDz+Hrbr0zNcEbPLyycOw9caF3ToSPEcXpROvk3QqGgBSd11euiJ8
- 4ZcQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXC7YLvRVXq1B5et+2DxgkU+SbjzzJuFaZ6oBLLayiS7Ik4NGSYtyf1e4EoRbDHKk7zbiac+Ms9HU4G6K0l3yqhbjSVMcaJzjv5vIpyP2y7
-X-Gm-Message-State: AOJu0YzrJUdrB6m0pSuNtKowdkJhbKUDLesk+sxBQtQuOjkXpAOh/c4A
- O4gMbGypE6U/QFvLMPGcW2Qkf7VL4hFPOZ57xKjrrYI78EtzDHmrt2tJHTOucqS0+NfOJ94KlFP
- qoz6OV52z5Cm0393SO4j3VlDpi43emSqC/cpNNQ==
-X-Google-Smtp-Source: AGHT+IHg7XEOTTrtpgQqphtP3Xw9sPuPWwJbqow3gZN5qRELJzU++tbN2bRulnySBEDH7nL4PxT+8aS1knEIIJLBbCc=
-X-Received: by 2002:a81:a185:0:b0:608:59a5:4ad1 with SMTP id
- y127-20020a81a185000000b0060859a54ad1mr39629ywg.22.1708354483969; Mon, 19 Feb
- 2024 06:54:43 -0800 (PST)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BB4D310E39D
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 14:54:53 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C1768FEC;
+ Mon, 19 Feb 2024 06:55:32 -0800 (PST)
+Received: from [10.57.67.95] (unknown [10.57.67.95])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3FF7C3F762;
+ Mon, 19 Feb 2024 06:54:50 -0800 (PST)
+Message-ID: <33ce3e11-57fd-4d6d-b441-18f681942b90@arm.com>
+Date: Mon, 19 Feb 2024 14:54:53 +0000
 MIME-Version: 1.0
-References: <20240219-topic-rb1_gpu-v1-0-d260fa854707@linaro.org>
- <20240219-topic-rb1_gpu-v1-4-d260fa854707@linaro.org>
-In-Reply-To: <20240219-topic-rb1_gpu-v1-4-d260fa854707@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 19 Feb 2024 16:54:33 +0200
-Message-ID: <CAA8EJpq46Wn+gWKL81_zMxyddUpJRuKHDrx=4Q2DvbwufmWHWA@mail.gmail.com>
-Subject: Re: [PATCH 4/8] clk: qcom: Add QCM2290 GPU clock controller driver
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
- Joerg Roedel <joro@8bytes.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- linux-arm-kernel@lists.infradead.org, 
- iommu@lists.linux.dev, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>, 
- linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 07/14] drm/panthor: Add the MMU/VM logical block
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel@ffwll.ch>,
+ "Marty E . Plummer" <hanetzer@startmail.com>, Rob Herring <robh@kernel.org>,
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+ Nicolas Boichat <drinkcat@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>,
+ Daniel Stone <daniels@collabora.com>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ Robin Murphy <robin.murphy@arm.com>, kernel@collabora.com,
+ Heiko Stuebner <heiko@sntech.de>, Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
+ Chris Diamand <chris.diamand@foss.arm.com>,
+ Ketil Johnsen <ketil.johnsen@arm.com>, Grant Likely <grant.likely@linaro.org>
+References: <20240218214131.3035480-1-boris.brezillon@collabora.com>
+ <20240218214131.3035480-8-boris.brezillon@collabora.com>
+Content-Language: en-GB
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20240218214131.3035480-8-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,20 +58,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 19 Feb 2024 at 15:36, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
->
-> Add a driver for the GPU clock controller block found on the QCM2290 SoC.
->
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
->  drivers/clk/qcom/Kconfig         |   9 +
->  drivers/clk/qcom/Makefile        |   1 +
->  drivers/clk/qcom/gpucc-qcm2290.c | 423 +++++++++++++++++++++++++++++++++++++++
->  3 files changed, 433 insertions(+)
->
+On 18/02/2024 21:41, Boris Brezillon wrote:
+> MMU and VM management is related and placed in the same source file.
+> 
+> Page table updates are delegated to the io-pgtable-arm driver that's in
+> the iommu subsystem.
+> 
+> The VM management logic is based on drm_gpuva_mgr, and is assuming the
+> VA space is mostly managed by the usermode driver, except for a reserved
+> portion of this VA-space that's used for kernel objects (like the heap
+> contexts/chunks).
+> 
+> Both asynchronous and synchronous VM operations are supported, and
+> internal helpers are exposed to allow other logical blocks to map their
+> buffers in the GPU VA space.
+> 
+> There's one VM_BIND queue per-VM (meaning the Vulkan driver can only
+> expose one sparse-binding queue), and this bind queue is managed with
+> a 1:1 drm_sched_entity:drm_gpu_scheduler, such that each VM gets its own
+> independent execution queue, avoiding VM operation serialization at the
+> device level (things are still serialized at the VM level).
+> 
+> The rest is just implementation details that are hopefully well explained
+> in the documentation.
+> 
+> v5:
+> - Fix a double panthor_vm_cleanup_op_ctx() call
+> - Fix a race between panthor_vm_prepare_map_op_ctx() and
+>   panthor_vm_bo_put()
+> - Fix panthor_vm_pool_destroy_vm() kernel doc
+> - Fix paddr adjustment in panthor_vm_map_pages()
+> - Fix bo_offset calculation in panthor_vm_get_bo_for_va()
+> 
+> v4:
+> - Add an helper to return the VM state
+> - Check drmm_mutex_init() return code
+> - Remove the VM from the AS reclaim list when panthor_vm_active() is
+>   called
+> - Count the number of active VM users instead of considering there's
+>   at most one user (several scheduling groups can point to the same
+>   vM)
+> - Pre-allocate a VMA object for unmap operations (unmaps can trigger
+>   a sm_step_remap() call)
+> - Check vm->root_page_table instead of vm->pgtbl_ops to detect if
+>   the io-pgtable is trying to allocate the root page table
+> - Don't memset() the va_node in panthor_vm_alloc_va(), make it a
+>   caller requirement
+> - Fix the kernel doc in a few places
+> - Drop the panthor_vm::base offset constraint and modify
+>   panthor_vm_put() to explicitly check for a NULL value
+> - Fix unbalanced vm_bo refcount in panthor_gpuva_sm_step_remap()
+> - Drop stale comments about the shared_bos list
+> - Patch mmu_features::va_bits on 32-bit builds to reflect the
+>   io_pgtable limitation and let the UMD know about it
+> 
+> v3:
+> - Add acks for the MIT/GPL2 relicensing
+> - Propagate MMU faults to the scheduler
+> - Move pages pinning/unpinning out of the dma_signalling path
+> - Fix 32-bit support
+> - Rework the user/kernel VA range calculation
+> - Make the auto-VA range explicit (auto-VA range doesn't cover the full
+>   kernel-VA range on the MCU VM)
+> - Let callers of panthor_vm_alloc_va() allocate the drm_mm_node
+>   (embedded in panthor_kernel_bo now)
+> - Adjust things to match the latest drm_gpuvm changes (extobj tracking,
+>   resv prep and more)
+> - Drop the per-AS lock and use slots_lock (fixes a race on vm->as.id)
+> - Set as.id to -1 when reusing an address space from the LRU list
+> - Drop misleading comment about page faults
+> - Remove check for irq being assigned in panthor_mmu_unplug()
+> 
+> Co-developed-by: Steven Price <steven.price@arm.com>
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Acked-by: Steven Price <steven.price@arm.com> # MIT+GPL2 relicensing,Arm
+> Acked-by: Grant Likely <grant.likely@linaro.org> # MIT+GPL2 relicensing,Linaro
+> Acked-by: Boris Brezillon <boris.brezillon@collabora.com> # MIT+GPL2 relicensing,Collabora
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+LGTM
 
--- 
-With best wishes
-Dmitry
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+Thanks,
+
+Stev
+
