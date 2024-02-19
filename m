@@ -2,135 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F79E859CC5
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 08:24:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A5E859D05
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 08:35:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20B7210E085;
-	Mon, 19 Feb 2024 07:24:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 052AE10E181;
+	Mon, 19 Feb 2024 07:34:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="Kd//NOQC";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="NKkohN/M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
- (mail-db5eur01on2088.outbound.protection.outlook.com [40.107.15.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1201010E085
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 07:24:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DqJH5NPOKWBeP+d/sE261MLDIfbuNcCOYpip4Sscz9hrZ3MPNFLj5BkG6rU8qkGQsVzLXHQsr+NXuFUCsb6cEN4Ncn4x0GzbmZIDYJLmAma7JUGTl/CNa+h5RNDHF/Z5VQS0yMsxGZvqDmTDfLrxaUTSOXnaDVUVZxYJvMGj4VOofMcY1jkgancRKPRsb2GLUFKgJ2Q/YiieVkMKHKiZDbCS4IBalrQy9nyprj7KtVPKkizpdq4DLPn5xGDRv/H/O5iq9foMr/g0z5yu4i1rUoAi6fPe6e6/cHrZ8nCC6Aei2EjGb8mO5+UmgF1zBFEYbA/xX5BLotVlQqtYYI6DRA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1fOlKrhhJREJW+rln1r05pWwcE7CoUF3q80sOghrdO0=;
- b=LpTeVTCE/MCAjPwE+dPx4p/4tofkd3xS6xeOnWdivr3lX3YhtWE+l2zudmqPZxsPmx/NttqjHY4NsnQLNtTKBmCqdci57HE95NcbFIbLq3xQedr3GP4K5C84X4DBaywhijGfw+NgyVU1OuA8qyofSy6vS3FnMnNsy4kWE1ymmRkN01mkPAHY0597kRM+zKFqkgtt49U4JD4XLgzOrkwmg3I8kzfMFzsDutqaRM0xL6K0SpBv++zYLi7NKF7AY0spB23FNZPTvrXk4yVmZGGsr5QtGrtiX3gIM3FH9b2AVkywscX/eaVcg9aBNR3wC53EkCG5BoxuHAYQ2qNtCMHrVQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1fOlKrhhJREJW+rln1r05pWwcE7CoUF3q80sOghrdO0=;
- b=Kd//NOQC4VPZBk+/dmcszQItz7l4IwDjaqrMwx+q/yXh/bvWptPcBzTABgrmVOPvt24b9xzs7VVKzeam3FVtEe4uSi3AnSuKBiV/29qzN0MHNtzTUc6v9b/mMEb6jBJWSMRlRZMyM46o/a8gKzuCqmfhzARwSv1830r/Wj/9yRw=
-Received: from DB9PR04MB9452.eurprd04.prod.outlook.com (2603:10a6:10:367::13)
- by AM9PR04MB7601.eurprd04.prod.outlook.com (2603:10a6:20b:285::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.33; Mon, 19 Feb
- 2024 07:24:25 +0000
-Received: from DB9PR04MB9452.eurprd04.prod.outlook.com
- ([fe80::4272:e277:dda3:2446]) by DB9PR04MB9452.eurprd04.prod.outlook.com
- ([fe80::4272:e277:dda3:2446%2]) with mapi id 15.20.7292.029; Mon, 19 Feb 2024
- 07:24:25 +0000
-From: Sandor Yu <sandor.yu@nxp.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>,
- "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>, "airlied@gmail.com"
- <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "shawnguo@kernel.org" <shawnguo@kernel.org>, "s.hauer@pengutronix.de"
- <s.hauer@pengutronix.de>, "festevam@gmail.com" <festevam@gmail.com>,
- "vkoul@kernel.org" <vkoul@kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-phy@lists.infradead.org"
- <linux-phy@lists.infradead.org>
-CC: "kernel@pengutronix.de" <kernel@pengutronix.de>, dl-linux-imx
- <linux-imx@nxp.com>, Oliver Brown <oliver.brown@nxp.com>, "sam@ravnborg.org"
- <sam@ravnborg.org>
-Subject: RE: [EXT] Re: [PATCH v13 4/7] drm: bridge: Cadence: Add MHDP8501
- DP/HDMI driver
-Thread-Topic: [EXT] Re: [PATCH v13 4/7] drm: bridge: Cadence: Add MHDP8501
- DP/HDMI driver
-Thread-Index: AQHaV1QsTfsqjPM64Eapj6JNsPkB8bEMnvWAgAS6OOA=
-Date: Mon, 19 Feb 2024 07:24:25 +0000
-Message-ID: <DB9PR04MB94522ED2DB0D32A0792EAB33F4512@DB9PR04MB9452.eurprd04.prod.outlook.com>
-References: <cover.1707040881.git.Sandor.yu@nxp.com>
- <5bd01470cf971e2385ecd169c3d5ac659a020973.1707040881.git.Sandor.yu@nxp.com>
- <3549548.iIbC2pHGDl@steina-w>
-In-Reply-To: <3549548.iIbC2pHGDl@steina-w>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB9PR04MB9452:EE_|AM9PR04MB7601:EE_
-x-ms-office365-filtering-correlation-id: dee72258-9aa3-48a3-67c1-08dc311bcd23
-x-ld-processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: a0HsB/y02FxsRatPN9H42C/ro80kDgdQsnWJfWYlqh7YzWTmn4UXkCg1Z2PCl4bxZZS6+exQtOuDE07GKL2VrkHXvYOB8BpmzwdzXpOLnIjfQvaOSE9oZSQIyBeuQzbsjxeKNQMgakdn1zPvuTtjhMVpw2+wcFv1f6rJ2qTDm9ddAolEmVrEsR5z4frtJpd3OqDP54mZR/7RLydNSVTkClPha5p7A/S17l67ll+DfgOROoU+EcYpWXApS6UBTGsybV4AXo2vtvqsA/5IRu8RjNcygSGbg9aq3WrriMxkGfaL9AE5b0iklcxCQfo5roygBxoiU9oPE72BgaqHp/1VK/n4RuH53xbl7gepQqjYtl6O6c4b0x8qGvYHHCZNpaahL/xlS8jEEA0az+hvZBsiH74IakkN5mrpgqaHHXbowmLRIVNWoARnDPUCEv5CVdsG9cg3NbOod4H3zDPdLU63T0seKNNMKKI8MXX1D82PA+R/ex844S/IOM4s9kr6jWEdvFtsytCQOloy7X0ExXihwyOKtCqr+nvs3mzX6avTaB+9qTa5/Uh5Bkkl4oeygmQF89uhIkWgJ1xyObbYPQllZuprIJaELmKJ5COmT33HGuia9TSQJc3XKyPYJYN6USCy
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DB9PR04MB9452.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376002)(39860400002)(396003)(346002)(136003)(366004)(230922051799003)(230273577357003)(186009)(64100799003)(1800799012)(451199024)(55016003)(966005)(45080400002)(71200400001)(478600001)(9686003)(41300700001)(2906002)(5660300002)(4326008)(7416002)(44832011)(52536014)(76116006)(6506007)(316002)(7696005)(66556008)(8936002)(110136005)(54906003)(66946007)(66446008)(64756008)(66476007)(8676002)(83380400001)(66574015)(86362001)(38070700009)(38100700002)(122000001)(33656002)(921011)(26005);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?hpItkqBrAa//KvFRd65TFmI0zEmtNGQRsT/AQkf+Lr4CDu93mG9/A8eFwt?=
- =?iso-8859-1?Q?eQxsqqZmaGLSnfPWqlBbc3Z0p7x2aOQNJl69GoPAOq03RJpMgjMLmU1Ey2?=
- =?iso-8859-1?Q?TEkqxZLZPaf99vtbjatYe+NrxboZ1yK3oPlpBT9vMKFS72EkA/meisL5kx?=
- =?iso-8859-1?Q?rip3RUEmeJ7Hs2w5YukVy8hTO4vZHWY0/qVuPBHJr45N6Pu+Upk4ScbQxO?=
- =?iso-8859-1?Q?11XlzHakP8zcYt4fD40zEPxfkfwasi5XQyypmglm+85hq8PjUH8z52q/qf?=
- =?iso-8859-1?Q?c8+MEd8OTsYBEpsDW1497iUx/5V2SigHm9cGncc4+QDaNUJrnOTWusXFlo?=
- =?iso-8859-1?Q?uKig8PUiY6rCW2fMKX4zBqcdgoS9EaEejFDZECEUCw1XO8Cnkj0nN7kqQd?=
- =?iso-8859-1?Q?XnFNTZUtiwz9f4rB0lYf+eDtOJ9bm2H+Dy2leQ8+GmnHQtEw5ZvCDfhwAd?=
- =?iso-8859-1?Q?NSeDBZUgmSIPl52c8uOok9suJSTTNirBEtB0iQzLMPSpTCMP064EOb3FQ/?=
- =?iso-8859-1?Q?+MeJRO1hppp3QFI41CNZIG79UrHuBLSNDS6mkMUJwa/Z0Q1xBU8EiAHzj8?=
- =?iso-8859-1?Q?jCN+WUHt3i+52yapcknMnZLIu9fgUxl/+phcAY7U5i42Ntg70Irkr5tS1t?=
- =?iso-8859-1?Q?zGfanYGrjrGag8bi37/Cu5UJeA1A43D0SKWo1MsZIQ5NGjx9F6hsdfleMZ?=
- =?iso-8859-1?Q?kO6N3nRHFO9eYOcE1JGGp0VhUFL0UNOanPvXOjQ7GLclSYSRURvyJf77mC?=
- =?iso-8859-1?Q?U/ERH/A13skLw+C90F4BHXJ3Izvj4I1e3ZOntG7/bFrE/e2FSs0uMGRN2S?=
- =?iso-8859-1?Q?GQKINXWv0bjjDdGta1A381MDFrmxkdUnWG5e2956pdJlY69J4o2agZe6yQ?=
- =?iso-8859-1?Q?tXMhFQ5G7rEVy4cr0x4zQUo4PHpDx0wuLK4KCBMxt7+Gnv4OrvIAF0Mu/J?=
- =?iso-8859-1?Q?XQ/bWBEzP1PlX8Dj6szBxSN1/VaMNthAr5qaRKGLiv9Jx8pRwfQqylsH47?=
- =?iso-8859-1?Q?PLR+j1bNnCWyUr7vaaJMWA9AdwK1XrJ0wFDyj6gdqCXVOUC41m4eivSToj?=
- =?iso-8859-1?Q?Tw9Bd7wmt8t44NhLKOB0CUV5eO3LrUIShkSTmNOmQokQdsGkVI0r03nhdB?=
- =?iso-8859-1?Q?52jL18ak4KdYZZGY3qv3UiSDOgzBxifziQemed3QyVIl+DLA8WTdPKH7ir?=
- =?iso-8859-1?Q?4jtLvi6D+esmOn8rsWGjL3wgjyoXq4bqZNXghTjKCqlwstKeWnt9QKf/Ol?=
- =?iso-8859-1?Q?xlvE1tCIeo59aXE02+8blsLNovqm0zeY8ipK+6bZBEu2yzq3zZOAdYJrsn?=
- =?iso-8859-1?Q?L5BcMjzEo4U5F5xTHTbDsutoLlmRKZvdYbJqkEQ+BPCvb2Wa1iLlJx9/W6?=
- =?iso-8859-1?Q?2ACy1y9O+F5l97B7bNljp30sfCQZCJhywb19lhS0N9KXwjHgkN/QzE6uvM?=
- =?iso-8859-1?Q?F1qDXm3imlwgrqtVotO+Ydreb4z5HQ9cxzUDhAgt6VcGoATlvG6K1dylwJ?=
- =?iso-8859-1?Q?bc+s7F4jWMsjowrAnFeSKE1GaGoIQV7rv5F+IaNuXleZ07LAAu3epdjyMO?=
- =?iso-8859-1?Q?Tmf1Kk80YNd+j+Qzl4HgwMWMdf4fJVajRtIYhdbA3oQLMGb4mo6G6zRwIi?=
- =?iso-8859-1?Q?i7ddZl1zUeEQs=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
+ [209.85.218.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E193C10E178
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 07:34:54 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id
+ a640c23a62f3a-a3eb1f48fa9so36107566b.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Feb 2024 23:34:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1708328093; x=1708932893; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+ :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=yZdPEIb35UuoFivHycym2ongSZton05QwV9BQzdhVvs=;
+ b=NKkohN/MYpQWfdxXQzM0SjxsRkum7+wyc9SocGkbYrTf3GSF4H6t5Cw4coU7xxWnaN
+ LpWbSOBeQdk7wyEoA2d/XSusz6biGtrcbTQq8p8VoSqOWgq5WIM+fdlQAi1/t/+qcBHI
+ +gZWVVQLf9L0PsSxXACQIpfqciFt3ZGBXAZdZIRwZZ3yD7ZolaUqD5+N3HgBmps9v6XX
+ S2Pqji/bbUC1/r0DqK1M1w44JkqurruNj0aNBFUkZLoEojzS+dief2LlIPKvkrn+fcWs
+ IzgmvrJeHCDfLPHOeLK6LXvKz3BiwWpU8mfxXo+jVcZkz802zv6H6s49wbhU0bTefJVA
+ valw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708328093; x=1708932893;
+ h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+ :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yZdPEIb35UuoFivHycym2ongSZton05QwV9BQzdhVvs=;
+ b=YBvXG55di+iBF00KKu3xjnA5z74IZIFqUvUmKwlBkp0BxN/FEnJYoOfJ2HzKWo4vM5
+ ElRVIHI38omT17XKf/WiGstXGuRarC6xi6E2IoczNCtPpg6k4ODNG0/qztYNnlOe5MHe
+ 6UNBbQNCmlgZ/rlcgcdc/CDzPyvwaJERPKpvaMSWK0JX4lyhHHEHMur+p1NTJF4/qVch
+ U8C1z2+rVIXoKuGKOrslsHon4l3pilDl3ISRP63adHaV7JuwLJSBg5k9RRO2peobsvoJ
+ RIVL2rbH3HfErpkgCCnWQfQSqdFN3QirhCohuczvBg7+9uWXMryFpBvim4IX8U8TbWFs
+ pRqg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXF45CD/qe6MaEnqxHsMPvlIjiF0hzWpG5AIuqTtgNaTJJ3AOeGHF8DICaBinYmsqQfdzp2T/riCGJrJO+hevRGZjZAXfURYoNseDmvhiNf
+X-Gm-Message-State: AOJu0YygK2NQluR0je83aG4Yra3yCJqyA7K/eUuSI6GCohUFOOpJNTfl
+ 2a6xPP6TAgJCfGOJY/5VzEdvmVb6cFMgCFwqoK4voCStxO10P7IBozG8oj7T6wo=
+X-Google-Smtp-Source: AGHT+IGZe0dPY4IFHv5xvW55FAa6Fo25SafsKR/YJek9/gS2eBa0lk4mV/4J9jO0qFSs4PAJEQMjMA==
+X-Received: by 2002:a17:906:3b94:b0:a3d:26b2:94f4 with SMTP id
+ u20-20020a1709063b9400b00a3d26b294f4mr8043246ejf.73.1708328093072; 
+ Sun, 18 Feb 2024 23:34:53 -0800 (PST)
+Received: from localhost ([102.222.70.76]) by smtp.gmail.com with ESMTPSA id
+ u13-20020a1709063b8d00b00a3c7fb8cc74sm2644221ejf.154.2024.02.18.23.34.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 18 Feb 2024 23:34:52 -0800 (PST)
+Date: Mon, 19 Feb 2024 10:34:49 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Uma Shankar <uma.shankar@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com,
+ contact@emersion.fr, harry.wentland@amd.com, mwen@igalia.com,
+ jadahl@redhat.com, sebastian.wick@redhat.com,
+ shashank.sharma@amd.com, agoins@nvidia.com, joshua@froggi.es,
+ mdaenzer@redhat.com, aleixpol@kde.org, xaver.hugl@gmail.com,
+ victoria@system76.com, daniel@ffwll.ch, quic_naseer@quicinc.com,
+ quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com,
+ arthurgrillo@riseup.net, marcan@marcan.st, Liviu.Dudau@arm.com,
+ sashamcintosh@google.com, sean@poorly.run,
+ Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
+ Uma Shankar <uma.shankar@intel.com>
+Subject: Re: [PATCH 16/28] drm/i915/color: Create a transfer function color
+ pipeline
+Message-ID: <103c8a84-3423-45cf-8592-6e47ef2700d6@moroto.mountain>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9452.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dee72258-9aa3-48a3-67c1-08dc311bcd23
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Feb 2024 07:24:25.5154 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Y20q7goMgV6w0i/lMVYDHYyv7XMie5UcCNLo3MTT8iq6DzWLwRy6L1dymNdrtpNbh+kOMB8RIBkVQhr2W0eE8A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB7601
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240213064835.139464-17-uma.shankar@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,136 +92,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alexander,
+Hi Uma,
 
-Thanks for your comments,
-get_edid function will be replace by edid_read as community update in the n=
-ext version.
+kernel test robot noticed the following build warnings:
 
-B.R
-Sandor
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->
->
-> Hi Sandor,
->
-> thanks for the update.
->
-> Am Sonntag, 4. Februar 2024, 11:21:49 CET schrieb Sandor Yu:
-> > Add a new DRM DisplayPort and HDMI bridge driver for Candence
-> MHDP8501
-> > used in i.MX8MQ SOC. MHDP8501 could support HDMI or DisplayPort
-> > standards according embedded Firmware running in the uCPU.
-> >
-> > For iMX8MQ SOC, the DisplayPort/HDMI FW was loaded and activated by
-> > SOC's ROM code. Bootload binary included respective specific firmware
-> > is required.
-> >
-> > Driver will check display connector type and then load the
-> > corresponding driver.
-> >
-> > Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
-> > Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > ---
-> > v12->v13:
-> > - Explicitly include linux/platform_device.h for cdns-mhdp8501-core.c
-> > - Fix build warning
-> > - Order bit bpc and color_space in descending shit.
-> >
-> > v11->v12:
-> > - Replace DRM_INFO with dev_info or dev_warn.
-> > - Replace DRM_ERROR with dev_err.
-> > - Return ret when cdns_mhdp_dpcd_read failed in function
-> > cdns_dp_aux_transferi(). - Remove unused parmeter in function
-> > cdns_dp_get_msa_misc
-> >   and use two separate variables for color space and bpc.
-> > - Add year 2024 to copyright.
-> >
-> >  drivers/gpu/drm/bridge/cadence/Kconfig        |  16 +
-> >  drivers/gpu/drm/bridge/cadence/Makefile       |   2 +
-> >  .../drm/bridge/cadence/cdns-mhdp8501-core.c   | 316 ++++++++
-> >  .../drm/bridge/cadence/cdns-mhdp8501-core.h   | 365 +++++++++
-> >  .../gpu/drm/bridge/cadence/cdns-mhdp8501-dp.c | 699
-> ++++++++++++++++++
-> >  .../drm/bridge/cadence/cdns-mhdp8501-hdmi.c   | 679
-> +++++++++++++++++
-> >  6 files changed, 2077 insertions(+)
-> >  create mode 100644
-> > drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-core.c
-> >  create mode 100644
-> > drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-core.h
-> >  create mode 100644
-> drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-dp.c
-> >  create mode 100644
-> > drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-hdmi.c
-> >
-> > [snip]
-> > diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-dp.c
-> > b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-dp.c new file mode
-> > 100644 index 0000000000000..0117cddb85694
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-dp.c
-> > @@ -0,0 +1,699 @@
-> > [snip]
-> > +
-> > +const struct drm_bridge_funcs cdns_dp_bridge_funcs =3D {
-> > +     .attach =3D cdns_dp_bridge_attach,
-> > +     .detect =3D cdns_dp_bridge_detect,
-> > +     .get_edid =3D cdns_dp_bridge_get_edid,
->
-> Please note that with commits d807ad80d811b ("drm/bridge: add
-> ->edid_read hook and drm_bridge_edid_read()") and 27b8f91c08d99
-> ("drm/bridge: remove ->get_edid
-> callback") the API has slightly changed meanwhile.
->
-> > +     .mode_valid =3D cdns_dp_bridge_mode_valid,
-> > +     .atomic_enable =3D cdns_dp_bridge_atomic_enable,
-> > +     .atomic_disable =3D cdns_dp_bridge_atomic_disable,
-> > +     .atomic_duplicate_state =3D
-> drm_atomic_helper_bridge_duplicate_state,
-> > +     .atomic_destroy_state =3D drm_atomic_helper_bridge_destroy_state,
-> > +     .atomic_reset =3D drm_atomic_helper_bridge_reset, };
-> > diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-hdmi.c
-> > b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-hdmi.c new file mode
-> > 100644 index 0000000000000..e6ed13b9f9ca3
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-hdmi.c
-> > @@ -0,0 +1,679 @@
-> > [snip]
-> > +
-> > +const struct drm_bridge_funcs cdns_hdmi_bridge_funcs =3D {
-> > +     .attach =3D cdns_hdmi_bridge_attach,
-> > +     .detect =3D cdns_hdmi_bridge_detect,
-> > +     .get_edid =3D cdns_hdmi_bridge_get_edid,
->
-> Please note that with commits d807ad80d811b ("drm/bridge: add
-> ->edid_read hook and drm_bridge_edid_read()") and 27b8f91c08d99
-> ("drm/bridge: remove ->get_edid
-> callback") the API has slightly changed meanwhile.
->
-> > +     .mode_valid =3D cdns_hdmi_bridge_mode_valid,
-> > +     .mode_fixup =3D cdns_hdmi_bridge_mode_fixup,
-> > +     .atomic_enable =3D cdns_hdmi_bridge_atomic_enable,
-> > +     .atomic_disable =3D cdns_hdmi_bridge_atomic_disable,
-> > +     .atomic_duplicate_state =3D
-> drm_atomic_helper_bridge_duplicate_state,
-> > +     .atomic_destroy_state =3D drm_atomic_helper_bridge_destroy_state,
-> > +     .atomic_reset =3D drm_atomic_helper_bridge_reset, };
->
-> Please rebase your patch series, thanks.
->
-> Best regards,
-> Alexander
-> --
-> TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-> Amtsgericht M=FCnchen, HRB 105018
-> Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-> http://www.tq-/
-> group.com%2F&data=3D05%7C02%7CSandor.yu%40nxp.com%7Cfc532fc168004f
-> 07439308dc2ebdf280%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%
-> 7C638436640551238910%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAw
-> MDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C0%7C%7C%7C
-> &sdata=3DE1%2Fd8VTcDiXL3uhGDlHz7synQjRD%2BN1hDoHlbB72RiY%3D&reser
-> ved=3D0
->
+url:    https://github.com/intel-lab-lkp/linux/commits/Uma-Shankar/drm-color-pipeline-base-work/20240213-144544
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240213064835.139464-17-uma.shankar%40intel.com
+patch subject: [PATCH 16/28] drm/i915/color: Create a transfer function color pipeline
+config: i386-randconfig-141-20240217 (https://download.01.org/0day-ci/archive/20240218/202402180310.gMdIXaJx-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202402180310.gMdIXaJx-lkp@intel.com/
+
+New smatch warnings:
+drivers/gpu/drm/i915/display/intel_color.c:3867 intel_plane_tf_pipeline_init() error: 'colorop' dereferencing possible ERR_PTR()
+
+vim +/colorop +3867 drivers/gpu/drm/i915/display/intel_color.c
+
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3852  int intel_plane_tf_pipeline_init(struct drm_plane *plane, struct drm_prop_enum_list *list)
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3853  {
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3854  	struct intel_plane *intel_plane = to_intel_plane(plane);
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3855  	struct intel_plane_colorop *colorop;
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3856  	struct drm_device *dev = plane->dev;
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3857  	struct drm_i915_private *i915 = to_i915(dev);
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3858  	int ret;
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3859  	struct drm_colorop *prev_op;
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3860  
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3861  	colorop = intel_plane_colorop_create(CB_PLANE_PRE_CSC_LUT);
+
+No error checking
+
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3862  
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3863  	ret = drm_colorop_init(dev, &colorop->base, plane, DRM_COLOROP_1D_LUT);
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3864  	if (ret)
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3865  		return ret;
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3866  
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13 @3867  	list->type = colorop->base.base.id;
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3868  	list->name = kasprintf(GFP_KERNEL, "Color Pipeline %d", colorop->base.base.id);
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3869  
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3870  	/* TODO: handle failures and clean up*/
+5e1e0f87c9bcae Chaitanya Kumar Borah 2024-02-13  3871  	prev_op = &colorop->base;
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
