@@ -2,75 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E92B285A1DE
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 12:24:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BD4E85A1EE
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 12:28:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF94810E326;
-	Mon, 19 Feb 2024 11:23:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38D7089263;
+	Mon, 19 Feb 2024 11:28:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kfoLRF3V";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="iW49KJJs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 231C510E31A;
- Mon, 19 Feb 2024 11:23:57 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-41266ef4bc3so4631885e9.3; 
- Mon, 19 Feb 2024 03:23:57 -0800 (PST)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
+ [209.85.208.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D5EF89263
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 11:28:49 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id
+ 4fb4d7f45d1cf-56454c695e6so1601358a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 03:28:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1708341835; x=1708946635; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=KllHviBteYqichKMWYx5540z8UbscyuO8VqMj6jgLjs=;
- b=kfoLRF3VGfrJnbHdNvnKfIth+JyzxQ1yw+nytUDLWAug8UDzigABelI4lzm2AQScgS
- j2pckzkTyJ7y7NtPRV8tls4Fu72av+VrfofDVfbw+MOeYG8FcN1+7ol9ta/1bUHbCrZq
- u9jb6+OjRXQsLDJW8lEnA5elHhIYNjFQFxg1vWHFSGTijTfpUpNs3O74OikDI0lq0t1U
- 9TsUKwmBRMVEgHxXnslhlZ0OS8vS4WqI3QUXh5Cp0j6cQ91vJDlGgfnAv55bLti4SONe
- dX2uIwAsXvYQsCQj4heEHpOnkczOsMhH/WdV/Ne+jsw/8Mkk0Qdp7n9kdeJQKzMIVKJ8
- S3hg==
+ d=linaro.org; s=google; t=1708342127; x=1708946927; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=nCyAWccqRzJ02Jr3HnjydtbclYSZbIBmeAFchAjZvoE=;
+ b=iW49KJJs6DX7qebl5vturza0BLqzq/cOiBr67vpRSPSgGZhtfgDgNJf7S++YCHMwDc
+ 0T5xU7IQNmP0tAefpVfhjm4gV/a3CwCqRg2c0p4dLrhPaAnCSSzcHiW2j8BxjSZR5DYY
+ jOY7JVFbUaTThsW7rc8AimYNdNQfHRtGrjCOw2OR0/94oQImL3W1VzDL4u0kVLshYsH0
+ IbtzyApqatYt+YQYBIGNf07QLBDxu4cui3nL1Rh+suv4daN8NW8V9MAhPn0w74BBMP6K
+ 0hqVLWXOOVzD3qK32pUwmw8T4qY6Tm7gxTQw8LpdtASkJsNzs/z9gbSzNMtQbFRJY7LG
+ Augg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708341835; x=1708946635;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KllHviBteYqichKMWYx5540z8UbscyuO8VqMj6jgLjs=;
- b=kPW+8fWWTacPi7ACRF2dV6VVV8W+p1Tr/7oB5A5QrxYOjpnet8TzLZMwX7QENgEhi/
- vqGf7PDs0Qfd3dIw7tSCbfrGhh8pU+J9GzJHDNKxjbCM/6/bWOOSSFplInGF3lmyJ3XN
- pJ6bkHx1z81l5L+gCptUBxuLNPXB47Zxpi0FzLAXHdZyjv0eChuP2JzowNxA8U6b04TF
- n1mKCc3c8vVsijaiP5Lu72utThcv3gYRt+tXdigf4pbao30OYznFTh1d7zYJ9wtZcgv7
- 2uaXLhRS9hMmxb+acURiipNVjWVfQJvV+qgGNNOOG5GlCRSRWTZ6x3v5fNHv5WRAydMU
- 5UVQ==
+ d=1e100.net; s=20230601; t=1708342127; x=1708946927;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nCyAWccqRzJ02Jr3HnjydtbclYSZbIBmeAFchAjZvoE=;
+ b=MF8c7BsUi8mxPj9WRdgSW6JnZIaC2EcMMAXuwLjNJfPlPqjtlc2bEMHt5MhGTa9jPL
+ +iFLn65MEmjACh9snbv2yteI+LGnvb8J7bv0y7TBU1H3utXvWy0ZDOhNuvD65GFWmo9a
+ wIVyG94H68/FCFnznWInm1369R/dTD5PGaxS/izdeOGsHJwrM7T6WBBcT2Euu7r2wgHi
+ JdQDRtYcsh0F/hcejF2wHgs36RvfjRChNHr7DH4Xwu0+UjtEkXLUJdBdPsFVTqc9qD+p
+ 9fiGjUCHqvihWMbGAI7hFowOh7yTIu0M8aFfgnKKHKmv4/9bSTRtbFiSiDSh/l8h5nGE
+ WGlA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUvAVBkYmOrGfPVlxjUsOMto0luZ2RsUwMPftMTFKOuRVGYqYcCxf8n+uZMXOQcPidF2Omj+S/YY2CaarsDU4nzVoEjQYnLcvhgYSQ5aA==
-X-Gm-Message-State: AOJu0Yz759GVRxW1kV6KqAIDylT+jx8NxnZky+0NyK03nQ263Be2xiqU
- yl5oKpBsx+pkhtyEdoW3nv9eeRhO48Qvls45fRZbLZUwBAzeN46Q
-X-Google-Smtp-Source: AGHT+IGURND98NfUCEOJhVASTqV/ysTcLERacl8mCK+HR1GAfOP/DoPzkTipu4I2XXJT+nNRzfQZjA==
-X-Received: by 2002:a5d:5987:0:b0:33d:1896:f895 with SMTP id
- n7-20020a5d5987000000b0033d1896f895mr7217813wri.33.1708341835097; 
- Mon, 19 Feb 2024 03:23:55 -0800 (PST)
-Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
- by smtp.gmail.com with ESMTPSA id
- m17-20020a5d4a11000000b0033cf4e47496sm10045523wrq.51.2024.02.19.03.23.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Feb 2024 03:23:54 -0800 (PST)
-Message-ID: <8f426368-694b-45c2-af05-2055fc8338a5@gmail.com>
-Date: Mon, 19 Feb 2024 12:23:52 +0100
+ AJvYcCVDO0tvB7hq4A/i5SqCCDFnuNCmKDJ0RJ80JXzXx5QceGe+vkz1isEtasApdhAmo466hJdAZuGCzeyvbRx3iSafec0axIt9pdRpVRc05OSi
+X-Gm-Message-State: AOJu0YzeNKkigKfkWBIM6Ubu15labsynNVgUeDh7q1itIug9jPalSOoO
+ ffphX8CKh6EyBe5b/iU+PaFM2pkzrHBUVDhhBhQiKCItFlAKM7ya8XTWJuBAs3Q=
+X-Google-Smtp-Source: AGHT+IE3Zoj5Kw00K+Q1Oq/u8jQF4xulPdA6ZClow24TWEYwMXrNi35dMdqJQqanNvP5Txi3Qumx2Q==
+X-Received: by 2002:aa7:d304:0:b0:564:4647:947d with SMTP id
+ p4-20020aa7d304000000b005644647947dmr3745838edq.3.1708342127493; 
+ Mon, 19 Feb 2024 03:28:47 -0800 (PST)
+Received: from linaro.org ([188.24.162.93]) by smtp.gmail.com with ESMTPSA id
+ e26-20020a50d4da000000b00564024b7845sm2797505edj.38.2024.02.19.03.28.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Feb 2024 03:28:47 -0800 (PST)
+Date: Mon, 19 Feb 2024 13:28:45 +0200
+From: Abel Vesa <abel.vesa@linaro.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, Sean Paul <sean@poorly.run>,
+ Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ David Airlie <airlied@gmail.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Rob Clark <robdclark@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v3 2/4] dt-bindings: display/msm: Document MDSS on X1E80100
+Message-ID: <ZdM7beFZPyHKJnEU@linaro.org>
+References: <20240216-x1e80100-display-v3-0-28b1c33ac8c0@linaro.org>
+ <20240216-x1e80100-display-v3-2-28b1c33ac8c0@linaro.org>
+ <170810832158.3497594.1997532394027797497.robh@kernel.org>
+ <ZdCbAjnga8HCMdYf@linaro.org>
+ <CAA8EJpqCKWih1OeMsynMHkS6CAoDTsgRXcv5YAPZNvLT3MfA8g@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amd: Drop abm_level property
-Content-Language: en-US
-To: Mario Limonciello <mario.limonciello@amd.com>,
- amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Harry Wentland <Harry.Wentland@amd.com>, 
- Hamza Mahfooz <Hamza.Mahfooz@amd.com>, Sun peng Li <Sunpeng.Li@amd.com>
-References: <20240216153334.83372-1-mario.limonciello@amd.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20240216153334.83372-1-mario.limonciello@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAA8EJpqCKWih1OeMsynMHkS6CAoDTsgRXcv5YAPZNvLT3MfA8g@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,95 +97,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 16.02.24 um 16:33 schrieb Mario Limonciello:
-> This vendor specific property has never been used by userspace
-> software and conflicts with the panel_power_savings sysfs file.
-> That is a compositor and user could fight over the same data.
->
-> Fixes: f97e4303da16 ("drm/amd/display: add panel_power_savings sysfs entry to eDP connectors")
-> Suggested-by: Harry Wentland <Harry.Wentland@amd.com>
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+On 24-02-18 15:06:45, Dmitry Baryshkov wrote:
+> On Sat, 17 Feb 2024 at 13:39, Abel Vesa <abel.vesa@linaro.org> wrote:
+> >
+> > On 24-02-16 12:32:02, Rob Herring wrote:
+> > >
+> > > On Fri, 16 Feb 2024 19:01:06 +0200, Abel Vesa wrote:
+> > > > Document the MDSS hardware found on the Qualcomm X1E80100 platform.
+> > > >
+> > > > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > > > Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+> > > > ---
+> > > >  .../bindings/display/msm/qcom,x1e80100-mdss.yaml   | 253 +++++++++++++++++++++
+> > > >  1 file changed, 253 insertions(+)
+> > > >
+> > >
+> > > My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+> > > on your patch (DT_CHECKER_FLAGS is new in v5.13):
+> > >
+> > > yamllint warnings/errors:
+> > >
+> > > dtschema/dtc warnings/errors:
+> > > Documentation/devicetree/bindings/display/msm/qcom,x1e80100-mdss.example.dts:24:18: fatal error: dt-bindings/clock/qcom,x1e80100-dispcc.h: No such file or directory
+> > >    24 |         #include <dt-bindings/clock/qcom,x1e80100-dispcc.h>
+> > >       |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > > compilation terminated.
+> > > make[2]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/display/msm/qcom,x1e80100-mdss.example.dtb] Error 1
+> > > make[2]: *** Waiting for unfinished jobs....
+> > > make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1428: dt_binding_check] Error 2
+> > > make: *** [Makefile:240: __sub-make] Error 2
+> > >
+> >
+> > These bindings headers are already in -next.
+> 
+> However they are not a part of the drm/msm branch. We can probably
+> merge the rest of the patches from the series (once patch 1, DPU
+> bindings, gets reviewed) and merge this one in the next cycle. Does
+> that sound suitable?
 
-Acked-by: Christian König <christian.koenig@amd.com>
+Fine by me.
 
-> --
-> Cc: Hamza Mahfooz <Hamza.Mahfooz@amd.com>
-> Cc: Sun peng (Leo) Li <Sunpeng.Li@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_display.c       |  8 --------
->   drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h          |  2 --
->   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 14 --------------
->   3 files changed, 24 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> index b8fbe97efe1d..3ecc7ef95172 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> @@ -1350,14 +1350,6 @@ int amdgpu_display_modeset_create_props(struct amdgpu_device *adev)
->   					 "dither",
->   					 amdgpu_dither_enum_list, sz);
->   
-> -	if (adev->dc_enabled) {
-> -		adev->mode_info.abm_level_property =
-> -			drm_property_create_range(adev_to_drm(adev), 0,
-> -						  "abm level", 0, 4);
-> -		if (!adev->mode_info.abm_level_property)
-> -			return -ENOMEM;
-> -	}
-> -
->   	return 0;
->   }
->   
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-> index 2e4911050cc5..1fe21a70ddd0 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-> @@ -324,8 +324,6 @@ struct amdgpu_mode_info {
->   	struct drm_property *audio_property;
->   	/* FMT dithering */
->   	struct drm_property *dither_property;
-> -	/* Adaptive Backlight Modulation (power feature) */
-> -	struct drm_property *abm_level_property;
->   	/* hardcoded DFP edid from BIOS */
->   	struct edid *bios_hardcoded_edid;
->   	int bios_hardcoded_edid_size;
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index b9ac3d2f8029..e3b32ffba85a 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -6388,9 +6388,6 @@ int amdgpu_dm_connector_atomic_set_property(struct drm_connector *connector,
->   	} else if (property == adev->mode_info.underscan_property) {
->   		dm_new_state->underscan_enable = val;
->   		ret = 0;
-> -	} else if (property == adev->mode_info.abm_level_property) {
-> -		dm_new_state->abm_level = val ?: ABM_LEVEL_IMMEDIATE_DISABLE;
-> -		ret = 0;
->   	}
->   
->   	return ret;
-> @@ -6433,10 +6430,6 @@ int amdgpu_dm_connector_atomic_get_property(struct drm_connector *connector,
->   	} else if (property == adev->mode_info.underscan_property) {
->   		*val = dm_state->underscan_enable;
->   		ret = 0;
-> -	} else if (property == adev->mode_info.abm_level_property) {
-> -		*val = (dm_state->abm_level != ABM_LEVEL_IMMEDIATE_DISABLE) ?
-> -			dm_state->abm_level : 0;
-> -		ret = 0;
->   	}
->   
->   	return ret;
-> @@ -7652,13 +7645,6 @@ void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
->   	aconnector->base.state->max_bpc = 16;
->   	aconnector->base.state->max_requested_bpc = aconnector->base.state->max_bpc;
->   
-> -	if (connector_type == DRM_MODE_CONNECTOR_eDP &&
-> -	    (dc_is_dmcu_initialized(adev->dm.dc) ||
-> -	     adev->dm.dc->ctx->dmub_srv) && amdgpu_dm_abm_level < 0) {
-> -		drm_object_attach_property(&aconnector->base.base,
-> -				adev->mode_info.abm_level_property, 0);
-> -	}
-> -
->   	if (connector_type == DRM_MODE_CONNECTOR_HDMIA) {
->   		/* Content Type is currently only implemented for HDMI. */
->   		drm_connector_attach_content_type_property(&aconnector->base);
-
+> 
+> -- 
+> With best wishes
+> Dmitry
