@@ -2,62 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F85285A0CC
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 11:17:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6F2185A0F9
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 11:28:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1D2410E2BB;
-	Mon, 19 Feb 2024 10:17:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8811210E292;
+	Mon, 19 Feb 2024 10:28:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MQBrq7jh";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kMM7ffG+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 698F510E29E;
- Mon, 19 Feb 2024 10:17:34 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C370110E0F5;
+ Mon, 19 Feb 2024 10:28:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708337854; x=1739873854;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Wo/cNfnRrJVS7u+9kX0Gzt5RyUK2/nq8mBV3ntj6ZzU=;
- b=MQBrq7jhFydFjm2Y8ZzWNlzYfu+kqzf0BcQ5bYEzRPd7jFAv8LkPfo9h
- g6rsAZxaDdsjnzHjaipe9V0LkmRvLhAjzY2brdEp+5A+ubBkdhByByVn4
- caS8NbKI5Ro9I2ma9exufT/3Xp0iKViA0uToLMnYRliUqQ6VM5FJlSaUJ
- nzNCwCqeDrwunYA9LzXD1APpmrFaLGoEv7LDRRvHtx54t1ZB8nCscfTXG
- LJGhTgO2vyeeUF3V3FYLUkaJ+SVpa37cRiaVcoH9fNqWXbJb3w2UW+3RP
- Xhc1F4yUqr9yHLBuNCiEfRebvom3ImHtKZidsVhHF47LqyLIHXnaZ+UAu Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10988"; a="2533691"
-X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
-   d="scan'208";a="2533691"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2024 02:17:33 -0800
+ t=1708338492; x=1739874492;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=HX1VxJZXEO2pkuWWt5aU5XXEfe92Sstq2puwZpaBbpM=;
+ b=kMM7ffG+E8a7zkTvX/oeSjLWlmdpYlVQKbPUrhACgBlLxpXmFjPXKawC
+ 9g0SK2L0w6/G6fNNO8Ujbmh8Yi+aoAAox8v0x2xr1L6Pw9ik4GXChgkqn
+ i/W3voR+FJBGJ/TEqhDy2Dve9C63NMhbNUjRrhYW/Ksr2iCV159Q1noS3
+ 3JHZmDzfzmitw8gOnAReCg9KRqDakdFDZbiM6ojgk/xPe6lGPZEvkkQeS
+ H/ZkyxsJfPRTlPev5TzI26cMCUGLRG1rDMU8eJvqnux77tMwhsKC+R7y+
+ USGWufiPZS7zFPXweS9sX4mzi/Aa1fJWnL7QiMPm2+kPEhaDZRrAAdPQP g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10988"; a="13807384"
+X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; d="scan'208";a="13807384"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Feb 2024 02:28:11 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
-   d="scan'208";a="4609644"
-Received: from samathah-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.246.48.149])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2024 02:17:31 -0800
-Date: Mon, 19 Feb 2024 11:17:28 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- stable@vger.kernel.org, Andi Shyti <andi.shyti@kernel.org>
-Subject: Re: [PATCH 1/2] drm/i915/gt: Disable HW load balancing for CCS
-Message-ID: <ZdMquCAXtNdbJHbW@ashyti-mobl2.lan>
-References: <20240215135924.51705-1-andi.shyti@linux.intel.com>
- <20240215135924.51705-2-andi.shyti@linux.intel.com>
- <20240215165541.GJ718896@mdroper-desk1.amr.corp.intel.com>
+   d="scan'208";a="4405396"
+Received: from proe-mobl.ger.corp.intel.com (HELO [10.252.22.52])
+ ([10.252.22.52])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Feb 2024 02:28:10 -0800
+Message-ID: <4aea62d4-8c2a-4406-b81e-240dca772da4@intel.com>
+Date: Mon, 19 Feb 2024 10:28:08 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240215165541.GJ718896@mdroper-desk1.amr.corp.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/6] drm/tests/drm_buddy: fix 32b build
+Content-Language: en-GB
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ intel-xe@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ Maxime Ripard <mripard@redhat.com>
+References: <20240215174431.285069-7-matthew.auld@intel.com>
+ <96bb6e97-34d9-4e4a-b618-85c17e809738@intel.com>
+ <5a9e1f30-19fc-486f-b7f5-016d82580d2f@amd.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <5a9e1f30-19fc-486f-b7f5-016d82580d2f@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,82 +72,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matt,
-
-On Thu, Feb 15, 2024 at 08:55:41AM -0800, Matt Roper wrote:
-> On Thu, Feb 15, 2024 at 02:59:23PM +0100, Andi Shyti wrote:
-> > The hardware should not dynamically balance the load between CCS
-> > engines. Wa_16016805146 recommends disabling it across all
+On 19/02/2024 09:53, Christian König wrote:
+> Am 19.02.24 um 10:42 schrieb Matthew Auld:
+>> On 15/02/2024 17:44, Matthew Auld wrote:
+>>> Doesn't seem to compile on 32b, presumably due to u64 mod/division.
+>>> Simplest is to just switch over to u32 here. Also make print modifiers
+>>> consistent with that.
+>>>
+>>> Fixes: a64056bb5a32 ("drm/tests/drm_buddy: add alloc_contiguous test")
+>>> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>>> Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+>>> Cc: Christian König <christian.koenig@amd.com>
+>>> Cc: Maxime Ripard <mripard@redhat.com>
+>>
+>> Any chance someone can push just this single patch here, since it 
+>> fixes 32b build? It already has an r-b from Arun.
 > 
-> Is this the right workaround number?  When I check the database, this
-> workaround was rejected on both DG2-G10 and DG2-G11, and doesn't even
-> have an entry for DG2-G12.
-> 
-> There are other workarounds that sound somewhat related to load
-> balancing (e.g., part 3 of Wa_14019159160), but what's asked there is
-> more involved than just setting one register bit and conflicts a bit
-> with the second patch of this series.
+> Already working on this. Just give me a few more minutes.
 
-thanks for checking it. Indeed the WA I mentioned is limited to
-a specific platform. This recommendation comes in different WA,
-e.g. this one: Wa_14019186972 (3rd point). Will start using that
-as a reference.
-
-Thank you.
-Andi
+Thanks.
 
 > 
+> Thanks,
+> Christian.
 > 
-> Matt
+>>
+>>> ---
+>>>   drivers/gpu/drm/tests/drm_buddy_test.c | 16 ++++++++--------
+>>>   1 file changed, 8 insertions(+), 8 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c 
+>>> b/drivers/gpu/drm/tests/drm_buddy_test.c
+>>> index fee6bec757d1..edacc1adb28f 100644
+>>> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
+>>> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
+>>> @@ -21,7 +21,7 @@ static inline u64 get_size(int order, u64 chunk_size)
+>>>     static void drm_test_buddy_alloc_contiguous(struct kunit *test)
+>>>   {
+>>> -    u64 mm_size, ps = SZ_4K, i, n_pages, total;
+>>> +    u32 mm_size, ps = SZ_4K, i, n_pages, total;
+>>>       struct drm_buddy_block *block;
+>>>       struct drm_buddy mm;
+>>>       LIST_HEAD(left);
+>>> @@ -56,30 +56,30 @@ static void 
+>>> drm_test_buddy_alloc_contiguous(struct kunit *test)
+>>>           KUNIT_ASSERT_FALSE_MSG(test,
+>>>                          drm_buddy_alloc_blocks(&mm, 0, mm_size,
+>>>                                     ps, ps, list, 0),
+>>> -                       "buddy_alloc hit an error size=%d\n",
+>>> +                       "buddy_alloc hit an error size=%u\n",
+>>>                          ps);
+>>>       } while (++i < n_pages);
+>>>         KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, 
+>>> mm_size,
+>>>                                  3 * ps, ps, &allocated,
+>>> DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+>>> -                   "buddy_alloc didn't error size=%d\n", 3 * ps);
+>>> +                   "buddy_alloc didn't error size=%u\n", 3 * ps);
+>>>         drm_buddy_free_list(&mm, &middle);
+>>>       KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, 
+>>> mm_size,
+>>>                                  3 * ps, ps, &allocated,
+>>> DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+>>> -                   "buddy_alloc didn't error size=%llu\n", 3 * ps);
+>>> +                   "buddy_alloc didn't error size=%u\n", 3 * ps);
+>>>       KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, 
+>>> mm_size,
+>>>                                  2 * ps, ps, &allocated,
+>>> DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+>>> -                   "buddy_alloc didn't error size=%llu\n", 2 * ps);
+>>> +                   "buddy_alloc didn't error size=%u\n", 2 * ps);
+>>>         drm_buddy_free_list(&mm, &right);
+>>>       KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, 
+>>> mm_size,
+>>>                                  3 * ps, ps, &allocated,
+>>> DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+>>> -                   "buddy_alloc didn't error size=%llu\n", 3 * ps);
+>>> +                   "buddy_alloc didn't error size=%u\n", 3 * ps);
+>>>       /*
+>>>        * At this point we should have enough contiguous space for 2 
+>>> blocks,
+>>>        * however they are never buddies (since we freed middle and 
+>>> right) so
+>>> @@ -88,13 +88,13 @@ static void 
+>>> drm_test_buddy_alloc_contiguous(struct kunit *test)
+>>>       KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, 
+>>> mm_size,
+>>>                                   2 * ps, ps, &allocated,
+>>> DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+>>> -                   "buddy_alloc hit an error size=%d\n", 2 * ps);
+>>> +                   "buddy_alloc hit an error size=%u\n", 2 * ps);
+>>>         drm_buddy_free_list(&mm, &left);
+>>>       KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, 
+>>> mm_size,
+>>>                                   3 * ps, ps, &allocated,
+>>> DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+>>> -                   "buddy_alloc hit an error size=%d\n", 3 * ps);
+>>> +                   "buddy_alloc hit an error size=%u\n", 3 * ps);
+>>>         total = 0;
+>>>       list_for_each_entry(block, &allocated, link)
 > 
-> > platforms.
-> > 
-> > Fixes: d2eae8e98d59 ("drm/i915/dg2: Drop force_probe requirement")
-> > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> > Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> > Cc: Matt Roper <matthew.d.roper@intel.com>
-> > Cc: <stable@vger.kernel.org> # v6.2+
-> > ---
-> >  drivers/gpu/drm/i915/gt/intel_gt_regs.h     | 1 +
-> >  drivers/gpu/drm/i915/gt/intel_workarounds.c | 6 ++++++
-> >  2 files changed, 7 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> > index 50962cfd1353..cf709f6c05ae 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> > @@ -1478,6 +1478,7 @@
-> >  
-> >  #define GEN12_RCU_MODE				_MMIO(0x14800)
-> >  #define   GEN12_RCU_MODE_CCS_ENABLE		REG_BIT(0)
-> > +#define   XEHP_RCU_MODE_FIXED_SLICE_CCS_MODE	REG_BIT(1)
-> >  
-> >  #define CHV_FUSE_GT				_MMIO(VLV_GUNIT_BASE + 0x2168)
-> >  #define   CHV_FGT_DISABLE_SS0			(1 << 10)
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> > index d67d44611c28..7f42c8015f71 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> > @@ -2988,6 +2988,12 @@ general_render_compute_wa_init(struct intel_engine_cs *engine, struct i915_wa_li
-> >  		wa_mcr_masked_en(wal, GEN8_HALF_SLICE_CHICKEN1,
-> >  				 GEN7_PSD_SINGLE_PORT_DISPATCH_ENABLE);
-> >  	}
-> > +
-> > +	/*
-> > +	 * Wa_16016805146: disable the CCS load balancing
-> > +	 * indiscriminately for all the platforms
-> > +	 */
-> > +	wa_masked_en(wal, GEN12_RCU_MODE, XEHP_RCU_MODE_FIXED_SLICE_CCS_MODE);
-> >  }
-> >  
-> >  static void
-> > -- 
-> > 2.43.0
-> > 
-> 
-> -- 
-> Matt Roper
-> Graphics Software Engineer
-> Linux GPU Platform Enablement
-> Intel Corporation
