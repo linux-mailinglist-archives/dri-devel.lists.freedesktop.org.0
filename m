@@ -2,73 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5757985A284
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 12:53:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26CC085A2AA
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 13:00:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49D2610E233;
-	Mon, 19 Feb 2024 11:53:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4629710E2A1;
+	Mon, 19 Feb 2024 12:00:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="X/HCRzyC";
+	dkim=pass (2048-bit key; unprotected) header.d=marliere.net header.i=@marliere.net header.b="SbFqWZ8m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
- [209.85.219.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 969FA10E233
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 11:53:00 +0000 (UTC)
-Received: by mail-yb1-f181.google.com with SMTP id
- 3f1490d57ef6-dc74435c428so3820714276.2
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 03:53:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708343579; x=1708948379; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=eDlnERxsGwtLXki6krZHreIryztOLvxcnQnuu/21/BE=;
- b=X/HCRzyCCgAyX6WR4UdTNoMrqRBIzPKvBwuhXO+rfH4KSUnTGRjiEGKEImSfdx7767
- yUqdxs44xL4/Zm4ssIhAnDQJ6qshZlZ2xoIaGJTG95DcsJUqgZIv+w3HBdoIC0/9ThGU
- QgGmXBTcFbEKfWz2yuN2R5OcmMQ2zsoIB+fDdfVTVlrkBXFlam1izxSe6zoR6opHEgT2
- s31W1hel7LKf6LlsCDtt4VfXAsgq8MmlykccdgX4lDvq6XFYknPk9dKttAio4+r5sEZ2
- pdOPJxO7c7DMGjpE4grIjUIKsgiX2JvWk5HgGm//2D2CIsWDtEawY7abZIc7sPLU5lCm
- wPag==
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
+ [209.85.215.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B514F10E17C
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 12:00:12 +0000 (UTC)
+Received: by mail-pg1-f178.google.com with SMTP id
+ 41be03b00d2f7-5d4a1e66750so3092947a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 04:00:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708343579; x=1708948379;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=eDlnERxsGwtLXki6krZHreIryztOLvxcnQnuu/21/BE=;
- b=QnHHLz/WOuapAhkbe+sODn34igFaf73SwQJui1bhlbG6ucE5lad1/D+fu3bn35D/vO
- oD4KK9cig3I0pAP6m4awEptBTXanlFv2b7bIhnJB3qnualBv4pzJD//ETRa25uYAykHD
- tpqCxL45Oysxgu7JK5MP6Ei22zf2+xHre5PcQDZraI/IRhXhWtMAUZ9jOuMCWu2DuP74
- iWbsweLba6NBe1rpIHPlrMoI8rrpdypFpBcXqtfnuZHrdY65piqPZ37DyYNfnBkZnQnm
- 42O9EQOy1om2XIFiXh4eWJFG0FzVuBjpVuDTOKdAzJLsPes9W/57tNkqjbxPGEzgMYH+
- B08A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUeiSrZJvbsf6X6mOjjs1VJn1e99b6TMCmz4GKtoF6KkNXj9+DJrE2o2H9bFQH9EpqER2HAr8t5c+9KbC7y+Q9aH7x0lCTQZi6srboh6EEC
-X-Gm-Message-State: AOJu0YxM12LYtkCBUZ/pn7/n2pEz/jyi4Om8l9+pur2ZhcN24P/PE9Gr
- uSO1PJVHmkCpxC7DG5CQvGJrh2iNDWpcfSpj+LLoen+L0ME6vQJAV7m6OwpEewjzl17YCzM6gdE
- cHgja/+RZ4JbK+b6d8TlLEpojKFxeGH2t86xq7w==
-X-Google-Smtp-Source: AGHT+IEPnDswYQFtDH941jPPgVJlGCvd1CpCQH5qqUk8Fa/hDLMhAwQb5bV+etm3XhmW+ddV9H3F2J9t1vD4jdi3+lU=
-X-Received: by 2002:a25:b322:0:b0:dcd:2aa3:d73b with SMTP id
- l34-20020a25b322000000b00dcd2aa3d73bmr9660313ybj.50.1708343579395; Mon, 19
- Feb 2024 03:52:59 -0800 (PST)
+ d=1e100.net; s=20230601; t=1708344012; x=1708948812;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:dkim-signature:from:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=Y/y+wzHPYfd3SiHwSQB2gKjSO42jAZTbkJRHXD4vpAA=;
+ b=NsA1ijQzVQx93luL6oMDfkFxrnpE3YcAAwwpz7HkTY6P8W8kdC+bUq14NhNzDMHDxV
+ SQNJMNDDviaH4+ZPC4X+pmv+7YzWl4fB+Niriatt8vffMTj+Xtpf+RYD+tnTO2bA9WOG
+ UiB8ScFfgc2Toc72NaRM74QcC//wGT/dcgxsQtyywDvT2B1rbQ4Az9AXZkKq1WicaJvt
+ lsg6b5DvbexVyrFvMCaTWXnQdD7j4zIVZcpVJ0wlMzwmd31/YcMYbfKj03Tkd+DAIZ+6
+ jaLIAXL9vfkcTFA7I+83OZuBWK0W3cb8/IPcy+7PLHFH8pz/H8+lGLitwK1Sy3h6Yuzc
+ 1V2w==
+X-Gm-Message-State: AOJu0YzM/rjvFHekXSYuLHbmTEGQK8me/YZOTOcIgcUtYOae7a4ZCYD/
+ ncRCwY7xW58YDUWi+GEDx+TRtBSKdIjFQ4NWhg+i3sE87NjYPD39
+X-Google-Smtp-Source: AGHT+IFqlQY5V3p4tah87iC3Iam00vn1SMjTwNz28T3natSCKrRYMa//YfctcP/zWPa49vZ0F42pSQ==
+X-Received: by 2002:a17:903:11c9:b0:1db:509a:5a31 with SMTP id
+ q9-20020a17090311c900b001db509a5a31mr12250224plh.26.1708344010045; 
+ Mon, 19 Feb 2024 04:00:10 -0800 (PST)
+Received: from mail.marliere.net ([24.199.118.162])
+ by smtp.gmail.com with ESMTPSA id
+ b17-20020a170902ed1100b001dba356b96esm4223022pld.306.2024.02.19.04.00.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Feb 2024 04:00:09 -0800 (PST)
+From: "Ricardo B. Marliere" <ricardo@marliere.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
+ s=2024; t=1708344007;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Y/y+wzHPYfd3SiHwSQB2gKjSO42jAZTbkJRHXD4vpAA=;
+ b=SbFqWZ8miv9wQlNXq84nvC4QIffme1yj078sP+A9c+zX3ra44UwXA8zi9JAn0LjP5Cwqay
+ eAnJGc1G45kkZX0dTq50UTr3hrFd01aR2wuphJ1Cfhs13/WcqYwlP8On4quNjO6L/h6nu/
+ BZTxDQ9EtIHLMQ/tFaRj5m4yWffDmmSei2Ui4LWSfUVlQJ16zPLAoJz297CP3p+Ew5WQD9
+ jJcyfGe3hMt14Knp21qNZlVUFa7ZzO8YOxiPjlb0MG7OoQClY9czp61i1VNtW1wtq2VISa
+ /Bk2lJKv8zyZlOrmiXnAob216JTNZSusEUKJT2dCH0VX439uimzyJfOs0mtIAw==
+Authentication-Results: ORIGINATING;
+ auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
+Subject: [PATCH drm-misc 0/3] drm: constify the struct device_type usage
+Date: Mon, 19 Feb 2024 09:00:50 -0300
+Message-Id: <20240219-device_cleanup-drm-v1-0-e2f2acb38bff@marliere.net>
 MIME-Version: 1.0
-References: <20240208-fd-dpu-debug-timeout-v2-1-9f907f1bdd87@linaro.org>
- <1cb90bff-ce5b-c6d1-a3df-24f6306f833a@quicinc.com>
- <CAA8EJpotiHKT_NYphDs0-vhpvsybgTW281XDYbteUx8qOX=v4g@mail.gmail.com>
- <63bba15b-6d8d-5ba8-d99d-8cd2dd763262@quicinc.com>
-In-Reply-To: <63bba15b-6d8d-5ba8-d99d-8cd2dd763262@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 19 Feb 2024 13:52:48 +0200
-Message-ID: <CAA8EJpqHmVBry9FyJ6HRB+qdVcVNN3Q7rHZz1daZL1Sz6yeZ=A@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/msm/dpu: make "vblank timeout" more useful
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPJC02UC/x2MUQqDMBAFrxL224AJttpeRYqkm1ddaNKQUBHEu
+ 5v2c2BmdirIgkJ3tVPGKkU+sYJpFPHi4gwtvjLZ1natNTftq8SY+A0Xv0n7HDSA54X77jp4RzV
+ MGS/Z/tORfkKQwvQ4jhMiAvDnbgAAAA==
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Hans de Goede <hdegoede@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Ricardo B. Marliere" <ricardo@marliere.net>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1371; i=ricardo@marliere.net; 
+ h=from:subject:message-id;
+ bh=Km+H2S6VUJOVhwCV0HxwAGP/gwbHc7XavDH63KBqNTE=; 
+ b=owEBbQKS/ZANAwAKAckLinxjhlimAcsmYgBl00L1CbIuZohfUxP4oQ+gIg5l/qdyFLnWxlC8b
+ h+0jG70h3uJAjMEAAEKAB0WIQQDCo6eQk7jwGVXh+HJC4p8Y4ZYpgUCZdNC9QAKCRDJC4p8Y4ZY
+ ptUuEACiK2YVZzL6OtOLLulMgYsNOJGnIij/8clART7o4OFIxLJiEsdVMkGj9Ob+CNt4XNP7gjM
+ jphzkppLod/SSoIvWcDAvPx9tU0sSNtJwM6ypDARr7MsSXEAqJuafTSSaeHxsCfq+YZn3CjUUEi
+ UxBbKLhdCoJC2GQqPQhPJaCXTyI5JhkRje4ugtREtHYd307d6QaALR1N7c+Ze7huKGOcRTnP+Ok
+ 9Ragvxxf2Y96SxLmc8qXonskO+QtZ0/Dnoeg0jiWp60T1QVmsMf38rMbVLOqfam1j64EBzWKAhs
+ B914RBT1yJD06xtoQEpc/nHTFkdpoEnRiRu9rXwer649r1cVIZ79yfXAPbTgxusHykOzBxW4diO
+ lZ3U2x+2/AzuuVM/S/uIBEQ8SsdFGlmcCNZKUU60jljRS7Zb/EunUy9vg5B+m0AEvpqhoLDuKtk
+ 7C5XeoVX4KmEFosCw5xZzhvoejUOPIv7HcCt39KmXx8+8sbGzv3HB4JC7GAIM9i9YclIYTlivEb
+ axBHa1YMa3qzzi1t3tr8YRRUDDBOxsH2vw0L2yyIteGbGBVAcE99omZtwF9bmP2VxjzxJzp0y6Q
+ hxX/mLArUzublWYkRljX5K3Pwl2OonxL2KvHncF4M1Yy2wKvkFPF+4uZw/PyHcrprCt/rcsDxiD
+ +AJWYhcnCF47VzA==
+X-Developer-Key: i=ricardo@marliere.net; a=openpgp;
+ fpr=030A8E9E424EE3C0655787E1C90B8A7C638658A6
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,64 +104,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 14 Feb 2024 at 22:36, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 2/14/2024 11:20 AM, Dmitry Baryshkov wrote:
-> > On Wed, 14 Feb 2024 at 20:02, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >>
-> >>
-> >>
-> >> On 2/8/2024 6:50 AM, Dmitry Baryshkov wrote:
-> >>> We have several reports of vblank timeout messages. However after some
-> >>> debugging it was found that there might be different causes to that.
-> >>> To allow us to identify the DPU block that gets stuck, include the
-> >>> actual CTL_FLUSH value into the timeout message and trigger the devcore
-> >>> snapshot capture.
-> >>>
-> >>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >>> ---
-> >>> Changes in v2:
-> >>> - Added a call to msm_disp_snapshot_state() to trigger devcore dump
-> >>>     (Abhinav)
-> >>> - Link to v1: https://lore.kernel.org/r/20240106-fd-dpu-debug-timeout-v1-1-6d9762884641@linaro.org
-> >>> ---
-> >>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 3 ++-
-> >>>    1 file changed, 2 insertions(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> >>> index d0f56c5c4cce..a8d6165b3c0a 100644
-> >>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> >>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> >>> @@ -489,7 +489,8 @@ static int dpu_encoder_phys_vid_wait_for_commit_done(
-> >>>                (hw_ctl->ops.get_flush_register(hw_ctl) == 0),
-> >>>                msecs_to_jiffies(50));
-> >>>        if (ret <= 0) {
-> >>> -             DPU_ERROR("vblank timeout\n");
-> >>> +             DPU_ERROR("vblank timeout: %x\n", hw_ctl->ops.get_flush_register(hw_ctl));
-> >>> +             msm_disp_snapshot_state(phys_enc->parent->dev);
-> >>
-> >>
-> >> There is no rate limiting in this piece of code unfortunately. So this
-> >> will flood the number of snapshots.
-> >
-> > Well... Yes and no. The devcoredump will destroy other snapshots if
-> > there is a pending one. So only the console will be flooded and only
-> > in case when MSM_DISP_SNAPSHOT_DUMP_IN_CONSOLE is enabled.
-> >
->
-> Yes, true but at the same time this makes it hard to capture a good dump
-> as potentially every vblank you could timeout so this destroy/create
-> cycle wont end.
+This is a simple and straight forward cleanup series that makes all device
+types in the net subsystem constants. This has been possible since 2011 [1]
+but not all occurrences were cleaned. I have been sweeping the tree to fix
+them all.
 
-Excuse me, maybe I miss something. On the first timeout the snapshot
-is created. It is held by the kernel until it is fully read out from
-the userspace. Other snapshots will not interfere with this snapshot.
+---
+[1] https://lore.kernel.org/all/1305850262-9575-5-git-send-email-gregkh@suse.de/
 
-Or are you worried that snapshotting takes time, so taking a snapshot
-will also interfere with the vblank timings for the next vblank?
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: David Airlie <airlied@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc:  <dri-devel@lists.freedesktop.org>
+Cc:  <linux-kernel@vger.kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
 
+---
+Ricardo B. Marliere (3):
+      drm/dp: constify the struct device_type usage
+      drm/privacy_screen: constify the struct device_type usage
+      drm/sysfs: constify the struct device_type usage
+
+ drivers/gpu/drm/display/drm_dp_aux_bus.c | 2 +-
+ drivers/gpu/drm/drm_privacy_screen.c     | 2 +-
+ drivers/gpu/drm/drm_sysfs.c              | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+---
+base-commit: b59dcca97bf052341b9ac28b1ee1af46498b8833
+change-id: 20240219-device_cleanup-drm-eeeb5c7468da
+
+Best regards,
 -- 
-With best wishes
-Dmitry
+Ricardo B. Marliere <ricardo@marliere.net>
+
