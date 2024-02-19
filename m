@@ -2,62 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D559D85AC25
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 20:39:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2FB885AC42
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 20:47:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D26A10E042;
-	Mon, 19 Feb 2024 19:39:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC80410E0AD;
+	Mon, 19 Feb 2024 19:47:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=xff.cz header.i=@xff.cz header.b="JVt1ocNF";
+	dkim=pass (2048-bit key; unprotected) header.d=marliere.net header.i=@marliere.net header.b="OdT28Q8r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC50910E042
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 19:39:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
- t=1708371564; bh=eYJcncYVMz2/P+8L4YuElamp9/gwH5EEjsU0YmeUEy4=;
- h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
- b=JVt1ocNFUSrQEY5yZpav/AneRAxvrc0MRJokvqgkTVvWnzpX0EiEb1/bIAm8kdgJL
- uPdGB9eJCG9pCCAUd4Qb3YPdsImVA5coUlQZe1Gf+3YAJv2Dm8W6DpHOh9dVd5pgux
- 9mdnhFla+wGVTifBvj3mjQfM9APNzqEgk+ZMO/DA=
-Date: Mon, 19 Feb 2024 20:39:23 +0100
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-To: Andy Yan <andy.yan@rock-chips.com>
-Cc: linux-kernel@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>, 
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- "open list:DRM DRIVERS FOR ROCKCHIP" <dri-devel@lists.freedesktop.org>, 
- "moderated list:ARM/Rockchip SoC support"
- <linux-arm-kernel@lists.infradead.org>, 
- "open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>
-Subject: Re: [PATCH] drm: rockchip: Don't require MIPI DSI device when it's
- used for ISP
-Message-ID: <65qkkf7baecbcnemtabzup2nupd63obz4ewrhruk5frl2t3hwv@eqxm3tzgqcv6>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
- Andy Yan <andy.yan@rock-chips.com>, linux-kernel@vger.kernel.org,
- Sandy Huang <hjc@rock-chips.com>, 
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- "open list:DRM DRIVERS FOR ROCKCHIP" <dri-devel@lists.freedesktop.org>, 
- "moderated list:ARM/Rockchip SoC support"
- <linux-arm-kernel@lists.infradead.org>, 
- "open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20240217183941.1752463-1-megi@xff.cz>
- <4c66c084-5af6-43fb-a256-4746b2e00192@rock-chips.com>
- <bsc3lpdxvhy3ss2uja4do3jwvj43zbs7zhx4bzs2tryrakn7be@pt2qsyvryk73>
- <7044f324-5a45-4a4c-a15e-86614e53acf0@rock-chips.com>
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A49510E0AD
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 19:47:43 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id
+ d9443c01a7336-1d7393de183so37165865ad.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 11:47:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708372062; x=1708976862;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:dkim-signature:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=E+1K1rDAoLT3yvvcU1xTbjvAZD33p95do2MZR1pqzhU=;
+ b=njajegTnorRLdzke883MxssA30Tl6VPRWT/SdbP3ZP9ojLaPIc2kreuEOi8nNZYBMc
+ t5A8xqRO0hvXGPUFm7ehzoxIgLgR8+RkDoBuSnr71EuLkbBrF6aJasoEwVSEx1gUiEqz
+ 6KYSPe65oB5cmh5xBPJo7itgZuaJccyEeqnFaPRgC8HcyPSlGaWqDA/Zh+YBp937c4Q6
+ Smxmz4F3aC95XaN96uEner/gV3m5IvzKfQfW1JIUWrSI2QjuWy6YvgNomXUMcPWBGiTn
+ JQ/ju4h7yMCD0IFndetn4vaOZ1yHnYBh+zNVqtQXkoVih01ODEMkph2l5tZQnBKqL30c
+ 9t4g==
+X-Gm-Message-State: AOJu0YyoLytEK90E9C6xleAiKmgvWs/Z7pGVTpxPIuhw+hNx0b/YS2W2
+ UU4vEESCQxXdZQyHlzzFbIxEAhjFIWN6LrCB4YO3LOA7sGPc19kv
+X-Google-Smtp-Source: AGHT+IFLdoebQIS/JcbaR+WTW0StOHvz1lg/dtXrJusjwcgDG/iiyXXo8Mi0KYUwCxIZnHDolT/HyA==
+X-Received: by 2002:a17:902:c246:b0:1db:d256:932d with SMTP id
+ 6-20020a170902c24600b001dbd256932dmr5196936plg.10.1708372062528; 
+ Mon, 19 Feb 2024 11:47:42 -0800 (PST)
+Received: from mail.marliere.net ([24.199.118.162])
+ by smtp.gmail.com with ESMTPSA id
+ v16-20020a17090331d000b001d9773a1993sm4772917ple.213.2024.02.19.11.47.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Feb 2024 11:47:42 -0800 (PST)
+From: "Ricardo B. Marliere" <ricardo@marliere.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
+ s=2024; t=1708372061;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=E+1K1rDAoLT3yvvcU1xTbjvAZD33p95do2MZR1pqzhU=;
+ b=OdT28Q8rBK4R7VC1plQYbox3WZs33fwXo+7EeigrLboYI08hmVA/URzu0izOoSnjtPWxbD
+ xGcaHv36+cCtT+fSpMLvGA5i7vnW4QHy7By+GrlhIZreP3TRFxnn4LcisGZnUvtW/jRC1x
+ xAORX9gyynsmvqK/0Xi3DU+m9W/W0mNA9fZOKwoevXkabVQa4iaJ2kX/9LmGtgOoEC64U0
+ Buq5kDil4WWppoQ6KO4qZ3//q3l/v4XrAQaoKlnA4MWz2XEP88g2zC2fezrd+d84syh1G1
+ Lkqvh0FbzwXRY7yh1BSDwJ9UNmS+sbfEc0dRmo0jfCgj+0O/gqhae1CBm8zGlQ==
+Authentication-Results: ORIGINATING;
+ auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
+Date: Mon, 19 Feb 2024 16:48:28 -0300
+Subject: [PATCH] accel: constify the struct device_type usage
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7044f324-5a45-4a4c-a15e-86614e53acf0@rock-chips.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240219-device_cleanup-accel-v1-1-5031e5046cff@marliere.net>
+X-B4-Tracking: v=1; b=H4sIAIuw02UC/x2MQQqAIBAAvxJ7TlDrYl+JCFvXWhATpQjCvycdB
+ 2bmhUKZqcDUvZDp5sJnbKD6DvCwcSfBrjFoqUeplRGuSUgrBrLxSsIiUhDWGOlw2PyGClqaMnl
+ +/u281PoBgY4uiWYAAAA=
+To: Oded Gabbay <ogabbay@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Ricardo B. Marliere" <ricardo@marliere.net>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1102; i=ricardo@marliere.net; 
+ h=from:subject:message-id;
+ bh=E0gu0dftav8MaXjX+7OAo3ktmwiz3PI/6cLVfZ9kBDM=; 
+ b=owEBbQKS/ZANAwAKAckLinxjhlimAcsmYgBl07CMzkpkFXTFG76NJv+ATsU02RkTl3tfEbF2q
+ nEqfBlPSjOJAjMEAAEKAB0WIQQDCo6eQk7jwGVXh+HJC4p8Y4ZYpgUCZdOwjAAKCRDJC4p8Y4ZY
+ ph33D/9ue3+Q6/AEYZ8oe7dOzJSV9lsxOuLRgBPtR22qxrIICYQHPY8LGmiQCsURaP4Eqce30P8
+ GOyP9QkMkvJpdi1liki9/kNAJDSal5cH8ZhjSzl3o88ZWPROoKDR0Qa4r88qQMPF52EPoTfW1RZ
+ pRRnh4leiPk5APBIw52MKjDsH1g9A5ZY95WieSUhA9gsxJ7XuVvdE2kW4SwyyFHhLEZ6SZVLtXN
+ p5WjubxnK8qHoHvYtY/2tMZCOz2A4Ku5jRoeYOSuIEhS3i79HN16Jsf/6nf/i2OGi6F/ehp4DoU
+ ePE7ja2Pmm/OmzQlHJd5uKqDuo/nwvtL/LXLsdu4s/NVP9gvIZkWgFhl+UND7M9hsD3VNNtJkj0
+ p77aDr2p82Ey7ITJd8F9ZxrkhdATf1hger/00R55IcOQ3Had8PkSIrdkkdud7mJdaupkzhTR2Ti
+ VQSBuVDmIdzzlBGovKzZAuODskhmlkS1t5fjuJDp3WyAvSV65J3sIoGiiHM+9B1fqMP90fxtbGB
+ Wp+bTfWX28zeizLGfBcRlT9UFs8R1VnVJTcDGUWKmmQUuHIq/BaqzxoMMNDi7uJ3KHrXVoOqmsx
+ P8Ob/mkZDKVzVVsP2lLNXG8MKj8pnvna2g7HvjhQVeJ+zYKFIE+P/dGfJRdKnGB7tlp0RMWzOa9
+ VabkXivaMdt4Ehg==
+X-Developer-Key: i=ricardo@marliere.net; a=openpgp;
+ fpr=030A8E9E424EE3C0655787E1C90B8A7C638658A6
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,143 +101,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 19, 2024 at 11:02:01AM +0800, Andy Yan wrote:
-> Hi Ondrej:
-> 
-> On 2/18/24 23:17, Ondřej Jirman wrote:
-> > Hi Andy,
-> > 
-> > On Sun, Feb 18, 2024 at 07:14:56PM +0800, Andy Yan wrote:
-> > > Hi,
-> > > 
-> > > On 2/18/24 02:39, Ondřej Jirman wrote:
-> > > > From: Ondrej Jirman <megi@xff.cz>
-> > > > 
-> > > > On RK3399 one MIPI DSI device can be alternatively used with the ISP1,
-> > > > to provide RX DPHY. When this is the case (ISP1 is enabled in device
-> > > > tree), probe success of DRM is tied to probe success of ISP1 connected
-> > > > camera sensor. This can fail if the user is able to killswitch the camera
-> > > > power, like on Pinephone Pro.
-> > > > 
-> > > > Detect use of MIPI DSI controller by ISP, and don't include it in
-> > > > component match list in that case.
-> > > > 
-> > > 
-> > > Isn't this supposed to be taken care of within the dts?
-> > > Since DPHY1 should exclusively used by MIPI DSI1 and ISP1, then if
-> > > a device want to use ISP1, the DSI1 should be disabled in dts.
-> > 
-> > DSI1 can't be disabled, because it provides PHY device for ISP1 in this
-> > scenario.
-> > 
-> > The problem is that in this scenario DRM keeps waiting for DSI1 device,
-> > despite it just being used for PHY for ISP1 and not as a component for
-> > rockchip DRM driver.
-> 
-> 
-> Oh, get it.
-> With a quick look, seems that Heiko has already take this scenario into consideration
-> when add PHY function in the dsi drivers[0]
-> Does this mean the current drivers does not work as expected?
+Since commit aed65af1cc2f ("drivers: make device_type const"), the driver
+core can properly handle constant struct device_type. Move the
+accel_sysfs_device_minor variable to be a constant structure as well,
+placing it into read-only memory which can not be modified at runtime.
 
-It didn't work anymore since some fw devlink changes that were added some
-time after 2021. But it might have got resolved since than.
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
+---
+ drivers/accel/drm_accel.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-So please ignore this patch for now.
+diff --git a/drivers/accel/drm_accel.c b/drivers/accel/drm_accel.c
+index 24cac4c0274b..16c3edb8c46e 100644
+--- a/drivers/accel/drm_accel.c
++++ b/drivers/accel/drm_accel.c
+@@ -23,7 +23,7 @@ static struct idr accel_minors_idr;
+ 
+ static struct dentry *accel_debugfs_root;
+ 
+-static struct device_type accel_sysfs_device_minor = {
++static const struct device_type accel_sysfs_device_minor = {
+ 	.name = "accel_minor"
+ };
+ 
 
-kind regards,
-	o.
+---
+base-commit: b401b621758e46812da61fa58a67c3fd8d91de0d
+change-id: 20240219-device_cleanup-accel-a990dc3bfbc1
 
-> [0]https://patchwork.freedesktop.org/patch/420386/
-> > 
-> > See:
-> > 
-> >          isp1: isp1@ff920000 {
-> >                  compatible = "rockchip,rk3399-cif-isp";
-> >                  reg = <0x0 0xff920000 0x0 0x4000>;
-> >                  interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH 0>;
-> >                  clocks = <&cru SCLK_ISP1>,
-> >                           <&cru ACLK_ISP1_WRAPPER>,
-> >                           <&cru HCLK_ISP1_WRAPPER>;
-> >                  clock-names = "isp", "aclk", "hclk";
-> >                  iommus = <&isp1_mmu>;
-> >                  phys = <&mipi_dsi1>;  <---------
-> >                  phy-names = "dphy";
-> >                  power-domains = <&power RK3399_PD_ISP1>;
-> >                  status = "disabled";
-> > 
-> > If mipi_dsi1 is disabled, isp1 will never probe.
-> > 
-> > It's a consequence of this special dual use of mipi_dsi1.
-> > 
-> > kind regards,
-> > 	o.
-> > 
-> > > > Signed-off-by: Ondrej Jirman <megi@xff.cz>
-> > > > ---
-> > > >    drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 47 +++++++++++++++++++++
-> > > >    1 file changed, 47 insertions(+)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> > > > index ab55d7132550..f47de94ad576 100644
-> > > > --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> > > > +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> > > > @@ -354,6 +354,43 @@ static void rockchip_drm_match_remove(struct device *dev)
-> > > >    		device_link_del(link);
-> > > >    }
-> > > > +/*
-> > > > + * Check if ISP block linked to a mipi-dsi device via phys phandle is
-> > > > + * enabled in device tree.
-> > > > + */
-> > > > +static bool rockchip_drm_is_mipi1_and_used_by_isp(struct device *dev)
-> > > > +{
-> > > > +	struct device_node *np = NULL, *phy_np;
-> > > > +
-> > > > +	if (!of_device_is_compatible(dev->of_node, "rockchip,rk3399-mipi-dsi"))
-> > > > +		return false;
-> > > > +
-> > > > +	while (true) {
-> > > > +		np = of_find_compatible_node(np, NULL, "rockchip,rk3399-cif-isp");
-> > > > +		if (!np)
-> > > > +			break;
-> > > > +
-> > > > +		if (!of_device_is_available(np)) {
-> > > > +			of_node_put(np);
-> > > > +			continue;
-> > > > +		}
-> > > > +
-> > > > +		phy_np = of_parse_phandle(np, "phys", 0);
-> > > > +		if (!phy_np) {
-> > > > +			of_node_put(np);
-> > > > +			continue;
-> > > > +		}
-> > > > +
-> > > > +		of_node_put(phy_np);
-> > > > +		of_node_put(np);
-> > > > +
-> > > > +		if (phy_np == dev->of_node)
-> > > > +			return true;
-> > > > +	}
-> > > > +
-> > > > +	return false;
-> > > > +}
-> > > > +
-> > > >    static struct component_match *rockchip_drm_match_add(struct device *dev)
-> > > >    {
-> > > >    	struct component_match *match = NULL;
-> > > > @@ -371,6 +408,16 @@ static struct component_match *rockchip_drm_match_add(struct device *dev)
-> > > >    			if (!d)
-> > > >    				break;
-> > > > +			/*
-> > > > +			 * If mipi1 is connected to ISP, we don't want to wait for mipi1 component,
-> > > > +			 * because it will not be used by DRM anyway, to not tie success of camera
-> > > > +			 * driver probe to display pipeline initialization.
-> > > > +			 */
-> > > > +			if (rockchip_drm_is_mipi1_and_used_by_isp(d)) {
-> > > > +				dev_info(d, "used by ISP1, skipping from DRM\n");
-> > > > +				continue;
-> > > > +			}
-> > > > +
-> > > >    			device_link_add(dev, d, DL_FLAG_STATELESS);
-> > > >    			component_match_add(dev, &match, component_compare_dev, d);
-> > > >    		} while (true);
+Best regards,
+-- 
+Ricardo B. Marliere <ricardo@marliere.net>
+
