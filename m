@@ -2,114 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA4D185A13A
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 11:43:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DEAE85A150
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 11:48:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04C4D10E2D7;
-	Mon, 19 Feb 2024 10:43:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 918F810E2E4;
+	Mon, 19 Feb 2024 10:48:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="AoalEGL2";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VBkUhStD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D7C110E2D7
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 10:43:53 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-512ab55fde6so1675976e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 02:43:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708339431; x=1708944231; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=4Kggm66I2y/vi1EeOvhEU59nPGFhYTXx3hwaaB0gBno=;
- b=AoalEGL2KKx0B9ZPkIPwSKuQM84OwvD+envfpVaC0p80npic3Rp+qwzj90X2uW3KWm
- KQAWGrcYLY2pHUhkoV3zWRKb2+kHF58FhR152CC4CS+wiu9NlPrzroQWnQRHTgk+5iCA
- 3IX+3xkGFcAA71DndRrX7xyuyKo8N6c149P0TCmloApO7N49pcPyJxG1IaMV2jW5SjIb
- 0pZsSvCbIbwUwVYC6nEfCWyXxo5f2Gy24XiYieYD3yyQ+YXepKMWqcCXtXiBHjgdQyK9
- 7q94lGQjDHpMhmJSQC76VRRY6lYjSQsQS0+HPOOaYI7EsBz0A5sRLLf9Z1+r7F7tCNl+
- Dc9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708339431; x=1708944231;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4Kggm66I2y/vi1EeOvhEU59nPGFhYTXx3hwaaB0gBno=;
- b=tWhyod+whp0gQGZd1/wxK5vxTIUyt8xQNlgnaxs7XVw9cfM1mBropqQzlepciU51sk
- tawxNwERDFr0IVLrD0Xxh3yviY77BPFOqksb2+s3xBRpgbl09ij7KsCUYAfDVVGbzX99
- koQMjJWnpGXjr69yRTjMAzi5iX1SAzW/DVLwtZ2jepay1IIjpktu9vDiGiL1T+FPMW/6
- QYSnjXpqoygMqIncaNH5OeiwQ9CMMCMct9XY5KLmkE9+bzUIlBtOGVIeK+ew8h1vY0Bt
- cwla/ga5Fmt2bP1Bbm1siy7kiGLQf0EpXrPtdheBXUzZwtfx9LQnt/buX5ojEckkJAhx
- m38w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUSaVDZt7bMIFArz6R7WWP2u1cUPZF6EMJOxuxssf/1SOBuwU3gq/Q4g/iK3rw4AQAGjW9EsN6j6MViyJBXELKATWLUOPo9mutObzHUXPV/
-X-Gm-Message-State: AOJu0YwikGUJKBfG8+VPfUrn6wNj2WRvOPLfOufeM/LJo/NAEuOrv0eU
- xcIblRm3qhV2GMFRYsoV1a8/ngH/9jfKdiT50gxzB02HmvoAWARvUy930V6q0Uc=
-X-Google-Smtp-Source: AGHT+IElz4TjU8D2lkNBcsMPEFJNte9kkFpP/echmyo2LLc0c99lFChPflTVKFN/lBqt9pVsTI42jw==
-X-Received: by 2002:a19:8c5d:0:b0:511:1790:e3dd with SMTP id
- i29-20020a198c5d000000b005111790e3ddmr7555086lfj.54.1708339431427; 
- Mon, 19 Feb 2024 02:43:51 -0800 (PST)
-Received: from [192.168.192.135] (078088045141.garwolin.vectranet.pl.
- [78.88.45.141]) by smtp.gmail.com with ESMTPSA id
- e11-20020a19690b000000b00512bdc911f5sm74051lfc.271.2024.02.19.02.43.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Feb 2024 02:43:50 -0800 (PST)
-Message-ID: <9c66c731-50a5-4dca-a3cf-e8042136c715@linaro.org>
-Date: Mon, 19 Feb 2024 11:43:48 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BF0A10E2CD;
+ Mon, 19 Feb 2024 10:48:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1708339725; x=1739875725;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=/Yzb1+tUfy9DbCAkneIo9zIHOD9oV2ghUzPslP0ap5Y=;
+ b=VBkUhStDVpq/17PVPdjtAOKyMxpHSaM2cXpsPME+tBr77r9/+WnTmxJF
+ sWLNRFbwZVQm0kd/jmAqCpO30Sl7to0/9B+7IRcboXnPE4Irza2dfAw02
+ 8/BekzCJn3Dc2rVUIfadJ5TvBOpQm14+i6oZ7G9vHzsRX2D9BvmilXvDf
+ YEb2R/6NALS8krfzpXaTMzvuUfdg3Rw166aoruijqcPspfxnRHPVkDc4p
+ 6Hx4kQbaclHUhLkBosI0+nJCZPYUorI0xSRG//BPiu70coeXEBUEPRkmI
+ Ie54K0tXWxL9JESH+dN+XXjYsCXt0AWICUu3D2ae0p1A0sIpRguOYEwI7 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10988"; a="2558113"
+X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
+   d="scan'208";a="2558113"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Feb 2024 02:48:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; d="scan'208";a="27629781"
+Received: from proe-mobl.ger.corp.intel.com (HELO [10.252.22.52])
+ ([10.252.22.52])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Feb 2024 02:48:43 -0800
+Message-ID: <dc8c7d2b-4c2f-41dd-9812-3699444d5273@intel.com>
+Date: Mon, 19 Feb 2024 10:48:41 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH v2 1/1] drm/msm/adreno: Add support for SM7150 SoC
- machine
-Content-Language: en-US
-To: Danila Tikhonov <danila@jiaxyga.com>, robdclark@gmail.com,
- quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
- marijn.suijten@somainline.org, airlied@gmail.com, daniel@ffwll.ch,
- johan+linaro@kernel.org, quic_bjorande@quicinc.com
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20240218195007.89960-1-danila@jiaxyga.com>
- <20240218195007.89960-2-danila@jiaxyga.com>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
- BB/OmIWU6X+LZW6P88ZmHe+KeyABLMP5s1tJNK1j4ntT7mECcWZDzafPWF4F6m4WJOG27kTJ
- HGWdmtO+RvadOVi6CoUDqALsmfS3MUG5Pj2Ne9+0jRg4hEnB92AyF9rW2G3qisFcwPgvatt7
- TXD5E38mLyOPOUyXNj9XpDbt1hNwKQfiidmPh5e7VNAWRnW1iCMMoKqzM1Anzq7e5Afyeifz
- zRcQPLaqrPjnKqZGL2BKQSZDh6NkI5ZLRhhHQf61fkWcUpTp1oDC6jWVfT7hwRVIQLrrNj9G
- MpPzrlN4YuAqKeIer1FMt8cq64ifgTzxHzXsMcUdclzq2LTk2RXaPl6Jg/IXWqUClJHbamSk
- t1bfif3SnmhA6TiNvEpDKPiT3IDs42THU6ygslrBxyROQPWLI9IL1y8S6RtEh8H+NZQWZNzm
- UQ3imZirlPjxZtvz1BtnnBWS06e7x/UEAguj7VHCuymVgpl2Za17d1jj81YN5Rp5L9GXxkV1
- aUEwONM3eCI3qcYm5JNc5X+JthZOWsbIPSC1Rhxz3JmWIwP1udr5E3oNRe9u2LIEq+wH/toH
- kpPDhTeMkvt4KfE5m5ercid9+ZXAqoaYLUL4HCEw+HW0DXcKDwARAQABzShLb25yYWQgRHli
- Y2lvIDxrb25yYWQuZHliY2lvQGxpbmFyby5vcmc+wsGOBBMBCAA4FiEEU24if9oCL2zdAAQV
- R4cBcg5dfFgFAmQ5bqwCGwMFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AACgkQR4cBcg5dfFjO
- BQ//YQV6fkbqQCceYebGg6TiisWCy8LG77zV7DB0VMIWJv7Km7Sz0QQrHQVzhEr3trNenZrf
- yy+o2tQOF2biICzbLM8oyQPY8B///KJTWI2khoB8IJSJq3kNG68NjPg2vkP6CMltC/X3ohAo
- xL2UgwN5vj74QnlNneOjc0vGbtA7zURNhTz5P/YuTudCqcAbxJkbqZM4WymjQhe0XgwHLkiH
- 5LHSZ31MRKp/+4Kqs4DTXMctc7vFhtUdmatAExDKw8oEz5NbskKbW+qHjW1XUcUIrxRr667V
- GWH6MkVceT9ZBrtLoSzMLYaQXvi3sSAup0qiJiBYszc/VOu3RbIpNLRcXN3KYuxdQAptacTE
- mA+5+4Y4DfC3rUSun+hWLDeac9z9jjHm5rE998OqZnOU9aztbd6zQG5VL6EKgsVXAZD4D3RP
- x1NaAjdA3MD06eyvbOWiA5NSzIcC8UIQvgx09xm7dThCuQYJR4Yxjd+9JPJHI6apzNZpDGvQ
- BBZzvwxV6L1CojUEpnilmMG1ZOTstktWpNzw3G2Gis0XihDUef0MWVsQYJAl0wfiv/0By+XK
- mm2zRR+l/dnzxnlbgJ5pO0imC2w0TVxLkAp0eo0LHw619finad2u6UPQAkZ4oj++iIGrJkt5
- Lkn2XgB+IW8ESflz6nDY3b5KQRF8Z6XLP0+IEdLOOARkOW7yEgorBgEEAZdVAQUBAQdAwmUx
- xrbSCx2ksDxz7rFFGX1KmTkdRtcgC6F3NfuNYkYDAQgHwsF2BBgBCAAgFiEEU24if9oCL2zd
- AAQVR4cBcg5dfFgFAmQ5bvICGwwACgkQR4cBcg5dfFju1Q//Xta1ShwL0MLSC1KL1lXGXeRM
- 8arzfyiB5wJ9tb9U/nZvhhdfilEDLe0jKJY0RJErbdRHsalwQCrtq/1ewQpMpsRxXzAjgfRN
- jc4tgxRWmI+aVTzSRpywNahzZBT695hMz81cVZJoZzaV0KaMTlSnBkrviPz1nIGHYCHJxF9r
- cIu0GSIyUjZ/7xslxdvjpLth16H27JCWDzDqIQMtg61063gNyEyWgt1qRSaK14JIH/DoYRfn
- jfFQSC8bffFjat7BQGFz4ZpRavkMUFuDirn5Tf28oc5ebe2cIHp4/kajTx/7JOxWZ80U70mA
- cBgEeYSrYYnX+UJsSxpzLc/0sT1eRJDEhI4XIQM4ClIzpsCIN5HnVF76UQXh3a9zpwh3dk8i
- bhN/URmCOTH+LHNJYN/MxY8wuukq877DWB7k86pBs5IDLAXmW8v3gIDWyIcgYqb2v8QO2Mqx
- YMqL7UZxVLul4/JbllsQB8F/fNI8AfttmAQL9cwo6C8yDTXKdho920W4WUR9k8NT/OBqWSyk
- bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
- nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
- izWDgYvmBE8=
-In-Reply-To: <20240218195007.89960-2-danila@jiaxyga.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 1/6] drm/tests/drm_buddy: fix 32b build
+Content-Language: en-GB
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ intel-xe@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ Maxime Ripard <mripard@redhat.com>
+References: <20240215174431.285069-7-matthew.auld@intel.com>
+ <96bb6e97-34d9-4e4a-b618-85c17e809738@intel.com>
+ <5a9e1f30-19fc-486f-b7f5-016d82580d2f@amd.com>
+ <4aea62d4-8c2a-4406-b81e-240dca772da4@intel.com>
+ <45059d66-6e80-406b-aae2-72f8b8d142cb@amd.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <45059d66-6e80-406b-aae2-72f8b8d142cb@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,21 +74,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18.02.2024 20:50, Danila Tikhonov wrote:
-> SM7150 has 5 power levels which correspond to 5 speed-bin values: 0,
-> 128, 146, 167, 172. Speed-bin value is calulated as FMAX/4.8MHz round up
-> to zero decimal places.
+On 19/02/2024 10:30, Christian König wrote:
+> Am 19.02.24 um 11:28 schrieb Matthew Auld:
+>> On 19/02/2024 09:53, Christian König wrote:
+>>> Am 19.02.24 um 10:42 schrieb Matthew Auld:
+>>>> On 15/02/2024 17:44, Matthew Auld wrote:
+>>>>> Doesn't seem to compile on 32b, presumably due to u64 mod/division.
+>>>>> Simplest is to just switch over to u32 here. Also make print modifiers
+>>>>> consistent with that.
+>>>>>
+>>>>> Fixes: a64056bb5a32 ("drm/tests/drm_buddy: add alloc_contiguous test")
+>>>>> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+>>>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>>>>> Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+>>>>> Cc: Christian König <christian.koenig@amd.com>
+>>>>> Cc: Maxime Ripard <mripard@redhat.com>
+>>>>
+>>>> Any chance someone can push just this single patch here, since it 
+>>>> fixes 32b build? It already has an r-b from Arun.
+>>>
+>>> Already working on this. Just give me a few more minutes.
+>>
+>> Thanks.
 > 
-> Also a618 on SM7150 uses a615 zapfw. Add a squashed version (.mbn).
+> No, problem. I would have pushed this earlier, but my build server 
+> doesn't want to work any more. Looks like the SSD has passed its 
+> warranty :(
 > 
-> Add this as machine = "qcom,sm7150", because speed-bin values are
-> different from atoll (sc7180/sm7125).
+> Should I push the other three patches to drm-misc-fixes as well? I 
+> currently can't even build test them.
+
+Need to send a v2 for that. One minor change in the test just to be 
+consistent with using u32. Thanks.
+
 > 
-> Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
-> ---
-
-Sorry for the mess on the previous thread!
-
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-
-Konrad
+> Thanks,
+> Christian.
+> 
+>>
+>>>
+>>> Thanks,
+>>> Christian.
+>>>
+>>>>
+>>>>> ---
+>>>>>   drivers/gpu/drm/tests/drm_buddy_test.c | 16 ++++++++--------
+>>>>>   1 file changed, 8 insertions(+), 8 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c 
+>>>>> b/drivers/gpu/drm/tests/drm_buddy_test.c
+>>>>> index fee6bec757d1..edacc1adb28f 100644
+>>>>> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
+>>>>> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
+>>>>> @@ -21,7 +21,7 @@ static inline u64 get_size(int order, u64 
+>>>>> chunk_size)
+>>>>>     static void drm_test_buddy_alloc_contiguous(struct kunit *test)
+>>>>>   {
+>>>>> -    u64 mm_size, ps = SZ_4K, i, n_pages, total;
+>>>>> +    u32 mm_size, ps = SZ_4K, i, n_pages, total;
+>>>>>       struct drm_buddy_block *block;
+>>>>>       struct drm_buddy mm;
+>>>>>       LIST_HEAD(left);
+>>>>> @@ -56,30 +56,30 @@ static void 
+>>>>> drm_test_buddy_alloc_contiguous(struct kunit *test)
+>>>>>           KUNIT_ASSERT_FALSE_MSG(test,
+>>>>>                          drm_buddy_alloc_blocks(&mm, 0, mm_size,
+>>>>>                                     ps, ps, list, 0),
+>>>>> -                       "buddy_alloc hit an error size=%d\n",
+>>>>> +                       "buddy_alloc hit an error size=%u\n",
+>>>>>                          ps);
+>>>>>       } while (++i < n_pages);
+>>>>>         KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, 
+>>>>> mm_size,
+>>>>>                                  3 * ps, ps, &allocated,
+>>>>> DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+>>>>> -                   "buddy_alloc didn't error size=%d\n", 3 * ps);
+>>>>> +                   "buddy_alloc didn't error size=%u\n", 3 * ps);
+>>>>>         drm_buddy_free_list(&mm, &middle);
+>>>>>       KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, 
+>>>>> mm_size,
+>>>>>                                  3 * ps, ps, &allocated,
+>>>>> DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+>>>>> -                   "buddy_alloc didn't error size=%llu\n", 3 * ps);
+>>>>> +                   "buddy_alloc didn't error size=%u\n", 3 * ps);
+>>>>>       KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, 
+>>>>> mm_size,
+>>>>>                                  2 * ps, ps, &allocated,
+>>>>> DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+>>>>> -                   "buddy_alloc didn't error size=%llu\n", 2 * ps);
+>>>>> +                   "buddy_alloc didn't error size=%u\n", 2 * ps);
+>>>>>         drm_buddy_free_list(&mm, &right);
+>>>>>       KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, 
+>>>>> mm_size,
+>>>>>                                  3 * ps, ps, &allocated,
+>>>>> DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+>>>>> -                   "buddy_alloc didn't error size=%llu\n", 3 * ps);
+>>>>> +                   "buddy_alloc didn't error size=%u\n", 3 * ps);
+>>>>>       /*
+>>>>>        * At this point we should have enough contiguous space for 2 
+>>>>> blocks,
+>>>>>        * however they are never buddies (since we freed middle and 
+>>>>> right) so
+>>>>> @@ -88,13 +88,13 @@ static void 
+>>>>> drm_test_buddy_alloc_contiguous(struct kunit *test)
+>>>>>       KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, 
+>>>>> mm_size,
+>>>>>                                   2 * ps, ps, &allocated,
+>>>>> DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+>>>>> -                   "buddy_alloc hit an error size=%d\n", 2 * ps);
+>>>>> +                   "buddy_alloc hit an error size=%u\n", 2 * ps);
+>>>>>         drm_buddy_free_list(&mm, &left);
+>>>>>       KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, 
+>>>>> mm_size,
+>>>>>                                   3 * ps, ps, &allocated,
+>>>>> DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+>>>>> -                   "buddy_alloc hit an error size=%d\n", 3 * ps);
+>>>>> +                   "buddy_alloc hit an error size=%u\n", 3 * ps);
+>>>>>         total = 0;
+>>>>>       list_for_each_entry(block, &allocated, link)
+>>>
+> 
