@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B500285A5BE
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 15:21:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8359B85A5BF
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 15:21:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06AA010E29A;
-	Mon, 19 Feb 2024 14:21:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85F7510E2D6;
+	Mon, 19 Feb 2024 14:21:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=atomide.com header.i=@atomide.com header.b="Z/lYE2GV";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=atomide.com header.i=@atomide.com header.b="LjnfjspU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail5.25mail.st (mail5.25mail.st [74.50.62.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BCF910E29A
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 14:20:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23AE810E269
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 14:21:19 +0000 (UTC)
 Received: from localhost (91-158-86-216.elisa-laajakaista.fi [91.158.86.216])
- by mail5.25mail.st (Postfix) with ESMTPSA id 99DE160889;
- Mon, 19 Feb 2024 14:20:37 +0000 (UTC)
+ by mail5.25mail.st (Postfix) with ESMTPSA id DF0B66088D;
+ Mon, 19 Feb 2024 14:20:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=atomide.com;
- s=25mailst; t=1708352456;
- bh=ZSH7/4/ogQNJvFIc5NcMaWCz0kQiV+UenYex7AkYtQk=;
- h=From:To:Cc:Subject:Date:From;
- b=Z/lYE2GV//A62pJ9OjB5upx3ePwmFrY2rQzyYEJL8zvCUtAU1I++UGkADrqGTG3tg
- J3Czysgt8i1l4Z4WxuTRax1d3XorzTFxAtCKE2paA6Q5WxuqcZ1oObwQPC15yVFnHY
- vGAiM3Zl5eYuDR8SDli4Tibzv0NN/qAL+pKqAecrQledgdJLDczLXOddlA3f3w9imY
- A3e0RZgzRxDrkWr2VlQD53ZXeIqRfRQTS0Z++lw7BMj4xF2vwFeYeD+4sbqdBcunzY
- 7mDlpOw86eaE259CXaKyCt6RBAand/julO4WvI01h2QTJvZNA9116LEo6MN2w7FLFu
- 5Ct8ahsBf1XtQ==
+ s=25mailst; t=1708352478;
+ bh=2+gw+ZCvOzg8K6L47uCfoS1vDcz2pWSSndevxkn0Z5s=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=LjnfjspUcB19s1joTmF0IsWSr8pGHQOivb0aVeAMs9ctz0GEGoAAItcAZEzcErgDX
+ qmv5eS8xVoXXs5uzUXYeM1u5suzT1Qkv1xUKwIZtwadU08gp4DcMIjsbqA8sbzGzqD
+ oqr6QZFoi1pgffCnSM0a+j6wdbMOVXTTuIbZ8LOhewAAs1jgYWjcwfjzC36wXut0cY
+ xqer1uhYo3vYqx3IQoY8gnbyYfVwJy7aMOre4WhSKEpHQ8m3HdkQB3Xdcw/fh50jUV
+ hAUwaBotS/fNWtBKIF5h4TGRYRLJ7kqC8DrjGpfzokfIeG7S8VnBbuMSKYOy/csxmY
+ hXKY2AM+kbczQ==
 From: Tony Lindgren <tony@atomide.com>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -37,10 +37,12 @@ To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Javier Martinez Canillas <javierm@redhat.com>,
  Sam Ravnborg <sam@ravnborg.org>
 Cc: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/omapdrm: Fix console by implementing fb_dirty
-Date: Mon, 19 Feb 2024 16:19:55 +0200
-Message-ID: <20240219142001.19727-1-tony@atomide.com>
+Subject: [PATCH 2/2] drm/omapdrm: Fix console with deferred ops
+Date: Mon, 19 Feb 2024 16:19:56 +0200
+Message-ID: <20240219142001.19727-2-tony@atomide.com>
 X-Mailer: git-send-email 2.43.1
+In-Reply-To: <20240219142001.19727-1-tony@atomide.com>
+References: <20240219142001.19727-1-tony@atomide.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,42 +60,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The framebuffer console stopped updating with commit f231af498c29
-("drm/fb-helper: Disconnect damage worker from update logic").
+Commit 95da53d63dcf ("drm/omapdrm: Use regular fbdev I/O helpers")
+broke console because there is no damage handling in fb_sys_write()
+unlike we have in drm_fb_helper_sys_write().
 
-Let's fix the issue by implementing fb_dirty similar to what was done
-with commit 039a72ce7e57 ("drm/i915/fbdev: Implement fb_dirty for intel
-custom fb helper").
+Let's fix the issue by using deferred ops with fb helpers for damage.
 
-Fixes: f231af498c29 ("drm/fb-helper: Disconnect damage worker from update logic")
+Fixes: 95da53d63dcf ("drm/omapdrm: Use regular fbdev I/O helpers")
 Signed-off-by: Tony Lindgren <tony@atomide.com>
 ---
- drivers/gpu/drm/omapdrm/omap_fbdev.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/gpu/drm/omapdrm/Kconfig      | 1 +
+ drivers/gpu/drm/omapdrm/omap_fbdev.c | 8 ++++++--
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/gpu/drm/omapdrm/Kconfig b/drivers/gpu/drm/omapdrm/Kconfig
+--- a/drivers/gpu/drm/omapdrm/Kconfig
++++ b/drivers/gpu/drm/omapdrm/Kconfig
+@@ -5,6 +5,7 @@ config DRM_OMAP
+ 	depends on ARCH_OMAP2PLUS
+ 	select DRM_KMS_HELPER
+ 	select FB_DMAMEM_HELPERS if DRM_FBDEV_EMULATION
++	select FB_IOMEM_HELPERS if DRM_FBDEV_EMULATION
+ 	select VIDEOMODE_HELPERS
+ 	select HDMI
+ 	default n
 diff --git a/drivers/gpu/drm/omapdrm/omap_fbdev.c b/drivers/gpu/drm/omapdrm/omap_fbdev.c
 --- a/drivers/gpu/drm/omapdrm/omap_fbdev.c
 +++ b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-@@ -238,8 +238,20 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
- 	return ret;
+@@ -51,6 +51,10 @@ static void pan_worker(struct work_struct *work)
+ 	omap_gem_roll(bo, fbi->var.yoffset * npages);
  }
  
-+static int omap_fbdev_dirty(struct drm_fb_helper *helper, struct drm_clip_rect *clip)
-+{
-+	if (!(clip->x1 < clip->x2 && clip->y1 < clip->y2))
-+		return 0;
++FB_GEN_DEFAULT_DEFERRED_IOMEM_OPS(omap_fbdev,
++				  drm_fb_helper_damage_range,
++				  drm_fb_helper_damage_area)
 +
-+	if (helper->fb->funcs->dirty)
-+		return helper->fb->funcs->dirty(helper->fb, NULL, 0, 0, clip, 1);
-+
-+	return 0;
-+}
-+
- static const struct drm_fb_helper_funcs omap_fb_helper_funcs = {
- 	.fb_probe = omap_fbdev_create,
-+	.fb_dirty = omap_fbdev_dirty,
- };
+ static int omap_fbdev_pan_display(struct fb_var_screeninfo *var,
+ 		struct fb_info *fbi)
+ {
+@@ -106,13 +110,13 @@ static void omap_fbdev_fb_destroy(struct fb_info *info)
  
- static struct drm_fb_helper *get_fb(struct fb_info *fbi)
+ static const struct fb_ops omap_fb_ops = {
+ 	.owner = THIS_MODULE,
+-	__FB_DEFAULT_DMAMEM_OPS_RDWR,
++	__FB_DEFAULT_DEFERRED_OPS_RDWR(omap_fbdev),
+ 	.fb_check_var	= drm_fb_helper_check_var,
+ 	.fb_set_par	= drm_fb_helper_set_par,
+ 	.fb_setcmap	= drm_fb_helper_setcmap,
+ 	.fb_blank	= drm_fb_helper_blank,
+ 	.fb_pan_display = omap_fbdev_pan_display,
+-	__FB_DEFAULT_DMAMEM_OPS_DRAW,
++	__FB_DEFAULT_DEFERRED_OPS_DRAW(omap_fbdev),
+ 	.fb_ioctl	= drm_fb_helper_ioctl,
+ 	.fb_mmap	= omap_fbdev_fb_mmap,
+ 	.fb_destroy	= omap_fbdev_fb_destroy,
 -- 
 2.43.1
