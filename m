@@ -2,88 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C51C85AB5F
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 19:47:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D559D85AC25
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 20:39:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5804710E450;
-	Mon, 19 Feb 2024 18:47:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D26A10E042;
+	Mon, 19 Feb 2024 19:39:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=embeddedor.com header.i=@embeddedor.com header.b="UuCzQEkK";
+	dkim=pass (1024-bit key; secure) header.d=xff.cz header.i=@xff.cz header.b="JVt1ocNF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from omta040.useast.a.cloudfilter.net
- (omta040.useast.a.cloudfilter.net [44.202.169.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90D8610E41D
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 18:47:48 +0000 (UTC)
-Received: from eig-obgw-6010a.ext.cloudfilter.net ([10.0.30.248])
- by cmsmtp with ESMTPS
- id c5exrEYObTHHuc8g7rt1uD; Mon, 19 Feb 2024 18:47:47 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with ESMTPS
- id c8g6rZx23uTgrc8g6rYGii; Mon, 19 Feb 2024 18:47:46 +0000
-X-Authority-Analysis: v=2.4 cv=Vo6AAP2n c=1 sm=1 tr=0 ts=65d3a252
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=VhncohosazJxI00KdYJ/5A==:17
- a=VSjF23E3Ok2ZiNtq:21 a=IkcTkHD0fZMA:10 a=k7vzHIieQBIA:10 a=wYkD_t78qR0A:10
- a=VwQbUJbxAAAA:8 a=hpmp6n0Fncvi9LRvqokA:9 a=QEXdDO2ut3YA:10
- a=AjGcO6oz07-iQ99wixmX:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=PsUWlBLUfZeSjk+Yv21JCfUUB/vLVf1BaKRuAmYHUeo=; b=UuCzQEkK7vHOFykbSc9v990Ogl
- NAB8YOvszb6OOJidZ4Yp43lBZgqAoSUSYiLUnc5d3IMdxbWsGrR+bL4gmPSQ+dVgJyh8wD43KouWm
- TpFRBhC7CmnaaW3u7rGihpPgM+gIxbJG60M21G81RHJqA8zb3Azvp9GmNgpYSkX+X9Ymz5eM0Eo7I
- vCInVKdGqPPKyOKoL88Xm1F6w+ROJPDY6wq0nhNePvWxBthCnzSsQgH2184A6PsGwM0cJixX9y75N
- ZWOTW1gUtkMr+uJvIdd3rQtxiY/iKnI67TDWBJAqtfC9POiBgzWT5+e98bmPcVhTQeQCtgwGgTcti
- cHw5qIYQ==;
-Received: from [201.172.172.225] (port=57308 helo=[192.168.15.10])
- by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96.2)
- (envelope-from <gustavo@embeddedor.com>) id 1rc8g5-002Aa2-1q;
- Mon, 19 Feb 2024 12:47:45 -0600
-Message-ID: <292b9fb0-5661-488b-a52a-d5e7dbb3dc45@embeddedor.com>
-Date: Mon, 19 Feb 2024 12:47:43 -0600
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC50910E042
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 19:39:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
+ t=1708371564; bh=eYJcncYVMz2/P+8L4YuElamp9/gwH5EEjsU0YmeUEy4=;
+ h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
+ b=JVt1ocNFUSrQEY5yZpav/AneRAxvrc0MRJokvqgkTVvWnzpX0EiEb1/bIAm8kdgJL
+ uPdGB9eJCG9pCCAUd4Qb3YPdsImVA5coUlQZe1Gf+3YAJv2Dm8W6DpHOh9dVd5pgux
+ 9mdnhFla+wGVTifBvj3mjQfM9APNzqEgk+ZMO/DA=
+Date: Mon, 19 Feb 2024 20:39:23 +0100
+From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
+To: Andy Yan <andy.yan@rock-chips.com>
+Cc: linux-kernel@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>, 
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ "open list:DRM DRIVERS FOR ROCKCHIP" <dri-devel@lists.freedesktop.org>, 
+ "moderated list:ARM/Rockchip SoC support"
+ <linux-arm-kernel@lists.infradead.org>, 
+ "open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>
+Subject: Re: [PATCH] drm: rockchip: Don't require MIPI DSI device when it's
+ used for ISP
+Message-ID: <65qkkf7baecbcnemtabzup2nupd63obz4ewrhruk5frl2t3hwv@eqxm3tzgqcv6>
+Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
+ Andy Yan <andy.yan@rock-chips.com>, linux-kernel@vger.kernel.org,
+ Sandy Huang <hjc@rock-chips.com>, 
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ "open list:DRM DRIVERS FOR ROCKCHIP" <dri-devel@lists.freedesktop.org>, 
+ "moderated list:ARM/Rockchip SoC support"
+ <linux-arm-kernel@lists.infradead.org>, 
+ "open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>
+X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
+ <https://xff.cz/key.txt>
+References: <20240217183941.1752463-1-megi@xff.cz>
+ <4c66c084-5af6-43fb-a256-4746b2e00192@rock-chips.com>
+ <bsc3lpdxvhy3ss2uja4do3jwvj43zbs7zhx4bzs2tryrakn7be@pt2qsyvryk73>
+ <7044f324-5a45-4a4c-a15e-86614e53acf0@rock-chips.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] udmabuf: Fix a potential (and unlikely) access to
- unallocated memory
-Content-Language: en-US
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- keescook@chromium.org, Gerd Hoffmann <kraxel@redhat.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <f75d0426a17b57dbddacd7da345c1c62a3dbb7ce.1708278363.git.christophe.jaillet@wanadoo.fr>
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <f75d0426a17b57dbddacd7da345c1c62a3dbb7ce.1708278363.git.christophe.jaillet@wanadoo.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 201.172.172.225
-X-Source-L: No
-X-Exim-ID: 1rc8g5-002Aa2-1q
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.15.10]) [201.172.172.225]:57308
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 3
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfOrQ1WGzHn5oWWsNln9Sg11gMF5ED0Cgns+teNXq287lxFL6X1fa4S0HJgnPQfKrflTqliGEFyHs5rDV96SBxm4kiibIl2el975fzjNOqCVauOkNDhDz
- TCit+H2cRj+77DV/W0qOKQOsKbw84jXN/CFeAL92OU1IIbH3TP8uqRdPaTxuY1hKUOxb5pHSswTDAZr8D9jEHUrH+GbGSNq0O4mKsRj+tFfecE67kZEFeiRp
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7044f324-5a45-4a4c-a15e-86614e53acf0@rock-chips.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,72 +73,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2/18/24 11:46, Christophe JAILLET wrote:
-> If 'list_limit' is set to a very high value, 'lsize' computation could
-> overflow if 'head.count' is big enough.
+On Mon, Feb 19, 2024 at 11:02:01AM +0800, Andy Yan wrote:
+> Hi Ondrej:
 > 
-> In such a case, udmabuf_create() would access to memory beyond 'list'.
+> On 2/18/24 23:17, Ondřej Jirman wrote:
+> > Hi Andy,
+> > 
+> > On Sun, Feb 18, 2024 at 07:14:56PM +0800, Andy Yan wrote:
+> > > Hi,
+> > > 
+> > > On 2/18/24 02:39, Ondřej Jirman wrote:
+> > > > From: Ondrej Jirman <megi@xff.cz>
+> > > > 
+> > > > On RK3399 one MIPI DSI device can be alternatively used with the ISP1,
+> > > > to provide RX DPHY. When this is the case (ISP1 is enabled in device
+> > > > tree), probe success of DRM is tied to probe success of ISP1 connected
+> > > > camera sensor. This can fail if the user is able to killswitch the camera
+> > > > power, like on Pinephone Pro.
+> > > > 
+> > > > Detect use of MIPI DSI controller by ISP, and don't include it in
+> > > > component match list in that case.
+> > > > 
+> > > 
+> > > Isn't this supposed to be taken care of within the dts?
+> > > Since DPHY1 should exclusively used by MIPI DSI1 and ISP1, then if
+> > > a device want to use ISP1, the DSI1 should be disabled in dts.
+> > 
+> > DSI1 can't be disabled, because it provides PHY device for ISP1 in this
+> > scenario.
+> > 
+> > The problem is that in this scenario DRM keeps waiting for DSI1 device,
+> > despite it just being used for PHY for ISP1 and not as a component for
+> > rockchip DRM driver.
 > 
-> Use memdup_array_user() which checks for overflow.
 > 
-> While at it, include <linux/string.h>.
-> 
-> Fixes: fbb0de795078 ("Add udmabuf misc device")'
+> Oh, get it.
+> With a quick look, seems that Heiko has already take this scenario into consideration
+> when add PHY function in the dsi drivers[0]
+> Does this mean the current drivers does not work as expected?
 
-I don't think this tag is needed in this case.
+It didn't work anymore since some fw devlink changes that were added some
+time after 2021. But it might have got resolved since than.
 
-Also, please, CC linux-hardening next time.
+So please ignore this patch for now.
 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+kind regards,
+	o.
 
-In any case, LGTM:
-
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-
-Thanks!
---
-Gustavo
-
-> ---
-> v2: - Use memdup_array_user()   [Kees Cook]
->      - Use sizeof(*list)   [Gustavo A. R. Silva]
->      - Add include <linux/string.h>
-> 
-> v1: https://lore.kernel.org/all/3e37f05c7593f1016f0a46de188b3357cbbd0c0b.1695060389.git.christophe.jaillet@wanadoo.fr/
-> 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
->   drivers/dma-buf/udmabuf.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-> index c40645999648..5728948ea6f2 100644
-> --- a/drivers/dma-buf/udmabuf.c
-> +++ b/drivers/dma-buf/udmabuf.c
-> @@ -11,6 +11,7 @@
->   #include <linux/module.h>
->   #include <linux/shmem_fs.h>
->   #include <linux/slab.h>
-> +#include <linux/string.h>
->   #include <linux/udmabuf.h>
->   #include <linux/vmalloc.h>
->   #include <linux/iosys-map.h>
-> @@ -314,14 +315,13 @@ static long udmabuf_ioctl_create_list(struct file *filp, unsigned long arg)
->   	struct udmabuf_create_list head;
->   	struct udmabuf_create_item *list;
->   	int ret = -EINVAL;
-> -	u32 lsize;
->   
->   	if (copy_from_user(&head, (void __user *)arg, sizeof(head)))
->   		return -EFAULT;
->   	if (head.count > list_limit)
->   		return -EINVAL;
-> -	lsize = sizeof(struct udmabuf_create_item) * head.count;
-> -	list = memdup_user((void __user *)(arg + sizeof(head)), lsize);
-> +	list = memdup_array_user((void __user *)(arg + sizeof(head)),
-> +				 sizeof(*list), head.count);
->   	if (IS_ERR(list))
->   		return PTR_ERR(list);
->   
+> [0]https://patchwork.freedesktop.org/patch/420386/
+> > 
+> > See:
+> > 
+> >          isp1: isp1@ff920000 {
+> >                  compatible = "rockchip,rk3399-cif-isp";
+> >                  reg = <0x0 0xff920000 0x0 0x4000>;
+> >                  interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH 0>;
+> >                  clocks = <&cru SCLK_ISP1>,
+> >                           <&cru ACLK_ISP1_WRAPPER>,
+> >                           <&cru HCLK_ISP1_WRAPPER>;
+> >                  clock-names = "isp", "aclk", "hclk";
+> >                  iommus = <&isp1_mmu>;
+> >                  phys = <&mipi_dsi1>;  <---------
+> >                  phy-names = "dphy";
+> >                  power-domains = <&power RK3399_PD_ISP1>;
+> >                  status = "disabled";
+> > 
+> > If mipi_dsi1 is disabled, isp1 will never probe.
+> > 
+> > It's a consequence of this special dual use of mipi_dsi1.
+> > 
+> > kind regards,
+> > 	o.
+> > 
+> > > > Signed-off-by: Ondrej Jirman <megi@xff.cz>
+> > > > ---
+> > > >    drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 47 +++++++++++++++++++++
+> > > >    1 file changed, 47 insertions(+)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+> > > > index ab55d7132550..f47de94ad576 100644
+> > > > --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+> > > > +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+> > > > @@ -354,6 +354,43 @@ static void rockchip_drm_match_remove(struct device *dev)
+> > > >    		device_link_del(link);
+> > > >    }
+> > > > +/*
+> > > > + * Check if ISP block linked to a mipi-dsi device via phys phandle is
+> > > > + * enabled in device tree.
+> > > > + */
+> > > > +static bool rockchip_drm_is_mipi1_and_used_by_isp(struct device *dev)
+> > > > +{
+> > > > +	struct device_node *np = NULL, *phy_np;
+> > > > +
+> > > > +	if (!of_device_is_compatible(dev->of_node, "rockchip,rk3399-mipi-dsi"))
+> > > > +		return false;
+> > > > +
+> > > > +	while (true) {
+> > > > +		np = of_find_compatible_node(np, NULL, "rockchip,rk3399-cif-isp");
+> > > > +		if (!np)
+> > > > +			break;
+> > > > +
+> > > > +		if (!of_device_is_available(np)) {
+> > > > +			of_node_put(np);
+> > > > +			continue;
+> > > > +		}
+> > > > +
+> > > > +		phy_np = of_parse_phandle(np, "phys", 0);
+> > > > +		if (!phy_np) {
+> > > > +			of_node_put(np);
+> > > > +			continue;
+> > > > +		}
+> > > > +
+> > > > +		of_node_put(phy_np);
+> > > > +		of_node_put(np);
+> > > > +
+> > > > +		if (phy_np == dev->of_node)
+> > > > +			return true;
+> > > > +	}
+> > > > +
+> > > > +	return false;
+> > > > +}
+> > > > +
+> > > >    static struct component_match *rockchip_drm_match_add(struct device *dev)
+> > > >    {
+> > > >    	struct component_match *match = NULL;
+> > > > @@ -371,6 +408,16 @@ static struct component_match *rockchip_drm_match_add(struct device *dev)
+> > > >    			if (!d)
+> > > >    				break;
+> > > > +			/*
+> > > > +			 * If mipi1 is connected to ISP, we don't want to wait for mipi1 component,
+> > > > +			 * because it will not be used by DRM anyway, to not tie success of camera
+> > > > +			 * driver probe to display pipeline initialization.
+> > > > +			 */
+> > > > +			if (rockchip_drm_is_mipi1_and_used_by_isp(d)) {
+> > > > +				dev_info(d, "used by ISP1, skipping from DRM\n");
+> > > > +				continue;
+> > > > +			}
+> > > > +
+> > > >    			device_link_add(dev, d, DL_FLAG_STATELESS);
+> > > >    			component_match_add(dev, &match, component_compare_dev, d);
+> > > >    		} while (true);
