@@ -2,57 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F5B085A312
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 13:20:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 053B685A31E
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 13:24:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A232510E373;
-	Mon, 19 Feb 2024 12:20:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CBF410E103;
+	Mon, 19 Feb 2024 12:24:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="j4xOB6FB";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Fsqv/yxq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0272410E36E;
- Mon, 19 Feb 2024 12:20:06 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15E6310E07A;
+ Mon, 19 Feb 2024 12:24:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708345207; x=1739881207;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=BZhdKQMcXkpw9ysUc6ksPOz/7tLMmAwdsajdMxAgYsM=;
- b=j4xOB6FBdKWTKQsZOuw/JQqJV/INClxQR1UZxKLrTL9bAS+kH4tVop2s
- kSLQ0+MHFiOckWWw7pZec8QOqITxv/3PW242O1HIBlEryGLy8LwHI/vuh
- 1b6beGw6YN99AVWDzuB7SZ/97azlXyXQYYD058cpu4vZpnFTgQp+LdRP0
- BSvUJLbDrmvTR3wUA1sxkiL04SGeP/CWWDm23MtK/RPrjV5CrvTYGXmTg
- CF6w6B3teL2Kl2bd2d5LofPY+TpbRzUtLWen9iev9QwvvufBOxOCAmqRt
- 5/vC+sCLBMrgZTT15jGdotZ72QzQcLK3tsHVqpmR13ogG7obC8Sy0zWp8 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10988"; a="2553160"
+ t=1708345448; x=1739881448;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=FZpeKw+yH258FE1H5s1BiR6m4IUsnz7yCFQQCBjm7YU=;
+ b=Fsqv/yxq6/aQIABI3j8PjG1UKwo5wt/BBLH6eTWrXkjEUtLJ92wrCc02
+ Pc4x1KL1LKZ3FO0UNNDywJowrh8k6bN0ZOxuG5Rt/j1VbaEb0o/BYtRCR
+ HaGTPOduN8eBKqkOtoN5Tu+3/rhq0q++9uP8uNl/w2g6pZyKxUL7AO0iE
+ eQTDmvgjKa+cLyTPZ3Tpm9yJVSAPDsGYtGaGlL6HpIpGwrZj7zemWd7WJ
+ f9SZ/WOTX4OZKKFlqmlPF8XwCUM4CgdPeCV6adjPfKpXBqbNu0FP0wGo7
+ 1Xd0sbiRtfKjnB4pw6xgRmbvRn/uAQOiAZatZ75NA7CDASuW9/8X2pjZt Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10988"; a="2285215"
 X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
-   d="scan'208";a="2553160"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2024 04:20:06 -0800
+   d="scan'208";a="2285215"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Feb 2024 04:24:08 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
-   d="scan'208";a="4730244"
-Received: from proe-mobl.ger.corp.intel.com (HELO mwauld-mobl1.intel.com)
+   d="scan'208";a="4768587"
+Received: from proe-mobl.ger.corp.intel.com (HELO [10.252.22.52])
  ([10.252.22.52])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2024 04:20:05 -0800
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH v2 3/3] drm/tests/drm_buddy: add alloc_range_bias test
-Date: Mon, 19 Feb 2024 12:18:54 +0000
-Message-ID: <20240219121851.25774-6-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240219121851.25774-4-matthew.auld@intel.com>
-References: <20240219121851.25774-4-matthew.auld@intel.com>
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Feb 2024 04:24:06 -0800
+Message-ID: <94afe80c-9e4f-47a7-a758-17ab26eb4c00@intel.com>
+Date: Mon, 19 Feb 2024 12:24:03 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/6] drm/tests/drm_buddy: fix 32b build
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ intel-xe@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ Maxime Ripard <mripard@redhat.com>
+References: <20240215174431.285069-7-matthew.auld@intel.com>
+ <96bb6e97-34d9-4e4a-b618-85c17e809738@intel.com>
+ <5a9e1f30-19fc-486f-b7f5-016d82580d2f@amd.com>
+ <4aea62d4-8c2a-4406-b81e-240dca772da4@intel.com>
+ <45059d66-6e80-406b-aae2-72f8b8d142cb@amd.com>
+ <dc8c7d2b-4c2f-41dd-9812-3699444d5273@intel.com>
+In-Reply-To: <dc8c7d2b-4c2f-41dd-9812-3699444d5273@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,271 +76,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sanity check range bias with DRM_BUDDY_RANGE_ALLOCATION.
+On 19/02/2024 10:48, Matthew Auld wrote:
+> On 19/02/2024 10:30, Christian König wrote:
+>> Am 19.02.24 um 11:28 schrieb Matthew Auld:
+>>> On 19/02/2024 09:53, Christian König wrote:
+>>>> Am 19.02.24 um 10:42 schrieb Matthew Auld:
+>>>>> On 15/02/2024 17:44, Matthew Auld wrote:
+>>>>>> Doesn't seem to compile on 32b, presumably due to u64 mod/division.
+>>>>>> Simplest is to just switch over to u32 here. Also make print 
+>>>>>> modifiers
+>>>>>> consistent with that.
+>>>>>>
+>>>>>> Fixes: a64056bb5a32 ("drm/tests/drm_buddy: add alloc_contiguous 
+>>>>>> test")
+>>>>>> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+>>>>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>>>>>> Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+>>>>>> Cc: Christian König <christian.koenig@amd.com>
+>>>>>> Cc: Maxime Ripard <mripard@redhat.com>
+>>>>>
+>>>>> Any chance someone can push just this single patch here, since it 
+>>>>> fixes 32b build? It already has an r-b from Arun.
+>>>>
+>>>> Already working on this. Just give me a few more minutes.
+>>>
+>>> Thanks.
+>>
+>> No, problem. I would have pushed this earlier, but my build server 
+>> doesn't want to work any more. Looks like the SSD has passed its 
+>> warranty :(
+>>
+>> Should I push the other three patches to drm-misc-fixes as well? I 
+>> currently can't even build test them.
+> 
+> Need to send a v2 for that. One minor change in the test just to be 
+> consistent with using u32. Thanks.
 
-v2:
-  - Be consistent with u32 here.
+Sent v2. If you could push that when you get a chance. Thanks.
 
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-Cc: Christian König <christian.koenig@amd.com>
-Reviewed-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
----
- drivers/gpu/drm/tests/drm_buddy_test.c | 218 +++++++++++++++++++++++++
- 1 file changed, 218 insertions(+)
+https://patchwork.freedesktop.org/series/130075/
 
-diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
-index edacc1adb28f..1008d5b9d61e 100644
---- a/drivers/gpu/drm/tests/drm_buddy_test.c
-+++ b/drivers/gpu/drm/tests/drm_buddy_test.c
-@@ -14,11 +14,216 @@
- 
- #include "../lib/drm_random.h"
- 
-+static unsigned int random_seed;
-+
- static inline u64 get_size(int order, u64 chunk_size)
- {
- 	return (1 << order) * chunk_size;
- }
- 
-+static void drm_test_buddy_alloc_range_bias(struct kunit *test)
-+{
-+	u32 mm_size, ps, bias_size, bias_start, bias_end, bias_rem;
-+	DRM_RND_STATE(prng, random_seed);
-+	unsigned int i, count, *order;
-+	struct drm_buddy mm;
-+	LIST_HEAD(allocated);
-+
-+	bias_size = SZ_1M;
-+	ps = roundup_pow_of_two(prandom_u32_state(&prng) % bias_size);
-+	ps = max(SZ_4K, ps);
-+	mm_size = (SZ_8M-1) & ~(ps-1); /* Multiple roots */
-+
-+	kunit_info(test, "mm_size=%u, ps=%u\n", mm_size, ps);
-+
-+	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_init(&mm, mm_size, ps),
-+			       "buddy_init failed\n");
-+
-+	count = mm_size / bias_size;
-+	order = drm_random_order(count, &prng);
-+	KUNIT_EXPECT_TRUE(test, order);
-+
-+	/*
-+	 * Idea is to split the address space into uniform bias ranges, and then
-+	 * in some random order allocate within each bias, using various
-+	 * patterns within. This should detect if allocations leak out from a
-+	 * given bias, for example.
-+	 */
-+
-+	for (i = 0; i < count; i++) {
-+		LIST_HEAD(tmp);
-+		u32 size;
-+
-+		bias_start = order[i] * bias_size;
-+		bias_end = bias_start + bias_size;
-+		bias_rem = bias_size;
-+
-+		/* internal round_up too big */
-+		KUNIT_ASSERT_TRUE_MSG(test,
-+				      drm_buddy_alloc_blocks(&mm, bias_start,
-+							     bias_end, bias_size + ps, bias_size,
-+							     &allocated,
-+							     DRM_BUDDY_RANGE_ALLOCATION),
-+				      "buddy_alloc failed with bias(%x-%x), size=%u, ps=%u\n",
-+				      bias_start, bias_end, bias_size, bias_size);
-+
-+		/* size too big */
-+		KUNIT_ASSERT_TRUE_MSG(test,
-+				      drm_buddy_alloc_blocks(&mm, bias_start,
-+							     bias_end, bias_size + ps, ps,
-+							     &allocated,
-+							     DRM_BUDDY_RANGE_ALLOCATION),
-+				      "buddy_alloc didn't fail with bias(%x-%x), size=%u, ps=%u\n",
-+				      bias_start, bias_end, bias_size + ps, ps);
-+
-+		/* bias range too small for size */
-+		KUNIT_ASSERT_TRUE_MSG(test,
-+				      drm_buddy_alloc_blocks(&mm, bias_start + ps,
-+							     bias_end, bias_size, ps,
-+							     &allocated,
-+							     DRM_BUDDY_RANGE_ALLOCATION),
-+				      "buddy_alloc didn't fail with bias(%x-%x), size=%u, ps=%u\n",
-+				      bias_start + ps, bias_end, bias_size, ps);
-+
-+		/* bias misaligned */
-+		KUNIT_ASSERT_TRUE_MSG(test,
-+				      drm_buddy_alloc_blocks(&mm, bias_start + ps,
-+							     bias_end - ps,
-+							     bias_size >> 1, bias_size >> 1,
-+							     &allocated,
-+							     DRM_BUDDY_RANGE_ALLOCATION),
-+				      "buddy_alloc h didn't fail with bias(%x-%x), size=%u, ps=%u\n",
-+				      bias_start + ps, bias_end - ps, bias_size >> 1, bias_size >> 1);
-+
-+		/* single big page */
-+		KUNIT_ASSERT_FALSE_MSG(test,
-+				       drm_buddy_alloc_blocks(&mm, bias_start,
-+							      bias_end, bias_size, bias_size,
-+							      &tmp,
-+							      DRM_BUDDY_RANGE_ALLOCATION),
-+				       "buddy_alloc i failed with bias(%x-%x), size=%u, ps=%u\n",
-+				       bias_start, bias_end, bias_size, bias_size);
-+		drm_buddy_free_list(&mm, &tmp);
-+
-+		/* single page with internal round_up */
-+		KUNIT_ASSERT_FALSE_MSG(test,
-+				       drm_buddy_alloc_blocks(&mm, bias_start,
-+							      bias_end, ps, bias_size,
-+							      &tmp,
-+							      DRM_BUDDY_RANGE_ALLOCATION),
-+				       "buddy_alloc failed with bias(%x-%x), size=%u, ps=%u\n",
-+				       bias_start, bias_end, ps, bias_size);
-+		drm_buddy_free_list(&mm, &tmp);
-+
-+		/* random size within */
-+		size = max(round_up(prandom_u32_state(&prng) % bias_rem, ps), ps);
-+		if (size)
-+			KUNIT_ASSERT_FALSE_MSG(test,
-+					       drm_buddy_alloc_blocks(&mm, bias_start,
-+								      bias_end, size, ps,
-+								      &tmp,
-+								      DRM_BUDDY_RANGE_ALLOCATION),
-+					       "buddy_alloc failed with bias(%x-%x), size=%u, ps=%u\n",
-+					       bias_start, bias_end, size, ps);
-+
-+		bias_rem -= size;
-+		/* too big for current avail */
-+		KUNIT_ASSERT_TRUE_MSG(test,
-+				      drm_buddy_alloc_blocks(&mm, bias_start,
-+							     bias_end, bias_rem + ps, ps,
-+							     &allocated,
-+							     DRM_BUDDY_RANGE_ALLOCATION),
-+				      "buddy_alloc didn't fail with bias(%x-%x), size=%u, ps=%u\n",
-+				      bias_start, bias_end, bias_rem + ps, ps);
-+
-+		if (bias_rem) {
-+			/* random fill of the remainder */
-+			size = max(round_up(prandom_u32_state(&prng) % bias_rem, ps), ps);
-+			size = max(size, ps);
-+
-+			KUNIT_ASSERT_FALSE_MSG(test,
-+					       drm_buddy_alloc_blocks(&mm, bias_start,
-+								      bias_end, size, ps,
-+								      &allocated,
-+								      DRM_BUDDY_RANGE_ALLOCATION),
-+					       "buddy_alloc failed with bias(%x-%x), size=%u, ps=%u\n",
-+					       bias_start, bias_end, size, ps);
-+			/*
-+			 * Intentionally allow some space to be left
-+			 * unallocated, and ideally not always on the bias
-+			 * boundaries.
-+			 */
-+			drm_buddy_free_list(&mm, &tmp);
-+		} else {
-+			list_splice_tail(&tmp, &allocated);
-+		}
-+	}
-+
-+	kfree(order);
-+	drm_buddy_free_list(&mm, &allocated);
-+	drm_buddy_fini(&mm);
-+
-+	/*
-+	 * Something more free-form. Idea is to pick a random starting bias
-+	 * range within the address space and then start filling it up. Also
-+	 * randomly grow the bias range in both directions as we go along. This
-+	 * should give us bias start/end which is not always uniform like above,
-+	 * and in some cases will require the allocator to jump over already
-+	 * allocated nodes in the middle of the address space.
-+	 */
-+
-+	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_init(&mm, mm_size, ps),
-+			       "buddy_init failed\n");
-+
-+	bias_start = round_up(prandom_u32_state(&prng) % (mm_size - ps), ps);
-+	bias_end = round_up(bias_start + prandom_u32_state(&prng) % (mm_size - bias_start), ps);
-+	bias_end = max(bias_end, bias_start + ps);
-+	bias_rem = bias_end - bias_start;
-+
-+	do {
-+		u32 size = max(round_up(prandom_u32_state(&prng) % bias_rem, ps), ps);
-+
-+		KUNIT_ASSERT_FALSE_MSG(test,
-+				       drm_buddy_alloc_blocks(&mm, bias_start,
-+							      bias_end, size, ps,
-+							      &allocated,
-+							      DRM_BUDDY_RANGE_ALLOCATION),
-+				       "buddy_alloc failed with bias(%x-%x), size=%u, ps=%u\n",
-+				       bias_start, bias_end, size);
-+		bias_rem -= size;
-+
-+		/*
-+		 * Try to randomly grow the bias range in both directions, or
-+		 * only one, or perhaps don't grow at all.
-+		 */
-+		do {
-+			u32 old_bias_start = bias_start;
-+			u32 old_bias_end = bias_end;
-+
-+			if (bias_start)
-+				bias_start -= round_up(prandom_u32_state(&prng) % bias_start, ps);
-+			if (bias_end != mm_size)
-+				bias_end += round_up(prandom_u32_state(&prng) % (mm_size - bias_end), ps);
-+
-+			bias_rem += old_bias_start - bias_start;
-+			bias_rem += bias_end - old_bias_end;
-+		} while (!bias_rem && (bias_start || bias_end != mm_size));
-+	} while (bias_rem);
-+
-+	KUNIT_ASSERT_EQ(test, bias_start, 0);
-+	KUNIT_ASSERT_EQ(test, bias_end, mm_size);
-+	KUNIT_ASSERT_TRUE_MSG(test,
-+			      drm_buddy_alloc_blocks(&mm, bias_start, bias_end,
-+						     ps, ps,
-+						     &allocated,
-+						     DRM_BUDDY_RANGE_ALLOCATION),
-+			      "buddy_alloc passed with bias(%x-%x), size=%u\n",
-+			      bias_start, bias_end, ps);
-+
-+	drm_buddy_free_list(&mm, &allocated);
-+	drm_buddy_fini(&mm);
-+}
-+
- static void drm_test_buddy_alloc_contiguous(struct kunit *test)
- {
- 	u32 mm_size, ps = SZ_4K, i, n_pages, total;
-@@ -363,17 +568,30 @@ static void drm_test_buddy_alloc_limit(struct kunit *test)
- 	drm_buddy_fini(&mm);
- }
- 
-+static int drm_buddy_suite_init(struct kunit_suite *suite)
-+{
-+	while (!random_seed)
-+		random_seed = get_random_u32();
-+
-+	kunit_info(suite, "Testing DRM buddy manager, with random_seed=0x%x\n",
-+		   random_seed);
-+
-+	return 0;
-+}
-+
- static struct kunit_case drm_buddy_tests[] = {
- 	KUNIT_CASE(drm_test_buddy_alloc_limit),
- 	KUNIT_CASE(drm_test_buddy_alloc_optimistic),
- 	KUNIT_CASE(drm_test_buddy_alloc_pessimistic),
- 	KUNIT_CASE(drm_test_buddy_alloc_pathological),
- 	KUNIT_CASE(drm_test_buddy_alloc_contiguous),
-+	KUNIT_CASE(drm_test_buddy_alloc_range_bias),
- 	{}
- };
- 
- static struct kunit_suite drm_buddy_test_suite = {
- 	.name = "drm_buddy",
-+	.suite_init = drm_buddy_suite_init,
- 	.test_cases = drm_buddy_tests,
- };
- 
--- 
-2.43.0
-
+> 
+>>
+>> Thanks,
+>> Christian.
+>>
+>>>
+>>>>
+>>>> Thanks,
+>>>> Christian.
+>>>>
+>>>>>
+>>>>>> ---
+>>>>>>   drivers/gpu/drm/tests/drm_buddy_test.c | 16 ++++++++--------
+>>>>>>   1 file changed, 8 insertions(+), 8 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c 
+>>>>>> b/drivers/gpu/drm/tests/drm_buddy_test.c
+>>>>>> index fee6bec757d1..edacc1adb28f 100644
+>>>>>> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
+>>>>>> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
+>>>>>> @@ -21,7 +21,7 @@ static inline u64 get_size(int order, u64 
+>>>>>> chunk_size)
+>>>>>>     static void drm_test_buddy_alloc_contiguous(struct kunit *test)
+>>>>>>   {
+>>>>>> -    u64 mm_size, ps = SZ_4K, i, n_pages, total;
+>>>>>> +    u32 mm_size, ps = SZ_4K, i, n_pages, total;
+>>>>>>       struct drm_buddy_block *block;
+>>>>>>       struct drm_buddy mm;
+>>>>>>       LIST_HEAD(left);
+>>>>>> @@ -56,30 +56,30 @@ static void 
+>>>>>> drm_test_buddy_alloc_contiguous(struct kunit *test)
+>>>>>>           KUNIT_ASSERT_FALSE_MSG(test,
+>>>>>>                          drm_buddy_alloc_blocks(&mm, 0, mm_size,
+>>>>>>                                     ps, ps, list, 0),
+>>>>>> -                       "buddy_alloc hit an error size=%d\n",
+>>>>>> +                       "buddy_alloc hit an error size=%u\n",
+>>>>>>                          ps);
+>>>>>>       } while (++i < n_pages);
+>>>>>>         KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, 
+>>>>>> mm_size,
+>>>>>>                                  3 * ps, ps, &allocated,
+>>>>>> DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+>>>>>> -                   "buddy_alloc didn't error size=%d\n", 3 * ps);
+>>>>>> +                   "buddy_alloc didn't error size=%u\n", 3 * ps);
+>>>>>>         drm_buddy_free_list(&mm, &middle);
+>>>>>>       KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, 
+>>>>>> mm_size,
+>>>>>>                                  3 * ps, ps, &allocated,
+>>>>>> DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+>>>>>> -                   "buddy_alloc didn't error size=%llu\n", 3 * ps);
+>>>>>> +                   "buddy_alloc didn't error size=%u\n", 3 * ps);
+>>>>>>       KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, 
+>>>>>> mm_size,
+>>>>>>                                  2 * ps, ps, &allocated,
+>>>>>> DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+>>>>>> -                   "buddy_alloc didn't error size=%llu\n", 2 * ps);
+>>>>>> +                   "buddy_alloc didn't error size=%u\n", 2 * ps);
+>>>>>>         drm_buddy_free_list(&mm, &right);
+>>>>>>       KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, 
+>>>>>> mm_size,
+>>>>>>                                  3 * ps, ps, &allocated,
+>>>>>> DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+>>>>>> -                   "buddy_alloc didn't error size=%llu\n", 3 * ps);
+>>>>>> +                   "buddy_alloc didn't error size=%u\n", 3 * ps);
+>>>>>>       /*
+>>>>>>        * At this point we should have enough contiguous space for 
+>>>>>> 2 blocks,
+>>>>>>        * however they are never buddies (since we freed middle and 
+>>>>>> right) so
+>>>>>> @@ -88,13 +88,13 @@ static void 
+>>>>>> drm_test_buddy_alloc_contiguous(struct kunit *test)
+>>>>>>       KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, 
+>>>>>> mm_size,
+>>>>>>                                   2 * ps, ps, &allocated,
+>>>>>> DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+>>>>>> -                   "buddy_alloc hit an error size=%d\n", 2 * ps);
+>>>>>> +                   "buddy_alloc hit an error size=%u\n", 2 * ps);
+>>>>>>         drm_buddy_free_list(&mm, &left);
+>>>>>>       KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, 
+>>>>>> mm_size,
+>>>>>>                                   3 * ps, ps, &allocated,
+>>>>>> DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+>>>>>> -                   "buddy_alloc hit an error size=%d\n", 3 * ps);
+>>>>>> +                   "buddy_alloc hit an error size=%u\n", 3 * ps);
+>>>>>>         total = 0;
+>>>>>>       list_for_each_entry(block, &allocated, link)
+>>>>
+>>
