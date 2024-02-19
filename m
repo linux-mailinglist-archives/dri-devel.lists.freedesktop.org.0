@@ -2,61 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2E1285A323
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 13:25:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F59585A33C
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 13:30:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD04110E370;
-	Mon, 19 Feb 2024 12:25:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC62C10E382;
+	Mon, 19 Feb 2024 12:30:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="Y4apTU12";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="J2+oV1ZK";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="wGVxy9wJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAC7F10E106
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 12:25:02 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A95C210E20F
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 12:30:46 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-512b700c8ebso835251e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 04:30:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1708345503; x=1739881503;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ih/v3JlPgjnunjeMXetvHkaR0ZTTwffvOCV3Ri/27Bg=;
- b=Y4apTU12aCSaez35teYhzHY97MEuzyaBQasqkol54Z3sPG0K77dtKQH7
- oDzI9PcVbDk6HODxCOCVILhJ+4Lv4Nhe8KzhuRm8Jj9lHYdLBj1i8bDRw
- h3xsxSyQgMJ5l8MUTFm8tIi96LfEH9zz1Nh2+iG7WNLb0htITqDIO7PCc
- WX8yDQo5cPoqW2FLKfWQ0Gw9jpBpPItMi/ytzknpCY3A7NsBo2DPvCE2a
- WJP565SGfMQeq5RHOZJ2aZLu6mBRkRpObcF2Rxcx2M2F9i66RaiAs6rR2
- 4UaS63ap8b/CpRrRCqKzO3mPmtRdv7aIMA/lYaEhyxhMSwNdA8AtjQ17Z A==;
-X-IronPort-AV: E=Sophos;i="6.06,170,1705359600"; d="scan'208";a="35475552"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 19 Feb 2024 13:25:02 +0100
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 0CA3D16F763; Mon, 19 Feb 2024 13:24:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1708345498; h=from:subject:date:message-id:to:cc:mime-version:
- content-transfer-encoding:in-reply-to:references;
- bh=ih/v3JlPgjnunjeMXetvHkaR0ZTTwffvOCV3Ri/27Bg=;
- b=J2+oV1ZKOKLcn/qz2bJ4YrrX7urblOuYeRkmuWrGrDbzdB83S6EHxLju7VhlxI1o9gdH4P
- gOPTG5kfX1mapEHgwI8olPJSvd6Sa8WK+dLdHrcsR4q1ZPV4ufqTOyRTH4F/2Fc7bBGOtp
- mI+xwz2RrdckbZnKGrEnvt99ogvYyCo/e9XZYaHDKlmkXFtvDbWn3gdKnr7J3LmD3tfyq9
- /5J2Ntk5yfaIdHw3vH/gxNUBr+G+1I7A88E6eom7g6dsY1DzEVdHekMeyS7jtj2NHDeYGZ
- IESZMabRoKToR7tODX+CySpQCeTl4bWR9MQVyqyMFQOglcj+IK+omsmIptYlFg==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>,
+ d=linaro.org; s=google; t=1708345844; x=1708950644; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=D7cz6IUziBIbxMgivwszuy8eOIkjtw8gK8yFchWpzBU=;
+ b=wGVxy9wJQwXRkIYhKA+/aeWCwX66QeGM71n1aOS0TJ9kfoSt06E9XfLk2Fq+6buHQX
+ bwFdJE09DvmpTiuzZzO3RRs3AIMLWwDzsZFb6YxvWT+YJD3PuijuOtpKNZ/d4vHdv/m8
+ IxC/F+FSdGMK0GffeGwZ0MuAR8hk9y30pQNhYfQyxCLHtlKy0ZI1kQtkkyhubf08oqWP
+ kq77bw/7QrtXjRlGRyu+yKFOVRsZoVYFefdbibwDqv/w0728vVtfuYQ5WPs1IDdmQiLr
+ 7GIWAzjsJLRQpcbdsLgowih/bglHGijA+m2lhopgOwTRTcNVP8wdLA9zTZCOC6yYItqn
+ TJ6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708345844; x=1708950644;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=D7cz6IUziBIbxMgivwszuy8eOIkjtw8gK8yFchWpzBU=;
+ b=Xtd3Hvoz9kllJRWnwW8FCSc/wOVvghDcWlm0bEX7oeuMkKi+08eBBwXvMy3V383BkA
+ wBI+Bff3SDUqh//EzJQthQdB8hIFjz19i5MsLAgxORGy1yG0PTH0l+VCymb104Yiq8UO
+ Kf2h2hBp9VsmEVthpA8xaPPy3DcYZaIK8MgzRPeSVApV3l/L5innd8wdWQ9IQvCOoZUL
+ 8ym9D6mlLofTDcZolgqr3Xp8bHNLJHTaGBsKauy9E+6Xrxk/yw3d5IpL0NQSh5H7iCHD
+ DUgA1g+tz1vtYnq/GfEXnJx/8UhjMqnx97vdS/ZD0lOXlQiT2VHNPJt1WWybbxdUSL/g
+ quQg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU9tJrPAgXCUXJ1Sz0Btcww+JPIQxu9R0ZVze1HomucF2ldxdeAhFt8oeVwlZjnLSEAV7XpK4+yc4CAFA7rtOLBULeHOYcsRnf14NSSXebe
+X-Gm-Message-State: AOJu0Yy7d1wt3mita4FRvPA5loverGC61TOWfP0j7M+s9hSBOIEj3SlJ
+ 3064DjZXRP2TTnSE0I077FwKUMgCXQdNrkoFc+exTgWukHBtUuy9eTOdu5zHedA=
+X-Google-Smtp-Source: AGHT+IGoP4Kc9T7+0vrUb3lFQohpsZ0w3oy4cAILJsX2XN0cHTj8EK4Nqbp0ilMeo3oHJesO9tXkfA==
+X-Received: by 2002:ac2:5e8d:0:b0:512:912f:4bb with SMTP id
+ b13-20020ac25e8d000000b00512912f04bbmr5296326lfq.68.1708345844597; 
+ Mon, 19 Feb 2024 04:30:44 -0800 (PST)
+Received: from umbar.unikie.fi ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ i6-20020ac25226000000b00512bde4cddfsm90466lfl.148.2024.02.19.04.30.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Feb 2024 04:30:44 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Adam Skladowski <a39.skl@gmail.com>
+Cc: phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Matthias Schiffer <matthias.schiffer@tq-group.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Alexander Stein <alexander.stein@ew.tq-group.com>
-Subject: [RESEND 2/2] drm: fsl-dcu: enable PIXCLK on LS1021A
-Date: Mon, 19 Feb 2024 13:24:49 +0100
-Message-Id: <20240219122449.3083748-2-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240219122449.3083748-1-alexander.stein@ew.tq-group.com>
-References: <20240219122449.3083748-1-alexander.stein@ew.tq-group.com>
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/8] MSM8976 MDSS/GPU/WCNSS support
+Date: Mon, 19 Feb 2024 14:30:30 +0200
+Message-Id: <170834569497.2610898.8605974222285085772.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240121194221.13513-1-a39.skl@gmail.com>
+References: <20240121194221.13513-1-a39.skl@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,76 +96,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matthias Schiffer <matthias.schiffer@tq-group.com>
 
-The PIXCLK needs to be enabled in SCFG before accessing certain DCU
-registers, or the access will hang.
+On Sun, 21 Jan 2024 20:40:58 +0100, Adam Skladowski wrote:
+> This patch series provide support for display subsystem, gpu
+> and also adds wireless connectivity subsystem support.
+> 
+> Adam Skladowski (8):
+>   arm64: dts: qcom: msm8976: Add IOMMU nodes
+>   dt-bindings: dsi-controller-main: Document missing msm8976 compatible
+>   dt-bindings: msm: qcom,mdss: Include ommited fam-b compatible
+>   arm64: dts: qcom: msm8976: Add MDSS nodes
+>   dt-bindings: drm/msm/gpu: Document AON clock for A506/A510
+>   arm64: dts: qcom: msm8976: Add Adreno GPU
+>   arm64: dts: qcom: msm8976: Declare and wire SDC pins
+>   arm64: dts: qcom: msm8976: Add WCNSS node
+> 
+> [...]
 
-Signed-off-by: Matthias Schiffer <matthias.schiffer@tq-group.com>
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
- drivers/gpu/drm/fsl-dcu/Kconfig           |  1 +
- drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c | 14 ++++++++++++++
- drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h |  3 +++
- 3 files changed, 18 insertions(+)
+Applied, thanks!
 
-diff --git a/drivers/gpu/drm/fsl-dcu/Kconfig b/drivers/gpu/drm/fsl-dcu/Kconfig
-index 5ca71ef87325..c9ee98693b48 100644
---- a/drivers/gpu/drm/fsl-dcu/Kconfig
-+++ b/drivers/gpu/drm/fsl-dcu/Kconfig
-@@ -8,6 +8,7 @@ config DRM_FSL_DCU
- 	select DRM_PANEL
- 	select REGMAP_MMIO
- 	select VIDEOMODE_HELPERS
-+	select MFD_SYSCON if SOC_LS1021A
- 	help
- 	  Choose this option if you have an Freescale DCU chipset.
- 	  If M is selected the module will be called fsl-dcu-drm.
-diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-index 90cbd18f096d..283858350961 100644
---- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-+++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-@@ -100,12 +100,26 @@ static void fsl_dcu_irq_uninstall(struct drm_device *dev)
- static int fsl_dcu_load(struct drm_device *dev, unsigned long flags)
- {
- 	struct fsl_dcu_drm_device *fsl_dev = dev->dev_private;
-+	struct regmap *scfg;
- 	int ret;
- 
- 	ret = fsl_dcu_drm_modeset_init(fsl_dev);
- 	if (ret < 0)
- 		return dev_err_probe(dev->dev, ret, "failed to initialize mode setting\n");
- 
-+	scfg = syscon_regmap_lookup_by_compatible("fsl,ls1021a-scfg");
-+	if (PTR_ERR(scfg) != -ENODEV) {
-+		/*
-+		 * For simplicity, enable the PIXCLK unconditionally. Disabling
-+		 * the clock in PM or on unload could be implemented as a future
-+		 * improvement.
-+		 */
-+		ret = regmap_update_bits(scfg, SCFG_PIXCLKCR, SCFG_PIXCLKCR_PXCEN,
-+					SCFG_PIXCLKCR_PXCEN);
-+		if (ret < 0)
-+			return dev_err_probe(dev->dev, ret, "failed to enable pixclk\n");
-+	}
-+
- 	ret = drm_vblank_init(dev, dev->mode_config.num_crtc);
- 	if (ret < 0) {
- 		dev_err(dev->dev, "failed to initialize vblank\n");
-diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h
-index e2049a0e8a92..566396013c04 100644
---- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h
-+++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h
-@@ -160,6 +160,9 @@
- #define FSL_DCU_ARGB4444		12
- #define FSL_DCU_YUV422			14
- 
-+#define SCFG_PIXCLKCR			0x28
-+#define SCFG_PIXCLKCR_PXCEN		BIT(31)
-+
- #define VF610_LAYER_REG_NUM		9
- #define LS1021A_LAYER_REG_NUM		10
- 
+[2/8] dt-bindings: dsi-controller-main: Document missing msm8976 compatible
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/db36595c6889
+[3/8] dt-bindings: msm: qcom,mdss: Include ommited fam-b compatible
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/3b63880de42b
+
+Best regards,
 -- 
-2.34.1
-
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
