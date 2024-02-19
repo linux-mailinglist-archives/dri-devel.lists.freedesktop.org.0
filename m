@@ -2,49 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2565B859BA2
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 06:18:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B81C2859BA5
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 06:21:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36A2210E14A;
-	Mon, 19 Feb 2024 05:17:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE59110E0EC;
+	Mon, 19 Feb 2024 05:21:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="ajimO8V5";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="pljFNpgM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C517710E14A;
- Mon, 19 Feb 2024 05:17:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2513710E0EC
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Feb 2024 05:21:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1708319871;
- bh=DiLQ78DkSeB+VFr6W48xH7ZI1R4cqbqoXRlZF7XqOGI=;
+ s=201702; t=1708320065;
+ bh=hEt04/AGgzHfD+OrrEUUfWR48HIiav/LUTl3/xa9n2A=;
  h=Date:From:To:Cc:Subject:From;
- b=ajimO8V5mB2EySBWaJuCyS2mWAzEr8NrmgxZqW7bR0YTNtyXSdwBpU/wSYJFRccYF
- oW/nIupmIfD0FfF4xnyZuNd2dWGcWQ04h4Rjs3KdlAZXMiVj5uUebod+8FsvTp5L0K
- VJZuh4VvRi5z0GG9Q8EGekJXxsjuCyVREUemxZfSo2I4zNpkqM82czLKdx8/eytkH/
- vMQnB3TRG2TqhV2iwlC/r8v4vV3oM/wC9T4EquYRJw/6fTEIfx0m3QmStrAJVzNkzT
- 2rHTNWrlUkc0xJBEEonJYtbvGmIpUd18U8t5UuwLq36vz33Kw2HFID4q02M7pmurBv
- NiAvFbs1ydx0w==
+ b=pljFNpgMtV+I9v7Jb5MTM0XeS9Evqpp2kL/IULJ8FBAiglQBbD5R1bFaBlHP0UZas
+ 81OcQMTEy4zB5U6G0dwyWsjPxbV/W0qa082GU6p72pDx5XNXztNSr/2+nNzUuf5azP
+ aKq3+AaV6Tn3QqwDfk10hTJ7aTu0gZIVr6gCsJra9PD2/l5mhMSgrcbHtdtc0Y5thg
+ O6Z7X3nnXPZLxeDHNWtSSlYmMf1zLlDM5DZhDhjvJfY1nLl0XloASjes0VKWBnME8u
+ I9gYK87BBf8MC4WHfgTHQp/dLswcSfb1HMcL1Er+5/nky942NdLdmwqXYMfWpemjLp
+ zKonUi6Asn8Jg==
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4TdW5941t2z4wd0;
- Mon, 19 Feb 2024 16:17:49 +1100 (AEDT)
-Date: Mon, 19 Feb 2024 16:17:47 +1100
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4TdW8x4LNHz4wxX;
+ Mon, 19 Feb 2024 16:21:05 +1100 (AEDT)
+Date: Mon, 19 Feb 2024 16:21:04 +1100
 From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, Intel
- Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>
-Subject: linux-next: build warning after merge of the drm-intel tree
-Message-ID: <20240219161747.0e867406@canb.auug.org.au>
+To: Dave Airlie <airlied@redhat.com>
+Cc: =?UTF-8?B?Sm9zw6k=?= Roberto de Souza <jose.souza@intel.com>, Tvrtko
+ Ursulin <tvrtko.ursulin@intel.com>, DRI <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
+ Mailing List <linux-next@vger.kernel.org>
+Subject: linux-next: build warnings after merge of the drm tree
+Message-ID: <20240219162104.2843ada2@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/y.AEXD9XRXmOD3_UAne7Cho";
+Content-Type: multipart/signed; boundary="Sig_/MaLoh=z.sCLpfxsbm+jRki6";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,40 +58,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/y.AEXD9XRXmOD3_UAne7Cho
+--Sig_/MaLoh=z.sCLpfxsbm+jRki6
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
 Hi all,
 
-After merging the drm-intel tree, today's linux-next build (htmldocs)
-produced this warning:
+After merging the drm tree, today's linux-next build (htmldocs) produced
+these warnings:
 
-Documentation/gpu/i915:222: drivers/gpu/drm/i915/display/intel_cdclk.c:69: =
-ERROR: Unexpected indentation.
+include/uapi/drm/i915_drm.h:3579: warning: Function parameter or struct mem=
+ber 'branch' not described in 'drm_i915_query_guc_submission_version'
+include/uapi/drm/i915_drm.h:3579: warning: Function parameter or struct mem=
+ber 'major' not described in 'drm_i915_query_guc_submission_version'
+include/uapi/drm/i915_drm.h:3579: warning: Function parameter or struct mem=
+ber 'minor' not described in 'drm_i915_query_guc_submission_version'
+include/uapi/drm/i915_drm.h:3579: warning: Function parameter or struct mem=
+ber 'patch' not described in 'drm_i915_query_guc_submission_version'
 
 Introduced by commit
 
-  79e2ea2eaaa6 ("drm/i915/cdclk: Document CDCLK update methods")
+  b11236486749 ("drm/i915: Add GuC submission interface version query")
 
 --=20
 Cheers,
 Stephen Rothwell
 
---Sig_/y.AEXD9XRXmOD3_UAne7Cho
+--Sig_/MaLoh=z.sCLpfxsbm+jRki6
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmXS5HsACgkQAVBC80lX
-0GyrhAf+MQM/FkWhlVWtkovGLvV9ffn3n0kyMg09Nal+PDllXMNFipnuIquyTl5B
-j+xkdITwjY8CtQZfKJjcxT8LrVu8A5WiAb4qRniJRQARIq9p9zxVTBghsKiisylZ
-0IXHh4APrqWx+fuTEpamYOskLwbQwlD8hAp94jizHuIY571RrSAkfMcLhLvK18lW
-5Usl8mUvXesTcoY4q/6xna7RW14Q5CmApw7ptCGH1pVvrlVN6ItDyZcdXl/QrCht
-gDPZjXlELGLelxjfbg+pd3akx1TVZ0m+rzUIcindrb69gIXiNTgWJCQ2B57QrK+r
-515zTyQjtLTOAwrxdvsXZaIdmZKc6w==
-=/y9I
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmXS5UAACgkQAVBC80lX
+0GzO7AgAh5fGgDN0GGr12V5wLM+o7TyWaLvajulU+jT9kdGhJluiag8ubMpCo160
+Q7cX6kNVi6IdAw1AJs9PYbxMg/UHKm4P+5sJNArei8lzUNBD6PvudraZDGFIgtli
+6MgetDGkdbuYB7j/CuyG7KfMeBnIMbncTK5n3SQgPyX/aCXlA2bmLEPpk2poGhuT
+KWeNv7DoEJwWc+A32AdG+AJvmC9S3AolykBhuBFgymHWAxb9UpdM8TzK4pYE3p4W
+/X13PjlcJfplMq/SEObBhmTZoRenUc4yuh96dJHjp/RxPz1jHn4y0f+AlZWS3/jA
+PDMFPwAmwboaAwCzhAC3/smXuMEgfg==
+=2cZx
 -----END PGP SIGNATURE-----
 
---Sig_/y.AEXD9XRXmOD3_UAne7Cho--
+--Sig_/MaLoh=z.sCLpfxsbm+jRki6--
