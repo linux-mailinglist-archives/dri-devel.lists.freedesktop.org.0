@@ -2,82 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B80B85AA4F
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 18:49:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B371B85AA71
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Feb 2024 18:55:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C06E10E0F2;
-	Mon, 19 Feb 2024 17:49:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7CC210E268;
+	Mon, 19 Feb 2024 17:55:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="h4sRlf5z";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="byL8U/DS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06C8F10E0F2;
- Mon, 19 Feb 2024 17:49:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1708364915; x=1708969715; i=markus.elfring@web.de;
- bh=hPupRt57+r+Pl0dfVnsjq1GsNhHpCJ6eXReICe+eDDo=;
- h=X-UI-Sender-Class:Date:To:Cc:References:Subject:From:
- In-Reply-To;
- b=h4sRlf5zIV+QWDila5ohfglWmS12NfxX6Wx6NvhudyKq05oHZRWmmvB+yQAl/USd
- s/hF88fZLogXlVoPr9rYZcV6U1BvLPtgrwOs3I0XIdBFv8XpCNCNY3EEijkJj1DzY
- 5VvHfB+6tRpIy0Tq9+g7oAj5CiRYslmyzxurJVIsHN3Kc9uYA8tBa3N1Mp5L6Y/wr
- oucP7TurufLy2QMHeMn/SgfhJjg31IVk1/FHtcdSB/Axxv9EWjjleNaSPrJeU4eX5
- oZ7w/z6ZtPYAINIoef5Lp0bfUVTHb8xQlzM7tiiHXC7yK1h1ujvgMvoDn/CvIgI7W
- Yu6xFw2F9eBfP/W1YQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.80.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1M2xrs-1rfQbv2m5c-003JhM; Mon, 19
- Feb 2024 18:48:35 +0100
-Message-ID: <c95f5ff3-8dad-4302-9384-92a9b83f7bdc@web.de>
-Date: Mon, 19 Feb 2024 18:48:30 +0100
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB65310E06E;
+ Mon, 19 Feb 2024 17:55:37 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 41JFErwH029986; Mon, 19 Feb 2024 17:55:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=NFaur2+AKSSTaUh1jwIy7KDR536evIuZN72D5jcNy1M=; b=by
+ L8U/DSsMOGfPwjBbxbdCDzh7WjecoqIUi7FZvsBkCr3O02f+lpjhcavpr6PrJQG0
+ FNLY8RFZUKHk0CpoXgFOFaRkR6lk5ibQNhVYSBnQlrLStfEl5vUkjElelUqWyVnN
+ JCt/sepaXlI6zuOnm7LfePCvTxZjWX3n97dCRZZW3emElnreq0EyAmcR7iXCh7CK
+ 6HIOmRBtREiKu/SEgABl4sp9P4xWGPIkvHwuIHYCQqjPrQoxFz2/tSJcch4VHt6z
+ l59nvUyLGBW1Tay946S746Tg+diw/kIryPeZKqqfuziEEGo9JEOCW6TOaGC6sqvB
+ 57BujAqyQZ+Q99knjQrA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wc3t2s4s5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 19 Feb 2024 17:55:30 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41JHtTr7028776
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 19 Feb 2024 17:55:29 GMT
+Received: from [10.110.50.123] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 19 Feb
+ 2024 09:55:28 -0800
+Message-ID: <525cfc94-146e-5389-753b-545a9fef2ef4@quicinc.com>
+Date: Mon, 19 Feb 2024 09:55:13 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Johan Hovold <johan+linaro@kernel.org>, freedreno@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Bjorn Andersson <andersson@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Vinod Koul <vkoul@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Rob Clark <robdclark@gmail.com>
-References: <20240217150228.5788-2-johan+linaro@kernel.org>
-Subject: Re: [PATCH 1/6] drm/bridge: aux-hpd: fix OF node leaks
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240217150228.5788-2-johan+linaro@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:1qY8TG6XGBPBySkXD9Iw+B/jMk+ITC9FUkKiHaIFz/AtRCFm3X8
- A2bG3gibnYIc7UfT5py0ZV3IHcRAAwqod7yJen0dD22Od/rMMXKMtv4O3ehHFd6NK1O47oF
- 2FKhSK+MFr0qgPhK4sp6Gvv75D7So3Dsd6VTfJ4FGrbLdu71hXEBz4h4bEnOqoDzSyVLUQM
- FFo2segx5J963ehK0Nyqg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Vt1j2p9N3tU=;Y5Fkv24B75ZRsEO6v+JeViz6QDS
- Z0Qr1vSndEAhOcBQzzzF9Hc+zTH8Lh5ACQIDs7Em43y0RsMfANmO66fe8KzHagSpTU3nCS9yw
- seqRMXtdrL7zS+FYfxRWVQMh2n+AW0LD8yuU/LvcAOqSzpZuAxCp9sB894cWb6Vs/KQwhcvix
- 0c0MCspFvzytZ8Z/VmjJpOa6U7u79EUFZbSTMcXdtOidhEyGaXoD1ed1lSk72ZHY4WrxBcoIG
- AQDpd7AAX8XoGPbGzDh8DSIIf76R1xfHsRz/IWtBKre8C5hyOZibsT6rlCWZf1Hn4OY8nyGe8
- 0R7jtfGDhFTNaLob/euJ4Xouo1S6JDEo6roUqqRQhLm+eihsK/1yoocr3e4TN5EfooNR/mqlb
- JU0s2ZXbFHxS1HxFt10qTR2Q3UBDpjnHxaf0nc6H7jpfWpYApArkm5d6/CArQHWMYRyHggilo
- NOJYAzpbA7OAaB9NNxId1wvcwZvrTgkzAeabC2c5HsL0UzNsbWqKbMMceESmfn72wOIfsQIsP
- L1S6NcAESVAnTYRBVYmDfWpuRiWfiWzh6aw9JFeF6HLm6Y4ajY/9ve+rE1vwM2zw9Na/oA3vn
- fbfuZnuDVcd6HgPLX6VmhUXnUzA/O+87vE3/mjhRZ30qPnFNmB7/gDo+4lkRApUIZ+Y5SsU8T
- C/RmhXE33yy5bOoTU1jR3W+iZ1ylFub+AO8utosVVJ5xfLspRIaoR6ptLogpbtO8A+duLEl5g
- BTecZA4H8EdbrwYdstFYfumSnHWDkijS5WNqggvyMOhheue05/XZGimtzonJucoBOFIY89JRK
- mjveQA3OLbiH8J7EvTIIAlcAE3cn0wtcE7uXKqhPCSnq8=
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v5] drm/dp: add an API to indicate if sink supports VSC SDP
+Content-Language: en-US
+To: <dri-devel@lists.freedesktop.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+CC: Paloma Arellano <quic_parellan@quicinc.com>, <robdclark@gmail.com>,
+ <freedreno@lists.freedesktop.org>, <dmitry.baryshkov@linaro.org>,
+ <intel-gfx@lists.freedesktop.org>, <quic_jesszhan@quicinc.com>,
+ <linux-kernel@vger.kernel.org>
+References: <20240215191556.3227259-1-quic_abhinavk@quicinc.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20240215191556.3227259-1-quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: m-8WQih43M6Ga5N_avK_itKu9UjiDU_r
+X-Proofpoint-GUID: m-8WQih43M6Ga5N_avK_itKu9UjiDU_r
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-19_15,2024-02-19_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0
+ mlxlogscore=999 clxscore=1015 spamscore=0 impostorscore=0
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
+ mlxscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402190135
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,28 +97,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> The two device node references taken during allocation need to be
-> dropped when the auxiliary device is freed.
-=E2=80=A6
-> +++ b/drivers/gpu/drm/bridge/aux-hpd-bridge.c
-=E2=80=A6
-> @@ -74,6 +75,8 @@ struct device *drm_dp_hpd_bridge_register(struct devic=
-e *parent,
->
->  	ret =3D auxiliary_device_init(adev);
->  	if (ret) {
-> +		of_node_put(adev->dev.platform_data);
-> +		of_node_put(adev->dev.of_node);
->  		ida_free(&drm_aux_hpd_bridge_ida, adev->id);
->  		kfree(adev);
->  		return ERR_PTR(ret);
+Hi DRM maintainers
 
-The last two statements are also used in a previous if branch.
-https://elixir.bootlin.com/linux/v6.8-rc5/source/drivers/gpu/drm/bridge/au=
-x-hpd-bridge.c#L63
+Gentle ping for reviews on this one.
 
-How do you think about to avoid such a bit of duplicate source code
-by adding a label here?
+Since the dependent series is mostly complete, would like to get your 
+reviews on this one to land it.
 
-Regards,
-Markus
+Thanks
+
+Abhinav
+
+On 2/15/2024 11:15 AM, Abhinav Kumar wrote:
+> From: Paloma Arellano <quic_parellan@quicinc.com>
+> 
+> YUV420 format is supported only in the VSC SDP packet and not through
+> MSA. Hence add an API which indicates the sink support which can be used
+> by the rest of the DP programming.
+> 
+> changes in v5:
+> 	- rebased on top of drm-tip
+> 
+> changes in v4:
+> 	- bail out early if dpcd rev check fails
+> 
+> changes in v3:
+> 	- fix the commit title prefix to drm/dp
+> 	- get rid of redundant !!
+> 	- break out this change from series [1] to get acks from drm core
+> 	  maintainers
+> 
+> Changes in v2:
+> 	- Move VSC SDP support check API from dp_panel.c to
+> 	  drm_dp_helper.c
+> 
+> [1]: https://patchwork.freedesktop.org/series/129180/
+> 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>   drivers/gpu/drm/display/drm_dp_helper.c | 23 +++++++++++++++++++++++
+>   include/drm/display/drm_dp_helper.h     |  2 ++
+>   2 files changed, 25 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+> index 8d6ce46471ae..61b11cb45245 100644
+> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> @@ -2913,6 +2913,29 @@ void drm_dp_vsc_sdp_log(struct drm_printer *p, const struct drm_dp_vsc_sdp *vsc)
+>   }
+>   EXPORT_SYMBOL(drm_dp_vsc_sdp_log);
+>   
+> +/**
+> + * drm_dp_vsc_sdp_supported() - check if vsc sdp is supported
+> + * @aux: DisplayPort AUX channel
+> + * @dpcd: DisplayPort configuration data
+> + *
+> + * Returns true if vsc sdp is supported, else returns false
+> + */
+> +bool drm_dp_vsc_sdp_supported(struct drm_dp_aux *aux, const u8 dpcd[DP_RECEIVER_CAP_SIZE])
+> +{
+> +	u8 rx_feature;
+> +
+> +	if (dpcd[DP_DPCD_REV] < DP_DPCD_REV_13)
+> +		return false;
+> +
+> +	if (drm_dp_dpcd_readb(aux, DP_DPRX_FEATURE_ENUMERATION_LIST, &rx_feature) != 1) {
+> +		drm_dbg_dp(aux->drm_dev, "failed to read DP_DPRX_FEATURE_ENUMERATION_LIST\n");
+> +		return false;
+> +	}
+> +
+> +	return (rx_feature & DP_VSC_SDP_EXT_FOR_COLORIMETRY_SUPPORTED);
+> +}
+> +EXPORT_SYMBOL(drm_dp_vsc_sdp_supported);
+> +
+>   /**
+>    * drm_dp_get_pcon_max_frl_bw() - maximum frl supported by PCON
+>    * @dpcd: DisplayPort configuration data
+> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+> index d02014a87f12..36351f3cdba9 100644
+> --- a/include/drm/display/drm_dp_helper.h
+> +++ b/include/drm/display/drm_dp_helper.h
+> @@ -100,6 +100,8 @@ struct drm_dp_vsc_sdp {
+>   
+>   void drm_dp_vsc_sdp_log(struct drm_printer *p, const struct drm_dp_vsc_sdp *vsc);
+>   
+> +bool drm_dp_vsc_sdp_supported(struct drm_dp_aux *aux, const u8 dpcd[DP_RECEIVER_CAP_SIZE]);
+> +
+>   int drm_dp_psr_setup_time(const u8 psr_cap[EDP_PSR_RECEIVER_CAP_SIZE]);
+>   
+>   static inline int
