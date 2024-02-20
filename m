@@ -2,52 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC4AE85BECF
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 15:31:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8B9585BED7
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 15:34:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE92110E448;
-	Tue, 20 Feb 2024 14:31:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A3C410E479;
+	Tue, 20 Feb 2024 14:34:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="lFHkbs+a";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="QRLC1rnb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6348310E435;
- Tue, 20 Feb 2024 14:31:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75D5910E479
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 14:34:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1708439508;
- bh=UB9n+2vXmx8kSjWpZUtThzJ8/Wjk4SVOdwSVTMPgOJ4=;
+ s=mail; t=1708439645;
+ bh=RYFR98PZrdUW5tXnND7sE2mKBA2iup/mUCYviaYd4VI=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=lFHkbs+aPr2vz+EUKwa8ItHSSBP/sE0Dn2pHgOw2NFQd2Hpibq9zDdmFds8qIgDiZ
- jeLT6IndiVLJmUF1fgEhRjCJwI3EYu1UrhTcH5KaLSpdL1MxQDT5OsvexXCXt5FBBo
- R9CfhBklKwDIrDXfNAfkfZBrnBSrplt8D58S4ESE8LBbpTua1o6FNgPgL9cxaXxWJE
- VcYef0VqS3x5XccnmsSlGFwYwGJBMMdyjfnccdBMVyWOsoGQO1VXTogu4zkNYfmgGp
- tXl+wExwfdHOlfMdrOQfX2Fh8USsUUEGlLVeirz8VbtRhngxW7fBJdvRPrIFmCiA+s
- K8fSVM0sesbfw==
+ b=QRLC1rnbbccmTozwvd12UFWfsqGbxSisx4PAJeB0e7y16p2daLjO1z/aE0U5D57O8
+ 3ERusM50WiGSA0cgpHBLpCjgQfOy/BpNSeE5i/YxCAtqaf5+DRfNNBgM4+1If9j19b
+ cuEe5xuLiL24hhklyqwZ+DUjNAd6rD2LPtCdr3gAU6tJRY6uxXUhPZZVYqhFrCeunr
+ cRTcKLN4fpdmAi6F0+RPS6u++kbzOXF4b4GmC3ijfQ6pyNsMzIzj6MO3J68k9RE7y4
+ WVUXG89UanHwWjrYiSJbVhi3hbEdVEwooPdsG+3yzwsAywO9Op7sPsmk1uVwtNs3nH
+ SDqTXaOfNEccA==
 Received: from [100.95.196.25] (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested) (Authenticated sender: koike)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 89C2F3780627;
- Tue, 20 Feb 2024 14:31:44 +0000 (UTC)
-Message-ID: <54a3f3d9-ad3e-4828-96c0-61dd81c61d76@collabora.com>
-Date: Tue, 20 Feb 2024 11:31:44 -0300
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 749053780627;
+ Tue, 20 Feb 2024 14:33:57 +0000 (UTC)
+Message-ID: <6e542474-906d-4ad2-9564-47fd44fe6c2d@collabora.com>
+Date: Tue, 20 Feb 2024 11:33:55 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: ci: uprev IGT
+Subject: Re: [PATCH v4 3/8] drm: ci: arm64.config: update ONBOARD_USB_HUB to
+ ONBOARD_USB_DEV
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+To: Javier Carrasco <javier.carrasco@wolfvision.net>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Kaehlcke <mka@chromium.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
-References: <20240220121741.2994222-1-dmitry.baryshkov@linaro.org>
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Russell King <linux@armlinux.org.uk>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+References: <20240220-onboard_xvf3500-v4-0-dc1617cc5dd4@wolfvision.net>
+ <20240220-onboard_xvf3500-v4-3-dc1617cc5dd4@wolfvision.net>
 From: Helen Koike <helen.koike@collabora.com>
-In-Reply-To: <20240220121741.2994222-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20240220-onboard_xvf3500-v4-3-dc1617cc5dd4@wolfvision.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,32 +76,43 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 20/02/2024 09:17, Dmitry Baryshkov wrote:
-> Bump IGT revision to pick up Rob Clark's fixes for the msm driver:
+On 20/02/2024 11:05, Javier Carrasco wrote:
+> The onboard_usb_hub driver has been updated to support non-hub devices,
+> which has led to some renaming.
 > 
-> - msm_submit@invalid-duplicate-bo-submit,Fail
+> Update to the new name (ONBOARD_USB_DEV) accordingly.
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
 
-Do you have a gitlab pipeline link I can check?
+Acked-by: Helen Koike <helen.koike@collabora.com>
 
-Thanks
+Regards,
 Helen
 
 > ---
->   drivers/gpu/drm/ci/gitlab-ci.yml | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/gpu/drm/ci/arm64.config | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
-> index 8b82e6656924..47e567b4f7a7 100644
-> --- a/drivers/gpu/drm/ci/gitlab-ci.yml
-> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
-> @@ -5,7 +5,7 @@ variables:
->     UPSTREAM_REPO: git://anongit.freedesktop.org/drm/drm
->     TARGET_BRANCH: drm-next
+> diff --git a/drivers/gpu/drm/ci/arm64.config b/drivers/gpu/drm/ci/arm64.config
+> index 8dbce9919a57..4140303d6260 100644
+> --- a/drivers/gpu/drm/ci/arm64.config
+> +++ b/drivers/gpu/drm/ci/arm64.config
+> @@ -87,7 +87,7 @@ CONFIG_DRM_PARADE_PS8640=y
+>   CONFIG_DRM_LONTIUM_LT9611UXC=y
+>   CONFIG_PHY_QCOM_USB_HS=y
+>   CONFIG_QCOM_GPI_DMA=y
+> -CONFIG_USB_ONBOARD_HUB=y
+> +CONFIG_USB_ONBOARD_DEV=y
+>   CONFIG_NVMEM_QCOM_QFPROM=y
+>   CONFIG_PHY_QCOM_USB_SNPS_FEMTO_V2=y
 >   
-> -  IGT_VERSION: d2af13d9f5be5ce23d996e4afd3e45990f5ab977
-> +  IGT_VERSION: 3f2879fef93c0c546a2f1c0aa48a9cc2a594b9d2
+> @@ -97,7 +97,7 @@ CONFIG_USB_RTL8152=y
+>   # db820c ethernet
+>   CONFIG_ATL1C=y
+>   # Chromebooks ethernet
+> -CONFIG_USB_ONBOARD_HUB=y
+> +CONFIG_USB_ONBOARD_DEV=y
+>   # 888 HDK ethernet
+>   CONFIG_USB_LAN78XX=y
 >   
->     DEQP_RUNNER_GIT_URL: https://gitlab.freedesktop.org/anholt/deqp-runner.git
->     DEQP_RUNNER_GIT_TAG: v0.15.0
+> 
