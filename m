@@ -2,116 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADD2085C89D
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 22:23:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99D4385CA52
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 23:03:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93CB110E581;
-	Tue, 20 Feb 2024 21:23:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1B9610E583;
+	Tue, 20 Feb 2024 22:03:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FOBRlLUP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FlZ8dFv3";
 	dkim-atps=neutral
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6845810E581
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 21:23:49 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-512cba0f953so983508e87.2
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 13:23:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708464227; x=1709069027; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=BQN1gJBuYdnaMz2lZP1Vhemjh7XxE9ird9ZL5Hi+qmE=;
- b=FOBRlLUPDoEGddu1cK0kNdukBbc/NW9Ve2mpO55ZDGL+82gzdjaG3T8BTr21rp5CIU
- FD0ZvfxFp3nus40dZbEygY9CHpcguY/jhxlpj4OYb4MGeZBzXlfBJ9OoaSPzigyfCLq+
- WzyOd/Z82byzxkUUTHR52FGTOHclTIYB5qc0P4Cq8n2ytsW4MJomIZgZLsSZbV5k6yre
- 7JcUbfQT1U2XvV9AIkwDdISU6hcUsiGouPEz02N6+rNSP+jbkO3EznyYV2rk5JRR0f4S
- 7lE82HKxyzhz0jDJJLyos0uddJNz+5m5nTAggfc+vMYn8pLVTjy2ejHWUhayn5mFdAG5
- ZrHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708464227; x=1709069027;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BQN1gJBuYdnaMz2lZP1Vhemjh7XxE9ird9ZL5Hi+qmE=;
- b=PZK9fC3dN0tiKvGlrPlmyf0Y8KO7F/Qj22m+A2TiMhARKqljL/HTI1tCCQMzxdbAzS
- HafyZNZna1B/EkvnkkMGIDP2TpHgBNXYRfhIHeNeWdDSKk+GVTHqDoXQ5vEUPKMsLCPo
- O0+j/3ZFMiuPfI5nIhVUB3Czm2rJRZDfC25eWZt2/kHMjF7KJMMbt3kgE8BGZ/ujet9f
- 6/H0qaN4xYeI+L5kxaXvw6HXtx3DLQr1dC/RxIc5a5c7l4bAXFdOW7iI4tQCbRtqOqYa
- pWyHqgTl6Lc+U+ZbQtI1a1uuHLLFNV1XwdUGQ3rZguCpLiYT12l74+LusLbWs/KucOz/
- 9raw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVC3cBA8jGM2mFCjU3L32gNe+5wrNdqf8dK4ybYLWbM8x9zTRgHJ/Lc8nVNeUGF9Hz2XwjFaKax89WgSTBqqZa6yTMu7JCGVnmB8vktWYNk
-X-Gm-Message-State: AOJu0Yz+s1OoARUcB6zsZwddLb0BRO26lP1vqecNCV+H6o2Su8tLNKZW
- VQReQpHaY2rmGQIGTeAmgACqUV8Wnuhl4s69Vn4BPhAP6n+WFe24z4ekxI1/WY8=
-X-Google-Smtp-Source: AGHT+IGUGRVWsh1lOrSwTwSBnK+MNgr79zGnGLrlETgeDUz79QjMadUApjmPNi/qsoaLXat8TR3+ew==
-X-Received: by 2002:a19:e003:0:b0:512:bf99:7d80 with SMTP id
- x3-20020a19e003000000b00512bf997d80mr2723866lfg.1.1708464227159; 
- Tue, 20 Feb 2024 13:23:47 -0800 (PST)
-Received: from [192.168.192.135] (078088045141.garwolin.vectranet.pl.
- [78.88.45.141]) by smtp.gmail.com with ESMTPSA id
- i29-20020ac25b5d000000b005118a6de76esm1407778lfp.162.2024.02.20.13.23.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Feb 2024 13:23:46 -0800 (PST)
-Message-ID: <c87d715a-d6fe-4ccd-adc5-d98d4837a120@linaro.org>
-Date: Tue, 20 Feb 2024 22:23:43 +0100
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69E7910E57F;
+ Tue, 20 Feb 2024 22:03:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1708466613; x=1740002613;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=JHhs8Qr5IVZvRDgQUhSn+X3bZWAo3ocw2ZY/BwMjD18=;
+ b=FlZ8dFv3Md4fAVf0Wgrc5zj94+R6G/v1OM34bN7+e4EgJaiASdLSid9Z
+ m9p62GPnphD8MGRzH0YI2reLCibWez0MP1x/FxDlhIPVr0ZWSVba21vhK
+ OjJrbnkaC93+BJc+Cy5I+xsbDFFwp7YJ+Pe8meBZCkX8P7uQC97jNJnqh
+ XJ9rZbWBGVMLXqj9CQoUdOTFj5L9S8p2P1LHbslLJJODkXA8rGnJjFe8N
+ rrouVsR1thajH/oIHvffhJjB/5dQNzn5nu9g6GCh076oeiACL82KVc1Ee
+ o/ImmsE8tMIzqEja5E7nsqQAXXsX0Mg2eCAGLA1nJI3hm2EDHBF18Nitr Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="3070078"
+X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
+   d="scan'208";a="3070078"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Feb 2024 14:03:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
+   d="scan'208";a="5266923"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 20 Feb 2024 14:03:31 -0800
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 20 Feb 2024 14:03:31 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Tue, 20 Feb 2024 14:03:31 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 20 Feb 2024 14:03:30 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kSzud46sMPtZXzzimN4Mky70tgchppSszYLjB6VQAhM3pDK0C86XhqcZxjfOVAbi6uXht9d38WJgdrvKH3KF2xNfcwwg0AomUiQj6GU2pExPojnR1oxtpND43yaRxCsBFRbXmyAoZZfZR7KR/UAFirytR1OmpfuTFexGKWYtBcjlD+LrCA5Sn72nUSv9xk7sRdJvINHlpGcQLqeBOPQXBjleiaEZo5iicpig4DFpLCmgLBFyPVeEvHOLDlYgx1SxkZ7grTMtCZH0KJrVveJo/h1NdA/GvNYesJPhzomBbXJidRW/8I9q8ROqNezRtyLdlBxaNAnBzQjx2KIzLjMGnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7/Xk7vCZa4Lzfkv6684DUEQRxBPA+8I22i9BgrmEwNI=;
+ b=WXYUi67fsxbz+0G1/1JxFa4HolH58SvYetz+Tux0B4RmM4OCSF2xuI1oZeTuNXcegK5I/sgp3Y+9Gm6lAOeo+EiSeiSEKRsiD7u3a5zfmU66QDbLGBJTqMG9TGhbMkCY/PTU81LhnMVhrrO+RcofjHr3Aw5c92u4LUisLx904jHeB19bAmpwUAFO7l1X1V0O8ojYaYdWh74tLHa/3mFzkribmei4gcRXuatsIx+ElrUqmTdJcRpdCKgoKKS90LdAwsM0LyE0j8wi2GzIcVH078aUKPkP3KqysRmI68kt1tfGcm4tQWOAPUTw4QBruJfpOj0qOAbKZ7Eo/okSu+OmJQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
+ by DM4PR11MB5437.namprd11.prod.outlook.com (2603:10b6:5:398::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.39; Tue, 20 Feb
+ 2024 22:03:29 +0000
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::a7f1:384c:5d93:1d1d]) by MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::a7f1:384c:5d93:1d1d%4]) with mapi id 15.20.7292.036; Tue, 20 Feb 2024
+ 22:03:29 +0000
+Date: Tue, 20 Feb 2024 17:03:25 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+CC: <Intel-GFX@lists.freedesktop.org>, <DRI-Devel@lists.freedesktop.org>
+Subject: Re: [PATCH v3] drm/i915/guc: Simplify/extend platform check for
+ Wa_14018913170
+Message-ID: <ZdUhrecbFSqPEZ08@intel.com>
+References: <20240216183841.497768-1-John.C.Harrison@Intel.com>
+ <ZdO52xFiDGrfJ_cd@intel.com>
+ <2ed3c7f6-579c-4ef0-b15a-63350645ba35@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2ed3c7f6-579c-4ef0-b15a-63350645ba35@intel.com>
+X-ClientProxiedBy: BYAPR07CA0009.namprd07.prod.outlook.com
+ (2603:10b6:a02:bc::22) To MN0PR11MB6059.namprd11.prod.outlook.com
+ (2603:10b6:208:377::9)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] arm64: dts: qcom: sm6115: fix USB PHY configuration
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc: Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-References: <20240220173104.3052778-1-dmitry.baryshkov@linaro.org>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- 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
- izWDgYvmBE8=
-In-Reply-To: <20240220173104.3052778-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|DM4PR11MB5437:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1ec96d0b-1f5e-4dc1-a906-08dc325fc500
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /DLKO3qPHY+7w5YbizGVoZyco8ehP0wUQQGXilK5Jdfhsg9aiDEa664/FVsDdM6UTme8S+L8qr0Ky1q5gwfiHh6vLeUSM1N7c1vLLnX41oyLgV4KAW3KrQUGN1pk3AlUPm3blmkzIPgIHYLlKrZ6AeqiPXsy4toOAXuIKgYgXKx5Dx4VhToKpPQEiJtvHzjVTU1eLuQink4kxgzvqXD8MapgOwGVKcM9MZRaNn94LOUGlivBe4tyR1eJHLHmGm9LslttqvIyOmNVF40Zn2WBLHHN6qzi23LiFdG5rzNutwibJkAPgR9HK/OqwyPn4JWgFvBpZOadqLx2rKH29zRnQogefdIXU9kuAKVmihi/3jfgqxg0GHol5NaHyYS4LwwtmEtsAqGM0yNtitsbOGLrhPHtgWNNipnY4+TEd14zMRAPUCGvQnDZW5UdGGJ543/xfLb1u8tgXw/2c/2uJls9/ytDlRENKkjLKucygJBICxRcprqzQ11ljXnlaiEd9wjrkZGCAULZPNuaFbY6d6L2hV3OvWRoE5UzgoSpimv+oNA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?qmeVAgHcdZX8y8wXGfoyFZnECaLS03GCpDGBSN4NyqWYJ1cJSoNL+gkLQF?=
+ =?iso-8859-1?Q?OQTWqTHLJExitl3dtkqGcKstyJTYDcdHaFsWzQeZHbkLVxMiHfryjMAjnN?=
+ =?iso-8859-1?Q?wp9bEjOs2j2gz2sBlV+CUulpUINX/1qdf4cS7R/vMoc91J2graGxXjdzt2?=
+ =?iso-8859-1?Q?xuVdSoJoBRlDcmCurnrMPuZ0F1ZiEZ/w+iJ2kyf+0dTVtm6hA4EDgrFRBe?=
+ =?iso-8859-1?Q?IPyFjXjEjdp+Vaa5YIJLQEvsPJw+jeXo2DBypMkjQ/tRgL2/ndcX3DA3nq?=
+ =?iso-8859-1?Q?RJMbdlcTMf9BFcLJ1rXQzcVE9CzKAMQ2vNHRIbaer8eoh3F4N2dyRreURU?=
+ =?iso-8859-1?Q?d00cTdaKlNh4XV6zVZAwh0DBWfnyYyEsL3N5Be+noBuT462rf1NJu0pujZ?=
+ =?iso-8859-1?Q?fiHtDvGCCmmLflVQd9hnTaFMdUbk2Pa54Mr1qGzXNFT28bM6vk04MgpIg4?=
+ =?iso-8859-1?Q?XDreLx+Wb07e30JnN6Y+vTEbNmNg1tLG+M8+g5zA//7DQmNlHarvCqgPO7?=
+ =?iso-8859-1?Q?W1PSWrwSncYbZ5gLmUlNzHnxAv9CArTuXshRNvTMLifqW6Z0hnfF43S65E?=
+ =?iso-8859-1?Q?WNnEBwlJRmXvwNxzbKnt5b5RQZxZzWHSdA5q4ka8rtMdm5n/BjFlvDsofO?=
+ =?iso-8859-1?Q?PCho8adHJqQBFBCcgpBzqDope1g3FC9ehyKE7FttMC56GvJxDG19RoFCOy?=
+ =?iso-8859-1?Q?4oERwSxoXIrdGm70+evFLiuy5i6ZzvH+b0dStEcgPNjEV6qBN7BPuoXnB4?=
+ =?iso-8859-1?Q?IBaHNrU+oJ7HbA5AxQfNrgPzFRRB6d2i0Xi6cUiyWjz363Xz+m5UPWIe/a?=
+ =?iso-8859-1?Q?phn8TEFsCu/NpuUxPpWKb0boPdqkdminEl3v1gWIGX5FVU+SxPA7accs2h?=
+ =?iso-8859-1?Q?ThgPqUr5Q2I5piVm+39o/unGxdC3UCUmz0Ui0TYk+p0uO6Xb09I2P1HDv+?=
+ =?iso-8859-1?Q?G0QLAkQRIg/brmyVekP96BgpY7TXtPkAAjk+E67UmQy4HRP8Z3xghOBW31?=
+ =?iso-8859-1?Q?RIIQeQorTvJXr+iJm2sJm192ypuC+JQBqTjpxMLWEFVBtrFSgQ63tUu4m/?=
+ =?iso-8859-1?Q?WixqrfjeitUbZ7KMocIXuk6v5pmz3NRFgBqQRoMmx2Hz2gBOK+5ISJEXLK?=
+ =?iso-8859-1?Q?tqdxhiuEkj6o3odOALoxk7KTq4Z4lNvNa1ZMWQDWRey/doX9jKFJNjhwSl?=
+ =?iso-8859-1?Q?na0p4Yos78Y1iK+XD9TUf+GG1GjLDAql+gT0ydRhPtKM+Du1etYdoxnEvv?=
+ =?iso-8859-1?Q?kZbp3XRaSxoV3rgYp0CreJxH61T4x3EXP9zOWaSPYzHjCULDmv4iTxnesr?=
+ =?iso-8859-1?Q?ZBw2qEK8jStKrOiMZaD6C0cn9Oo+xVxsmwkNNAAqi9qS6Jf0J8HN28TW6r?=
+ =?iso-8859-1?Q?U5NnfMLD5LhPApbtk4BuRjqtdnPaWqN9mC4RkQlTNOH6SbNHahStEKwNIc?=
+ =?iso-8859-1?Q?UPL30H2hB2blyi/NSbChfXhI6uI2jxJoUGvUsZoeVZ+AEpxG5s4/Fb3En5?=
+ =?iso-8859-1?Q?ts850OaSJ3xUsa7crC9CRZh0Ltir1Z1dSAL/mdXeDt2SMm4GGATWdHO30F?=
+ =?iso-8859-1?Q?i1907kTCVfm4FHITfP63UOv2BChNl93jSUstxbWNh7hT/vJRpuIDH7Qqj8?=
+ =?iso-8859-1?Q?6snsH7bivlXw4uIu7NwjXI7czlqH+YVCREon+HvqWEiGiyXx3H/tJo0Q?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1ec96d0b-1f5e-4dc1-a906-08dc325fc500
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2024 22:03:29.1563 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WKv9saPz07FbCNJd0EmgnMbaMMjv8exCKUleCDsUpnPkEbk+qA43U3PYHuFeG8+qDw2tWa0I+WtYst93aOkQ+w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5437
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,17 +155,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20.02.2024 18:31, Dmitry Baryshkov wrote:
-> The patch adding Type-C support for sm6115 was misapplied. All the
-> orientation switch configuration ended up at the UFS PHY node instead of
-> the USB PHY node. Move the data bits to the correct place.
+On Tue, Feb 20, 2024 at 11:52:04AM -0800, John Harrison wrote:
+> On 2/19/2024 12:28, Rodrigo Vivi wrote:
+> > On Fri, Feb 16, 2024 at 10:38:41AM -0800, John.C.Harrison@Intel.com wrote:
+> > > From: John Harrison <John.C.Harrison@Intel.com>
+> > > 
+> > > The above w/a is required for every platform that the i915 driver
+> > > supports. It is fixed on the latest platforms but they are only
+> > > supported by Xe instead of i915. So just remove the platform check
+> > > completely and keep the code simple.
+> > Well, I was going to say that I would prefer a GMD version greater-than
+> > check to be future proof. However if this code gets used in some other
+> > new platform a new specific guc support would likely need to be added
+> > as well right?
+> There is no future for i915. That's the point. The only platforms that have
+> the hardware fix are all ones that will only ever be supported by the Xe
+> driver. So if such a platform were to be backported to i915 then there would
+> be a lot more work than just adding a new GuC firmware platform.
 > 
-> Fixes: a06a2f12f9e2 ("arm64: dts: qcom: qrb4210-rb2: enable USB-C port handling")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
+> And going backwards, the bug affects all platforms that have a GuC. So if
+> any GuC code is being executed at all, then this w/a is applicable.
+> 
+> > 
+> > Perhaps at least adding a comment in the code?
+> Such as this?
+>         /*
+>          * Wa_14018913170: Applicable to all platforms supported by i915.
 
-So that's why UFS stopped working and I couldn't for the life of
-me guess why..
+I believe only this first line would be enough. but up to you and feel free
+to put my rv-b with whatever version you get.
 
-
-Konrad
+ so
+>          * don't bother testing for all X/Y/Z platforms explicitly.
+>          */
+> 
+> John.
+> 
+> 
+> > 
+> > with that
+> > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > 
+> > 
+> > > Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> > > ---
+> > >   drivers/gpu/drm/i915/gt/uc/intel_guc.c | 3 +--
+> > >   1 file changed, 1 insertion(+), 2 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> > > index 2b450c43bbd7f..a3662edb42032 100644
+> > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> > > @@ -321,8 +321,7 @@ static u32 guc_ctl_wa_flags(struct intel_guc *guc)
+> > >   	/* Wa_14018913170 */
+> > >   	if (GUC_FIRMWARE_VER(guc) >= MAKE_GUC_VER(70, 7, 0)) {
+> > > -		if (IS_DG2(gt->i915) || IS_METEORLAKE(gt->i915) || IS_PONTEVECCHIO(gt->i915))
+> > > -			flags |= GUC_WA_ENABLE_TSC_CHECK_ON_RC6;
+> > > +		flags |= GUC_WA_ENABLE_TSC_CHECK_ON_RC6;
+> > >   	}
+> > >   	return flags;
+> > > -- 
+> > > 2.43.0
+> > > 
+> 
