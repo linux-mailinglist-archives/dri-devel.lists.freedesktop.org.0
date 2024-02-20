@@ -2,73 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBCC985C361
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 19:10:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2614385C390
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 19:23:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A09910E136;
-	Tue, 20 Feb 2024 18:09:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2660F10E25E;
+	Tue, 20 Feb 2024 18:23:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="J+TCeWl9";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="btyhhvSs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com
- [209.85.128.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1030A10E136
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 18:09:56 +0000 (UTC)
-Received: by mail-yw1-f172.google.com with SMTP id
- 00721157ae682-6002317a427so47317887b3.2
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 10:09:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708452596; x=1709057396; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=TJ0aDR9NVt9XM9NUkLl3BrBKP3ikJ6XdHk6DaL6OOv8=;
- b=J+TCeWl9TiOf2ydvZ+8rE6E5t6f8EeA5SXwllgvaW+1H+3anzmOAIt7X0MhDpIu3Ao
- P+qeoi6vodjfFtj0q1rAnmsM7uwxtBxtZu2nVF+e7V8sCHjRZvCNMhCJJ8TdAL2CF/SP
- PeRpQKuKnFQvOtxt2ZW9TUhVVAjl7s4keRBrS4Yj9Yi2yDEeZh0oI+d48AGeHvKNNzwK
- fYYbl3rux820zX4iKpg1lxn0E3HqbDctrqBoVDfa78pRLHYrJf11UOR4dConifer4IFR
- hrYR9O07z9Zbo8vQUtnr9ZWQyX8XzjFH3hbDmOqpTeXcsCtIBGn9x3inIlk9Nl94W55X
- b9tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708452596; x=1709057396;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=TJ0aDR9NVt9XM9NUkLl3BrBKP3ikJ6XdHk6DaL6OOv8=;
- b=HYcdawevVN/552uXzJ5v31eXBullW3ACiPUr1LQtyEoFtw3E6sFvQyMRZx0dDDAYlL
- jmALtKfmJkUX4Z9AwmgNrAGer9uWgYEJv20sEXr2H+fN3dRH1Yc4dnBXQlYlmlvcDmVn
- QrdTpE4SxGaQSp6G4kU+74foJsX2rXyMQF+iB9FWHNBy1ukjxNlkf0lTWAdsGrEP5cId
- PwKguO2U8DTzXeoIXHtBJpqt06zlm2RESscWlAJxkUkbzrjWv7FQTGqgLp+Tj+Eu7wuj
- 0twgqsAYWSNKtXcANIK1mPvfv/+UumzlFtzcOj3/T4WTnmms1vqEZXzZGwzlAneMbBUK
- 3beg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWKiNeoo7Ze0COe5c8/DRGkuCWVOA1fibjGD5y1jvx9leXpNC3aAc7w53i1/eWWsQCjCBuRSmv2TKAw/zlHxO/X0HMcyS83Ycty+J+r2G+y
-X-Gm-Message-State: AOJu0Yw9+hzZm7/q8axgnRVcEIzrsHNxAYBZd+KjaZ7dQqppTYsAAXto
- XuR11vfWOedqtxU1xII05e3TG7aG8CSYclwnoVHK4kAHx2h4dsO1kDs5s8+FCBo9qnvzj0gP6Ys
- 7Zz3lRGVV8X2+819VNmC1F3h/7gZDei7wlq4L7g==
-X-Google-Smtp-Source: AGHT+IFQeiHiIryJtC2om6c9aK4p9MZ4vJ/D8X0QgnxGrJvJytDUmw+oY9eK1dhe5485mH4cpPuSesAGuVShLB9++Qc=
-X-Received: by 2002:a81:4f14:0:b0:608:664e:3bfb with SMTP id
- d20-20020a814f14000000b00608664e3bfbmr2360294ywb.40.1708452595734; Tue, 20
- Feb 2024 10:09:55 -0800 (PST)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE9E310E25E
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 18:23:44 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 41KEfwfb020497; Tue, 20 Feb 2024 18:23:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=o1XdYNJFsleByPwRb4ZMnCZK00p36/1bvaqiNCoD/gU=; b=bt
+ yhhvSsIurjApTQz1q3pO6r6anSvSGyQjLtRwm2vlNUqvzwamZLxFvu2kEQ9hHnex
+ fpGpK0njHFTv1sKbjwYvKCIxS7G5JBQ76Ov/SDsBC5W/v0spF+0GNetzx3C5vkWf
+ MIdcDbygy7bgo6aZSTSdi54IyvHm378I5sWCl78osjtnOSGJlZtnhL/a+PNcNTy3
+ rtKF9ZRVerqDTrKX5biMY5euR0TYKIFrjZ2GlN1/uNnbGiRy0Q+/mMGohTuTZhgh
+ h7MSXBf5GiK02odM9j+y6MMCVkAkXcIMNohC/lE9fBrfOiCm/EErPZ4MuvUuvs18
+ IIQasRBDZHQvv0+v4qAg==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wct3eh220-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 20 Feb 2024 18:23:35 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41KINYc7021949
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 20 Feb 2024 18:23:34 GMT
+Received: from [10.71.110.119] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 20 Feb
+ 2024 10:23:30 -0800
+Message-ID: <38860940-3b21-42e8-8817-10b433d7bd74@quicinc.com>
+Date: Tue, 20 Feb 2024 10:23:31 -0800
 MIME-Version: 1.0
-References: <20240216230228.26713-1-quic_parellan@quicinc.com>
- <20240216230228.26713-14-quic_parellan@quicinc.com>
- <CAA8EJppO4FcJJex8mBbPoDyUbkn4zFvDFR0h3sOY75Qth15Rng@mail.gmail.com>
- <30f383ce-0952-0dc1-a7a1-a7565526f728@quicinc.com>
-In-Reply-To: <30f383ce-0952-0dc1-a7a1-a7565526f728@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 20 Feb 2024 20:09:44 +0200
-Message-ID: <CAA8EJpr4XKDQELhhnumqmH2Yh4qzh-gypR4tpRQ0eDhSB3U0Sw@mail.gmail.com>
-Subject: Re: [PATCH v4 13/19] drm/msm/dp: add VSC SDP support for YUV420 over
- DP
-To: Paloma Arellano <quic_parellan@quicinc.com>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, robdclark@gmail.com, seanpaul@chromium.org, 
- swboyd@chromium.org, quic_abhinavk@quicinc.com, quic_jesszhan@quicinc.com, 
- quic_khsieh@quicinc.com, marijn.suijten@somainline.org, 
- neil.armstrong@linaro.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] dma-buf: heaps: secure_heap: Add qcom secure system
+ heap
+Content-Language: en-US
+To: Pratyush Brahma <quic_pbrahma@quicinc.com>, <sumit.semwal@linaro.org>,
+ <benjamin.gaignard@collabora.com>, <Brian.Starkey@arm.com>,
+ <jstultz@google.com>, <tjmercier@google.com>,
+ <christian.koenig@amd.com>, <linux-media@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
+ <linux-kernel@vger.kernel.org>, <quic_guptap@quicinc.com>,
+ Dibakar Singh <quic_dibasing@quicinc.com>
+CC: Vijayanand Jitta <quic_vjitta@quicinc.com>
+References: <cover.1700544802.git.quic_vjitta@quicinc.com>
+ <128a84b983d1ddd192e98a42bc6a15030bb60d75.1700544802.git.quic_vjitta@quicinc.com>
+From: Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <128a84b983d1ddd192e98a42bc6a15030bb60d75.1700544802.git.quic_vjitta@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: z8qGia9d6ea18w28Y-_e7hFTGe9a0941
+X-Proofpoint-GUID: z8qGia9d6ea18w28Y-_e7hFTGe9a0941
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-20_06,2024-02-20_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0
+ spamscore=0 phishscore=0 clxscore=1011 mlxscore=0 mlxlogscore=999
+ priorityscore=1501 malwarescore=0 adultscore=0 lowpriorityscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402200132
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,64 +96,242 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 20 Feb 2024 at 19:55, Paloma Arellano <quic_parellan@quicinc.com> wrote:
->
->
-> On 2/17/2024 12:56 AM, Dmitry Baryshkov wrote:
-> > On Sat, 17 Feb 2024 at 01:03, Paloma Arellano <quic_parellan@quicinc.com> wrote:
-
-> >> +       }
-> >> +
-> >> +       panel = container_of(dp_panel, struct dp_panel_private, dp_panel);
-> >> +       catalog = panel->catalog;
-> >> +       dp_mode = &dp_panel->dp_mode;
-> >> +
-> >> +       memset(&vsc_sdp_data, 0, sizeof(vsc_sdp_data));
-> >> +
-> >> +       /* VSC SDP header as per table 2-118 of DP 1.4 specification */
-> >> +       vsc_sdp_data.sdp_type = DP_SDP_VSC;
-> >> +       vsc_sdp_data.revision = 0x05;
-> >> +       vsc_sdp_data.length = 0x13;
-> >> +
-> >> +       /* VSC SDP Payload for DB16 */
-> >> +       vsc_sdp_data.pixelformat = DP_PIXELFORMAT_YUV420;
-> >> +       vsc_sdp_data.colorimetry = DP_COLORIMETRY_DEFAULT;
-> >> +
-> >> +       /* VSC SDP Payload for DB17 */
-> >> +       vsc_sdp_data.bpc = dp_mode->bpp / 3;
-> >> +       vsc_sdp_data.dynamic_range = DP_DYNAMIC_RANGE_CTA;
-> >> +
-> >> +       /* VSC SDP Payload for DB18 */
-> >> +       vsc_sdp_data.content_type = DP_CONTENT_TYPE_GRAPHICS;
-> >> +
-> >> +       len = dp_utils_pack_vsc_sdp(&vsc_sdp_data, &vsc_sdp, header);
-> >> +       if (len < 0) {
-> >> +               DRM_ERROR("unable to pack vsc sdp\n");
-> >> +               return len;
-> >> +       }
-> > So, at this point we have the header data both in vsc_sdp.sdp_header
-> > and in the packed header. The relationship between them becomes less
-> > obvious. Could you please pack dp_sdp_header into u32[2] just before
-> > writing it? It really makes little sense to pass both at the same
-> > time.
->
->
-> Just want to clear some stuff up. Do you want to call the
-> dp_utils_pack_sdp_header() function right before
-> dp_catalog_panel_send_vsc_sdp()? The point of putting the
-> dp_utils_pack_sdp_header() function inside dp_utils_pack_vsc_sdp() is so
-> that all of the packing could be in the same location. Although I agree
-> that we are passing the same values twice, I believe that having it the
-> way it is currently is better since it shows that the
-> drm_dp_vsc_sdp_pack() and dp_utils_pack_sdp_header() are related since
-> they're packing the data to the set of GENERIC0 registers.
-
-I'm perfectly fine with dp_utils_pack_sdp_header() being called from
-within dp_catalog_panel_send_vsc_sdp(). This way you are not passing
-extra data and it is perfectly clear how the SDP header is handled
-before being written to the hardware.
 
 
--- 
-With best wishes
-Dmitry
+On 11/22/2023 5:47 AM, Pratyush Brahma wrote:
+> From: Vijayanand Jitta <quic_vjitta@quicinc.com>
+> 
+> Add secure system for Pixel and Non pixel video usecases, this
+> allocates from system heap and secures using qcom_scm_aasign_mem.
+                                                        ^^^^^^
+                                                        typo
+> 
+> Change-Id: If0702f85bff651843c6a5c83694043364229e66b
+> Signed-off-by: Vijayanand Jitta <quic_vjitta@quicinc.com>
+
+Please get these patches reviewed internally before sending to mailing
+list for basic checks. You can review go/upstream when within Qualcomm corp network.
+
+Pavan mentioned S-o-B is incorrect. Commit text should also not have Change-Id.
+
+Please be sure to send to linux-arm-msm mailing list as well since this affects
+Qualcomm chipsets
+
+> ---
+>  drivers/dma-buf/heaps/secure_heap.c | 163 +++++++++++++++++++++++++++-
+>  1 file changed, 160 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/heaps/secure_heap.c b/drivers/dma-buf/heaps/secure_heap.c
+> index 04e2ee000e19..cdcf4b3f5333 100644
+> --- a/drivers/dma-buf/heaps/secure_heap.c
+> +++ b/drivers/dma-buf/heaps/secure_heap.c
+> @@ -58,6 +58,11 @@ enum secure_memory_type {
+>  	 * protect it, then the detail memory management also is inside the TEE.
+>  	 */
+>  	SECURE_MEMORY_TYPE_MTK_CM_CMA	= 2,
+> +	/*
+> +	 * QCOM secure system heap, use system heap to alloc/free.
+> +	 * and use qcom_scm_assign_mem to secure the memory.
+> +	 */
+> +	SECURE_MEMORY_TYPE_QCOM_SYSTEM	= 3,
+>  };
+>  
+>  struct secure_buffer {
+> @@ -69,6 +74,7 @@ struct secure_buffer {
+>  	 */
+>  	u32				sec_handle;
+>  	struct page			*cma_page;
+> +	struct sg_table			sg_table;
+>  };
+>  
+>  #define TEE_MEM_COMMAND_ID_BASE_MTK	0x10000
+> @@ -329,11 +335,26 @@ static int secure_heap_qcom_secure_memory(struct secure_heap *sec_heap,
+>  	next[0].vmid = data->vmid;
+>  	next[0].perm = data->perm;
+>  
+> -
+> -	ret = qcom_scm_assign_mem(page_to_phys(sec_buf->cma_page),
+> +	if (sec_heap->mem_type == SECURE_MEMORY_TYPE_CMA) {
+> +		ret = qcom_scm_assign_mem(page_to_phys(sec_buf->cma_page),
+>  				sec_buf->size, &src_perms,
+>  				next, 1);
+> +	} else if (sec_heap->mem_type == SECURE_MEMORY_TYPE_QCOM_SYSTEM) {
+> +		struct sg_table *table;
+> +		struct scatterlist *sg;
+> +		int i = 0;
+> +
+> +		table = &sec_buf->sg_table;
+> +		for_each_sgtable_sg(table, sg, i) {
+> +			struct page *page = sg_page(sg);
+>  
+> +			ret = qcom_scm_assign_mem(page_to_phys(page),
+> +				page_size(page), &src_perms,
+> +				next, 1);
+> +			if (ret)
+> +				break;
+> +		}
+> +	}
+>  	return ret;
+>  }
+>  
+> @@ -347,9 +368,24 @@ static void secure_heap_qcom_unsecure_memory(struct secure_heap *sec_heap,
+>  	next[0].vmid = QCOM_SCM_VMID_HLOS;
+>  	next[0].perm = QCOM_SCM_PERM_RWX;
+>  
+> -	qcom_scm_assign_mem(page_to_phys(sec_buf->cma_page),
+> +	if (sec_heap->mem_type == SECURE_MEMORY_TYPE_CMA) {
+> +		qcom_scm_assign_mem(page_to_phys(sec_buf->cma_page),
+>  				sec_buf->size, &src_perms,
+>  				next, 1);
+> +	} else if (sec_heap->mem_type == SECURE_MEMORY_TYPE_QCOM_SYSTEM) {
+> +		struct sg_table *table;
+> +		struct scatterlist *sg;
+> +		int i = 0;
+> +
+> +		table = &sec_buf->sg_table;
+> +		for_each_sgtable_sg(table, sg, i) {
+> +			struct page *page = sg_page(sg);
+> +
+> +			qcom_scm_assign_mem(page_to_phys(page),
+> +				page_size(page), &src_perms,
+> +				next, 1);
+> +		}
+> +	}
+>  }
+>  
+>  const struct secure_heap_prv_data qcom_cma_sec_mem_data = {
+> @@ -361,6 +397,117 @@ const struct secure_heap_prv_data qcom_cma_sec_mem_data = {
+>  	.unsecure_the_memory    = secure_heap_qcom_unsecure_memory,
+>  };
+>  
+> +/* Using system heap allocator */
+> +#define LOW_ORDER_GFP (GFP_HIGHUSER | __GFP_ZERO)
+> +#define HIGH_ORDER_GFP  (((GFP_HIGHUSER | __GFP_ZERO | __GFP_NOWARN \
+> +				| __GFP_NORETRY) & ~__GFP_RECLAIM) \
+> +				| __GFP_COMP)
+> +static gfp_t order_flags[] = {HIGH_ORDER_GFP, HIGH_ORDER_GFP, LOW_ORDER_GFP};
+> +static const unsigned int orders[] = {8, 4, 0};
+> +#define NUM_ORDERS ARRAY_SIZE(orders)
+> +
+> +static struct page *alloc_largest_available(unsigned long size,
+> +					    unsigned int max_order)
+> +{
+> +	struct page *page;
+> +	int i;
+> +
+> +	for (i = 0; i < NUM_ORDERS; i++) {
+> +		if (size <  (PAGE_SIZE << orders[i]))
+> +			continue;
+> +		if (max_order < orders[i])
+> +			continue;
+> +
+> +		page = alloc_pages(order_flags[i], orders[i]);
+> +		if (!page)
+> +			continue;
+> +		return page;
+> +	}
+> +	return NULL;
+> +}
+> +
+> +static int qcom_system_secure_memory_allocate(struct secure_heap *sec_heap,
+> +				      struct secure_buffer *sec_buf)
+> +{
+> +	unsigned long size_remaining = sec_buf->size;
+> +	unsigned int max_order = orders[0];
+> +	struct sg_table *table;
+> +	struct scatterlist *sg;
+> +	struct list_head pages;
+> +	struct page *page, *tmp_page;
+> +	int i = 0, ret = -ENOMEM;
+> +
+> +	INIT_LIST_HEAD(&pages);
+> +	while (size_remaining > 0) {
+> +		/*
+> +		 * Avoid trying to allocate memory if the process
+> +		 * has been killed by SIGKILL
+> +		 */
+> +		if (fatal_signal_pending(current)) {
+> +			return -EINTR;
+> +		}
+> +
+> +		page = alloc_largest_available(size_remaining, max_order);
+> +		if (!page)
+> +			goto free;
+> +
+> +		list_add_tail(&page->lru, &pages);
+> +		size_remaining -= page_size(page);
+> +		max_order = compound_order(page);
+> +		i++;
+> +	}
+> +	table = &sec_buf->sg_table;
+> +	if (sg_alloc_table(table, i, GFP_KERNEL))
+> +		goto free;
+> +
+> +	sg = table->sgl;
+> +	list_for_each_entry_safe(page, tmp_page, &pages, lru) {
+> +		sg_set_page(sg, page, page_size(page), 0);
+> +		sg = sg_next(sg);
+> +		list_del(&page->lru);
+> +	}
+> +	return 0;
+> +free:
+> +	list_for_each_entry_safe(page, tmp_page, &pages, lru)
+> +		__free_pages(page, compound_order(page));
+> +
+> +	return ret;
+> +}
+> +
+> +static void qcom_system_secure_memory_free(struct secure_heap *sec_heap,
+> +				   struct secure_buffer *sec_buf)
+> +{
+> +	struct sg_table *table;
+> +	struct scatterlist *sg;
+> +	int i;
+> +
+> +	table = &sec_buf->sg_table;
+> +	for_each_sgtable_sg(table, sg, i) {
+> +		struct page *page = sg_page(sg);
+> +
+> +		__free_pages(page, compound_order(page));
+> +	}
+> +	sg_free_table(table);
+> +}
+> +
+> +const struct secure_heap_prv_data qcom_system_pixel_sec_mem_data = {
+> +	.vmid           = QCOM_SCM_VMID_CP_PIXEL,
+> +	.perm		= QCOM_SCM_PERM_RW,
+> +	.memory_alloc	= qcom_system_secure_memory_allocate,
+> +	.memory_free	= qcom_system_secure_memory_free,
+> +	.secure_the_memory	= secure_heap_qcom_secure_memory,
+> +	.unsecure_the_memory	= secure_heap_qcom_unsecure_memory,
+> +};
+> +
+> +const struct secure_heap_prv_data qcom_system_non_pixel_sec_mem_data = {
+> +	.vmid           = QCOM_SCM_VMID_CP_NON_PIXEL,
+> +	.perm		= QCOM_SCM_PERM_RW,
+> +	.memory_alloc	= qcom_system_secure_memory_allocate,
+> +	.memory_free	= qcom_system_secure_memory_free,
+> +	.secure_the_memory	= secure_heap_qcom_secure_memory,
+> +	.unsecure_the_memory	= secure_heap_qcom_unsecure_memory,
+> +};
+> +
+>  static int secure_heap_secure_memory_allocate(struct secure_heap *sec_heap,
+>  					      struct secure_buffer *sec_buf)
+>  {
+> @@ -585,6 +732,16 @@ static struct secure_heap secure_heaps[] = {
+>  		.mem_type	= SECURE_MEMORY_TYPE_MTK_CM_CMA,
+>  		.data		= &mtk_sec_mem_data_cma,
+>  	},
+> +	{
+> +		.name		= "secure_system_pixel",
+> +		.mem_type	= SECURE_MEMORY_TYPE_QCOM_SYSTEM,
+> +		.data		= &qcom_system_pixel_sec_mem_data,
+> +	},
+> +	{
+> +		.name		= "secure_system_non_pixel",
+> +		.mem_type	= SECURE_MEMORY_TYPE_QCOM_SYSTEM,
+> +		.data		= &qcom_system_non_pixel_sec_mem_data,
+> +	},
+>  };
+>  
+>  static int __init secure_cma_init(struct reserved_mem *rmem)
