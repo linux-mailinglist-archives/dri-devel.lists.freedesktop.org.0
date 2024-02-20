@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CBF385C004
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 16:35:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36EF885C005
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 16:35:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A659210E4BE;
-	Tue, 20 Feb 2024 15:35:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA91510E4C0;
+	Tue, 20 Feb 2024 15:35:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="EsYsytYy";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QDBfE6ao";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DEAF10E4BE
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 15:35:43 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-4126f48411dso4689985e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 07:35:43 -0800 (PST)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4C5110E4C0
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 15:35:44 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-4126f48411dso4690285e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 07:35:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708443341; x=1709048141; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=0tVavBaCJCcUxEWjYt34qLoi7PjbJJd+1sJMJ7iF+N0=;
- b=EsYsytYy0ttYJS4yrevNy5dYl3NyHQ4xhfiKUYnUYNRpOjkOz5eW6nITW6yyiTm2Lm
- TWQJj9a6KTzjHbyHsb/nHEvyKgocAAfK4LmaIUIVDcqbH39WkvShBM1NOsGYKzbX36VD
- Xy+vmxcZXhTTa1Xt8WbOvbUyFWJvH1f9u3VZe1okP4mrMCrjplNoPOOsyNRsbTfGgHmF
- 7jGhmNVGBcblDWsOUil/kLC4a8MbdcMaoxfSXrTEL5r9a8Hm0sHRc5tuLpDWXrAL5Oj0
- qBR91+VJoTGHYR8FXe+xPl6G5swfZTG7XlRQ8RFV7yl/oUVrV2bag68bsRzoG1azT8xi
- 1x7Q==
+ d=linaro.org; s=google; t=1708443343; x=1709048143; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Jrtujh/LnXfvYMR2N2cwo9zSO80+VM2HiXhsn02tIjQ=;
+ b=QDBfE6aobM7lyknRtCa5C0dT8pAVTSzIsLZXu4nGEys60GCHnJ7pIZG4l0gmfwfTHL
+ VcFVmQKJoXnLrWJA/JkxfiyxaPoLQu5vtT85zMwQ3jDzX3xi2cRpfwJENRh4s/tKQYlJ
+ LBIzlhmhzvq779Tj91WMtjCXX8nWPVPihwa0+tU+k2PCjH11VBq/NUOwUkWJJgNR/uIe
+ TAMB3Ryzw5evFax80rKqWzfJnMs/tl0KBwom+dKsp+cyBB6bLuZnl3Kc1hh20SrP8sEM
+ A1tWdeirJVA0ucP6nlvUPmBBsaodVTZz0HG+9ANJNIwYej4eZenPvIRFP1rQKdsb7xKm
+ /OOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708443341; x=1709048141;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0tVavBaCJCcUxEWjYt34qLoi7PjbJJd+1sJMJ7iF+N0=;
- b=HhiyvDNPHucBo8E8Z+YjPB8fScDlxbsPM/ihu07BQ8a9jltq+NKDi1CAM5rnZNDAv2
- xS2sKi+C1gTFpjMKUBAjABn6KB+7u1fp2PRRJGnPG/I0juOgm921gN350H8wilbFaCPx
- isMxspNQAjm3KDiDw0HtLeIX/etymNHguAiJbFfgp6hdVNbnt/zrt2ltYpKx8yySTSGE
- 6ZTiv9K/7AJ3JGvEUh6TgEBhos+AEdm1OClD7xVD/1bw+u/1rvKG6PWeRlGe/QyoeUcs
- OlI7fyBktWZtvB/6iin+7xs/kW/7Wuth4uTGOgWcbruu1pcRqywVbifdEptvfGXn9j3X
- Nr6w==
+ d=1e100.net; s=20230601; t=1708443343; x=1709048143;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Jrtujh/LnXfvYMR2N2cwo9zSO80+VM2HiXhsn02tIjQ=;
+ b=aTSXVC70E1sIPygLxVRgAaLnkPpcP8fAZJgBCtsXW/ge4AkQvYI1j5HUI7XDCeX7+m
+ AccQKVIGupU5+Vy2/pn9gLhxeT3XW8f0RFTdmj0EJplXspBO64koWU84oqkIZOnYt354
+ hHY9kwdDGnDvmmEjSIPBujQKYw3WLSfvFd19EX/QajbW0zGefS7R6NYKU2TZLPq5OG7g
+ GzKQlBpKdkYzWvMUM7cP+sFO70UA06JIoJDnHiFWcaf4H/7MVpKMvx3NuAU9/ixBjRY0
+ 5Fv7QKNaFVyDpyBBVXoV/ZMdrTORIFyHCGQfpRzoDOCSj1GHmToinMCSMGhPt/FDF61U
+ 75ZA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXUhccatPKBy+P1HvBeGeUIWZr0PpCsweENu+CP5cxidaEUcEHSGD2544rYx9PvJHx+PqM4qJ9WGrlMuJp4HRmMv3FOTA/PI5/yTcjpjBBN
-X-Gm-Message-State: AOJu0YxLKWksrSV3hFkX09KETBH+aiKpyg1GYRYuv5g0qLWGWLVNsKBC
- TmzAoFE/U35B93BnkEAWWvQ90GUceNXpLVGB+StS79M/9DJZxV+SFs6JwCNDS+8=
-X-Google-Smtp-Source: AGHT+IFiqAfHWzDOcl5xntoajL3gcHfJPqSV5AusJhnh+vyCTeJ8HBX2cswoZr0VJOsM6WG9tR94Pg==
-X-Received: by 2002:a05:600c:4f8a:b0:412:4731:a5e9 with SMTP id
- n10-20020a05600c4f8a00b004124731a5e9mr10993841wmq.4.1708443341346; 
- Tue, 20 Feb 2024 07:35:41 -0800 (PST)
+ AJvYcCU73Rq+gSGgsOMgfsomxEGZdoEqQTTtiFm5phMLtBQci84VFnWtRfo5x5p4JbHYjW1iJ0YzK5+IjNq/STQcVyT2mW+LiBIymwnoI5PlPtG5
+X-Gm-Message-State: AOJu0YzqiOPpKV4da69jBy7cNN8LlHRm1AR7TbNOuhK/upnxLxHaE1VW
+ U4mnE5VxJIPlqrr52RWMoli1nDHuc/N6cw7tczWtK1l2uoNiORekwL1U1pdGJWE=
+X-Google-Smtp-Source: AGHT+IFDWLykrLrTZHAk/OiKu/p48Obi7ksW8/C3NaF3BGJJllJTfI+C8R5qCg4lbmEjSwL/2SNd8Q==
+X-Received: by 2002:a05:600c:3ac8:b0:412:6ebe:9ecd with SMTP id
+ d8-20020a05600c3ac800b004126ebe9ecdmr2032288wms.3.1708443343086; 
+ Tue, 20 Feb 2024 07:35:43 -0800 (PST)
 Received: from aspen.lan
  (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
  by smtp.gmail.com with ESMTPSA id
- g8-20020a05600c310800b004126ec2f541sm2444905wmo.0.2024.02.20.07.35.40
+ g8-20020a05600c310800b004126ec2f541sm2444905wmo.0.2024.02.20.07.35.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 20 Feb 2024 07:35:41 -0800 (PST)
 From: Daniel Thompson <daniel.thompson@linaro.org>
@@ -62,11 +63,13 @@ To: Lee Jones <lee@kernel.org>,
 Cc: Daniel Thompson <daniel.thompson@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
  dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND 0/4] Ensure all backlight drivers zero the properties
- structure
-Date: Tue, 20 Feb 2024 15:35:23 +0000
-Message-ID: <20240220153532.76613-1-daniel.thompson@linaro.org>
+Subject: [PATCH RESEND 1/4] backlight: da9052: Fully initialize
+ backlight_properties during probe
+Date: Tue, 20 Feb 2024 15:35:24 +0000
+Message-ID: <20240220153532.76613-2-daniel.thompson@linaro.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240220153532.76613-1-daniel.thompson@linaro.org>
+References: <20240220153532.76613-1-daniel.thompson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,30 +87,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Sorry for the RESEND so soon... embarrassingly I got Lee's e-mail
-address wrong the first time!]
+props is stack allocated and the fields that are not explcitly set
+by the probe function need to be zeroed or we'll get undefined behaviour
+(especially so power/blank states)!
 
-Luca Weiss recently shared a patch to zero the properties structure for
-lm3630a... and shortly afterwards I realized I should probably scan for
-a similar class of errors in other drivers.
-
-Results follow in the next four patches (they could all be one patch but
-for the fact there are different Fixes: tags)!
-
-Daniel Thompson (4):
-  backlight: da9052: Fully initialize backlight_properties during probe
-  backlight: lm3639: Fully initialize backlight_properties during probe
-  backlight: lp8788: Fully initialize backlight_properties during probe
-  backlight: mp3309c: Fully initialize backlight_properties during probe
-
+Fixes: 6ede3d832aaa ("backlight: add driver for DA9052/53 PMIC v1")
+Signed-off-by: Daniel Thompson <daniel.thompson@linaro.org>
+---
  drivers/video/backlight/da9052_bl.c | 1 +
- drivers/video/backlight/lm3639_bl.c | 1 +
- drivers/video/backlight/lp8788_bl.c | 1 +
- drivers/video/backlight/mp3309c.c   | 1 +
- 4 files changed, 4 insertions(+)
+ 1 file changed, 1 insertion(+)
 
-
-base-commit: b401b621758e46812da61fa58a67c3fd8d91de0d
---
+diff --git a/drivers/video/backlight/da9052_bl.c b/drivers/video/backlight/da9052_bl.c
+index 1cdc8543310b4..b8ff7046510eb 100644
+--- a/drivers/video/backlight/da9052_bl.c
++++ b/drivers/video/backlight/da9052_bl.c
+@@ -117,6 +117,7 @@ static int da9052_backlight_probe(struct platform_device *pdev)
+ 	wleds->led_reg = platform_get_device_id(pdev)->driver_data;
+ 	wleds->state = DA9052_WLEDS_OFF;
+ 
++	memset(&props, 0, sizeof(struct backlight_properties));
+ 	props.type = BACKLIGHT_RAW;
+ 	props.max_brightness = DA9052_MAX_BRIGHTNESS;
+ 
+-- 
 2.43.0
 
