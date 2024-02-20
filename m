@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1869985BE3F
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 15:11:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C956485BE4E
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 15:12:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5969210E430;
-	Tue, 20 Feb 2024 14:11:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACB9410E43A;
+	Tue, 20 Feb 2024 14:12:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="TqgZauV+";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qJ2m+mlr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9973510E436
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 14:11:11 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-41270d0b919so2805835e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 06:11:11 -0800 (PST)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8E1710E436
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 14:12:14 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id
+ ffacd0b85a97d-33d73642accso80956f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 06:12:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708438270; x=1709043070; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1708438332; x=1709043132; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=WYAwDAwFgnqBG7CxkptbcyQsBM6DtwJYIQlGTNsuuGE=;
- b=TqgZauV+xm2gAtdfmIYvUILyMg0sbT9nki6xK6toshXTI5+Hh68JMJofcMaPqxuwIL
- KsM0YpASs0sHig7j2ewSpwKkEJquNolwPloh+R+p7u8VWqtLPZOI330v13JSlaiiu25Y
- IALjH2PwZu46i3WCSW+IL6PpqKgk0i1rq6nGnQEnXk83botDhxib2YXnl1c6+acKZLXi
- VDI0fqA3CQG1tIuFRUHCUCgBZ+97U9jYyXOQ9DStBKZr6Fl+g7Hnu0poUpLfIVBWUDDy
- rAdjL5vA82egZ3QCexspt1OsDjnXQAd60avqxZ2wBhyLWpONnl65g3p4tvvp4EdoGtSi
- 6jvQ==
+ bh=VlCI9F854lrsWDUIN6PG7zZ3hJeSzAbz00+8LmilWc8=;
+ b=qJ2m+mlrxrDYG12c8oOzmEZonlAlSU7GtZyx1aqpd2R6j3dRsUVkZpQJ1EoLJhHcHs
+ LWcTcuP/yHurXn20KKW61959VGP3XXPdQXC/+L2rmnzMNUx6Ee7yokinTqdsO/aHZwkG
+ 4Euuv5Q2cojd8F0DtADFBuYuBfxtA6L6v15U75/DDPLereDRxam8PdDiSuy5BkWR3ZP3
+ OZ/JspdK/gwecfsG22MoDVd3ZoKSJP02QTp4hSYz+aYG2VUn0aYtnZdzJBT5irC9TKC4
+ 9yXGQ/f7LZULNlbZdB3TfGpqBongr8sqsG8owF6Oe5b5UZoC8yhkLCIpYgVxAfu6K4jV
+ h45g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708438270; x=1709043070;
+ d=1e100.net; s=20230601; t=1708438332; x=1709043132;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WYAwDAwFgnqBG7CxkptbcyQsBM6DtwJYIQlGTNsuuGE=;
- b=uc0U8KqKM+uvD0YBQcVm+exTbKOu73XmlpghkciA1TWJnz2IUMCMp/+zpb+IAwZeKf
- GMJUIoXBHT6WSQFQNL3xoqy22lc9tNiCm2TMVCv7zknhZAHXECjauGLwDWubRNEC7jh0
- w8EPtDN6MCnhp/x8ktjzgLzEnXx2b/CUbfQj6f9mQnA3fSsHRc/jqLYGfa1C6t8XgqhF
- oAC0DRRL0LXNTBE/d1+Jj7GwMmUoL9fpJrMBf3NJoJbFuHCSlaNJ1fDNW664nSuKSkFg
- FkJ1shNNKT3GbYfazOrvNht5+uVx9cW0J0R04n/VzolD1NF8KdKdljrHET+uTEMUf9zc
- ypOg==
+ bh=VlCI9F854lrsWDUIN6PG7zZ3hJeSzAbz00+8LmilWc8=;
+ b=pB6gJF3piicClNQ0KyFNrC1EJKI1uWwewkHHRW740d2Ur7AqY75CcnqhXTo/PMkZEP
+ TOfVn+2E4MKQRAT1GpOrndgHX45oaGB1RPFoafzBSs+LcaNJtjPzwuWe672XrQYobinX
+ PM4rffkyP6QaT3B+Hn0fmgOl0jidbmdrX9nDKiiHKzMhX2QO0M6hDxRCOJvBJMMm+46L
+ 0Qwp9dIbsL2x3L+yKVNvUo6AR8C2Pt6PZjB/Ft9ySg+Jux3x9oRh3goLVYALLDQ518sg
+ AyIZVGIWiqztUG51bnrEI8JTqt99TmTg7grH7WS3bqgsOf2r5480wRICkqQvc7awNyHi
+ 6Z/g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVUcAlds6NvlsjOlt2oZ7xx+VfjQ+2q5+EKbmHNIyggPxV4DT7XPuwfkYMMe6c27AdVXYSaxG3eLDJIrjQn9XQPgynIyY1c1s/uEklUhYHM
-X-Gm-Message-State: AOJu0YxhmLadDxUDoeccCDgHZBOhvB1i6jsGOCXH61RJ1BF9JYW6nb4e
- hE/QsJxfzbCckNjMyGI+h7I0tv0tRizTowH/7srkOmtgJKhKP8TzIa1ZowBOdks=
-X-Google-Smtp-Source: AGHT+IH7G6/8AbTda6e+b8uSaQ+ucRuJkJiJ61GD7iDnIPSep0vXQt5/dU86gOTGDRGrdA5ym28B4Q==
-X-Received: by 2002:a05:600c:4fc4:b0:412:913:5484 with SMTP id
- o4-20020a05600c4fc400b0041209135484mr10836802wmq.11.1708438269747; 
- Tue, 20 Feb 2024 06:11:09 -0800 (PST)
+ AJvYcCXsdqai+7tLOXcHc6jvKFud1supRPdZi9XMGu82IjSJqI11N1eL2x1/IQh4DzXwb7ZtJVOJM/xQvWMO0lpM4bYMRHGEvD6iiORpp9WsXsXV
+X-Gm-Message-State: AOJu0Yy5AF4BiH1/Cg77fpYaRXeLkQW4IImts0ccYFzJPihhbZ7LBacx
+ sMP1yx3t3rJUU6rnDwVLSJtOrDxA6kQ/0hVBNywsW06o93eGSsdEDwrv5nBOQ4w=
+X-Google-Smtp-Source: AGHT+IHoWaPYXgMjU6PeB2yk8TgKT2tZQUeUz9ykPdB+ZXJLtJWkH3ETMuOSkIOY4HbiE/fpQppbBg==
+X-Received: by 2002:adf:ec44:0:b0:33d:3ceb:5308 with SMTP id
+ w4-20020adfec44000000b0033d3ceb5308mr4607368wrn.42.1708438332431; 
+ Tue, 20 Feb 2024 06:12:12 -0800 (PST)
 Received: from aspen.lan
  (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
  by smtp.gmail.com with ESMTPSA id
- bp1-20020a5d5a81000000b0033d38cbe385sm9829129wrb.6.2024.02.20.06.11.08
+ bq5-20020a5d5a05000000b0033d60ab6bc8sm4662665wrb.50.2024.02.20.06.12.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Feb 2024 06:11:09 -0800 (PST)
-Date: Tue, 20 Feb 2024 14:11:07 +0000
+ Tue, 20 Feb 2024 06:12:12 -0800 (PST)
+Date: Tue, 20 Feb 2024 14:12:10 +0000
 From: Daniel Thompson <daniel.thompson@linaro.org>
 To: Luca Weiss <luca@z3ntu.xyz>
 Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
@@ -71,15 +71,14 @@ Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org
-Subject: Re: [PATCH 3/4] backlight: lm3630a: Use backlight_get_brightness
- helper in update_status
-Message-ID: <20240220141107.GF6716@aspen.lan>
+Subject: Re: [PATCH 4/4] ARM: dts: qcom: msm8974-hammerhead: Hook up backlight
+Message-ID: <20240220141210.GG6716@aspen.lan>
 References: <20240220-lm3630a-fixups-v1-0-9ca62f7e4a33@z3ntu.xyz>
- <20240220-lm3630a-fixups-v1-3-9ca62f7e4a33@z3ntu.xyz>
+ <20240220-lm3630a-fixups-v1-4-9ca62f7e4a33@z3ntu.xyz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240220-lm3630a-fixups-v1-3-9ca62f7e4a33@z3ntu.xyz>
+In-Reply-To: <20240220-lm3630a-fixups-v1-4-9ca62f7e4a33@z3ntu.xyz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,37 +94,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 20, 2024 at 12:11:21AM +0100, Luca Weiss wrote:
-> As per documentation "drivers are expected to use this function in their
-> update_status() operation to get the brightness value.".
->
-> With this we can also drop the manual backlight_is_blank() handling
-> since backlight_get_brightness() is already handling this correctly.
+On Tue, Feb 20, 2024 at 12:11:22AM +0100, Luca Weiss wrote:
+> Connect the panel with the backlight nodes so that the backlight can be
+> turned off when the display is blanked.
 >
 > Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
 
 Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-However...
 
 > ---
->  	/* disable sleep */
-> @@ -201,9 +202,9 @@ static int lm3630a_bank_a_update_status(struct backlight_device *bl)
->  		goto out_i2c_err;
->  	usleep_range(1000, 2000);
->  	/* minimum brightness is 0x04 */
-> -	ret = lm3630a_write(pchip, REG_BRT_A, bl->props.brightness);
-> +	ret = lm3630a_write(pchip, REG_BRT_A, brightness);
+>  arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dts | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dts b/arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dts
+> index 4aaae8537a3f..8eaa5b162815 100644
+> --- a/arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dts
+> +++ b/arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dts
+> @@ -182,7 +182,7 @@ &blsp2_i2c5 {
+>  	status = "okay";
+>  	clock-frequency = <355000>;
+>
+> -	led-controller@38 {
+> +	backlight: led-controller@38 {
 
-... then handling of the minimum brightness looks weird in this driver.
-
-The range of the backlight is 0..max_brightness. Sadly the drivers
-are inconsistant regarding whether zero means off or just minimum,
-however three certainly isn't supposed to mean off! In other words the
-offsetting should be handled by driver rather than hoping userspace has
-some magic LM3630A mode.
-
-You didn't introduce this so this patch still has my R-b ...
+Again... a minor nit regarding existing problems but this node doesn't
+follow the generic naming recommendations:
+https://devicetree-specification.readthedocs.io/en/stable/devicetree-basics.html#generic-names-recommendation
 
 
 Daniel.
