@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35E385CB98
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 00:01:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56E4885CBA0
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 00:02:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9663810E5A8;
-	Tue, 20 Feb 2024 23:01:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7714410E5A9;
+	Tue, 20 Feb 2024 23:02:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="wgQ93p1I";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WpjejAT/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com
- [209.85.219.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 265FF10E5A8
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 23:01:07 +0000 (UTC)
-Received: by mail-yb1-f178.google.com with SMTP id
- 3f1490d57ef6-dcd9e34430cso6099144276.1
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 15:01:07 -0800 (PST)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com
+ [209.85.219.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 071E310E5AE
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 23:02:52 +0000 (UTC)
+Received: by mail-yb1-f179.google.com with SMTP id
+ 3f1490d57ef6-d9b9adaf291so4185477276.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 15:02:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708470066; x=1709074866; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1708470171; x=1709074971; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=U2fn3Q8ysQNGsP4/bFdrwVKI00s9RBc5Vo0obuiYfWE=;
- b=wgQ93p1I4Qoi5jzMWBwHqcZPyAJcTgbTmtOkJafeohrXXcIqSgqqLCQ6vAypxoHUy4
- ms5pE2ouRhP2qOkO5Z3sPJEpueSspAA4dkySwZLnkh3uhuitgAIJh/vrXH9Isi18UzkA
- LToJ6b4NkVChzbjkTXveT4S5ZD30jKaiASdfFMVQ/vrMNWXsJ+SEItDuKAqMZg4kfU14
- vpKboud6svn8gvdgviFiX+Gt+0SjLjbC40ab0rFLzszdsa2lvQ9756NKBKclGuqMEOoZ
- b5xRcreBXWcAOYDH1r9wkoQ8jcy+YMyfZRO0Lr5SwtkW9tXE92hwEW3QQI9LNjeV/AMF
- YRbg==
+ bh=h3xcc/5DqDQe+adCv6bnvAUmiBqc6BygI5OchyBvkgA=;
+ b=WpjejAT/EbuOb9qozgxRNx1bCJpD9r0lv7yD9Dv4Bwgil+/t89i2qNQLhTKjrPka2O
+ 2zP78Kf0joRfp+DKX2P2MeySIHf1Yt225LaJNWXjM79zscsOG14P+TNY7oSRDnH9u9WT
+ ONv+jB5N42I0ZaYWk3N8/tz2M2dyBiC7zKg3QSld3QZ1/QiHK9V61xdxjO9fq/bu8kOy
+ Z0cs4Ad5SRKf4ifJ9LUrRobf0AuGo6dUfzXFkTmJ50t5eJ6n8GrCP7NM0lvXuqY/ZTxc
+ HryGiNBf3x1Wq4ySOjZ2+iTrmIukNKAUnNCFuXxwUE7OTTN+2wF+dISQJtGhB7hgzzmp
+ zDAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708470066; x=1709074866;
+ d=1e100.net; s=20230601; t=1708470171; x=1709074971;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=U2fn3Q8ysQNGsP4/bFdrwVKI00s9RBc5Vo0obuiYfWE=;
- b=Qs+uVUh7rLCtmtggrp/ANkO723hJwToqM8k3QG/PWAunBg5VRLow8U/HU6HdLdiMYa
- QGYDnesodKs7Wxr02Q9DnwBIn3xvM94B8GaeeiMUViRxcB/nD8KdBVzFrY16lII4zaxL
- insn6NBb2Xw9FE2AHiWCZqXpEhkF+HhbBEvIOD1wbIcrNhxgPcNVYxiZS16D+JzQ1Kth
- KS36piE7bbIMq8RhkrBhGUeH31wOlbfDO9tLXvHhQAGnSU3UAFzRUyw9SUHMaAWyvhdo
- 8hLmfDplCJOfZGzFP9cou1blnCSGhPRIwxHJWMZpLDa5NLometxY6Zg/LErz+TAOjIKr
- +Pag==
+ bh=h3xcc/5DqDQe+adCv6bnvAUmiBqc6BygI5OchyBvkgA=;
+ b=Bv6pFk3Ot0km2dkTc8/plhZVppbBP/hL3TQOAXjcekTPrVa4tUREqGiw2B4bpb8MXi
+ 0nPi55L/IZxbj5LOEvXGVtB0WOelaUF6tWxLc9TsL2ERIPMmNVWGEuixaA6dsZbkP6oB
+ enZQ5B4t3jzMatD4qeR6Sy64nH5E5L08XQs5XqOmzVzM5eIjHlX6wydd5F2rARG8Idw3
+ zm9FTeP74bZSOpvA/svUFVfZ26NoAuedXGdFW64KikiLviXzZ3+/dWKbVokwMAn9IFO/
+ 0XDG1JyuFeaZPT9wf+MfSZmP2nFkBeJBt4P4M+RzCiYn9u1TAjvV5ETTLWUklJIjBSsd
+ GjYA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX3rj0AOmkTqmESkqnycYXOvt9JOJmr85qD87bzt6X/d+qMM+d/lQUXxRJmjtxnvttZEj3dxR9lSuyPc7nS1sTItRK5s1o/GBA3vbfXX/vY
-X-Gm-Message-State: AOJu0Yxh00L7ZFW/mX9vcmrairrnSy0BvxOelabyLyPEAPypZM8jUWG8
- /Afam0THdqjW8FqkFv89ZZGz4IRVgUEBlsDFCAGsP+dZLC452t3eVtWtdmVS0TWXmLzZnx29Sx1
- 87eeHplTPoYsbq/kXEPBtzfhXSWdQaRsXzE8P1Q==
-X-Google-Smtp-Source: AGHT+IHF4X8wKExd1/pvj1ol/XkM7oZ8gVoH8+BQhl5KQKK4+h/fjqShZZcUu2zwUnRK8rhG/TFZmoyPRSTuQf9Je84=
-X-Received: by 2002:a25:8a12:0:b0:dcc:e388:6db6 with SMTP id
- g18-20020a258a12000000b00dcce3886db6mr16240782ybl.55.1708470065975; Tue, 20
- Feb 2024 15:01:05 -0800 (PST)
+ AJvYcCVsy41BlS1c537yuVOheZCpDBwKkKirzmSI0ATg8JjJc68EGg41VOOMt0j1t55qzgMgkecz+QPYxKrfeP8C4BMi1wjb/mix26JSYkoSOvP3
+X-Gm-Message-State: AOJu0YxGlXwBcNHhxGUHtgS3BIwpW9zNmoB5wJXidJkd966Tv2qC7oq4
+ O5Y9b9IUKv0C9uVqbO9LqYMoZRFJx4+AdhowIuG7hb79pPU1XZzjNDwqjOTysOp75gPMzODkUz0
+ bvMaM8ldpGvdPBpMfPYtgmjPUhx1m/gIvzlH4pg==
+X-Google-Smtp-Source: AGHT+IGOx/zC8gPSOJQuDPkSkd1nf4N2mE7xnUIZOVlkbUscpDxNFS5fOG+JiLkWkR6HldqnK+FvO6CDi/U96xWLW4E=
+X-Received: by 2002:a25:ab08:0:b0:dcc:ca51:c2e1 with SMTP id
+ u8-20020a25ab08000000b00dccca51c2e1mr13283832ybi.2.1708470170970; Tue, 20 Feb
+ 2024 15:02:50 -0800 (PST)
 MIME-Version: 1.0
 References: <20240221-x1e80100-display-refactor-connector-v1-0-86c0e1ebd5ec@linaro.org>
- <20240221-x1e80100-display-refactor-connector-v1-2-86c0e1ebd5ec@linaro.org>
-In-Reply-To: <20240221-x1e80100-display-refactor-connector-v1-2-86c0e1ebd5ec@linaro.org>
+ <20240221-x1e80100-display-refactor-connector-v1-3-86c0e1ebd5ec@linaro.org>
+In-Reply-To: <20240221-x1e80100-display-refactor-connector-v1-3-86c0e1ebd5ec@linaro.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 21 Feb 2024 01:00:54 +0200
-Message-ID: <CAA8EJppgusQObCgmtG7Sz2tLiQziyPy71Eq7ru1=VmOaTZE9og@mail.gmail.com>
-Subject: Re: [PATCH RFC 2/3] drm/msm/dp: Add support for setting the eDP mode
- from devicetree
+Date: Wed, 21 Feb 2024 01:02:39 +0200
+Message-ID: <CAA8EJpqSw5N5=Ki9Y7n5Dr2Ytxboa4u_d+a02Wicp=QpCNyiUA@mail.gmail.com>
+Subject: Re: [PATCH RFC 3/3] drm/msm/dp: Add support for the X1E80100
 To: Abel Vesa <abel.vesa@linaro.org>
 Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
@@ -92,17 +91,14 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Wed, 21 Feb 2024 at 00:50, Abel Vesa <abel.vesa@linaro.org> wrote:
 >
-> Instead of relying on different compatibles for eDP and DP, use
-> the is-edp property from DT to figure out the connector type and
-> then pass on that information to the PHY.
+> Add the X1E80100 DP descs and compatible. This platform will be using
+> a single compatible for both eDP and DP mode. The actual mode will
+> be set in devicetree via is-edp flag.
 >
 > Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
 > ---
->  drivers/gpu/drm/msm/dp/dp_ctrl.c    | 11 +++++++++++
->  drivers/gpu/drm/msm/dp/dp_ctrl.h    |  1 +
->  drivers/gpu/drm/msm/dp/dp_display.c | 19 ++++++++++++++++---
->  3 files changed, 28 insertions(+), 3 deletions(-)
-
+>  drivers/gpu/drm/msm/dp/dp_display.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
