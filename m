@@ -2,127 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E133B85C51D
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 20:45:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 132E685C527
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 20:49:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91FA810E53E;
-	Tue, 20 Feb 2024 19:45:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E410F10E548;
+	Tue, 20 Feb 2024 19:49:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="cqGZ5Jcg";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="DV4QxXmi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2068.outbound.protection.outlook.com [40.107.100.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E9CA10E53E;
- Tue, 20 Feb 2024 19:45:32 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j/3LQUlNUGmyFs/9Zbfsge6kygBJLAjJXskylONHoZCg76nXymaFqTtAQo5BC7RuAE7XmLDaFG6Th4ne/XjSJyZkwgGauv7SCREZ04obO/bBULSfBqM7d4VD3NrO1spLJiy2OmrzQuyJlP8UGGwmVBrSEeqOEEK+LR1D7BHjPTmhunqdHFtsmYUQnvH4OKa8/Uqk3jS0WzqGOhaJgP99iAoodA5/uzjJfNFOiLZUTNPH9+OX5dOYDDTt8Pp5jNkY2GkYmptn0MSfEvHJILPFLGjPe+VWsCk6X59UU35E4fIM6iLZGoI/lsEDTxoBWFJE0SO43CPzF5zBRg8VLwpRzw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7BmxqqS/qYzIeryGvMCLcM3BJ5emaLaFYSGKdnItvec=;
- b=gt6pj8CwzGgpAolswmbdrKGTcWvE3sgNEh224wvkU0N8idIfEjIc3uUAuATSlo3bnZmJVEuUmSpk6cbO+9X2qKljfHGV5h+pAtFu3WYvZyqB+2QWU8JRYE639AaGQesRfrlViz3TLMM9RNMFY6eQIvnJX8pkoE/VENsyP3n/nb3z5KcGRvz0ifbuOdmY/qAHE1aP6ajgYBlEN5bI/bs1qTZ6NeqQ8dcq+kgulWbrd9VjpIYTW0iUztZCOSr5gsDMw+Tp3ivnWod9oH0kLXVTnS+YqNEN48H2gHCTo6Bs+KPGkoi6xFn6u7cf3bmTX4Yy8iM5xCiwZBsG79gN6p2Ibg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7BmxqqS/qYzIeryGvMCLcM3BJ5emaLaFYSGKdnItvec=;
- b=cqGZ5Jcg0EcCewDG8zxwsPzx+QqjQCLNZ8TjbpdAm8+q/zdYDrkp85wmNjDsR56iihCsudVFoF803raNG8diocKU6uaHq304ysfNiP4N7swS+G85IjbKXrNMRH4FySdBV/kHD+7nX+s5fT4DepOdKoIiZX9xir7+yXBevHRM98rRrDfXljoxI1XfErf4O3f4yWH/Th9b7zzP8C2w3q7RUrcYfzTx1U7Ix+voosC7C/EY8Bnd1HS15z++cyD//EIFEB2XM9+HkNuq6YxgjgEn/DtpBU7RWToAiRapnEdT8A07AjSItPK0s0l6FZJLV35MT1B5Zb/vEGqRGjV8UGpLhQ==
-Received: from SJ2PR12MB8782.namprd12.prod.outlook.com (2603:10b6:a03:4d0::21)
- by MW6PR12MB8705.namprd12.prod.outlook.com (2603:10b6:303:24c::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.21; Tue, 20 Feb
- 2024 19:45:29 +0000
-Received: from SJ2PR12MB8782.namprd12.prod.outlook.com
- ([fe80::df23:2eb6:6485:e434]) by SJ2PR12MB8782.namprd12.prod.outlook.com
- ([fe80::df23:2eb6:6485:e434%4]) with mapi id 15.20.7316.018; Tue, 20 Feb 2024
- 19:45:29 +0000
-From: Timur Tabi <ttabi@nvidia.com>
-To: "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- "dakr@redhat.com" <dakr@redhat.com>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "kherbst@redhat.com" <kherbst@redhat.com>, "lyude@redhat.com"
- <lyude@redhat.com>, "airlied@gmail.com" <airlied@gmail.com>
-Subject: Re: [PATCH 1/2] drm/nouveau: don't fini scheduler if not initialized
-Thread-Topic: [PATCH 1/2] drm/nouveau: don't fini scheduler if not initialized
-Thread-Index: AQHaVWujZdZ67CmKRUWEtG0ranjbRrD3S7cAgBNKHoCABux9AIACPYwA
-Date: Tue, 20 Feb 2024 19:45:29 +0000
-Message-ID: <2ac14f50f2286f2b440e3a124eb1763e91d513de.camel@nvidia.com>
-References: <20240202000606.3526-1-dakr@redhat.com>
- <eeecdd4b5daff8a831b6f11671a2205504e5173a.camel@nvidia.com>
- <0cabb3e4e1f00dd0b0b3328a4da9bc8fa3ba6929.camel@nvidia.com>
- <01ff9bf5-0206-4d5c-b799-6213529fc26b@redhat.com>
-In-Reply-To: <01ff9bf5-0206-4d5c-b799-6213529fc26b@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.44.4-0ubuntu2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ2PR12MB8782:EE_|MW6PR12MB8705:EE_
-x-ms-office365-filtering-correlation-id: 6df65b75-edd2-4762-e6e7-08dc324c7dfd
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ZMo/l1Dkf6Bk2TH1Z/uBm42pRBk0S9HTVwt7F+gCi03ztEx46io3vhibxsVnKNC9MEgzKWt4iVM5ZOQcp8fyqOJQjQh9XyYL6GlZTajBeNlrjMgRKlKO0n+x0ENySIZKaoSSAzdju74TytSsx3ie1QJ3kjHe4hF5DBN0gM5i3neqGSiuZYKiGdfddEXJ0TxJzIluPCCd0fjisr70ZcjB4Hr+MkbYt+I6goeXwJIGqBQJ3nuRR6ON3DQY5Z92i9rn/KD5tHpmkXF5RnlesD32KS2y2TJtauo8uVfxXwyCJcGY5i6Uz4PHC3d9PQ9tvFjNc5IE0kHQygziQtj/z7F+L+DJsHwIEpfX5NCkjgUPL7lxcsSo7fc7hLhFccPtbo8PDoDEoDCB0KJIdOQ51t75sX+d+F5MNwwP3yfdlUOc4rd4WONbtJhuF1txQsqtD/nTniCVHmitxsvI9BneVJ0LA9UwXkMLUQ/f2Zujp26gzML3e3wVhc+76Pww8fs0FCu79m4JAUhhQO2gJIM+/wLXbnwe8v0eF8pyA2b+KO0d9XofodTBfho6EZSr2IiVUhd+CC5/FmKBbuzAHOEMeofGNZWL8e2IFh8UZhyt0H22iVk6Nb3uKzoqbujw+5M7c5pS
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ2PR12MB8782.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(38070700009); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MzBQVkg3NTVpODR6ZUp1MGYxT3RuaUlLU2pURTdhMkhuZDBkRkxJcllqWmpW?=
- =?utf-8?B?UVB4a3g3alNSbGJYMHhaeDdkeFlERGc3TUQwQnJYbjhTV05sRitIcHFSc3Jq?=
- =?utf-8?B?dWY5SVI1czhMSEs0VWhKbG5aK2VlRWwwZW81bFBCQ2VPNUxSZWIzZzZhb0Jt?=
- =?utf-8?B?Q3JScmhYWEFtN2dybHBFUWh4c0F1S3BmUkZoS3VJNENDYnJkbjNLbHo4Q0RI?=
- =?utf-8?B?SERxSDNCNGM4TmpTa2JhYmFVMTRaVEh3OFBCUzhnZ3Q1RTZvYnh2S2pHUWoz?=
- =?utf-8?B?UCtTSk9sT04vK1RITUVSNXFNWGJNODM2NFluQTFwdnN1dGZyaTk3bVI3cURm?=
- =?utf-8?B?MlBPQWdQK3M4RVE1UHdCK3I5UzlhOWp0TnFpc2RjOFJGU0pHUURLeDRNTG5K?=
- =?utf-8?B?UlRIMG5mbi9PNHRObU5OWmVCNDJoRGExR3FwOEVUMzBVRndBdXg5TEY1SkxI?=
- =?utf-8?B?WUZLVkI3eVhIcExnL1V3MFlrVmY0b0ZMSG9DcDkydzJ4TEV1MXdpZGxyNWxD?=
- =?utf-8?B?QlNYRlcvRzRzMUdhV210QWJHM2tOQUk4UG5SS2lXcmo3SDY0ckV6a0FOUUNP?=
- =?utf-8?B?SFhURDE4MHF4Q3ZuZUpJeUJmNUhRQm1ualQ3OE9xUXpCYy9ZaUVwcE9WL1By?=
- =?utf-8?B?YytVWXpueHpxSTViam9jYkdnNEhrcklBdWt1YlpTSmtwaVhEdytabzE5ZVlk?=
- =?utf-8?B?Q0RtejJxTXZTMFBRL0VMZ1FuTjU3Vk1ESXZIUzQ2bGROUXY2M2lIMmozL2hR?=
- =?utf-8?B?dDFYQ3hPV0FkMzF0SUVzWDlkc21nai8zODVQYXdsNkVkR3hZUmloVGh4amRI?=
- =?utf-8?B?ZmtUTml6STZ6RUdiRVBaVTl1RkZyR2RVOXdEdFEvWlpKYnpGWEZ1UEFNcjJH?=
- =?utf-8?B?R1R3Y2ZkNys2cHovd2dqbndxcEg4UXlTZHRnWXpmOGtZMUVTWHdKdnRLeTA5?=
- =?utf-8?B?c2prMnE3aUN0dFNUd2U1dUVTeXBEakw1bWR3UzV1eE1IVGgvUmRXaHFpcDdv?=
- =?utf-8?B?VkVVaTFhSThlaVQ3d1Rab0pRb1RFVDVMa1REQkd0QUJoMTRYZ3lXWlQvK1pK?=
- =?utf-8?B?ZnI4dVREL056cTFQQW8wc0FlZ05OVi9TRHdFWXBkMDc0THluYTE0czljeWly?=
- =?utf-8?B?TTF5dmwxWFF1UmlyL2ZSaXQyMHVxWDJKT3dsTHA3Ui9oeVJPSXRicnZtYmpK?=
- =?utf-8?B?RitjRHJaTWE3SjR0Sk5uYXlCQVk4OTVXZ1ByMmpCOEg1bzJSZ3U1VkZQY1k2?=
- =?utf-8?B?TmxzSWtmZ3l3SnVFR2RkNTVDS1V4MkN6a3VpYk9VczdNRHNIWkZOMHNkYmNV?=
- =?utf-8?B?ODh1aldsMmFyc1dVVHRZRWtWTm9MMHBDeCttZ3BHalZTN0dRK1BxQThUOFY1?=
- =?utf-8?B?UmhvZjRrUDAvSjl2TmwxdmRKdWxpWXRNcnJTTDhXcUdaUFA4MzdmODNBOWZZ?=
- =?utf-8?B?WDlaVExRRnRzMlQvcTg4MmI0dmdaemlNejJzSXJuRExia016SzJ4dVQ4ZEt0?=
- =?utf-8?B?cEMyZ2c3SFpmZXdlSGRRdmlSZFBvTjQrY3hyWTh2TGV0WldaSHFxM3dhOHQ4?=
- =?utf-8?B?Q2pOU1JTRXFPb0tvTXVOYysrYm14Sm1WbGYyWUZ3OGtrakd3dkRXREE2Tkdn?=
- =?utf-8?B?WnJnRlp4V0hmZ0Fzd0NQajYxR2tsOE5kSzFpbkR0VmlVN0ZNTDZCcEIyRHhz?=
- =?utf-8?B?TGcrMU5uSmQ3TVkrUkxXL2J1ZVNiSjVlM2FEcmdkV0E2NXlPRU1vTENpREdM?=
- =?utf-8?B?RldCUTl0RXVjTENDMFRUSGRxekNhUmZPWCtkbzFjdEhyWCt0MHhlTnZQOTIx?=
- =?utf-8?B?MTdYYnl4ZDd0UEppSXJKZHZ0bUl6L1BNQisybmsxSXFTckNUMGYwem1qeWZP?=
- =?utf-8?B?OWUrRG0zVkI1QVAxK2doQ08xV2N4OWFKcTVibkNKUWlwZlZjVFUybkNZbjBv?=
- =?utf-8?B?YTZ6TTJZKzFHQ2xOcXlXSU5QeHlyUmg5ckhKMmV0N0lHSHpmZXAxY2lzd3Ja?=
- =?utf-8?B?clFoNFp5YzBoUGNid0d1QjBmTmQxbTY3R0hlTHFITnN4K3k5YU5nSlFoenFn?=
- =?utf-8?B?SE92K00xMzB4azUrN2hUTC9HYUdFTXJXVlVtNmRvYk1xeXU5eWxMT25PSnpy?=
- =?utf-8?Q?wly78zQzPMjJ4dYkDS7a4yYKg?=
-Content-Type: multipart/alternative;
- boundary="_000_2ac14f50f2286f2b440e3a124eb1763e91d513decamelnvidiacom_"
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7664B10E53A;
+ Tue, 20 Feb 2024 19:49:17 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 41KJHC7V026576; Tue, 20 Feb 2024 19:49:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=wHY6PYvLQf215IOV3qlVWkbLXtnGBZFaxRHgDZ5ic08=; b=DV
+ 4QxXmif7PlAWsVMsdp3+uBVY6++WXxQBVxRz+8mqJMUvXSYQ6Rzcm2vXbVBilH4O
+ yoRXY2p0fn0SK2V1fynO6piaI1UJ5lsekDe/8+XsZUJFeBcedNpgev3K5kJikk9g
+ iGQ92qJs3BNAJa3g3SVazZDyrpE+rqdLM5g1RtDQjMaY40FofH7vJ/6kNgsuYz48
+ R9KzjrIOdCmlo60roSGdXZhw2zoUzFhD3DVZGfjRVYndJiAg80L6b4QqXmD37dRL
+ ivRgu1zlN29HlU7R1PX2i6NDxoWK7Z3yw3IiHkmDoOeUxFlG3KxP1YYKneLlBJCJ
+ 1CQxOjAGiDreFPsj2uPg==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wd2360294-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 20 Feb 2024 19:49:08 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41KJn7XD002416
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 20 Feb 2024 19:49:07 GMT
+Received: from [10.110.62.85] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 20 Feb
+ 2024 11:49:06 -0800
+Message-ID: <16a720e8-f3bb-2059-3b7a-65311c3aaa64@quicinc.com>
+Date: Tue, 20 Feb 2024 11:49:06 -0800
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB8782.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6df65b75-edd2-4762-e6e7-08dc324c7dfd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Feb 2024 19:45:29.2317 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Z7762ieSPZU5wo3n0EHsTzXxTd3rCbtKRC+F/bzITIQiTnwBsSLgA0Q0imbn8nf0BfDUcWrlHWmQ7t6u2hkfUw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8705
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2] drm/dp: move intel_dp_vsc_sdp_pack() to generic helper
+Content-Language: en-US
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ <dri-devel@lists.freedesktop.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
+ <tvrtko.ursulin@linux.intel.com>,
+ <robdclark@gmail.com>, <freedreno@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <quic_jesszhan@quicinc.com>,
+ <linux-kernel@vger.kernel.org>, <intel-xe@lists.freedesktop.org>
+References: <20240215190834.3222812-1-quic_abhinavk@quicinc.com>
+ <CAA8EJppQquHgSgCrxKZHPHk248Pxg7Q8mvmmjbcpUxpreQkcuA@mail.gmail.com>
+ <d3674c10-5c29-d917-44f5-758d90d9e679@quicinc.com>
+ <CAA8EJpqaG+fBA_FO-L7Bimtjqqg3ZDQtyJL0oPFEueb-1WxjUw@mail.gmail.com>
+ <CAA8EJpoeb63QRddxawm2J0s8O0XrLQBrDuYXOB=ZtzDG7mu2PQ@mail.gmail.com>
+ <ec5ee910-469e-4224-28ca-336c9f589057@quicinc.com>
+ <ZdUAZZIO5Zk2Y8Wm@intel.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <ZdUAZZIO5Zk2Y8Wm@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: jrreOZvRVsFXGxE3Iy84fNvoQ2Rx1lER
+X-Proofpoint-ORIG-GUID: jrreOZvRVsFXGxE3Iy84fNvoQ2Rx1lER
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-20_06,2024-02-20_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015
+ suspectscore=0 mlxscore=0 bulkscore=0 mlxlogscore=518 impostorscore=0
+ malwarescore=0 priorityscore=1501 adultscore=0 lowpriorityscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2402200142
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,37 +106,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---_000_2ac14f50f2286f2b440e3a124eb1763e91d513decamelnvidiacom_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
 
-T24gTW9uLCAyMDI0LTAyLTE5IGF0IDEwOjMyICswMTAwLCBEYW5pbG8gS3J1bW1yaWNoIHdyb3Rl
-Og0KDQpMb29rcyBsaWtlIEkgc3Bva2UgdG9vIHNvb24sIEkganVzdCBoaXQgdGhlIHByb2JsZW0g
-d2l0aCB0aGUgZHJtLW5leHQgdHJlZS4NCg0KDQpEaWQgeW91IGFwcGx5IHRoZSBwYXRjaCB0byBk
-cm0tbmV4dD8NCg0KVWdoLCB5b3UncmUgcmlnaHQuICBJIGRvbid0IGhvdyBJIGdvdCBjb25mdXNl
-ZCwgYnV0IEkgY291bGQgaGF2ZSBzd29ybiB0aGF0IEkgc2F3IHlvdXIgdHdvIHBhdGNoZXMgaW4g
-ZHJtLW5leHQsIGJ1dCB0aGV5IGFyZSBub3QgdGhlcmUuDQoNClNvcnJ5IGZvciB0aGUgbm9pc2Uu
-DQo=
 
---_000_2ac14f50f2286f2b440e3a124eb1763e91d513decamelnvidiacom_
-Content-Type: text/html; charset="utf-8"
-Content-ID: <7431EE185E647447A26A507CA7FA9195@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+On 2/20/2024 11:41 AM, Ville Syrjälä wrote:
+> On Tue, Feb 20, 2024 at 11:27:18AM -0800, Abhinav Kumar wrote:
+>>
+>>
+>> On 2/20/2024 11:20 AM, Dmitry Baryshkov wrote:
+>>> On Tue, 20 Feb 2024 at 21:05, Dmitry Baryshkov
+>>> <dmitry.baryshkov@linaro.org> wrote:
+>>>>
+>>>> On Tue, 20 Feb 2024 at 20:53, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>>>>
+>>>>>
+>>>>>
+>>>>> On 2/20/2024 10:49 AM, Dmitry Baryshkov wrote:
+>>>>>> On Thu, 15 Feb 2024 at 21:08, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>>>>>>
+>>>>>>> intel_dp_vsc_sdp_pack() can be re-used by other DRM drivers as well.
+>>>>>>> Lets move this to drm_dp_helper to achieve this.
+>>>>>>>
+>>>>>>> changes in v2:
+>>>>>>>            - rebased on top of drm-tip
+>>>>>>>
+>>>>>>> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>>>>
+>>>>>> v1 had an explicit comment before the ack:
+>>>>>>
+>>>>>
+>>>>> Yes, I remember the comment. I did not make any changes to v2 other than
+>>>>> just rebasing it on drm-tip to get the ack from i915 folks.
+>>>>>
+>>>>>>>       From my side, with the promise of the size fixup.
+>>>>>>
+>>>>>> However I observe neither a second patch removing the size argument
+>>>>>> nor it being dropped as a part of this patch.
+>>>>>>
+>>>>>
+>>>>> Yes, now that in v2 we got the ack for this patch, I can spin a v3 with
+>>>>> the addition of the next patch to remove the size OR as another series
+>>>>> so as to not block the main series which needs this patch.
+>>>>>
+>>>>> I would prefer the latter.
+>>>>
+>>>> It doesn't work this way. The comment should have been fixed for v2.
+>>>
+>>> This probably deserves some explanation. Currently there is only one
+>>> user of this function. So it is easy to fix it. Once there are several
+>>> users, you have to fix all of them at the same time, patching
+>>> different drm subtrees. That complicates the life of maintainers.
+>>>
+>>
+>> Yes, understood. Its easier to fix it now if its really needed.
+>>
+>> Actually, I think the reason the size was passed was to make sure
+>> a valid struct dp_sdp *sdp was being passed.
+> 
+> The size is supposed to be the size of *hardware* buffer where this
+> gets written into. But looks like this wasn't done correctly when
+> the code was copy-pasted from the HDMI inforframe code.
+> 
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjwvaGVhZD4NCjxib2R5Pg0KPGRpdj5PbiBNb24s
-IDIwMjQtMDItMTkgYXQgMTA6MzIgKzAxMDAsIERhbmlsbyBLcnVtbXJpY2ggd3JvdGU6PC9kaXY+
-DQo8YmxvY2txdW90ZSB0eXBlPSJjaXRlIiBzdHlsZT0ibWFyZ2luOjAgMCAwIC44ZXg7IGJvcmRl
-ci1sZWZ0OjJweCAjNzI5ZmNmIHNvbGlkO3BhZGRpbmctbGVmdDoxZXgiPg0KPGJsb2NrcXVvdGUg
-dHlwZT0iY2l0ZSIgc3R5bGU9Im1hcmdpbjowIDAgMCAuOGV4OyBib3JkZXItbGVmdDoycHggIzcy
-OWZjZiBzb2xpZDtwYWRkaW5nLWxlZnQ6MWV4Ij4NCjxwcmU+TG9va3MgbGlrZSBJIHNwb2tlIHRv
-byBzb29uLCBJIGp1c3QgaGl0IHRoZSBwcm9ibGVtIHdpdGggdGhlIGRybS1uZXh0IHRyZWUuPC9w
-cmU+DQo8L2Jsb2NrcXVvdGU+DQo8cHJlPjxicj48L3ByZT4NCjxwcmU+RGlkIHlvdSBhcHBseSB0
-aGUgcGF0Y2ggdG8gZHJtLW5leHQ/PC9wcmU+DQo8L2Jsb2NrcXVvdGU+DQo8ZGl2Pjxicj4NCjwv
-ZGl2Pg0KPGRpdj5VZ2gsIHlvdSdyZSByaWdodC4gJm5ic3A7SSBkb24ndCBob3cgSSBnb3QgY29u
-ZnVzZWQsIGJ1dCBJIGNvdWxkIGhhdmUgc3dvcm4gdGhhdCBJIHNhdyB5b3VyIHR3byBwYXRjaGVz
-IGluIGRybS1uZXh0LCBidXQgdGhleSBhcmUgbm90IHRoZXJlLjwvZGl2Pg0KPGRpdj48YnI+DQo8
-L2Rpdj4NCjxkaXY+U29ycnkgZm9yIHRoZSBub2lzZS48L2Rpdj4NCjxkaXY+PHNwYW4+PC9zcGFu
-PjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
-
---_000_2ac14f50f2286f2b440e3a124eb1763e91d513decamelnvidiacom_--
+Alright, in that case, let me post a patch to drop this and let me know 
+if that works for you.
