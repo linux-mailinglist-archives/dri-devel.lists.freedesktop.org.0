@@ -2,60 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CAEF85BEA6
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 15:21:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10DC885BEB1
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 15:24:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CA2210E463;
-	Tue, 20 Feb 2024 14:21:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E732D10E447;
+	Tue, 20 Feb 2024 14:24:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Dwim/IUl";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ElilJcPm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F0EC10E463;
- Tue, 20 Feb 2024 14:21:16 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 566DF10E037;
+ Tue, 20 Feb 2024 14:24:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708438876; x=1739974876;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Y0ur2QBKo0Pu/bQiz5HWAGjf0FMUNwl5zyZ3amcitNw=;
- b=Dwim/IUlA77MukYNGaR4kfQNIPFwkfvZcFfokNbVjopDfNxelq4ve3GZ
- s4vU5IgAq8vIOwLaGBp/CV+IQ+1/UdlUFJ7s3nVHKQSKmy0/nczLwTuL9
- aAUnAzd8IiEOwmn9h9OZSStELNfD3r29TBSkGG2z+W8ncRb4wHASNy/ek
- sMCPzorp4jLASno0lWHy9lBDRoOv4gzZOH8GtLMgIsSFP1oy/QscwuvUc
- 2rQn92z9mpg4ZxyOkvSwFP8sqRXfedE/n/0huNEtDFhJ+Nm4UfvdHDYik
- 4raK0+SRV1mC1ivdS9SGoi8Bzc3WHUXM+u0Md0WyWqbdl0JQw/6Nz2l7Q Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="2447058"
-X-IronPort-AV: E=Sophos;i="6.06,172,1705392000"; 
-   d="scan'208";a="2447058"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2024 06:21:16 -0800
+ t=1708439044; x=1739975044;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=W9VQKihaZMC7U1Rw/MLDCDASL2zahkiIpd5gl7fzUOw=;
+ b=ElilJcPmqPth0tOpwlxvaNo88JbU3iYbYc5K32n+efO0BDMusBfQKIe4
+ xYatmHX1l9ATS7YJVwjxdTfB9LD/teqKsJIlMEoW7WUwGGNtk/9vZn45h
+ ShUF+S7KIeDgEOP8b3osbQVM/WsgfOF9RhXBk5DiLToGKZc0jtr20BPUt
+ io+DgNCuN7/lVkJLx1UVsi624n/7Zl0ixlIAtqAdnGLrQzorV1HrlGRt5
+ WUpJPsS+DB6sEnr1WNNNdbEgCE2DpLQvh0P7n2ZcfttZVVyf1trvQFRmk
+ GCsNl13v1EfhDlcxUHWN0Vw521Biry9trtJZDDzWDMYlC2u07tA7iCKGW w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="20075087"
+X-IronPort-AV: E=Sophos;i="6.06,172,1705392000"; d="scan'208";a="20075087"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Feb 2024 06:24:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,172,1705392000"; d="scan'208";a="42283479"
+X-IronPort-AV: E=Sophos;i="6.06,172,1705392000"; 
+   d="scan'208";a="9433618"
 Received: from alichtma-mobl.ger.corp.intel.com (HELO intel.com)
  ([10.246.34.74])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2024 06:21:12 -0800
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Feb 2024 06:24:01 -0800
+Date: Tue, 20 Feb 2024 15:23:58 +0100
 From: Andi Shyti <andi.shyti@linux.intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>,
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Matt Roper <matthew.d.roper@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, stable@vger.kernel.org,
- Andi Shyti <andi.shyti@linux.intel.com>, Andi Shyti <andi.shyti@kernel.org>
-Subject: [PATCH 2/2] drm/i915/gt: Set default CCS mode '1'
-Date: Tue, 20 Feb 2024 15:20:34 +0100
-Message-ID: <20240220142034.257370-3-andi.shyti@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240220142034.257370-1-andi.shyti@linux.intel.com>
+ John Harrison <John.C.Harrison@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ stable@vger.kernel.org, Andi Shyti <andi.shyti@kernel.org>
+Subject: Re: [PATCH 0/2] Disable automatic load CCS load balancing
+Message-ID: <ZdS1_mEbYMDNCloi@ashyti-mobl2.lan>
 References: <20240220142034.257370-1-andi.shyti@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240220142034.257370-1-andi.shyti@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,126 +72,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since CCS automatic load balancing is disabled, we will impose a
-fixed balancing policy that involves setting all the CCS engines
-to work together on the same load.
+Hi,
 
-Simultaneously, the user will see only 1 CCS rather than the
-actual number. As of now, this change affects only DG2.
+I'm sorry, I forgot to add the changelog. Here it is:
 
-Fixes: d2eae8e98d59 ("drm/i915/dg2: Drop force_probe requirement")
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: <stable@vger.kernel.org> # v6.2+
----
- drivers/gpu/drm/i915/gt/intel_gt.c      | 11 +++++++++++
- drivers/gpu/drm/i915/gt/intel_gt_regs.h |  2 ++
- drivers/gpu/drm/i915/i915_drv.h         | 17 +++++++++++++++++
- drivers/gpu/drm/i915/i915_query.c       |  5 +++--
- 4 files changed, 33 insertions(+), 2 deletions(-)
+v1 -> v2
+========
+- In Patch 1 use the correct workaround number (thanks Matt).
+- In Patch 2 do not add the extra CCS engines to the exposed UABI
+  engine list and adapt the engine counting accordingly (thanks
+  Tvrtko).
+- Reword the commit of Patch 2 (thanks John).
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-index a425db5ed3a2..e19df4ef47f6 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-@@ -168,6 +168,14 @@ static void init_unused_rings(struct intel_gt *gt)
- 	}
- }
- 
-+static void intel_gt_apply_ccs_mode(struct intel_gt *gt)
-+{
-+	if (!IS_DG2(gt->i915))
-+		return;
-+
-+	intel_uncore_write(gt->uncore, XEHP_CCS_MODE, 0);
-+}
-+
- int intel_gt_init_hw(struct intel_gt *gt)
- {
- 	struct drm_i915_private *i915 = gt->i915;
-@@ -195,6 +203,9 @@ int intel_gt_init_hw(struct intel_gt *gt)
- 
- 	intel_gt_init_swizzling(gt);
- 
-+	/* Configure CCS mode */
-+	intel_gt_apply_ccs_mode(gt);
-+
- 	/*
- 	 * At least 830 can leave some of the unused rings
- 	 * "active" (ie. head != tail) after resume which
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-index cf709f6c05ae..c148113770ea 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-@@ -1605,6 +1605,8 @@
- #define   GEN12_VOLTAGE_MASK			REG_GENMASK(10, 0)
- #define   GEN12_CAGF_MASK			REG_GENMASK(19, 11)
- 
-+#define XEHP_CCS_MODE                          _MMIO(0x14804)
-+
- #define GEN11_GT_INTR_DW(x)			_MMIO(0x190018 + ((x) * 4))
- #define   GEN11_CSME				(31)
- #define   GEN12_HECI_2				(30)
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index e81b3b2858ac..0853ffd3cb8d 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -396,6 +396,23 @@ static inline struct intel_gt *to_gt(const struct drm_i915_private *i915)
- 	     (engine__); \
- 	     (engine__) = rb_to_uabi_engine(rb_next(&(engine__)->uabi_node)))
- 
-+/*
-+ * Exclude unavailable engines.
-+ *
-+ * Only the first CCS engine is utilized due to the disabling of CCS auto load
-+ * balancing. As a result, all CCS engines operate collectively, functioning
-+ * essentially as a single CCS engine, hence the count of active CCS engines is
-+ * considered '1'.
-+ * Currently, this applies to platforms with more than one CCS engine,
-+ * specifically DG2.
-+ */
-+#define for_each_available_uabi_engine(engine__, i915__) \
-+	for_each_uabi_engine(engine__, i915__) \
-+		if ((IS_DG2(i915__)) && \
-+		    ((engine__)->uabi_class == I915_ENGINE_CLASS_COMPUTE) && \
-+		    ((engine__)->uabi_instance)) { } \
-+		else
-+
- #define INTEL_INFO(i915)	((i915)->__info)
- #define RUNTIME_INFO(i915)	(&(i915)->__runtime)
- #define DRIVER_CAPS(i915)	(&(i915)->caps)
-diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
-index fa3e937ed3f5..2d41bda626a6 100644
---- a/drivers/gpu/drm/i915/i915_query.c
-+++ b/drivers/gpu/drm/i915/i915_query.c
-@@ -124,6 +124,7 @@ static int query_geometry_subslices(struct drm_i915_private *i915,
- 	return fill_topology_info(sseu, query_item, sseu->geometry_subslice_mask);
- }
- 
-+
- static int
- query_engine_info(struct drm_i915_private *i915,
- 		  struct drm_i915_query_item *query_item)
-@@ -140,7 +141,7 @@ query_engine_info(struct drm_i915_private *i915,
- 	if (query_item->flags)
- 		return -EINVAL;
- 
--	for_each_uabi_engine(engine, i915)
-+	for_each_available_uabi_engine(engine, i915)
- 		num_uabi_engines++;
- 
- 	len = struct_size(query_ptr, engines, num_uabi_engines);
-@@ -155,7 +156,7 @@ query_engine_info(struct drm_i915_private *i915,
- 
- 	info_ptr = &query_ptr->engines[0];
- 
--	for_each_uabi_engine(engine, i915) {
-+	for_each_available_uabi_engine(engine, i915) {
- 		info.engine.engine_class = engine->uabi_class;
- 		info.engine.engine_instance = engine->uabi_instance;
- 		info.flags = I915_ENGINE_INFO_HAS_LOGICAL_INSTANCE;
--- 
-2.43.0
-
+On Tue, Feb 20, 2024 at 03:20:32PM +0100, Andi Shyti wrote:
+> Hi,
+> 
+> this series does basically two things:
+> 
+> 1. Disables automatic load balancing as adviced by the hardware
+>    workaround.
+> 
+> 2. Forces the sharing of the load submitted to CCS among all the
+>    CCS available (as of now only DG2 has more than one CCS). This
+>    way the user, when sending a query, will see only one CCS
+>    available.
+> 
+> Andi
+> 
+> Andi Shyti (2):
+>   drm/i915/gt: Disable HW load balancing for CCS
+>   drm/i915/gt: Set default CCS mode '1'
+> 
+>  drivers/gpu/drm/i915/gt/intel_gt.c          | 11 +++++++++++
+>  drivers/gpu/drm/i915/gt/intel_gt_regs.h     |  3 +++
+>  drivers/gpu/drm/i915/gt/intel_workarounds.c |  6 ++++++
+>  drivers/gpu/drm/i915/i915_drv.h             | 17 +++++++++++++++++
+>  drivers/gpu/drm/i915/i915_query.c           |  5 +++--
+>  5 files changed, 40 insertions(+), 2 deletions(-)
+> 
+> -- 
+> 2.43.0
