@@ -2,85 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2614385C390
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 19:23:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE0AA85C3F3
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 19:50:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2660F10E25E;
-	Tue, 20 Feb 2024 18:23:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40DB610E3AD;
+	Tue, 20 Feb 2024 18:50:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="btyhhvSs";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="E5V5714F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE9E310E25E
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 18:23:44 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41KEfwfb020497; Tue, 20 Feb 2024 18:23:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=o1XdYNJFsleByPwRb4ZMnCZK00p36/1bvaqiNCoD/gU=; b=bt
- yhhvSsIurjApTQz1q3pO6r6anSvSGyQjLtRwm2vlNUqvzwamZLxFvu2kEQ9hHnex
- fpGpK0njHFTv1sKbjwYvKCIxS7G5JBQ76Ov/SDsBC5W/v0spF+0GNetzx3C5vkWf
- MIdcDbygy7bgo6aZSTSdi54IyvHm378I5sWCl78osjtnOSGJlZtnhL/a+PNcNTy3
- rtKF9ZRVerqDTrKX5biMY5euR0TYKIFrjZ2GlN1/uNnbGiRy0Q+/mMGohTuTZhgh
- h7MSXBf5GiK02odM9j+y6MMCVkAkXcIMNohC/lE9fBrfOiCm/EErPZ4MuvUuvs18
- IIQasRBDZHQvv0+v4qAg==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wct3eh220-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 20 Feb 2024 18:23:35 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41KINYc7021949
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 20 Feb 2024 18:23:34 GMT
-Received: from [10.71.110.119] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 20 Feb
- 2024 10:23:30 -0800
-Message-ID: <38860940-3b21-42e8-8817-10b433d7bd74@quicinc.com>
-Date: Tue, 20 Feb 2024 10:23:31 -0800
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com
+ [209.85.219.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4588310E24F
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 18:50:09 +0000 (UTC)
+Received: by mail-yb1-f170.google.com with SMTP id
+ 3f1490d57ef6-dcbf82cdf05so6473981276.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 10:50:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1708455008; x=1709059808; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=yRXnEtWmyWxcSqdR8eHmZ6LBceGmV3VoaDOluytk4Xg=;
+ b=E5V5714FlXDyMb+bKGnq360ZXVRa65NsvlOEEP2U8NnJn4augSvF7NiD7e3aG1i/dC
+ 0m3NT6j7xpYXoCzfhvSAFMOcmyHX4Y3EVsm7ARkdvmlOo+rV7pkOQ4xihE0m1xSrHE9g
+ jdQ1Bbvp25zvSd6nycGH2bcm+8/bFDsDp96EAFwuD8UOhvveqTzLK2oP78X9rc1TJYYh
+ InjjgIdmJp0/+JdLBWACwLYDt5XKnB+EKugSIy5UA1b7pGtBM0DNLzaMtuZwcGEBaIh6
+ r0JnEXReF5vgqK96SUSUcd/74qVqpP9UwxDCm8EpfOgefybhEWmVfpmozxTVYt2U1tX6
+ E3hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708455008; x=1709059808;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yRXnEtWmyWxcSqdR8eHmZ6LBceGmV3VoaDOluytk4Xg=;
+ b=Nkqs81O3+rUUIZUXDvkaPoUIlbrrCh8j8e2zBpok5UMKvCJeWxIH3muz7DQH4bi5sh
+ iRlM2idmWQRyFXZlDo7pVRf//lsQU61sq6fGugmFklCm+ukq2bKXVZbEoBu4pIG6BeoB
+ QUe7w4OJKqnGgE9mpLmswdyoK+LVRwsIzmQdsXOfi5ptRqQhqM1xBlVMGQ4S4Q5hdE9W
+ akv3BNOzJFVQ+ot+CFTFS5m0uXKdzr1ymAPoDFPR8Sm5R06rRoog5VxqJ/8S0zSxu6d6
+ BZxeetqUHAHZ/HHMxOxyzy9bNbgSZKER+Fvh3iw8F6uojZzUd91/vR/JamutyJ4MMSmb
+ 8kOQ==
+X-Gm-Message-State: AOJu0YytBvpyPNsCF7YBMyyqDo5W96fa7k8/M7BSW4AVoYZ4FnU1VrYt
+ RFQ+I2JG3M1AmYI4w1sOWGtmSKrj/txwe/D9Vwr9zObbQwfKf5LCzmt/RVK5ac6BTETgyL7pdfZ
+ Nyn6LcnzMyHZGzyWLvtaC+tl5r/uzi7+8Sv97HA==
+X-Google-Smtp-Source: AGHT+IHfzdOSi2N+M382qbcFbtC0kxzFdORlzSBvrutFk2HVJP66VyvKWw2NTQeQmT7rsxSCNRtZBfmXNaK+RFZmtsw=
+X-Received: by 2002:a5b:b03:0:b0:dc7:1a9a:11da with SMTP id
+ z3-20020a5b0b03000000b00dc71a9a11damr16767205ybp.38.1708455008038; Tue, 20
+ Feb 2024 10:50:08 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] dma-buf: heaps: secure_heap: Add qcom secure system
- heap
-Content-Language: en-US
-To: Pratyush Brahma <quic_pbrahma@quicinc.com>, <sumit.semwal@linaro.org>,
- <benjamin.gaignard@collabora.com>, <Brian.Starkey@arm.com>,
- <jstultz@google.com>, <tjmercier@google.com>,
- <christian.koenig@amd.com>, <linux-media@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
- <linux-kernel@vger.kernel.org>, <quic_guptap@quicinc.com>,
- Dibakar Singh <quic_dibasing@quicinc.com>
-CC: Vijayanand Jitta <quic_vjitta@quicinc.com>
-References: <cover.1700544802.git.quic_vjitta@quicinc.com>
- <128a84b983d1ddd192e98a42bc6a15030bb60d75.1700544802.git.quic_vjitta@quicinc.com>
-From: Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <128a84b983d1ddd192e98a42bc6a15030bb60d75.1700544802.git.quic_vjitta@quicinc.com>
+References: <20240215190834.3222812-1-quic_abhinavk@quicinc.com>
+In-Reply-To: <20240215190834.3222812-1-quic_abhinavk@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 20 Feb 2024 20:49:56 +0200
+Message-ID: <CAA8EJppQquHgSgCrxKZHPHk248Pxg7Q8mvmmjbcpUxpreQkcuA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/dp: move intel_dp_vsc_sdp_pack() to generic helper
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: dri-devel@lists.freedesktop.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, robdclark@gmail.com, 
+ freedreno@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ ville.syrjala@linux.intel.com, quic_jesszhan@quicinc.com, 
+ linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: z8qGia9d6ea18w28Y-_e7hFTGe9a0941
-X-Proofpoint-GUID: z8qGia9d6ea18w28Y-_e7hFTGe9a0941
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-20_06,2024-02-20_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0
- spamscore=0 phishscore=0 clxscore=1011 mlxscore=0 mlxlogscore=999
- priorityscore=1501 malwarescore=0 adultscore=0 lowpriorityscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402200132
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,242 +85,225 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 15 Feb 2024 at 21:08, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+> intel_dp_vsc_sdp_pack() can be re-used by other DRM drivers as well.
+> Lets move this to drm_dp_helper to achieve this.
+>
+> changes in v2:
+>         - rebased on top of drm-tip
+>
+> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
+v1 had an explicit comment before the ack:
 
-On 11/22/2023 5:47 AM, Pratyush Brahma wrote:
-> From: Vijayanand Jitta <quic_vjitta@quicinc.com>
-> 
-> Add secure system for Pixel and Non pixel video usecases, this
-> allocates from system heap and secures using qcom_scm_aasign_mem.
-                                                        ^^^^^^
-                                                        typo
-> 
-> Change-Id: If0702f85bff651843c6a5c83694043364229e66b
-> Signed-off-by: Vijayanand Jitta <quic_vjitta@quicinc.com>
+>    From my side, with the promise of the size fixup.
 
-Please get these patches reviewed internally before sending to mailing
-list for basic checks. You can review go/upstream when within Qualcomm corp network.
+However I observe neither a second patch removing the size argument
+nor it being dropped as a part of this patch.
 
-Pavan mentioned S-o-B is incorrect. Commit text should also not have Change-Id.
-
-Please be sure to send to linux-arm-msm mailing list as well since this affects
-Qualcomm chipsets
-
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
->  drivers/dma-buf/heaps/secure_heap.c | 163 +++++++++++++++++++++++++++-
->  1 file changed, 160 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/heaps/secure_heap.c b/drivers/dma-buf/heaps/secure_heap.c
-> index 04e2ee000e19..cdcf4b3f5333 100644
-> --- a/drivers/dma-buf/heaps/secure_heap.c
-> +++ b/drivers/dma-buf/heaps/secure_heap.c
-> @@ -58,6 +58,11 @@ enum secure_memory_type {
->  	 * protect it, then the detail memory management also is inside the TEE.
->  	 */
->  	SECURE_MEMORY_TYPE_MTK_CM_CMA	= 2,
-> +	/*
-> +	 * QCOM secure system heap, use system heap to alloc/free.
-> +	 * and use qcom_scm_assign_mem to secure the memory.
-> +	 */
-> +	SECURE_MEMORY_TYPE_QCOM_SYSTEM	= 3,
->  };
->  
->  struct secure_buffer {
-> @@ -69,6 +74,7 @@ struct secure_buffer {
->  	 */
->  	u32				sec_handle;
->  	struct page			*cma_page;
-> +	struct sg_table			sg_table;
->  };
->  
->  #define TEE_MEM_COMMAND_ID_BASE_MTK	0x10000
-> @@ -329,11 +335,26 @@ static int secure_heap_qcom_secure_memory(struct secure_heap *sec_heap,
->  	next[0].vmid = data->vmid;
->  	next[0].perm = data->perm;
->  
+>  drivers/gpu/drm/display/drm_dp_helper.c | 78 +++++++++++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_dp.c | 71 +---------------------
+>  include/drm/display/drm_dp_helper.h     |  3 +
+>  3 files changed, 83 insertions(+), 69 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+> index 8d6ce46471ae..6c91f400ecb1 100644
+> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> @@ -2913,6 +2913,84 @@ void drm_dp_vsc_sdp_log(struct drm_printer *p, const struct drm_dp_vsc_sdp *vsc)
+>  }
+>  EXPORT_SYMBOL(drm_dp_vsc_sdp_log);
+>
+> +/**
+> + * drm_dp_vsc_sdp_pack() - pack a given vsc sdp into generic dp_sdp
+> + * @vsc: vsc sdp initialized according to its purpose as defined in
+> + *       table 2-118 - table 2-120 in DP 1.4a specification
+> + * @sdp: valid handle to the generic dp_sdp which will be packed
+> + * @size: valid size of the passed sdp handle
+> + *
+> + * Returns length of sdp on success and error code on failure
+> + */
+> +ssize_t drm_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
+> +                           struct dp_sdp *sdp, size_t size)
+> +{
+> +       size_t length = sizeof(struct dp_sdp);
+> +
+> +       if (size < length)
+> +               return -ENOSPC;
+> +
+> +       memset(sdp, 0, size);
+> +
+> +       /*
+> +        * Prepare VSC Header for SU as per DP 1.4a spec, Table 2-119
+> +        * VSC SDP Header Bytes
+> +        */
+> +       sdp->sdp_header.HB0 = 0; /* Secondary-Data Packet ID = 0 */
+> +       sdp->sdp_header.HB1 = vsc->sdp_type; /* Secondary-data Packet Type */
+> +       sdp->sdp_header.HB2 = vsc->revision; /* Revision Number */
+> +       sdp->sdp_header.HB3 = vsc->length; /* Number of Valid Data Bytes */
+> +
+> +       if (vsc->revision == 0x6) {
+> +               sdp->db[0] = 1;
+> +               sdp->db[3] = 1;
+> +       }
+> +
+> +       /*
+> +        * Revision 0x5 and revision 0x7 supports Pixel Encoding/Colorimetry
+> +        * Format as per DP 1.4a spec and DP 2.0 respectively.
+> +        */
+> +       if (!(vsc->revision == 0x5 || vsc->revision == 0x7))
+> +               goto out;
+> +
+> +       /* VSC SDP Payload for DB16 through DB18 */
+> +       /* Pixel Encoding and Colorimetry Formats  */
+> +       sdp->db[16] = (vsc->pixelformat & 0xf) << 4; /* DB16[7:4] */
+> +       sdp->db[16] |= vsc->colorimetry & 0xf; /* DB16[3:0] */
+> +
+> +       switch (vsc->bpc) {
+> +       case 6:
+> +               /* 6bpc: 0x0 */
+> +               break;
+> +       case 8:
+> +               sdp->db[17] = 0x1; /* DB17[3:0] */
+> +               break;
+> +       case 10:
+> +               sdp->db[17] = 0x2;
+> +               break;
+> +       case 12:
+> +               sdp->db[17] = 0x3;
+> +               break;
+> +       case 16:
+> +               sdp->db[17] = 0x4;
+> +               break;
+> +       default:
+> +               WARN(1, "Missing case %d\n", vsc->bpc);
+> +               return -EINVAL;
+> +       }
+> +
+> +       /* Dynamic Range and Component Bit Depth */
+> +       if (vsc->dynamic_range == DP_DYNAMIC_RANGE_CTA)
+> +               sdp->db[17] |= 0x80;  /* DB17[7] */
+> +
+> +       /* Content Type */
+> +       sdp->db[18] = vsc->content_type & 0x7;
+> +
+> +out:
+> +       return length;
+> +}
+> +EXPORT_SYMBOL(drm_dp_vsc_sdp_pack);
+> +
+>  /**
+>   * drm_dp_get_pcon_max_frl_bw() - maximum frl supported by PCON
+>   * @dpcd: DisplayPort configuration data
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index 217196196e50..a9458df475e2 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -4089,73 +4089,6 @@ intel_dp_needs_vsc_sdp(const struct intel_crtc_state *crtc_state,
+>         return false;
+>  }
+>
+> -static ssize_t intel_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
+> -                                    struct dp_sdp *sdp, size_t size)
+> -{
+> -       size_t length = sizeof(struct dp_sdp);
 > -
-> -	ret = qcom_scm_assign_mem(page_to_phys(sec_buf->cma_page),
-> +	if (sec_heap->mem_type == SECURE_MEMORY_TYPE_CMA) {
-> +		ret = qcom_scm_assign_mem(page_to_phys(sec_buf->cma_page),
->  				sec_buf->size, &src_perms,
->  				next, 1);
-> +	} else if (sec_heap->mem_type == SECURE_MEMORY_TYPE_QCOM_SYSTEM) {
-> +		struct sg_table *table;
-> +		struct scatterlist *sg;
-> +		int i = 0;
+> -       if (size < length)
+> -               return -ENOSPC;
+> -
+> -       memset(sdp, 0, size);
+> -
+> -       /*
+> -        * Prepare VSC Header for SU as per DP 1.4a spec, Table 2-119
+> -        * VSC SDP Header Bytes
+> -        */
+> -       sdp->sdp_header.HB0 = 0; /* Secondary-Data Packet ID = 0 */
+> -       sdp->sdp_header.HB1 = vsc->sdp_type; /* Secondary-data Packet Type */
+> -       sdp->sdp_header.HB2 = vsc->revision; /* Revision Number */
+> -       sdp->sdp_header.HB3 = vsc->length; /* Number of Valid Data Bytes */
+> -
+> -       if (vsc->revision == 0x6) {
+> -               sdp->db[0] = 1;
+> -               sdp->db[3] = 1;
+> -       }
+> -
+> -       /*
+> -        * Revision 0x5 and revision 0x7 supports Pixel Encoding/Colorimetry
+> -        * Format as per DP 1.4a spec and DP 2.0 respectively.
+> -        */
+> -       if (!(vsc->revision == 0x5 || vsc->revision == 0x7))
+> -               goto out;
+> -
+> -       /* VSC SDP Payload for DB16 through DB18 */
+> -       /* Pixel Encoding and Colorimetry Formats  */
+> -       sdp->db[16] = (vsc->pixelformat & 0xf) << 4; /* DB16[7:4] */
+> -       sdp->db[16] |= vsc->colorimetry & 0xf; /* DB16[3:0] */
+> -
+> -       switch (vsc->bpc) {
+> -       case 6:
+> -               /* 6bpc: 0x0 */
+> -               break;
+> -       case 8:
+> -               sdp->db[17] = 0x1; /* DB17[3:0] */
+> -               break;
+> -       case 10:
+> -               sdp->db[17] = 0x2;
+> -               break;
+> -       case 12:
+> -               sdp->db[17] = 0x3;
+> -               break;
+> -       case 16:
+> -               sdp->db[17] = 0x4;
+> -               break;
+> -       default:
+> -               MISSING_CASE(vsc->bpc);
+> -               break;
+> -       }
+> -       /* Dynamic Range and Component Bit Depth */
+> -       if (vsc->dynamic_range == DP_DYNAMIC_RANGE_CTA)
+> -               sdp->db[17] |= 0x80;  /* DB17[7] */
+> -
+> -       /* Content Type */
+> -       sdp->db[18] = vsc->content_type & 0x7;
+> -
+> -out:
+> -       return length;
+> -}
+> -
+>  static ssize_t
+>  intel_dp_hdr_metadata_infoframe_sdp_pack(struct drm_i915_private *i915,
+>                                          const struct hdmi_drm_infoframe *drm_infoframe,
+> @@ -4248,8 +4181,8 @@ static void intel_write_dp_sdp(struct intel_encoder *encoder,
+>
+>         switch (type) {
+>         case DP_SDP_VSC:
+> -               len = intel_dp_vsc_sdp_pack(&crtc_state->infoframes.vsc, &sdp,
+> -                                           sizeof(sdp));
+> +               len = drm_dp_vsc_sdp_pack(&crtc_state->infoframes.vsc, &sdp,
+> +                                         sizeof(sdp));
+>                 break;
+>         case HDMI_PACKET_TYPE_GAMUT_METADATA:
+>                 len = intel_dp_hdr_metadata_infoframe_sdp_pack(dev_priv,
+> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+> index d02014a87f12..8474504d4c88 100644
+> --- a/include/drm/display/drm_dp_helper.h
+> +++ b/include/drm/display/drm_dp_helper.h
+> @@ -812,4 +812,7 @@ int drm_dp_bw_overhead(int lane_count, int hactive,
+>                        int bpp_x16, unsigned long flags);
+>  int drm_dp_bw_channel_coding_efficiency(bool is_uhbr);
+>
+> +ssize_t drm_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
+> +                           struct dp_sdp *sdp, size_t size);
 > +
-> +		table = &sec_buf->sg_table;
-> +		for_each_sgtable_sg(table, sg, i) {
-> +			struct page *page = sg_page(sg);
->  
-> +			ret = qcom_scm_assign_mem(page_to_phys(page),
-> +				page_size(page), &src_perms,
-> +				next, 1);
-> +			if (ret)
-> +				break;
-> +		}
-> +	}
->  	return ret;
->  }
->  
-> @@ -347,9 +368,24 @@ static void secure_heap_qcom_unsecure_memory(struct secure_heap *sec_heap,
->  	next[0].vmid = QCOM_SCM_VMID_HLOS;
->  	next[0].perm = QCOM_SCM_PERM_RWX;
->  
-> -	qcom_scm_assign_mem(page_to_phys(sec_buf->cma_page),
-> +	if (sec_heap->mem_type == SECURE_MEMORY_TYPE_CMA) {
-> +		qcom_scm_assign_mem(page_to_phys(sec_buf->cma_page),
->  				sec_buf->size, &src_perms,
->  				next, 1);
-> +	} else if (sec_heap->mem_type == SECURE_MEMORY_TYPE_QCOM_SYSTEM) {
-> +		struct sg_table *table;
-> +		struct scatterlist *sg;
-> +		int i = 0;
-> +
-> +		table = &sec_buf->sg_table;
-> +		for_each_sgtable_sg(table, sg, i) {
-> +			struct page *page = sg_page(sg);
-> +
-> +			qcom_scm_assign_mem(page_to_phys(page),
-> +				page_size(page), &src_perms,
-> +				next, 1);
-> +		}
-> +	}
->  }
->  
->  const struct secure_heap_prv_data qcom_cma_sec_mem_data = {
-> @@ -361,6 +397,117 @@ const struct secure_heap_prv_data qcom_cma_sec_mem_data = {
->  	.unsecure_the_memory    = secure_heap_qcom_unsecure_memory,
->  };
->  
-> +/* Using system heap allocator */
-> +#define LOW_ORDER_GFP (GFP_HIGHUSER | __GFP_ZERO)
-> +#define HIGH_ORDER_GFP  (((GFP_HIGHUSER | __GFP_ZERO | __GFP_NOWARN \
-> +				| __GFP_NORETRY) & ~__GFP_RECLAIM) \
-> +				| __GFP_COMP)
-> +static gfp_t order_flags[] = {HIGH_ORDER_GFP, HIGH_ORDER_GFP, LOW_ORDER_GFP};
-> +static const unsigned int orders[] = {8, 4, 0};
-> +#define NUM_ORDERS ARRAY_SIZE(orders)
-> +
-> +static struct page *alloc_largest_available(unsigned long size,
-> +					    unsigned int max_order)
-> +{
-> +	struct page *page;
-> +	int i;
-> +
-> +	for (i = 0; i < NUM_ORDERS; i++) {
-> +		if (size <  (PAGE_SIZE << orders[i]))
-> +			continue;
-> +		if (max_order < orders[i])
-> +			continue;
-> +
-> +		page = alloc_pages(order_flags[i], orders[i]);
-> +		if (!page)
-> +			continue;
-> +		return page;
-> +	}
-> +	return NULL;
-> +}
-> +
-> +static int qcom_system_secure_memory_allocate(struct secure_heap *sec_heap,
-> +				      struct secure_buffer *sec_buf)
-> +{
-> +	unsigned long size_remaining = sec_buf->size;
-> +	unsigned int max_order = orders[0];
-> +	struct sg_table *table;
-> +	struct scatterlist *sg;
-> +	struct list_head pages;
-> +	struct page *page, *tmp_page;
-> +	int i = 0, ret = -ENOMEM;
-> +
-> +	INIT_LIST_HEAD(&pages);
-> +	while (size_remaining > 0) {
-> +		/*
-> +		 * Avoid trying to allocate memory if the process
-> +		 * has been killed by SIGKILL
-> +		 */
-> +		if (fatal_signal_pending(current)) {
-> +			return -EINTR;
-> +		}
-> +
-> +		page = alloc_largest_available(size_remaining, max_order);
-> +		if (!page)
-> +			goto free;
-> +
-> +		list_add_tail(&page->lru, &pages);
-> +		size_remaining -= page_size(page);
-> +		max_order = compound_order(page);
-> +		i++;
-> +	}
-> +	table = &sec_buf->sg_table;
-> +	if (sg_alloc_table(table, i, GFP_KERNEL))
-> +		goto free;
-> +
-> +	sg = table->sgl;
-> +	list_for_each_entry_safe(page, tmp_page, &pages, lru) {
-> +		sg_set_page(sg, page, page_size(page), 0);
-> +		sg = sg_next(sg);
-> +		list_del(&page->lru);
-> +	}
-> +	return 0;
-> +free:
-> +	list_for_each_entry_safe(page, tmp_page, &pages, lru)
-> +		__free_pages(page, compound_order(page));
-> +
-> +	return ret;
-> +}
-> +
-> +static void qcom_system_secure_memory_free(struct secure_heap *sec_heap,
-> +				   struct secure_buffer *sec_buf)
-> +{
-> +	struct sg_table *table;
-> +	struct scatterlist *sg;
-> +	int i;
-> +
-> +	table = &sec_buf->sg_table;
-> +	for_each_sgtable_sg(table, sg, i) {
-> +		struct page *page = sg_page(sg);
-> +
-> +		__free_pages(page, compound_order(page));
-> +	}
-> +	sg_free_table(table);
-> +}
-> +
-> +const struct secure_heap_prv_data qcom_system_pixel_sec_mem_data = {
-> +	.vmid           = QCOM_SCM_VMID_CP_PIXEL,
-> +	.perm		= QCOM_SCM_PERM_RW,
-> +	.memory_alloc	= qcom_system_secure_memory_allocate,
-> +	.memory_free	= qcom_system_secure_memory_free,
-> +	.secure_the_memory	= secure_heap_qcom_secure_memory,
-> +	.unsecure_the_memory	= secure_heap_qcom_unsecure_memory,
-> +};
-> +
-> +const struct secure_heap_prv_data qcom_system_non_pixel_sec_mem_data = {
-> +	.vmid           = QCOM_SCM_VMID_CP_NON_PIXEL,
-> +	.perm		= QCOM_SCM_PERM_RW,
-> +	.memory_alloc	= qcom_system_secure_memory_allocate,
-> +	.memory_free	= qcom_system_secure_memory_free,
-> +	.secure_the_memory	= secure_heap_qcom_secure_memory,
-> +	.unsecure_the_memory	= secure_heap_qcom_unsecure_memory,
-> +};
-> +
->  static int secure_heap_secure_memory_allocate(struct secure_heap *sec_heap,
->  					      struct secure_buffer *sec_buf)
->  {
-> @@ -585,6 +732,16 @@ static struct secure_heap secure_heaps[] = {
->  		.mem_type	= SECURE_MEMORY_TYPE_MTK_CM_CMA,
->  		.data		= &mtk_sec_mem_data_cma,
->  	},
-> +	{
-> +		.name		= "secure_system_pixel",
-> +		.mem_type	= SECURE_MEMORY_TYPE_QCOM_SYSTEM,
-> +		.data		= &qcom_system_pixel_sec_mem_data,
-> +	},
-> +	{
-> +		.name		= "secure_system_non_pixel",
-> +		.mem_type	= SECURE_MEMORY_TYPE_QCOM_SYSTEM,
-> +		.data		= &qcom_system_non_pixel_sec_mem_data,
-> +	},
->  };
->  
->  static int __init secure_cma_init(struct reserved_mem *rmem)
+>  #endif /* _DRM_DP_HELPER_H_ */
+> --
+> 2.34.1
+>
+
+
+-- 
+With best wishes
+Dmitry
