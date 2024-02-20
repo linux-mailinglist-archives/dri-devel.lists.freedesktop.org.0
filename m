@@ -2,65 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35F1985BFA3
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 16:15:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B4B485BFDE
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 16:30:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5533810E4AB;
-	Tue, 20 Feb 2024 15:15:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEDDE10E4AE;
+	Tue, 20 Feb 2024 15:30:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lxfgqlej";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RW4ubThI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4540110E4AB;
- Tue, 20 Feb 2024 15:14:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708442100; x=1739978100;
- h=mime-version:content-transfer-encoding:in-reply-to:
- references:from:subject:to:cc:message-id:date;
- bh=FJVIHXgtKBypbE6P5+3AVmeTnEED/4HbCWo1Rj/OuuI=;
- b=lxfgqlej1sm79odAqzv0Nr4bxLJXniwux81ufjhlS5ZHou0Feq4w/D7P
- uhmWyCs1kCdwCfX1fhEjsDDCC84MBtAYgCmsVUaszdShEv+ax1k17exfy
- Fd6XW335o9jRMf64s5/T0yX0SYbn1wXG1iUtT1CZgIYo6bqjPPmbS3IoL
- zkvCmbjdF6p60N8lE+29eY3l6BmFiC5E44Y1bSoMgMGd3gVoMJ3QhfTmt
- U/8k5DeAy5WKpC6zQwa1jqqcovKRNJ+MBzOKTPjLhPDIFqjrZWHm//9Kj
- S5op69QRAeKwepSixx6OVvYUHCMuDcviXMEO/xGuUJuVeyFCKMPKia3wc g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="19984501"
-X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; d="scan'208";a="19984501"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2024 07:14:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; d="scan'208";a="27958155"
-Received: from unknown (HELO localhost) ([10.245.244.30])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2024 07:14:52 -0800
-Content-Type: text/plain; charset="utf-8"
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86BCE10E4AE
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 15:30:17 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-4126d65ace3so7347525e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 07:30:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1708443016; x=1709047816; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=IY5Fl8EiIpjATBqz7xetWyCUjSktN1KtrnTN2tZhCTw=;
+ b=RW4ubThIEyE5S2dcq+5JWDblXDJ9Trw4k1ENc74Hblny3iJkxhcJkuPVWq+fqc3ZIi
+ RmgWQDgXGqcR+Yxpxsl7kPLJ+1w2OnUQkASdZ6vz1BhhfOuDAlO4KHQnEfDw3clGEOok
+ 5e3kxgYx6ldJhOz+nsIlwjmV2TEIMNoMjWr+zEYsDoGaIuUYIwJwpWHIV2M5MRfJ3akg
+ OhDtKYA/pCM6UQzrZ1r/YVNbsKMpvCLqCjtAZ+c/s9Y6qtShosCeZzgK+AEZmplhM1S1
+ VflUfbnnZdrIDLjzNcI5wV8GFiEx555ZMiS4olcF2g7xbB6Gkga4+S6NMeOgiKDu/oX+
+ Lsrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708443016; x=1709047816;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=IY5Fl8EiIpjATBqz7xetWyCUjSktN1KtrnTN2tZhCTw=;
+ b=FlhygMrEiyTzP+itFFIz08sP+cJBe8KdD8foWilbvp5M1EGoulxfdVndfTnkFzRU+n
+ szD2Zcz/jWtemKMelnHAkS2lqhZAea0ETkVhFbcAdFyYFBVxerlaPBHv03olxx0CCtDe
+ 6R73fFLX2hh3oAi2m7mEoPr4FIFiCnjhiURlVY7dtRW6b/zeQOcsfUYURgSmgyUjdPXA
+ vJwtkabfXz5pzht9YIuytcnmouHpd9oR+yxPc6VplPwrjCzM9z1u5HNPd9cdLNFxds76
+ WTLYd39JiWwz2e8pn1csfR9uefBvz1rsRm1sm5aYfjKcse8m/2ormibdsAteAHzrVFdV
+ vR0A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXmYubrDpceVvP5uJGVDgLwDzu4HE29mtc0VaguV5chzLq6/ed7J3XAWXkCJ+/NQVTd6K4L2a0zXDAPHEze4y+3c8P4JFX61IcrKEuVSxsl
+X-Gm-Message-State: AOJu0YxO1Sj36jc2Zn7lRhxguR18nzhUIyQOH7w/R53OaH84I3VOg721
+ /5//clR+isCr60o2Zt4YtMAa6kRZWsgwEIPgxxtBqUsohd1GxAY6C6LJolwf6vk=
+X-Google-Smtp-Source: AGHT+IERmi+P7yWUq4uVJnrZIJuMSM97Nq4UuUDoxY46okU9MBfkMBuvnG45Q1sfupCdozb8l8+9Hg==
+X-Received: by 2002:a05:600c:4f49:b0:412:5670:e5c6 with SMTP id
+ m9-20020a05600c4f4900b004125670e5c6mr8316824wmq.13.1708443015690; 
+ Tue, 20 Feb 2024 07:30:15 -0800 (PST)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ m4-20020a05600c280400b0040fe308ff25sm14691564wmb.24.2024.02.20.07.30.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Feb 2024 07:30:14 -0800 (PST)
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Lee Jones <lee.jones@linaro.org>,
+	Jingoo Han <jingoohan1@gmail.com>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] Ensure all backlight drivers zero the properties structure
+Date: Tue, 20 Feb 2024 15:30:04 +0000
+Message-ID: <20240220153010.76238-1-daniel.thompson@linaro.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <170807650415.7927.1096375337645578148@jlahtine-mobl.ger.corp.intel.com>
-References: <Zc3iIVsiAwo+bu10@tursulin-desk>
- <CAPM=9twPjYvnAZQKEWrc2zvjTC4W2rfn9TWsHE8_QSgVUiPbOg@mail.gmail.com>
- <170807650415.7927.1096375337645578148@jlahtine-mobl.ger.corp.intel.com>
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: Re: [PULL] drm-intel-gt-next
-To: Dave Airlie <airlied@gmail.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dim-tools@lists.freedesktop.org, Jonathan Cavitt <jonathan.cavitt@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Message-ID: <170844208900.33312.12097770819490714416@jlahtine-mobl.ger.corp.intel.com>
-User-Agent: alot/0.8.1
-Date: Tue, 20 Feb 2024 17:14:49 +0200
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,93 +83,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Joonas Lahtinen (2024-02-16 11:41:44)
-> (+ Jonathan)
->=20
-> Quoting Dave Airlie (2024-02-16 04:58:03)
-> > On Thu, 15 Feb 2024 at 20:06, Tvrtko Ursulin
-> > <tvrtko.ursulin@linux.intel.com> wrote:
-> > >
-> > > Hi Dave, Daniel,
-> > >
-> > > First pull request for 6.9 with probably one more coming in one to two
-> > > weeks.
-> > >
-> > > Nothing to interesting in this one, mostly a sprinkle of small fixes =
-in
-> > > GuC, HuC, Perf/OA, a tiny bit of prep work for future platforms and s=
-ome
-> > > code cleanups.
-> > >
-> > > One new uapi in the form of a GuC submission version query which Mesa
-> > > wants for implementing Vulkan async compute queues.
-> > >
-> > > Regards,
-> > >
-> > > Tvrtko
-> > >
-> > > drm-intel-gt-next-2024-02-15:
-> > > UAPI Changes:
-> > >
-> > > - Add GuC submission interface version query (Tvrtko Ursulin)
-> > >
-> > > Driver Changes:
-> > >
-> > > Fixes/improvements/new stuff:
-> > >
-> > > - Atomically invalidate userptr on mmu-notifier (Jonathan Cavitt)
-> >=20
-> > I've pulled this, but the above patch is triggering my this seems
-> > wrong spider sense.
-> >=20
-> > This and probably the preceeding patch that this references seem to
-> > move i915 to a long term pinning of userptr in memory with what I can
-> > see no accounting, and away from what the desired behaviour for
-> > drivers should be.
->=20
-> I asked Thomas to take a more detailed look. Jonathan, Thomas really shou=
-ld
-> have been Cc'd in the original patch as the patch was explicitly referred
-> in the text even.
->=20
-> > It also feels like the authorship on this might be lies which also worr=
-ies me.
->=20
-> Fear not. This can probably be blamed on the i915 maintainers.
->=20
-> When we have an internal patch which has many revisions and is then
-> essentially rewritten for upstreaming, we specifically asked NOT to keep
-> the "From:" line intact, but instead swap in person who rewrote the patch=
-[1].
+Luca Weiss recently shared a patch to zero the properties structure for
+lm3630a... and shortly afterwards I realized I should probably scan for
+a similar class of errors in other drivers.
 
-Just to state the obvious for the public record:
+Results follow in the next four patches (they could all be one patch but
+for the fact there are different Fixes: tags)!
 
-This should never be done lightly or without reaching out to the
-original author. This should only be for the exceptional cases where the
-patch has significantly changed.
+Daniel Thompson (4):
+  backlight: da9052: Fully initialize backlight_properties during probe
+  backlight: lm3639: Fully initialize backlight_properties during probe
+  backlight: lp8788: Fully initialize backlight_properties during probe
+  backlight: mp3309c: Fully initialize backlight_properties during probe
 
-This was just the explanation why it's not an immediate red flag to see
-such a patch. Based on the discussion around the topic we should be more
-explicit if such a case has happened or if there simply has been an error
-in the patch handling.
+ drivers/video/backlight/da9052_bl.c | 1 +
+ drivers/video/backlight/lm3639_bl.c | 1 +
+ drivers/video/backlight/lp8788_bl.c | 1 +
+ drivers/video/backlight/mp3309c.c   | 1 +
+ 4 files changed, 4 insertions(+)
 
-So we'll work on clarifying the instructions here.
 
-Regards, Joonas
+base-commit: b401b621758e46812da61fa58a67c3fd8d91de0d
+--
+2.43.0
 
-> To document credits/involvement of the original author we've recommended
-> to keep the Signed-off-by line however. "Co-developed-by" does not really
-> express the situation correctly. "Based on patch by" style pure textual
-> credit reference was also discussed but is hard to grep.
->=20
-> Discussed with Sima who suggested if we should consider something like
-> "Original-patch-by:" tag to better express this situation?
->=20
-> Regards, Joonas
->=20
-> [1] If the "From: " line is not updated, it sometimes leads to
-> situation where you can see a patch with "From:" pointing to you, that
-> doesn't contain a single unmodified line anymore.
->=20
-> >=20
-> > Dave.
