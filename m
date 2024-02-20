@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D823885B144
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 04:25:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5619785B145
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 04:25:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B3F710E057;
-	Tue, 20 Feb 2024 03:25:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87B6810E0C7;
+	Tue, 20 Feb 2024 03:25:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="AXH9jZCP";
+	dkim=pass (1024-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="C+d/h1PU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
- (mail-db5eur01on2087.outbound.protection.outlook.com [40.107.15.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA47F10E057
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 03:25:18 +0000 (UTC)
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com
+ (mail-dbaeur03on2049.outbound.protection.outlook.com [40.107.104.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A8A510E067
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 03:25:26 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kqLmuDTyEylRZHV5yh1fFjcQziYuwOrhQuA2LbPS+dVz2dHJiIDjK5cWDWKd2RIsE7uJIB8qk94ebQ/mp7EnWJH6quUXul6MV0tYe6iaeXRiVgbt+YcsjjsbWjD4a65hAgYqdG+iY307pts+A1IJzSfdH8bgEJu0/UmpAxL0SH8MW0vPK83XGsKUeLVAHOZw82nf4ppr+zn8kXhkw3X+OkU5kVZ1auk3TA46Z5LlOx2MIsA0g04yNofVYuP+ABPVmzXkJZ8jh+ed14+LWUH7xvuQPUF/b/22G7U/8qAo9b8fd04L4tO/poGgWZwKlmbep9F+zbRCx6vop80T1J42ew==
+ b=NU5QYx8lfYXuBYJpOM3EXYBAQ5SHlQOH0pRU59VhzW5SrxzEXgOhrmQS/AKSKT7DYWhiLCy5mvDmxxJNq5IJAsrtpvk7329C2S2kjueZ+HsoW76BszLoi3ECx3Dv89+fPr8U/8sl27/m/H5QdfL3t+424JcfIL4V9izA+KoNshUrPLmwC+w4ct+lbEPvdkzlQMvlcL5wjqo4UQAQQQR3xK7bBvP46INUrOJ4wp9X+b5rf9jma7N7N8hBpIqZwnmrnZOY+0TnJLPmph1WrWKIChntk3pfi/MFiS8pcU0qlNzM1sm9ESPi2WdEuxeho9lhNVbmO/eGGIvix8zTrLAO3w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Yt+IWepbYcCS25duvBTyvvBwXG4pgNgpu9mwfkem+Tg=;
- b=HKr+X6xVeQK7X+Xl98ldQlIPENTzg4c2ZV3wVnv4kA3a5/CnXlaPuyxGukNW3R5wxTBE8gzeR54kMemZYz+MCqmrGAx3ro87EnRhZtULwa/N4gLcLgtKiosDvDroZpSEBaWEcCM7emj6gptsfFIS202td2A7O0TWIlc2and1ig2xK31x3ybYmAOEwsHN83qfUFzDehj1smjLTdYS0Paxzjm0oSX3KFpJrJyAo2TCWunhohSri4cZtmoRx6uY/e8CvCwpekJ5jsLoxHmfmqkqveyUxi348IC/ha8a7WI/J5grdFImqTNa39HGBChj5ctQD9VzMWJcbBeE9sEKImGQVA==
+ bh=tUlBDMyhDnXg+HJWojsqcMlGuL17qjYosk5UEtQsF/E=;
+ b=nAw1ghsAse6yaRpwkqAXTtbKH1W0w4sLZj6f3n2bimvgy2eSaaa6jBeEgcYavO7AvXyCx6WgoiH3qcY03T2rCpMW57AOfKH5gz4m2EgKXctEAfJsObZn5sl/HMVB1Z3JS9fjy2VY/KxHFiDD1jN/haQ7Dn1EtqfANT88w7K66DbT6H9xq4rE5M8l/xswWiPHB9nmZpZVY78YrzvdV5/Gqg2PIEOL/4Fw3d66c+I6Tcdlc9nDGrncvBvDGeoT6jIK0On1YnEE4EQyQfUgLZmRW4vcVcOJHKw33krW3YB1fLpdwIW3Mb8U9tMGh5dB42hJ6IMyBqS9Vz2EoEgf3O22pw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Yt+IWepbYcCS25duvBTyvvBwXG4pgNgpu9mwfkem+Tg=;
- b=AXH9jZCPHifYgsUhvnUInhEZWSaoozJXYgamDy3/lwAmtlpqAWHuaJ9bn6MDmwNRpnAuFigA+ckG9veCN+sQ1d+XJvujcPd/SEpGc5BTxS2klXOEkXFwncrL26dcw8h13FZE2Zw9OElDPWpvRET2GklJFe2KH8v5s6x1RT4/pbk=
+ bh=tUlBDMyhDnXg+HJWojsqcMlGuL17qjYosk5UEtQsF/E=;
+ b=C+d/h1PUiPoX03EInPMDRSD64/qK4kQebIL4KpL/xn9qE1znp7Oz+TT88WplzSN3ToyTC2qewJCo59OClO2KbkxOmgl3t81O/eh20Ya7g10ZE/DfJVLiZzE2n1rbfm9nWPSP7Lk0hQFyuPD0wrQIe8ZkwAO+nil996ElX+5YEo4=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from DB9PR04MB9452.eurprd04.prod.outlook.com (2603:10a6:10:367::13)
  by AM8PR04MB7268.eurprd04.prod.outlook.com (2603:10a6:20b:1de::24)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.39; Tue, 20 Feb
- 2024 03:25:16 +0000
+ 2024 03:25:23 +0000
 Received: from DB9PR04MB9452.eurprd04.prod.outlook.com
  ([fe80::4272:e277:dda3:2446]) by DB9PR04MB9452.eurprd04.prod.outlook.com
  ([fe80::4272:e277:dda3:2446%2]) with mapi id 15.20.7292.029; Tue, 20 Feb 2024
- 03:25:16 +0000
+ 03:25:23 +0000
 From: Sandor Yu <Sandor.yu@nxp.com>
 To: dmitry.baryshkov@linaro.org, andrzej.hajda@intel.com,
  neil.armstrong@linaro.org, Laurent.pinchart@ideasonboard.com,
@@ -51,10 +51,11 @@ To: dmitry.baryshkov@linaro.org, andrzej.hajda@intel.com,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
 Cc: kernel@pengutronix.de, linux-imx@nxp.com, Sandor.yu@nxp.com,
- oliver.brown@nxp.com, alexander.stein@ew.tq-group.com, sam@ravnborg.org
-Subject: [PATCH v14 2/7] phy: Add HDMI configuration options
-Date: Tue, 20 Feb 2024 11:23:50 +0800
-Message-Id: <064ffb53f4ecf25f5d07f64d050ae0a4646ed9fc.1708395604.git.Sandor.yu@nxp.com>
+ oliver.brown@nxp.com, alexander.stein@ew.tq-group.com, sam@ravnborg.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v14 3/7] dt-bindings: display: bridge: Add Cadence MHDP8501
+Date: Tue, 20 Feb 2024 11:23:51 +0800
+Message-Id: <d9cb461b0de2aed1a38520aa7b754f081a0f85cf.1708395604.git.Sandor.yu@nxp.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1708395604.git.Sandor.yu@nxp.com>
 References: <cover.1708395604.git.Sandor.yu@nxp.com>
@@ -66,52 +67,52 @@ X-ClientProxiedBy: SI2P153CA0029.APCP153.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DB9PR04MB9452:EE_|AM8PR04MB7268:EE_
-X-MS-Office365-Filtering-Correlation-Id: 97408b52-2b52-43c1-9b70-08dc31c38ecb
+X-MS-Office365-Filtering-Correlation-Id: 055c888e-5a33-4496-8d42-08dc31c39324
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PEnqjx/dtg4byT5BsAhPEztEVYdwKmfC52Rx0/tCHUI48aKxQvNRf51v5pf07TJ8e9GLG3evLy1kl79MlzH9iYLW5zeikrYzCOYGY9ApJ+UQOWywZUZ8e3103+2bH35toUOOWG42I8K7kPtNw1CZ/EdI847Y4xTIKrKvVFbfdvW/pbEmaaoRi/d7yo/X+iTRXZGqsbv5+zX21uB3N+mKg37gdjIUdSwrRRDmFoqWZ82IRVtw+F0TJhmwvS4SQY9OMfQ/QbQ392xF+0YIpA5YDeLhNEFxfX28jgs8+VIhiTTlOiGY0jezqk9GMu0WrZsSdrHuOKNz+QtwDKOT8njibUMEGoDG24fzdbcpt6AErNlSlkmUPr4P3yYYbRJTJ0WdrxzijhtBJba9ytLsEYGyCLwJLA1AmJs28CVQOO7rTPbDIfIzskl9kmC/ORVVuNbdFB3kqldJYmgN/g0CSCyT6M2VzfyX/CWdFObd1+FMbTdXu1CmFE9JKSLUE4JHb1jd1JhQiSTemgaGh+DGMUJ2D7Iq/5GX8R20o4D8noeizbUxvPLgSSwiolN/2hIjF2du1jL7UDpvCvbcvKVl6yO9DdxtQr5z3FVtJ5Hgu4HPOJ6af8nbrOULUtNEpwYeTxLCPpQZjgvlnnrHS3jF+D39DA==
+X-Microsoft-Antispam-Message-Info: hOezVlKu5CEAlRNprAANOoyWDflbosIT/diti3kwajudNZ34QMR21HclLhY36MY8woHONK3Ec3cT+Kni8vpK+J/ggHYbBeA61JDBgsaYNeguuG5GC7GsmyIIaJnpQT232VuFIGUb66WEaC2IkMwTc7h6HY/B9RUHils2w+Ss1IKyf2xObuizmuEBM3sizy/Da/o2jDxOjwn+fyKNHuMSNiCaEe75521dZ/7FpSGRZyMonPnk2aAqEnABeqEyDgtrQA0oUuw55lyIMQMyJhAmDHR5U3PNCY76bNKB7JT3MqeVlPxHRIoF+rQnTwVKt+5ObrZ5vwQzkOy3ndOoEEMNPH5l1oPQXmT9lFERDxeDRgJM++kcS+I5u4BYQ/X5f6CgLJ1JyZ07z34ZzizIjV6t/2YA+ckX/fijeCDqH9etSgiuQmFxYlbLc8QtWlWkz8od6hJ99DlRkEBoItdRDJO19Z5n0GmbyUOUUIIn22M6VPMUAFr3bFE/moFksdmN+G0sua25VHgulHCF+00beOu93K71r+Jtsfm94SEbOWPelgpGHHk7uH2nB/era02zkaOZMgzlHNJoHKy0MMO96kHpPEwGsxTInnuv5CvxQ7reCZFY4GVMTjqNlic++Sbed7xW
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DB9PR04MB9452.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230031)(921011)(38350700005); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?cVUOIjWkZ6BXlHeQIbD16LqhER33Gmdu0zeWJkwRVTL8lmaEYJV194nwhJLO?=
- =?us-ascii?Q?os2RgiXpt72579GozZ2Q2CGv62wvw07SRzDByHPD+xyk3eTTtik1mlghRTDl?=
- =?us-ascii?Q?b6sT+tB+5N9czYmip5oGWsIFnc1gMzrbX8rSrZ91dLkxUMt7VB0cSvyp8a+V?=
- =?us-ascii?Q?xJJ6rB5xAzKNLBPnxgd8iAZTUMaixXiXFdhdgoMRFSJOTSxxu2r1uOiFH6ZE?=
- =?us-ascii?Q?VZnOpWYSe+ZACcgq2wYbxHTnwRGEXlJuZ8qdVJzlfKCCk9MVKgNhOlp3Umy8?=
- =?us-ascii?Q?v1h4UJ5TUrxvfPjmpgczcMnvxaLXeSs4qIsmBV1361MjPSqfNnS8BjfFhfbz?=
- =?us-ascii?Q?qs9aYu0m8c2B9iv8BJa8ZPBAP5/nbfbR5FXMBBIK0U4xRyPCjY+necE5/sqJ?=
- =?us-ascii?Q?Osg4rGPKoL4xqOaZjpFDME3rlxlybA7y6YL2foRtB6JETP0KVRiPBg6zeQTT?=
- =?us-ascii?Q?TazAanxpBzDM7DuWb2GlPDAp4viz6HYFA+/40Wcr+gbeQptKMDvBL+MS68Ic?=
- =?us-ascii?Q?gh0f9RkhXIbm0Rvi6CST9X4NuGuLRPQAqmxfLPvMXIv+8fcmAa+KO+6gaeF1?=
- =?us-ascii?Q?cKW8VRJxJzbMfNalLQnlEHKaDCv89czMpl4v8gfI+hZB6Ng5Fxz5mKT4oMk6?=
- =?us-ascii?Q?ChOAhjPB8R8Knx5zB4UnJZm6sXqC5ut32bI20HlUFeQv6wlHlp9kfhy6rpGw?=
- =?us-ascii?Q?ppYnjpZgqIMlzPzjUMZUZybrFdmB5ZzQQDnQ7iKbFg3UXDFw7zCPVFdUVy2O?=
- =?us-ascii?Q?2AgLSBdEUVKZCIEnxOApPDygveoAkS3gQvyRcjdn+eYOpCiKjkIc6tk2+el9?=
- =?us-ascii?Q?Er3BNNvAk5VXFjONgNJwvDZX/Dd72o2y+MMr+4kZYKd+lLKmy0gir/jF+/t0?=
- =?us-ascii?Q?sX0ahhoz0OCjhp1ttJaduCnoAYtTuvMb94iYh8nMFui31h/jGspELjY4VG7z?=
- =?us-ascii?Q?9zUidO8IyG/Mt8BNo+xWUZT8+/0xPu1ni+Jg4wRoYgpjpU+VQ0kMW0WhFAlc?=
- =?us-ascii?Q?Za4zmhSGV1pWqciMzG19eK4m+r7IdJk1oJZvMU2IAPGnzPFEanrwM/mGvesU?=
- =?us-ascii?Q?2fJaYqiVPEoq+EhywCGF40Up5rHuh0/5IvLwd0YI7QqaSdhsFZ7DVRHmLXFv?=
- =?us-ascii?Q?z6anI8uhInZL5MsZC90/wY8ueSDuCdiri7cihfcY4PBCOv6fPnR52/OD7xkd?=
- =?us-ascii?Q?uT3oiDIt6wCvSt69oAwk4jQyhDRyEp7YG/cDVSwmt6FVj6IMGeGrCJqK9MfF?=
- =?us-ascii?Q?/Kphso1cfDUniIqWeT9tHxN5ehCJxdFYGF4HXAjEXBJ2G1TRkMX8M5b1l8Aa?=
- =?us-ascii?Q?PkLUKCa1V078yoSEGyAlG4jK6GCd7AqFb2tzvqH47kQGAf2099+HadjwXZ5R?=
- =?us-ascii?Q?mvFJYsf/K21+u9P7ovx+jxEenkq06S9oLwzqtmKZz5mIWsCT4LPiKoZci4M1?=
- =?us-ascii?Q?bPb7L7FXWtDrcAt8yvcJQHGKe8ggQeosLIW/+2d4CHIHiT79TFDp3f2R5BN3?=
- =?us-ascii?Q?cYZLGuPd8B1BEWOjKcRSKsxywnRepl1tbpFh6BlfdiTCAQOFsmA6Im0qe5lx?=
- =?us-ascii?Q?s10yrdIyXxg0USuMleDZN6qQzzhtGb8PqQmqQ43l?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1Jb8hyncVXGj8D9pb3yBr6+bVIDir4B+ZbCAGPrQTbVXTQq0mVVR0NCvKGNe?=
+ =?us-ascii?Q?NRdrNH6HO6Ac/mzuJ27TvvUH3PBUZ3sIjqQ7t0MPDJhTU087Krm74/coVhTQ?=
+ =?us-ascii?Q?mry94PS53K+yHJsiBqUBC1QaRemrAKAkDZT7eaPBR92Q9PASpb2iMeIprJzN?=
+ =?us-ascii?Q?ohhzzhBeMRqVSGXnIipOslwEhjvuObzxRP3rUUVNqNxEW9FeLWsCEIXMcC5I?=
+ =?us-ascii?Q?xiWaz+JCJtgCLz0Nv8f36Dw541QHO/mHqA4aFr77Mj6L7AVuws2xDp/A4vuP?=
+ =?us-ascii?Q?gcBN+njtAnY7L6MXTcJnVx/WbBvGSf7+i4DF1PtXjr0DamEazTDL0+kwPz8S?=
+ =?us-ascii?Q?nsAQbTwvdVv+FMCw0mD4Zk9/o+h9AFKG2S3VNOKmi3Ehi/1vi3qqBc5nrWJD?=
+ =?us-ascii?Q?MiZon6n0lt81NAncbn17TzQsvgKDUgOe68jAHgZDGGnYw8/bUWuXuKU0io2G?=
+ =?us-ascii?Q?O/zpqdumHA/WV25o/sH7bjAQol8ECUrN03kVEVkpnJDgykqYBpFFgWeYnKRg?=
+ =?us-ascii?Q?mUMUAm3imJob+TxyYPvNejuKh40xz0WzT76TMUdL0/dgsM2m7GSJdPrjv9tI?=
+ =?us-ascii?Q?TxapViMtx1SmrrQ6k3cewHH8X2uS2qtg0mfbgkg311d/uUR6P/TY/kTu11R3?=
+ =?us-ascii?Q?B1rC1KNm/9GaQi1OFxyakEv+sBrt1y3MDGeOuaQ7dlMb38GHwJI4eCZDe6tC?=
+ =?us-ascii?Q?5Jo0pqnzDf+duyLSE8+17xfV9OeA4Ye38hfCemixNjfNLDSPXtunV/YQJfYj?=
+ =?us-ascii?Q?R/LNz0ezsmctI/uBCN0IcZTnygPWAjW9xyjdDlwMxWSk7vfkHiFKZE1uNIEv?=
+ =?us-ascii?Q?R+Zi7uPaNnywQPJoFWjAVCXlEkD3Nzd46yIl6vgFXpU7A76O5kEr6twDbC6S?=
+ =?us-ascii?Q?TOiOVgXMIh5dhaYir1QL0+dVk7EsOKnN9SOl40m4KG30NUEA5gegNlxchOgh?=
+ =?us-ascii?Q?88svyTDw2FcPzyq4e8X8r1P1Pjr+Tu9aK+rVht1NdjbWtQVcib6hRyDFY04X?=
+ =?us-ascii?Q?SyDRXEb/Z0Al2jz6rAnIe5pghnoGE+avFzZmEX94/5JqJZ84juU42crZVlHf?=
+ =?us-ascii?Q?QSboLx4D73edoIw/dMlDmolPqusyJ65WX01ph9H60lBDmG2GeOh0xbBkrvCU?=
+ =?us-ascii?Q?Zcd7W85GwnMVsRem0JUTl+BkozvB0LOglVzQAX+gZ15SJN+O0QCsFv7eUXbH?=
+ =?us-ascii?Q?k8EsLgB1mc7x6YUsx3NzcE7groIT5ND5qr4niQeSAw39T9hHbvCKPxRNwkpJ?=
+ =?us-ascii?Q?x+aLPD2VGl9tQZ2c7GPSZIRwSmjBvukbEn6WC1GGHeQ89EkqwLydjMCaiGj3?=
+ =?us-ascii?Q?+O3BiYS7NClvj1n/9lnvGBNNPWGbMTnXkQJZ4jh38v6maTACU5g4Mwv59go/?=
+ =?us-ascii?Q?R90+323c6PCgrpeaXppZiVj4w+OPhN+o0bobR3OF4I6U2MZTm2N9j44iS+Ww?=
+ =?us-ascii?Q?YFeHV9pNqDyCqAHtdFB0Vpy1FgRic8UvAacv/0G3BOV96w441pdJJWWAbDuV?=
+ =?us-ascii?Q?/g2w7irMXdLzzK1eQLI37FNVAQAJD8GsvboXL9ugoXGxWU/SvOfXjwB4U1VZ?=
+ =?us-ascii?Q?ZdgVvkheuC4lLOk0RL+6h6UtjHwY1311giL0xyx+?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 97408b52-2b52-43c1-9b70-08dc31c38ecb
+X-MS-Exchange-CrossTenant-Network-Message-Id: 055c888e-5a33-4496-8d42-08dc31c39324
 X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9452.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2024 03:25:16.6003 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2024 03:25:23.8306 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rtQ0kxfAofNsYnCFZHNRvx4S3XAhhCYGdbWAEAW5p7ThCgQdLbAe9bbwLk7ym5oYFR9O5//4mBCd+4digzl5dw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5GgRLg61y9Pe5iG5sZXAMbGPgX9xtBMYIU+5P7rkAqu0fPf9Nr2HNI6zB+C2plI2cGBBK0QkZr7RIMy3JqfzXg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7268
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -128,92 +129,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Allow HDMI PHYs to be configured through the generic
-functions through a custom structure added to the generic union.
-
-The parameters added here are based on HDMI PHY
-implementation practices.  The current set of parameters
-should cover the potential users.
+Add bindings for Cadence MHDP8501 DisplayPort/HDMI bridge.
 
 Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Acked-by: Vinod Koul <vkoul@kernel.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
 v9->v14:
  *No change.
 
- include/linux/phy/phy-hdmi.h | 24 ++++++++++++++++++++++++
- include/linux/phy/phy.h      |  7 ++++++-
- 2 files changed, 30 insertions(+), 1 deletion(-)
- create mode 100644 include/linux/phy/phy-hdmi.h
+ .../display/bridge/cdns,mhdp8501.yaml         | 104 ++++++++++++++++++
+ 1 file changed, 104 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,mhdp8501.yaml
 
-diff --git a/include/linux/phy/phy-hdmi.h b/include/linux/phy/phy-hdmi.h
+diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8501.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8501.yaml
 new file mode 100644
-index 0000000000000..b7de88e9090f0
+index 0000000000000..3ae643845cfee
 --- /dev/null
-+++ b/include/linux/phy/phy-hdmi.h
-@@ -0,0 +1,24 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright 2022 NXP
-+ */
++++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8501.yaml
+@@ -0,0 +1,104 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/cdns,mhdp8501.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+#ifndef __PHY_HDMI_H_
-+#define __PHY_HDMI_H_
++title: Cadence MHDP8501 DP/HDMI bridge
 +
-+#include <linux/hdmi.h>
-+/**
-+ * struct phy_configure_opts_hdmi - HDMI configuration set
-+ * @pixel_clk_rate: Pixel clock of video modes in KHz.
-+ * @bpc: Maximum bits per color channel.
-+ * @color_space: Colorspace in enum hdmi_colorspace.
-+ *
-+ * This structure is used to represent the configuration state of a HDMI phy.
-+ */
-+struct phy_configure_opts_hdmi {
-+	unsigned int pixel_clk_rate;
-+	unsigned int bpc;
-+	enum hdmi_colorspace color_space;
-+};
++maintainers:
++  - Sandor Yu <Sandor.yu@nxp.com>
 +
-+#endif /* __PHY_HDMI_H_ */
-diff --git a/include/linux/phy/phy.h b/include/linux/phy/phy.h
-index aa76609ba2580..0731b8b707f7c 100644
---- a/include/linux/phy/phy.h
-+++ b/include/linux/phy/phy.h
-@@ -17,6 +17,7 @@
- #include <linux/regulator/consumer.h>
- 
- #include <linux/phy/phy-dp.h>
-+#include <linux/phy/phy-hdmi.h>
- #include <linux/phy/phy-lvds.h>
- #include <linux/phy/phy-mipi-dphy.h>
- 
-@@ -42,7 +43,8 @@ enum phy_mode {
- 	PHY_MODE_MIPI_DPHY,
- 	PHY_MODE_SATA,
- 	PHY_MODE_LVDS,
--	PHY_MODE_DP
-+	PHY_MODE_DP,
-+	PHY_MODE_HDMI,
- };
- 
- enum phy_media {
-@@ -60,11 +62,14 @@ enum phy_media {
-  *		the DisplayPort protocol.
-  * @lvds:	Configuration set applicable for phys supporting
-  *		the LVDS phy mode.
-+ * @hdmi:	Configuration set applicable for phys supporting
-+ *		the HDMI phy mode.
-  */
- union phy_configure_opts {
- 	struct phy_configure_opts_mipi_dphy	mipi_dphy;
- 	struct phy_configure_opts_dp		dp;
- 	struct phy_configure_opts_lvds		lvds;
-+	struct phy_configure_opts_hdmi		hdmi;
- };
- 
- /**
++description:
++  Cadence MHDP8501 DisplayPort/HDMI interface.
++
++properties:
++  compatible:
++    enum:
++      - fsl,imx8mq-mhdp8501
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++    description: MHDP8501 DP/HDMI APB clock.
++
++  phys:
++    maxItems: 1
++    description:
++      phandle to the DisplayPort or HDMI PHY
++
++  interrupts:
++    items:
++      - description: Hotplug cable plugin.
++      - description: Hotplug cable plugout.
++
++  interrupt-names:
++    items:
++      - const: plug_in
++      - const: plug_out
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Input port from display controller output.
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Output port to DisplayPort or HDMI connector.
++
++    required:
++      - port@0
++      - port@1
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - interrupts
++  - interrupt-names
++  - phys
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/imx8mq-clock.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    mhdp: display-bridge@32c00000 {
++        compatible = "fsl,imx8mq-mhdp8501";
++        reg = <0x32c00000 0x100000>;
++        interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
++        interrupt-names = "plug_in", "plug_out";
++        clocks = <&clk IMX8MQ_CLK_DISP_APB_ROOT>;
++        phys = <&dp_phy>;
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            port@0 {
++                reg = <0>;
++
++                mhdp_in: endpoint {
++                    remote-endpoint = <&dcss_out>;
++                };
++            };
++
++            port@1 {
++                reg = <1>;
++
++                mhdp_out: endpoint {
++                    remote-endpoint = <&dp_connector>;
++                };
++            };
++        };
++    };
 -- 
 2.34.1
 
