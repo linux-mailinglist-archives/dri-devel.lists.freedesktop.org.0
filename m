@@ -2,62 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BB3185C184
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 17:35:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF3085C19A
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 17:43:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0262910E4F1;
-	Tue, 20 Feb 2024 16:35:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BF8110E4F0;
+	Tue, 20 Feb 2024 16:43:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DedQTk2V";
+	dkim=pass (1024-bit key; unprotected) header.d=z3ntu.xyz header.i=@z3ntu.xyz header.b="FUQQWI2G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B3D510E4F0
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 16:35:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708446905; x=1739982905;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=j/Afb2Dxl4RH/+nknh0QbyQZ6iTzJWFVe41iWcwGHvk=;
- b=DedQTk2VM4n/ETmFx3ErDU8AaJJpzWnS0Hu9tgnUnpIstEf/6kxUUTNw
- /uVgNm3fXijGCPNkyJ/xXNrrzK6jmFle/aHWWohNmEgpK0mNcmYvDRWci
- Wfvhfy/QOaoctP4HrtmiplyFlsmdr+bukxXIqpCQrAq72Wru3gjZGXAT9
- UEqCBikh/I0T/2iEioR9R2oVjt671dRjUjT34qpKdxc+aWjUTWlZ9m527
- uExpw9y0X3wSweE3BCbRd1CONcT7IxpMeUkfT5ICYMRq1M/yWxxIfLy2z
- frHOfZd8qW0lsXRSSBzWnrpq2UKW+3CSZMMzC3aS/IkPFh2A/SCI2PUCh g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="3023566"
-X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
-   d="scan'208";a="3023566"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2024 08:35:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="827179336"
-X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; d="scan'208";a="827179336"
-Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.245.114.39])
- ([10.245.114.39])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2024 08:35:02 -0800
-Message-ID: <c82a9ceb-9e3b-419a-a6ea-7838a9959afb@linux.intel.com>
-Date: Tue, 20 Feb 2024 17:34:59 +0100
+Received: from ahti.lucaweiss.eu (ahti.lucaweiss.eu [128.199.32.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A66810E3D7
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 16:43:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=s1;
+ t=1708447414; bh=z4JWuWnGXxtj1e13X8/078DUzc51WgJgv/eBSFm2h68=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=FUQQWI2GUEfDPYh40q++n2IQFf5euFWbZYd/sMkhbd4YMtnzo+/j3Tv2v8HPdgYeB
+ pOvSFLFvC6DOlZhTl26ZZi+xGX1fMErCGsPfrzxU1U50TvZi96MmlDWOlUyoVL+JfC
+ uRCRDnSxr6Mzj9O/IFyIi2arF2v2wX92NXY3+6jU=
+From: Luca Weiss <luca@z3ntu.xyz>
+To: Daniel Thompson <daniel.thompson@linaro.org>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, Andrew Morton <akpm@linux-foundation.org>,
+ "G.Shark Jeong" <gshark.jeong@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Maximilian Weigand <mweigand@mweigand.net>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 3/4] backlight: lm3630a: Use backlight_get_brightness
+ helper in update_status
+Date: Tue, 20 Feb 2024 17:43:32 +0100
+Message-ID: <5027630.31r3eYUQgx@g550jk>
+In-Reply-To: <20240220141107.GF6716@aspen.lan>
+References: <20240220-lm3630a-fixups-v1-0-9ca62f7e4a33@z3ntu.xyz>
+ <20240220-lm3630a-fixups-v1-3-9ca62f7e4a33@z3ntu.xyz>
+ <20240220141107.GF6716@aspen.lan>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] accel/ivpu: Don't enable any tiles by default on
- VPU40xx
-To: dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
- Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>, stable@vger.kernel.org
-References: <20240220110830.1439719-1-jacek.lawrynowicz@linux.intel.com>
- <20240220131624.1447813-1-jacek.lawrynowicz@linux.intel.com>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20240220131624.1447813-1-jacek.lawrynowicz@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,37 +60,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied to drm-misc-fixes
+On Dienstag, 20. Februar 2024 15:11:07 CET Daniel Thompson wrote:
+> On Tue, Feb 20, 2024 at 12:11:21AM +0100, Luca Weiss wrote:
+> > As per documentation "drivers are expected to use this function in their
+> > update_status() operation to get the brightness value.".
+> >
+> > With this we can also drop the manual backlight_is_blank() handling
+> > since backlight_get_brightness() is already handling this correctly.
+> >
+> > Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+> 
+> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+> 
+> However...
+> 
+> > ---
+> >  	/* disable sleep */
+> > @@ -201,9 +202,9 @@ static int lm3630a_bank_a_update_status(struct backlight_device *bl)
+> >  		goto out_i2c_err;
+> >  	usleep_range(1000, 2000);
+> >  	/* minimum brightness is 0x04 */
+> > -	ret = lm3630a_write(pchip, REG_BRT_A, bl->props.brightness);
+> > +	ret = lm3630a_write(pchip, REG_BRT_A, brightness);
+> 
+> ... then handling of the minimum brightness looks weird in this driver.
+> 
+> The range of the backlight is 0..max_brightness. Sadly the drivers
+> are inconsistant regarding whether zero means off or just minimum,
+> however three certainly isn't supposed to mean off! In other words the
+> offsetting should be handled by driver rather than hoping userspace has
+> some magic LM3630A mode.
 
-On 20.02.2024 14:16, Jacek Lawrynowicz wrote:
-> From: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+I could also try and fix that..
+
+1. Treat 1..4 as 4, so have backlight on at that minimum level? Probably
+wouldn't be noticable that brightness 1=2=3=4. And the backlight will be
+on compared to off as it is now.
+
+2. Decrease max_brightness by 4 values, so probably 0..251 and shift the
+values up in the driver so we get 4..255?
+
+Or would you have some other idea here?
+
+Regards
+Luca
+
 > 
-> There is no point in requesting 1 tile on VPU40xx as the FW will
-> probably need more tiles to run workloads, so it will have to
-> reconfigure PLL anyway. Don't enable any tiles and allow the FW to
-> perform initial tile configuration.
+> You didn't introduce this so this patch still has my R-b ...
 > 
-> This improves NPU boot stability as the tiles are always enabled only
-> by the FW from the same initial state.
 > 
-> Fixes: 79cdc56c4a54 ("accel/ivpu: Add initial support for VPU 4")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
-> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-> ---
->  drivers/accel/ivpu/ivpu_hw_40xx.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Daniel.
 > 
-> diff --git a/drivers/accel/ivpu/ivpu_hw_40xx.c b/drivers/accel/ivpu/ivpu_hw_40xx.c
-> index 1c995307c113..a1523d0b1ef3 100644
-> --- a/drivers/accel/ivpu/ivpu_hw_40xx.c
-> +++ b/drivers/accel/ivpu/ivpu_hw_40xx.c
-> @@ -24,7 +24,7 @@
->  #define SKU_HW_ID_SHIFT              16u
->  #define SKU_HW_ID_MASK               0xffff0000u
->  
-> -#define PLL_CONFIG_DEFAULT           0x1
-> +#define PLL_CONFIG_DEFAULT           0x0
->  #define PLL_CDYN_DEFAULT             0x80
->  #define PLL_EPP_DEFAULT              0x80
->  #define PLL_REF_CLK_FREQ	     (50 * 1000000)
+
+
+
+
