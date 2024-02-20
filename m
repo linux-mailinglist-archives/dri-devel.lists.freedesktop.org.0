@@ -2,122 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C7E85B59E
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 09:42:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C5A885B5A9
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 09:43:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9E0910E262;
-	Tue, 20 Feb 2024 08:42:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D71B88C3D;
+	Tue, 20 Feb 2024 08:43:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="TsrOgZSw";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vnMHlH61";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2050.outbound.protection.outlook.com [40.107.101.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA51310E220;
- Tue, 20 Feb 2024 08:42:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZfNp9QokiSkEH9CG+Nr/zz/KifodYEIP/jfG4A5bG/+P7tFNXNpwoyDfSugiu8VlW9N/LO+Bdwtmc9qVCWbAOoArxS6OYQ7H/a+eqX1LZ1K6M5/EzwmKhxNqmfZEWkcRQdqOnE/IZ6/GJ44peUYn4Zc1BpEpZZcyMQB65verqtAb477Ml5dJam/4Xi2hAawiAePhlGiSDdcABZDg9VxCia4FQu0B2Jj9WtRgQwl58P9BJauA1zMrgBS79QRiaE4rZvVGdFkiNTEqe/5rUfdbRorjHMtyd7aB4UllBpCzmxxVi0QTBVtyuzpCCXM9WqLEY5WgsNLHRK2G2q0u2rmaoQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9Pxmi53D8ZrO9pXhr3zzK0VK6SMevtIBo28Rh/lqIyc=;
- b=LP8f6XjIWoHJIf7O9tuinz+O88zpqpV83ga+xcLPXIBsqV7AluShyaLve2r+GQlFdMofJVxl+30fFd6DXiZGSdHHCzbfu/UpSwd/6mDzJ/7IMoltIRhIYyu4PSNiytyphiGaqwdPjD1XVdAJh7WBcN8kUwzYc5yeZMcqufPktebh2x8eDQ45rCXPRGau5gbqqKbrfwOmA3LLU85QYpmRjQUjgysg9J7tZnLdYsAKDNNENyqs1BRO7obrWwQWnvcE5jeYUebGfVm1TbtTDE1xTNuiC/G1A6InV1mBU1rnZgkIf6vqjN+wV5gcsAm+dO21D/XMlAp40bbmMtygs6kLQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9Pxmi53D8ZrO9pXhr3zzK0VK6SMevtIBo28Rh/lqIyc=;
- b=TsrOgZSwiK6FfgGMsBsYVJeyYTyDXz4yV8lSHGq9ywTHuiyQMMV70RZ7qmJJjyeS0czeuvT+Dm92pBO0B3dSSO/yxBYx0Iihdrf52WMMkSg7R6dU908VeR7agglNmGigEXLyV+e3xI6DzVa+OKLJgrLesVcGHxTMLJUyUNHzEJM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MW4PR12MB5625.namprd12.prod.outlook.com (2603:10b6:303:168::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.21; Tue, 20 Feb
- 2024 08:42:03 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7316.018; Tue, 20 Feb 2024
- 08:42:03 +0000
-Message-ID: <29df7e26-d7a8-4f67-b988-44353c4270ac@amd.com>
-Date: Tue, 20 Feb 2024 09:41:56 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/radeon: Call mmiowb() at the end of
- radeon_ring_commit()
-Content-Language: en-US
-To: Huacai Chen <chenhuacai@loongson.cn>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
- Huacai Chen <chenhuacai@kernel.org>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- stable@vger.kernel.org, Tianyang Zhang <zhangtianyang@loongson.cn>
-References: <20240220074958.3288170-1-chenhuacai@loongson.cn>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20240220074958.3288170-1-chenhuacai@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0116.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a8::18) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4718510E20E
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 08:43:27 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-4127011685dso1239305e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 00:43:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1708418605; x=1709023405; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=lvOKZ6FnRVaRVe1Ql/pBOvP/3gu5W7cm2XGKLzU0Jes=;
+ b=vnMHlH61ZQIrVRatuDZCa0VwKGNH7pWUe1Fo4QVbLUISbl0w9uhQ8Y68X2wh+9S7JR
+ EGGprNORDcSprriV4kHN7Jn2ZvI5VTREb/xm6GQaVMcNSLv+e/IcaxAazCLhD/pp91nw
+ MkPqr8QZkySrXndmGl7al2UnHs0jEXbfh2yClQnPHS8PNHXsBadnet1kmdzO4YlwxwOH
+ AlDFrR7XuwAN+nRSstoRFzrs0skEQbqbs70Ks5vO27n9HMaXHp8simz2Z1Bb8ZmXjVJw
+ uIccGvIEJncMDv8cNp83CHGmKvsRSgxp+v/NzOqfFi1HV/NamKYCPbwoTJ/U8UB69L1Y
+ ABiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708418605; x=1709023405;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=lvOKZ6FnRVaRVe1Ql/pBOvP/3gu5W7cm2XGKLzU0Jes=;
+ b=GaFxFrNl4HrfERmNnDbWMjXAs6sl/h3rRb4bxXsW+g3XWsKRRA+Dxtxr+6jjsuMqya
+ Xt3bk7BJ70vK5ycsitUgsWwK5n9q59OvSBSoVCT65B5YlWPN59vd3AlybWrCcj0yYeSP
+ rN2FyU+r3a5vEnklmzr/NsyUKaTdnVD6k5IT4beEvyBWeb242d8626dSGd6TtoTj98HQ
+ midggJxsHdzf1u9P2633/ej5QmN4MJ4SSprkecSZ1GxaubT+HgYrd9kYu2HYMioSvdL2
+ hkJkdHILwOHeKrokOFdqhuAN8l9HXhe/jKATiH50nOQnN7BETQHio+dIv+nHIJzj2qIu
+ gmRA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXNy4yLmCnokm3x+M3LieyLMlZM/Ea8+OrqleNdQGFVMq3HQfEa0wYg4a08LAG4aR68SZ2OQwr/pXwZ2Ke2CDWldT6/rXAcKWHE62coltrn
+X-Gm-Message-State: AOJu0Yw/ueGE8OBHt83Yd0b5yebx77AhFv5R1DkgJDJfM9wjabCkUv1g
+ YmSLpR+A29zT1FDD/v0qY82sPWsQ6viM9V4FcuV4xPl+Fm2XKYq+qnJ6r4neKDQ=
+X-Google-Smtp-Source: AGHT+IHC8cvv39figdqKFr2x/5K8JqNBhDhnjLZkdTYqb0OQnDRB6RKw8IW4o1Opoo/z9ZuQp6+ZCg==
+X-Received: by 2002:a05:600c:19cd:b0:411:d273:90e2 with SMTP id
+ u13-20020a05600c19cd00b00411d27390e2mr13071167wmq.3.1708418605430; 
+ Tue, 20 Feb 2024 00:43:25 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.222.116])
+ by smtp.gmail.com with ESMTPSA id
+ g17-20020a05600c4ed100b0040ecdd672fasm14075986wmq.13.2024.02.20.00.43.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Feb 2024 00:43:25 -0800 (PST)
+Message-ID: <e6fdfb54-aa2c-4c17-a5c2-4d12abf2591c@linaro.org>
+Date: Tue, 20 Feb 2024 09:43:21 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW4PR12MB5625:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5866ded4-3626-4330-325a-08dc31efcf9f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /g7exSPQNrvmCa40JZkqVJiCs49u3GqQg1kbXfs+Oq2p5cvmxlOKTgm1WInMtICJJiizBH6h5sHG5Q+xYO2VI5J1iLyiL7WNAvZXvLC6PwBHOAoljrFbw+r3uu9ePKvehq9et7Ihss4G9bMhYLE0PXz2+G6cl4dHXtguhTGkXm8wstu4ufqDyPEaIa5kgcvID9jRJ/fSx5mqP79Jjb6zrht/W1mC7nRkTChxxe/nDYkVuMl6MutLM7Vswkc91yo0RF5/o1F69G8wLdDp3cJgfNTvUJhhcRxnLAgxNQVPACH8T6H0eQAHvCMzVTqflqvaSjoKPKtxcg4ldUup3Lkf7D9K4SRANitk/M4UvXlJ5SD9RG+OOZrAGC/KVzFEHYayVTGnUK8QIsu4BatthquLYu6FNaIZRq2ODkYZZp7XlGVOP8XxIO+mt5dm90weMK50CrV36DOWhzcf5Kr2nsvclQ4MJdzFtWZQFp3iMoprTm5qGPXcC7cSlzhCJHv8nOq2zk5Ijx633mXIuMoWNWt9+fuDwlDYkxxHj3/FYy8wpUU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZWplTjFCWGthcGhycSs5d2lNbmlPR0t1QW42TEpRaEJWNHZOZFlVeFpiSXRV?=
- =?utf-8?B?TlNKeGlmeDF0YUJla3B2YXRraVg2MmNtYW9TeFovdE1tRlR1MzBTRDNVUzF2?=
- =?utf-8?B?YUVzR3Jvdmpsa3U1SVBRbG5xOXQ1bXdlajVPRFhtL0ZKY2poNUhha1NGd3h3?=
- =?utf-8?B?TVB6dStzbnQ4ZnJZVGEyL1ZOMHArR0Z1RW1PdW5TZjZXTXZYTDRuYUhvS0FZ?=
- =?utf-8?B?am1DY2QwbzdJbUpTQ0s2Q2dOUHNVNkEvd252MmlaUFk1UmpFNU13M0ozMzdN?=
- =?utf-8?B?a3UzWVR6RFpvOUxRYVJ2SEtOQmhEeWd3TVY5K1NZenNlL2thN05ERU9HZmdE?=
- =?utf-8?B?dS80M29pQ1NTdHZjK20waGtSRThDVnZyQnRYSHU3TVR0aUtsYW5EN3JNSmw1?=
- =?utf-8?B?c0pPVTFrRU56ZXl6a1hOa0dQM0x6UFJNZkJ3ZEp0cURaNG54cnc0RDMrMS9F?=
- =?utf-8?B?R2pkT2cvNmtNWk5IZHRKcFRPVDZlcUNESnh5bHdGTjV5cGViL2JXbU42NExL?=
- =?utf-8?B?T3VXNmNJb2c2QklBUzIrMHdJcmhkR2k0REZnL3FITUUyR1E0Sm01bFZaNkRr?=
- =?utf-8?B?Nk5Nclc1a0o4N2R4ZUNqTS9IN2sxWjJINXhPNDAzZjg4SDJlNmJJaDFHdEVz?=
- =?utf-8?B?L0Q0YzduanRPcXRnbERpZHA4cGwrUUxNdVEyTmRkbDZzMUhwNDNYUm9UY1ZQ?=
- =?utf-8?B?cDBxbzVOSHlTUUNXbVlrS1NhQytwSE5YVGZUcCt2ang4Q01uRUFoK1ZjVTJC?=
- =?utf-8?B?YWh4VG9veW1vY3E0R0xGbGFVUXhmZjRRV09YVDBDMkZTQ2t0eVNQZE03eDhG?=
- =?utf-8?B?aUc3cE1HWlBWanBRYWNSVmg0RnpQZUJKT0Vhc1NEQ0grM2xEMURrNVVVdlZn?=
- =?utf-8?B?R3hVaFhBcG42aDgzYnVYYkpFWC9xcFkySldGbkxnR2VTdm5USEdqZ09vdlJQ?=
- =?utf-8?B?UUp1OHB5NXM0aXgyZExqTFA1Tk0xTldPN2JVQmxEc21jSUo4OG9lUXVBeEl0?=
- =?utf-8?B?MXdmR20wNG1HU05COHFHd043bTFJd3JTZDNQL3kyWElUNXIzV3luVi90M01s?=
- =?utf-8?B?RGs0THlzRjdCVlJudTVGYlhQS3QwY3dVZUF1MFNPWXZQQTROSWV6NW9Maml1?=
- =?utf-8?B?N3RqOHh0dFZmSUliY2psZGszZUEyUnh6ODhkZW43TjZPS2s0WHY5YUg4dVk1?=
- =?utf-8?B?QWI0SU1tdmZMa0IyRlRjR0h2RGMrZGpaeGpxQnE2VHl1ZkswbHUyYlBSdjR3?=
- =?utf-8?B?WU9LZTQvdnlReWpERGpmWjJWd2RxOHBLVmx6NWQ4dHZSR0czZGJSZVdSbUNp?=
- =?utf-8?B?SWprZWlMS21SZVJtMC9UV1gxSHVaYmxzb1BIMW9wNjNRdHV6ZXp3S1JxZmVy?=
- =?utf-8?B?L3EvTGJ5MFA3SWxydEhZeWtvWWI5YmZFQ3k4WkhHWkhhMDJ2UjQzSnhxK3dD?=
- =?utf-8?B?bDdXMUlsR0NXTWRsYk04MGl0Wnk3cTlRUjhHZExzdVpqUmlaQndsTFNxRTZB?=
- =?utf-8?B?SVlXdkRVTEJKcXBCMGtkRWg4WEV1U2s1UWR4bTVvNG9Rd2tTeGtRRXp4L09i?=
- =?utf-8?B?MW5MdWRndndYSklBSUhHblN3UWdPTTIyeFYvRWdOUzFhVEUvVTNuQ1pRd3hy?=
- =?utf-8?B?QVlLd3hJL3BHd0FoZ3pKYVdRMWRaUy9nTGZlZkduMlNtRElaK2FEbFhNd1dP?=
- =?utf-8?B?NHB1SklhL1hYV0dsME02TVhFUy81L0JFQzRZK0J2NURzcFJXTjViZjZrTVR6?=
- =?utf-8?B?ZHJ5b05xdDVxT1BncFdWNXpJak02NHgzWFlNN3k2M0FOazNIOUVKZU81Q0pv?=
- =?utf-8?B?OWJhejJFb1Fnck1vc01DNWFobE1hWkM2aXhta0hwUnpuUWdYUytLeG56Q20z?=
- =?utf-8?B?endlZUtkRVpBTnhNNGtreGZYOWZFM2pqcWNFU2p0c3RTdzlVNXF2TXZJQm9W?=
- =?utf-8?B?NEVoYTlXeDNGUXRxb3RzUzl5TUNnSS94T3cxWUdBcVJVZ092Zzdoempmbmxi?=
- =?utf-8?B?SlBITEtTZ1BKc0dCVG5DaGNlZk56MlBTOFkyeFQrU2ZsRElRcEV3dnlHT3ha?=
- =?utf-8?B?b0pyOS82bFNFMXYyRTdkN0ZzL1k2RFRMZjRtWmZHSUhkaDhxNS83dGJpNS9n?=
- =?utf-8?Q?V0q4=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5866ded4-3626-4330-325a-08dc31efcf9f
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2024 08:42:03.2415 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hb6UwOfhWeQ91Dmvo+Lxoy08QcjmoY94KLAiz0ry3xUynHZb8do3DeWIE9KPor2V
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB5625
+User-Agent: Mozilla Thunderbird
+Subject: Re: (subset) [linux][PATCH v6 3/3] dt-bindings: mfd: atmel,hlcdc:
+ Convert to DT schema format
+Content-Language: en-US
+To: Dharma.B@microchip.com, lee@kernel.org, sam@ravnborg.org,
+ bbrezillon@kernel.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ Nicolas.Ferre@microchip.com, alexandre.belloni@bootlin.com,
+ claudiu.beznea@tuxon.dev, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, thierry.reding@gmail.com,
+ u.kleine-koenig@pengutronix.de, linux-pwm@vger.kernel.org
+Cc: Hari.PrasathGE@microchip.com, Manikandan.M@microchip.com,
+ Conor.Dooley@microchip.com
+References: <20240202001733.91455-1-dharma.b@microchip.com>
+ <20240202001733.91455-4-dharma.b@microchip.com>
+ <170738899221.920003.15342446791449663430.b4-ty@kernel.org>
+ <cedecdb7-fe4a-42ea-9a11-faa82f84b57d@linaro.org>
+ <ffd43756-b24e-4f19-be33-0e33047ad70c@microchip.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <ffd43756-b24e-4f19-be33-0e33047ad70c@microchip.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,76 +142,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 20.02.24 um 08:49 schrieb Huacai Chen:
-> Commit fb24ea52f78e0d595852e ("drivers: Remove explicit invocations of
-> mmiowb()") remove all mmiowb() in drivers, but it says:
->
-> "NOTE: mmiowb() has only ever guaranteed ordering in conjunction with
-> spin_unlock(). However, pairing each mmiowb() removal in this patch with
-> the corresponding call to spin_unlock() is not at all trivial, so there
-> is a small chance that this change may regress any drivers incorrectly
-> relying on mmiowb() to order MMIO writes between CPUs using lock-free
-> synchronisation."
->
-> The mmio in radeon_ring_commit() is protected by a mutex rather than a
-> spinlock, but in the mutex fastpath it behaves similar to spinlock and
-> need a mmiowb() to make sure the wptr is up-to-date for hardware.
+On 20/02/2024 04:34, Dharma.B@microchip.com wrote:
+> Hi Krzysztof,
+> 
+> On 12/02/24 3:53 pm, Krzysztof Kozlowski wrote:
+>> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
+>>
+>> On 08/02/2024 11:43, Lee Jones wrote:
+>>> On Fri, 02 Feb 2024 05:47:33 +0530, Dharma Balasubiramani wrote:
+>>>> Convert the atmel,hlcdc binding to DT schema format.
+>>>>
+>>>> Align clocks and clock-names properties to clearly indicate that the LCD
+>>>> controller expects lvds_pll_clk when interfaced with the lvds display. This
+>>>> alignment with the specific hardware requirements ensures accurate device tree
+>>>> configuration for systems utilizing the HLCDC IP.
+>>>>
+>>>> [...]
+>>>
+>>> Applied, thanks!
+>>>
+>>> [3/3] dt-bindings: mfd: atmel,hlcdc: Convert to DT schema format
+>>>        commit: cb946db1335b599ece363d33966bf653ed0fa58a
+>>>
+>>
+>> Next is still failing.
+>>
+>> Dharma,
+>> You must explain and clearly mark dependencies between patches.
+> 
+> I sincerely apologize for any confusion caused by the oversight. I have 
+> organized the patches according to their dependencies in the patch 
 
-Well, if your hw platform can't guarantee that MMIO writes are ordered 
-then I would say you can't use radeon in the first place since this is a 
-mandatory prerequisite for correct hw behavior.
+Does it mean that all your other patchsets which contain multiple
+patches have dependencies? That would be the meaning of above approach.
+Unfortunately that's not good... I'll comment in other places for
+individual issues.
 
-Doing this here as a workaround is just the tip of the iceberg and 
-doesn't really fix the underlying problem.
-
-I strongly suggest to change your writel() implementation to include an 
-mmiowb() instead. If that is to heavy weight than at least the mutex 
-handling should be changed instead of adding platform specific 
-workarounds to a platform independent driver.
-
-Regards,
-Christian.
-
->
-> Without this, we get such an error when run 'glxgears' on weak ordering
-> architectures such as LoongArch:
->
-> radeon 0000:04:00.0: ring 0 stalled for more than 10324msec
-> radeon 0000:04:00.0: ring 3 stalled for more than 10240msec
-> radeon 0000:04:00.0: GPU lockup (current fence id 0x000000000001f412 last fence id 0x000000000001f414 on ring 3)
-> radeon 0000:04:00.0: GPU lockup (current fence id 0x000000000000f940 last fence id 0x000000000000f941 on ring 0)
-> radeon 0000:04:00.0: scheduling IB failed (-35).
-> [drm:radeon_gem_va_ioctl [radeon]] *ERROR* Couldn't update BO_VA (-35)
-> radeon 0000:04:00.0: scheduling IB failed (-35).
-> [drm:radeon_gem_va_ioctl [radeon]] *ERROR* Couldn't update BO_VA (-35)
-> radeon 0000:04:00.0: scheduling IB failed (-35).
-> [drm:radeon_gem_va_ioctl [radeon]] *ERROR* Couldn't update BO_VA (-35)
-> radeon 0000:04:00.0: scheduling IB failed (-35).
-> [drm:radeon_gem_va_ioctl [radeon]] *ERROR* Couldn't update BO_VA (-35)
-> radeon 0000:04:00.0: scheduling IB failed (-35).
-> [drm:radeon_gem_va_ioctl [radeon]] *ERROR* Couldn't update BO_VA (-35)
-> radeon 0000:04:00.0: scheduling IB failed (-35).
-> [drm:radeon_gem_va_ioctl [radeon]] *ERROR* Couldn't update BO_VA (-35)
-> radeon 0000:04:00.0: scheduling IB failed (-35).
-> [drm:radeon_gem_va_ioctl [radeon]] *ERROR* Couldn't update BO_VA (-35)
->
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
-> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
-> ---
->   drivers/gpu/drm/radeon/radeon_ring.c | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/radeon/radeon_ring.c b/drivers/gpu/drm/radeon/radeon_ring.c
-> index 38048593bb4a..d461dc85d820 100644
-> --- a/drivers/gpu/drm/radeon/radeon_ring.c
-> +++ b/drivers/gpu/drm/radeon/radeon_ring.c
-> @@ -183,6 +183,7 @@ void radeon_ring_commit(struct radeon_device *rdev, struct radeon_ring *ring,
->   	if (hdp_flush && rdev->asic->mmio_hdp_flush)
->   		rdev->asic->mmio_hdp_flush(rdev);
->   	radeon_ring_set_wptr(rdev, ring);
-> +	mmiowb(); /* Make sure wptr is up-to-date for hw */
->   }
->   
->   /**
+Best regards,
+Krzysztof
 
