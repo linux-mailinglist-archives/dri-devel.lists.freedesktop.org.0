@@ -2,69 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0418885C2DA
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 18:39:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F13885C2F5
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 18:46:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B761910E51C;
-	Tue, 20 Feb 2024 17:39:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8B5510E500;
+	Tue, 20 Feb 2024 17:46:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="TqtexMvZ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TrXCpTD3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
- [209.85.128.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E3D610E51C
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 17:39:34 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id
- 00721157ae682-6083cabc2f9so22652447b3.1
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 09:39:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1708450773; x=1709055573;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=kwojRyXnb4k+PKmGjGyV7kir48vIelar6htRmYR68I0=;
- b=TqtexMvZTd4RtbkxH5Rc9TGtkEK1B+Yajeh8W9LMZZyddIxJDMrEJQvnOE3MLN1MPJ
- JHwYW2JUYwgabXCMGY256mWe7I7+D4D6t4PY3jSNqK8ru9itMUGUNvD8jh+KXeIhzEkM
- gQYqe8zKHno2+mWU9tHueRmYqIyqLGd0sR8upZP5piejp1oH9B0NT/qZua5I3CEuqzYz
- R+V7rEUFr2aeyp96q0bDHWYL/4JWRzqecPJOoys0doue2L7Geuu+BvRFlqGiWBIk+QB5
- I8tDV0RswiDTSP4izLSx6Mf9xoMRyKn5FSnWn6vK0fuLtcUOMOvx46tcAc4uA5PqGKvH
- +gkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708450773; x=1709055573;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=kwojRyXnb4k+PKmGjGyV7kir48vIelar6htRmYR68I0=;
- b=DT9IBe6wV8q5IatguAWxHFyQjt1rjt8GYH0idSKZfdMj5GAdAkUtprzF/1YAs5mmbo
- 7YhycBWxMGKG/bX1OhUYIPCtRu4mM6TLO6upRC16M7CLBzu/Zf0/MxOYK67by4qI6Bzj
- A9/2LYhZkc8cDYnFm29DT2FTGB7CT1zBW35OyiejKoTEKZ1bJB6YgNEpxWCyQmzyfSlM
- r4f6HRCPg0ZZjspx372atXdgwqjvzHIocx0YFAd28xN1B8nSls7ewM2VmF8p19IjR8wl
- 4VUfo9w+bBu2FjmWOhQbDeDfrHRt8x7PxEPyhGIizdvZqWBBOnW0AJEl2RlpkT2kubn3
- 9dYA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUnkQh0uSspRJIVhDZ/viwQRWK64QZeJv+x53hnllwuGlw/WKLK5Rb7F0geRg4/G3rFSNCd3aiX0wOITMXzJRhuxbXfocs4Qo9cvxP4ocBh
-X-Gm-Message-State: AOJu0YyrtKGPPyj51ijeValAW49j00oaEcqfAIEXZxXKYWwkHjB/6mwl
- Q/f6dI/tcjMwrp3h9opDumD+Zr3QDXsofsRRA9f20UQRPJLFnxUgHd6o26StMGedka6WfREd+pv
- OJKNpb+gCGHmJtld5n9cUbw144gNQRBPKhsELlA==
-X-Google-Smtp-Source: AGHT+IE8J6U2xK7yEEZsILuSsck8nfu3xve4hcGx44M6LMTfhi2LfWK2a02JKylSZA6dA6zPFVlwbedcdS51i/zYlU4=
-X-Received: by 2002:a81:84d2:0:b0:607:57c4:6a8c with SMTP id
- u201-20020a8184d2000000b0060757c46a8cmr14485120ywf.43.1708450773360; Tue, 20
- Feb 2024 09:39:33 -0800 (PST)
-MIME-Version: 1.0
-References: <20240220161017.562241-1-mripard@kernel.org>
-In-Reply-To: <20240220161017.562241-1-mripard@kernel.org>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 20 Feb 2024 17:39:16 +0000
-Message-ID: <CAPY8ntDR7yQ5UY4Zy8UGi7DXOO68W2QqZFmfkUZpwUq9pjW=MQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/edid/firmware: Remove built-in EDIDs
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7829710E265;
+ Tue, 20 Feb 2024 17:46:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1708451194; x=1739987194;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=dhrxVzx7HeyLxwTTTk9vsNgTyetCr0xCbiOlSkExwGU=;
+ b=TrXCpTD3LM1Aj+Ub69p89pS+OEFYXILeM8LSkRyIgorC5M1RKLO0HoDR
+ apYAtjy0DLSalZtG/FXSL/sc4dVG2m23D/iUBH1zY6+wIKQTLPGwKgmrg
+ 9LJB1LPwqfA+z01+eG749EruqNHbwLyiq00YkuezTUNu8i6X43XoX+XLf
+ +PLKmftaWGJEA09CNCH/m84RjN7T4rk3B5e1itp96LAkjvMbDxoNK5zVp
+ WlFaqK1j7h148QNuA8mhLeyEvhrSuHbNwVNipd/GB731OyU4WkNN/awHE
+ dx80Ca7UAx5zV8dnx37/thtGRIeJbA7wgD17bQRQ9Yk0Zq5bGEgHVRKr8 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="2712881"
+X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
+   d="scan'208";a="2712881"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Feb 2024 09:46:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
+   d="scan'208";a="9449701"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmviesa004.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 20 Feb 2024 09:46:30 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 20 Feb 2024 09:46:29 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Tue, 20 Feb 2024 09:46:29 -0800
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.40) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 20 Feb 2024 09:46:28 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HmDGscGuNg8hiroEa+0TRjfXc62ClE0ouQnsV21usJyPA571Ac6d4BItQtpG5DHDS9KJ2p/9zOjSiZ1DoJ+eSkwzpQcTSOaXykMv/I7gydJLHV0dBdIUMKtOV05W5SaSa94OshRCkXDMBfha6lILcPsHnItikhhX0W9oZKPiQJmlNm65THIcVHG2pSPv6wq3Fbl8JvRABNGnpGbuect24lq87ndggJG+M3ugwzW9SLkDSZ8Z0vxtPEvfeZJcBmas20v/YB77KeeNUPYjS5O3QkCXmiW+QZjcc2zWKBKIslDdCoLArBy/crM7YaKXGiDJRbF5npoDGVRdGIylCrBr0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vPEArK+qGk6JjwjR7pPjoSfNkX3LW6gKkGnWtvRiMkc=;
+ b=J5B22JgcKYWdLXGH6iH2daMdcvLdnd8cffnUwN+bx7D+zGhSlBVo9wq+PZpev+sHZZ/oT7vKPD5jg5QNDbw3vrgSobTkBiDuCqL6wlt1pkQdA9FHqUFQqNDVkD0kmJuBHK31OTT+F1V6pUR8GL4BkUxtyFGTIz4zDEKfBFDjB77kMeS8sE6Vy8MrzmHVMTvnWo5XPNz6YubfsbZngTDau3I62VyQtH0xqQuS5e7o19iafzdiNEDhg5qPIziM++iB2AVL+zT/k9rysDV8416dI96+S970PJzuulRmx1XGJI9M5k6rJBJjjEEcvP7O4P4cWAA5mriTYP8sWsvCXgp0Yw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
+ by IA0PR11MB7281.namprd11.prod.outlook.com (2603:10b6:208:43b::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.39; Tue, 20 Feb
+ 2024 17:46:27 +0000
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::a7f1:384c:5d93:1d1d]) by MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::a7f1:384c:5d93:1d1d%4]) with mapi id 15.20.7292.036; Tue, 20 Feb 2024
+ 17:46:27 +0000
+Date: Tue, 20 Feb 2024 12:46:22 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
 To: Maxime Ripard <mripard@kernel.org>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+CC: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
+ <tvrtko.ursulin@linux.intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, <intel-gfx@lists.freedesktop.org>,
+ <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, Ville
+ =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH] drm/i915/tv: Fix TV mode
+Message-ID: <ZdTlbnkgTVUUDjXO@intel.com>
+References: <20240220131251.453060-1-mripard@kernel.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240220131251.453060-1-mripard@kernel.org>
+X-ClientProxiedBy: SJ0PR13CA0045.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c2::20) To MN0PR11MB6059.namprd11.prod.outlook.com
+ (2603:10b6:208:377::9)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|IA0PR11MB7281:EE_
+X-MS-Office365-Filtering-Correlation-Id: 018dc2e0-bbab-4eca-6617-08dc323bdcb4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ZFBobAikQOb7USps/J7TPzV7pkkCjV1G6MQAUu5XeeYg9bpEP3OyW/EmRTcOzTpDQkXOrcx99tLU+94hY84VL8mjCgMrAHAc1aQo9kJeUIdrhVEVCu3DD1DTIuuwBLx1c9oFYsikjEEmwG3ARbbCMaWcWAn4SgpkDsdqPpq0+Rqx3WoDdrEt6t6HhF5YWDr6Y2PrYnC5PFzkKt3pYuM1Ftl3cbd7VbMrIQGtiGiX+UG4Bq6sntE3Upw0NdbWL9qzzbt5CjoISCNRHpW5DAiOlAYeqLL+Pe6VeuBF5q/muTBafq51kTN2RK+zMZCzgpvashIKoH/NDi7jTrIou1XGIaiTjzk6/l+rHGLUGqgRa9tsQdYdxp1im85dr5S2v57CD7Od33zW2Xbj89C31091NBuMIqVt6oRknT7kyC7SuXql5Cu8uSZt+thH1PIi8jsjW8juBUQRoN9oIX3xd4l6IHg2m8jXBjo3wzNbCQUWhyo8wRFpLHke1XMj77qQezK4naRyU5wxZiEeFHxAtYfnoPEVonAipAFwYkij9sW9Vtg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?WmCKrQqDns+RZi5GwTX5dTi9mWqvdFLgn1mNzYXvZBXcYKuwowO1OLG0BG?=
+ =?iso-8859-1?Q?BoSgr1AMvVuz+w9lqTBIFUuEGW6D7eEhkWtKhNrJJUDEXuQohUAwOogAAc?=
+ =?iso-8859-1?Q?5Xub019GPp7NgFO98Fznb3LG/dz4p4Qdr6vqRpo5O7iBZP6S9vSewC4Lbp?=
+ =?iso-8859-1?Q?tJ9Ki4F//Dsm4rNtlhK7mQnIPHqWKYG5sFbIPWoIVJVTAmO6mApmFzrcJq?=
+ =?iso-8859-1?Q?uh3eFihR7WMYvEWM56zeCgUbp/+bPOUTykEsFMT+huRp7sM6ztctrr/q9G?=
+ =?iso-8859-1?Q?c5V+vtwLBTnyqRiuCG6ZMWq28ZKruP87zb0bEjPvFGf+cE0/7EwrKdH7sp?=
+ =?iso-8859-1?Q?+2UGxO/VHfJEEqpiVBo9kFiXTU7MWec221V0c+1ctT2b2l9x8TY6afxpqL?=
+ =?iso-8859-1?Q?hdu5+O63Tt//AvvnshGno1Tqh8WuTcUQW8SWA8V/KLENrBgl4rTguOeqzb?=
+ =?iso-8859-1?Q?g02ybcDpUy7MD4x96S+6f8bQEhOGoh9FFuBYzRWq6k+YiuDeEYWYRZb7qJ?=
+ =?iso-8859-1?Q?Eu83URy8XWLIV431cB03Y59F82mMSjG1CPwd0DMB13w87Bu1dRMB+P7/Z6?=
+ =?iso-8859-1?Q?CYwjp/EzVBuXvD6r7hhgHuLcVUm+JqvRq3E1A39z7uyavOA4XdpRjgPpPK?=
+ =?iso-8859-1?Q?YHeYY67r5Qh1LVHXFNW4py0vKEtCknE+cnWfmGwDB0HsIC3y6q0n3+/qjO?=
+ =?iso-8859-1?Q?CHinoiEpIHsWc8hAr89IacSdrx6qvo0Zwqo0xJPS15qpH003khnXrdIAHI?=
+ =?iso-8859-1?Q?k5C0UbQOWx+GA6FMW5DJ60pnVu6VXdGaWmag9O24f9zIHAGTy3CbqlEls5?=
+ =?iso-8859-1?Q?vL+aPaCa18+TJlwKNepy9JJFkc3mtXTd1dokIW7trh8/EdvVdIBXN+pvJM?=
+ =?iso-8859-1?Q?1ivbUW6Pq6KyMsZdIV/ddZ4tcCpRD1zC4e4ZwjzUhkTMlTnuihBd/wRdaH?=
+ =?iso-8859-1?Q?b7ksJUyx7EMMBucUfhjEMOgW/8sopDLgvsouZ9JEznPZL3VCRtsodPk4EV?=
+ =?iso-8859-1?Q?cjutNHGxs0Sl4b/REt92WO+CGHNxLF5OMVELG3dqLHdiUREEpzpyh2mGSP?=
+ =?iso-8859-1?Q?SpP22VRLKAXvhP7LsmEZqeBuqHGc9z3KuG9ubIlR5xQacQdZ5nqF8K2qlc?=
+ =?iso-8859-1?Q?qHcijWso2zsgWeTeWNoIVQ04xEieHwMRn84Pw95xjpRYpOfCW9UrE9qUOx?=
+ =?iso-8859-1?Q?K9hQCpwxv3SpSelv10Fxd6xdBMmUWQZFdEaPW6gZCJDCyPDrBPKT/y7LjV?=
+ =?iso-8859-1?Q?gSgIHigev2DOntTN9AMzgPkVrTF8s6VG7O8z0QurR25qpaUjfgKtDGGPX3?=
+ =?iso-8859-1?Q?/vUY2W7OnMcl2Uj6T4NCoEBPOmFeM28eNyGZXFldGjci+LuedUSlrdOSTN?=
+ =?iso-8859-1?Q?7s2COT221vTD/mkG5SdYnkD8Gv+4eoZwho1ar3Z0YCnlWSRubZu77d5vHf?=
+ =?iso-8859-1?Q?sjuWtDYl42awLotE2j5Qm227dVHsCHmNsTHgxrmE0KtAncH0uH71aMHNdg?=
+ =?iso-8859-1?Q?Hc3oaYmMDx+rZvdQCt6EM7TOUZ3BpYSCpwuNWfo9OkJ7rJCAJVnE/FpTIw?=
+ =?iso-8859-1?Q?S6KzpHMN9aRGccVTcs/8CS9B624AmhubH6Q900zFYt1+JzcLXlj4cHhv4+?=
+ =?iso-8859-1?Q?079Lu+tePbA9sXI5ASaLl9fPYhwduAtjxV?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 018dc2e0-bbab-4eca-6617-08dc323bdcb4
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2024 17:46:27.0311 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zuDSEwG/pAchvX1fgggtd3l6L/Xbjn+Roe5FqYUQeLmXIWrgWPTHz0s7dNQWJteJj3wP9ELuJPPmpU5IFQjtzQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7281
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,290 +156,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime
+On Tue, Feb 20, 2024 at 02:12:51PM +0100, Maxime Ripard wrote:
+> Commit 1fd4a5a36f9f ("drm/connector: Rename legacy TV property") failed
+> to update all the users of the struct drm_tv_connector_state mode field,
+> which resulted in a build failure in i915.
+> 
+> However, a subsequent commit in the same series reintroduced a mode
+> field in that structure, with a different semantic but the same type,
+> with the assumption that all previous users were updated.
 
-On Tue, 20 Feb 2024 at 16:10, Maxime Ripard <mripard@kernel.org> wrote:
->
-> The EDID firmware loading mechanism introduced a few built-in EDIDs that
-> could be forced on any connector, bypassing the EDIDs it exposes.
->
-> While convenient, this limited set of EDIDs doesn't take into account
-> the connector type, and we can end up with an EDID that is completely
-> invalid for a given connector.
->
-> For example, the edid/800x600.bin file matches the following EDID:
->
->   edid-decode (hex):
->
->   00 ff ff ff ff ff ff 00 31 d8 00 00 00 00 00 00
->   05 16 01 03 6d 1b 14 78 ea 5e c0 a4 59 4a 98 25
->   20 50 54 01 00 00 45 40 01 01 01 01 01 01 01 01
->   01 01 01 01 01 01 a0 0f 20 00 31 58 1c 20 28 80
->   14 00 15 d0 10 00 00 1e 00 00 00 ff 00 4c 69 6e
->   75 78 20 23 30 0a 20 20 20 20 00 00 00 fd 00 3b
->   3d 24 26 05 00 0a 20 20 20 20 20 20 00 00 00 fc
->   00 4c 69 6e 75 78 20 53 56 47 41 0a 20 20 00 c2
->
->   ----------------
->
->   Block 0, Base EDID:
->     EDID Structure Version & Revision: 1.3
->     Vendor & Product Identification:
->       Manufacturer: LNX
->       Model: 0
->       Made in: week 5 of 2012
->     Basic Display Parameters & Features:
->       Analog display
->       Signal Level Standard: 0.700 : 0.000 : 0.700 V p-p
->       Blank level equals black level
->       Sync: Separate Composite Serration
->       Maximum image size: 27 cm x 20 cm
->       Gamma: 2.20
->       DPMS levels: Standby Suspend Off
->       RGB color display
->       First detailed timing is the preferred timing
->     Color Characteristics:
->       Red  : 0.6416, 0.3486
->       Green: 0.2919, 0.5957
->       Blue : 0.1474, 0.1250
->       White: 0.3125, 0.3281
->     Established Timings I & II:
->       DMT 0x09:   800x600    60.316541 Hz   4:3     37.879 kHz     40.000000 MHz
->     Standard Timings:
->       DMT 0x09:   800x600    60.316541 Hz   4:3     37.879 kHz     40.000000 MHz
->     Detailed Timing Descriptors:
->       DTD 1:   800x600    60.316541 Hz   4:3     37.879 kHz     40.000000 MHz (277 mm x 208 mm)
->                    Hfront   40 Hsync 128 Hback   88 Hpol P
->                    Vfront    1 Vsync   4 Vback   23 Vpol P
->       Display Product Serial Number: 'Linux #0'
->       Display Range Limits:
->         Monitor ranges (GTF): 59-61 Hz V, 36-38 kHz H, max dotclock 50 MHz
->       Display Product Name: 'Linux SVGA'
->   Checksum: 0xc2
->
-> So, an analog monitor EDID. However, if the connector was an HDMI
-> monitor for example, it breaks the HDMI specification that requires,
-> among other things, a digital display, the VIC 1 mode and an HDMI Forum
-> Vendor Specific Data Block in an CTA-861 extension.
->
-> We thus end up with a completely invalid EDID, which thus might confuse
-> HDMI-related code that could parse it.
->
-> After some discussions on IRC, we identified mainly two ways to fix
-> this:
->
->   - We can either create more EDIDs for each connector type to provide
->     a built-in EDID that matches the resolution passed in the name, and
->     still be a sensible EDID for that connector type;
->
->   - Or we can just prevent the EDID to be exposed to userspace if it's
->     built-in.
->
-> Or possibly both.
->
-> However, the conclusion was that maybe we just don't need the built-in
-> EDIDs at all and we should just get rid of them. So here we are.
->
+just for the record, commit 7d63cd8526f1 ("drm/connector: Add TV standard property")
+
+> 
+> Since that didn't happen, the i915 driver now compiles, but mixes
+> accesses to the legacy_mode field and the newer mode field, but with the
+> previous semantics.
+> 
+> This obviously doesn't work very well, so we need to update the accesses
+> that weren't in the legacy renaming commit.
+> 
+> Fixes: 1fd4a5a36f9f ("drm/connector: Rename legacy TV property")
+> Reported-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+
+and pushing to drm-intel-next soon...
+
 > ---
->  drivers/gpu/drm/drm_edid_load.c | 160 +++-----------------------------
-
-Needs to be removed from the docs too:
-
-"The code (see drivers/gpu/drm/drm_edid_load.c) contains built-in data
-sets for commonly used screen resolutions (800x600, 1024x768,
-1280x1024, 1600x1200, 1680x1050, 1920x1080) as binary blobs,..."
-
-https://github.com/torvalds/linux/blob/master/Documentation/admin-guide/edid.rst
-
-I'm sad to see these go, but c'est la vie. Descriptions of using these
-built in EDIDs abound in various tutorials, so those are all now
-invalid :/
-
-  Dave
-
->  1 file changed, 13 insertions(+), 147 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_edid_load.c b/drivers/gpu/drm/drm_edid_load.c
-> index 60fcb80bce61..d1c7e8298702 100644
-> --- a/drivers/gpu/drm/drm_edid_load.c
-> +++ b/drivers/gpu/drm/drm_edid_load.c
-> @@ -20,162 +20,28 @@
->
->  static char edid_firmware[PATH_MAX];
->  module_param_string(edid_firmware, edid_firmware, sizeof(edid_firmware), 0644);
-> -MODULE_PARM_DESC(edid_firmware, "Do not probe monitor, use specified EDID blob "
-> -       "from built-in data or /lib/firmware instead. ");
-> -
-> -#define GENERIC_EDIDS 6
-> -static const char * const generic_edid_name[GENERIC_EDIDS] = {
-> -       "edid/800x600.bin",
-> -       "edid/1024x768.bin",
-> -       "edid/1280x1024.bin",
-> -       "edid/1600x1200.bin",
-> -       "edid/1680x1050.bin",
-> -       "edid/1920x1080.bin",
-> -};
-> -
-> -static const u8 generic_edid[GENERIC_EDIDS][128] = {
-> -       {
-> -       0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00,
-> -       0x31, 0xd8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> -       0x05, 0x16, 0x01, 0x03, 0x6d, 0x1b, 0x14, 0x78,
-> -       0xea, 0x5e, 0xc0, 0xa4, 0x59, 0x4a, 0x98, 0x25,
-> -       0x20, 0x50, 0x54, 0x01, 0x00, 0x00, 0x45, 0x40,
-> -       0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-> -       0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0xa0, 0x0f,
-> -       0x20, 0x00, 0x31, 0x58, 0x1c, 0x20, 0x28, 0x80,
-> -       0x14, 0x00, 0x15, 0xd0, 0x10, 0x00, 0x00, 0x1e,
-> -       0x00, 0x00, 0x00, 0xff, 0x00, 0x4c, 0x69, 0x6e,
-> -       0x75, 0x78, 0x20, 0x23, 0x30, 0x0a, 0x20, 0x20,
-> -       0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x3b,
-> -       0x3d, 0x24, 0x26, 0x05, 0x00, 0x0a, 0x20, 0x20,
-> -       0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfc,
-> -       0x00, 0x4c, 0x69, 0x6e, 0x75, 0x78, 0x20, 0x53,
-> -       0x56, 0x47, 0x41, 0x0a, 0x20, 0x20, 0x00, 0xc2,
-> -       },
-> -       {
-> -       0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00,
-> -       0x31, 0xd8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> -       0x05, 0x16, 0x01, 0x03, 0x6d, 0x23, 0x1a, 0x78,
-> -       0xea, 0x5e, 0xc0, 0xa4, 0x59, 0x4a, 0x98, 0x25,
-> -       0x20, 0x50, 0x54, 0x00, 0x08, 0x00, 0x61, 0x40,
-> -       0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-> -       0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x64, 0x19,
-> -       0x00, 0x40, 0x41, 0x00, 0x26, 0x30, 0x08, 0x90,
-> -       0x36, 0x00, 0x63, 0x0a, 0x11, 0x00, 0x00, 0x18,
-> -       0x00, 0x00, 0x00, 0xff, 0x00, 0x4c, 0x69, 0x6e,
-> -       0x75, 0x78, 0x20, 0x23, 0x30, 0x0a, 0x20, 0x20,
-> -       0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x3b,
-> -       0x3d, 0x2f, 0x31, 0x07, 0x00, 0x0a, 0x20, 0x20,
-> -       0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfc,
-> -       0x00, 0x4c, 0x69, 0x6e, 0x75, 0x78, 0x20, 0x58,
-> -       0x47, 0x41, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x55,
-> -       },
-> -       {
-> -       0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00,
-> -       0x31, 0xd8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> -       0x05, 0x16, 0x01, 0x03, 0x6d, 0x2c, 0x23, 0x78,
-> -       0xea, 0x5e, 0xc0, 0xa4, 0x59, 0x4a, 0x98, 0x25,
-> -       0x20, 0x50, 0x54, 0x00, 0x00, 0x00, 0x81, 0x80,
-> -       0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-> -       0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x30, 0x2a,
-> -       0x00, 0x98, 0x51, 0x00, 0x2a, 0x40, 0x30, 0x70,
-> -       0x13, 0x00, 0xbc, 0x63, 0x11, 0x00, 0x00, 0x1e,
-> -       0x00, 0x00, 0x00, 0xff, 0x00, 0x4c, 0x69, 0x6e,
-> -       0x75, 0x78, 0x20, 0x23, 0x30, 0x0a, 0x20, 0x20,
-> -       0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x3b,
-> -       0x3d, 0x3e, 0x40, 0x0b, 0x00, 0x0a, 0x20, 0x20,
-> -       0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfc,
-> -       0x00, 0x4c, 0x69, 0x6e, 0x75, 0x78, 0x20, 0x53,
-> -       0x58, 0x47, 0x41, 0x0a, 0x20, 0x20, 0x00, 0xa0,
-> -       },
-> -       {
-> -       0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00,
-> -       0x31, 0xd8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> -       0x05, 0x16, 0x01, 0x03, 0x6d, 0x37, 0x29, 0x78,
-> -       0xea, 0x5e, 0xc0, 0xa4, 0x59, 0x4a, 0x98, 0x25,
-> -       0x20, 0x50, 0x54, 0x00, 0x00, 0x00, 0xa9, 0x40,
-> -       0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-> -       0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x48, 0x3f,
-> -       0x40, 0x30, 0x62, 0xb0, 0x32, 0x40, 0x40, 0xc0,
-> -       0x13, 0x00, 0x2b, 0xa0, 0x21, 0x00, 0x00, 0x1e,
-> -       0x00, 0x00, 0x00, 0xff, 0x00, 0x4c, 0x69, 0x6e,
-> -       0x75, 0x78, 0x20, 0x23, 0x30, 0x0a, 0x20, 0x20,
-> -       0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x3b,
-> -       0x3d, 0x4a, 0x4c, 0x11, 0x00, 0x0a, 0x20, 0x20,
-> -       0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfc,
-> -       0x00, 0x4c, 0x69, 0x6e, 0x75, 0x78, 0x20, 0x55,
-> -       0x58, 0x47, 0x41, 0x0a, 0x20, 0x20, 0x00, 0x9d,
-> -       },
-> -       {
-> -       0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00,
-> -       0x31, 0xd8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> -       0x05, 0x16, 0x01, 0x03, 0x6d, 0x2b, 0x1b, 0x78,
-> -       0xea, 0x5e, 0xc0, 0xa4, 0x59, 0x4a, 0x98, 0x25,
-> -       0x20, 0x50, 0x54, 0x00, 0x00, 0x00, 0xb3, 0x00,
-> -       0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-> -       0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x21, 0x39,
-> -       0x90, 0x30, 0x62, 0x1a, 0x27, 0x40, 0x68, 0xb0,
-> -       0x36, 0x00, 0xb5, 0x11, 0x11, 0x00, 0x00, 0x1e,
-> -       0x00, 0x00, 0x00, 0xff, 0x00, 0x4c, 0x69, 0x6e,
-> -       0x75, 0x78, 0x20, 0x23, 0x30, 0x0a, 0x20, 0x20,
-> -       0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x3b,
-> -       0x3d, 0x40, 0x42, 0x0f, 0x00, 0x0a, 0x20, 0x20,
-> -       0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfc,
-> -       0x00, 0x4c, 0x69, 0x6e, 0x75, 0x78, 0x20, 0x57,
-> -       0x53, 0x58, 0x47, 0x41, 0x0a, 0x20, 0x00, 0x26,
-> -       },
-> -       {
-> -       0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00,
-> -       0x31, 0xd8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> -       0x05, 0x16, 0x01, 0x03, 0x6d, 0x32, 0x1c, 0x78,
-> -       0xea, 0x5e, 0xc0, 0xa4, 0x59, 0x4a, 0x98, 0x25,
-> -       0x20, 0x50, 0x54, 0x00, 0x00, 0x00, 0xd1, 0xc0,
-> -       0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-> -       0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x02, 0x3a,
-> -       0x80, 0x18, 0x71, 0x38, 0x2d, 0x40, 0x58, 0x2c,
-> -       0x45, 0x00, 0xf4, 0x19, 0x11, 0x00, 0x00, 0x1e,
-> -       0x00, 0x00, 0x00, 0xff, 0x00, 0x4c, 0x69, 0x6e,
-> -       0x75, 0x78, 0x20, 0x23, 0x30, 0x0a, 0x20, 0x20,
-> -       0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x3b,
-> -       0x3d, 0x42, 0x44, 0x0f, 0x00, 0x0a, 0x20, 0x20,
-> -       0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfc,
-> -       0x00, 0x4c, 0x69, 0x6e, 0x75, 0x78, 0x20, 0x46,
-> -       0x48, 0x44, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x05,
-> -       },
-> -};
-> +MODULE_PARM_DESC(edid_firmware,
-> +                "Do not probe monitor, use specified EDID blob from /lib/firmware instead.");
->
->  static const struct drm_edid *edid_load(struct drm_connector *connector, const char *name)
+>  drivers/gpu/drm/i915/display/intel_sdvo.c | 10 +++++-----
+>  drivers/gpu/drm/i915/display/intel_tv.c   | 10 +++++-----
+>  2 files changed, 10 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c b/drivers/gpu/drm/i915/display/intel_sdvo.c
+> index 825638702ac1..5f9e748adc89 100644
+> --- a/drivers/gpu/drm/i915/display/intel_sdvo.c
+> +++ b/drivers/gpu/drm/i915/display/intel_sdvo.c
+> @@ -1220,7 +1220,7 @@ static bool intel_sdvo_set_tv_format(struct intel_sdvo *intel_sdvo,
+>  	struct intel_sdvo_tv_format format;
+>  	u32 format_map;
+>  
+> -	format_map = 1 << conn_state->tv.mode;
+> +	format_map = 1 << conn_state->tv.legacy_mode;
+>  	memset(&format, 0, sizeof(format));
+>  	memcpy(&format, &format_map, min(sizeof(format), sizeof(format_map)));
+>  
+> @@ -2323,7 +2323,7 @@ static int intel_sdvo_get_tv_modes(struct drm_connector *connector)
+>  	 * Read the list of supported input resolutions for the selected TV
+>  	 * format.
+>  	 */
+> -	format_map = 1 << conn_state->tv.mode;
+> +	format_map = 1 << conn_state->tv.legacy_mode;
+>  	memcpy(&tv_res, &format_map,
+>  	       min(sizeof(format_map), sizeof(struct intel_sdvo_sdtv_resolution_request)));
+>  
+> @@ -2388,7 +2388,7 @@ intel_sdvo_connector_atomic_get_property(struct drm_connector *connector,
+>  		int i;
+>  
+>  		for (i = 0; i < intel_sdvo_connector->format_supported_num; i++)
+> -			if (state->tv.mode == intel_sdvo_connector->tv_format_supported[i]) {
+> +			if (state->tv.legacy_mode == intel_sdvo_connector->tv_format_supported[i]) {
+>  				*val = i;
+>  
+>  				return 0;
+> @@ -2444,7 +2444,7 @@ intel_sdvo_connector_atomic_set_property(struct drm_connector *connector,
+>  	struct intel_sdvo_connector_state *sdvo_state = to_intel_sdvo_connector_state(state);
+>  
+>  	if (property == intel_sdvo_connector->tv_format) {
+> -		state->tv.mode = intel_sdvo_connector->tv_format_supported[val];
+> +		state->tv.legacy_mode = intel_sdvo_connector->tv_format_supported[val];
+>  
+>  		if (state->crtc) {
+>  			struct drm_crtc_state *crtc_state =
+> @@ -3108,7 +3108,7 @@ static bool intel_sdvo_tv_create_property(struct intel_sdvo *intel_sdvo,
+>  		drm_property_add_enum(intel_sdvo_connector->tv_format, i,
+>  				      tv_format_names[intel_sdvo_connector->tv_format_supported[i]]);
+>  
+> -	intel_sdvo_connector->base.base.state->tv.mode = intel_sdvo_connector->tv_format_supported[0];
+> +	intel_sdvo_connector->base.base.state->tv.legacy_mode = intel_sdvo_connector->tv_format_supported[0];
+>  	drm_object_attach_property(&intel_sdvo_connector->base.base.base,
+>  				   intel_sdvo_connector->tv_format, 0);
+>  	return true;
+> diff --git a/drivers/gpu/drm/i915/display/intel_tv.c b/drivers/gpu/drm/i915/display/intel_tv.c
+> index a96bcfcf90a3..2b77d399f1a1 100644
+> --- a/drivers/gpu/drm/i915/display/intel_tv.c
+> +++ b/drivers/gpu/drm/i915/display/intel_tv.c
+> @@ -950,7 +950,7 @@ intel_disable_tv(struct intel_atomic_state *state,
+>  
+>  static const struct tv_mode *intel_tv_mode_find(const struct drm_connector_state *conn_state)
 >  {
->         const struct firmware *fw = NULL;
-> -       const u8 *fwdata;
->         const struct drm_edid *drm_edid;
-> -       int fwsize, builtin;
-> +       int err;
->
-> -       builtin = match_string(generic_edid_name, GENERIC_EDIDS, name);
-> -       if (builtin >= 0) {
-> -               fwdata = generic_edid[builtin];
-> -               fwsize = sizeof(generic_edid[builtin]);
-> -       } else {
-> -               int err;
-> -
-> -               err = request_firmware(&fw, name, connector->dev->dev);
-> -               if (err) {
-> -                       drm_err(connector->dev,
-> -                               "[CONNECTOR:%d:%s] Requesting EDID firmware \"%s\" failed (err=%d)\n",
-> -                               connector->base.id, connector->name,
-> -                               name, err);
-> -                       return ERR_PTR(err);
-> -               }
-> -
-> -               fwdata = fw->data;
-> -               fwsize = fw->size;
-> +       err = request_firmware(&fw, name, connector->dev->dev);
-> +       if (err) {
-> +               drm_err(connector->dev,
-> +                       "[CONNECTOR:%d:%s] Requesting EDID firmware \"%s\" failed (err=%d)\n",
-> +                       connector->base.id, connector->name,
-> +                       name, err);
-> +               return ERR_PTR(err);
->         }
->
-> -       drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Loaded %s firmware EDID \"%s\"\n",
-> -                   connector->base.id, connector->name,
-> -                   builtin >= 0 ? "built-in" : "external", name);
-> +       drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Loaded external firmware EDID \"%s\"\n",
-> +                   connector->base.id, connector->name, name);
->
-> -       drm_edid = drm_edid_alloc(fwdata, fwsize);
-> +       drm_edid = drm_edid_alloc(fw->data, fw->size);
->         if (!drm_edid_valid(drm_edid)) {
->                 drm_err(connector->dev, "Invalid firmware EDID \"%s\"\n", name);
->                 drm_edid_free(drm_edid);
-> --
+> -	int format = conn_state->tv.mode;
+> +	int format = conn_state->tv.legacy_mode;
+>  
+>  	return &tv_modes[format];
+>  }
+> @@ -1705,7 +1705,7 @@ static void intel_tv_find_better_format(struct drm_connector *connector)
+>  			break;
+>  	}
+>  
+> -	connector->state->tv.mode = i;
+> +	connector->state->tv.legacy_mode = i;
+>  }
+>  
+>  static int
+> @@ -1863,7 +1863,7 @@ static int intel_tv_atomic_check(struct drm_connector *connector,
+>  	old_state = drm_atomic_get_old_connector_state(state, connector);
+>  	new_crtc_state = drm_atomic_get_new_crtc_state(state, new_state->crtc);
+>  
+> -	if (old_state->tv.mode != new_state->tv.mode ||
+> +	if (old_state->tv.legacy_mode != new_state->tv.legacy_mode ||
+>  	    old_state->tv.margins.left != new_state->tv.margins.left ||
+>  	    old_state->tv.margins.right != new_state->tv.margins.right ||
+>  	    old_state->tv.margins.top != new_state->tv.margins.top ||
+> @@ -1900,7 +1900,7 @@ static void intel_tv_add_properties(struct drm_connector *connector)
+>  	conn_state->tv.margins.right = 46;
+>  	conn_state->tv.margins.bottom = 37;
+>  
+> -	conn_state->tv.mode = 0;
+> +	conn_state->tv.legacy_mode = 0;
+>  
+>  	/* Create TV properties then attach current values */
+>  	for (i = 0; i < ARRAY_SIZE(tv_modes); i++) {
+> @@ -1914,7 +1914,7 @@ static void intel_tv_add_properties(struct drm_connector *connector)
+>  
+>  	drm_object_attach_property(&connector->base,
+>  				   i915->drm.mode_config.legacy_tv_mode_property,
+> -				   conn_state->tv.mode);
+> +				   conn_state->tv.legacy_mode);
+>  	drm_object_attach_property(&connector->base,
+>  				   i915->drm.mode_config.tv_left_margin_property,
+>  				   conn_state->tv.margins.left);
+> -- 
 > 2.43.2
->
+> 
