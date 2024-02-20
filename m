@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8335985C07E
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 17:01:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1CE185C086
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 17:02:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24C9910E4CB;
-	Tue, 20 Feb 2024 16:01:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41C8510E4E1;
+	Tue, 20 Feb 2024 16:01:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XFsFSM+o";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nCRkMcV9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 896D510E4C9
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 16:01:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D0C710E4CC
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 16:01:39 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 4F590CE1A35;
- Tue, 20 Feb 2024 16:01:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 778C0C433F1;
- Tue, 20 Feb 2024 16:01:33 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 26EA7CE1A49;
+ Tue, 20 Feb 2024 16:01:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1ADA5C43390;
+ Tue, 20 Feb 2024 16:01:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1708444894;
- bh=9eI7Z2gXF17tNcwqrpCqMe+krArtY6LVWgTijcsr1n0=;
- h=From:To:Cc:Subject:Date:From;
- b=XFsFSM+ojOugaot+qWGkYDgAaob5fArA0It0qNGUlHwbXHUdVYY24volivAFE6CDu
- P+rLqJbBWrEitHiiNLxUObDD1kY6KuDFTKgPKBr/MsvWP6uOmtDaxNpyZ8qun5zQa/
- 8xsQ2y2GLHtzYlxZowW4+Flg3CoEjy3Qk4bljwVKbv9ZzBuAf/euK31JiJ73xl36mq
- bnBcIBugGpOMddZiVOe8I0qp4LSNR87MMcoDNrv9MdGwODVbeQvl96yCzLip25dXJ8
- BfXYf2Sk+JgXvZOoaKRW+j4CtzZeG3C833Y2s0NzWV8hOGa+AHN7EgODvZjlES/pcX
- pvn3FrKK4akPg==
+ s=k20201202; t=1708444896;
+ bh=5HAmL0Nulrsb9wBTZFbYw4JzagI9shqZIbv7xHhDomk=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=nCRkMcV94TF6ZiOGgI/KcdPAyvDQ5aUFUVYNEZnixqpM+SRTmYgRszRTldpgsZir5
+ v13m5hQ0ti5S8HKY9xh1APzEKVnGJmOBFGvjl0oB2apH7EuHs0JSmSuqaVDHui+Kee
+ G3CXk0IDaoc633XivhzYcm1XmJ1NO+yMr8sFKG4vYAOmmIvJ/88uPmrhqtcVnvQ0fU
+ L5J89Kfnuh+tqc6sIiH7C/+sUIcHGs++u8J/hIA/u2B1RnXdWC7GGBjq8j2rK+Ymq3
+ usR4IqDhn0LN32jyZFYuHSOT1GB3RRXhDIIr+7HdP8SY/BBfMNRsYlFlznUkO9pkMx
+ JKMVxUa/tmLaQ==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org
-Cc: Ohad Sharabi <osharabi@habana.ai>
-Subject: [PATCH 01/13] accel/habanalabs/gaudi2: use single function to compare
- FW versions
-Date: Tue, 20 Feb 2024 18:01:17 +0200
-Message-Id: <20240220160129.909714-1-ogabbay@kernel.org>
+Cc: Farah Kassabri <fkassabri@habana.ai>
+Subject: [PATCH 02/13] accel/habanalabs: remove hop size from asic properties
+Date: Tue, 20 Feb 2024 18:01:18 +0200
+Message-Id: <20240220160129.909714-2-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240220160129.909714-1-ogabbay@kernel.org>
+References: <20240220160129.909714-1-ogabbay@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -56,227 +57,359 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ohad Sharabi <osharabi@habana.ai>
+From: Farah Kassabri <fkassabri@habana.ai>
 
-Currently, the code contains 2 types of FW version comparison functions:
-- hl_is_fw_sw_ver_[below/equal_or_greater]()
-- gaudi2 specific function of the type
-  gaudi2_is_fw_ver_[below/above]x_y_z()
+The hop size related properties is a MMU properties and not
+asic properties.
+As for PMMU and HMMU we could have different sizes.
 
-Moreover, some functions use the inner FW version which should be only
-stage during development but not version dependencies.
-
-Finally, some tests are done to deprecated FW version to which LKD
-should hold no compatibility.
-
-This commit aligns all APIs to a single function that just compares the
-version and return an integers indicator (similar in some way to
-strcmp()).
-
-In addition, this generic function now considers also the sub-minor FW
-version and also remove dead code resulting in deprecated FW versions
-compatibility.
-
-Signed-off-by: Ohad Sharabi <osharabi@habana.ai>
+Signed-off-by: Farah Kassabri <fkassabri@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/common/firmware_if.c | 25 ++++++++
- drivers/accel/habanalabs/common/habanalabs.h  | 20 +------
- drivers/accel/habanalabs/gaudi2/gaudi2.c      | 57 +++----------------
- 3 files changed, 34 insertions(+), 68 deletions(-)
+ drivers/accel/habanalabs/common/habanalabs.h  |  4 ----
+ drivers/accel/habanalabs/common/mmu/mmu.c     | 22 ++++++++---------
+ .../accel/habanalabs/common/mmu/mmu_v2_hr.c   | 24 +++++++++----------
+ drivers/accel/habanalabs/gaudi/gaudi.c        |  8 +++----
+ drivers/accel/habanalabs/gaudi2/gaudi2.c      | 12 ++++------
+ drivers/accel/habanalabs/goya/goya.c          | 12 ++++------
+ 6 files changed, 36 insertions(+), 46 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/common/firmware_if.c b/drivers/accel/habanalabs/common/firmware_if.c
-index 3558a6a8e192..e7dcf2fe6552 100644
---- a/drivers/accel/habanalabs/common/firmware_if.c
-+++ b/drivers/accel/habanalabs/common/firmware_if.c
-@@ -40,6 +40,31 @@ static char *comms_sts_str_arr[COMMS_STS_INVLD_LAST] = {
- 	[COMMS_STS_TIMEOUT_ERR] = __stringify(COMMS_STS_TIMEOUT_ERR),
- };
- 
-+/**
-+ * hl_fw_version_cmp() - compares the FW version to a specific version
-+ *
-+ * @hdev: pointer to hl_device structure
-+ * @major: major number of a reference version
-+ * @minor: minor number of a reference version
-+ * @subminor: sub-minor number of a reference version
-+ *
-+ * Return 1 if FW version greater than the reference version, -1 if it's
-+ *         smaller and 0 if versions are identical.
-+ */
-+int hl_fw_version_cmp(struct hl_device *hdev, u32 major, u32 minor, u32 subminor)
-+{
-+	if (hdev->fw_sw_major_ver != major)
-+		return (hdev->fw_sw_major_ver > major) ? 1 : -1;
-+
-+	if (hdev->fw_sw_minor_ver != minor)
-+		return (hdev->fw_sw_minor_ver > minor) ? 1 : -1;
-+
-+	if (hdev->fw_sw_sub_minor_ver != subminor)
-+		return (hdev->fw_sw_sub_minor_ver > subminor) ? 1 : -1;
-+
-+	return 0;
-+}
-+
- static char *extract_fw_ver_from_str(const char *fw_str)
- {
- 	char *str, *fw_ver, *whitespace;
 diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
-index 7397ce86b7f0..634a470efe27 100644
+index 634a470efe27..c85849aefba6 100644
 --- a/drivers/accel/habanalabs/common/habanalabs.h
 +++ b/drivers/accel/habanalabs/common/habanalabs.h
-@@ -3600,25 +3600,6 @@ struct hl_ioctl_desc {
- 	hl_ioctl_t *func;
- };
+@@ -594,8 +594,6 @@ struct hl_hints_range {
+  *                 we display to the user
+  * @mmu_pgt_size: MMU page tables total size.
+  * @mmu_pte_size: PTE size in MMU page tables.
+- * @mmu_hop_table_size: MMU hop table size.
+- * @mmu_hop0_tables_total_size: total size of MMU hop0 tables.
+  * @dram_page_size: The DRAM physical page size.
+  * @cfg_size: configuration space size on SRAM.
+  * @sram_size: total size of SRAM.
+@@ -747,8 +745,6 @@ struct asic_fixed_properties {
+ 	u32				clk_pll_index;
+ 	u32				mmu_pgt_size;
+ 	u32				mmu_pte_size;
+-	u32				mmu_hop_table_size;
+-	u32				mmu_hop0_tables_total_size;
+ 	u32				dram_page_size;
+ 	u32				cfg_size;
+ 	u32				sram_size;
+diff --git a/drivers/accel/habanalabs/common/mmu/mmu.c b/drivers/accel/habanalabs/common/mmu/mmu.c
+index fa7919dba783..d3eaab908457 100644
+--- a/drivers/accel/habanalabs/common/mmu/mmu.c
++++ b/drivers/accel/habanalabs/common/mmu/mmu.c
+@@ -1236,7 +1236,7 @@ void hl_mmu_dr_free_pgt_node(struct hl_ctx *ctx, struct pgt_info *pgt_info)
+ 	struct hl_device *hdev = ctx->hdev;
  
--static inline bool hl_is_fw_sw_ver_below(struct hl_device *hdev, u32 fw_sw_major, u32 fw_sw_minor)
--{
--	if (hdev->fw_sw_major_ver < fw_sw_major)
--		return true;
--	if (hdev->fw_sw_major_ver > fw_sw_major)
--		return false;
--	if (hdev->fw_sw_minor_ver < fw_sw_minor)
--		return true;
--	return false;
--}
--
--static inline bool hl_is_fw_sw_ver_equal_or_greater(struct hl_device *hdev, u32 fw_sw_major,
--							u32 fw_sw_minor)
--{
--	return (hdev->fw_sw_major_ver > fw_sw_major ||
--			(hdev->fw_sw_major_ver == fw_sw_major &&
--					hdev->fw_sw_minor_ver >= fw_sw_minor));
--}
--
- /*
-  * Kernel module functions that can be accessed by entire module
-  */
-@@ -3923,6 +3904,7 @@ void hl_mmu_dr_flush(struct hl_ctx *ctx);
- int hl_mmu_dr_init(struct hl_device *hdev);
- void hl_mmu_dr_fini(struct hl_device *hdev);
- 
-+int hl_fw_version_cmp(struct hl_device *hdev, u32 major, u32 minor, u32 subminor);
- int hl_fw_load_fw_to_device(struct hl_device *hdev, const char *fw_name,
- 				void __iomem *dst, u32 src_offset, u32 size);
- int hl_fw_send_pci_access_msg(struct hl_device *hdev, u32 opcode, u64 value);
-diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-index 1f061209ae21..4a0917aa4dd7 100644
---- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
-+++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-@@ -2601,6 +2601,8 @@ static int gaudi2_set_fixed_properties(struct hl_device *hdev)
- 
- 	prop->hbw_flush_reg = mmPCIE_WRAP_SPECIAL_GLBL_SPARE_0;
- 
-+	prop->supports_advanced_cpucp_rc = true;
-+
- 	return 0;
- 
- free_qprops:
-@@ -3308,8 +3310,6 @@ static int gaudi2_late_init(struct hl_device *hdev)
- 	struct gaudi2_device *gaudi2 = hdev->asic_specific;
- 	int rc;
- 
--	hdev->asic_prop.supports_advanced_cpucp_rc = true;
--
- 	rc = hl_fw_send_pci_access_msg(hdev, CPUCP_PACKET_ENABLE_PCI_ACCESS,
- 					gaudi2->virt_msix_db_dma_addr);
- 	if (rc) {
-@@ -3783,7 +3783,7 @@ static int gaudi2_sw_init(struct hl_device *hdev)
- 	prop->supports_compute_reset = true;
- 
- 	/* Event queue sanity check added in FW version 1.11 */
--	if (hl_is_fw_sw_ver_below(hdev, 1, 11))
-+	if (hl_fw_version_cmp(hdev, 1, 11, 0) < 0)
- 		hdev->event_queue.check_eqe_index = false;
- 	else
- 		hdev->event_queue.check_eqe_index = true;
-@@ -6314,26 +6314,6 @@ static void gaudi2_execute_hard_reset(struct hl_device *hdev)
- 	WREG32(mmPSOC_RESET_CONF_SW_ALL_RST, 1);
+ 	gen_pool_free(hdev->mmu_priv.dr.mmu_pgt_pool, pgt_info->phys_addr,
+-			hdev->asic_prop.mmu_hop_table_size);
++			hdev->asic_prop.dmmu.hop_table_size);
+ 	hash_del(&pgt_info->node);
+ 	kfree((u64 *) (uintptr_t) pgt_info->shadow_addr);
+ 	kfree(pgt_info);
+@@ -1245,18 +1245,18 @@ void hl_mmu_dr_free_pgt_node(struct hl_ctx *ctx, struct pgt_info *pgt_info)
+ u64 hl_mmu_dr_get_phys_hop0_addr(struct hl_ctx *ctx)
+ {
+ 	return ctx->hdev->asic_prop.mmu_pgt_addr +
+-			(ctx->asid * ctx->hdev->asic_prop.mmu_hop_table_size);
++			(ctx->asid * ctx->hdev->asic_prop.dmmu.hop_table_size);
  }
  
--static int gaudi2_get_soft_rst_done_indication(struct hl_device *hdev, u32 poll_timeout_us)
--{
--	int i, rc = 0;
--	u32 reg_val;
--
--	for (i = 0 ; i < GAUDI2_RESET_POLL_CNT ; i++)
--		rc = hl_poll_timeout(
--			hdev,
--			mmCPU_RST_STATUS_TO_HOST,
--			reg_val,
--			reg_val == CPU_RST_STATUS_SOFT_RST_DONE,
--			1000,
--			poll_timeout_us);
--
--	if (rc)
--		dev_err(hdev->dev, "Timeout while waiting for FW to complete soft reset (0x%x)\n",
--				reg_val);
--	return rc;
--}
--
- /**
-  * gaudi2_execute_soft_reset - execute soft reset by driver/FW
-  *
-@@ -6346,23 +6326,8 @@ static int gaudi2_get_soft_rst_done_indication(struct hl_device *hdev, u32 poll_
- static int gaudi2_execute_soft_reset(struct hl_device *hdev, bool driver_performs_reset,
- 						u32 poll_timeout_us)
+ u64 hl_mmu_dr_get_hop0_addr(struct hl_ctx *ctx)
  {
--	int rc;
--
--	if (!driver_performs_reset) {
--		if (hl_is_fw_sw_ver_below(hdev, 1, 10)) {
--			/* set SP to indicate reset request sent to FW */
--			WREG32(mmCPU_RST_STATUS_TO_HOST, CPU_RST_STATUS_NA);
--
--			WREG32(mmGIC_HOST_SOFT_RST_IRQ_POLL_REG,
--				gaudi2_irq_map_table[GAUDI2_EVENT_CPU_SOFT_RESET].cpu_id);
--
--			/* wait for f/w response */
--			rc = gaudi2_get_soft_rst_done_indication(hdev, poll_timeout_us);
--		} else {
--			rc = hl_fw_send_soft_reset(hdev);
--		}
--		return rc;
--	}
-+	if (!driver_performs_reset)
-+		return hl_fw_send_soft_reset(hdev);
+ 	return (u64) (uintptr_t) ctx->hdev->mmu_priv.dr.mmu_shadow_hop0 +
+-			(ctx->asid * ctx->hdev->asic_prop.mmu_hop_table_size);
++			(ctx->asid * ctx->hdev->asic_prop.dmmu.hop_table_size);
+ }
  
- 	/* Block access to engines, QMANs and SM during reset, these
- 	 * RRs will be reconfigured after soft reset.
-@@ -7914,7 +7879,7 @@ static bool gaudi2_handle_ecc_event(struct hl_device *hdev, u16 event_type,
- 	bool has_block_id = false;
- 	u16 block_id;
+ u64 hl_mmu_dr_get_phys_addr(struct hl_ctx *ctx, u64 shadow_addr)
+ {
+-	u64 page_mask = ctx->hdev->asic_prop.mmu_hop_table_size - 1;
++	u64 page_mask = ctx->hdev->asic_prop.dmmu.hop_table_size - 1;
+ 	u64 shadow_hop_addr = shadow_addr & (~page_mask);
+ 	u64 pte_offset = shadow_addr & page_mask;
+ 	u64 phys_hop_addr;
+@@ -1326,13 +1326,13 @@ u64 hl_mmu_dr_alloc_hop(struct hl_ctx *ctx)
+ 		return ULLONG_MAX;
  
--	if (!hl_is_fw_sw_ver_below(hdev, 1, 12))
-+	if (hl_fw_version_cmp(hdev, 1, 12, 0) >= 0)
- 		has_block_id = true;
+ 	phys_addr = (u64) gen_pool_alloc(hdev->mmu_priv.dr.mmu_pgt_pool,
+-					prop->mmu_hop_table_size);
++					prop->dmmu.hop_table_size);
+ 	if (!phys_addr) {
+ 		dev_err(hdev->dev, "failed to allocate page\n");
+ 		goto pool_add_err;
+ 	}
  
- 	ecc_address = le64_to_cpu(ecc_data->ecc_address);
-@@ -8165,13 +8130,7 @@ static void gaudi2_ack_module_razwi_event_handler(struct hl_device *hdev,
- 		}
+-	shadow_addr = (u64) (uintptr_t) kzalloc(prop->mmu_hop_table_size,
++	shadow_addr = (u64) (uintptr_t) kzalloc(prop->dmmu.hop_table_size,
+ 						GFP_KERNEL);
+ 	if (!shadow_addr)
+ 		goto shadow_err;
+@@ -1347,7 +1347,7 @@ u64 hl_mmu_dr_alloc_hop(struct hl_ctx *ctx)
  
- 		hbw_rtr_id = gaudi2_tpc_initiator_hbw_rtr_id[module_idx];
--
--		if (hl_is_fw_sw_ver_below(hdev, 1, 9) &&
--				!hdev->asic_prop.fw_security_enabled &&
--				((module_idx == 0) || (module_idx == 1)))
--			lbw_rtr_id = DCORE0_RTR0;
--		else
--			lbw_rtr_id = gaudi2_tpc_initiator_lbw_rtr_id[module_idx];
-+		lbw_rtr_id = gaudi2_tpc_initiator_lbw_rtr_id[module_idx];
- 		break;
- 	case RAZWI_MME:
- 		sprintf(initiator_name, "MME_%u", module_idx);
-@@ -10080,7 +10039,7 @@ static void gaudi2_handle_eqe(struct hl_device *hdev, struct hl_eq_entry *eq_ent
- 		error_count = gaudi2_handle_pcie_drain(hdev, &eq_entry->pcie_drain_ind_data);
- 		reset_flags |= HL_DRV_RESET_FW_FATAL_ERR;
- 		event_mask |= HL_NOTIFIER_EVENT_GENERAL_HW_ERR;
--		if (hl_is_fw_sw_ver_equal_or_greater(hdev, 1, 13))
-+		if (hl_fw_version_cmp(hdev, 1, 13, 0) >= 0)
- 			is_critical = true;
- 		break;
+ shadow_err:
+ 	gen_pool_free(hdev->mmu_priv.dr.mmu_pgt_pool,
+-			phys_addr, prop->mmu_hop_table_size);
++			phys_addr, prop->dmmu.hop_table_size);
+ pool_add_err:
+ 	kfree(pgt_info);
  
+@@ -1379,7 +1379,7 @@ int hl_mmu_dr_init(struct hl_device *hdev)
+ 	int rc;
+ 
+ 	hdev->mmu_priv.dr.mmu_pgt_pool =
+-			gen_pool_create(__ffs(prop->mmu_hop_table_size), -1);
++			gen_pool_create(__ffs(prop->dmmu.hop_table_size), -1);
+ 
+ 	if (!hdev->mmu_priv.dr.mmu_pgt_pool) {
+ 		dev_err(hdev->dev, "Failed to create page gen pool\n");
+@@ -1387,8 +1387,8 @@ int hl_mmu_dr_init(struct hl_device *hdev)
+ 	}
+ 
+ 	rc = gen_pool_add(hdev->mmu_priv.dr.mmu_pgt_pool, prop->mmu_pgt_addr +
+-			prop->mmu_hop0_tables_total_size,
+-			prop->dmmu.pgt_size - prop->mmu_hop0_tables_total_size,
++			prop->dmmu.hop0_tables_total_size,
++			prop->dmmu.pgt_size - prop->dmmu.hop0_tables_total_size,
+ 			-1);
+ 	if (rc) {
+ 		dev_err(hdev->dev, "Failed to add memory to page gen pool\n");
+@@ -1396,7 +1396,7 @@ int hl_mmu_dr_init(struct hl_device *hdev)
+ 	}
+ 
+ 	hdev->mmu_priv.dr.mmu_shadow_hop0 = kvcalloc(prop->max_asid,
+-						prop->mmu_hop_table_size, GFP_KERNEL);
++						prop->dmmu.hop_table_size, GFP_KERNEL);
+ 	if (ZERO_OR_NULL_PTR(hdev->mmu_priv.dr.mmu_shadow_hop0)) {
+ 		rc = -ENOMEM;
+ 		goto err_pool_add;
+diff --git a/drivers/accel/habanalabs/common/mmu/mmu_v2_hr.c b/drivers/accel/habanalabs/common/mmu/mmu_v2_hr.c
+index afe7ef964f82..31507b2a431b 100644
+--- a/drivers/accel/habanalabs/common/mmu/mmu_v2_hr.c
++++ b/drivers/accel/habanalabs/common/mmu/mmu_v2_hr.c
+@@ -47,7 +47,7 @@ static inline int hl_mmu_v2_hr_init(struct hl_device *hdev)
+ {
+ 	struct asic_fixed_properties *prop = &hdev->asic_prop;
+ 
+-	return hl_mmu_hr_init(hdev, &hdev->mmu_priv.hr, prop->mmu_hop_table_size,
++	return hl_mmu_hr_init(hdev, &hdev->mmu_priv.hr, prop->pmmu.hop_table_size,
+ 				prop->mmu_pgt_size);
+ }
+ 
+@@ -65,7 +65,7 @@ static inline void hl_mmu_v2_hr_fini(struct hl_device *hdev)
+ {
+ 	struct asic_fixed_properties *prop = &hdev->asic_prop;
+ 
+-	hl_mmu_hr_fini(hdev, &hdev->mmu_priv.hr, prop->mmu_hop_table_size);
++	hl_mmu_hr_fini(hdev, &hdev->mmu_priv.hr, prop->pmmu.hop_table_size);
+ }
+ 
+ /**
+@@ -108,7 +108,7 @@ static void hl_mmu_v2_hr_ctx_fini(struct hl_ctx *ctx)
+ 			"pgt_info of addr 0x%llx of asid %d was not destroyed, num_ptes: %d\n",
+ 			pgt_info->phys_addr, ctx->asid, pgt_info->num_of_ptes);
+ 		hl_mmu_hr_free_hop_remove_pgt(pgt_info, &ctx->hdev->mmu_priv.hr,
+-							ctx->hdev->asic_prop.mmu_hop_table_size);
++							ctx->hdev->asic_prop.pmmu.hop_table_size);
+ 	}
+ }
+ 
+@@ -150,7 +150,7 @@ static int _hl_mmu_v2_hr_unmap(struct hl_ctx *ctx,
+ 
+ 		curr_pte = *(u64 *) (uintptr_t) hl_mmu_hr_pte_phys_to_virt(ctx, hops_pgt_info[i],
+ 							hop_pte_phys_addr[i],
+-							ctx->hdev->asic_prop.mmu_hop_table_size);
++							ctx->hdev->asic_prop.pmmu.hop_table_size);
+ 
+ 		if ((i < hop_last) && (curr_pte & mmu_prop->last_mask)) {
+ 			hop_last = i;
+@@ -169,14 +169,14 @@ static int _hl_mmu_v2_hr_unmap(struct hl_ctx *ctx,
+ 
+ 	for (i = hop_last ; i > 0 ; i--) {
+ 		hl_mmu_hr_clear_pte(ctx, hops_pgt_info[i], hop_pte_phys_addr[i],
+-						ctx->hdev->asic_prop.mmu_hop_table_size);
++						ctx->hdev->asic_prop.pmmu.hop_table_size);
+ 
+ 		if (hl_mmu_hr_put_pte(ctx, hops_pgt_info[i], &ctx->hdev->mmu_priv.hr,
+-						ctx->hdev->asic_prop.mmu_hop_table_size))
++						ctx->hdev->asic_prop.pmmu.hop_table_size))
+ 			goto mapped;
+ 	}
+ 	hl_mmu_hr_clear_pte(ctx, hops_pgt_info[0], hop_pte_phys_addr[0],
+-						ctx->hdev->asic_prop.mmu_hop_table_size);
++						ctx->hdev->asic_prop.pmmu.hop_table_size);
+ 
+ mapped:
+ 	return 0;
+@@ -255,7 +255,7 @@ static int _hl_mmu_v2_hr_map(struct hl_ctx *ctx,
+ 									scrambled_virt_addr);
+ 		curr_pte = *(u64 *) (uintptr_t) hl_mmu_hr_pte_phys_to_virt(ctx, hops_pgt_info[i],
+ 							hop_pte_phys_addr[i],
+-							ctx->hdev->asic_prop.mmu_hop_table_size);
++							ctx->hdev->asic_prop.pmmu.hop_table_size);
+ 	}
+ 
+ 	if (curr_pte & PAGE_PRESENT_MASK) {
+@@ -268,7 +268,7 @@ static int _hl_mmu_v2_hr_map(struct hl_ctx *ctx,
+ 					*(u64 *) (uintptr_t)
+ 					hl_mmu_hr_pte_phys_to_virt(ctx, hops_pgt_info[i],
+ 							hop_pte_phys_addr[i],
+-							ctx->hdev->asic_prop.mmu_hop_table_size),
++							ctx->hdev->asic_prop.pmmu.hop_table_size),
+ 					hop_pte_phys_addr[i]);
+ 		rc = -EINVAL;
+ 		goto err;
+@@ -279,7 +279,7 @@ static int _hl_mmu_v2_hr_map(struct hl_ctx *ctx,
+ 
+ 	/* Write the PTEs */
+ 	hl_mmu_hr_write_pte(ctx, hops_pgt_info[hop_last], hop_pte_phys_addr[hop_last], curr_pte,
+-							ctx->hdev->asic_prop.mmu_hop_table_size);
++							ctx->hdev->asic_prop.pmmu.hop_table_size);
+ 
+ 	/* for each new hop, add its address to the table of previous-hop */
+ 	for (i = 1 ; i <= hop_last ; i++) {
+@@ -287,7 +287,7 @@ static int _hl_mmu_v2_hr_map(struct hl_ctx *ctx,
+ 			curr_pte = (hops_pgt_info[i]->phys_addr & HOP_PHYS_ADDR_MASK) |
+ 							PAGE_PRESENT_MASK;
+ 			hl_mmu_hr_write_pte(ctx, hops_pgt_info[i - 1], hop_pte_phys_addr[i - 1],
+-						curr_pte, ctx->hdev->asic_prop.mmu_hop_table_size);
++						curr_pte, ctx->hdev->asic_prop.pmmu.hop_table_size);
+ 			if (i - 1)
+ 				hl_mmu_hr_get_pte(ctx, &ctx->hdev->mmu_func[MMU_HR_PGT].hr_funcs,
+ 								hops_pgt_info[i - 1]->phys_addr);
+@@ -303,7 +303,7 @@ static int _hl_mmu_v2_hr_map(struct hl_ctx *ctx,
+ 	for (i = 1 ; i <= hop_last ; i++)
+ 		if (hop_new[i] && hops_pgt_info[i])
+ 			hl_mmu_hr_free_hop_remove_pgt(hops_pgt_info[i], &ctx->hdev->mmu_priv.hr,
+-							ctx->hdev->asic_prop.mmu_hop_table_size);
++							ctx->hdev->asic_prop.pmmu.hop_table_size);
+ 
+ 	return rc;
+ }
+diff --git a/drivers/accel/habanalabs/gaudi/gaudi.c b/drivers/accel/habanalabs/gaudi/gaudi.c
+index dde3839fe0e0..f2b04ffb0ecb 100644
+--- a/drivers/accel/habanalabs/gaudi/gaudi.c
++++ b/drivers/accel/habanalabs/gaudi/gaudi.c
+@@ -614,8 +614,6 @@ static int gaudi_set_fixed_properties(struct hl_device *hdev)
+ 	else
+ 		prop->mmu_pgt_size = MMU_PAGE_TABLES_SIZE;
+ 	prop->mmu_pte_size = HL_PTE_SIZE;
+-	prop->mmu_hop_table_size = HOP_TABLE_SIZE_512_PTE;
+-	prop->mmu_hop0_tables_total_size = HOP0_512_PTE_TABLES_TOTAL_SIZE;
+ 	prop->dram_page_size = PAGE_SIZE_2MB;
+ 	prop->device_mem_alloc_default_page_size = prop->dram_page_size;
+ 	prop->dram_supports_virtual_memory = false;
+@@ -637,8 +635,8 @@ static int gaudi_set_fixed_properties(struct hl_device *hdev)
+ 	prop->pmmu.num_hops = MMU_ARCH_5_HOPS;
+ 	prop->pmmu.last_mask = LAST_MASK;
+ 	/* TODO: will be duplicated until implementing per-MMU props */
+-	prop->pmmu.hop_table_size = prop->mmu_hop_table_size;
+-	prop->pmmu.hop0_tables_total_size = prop->mmu_hop0_tables_total_size;
++	prop->pmmu.hop_table_size = HOP_TABLE_SIZE_512_PTE;
++	prop->pmmu.hop0_tables_total_size = HOP0_512_PTE_TABLES_TOTAL_SIZE;
+ 
+ 	/* PMMU and HPMMU are the same except of page size */
+ 	memcpy(&prop->pmmu_huge, &prop->pmmu, sizeof(prop->pmmu));
+@@ -3653,7 +3651,7 @@ static int gaudi_mmu_init(struct hl_device *hdev)
+ 
+ 	for (i = 0 ; i < prop->max_asid ; i++) {
+ 		hop0_addr = prop->mmu_pgt_addr +
+-				(i * prop->mmu_hop_table_size);
++				(i * prop->dmmu.hop_table_size);
+ 
+ 		rc = gaudi_mmu_update_asid_hop0_addr(hdev, i, hop0_addr);
+ 		if (rc) {
+diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+index 4a0917aa4dd7..26975179763a 100644
+--- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
++++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+@@ -2467,8 +2467,6 @@ static int gaudi2_set_fixed_properties(struct hl_device *hdev)
+ 
+ 	prop->dmmu.pgt_size = HMMU_PAGE_TABLES_SIZE;
+ 	prop->mmu_pte_size = HL_PTE_SIZE;
+-	prop->mmu_hop_table_size = HOP_TABLE_SIZE_512_PTE;
+-	prop->mmu_hop0_tables_total_size = HOP_TABLE_SIZE_512_PTE * prop->max_asid;
+ 
+ 	prop->dmmu.hop_shifts[MMU_HOP0] = DHOP0_SHIFT;
+ 	prop->dmmu.hop_shifts[MMU_HOP1] = DHOP1_SHIFT;
+@@ -2482,8 +2480,8 @@ static int gaudi2_set_fixed_properties(struct hl_device *hdev)
+ 	prop->dmmu.num_hops = MMU_ARCH_4_HOPS;
+ 	prop->dmmu.last_mask = LAST_MASK;
+ 	prop->dmmu.host_resident = 0;
+-	prop->dmmu.hop_table_size = prop->mmu_hop_table_size;
+-	prop->dmmu.hop0_tables_total_size = prop->mmu_hop0_tables_total_size;
++	prop->dmmu.hop_table_size = HOP_TABLE_SIZE_512_PTE;
++	prop->dmmu.hop0_tables_total_size = HOP_TABLE_SIZE_512_PTE * prop->max_asid;
+ 
+ 	/* As we need to set the pgt address in dram for HMMU init so we cannot
+ 	 * wait to the fw cpucp info to set the dram props as mmu init comes before
+@@ -2500,8 +2498,8 @@ static int gaudi2_set_fixed_properties(struct hl_device *hdev)
+ 	prop->pmmu.host_resident = 1;
+ 	prop->pmmu.num_hops = MMU_ARCH_6_HOPS;
+ 	prop->pmmu.last_mask = LAST_MASK;
+-	prop->pmmu.hop_table_size = prop->mmu_hop_table_size;
+-	prop->pmmu.hop0_tables_total_size = prop->mmu_hop0_tables_total_size;
++	prop->pmmu.hop_table_size = HOP_TABLE_SIZE_512_PTE;
++	prop->pmmu.hop0_tables_total_size = HOP_TABLE_SIZE_512_PTE * prop->max_asid;
+ 
+ 	prop->hints_host_reserved_va_range.start_addr = RESERVED_VA_FOR_VIRTUAL_MSIX_DOORBELL_START;
+ 	prop->hints_host_reserved_va_range.end_addr = RESERVED_VA_RANGE_FOR_ARC_ON_HOST_END;
+@@ -5934,7 +5932,7 @@ static int gaudi2_mmu_update_hop0_addr(struct hl_device *hdev, u32 stlb_base,
+ 		if (host_resident_pgt)
+ 			hop0_addr = hdev->mmu_priv.hr.mmu_asid_hop0[asid].phys_addr;
+ 		else
+-			hop0_addr = prop->mmu_pgt_addr + (asid * prop->mmu_hop_table_size);
++			hop0_addr = prop->mmu_pgt_addr + (asid * prop->dmmu.hop_table_size);
+ 
+ 		rc = gaudi2_mmu_update_asid_hop0_addr(hdev, stlb_base, asid, hop0_addr);
+ 		if (rc) {
+diff --git a/drivers/accel/habanalabs/goya/goya.c b/drivers/accel/habanalabs/goya/goya.c
+index 1322cb330c57..5a359c3bdc78 100644
+--- a/drivers/accel/habanalabs/goya/goya.c
++++ b/drivers/accel/habanalabs/goya/goya.c
+@@ -413,8 +413,6 @@ int goya_set_fixed_properties(struct hl_device *hdev)
+ 	else
+ 		prop->mmu_pgt_size = MMU_PAGE_TABLES_SIZE;
+ 	prop->mmu_pte_size = HL_PTE_SIZE;
+-	prop->mmu_hop_table_size = HOP_TABLE_SIZE_512_PTE;
+-	prop->mmu_hop0_tables_total_size = HOP0_512_PTE_TABLES_TOTAL_SIZE;
+ 	prop->dram_page_size = PAGE_SIZE_2MB;
+ 	prop->device_mem_alloc_default_page_size = prop->dram_page_size;
+ 	prop->dram_supports_virtual_memory = true;
+@@ -435,8 +433,8 @@ int goya_set_fixed_properties(struct hl_device *hdev)
+ 	prop->dmmu.num_hops = MMU_ARCH_5_HOPS;
+ 	prop->dmmu.last_mask = LAST_MASK;
+ 	/* TODO: will be duplicated until implementing per-MMU props */
+-	prop->dmmu.hop_table_size = prop->mmu_hop_table_size;
+-	prop->dmmu.hop0_tables_total_size = prop->mmu_hop0_tables_total_size;
++	prop->dmmu.hop_table_size = HOP_TABLE_SIZE_512_PTE;
++	prop->dmmu.hop0_tables_total_size = HOP0_512_PTE_TABLES_TOTAL_SIZE;
+ 
+ 	/* shifts and masks are the same in PMMU and DMMU */
+ 	memcpy(&prop->pmmu, &prop->dmmu, sizeof(prop->dmmu));
+@@ -446,8 +444,8 @@ int goya_set_fixed_properties(struct hl_device *hdev)
+ 	prop->pmmu.num_hops = MMU_ARCH_5_HOPS;
+ 	prop->pmmu.last_mask = LAST_MASK;
+ 	/* TODO: will be duplicated until implementing per-MMU props */
+-	prop->pmmu.hop_table_size = prop->mmu_hop_table_size;
+-	prop->pmmu.hop0_tables_total_size = prop->mmu_hop0_tables_total_size;
++	prop->pmmu.hop_table_size = HOP_TABLE_SIZE_512_PTE;
++	prop->pmmu.hop0_tables_total_size = HOP0_512_PTE_TABLES_TOTAL_SIZE;
+ 
+ 	/* PMMU and HPMMU are the same except of page size */
+ 	memcpy(&prop->pmmu_huge, &prop->pmmu, sizeof(prop->pmmu));
+@@ -2678,7 +2676,7 @@ int goya_mmu_init(struct hl_device *hdev)
+ 
+ 	for (i = 0 ; i < prop->max_asid ; i++) {
+ 		hop0_addr = prop->mmu_pgt_addr +
+-				(i * prop->mmu_hop_table_size);
++				(i * prop->dmmu.hop_table_size);
+ 
+ 		rc = goya_mmu_update_asid_hop0_addr(hdev, i, hop0_addr);
+ 		if (rc) {
 -- 
 2.34.1
 
