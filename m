@@ -2,47 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CB5485C0C8
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 17:10:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BB3185C184
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 17:35:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF58410E4E2;
-	Tue, 20 Feb 2024 16:10:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0262910E4F1;
+	Tue, 20 Feb 2024 16:35:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G+JuFS+l";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DedQTk2V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE62710E4E2
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 16:10:24 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 77982CE19F6;
- Tue, 20 Feb 2024 16:10:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 614F0C433C7;
- Tue, 20 Feb 2024 16:10:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1708445421;
- bh=mtg146ikD/bWLdpq1LeQiFIMaF5892APmyg25yGrDPA=;
- h=From:To:Cc:Subject:Date:From;
- b=G+JuFS+lspxmHBd7NeiU6IGkhzM2i3tQ8m51bsFfCn/hgZut0Q/t4ixCL/oEUwr2R
- VCOoDkdVI4eyzBMbddZBYWMvXknyLcKBOF5NMvYje+IgdgLX0a5Sbps1WX28EaPRuz
- Qwv5qOTEjbTlJzL2FzMgjZWqak2ubKYH0aIIUJLBS+5ms2dvnb3wcuciuf3+2vqtK6
- tHuvGjzGDqkOPBaKmNjUyZJa3rQ1+gGnBIGSiNSg438uTxedcT0cEvMzolnQWCO7HU
- DbuZU0YGfQXW5arwf+Yc6Uu6BdXv5DzzpjMG5Y6c0oe5UZ6GQybTYsLGF/wo0oTBkx
- dUavpO/f4ZluA==
-From: Maxime Ripard <mripard@kernel.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Jani Nikula <jani.nikula@intel.com>
-Subject: [PATCH] drm/edid/firmware: Remove built-in EDIDs
-Date: Tue, 20 Feb 2024 17:10:17 +0100
-Message-ID: <20240220161017.562241-1-mripard@kernel.org>
-X-Mailer: git-send-email 2.43.2
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B3D510E4F0
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 16:35:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1708446905; x=1739982905;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=j/Afb2Dxl4RH/+nknh0QbyQZ6iTzJWFVe41iWcwGHvk=;
+ b=DedQTk2VM4n/ETmFx3ErDU8AaJJpzWnS0Hu9tgnUnpIstEf/6kxUUTNw
+ /uVgNm3fXijGCPNkyJ/xXNrrzK6jmFle/aHWWohNmEgpK0mNcmYvDRWci
+ Wfvhfy/QOaoctP4HrtmiplyFlsmdr+bukxXIqpCQrAq72Wru3gjZGXAT9
+ UEqCBikh/I0T/2iEioR9R2oVjt671dRjUjT34qpKdxc+aWjUTWlZ9m527
+ uExpw9y0X3wSweE3BCbRd1CONcT7IxpMeUkfT5ICYMRq1M/yWxxIfLy2z
+ frHOfZd8qW0lsXRSSBzWnrpq2UKW+3CSZMMzC3aS/IkPFh2A/SCI2PUCh g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="3023566"
+X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
+   d="scan'208";a="3023566"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Feb 2024 08:35:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="827179336"
+X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; d="scan'208";a="827179336"
+Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.245.114.39])
+ ([10.245.114.39])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Feb 2024 08:35:02 -0800
+Message-ID: <c82a9ceb-9e3b-419a-a6ea-7838a9959afb@linux.intel.com>
+Date: Tue, 20 Feb 2024 17:34:59 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] accel/ivpu: Don't enable any tiles by default on
+ VPU40xx
+To: dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
+ Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>, stable@vger.kernel.org
+References: <20240220110830.1439719-1-jacek.lawrynowicz@linux.intel.com>
+ <20240220131624.1447813-1-jacek.lawrynowicz@linux.intel.com>
+Content-Language: en-US
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20240220131624.1447813-1-jacek.lawrynowicz@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,271 +73,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The EDID firmware loading mechanism introduced a few built-in EDIDs that
-could be forced on any connector, bypassing the EDIDs it exposes.
+Applied to drm-misc-fixes
 
-While convenient, this limited set of EDIDs doesn't take into account
-the connector type, and we can end up with an EDID that is completely
-invalid for a given connector.
-
-For example, the edid/800x600.bin file matches the following EDID:
-
-  edid-decode (hex):
-
-  00 ff ff ff ff ff ff 00 31 d8 00 00 00 00 00 00
-  05 16 01 03 6d 1b 14 78 ea 5e c0 a4 59 4a 98 25
-  20 50 54 01 00 00 45 40 01 01 01 01 01 01 01 01
-  01 01 01 01 01 01 a0 0f 20 00 31 58 1c 20 28 80
-  14 00 15 d0 10 00 00 1e 00 00 00 ff 00 4c 69 6e
-  75 78 20 23 30 0a 20 20 20 20 00 00 00 fd 00 3b
-  3d 24 26 05 00 0a 20 20 20 20 20 20 00 00 00 fc
-  00 4c 69 6e 75 78 20 53 56 47 41 0a 20 20 00 c2
-
-  ----------------
-
-  Block 0, Base EDID:
-    EDID Structure Version & Revision: 1.3
-    Vendor & Product Identification:
-      Manufacturer: LNX
-      Model: 0
-      Made in: week 5 of 2012
-    Basic Display Parameters & Features:
-      Analog display
-      Signal Level Standard: 0.700 : 0.000 : 0.700 V p-p
-      Blank level equals black level
-      Sync: Separate Composite Serration
-      Maximum image size: 27 cm x 20 cm
-      Gamma: 2.20
-      DPMS levels: Standby Suspend Off
-      RGB color display
-      First detailed timing is the preferred timing
-    Color Characteristics:
-      Red  : 0.6416, 0.3486
-      Green: 0.2919, 0.5957
-      Blue : 0.1474, 0.1250
-      White: 0.3125, 0.3281
-    Established Timings I & II:
-      DMT 0x09:   800x600    60.316541 Hz   4:3     37.879 kHz     40.000000 MHz
-    Standard Timings:
-      DMT 0x09:   800x600    60.316541 Hz   4:3     37.879 kHz     40.000000 MHz
-    Detailed Timing Descriptors:
-      DTD 1:   800x600    60.316541 Hz   4:3     37.879 kHz     40.000000 MHz (277 mm x 208 mm)
-                   Hfront   40 Hsync 128 Hback   88 Hpol P
-                   Vfront    1 Vsync   4 Vback   23 Vpol P
-      Display Product Serial Number: 'Linux #0'
-      Display Range Limits:
-        Monitor ranges (GTF): 59-61 Hz V, 36-38 kHz H, max dotclock 50 MHz
-      Display Product Name: 'Linux SVGA'
-  Checksum: 0xc2
-
-So, an analog monitor EDID. However, if the connector was an HDMI
-monitor for example, it breaks the HDMI specification that requires,
-among other things, a digital display, the VIC 1 mode and an HDMI Forum
-Vendor Specific Data Block in an CTA-861 extension.
-
-We thus end up with a completely invalid EDID, which thus might confuse
-HDMI-related code that could parse it.
-
-After some discussions on IRC, we identified mainly two ways to fix
-this:
-
-  - We can either create more EDIDs for each connector type to provide
-    a built-in EDID that matches the resolution passed in the name, and
-    still be a sensible EDID for that connector type;
-
-  - Or we can just prevent the EDID to be exposed to userspace if it's
-    built-in.
-
-Or possibly both.
-
-However, the conclusion was that maybe we just don't need the built-in
-EDIDs at all and we should just get rid of them. So here we are.
-
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/gpu/drm/drm_edid_load.c | 160 +++-----------------------------
- 1 file changed, 13 insertions(+), 147 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_edid_load.c b/drivers/gpu/drm/drm_edid_load.c
-index 60fcb80bce61..d1c7e8298702 100644
---- a/drivers/gpu/drm/drm_edid_load.c
-+++ b/drivers/gpu/drm/drm_edid_load.c
-@@ -20,162 +20,28 @@
- 
- static char edid_firmware[PATH_MAX];
- module_param_string(edid_firmware, edid_firmware, sizeof(edid_firmware), 0644);
--MODULE_PARM_DESC(edid_firmware, "Do not probe monitor, use specified EDID blob "
--	"from built-in data or /lib/firmware instead. ");
--
--#define GENERIC_EDIDS 6
--static const char * const generic_edid_name[GENERIC_EDIDS] = {
--	"edid/800x600.bin",
--	"edid/1024x768.bin",
--	"edid/1280x1024.bin",
--	"edid/1600x1200.bin",
--	"edid/1680x1050.bin",
--	"edid/1920x1080.bin",
--};
--
--static const u8 generic_edid[GENERIC_EDIDS][128] = {
--	{
--	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00,
--	0x31, 0xd8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
--	0x05, 0x16, 0x01, 0x03, 0x6d, 0x1b, 0x14, 0x78,
--	0xea, 0x5e, 0xc0, 0xa4, 0x59, 0x4a, 0x98, 0x25,
--	0x20, 0x50, 0x54, 0x01, 0x00, 0x00, 0x45, 0x40,
--	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
--	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0xa0, 0x0f,
--	0x20, 0x00, 0x31, 0x58, 0x1c, 0x20, 0x28, 0x80,
--	0x14, 0x00, 0x15, 0xd0, 0x10, 0x00, 0x00, 0x1e,
--	0x00, 0x00, 0x00, 0xff, 0x00, 0x4c, 0x69, 0x6e,
--	0x75, 0x78, 0x20, 0x23, 0x30, 0x0a, 0x20, 0x20,
--	0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x3b,
--	0x3d, 0x24, 0x26, 0x05, 0x00, 0x0a, 0x20, 0x20,
--	0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfc,
--	0x00, 0x4c, 0x69, 0x6e, 0x75, 0x78, 0x20, 0x53,
--	0x56, 0x47, 0x41, 0x0a, 0x20, 0x20, 0x00, 0xc2,
--	},
--	{
--	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00,
--	0x31, 0xd8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
--	0x05, 0x16, 0x01, 0x03, 0x6d, 0x23, 0x1a, 0x78,
--	0xea, 0x5e, 0xc0, 0xa4, 0x59, 0x4a, 0x98, 0x25,
--	0x20, 0x50, 0x54, 0x00, 0x08, 0x00, 0x61, 0x40,
--	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
--	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x64, 0x19,
--	0x00, 0x40, 0x41, 0x00, 0x26, 0x30, 0x08, 0x90,
--	0x36, 0x00, 0x63, 0x0a, 0x11, 0x00, 0x00, 0x18,
--	0x00, 0x00, 0x00, 0xff, 0x00, 0x4c, 0x69, 0x6e,
--	0x75, 0x78, 0x20, 0x23, 0x30, 0x0a, 0x20, 0x20,
--	0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x3b,
--	0x3d, 0x2f, 0x31, 0x07, 0x00, 0x0a, 0x20, 0x20,
--	0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfc,
--	0x00, 0x4c, 0x69, 0x6e, 0x75, 0x78, 0x20, 0x58,
--	0x47, 0x41, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x55,
--	},
--	{
--	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00,
--	0x31, 0xd8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
--	0x05, 0x16, 0x01, 0x03, 0x6d, 0x2c, 0x23, 0x78,
--	0xea, 0x5e, 0xc0, 0xa4, 0x59, 0x4a, 0x98, 0x25,
--	0x20, 0x50, 0x54, 0x00, 0x00, 0x00, 0x81, 0x80,
--	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
--	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x30, 0x2a,
--	0x00, 0x98, 0x51, 0x00, 0x2a, 0x40, 0x30, 0x70,
--	0x13, 0x00, 0xbc, 0x63, 0x11, 0x00, 0x00, 0x1e,
--	0x00, 0x00, 0x00, 0xff, 0x00, 0x4c, 0x69, 0x6e,
--	0x75, 0x78, 0x20, 0x23, 0x30, 0x0a, 0x20, 0x20,
--	0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x3b,
--	0x3d, 0x3e, 0x40, 0x0b, 0x00, 0x0a, 0x20, 0x20,
--	0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfc,
--	0x00, 0x4c, 0x69, 0x6e, 0x75, 0x78, 0x20, 0x53,
--	0x58, 0x47, 0x41, 0x0a, 0x20, 0x20, 0x00, 0xa0,
--	},
--	{
--	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00,
--	0x31, 0xd8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
--	0x05, 0x16, 0x01, 0x03, 0x6d, 0x37, 0x29, 0x78,
--	0xea, 0x5e, 0xc0, 0xa4, 0x59, 0x4a, 0x98, 0x25,
--	0x20, 0x50, 0x54, 0x00, 0x00, 0x00, 0xa9, 0x40,
--	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
--	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x48, 0x3f,
--	0x40, 0x30, 0x62, 0xb0, 0x32, 0x40, 0x40, 0xc0,
--	0x13, 0x00, 0x2b, 0xa0, 0x21, 0x00, 0x00, 0x1e,
--	0x00, 0x00, 0x00, 0xff, 0x00, 0x4c, 0x69, 0x6e,
--	0x75, 0x78, 0x20, 0x23, 0x30, 0x0a, 0x20, 0x20,
--	0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x3b,
--	0x3d, 0x4a, 0x4c, 0x11, 0x00, 0x0a, 0x20, 0x20,
--	0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfc,
--	0x00, 0x4c, 0x69, 0x6e, 0x75, 0x78, 0x20, 0x55,
--	0x58, 0x47, 0x41, 0x0a, 0x20, 0x20, 0x00, 0x9d,
--	},
--	{
--	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00,
--	0x31, 0xd8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
--	0x05, 0x16, 0x01, 0x03, 0x6d, 0x2b, 0x1b, 0x78,
--	0xea, 0x5e, 0xc0, 0xa4, 0x59, 0x4a, 0x98, 0x25,
--	0x20, 0x50, 0x54, 0x00, 0x00, 0x00, 0xb3, 0x00,
--	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
--	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x21, 0x39,
--	0x90, 0x30, 0x62, 0x1a, 0x27, 0x40, 0x68, 0xb0,
--	0x36, 0x00, 0xb5, 0x11, 0x11, 0x00, 0x00, 0x1e,
--	0x00, 0x00, 0x00, 0xff, 0x00, 0x4c, 0x69, 0x6e,
--	0x75, 0x78, 0x20, 0x23, 0x30, 0x0a, 0x20, 0x20,
--	0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x3b,
--	0x3d, 0x40, 0x42, 0x0f, 0x00, 0x0a, 0x20, 0x20,
--	0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfc,
--	0x00, 0x4c, 0x69, 0x6e, 0x75, 0x78, 0x20, 0x57,
--	0x53, 0x58, 0x47, 0x41, 0x0a, 0x20, 0x00, 0x26,
--	},
--	{
--	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00,
--	0x31, 0xd8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
--	0x05, 0x16, 0x01, 0x03, 0x6d, 0x32, 0x1c, 0x78,
--	0xea, 0x5e, 0xc0, 0xa4, 0x59, 0x4a, 0x98, 0x25,
--	0x20, 0x50, 0x54, 0x00, 0x00, 0x00, 0xd1, 0xc0,
--	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
--	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x02, 0x3a,
--	0x80, 0x18, 0x71, 0x38, 0x2d, 0x40, 0x58, 0x2c,
--	0x45, 0x00, 0xf4, 0x19, 0x11, 0x00, 0x00, 0x1e,
--	0x00, 0x00, 0x00, 0xff, 0x00, 0x4c, 0x69, 0x6e,
--	0x75, 0x78, 0x20, 0x23, 0x30, 0x0a, 0x20, 0x20,
--	0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x3b,
--	0x3d, 0x42, 0x44, 0x0f, 0x00, 0x0a, 0x20, 0x20,
--	0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfc,
--	0x00, 0x4c, 0x69, 0x6e, 0x75, 0x78, 0x20, 0x46,
--	0x48, 0x44, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x05,
--	},
--};
-+MODULE_PARM_DESC(edid_firmware,
-+		 "Do not probe monitor, use specified EDID blob from /lib/firmware instead.");
- 
- static const struct drm_edid *edid_load(struct drm_connector *connector, const char *name)
- {
- 	const struct firmware *fw = NULL;
--	const u8 *fwdata;
- 	const struct drm_edid *drm_edid;
--	int fwsize, builtin;
-+	int err;
- 
--	builtin = match_string(generic_edid_name, GENERIC_EDIDS, name);
--	if (builtin >= 0) {
--		fwdata = generic_edid[builtin];
--		fwsize = sizeof(generic_edid[builtin]);
--	} else {
--		int err;
--
--		err = request_firmware(&fw, name, connector->dev->dev);
--		if (err) {
--			drm_err(connector->dev,
--				"[CONNECTOR:%d:%s] Requesting EDID firmware \"%s\" failed (err=%d)\n",
--				connector->base.id, connector->name,
--				name, err);
--			return ERR_PTR(err);
--		}
--
--		fwdata = fw->data;
--		fwsize = fw->size;
-+	err = request_firmware(&fw, name, connector->dev->dev);
-+	if (err) {
-+		drm_err(connector->dev,
-+			"[CONNECTOR:%d:%s] Requesting EDID firmware \"%s\" failed (err=%d)\n",
-+			connector->base.id, connector->name,
-+			name, err);
-+		return ERR_PTR(err);
- 	}
- 
--	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Loaded %s firmware EDID \"%s\"\n",
--		    connector->base.id, connector->name,
--		    builtin >= 0 ? "built-in" : "external", name);
-+	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Loaded external firmware EDID \"%s\"\n",
-+		    connector->base.id, connector->name, name);
- 
--	drm_edid = drm_edid_alloc(fwdata, fwsize);
-+	drm_edid = drm_edid_alloc(fw->data, fw->size);
- 	if (!drm_edid_valid(drm_edid)) {
- 		drm_err(connector->dev, "Invalid firmware EDID \"%s\"\n", name);
- 		drm_edid_free(drm_edid);
--- 
-2.43.2
-
+On 20.02.2024 14:16, Jacek Lawrynowicz wrote:
+> From: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+> 
+> There is no point in requesting 1 tile on VPU40xx as the FW will
+> probably need more tiles to run workloads, so it will have to
+> reconfigure PLL anyway. Don't enable any tiles and allow the FW to
+> perform initial tile configuration.
+> 
+> This improves NPU boot stability as the tiles are always enabled only
+> by the FW from the same initial state.
+> 
+> Fixes: 79cdc56c4a54 ("accel/ivpu: Add initial support for VPU 4")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> ---
+>  drivers/accel/ivpu/ivpu_hw_40xx.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/accel/ivpu/ivpu_hw_40xx.c b/drivers/accel/ivpu/ivpu_hw_40xx.c
+> index 1c995307c113..a1523d0b1ef3 100644
+> --- a/drivers/accel/ivpu/ivpu_hw_40xx.c
+> +++ b/drivers/accel/ivpu/ivpu_hw_40xx.c
+> @@ -24,7 +24,7 @@
+>  #define SKU_HW_ID_SHIFT              16u
+>  #define SKU_HW_ID_MASK               0xffff0000u
+>  
+> -#define PLL_CONFIG_DEFAULT           0x1
+> +#define PLL_CONFIG_DEFAULT           0x0
+>  #define PLL_CDYN_DEFAULT             0x80
+>  #define PLL_EPP_DEFAULT              0x80
+>  #define PLL_REF_CLK_FREQ	     (50 * 1000000)
