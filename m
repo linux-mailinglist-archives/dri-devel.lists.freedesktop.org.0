@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E66885C089
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 17:02:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE8E285C082
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 17:01:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEFC110E4E3;
-	Tue, 20 Feb 2024 16:02:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11B9F10E4D0;
+	Tue, 20 Feb 2024 16:01:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZBDBLFMJ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="C/U4xc0o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5456410E4CC
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 16:01:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A8C410E4D3
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 16:01:47 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id AFCBF611CE;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7578C611D4;
+ Tue, 20 Feb 2024 16:01:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A70AC433C7;
  Tue, 20 Feb 2024 16:01:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66C26C433F1;
- Tue, 20 Feb 2024 16:01:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1708444904;
- bh=b5/Z55R6exEVvxby5IEzYsTksFcDh5Hf4EvWs+jygLE=;
+ s=k20201202; t=1708444906;
+ bh=2chqzJLlGnaDjPT3os8qGNEAIFqkHbeg9jiI4JJjOYA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZBDBLFMJS2BrT4mZnHrA0+stJiohHRBo8uvCXXLWgZZpml4V1WpIb9mTyfFdsrZat
- h0EbCrgQEQx8Vdv0WzJnhGb3mEzEQhO0c0GU673ydgB0vL2B+YTda54pHQR6GNrzVk
- u+Qj/ex22frAV++VsRXP3wrZFRLfanliSpWaZlko64CI1XkU9G/HJGh5d444G2XZep
- 4+rLCdx9XWggoaC72hMhvxH1KZvrppTZ26WKIRAmAO2IaNbCalvrpj7vyDspZyDE5g
- UzCSJkyCKL+51Egomc7/b16KNEmLR6QuXcyyqCL+6XVxECRylZNcRMfKyjnU3E0Fhm
- cyzfbR4Ymtvzg==
+ b=C/U4xc0oWdp1jZ7HhF+yTrGSflZaG3L5aV03rhLyEHRbNAi34ym8Zgllx3N5QAq7N
+ 9g0NsjIfQLbc17Ddfe0C0rxC19Kc68lzie5JXsRya2Tft7DFBEH51b9E68LU64Vba7
+ RMUwYZW7MV046BNH9wMCx14bXHuha8DzGm+N3XHG4uKPjkQkg1TADMCkFZOMVZAR+n
+ pj9K2DGxNtq5oZeD/mYATxoyfLW2+ib0BAm07oA6UXRkxRxMNeTDdPU69M5V9t8v6t
+ 0/0E6MnrGg/FApVx3OmXSBcgczSlDK/tQsiCz187kWeny47nkrgqe6xgOostK7KyYl
+ aUnbV9U4i3arg==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org
-Cc: Tal Risin <trisin@habana.ai>
-Subject: [PATCH 07/13] accel/habanalabs: initialize maybe-uninitialized
- variables
-Date: Tue, 20 Feb 2024 18:01:23 +0200
-Message-Id: <20240220160129.909714-7-ogabbay@kernel.org>
+Cc: Dani Liberman <dliberman@habana.ai>
+Subject: [PATCH 08/13] accel/habanalabs: fix error print
+Date: Tue, 20 Feb 2024 18:01:24 +0200
+Message-Id: <20240220160129.909714-8-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240220160129.909714-1-ogabbay@kernel.org>
 References: <20240220160129.909714-1-ogabbay@kernel.org>
@@ -58,39 +57,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tal Risin <trisin@habana.ai>
+From: Dani Liberman <dliberman@habana.ai>
 
-Prevent static analysis warning.
+The unmasking is for event and it can be other event than RAZWI.
 
-Signed-off-by: Tal Risin <trisin@habana.ai>
+Signed-off-by: Dani Liberman <dliberman@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/common/debugfs.c | 4 ++--
+ drivers/accel/habanalabs/common/firmware_if.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/common/debugfs.c b/drivers/accel/habanalabs/common/debugfs.c
-index ab0fe74b49d0..b1c88d1837d9 100644
---- a/drivers/accel/habanalabs/common/debugfs.c
-+++ b/drivers/accel/habanalabs/common/debugfs.c
-@@ -484,7 +484,7 @@ static ssize_t mmu_asid_va_write(struct file *file, const char __user *buf,
- 	struct hl_debugfs_entry *entry = s->private;
- 	struct hl_dbg_device_entry *dev_entry = entry->dev_entry;
- 	struct hl_device *hdev = dev_entry->hdev;
--	char kbuf[MMU_KBUF_SIZE];
-+	char kbuf[MMU_KBUF_SIZE] = {0};
- 	char *c;
- 	ssize_t rc;
+diff --git a/drivers/accel/habanalabs/common/firmware_if.c b/drivers/accel/habanalabs/common/firmware_if.c
+index 364d292c76fa..a3df7cf162d8 100644
+--- a/drivers/accel/habanalabs/common/firmware_if.c
++++ b/drivers/accel/habanalabs/common/firmware_if.c
+@@ -526,7 +526,7 @@ int hl_fw_unmask_irq(struct hl_device *hdev, u16 event_type)
+ 						0, &result);
  
-@@ -546,7 +546,7 @@ static ssize_t mmu_ack_error_value_write(struct file *file,
- 	struct hl_debugfs_entry *entry = s->private;
- 	struct hl_dbg_device_entry *dev_entry = entry->dev_entry;
- 	struct hl_device *hdev = dev_entry->hdev;
--	char kbuf[MMU_KBUF_SIZE];
-+	char kbuf[MMU_KBUF_SIZE] = {0};
- 	ssize_t rc;
+ 	if (rc)
+-		dev_err(hdev->dev, "failed to unmask RAZWI IRQ %d", event_type);
++		dev_err(hdev->dev, "failed to unmask event %d", event_type);
  
- 	if (count > sizeof(kbuf) - 1)
+ 	return rc;
+ }
+@@ -565,7 +565,7 @@ int hl_fw_unmask_irq_arr(struct hl_device *hdev, const u32 *irq_arr,
+ 						total_pkt_size, 0, &result);
+ 
+ 	if (rc)
+-		dev_err(hdev->dev, "failed to unmask IRQ array\n");
++		dev_err(hdev->dev, "failed to unmask event array\n");
+ 
+ 	kfree(pkt);
+ 
 -- 
 2.34.1
 
