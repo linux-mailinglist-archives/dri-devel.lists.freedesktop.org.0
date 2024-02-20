@@ -2,69 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 161E985BA77
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 12:25:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF63F85BA7E
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 12:26:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C27A10E023;
-	Tue, 20 Feb 2024 11:25:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3412910E32D;
+	Tue, 20 Feb 2024 11:26:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar-org.20230601.gappssmtp.com header.i=@fooishbar-org.20230601.gappssmtp.com header.b="dyNmK+vY";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jOomDmzB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
- [209.85.210.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A093010E32D
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 11:25:17 +0000 (UTC)
-Received: by mail-ot1-f47.google.com with SMTP id
- 46e09a7af769-6e457006fe5so609856a34.3
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 03:25:17 -0800 (PST)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+ [209.85.216.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DD4E10E32D
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 11:26:19 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id
+ 98e67ed59e1d1-299d3b09342so686163a91.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 03:26:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20230601.gappssmtp.com; s=20230601; t=1708428316; x=1709033116;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=qWIPe+wcHVAvrbixk7nlxuPeXFilNRwvQXoY6tEzAUM=;
- b=dyNmK+vYBXKdJlFelB/B9zIYlaM/hbx0B5mvNg9TRDlY3MDFQ2O8UwhcrHn73fZIHk
- v1yiu4fcV5Wm8Ij1/deipv6vqcW/CCcvUth84X/tM6a2jbiTqSoYpIb3qi3RfpOjUh1K
- HY7o+JQbQfzX1/FhH+nCCa+0RaUu05GH9qByF+nanTmqlecIHj9xp3dKBrW7TrnXwsnV
- +r7f0klUIzT7EpcvRbpJVayjFUNFhz8sT8avmDPK4Kf2RONZBxD3GuRocuZB90D9FRGZ
- G+O9U2lGw3YEWfjdDIqn0Iweg89MRPfR5M1SmVaMYcHj0IHEqKPKgvWCHjzmvi2kM+z1
- K7Xw==
+ d=gmail.com; s=20230601; t=1708428379; x=1709033179; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ddtWpIvM+oO5i/bsgIa3peQElhM8K7kUTRsouskQjrY=;
+ b=jOomDmzB9pamKl9OnV6p4v/PNVX1bFe7VryVj8+V0oOc6iUCs3Hn48uiuGMBFxS/4e
+ PlwhpqJbttQE9fxN+JLmE0LaLZjQuO6Gu3XZQZNQuQjDuWls9NKZnXPdfKAVGf0kBueJ
+ 1Jzmf7MpgOYgtP2oqG5f7gQcp3bsdku4zCl+d2oQ1zn1UkZD2tMasnUt2A4XJFsVaGpA
+ faBf0eeUxXXMd64oGyxfkEa407LJn/DXjDDeju+wDoEhyeIEfNJsh/+R0/NXQjgZSvU1
+ L+INCWI8WRuXL6uwwSSwngamUs/j+h5nl8Zf6hgkzG0n8+l4/X+Exx2gu2dyYv2J3iZb
+ 1D8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708428316; x=1709033116;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=qWIPe+wcHVAvrbixk7nlxuPeXFilNRwvQXoY6tEzAUM=;
- b=qpPMgQQ1JyFaImJYI5I077d7sxVCEAl6IA05K7BqouAb8ldKtiCPU9kGeTNARjzKHg
- UI9bnAaBlW1dfx3Zc40JTnWze8MyKxJJrIV7r/9CkhrUUdyyM1JEjMCV4XlMbQTv+R2s
- A21cMvvMDhifRfPZSNF0GHagI36Ph3JQpxKNJeI9k84Q/q9Ta5K926+0YG05i+YuaGUe
- gyddV+fitFK5XsGkCZPeLtozZh7v/sIb+kATkHhB4HpACKoC4+eErYL4ccuSKnnytE8U
- ccqmecMBUyQtVtFjZqX0PNUuif6wLgGZIXRg91japXawg0YUJbWn+Q7btntPuvJtNiRO
- jxYg==
-X-Gm-Message-State: AOJu0YwJlBabNE5NLYM+W/eajkd0ZN91nkh6EIkFvG9lm7CmpEVWZZOt
- 5TSovIWubXiBPlZJa0Vd9lNRZfS8+G2j8rB0BuC6atJqUhvDP4hdBRfRJ8mbFzhb4eqMqMwUf3J
- cfLzWBTf1xYjjZP2wAqoUw2fZtUEBpP/1WXt1Pw==
-X-Google-Smtp-Source: AGHT+IGwoJsaSbKbi5QPKKE9I7MPAOfWPBTAB5tTV7Xa3jFI4KMMzK7MEg9tQ2yxsPon6lVcOCyiK7mFueDpygboPcc=
-X-Received: by 2002:a05:6830:1315:b0:6e2:faa8:6f04 with SMTP id
- p21-20020a056830131500b006e2faa86f04mr13401874otq.35.1708428316624; Tue, 20
- Feb 2024 03:25:16 -0800 (PST)
+ d=1e100.net; s=20230601; t=1708428379; x=1709033179;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ddtWpIvM+oO5i/bsgIa3peQElhM8K7kUTRsouskQjrY=;
+ b=sg0K/tjcJucs86stHNZItMtWEmceOVBuKxU2MbSnbvaDcsoKMnSDWWWwo0wFmC2PNx
+ Q/dYlHKiaKqdIftX5sbEIbAAHjoYAfNKaK7ANEQap7bkLYVxcsvYGKWUiUd1xL1+ZyxP
+ 7XT9vaLBGEN8Bgio2kojqylzNt/4UdOT37AgUW0UcG4W0zb9WfK4DRRVpI7YP7SZbgqP
+ D+GYemsN/RKhscZ/TGRXSPiymoiWj4lSaXGtk8J7w1dbkLabjqthzSVAXpHC52BtgJww
+ H6wrmoZ2CX++PabWggePi8wpzI4ORCi7pDS59L3FjHRioxFB/GDdhNys7lnw2H7oDWHr
+ mfpg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUaWPdfNWi1KtjERl++TqIvtnaKMzHtnWBEKOwtO2cMFMqQvBaR70thcvaFfz8h09/J6yKIa3qKr3UuevfdRR0vBFBia5Y79KA0HQcCDCzY
+X-Gm-Message-State: AOJu0YxzipcJ3pC104/ZVpoLBah44yLn+ACp54jGplW++2dirt+Gxpdj
+ GCJFejkXqCYLV4fWytZmW7DFJbO6cg4lxHPCMle6gtbQ+p1Z6TRgV8ZomtK7ccKZslrhHJxnNcb
+ 6qCZ+q42DTNLw/e82Br0i4+7qeY8esVCA4GE=
+X-Google-Smtp-Source: AGHT+IHm6m4ir6svtFsCip5ontoROxpbE3avD251zgl+W6jZrTPkDx5bx72+4yEpOfdlfjRYO2RDPdGr5HTy5nXf7OE=
+X-Received: by 2002:a17:90a:c24d:b0:299:1fce:e9e7 with SMTP id
+ d13-20020a17090ac24d00b002991fcee9e7mr11265715pjx.32.1708428378821; Tue, 20
+ Feb 2024 03:26:18 -0800 (PST)
 MIME-Version: 1.0
-References: <gnthy5o42kiyj63d2bkkxsc5krzf3wrwt23chh2kthkmlyjwbg@ybynvjvqdka7>
- <akb3fluuli75vh5due5ll7t5igg7oo5vqwkal645hkjkhyqz6w@qu62f5l6joy6>
-In-Reply-To: <akb3fluuli75vh5due5ll7t5igg7oo5vqwkal645hkjkhyqz6w@qu62f5l6joy6>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Tue, 20 Feb 2024 11:25:05 +0000
-Message-ID: <CAPj87rMYC3D-PYtMcTXD3=HqNSpyyVj9jp0nodO+2PebP1guAA@mail.gmail.com>
-Subject: Re: drm-misc migration to Gitlab server
-To: Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>, 
- David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Daniel Stone <daniels@collabora.com>, 
- Stephen Rothwell <sfr@canb.auug.org.au>
+References: <6be2558b8462fc08095c24c9257563ab5f3ae013.1708001398.git.geert+renesas@glider.be>
+ <kycepdxukfsww3tnxoo5hoiuo3vcgpqqmynokzhtl4vodgm6zc@ih4uhw7gz4jh>
+ <CAMuHMdVf7ophCwKt-n_N-LBHV4+t14Gjb4d1O0T8FDk_9xMFtA@mail.gmail.com>
+ <CAHCN7xJ65RP8TO7cS0p5DwE6zru5NEF0_JA+8siT_OpSeLD7pA@mail.gmail.com>
+ <CAHCN7x+EnSU8qk5dBFco=0vkeknGq18qEN7vFmZs0_q83T_3+w@mail.gmail.com>
+ <CAHCN7xKffJ29zyjoJVAcy3b_d=-zkFzbL=URj4yWJWzYvRdB_Q@mail.gmail.com>
+ <TYCPR01MB11269CBE8429A31DE5002A5A5864C2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <nzrkujogauvn262ucxippwidyub6ikcohcjpbpn4hzj7rymctm@4owntgrmcquf>
+ <TYCPR01MB11269CBAA20275E11D9AD6500864C2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <wxwad77x2mxhhwdsbgiytzn6x54t4sywodjhzefwldo277njiz@ru7z54wxgelu>
+ <CAHCN7xJi-6W6x+OJmkNwOX45SM4WHD5zkN42ZOp8ZxFnp3YL5w@mail.gmail.com>
+ <1ff513b9-d4fd-4663-b46b-bb9662e3881c@imgtec.com>
+ <CAHCN7xJ0TTS_-PA3Ox_RCpfyHJFk-s=-zs8W1Zm3dQTUAoqbpg@mail.gmail.com>
+ <f2b2671e-5acc-4dec-9c2e-3c9cd2e1f19e@imgtec.com>
+In-Reply-To: <f2b2671e-5acc-4dec-9c2e-3c9cd2e1f19e@imgtec.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Tue, 20 Feb 2024 05:26:07 -0600
+Message-ID: <CAHCN7xJAfg8+8KWsXNu+QT2swByH=Oc4seK4Gin2NEvS=pV2uw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/imagination: DRM_POWERVR should depend on ARCH_K3
+To: Matt Coster <Matt.Coster@imgtec.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Frank Binns <Frank.Binns@imgtec.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Sarah Walker <Sarah.Walker@imgtec.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, Nishanth Menon <nm@ti.com>, 
+ Marek Vasut <marek.vasut@mailbox.org>, 
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,26 +102,364 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 20 Feb 2024 at 09:05, Maxime Ripard <mripard@kernel.org> wrote:
-> On Tue, Feb 20, 2024 at 09:49:25AM +0100, Maxime Ripard wrote:
-> > This will be mostly transparent to current committers and users: we'll
-> > still use dim, in the exact same way, the only change will be the URL of
-> > the repo. This will also be transparent to linux-next, since the
-> > linux-next branch lives in its own repo and is pushed by dim when
-> > pushing a branch.
+On Tue, Feb 20, 2024 at 3:21=E2=80=AFAM Matt Coster <Matt.Coster@imgtec.com=
+> wrote:
 >
-> Actually, I double-checked and linux-next pulls our branches directly,
-> so once the transition is over we'll have to notify them too.
+> Hi Adam,
+>
+> On 19/02/2024 20:38, Adam Ford wrote:
+> > On Mon, Feb 19, 2024 at 3:00=E2=80=AFAM Matt Coster <Matt.Coster@imgtec=
+.com> wrote:
+> >>
+> >> Hi Adam,
+> >>
+> >> On 18/02/2024 23:26, Adam Ford wrote:
+> >>> On Fri, Feb 16, 2024 at 8:14=E2=80=AFAM Maxime Ripard <mripard@kernel=
+.org> wrote:
+> >>>>
+> >>>> On Fri, Feb 16, 2024 at 09:13:14AM +0000, Biju Das wrote:
+> >>>>> Hi Maxime Ripard,
+> >>>>>
+> >>>>>> -----Original Message-----
+> >>>>>> From: Maxime Ripard <mripard@kernel.org>
+> >>>>>> Sent: Friday, February 16, 2024 9:05 AM
+> >>>>>> Subject: Re: RE: [PATCH v2] drm/imagination: DRM_POWERVR should de=
+pend on
+> >>>>>> ARCH_K3
+> >>>>>>
+> >>>>>> On Fri, Feb 16, 2024 at 08:47:46AM +0000, Biju Das wrote:
+> >>>>>>> Hi Adam Ford,
+> >>>>>>>
+> >>>>>>>> -----Original Message-----
+> >>>>>>>> From: Adam Ford <aford173@gmail.com>
+> >>>>>>>> Sent: Thursday, February 15, 2024 11:36 PM
+> >>>>>>>> Subject: Re: [PATCH v2] drm/imagination: DRM_POWERVR should depe=
+nd
+> >>>>>>>> on
+> >>>>>>>> ARCH_K3
+> >>>>>>>>
+> >>>>>>>> On Thu, Feb 15, 2024 at 11:22=E2=80=AFAM Adam Ford <aford173@gma=
+il.com> wrote:
+> >>>>>>>>>
+> >>>>>>>>> On Thu, Feb 15, 2024 at 11:10=E2=80=AFAM Adam Ford <aford173@gm=
+ail.com>
+> >>>>>> wrote:
+> >>>>>>>>>>
+> >>>>>>>>>> On Thu, Feb 15, 2024 at 10:54=E2=80=AFAM Geert Uytterhoeven
+> >>>>>>>>>> <geert@linux-m68k.org> wrote:
+> >>>>>>>>>>>
+> >>>>>>>>>>> Hi Maxime,
+> >>>>>>>>>>>
+> >>>>>>>>>>> On Thu, Feb 15, 2024 at 5:18=E2=80=AFPM Maxime Ripard
+> >>>>>>>>>>> <mripard@kernel.org>
+> >>>>>>>> wrote:
+> >>>>>>>>>>>> On Thu, Feb 15, 2024 at 01:50:09PM +0100, Geert Uytterhoeven
+> >>>>>>>> wrote:
+> >>>>>>>>>>>>> Using the Imagination Technologies PowerVR Series 6 GPU
+> >>>>>>>>>>>>> requires a proprietary firmware image, which is currently
+> >>>>>>>>>>>>> only available for Texas Instruments K3 AM62x SoCs.  Hence
+> >>>>>>>>>>>>> add a dependency on ARCH_K3, to prevent asking the user
+> >>>>>>>>>>>>> about this driver when configuring a kernel without Texas
+> >>>>>>>>>>>>> Instruments K3
+> >>>>>>>> Multicore SoC support.
+> >>>>>>>>>>>>
+> >>>>>>>>>>>> This wasn't making sense the first time you sent it, and now
+> >>>>>>>>>>>> that commit log is just plain wrong. We have firmwares for
+> >>>>>>>>>>>> the G6110, GX6250, GX6650, BXE-4-32, and BXS-4-64 models,
+> >>>>>>>>>>>> which can be found on (at least) Renesas, Mediatek,
+> >>>>>>>>>>>> Rockchip, TI and StarFive, so across three
+> >>>>>>>>>>>
+> >>>>>>>>>>> I am so happy to be proven wrong!
+> >>>>>>>>>>> Yeah, GX6650 is found on e.g. R-Car H3, and GX6250 on e.g.
+> >>>>>>>>>>> R-Car M3-
+> >>>>>>>> W.
+> >>>>>>>>>>>
+> >>>>>>>>>>>> architectures and 5 platforms. In two months.
+> >>>>>>>>>>>
+> >>>>>>>>>>> That sounds like great progress, thanks a lot!
+> >>>>>>>>>>>
+> >>>>>>>>>> Geert,
+> >>>>>>>>>>
+> >>>>>>>>>>> Where can I find these firmwares? Linux-firmware[1] seems to
+> >>>>>>>>>>> lack all but the original K3 AM62x one.
+> >>>>>>>>>>
+> >>>>>>>>>> I think PowerVR has a repo [1], but the last time I checked it=
+,
+> >>>>>>>>>> the BVNC for the firmware didn't match what was necessary for
+> >>>>>>>>>> the GX6250 on the RZ/G2M.  I can't remember what the
+> >>>>>>>>>> corresponding R-Car3 model is.  I haven't tried recently becau=
+se
+> >>>>>>>>>> I was told more documentation for firmware porting would be
+> >>>>>>>>>> delayed until everything was pushed into the kernel and Mesa.
+> >>>>>>>>>> Maybe there is a better repo and/or newer firmware somewhere e=
+lse.
+> >>>>>>>>>>
+> >>>>>>>>> I should have doubled checked the repo contents before I sent m=
+y
+> >>>>>>>>> last e-mail , but it appears the firmware  [2] for the RZ/G2M,
+> >>>>>>>>> might be present now. I don't know if there are driver updates
+> >>>>>>>>> necessary. I checked my e-mails, but I didn't see any
+> >>>>>>>>> notification, or I would have tried it earlier.  Either way, th=
+ank
+> >>>>>>>>> you Frank for adding it.  I'll try to test when I have some tim=
+e.
+> >>>>>>>>>
+> >>>>>>>>
+> >>>>>>>> I don't have the proper version of Mesa setup yet, but for what =
+it's
+> >>>>>>>> worth, the firmware loads without error, and it doesn't hang.
+> >>>>>>>
+> >>>>>>> Based on [1] and [2],
+> >>>>>>>
+> >>>>>>> kmscube should work on R-Car as it works on RZ/G2L with panfrost =
+as
+> >>>>>>> earlier version of RZ/G2L which uses drm based on RCar-Du, later =
+changed
+> >>>>>> to rzg2l-du.
+> >>>>>>
+> >>>>>> IIRC, the mesa support isn't there yet for kmscube to start.
+> >>>>>
+> >>>>> What about glmark2? I tested glmark2 as well.
+> >>>>
+> >>>> It's not really a matter of kmscube itself, but the interaction with=
+ the
+> >>>> compositor entirely. You can run a headless vulkan rendering, but an
+> >>>> application that renders to a window won't work.
+> >>>
+> >>> I have made a little progress.  I have Ubuntu running on an RZ/G2M
+> >>> (Rogue GX6250) with a device tree configuring the GPU and the GPU
+> >>> loads with firmware.
+> >>>
+> >>>   powervr fd000000.gpu: [drm] loaded firmware powervr/rogue_4.45.2.58=
+_v1.fw
+> >>>   powervr fd000000.gpu: [drm] FW version v1.0 (build 6513336 OS)
+> >>>   [drm] Initialized powervr 1.0.0 20230904 for fd000000.gpu on minor =
+0
+> >>>
+> >>> drmdevice lists card0 and renderD128
+> >>> --- Checking the number of DRM device available ---
+> >>> --- Devices reported 2 ---
+> >>> --- Retrieving devices information (PCI device revision is ignored) -=
+--
+> >>> device[0]
+> >>> +-> available_nodes 0x05
+> >>> +-> nodes
+> >>> |   +-> nodes[0] /dev/dri/card0
+> >>> |   +-> nodes[2] /dev/dri/renderD128
+> >>> +-> bustype 0002
+> >>> |   +-> platform
+> >>> |       +-> fullname /soc/gpu@fd000000
+> >>> +-> deviceinfo
+> >>>     +-> platform
+> >>>         +-> compatible
+> >>>                     renesas,r8a774a1-gpu
+> >>>                     img,img-axe
+> >>>
+> >>> There is more to this dump, but it seems to repeat. I wanted to show
+> >>> that it seems like it's trying to work.
+> >>>
+> >>> I think I need to modify the powervr code in mesa to recognize the
+> >>> renesas,r8a774a1-gpu and associate it with the rcar-du, but I am not
+> >>> sure, and I am hoping someone might be able to provide some guidance,
+> >>> since I think I am missing something somewhere. I modified
+> >>> pvr_device.c in the mesa driver to attempt do this:
+> >>>
+> >>> /* This is the list of supported DRM render/display driver configs. *=
+/
+> >>> static const struct pvr_drm_device_config pvr_drm_configs[] =3D {
+> >>>    DEF_CONFIG("mediatek,mt8173-gpu", "mediatek-drm"),
+> >>>    DEF_CONFIG("ti,am62-gpu", "ti,am625-dss"),
+> >>>    DEF_CONFIG("renesas,r8a774a1-gpu", "rcar-du"),
+> >>> };
+> >>>
+> >>> When I run modetest -M rcar-du, I can see the encoders and connectors
+> >>> and I can display test patterns, so the rcar-du is working.
+> >>>
+> >>> I built Mesa 24.0.1 with the following options:
+> >>>
+> >>> meson setup builddir -Dvulkan-drivers=3Dimagination-experimental
+> >>> -Dimagination-srv=3Dtrue -Dtools=3Dall -Dgallium-drivers=3Dzink,kmsro=
+,swrast
+> >>>
+> >>> I have tried to set PVR_I_WANT_A_BROKEN_VULKAN_DRIVER=3D1 the Mesa
+> >>> documentation for the powerVR, and I have exported the variable for
+> >>> VK_ICD_FILENAMES to point to the powervr json file.
+> >>>
+> >>> when I try to run glmark2-drm, I was expecting the GL reddered to be
+> >>> the powervr, but it keeps using the
+> >>> GL_RENDERER:    llvmpipe (LLVM 15.0.7, 128 bits)
+> >>>
+> >>> I realize this driver is still in its infancy, but I was hoping
+> >>> someone could give me some guidance to let me know if the work to do
+> >>> is on the Mesa side or the rcar-du driver side, or something else.
+> >>>
+> >>> I rebuilt both libdrm and mesa.  While I don't get any errors, I also
+> >>> don't get the hardware acceleration I was hoping for.
+> >>>
+> >>> I even tried  PVR_I_WANT_A_BROKEN_VULKAN_DRIVER=3D1
+> >>> MESA_LOADER_DRIVER_OVERRIDE=3Dzink MESA_DEBUG=3Dcontect glmark2-drm
+> >>>
+> >>> ...but it only renders with llvmpipe
+> >>>
+> >>>     glmark2 2023.01
+> >>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+> >>>     OpenGL Information
+> >>>     GL_VENDOR:      Mesa
+> >>>     GL_RENDERER:    llvmpipe (LLVM 15.0.7, 128 bits)
+> >>>     GL_VERSION:     4.5 (Compatibility Profile) Mesa 24.0.1
+> >>>     Surface Config: buf=3D32 r=3D8 g=3D8 b=3D8 a=3D8 depth=3D32 stenc=
+il=3D0 samples=3D0
+> >>>     Surface Size:   3840x2160 fullscreen
+> >>>
+> >>>
+> >>> I am not as familiar with the Mesa side, but if I can get this workin=
+g
+> >>> to a point where something is rendered, even if it's not 100%
+> >>> compliant, I'd like to push patches to the kernel and/or Mesa if
+> >>> necessary.
+> >>>
+> >>> adam
+> >>>
+> >>>
+> >>>
+> >>>
+> >>>>
+> >>>> Maxime
+> >>
+> >> I suggest you try running Vulkan demos (we use Sascha Willems=E2=80=99=
+ [1])
+> >> instead of GL at this stage. Support for Zink is currently under heavy
+> >> development so you may have trouble differentiating between issues wit=
+h
+> >> your kernel changes and the incompleteness in Mesa.
+> >
+> > I hacked the look-up-tables in the Mesa PowerVR driver to match the
+> > values of the other GX6250. I know there must be some minor
+> > differences, but I don't know what they are right now.
+>
+> In case you missed my other email, we have device info for the GX6250
+> variant you=E2=80=99re using in [2]. I=E2=80=99ve been informed that bran=
+ch should be
+> usable as-is =E2=80=93 can you give that a try?
 
-cc sfr - once we move the DRM repos to a different location, what's
-the best way to update linux-next?
+I did  migrate to the branch you referenced and remove my hacked
+lookup-table, but I get similar results.
 
-That being said, we could set up read-only pull mirrors in the old
-location ... something I want to do in March (because what else are
-you going to do on holiday?) is to kill the write repos on kemper
-(git.fd.o), move them to being on molly (cgit/anongit.fd.o) only, and
-just have a cronjob that regularly pulls from all the gl.fd.o repos,
-rather than pushing from GitLab.
+>
+> > I also had to tweak   src/imagination/vulkan/pvr_device.c again to the
+> > following:
+> >   DEF_CONFIG("renesas,r8a774a1-gpu", "renesas,du-r8a774a1"),
+>
+> Ah yes, not perfectly as-is then. These lines (pvr_drm_configs) declare
+> the pairing of GPU to display hardware. You=E2=80=99ll still need this tw=
+eak.
+>
+> > I am not positive that is the correct thing to do, but with that, I
+> > can now run vulkaninfo.
+> > I know that it's not fully Vulkan compliant yet, but it appears there
+> > is some progress:
+> >
+> > Layers: count =3D 2
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > VK_LAYER_MESA_device_select (Linux device selection layer) Vulkan
+> > version 1.3.211, layer version 1:
+> >         Layer Extensions: count =3D 0
+> >         Devices: count =3D 2
+> >                 GPU id =3D 0 (Imagination PowerVR Rogue GX6250)
+> >                 Layer-Device Extensions: count =3D 0
+> >
+> >                 GPU id =3D 1 (llvmpipe (LLVM 15.0.7, 128 bits))
+> >                 Layer-Device Extensions: count =3D 0
+> >
+> > VK_LAYER_MESA_overlay (Mesa Overlay layer) Vulkan version 1.3.211,
+> > layer version 1:
+> >         Layer Extensions: count =3D 0
+> >         Devices: count =3D 2
+> >                 GPU id =3D 0 (Imagination PowerVR Rogue GX6250)
+> >                 Layer-Device Extensions: count =3D 0
+> >
+> >                 GPU id =3D 1 (llvmpipe (LLVM 15.0.7, 128 bits))
+> >                 Layer-Device Extensions: count =3D 0
+> >
+> >
+> > I then tried to redndr with vkgears, but it didn't redner.  When I run
+> > vkgears, I get the following:
+> >
+> > LAYER:            Searching for layer manifest files
+> > LAYER:               In following locations:
+> > LAYER:                  /home/aford/.config/vulkan/implicit_layer.d
+> > LAYER:                  /etc/xdg/xdg-ubuntu/vulkan/implicit_layer.d
+> > LAYER:                  /etc/xdg/vulkan/implicit_layer.d
+> > LAYER:                  /etc/vulkan/implicit_layer.d
+> > LAYER:                  /home/aford/.local/share/vulkan/implicit_layer.=
+d
+> > LAYER:                  /usr/share/ubuntu/vulkan/implicit_layer.d
+> > LAYER:                  /usr/share/gnome/vulkan/implicit_layer.d
+> > LAYER:                  /usr/local/share/vulkan/implicit_layer.d
+> > LAYER:                  /usr/share/vulkan/implicit_layer.d
+> > LAYER:                  /var/lib/snapd/desktop/vulkan/implicit_layer.d
+> > LAYER:               Found the following files:
+> > LAYER:
+> > /usr/share/vulkan/implicit_layer.d/VkLayer_MESA_device_select.json
+> > LAYER:            Searching for layer manifest files
+> > LAYER:               In following locations:
+> > LAYER:                  /home/aford/.config/vulkan/explicit_layer.d
+> > LAYER:                  /etc/xdg/xdg-ubuntu/vulkan/explicit_layer.d
+> > LAYER:                  /etc/xdg/vulkan/explicit_layer.d
+> > LAYER:                  /etc/vulkan/explicit_layer.d
+> > LAYER:                  /home/aford/.local/share/vulkan/explicit_layer.=
+d
+> > LAYER:                  /usr/share/ubuntu/vulkan/explicit_layer.d
+> > LAYER:                  /usr/share/gnome/vulkan/explicit_layer.d
+> > LAYER:                  /usr/local/share/vulkan/explicit_layer.d
+> > LAYER:                  /usr/share/vulkan/explicit_layer.d
+> > LAYER:                  /var/lib/snapd/desktop/vulkan/explicit_layer.d
+> > LAYER:               Found the following files:
+> > LAYER:
+> > /usr/share/vulkan/explicit_layer.d/VkLayer_MESA_overlay.json
+> > ERROR:            loader_validate_instance_extensions: Instance
+> > extension VK_KHR_wayland_surface not supported by available ICDs or
+> > enabled layers.
+> > Failed to create Vulkan instance.
+> >
+> > I have tried running in X.org mode instead of Wayland, but I get a
+> > different set of errors:
+>
+> We haven=E2=80=99t been testing with window systems yet =E2=80=93 can you=
+ try building
+> the Sascha Willems demos [1] with -DUSE_D2D_WSI=3DON and try running
+> triangle?
 
-Cheers,
-Daniel
+I didn't realize you hadn't tried window systems yet.
+
+I'll give that a try.  I appreciate the suggestions.
+
+adam
+>
+> Matt
+>
+> [2]: https://gitlab.freedesktop.org/imagination/mesa/-/tree/dev/devinfo
+>
+> > [ 11102.013] (II) Loading /usr/lib/xorg/modules/libfbdevhw.so
+> > [ 11102.014] (II) Module fbdevhw: vendor=3D"X.Org Foundation"
+> > [ 11102.014]    compiled for 1.21.1.7, module version =3D 0.0.2
+> > [ 11102.014]    ABI class: X.Org Video Driver, version 25.2
+> > [ 11102.015] (II) FBDEV(0): using default device
+> > [ 11102.016] (II) modeset(G0): using drv /dev/dri/card1
+> > [ 11102.016] (EE)
+> > Fatal server error:
+> > or all framebuffer devices
+> > [ 11102.016] (EE)
+> > [ 11102.017] (EE)
+> > Please consult the The X.Org Foundation support at http://wiki.x.org  f=
+or help.
+> >
+> > I think I am close.
+> >
+> > adam
+> >>
+> >> Matt
+> >>
+> >> [1]: https://github.com/SaschaWillems/Vulkan
