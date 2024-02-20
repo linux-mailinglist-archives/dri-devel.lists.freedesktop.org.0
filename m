@@ -2,49 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F14085BCE7
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 14:13:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAA9E85BCFA
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 14:16:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4478E10E3E0;
-	Tue, 20 Feb 2024 13:12:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92CFE10E30A;
+	Tue, 20 Feb 2024 13:16:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JKlB6tsF";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="avwD+b+e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7C4710E30A;
- Tue, 20 Feb 2024 13:12:57 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id AA2CC60F95;
- Tue, 20 Feb 2024 13:12:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C85C9C433F1;
- Tue, 20 Feb 2024 13:12:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1708434776;
- bh=s1SpucEIIAcjPLhuLgsZlH5odgNDyxOWFs/Guv6vDE8=;
- h=From:To:Cc:Subject:Date:From;
- b=JKlB6tsFtc3p+hfuS+59jdaMbzo4j/x2RfjoDPlW1YnjM64jmcHz+s/LdFBpovJph
- b1L1nAdZ+T0U9QhOukvqjcUsRjwE3n5Ka5UDVGtgWT0X4iLRLAlRB9yRTDtI2YkbQ0
- +cdmv6PAa+gd/la7Ou3fBVekn45udD9jz8vlfYKGcVvuDYTBju6JfkxER0b9nkm3xe
- havVPPviT15aaqpp3Rv6+Z4bUOnbt6Jw+D5zWQVkyvZFSwGmPxTzjGl9DhSOWYY9Ao
- x59pJNB3Vc/P5HxtNfCcihRhKXPQ5QVqZ1s4gWiBODmkxeEzcfVjU7oHeAPAww5kJz
- JYO6/MPUC/RnQ==
-From: Maxime Ripard <mripard@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-Subject: [PATCH] drm/i915/tv: Fix TV mode
-Date: Tue, 20 Feb 2024 14:12:51 +0100
-Message-ID: <20240220131251.453060-1-mripard@kernel.org>
-X-Mailer: git-send-email 2.43.2
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6B8010E30A
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 13:16:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1708434989; x=1739970989;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=olkWDx9Xv6JhLQ9ib6FSimuMqJFaC9KwLcSGgNHoIDU=;
+ b=avwD+b+eR1Tk5DontTVOEOSyLXHvQE7IQXvSj/zQYmKnxSUGThgA9naf
+ b59pqFiwZvwKaooKbpiMQD0if3w/4jd2limAp01SF/wvT59/xVsAm0kIz
+ UOd/gBS5g+3iQ83K9hcNEc0bC8QPJaDLFhJRGtQ2wxFKWUJEKWcOqGK48
+ 9GggTLh705qCVZhPT2bVLxrvY9iEw5YunfN04up6I0H/JZyyEHPUPfZ20
+ 85SYBjKff0WUROsh+n5xjsLDO82o/Corq+JD6nVEE4JZr2SfkcVVEmnm6
+ 1PCbg9NfY695Z/hwx2tmlUCW9O6pUQM8R1pNCP6S0e/5406YFXffsJByY Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="5490927"
+X-IronPort-AV: E=Sophos;i="6.06,172,1705392000"; 
+   d="scan'208";a="5490927"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Feb 2024 05:16:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,172,1705392000"; 
+   d="scan'208";a="4735430"
+Received: from jlawryno.igk.intel.com ([10.91.220.59])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Feb 2024 05:16:26 -0800
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
+ Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>, stable@vger.kernel.org,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH v2] accel/ivpu: Don't enable any tiles by default on VPU40xx
+Date: Tue, 20 Feb 2024 14:16:24 +0100
+Message-ID: <20240220131624.1447813-1-jacek.lawrynowicz@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240220110830.1439719-1-jacek.lawrynowicz@linux.intel.com>
+References: <20240220110830.1439719-1-jacek.lawrynowicz@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,127 +67,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 1fd4a5a36f9f ("drm/connector: Rename legacy TV property") failed
-to update all the users of the struct drm_tv_connector_state mode field,
-which resulted in a build failure in i915.
+From: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
 
-However, a subsequent commit in the same series reintroduced a mode
-field in that structure, with a different semantic but the same type,
-with the assumption that all previous users were updated.
+There is no point in requesting 1 tile on VPU40xx as the FW will
+probably need more tiles to run workloads, so it will have to
+reconfigure PLL anyway. Don't enable any tiles and allow the FW to
+perform initial tile configuration.
 
-Since that didn't happen, the i915 driver now compiles, but mixes
-accesses to the legacy_mode field and the newer mode field, but with the
-previous semantics.
+This improves NPU boot stability as the tiles are always enabled only
+by the FW from the same initial state.
 
-This obviously doesn't work very well, so we need to update the accesses
-that weren't in the legacy renaming commit.
-
-Fixes: 1fd4a5a36f9f ("drm/connector: Rename legacy TV property")
-Reported-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Fixes: 79cdc56c4a54 ("accel/ivpu: Add initial support for VPU 4")
+Cc: stable@vger.kernel.org
+Signed-off-by: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_sdvo.c | 10 +++++-----
- drivers/gpu/drm/i915/display/intel_tv.c   | 10 +++++-----
- 2 files changed, 10 insertions(+), 10 deletions(-)
+ drivers/accel/ivpu/ivpu_hw_40xx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c b/drivers/gpu/drm/i915/display/intel_sdvo.c
-index 825638702ac1..5f9e748adc89 100644
---- a/drivers/gpu/drm/i915/display/intel_sdvo.c
-+++ b/drivers/gpu/drm/i915/display/intel_sdvo.c
-@@ -1220,7 +1220,7 @@ static bool intel_sdvo_set_tv_format(struct intel_sdvo *intel_sdvo,
- 	struct intel_sdvo_tv_format format;
- 	u32 format_map;
+diff --git a/drivers/accel/ivpu/ivpu_hw_40xx.c b/drivers/accel/ivpu/ivpu_hw_40xx.c
+index 1c995307c113..a1523d0b1ef3 100644
+--- a/drivers/accel/ivpu/ivpu_hw_40xx.c
++++ b/drivers/accel/ivpu/ivpu_hw_40xx.c
+@@ -24,7 +24,7 @@
+ #define SKU_HW_ID_SHIFT              16u
+ #define SKU_HW_ID_MASK               0xffff0000u
  
--	format_map = 1 << conn_state->tv.mode;
-+	format_map = 1 << conn_state->tv.legacy_mode;
- 	memset(&format, 0, sizeof(format));
- 	memcpy(&format, &format_map, min(sizeof(format), sizeof(format_map)));
- 
-@@ -2323,7 +2323,7 @@ static int intel_sdvo_get_tv_modes(struct drm_connector *connector)
- 	 * Read the list of supported input resolutions for the selected TV
- 	 * format.
- 	 */
--	format_map = 1 << conn_state->tv.mode;
-+	format_map = 1 << conn_state->tv.legacy_mode;
- 	memcpy(&tv_res, &format_map,
- 	       min(sizeof(format_map), sizeof(struct intel_sdvo_sdtv_resolution_request)));
- 
-@@ -2388,7 +2388,7 @@ intel_sdvo_connector_atomic_get_property(struct drm_connector *connector,
- 		int i;
- 
- 		for (i = 0; i < intel_sdvo_connector->format_supported_num; i++)
--			if (state->tv.mode == intel_sdvo_connector->tv_format_supported[i]) {
-+			if (state->tv.legacy_mode == intel_sdvo_connector->tv_format_supported[i]) {
- 				*val = i;
- 
- 				return 0;
-@@ -2444,7 +2444,7 @@ intel_sdvo_connector_atomic_set_property(struct drm_connector *connector,
- 	struct intel_sdvo_connector_state *sdvo_state = to_intel_sdvo_connector_state(state);
- 
- 	if (property == intel_sdvo_connector->tv_format) {
--		state->tv.mode = intel_sdvo_connector->tv_format_supported[val];
-+		state->tv.legacy_mode = intel_sdvo_connector->tv_format_supported[val];
- 
- 		if (state->crtc) {
- 			struct drm_crtc_state *crtc_state =
-@@ -3108,7 +3108,7 @@ static bool intel_sdvo_tv_create_property(struct intel_sdvo *intel_sdvo,
- 		drm_property_add_enum(intel_sdvo_connector->tv_format, i,
- 				      tv_format_names[intel_sdvo_connector->tv_format_supported[i]]);
- 
--	intel_sdvo_connector->base.base.state->tv.mode = intel_sdvo_connector->tv_format_supported[0];
-+	intel_sdvo_connector->base.base.state->tv.legacy_mode = intel_sdvo_connector->tv_format_supported[0];
- 	drm_object_attach_property(&intel_sdvo_connector->base.base.base,
- 				   intel_sdvo_connector->tv_format, 0);
- 	return true;
-diff --git a/drivers/gpu/drm/i915/display/intel_tv.c b/drivers/gpu/drm/i915/display/intel_tv.c
-index a96bcfcf90a3..2b77d399f1a1 100644
---- a/drivers/gpu/drm/i915/display/intel_tv.c
-+++ b/drivers/gpu/drm/i915/display/intel_tv.c
-@@ -950,7 +950,7 @@ intel_disable_tv(struct intel_atomic_state *state,
- 
- static const struct tv_mode *intel_tv_mode_find(const struct drm_connector_state *conn_state)
- {
--	int format = conn_state->tv.mode;
-+	int format = conn_state->tv.legacy_mode;
- 
- 	return &tv_modes[format];
- }
-@@ -1705,7 +1705,7 @@ static void intel_tv_find_better_format(struct drm_connector *connector)
- 			break;
- 	}
- 
--	connector->state->tv.mode = i;
-+	connector->state->tv.legacy_mode = i;
- }
- 
- static int
-@@ -1863,7 +1863,7 @@ static int intel_tv_atomic_check(struct drm_connector *connector,
- 	old_state = drm_atomic_get_old_connector_state(state, connector);
- 	new_crtc_state = drm_atomic_get_new_crtc_state(state, new_state->crtc);
- 
--	if (old_state->tv.mode != new_state->tv.mode ||
-+	if (old_state->tv.legacy_mode != new_state->tv.legacy_mode ||
- 	    old_state->tv.margins.left != new_state->tv.margins.left ||
- 	    old_state->tv.margins.right != new_state->tv.margins.right ||
- 	    old_state->tv.margins.top != new_state->tv.margins.top ||
-@@ -1900,7 +1900,7 @@ static void intel_tv_add_properties(struct drm_connector *connector)
- 	conn_state->tv.margins.right = 46;
- 	conn_state->tv.margins.bottom = 37;
- 
--	conn_state->tv.mode = 0;
-+	conn_state->tv.legacy_mode = 0;
- 
- 	/* Create TV properties then attach current values */
- 	for (i = 0; i < ARRAY_SIZE(tv_modes); i++) {
-@@ -1914,7 +1914,7 @@ static void intel_tv_add_properties(struct drm_connector *connector)
- 
- 	drm_object_attach_property(&connector->base,
- 				   i915->drm.mode_config.legacy_tv_mode_property,
--				   conn_state->tv.mode);
-+				   conn_state->tv.legacy_mode);
- 	drm_object_attach_property(&connector->base,
- 				   i915->drm.mode_config.tv_left_margin_property,
- 				   conn_state->tv.margins.left);
+-#define PLL_CONFIG_DEFAULT           0x1
++#define PLL_CONFIG_DEFAULT           0x0
+ #define PLL_CDYN_DEFAULT             0x80
+ #define PLL_EPP_DEFAULT              0x80
+ #define PLL_REF_CLK_FREQ	     (50 * 1000000)
 -- 
-2.43.2
+2.43.0
 
