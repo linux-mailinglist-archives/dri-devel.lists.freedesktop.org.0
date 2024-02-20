@@ -2,54 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A32F485C81C
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 22:18:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9807385C81B
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 22:18:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47E0B10E585;
-	Tue, 20 Feb 2024 21:18:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7F6B10E582;
+	Tue, 20 Feb 2024 21:18:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eg4HrXrQ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VTLE0bLk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47AFB10E56F;
- Tue, 20 Feb 2024 21:18:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAEC110E572;
+ Tue, 20 Feb 2024 21:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708463917; x=1739999917;
+ t=1708463918; x=1739999918;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=JM1BCSiYFyeNA4xBeuJhZEo4SYV+CN1D7srC6WrVrh0=;
- b=eg4HrXrQ2Qk9SkLwKleNAb2A3dFeW4/5Ixxvff6gSJdDrFLhS1dI1QIm
- RjUU4jEYjUPu45BUXXoK8gvXnhA2DWMV/+Ydw2tekpT5KC4VcUew4rhfR
- PxVKECAdLjJh4cAaL2Al2vog/yaVeI4ik80nU+oasiyoWkBZErk9u04iS
- LuOVrCS3HssI4Cs2fqbzlOPXJfSTj6FLvoi8ZkROilVGGs0wLqSDW674v
- K9eXAHSmLKJEKPRiIZkObOvwZ1hfh9V8cxfI8IG9+sZ0jpRlCm3ewN1L/
- 3yRBH2o2uQvYnoHFokzWjHaWU0VPCRrjdmCYEWsXZYA6f04ElKnAt0/dA Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="2738662"
+ bh=FznQMgo8NNVvcNmdYjyEetp0FgX3EkBKFSsi2MZ6gro=;
+ b=VTLE0bLk/p9j7qRXjYKMVjQ0t/gMIRcuHJ3zf4ZJZhV7WGBK7/aDM6YK
+ lsYBPYTrgXZSMOF4BjCxxkVbaNfKUrad0PHla4wRsA65vyTuv2z2WHLTb
+ ZZ9EZLn/WeNPeyoHEAajVXw4CF0w9+NH034GEVQUdqMGRzpkr0Yf0GE5o
+ UoRFYg4N8NsjSkrCIRmD1f5g4Bwde7pWMKsKB51WlOIFPA65MQZbQkRP2
+ K5vdib2McIEi5gAJ/rqzDn3H19anR2EAKFOoZ5EKkQZaqjVFB2leVFP0M
+ kmmKocfo8m170nptK7rmnXC5Vipgq06PBVFe5pmWBpeHnSBWSlrpQjgzR w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="2738663"
 X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
-   d="scan'208";a="2738662"
+   d="scan'208";a="2738663"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2024 13:18:36 -0800
+ 20 Feb 2024 13:18:38 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
-   d="scan'208";a="5061608"
+   d="scan'208";a="5061610"
 Received: from ideak-desk.fi.intel.com ([10.237.72.78])
  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2024 13:18:35 -0800
+ 20 Feb 2024 13:18:36 -0800
 From: Imre Deak <imre.deak@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Cc: Uma Shankar <uma.shankar@intel.com>
-Subject: [PATCH v2 10/21] drm/i915/dp: Add intel_dp_max_link_data_rate()
-Date: Tue, 20 Feb 2024 23:18:30 +0200
-Message-Id: <20240220211841.448846-11-imre.deak@intel.com>
+Cc: =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
+Subject: [PATCH v2 11/21] drm/i915/dp: Add way to get active pipes with
+ syncing commits
+Date: Tue, 20 Feb 2024 23:18:31 +0200
+Message-Id: <20240220211841.448846-12-imre.deak@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240220211841.448846-1-imre.deak@intel.com>
 References: <20240220211841.448846-1-imre.deak@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,117 +68,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add intel_dp_max_link_data_rate() to get the link BW vs. the sink DPRX
-BW used by a follow-up patch enabling the DP tunnel BW allocation mode.
-The link BW can be below the DPRX BW due to a BW limitation on a link
-shared by multiple sinks.
+Add a way to get the active pipes through a given DP port by syncing
+against a related pending non-blocking commit. Atm
+intel_dp_get_active_pipes() will only try to sync a given pipe and if
+that would block ignore the pipe. A follow-up change enabling the DP
+tunnel BW allocation mode will need to ensure that all active pipes are
+returned.
 
+This change will use intel_crtc_state::uapi.commit instead of the
+corresponding commit in the connector state. This shouldn't make a
+difference, since the two commit objects match for an active pipe.
+
+A follow-up patchset will remove syncing during TC port reset, which
+should reset a port/pipe even if syncing against a commit would block.
+Syncing OTOH is not needed there, since the commit used for the reset
+implies a sync already. For now add a TODO comment for this.
+
+v2:
+- Add a separate function to try-sync the pipes. (Ville)
+
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Imre Deak <imre.deak@intel.com>
-Reviewed-by: Uma Shankar <uma.shankar@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_dp.c     | 32 +++++++++++++++++----
- drivers/gpu/drm/i915/display/intel_dp.h     |  2 ++
- drivers/gpu/drm/i915/display/intel_dp_mst.c |  3 +-
- 3 files changed, 30 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/i915/display/intel_crtc.c | 27 +++++++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_crtc.h |  1 +
+ drivers/gpu/drm/i915/display/intel_dp.c   |  6 ++---
+ drivers/gpu/drm/i915/display/intel_tc.c   |  7 ++++++
+ 4 files changed, 37 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/display/intel_crtc.c b/drivers/gpu/drm/i915/display/intel_crtc.c
+index 25593f6aae7de..17ed2e62cc66a 100644
+--- a/drivers/gpu/drm/i915/display/intel_crtc.c
++++ b/drivers/gpu/drm/i915/display/intel_crtc.c
+@@ -654,3 +654,30 @@ void intel_pipe_update_end(struct intel_atomic_state *state,
+ out:
+ 	intel_psr_unlock(new_crtc_state);
+ }
++
++/**
++ * intel_crtc_try_sync_pipes - Try syncing pending commits on a set of pipes
++ * @i915: i915 device object
++ * @pipe_mask: Mask of pipes to sync
++ *
++ * Try to sync a pending non-blocking commit for the provided pipes in
++ * @pipe_mask. The commit won't be synced if this would block.
++ *
++ * Return a mask of the pipes that got synced or didn't need syncing.
++ */
++u32 intel_crtc_try_sync_pipes(struct drm_i915_private *i915, u32 pipe_mask)
++{
++	struct intel_crtc *crtc;
++	u32 synced = 0;
++
++	for_each_intel_crtc_in_pipe_mask(&i915->drm, crtc, pipe_mask) {
++		const struct intel_crtc_state *crtc_state =
++			to_intel_crtc_state(crtc->base.state);
++
++		if (!crtc_state->uapi.commit ||
++		    try_wait_for_completion(&crtc_state->uapi.commit->hw_done))
++			synced |= BIT(crtc->pipe);
++	}
++
++	return synced;
++}
+diff --git a/drivers/gpu/drm/i915/display/intel_crtc.h b/drivers/gpu/drm/i915/display/intel_crtc.h
+index 22d7993d1f0ba..71a5b93166da7 100644
+--- a/drivers/gpu/drm/i915/display/intel_crtc.h
++++ b/drivers/gpu/drm/i915/display/intel_crtc.h
+@@ -47,5 +47,6 @@ struct intel_crtc *intel_crtc_for_pipe(struct drm_i915_private *i915,
+ void intel_wait_for_vblank_if_active(struct drm_i915_private *i915,
+ 				     enum pipe pipe);
+ void intel_crtc_wait_for_next_vblank(struct intel_crtc *crtc);
++u32 intel_crtc_try_sync_pipes(struct drm_i915_private *i915, u32 pipe_mask);
+ 
+ #endif
 diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 520c04245c2df..d9e75922ff8f5 100644
+index d9e75922ff8f5..d0452d3e534a7 100644
 --- a/drivers/gpu/drm/i915/display/intel_dp.c
 +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -383,6 +383,22 @@ int intel_dp_effective_data_rate(int pixel_clock, int bpp_x16,
- 				1000000 * 16 * 8);
- }
+@@ -5048,10 +5048,6 @@ int intel_dp_get_active_pipes(struct intel_dp *intel_dp,
+ 		if (!crtc_state->hw.active)
+ 			continue;
  
-+/**
-+ * intel_dp_max_link_data_rate: Calculate the maximum rate for the given link params
-+ * @intel_dp: Intel DP object
-+ * @max_dprx_rate: Maximum data rate of the DPRX
-+ * @max_dprx_lanes: Maximum lane count of the DPRX
-+ *
-+ * Calculate the maximum data rate for the provided link parameters.
-+ *
-+ * Returns the maximum data rate in kBps units.
-+ */
-+int intel_dp_max_link_data_rate(struct intel_dp *intel_dp,
-+				int max_dprx_rate, int max_dprx_lanes)
-+{
-+	return drm_dp_max_dprx_data_rate(max_dprx_rate, max_dprx_lanes);
-+}
+-		if (conn_state->commit &&
+-		    !try_wait_for_completion(&conn_state->commit->hw_done))
+-			continue;
+-
+ 		*pipe_mask |= BIT(crtc->pipe);
+ 	}
+ 	drm_connector_list_iter_end(&conn_iter);
+@@ -5091,6 +5087,8 @@ int intel_dp_retrain_link(struct intel_encoder *encoder,
+ 	if (ret)
+ 		return ret;
+ 
++	pipe_mask &= intel_crtc_try_sync_pipes(dev_priv, pipe_mask);
 +
- bool intel_dp_can_bigjoiner(struct intel_dp *intel_dp)
- {
- 	struct intel_digital_port *intel_dig_port = dp_to_dig_port(intel_dp);
-@@ -612,7 +628,7 @@ static bool intel_dp_can_link_train_fallback_for_edp(struct intel_dp *intel_dp,
- 	int mode_rate, max_rate;
+ 	if (pipe_mask == 0)
+ 		return 0;
  
- 	mode_rate = intel_dp_link_required(fixed_mode->clock, 18);
--	max_rate = drm_dp_max_dprx_data_rate(link_rate, lane_count);
-+	max_rate = intel_dp_max_link_data_rate(intel_dp, link_rate, lane_count);
- 	if (mode_rate > max_rate)
- 		return false;
+diff --git a/drivers/gpu/drm/i915/display/intel_tc.c b/drivers/gpu/drm/i915/display/intel_tc.c
+index 6b374d481cd9e..14d17903a81f5 100644
+--- a/drivers/gpu/drm/i915/display/intel_tc.c
++++ b/drivers/gpu/drm/i915/display/intel_tc.c
+@@ -7,6 +7,7 @@
+ #include "i915_reg.h"
+ #include "intel_atomic.h"
+ #include "intel_cx0_phy_regs.h"
++#include "intel_crtc.h"
+ #include "intel_ddi.h"
+ #include "intel_de.h"
+ #include "intel_display.h"
+@@ -1663,6 +1664,12 @@ static int reset_link_commit(struct intel_tc_port *tc,
+ 	if (ret)
+ 		return ret;
  
-@@ -1216,7 +1232,8 @@ intel_dp_mode_valid(struct drm_connector *_connector,
- 	max_link_clock = intel_dp_max_link_rate(intel_dp);
- 	max_lanes = intel_dp_max_lane_count(intel_dp);
- 
--	max_rate = drm_dp_max_dprx_data_rate(max_link_clock, max_lanes);
-+	max_rate = intel_dp_max_link_data_rate(intel_dp, max_link_clock, max_lanes);
++	/*
++	 * TODO: remove the following, since an output must be reset
++	 * even if we had to wait for a non-blocking commit on a pipe.
++	 */
++	pipe_mask &= intel_crtc_try_sync_pipes(i915, pipe_mask);
 +
- 	mode_rate = intel_dp_link_required(target_clock,
- 					   intel_dp_mode_min_output_bpp(connector, mode));
+ 	if (!pipe_mask)
+ 		return 0;
  
-@@ -1566,8 +1583,10 @@ intel_dp_compute_link_config_wide(struct intel_dp *intel_dp,
- 			for (lane_count = limits->min_lane_count;
- 			     lane_count <= limits->max_lane_count;
- 			     lane_count <<= 1) {
--				link_avail = drm_dp_max_dprx_data_rate(link_rate,
--								       lane_count);
-+				link_avail = intel_dp_max_link_data_rate(intel_dp,
-+									 link_rate,
-+									 lane_count);
-+
- 
- 				if (mode_rate <= link_avail) {
- 					pipe_config->lane_count = lane_count;
-@@ -2427,8 +2446,9 @@ intel_dp_compute_link_config(struct intel_encoder *encoder,
- 		    pipe_config->pipe_bpp,
- 		    BPP_X16_ARGS(pipe_config->dsc.compressed_bpp_x16),
- 		    intel_dp_config_required_rate(pipe_config),
--		    drm_dp_max_dprx_data_rate(pipe_config->port_clock,
--					      pipe_config->lane_count));
-+		    intel_dp_max_link_data_rate(intel_dp,
-+						pipe_config->port_clock,
-+						pipe_config->lane_count));
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
-index 10e859b62bbe9..564a587e2d018 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.h
-+++ b/drivers/gpu/drm/i915/display/intel_dp.h
-@@ -115,6 +115,8 @@ bool intel_dp_get_colorimetry_status(struct intel_dp *intel_dp);
- int intel_dp_link_required(int pixel_clock, int bpp);
- int intel_dp_effective_data_rate(int pixel_clock, int bpp_x16,
- 				 int bw_overhead);
-+int intel_dp_max_link_data_rate(struct intel_dp *intel_dp,
-+				int max_dprx_rate, int max_dprx_lanes);
- bool intel_dp_can_bigjoiner(struct intel_dp *intel_dp);
- bool intel_dp_needs_vsc_sdp(const struct intel_crtc_state *crtc_state,
- 			    const struct drm_connector_state *conn_state);
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-index b4d4bb90126e9..4b6c8ff974297 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-@@ -1299,7 +1299,8 @@ intel_dp_mst_mode_valid_ctx(struct drm_connector *connector,
- 	max_link_clock = intel_dp_max_link_rate(intel_dp);
- 	max_lanes = intel_dp_max_lane_count(intel_dp);
- 
--	max_rate = drm_dp_max_dprx_data_rate(max_link_clock, max_lanes);
-+	max_rate = intel_dp_max_link_data_rate(intel_dp,
-+					       max_link_clock, max_lanes);
- 	mode_rate = intel_dp_link_required(mode->clock, min_bpp);
- 
- 	ret = drm_modeset_lock(&mgr->base.lock, ctx);
 -- 
 2.39.2
 
