@@ -2,64 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 354EE85C352
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 19:06:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBCC985C361
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 19:10:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A070910E401;
-	Tue, 20 Feb 2024 18:06:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A09910E136;
+	Tue, 20 Feb 2024 18:09:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QX+LqQY+";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="J+TCeWl9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7BC810E401;
- Tue, 20 Feb 2024 18:06:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708452367; x=1739988367;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=GO2Z5PiFxn+o6yTFw3Aa5pXX0x9vVQnt0mONv/Vhno8=;
- b=QX+LqQY+HVbtIX486SQOvR/4dvZaLG8TdTZZoaIH4hLnIw5OwRA03OCU
- jsVBS0qUFqjMpFrIgjZ3W085/25N1Uy90d4BgfZH84MOjhkuZj28Tl9Rh
- N5v9WjYYd3Ahxi513BPAsV0pUObBj91GUlhl2fU+DWMkLmhQ6haVVw3kB
- /c6LaT/Bal9J9evbNRzI+5WO4umIpwduiQIEz5GdILp3qC36i010XHyXZ
- DOzYkf7JZDzl/RcqoSBlGHpo5dNfOg/WqhwflWuYyFnD7MbXTJPfQ5ift
- /+ljiym6jFtHcrc0YF3xpCXHhyFrwezG+Nj7WR4HlC2zQVO7OQEEg4r7l Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="2697401"
-X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
-   d="scan'208";a="2697401"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2024 10:06:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="827191936"
-X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; d="scan'208";a="827191936"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 20 Feb 2024 10:06:02 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 20 Feb 2024 20:06:01 +0200
-Date: Tue, 20 Feb 2024 20:06:01 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- David Airlie <airlied@gmail.com>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/i915/tv: Fix TV mode
-Message-ID: <ZdTqCWPSL4jJO3yf@intel.com>
-References: <20240220131251.453060-1-mripard@kernel.org>
- <ZdTm1bFgR8x2IJhN@intel.com> <ZdTn8oy1bs1rIqmL@intel.com>
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com
+ [209.85.128.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1030A10E136
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 18:09:56 +0000 (UTC)
+Received: by mail-yw1-f172.google.com with SMTP id
+ 00721157ae682-6002317a427so47317887b3.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 10:09:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1708452596; x=1709057396; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=TJ0aDR9NVt9XM9NUkLl3BrBKP3ikJ6XdHk6DaL6OOv8=;
+ b=J+TCeWl9TiOf2ydvZ+8rE6E5t6f8EeA5SXwllgvaW+1H+3anzmOAIt7X0MhDpIu3Ao
+ P+qeoi6vodjfFtj0q1rAnmsM7uwxtBxtZu2nVF+e7V8sCHjRZvCNMhCJJ8TdAL2CF/SP
+ PeRpQKuKnFQvOtxt2ZW9TUhVVAjl7s4keRBrS4Yj9Yi2yDEeZh0oI+d48AGeHvKNNzwK
+ fYYbl3rux820zX4iKpg1lxn0E3HqbDctrqBoVDfa78pRLHYrJf11UOR4dConifer4IFR
+ hrYR9O07z9Zbo8vQUtnr9ZWQyX8XzjFH3hbDmOqpTeXcsCtIBGn9x3inIlk9Nl94W55X
+ b9tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708452596; x=1709057396;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=TJ0aDR9NVt9XM9NUkLl3BrBKP3ikJ6XdHk6DaL6OOv8=;
+ b=HYcdawevVN/552uXzJ5v31eXBullW3ACiPUr1LQtyEoFtw3E6sFvQyMRZx0dDDAYlL
+ jmALtKfmJkUX4Z9AwmgNrAGer9uWgYEJv20sEXr2H+fN3dRH1Yc4dnBXQlYlmlvcDmVn
+ QrdTpE4SxGaQSp6G4kU+74foJsX2rXyMQF+iB9FWHNBy1ukjxNlkf0lTWAdsGrEP5cId
+ PwKguO2U8DTzXeoIXHtBJpqt06zlm2RESscWlAJxkUkbzrjWv7FQTGqgLp+Tj+Eu7wuj
+ 0twgqsAYWSNKtXcANIK1mPvfv/+UumzlFtzcOj3/T4WTnmms1vqEZXzZGwzlAneMbBUK
+ 3beg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWKiNeoo7Ze0COe5c8/DRGkuCWVOA1fibjGD5y1jvx9leXpNC3aAc7w53i1/eWWsQCjCBuRSmv2TKAw/zlHxO/X0HMcyS83Ycty+J+r2G+y
+X-Gm-Message-State: AOJu0Yw9+hzZm7/q8axgnRVcEIzrsHNxAYBZd+KjaZ7dQqppTYsAAXto
+ XuR11vfWOedqtxU1xII05e3TG7aG8CSYclwnoVHK4kAHx2h4dsO1kDs5s8+FCBo9qnvzj0gP6Ys
+ 7Zz3lRGVV8X2+819VNmC1F3h/7gZDei7wlq4L7g==
+X-Google-Smtp-Source: AGHT+IFQeiHiIryJtC2om6c9aK4p9MZ4vJ/D8X0QgnxGrJvJytDUmw+oY9eK1dhe5485mH4cpPuSesAGuVShLB9++Qc=
+X-Received: by 2002:a81:4f14:0:b0:608:664e:3bfb with SMTP id
+ d20-20020a814f14000000b00608664e3bfbmr2360294ywb.40.1708452595734; Tue, 20
+ Feb 2024 10:09:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZdTn8oy1bs1rIqmL@intel.com>
-X-Patchwork-Hint: comment
+References: <20240216230228.26713-1-quic_parellan@quicinc.com>
+ <20240216230228.26713-14-quic_parellan@quicinc.com>
+ <CAA8EJppO4FcJJex8mBbPoDyUbkn4zFvDFR0h3sOY75Qth15Rng@mail.gmail.com>
+ <30f383ce-0952-0dc1-a7a1-a7565526f728@quicinc.com>
+In-Reply-To: <30f383ce-0952-0dc1-a7a1-a7565526f728@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 20 Feb 2024 20:09:44 +0200
+Message-ID: <CAA8EJpr4XKDQELhhnumqmH2Yh4qzh-gypR4tpRQ0eDhSB3U0Sw@mail.gmail.com>
+Subject: Re: [PATCH v4 13/19] drm/msm/dp: add VSC SDP support for YUV420 over
+ DP
+To: Paloma Arellano <quic_parellan@quicinc.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, robdclark@gmail.com, seanpaul@chromium.org, 
+ swboyd@chromium.org, quic_abhinavk@quicinc.com, quic_jesszhan@quicinc.com, 
+ quic_khsieh@quicinc.com, marijn.suijten@somainline.org, 
+ neil.armstrong@linaro.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,161 +84,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 20, 2024 at 12:57:06PM -0500, Rodrigo Vivi wrote:
-> On Tue, Feb 20, 2024 at 07:52:21PM +0200, Ville Syrjälä wrote:
-> > On Tue, Feb 20, 2024 at 02:12:51PM +0100, Maxime Ripard wrote:
-> > > Commit 1fd4a5a36f9f ("drm/connector: Rename legacy TV property") failed
-> > > to update all the users of the struct drm_tv_connector_state mode field,
-> > > which resulted in a build failure in i915.
-> > > 
-> > > However, a subsequent commit in the same series reintroduced a mode
-> > > field in that structure, with a different semantic but the same type,
-> > > with the assumption that all previous users were updated.
-> > > 
-> > > Since that didn't happen, the i915 driver now compiles, but mixes
-> > > accesses to the legacy_mode field and the newer mode field, but with the
-> > > previous semantics.
-> > > 
-> > > This obviously doesn't work very well, so we need to update the accesses
-> > > that weren't in the legacy renaming commit.
-> > > 
-> > > Fixes: 1fd4a5a36f9f ("drm/connector: Rename legacy TV property")
-> > > Reported-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > ---
-> > >  drivers/gpu/drm/i915/display/intel_sdvo.c | 10 +++++-----
-> > >  drivers/gpu/drm/i915/display/intel_tv.c   | 10 +++++-----
-> > >  2 files changed, 10 insertions(+), 10 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c b/drivers/gpu/drm/i915/display/intel_sdvo.c
-> > > index 825638702ac1..5f9e748adc89 100644
-> > > --- a/drivers/gpu/drm/i915/display/intel_sdvo.c
-> > > +++ b/drivers/gpu/drm/i915/display/intel_sdvo.c
-> > > @@ -1220,7 +1220,7 @@ static bool intel_sdvo_set_tv_format(struct intel_sdvo *intel_sdvo,
-> > >  	struct intel_sdvo_tv_format format;
-> > >  	u32 format_map;
-> > >  
-> > > -	format_map = 1 << conn_state->tv.mode;
-> > > +	format_map = 1 << conn_state->tv.legacy_mode;
-> > >  	memset(&format, 0, sizeof(format));
-> > >  	memcpy(&format, &format_map, min(sizeof(format), sizeof(format_map)));
-> > >  
-> > > @@ -2323,7 +2323,7 @@ static int intel_sdvo_get_tv_modes(struct drm_connector *connector)
-> > >  	 * Read the list of supported input resolutions for the selected TV
-> > >  	 * format.
-> > >  	 */
-> > > -	format_map = 1 << conn_state->tv.mode;
-> > > +	format_map = 1 << conn_state->tv.legacy_mode;
-> > >  	memcpy(&tv_res, &format_map,
-> > >  	       min(sizeof(format_map), sizeof(struct intel_sdvo_sdtv_resolution_request)));
-> > >  
-> > > @@ -2388,7 +2388,7 @@ intel_sdvo_connector_atomic_get_property(struct drm_connector *connector,
-> > >  		int i;
-> > >  
-> > >  		for (i = 0; i < intel_sdvo_connector->format_supported_num; i++)
-> > > -			if (state->tv.mode == intel_sdvo_connector->tv_format_supported[i]) {
-> > > +			if (state->tv.legacy_mode == intel_sdvo_connector->tv_format_supported[i]) {
-> > >  				*val = i;
-> > >  
-> > >  				return 0;
-> > > @@ -2444,7 +2444,7 @@ intel_sdvo_connector_atomic_set_property(struct drm_connector *connector,
-> > >  	struct intel_sdvo_connector_state *sdvo_state = to_intel_sdvo_connector_state(state);
-> > >  
-> > >  	if (property == intel_sdvo_connector->tv_format) {
-> > > -		state->tv.mode = intel_sdvo_connector->tv_format_supported[val];
-> > > +		state->tv.legacy_mode = intel_sdvo_connector->tv_format_supported[val];
-> > >  
-> > >  		if (state->crtc) {
-> > >  			struct drm_crtc_state *crtc_state =
-> > > @@ -3108,7 +3108,7 @@ static bool intel_sdvo_tv_create_property(struct intel_sdvo *intel_sdvo,
-> > >  		drm_property_add_enum(intel_sdvo_connector->tv_format, i,
-> > >  				      tv_format_names[intel_sdvo_connector->tv_format_supported[i]]);
-> > >  
-> > > -	intel_sdvo_connector->base.base.state->tv.mode = intel_sdvo_connector->tv_format_supported[0];
-> > > +	intel_sdvo_connector->base.base.state->tv.legacy_mode = intel_sdvo_connector->tv_format_supported[0];
-> > >  	drm_object_attach_property(&intel_sdvo_connector->base.base.base,
-> > >  				   intel_sdvo_connector->tv_format, 0);
-> > >  	return true;
-> > 
-> > Hmm. I didn't realize we are using this in the SDVO code as well.
-> > I don't *think* that one is actually broken since it has its own
-> > .{set,get}_property() hooks. But I suppose doing the rename
-> > there as well is a good idea anyway.
-> > 
-> > Can you split the SDVO vs. TV into separate patches? We need to
-> > backport at least the TV part, and a smaller patch means less
-> > chance of conflicts. Or if you prefer I can chunk it up while
-> > pushing.
-> 
-> hmm ouch... I shouldn't had rushed with it, I'm sorry.
-> But I already merged this as is.
+On Tue, 20 Feb 2024 at 19:55, Paloma Arellano <quic_parellan@quicinc.com> wrote:
+>
+>
+> On 2/17/2024 12:56 AM, Dmitry Baryshkov wrote:
+> > On Sat, 17 Feb 2024 at 01:03, Paloma Arellano <quic_parellan@quicinc.com> wrote:
 
-Did you at least slap a cc:stable on it? Or maybe the Fixes: tag is
-enough these days...
+> >> +       }
+> >> +
+> >> +       panel = container_of(dp_panel, struct dp_panel_private, dp_panel);
+> >> +       catalog = panel->catalog;
+> >> +       dp_mode = &dp_panel->dp_mode;
+> >> +
+> >> +       memset(&vsc_sdp_data, 0, sizeof(vsc_sdp_data));
+> >> +
+> >> +       /* VSC SDP header as per table 2-118 of DP 1.4 specification */
+> >> +       vsc_sdp_data.sdp_type = DP_SDP_VSC;
+> >> +       vsc_sdp_data.revision = 0x05;
+> >> +       vsc_sdp_data.length = 0x13;
+> >> +
+> >> +       /* VSC SDP Payload for DB16 */
+> >> +       vsc_sdp_data.pixelformat = DP_PIXELFORMAT_YUV420;
+> >> +       vsc_sdp_data.colorimetry = DP_COLORIMETRY_DEFAULT;
+> >> +
+> >> +       /* VSC SDP Payload for DB17 */
+> >> +       vsc_sdp_data.bpc = dp_mode->bpp / 3;
+> >> +       vsc_sdp_data.dynamic_range = DP_DYNAMIC_RANGE_CTA;
+> >> +
+> >> +       /* VSC SDP Payload for DB18 */
+> >> +       vsc_sdp_data.content_type = DP_CONTENT_TYPE_GRAPHICS;
+> >> +
+> >> +       len = dp_utils_pack_vsc_sdp(&vsc_sdp_data, &vsc_sdp, header);
+> >> +       if (len < 0) {
+> >> +               DRM_ERROR("unable to pack vsc sdp\n");
+> >> +               return len;
+> >> +       }
+> > So, at this point we have the header data both in vsc_sdp.sdp_header
+> > and in the packed header. The relationship between them becomes less
+> > obvious. Could you please pack dp_sdp_header into u32[2] just before
+> > writing it? It really makes little sense to pass both at the same
+> > time.
+>
+>
+> Just want to clear some stuff up. Do you want to call the
+> dp_utils_pack_sdp_header() function right before
+> dp_catalog_panel_send_vsc_sdp()? The point of putting the
+> dp_utils_pack_sdp_header() function inside dp_utils_pack_vsc_sdp() is so
+> that all of the packing could be in the same location. Although I agree
+> that we are passing the same values twice, I believe that having it the
+> way it is currently is better since it shows that the
+> drm_dp_vsc_sdp_pack() and dp_utils_pack_sdp_header() are related since
+> they're packing the data to the set of GENERIC0 registers.
 
-> 
-> > 
-> > Both parts are
-> > Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > 
-> > Thanks.
-> > 
-> > > diff --git a/drivers/gpu/drm/i915/display/intel_tv.c b/drivers/gpu/drm/i915/display/intel_tv.c
-> > > index a96bcfcf90a3..2b77d399f1a1 100644
-> > > --- a/drivers/gpu/drm/i915/display/intel_tv.c
-> > > +++ b/drivers/gpu/drm/i915/display/intel_tv.c
-> > > @@ -950,7 +950,7 @@ intel_disable_tv(struct intel_atomic_state *state,
-> > >  
-> > >  static const struct tv_mode *intel_tv_mode_find(const struct drm_connector_state *conn_state)
-> > >  {
-> > > -	int format = conn_state->tv.mode;
-> > > +	int format = conn_state->tv.legacy_mode;
-> > >  
-> > >  	return &tv_modes[format];
-> > >  }
-> > > @@ -1705,7 +1705,7 @@ static void intel_tv_find_better_format(struct drm_connector *connector)
-> > >  			break;
-> > >  	}
-> > >  
-> > > -	connector->state->tv.mode = i;
-> > > +	connector->state->tv.legacy_mode = i;
-> > >  }
-> > >  
-> > >  static int
-> > > @@ -1863,7 +1863,7 @@ static int intel_tv_atomic_check(struct drm_connector *connector,
-> > >  	old_state = drm_atomic_get_old_connector_state(state, connector);
-> > >  	new_crtc_state = drm_atomic_get_new_crtc_state(state, new_state->crtc);
-> > >  
-> > > -	if (old_state->tv.mode != new_state->tv.mode ||
-> > > +	if (old_state->tv.legacy_mode != new_state->tv.legacy_mode ||
-> > >  	    old_state->tv.margins.left != new_state->tv.margins.left ||
-> > >  	    old_state->tv.margins.right != new_state->tv.margins.right ||
-> > >  	    old_state->tv.margins.top != new_state->tv.margins.top ||
-> > > @@ -1900,7 +1900,7 @@ static void intel_tv_add_properties(struct drm_connector *connector)
-> > >  	conn_state->tv.margins.right = 46;
-> > >  	conn_state->tv.margins.bottom = 37;
-> > >  
-> > > -	conn_state->tv.mode = 0;
-> > > +	conn_state->tv.legacy_mode = 0;
-> > >  
-> > >  	/* Create TV properties then attach current values */
-> > >  	for (i = 0; i < ARRAY_SIZE(tv_modes); i++) {
-> > > @@ -1914,7 +1914,7 @@ static void intel_tv_add_properties(struct drm_connector *connector)
-> > >  
-> > >  	drm_object_attach_property(&connector->base,
-> > >  				   i915->drm.mode_config.legacy_tv_mode_property,
-> > > -				   conn_state->tv.mode);
-> > > +				   conn_state->tv.legacy_mode);
-> > >  	drm_object_attach_property(&connector->base,
-> > >  				   i915->drm.mode_config.tv_left_margin_property,
-> > >  				   conn_state->tv.margins.left);
-> > > -- 
-> > > 2.43.2
-> > 
-> > -- 
-> > Ville Syrjälä
-> > Intel
+I'm perfectly fine with dp_utils_pack_sdp_header() being called from
+within dp_catalog_panel_send_vsc_sdp(). This way you are not passing
+extra data and it is perfectly clear how the SDP header is handled
+before being written to the hardware.
+
 
 -- 
-Ville Syrjälä
-Intel
+With best wishes
+Dmitry
