@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8785985C818
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 22:18:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9748685C821
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 22:19:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 552E810E573;
-	Tue, 20 Feb 2024 21:18:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5AD410E58A;
+	Tue, 20 Feb 2024 21:18:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KzXpNARD";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YfUExsVp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CC1110E573;
- Tue, 20 Feb 2024 21:18:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37E7310E572;
+ Tue, 20 Feb 2024 21:18:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708463921; x=1739999921;
+ t=1708463922; x=1739999922;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=EP3UJ9SXVPu+tLC2b5ZcMY8GjwhiyCr7KuGo8Jc1h2c=;
- b=KzXpNARDDRrPDXICnePTlo5g8CMYugCZ6QZYkci06LqiFscur2owgoFC
- MO8mSeoKTz/ay+feHHbUUdrcN2JRDIwEPNqO/dpj/Y/j4aKra6IVX/Yn4
- TobDU2hhUcQBGDY6K128yOLpYhbli6mmbq2RCVfIz8uf6fDvWtsxjPq8E
- fklKGJ8zv8iVI/5fnGoWU3gX6eNG0WUMZSSNFk8bTehI5ZXqw/usY9CCl
- aXofJ5BLEjUoqu6WdS/4cTFFVBE31UOcckFMRnhOdyffe3kQLDc3ctPpm
- ElW+NghYedlfAdO6pfHmE/y4KaO7YO/EhQVK9jPQWSnim+3oD6JgEXPAp g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="2738667"
+ bh=LqkYl0zfmBuoP6ue5jQFNdiqxgJEByGKgYo9MN5RmcY=;
+ b=YfUExsVp5uboaU8VvlSs5irW0cVQdfSLBpOm/7gi8wyGhzbMeWY1hs2r
+ QxoAstxNvMx0YRdxt2d8yYViVW97FEAh9vBwr05s4+wLCLF4GWKeAHbOJ
+ LJ39C5s6mUwo0lAGF5XI/VdIF+HM9sxodlqdDbmau/uFSUlROBB04QYuC
+ Mg2HRFbF4Nlce2LoKX/0unTyF9HibN5PQtgf52ZP1qj+nJP77JfCgrbD1
+ IHWAs4AQns3q5pCCjWR6ow1CNuzbRDq1b8DWrHD6ljcR63Mc7KHkdM/lT
+ Wr+OxrFcQmq67Aov3P5JuMuLGYpznj+49GObOjUziackDXbAJAk8YCxC6 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="2738669"
 X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
-   d="scan'208";a="2738667"
+   d="scan'208";a="2738669"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2024 13:18:40 -0800
+ 20 Feb 2024 13:18:42 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
-   d="scan'208";a="5061618"
+   d="scan'208";a="5061623"
 Received: from ideak-desk.fi.intel.com ([10.237.72.78])
  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2024 13:18:39 -0800
+ 20 Feb 2024 13:18:40 -0800
 From: Imre Deak <imre.deak@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Cc: =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-Subject: [PATCH v2 13/21] drm/i915/dp: Add DP tunnel atomic state and check BW
- limit
-Date: Tue, 20 Feb 2024 23:18:33 +0200
-Message-Id: <20240220211841.448846-14-imre.deak@intel.com>
+Cc: Uma Shankar <uma.shankar@intel.com>
+Subject: [PATCH v2 14/21] drm/i915/dp: Account for tunnel BW limit in
+ intel_dp_max_link_data_rate()
+Date: Tue, 20 Feb 2024 23:18:34 +0200
+Message-Id: <20240220211841.448846-15-imre.deak@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240220211841.448846-1-imre.deak@intel.com>
 References: <20240220211841.448846-1-imre.deak@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,125 +67,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the atomic state during a modeset required to enable the DP tunnel
-BW allocation mode on links where such a tunnel was detected. This state
-applies to an already enabled output, the state added for a newly
-enabled output will be computed and added/cleared to/from the atomic
-state in a follow-up patch.
+Take any link BW limitation into account in
+intel_dp_max_link_data_rate(). Such a limitation can be due to multiple
+displays on (Thunderbolt) links with DP tunnels sharing the link BW.
 
-v2:
-- s/old_crtc_state/crtc_state in intel_crtc_duplicate_state().
-- Move intel_dp_tunnel_atomic_cleanup_inherited_state() to a follow-up
-  patch adding the corresponding state. (Ville)
-- Move intel_dp_tunnel_atomic_clear_stream_bw() to a follow-up
-  patch adding the corresponding state.
-
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Imre Deak <imre.deak@intel.com>
+Reviewed-by: Uma Shankar <uma.shankar@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_atomic.c  |  6 ++++++
- drivers/gpu/drm/i915/display/intel_display.c | 12 ++++++++++++
- drivers/gpu/drm/i915/display/intel_link_bw.c |  5 +++++
- 3 files changed, 23 insertions(+)
+ drivers/gpu/drm/i915/display/intel_dp.c | 32 +++++++++++++++++++++----
+ 1 file changed, 28 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_atomic.c b/drivers/gpu/drm/i915/display/intel_atomic.c
-index 96ab37e158995..798cb90361a83 100644
---- a/drivers/gpu/drm/i915/display/intel_atomic.c
-+++ b/drivers/gpu/drm/i915/display/intel_atomic.c
-@@ -260,6 +260,10 @@ intel_crtc_duplicate_state(struct drm_crtc *crtc)
- 	if (crtc_state->post_csc_lut)
- 		drm_property_blob_get(crtc_state->post_csc_lut);
- 
-+	if (crtc_state->dp_tunnel_ref.tunnel)
-+		drm_dp_tunnel_ref_get(crtc_state->dp_tunnel_ref.tunnel,
-+				      &crtc_state->dp_tunnel_ref);
-+
- 	crtc_state->update_pipe = false;
- 	crtc_state->update_m_n = false;
- 	crtc_state->update_lrr = false;
-@@ -311,6 +315,8 @@ intel_crtc_destroy_state(struct drm_crtc *crtc,
- 
- 	__drm_atomic_helper_crtc_destroy_state(&crtc_state->uapi);
- 	intel_crtc_free_hw_state(crtc_state);
-+	if (crtc_state->dp_tunnel_ref.tunnel)
-+		drm_dp_tunnel_ref_put(&crtc_state->dp_tunnel_ref);
- 	kfree(crtc_state);
- }
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index e1a4200f67a7e..16973ebb7865d 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -33,6 +33,7 @@
- #include <linux/string_helpers.h>
- 
- #include <drm/display/drm_dp_helper.h>
-+#include <drm/display/drm_dp_tunnel.h>
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_atomic_uapi.h>
-@@ -73,6 +74,7 @@
- #include "intel_dp.h"
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index d0452d3e534a7..f4f748d95ad17 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -63,6 +63,7 @@
+ #include "intel_dp_hdcp.h"
  #include "intel_dp_link_training.h"
  #include "intel_dp_mst.h"
 +#include "intel_dp_tunnel.h"
+ #include "intel_dpio_phy.h"
  #include "intel_dpll.h"
- #include "intel_dpll_mgr.h"
- #include "intel_dpt.h"
-@@ -4490,6 +4492,8 @@ copy_bigjoiner_crtc_state_modeset(struct intel_atomic_state *state,
- 	saved_state->crc_enabled = slave_crtc_state->crc_enabled;
+ #include "intel_fifo_underrun.h"
+@@ -152,6 +153,22 @@ int intel_dp_link_symbol_clock(int rate)
+ 	return DIV_ROUND_CLOSEST(rate * 10, intel_dp_link_symbol_size(rate));
+ }
  
- 	intel_crtc_free_hw_state(slave_crtc_state);
-+	if (slave_crtc_state->dp_tunnel_ref.tunnel)
-+		drm_dp_tunnel_ref_put(&slave_crtc_state->dp_tunnel_ref);
- 	memcpy(slave_crtc_state, saved_state, sizeof(*slave_crtc_state));
- 	kfree(saved_state);
- 
-@@ -4505,6 +4509,10 @@ copy_bigjoiner_crtc_state_modeset(struct intel_atomic_state *state,
- 		      &master_crtc_state->hw.adjusted_mode);
- 	slave_crtc_state->hw.scaling_filter = master_crtc_state->hw.scaling_filter;
- 
-+	if (master_crtc_state->dp_tunnel_ref.tunnel)
-+		drm_dp_tunnel_ref_get(master_crtc_state->dp_tunnel_ref.tunnel,
-+					&slave_crtc_state->dp_tunnel_ref);
++static int max_dprx_rate(struct intel_dp *intel_dp)
++{
++	if (intel_dp_tunnel_bw_alloc_is_enabled(intel_dp))
++		return drm_dp_tunnel_max_dprx_rate(intel_dp->tunnel);
 +
- 	copy_bigjoiner_crtc_state_nomodeset(state, slave_crtc);
- 
- 	slave_crtc_state->uapi.mode_changed = master_crtc_state->uapi.mode_changed;
-@@ -5365,6 +5373,10 @@ static int intel_modeset_pipe(struct intel_atomic_state *state,
- 	if (ret)
- 		return ret;
- 
-+	ret = intel_dp_tunnel_atomic_add_state_for_crtc(state, crtc);
-+	if (ret)
-+		return ret;
++	return drm_dp_bw_code_to_link_rate(intel_dp->dpcd[DP_MAX_LINK_RATE]);
++}
 +
- 	ret = intel_dp_mst_add_topology_state_for_crtc(state, crtc);
- 	if (ret)
- 		return ret;
-diff --git a/drivers/gpu/drm/i915/display/intel_link_bw.c b/drivers/gpu/drm/i915/display/intel_link_bw.c
-index 27ea858897c9f..dfd7d5e23f3fa 100644
---- a/drivers/gpu/drm/i915/display/intel_link_bw.c
-+++ b/drivers/gpu/drm/i915/display/intel_link_bw.c
-@@ -9,6 +9,7 @@
- #include "intel_crtc.h"
- #include "intel_display_types.h"
- #include "intel_dp_mst.h"
-+#include "intel_dp_tunnel.h"
- #include "intel_fdi.h"
- #include "intel_link_bw.h"
- 
-@@ -163,6 +164,10 @@ static int check_all_link_config(struct intel_atomic_state *state,
- 	if (ret)
- 		return ret;
- 
-+	ret = intel_dp_tunnel_atomic_check_link(state, limits);
-+	if (ret)
-+		return ret;
++static int max_dprx_lane_count(struct intel_dp *intel_dp)
++{
++	if (intel_dp_tunnel_bw_alloc_is_enabled(intel_dp))
++		return drm_dp_tunnel_max_dprx_lane_count(intel_dp->tunnel);
 +
- 	ret = intel_fdi_atomic_check_link(state, limits);
- 	if (ret)
- 		return ret;
++	return drm_dp_max_lane_count(intel_dp->dpcd);
++}
++
+ static void intel_dp_set_default_sink_rates(struct intel_dp *intel_dp)
+ {
+ 	intel_dp->sink_rates[0] = 162000;
+@@ -180,7 +197,7 @@ static void intel_dp_set_dpcd_sink_rates(struct intel_dp *intel_dp)
+ 	/*
+ 	 * Sink rates for 8b/10b.
+ 	 */
+-	max_rate = drm_dp_bw_code_to_link_rate(intel_dp->dpcd[DP_MAX_LINK_RATE]);
++	max_rate = max_dprx_rate(intel_dp);
+ 	max_lttpr_rate = drm_dp_lttpr_max_link_rate(intel_dp->lttpr_common_caps);
+ 	if (max_lttpr_rate)
+ 		max_rate = min(max_rate, max_lttpr_rate);
+@@ -259,7 +276,7 @@ static void intel_dp_set_max_sink_lane_count(struct intel_dp *intel_dp)
+ 	struct intel_digital_port *intel_dig_port = dp_to_dig_port(intel_dp);
+ 	struct intel_encoder *encoder = &intel_dig_port->base;
+ 
+-	intel_dp->max_sink_lane_count = drm_dp_max_lane_count(intel_dp->dpcd);
++	intel_dp->max_sink_lane_count = max_dprx_lane_count(intel_dp);
+ 
+ 	switch (intel_dp->max_sink_lane_count) {
+ 	case 1:
+@@ -389,14 +406,21 @@ int intel_dp_effective_data_rate(int pixel_clock, int bpp_x16,
+  * @max_dprx_rate: Maximum data rate of the DPRX
+  * @max_dprx_lanes: Maximum lane count of the DPRX
+  *
+- * Calculate the maximum data rate for the provided link parameters.
++ * Calculate the maximum data rate for the provided link parameters taking into
++ * account any BW limitations by a DP tunnel attached to @intel_dp.
+  *
+  * Returns the maximum data rate in kBps units.
+  */
+ int intel_dp_max_link_data_rate(struct intel_dp *intel_dp,
+ 				int max_dprx_rate, int max_dprx_lanes)
+ {
+-	return drm_dp_max_dprx_data_rate(max_dprx_rate, max_dprx_lanes);
++	int max_rate = drm_dp_max_dprx_data_rate(max_dprx_rate, max_dprx_lanes);
++
++	if (intel_dp_tunnel_bw_alloc_is_enabled(intel_dp))
++		max_rate = min(max_rate,
++			       drm_dp_tunnel_available_bw(intel_dp->tunnel));
++
++	return max_rate;
+ }
+ 
+ bool intel_dp_can_bigjoiner(struct intel_dp *intel_dp)
 -- 
 2.39.2
 
