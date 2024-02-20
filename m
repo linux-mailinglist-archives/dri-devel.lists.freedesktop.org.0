@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C464585C82F
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 22:19:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 877F785C830
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 22:19:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3846A10E56F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE4F810E58E;
 	Tue, 20 Feb 2024 21:18:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hnum7Z2O";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fiXvUaNA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68E1F10E59F;
- Tue, 20 Feb 2024 21:18:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1288810E591;
+ Tue, 20 Feb 2024 21:18:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708463929; x=1739999929;
+ t=1708463930; x=1739999930;
  h=from:to:subject:date:message-id:in-reply-to:references:
  mime-version:content-transfer-encoding;
- bh=BTe7GQhOeDHcOo48vdyZlV595EUjWwTAyYUtJV+/aUs=;
- b=hnum7Z2OqVIFiRWfFmlcwHOGlx/MdjmaMJHB8MkFFbSIVUSK0ADSJNZh
- 2jf3hDVhH/T6H0oMc6b/vllw9AdK28Df511/OssZ7uKsrJkbKeSGLFZYC
- 92YBMHGrZCNsbDFBoRkjkVDCSONlbVAKPIHDWkTqgETT0jtuDhEZwM74x
- GQck7OuSOAYyIvpeAYsK4wFqcwX9xsPewCCShXe5Y3AtpGQpGef2W0j7n
- Qge4thLDUDV3i+JgWM9ArX0cMmzuICLS8YMmgIqB55sKyW8jaJS+2jWVX
- ulmhq7t+Vbd1hgUWyf3QHVs1fDtuS97R5YqOLpTMKhQYJzoU+nGrcJ3YE A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="2738679"
+ bh=InX4w5F0vyNOunYHJW6iHF73iPNgv8OQ108kQ0Si/Bc=;
+ b=fiXvUaNAkw/M+sCWa07XS/fk6r/WzMh4S4Jlv/LJmcYOf8/Bdu9QAhs6
+ LSs67Yp2MgjEVl6ZIvqeLB0bgyC/6MDraULbcIX1g4pTwC0h91fslUP8H
+ gD4KtYDvmemY9dXYd1piIqMJ2TxUy8pqvzjdsLoZLK6A11DwvIiMIlTu+
+ OJYx6oAW+IT5o2xZR8flA/Hga74vGpcTzXBr07aFds8kh0mqX7TlKafW5
+ /23O6XNBYKkjjmPZshMEvu5S5y76k+zcaZmtkeSq85R6CCY4IkMGEsg4h
+ LTATEoTwijjsPvCAfLw1dNf06IvblZm6cwMUkLFq6CGGWAjtnAAjI7hfg g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="2738681"
 X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
-   d="scan'208";a="2738679"
+   d="scan'208";a="2738681"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2024 13:18:48 -0800
+ 20 Feb 2024 13:18:50 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
-   d="scan'208";a="5061647"
+   d="scan'208";a="5061651"
 Received: from ideak-desk.fi.intel.com ([10.237.72.78])
  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2024 13:18:47 -0800
+ 20 Feb 2024 13:18:48 -0800
 From: Imre Deak <imre.deak@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 19/21] drm/i915/dp: Suspend/resume DP tunnels
-Date: Tue, 20 Feb 2024 23:18:39 +0200
-Message-Id: <20240220211841.448846-20-imre.deak@intel.com>
+Subject: [PATCH v2 20/21] drm/i915/dp: Read DPRX for all long HPD pulses
+Date: Tue, 20 Feb 2024 23:18:40 +0200
+Message-Id: <20240220211841.448846-21-imre.deak@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240220211841.448846-1-imre.deak@intel.com>
 References: <20240220211841.448846-1-imre.deak@intel.com>
@@ -65,66 +65,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Suspend and resume DP tunnels during system suspend/resume, disabling
-the BW allocation mode during suspend, re-enabling it after resume. This
-reflects the link's BW management component (Thunderbolt CM) disabling
-BWA during suspend. Before any BW requests the driver must read the
-sink's DPRX capabilities (since the BW manager requires this
-information, so snoops for it on AUX), so ensure this read takes place.
+The TBT DP tunnel BW request logic in the Thunderbolt Connection Manager
+depends on the GFX driver reading out the sink's DPRX capabilities in
+response to a long HPD pulse. Since in i915 this read-out can be blocked
+by another connector's/encoder's hotplug event handling (which is
+serialized by drm_mode_config::connection_mutex), do a dummy DPRX read-out
+in the encoder's HPD pulse handler (which is not blocked by other
+encoders).
 
 Signed-off-by: Imre Deak <imre.deak@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_dp.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dp.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index a3dfcbb710027..35ef17439038a 100644
+index 35ef17439038a..f7f8bd5742ad4 100644
 --- a/drivers/gpu/drm/i915/display/intel_dp.c
 +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -36,6 +36,7 @@
- #include <asm/byteorder.h>
- 
- #include <drm/display/drm_dp_helper.h>
-+#include <drm/display/drm_dp_tunnel.h>
- #include <drm/display/drm_dsc_helper.h>
- #include <drm/display/drm_hdmi_helper.h>
- #include <drm/drm_atomic_helper.h>
-@@ -3313,18 +3314,21 @@ void intel_dp_sync_state(struct intel_encoder *encoder,
- 			 const struct intel_crtc_state *crtc_state)
+@@ -6162,6 +6162,7 @@ intel_dp_hpd_pulse(struct intel_digital_port *dig_port, bool long_hpd)
  {
- 	struct intel_dp *intel_dp = enc_to_intel_dp(encoder);
--
--	if (!crtc_state)
--		return;
-+	bool dpcd_updated = false;
+ 	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
+ 	struct intel_dp *intel_dp = &dig_port->dp;
++	u8 dpcd[DP_RECEIVER_CAP_SIZE];
  
- 	/*
- 	 * Don't clobber DPCD if it's been already read out during output
- 	 * setup (eDP) or detect.
- 	 */
--	if (intel_dp->dpcd[DP_DPCD_REV] == 0)
-+	if (crtc_state && intel_dp->dpcd[DP_DPCD_REV] == 0) {
- 		intel_dp_get_dpcd(intel_dp);
-+		dpcd_updated = true;
-+	}
+ 	if (dig_port->base.type == INTEL_OUTPUT_EDP &&
+ 	    (long_hpd || !intel_pps_have_panel_power_or_vdd(intel_dp))) {
+@@ -6184,6 +6185,17 @@ intel_dp_hpd_pulse(struct intel_digital_port *dig_port, bool long_hpd)
+ 		    dig_port->base.base.name,
+ 		    long_hpd ? "long" : "short");
  
--	intel_dp_reset_max_link_params(intel_dp);
-+	intel_dp_tunnel_resume(intel_dp, crtc_state, dpcd_updated);
++	/*
++	 * TBT DP tunnels require the GFX driver to read out the DPRX caps in
++	 * response to long HPD pulses. The DP hotplug handler does that,
++	 * however the hotplug handler may be blocked by another
++	 * connector's/encoder's hotplug handler. Since the TBT CM may not
++	 * complete the DP tunnel BW request for the latter connector/encoder
++	 * waiting for this encoder's DPRX read, perform a dummy read here.
++	 */
++	if (long_hpd)
++		intel_dp_read_dprx_caps(intel_dp, dpcd);
 +
-+	if (crtc_state)
-+		intel_dp_reset_max_link_params(intel_dp);
- }
- 
- bool intel_dp_initial_fastset_check(struct intel_encoder *encoder,
-@@ -5947,6 +5951,8 @@ void intel_dp_encoder_suspend(struct intel_encoder *intel_encoder)
- 	struct intel_dp *intel_dp = enc_to_intel_dp(intel_encoder);
- 
- 	intel_pps_vdd_off_sync(intel_dp);
-+
-+	intel_dp_tunnel_suspend(intel_dp);
- }
- 
- void intel_dp_encoder_shutdown(struct intel_encoder *intel_encoder)
+ 	if (long_hpd) {
+ 		intel_dp->reset_link_params = true;
+ 		return IRQ_NONE;
 -- 
 2.39.2
 
