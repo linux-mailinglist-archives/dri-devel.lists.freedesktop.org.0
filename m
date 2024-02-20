@@ -2,83 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C5A885B5A9
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 09:43:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0483F85B5B8
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 09:45:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D71B88C3D;
-	Tue, 20 Feb 2024 08:43:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F9D010E20E;
+	Tue, 20 Feb 2024 08:45:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vnMHlH61";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="yhPBHfLT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4718510E20E
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 08:43:27 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-4127011685dso1239305e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 00:43:27 -0800 (PST)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D736C10E20E
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 08:45:26 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-4126cff4721so5246485e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 00:45:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708418605; x=1709023405; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1708418725; x=1709023525; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=lvOKZ6FnRVaRVe1Ql/pBOvP/3gu5W7cm2XGKLzU0Jes=;
- b=vnMHlH61ZQIrVRatuDZCa0VwKGNH7pWUe1Fo4QVbLUISbl0w9uhQ8Y68X2wh+9S7JR
- EGGprNORDcSprriV4kHN7Jn2ZvI5VTREb/xm6GQaVMcNSLv+e/IcaxAazCLhD/pp91nw
- MkPqr8QZkySrXndmGl7al2UnHs0jEXbfh2yClQnPHS8PNHXsBadnet1kmdzO4YlwxwOH
- AlDFrR7XuwAN+nRSstoRFzrs0skEQbqbs70Ks5vO27n9HMaXHp8simz2Z1Bb8ZmXjVJw
- uIccGvIEJncMDv8cNp83CHGmKvsRSgxp+v/NzOqfFi1HV/NamKYCPbwoTJ/U8UB69L1Y
- ABiA==
+ bh=6AZ3xdN0JsEC0vOuf0v5oPIThn3IGXYW+LnXdnrO78Y=;
+ b=yhPBHfLTtWgXdtecZPdqWHAlooZCpFl8FbiCPy560yXlqMjLjWRsoajEElLI6B52VJ
+ RUCB1kC9sh5V6XSdcP9HFBHgdlV4hG7ex+OjBfoDk+1XJTcmoHgWG3W8mpLb8ahK3tqh
+ +SRUeijFc1t7UO7nuMgXZs5kC3QPtrvLq+BZzY+kXVHcl39OQYofoRzK4gpv1/wNKH8V
+ d2EhXezjRffIDz3HPMnNeDst8eEKKQtDFogb858Mb50oAFSPCCWwKarNhLLrjufKz8MT
+ h5JJTe+sn7fpHf9Qvvw8w7u8l3pmG1bj0On6gS/gIwl9FeHqL6X8oH6tJoBZucDtt5U5
+ 7Blw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708418605; x=1709023405;
+ d=1e100.net; s=20230601; t=1708418725; x=1709023525;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lvOKZ6FnRVaRVe1Ql/pBOvP/3gu5W7cm2XGKLzU0Jes=;
- b=GaFxFrNl4HrfERmNnDbWMjXAs6sl/h3rRb4bxXsW+g3XWsKRRA+Dxtxr+6jjsuMqya
- Xt3bk7BJ70vK5ycsitUgsWwK5n9q59OvSBSoVCT65B5YlWPN59vd3AlybWrCcj0yYeSP
- rN2FyU+r3a5vEnklmzr/NsyUKaTdnVD6k5IT4beEvyBWeb242d8626dSGd6TtoTj98HQ
- midggJxsHdzf1u9P2633/ej5QmN4MJ4SSprkecSZ1GxaubT+HgYrd9kYu2HYMioSvdL2
- hkJkdHILwOHeKrokOFdqhuAN8l9HXhe/jKATiH50nOQnN7BETQHio+dIv+nHIJzj2qIu
- gmRA==
+ bh=6AZ3xdN0JsEC0vOuf0v5oPIThn3IGXYW+LnXdnrO78Y=;
+ b=FM9EQv13xd2mzJtOAF7Za5gs++juvuaCTbKGWPBcg4cAldsOVWcfDHQcTHCuN31tC0
+ /dSTe6A7xXD0HHuE9YkLfYy7ax0J7Fs3WDDzCTdUWRksh6VxX4l0aheMhMsAh2dqvLSK
+ 9Pvv9WrVESkylAocZZfam7StEfiDQgkpBOLw2N8QIBcRF8Hu7MOJQOVRB1KxKPsU7sh2
+ WZ+h0qXjHMj45oJ52uXf/nhhi/or10C7Kv1k/lATL43UM62YK1MgLiZdJRSiVuJf9aLJ
+ Vnc5s1ltGHBsRF22XnYux4DE9vFI7NDxgxTbYuLZMq8uNOKtxEhQ2ogXHBe94dM3fisx
+ Gw7A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXNy4yLmCnokm3x+M3LieyLMlZM/Ea8+OrqleNdQGFVMq3HQfEa0wYg4a08LAG4aR68SZ2OQwr/pXwZ2Ke2CDWldT6/rXAcKWHE62coltrn
-X-Gm-Message-State: AOJu0Yw/ueGE8OBHt83Yd0b5yebx77AhFv5R1DkgJDJfM9wjabCkUv1g
- YmSLpR+A29zT1FDD/v0qY82sPWsQ6viM9V4FcuV4xPl+Fm2XKYq+qnJ6r4neKDQ=
-X-Google-Smtp-Source: AGHT+IHC8cvv39figdqKFr2x/5K8JqNBhDhnjLZkdTYqb0OQnDRB6RKw8IW4o1Opoo/z9ZuQp6+ZCg==
-X-Received: by 2002:a05:600c:19cd:b0:411:d273:90e2 with SMTP id
- u13-20020a05600c19cd00b00411d27390e2mr13071167wmq.3.1708418605430; 
- Tue, 20 Feb 2024 00:43:25 -0800 (PST)
+ AJvYcCWnkLb++joYMIPKIWAP7otlbkDkidMOpegXZ8vT+Ln2SYTgFpWRPXL5+TnYNQ9nmmiCtNZxRTBfL16Z7lfH3msCgridMycP5SbYLVlAPVbA
+X-Gm-Message-State: AOJu0YyhhDedwG37o7Ck5W4Nm13/ZiwF+AZA/Ouxy5Av6aDEkub8sCZV
+ jeBTDuYlXYevzO4wiWtQMsz2F0DIuZZnxw9aN7Y4jDhmECXfMqql2urDTSgeSzo=
+X-Google-Smtp-Source: AGHT+IEbUV73whCrHR+PM0VrrwG2qQR3LYLC4F2W5iuevshMayA5OFOdLNp3iM6LsUl3OXNoiFjGRg==
+X-Received: by 2002:a05:600c:45c6:b0:412:1500:beaa with SMTP id
+ s6-20020a05600c45c600b004121500beaamr9238270wmo.40.1708418724981; 
+ Tue, 20 Feb 2024 00:45:24 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.222.116])
  by smtp.gmail.com with ESMTPSA id
- g17-20020a05600c4ed100b0040ecdd672fasm14075986wmq.13.2024.02.20.00.43.22
+ f8-20020a05600c4e8800b0040f0219c371sm13975615wmq.19.2024.02.20.00.45.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Feb 2024 00:43:25 -0800 (PST)
-Message-ID: <e6fdfb54-aa2c-4c17-a5c2-4d12abf2591c@linaro.org>
-Date: Tue, 20 Feb 2024 09:43:21 +0100
+ Tue, 20 Feb 2024 00:45:24 -0800 (PST)
+Message-ID: <5f1c9b8b-1e64-4b44-b7d5-a8f8136710a1@linaro.org>
+Date: Tue, 20 Feb 2024 09:45:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: (subset) [linux][PATCH v6 3/3] dt-bindings: mfd: atmel,hlcdc:
- Convert to DT schema format
+Subject: Re: [PATCH v3 4/4] ARM: configs: at91: Enable LVDS serializer support
 Content-Language: en-US
-To: Dharma.B@microchip.com, lee@kernel.org, sam@ravnborg.org,
- bbrezillon@kernel.org, maarten.lankhorst@linux.intel.com,
+To: Dharma Balasubiramani <dharma.b@microchip.com>, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
  robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- Nicolas.Ferre@microchip.com, alexandre.belloni@bootlin.com,
- claudiu.beznea@tuxon.dev, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, thierry.reding@gmail.com,
- u.kleine-koenig@pengutronix.de, linux-pwm@vger.kernel.org
-Cc: Hari.PrasathGE@microchip.com, Manikandan.M@microchip.com,
- Conor.Dooley@microchip.com
-References: <20240202001733.91455-1-dharma.b@microchip.com>
- <20240202001733.91455-4-dharma.b@microchip.com>
- <170738899221.920003.15342446791449663430.b4-ty@kernel.org>
- <cedecdb7-fe4a-42ea-9a11-faa82f84b57d@linaro.org>
- <ffd43756-b24e-4f19-be33-0e33047ad70c@microchip.com>
+ manikandan.m@microchip.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux@armlinux.org.uk,
+ nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
+ claudiu.beznea@tuxon.dev, geert+renesas@glider.be, arnd@arndb.de,
+ palmer@rivosinc.com, akpm@linux-foundation.org, gerg@linux-m68k.org,
+ rdunlap@infradead.org, vbabka@suse.cz, linux-arm-kernel@lists.infradead.org
+Cc: Hari Prasath Gujulan Elango <hari.prasathge@microchip.com>
+References: <20240207102802.200220-1-dharma.b@microchip.com>
+ <20240207102802.200220-5-dharma.b@microchip.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -124,7 +122,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <ffd43756-b24e-4f19-be33-0e33047ad70c@microchip.com>
+In-Reply-To: <20240207102802.200220-5-dharma.b@microchip.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -142,41 +140,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20/02/2024 04:34, Dharma.B@microchip.com wrote:
-> Hi Krzysztof,
+On 07/02/2024 11:28, Dharma Balasubiramani wrote:
+> Enable LVDS serializer support for display pipeline.
 > 
-> On 12/02/24 3:53 pm, Krzysztof Kozlowski wrote:
->> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
->>
->> On 08/02/2024 11:43, Lee Jones wrote:
->>> On Fri, 02 Feb 2024 05:47:33 +0530, Dharma Balasubiramani wrote:
->>>> Convert the atmel,hlcdc binding to DT schema format.
->>>>
->>>> Align clocks and clock-names properties to clearly indicate that the LCD
->>>> controller expects lvds_pll_clk when interfaced with the lvds display. This
->>>> alignment with the specific hardware requirements ensures accurate device tree
->>>> configuration for systems utilizing the HLCDC IP.
->>>>
->>>> [...]
->>>
->>> Applied, thanks!
->>>
->>> [3/3] dt-bindings: mfd: atmel,hlcdc: Convert to DT schema format
->>>        commit: cb946db1335b599ece363d33966bf653ed0fa58a
->>>
->>
->> Next is still failing.
->>
->> Dharma,
->> You must explain and clearly mark dependencies between patches.
-> 
-> I sincerely apologize for any confusion caused by the oversight. I have 
-> organized the patches according to their dependencies in the patch 
+> Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
+> Acked-by: Hari Prasath Gujulan Elango <hari.prasathge@microchip.com>
+> Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
+> ---
+> Changelog
+> v2 -> v3
+> - No Changes.
+> ---
 
-Does it mean that all your other patchsets which contain multiple
-patches have dependencies? That would be the meaning of above approach.
-Unfortunately that's not good... I'll comment in other places for
-individual issues.
+In other email thread you mentioned that this depends on driver changes,
+while that's only partially correct. This patch does not make sense if
+others are not accepted, but the others are not dependency for this one.
+This should go via arm soc.
+
+In the future, please state clearly dependencies in cover letter or each
+patch changelog (so ---, not commit msg).
 
 Best regards,
 Krzysztof
