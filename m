@@ -2,84 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 715E085C209
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 18:07:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E68C85C218
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Feb 2024 18:12:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E8D010E541;
-	Tue, 20 Feb 2024 17:07:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4613210E56D;
+	Tue, 20 Feb 2024 17:12:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="mFHuyO+s";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="PCxuIIM3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DE4010E541
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 17:07:42 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-512bc0e8ce1so2567059e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 09:07:42 -0800 (PST)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8062210E56D
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 17:12:19 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-512be9194b7so2072969e87.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Feb 2024 09:12:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708448861; x=1709053661; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=mShveTDs8o2HzJ7EXJAElPOAOERFmO61toHHqLsbnwI=;
- b=mFHuyO+s9dzDtUZS7rvU0EgHTV2YXmLHEw+dSqcWY5uEsDv9QeCtRbnLuutQ/bcg/e
- suijJoP/f2G9qOyolGyFpa6O+JaMO7ROXzarLOt+g5iYrYHZY7dLr+Q0iwtO0ajgSy4z
- H5D9HCsDbaYh5YtfKhNc4rWs6/By7W/hWe395g0ushBRdKs9HVy1jl02uImdvAtlYglk
- xKsLihi/Mo7m88HCsIOFKFCMmTQfOK1pg/ffIMLkCOidAk8oAsmtYM5MA9vdU2weShyU
- rWEYrOTr/NeJ0tyE8WcX2pRNJGnxCWY5azOls4tKflh7SvTF4pKAg2g1HV2sxJc+i0P8
- 6BwQ==
+ d=linaro.org; s=google; t=1708449137; x=1709053937; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=TGyEb9tL97pZ41i0EqJWHQnAWHv94eJvvrEZG1SYwN4=;
+ b=PCxuIIM3Rx9wvMgYVJgSTusUCIhUOaK31H5+rms15upvmOa8UWrG2LdNqmHfhr9S0C
+ j50Z3IzrYcT7Z52SXcKWDglTG4soDpw0tP5mO7HNKmKoPWWlts10/lT4m+btHvWz8fzV
+ csPG3efDyrlReCOUNcJFMImJxfF2STxHbI5Q0JGYGSwtohgRYHZIx821DcVxwC+bXtm/
+ r74sUiKuuDNJhZdOYF0Eezir8TVE4fsdJx13N6Rl9Ua5jzVohV0a4WeE2gwO3vxvxxv8
+ pBJZJ4mk2aCenbuXzSOIdJW7tIC4MjvKaCCz1YGqp98V+6oyUU7sqzezYgTzP/NBW5vy
+ 6hFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708448861; x=1709053661;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mShveTDs8o2HzJ7EXJAElPOAOERFmO61toHHqLsbnwI=;
- b=opmkFvbHG90aZymTOHmRD9JV/m9jfQKd/KX/iAd2nL0+pHs1Sxl8JH2TiKrNyYCVgV
- hCZgjJO66izhXjshkCLKFLSwRCZXiMuPSOdav0+TART1W1TNFqdPsdzTOb3lZWSCFpxR
- jTPKDomuyczJaLfd4BPOVm19C5miCdmpNXWoXinqeTn7QgVlFKMBJEXwRDsMX1UlMUef
- 3jiOC39Eu/c8HNRKA9V2wKmBXYzkr2I8tlFBNosZVAJ+qggydTT8miVq7nVYc24grf2l
- /zZ9Pr9Kegr5a/+0XiH/oKQVQ/VCWtBkjgXj08dQ1VVLQOcYx54axprHnhT9FG6CNgGb
- w6/g==
+ d=1e100.net; s=20230601; t=1708449137; x=1709053937;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=TGyEb9tL97pZ41i0EqJWHQnAWHv94eJvvrEZG1SYwN4=;
+ b=b7gIGsZru+d7wwzMldQEvuDrC+nj2j1OuajhAHU2mhVbI7I/sWxaPvb1ClHJ/X42aD
+ JFTbz/dHoMylZFx7V9b1/LpQL0WUK7/qDc5bysKED8uL1YHvUX8T8rOzfHUYlAbMjWZB
+ hh5y845mEaVrpbj959Gioj2KqYoPVrj6BU55hyhBUHOWbkVX/p9h4DUMZV0q5QLBg5YZ
+ KCrCm0H4XM2tH1iIwodbk1tVUdN/8EGlt1zcmil918kr1dB92MMfAMeW9J7d4Ml6bpYb
+ Dix1FUuXed8DuEIwxuc6lcdrFYFZj7TvicHrpYwKTKIrpWPYw9PUYdY64DnCiwGFLCs6
+ /G6g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVtWCZ8jsz0BIrTdIviFM0wBi/+QP+pesU4HJO+DXGpaQ/q+eiS+nQ6w3DQ4goOL1xou4wg5O0bNQprg/6DZ1AW93JjKWGNIS/S6FK3V+jb
-X-Gm-Message-State: AOJu0YyVHYRt/7p44BZjF6m5V0IFxHWcptlAREojFd9M6D+YdN5u7VQJ
- mUPh/Jgrp9UZxwEQO4MW09L2P2norTk4nmJiDWIdLmglST8BlYxGBcOQF5gSSz0=
-X-Google-Smtp-Source: AGHT+IGSj4UFEzJ2QdkqJnyaxs4ii6FgzfPObw02jZbt679agm5/qstPtdmgxKLIT0ezZ9Hr8LkbUQ==
-X-Received: by 2002:a05:6512:102f:b0:512:96f3:413b with SMTP id
- r15-20020a056512102f00b0051296f3413bmr7991228lfr.26.1708448860804; 
- Tue, 20 Feb 2024 09:07:40 -0800 (PST)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ AJvYcCWBveIwntQnc2vj6x1alZfFalYlGuF8fwlFpDrBbUuR5swvYhDbKmG2IyKrfQFd+gbGm4EhA1Ic36xa4bMY7npZc8+r5+vAicQQaFWlw5uQ
+X-Gm-Message-State: AOJu0YwQgWS/vOLOX3txZsftfVVEwupCFwzdqeccqSf2ekUVnooGZlE4
+ WYvtmJpp4oF1Fb7Bxiopx/ia6v4o1tjTltMPV2SxK5uCGgI+dRjC6RO8Ixgxubw=
+X-Google-Smtp-Source: AGHT+IHo+GK9ZXl9LYc2lAxVTvWicxEOUKQReV4nK7xoVkyUuUfNwOLUZWdQgB6teQ4vznlTC4n3Hg==
+X-Received: by 2002:a05:6512:e9e:b0:512:bdca:bb5d with SMTP id
+ bi30-20020a0565120e9e00b00512bdcabb5dmr3907542lfb.4.1708449137216; 
+ Tue, 20 Feb 2024 09:12:17 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (dzyjmhyyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a00e:a300::8a5])
  by smtp.gmail.com with ESMTPSA id
- z20-20020a05600c221400b0040fddaf9ff4sm15131450wml.40.2024.02.20.09.07.39
+ b8-20020ac25628000000b00512c8d9c8a0sm240802lff.113.2024.02.20.09.12.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Feb 2024 09:07:40 -0800 (PST)
-Date: Tue, 20 Feb 2024 17:07:38 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Luca Weiss <luca@z3ntu.xyz>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, Andrew Morton <akpm@linux-foundation.org>,
- "G.Shark Jeong" <gshark.jeong@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Maximilian Weigand <mweigand@mweigand.net>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org
-Subject: Re: [PATCH 4/4] ARM: dts: qcom: msm8974-hammerhead: Hook up backlight
-Message-ID: <20240220170738.GI6716@aspen.lan>
-References: <20240220-lm3630a-fixups-v1-0-9ca62f7e4a33@z3ntu.xyz>
- <20240220-lm3630a-fixups-v1-4-9ca62f7e4a33@z3ntu.xyz>
- <20240220141210.GG6716@aspen.lan> <2444202.ElGaqSPkdT@g550jk>
+ Tue, 20 Feb 2024 09:12:16 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 20 Feb 2024 19:12:10 +0200
+Subject: [PATCH] drm/msm/a6xx: specify UBWC config for sc7180
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2444202.ElGaqSPkdT@g550jk>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240220-fd-sc7180-explicit-ubwc-v1-1-611a58091724@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAGrd1GUC/x3MSQqAMAxA0atI1gZibXG4irjQmmpAVFonEO9uc
+ fkW/z8Q2AsHqJMHPJ8SZF0isjQBO3XLyChDNChSmpQidAMGW2QlId/bLFZ2PPrLoqbK5K4zptI
+ FxHrz7OT+z037vh92pKZiaQAAAA==
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>
+Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Connor Abbott <cwabbott0@gmail.com>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ Leonard Lausen <leonard@lausen.nl>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1745;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=BnIHUEr8mYm7RtcY6EIoREgODeHWv+l5ytTt0UKBG8g=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBl1N1wx/mMxixCVwdRRTD/ucyIwKcwBbXBvC30g
+ rD2Iyw2+UWJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZdTdcAAKCRCLPIo+Aiko
+ 1T8iB/4w9oI2xjlbk3C6OJx+Kq76dR5a36rY2818UsGabyH8zrIrLvQ1reO94havjNuL5TOlL9k
+ Rh0xKkeO8Vy/cgIVyYC9pKJ6CU0d7SXKzXfPFHsrwbBKyolMMLm99NXX6ex+FtU+ZtFcLArMikx
+ XcqrbDFKFhSBGFg1KIQjIq8ydqS6XByYClfWwKkbAPcvxe+kAdjM2eXWj+IF0APg+FQSPMHoZhp
+ 2luSTFnVRuoOAH94mr9JC8svyYMjlDEGPX2x4kT/jvcZx/b6f2j8f4e9ytgCVVdV9/yM78Ja3Dd
+ QZiKQZqgP2vFyRjC9uKtqFF2Cv7oqev6Fbh6jJodA9JRdkhK
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,39 +101,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 20, 2024 at 05:45:32PM +0100, Luca Weiss wrote:
-> On Dienstag, 20. Februar 2024 15:12:10 CET Daniel Thompson wrote:
-> > On Tue, Feb 20, 2024 at 12:11:22AM +0100, Luca Weiss wrote:
-> > > Connect the panel with the backlight nodes so that the backlight can be
-> > > turned off when the display is blanked.
-> > >
-> > > Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
-> >
-> > Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-> >
-> >
-> > > ---
-> > >  arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dts | 4 +++-
-> > >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dts b/arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dts
-> > > index 4aaae8537a3f..8eaa5b162815 100644
-> > > --- a/arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dts
-> > > +++ b/arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dts
-> > > @@ -182,7 +182,7 @@ &blsp2_i2c5 {
-> > >  	status = "okay";
-> > >  	clock-frequency = <355000>;
-> > >
-> > > -	led-controller@38 {
-> > > +	backlight: led-controller@38 {
-> >
-> > Again... a minor nit regarding existing problems but this node doesn't
-> > follow the generic naming recommendations:
-> > https://devicetree-specification.readthedocs.io/en/stable/devicetree-basics.html#generic-names-recommendation
->
-> "led-controller" is listed on that page, or do you mean something else?
+Historically the Adreno driver has not been updating memory
+configuration registers on a618 (SC7180 platform) implying that the
+default configuration is fine. After the rework performed in the commit
+8814455a0e54 ("drm/msm: Refactor UBWC config setting") the function
+a6xx_calc_ubwc_config() still contained this shortcut and did not
+calculate UBWC configuration. However the function which now actually
+updates hardware registers, a6xx_set_ubwc_config(), doesn't contain such
+check.
 
-That's the point ;-). It is supposed to be called backlight@38!
+Rather than adding the check to a6xx_set_ubwc_config(), fill in the
+UBWC config for a618 (based on readings from SC7180).
 
+Reported-by: Leonard Lausen <leonard@lausen.nl>
+Link: https://gitlab.freedesktop.org/drm/msm/-/issues/49
+Fixes: 8814455a0e54 ("drm/msm: Refactor UBWC config setting")
+Cc: Connor Abbott <cwabbott0@gmail.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Daniel.
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index c9c55e2ea584..dc80e5940f51 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -1292,9 +1292,8 @@ static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
+ 		gpu->ubwc_config.ubwc_mode = 1;
+ 	}
+ 
+-	/* a618 is using the hw default values */
+ 	if (adreno_is_a618(gpu))
+-		return;
++		gpu->ubwc_config.highest_bank_bit = 14;
+ 
+ 	if (adreno_is_a619_holi(gpu))
+ 		gpu->ubwc_config.highest_bank_bit = 13;
+
+---
+base-commit: 41c177cf354126a22443b5c80cec9fdd313e67e1
+change-id: 20240220-fd-sc7180-explicit-ubwc-40953fa55947
+
+Best regards,
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
