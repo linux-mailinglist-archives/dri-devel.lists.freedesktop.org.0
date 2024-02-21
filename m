@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF4485CFC5
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 06:36:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 034C985CFC6
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 06:36:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F244D10E60F;
-	Wed, 21 Feb 2024 05:36:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ADED10E611;
+	Wed, 21 Feb 2024 05:36:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="laTrd+dJ";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="p3OCCpu9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
  [68.232.154.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC92310E60F
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC14F10E60E
  for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 05:36:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
  t=1708493807; x=1740029807;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=U7jH/pJDoVpWs61f/GCs67K6hYCY5UGUIVemfwvO3Aw=;
- b=laTrd+dJT1KF4ajiWoIdYvpldluqVtCxdKH6DZfJpWq+K9vEkRVc4+jx
- ZBsHzQWRV/T+7m7uqiQXTa6mtnwiRz7O+xKZg630rGWVAOeRxe7iKsVd0
- b/kgPk0k8jRbw+UdSX8uOC5TyFhCsEOjRm3NHO8vq8xWeemqJ/euvQ5wS
- Xu+K9MZ4zkmCzOR8FXYQRG4XcB479wD9PMfM+QK4XeCfdNUxNCyjApIYE
- X3jS+zCC8PjMomuF0jTbla3uuBBzywosQosRT5vNtvue1q7A9YHGlNqvQ
- 13kAArwjPYeJ3757Z/oIYpDo1n3N2qTdQD0GnQ8JvsRKCaz6tYMx+Ivy/ w==;
+ bh=OKLm0TpKtjMzC5zoHct+zFILT4roGx2dwy6wf/eZcDs=;
+ b=p3OCCpu9evXBSljjWU1iXwgeffSkVBtr5JfRkepQnKWFj6i6c9gEnzrb
+ 1l3YIpwN5LGcZ0RZm0F5s7LifZ2OxciPRPoUdf+k2yVECDiLSFKgVwGYu
+ WD8VkLd7tGKb8OxjOzPbf+qTrTLWaCc1lUD9Lq4zHf5ht//vUK+bmGSsk
+ nUdTJ7Ucgy7BzSNZGONFNfJk4ZffrQdyF7dUW0E7r+WvOOWY2B9g2r1x8
+ FpFflieuuoD6pN0EoRDZ/FdZa+0tBMMry5qz+QbrDwCm619MOlA83VCOX
+ PvAZ2bzvxgl+zeAIjhtiYCpa8JEyjqrxFbWa7SR9foU/KBFPeTFs/xB3D A==;
 X-CSE-ConnectionGUID: uvmqqrvDTHSClXFWxIq5Hw==
-X-CSE-MsgGUID: LEPWwVfRQ8eIngdgoc/F2Q==
-X-IronPort-AV: E=Sophos;i="6.06,174,1705388400"; d="scan'208";a="183844465"
+X-CSE-MsgGUID: 5l/51w8DQXOZuaIoCZ2aBg==
+X-IronPort-AV: E=Sophos;i="6.06,174,1705388400"; d="scan'208";a="183844466"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 20 Feb 2024 22:36:46 -0700
+ 20 Feb 2024 22:36:47 -0700
 Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
  chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 20 Feb 2024 22:36:35 -0700
+ 15.1.2507.35; Tue, 20 Feb 2024 22:36:43 -0700
 Received: from che-lt-i67131.microchip.com (10.10.85.11) by
  chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Tue, 20 Feb 2024 22:36:27 -0700
+ 15.1.2507.35 via Frontend Transport; Tue, 20 Feb 2024 22:36:35 -0700
 From: Manikandan Muralidharan <manikandan.m@microchip.com>
 To: <sam@ravnborg.org>, <bbrezillon@kernel.org>,
  <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
@@ -54,11 +54,11 @@ CC: <Hari.PrasathGE@microchip.com>, <Balamanikandan.Gunasundar@microchip.com>,
  <Durai.ManickamKR@microchip.com>, <Nayabbasha.Sayed@microchip.com>,
  <Dharma.B@microchip.com>, <Varshini.Rajendran@microchip.com>,
  <Balakrishnan.S@microchip.com>, <manikandan.m@microchip.com>,
- <Charan.Pedumuru@microchip.com>, Durai Manickam KR
- <durai.manickamkr@microchip.com>
-Subject: [PATCH v8 6/7] drm: atmel-hlcdc: add support for DSI output formats
-Date: Wed, 21 Feb 2024 11:05:30 +0530
-Message-ID: <20240221053531.12701-7-manikandan.m@microchip.com>
+ <Charan.Pedumuru@microchip.com>
+Subject: [PATCH v8 7/7] drm: atmel-hlcdc: add LCD controller layer definition
+ for sam9x75
+Date: Wed, 21 Feb 2024 11:05:31 +0530
+Message-ID: <20240221053531.12701-8-manikandan.m@microchip.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240221053531.12701-1-manikandan.m@microchip.com>
 References: <20240221053531.12701-1-manikandan.m@microchip.com>
@@ -80,128 +80,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the following DPI mode if the encoder type
-is DSI as per the XLCDC IP datasheet:
-- 16BPPCFG1
-- 16BPPCFG2
-- 16BPPCFG3
-- 18BPPCFG1
-- 18BPPCFG2
-- 24BPP
+Add the LCD controller layer definition and descriptor structure for
+sam9x75 for the following layers:
+- Base Layer
+- Overlay1 Layer
+- Overlay2 Layer
+- High End Overlay
 
 Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
-[durai.manickamkr@microchip.com: update output format using is_xlcdc flag]
-Signed-off-by: Durai Manickam KR <durai.manickamkr@microchip.com>
 ---
- .../gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c    | 74 +++++++++++++++++--
- 1 file changed, 68 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 100 +++++++++++++++++++
+ 1 file changed, 100 insertions(+)
 
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-index fdd3a6bc0f79..0dbe85686fc2 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-@@ -301,11 +301,64 @@ static void atmel_hlcdc_crtc_atomic_enable(struct drm_crtc *c,
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+index b09df821cbc0..9ce429f889ca 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+@@ -467,6 +467,102 @@ static const struct atmel_hlcdc_dc_desc atmel_hlcdc_dc_sam9x60 = {
+ 	.ops = &atmel_hlcdc_ops,
+ };
  
- }
- 
--#define ATMEL_HLCDC_RGB444_OUTPUT	BIT(0)
--#define ATMEL_HLCDC_RGB565_OUTPUT	BIT(1)
--#define ATMEL_HLCDC_RGB666_OUTPUT	BIT(2)
--#define ATMEL_HLCDC_RGB888_OUTPUT	BIT(3)
--#define ATMEL_HLCDC_OUTPUT_MODE_MASK	GENMASK(3, 0)
-+#define ATMEL_HLCDC_RGB444_OUTPUT		BIT(0)
-+#define ATMEL_HLCDC_RGB565_OUTPUT		BIT(1)
-+#define ATMEL_HLCDC_RGB666_OUTPUT		BIT(2)
-+#define ATMEL_HLCDC_RGB888_OUTPUT		BIT(3)
-+#define ATMEL_HLCDC_DPI_RGB565C1_OUTPUT		BIT(4)
-+#define ATMEL_HLCDC_DPI_RGB565C2_OUTPUT		BIT(5)
-+#define ATMEL_HLCDC_DPI_RGB565C3_OUTPUT		BIT(6)
-+#define ATMEL_HLCDC_DPI_RGB666C1_OUTPUT		BIT(7)
-+#define ATMEL_HLCDC_DPI_RGB666C2_OUTPUT		BIT(8)
-+#define ATMEL_HLCDC_DPI_RGB888_OUTPUT		BIT(9)
-+#define ATMEL_HLCDC_OUTPUT_MODE_MASK		GENMASK(3, 0)
-+#define ATMEL_XLCDC_OUTPUT_MODE_MASK		GENMASK(9, 0)
++static const struct atmel_hlcdc_layer_desc atmel_xlcdc_sam9x75_layers[] = {
++	{
++		.name = "base",
++		.formats = &atmel_hlcdc_plane_rgb_formats,
++		.regs_offset = 0x60,
++		.id = 0,
++		.type = ATMEL_HLCDC_BASE_LAYER,
++		.cfgs_offset = 0x1c,
++		.layout = {
++			.xstride = { 2 },
++			.default_color = 3,
++			.general_config = 4,
++			.disc_pos = 5,
++			.disc_size = 6,
++		},
++		.clut_offset = 0x700,
++	},
++	{
++		.name = "overlay1",
++		.formats = &atmel_hlcdc_plane_rgb_formats,
++		.regs_offset = 0x160,
++		.id = 1,
++		.type = ATMEL_HLCDC_OVERLAY_LAYER,
++		.cfgs_offset = 0x1c,
++		.layout = {
++			.pos = 2,
++			.size = 3,
++			.xstride = { 4 },
++			.pstride = { 5 },
++			.default_color = 6,
++			.chroma_key = 7,
++			.chroma_key_mask = 8,
++			.general_config = 9,
++		},
++		.clut_offset = 0xb00,
++	},
++	{
++		.name = "overlay2",
++		.formats = &atmel_hlcdc_plane_rgb_formats,
++		.regs_offset = 0x260,
++		.id = 2,
++		.type = ATMEL_HLCDC_OVERLAY_LAYER,
++		.cfgs_offset = 0x1c,
++		.layout = {
++			.pos = 2,
++			.size = 3,
++			.xstride = { 4 },
++			.pstride = { 5 },
++			.default_color = 6,
++			.chroma_key = 7,
++			.chroma_key_mask = 8,
++			.general_config = 9,
++		},
++		.clut_offset = 0xf00,
++	},
++	{
++		.name = "high-end-overlay",
++		.formats = &atmel_hlcdc_plane_rgb_and_yuv_formats,
++		.regs_offset = 0x360,
++		.id = 3,
++		.type = ATMEL_HLCDC_OVERLAY_LAYER,
++		.cfgs_offset = 0x30,
++		.layout = {
++			.pos = 2,
++			.size = 3,
++			.memsize = 4,
++			.xstride = { 5, 7 },
++			.pstride = { 6, 8 },
++			.default_color = 9,
++			.chroma_key = 10,
++			.chroma_key_mask = 11,
++			.general_config = 12,
++			.csc = 16,
++			.scaler_config = 23,
++			.vxs_config = 30,
++			.hxs_config = 31,
++		},
++		.clut_offset = 0x1300,
++	},
++};
 +
-+static int atmel_hlcdc_connector_output_dsi(struct drm_encoder *encoder,
-+					    struct drm_display_info *info)
-+{
-+	int j;
-+	unsigned int supported_fmts = 0;
++static const struct atmel_hlcdc_dc_desc atmel_xlcdc_dc_sam9x75 = {
++	.min_width = 0,
++	.min_height = 0,
++	.max_width = 2048,
++	.max_height = 2048,
++	.max_spw = 0x3ff,
++	.max_vpw = 0x3ff,
++	.max_hpw = 0x3ff,
++	.fixed_clksrc = true,
++	.is_xlcdc = true,
++	.nlayers = ARRAY_SIZE(atmel_xlcdc_sam9x75_layers),
++	.layers = atmel_xlcdc_sam9x75_layers,
++	.ops = &atmel_xlcdc_ops,
++};
 +
-+	switch (atmel_hlcdc_encoder_get_bus_fmt(encoder)) {
-+	case 0:
-+		break;
-+	case MEDIA_BUS_FMT_RGB565_1X16:
-+		return ATMEL_HLCDC_DPI_RGB565C1_OUTPUT;
-+	case MEDIA_BUS_FMT_RGB666_1X18:
-+		return ATMEL_HLCDC_DPI_RGB666C1_OUTPUT;
-+	case MEDIA_BUS_FMT_RGB666_1X24_CPADHI:
-+		return ATMEL_HLCDC_DPI_RGB666C2_OUTPUT;
-+	case MEDIA_BUS_FMT_RGB888_1X24:
-+		return ATMEL_HLCDC_DPI_RGB888_OUTPUT;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	for (j = 0; j < info->num_bus_formats; j++) {
-+		switch (info->bus_formats[j]) {
-+		case MEDIA_BUS_FMT_RGB565_1X16:
-+			supported_fmts |=
-+				ATMEL_HLCDC_DPI_RGB565C1_OUTPUT;
-+			break;
-+		case MEDIA_BUS_FMT_RGB666_1X18:
-+			supported_fmts |=
-+				ATMEL_HLCDC_DPI_RGB666C1_OUTPUT;
-+			break;
-+		case MEDIA_BUS_FMT_RGB666_1X24_CPADHI:
-+			supported_fmts |=
-+				ATMEL_HLCDC_DPI_RGB666C2_OUTPUT;
-+			break;
-+		case MEDIA_BUS_FMT_RGB888_1X24:
-+			supported_fmts |=
-+				ATMEL_HLCDC_DPI_RGB888_OUTPUT;
-+			break;
-+		default:
-+			break;
-+		}
-+	}
-+	return supported_fmts;
-+}
- 
- static int atmel_hlcdc_connector_output_mode(struct drm_connector_state *state)
- {
-@@ -318,6 +371,13 @@ static int atmel_hlcdc_connector_output_mode(struct drm_connector_state *state)
- 	encoder = state->best_encoder;
- 	if (!encoder)
- 		encoder = connector->encoder;
-+	/*
-+	 * atmel-hlcdc to support DSI formats with DSI video pipeline
-+	 * when DRM_MODE_ENCODER_DSI type is set by
-+	 * connector driver component.
-+	 */
-+	if (encoder->encoder_type == DRM_MODE_ENCODER_DSI)
-+		return atmel_hlcdc_connector_output_dsi(encoder, info);
- 
- 	switch (atmel_hlcdc_encoder_get_bus_fmt(encoder)) {
- 	case 0:
-@@ -358,7 +418,7 @@ static int atmel_hlcdc_connector_output_mode(struct drm_connector_state *state)
- 
- static int atmel_hlcdc_crtc_select_output_mode(struct drm_crtc_state *state)
- {
--	unsigned int output_fmts = ATMEL_HLCDC_OUTPUT_MODE_MASK;
-+	unsigned int output_fmts;
- 	struct atmel_hlcdc_crtc_state *hstate;
- 	struct drm_connector_state *cstate;
- 	struct drm_connector *connector;
-@@ -366,6 +426,8 @@ static int atmel_hlcdc_crtc_select_output_mode(struct drm_crtc_state *state)
- 	int i;
- 
- 	crtc = drm_crtc_to_atmel_hlcdc_crtc(state->crtc);
-+	output_fmts = crtc->dc->desc->is_xlcdc ? ATMEL_XLCDC_OUTPUT_MODE_MASK :
-+		      ATMEL_HLCDC_OUTPUT_MODE_MASK;
- 
- 	for_each_new_connector_in_state(state->state, connector, cstate, i) {
- 		unsigned int supported_fmts = 0;
+ static const struct of_device_id atmel_hlcdc_of_match[] = {
+ 	{
+ 		.compatible = "atmel,at91sam9n12-hlcdc",
+@@ -492,6 +588,10 @@ static const struct of_device_id atmel_hlcdc_of_match[] = {
+ 		.compatible = "microchip,sam9x60-hlcdc",
+ 		.data = &atmel_hlcdc_dc_sam9x60,
+ 	},
++	{
++		.compatible = "microchip,sam9x75-xlcdc",
++		.data = &atmel_xlcdc_dc_sam9x75,
++	},
+ 	{ /* sentinel */ },
+ };
+ MODULE_DEVICE_TABLE(of, atmel_hlcdc_of_match);
 -- 
 2.25.1
 
