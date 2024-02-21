@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C43885ED2D
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 00:41:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C5F985ED3A
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 00:42:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7063010E817;
-	Wed, 21 Feb 2024 23:41:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE4CD10E833;
+	Wed, 21 Feb 2024 23:42:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bl7STJCg";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OE5a03Gn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
- [209.85.219.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47F7B10E817
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 23:41:23 +0000 (UTC)
-Received: by mail-yb1-f171.google.com with SMTP id
- 3f1490d57ef6-dc6d9a8815fso7149942276.3
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 15:41:23 -0800 (PST)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com
+ [209.85.219.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E74610E837
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 23:42:22 +0000 (UTC)
+Received: by mail-yb1-f172.google.com with SMTP id
+ 3f1490d57ef6-dcbc6a6808fso7662531276.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 15:42:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708558882; x=1709163682; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1708558941; x=1709163741; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=gum7JHLE82lB2obWuKI41M7h3ZETASXy1kYfBRSiY+0=;
- b=bl7STJCg8iKtSNlIWYYvbpcjvv7zYgVnEuq+guHUoVL9UEOAWZo1MxMngQ9ylumVZO
- alVQ5c51dqTEbigftqU1fAFI2et+iuLUAaoi6BHZKjsvJQGNvLMV7yW21n574rXS+mA7
- OlLJEjyTDyZ2JszCZBBEndE9v8R5qgYfPbqcFZiMqXkY4UmiBdpF+QxafO9MlvdwP+Su
- 4Gr7S24cAt1dNAQvRQeJDD7W5GBaVddNT3bWj8gkyzl227vo8uEhYCstX1/9qmizW1zA
- I6hnNzjB08w8R/G3n7mZkvFrlpIpJ8FcSDkww3etnSWi43mEyKJLKeQO699x11uVvNwk
- HWiA==
+ bh=C/dj756VosTuwMpPJNGyW3MhpcrxAFO76cK11lx7rxo=;
+ b=OE5a03GnNNcsHneVBZv0JdNRNZXh/rPiRcQhCIVA+a/VhfMKRhyVxnySxLi0sv/Vgq
+ olG0MC4CzuNUVreMeQoISziA1gBAifRna7Ml1QqK6ywok+/1VT8erWJZTp7i5quZLlKM
+ HR3CRsfDS/ouzFxwOL6U++es71cNMQpOv3MbK/lHAqxFF2+Cvi83RDjndkgeZzwRkMPH
+ TCTIZQtOXU/mKqnAeu/NJv9o0NCJPyGuftetLl49Lsjf410B3oJmJfce7EcJ7kNRKQlu
+ /IPHTy9YZIR1VzN/9Gmix52f7l93o0ycy6leaAP1rDKD2REdLyqgZ7+e28yFxlfl9yib
+ bbTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708558882; x=1709163682;
+ d=1e100.net; s=20230601; t=1708558941; x=1709163741;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=gum7JHLE82lB2obWuKI41M7h3ZETASXy1kYfBRSiY+0=;
- b=CR1xFFPVbOKjO9RaL1hxZvB1EgwoH8uEuRmfWQfJoSyW+Si9+LdD7wnUDuMl8DRp3c
- zYfxS0oncZ3iyb6MbMVUoc8FNdgP1hfVo57E/S54Uy7LX0/8lQnWVVauvfH42K3JyKp0
- s3v3D+Lc3iC3jDav+syoPAF/iVcWw/TrEYo9gJLeCamI4dI/U1nBK3khH4GsrbrOWJwA
- OsQUwnZHeLDj1+E3/0UsmNl9qbFg80gph4T/kvUPIvyvvnOM2dZUVWGaKHA8sU6hdt1K
- En38pGOswx753gvZhO4vxIHJG5mofZwY0uu+z6gnVA3loxnzdlgjjEzPHgMV9Jt2qmM7
- 2B3Q==
+ bh=C/dj756VosTuwMpPJNGyW3MhpcrxAFO76cK11lx7rxo=;
+ b=vWrH4bthvAtR+JuRnIOSqrqAY5x+K9DKvFsp96FUIU48Sfdoo8zUYcx0bvY140Pm1F
+ Thh6rB3QuNBrgpXcCm35ZhCn5QS1L6pgFOD0HxdxmGyb3uHWdmwY9KmHq+et+o7XUQvU
+ 5fuUwTJvAWqXB/YldRTUXZs/XfsTLWaXgzXdID05qkmoCnGhAFcc6NFyZCTltStPRtWI
+ +mhtl2skzKMcTe7T9WXm7j8f88fkecgCOobCPlY0C58uLgBEzArkB0bvkro5jIk3RcZN
+ YyiZzyroyiXP7bvXAFtH77DLbZOg93x4aACCjbTaz1AgmVdMSAFWnXVmAB4AXlCxIokA
+ zrXQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWTVUgibYh94eqPwYktJpsurkOkZ9pC9lPdLCjAZwkz2ohX17lZ72f2lGrow6g+DdO/SvvDhIRJ1HIFdfcu6Ki9b5yA1r1PrcvbbwQ5QSbs
-X-Gm-Message-State: AOJu0Yz1rujfdIchsDmc+2WvBvx2/lxucwBU3vBc0wjBgn28UVKrHU8i
- 6AMn65fyNZHADOUzjgBuBreHJlAlH7qLwiioiJP7Eb0tq7L62tNghAd2IQpglMzK58wsbNA49nn
- r7841dWVVZt4S/nD6jMOLVUS83nSfM0CSMmjftg==
-X-Google-Smtp-Source: AGHT+IEAyXZCJmUxworvOHx5M4iyWXoKGn83vXU9An74FKMewTDmsI1ABCTIrzsggAoLQPNkOHTcA/u8/Q2R45yYeFk=
-X-Received: by 2002:a25:48c8:0:b0:dcc:f8e5:c8c8 with SMTP id
- v191-20020a2548c8000000b00dccf8e5c8c8mr763050yba.45.1708558882169; Wed, 21
- Feb 2024 15:41:22 -0800 (PST)
+ AJvYcCX8KRjzuq8cEVJ0wvCAaY9LuTEi3GlLGIznqulZiycRj55Wl0AhQWnZKO/jim24gRTdAgRfx0KQhlx5rAE+6n+JoeQu/3hETreWhjTX57Gx
+X-Gm-Message-State: AOJu0YzT57iDA9f4Av+RHiV0v9aFMPPUNy1/CMvzYGZ5iOH5PaSEEV7y
+ jZb4bXj9/vU7S0GhNJgirGB2aLY7JHdIEjcY91WXgWsl9/SKiVHZxiqowWE3uzbXf00mkylPlF9
+ cAUBMQYDXb3+4nwJ/A0U5PMUd6lxiKfo5o9j4wQ==
+X-Google-Smtp-Source: AGHT+IEPTkax+cblPH2B3OK6zkJGmVKi10jTkKNhhoD5CPKfbwC59MAyFljD4sz8HRB3ajKPgQOsU016PTTq8M/17rY=
+X-Received: by 2002:a25:1e41:0:b0:dcc:67a7:430 with SMTP id
+ e62-20020a251e41000000b00dcc67a70430mr834243ybe.15.1708558941152; Wed, 21 Feb
+ 2024 15:42:21 -0800 (PST)
 MIME-Version: 1.0
 References: <20240221-rb3gen2-dp-connector-v1-0-dc0964ef7d96@quicinc.com>
- <20240221-rb3gen2-dp-connector-v1-3-dc0964ef7d96@quicinc.com>
-In-Reply-To: <20240221-rb3gen2-dp-connector-v1-3-dc0964ef7d96@quicinc.com>
+ <20240221-rb3gen2-dp-connector-v1-5-dc0964ef7d96@quicinc.com>
+In-Reply-To: <20240221-rb3gen2-dp-connector-v1-5-dc0964ef7d96@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 22 Feb 2024 01:41:11 +0200
-Message-ID: <CAA8EJpo=9vhM+5YzaFxUoYRuEWQyrMS8wLNPSF3K=bN5JwWyDw@mail.gmail.com>
-Subject: Re: [PATCH 3/9] arm64: dts: qcom: sc7280: Enable MDP turbo mode
-To: Bjorn Andersson <quic_bjorande@quicinc.com>,
- Douglas Anderson <dianders@chromium.org>
+Date: Thu, 22 Feb 2024 01:42:10 +0200
+Message-ID: <CAA8EJpqtj-+PaUWeXH32_jfNaOUM+V-H0j5mZSW+rcaAQTdMzg@mail.gmail.com>
+Subject: Re: [PATCH 5/9] arm64: dts: qcom: qcs6490-rb3gen2: Enable adsp and
+ cdsp
+To: Bjorn Andersson <quic_bjorande@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
@@ -89,36 +89,44 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, 22 Feb 2024 at 01:19, Bjorn Andersson <quic_bjorande@quicinc.com> wrote:
 >
-> The max frequency listed in the DPU opp-table is 506MHz, this is not
-> sufficient to drive a 4k@60 display, resulting in constant underrun.
->
-> Add the missing MDP_CLK turbo frequency of 608MHz to the opp-table to
-> fix this.
-
-I think we might want to keep this disabled for ChromeOS devices. Doug?
-
+> Define firmware paths and enable the ADSP and CDSP remoteprocs.
 >
 > Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
 > ---
->  arch/arm64/boot/dts/qcom/sc7280.dtsi | 5 +++++
->  1 file changed, 5 insertions(+)
+>  arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dts | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 >
-> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> index a19c278ebec9..a2a6717c6c87 100644
-> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> @@ -4417,6 +4417,11 @@ opp-506666667 {
->                                                 opp-hz = /bits/ 64 <506666667>;
->                                                 required-opps = <&rpmhpd_opp_nom>;
->                                         };
+> diff --git a/arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dts b/arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dts
+> index 32313f47602a..ab498494caea 100644
+> --- a/arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dts
+> +++ b/arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dts
+> @@ -451,6 +451,16 @@ &qupv3_id_0 {
+>         status = "okay";
+>  };
+>
+> +&remoteproc_adsp {
+> +       firmware-name = "qcom/qcs6490/rb3gen2/adsp.mbn";
+
+This should be either
+
+       firmware-name = "qcom/qcs6490/adsp.mbn";
+
+or
+
+       firmware-name = "qcom/qcs6490/Vendor/rb3gen2/adsp.mbn";
+
+
+> +       status = "okay";
+> +};
 > +
-> +                                       opp-608000000 {
-> +                                               opp-hz = /bits/ 64 <608000000>;
-> +                                               required-opps = <&rpmhpd_opp_turbo>;
-> +                                       };
->                                 };
->                         };
->
+> +&remoteproc_cdsp {
+> +       firmware-name = "qcom/qcs6490/rb3gen2/cdsp.mbn";
+> +       status = "okay";
+> +};
+> +
+>  &tlmm {
+>         gpio-reserved-ranges = <32 2>, /* ADSP */
+>                                <48 4>; /* NFC */
 >
 > --
 > 2.25.1
