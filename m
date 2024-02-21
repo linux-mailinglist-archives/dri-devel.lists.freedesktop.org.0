@@ -2,102 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C961085E68F
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 19:46:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17E3685E6FE
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 20:12:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEB8410E7B2;
-	Wed, 21 Feb 2024 18:46:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F079610E16F;
+	Wed, 21 Feb 2024 19:12:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="nRRkAuMG";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YW4lAoCQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2052.outbound.protection.outlook.com [40.107.93.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1BD510E7B2
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 18:46:04 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dbI0l1LsGhOQ87pSfHbgZ2DkZSF2yaZbeBy7bYh2MNWr6HjKS6Kg72cn9RXxo1/kwk8wn7S+vEbZuUAh+Se204UPdrrIxPPleKEm0ovjVKtI8pxagasy5iKXh6a2soRXGXVFwgoaZdne2FG1hd8XNSNcAXLiiMYi6WyBaUuXYRIUjo6CeoXZc8pVb4NZyWzZr8XSInvs39hyS5EF9FxfD3/GtSH4jeve2smSzIli7fwX9RMh5lN5zcW//rv5MV542VS3jaBQ9kSVq0KvfbVgpkuQdvaZo5n3bkCGcsXxawuuPPNZ+VFjG4hABtxWNXG4HdkFgGMMyVfOAvXIi2zDhg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bDboSD4OQyVw+UI8K/9BnWIB+wjSAhiV6mfOP99n3H0=;
- b=FxfcWoz3nhB/3vlUx/cgDj5S6nQdjnDluOhM1MJu2hZzjhPuL+qIn+mgEp3GAgxQc89cC+EUjtHI3VBPiaanMDU/s5DFru26S1ZXf0Gqg8Q6bRLGaftNi/1+t07kz63wF39uOaCJwLgRVg8AMmnsUTBKOxlO4hgP7V4iOrW2S0Rrb76ctFBzbiV1nwsLLFiJzm3pt6Dp/INsHe/4do0zNvHV6kkrKYZcpISCfQVC+rU5qV9Il63cqk+bqSeUlY6npjg58+9AQPhOGzmEh0DsTGkVe6do+uIa1LFPXZJlgp4i01vA8F9ixmPmnJUmY0uN+NxqHV1tjgNajEvzbNQDfg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=lists.freedesktop.org
- smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bDboSD4OQyVw+UI8K/9BnWIB+wjSAhiV6mfOP99n3H0=;
- b=nRRkAuMGhKi2JIgx2tfucx89aWR0vnbuBpgmTFEL4evKCQz5RQu1TKfwvghb0//yABfrQ2scMDsoXFYrvYOZcos7whQ6t65kUWzUDRqbCb/qxOyKrfd8WHUq7CPYE7DRmErI1xatf+CJVLh58d3LtVofKaIjuV7dst2RX9TkYGd52L6BI1ZhN1mzNnIDQBHisgpIX7g9e1NUScKIVOhYZbpb19uVdDnhvMKMNaMH/MUnmpyPqYjvbHxoybgaXtZrEiZUgrhOxnv/D8VusaRaRqykPl0ruAyybPUFeP2Y4MBu6nWn1HqcEWeIGPWi5s4ZFdRUfkGNxmwcSQIw6RDU8g==
-Received: from CY5PR17CA0035.namprd17.prod.outlook.com (2603:10b6:930:12::12)
- by DM4PR12MB6064.namprd12.prod.outlook.com (2603:10b6:8:af::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.14; Wed, 21 Feb
- 2024 18:46:00 +0000
-Received: from CY4PEPF0000EE3E.namprd03.prod.outlook.com
- (2603:10b6:930:12:cafe::49) by CY5PR17CA0035.outlook.office365.com
- (2603:10b6:930:12::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.41 via Frontend
- Transport; Wed, 21 Feb 2024 18:46:00 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- CY4PEPF0000EE3E.mail.protection.outlook.com (10.167.242.18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7292.25 via Frontend Transport; Wed, 21 Feb 2024 18:46:00 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Wed, 21 Feb
- 2024 10:45:41 -0800
-Received: from precision-5760.nvidia.com (10.126.231.35) by
- rnnvmail201.nvidia.com (10.129.68.8) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.12; Wed, 21 Feb 2024 10:45:41 -0800
-From: Erik Kurzinger <ekurzinger@nvidia.com>
-To: <dri-devel@lists.freedesktop.org>
-CC: <bas@basnieuwenhuizen.nl>, <contact@emersion.fr>, <ashafer@nvidia.com>,
- <jajones@nvidia.com>, <kbrenneman@nvidia.com>, Erik Kurzinger
- <ekurzinger@nvidia.com>
-Subject: [PATCH RESEND v2] drm/syncobj: handle NULL fence in
- syncobj_eventfd_entry_func
-Date: Wed, 21 Feb 2024 10:44:28 -0800
-Message-ID: <20240221184527.37667-1-ekurzinger@nvidia.com>
-X-Mailer: git-send-email 2.43.2
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB07B10E082;
+ Wed, 21 Feb 2024 19:12:38 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-4126f486429so16143435e9.0; 
+ Wed, 21 Feb 2024 11:12:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1708542757; x=1709147557; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fdMTQBKI2yKY2jABhK10F1qxiB1GKnnPjOlYF9Y2al4=;
+ b=YW4lAoCQ+dsZkCrRMM8dEoycny6ZUyHrfPL6X9nkfoSx02detVHd9xY/VRAFkV+2yf
+ Dgn244tXB/jzaQmO5iRaY9g2Q3t0AyKHJqGhaUTVdwEikWCuUvz/8OnUxrqJFrWPLBje
+ J5d8CGuqCye6nwquZC5p9EaEPbFm5Iwlenfs9V8tPjmkxfqJ8BvUUK3YxOK57uR7XvCw
+ FkxfFuIASkd388pLItPOvUZjsk2DFe9AU6An//wR5GsD7BPDhbzFXhX5saGeQjpdQzmV
+ nZ7zYLUkrVGFQHph+3l5j7rEjmsSEED86yO21l2i5Ofu34U1FAWSSs7VNVnPE8ySlpPa
+ piRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708542757; x=1709147557;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fdMTQBKI2yKY2jABhK10F1qxiB1GKnnPjOlYF9Y2al4=;
+ b=nRtl4lNXLqCt1UzCWmGGJon6f2Xzj3+66HiSFVkibJlfRX25Z6b1lHafoSG09k45CV
+ 2ZhPDsbt91FKmt43ifji6fJtKYxTk8SR+fTZMjNHiEGfrp/TYs0ejQuxk1UQaqHDB/8/
+ P96lm3LngEiPIEXvYqu9SxxgWeIrVYFa2HOJEZd+h3G4UREopk0EZjiSGq9ERf32Cneo
+ MyH/lv1kR3dAHKZeR/vBIzhd0IDy1jSTDMMN6kepNb/SyNZGgNjPnp1Jyydpdbc8qmN0
+ kM7m5O5V4oPBJRJ/8kDpzB8hQZD149/9iDKwWo6AhNvQbG/3iK4cF57wzhA7epdhgSwk
+ oIpA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVIpUGqOaPXTBBsBY/LDn7mlvQRMUJNIFiovQSn25Mlp+KDbv/OdlatpYuB3wUSdaji6pb7IWDjZBHT1h3H4iDOiRF4X4nc7NcsxbZZbFtpPt2G2GMzqPHBgtZ0kE9JxZYPnhuCiOx0qaS5aX1eDeeG
+X-Gm-Message-State: AOJu0YwHtR70KEq/RRRGDD9sdkrD0Xqzxko7BfanPxNi+YXdcPkkK6NG
+ YMHTA/e6tRFxQrwAOV1BUoWTl8skL323e4ecFgBG6hzjv2bVNzNCavbrNg8g5F+EqhDJC8hEdhj
+ k8Jf5HcMIHVZ1jsStMhNes69/Xww=
+X-Google-Smtp-Source: AGHT+IGD7ehTmv5eFbRAQGIiNkkDuDo7MnHWuKvd9ELBymc/9wxgFnsfKcZhnfnKyI5cHiG44phK22cbnVo2wRf+Nv0=
+X-Received: by 2002:a05:600c:3788:b0:410:c148:2a4b with SMTP id
+ o8-20020a05600c378800b00410c1482a4bmr15875081wmr.37.1708542756436; Wed, 21
+ Feb 2024 11:12:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.126.231.35]
-X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE3E:EE_|DM4PR12MB6064:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2d8bad83-92b3-441d-667e-08dc330d597f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IrDMVPVviJq5PP/G571QWLsq7G+fjq32VzE+ko9V6gA/5FfsLho1CIqBgi0cvGCUgBEw0m/7UkVZVTMIhupVacRjawssZwri2gREPyljlq34v4Dc89zb+yEUR0pDLbV4Eb97+TK/gxT9dKZzoqE52nX1SvC8nNt7dW85JJO2jJ7emd/fSqrhch7gBWP1iilDuqXzjKwytZYdjwfCf0b8N5jSwbPIL+qvYqH/tFxOn0/fi+tfvqvkRDcVrjo0oWfmc4g7Asu0UY5ADclhgO+eSx4wqLoHQLDjsMp1Ta0v+o0yHv2ivNnpifbTkFQuIlFuE2DAoogTdqMVfbIWRLt12dilFyHqUUttnfdW1qO3iVmAStd8mN2HgoezuCxzBJcGdZs7wSdFNbtkuPUFHlii6ZcR9sCJiyyPWfYaYTEwA8MD4dU6NbJt/nihlzU/CYnwo7Of5hPBDofAC6kSeVfU6bpreYtlcCni0LOOQ07dsEsFC0ll2am/EWviObtXBFhdYuh5YqAp8l+jHm7lmYPcwgjN0Mjlj9W4NdZ9k83u5Q7FgHe1KXujmgJCFcAr8+RWzU180lLq4t+YDF/dLFWF6+wCGGmrYSfl6L2ZtQEprGVUNu6hC9bCMhiy2gAN/avryFsx45ECMrOp+e7C2v2ogqvp+rvLFmaX98CuA625W0g=
-X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
- SFS:(13230031)(36860700004)(40470700004)(46966006); DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2024 18:46:00.7005 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d8bad83-92b3-441d-667e-08dc330d597f
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EE3E.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6064
+References: <20240220-fd-sc7180-explicit-ubwc-v1-1-611a58091724@linaro.org>
+In-Reply-To: <20240220-fd-sc7180-explicit-ubwc-v1-1-611a58091724@linaro.org>
+From: Connor Abbott <cwabbott0@gmail.com>
+Date: Wed, 21 Feb 2024 19:12:25 +0000
+Message-ID: <CACu1E7Gi_-a4u_B7NmKAX70OgWwVBe1CMpSSGKwdUtAS1v5hdQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/a6xx: specify UBWC config for sc7180
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ Leonard Lausen <leonard@lausen.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,52 +83,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During syncobj_eventfd_entry_func, dma_fence_chain_find_seqno may set
-the fence to NULL if the given seqno is signaled and a later seqno has
-already been submitted. In that case, the eventfd should be signaled
-immediately which currently does not happen.
+On Tue, Feb 20, 2024 at 5:12=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> Historically the Adreno driver has not been updating memory
+> configuration registers on a618 (SC7180 platform) implying that the
+> default configuration is fine. After the rework performed in the commit
+> 8814455a0e54 ("drm/msm: Refactor UBWC config setting") the function
+> a6xx_calc_ubwc_config() still contained this shortcut and did not
+> calculate UBWC configuration. However the function which now actually
+> updates hardware registers, a6xx_set_ubwc_config(), doesn't contain such
+> check.
+>
+> Rather than adding the check to a6xx_set_ubwc_config(), fill in the
+> UBWC config for a618 (based on readings from SC7180).
+>
+> Reported-by: Leonard Lausen <leonard@lausen.nl>
+> Link: https://gitlab.freedesktop.org/drm/msm/-/issues/49
+> Fixes: 8814455a0e54 ("drm/msm: Refactor UBWC config setting")
+> Cc: Connor Abbott <cwabbott0@gmail.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-This is a similar issue to the one addressed by b19926d4f3a6
-("drm/syncobj: Deal with signalled fences in drm_syncobj_find_fence")
+Thanks!
 
-As a fix, if the return value of dma_fence_chain_find_seqno indicates
-success but it sets the fence to NULL, we will assign a stub fence to
-ensure the following code still signals the eventfd.
+Reviewed-by: Connor Abbott <cwabbott0@gmail.com>
 
-v1 -> v2: assign a stub fence instead of signaling the eventfd
-
-Signed-off-by: Erik Kurzinger <ekurzinger@nvidia.com>
-Fixes: c7a472297169 ("drm/syncobj: add IOCTL to register an eventfd")
----
- drivers/gpu/drm/drm_syncobj.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-index 6c82138b2c70..cb5b5838ccf3 100644
---- a/drivers/gpu/drm/drm_syncobj.c
-+++ b/drivers/gpu/drm/drm_syncobj.c
-@@ -1441,10 +1441,20 @@ syncobj_eventfd_entry_func(struct drm_syncobj *syncobj,
- 
- 	/* This happens inside the syncobj lock */
- 	fence = dma_fence_get(rcu_dereference_protected(syncobj->fence, 1));
-+	if (!fence)
-+		return;
-+
- 	ret = dma_fence_chain_find_seqno(&fence, entry->point);
--	if (ret != 0 || !fence) {
-+	if (ret != 0) {
-+		/* The given seqno has not been submitted yet. */
- 		dma_fence_put(fence);
- 		return;
-+	} else if (!fence) {
-+		/* If dma_fence_chain_find_seqno returns 0 but sets the fence
-+		 * to NULL, it implies that the given seqno is signaled and a
-+		 * later seqno has already been submitted. Assign a stub fence
-+		 * so that the eventfd still gets signaled below. */
-+		fence = dma_fence_get_stub();
- 	}
- 
- 	list_del_init(&entry->node);
--- 
-2.43.2
-
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/=
+adreno/a6xx_gpu.c
+> index c9c55e2ea584..dc80e5940f51 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -1292,9 +1292,8 @@ static void a6xx_calc_ubwc_config(struct adreno_gpu=
+ *gpu)
+>                 gpu->ubwc_config.ubwc_mode =3D 1;
+>         }
+>
+> -       /* a618 is using the hw default values */
+>         if (adreno_is_a618(gpu))
+> -               return;
+> +               gpu->ubwc_config.highest_bank_bit =3D 14;
+>
+>         if (adreno_is_a619_holi(gpu))
+>                 gpu->ubwc_config.highest_bank_bit =3D 13;
+>
+> ---
+> base-commit: 41c177cf354126a22443b5c80cec9fdd313e67e1
+> change-id: 20240220-fd-sc7180-explicit-ubwc-40953fa55947
+>
+> Best regards,
+> --
+> Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>
