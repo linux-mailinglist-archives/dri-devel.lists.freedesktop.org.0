@@ -2,138 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40EA585D5F0
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 11:45:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD25485D626
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 11:58:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F74110E556;
-	Wed, 21 Feb 2024 10:45:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D056F10E569;
+	Wed, 21 Feb 2024 10:58:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="I8pyMAlR";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ZVTzdEs3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2079.outbound.protection.outlook.com [40.107.95.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A869710E569;
- Wed, 21 Feb 2024 10:45:16 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2043.outbound.protection.outlook.com [40.107.244.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FB0110E569;
+ Wed, 21 Feb 2024 10:58:06 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HXTOBG4SOlzWTAx0cvbN8SvBgRet3Nfp03tcHib9dGKoDCh59iBvOFVqgCQoxMNr6IDWjk3/uaMbUWnLzqvPc0D/fM2cYyLWtSbJoSyB9snYwReHUrNoBcxBGb4vXg/KhYECJcwBP9TVrJPKIzIztTVmlVT1R1oq0rK46CFR0V8GNd9ozZ+1kOHTwwE5lZI9K/m94C1vTydCXDG3QLc4TxD2qHD9i4pXVxwU2S2p17lX12ozsXTGpXTdCzhgF88DIqY6tEbyaCBY4VWQqAa7yVoJffEBNPhfF/AUdPY1ZVAm56P45k4YWTVXFZzKuAF9EGTH7bVCAvg1UvgExkXV9w==
+ b=d2ezXbU2j1laOJkj21eISL96sv60n4U21o1ZmTKxO9WsICaeFH8V94aVaxPMnsXL/p0r7Rf0uSWPPlw24biaUbsUcyTS0DtVfXs0WYAYXzYUTD83tuoXeMztujIPrQvLm4BD9fwJzA5mQ2Jzm7y3LutesoSE6j69bcuf7sTzHDQ84lGtAKyxDaz9PLR+xtnlnVykkBdbRt/msZ9Y5zueRFSa1A+u42HwLPowl0QAfEhhbqXCexVMlvxQ3VNXjrvTcc267pbUKC9taxj8d/SH+eUF5CYfbu+q0+J94FLN4+w+7PBxc52/C6/I7YuMGpCf6y5cTVPa6teBHeB224rClA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ECEiAhgJe4uEd3KUV8RzIDtJSySEvaPuh0AYo5xLhS0=;
- b=aQeAYRrPMf+LLnsor1hFZ0u87bPh7h8QXUjOU/ZOqBAo+BF+0a4vCwFsOjRfEtqN84D+am8jwYhxwU06ZcqwnJK+CHFqQprWZOnCJKwNmbtOeqbQhOLRKIZ1IFTicWzEdRceTPXqxciPFUh5Ms+A9xXqmzKT6w872UgvHh403tScVslrnanwS9pEta/7Chyqd6mXKZ0CfvnRTMxkgkP4Y9JSzTk8vLeWOpT1NkbXU5alhuJlC2URqbRQRWUOaJ3HeWz78xxKea9Cc7FE41AMs77t81ygESEVd1dnpW2PZpiJHXxIcfWPLzTPpqlJmO1jgZgld75aaxc8ljzayW+AUQ==
+ bh=Ang2y0nKPrtf4XdwpQC+H4x586FPxABKzWfWhI+Fuoc=;
+ b=UmP0zFNLiNPGWlytR3XdzeHKVfmbUF4pH5LGFiiJjbtn68SN8XyEDzzNoA7JAMOHhw8vUjgoDdge3WPHoEpOOf6/U+ep72cqWcUPEtDSVb3RnTCaXQ+9N1yLtniJcTExeVMVe8bvsjl8xP/bc71UIOIgayxZebxofgBK2aJ4xaPykohu8uUdpMAeObQC5uHQuJ32bf0TCw5lL6WzkLxKJ01e+jZ0qewD4u7KO4SqallzDxYA7SYE0l4tFedcU9YIf3FqMeajFoMEah7ykNwkng14ox545JV0Y7y5W3k/wlob1KW6Y+OArZTDbX0g01i6g1G1D++KeiMFMDNCvSBRVA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ECEiAhgJe4uEd3KUV8RzIDtJSySEvaPuh0AYo5xLhS0=;
- b=I8pyMAlR7ZEEP0yCTqhrnCK8jpWUCFVMifEiECVxj6FSbdZDhL/vIikdCXefUeMYCF8TdsdBEMcNFW4IIRel1VvjTwYM2jSFo8yZ/9BdsZlZkRshn/PLYJhVbvhzJShmy8+qDduHd+z3L/h3wjnKuOxsaNt3tiZetVaTqHQ2dRI=
+ bh=Ang2y0nKPrtf4XdwpQC+H4x586FPxABKzWfWhI+Fuoc=;
+ b=ZVTzdEs3q1mJcmCG4MHZP7dyxgkpWsylqgoWwogiSu0wiePsyo/1HlrlE3i8kVDXJhtgbK/uggeRQt6xU+CUV5p1KtS/zToP0ReBvle1zi4xQ+jLLw9f4Ru4o+Ws2bpoa+Atkg+1theCXmLdspq+ATsoJ1IHXiKPeUZwdMmsj4g=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MN2PR12MB4583.namprd12.prod.outlook.com (2603:10b6:208:26e::7)
+ by BL1PR12MB5190.namprd12.prod.outlook.com (2603:10b6:208:31c::23)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.21; Wed, 21 Feb
- 2024 10:45:13 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.19; Wed, 21 Feb
+ 2024 10:58:04 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7316.018; Wed, 21 Feb 2024
- 10:45:13 +0000
-Message-ID: <65fc62ec-269a-4225-9252-127531179bb0@amd.com>
-Date: Wed, 21 Feb 2024 11:45:01 +0100
+ 10:58:04 +0000
+Message-ID: <75a4102e-b078-4e95-a5b5-a677ad9622fd@amd.com>
+Date: Wed, 21 Feb 2024 11:57:57 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/9] drm: tests: Fix invalid printf format specifiers in
- KUnit tests
+Subject: Re: [PATCH 0/3] drm/amdgpu: Use KMEM_CACHE instead of
+ kmem_cache_create
 Content-Language: en-US
-To: David Gow <davidgow@google.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Shuah Khan <skhan@linuxfoundation.org>, Guenter Roeck <linux@roeck-us.net>,
- Rae Moar <rmoar@google.com>, Matthew Auld <matthew.auld@intel.com>,
- Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>,
- Kees Cook <keescook@chromium.org>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Willem de Bruijn <willemb@google.com>, Florian Westphal <fw@strlen.de>,
- Cassio Neri <cassio.neri@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Arthur Grillo <arthur.grillo@usp.br>
-Cc: Brendan Higgins <brendan.higgins@linux.dev>,
- Daniel Latypov <dlatypov@google.com>, Stephen Boyd <sboyd@kernel.org>,
- David Airlie <airlied@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- "David S . Miller" <davem@davemloft.net>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org,
- linux-rtc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- kunit-dev@googlegroups.com, linux-hardening@vger.kernel.org,
- netdev@vger.kernel.org
-References: <20240221092728.1281499-1-davidgow@google.com>
- <20240221092728.1281499-8-davidgow@google.com>
+To: Kunwu Chan <chentao@kylinos.cn>, alexander.deucher@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240221095907.172408-1-chentao@kylinos.cn>
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20240221092728.1281499-8-davidgow@google.com>
+In-Reply-To: <20240221095907.172408-1-chentao@kylinos.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0069.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9a::10) To PH7PR12MB5685.namprd12.prod.outlook.com
+X-ClientProxiedBy: AM4PR05CA0007.eurprd05.prod.outlook.com (2603:10a6:205::20)
+ To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN2PR12MB4583:EE_
-X-MS-Office365-Filtering-Correlation-Id: b8132ef7-3e94-4e72-cb29-08dc32ca2ee0
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BL1PR12MB5190:EE_
+X-MS-Office365-Filtering-Correlation-Id: 685522e1-dead-49e5-8942-08dc32cbfa53
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZV4h/p1sF7zUqURY+Tg+nYZLQ5MKTbiKGPZzrvnZb9J0fO3pc8rOFtUk+gF6YdBltFeCOwmXieYjLJxkcRjsDi7erMRi5802TcOOTHBEDQVetrJxecNFq/p3i/Uoaczc9FD5UuXvQ6EA2Fz4X8U+qtjD/p7jvMFZdCu+mbLr8qN09JRXXnsLt3peGCJeGEq16uzblkw1jiK8vzePMCzY7DaB2dRfNVgNFzeH3PfMdS1ROpiME7avSO4FNYTo7OWxCRYC/2refA0R2OnH6Awt8ax5SH2WbR1oBctDOGHOiT4HBXkaozs/ybIxXK4x4m3kxp52Gtpsc8au9wI3X03f3d22Doo8C57s91LpGBZO1vDeEbuYckcTjwyC2XO6b4VBdx/BOdji9+j1ybcXbx/5CIZwrz0dczwKGQ2t5LYHGWX0ArLeee67bZ2vnIHEWVgKFYM33cGskkm4hrv071MOdkwv42gD7m9Ouf6e9YSXKQuZctQjBfkF/QghNMPcjPiSwVg7qtkiSCik5BMVpPVuw1VjrBZb6MGAsfwHLiJgKf2cHPBNs1VMXakiwf/R1jtFn1/+lja9UXziPdbQiVtyIm8ppzbIEGR3xB0lMRHtyUo=
+X-Microsoft-Antispam-Message-Info: eHFe4aXVTwtdSdNbuU+JLfJeF5OtroxqfSCPaSqnALAxfFqe0KOjZ/saTSR0+TTM5JRF7+ix8DsrDVqVE6hrWBEJpIMPvfSa0SbgVr2nNZ6OSiuAUZy97c/LIsp4nEdcc5u9WoJF6nGQeIFm7+VZ1TuoibHjHQbyClRqy5mZKJ33Y6uYH19AFrIoPXsBdAFVoHZNCRQ9HBcCcF6AlJWylULpx9SZyUI91G5viVUJAy+J6/jYfIjukKlruuyCK2vtOvQyS404GFLVybJ7imiw1BFILxdltrqrZ8vPDcKd0q6xq0+YLAAEENukPqq5/kJGw+YZvpopbPCRov+4V/pZs3Q/SCaLAwtbjjd5xqk9RX2XcovZUOOWJw1A2s21pfqO+LCRC5AoiV774Coqg+ScIebYN/ZyMXnIlTleFGMOBeCRarVVitIe1bLtl3FZMN2rpw2xErbenGvRh4XWDi9cFbC+4xd7E5pq8ZQgN/bSnDdkogtKY4OFhOFw31Auu/m2jHDSGnsFhylcnvmwALjGbj+D0XyvrXaR56gEcHyp/bY=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(921011); DIR:OUT; SFP:1101; 
+ SFS:(13230031); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V01Day9PSmIzbW9JdmNtclZHMVhwcnBPQWJ5aTdjeFlLZUVRU21ZYWtmTkpZ?=
- =?utf-8?B?dk8zcW1XVWRqNmVldVBuamFucjNyUjg4emt0SVhhSzBXZEp4QUthQTQvYUwr?=
- =?utf-8?B?cDlQUVJPdHVWRDlFVEpEd29Vb3l0MVYwd0RWTnhWWDEvY3V1OVBuMkQ0bWRp?=
- =?utf-8?B?SHhQWWtiTk5uRk5kSUNDSzVhem96VkFkT2JnYlA1SUgrMGlCQWN6bHFZanZ0?=
- =?utf-8?B?R0Z6MGxsTk5xUXpZMHNmUFhhTXJhTzM4VE9zSHVJaGlKZ1dDamx3OXJNYk5v?=
- =?utf-8?B?Q2UrV3ZtaFRJbzV2N0tlVG1PQXVydE9kdWowb3o4Q3pGQ21lY1dPM0hidU5l?=
- =?utf-8?B?TThKcEZwSHE3Um5TVkZQYk5QR0MzaTFoRDVJWXNLQkhFT2d6S0xHOFFEUXhH?=
- =?utf-8?B?WXk5ZGY5amFNaVM4c1VlcnV2REFIU1dsdlRKVEdjcysvRWRRNkVKK25RcFdU?=
- =?utf-8?B?VXpjeEt1dU5HZkYzV2JVUWx4dFhIajMwTVhvSEdPUGlQdnNEemE1elVQWUFt?=
- =?utf-8?B?S0QzWUJ3UXppWEpQd1duWTdtMEhiUWgya3djTld2ZW5BSGNIVDUvYkQyS28y?=
- =?utf-8?B?SENuS3hiRGtaWnJ4cHBnM3QxR0VBb3FzbWxiVlJrS0hQOVFOSGMxOGYyeTNr?=
- =?utf-8?B?MjcyOWtNMUk4ODBRakZwWVFBQW9oc1ZtMGd5QmRpRTRrbHhvaWtUa0xOY0dv?=
- =?utf-8?B?dlZkTDd2MTFBYTJsdDZQT2o3U3daZFF1UmhKZlJyMHZaMTMzNXBYclh5dXJt?=
- =?utf-8?B?byt4Zlp1cmR3bkhHeXBudkdLdXFLRjJMVjA4T3FxUzFXT1NzTWdMWmRRMWM2?=
- =?utf-8?B?MlRZeEhrUTN0aVlrWHcybWZkRmdDaDRvd2xvMTRlWGtYc0E0QjlDRFMyVE1Y?=
- =?utf-8?B?ZktIMWRCUjVqcDVYTVkrS1UrRGwrOVZkMEttVmZ2bDhOZC9LS1pwdjd3Q0t3?=
- =?utf-8?B?dEREMUpPaGdrbFV6c2ZsN09xQVJiQnpWWHpoVE5TN0VQMmplMHBNV09UZHZi?=
- =?utf-8?B?K1BvWlh1WndxWCtBMGVRbVlOVEx2ejlRclRwcXB3WS9mNXhYK1pHM0Y3SGN4?=
- =?utf-8?B?REpUeFpYL2tqYmtFSVp2dlF5L3JMbU5PVmtQdkR5WGZZaWhMa0NtTFowS054?=
- =?utf-8?B?Z1d0NUwrRG51dVA0eVM1Wm5WcExLMlM3WWJTNjZHdEN3QmtYbEpxQS9yMXBM?=
- =?utf-8?B?ZEdYVHRXbVp3ZkpXSEdCU3ZJMER3VnBOTnM3Z3JDeW4rT25YTU9UTG8ydkZU?=
- =?utf-8?B?azdGVlZxNHQ5VjVWaW5LS0ZrSWhMNGx3QnhHb0ZnL2J5bmx3NFNqRzQwSThh?=
- =?utf-8?B?cFpoQjNSYzFaclRFQWhTSmtYbWRxQzZxbUxhZmFwQnNoTk5tajNUVjdiYTda?=
- =?utf-8?B?eWVkZG9xeDBkd2RXa3B5cEpMQ3dmTFZzdnRINTBNTEpneVJBalhlbVNmZSti?=
- =?utf-8?B?NVN1cVcwWHU1MnhDWDZHa1llV25lcnRSMmM1MER5Z3NNZTVlYWRMV2V2YUQ5?=
- =?utf-8?B?ajluUGx5N1VLcElhWkFRYUtZZjIyYWhxZ3MxZTVxdktIZ0lWNlJYVGdxQUda?=
- =?utf-8?B?VEJKejVTNTFBdVJaeHhQdnhlUFJRQk5LcFVnZDlkMFNsZG9zOTRTVjhsdUxJ?=
- =?utf-8?B?YTgzaC9CM21QaHRvb0JmNEJPbm15SHdiUGZkQ25zbUFyTityQ1RSdTd5VXZR?=
- =?utf-8?B?dlk3WUxFMzhrVG8yTWx3M01OTlVQaXl3TTdlUG90Nml1L2pnRVAwQklpUEkz?=
- =?utf-8?B?OG05OEdCUUQvSzVCQWE3UzlJSTM5d1gyODVueXhkb0hIekk4cEk2MC95QjNq?=
- =?utf-8?B?Yi9XN281ZFJiZ05NT2JPUlFoK3FkM09NdXN6SWJEQzhiRVhPYjZXS05TRkxk?=
- =?utf-8?B?Q09sMEQzaDhtRWxOYk5DcTR2YmZFUmFvanVtZU5JYWpqdkdyak9wejNHWllQ?=
- =?utf-8?B?NlYxNXdhUURHaDZJdmIwWG40WUFWVXpTbXRzUHdSeFB5UTJiR1RCSlc3UjRl?=
- =?utf-8?B?eVB4UEcrcnZNWHJPUWFheEFnMWczdUdHOWdNS2pJeUNRWVh1emhLaTgxOWNY?=
- =?utf-8?B?YUtSaGFZUlJKYkY2dWdvRGlqemZjT3NtcUx6d2V5SlhnWkxHK0VPQXZSVUh1?=
- =?utf-8?Q?FjrZRoxx5dhaAl5JqbsWSccvl?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SkdSbFB0Y2QvT2twZ3IvbHVVRmk0ai9Md0lKWWxZeTdhWXp2bG1wRFdXL1pV?=
+ =?utf-8?B?SktHeHVDeFNnbzcxSGpKWU1VVFlpNnhkOEE0L1ZBZ0s4NW1IdG1ySng5QWRy?=
+ =?utf-8?B?bzdlQldMdG52WThaK3poamppUGhYd1gzOUtITFRuSGtYQkFzK2tqNm45NDBR?=
+ =?utf-8?B?T0c4dHl4Q0JGRXBVNll3MkFhYzRCZDFiS3BhLytSM0VMakVRM0Z4RDIyMUJN?=
+ =?utf-8?B?UGNlWC9XV3lpSVN0ZldyY1l0d29ES3VRV2FyWlJtOVNXSHJXczNSdFdvWGYv?=
+ =?utf-8?B?Qkk0T2pMNy9EMFNxVFF6RTdvMGJ4a0wyOFVzamJVY2tJM1RscXVQQ1lla2FM?=
+ =?utf-8?B?WTJvZ2FxVmRicDlaQlFJazdKUFg4MWw2U1NzYVhKUHBWTFhNeVlFOGRHM3d6?=
+ =?utf-8?B?KzJ3U3ZaVlFiZFBuT1VqSk1XbEJvRGtmT1FGY2RMNHJ2dHk5SndwM21ISDJP?=
+ =?utf-8?B?L0dWWlppdnl6U2Y4UEhrRUxTaDJjNk13eHIrS2VJRTV6VGx5ZmRDSUNrS1N3?=
+ =?utf-8?B?WGEwYWFScEE0OUJVSUd0eHp6VWpwdit2SlFWeXE3SVF0S1ZtdnErWXBVeUdT?=
+ =?utf-8?B?bTRHVXlraGxxN0tGSHZwdHJiWEIySWhGMjB4ZWVaeVA2WStIeGdlcnN5WGZC?=
+ =?utf-8?B?Y2dYK3VnQm9TUGwyMWRpTlU4SEZQVWozMS9HMFlkQXBwN24zN1B6MGdUaWdX?=
+ =?utf-8?B?cTlUUVF0Y2E2aGpMTENHUzNoOE5PcGdPbHBqNklFdDhkbUcxcjk1T0s2cW1B?=
+ =?utf-8?B?YUFmbG1BWU1NKytUUHQ2MEhCSDQwY1cvZGszOW16V1hocVAyM2VKcnlmQVZy?=
+ =?utf-8?B?VGptOWxQTHhxQ1Nkb2xYY0lSWDcwV1MyODlYSU9Sd3BOWi9vamdjU2QwRWoz?=
+ =?utf-8?B?bEpWRU1KUWRwTDdZNFBKQnRhbnlqYnhqYjBhZlJLWXNEZVRDaVpUYVFJeFhs?=
+ =?utf-8?B?KzJ0VGxhZm5KVEdsZlpRZC9ZYlQzRk9sRGtEd0orbFRoeGtvbU02K2dTYmJY?=
+ =?utf-8?B?Y0JrZjdXemZRZk9kWmZDY0M4NVM4SHJQcEtYOUhOUUxKMnZUeHZjejFqSHZN?=
+ =?utf-8?B?NlcxcklEMDVyS3h6T0JOSkI2MHZuNS9vNndNM1k1cXhDWUg0YzlVVE92WjZG?=
+ =?utf-8?B?OXlvZXI3SWYzNjRCNklKWWZuMHV5YXFzQ3dPS1VYYTJJUTN5b3dNY2dsZ1gx?=
+ =?utf-8?B?TUxvcjdtWURwRU9iTVZUOVpIQTdhVy9uZ3pDdzliZjV3U2tocElXbkdoM2Uv?=
+ =?utf-8?B?UFo2Y2VMREFLL0RNV1ArTHpDaVpFbUdHYTZ5bUo3WlltY3hTVG5xM1Zjb2ln?=
+ =?utf-8?B?RVBVSlZzTnZVNWFYdkRMeDU2VkRIYmN1VVNqOHViMVZuSk1KTVFRZ2djSHUr?=
+ =?utf-8?B?OHh6TnRoWmZUT2JOcENWdm84ckoxd2REaCs2d2Q5cCtuZFZoRzBGTTVrbk5O?=
+ =?utf-8?B?UmNLaUZpcU9nVkJzOExncUJaTHZuSktOdDdHV1N1ZFhhL3gwbU1scVk2YVlY?=
+ =?utf-8?B?bWFIblpNMGFybFJiR0ZDaUZON0FPUnFPbzdka2ZUNlhxWXdqTG51SmxpckJB?=
+ =?utf-8?B?WE5WYlVMMExWUkVNL1ZLRkVYRi9nRG1uaGVObFRYU0JPMnhuUmRyN0JyZW9U?=
+ =?utf-8?B?T2NPSkc1SnhzWUZQOFplMDdKZEhWSkd4Y3hYMzhuUlpYcWZkemswT09FTmlh?=
+ =?utf-8?B?NHErZjN6N3FXR1p1V0lET1VOUXlKUFkxMTBudHJpM3lQN0dkLzhkQ2tSM1Jv?=
+ =?utf-8?B?NVVKUzlwOUo2YzIzMm5LMXFFbWIvcEJZc2lVSVV4bHVMV01iNnU3Mmk5ZVNP?=
+ =?utf-8?B?ckoxN2hzSi9kNUJYUVg2RW5Cei9KM2pqVnFVTmdSVHpaQWowWWg1OW1ldjBu?=
+ =?utf-8?B?SVZ0TVBxYStHN29vcklwR0diUnlQMDdNdkhSaWJhdWY1ZDhhVFJOa1lTd21K?=
+ =?utf-8?B?UHBsaGJscDFmU3I2SmpKZ1daUkNUbWtsU3VJWWMzMlpYMUUyMVZ3UDBPWG1V?=
+ =?utf-8?B?MUhqdHM3bG1ZdklYakQ2am5mTTFLb0JyYk9qUU9BOG9FdWNHQm9aYUpad25w?=
+ =?utf-8?B?UG5ERElqa1dQM3lENzlWNTlxV1hjVGJTUHdKRkwvek1hSllmSm4yR0ZqY3V1?=
+ =?utf-8?Q?OmrJEhruOrA5D8vKOwgq1T6Gr?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8132ef7-3e94-4e72-cb29-08dc32ca2ee0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 685522e1-dead-49e5-8942-08dc32cbfa53
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2024 10:45:13.3431 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2024 10:58:04.1530 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AU9DDliXe7JpWfvgO5QVRQ6+uJKJ0c0l/ejOh1gBfG+7uPwW3b3ZLWsCrb9hbfVe
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4583
+X-MS-Exchange-CrossTenant-UserPrincipalName: b2mJ8KhSsvGYcTN8dz5jxY6aQRN/PH/YcEdSO+GTcKaxfgFtm74u6O7P36hbCdhB
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5190
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,121 +132,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 21.02.24 um 10:27 schrieb David Gow:
-> The drm_buddy_test's alloc_contiguous test used a u64 for the page size,
-> which was then updated to be an 'unsigned long' to avoid 64-bit
-> multiplication division helpers.
->
-> However, the variable is logged by some KUNIT_ASSERT_EQ_MSG() using the
-> '%d' or '%llu' format specifiers, the former of which is always wrong,
-> and the latter is no longer correct now that ps is no longer a u64. Fix
-> these to all use '%lu'.
->
-> Also, drm_mm_test calls KUNIT_FAIL() with an empty string as the
-> message. gcc warns if a printf format string is empty (apparently), so
-> give these some more detailed error messages, which should be more
-> useful anyway.
->
-> Fixes: a64056bb5a32 ("drm/tests/drm_buddy: add alloc_contiguous test")
-> Fixes: fca7526b7d89 ("drm/tests/drm_buddy: fix build failure on 32-bit targets")
-> Fixes: fc8d29e298cf ("drm: selftest: convert drm_mm selftest to KUnit")
-> Signed-off-by: David Gow <davidgow@google.com>
+Am 21.02.24 um 10:59 schrieb Kunwu Chan:
+> For where the cache name and the structure name match.
+> Use the new KMEM_CACHE() macro instead of direct kmem_cache_create
+> to simplify the creation of SLAB caches.
 
-Acked-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com> for the entire 
+series.
 
-Ping me if you want this patch pushed upstream through the DRM tree.
-
-Christian.
-
-> ---
->   drivers/gpu/drm/tests/drm_buddy_test.c | 14 +++++++-------
->   drivers/gpu/drm/tests/drm_mm_test.c    |  6 +++---
->   2 files changed, 10 insertions(+), 10 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
-> index 8a464f7f4c61..3dbfa3078449 100644
-> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
-> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
-> @@ -55,30 +55,30 @@ static void drm_test_buddy_alloc_contiguous(struct kunit *test)
->   		KUNIT_ASSERT_FALSE_MSG(test,
->   				       drm_buddy_alloc_blocks(&mm, 0, mm_size,
->   							      ps, ps, list, 0),
-> -				       "buddy_alloc hit an error size=%d\n",
-> +				       "buddy_alloc hit an error size=%lu\n",
->   				       ps);
->   	} while (++i < n_pages);
->   
->   	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
->   							   3 * ps, ps, &allocated,
->   							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-> -			       "buddy_alloc didn't error size=%d\n", 3 * ps);
-> +			       "buddy_alloc didn't error size=%lu\n", 3 * ps);
->   
->   	drm_buddy_free_list(&mm, &middle);
->   	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
->   							   3 * ps, ps, &allocated,
->   							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-> -			       "buddy_alloc didn't error size=%llu\n", 3 * ps);
-> +			       "buddy_alloc didn't error size=%lu\n", 3 * ps);
->   	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
->   							   2 * ps, ps, &allocated,
->   							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-> -			       "buddy_alloc didn't error size=%llu\n", 2 * ps);
-> +			       "buddy_alloc didn't error size=%lu\n", 2 * ps);
->   
->   	drm_buddy_free_list(&mm, &right);
->   	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
->   							   3 * ps, ps, &allocated,
->   							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-> -			       "buddy_alloc didn't error size=%llu\n", 3 * ps);
-> +			       "buddy_alloc didn't error size=%lu\n", 3 * ps);
->   	/*
->   	 * At this point we should have enough contiguous space for 2 blocks,
->   	 * however they are never buddies (since we freed middle and right) so
-> @@ -87,13 +87,13 @@ static void drm_test_buddy_alloc_contiguous(struct kunit *test)
->   	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
->   							    2 * ps, ps, &allocated,
->   							    DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-> -			       "buddy_alloc hit an error size=%d\n", 2 * ps);
-> +			       "buddy_alloc hit an error size=%lu\n", 2 * ps);
->   
->   	drm_buddy_free_list(&mm, &left);
->   	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
->   							    3 * ps, ps, &allocated,
->   							    DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-> -			       "buddy_alloc hit an error size=%d\n", 3 * ps);
-> +			       "buddy_alloc hit an error size=%lu\n", 3 * ps);
->   
->   	total = 0;
->   	list_for_each_entry(block, &allocated, link)
-> diff --git a/drivers/gpu/drm/tests/drm_mm_test.c b/drivers/gpu/drm/tests/drm_mm_test.c
-> index 1eb0c304f960..f37c0d765865 100644
-> --- a/drivers/gpu/drm/tests/drm_mm_test.c
-> +++ b/drivers/gpu/drm/tests/drm_mm_test.c
-> @@ -157,7 +157,7 @@ static void drm_test_mm_init(struct kunit *test)
->   
->   	/* After creation, it should all be one massive hole */
->   	if (!assert_one_hole(test, &mm, 0, size)) {
-> -		KUNIT_FAIL(test, "");
-> +		KUNIT_FAIL(test, "mm not one hole on creation");
->   		goto out;
->   	}
->   
-> @@ -171,14 +171,14 @@ static void drm_test_mm_init(struct kunit *test)
->   
->   	/* After filling the range entirely, there should be no holes */
->   	if (!assert_no_holes(test, &mm)) {
-> -		KUNIT_FAIL(test, "");
-> +		KUNIT_FAIL(test, "mm has holes when filled");
->   		goto out;
->   	}
->   
->   	/* And then after emptying it again, the massive hole should be back */
->   	drm_mm_remove_node(&tmp);
->   	if (!assert_one_hole(test, &mm, 0, size)) {
-> -		KUNIT_FAIL(test, "");
-> +		KUNIT_FAIL(test, "mm does not have single hole after emptying");
->   		goto out;
->   	}
->   
+> Kunwu Chan (3):
+>    drm/amdgpu: Simplify the allocation of fence slab caches
+>    drm/amdgpu: Simplify the allocation of mux_chunk slab caches
+>    drm/amdgpu: Simplify the allocation of sync slab caches
+>
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c    | 4 +---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_ring_mux.c | 4 +---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c     | 4 +---
+>   3 files changed, 3 insertions(+), 9 deletions(-)
+>
 
