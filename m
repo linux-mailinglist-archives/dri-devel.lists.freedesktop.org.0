@@ -2,71 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B533185D689
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 12:12:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A82FB85D6AA
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 12:19:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3555D10E542;
-	Wed, 21 Feb 2024 11:12:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBDC410E574;
+	Wed, 21 Feb 2024 11:19:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="k7E5wTI9";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fDc1/12l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
- [157.90.84.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E81710E542
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 11:12:40 +0000 (UTC)
-Received: from [192.168.42.20] (pd9e59c8a.dip0.t-ipconnect.de
- [217.229.156.138]) (Authenticated sender: wse@tuxedocomputers.com)
- by mail.tuxedocomputers.com (Postfix) with ESMTPSA id D40662FC0048;
- Wed, 21 Feb 2024 12:12:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
- s=default; t=1708513959;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sbjUnH12jdTK6RPMAkyasJrnzhc5mx7f3K8nZGIu3HM=;
- b=k7E5wTI9wjKCm/lrwKWCcvr4H172M6hup+m/2tF3hvs5LCeQDFEYbXXCDDw4YQr49vfn3p
- iUUXgwkSMVO7nIrwnDQmkbIVfjxjqRatSrkD6TpFzw/fKL0LKJC6qFkIZsVD5fc2u1QT50
- GtGuma4H+b3wtpNf58YTKmC0MsP4Sy8=
-Authentication-Results: mail.tuxedocomputers.com;
- auth=pass smtp.auth=wse@tuxedocomputers.com
- smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
-Date: Wed, 21 Feb 2024 12:12:38 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28A9110E574;
+ Wed, 21 Feb 2024 11:19:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1708514379; x=1740050379;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=1MPSwiBgeJuseJVQcUWyd0NCoEJbjVJDNEBxFzzf9c4=;
+ b=fDc1/12lUw/PzipDK6rlRDQJ052NE7kvxlmOGh6pnvWQfYMF4qKUyb7C
+ /NPIOQLZS3GrkyvqPYPc3PDvrPy2ql31TvNC7sHOTshXus8HR4wqIMy+t
+ mETZnDw4n+w2S/uscmoZhokk9NzdCoLqCbKcenV5HoU0sPagpqjDjXsGy
+ qSOcADvb2HS2vQFhXnqfSzCz3KKHUp4mDyPYvmjR1O887xy0Cc9pqpw14
+ 1QlKuzNFCfp9R/no87KQdwyXMfzhz4lELg0wciPcqP0PfFjs2t6u9/drX
+ gWzYC+6bYwHbIH3FCi/H3CVHxrtesnHFA3v5zcUGc6Beu+hot21z3WRm2 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="6482719"
+X-IronPort-AV: E=Sophos;i="6.06,175,1705392000"; 
+   d="scan'208";a="6482719"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Feb 2024 03:19:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,175,1705392000"; 
+   d="scan'208";a="5119015"
+Received: from okeles-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.246.32.195])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Feb 2024 03:19:36 -0800
+Date: Wed, 21 Feb 2024 12:19:33 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ John Harrison <John.C.Harrison@intel.com>, stable@vger.kernel.org,
+ Andi Shyti <andi.shyti@kernel.org>
+Subject: Re: [PATCH v2 2/2] drm/i915/gt: Enable only one CCS for compute
+ workload
+Message-ID: <ZdXcRat8OcTeVozx@ashyti-mobl2.lan>
+References: <20240220143526.259109-1-andi.shyti@linux.intel.com>
+ <20240220143526.259109-3-andi.shyti@linux.intel.com>
+ <af007641-9705-4259-b29c-3cb78f67fc64@linux.intel.com>
+ <ZdVAd3NxUNBZofts@ashyti-mobl2.lan>
+ <a0f66a4d-12f9-4852-a1bb-a6d27538b436@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Future handling of complex RGB devices on Linux v2
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: Hans de Goede <hdegoede@redhat.com>, Pavel Machek <pavel@ucw.cz>
-Cc: Lee Jones <lee@kernel.org>, jikos@kernel.org,
- linux-kernel@vger.kernel.org, Jelle van der Waa <jelle@vdwaa.nl>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
-References: <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
- <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
- <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
- <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
- <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
- <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
- <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
- <ZaljwLe7P+dXHEHb@duo.ucw.cz>
- <6bbfdd62-e663-4a45-82f4-445069a8d690@redhat.com>
- <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
- <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com>
- <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
- <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
- <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
- <1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com>
- <b70b2ea8-abfd-4d41-b336-3e34e5bdb8c6@tuxedocomputers.com>
- <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com>
- <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
-Content-Language: en-US
-In-Reply-To: <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a0f66a4d-12f9-4852-a1bb-a6d27538b436@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,121 +78,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Tvrtko,
 
-so after more feedback from the OpenRGB maintainers I came up with an even more 
-generic proposal: 
-https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/3916#note_1753072869
+On Wed, Feb 21, 2024 at 08:19:34AM +0000, Tvrtko Ursulin wrote:
+> On 21/02/2024 00:14, Andi Shyti wrote:
+> > On Tue, Feb 20, 2024 at 02:48:31PM +0000, Tvrtko Ursulin wrote:
+> > > On 20/02/2024 14:35, Andi Shyti wrote:
+> > > > Enable only one CCS engine by default with all the compute sices
+> > > 
+> > > slices
+> > 
+> > Thanks!
+> > 
+> > > > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> > > > index 833987015b8b..7041acc77810 100644
+> > > > --- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> > > > +++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> > > > @@ -243,6 +243,15 @@ void intel_engines_driver_register(struct drm_i915_private *i915)
+> > > >    		if (engine->uabi_class == I915_NO_UABI_CLASS)
+> > > >    			continue;
+> > > > +		/*
+> > > > +		 * Do not list and do not count CCS engines other than the first
+> > > > +		 */
+> > > > +		if (engine->uabi_class == I915_ENGINE_CLASS_COMPUTE &&
+> > > > +		    engine->uabi_instance > 0) {
+> > > > +			i915->engine_uabi_class_count[engine->uabi_class]--;
+> > > > +			continue;
+> > > > +		}
+> > > 
+> > > It's a bit ugly to decrement after increment, instead of somehow
+> > > restructuring the loop to satisfy both cases more elegantly.
+> > 
+> > yes, agree, indeed I had a hard time here to accept this change
+> > myself.
+> > 
+> > But moving the check above where the counter was incremented it
+> > would have been much uglier.
+> > 
+> > This check looks ugly everywhere you place it :-)
+> 
+> One idea would be to introduce a separate local counter array for
+> name_instance, so not use i915->engine_uabi_class_count[]. First one
+> increments for every engine, second only for the exposed ones. That way
+> feels wouldn't be too ugly.
 
-Copy pasting the relevant part:
+Ah... you mean that whenever we change the CCS mode, we update
+the indexes of the exposed engines from list of the real engines.
+Will try.
 
- >Another, yet more generic, approach:
- >
- >```
- >get-device-info ioctl returning:
- >{
- >    char name[64]                /* Device model name / identifier */
- >    enum device_type            /* e.g. keyboard, mouse, lightbar, etc. */
- >    char firmware_version_string[64]    /* if known to the driver, empty 
-otherwise */
- >    char serial_number[64]            /* if known to the driver, empty 
-otherwise */
- >    enum supported_commands[128]        /* comands supported by the firmware */
- >}
- >
- >evaluate-set-command ioctl taking:
- >{
- >    enum command                /* one of supported_commands */
- >    union data
- >    {
- >        char raw[3072],
- >        {
- >            <input struct for command 0>
- >        },
- >        {
- >            <input struct for command 1>
- >        },
- >        ...
- >    }
- >}
- >
- >evaluate-get-command ioctl taking:
- >{
- >    enum command                /* one of supported_commands */
- >    union data
- >    {
- >        char raw[3072],
- >        {
- >            <input struct for command 0>
- >        },
- >        {
- >            <input struct for command 1>
- >        },
- >        ...
- >    }
- >}
- >and returning:
- >{
- >    union data
- >    {
- >        char raw[3072],
- >        {
- >            <return struct for command 0>    /* not every command might have 
-one */
- >        },
- >        {
- >            <return struct for command 1>    /* not every command might have 
-one */
- >        },
- >        ...
- >    }
- >}
- >```
- >
- >- char name[64] still includes, if know to the driver, information about 
-physical or even printed layout.
- >- differentiation between evaluate-set-command and evaluate-get-command is 
-mainly there for performance optimization for direct mode (for 
-evaluate-set-command the kernel does not have to copy anything back to userspace)
- >- commands without a return struct must not be used with evaluate-get-command
- >- the input struct might be empty for very simple commands (or "int unused" to 
-not confuse the compiler if neccessary)
- >
- >Now is the question: How does userspace know which commands takes/returns 
-which structs? Define them in one big header file (as struct 
-clevo_set_breathing_mode_1_input, struct tongfang_set_breathing_mode_1_input, 
-etc.), or somehow dynamicaly? I'm warming up to Hans suggestion to just do it 
-statically, unlike my suggestion yesterday.
- >
- >Min/Max values are documented in the header file (if not implied by variable 
-type). With different max value -> different command, e.g. 
-clevo_set_breathing_mode_1 for devices with speed from 0 to 7 and 
-clevo_set_breathing_mode_2 for devices with speed from 1 to 10.
+My approach was to regenerate the list everytime the CCS mode was
+changed, but your suggestion looks a bit simplier.
 
-But at this point it is almost a generic interface that can be used to expose 
-anything to userspace, looping back to the sanitized-wmiraw idea that was 
-floating around earlier.
+> > In any case, I'm working on a patch that is splitting this
+> > function in two parts and there is some refactoring happening
+> > here (for the first initialization and the dynamic update).
+> > 
+> > Please let me know if it's OK with you or you want me to fix it
+> > in this run.
+> > 
+> > > And I wonder if
+> > > internally (in dmesg when engine name is logged) we don't end up with ccs0
+> > > ccs0 ccs0 ccs0.. for all instances.
+> > 
+> > I don't see this. Even in sysfs we see only one ccs. Where is it?
+> 
+> When you run this patch on something with two or more ccs-es, the "renamed
+> ccs... to ccs.." debug logs do not all log the new name as ccs0?
 
-So a new approach (Please correct me if there is already something similar I'm 
-not aware of):
+it shouldn't, because the name_instance is anyway incremented
+normally... anyway, I will test it.
 
-New subsystem "Platform Device Commands" (short platdevcom) (I'm open for better 
-name suggestions):
-
-- Registers /sys/class/platdevcom/platdevcom[0-9]* (similar to hidraw)
-- Has get-device-info ioctl, evaluate-set-command ioctl, and 
-evaluate-get-command ioctl as described above
-- device_type enum entries for rgb would be for example rgbleds_keyboard, 
-rgbleds_mouse, etc.
-
-On a high level this subsystem can be used to expose any platform functionality 
-to userspace that doesn't fit another subsystem in a central location. This 
-could be for example a nearly 1 to 1 sanitized mapping to wmi calls. Or writing 
-a specific EC register to control OEM BIOS features like flexi charging (only 
-charge battery to specific percentage to extend the live).
-
-However I am aware that this is hardly an api. So Maybe it's best to just fall 
-back on extending the leds subsystem with the deactivate command, and from there 
-just implement the few rgb devices that are not hidraw as misc devices in a per 
-OEM fasion without a unified api.
-
+Thanks a lot!
+Andi
