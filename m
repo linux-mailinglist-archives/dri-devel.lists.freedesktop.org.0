@@ -2,132 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29A3085D363
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 10:23:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC1C785D36B
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 10:26:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D29E510E4CE;
-	Wed, 21 Feb 2024 09:23:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76CBD10E4F2;
+	Wed, 21 Feb 2024 09:26:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Zjv/klIi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JUZ91t7T";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Zjv/klIi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JUZ91t7T";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qz6RrEdv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7238D10E4CE
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 09:23:21 +0000 (UTC)
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 880B32205B;
- Wed, 21 Feb 2024 09:23:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1708507399; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=mlwxUsar9qsnJji6/TOyKLeApaAnM6kT9bkCyRhsrDc=;
- b=Zjv/klIiePjnZh3LALfdjlerJGJdnthfdRvw2vGjI7FnePsCnCe06e+kdZVCTV1u/SPAAj
- cETOzDFWhN7o7IjHUR1+O5Xm6FXTGfc9wi2tenvSdo3z42zD0eqTw29rDc4X90nee/F0ah
- 6YZ9tzOqufSt9lLhg7yhOMwvg1mmy1A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1708507399;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=mlwxUsar9qsnJji6/TOyKLeApaAnM6kT9bkCyRhsrDc=;
- b=JUZ91t7TZZ0oHeAOCysrjoYLPBPX4+ndhE9OFQ8EICLdJdD61Esxl5uNvVpM4t755wsB5I
- S277QK3wo4F2NfAg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1708507399; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=mlwxUsar9qsnJji6/TOyKLeApaAnM6kT9bkCyRhsrDc=;
- b=Zjv/klIiePjnZh3LALfdjlerJGJdnthfdRvw2vGjI7FnePsCnCe06e+kdZVCTV1u/SPAAj
- cETOzDFWhN7o7IjHUR1+O5Xm6FXTGfc9wi2tenvSdo3z42zD0eqTw29rDc4X90nee/F0ah
- 6YZ9tzOqufSt9lLhg7yhOMwvg1mmy1A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1708507399;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=mlwxUsar9qsnJji6/TOyKLeApaAnM6kT9bkCyRhsrDc=;
- b=JUZ91t7TZZ0oHeAOCysrjoYLPBPX4+ndhE9OFQ8EICLdJdD61Esxl5uNvVpM4t755wsB5I
- S277QK3wo4F2NfAg==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 44C5413A25;
- Wed, 21 Feb 2024 09:23:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap2.dmz-prg2.suse.org with ESMTPSA id 8BRoDwfB1WWYBgAAn2gu4w
- (envelope-from <tzimmermann@suse.de>); Wed, 21 Feb 2024 09:23:19 +0000
-Message-ID: <dfb06240-bd67-43fb-93d7-4fce9184fb20@suse.de>
-Date: Wed, 21 Feb 2024 10:23:18 +0100
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C586B10E4DA
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 09:26:47 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 8836CCE1C98;
+ Wed, 21 Feb 2024 09:26:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18268C433F1;
+ Wed, 21 Feb 2024 09:26:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1708507603;
+ bh=8uXsdYRNr5c/gNLF9IP6Ee5HV4vjstXFVKBgIfPxxKg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=qz6RrEdv09eOsbHcBALiVgtst/76wj91O0zo1+i61HCqwMwcusZu2SFUdRyRAUp/F
+ 7Vqr9tgkvdOrjtR2l/5X0olpnoiLIbMam2d4HO6z6oPZfc3ZlzCz4TsUy0X8imkOxB
+ Xilo1WZtHmXvMNYFIPFIZuGYyT7O1DEunQ2IAOMAjum2OypGnIp+YDRIxsJYh60uKW
+ ZL3uam3NcPsKZFUZyZ670Gd0vtqBUoZ+gBuYBGNztOC4tmIcu1gadbPhcJctigN3qe
+ QIA0phb9iS4RFxoBBmshvHIonYyMTMJHTieY1JutkrwJ2Q4w0kh2cz3k1btE64C2xA
+ o2JfKbUYJsghQ==
+From: Maxime Ripard <mripard@kernel.org>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+Subject: [PATCH v2] drm/edid/firmware: Remove built-in EDIDs
+Date: Wed, 21 Feb 2024 10:26:36 +0100
+Message-ID: <20240221092636.691701-1-mripard@kernel.org>
+X-Mailer: git-send-email 2.43.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/10] backlight: Replace struct fb_info in interfaces
-To: Lee Jones <lee@kernel.org>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>, jingoohan1@gmail.com,
- deller@gmx.de, javierm@redhat.com, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-input@vger.kernel.org,
- linux-pwm@vger.kernel.org
-References: <20240212162645.5661-1-tzimmermann@suse.de>
- <20240215121326.GL9758@aspen.lan>
- <288a480c-74e9-49dd-a58d-294792771ea6@suse.de>
- <20240219150209.GB10170@google.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20240219150209.GB10170@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [-3.09 / 50.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; XM_UA_NO_VERSION(0.01)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
- BAYES_HAM(-3.00)[100.00%]; RCVD_COUNT_THREE(0.00)[3];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCPT_COUNT_SEVEN(0.00)[9]; FUZZY_BLOCKED(0.00)[rspamd.com];
- FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_CC(0.00)[linaro.org,gmail.com,gmx.de,redhat.com,lists.freedesktop.org,vger.kernel.org];
- RCVD_TLS_ALL(0.00)[]; MID_RHS_MATCH_FROM(0.00)[]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -3.09
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,67 +59,981 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+The EDID firmware loading mechanism introduced a few built-in EDIDs that
+could be forced on any connector, bypassing the EDIDs it exposes.
 
-Am 19.02.24 um 16:02 schrieb Lee Jones:
-> On Thu, 15 Feb 2024, Thomas Zimmermann wrote:
->
->> Hi
->>
->> Am 15.02.24 um 13:13 schrieb Daniel Thompson:
->>> On Mon, Feb 12, 2024 at 05:16:33PM +0100, Thomas Zimmermann wrote:
->>>> Backlight drivers implement struct backlight_ops.check_fb, which
->>>> uses struct fb_info in its interface. Replace the callback with one
->>>> the does not use fb_info.
->>>>
->>>> In DRM, we have several drivers that implement backlight support. By
->>>> including <linux/backlight.h> these drivers depend on <linux/fb.h>.
->>>> At the same time, fbdev is deprecated for new drivers and likely to
->>>> be replaced on many systems.
->>>>
->>>> This patchset is part of a larger effort to implement the backlight
->>>> code without depending on fbdev.
->>>>
->>>> Patch 1 makes the backlight core match backlight and framebuffer
->>>> devices via struct fb_info.bl_dev. Patches 2 to 9 then go through
->>>> drivers and remove unnecessary implementations of check_fb. Finally,
->>>> patch 10 replaces the check_fb hook with controls_device, which
->>>> uses the framebuffer's Linux device instead of the framebuffer.
->>> I won't reply individually but I also took a look at the patches for
->>> the combo devices and it all looked good to me from a backlight
->>> point of view.
->>>
->>> However I don't want to drop Reviewed-by: on them since it risks those
->>> bit being mistaken for an ack and merged ahead of the patch 1...
->> Thanks for reviewing. Unless someone objects, my intention is to merge
->> everything via the drm-misc, so all patches should go in at once. I do have
->> a lot more patches that untangle backlight and fbdev almost completely, but
->> most of these changes are in the actual graphics drivers rather than the
->> backlight core code. So hopefully everything can go through the DRM tree; or
->> maybe the fbdev tree.
-> This is only acceptable if the maintainers of those trees can provide me
-> with a pull-request to a succinct (_only_ these patches) immutable
-> branch.  If this is not possible, then I should like to merge the set
-> through the Backlight tree and I can provide everyone else with said PR.
+While convenient, this limited set of EDIDs doesn't take into account
+the connector type, and we can end up with an EDID that is completely
+invalid for a given connector.
 
-I see, there's a separate backlight tree.
+For example, the edid/800x600.bin file matches the following EDID:
 
-I'm going to send another revision of this patchset. You either merge 
-all of the patches via the backlight tree, or you could just merge 
-patches 1, 5 and 6 for now. I'll take care to get the rest merged via 
-other trees and I'll re-submoit patch 10 for a final clean up. Your choice.
+  edid-decode (hex):
 
-Best regards
-Thomas
+  00 ff ff ff ff ff ff 00 31 d8 00 00 00 00 00 00
+  05 16 01 03 6d 1b 14 78 ea 5e c0 a4 59 4a 98 25
+  20 50 54 01 00 00 45 40 01 01 01 01 01 01 01 01
+  01 01 01 01 01 01 a0 0f 20 00 31 58 1c 20 28 80
+  14 00 15 d0 10 00 00 1e 00 00 00 ff 00 4c 69 6e
+  75 78 20 23 30 0a 20 20 20 20 00 00 00 fd 00 3b
+  3d 24 26 05 00 0a 20 20 20 20 20 20 00 00 00 fc
+  00 4c 69 6e 75 78 20 53 56 47 41 0a 20 20 00 c2
 
->
+  ----------------
 
+  Block 0, Base EDID:
+    EDID Structure Version & Revision: 1.3
+    Vendor & Product Identification:
+      Manufacturer: LNX
+      Model: 0
+      Made in: week 5 of 2012
+    Basic Display Parameters & Features:
+      Analog display
+      Signal Level Standard: 0.700 : 0.000 : 0.700 V p-p
+      Blank level equals black level
+      Sync: Separate Composite Serration
+      Maximum image size: 27 cm x 20 cm
+      Gamma: 2.20
+      DPMS levels: Standby Suspend Off
+      RGB color display
+      First detailed timing is the preferred timing
+    Color Characteristics:
+      Red  : 0.6416, 0.3486
+      Green: 0.2919, 0.5957
+      Blue : 0.1474, 0.1250
+      White: 0.3125, 0.3281
+    Established Timings I & II:
+      DMT 0x09:   800x600    60.316541 Hz   4:3     37.879 kHz     40.000000 MHz
+    Standard Timings:
+      DMT 0x09:   800x600    60.316541 Hz   4:3     37.879 kHz     40.000000 MHz
+    Detailed Timing Descriptors:
+      DTD 1:   800x600    60.316541 Hz   4:3     37.879 kHz     40.000000 MHz (277 mm x 208 mm)
+                   Hfront   40 Hsync 128 Hback   88 Hpol P
+                   Vfront    1 Vsync   4 Vback   23 Vpol P
+      Display Product Serial Number: 'Linux #0'
+      Display Range Limits:
+        Monitor ranges (GTF): 59-61 Hz V, 36-38 kHz H, max dotclock 50 MHz
+      Display Product Name: 'Linux SVGA'
+  Checksum: 0xc2
+
+So, an analog monitor EDID. However, if the connector was an HDMI
+monitor for example, it breaks the HDMI specification that requires,
+among other things, a digital display, the VIC 1 mode and an HDMI Forum
+Vendor Specific Data Block in an CTA-861 extension.
+
+We thus end up with a completely invalid EDID, which thus might confuse
+HDMI-related code that could parse it.
+
+After some discussions on IRC, we identified mainly two ways to fix
+this:
+
+  - We can either create more EDIDs for each connector type to provide
+    a built-in EDID that matches the resolution passed in the name, and
+    still be a sensible EDID for that connector type;
+
+  - Or we can just prevent the EDID to be exposed to userspace if it's
+    built-in.
+
+Or possibly both.
+
+However, the conclusion was that maybe we just don't need the built-in
+EDIDs at all and we should just get rid of them. So here we are.
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+ Documentation/admin-guide/edid.rst            |  35 +--
+ .../admin-guide/kernel-parameters.txt         |  14 +-
+ drivers/gpu/drm/drm_edid_load.c               | 160 +---------
+ tools/edid/1024x768.S                         |  43 ---
+ tools/edid/1280x1024.S                        |  43 ---
+ tools/edid/1600x1200.S                        |  43 ---
+ tools/edid/1680x1050.S                        |  43 ---
+ tools/edid/1920x1080.S                        |  43 ---
+ tools/edid/800x600.S                          |  40 ---
+ tools/edid/Makefile                           |  37 ---
+ tools/edid/edid.S                             | 274 ------------------
+ tools/edid/hex                                |   1 -
+ 12 files changed, 18 insertions(+), 758 deletions(-)
+ delete mode 100644 tools/edid/1024x768.S
+ delete mode 100644 tools/edid/1280x1024.S
+ delete mode 100644 tools/edid/1600x1200.S
+ delete mode 100644 tools/edid/1680x1050.S
+ delete mode 100644 tools/edid/1920x1080.S
+ delete mode 100644 tools/edid/800x600.S
+ delete mode 100644 tools/edid/Makefile
+ delete mode 100644 tools/edid/edid.S
+ delete mode 100644 tools/edid/hex
+
+diff --git a/Documentation/admin-guide/edid.rst b/Documentation/admin-guide/edid.rst
+index 80deeb21a265..1a9b965aa486 100644
+--- a/Documentation/admin-guide/edid.rst
++++ b/Documentation/admin-guide/edid.rst
+@@ -24,37 +24,4 @@ restrictions later on.
+ As a remedy for such situations, the kernel configuration item
+ CONFIG_DRM_LOAD_EDID_FIRMWARE was introduced. It allows to provide an
+ individually prepared or corrected EDID data set in the /lib/firmware
+-directory from where it is loaded via the firmware interface. The code
+-(see drivers/gpu/drm/drm_edid_load.c) contains built-in data sets for
+-commonly used screen resolutions (800x600, 1024x768, 1280x1024, 1600x1200,
+-1680x1050, 1920x1080) as binary blobs, but the kernel source tree does
+-not contain code to create these data. In order to elucidate the origin
+-of the built-in binary EDID blobs and to facilitate the creation of
+-individual data for a specific misbehaving monitor, commented sources
+-and a Makefile environment are given here.
+-
+-To create binary EDID and C source code files from the existing data
+-material, simply type "make" in tools/edid/.
+-
+-If you want to create your own EDID file, copy the file 1024x768.S,
+-replace the settings with your own data and add a new target to the
+-Makefile. Please note that the EDID data structure expects the timing
+-values in a different way as compared to the standard X11 format.
+-
+-X11:
+-  HTimings:
+-    hdisp hsyncstart hsyncend htotal
+-  VTimings:
+-    vdisp vsyncstart vsyncend vtotal
+-
+-EDID::
+-
+-  #define XPIX hdisp
+-  #define XBLANK htotal-hdisp
+-  #define XOFFSET hsyncstart-hdisp
+-  #define XPULSE hsyncend-hsyncstart
+-
+-  #define YPIX vdisp
+-  #define YBLANK vtotal-vdisp
+-  #define YOFFSET vsyncstart-vdisp
+-  #define YPULSE vsyncend-vsyncstart
++directory from where it is loaded via the firmware interface.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 460b97a1d0da..1c4eb43e4812 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1168,16 +1168,10 @@
+ 			panels may send no or incorrect EDID data sets.
+ 			This parameter allows to specify an EDID data sets
+ 			in the /lib/firmware directory that are used instead.
+-			Generic built-in EDID data sets are used, if one of
+-			edid/1024x768.bin, edid/1280x1024.bin,
+-			edid/1680x1050.bin, or edid/1920x1080.bin is given
+-			and no file with the same name exists. Details and
+-			instructions how to build your own EDID data are
+-			available in Documentation/admin-guide/edid.rst. An EDID
+-			data set will only be used for a particular connector,
+-			if its name and a colon are prepended to the EDID
+-			name. Each connector may use a unique EDID data
+-			set by separating the files with a comma.  An EDID
++			An EDID data set will only be used for a particular
++			connector, if its name and a colon are prepended to
++			the EDID name. Each connector may use a unique EDID
++			data set by separating the files with a comma. An EDID
+ 			data set with no connector name will be used for
+ 			any connectors not explicitly specified.
+ 
+diff --git a/drivers/gpu/drm/drm_edid_load.c b/drivers/gpu/drm/drm_edid_load.c
+index 60fcb80bce61..d1c7e8298702 100644
+--- a/drivers/gpu/drm/drm_edid_load.c
++++ b/drivers/gpu/drm/drm_edid_load.c
+@@ -20,162 +20,28 @@
+ 
+ static char edid_firmware[PATH_MAX];
+ module_param_string(edid_firmware, edid_firmware, sizeof(edid_firmware), 0644);
+-MODULE_PARM_DESC(edid_firmware, "Do not probe monitor, use specified EDID blob "
+-	"from built-in data or /lib/firmware instead. ");
+-
+-#define GENERIC_EDIDS 6
+-static const char * const generic_edid_name[GENERIC_EDIDS] = {
+-	"edid/800x600.bin",
+-	"edid/1024x768.bin",
+-	"edid/1280x1024.bin",
+-	"edid/1600x1200.bin",
+-	"edid/1680x1050.bin",
+-	"edid/1920x1080.bin",
+-};
+-
+-static const u8 generic_edid[GENERIC_EDIDS][128] = {
+-	{
+-	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00,
+-	0x31, 0xd8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+-	0x05, 0x16, 0x01, 0x03, 0x6d, 0x1b, 0x14, 0x78,
+-	0xea, 0x5e, 0xc0, 0xa4, 0x59, 0x4a, 0x98, 0x25,
+-	0x20, 0x50, 0x54, 0x01, 0x00, 0x00, 0x45, 0x40,
+-	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+-	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0xa0, 0x0f,
+-	0x20, 0x00, 0x31, 0x58, 0x1c, 0x20, 0x28, 0x80,
+-	0x14, 0x00, 0x15, 0xd0, 0x10, 0x00, 0x00, 0x1e,
+-	0x00, 0x00, 0x00, 0xff, 0x00, 0x4c, 0x69, 0x6e,
+-	0x75, 0x78, 0x20, 0x23, 0x30, 0x0a, 0x20, 0x20,
+-	0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x3b,
+-	0x3d, 0x24, 0x26, 0x05, 0x00, 0x0a, 0x20, 0x20,
+-	0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfc,
+-	0x00, 0x4c, 0x69, 0x6e, 0x75, 0x78, 0x20, 0x53,
+-	0x56, 0x47, 0x41, 0x0a, 0x20, 0x20, 0x00, 0xc2,
+-	},
+-	{
+-	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00,
+-	0x31, 0xd8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+-	0x05, 0x16, 0x01, 0x03, 0x6d, 0x23, 0x1a, 0x78,
+-	0xea, 0x5e, 0xc0, 0xa4, 0x59, 0x4a, 0x98, 0x25,
+-	0x20, 0x50, 0x54, 0x00, 0x08, 0x00, 0x61, 0x40,
+-	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+-	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x64, 0x19,
+-	0x00, 0x40, 0x41, 0x00, 0x26, 0x30, 0x08, 0x90,
+-	0x36, 0x00, 0x63, 0x0a, 0x11, 0x00, 0x00, 0x18,
+-	0x00, 0x00, 0x00, 0xff, 0x00, 0x4c, 0x69, 0x6e,
+-	0x75, 0x78, 0x20, 0x23, 0x30, 0x0a, 0x20, 0x20,
+-	0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x3b,
+-	0x3d, 0x2f, 0x31, 0x07, 0x00, 0x0a, 0x20, 0x20,
+-	0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfc,
+-	0x00, 0x4c, 0x69, 0x6e, 0x75, 0x78, 0x20, 0x58,
+-	0x47, 0x41, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x55,
+-	},
+-	{
+-	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00,
+-	0x31, 0xd8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+-	0x05, 0x16, 0x01, 0x03, 0x6d, 0x2c, 0x23, 0x78,
+-	0xea, 0x5e, 0xc0, 0xa4, 0x59, 0x4a, 0x98, 0x25,
+-	0x20, 0x50, 0x54, 0x00, 0x00, 0x00, 0x81, 0x80,
+-	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+-	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x30, 0x2a,
+-	0x00, 0x98, 0x51, 0x00, 0x2a, 0x40, 0x30, 0x70,
+-	0x13, 0x00, 0xbc, 0x63, 0x11, 0x00, 0x00, 0x1e,
+-	0x00, 0x00, 0x00, 0xff, 0x00, 0x4c, 0x69, 0x6e,
+-	0x75, 0x78, 0x20, 0x23, 0x30, 0x0a, 0x20, 0x20,
+-	0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x3b,
+-	0x3d, 0x3e, 0x40, 0x0b, 0x00, 0x0a, 0x20, 0x20,
+-	0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfc,
+-	0x00, 0x4c, 0x69, 0x6e, 0x75, 0x78, 0x20, 0x53,
+-	0x58, 0x47, 0x41, 0x0a, 0x20, 0x20, 0x00, 0xa0,
+-	},
+-	{
+-	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00,
+-	0x31, 0xd8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+-	0x05, 0x16, 0x01, 0x03, 0x6d, 0x37, 0x29, 0x78,
+-	0xea, 0x5e, 0xc0, 0xa4, 0x59, 0x4a, 0x98, 0x25,
+-	0x20, 0x50, 0x54, 0x00, 0x00, 0x00, 0xa9, 0x40,
+-	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+-	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x48, 0x3f,
+-	0x40, 0x30, 0x62, 0xb0, 0x32, 0x40, 0x40, 0xc0,
+-	0x13, 0x00, 0x2b, 0xa0, 0x21, 0x00, 0x00, 0x1e,
+-	0x00, 0x00, 0x00, 0xff, 0x00, 0x4c, 0x69, 0x6e,
+-	0x75, 0x78, 0x20, 0x23, 0x30, 0x0a, 0x20, 0x20,
+-	0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x3b,
+-	0x3d, 0x4a, 0x4c, 0x11, 0x00, 0x0a, 0x20, 0x20,
+-	0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfc,
+-	0x00, 0x4c, 0x69, 0x6e, 0x75, 0x78, 0x20, 0x55,
+-	0x58, 0x47, 0x41, 0x0a, 0x20, 0x20, 0x00, 0x9d,
+-	},
+-	{
+-	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00,
+-	0x31, 0xd8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+-	0x05, 0x16, 0x01, 0x03, 0x6d, 0x2b, 0x1b, 0x78,
+-	0xea, 0x5e, 0xc0, 0xa4, 0x59, 0x4a, 0x98, 0x25,
+-	0x20, 0x50, 0x54, 0x00, 0x00, 0x00, 0xb3, 0x00,
+-	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+-	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x21, 0x39,
+-	0x90, 0x30, 0x62, 0x1a, 0x27, 0x40, 0x68, 0xb0,
+-	0x36, 0x00, 0xb5, 0x11, 0x11, 0x00, 0x00, 0x1e,
+-	0x00, 0x00, 0x00, 0xff, 0x00, 0x4c, 0x69, 0x6e,
+-	0x75, 0x78, 0x20, 0x23, 0x30, 0x0a, 0x20, 0x20,
+-	0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x3b,
+-	0x3d, 0x40, 0x42, 0x0f, 0x00, 0x0a, 0x20, 0x20,
+-	0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfc,
+-	0x00, 0x4c, 0x69, 0x6e, 0x75, 0x78, 0x20, 0x57,
+-	0x53, 0x58, 0x47, 0x41, 0x0a, 0x20, 0x00, 0x26,
+-	},
+-	{
+-	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00,
+-	0x31, 0xd8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+-	0x05, 0x16, 0x01, 0x03, 0x6d, 0x32, 0x1c, 0x78,
+-	0xea, 0x5e, 0xc0, 0xa4, 0x59, 0x4a, 0x98, 0x25,
+-	0x20, 0x50, 0x54, 0x00, 0x00, 0x00, 0xd1, 0xc0,
+-	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+-	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x02, 0x3a,
+-	0x80, 0x18, 0x71, 0x38, 0x2d, 0x40, 0x58, 0x2c,
+-	0x45, 0x00, 0xf4, 0x19, 0x11, 0x00, 0x00, 0x1e,
+-	0x00, 0x00, 0x00, 0xff, 0x00, 0x4c, 0x69, 0x6e,
+-	0x75, 0x78, 0x20, 0x23, 0x30, 0x0a, 0x20, 0x20,
+-	0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x3b,
+-	0x3d, 0x42, 0x44, 0x0f, 0x00, 0x0a, 0x20, 0x20,
+-	0x20, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfc,
+-	0x00, 0x4c, 0x69, 0x6e, 0x75, 0x78, 0x20, 0x46,
+-	0x48, 0x44, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x05,
+-	},
+-};
++MODULE_PARM_DESC(edid_firmware,
++		 "Do not probe monitor, use specified EDID blob from /lib/firmware instead.");
+ 
+ static const struct drm_edid *edid_load(struct drm_connector *connector, const char *name)
+ {
+ 	const struct firmware *fw = NULL;
+-	const u8 *fwdata;
+ 	const struct drm_edid *drm_edid;
+-	int fwsize, builtin;
++	int err;
+ 
+-	builtin = match_string(generic_edid_name, GENERIC_EDIDS, name);
+-	if (builtin >= 0) {
+-		fwdata = generic_edid[builtin];
+-		fwsize = sizeof(generic_edid[builtin]);
+-	} else {
+-		int err;
+-
+-		err = request_firmware(&fw, name, connector->dev->dev);
+-		if (err) {
+-			drm_err(connector->dev,
+-				"[CONNECTOR:%d:%s] Requesting EDID firmware \"%s\" failed (err=%d)\n",
+-				connector->base.id, connector->name,
+-				name, err);
+-			return ERR_PTR(err);
+-		}
+-
+-		fwdata = fw->data;
+-		fwsize = fw->size;
++	err = request_firmware(&fw, name, connector->dev->dev);
++	if (err) {
++		drm_err(connector->dev,
++			"[CONNECTOR:%d:%s] Requesting EDID firmware \"%s\" failed (err=%d)\n",
++			connector->base.id, connector->name,
++			name, err);
++		return ERR_PTR(err);
+ 	}
+ 
+-	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Loaded %s firmware EDID \"%s\"\n",
+-		    connector->base.id, connector->name,
+-		    builtin >= 0 ? "built-in" : "external", name);
++	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Loaded external firmware EDID \"%s\"\n",
++		    connector->base.id, connector->name, name);
+ 
+-	drm_edid = drm_edid_alloc(fwdata, fwsize);
++	drm_edid = drm_edid_alloc(fw->data, fw->size);
+ 	if (!drm_edid_valid(drm_edid)) {
+ 		drm_err(connector->dev, "Invalid firmware EDID \"%s\"\n", name);
+ 		drm_edid_free(drm_edid);
+diff --git a/tools/edid/1024x768.S b/tools/edid/1024x768.S
+deleted file mode 100644
+index 4aed3f9ab88a..000000000000
+--- a/tools/edid/1024x768.S
++++ /dev/null
+@@ -1,43 +0,0 @@
+-/*
+-   1024x768.S: EDID data set for standard 1024x768 60 Hz monitor
+-
+-   Copyright (C) 2011 Carsten Emde <C.Emde@osadl.org>
+-
+-   This program is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU General Public License
+-   as published by the Free Software Foundation; either version 2
+-   of the License, or (at your option) any later version.
+-
+-   This program is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-   GNU General Public License for more details.
+-
+-   You should have received a copy of the GNU General Public License
+-   along with this program; if not, write to the Free Software
+-   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-*/
+-
+-/* EDID */
+-#define VERSION 1
+-#define REVISION 3
+-
+-/* Display */
+-#define CLOCK 65000 /* kHz */
+-#define XPIX 1024
+-#define YPIX 768
+-#define XY_RATIO XY_RATIO_4_3
+-#define XBLANK 320
+-#define YBLANK 38
+-#define XOFFSET 8
+-#define XPULSE 144
+-#define YOFFSET 3
+-#define YPULSE 6
+-#define DPI 72
+-#define VFREQ 60 /* Hz */
+-#define TIMING_NAME "Linux XGA"
+-#define ESTABLISHED_TIMING2_BITS 0x08 /* Bit 3 -> 1024x768 @60 Hz */
+-#define HSYNC_POL 0
+-#define VSYNC_POL 0
+-
+-#include "edid.S"
+diff --git a/tools/edid/1280x1024.S b/tools/edid/1280x1024.S
+deleted file mode 100644
+index b26dd424cad7..000000000000
+--- a/tools/edid/1280x1024.S
++++ /dev/null
+@@ -1,43 +0,0 @@
+-/*
+-   1280x1024.S: EDID data set for standard 1280x1024 60 Hz monitor
+-
+-   Copyright (C) 2011 Carsten Emde <C.Emde@osadl.org>
+-
+-   This program is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU General Public License
+-   as published by the Free Software Foundation; either version 2
+-   of the License, or (at your option) any later version.
+-
+-   This program is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-   GNU General Public License for more details.
+-
+-   You should have received a copy of the GNU General Public License
+-   along with this program; if not, write to the Free Software
+-   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-*/
+-
+-/* EDID */
+-#define VERSION 1
+-#define REVISION 3
+-
+-/* Display */
+-#define CLOCK 108000 /* kHz */
+-#define XPIX 1280
+-#define YPIX 1024
+-#define XY_RATIO XY_RATIO_5_4
+-#define XBLANK 408
+-#define YBLANK 42
+-#define XOFFSET 48
+-#define XPULSE 112
+-#define YOFFSET 1
+-#define YPULSE 3
+-#define DPI 72
+-#define VFREQ 60 /* Hz */
+-#define TIMING_NAME "Linux SXGA"
+-/* No ESTABLISHED_TIMINGx_BITS */
+-#define HSYNC_POL 1
+-#define VSYNC_POL 1
+-
+-#include "edid.S"
+diff --git a/tools/edid/1600x1200.S b/tools/edid/1600x1200.S
+deleted file mode 100644
+index 0d091b282768..000000000000
+--- a/tools/edid/1600x1200.S
++++ /dev/null
+@@ -1,43 +0,0 @@
+-/*
+-   1600x1200.S: EDID data set for standard 1600x1200 60 Hz monitor
+-
+-   Copyright (C) 2013 Carsten Emde <C.Emde@osadl.org>
+-
+-   This program is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU General Public License
+-   as published by the Free Software Foundation; either version 2
+-   of the License, or (at your option) any later version.
+-
+-   This program is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-   GNU General Public License for more details.
+-
+-   You should have received a copy of the GNU General Public License
+-   along with this program; if not, write to the Free Software
+-   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-*/
+-
+-/* EDID */
+-#define VERSION 1
+-#define REVISION 3
+-
+-/* Display */
+-#define CLOCK 162000 /* kHz */
+-#define XPIX 1600
+-#define YPIX 1200
+-#define XY_RATIO XY_RATIO_4_3
+-#define XBLANK 560
+-#define YBLANK 50
+-#define XOFFSET 64
+-#define XPULSE 192
+-#define YOFFSET 1
+-#define YPULSE 3
+-#define DPI 72
+-#define VFREQ 60 /* Hz */
+-#define TIMING_NAME "Linux UXGA"
+-/* No ESTABLISHED_TIMINGx_BITS */
+-#define HSYNC_POL 1
+-#define VSYNC_POL 1
+-
+-#include "edid.S"
+diff --git a/tools/edid/1680x1050.S b/tools/edid/1680x1050.S
+deleted file mode 100644
+index 7dfed9a33eab..000000000000
+--- a/tools/edid/1680x1050.S
++++ /dev/null
+@@ -1,43 +0,0 @@
+-/*
+-   1680x1050.S: EDID data set for standard 1680x1050 60 Hz monitor
+-
+-   Copyright (C) 2012 Carsten Emde <C.Emde@osadl.org>
+-
+-   This program is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU General Public License
+-   as published by the Free Software Foundation; either version 2
+-   of the License, or (at your option) any later version.
+-
+-   This program is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-   GNU General Public License for more details.
+-
+-   You should have received a copy of the GNU General Public License
+-   along with this program; if not, write to the Free Software
+-   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-*/
+-
+-/* EDID */
+-#define VERSION 1
+-#define REVISION 3
+-
+-/* Display */
+-#define CLOCK 146250 /* kHz */
+-#define XPIX 1680
+-#define YPIX 1050
+-#define XY_RATIO XY_RATIO_16_10
+-#define XBLANK 560
+-#define YBLANK 39
+-#define XOFFSET 104
+-#define XPULSE 176
+-#define YOFFSET 3
+-#define YPULSE 6
+-#define DPI 96
+-#define VFREQ 60 /* Hz */
+-#define TIMING_NAME "Linux WSXGA"
+-/* No ESTABLISHED_TIMINGx_BITS */
+-#define HSYNC_POL 1
+-#define VSYNC_POL 1
+-
+-#include "edid.S"
+diff --git a/tools/edid/1920x1080.S b/tools/edid/1920x1080.S
+deleted file mode 100644
+index d6ffbba28e95..000000000000
+--- a/tools/edid/1920x1080.S
++++ /dev/null
+@@ -1,43 +0,0 @@
+-/*
+-   1920x1080.S: EDID data set for standard 1920x1080 60 Hz monitor
+-
+-   Copyright (C) 2012 Carsten Emde <C.Emde@osadl.org>
+-
+-   This program is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU General Public License
+-   as published by the Free Software Foundation; either version 2
+-   of the License, or (at your option) any later version.
+-
+-   This program is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-   GNU General Public License for more details.
+-
+-   You should have received a copy of the GNU General Public License
+-   along with this program; if not, write to the Free Software
+-   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-*/
+-
+-/* EDID */
+-#define VERSION 1
+-#define REVISION 3
+-
+-/* Display */
+-#define CLOCK 148500 /* kHz */
+-#define XPIX 1920
+-#define YPIX 1080
+-#define XY_RATIO XY_RATIO_16_9
+-#define XBLANK 280
+-#define YBLANK 45
+-#define XOFFSET 88
+-#define XPULSE 44
+-#define YOFFSET 4
+-#define YPULSE 5
+-#define DPI 96
+-#define VFREQ 60 /* Hz */
+-#define TIMING_NAME "Linux FHD"
+-/* No ESTABLISHED_TIMINGx_BITS */
+-#define HSYNC_POL 1
+-#define VSYNC_POL 1
+-
+-#include "edid.S"
+diff --git a/tools/edid/800x600.S b/tools/edid/800x600.S
+deleted file mode 100644
+index a5616588de08..000000000000
+--- a/tools/edid/800x600.S
++++ /dev/null
+@@ -1,40 +0,0 @@
+-/*
+-   800x600.S: EDID data set for standard 800x600 60 Hz monitor
+-
+-   Copyright (C) 2011 Carsten Emde <C.Emde@osadl.org>
+-   Copyright (C) 2014 Linaro Limited
+-
+-   This program is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU General Public License
+-   as published by the Free Software Foundation; either version 2
+-   of the License, or (at your option) any later version.
+-
+-   This program is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-   GNU General Public License for more details.
+-*/
+-
+-/* EDID */
+-#define VERSION 1
+-#define REVISION 3
+-
+-/* Display */
+-#define CLOCK 40000 /* kHz */
+-#define XPIX 800
+-#define YPIX 600
+-#define XY_RATIO XY_RATIO_4_3
+-#define XBLANK 256
+-#define YBLANK 28
+-#define XOFFSET 40
+-#define XPULSE 128
+-#define YOFFSET 1
+-#define YPULSE 4
+-#define DPI 72
+-#define VFREQ 60 /* Hz */
+-#define TIMING_NAME "Linux SVGA"
+-#define ESTABLISHED_TIMING1_BITS 0x01 /* Bit 0: 800x600 @ 60Hz */
+-#define HSYNC_POL 1
+-#define VSYNC_POL 1
+-
+-#include "edid.S"
+diff --git a/tools/edid/Makefile b/tools/edid/Makefile
+deleted file mode 100644
+index 85a927dfab02..000000000000
+--- a/tools/edid/Makefile
++++ /dev/null
+@@ -1,37 +0,0 @@
+-
+-SOURCES	:= $(wildcard [0-9]*x[0-9]*.S)
+-
+-BIN	:= $(patsubst %.S, %.bin, $(SOURCES))
+-
+-IHEX	:= $(patsubst %.S, %.bin.ihex, $(SOURCES))
+-
+-CODE	:= $(patsubst %.S, %.c, $(SOURCES))
+-
+-all:	$(BIN) $(IHEX) $(CODE)
+-
+-clean:
+-	@rm -f *.o *.bin.ihex *.bin *.c
+-
+-%.o:	%.S
+-	@cc -c $^
+-
+-%.bin.nocrc:	%.o
+-	@objcopy -Obinary $^ $@
+-
+-%.crc:	%.bin.nocrc
+-	@list=$$(for i in `seq 1 127`; do head -c$$i $^ | tail -c1 \
+-		| hexdump -v -e '/1 "%02X+"'; done); \
+-		echo "ibase=16;100-($${list%?})%100" | bc >$@
+-
+-%.p:	%.crc %.S
+-	@cc -c -DCRC="$$(cat $*.crc)" -o $@ $*.S
+-
+-%.bin:	%.p
+-	@objcopy -Obinary $^ $@
+-
+-%.bin.ihex:	%.p
+-	@objcopy -Oihex $^ $@
+-	@dos2unix $@ 2>/dev/null
+-
+-%.c:	%.bin
+-	@echo "{" >$@; hexdump -f hex $^ >>$@; echo "};" >>$@
+diff --git a/tools/edid/edid.S b/tools/edid/edid.S
+deleted file mode 100644
+index c3d13815526d..000000000000
+--- a/tools/edid/edid.S
++++ /dev/null
+@@ -1,274 +0,0 @@
+-/*
+-   edid.S: EDID data template
+-
+-   Copyright (C) 2012 Carsten Emde <C.Emde@osadl.org>
+-
+-   This program is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU General Public License
+-   as published by the Free Software Foundation; either version 2
+-   of the License, or (at your option) any later version.
+-
+-   This program is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-   GNU General Public License for more details.
+-
+-   You should have received a copy of the GNU General Public License
+-   along with this program; if not, write to the Free Software
+-   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
+-*/
+-
+-
+-/* Manufacturer */
+-#define MFG_LNX1 'L'
+-#define MFG_LNX2 'N'
+-#define MFG_LNX3 'X'
+-#define SERIAL 0
+-#define YEAR 2012
+-#define WEEK 5
+-
+-/* EDID 1.3 standard definitions */
+-#define XY_RATIO_16_10	0b00
+-#define XY_RATIO_4_3	0b01
+-#define XY_RATIO_5_4	0b10
+-#define XY_RATIO_16_9	0b11
+-
+-/* Provide defaults for the timing bits */
+-#ifndef ESTABLISHED_TIMING1_BITS
+-#define ESTABLISHED_TIMING1_BITS 0x00
+-#endif
+-#ifndef ESTABLISHED_TIMING2_BITS
+-#define ESTABLISHED_TIMING2_BITS 0x00
+-#endif
+-#ifndef ESTABLISHED_TIMING3_BITS
+-#define ESTABLISHED_TIMING3_BITS 0x00
+-#endif
+-
+-#define mfgname2id(v1,v2,v3) \
+-	((((v1-'@')&0x1f)<<10)+(((v2-'@')&0x1f)<<5)+((v3-'@')&0x1f))
+-#define swap16(v1) ((v1>>8)+((v1&0xff)<<8))
+-#define lsbs2(v1,v2) (((v1&0x0f)<<4)+(v2&0x0f))
+-#define msbs2(v1,v2) ((((v1>>8)&0x0f)<<4)+((v2>>8)&0x0f))
+-#define msbs4(v1,v2,v3,v4) \
+-	((((v1>>8)&0x03)<<6)+(((v2>>8)&0x03)<<4)+\
+-	(((v3>>4)&0x03)<<2)+((v4>>4)&0x03))
+-#define pixdpi2mm(pix,dpi) ((pix*25)/dpi)
+-#define xsize pixdpi2mm(XPIX,DPI)
+-#define ysize pixdpi2mm(YPIX,DPI)
+-
+-		.data
+-
+-/* Fixed header pattern */
+-header:		.byte	0x00,0xff,0xff,0xff,0xff,0xff,0xff,0x00
+-
+-mfg_id:		.hword	swap16(mfgname2id(MFG_LNX1, MFG_LNX2, MFG_LNX3))
+-
+-prod_code:	.hword	0
+-
+-/* Serial number. 32 bits, little endian. */
+-serial_number:	.long	SERIAL
+-
+-/* Week of manufacture */
+-week:		.byte	WEEK
+-
+-/* Year of manufacture, less 1990. (1990-2245)
+-   If week=255, it is the model year instead */
+-year:		.byte	YEAR-1990
+-
+-version:	.byte	VERSION 	/* EDID version, usually 1 (for 1.3) */
+-revision:	.byte	REVISION	/* EDID revision, usually 3 (for 1.3) */
+-
+-/* If Bit 7=1	Digital input. If set, the following bit definitions apply:
+-     Bits 6-1	Reserved, must be 0
+-     Bit 0	Signal is compatible with VESA DFP 1.x TMDS CRGB,
+-		  1 pixel per clock, up to 8 bits per color, MSB aligned,
+-   If Bit 7=0	Analog input. If clear, the following bit definitions apply:
+-     Bits 6-5	Video white and sync levels, relative to blank
+-		  00=+0.7/-0.3 V; 01=+0.714/-0.286 V;
+-		  10=+1.0/-0.4 V; 11=+0.7/0 V
+-   Bit 4	Blank-to-black setup (pedestal) expected
+-   Bit 3	Separate sync supported
+-   Bit 2	Composite sync (on HSync) supported
+-   Bit 1	Sync on green supported
+-   Bit 0	VSync pulse must be serrated when somposite or
+-		  sync-on-green is used. */
+-video_parms:	.byte	0x6d
+-
+-/* Maximum horizontal image size, in centimetres
+-   (max 292 cm/115 in at 16:9 aspect ratio) */
+-max_hor_size:	.byte	xsize/10
+-
+-/* Maximum vertical image size, in centimetres.
+-   If either byte is 0, undefined (e.g. projector) */
+-max_vert_size:	.byte	ysize/10
+-
+-/* Display gamma, minus 1, times 100 (range 1.00-3.5 */
+-gamma:		.byte	120
+-
+-/* Bit 7	DPMS standby supported
+-   Bit 6	DPMS suspend supported
+-   Bit 5	DPMS active-off supported
+-   Bits 4-3	Display type: 00=monochrome; 01=RGB colour;
+-		  10=non-RGB multicolour; 11=undefined
+-   Bit 2	Standard sRGB colour space. Bytes 25-34 must contain
+-		  sRGB standard values.
+-   Bit 1	Preferred timing mode specified in descriptor block 1.
+-   Bit 0	GTF supported with default parameter values. */
+-dsp_features:	.byte	0xea
+-
+-/* Chromaticity coordinates. */
+-/* Red and green least-significant bits
+-   Bits 7-6	Red x value least-significant 2 bits
+-   Bits 5-4	Red y value least-significant 2 bits
+-   Bits 3-2	Green x value lst-significant 2 bits
+-   Bits 1-0	Green y value least-significant 2 bits */
+-red_green_lsb:	.byte	0x5e
+-
+-/* Blue and white least-significant 2 bits */
+-blue_white_lsb:	.byte	0xc0
+-
+-/* Red x value most significant 8 bits.
+-   0-255 encodes 0-0.996 (255/256); 0-0.999 (1023/1024) with lsbits */
+-red_x_msb:	.byte	0xa4
+-
+-/* Red y value most significant 8 bits */
+-red_y_msb:	.byte	0x59
+-
+-/* Green x and y value most significant 8 bits */
+-green_x_y_msb:	.byte	0x4a,0x98
+-
+-/* Blue x and y value most significant 8 bits */
+-blue_x_y_msb:	.byte	0x25,0x20
+-
+-/* Default white point x and y value most significant 8 bits */
+-white_x_y_msb:	.byte	0x50,0x54
+-
+-/* Established timings */
+-/* Bit 7	720x400 @ 70 Hz
+-   Bit 6	720x400 @ 88 Hz
+-   Bit 5	640x480 @ 60 Hz
+-   Bit 4	640x480 @ 67 Hz
+-   Bit 3	640x480 @ 72 Hz
+-   Bit 2	640x480 @ 75 Hz
+-   Bit 1	800x600 @ 56 Hz
+-   Bit 0	800x600 @ 60 Hz */
+-estbl_timing1:	.byte	ESTABLISHED_TIMING1_BITS
+-
+-/* Bit 7	800x600 @ 72 Hz
+-   Bit 6	800x600 @ 75 Hz
+-   Bit 5	832x624 @ 75 Hz
+-   Bit 4	1024x768 @ 87 Hz, interlaced (1024x768)
+-   Bit 3	1024x768 @ 60 Hz
+-   Bit 2	1024x768 @ 72 Hz
+-   Bit 1	1024x768 @ 75 Hz
+-   Bit 0	1280x1024 @ 75 Hz */
+-estbl_timing2:	.byte	ESTABLISHED_TIMING2_BITS
+-
+-/* Bit 7	1152x870 @ 75 Hz (Apple Macintosh II)
+-   Bits 6-0 	Other manufacturer-specific display mod */
+-estbl_timing3:	.byte	ESTABLISHED_TIMING3_BITS
+-
+-/* Standard timing */
+-/* X resolution, less 31, divided by 8 (256-2288 pixels) */
+-std_xres:	.byte	(XPIX/8)-31
+-/* Y resolution, X:Y pixel ratio
+-   Bits 7-6	X:Y pixel ratio: 00=16:10; 01=4:3; 10=5:4; 11=16:9.
+-   Bits 5-0	Vertical frequency, less 60 (60-123 Hz) */
+-std_vres:	.byte	(XY_RATIO<<6)+VFREQ-60
+-		.fill	7,2,0x0101	/* Unused */
+-
+-descriptor1:
+-/* Pixel clock in 10 kHz units. (0.-655.35 MHz, little-endian) */
+-clock:		.hword	CLOCK/10
+-
+-/* Horizontal active pixels 8 lsbits (0-4095) */
+-x_act_lsb:	.byte	XPIX&0xff
+-/* Horizontal blanking pixels 8 lsbits (0-4095)
+-   End of active to start of next active. */
+-x_blk_lsb:	.byte	XBLANK&0xff
+-/* Bits 7-4 	Horizontal active pixels 4 msbits
+-   Bits 3-0	Horizontal blanking pixels 4 msbits */
+-x_msbs:		.byte	msbs2(XPIX,XBLANK)
+-
+-/* Vertical active lines 8 lsbits (0-4095) */
+-y_act_lsb:	.byte	YPIX&0xff
+-/* Vertical blanking lines 8 lsbits (0-4095) */
+-y_blk_lsb:	.byte	YBLANK&0xff
+-/* Bits 7-4 	Vertical active lines 4 msbits
+-   Bits 3-0 	Vertical blanking lines 4 msbits */
+-y_msbs:		.byte	msbs2(YPIX,YBLANK)
+-
+-/* Horizontal sync offset pixels 8 lsbits (0-1023) From blanking start */
+-x_snc_off_lsb:	.byte	XOFFSET&0xff
+-/* Horizontal sync pulse width pixels 8 lsbits (0-1023) */
+-x_snc_pls_lsb:	.byte	XPULSE&0xff
+-/* Bits 7-4 	Vertical sync offset lines 4 lsbits (0-63)
+-   Bits 3-0 	Vertical sync pulse width lines 4 lsbits (0-63) */
+-y_snc_lsb:	.byte	lsbs2(YOFFSET, YPULSE)
+-/* Bits 7-6 	Horizontal sync offset pixels 2 msbits
+-   Bits 5-4 	Horizontal sync pulse width pixels 2 msbits
+-   Bits 3-2 	Vertical sync offset lines 2 msbits
+-   Bits 1-0 	Vertical sync pulse width lines 2 msbits */
+-xy_snc_msbs:	.byte	msbs4(XOFFSET,XPULSE,YOFFSET,YPULSE)
+-
+-/* Horizontal display size, mm, 8 lsbits (0-4095 mm, 161 in) */
+-x_dsp_size:	.byte	xsize&0xff
+-
+-/* Vertical display size, mm, 8 lsbits (0-4095 mm, 161 in) */
+-y_dsp_size:	.byte	ysize&0xff
+-
+-/* Bits 7-4 	Horizontal display size, mm, 4 msbits
+-   Bits 3-0 	Vertical display size, mm, 4 msbits */
+-dsp_size_mbsb:	.byte	msbs2(xsize,ysize)
+-
+-/* Horizontal border pixels (each side; total is twice this) */
+-x_border:	.byte	0
+-/* Vertical border lines (each side; total is twice this) */
+-y_border:	.byte	0
+-
+-/* Bit 7 	Interlaced
+-   Bits 6-5 	Stereo mode: 00=No stereo; other values depend on bit 0:
+-   Bit 0=0: 01=Field sequential, sync=1 during right; 10=similar,
+-     sync=1 during left; 11=4-way interleaved stereo
+-   Bit 0=1 2-way interleaved stereo: 01=Right image on even lines;
+-     10=Left image on even lines; 11=side-by-side
+-   Bits 4-3 	Sync type: 00=Analog composite; 01=Bipolar analog composite;
+-     10=Digital composite (on HSync); 11=Digital separate
+-   Bit 2 	If digital separate: Vertical sync polarity (1=positive)
+-   Other types: VSync serrated (HSync during VSync)
+-   Bit 1 	If analog sync: Sync on all 3 RGB lines (else green only)
+-   Digital: HSync polarity (1=positive)
+-   Bit 0 	2-way line-interleaved stereo, if bits 4-3 are not 00. */
+-features:	.byte	0x18+(VSYNC_POL<<2)+(HSYNC_POL<<1)
+-
+-descriptor2:	.byte	0,0	/* Not a detailed timing descriptor */
+-		.byte	0	/* Must be zero */
+-		.byte	0xff	/* Descriptor is monitor serial number (text) */
+-		.byte	0	/* Must be zero */
+-start1:		.ascii	"Linux #0"
+-end1:		.byte	0x0a	/* End marker */
+-		.fill	12-(end1-start1), 1, 0x20 /* Padded spaces */
+-descriptor3:	.byte	0,0	/* Not a detailed timing descriptor */
+-		.byte	0	/* Must be zero */
+-		.byte	0xfd	/* Descriptor is monitor range limits */
+-		.byte	0	/* Must be zero */
+-start2:		.byte	VFREQ-1	/* Minimum vertical field rate (1-255 Hz) */
+-		.byte	VFREQ+1	/* Maximum vertical field rate (1-255 Hz) */
+-		.byte	(CLOCK/(XPIX+XBLANK))-1 /* Minimum horizontal line rate
+-						    (1-255 kHz) */
+-		.byte	(CLOCK/(XPIX+XBLANK))+1 /* Maximum horizontal line rate
+-						    (1-255 kHz) */
+-		.byte	(CLOCK/10000)+1	/* Maximum pixel clock rate, rounded up
+-					   to 10 MHz multiple (10-2550 MHz) */
+-		.byte	0	/* No extended timing information type */
+-end2:		.byte	0x0a	/* End marker */
+-		.fill	12-(end2-start2), 1, 0x20 /* Padded spaces */
+-descriptor4:	.byte	0,0	/* Not a detailed timing descriptor */
+-		.byte	0	/* Must be zero */
+-		.byte	0xfc	/* Descriptor is text */
+-		.byte	0	/* Must be zero */
+-start3:		.ascii	TIMING_NAME
+-end3:		.byte	0x0a	/* End marker */
+-		.fill	12-(end3-start3), 1, 0x20 /* Padded spaces */
+-extensions:	.byte	0	/* Number of extensions to follow */
+-checksum:	.byte	CRC	/* Sum of all bytes must be 0 */
+diff --git a/tools/edid/hex b/tools/edid/hex
+deleted file mode 100644
+index 8873ebb618af..000000000000
+--- a/tools/edid/hex
++++ /dev/null
+@@ -1 +0,0 @@
+-"\t" 8/1 "0x%02x, " "\n"
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+2.43.2
 
