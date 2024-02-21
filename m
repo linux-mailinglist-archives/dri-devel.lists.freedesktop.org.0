@@ -2,66 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D29E585D22C
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 09:09:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03FC185D216
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 09:05:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2588710E650;
-	Wed, 21 Feb 2024 08:09:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F9F310E277;
+	Wed, 21 Feb 2024 08:05:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="WX7Y+2om";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eK6ijRXR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
- [60.251.196.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0094B10E432
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 07:53:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=KRKr0zIPNVesuA01/qZ8PUBf5lV4nrYuPzqb0SPSIvk=;
- b=WX7Y+2omzdAKTi8+/HzRhryuuzLeA5MV+givTywskDHYcaQDWaLRSzD3
- X98NWih4Y9KImsi54tUSHBD8HTMJq/2N7InoAlVDl4YMNQI+7ac0MgDg5
- iZQX6Wr2qpdGN3b3Aza9uVdYnMkcruUvZ8d+qJsfZgrKDgZk/4Ew8ublc
- LglTGCNfgXuqeB7wpcl6B+Rszh8EcqaF8lMHFidzl8x2kIMSoMLFnHAyR
- 1125ybR1wwOB2IUTgrjUuRJomacOfYeKXaZFRIHd30HJPtnGtESxSnPBF
- TSdleKZPsH4AYzUyDH1t8QuEmuJK1EHbXOixejVSECIDUAjhSzR+F3I1q Q==;
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 21 Feb 2024 15:53:15 +0800
-Received: from CSBMAIL1.internal.ite.com.tw (CSBMAIL1.internal.ite.com.tw
- [192.168.65.58]) by mse.ite.com.tw with ESMTP id 41L7rDk9064799;
- Wed, 21 Feb 2024 15:53:13 +0800 (GMT-8)
- (envelope-from kuro.chung@ite.com.tw)
-Received: from ite-XPS-13-9360.internal.ite.com.tw (192.168.72.42) by
- CSBMAIL1.internal.ite.com.tw (192.168.65.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 21 Feb 2024 15:53:12 +0800
-From: kuro <kuro.chung@ite.com.tw>
-To: 
-CC: Allen Chen <allen.chen@ite.com.tw>, Pin-yen Lin <treapking@chromium.org>, 
- Kuro Chung <kuro.chung@ite.com.tw>,
- Kenneth Haung <kenneth.hung@ite.com.tw>,
- Allen Chen <allen.chen@ite.corp-partner.google.com>, Andrzej Hajda
- <a.hajda@samsung.com>, Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E94F810E277;
+ Wed, 21 Feb 2024 08:05:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 30350CE1C78;
+ Wed, 21 Feb 2024 08:05:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68B0DC433C7;
+ Wed, 21 Feb 2024 08:05:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1708502729;
+ bh=Tpr/yec3AGC4Lc2eJDg1OjnAD9sBLP7h0jxhyqIYTUQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=eK6ijRXRympTy7Dlryxc1+ccz+sSc9s0V1MK9EzciMsOwCX31RlKWS1sIRNlLJZOl
+ nNXm/VKIPBSVHaaNT4XyAGeUwcPHOffWPNyCwwX0+nJCVmevA9E8CLAmGbhFpzDN5i
+ gNF1JoS+qJE4Du1iQMrDeb0MtjwdodkrHmvMa+4mVt5chON5GQBTtJVUNvDNQwEUCa
+ 0HIEAJejS3pOB2BbCfmA/xZODMcpB6TjHBgD1ZtL4YmsLwENycTADaiN9TTZnwfMf+
+ zT2IK655ADuV66esW14ijM7EDLGHrRR4PSXMazD2xJGOMUn2JbiYJplEH9ruicueIK
+ +V/92rXlMN8Bw==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+ (envelope-from <johan@kernel.org>) id 1rchbe-000000004Sj-2sC5;
+ Wed, 21 Feb 2024 09:05:30 +0100
+Date: Wed, 21 Feb 2024 09:05:30 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/bridge: it6505: fix hibernate to resume no display issue
-Date: Wed, 21 Feb 2024 16:04:41 +0800
-Message-ID: <20240221080441.190922-1-kuro.chung@ite.com.tw>
-X-Mailer: git-send-email 2.25.1
+ Bjorn Andersson <quic_bjorande@quicinc.com>,
+ quic_jesszhan@quicinc.com, quic_sbillaka@quicinc.com,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, regressions@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: drm/msm: Second DisplayPort regression in 6.8-rc1
+Message-ID: <ZdWuygp4HuRVXvyl@hovoldconsulting.com>
+References: <ZctVmLK4zTwcpW3A@hovoldconsulting.com>
+ <343710b1-f0f4-5c05-70e6-3c221cdc9580@quicinc.com>
+ <ZczFhVjHIm55JTfO@hovoldconsulting.com>
+ <ZdDNcrf4KpflGeYQ@hovoldconsulting.com>
+ <ZdMwZa98L23mu3u6@hovoldconsulting.com>
+ <2df31f2d-8271-d966-158a-27c6e0581d72@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.72.42]
-X-ClientProxiedBy: CSBMAIL1.internal.ite.com.tw (192.168.65.58) To
- CSBMAIL1.internal.ite.com.tw (192.168.65.58)
-X-TM-SNTS-SMTP: 03C0076A21E0856FEAB5A8DC73E1EC43C0D5F90C72305BF418466B93EB4517002002:8
-X-MAIL: mse.ite.com.tw 41L7rDk9064799
-X-Mailman-Approved-At: Wed, 21 Feb 2024 08:08:40 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2df31f2d-8271-d966-158a-27c6e0581d72@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,123 +73,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: kuro chung <kuro.chung@ite.com.tw>
+On Tue, Feb 20, 2024 at 01:19:54PM -0800, Abhinav Kumar wrote:
+> On 2/19/2024 2:41 AM, Johan Hovold wrote:
 
-ITE added a FIFO reset bit for input video. When system power resume,
-the TTL input of it6505 may get some noise before video signal stable
-and the hardware function reset is required.
-But the input FIFO reset will also trigger error interrupts of output module rising.
-Thus, it6505 have to wait a period can clear those expected error interrupts
-caused by manual hardware reset in one interrupt handler calling to avoid interrupt looping.
+> > It seems my initial suspicion that at least some of these regressions
+> > were related to the runtime PM work was correct. The hard resets happens
+> > when the DP controller is runtime suspended after being probed:
 
-Signed-off-by: Allen Chen <allen.chen@ite.corp-partner.google.com>
+> > [   17.074925] bus: 'platform': __driver_probe_device: matched device aea0000.displayport-controller with driver msm-dp-display
+> > [        Starting Network Time Synchronization...
+> > [   17.112000] msm-dp-display aea0000.displayport-controller: dp_display_probe - populate aux bus
+> > [   17.125208] msm-dp-display aea0000.displayport-controller: dp_pm_runtime_resume
+> >           Starting Record System Boot/Shutdown in UTMP...
+> >           Starting Virtual Console Setup...
+> > [  OK  ] Finished Load/Save Screen Backlight Brightness of backlight:backlight.
+> > [   17.197909] msm-dp-display aea0000.displayport-controller: dp_pm_runtime_suspend
+> > [   17.198079] probe of aea0Format: Log Type - Time(microsec) - Message - Optional Info
+> > Log Type: B - Since Boot(Power On Reset),  D - Delta,  S - Statistic
+> > S - QC_IMAGE_VERSION_STRING=BOOT.MXF.1.1-00470-MAKENA-1
+> > S - IMAGE_VARIANT_STRING=SocMakenaWP
+> > S - OEM_IMAGE_VERSION_STRING=crm-ubuntu92
+> > 
+> >    < machine is reset by hypervisor >
+> > 
+> > Presumably the reset happens when controller is being shut down while
+> > still being used by the EFI framebuffer.
+> 
+> I am not sure if we can conclude like that. Even if we shut off the 
+> controller when the framebuffer was still being fetched that should only 
+> cause a blank screen and not a reset because we really don't trigger a 
+> new register write / read while its fetching so as such there is no new 
+> hardware access.
 
-BUG=None
-TEST=None
+It specifically looks like the reset happens when shutting down the PHY,
+that is, the call to dp_display_host_phy_exit(dp) in
+dp_pm_runtime_suspend() never returns.
 
----
- drivers/gpu/drm/bridge/ite-it6505.c | 53 ++++++++++++++++++++++++-----
- 1 file changed, 44 insertions(+), 9 deletions(-)
+That seems like more than a coincidence to me.
+ 
+> One thing I must accept is that there are two differences between 
+> sc8280xp where we are hitting these resets and sc7180/sc7280 chromebooks 
+> where we tested it more thoroughly without any such issues:
+> 
+> 1) with the chromebooks we have depthcharge and not the QC UEFI.
+> 
+> If we are suspecting a hand-off issue here, will it help if we try to 
+> disable the display in EFI by using "fastboot oem select-display-panel 
+> none" (assuming this is a fastboot enabled device) and see if you still 
+> hit the reset issue?
 
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index b53da9bb65a16..86277968fab93 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -1318,6 +1318,8 @@ static void it6505_video_reset(struct it6505 *it6505)
- 	it6505_set_bits(it6505, REG_DATA_MUTE_CTRL, EN_VID_MUTE, EN_VID_MUTE);
- 	it6505_set_bits(it6505, REG_INFOFRAME_CTRL, EN_VID_CTRL_PKT, 0x00);
- 	it6505_set_bits(it6505, REG_RESET_CTRL, VIDEO_RESET, VIDEO_RESET);
-+	it6505_set_bits(it6505, REG_VID_BUS_CTRL1, TX_FIFO_RESET, 0x02);
-+	it6505_set_bits(it6505, REG_VID_BUS_CTRL1, TX_FIFO_RESET, 0x00);
- 	it6505_set_bits(it6505, REG_501_FIFO_CTRL, RST_501_FIFO, RST_501_FIFO);
- 	it6505_set_bits(it6505, REG_501_FIFO_CTRL, RST_501_FIFO, 0x00);
- 	it6505_set_bits(it6505, REG_RESET_CTRL, VIDEO_RESET, 0x00);
-@@ -2480,10 +2482,6 @@ static void it6505_irq_video_fifo_error(struct it6505 *it6505)
- 	struct device *dev = &it6505->client->dev;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "video fifo overflow interrupt");
--	it6505->auto_train_retry = AUTO_TRAIN_RETRY;
--	flush_work(&it6505->link_works);
--	it6505_stop_hdcp(it6505);
--	it6505_video_reset(it6505);
- }
- 
- static void it6505_irq_io_latch_fifo_overflow(struct it6505 *it6505)
-@@ -2491,10 +2489,6 @@ static void it6505_irq_io_latch_fifo_overflow(struct it6505 *it6505)
- 	struct device *dev = &it6505->client->dev;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "IO latch fifo overflow interrupt");
--	it6505->auto_train_retry = AUTO_TRAIN_RETRY;
--	flush_work(&it6505->link_works);
--	it6505_stop_hdcp(it6505);
--	it6505_video_reset(it6505);
- }
- 
- static bool it6505_test_bit(unsigned int bit, const unsigned int *addr)
-@@ -2502,6 +2496,45 @@ static bool it6505_test_bit(unsigned int bit, const unsigned int *addr)
- 	return 1 & (addr[bit / BITS_PER_BYTE] >> (bit % BITS_PER_BYTE));
- }
- 
-+static bool it6505_is_video_error_int(const int *int_status)
-+{
-+	if ((it6505_test_bit(BIT_INT_VID_FIFO_ERROR, (unsigned int *)int_status)) || (it6505_test_bit(BIT_INT_IO_FIFO_OVERFLOW, (unsigned int *)int_status)))
-+		return 1;
-+	return 0;
-+}
-+
-+static void it6505_irq_video_error_handler(struct it6505 *it6505)
-+{
-+	struct device *dev = &it6505->client->dev;
-+	int int_status[3] = {0};
-+	int reg_0d;
-+
-+	it6505->auto_train_retry = AUTO_TRAIN_RETRY;
-+	flush_work(&it6505->link_works);
-+	it6505_stop_hdcp(it6505);
-+	it6505_video_reset(it6505);
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "Video Error reset wait video...");
-+
-+	for (i = 0; i < 10; i++) {
-+		usleep_range(10000, 11000);
-+		int_status[2] = it6505_read(it6505, INT_STATUS_03);
-+		reg_0d = it6505_read(it6505, REG_SYSTEM_STS);
-+		it6505_write(it6505, INT_STATUS_03, int_status[2]);
-+
-+		DRM_DEV_DEBUG_DRIVER(dev, "reg08 = 0x%02x", int_status[2]);
-+		DRM_DEV_DEBUG_DRIVER(dev, "reg0D = 0x%02x", reg_0d);
-+
-+		if ((reg_0d & VIDEO_STB) && (reg_0d >= 0))
-+			break;
-+
-+		if (it6505_is_video_error_int(int_status)) {
-+			it6505_video_reset(it6505);
-+			DRM_DEV_DEBUG_DRIVER(dev, "Video Error reset wait video (%d)", i);
-+		}
-+	}
-+}
-+
- static irqreturn_t it6505_int_threaded_handler(int unused, void *data)
- {
- 	struct it6505 *it6505 = data;
-@@ -2522,7 +2555,7 @@ static irqreturn_t it6505_int_threaded_handler(int unused, void *data)
- 		{ BIT_INT_VID_FIFO_ERROR, it6505_irq_video_fifo_error },
- 		{ BIT_INT_IO_FIFO_OVERFLOW, it6505_irq_io_latch_fifo_overflow },
- 	};
--	int int_status[3], i;
-+	int int_status[3], i, reg_0d;
- 
- 	if (it6505->enable_drv_hold || !it6505->powered)
- 		return IRQ_HANDLED;
-@@ -2550,6 +2583,8 @@ static irqreturn_t it6505_int_threaded_handler(int unused, void *data)
- 			if (it6505_test_bit(irq_vec[i].bit, (unsigned int *)int_status))
- 				irq_vec[i].handler(it6505);
- 		}
-+		if (it6505_is_video_error_int(int_status))
-+			it6505_irq_video_error_handler(it6505);
- 	}
- 
- 	pm_runtime_put_sync(dev);
--- 
-2.25.1
+No, we don't have fastboot.
 
+But as I mentioned I still do see resets when I instrument the code to
+not shut down the display, which could indicate more than one issue
+here.
+
+> 2) chromebooks used "internal_hpd" whereas the pmic_glink method used in 
+> the sc8280xp.
+> 
+> I am still checking if there are any code paths in the eDP/DP driver 
+> left exposed due to this difference with pm_runtime which can cause 
+> this. I am wondering if some sort of drm tracing will help to narrow 
+> down the reset point.
+> 
+> > In the cases where the machines survives boot, the controller is never
+> > suspended.
+> > 
+> > When investigating this I've also seen intermittent:
+> > 
+> > 	[drm:dp_display_probe [msm]] *ERROR* device tree parsing failed
+> 
+> So this error I think is because in dp_parser_parse() ---> 
+> dp_parser_ctrl_res(), we also have a devm_phy_get().
+> 
+> This can return -EDEFER if the phy driver has not yet probed.
+> 
+> I checked the other things inside dp_parser_parse(), others calls seem 
+> to be purely DT parsing except this one. I think to avoid the confusion, 
+> we should move devm_phy_get() outside of DT parsing into a separate call 
+> or atleast add an error log inside devm_phy_get() failure below to 
+> indicate that it deferred
+> 
+>          io->phy = devm_phy_get(&pdev->dev, "dp");
+>          if (IS_ERR(io->phy))
+>                  return PTR_ERR(io->phy);
+> 
+> If my hypothesis is correct on this, then this error log (even though 
+> misleading) should be harmless for this issue because if we hit 
+> DRM_ERROR("device tree parsing failed\n"); we will skip the 
+> devm_pm_runtime_enable().
+
+Yeah, this seems to be the case as boot appears to recover from this, so
+this may indeed be a probe deferral.
+
+Probe deferrals should not be logged as errors however, so the fix is
+not to add another error message but rather to suppress the current one
+(e.g. using dev_err_probe()).
+
+> > Has anyone given some thought to how the framebuffer handover is
+> > supposed to work? It seems we're currently just relying on luck with
+> > timing.
+
+Any comments to this? It seems we should not be shutting down (runtime
+suspend) the display during boot as can currently happen.
+
+Johan
