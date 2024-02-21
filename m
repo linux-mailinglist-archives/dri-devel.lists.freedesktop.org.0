@@ -2,49 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A9F85E06D
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 16:02:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 150DF85E094
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 16:09:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A80210E074;
-	Wed, 21 Feb 2024 15:02:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F22C10E47D;
+	Wed, 21 Feb 2024 15:09:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=munted.eu header.i=@munted.eu header.b="TYSaZWMM";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kAKMVTjm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.mythic-beasts.com (mx1.mythic-beasts.com [46.235.224.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77BBB10E074
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 15:02:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=munted.eu; 
- s=mythic-beasts-k1; h=Date:To:From:Subject;
- bh=23Yk6MivlQfe0pNZa5XtMtw0a4JqHjZqJjNsUpSu7vM=; b=TYSaZWMMzq9qbGIAfCN7P0FYOv
- xA7IZUOyMo3WrIyLQhBkPL1HSuxJhjfwHhUIiDlfdr0/Yr5xTs8RHXQMLHo8zFkrUQa5ILML1MLDe
- pxWg6AxiTF66CbPMwd7UeWfkwL5EICQMLFeigpK3jWX7jOYvyqhLX7dpXdWBraxqQzDwe/G0fpHTP
- jK5YkfGGEzgHBhlxEe5Q099WuAP9WWCaJjHApSWAEYq5hENPFMlkFDanBoJpNQS+t2ZqSTpUbwS/Y
- SH4FR7dRx73fIvGzhvN0WquypKwCofEnxDP3J+0VmYOjiDACc+O1RZn2N78420/sj7sDEBH5ifx8C
- RaYMzhPQ==;
-Received: by mailhub-cam-d.mythic-beasts.com with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <alex.buell@munted.eu>) id 1rco6n-0041WF-Nq
- for dri-devel@lists.freedesktop.org; Wed, 21 Feb 2024 15:02:05 +0000
-Received: by cobalt.buellnet (Postfix, from userid 1000)
- id 008346F26121; Wed, 21 Feb 2024 15:02:03 +0000 (GMT)
-Message-ID: <1e22f3b1a03c84f2be08de0e5807fd7a34cc64cd.camel@munted.eu>
-Subject: Nouveau issues with  Quadro T2000 Mobile / MaxQ
-From: Alex Buell <alex.buell@munted.eu>
-To: dri-devel@lists.freedesktop.org
-Date: Wed, 21 Feb 2024 15:02:03 +0000
-Autocrypt: addr=alex.buell@munted.eu; prefer-encrypt=mutual;
- keydata=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
-Organization: One very high maintenance cat for company
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4F9910E6A2
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 15:09:36 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id
+ d9443c01a7336-1dc1ff58fe4so14208995ad.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 07:09:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1708528176; x=1709132976; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RYGokGLx+MsZssGjhMGohu1anyJAoXCl5Na4dmZHiyA=;
+ b=kAKMVTjm8/GSBprbAD7m92XEkcx+0x1Q45U2rOfqZgKXPWHFxqhLROk8dqWCUb6Jq1
+ P2tPxcGu8Ilaq9+fYO7fKK908VDqXHAkmg65E2zcLwnmabAQKMoPXweIaoGS4yuouKIh
+ 6Z6XmkOmEJboKCNXUN4+HC4BZukZ9I7xJ0HO70KPcKOhXtVNuJSJVz59KlJgcATkOxXR
+ TXDYC2o9eJHyFDrTl9GhkYmjTYAoSQZBwKwBc4E/grz+ErVLnY9LcP18Dh/7DpAlRrxu
+ MY1u37WTtu+oHmSzHYjDKG2DIhKkqir+74Uf/9Sim7JJHWYhFVJ4oTZPbBD7bi/e9gmI
+ 9+Gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708528176; x=1709132976;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=RYGokGLx+MsZssGjhMGohu1anyJAoXCl5Na4dmZHiyA=;
+ b=cB9a58DUr+T61Qf2Ddhmv8Xw7Xp9kbxnbLQg8I5q2GxOrLBX1N88K2ujwvM+vbdhhS
+ zjUaRuke95f1h6V6EbwDT/h2qoKRR/49crblw79HYaS0nMZv43AAuOm8OOvW6giEEOZJ
+ gJKaXMEFTER6XZoZ8PAnQV+BqXJ+a4MCGkirttlNGNJiBDf4JzcBhUNBTwK7nNkFuZvb
+ aFK99u7mizeLg0jg5slmUEzOdjIDV24YcRahYnuq7TwM7+9MIEuznRParqrn1vIuC8pe
+ +BYN9uDgU1LsuH/ReXSR8xjhXcdvBW2oArn12xYol/9Gp+avnRGPUCOLpVXa+KQUfIvD
+ TZCQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVUrvBKk6F/MN1KkklXlUegdOBiC6XBCgc34MxeiRZxfX4iKE0mqpW1lDCUsPEeClIhh++Y/1378/t7rgoSG/HlBpGlQ88hJnNn/1tRVKs+
+X-Gm-Message-State: AOJu0YwKEuz4HSdU3fguLywjNvYNV3c9JEdIA9B+ETFaSJzshOb1TTVN
+ 6kOv5KTUXjR+ZAIZe3sCSmiOb1QA+CWWgxQzJwjNDwR/Z4K3cVh4BcEg4D/KEl8BbADv3+EiBRd
+ BbsvIqiQxTJdn1qz7RCzs17wWoIA=
+X-Google-Smtp-Source: AGHT+IEca0w2zET9mnuEfIMyzr4ETxGm3rQePup7GK4aE/VKbU+SdeUCwyLtvZWLCoMpo2QIQfBpTxTE7FvykWhJkkg=
+X-Received: by 2002:a17:90a:a008:b0:297:24b8:6dd4 with SMTP id
+ q8-20020a17090aa00800b0029724b86dd4mr15598276pjp.21.1708528176285; Wed, 21
+ Feb 2024 07:09:36 -0800 (PST)
+MIME-Version: 1.0
+References: <20240219230116.77b8ad68@yea> <ZdRtDOhQGQUm5X4d@archie.me>
+ <20240220134556.61f6441c@yea> <ae1ffd81-5026-4d64-b055-4f60090962a5@amd.com>
+ <20240220184323.2c8b4f0a@yea> <3c5b80a7-5bf9-4752-a596-438924fdec9c@amd.com>
+In-Reply-To: <3c5b80a7-5bf9-4752-a596-438924fdec9c@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 21 Feb 2024 10:09:23 -0500
+Message-ID: <CADnq5_NUuZ_cfLxsS-ZBFh9b1DDNi-oNuuQuMz8Px7LtT_g6_A@mail.gmail.com>
+Subject: Re: Running ttm_device_test leads to list_add corruption. prev->next
+ should be next (ffffffffc05cd428), but was 6b6b6b6b6b6b6b6b.
+ (prev=ffffa0b1a5c034f0) (kernel 6.7.5)
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Erhard Furtner <erhard_f@mailbox.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ Huang Rui <ray.huang@amd.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Karolina Stolarek <karolina.stolarek@intel.com>, 
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+ Linux Memory Management List <linux-mm@kvack.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.2 
-MIME-Version: 1.0
-X-BlackCat-Spam-Score: 0
-X-Spam-Status: No, score=-0.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,42 +90,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: alex.buell@munted.eu
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-System is a HP Zbook 15, i9-9880H, 64GB RAM, 2TB SATA HDD with a T2000
-Mobile GPU, Gentoo is installed.=20
+On Wed, Feb 21, 2024 at 9:13=E2=80=AFAM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 20.02.24 um 18:43 schrieb Erhard Furtner:
+> > On Tue, 20 Feb 2024 14:50:04 +0100
+> > Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+> >
+> >> Yeah and that's probably the problem. The test is not supposed to be
+> >> compiled and executed on bare metal, but rather just as unit test
+> >> through user mode Linux.
+> >>
+> >> We probably don't check that correctly in the kconfig for some reason.
+> >> Can you provide your .config file?
+> >>
+> > Here's my v6.8-rc5 .config attached.
+>
+> Thanks for that.
+>
+> As long as nobody comes up with an approach how to run the test even
+> when other drivers want to interact with TTM the attached patch is my
+> best idea.
+>
+> It basically disabled compiling the TTM tests as long as neither
+> compiling for UML or COMPILE_TEST are set.
+>
+> Opinions?
 
-I keep seeing the following:
-Feb 21 14:49:13 cobalt kernel: nouveau 0000:01:00.0: fifo: fault 00
-[VIRT_READ] at 0000000000019000 engine 0f [ce0] client 20 [HUB/HSCE0]
-reason 02 [PTE] on channel 7 [00ff998000 Renderer[20203]]
-Feb 21 14:49:13 cobalt kernel: nouveau 0000:01:00.0:
-fifo:000000:0007:[Renderer[20203]] rc scheduled
-Feb 21 14:49:13 cobalt kernel: nouveau 0000:01:00.0: fifo:000000: rc
-scheduled
-Feb 21 14:49:13 cobalt kernel: nouveau 0000:01:00.0:
-fifo:000000:0007:0007:[Renderer[20203]] errored - disabling channel
-Feb 21 14:49:13 cobalt kernel: nouveau 0000:01:00.0: Renderer[20150]:
-channel 7 killed!
+Makes sense to me.
 
-in the /var/log/syslog log every time Firefox crashes.I suspect some
-other software that uses the GPU exhibits the same.=20
-Wayland session, Gnome is v45.
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 
-Libraries in use:
-Mesa 23.5.5
-libdrm 2.4.120
-xf86-video-nouveau 1.0.17
-
-Kernel: 6.6.13, x86_64. All compiled from sources.=20
-
-Any ideas what else I can try to fix the issue with the GPU? I'm also
-happy to test patches or experiment with other things to resolve this
-issue.=20
-
-Many thanks,
-Alex
---=20
-Tactical Nuclear Kittens
+>
+> Thanks,
+> Christian.
+>
+> >
+> > Regards,
+> > Erhard
