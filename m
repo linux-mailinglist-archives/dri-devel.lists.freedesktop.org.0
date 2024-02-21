@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B377585D37B
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 10:28:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CD7285D37C
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 10:28:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D70E310E652;
-	Wed, 21 Feb 2024 09:28:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D6B510E50B;
+	Wed, 21 Feb 2024 09:28:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="cPDX3ks7";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="OR8PHALc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com
- [209.85.128.202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7248310E67B
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 09:28:24 +0000 (UTC)
-Received: by mail-yw1-f202.google.com with SMTP id
- 00721157ae682-6047a047f58so104742807b3.3
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 01:28:24 -0800 (PST)
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com
+ [209.85.128.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA11810E67E
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 09:28:28 +0000 (UTC)
+Received: by mail-yw1-f201.google.com with SMTP id
+ 00721157ae682-607838c0800so82851497b3.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 01:28:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1708507703; x=1709112503;
+ d=google.com; s=20230601; t=1708507708; x=1709112508;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=6oh8w0yc8LvH1yvSHI8zU+2R7q+ewyvFM42Am6pdhYA=;
- b=cPDX3ks7b/yKJBo8KX35o3UB1RnqeTpaaGv1TlLxQ1pYn4USJ82e8iOSsPWO81Yb3K
- NqmPRksegPt1HnD7D5ET691TwidH61ecEvm93TNt8He1PGOk/Qf1tXB0CmX9sTX6Gq7Q
- asYeDkUXC1ypg4+VSjfb222LwmXqkGblXF4N3HI+M/Vrll81pfRcivsyQj+eqDYOqGVH
- Jo/HGDai/UsbH4lmpi/bqlLSC55q7UpBgjohiDWDbraB1ZghGddS/6WkOkY9+8CV8O5p
- xK9cMzQdWq+nTU43aO9cyprHGSaDpsZCt5qUdObjzunwGra6KHTYTe6LbQ+8FFwzTGgT
- q56g==
+ bh=l+N/x8q0XM6q/oxl++oFE/zLIduvg/H3kbNqGrSm6L0=;
+ b=OR8PHALcSxYjX18FxooasIFjpGF9KP1DEBNR6CL51ztNvgJJsH2cbekPYu7taco5zI
+ MzUr6oy8yVnzdv+gDFDnUSEwUdaaErm/gIq2s1fmWoAxsRQJjKJ3WUpdZ03CcZTxc7i6
+ sZLcXlVB0Egw2BynmfvxlB+R0b5BSMe1JjxI/SO5SUwz7PU1n7+a0MxdDYl8mn7XbR9H
+ kkyFhmOIBzhB0lrroKxmKe5gJed6A9IoH+WuwVKQEp+yTuCfbOHXuz69VGXq+MjcYYk3
+ EsFSeaAL+/ky8GcGWk7hBUFxhUv8TVZn7lz0cLJKnvKBTqOpv+9uRkkW5qRmJ3DHd0Ec
+ HXHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708507703; x=1709112503;
+ d=1e100.net; s=20230601; t=1708507708; x=1709112508;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6oh8w0yc8LvH1yvSHI8zU+2R7q+ewyvFM42Am6pdhYA=;
- b=GwzQ1SK+K1akSIdFy2aRM0y6VfftfhDQ/iYGMnsFFoc1ek8AnUjOih88hy/NYBbbal
- 0Bj5gg4EL7TuP2c6x96jmXh0quKCD9bRn+n9SjgBX5DiDnNFYI6Ogo1QVPqo7ZZZZ/1t
- Q9rNmfF2T6lY13I0Uh33fFTKLEIxA104cbIdRKnT0rYR58kK55M9fh6QtVEoYWaeATen
- wcZuq6gvITuc/TAkrSlxOa/7pg/WqeEd4seRUGmy6yeXAWjnPs8kzNbizOnynSIx94fy
- Iq3zzgF4/eXHqc9oc/at/uKE7LgEAdOj5Qz8kp7kL4YoFRIqp6sryxE7+mcUHEv6mAZq
- HetA==
+ bh=l+N/x8q0XM6q/oxl++oFE/zLIduvg/H3kbNqGrSm6L0=;
+ b=Kbf0LzHiey5RUdFK2yWkU/znsTzNsVdx0FPFvCDWnX7DSpGDZpe5tkmP0m6ZLTaat+
+ TkISakWl8auEraSilzT+wEUWwdmlwI2K2H+GqtmwaHbK02qFS6KypSuk7l7Hrz7H5z84
+ UYinWdTugCe2phHYLfRyHmlygNlAh9LShIvx06TaIiWnff/VTyb+xaiYgSzuEUOZnjbq
+ pDXS9xHp+uo7TL3tepE8S2jNKv9kyA0c2SXUS6R7+myQu/dzJBtKlg/jEGbnxJ3k6Htu
+ KYLjmjwuopzPEyA4Nr0FjDVLdARtbpgXnReJst5Rsc4btm8k/DP30xOZf1VIqfBORd7h
+ Q5PQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW1iQUqB2pZUMoiqJjDEohM/Pz57mAs3WvjeCIzJDZ5OJYNAP7ZLuD5/D77mT7JExsOLg4jDELB/J0xZ/kZ+Hejkb3/wg4YCWqDA4v4wdVn
-X-Gm-Message-State: AOJu0YyYwEODlMmr3KppsdKt5QxvnelMOdJNaXXl2B3s9ogl0P+XmS17
- Vn/8kCag1LlTjyR7Dz8ttxmI3fHdIM9bo/+jrmcvWQ/My/7+j1dKa9bf4F7G3Q4YuTLs1sdtQJ7
- tB2EEOr7mag==
-X-Google-Smtp-Source: AGHT+IHAVxan3IBdGfT14ZlxAMIfrkzUxv01ETxOcEryam+Wji8MbAhrWelAxlNmlmHCaTgl78twQW5eAT/4hw==
+ AJvYcCWi4OjF3X5X9Qd509j+b9WcKHjDamsthf8Gzd6AFj1vttiAu1PUa9z3S09tKVVxc3CcaDWxMGXKq5HOeHaX25Rd+NhQakSICadRFnRV+N+W
+X-Gm-Message-State: AOJu0Yw5Hw3HRT+og+Vh8ARWlXML1MlwniPOpkzBI6I4qnEFOny/TJK+
+ 6ykgFKXbBy1o6a4DNuAfrUHdO+pRHzJ0atswq17L3TFsFheR3HGL3FWJMRldoZyEs/XfVzLXvjj
+ 7T4ubzTQeDg==
+X-Google-Smtp-Source: AGHT+IGujiTgGmrs6aB7MYtXNm4zgRA3Zr4vV9toQOw9f+upbD+oRsb+6ooQYjPHHocWRD49vELQV317edlmfg==
 X-Received: from slicestar.c.googlers.com
  ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
- (user=davidgow job=sendgmr) by 2002:a0d:e8c4:0:b0:607:cd11:5464 with SMTP id
- r187-20020a0de8c4000000b00607cd115464mr4264994ywe.9.1708507703514; Wed, 21
- Feb 2024 01:28:23 -0800 (PST)
-Date: Wed, 21 Feb 2024 17:27:18 +0800
+ (user=davidgow job=sendgmr) by 2002:a05:6902:1081:b0:dc2:2e5c:a21d with SMTP
+ id v1-20020a056902108100b00dc22e5ca21dmr5584522ybu.6.1708507707855; Wed, 21
+ Feb 2024 01:28:27 -0800 (PST)
+Date: Wed, 21 Feb 2024 17:27:19 +0800
 In-Reply-To: <20240221092728.1281499-1-davidgow@google.com>
 Mime-Version: 1.0
 References: <20240221092728.1281499-1-davidgow@google.com>
 X-Mailer: git-send-email 2.44.0.rc0.258.g7320e95886-goog
-Message-ID: <20240221092728.1281499-6-davidgow@google.com>
-Subject: [PATCH 5/9] rtc: test: Fix invalid format specifier.
+Message-ID: <20240221092728.1281499-7-davidgow@google.com>
+Subject: [PATCH 6/9] net: test: Fix printf format specifier in skb_segment
+ kunit test
 From: David Gow <davidgow@google.com>
 To: Linus Torvalds <torvalds@linux-foundation.org>,
  Shuah Khan <skhan@linuxfoundation.org>, 
@@ -99,30 +100,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-'days' is a s64 (from div_s64), and so should use a %lld specifier.
+KUNIT_FAIL() accepts a printf-style format string, but previously did
+not let gcc validate it with the __printf() attribute. The use of %lld
+for the result of PTR_ERR() is not correct.
 
-This was found by extending KUnit's assertion macros to use gcc's
-__printf attribute.
+Instead, use %pe and pass the actual error pointer. printk() will format
+it correctly (and give a symbolic name rather than a number if
+available, which should make the output more readable, too).
 
-Fixes: 1d1bb12a8b18 ("rtc: Improve performance of rtc_time64_to_tm(). Add tests.")
+Fixes: b3098d32ed6e ("net: add skb_segment kunit test")
 Signed-off-by: David Gow <davidgow@google.com>
 ---
- drivers/rtc/lib_test.c | 2 +-
+ net/core/gso_test.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/rtc/lib_test.c b/drivers/rtc/lib_test.c
-index d5caf36c56cd..225c859d6da5 100644
---- a/drivers/rtc/lib_test.c
-+++ b/drivers/rtc/lib_test.c
-@@ -54,7 +54,7 @@ static void rtc_time64_to_tm_test_date_range(struct kunit *test)
+diff --git a/net/core/gso_test.c b/net/core/gso_test.c
+index 4c2e77bd12f4..358c44680d91 100644
+--- a/net/core/gso_test.c
++++ b/net/core/gso_test.c
+@@ -225,7 +225,7 @@ static void gso_test_func(struct kunit *test)
  
- 		days = div_s64(secs, 86400);
- 
--		#define FAIL_MSG "%d/%02d/%02d (%2d) : %ld", \
-+		#define FAIL_MSG "%d/%02d/%02d (%2d) : %lld", \
- 			year, month, mday, yday, days
- 
- 		KUNIT_ASSERT_EQ_MSG(test, year - 1900, result.tm_year, FAIL_MSG);
+ 	segs = skb_segment(skb, features);
+ 	if (IS_ERR(segs)) {
+-		KUNIT_FAIL(test, "segs error %lld", PTR_ERR(segs));
++		KUNIT_FAIL(test, "segs error %pe", segs);
+ 		goto free_gso_skb;
+ 	} else if (!segs) {
+ 		KUNIT_FAIL(test, "no segments");
 -- 
 2.44.0.rc0.258.g7320e95886-goog
 
