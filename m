@@ -2,89 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F1BF85D383
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 10:28:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58D7485D3DA
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 10:40:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93D0C10E4F7;
-	Wed, 21 Feb 2024 09:28:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4414410E68D;
+	Wed, 21 Feb 2024 09:40:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="q9woSA6z";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="UNRPbhjT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com
- [209.85.219.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A868A10E682
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 09:28:42 +0000 (UTC)
-Received: by mail-yb1-f201.google.com with SMTP id
- 3f1490d57ef6-dbf618042daso10802698276.0
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 01:28:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1708507722; x=1709112522;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=UtSX1a4twDclpP0XCHq3xRlg28EKI7v3CFBboD2ALTI=;
- b=q9woSA6z3OFhNshtrJy2C+p0cuBXQHCgZhZcPUOkN69SCrBZggDP4dh8ZWYQ49B7xE
- CYNu5MAHXdA03ImOwMx4cLQhFJd6bW7/j8V2qLOlW6YZ9Ym6pgaZtHHYJGy6bhcr3o+d
- mZeA6qRYD6NSBa7hV7XD77H8LJgr0hnxH0P7yQiJrLe2DS5fxRBPdKaKydOa1v+odx6k
- /k4GRRo9HME1+RDGLhHAcp/cweLmurXJ4UES2fSDM/+giobT8p0mPBG+acfuR0dlAdyS
- c465C0FRb6dt79vYKqWQgGgNjWXkrkChAo5dPHO2LjppylBFsv9yAKIzPg8MFFnjlLtd
- 7ylQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708507722; x=1709112522;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UtSX1a4twDclpP0XCHq3xRlg28EKI7v3CFBboD2ALTI=;
- b=tVa9ioKFsVrolGRgBX7CQJrwLrVexE1k3HAEfUOXwf6hqArtTrNZXhyKEvru5PzNXg
- ELZjn7sOfn9T8HzEWi4/kj28k0vfyKE/HlTwKjmPRkIeh/3NBthQdOAsdkrxHlHltKYw
- AUxGLXJfH7ZS59tv/0IxsoJmGGNwMv5pJff4Rtzlx9umGTLEPJcSXn6/MMPNFPqTmB6V
- iaWc4fsJd01ima7VA2iC0nv5PcstsGtx4FgBQhiF92UqUdqKtpIEshlo5GDqbiMCqAl4
- mgrt2RoHUTwoDlQ2irZ+L53VLZTfqgXLlBiRlKCmYxfvKuXpwBV7oU4XHOaGm+1VAXir
- dDcQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWLi5JVFw9PnR06l7hY/tB2egDWiy4rCPP7Iwb1fy3s4yhRhfhwD3trCGP7hV1c4ZoMq7nOoiWlfs/3e+uF86WM3EXcm/qmj3DEXBAzW+xJ
-X-Gm-Message-State: AOJu0YyvMtrI4jzZHd9P1Ung2tOXW2kS54/B5xJHKFqQmDH1rvzODX8c
- pkO87BMKE9/ZYs1mvHsIozuae+HozqNm0e+b+aQ8Ac2N0UyWYcB+la6wD9xgSlmjQfeD50wpkYB
- AvqIK4XT1ow==
-X-Google-Smtp-Source: AGHT+IE+u4BHsnTY4zBV9uwlLnSALfH2VACViqUl+6ZdsI4Ll1wRpv0qUeWfBww+/YNGvG/0sUR+LBCAIAUp6Q==
-X-Received: from slicestar.c.googlers.com
- ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
- (user=davidgow job=sendgmr) by 2002:a05:6902:4ce:b0:dc7:865b:22c6 with SMTP
- id v14-20020a05690204ce00b00dc7865b22c6mr618682ybs.8.1708507721736; Wed, 21
- Feb 2024 01:28:41 -0800 (PST)
-Date: Wed, 21 Feb 2024 17:27:22 +0800
-In-Reply-To: <20240221092728.1281499-1-davidgow@google.com>
-Mime-Version: 1.0
-References: <20240221092728.1281499-1-davidgow@google.com>
-X-Mailer: git-send-email 2.44.0.rc0.258.g7320e95886-goog
-Message-ID: <20240221092728.1281499-10-davidgow@google.com>
-Subject: [PATCH 9/9] kunit: Annotate _MSG assertion variants with gnu printf
- specifiers
-From: David Gow <davidgow@google.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Shuah Khan <skhan@linuxfoundation.org>, 
- Guenter Roeck <linux@roeck-us.net>, Rae Moar <rmoar@google.com>, 
- Matthew Auld <matthew.auld@intel.com>, 
- Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>, 
- "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
- Kees Cook <keescook@chromium.org>, 
- "=?UTF-8?q?Ma=C3=ADra=20Canal?=" <mcanal@igalia.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Matthew Brost <matthew.brost@intel.com>, Willem de Bruijn <willemb@google.com>,
- Florian Westphal <fw@strlen.de>, Cassio Neri <cassio.neri@gmail.com>, 
- Javier Martinez Canillas <javierm@redhat.com>,
- Arthur Grillo <arthur.grillo@usp.br>
-Cc: David Gow <davidgow@google.com>,
- Brendan Higgins <brendan.higgins@linux.dev>, 
- Daniel Latypov <dlatypov@google.com>, Stephen Boyd <sboyd@kernel.org>,
- David Airlie <airlied@gmail.com>, 
- Maxime Ripard <mripard@kernel.org>, "David S . Miller" <davem@davemloft.net>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- intel-xe@lists.freedesktop.org, linux-rtc@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- linux-hardening@vger.kernel.org, netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BB8310E67D
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 09:40:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1708508425;
+ bh=v5pG0UUUE/LoBnEvASxYM5p6sqdzBp802B5VBTcG/qg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UNRPbhjTQ+sbeuVe7B4KQAmiuK4dMtRlSeTddzOJVLYk4u5TK3IdxE3q1hNh8bvF2
+ Z10OJWvcXdOuQ7Fa38o03ZHhB3cizSNuM/K8scDKPU6xdBHWmCNb+sm98aW6SW2U/x
+ xfckvfnbRti9ajjsooGXkrR0Qxet9jKQ0iY41ngRa5oW7MsDd1hEFvpZKTzACAi4Js
+ L1JB0POBH4XRkTN30TIjnrBRxqIDTaBXRzFjU2JAlWElczm10avgUY7k25VTjqp5xP
+ WJEM9sddmIRwuwnrstsehDTTF7Utgt7LRept6/q7NnE/tQKeEkgdUElyb3W6eoFi2D
+ myQYMKkb+8H3w==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: alarumbe)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 83D2D378107C;
+ Wed, 21 Feb 2024 09:40:25 +0000 (UTC)
+Date: Wed, 21 Feb 2024 09:40:24 +0000
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, Steven Price <steven.price@arm.com>, 
+ Lionel Landwerlin <lionel.g.landwerlin@linux.intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>, 
+ Rob Herring <robh@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 0/1] Always record job cycle and timestamp information
+Message-ID: <jvohxwzrgwqmzhwws3tzn53ii6eyexkutwl7pdj5buk6k6wx7c@ucxoohk5e3iw>
+References: <20240214121435.3813983-1-adrian.larumbe@collabora.com>
+ <ba987da3-b4aa-410c-95ae-434e94793d85@arm.com>
+ <CAKMK7uH=QKSyMgsOYCHMwE7iv6jQZRwUMcKq=HiXsBXBCv5BCQ@mail.gmail.com>
+ <cfe1870f-16ff-45b4-8966-6bb536d3cae7@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cfe1870f-16ff-45b4-8966-6bb536d3cae7@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,47 +70,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-KUnit's assertion macros have variants which accept a printf format
-string, to allow tests to specify a more detailed message on failure.
-These (and the related KUNIT_FAIL() macro) ultimately wrap the
-__kunit_do_failed_assertion() function, which accepted a printf format
-specifier, but did not have the __printf attribute, so gcc couldn't warn
-on incorrect agruments.
+Hi,
 
-It turns out there were quite a few tests with such incorrect arguments.
+I just wanted to make sure we're on the same page on this matter. So in
+Panfrost, and I guess in almost every other single driver out there, HW perf
+counters and their uapi interface are orthogonal to fdinfo's reporting on drm
+engine utilisation.
 
-Add the __printf() specifier now that we've fixed these errors, to
-prevent them from recurring.
+At the moment it seems like HW perfcounters and the way they're exposed to UM
+are very idiosincratic and any attempt to unify their interface into a common
+set of ioctl's sounds like a gargantuan task I wouldn't like to be faced with.
 
-Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: David Gow <davidgow@google.com>
----
- include/kunit/test.h | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+As for fdinfo, I guess there's more room for coming up with common helpers that
+could handle the toggling of HW support for drm engine calculations, but I'd at
+least have to see how things are being done in let's say, Freedreno or Intel.
 
-diff --git a/include/kunit/test.h b/include/kunit/test.h
-index fcb4a4940ace..61637ef32302 100644
---- a/include/kunit/test.h
-+++ b/include/kunit/test.h
-@@ -579,12 +579,12 @@ void __printf(2, 3) kunit_log_append(struct string_stream *log, const char *fmt,
- 
- void __noreturn __kunit_abort(struct kunit *test);
- 
--void __kunit_do_failed_assertion(struct kunit *test,
--			       const struct kunit_loc *loc,
--			       enum kunit_assert_type type,
--			       const struct kunit_assert *assert,
--			       assert_format_t assert_format,
--			       const char *fmt, ...);
-+void __printf(6, 7) __kunit_do_failed_assertion(struct kunit *test,
-+						const struct kunit_loc *loc,
-+						enum kunit_assert_type type,
-+						const struct kunit_assert *assert,
-+						assert_format_t assert_format,
-+						const char *fmt, ...);
- 
- #define _KUNIT_FAILED(test, assert_type, assert_class, assert_format, INITIALIZER, fmt, ...) do { \
- 	static const struct kunit_loc __loc = KUNIT_CURRENT_LOC;	       \
--- 
-2.44.0.rc0.258.g7320e95886-goog
+Right now there's a pressing need to get rid of the debugfs knob for fdinfo's
+drm engine profiling sources in Panfrost, after which I could perhaps draw up an
+RFC for how to generalise this onto other drivers.
+
+Adrian
+
+On 16.02.2024 17:43, Tvrtko Ursulin wrote:
+> 
+> On 16/02/2024 16:57, Daniel Vetter wrote:
+> > On Wed, Feb 14, 2024 at 01:52:05PM +0000, Steven Price wrote:
+> > > Hi Adrián,
+> > > 
+> > > On 14/02/2024 12:14, Adrián Larumbe wrote:
+> > > > A driver user expressed interest in being able to access engine usage stats
+> > > > through fdinfo when debugfs is not built into their kernel. In the current
+> > > > implementation, this wasn't possible, because it was assumed even for
+> > > > inflight jobs enabling the cycle counter and timestamp registers would
+> > > > incur in additional power consumption, so both were kept disabled until
+> > > > toggled through debugfs.
+> > > > 
+> > > > A second read of the TRM made me think otherwise, but this is something
+> > > > that would be best clarified by someone from ARM's side.
+> > > 
+> > > I'm afraid I can't give a definitive answer. This will probably vary
+> > > depending on implementation. The command register enables/disables
+> > > "propagation" of the cycle/timestamp values. This propagation will cost
+> > > some power (gates are getting toggled) but whether that power is
+> > > completely in the noise of the GPU as a whole I can't say.
+> > > 
+> > > The out-of-tree kbase driver only enables the counters for jobs
+> > > explicitly marked (BASE_JD_REQ_PERMON) or due to an explicit connection
+> > > from a profiler.
+> > > 
+> > > I'd be happier moving the debugfs file to sysfs rather than assuming
+> > > that the power consumption is small enough for all platforms.
+> > > 
+> > > Ideally we'd have some sort of kernel interface for a profiler to inform
+> > > the kernel what it is interested in, but I can't immediately see how to
+> > > make that useful across different drivers. kbase's profiling support is
+> > > great with our profiling tools, but there's a very strong connection
+> > > between the two.
+> > 
+> > Yeah I'm not sure whether a magic (worse probably per-driver massively
+> > different) file in sysfs is needed to enable gpu perf monitoring stats in
+> > fdinfo.
+> > 
+> > I get that we do have a bit a gap because the linux perf pmu stuff is
+> > global, and you want per-process, and there's kinda no per-process support
+> > for perf stats for devices. But that's probably the direction we want to
+> > go, not so much fdinfo. At least for hardware performance counters and
+> > things like that.
+> > 
+> > Iirc the i915 pmu support had some integration for per-process support,
+> > you might want to chat with Tvrtko for kernel side and Lionel for more
+> > userspace side. At least if I'm not making a complete mess and my memory
+> > is vaguely related to reality. Adding them both.
+> 
+> Yeah there are two separate things, i915 PMU and i915 Perf/OA.
+> 
+> If my memory serves me right I indeed did have a per-process support for i915
+> PMU implemented as an RFC (or at least a branch somewhere) some years back.
+> IIRC it only exposed the per engine GPU utilisation and did not find it very
+> useful versus the complexity. (I think it at least required maintaining a map
+> of drm clients per task.)
+> 
+> Our more useful profiling is using a custom Perf/OA interface (Observation
+> Architecture) which is possibly similar to kbase mentioned above. Why it is a
+> custom interface is explained in a large comment on top of i915_perf.c. Not
+> sure if all of them still hold but on the overall perf does not sound like the
+> right fit for detailed GPU profiling.
+> 
+> Also PMU drivers are very challenging to get the implementation right, since
+> locking model and atomicity requirements are quite demanding.
+> 
+> From my point of view, at least it is my initial thinking, if custom per
+> driver solutions are strongly not desired, it could be interesting to look
+> into whether there is enough commonality, in at least concepts, to see if a
+> new DRM level common but extensible API would be doable. Even then it may be
+> tricky to "extract" enough common code to justify it.
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+> > 
+> > Cheers, Sima
+> > 
+> > 
+> > > 
+> > > Steve
+> > > 
+> > > > Adrián Larumbe (1):
+> > > >    drm/panfrost: Always record job cycle and timestamp information
+> > > > 
+> > > >   drivers/gpu/drm/panfrost/Makefile           |  2 --
+> > > >   drivers/gpu/drm/panfrost/panfrost_debugfs.c | 21 ------------------
+> > > >   drivers/gpu/drm/panfrost/panfrost_debugfs.h | 14 ------------
+> > > >   drivers/gpu/drm/panfrost/panfrost_device.h  |  1 -
+> > > >   drivers/gpu/drm/panfrost/panfrost_drv.c     |  5 -----
+> > > >   drivers/gpu/drm/panfrost/panfrost_job.c     | 24 ++++++++-------------
+> > > >   drivers/gpu/drm/panfrost/panfrost_job.h     |  1 -
+> > > >   7 files changed, 9 insertions(+), 59 deletions(-)
+> > > >   delete mode 100644 drivers/gpu/drm/panfrost/panfrost_debugfs.c
+> > > >   delete mode 100644 drivers/gpu/drm/panfrost/panfrost_debugfs.h
+> > > > 
+> > > > 
+> > > > base-commit: 6b1f93ea345947c94bf3a7a6e668a2acfd310918
+> > > 
+> > 
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
 
