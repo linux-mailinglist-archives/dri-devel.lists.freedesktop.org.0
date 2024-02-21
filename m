@@ -2,74 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC9F985DFB7
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 15:32:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6E8785DFCA
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 15:34:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59A2F10E76A;
-	Wed, 21 Feb 2024 14:32:05 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="pmThDDRq";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3130D10E76C;
+	Wed, 21 Feb 2024 14:34:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1BBE10E76A
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 14:32:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1708525924; x=1740061924;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=gbk069DucRj43Sndt/nnkJaRND27RAMcHT3E75mzM4s=;
- b=pmThDDRqZDemYJK2O6att7WKue8++s3RQ7IOW3wMtbAyksRkpS3+NkFk
- s/gQhqRQzb42GvtU5COO8iMVSKsS0XWX6G+ksf5WPZYz2nnwAinbh5eLe
- AD8UyaJV3NKsf1FKB51YAvpGrUOVnn+NWIFm/OSS2CYtXRphrqefvD5dd
- U6eHU/uO5TO3OXP5kOsm89aSVHnsbABD7aBPze1Cit7QVUKNwrmdnrXFV
- RuoJRhyKqRpU9/MO/CLYOZ2QkmaPn2MY8UQAOnYGTXD9jtrpf324WLsbP
- +mUFKY+1bGVO4375ll+0NKKHqXZnYbTXl0CgcOBN3yEuYqIPO2vRkGenA Q==;
-X-IronPort-AV: E=Sophos;i="6.06,175,1705359600"; d="scan'208";a="35525607"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 21 Feb 2024 15:32:01 +0100
-Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.25])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 7DD8D280075;
- Wed, 21 Feb 2024 15:32:01 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
- "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "shawnguo@kernel.org" <shawnguo@kernel.org>,
- "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
- "festevam@gmail.com" <festevam@gmail.com>,
- "vkoul@kernel.org" <vkoul@kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-phy@lists.infradead.org" <li
- nux-phy@lists.infradead.org>, Sandor Yu <sandor.yu@nxp.com>
-Cc: "kernel@pengutronix.de" <kernel@pengutronix.de>,
- dl-linux-imx <linux-imx@nxp.com>, Oliver Brown <oliver.brown@nxp.com>,
- "sam@ravnborg.org" <sam@ravnborg.org>
-Subject: Re: [PATCH v14 7/7] phy: freescale: Add HDMI PHY driver for i.MX8MQ
-Date: Wed, 21 Feb 2024 15:32:01 +0100
-Message-ID: <1880037.tdWV9SEqCh@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <PAXPR04MB9448DE5926B60C36D5BFC96AF4572@PAXPR04MB9448.eurprd04.prod.outlook.com>
-References: <cover.1708395604.git.Sandor.yu@nxp.com>
- <22191690.EfDdHjke4D@steina-w>
- <PAXPR04MB9448DE5926B60C36D5BFC96AF4572@PAXPR04MB9448.eurprd04.prod.outlook.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBF4410E76D
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 14:34:15 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="2550067"
+X-IronPort-AV: E=Sophos;i="6.06,175,1705392000"; 
+   d="scan'208";a="2550067"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Feb 2024 06:34:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="913315045"
+X-IronPort-AV: E=Sophos;i="6.06,175,1705392000"; d="scan'208";a="913315045"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Feb 2024 06:34:12 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+ (envelope-from <andy@kernel.org>) id 1rcnfk-00000006N6c-41vp;
+ Wed, 21 Feb 2024 16:34:08 +0200
+Date: Wed, 21 Feb 2024 16:34:08 +0200
+From: Andy Shevchenko <andy@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
+ deller@gmx.de, robin@protonic.nl, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v2 01/10] backlight: Match backlight device against
+ struct fb_info.bl_dev
+Message-ID: <ZdYJ4FhJ9vhzUeiW@smile.fi.intel.com>
+References: <20240221094324.27436-1-tzimmermann@suse.de>
+ <20240221094324.27436-2-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240221094324.27436-2-tzimmermann@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,93 +59,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sandor,
+On Wed, Feb 21, 2024 at 10:41:28AM +0100, Thomas Zimmermann wrote:
+> Framebuffer drivers for devices with dedicated backlight are supposed
+> to set struct fb_info.bl_dev to the backlight's respective device. Use
+> the value to match backlight and framebuffer in the backlight core code.
 
-Am Mittwoch, 21. Februar 2024, 08:47:52 CET schrieb Sandor Yu:
-> Hi Alexander,
->=20
-> Thanks for your comments,
->=20
-> >
-> > Hi,
-> >
-> > thanks for the update.
-> >
-> > Am Dienstag, 20. Februar 2024, 04:23:55 CET schrieb Sandor Yu:
-> > > Add Cadence HDP-TX HDMI PHY driver for i.MX8MQ.
-> > >
-> > > Cadence HDP-TX PHY could be put in either DP mode or HDMI mode base
-> > on
-> > > the configuration chosen.
-> > > HDMI PHY mode is configurated in the driver.
-> > >
-> > > Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
-> > > Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> >
-> > This still works as before. I noticed there is a lot of code duplicatio=
-n with
-> > patch 6. IMHO these PHY drivers should be merged into a single one where
-> > the mode is configured using phy_set_mode() from cdns-mhdp8501-core.c.
-> > This nicely matches my concerns regarding patch 5.
-> >
-> Yes, there are some registers offset are same and the clock management fu=
-nction could be reused for DP and HDMI PHY driver.
-> But because of HDMI and DP PHY totally different work mode, the functions=
- in struct phy_ops,
-> Such as ->init, ->power_on/off and ->configure could not combine into a s=
-ingle one,
-> So separate DP and HDMI PHY driver should be a better resolution.
+...
 
-Despite some output type (DP/HDMI) specific settings, the similarities
-are quite huge actually. Even though apparently DP has it's own ->init setu=
-p,
-this can be delayed until ->set_mode or even ->configure.
-The distinction between each mode can be done by checking phy->attrs.mode.
-=46or a prove of concept I've hacked both drivers into a single one. I can't
-test DP, but HDMI still works. Feel free to contact me in private.
+>  	if (!bd->ops)
+>  		goto out;
+> -	if (bd->ops->check_fb && !bd->ops->check_fb(bd, evdata->info))
+> +	else if (bd->ops->check_fb && !bd->ops->check_fb(bd, info))
 
-Best regards,
-Alexander
+What's the point of adding redundant 'else'?
 
-> B.R
-> Sandor
->=20
->=20
-> > Best regards,
-> > Alexander
-> >
-> > > ---
-> > > v13->v14:
-> > >  *No change.
-> > >
-> > > v12->v13:
-> > > - Fix build warning
-> > >
-> > > v11->v12:
-> > > - Adjust clk disable order.
-> > > - Return error code to replace -1 for function wait_for_ack().
-> > > - Use bool for variable pclk_in.
-> > > - Add year 2024 to copyright.
-> > >
-> > >  drivers/phy/freescale/Kconfig               |  10 +
-> > >  drivers/phy/freescale/Makefile              |   1 +
-> > >  drivers/phy/freescale/phy-fsl-imx8mq-hdmi.c | 960
-> > > ++++++++++++++++++++
-> > >  3 files changed, 971 insertions(+)
-> > >  create mode 100644 drivers/phy/freescale/phy-fsl-imx8mq-hdmi.c
-> > >
-> > > diff --git a/drivers/phy/freescale/Kconfig
-> > > b/drivers/phy/freescale/Kconfig index c39709fd700ac..14f47b7cc77ab
-> > > 100644
-> > > --- a/drivers/phy/freescale/Kconfig
-> > > +++ b/drivers/phy/freescale/Kconfig
+>  		goto out;
+> +#if IS_ENABLED(CONFIG_FB_BACKLIGHT)
+> +	else if (info->bl_dev && info->bl_dev != bd)
 
-> [snip]
+Ditto.
 
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
+> +		goto out;
+> +#endif
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
