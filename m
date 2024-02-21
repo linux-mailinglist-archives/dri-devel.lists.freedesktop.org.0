@@ -2,89 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E751485E90C
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 21:29:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C403785E90E
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 21:30:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7640910E7EB;
-	Wed, 21 Feb 2024 20:29:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ECF010E7F8;
+	Wed, 21 Feb 2024 20:30:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="DwG2wVva";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Do6tnqkO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
- [209.85.160.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A4F310E7EB
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 20:29:55 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id
- d75a77b69052e-42e2507c6e1so58951cf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 12:29:55 -0800 (PST)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com
+ [209.85.128.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AFC010E7F9
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 20:30:15 +0000 (UTC)
+Received: by mail-yw1-f177.google.com with SMTP id
+ 00721157ae682-60495209415so69556877b3.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 12:30:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1708547394; x=1709152194;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8iAiTEgCppjIE3t1disnBeWTtqYJCr/gkvmRX972lsA=;
- b=DwG2wVvaIIfekGQBpclQsvvCl+OTnwWYIXSuPzAGO7H7j/bwGVJsLkAU44AnYo+X7A
- WQCnDrjUev1MeyBcV7Q4GSMxcGqzqwbFXbrT4P/rL/EzuJBTxNE8E5g9ekUGH2WIYAhD
- 3awGR+NYucmEYWgoXf3DzYfH4p21S2d1hFi838E9f7YdKZNU0E0l+RK1WwvqHLB/ySRb
- +okWYZ9/2S6F6yLd9pvkCshz++n3wlnXXaPTCGgZqwKakvD1CamHRNnslchkGgRYnfL6
- iDWAnkwPvDdVnA/TfXUxLgJq3tXYKb05UwG4zmZBZPbaKnhFWLBh6D3VF/d3AblNgbgI
- do2A==
+ d=linaro.org; s=google; t=1708547414; x=1709152214; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=66B5lNp4yjRK1cO3QunmxwT8ngO+zkQK07F7H5Y6E9A=;
+ b=Do6tnqkO3SkQDsiruvEKuXAap+fbzpWetjJmBwm9EUmCVQooPszzPGGUQr84dt8yoK
+ Cgw3iT7GCh5BcccFt+QEjz10NUJ9kwyVK7ANJTFrLCjUCn5HP5J4FeNS4urFylGRC6Me
+ 2ZVvyDuZ2JIp/ZKh1NQZiB9gxk17htjE+4JcjAU21erOCt0Nua4+67Nmd0TKPJlNQfwU
+ 4wYysZxfesSCjgX6IE22pPDc9rIScCHc+UuINbp1a6xVoB6wu63NuQo06xghWTesXSkh
+ lx04lLywkhKVAHls+PE3A7kSF50uPCxQ/9LbYIc0zRWVsqGpwW1jPi/4H16xVNksLgPu
+ NitA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708547394; x=1709152194;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8iAiTEgCppjIE3t1disnBeWTtqYJCr/gkvmRX972lsA=;
- b=ZOfAoA0jL7EoQqAaT1HYe3krbg9N/8w8Pcb1Fa/O1bQeCoQzo/fr1iorDnpPP8u51J
- YukNMfxnd49/brYr6C8Uxs8oZSIooMYOikVKapVWdK3jSpatTUZ20SKhhcahfQW7fWGx
- RzMS3svoLoo9gJOYHL+Zn+2UK+76lRPRNReEmNPYXjg4NjKQ8m1SeUn5pyO9GTRQ14hZ
- qM/jW/S7zNFas0ZZEzVZwdoydXoSMrLy65YNP+Ip9ns/sx4jNiUqMEXcS/9DJlsrtLg+
- zq48i5ixwbX3C/qpW01icOKwst+B+vCfwhdF6dk7x79tp0BvLzaw1g4j0Ph9GSrptyqy
- fX2w==
+ d=1e100.net; s=20230601; t=1708547414; x=1709152214;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=66B5lNp4yjRK1cO3QunmxwT8ngO+zkQK07F7H5Y6E9A=;
+ b=TshB2LcpF+stZNSduo/tUQlTW+9u85h7XFzznvneCpj7Bd3c5w4cZnR9PSLi8kHNHf
+ lM0GmR0tpUGl8EBrUMn7SjwRORyYagnP1i/w8rtBCZkJkE1zhbkthsh1Cbvm775RetCf
+ nJnrxeZGkTOdbfohWXU0c/s3/+FUqlirNNBQe3nmqVQaOKZRLHkZ+9v9U1rdfHcrXMTP
+ 1SCzk5Qoc5e5BefSewgo367UhFwXBONMAYPQFUyj6zQvOS6XGXNxsSnTAOLVlL2aNFyH
+ FKnfKiVCh9xqC84Jda7IIskIs8PobxeMLzxDs7PTNgesNDfp55miOw40rXIsaXp5YVs5
+ SkTA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVzArd74DksqLJlVWVxLws6ZFkyaB4fyvNIQQUAm2v6DixxdNHgJyy41PbRqI6L3v48PuV8WvDWHduPi21xTWuIwaX2mLOqAHTpBa+a7qYc
-X-Gm-Message-State: AOJu0Yx85wvVM+9N9+/HIDiTbI4dUb7jzAfswd4JgNhwPe0n8K9NUbk6
- JIxcetrVxsqdJ8wyKcWZO3oI3xIp4sGSwzQe1zu5I46LaojiwHmmZJQ3Ary29pK0imUzoV8ba+v
- wq/Y6uG2ZTCR75fqzau17MjuW+NGCS2E3I5SQ
-X-Google-Smtp-Source: AGHT+IHkUH8682wBjX2MlXCiKDKRKTZ78A7IDkSZwKh62FAeHimOB2zWqCHjoUmuvZXD72aiFX0+O0WGwp10g7NziwQ=
-X-Received: by 2002:ac8:4907:0:b0:42e:660:eb8d with SMTP id
- e7-20020ac84907000000b0042e0660eb8dmr285459qtq.5.1708547393077; Wed, 21 Feb
- 2024 12:29:53 -0800 (PST)
+ AJvYcCVwV0u/orYyPFZvd3TTWJ4ibRZlFb306RBV6n/+un69ngS1XLgd82rOJNClzYXMiXHRz5dOiADb0LK+uUg7Se9VHEkeNo9IlaXrviW9ImfC
+X-Gm-Message-State: AOJu0YzbX83NDCJxsiN+ORg0zLrZD3ZuxlrS8YcFSfwzfabz2w7EOeVr
+ gNNzO0ynm436INou3tQ0g8bKAjTIuiLzLnUEx1QRp+zF4V2DojXbHDFLxBUEB30/wP0WXsXaTZ2
+ yF1JI09L7K8/OHDpbfN9sUA4pIJBGNdoN0IwkDQ==
+X-Google-Smtp-Source: AGHT+IEBJ9EDSOCDzcvz7VBrxp74vTA+LiZnGpzF2He2gzOhDMIin/sW0TGoX6jQApCBgxyOafwrV0IfLSI9PYFqSYU=
+X-Received: by 2002:a0d:d88b:0:b0:604:92e1:14fd with SMTP id
+ a133-20020a0dd88b000000b0060492e114fdmr17320806ywe.45.1708547414408; Wed, 21
+ Feb 2024 12:30:14 -0800 (PST)
 MIME-Version: 1.0
-References: <20240221092728.1281499-1-davidgow@google.com>
- <20240221092728.1281499-2-davidgow@google.com>
-In-Reply-To: <20240221092728.1281499-2-davidgow@google.com>
-From: Daniel Latypov <dlatypov@google.com>
-Date: Wed, 21 Feb 2024 12:29:38 -0800
-Message-ID: <CAGS_qxpyNVqigHB+kS-1xqzR4BAOQXoMSNS+d5khkLYrkpmOgA@mail.gmail.com>
-Subject: Re: [PATCH 1/9] kunit: test: Log the correct filter string in
- executor_test
-To: David Gow <davidgow@google.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Shuah Khan <skhan@linuxfoundation.org>, 
- Guenter Roeck <linux@roeck-us.net>, Rae Moar <rmoar@google.com>, 
- Matthew Auld <matthew.auld@intel.com>, 
- Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Kees Cook <keescook@chromium.org>,
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Matthew Brost <matthew.brost@intel.com>,
- Willem de Bruijn <willemb@google.com>, Florian Westphal <fw@strlen.de>,
- Cassio Neri <cassio.neri@gmail.com>, 
- Javier Martinez Canillas <javierm@redhat.com>,
- Arthur Grillo <arthur.grillo@usp.br>, 
- Brendan Higgins <brendan.higgins@linux.dev>, Stephen Boyd <sboyd@kernel.org>, 
- David Airlie <airlied@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
- "David S . Miller" <davem@davemloft.net>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org, 
- linux-rtc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- kunit-dev@googlegroups.com, linux-hardening@vger.kernel.org, 
- netdev@vger.kernel.org
+References: <20240208074521.577076-1-lucas.demarchi@intel.com>
+ <20240208074521.577076-2-lucas.demarchi@intel.com>
+In-Reply-To: <20240208074521.577076-2-lucas.demarchi@intel.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 21 Feb 2024 22:30:02 +0200
+Message-ID: <CAA8EJpprfrtOjNzT6TFhV1n6MXzLdTahanfxcRW4uVjeHaBduA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] bits: introduce fixed-type genmasks
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Yury Norov <yury.norov@gmail.com>, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, intel-xe@lists.freedesktop.org, 
+ intel-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,45 +81,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 21, 2024 at 1:28=E2=80=AFAM David Gow <davidgow@google.com> wro=
-te:
+On Thu, 8 Feb 2024 at 09:45, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
 >
-> KUnit's executor_test logs the filter string in KUNIT_ASSERT_EQ_MSG(),
-> but passed a random character from the filter, rather than the whole
-> string.
-
-Note: it's worse than that, afaict.
-
-It's printing from a random bit of memory.
-I was curious about this, so I found under UML, the string I got was
-always "efault)" if I make it fail for j=3D0.
-
+> From: Yury Norov <yury.norov@gmail.com>
 >
-> This was found by annotating KUNIT_ASSERT_EQ_MSG() to let gcc validate
-> the format string.
+> Generalize __GENMASK() to support different types, and implement
+> fixed-types versions of GENMASK() based on it. The fixed-type version
+> allows more strict checks to the min/max values accepted, which is
+> useful for defining registers like implemented by i915 and xe drivers
+> with their REG_GENMASK*() macros.
 >
-> Fixes: 76066f93f1df ("kunit: add tests for filtering attributes")
-> Signed-off-by: David Gow <davidgow@google.com>
-
-Reviewed-by: Daniel Latypov <dlatypov@google.com>
-
+> The strict checks rely on shift-count-overflow compiler check to
+> fail the build if a number outside of the range allowed is passed.
+> Example:
+>
+>         #define FOO_MASK GENMASK_U32(33, 4)
+>
+> will generate a warning like:
+>
+>         ../include/linux/bits.h:41:31: error: left shift count >= width of type [-Werror=shift-count-overflow]
+>            41 |          (((t)~0ULL - ((t)(1) << (l)) + 1) & \
+>               |                               ^~
+>
+> Signed-off-by: Yury Norov <yury.norov@gmail.com>
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> Acked-by: Jani Nikula <jani.nikula@intel.com>
 > ---
->  lib/kunit/executor_test.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  include/linux/bitops.h |  1 -
+>  include/linux/bits.h   | 32 ++++++++++++++++++++++----------
+>  2 files changed, 22 insertions(+), 11 deletions(-)
 >
-> diff --git a/lib/kunit/executor_test.c b/lib/kunit/executor_test.c
-> index 22d4ee86dbed..3f7f967e3688 100644
-> --- a/lib/kunit/executor_test.c
-> +++ b/lib/kunit/executor_test.c
-> @@ -129,7 +129,7 @@ static void parse_filter_attr_test(struct kunit *test=
-)
->                         GFP_KERNEL);
->         for (j =3D 0; j < filter_count; j++) {
->                 parsed_filters[j] =3D kunit_next_attr_filter(&filter, &er=
-r);
-> -               KUNIT_ASSERT_EQ_MSG(test, err, 0, "failed to parse filter=
- '%s'", filters[j]);
-> +               KUNIT_ASSERT_EQ_MSG(test, err, 0, "failed to parse filter=
- from '%s'", filters);
+> diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+> index 2ba557e067fe..1db50c69cfdb 100644
+> --- a/include/linux/bitops.h
+> +++ b/include/linux/bitops.h
+> @@ -15,7 +15,6 @@
+>  #  define aligned_byte_mask(n) (~0xffUL << (BITS_PER_LONG - 8 - 8*(n)))
+>  #endif
+>
+> -#define BITS_PER_TYPE(type)    (sizeof(type) * BITS_PER_BYTE)
+>  #define BITS_TO_LONGS(nr)      __KERNEL_DIV_ROUND_UP(nr, BITS_PER_TYPE(long))
+>  #define BITS_TO_U64(nr)                __KERNEL_DIV_ROUND_UP(nr, BITS_PER_TYPE(u64))
+>  #define BITS_TO_U32(nr)                __KERNEL_DIV_ROUND_UP(nr, BITS_PER_TYPE(u32))
+> diff --git a/include/linux/bits.h b/include/linux/bits.h
+> index 7c0cf5031abe..bd56f32de44e 100644
+> --- a/include/linux/bits.h
+> +++ b/include/linux/bits.h
+> @@ -6,6 +6,8 @@
+>  #include <vdso/bits.h>
+>  #include <asm/bitsperlong.h>
+>
+> +#define BITS_PER_TYPE(type)    (sizeof(type) * BITS_PER_BYTE)
+> +
+>  #define BIT_MASK(nr)           (UL(1) << ((nr) % BITS_PER_LONG))
+>  #define BIT_WORD(nr)           ((nr) / BITS_PER_LONG)
+>  #define BIT_ULL_MASK(nr)       (ULL(1) << ((nr) % BITS_PER_LONG_LONG))
+> @@ -30,16 +32,26 @@
+>  #define GENMASK_INPUT_CHECK(h, l) 0
+>  #endif
+>
+> -#define __GENMASK(h, l) \
+> -       (((~UL(0)) - (UL(1) << (l)) + 1) & \
+> -        (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+> -#define GENMASK(h, l) \
+> -       (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+> +/*
+> + * Generate a mask for the specified type @t. Additional checks are made to
+> + * guarantee the value returned fits in that type, relying on
+> + * shift-count-overflow compiler check to detect incompatible arguments.
+> + * For example, all these create build errors or warnings:
+> + *
+> + * - GENMASK(15, 20): wrong argument order
+> + * - GENMASK(72, 15): doesn't fit unsigned long
+> + * - GENMASK_U32(33, 15): doesn't fit in a u32
+> + */
+> +#define __GENMASK(t, h, l) \
+> +       (GENMASK_INPUT_CHECK(h, l) + \
+> +        (((t)~0ULL - ((t)(1) << (l)) + 1) & \
+> +        ((t)~0ULL >> (BITS_PER_TYPE(t) - 1 - (h)))))
+>
+> -#define __GENMASK_ULL(h, l) \
+> -       (((~ULL(0)) - (ULL(1) << (l)) + 1) & \
+> -        (~ULL(0) >> (BITS_PER_LONG_LONG - 1 - (h))))
+> -#define GENMASK_ULL(h, l) \
+> -       (GENMASK_INPUT_CHECK(h, l) + __GENMASK_ULL(h, l))
+> +#define GENMASK(h, l)          __GENMASK(unsigned long,  h, l)
+> +#define GENMASK_ULL(h, l)      __GENMASK(unsigned long long, h, l)
+> +#define GENMASK_U8(h, l)       __GENMASK(u8,  h, l)
+> +#define GENMASK_U16(h, l)      __GENMASK(u16, h, l)
+> +#define GENMASK_U32(h, l)      __GENMASK(u32, h, l)
+> +#define GENMASK_U64(h, l)      __GENMASK(u64, h, l)
 
-note: if there is a v2, it might be nice to include `j` in the message.
+This breaks drm-tip on arm64 architecture:
+
+arch/arm64/kernel/entry-fpsimd.S: Assembler messages:
+465arch/arm64/kernel/entry-fpsimd.S:271: Error: found 'l', expected: ')'
+466arch/arm64/kernel/entry-fpsimd.S:66: Info: macro invoked from here
+467arch/arm64/kernel/entry-fpsimd.S:271: Error: found 'l', expected: ')'
+468arch/arm64/kernel/entry-fpsimd.S:66: Info: macro invoked from here
+469arch/arm64/kernel/entry-fpsimd.S:271: Error: found 'l', expected: ')'
+470arch/arm64/kernel/entry-fpsimd.S:66: Info: macro invoked from here
+471arch/arm64/kernel/entry-fpsimd.S:271: Error: found 'l', expected: ')'
+472arch/arm64/kernel/entry-fpsimd.S:66: Info: macro invoked from here
+473arch/arm64/kernel/entry-fpsimd.S:271: Error: unexpected characters
+following instruction at operand 3 -- `bic x2,x1,(0+(((unsigned
+long)~0ULL-((unsigned long)(1)<<(0))+1)&((unsigned
+long)~0ULL>>((sizeof(unsigned long)*8)-1-(3)))))'
+474arch/arm64/kernel/entry-fpsimd.S:66: Info: macro invoked from here
+475arch/arm64/kernel/entry-fpsimd.S:282: Error: found 'l', expected: ')'
+476arch/arm64/kernel/entry-fpsimd.S:98: Info: macro invoked from here
+477arch/arm64/kernel/entry-fpsimd.S:282: Error: found 'l', expected: ')'
+478arch/arm64/kernel/entry-fpsimd.S:98: Info: macro invoked from here
+479arch/arm64/kernel/entry-fpsimd.S:282: Error: found 'l', expected: ')'
+480arch/arm64/kernel/entry-fpsimd.S:98: Info: macro invoked from here
+481arch/arm64/kernel/entry-fpsimd.S:282: Error: found 'l', expected: ')'
+482arch/arm64/kernel/entry-fpsimd.S:98: Info: macro invoked from here
+483arch/arm64/kernel/entry-fpsimd.S:282: Error: unexpected characters
+following instruction at operand 3 -- `bic x2,x1,(0+(((unsigned
+long)~0ULL-((unsigned long)(1)<<(0))+1)&((unsigned
+long)~0ULL>>((sizeof(unsigned long)*8)-1-(3)))))'
+484arch/arm64/kernel/entry-fpsimd.S:98: Info: macro invoked from here
+
+>
+>  #endif /* __LINUX_BITS_H */
+> --
+> 2.43.0
+>
+
+
+-- 
+With best wishes
+Dmitry
