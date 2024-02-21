@@ -2,136 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01A0785E92F
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 21:40:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 781CF85E93E
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 21:51:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE4F110E804;
-	Wed, 21 Feb 2024 20:40:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F0AE10E296;
+	Wed, 21 Feb 2024 20:51:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=wolfvision.net header.i=@wolfvision.net header.b="UDghL9no";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZeOcLVDJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (mail-am6eur05on2118.outbound.protection.outlook.com [40.107.22.118])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FE3B10E7EE
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 20:40:46 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D5D310E296;
+ Wed, 21 Feb 2024 20:51:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1708548671; x=1740084671;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=EqXPmD7WaAwld5/s2zTJyS3RsZeMs3u3GYh1fWNEcLU=;
+ b=ZeOcLVDJYfuAKzPwd7Wn3YVy7cboXemXzdpxafXUJddw4MxfX5liAQU+
+ FZl0+w8iSARdtIIEg5D5+ppI+z/q9KUke3UFmbZxrReh3iZ9PaU5+vTLR
+ aVbQSwJnJlrnycIMSLduP2T0kvzAEakKTLDPccnQuu157hyAeV6XQCHja
+ Pb1bOxsX0sUCEafxKPjH8G0mW6W0cYXwh5fk1AO9QXon5yc0dIszgq0q+
+ wcXjqaweoJkg/dolbNccSfaUuXw2OfpTY8xnViKljsGiczOx5iYPNaCzM
+ 1qtU1quckUUgemIGwXAkzDZSsviDWLrJriQ0FrxkvC+7xdJCr/8LMHz0N w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="2648275"
+X-IronPort-AV: E=Sophos;i="6.06,176,1705392000"; 
+   d="scan'208";a="2648275"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Feb 2024 12:51:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,176,1705392000"; 
+   d="scan'208";a="5199767"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orviesa009.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 21 Feb 2024 12:51:11 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 21 Feb 2024 12:51:10 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 21 Feb 2024 12:51:09 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Wed, 21 Feb 2024 12:51:09 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.100)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Wed, 21 Feb 2024 12:51:09 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JcirZnYa9aGHZ3g1EpZSX8HLm93g+9NnPNqGjbwpe8RSaYOV4jaXsQwcV47wa21X3UqMKhVgcGUGDEW6imDXeh+vqmpS8F1lkSHeb7UD2kNpO1l6CMAYS067KERklqyZIlzj5Qgk+/apfnVo73qw1aousiAI88vHlfQHO2AwbEt64bJCSeOC1nptWZRga24mNRuxvOKzdp0wj6zoyX7xFfIsrIsfYfbIvbvEsLJWs28l1cbbNKO3gMl5i4rsHaMiqSN5NrziN+3g0qJoUGnjK2MjBRRJy1kuIIwK/8tEqq+KmSNCb40G+wvQmtD8H8rsbWoxziK2I4mfONR8dQYbQQ==
+ b=l0SlAYnHRV4gJly3t6BqJILeod4B9sbuCmqQchrynE878Z+e1mAdTpK8jiap6Q9cxuBRzP8r6KvZKxA/dVfwY48XF9T0eQuATHxVit6YHU9j5fv9s2KsohUWFdiltpEHU7BDjb/zKylExcXBHALEq0bIIbnhPL9bNIg4ni7GmZGvAJQH11/9P5QXqOz3OWaEHjVqoTsw3tktRmOFJyVp/gWkb28ERfzvhhC6lgb7PQpIzpn7XXoagh1eM+lIS94iuR6Lt7mKYwWVRlJE+2CoJA+pd3pAAsOwRTvJRzDEhzJ7eEFh4I0gCj/wfSPs8LoyaFQrfPd/MOT4lNYuqMuvKw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EXOQM1VvRDOWKH97CZHpyjHBYwY+8I5piZLsKCJKjBw=;
- b=iVkzUIH9ceDaFJFkTn9hkSsnkciFuaAOYl2weTZZ9jliNJwBjLOlnmvgwyfvHTKVHpUVtXIw8ZKn6xm4wIYCzWnpQ4Q9Uv1dOOk8XUOvA0j/TMxvoim1Sc9Loo7bB+A5w7PdPRyKbGPVtn1C/r+uoHxYKc8B4kdhVzbos7Eoz2CliL1koRHvt+0GJRQZatlG99DEiUq0GTCZRTIVK5zfdcU6Wkv39+trReZ8eHVyiIK2FByIOIHpMudfABsA7AsBMaLmMOTu5fGfE4ZiH9Ztkq7hviipE1LzuTQJy+39nUuyHLuSt+iwwT1L8JxZrEsmMHjUkGk6hCaihK8YH8Xlpg==
+ bh=JZU6KqRl1ivMlBA0ylZaWcepUKtVd68r8QtHVXBb0fo=;
+ b=OEdXV77LrISBtrf8IA14u7SPzLQLSdSzyx9bVE9CL+BkrxCUbUk96a8PUwx7dPAxnqpu/ggR5gS5o7zX52q7eZMWLFP3KinXm+d5Tp5O4eGQflrNdnuVSOb5+nB1UOkTdyNWX8K5wQ50DFIAhnMALuE6VDO5l1lFP9MJnIAcHAxMhOiPV4I1BfsR2g0E0v9bPvs8vlDm/okj5qC3WMhFdqDt0acyxvusXptFV0HCpsnmPoCKY/v+1URmKwgsZ4OOSbu6LBgfQ7F3fJ2avdSOSw1HG3+5mBGAafy1g3hsp5mluAZwZUKbVscv35S9JR1L32MMH5ish4HyuZdtY+MvDw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wolfvision.net; dmarc=pass action=none
- header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EXOQM1VvRDOWKH97CZHpyjHBYwY+8I5piZLsKCJKjBw=;
- b=UDghL9notPWWz46LEJB13T07oIhCtqgUJAi6/9wxP8Ol7GLTYIwoqnUpR1zsoufETBzahUBc+JEClSYdR6dhDOQrQnyybSwXwjPFkm5NYNI73pxtGIeM9e5dewwBb3YIx8nfCa5qwh1gZ6cJpdTqS1zDshrar6mabXfRCeS/bd8=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wolfvision.net;
-Received: from VE1PR08MB4974.eurprd08.prod.outlook.com (2603:10a6:803:111::15)
- by DBBPR08MB5978.eurprd08.prod.outlook.com (2603:10a6:10:1f5::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.39; Wed, 21 Feb
- 2024 20:40:42 +0000
-Received: from VE1PR08MB4974.eurprd08.prod.outlook.com
- ([fe80::9527:ec9f:ec4b:ec99]) by VE1PR08MB4974.eurprd08.prod.outlook.com
- ([fe80::9527:ec9f:ec4b:ec99%6]) with mapi id 15.20.7292.033; Wed, 21 Feb 2024
- 20:40:42 +0000
-Message-ID: <503d9ea9-9812-498b-a5ee-2579ba8a7ecf@wolfvision.net>
-Date: Wed, 21 Feb 2024 21:40:38 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 6/8] usb: misc: onboard_dev: use device supply names
-To: Matthias Kaehlcke <mka@chromium.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Helen Koike <helen.koike@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Russell King <linux@armlinux.org.uk>, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-References: <20240220-onboard_xvf3500-v4-0-dc1617cc5dd4@wolfvision.net>
- <20240220-onboard_xvf3500-v4-6-dc1617cc5dd4@wolfvision.net>
- <ZdZcLOlSc3FScjLK@google.com>
-Content-Language: en-US
-From: Javier Carrasco <javier.carrasco@wolfvision.net>
-In-Reply-To: <ZdZcLOlSc3FScjLK@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0062.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ce::19) To VE1PR08MB4974.eurprd08.prod.outlook.com
- (2603:10a6:803:111::15)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB8182.namprd11.prod.outlook.com (2603:10b6:8:163::17)
+ by CY5PR11MB6114.namprd11.prod.outlook.com (2603:10b6:930:2d::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.22; Wed, 21 Feb
+ 2024 20:51:06 +0000
+Received: from DS0PR11MB8182.namprd11.prod.outlook.com
+ ([fe80::e8bb:5354:3889:6092]) by DS0PR11MB8182.namprd11.prod.outlook.com
+ ([fe80::e8bb:5354:3889:6092%3]) with mapi id 15.20.7292.036; Wed, 21 Feb 2024
+ 20:51:06 +0000
+Date: Wed, 21 Feb 2024 12:51:04 -0800
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+CC: intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel
+ <dri-devel@lists.freedesktop.org>, Chris Wilson
+ <chris.p.wilson@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, John Harrison <John.C.Harrison@intel.com>, 
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, <stable@vger.kernel.org>,
+ Andi Shyti <andi.shyti@kernel.org>
+Subject: Re: [PATCH v2 2/2] drm/i915/gt: Enable only one CCS for compute
+ workload
+Message-ID: <20240221205104.GM718896@mdroper-desk1.amr.corp.intel.com>
+References: <20240220143526.259109-1-andi.shyti@linux.intel.com>
+ <20240220143526.259109-3-andi.shyti@linux.intel.com>
+ <20240220233918.GG5347@mdroper-desk1.amr.corp.intel.com>
+ <ZdU_4okr8GcSpTtm@ashyti-mobl2.lan>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <ZdU_4okr8GcSpTtm@ashyti-mobl2.lan>
+X-ClientProxiedBy: BY3PR05CA0009.namprd05.prod.outlook.com
+ (2603:10b6:a03:254::14) To DS0PR11MB8182.namprd11.prod.outlook.com
+ (2603:10b6:8:163::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VE1PR08MB4974:EE_|DBBPR08MB5978:EE_
-X-MS-Office365-Filtering-Correlation-Id: 856b3e27-d280-4a2f-4a10-08dc331d5ed4
+X-MS-TrafficTypeDiagnostic: DS0PR11MB8182:EE_|CY5PR11MB6114:EE_
+X-MS-Office365-Filtering-Correlation-Id: eb89f30e-918f-4001-7691-08dc331ed344
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tkRhZ5w6AI7ce21L7Ezks5HDf1Dg1h6trbTTyE9w3h7tgV+uH2WjznA65aZ3mWxywUD5YWgZE3dZ2qemHEv47a8nF+MOD+rrYAA0VFDBSiNIWA0CqAxp/q4Od8zkuLfy6qVOnp7gCsX17dhHgO4B/Q/GAZ27MaJs8vndc3RMrh4g4XnN1uo5dJqd4kiLZvztK0yXp5M8LwxwXaWxE71Jup+ZCfKGjrixnk47ouTNVo7QHidUMXmUZQbH8o3WsPQV7gF7qMh6dVYkzE9O0beT6Pd68luJxHihgKFEKwphrci5hDixGzIclgzylP3oufRay7Ir49PxXTsmBhhNqbemei+dbc1bN5+NCvHa8DwTWKz5ANumq/ZHxwgIG24j8zOwRgIk9YF4MeorJSzSaK+1gA1p14+d6u3q0pXCSDdBgnDWiPOHBZjw9/loft/P7QG+FaQ0swsl3yO31TdwEC/Kb4CFay8b11HHF2foFlgQswcIr3tDwbv2epAy026JGIdG8+p6jwptMOilG/jJAtFu1jm+t8MFdrFO6qcaeiECFoM=
+X-Microsoft-Antispam-Message-Info: Dbnx+p5hKJXU20fMsK23cX8afH41hYPSWBZ6CIk1AVOvgjEYKJ1L8ZDxEgDLvaXlbljDZVhtM5E9xUitSqhQZOcfl5OftXVebm3b4zznWO8RQAX/HEk26ouk8YOSlBTOrJeDC8TgB0kXPFLB/aso9E6MyqujqgE1GoyL5pAxwvIBOx489LFyRHj7nzqtWD1hZufgFrLcNC7nzVC4jRr5UASM8I7BVI8rp9JIY6l+UIIuC3PVobCyeWY31866bbEvu2SLy9tz1fibon1qM0OdoTih6XEbeucDY8eJyZMDafNY09140aXzXtrXEy7qcc9p43yEeLDXcO7BDk45SXrpEqbDDfGEP7HZkw6Vy5QgXjxmha/r81jSsPILj4LX4Z/FDbajAIP4FG96f/WhWfjAoPsiG/QOK51FP5QjLm/PhOOveVicF3Fi2MDQd2CclZvs4dJjPcjZq1mqpePpfr7yu5IYjtrqOApAbpjU3gGCBj0VGReltKT2OkZe2Z7CSLyk0qR/7sM0Oi4OeVf9oggWAKN0tkDp6xW8N/9hvp5Ot0k=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VE1PR08MB4974.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031); DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:DS0PR11MB8182.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UXo4MlNVWlF0NFRuTGJ6QytMUE12TVdSNURFQ0cya3UzZ3ltVkVjRUhlcUM4?=
- =?utf-8?B?OEZLTzFlelV6MVRyOUFyK0NDRmRGTTZaaFh4VFBYaUYyK0wxY0VkREpuNnhV?=
- =?utf-8?B?Q3NRcWdkRUoyeTd5ckZHNjdYZUQzTG5kVE9LUUV1anBzSDJRcHJTbUgvcjVQ?=
- =?utf-8?B?UTg4aG92anRPaWZtN0gvSi95QUFhSXlTdWFRNzkvU2xhcTRoeG9LbGZ3ZE82?=
- =?utf-8?B?YlVLbHdtdm1FRlViaFI5WmFxQWJzRmRaTk1Vc3hOMG42OFNFTG1iRlZYTzUv?=
- =?utf-8?B?ZHVKRVBjcCt2clVva1pucEVTdy8waVBxbmM5a05oUlBtaGZEWEwrK3JpekhM?=
- =?utf-8?B?dU1iMFpkY09QOFRMdzdIK2hqRXI1VE9RQzNwamkxSVkwVkRiZlVxcjc3TkJH?=
- =?utf-8?B?MUZmMGxmd3FNT1Nmb0hvOXVXRmllTTRjYlRBajZ2bVRaQWdIY1NTMTUrTHQ3?=
- =?utf-8?B?S1RPUHdDdWNXc3pseXhMTXl2OG1EdE03alRUUW4rVVJGdzVuOEdQL0s0K2Np?=
- =?utf-8?B?Nm44WVNLYVY0Tk9hWHN6OE9aQ1N6ZCtTMWM2L1JkOHBhNEdpSXgyVDYvRThh?=
- =?utf-8?B?eGc3ak40ZzJSL2NqcUtJZk5ONUZsMTBaUU51enNaVFkyNGdOeUpDQXE3ZHVm?=
- =?utf-8?B?bUVscWFMOGRmUDBHeHhrTmNPSWxSV3JDMk9RSjVDYUxlYXdrQmhUcWhGTjEz?=
- =?utf-8?B?L2Z2MVpGVnViR1ZPcFlUWTNtUVo4N0svWDZaaHgrV0NDNW1yS1NQRFNlMFZ1?=
- =?utf-8?B?OWtTaTVIVzE0N0RsMUdBa1oyUUtoRHZXZm1PNFd3RktlUzZFNnBLcUJkeEVC?=
- =?utf-8?B?SHQ4NTBIaGtEV3BUd0hZSHVYTEwxZ0N2amVzYzM1OG9vUEU3dFZCTklwNUJo?=
- =?utf-8?B?a244K0ErdWJubHQxM2lBQytOUjcwYWlIT2ZQMkpoT1htb2hrMHBSaHRoa3h3?=
- =?utf-8?B?U2dZSC9wSFBqNXI5clhuQmw5VUNXaXowRytKR3k1NVpZQXFtQ29jTmlyZTlv?=
- =?utf-8?B?ZVpocWE2OHpMVk1HVHI1MG12dWdVaFJQT2UrdVpVZ2ovS0dIMHlGZWNJcWNU?=
- =?utf-8?B?bm02cWk2Mkg2UC80VjRZSCtGY3BsUVlhczV5YXppR243Z0J3akpvaTM3YWxU?=
- =?utf-8?B?Rm81SDFPZHo4YnhSRlRUa0Rla0ttY2pGSW5oY2tpMWlDNXhXdlpBZmpyNW5H?=
- =?utf-8?B?a3p2ZGJNZm9FbHY0bWg4VWJOSXEweFhBNHVMVTFPNmtZUDEvOHpEK09zOGMx?=
- =?utf-8?B?WVJvVHI5TDBFVGZGc3VCeThoTnJzbDlCZkx4Y0l6SmFubGlyRkhXUVp3SG1u?=
- =?utf-8?B?dDhPVzZncEFxRkxrcUlzbEIxYUFTVldONGtsWW4vbDBjRXRwTGluMzFNVHBB?=
- =?utf-8?B?WXVsaUZLU1AyU0RVQVdhZGNpSWRLYjZsemUvellzaUY4Ti8vY2RqNHljMU9q?=
- =?utf-8?B?SVg3eGplNkl2Q3hkREhoanBwcFpaWDdqdFFzQnM4UlRWUzFQNGRnZ0dWZ3J4?=
- =?utf-8?B?d05FVFVLQTIzc0V4ZVlvTTgzMHY2Qnpkb3U0aWNZUkcxRGRnczFVQXNTZlFV?=
- =?utf-8?B?ZDBnMDQwR1JJL0JRWUx2Q2M1dTg4aXJuUVVEMzM1eFBPaTN3Mk8rRGJ3cGpi?=
- =?utf-8?B?QUZsejE2RkIzR3hTZGg1dGRHTVNhWEROMTBIQnN5d1BPdEtRSW15NEVqQjZs?=
- =?utf-8?B?WGV6SFA3RWExZG1CR014QVl3bFN0M0pPcUpBdkZYbnhsMmF3eTlzc2E0TjdE?=
- =?utf-8?B?YXk0a2w3ajhjNWhDK29RaTlRWE9KTk9WTGJKbTJoenBMTEN4R3padXdhb0Ey?=
- =?utf-8?B?UGduT25FcXI4aE83anJUcjlndDZWTFlyeHFQVHZFNFhGSkZNaGZPODNoSDFv?=
- =?utf-8?B?aU1ZMHJyNHEzMTl0NVlWZjhWK0ZkVThIanprK3I0TmxrTlpVS2ZwSmpQQ2Ev?=
- =?utf-8?B?S29JRE94WDFEeDZUR28zd1l4K2xFN3l4V2UrWHlXNFBoZ0hRMWRDSXFUSDJw?=
- =?utf-8?B?QVBBWlBWTml4MytZZ3hTdG10QWJvd0hBZ1Axbm5RRWJ6M1RoZXZsVWQrS1E1?=
- =?utf-8?B?ZWY0SDFaaE8yRmtlWW5ydWRnRjRuUzRPWVRRT3A5eThVbmpldTIxRVNlZVcw?=
- =?utf-8?B?aVoyUlYyYTJKTnJURzBraThUdCt3VXFsYTFKNmNZWFlGR2N4MDA5YTlER0pt?=
- =?utf-8?B?SWk4bGRLNkNRUmtId3lmWUswUjdNRHBuK3ZyVXh3TGsxeWtucTZ5M09neUZJ?=
- =?utf-8?Q?Wed46KEYs9+P4V/g9U1Dk2/sgK7TX57s8up9F2QZ7c=3D?=
-X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 856b3e27-d280-4a2f-4a10-08dc331d5ed4
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR08MB4974.eurprd08.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wsIN9eQg7KpupxFf271eLORf+uVZl+46kNN2pG6l4dvLLjy5BQRCcGK6Y/hK?=
+ =?us-ascii?Q?Zc5Dq8Nw/Etg5MpQYfLG8kskAOAnlt1mgGaFRWOVeRHKn4k/VrQ7ZMkNdJHq?=
+ =?us-ascii?Q?pHcFi9SK7PteX05IgAReU9EwwrFEgrEtq1AXELd3D+OClLeIagY1/pp2eedv?=
+ =?us-ascii?Q?In6D/keKnm3Pc904blZ0BIt5ksaKmTtzTxSY7FfVthHvD2m5o3THwzG2YkaY?=
+ =?us-ascii?Q?0nm9EVzt1HwYydG5/kRV29SIRX9vdNubtZl2bXSK7UebC2FsNhM2+edYQfx+?=
+ =?us-ascii?Q?95KC+Rl+zsgG1a+BC7Y3ynzTTkPF4kkCHtCV7gY2kvmY+PBltpnrSWHd8mcD?=
+ =?us-ascii?Q?AbHKs9vfva2IPNjYsNIDoCo9B2v0TuSz+6U+kG/X31GFUcaG3UclUU5C5aI2?=
+ =?us-ascii?Q?AB3KcqytU7Ky5rBTRC1pPWjwoUAl1WmcYy03lUkKDkS3KCMFYRM8Z1way29y?=
+ =?us-ascii?Q?O76hTosikmbomBDH7NjtE73Nve6KCMFJH1bmMXcG4+gaMfR2v6GvU/PqRlla?=
+ =?us-ascii?Q?30cBPVujJKZAY+KRnlNLls80oPaZhQ1TYw46fe3il6dNrOFqMGN4LxBU9hzx?=
+ =?us-ascii?Q?oBUqiS+mYJcUVhrqSS6xw7aJaYhev1kFn3lMs+fBL9xtQfMLRo0SEFnrnoQR?=
+ =?us-ascii?Q?ttIvQX/YYQuJcncQF8aT2M6Xde3JxYtX51cAw1yo7XQsJ0utk5rZhAUQWeaF?=
+ =?us-ascii?Q?hZVy4KQTjVtiikFJJ91dGctRxkTfzfZkX2d9yQx7ntwo4VpaiDBACVx/MURf?=
+ =?us-ascii?Q?7V3NBcQ9VXHpObvPVVbVmlWQqiuDuD7v0n2BjydQDQ1dFNM1axstrAtwPkPB?=
+ =?us-ascii?Q?GSEmrZomcNOIqGoKJu8SpZZsuGvtFOD5lekqMxQghg1u4aczcsAJ1rFZkosX?=
+ =?us-ascii?Q?vjJvMOpDFlyxrGQuHOCD0YX4BEBuOO55aMEjptk0dxLPZWL9s0RLJmyAgCgY?=
+ =?us-ascii?Q?6pFAALTsgFAlDK9ZttSot6nEX6wrr9WueshrmFR0VDFs/i887MoInVyt5tsY?=
+ =?us-ascii?Q?eULPxMO/NTyB6+t/By//7T/yONzQ7ekHEgys+zShVhBSDzEeZHvblYVgF/Bv?=
+ =?us-ascii?Q?6oq5otEwO0YJg8Mshd82fqPNRoYxnhn7h1a+XfvUXaAoBhWy94QMo32/68fY?=
+ =?us-ascii?Q?3qWVvtJHGDTdU3J8mP69v/N1120Krdw+OquQ8k4aIxJYwk8iGg9h1V/ZY+dO?=
+ =?us-ascii?Q?e64eWVGW6h261Y3dkUrXrzXERJ0VhnUh1HuOfKUk24dhGEg0Ko/ruEuv99bW?=
+ =?us-ascii?Q?cSvnRZHZQ018l9ULWURfOO7yXb3/IFuQvy/GuzWSUen/vmy2gdwyBlkNbW0s?=
+ =?us-ascii?Q?OEsvxZifzJO+/edSeU1MxI/b3xGQXXk2XwztudTsEISP0b5Ia0uCqoRj0j+F?=
+ =?us-ascii?Q?Fl0TwaxTn3A/RX/P0w/Ix8gKUCBWKrm1Vwt9sxKzLz/08XmN8pvxxHQQLi7G?=
+ =?us-ascii?Q?ZtlKIr3i0rOGh9Am/bS9IOcZ9mqrMR92Kl0wLLco8AwuPXVlme05VA4NIImE?=
+ =?us-ascii?Q?hqDRbPz/A/D8v4hr5OYmaq+aQK1vJxQlE7iA2YsR3hhdu1PkuZP0c74MGG+X?=
+ =?us-ascii?Q?qUegZnVwKrGtViQqx9dyeuA3hlJrz7wzsNUUYDW0Lq8Ga4w5UFVSy8WOBT/c?=
+ =?us-ascii?Q?Kg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: eb89f30e-918f-4001-7691-08dc331ed344
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB8182.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2024 20:40:42.0283 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2024 20:51:06.7396 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MnsE+LqjT4itSY0kEQOoQfmp+wDs5GsuKwRzihp6Bv9D+UWnTjl17b1EkYU1SOAI8EOpkXHUtsfBYgImtNvIZRtK7ET3f2b77qFpqav1NwA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB5978
+X-MS-Exchange-CrossTenant-UserPrincipalName: NCtTq4NLm8XJH242dMpKIARBPMnPHP8GKhoUvNZYUoACt+DSwmWrd+Q+p7BEL7grJQcSfpSL34ZD46Ekxv/+emw/y26f9OboaPQBhuoZacE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6114
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,125 +163,171 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21.02.24 21:25, Matthias Kaehlcke wrote:
-> On Tue, Feb 20, 2024 at 03:05:50PM +0100, Javier Carrasco wrote:
->> The current mechanism uses generic names for the power supplies, which
->> conflicts with proper name definitions in the device bindings.
->>
->> Add a per-device property to include real supply names and keep generic
->> names as a fallback mechanism for backward compatibility.
->>
->> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
->> ---
->>  drivers/usb/misc/onboard_usb_dev.c | 54 ++++++++++++++++++++------------------
->>  drivers/usb/misc/onboard_usb_dev.h | 23 ++++++++++++++++
->>  2 files changed, 52 insertions(+), 25 deletions(-)
->>
->> diff --git a/drivers/usb/misc/onboard_usb_dev.c b/drivers/usb/misc/onboard_usb_dev.c
->> index f43130a6786f..e66fcac93006 100644
->> --- a/drivers/usb/misc/onboard_usb_dev.c
->> +++ b/drivers/usb/misc/onboard_usb_dev.c
->> @@ -29,18 +29,6 @@
->>  
->>  #include "onboard_usb_dev.h"
->>  
->> -/*
->> - * Use generic names, as the actual names might differ between devices. If a new
->> - * device requires more than the currently supported supplies, add a new one
->> - * here.
->> - */
->> -static const char * const supply_names[] = {
->> -	"vdd",
->> -	"vdd2",
->> -};
->> -
->> -#define MAX_SUPPLIES ARRAY_SIZE(supply_names)
->> -
->>  static void onboard_dev_attach_usb_driver(struct work_struct *work);
->>  
->>  static struct usb_device_driver onboard_dev_usbdev_driver;
->> @@ -66,6 +54,33 @@ struct onboard_dev {
->>  	struct clk *clk;
->>  };
->>  
->> +static int onboard_dev_get_regulator_bulk(struct device *dev,
->> +					  struct onboard_dev *onboard_dev)
->> +{
->> +	unsigned int i;
->> +	int err;
->> +
->> +	const char * const *supply_names = onboard_dev->pdata->supply_names;
->> +
->> +	if (onboard_dev->pdata->num_supplies > MAX_SUPPLIES)
->> +		return dev_err_probe(dev, -EINVAL, "max %zu supplies supported!\n",
->> +				     MAX_SUPPLIES);
->> +
->> +	if (!supply_names[0])
->> +		supply_names = generic_supply_names;
+On Wed, Feb 21, 2024 at 01:12:18AM +0100, Andi Shyti wrote:
+> Hi Matt,
 > 
-> Please change to 'if (!supply_names)' and omit the initialization of
-> .supply_names for devices that use the generic supply names.
+> thanks a lot for looking into this.
 > 
-
-That looks much cleaner, I will apply it to the next version.
-
->> diff --git a/drivers/usb/misc/onboard_usb_dev.h b/drivers/usb/misc/onboard_usb_dev.h
->> index ebe83e19d818..59dced6bd339 100644
->> --- a/drivers/usb/misc/onboard_usb_dev.h
->> +++ b/drivers/usb/misc/onboard_usb_dev.h
->> @@ -6,63 +6,86 @@
->>  #ifndef _USB_MISC_ONBOARD_USB_DEV_H
->>  #define _USB_MISC_ONBOARD_USB_DEV_H
->>  
->> +/*
->> + * Fallback supply names for backwards compatibility. If the device requires
->> + * more than the currently supported supplies, add a new one here, and if
->> + * possible, the real name supplies to the device-specific data.
->> + */
->> +static const char * const generic_supply_names[] = {
->> +	"vdd",
->> +	"vdd2",
->> +};
->> +
->> +#define MAX_SUPPLIES ARRAY_SIZE(generic_supply_names)
+> On Tue, Feb 20, 2024 at 03:39:18PM -0800, Matt Roper wrote:
+> > On Tue, Feb 20, 2024 at 03:35:26PM +0100, Andi Shyti wrote:
 > 
-> This will have to change when support for a device with more than 2 non-generic
-> supply names gets added. Please use a literal value for MAX_SUPPLIES instead of
-> ARRAY_SIZE. If the literal is 2 it would still need to change for future devices
-> with more supplies, but that change would be more straighforward.
+> [...]
 > 
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> > > index 833987015b8b..7041acc77810 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> > > @@ -243,6 +243,15 @@ void intel_engines_driver_register(struct drm_i915_private *i915)
+> > >  		if (engine->uabi_class == I915_NO_UABI_CLASS)
+> > >  			continue;
+> > >  
+> > > +		/*
+> > > +		 * Do not list and do not count CCS engines other than the first
+> > > +		 */
+> > > +		if (engine->uabi_class == I915_ENGINE_CLASS_COMPUTE &&
+> > > +		    engine->uabi_instance > 0) {
+> > > +			i915->engine_uabi_class_count[engine->uabi_class]--;
+> > > +			continue;
+> > > +		}
+> > 
+> > Wouldn't it be simpler to just add a workaround to the end of
+> > engine_mask_apply_compute_fuses() if we want to ensure only a single
+> > compute engine gets exposed?  Then both the driver internals and uapi
+> > will agree that's there's just one CCS (and on which one there is).
+> > 
+> > If we want to do something fancy with "hotplugging" a new engine later
+> > on or whatever, that can be handled in the future series (although as
+> > noted on the previous patch, it sounds like these changes might not
+> > actually be aligned with the workaround we were trying to address).
+> 
+> The hotplugging capability is one of the features I was looking
+> for, actually.
+> 
+> I have done some more refactoring in this piece of code in
+> upcoming patches.
+> 
+> Will check, though, if I can do something with compute_fuses(),
+> even though, the other cslices are not really fused off (read
+> below).
+> 
+> > > +
+> > >  		rb_link_node(&engine->uabi_node, prev, p);
+> > >  		rb_insert_color(&engine->uabi_node, &i915->uabi_engines);
+> > >  
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+> > > index a425db5ed3a2..e19df4ef47f6 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+> > > @@ -168,6 +168,14 @@ static void init_unused_rings(struct intel_gt *gt)
+> > >  	}
+> > >  }
+> > >  
+> > > +static void intel_gt_apply_ccs_mode(struct intel_gt *gt)
+> > > +{
+> > > +	if (!IS_DG2(gt->i915))
+> > > +		return;
+> > > +
+> > > +	intel_uncore_write(gt->uncore, XEHP_CCS_MODE, 0);
+> > 
+> > This doesn't look right to me.  A value of 0 means every cslice gets
+> > associated with CCS0.
+> 
+> Yes, that's what I'm trying to do. The behavior I'm looking for
+> is this one:
+> 
+> 	 /*
+> 	  ...
+>           * With 1 engine (ccs0):
+>           *   slice 0, 1, 2, 3: ccs0
+>           *
+>           * With 2 engines (ccs0, ccs1):
+>           *   slice 0, 2: ccs0
+>           *   slice 1, 3: ccs1
+>           *
+>           * With 4 engines (ccs0, ccs1, ccs2, ccs3):
+>           *   slice 0: ccs0
+>           *   slice 1: ccs1
+>           *   slice 2: ccs2
+>           *   slice 3: ccs3
+> 	  ...
+> 	  */
+> 
+> where the user can configure runtime the mode, making sure that
+> no client is connected to i915.
+> 
+> But, this needs to be written 
+> 
+> As we are now forcing mode '1', then all cslices are connected
+> with ccs0.
 
-I am not completely sure about this. Someone could increase MAX_SUPPLIES
-without adding a generic name. Actually two modifications will be
-necessary for every addition (name and MAX_SUPPLIES). If ARRAY_SIZE is
-used, only new names are required, and MAX_SUPPLIES is automatically
-increased.
+Right --- and that's what I'm pointing out as illegal.  I think that
+code comment above was taken out of context from a different RFC series;
+that's not an accurate description of the behavior we want here.
 
-I understand that the whole point of this is getting rid of the generic
-names, but we still have to provide generic names for every extra
-supply, at least for code consistency and to avoid size mismatches
-between real an generic supply names.
+First, the above comment is using ccs# to refer to userspace engines,
+not hardware engines.  As a simple example, DG2-G11 only ever has a
+single CCS which userspace sees as "instance 0" but which is actually
+CCS1 at the hardware level.  If you try to follow the comment above when
+programming CCS_MODE, you've assigned all of the cslices to a
+non-existent engine and assigned no cslices to the CCS engine that
+actually exists.  For DG2-G10 (and I think DG2-G12), there are different
+combinations of fused-off / not-fused-off engines that will always show
+up in userspace as CCS0-CCSn, even if those don't match the hardware
+IDs.
 
->> +
->>  struct onboard_dev_pdata {
->>  	unsigned long reset_us;		/* reset pulse width in us */
->>  	unsigned int num_supplies;	/* number of supplies */
->>  	bool is_hub;
->> +	const char * const supply_names[MAX_SUPPLIES];
->> +
->>  };
->>  
->>  static const struct onboard_dev_pdata microchip_usb424_data = {
->>  	.reset_us = 1,
->>  	.num_supplies = 1,
->> +	.supply_names = { NULL },
->>  	.is_hub = true,
->>  };
->>
->> ...
+Second, the above comment is assuming that you have a part with a
+maximum fusing config (i.e., all cslices present).  Using DG2-G11 again
+as an example, there's also only a single cslice (cslice1), so if you
+tell CCS1 that it's allowed to use EUs from non-existent cslice0,
+cslice2, and cslice3, you might not get the behavior you were hoping
+for.
 
-Thanks again for your feedback.
+> 
+> > On a DG2-G11 platform, that will flat out break
+> > compute since CCS0 is never present (G11 only has a single CCS and it's
+> > always the hardware's CCS1).  Even on a G10 or G12 this could also break
+> > things depending on the fusing of your card if the hardware CCS0 happens
+> > to be missing.
+> > 
+> > Also, the register says that we need a field value of 0x7 for each
+> > cslice that's fused off.  By passing 0, we're telling the CCS engine
+> > that it can use cslices that may not actually exist.
+> 
+> does it? Or do I need to write the id (0x0-0x3) of the user
+> engine? That's how the mode is calculated in this algorithm.
 
-Best regards,
-Javier Carrasco
+0x0 - 0x3 are how you specify that a specific CCS engine can use the
+cslice.  If the cslice can't be used at all (i.e., it's fused off), then
+you need to program a 0x7 to ensure no engines try to use the
+non-existent DSS/EUs.
 
+
+Matt
+
+> 
+> > > +}
+> > > +
+> 
+> [...]
+> 
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> > > index cf709f6c05ae..c148113770ea 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> > > @@ -1605,6 +1605,8 @@
+> > >  #define   GEN12_VOLTAGE_MASK			REG_GENMASK(10, 0)
+> > >  #define   GEN12_CAGF_MASK			REG_GENMASK(19, 11)
+> > >  
+> > > +#define XEHP_CCS_MODE                          _MMIO(0x14804)
+> > 
+> > Nitpick:  this doesn't seem to be in the proper place and also breaks
+> > the file's convention of using tabs to move over to column 48 for the
+> > definition value.
+> 
+> This was something I actually forgot to fix. Thanks!
+
+-- 
+Matt Roper
+Graphics Software Engineer
+Linux GPU Platform Enablement
+Intel Corporation
