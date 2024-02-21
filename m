@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9071985DA0B
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 14:26:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B27F085DA12
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 14:26:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98E4610E5FE;
-	Wed, 21 Feb 2024 13:26:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03A5110E741;
+	Wed, 21 Feb 2024 13:26:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RrHbDPN4";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="iHp3azn1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
- [209.85.215.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7D1B10E5FE;
- Wed, 21 Feb 2024 13:26:37 +0000 (UTC)
-Received: by mail-pg1-f177.google.com with SMTP id
- 41be03b00d2f7-5dbf7b74402so5418351a12.0; 
- Wed, 21 Feb 2024 05:26:37 -0800 (PST)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C548B10E743;
+ Wed, 21 Feb 2024 13:26:47 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id
+ 98e67ed59e1d1-29951f5c2e7so2243503a91.1; 
+ Wed, 21 Feb 2024 05:26:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1708521997; x=1709126797; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1708522007; x=1709126807; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
- :reply-to; bh=EePe0MTYXs7Z2oTEDss9GmtaBsc5eCkdw3mGJQ9X/gg=;
- b=RrHbDPN4Evl6YvS9hX5SASlD1DfUVx+5WfSSbkjDo2eFwwwwFNCKIn33srhioNBHEJ
- iBK/j+Ya4cbR86YtLrQEcHnGXsCrJgT7lVtNekGDPUBdd4Yz+T2jYvdpOpC520ZpUR60
- e15iRwJcVZ6KqZKsg5wyH0LD2kjgPj6l1xkreAtUxlPIvEDZfO6SPav4GmtUJgYygjID
- YwVGw83N9dl5hBcsdy5AahUpfpsfkitaggrvXUXgxfkkYqTRcgBG5Fm+WbsegGu7KYaO
- xRvBsnyQDn9WObaINdAmCuBb85hjTqHYRESSC6AtdH7acN6VWzr8sf18ZKBi6q3AYKnN
- PuiQ==
+ :reply-to; bh=FIcGpMiTUFuShIJcNZW3Z6nnK/vjwEkJ2H69Fs4AHDY=;
+ b=iHp3azn1cnsBBc6Fzo9UVsU5o3VVWDc7bC9FicYOll/RcYhExHHT+RF6efGW+zBvsU
+ F5XyNWwtXzypY85Ud0l+xhVaOLuW8fCPpg/T70uYbt9iByq3orvOnq1HtGIqW/DKkGs+
+ J2/N9XzibUILfD/mjhacIun01KetBa1TBaPCoD7QmyHkMhwHse6XlklUHKylsKR5P8j9
+ 7mwIabPAo/djcDoGdEu7d2Uk70GjuVeXLmlT4H6uJeTOxJ5hf25M0cRXVu2OyNc0mfpJ
+ PpXoZybwuJDYMUhEsLl88qdTL+sDjoM9XSlqj/I6QxFpRr96DNyaN6WZqp5kELj76Ugz
+ l0bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708521997; x=1709126797;
+ d=1e100.net; s=20230601; t=1708522007; x=1709126807;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=EePe0MTYXs7Z2oTEDss9GmtaBsc5eCkdw3mGJQ9X/gg=;
- b=ZHGt7EdyPo3ebFPF+sVQ0PkzHsKa2AXdFflK7e1exrLMlbZpioJycich8fUYbUlHvt
- Bd9JtbJYu2xufcdL484Q6tVy/OsUgDmou9VeraYgH+UJBonEbwdLe7/0CO/Zmjw7vU08
- 0RqgpZtOfg/XwEKyHjG8za9y9EYgZQF7s4VCHKHXYBYFtO/OMXjotMWonT+lkZEzXVd1
- paH+zew+5VokNLfIrW/K1ndfmYbomPl1v5zpNKti9HU2kTf1E0jU/RUKRNP099mQ4Oc9
- LROf9tOp9nPNwq69tmm6g3PILmGtRkmJ3r7Wt8Xy6aWiH/VvEPpjYHKnvqe2HyNvxDvb
- /3/g==
+ bh=FIcGpMiTUFuShIJcNZW3Z6nnK/vjwEkJ2H69Fs4AHDY=;
+ b=jHDTMaPF8hDzBievkSU/uftOA4JIaVrDC1lkh9JJLKBs29ydI4WiR02bxj54I2jmhD
+ wkSRgW84vRXNrahxP2YbiDqJamFStSjsLJX0gVjWPtCnf++G37MSMeS+thQQOCd8VctN
+ OJgwOvSQzOvqMtEdsYnNgiPLXpQFNF8O6Cgp6N590WYmIzWkkUaIakw+p0S/i534IbqD
+ CFoa8EVjhKNiaYzY3GeeFmYAFk5N5kLdv7qQZ4yk7WoBmJHNpWa0Kd8au70Rjmt/O1vW
+ 9kOD9E5rNMajk8K+mhMheooZOCY9rDdA65g562B3jILXBvMmx+lmi3MzprQEdFQolydZ
+ Digw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX0eNeXarFq373zQpCdZFkf7t1vce4hdWfqZZRnRN/NHGC3ZhI29C06TZN4Vb8yV99DExvagTgdozIvitOg+56GC53JE9RcX+dqO1L6qyRFUSNIn+7LfHYdnOQNnZ3O6QNVyf5rsCBvuo6KszUchnE=
-X-Gm-Message-State: AOJu0YxxnDP2dxKbmX1F6Yuue3uSSm0R7JWYd8CxsMXvuFK6XLiRxWKJ
- 0n7nIFMjDvo0feDl2dO0nSDPZOIbnfQJdHPsqGTunXHfvMX8ktym
-X-Google-Smtp-Source: AGHT+IEWPD4ejqzNqPJw2zZJamfWDbGhl2UdLf9/ybf3Epci3Toaligu7BmzJbVDgqS9rDkt/1mWvw==
-X-Received: by 2002:a17:90b:155:b0:299:4fba:7434 with SMTP id
- em21-20020a17090b015500b002994fba7434mr10656678pjb.0.1708521997284; 
- Wed, 21 Feb 2024 05:26:37 -0800 (PST)
+ AJvYcCU4hf7WSCbZ0u+YHheOgtte/GypzYj2L1pLR0hCWl8HYONTqStjnvuDH/6gMsbR1kdPMEH1PNR3DdX5XPU4Uv4X8HvSH7KOHb2KBS2eWyPyEzIIacPvijPNEAvgNzFjJFN8R0aevLtHsQMdKUCw+wg=
+X-Gm-Message-State: AOJu0YypNdItlmb711aVhdx1gd1SObgrJ0/P6DAWRoAAB+mtNdQPF32O
+ hEyNIm1nGThzqUpNdAX7EnoYUwZkYYx3eTYdOxkLF76g45KSJnYI
+X-Google-Smtp-Source: AGHT+IFE0VdYohKERbDpngNjL2p6AnzRx2gY/8gsbGjsig+sWD9GvuWZ3WTfrhlLRHdoubZSLlvgUQ==
+X-Received: by 2002:a17:90b:3b50:b0:299:6c4a:c5f0 with SMTP id
+ ot16-20020a17090b3b5000b002996c4ac5f0mr8381795pjb.9.1708522007304; 
+ Wed, 21 Feb 2024 05:26:47 -0800 (PST)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
  by smtp.gmail.com with ESMTPSA id
- pf10-20020a17090b1d8a00b002992754487fsm9447776pjb.5.2024.02.21.05.26.36
+ h23-20020a17090aea9700b00298c633bd5fsm1699769pjz.30.2024.02.21.05.26.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Feb 2024 05:26:36 -0800 (PST)
-Date: Wed, 21 Feb 2024 05:26:36 -0800
+ Wed, 21 Feb 2024 05:26:46 -0800 (PST)
+Date: Wed, 21 Feb 2024 05:26:45 -0800
 From: Guenter Roeck <linux@roeck-us.net>
 To: David Gow <davidgow@google.com>
 Cc: Linus Torvalds <torvalds@linux-foundation.org>,
@@ -80,15 +80,15 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  intel-xe@lists.freedesktop.org, linux-rtc@vger.kernel.org,
  linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
  linux-hardening@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH 8/9] drm/xe/tests: Fix printf format specifiers in
- xe_migrate test
-Message-ID: <d92e819f-f2bb-4737-8e79-2c60f5740971@roeck-us.net>
+Subject: Re: [PATCH 9/9] kunit: Annotate _MSG assertion variants with gnu
+ printf specifiers
+Message-ID: <678b4b1b-6319-448b-b6a7-7692b368bf31@roeck-us.net>
 References: <20240221092728.1281499-1-davidgow@google.com>
- <20240221092728.1281499-9-davidgow@google.com>
+ <20240221092728.1281499-10-davidgow@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240221092728.1281499-9-davidgow@google.com>
+In-Reply-To: <20240221092728.1281499-10-davidgow@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,55 +104,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 21, 2024 at 05:27:21PM +0800, David Gow wrote:
-> KUNIT_FAIL() is used to fail the xe_migrate test when an error occurs.
-> However, there's a mismatch in the format specifier: '%li' is used to
-> log 'err', which is an 'int'.
+On Wed, Feb 21, 2024 at 05:27:22PM +0800, David Gow wrote:
+> KUnit's assertion macros have variants which accept a printf format
+> string, to allow tests to specify a more detailed message on failure.
+> These (and the related KUNIT_FAIL() macro) ultimately wrap the
+> __kunit_do_failed_assertion() function, which accepted a printf format
+> specifier, but did not have the __printf attribute, so gcc couldn't warn
+> on incorrect agruments.
 > 
-> Use '%i' instead of '%li', and for the case where we're printing an
-> error pointer, just use '%pe', instead of extracting the error code
-> manually with PTR_ERR(). (This also results in a nicer output when the
-> error code is known.)
+> It turns out there were quite a few tests with such incorrect arguments.
 > 
-> Fixes: dd08ebf6c352 ("drm/xe: Introduce a new DRM driver for Intel GPUs")
+> Add the __printf() specifier now that we've fixed these errors, to
+> prevent them from recurring.
+> 
+> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
 > Signed-off-by: David Gow <davidgow@google.com>
 
 Tested-by: Guenter Roeck <linux@roeck-us.net>
 
 > ---
->  drivers/gpu/drm/xe/tests/xe_migrate.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  include/kunit/test.h | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/xe/tests/xe_migrate.c b/drivers/gpu/drm/xe/tests/xe_migrate.c
-> index a6523df0f1d3..c347e2c29f81 100644
-> --- a/drivers/gpu/drm/xe/tests/xe_migrate.c
-> +++ b/drivers/gpu/drm/xe/tests/xe_migrate.c
-> @@ -114,21 +114,21 @@ static void test_copy(struct xe_migrate *m, struct xe_bo *bo,
->  						   region |
->  						   XE_BO_NEEDS_CPU_ACCESS);
->  	if (IS_ERR(remote)) {
-> -		KUNIT_FAIL(test, "Failed to allocate remote bo for %s: %li\n",
-> -			   str, PTR_ERR(remote));
-> +		KUNIT_FAIL(test, "Failed to allocate remote bo for %s: %pe\n",
-> +			   str, remote);
->  		return;
->  	}
+> diff --git a/include/kunit/test.h b/include/kunit/test.h
+> index fcb4a4940ace..61637ef32302 100644
+> --- a/include/kunit/test.h
+> +++ b/include/kunit/test.h
+> @@ -579,12 +579,12 @@ void __printf(2, 3) kunit_log_append(struct string_stream *log, const char *fmt,
 >  
->  	err = xe_bo_validate(remote, NULL, false);
->  	if (err) {
-> -		KUNIT_FAIL(test, "Failed to validate system bo for %s: %li\n",
-> +		KUNIT_FAIL(test, "Failed to validate system bo for %s: %i\n",
->  			   str, err);
->  		goto out_unlock;
->  	}
+>  void __noreturn __kunit_abort(struct kunit *test);
 >  
->  	err = xe_bo_vmap(remote);
->  	if (err) {
-> -		KUNIT_FAIL(test, "Failed to vmap system bo for %s: %li\n",
-> +		KUNIT_FAIL(test, "Failed to vmap system bo for %s: %i\n",
->  			   str, err);
->  		goto out_unlock;
->  	}
+> -void __kunit_do_failed_assertion(struct kunit *test,
+> -			       const struct kunit_loc *loc,
+> -			       enum kunit_assert_type type,
+> -			       const struct kunit_assert *assert,
+> -			       assert_format_t assert_format,
+> -			       const char *fmt, ...);
+> +void __printf(6, 7) __kunit_do_failed_assertion(struct kunit *test,
+> +						const struct kunit_loc *loc,
+> +						enum kunit_assert_type type,
+> +						const struct kunit_assert *assert,
+> +						assert_format_t assert_format,
+> +						const char *fmt, ...);
+>  
+>  #define _KUNIT_FAILED(test, assert_type, assert_class, assert_format, INITIALIZER, fmt, ...) do { \
+>  	static const struct kunit_loc __loc = KUNIT_CURRENT_LOC;	       \
 > -- 
 > 2.44.0.rc0.258.g7320e95886-goog
 > 
