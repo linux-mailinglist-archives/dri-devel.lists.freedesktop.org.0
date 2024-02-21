@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B3685ECB5
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 00:19:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA56085ECAE
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 00:19:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDD0310E82C;
-	Wed, 21 Feb 2024 23:19:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8610710E839;
+	Wed, 21 Feb 2024 23:19:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="DDfmZCck";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="MdSJs/NU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7152B10E6FF;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0058210E82B;
  Wed, 21 Feb 2024 23:19:22 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41LNJG0L017953; Wed, 21 Feb 2024 23:19:16 GMT
+ 41LN2mNL026263; Wed, 21 Feb 2024 23:19:15 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  from:date:subject:mime-version:content-type
  :content-transfer-encoding:message-id:references:in-reply-to:to
- :cc; s=qcppdkim1; bh=yfAT0/T92lmK4FtwYwglO51/H3PSfEs7Olu7AyGqwWY
- =; b=DDfmZCcksbYFT3YxdRFJpX6B8H3FBmNObzeVYtnlHGB5k62/TH7saE7Ym3F
- Jj0ZjxW+MaJupdnLO4vywxonNRyVEWJM3JI0jLa3dOGf8TKAhdn75EQWQh1OtUKn
- 3f4/xtXNPEGKKdTEFb5AT2pB0Wl4hmXMP+Md0RsOnLFhX8u2ZC91BP0BYQzfqdJr
- hYRQy2PKJZzyCKYve8XDRgUMUDd8Qb+Bf5nbkmAbm6rfel41Lng5iNy1l/vkgeHO
- vsnTli7qzGaK9U5JfwF56rpJtjzs3EERa5snpOAPttBhc0UkXmSxa/IyH8//LGSD
- xWMEj2ML8BoFHHJAhccfQbQtK0g==
+ :cc; s=qcppdkim1; bh=qAXUNrbphgVX1nX2HaaiJEh0N9ojsbXCmsSio4EY+Tk
+ =; b=MdSJs/NUUA+1/CbDXtWmLr9Mdl8LQBNTc49Yv79SMtP6og5AkQ4kd8Z+iw3
+ 5sfgLjsNZ00bIWIISgETYaaAcCmF7ArDJsrYIb3xsqRsw0Ity5zunqBskItEMado
+ /rkGfr7retcsUL0mGWgciQtLSd99Qm+7L1d1OhlojJjRKdToiQ2/BvmbwQ7TDiQi
+ VZMdcAA6KEHtHyCKzA/0tycbMq9ac6/QgPeZG/HJr2PHAAIVbsiSi//ubkcMs3e6
+ qM6T48RIbT89Fd2H4PfoKKPIevq0MzpQqrpiqCEls3N0OQjXxDBZr7Zi5YJOzVcQ
+ 4hkXmUycuC9YyT9B0AJnPNQAdxQ==
 Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wdfm39nqh-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wdfm79p72-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 21 Feb 2024 23:19:15 +0000 (GMT)
 Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
  [10.47.97.35])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41LNJEKP028446
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41LNJEKQ028446
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 21 Feb 2024 23:19:14 GMT
 Received: from [169.254.0.1] (10.49.16.6) by nalasex01c.na.qualcomm.com
  (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 21 Feb
- 2024 15:19:13 -0800
+ 2024 15:19:14 -0800
 From: Bjorn Andersson <quic_bjorande@quicinc.com>
-Date: Wed, 21 Feb 2024 15:19:09 -0800
-Subject: [PATCH 1/9] drm/msm/dp: Add DP support to combo instance in SC7280
+Date: Wed, 21 Feb 2024 15:19:10 -0800
+Subject: [PATCH 2/9] arm64: dts: qcom: sc7280: Make eDP/DP controller
+ default DP
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20240221-rb3gen2-dp-connector-v1-1-dc0964ef7d96@quicinc.com>
+Message-ID: <20240221-rb3gen2-dp-connector-v1-2-dc0964ef7d96@quicinc.com>
 References: <20240221-rb3gen2-dp-connector-v1-0-dc0964ef7d96@quicinc.com>
 In-Reply-To: <20240221-rb3gen2-dp-connector-v1-0-dc0964ef7d96@quicinc.com>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -66,11 +67,11 @@ CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
  <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
  <devicetree@vger.kernel.org>, Bjorn Andersson <quic_bjorande@quicinc.com>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1708557553; l=2017;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1708557553; l=1486;
  i=quic_bjorande@quicinc.com; s=20230915; h=from:subject:message-id;
- bh=xeV1ToLPdTsfBTdAmMyqgxgVXBjOacL5GwLnom0Crtg=;
- b=B/NtNOd3/1fyvoIJ4xw1MisB8yYP1zGrdP9Q4mD3KfGjF1XMFwkluz5P1fyOFHUy/9BbZ8uam
- qijbX4ib8NODtsVIZ/NYwyXXo7vToa/tL+8+5YiCn+AGPCLJ7E9FUBz
+ bh=VL34t8qklVew/hOjrCZqCUsAirrBBOvh5uaAOY6ZK6I=;
+ b=EZuf+5W5l8rsevilqPZ95PsdtIZFPpyjxdrGWkEgYcpSz86nb1pBMKe370GsyR39ivrFhTNIx
+ Ekzkv+dI0H9C3nRbEZNmyuxGQalOdGttehOFB7HdKgAf1UySAjMePwn
 X-Developer-Key: i=quic_bjorande@quicinc.com; a=ed25519;
  pk=VkhObtljigy9k0ZUIE1Mvr0Y+E1dgBEH9WoLQnUtbIM=
 X-Originating-IP: [10.49.16.6]
@@ -79,16 +80,16 @@ X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: DMTaaOvqnB3G9dRlf70wpjuxKZSGCYSB
-X-Proofpoint-ORIG-GUID: DMTaaOvqnB3G9dRlf70wpjuxKZSGCYSB
+X-Proofpoint-GUID: kX9RRRCDA9cWt8K5Zgapvmg2BzEA_Dxz
+X-Proofpoint-ORIG-GUID: kX9RRRCDA9cWt8K5Zgapvmg2BzEA_Dxz
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-02-21_09,2024-02-21_02,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- adultscore=0 mlxlogscore=999 bulkscore=0 impostorscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 phishscore=0 suspectscore=0
- malwarescore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ spamscore=0 suspectscore=0
+ mlxlogscore=820 lowpriorityscore=0 clxscore=1015 mlxscore=0
+ impostorscore=0 phishscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2402120000 definitions=main-2402210184
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -105,48 +106,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When upstreamed the SC7280 DP controllers where described as one being
-DP and one eDP, but they can infact both be DP or eDP.
+The newly introduced mechanism for selecting eDP mode allow us to make a
+DisplayPort controller operate in eDP mode, but not the other way
+around. The qcom,sc7280-edp compatible is obviously tied to eDP, so this
+would not allow us to select DisplayPort-mode.
 
-Extend the list of DP controllers to cover both instances, and rely on
-the newly introduced mechanism for selecting which mode they should
-operate in.
-
-Move qcom,sc7280-edp to a dedicated list, to ensure existing DeviceTree
-will continue to select eDP.
+Switch the compatible of the mdss_edp instance and make it eDP for the
+SC7280 qcard.
 
 Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
 ---
- drivers/gpu/drm/msm/dp/dp_display.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ arch/arm64/boot/dts/qcom/sc7280-qcard.dtsi | 2 ++
+ arch/arm64/boot/dts/qcom/sc7280.dtsi       | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 7b8c695d521a..1792ba9f7259 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -129,7 +129,12 @@ static const struct msm_dp_desc sc7180_dp_descs[] = {
- };
+diff --git a/arch/arm64/boot/dts/qcom/sc7280-qcard.dtsi b/arch/arm64/boot/dts/qcom/sc7280-qcard.dtsi
+index f9b96bd2477e..e339b181a9ac 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280-qcard.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280-qcard.dtsi
+@@ -348,6 +348,8 @@ &lpass_va_macro {
  
- static const struct msm_dp_desc sc7280_dp_descs[] = {
--	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_en = true },
-+	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .wide_bus_en = true },
-+	{ .io_start = 0x0aea0000, .id = MSM_DP_CONTROLLER_1, .wide_bus_en = true },
-+	{}
-+};
+ /* NOTE: Not all Qcards have eDP connector stuffed */
+ &mdss_edp {
++	is-edp;
 +
-+static const struct msm_dp_desc sc7280_edp_descs[] = {
- 	{ .io_start = 0x0aea0000, .id = MSM_DP_CONTROLLER_1, .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_en = true },
- 	{}
- };
-@@ -182,7 +187,7 @@ static const struct msm_dp_desc x1e80100_dp_descs[] = {
- static const struct of_device_id dp_dt_match[] = {
- 	{ .compatible = "qcom,sc7180-dp", .data = &sc7180_dp_descs },
- 	{ .compatible = "qcom,sc7280-dp", .data = &sc7280_dp_descs },
--	{ .compatible = "qcom,sc7280-edp", .data = &sc7280_dp_descs },
-+	{ .compatible = "qcom,sc7280-edp", .data = &sc7280_edp_descs },
- 	{ .compatible = "qcom,sc8180x-dp", .data = &sc8180x_dp_descs },
- 	{ .compatible = "qcom,sc8180x-edp", .data = &sc8180x_dp_descs },
- 	{ .compatible = "qcom,sc8280xp-dp", .data = &sc8280xp_dp_descs },
+ 	aux-bus {
+ 		edp_panel: panel {
+ 			compatible = "edp-panel";
+diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+index 581818676a4c..a19c278ebec9 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+@@ -4513,7 +4513,7 @@ mdss_dsi_phy: phy@ae94400 {
+ 			};
+ 
+ 			mdss_edp: edp@aea0000 {
+-				compatible = "qcom,sc7280-edp";
++				compatible = "qcom,sc7280-dp";
+ 				pinctrl-names = "default";
+ 				pinctrl-0 = <&edp_hot_plug_det>;
+ 
 
 -- 
 2.25.1
