@@ -2,62 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22AC085EB7B
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 23:00:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6778385EB94
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 23:07:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54A1510E5E3;
-	Wed, 21 Feb 2024 22:00:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8BB710E367;
+	Wed, 21 Feb 2024 22:07:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="Y2mV6MaF";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="i2iJeKYY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AC6610E5E3;
- Wed, 21 Feb 2024 22:00:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1708552806;
- bh=XnVUPIkyCpULff+S414jT9EjhkNpiO8qlJBr7sBhaGM=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Y2mV6MaFSgV0UP3J3HeMAGsYirQsj+sP//OrS+/CUTPvxW4fctS88LezG04WdU6z+
- /dr0c47MoAZEd71kENsFfWLIXIT+vUxWnR8pTGc17MYqccZsNoL96+hizbaKCHfbaq
- vRib2s69g46VgA0ZqzPx/A5nq91/Ijm7jUJXefOYbo5CzpYnLlmqVG2+xAWlX5/WBX
- msus5ECBHcmPr9jCNka7FX1CtHwsBim3rkwMjbt2oNGEaDnx3mhhgfCmKeHlE6aSYV
- lHlAfh00/4VH3jBMa8No7aOjJsNchOQTlevj1EBxSrdr7hh8qFbpmBmafOIjeX9zs9
- nJS2PhOLQFbEQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Tg9Dg6qWdz4wcq;
- Thu, 22 Feb 2024 09:00:03 +1100 (AEDT)
-Date: Thu, 22 Feb 2024 08:59:40 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Jani Nikula
- <jani.nikula@linux.intel.com>, Arnd Bergmann <arnd@kernel.org>, Oded Gabbay
- <ogabbay@kernel.org>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
- <thomas.hellstrom@linux.intel.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>, "Matthew Brost"
- <matthew.brost@intel.com>, Riana Tauro <riana.tauro@intel.com>, "Daniele
- Ceraolo Spurio" <daniele.ceraolospurio@intel.com>,
- <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm/xe: skip building debugfs code for CONFIG_DEBUG_FS=n
-Message-ID: <20240222085940.6cbb7c9f@canb.auug.org.au>
-In-Reply-To: <zospejkdqekbndbov3ubbbvr5skxwohezeslzciivhxakfjoek@oa5sp2ffcfix>
-References: <20240213134817.3347574-1-arnd@kernel.org>
- <877cj88lck.fsf@intel.com>
- <17209419-093b-4674-8b43-06c92312ef61@app.fastmail.com>
- <ngu6vq5izal6suyr57p4vlxnrn4kxyii4ewdktxvw7k3uezlcz@6oevav3wpcjh>
- <20240221172117.243799cf@canb.auug.org.au>
- <zospejkdqekbndbov3ubbbvr5skxwohezeslzciivhxakfjoek@oa5sp2ffcfix>
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com
+ [209.85.128.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 292BC10E367
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 22:07:23 +0000 (UTC)
+Received: by mail-yw1-f180.google.com with SMTP id
+ 00721157ae682-6083cabc2f9so38854427b3.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 14:07:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1708553242; x=1709158042; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1cIdAj9Rc9YrdEZf80SuI9gbBcjMeYE4blz3NlBPNkk=;
+ b=i2iJeKYYkO81W419DzJ27x3VCHR8BtFz7ltGI2qhPi6jOyn5cmYKVkE2fS2jLbe53S
+ QcD4jtmbavJB8KZOeB5Ey14tDZkcpy/Mpao7MMo6giWRAL1UT8z3DGwhbfD6vdGOgGB5
+ 2BQE+WwBM3rGcmXs7wkvV2h1CCwra+P936tACA9/TpwPmcgssSk4334c3/+myY4a9b8A
+ WElpw/8QoUK4GU5oBDkS94u7GHDi27bdHKMM9UKkQDx4TffhbhH/cZldGG217cXsidsg
+ laqQsuGcLO0+pN9/uP4p4cPJq0YhO8kztz/Ea7/01Lr++UvjD1MmkY7EFxW7A/pPgZcc
+ kEqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708553242; x=1709158042;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=1cIdAj9Rc9YrdEZf80SuI9gbBcjMeYE4blz3NlBPNkk=;
+ b=lmH6JFrnsBmbweMdKb5JwA5ZDNOFBAvda3bPkiF4rKr0UIizIr0a3DoNm5vECoaNiy
+ A3Gi8Ya4X5HRGNCEHOCGsqoR2iGBR4Fva/Fd/UR/TZ9/MAlMCcyoZzaghOcPQACKkVbg
+ 5/gIkTq5QkJJUNs7sOdZGk1gObVPiNC9O7o41XKJa8lHlONspkDOF8kUzzPJvkWmyANB
+ +jU+haDcQH0sRUlSsGO2IRA71tCK9lkRPqXZU8+1YgwUCV/gocUR1xq+LYqFtA+r0FOR
+ RO0BS/thexYSmHBpv/BCmp34bukGQgSGj06LoyB8xnblY1lgtNfLIuiw5Juh6ztdjgh/
+ UaOg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW0bf8rTc+YV/pVHguOeVKvcYv7wgRdFQLnCg1xejorDa7PKe6yuUBdzX5jS1vl1g1A988+Z1UiT4uC0jpJSwAijESn2oLktf+0Dv7v3de1
+X-Gm-Message-State: AOJu0Ywoi4maYUkht4JxHumS53C7pXhX2jCM4Qw+hElpvL7QU9H5i7Nl
+ L3RyaewKH54DmUL098KFNat8SJTmHdyXsx4QgNzyidfEFQa1eDgBbjAhHy7MDGc0inCc0wpjOG9
+ ZLpyX2ITsPnVPEBAaxYbMsX3m4ixnjnaZP1kKMQ==
+X-Google-Smtp-Source: AGHT+IHcXCkZHHGUkDm2xvIgiK6VurrE3eAJdP/r6uC/vcQd0YLTd8DmYtHQlaiiKrj98oMZezfQEBryKYUS8JEchGY=
+X-Received: by 2002:a05:690c:86:b0:607:d9f7:e884 with SMTP id
+ be6-20020a05690c008600b00607d9f7e884mr20419761ywb.4.1708553242109; Wed, 21
+ Feb 2024 14:07:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/kwb+M4tVslI2c0Tke07JtS9";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <20240217093937.58234-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20240217093937.58234-1-krzysztof.kozlowski@linaro.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 21 Feb 2024 23:07:11 +0100
+Message-ID: <CACRpkdajVH4Y2K5W+o5XAoiEr57ObVbaR+9QdFV=Cp765B+dfQ@mail.gmail.com>
+Subject: Re: [PATCH] phy: constify of_phandle_args in xlate
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-phy@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+ netdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,42 +91,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/kwb+M4tVslI2c0Tke07JtS9
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Sat, Feb 17, 2024 at 10:39=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
 
-Hi Lucas,
-
-On Wed, 21 Feb 2024 13:45:35 -0600 Lucas De Marchi <lucas.demarchi@intel.co=
-m> wrote:
+> The xlate callbacks are supposed to translate of_phandle_args to proper
+> provider without modifying the of_phandle_args.  Make the argument
+> pointer to const for code safety and readability.
 >
-> I don't think it's needed since drm-xe-next covers what is in
-> drm-xe-fixes. Please add other maintainers and mailing list:
->=20
-> M:      Oded Gabbay <ogabbay@kernel.org>
-> M:      Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> L:      intel-xe@lists.freedesktop.org
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+(...)
+>  drivers/pinctrl/tegra/pinctrl-tegra-xusb.c         |  2 +-
 
-Added.
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/kwb+M4tVslI2c0Tke07JtS9
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmXWckwACgkQAVBC80lX
-0Gy5RQf/YxLuUSlc6Waa++WKI6+FKVhnxdxobjQoYhkC06LrLHdzLcOysj83pER8
-jnoWCVjjB/KLSYlkALPht0we/GD2S10sH90KhaizyNf0Nwoz+tbx4W+IkLih1OOi
-N/ujaQ+THyYXrvPtWNzzpMfrUYtOjwTaQd6CbREhlZMFprT/VTBL+Dov9xIwY3ZM
-B9UAClAUP1KztZ7TuJco6Xh/jmi/0Q6kUcDfsev6klN4xAc+ZvUWkms2MQc7j5dt
-mZQ1Z9nvatbwHaA1ZrWoAwGpEpHRtidCal/hir28pfgD4H3q6j0K1eVH4Clp915U
-J15bKiSmBvBppvngNb2EZ72SYYdzVw==
-=PsF1
------END PGP SIGNATURE-----
-
---Sig_/kwb+M4tVslI2c0Tke07JtS9--
+Yours,
+Linus Walleij
