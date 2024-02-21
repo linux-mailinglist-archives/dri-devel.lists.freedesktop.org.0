@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72FE785ED20
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 00:39:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C43885ED2D
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 00:41:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E211B10E060;
-	Wed, 21 Feb 2024 23:38:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7063010E817;
+	Wed, 21 Feb 2024 23:41:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tmuJ3/5M";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bl7STJCg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
- [209.85.128.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E31110E060
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 23:38:58 +0000 (UTC)
-Received: by mail-yw1-f171.google.com with SMTP id
- 00721157ae682-607d9c4fa90so75486507b3.2
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 15:38:58 -0800 (PST)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
+ [209.85.219.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47F7B10E817
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 23:41:23 +0000 (UTC)
+Received: by mail-yb1-f171.google.com with SMTP id
+ 3f1490d57ef6-dc6d9a8815fso7149942276.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 15:41:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708558737; x=1709163537; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1708558882; x=1709163682; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=/dnZ6qXwhjaIXNXWlJKsv9Hd+U+Uq/9NkmI5u+eHav8=;
- b=tmuJ3/5MWwoZGPubBh8BXwenM1ubds+fW25+F54Knq31GoOuJU6G1cSXOo9i5nqIdT
- 1B6644b/JDB+MU0ZsqW7yCt9d5sV0ZSB+UARLFD1ytKc3CVJ0yzUTiiJGUMIzrenfU2b
- k2mS/bTZgu3V2NAsagB+qI060s7dMricvT6M990qi9TplugWL6bz6DSGLewBpn4KEEH1
- LN6zAvwMooo2nc3ovc06xdWky598qmJjUrHTXed9FLCb7O+zql/26P7cjq8pIZlt7bt8
- lFvDDKw+CEqK89nBIxdfhM8u9PuEeUJNqcTykURaTsAywGhAsKpI3cC8FGFN6vAA9ugv
- SQbw==
+ bh=gum7JHLE82lB2obWuKI41M7h3ZETASXy1kYfBRSiY+0=;
+ b=bl7STJCg8iKtSNlIWYYvbpcjvv7zYgVnEuq+guHUoVL9UEOAWZo1MxMngQ9ylumVZO
+ alVQ5c51dqTEbigftqU1fAFI2et+iuLUAaoi6BHZKjsvJQGNvLMV7yW21n574rXS+mA7
+ OlLJEjyTDyZ2JszCZBBEndE9v8R5qgYfPbqcFZiMqXkY4UmiBdpF+QxafO9MlvdwP+Su
+ 4Gr7S24cAt1dNAQvRQeJDD7W5GBaVddNT3bWj8gkyzl227vo8uEhYCstX1/9qmizW1zA
+ I6hnNzjB08w8R/G3n7mZkvFrlpIpJ8FcSDkww3etnSWi43mEyKJLKeQO699x11uVvNwk
+ HWiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708558737; x=1709163537;
+ d=1e100.net; s=20230601; t=1708558882; x=1709163682;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=/dnZ6qXwhjaIXNXWlJKsv9Hd+U+Uq/9NkmI5u+eHav8=;
- b=t/PbVl61N7lw5bQOYMboPomkFZ9nWB1TnTZ0PCfBFsri4GXUMTAaq2Whg28Upd++0Z
- Iy0T9b4k/6Vr/eQWFRrJU0+BHWEENq+i1wwIkDEGZkcDSmRrLw8XGFoYRdUwbqnb/j8i
- YQS8U1A9s3zdlsqiFbTCnE/MV64cmQjkf9yDG394tEmznIOD16+RgqNp23wSiPYdn3e6
- O2lO4MeSfqHMbu0o4wM6bLwUYnXlTmG8OJmddBdiSRgzqAnN8f0LLV/zCiavCJH+Vzul
- NKF46QI8FMGBSl90dqFb7oePgP6hYA8pzH9jFJNdoFwblf6F1YtYgT4TXzNacFiB4lx3
- qRHw==
+ bh=gum7JHLE82lB2obWuKI41M7h3ZETASXy1kYfBRSiY+0=;
+ b=CR1xFFPVbOKjO9RaL1hxZvB1EgwoH8uEuRmfWQfJoSyW+Si9+LdD7wnUDuMl8DRp3c
+ zYfxS0oncZ3iyb6MbMVUoc8FNdgP1hfVo57E/S54Uy7LX0/8lQnWVVauvfH42K3JyKp0
+ s3v3D+Lc3iC3jDav+syoPAF/iVcWw/TrEYo9gJLeCamI4dI/U1nBK3khH4GsrbrOWJwA
+ OsQUwnZHeLDj1+E3/0UsmNl9qbFg80gph4T/kvUPIvyvvnOM2dZUVWGaKHA8sU6hdt1K
+ En38pGOswx753gvZhO4vxIHJG5mofZwY0uu+z6gnVA3loxnzdlgjjEzPHgMV9Jt2qmM7
+ 2B3Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVwk8ul0ModVievFo+tiqwWUc9piWY06ts68irVrIpT1rkNtWCIdkEl3xU4zNi0xHSmaBylWK+1J88DW1nkMQomtuvajUVU3S/jN2Bnd2W3
-X-Gm-Message-State: AOJu0YymZhVR3IiUTwvMa2FTnvAd7pHwhOItZQ+djBKbvYo4+e6wc2xF
- OOefCgvdSSRpvCcL7qD5XvhcOvQ9kPX26BKMn0PexDLXL1XCMi3k0Kq09b71fXXgy498J43gfoj
- pivqh//XKP0a9xIjoL9mXHnBYL17x1HthrESbyg==
-X-Google-Smtp-Source: AGHT+IE0tGrX7UsWdp8xy5caWpOZ9THC0fnnletXSK4P9Z3hp437QPqk/DB8NiySph7r7h/gOnZ8DNQ5BKCpKPKAobA=
-X-Received: by 2002:a81:7184:0:b0:604:230a:a823 with SMTP id
- m126-20020a817184000000b00604230aa823mr19674257ywc.50.1708558736962; Wed, 21
- Feb 2024 15:38:56 -0800 (PST)
+ AJvYcCWTVUgibYh94eqPwYktJpsurkOkZ9pC9lPdLCjAZwkz2ohX17lZ72f2lGrow6g+DdO/SvvDhIRJ1HIFdfcu6Ki9b5yA1r1PrcvbbwQ5QSbs
+X-Gm-Message-State: AOJu0Yz1rujfdIchsDmc+2WvBvx2/lxucwBU3vBc0wjBgn28UVKrHU8i
+ 6AMn65fyNZHADOUzjgBuBreHJlAlH7qLwiioiJP7Eb0tq7L62tNghAd2IQpglMzK58wsbNA49nn
+ r7841dWVVZt4S/nD6jMOLVUS83nSfM0CSMmjftg==
+X-Google-Smtp-Source: AGHT+IEAyXZCJmUxworvOHx5M4iyWXoKGn83vXU9An74FKMewTDmsI1ABCTIrzsggAoLQPNkOHTcA/u8/Q2R45yYeFk=
+X-Received: by 2002:a25:48c8:0:b0:dcc:f8e5:c8c8 with SMTP id
+ v191-20020a2548c8000000b00dccf8e5c8c8mr763050yba.45.1708558882169; Wed, 21
+ Feb 2024 15:41:22 -0800 (PST)
 MIME-Version: 1.0
 References: <20240221-rb3gen2-dp-connector-v1-0-dc0964ef7d96@quicinc.com>
- <20240221-rb3gen2-dp-connector-v1-1-dc0964ef7d96@quicinc.com>
-In-Reply-To: <20240221-rb3gen2-dp-connector-v1-1-dc0964ef7d96@quicinc.com>
+ <20240221-rb3gen2-dp-connector-v1-3-dc0964ef7d96@quicinc.com>
+In-Reply-To: <20240221-rb3gen2-dp-connector-v1-3-dc0964ef7d96@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 22 Feb 2024 01:38:45 +0200
-Message-ID: <CAA8EJprXXjvanBU_HGv7X_dS3nyZ867AsvKj5+S3pnWcpsk1ug@mail.gmail.com>
-Subject: Re: [PATCH 1/9] drm/msm/dp: Add DP support to combo instance in SC7280
-To: Bjorn Andersson <quic_bjorande@quicinc.com>
+Date: Thu, 22 Feb 2024 01:41:11 +0200
+Message-ID: <CAA8EJpo=9vhM+5YzaFxUoYRuEWQyrMS8wLNPSF3K=bN5JwWyDw@mail.gmail.com>
+Subject: Re: [PATCH 3/9] arm64: dts: qcom: sc7280: Enable MDP turbo mode
+To: Bjorn Andersson <quic_bjorande@quicinc.com>,
+ Douglas Anderson <dianders@chromium.org>
 Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
@@ -88,51 +89,36 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, 22 Feb 2024 at 01:19, Bjorn Andersson <quic_bjorande@quicinc.com> wrote:
 >
-> When upstreamed the SC7280 DP controllers where described as one being
-> DP and one eDP, but they can infact both be DP or eDP.
+> The max frequency listed in the DPU opp-table is 506MHz, this is not
+> sufficient to drive a 4k@60 display, resulting in constant underrun.
 >
-> Extend the list of DP controllers to cover both instances, and rely on
-> the newly introduced mechanism for selecting which mode they should
-> operate in.
->
-> Move qcom,sc7280-edp to a dedicated list, to ensure existing DeviceTree
-> will continue to select eDP.
+> Add the missing MDP_CLK turbo frequency of 608MHz to the opp-table to
+> fix this.
+
+I think we might want to keep this disabled for ChromeOS devices. Doug?
+
 >
 > Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
 > ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
+>  arch/arm64/boot/dts/qcom/sc7280.dtsi | 5 +++++
+>  1 file changed, 5 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 7b8c695d521a..1792ba9f7259 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -129,7 +129,12 @@ static const struct msm_dp_desc sc7180_dp_descs[] = {
->  };
->
->  static const struct msm_dp_desc sc7280_dp_descs[] = {
-> -       { .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_en = true },
-> +       { .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .wide_bus_en = true },
-> +       { .io_start = 0x0aea0000, .id = MSM_DP_CONTROLLER_1, .wide_bus_en = true },
-
-I think we need to keep .connector_type here, don't we?
-
-> +       {}
-> +};
+> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> index a19c278ebec9..a2a6717c6c87 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> @@ -4417,6 +4417,11 @@ opp-506666667 {
+>                                                 opp-hz = /bits/ 64 <506666667>;
+>                                                 required-opps = <&rpmhpd_opp_nom>;
+>                                         };
 > +
-> +static const struct msm_dp_desc sc7280_edp_descs[] = {
->         { .io_start = 0x0aea0000, .id = MSM_DP_CONTROLLER_1, .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_en = true },
->         {}
->  };
-> @@ -182,7 +187,7 @@ static const struct msm_dp_desc x1e80100_dp_descs[] = {
->  static const struct of_device_id dp_dt_match[] = {
->         { .compatible = "qcom,sc7180-dp", .data = &sc7180_dp_descs },
->         { .compatible = "qcom,sc7280-dp", .data = &sc7280_dp_descs },
-> -       { .compatible = "qcom,sc7280-edp", .data = &sc7280_dp_descs },
-> +       { .compatible = "qcom,sc7280-edp", .data = &sc7280_edp_descs },
->         { .compatible = "qcom,sc8180x-dp", .data = &sc8180x_dp_descs },
->         { .compatible = "qcom,sc8180x-edp", .data = &sc8180x_dp_descs },
->         { .compatible = "qcom,sc8280xp-dp", .data = &sc8280xp_dp_descs },
+> +                                       opp-608000000 {
+> +                                               opp-hz = /bits/ 64 <608000000>;
+> +                                               required-opps = <&rpmhpd_opp_turbo>;
+> +                                       };
+>                                 };
+>                         };
+>
 >
 > --
 > 2.25.1
