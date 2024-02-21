@@ -2,95 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 692A685EACE
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 22:29:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D0DD85EAF6
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 22:34:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD6EF10E10E;
-	Wed, 21 Feb 2024 21:29:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5095D10E3DE;
+	Wed, 21 Feb 2024 21:34:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="WLqa4G9H";
+	dkim=pass (1024-bit key; unprotected) header.d=wolfvision.net header.i=@wolfvision.net header.b="rjlfp4wQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com
- [209.85.166.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD48F10E4AA
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 21:29:56 +0000 (UTC)
-Received: by mail-io1-f51.google.com with SMTP id
- ca18e2360f4ac-7bc332d3a8cso370831939f.2
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 13:29:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1708550996; x=1709155796;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=fHJzWSZbaUVkrjgtkdycbYKuoIbcz4QqReZXQuIUTd8=;
- b=WLqa4G9HcE7G1jITV6wmRdvh+yFD/8YnvT3pRmkc8GOFCFKVJkrf7cK9RLBzX6S9wK
- JJpINDeR3vGouiyEj0ARYBiU78eIT+v9HVDKHvcbUNvibTu9nM3AQLpSwZ42eB1TiFqF
- krra/xsqTMgo1P7QJO5ZiuyWvWPPytuEnkgTMzY234wzYvPdAgqa7AJmjz+x46VHi9hY
- spDRK6azthMJPXIdvzN6GuZk43oE85KlqpQsnCmzMDH5UcVjxLNwPk/FmvJsMIauE0JL
- eHt6Do1HlwsoXjZ1o7UZtROUNs8QaaMcAxzKP70BiQ2b+Ln3cdCVGp2QBiC+22YY75Qz
- kdhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708550996; x=1709155796;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fHJzWSZbaUVkrjgtkdycbYKuoIbcz4QqReZXQuIUTd8=;
- b=eLkCZQZTJyQ9g2DcZW1bKJV8iUBsDOC9Tn7+5Pj9+AqY+i9a0rf5qAHpS2f8rM1VZQ
- FG7Sfd9HRAs4KNzAzyUGMetuuEZKqQXqB0FcJCp8YG1tNrMEWyl2R/YcD5ab0+KLP/Ss
- b0Q91hO44Of92cXzS4G9165gdeDUf5aTxL/FAkcFLSkIqXibQUBg4y+Rh3lIDc/ZlF1w
- Xt5s1hjH++qEXQnAEa2ajjHf/DUGZmeic5WEBAWEJpVOZrRb9NGPBpcr+1Od5nTF5JzX
- 0t49YvKEMnKCPJ4u8mNGEMMhddRo7V84qyOfbJW39L/Ym78Yw2JlD8MORSpkVLVrsEqu
- lhFw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWtwC8LGEjOjUy72I9Tt0B1hnUqtOs0+Vk910fVhAsofK/UFpIfuPbVyuXU8vOwpZtEtBVMdxK8RjSd7Jo6iPBGtaMOCyh4kaVSSvFnJqSE
-X-Gm-Message-State: AOJu0YyqvOZsz6dL/xy5PhyPNURgJu5yaHbkHVwwAsu+d/tjUm9WVKG3
- aY7aHlB0Xq9rp3LCnBdE+cmwus/6vKmwVYheeNsrVhcGYxlr+GZW4XW/0zO8Cg==
-X-Google-Smtp-Source: AGHT+IH3xGOF+O0PatOjKRFVOXKn3+X8AKF5AtBxottFnw4acxjqjkkOFdnbYMdTb0txcBwNyBSoFw==
-X-Received: by 2002:a05:6602:3fd1:b0:7c7:397c:6690 with SMTP id
- fc17-20020a0566023fd100b007c7397c6690mr17957645iob.17.1708550995732; 
- Wed, 21 Feb 2024 13:29:55 -0800 (PST)
-Received: from google.com (161.74.123.34.bc.googleusercontent.com.
- [34.123.74.161]) by smtp.gmail.com with ESMTPSA id
- h21-20020a02c735000000b004742bbf11c0sm1712244jao.120.2024.02.21.13.29.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Feb 2024 13:29:54 -0800 (PST)
-Date: Wed, 21 Feb 2024 21:29:52 +0000
-From: Justin Stitt <justinstitt@google.com>
-To: David Gow <davidgow@google.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Guenter Roeck <linux@roeck-us.net>, Rae Moar <rmoar@google.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Kees Cook <keescook@chromium.org>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Willem de Bruijn <willemb@google.com>, Florian Westphal <fw@strlen.de>,
- Cassio Neri <cassio.neri@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Arthur Grillo <arthur.grillo@usp.br>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Daniel Latypov <dlatypov@google.com>,
- Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@gmail.com>,
- Maxime Ripard <mripard@kernel.org>,
- "David S . Miller" <davem@davemloft.net>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- intel-xe@lists.freedesktop.org, linux-rtc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
- linux-hardening@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH 7/9] drm: tests: Fix invalid printf format specifiers in
- KUnit tests
-Message-ID: <20240221212952.bqw4rdz2i2yf3now@google.com>
-References: <20240221092728.1281499-1-davidgow@google.com>
- <20240221092728.1281499-8-davidgow@google.com>
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+ (mail-db3eur04on2135.outbound.protection.outlook.com [40.107.6.135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DCF610E3DE
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 21:34:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UdJCF1JUL8Gq0d61Gw5g4p/Rjq9TgTgSK+WkqCAMYxPOOgdxpHkWTe9L5xaWXx8NPZm7DcRrQeT8WUd6tYspMlAiURRWSUDRu6UgJC66/hN+P3EOFkBehsJv3Xidpt4eV3aZaUA280XKTkQdmkJtf5NAxUjt/ly9evqOW9wRxe8pDjmxNsjbKRhZg7QODBIrzIl0g8aeUbicr4jenIzV3XimVR7ao1PG8nOXC1+CpEpkcBXSSEMBMNwBPWQA9m4H4vUQnUX7dNOJ31j5MWuVz3Z4PK5XItZ29Ka/gtRAC+icdgs1NjTHF4GKB2Y6GLqmjzEhI4XZXw4NCpnK2F7RmA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uTC5rKkkP24K9S+TjQREaokE0Lm1WOZkJTluCu6158g=;
+ b=hGvfYMaDKpilT0XxWY3FnqZzysHVfNQnVWgYpqBZ6Z0pUAZJKiDstuucdvjVFeHDgvGHmv0oMMRUivfHlLDaU7PIoHixmq33mIoVclAY+fSKdmzlXcn/gTYnd+S824/5Jp2dkgfa1ZokNwMX3YZMwXSOCi8nwmyM+gRjajwPci6fQ+7q9OOJ+hwBtXkNUKeSovcmqAut/qo3kswT5eoW7dzYMQQYdOXBZU0wVJY2uqnkQXVnlDyIhYmec9+hzDktnjpgq2cASZx4oYYcIc47KRymocZEFephyraTb7G/Enw6OyEUr5pkAiSA7oQyxcWhno5BlT84GjbCsyg0J902QA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uTC5rKkkP24K9S+TjQREaokE0Lm1WOZkJTluCu6158g=;
+ b=rjlfp4wQ5pChljfJUpY0IOzIIwUqlD3uL4TistQoyt9ARmO6pXJZ1/0IKfuaCwRIljN2yCmBaQGbMFuBG+BBxPXAZmnTiFlYjoAF9mcOpGsNvpb0GBU+i/MRSsaMRbn7NBAZl+El/PuRAI7WxBlH39mM911ldCkILzD7IvMX0UA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wolfvision.net;
+Received: from VE1PR08MB4974.eurprd08.prod.outlook.com (2603:10a6:803:111::15)
+ by DB3PR08MB9036.eurprd08.prod.outlook.com (2603:10a6:10:435::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.39; Wed, 21 Feb
+ 2024 21:33:58 +0000
+Received: from VE1PR08MB4974.eurprd08.prod.outlook.com
+ ([fe80::9527:ec9f:ec4b:ec99]) by VE1PR08MB4974.eurprd08.prod.outlook.com
+ ([fe80::9527:ec9f:ec4b:ec99%6]) with mapi id 15.20.7292.033; Wed, 21 Feb 2024
+ 21:33:56 +0000
+Message-ID: <6a4f1862-ccb1-4d6d-bab2-f22090a1a08b@wolfvision.net>
+Date: Wed, 21 Feb 2024 22:33:53 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 6/8] usb: misc: onboard_dev: use device supply names
+Content-Language: en-US
+To: Matthias Kaehlcke <mka@chromium.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Helen Koike <helen.koike@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Russell King <linux@armlinux.org.uk>, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20240220-onboard_xvf3500-v4-0-dc1617cc5dd4@wolfvision.net>
+ <20240220-onboard_xvf3500-v4-6-dc1617cc5dd4@wolfvision.net>
+ <ZdZcLOlSc3FScjLK@google.com>
+ <503d9ea9-9812-498b-a5ee-2579ba8a7ecf@wolfvision.net>
+ <ZdZokatitviYZ7rg@google.com>
+From: Javier Carrasco <javier.carrasco@wolfvision.net>
+In-Reply-To: <ZdZokatitviYZ7rg@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0197.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:e5::7) To VE1PR08MB4974.eurprd08.prod.outlook.com
+ (2603:10a6:803:111::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240221092728.1281499-8-davidgow@google.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VE1PR08MB4974:EE_|DB3PR08MB9036:EE_
+X-MS-Office365-Filtering-Correlation-Id: f019f5e6-ad4a-4105-5e94-08dc3324cf04
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9LkB5i3Qgw8zMzOKvrTSAJ59QFW1h4XjBxqal0O11IfreeO+TvQ9lf0WXzkGhGP7QInnxy/nxwlvoSWmRDJULGZeZgOUTA/GEvWTjCeBOK33s5VFLUjjkyF/h0VK408g3JkN/qsi8HDEBLnl0xx9MHuivhuqxSVSTfPaLb2BL/P553yeVbo6gPHLkeAri4Os7WlROPgOHj44bw8BBlvXP2tH6k2oaEdTXsiGWdnKfTF4L5l6485rDO3k8WLOCT9nT7LcX0jDKqMC5LUOyLV4vcLpMVNbTqLJ2x7T7OmJ1WzBnID7N5gDm7Mt0kIdCMVaUaQ/yovDjtRBGyOdlZf1xgHkNIkKTaGTriLdNu6JDmkwE4J5o+DowhS1m8kqRIVJQfGm38pdOfkxkGFJZ4yHMw0NQTXMShRuIt+tSxKiDdiZd6hgbzakEVNAzAVU+44SCLCB/EAzDPUQqDWBtgFLmG+7XXv4t0SrabEhiWbnLy7VK8A91XE1g0XFoFkuEAlooKrRwtbUXaXkXH3OiFmYh9JE+RsTvdOOjnDf8994CFM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VE1PR08MB4974.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031); DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SDRyVGs3N29zQ0xtV1lJbmRzU2VEMUZwVEk0WlR1a3BzNWtiSzYyWjVqM0FN?=
+ =?utf-8?B?NGVHYVNjV05DN2YyWXVETTRxTTQyc3pZVy9Ld05aZmhib2s3TVI5QlZaWDNU?=
+ =?utf-8?B?aWY2WVoyQ2RrNlF0c09Vd01pVHlxRGhrbFJ2VDdPSjZzOFc5c3JoSXo1bk5i?=
+ =?utf-8?B?RjVQbmVpSW9kZlQraTNSR01pUjlEZmRXaVVGTUc3NTVqMUYrenFFSjhBUzkv?=
+ =?utf-8?B?UURMcGZGWXhMemZLcDRDa2tqMTZWSElDMWNHa2NSdEpRNEJ2dUc4czh6ci9M?=
+ =?utf-8?B?U0E2M252RnE4b2xQSUsyQlhsOWFoVGtYMjNScXVhNzk1TGxFdmgvd25EdGlV?=
+ =?utf-8?B?aU9yTW41MCt3UmxRUWJVTmFOV3JMbXUyYXhmQjlyMzByOU1zQUhxclVuakU3?=
+ =?utf-8?B?YzNZdmtkK0ZYVWM5V04vMmFHU0lQcG5RbGZsWGc1NENsUEpXTVFQaW1DNmh1?=
+ =?utf-8?B?Y2dOUHJuOUJBTlQwZFJZN3FiRlRiZDVmRExNNVMwdG81OXhMSmIyUFJGSUYr?=
+ =?utf-8?B?N1A2M3cxckdSZ2c4THl5ZzdDNzBpRTBXTUk2cG9rT01YSFgwdVpWclorL05j?=
+ =?utf-8?B?NURjVEsrZ1E3NzFtV2Uzczk3MkJLckpJZFl0VFZaWUg5Smw3a1FpMWg0VEZY?=
+ =?utf-8?B?SGVpcGNNMjduQUFTTXZ6MVVxMEpkRWJzaEFwYndVV1k4eE5WN1hHWWdXYUp6?=
+ =?utf-8?B?MW5GQUUxY1A1NUpCMGxVSVFWSlJiTFhSazU0WGVYWEUrSGdQSzdBdjhsNHVU?=
+ =?utf-8?B?MDRVNWJ3QkFEdXpHNFdyUk1qMkZwS01yU3podEFWMHJyVEZsRjBvbGxMVnlT?=
+ =?utf-8?B?ZnViQnp4b1dSakdocnJQR25KVDRiQ3h1cUoydWRLZWl6YUFNT3EzL3l6OEZN?=
+ =?utf-8?B?akVDZ1U5RG5lNklWdEIzWFU4bmVTVXV6SmowSms0eElRcENlM0F3TnlIbnYv?=
+ =?utf-8?B?YU1sM0FFZVRGOUV4MWl2WGk4MnpBY0QwMkJUMyszU0RSeG1BL1hOdThvQkw0?=
+ =?utf-8?B?RnhmSjdoR3lJaHhhUW8yN2NNN0xGUkVBT2tnREZaVktHSWRaUVhGeFBUNTZR?=
+ =?utf-8?B?ZFdITHFPMDRaRmZvdThURkcyUjkwaGFQdE9qSmlGK0NJRU8xZkc0OGJ6N2J1?=
+ =?utf-8?B?dnpXYXNudHRic0s2YXExVkRVNzRSdHljMkpDanNGNTdzZ2tGYzlKejNxckNS?=
+ =?utf-8?B?U0lNdW5RS1IzT0l1Mk0zZGR2Y2J0bFBSMVNOTFpjRG5pdTR5N3hTWTl5b3hN?=
+ =?utf-8?B?RmdBRjFvb0hVVGYrUTVIMDk1SExxS0NNL1loT0UxMWh1V21pWjNZK2pNcGtR?=
+ =?utf-8?B?QlZLRmFaUVhKS09mTmlXcG5FS2JkS2ZFcGdPamw1NXZ1eHcxd0RRZEQwLytx?=
+ =?utf-8?B?bitNelZJRnJqWmRMM0dYTTNEVENUeEhoRGZpMG0wRmxsaENEc1VWL1F6dmJZ?=
+ =?utf-8?B?bVZ4VWF1RnpJU2p0ZkV3ZVRzbWFqNkJWWEk2SEFQSnVRc1pQK1Z0V2t5dTVT?=
+ =?utf-8?B?bzFMSkdtcHkyUHpFQmF0cFh5QXV1SUZqNDk3SnZTNFlCM3B6cmY3OVZacU1q?=
+ =?utf-8?B?STdIQko2d3E1Zm5CV1RIUkJockw2SjRSUGRBNWpQbVBLOUtUUFRzM1pjL3gv?=
+ =?utf-8?B?T2dpNFlOUXNWTCswWm9vM2ltbmRFbWFhWVVadFJyNnRNZDVpS29iM1FUUTJM?=
+ =?utf-8?B?UUExVDIxODJJd3hLdmxtWTlLbmZxNTcyb1JyS1pPSlhCWDdvZ3J6SVk2bTRi?=
+ =?utf-8?B?bG1NRTJLdC9VREczNm9KcER1akFhKzNLekNkd2w5TFlUN04yV21YTVRON0xx?=
+ =?utf-8?B?U3VmNDdvZkQzVWtRQXBHVEJkdEZYOU1aMVNPdjdVd3ZqNk51VCs5VHNHby9o?=
+ =?utf-8?B?azQ1cHpNZFd4L1RhbnJYM3RVTVhwQzJSZ3NqUTBaVkRvTG1UKzlKbHZrRkQ1?=
+ =?utf-8?B?Z1QyNjFjbjI3c0J5OGh5UUpOSDdIQmJmY1JzTzVOZ2hkc1ByOTgybDVVNWJM?=
+ =?utf-8?B?cHV6TUJoY3BiWXRjWkdGbWp1OTZpUEh2TVVWSDBmbWczelV0N1FRK2kweDlx?=
+ =?utf-8?B?S001SWdMbVNqajVTQ2xocnZDVHpYY0QwWFpTeUhzV3FuQ0tRNG53SElqb01J?=
+ =?utf-8?B?WTM3QXRvZE5KeXVTcjJPT0Uyb3RTR0wrd2wycTlQZUpYL3J5UDNHT1hPOVhS?=
+ =?utf-8?B?ZE4wRjY4MitGT28wZm9wV0p2VmtHblBZN0xjNDdkUFlOcUhwZDU3WDhJTUhq?=
+ =?utf-8?Q?ZtSj5WG/AZc1uQP++5NUB8ger375RbSAZyycLaPKuc=3D?=
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: f019f5e6-ad4a-4105-5e94-08dc3324cf04
+X-MS-Exchange-CrossTenant-AuthSource: VE1PR08MB4974.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2024 21:33:56.6295 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lQD7ftecaZlNKUyOk/EOo+dlMZd8q2ZBaSTa4BGZqIzSdvcQFI6SBMOO13FEyDs3RTU9brgpiZ/OFlvJhEp0bHNap+dRSo+L4svtXf6X/mM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR08MB9036
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,126 +149,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 21.02.24 22:18, Matthias Kaehlcke wrote:
+>>>> +/*
+>>>> + * Fallback supply names for backwards compatibility. If the device requires
+>>>> + * more than the currently supported supplies, add a new one here, and if
+>>>> + * possible, the real name supplies to the device-specific data.
+>>>> + */
+>>>> +static const char * const generic_supply_names[] = {
+>>>> +	"vdd",
+>>>> +	"vdd2",
+>>>> +};
+>>>> +
+>>>> +#define MAX_SUPPLIES ARRAY_SIZE(generic_supply_names)
+>>>
+>>> This will have to change when support for a device with more than 2 non-generic
+>>> supply names gets added. Please use a literal value for MAX_SUPPLIES instead of
+>>> ARRAY_SIZE. If the literal is 2 it would still need to change for future devices
+>>> with more supplies, but that change would be more straighforward.
+>>>
+>>
+>> I am not completely sure about this. Someone could increase MAX_SUPPLIES
+>> without adding a generic name.
+> 
+> That's perfectly fine and intended. MAX_SUPPLIES is a max, any list
+> shorther than that is valid. Any longer list will result in probe()
+> being aborted with a clear error message.
+> 
+>> Actually two modifications will be necessary for every addition (name
+>> and MAX_SUPPLIES). If ARRAY_SIZE is used, only new names are required,
+>> and MAX_SUPPLIES is automatically increased.
+> 
+> As per above it's not necessary to add a new name when MAX_SUPPLIES is
+> increased to support more non-generic names. It would only be necessary
+> if more generic names were added, my understanding is that this
+> should not happen because any newly supported onboard devices are
+> supposed to use device specific supply names. I don't like to idea of
+> adding unused pseudo supply names to the list, just for the sake of
+> using ARRAY_SIZE.
+> 
+>> I understand that the whole point of this is getting rid of the generic
+>> names, but we still have to provide generic names for every extra
+>> supply, at least for code consistency and to avoid size mismatches
+>> between real an generic supply names.
+> 
+> Please let me know if you still think the extra names are needed.
 
-On Wed, Feb 21, 2024 at 05:27:20PM +0800, David Gow wrote:
-> The drm_buddy_test's alloc_contiguous test used a u64 for the page size,
-> which was then updated to be an 'unsigned long' to avoid 64-bit
-> multiplication division helpers.
->
-> However, the variable is logged by some KUNIT_ASSERT_EQ_MSG() using the
-> '%d' or '%llu' format specifiers, the former of which is always wrong,
-> and the latter is no longer correct now that ps is no longer a u64. Fix
-> these to all use '%lu'.
->
-> Also, drm_mm_test calls KUNIT_FAIL() with an empty string as the
-> message. gcc warns if a printf format string is empty (apparently), so
+Not really, the only case I could come up is if an existing device that
+uses generic names might end up requiring a third supply, which would
+also be generic. But even such an unlikely event would be cover without
+ARRAY_SIZE.
 
-clang does too; under -Wformat-zero-length
+Actually one could argue that every existing device could have "vdd" and
+"vdd2" as their supply names and remove checks and the generic array.
 
-> give these some more detailed error messages, which should be more
-> useful anyway.
->
-> Fixes: a64056bb5a32 ("drm/tests/drm_buddy: add alloc_contiguous test")
-> Fixes: fca7526b7d89 ("drm/tests/drm_buddy: fix build failure on 32-bit targets")
-> Fixes: fc8d29e298cf ("drm: selftest: convert drm_mm selftest to KUnit")
-> Signed-off-by: David Gow <davidgow@google.com>
+Best regards,
+Javier Carrasco
 
-Reviewed-by: Justin Stitt <justinstitt@google.com>
-> ---
->  drivers/gpu/drm/tests/drm_buddy_test.c | 14 +++++++-------
->  drivers/gpu/drm/tests/drm_mm_test.c    |  6 +++---
->  2 files changed, 10 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
-> index 8a464f7f4c61..3dbfa3078449 100644
-> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
-> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
-> @@ -55,30 +55,30 @@ static void drm_test_buddy_alloc_contiguous(struct kunit *test)
->  		KUNIT_ASSERT_FALSE_MSG(test,
->  				       drm_buddy_alloc_blocks(&mm, 0, mm_size,
->  							      ps, ps, list, 0),
-> -				       "buddy_alloc hit an error size=%d\n",
-> +				       "buddy_alloc hit an error size=%lu\n",
->  				       ps);
->  	} while (++i < n_pages);
->
->  	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
->  							   3 * ps, ps, &allocated,
->  							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-> -			       "buddy_alloc didn't error size=%d\n", 3 * ps);
-> +			       "buddy_alloc didn't error size=%lu\n", 3 * ps);
->
->  	drm_buddy_free_list(&mm, &middle);
->  	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
->  							   3 * ps, ps, &allocated,
->  							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-> -			       "buddy_alloc didn't error size=%llu\n", 3 * ps);
-> +			       "buddy_alloc didn't error size=%lu\n", 3 * ps);
->  	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
->  							   2 * ps, ps, &allocated,
->  							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-> -			       "buddy_alloc didn't error size=%llu\n", 2 * ps);
-> +			       "buddy_alloc didn't error size=%lu\n", 2 * ps);
->
->  	drm_buddy_free_list(&mm, &right);
->  	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
->  							   3 * ps, ps, &allocated,
->  							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-> -			       "buddy_alloc didn't error size=%llu\n", 3 * ps);
-> +			       "buddy_alloc didn't error size=%lu\n", 3 * ps);
->  	/*
->  	 * At this point we should have enough contiguous space for 2 blocks,
->  	 * however they are never buddies (since we freed middle and right) so
-> @@ -87,13 +87,13 @@ static void drm_test_buddy_alloc_contiguous(struct kunit *test)
->  	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
->  							    2 * ps, ps, &allocated,
->  							    DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-> -			       "buddy_alloc hit an error size=%d\n", 2 * ps);
-> +			       "buddy_alloc hit an error size=%lu\n", 2 * ps);
->
->  	drm_buddy_free_list(&mm, &left);
->  	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
->  							    3 * ps, ps, &allocated,
->  							    DRM_BUDDY_CONTIGUOUS_ALLOCATION),
-> -			       "buddy_alloc hit an error size=%d\n", 3 * ps);
-> +			       "buddy_alloc hit an error size=%lu\n", 3 * ps);
->
->  	total = 0;
->  	list_for_each_entry(block, &allocated, link)
-> diff --git a/drivers/gpu/drm/tests/drm_mm_test.c b/drivers/gpu/drm/tests/drm_mm_test.c
-> index 1eb0c304f960..f37c0d765865 100644
-> --- a/drivers/gpu/drm/tests/drm_mm_test.c
-> +++ b/drivers/gpu/drm/tests/drm_mm_test.c
-> @@ -157,7 +157,7 @@ static void drm_test_mm_init(struct kunit *test)
->
->  	/* After creation, it should all be one massive hole */
->  	if (!assert_one_hole(test, &mm, 0, size)) {
-> -		KUNIT_FAIL(test, "");
-> +		KUNIT_FAIL(test, "mm not one hole on creation");
->  		goto out;
->  	}
->
-> @@ -171,14 +171,14 @@ static void drm_test_mm_init(struct kunit *test)
->
->  	/* After filling the range entirely, there should be no holes */
->  	if (!assert_no_holes(test, &mm)) {
-> -		KUNIT_FAIL(test, "");
-> +		KUNIT_FAIL(test, "mm has holes when filled");
->  		goto out;
->  	}
->
->  	/* And then after emptying it again, the massive hole should be back */
->  	drm_mm_remove_node(&tmp);
->  	if (!assert_one_hole(test, &mm, 0, size)) {
-> -		KUNIT_FAIL(test, "");
-> +		KUNIT_FAIL(test, "mm does not have single hole after emptying");
->  		goto out;
->  	}
->
-> --
-> 2.44.0.rc0.258.g7320e95886-goog
->
-
-Thanks
-Justin
