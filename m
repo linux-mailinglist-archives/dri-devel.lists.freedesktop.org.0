@@ -2,126 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6629385E2B9
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 17:14:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7500285E2AC
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 17:14:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A676610E7F1;
-	Wed, 21 Feb 2024 16:14:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F61B10E7D3;
+	Wed, 21 Feb 2024 16:14:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="MpWs2XTx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+phTHet4";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MpWs2XTx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+phTHet4";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="QyEFEWg4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2386110E7E3
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 16:14:38 +0000 (UTC)
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC4EF10E7D3
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 16:14:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1708532042;
+ bh=JHBed4HhRS/+miDeC1Vba8uHd/woC+WKGVjOOcm9Eoc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=QyEFEWg4iOj696uNgzJEjM7VVBBxs5TR8MhbBa8yDqmZLFylpV17ZC0v+v3V1T7eL
+ pP9udLVigJOnISA+mi+rJ4g8a+h5shEq/PPyk46PGcQ0Md91kcwNlstwT6y0Rg+ObK
+ BLIlnYBBWgEsHvj7P3H1+88kWgNH1/234/bRn+hxbMm89EtVU7tnkXDn6w9flCNiQ3
+ PnnxudmewEbTwgpv8sghHFxNCpba4YwuosgP666VBzEWGNhMHaT0efTJn4vzRMIVwp
+ EM1loMtnW8am0K6rs3rzjdzSTAcmVnwwiP+ut2tL412oBvJqzwXypJWOaMf7XSMtxR
+ GbBeI+CJg8v2w==
+Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 4B5DC220CC;
- Wed, 21 Feb 2024 16:14:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1708532076; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8MvvpcpWnBzUMwm04TriRfSyKRDSqvYuqMEyx8cW23c=;
- b=MpWs2XTxWPvvKhrdNistj68L3fB8Kzf6dVVMN+bnWTXOJzjJgcg2L8Fn15D+3+kX9WOE/V
- jchQWCj9HWj2fUkSM8XD3+9s/IdlsUt7ee0QK6C5s+wIkhCvqe9YPH2gvluU9Cl6+nYVqz
- NDqrXzV9qlkYF3ZeE8vARGsdqzrmoOA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1708532076;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8MvvpcpWnBzUMwm04TriRfSyKRDSqvYuqMEyx8cW23c=;
- b=+phTHet4GDHD3y7zJqGDr2EiLgVhihwIv93Q48OFZGZVo91iKAwsUn7lm6pfLdVnHVnHK/
- 2fzCG9J1adAlCHCg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1708532076; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8MvvpcpWnBzUMwm04TriRfSyKRDSqvYuqMEyx8cW23c=;
- b=MpWs2XTxWPvvKhrdNistj68L3fB8Kzf6dVVMN+bnWTXOJzjJgcg2L8Fn15D+3+kX9WOE/V
- jchQWCj9HWj2fUkSM8XD3+9s/IdlsUt7ee0QK6C5s+wIkhCvqe9YPH2gvluU9Cl6+nYVqz
- NDqrXzV9qlkYF3ZeE8vARGsdqzrmoOA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1708532076;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8MvvpcpWnBzUMwm04TriRfSyKRDSqvYuqMEyx8cW23c=;
- b=+phTHet4GDHD3y7zJqGDr2EiLgVhihwIv93Q48OFZGZVo91iKAwsUn7lm6pfLdVnHVnHK/
- 2fzCG9J1adAlCHCg==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 5D6EF13A42;
- Wed, 21 Feb 2024 16:14:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
- by imap2.dmz-prg2.suse.org with ESMTPSA id qDCZFWsh1mVrYwAAn2gu4w
- (envelope-from <tzimmermann@suse.de>); Wed, 21 Feb 2024 16:14:35 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: arnd@arndb.de, javierm@redhat.com, deller@gmx.de, suijingfeng@loongson.cn
-Cc: linux-arch@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-sh@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-parisc@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-snps-arc@lists.infradead.org,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Vineet Gupta <vgupta@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- "David S. Miller" <davem@davemloft.net>,
- Andreas Larsson <andreas@gaisler.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>
-Subject: [PATCH 3/3] arch: Rename fbdev header and source files
-Date: Wed, 21 Feb 2024 17:05:26 +0100
-Message-ID: <20240221161431.8245-4-tzimmermann@suse.de>
+ (No client certificate requested) (Authenticated sender: alarumbe)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9FB2F3781FE6;
+ Wed, 21 Feb 2024 16:14:01 +0000 (UTC)
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>
+Cc: kernel@collabora.com,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org
+Subject: [PATCH] drm/panfrost: Replace fdinfo's profiling debugfs knob with
+ sysfs
+Date: Wed, 21 Feb 2024 16:12:32 +0000
+Message-ID: <20240221161237.2478193-1-adrian.larumbe@collabora.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240221161431.8245-1-tzimmermann@suse.de>
-References: <20240221161431.8245-1-tzimmermann@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; R_MISSING_CHARSET(2.50)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
- MIME_GOOD(-0.10)[text/plain]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- REPLY(-4.00)[]; BROKEN_CONTENT_TYPE(1.50)[];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_RATELIMIT(0.00)[to_ip_from(RLthqzz6q5hnubohss7ffybi86)];
- RCVD_COUNT_THREE(0.00)[3];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; RCPT_COUNT_TWELVE(0.00)[39];
- MID_CONTAINS_FROM(1.00)[];
- FREEMAIL_TO(0.00)[arndb.de,redhat.com,gmx.de,loongson.cn];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- MIME_TRACE(0.00)[0:+];
- FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.ozlabs.org,lists.linux-m68k.org,lists.linux.dev,lists.infradead.org,suse.de,kernel.org,arm.com,xen0n.name,linux-m68k.org,alpha.franken.de,HansenPartnership.com,ellerman.id.au,gmail.com,users.sourceforge.jp,libc.org,physik.fu-berlin.de,davemloft.net,gaisler.com,linutronix.de,redhat.com,alien8.de,linux.intel.com,zytor.com];
- RCVD_TLS_ALL(0.00)[]; BAYES_HAM(-3.00)[100.00%]
-X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,533 +66,306 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The per-architecture fbdev code has no dependencies on fbdev and can
-be used for any video-related subsystem. Rename the files to 'video'.
-Use video-sti.c on parisc as the source file depends on CONFIG_STI_CORE.
+Debugfs isn't always available in production builds that try to squeeze
+every single byte out of the kernel image, but we still need a way to
+toggle the timestamp and cycle counter registers so that jobs can be
+profiled for fdinfo's drm engine and cycle calculations.
 
-Further update all includes statements, includ guards, and Makefiles.
-Also update a few strings and comments to refer to video instead of
-fbdev.
+Drop the debugfs knob and replace it with a sysfs file that accomplishes
+the same functionality, and document its ABI in a separate file.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Vineet Gupta <vgupta@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Huacai Chen <chenhuacai@kernel.org>
-Cc: WANG Xuerui <kernel@xen0n.name>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Cc: Helge Deller <deller@gmx.de>
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: Nicholas Piggin <npiggin@gmail.com>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: Rich Felker <dalias@libc.org>
-Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Andreas Larsson <andreas@gaisler.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: x86@kernel.org
-Cc: "H. Peter Anvin" <hpa@zytor.com>
+Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 ---
- arch/arc/include/asm/fb.h                    |  8 --------
- arch/arc/include/asm/video.h                 |  8 ++++++++
- arch/arm/include/asm/fb.h                    |  6 ------
- arch/arm/include/asm/video.h                 |  6 ++++++
- arch/arm64/include/asm/fb.h                  | 10 ----------
- arch/arm64/include/asm/video.h               | 10 ++++++++++
- arch/loongarch/include/asm/{fb.h => video.h} |  8 ++++----
- arch/m68k/include/asm/{fb.h => video.h}      |  8 ++++----
- arch/mips/include/asm/{fb.h => video.h}      | 12 ++++++------
- arch/parisc/include/asm/{fb.h => video.h}    |  8 ++++----
- arch/parisc/video/Makefile                   |  2 +-
- arch/parisc/video/{fbdev.c => video-sti.c}   |  2 +-
- arch/powerpc/include/asm/{fb.h => video.h}   |  8 ++++----
- arch/powerpc/kernel/pci-common.c             |  2 +-
- arch/sh/include/asm/fb.h                     |  7 -------
- arch/sh/include/asm/video.h                  |  7 +++++++
- arch/sparc/include/asm/{fb.h => video.h}     |  8 ++++----
- arch/sparc/video/Makefile                    |  2 +-
- arch/sparc/video/{fbdev.c => video.c}        |  4 ++--
- arch/x86/include/asm/{fb.h => video.h}       |  8 ++++----
- arch/x86/video/Makefile                      |  2 +-
- arch/x86/video/{fbdev.c => video.c}          |  3 ++-
- include/asm-generic/Kbuild                   |  2 +-
- include/asm-generic/{fb.h => video.h}        |  6 +++---
- include/linux/fb.h                           |  2 +-
- 25 files changed, 75 insertions(+), 74 deletions(-)
- delete mode 100644 arch/arc/include/asm/fb.h
- create mode 100644 arch/arc/include/asm/video.h
- delete mode 100644 arch/arm/include/asm/fb.h
- create mode 100644 arch/arm/include/asm/video.h
- delete mode 100644 arch/arm64/include/asm/fb.h
- create mode 100644 arch/arm64/include/asm/video.h
- rename arch/loongarch/include/asm/{fb.h => video.h} (86%)
- rename arch/m68k/include/asm/{fb.h => video.h} (86%)
- rename arch/mips/include/asm/{fb.h => video.h} (76%)
- rename arch/parisc/include/asm/{fb.h => video.h} (68%)
- rename arch/parisc/video/{fbdev.c => video-sti.c} (96%)
- rename arch/powerpc/include/asm/{fb.h => video.h} (76%)
- delete mode 100644 arch/sh/include/asm/fb.h
- create mode 100644 arch/sh/include/asm/video.h
- rename arch/sparc/include/asm/{fb.h => video.h} (89%)
- rename arch/sparc/video/{fbdev.c => video.c} (86%)
- rename arch/x86/include/asm/{fb.h => video.h} (77%)
- rename arch/x86/video/{fbdev.c => video.c} (97%)
- rename include/asm-generic/{fb.h => video.h} (96%)
+ .../testing/sysfs-driver-panfrost-profiling   | 10 +++
+ Documentation/gpu/panfrost.rst                |  9 +++
+ drivers/gpu/drm/panfrost/Makefile             |  5 +-
+ drivers/gpu/drm/panfrost/panfrost_debugfs.c   | 21 ------
+ drivers/gpu/drm/panfrost/panfrost_debugfs.h   | 14 ----
+ drivers/gpu/drm/panfrost/panfrost_device.h    |  5 +-
+ drivers/gpu/drm/panfrost/panfrost_drv.c       | 14 ++--
+ drivers/gpu/drm/panfrost/panfrost_job.c       |  2 +-
+ drivers/gpu/drm/panfrost/panfrost_sysfs.c     | 74 +++++++++++++++++++
+ drivers/gpu/drm/panfrost/panfrost_sysfs.h     | 15 ++++
+ 10 files changed, 124 insertions(+), 45 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-driver-panfrost-profiling
+ delete mode 100644 drivers/gpu/drm/panfrost/panfrost_debugfs.c
+ delete mode 100644 drivers/gpu/drm/panfrost/panfrost_debugfs.h
+ create mode 100644 drivers/gpu/drm/panfrost/panfrost_sysfs.c
+ create mode 100644 drivers/gpu/drm/panfrost/panfrost_sysfs.h
 
-diff --git a/arch/arc/include/asm/fb.h b/arch/arc/include/asm/fb.h
-deleted file mode 100644
-index 9c2383d29cbb9..0000000000000
---- a/arch/arc/include/asm/fb.h
-+++ /dev/null
-@@ -1,8 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--
--#ifndef _ASM_FB_H_
--#define _ASM_FB_H_
--
--#include <asm-generic/fb.h>
--
--#endif /* _ASM_FB_H_ */
-diff --git a/arch/arc/include/asm/video.h b/arch/arc/include/asm/video.h
+diff --git a/Documentation/ABI/testing/sysfs-driver-panfrost-profiling b/Documentation/ABI/testing/sysfs-driver-panfrost-profiling
 new file mode 100644
-index 0000000000000..8ff7263727fe7
+index 000000000000..ce54069714f3
 --- /dev/null
-+++ b/arch/arc/include/asm/video.h
-@@ -0,0 +1,8 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef _ASM_VIDEO_H_
-+#define _ASM_VIDEO_H_
-+
-+#include <asm-generic/video.h>
-+
-+#endif /* _ASM_VIDEO_H_ */
-diff --git a/arch/arm/include/asm/fb.h b/arch/arm/include/asm/fb.h
-deleted file mode 100644
-index ce20a43c30339..0000000000000
---- a/arch/arm/include/asm/fb.h
-+++ /dev/null
-@@ -1,6 +0,0 @@
--#ifndef _ASM_FB_H_
--#define _ASM_FB_H_
--
--#include <asm-generic/fb.h>
--
--#endif /* _ASM_FB_H_ */
-diff --git a/arch/arm/include/asm/video.h b/arch/arm/include/asm/video.h
-new file mode 100644
-index 0000000000000..f570565366e67
---- /dev/null
-+++ b/arch/arm/include/asm/video.h
-@@ -0,0 +1,6 @@
-+#ifndef _ASM_VIDEO_H_
-+#define _ASM_VIDEO_H_
-+
-+#include <asm-generic/video.h>
-+
-+#endif /* _ASM_VIDEO_H_ */
-diff --git a/arch/arm64/include/asm/fb.h b/arch/arm64/include/asm/fb.h
-deleted file mode 100644
-index 1a495d8fb2ce0..0000000000000
---- a/arch/arm64/include/asm/fb.h
-+++ /dev/null
-@@ -1,10 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--/*
-- * Copyright (C) 2012 ARM Ltd.
-- */
--#ifndef __ASM_FB_H_
--#define __ASM_FB_H_
--
--#include <asm-generic/fb.h>
--
--#endif /* __ASM_FB_H_ */
-diff --git a/arch/arm64/include/asm/video.h b/arch/arm64/include/asm/video.h
-new file mode 100644
-index 0000000000000..fe0e74983f4d9
---- /dev/null
-+++ b/arch/arm64/include/asm/video.h
++++ b/Documentation/ABI/testing/sysfs-driver-panfrost-profiling
 @@ -0,0 +1,10 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2012 ARM Ltd.
-+ */
-+#ifndef __ASM_VIDEO_H_
-+#define __ASM_VIDEO_H_
++What:		/sys/bus/.../drivers/panfrost/.../drm/../profiling/status
++Date:		February 2024
++KernelVersion:	6.8.0
++Contact:	Adrian Larumbe <adrian.larumbe@collabora.com>
++Description:
++                Get/set drm fdinfo's engine and cycles profiling status.
++                Valid values are:
++		0: Disable fdinfo job profiling sources. This disables both the GPU's
++                timestamp and cycle counter registers.
++		1: Enable the above.
+diff --git a/Documentation/gpu/panfrost.rst b/Documentation/gpu/panfrost.rst
+index b80e41f4b2c5..be4ac282ef63 100644
+--- a/Documentation/gpu/panfrost.rst
++++ b/Documentation/gpu/panfrost.rst
+@@ -38,3 +38,12 @@ the currently possible format options:
+ 
+ Possible `drm-engine-` key names are: `fragment`, and  `vertex-tiler`.
+ `drm-curfreq-` values convey the current operating frequency for that engine.
 +
-+#include <asm-generic/video.h>
++Users must bear in mind that engine and cycle sampling are disabled by default,
++because of power saving concerns. `fdinfo` users and benchmark applications which
++query the fdinfo file must make sure to toggle the job profiling status of the
++driver by writing into the appropriate sysfs node::
 +
-+#endif /* __ASM_VIDEO_H_ */
-diff --git a/arch/loongarch/include/asm/fb.h b/arch/loongarch/include/asm/video.h
-similarity index 86%
-rename from arch/loongarch/include/asm/fb.h
-rename to arch/loongarch/include/asm/video.h
-index 0b218b10a9ec3..9f76845f2d4fd 100644
---- a/arch/loongarch/include/asm/fb.h
-+++ b/arch/loongarch/include/asm/video.h
-@@ -2,8 +2,8 @@
- /*
-  * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
-  */
--#ifndef _ASM_FB_H_
--#define _ASM_FB_H_
-+#ifndef _ASM_VIDEO_H_
-+#define _ASM_VIDEO_H_
++    echo <N> > /sys/bus/platform/drivers/panfrost/[a-f0-9]*.gpu/drm/card1/profiling
++
++Where `N` is either `0` or `1`, depending on the desired enablement status.
+diff --git a/drivers/gpu/drm/panfrost/Makefile b/drivers/gpu/drm/panfrost/Makefile
+index 2c01c1e7523e..6e718595d8a6 100644
+--- a/drivers/gpu/drm/panfrost/Makefile
++++ b/drivers/gpu/drm/panfrost/Makefile
+@@ -10,8 +10,7 @@ panfrost-y := \
+ 	panfrost_job.o \
+ 	panfrost_mmu.o \
+ 	panfrost_perfcnt.o \
+-	panfrost_dump.o
+-
+-panfrost-$(CONFIG_DEBUG_FS) += panfrost_debugfs.o
++	panfrost_dump.o \
++	panfrost_sysfs.o
  
- #include <linux/compiler.h>
- #include <linux/string.h>
-@@ -26,6 +26,6 @@ static inline void fb_memset_io(volatile void __iomem *addr, int c, size_t n)
- }
- #define fb_memset fb_memset_io
- 
--#include <asm-generic/fb.h>
-+#include <asm-generic/video.h>
- 
--#endif /* _ASM_FB_H_ */
-+#endif /* _ASM_VIDEO_H_ */
-diff --git a/arch/m68k/include/asm/fb.h b/arch/m68k/include/asm/video.h
-similarity index 86%
-rename from arch/m68k/include/asm/fb.h
-rename to arch/m68k/include/asm/video.h
-index 9941b7434b696..6cf2194c413d8 100644
---- a/arch/m68k/include/asm/fb.h
-+++ b/arch/m68k/include/asm/video.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
--#ifndef _ASM_FB_H_
--#define _ASM_FB_H_
-+#ifndef _ASM_VIDEO_H_
-+#define _ASM_VIDEO_H_
- 
- #include <asm/page.h>
- #include <asm/setup.h>
-@@ -27,6 +27,6 @@ static inline pgprot_t pgprot_framebuffer(pgprot_t prot,
- }
- #define pgprot_framebuffer pgprot_framebuffer
- 
--#include <asm-generic/fb.h>
-+#include <asm-generic/video.h>
- 
--#endif /* _ASM_FB_H_ */
-+#endif /* _ASM_VIDEO_H_ */
-diff --git a/arch/mips/include/asm/fb.h b/arch/mips/include/asm/video.h
-similarity index 76%
-rename from arch/mips/include/asm/fb.h
-rename to arch/mips/include/asm/video.h
-index d98d6681d64ec..007c106d980fd 100644
---- a/arch/mips/include/asm/fb.h
-+++ b/arch/mips/include/asm/video.h
-@@ -1,5 +1,5 @@
--#ifndef _ASM_FB_H_
--#define _ASM_FB_H_
-+#ifndef _ASM_VIDEO_H_
-+#define _ASM_VIDEO_H_
- 
- #include <asm/page.h>
- 
-@@ -13,8 +13,8 @@ static inline pgprot_t pgprot_framebuffer(pgprot_t prot,
- 
- /*
-  * MIPS doesn't define __raw_ I/O macros, so the helpers
-- * in <asm-generic/fb.h> don't generate fb_readq() and
-- * fb_write(). We have to provide them here.
-+ * in <asm-generic/video.h> don't generate fb_readq() and
-+ * fb_writeq(). We have to provide them here.
-  *
-  * TODO: Convert MIPS to generic I/O. The helpers below can
-  *       then be removed.
-@@ -33,6 +33,6 @@ static inline void fb_writeq(u64 b, volatile void __iomem *addr)
- #define fb_writeq fb_writeq
- #endif
- 
--#include <asm-generic/fb.h>
-+#include <asm-generic/video.h>
- 
--#endif /* _ASM_FB_H_ */
-+#endif /* _ASM_VIDEO_H_ */
-diff --git a/arch/parisc/include/asm/fb.h b/arch/parisc/include/asm/video.h
-similarity index 68%
-rename from arch/parisc/include/asm/fb.h
-rename to arch/parisc/include/asm/video.h
-index ed2a195a3e762..c5dff3223194a 100644
---- a/arch/parisc/include/asm/fb.h
-+++ b/arch/parisc/include/asm/video.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
--#ifndef _ASM_FB_H_
--#define _ASM_FB_H_
-+#ifndef _ASM_VIDEO_H_
-+#define _ASM_VIDEO_H_
- 
- #include <linux/types.h>
- 
-@@ -11,6 +11,6 @@ bool video_is_primary_device(struct device *dev);
- #define video_is_primary_device video_is_primary_device
- #endif
- 
--#include <asm-generic/fb.h>
-+#include <asm-generic/video.h>
- 
--#endif /* _ASM_FB_H_ */
-+#endif /* _ASM_VIDEO_H_ */
-diff --git a/arch/parisc/video/Makefile b/arch/parisc/video/Makefile
-index 16a73cce46612..b5db5b42880f8 100644
---- a/arch/parisc/video/Makefile
-+++ b/arch/parisc/video/Makefile
-@@ -1,3 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
--obj-$(CONFIG_STI_CORE) += fbdev.o
-+obj-$(CONFIG_STI_CORE) += video-sti.o
-diff --git a/arch/parisc/video/fbdev.c b/arch/parisc/video/video-sti.c
-similarity index 96%
-rename from arch/parisc/video/fbdev.c
-rename to arch/parisc/video/video-sti.c
-index 540fa0c919d59..564661e87093c 100644
---- a/arch/parisc/video/fbdev.c
-+++ b/arch/parisc/video/video-sti.c
-@@ -9,7 +9,7 @@
- 
- #include <video/sticore.h>
- 
--#include <asm/fb.h>
-+#include <asm/video.h>
- 
- bool video_is_primary_device(struct device *dev)
- {
-diff --git a/arch/powerpc/include/asm/fb.h b/arch/powerpc/include/asm/video.h
-similarity index 76%
-rename from arch/powerpc/include/asm/fb.h
-rename to arch/powerpc/include/asm/video.h
-index c0c5d1df7ad1e..e1770114ffc36 100644
---- a/arch/powerpc/include/asm/fb.h
-+++ b/arch/powerpc/include/asm/video.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
--#ifndef _ASM_FB_H_
--#define _ASM_FB_H_
-+#ifndef _ASM_VIDEO_H_
-+#define _ASM_VIDEO_H_
- 
- #include <asm/page.h>
- 
-@@ -12,6 +12,6 @@ static inline pgprot_t pgprot_framebuffer(pgprot_t prot,
- }
- #define pgprot_framebuffer pgprot_framebuffer
- 
--#include <asm-generic/fb.h>
-+#include <asm-generic/video.h>
- 
--#endif /* _ASM_FB_H_ */
-+#endif /* _ASM_VIDEO_H_ */
-diff --git a/arch/powerpc/kernel/pci-common.c b/arch/powerpc/kernel/pci-common.c
-index d95a48eff412e..eac84d687b53f 100644
---- a/arch/powerpc/kernel/pci-common.c
-+++ b/arch/powerpc/kernel/pci-common.c
-@@ -517,7 +517,7 @@ int pci_iobar_pfn(struct pci_dev *pdev, int bar, struct vm_area_struct *vma)
- }
- 
- /*
-- * This one is used by /dev/mem and fbdev who have no clue about the
-+ * This one is used by /dev/mem and video who have no clue about the
-  * PCI device, it tries to find the PCI device first and calls the
-  * above routine
-  */
-diff --git a/arch/sh/include/asm/fb.h b/arch/sh/include/asm/fb.h
+ obj-$(CONFIG_DRM_PANFROST) += panfrost.o
+diff --git a/drivers/gpu/drm/panfrost/panfrost_debugfs.c b/drivers/gpu/drm/panfrost/panfrost_debugfs.c
 deleted file mode 100644
-index 19df13ee9ca73..0000000000000
---- a/arch/sh/include/asm/fb.h
+index 72d4286a6bf7..000000000000
+--- a/drivers/gpu/drm/panfrost/panfrost_debugfs.c
 +++ /dev/null
-@@ -1,7 +0,0 @@
+@@ -1,21 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/* Copyright 2023 Collabora ltd. */
+-/* Copyright 2023 Amazon.com, Inc. or its affiliates. */
+-
+-#include <linux/debugfs.h>
+-#include <linux/platform_device.h>
+-#include <drm/drm_debugfs.h>
+-#include <drm/drm_file.h>
+-#include <drm/panfrost_drm.h>
+-
+-#include "panfrost_device.h"
+-#include "panfrost_gpu.h"
+-#include "panfrost_debugfs.h"
+-
+-void panfrost_debugfs_init(struct drm_minor *minor)
+-{
+-	struct drm_device *dev = minor->dev;
+-	struct panfrost_device *pfdev = platform_get_drvdata(to_platform_device(dev->dev));
+-
+-	debugfs_create_atomic_t("profile", 0600, minor->debugfs_root, &pfdev->profile_mode);
+-}
+diff --git a/drivers/gpu/drm/panfrost/panfrost_debugfs.h b/drivers/gpu/drm/panfrost/panfrost_debugfs.h
+deleted file mode 100644
+index c5af5f35877f..000000000000
+--- a/drivers/gpu/drm/panfrost/panfrost_debugfs.h
++++ /dev/null
+@@ -1,14 +0,0 @@
 -/* SPDX-License-Identifier: GPL-2.0 */
--#ifndef _ASM_FB_H_
--#define _ASM_FB_H_
+-/*
+- * Copyright 2023 Collabora ltd.
+- * Copyright 2023 Amazon.com, Inc. or its affiliates.
+- */
 -
--#include <asm-generic/fb.h>
+-#ifndef PANFROST_DEBUGFS_H
+-#define PANFROST_DEBUGFS_H
 -
--#endif /* _ASM_FB_H_ */
-diff --git a/arch/sh/include/asm/video.h b/arch/sh/include/asm/video.h
+-#ifdef CONFIG_DEBUG_FS
+-void panfrost_debugfs_init(struct drm_minor *minor);
+-#endif
+-
+-#endif  /* PANFROST_DEBUGFS_H */
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+index 62f7e3527385..56c8e5551335 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.h
++++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+@@ -130,7 +130,10 @@ struct panfrost_device {
+ 	struct list_head scheduled_jobs;
+ 
+ 	struct panfrost_perfcnt *perfcnt;
+-	atomic_t profile_mode;
++	struct kobj_profiling {
++		struct kobject base;
++		atomic_t profile_mode;
++	} profiling;
+ 
+ 	struct mutex sched_lock;
+ 
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index a926d71e8131..6db1ea453514 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -20,7 +20,7 @@
+ #include "panfrost_job.h"
+ #include "panfrost_gpu.h"
+ #include "panfrost_perfcnt.h"
+-#include "panfrost_debugfs.h"
++#include "panfrost_sysfs.h"
+ 
+ static bool unstable_ioctls;
+ module_param_unsafe(unstable_ioctls, bool, 0600);
+@@ -600,10 +600,6 @@ static const struct drm_driver panfrost_drm_driver = {
+ 
+ 	.gem_create_object	= panfrost_gem_create_object,
+ 	.gem_prime_import_sg_table = panfrost_gem_prime_import_sg_table,
+-
+-#ifdef CONFIG_DEBUG_FS
+-	.debugfs_init		= panfrost_debugfs_init,
+-#endif
+ };
+ 
+ static int panfrost_probe(struct platform_device *pdev)
+@@ -663,8 +659,14 @@ static int panfrost_probe(struct platform_device *pdev)
+ 	if (err)
+ 		goto err_out2;
+ 
++	err = panfrost_sysfs_init(pfdev);
++	if (err)
++		goto err_out3;
++
+ 	return 0;
+ 
++err_out3:
++	panfrost_gem_shrinker_cleanup(ddev);
+ err_out2:
+ 	drm_dev_unregister(ddev);
+ err_out1:
+@@ -681,6 +683,8 @@ static void panfrost_remove(struct platform_device *pdev)
+ 	struct panfrost_device *pfdev = platform_get_drvdata(pdev);
+ 	struct drm_device *ddev = pfdev->ddev;
+ 
++	panfrost_sysfs_cleanup(pfdev);
++
+ 	drm_dev_unregister(ddev);
+ 	panfrost_gem_shrinker_cleanup(ddev);
+ 
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index 0c2dbf6ef2a5..49413dfda2ea 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -243,7 +243,7 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
+ 	subslot = panfrost_enqueue_job(pfdev, js, job);
+ 	/* Don't queue the job if a reset is in progress */
+ 	if (!atomic_read(&pfdev->reset.pending)) {
+-		if (atomic_read(&pfdev->profile_mode)) {
++		if (atomic_read(&pfdev->profiling.profile_mode)) {
+ 			panfrost_cycle_counter_get(pfdev);
+ 			job->is_profiled = true;
+ 			job->start_time = ktime_get();
+diff --git a/drivers/gpu/drm/panfrost/panfrost_sysfs.c b/drivers/gpu/drm/panfrost/panfrost_sysfs.c
 new file mode 100644
-index 0000000000000..14f49934a247a
+index 000000000000..072d3bf349d2
 --- /dev/null
-+++ b/arch/sh/include/asm/video.h
-@@ -0,0 +1,7 @@
++++ b/drivers/gpu/drm/panfrost/panfrost_sysfs.c
+@@ -0,0 +1,74 @@
++// SPDX-License-Identifier: GPL-2.0
++/* Copyright 2023 Collabora ltd. */
++/* Copyright 2023 Amazon.com, Inc. or its affiliates. */
++
++#include <linux/platform_device.h>
++#include <drm/drm_file.h>
++#include <drm/panfrost_drm.h>
++
++#include "panfrost_device.h"
++#include "panfrost_gpu.h"
++#include "panfrost_sysfs.h"
++
++static ssize_t
++profiling_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
++{
++	atomic_t *profile_mode =
++		&container_of(kobj, struct {
++			struct kobject base;
++			atomic_t profile_mode; },
++			base)->profile_mode;
++
++	return sysfs_emit(buf, "%d\n", atomic_read(profile_mode));
++}
++
++static ssize_t
++profiling_store(struct kobject *kobj, struct kobj_attribute *attr,
++	       const char *buf, size_t count)
++{
++	atomic_t *profile_mode =
++		&container_of(kobj, struct {
++			struct kobject base;
++			atomic_t profile_mode; },
++			base)->profile_mode;
++	int err, value;
++
++	err = kstrtoint(buf, 0, &value);
++	if (err)
++		return err;
++
++	atomic_set(profile_mode, !!value);
++
++	return count;
++}
++
++static const struct kobj_attribute profiling_status =
++__ATTR(status, 0644, profiling_show, profiling_store);
++
++static const struct kobj_type kobj_profile_type = {
++	.sysfs_ops = &kobj_sysfs_ops,
++};
++
++int panfrost_sysfs_init(struct panfrost_device *pfdev)
++{
++	struct device *kdev = pfdev->ddev->primary->kdev;
++	int err;
++
++	kobject_init(&pfdev->profiling.base, &kobj_profile_type);
++
++	err = kobject_add(&pfdev->profiling.base, &kdev->kobj, "%s", "profiling");
++	if (err)
++		return err;
++
++	err = sysfs_create_file(&pfdev->profiling.base, &profiling_status.attr);
++	if (err)
++		kobject_del(&pfdev->profiling.base);
++
++	return err;
++}
++
++void panfrost_sysfs_cleanup(struct panfrost_device *pfdev)
++{
++	sysfs_remove_file(&pfdev->profiling.base, &profiling_status.attr);
++	kobject_del(&pfdev->profiling.base);
++}
+diff --git a/drivers/gpu/drm/panfrost/panfrost_sysfs.h b/drivers/gpu/drm/panfrost/panfrost_sysfs.h
+new file mode 100644
+index 000000000000..5fc9c8c1091a
+--- /dev/null
++++ b/drivers/gpu/drm/panfrost/panfrost_sysfs.h
+@@ -0,0 +1,15 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _ASM_VIDEO_H_
-+#define _ASM_VIDEO_H_
++/*
++ * Copyright 2023 Collabora ltd.
++ * Copyright 2023 Amazon.com, Inc. or its affiliates.
++ */
 +
-+#include <asm-generic/video.h>
++#ifndef PANFROST_SYSFS_H
++#define PANFROST_SYSFS_H
 +
-+#endif /* _ASM_VIDEO_H_ */
-diff --git a/arch/sparc/include/asm/fb.h b/arch/sparc/include/asm/video.h
-similarity index 89%
-rename from arch/sparc/include/asm/fb.h
-rename to arch/sparc/include/asm/video.h
-index 07f0325d6921c..a6f48f52db584 100644
---- a/arch/sparc/include/asm/fb.h
-+++ b/arch/sparc/include/asm/video.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
--#ifndef _SPARC_FB_H_
--#define _SPARC_FB_H_
-+#ifndef _SPARC_VIDEO_H_
-+#define _SPARC_VIDEO_H_
- 
- #include <linux/io.h>
- #include <linux/types.h>
-@@ -40,6 +40,6 @@ static inline void fb_memset_io(volatile void __iomem *addr, int c, size_t n)
- }
- #define fb_memset fb_memset_io
- 
--#include <asm-generic/fb.h>
-+#include <asm-generic/video.h>
- 
--#endif /* _SPARC_FB_H_ */
-+#endif /* _SPARC_VIDEO_H_ */
-diff --git a/arch/sparc/video/Makefile b/arch/sparc/video/Makefile
-index 9dd82880a027a..fdf83a408d750 100644
---- a/arch/sparc/video/Makefile
-+++ b/arch/sparc/video/Makefile
-@@ -1,3 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
--obj-y	+= fbdev.o
-+obj-y	+= video.o
-diff --git a/arch/sparc/video/fbdev.c b/arch/sparc/video/video.c
-similarity index 86%
-rename from arch/sparc/video/fbdev.c
-rename to arch/sparc/video/video.c
-index e46f0499c2774..2414380caadc9 100644
---- a/arch/sparc/video/fbdev.c
-+++ b/arch/sparc/video/video.c
-@@ -4,8 +4,8 @@
- #include <linux/device.h>
- #include <linux/module.h>
- 
--#include <asm/fb.h>
- #include <asm/prom.h>
-+#include <asm/video.h>
- 
- bool video_is_primary_device(struct device *dev)
- {
-@@ -21,5 +21,5 @@ bool video_is_primary_device(struct device *dev)
- }
- EXPORT_SYMBOL(video_is_primary_device);
- 
--MODULE_DESCRIPTION("Sparc fbdev helpers");
-+MODULE_DESCRIPTION("Sparc video helpers");
- MODULE_LICENSE("GPL");
-diff --git a/arch/x86/include/asm/fb.h b/arch/x86/include/asm/video.h
-similarity index 77%
-rename from arch/x86/include/asm/fb.h
-rename to arch/x86/include/asm/video.h
-index 999db33792869..0950c9535fae9 100644
---- a/arch/x86/include/asm/fb.h
-+++ b/arch/x86/include/asm/video.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
--#ifndef _ASM_X86_FB_H
--#define _ASM_X86_FB_H
-+#ifndef _ASM_X86_VIDEO_H
-+#define _ASM_X86_VIDEO_H
- 
- #include <linux/types.h>
- 
-@@ -16,6 +16,6 @@ pgprot_t pgprot_framebuffer(pgprot_t prot,
- bool video_is_primary_device(struct device *dev);
- #define video_is_primary_device video_is_primary_device
- 
--#include <asm-generic/fb.h>
-+#include <asm-generic/video.h>
- 
--#endif /* _ASM_X86_FB_H */
-+#endif /* _ASM_X86_VIDEO_H */
-diff --git a/arch/x86/video/Makefile b/arch/x86/video/Makefile
-index 9dd82880a027a..fdf83a408d750 100644
---- a/arch/x86/video/Makefile
-+++ b/arch/x86/video/Makefile
-@@ -1,3 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
--obj-y	+= fbdev.o
-+obj-y	+= video.o
-diff --git a/arch/x86/video/fbdev.c b/arch/x86/video/video.c
-similarity index 97%
-rename from arch/x86/video/fbdev.c
-rename to arch/x86/video/video.c
-index 4d87ce8e257fe..81fc97a2a837a 100644
---- a/arch/x86/video/fbdev.c
-+++ b/arch/x86/video/video.c
-@@ -10,7 +10,8 @@
- #include <linux/module.h>
- #include <linux/pci.h>
- #include <linux/vgaarb.h>
--#include <asm/fb.h>
++struct panfrost_device;
 +
-+#include <asm/video.h>
- 
- pgprot_t pgprot_framebuffer(pgprot_t prot,
- 			    unsigned long vm_start, unsigned long vm_end,
-diff --git a/include/asm-generic/Kbuild b/include/asm-generic/Kbuild
-index d436bee4d129d..b20fa25a7e8d8 100644
---- a/include/asm-generic/Kbuild
-+++ b/include/asm-generic/Kbuild
-@@ -22,7 +22,6 @@ mandatory-y += dma-mapping.h
- mandatory-y += dma.h
- mandatory-y += emergency-restart.h
- mandatory-y += exec.h
--mandatory-y += fb.h
- mandatory-y += ftrace.h
- mandatory-y += futex.h
- mandatory-y += hardirq.h
-@@ -62,5 +61,6 @@ mandatory-y += uaccess.h
- mandatory-y += unaligned.h
- mandatory-y += vermagic.h
- mandatory-y += vga.h
-+mandatory-y += video.h
- mandatory-y += word-at-a-time.h
- mandatory-y += xor.h
-diff --git a/include/asm-generic/fb.h b/include/asm-generic/video.h
-similarity index 96%
-rename from include/asm-generic/fb.h
-rename to include/asm-generic/video.h
-index 4788c1e1c6bc0..b1da2309d9434 100644
---- a/include/asm-generic/fb.h
-+++ b/include/asm-generic/video.h
-@@ -1,7 +1,7 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- 
--#ifndef __ASM_GENERIC_FB_H_
--#define __ASM_GENERIC_FB_H_
-+#ifndef __ASM_GENERIC_VIDEO_H_
-+#define __ASM_GENERIC_VIDEO_H_
- 
- /*
-  * Only include this header file from your architecture's <asm/fb.h>.
-@@ -133,4 +133,4 @@ static inline void fb_memset_io(volatile void __iomem *addr, int c, size_t n)
- #define fb_memset fb_memset_io
- #endif
- 
--#endif /* __ASM_GENERIC_FB_H_ */
-+#endif /* __ASM_GENERIC_VIDEO_H_ */
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 2ce2f5c2fca9a..8fe9df5ae19da 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -16,7 +16,7 @@
- #include <linux/backlight.h>
- #include <linux/slab.h>
- 
--#include <asm/fb.h>
-+#include <asm/video.h>
- 
- struct vm_area_struct;
- struct fb_info;
++int panfrost_sysfs_init(struct panfrost_device *pfdev);
++void panfrost_sysfs_cleanup(struct panfrost_device *pfdev);
++
++#endif  /* PANFROST_SYSFS_H */
 -- 
 2.43.0
 
