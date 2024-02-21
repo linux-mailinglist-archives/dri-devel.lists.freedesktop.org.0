@@ -2,138 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E54885E053
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 15:54:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E37F485E06A
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 16:00:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A6E310E778;
-	Wed, 21 Feb 2024 14:54:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7135510E44C;
+	Wed, 21 Feb 2024 15:00:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="UuSvLxkC";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="TteAm1T3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2073.outbound.protection.outlook.com [40.107.100.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0C9A10E771
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 14:54:34 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2049.outbound.protection.outlook.com [40.107.220.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A819110E44C
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 15:00:15 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QAgXknwkU2902gn4c+opXraArpy1P4kpOAyu+peB1xIphjI5yXCxrDQF98XM9MBaEFAdc4hhq0UJ3ZxHk8fYo+6+XxYvppDXuFpewVC9wZ9hH1sBvsqkKTFD9U+1Zpb7oD7A+PewT40uoiUMXD/Pmxr/qLyF5pfsb+3etQJcA3HCp1rSXRIEqzoWBJIjxVrtaq337kwpa29aRm4OjYFY15X19WaBXkVwxmXtfn2E3KqT+G5T5Sz0nUEzYj2zv4sgDh2VtlG4/mPDOoV87NAG2L1eWGXpc0CQ7Db5uZxoSSVYtF9y+lA3hBNwsbvkqR5y76J0PKzF07jZGE6YCd4h6w==
+ b=lJTbTBmCLvxBfhQepe3UT76V7mDSWXwQ/MvqXLUjfD1/5fmskvZhKD6rNeag81Z6Xkyyl/dlXnMM75rJXn7f/kvYycF+/IYQKlcQX4O0f5DBAdsCctkXHlzwrMiToJoIf/7EkuDGkDTFEANQQtgCyhKolucNaAWzgzw9UGYvOwBMT8S+O6uKQsv3VGWU33+xlLsmxFjxWnwwUAG76UGWwwixaBQIekoOrTn0qGfLbTdbxX9yHWtvu83Ohf3bTfCl2ZASsKCmSiC6ZZV0dosZE1ieVXzPHj0phE2iP7YJjCykmDiuW3JClJz+ih/2un+sBv2NCsIc3ZRCRMEM7vNDcw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fJDGNrRij9yWoPyp8wfnRs/Wv9vR5YR8tnk4frqYh0Y=;
- b=aUAoP71AEB08b9PsE3/6yDNjlRm80bsuiROjGO6ZEXagnXMCSbNl6JrAe41FklkThxjFLNvx2Q72W3/iNkxLHxQd4qBKqPDBN5dgEUaPVBiVA6tTOVjEWLcn9TthqKR1Erl57cge5aO3J0L/hLN05g4kTGmxtaX8h8nm6TGCaip8Zek+DLm/FHKW1usz9BkDw5DSLnRPmdtlvu22Zcri8iZk/lKyfHHDmBeGc8QWBB3fcVC+hxirtF8Dd4SSaxM1HWN0HGyToch2ydjHlO/UDkaivg1nzMqLcH/HJ5PsTcAmZfs7FEEhYl/uogXCesgkgMe1B1oCE+ociUf96/Q+Vw==
+ bh=hlx1ecz663fOWeKWAZf1UJTRhAzh21x0+l2NB32R5bY=;
+ b=E5Jt7266/KRumZed/hm2kyAcQApPF+NsCoMtROuWFMBRSN8huOU4UEtrWHj7Yo3QvWFODLpSLIhzD2cOa98nI7dkPo2Od2NyshJ+5db+/r9nDFx1j0c8IX16I6mng9y0C2ECuGs9FGlXQWqbXQSqXSajtmy/qs23ZaKzw/fujCVkGjE/WMVWbelD06R3DZ/snkXP+mOoua6KE46XSrN4EqU3g4cxUgLdJ3q8/mMPZ+Ws0tKuW12AoQ2aMUjrjQRrhvvqF/v5DKci2O7ft+gh7u/JCXEODULZ7aCQflEpATgWMUAHjxonFlSnUvQRzbzxDRm2AJ6b2ytD0YaYYajx3g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fJDGNrRij9yWoPyp8wfnRs/Wv9vR5YR8tnk4frqYh0Y=;
- b=UuSvLxkCcNweJmpeORKIFA2m46pFedpCYgdlzqA87NAEMsFxlMWYG+I/zp6dPMXp3EBhFtrAnbxhRK6mn/f49xKqTlTHWzG/a08Yl2RQgvJo+AX+r2ib1H79fYBW7rNwRSAlTR+QApF6aMvcwFTIGzkp6stAj2wyhTijOoYLhx8=
+ bh=hlx1ecz663fOWeKWAZf1UJTRhAzh21x0+l2NB32R5bY=;
+ b=TteAm1T3kQMGlkU3wJJp2dAT8gzG3/zL6zT+9+kgR/i9RaXMT2CCodGdHhLs22wVTJl/eLpjBvn1CzZOfj48j7Ek+WkvfyrIXm5+v0yq5RhJ892bWJA69RK2FCwAu0zg082BW5horzto2mVSPdM1j3wBagjktxk7nINtYfxOigU=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH7PR12MB6611.namprd12.prod.outlook.com (2603:10b6:510:211::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.20; Wed, 21 Feb
- 2024 14:54:31 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7316.018; Wed, 21 Feb 2024
- 14:54:31 +0000
-Content-Type: multipart/alternative;
- boundary="------------poAxNQYz9z0vG4YS08OmwdU0"
-Message-ID: <fa5fa080-0ce3-4ab0-80a9-9ee5baba9131@amd.com>
-Date: Wed, 21 Feb 2024 15:54:23 +0100
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by SN7PR12MB7250.namprd12.prod.outlook.com (2603:10b6:806:2aa::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.19; Wed, 21 Feb
+ 2024 15:00:13 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::6c3b:75a3:6af2:8bf4]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::6c3b:75a3:6af2:8bf4%5]) with mapi id 15.20.7316.018; Wed, 21 Feb 2024
+ 15:00:12 +0000
+Message-ID: <cd95fbe2-6112-4a4f-8efd-c03d72d1b1c0@amd.com>
+Date: Wed, 21 Feb 2024 10:00:09 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: Running ttm_device_test leads to list_add corruption. prev->next
- should be next (ffffffffc05cd428), but was 6b6b6b6b6b6b6b6b.
- (prev=ffffa0b1a5c034f0) (kernel 6.7.5)
+Subject: Re: UAPI Re: [PATCH 1/3] drm: Add DRM_MODE_TV_MODE_MONOCHROME
 Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>,
- Erhard Furtner <erhard_f@mailbox.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Huang Rui <ray.huang@amd.com>,
+To: Pekka Paalanen <pekka.paalanen@haloniitty.fi>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Karolina Stolarek <karolina.stolarek@intel.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- Brendan Higgins <brendan.higgins@linux.dev>, David Gow
- <davidgow@google.com>, Rae Moar <rmoar@google.com>,
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
-References: <20240219230116.77b8ad68@yea> <ZdRtDOhQGQUm5X4d@archie.me>
- <9cdf0baa-f544-4fa8-bee3-568b790527cc@amd.com>
- <4xggxtkk44m3xcfucbougtuhr66s2pc7tilpnju7xnyw45facb@odsrpqp57kiz>
- <535f9089-b988-45ac-b3f3-a7d593861723@amd.com>
- <uddqboamqcnxwvnud5gmkkm4igvxj67xc2zw52iex5ahljtlb4@2e7ydoplg6rt>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <uddqboamqcnxwvnud5gmkkm4igvxj67xc2zw52iex5ahljtlb4@2e7ydoplg6rt>
-X-ClientProxiedBy: FR3P281CA0062.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4b::11) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>
+References: <20240216184857.245372-1-dave.stevenson@raspberrypi.com>
+ <20240216184857.245372-2-dave.stevenson@raspberrypi.com>
+ <20240221110751.48da8190@eldfell>
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <20240221110751.48da8190@eldfell>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR01CA0050.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:2::22) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB6611:EE_
-X-MS-Office365-Filtering-Correlation-Id: 01aaa1ab-347f-4acd-9e39-08dc32ed02a4
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|SN7PR12MB7250:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0c5cf74b-bc03-4f2c-37a5-08dc32edce1f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AC5tPyjXCanrSNHJMH528fYqqPIjBoyWBcdQgWJlAdOhygYkBk4epuIquyfCFRiNoJVxk6rCpq2P5aT6rOyse0+cBIu8LMC1w0EJ2zG0VZNzDcuwN7+zDVPTVtAasKCvQ+zK6bQ25JC1Ig7FBSaZnq4xxsgl5NzxbWy1X5aiBRF2auIxsRK8DCf7TeFqf5ipUdSfeNXT3aRxKbQOJaLvmHk0WOwQXLCuC0ys7n/20hQZRKRSkp5kOlaAcDfxpev0Zz//FIbbks1NH7og7AMualKITTLbbDhCp7jR3rSbLnrcdNu/+83GFjHtcO023Fjul2750pMxXkXTTJmv5YB5x4dY/9QL3dSaHB1k5zMdgwbrbP9T70Y7YfLX/r1O0m4x+/8TeFhYc9Zy5RrJ16Y1g0VrFGOMn45wHUyT2XGjGTEfCE1eMz2zVuad1SQ/qD7iqkIqX6SVhbrKbnMFZ7lAteSWwUsn3EsVs15sMuNfeR+IJVivNkay7rWoSyWVAnMZVPWGR8q/zkd9SMJI+Bl073v7rB3yS5i7bOlAvM8GXIk=
+X-Microsoft-Antispam-Message-Info: 8jccc/n3TKfQyV/aeADL9vP8VJzdaV8K4I41wwyPKjGF7Z1mQ/L4ZMK7MF6HEnb1C31/uEHF5GA6GPKuGOyMaM+yWXpn5vWyEQw1o+iwAkSZYfhvj91QGnTR/dURDFhxwmTfu3kxZZ/wdi15RkFEATFqvIX7XG92ktMd5PzTUQdGan6rhVXWvD9VcvQjIar5bcQqOm/wXfjAYO47Sw89YruZyvPH9rjeKHh6J/YNjxaca/roytPmb0aRVCVBkuLLtBtWmvol4aIKK2Xk91T4v4eUDxHfw0/OMPEWG4BtlnnXwCMpNaWbVW2IJ/Zh6beu/v8i6OKE8IVm+CDjCFAPNCESIGyL9A9OfP6NFGgp4uSt5YPLAbZl+wQY4IB2S1OB13ps53/HtlsfgUZ6QDQ2YSwP1MKQxiYCqJDXDnu3c0Q+VvRAbEnzI+0Goa5wz4fYI/v5Nhoy+DvEembx6Cn+wq3RTRkRIJrpb2jPd303i/bbtLinpyiLhmi6QbFQaDNCRZ38MxFF5YJoLnqn8Yukjg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230031); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S3dWY3IvT1BnRTl3Z3d4c1l1dUhvT0IxcGR1R2VkWE53NlVzZXlJNjlLSnky?=
- =?utf-8?B?T0dJeklid3F0WkZyQVE1c3ROM2hHamI0c2JPWkVuNkZCR2lCbmpxcW5VNVlP?=
- =?utf-8?B?SjgvdkVDUGQzVXcvR1FUWGlBYnZrZ0xGYnVoajMxWFQvNWZyUVIyUVJ4VElv?=
- =?utf-8?B?M2xwWDNxM3R5alR4b1crNnpyQWxoNEhUOTBaUDRhWlRXVXNNT1lkQnZFOGVK?=
- =?utf-8?B?djNnYXQ3bk5jakhvUnpVMUJ4RkFXWkRvMElyK014UkhKSGZueVhCN2V0RVli?=
- =?utf-8?B?eGJJOU1maUx2Y21Zb1liVXVBZ1VlVHBOUmNqNnl3Nlh0K1Iwa3RIQy8rTlp0?=
- =?utf-8?B?MHRwbzBVZzNjVFZSRnNWKzdLTzFzYXBVMzlmajZ2a1FjWUs4RjZYcGFXMDhv?=
- =?utf-8?B?cGNCYWtzWFRoMUZibVpyc2ZEQk1JbytJQlllSzJZT0c0emZnSGUrdWErWEJt?=
- =?utf-8?B?c2Uzc0VtRUZ4UjJLeGZUb1I3WC92TnhZQmFxU0xyejlYL1hJMzFOTGpxRlBV?=
- =?utf-8?B?UDlqUUpqWHpZSURPbTlEVlBNdm0ybmlhanY5YzhhbnNTdGJEOXNuYklZYmdF?=
- =?utf-8?B?WnFiYUpFbHVqQ1YzcXZCVDJnVGl6cUV2N2ZxT1ViWTRpQ3czc0IyNkdRSkFG?=
- =?utf-8?B?TUhtK1U2eHAyWHdMNWhHUjFNaHVSMjFUeWx3cUVGOTJKa1ltMkIvWlFWdUtx?=
- =?utf-8?B?Y2JoTzJubXNNSVlGNGwxRTNSekRHV3ZmUnE3QjlBMUJ5U3ozNmsrRHpwSHBC?=
- =?utf-8?B?Y05JcGlWMzNSMFoxRVJNbU5rdy9MYk5mRzFsVWhvQmVlN0NJdWdSa2xXUnhG?=
- =?utf-8?B?bVlKRE9pdTRDMHZ4VzZSemFoL1FCRjBMTFZXZkNZV3hkMXl5T1B1NHI2aStw?=
- =?utf-8?B?ZjRhU1hSQldiMFRFaHdSTzJkbGFCTlVkYlhETDlXL3A1ZVgwZTNESFpoU0NT?=
- =?utf-8?B?MitaT2ZxRU5BQm5MbW1UWWNDU0RZcmMyODhkZXhGbnFpZGpPamxvR2J6WGNu?=
- =?utf-8?B?TnhWVEZtNkZNNWE0dlNaZ1QxelhZQ2JvOGxGQS9ManVDUWMyKzFIL2pDNGZ5?=
- =?utf-8?B?dk1PQ091Y1JWNGNHcGJJaEpIV3lSVUV2YXBhSi91Y0lTSXRjSURRZVFmS1I2?=
- =?utf-8?B?ZENnTDd2U2ZIZTZQSktmaGpWbXFrWFVIMHRpSHNzTDJXRHJvRk9FcVdmNzh4?=
- =?utf-8?B?VkQ0Rmw0alRaMmxmallnZ1JNS092QzBuQXV1WFc5cmg4bUIvQVd4NjM5UWhK?=
- =?utf-8?B?NHR2U29ZOU5sbHFjcmFuUjNNV0l2bllxT25oZDZMZDhhM3BtSndqcGJITGdZ?=
- =?utf-8?B?ZGV0WitPekJKc2M5MEFjdnFOZjB6d2FmTUNBOVYrRnJnNURpM1lHM0RhS0FT?=
- =?utf-8?B?YjU3WTVvL0xmMnJYSENVcXhndm0ySTlZR243VFVNcW9mUmZDMlpHZWZxcGQ0?=
- =?utf-8?B?ckZzV1lwRVNyMGcxdW5pVHYzT3Z0WnJIeVRTM01Rb1BqMEVtZ2VybmRTMUhl?=
- =?utf-8?B?UlJWR2NYL0JOd1loeHFUeWgwODcvTkhya2V5R2lDMGVYSUx1QUxmU2VVM0pJ?=
- =?utf-8?B?WnQxSGFrVEluZjdOaUJQS0IvTnA2Z1V1TlkvU3htMkI5NGdXVkVMRmFBbElv?=
- =?utf-8?B?eHJIMjFZWGtkditCb0RqWnZCeCtQc1gzY1MwNDExZjlST3I1dUpiVmxTcEU0?=
- =?utf-8?B?by9Eb2F4VFFKdGp1QkYrcllpbG5FQmNyMFBpbjhtdWtvTXkxSE5jazlZT043?=
- =?utf-8?B?VFRnenBQaDdtdzAvdjhsMVFjcGE5T20ra01NN284L0MrME4zTldIUTQ0S01U?=
- =?utf-8?B?MDgvK0NlRk1hdDhBMEtnUlkxYzhXUDNyb2o4cFY3U0syakdIbnk4emVCdS9m?=
- =?utf-8?B?OHNranMxRUJhcStzbERpaTlxREx2dU5ZVXlsc0k0RmZ5dlBGTnh4emV5Q1lM?=
- =?utf-8?B?c1lSMm1DUkRab0dJK285YVYvNVRKK1dUb0VyUUQrL1NrV3JTNUhja09vMmdr?=
- =?utf-8?B?blhpOFV5cDFDNFJ3MEx6WkMvcFg1cW1qemw3MGlkY1lST0w3M1ptVDZMVElh?=
- =?utf-8?B?eVM4QmVxb0l0UnZEV0RrbXNBSktVVUhHd2k1Q09XY0pYYU91VldFVytlZ0hi?=
- =?utf-8?Q?4FnxhjNWSr75knu+VKJSq7boS?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b2xzNk11T2RKeW9jKzc0S01kWmswcFp5R2N3M1cyYWpwR1NHSWtZVFN4Wlhs?=
+ =?utf-8?B?SGw2WFNIN00wczN4Y0pFMUs3VVlSTGtybDdROUxyQVhPdFFDTkk2ZjRNOVE4?=
+ =?utf-8?B?M1h6alJoNnM1RFdwVUNLZnQreHRwVGk5Nmo4M21TNTVka09QNGJCMlA1ejV1?=
+ =?utf-8?B?VVpZeng3R3IwUW1jM2I2SHJBM0ZzclJuU0JKcFl4VGJQemxNWFlPSUJJdm5l?=
+ =?utf-8?B?akdqQ0dUd2R1dGFLTUd5TWlmSlFZRW5sZWIrazJWY2t6ZmxJcEhqM1JNVitF?=
+ =?utf-8?B?eFJPSkt3dmFrdWlNdjFPVm5yd0VLZVIxMk5TcDh6Zzd1ZEV6dGtSKzA2SkFY?=
+ =?utf-8?B?ek5qVU5ZSmNXUDZvRTlIdDR3WlV3RlpkZzRWK01GYkl0VDRZaWFQT0dUWE8y?=
+ =?utf-8?B?TWR6UkY0UU9qTmYzVEZPK2N5ckpxMENwanBqQlR1Q3NDTU4rdzhDcUR1U2Ey?=
+ =?utf-8?B?OUpNN0hReHVESUk5SC9xNEVMbWp6cVhxLzM5MFJlWm4vQVJqQ1JiMEpFWDFB?=
+ =?utf-8?B?emt1dUFjMnZ2dHBmTG5YVGFEWEpNaEFYMXRpOHNvY3gwUHQ5RzdsZHRWbFdV?=
+ =?utf-8?B?MTAwNUdiRHZEVkhJbFJaUEMrSHJXRDBMYVpZNTU1R1F0emVRRWtGSkR5RllY?=
+ =?utf-8?B?bm1OV3BsdndOdzcxUDF4Z0ljVXZPVG41dDFwY1BpT2Y4ejY5MytwZTBnNVRS?=
+ =?utf-8?B?V0NiL1hyZW1reHlDVll2NnhXejAxdmw2TWF2d1NjL3Q5STQvT0tQa0Fhd0tM?=
+ =?utf-8?B?dktBbHpxeHdhSm1nd3d3VVNLc3dHVmk1Z2hwNnJnU2dkZ1N2VnN0dklXNDJO?=
+ =?utf-8?B?WjdhMldHUGxpcU5BQ25sSHdNL2dXRUtFY1cyeG9xR0dZUldPR2V2YTB3ZEVu?=
+ =?utf-8?B?UVRqN2ZkenZTQ1NqVm1keFlPYnphNzBLeU5VT1FNTGhmUWlUVVRqSlpiTXJV?=
+ =?utf-8?B?TWNWL3pZMUNLNjZ1RDExOHNpc2xXRmZxamYyWjYrdmhnTXNBQW82TjExcWc4?=
+ =?utf-8?B?UmtybTdQYjV1ejRraWdEQ2VaWXB4cFN5SDFiK3JHZDIwSUlhaTV3MVNaOTBs?=
+ =?utf-8?B?cTBDRG5uZmJiS2NaT0podzVoaTlsemhJUkI3R3pYVlphK0hjVG8wSDRmSkp1?=
+ =?utf-8?B?UjV3dHpHTmtkcVZJWmZCSGp5UC8wdmpneHBHU3ZrV3BRK3d3aVg5T2VmeDB6?=
+ =?utf-8?B?YkxEdlJtUmt5V09MQ2UrWFhGenZvTkhTWEVJSmxJeXVnb2RONGlRQUY5VHVu?=
+ =?utf-8?B?dm5hTWRibWNJS1Bsb0h5d28zSkc2WGduTWpOUTVncTduZnZiQlNKVGhJNStR?=
+ =?utf-8?B?blZ3Z3NjOUprWTZKcm1PZ0Y4ZEVtUjFyaERHY2tnV2FqZGRNd1c1YWdhQ3k5?=
+ =?utf-8?B?SGtXa3g1VWJyQjRYekZGOEJTcWFZNVhoN29rd3E5dXdhK2ZZVkI3V2tBRFYr?=
+ =?utf-8?B?VTZGbUNGV0hWSzRsb2RST1hBMkwxakJUbEFrc2JuYWdKQ3V4NS9ueDdQZUhM?=
+ =?utf-8?B?Uy9tYVlSU3NNR245RDZxSkR4RjZjU0FJZVNLdFZ5dU9jYXlCMTlNTWllLzVK?=
+ =?utf-8?B?VFJkaktHQ1FDTVlwUlRjMFcxY3lFUGR2S01BTEJFRmp2a1dZQUdnYTRORlNm?=
+ =?utf-8?B?bzBUclBrQTZyaW15cnh2Nm5ORVk0bE1jU1FwZjJGcjhIUmtURmNKMFoxN3I5?=
+ =?utf-8?B?RE9RZ0VPM0dGUUo1Umo5dHp0VEk0UjFiNHpGYkZDNUc2c2JXREVoaFdYV3NO?=
+ =?utf-8?B?T1JFNityUUdFOEFVYTZKUmpTWFA0WGhmREpHMDZKZDRaVmNlUEZBWFR1Tnhn?=
+ =?utf-8?B?Vnp3SEN2b1Fzdm83MFdkQ3I0am5NaGpkdWhZbk1GK3hNM2dXb0tsTFJyTzdO?=
+ =?utf-8?B?dFA5Um1ab0dSOHNjdG1ZWlI1SmlScnVFSVAzWG1xS2ZOZVVFam5PK0VvYWxn?=
+ =?utf-8?B?VEZ0RHFNaTNJQmtXeS9TRXZnd3RwMSsySllaZWhWWTlvKzN1aXRiTjBMc3pM?=
+ =?utf-8?B?REE0Z3NhQ0FxNjRsdXY4dWU5UWVmeEk4TjhmV0VzMUtVdnhLdkN4M1Q2VzRh?=
+ =?utf-8?B?QzVBSVl3Z0UzOGJZYkE4UW1JM05jNStEWFZ1RlpBWmp6dnFJS1FoeGZwZlgz?=
+ =?utf-8?Q?d9IN6CrcDCmOCQgKAdVe6jLhj?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01aaa1ab-347f-4acd-9e39-08dc32ed02a4
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0c5cf74b-bc03-4f2c-37a5-08dc32edce1f
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2024 14:54:31.4009 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2024 15:00:12.8030 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GvJI9Af6wWmevtU9sL43UBk+ffZhT7GkW3HMNoSTWkkdvoZW2rDxGcSJPWfh/sjt
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6611
+X-MS-Exchange-CrossTenant-UserPrincipalName: iNdxCjGbzDfJ9PRpM2ldXRqMWYBi9IblPz/pyDXxxlw6GvOXvDeDjx1rdgxqeCxUYyD14B6b61qPyPvqUtO7cA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7250
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,180 +135,142 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------poAxNQYz9z0vG4YS08OmwdU0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-Hi Maxime,
 
-Am 21.02.24 um 15:41 schrieb Maxime Ripard:
-> Hi Christian,
->
-> On Tue, Feb 20, 2024 at 04:03:57PM +0100, Christian König wrote:
->> Am 20.02.24 um 15:56 schrieb Maxime Ripard:
->>> On Tue, Feb 20, 2024 at 02:28:53PM +0100, Christian König wrote:
->>>> [SNIP]
->>>> This kunit test is not meant to be run on real hardware, but rather just as
->>>> stand a long kunit tests within user mode linux. I was assuming that it
->>>> doesn't even compiles on bare metal.
->>>>
->>>> We should probably either double check the kconfig options to prevent
->>>> compiling it or modify the test so that it can run on real hardware as well.
->>> I think any cross-compiled kunit run will be impossible to differentiate
->>> from running on real hardware. We should just make it work there.
->> The problem is what the unit test basically does is registering and
->> destroying a dummy device to see if initializing and tear down of the global
->> pools work correctly.
+On 2024-02-21 04:07, Pekka Paalanen wrote:
+> On Fri, 16 Feb 2024 18:48:55 +0000
+> Dave Stevenson <dave.stevenson@raspberrypi.com> wrote:
+> 
+>> From: Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>
 >>
->> If you run on real hardware and have a real device
-> I assume you mean a real DRM device backed by TTM here, right?
-
-Right.
-
->> additionally to the dummy device the reference count of the global
->> pool never goes down to zero and so it is never torn down.
+>> Add this as a value for enum_drm_connector_tv_mode, represented
+>> by the string "Mono", to generate video with no colour encoding
+>> or bursts. Define it to have no pedestal (since only NTSC-M calls
+>> for a pedestal).
 >>
->> So running this test just doesn't make any sense in that environment.
->> Any idea how to work around that?
-> I've added David, Brendan and Rae in Cc.
->
-> To sum up the problem, your tests are relying on the mock device created
-> to run a kunit test to be the sole DRM device in the system. But if you
-> compile a kernel with the kunit tests enabled and boot that on a real
-> hardware, then that assumption might not be true anymore and things
-> break apart. Is that a fair description?
+>> Change default mode creation to acommodate the new tv_mode value
+>> which comprises both 525-line and 625-line formats.
+>>
+>> Signed-off-by: Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>
+>> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> 
+> Hi Dave and Nick,
+> 
+> since no-one else commented yet, I'd like to remind of the new UAPI
+> requirements:
+> https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#open-source-userspace-requirements
+> 
+> AFAIU, adding a new value to an existing enum still counts as new UAPI.
+> 
 
-Yes, exactly that.
+I tend to agree with Pekka. I'm getting tired of seeing new DRM properties
+without knowing which canonical upstream user-space project uses it.
 
->
-> If so, maybe we could detect if it's running under qemu or UML (if
-> that's something we can do in the first place), and then extend
-> kunit_attributes to only run that test if it's in a simulated
-> environment.
+Can someone describe this for the "TV mode" property?
 
-Yeah, as I said AMDs CI is running those tests with UML only and I 
-strongly assume Intel is doing the same.
+Harry
 
-In my reply to the reporter of the bug I provided a patch which limits 
-the tests to (UML || COMPILE_TEST) and as far as I can see is the 
-easiest option for now.
+> Maybe there is no need for the full treatment here, or maybe there is,
+> I'm not sure. I think you should make some statement about how the new
+> UAPI requirements have been addressed.
+> 
+> Btw. no-one has submitted a record with "TV mode" to
+> https://drmdb.emersion.fr/
+> It only lists the radeon-specific "tv standard" property. I first
+> thought you had mistaken the property name in the cover letter.
+> 
+> 
+> Thanks,
+> pq
+> 
+>> ---
+>>  drivers/gpu/drm/drm_connector.c    | 7 +++++++
+>>  drivers/gpu/drm/drm_modes.c        | 5 ++++-
+>>  drivers/gpu/drm/drm_probe_helper.c | 5 +++--
+>>  include/drm/drm_connector.h        | 7 +++++++
+>>  4 files changed, 21 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+>> index b0516505f7ae..fe05d27f3404 100644
+>> --- a/drivers/gpu/drm/drm_connector.c
+>> +++ b/drivers/gpu/drm/drm_connector.c
+>> @@ -1005,6 +1005,7 @@ static const struct drm_prop_enum_list drm_tv_mode_enum_list[] = {
+>>  	{ DRM_MODE_TV_MODE_PAL_M, "PAL-M" },
+>>  	{ DRM_MODE_TV_MODE_PAL_N, "PAL-N" },
+>>  	{ DRM_MODE_TV_MODE_SECAM, "SECAM" },
+>> +	{ DRM_MODE_TV_MODE_MONOCHROME, "Mono" },
+>>  };
+>>  DRM_ENUM_NAME_FN(drm_get_tv_mode_name, drm_tv_mode_enum_list)
+>>  
+>> @@ -1697,6 +1698,12 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector_property);
+>>   *		TV Mode is CCIR System B (aka 625-lines) together with
+>>   *		the SECAM Color Encoding.
+>>   *
+>> + *	Mono:
+>> + *
+>> + *		Use timings appropriate to the DRM mode, including
+>> + *		equalizing pulses for a 525-line or 625-line mode,
+>> + *		with no pedestal or color encoding.
+>> + *
+>>   *	Drivers can set up this property by calling
+>>   *	drm_mode_create_tv_properties().
+>>   */
+>> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+>> index c4f88c3a93b7..d274e7b00b79 100644
+>> --- a/drivers/gpu/drm/drm_modes.c
+>> +++ b/drivers/gpu/drm/drm_modes.c
+>> @@ -530,7 +530,8 @@ static int fill_analog_mode(struct drm_device *dev,
+>>   * @interlace: whether to compute an interlaced mode
+>>   *
+>>   * This function creates a struct drm_display_mode instance suited for
+>> - * an analog TV output, for one of the usual analog TV mode.
+>> + * an analog TV output, for one of the usual analog TV modes. Where
+>> + * this is DRM_MODE_TV_MODE_MONOCHROME, a 625-line mode will be created.
+>>   *
+>>   * Note that @hdisplay is larger than the usual constraints for the PAL
+>>   * and NTSC timings, and we'll choose to ignore most timings constraints
+>> @@ -568,6 +569,8 @@ struct drm_display_mode *drm_analog_tv_mode(struct drm_device *dev,
+>>  	case DRM_MODE_TV_MODE_PAL_N:
+>>  		fallthrough;
+>>  	case DRM_MODE_TV_MODE_SECAM:
+>> +		fallthrough;
+>> +	case DRM_MODE_TV_MODE_MONOCHROME:
+>>  		analog = DRM_MODE_ANALOG_PAL;
+>>  		break;
+>>  
+>> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+>> index d1e1ade66f81..9254dc2af873 100644
+>> --- a/drivers/gpu/drm/drm_probe_helper.c
+>> +++ b/drivers/gpu/drm/drm_probe_helper.c
+>> @@ -1211,8 +1211,9 @@ int drm_connector_helper_tv_get_modes(struct drm_connector *connector)
+>>  	for (i = 0; i < tv_mode_property->num_values; i++)
+>>  		supported_tv_modes |= BIT(tv_mode_property->values[i]);
+>>  
+>> -	if ((supported_tv_modes & ntsc_modes) &&
+>> -	    (supported_tv_modes & pal_modes)) {
+>> +	if (((supported_tv_modes & ntsc_modes) &&
+>> +	     (supported_tv_modes & pal_modes)) ||
+>> +	    (supported_tv_modes & BIT(DRM_MODE_TV_MODE_MONOCHROME))) {
+>>  		uint64_t default_mode;
+>>  
+>>  		if (drm_object_property_get_default_value(&connector->base,
+>> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+>> index fe88d7fc6b8f..90fd0ea0ca09 100644
+>> --- a/include/drm/drm_connector.h
+>> +++ b/include/drm/drm_connector.h
+>> @@ -200,6 +200,13 @@ enum drm_connector_tv_mode {
+>>  	 */
+>>  	DRM_MODE_TV_MODE_SECAM,
+>>  
+>> +	/**
+>> +	 * @DRM_MODE_TV_MODE_MONOCHROME: Use timings appropriate to
+>> +	 * the DRM mode, including equalizing pulses for a 525-line
+>> +	 * or 625-line mode, with no pedestal or color encoding.
+>> +	 */
+>> +	DRM_MODE_TV_MODE_MONOCHROME,
+>> +
+>>  	/**
+>>  	 * @DRM_MODE_TV_MODE_MAX: Number of analog TV output modes.
+>>  	 *
+> 
 
-We could detect that we are not in UML and skip the device test, but 
-that's also rather pointless. Better not to provide the option in the 
-first place.
-
-Regards,
-Christian.
-
->
-> Maxime
-
---------------poAxNQYz9z0vG4YS08OmwdU0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    Hi Maxime,<br>
-    <br>
-    <div class="moz-cite-prefix">Am 21.02.24 um 15:41 schrieb Maxime
-      Ripard:<br>
-    </div>
-    <blockquote type="cite" cite="mid:uddqboamqcnxwvnud5gmkkm4igvxj67xc2zw52iex5ahljtlb4@2e7ydoplg6rt">
-      <pre class="moz-quote-pre" wrap="">Hi Christian,
-
-On Tue, Feb 20, 2024 at 04:03:57PM +0100, Christian König wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Am 20.02.24 um 15:56 schrieb Maxime Ripard:
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">On Tue, Feb 20, 2024 at 02:28:53PM +0100, Christian König wrote:
-</pre>
-          <blockquote type="cite">
-            <pre class="moz-quote-pre" wrap="">[SNIP]
-This kunit test is not meant to be run on real hardware, but rather just as
-stand a long kunit tests within user mode linux. I was assuming that it
-doesn't even compiles on bare metal.
-
-We should probably either double check the kconfig options to prevent
-compiling it or modify the test so that it can run on real hardware as well.
-</pre>
-          </blockquote>
-          <pre class="moz-quote-pre" wrap="">I think any cross-compiled kunit run will be impossible to differentiate
-from running on real hardware. We should just make it work there.
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-The problem is what the unit test basically does is registering and
-destroying a dummy device to see if initializing and tear down of the global
-pools work correctly.
-
-If you run on real hardware and have a real device
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-I assume you mean a real DRM device backed by TTM here, right?</pre>
-    </blockquote>
-    <br>
-    Right.<br>
-    <br>
-    <span style="white-space: pre-wrap">
-</span>
-    <blockquote type="cite" cite="mid:uddqboamqcnxwvnud5gmkkm4igvxj67xc2zw52iex5ahljtlb4@2e7ydoplg6rt">
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">additionally to the dummy device the reference count of the global
-pool never goes down to zero and so it is never torn down.
-
-So running this test just doesn't make any sense in that environment.
-Any idea how to work around that?
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-I've added David, Brendan and Rae in Cc.
-
-To sum up the problem, your tests are relying on the mock device created
-to run a kunit test to be the sole DRM device in the system. But if you
-compile a kernel with the kunit tests enabled and boot that on a real
-hardware, then that assumption might not be true anymore and things
-break apart. Is that a fair description?</pre>
-    </blockquote>
-    <br>
-    Yes, exactly that. <br>
-    <br>
-    <blockquote type="cite" cite="mid:uddqboamqcnxwvnud5gmkkm4igvxj67xc2zw52iex5ahljtlb4@2e7ydoplg6rt">
-      <pre class="moz-quote-pre" wrap="">
-
-If so, maybe we could detect if it's running under qemu or UML (if
-that's something we can do in the first place), and then extend
-kunit_attributes to only run that test if it's in a simulated
-environment.</pre>
-    </blockquote>
-    <br>
-    Yeah, as I said AMDs CI is running those tests with UML only and I
-    strongly assume Intel is doing the same.<br>
-    <br>
-    In my reply to the reporter of the bug I provided a patch which
-    limits the tests to (UML || COMPILE_TEST) and as far as I can see is
-    the easiest option for now.<br>
-    <br>
-    We could detect that we are not in UML and skip the device test, but
-    that's also rather pointless. Better not to provide the option in
-    the first place.<br>
-    <br>
-    Regards,<br>
-    Christian.<br>
-    <br>
-    <blockquote type="cite" cite="mid:uddqboamqcnxwvnud5gmkkm4igvxj67xc2zw52iex5ahljtlb4@2e7ydoplg6rt">
-      <pre class="moz-quote-pre" wrap="">
-
-Maxime
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------poAxNQYz9z0vG4YS08OmwdU0--
