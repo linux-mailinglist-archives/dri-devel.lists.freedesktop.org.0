@@ -2,17 +2,17 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C629685D463
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 10:50:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1197E85D43D
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 10:49:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46D9E10E6C9;
-	Wed, 21 Feb 2024 09:50:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D52A10E6A8;
+	Wed, 21 Feb 2024 09:49:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
- by gabe.freedesktop.org (Postfix) with ESMTP id 02CFB10E6B1
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 09:49:52 +0000 (UTC)
-X-AuditID: a67dfc5b-d85ff70000001748-18-65d5c73b6e0d
+Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7D17E10E6B0
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 09:49:53 +0000 (UTC)
+X-AuditID: a67dfc5b-d85ff70000001748-28-65d5c73b30c9
 From: Byungchul Park <byungchul@sk.com>
 To: linux-kernel@vger.kernel.org
 Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
@@ -36,45 +36,44 @@ Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
  gwan-gyeong.mun@intel.com, max.byungchul.park@gmail.com,
  boqun.feng@gmail.com, longman@redhat.com, hdanton@sina.com,
  her0gyugyu@gmail.com
-Subject: [PATCH v12 25/27] dept: Print event context requestor's stacktrace on
- report
-Date: Wed, 21 Feb 2024 18:49:31 +0900
-Message-Id: <20240221094933.36348-26-byungchul@sk.com>
+Subject: [PATCH v12 26/27] fs/jbd2: Use a weaker annotation in journal handling
+Date: Wed, 21 Feb 2024 18:49:32 +0900
+Message-Id: <20240221094933.36348-27-byungchul@sk.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20240221094933.36348-1-byungchul@sk.com>
 References: <20240221094933.36348-1-byungchul@sk.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSf0yMcRzHfb/P83yfu+PscRqPH8MOMyeJhc9ofvxhvv4wNr/Z6KaHburO
- LqpjpugHkSlLUaxi51yXcvld3RJK6Ie6I6QpkSiRrkmRu8Y/n732ee/9+uOzj4xRFXHjZTr9
- Psmo14aqiYJVdI7Inh1Y4ZL8Xe8IJJ/0B3fPMRYy820Eaq/lIrDdiMHQ/mglvOztQNBfVcNA
- WmotguzmtwzcKG9CUGI5QqC+dSQ43V0EKlNPEDh6KZ/A8y8DGBrPpmDIta+Gp6dzMJT2tbGQ
- 1k4gI+0o9oxPGPrMVh7M0dOhxXKeh4HmuVDZ9IKDktez4NzFRgLFJZUslN9pwVB/L5NAk22Q
- g6flj1moTU7iIO9rDoEvvWYGzO4uHupKszAUxHpE8T/+cFCRVIoh/vJ1DM5XRQgcx95hsNte
- EHjg7sBQaE9l4NeVRwhaTnXyEHeyj4eMmFMITsSdZaHmdwUHsY3zof9nJlm2iD7o6GJobGEk
- LenNYumTHJHePf+Wp7GO1zzNsu+nhRYNvVTcjml2t5ujdutxQu3dKTxN7HRi+rW6mqeP0/tZ
- 2upMw2snbFUEBkuhugjJOGdJkCKk8kIns/f4iqgP7cVsNEpfmIjkMlEIEJ/ZGvF//n69ZoiJ
- MENsaOhjvOwjTBELkz5yiUghY4SE4aLlWxXxBqOFDeLd9Bjey6wwXWx19QyVlcIC8X1b0z/p
- ZDG3oHRIJPfsr2Z0cF5WCfNF1/ObjFcqCgly8aX14b/COPG+pYE9jZRZaJgVqXT6iDCtLjTA
- L8Sk10X57TSE2ZHnpcyHBrbdQd2168qQIEPqEcqQ205JxWkjwk1hZUiUMWofJRvpWSmDtaYD
- ktGww7g/VAovQxNkrHqscl5vZLBK2K3dJ+2RpL2S8X+KZfLxnuMcPNJzJlXvy00t2ul8H80p
- TPWrqre3ZDpSPvvUjUlwxAUuDUDJ3Z82Osqiyl1+k/I31TBBtw7DxJmjNTlhUYboaVbD2J+z
- /ON25X9efnHLM03C5nEVyUqFYY3c9Cp7cFBTtb25zvdevP6hykJGveEi81rn+XJWuj5xcdCw
- hkMz1Gx4iHauhjGGa/8CyBTNdk4DAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSa0hTcRjG+//PbS4Xp2V00sBaSGFlGZkvWBJCdEiKiCKKIIcedDhXbKlZ
- FNpWXsrIwkupMVeupat0XitXonlZVmrObpjksoulrouTlnbZir68/Hgent+nV0RISyl/kUJ1
- UFCr5EoZLSbFWyO0KyI6+oVVDcYAyDu9ClwTWSSU3DTT0HOjEoG5NgPDSNsmeDY5imDqUTcB
- hfk9CMqGXhFQ2z6IwGo6TkPf8Cywu5w02PJP0aC9fJOG3k/TGAYKzmGotGyBrrMGDM3u9yQU
- jtBQXKjFnvMBg9tYwYAxPQgcposMTA+Fgm3wKQWtpTYKrC+XwYVLAzQ0WW0ktDc6MPTdLqFh
- 0Pybgq72ThJ68nIpuD5uoOHTpJEAo8vJwJNmPYYqncd28tsvCjpymzGcvFKNwf7iDoK7Wa8x
- WMxPaWh1jWKoseQT8ONqGwLHmTEGTpx2M1CccQbBqRMFJHT/7KBANxAGU99L6A0RfOuok+B1
- Nam8dVJP8g8MHH/r4iuG1919yfB6SzJfYwrmLzeNYL7sq4viLRXZNG/5eo7hc8bsmB9//Jjh
- O4umSH7YXoi3LdgjXhcnKBUpgnplZIw4wVY6RhzI3njo7UgTmY6KwnOQj4hj13Bfqruxl2l2
- Cff8uZvwsh+7kKvJfUflILGIYDNncqbPj2hvMYfdyd0qymC8TLJB3HD/xN+xhF3LvXk/iP9J
- A7nKqua/Ih9Pfq14lPKylA3j+nvriLNIrEczKpCfQpWSJFcow0I0iQlpKsWhkNj9SRbkeRrj
- 0em8RjTRt6kFsSIk85UkNNgFKSVP0aQltSBORMj8JGSqJ5LEydMOC+r9+9TJSkHTggJEpGye
- ZPMuIUbKxssPComCcEBQ/2+xyMc/HdWnLJkVgLdMxObEfnxyzzk3ULpVG07nrS8hy9fcf/0l
- ZDzLFBS1u261bmldVn1m777Qcl/u4Xz/uOC6qvtSc1vXendU/A2diomPdr3RG8zRw8mZuy+0
- xEZeWR5XbljkDHdcUhy5tre+M+ZYQef5xZsTtanbA61DSmrHdC47O/qdQ0ZqEuShwYRaI/8D
- VUKORjADAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSa0xTZxjHfd9zzntOC5WTzoSDxmhqdEYD6qLkiSGbX+aOS+ZM/MaySzdO
+ pFmprJWbCYRLtYhAuASqQlxBUzvoQAsGBMq4hEtVoGhlWAEFUSTcNlg7uexSJH558sv/+T3/
+ Tw9HKZuYrZxGd07S69RaFZHT8rngivConifSwUu9QVCYexB8f2XTUF5rJ+CuqUZgr8/AMN31
+ Gfzun0Ww2jdAgbnEjaBifJSC+u4xBE5bJoHHk5vB41sg4Cq5TCDrRi2BwZk1DCOlRRiqHV/A
+ g4JKDG3LUzSYpwmUmbNwYLzBsGytYsGavhsmbNdYWBs/BK6xIQac3v1w9foIgRani4buxgkM
+ j5vKCYzZ/2PgQXcvDe7CPAZ+na8kMOO3UmD1LbDwqM2C4bYxUHRx6V8GevLaMFy8eQeD52kz
+ gtbsFxgc9iECnb5ZDHWOEgpWbnUhmMifY+FC7jILZRn5CC5fKKVh4J8eBowjR2D1bTk5dlTs
+ nF2gRGNdkuj0W2jxfqUg3rs2yorGVi8rWhwJYp1tn3ijZRqLFYs+RnRUXSKiY7GIFXPmPFic
+ 7+9nxd4rq7Q46THjU9ui5VExklaTKOkPfPydPLbm1SMq3h+UfL/rN5SOVmQ5SMYJ/GGhtKSd
+ vOf0wSJ2nQn/oTA8vEyt8xZ+p1CX95rJQXKO4k1Bgu2PvncHH/BfCvWuDYnmdwvN3mm8zgo+
+ Uhhv+JndKN0hVN9ue+fIAvkvZbPMOiv5I8KTwbvUhpMlEx5mh29wmNBuG6YLkMKCNlUhpUaX
+ GKfWaA9HxKboNMkRP5yNc6DAR1lT175qRIvu0x2I55AqWBHb4JGUjDrRkBLXgQSOUm1R0EmB
+ SBGjTjkv6c9+q0/QSoYOtI2jVaGKj/xJMUr+jPqc9KMkxUv691vMybamI+4n4+cnJ7Yzx72k
+ 2GIq3OUMyQxVFWqrTJ+0762fmcv//u/iowlNhrcRac3PoyPnw/pS/5wcGtcMtLzMcoVGrCQd
+ O3Cr+ps7e55ZQvbklge1nF7aaTaNfpqme505ZE/VTeECU/TUQ3138QjjjTlRbLkSHK6oOfX1
+ plr33pClHhJ+XUUbYtWH9lF6g/p/OE3gK00DAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSe0hTcRzF+/3uvb87Z4ubSV0qykYWGb4g4wtGVBRdgp5/VESUo245fLbp
+ yqLQXFaWQw1bpZVarKXLbBr20obiY9pj6iwTs7Tn0LSsjebM2or+OXw453D+OhIq4DIzU6JM
+ TBFViYp4OZHS0g3RmaHRzV1ixCuHHPLORoDzxykaim6bCNgqyhGYqjMwOBrXwkvXEALP0+cU
+ 6AtsCEr6X1NQ3dSHoNZ4nEDn+ylgd44QsBacIZB57TaB9sFxDL3n8zGUm9dDW24pBov7Ew16
+ B4FCfSb2ymcMbkMZC4b0YBgwXmJhvD8SrH0vGGi4bGWgtmcxXLzSS+BRrZWGpnsDGDofFBHo
+ M/1moK2phQZbXg4Dt4ZLCQy6DBQYnCMsdFiKMVRqvWtZ3ycYaM6xYMi6fgeD/dVDBHWn3mIw
+ m14QaHAOYagyF1AwdqMRwYDuCwsnzrpZKMzQIThz4jwNz381M6DtjQLPzyKyIlpoGBqhBG3V
+ QaHWVUwLraW8cP/Sa1bQ1vWwQrE5VagyhgjXHjmwUDLqZARz2WkimEfzWSH7ix0Lw8+esULL
+ BQ8tvLfr8abZO6TL9orxSo2oCl8eI42t+NBBJbv8D7U2PkbpaMwvG/lJeG4Jn96ez/qYcAv5
+ 7m435eNALoivyvnIZCOphOJO+vPGr0+JL5jGbeSrrf9KNBfMP+xxYB/LuKV8f81V9t/oXL68
+ 0vK34+f1bxYOMT4O4KL4rva7VC6SFqNJZShQmahJUCjjo8LUcbFpicpDYXuSEszIexrD0fG8
+ e+hH59p6xEmQfLIstsYuBjAKjTotoR7xEkoeKKMPei3ZXkXaYVGVtFuVGi+q69EsCS2fIVu3
+ TYwJ4PYrUsQ4UUwWVf9TLPGbmY6SybEDMR9HXStX9OvwytSk+efcs/T3k1Z7NAnaeUFvDovB
+ Gvg0HD6Y8i2iaF/JV83W3DVbbLYHllWVdaYP05a3VXcuzjqS98aQrJk3RTeYkb3AX7Vol95T
+ gza3TYRO/ZxvDMLKA98ypxrHpm9/NzF7Z0cJ6/9kTpruWEi3hlSkNMlpdawiMoRSqRV/AAj7
+ mKAwAwAA
 X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,297 +90,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, print nothing in place of [S] in report, which means
-stacktrace of event context's start if the event is not an unlock thing
-by typical lock but general event because it's not easy to specify the
-point in a general way, where the event context has started from.
+jbd2 journal handling code doesn't want jbd2_might_wait_for_commit()
+to be placed between start_this_handle() and stop_this_handle(). So it
+marks the region with rwsem_acquire_read() and rwsem_release().
 
-However, unfortunately it makes hard to interpret dept's report in that
-case. So made it print the event requestor's stacktrace instead of the
-event context's start, in place of [S] in report.
+However, the annotation is too strong for that purpose. We don't have to
+use more than try lock annotation for that.
+
+rwsem_acquire_read() implies:
+
+   1. might be a waiter on contention of the lock.
+   2. enter to the critical section of the lock.
+
+All we need in here is to act 2, not 1. So trylock version of annotation
+is sufficient for that purpose. Now that dept partially relies on
+lockdep annotaions, dept interpets rwsem_acquire_read() as a potential
+wait and might report a deadlock by the wait. So replaced it with
+trylock version of annotation.
 
 Signed-off-by: Byungchul Park <byungchul@sk.com>
 ---
- include/linux/dept.h     | 13 +++++++
- kernel/dependency/dept.c | 83 ++++++++++++++++++++++++++++++++--------
- 2 files changed, 80 insertions(+), 16 deletions(-)
+ fs/jbd2/transaction.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/dept.h b/include/linux/dept.h
-index dea53ad5b356..6db23d77905e 100644
---- a/include/linux/dept.h
-+++ b/include/linux/dept.h
-@@ -145,6 +145,11 @@ struct dept_map {
- 	 */
- 	unsigned int			wgen;
+diff --git a/fs/jbd2/transaction.c b/fs/jbd2/transaction.c
+index 5f08b5fd105a..2c159a547e15 100644
+--- a/fs/jbd2/transaction.c
++++ b/fs/jbd2/transaction.c
+@@ -460,7 +460,7 @@ static int start_this_handle(journal_t *journal, handle_t *handle,
+ 	read_unlock(&journal->j_state_lock);
+ 	current->journal_info = handle;
  
-+	/*
-+	 * requestor for the event context to run
-+	 */
-+	struct dept_stack		*req_stack;
-+
+-	rwsem_acquire_read(&journal->j_trans_commit_map, 0, 0, _THIS_IP_);
++	rwsem_acquire_read(&journal->j_trans_commit_map, 0, 1, _THIS_IP_);
+ 	jbd2_journal_free_transaction(new_transaction);
  	/*
- 	 * whether this map should be going to be checked or not
- 	 */
-@@ -486,7 +491,15 @@ struct dept_task {
-  * for subsystems that requires compact use of memory e.g. struct page
-  */
- struct dept_ext_wgen{
-+	/*
-+	 * wait timestamp associated to this map
-+	 */
- 	unsigned int wgen;
-+
-+	/*
-+	 * requestor for the event context to run
-+	 */
-+	struct dept_stack		*req_stack;
- };
- 
- #define DEPT_TASK_INITIALIZER(t)				\
-diff --git a/kernel/dependency/dept.c b/kernel/dependency/dept.c
-index fb33c3758c25..abf1cdab0615 100644
---- a/kernel/dependency/dept.c
-+++ b/kernel/dependency/dept.c
-@@ -129,6 +129,7 @@ static int dept_per_cpu_ready;
- #define DEPT_INFO(s...)		pr_warn("DEPT_INFO: " s)
- 
- static arch_spinlock_t dept_spin = (arch_spinlock_t)__ARCH_SPIN_LOCK_UNLOCKED;
-+static arch_spinlock_t dept_req_spin = (arch_spinlock_t)__ARCH_SPIN_LOCK_UNLOCKED;
- static arch_spinlock_t dept_pool_spin = (arch_spinlock_t)__ARCH_SPIN_LOCK_UNLOCKED;
- 
- /*
-@@ -1669,7 +1670,8 @@ static void add_wait(struct dept_class *c, unsigned long ip,
- 
- static bool add_ecxt(struct dept_map *m, struct dept_class *c,
- 		     unsigned long ip, const char *c_fn,
--		     const char *e_fn, int sub_l)
-+		     const char *e_fn, int sub_l,
-+		     struct dept_stack *req_stack)
- {
- 	struct dept_task *dt = dept_task();
- 	struct dept_ecxt_held *eh;
-@@ -1700,10 +1702,16 @@ static bool add_ecxt(struct dept_map *m, struct dept_class *c,
- 
- 	e->class = get_class(c);
- 	e->ecxt_ip = ip;
--	e->ecxt_stack = ip && rich_stack ? get_current_stack() : NULL;
- 	e->event_fn = e_fn;
- 	e->ecxt_fn = c_fn;
- 
-+	if (req_stack)
-+		e->ecxt_stack = get_stack(req_stack);
-+	else if (ip && rich_stack)
-+		e->ecxt_stack = get_current_stack();
-+	else
-+		e->ecxt_stack = NULL;
-+
- 	eh = dt->ecxt_held + (dt->ecxt_held_pos++);
- 	eh->ecxt = get_ecxt(e);
- 	eh->map = m;
-@@ -2147,6 +2155,7 @@ void dept_map_init(struct dept_map *m, struct dept_key *k, int sub_u,
- 	m->sub_u = sub_u;
- 	m->name = n;
- 	m->wgen = 0U;
-+	m->req_stack = NULL;
- 	m->nocheck = !valid_key(k);
- 
- 	dept_exit_recursive(flags);
-@@ -2181,6 +2190,7 @@ void dept_map_reinit(struct dept_map *m, struct dept_key *k, int sub_u,
- 		m->name = n;
- 
- 	m->wgen = 0U;
-+	m->req_stack = NULL;
- 
- 	dept_exit_recursive(flags);
- }
-@@ -2189,6 +2199,7 @@ EXPORT_SYMBOL_GPL(dept_map_reinit);
- void dept_ext_wgen_init(struct dept_ext_wgen *ewg)
- {
- 	ewg->wgen = 0U;
-+	ewg->req_stack = NULL;
- }
- 
- void dept_map_copy(struct dept_map *to, struct dept_map *from)
-@@ -2376,7 +2387,8 @@ static void __dept_wait(struct dept_map *m, unsigned long w_f,
-  */
- static void __dept_event(struct dept_map *m, unsigned long e_f,
- 			 unsigned long ip, const char *e_fn,
--			 bool sched_map, unsigned int wg)
-+			 bool sched_map, unsigned int wg,
-+			 struct dept_stack *req_stack)
- {
- 	struct dept_class *c;
- 	struct dept_key *k;
-@@ -2397,7 +2409,7 @@ static void __dept_event(struct dept_map *m, unsigned long e_f,
- 	k = m->keys ?: &m->map_key;
- 	c = check_new_class(&m->map_key, k, sub_id(m, e), m->name, sched_map);
- 
--	if (c && add_ecxt(m, c, 0UL, NULL, e_fn, 0)) {
-+	if (c && add_ecxt(m, c, 0UL, "(event requestor)", e_fn, 0, req_stack)) {
- 		do_event(m, c, wg, ip);
- 		pop_ecxt(m, c);
- 	}
-@@ -2506,6 +2518,8 @@ EXPORT_SYMBOL_GPL(dept_stage_wait);
- 
- static void __dept_clean_stage(struct dept_task *dt)
- {
-+	if (dt->stage_m.req_stack)
-+		put_stack(dt->stage_m.req_stack);
- 	memset(&dt->stage_m, 0x0, sizeof(struct dept_map));
- 	dt->stage_sched_map = false;
- 	dt->stage_w_fn = NULL;
-@@ -2571,6 +2585,7 @@ void dept_request_event_wait_commit(void)
- 	 */
- 	wg = atomic_inc_return(&wgen) ?: atomic_inc_return(&wgen);
- 	WRITE_ONCE(dt->stage_m.wgen, wg);
-+	dt->stage_m.req_stack = get_current_stack();
- 
- 	__dept_wait(&dt->stage_m, 1UL, ip, w_fn, 0, true, sched_map, timeout);
- exit:
-@@ -2602,6 +2617,8 @@ void dept_stage_event(struct task_struct *requestor, unsigned long ip)
- 	 */
- 	m = dt_req->stage_m;
- 	sched_map = dt_req->stage_sched_map;
-+	if (m.req_stack)
-+		get_stack(m.req_stack);
- 	__dept_clean_stage(dt_req);
- 
- 	/*
-@@ -2611,8 +2628,12 @@ void dept_stage_event(struct task_struct *requestor, unsigned long ip)
- 	if (!m.keys)
- 		goto exit;
- 
--	__dept_event(&m, 1UL, ip, "try_to_wake_up", sched_map, m.wgen);
-+	__dept_event(&m, 1UL, ip, "try_to_wake_up", sched_map, m.wgen,
-+		     m.req_stack);
- exit:
-+	if (m.req_stack)
-+		put_stack(m.req_stack);
-+
- 	dept_exit(flags);
- }
- 
-@@ -2692,7 +2713,7 @@ void dept_map_ecxt_modify(struct dept_map *m, unsigned long e_f,
- 	k = m->keys ?: &m->map_key;
- 	c = check_new_class(&m->map_key, k, sub_id(m, new_e), m->name, false);
- 
--	if (c && add_ecxt(m, c, new_ip, new_c_fn, new_e_fn, new_sub_l))
-+	if (c && add_ecxt(m, c, new_ip, new_c_fn, new_e_fn, new_sub_l, NULL))
- 		goto exit;
- 
- 	/*
-@@ -2744,7 +2765,7 @@ void dept_ecxt_enter(struct dept_map *m, unsigned long e_f, unsigned long ip,
- 	k = m->keys ?: &m->map_key;
- 	c = check_new_class(&m->map_key, k, sub_id(m, e), m->name, false);
- 
--	if (c && add_ecxt(m, c, ip, c_fn, e_fn, sub_l))
-+	if (c && add_ecxt(m, c, ip, c_fn, e_fn, sub_l, NULL))
- 		goto exit;
- missing_ecxt:
- 	dt->missing_ecxt++;
-@@ -2792,9 +2813,11 @@ EXPORT_SYMBOL_GPL(dept_ecxt_holding);
- 
- void dept_request_event(struct dept_map *m, struct dept_ext_wgen *ewg)
- {
-+	struct dept_task *dt = dept_task();
- 	unsigned long flags;
- 	unsigned int wg;
- 	unsigned int *wg_p;
-+	struct dept_stack **req_stack_p;
- 
- 	if (unlikely(!dept_working()))
- 		return;
-@@ -2802,12 +2825,18 @@ void dept_request_event(struct dept_map *m, struct dept_ext_wgen *ewg)
- 	if (m->nocheck)
- 		return;
- 
--	/*
--	 * Allow recursive entrance.
--	 */
--	flags = dept_enter_recursive();
-+	if (dt->recursive)
-+		return;
- 
--	wg_p = ewg ? &ewg->wgen : &m->wgen;
-+	flags = dept_enter();
-+
-+	if (ewg) {
-+		wg_p = &ewg->wgen;
-+		req_stack_p = &ewg->req_stack;
-+	} else {
-+		wg_p = &m->wgen;
-+		req_stack_p = &m->req_stack;
-+	}
- 
- 	/*
- 	 * Avoid zero wgen.
-@@ -2815,7 +2844,13 @@ void dept_request_event(struct dept_map *m, struct dept_ext_wgen *ewg)
- 	wg = atomic_inc_return(&wgen) ?: atomic_inc_return(&wgen);
- 	WRITE_ONCE(*wg_p, wg);
- 
--	dept_exit_recursive(flags);
-+	arch_spin_lock(&dept_req_spin);
-+	if (*req_stack_p)
-+		put_stack(*req_stack_p);
-+	*req_stack_p = get_current_stack();
-+	arch_spin_unlock(&dept_req_spin);
-+
-+	dept_exit(flags);
- }
- EXPORT_SYMBOL_GPL(dept_request_event);
- 
-@@ -2826,6 +2861,8 @@ void dept_event(struct dept_map *m, unsigned long e_f,
- 	struct dept_task *dt = dept_task();
- 	unsigned long flags;
- 	unsigned int *wg_p;
-+	struct dept_stack **req_stack_p;
-+	struct dept_stack *req_stack;
- 
- 	if (unlikely(!dept_working()))
- 		return;
-@@ -2833,7 +2870,18 @@ void dept_event(struct dept_map *m, unsigned long e_f,
- 	if (m->nocheck)
- 		return;
- 
--	wg_p = ewg ? &ewg->wgen : &m->wgen;
-+	if (ewg) {
-+		wg_p = &ewg->wgen;
-+		req_stack_p = &ewg->req_stack;
-+	} else {
-+		wg_p = &m->wgen;
-+		req_stack_p = &m->req_stack;
-+	}
-+
-+	arch_spin_lock(&dept_req_spin);
-+	req_stack = *req_stack_p;
-+	*req_stack_p = NULL;
-+	arch_spin_unlock(&dept_req_spin);
- 
- 	if (dt->recursive) {
- 		/*
-@@ -2842,17 +2890,20 @@ void dept_event(struct dept_map *m, unsigned long e_f,
- 		 * handling the event. Disable it until the next.
- 		 */
- 		WRITE_ONCE(*wg_p, 0U);
-+		if (req_stack)
-+			put_stack(req_stack);
- 		return;
- 	}
- 
- 	flags = dept_enter();
--
--	__dept_event(m, e_f, ip, e_fn, false, READ_ONCE(*wg_p));
-+	__dept_event(m, e_f, ip, e_fn, false, READ_ONCE(*wg_p), req_stack);
- 
- 	/*
- 	 * Keep the map diabled until the next sleep.
- 	 */
- 	WRITE_ONCE(*wg_p, 0U);
-+	if (req_stack)
-+		put_stack(req_stack);
- 
- 	dept_exit(flags);
- }
+ 	 * Ensure that no allocations done while the transaction is open are
 -- 
 2.17.1
 
