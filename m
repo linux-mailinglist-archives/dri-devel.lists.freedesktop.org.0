@@ -2,64 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B5385D5BE
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 11:39:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40EA585D5F0
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 11:45:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52B7310E564;
-	Wed, 21 Feb 2024 10:38:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F74110E556;
+	Wed, 21 Feb 2024 10:45:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="NVUrtqwk";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="I8pyMAlR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA22610E564
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 10:38:55 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org
- [IPv6:2001:67c:2050:b231:465::202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Tft6g64Lkz9tln;
- Wed, 21 Feb 2024 11:38:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
- s=MBO0001; t=1708511931;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VOqX0GOQZZOiGD9BoiPl4P99i5/2V8G3vmiVhpwmjpo=;
- b=NVUrtqwknw/O3TZyiGfvfpG0IBx7JJpeIshlUGI/ALrW+famIowinN8F9Ti3bU4Kb+DskP
- y775xaFPKAqf07Z9jufvCZ/AuUTAM4pXCgmXlgUugQZxZI4mmfx/4UJIb3CWj7JIytAhQg
- l3cMMRBSKwmkaUjCkZVPwc9QSZ0W96DsujRbPvrZTUclXWsJ2NVejTPx9Ud7DDCgLM69Gb
- 4oAYCyVx0a/ZfDI7wBynT1H/fvIHe24aB5hJFSRro6uKd6bhUTPnwEiiZrZqz68LsxqWry
- p64VobbPssd93ohFph+mesCr7BNyXCE5h4LrsNcuswhXvQdIQyv57qnfdnQpWw==
-References: <20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev>
- <20240205-pinephone-pll-fixes-v2-3-96a46a2d8c9b@oltmanns.dev>
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard
- <mripard@kernel.org>, Diego Roversi <diegor@tiscali.it>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland
- <samuel@sholland.org>, Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>,
- Purism Kernel Team
- <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>, Neil Armstrong
- <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Sam Ravnborg <sam@ravnborg.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 3/6] clk: sunxi-ng: nkm: Support minimum and maximum
- rate
-In-reply-to: <20240205-pinephone-pll-fixes-v2-3-96a46a2d8c9b@oltmanns.dev>
-Date: Wed, 21 Feb 2024 11:38:39 +0100
-Message-ID: <8734tmhzkg.fsf@oltmanns.dev>
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02on2079.outbound.protection.outlook.com [40.107.95.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A869710E569;
+ Wed, 21 Feb 2024 10:45:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HXTOBG4SOlzWTAx0cvbN8SvBgRet3Nfp03tcHib9dGKoDCh59iBvOFVqgCQoxMNr6IDWjk3/uaMbUWnLzqvPc0D/fM2cYyLWtSbJoSyB9snYwReHUrNoBcxBGb4vXg/KhYECJcwBP9TVrJPKIzIztTVmlVT1R1oq0rK46CFR0V8GNd9ozZ+1kOHTwwE5lZI9K/m94C1vTydCXDG3QLc4TxD2qHD9i4pXVxwU2S2p17lX12ozsXTGpXTdCzhgF88DIqY6tEbyaCBY4VWQqAa7yVoJffEBNPhfF/AUdPY1ZVAm56P45k4YWTVXFZzKuAF9EGTH7bVCAvg1UvgExkXV9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ECEiAhgJe4uEd3KUV8RzIDtJSySEvaPuh0AYo5xLhS0=;
+ b=aQeAYRrPMf+LLnsor1hFZ0u87bPh7h8QXUjOU/ZOqBAo+BF+0a4vCwFsOjRfEtqN84D+am8jwYhxwU06ZcqwnJK+CHFqQprWZOnCJKwNmbtOeqbQhOLRKIZ1IFTicWzEdRceTPXqxciPFUh5Ms+A9xXqmzKT6w872UgvHh403tScVslrnanwS9pEta/7Chyqd6mXKZ0CfvnRTMxkgkP4Y9JSzTk8vLeWOpT1NkbXU5alhuJlC2URqbRQRWUOaJ3HeWz78xxKea9Cc7FE41AMs77t81ygESEVd1dnpW2PZpiJHXxIcfWPLzTPpqlJmO1jgZgld75aaxc8ljzayW+AUQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ECEiAhgJe4uEd3KUV8RzIDtJSySEvaPuh0AYo5xLhS0=;
+ b=I8pyMAlR7ZEEP0yCTqhrnCK8jpWUCFVMifEiECVxj6FSbdZDhL/vIikdCXefUeMYCF8TdsdBEMcNFW4IIRel1VvjTwYM2jSFo8yZ/9BdsZlZkRshn/PLYJhVbvhzJShmy8+qDduHd+z3L/h3wjnKuOxsaNt3tiZetVaTqHQ2dRI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MN2PR12MB4583.namprd12.prod.outlook.com (2603:10b6:208:26e::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.21; Wed, 21 Feb
+ 2024 10:45:13 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7316.018; Wed, 21 Feb 2024
+ 10:45:13 +0000
+Message-ID: <65fc62ec-269a-4225-9252-127531179bb0@amd.com>
+Date: Wed, 21 Feb 2024 11:45:01 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 7/9] drm: tests: Fix invalid printf format specifiers in
+ KUnit tests
+Content-Language: en-US
+To: David Gow <davidgow@google.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, Guenter Roeck <linux@roeck-us.net>,
+ Rae Moar <rmoar@google.com>, Matthew Auld <matthew.auld@intel.com>,
+ Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>,
+ Kees Cook <keescook@chromium.org>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Willem de Bruijn <willemb@google.com>, Florian Westphal <fw@strlen.de>,
+ Cassio Neri <cassio.neri@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Arthur Grillo <arthur.grillo@usp.br>
+Cc: Brendan Higgins <brendan.higgins@linux.dev>,
+ Daniel Latypov <dlatypov@google.com>, Stephen Boyd <sboyd@kernel.org>,
+ David Airlie <airlied@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ "David S . Miller" <davem@davemloft.net>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org,
+ linux-rtc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com, linux-hardening@vger.kernel.org,
+ netdev@vger.kernel.org
+References: <20240221092728.1281499-1-davidgow@google.com>
+ <20240221092728.1281499-8-davidgow@google.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20240221092728.1281499-8-davidgow@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0069.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9a::10) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Rspamd-Queue-Id: 4Tft6g64Lkz9tln
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN2PR12MB4583:EE_
+X-MS-Office365-Filtering-Correlation-Id: b8132ef7-3e94-4e72-cb29-08dc32ca2ee0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ZV4h/p1sF7zUqURY+Tg+nYZLQ5MKTbiKGPZzrvnZb9J0fO3pc8rOFtUk+gF6YdBltFeCOwmXieYjLJxkcRjsDi7erMRi5802TcOOTHBEDQVetrJxecNFq/p3i/Uoaczc9FD5UuXvQ6EA2Fz4X8U+qtjD/p7jvMFZdCu+mbLr8qN09JRXXnsLt3peGCJeGEq16uzblkw1jiK8vzePMCzY7DaB2dRfNVgNFzeH3PfMdS1ROpiME7avSO4FNYTo7OWxCRYC/2refA0R2OnH6Awt8ax5SH2WbR1oBctDOGHOiT4HBXkaozs/ybIxXK4x4m3kxp52Gtpsc8au9wI3X03f3d22Doo8C57s91LpGBZO1vDeEbuYckcTjwyC2XO6b4VBdx/BOdji9+j1ybcXbx/5CIZwrz0dczwKGQ2t5LYHGWX0ArLeee67bZ2vnIHEWVgKFYM33cGskkm4hrv071MOdkwv42gD7m9Ouf6e9YSXKQuZctQjBfkF/QghNMPcjPiSwVg7qtkiSCik5BMVpPVuw1VjrBZb6MGAsfwHLiJgKf2cHPBNs1VMXakiwf/R1jtFn1/+lja9UXziPdbQiVtyIm8ppzbIEGR3xB0lMRHtyUo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(921011); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V01Day9PSmIzbW9JdmNtclZHMVhwcnBPQWJ5aTdjeFlLZUVRU21ZYWtmTkpZ?=
+ =?utf-8?B?dk8zcW1XVWRqNmVldVBuamFucjNyUjg4emt0SVhhSzBXZEp4QUthQTQvYUwr?=
+ =?utf-8?B?cDlQUVJPdHVWRDlFVEpEd29Vb3l0MVYwd0RWTnhWWDEvY3V1OVBuMkQ0bWRp?=
+ =?utf-8?B?SHhQWWtiTk5uRk5kSUNDSzVhem96VkFkT2JnYlA1SUgrMGlCQWN6bHFZanZ0?=
+ =?utf-8?B?R0Z6MGxsTk5xUXpZMHNmUFhhTXJhTzM4VE9zSHVJaGlKZ1dDamx3OXJNYk5v?=
+ =?utf-8?B?Q2UrV3ZtaFRJbzV2N0tlVG1PQXVydE9kdWowb3o4Q3pGQ21lY1dPM0hidU5l?=
+ =?utf-8?B?TThKcEZwSHE3Um5TVkZQYk5QR0MzaTFoRDVJWXNLQkhFT2d6S0xHOFFEUXhH?=
+ =?utf-8?B?WXk5ZGY5amFNaVM4c1VlcnV2REFIU1dsdlRKVEdjcysvRWRRNkVKK25RcFdU?=
+ =?utf-8?B?VXpjeEt1dU5HZkYzV2JVUWx4dFhIajMwTVhvSEdPUGlQdnNEemE1elVQWUFt?=
+ =?utf-8?B?S0QzWUJ3UXppWEpQd1duWTdtMEhiUWgya3djTld2ZW5BSGNIVDUvYkQyS28y?=
+ =?utf-8?B?SENuS3hiRGtaWnJ4cHBnM3QxR0VBb3FzbWxiVlJrS0hQOVFOSGMxOGYyeTNr?=
+ =?utf-8?B?MjcyOWtNMUk4ODBRakZwWVFBQW9oc1ZtMGd5QmRpRTRrbHhvaWtUa0xOY0dv?=
+ =?utf-8?B?dlZkTDd2MTFBYTJsdDZQT2o3U3daZFF1UmhKZlJyMHZaMTMzNXBYclh5dXJt?=
+ =?utf-8?B?byt4Zlp1cmR3bkhHeXBudkdLdXFLRjJMVjA4T3FxUzFXT1NzTWdMWmRRMWM2?=
+ =?utf-8?B?MlRZeEhrUTN0aVlrWHcybWZkRmdDaDRvd2xvMTRlWGtYc0E0QjlDRFMyVE1Y?=
+ =?utf-8?B?ZktIMWRCUjVqcDVYTVkrS1UrRGwrOVZkMEttVmZ2bDhOZC9LS1pwdjd3Q0t3?=
+ =?utf-8?B?dEREMUpPaGdrbFV6c2ZsN09xQVJiQnpWWHpoVE5TN0VQMmplMHBNV09UZHZi?=
+ =?utf-8?B?K1BvWlh1WndxWCtBMGVRbVlOVEx2ejlRclRwcXB3WS9mNXhYK1pHM0Y3SGN4?=
+ =?utf-8?B?REpUeFpYL2tqYmtFSVp2dlF5L3JMbU5PVmtQdkR5WGZZaWhMa0NtTFowS054?=
+ =?utf-8?B?Z1d0NUwrRG51dVA0eVM1Wm5WcExLMlM3WWJTNjZHdEN3QmtYbEpxQS9yMXBM?=
+ =?utf-8?B?ZEdYVHRXbVp3ZkpXSEdCU3ZJMER3VnBOTnM3Z3JDeW4rT25YTU9UTG8ydkZU?=
+ =?utf-8?B?azdGVlZxNHQ5VjVWaW5LS0ZrSWhMNGx3QnhHb0ZnL2J5bmx3NFNqRzQwSThh?=
+ =?utf-8?B?cFpoQjNSYzFaclRFQWhTSmtYbWRxQzZxbUxhZmFwQnNoTk5tajNUVjdiYTda?=
+ =?utf-8?B?eWVkZG9xeDBkd2RXa3B5cEpMQ3dmTFZzdnRINTBNTEpneVJBalhlbVNmZSti?=
+ =?utf-8?B?NVN1cVcwWHU1MnhDWDZHa1llV25lcnRSMmM1MER5Z3NNZTVlYWRMV2V2YUQ5?=
+ =?utf-8?B?ajluUGx5N1VLcElhWkFRYUtZZjIyYWhxZ3MxZTVxdktIZ0lWNlJYVGdxQUda?=
+ =?utf-8?B?VEJKejVTNTFBdVJaeHhQdnhlUFJRQk5LcFVnZDlkMFNsZG9zOTRTVjhsdUxJ?=
+ =?utf-8?B?YTgzaC9CM21QaHRvb0JmNEJPbm15SHdiUGZkQ25zbUFyTityQ1RSdTd5VXZR?=
+ =?utf-8?B?dlk3WUxFMzhrVG8yTWx3M01OTlVQaXl3TTdlUG90Nml1L2pnRVAwQklpUEkz?=
+ =?utf-8?B?OG05OEdCUUQvSzVCQWE3UzlJSTM5d1gyODVueXhkb0hIekk4cEk2MC95QjNq?=
+ =?utf-8?B?Yi9XN281ZFJiZ05NT2JPUlFoK3FkM09NdXN6SWJEQzhiRVhPYjZXS05TRkxk?=
+ =?utf-8?B?Q09sMEQzaDhtRWxOYk5DcTR2YmZFUmFvanVtZU5JYWpqdkdyak9wejNHWllQ?=
+ =?utf-8?B?NlYxNXdhUURHaDZJdmIwWG40WUFWVXpTbXRzUHdSeFB5UTJiR1RCSlc3UjRl?=
+ =?utf-8?B?eVB4UEcrcnZNWHJPUWFheEFnMWczdUdHOWdNS2pJeUNRWVh1emhLaTgxOWNY?=
+ =?utf-8?B?YUtSaGFZUlJKYkY2dWdvRGlqemZjT3NtcUx6d2V5SlhnWkxHK0VPQXZSVUh1?=
+ =?utf-8?Q?FjrZRoxx5dhaAl5JqbsWSccvl?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b8132ef7-3e94-4e72-cb29-08dc32ca2ee0
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2024 10:45:13.3431 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AU9DDliXe7JpWfvgO5QVRQ6+uJKJ0c0l/ejOh1gBfG+7uPwW3b3ZLWsCrb9hbfVe
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4583
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,86 +149,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jernej,
-hi Maxime,
-
-On 2024-02-05 at 16:22:26 +0100, Frank Oltmanns <frank@oltmanns.dev> wrote:
-> According to the Allwinner User Manual, the Allwinner A64 requires
-> PLL-MIPI to run at 500MHz-1.4GHz. Add support for that to ccu_nkm.
-
-I should point out that limiting PLL-MIPI also fixes a regression
-that was introduced in 6.5, specifically
-ca1170b69968233b34d26432245eddf7d265186b "clk: sunxi-ng: a64: force
-select PLL_MIPI in TCON0 mux". This has been bisected and reported by
-Diego [1].
-
-I don't know the procedure (yet), but probably the fix (if and when
-accepted) should be backported at least to 6.6 (first broken LTS), 6.7
-(stable), and 6.8 (next stable).
-
-My suggestion:
- - In V3 of this series, I will reorder the patches, so that what is now
-   PATCH 3 and 4 becomes 1 and 2 respectively, so that they can be
-   applied to 6.6 more easily.
- - Maxime, IIUC you requested some refactoring for handling the rate
-   limits [2]. I propose, we use my current proposal as-is, and I will
-   do a follow-up series for the refactoring.
-
-Please let me know how you would like me to proceed.
-
-Thanks,
-  Frank
-
-[1]: https://groups.google.com/g/linux-sunxi/c/Rh-Uqqa66bw
-[2]: https://lore.kernel.org/all/exb2lvjcozak5fayrgyenrd3ntii4jfxgvqork4klyz5pky2aq@dj2zyw5su6pv/
-
+Am 21.02.24 um 10:27 schrieb David Gow:
+> The drm_buddy_test's alloc_contiguous test used a u64 for the page size,
+> which was then updated to be an 'unsigned long' to avoid 64-bit
+> multiplication division helpers.
 >
-> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+> However, the variable is logged by some KUNIT_ASSERT_EQ_MSG() using the
+> '%d' or '%llu' format specifiers, the former of which is always wrong,
+> and the latter is no longer correct now that ps is no longer a u64. Fix
+> these to all use '%lu'.
+>
+> Also, drm_mm_test calls KUNIT_FAIL() with an empty string as the
+> message. gcc warns if a printf format string is empty (apparently), so
+> give these some more detailed error messages, which should be more
+> useful anyway.
+>
+> Fixes: a64056bb5a32 ("drm/tests/drm_buddy: add alloc_contiguous test")
+> Fixes: fca7526b7d89 ("drm/tests/drm_buddy: fix build failure on 32-bit targets")
+> Fixes: fc8d29e298cf ("drm: selftest: convert drm_mm selftest to KUnit")
+> Signed-off-by: David Gow <davidgow@google.com>
+
+Acked-by: Christian König <christian.koenig@amd.com>
+
+Ping me if you want this patch pushed upstream through the DRM tree.
+
+Christian.
+
 > ---
->  drivers/clk/sunxi-ng/ccu_nkm.c | 13 +++++++++++++
->  drivers/clk/sunxi-ng/ccu_nkm.h |  2 ++
->  2 files changed, 15 insertions(+)
+>   drivers/gpu/drm/tests/drm_buddy_test.c | 14 +++++++-------
+>   drivers/gpu/drm/tests/drm_mm_test.c    |  6 +++---
+>   2 files changed, 10 insertions(+), 10 deletions(-)
 >
-> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nkm.c
-> index 1168d894d636..7d135908d6e0 100644
-> --- a/drivers/clk/sunxi-ng/ccu_nkm.c
-> +++ b/drivers/clk/sunxi-ng/ccu_nkm.c
-> @@ -181,6 +181,12 @@ static unsigned long ccu_nkm_round_rate(struct ccu_mux_internal *mux,
->  	if (nkm->common.features & CCU_FEATURE_FIXED_POSTDIV)
->  		rate *= nkm->fixed_post_div;
->
-> +	if (nkm->min_rate && rate < nkm->min_rate)
-> +		rate = nkm->min_rate;
-> +
-> +	if (nkm->max_rate && rate > nkm->max_rate)
-> +		rate = nkm->max_rate;
-> +
->  	if (!clk_hw_can_set_rate_parent(&nkm->common.hw))
->  		rate = ccu_nkm_find_best(*parent_rate, rate, &_nkm, &nkm->common);
->  	else
-> @@ -220,6 +226,13 @@ static int ccu_nkm_set_rate(struct clk_hw *hw, unsigned long rate,
->  	_nkm.min_m = 1;
->  	_nkm.max_m = nkm->m.max ?: 1 << nkm->m.width;
->
-> +
-> +	if (nkm->min_rate && rate < nkm->min_rate)
-> +		rate = nkm->min_rate;
-> +
-> +	if (nkm->max_rate && rate > nkm->max_rate)
-> +		rate = nkm->max_rate;
-> +
->  	ccu_nkm_find_best(parent_rate, rate, &_nkm, &nkm->common);
->
->  	spin_lock_irqsave(nkm->common.lock, flags);
-> diff --git a/drivers/clk/sunxi-ng/ccu_nkm.h b/drivers/clk/sunxi-ng/ccu_nkm.h
-> index c409212ee40e..358a9df6b6a0 100644
-> --- a/drivers/clk/sunxi-ng/ccu_nkm.h
-> +++ b/drivers/clk/sunxi-ng/ccu_nkm.h
-> @@ -27,6 +27,8 @@ struct ccu_nkm {
->  	struct ccu_mux_internal	mux;
->
->  	unsigned int		fixed_post_div;
-> +	unsigned long		min_rate;
-> +	unsigned long		max_rate;
->  	unsigned long		max_m_n_ratio;
->  	unsigned long		min_parent_m_ratio;
+> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
+> index 8a464f7f4c61..3dbfa3078449 100644
+> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
+> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
+> @@ -55,30 +55,30 @@ static void drm_test_buddy_alloc_contiguous(struct kunit *test)
+>   		KUNIT_ASSERT_FALSE_MSG(test,
+>   				       drm_buddy_alloc_blocks(&mm, 0, mm_size,
+>   							      ps, ps, list, 0),
+> -				       "buddy_alloc hit an error size=%d\n",
+> +				       "buddy_alloc hit an error size=%lu\n",
+>   				       ps);
+>   	} while (++i < n_pages);
+>   
+>   	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
+>   							   3 * ps, ps, &allocated,
+>   							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+> -			       "buddy_alloc didn't error size=%d\n", 3 * ps);
+> +			       "buddy_alloc didn't error size=%lu\n", 3 * ps);
+>   
+>   	drm_buddy_free_list(&mm, &middle);
+>   	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
+>   							   3 * ps, ps, &allocated,
+>   							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+> -			       "buddy_alloc didn't error size=%llu\n", 3 * ps);
+> +			       "buddy_alloc didn't error size=%lu\n", 3 * ps);
+>   	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
+>   							   2 * ps, ps, &allocated,
+>   							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+> -			       "buddy_alloc didn't error size=%llu\n", 2 * ps);
+> +			       "buddy_alloc didn't error size=%lu\n", 2 * ps);
+>   
+>   	drm_buddy_free_list(&mm, &right);
+>   	KUNIT_ASSERT_TRUE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
+>   							   3 * ps, ps, &allocated,
+>   							   DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+> -			       "buddy_alloc didn't error size=%llu\n", 3 * ps);
+> +			       "buddy_alloc didn't error size=%lu\n", 3 * ps);
+>   	/*
+>   	 * At this point we should have enough contiguous space for 2 blocks,
+>   	 * however they are never buddies (since we freed middle and right) so
+> @@ -87,13 +87,13 @@ static void drm_test_buddy_alloc_contiguous(struct kunit *test)
+>   	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
+>   							    2 * ps, ps, &allocated,
+>   							    DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+> -			       "buddy_alloc hit an error size=%d\n", 2 * ps);
+> +			       "buddy_alloc hit an error size=%lu\n", 2 * ps);
+>   
+>   	drm_buddy_free_list(&mm, &left);
+>   	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
+>   							    3 * ps, ps, &allocated,
+>   							    DRM_BUDDY_CONTIGUOUS_ALLOCATION),
+> -			       "buddy_alloc hit an error size=%d\n", 3 * ps);
+> +			       "buddy_alloc hit an error size=%lu\n", 3 * ps);
+>   
+>   	total = 0;
+>   	list_for_each_entry(block, &allocated, link)
+> diff --git a/drivers/gpu/drm/tests/drm_mm_test.c b/drivers/gpu/drm/tests/drm_mm_test.c
+> index 1eb0c304f960..f37c0d765865 100644
+> --- a/drivers/gpu/drm/tests/drm_mm_test.c
+> +++ b/drivers/gpu/drm/tests/drm_mm_test.c
+> @@ -157,7 +157,7 @@ static void drm_test_mm_init(struct kunit *test)
+>   
+>   	/* After creation, it should all be one massive hole */
+>   	if (!assert_one_hole(test, &mm, 0, size)) {
+> -		KUNIT_FAIL(test, "");
+> +		KUNIT_FAIL(test, "mm not one hole on creation");
+>   		goto out;
+>   	}
+>   
+> @@ -171,14 +171,14 @@ static void drm_test_mm_init(struct kunit *test)
+>   
+>   	/* After filling the range entirely, there should be no holes */
+>   	if (!assert_no_holes(test, &mm)) {
+> -		KUNIT_FAIL(test, "");
+> +		KUNIT_FAIL(test, "mm has holes when filled");
+>   		goto out;
+>   	}
+>   
+>   	/* And then after emptying it again, the massive hole should be back */
+>   	drm_mm_remove_node(&tmp);
+>   	if (!assert_one_hole(test, &mm, 0, size)) {
+> -		KUNIT_FAIL(test, "");
+> +		KUNIT_FAIL(test, "mm does not have single hole after emptying");
+>   		goto out;
+>   	}
+>   
+
