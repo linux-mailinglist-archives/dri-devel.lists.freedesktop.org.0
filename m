@@ -2,63 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E651385E96D
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 22:04:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F47285E972
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 22:05:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1E7910E7E3;
-	Wed, 21 Feb 2024 21:04:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E96E810E381;
+	Wed, 21 Feb 2024 21:05:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hgrnrwmd";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="WnpOXxYg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 203B610E7D2;
- Wed, 21 Feb 2024 21:04:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708549468; x=1740085468;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=MmfRwcbeEjTW+L079Q3/1enUCXGnhNR/XHjokIR0+AQ=;
- b=hgrnrwmdRvMf4PdzNs831nGJrnC0WfaRwBb6e4gmiTP1icfLhLMNhzzX
- ZRdsZVuLVnZp1t1f0vcBD0G19WHQfvhoVpGx/c8wldeewan1z+uo97TrK
- CGgKk97mPrkNjuVx01gWW6G16ahVw576j61SwLifcFfI+DYBjPWk0pAKe
- kHPtp31Lvw6z1d6BVq49ojU9YpbfHepsTuLZBP7ZUqmm33UgHw6Lp2sJQ
- SeLFSi5E23T4cgHRGRScuCzfP/vrbQilIk08XNgAKKAKdE5iIbtL5XpCi
- ERpVVwIAJEzi1SsWHtN5OcDcIiQOtY+AiJmrSp1OpbqyYJijjD2gKlJ+7 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="13296954"
-X-IronPort-AV: E=Sophos;i="6.06,176,1705392000"; d="scan'208";a="13296954"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Feb 2024 13:04:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="913372710"
-X-IronPort-AV: E=Sophos;i="6.06,176,1705392000"; d="scan'208";a="913372710"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Feb 2024 13:04:25 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1rctlO-00000006TAk-2zR4; Wed, 21 Feb 2024 23:04:22 +0200
-Date: Wed, 21 Feb 2024 23:04:22 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- Yury Norov <yury.norov@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v3 1/3] bits: introduce fixed-type genmasks
-Message-ID: <ZdZlVn9BI-0q1Xdn@smile.fi.intel.com>
-References: <20240208074521.577076-1-lucas.demarchi@intel.com>
- <20240208074521.577076-2-lucas.demarchi@intel.com>
- <CAA8EJpprfrtOjNzT6TFhV1n6MXzLdTahanfxcRW4uVjeHaBduA@mail.gmail.com>
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com
+ [209.85.166.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDDD610E437
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 21:05:38 +0000 (UTC)
+Received: by mail-io1-f46.google.com with SMTP id
+ ca18e2360f4ac-7bade847536so373722339f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 13:05:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1708549538; x=1709154338;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ejwz9DMghoUipFK/izgowqt2tzkszOXlq4euAJSl++o=;
+ b=WnpOXxYgZIjEbz1nt2xyJvKO5/5rW5gPAsIbZEbMaGID/fnjVr++ppkMVslA7jGn3I
+ 6Sj6Nr0Ps5sxo7Mz2qHxZUUj0PKdP/CyVVSL8TqFvzOF9W3S8NDEBWk9yteGEi0/h62K
+ FV5Ss6JZMJ5B053andzxX49m1NXbW9I9Y1rJJaxRybRL60jSl6vy1yjC7X6YP0x7FRpr
+ +Er+fMhqL6WBqlYyrcRXfCpWb+0/vVO5dO46V9mLOVqiW1/f7jruw2xbMU9ZZcganScv
+ 5JWGMkwVq+ok+Dda8gbxfO1W/v3knId7vgxuoDERy8GOnPJY8fsr/w+PwbSE/g8OjJ7u
+ A9OQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708549538; x=1709154338;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ejwz9DMghoUipFK/izgowqt2tzkszOXlq4euAJSl++o=;
+ b=X8uZusu5DDvot7diaJsW3SDb3ykbLF4gvR25kJimuHeCprdaeABddhFpldP52Z+FyF
+ iwNpn5jqJ1j3XkW8E7esSl8BOY0LkAyP0smzrjQwxav/GqtChfNFAnXhr3uK/oIkJH3k
+ Mn1x/ZClhfm0gdTV7h+Bm381YjNrpVqquMUnEEubVgITRxUJYSPIurUPM2kEymYqxpyy
+ g7F2VRT2OunVyV4XZqf8e1wzaPzn0IDsPbEZRPveI4HbaG61MpleVRQyoMxbfrkxaenb
+ VYA/TbH3t7wgoype2n1oCqciMkzkfgJdYc7bfn62Xf0c2ls/EBWC36esQ2NWEl2YJKV4
+ ZQXA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVmZY8kYSpTPkv46L+p91htRVwuqqtKZgTGAfxB9ZP1czcBMLBXWqx1c1k+Z/oEeA+CrPXma8IALqcRatDFSjlIhkXYIVAum6jpPlyaGw2x
+X-Gm-Message-State: AOJu0Ywntlx0MhhbmTBxypvdmB4BjlWM79yLG0oTSmk7dH+lPRRYFlF4
+ vcqrInRJxSo9+Ok+3d/jFuw8KssG7WTMFLqvnx1helMUYz6VbXM31hhpCLDraw==
+X-Google-Smtp-Source: AGHT+IF90W1Cze/ZueVDeQCQxFZFa2LEc1oALZbJJ3gj2A8f8YyrfflqUcFHEtIHU8VbMgtFIajcYg==
+X-Received: by 2002:a5d:9f41:0:b0:7c4:3ffa:25e9 with SMTP id
+ u1-20020a5d9f41000000b007c43ffa25e9mr20859695iot.1.1708549537828; 
+ Wed, 21 Feb 2024 13:05:37 -0800 (PST)
+Received: from google.com (161.74.123.34.bc.googleusercontent.com.
+ [34.123.74.161]) by smtp.gmail.com with ESMTPSA id
+ q1-20020a6bf201000000b007c744e62df3sm2177661ioh.34.2024.02.21.13.05.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Feb 2024 13:05:36 -0800 (PST)
+Date: Wed, 21 Feb 2024 21:05:34 +0000
+From: Justin Stitt <justinstitt@google.com>
+To: David Gow <davidgow@google.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Guenter Roeck <linux@roeck-us.net>, Rae Moar <rmoar@google.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Kees Cook <keescook@chromium.org>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Willem de Bruijn <willemb@google.com>, Florian Westphal <fw@strlen.de>,
+ Cassio Neri <cassio.neri@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Arthur Grillo <arthur.grillo@usp.br>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Daniel Latypov <dlatypov@google.com>,
+ Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ "David S . Miller" <davem@davemloft.net>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ intel-xe@lists.freedesktop.org, linux-rtc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+ linux-hardening@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH 3/9] lib: memcpy_kunit: Fix an invalid format specifier
+ in an assertion msg
+Message-ID: <20240221210534.eeodh3qxopgp3dhy@google.com>
+References: <20240221092728.1281499-1-davidgow@google.com>
+ <20240221092728.1281499-4-davidgow@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAA8EJpprfrtOjNzT6TFhV1n6MXzLdTahanfxcRW4uVjeHaBduA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20240221092728.1281499-4-davidgow@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,79 +106,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 21, 2024 at 10:30:02PM +0200, Dmitry Baryshkov wrote:
-> On Thu, 8 Feb 2024 at 09:45, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
+Hi,
 
-...
+On Wed, Feb 21, 2024 at 05:27:16PM +0800, David Gow wrote:
+> The 'i' passed as an assertion message is a size_t, so should use '%zu',
+> not '%d'.
+>
+> This was found by annotating the _MSG() variants of KUnit's assertions
+> to let gcc validate the format strings.
+>
+> Fixes: bb95ebbe89a7 ("lib: Introduce CONFIG_MEMCPY_KUNIT_TEST")
+> Signed-off-by: David Gow <davidgow@google.com>
+> ---
 
-> > +#define BITS_PER_TYPE(type)    (sizeof(type) * BITS_PER_BYTE)
+Reviewed-by: Justin Stitt <justinstitt@google.com>
+>  lib/memcpy_kunit.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/lib/memcpy_kunit.c b/lib/memcpy_kunit.c
+> index 440aee705ccc..30e00ef0bf2e 100644
+> --- a/lib/memcpy_kunit.c
+> +++ b/lib/memcpy_kunit.c
+> @@ -32,7 +32,7 @@ struct some_bytes {
+>  	BUILD_BUG_ON(sizeof(instance.data) != 32);	\
+>  	for (size_t i = 0; i < sizeof(instance.data); i++) {	\
+>  		KUNIT_ASSERT_EQ_MSG(test, instance.data[i], v, \
+> -			"line %d: '%s' not initialized to 0x%02x @ %d (saw 0x%02x)\n", \
+> +			"line %d: '%s' not initialized to 0x%02x @ %zu (saw 0x%02x)\n", \
+>  			__LINE__, #instance, v, i, instance.data[i]);	\
+>  	}	\
+>  } while (0)
+> @@ -41,7 +41,7 @@ struct some_bytes {
+>  	BUILD_BUG_ON(sizeof(one) != sizeof(two)); \
+>  	for (size_t i = 0; i < sizeof(one); i++) {	\
+>  		KUNIT_EXPECT_EQ_MSG(test, one.data[i], two.data[i], \
+> -			"line %d: %s.data[%d] (0x%02x) != %s.data[%d] (0x%02x)\n", \
+> +			"line %d: %s.data[%zu] (0x%02x) != %s.data[%zu] (0x%02x)\n", \
+>  			__LINE__, #one, i, one.data[i], #two, i, two.data[i]); \
+>  	}	\
+>  	kunit_info(test, "ok: " TEST_OP "() " name "\n");	\
+> --
+> 2.44.0.rc0.258.g7320e95886-goog
+>
 
-Can sizeof() be used in assembly?
-
-...
-
-> > -#define __GENMASK(h, l) \
-> > -       (((~UL(0)) - (UL(1) << (l)) + 1) & \
-> > -        (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
-> > -#define GENMASK(h, l) \
-> > -       (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-
-> > +#define __GENMASK(t, h, l) \
-> > +       (GENMASK_INPUT_CHECK(h, l) + \
-> > +        (((t)~0ULL - ((t)(1) << (l)) + 1) & \
-> > +        ((t)~0ULL >> (BITS_PER_TYPE(t) - 1 - (h)))))
-
-Nevertheless, the use ~0ULL is not proper assembly, this broke initial
-implementation using UL() / ULL().
-
-
-> > -#define __GENMASK_ULL(h, l) \
-> > -       (((~ULL(0)) - (ULL(1) << (l)) + 1) & \
-> > -        (~ULL(0) >> (BITS_PER_LONG_LONG - 1 - (h))))
-> > -#define GENMASK_ULL(h, l) \
-> > -       (GENMASK_INPUT_CHECK(h, l) + __GENMASK_ULL(h, l))
-
-Ditto.
-
-> > +#define GENMASK(h, l)          __GENMASK(unsigned long,  h, l)
-> > +#define GENMASK_ULL(h, l)      __GENMASK(unsigned long long, h, l)
-> > +#define GENMASK_U8(h, l)       __GENMASK(u8,  h, l)
-> > +#define GENMASK_U16(h, l)      __GENMASK(u16, h, l)
-> > +#define GENMASK_U32(h, l)      __GENMASK(u32, h, l)
-> > +#define GENMASK_U64(h, l)      __GENMASK(u64, h, l)
-> 
-> This breaks drm-tip on arm64 architecture:
-> 
-> arch/arm64/kernel/entry-fpsimd.S: Assembler messages:
-> 465arch/arm64/kernel/entry-fpsimd.S:271: Error: found 'l', expected: ')'
-> 466arch/arm64/kernel/entry-fpsimd.S:66: Info: macro invoked from here
-> 467arch/arm64/kernel/entry-fpsimd.S:271: Error: found 'l', expected: ')'
-> 468arch/arm64/kernel/entry-fpsimd.S:66: Info: macro invoked from here
-> 469arch/arm64/kernel/entry-fpsimd.S:271: Error: found 'l', expected: ')'
-> 470arch/arm64/kernel/entry-fpsimd.S:66: Info: macro invoked from here
-> 471arch/arm64/kernel/entry-fpsimd.S:271: Error: found 'l', expected: ')'
-> 472arch/arm64/kernel/entry-fpsimd.S:66: Info: macro invoked from here
-> 473arch/arm64/kernel/entry-fpsimd.S:271: Error: unexpected characters
-> following instruction at operand 3 -- `bic x2,x1,(0+(((unsigned
-> long)~0ULL-((unsigned long)(1)<<(0))+1)&((unsigned
-> long)~0ULL>>((sizeof(unsigned long)*8)-1-(3)))))'
-> 474arch/arm64/kernel/entry-fpsimd.S:66: Info: macro invoked from here
-> 475arch/arm64/kernel/entry-fpsimd.S:282: Error: found 'l', expected: ')'
-> 476arch/arm64/kernel/entry-fpsimd.S:98: Info: macro invoked from here
-> 477arch/arm64/kernel/entry-fpsimd.S:282: Error: found 'l', expected: ')'
-> 478arch/arm64/kernel/entry-fpsimd.S:98: Info: macro invoked from here
-> 479arch/arm64/kernel/entry-fpsimd.S:282: Error: found 'l', expected: ')'
-> 480arch/arm64/kernel/entry-fpsimd.S:98: Info: macro invoked from here
-> 481arch/arm64/kernel/entry-fpsimd.S:282: Error: found 'l', expected: ')'
-> 482arch/arm64/kernel/entry-fpsimd.S:98: Info: macro invoked from here
-> 483arch/arm64/kernel/entry-fpsimd.S:282: Error: unexpected characters
-> following instruction at operand 3 -- `bic x2,x1,(0+(((unsigned
-> long)~0ULL-((unsigned long)(1)<<(0))+1)&((unsigned
-> long)~0ULL>>((sizeof(unsigned long)*8)-1-(3)))))'
-> 484arch/arm64/kernel/entry-fpsimd.S:98: Info: macro invoked from here
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thanks
+Justin
