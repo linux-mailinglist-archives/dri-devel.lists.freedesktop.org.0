@@ -2,50 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF7CD85D2C3
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 09:44:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCDF285D2E2
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 09:56:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67FB410E3DC;
-	Wed, 21 Feb 2024 08:44:52 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LIh2VTLX";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 865E310E0D9;
+	Wed, 21 Feb 2024 08:56:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC1A310E30D
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 08:44:50 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id D7F21CE1C5D;
- Wed, 21 Feb 2024 08:44:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDCC4C433F1;
- Wed, 21 Feb 2024 08:44:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1708505088;
- bh=yMV/h/ZYf5X0qZq3aDdJEb2XmOIt25nmk9DgyhJVOQk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LIh2VTLXi2/B5yqLNWkpYzd6oYBRkMc2hRMR153jls6twumJymAGJDUk0kPsSeaKF
- AwhoWYfTrR5/HA+0QtkHPHoNZay6JO65Oj4SzfRHOFG91TknpzquQR50+L76KMQgPA
- /X8Q2zF7RppHrBciBVwXcfcMFgf7Msq8KzRt0iNU+kVNb1tL8j4na/Lr4/Q53ecl4p
- D/SWsOsqXvQf+NzU+nxQxfpM/7SchohzMgjb42SAryfHtPlA8Jv08sapNEFJDMrc/K
- MBV7FzaLGbBQjrtNYRysz6NYUqSuIv3pgXufm4t+T6xfJ14F//Yqw0HBW22SDsuFEd
- XUt04Yged2eNQ==
-Date: Wed, 21 Feb 2024 09:44:45 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
- Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH] drm/edid/firmware: Remove built-in EDIDs
-Message-ID: <oxrdsckcktshgaava7r5zuhgr522aqx6cblppq7julr7s3zpiz@bnaq4lkeadai>
-References: <20240220161017.562241-1-mripard@kernel.org>
- <CAPY8ntDR7yQ5UY4Zy8UGi7DXOO68W2QqZFmfkUZpwUq9pjW=MQ@mail.gmail.com>
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F3A710E0D9
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 08:56:13 +0000 (UTC)
+X-UUID: 0aa368f3530545ed8de1e400171aded9-20240221
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.35, REQID:8dc1fbd6-5e04-4cb7-a59c-c0138488e143, IP:10,
+ URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+ ON:release,TS:-5
+X-CID-INFO: VERSION:1.1.35, REQID:8dc1fbd6-5e04-4cb7-a59c-c0138488e143, IP:10,
+ UR
+ L:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:-5
+X-CID-META: VersionHash:5d391d7, CLOUDID:013b8b8f-e2c0-40b0-a8fe-7c7e47299109,
+ B
+ ulkID:240221165604J5OQ83PO,BulkQuantity:0,Recheck:0,SF:19|44|66|38|24|17|1
+ 02,TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,CO
+ L:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI,TF_CID_SPAM_SNR
+X-UUID: 0aa368f3530545ed8de1e400171aded9-20240221
+Received: from mail.kylinos.cn [(39.156.73.10)] by mailgw
+ (envelope-from <chentao@kylinos.cn>) (Generic MTA)
+ with ESMTP id 436310388; Wed, 21 Feb 2024 16:56:02 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+ by mail.kylinos.cn (NSMail) with SMTP id 54D8BE000EBC;
+ Wed, 21 Feb 2024 16:56:02 +0800 (CST)
+X-ns-mid: postfix-65D5BAA2-127793529
+Received: from kernel.. (unknown [172.20.15.254])
+ by mail.kylinos.cn (NSMail) with ESMTPA id 89F08E000EBC;
+ Wed, 21 Feb 2024 16:56:00 +0800 (CST)
+From: Kunwu Chan <chentao@kylinos.cn>
+To: ltuikov89@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Kunwu Chan <chentao@kylinos.cn>
+Subject: [PATCH] drm/scheduler: Simplify the allocation of slab caches in
+ drm_sched_fence_slab_init
+Date: Wed, 21 Feb 2024 16:55:58 +0800
+Message-Id: <20240221085558.166774-1-chentao@kylinos.cn>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="wfzt2tkchir7keyj"
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntDR7yQ5UY4Zy8UGi7DXOO68W2QqZFmfkUZpwUq9pjW=MQ@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,142 +67,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Use the new KMEM_CACHE() macro instead of direct kmem_cache_create
+to simplify the creation of SLAB caches.
 
---wfzt2tkchir7keyj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
+---
+ drivers/gpu/drm/scheduler/sched_fence.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Hi Dave,
+diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/sc=
+heduler/sched_fence.c
+index 06cedfe4b486..0f35f009b9d3 100644
+--- a/drivers/gpu/drm/scheduler/sched_fence.c
++++ b/drivers/gpu/drm/scheduler/sched_fence.c
+@@ -33,9 +33,7 @@ static struct kmem_cache *sched_fence_slab;
+=20
+ static int __init drm_sched_fence_slab_init(void)
+ {
+-	sched_fence_slab =3D kmem_cache_create(
+-		"drm_sched_fence", sizeof(struct drm_sched_fence), 0,
+-		SLAB_HWCACHE_ALIGN, NULL);
++	sched_fence_slab =3D KMEM_CACHE(drm_sched_fence, SLAB_HWCACHE_ALIGN);
+ 	if (!sched_fence_slab)
+ 		return -ENOMEM;
+=20
+--=20
+2.39.2
 
-On Tue, Feb 20, 2024 at 05:39:16PM +0000, Dave Stevenson wrote:
-> Hi Maxime
->=20
-> On Tue, 20 Feb 2024 at 16:10, Maxime Ripard <mripard@kernel.org> wrote:
-> >
-> > The EDID firmware loading mechanism introduced a few built-in EDIDs that
-> > could be forced on any connector, bypassing the EDIDs it exposes.
-> >
-> > While convenient, this limited set of EDIDs doesn't take into account
-> > the connector type, and we can end up with an EDID that is completely
-> > invalid for a given connector.
-> >
-> > For example, the edid/800x600.bin file matches the following EDID:
-> >
-> >   edid-decode (hex):
-> >
-> >   00 ff ff ff ff ff ff 00 31 d8 00 00 00 00 00 00
-> >   05 16 01 03 6d 1b 14 78 ea 5e c0 a4 59 4a 98 25
-> >   20 50 54 01 00 00 45 40 01 01 01 01 01 01 01 01
-> >   01 01 01 01 01 01 a0 0f 20 00 31 58 1c 20 28 80
-> >   14 00 15 d0 10 00 00 1e 00 00 00 ff 00 4c 69 6e
-> >   75 78 20 23 30 0a 20 20 20 20 00 00 00 fd 00 3b
-> >   3d 24 26 05 00 0a 20 20 20 20 20 20 00 00 00 fc
-> >   00 4c 69 6e 75 78 20 53 56 47 41 0a 20 20 00 c2
-> >
-> >   ----------------
-> >
-> >   Block 0, Base EDID:
-> >     EDID Structure Version & Revision: 1.3
-> >     Vendor & Product Identification:
-> >       Manufacturer: LNX
-> >       Model: 0
-> >       Made in: week 5 of 2012
-> >     Basic Display Parameters & Features:
-> >       Analog display
-> >       Signal Level Standard: 0.700 : 0.000 : 0.700 V p-p
-> >       Blank level equals black level
-> >       Sync: Separate Composite Serration
-> >       Maximum image size: 27 cm x 20 cm
-> >       Gamma: 2.20
-> >       DPMS levels: Standby Suspend Off
-> >       RGB color display
-> >       First detailed timing is the preferred timing
-> >     Color Characteristics:
-> >       Red  : 0.6416, 0.3486
-> >       Green: 0.2919, 0.5957
-> >       Blue : 0.1474, 0.1250
-> >       White: 0.3125, 0.3281
-> >     Established Timings I & II:
-> >       DMT 0x09:   800x600    60.316541 Hz   4:3     37.879 kHz     40.0=
-00000 MHz
-> >     Standard Timings:
-> >       DMT 0x09:   800x600    60.316541 Hz   4:3     37.879 kHz     40.0=
-00000 MHz
-> >     Detailed Timing Descriptors:
-> >       DTD 1:   800x600    60.316541 Hz   4:3     37.879 kHz     40.0000=
-00 MHz (277 mm x 208 mm)
-> >                    Hfront   40 Hsync 128 Hback   88 Hpol P
-> >                    Vfront    1 Vsync   4 Vback   23 Vpol P
-> >       Display Product Serial Number: 'Linux #0'
-> >       Display Range Limits:
-> >         Monitor ranges (GTF): 59-61 Hz V, 36-38 kHz H, max dotclock 50 =
-MHz
-> >       Display Product Name: 'Linux SVGA'
-> >   Checksum: 0xc2
-> >
-> > So, an analog monitor EDID. However, if the connector was an HDMI
-> > monitor for example, it breaks the HDMI specification that requires,
-> > among other things, a digital display, the VIC 1 mode and an HDMI Forum
-> > Vendor Specific Data Block in an CTA-861 extension.
-> >
-> > We thus end up with a completely invalid EDID, which thus might confuse
-> > HDMI-related code that could parse it.
-> >
-> > After some discussions on IRC, we identified mainly two ways to fix
-> > this:
-> >
-> >   - We can either create more EDIDs for each connector type to provide
-> >     a built-in EDID that matches the resolution passed in the name, and
-> >     still be a sensible EDID for that connector type;
-> >
-> >   - Or we can just prevent the EDID to be exposed to userspace if it's
-> >     built-in.
-> >
-> > Or possibly both.
-> >
-> > However, the conclusion was that maybe we just don't need the built-in
-> > EDIDs at all and we should just get rid of them. So here we are.
-> >
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> >  drivers/gpu/drm/drm_edid_load.c | 160 +++-----------------------------
->=20
-> Needs to be removed from the docs too:
->=20
-> "The code (see drivers/gpu/drm/drm_edid_load.c) contains built-in data
-> sets for commonly used screen resolutions (800x600, 1024x768,
-> 1280x1024, 1600x1200, 1680x1050, 1920x1080) as binary blobs,..."
->=20
-> https://github.com/torvalds/linux/blob/master/Documentation/admin-guide/e=
-did.rst
-
-Oh, right. And the EDID generation "code" too.
-
-> I'm sad to see these go, but c'est la vie. Descriptions of using these
-> built in EDIDs abound in various tutorials, so those are all now
-> invalid :/
-
-If you want to keep the feature, you can still achieve it without (I
-think?) any disruption. With that patch merged, we'll always try to load
-the firmware as part of the firmware loading mechanism, and you can
-embed firmwares directly in the kernel image using CONFIG_EXTRA_FIRMWARE.
-
-So I think if you provide the EDIDs under a file name of 800x600.bin
-say, under $EXTRA_FIRMWARE_DIR/edid/, it will work exactly as it used
-to.
-
-Maxime
-
---wfzt2tkchir7keyj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZdW3/AAKCRDj7w1vZxhR
-xenHAQDFn29Y+WWA02g/hQdA6uhvqQT/68m8w7gNccgdxvxnnQEA4hweCEdCppuk
-3wy66S2lpjNjAnQlw0qjYVyxxUbwjgo=
-=Bw6K
------END PGP SIGNATURE-----
-
---wfzt2tkchir7keyj--
