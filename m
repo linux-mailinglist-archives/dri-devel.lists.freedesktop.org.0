@@ -2,121 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD25485D626
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 11:58:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2D8385D656
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 12:02:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D056F10E569;
-	Wed, 21 Feb 2024 10:58:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C158E10E566;
+	Wed, 21 Feb 2024 11:02:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ZVTzdEs3";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="gbf2hFUn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2043.outbound.protection.outlook.com [40.107.244.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FB0110E569;
- Wed, 21 Feb 2024 10:58:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d2ezXbU2j1laOJkj21eISL96sv60n4U21o1ZmTKxO9WsICaeFH8V94aVaxPMnsXL/p0r7Rf0uSWPPlw24biaUbsUcyTS0DtVfXs0WYAYXzYUTD83tuoXeMztujIPrQvLm4BD9fwJzA5mQ2Jzm7y3LutesoSE6j69bcuf7sTzHDQ84lGtAKyxDaz9PLR+xtnlnVykkBdbRt/msZ9Y5zueRFSa1A+u42HwLPowl0QAfEhhbqXCexVMlvxQ3VNXjrvTcc267pbUKC9taxj8d/SH+eUF5CYfbu+q0+J94FLN4+w+7PBxc52/C6/I7YuMGpCf6y5cTVPa6teBHeB224rClA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ang2y0nKPrtf4XdwpQC+H4x586FPxABKzWfWhI+Fuoc=;
- b=UmP0zFNLiNPGWlytR3XdzeHKVfmbUF4pH5LGFiiJjbtn68SN8XyEDzzNoA7JAMOHhw8vUjgoDdge3WPHoEpOOf6/U+ep72cqWcUPEtDSVb3RnTCaXQ+9N1yLtniJcTExeVMVe8bvsjl8xP/bc71UIOIgayxZebxofgBK2aJ4xaPykohu8uUdpMAeObQC5uHQuJ32bf0TCw5lL6WzkLxKJ01e+jZ0qewD4u7KO4SqallzDxYA7SYE0l4tFedcU9YIf3FqMeajFoMEah7ykNwkng14ox545JV0Y7y5W3k/wlob1KW6Y+OArZTDbX0g01i6g1G1D++KeiMFMDNCvSBRVA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ang2y0nKPrtf4XdwpQC+H4x586FPxABKzWfWhI+Fuoc=;
- b=ZVTzdEs3q1mJcmCG4MHZP7dyxgkpWsylqgoWwogiSu0wiePsyo/1HlrlE3i8kVDXJhtgbK/uggeRQt6xU+CUV5p1KtS/zToP0ReBvle1zi4xQ+jLLw9f4Ru4o+Ws2bpoa+Atkg+1theCXmLdspq+ATsoJ1IHXiKPeUZwdMmsj4g=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by BL1PR12MB5190.namprd12.prod.outlook.com (2603:10b6:208:31c::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.19; Wed, 21 Feb
- 2024 10:58:04 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7316.018; Wed, 21 Feb 2024
- 10:58:04 +0000
-Message-ID: <75a4102e-b078-4e95-a5b5-a677ad9622fd@amd.com>
-Date: Wed, 21 Feb 2024 11:57:57 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] drm/amdgpu: Use KMEM_CACHE instead of
- kmem_cache_create
-Content-Language: en-US
-To: Kunwu Chan <chentao@kylinos.cn>, alexander.deucher@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240221095907.172408-1-chentao@kylinos.cn>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20240221095907.172408-1-chentao@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM4PR05CA0007.eurprd05.prod.outlook.com (2603:10a6:205::20)
- To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com
+ [209.85.166.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90B9810E566
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 11:02:20 +0000 (UTC)
+Received: by mail-il1-f175.google.com with SMTP id
+ e9e14a558f8ab-365138d9635so16949905ab.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 03:02:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1708513340; x=1709118140;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Nj6plWk587aeTNhJ0vkYdN+O+gXvvYvjwMhID6PtyEo=;
+ b=gbf2hFUn36drjM35bJWwBs+VZzhgynzu+DEbQYxj0Mij5k5VPu5fy5T5Qz+r9zNIzR
+ N9qchvwSryIDyQUKvHknTQ4zicOaMEPydkqID8ij/HTzAchixitkVa89qhO0fO9jzHV7
+ NxX2tpX6fw38UZFtHMUTErwnAi90V+DrlfQ/0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708513340; x=1709118140;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Nj6plWk587aeTNhJ0vkYdN+O+gXvvYvjwMhID6PtyEo=;
+ b=SItbtlXKZ7JAOm5kkfFjRzjUhfd0ec3/ML1OcDWn858p7dwsfkKszd9bOKmjXehONX
+ 7vFgPdrRRFGDrBr8zyZ29hsu8gAtnxwbe5y/Rd1ME9OWPBiGGlgBUdW5WH91fr42sBL8
+ FMWr3Mr4cwjdLTMjxcIWpTFYfXLkK9O4U/LZa7B13G9mhrHIX702O6SDUq5sqlQqW2yi
+ IKD00SAMtIgDWmwGmg8jwTIEC7e3km53+3lKwWSViTHgoPbL8yCXgWAHDQvUPnFDzo0x
+ I238nTHKE6JX0G8M6xhd1CBbAp1PELZFNddKapQpc0QgW1uRtQNshvRHjdhAiKhN/0Cs
+ I+Ng==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUz4/BxgjszKanIMER/KbbKPA0kqflNzEkHsKCu9Eq5VrwhVxYjwsEtq+S73bc453IPzI8/9Jmq8t7qA56uQDZv4EriMEqMsFjJ/gE5Qv2y
+X-Gm-Message-State: AOJu0YyiUjiyxcR3unP+Q0sLVPMCrbUIKNSrBl7Tbf4/H49rd5yIylYz
+ BN1juzkC5wsrcIvlgHHZVlCWR7mNAhbTnaVEx0LujFSeA/5oCrnA2zY4AZWRANf1bZqtnGeZrRq
+ 23tXZLxP+f2IBqps60mcY+DNm2ln1PSy66SLw
+X-Google-Smtp-Source: AGHT+IFRuetw5HHoAaykdxsWg1k/jdCPmgy1RRD0vtBNXNkGDwXav9XOh2vDYGqoq5JVOhvuSphvXWyMcI7Q5su/xZg=
+X-Received: by 2002:a92:de48:0:b0:365:4b91:7cf9 with SMTP id
+ e8-20020a92de48000000b003654b917cf9mr3286429ilr.26.1708513339714; Wed, 21 Feb
+ 2024 03:02:19 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BL1PR12MB5190:EE_
-X-MS-Office365-Filtering-Correlation-Id: 685522e1-dead-49e5-8942-08dc32cbfa53
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: eHFe4aXVTwtdSdNbuU+JLfJeF5OtroxqfSCPaSqnALAxfFqe0KOjZ/saTSR0+TTM5JRF7+ix8DsrDVqVE6hrWBEJpIMPvfSa0SbgVr2nNZ6OSiuAUZy97c/LIsp4nEdcc5u9WoJF6nGQeIFm7+VZ1TuoibHjHQbyClRqy5mZKJ33Y6uYH19AFrIoPXsBdAFVoHZNCRQ9HBcCcF6AlJWylULpx9SZyUI91G5viVUJAy+J6/jYfIjukKlruuyCK2vtOvQyS404GFLVybJ7imiw1BFILxdltrqrZ8vPDcKd0q6xq0+YLAAEENukPqq5/kJGw+YZvpopbPCRov+4V/pZs3Q/SCaLAwtbjjd5xqk9RX2XcovZUOOWJw1A2s21pfqO+LCRC5AoiV774Coqg+ScIebYN/ZyMXnIlTleFGMOBeCRarVVitIe1bLtl3FZMN2rpw2xErbenGvRh4XWDi9cFbC+4xd7E5pq8ZQgN/bSnDdkogtKY4OFhOFw31Auu/m2jHDSGnsFhylcnvmwALjGbj+D0XyvrXaR56gEcHyp/bY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SkdSbFB0Y2QvT2twZ3IvbHVVRmk0ai9Md0lKWWxZeTdhWXp2bG1wRFdXL1pV?=
- =?utf-8?B?SktHeHVDeFNnbzcxSGpKWU1VVFlpNnhkOEE0L1ZBZ0s4NW1IdG1ySng5QWRy?=
- =?utf-8?B?bzdlQldMdG52WThaK3poamppUGhYd1gzOUtITFRuSGtYQkFzK2tqNm45NDBR?=
- =?utf-8?B?T0c4dHl4Q0JGRXBVNll3MkFhYzRCZDFiS3BhLytSM0VMakVRM0Z4RDIyMUJN?=
- =?utf-8?B?UGNlWC9XV3lpSVN0ZldyY1l0d29ES3VRV2FyWlJtOVNXSHJXczNSdFdvWGYv?=
- =?utf-8?B?Qkk0T2pMNy9EMFNxVFF6RTdvMGJ4a0wyOFVzamJVY2tJM1RscXVQQ1lla2FM?=
- =?utf-8?B?WTJvZ2FxVmRicDlaQlFJazdKUFg4MWw2U1NzYVhKUHBWTFhNeVlFOGRHM3d6?=
- =?utf-8?B?KzJ3U3ZaVlFiZFBuT1VqSk1XbEJvRGtmT1FGY2RMNHJ2dHk5SndwM21ISDJP?=
- =?utf-8?B?L0dWWlppdnl6U2Y4UEhrRUxTaDJjNk13eHIrS2VJRTV6VGx5ZmRDSUNrS1N3?=
- =?utf-8?B?WGEwYWFScEE0OUJVSUd0eHp6VWpwdit2SlFWeXE3SVF0S1ZtdnErWXBVeUdT?=
- =?utf-8?B?bTRHVXlraGxxN0tGSHZwdHJiWEIySWhGMjB4ZWVaeVA2WStIeGdlcnN5WGZC?=
- =?utf-8?B?Y2dYK3VnQm9TUGwyMWRpTlU4SEZQVWozMS9HMFlkQXBwN24zN1B6MGdUaWdX?=
- =?utf-8?B?cTlUUVF0Y2E2aGpMTENHUzNoOE5PcGdPbHBqNklFdDhkbUcxcjk1T0s2cW1B?=
- =?utf-8?B?YUFmbG1BWU1NKytUUHQ2MEhCSDQwY1cvZGszOW16V1hocVAyM2VKcnlmQVZy?=
- =?utf-8?B?VGptOWxQTHhxQ1Nkb2xYY0lSWDcwV1MyODlYSU9Sd3BOWi9vamdjU2QwRWoz?=
- =?utf-8?B?bEpWRU1KUWRwTDdZNFBKQnRhbnlqYnhqYjBhZlJLWXNEZVRDaVpUYVFJeFhs?=
- =?utf-8?B?KzJ0VGxhZm5KVEdsZlpRZC9ZYlQzRk9sRGtEd0orbFRoeGtvbU02K2dTYmJY?=
- =?utf-8?B?Y0JrZjdXemZRZk9kWmZDY0M4NVM4SHJQcEtYOUhOUUxKMnZUeHZjejFqSHZN?=
- =?utf-8?B?NlcxcklEMDVyS3h6T0JOSkI2MHZuNS9vNndNM1k1cXhDWUg0YzlVVE92WjZG?=
- =?utf-8?B?OXlvZXI3SWYzNjRCNklKWWZuMHV5YXFzQ3dPS1VYYTJJUTN5b3dNY2dsZ1gx?=
- =?utf-8?B?TUxvcjdtWURwRU9iTVZUOVpIQTdhVy9uZ3pDdzliZjV3U2tocElXbkdoM2Uv?=
- =?utf-8?B?UFo2Y2VMREFLL0RNV1ArTHpDaVpFbUdHYTZ5bUo3WlltY3hTVG5xM1Zjb2ln?=
- =?utf-8?B?RVBVSlZzTnZVNWFYdkRMeDU2VkRIYmN1VVNqOHViMVZuSk1KTVFRZ2djSHUr?=
- =?utf-8?B?OHh6TnRoWmZUT2JOcENWdm84ckoxd2REaCs2d2Q5cCtuZFZoRzBGTTVrbk5O?=
- =?utf-8?B?UmNLaUZpcU9nVkJzOExncUJaTHZuSktOdDdHV1N1ZFhhL3gwbU1scVk2YVlY?=
- =?utf-8?B?bWFIblpNMGFybFJiR0ZDaUZON0FPUnFPbzdka2ZUNlhxWXdqTG51SmxpckJB?=
- =?utf-8?B?WE5WYlVMMExWUkVNL1ZLRkVYRi9nRG1uaGVObFRYU0JPMnhuUmRyN0JyZW9U?=
- =?utf-8?B?T2NPSkc1SnhzWUZQOFplMDdKZEhWSkd4Y3hYMzhuUlpYcWZkemswT09FTmlh?=
- =?utf-8?B?NHErZjN6N3FXR1p1V0lET1VOUXlKUFkxMTBudHJpM3lQN0dkLzhkQ2tSM1Jv?=
- =?utf-8?B?NVVKUzlwOUo2YzIzMm5LMXFFbWIvcEJZc2lVSVV4bHVMV01iNnU3Mmk5ZVNP?=
- =?utf-8?B?ckoxN2hzSi9kNUJYUVg2RW5Cei9KM2pqVnFVTmdSVHpaQWowWWg1OW1ldjBu?=
- =?utf-8?B?SVZ0TVBxYStHN29vcklwR0diUnlQMDdNdkhSaWJhdWY1ZDhhVFJOa1lTd21K?=
- =?utf-8?B?UHBsaGJscDFmU3I2SmpKZ1daUkNUbWtsU3VJWWMzMlpYMUUyMVZ3UDBPWG1V?=
- =?utf-8?B?MUhqdHM3bG1ZdklYakQ2am5mTTFLb0JyYk9qUU9BOG9FdWNHQm9aYUpad25w?=
- =?utf-8?B?UG5ERElqa1dQM3lENzlWNTlxV1hjVGJTUHdKRkwvek1hSllmSm4yR0ZqY3V1?=
- =?utf-8?Q?OmrJEhruOrA5D8vKOwgq1T6Gr?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 685522e1-dead-49e5-8942-08dc32cbfa53
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2024 10:58:04.1530 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: b2mJ8KhSsvGYcTN8dz5jxY6aQRN/PH/YcEdSO+GTcKaxfgFtm74u6O7P36hbCdhB
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5190
+References: <20240221080441.190922-1-kuro.chung@ite.com.tw>
+In-Reply-To: <20240221080441.190922-1-kuro.chung@ite.com.tw>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Wed, 21 Feb 2024 19:02:08 +0800
+Message-ID: <CAEXTbpf-Kn8YH1KPq=CT2-0Uu3HSoaejW4c4SWAftKAUhNxy7w@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: it6505: fix hibernate to resume no display
+ issue
+To: kuro <kuro.chung@ite.com.tw>
+Cc: Allen Chen <allen.chen@ite.com.tw>, Kenneth Haung <kenneth.hung@ite.com.tw>,
+ Allen Chen <allen.chen@ite.corp-partner.google.com>, 
+ Andrzej Hajda <a.hajda@samsung.com>, Neil Armstrong <narmstrong@baylibre.com>, 
+ Robert Foss <robert.foss@linaro.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>, 
+ open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,23 +86,178 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 21.02.24 um 10:59 schrieb Kunwu Chan:
-> For where the cache name and the structure name match.
-> Use the new KMEM_CACHE() macro instead of direct kmem_cache_create
-> to simplify the creation of SLAB caches.
+Hi Kuro,
 
-Reviewed-by: Christian König <christian.koenig@amd.com> for the entire 
-series.
+On Wed, Feb 21, 2024 at 3:53=E2=80=AFPM kuro <kuro.chung@ite.com.tw> wrote:
+>
+> From: kuro chung <kuro.chung@ite.com.tw>
+>
+> ITE added a FIFO reset bit for input video. When system power resume,
+> the TTL input of it6505 may get some noise before video signal stable
+> and the hardware function reset is required.
+> But the input FIFO reset will also trigger error interrupts of output mod=
+ule rising.
+> Thus, it6505 have to wait a period can clear those expected error interru=
+pts
+> caused by manual hardware reset in one interrupt handler calling to avoid=
+ interrupt looping.
+>
+> Signed-off-by: Allen Chen <allen.chen@ite.corp-partner.google.com>
+
+IIUC you should also sign this off with your own account, and don't
+include Allen if he is not involved in the patch development.corp
+account here
 
 >
-> Kunwu Chan (3):
->    drm/amdgpu: Simplify the allocation of fence slab caches
->    drm/amdgpu: Simplify the allocation of mux_chunk slab caches
->    drm/amdgpu: Simplify the allocation of sync slab caches
+> BUG=3DNone
+> TEST=3DNone
+Please remove these two lines for upstream review.
 >
->   drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c    | 4 +---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ring_mux.c | 4 +---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c     | 4 +---
->   3 files changed, 3 insertions(+), 9 deletions(-)
+> ---
+>  drivers/gpu/drm/bridge/ite-it6505.c | 53 ++++++++++++++++++++++++-----
+>  1 file changed, 44 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge=
+/ite-it6505.c
+> index b53da9bb65a16..86277968fab93 100644
+> --- a/drivers/gpu/drm/bridge/ite-it6505.c
+> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
+> @@ -1318,6 +1318,8 @@ static void it6505_video_reset(struct it6505 *it650=
+5)
+>         it6505_set_bits(it6505, REG_DATA_MUTE_CTRL, EN_VID_MUTE, EN_VID_M=
+UTE);
+>         it6505_set_bits(it6505, REG_INFOFRAME_CTRL, EN_VID_CTRL_PKT, 0x00=
+);
+>         it6505_set_bits(it6505, REG_RESET_CTRL, VIDEO_RESET, VIDEO_RESET)=
+;
+> +       it6505_set_bits(it6505, REG_VID_BUS_CTRL1, TX_FIFO_RESET, 0x02);
+> +       it6505_set_bits(it6505, REG_VID_BUS_CTRL1, TX_FIFO_RESET, 0x00);
+>         it6505_set_bits(it6505, REG_501_FIFO_CTRL, RST_501_FIFO, RST_501_=
+FIFO);
+>         it6505_set_bits(it6505, REG_501_FIFO_CTRL, RST_501_FIFO, 0x00);
+>         it6505_set_bits(it6505, REG_RESET_CTRL, VIDEO_RESET, 0x00);
+> @@ -2480,10 +2482,6 @@ static void it6505_irq_video_fifo_error(struct it6=
+505 *it6505)
+>         struct device *dev =3D &it6505->client->dev;
+>
+>         DRM_DEV_DEBUG_DRIVER(dev, "video fifo overflow interrupt");
+> -       it6505->auto_train_retry =3D AUTO_TRAIN_RETRY;
+> -       flush_work(&it6505->link_works);
+> -       it6505_stop_hdcp(it6505);
+> -       it6505_video_reset(it6505);
+>  }
+>
+>  static void it6505_irq_io_latch_fifo_overflow(struct it6505 *it6505)
+> @@ -2491,10 +2489,6 @@ static void it6505_irq_io_latch_fifo_overflow(stru=
+ct it6505 *it6505)
+>         struct device *dev =3D &it6505->client->dev;
+>
+>         DRM_DEV_DEBUG_DRIVER(dev, "IO latch fifo overflow interrupt");
+> -       it6505->auto_train_retry =3D AUTO_TRAIN_RETRY;
+> -       flush_work(&it6505->link_works);
+> -       it6505_stop_hdcp(it6505);
+> -       it6505_video_reset(it6505);
+>  }
+
+Do we need to keep these two functions if they do nothing other than loggin=
+g?
+
+>
+>  static bool it6505_test_bit(unsigned int bit, const unsigned int *addr)
+> @@ -2502,6 +2496,45 @@ static bool it6505_test_bit(unsigned int bit, cons=
+t unsigned int *addr)
+>         return 1 & (addr[bit / BITS_PER_BYTE] >> (bit % BITS_PER_BYTE));
+>  }
+>
+> +static bool it6505_is_video_error_int(const int *int_status)
+> +{
+> +       if ((it6505_test_bit(BIT_INT_VID_FIFO_ERROR, (unsigned int *)int_=
+status)) || (it6505_test_bit(BIT_INT_IO_FIFO_OVERFLOW, (unsigned int *)int_=
+status)))
+> +               return 1;
+> +       return 0;
+> +}
+
+Maybe just:
+return it6505_test_bit(BIT_INT_VID_FIFO_ERROR, (unsigned int
+*)int_status) || it6505_test_bit(BIT_INT_IO_FIFO_OVERFLOW, (unsigned
+int *)int_status)
+
+> +
+> +static void it6505_irq_video_error_handler(struct it6505 *it6505)
+> +{
+> +       struct device *dev =3D &it6505->client->dev;
+> +       int int_status[3] =3D {0};
+> +       int reg_0d;
+> +
+> +       it6505->auto_train_retry =3D AUTO_TRAIN_RETRY;
+> +       flush_work(&it6505->link_works);
+> +       it6505_stop_hdcp(it6505);
+> +       it6505_video_reset(it6505);
+> +
+> +       DRM_DEV_DEBUG_DRIVER(dev, "Video Error reset wait video...");
+> +
+
+Can you add some code comments here to explain why we need to clear
+the interrupt bits here?
+
+> +       for (i =3D 0; i < 10; i++) {
+> +               usleep_range(10000, 11000);
+> +               int_status[2] =3D it6505_read(it6505, INT_STATUS_03);
+> +               reg_0d =3D it6505_read(it6505, REG_SYSTEM_STS);
+> +               it6505_write(it6505, INT_STATUS_03, int_status[2]);
+
+If we clear all interrupts like this, won't we risk missing other
+interrupts here? E.g., if an HPD interrupt is fired here, it will be
+cleared without being handled.
+
+> +
+> +               DRM_DEV_DEBUG_DRIVER(dev, "reg08 =3D 0x%02x", int_status[=
+2]);
+> +               DRM_DEV_DEBUG_DRIVER(dev, "reg0D =3D 0x%02x", reg_0d);
+> +
+> +               if ((reg_0d & VIDEO_STB) && (reg_0d >=3D 0))
+> +                       break;
+> +
+> +               if (it6505_is_video_error_int(int_status)) {
+> +                       it6505_video_reset(it6505);
+> +                       DRM_DEV_DEBUG_DRIVER(dev, "Video Error reset wait=
+ video (%d)", i);
+> +               }
+> +       }
+> +}
+
+Why do we need a for-loop here, and why 10?
+
+> +
+>  static irqreturn_t it6505_int_threaded_handler(int unused, void *data)
+>  {
+>         struct it6505 *it6505 =3D data;
+> @@ -2522,7 +2555,7 @@ static irqreturn_t it6505_int_threaded_handler(int =
+unused, void *data)
+>                 { BIT_INT_VID_FIFO_ERROR, it6505_irq_video_fifo_error },
+>                 { BIT_INT_IO_FIFO_OVERFLOW, it6505_irq_io_latch_fifo_over=
+flow },
+>         };
+> -       int int_status[3], i;
+> +       int int_status[3], i, reg_0d;
+>
+>         if (it6505->enable_drv_hold || !it6505->powered)
+>                 return IRQ_HANDLED;
+> @@ -2550,6 +2583,8 @@ static irqreturn_t it6505_int_threaded_handler(int =
+unused, void *data)
+>                         if (it6505_test_bit(irq_vec[i].bit, (unsigned int=
+ *)int_status))
+>                                 irq_vec[i].handler(it6505);
+>                 }
+> +               if (it6505_is_video_error_int(int_status))
+> +                       it6505_irq_video_error_handler(it6505);
+>         }
+>
+>         pm_runtime_put_sync(dev);
+> --
+> 2.25.1
 >
 
+Regards,
+Pin-yen
