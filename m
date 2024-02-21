@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5C2B85D9FE
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 14:26:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97D4A85DA05
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 14:26:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD36010E73A;
-	Wed, 21 Feb 2024 13:26:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7A0D10E737;
+	Wed, 21 Feb 2024 13:26:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gWVG0AuQ";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EyVD50wP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CF8510E5FE;
- Wed, 21 Feb 2024 13:26:08 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id
- d2e1a72fcca58-6e46dcd8feaso1828315b3a.2; 
- Wed, 21 Feb 2024 05:26:08 -0800 (PST)
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+ [209.85.210.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E96A10E5FE;
+ Wed, 21 Feb 2024 13:26:17 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id
+ d2e1a72fcca58-6e47a104c2eso1244318b3a.2; 
+ Wed, 21 Feb 2024 05:26:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1708521968; x=1709126768; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1708521977; x=1709126777; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
- :reply-to; bh=7WdZMlL2NstZAHt9MPKQqrlpZNmq6hiZjAQCRu2gHes=;
- b=gWVG0AuQ7IixXOiSXEhZMOg/xqg4Wo/7omJIFKeVd84Vr+YJlAglKxRj9XKYIpN0JP
- 0dGDEYWP4oXHQQ6xuNMkxv8fMaFqui0bvvK5X/JC5zpVF5S4s0aDoD/Gqjl5HKxSEX90
- b8zC4EGNbT+6qhyI24aXe5UJ/1n+efhfmmWQYUcz736k8Rktj6i8qcSwUsq7uorQxTfK
- zSjXVs/2oR7Zag+lIQhrbymuAIFpptrM8VueO2Aq8NuGJFZwR4FAyrI051GAkKLrsg0K
- DtA79E3FjUmG0Roqd9BhjAZSegD82eYgqRynF3zoMrepC9pkvU/6SPUoP4G4BIxvvh1d
- Vyqg==
+ :reply-to; bh=GOwKwIo9qeiCkgHyNiwGJN1M6e+EUTE46anx0P12eDw=;
+ b=EyVD50wPVrz8HbgC2UtP82t0sc2ugtM9ih+jWSR1DjsVq3+SJFgPVwI5xZXm6g1+4f
+ dOhZ6SaiZ1lC85GfTQdGJnnntY4dmBpyH4lIL+Zs4G9ofJvL59/xx4MqwjxfTQB5u+b8
+ vC2JK7sf3VhBR/i/Hvum/hBJFGCnIQb9ca2NRDkp70jMOhTiisO5Prlk68vttWvPNjjQ
+ IK2Ne1SqqJzznwx2up0Dxub4RpLAwbGsolhSEQ0ofbAtA0QVID6U9DSa2VeS5HKMH4xF
+ /rW7Gea1wMjF8uj46VQypSM87ghaU90guxXn/hgit777iuZn/4Y+4KlVsgPWaVfGCFlD
+ taGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708521968; x=1709126768;
+ d=1e100.net; s=20230601; t=1708521977; x=1709126777;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7WdZMlL2NstZAHt9MPKQqrlpZNmq6hiZjAQCRu2gHes=;
- b=om58jatz7f7c+ckut2T84+toWy4am6w0Th1Jr1CJ/akXY7ZeKQKpOZ/eAHkYPTAwfb
- 1INz9sn0s/tgVC4+o+fA23SfQaS8RRwkG6wvVlcwiqQhMsMz+QboCbgaILAclIO+XKp5
- 4F4b5vz9Fv3meqGI4mMmd3JDQ2D8AJMBQI5ZkEenSkaWC9ZIG5cLHiELg26+po9fJ9ZE
- jLcy65WaQiTAMlEeNk44cGZa6Vc8PchQPQTqQhqaRVfvLrF1pwelolCdX3Y/Xy6X/vvh
- SMX/dMcEES+4COH0+6RYUkeld/GzXLzygQE5lTMW0bXN2nyVhdQaIapIq4YKCq034ZAC
- z3fQ==
+ bh=GOwKwIo9qeiCkgHyNiwGJN1M6e+EUTE46anx0P12eDw=;
+ b=K+GVpqNMqqzqz1lURMFlf5CrU7HIytFpqLtSpTS9f+fj7O0u5fTu05I6B/oavMJvBf
+ eGKpJ5lTfYXSx1YgEL7VOO7GQwZ0+z/vWWMfTRxTB3AOgCgo+jTgdNbh5rj/+XPGmQ4t
+ feOcnmkYn8yb56+QrBVWZf7V8SLbYYicZz3/5XWP/sbuveJewFxHZCi5CQ1IWeG/CTbO
+ XHgDhs0ah5fqVHg0j+4Q4FL3AhNoWBIh/xyN00QRSRKmYcz4FZr/vww+udRGBInIF3wj
+ 4jwasdSugWbk+LucSV0gR53so5BpTHG5PSqoWzno9XDWc1gb55Xs6c4DiybiszbMwn4j
+ faiQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX4Y10lQl5BkEJ1NOABnxqkztXwE/FbGAxkwroxbjAp9BdEDh7HMUEUnDd0+HElMZzlxiVwqA4ooWE/TXL58qV8lb0F/MzAA8zfxPTBev43kjnbvu6dHYDqmCiUmeBhCVdSVQ6GW6j+jdtA46tHRrs=
-X-Gm-Message-State: AOJu0Yz1XFZUodzBtdpjBY9uCxxj9zBPUH8wy2LctmlYkxRFHStNB7YF
- s7pkmMtO5Ycd5E4l9AtG3KjJ6cWW+v6eBQWyPmOKYT2Ea7pZtXQp
-X-Google-Smtp-Source: AGHT+IFgfVve7IiqOMiET8ReqBSTf0PZGpuUUSOUxAlf0ZKI7g9iOQrLpYHKBMVPCKUI2YjVR4orQA==
-X-Received: by 2002:a62:e10d:0:b0:6e2:9ff2:19b1 with SMTP id
- q13-20020a62e10d000000b006e29ff219b1mr10316723pfh.13.1708521967791; 
- Wed, 21 Feb 2024 05:26:07 -0800 (PST)
+ AJvYcCWlUVejxYlTD7vtYO5HaLlw74luyJ46q/nPSKmmfJ2Ox4+5cTXzc/bAyIyp9Z3lhtjp3yO7KsjLryV4DmqPDpkExi1XWtgtvugf3qpcPxP/MLCC/3y4kAZZyf3w7KjLNOq1pL6sSOoiXVX9d5Hw4OI=
+X-Gm-Message-State: AOJu0Yysfgpw0pbNP6ZKi9it1JsmliF7D5AOg6092S0q9EWN5sydMJAU
+ jyj1X5lVnBWZOW6704EO4v765N4FkMOJOZM4t/bI7ymxACJkSRyk
+X-Google-Smtp-Source: AGHT+IEpqgPN7zDMA7v77khmYtSnsGRumshpqIw6lmoY7DLU+j9Nal0lhvV42JBX7JUxiyCDJ01QUg==
+X-Received: by 2002:a05:6a00:2196:b0:6e4:5dc0:233c with SMTP id
+ h22-20020a056a00219600b006e45dc0233cmr11468603pfi.6.1708521976589; 
+ Wed, 21 Feb 2024 05:26:16 -0800 (PST)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
  by smtp.gmail.com with ESMTPSA id
- a38-20020a056a001d2600b006e4751b964asm1599291pfx.205.2024.02.21.05.26.07
+ n12-20020aa78a4c000000b006e46df9f1acsm5269415pfa.148.2024.02.21.05.26.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Feb 2024 05:26:07 -0800 (PST)
-Date: Wed, 21 Feb 2024 05:26:06 -0800
+ Wed, 21 Feb 2024 05:26:16 -0800 (PST)
+Date: Wed, 21 Feb 2024 05:26:15 -0800
 From: Guenter Roeck <linux@roeck-us.net>
 To: David Gow <davidgow@google.com>
 Cc: Linus Torvalds <torvalds@linux-foundation.org>,
@@ -80,14 +80,15 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  intel-xe@lists.freedesktop.org, linux-rtc@vger.kernel.org,
  linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
  linux-hardening@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH 5/9] rtc: test: Fix invalid format specifier.
-Message-ID: <11e8fe13-3d10-451e-8a31-d273c9d9ea1b@roeck-us.net>
+Subject: Re: [PATCH 6/9] net: test: Fix printf format specifier in
+ skb_segment kunit test
+Message-ID: <1a85d2bf-e38c-4fa7-bfbe-c80148b50317@roeck-us.net>
 References: <20240221092728.1281499-1-davidgow@google.com>
- <20240221092728.1281499-6-davidgow@google.com>
+ <20240221092728.1281499-7-davidgow@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240221092728.1281499-6-davidgow@google.com>
+In-Reply-To: <20240221092728.1281499-7-davidgow@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,34 +104,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 21, 2024 at 05:27:18PM +0800, David Gow wrote:
-> 'days' is a s64 (from div_s64), and so should use a %lld specifier.
+On Wed, Feb 21, 2024 at 05:27:19PM +0800, David Gow wrote:
+> KUNIT_FAIL() accepts a printf-style format string, but previously did
+> not let gcc validate it with the __printf() attribute. The use of %lld
+> for the result of PTR_ERR() is not correct.
 > 
-> This was found by extending KUnit's assertion macros to use gcc's
-> __printf attribute.
+> Instead, use %pe and pass the actual error pointer. printk() will format
+> it correctly (and give a symbolic name rather than a number if
+> available, which should make the output more readable, too).
 > 
-> Fixes: 1d1bb12a8b18 ("rtc: Improve performance of rtc_time64_to_tm(). Add tests.")
+> Fixes: b3098d32ed6e ("net: add skb_segment kunit test")
 > Signed-off-by: David Gow <davidgow@google.com>
 
 Tested-by: Guenter Roeck <linux@roeck-us.net>
 
 > ---
->  drivers/rtc/lib_test.c | 2 +-
+>  net/core/gso_test.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/rtc/lib_test.c b/drivers/rtc/lib_test.c
-> index d5caf36c56cd..225c859d6da5 100644
-> --- a/drivers/rtc/lib_test.c
-> +++ b/drivers/rtc/lib_test.c
-> @@ -54,7 +54,7 @@ static void rtc_time64_to_tm_test_date_range(struct kunit *test)
+> diff --git a/net/core/gso_test.c b/net/core/gso_test.c
+> index 4c2e77bd12f4..358c44680d91 100644
+> --- a/net/core/gso_test.c
+> +++ b/net/core/gso_test.c
+> @@ -225,7 +225,7 @@ static void gso_test_func(struct kunit *test)
 >  
->  		days = div_s64(secs, 86400);
->  
-> -		#define FAIL_MSG "%d/%02d/%02d (%2d) : %ld", \
-> +		#define FAIL_MSG "%d/%02d/%02d (%2d) : %lld", \
->  			year, month, mday, yday, days
->  
->  		KUNIT_ASSERT_EQ_MSG(test, year - 1900, result.tm_year, FAIL_MSG);
+>  	segs = skb_segment(skb, features);
+>  	if (IS_ERR(segs)) {
+> -		KUNIT_FAIL(test, "segs error %lld", PTR_ERR(segs));
+> +		KUNIT_FAIL(test, "segs error %pe", segs);
+>  		goto free_gso_skb;
+>  	} else if (!segs) {
+>  		KUNIT_FAIL(test, "no segments");
 > -- 
 > 2.44.0.rc0.258.g7320e95886-goog
 > 
