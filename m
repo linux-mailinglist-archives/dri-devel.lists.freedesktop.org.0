@@ -2,62 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 117ED85E25E
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 17:02:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EF9085E25F
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Feb 2024 17:02:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F64110E7D8;
-	Wed, 21 Feb 2024 16:02:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76A8F10E7F6;
+	Wed, 21 Feb 2024 16:02:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Or4ga+G+";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="GjlDSs5v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com
- [209.85.221.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0062C10E7D7
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 16:02:31 +0000 (UTC)
-Received: by mail-wr1-f73.google.com with SMTP id
- ffacd0b85a97d-33d7fcb70c2so336568f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 08:02:31 -0800 (PST)
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com
+ [209.85.128.202])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5228F10E7D7
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 16:02:33 +0000 (UTC)
+Received: by mail-yw1-f202.google.com with SMTP id
+ 00721157ae682-60886665c25so11114137b3.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 08:02:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1708531350; x=1709136150;
+ d=google.com; s=20230601; t=1708531352; x=1709136152;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:from:subject:message-id
- :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
- bh=FJVga6C02gm8F+WILMx3neboftdensw7Cuuwer2cEQA=;
- b=Or4ga+G+KQdtfcplzBN8VU++NgbmqMujLlTeHyRP4F/zjwrJYiXTfEuIY81r4Yi+5V
- glCwkfpb+rDZcpePux8YaBf6nwLeaJ3IHGC3fb6Yzltu3Nj2xtgCnpYv+ALFZOau7f17
- HeXFmwH6lN3UJkvQuUJ5fAX4N7jAzeGdDR0RzXWKq/rv2IMCgHIkjDPwce5RnOfDyj22
- fL65ZBOABNFP7T/OAJ5iDl+I9yyppnziphVXCBOTakoQBeY1272+bhv+MKNrfGz4hFho
- gjUnsMQS5zGs8HX9mldYemC65Lf8WyIie/8SuREzQEKnmt5neRQfQOPC4AcPgyGS7EP0
- 6L/A==
+ h=content-transfer-encoding:cc:to:from:subject:message-id:references
+ :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+ :reply-to; bh=pXMOhwD5qEr4jMu4yu+cDm4xZSeU+k4T71jhjLqjWWI=;
+ b=GjlDSs5v4A6YfuzK9rj2Ks6yqUgDPealTHYNMXutX69J9doeSaxh+dLNxU/p9Fj7yG
+ qg3X06GxvjrVn1ejI11eUTCGErl7zB5kgmXyOSge4KCtjsP4I799SOGMPP/LbOFVxvqh
+ u8/JLCttg3etnyJ73CFipruI72ACm0RylVI9DHC229yMbelFGie3/pK3xcL3N8yoXeAi
+ bwwdDBHO1MEzKCVJXYmFguxR1E6b/v2LtcVhe3KVLDPD3X4X3h7/gSETxg1QAeLOKkzh
+ M5aqMb0cuZwpME9XAKVCcu9KVnkAL/AdoZ7U9jvFb2wv00onH5LuCYJOR61NupJis9wN
+ RGYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708531350; x=1709136150;
- h=content-transfer-encoding:cc:to:from:subject:message-id
- :mime-version:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FJVga6C02gm8F+WILMx3neboftdensw7Cuuwer2cEQA=;
- b=cnMhxukY3S6uA4bTMhja+0m57aN1i4cIf4sFQDjMIan+FTkkawenFXerISTU6LJp1+
- H3B2VVqchd4vgaW2bR8a9hj6EtVSS7JwZwSo6oV//6sSqmc6LEDM+kwaXMpFJejKNE8u
- DV18PCG9Lyy+ocXTljSSwvoqmaDnnVko36gfiMTe3L8vs73SnqDbxvOpoOuGAbyMz2W/
- LgwUm5WtKxLcEAEi+EwqeGwXKGLvaofH2F9cM5h0i4eRK3pbCn3DJSacVSoTCAHfl4Kl
- fP+TbBfNVPXJsUTeyaebYswOGw2X3O21OhBKmAZN/5jB1YbByrQsroNiOYpIaBVQPJq+
- 2PPA==
+ d=1e100.net; s=20230601; t=1708531352; x=1709136152;
+ h=content-transfer-encoding:cc:to:from:subject:message-id:references
+ :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=pXMOhwD5qEr4jMu4yu+cDm4xZSeU+k4T71jhjLqjWWI=;
+ b=mjeEb/5fLXI//LdNIHqjDuvz8BOdpMKPNLfXUeOosO7bM5KJEhlbIJd9x5aktS0Kav
+ hSDrRRtoav5YJZURQ3Zr2kJACyqTujozbLOIam6kZu3D+KOoqFTW8lbWB5rBNrsfVFiF
+ vpqDuU18GYuakSymggRGhjzR5EJ5X9nyW4SFffMJLHRbisBXsldS75p9CTtKn0GCyswq
+ +sP+FnWOhSNGOhLlcckeDDEfMqbANiyJcLAEROtmi7r30crGrlXmx4dgadBW6kASVmaL
+ kQ9TjHtUOzPMeCMchLIIeIN9S2pdseLJeVjBVP97INy1ekjjGb9yII2DjSu5EsQSUPQr
+ uATA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVrR/5AOD6J2MtL6qIgGkcHrImcA3S+Yky5kAKrS4IQl1mknV61KfHuslLaORUIARMeIgmFhTx8N1ZAnj+FHA925Y2w78hYj4V5aYkWXULT
-X-Gm-Message-State: AOJu0YwNSLadXDUayGNY9UZeJNBee0QMpdvZ57ufBy9pKA4jh/VaojFb
- vVZkek0gnLqOjEnCs8PHmqHXqQCyUxHeOsDkkr1f9qSKQ2BP+gnMZ+6HkddUQv1Rx3uARby45mS
- t5M4KhzxkcQ==
-X-Google-Smtp-Source: AGHT+IEooKRp2zKGUK2syFgTA3tTV4kAt1EwuYhu4+TtSMP3vQ9G88kPNi9mc3bYpxIMwIx+9Ey3AiIC1zmmfQ==
+ AJvYcCVQomJT8N9Lhlvb+UXuHpHroCkJSxdvmo8sffa4QHMUJugqL3oeZEYq/J1zlh0Z0uj9c9F/wDVcEUrUmymCIIMWVQ/aa3ChT2VyZM73Q2Io
+X-Gm-Message-State: AOJu0YzmX38C5JUPqYsjo4kvtCwFFD8wZ9MjHZXLO2W3LxW1av+oO+ZR
+ Hl28mrnbDJljGIMJVqAW/DD2vAG9hhyer0PysidoEp5opJ62NWVcn2AL5CnUxXG7YeferphHdTR
+ Zd3zlPoWzjQ==
+X-Google-Smtp-Source: AGHT+IEQSmE+pix24dTxLHfotoQgbv1Z0gXzz2ZnjnupyHoB1Vw6PlSxU+BraxbINWyowl3J+NqG5SJCyd+0Bg==
 X-Received: from szatan.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:2d83])
- (user=panikiel job=sendgmr) by 2002:adf:ce90:0:b0:33d:87e6:c960 with SMTP id
- r16-20020adfce90000000b0033d87e6c960mr89wrn.6.1708531350183; Wed, 21 Feb 2024
- 08:02:30 -0800 (PST)
-Date: Wed, 21 Feb 2024 16:02:06 +0000
+ (user=panikiel job=sendgmr) by 2002:a05:690c:a:b0:608:2104:5c64 with SMTP id
+ bc10-20020a05690c000a00b0060821045c64mr2767809ywb.3.1708531352282; Wed, 21
+ Feb 2024 08:02:32 -0800 (PST)
+Date: Wed, 21 Feb 2024 16:02:07 +0000
+In-Reply-To: <20240221160215.484151-1-panikiel@google.com>
 Mime-Version: 1.0
+References: <20240221160215.484151-1-panikiel@google.com>
 X-Mailer: git-send-email 2.44.0.rc0.258.g7320e95886-goog
-Message-ID: <20240221160215.484151-1-panikiel@google.com>
-Subject: [PATCH v2 0/9] Add Chameleon v3 video support
+Message-ID: <20240221160215.484151-2-panikiel@google.com>
+Subject: [PATCH v2 1/9] media: v4l2-subdev: Add a pad variant of
+ .query_dv_timings()
 From: "=?UTF-8?q?Pawe=C5=82=20Anikiel?=" <panikiel@google.com>
 To: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org, 
  daniel@ffwll.ch, dinguyen@kernel.org, hverkuil-cisco@xs4all.nl, 
@@ -85,80 +88,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Google Chameleon v3 is a testing device capable of emulating multiple
-DisplayPort monitors, used for testing purposes.  It is based on an Arria
-10 SoCFPGA.  This patchset adds V4L2 drivers for two IP blocks used in
-the device's FPGA: the Chameleon v3 framebuffer, and the Intel DisplayPort
-RX IP.  The former is a video capture device that takes video signal and
-writes frames into memory, which can be later processed by userspace.
-The latter is a DisplayPort receiver IP from Intel, its datasheet can
-be found at:
-https://www.intel.com/programmable/technical-pdfs/683273.pdf
+Currently, .query_dv_timings() is defined as a video callback without
+a pad argument. This is a problem if the subdevice can have different
+dv timings for each pad (e.g. a DisplayPort receiver with multiple
+virtual channels).
 
-The framebuffer driver is a regular v4l2 capture device driver, while
-the DP RX driver is a v4l2 subdevice driver. In order to avoid code
-duplication, some parts of the DisplayPort code from the DRM subsystem
-were put into headers usable by the DP RX driver. Apart from that, the
-patchset adds a new callback to the internal v4l2 subdevice API to allow
-querying the dv timings of individual video streams of the DP receiver.
+To solve this, add a pad variant of this callback which includes
+the pad number as an argument.
 
-v2 changes:
-  - Add missing includes in dt binding examples
-  - Add version number to intel,dprx compatible
-  - Use generic node names in dts
-  - Add and document IP configuration parameters
-  - Remove IRQ registers from intel-dprx (they're not a part of the IP)
-  - Remove no-endpoint property and check for "port" node instead
+Signed-off-by: Pawe=C5=82 Anikiel <panikiel@google.com>
+---
+ drivers/media/v4l2-core/v4l2-subdev.c | 11 +++++++++++
+ include/media/v4l2-subdev.h           |  5 +++++
+ 2 files changed, 16 insertions(+)
 
-Pawe=C5=82 Anikiel (9):
-  media: v4l2-subdev: Add a pad variant of .query_dv_timings()
-  media: Add Chameleon v3 framebuffer driver
-  drm/dp_mst: Move DRM-independent structures to separate header
-  lib: Move DisplayPort CRC functions to common lib
-  drm/display: Add mask definitions for DP_PAYLOAD_ALLOCATE_* registers
-  media: intel: Add Displayport RX IP driver
-  media: dt-bindings: Add Chameleon v3 framebuffer
-  media: dt-bindings: Add Intel Displayport RX IP
-  ARM: dts: chameleonv3: Add video device nodes
-
- .../bindings/media/google,chv3-fb.yaml        |   67 +
- .../devicetree/bindings/media/intel,dprx.yaml |  160 ++
- .../socfpga/socfpga_arria10_chameleonv3.dts   |  152 ++
- drivers/gpu/drm/display/Kconfig               |    1 +
- drivers/gpu/drm/display/drm_dp_mst_topology.c |   76 +-
- drivers/media/platform/Kconfig                |    1 +
- drivers/media/platform/Makefile               |    1 +
- drivers/media/platform/google/Kconfig         |    3 +
- drivers/media/platform/google/Makefile        |    2 +
- .../media/platform/google/chameleonv3/Kconfig |   13 +
- .../platform/google/chameleonv3/Makefile      |    3 +
- .../platform/google/chameleonv3/chv3-fb.c     |  895 +++++++
- drivers/media/platform/intel/Kconfig          |   12 +
- drivers/media/platform/intel/Makefile         |    1 +
- drivers/media/platform/intel/intel-dprx.c     | 2176 +++++++++++++++++
- drivers/media/v4l2-core/v4l2-subdev.c         |   11 +
- include/drm/display/drm_dp.h                  |    9 +-
- include/drm/display/drm_dp_mst.h              |  238 ++
- include/drm/display/drm_dp_mst_helper.h       |  232 +-
- include/linux/crc-dp.h                        |   10 +
- include/media/v4l2-subdev.h                   |    5 +
- lib/Kconfig                                   |    8 +
- lib/Makefile                                  |    1 +
- lib/crc-dp.c                                  |   78 +
- 24 files changed, 3851 insertions(+), 304 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/google,chv3-fb.=
-yaml
- create mode 100644 Documentation/devicetree/bindings/media/intel,dprx.yaml
- create mode 100644 drivers/media/platform/google/Kconfig
- create mode 100644 drivers/media/platform/google/Makefile
- create mode 100644 drivers/media/platform/google/chameleonv3/Kconfig
- create mode 100644 drivers/media/platform/google/chameleonv3/Makefile
- create mode 100644 drivers/media/platform/google/chameleonv3/chv3-fb.c
- create mode 100644 drivers/media/platform/intel/intel-dprx.c
- create mode 100644 include/drm/display/drm_dp_mst.h
- create mode 100644 include/linux/crc-dp.h
- create mode 100644 lib/crc-dp.c
-
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-cor=
+e/v4l2-subdev.c
+index 4c6198c48dd6..11f865dd19b4 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -389,6 +389,16 @@ static int call_enum_dv_timings(struct v4l2_subdev *sd=
+,
+ 	       sd->ops->pad->enum_dv_timings(sd, dvt);
+ }
+=20
++static int call_query_dv_timings(struct v4l2_subdev *sd, unsigned int pad,
++				 struct v4l2_dv_timings *timings)
++{
++	if (!timings)
++		return -EINVAL;
++
++	return check_pad(sd, pad) ? :
++	       sd->ops->pad->query_dv_timings(sd, pad, timings);
++}
++
+ static int call_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad,
+ 				struct v4l2_mbus_config *config)
+ {
+@@ -489,6 +499,7 @@ static const struct v4l2_subdev_pad_ops v4l2_subdev_cal=
+l_pad_wrappers =3D {
+ 	.set_edid		=3D call_set_edid,
+ 	.dv_timings_cap		=3D call_dv_timings_cap,
+ 	.enum_dv_timings	=3D call_enum_dv_timings,
++	.query_dv_timings	=3D call_query_dv_timings,
+ 	.get_frame_desc		=3D call_get_frame_desc,
+ 	.get_mbus_config	=3D call_get_mbus_config,
+ };
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index a9e6b8146279..dc8963fa5a06 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -797,6 +797,9 @@ struct v4l2_subdev_state {
+  * @enum_dv_timings: callback for VIDIOC_SUBDEV_ENUM_DV_TIMINGS() ioctl ha=
+ndler
+  *		     code.
+  *
++ * @query_dv_timings: same as query_dv_timings() from v4l2_subdev_video_op=
+s,
++ *		      but with additional pad argument.
++ *
+  * @link_validate: used by the media controller code to check if the links
+  *		   that belongs to a pipeline can be used for stream.
+  *
+@@ -868,6 +871,8 @@ struct v4l2_subdev_pad_ops {
+ 			      struct v4l2_dv_timings_cap *cap);
+ 	int (*enum_dv_timings)(struct v4l2_subdev *sd,
+ 			       struct v4l2_enum_dv_timings *timings);
++	int (*query_dv_timings)(struct v4l2_subdev *sd, unsigned int pad,
++				struct v4l2_dv_timings *timings);
+ #ifdef CONFIG_MEDIA_CONTROLLER
+ 	int (*link_validate)(struct v4l2_subdev *sd, struct media_link *link,
+ 			     struct v4l2_subdev_format *source_fmt,
 --=20
 2.44.0.rc0.258.g7320e95886-goog
 
