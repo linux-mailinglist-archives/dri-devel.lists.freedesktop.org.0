@@ -2,40 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8386885FF7B
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 18:35:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6519C85FF6F
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 18:32:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C5B710E9CF;
-	Thu, 22 Feb 2024 17:35:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 407D310E9C2;
+	Thu, 22 Feb 2024 17:32:30 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MN/uiAI4";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ms7.webland.ch (ms7.webland.ch [92.43.217.107])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BF1310E9CD;
- Thu, 22 Feb 2024 17:35:10 +0000 (UTC)
-Received: from kaveri ([213.144.156.170])
- by ms7.webland.ch (12.3.0 build 2 x64) with ASMTP (SSL) id
- 01202402221828222448; Thu, 22 Feb 2024 18:28:22 +0100
-Received: from daenzer by kaveri with local (Exim 4.97)
- (envelope-from <michel@daenzer.net>) id 1rdCrt-000000004Ox-1AJZ;
- Thu, 22 Feb 2024 18:28:21 +0100
-From: =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>
-Cc: amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/amdgpu: Refuse non-P2P dma-buf attachments for BOs
- with KMS FBs
-Date: Thu, 22 Feb 2024 18:28:20 +0100
-Message-ID: <20240222172821.16901-3-michel@daenzer.net>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240222172821.16901-1-michel@daenzer.net>
-References: <20240222172821.16901-1-michel@daenzer.net>
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com
+ [209.85.128.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 650DF10E9C3
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 17:32:28 +0000 (UTC)
+Received: by mail-yw1-f177.google.com with SMTP id
+ 00721157ae682-60495209415so80048627b3.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 09:32:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1708623147; x=1709227947; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=uHYuztdiqcnoWxT8IYhA0vORd3mYh+h0ETbBCJU2hFs=;
+ b=MN/uiAI4inwFB6j9UXVTSf3vdW8CTMsHKA1Bav9YMrPZ4hm1L5Qw292JsoGFvW4DhR
+ nvHPaKir1vA6z/g8D1kPcDRdwp1H074lfMU4bhonyjJNV5LH5vakLUbowtCSBzjcIrCP
+ lTOP5WKblaCWps1Q4FujD9qLF6WwdV0c9uV9vUXo7rnMnHvsdkahq0FEI/zhsz3ytTKU
+ qjSwx5OsFjjh3W/n11ehpk6nWFZ/gDXM40yryYGp2uv/sC2JN0p1M7zgO5C8S9uNw8TU
+ ovPnnkthKq49IHRGu4aQNNpOx2yHEcNwDWwSIkHM+gYlYZMsrzUauVSIBzY87X60jAGt
+ UsSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708623147; x=1709227947;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=uHYuztdiqcnoWxT8IYhA0vORd3mYh+h0ETbBCJU2hFs=;
+ b=m5+g1VbP8SU4F5ShuvuXHFDHjCtQ5P5o4vXd4VphWHE6/44OOzS9hq8BhqWMx0WlMj
+ U3TktpsoIa1wCBGj1E5JbR/zIcQXtI7BjwyuuSEWRTCajW4lrdmNWadYJtFY68tGj2RW
+ yDTZwraNCacdc04kaUJz6LwEvaJ2hfEu3mvq8/WQ7Z7vLydC7JvUQjWycr78IMubL0rU
+ yKzxPCh+/geC4RibirXApDPbNNid4iezVTcLbFxvJTbNNtLKrj/oQd2f9ZNCHGXg8Gkw
+ +z4LVqqvZjF0XXMlOvFzhmjxolt0SXvX4ri9Iye4gXzWDqjRiEjVcPNOg+hzx8Qp/dSr
+ izFg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW9LjHOAzYLlqrGX3vsnt5J4Ar3yzUEY9JpN7Zfr6HuK/6rzmnyD45/UisZqfqAi8119ZAc83oclG0UpkXXH9XcEoSggoxPtx8KqBI6jGye
+X-Gm-Message-State: AOJu0YxvKx8C0w/TcCauKv/dctn7k6nhVH3ettQc3/u+qsVlqIG3VPMo
+ o+3yUIq/IK+oapA0smUMGH2GhMnAwAYbftkJBGgpQItRp9sE6iUXvhqI7/X0imt85sZ70YYf4bA
+ /cl9Ob0rVYR7U9Y5N6rQ/1mW6/sXTcrVpCu0Egw==
+X-Google-Smtp-Source: AGHT+IEChpsE7RSvYtvlDilze7tlEfcebE5fWeV9v6TUsqyy6KJBLB0hOKOdzrs9KYPLmaKn2wbmU4LNaaPxNFAv0eU=
+X-Received: by 2002:a81:6c0f:0:b0:608:7488:8691 with SMTP id
+ h15-20020a816c0f000000b0060874888691mr6826857ywc.38.1708623147287; Thu, 22
+ Feb 2024 09:32:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CTCH: RefID="str=0001.0A782F18.65D78437.004B,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0";
- Spam="Unknown"; VOD="Unknown"
+References: <20240221-rb3gen2-dp-connector-v1-0-dc0964ef7d96@quicinc.com>
+ <20240221-rb3gen2-dp-connector-v1-3-dc0964ef7d96@quicinc.com>
+ <CAA8EJpo=9vhM+5YzaFxUoYRuEWQyrMS8wLNPSF3K=bN5JwWyDw@mail.gmail.com>
+ <8313a7c3-3ace-4dee-ad27-8f51a06cd58c@linaro.org>
+ <CAA8EJpqFj5nf8d_=Uoup7qg+nQrxqQU-DHbL3uSP138m9AcXLw@mail.gmail.com>
+ <8fcb5816-2d59-4e27-ba68-8e0ed6e7d839@linaro.org>
+ <CAA8EJporaUuddHHqpyYHiYSu=toHmrDxSHf9msZUJoym4Nz72g@mail.gmail.com>
+ <20240222150423.GI2936378@hu-bjorande-lv.qualcomm.com>
+In-Reply-To: <20240222150423.GI2936378@hu-bjorande-lv.qualcomm.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 22 Feb 2024 19:32:15 +0200
+Message-ID: <CAA8EJpqd=1KV_dN8AURQDcFDDyO+YtbC59gM7ftt+HohGM93hg@mail.gmail.com>
+Subject: Re: [PATCH 3/9] arm64: dts: qcom: sc7280: Enable MDP turbo mode
+To: Bjorn Andersson <quic_bjorande@quicinc.com>
+Cc: Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Douglas Anderson <dianders@chromium.org>, 
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ cros-qcom-dts-watchers@chromium.org, 
+ Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,103 +94,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michel Dänzer <mdaenzer@redhat.com>
+On Thu, 22 Feb 2024 at 17:04, Bjorn Andersson <quic_bjorande@quicinc.com> wrote:
+>
+> On Thu, Feb 22, 2024 at 11:46:26AM +0200, Dmitry Baryshkov wrote:
+> > On Thu, 22 Feb 2024 at 11:28, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
+> > >
+> > >
+> > >
+> > > On 2/22/24 10:04, Dmitry Baryshkov wrote:
+> > > > On Thu, 22 Feb 2024 at 10:56, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
+> > > >>
+> > > >>
+> > > >>
+> > > >> On 2/22/24 00:41, Dmitry Baryshkov wrote:
+> > > >>> On Thu, 22 Feb 2024 at 01:19, Bjorn Andersson <quic_bjorande@quicinc.com> wrote:
+> > > >>>>
+> > > >>>> The max frequency listed in the DPU opp-table is 506MHz, this is not
+> > > >>>> sufficient to drive a 4k@60 display, resulting in constant underrun.
+> > > >>>>
+> > > >>>> Add the missing MDP_CLK turbo frequency of 608MHz to the opp-table to
+> > > >>>> fix this.
+> > > >>>
+> > > >>> I think we might want to keep this disabled for ChromeOS devices. Doug?
+> > > >>
+> > > >> ChromeOS devices don't get a special SoC
+> > > >
+> > > > But they have the sc7280-chrome-common.dtsi, which might contain a
+> > > > corresponding /delete-node/ .
+> > >
+> > > What does that change? The clock rates are bound to the
+> > > SoC and the effective values are limited by link-frequencies
+> > > or the panel driver.
+> >
+> > Preventing the DPU from overheating? Or spending too much power?
+> >
+>
+> Perhaps I'm misunderstanding the implementation then, are we always
+> running at the max opp? I thought the opp was selected based on the
+> current need for performance?
 
-Pinning the BO storage to VRAM for scanout would make it inaccessible
-to non-P2P dma-buf importers.
+Yes. My concern was whether the Chrome people purposely skipped this
+top/turbo freq for any reason. In such a case, surprising them by
+adding it to all platforms might be not the best idea. I hope Doug can
+comment here.
 
-Also keep file_priv->prime.lock locked until after bumping bo->num_fbs
-in amdgpu_display_user_framebuffer_create, so that the checks there and
-in amdgpu_dma_buf_attach are always consistent with each other.
 
-Signed-off-by: Michel Dänzer <mdaenzer@redhat.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 20 ++++++++++++--------
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 11 +++++++++++
- 2 files changed, 23 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-index 89bda2a2baf58..2afe5558ba895 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-@@ -1251,6 +1251,7 @@ amdgpu_display_user_framebuffer_create(struct drm_device *dev,
- {
- 	struct amdgpu_framebuffer *amdgpu_fb;
- 	struct drm_gem_object *obj;
-+	bool prime_locked = false;
- 	struct amdgpu_bo *bo;
- 	uint32_t domains;
- 	int ret;
-@@ -1270,6 +1271,7 @@ amdgpu_display_user_framebuffer_create(struct drm_device *dev,
- 		bool can_pin = true;
- 
- 		mutex_lock(&file_priv->prime.lock);
-+		prime_locked = true;
- 
- 		/* Handle is imported dma-buf, so cannot be migrated to VRAM for scanout */
- 		if (obj->import_attach) {
-@@ -1293,29 +1295,31 @@ amdgpu_display_user_framebuffer_create(struct drm_device *dev,
- 			dma_resv_unlock(dmabuf->resv);
- 		}
- 
--		mutex_unlock(&file_priv->prime.lock);
--
- 		if (!can_pin) {
--			drm_gem_object_put(obj);
--			return ERR_PTR(-EINVAL);
-+			amdgpu_fb = ERR_PTR(-EINVAL);
-+			goto out;
- 		}
- 	}
- 
- 	amdgpu_fb = kzalloc(sizeof(*amdgpu_fb), GFP_KERNEL);
- 	if (amdgpu_fb == NULL) {
--		drm_gem_object_put(obj);
--		return ERR_PTR(-ENOMEM);
-+		amdgpu_fb = ERR_PTR(-ENOMEM);
-+		goto out;
- 	}
- 
- 	ret = amdgpu_display_gem_fb_verify_and_init(dev, amdgpu_fb, file_priv,
- 						    mode_cmd, obj);
- 	if (ret) {
- 		kfree(amdgpu_fb);
--		drm_gem_object_put(obj);
--		return ERR_PTR(ret);
-+		amdgpu_fb = ERR_PTR(ret);
-+		goto out;
- 	}
- 
- 	atomic_inc(&bo->num_fbs);
-+
-+out:
-+	if (prime_locked)
-+		mutex_unlock(&file_priv->prime.lock);
- 	drm_gem_object_put(obj);
- 	return &amdgpu_fb->base;
- }
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-index decbbe3d4f06e..275d34898284d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-@@ -63,6 +63,17 @@ static int amdgpu_dma_buf_attach(struct dma_buf *dmabuf,
- 	if (pci_p2pdma_distance(adev->pdev, attach->dev, false) < 0)
- 		attach->peer2peer = false;
- 
-+	if ((!IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY) || !attach->peer2peer) &&
-+	    atomic_read(&bo->num_fbs) > 0) {
-+		uint32_t domains = amdgpu_display_supported_domains(adev, bo->flags);
-+
-+		if (!(domains & AMDGPU_GEM_DOMAIN_GTT)) {
-+			drm_dbg_prime(adev_to_drm(adev),
-+				      "Cannot attach to BO with KMS FBs without P2P\n");
-+			return -EINVAL;
-+		}
-+	}
-+
- 	r = pm_runtime_get_sync(adev_to_drm(adev)->dev);
- 	trace_amdgpu_runpm_reference_dumps(1, __func__);
- 	if (r < 0)
 -- 
-2.43.0
-
+With best wishes
+Dmitry
