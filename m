@@ -2,149 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E1778605BA
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 23:33:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DB7F860646
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 00:12:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55E1810EAA5;
-	Thu, 22 Feb 2024 22:33:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F06D510EAB1;
+	Thu, 22 Feb 2024 23:11:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ml1ldaw2";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="RcxIG+OR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13C4410EAA4;
- Thu, 22 Feb 2024 22:33:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708641215; x=1740177215;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=j7qvCrd+Qp4a5AJMa1zadJqPcLFmdSkyknsE0qMuuww=;
- b=Ml1ldaw2rm+gmh4whivE3am+AMhauYjVrzirm7+RQdrvh1LcERQzoNpP
- 7qKM5SPI7gnhylAJtyeSIU4KXb2i5Rd5vNIH2jSe1tD8y4FbqXEw82LzU
- zbT1IcH44cO4j3H6JS9pXh0txexqbS1+oIGKEMpU0gehmFOnAQZMI/a+w
- Ls/vEs0nWN2+kvO1iy0aB1VMSHqzIEOShV1H8Mz7TG640ZiPWDPk8fhH9
- 6fV0Be11+HQOVyKcLJK5k53kr+DRsbQmv0B+N+vKfpgJKKNPPB07TMVg6
- H9q7GrkOqpZQ1O10HGAR180ePPStHRumQ7c3oUKEBc5OeYuAF/XpaSv2A w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="3015074"
-X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="3015074"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2024 14:33:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; d="scan'208";a="10321965"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orviesa003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 22 Feb 2024 14:33:34 -0800
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 22 Feb 2024 14:33:33 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Thu, 22 Feb 2024 14:33:33 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 22 Feb 2024 14:33:32 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IdnsGFs3J1+sw12NYXZCgy/7jAukIzSj/ZPZOr2g3e5363mFhFaLKqmfD+MVjAb3BEgtomLNXEhTyMo4lToSIS36YO8QucCqtriJxZujzXOvw8ci2UqtF9QKz2XlYxTIIhxz/SteyhWIt0HIAndgoSjfAtoQcO6EN6pI8DGQpwVm/67FZIBcic9CJp8cyCc4wgnajtq66hSl+wSWdvSaBvIxd5Z0EviRNVPluYrkJ2NBsAJf7qv+OMy2/o4iTy74uY9yxuXzcm/9hEAZdS/D4AkPxjIZpgwvFo1rs3Dal2GckA1uIDjanTBPV24dve7re5J+bXCyCcKoPZIRVdYMuw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BntB1V7dOTQxKfg1OVQUQ07pHkIP1dMiWufimAwoCbM=;
- b=a4hP6by8dqK9wXk13yyW1YlQqidluqwwbQXNrhTsAXT/eUA+HoQYDflRrHK/aGNMP7PN1z+Rg+E0EkiXci3Vn3Z+uYXlQp9zT+tH0UldQ7B8hL6U+Eb6JY9XZ8FWtUDM3nG8/K+Soqn1QOE8G5UZ33qxWzImMUD58ZiaCoIsbr+wX8E+ubsU1Ncm2BLZgidBnsRwySfA64yfKCgGbb+0FhmdsCdg+GUcDYTkbIj5cTvEHPEAoDWqHSTuNmtqh3yGQjorColCZgHlP+qMkKddPuWysOAthRjQlswresX/DJ6vhwapVGRp2lvdMdSalegd/eNvXZQh4ED0gJrK+tXDwA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CH3PR11MB8185.namprd11.prod.outlook.com (2603:10b6:610:159::12)
- by SA2PR11MB4825.namprd11.prod.outlook.com (2603:10b6:806:111::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.39; Thu, 22 Feb
- 2024 22:33:30 +0000
-Received: from CH3PR11MB8185.namprd11.prod.outlook.com
- ([fe80::c59:e321:133a:3515]) by CH3PR11MB8185.namprd11.prod.outlook.com
- ([fe80::c59:e321:133a:3515%5]) with mapi id 15.20.7316.023; Thu, 22 Feb 2024
- 22:33:30 +0000
-Date: Thu, 22 Feb 2024 14:33:27 -0800
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-CC: intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel
- <dri-devel@lists.freedesktop.org>, Chris Wilson
- <chris.p.wilson@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, John Harrison <John.C.Harrison@intel.com>, 
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, <stable@vger.kernel.org>,
- Andi Shyti <andi.shyti@kernel.org>
-Subject: Re: [PATCH v2 2/2] drm/i915/gt: Enable only one CCS for compute
- workload
-Message-ID: <20240222223327.GP718896@mdroper-desk1.amr.corp.intel.com>
-References: <20240220143526.259109-1-andi.shyti@linux.intel.com>
- <20240220143526.259109-3-andi.shyti@linux.intel.com>
- <20240220233918.GG5347@mdroper-desk1.amr.corp.intel.com>
- <ZdU_4okr8GcSpTtm@ashyti-mobl2.lan>
- <20240221205104.GM718896@mdroper-desk1.amr.corp.intel.com>
- <ZdfEr2AyPNaq2Xh_@ashyti-mobl2.lan>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <ZdfEr2AyPNaq2Xh_@ashyti-mobl2.lan>
-X-ClientProxiedBy: BYAPR03CA0021.namprd03.prod.outlook.com
- (2603:10b6:a02:a8::34) To CH3PR11MB8185.namprd11.prod.outlook.com
- (2603:10b6:610:159::12)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66B1510EAB4;
+ Thu, 22 Feb 2024 23:11:57 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 41MMxZ7S009924; Thu, 22 Feb 2024 23:11:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=zxph8GCVePXqXCuKYQIlzmAhEzeCXIEAYRIYcF/Siyg=; b=Rc
+ xIG+OR1yNjlQPDz3/gP43QPn7dG/4fjQhYUewcAdNX7qvYrp+RDAcWXTOOVxlRrj
+ XDWmIw3pBMQQeEBgUHEWvXWr/dZWILomtTBsmmZG+W4N5JPv4R3KhlKd/gjxoxOy
+ x0xSP8l7RylGv13SlLreJUIn1HuNT9UiN9xcm8zXrbkCzfPSiWl0YJpFPqdFoR1d
+ i9eIK/PDI7cSjH7s1ysBlK0DomBDvcwHHa3pCFBumQuyKh8DMfQsb8TsL86qDWiZ
+ KGC0dWBinw9HDFZ11NDUJ9qpPg9gET7koW+2cXSrTqoyAOyR4PGUSQR7f6GkMV+T
+ Mvng6dh9WfvolhwSDSUg==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3we2kf9pms-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 Feb 2024 23:11:55 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41MNBsKt013024
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 Feb 2024 23:11:54 GMT
+Received: from [10.71.111.96] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 22 Feb
+ 2024 15:11:53 -0800
+Message-ID: <733ce21f-e9f4-40a1-1dd6-3bb47075d2d2@quicinc.com>
+Date: Thu, 22 Feb 2024 15:11:53 -0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8185:EE_|SA2PR11MB4825:EE_
-X-MS-Office365-Filtering-Correlation-Id: adff819f-17e3-484c-1caa-08dc33f64b56
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XVv6oc0F6Z46PoLCEsZhnF7H1QA9Yw1mnCikeDhb57bgTa5N+wSE+m0DGpoGxG9VsJBSvjQn9Mmd/+bXGixukWdTFcptEMuHOJfKSPj9SRvSnrkQFul3UdezEH2SvOgDDPs21CF8RzqV+XtxaKoh4kJEYY4jSOLrz/DSZOdRFm9vxUYRPPc4lgpXJ47BN5aEjWngJCAeFJZnLdm+Z4CrQ9fr14PbUkYv7QAtggzJYNsgGu/dJVZdW1fLeJaHiCIMLXFZmKFYHIh7a7xTHPirY+mjlwUCiHi0aPyqnJBcRP2vd5JRwUd5zIzUwPO8bJSTTJOgT7LDckzJEonT/lFuleAKV/T4XMIPl+ZrQSM4HX2oH5vOy68UM0l9zxLM4xOvPvd4AE/e0igPs+1j3/94Ik+V7CD0IESizj7PvJhzCYAd+cVnx2TslVOvXXG0U4oQwmkawLC9YF2b61UJfs3rbHOofczCzzkRBOlbO5k4bmWQlfFtbjEEZfH33bgHzuqi7KqCyJ4d0w/bAxydEjLnl1KF6jgm+b94ihxxxYKSMyA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH3PR11MB8185.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?lSTIfkJnXyB0E+eTqLuWnsxs1t9KltFCvKsgubMDJCURoFvWKW2nRYyHdkb+?=
- =?us-ascii?Q?SoJ8pg8SCL35IYp9EYJSf/nZxgzpCBRpmL7ChZWpjbVpUn9FiKApvOC8tgo0?=
- =?us-ascii?Q?4WduW2MqBmX8xjAw++m1T/4b03/Tpk4qFhaDP7FKwqC7wXjDQGv+IziYoGaB?=
- =?us-ascii?Q?3Scv6OqUuoNSiB180UL/UdPH8oPvITiM554U5i+WQESANCH/L/x1b3UbsAzL?=
- =?us-ascii?Q?5W3R1eLMCvbMpqLCDHdMsU7iqORYxA1zzRHhOs7h02Crnq6lS3vdFZCSMrDa?=
- =?us-ascii?Q?8F+Wz3/ENy91Ax94af4HeL02mwjqUjCqEwPDRrjqzO2S1xBYMeaFz2LJF056?=
- =?us-ascii?Q?kriBi4QaVdqOgjgWDUBVaOjQA/s6jLrjw8ZYFzkl6bA/mwbyfAAwNRDG0NGY?=
- =?us-ascii?Q?MfXlnTWbjEsVUjL9M7dheV2+0SuAio18UGZbUBgzcCdTfKUypABFgODJzOg4?=
- =?us-ascii?Q?YSHjE/9Bbfh0JPFP7W9cLRWMoPCEAVss3WFqJFGW/Koi2s+ke3hZFxAP9Oao?=
- =?us-ascii?Q?O0gxGqs7nW76iBFL8yPK/CAt6RYMEcd/d7CE8ZmROMQVCbbnwI82mvHFnxTY?=
- =?us-ascii?Q?6idpXaJDFEsORlPScnMYhk8wkNGCv3HumXoWq69LrKb7O2OhsqXkYaObX/QL?=
- =?us-ascii?Q?3ClRrJ7cZsijQ0q7X6o66q4uV5wyiW5NLNMujd8J/wR8Q09l53Zj+bHSRDJ8?=
- =?us-ascii?Q?kfcUNUYQhSLMoMKtvUyrCJE4/1QFFYigaUocW2yQp/odzBsWP3aEBQ8wfBZW?=
- =?us-ascii?Q?thmK2bDpyI7R/7a5btewqTtM5A+GU7Ccl+lZzTMe6JPqpGpXt6RM7TJvKQ9E?=
- =?us-ascii?Q?CUtipEXZSv34SrN7Za60ApNPY9vQ6hkK597ZrGVDOxWmzU2g8PWtzEqlfiCx?=
- =?us-ascii?Q?XvLukXufd3D8gcNMfjvzJ8L52uWWRsyi1OQMe5BJteAI5vmjr71l0638L0M2?=
- =?us-ascii?Q?AY8/pj76DZmdUukdkUmwYNSzTZSI6mbcGn6pgmT/qPm8rLAVT39LKvpxDleV?=
- =?us-ascii?Q?Eqm4VNkMWjZe7+68gWD6C6Otbcmyp4ibmbHGU5jXqSA5US2FiMax0mQbO++0?=
- =?us-ascii?Q?bpCiz6fYENivn1k7cvqjqtTWW+LKjjkPfTQUVhSmniuiY77yjBHGJq9oZGXf?=
- =?us-ascii?Q?sB9UL3pVfaE6grhkuhq1hV2zXgepx1IEtCOEkf49TnkFv4ilua5PauoI+z20?=
- =?us-ascii?Q?ktHveCtfnJwMEx3kH9k/VG1d7mSNdHna0WDOMK0C8M6G8AOkhZA6Kj7jgq+V?=
- =?us-ascii?Q?3TUJ59ixfnRHQBGPfXl/Yxu9wxsiu2zdEKMcGWYpJNNdjQ2Fq2EVtWNGHGeY?=
- =?us-ascii?Q?Z2viDshJZ4KKyD3dn3XNgVDXVork+DtHnkl36j0wEfihnH4/8+n9nZTCKGIX?=
- =?us-ascii?Q?0ehzWk6yjLcLWsYCWoeJlBdxX+lmfSuQwY+zYIZIvqwBW/NUBgi+RvO8jLP1?=
- =?us-ascii?Q?5BOalCBj97PlQru2/tTtE/wiALznDMS0+T7FJj5/Nei3YUCtQlleTS2IXEHZ?=
- =?us-ascii?Q?mDwf09mFlCRDtJ94/0tHlRC+BrBCIk+tETu901074YwQ2KB9oyZ+5nQgdfZX?=
- =?us-ascii?Q?mLrTWLOAWM0wMp5mCvVLB0l6MAHE6z23M6/hteVLjr1ANgiDM1Jc5P8FI/bW?=
- =?us-ascii?Q?2Q=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: adff819f-17e3-484c-1caa-08dc33f64b56
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8185.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2024 22:33:30.0822 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 21aVyDUi7dI3QBlOQaBL70zErxRAswOuap3QxU23guDCnM9wOyKf7yn6evpcltCbDN8DAlZrXJTsAESSXEVrwgB+Cjk3oMe2acESPLaqInk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4825
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v5 13/19] drm/msm/dp: add VSC SDP support for YUV420 over
+ DP
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: <freedreno@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
+ <seanpaul@chromium.org>, <swboyd@chromium.org>,
+ <quic_abhinavk@quicinc.com>, <quic_jesszhan@quicinc.com>,
+ <quic_khsieh@quicinc.com>, <marijn.suijten@somainline.org>,
+ <neil.armstrong@linaro.org>
+References: <20240222194025.25329-1-quic_parellan@quicinc.com>
+ <20240222194025.25329-14-quic_parellan@quicinc.com>
+ <CAA8EJpoYwxzg=tNSYVMATZDTEML72+HHYDDcDyG3i2pFbuwCTg@mail.gmail.com>
+ <39824013-0ec5-8198-6cfb-4c23e1136047@quicinc.com>
+ <CAA8EJppUNem3CwhrmmBD0DBQfVK6CZOh-QkBXRhW4EBt89+Gyg@mail.gmail.com>
+From: Paloma Arellano <quic_parellan@quicinc.com>
+In-Reply-To: <CAA8EJppUNem3CwhrmmBD0DBQfVK6CZOh-QkBXRhW4EBt89+Gyg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: tahiTRj4wgVJvGv5HsfCurAbHLYnVMKF
+X-Proofpoint-GUID: tahiTRj4wgVJvGv5HsfCurAbHLYnVMKF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-22_15,2024-02-22_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=0
+ mlxscore=0 suspectscore=0 phishscore=0 clxscore=1015 malwarescore=0
+ lowpriorityscore=0 spamscore=0 bulkscore=0 priorityscore=1501
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2402220178
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,149 +99,440 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 22, 2024 at 11:03:27PM +0100, Andi Shyti wrote:
-> Hi Matt,
-> 
-> first of all thanks a lot for the observations you are raising.
-> 
-> On Wed, Feb 21, 2024 at 12:51:04PM -0800, Matt Roper wrote:
-> > On Wed, Feb 21, 2024 at 01:12:18AM +0100, Andi Shyti wrote:
-> > > On Tue, Feb 20, 2024 at 03:39:18PM -0800, Matt Roper wrote:
-> > > > On Tue, Feb 20, 2024 at 03:35:26PM +0100, Andi Shyti wrote:
-> 
-> ...
-> 
-> > > > > diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-> > > > > index a425db5ed3a2..e19df4ef47f6 100644
-> > > > > --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> > > > > +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> > > > > @@ -168,6 +168,14 @@ static void init_unused_rings(struct intel_gt *gt)
-> > > > >  	}
-> > > > >  }
-> > > > >  
-> > > > > +static void intel_gt_apply_ccs_mode(struct intel_gt *gt)
-> > > > > +{
-> > > > > +	if (!IS_DG2(gt->i915))
-> > > > > +		return;
-> > > > > +
-> > > > > +	intel_uncore_write(gt->uncore, XEHP_CCS_MODE, 0);
-> > > > 
-> > > > This doesn't look right to me.  A value of 0 means every cslice gets
-> > > > associated with CCS0.
-> > > 
-> > > Yes, that's what I'm trying to do. The behavior I'm looking for
-> > > is this one:
-> > > 
-> > > 	 /*
-> > > 	  ...
-> > >           * With 1 engine (ccs0):
-> > >           *   slice 0, 1, 2, 3: ccs0
-> > >           *
-> > >           * With 2 engines (ccs0, ccs1):
-> > >           *   slice 0, 2: ccs0
-> > >           *   slice 1, 3: ccs1
-> > >           *
-> > >           * With 4 engines (ccs0, ccs1, ccs2, ccs3):
-> > >           *   slice 0: ccs0
-> > >           *   slice 1: ccs1
-> > >           *   slice 2: ccs2
-> > >           *   slice 3: ccs3
-> > > 	  ...
-> > > 	  */
-> > > 
-> > > where the user can configure runtime the mode, making sure that
-> > > no client is connected to i915.
-> > > 
-> > > But, this needs to be written 
-> > > 
-> > > As we are now forcing mode '1', then all cslices are connected
-> > > with ccs0.
-> > 
-> > Right --- and that's what I'm pointing out as illegal.  I think that
-> > code comment above was taken out of context from a different RFC series;
-> > that's not an accurate description of the behavior we want here.
-> > 
-> > First, the above comment is using ccs# to refer to userspace engines,
-> > not hardware engines.  As a simple example, DG2-G11 only ever has a
-> > single CCS which userspace sees as "instance 0" but which is actually
-> > CCS1 at the hardware level.  If you try to follow the comment above when
-> > programming CCS_MODE, you've assigned all of the cslices to a
-> > non-existent engine and assigned no cslices to the CCS engine that
-> > actually exists.  For DG2-G10 (and I think DG2-G12), there are different
-> > combinations of fused-off / not-fused-off engines that will always show
-> > up in userspace as CCS0-CCSn, even if those don't match the hardware
-> > IDs.
-> > 
-> > Second, the above comment is assuming that you have a part with a
-> > maximum fusing config (i.e., all cslices present).  Using DG2-G11 again
-> > as an example, there's also only a single cslice (cslice1), so if you
-> > tell CCS1 that it's allowed to use EUs from non-existent cslice0,
-> > cslice2, and cslice3, you might not get the behavior you were hoping
-> > for.
-> 
-> if the hardware slices are fused off we wouldn't see them in a
-> first place, right? And that's anyway a permanent configuration
-> that wouldn't affect the patch.
 
-There are physically four possible cslices in the IP design.  The
-presence/absence of each of those cslices can vary both by SKU and by
-part-specific fusing.  Some SKUs (DG2-G11) wind up only ever having a
-single possible configuration as far as I know, but the larger SKUs have
-more part-to-part variation in terms of exactly which specific subset of
-DSS (and by extension cslices) are present/absent.  The KMD determines
-the configuration at runtime by reading the DSS fuse registers and
-deriving the cslice presence/absence from that.
+On 2/22/2024 1:56 PM, Dmitry Baryshkov wrote:
+> On Thu, 22 Feb 2024 at 23:28, Paloma Arellano <quic_parellan@quicinc.com> wrote:
+>>
+>> On 2/22/2024 1:18 PM, Dmitry Baryshkov wrote:
+>>> On Thu, 22 Feb 2024 at 21:40, Paloma Arellano <quic_parellan@quicinc.com> wrote:
+>>>> Add support to pack and send the VSC SDP packet for DP. This therefore
+>>>> allows the transmision of format information to the sinks which is
+>>>> needed for YUV420 support over DP.
+>>>>
+>>>> Changes in v5:
+>>>>           - Slightly modify use of drm_dp_vsc_sdp_pack()
+>>>>           - Remove dp_catalog NULL checks
+>>>>           - Modify dp_utils_pack_sdp_header() to more clearly pack the
+>>>>             header buffer
+>>>>           - Move dp_utils_pack_sdp_header() inside of
+>>>>             dp_catalog_panel_send_vsc_sdp to clearly show the relationship
+>>>>             between the header buffer and the vsc_sdp struct
+>>>>           - Due to the last point, remove the dp_utils_pack_vsc_sdp()
+>>>>             function and only call drm_dp_vsc_sdp_pack() in
+>>>>             dp_panel_setup_vsc_sdp_yuv_420()
+>>>>
+>>>> Changes in v4:
+>>>>           - Remove struct msm_dp_sdp_with_parity
+>>>>           - Use dp_utils_pack_sdp_header() to pack the SDP header and
+>>>>             parity bytes into a buffer
+>>>>           - Use this buffer when writing the VSC SDP data in
+>>>>             dp_catalog_panel_send_vsc_sdp()
+>>>>           - Write to all of the MMSS_DP_GENERIC0 registers instead of just
+>>>>             the ones with non-zero values
+>>>>
+>>>> Changes in v3:
+>>>>           - Create a new struct, msm_dp_sdp_with_parity, which holds the
+>>>>             packing information for VSC SDP
+>>>>           - Use drm_dp_vsc_sdp_pack() to pack the data into the new
+>>>>             msm_dp_sdp_with_parity struct instead of specifically packing
+>>>>             for YUV420 format
+>>>>           - Modify dp_catalog_panel_send_vsc_sdp() to send the VSC SDP
+>>>>             data using the new msm_dp_sdp_with_parity struct
+>>>>
+>>>> Changes in v2:
+>>>>           - Rename GENERIC0_SDPSIZE macro to GENERIC0_SDPSIZE_VALID
+>>>>           - Remove dp_sdp from the dp_catalog struct since this data is
+>>>>             being allocated at the point used
+>>>>           - Create a new function in dp_utils to pack the VSC SDP data
+>>>>             into a buffer
+>>>>           - Create a new function that packs the SDP header bytes into a
+>>>>             buffer. This function is made generic so that it can be
+>>>>             utilized by dp_audio
+>>>>             header bytes into a buffer
+>>>>           - Create a new function in dp_utils that takes the packed buffer
+>>>>             and writes to the DP_GENERIC0_* registers
+>>>>           - Split the dp_catalog_panel_config_vsc_sdp() function into two
+>>>>             to disable/enable sending VSC SDP packets
+>>>>           - Check the DP HW version using the original useage of
+>>>>             dp_catalog_hw_revision() and correct the version checking
+>>>>             logic
+>>>>           - Rename dp_panel_setup_vsc_sdp() to
+>>>>             dp_panel_setup_vsc_sdp_yuv_420() to explicitly state that
+>>>>             currently VSC SDP is only being set up to support YUV420 modes
+>>>>
+>>>> Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
+>>>> ---
+>>>>    drivers/gpu/drm/msm/dp/dp_catalog.c | 93 +++++++++++++++++++++++++++++
+>>>>    drivers/gpu/drm/msm/dp/dp_catalog.h |  6 ++
+>>>>    drivers/gpu/drm/msm/dp/dp_ctrl.c    |  4 ++
+>>>>    drivers/gpu/drm/msm/dp/dp_panel.c   | 52 ++++++++++++++++
+>>>>    drivers/gpu/drm/msm/dp/dp_reg.h     |  3 +
+>>>>    drivers/gpu/drm/msm/dp/dp_utils.c   | 25 ++++++++
+>>>>    drivers/gpu/drm/msm/dp/dp_utils.h   | 14 +++++
+>>>>    7 files changed, 197 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
+>>>> index 5d84c089e520a..bfc6f53ae167f 100644
+>>>> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
+>>>> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+>>>> @@ -901,6 +901,99 @@ int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog)
+>>>>           return 0;
+>>>>    }
+>>>>
+>>>> +static void dp_catalog_panel_send_vsc_sdp(struct dp_catalog *dp_catalog, struct dp_sdp *vsc_sdp)
+>>>> +{
+>>>> +       struct dp_catalog_private *catalog;
+>>>> +       u32 header[2];
+>>>> +       u32 val;
+>>>> +       int i;
+>>>> +
+>>>> +       catalog = container_of(dp_catalog, struct dp_catalog_private, dp_catalog);
+>>>> +
+>>>> +       dp_utils_pack_sdp_header(&vsc_sdp->sdp_header, header);
+>>>> +
+>>>> +       dp_write_link(catalog, MMSS_DP_GENERIC0_0, header[0]);
+>>>> +       dp_write_link(catalog, MMSS_DP_GENERIC0_1, header[1]);
+>>>> +
+>>>> +       for (i = 0; i < sizeof(vsc_sdp->db); i += 4) {
+>>>> +               val = ((vsc_sdp->db[i]) | (vsc_sdp->db[i + 1] << 8) | (vsc_sdp->db[i + 2] << 16) |
+>>>> +                      (vsc_sdp->db[i + 3] << 24));
+>>>> +               dp_write_link(catalog, MMSS_DP_GENERIC0_2 + i, val);
+>>>> +       }
+>>>> +}
+>>>> +
+>>>> +static void dp_catalog_panel_update_sdp(struct dp_catalog *dp_catalog)
+>>>> +{
+>>>> +       struct dp_catalog_private *catalog;
+>>>> +       u32 hw_revision;
+>>>> +
+>>>> +       catalog = container_of(dp_catalog, struct dp_catalog_private, dp_catalog);
+>>>> +
+>>>> +       hw_revision = dp_catalog_hw_revision(dp_catalog);
+>>>> +       if (hw_revision < DP_HW_VERSION_1_2 && hw_revision >= DP_HW_VERSION_1_0) {
+>>>> +               dp_write_link(catalog, MMSS_DP_SDP_CFG3, 0x01);
+>>>> +               dp_write_link(catalog, MMSS_DP_SDP_CFG3, 0x00);
+>>>> +       }
+>>>> +}
+>>>> +
+>>>> +void dp_catalog_panel_enable_vsc_sdp(struct dp_catalog *dp_catalog, struct dp_sdp *vsc_sdp)
+>>>> +{
+>>>> +       struct dp_catalog_private *catalog;
+>>>> +       u32 cfg, cfg2, misc;
+>>>> +
+>>>> +       catalog = container_of(dp_catalog, struct dp_catalog_private, dp_catalog);
+>>>> +
+>>>> +       cfg = dp_read_link(catalog, MMSS_DP_SDP_CFG);
+>>>> +       cfg2 = dp_read_link(catalog, MMSS_DP_SDP_CFG2);
+>>>> +       misc = dp_read_link(catalog, REG_DP_MISC1_MISC0);
+>>>> +
+>>>> +       cfg |= GEN0_SDP_EN;
+>>>> +       dp_write_link(catalog, MMSS_DP_SDP_CFG, cfg);
+>>>> +
+>>>> +       cfg2 |= GENERIC0_SDPSIZE_VALID;
+>>>> +       dp_write_link(catalog, MMSS_DP_SDP_CFG2, cfg2);
+>>>> +
+>>>> +       dp_catalog_panel_send_vsc_sdp(dp_catalog, vsc_sdp);
+>>>> +
+>>>> +       /* indicates presence of VSC (BIT(6) of MISC1) */
+>>>> +       misc |= DP_MISC1_VSC_SDP;
+>>>> +
+>>>> +       drm_dbg_dp(catalog->drm_dev, "vsc sdp enable=1\n");
+>>>> +
+>>>> +       pr_debug("misc settings = 0x%x\n", misc);
+>>>> +       dp_write_link(catalog, REG_DP_MISC1_MISC0, misc);
+>>>> +
+>>>> +       dp_catalog_panel_update_sdp(dp_catalog);
+>>>> +}
+>>>> +
+>>>> +void dp_catalog_panel_disable_vsc_sdp(struct dp_catalog *dp_catalog)
+>>>> +{
+>>>> +       struct dp_catalog_private *catalog;
+>>>> +       u32 cfg, cfg2, misc;
+>>>> +
+>>>> +       catalog = container_of(dp_catalog, struct dp_catalog_private, dp_catalog);
+>>>> +
+>>>> +       cfg = dp_read_link(catalog, MMSS_DP_SDP_CFG);
+>>>> +       cfg2 = dp_read_link(catalog, MMSS_DP_SDP_CFG2);
+>>>> +       misc = dp_read_link(catalog, REG_DP_MISC1_MISC0);
+>>>> +
+>>>> +       cfg &= ~GEN0_SDP_EN;
+>>>> +       dp_write_link(catalog, MMSS_DP_SDP_CFG, cfg);
+>>>> +
+>>>> +       cfg2 &= ~GENERIC0_SDPSIZE_VALID;
+>>>> +       dp_write_link(catalog, MMSS_DP_SDP_CFG2, cfg2);
+>>>> +
+>>>> +       /* switch back to MSA */
+>>>> +       misc &= ~DP_MISC1_VSC_SDP;
+>>>> +
+>>>> +       drm_dbg_dp(catalog->drm_dev, "vsc sdp enable=0\n");
+>>>> +
+>>>> +       pr_debug("misc settings = 0x%x\n", misc);
+>>>> +       dp_write_link(catalog, REG_DP_MISC1_MISC0, misc);
+>>>> +
+>>>> +       dp_catalog_panel_update_sdp(dp_catalog);
+>>>> +}
+>>>> +
+>>>>    void dp_catalog_panel_tpg_enable(struct dp_catalog *dp_catalog,
+>>>>                                   struct drm_display_mode *drm_mode)
+>>>>    {
+>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
+>>>> index 6cb5e2a243de2..3605252effb59 100644
+>>>> --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
+>>>> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
+>>>> @@ -9,6 +9,7 @@
+>>>>    #include <drm/drm_modes.h>
+>>>>
+>>>>    #include "dp_parser.h"
+>>>> +#include "dp_utils.h"
+>>>>    #include "disp/msm_disp_snapshot.h"
+>>>>
+>>>>    /* interrupts */
+>>>> @@ -30,6 +31,9 @@
+>>>>
+>>>>    #define DP_AUX_CFG_MAX_VALUE_CNT 3
+>>>>
+>>>> +#define DP_HW_VERSION_1_0      0x10000000
+>>>> +#define DP_HW_VERSION_1_2      0x10020000
+>>>> +
+>>>>    /* PHY AUX config registers */
+>>>>    enum dp_phy_aux_config_type {
+>>>>           PHY_AUX_CFG0,
+>>>> @@ -124,6 +128,8 @@ u32 dp_catalog_ctrl_read_phy_pattern(struct dp_catalog *dp_catalog);
+>>>>
+>>>>    /* DP Panel APIs */
+>>>>    int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog);
+>>>> +void dp_catalog_panel_enable_vsc_sdp(struct dp_catalog *dp_catalog, struct dp_sdp *vsc_sdp);
+>>>> +void dp_catalog_panel_disable_vsc_sdp(struct dp_catalog *dp_catalog);
+>>>>    void dp_catalog_dump_regs(struct dp_catalog *dp_catalog);
+>>>>    void dp_catalog_panel_tpg_enable(struct dp_catalog *dp_catalog,
+>>>>                                   struct drm_display_mode *drm_mode);
+>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>>>> index bffb7bac2c2c8..a42b29f9902c1 100644
+>>>> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>>>> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>>>> @@ -1947,6 +1947,8 @@ int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl)
+>>>>           dp_io = &ctrl->parser->io;
+>>>>           phy = dp_io->phy;
+>>>>
+>>>> +       dp_catalog_panel_disable_vsc_sdp(ctrl->catalog);
+>>>> +
+>>>>           /* set dongle to D3 (power off) mode */
+>>>>           dp_link_psm_config(ctrl->link, &ctrl->panel->link_info, true);
+>>>>
+>>>> @@ -2021,6 +2023,8 @@ int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
+>>>>           dp_io = &ctrl->parser->io;
+>>>>           phy = dp_io->phy;
+>>>>
+>>>> +       dp_catalog_panel_disable_vsc_sdp(ctrl->catalog);
+>>>> +
+>>>>           dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, false);
+>>>>
+>>>>           dp_catalog_ctrl_reset(ctrl->catalog);
+>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
+>>>> index db1942794f1a4..e425a5c86acdc 100644
+>>>> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
+>>>> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+>>>> @@ -4,6 +4,7 @@
+>>>>     */
+>>>>
+>>>>    #include "dp_panel.h"
+>>>> +#include "dp_utils.h"
+>>>>
+>>>>    #include <drm/drm_connector.h>
+>>>>    #include <drm/drm_edid.h>
+>>>> @@ -281,6 +282,53 @@ void dp_panel_tpg_config(struct dp_panel *dp_panel, bool enable)
+>>>>           dp_catalog_panel_tpg_enable(catalog, &panel->dp_panel.dp_mode.drm_mode);
+>>>>    }
+>>>>
+>>>> +static int dp_panel_setup_vsc_sdp_yuv_420(struct dp_panel *dp_panel)
+>>>> +{
+>>>> +       struct dp_catalog *catalog;
+>>>> +       struct dp_panel_private *panel;
+>>>> +       struct dp_display_mode *dp_mode;
+>>>> +       struct drm_dp_vsc_sdp vsc_sdp_data;
+>>>> +       struct dp_sdp vsc_sdp;
+>>>> +       ssize_t len;
+>>>> +
+>>>> +       if (!dp_panel) {
+>>>> +               DRM_ERROR("invalid input\n");
+>>>> +               return -EINVAL;
+>>>> +       }
+>>>> +
+>>>> +       panel = container_of(dp_panel, struct dp_panel_private, dp_panel);
+>>>> +       catalog = panel->catalog;
+>>>> +       dp_mode = &dp_panel->dp_mode;
+>>>> +
+>>>> +       memset(&vsc_sdp_data, 0, sizeof(vsc_sdp_data));
+>>>> +
+>>>> +       /* VSC SDP header as per table 2-118 of DP 1.4 specification */
+>>>> +       vsc_sdp_data.sdp_type = DP_SDP_VSC;
+>>>> +       vsc_sdp_data.revision = 0x05;
+>>>> +       vsc_sdp_data.length = 0x13;
+>>>> +
+>>>> +       /* VSC SDP Payload for DB16 */
+>>>> +       vsc_sdp_data.pixelformat = DP_PIXELFORMAT_YUV420;
+>>>> +       vsc_sdp_data.colorimetry = DP_COLORIMETRY_DEFAULT;
+>>>> +
+>>>> +       /* VSC SDP Payload for DB17 */
+>>>> +       vsc_sdp_data.bpc = dp_mode->bpp / 3;
+>>>> +       vsc_sdp_data.dynamic_range = DP_DYNAMIC_RANGE_CTA;
+>>>> +
+>>>> +       /* VSC SDP Payload for DB18 */
+>>>> +       vsc_sdp_data.content_type = DP_CONTENT_TYPE_GRAPHICS;
+>>>> +
+>>>> +       len = drm_dp_vsc_sdp_pack(&vsc_sdp_data, &vsc_sdp);
+>>>> +       if (len < 0) {
+>>>> +               DRM_ERROR("unable to pack vsc sdp\n");
+>>>> +               return len;
+>>>> +       }
+>>>> +
+>>>> +       dp_catalog_panel_enable_vsc_sdp(catalog, &vsc_sdp);
+>>>> +
+>>>> +       return 0;
+>>>> +}
+>>>> +
+>>>>    void dp_panel_dump_regs(struct dp_panel *dp_panel)
+>>>>    {
+>>>>           struct dp_catalog *catalog;
+>>>> @@ -344,6 +392,10 @@ int dp_panel_timing_cfg(struct dp_panel *dp_panel)
+>>>>           catalog->dp_active = data;
+>>>>
+>>>>           dp_catalog_panel_timing_cfg(catalog);
+>>>> +
+>>>> +       if (dp_panel->dp_mode.out_fmt_is_yuv_420)
+>>>> +               dp_panel_setup_vsc_sdp_yuv_420(dp_panel);
+>>>> +
+>>>>           panel->panel_on = true;
+>>>>
+>>>>           return 0;
+>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_reg.h b/drivers/gpu/drm/msm/dp/dp_reg.h
+>>>> index 78785ed4b40c4..aa9f6c3e4ddeb 100644
+>>>> --- a/drivers/gpu/drm/msm/dp/dp_reg.h
+>>>> +++ b/drivers/gpu/drm/msm/dp/dp_reg.h
+>>>> @@ -142,6 +142,7 @@
+>>>>    #define DP_MISC0_SYNCHRONOUS_CLK               (0x00000001)
+>>>>    #define DP_MISC0_COLORIMETRY_CFG_SHIFT         (0x00000001)
+>>>>    #define DP_MISC0_TEST_BITS_DEPTH_SHIFT         (0x00000005)
+>>>> +#define DP_MISC1_VSC_SDP                       (0x00004000)
+>>>>
+>>>>    #define DP_MISC0_COLORIMERY_CFG_LEGACY_RGB     (0)
+>>>>    #define DP_MISC0_COLORIMERY_CFG_CEA_RGB                (0x04)
+>>>> @@ -204,9 +205,11 @@
+>>>>    #define MMSS_DP_AUDIO_CTRL_RESET               (0x00000214)
+>>>>
+>>>>    #define MMSS_DP_SDP_CFG                                (0x00000228)
+>>>> +#define GEN0_SDP_EN                            (0x00020000)
+>>>>    #define MMSS_DP_SDP_CFG2                       (0x0000022C)
+>>>>    #define MMSS_DP_AUDIO_TIMESTAMP_0              (0x00000230)
+>>>>    #define MMSS_DP_AUDIO_TIMESTAMP_1              (0x00000234)
+>>>> +#define GENERIC0_SDPSIZE_VALID                 (0x00010000)
+>>>>
+>>>>    #define MMSS_DP_AUDIO_STREAM_0                 (0x00000240)
+>>>>    #define MMSS_DP_AUDIO_STREAM_1                 (0x00000244)
+>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_utils.c b/drivers/gpu/drm/msm/dp/dp_utils.c
+>>>> index 3a44fe738c004..3c8db0e9adfa6 100644
+>>>> --- a/drivers/gpu/drm/msm/dp/dp_utils.c
+>>>> +++ b/drivers/gpu/drm/msm/dp/dp_utils.c
+>>>> @@ -7,6 +7,8 @@
+>>>>
+>>>>    #include "dp_utils.h"
+>>>>
+>>>> +#define DP_SDP_HEADER_SIZE             8
+>>>> +
+>>>>    u8 dp_utils_get_g0_value(u8 data)
+>>>>    {
+>>>>           u8 c[4];
+>>>> @@ -71,3 +73,26 @@ u8 dp_utils_calculate_parity(u32 data)
+>>>>
+>>>>           return parity_byte;
+>>>>    }
+>>>> +
+>>>> +ssize_t dp_utils_pack_sdp_header(struct dp_sdp_header *sdp_header, u32 *header_buff)
+>>>> +{
+>>>> +       size_t length;
+>>>> +
+>>>> +       length = sizeof(header_buff);
+>>>> +       if (length < DP_SDP_HEADER_SIZE)
+>>>> +               return -ENOSPC;
+>>>> +
+>>>> +       memset(header_buff, 0, sizeof(header_buff));
+>>> Just out of curiosity:
+>>> 1) what is the amount of memory getting zeroed by this call?
+>>> 2) what's the point in zeroing it if the next two lines will overwrite it?
+>>>
+>>> If nobody objects, I'll remove this line while applying.
+>>>
+>>> If that's fine,
+>>>
+>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>
+>> Sounds good to me. Just didn't notice the redundancy of this line.
+> Please note the first question too. Do you understand the issue?
 
-The register you're writing in this patch tells the CCS engine which
-cslice(s) it can use to execute work.  If the KMD already knows that
-cslice<x> doesn't exist, but it tells CCS<y> that it can go ahead and
-use it anyway, things probably won't work properly.  That's why the spec
-mandates that we always program 0x7 in the register for any cslices that
-we know aren't present so that none of the CCS engines will incorrectly
-try to utilize them.  If we ignore that rule, then it's a driver bug.
 
-> 
-> BTW, is there any machine I can test this scenario?
-
-There should differently-fused DG2 systems in our internal pool,
-although I'm not sure what the breakdown is.  I don't think the
-reservation system makes the low-level cslice configuration immediately
-obvious on the summary page, so you might just need to log into a few
-systems and read the fuse registers to check which ones are best for
-testing these cases.
-
-> 
-> > > > On a DG2-G11 platform, that will flat out break
-> > > > compute since CCS0 is never present (G11 only has a single CCS and it's
-> > > > always the hardware's CCS1).  Even on a G10 or G12 this could also break
-> > > > things depending on the fusing of your card if the hardware CCS0 happens
-> > > > to be missing.
-> > > > 
-> > > > Also, the register says that we need a field value of 0x7 for each
-> > > > cslice that's fused off.  By passing 0, we're telling the CCS engine
-> > > > that it can use cslices that may not actually exist.
-> > > 
-> > > does it? Or do I need to write the id (0x0-0x3) of the user
-> > > engine? That's how the mode is calculated in this algorithm.
-> > 
-> > 0x0 - 0x3 are how you specify that a specific CCS engine can use the
-> > cslice.  If the cslice can't be used at all (i.e., it's fused off), then
-> > you need to program a 0x7 to ensure no engines try to use the
-> > non-existent DSS/EUs.
-> 
-> I planned to limit this to the only DG2 (and ATSM, of course).
-> Do you think it would it help?
-
-Yes, definitely.  It's mandatory programming for these platforms.
+I'm assuming as the caller that the size of header_buff will always be 8 
+bytes. But I see the issue where the API doesn't actually know the size 
+of the header_buff and could set the whole header_buff to zero, when we 
+are only trying to modify the first two values of the array. I 
+originally had this line there since the header_buff[10] was a size of 
+40 bytes in a past implementation where I was trying to set all of the 
+values in the buffer to 0 before setting a select few to VSC SDP 
+specific values. This was my bad.
 
 
-Matt
-
-> 
-> Andi
-
--- 
-Matt Roper
-Graphics Software Engineer
-Linux GPU Platform Enablement
-Intel Corporation
+>
+>> -Paloma
+>>
+>>
+>>>> +
+>>>> +       header_buff[0] = FIELD_PREP(HEADER_0_MASK, sdp_header->HB0) |
+>>>> +               FIELD_PREP(PARITY_0_MASK, dp_utils_calculate_parity(sdp_header->HB0)) |
+>>>> +               FIELD_PREP(HEADER_1_MASK, sdp_header->HB1) |
+>>>> +               FIELD_PREP(PARITY_1_MASK, dp_utils_calculate_parity(sdp_header->HB1));
+>>>> +
+>>>> +       header_buff[1] = FIELD_PREP(HEADER_2_MASK, sdp_header->HB2) |
+>>>> +               FIELD_PREP(PARITY_2_MASK, dp_utils_calculate_parity(sdp_header->HB2)) |
+>>>> +               FIELD_PREP(HEADER_3_MASK, sdp_header->HB3) |
+>>>> +               FIELD_PREP(PARITY_3_MASK, dp_utils_calculate_parity(sdp_header->HB3));
+>>>> +
+>>>> +       return length;
+>>>> +}
+>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_utils.h b/drivers/gpu/drm/msm/dp/dp_utils.h
+>>>> index 5a505cbf3432b..7c056d9798dc3 100644
+>>>> --- a/drivers/gpu/drm/msm/dp/dp_utils.h
+>>>> +++ b/drivers/gpu/drm/msm/dp/dp_utils.h
+>>>> @@ -6,6 +6,10 @@
+>>>>    #ifndef _DP_UTILS_H_
+>>>>    #define _DP_UTILS_H_
+>>>>
+>>>> +#include <linux/bitfield.h>
+>>>> +#include <linux/bits.h>
+>>>> +#include <drm/display/drm_dp_helper.h>
+>>>> +
+>>>>    #define HEADER_BYTE_0_BIT       0
+>>>>    #define PARITY_BYTE_0_BIT       8
+>>>>    #define HEADER_BYTE_1_BIT      16
+>>>> @@ -15,8 +19,18 @@
+>>>>    #define HEADER_BYTE_3_BIT      16
+>>>>    #define PARITY_BYTE_3_BIT      24
+>>>>
+>>>> +#define HEADER_0_MASK      GENMASK(7, 0)
+>>>> +#define PARITY_0_MASK      GENMASK(15, 8)
+>>>> +#define HEADER_1_MASK      GENMASK(23, 16)
+>>>> +#define PARITY_1_MASK      GENMASK(31, 24)
+>>>> +#define HEADER_2_MASK      GENMASK(7, 0)
+>>>> +#define PARITY_2_MASK      GENMASK(15, 8)
+>>>> +#define HEADER_3_MASK      GENMASK(23, 16)
+>>>> +#define PARITY_3_MASK      GENMASK(31, 24)
+>>>> +
+>>>>    u8 dp_utils_get_g0_value(u8 data);
+>>>>    u8 dp_utils_get_g1_value(u8 data);
+>>>>    u8 dp_utils_calculate_parity(u32 data);
+>>>> +ssize_t dp_utils_pack_sdp_header(struct dp_sdp_header *sdp_header, u32 *header_buff);
+>>>>
+>>>>    #endif /* _DP_UTILS_H_ */
+>>>> --
+>>>> 2.39.2
+>>>>
+>
+>
