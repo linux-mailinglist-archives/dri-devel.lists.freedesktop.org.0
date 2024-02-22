@@ -2,48 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5615185EEC0
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 02:46:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 704F685EEE4
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 03:06:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5F0310E7CD;
-	Thu, 22 Feb 2024 01:46:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 249AA10E854;
+	Thu, 22 Feb 2024 02:06:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="p9xfLe9y";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OYfgohSQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D3A610E83F;
- Thu, 22 Feb 2024 01:46:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1708566373;
- bh=kVrGOOZuytddGaVDzynxhTBC+xSsBONQgK1rFjcI04M=;
- h=Date:From:To:Cc:Subject:From;
- b=p9xfLe9y7O7o0L6JZJQ5hAr2E99eXt+g6UpwFee0zcavelR1U27Ab9wUvsmaKKl59
- FbKmXLlvHNonmahWbvcR2/LaifvRYgXsytCBd8qIsVZVV6Y/yJM2VQFxhvhgxV8QHc
- Z3vFZxaS4uEADvVKzzjrE/S2Oi6IspQprrwbMFrTTQGSH8ek8HAkg5tiLKDw8xyMrg
- oW+RF6MIM2qtJ7M86ZCzfUdR8TFK5CUkLLTdfp51YRBsdm0cvQrCB2hQJnHSpONbtJ
- LDpWqIHzldxOk705KDX8LENUsQ3/n3DLqW9sxcNFKOZiRflsMFi/NW4vWxKqbIEibV
- Y7Ody1d1q0Tpw==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4TgGFc1GpTz4wb2;
- Thu, 22 Feb 2024 12:46:11 +1100 (AEDT)
-Date: Thu, 22 Feb 2024 12:46:10 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- Maxime Ripard <mripard@kernel.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>
-Subject: linux-next: build failure after merge of the drm-misc tree
-Message-ID: <20240222124610.383e1ce3@canb.auug.org.au>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74DF010E852;
+ Thu, 22 Feb 2024 02:06:46 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 79E16616EA;
+ Thu, 22 Feb 2024 02:06:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A01CC433F1;
+ Thu, 22 Feb 2024 02:06:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1708567605;
+ bh=Ybci3+TcYCfWUtyyK9oMeVMAce0zLcjOP2WOB1QozRI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OYfgohSQYfx5MuNjkVKbPMcSliwWc4XdYPqIUBvIvU4KT/boyIp106nCyVqD021Sd
+ njg8Y4SdVFb5APDaQCYE2FZLojpASoRlm7m+focW1sr1wY5c1CzFAEp1Ag2fBVoJrT
+ nzkinUd0UTlLcpG28vbMYlglF6egqdoraXipCtlKZ9oB0pbQR+DiuK2gfCFqa/iMVe
+ oKBs87RNBKE5mMumkZsCJzbM3ew6tSls7bY5/3Yt59MZZEj1Q2ukrajX2bvO7RUFH5
+ Vbx0/AuXX/AKEjWdBndtBOwymR7Hqck94bPygq4Jjs+1eidMFEX2QfAoI1iSTeXNyY
+ mxbTcAqfLSiKg==
+Date: Wed, 21 Feb 2024 20:06:41 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Johan Hovold <johan+linaro@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Vinod Koul <vkoul@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org
+Subject: Re: [PATCH 2/6] drm/bridge: aux-hpd: separate allocation and
+ registration
+Message-ID: <cyzl3m67daaijpwhcwx53tk7tgrvw4kxiz7cj6bhx5xxwh6fuj@u2l674nlp4th>
+References: <20240217150228.5788-1-johan+linaro@kernel.org>
+ <20240217150228.5788-3-johan+linaro@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/E=U/0=a4mO7C/s62y_fF+mJ";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240217150228.5788-3-johan+linaro@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,91 +74,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/E=U/0=a4mO7C/s62y_fF+mJ
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Sat, Feb 17, 2024 at 04:02:24PM +0100, Johan Hovold wrote:
+> diff --git a/drivers/gpu/drm/bridge/aux-hpd-bridge.c b/drivers/gpu/drm/bridge/aux-hpd-bridge.c
+[..]
+> +/**
+> + * devm_drm_dp_hpd_bridge_add - register a HDP DisplayPort bridge
 
-Hi all,
+kernel-doc wants () after function names.
 
-After merging the drm-misc tree, today's linux-next build (x86_64
-allmodconfig) failed like this:
+> + * @dev: struct device to tie registration lifetime to
+> + * @adev: bridge auxiliary device to be registered
+> + *
+> + * Returns: zero on success or a negative errno
 
-drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c:47:6: error: redefinition of '=
-rzg2l_du_vsp_enable'
-   47 | void rzg2l_du_vsp_enable(struct rzg2l_du_crtc *crtc)
-      |      ^~~~~~~~~~~~~~~~~~~
-In file included from drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h:18,
-                 from drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c:30:
-drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h:72:20: note: previous definiti=
-on of 'rzg2l_du_vsp_enable' with type 'void(struct rzg2l_du_crtc *)'
-   72 | static inline void rzg2l_du_vsp_enable(struct rzg2l_du_crtc *crtc) =
-{ };
-      |                    ^~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c:61:6: error: redefinition of '=
-rzg2l_du_vsp_disable'
-   61 | void rzg2l_du_vsp_disable(struct rzg2l_du_crtc *crtc)
-      |      ^~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h:73:20: note: previous definiti=
-on of 'rzg2l_du_vsp_disable' with type 'void(struct rzg2l_du_crtc *)'
-   73 | static inline void rzg2l_du_vsp_disable(struct rzg2l_du_crtc *crtc)=
- { };
-      |                    ^~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c:66:6: error: redefinition of '=
-rzg2l_du_vsp_atomic_flush'
-   66 | void rzg2l_du_vsp_atomic_flush(struct rzg2l_du_crtc *crtc)
-      |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h:74:20: note: previous definiti=
-on of 'rzg2l_du_vsp_atomic_flush' with type 'void(struct rzg2l_du_crtc *)'
-   74 | static inline void rzg2l_du_vsp_atomic_flush(struct rzg2l_du_crtc *=
-crtc) { };
-      |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c:76:19: error: redefinition of =
-'rzg2l_du_vsp_get_drm_plane'
-   76 | struct drm_plane *rzg2l_du_vsp_get_drm_plane(struct rzg2l_du_crtc *=
-crtc,
-      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h:75:33: note: previous definiti=
-on of 'rzg2l_du_vsp_get_drm_plane' with type 'struct drm_plane *(struct rzg=
-2l_du_crtc *, unsigned int)'
-   75 | static inline struct drm_plane *rzg2l_du_vsp_get_drm_plane(struct r=
-zg2l_du_crtc *crtc,
-      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c:302:5: error: redefinition of =
-'rzg2l_du_vsp_init'
-  302 | int rzg2l_du_vsp_init(struct rzg2l_du_vsp *vsp, struct device_node =
-*np,
-      |     ^~~~~~~~~~~~~~~~~
-drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h:66:19: note: previous definiti=
-on of 'rzg2l_du_vsp_init' with type 'int(struct rzg2l_du_vsp *, struct devi=
-ce_node *, unsigned int)'
-   66 | static inline int rzg2l_du_vsp_init(struct rzg2l_du_vsp *vsp, struc=
-t device_node *np,
-      |                   ^~~~~~~~~~~~~~~~~
+and "Return:" without the 's'.
 
-Caused by commit
+This could however be done in a separate patch, as the file is already
+wrong in this regard.
 
-  768e9e61b3b9 ("drm: renesas: Add RZ/G2L DU Support")
+Reviewed-by: Bjorn Andersson <andersson@kernel.org>
 
-I have used the drm-misc tree from next-20240221 for today.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/E=U/0=a4mO7C/s62y_fF+mJ
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmXWp2IACgkQAVBC80lX
-0GxnZwf/arzy84++smzTe8LIY0swpYvN291/uBVHEhzoDCRQ+Nca/CjO6K5G9k5k
-5ZUGFiePuEDX98lphTb9l/98ftUtXwSOzx93YGuvM9yDK0Fec6F3fhuYnbp8L0/a
-iLbZbIs1l+0W+Xodk+uUyiI/fCFmD3lmZEa0e1La2i//5do/nGdB95lOm71HJPG7
-24+Xx046XUBMqXX1TC7bE7D0qx0ZJgoMEj7vNWCf4a6SQ1gr4KcjxkoUFrZo18XK
-goLTS8Ytg9jiIE3uCOkr+kMjbP9WrhcC1AqJVK6TbgzhpFN4zqyDkaorXFol2ha3
-pwy/IyslkvihfNBmKIkqoDSwAPBk3A==
-=28hk
------END PGP SIGNATURE-----
-
---Sig_/E=U/0=a4mO7C/s62y_fF+mJ--
+Regards,
+Bjorn
