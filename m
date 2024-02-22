@@ -2,88 +2,129 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 112BA85FEF6
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 18:14:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 975E585FF37
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 18:23:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A37FE10E0BF;
-	Thu, 22 Feb 2024 17:14:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0BD510E967;
+	Thu, 22 Feb 2024 17:23:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ZATx9QUu";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XXP19DV5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CB3210E0BF
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 17:14:36 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41M6mhJB019461; Thu, 22 Feb 2024 17:14:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=41ijdyh6f8n7C660F21th4GQ953AMCJ7CZREOVJwJS0=; b=ZA
- Tx9QUuIY8VQLegHQgGMdq5JfMCswoFCUxGsm2U+s0zx2YR9DnEmSa2I5yLQzl2N5
- YPo8yipuLg4TdlMd2xAteSKoyRSo+DaPIvQnaaGyvRGDjL2NAVyZp95owapdi718
- yde10SaY1NQZfPfMNwVw+DYKfdSvOEAR72m+nuRAgQ0IefzblHQvyb/gGC5olJT7
- TVjBP/X3v2sPsgtnK1fM0KKf0DzLar1fpVrxDVAwOjwI5Ehf2ykbihpyt0vjyQVg
- RihjJeuhna6PEDdsOO/WQTJYX4IVf5yer0DrhnObwtgRLKscV0b7GuayKNTi8gLS
- QMyLoaJbIhR4Uyq70REg==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3we1b0hp20-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 22 Feb 2024 17:14:27 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41MHEQlg018442
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 22 Feb 2024 17:14:26 GMT
-Received: from [10.71.111.207] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 22 Feb
- 2024 09:14:26 -0800
-Message-ID: <f9446923-acd3-41cf-92d4-676b946280c4@quicinc.com>
-Date: Thu, 22 Feb 2024 09:14:21 -0800
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F199B10E99A
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 17:23:30 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-512dfa097b1so19468e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 09:23:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1708622609; x=1709227409; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:to:subject:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=4Wwn55XF9jadQNrfmAniuHffh9iFi2P2VnkAxjmEZJw=;
+ b=XXP19DV5H2NSutN9ctkVjhpB+HxU1/VDoVNlsbwhn6dOWwfuuhKwZKtzjJO7z94ZTU
+ K6YfiK8chjmulWasEcj0n/iJLGkr/VLE1brdLOh59gZYNrxPP5du2NhfLa+sXQw4ORwf
+ VuC0pXxypmCFEASSkeF1AteX5mtVImP/Oz9Goyi6poF94L7b2U4PAdGYrlukI/u/Ohfk
+ 34valIASpdy+rAR9SokYq/9U4RxEdbqcmFmJnWAonDVGYqg44UYdEulH2+VOKAt/ZuFa
+ EOeOvPVpHvBuFs7rMT3x4JK5YfeG1PRq90LesJKu9RXhjp0oTLw+qUH4N0gl1VeAtvwj
+ 7/Nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708622609; x=1709227409;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:to:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4Wwn55XF9jadQNrfmAniuHffh9iFi2P2VnkAxjmEZJw=;
+ b=QuKwCYmWB5HB+yhfbGP4Ybf4TWQMOyU0z13jblNZblVSuTK301T5lQ3sLC8lgfdCLL
+ aPVwDq83LRBK90Mq3yulm2wuROgDZMaqqsT2qqoRicyWrkUG0fNf1FXBXlDjQEInw3pK
+ 5H6qB9ZkkJzYUyB4thqg2pN5rtKD/y4DfSthVxdkrc+xmiNNjZq7Yfi2ZMbMLyss4GBA
+ 1FOl5csXlLXi5oLV68kyH1x///pHmAu3DJMqWtMAf6D16EbJtCBAfnl2UCHxQ8IaY6E/
+ EXI7+lPbpDr/TiDR2w/GiRY+73dPb9ymlYS+l4FLXho6roFi6qmymUx/xuKOxJtamnHe
+ Xd5g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUxUh6stKOm3ZNWyNUrjvgTOhYA0ZfgCgaY1n3AP8dXwDwUbdtzC9JGCyqKowDxUCD33Nbs+f4hLcWrj/v+mVcK4BmfqryxPKiG7gahtZWs
+X-Gm-Message-State: AOJu0YyvJUFeoFj9OrLSnVwgGXC1z89pziF6KRUintHOO7B5UhK6ffdB
+ QCq41J//Fb9zR45tdOwsNeSijwJTehCiWzkiPpGVbacR5Y+q2ZOS1BRvlxBWhQs=
+X-Google-Smtp-Source: AGHT+IFp7sTUiYgIGlUB3YE9o3AW00zKA8Lk/bxSeBi0s+GfDNtWhFbVeSAyLfE88MKucbg50kgxiw==
+X-Received: by 2002:a05:6512:1328:b0:511:8688:a884 with SMTP id
+ x40-20020a056512132800b005118688a884mr17221001lfu.0.1708622608928; 
+ Thu, 22 Feb 2024 09:23:28 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.222.116])
+ by smtp.gmail.com with ESMTPSA id
+ x1-20020a056402414100b005655be36730sm74577eda.6.2024.02.22.09.23.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Feb 2024 09:23:28 -0800 (PST)
+Message-ID: <8a06fde1-cc5f-4350-8e93-ffa29873ef86@linaro.org>
+Date: Thu, 22 Feb 2024 18:23:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] drm: panel: st7701: Add Hardkernel ODROID-GO Ultra
- panel support
+Subject: Re: [PATCH v2 2/2] dt-bindings: display: st7701: Add Hardkernel
+ ODROID-GO Ultra panel
 To: Adam Green <greena88@gmail.com>, Jagan Teki <jagan@amarulasolutions.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, <dri-devel@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20240221194528.1855714-1-greena88@gmail.com>
  <20240222164332.3864716-1-greena88@gmail.com>
- <20240222164332.3864716-2-greena88@gmail.com>
+ <20240222164332.3864716-3-greena88@gmail.com>
 Content-Language: en-US
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20240222164332.3864716-2-greena88@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240222164332.3864716-3-greena88@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: c96G9I9C2Z3p0VD_rZ4yHUrDP4wr5jn7
-X-Proofpoint-GUID: c96G9I9C2Z3p0VD_rZ4yHUrDP4wr5jn7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-22_13,2024-02-22_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxlogscore=999
- mlxscore=0 adultscore=0 spamscore=0 lowpriorityscore=0 malwarescore=0
- impostorscore=0 suspectscore=0 bulkscore=0 priorityscore=1501
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2402220135
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,216 +140,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2/22/2024 8:43 AM, Adam Green wrote:
-> The Hardkernel ODROID-GO Ultra is a handheld gaming devices, with
-> a 5 inch 480x854 display. Add support for the display.
+On 22/02/2024 17:43, Adam Green wrote:
+> The ODROID-GO Ultra panel is a panel specific to the Hardkernel
+> ODROID-GO Ultra. It is 5 inches in size (diagonally) with a
+> resolution of 480x854.
 > 
 > Signed-off-by: Adam Green <greena88@gmail.com>
 > ---
->   drivers/gpu/drm/panel/panel-sitronix-st7701.c | 158 +++++++++++++++++-
->   1 file changed, 157 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7701.c b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-> index 421eb4592b61..d08e8f4c39dd 100644
-> --- a/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-> @@ -423,6 +423,62 @@ static void kd50t048a_gip_sequence(struct st7701 *st7701)
->   		   0xFF, 0xFF, 0xFF, 0xFF, 0x10, 0x45, 0x67, 0x98, 0xBA);
->   }
->   
-> +static void odroid_go_ultra_gip_sequence(struct st7701 *st7701)
-> +{
-> +	ST7701_DSI(st7701, 0x01);
-> +	msleep(20);
-> +	ST7701_DSI(st7701, 0x11);
-> +	msleep(120);
-> +
-> +	ST7701_DSI(st7701, 0xFF, 0x77, 0x01, 0x00, 0x00, 0x10);
-> +	ST7701_DSI(st7701, 0xC0, 0xE9, 0x03);
-> +	ST7701_DSI(st7701, 0xC1, 0x11, 0x02);
-> +	ST7701_DSI(st7701, 0xC2, 0x31, 0x08);
-> +	ST7701_DSI(st7701, 0xCC, 0x10);
-> +	ST7701_DSI(st7701, 0xB0, 0x00, 0x0D, 0x14, 0x0D, 0x10, 0x05, 0x02, 0x08,
-> +		   0x08, 0x1E, 0x05, 0x13, 0x11, 0xA3, 0x29, 0x18);
-> +	ST7701_DSI(st7701, 0xB1, 0x00, 0x0C, 0x14, 0x0C, 0x10, 0x05, 0x03, 0x08,
-> +		   0x07, 0x20, 0x05, 0x13, 0x11, 0xA4, 0x29, 0x18);
-> +	ST7701_DSI(st7701, 0xFF, 0x77, 0x01, 0x00, 0x00, 0x11);
-> +	ST7701_DSI(st7701, 0xB0, 0x6C);
-> +	ST7701_DSI(st7701, 0xB1, 0x43);
-> +	ST7701_DSI(st7701, 0xB2, 0x07);
-> +	ST7701_DSI(st7701, 0xB3, 0x80);
-> +	ST7701_DSI(st7701, 0xB5, 0x47);
-> +	ST7701_DSI(st7701, 0xB7, 0x85);
-> +	ST7701_DSI(st7701, 0xB8, 0x20);
-> +	ST7701_DSI(st7701, 0xB9, 0x10);
-> +	ST7701_DSI(st7701, 0xC1, 0x78);
-> +	ST7701_DSI(st7701, 0xC3, 0x78);
-> +	ST7701_DSI(st7701, 0xD0, 0x88);
-> +	msleep(120);
-> +
-> +	ST7701_DSI(st7701, 0xE0, 0x00, 0x00, 0x02);
-> +	ST7701_DSI(st7701, 0xE1, 0x08, 0x00, 0x0A, 0x00, 0x07, 0x00, 0x09,
-> +		   0x00, 0x00, 0x33, 0x33);
-> +	ST7701_DSI(st7701, 0xE2, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +		   0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-> +	ST7701_DSI(st7701, 0xE3, 0x00, 0x00, 0x33, 0x33);
-> +	ST7701_DSI(st7701, 0xE4, 0x44, 0x44);
-> +	ST7701_DSI(st7701, 0xE5, 0x0E, 0x60, 0xA0, 0xA0, 0x10, 0x60, 0xA0,
-> +		   0xA0, 0x0A, 0x60, 0xA0, 0xA0, 0x0C, 0x60, 0xA0, 0xA0);
-> +	ST7701_DSI(st7701, 0xE6, 0x00, 0x00, 0x33, 0x33);
-> +	ST7701_DSI(st7701, 0xE7, 0x44, 0x44);
-> +	ST7701_DSI(st7701, 0xE8, 0x0D, 0x60, 0xA0, 0xA0, 0x0F, 0x60, 0xA0,
-> +		   0xA0, 0x09, 0x60, 0xA0, 0xA0, 0x0B, 0x60, 0xA0, 0xA0);
-> +	ST7701_DSI(st7701, 0xEB, 0x02, 0x01, 0xE4, 0xE4, 0x44, 0x00, 0x40);
-> +	ST7701_DSI(st7701, 0xEC, 0x02, 0x01);
-> +	ST7701_DSI(st7701, 0xED, 0xAB, 0x89, 0x76, 0x54, 0x01, 0xFF, 0xFF,
-> +		   0xFF, 0xFF, 0xFF, 0xFF, 0x10, 0x45, 0x67, 0x98, 0xBA);
-> +	ST7701_DSI(st7701, 0xFF, 0x77, 0x01, 0x00, 0x00, 0x00);
-> +	ST7701_DSI(st7701, 0x3A, 0x70);
-> +	ST7701_DSI(st7701, 0x53, 0xEC);
-> +	ST7701_DSI(st7701, 0x55, 0xB3);
-> +	ST7701_DSI(st7701, 0x5E, 0xFF);
-> +	ST7701_DSI(st7701, 0x29);
-> +	msleep(50);
-> +}
-> +
->   static void rg_arc_gip_sequence(struct st7701 *st7701)
->   {
->   	st7701_switch_cmd_bkx(st7701, true, 3);
-> @@ -470,7 +526,7 @@ static int st7701_prepare(struct drm_panel *panel)
->   				    st7701->supplies);
->   	if (ret < 0)
->   		return ret;
-> -	msleep(20);
-> +	msleep(120);
 
-Hi Adam,
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Just wondering, why the change to 120 here?
+Best regards,
+Krzysztof
 
-Thanks,
-
-Jessica Zhang
-
->   
->   	gpiod_set_value(st7701->reset, 1);
->   	msleep(150);
-> @@ -875,6 +931,105 @@ static const struct st7701_panel_desc kd50t048a_desc = {
->   	.gip_sequence = kd50t048a_gip_sequence,
->   };
->   
-> +static const struct drm_display_mode odroid_go_ultra_mode = {
-> +	.clock		= 29170,
-> +
-> +	.hdisplay	= 480,
-> +	.hsync_start	= 480 + 12,
-> +	.hsync_end	= 480 + 12 + 12,
-> +	.htotal		= 480 + 12 + 12 + 38,
-> +
-> +	.vdisplay	= 854,
-> +	.vsync_start	= 854 + 2,
-> +	.vsync_end	= 854 + 2 + 19,
-> +	.vtotal		= 854 + 2 + 19 + 22,
-> +
-> +	.width_mm	= 70,
-> +	.height_mm	= 140,
-> +
-> +	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-> +};
-> +
-> +static const struct st7701_panel_desc odroid_go_ultra_desc = {
-> +	.mode = &odroid_go_ultra_mode,
-> +	.lanes = 2,
-> +	.format = MIPI_DSI_FMT_RGB888,
-> +	.panel_sleep_delay = 120,
-> +
-> +	.pv_gamma = {
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC0_MASK, 0),
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC4_MASK, 0xd),
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC8_MASK, 0x14),
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC16_MASK, 0xd),
-> +
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC24_MASK, 0x10),
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC52_MASK, 0x5),
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC80_MASK, 0x2),
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC108_MASK, 0x8),
-> +
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC147_MASK, 0x8),
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC175_MASK, 0x1e),
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC203_MASK, 0x5),
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC231_MASK, 0x13),
-> +
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC239_MASK, 0x11),
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 2) |
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC247_MASK, 0x23),
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC251_MASK, 0x29),
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC255_MASK, 0x18)
-> +	},
-> +	.nv_gamma = {
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC0_MASK, 0),
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC4_MASK, 0xc),
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC8_MASK, 0x14),
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC16_MASK, 0xc),
-> +
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC24_MASK, 0x10),
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC52_MASK, 0x5),
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC80_MASK, 0x3),
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC108_MASK, 0x8),
-> +
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC147_MASK, 0x7),
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC175_MASK, 0x20),
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC203_MASK, 0x5),
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC231_MASK, 0x13),
-> +
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC239_MASK, 0x11),
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 2) |
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC247_MASK, 0x24),
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC251_MASK, 0x29),
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_AJ_MASK, 0) |
-> +		CFIELD_PREP(DSI_CMD2_BK0_GAMCTRL_VC255_MASK, 0x18)
-> +	},
-> +	.nlinv = 1,
-> +	.vop_uv = 4887500,
-> +	.vcom_uv = 937500,
-> +	.vgh_mv = 15000,
-> +	.vgl_mv = -9510,
-> +	.avdd_mv = 6600,
-> +	.avcl_mv = -4400,
-> +	.gamma_op_bias = OP_BIAS_MIDDLE,
-> +	.input_op_bias = OP_BIAS_MIN,
-> +	.output_op_bias = OP_BIAS_MIN,
-> +	.t2d_ns = 1600,
-> +	.t3d_ns = 10400,
-> +	.eot_en = true,
-> +	.gip_sequence = odroid_go_ultra_gip_sequence,
-> +};
-> +
->   static const struct drm_display_mode rg_arc_mode = {
->   	.clock          = 25600,
->   
-> @@ -1055,6 +1210,7 @@ static const struct of_device_id st7701_of_match[] = {
->   	{ .compatible = "anbernic,rg-arc-panel", .data = &rg_arc_desc },
->   	{ .compatible = "densitron,dmt028vghmcmi-1a", .data = &dmt028vghmcmi_1a_desc },
->   	{ .compatible = "elida,kd50t048a", .data = &kd50t048a_desc },
-> +	{ .compatible = "hardkernel,odroid-go-ultra-panel", .data = &odroid_go_ultra_desc },
->   	{ .compatible = "techstar,ts8550b", .data = &ts8550b_desc },
->   	{ }
->   };
-> -- 
-> 2.43.0
-> 
