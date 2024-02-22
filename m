@@ -2,87 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34A1585F2A0
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 09:14:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29DF585F1F1
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 08:34:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68CF610E8AC;
-	Thu, 22 Feb 2024 08:14:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11A4A10E888;
+	Thu, 22 Feb 2024 07:34:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OBomsFKV";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MXzhVEWf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com
- [209.85.219.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D91E10E41E;
- Wed, 21 Feb 2024 20:54:46 +0000 (UTC)
-Received: by mail-yb1-f179.google.com with SMTP id
- 3f1490d57ef6-dc6d8bd612dso1217522276.1; 
- Wed, 21 Feb 2024 12:54:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1708548885; x=1709153685; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=zG/hGKUBFHTrQpCIkO4Jfe/fvPU9NU7JPEBYcirwrEY=;
- b=OBomsFKV469TI6hUf25smJHVfQG4umPEuzNPu9rSSzvLBXOszmfuiU7ptVc1hh+nv+
- tfCnrtKiwis84yzeG+EQl48RjrfpspsN7XVkzhHDz0hXKweUqvRss+XjvngD/w4Hwfc6
- CsDUx2BnEtCPspWQm03/GrQU8/9+iKHc4NOJa8AicG8640Y5A1pembTbsqfSxv7a1mVC
- YD/EsVWavT9LskwKhCPa66Q+VGxWYZtI6aIAiteir0COdIbh1K8Z7Xvrgoyq3rtxGM1+
- C7K/iZV6tnAarx5VwGAaaTuXUfp0egOhx1CkDq6LZEAhZsjbVRi/YQoLQ3OglZEah9ir
- xzGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708548885; x=1709153685;
- h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=zG/hGKUBFHTrQpCIkO4Jfe/fvPU9NU7JPEBYcirwrEY=;
- b=cfPyD7vuxPMHNZEymmbkVSBtjohmOfYEA6x4VCFXClVM5dnFzTZraiXzOj40MzLYFz
- u066e4HHfNC7l8pzvc9C3gvJrRptXz1Ga2txRxTEvhQ+ec0fRWRkztIaXiTYI+wVbXNM
- ksiyYj4yruWMf05O6NMrbYt9RsWnz/4foLpo+wZdPG51iErGM+yx4DjsizTHkp7OfV7J
- MpBe9ZS7HwoeINUNIJkqGY9NUdbOWACTiTHTN/sdpdCAXiuyqgSeSScbBH1eA3qstKko
- z6YqTdP0qoVw1vd9uy/WT6cNFPc1eANrF+b8qpY4/k8WqiyIv1d1AZVVQX/cz55ye4Zc
- 4ycg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXMJcIvjeXZB8kMj0n75d8ujfYuNiZibv92swqzvOqmQTabmMoBboWZ5kU32k2SV47EVnPVMg6cuwlCz2wCvlPqsCODBz5lMxv14wj/TL3oWaBwh4zArKO9uZqPIpQ1Up5rSrrURWuDnKUwzwIP7FM=
-X-Gm-Message-State: AOJu0YzjpKA+nlrjIVv+L4Hlb4A0EmE2M+wb6sP+W+iusHqXrtBXxUYJ
- GOm/gpbLSbdQZ1Aj+c/Sc2x0jPDL4U+dzVLlQVj3lvHtbb4Xi+qepBWNibzrqKQrVkfQFOLk+dP
- bGjKNhc5rntZSdZSjMXhQ01dyVWM=
-X-Google-Smtp-Source: AGHT+IEvLLsgVEwId+fWOD8nT0pOqOHtElda+ZjmIi5BQfmKg7nZ8CxGJCja1jw4MNJ6CdakfvPdbuuTMewiFOTry3E=
-X-Received: by 2002:a25:148b:0:b0:dcb:d653:8ad9 with SMTP id
- 133-20020a25148b000000b00dcbd6538ad9mr481476ybu.12.1708548885189; Wed, 21 Feb
- 2024 12:54:45 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE7CA10E886;
+ Thu, 22 Feb 2024 07:34:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1708587250; x=1740123250;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=D5iKaUm2basq6grzebPijfPPX3HpjC4EmCe2BPCu+9M=;
+ b=MXzhVEWfAbB7oHFJKurFx40ldSj6gbcycTLVoqQ2bWYZ5kppsENIn0sy
+ C5iEXKKsR6L/fwywKLsTDl7swzZ3koKTtpFQMt/Ena9oynV6tAEbZUFPA
+ WAolraRJjwfn6IRXP8FBCxe6V8Vn+yGwcOgKY4BHlTHjGK5/8AdYP9ILf
+ bekKdhv08Gl4KlF1tg17PwmY1p3PYVUirxx1n/PItbrj7jtOhgPN9vqFU
+ aqCFO75NbE9Dcw2jutLMO/iPXxLQOS2nrEu2S+0IMQwuoRbVlNre4WPmr
+ rOl3jyRMITRHa4LHuf7RmXxIGxzs4drN334n+713rTyhSesDr8XZS7x1S w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="13353821"
+X-IronPort-AV: E=Sophos;i="6.06,177,1705392000"; d="scan'208";a="13353821"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Feb 2024 23:34:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,177,1705392000"; d="scan'208";a="42889046"
+Received: from binm223x-mobl2.gar.corp.intel.com (HELO [10.249.254.168])
+ ([10.249.254.168])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Feb 2024 23:34:07 -0800
+Message-ID: <12471d185a3c90e53d665878db321c36e3fd2e53.camel@linux.intel.com>
+Subject: Re: [PATCH] drm/ttm: Fix an invalid freeing on already freed page
+ in error path
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Cc: Dave Airlie <airlied@redhat.com>, Huang Rui <ray.huang@amd.com>, 
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org
+Date: Thu, 22 Feb 2024 08:34:03 +0100
+In-Reply-To: <6733f48a-4fb2-446c-91a8-e631937fbfcb@amd.com>
+References: <20240221073324.3303-1-thomas.hellstrom@linux.intel.com>
+ <6733f48a-4fb2-446c-91a8-e631937fbfcb@amd.com>
+Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
 MIME-Version: 1.0
-References: <20240221092728.1281499-1-davidgow@google.com>
- <20240221092728.1281499-6-davidgow@google.com>
-In-Reply-To: <20240221092728.1281499-6-davidgow@google.com>
-From: Cassio Neri <cassio.neri@gmail.com>
-Date: Wed, 21 Feb 2024 20:54:34 +0000
-Message-ID: <CAOfgUPiOd36kZ87r2TpwhansYgYCRCgDy5yFLXzV6OPWgdo55w@mail.gmail.com>
-Subject: Re: [PATCH 5/9] rtc: test: Fix invalid format specifier.
-To: David Gow <davidgow@google.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Shuah Khan <skhan@linuxfoundation.org>, 
- Guenter Roeck <linux@roeck-us.net>, Rae Moar <rmoar@google.com>, 
- Matthew Auld <matthew.auld@intel.com>, 
- Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Kees Cook <keescook@chromium.org>,
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Matthew Brost <matthew.brost@intel.com>,
- Willem de Bruijn <willemb@google.com>, Florian Westphal <fw@strlen.de>, 
- Javier Martinez Canillas <javierm@redhat.com>,
- Arthur Grillo <arthur.grillo@usp.br>, 
- Brendan Higgins <brendan.higgins@linux.dev>,
- Daniel Latypov <dlatypov@google.com>, 
- Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@gmail.com>,
- Maxime Ripard <mripard@kernel.org>, 
- "David S . Miller" <davem@davemloft.net>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org, 
- linux-rtc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- kunit-dev@googlegroups.com, linux-hardening@vger.kernel.org, 
- netdev@vger.kernel.org
-Content-Type: multipart/alternative; boundary="0000000000006219860611ea8981"
-X-Mailman-Approved-At: Thu, 22 Feb 2024 08:14:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,110 +69,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: cassio.neri@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000006219860611ea8981
-Content-Type: text/plain; charset="UTF-8"
+On Wed, 2024-02-21 at 11:26 +0100, Christian K=C3=B6nig wrote:
+> Am 21.02.24 um 08:33 schrieb Thomas Hellstr=C3=B6m:
+> > If caching mode change fails due to, for example, OOM we
+> > free the allocated pages in a two-step process. First the pages
+> > for which the caching change has already succeeded. Secondly
+> > the pages for which a caching change did not succeed.
+> >=20
+> > However the second step was incorrectly freeing the pages already
+> > freed in the first step.
+> >=20
+> > Fix.
+> >=20
+> > Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> > Fixes: 379989e7cbdc ("drm/ttm/pool: Fix ttm_pool_alloc error path")
+> > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > Cc: Dave Airlie <airlied@redhat.com>
+> > Cc: Christian Koenig <christian.koenig@amd.com>
+> > Cc: Huang Rui <ray.huang@amd.com>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: <stable@vger.kernel.org> # v6.4+
+>=20
+> You don't know how much time I've spend staring at this line to find
+> the=20
+> bug in it and haven't seen it. Got bug reports about that for month
+> as well.
 
-Hi David,
 
-Thanks for fixing drivers/rtc/lib_test.c
+Yeah, sorry about that. We should probably have Kunit tests exercising
+OOM in the pool code involving WC pages.
 
-Best wishes,
-Cassio.
+I'll push this to drm-misc-next.
 
-On Wed, 21 Feb 2024 at 09:28, David Gow <davidgow@google.com> wrote:
+/Thomas
 
-> 'days' is a s64 (from div_s64), and so should use a %lld specifier.
->
-> This was found by extending KUnit's assertion macros to use gcc's
-> __printf attribute.
->
-> Fixes: 1d1bb12a8b18 ("rtc: Improve performance of rtc_time64_to_tm(). Add
-> tests.")
-> Signed-off-by: David Gow <davidgow@google.com>
-> ---
->  drivers/rtc/lib_test.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/rtc/lib_test.c b/drivers/rtc/lib_test.c
-> index d5caf36c56cd..225c859d6da5 100644
-> --- a/drivers/rtc/lib_test.c
-> +++ b/drivers/rtc/lib_test.c
-> @@ -54,7 +54,7 @@ static void rtc_time64_to_tm_test_date_range(struct
-> kunit *test)
->
->                 days = div_s64(secs, 86400);
->
-> -               #define FAIL_MSG "%d/%02d/%02d (%2d) : %ld", \
-> +               #define FAIL_MSG "%d/%02d/%02d (%2d) : %lld", \
->                         year, month, mday, yday, days
->
->                 KUNIT_ASSERT_EQ_MSG(test, year - 1900, result.tm_year,
-> FAIL_MSG);
-> --
-> 2.44.0.rc0.258.g7320e95886-goog
->
->
+>=20
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+>=20
+> > ---
+> > =C2=A0 drivers/gpu/drm/ttm/ttm_pool.c | 2 +-
+> > =C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/ttm/ttm_pool.c
+> > b/drivers/gpu/drm/ttm/ttm_pool.c
+> > index b62f420a9f96..112438d965ff 100644
+> > --- a/drivers/gpu/drm/ttm/ttm_pool.c
+> > +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+> > @@ -387,7 +387,7 @@ static void ttm_pool_free_range(struct ttm_pool
+> > *pool, struct ttm_tt *tt,
+> > =C2=A0=C2=A0				enum ttm_caching caching,
+> > =C2=A0=C2=A0				pgoff_t start_page, pgoff_t
+> > end_page)
+> > =C2=A0 {
+> > -	struct page **pages =3D tt->pages;
+> > +	struct page **pages =3D &tt->pages[start_page];
+> > =C2=A0=C2=A0	unsigned int order;
+> > =C2=A0=C2=A0	pgoff_t i, nr;
+> > =C2=A0=20
+>=20
 
---0000000000006219860611ea8981
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-family:arial,helvetica,sans-serif"><div class=3D"gmail_default" style=3D"=
-font-family:arial,helvetica,sans-serif">Hi David,</div><div class=3D"gmail_=
-default" style=3D"font-family:arial,helvetica,sans-serif"><br></div><div cl=
-ass=3D"gmail_default" style=3D"font-family:arial,helvetica,sans-serif">Than=
-ks for fixing <span class=3D"gmail_default" style=3D"font-family:arial,helv=
-etica,sans-serif"></span>drivers/rtc/lib_test.c</div><div class=3D"gmail_de=
-fault" style=3D"font-family:arial,helvetica,sans-serif"><br></div><div clas=
-s=3D"gmail_default" style=3D"font-family:arial,helvetica,sans-serif">Best w=
-ishes,</div><div class=3D"gmail_default" style=3D"font-family:arial,helveti=
-ca,sans-serif">Cassio.</div></div></div><br><div class=3D"gmail_quote"><div=
- dir=3D"ltr" class=3D"gmail_attr">On Wed, 21 Feb 2024 at 09:28, David Gow &=
-lt;<a href=3D"mailto:davidgow@google.com">davidgow@google.com</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">&#39;days&#39;=
- is a s64 (from div_s64), and so should use a %lld specifier.<br>
-<br>
-This was found by extending KUnit&#39;s assertion macros to use gcc&#39;s<b=
-r>
-__printf attribute.<br>
-<br>
-Fixes: 1d1bb12a8b18 (&quot;rtc: Improve performance of rtc_time64_to_tm(). =
-Add tests.&quot;)<br>
-Signed-off-by: David Gow &lt;<a href=3D"mailto:davidgow@google.com" target=
-=3D"_blank">davidgow@google.com</a>&gt;<br>
----<br>
-=C2=A0drivers/rtc/lib_test.c | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/drivers/rtc/lib_test.c b/drivers/rtc/lib_test.c<br>
-index d5caf36c56cd..225c859d6da5 100644<br>
---- a/<span class=3D"gmail_default" style=3D"font-family:arial,helvetica,sa=
-ns-serif"></span>drivers/rtc/lib_test.c<br>
-+++ b/drivers/rtc/lib_test.c<br>
-@@ -54,7 +54,7 @@ static void rtc_time64_to_tm_test_date_range(struct kunit=
- *test)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 days =3D div_s64(se=
-cs, 86400);<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0#define FAIL_MSG &q=
-uot;%d/%02d/%02d (%2d) : %ld&quot;, \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0#define FAIL_MSG &q=
-uot;%d/%02d/%02d (%2d) : %lld&quot;, \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 year, month, mday, yday, days<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 KUNIT_ASSERT_EQ_MSG=
-(test, year - 1900, result.tm_year, FAIL_MSG);<br>
--- <br>
-2.44.0.rc0.258.g7320e95886-goog<br>
-<br>
-</blockquote></div></div>
-
---0000000000006219860611ea8981--
