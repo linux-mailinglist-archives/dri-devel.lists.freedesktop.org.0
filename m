@@ -2,71 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BA6D860544
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 22:57:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54BCB860558
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 23:03:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23C8410EA94;
-	Thu, 22 Feb 2024 21:57:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89C9210EA9D;
+	Thu, 22 Feb 2024 22:03:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="R/czuWDR";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ha9ClGg0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com
- [209.85.219.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4D1910EAA0
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 21:57:50 +0000 (UTC)
-Received: by mail-yb1-f174.google.com with SMTP id
- 3f1490d57ef6-dcc6fc978ddso256330276.0
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 13:57:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708639069; x=1709243869; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=4XHmaR9j8yfoG0uE39iuFTe1DexLU+BkdLhrhgZ69f8=;
- b=R/czuWDRdBPX5fXqrEbM6mGGu1FCK3ccHLYgLdRSIHol9vySHQG5L61jP5aPC2CxUL
- Lo3AbcgfR1vrMTRc90Ysj2G+92/NAUquL9Yc9m8FCEUuIBY9y+8awd8ieCz05BMoxrTN
- kvQbmexCleTBMZDtPStbBL9t1N9HqhkLkSq3WpQzcgF6SleQ2AwsNcZ3y36DJHO+U/4r
- qeKJBtzV4H9JRHmwi4VQoWW7AZAr4hKxAowI2EVl/lu3qTVCqinzNG6j+4LzhFbwNuEs
- pG1JtJ/uBUf8Tqyqx+hOR3zV9Ygj4zD/mQQTnRwyrZcMy/yYjaOkeoSkIEXLkhSxwHW3
- QHww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708639069; x=1709243869;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4XHmaR9j8yfoG0uE39iuFTe1DexLU+BkdLhrhgZ69f8=;
- b=P2BBgosW9MKi+YpUsjOMHTgs6FtLDE9Ty6xgjd8LvT+dgFj52+1eRCgptMESWmokTm
- y3AXx/64iKTHdxIdRttef2ETlf/BS4W9zH0yDuv+F4L5O38/WntF8RzlU9L6WkzJUycy
- a/ApIreS1wVuIZpXuupGm/KWMsMRaby0Gskd+eR91iXxD8XIv2095Z0PmV2odE5DPSKN
- ZrTMJb0GYmvGPTQLaxS7i4lLy7HAtlFKg59Ol2TX74PcYNrtoif7l0UxRfHoElC/lshx
- 2aEhSU877XEz6XCvQTWOeg0z7Rhabh12h/bTNNeYUbG54z8K2IZlYaCQ57AqmkjtKPXt
- IZXw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWM8Il2k4dgYiiWwhlYCAWiFtdYhvRImbYm7XLAwkSoL0fbzoHJAVCflhTfqx53baWQs8AlJqNNEfUORDBW5+lEHhfOh4BSJZFl9AFVTTxB
-X-Gm-Message-State: AOJu0Yz/mytQXvuRCfN7hsP/RpjgNKvBB94eS1C91juMvYCYdzgWu1XG
- RI4mYDPycFo1XmZB2rTBYwBNXxBLSn+s4Fk61jq/LHzOBfbGzSFrqAZQNlfzr2VjNfD4/dyRqEn
- Jh0UwX7iRaGAiBGm6A7LpxiJmyxVMMrkA5IEN6Q==
-X-Google-Smtp-Source: AGHT+IEooe9B8N6cL2q2BcKTYJut84BKs61FZ74FRMTKD+cxJmhoC80CFQcsBQiqtKzpqIhdxxvGsZVHWhiuA15XmGA=
-X-Received: by 2002:a25:a243:0:b0:dcf:2908:485c with SMTP id
- b61-20020a25a243000000b00dcf2908485cmr2027103ybi.3.1708639069649; Thu, 22 Feb
- 2024 13:57:49 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD64010EA9D;
+ Thu, 22 Feb 2024 22:03:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1708639414; x=1740175414;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=2bWLD0gAzSAswzGVkZR88xSzDcgMwjQhkt761LIirtA=;
+ b=ha9ClGg08ApQCh8++WMCrtrsVA8ZKpB2k+TtxGT6C/CnP+8DupbTqglV
+ aDokbd4pGb9L5HQ4T6gcOiTw0WEMXOx6FVwv+NtP2JXce72bT864G2Q7J
+ 5D3cAcc0iKE1TnevfYiL0bYXkvZ5grq+JgSKiTOawyttFVu7sMquL2HZ6
+ K2ci6D/XjYX//jfPCCSNjQ0vrhSaFHroc+Z++3gBIZdAxK0tx/8AmdpZZ
+ l8C6NTGjq8LABsn0E8EO41Y53SbRgxAL3Dbm+/O+zi8pn7Cf7Y7gkHTpr
+ R9rXvwuabp4WqIrrRvqBJ/QYIMIu5eFlw5ENhBqN1FhM9YB6R0MwWs0fj w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="28340410"
+X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; d="scan'208";a="28340410"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2024 14:03:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="936910190"
+X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; d="scan'208";a="936910190"
+Received: from nkomlevx-mobl.ccr.corp.intel.com (HELO intel.com)
+ ([10.246.32.165])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2024 14:03:30 -0800
+Date: Thu, 22 Feb 2024 23:03:27 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ John Harrison <John.C.Harrison@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ stable@vger.kernel.org, Andi Shyti <andi.shyti@kernel.org>
+Subject: Re: [PATCH v2 2/2] drm/i915/gt: Enable only one CCS for compute
+ workload
+Message-ID: <ZdfEr2AyPNaq2Xh_@ashyti-mobl2.lan>
+References: <20240220143526.259109-1-andi.shyti@linux.intel.com>
+ <20240220143526.259109-3-andi.shyti@linux.intel.com>
+ <20240220233918.GG5347@mdroper-desk1.amr.corp.intel.com>
+ <ZdU_4okr8GcSpTtm@ashyti-mobl2.lan>
+ <20240221205104.GM718896@mdroper-desk1.amr.corp.intel.com>
 MIME-Version: 1.0
-References: <20240222-fd-rm-state-v5-1-4a6c81e87f63@linaro.org>
- <318495d1-3366-1ca8-72a2-8927cb1b4835@quicinc.com>
-In-Reply-To: <318495d1-3366-1ca8-72a2-8927cb1b4835@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 22 Feb 2024 23:57:38 +0200
-Message-ID: <CAA8EJppf+Vt4tGP9YFMmhh4wdm+U=_Fq5D8J1YpZjzEBS=Td3Q@mail.gmail.com>
-Subject: Re: [PATCH v5] drm/msm/dpu: add current resource allocation to dumped
- state
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240221205104.GM718896@mdroper-desk1.amr.corp.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,115 +77,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 22 Feb 2024 at 23:53, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 2/22/2024 1:47 PM, Dmitry Baryshkov wrote:
-> > Provide atomic_print_state callback to the DPU's private object. This
-> > way the debugfs/dri/0/state will also include RM's internal state.
-> >
-> > Example output (RB5 board, HDMI and writeback encoder enabled)
-> >
-> > resource mapping:
-> >       pingpong=31 36 # # # # - - - - -
-> >       mixer=31 36 # # # # -
-> >       ctl=# # 31 36 # #
-> >       dspp=# # # #
-> >       dsc=# # # # - -
-> >       cdm=#
-> >
->
-> Thanks, this LGTM now, one nit below.
->
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> > Changes in v5:
-> > - Extracted the common helper for printing RM state
-> > - Changed the code to print '#' for unused/unmapped blocks (Abhinav)
-> > - Link to v4: https://lore.kernel.org/r/20240219-fd-rm-state-v4-1-b47f14ef27c2@linaro.org
-> >
-> > Changes in v4:
-> > - Split the patch from the virual wide planes series
-> > - Reworked the output format
-> > - Added the CDM block into the dump
-> > ---
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 12 +++++++
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h |  2 ++
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c  | 56 +++++++++++++++++++++++++++++++++
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h  |  8 +++++
-> >   4 files changed, 78 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> > index 723cc1d82143..9f3697e1eacb 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> > @@ -353,9 +353,18 @@ static void dpu_kms_global_destroy_state(struct drm_private_obj *obj,
-> >       kfree(dpu_state);
-> >   }
-> >
-> > +static void dpu_kms_global_print_state(struct drm_printer *p,
-> > +                                    const struct drm_private_state *state)
-> > +{
-> > +     const struct dpu_global_state *global_state = to_dpu_global_state(state);
-> > +
-> > +     dpu_rm_print_state(p, global_state);
-> > +}
-> > +
-> >   static const struct drm_private_state_funcs dpu_kms_global_state_funcs = {
-> >       .atomic_duplicate_state = dpu_kms_global_duplicate_state,
-> >       .atomic_destroy_state = dpu_kms_global_destroy_state,
-> > +     .atomic_print_state = dpu_kms_global_print_state,
-> >   };
-> >
-> >   static int dpu_kms_global_obj_init(struct dpu_kms *dpu_kms)
-> > @@ -371,6 +380,9 @@ static int dpu_kms_global_obj_init(struct dpu_kms *dpu_kms)
-> >       drm_atomic_private_obj_init(dpu_kms->dev, &dpu_kms->global_state,
-> >                                   &state->base,
-> >                                   &dpu_kms_global_state_funcs);
-> > +
-> > +     state->rm = &dpu_kms->rm;
-> > +
-> >       return 0;
-> >   }
-> >
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> > index d1207f4ec3ae..2512c9bd08df 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> > @@ -131,6 +131,8 @@ struct vsync_info {
-> >   struct dpu_global_state {
-> >       struct drm_private_state base;
-> >
-> > +     struct dpu_rm *rm;
-> > +
-> >       uint32_t pingpong_to_enc_id[PINGPONG_MAX - PINGPONG_0];
-> >       uint32_t mixer_to_enc_id[LM_MAX - LM_0];
-> >       uint32_t ctl_to_enc_id[CTL_MAX - CTL_0];
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> > index 724537ab776d..1a56ddca536d 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> > @@ -634,3 +634,59 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
-> >
-> >       return num_blks;
-> >   }
-> > +
-> > +static void dpu_rm_print_state_helper(struct drm_printer *p,
-> > +                                         struct dpu_hw_blk *blk,
-> > +                                         uint32_t mapping)
->
-> Not sure if its the mail client, but is this aligned with the opening brace?
+Hi Matt,
 
-No, it is shifted to the right. Will fix while applying.
+first of all thanks a lot for the observations you are raising.
 
->
-> Please double check once. Rest LGTM.
->
-> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+On Wed, Feb 21, 2024 at 12:51:04PM -0800, Matt Roper wrote:
+> On Wed, Feb 21, 2024 at 01:12:18AM +0100, Andi Shyti wrote:
+> > On Tue, Feb 20, 2024 at 03:39:18PM -0800, Matt Roper wrote:
+> > > On Tue, Feb 20, 2024 at 03:35:26PM +0100, Andi Shyti wrote:
 
+...
 
+> > > > diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+> > > > index a425db5ed3a2..e19df4ef47f6 100644
+> > > > --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+> > > > +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+> > > > @@ -168,6 +168,14 @@ static void init_unused_rings(struct intel_gt *gt)
+> > > >  	}
+> > > >  }
+> > > >  
+> > > > +static void intel_gt_apply_ccs_mode(struct intel_gt *gt)
+> > > > +{
+> > > > +	if (!IS_DG2(gt->i915))
+> > > > +		return;
+> > > > +
+> > > > +	intel_uncore_write(gt->uncore, XEHP_CCS_MODE, 0);
+> > > 
+> > > This doesn't look right to me.  A value of 0 means every cslice gets
+> > > associated with CCS0.
+> > 
+> > Yes, that's what I'm trying to do. The behavior I'm looking for
+> > is this one:
+> > 
+> > 	 /*
+> > 	  ...
+> >           * With 1 engine (ccs0):
+> >           *   slice 0, 1, 2, 3: ccs0
+> >           *
+> >           * With 2 engines (ccs0, ccs1):
+> >           *   slice 0, 2: ccs0
+> >           *   slice 1, 3: ccs1
+> >           *
+> >           * With 4 engines (ccs0, ccs1, ccs2, ccs3):
+> >           *   slice 0: ccs0
+> >           *   slice 1: ccs1
+> >           *   slice 2: ccs2
+> >           *   slice 3: ccs3
+> > 	  ...
+> > 	  */
+> > 
+> > where the user can configure runtime the mode, making sure that
+> > no client is connected to i915.
+> > 
+> > But, this needs to be written 
+> > 
+> > As we are now forcing mode '1', then all cslices are connected
+> > with ccs0.
+> 
+> Right --- and that's what I'm pointing out as illegal.  I think that
+> code comment above was taken out of context from a different RFC series;
+> that's not an accurate description of the behavior we want here.
+> 
+> First, the above comment is using ccs# to refer to userspace engines,
+> not hardware engines.  As a simple example, DG2-G11 only ever has a
+> single CCS which userspace sees as "instance 0" but which is actually
+> CCS1 at the hardware level.  If you try to follow the comment above when
+> programming CCS_MODE, you've assigned all of the cslices to a
+> non-existent engine and assigned no cslices to the CCS engine that
+> actually exists.  For DG2-G10 (and I think DG2-G12), there are different
+> combinations of fused-off / not-fused-off engines that will always show
+> up in userspace as CCS0-CCSn, even if those don't match the hardware
+> IDs.
+> 
+> Second, the above comment is assuming that you have a part with a
+> maximum fusing config (i.e., all cslices present).  Using DG2-G11 again
+> as an example, there's also only a single cslice (cslice1), so if you
+> tell CCS1 that it's allowed to use EUs from non-existent cslice0,
+> cslice2, and cslice3, you might not get the behavior you were hoping
+> for.
 
--- 
-With best wishes
-Dmitry
+if the hardware slices are fused off we wouldn't see them in a
+first place, right? And that's anyway a permanent configuration
+that wouldn't affect the patch.
+
+BTW, is there any machine I can test this scenario?
+
+> > > On a DG2-G11 platform, that will flat out break
+> > > compute since CCS0 is never present (G11 only has a single CCS and it's
+> > > always the hardware's CCS1).  Even on a G10 or G12 this could also break
+> > > things depending on the fusing of your card if the hardware CCS0 happens
+> > > to be missing.
+> > > 
+> > > Also, the register says that we need a field value of 0x7 for each
+> > > cslice that's fused off.  By passing 0, we're telling the CCS engine
+> > > that it can use cslices that may not actually exist.
+> > 
+> > does it? Or do I need to write the id (0x0-0x3) of the user
+> > engine? That's how the mode is calculated in this algorithm.
+> 
+> 0x0 - 0x3 are how you specify that a specific CCS engine can use the
+> cslice.  If the cslice can't be used at all (i.e., it's fused off), then
+> you need to program a 0x7 to ensure no engines try to use the
+> non-existent DSS/EUs.
+
+I planned to limit this to the only DG2 (and ATSM, of course).
+Do you think it would it help?
+
+Andi
