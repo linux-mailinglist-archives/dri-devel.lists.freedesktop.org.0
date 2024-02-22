@@ -2,94 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 036FF860345
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 20:54:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 088CA860369
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 21:03:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1452710EA4F;
-	Thu, 22 Feb 2024 19:54:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 985D510EA5A;
+	Thu, 22 Feb 2024 20:02:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="T7JBkX6z";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WZmTbpeG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B9C710E16C;
- Thu, 22 Feb 2024 19:54:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a3KMqFVidobWqVJnSJBF9dfsV+S1xslB7NGD5f2decINLeghFop+paDAkM2VRMxWPZMupjeKAaGXVdPwLlHAeTJKo80EukarrJkj684ux1go03xOruVD+5Fol4EcfXaQSZptS101oNhoTRXM+LYI3C1NJJq0DlltrgHm3raDg3BA0VJTEuJfHqytnQqGBnqw1/yVjnTStoMtsmBoDyPrEGYNT/15JBijL3FvdBSxyMKKiLuW3TONAdvduKNDBQDQDA+z8n8iEM75floZ6x56oyNKcgEdb5HBq5JMWLkDzY9fI1lU1HGgUqepYOSUJpPEMFqMSMndZLPZ800sl5O6Lg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SVw8vYzNQRsdc8f1A8hPqvvRwFxa/ILShUF0hk2TgxI=;
- b=haMeabEowwQv1Hfm21grGM8YpfuM5RkjyQ3GHnZKGIdZCitNrA6zTFF6Ed7655C8ff1cvMe6vd0SGJ928JwiKYUMWCfPrZvRDgCO31o7nCkY3OAAPLEyIihD8n+Wfn8EJtKcLjQO1ZeFOlJWrh/LPbwLiZFMlBOxJYzrzcYIt357YWjn3pr0KgdBTQVp41LOM949IJSxIISfwZXES3XsLs69971RVOBMbY5X6MPrJFJc3AUWZMFwOdolGehbx9yojdh+rI7/t8cS7FnDNKaweDI2NP2IqNB9f/rFmdPaxzfc7X9INWlr1hbpvjmlsM4uGmr22pMevQWXyK+GCThOkw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SVw8vYzNQRsdc8f1A8hPqvvRwFxa/ILShUF0hk2TgxI=;
- b=T7JBkX6zfqHhb4dmw/koO8XLCp4xyXBeMBCs1tHfReOw/x30W1VggVxPH8RLk0LJfjWBXxh3tU6BciRPMtK+pzlSeRjhuxZXk7C8gMFBS4NTBW5kZX5kk7lTEwiMJRz2x1pt3opriH386swEC0ggDRKDEZu/bbxIDUcy7WK8wEk=
-Received: from SJ0PR05CA0209.namprd05.prod.outlook.com (2603:10b6:a03:330::34)
- by IA0PR12MB8716.namprd12.prod.outlook.com (2603:10b6:208:485::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.22; Thu, 22 Feb
- 2024 19:54:03 +0000
-Received: from SJ5PEPF000001C8.namprd05.prod.outlook.com
- (2603:10b6:a03:330:cafe::d4) by SJ0PR05CA0209.outlook.office365.com
- (2603:10b6:a03:330::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.11 via Frontend
- Transport; Thu, 22 Feb 2024 19:54:03 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ5PEPF000001C8.mail.protection.outlook.com (10.167.242.36) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7292.25 via Frontend Transport; Thu, 22 Feb 2024 19:54:02 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Thu, 22 Feb
- 2024 13:54:01 -0600
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
-CC: Alex Deucher <alexander.deucher@amd.com>
-Subject: [pull] amdgpu drm-fixes-6.8
-Date: Thu, 22 Feb 2024 14:53:38 -0500
-Message-ID: <20240222195338.5809-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.43.2
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
+ [209.85.218.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F5ED10EA5A
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 20:02:57 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id
+ a640c23a62f3a-a3d484a58f6so16123566b.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 12:02:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1708632175; x=1709236975; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=D91+NNYRuFeok9CBgQ7kElLom/IZjF4ZNUVGAGFMcWc=;
+ b=WZmTbpeG73BQCQ4L/VZ09BgQx0UM14BvC6H8nUtUF6DbjqaTny3/RkCH+2OVoXwp3n
+ CnjHArEQWPGGVw1zC0tqizpZgxuHqSDum3JlwwD/sa87Mud7OPMuHhVIKa+6GUJu1HZc
+ 48gt/YVp1sC+S/yhEq2e+2jSiw/I9FqFYq7eVHsdNp72MJQtSwNLhiqLTqBAmlehaPsy
+ sXcrKfEnrhRAAIcKYBpzjJEp17HhIV/LEA0us6UTUPhnrxoVR2CT+xb6G2kjZ6aHLq7C
+ 7qKC0FudvTNj95MlFy1hofzpn7X0l8/luna7ION/PyJkPKBPNIczibedXjEpKA5YiqJU
+ KuIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708632175; x=1709236975;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=D91+NNYRuFeok9CBgQ7kElLom/IZjF4ZNUVGAGFMcWc=;
+ b=L7S5GmkhJVbbOYBrEwE3ndydV/Iz98No8kHwM9NbUCmIjgtAD4Azve7SdJ2g1lknDs
+ Dgg3fsC05X8iNJt/74v6inN3ZCOHvJMqW8MESBJVHHU6DtZZVF3Kle4QcDFz4cTgBf0x
+ 63fxeXIYMaP+RC8zFmfDt80byFJf3RkCuK255+/ui+VIluf7dOg0WzDq1+sYvcF2Vbn3
+ jwxpClIPnllO0iGQCIDHy6mwHq/pbRcB7OKHha3WbJhJqdoun1sEOeZWjo40hviLz+K6
+ kQr3s3IsSGUreNzEP2qIN7OzT43R+Ea6qmi1NVpOLU1THhZS+oY7c/Q3hePinvggsF3W
+ iHWA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUcU/gP7cQYzszjy1Z+lx55HyZ5C4FQGqNRKNprDYQR/hZROCCU7G4cdO48Tn5I+q5dwsomULX93jFI7jRuGjWi3JlwaO6dvrVSjqXZ+p3r
+X-Gm-Message-State: AOJu0Yx6Tr8WEUfr+E0wJQ1u9d6tvf3rn7oueMA1q8PxLxElbrJH3oWF
+ ny24eAeSyIEx/36wDScLyDCrclRKkvmaRw7ND5/RvPAE+NH//NQb
+X-Google-Smtp-Source: AGHT+IEgvTKQkasQRFEm9qA5fvN8XNPWdx6hB/jSsMaHVhviWIDzjakARe/kyNDcFAl7qhoDmu/LtA==
+X-Received: by 2002:a17:906:b106:b0:a3e:e869:a151 with SMTP id
+ u6-20020a170906b10600b00a3ee869a151mr5856787ejy.45.1708632174997; 
+ Thu, 22 Feb 2024 12:02:54 -0800 (PST)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net.
+ [86.58.6.171]) by smtp.gmail.com with ESMTPSA id
+ l20-20020a1709067d5400b00a3e85909a1csm4520555ejp.182.2024.02.22.12.02.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Feb 2024 12:02:54 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: =?utf-8?B?T25kxZllag==?= Jirman <megi@xff.cz>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Samuel Holland <samuel@sholland.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] drm/sun4i: Fix layer zpos change/atomic modesetting
+Date: Thu, 22 Feb 2024 21:02:53 +0100
+Message-ID: <2448947.jE0xQCEvom@jernej-laptop>
+In-Reply-To: <inuhwnlexpt6dpre4uailtvytjhms4uqeerzehbntczurhcxol@fc4nvkdwffdd>
+References: <20240216190430.1374132-1-megi@xff.cz>
+ <20240216190430.1374132-4-megi@xff.cz>
+ <inuhwnlexpt6dpre4uailtvytjhms4uqeerzehbntczurhcxol@fc4nvkdwffdd>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001C8:EE_|IA0PR12MB8716:EE_
-X-MS-Office365-Filtering-Correlation-Id: 824bc07b-c659-4562-0abc-08dc33e00507
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5uHf/PCO3ET1SI0S51hlLwJ4Z+/FHASa87tbTl8ILPQ+fRKYbTcyiXc2y9oFCaa6yG6/KhTIduDOs44j7rw2RT846zxSSCyTQOeMWLl9uEiRIIMnJQnm+K0UVPVvqAtj6ICXOL1ifQvWu8HOwKJY8AABtpUKHPCemh2wnGYzZKlG6aYUrKAsVgcfjMOiCw5KLmtaqnRaP+L8yAukze86qMHy8Ln80yuRdqaSoFWSXdxQU0ODZaalXDrM242y4IaYqQtxbM1nZqH7ClWOxQo8FAn5PN6mLpdBZCxx1J6XVSOIy2aK9Sa818QzIAcuIIinNZ4WUJZpyoS94apHw7Fvlj8NawfEU2w63MurqBw7q51WkQiTUgRgnZyGgQmLRldHJjDjyjTEl487JWfeQVOmWVjh2rasL/bUGSgH1A1izrl+KUluXfY6kSPzzojgOJv4FTHVG7g0sdRqfszkhcvRfp/B5pA0gO2Zf+oKFEc8hy0VSYnNohvqcKVhIcDaCwM1q1EBU3xpJpACd/Kp0b+mkOWU75Jr+YF1Y8lvA/xokkeGzV94ql35ueng8RdCmxA8BRpakZ5YwuIuMKN8llz5jBx9TFdNKVtcz0OlLcA3XrLmgmtgk/BXu2B6bq0G4rCpYuDee19XG5sNptDQihqjSA==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(36860700004)(46966006)(40470700004); DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2024 19:54:02.8556 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 824bc07b-c659-4562-0abc-08dc33e00507
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ5PEPF000001C8.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8716
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,60 +90,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
+Dne sreda, 21. februar 2024 ob 14:45:20 CET je Maxime Ripard napisal(a):
+> Hi,
+>=20
+> On Fri, Feb 16, 2024 at 08:04:26PM +0100, Ond=C5=99ej Jirman wrote:
+> > From: Ondrej Jirman <megi@xff.cz>
+> >=20
+> > Identical configurations of planes can lead to different (and wrong)
+> > layer -> pipe routing at HW level, depending on the order of atomic
+> > plane changes.
+> >=20
+> > For example:
+> >=20
+> > - Layer 1 is configured to zpos 0 and thus uses pipe 0. No other layer
+> >   is enabled. This is a typical situation at boot.
+> >=20
+> > - When a compositor takes over and layer 3 is enabled,
+> >   sun8i_ui_layer_enable() will get called with old_zpos=3D0 zpos=3D1, w=
+hich
+> >   will lead to incorrect disabling of pipe 0 and enabling of pipe 1.
+> >=20
+> > What happens is that sun8i_ui_layer_enable() function may disable
+> > blender pipes even if it is no longer assigned to its layer.
+> >=20
+> > To correct this, move the routing setup out of individual plane's
+> > atomic_update into crtc's atomic_update, where it can be calculated
+> > and updated all at once.
+> >=20
+> > Remove the atomic_disable callback because it is no longer needed.
+> >=20
+> > Signed-off-by: Ondrej Jirman <megi@xff.cz>
+>=20
+> I don't have enough knowledge about the mixers code to comment on your
+> patch, so I'll let Jernej review it. However, this feels to me like the
+> pipe assignment is typically the sort of things that should be dealt
+> with device-wide, and in atomic_check.
 
-Fixes for 6.8.
+In DE2 and DE3.0, you cannot move planes between mixers (crtcs), because ea=
+ch
+one is hardwired to specific mixer. Movable planes are the feature of DE3.3
+and one of the pain points for upstreaming the code. Anyway, this commit on=
+ly
+addresses current issue of enabling and disabling planes and handling zpos.
 
-The following changes since commit b401b621758e46812da61fa58a67c3fd8d91de0d:
+In atomic check you can only precalculate final register values, but I don't
+see any benefit doing that. I think that this code elegantly solves current
+issue of enabling or disabling wrong plane in certain situations, so:
 
-  Linux 6.8-rc5 (2024-02-18 12:56:25 -0800)
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-are available in the Git repository at:
+Note, if there is new revision, please rewrite blender regmap_update_bits()
+to regmap_write(). Since there is HW issue with reads, I would like to
+get rid of regmap_update_bits() calls eventually.
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.8-2024-02-22
+Best regards,
+Jernej
 
-for you to fetch changes up to bbfaf2aea7164db59739728d62d9cc91d64ff856:
+>=20
+> If I'm talking non-sense, it would be great to mention at least why that
+> can't be an option in the commit log.
+>=20
+> Maxime
+>=20
 
-  drm/amdgpu: Fix the runtime resume failure issue (2024-02-22 12:28:27 -0500)
 
-----------------------------------------------------------------
-amd-drm-fixes-6.8-2024-02-22:
 
-amdgpu:
-- Suspend/resume fixes
-- Backlight error fix
-- DCN 3.5 fixes
-- Misc fixes
 
-----------------------------------------------------------------
-Armin Wolf (1):
-      drm/amd/display: Fix memory leak in dm_sw_fini()
-
-Lewis Huang (1):
-      drm/amd/display: Only allow dig mapping to pwrseq in new asic
-
-Ma Jun (1):
-      drm/amdgpu: Fix the runtime resume failure issue
-
-Melissa Wen (1):
-      drm/amd/display: fix null-pointer dereference on edid reading
-
-Srinivasan Shanmugam (1):
-      drm/amd/display: Fix potential null pointer dereference in dc_dmub_srv
-
-Swapnil Patel (1):
-      drm/amd/display: fix input states translation error for dcn35 & dcn351
-
-Wayne Lin (1):
-      drm/amd/display: adjust few initialization order in dm
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c           |  3 ++
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 57 +++++++++++++---------
- drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c       |  7 ++-
- .../gpu/drm/amd/display/dc/dce/dce_panel_cntl.c    |  1 +
- .../drm/amd/display/dc/dcn301/dcn301_panel_cntl.c  |  1 +
- .../drm/amd/display/dc/dcn31/dcn31_panel_cntl.c    | 18 ++++++-
- .../amd/display/dc/dml2/dml2_translation_helper.c  |  9 +++-
- drivers/gpu/drm/amd/display/dc/inc/hw/panel_cntl.h |  2 +-
- drivers/gpu/drm/amd/display/dc/link/link_factory.c | 26 +---------
- 9 files changed, 71 insertions(+), 53 deletions(-)
