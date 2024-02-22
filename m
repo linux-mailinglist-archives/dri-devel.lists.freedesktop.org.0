@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7F9985FCC5
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 16:42:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D8085FCC3
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 16:42:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FBC810E992;
-	Thu, 22 Feb 2024 15:42:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84E8B10E987;
+	Thu, 22 Feb 2024 15:42:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uQUAk1TB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bMRvnplW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47D5210E987
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 15:42:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 973B010E987
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 15:42:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id BDF29618E6;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0D104618D5;
+ Thu, 22 Feb 2024 15:42:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC892C433C7;
  Thu, 22 Feb 2024 15:42:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DA22C43390;
- Thu, 22 Feb 2024 15:41:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1708616521;
- bh=EnlDgbrVCRzMk/5nA8phcXNSHmHCcO7T/tMtxNbprvs=;
+ s=k20201202; t=1708616524;
+ bh=KgDcscSofoiJ56aGo6M+RgNx0sKZfbHtKRJhpGa5w9Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=uQUAk1TBgeFaNwoHocfLvos2nHMyvH2XhcOjildr5QnbcV2KxngArqmqNWBVDSjzG
- Rr60cmb1GL7P5guQAhUHdGl8n17FvfS14znBK6SuHtcLOmjQsLqT2VfryOM5b/Go2k
- qvY/6/yWtPNrJMKmilSD9hky8QFKJeipX5pfeh0Y1TbPyjeogfzMvz3m1TPJC/wIey
- tZPcuuf0Ae6zfvyrJZVfN8knDfILwu/d/n51eDiRcZXDk7HFoOl967jQFc5CJCRXwB
- DWUEHXISRfU+C9fjoVXBr8lpUtKNb83AGQLg31Gy3Prv41xtoGM9+GoekwBQvm5prS
- muIVquBk9yXQA==
+ b=bMRvnplWNr4x0m1A+BadooEBnvlrCUQoEAi8eDvoZ+gs9jt023jMYy/vdPgGMCIKI
+ x33RQJpFw+SxNgNabT81f1WfKax8FGGnF9UJnY9lu3j/U2X71coiWNQsTaXgfBGHWN
+ THMaQqWamo0XU3LXS/PgxKfbWZ6Cn0uYEsQb3XAE9MjtUtxVX79jxi6AwUMj8jKLuI
+ u82Q/MhXrWsx7vu0l+55IQ73dIjtFyP85ep2vjjpNpk9LnM9j2BlsKF7ZGvtnr4io2
+ psVBM4eLtJgkJ4EepXV4lNx0tVKVKwb0SK3RSNDeI419yC5tLFi4m/1f/Nu2HEDccJ
+ fN6JTn/mWt9Fw==
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 To: Matthias Brugger <matthias.bgg@gmail.com>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
@@ -40,10 +40,10 @@ To: Matthias Brugger <matthias.bgg@gmail.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org
 Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: [PATCH v2 10/12] media: platform: mtk-mdp3: Get fine-grain control of
- cmdq_pkt_finalize()
-Date: Thu, 22 Feb 2024 15:41:18 +0000
-Message-Id: <20240222154120.16959-11-chunkuang.hu@kernel.org>
+Subject: [PATCH v2 11/12] media: platform: mtk-mdp3: Use cmdq_pkt_create() and
+ cmdq_pkt_destroy()
+Date: Thu, 22 Feb 2024 15:41:19 +0000
+Message-Id: <20240222154120.16959-12-chunkuang.hu@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240222154120.16959-1-chunkuang.hu@kernel.org>
 References: <20240222154120.16959-1-chunkuang.hu@kernel.org>
@@ -64,55 +64,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to have fine-grained control, use cmdq_pkt_eoc() and
-cmdq_pkt_jump_rel() to replace cmdq_pkt_finalize().
+Use cmdq_pkt_create() and cmdq_pkt_destroy() common function
+instead of implementing mdp3 version.
 
 Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 ---
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c | 3 ++-
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c | 2 ++
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h | 1 +
- 3 files changed, 5 insertions(+), 1 deletion(-)
+ .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    | 45 ++-----------------
+ 1 file changed, 4 insertions(+), 41 deletions(-)
 
 diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-index 6adac857a477..b720e69b341d 100644
+index b720e69b341d..c7a9f142102d 100644
 --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
 +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-@@ -471,7 +471,8 @@ int mdp_cmdq_send(struct mdp_dev *mdp, struct mdp_cmdq_param *param)
- 		dev_err(dev, "mdp_path_config error\n");
- 		goto err_free_path;
+@@ -287,43 +287,6 @@ static int mdp_path_config(struct mdp_dev *mdp, struct mdp_cmdq_cmd *cmd,
+ 	return 0;
+ }
+ 
+-static int mdp_cmdq_pkt_create(struct cmdq_client *client, struct cmdq_pkt *pkt,
+-			       size_t size)
+-{
+-	struct device *dev;
+-	dma_addr_t dma_addr;
+-
+-	pkt->va_base = kzalloc(size, GFP_KERNEL);
+-	if (!pkt->va_base)
+-		return -ENOMEM;
+-
+-	pkt->buf_size = size;
+-	pkt->cl = (void *)client;
+-
+-	dev = client->chan->mbox->dev;
+-	dma_addr = dma_map_single(dev, pkt->va_base, pkt->buf_size,
+-				  DMA_TO_DEVICE);
+-	if (dma_mapping_error(dev, dma_addr)) {
+-		dev_err(dev, "dma map failed, size=%u\n", (u32)(u64)size);
+-		kfree(pkt->va_base);
+-		return -ENOMEM;
+-	}
+-
+-	pkt->pa_base = dma_addr;
+-
+-	return 0;
+-}
+-
+-static void mdp_cmdq_pkt_destroy(struct cmdq_pkt *pkt)
+-{
+-	struct cmdq_client *client = (struct cmdq_client *)pkt->cl;
+-
+-	dma_unmap_single(client->chan->mbox->dev, pkt->pa_base, pkt->buf_size,
+-			 DMA_TO_DEVICE);
+-	kfree(pkt->va_base);
+-	pkt->va_base = NULL;
+-}
+-
+ static void mdp_auto_release_work(struct work_struct *work)
+ {
+ 	struct mdp_cmdq_cmd *cmd;
+@@ -341,7 +304,7 @@ static void mdp_auto_release_work(struct work_struct *work)
+ 	atomic_dec(&mdp->job_count);
+ 	wake_up(&mdp->callback_wq);
+ 
+-	mdp_cmdq_pkt_destroy(&cmd->pkt);
++	cmdq_pkt_destroy(mdp->cmdq_clt, &cmd->pkt);
+ 	kfree(cmd->comps);
+ 	cmd->comps = NULL;
+ 	kfree(cmd);
+@@ -388,7 +351,7 @@ static void mdp_handle_cmdq_callback(struct mbox_client *cl, void *mssg)
+ 		atomic_dec(&mdp->job_count);
+ 		wake_up(&mdp->callback_wq);
+ 
+-		mdp_cmdq_pkt_destroy(&cmd->pkt);
++		cmdq_pkt_destroy(mdp->cmdq_clt, &cmd->pkt);
+ 		kfree(cmd->comps);
+ 		cmd->comps = NULL;
+ 		kfree(cmd);
+@@ -418,7 +381,7 @@ int mdp_cmdq_send(struct mdp_dev *mdp, struct mdp_cmdq_param *param)
+ 		goto err_cancel_job;
  	}
--	cmdq_pkt_finalize(&cmd->pkt);
-+	cmdq_pkt_eoc(&cmd->pkt);
-+	cmdq_pkt_jump_rel(&cmd->pkt, CMDQ_INST_SIZE, mdp->cmdq_shift_pa);
  
- 	for (i = 0; i < num_comp; i++)
- 		memcpy(&comps[i], path->comps[i].comp,
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
-index 94f4ed78523b..2214744c937c 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
-@@ -231,6 +231,8 @@ static int mdp_probe(struct platform_device *pdev)
- 		goto err_put_scp;
- 	}
+-	ret = mdp_cmdq_pkt_create(mdp->cmdq_clt, &cmd->pkt, SZ_16K);
++	ret = cmdq_pkt_create(mdp->cmdq_clt, &cmd->pkt, SZ_16K);
+ 	if (ret)
+ 		goto err_free_cmd;
  
-+	mdp->cmdq_shift_pa = cmdq_get_shift_pa(mdp->cmdq_clt->chan);
-+
- 	init_waitqueue_head(&mdp->callback_wq);
- 	ida_init(&mdp->mdp_ida);
- 	platform_set_drvdata(pdev, mdp);
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h
-index 7e21d226ceb8..ed61e0bb69ee 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h
-@@ -83,6 +83,7 @@ struct mdp_dev {
- 	u32					id_count;
- 	struct ida				mdp_ida;
- 	struct cmdq_client			*cmdq_clt;
-+	u8					cmdq_shift_pa;
- 	wait_queue_head_t			callback_wq;
- 
- 	struct v4l2_device			v4l2_dev;
+@@ -513,7 +476,7 @@ int mdp_cmdq_send(struct mdp_dev *mdp, struct mdp_cmdq_param *param)
+ err_free_comps:
+ 	kfree(comps);
+ err_destroy_pkt:
+-	mdp_cmdq_pkt_destroy(&cmd->pkt);
++	cmdq_pkt_destroy(mdp->cmdq_clt, &cmd->pkt);
+ err_free_cmd:
+ 	kfree(cmd);
+ err_cancel_job:
 -- 
 2.34.1
 
