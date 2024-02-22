@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EFE885FCB3
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 16:41:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5CD785FCB7
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 16:41:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18E8710E2F6;
-	Thu, 22 Feb 2024 15:41:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FAA310E983;
+	Thu, 22 Feb 2024 15:41:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jTvQ8XMW";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pJHhs7lb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FB8B10E2F6
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 15:41:32 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5985410E2F6
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 15:41:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id E899ECE21A0;
+ by dfw.source.kernel.org (Postfix) with ESMTP id A6574618EA;
+ Thu, 22 Feb 2024 15:41:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AB80C43390;
  Thu, 22 Feb 2024 15:41:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35792C433F1;
- Thu, 22 Feb 2024 15:41:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1708616489;
- bh=pjixf3oXo63dg7qf7lXjwZCTLnX0p47lkDin0H4I8LU=;
- h=From:To:Cc:Subject:Date:From;
- b=jTvQ8XMWDulUTguO1lrSEX+LInOIjmnQhNbrGk7y8o2w699XXvhWZcAgJYmiY2KON
- 0sUvlq7/4FDFHEw8Lvn78gWeubpi7fVJjcaZjgo/G4hGOoROEwq2pdFXbSkyvp2ae+
- did0penN8Xd26Y30/5mxSFS6CecVq7wdM3tmRn/SWunNkeqziWhj4ifCN6MH8kQSn2
- D577EuZiKtmQf4eXSgqWqV8AbzBJILrLIX+L9/RF5T//HavbM3WEHnEOhSczsLy9Ax
- xunLJqrFaYar7GJrBEGLTpu0AFUnbHdGp7c40xhoWAqs9NGuOM4uh6NgCL2fudjoPQ
- 2fi/Mp1krDFVA==
+ s=k20201202; t=1708616492;
+ bh=xCIGBwYX6XIyecIkEgq00nSGxn+xtBAV0Xn4DI4lFRE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=pJHhs7lbcCFk6UhjYW0wfrz8wcaLvrooR3gSmQxaayS7Sh4/AjqZeRw3hBjMXCEvL
+ 1VzZxJIhdEXWO2U3HCUkWX4Eqq3Ao6MkESVptlhbSp1xaao6k6jbMQqq7x7q3YQAk/
+ T3JMH2d47sIiA/cjr4RcPUiw8u7MWM19rC/DqOet+LpAmb0443YJsoYOzpdSJl28aX
+ GmUV8fLYij3E8YVd76XEa0xITi/eND1F23dNO7hol5Cfy598RficTVlU5nx+Bf8/R7
+ MeVQqHDOZENPkIAr8Lh9DraCSOP6JtZPf6iKlel0mtsAyzMECXuV2UES7u4KcpqEDZ
+ p1EfRNUwaDA/g==
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 To: Matthias Brugger <matthias.bgg@gmail.com>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
@@ -40,10 +40,12 @@ To: Matthias Brugger <matthias.bgg@gmail.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org
 Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: [PATCH v2 00/12] Remove cl in struct cmdq_pkt
-Date: Thu, 22 Feb 2024 15:41:08 +0000
-Message-Id: <20240222154120.16959-1-chunkuang.hu@kernel.org>
+Subject: [PATCH v2 01/12] soc: mediatek: cmdq: Fix typo of CMDQ_JUMP_RELATIVE
+Date: Thu, 22 Feb 2024 15:41:09 +0000
+Message-Id: <20240222154120.16959-2-chunkuang.hu@kernel.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240222154120.16959-1-chunkuang.hu@kernel.org>
+References: <20240222154120.16959-1-chunkuang.hu@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -61,47 +63,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-cl in struct cmdq_pkt is used to store struct cmdq_client, but every client
-driver has the struct cmdq_client information, so it's not necessary to
-store struct cmdq_client in struct cmdq_pkt. Because mailbox maintainer
-do not like to mix mailbox patch with other patches in a series, so
-mailbox patch [1] would be sent independently.
+For cmdq jump command, offset 0 means relative jump and offset 1
+means absolute jump. cmdq_pkt_jump() is absolute jump, so fix the
+typo of CMDQ_JUMP_RELATIVE in cmdq_pkt_jump().
 
-Changes in v2:
-1. Fix typo of CMDQ_JUMP_RELATIVE
-2. Refine cmdq_pkt_create() and cmdq_pkt_destroy()
-3. Rename cmdq_pkt_jump() to cmdq_pkt_jump_abs()
-4. Add cmdq_pkt_jump_rel() helper function
-5. drm/mediatek: Use cmdq_pkt_create() and cmdq_pkt_destroy()
-6. mtk-mdp3: Get fine-grain control of cmdq_pkt_finalize()
-7. mtk-mdp3: Use cmdq_pkt_create() and cmdq_pkt_destroy()
+Fixes: 946f1792d3d7 ("soc: mediatek: cmdq: add jump function")
+Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+---
+ drivers/soc/mediatek/mtk-cmdq-helper.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/commit/?h=mediatek-cmdq8&id=a1b2f7a7488285975c1f439086f1c4cc51a13bb9
-
-Chun-Kuang Hu (12):
-  soc: mediatek: cmdq: Fix typo of CMDQ_JUMP_RELATIVE
-  soc: mediatek: cmdq: Add parameter shift_pa to cmdq_pkt_jump()
-  soc: mediatek: cmdq: Rename cmdq_pkt_jump() to cmdq_pkt_jump_abs()
-  soc: mediatek: cmdq: Add cmdq_pkt_jump_rel() helper function
-  soc: mediatek: cmdq: Add cmdq_pkt_eoc() helper function
-  soc: mediatek: cmdq: Remove cmdq_pkt_flush_async() helper function
-  soc: mediatek: cmdq: Refine cmdq_pkt_create() and cmdq_pkt_destroy()
-  drm/mediatek: Use cmdq_pkt_eoc() instead of cmdq_pkt_finalize()
-  drm/mediatek: Use cmdq_pkt_create() and cmdq_pkt_destroy()
-  media: platform: mtk-mdp3: Get fine-grain control of
-    cmdq_pkt_finalize()
-  media: platform: mtk-mdp3: Use cmdq_pkt_create() and
-    cmdq_pkt_destroy()
-  soc: mediatek: cmdq: Remove cmdq_pkt_finalize() helper function
-
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c       | 48 ++----------
- .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    | 48 ++----------
- .../platform/mediatek/mdp3/mtk-mdp3-core.c    |  2 +
- .../platform/mediatek/mdp3/mtk-mdp3-core.h    |  1 +
- drivers/soc/mediatek/mtk-cmdq-helper.c        | 73 ++++++-------------
- include/linux/soc/mediatek/mtk-cmdq.h         | 60 +++++++++------
- 6 files changed, 73 insertions(+), 159 deletions(-)
-
+diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
+index b0cd071c4719..0b2e5690dacf 100644
+--- a/drivers/soc/mediatek/mtk-cmdq-helper.c
++++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
+@@ -14,7 +14,8 @@
+ #define CMDQ_POLL_ENABLE_MASK	BIT(0)
+ #define CMDQ_EOC_IRQ_EN		BIT(0)
+ #define CMDQ_REG_TYPE		1
+-#define CMDQ_JUMP_RELATIVE	1
++#define CMDQ_JUMP_RELATIVE	0
++#define CMDQ_JUMP_ABSOLUTE	1
+ 
+ struct cmdq_instruction {
+ 	union {
+@@ -397,7 +398,7 @@ int cmdq_pkt_jump(struct cmdq_pkt *pkt, dma_addr_t addr)
+ 	struct cmdq_instruction inst = {};
+ 
+ 	inst.op = CMDQ_CODE_JUMP;
+-	inst.offset = CMDQ_JUMP_RELATIVE;
++	inst.offset = CMDQ_JUMP_ABSOLUTE;
+ 	inst.value = addr >>
+ 		cmdq_get_shift_pa(((struct cmdq_client *)pkt->cl)->chan);
+ 	return cmdq_pkt_append_command(pkt, inst);
 -- 
 2.34.1
 
