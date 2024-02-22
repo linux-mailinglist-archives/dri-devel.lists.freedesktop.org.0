@@ -2,94 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 882E486016B
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 19:32:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1750086016F
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 19:33:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D91E210E059;
-	Thu, 22 Feb 2024 18:32:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21A7E10EA1F;
+	Thu, 22 Feb 2024 18:33:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="SbhntPsG";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="F9vaL/4J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BB3110E059;
- Thu, 22 Feb 2024 18:32:33 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41MHXd4w011379; Thu, 22 Feb 2024 18:32:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=uBZVc2KAKMD3VrRODtzocPOslJ8eEF/cruNuWqPmlKI=; b=Sb
- hntPsGuukpcjKB4zPplj4GOzJxfsYhuBytggceShdDIlmcH+JehD+Wz2F1sBHE6W
- HkP4GuOrWmP/YSw0gLjTmlXhnaPAmbSS53WQu/Kexo4YcGWZx8yO8iG77hbZ6WVz
- RopOwTy6MDoZZOEi9CCKFjyc8uBDKOvQlF4b1XlhlmZNLcn3zlWVz1rVeoI6ZdKy
- Nus270Dkg6U/9FrRXVnHREQJ5yWXr54tpegIELdhS2V5mj4MtvtVMJ8mA6KER+ny
- nqtroOgX7O9Qt0A9HTSKs7M9jqI+1oQaik9zwEXvL8BPNqls9L8dBQ6ayngwz+DW
- +yw4RuTJpuMnPpB8SvDQ==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3weasbr9eg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 22 Feb 2024 18:32:25 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41MIWOTJ011497
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 22 Feb 2024 18:32:24 GMT
-Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 22 Feb
- 2024 10:32:23 -0800
-Message-ID: <4de8626d-7dc6-42af-85ea-60e6670aef72@quicinc.com>
-Date: Thu, 22 Feb 2024 10:32:06 -0800
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 598D710EA1F
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 18:33:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1708626802;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IDF5rof44gEIb9jX4TIDVAFNvDzRBoYmWa48QZ9r6nQ=;
+ b=F9vaL/4J6BIKYvGuy4K5IemkafT7VkbbiUBJNbQrSmK8J1HK0+ML9PXCxd0XgvYoYmhxUb
+ 32GrtyJzbcGUwuUOKDpUajdzIoQ0lRBbc4tXcyrOEnTklyhYqCaBQbv1gyxUE/XXXmTsXh
+ ysa3T5RG4BG5ktRXe9jxGpIWUSgxKvA=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-302-1GPdaEu5N0qXUjGp3VocOw-1; Thu, 22 Feb 2024 13:33:19 -0500
+X-MC-Unique: 1GPdaEu5N0qXUjGp3VocOw-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ a640c23a62f3a-a3f35ebeefbso873366b.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 10:33:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708626798; x=1709231598;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=IDF5rof44gEIb9jX4TIDVAFNvDzRBoYmWa48QZ9r6nQ=;
+ b=MHu9gDnVIG2M9n2Wiua+1ZfkX7K66ObE1hQhHgqSXdKpeu+0meKawhk519ySNLPruK
+ XmBIK3bPcYNUBxc5P/ZMguZqvNU7YWYxLJeg0OaAamOUaEHENrCAkZQeJUSl8vnB2MLC
+ ykTQLe/kzL8Po58xEFxtnGI4PItBwKgUBFAo7LSGY2i6vUy0vBqTldgbfzrtZcIb2voa
+ 98cSGMXSr9p+Nud1GQcE6E7c+2KLSLgxBAav5XxbWgcf0OhWOA9RJcWs/R90NvAYZ9SE
+ rai1aMFaCp/fQWxxTtpSK46OUyMALqyVrXmvPxL6aqocdQfGzS4SMKsBmxqdVTZqEwl2
+ Ll/Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW+mIDVVImVeeEOH7fukvZX7GSqQKy+HWziKWvVDQswMz75GZ33hV0nPrVBtrlSicXeBB84+zZmNBH8ey9wgdDP3noki4GJFjaWTjgwoC9+
+X-Gm-Message-State: AOJu0Yyj76qnpw70fW/6UYwhfuhXJHtLGcB+Wid/PmpilVa6F8knKhbZ
+ /dlc6cpzMdQMeJdFZ+/BUMUsCaDVO0qJBYPu7QzrKaG94UvzbtnS+TJD1hKt2qMHkrRr9hS9X4D
+ rqzrQZb/xaIcyquBI0L2vFniYJzXXmaW9j83MEsVwjFM4fcJzAdqptMQaIPWy6nuwqQ==
+X-Received: by 2002:a17:906:3b52:b0:a3f:1ec7:8765 with SMTP id
+ h18-20020a1709063b5200b00a3f1ec78765mr4781466ejf.8.1708626797771; 
+ Thu, 22 Feb 2024 10:33:17 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHy6MVM+yU0ergPm1eOLv+jCkZxkYnKmu7DqTz49UohXBGjHmSJ/pKffRukeXLaaXuaiUR+Cg==
+X-Received: by 2002:a17:906:3b52:b0:a3f:1ec7:8765 with SMTP id
+ h18-20020a1709063b5200b00a3f1ec78765mr4781437ejf.8.1708626797348; 
+ Thu, 22 Feb 2024 10:33:17 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
+ (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+ by smtp.gmail.com with ESMTPSA id
+ lu16-20020a170906fad000b00a3d5efc65e0sm4854658ejb.91.2024.02.22.10.33.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Feb 2024 10:33:16 -0800 (PST)
+Message-ID: <7013bf9e-2663-4613-ae61-61872e81355b@redhat.com>
+Date: Thu, 22 Feb 2024 19:33:15 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 3/9] arm64: dts: qcom: sc7280: Enable MDP turbo mode
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Konrad Dybcio
- <konrad.dybcio@linaro.org>
-CC: Bjorn Andersson <quic_bjorande@quicinc.com>, Douglas Anderson
- <dianders@chromium.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
- <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
- Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- <cros-qcom-dts-watchers@chromium.org>, Bjorn Andersson
- <andersson@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
-References: <20240221-rb3gen2-dp-connector-v1-0-dc0964ef7d96@quicinc.com>
- <20240221-rb3gen2-dp-connector-v1-3-dc0964ef7d96@quicinc.com>
- <CAA8EJpo=9vhM+5YzaFxUoYRuEWQyrMS8wLNPSF3K=bN5JwWyDw@mail.gmail.com>
- <8313a7c3-3ace-4dee-ad27-8f51a06cd58c@linaro.org>
- <CAA8EJpqFj5nf8d_=Uoup7qg+nQrxqQU-DHbL3uSP138m9AcXLw@mail.gmail.com>
- <8fcb5816-2d59-4e27-ba68-8e0ed6e7d839@linaro.org>
- <CAA8EJporaUuddHHqpyYHiYSu=toHmrDxSHf9msZUJoym4Nz72g@mail.gmail.com>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJporaUuddHHqpyYHiYSu=toHmrDxSHf9msZUJoym4Nz72g@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: g1j4Hzm46QuFIDBMWdiTeBtPETXWT6ay
-X-Proofpoint-GUID: g1j4Hzm46QuFIDBMWdiTeBtPETXWT6ay
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-22_14,2024-02-22_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- mlxlogscore=999 impostorscore=0 bulkscore=0 phishscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 malwarescore=0 adultscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2402220144
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] devm-helpers: Add resource managed version of mutex
+ init
+To: Matthew Auld <matthew.auld@intel.com>, =?UTF-8?Q?Marek_Beh=C3=BAn?=
+ <kabel@kernel.org>, linux-kernel@vger.kernel.org,
+ Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, Oded Gabbay
+ <ogabbay@kernel.org>, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Aleksandr Mezin <mezin.alexander@gmail.com>, Jean Delvare
+ <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+ Sebastian Reichel <sre@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-gpio@vger.kernel.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+References: <20240222145838.12916-1-kabel@kernel.org>
+ <03e62bcf-137c-4947-8f34-0cbfcba92a30@intel.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <03e62bcf-137c-4947-8f34-0cbfcba92a30@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,55 +116,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
+On 2/22/24 17:44, Matthew Auld wrote:
+> On 22/02/2024 14:58, Marek Behún wrote:
+>> A few drivers are doing resource-managed mutex initialization by
+>> implementing ad-hoc one-liner mutex dropping functions and using them
+>> with devm_add_action_or_reset(). Help drivers avoid these repeated
+>> one-liners by adding managed version of mutex initialization.
 
-On 2/22/2024 1:46 AM, Dmitry Baryshkov wrote:
-> On Thu, 22 Feb 2024 at 11:28, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
->>
->>
->>
->> On 2/22/24 10:04, Dmitry Baryshkov wrote:
->>> On Thu, 22 Feb 2024 at 10:56, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
->>>>
->>>>
->>>>
->>>> On 2/22/24 00:41, Dmitry Baryshkov wrote:
->>>>> On Thu, 22 Feb 2024 at 01:19, Bjorn Andersson <quic_bjorande@quicinc.com> wrote:
->>>>>>
->>>>>> The max frequency listed in the DPU opp-table is 506MHz, this is not
->>>>>> sufficient to drive a 4k@60 display, resulting in constant underrun.
->>>>>>
->>>>>> Add the missing MDP_CLK turbo frequency of 608MHz to the opp-table to
->>>>>> fix this.
->>>>>
->>>>> I think we might want to keep this disabled for ChromeOS devices. Doug?
->>>>
->>>> ChromeOS devices don't get a special SoC
->>>
->>> But they have the sc7280-chrome-common.dtsi, which might contain a
->>> corresponding /delete-node/ .
->>
->> What does that change? The clock rates are bound to the
->> SoC and the effective values are limited by link-frequencies
->> or the panel driver.
+<snip>
+
+>> index 74891802200d..70640fb96117 100644
+>> --- a/include/linux/devm-helpers.h
+>> +++ b/include/linux/devm-helpers.h
+>> @@ -24,6 +24,8 @@
+>>    */
+>>     #include <linux/device.h>
+>> +#include <linux/kconfig.h>
+>> +#include <linux/mutex.h>
+>>   #include <linux/workqueue.h>
+>>     static inline void devm_delayed_work_drop(void *res)
+>> @@ -76,4 +78,34 @@ static inline int devm_work_autocancel(struct device *dev,
+>>       return devm_add_action(dev, devm_work_drop, w);
+>>   }
+>>   +static inline void devm_mutex_drop(void *res)
+>> +{
+>> +    mutex_destroy(res);
+>> +}
+>> +
+>> +/**
+>> + * devm_mutex_init - Resource managed mutex initialization
+>> + * @dev:    Device which lifetime mutex is bound to
+>> + * @lock:    Mutex to be initialized (and automatically destroyed)
+>> + *
+>> + * Initialize mutex which is automatically destroyed when driver is detached.
+>> + * A few drivers initialize mutexes which they want destroyed before driver is
+>> + * detached, for debugging purposes.
+>> + * devm_mutex_init() can be used to omit the explicit mutex_destroy() call when
+>> + * driver is detached.
+>> + */
+>> +static inline int devm_mutex_init(struct device *dev, struct mutex *lock)
+>> +{
+>> +    mutex_init(lock);
 > 
-> Preventing the DPU from overheating? Or spending too much power?
+> Do you know if this this needs __always_inline? The static lockdep key in mutex_init() should be
+> different for each caller class. See c21f11d182c2 ("drm: fix drmm_mutex_init()").
+
+That is a very good point. I believe that this should mirror mutex_init() and
+the actual static inline function should be __devm_mutex_init() which takes
+the key as extra argument (and calls __mutex_init()) and then make
+devm_mutex_init() itself a macro mirroring the mutex_init() macro.
+
+Regards,
+
+Hans
+
+
+
+
+
+
 > 
-
-Running DPU clock in turbo is a requirement to support 4k@60 otherwise 
-the pixel rate that high cannot be supported.
-
-sc7280 chrome devices already limit to HBR2
-
-https://lore.kernel.org/all/20230329233416.27152-1-quic_abhinavk@quicinc.com/
-
-So the DPU will not vote more than nominal.
-
-And like others wrote, limiting SOC frequencies is not the way and we 
-should filter out required frequencies using link-frequencies.
-
-Hence fwiw, I am fine with this change.
-
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> +
+>> +    /*
+>> +     * mutex_destroy() is an empty function if CONFIG_DEBUG_MUTEXES is
+>> +     * disabled. No need to allocate an action in that case.
+>> +     */
+>> +    if (IS_ENABLED(CONFIG_DEBUG_MUTEXES))
+>> +        return devm_add_action_or_reset(dev, devm_mutex_drop, lock);
+>> +    else
+>> +        return 0;
+>> +}
+>> +
+>>   #endif
+> 
 
