@@ -2,76 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5743385EE6E
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 02:07:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FDAD85EEA2
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 02:22:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3EEA10E844;
-	Thu, 22 Feb 2024 01:06:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D1F810E76F;
+	Thu, 22 Feb 2024 01:22:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="dzgg7vhb";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZYHtQU7M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com
- [209.85.222.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93D6310E846
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 01:06:55 +0000 (UTC)
-Received: by mail-qk1-f171.google.com with SMTP id
- af79cd13be357-781753f52afso419032685a.2
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Feb 2024 17:06:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1708564014; x=1709168814;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=po77JXYuDK3AKWrYAL7OCKeGjP7qQRekYB5EzyekFyU=;
- b=dzgg7vhbxKjBJgVboadX1kQN02Z8TnzVpeVfFyGtDeTR5b9njd7RmogmUKZ3eMB/7R
- PRwZ2oAhS9xmXB+i8w7jApRk+fHH6Y7Jv46dcQn7uH4jHwmdVyr6kwqaoLDYXe88jyqP
- dXdLQkaTelqquruuWu8tZnLuzIFai1FcUORXw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708564014; x=1709168814;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=po77JXYuDK3AKWrYAL7OCKeGjP7qQRekYB5EzyekFyU=;
- b=OeNoAjssrl3qgaDfB4535FMh7AeqYQQ1/rvUANSB3G59sHQkKC8FujeJF4tMIdwp+c
- /8AkSqwu/V317wrDtRYrro7UVNubWkwaYU+q9Ue8X0wOmGhdVq43YlDZPZ8oU+ZC4kNt
- kEZc+J1am3/csKVWVBIn1lAI2YQ56HVn9C1mG8PmMpOYbBgytfKiQ/v8miglA8IOxISP
- KRbByfdEBs6FUCkckYlowsGjHinQGf+ekEnGVnaAnwxtP6f2HzFvh5iBZjuRkPJMfPE5
- F2TqE3tZKcG4N8OUyF0ODY7WA794WHFeONECLn0EgpuwWegBY0ZLAAQoFT0epqtsXJs9
- ua9Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUf/enEsKj5YqGIRlUfHce8eNLcAd3PiTZ8xf9iYkfjW5b9qrfyibt5wvG81qJLgRNpiU+jdP4mFNQI3Z5peyZqVmdLVRo1XXeodU4TaU5+
-X-Gm-Message-State: AOJu0YyqiBcqQ1qHzJt/RN2qU3gapeadqfTTgH+JZyEaAP6nroXm6t74
- R7XnGYsErubsRYV1ifBbFHJI0et39slbpKKRnj4iq2XkirPXQ4Jl7JJTgPNxQQ==
-X-Google-Smtp-Source: AGHT+IEp7Fn0i4KJjuMnYv+dMkHmf+oY47g69f2lZyjT0/QpWePXbGK3ufigwAivUZ7J5jtwbH3koA==
-X-Received: by 2002:a05:620a:167c:b0:787:1fb5:7e61 with SMTP id
- d28-20020a05620a167c00b007871fb57e61mr21927202qko.46.1708564014394; 
- Wed, 21 Feb 2024 17:06:54 -0800 (PST)
-Received: from kramasub2.cros.corp.google.com ([100.107.108.189])
- by smtp.gmail.com with ESMTPSA id
- h1-20020a05620a21c100b0078597896394sm4789415qka.51.2024.02.21.17.06.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Feb 2024 17:06:53 -0800 (PST)
-From: Karthikeyan Ramasubramanian <kramasub@chromium.org>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: Karthikeyan Ramasubramanian <kramasub@chromium.org>,
- stable@vger.kernel.org, Jani Nikula <jani.nikula@intel.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org
-Subject: [PATCH v2] drivers/i915/intel_bios: Fix parsing backlight BDB data
-Date: Wed, 21 Feb 2024 18:06:24 -0700
-Message-ID: <20240221180622.v2.1.I0690aa3e96a83a43b3fc33f50395d334b2981826@changeid>
-X-Mailer: git-send-email 2.44.0.rc0.258.g7320e95886-goog
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80E8D10E021;
+ Thu, 22 Feb 2024 01:22:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6532861636;
+ Thu, 22 Feb 2024 01:22:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48717C433F1;
+ Thu, 22 Feb 2024 01:22:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1708564951;
+ bh=8Gg4bD6vnGa/ihYXZ1047KooWejaE+1erFa2VYXuF9E=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZYHtQU7Mv/GCNI0yL8RMHsMF/ZegGIuZqV+ymww3V9s7XwbHQuKONVFzVA7hoonpI
+ Jt/gLGnHD0CvJdG+Mqw5AEFnU3GgV+xkqlrOT1l0JhTkj7p18G0ZQABJIZgph8HBDR
+ Icuv+0JngsPayepXdzwql7ysTCIyE76+qJ4WOsxO2zmeIbt/oeTFqsp0rYZALvzCp6
+ P9PsjhAD3oAD/mHFbJWY/ff0T++CL8XzhNPiqQXo1Z2O5CCm/IWQAAVS+0hoDZf9Cb
+ wOOW7BfGDgkfbVPYL+8oRxyzeW8H/tSTwnRSD62aMFLrF8KrRaWpdAqCpl1woHNF9X
+ gLuN5sqBp2c7Q==
+Date: Wed, 21 Feb 2024 19:22:27 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Johan Hovold <johan+linaro@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Vinod Koul <vkoul@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org
+Subject: Re: [PATCH 1/6] drm/bridge: aux-hpd: fix OF node leaks
+Message-ID: <j3t72nmsbhe6jdbnvmdsqmosokth65cpbtzoyr7rcddb5xzioa@nu5le67dpyod>
+References: <20240217150228.5788-1-johan+linaro@kernel.org>
+ <20240217150228.5788-2-johan+linaro@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240217150228.5788-2-johan+linaro@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,80 +73,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Starting BDB version 239, hdr_dpcd_refresh_timeout is introduced to
-backlight BDB data. Commit 700034566d68 ("drm/i915/bios: Define more BDB
-contents") updated the backlight BDB data accordingly. This broke the
-parsing of backlight BDB data in VBT for versions 236 - 238 (both
-inclusive) and hence the backlight controls are not responding on units
-with the concerned BDB version.
+On Sat, Feb 17, 2024 at 04:02:23PM +0100, Johan Hovold wrote:
+> The two device node references taken during allocation need to be
+> dropped when the auxiliary device is freed.
+> 
+> Fixes: 6914968a0b52 ("drm/bridge: properly refcount DT nodes in aux bridge drivers")
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 
-backlight_control information has been present in backlight BDB data
-from at least BDB version 191 onwards, if not before. Hence this patch
-extracts the backlight_control information for BDB version 191 or newer.
-Tested on Chromebooks using Jasperlake SoC (reports bdb->version = 236).
-Tested on Chromebooks using Raptorlake SoC (reports bdb->version = 251).
+Reviewed-by: Bjorn Andersson <andersson@kernel.org>
 
-Fixes: 700034566d68 ("drm/i915/bios: Define more BDB contents")
-Cc: stable@vger.kernel.org
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Signed-off-by: Karthikeyan Ramasubramanian <kramasub@chromium.org>
----
+Regards,
+Bjorn
 
-Changes in v2:
-- removed checking the block size of the backlight BDB data
-
- drivers/gpu/drm/i915/display/intel_bios.c     | 19 ++++---------------
- drivers/gpu/drm/i915/display/intel_vbt_defs.h |  5 -----
- 2 files changed, 4 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_bios.c b/drivers/gpu/drm/i915/display/intel_bios.c
-index aa169b0055e97..8c1eb05fe77d2 100644
---- a/drivers/gpu/drm/i915/display/intel_bios.c
-+++ b/drivers/gpu/drm/i915/display/intel_bios.c
-@@ -1042,22 +1042,11 @@ parse_lfp_backlight(struct drm_i915_private *i915,
- 	panel->vbt.backlight.type = INTEL_BACKLIGHT_DISPLAY_DDI;
- 	panel->vbt.backlight.controller = 0;
- 	if (i915->display.vbt.version >= 191) {
--		size_t exp_size;
-+		const struct lfp_backlight_control_method *method;
- 
--		if (i915->display.vbt.version >= 236)
--			exp_size = sizeof(struct bdb_lfp_backlight_data);
--		else if (i915->display.vbt.version >= 234)
--			exp_size = EXP_BDB_LFP_BL_DATA_SIZE_REV_234;
--		else
--			exp_size = EXP_BDB_LFP_BL_DATA_SIZE_REV_191;
--
--		if (get_blocksize(backlight_data) >= exp_size) {
--			const struct lfp_backlight_control_method *method;
--
--			method = &backlight_data->backlight_control[panel_type];
--			panel->vbt.backlight.type = method->type;
--			panel->vbt.backlight.controller = method->controller;
--		}
-+		method = &backlight_data->backlight_control[panel_type];
-+		panel->vbt.backlight.type = method->type;
-+		panel->vbt.backlight.controller = method->controller;
- 	}
- 
- 	panel->vbt.backlight.pwm_freq_hz = entry->pwm_freq_hz;
-diff --git a/drivers/gpu/drm/i915/display/intel_vbt_defs.h b/drivers/gpu/drm/i915/display/intel_vbt_defs.h
-index a9f44abfc9fc2..b50cd0dcabda9 100644
---- a/drivers/gpu/drm/i915/display/intel_vbt_defs.h
-+++ b/drivers/gpu/drm/i915/display/intel_vbt_defs.h
-@@ -897,11 +897,6 @@ struct lfp_brightness_level {
- 	u16 reserved;
- } __packed;
- 
--#define EXP_BDB_LFP_BL_DATA_SIZE_REV_191 \
--	offsetof(struct bdb_lfp_backlight_data, brightness_level)
--#define EXP_BDB_LFP_BL_DATA_SIZE_REV_234 \
--	offsetof(struct bdb_lfp_backlight_data, brightness_precision_bits)
--
- struct bdb_lfp_backlight_data {
- 	u8 entry_size;
- 	struct lfp_backlight_data_entry data[16];
--- 
-2.44.0.rc0.258.g7320e95886-goog
-
+> ---
+>  drivers/gpu/drm/bridge/aux-hpd-bridge.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/aux-hpd-bridge.c b/drivers/gpu/drm/bridge/aux-hpd-bridge.c
+> index bb55f697a181..9e71daf95bde 100644
+> --- a/drivers/gpu/drm/bridge/aux-hpd-bridge.c
+> +++ b/drivers/gpu/drm/bridge/aux-hpd-bridge.c
+> @@ -25,6 +25,7 @@ static void drm_aux_hpd_bridge_release(struct device *dev)
+>  	ida_free(&drm_aux_hpd_bridge_ida, adev->id);
+>  
+>  	of_node_put(adev->dev.platform_data);
+> +	of_node_put(adev->dev.of_node);
+>  
+>  	kfree(adev);
+>  }
+> @@ -74,6 +75,8 @@ struct device *drm_dp_hpd_bridge_register(struct device *parent,
+>  
+>  	ret = auxiliary_device_init(adev);
+>  	if (ret) {
+> +		of_node_put(adev->dev.platform_data);
+> +		of_node_put(adev->dev.of_node);
+>  		ida_free(&drm_aux_hpd_bridge_ida, adev->id);
+>  		kfree(adev);
+>  		return ERR_PTR(ret);
+> -- 
+> 2.43.0
+> 
