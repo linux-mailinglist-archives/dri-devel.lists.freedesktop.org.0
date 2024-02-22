@@ -2,98 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E76D85F5F9
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 11:46:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F3AB85F62C
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 11:54:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16EBC10E8FC;
-	Thu, 22 Feb 2024 10:46:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66EA010E8AA;
+	Thu, 22 Feb 2024 10:54:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ac5JO/QJ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="p3wvyloe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59E9C10E8FC
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 10:46:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1708598769;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rRPR8AvutOPFFWYPFI0BFk7mX8osS7DuA7SiNt9M+vA=;
- b=ac5JO/QJP4USXPuTv6jJ6FdxI0Mku5VBXiDWmQUcv3EXjSpRU3dyYc1j9i0Uyrxoyj4Dx6
- E56j83ya/mA2EWWWH+i9Ei9apxjVa6VaoeUILKVxFR0gxXHmtSXXU72irz8fHJ0JOXX9bo
- 2tr6U7iJKu2E+QATMsAjs5Xs1BgXOWI=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-371-4WJHxsXkOSmP3ar8Rr9OPg-1; Thu, 22 Feb 2024 05:46:05 -0500
-X-MC-Unique: 4WJHxsXkOSmP3ar8Rr9OPg-1
-Received: by mail-ej1-f71.google.com with SMTP id
- a640c23a62f3a-a357c92f241so316804666b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 02:46:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708598765; x=1709203565;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rRPR8AvutOPFFWYPFI0BFk7mX8osS7DuA7SiNt9M+vA=;
- b=meNfa74StEW7IpaInRegPZDLLiVnChsZcuxb14QALfaNEKJVPQyCql5V48XIL4w0YD
- WB9CfIeMg++74HmueYdMJOd2BUWolFaVvYZFQd6mZLsgAtjQNTKAJjWyZyTbkhFFkwrF
- ps9qI+a7qp6ivR5R5LlRvCr04r3yjWr6l28pUmgvZ/VNY2jb/Loe6N8aufkSRRLj0B6D
- X6NwSoBrhwCfebbOtgq9uxuW+KZmlkzn39rT/JbfpjKMOqHAGPhNHcNoYVoQfCqDxpPC
- v3KbeiHgZXVUhk4fIwR8EeU6cgNw7wst4dxIdYYFWtyFMx+uvDuClMUvmOQbEyDfStGc
- A8jw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXgmRQ5svmet8/8jJTBl5E//eeG7d4lPKVZmjY46uQ4s1T9TZ7SLEMC29GGcwZiJo8RHTOkOx1HjSnSaDi+e+ouoj2nvx8WeqYZ3jSfgjrF
-X-Gm-Message-State: AOJu0YwBrfKeV6QoeBg8AF8HZsQ/GlB6I1in3xq1ye9N/dyssmwL11BB
- +y4ClQ2A+vKz7VBQTSalSYxC+kfDQZJ1MGgDzliybzQpcOHnblyc3N4pHmgHQKzHopzDn2Inf2m
- pSPB7KOznHkZKHCXb6LYNr5knGAdbGbpxo9efYFhgvAJU3YvQ3ITGY9gg0cjKbUUnDw==
-X-Received: by 2002:a17:906:4e97:b0:a3f:7fac:6ad2 with SMTP id
- v23-20020a1709064e9700b00a3f7fac6ad2mr957877eju.52.1708598764831; 
- Thu, 22 Feb 2024 02:46:04 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGXxoBT+ZeY1acRDGAGZfFRUc+WAMjs5U2qUzzkSwUQrrqCnfDJdHUdJj930KHBJgZvV563bw==
-X-Received: by 2002:a17:906:4e97:b0:a3f:7fac:6ad2 with SMTP id
- v23-20020a1709064e9700b00a3f7fac6ad2mr957856eju.52.1708598764441; 
- Thu, 22 Feb 2024 02:46:04 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
- (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
- by smtp.gmail.com with ESMTPSA id
- ov28-20020a170906fc1c00b00a3cf9b832eesm5810587ejb.40.2024.02.22.02.46.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Feb 2024 02:46:04 -0800 (PST)
-Message-ID: <b6d79727-ae94-44b1-aa88-069416435c14@redhat.com>
-Date: Thu, 22 Feb 2024 11:46:03 +0100
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B98C10E6E4
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 10:54:10 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 43E4DCE171B;
+ Thu, 22 Feb 2024 10:54:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 062AFC433F1;
+ Thu, 22 Feb 2024 10:54:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1708599247;
+ bh=loLivqtLkCVCvcc36ob4PcvIWRrqM9ZGR67glJQXpxQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=p3wvyloeEyROYySZMhKhyijsbbEPmsXor7/vqv3JAmDrQirLk9J3HpQfxHf2AHS4g
+ 3Mfkl4Z2sWtuKKkFkziZqxoMBoCctyt+WE9cuGJGizwvG7yvpeRcurNfsWHiVi+mYH
+ THcCJ1trswqTgqUw3+La26WaVeATB6DDGyEm3ySw3HZzniNsdtWbaEA9SWKHKmzLvR
+ V5T0cnYVsMtXBcqZtBzkn+JR2bfkQmGT7/cIWQb5pB49yZCPIF2Ys527u/KCq+8nmH
+ cUnfDQz5A0/fGs2+TufpQ3OdZXy0xGdNsd0keKdkoWu84ILsff6dzn0BFmmYCv2TXM
+ tkSJQ6H9fU8HQ==
+Date: Thu, 22 Feb 2024 11:54:04 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Sebastian Wick <sebastian.wick@redhat.com>
+Cc: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Emma Anholt <emma@anholt.net>, 
+ Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB property
+Message-ID: <euaujtp4jyyoud3ccg5qhyvixyq2p6vir4ojlzoky6kep754rj@wruidyfxssry>
+References: <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
+ <Zb0aYAapkxQ2kopt@intel.com>
+ <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
+ <20240209203435.GB996172@toolbox>
+ <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
+ <Zco-DQaXqae7B1jt@intel.com>
+ <yx2t7xltxxgsngdsxamsfq6y7dze3wzegxcqwmsb5yrxen73x6@u3vilqhpci4w>
+ <20240212170618.GA1372043@toolbox>
+ <2mih3humepuedtli7ge52ncom4uffkqravdpalncgfyucmwdzc@bp5o7i3ky77a>
+ <20240219140144.GB1956149@toolbox>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Future handling of complex RGB devices on Linux v2
-To: Pavel Machek <pavel@ucw.cz>, Werner Sembach <wse@tuxedocomputers.com>
-Cc: Lee Jones <lee@kernel.org>, jikos@kernel.org,
- linux-kernel@vger.kernel.org, Jelle van der Waa <jelle@vdwaa.nl>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
-References: <0cdb78b1-7763-4bb6-9582-d70577781e61@tuxedocomputers.com>
- <7228f2c6-fbdd-4e19-b703-103b8535d77d@redhat.com>
- <730bead8-6e1d-4d21-90d2-4ee73155887a@tuxedocomputers.com>
- <952409e1-2f0e-4d7a-a7a9-3b78f2eafec7@redhat.com>
- <9851a06d-956e-4b57-be63-e10ff1fce8b4@tuxedocomputers.com>
- <1bc6d6f0-a13d-4148-80cb-9c13dec7ed32@redhat.com>
- <b70b2ea8-abfd-4d41-b336-3e34e5bdb8c6@tuxedocomputers.com>
- <477d30ee-247e-47e6-bc74-515fd87fdc13@redhat.com>
- <e21a7d87-3059-4a51-af04-1062dac977d2@tuxedocomputers.com>
- <247b5dcd-fda8-45a7-9896-eabc46568281@tuxedocomputers.com>
- <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <ZdZ2kMASawJ9wdZj@duo.ucw.cz>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="gwyt2ovqrahookux"
+Content-Disposition: inline
+In-Reply-To: <20240219140144.GB1956149@toolbox>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,66 +78,246 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 2/21/24 23:17, Pavel Machek wrote:
-> Hi!
-> 
->> so after more feedback from the OpenRGB maintainers I came up with an even
->> more generic proposal:
->> https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/3916#note_1753072869
-> 
->>> evaluate-set-command ioctl taking:
->>> {
->>>     enum command                /* one of supported_commands */
->>>     union data
->>>     {
->>>         char raw[3072],
->>>         {
->>>             <input struct for command 0>
->>>         },
-> 
-> Yeah, so ... this is not a interface. This is a backdoor to pass
-> arbitrary data. That's not going to fly.
+--gwyt2ovqrahookux
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Pavel, Note the data will be interpreted by a kernel driver and
-not passed directly to the hw.
+On Mon, Feb 19, 2024 at 03:01:44PM +0100, Sebastian Wick wrote:
+> On Thu, Feb 15, 2024 at 12:00:01PM +0100, Maxime Ripard wrote:
+> > On Mon, Feb 12, 2024 at 06:06:18PM +0100, Sebastian Wick wrote:
+> > > On Mon, Feb 12, 2024 at 05:53:48PM +0100, Maxime Ripard wrote:
+> > > > On Mon, Feb 12, 2024 at 05:49:33PM +0200, Ville Syrj=E4l=E4 wrote:
+> > > > > On Mon, Feb 12, 2024 at 11:01:07AM +0100, Maxime Ripard wrote:
+> > > > > > On Fri, Feb 09, 2024 at 09:34:35PM +0100, Sebastian Wick wrote:
+> > > > > > > On Mon, Feb 05, 2024 at 10:39:38AM +0100, Maxime Ripard wrote:
+> > > > > > > > On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrj=E4l=E4=
+ wrote:
+> > > > > > > > > On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard w=
+rote:
+> > > > > > > > > > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrj=E4=
+l=E4 wrote:
+> > > > > > > > > > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripa=
+rd wrote:
+> > > > > > > > > > > > Hi,
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian=
+ Wick wrote:
+> > > > > > > > > > > > > > >  /**
+> > > > > > > > > > > > > > >   * DOC: HDMI connector properties
+> > > > > > > > > > > > > > >   *
+> > > > > > > > > > > > > > > + * Broadcast RGB
+> > > > > > > > > > > > > > > + *      Indicates the RGB Quantization Range=
+ (Full vs Limited) used.
+> > > > > > > > > > > > > > > + *      Infoframes will be generated accordi=
+ng to that value.
+> > > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > > + *      The value of this property can be on=
+e of the following:
+> > > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > > + *      Automatic:
+> > > > > > > > > > > > > > > + *              RGB Range is selected automa=
+tically based on the mode
+> > > > > > > > > > > > > > > + *              according to the HDMI specif=
+ications.
+> > > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > > + *      Full:
+> > > > > > > > > > > > > > > + *              Full RGB Range is forced.
+> > > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > > + *      Limited 16:235:
+> > > > > > > > > > > > > > > + *              Limited RGB Range is forced.=
+ Unlike the name suggests,
+> > > > > > > > > > > > > > > + *              this works for any number of=
+ bits-per-component.
+> > > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > > + *      Drivers can set up this property by =
+calling
+> > > > > > > > > > > > > > > + *      drm_connector_attach_broadcast_rgb_p=
+roperty().
+> > > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > >=20
+> > > > > > > > > > > > > > This is a good time to document this in more de=
+tail. There might be two
+> > > > > > > > > > > > > > different things being affected:
+> > > > > > > > > > > > > >=20
+> > > > > > > > > > > > > > 1. The signalling (InfoFrame/SDP/...)
+> > > > > > > > > > > > > > 2. The color pipeline processing
+> > > > > > > > > > > > > >=20
+> > > > > > > > > > > > > > All values of Broadcast RGB always affect the c=
+olor pipeline processing
+> > > > > > > > > > > > > > such that a full-range input to the CRTC is con=
+verted to either full- or
+> > > > > > > > > > > > > > limited-range, depending on what the monitor is=
+ supposed to accept.
+> > > > > > > > > > > > > >=20
+> > > > > > > > > > > > > > When automatic is selected, does that mean that=
+ there is no signalling,
+> > > > > > > > > > > > > > or that the signalling matches what the monitor=
+ is supposed to accept
+> > > > > > > > > > > > > > according to the spec? Also, is this really HDM=
+I specific?
+> > > > > > > > > > > > > >=20
+> > > > > > > > > > > > > > When full or limited is selected and the monito=
+r doesn't support the
+> > > > > > > > > > > > > > signalling, what happens?
+> > > > > > > > > > > > >=20
+> > > > > > > > > > > > > Forgot to mention: user-space still has no contro=
+l over RGB vs YCbCr on
+> > > > > > > > > > > > > the cable, so is this only affecting RGB? If not,=
+ how does it affect
+> > > > > > > > > > > > > YCbCr?
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > So I dug a bit into both the i915 and vc4 drivers, =
+and it looks like if
+> > > > > > > > > > > > we're using a YCbCr format, i915 will always use a =
+limited range while
+> > > > > > > > > > > > vc4 will follow the value of the property.
+> > > > > > > > > > >=20
+> > > > > > > > > > > The property is literally called "Broadcast *RGB*".
+> > > > > > > > > > > That should explain why it's only affecting RGB.
+> > > > > > > > > >=20
+> > > > > > > > > > Right. And the limited range option is called "Limited =
+16:235" despite
+> > > > > > > > > > being usable on bpc > 8 bits. Naming errors occurs, and=
+ history happens
+> > > > > > > > > > to make names inconsistent too, that's fine and not an =
+argument in
+> > > > > > > > > > itself.
+> > > > > > > > > >=20
+> > > > > > > > > > > Full range YCbCr is a much rarer beast so we've never=
+ bothered
+> > > > > > > > > > > to enable it.
+> > > > > > > > > >=20
+> > > > > > > > > > vc4 supports it.
+> > > > > > > > >=20
+> > > > > > > > > Someone implemented it incorrectly then.
+> > > > > > > >=20
+> > > > > > > > Incorrectly according to what documentation / specification=
+? I'm sorry,
+> > > > > > > > but I find it super ironic that i915 gets to do its own thi=
+ng, not
+> > > > > > > > document any of it, and when people try to clean things up =
+they get told
+> > > > > > > > that we got it all wrong.
+> > > > > > >=20
+> > > > > > > FWIW, this was an i915 property and if another driver uses th=
+e same
+> > > > > > > property name it must have the same behavior. Yes, it isn't s=
+tandardized
+> > > > > > > and yes, it's not documented (hence this effort here) but it'=
+s still on
+> > > > > > > vc4 to make the property compatible.
+> > > > > >=20
+> > > > > > How is it not compatible? It's a superset of what i915 provides=
+, but
+> > > > > > it's strictly compatible with it.
+> > > > >=20
+> > > > > No it is not.
+> > > >=20
+> > > > The property is compatible with i915 interpretation of it, whether =
+you
+> > > > like it or not. And that's what Sebastian was referring to.
+> > > >=20
+> > > > > Eg. what happens if you set the thing to full range for RGB (whic=
+h you
+> > > > > must on many broken monitors), and then the kernel automagically
+> > > > > switches to YCbCr (for whatever reason) but the monitor doesn't
+> > > > > support full range YCbCr? Answer: you get crap output.
+> > > >=20
+> > > > And that part is just moving goalposts.
+> > >=20
+> > > But it's really not.
+> >=20
+> > It really is. This whole discussion started by "well it would be nice if
+> > we made that property handled by the core", and we're now at the "we
+> > need to deal with broken YCbCr displays and i915 opinion about them"
+> > stage. After creating documentation, unit tests, etc. It's the textbook
+> > definition of moving goalposts. And while i915 won't be affected by all
+> > that work.
+>=20
+> Sorry, but what you're saying is just not true.
+>=20
+> The Broadcast RGB property is an Intel specific property.
 
-With that said I tend to agree that this seems to be a bit too
-generic.
+No, it's not. vc4 has been using it for a year now.
 
-Werner, it seems you are basically re-inventing ioctls here.
+> It lacked documentation but the user space contract exists and it
+> based on how i915 implemented it. By changing the semantics you're
+> breaking user space. The documentation has to document the current
+> contract between i915 and user space, not whatever you want the
+> property to be like.
+>=20
+> I get that you're frustrated that you have to do work while i915 doesn't
+> but none of that is relevant for what the property is and how user space
+> expects it to work.
 
-If you are going to use per vendor specific data structs for various
-commands and have those defined in the kernel userspace API headers,
-then this means that userspace will already need updated versions
-of those headers to support new vendors / new laptop models if
-the commands change for a new model.
+That's not it, really. I don't mind doing the work. I do mind losing
+functionalities on something that was working fine. And getting the
+blame for something that is, at best, just as much of an documentation
+issue on i915 devs.
 
-So what you are basically providing here is a generic interface
-to pass a cmd number + a cmd-bumber-specific data struct and
-we already have that it is called an ioctl.
+> > That series has been stuck for multiple iterations on pointless and
+> > mundane debates while the biggest part and whole point of it is not
+> > getting any review. So yeah, sorry, it's frustrating.
+>=20
+> I'm reviewing the parts that I can, and that's the uAPI. I find it
+> really offensive that you're saying that this is pointless and mundate.
 
-So I think that the conclusion of this whole discussion is that
-with the exception of a get-dev-info ioctl, we simply want
-vendor specific ioctls, using 1 ioctl per command.
+I'm sorry I offended you, but I was talking about the whole debate
+itself, not the uAPI. The uAPI itself exists. It's already there, it's
+used in the wild on several drivers, and several user-space components.
 
-Given that these devices are all different in various ways
-and that we only want this for devices which cannot be accessed
-from userspace directly (so a limit set of devices) I really
-think that just doing custom ioctls per vendor is best.
+What that patch does is trying to document it, and test it. It's a net
+benefit. Is it perfect? Probably not.
 
-This certainly is the most KISS approach. This proposal
-in essence is just an arbitrary command multiplexer /
-demultiplexer and ioctls already are exactly that.
+It's a net benefit nonetheless. The part where I mostly disagree with
+you I guess (and what we've actually been arguing obut) is trying to get
+something perfect (to the best of our knowledge) out of it.
 
-With the added advantage of being able to directly use
-pass the vendor-cmd-specific struct to the ioctl instead
-of having to first embed it in some other struct.
+Anyway, I'll just shut up and to do the work I guess.
 
-Regards,
+> The uAPI is your end product, if it can't be used, everything you do in
+> your driver is utterly pointless.
+>=20
+> > > The Broadcast RGB property kind of works from a user space perspective
+> > > because it's a workaround for broken sinks. If a sink expects limited
+> > > range we can force full range. If this however affects YCbCr modes as
+> > > well, then this isn't a workaround for broken RGB range anymore
+> > > because it now breaks YCbCr.
+> >=20
+> > Or, you know, it's a workaround for broken YCbCr display.
+>=20
+> Displays can accept both RGB and YCbCr signals, drivers can chose
+> whichever they want, and user space can not influence or even know which
+> one is being used.
+>=20
+> The automatic selection of the range is very different between RGB and
+> YCbCr. If user space forces the range to a specific value and the driver
+> for whatever reason switches from RGB to YCbCr or the other way around,
+> this forcing of the range will most likely be incorrect.
+>=20
+> This is what we're talking about when we say that the semantics of the
+> vc4 Broadcast RGB property is broken. User space literally cannot use it
+> consistenly. By restricting it to RGB signals, user space can user it
+> consistently and fix monitors that do not follow the automatic
+> quantization range algorithm correctly. Yes, if there is an issue with
+> the quantization range of a YCbCr signal then this property doesn't
+> help, but it never tried to help those cases.
 
-Hans
+Ack, thanks
 
+Maxime
 
+--gwyt2ovqrahookux
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZdcnzAAKCRDj7w1vZxhR
+xRqnAQDefz6f2FBe9kLtuo09d0IXpRytvlJT3Y9pbl1YdRZYMgEApnLSteNUg63V
+/mBTl1qxQbzQrR5ewp8lQ1kYaAXFwQM=
+=eUkv
+-----END PGP SIGNATURE-----
+
+--gwyt2ovqrahookux--
