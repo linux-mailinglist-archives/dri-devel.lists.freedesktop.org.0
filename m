@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA05286046F
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 22:11:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA25F860476
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 22:11:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DE6D10E9BC;
-	Thu, 22 Feb 2024 21:11:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B279210EA7D;
+	Thu, 22 Feb 2024 21:11:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="z6C+J1Aj";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Zwtn7g+M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com
- [209.85.219.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90BC510E97B
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 21:11:00 +0000 (UTC)
-Received: by mail-yb1-f176.google.com with SMTP id
- 3f1490d57ef6-dcc73148611so157185276.3
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 13:11:00 -0800 (PST)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
+ [209.85.128.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C1C910EA7D
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 21:11:30 +0000 (UTC)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-6087396e405so11631607b3.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 13:11:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708636259; x=1709241059; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1708636289; x=1709241089; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=pkCYglSSRXX0GiB1gOdgF7fLOHHbF1/C5DnjQjUjWpM=;
- b=z6C+J1AjVxZWZoTVwacbJdndI+0AjyA1kLY22wfzlEjG5/6KqoapMK9g09/+yxoM4+
- +zTOzWl2S1BKKbzaU0QOJ7S2V+LmblVitOcXhYZyxbrrKWpCqk1Y9pbSrqClwhGN2vOI
- XNoifmCjnHYBwWHw6VJvJfmtun8nT6SOgWArLnlDexfowXiF6f/HdSsefMC4evfZzjai
- 5NEss0/y0YRgTZayWffzQWcnABqUB0vGpzVXljJlsj6CwRVI87F8IGXw2vEitL0Ofeae
- TrGQrtRDCGWhqgcvCPSl4UNwQbzs9bSTA/fb289C82kPGHzceqjvrW6HE9CIPV0qbJLw
- y2Gw==
+ bh=6LQ9AKd6x9Ppr8V8DrGvzfthJpW9UNBDUhPwgck2Wa8=;
+ b=Zwtn7g+Mp2xt27/MrJ3N8UWrBqkL1JybO+6iQKIFh64+KdNxJPl32mKm5KYZrX5NiR
+ wAoZqzohHeEiAQiTDWZW5yrezecn4Rrh0vDQsdkDj2sPxctWLBRnSsdNFGPUytpnGRMg
+ 4PdImTrQAfc/4mOx+74eJKDpkho8Ty7EeRo74H6TWNshqnmI5LxGcoUWpD2cD/KF2plI
+ CIj9rCmt5sBGRapbBou6LttRr9OWB293DuQWtutjyMz9WqL4G6Q006EgKnC6yG+hAe6T
+ pie54XP0QzB0bqrCEFaAyFsn1iE8fNBlLgWJJsxiqVh+isVugpxxP6cDLiOpaMrsqrUn
+ c/Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708636259; x=1709241059;
+ d=1e100.net; s=20230601; t=1708636289; x=1709241089;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=pkCYglSSRXX0GiB1gOdgF7fLOHHbF1/C5DnjQjUjWpM=;
- b=JQqBPNP/5yQmyzxxKERR1f/xZxQxrtWZVIHa6AN9fKuCd7a3WxjZdI3UczmjZmJMUM
- BxXgXUmb3E1Jw+TsFaB6sAadkV0M/dgucG00uQHZufvmpS4cjadw3/LfeHudFhuNFwAd
- Elbv6pq9HPhio+nZ02/AYe9wrB1U1+Eq6qqzcSztSCOodGAHxD59zzhLi6i7WcOte8J3
- ydYxd4loExI8QKSfJcjX2+8/+PsxRHYTggcxwtIzYKIFx0ELB5hA0FR3kBx9JVoAQSBN
- Dh8HzatKjXCo8qIrUShBDog8boSPV6Speu5TPJAto45KVCmcl3VHyMeZylG8htK3J4/k
- J63A==
+ bh=6LQ9AKd6x9Ppr8V8DrGvzfthJpW9UNBDUhPwgck2Wa8=;
+ b=Wv20bGUo+BQ+SHwt/2D+Oe6UuBC8rKs7O4ek9sDiwOoZh30KVZbbYaD6vnQKxjPkSi
+ 84xtyM+arZlZoQAsMZj08s3XKiba/0KsN8WPeyvpOumAt0hiR8k3yKWAFax7GHxB/7Je
+ /Hs6RxPCga9miEC3uLfzuxcbfxZudxPM2QZtm5GQQvEXwl7pPuNPG1pyFg05aGhC58mC
+ C1y0qYifCU3Q+thwp3I07MrRNpRUWS4W1gPcnmf3AOHtss/eIyiC5BvSNeMueZ8hh7DF
+ 03xBjUJYxT09jNgFmFzSahBAsd2/6TOzycHuR4+BeacgIcM4FH3P2GuSkOABwZJU5cED
+ vPLA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUq66Q77Rwji0s36BgmCmZDKVGkPr2HQ1JxM04IwItdna8XWvc06qgMuTOABxR0NgYOCwOoP7SVuaDXzZsQjWAmF0qUet0InSHcICZnmMst
-X-Gm-Message-State: AOJu0Yw28u6CFq/GtvH6VxwX9RdyfEJA+7OfgoyPWa/gGJ43440+3MBg
- VONaMXyWettdbXecdzDjVem9/TOTZj5exfcNtte37hcPlVFAIlh/8fFw3MyWgtaUaWliIFhvK9o
- CHJ453iGejhpAByre4TjRNGUzQMKa0qxhmBoKAQ==
-X-Google-Smtp-Source: AGHT+IHwJkpERffkN3VWKbN/6atXOQ33nEsq/sgXRDlWA2N8ix01nl3hWBFMaZvbIXKA9vuRKkf9w2wT34E6I2Z7bFE=
-X-Received: by 2002:a5b:2ce:0:b0:dc6:c367:f0e4 with SMTP id
- h14-20020a5b02ce000000b00dc6c367f0e4mr343701ybp.52.1708636259455; Thu, 22 Feb
- 2024 13:10:59 -0800 (PST)
+ AJvYcCXw5PzLqjcOvZ9+q96nQsrGEMfftaicfzpHRichL/1pyN5MrI9Pum1trxCfSe0euLIubGpYiZge10jf2ScfQA/4teCDz4TCmHXGVfDnIU8z
+X-Gm-Message-State: AOJu0YzxzsSLegDAeCR3AQ8YFfWliIRK+kDR7bd0uIqhK3d4NuqrSiUB
+ fM/KbHHZPLgYpTsfvJnzlc9DkRszYQLdOMvicHf/xywOGdVe9NW5iTVrblErKo9rBEZr781j7jW
+ 4vo1SrB+963zSLYH4tZxotpKyV1hIx1P1a8yp/w==
+X-Google-Smtp-Source: AGHT+IGr40bVHUaWXhi2S3xmL6UJgO5Qya3+KW1Y3uj1TASqY4EfBpznUda1BUrj++1QaDRzC2B4Zta0+WKsL88FVd8=
+X-Received: by 2002:a81:451a:0:b0:608:821a:15e1 with SMTP id
+ s26-20020a81451a000000b00608821a15e1mr146315ywa.9.1708636289156; Thu, 22 Feb
+ 2024 13:11:29 -0800 (PST)
 MIME-Version: 1.0
 References: <20240217150228.5788-1-johan+linaro@kernel.org>
- <20240217150228.5788-5-johan+linaro@kernel.org>
-In-Reply-To: <20240217150228.5788-5-johan+linaro@kernel.org>
+ <20240217150228.5788-6-johan+linaro@kernel.org>
+In-Reply-To: <20240217150228.5788-6-johan+linaro@kernel.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 22 Feb 2024 23:10:48 +0200
-Message-ID: <CAA8EJppsaMD91AOnFx8J8fHzZj_dCrOeM-HQfNukwCsrw7UYXA@mail.gmail.com>
-Subject: Re: [PATCH 4/6] soc: qcom: pmic_glink: Fix boot when QRTR=m
+Date: Thu, 22 Feb 2024 23:11:17 +0200
+Message-ID: <CAA8EJppnHY=jDYjgTn+2dF_zmGwM9+KsUS6vOyPB_wa9W0v-UA@mail.gmail.com>
+Subject: Re: [PATCH 5/6] phy: qcom-qmp-combo: fix drm bridge registration
 To: Johan Hovold <johan+linaro@kernel.org>
 Cc: Bjorn Andersson <andersson@kernel.org>,
  Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -76,8 +76,8 @@ Cc: Bjorn Andersson <andersson@kernel.org>,
  Kuogee Hsieh <quic_khsieh@quicinc.com>, 
  freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-phy@lists.infradead.org, Rob Clark <robdclark@chromium.org>, 
- stable@vger.kernel.org
+ linux-phy@lists.infradead.org, stable@vger.kernel.org, 
+ Bjorn Andersson <quic_bjorande@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -96,31 +96,35 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Sat, 17 Feb 2024 at 17:03, Johan Hovold <johan+linaro@kernel.org> wrote:
 >
-> From: Rob Clark <robdclark@chromium.org>
+> Due to a long-standing issue in driver core, drivers may not probe defer
+> after having registered child devices to avoid triggering a probe
+> deferral loop (see fbc35b45f9f6 ("Add documentation on meaning of
+> -EPROBE_DEFER")).
 >
-> We need to bail out before adding/removing devices if we are going to
-> -EPROBE_DEFER. Otherwise boot can get stuck in a probe deferral loop due
-> to a long-standing issue in driver core (see fbc35b45f9f6 ("Add
-> documentation on meaning of -EPROBE_DEFER")).
+> This could potentially also trigger a bug in the DRM bridge
+> implementation which does not expect bridges to go away even if device
+> links may avoid triggering this (when enabled).
 >
-> Deregistering the altmode child device can potentially also trigger bugs
-> in the DRM bridge implementation, which does not expect bridges to go
-> away.
+> Move registration of the DRM aux bridge to after looking up clocks and
+> other resources.
 >
-> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> Link: https://lore.kernel.org/r/20231213210644.8702-1-robdclark@gmail.com
-> [ johan: rebase on 6.8-rc4, amend commit message and mention DRM ]
-> Fixes: 58ef4ece1e41 ("soc: qcom: pmic_glink: Introduce base PMIC GLINK driver")
-> Cc: stable@vger.kernel.org      # 6.3
-> Cc: Bjorn Andersson <andersson@kernel.org>
+> Note that PHY creation can in theory also trigger a probe deferral when
+> a 'phy' supply is used. This does not seem to affect the QMP PHY driver
+> but the PHY subsystem should be reworked to address this (i.e. by
+> separating initialisation and registration of the PHY).
+>
+> Fixes: 35921910bbd0 ("phy: qcom: qmp-combo: switch to DRM_AUX_BRIDGE")
+> Fixes: 1904c3f578dc ("phy: qcom-qmp-combo: Introduce drm_bridge")
+> Cc: stable@vger.kernel.org      # 6.5
+> Cc: Bjorn Andersson <quic_bjorande@quicinc.com>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 > ---
->  drivers/soc/qcom/pmic_glink.c | 21 +++++++++++----------
->  1 file changed, 11 insertions(+), 10 deletions(-)
+>  drivers/phy/qualcomm/phy-qcom-qmp-combo.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 >
-
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 
 -- 
 With best wishes
