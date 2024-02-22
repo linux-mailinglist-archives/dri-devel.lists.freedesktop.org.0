@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0011C8600CD
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 19:16:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA51F8600CB
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 19:16:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 013E810EA12;
-	Thu, 22 Feb 2024 18:16:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF80B10EA0C;
+	Thu, 22 Feb 2024 18:16:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o/2jN3Oc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Jmup7ZtY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D662310E9FD
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 18:16:01 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E33D10E9FD
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 18:16:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3132361A0A;
- Thu, 22 Feb 2024 18:16:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DAB7C433F1;
- Thu, 22 Feb 2024 18:16:00 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id EF7DECE28DE;
+ Thu, 22 Feb 2024 18:16:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42413C43399;
+ Thu, 22 Feb 2024 18:16:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1708625760;
- bh=06Y9bTrXk/Zk/AbVbMU7GmJ4QmvebUl1g2EB4tW+8+Y=;
+ s=k20201202; t=1708625763;
+ bh=BTZIvRqcuCTEKcvLPQKN0PrMjRjf9kk4vsMhE/kOVtY=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=o/2jN3OcW2EHEuhgApfFwexvsxu24F6mDo3xTlm5P5n0dYYsGhwUtDPI8hrjXhRBQ
- v0X2n88pj2d7iB7OVwpYNybk546AvqFvCTIe6uvKxYSDSudW3MzkIH6giFRsqEtehe
- 9wJXC/RFsRwp2s1hHm4/vz5zakhx540MBvwpSdmWdHLL4YLqW0BPR7QufjJ04Ipeme
- SHV98ayR1euxJvpLnerk5O4wsbEgTXNSTgLfbxbR/kcL2RCkRkW8RtKqR8gbQmab2O
- 2euu17XWbEgn3L4iekLP6XfFkXUw9eA2S2wKA/dLBQoQRcZtsS6iQE9o2Ghwt31VpD
- m3LiNucktuV2Q==
+ b=Jmup7ZtY0PC+Ppu5C9ix3hOqqK5wEZ+noUiy7APcEAVG25bVpcSHzOT3QYUEWPg38
+ vnn4IWUvYJxk0rsjc/ulwqwwMM0SUuBWZ+W51mnhum9GoapU+0A2X1HB7caJRJ/CVd
+ 6QxUKYzJujnEoj4nY906EdIxGaCGNjVSe8yjduq3cOcR3Z9T2stK4Zqv9eUyWu/Erq
+ i0GfhITXuFwGCFBn8Q7XeAhLGwpl3V/zfHEVZblpqKzKKuR9UwiEckxcrnQSde6Ue3
+ JXjHWcBEN+d556PrpEKnPaRksE9yZKPSvQcNDURhngA6f66MCIzVFCG4n1PMSj83vS
+ f0fzYZ4fejIrw==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 22 Feb 2024 19:14:19 +0100
-Subject: [PATCH v7 33/36] drm/sun4i: hdmi: Move mode_set into enable
+Date: Thu, 22 Feb 2024 19:14:20 +0100
+Subject: [PATCH v7 34/36] drm/sun4i: hdmi: Switch to container_of_const
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240222-kms-hdmi-connector-state-v7-33-8f4af575fce2@kernel.org>
+Message-Id: <20240222-kms-hdmi-connector-state-v7-34-8f4af575fce2@kernel.org>
 References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
 In-Reply-To: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -55,12 +55,12 @@ Cc: Hans Verkuil <hverkuil@xs4all.nl>,
  linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, 
  Sui Jingfeng <sui.jingfeng@linux.dev>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2857; i=mripard@kernel.org;
- h=from:subject:message-id; bh=06Y9bTrXk/Zk/AbVbMU7GmJ4QmvebUl1g2EB4tW+8+Y=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKnX+/4933Hnf92ptXcjNhkouzH3NuQwhs9/YmSuVxqwc
- PGjc+e7OkpZGMS4GGTFFFlihM2XxJ2a9bqTjW8ezBxWJpAhDFycAjCRFE5GhmXXxGSSfV2OzZ4f
- 6nS4zjV8Tumb2Tfe97KGtl8977ewfBfDP4vVfHcfXU9XPBU088R+vs9XX1eu61p5KeN4pB3Tvs1
- f9zADAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1396; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=BTZIvRqcuCTEKcvLPQKN0PrMjRjf9kk4vsMhE/kOVtY=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKnX+/69f2n8caKoQub+F69/+e2KY3v54bKK+SHvnykL9
+ me/4wzt6ihlYRDjYpAVU2SJETZfEndq1utONr55MHNYmUCGMHBxCsBEOOwYGW5MTL44peuu6wL+
+ f5aCIedmyan++RhyZeIKdiFl2Znn9vYz/A+ak310c+ZsyZfhR0Ul1TeK2r3+57NoRdPiCzFbJp7
+ xucAOAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,82 +78,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We're not doing anything special in atomic_mode_set so we can simply
-merge it into atomic_enable.
+container_of_const() allows to preserve the pointer constness and is
+thus more flexible than inline functions.
 
-Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+Let's switch all our instances of container_of() to container_of_const().
+
+Reviewed-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 38 +++++++++++++---------------------
- 1 file changed, 14 insertions(+), 24 deletions(-)
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 16 ++++------------
+ 1 file changed, 4 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index 799a26215cc2..bae69d696765 100644
+index bae69d696765..c276d984da6b 100644
 --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
 +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -103,33 +103,11 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- 	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
- 	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
- 	struct drm_display_info *display = &hdmi->connector.display_info;
-+	unsigned int x, y;
- 	u32 val = 0;
+@@ -30,19 +30,11 @@
+ #include "sun4i_drv.h"
+ #include "sun4i_hdmi.h"
  
- 	DRM_DEBUG_DRIVER("Enabling the HDMI Output\n");
- 
--	clk_prepare_enable(hdmi->tmds_clk);
--
--	sun4i_hdmi_setup_avi_infoframes(hdmi, mode);
--	val |= SUN4I_HDMI_PKT_CTRL_TYPE(0, SUN4I_HDMI_PKT_AVI);
--	val |= SUN4I_HDMI_PKT_CTRL_TYPE(1, SUN4I_HDMI_PKT_END);
--	writel(val, hdmi->base + SUN4I_HDMI_PKT_CTRL_REG(0));
--
--	val = SUN4I_HDMI_VID_CTRL_ENABLE;
--	if (display->is_hdmi)
--		val |= SUN4I_HDMI_VID_CTRL_HDMI_MODE;
--
--	writel(val, hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
--}
--
--static void sun4i_hdmi_mode_set(struct drm_encoder *encoder,
--				struct drm_crtc_state *crtc_state,
--				struct drm_connector_state *conn_state)
+-static inline struct sun4i_hdmi *
+-drm_encoder_to_sun4i_hdmi(struct drm_encoder *encoder)
 -{
--	const struct drm_display_mode *mode = &crtc_state->mode;
--	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
--	unsigned int x, y;
--	u32 val;
--
- 	clk_set_rate(hdmi->mod_clk, mode->crtc_clock * 1000);
- 	clk_set_rate(hdmi->tmds_clk, mode->crtc_clock * 1000);
+-	return container_of(encoder, struct sun4i_hdmi,
+-			    encoder);
+-}
++#define drm_encoder_to_sun4i_hdmi(e)		\
++	container_of_const(e, struct sun4i_hdmi, encoder)
  
-@@ -181,6 +159,19 @@ static void sun4i_hdmi_mode_set(struct drm_encoder *encoder,
- 		val |= SUN4I_HDMI_VID_TIMING_POL_VSYNC;
+-static inline struct sun4i_hdmi *
+-drm_connector_to_sun4i_hdmi(struct drm_connector *connector)
+-{
+-	return container_of(connector, struct sun4i_hdmi,
+-			    connector);
+-}
++#define drm_connector_to_sun4i_hdmi(c)		\
++	container_of_const(c, struct sun4i_hdmi, connector)
  
- 	writel(val, hdmi->base + SUN4I_HDMI_VID_TIMING_POL_REG);
-+
-+	clk_prepare_enable(hdmi->tmds_clk);
-+
-+	sun4i_hdmi_setup_avi_infoframes(hdmi, mode);
-+	val |= SUN4I_HDMI_PKT_CTRL_TYPE(0, SUN4I_HDMI_PKT_AVI);
-+	val |= SUN4I_HDMI_PKT_CTRL_TYPE(1, SUN4I_HDMI_PKT_END);
-+	writel(val, hdmi->base + SUN4I_HDMI_PKT_CTRL_REG(0));
-+
-+	val = SUN4I_HDMI_VID_CTRL_ENABLE;
-+	if (display->is_hdmi)
-+		val |= SUN4I_HDMI_VID_CTRL_HDMI_MODE;
-+
-+	writel(val, hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
- }
- 
- static enum drm_mode_status sun4i_hdmi_mode_valid(struct drm_encoder *encoder,
-@@ -206,7 +197,6 @@ static const struct drm_encoder_helper_funcs sun4i_hdmi_helper_funcs = {
- 	.atomic_check	= sun4i_hdmi_atomic_check,
- 	.atomic_disable	= sun4i_hdmi_disable,
- 	.atomic_enable	= sun4i_hdmi_enable,
--	.atomic_mode_set	= sun4i_hdmi_mode_set,
- 	.mode_valid	= sun4i_hdmi_mode_valid,
- };
- 
+ static int sun4i_hdmi_setup_avi_infoframes(struct sun4i_hdmi *hdmi,
+ 					   struct drm_display_mode *mode)
 
 -- 
 2.43.2
