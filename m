@@ -2,89 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D8285F531
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 11:02:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEB9185F56A
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 11:14:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72C2610E8B3;
-	Thu, 22 Feb 2024 10:02:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32D6110E6C5;
+	Thu, 22 Feb 2024 10:14:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="oK9DNBp4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FwCI0rqL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFAE110E8B3
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 10:02:53 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-5129e5b8cecso7016516e87.3
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 02:02:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708596172; x=1709200972; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ZmFzE5KLUhVYgCITZetTHO3yyNj9Jv9D+xMMJe9LX/c=;
- b=oK9DNBp4NgJfpHLddF2CSTerVqjIWo3nSPSXLFgYwGX9ydbCqZ3fUk7Xg/CDD/bPjK
- roi73F/08jTu0f8PAM3FXRmjsjjFP4/6hZBCUXd6xYYFhfdQUkTeBTGiIyTYeCjsmZrr
- EL2Sj+7mMrdtQblWZf49EcoDahqDNNAqL3h6g2jjOrJVEHh/vFaWZovxPFOUSdBmPYou
- RLdwRFe+hsJZbbprvBe1KJ77UsPp3DqBHOE+DjPDX6SQkOcg6KnYUPQMYbmZ+KMnfHR8
- sUdJsG7EOS6t8ii8c1eiCxl3CtjWUvqbE14kteGMliEOrayhZ4vk5BI2ukgYmIzRVmLz
- d28g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708596172; x=1709200972;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZmFzE5KLUhVYgCITZetTHO3yyNj9Jv9D+xMMJe9LX/c=;
- b=HomXWUyiSnGfhDQV18SHUZavtAXBResltwXoQPq73HqXI4LMoCRjVC+QNOiLGAQVr5
- wJP5djOkMvqxobdQI1d9mlm/INk6s2eRTPvwSAKSUnSf68URqrUzsPaS2nbeSfZlEKfk
- WxnHR+C8NZ+PcGOtMoZ2TpGdzl6N0RUInDF9xbjgeMlHblAQULihGeHHKGy/ypCqFioe
- E9HY3kH1l6KYnOuzKCFwai7hapL1BNa7cx2xAlJxdsSebfdpzbRbzoNwncFfo5eINzEi
- lHHlcBRT4i9gTcyQRALe+HVWGJmYOJJc1NWA9hQLDX4t/oIMcg44x6mE56fpylB5GZq4
- GcNA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVoqdZu54QxXc0oEHi/lUyQYxdZ/QFbA9+3lXY7V3NcN2UOvETMz3gBFax0a0Sjtj0JOF4WOL8mTGuqLrP4AOjaEvmCbm1P1QsDBZfXw9IS
-X-Gm-Message-State: AOJu0YyvNagEL0+kqj7/yyXGPNH4t+q2eDhezZzE2g7TeBXNpUTsAIEY
- GFK5Jzn2nSNLUqk7r0px10qCJnPoRQani7DWtYhJyAAJBMqs3xdGbW1DsxJItPo=
-X-Google-Smtp-Source: AGHT+IGWstWv/PpAhG69C508up9GLKHmunJIqiqA/u3mSeeTLIT3kteM6OrJT0F+RBHSuMWr0yMEUA==
-X-Received: by 2002:ac2:592c:0:b0:512:b00f:a55e with SMTP id
- v12-20020ac2592c000000b00512b00fa55emr7040685lfi.13.1708596171837; 
- Thu, 22 Feb 2024 02:02:51 -0800 (PST)
-Received: from [87.246.222.6] (netpanel-87-246-222-6.pol.akademiki.lublin.pl.
- [87.246.222.6]) by smtp.gmail.com with ESMTPSA id
- c4-20020a056512074400b00512ab928706sm1730595lfs.167.2024.02.22.02.02.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Feb 2024 02:02:51 -0800 (PST)
-Message-ID: <f36c69d9-24a8-473b-872c-fa0fb722db65@linaro.org>
-Date: Thu, 22 Feb 2024 11:02:47 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/9] arm64: dts: qcom: sc7280: Enable MDP turbo mode
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Bjorn Andersson <quic_bjorande@quicinc.com>,
- Douglas Anderson <dianders@chromium.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE6C010E6C5
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 10:14:25 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 23E5FCE20A8;
+ Thu, 22 Feb 2024 10:14:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10BE3C43390;
+ Thu, 22 Feb 2024 10:14:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1708596862;
+ bh=foxoZ9LRpQOe6jh8rAu3IF9Z8ybhG9+6DsKDBavcozc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FwCI0rqLgZV9yA15sWrKEcXlBSluDIaDzP8pgdBsSuu/SfBglNugA5Y6DNF6WvTH8
+ uopNoQ4tdKPqLzRLihuTKB0Wsis81z6VdlIRnNxgCMxzcuGOisZrQW3JbVz3Mb+Uka
+ 1HbBQtazSbJF1mR1vuGtUNWjkjtJk7n/U62V+5ip84QqUkeOD9KOvOaOpmdT3K+5YO
+ uyDXRiah7wcpH6GtL4WQleTPnTewamYqvBhXrIFMiqUkIr/OT1Dw80OlBvOn+87noj
+ 9F+BJaOvZUGcsaKARp1qS4EDLVI8feMf51GHLFN5El73RXqOX9BXWwJKxkS4iGjd8+
+ o5iOxmC91/41g==
+Date: Thu, 22 Feb 2024 11:14:19 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Stephen Rothwell <sfr@canb.auug.org.au>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- cros-qcom-dts-watchers@chromium.org, Bjorn Andersson <andersson@kernel.org>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20240221-rb3gen2-dp-connector-v1-0-dc0964ef7d96@quicinc.com>
- <20240221-rb3gen2-dp-connector-v1-3-dc0964ef7d96@quicinc.com>
- <CAA8EJpo=9vhM+5YzaFxUoYRuEWQyrMS8wLNPSF3K=bN5JwWyDw@mail.gmail.com>
- <8313a7c3-3ace-4dee-ad27-8f51a06cd58c@linaro.org>
- <CAA8EJpqFj5nf8d_=Uoup7qg+nQrxqQU-DHbL3uSP138m9AcXLw@mail.gmail.com>
- <8fcb5816-2d59-4e27-ba68-8e0ed6e7d839@linaro.org>
- <CAA8EJporaUuddHHqpyYHiYSu=toHmrDxSHf9msZUJoym4Nz72g@mail.gmail.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <CAA8EJporaUuddHHqpyYHiYSu=toHmrDxSHf9msZUJoym4Nz72g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ dri-devel@lists.freedesktop.org, 
+ linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Biju Das <biju.das.au@gmail.com>
+Subject: Re: [PATCH] drm: renesas: rz-du: Fix redefinition errors related to
+ rzg2l_du_vsp_*()
+Message-ID: <dmtawf7kybdkhf3tjp5chuwn54szunlme7l3gtq7bn7sxntvge@ozgpn3lljhmg>
+References: <20240222095630.85949-1-biju.das.jz@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="marwcfzepqmkg4oh"
+Content-Disposition: inline
+In-Reply-To: <20240222095630.85949-1-biju.das.jz@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,43 +66,39 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--marwcfzepqmkg4oh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2/22/24 10:46, Dmitry Baryshkov wrote:
-> On Thu, 22 Feb 2024 at 11:28, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
->>
->>
->>
->> On 2/22/24 10:04, Dmitry Baryshkov wrote:
->>> On Thu, 22 Feb 2024 at 10:56, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
->>>>
->>>>
->>>>
->>>> On 2/22/24 00:41, Dmitry Baryshkov wrote:
->>>>> On Thu, 22 Feb 2024 at 01:19, Bjorn Andersson <quic_bjorande@quicinc.com> wrote:
->>>>>>
->>>>>> The max frequency listed in the DPU opp-table is 506MHz, this is not
->>>>>> sufficient to drive a 4k@60 display, resulting in constant underrun.
->>>>>>
->>>>>> Add the missing MDP_CLK turbo frequency of 608MHz to the opp-table to
->>>>>> fix this.
->>>>>
->>>>> I think we might want to keep this disabled for ChromeOS devices. Doug?
->>>>
->>>> ChromeOS devices don't get a special SoC
->>>
->>> But they have the sc7280-chrome-common.dtsi, which might contain a
->>> corresponding /delete-node/ .
->>
->> What does that change? The clock rates are bound to the
->> SoC and the effective values are limited by link-frequencies
->> or the panel driver.
-> 
-> Preventing the DPU from overheating? 
+Hi,
 
-?????????????
+Thanks for working on this
 
-> Or spending too much power?
+On Thu, Feb 22, 2024 at 09:56:30AM +0000, Biju Das wrote:
+> Fix the redefinition errors for the below functions on x86 by replacing
+> CONFIG_DRM_RCAR_VSP->IS_ENABLED(CONFIG_VIDEO_RENESAS_VSP1) and adding
+> EXPORT_SYMBOL_GPL for all:
+>  1) rzg2l_du_vsp_init()
+>  2) rzg2l_du_vsp_enable()
+>  3) rzg2l_du_vsp_disable()
+>  4) rzg2l_du_vsp_atomic_flush()
+>  5) rzg2l_du_vsp_get_drm_plane()
 
-Would it not concern non-Chrome SC7280s too, then?
+This really should be two patches: you're fixing some symbols not being
+exported (because they need to be called by what other module?) and then
+fixing the redefinition error you're mentionning in the title.
 
-Konrad
+Maxime
+
+--marwcfzepqmkg4oh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZdceegAKCRDj7w1vZxhR
+xSXXAQD4/RsuTn9UG1AMaOfUFVlhuIdi8EERjmWBgkb/aa7WsgD/XkYEWYepMCUW
+43cjCILRWHh0JVgavn5ak51VjRkXbgk=
+=Pxd1
+-----END PGP SIGNATURE-----
+
+--marwcfzepqmkg4oh--
