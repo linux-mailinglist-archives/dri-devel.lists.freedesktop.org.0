@@ -2,67 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F3AB85F62C
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 11:54:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A2D885F641
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 11:56:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66EA010E8AA;
-	Thu, 22 Feb 2024 10:54:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 042EE10E6E4;
+	Thu, 22 Feb 2024 10:56:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="p3wvyloe";
+	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="OqhqBpya";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B98C10E6E4
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 10:54:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 43E4DCE171B;
- Thu, 22 Feb 2024 10:54:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 062AFC433F1;
- Thu, 22 Feb 2024 10:54:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1708599247;
- bh=loLivqtLkCVCvcc36ob4PcvIWRrqM9ZGR67glJQXpxQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=p3wvyloeEyROYySZMhKhyijsbbEPmsXor7/vqv3JAmDrQirLk9J3HpQfxHf2AHS4g
- 3Mfkl4Z2sWtuKKkFkziZqxoMBoCctyt+WE9cuGJGizwvG7yvpeRcurNfsWHiVi+mYH
- THcCJ1trswqTgqUw3+La26WaVeATB6DDGyEm3ySw3HZzniNsdtWbaEA9SWKHKmzLvR
- V5T0cnYVsMtXBcqZtBzkn+JR2bfkQmGT7/cIWQb5pB49yZCPIF2Ys527u/KCq+8nmH
- cUnfDQz5A0/fGs2+TufpQ3OdZXy0xGdNsd0keKdkoWu84ILsff6dzn0BFmmYCv2TXM
- tkSJQ6H9fU8HQ==
-Date: Thu, 22 Feb 2024 11:54:04 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Sebastian Wick <sebastian.wick@redhat.com>
-Cc: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Emma Anholt <emma@anholt.net>, 
- Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB property
-Message-ID: <euaujtp4jyyoud3ccg5qhyvixyq2p6vir4ojlzoky6kep754rj@wruidyfxssry>
-References: <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
- <Zb0aYAapkxQ2kopt@intel.com>
- <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
- <20240209203435.GB996172@toolbox>
- <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
- <Zco-DQaXqae7B1jt@intel.com>
- <yx2t7xltxxgsngdsxamsfq6y7dze3wzegxcqwmsb5yrxen73x6@u3vilqhpci4w>
- <20240212170618.GA1372043@toolbox>
- <2mih3humepuedtli7ge52ncom4uffkqravdpalncgfyucmwdzc@bp5o7i3ky77a>
- <20240219140144.GB1956149@toolbox>
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com
+ (mail-tycjpn01on2070.outbound.protection.outlook.com [40.107.114.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3543010E6E4
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 10:56:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FdzisZN20KpjiJTFtmDtgqsiqFhVtvheHOAQ0BPeYXJ5aj7xJIul+0RN3vjUDjiu9/mtEuaZTdVbC8Glw/MFO1maF01ldYRqSLsQAjFuS8BKudw+LlvVs3Fi9C2TWilZJ8VMlOG7jiNB/tWEFoYGCScL3ZNPo+li9H9PWP8EhHREwKbs7zhowryJ187XelkOB7qYQMd2AiD0aurXzovsB4nS5QkPqdjaCE0Lqh/7cukXoxogKkdbEagMarr6PSyruVl2lkFWdzfRXgX5ciUD2YhswovObo8tbt8jQ4O7JKpZw0phARg9AlRhhcwBXa6dCaUqei2rVEHmJ+yRIb3COg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OvIV7lVK4+uNXx+ynQ8vvgMixAv5b8jKx2EJlRwVIq4=;
+ b=lbIVGaIypBDNy06fNnAikUA7qHcY8bXCpMj855MtvFiL4V5RjgKXY4iYuEgBub/SUPQcAco/eLWR/P80aePGd18Tdw2NfjtB4yh2PQIDi6GcprePZDtX2mZdLKcROXDkl7dGzky/iw5Q2LOhBUXK2s17qIFiPy+M77HkqSdcv9YShZeQWN16MikZwCyB2b0WUQVgWbQUr4CzQw73phm/hRIL5x1GbBIZv2dos1uFZxDIRkYiBERpXmp3/MONI/KoIAr4TEywsKZM/k9ghQn6X8+CYeVe6nvmzNb+FO9zQUrwV2ehbXUxY069eesjxBudDdhmtyQzu4t16kltUFL8Eg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OvIV7lVK4+uNXx+ynQ8vvgMixAv5b8jKx2EJlRwVIq4=;
+ b=OqhqBpyaaBMOb5rJX1l339pUcR6HJpqc5r/TdKn0agGruUPWO3UEmMI1NN86b9XyVODx1AM43CzXKGFB39i2vBobHhbASN5CHRXnbSqQlg+AdH1p2W2Wxpk1FkVWKFLGOHkwbbebgElKwZ85ZotKHuNu0T/YZhjLpxIGG41Z2+w=
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ (2603:1096:400:3c0::10) by TYWPR01MB11706.jpnprd01.prod.outlook.com
+ (2603:1096:400:400::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.39; Thu, 22 Feb
+ 2024 10:56:34 +0000
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::6719:535a:7217:9f0]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::6719:535a:7217:9f0%3]) with mapi id 15.20.7292.036; Thu, 22 Feb 2024
+ 10:56:34 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Maxime Ripard <mripard@kernel.org>
+CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Stephen Rothwell <sfr@canb.auug.org.au>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Prabhakar Mahadev Lad
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
+ <biju.das.au@gmail.com>
+Subject: RE: [PATCH] drm: renesas: rz-du: Fix redefinition errors related to
+ rzg2l_du_vsp_*()
+Thread-Topic: [PATCH] drm: renesas: rz-du: Fix redefinition errors related to
+ rzg2l_du_vsp_*()
+Thread-Index: AQHaZXVtHaNSTT51VEKDU1bQITgsD7EWJOCAgAAK9nA=
+Date: Thu, 22 Feb 2024 10:56:33 +0000
+Message-ID: <TYCPR01MB1126924413959F15A597EF98586562@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References: <20240222095630.85949-1-biju.das.jz@bp.renesas.com>
+ <dmtawf7kybdkhf3tjp5chuwn54szunlme7l3gtq7bn7sxntvge@ozgpn3lljhmg>
+In-Reply-To: <dmtawf7kybdkhf3tjp5chuwn54szunlme7l3gtq7bn7sxntvge@ozgpn3lljhmg>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TYWPR01MB11706:EE_
+x-ms-office365-filtering-correlation-id: e7e47e1e-17a3-4abe-1ba8-08dc3394eeec
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: JOMUvvvEXGPwfjntk40aOC+aCppSsVBFxt+pVE+U0JqujGR+Cmzpi/buS6rVsb8f5pcaCuQOTEERWY55za9ml+4cxBswMr76LgIsGqKyKPQAF3n47LFcYKhiERMSpCkxlJE8ZCJ++QVhKchHW1A+7iM6jgmze1aRd8x4nlACmFficUW83mDcLkONd7yDhsv6SQ/5ZW0v/HLDIwj+SAdgdg3w0rTCvnkcNGteAyj1KsWTvEAsZ0epl8AFYJyCKylca1rqaO6UhFGMweIqgKVEYCFRf/aMaLWxYIyEs1yZDpmkB6djADgM/uWog3AKUiRsfxFikPQT74cTkMWLYyHuwwxcD4ELJVAQrNOdQDQ8js/nz8/gtmPU3CROWW8jGs0R8qdVtpAihXAsAJHgRgQ0VfFohogfA6D+zHa8zzBuBKFs2xY3v+p9f2zMclM78FrgUj99VCl8jEp06LV4idhhExoEURY0WOuTEtNJaOtloL9h6z5A7sm6f2QaUlL0Sd6H9q2eGMUCpeZaNN/gYVnGE6yeMd/LU0rQbGDqFXNFbnbxZJ0qpooExDxf6JYqqrzz1WzxIXeOG/N872SF7xKI/CYQs6fy+0XdScdj4eLMSRP1DanzefLRAXf/sj4M66ut
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYCPR01MB11269.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(38070700009); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?IDU2hMHzl44A4GfJRUcl58SM3LIipW7E+ObUxxbucwBxZCCxn0IGwaY9sNLF?=
+ =?us-ascii?Q?P7ZGvRwZFK8ZNd9BL9ZgKHgYywic33R+5STYLQ2kyR5TG8mV0FWCOEi0aoa+?=
+ =?us-ascii?Q?Pmv5szHC+E7wKDIfJR1lU54WfzMb2naIkgqZBC5nyXP4XrX3gUW1z+ayaZZu?=
+ =?us-ascii?Q?vNxcsjOKneQ7tfx8m5q0X3cBzKcSKQu4sA7szsl2QpZpO9uhsZd/qlUmyVmh?=
+ =?us-ascii?Q?qo4aNaMwVXDA/7MHsVCxZw6le+miNk1jDNGg5alXl1EH/fWjCRXPNQUV4HCj?=
+ =?us-ascii?Q?bf8CDve8HsgPd3ivytWyMrcF7IbyGVuwTqwZpy7Gv+Oruk7HFgO8W9nI5lR5?=
+ =?us-ascii?Q?MigedhRnqsBbibCbswg6RhfZhkptvCP2vY064nx4S1lNRlGm5qfl2jwJLl8j?=
+ =?us-ascii?Q?ZRRKdYM5fMzx0mCbDCAn/d9MbVVuH8GUbCJVAO45quzzzR5AZyQnlx3RbEq4?=
+ =?us-ascii?Q?78Cd4V8ye3rqeDcKCP1yoltCSABludNvzkGEYemQnyPo69yrUDwdV/U7PIuv?=
+ =?us-ascii?Q?muNQr5oNfuc0ntYH0G1kzNko9PcNcVgLuT29xMCwWHcScy/86p8t87RazzUr?=
+ =?us-ascii?Q?0RLdyjubBHPn5wEVnZ5H0NubaffeekrKmdIskZS40piIERcBhk2GNZBkJE4N?=
+ =?us-ascii?Q?3o/vgPcp3mpdip2GOhDm+RlVlj1Lr/LivB216uwaNsa7cju3KdD7wf055Mvd?=
+ =?us-ascii?Q?ZnVtQdvq92TUM3h/xQp/PdMfujtSmCyjlDF0JLjRc/2k6NtkmbYrOzxI3waN?=
+ =?us-ascii?Q?xxCkrmTzluw7EuYAwA6AL/lmvOFjDiVCtlBIbkD5QORsPb5kR9Xpt6eiamTY?=
+ =?us-ascii?Q?lU3AgBT7jJhgthceOMuW3Rr5Lg/t5KX05D2TE9/8dkrVos9OzaaDShBlelv0?=
+ =?us-ascii?Q?mtav/IaMycZyqUf4Az4bPej9bNb6HidOD2lzoEJmVhRR3mp0ohzyVoZs0OoP?=
+ =?us-ascii?Q?fA4aia2KlcE9vYw7lxLq/GxxkkbOJxdpELLzujRdZQGDtYUjo0IuW7hxSmdJ?=
+ =?us-ascii?Q?pXo8zHQoA3UQvdb0+HIDV25d0Ri+og4rQg18/J4F0orm9mH4081AZImTqfR+?=
+ =?us-ascii?Q?Hm5+0NdFjia5euNUsbEDfBQceAjleRYvPrzaTqEzRY7AMm4MXmiZAK4LXsOY?=
+ =?us-ascii?Q?QqAuqUp8lno//09kMfyTXb/qH5t5RhWvZHXGQlOs98h5uv4BwSS4RLc41WqI?=
+ =?us-ascii?Q?gA7ZPc2Gpr37+DSafcwsFdYLP44N+uy7tSJuxzglWhKJFinc2sokLuqu3Z+G?=
+ =?us-ascii?Q?ymBO1gtsZrLdAlO76ybaUppJeZsJLN4l9EMBGnafS2SNc3DnD0hBJE++l5uM?=
+ =?us-ascii?Q?4eOcdfYqhfJEA3iaSiQ+qoGlFdLFsoKsG7elrpjcX0llxVMkg2jHT7lN9SjQ?=
+ =?us-ascii?Q?BYxtmPClaSXPkHwmg2uvNuhNCVTh/kj/tDSvI0g2VALi/384Xb901krl2NWW?=
+ =?us-ascii?Q?Ifgdf0LkEN26Wmy5yLARlrrdy5jQfLJPxmgFWHM6WhQ3Wm0mcJrEca37acgo?=
+ =?us-ascii?Q?lGCxNf6qX3Eczlzfwb3Iuvf87I2fFCMu2FV1L1ouqkXGZJRZBM5/j//FO/L9?=
+ =?us-ascii?Q?igh5U2ypJNYwlDQ04DE0uA4jxa590dI+WiqJwTobdYntSJneGas9KkapQcQb?=
+ =?us-ascii?Q?pQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="gwyt2ovqrahookux"
-Content-Disposition: inline
-In-Reply-To: <20240219140144.GB1956149@toolbox>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7e47e1e-17a3-4abe-1ba8-08dc3394eeec
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Feb 2024 10:56:33.6177 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: VAZLWtVE772K8CsWfJvqKT98dC2NcFyy1BMukPHwUxemIHFfo15iwZjjpcq9hvCKF6wyJT+9rDCsZcxC00somfsm4EtQDTcFEP1inSFtN1Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB11706
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,246 +134,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Maxime Ripard,
 
---gwyt2ovqrahookux
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Feb 19, 2024 at 03:01:44PM +0100, Sebastian Wick wrote:
-> On Thu, Feb 15, 2024 at 12:00:01PM +0100, Maxime Ripard wrote:
-> > On Mon, Feb 12, 2024 at 06:06:18PM +0100, Sebastian Wick wrote:
-> > > On Mon, Feb 12, 2024 at 05:53:48PM +0100, Maxime Ripard wrote:
-> > > > On Mon, Feb 12, 2024 at 05:49:33PM +0200, Ville Syrj=E4l=E4 wrote:
-> > > > > On Mon, Feb 12, 2024 at 11:01:07AM +0100, Maxime Ripard wrote:
-> > > > > > On Fri, Feb 09, 2024 at 09:34:35PM +0100, Sebastian Wick wrote:
-> > > > > > > On Mon, Feb 05, 2024 at 10:39:38AM +0100, Maxime Ripard wrote:
-> > > > > > > > On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrj=E4l=E4=
- wrote:
-> > > > > > > > > On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard w=
-rote:
-> > > > > > > > > > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrj=E4=
-l=E4 wrote:
-> > > > > > > > > > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripa=
-rd wrote:
-> > > > > > > > > > > > Hi,
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian=
- Wick wrote:
-> > > > > > > > > > > > > > >  /**
-> > > > > > > > > > > > > > >   * DOC: HDMI connector properties
-> > > > > > > > > > > > > > >   *
-> > > > > > > > > > > > > > > + * Broadcast RGB
-> > > > > > > > > > > > > > > + *      Indicates the RGB Quantization Range=
- (Full vs Limited) used.
-> > > > > > > > > > > > > > > + *      Infoframes will be generated accordi=
-ng to that value.
-> > > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > > + *      The value of this property can be on=
-e of the following:
-> > > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > > + *      Automatic:
-> > > > > > > > > > > > > > > + *              RGB Range is selected automa=
-tically based on the mode
-> > > > > > > > > > > > > > > + *              according to the HDMI specif=
-ications.
-> > > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > > + *      Full:
-> > > > > > > > > > > > > > > + *              Full RGB Range is forced.
-> > > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > > + *      Limited 16:235:
-> > > > > > > > > > > > > > > + *              Limited RGB Range is forced.=
- Unlike the name suggests,
-> > > > > > > > > > > > > > > + *              this works for any number of=
- bits-per-component.
-> > > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > > + *      Drivers can set up this property by =
-calling
-> > > > > > > > > > > > > > > + *      drm_connector_attach_broadcast_rgb_p=
-roperty().
-> > > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > This is a good time to document this in more de=
-tail. There might be two
-> > > > > > > > > > > > > > different things being affected:
-> > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > 1. The signalling (InfoFrame/SDP/...)
-> > > > > > > > > > > > > > 2. The color pipeline processing
-> > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > All values of Broadcast RGB always affect the c=
-olor pipeline processing
-> > > > > > > > > > > > > > such that a full-range input to the CRTC is con=
-verted to either full- or
-> > > > > > > > > > > > > > limited-range, depending on what the monitor is=
- supposed to accept.
-> > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > When automatic is selected, does that mean that=
- there is no signalling,
-> > > > > > > > > > > > > > or that the signalling matches what the monitor=
- is supposed to accept
-> > > > > > > > > > > > > > according to the spec? Also, is this really HDM=
-I specific?
-> > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > When full or limited is selected and the monito=
-r doesn't support the
-> > > > > > > > > > > > > > signalling, what happens?
-> > > > > > > > > > > > >=20
-> > > > > > > > > > > > > Forgot to mention: user-space still has no contro=
-l over RGB vs YCbCr on
-> > > > > > > > > > > > > the cable, so is this only affecting RGB? If not,=
- how does it affect
-> > > > > > > > > > > > > YCbCr?
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > So I dug a bit into both the i915 and vc4 drivers, =
-and it looks like if
-> > > > > > > > > > > > we're using a YCbCr format, i915 will always use a =
-limited range while
-> > > > > > > > > > > > vc4 will follow the value of the property.
-> > > > > > > > > > >=20
-> > > > > > > > > > > The property is literally called "Broadcast *RGB*".
-> > > > > > > > > > > That should explain why it's only affecting RGB.
-> > > > > > > > > >=20
-> > > > > > > > > > Right. And the limited range option is called "Limited =
-16:235" despite
-> > > > > > > > > > being usable on bpc > 8 bits. Naming errors occurs, and=
- history happens
-> > > > > > > > > > to make names inconsistent too, that's fine and not an =
-argument in
-> > > > > > > > > > itself.
-> > > > > > > > > >=20
-> > > > > > > > > > > Full range YCbCr is a much rarer beast so we've never=
- bothered
-> > > > > > > > > > > to enable it.
-> > > > > > > > > >=20
-> > > > > > > > > > vc4 supports it.
-> > > > > > > > >=20
-> > > > > > > > > Someone implemented it incorrectly then.
-> > > > > > > >=20
-> > > > > > > > Incorrectly according to what documentation / specification=
-? I'm sorry,
-> > > > > > > > but I find it super ironic that i915 gets to do its own thi=
-ng, not
-> > > > > > > > document any of it, and when people try to clean things up =
-they get told
-> > > > > > > > that we got it all wrong.
-> > > > > > >=20
-> > > > > > > FWIW, this was an i915 property and if another driver uses th=
-e same
-> > > > > > > property name it must have the same behavior. Yes, it isn't s=
-tandardized
-> > > > > > > and yes, it's not documented (hence this effort here) but it'=
-s still on
-> > > > > > > vc4 to make the property compatible.
-> > > > > >=20
-> > > > > > How is it not compatible? It's a superset of what i915 provides=
-, but
-> > > > > > it's strictly compatible with it.
-> > > > >=20
-> > > > > No it is not.
-> > > >=20
-> > > > The property is compatible with i915 interpretation of it, whether =
-you
-> > > > like it or not. And that's what Sebastian was referring to.
-> > > >=20
-> > > > > Eg. what happens if you set the thing to full range for RGB (whic=
-h you
-> > > > > must on many broken monitors), and then the kernel automagically
-> > > > > switches to YCbCr (for whatever reason) but the monitor doesn't
-> > > > > support full range YCbCr? Answer: you get crap output.
-> > > >=20
-> > > > And that part is just moving goalposts.
-> > >=20
-> > > But it's really not.
-> >=20
-> > It really is. This whole discussion started by "well it would be nice if
-> > we made that property handled by the core", and we're now at the "we
-> > need to deal with broken YCbCr displays and i915 opinion about them"
-> > stage. After creating documentation, unit tests, etc. It's the textbook
-> > definition of moving goalposts. And while i915 won't be affected by all
-> > that work.
+> -----Original Message-----
+> From: Maxime Ripard <mripard@kernel.org>
+> Sent: Thursday, February 22, 2024 10:14 AM
+> Subject: Re: [PATCH] drm: renesas: rz-du: Fix redefinition errors related
+> to rzg2l_du_vsp_*()
 >=20
-> Sorry, but what you're saying is just not true.
+> Hi,
 >=20
-> The Broadcast RGB property is an Intel specific property.
-
-No, it's not. vc4 has been using it for a year now.
-
-> It lacked documentation but the user space contract exists and it
-> based on how i915 implemented it. By changing the semantics you're
-> breaking user space. The documentation has to document the current
-> contract between i915 and user space, not whatever you want the
-> property to be like.
+> Thanks for working on this
 >=20
-> I get that you're frustrated that you have to do work while i915 doesn't
-> but none of that is relevant for what the property is and how user space
-> expects it to work.
-
-That's not it, really. I don't mind doing the work. I do mind losing
-functionalities on something that was working fine. And getting the
-blame for something that is, at best, just as much of an documentation
-issue on i915 devs.
-
-> > That series has been stuck for multiple iterations on pointless and
-> > mundane debates while the biggest part and whole point of it is not
-> > getting any review. So yeah, sorry, it's frustrating.
+> On Thu, Feb 22, 2024 at 09:56:30AM +0000, Biju Das wrote:
+> > Fix the redefinition errors for the below functions on x86 by
+> > replacing
+> > CONFIG_DRM_RCAR_VSP->IS_ENABLED(CONFIG_VIDEO_RENESAS_VSP1) and adding
+> > EXPORT_SYMBOL_GPL for all:
+> >  1) rzg2l_du_vsp_init()
+> >  2) rzg2l_du_vsp_enable()
+> >  3) rzg2l_du_vsp_disable()
+> >  4) rzg2l_du_vsp_atomic_flush()
+> >  5) rzg2l_du_vsp_get_drm_plane()
 >=20
-> I'm reviewing the parts that I can, and that's the uAPI. I find it
-> really offensive that you're saying that this is pointless and mundate.
+> This really should be two patches: you're fixing some symbols not being
+> exported (because they need to be called by what other module?)=20
 
-I'm sorry I offended you, but I was talking about the whole debate
-itself, not the uAPI. The uAPI itself exists. It's already there, it's
-used in the wild on several drivers, and several user-space components.
+I Just realized that ,this export symbols are not required as they are used
+within the single module. So no need to export.=20
 
-What that patch does is trying to document it, and test it. It's a net
-benefit. Is it perfect? Probably not.
+So, I will send a single patch with fixing redefinition error.
 
-It's a net benefit nonetheless. The part where I mostly disagree with
-you I guess (and what we've actually been arguing obut) is trying to get
-something perfect (to the best of our knowledge) out of it.
+Cheers,
+Biju
 
-Anyway, I'll just shut up and to do the work I guess.
 
-> The uAPI is your end product, if it can't be used, everything you do in
-> your driver is utterly pointless.
->=20
-> > > The Broadcast RGB property kind of works from a user space perspective
-> > > because it's a workaround for broken sinks. If a sink expects limited
-> > > range we can force full range. If this however affects YCbCr modes as
-> > > well, then this isn't a workaround for broken RGB range anymore
-> > > because it now breaks YCbCr.
-> >=20
-> > Or, you know, it's a workaround for broken YCbCr display.
->=20
-> Displays can accept both RGB and YCbCr signals, drivers can chose
-> whichever they want, and user space can not influence or even know which
-> one is being used.
->=20
-> The automatic selection of the range is very different between RGB and
-> YCbCr. If user space forces the range to a specific value and the driver
-> for whatever reason switches from RGB to YCbCr or the other way around,
-> this forcing of the range will most likely be incorrect.
->=20
-> This is what we're talking about when we say that the semantics of the
-> vc4 Broadcast RGB property is broken. User space literally cannot use it
-> consistenly. By restricting it to RGB signals, user space can user it
-> consistently and fix monitors that do not follow the automatic
-> quantization range algorithm correctly. Yes, if there is an issue with
-> the quantization range of a YCbCr signal then this property doesn't
-> help, but it never tried to help those cases.
-
-Ack, thanks
-
-Maxime
-
---gwyt2ovqrahookux
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZdcnzAAKCRDj7w1vZxhR
-xRqnAQDefz6f2FBe9kLtuo09d0IXpRytvlJT3Y9pbl1YdRZYMgEApnLSteNUg63V
-/mBTl1qxQbzQrR5ewp8lQ1kYaAXFwQM=
-=eUkv
------END PGP SIGNATURE-----
-
---gwyt2ovqrahookux--
