@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90DD485FCBC
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 16:41:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75A8285FCC0
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 16:42:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBCF710E989;
-	Thu, 22 Feb 2024 15:41:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A65810E985;
+	Thu, 22 Feb 2024 15:42:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jqhMuhuM";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="I9h3a/Eg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B9F610E989
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 15:41:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8650910E989
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 15:41:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 813DE618F5;
+ by dfw.source.kernel.org (Postfix) with ESMTP id EF717618E5;
+ Thu, 22 Feb 2024 15:41:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84D17C433A6;
  Thu, 22 Feb 2024 15:41:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A070C43394;
- Thu, 22 Feb 2024 15:41:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1708616508;
- bh=nGIP2vJqkcuTspXXlk6nKjt5v1e19Z7ObipqHsmxyZM=;
+ s=k20201202; t=1708616511;
+ bh=9avcaQo+g1SO3OnMBO0SW08LTKb5Q/Pc21HFm51gndM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jqhMuhuMr3ZVz+g+vLndCqRLYsyQZ4IinHR1grM3SGkXk45xdHov7i6pbWL1tNzC7
- ytz8QU3K6Q8kVwdoQJpx01oWPHIIQ8S3+lz9k1QGQ1qhy9Xz+chv3XLLm+pq4YUA2z
- 7m9plYDKkAc53EjNpO6qtn2WsZJBIYtB58RkgZ5cW8ouNZRjR7aOCVCs5iB8/lyGEq
- 1sp8GncUj0cT5w2oga4GHKDdONNXrwk2yZtsKNlEht08xZtyjjwZLbN2WyQNTugeN5
- TriCyLboxKdX/bgFn6GItjoW3pQUoEupiVACgnfU+CtbJBYQ5kbqA5oN31Fi4/SAG4
- y0fKqeK49d0ZA==
+ b=I9h3a/EgFD0efBdf9svW4VSrGmDb6rsd2zPtk3U/b2zo/X5iMDU8AfEEL2k0d9tGW
+ Yyh37Kn8PPwqqS7Aseq8cxgUFfX7wQtEJOLjs0B8MAiQ5LNayOfTCeWgdUndvS7IdT
+ hvOR274o+TGEjGTKzdy/5EuYnO26HTEcMV1C0uvzAEZYinyEesdVnBtZ7LLclZeYSo
+ apxaQmIxZvulopyzfm/b3aYiSP7p6hvXwVclkGiwOcwQIBS4O/c1ADziRgE4nD8cn0
+ nU8xAHIhys2JpoCwhGzc7wEBdc41y3GgISPPlwxN+eqxQwzUV+qnowsbht3Uw3SX7U
+ erKvjaBM/Ad0Q==
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 To: Matthias Brugger <matthias.bgg@gmail.com>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
@@ -40,10 +40,10 @@ To: Matthias Brugger <matthias.bgg@gmail.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org
 Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: [PATCH v2 06/12] soc: mediatek: cmdq: Remove cmdq_pkt_flush_async()
- helper function
-Date: Thu, 22 Feb 2024 15:41:14 +0000
-Message-Id: <20240222154120.16959-7-chunkuang.hu@kernel.org>
+Subject: [PATCH v2 07/12] soc: mediatek: cmdq: Refine cmdq_pkt_create() and
+ cmdq_pkt_destroy()
+Date: Thu, 22 Feb 2024 15:41:15 +0000
+Message-Id: <20240222154120.16959-8-chunkuang.hu@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240222154120.16959-1-chunkuang.hu@kernel.org>
 References: <20240222154120.16959-1-chunkuang.hu@kernel.org>
@@ -64,75 +64,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-cmdq_pkt_flush_async() is not used by all client drivers (MediaTek
-drm driver and MediaTek mdp3 driver), so remove it.
+cmdq_pkt_create() and cmdq_pkt_destroy() is not suitable for
+client drivers so each client driver has implement its own
+function. This refinement would pass struct cmdq_pkt pointer into
+cmdq_pkt_create(). In addition, client driver has the struct
+cmdq_client information, so it's not necessary to store this
+information in struct cmdq_pkt. After this refinement, client
+drivers could use these helper funciton instead of implementing
+its own version.
 
 Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 ---
- drivers/soc/mediatek/mtk-cmdq-helper.c | 15 ---------------
- include/linux/soc/mediatek/mtk-cmdq.h  | 18 ------------------
- 2 files changed, 33 deletions(-)
+ drivers/soc/mediatek/mtk-cmdq-helper.c | 24 +++++++-----------------
+ include/linux/soc/mediatek/mtk-cmdq.h  | 14 ++++++++------
+ 2 files changed, 15 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
-index 766dbafaef62..bbe41302210a 100644
+index bbe41302210a..1a1f1b260a06 100644
 --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
 +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
-@@ -446,19 +446,4 @@ int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
+@@ -106,22 +106,16 @@ void cmdq_mbox_destroy(struct cmdq_client *client)
  }
- EXPORT_SYMBOL(cmdq_pkt_finalize);
+ EXPORT_SYMBOL(cmdq_mbox_destroy);
  
--int cmdq_pkt_flush_async(struct cmdq_pkt *pkt)
--{
--	int err;
+-struct cmdq_pkt *cmdq_pkt_create(struct cmdq_client *client, size_t size)
++int cmdq_pkt_create(struct cmdq_client *client, struct cmdq_pkt *pkt, size_t size)
+ {
+-	struct cmdq_pkt *pkt;
+ 	struct device *dev;
+ 	dma_addr_t dma_addr;
+ 
+-	pkt = kzalloc(sizeof(*pkt), GFP_KERNEL);
+-	if (!pkt)
+-		return ERR_PTR(-ENOMEM);
+ 	pkt->va_base = kzalloc(size, GFP_KERNEL);
+-	if (!pkt->va_base) {
+-		kfree(pkt);
+-		return ERR_PTR(-ENOMEM);
+-	}
++	if (!pkt->va_base)
++		return -ENOMEM;
++
+ 	pkt->buf_size = size;
+-	pkt->cl = (void *)client;
+ 
+ 	dev = client->chan->mbox->dev;
+ 	dma_addr = dma_map_single(dev, pkt->va_base, pkt->buf_size,
+@@ -129,24 +123,20 @@ struct cmdq_pkt *cmdq_pkt_create(struct cmdq_client *client, size_t size)
+ 	if (dma_mapping_error(dev, dma_addr)) {
+ 		dev_err(dev, "dma map failed, size=%u\n", (u32)(u64)size);
+ 		kfree(pkt->va_base);
+-		kfree(pkt);
+-		return ERR_PTR(-ENOMEM);
++		return -ENOMEM;
+ 	}
+ 
+ 	pkt->pa_base = dma_addr;
+ 
+-	return pkt;
++	return 0;
+ }
+ EXPORT_SYMBOL(cmdq_pkt_create);
+ 
+-void cmdq_pkt_destroy(struct cmdq_pkt *pkt)
++void cmdq_pkt_destroy(struct cmdq_client *client, struct cmdq_pkt *pkt)
+ {
 -	struct cmdq_client *client = (struct cmdq_client *)pkt->cl;
 -
--	err = mbox_send_message(client->chan, pkt);
--	if (err < 0)
--		return err;
--	/* We can send next packet immediately, so just call txdone. */
--	mbox_client_txdone(client->chan, 0);
--
--	return 0;
--}
--EXPORT_SYMBOL(cmdq_pkt_flush_async);
--
- MODULE_LICENSE("GPL v2");
+ 	dma_unmap_single(client->chan->mbox->dev, pkt->pa_base, pkt->buf_size,
+ 			 DMA_TO_DEVICE);
+ 	kfree(pkt->va_base);
+-	kfree(pkt);
+ }
+ EXPORT_SYMBOL(cmdq_pkt_destroy);
+ 
 diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
-index 45110494ee9d..f82e789550ae 100644
+index f82e789550ae..d9d0ee5ecb7a 100644
 --- a/include/linux/soc/mediatek/mtk-cmdq.h
 +++ b/include/linux/soc/mediatek/mtk-cmdq.h
-@@ -297,19 +297,6 @@ int cmdq_pkt_eoc(struct cmdq_pkt *pkt);
+@@ -62,17 +62,19 @@ void cmdq_mbox_destroy(struct cmdq_client *client);
+ /**
+  * cmdq_pkt_create() - create a CMDQ packet
+  * @client:	the CMDQ mailbox client
++ * @pkt:	the CMDQ packet
+  * @size:	required CMDQ buffer size
+  *
+- * Return: CMDQ packet pointer
++ * Return: 0 for success; else the error code is returned
   */
- int cmdq_pkt_finalize(struct cmdq_pkt *pkt);
+-struct cmdq_pkt *cmdq_pkt_create(struct cmdq_client *client, size_t size);
++int cmdq_pkt_create(struct cmdq_client *client, struct cmdq_pkt *pkt, size_t size);
  
--/**
-- * cmdq_pkt_flush_async() - trigger CMDQ to asynchronously execute the CMDQ
-- *                          packet and call back at the end of done packet
-- * @pkt:	the CMDQ packet
-- *
-- * Return: 0 for success; else the error code is returned
-- *
-- * Trigger CMDQ to asynchronously execute the CMDQ packet and call back
-- * at the end of done packet. Note that this is an ASYNC function. When the
-- * function returned, it may or may not be finished.
-- */
--int cmdq_pkt_flush_async(struct cmdq_pkt *pkt);
--
- #else /* IS_ENABLED(CONFIG_MTK_CMDQ) */
+ /**
+  * cmdq_pkt_destroy() - destroy the CMDQ packet
++ * @client:	the CMDQ mailbox client
+  * @pkt:	the CMDQ packet
+  */
+-void cmdq_pkt_destroy(struct cmdq_pkt *pkt);
++void cmdq_pkt_destroy(struct cmdq_client *client, struct cmdq_pkt *pkt);
  
- static inline int cmdq_dev_get_client_reg(struct device *dev,
-@@ -425,11 +412,6 @@ static inline int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
- 	return -EINVAL;
+ /**
+  * cmdq_pkt_write() - append write command to the CMDQ packet
+@@ -312,12 +314,12 @@ static inline struct cmdq_client *cmdq_mbox_create(struct device *dev, int index
+ 
+ static inline void cmdq_mbox_destroy(struct cmdq_client *client) { }
+ 
+-static inline  struct cmdq_pkt *cmdq_pkt_create(struct cmdq_client *client, size_t size)
++static inline int cmdq_pkt_create(struct cmdq_client *client, struct cmdq_pkt *pkt, size_t size)
+ {
+-	return ERR_PTR(-EINVAL);
++	return -EINVAL;
  }
  
--static inline int cmdq_pkt_flush_async(struct cmdq_pkt *pkt)
--{
--	return -EINVAL;
--}
--
- #endif /* IS_ENABLED(CONFIG_MTK_CMDQ) */
+-static inline void cmdq_pkt_destroy(struct cmdq_pkt *pkt) { }
++static inline void cmdq_pkt_destroy(struct cmdq_client *client, struct cmdq_pkt *pkt) { }
  
- #endif	/* __MTK_CMDQ_H__ */
+ static inline int cmdq_pkt_write(struct cmdq_pkt *pkt, u8 subsys, u16 offset, u32 value)
+ {
 -- 
 2.34.1
 
