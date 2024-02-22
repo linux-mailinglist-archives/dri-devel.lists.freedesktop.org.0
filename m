@@ -2,68 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2A9485FBCC
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 16:04:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7052E85FBCE
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 16:04:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83CCE10E958;
-	Thu, 22 Feb 2024 15:04:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D21FB10E960;
+	Thu, 22 Feb 2024 15:04:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Q65FEpMA";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="XAhG3C6l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E24E210E952;
- Thu, 22 Feb 2024 15:04:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708614257; x=1740150257;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=FLnnfwOnjplXgzJeC+dzihkLf7mLPySqSS5uo2Y0V94=;
- b=Q65FEpMAUxazkQqTBcJDZTNAaJFXFs+/v+TYo9YbqxsE0zROy9jy+jZI
- f9Ay7JuXRhGtnbtIFknCfkiWjRlgKc5nCoZmbJBF2ofnB0vIiBk1Zj0nj
- ZxGPcVvhtyXixSObQhI2Sg1Y6dhyGcvG3/7CZS/fiDyNRe6hpmaXR36FX
- a4YPDqE9KfVTd3gsJYuoZf1pLfij+qfQgbTtVaza0Qi057eoHEpYyK038
- yJ63p6DQKxQkqeso0nPxK+9Spiv80egmNkPbC9sCWwJd2ETBNX7IJSerT
- CZUbX/Dr9zRTRzREUIAWU8v0r/mvEva6r6Zegp0GABMxozGi7NVM6parI Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="2706674"
-X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="2706674"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2024 07:04:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="913539581"
-X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; d="scan'208";a="913539581"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2024 07:04:14 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1rdAcN-00000006etC-1HFZ; Thu, 22 Feb 2024 17:04:11 +0200
-Date: Thu, 22 Feb 2024 17:04:10 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Jani Nikula <jani.nikula@intel.com>
-Subject: Re: Re: [PATCH v3 1/3] bits: introduce fixed-type genmasks
-Message-ID: <Zddiav19kX8FGKY9@smile.fi.intel.com>
-References: <20240208074521.577076-1-lucas.demarchi@intel.com>
- <20240208074521.577076-2-lucas.demarchi@intel.com>
- <CAA8EJpprfrtOjNzT6TFhV1n6MXzLdTahanfxcRW4uVjeHaBduA@mail.gmail.com>
- <ZdZlVn9BI-0q1Xdn@smile.fi.intel.com>
- <btssirjumey2kcp5dyhe6m3embdwd5bswjz3c6swrhxfijfhld@lztxaptkegw6>
- <ZddfF7kb54o2c/QR@yury-ThinkPad>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D17CE10E960;
+ Thu, 22 Feb 2024 15:04:43 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 41M7iWuK024680; Thu, 22 Feb 2024 15:04:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=qcppdkim1; bh=Q41hDQ++x7HXRNek8ydp2
+ FcmEDLeuAZTGmbaK9Fam8g=; b=XAhG3C6lKi+6qZ19iMOchCk/0cDyANDay/Q3Y
+ lEh8TvwZ5UBwIJDY4wWs/HPpeo0BtMaSCWpf1YtcmNTYR2paWzQJ8xZ7zJIGD3WU
+ 0ORyEvIkCr7kUttnOOf8UIYCis3PE5mYLsctdmyHZGlAJC5EqHPz01wDzdFkMnjP
+ pH8OloFfPgKn7AvFEwdUkxRNYm+qOIiIrbuRaC26myhT3SgAttt/CKF6Ja7zd+n2
+ r5DP0NGSVvadR4pltqz0hCetClweaVc8Zb5moe5iQyI9rS7xXX2y+CAli8elJk9F
+ DJi1U+HtbCWt1e7olBrRK7Xyomu/1amnNjH9/wSLOYzruf08A==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3we24ah67a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 Feb 2024 15:04:25 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41MF4Oqx032174
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 Feb 2024 15:04:24 GMT
+Received: from hu-bjorande-lv.qualcomm.com (10.49.16.6) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Thu, 22 Feb 2024 07:04:24 -0800
+Date: Thu, 22 Feb 2024 07:04:23 -0800
+From: Bjorn Andersson <quic_bjorande@quicinc.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Konrad Dybcio <konrad.dybcio@linaro.org>, Douglas Anderson
+ <dianders@chromium.org>, Rob Clark <robdclark@gmail.com>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>, <cros-qcom-dts-watchers@chromium.org>, "Bjorn
+ Andersson" <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
+Subject: Re: [PATCH 3/9] arm64: dts: qcom: sc7280: Enable MDP turbo mode
+Message-ID: <20240222150423.GI2936378@hu-bjorande-lv.qualcomm.com>
+References: <20240221-rb3gen2-dp-connector-v1-0-dc0964ef7d96@quicinc.com>
+ <20240221-rb3gen2-dp-connector-v1-3-dc0964ef7d96@quicinc.com>
+ <CAA8EJpo=9vhM+5YzaFxUoYRuEWQyrMS8wLNPSF3K=bN5JwWyDw@mail.gmail.com>
+ <8313a7c3-3ace-4dee-ad27-8f51a06cd58c@linaro.org>
+ <CAA8EJpqFj5nf8d_=Uoup7qg+nQrxqQU-DHbL3uSP138m9AcXLw@mail.gmail.com>
+ <8fcb5816-2d59-4e27-ba68-8e0ed6e7d839@linaro.org>
+ <CAA8EJporaUuddHHqpyYHiYSu=toHmrDxSHf9msZUJoym4Nz72g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <ZddfF7kb54o2c/QR@yury-ThinkPad>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <CAA8EJporaUuddHHqpyYHiYSu=toHmrDxSHf9msZUJoym4Nz72g@mail.gmail.com>
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: Cohb87XPDhqkiAa09wtNUJyEMXFtcRPd
+X-Proofpoint-ORIG-GUID: Cohb87XPDhqkiAa09wtNUJyEMXFtcRPd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-22_11,2024-02-22_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0
+ clxscore=1011 lowpriorityscore=0 priorityscore=1501 adultscore=0
+ mlxlogscore=999 phishscore=0 spamscore=0 mlxscore=0 bulkscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2402220120
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,29 +100,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 22, 2024 at 06:49:59AM -0800, Yury Norov wrote:
-> On Wed, Feb 21, 2024 at 03:59:06PM -0600, Lucas De Marchi wrote:
+On Thu, Feb 22, 2024 at 11:46:26AM +0200, Dmitry Baryshkov wrote:
+> On Thu, 22 Feb 2024 at 11:28, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
+> >
+> >
+> >
+> > On 2/22/24 10:04, Dmitry Baryshkov wrote:
+> > > On Thu, 22 Feb 2024 at 10:56, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
+> > >>
+> > >>
+> > >>
+> > >> On 2/22/24 00:41, Dmitry Baryshkov wrote:
+> > >>> On Thu, 22 Feb 2024 at 01:19, Bjorn Andersson <quic_bjorande@quicinc.com> wrote:
+> > >>>>
+> > >>>> The max frequency listed in the DPU opp-table is 506MHz, this is not
+> > >>>> sufficient to drive a 4k@60 display, resulting in constant underrun.
+> > >>>>
+> > >>>> Add the missing MDP_CLK turbo frequency of 608MHz to the opp-table to
+> > >>>> fix this.
+> > >>>
+> > >>> I think we might want to keep this disabled for ChromeOS devices. Doug?
+> > >>
+> > >> ChromeOS devices don't get a special SoC
+> > >
+> > > But they have the sc7280-chrome-common.dtsi, which might contain a
+> > > corresponding /delete-node/ .
+> >
+> > What does that change? The clock rates are bound to the
+> > SoC and the effective values are limited by link-frequencies
+> > or the panel driver.
+> 
+> Preventing the DPU from overheating? Or spending too much power?
+> 
 
-...
+Perhaps I'm misunderstanding the implementation then, are we always
+running at the max opp? I thought the opp was selected based on the
+current need for performance?
 
-> +#define __GENMASK(t, h, l) \
-> +	((~0 - (1 << (l)) + 1) & (~0 >> (BITS_PER_LONG - 1 - (h))))
+Regards,
+Bjorn
 
-What's wrong on using the UL/ULL() macros?
-
-Also it would be really good to avoid bifurcation of the implementations of
-__GENMASK() for both cases.
-
-...
-
-> -#define __GENMASK(h, l) \
-> -	(((~UL(0)) - (UL(1) << (l)) + 1) & \
-> -	 (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
-
-This at bare minimum can be left untouched for asm case, no?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+> -- 
+> With best wishes
+> Dmitry
