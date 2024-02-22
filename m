@@ -2,66 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A043C8600CA
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 19:16:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10019860121
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 19:25:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C63110EA04;
-	Thu, 22 Feb 2024 18:16:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14B6310EA15;
+	Thu, 22 Feb 2024 18:25:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lePtnIN0";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GNChC0+t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A092610E9FD
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 18:16:11 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id D8FB6CE27FD;
- Thu, 22 Feb 2024 18:16:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C28B7C433C7;
- Thu, 22 Feb 2024 18:16:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1708625769;
- bh=me+TC+MJwDNsQY674FZNF6/iuJyXullN9d+BLYm0P5M=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=lePtnIN0M+MEaJxjLvH8xN46aaX/pz3nKDjcIdAl45MtnOmkuaDm17MPU6n3w5bIT
- BUfKXhbbYBgipl0YzFznRNNzij7A6Xfj8bLXVolnSmONCh7gi43/f9LjklDfIBbsRG
- pX7hXS/1M05M9co/X+Xk3O8Go7DKEtZEOg/PF9IYW6hPPws0QG3+0/HSoL/Q0ECFgP
- RESoKfPEb/NeDczRjDYG2kXYe134M7WpznM2/atXH9MYKJ12tJPaJGS0Ijg4xSi/NJ
- ya2/b9mtu3dkNCK5tkF8JVNVHNGjtVMTbACp6jzJA50jVegovxWw7dfFEj82YZrXkn
- OzYsrdQCfzMJA==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 22 Feb 2024 19:14:22 +0100
-Subject: [PATCH v7 36/36] drm/sun4i: hdmi: Switch to HDMI connector
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+ [209.85.214.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2338F10EA15
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 18:25:09 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id
+ d9443c01a7336-1d51ba18e1bso902425ad.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 10:25:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1708626308; x=1709231108; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+ :reply-to; bh=bj3IcFn8mnJgzD3CoUY6c78LqZOUjuMORbYEATmxZBU=;
+ b=GNChC0+tmo11fT6H6wO4WMZjcgC63KsL4hpmHUKfqXYTnKq8NO+m87Ye6sIogQgIjY
+ v1/CFfqGsKNI5xH9Ynm50hdFRIAn8umjgz0K8ItY/SZPRL3R+F2E95QtzIMgpqmcwwcc
+ eQGJxLwGfm4+k1vG06RRYA/+LuTBDCxuPnQqvM1z+zz/Aa9+I6eI+KjwoQOI6ArJ6765
+ wE4a9CZHDyd7lU13nieU8f8dVSo1BL6VA7KlwBMlEzhL0MgNJzSPz3Aw/dhLOX8fr6Zo
+ C2U9qr4aP0AoLYVkJx3OyJE23eWTuoDqVU3CJkGv6ZqteAXIUSHFnCjjk0fUpd3NLeNj
+ 770A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708626308; x=1709231108;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=bj3IcFn8mnJgzD3CoUY6c78LqZOUjuMORbYEATmxZBU=;
+ b=qxAhTGHYCjXEEM3fs1Cm0Ze2cJBwglcMt5mpZehRUtA5kOG2CKWq/y0unDY5LBRmNI
+ TvgTynXN4IwleJhKqGV36p1nPKIWQ/1eyAEpdBtsRiWXDtep+bOQ4rORB1CQkUzv7GTV
+ DrI+ANlKKWywzI2skKr0ASZ/E8DTlEZkXkyPuHFic1k6lR1HqYHCe9RgkTYQQiqKIGmj
+ aDD3pjwBuXbMBUXLrkraZNkUkAnUMZ54YPYfbuIXVOu9kuX4p/k2og4A+rOESHZYiVz/
+ fMChSFZx3QSlSB3vkNx26sQRLtGvYZo5JfVOQ1KTpJ3OlKBUcBIozeWCyWwyHpxuA0xk
+ NlZg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUceag6hd3sAdpF/USUQcV95qV4aqnAhQcnLrwWbUCPZPVgZvthHgk7h/AvhQ2GPFNFxu4ER+jCk/clTq5bZDuLQyJC4K994hO3REPF9OnH
+X-Gm-Message-State: AOJu0Yye3nvFR7bZXgck3aegsa7EwU9oZErJ58iBWl7JJeWEqJaTs7zq
+ U3cCr2OvSx/v4QpjTta9gk7p/9h8XPSAq4+FL/cXbX1qedoEiKMG
+X-Google-Smtp-Source: AGHT+IHcoigpFbKIQ5fbALcZQ6Rz++MRYgKPcOOAhRgDC8V+XygUKmSTJuBfrizzNDsVEvMULKcBiQ==
+X-Received: by 2002:a17:902:e545:b0:1db:ed54:a726 with SMTP id
+ n5-20020a170902e54500b001dbed54a726mr15517677plf.63.1708626308374; 
+ Thu, 22 Feb 2024 10:25:08 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ mi11-20020a170902fccb00b001da34166cd2sm10255199plb.180.2024.02.22.10.25.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Feb 2024 10:25:07 -0800 (PST)
+Date: Thu, 22 Feb 2024 10:25:06 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Marco Pagani <marpagan@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v5] drm/test: add a test suite for GEM objects backed by
+ shmem
+Message-ID: <e38512f3-626f-42ae-bb3b-3f631dfaed9c@roeck-us.net>
+References: <20231130171417.74162-1-marpagan@redhat.com>
+ <a45b796d-5e04-4eac-b5ba-ea6bb3b6131b@roeck-us.net>
+ <045bfb84-9833-442c-ac54-ed7a26451afa@redhat.com>
+ <fb2ac929-6650-444e-8f24-c9b1562d2bb3@roeck-us.net>
+ <ad03c582-28b9-40b2-9c7b-8372ed5a05c2@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240222-kms-hdmi-connector-state-v7-36-8f4af575fce2@kernel.org>
-References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
-In-Reply-To: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, 
- Sebastian Wick <sebastian.wick@redhat.com>, 
- =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6185; i=mripard@kernel.org;
- h=from:subject:message-id; bh=me+TC+MJwDNsQY674FZNF6/iuJyXullN9d+BLYm0P5M=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKnX+xn2psVcOfSrb7OthJX8Wp2Xx0zdXbZZblggaX/k6
- 6Ufs9NvdZSwMIhxMciKKbLECJsviTs163UnG988mDmsTCBDGLg4BWAiFpMYGdbH8ildumKZY5lX
- 1Pmn49y7S9yzZJc7T5EvU1aZGPdYKpfhx+ZZnN9C4/5yRF38ofnsw0e+67NuWoeI33cNfvVt/sp
- V/AA=
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ad03c582-28b9-40b2-9c7b-8372ed5a05c2@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,171 +94,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The new HDMI connector infrastructure allows to remove some boilerplate,
-especially to generate infoframes. Let's switch to it.
+On Thu, Feb 22, 2024 at 05:33:48PM +0100, Marco Pagani wrote:
+> > 
+> > In this context, the TTM unit tests fail as well in qemu, with worse result:
+> > It seems there is some bad cleanup after a failed test case, causing list
+> > corruptions in the drm core and ultimately a crash. I don't know if this
+> > is also caused by the missing dma_mask initialization.
+> > 
+> 
+> That's interesting. Which --arch argument are you using to run the
+> tests with QEMU?
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 80 ++++++++++++++++++++++------------
- 1 file changed, 51 insertions(+), 29 deletions(-)
+Example (I am not sure if any of those parameters matters; it is just one
+of my tests):
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index b7cf369b1906..8a9106a39f23 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -36,30 +36,24 @@
- #define drm_connector_to_sun4i_hdmi(c)		\
- 	container_of_const(c, struct sun4i_hdmi, connector)
- 
--static int sun4i_hdmi_setup_avi_infoframes(struct sun4i_hdmi *hdmi,
--					   struct drm_display_mode *mode)
-+static int sun4i_hdmi_write_infoframe(struct drm_connector *connector,
-+				      enum hdmi_infoframe_type type,
-+				      const u8 *buffer, size_t len)
- {
--	struct hdmi_avi_infoframe frame;
--	u8 buffer[17];
--	int i, ret;
-+	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
-+	int i;
- 
--	ret = drm_hdmi_avi_infoframe_from_display_mode(&frame,
--						       &hdmi->connector, mode);
--	if (ret < 0) {
--		DRM_ERROR("Failed to get infoframes from mode\n");
--		return ret;
-+	if (type != HDMI_INFOFRAME_TYPE_AVI) {
-+		drm_err(connector->dev,
-+			"Unsupported infoframe type: %u\n", type);
-+		return 0;
- 	}
- 
--	ret = hdmi_avi_infoframe_pack(&frame, buffer, sizeof(buffer));
--	if (ret < 0) {
--		DRM_ERROR("Failed to pack infoframes\n");
--		return ret;
--	}
--
--	for (i = 0; i < sizeof(buffer); i++)
-+	for (i = 0; i < len; i++)
- 		writeb(buffer[i], hdmi->base + SUN4I_HDMI_AVI_INFOFRAME_REG(i));
- 
- 	return 0;
-+
- }
- 
- static void sun4i_hdmi_disable(struct drm_encoder *encoder,
-@@ -82,14 +76,18 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- {
- 	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
- 	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
--	struct drm_display_info *display = &hdmi->connector.display_info;
-+	struct drm_connector *connector = &hdmi->connector;
-+	struct drm_display_info *display = &connector->display_info;
-+	struct drm_connector_state *conn_state =
-+		drm_atomic_get_new_connector_state(state, connector);
-+	unsigned long long tmds_rate = conn_state->hdmi.tmds_char_rate;
- 	unsigned int x, y;
- 	u32 val = 0;
- 
- 	DRM_DEBUG_DRIVER("Enabling the HDMI Output\n");
- 
--	clk_set_rate(hdmi->mod_clk, mode->crtc_clock * 1000);
--	clk_set_rate(hdmi->tmds_clk, mode->crtc_clock * 1000);
-+	clk_set_rate(hdmi->mod_clk, tmds_rate);
-+	clk_set_rate(hdmi->tmds_clk, tmds_rate);
- 
- 	/* Set input sync enable */
- 	writel(SUN4I_HDMI_UNKNOWN_INPUT_SYNC,
-@@ -142,7 +140,8 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- 
- 	clk_prepare_enable(hdmi->tmds_clk);
- 
--	sun4i_hdmi_setup_avi_infoframes(hdmi, mode);
-+	drm_atomic_helper_connector_hdmi_update_infoframes(connector, state);
-+
- 	val |= SUN4I_HDMI_PKT_CTRL_TYPE(0, SUN4I_HDMI_PKT_AVI);
- 	val |= SUN4I_HDMI_PKT_CTRL_TYPE(1, SUN4I_HDMI_PKT_END);
- 	writel(val, hdmi->base + SUN4I_HDMI_PKT_CTRL_REG(0));
-@@ -195,7 +194,7 @@ static int sun4i_hdmi_connector_atomic_check(struct drm_connector *connector,
- 	enum drm_mode_status status;
- 
- 	status = sun4i_hdmi_connector_clock_valid(connector, mode,
--						  mode->clock * 1000);
-+						  conn_state->hdmi.tmds_char_rate);
- 	if (status != MODE_OK)
- 		return -EINVAL;
- 
-@@ -206,8 +205,11 @@ static enum drm_mode_status
- sun4i_hdmi_connector_mode_valid(struct drm_connector *connector,
- 				struct drm_display_mode *mode)
- {
--	return sun4i_hdmi_connector_clock_valid(connector, mode,
--						mode->clock * 1000);
-+	unsigned long long rate =
-+		drm_connector_hdmi_compute_mode_clock(mode, 8,
-+						      HDMI_COLORSPACE_RGB);
-+
-+	return sun4i_hdmi_connector_clock_valid(connector, mode, rate);
- }
- 
- static int sun4i_hdmi_get_modes(struct drm_connector *connector)
-@@ -253,6 +255,11 @@ static struct i2c_adapter *sun4i_hdmi_get_ddc(struct device *dev)
- 	return ddc;
- }
- 
-+static const struct drm_connector_hdmi_funcs sun4i_hdmi_hdmi_connector_funcs = {
-+	.tmds_char_rate_valid	= sun4i_hdmi_connector_clock_valid,
-+	.write_infoframe	= sun4i_hdmi_write_infoframe,
-+};
-+
- static const struct drm_connector_helper_funcs sun4i_hdmi_connector_helper_funcs = {
- 	.atomic_check	= sun4i_hdmi_connector_atomic_check,
- 	.mode_valid	= sun4i_hdmi_connector_mode_valid,
-@@ -274,11 +281,17 @@ sun4i_hdmi_connector_detect(struct drm_connector *connector, bool force)
- 	return connector_status_connected;
- }
- 
-+static void sun4i_hdmi_connector_reset(struct drm_connector *connector)
-+{
-+	drm_atomic_helper_connector_reset(connector);
-+	__drm_atomic_helper_connector_hdmi_reset(connector, connector->state);
-+}
-+
- static const struct drm_connector_funcs sun4i_hdmi_connector_funcs = {
- 	.detect			= sun4i_hdmi_connector_detect,
- 	.fill_modes		= drm_helper_probe_single_connector_modes,
- 	.destroy		= drm_connector_cleanup,
--	.reset			= drm_atomic_helper_connector_reset,
-+	.reset			= sun4i_hdmi_connector_reset,
- 	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
- };
-@@ -637,10 +650,19 @@ static int sun4i_hdmi_bind(struct device *dev, struct device *master,
- 
- 	drm_connector_helper_add(&hdmi->connector,
- 				 &sun4i_hdmi_connector_helper_funcs);
--	ret = drm_connector_init_with_ddc(drm, &hdmi->connector,
--					  &sun4i_hdmi_connector_funcs,
--					  DRM_MODE_CONNECTOR_HDMIA,
--					  hdmi->ddc_i2c);
-+	ret = drmm_connector_hdmi_init(drm, &hdmi->connector,
-+				       /*
-+					* NOTE: Those are likely to be
-+					* wrong, but I couldn't find the
-+					* actual ones in the BSP.
-+					*/
-+				       "AW", "HDMI",
-+				       &sun4i_hdmi_connector_funcs,
-+				       &sun4i_hdmi_hdmi_connector_funcs,
-+				       DRM_MODE_CONNECTOR_HDMIA,
-+				       hdmi->ddc_i2c,
-+				       BIT(HDMI_COLORSPACE_RGB),
-+				       8);
- 	if (ret) {
- 		dev_err(dev,
- 			"Couldn't initialise the HDMI connector\n");
+qemu-system-x86_64 -kernel arch/x86/boot/bzImage -M q35 -cpu IvyBridge \
+	-no-reboot -snapshot -smp 2 \
+	-device e1000,netdev=net0 -netdev user,id=net0 -m 512 \
+	-drive file=rootfs.ext2,format=raw,if=ide \
+	--append "earlycon=uart8250,io,0x3f8,9600n8 root=/dev/sda1 console=ttyS0" \
+	-d unimp,guest_errors -nographic -monitor none
 
--- 
-2.43.2
+This results in:
 
+[ ... ]
+[    5.989496]     KTAP version 1
+[    5.989639]     # Subtest: ttm_device
+[    5.989711]     # module: ttm_device_test
+[    5.989760]     1..5
+[    6.002044]     ok 1 ttm_device_init_basic
+[    6.013557]     ok 2 ttm_device_init_multiple
+ILLOPC: ffffffffb8ac9350: 0f 0b
+[    6.022481]     ok 3 ttm_device_fini_basic
+[    6.026172] ------------[ cut here ]------------
+[    6.026315] WARNING: CPU: 1 PID: 1575 at drivers/gpu/drm/ttm/ttm_device.c:206 ttm_device_init+0x170/0x190
+...
+[    6.135016]         ok 3 Above the allocation limit
+[    6.138759] ------------[ cut here ]------------
+[    6.138925] WARNING: CPU: 1 PID: 1595 at kernel/dma/mapping.c:503 dma_alloc_attrs+0xf6/0x100
+...
+[    6.143850]     # ttm_pool_alloc_basic: ASSERTION FAILED at drivers/gpu/drm/ttm/tests/ttm_pool_test.c:162
+[    6.143850]     Expected err == 0, but
+[    6.143850]         err == -12 (0xfffffffffffffff4)
+[    6.148824]         not ok 4 One page, with coherent DMA mappings enabled
+
+From there things go downhill.
+
+[    6.152821] list_add corruption. prev->next should be next (ffffffffbbd53950), but was 0000000000000000. (prev=ffff8af1c38f9e20).
+
+and so on until the emulation crashes.
+
+Guenter
