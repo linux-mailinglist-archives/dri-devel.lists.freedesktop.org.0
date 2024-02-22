@@ -2,78 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 088CA860369
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 21:03:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B13E686041F
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 21:57:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 985D510EA5A;
-	Thu, 22 Feb 2024 20:02:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A92A10EA39;
+	Thu, 22 Feb 2024 20:57:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WZmTbpeG";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="aVb7FvfS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F5ED10EA5A
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 20:02:57 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id
- a640c23a62f3a-a3d484a58f6so16123566b.3
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 12:02:57 -0800 (PST)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com
+ [209.85.128.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92D4410EA7B
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 20:57:19 +0000 (UTC)
+Received: by mail-yw1-f178.google.com with SMTP id
+ 00721157ae682-6083befe2a7so2280447b3.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 12:57:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1708632175; x=1709236975; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=D91+NNYRuFeok9CBgQ7kElLom/IZjF4ZNUVGAGFMcWc=;
- b=WZmTbpeG73BQCQ4L/VZ09BgQx0UM14BvC6H8nUtUF6DbjqaTny3/RkCH+2OVoXwp3n
- CnjHArEQWPGGVw1zC0tqizpZgxuHqSDum3JlwwD/sa87Mud7OPMuHhVIKa+6GUJu1HZc
- 48gt/YVp1sC+S/yhEq2e+2jSiw/I9FqFYq7eVHsdNp72MJQtSwNLhiqLTqBAmlehaPsy
- sXcrKfEnrhRAAIcKYBpzjJEp17HhIV/LEA0us6UTUPhnrxoVR2CT+xb6G2kjZ6aHLq7C
- 7qKC0FudvTNj95MlFy1hofzpn7X0l8/luna7ION/PyJkPKBPNIczibedXjEpKA5YiqJU
- KuIg==
+ d=linaro.org; s=google; t=1708635438; x=1709240238; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=OlJfxZ2HGOqHH+yFuLajdP34OkZJP17T5eZUptvz6hk=;
+ b=aVb7FvfSQr+13lW1UztWi2+PWm91ex7cogM35Hz2dZbFD33l9JRumpSa6oLO9bl6tg
+ Lj3fT1tPO8YOEsFXXhn7jLWQ2c4ZJNC6QDQKITrX7eSz7EHkDrAsqiIjV6OzEB3f84s9
+ uEQKGM/udDckddd7fawK0zXeYAhW7dZBF2/wN3VoMtTR0BH7rOqykVOk5NB8IQ/WTI0S
+ lNOdgA1yeZ1bFfe1lxsGaNZ1SItAx7lwqB+xIuo3lIZFkz7UFLSlO3qnI/5aaY7MzM+m
+ 4jZAGYvzJCZERmVlR43LVASOrU4w2KW7VH3d2ySSQlPYkLmGoJLAHPkGjaJ3ZDWkZ58j
+ 27Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708632175; x=1709236975;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=D91+NNYRuFeok9CBgQ7kElLom/IZjF4ZNUVGAGFMcWc=;
- b=L7S5GmkhJVbbOYBrEwE3ndydV/Iz98No8kHwM9NbUCmIjgtAD4Azve7SdJ2g1lknDs
- Dgg3fsC05X8iNJt/74v6inN3ZCOHvJMqW8MESBJVHHU6DtZZVF3Kle4QcDFz4cTgBf0x
- 63fxeXIYMaP+RC8zFmfDt80byFJf3RkCuK255+/ui+VIluf7dOg0WzDq1+sYvcF2Vbn3
- jwxpClIPnllO0iGQCIDHy6mwHq/pbRcB7OKHha3WbJhJqdoun1sEOeZWjo40hviLz+K6
- kQr3s3IsSGUreNzEP2qIN7OzT43R+Ea6qmi1NVpOLU1THhZS+oY7c/Q3hePinvggsF3W
- iHWA==
+ d=1e100.net; s=20230601; t=1708635438; x=1709240238;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=OlJfxZ2HGOqHH+yFuLajdP34OkZJP17T5eZUptvz6hk=;
+ b=ZIlQpogw1IwoB2cE6fztNqPbvxYoJ+KYcfrucCO7RKRQ+A5pMFQERsebKx8NgnPod6
+ y8vKG5MiP9AsMUDxVO4HBfXRj20qtngmDMLQm6NHYkXM8KbnFbNSFOqma/YjSrbZYHrq
+ KCILqWAi4bHZip7kBekOAbezOTAlxfEITBoY+CE1LHZRJt+WprZb3c2ylWfCBCptT5Qh
+ RdrElSRMhuH9hCjj9N7V4BqFY1i4zHjVcP5bLOjFbYm+fUEFmqsLEDaokXLhzf+07kUt
+ 5X1T9Tn44cYOzHATE+Z46/25aecEOxs3IdwuwxgRwtauxDQTn17DRYrX6Bs26lLC4/wk
+ sS/w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUcU/gP7cQYzszjy1Z+lx55HyZ5C4FQGqNRKNprDYQR/hZROCCU7G4cdO48Tn5I+q5dwsomULX93jFI7jRuGjWi3JlwaO6dvrVSjqXZ+p3r
-X-Gm-Message-State: AOJu0Yx6Tr8WEUfr+E0wJQ1u9d6tvf3rn7oueMA1q8PxLxElbrJH3oWF
- ny24eAeSyIEx/36wDScLyDCrclRKkvmaRw7ND5/RvPAE+NH//NQb
-X-Google-Smtp-Source: AGHT+IEgvTKQkasQRFEm9qA5fvN8XNPWdx6hB/jSsMaHVhviWIDzjakARe/kyNDcFAl7qhoDmu/LtA==
-X-Received: by 2002:a17:906:b106:b0:a3e:e869:a151 with SMTP id
- u6-20020a170906b10600b00a3ee869a151mr5856787ejy.45.1708632174997; 
- Thu, 22 Feb 2024 12:02:54 -0800 (PST)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net.
- [86.58.6.171]) by smtp.gmail.com with ESMTPSA id
- l20-20020a1709067d5400b00a3e85909a1csm4520555ejp.182.2024.02.22.12.02.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Feb 2024 12:02:54 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: =?utf-8?B?T25kxZllag==?= Jirman <megi@xff.cz>,
- Maxime Ripard <mripard@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Samuel Holland <samuel@sholland.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] drm/sun4i: Fix layer zpos change/atomic modesetting
-Date: Thu, 22 Feb 2024 21:02:53 +0100
-Message-ID: <2448947.jE0xQCEvom@jernej-laptop>
-In-Reply-To: <inuhwnlexpt6dpre4uailtvytjhms4uqeerzehbntczurhcxol@fc4nvkdwffdd>
-References: <20240216190430.1374132-1-megi@xff.cz>
- <20240216190430.1374132-4-megi@xff.cz>
- <inuhwnlexpt6dpre4uailtvytjhms4uqeerzehbntczurhcxol@fc4nvkdwffdd>
+ AJvYcCWAQ9CklxoRd3TPvf/+dEBeS2pt3Q5gtB/mcYhzvPT1V6UjsIgilfp3ciVNY8h8XJjfqRvvdwhDuhx7ZaLc3Gwr8VP9Asjgg9teDicy+WbM
+X-Gm-Message-State: AOJu0YzBGy/4Bm4NtenINwwSLjxwFS/zrS0oUymEFXv5n2nZ3tcvuopq
+ pVqhlNyOa5HSH0JdjaDywS84JMgav0mrl1cuFbhByQNmDBPrI/g3/GCGSZKgxjfpzqNoVY2kLrE
+ wRquKq1ew7oU9pcYNjSyLcD7zIabe06Vwft3Ejg==
+X-Google-Smtp-Source: AGHT+IF9m9jtm1VhqusuJFTiM5ycZ++n/P7+1F1EuJXuTvXHhKSiWFPXHEQ5HDRo4FRo3P5x6Rtq6q/o2h0aRnvCjLo=
+X-Received: by 2002:a25:1589:0:b0:dcd:b624:3e55 with SMTP id
+ 131-20020a251589000000b00dcdb6243e55mr261141ybv.54.1708635438473; Thu, 22 Feb
+ 2024 12:57:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <20240217150228.5788-1-johan+linaro@kernel.org>
+ <20240217150228.5788-3-johan+linaro@kernel.org>
+In-Reply-To: <20240217150228.5788-3-johan+linaro@kernel.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 22 Feb 2024 22:57:07 +0200
+Message-ID: <CAA8EJpoxe8BmyFqMC5yrqdx-Sx2VR_2gT3x6WT9MyhdLuw+xmA@mail.gmail.com>
+Subject: Re: [PATCH 2/6] drm/bridge: aux-hpd: separate allocation and
+ registration
+To: Johan Hovold <johan+linaro@kernel.org>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Vinod Koul <vkoul@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-phy@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,69 +94,186 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dne sreda, 21. februar 2024 ob 14:45:20 CET je Maxime Ripard napisal(a):
-> Hi,
->=20
-> On Fri, Feb 16, 2024 at 08:04:26PM +0100, Ond=C5=99ej Jirman wrote:
-> > From: Ondrej Jirman <megi@xff.cz>
-> >=20
-> > Identical configurations of planes can lead to different (and wrong)
-> > layer -> pipe routing at HW level, depending on the order of atomic
-> > plane changes.
-> >=20
-> > For example:
-> >=20
-> > - Layer 1 is configured to zpos 0 and thus uses pipe 0. No other layer
-> >   is enabled. This is a typical situation at boot.
-> >=20
-> > - When a compositor takes over and layer 3 is enabled,
-> >   sun8i_ui_layer_enable() will get called with old_zpos=3D0 zpos=3D1, w=
-hich
-> >   will lead to incorrect disabling of pipe 0 and enabling of pipe 1.
-> >=20
-> > What happens is that sun8i_ui_layer_enable() function may disable
-> > blender pipes even if it is no longer assigned to its layer.
-> >=20
-> > To correct this, move the routing setup out of individual plane's
-> > atomic_update into crtc's atomic_update, where it can be calculated
-> > and updated all at once.
-> >=20
-> > Remove the atomic_disable callback because it is no longer needed.
-> >=20
-> > Signed-off-by: Ondrej Jirman <megi@xff.cz>
->=20
-> I don't have enough knowledge about the mixers code to comment on your
-> patch, so I'll let Jernej review it. However, this feels to me like the
-> pipe assignment is typically the sort of things that should be dealt
-> with device-wide, and in atomic_check.
+On Sat, 17 Feb 2024 at 17:03, Johan Hovold <johan+linaro@kernel.org> wrote:
+>
+> Combining allocation and registration is an anti-pattern that should be
+> avoided. Add two new functions for allocating and registering an dp-hpd
+> bridge with a proper 'devm' prefix so that it is clear that these are
+> device managed interfaces.
+>
+>         devm_drm_dp_hpd_bridge_alloc()
+>         devm_drm_dp_hpd_bridge_add()
+>
+> The new interface will be used to fix a use-after-free bug in the
+> Qualcomm PMIC GLINK driver and may prevent similar issues from being
+> introduced elsewhere.
+>
+> The existing drm_dp_hpd_bridge_register() is reimplemented using the
+> above and left in place for now.
+>
+> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 
-In DE2 and DE3.0, you cannot move planes between mixers (crtcs), because ea=
-ch
-one is hardwired to specific mixer. Movable planes are the feature of DE3.3
-and one of the pain points for upstreaming the code. Anyway, this commit on=
-ly
-addresses current issue of enabling and disabling planes and handling zpos.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-In atomic check you can only precalculate final register values, but I don't
-see any benefit doing that. I think that this code elegantly solves current
-issue of enabling or disabling wrong plane in certain situations, so:
+Minor nit below.
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  drivers/gpu/drm/bridge/aux-hpd-bridge.c | 67 +++++++++++++++++++------
+>  include/drm/bridge/aux-bridge.h         | 15 ++++++
+>  2 files changed, 67 insertions(+), 15 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/aux-hpd-bridge.c b/drivers/gpu/drm/bridge/aux-hpd-bridge.c
+> index 9e71daf95bde..6886db2d9e00 100644
+> --- a/drivers/gpu/drm/bridge/aux-hpd-bridge.c
+> +++ b/drivers/gpu/drm/bridge/aux-hpd-bridge.c
+> @@ -30,16 +30,13 @@ static void drm_aux_hpd_bridge_release(struct device *dev)
+>         kfree(adev);
+>  }
+>
+> -static void drm_aux_hpd_bridge_unregister_adev(void *_adev)
+> +static void drm_aux_hpd_bridge_free_adev(void *_adev)
+>  {
+> -       struct auxiliary_device *adev = _adev;
+> -
+> -       auxiliary_device_delete(adev);
+> -       auxiliary_device_uninit(adev);
+> +       auxiliary_device_uninit(_adev);
+>  }
+>
+>  /**
+> - * drm_dp_hpd_bridge_register - Create a simple HPD DisplayPort bridge
+> + * devm_drm_dp_hpd_bridge_alloc - allocate a HPD DisplayPort bridge
+>   * @parent: device instance providing this bridge
+>   * @np: device node pointer corresponding to this bridge instance
+>   *
+> @@ -47,11 +44,9 @@ static void drm_aux_hpd_bridge_unregister_adev(void *_adev)
+>   * DRM_MODE_CONNECTOR_DisplayPort, which terminates the bridge chain and is
+>   * able to send the HPD events.
+>   *
+> - * Return: device instance that will handle created bridge or an error code
+> - * encoded into the pointer.
+> + * Return: bridge auxiliary device pointer or an error pointer
+>   */
+> -struct device *drm_dp_hpd_bridge_register(struct device *parent,
+> -                                         struct device_node *np)
+> +struct auxiliary_device *devm_drm_dp_hpd_bridge_alloc(struct device *parent, struct device_node *np)
+>  {
+>         struct auxiliary_device *adev;
+>         int ret;
+> @@ -82,13 +77,55 @@ struct device *drm_dp_hpd_bridge_register(struct device *parent,
+>                 return ERR_PTR(ret);
+>         }
+>
+> -       ret = auxiliary_device_add(adev);
+> -       if (ret) {
+> -               auxiliary_device_uninit(adev);
+> +       ret = devm_add_action_or_reset(parent, drm_aux_hpd_bridge_free_adev, adev);
+> +       if (ret)
+>                 return ERR_PTR(ret);
+> -       }
+>
+> -       ret = devm_add_action_or_reset(parent, drm_aux_hpd_bridge_unregister_adev, adev);
+> +       return adev;
+> +}
+> +EXPORT_SYMBOL_GPL(devm_drm_dp_hpd_bridge_alloc);
+> +
+> +static void drm_aux_hpd_bridge_del_adev(void *_adev)
+> +{
+> +       auxiliary_device_delete(_adev);
+> +}
+> +
+> +/**
+> + * devm_drm_dp_hpd_bridge_add - register a HDP DisplayPort bridge
+> + * @dev: struct device to tie registration lifetime to
+> + * @adev: bridge auxiliary device to be registered
+> + *
+> + * Returns: zero on success or a negative errno
+> + */
+> +int devm_drm_dp_hpd_bridge_add(struct device *dev, struct auxiliary_device *adev)
+> +{
+> +       int ret;
+> +
+> +       ret = auxiliary_device_add(adev);
+> +       if (ret)
+> +               return ret;
+> +
+> +       return devm_add_action_or_reset(dev, drm_aux_hpd_bridge_del_adev, adev);
+> +}
+> +EXPORT_SYMBOL_GPL(devm_drm_dp_hpd_bridge_add);
+> +
+> +/**
+> + * drm_dp_hpd_bridge_register - allocate and register a HDP DisplayPort bridge
+> + * @parent: device instance providing this bridge
+> + * @np: device node pointer corresponding to this bridge instance
+> + *
+> + * Return: device instance that will handle created bridge or an error pointer
+> + */
+> +struct device *drm_dp_hpd_bridge_register(struct device *parent, struct device_node *np)
+> +{
+> +       struct auxiliary_device *adev;
+> +       int ret;
+> +
+> +       adev = devm_drm_dp_hpd_bridge_alloc(parent, np);
+> +       if (IS_ERR(adev))
+> +               return ERR_CAST(adev);
+> +
+> +       ret = devm_drm_dp_hpd_bridge_add(parent, adev);
+>         if (ret)
+>                 return ERR_PTR(ret);
+>
+> diff --git a/include/drm/bridge/aux-bridge.h b/include/drm/bridge/aux-bridge.h
+> index c4c423e97f06..4453906105ca 100644
+> --- a/include/drm/bridge/aux-bridge.h
+> +++ b/include/drm/bridge/aux-bridge.h
+> @@ -9,6 +9,8 @@
+>
+>  #include <drm/drm_connector.h>
+>
+> +struct auxiliary_device;
+> +
+>  #if IS_ENABLED(CONFIG_DRM_AUX_BRIDGE)
+>  int drm_aux_bridge_register(struct device *parent);
+>  #else
+> @@ -19,10 +21,23 @@ static inline int drm_aux_bridge_register(struct device *parent)
+>  #endif
+>
+>  #if IS_ENABLED(CONFIG_DRM_AUX_HPD_BRIDGE)
+> +struct auxiliary_device *devm_drm_dp_hpd_bridge_alloc(struct device *parent, struct device_node *np);
+> +int devm_drm_dp_hpd_bridge_add(struct device *dev, struct auxiliary_device *adev);
 
-Note, if there is new revision, please rewrite blender regmap_update_bits()
-to regmap_write(). Since there is HW issue with reads, I would like to
-get rid of regmap_update_bits() calls eventually.
+I had a pretty close idea during prototyping, but I ended up doing it
+as a single function for the following reasons:
 
-Best regards,
-Jernej
+First, this exports the implementation detail that internally the code
+uses an aux device.
+Also, by exporting the aux device the code becomes less type-safe. By
+mistake one can call devm_drm_dp_hpd_bridge_add() on any aux device,
+which is not necessarily the HPD bridge.
+I'd prefer to see an opaque device-specific structure instead. WDYT?
 
->=20
-> If I'm talking non-sense, it would be great to mention at least why that
-> can't be an option in the commit log.
->=20
-> Maxime
->=20
+>  struct device *drm_dp_hpd_bridge_register(struct device *parent,
+>                                           struct device_node *np);
+>  void drm_aux_hpd_bridge_notify(struct device *dev, enum drm_connector_status status);
+>  #else
+> +static inline struct auxiliary_device *devm_drm_dp_hpd_bridge_alloc(struct device *parent,
+> +                                                                   struct device_node *np)
+> +{
+> +       return NULL;
+> +}
+> +
+> +static inline int devm_drm_dp_hpd_bridge_add(struct auxiliary_device *adev)
+> +{
+> +       return 0;
+> +}
+> +
+>  static inline struct device *drm_dp_hpd_bridge_register(struct device *parent,
+>                                                         struct device_node *np)
+>  {
+> --
+> 2.43.0
+>
 
 
-
-
+-- 
+With best wishes
+Dmitry
