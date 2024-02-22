@@ -2,86 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACEE386008C
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 19:13:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4846E860002
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 18:49:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48AD210E9E7;
-	Thu, 22 Feb 2024 18:12:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCDDB10E9D1;
+	Thu, 22 Feb 2024 17:49:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="afsXDD6h";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="cZr8Y2hr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E107310E9D1
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 17:47:15 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-512e39226efso83001e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 09:47:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1708624034; x=1709228834; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=1vMzRY4ZdJC97RtaAcBXZtkJzfMV0ziR37O9+2OreJs=;
- b=afsXDD6hPjhctz74shwZmrUMD8HoWL6+O2VBg3qI7glhbi7/3PkfTHfDZ3DKHRqgjc
- UyehVCpAQw7+b8PmM+EaSCjwKI+9+UifjBUae5vSmML4jpKZkx9xCPnnhe1H4ooDyjDp
- +9w0V83RaxN4fQerd2/zaavPaFm9CYy6LAovLIggatWoATX7L0X44kxCVRTWgK8f5d9h
- +Dpbt1C/zFNTNV1p9ha0ds1cKT0ikKJ/ZF9vb0GcgiJJjoRlMaayY9Mi6ZYhc2F/eT+U
- sQXGzBzuBplcShS+McnBYUM+jw7GWC236YF9C54uuxhR3YLlJkMsEJMrocUBfuju+bXX
- 2xpw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1586C10E9DA
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 17:49:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1708624140;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=3ioFLGtXAzl49LxeGXZoB4HlsD4SiUYcXnlMZjKgpEQ=;
+ b=cZr8Y2hrczt1SuO519tYoYOUVtT0KTx6MHMwMEr07IQIgVEl0AtGNHdgPgI+uI2jnU58io
+ ovl2zrcpNeAf8ycGS32zdQqFaos3xlkDZkUvrZ5mubQVn6xSeTx+7GOh/bay/yGweMUl7Q
+ jBuMELO1YCeMgowZIxqZcajVwqZ342o=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-32-ELeuctslOOKOpBBbF2-PXg-1; Thu, 22 Feb 2024 12:48:57 -0500
+X-MC-Unique: ELeuctslOOKOpBBbF2-PXg-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ 2adb3069b0e04-50e55470b49so70108e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Feb 2024 09:48:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708624034; x=1709228834;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1708624136; x=1709228936;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1vMzRY4ZdJC97RtaAcBXZtkJzfMV0ziR37O9+2OreJs=;
- b=o/pwNnOD4FuR1OUeC3nxjb9WRupSWlHZOg+o+SrsU8q5GRkTfl5pfZ0eBWfXXKnq2G
- 4F5HsOdLpw8TM1kk/zKnRAiHgRgbkcW7qd484cqfCWiZuZNYFoL9k5JrBs/aNe27IT4+
- az0NHBQpoOOP7fXCDRaO1wtprjFC864PSEWjZrjF2rnfT7Go8fjSdGgAVryowB9TxUgk
- 7iTy+Sdf0lWsQ7fU8xio9EKqviEsI3zIPWFOaRBXK7PPbxNWuZRZhbcoKlOWIP1G7kK5
- qJjqO6EFKvWbqEdj9p/5EeAVlw3RIRoZBZMNeaZRQYZ0Rs8M7ITXiUFqSVQ/vk73EMxd
- xlaw==
+ bh=3ioFLGtXAzl49LxeGXZoB4HlsD4SiUYcXnlMZjKgpEQ=;
+ b=Zpbw/uCYXIsjOZSc6ZG82xsTMS5bKGgiIUOlGjEzpLwxxu+a55zAkHM8kr641Mr0of
+ uUig5dm4YVz+YjNzw6KmR+tLrEEYSO6AkfTF4Er9b8uZ6qrZDBv5NzGboYpNGmCeeWl0
+ hGTMuKWscl9SucBe0Uli1MYurCGj0qDUYrhCpUvYItm/ogt/1Dn0jKh9TFn/Rve4Sfyv
+ RwhzVbRjewFWfxnD46QDMBhnff30dHydoxJXIGmH0ePAPSWhYVSK22DLmKq0t1A5wNAU
+ cbhyqmZt16wfNY7CMvl0vtD1FKVxaHQZ3hk2w/lXDh1LQRA8Qn1+Lyqt+yeEZOgx+sF4
+ EfPQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXn+yt/M+GReT7y3AAnsmpErdwVDG8znBRwr3ipPBt+E7130eDfKvM9G2JD4AR3OkvznAhNpMBDSDJ7G8w9TNXQk7NxMXLi32a0Lis6lsko
-X-Gm-Message-State: AOJu0YwASTEYoX00dVI2hzlnMV2+xSFL8vf9zocD1okrjKop3cyluB2L
- IOQMTKqa2qPijkXet9XgrvYQrhgk4lGBsKYZTtJgAPmMyphdQBA1
-X-Google-Smtp-Source: AGHT+IGiugEEEwYB53ORSW0VA1gdJrv8sHxuyh9M9w4ejmOATIcCj/UM2+JKxQktNLdPnMuWWIo5iw==
-X-Received: by 2002:a05:6512:3fc:b0:512:ceae:93d9 with SMTP id
- n28-20020a05651203fc00b00512ceae93d9mr3339347lfq.28.1708624033424; 
- Thu, 22 Feb 2024 09:47:13 -0800 (PST)
-Received: from [192.168.50.110] ([90.255.110.157])
+ AJvYcCXTVa/ad2x8PaBkIh5CCI5D1stSBDkn20k3BaOXn5JgjEnIFseKvcHUOqOaur0w1tGsdqrTG24StgggLnzMLR6mq3tBL7LmIYSolF4o8tuM
+X-Gm-Message-State: AOJu0YzsowKMlCQq65Xl5vGM/BUWFJHXV9IXoYZE/IWbBghV2KwPiubF
+ ZOmFu8sYwfJML3XDWtoD0aqWCgt4fIUfoFBpQU/tAGHEA514zlK5N9orQo+gWg7/gE10ZzK9D7p
+ R7C3sWgZEKnwzJrFO1hbQMlkXfBvgfTorfYvFXqC7jiNq18EA7iqcW9dw3xM0u9FuSQ==
+X-Received: by 2002:a05:6512:3a88:b0:512:db76:4e16 with SMTP id
+ q8-20020a0565123a8800b00512db764e16mr2123068lfu.4.1708624136188; 
+ Thu, 22 Feb 2024 09:48:56 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEBAWvm+yI3Pr7fiLFm9XFNOLrF5RmpV/2JkyZ9oYkZoK7MMkLsr2+wsHuHCHG7VLRplm5xSg==
+X-Received: by 2002:a05:6512:3a88:b0:512:db76:4e16 with SMTP id
+ q8-20020a0565123a8800b00512db764e16mr2123052lfu.4.1708624135720; 
+ Thu, 22 Feb 2024 09:48:55 -0800 (PST)
+Received: from localhost ([2a01:e0a:b25:f902::ff])
  by smtp.gmail.com with ESMTPSA id
- ay25-20020a05600c1e1900b00411d3a414c6sm895267wmb.47.2024.02.22.09.47.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Feb 2024 09:47:12 -0800 (PST)
-Message-ID: <79a4b60e-24f3-47fd-b3b3-7d207cec1470@gmail.com>
-Date: Thu, 22 Feb 2024 17:47:11 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] drm: panel: st7701: Add Hardkernel ODROID-GO Ultra
- panel support
-To: Jessica Zhang <quic_jesszhan@quicinc.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+ u7-20020a7bc047000000b0040fe4b733f4sm6742438wmc.26.2024.02.22.09.48.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Feb 2024 09:48:55 -0800 (PST)
+Date: Thu, 22 Feb 2024 18:48:55 +0100
+From: Maxime Ripard <mripard@redhat.com>
+To: Dave Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240221194528.1855714-1-greena88@gmail.com>
- <20240222164332.3864716-1-greena88@gmail.com>
- <20240222164332.3864716-2-greena88@gmail.com>
- <f9446923-acd3-41cf-92d4-676b946280c4@quicinc.com>
-Content-Language: en-GB
-From: Adam Green <greena88@gmail.com>
-In-Reply-To: <f9446923-acd3-41cf-92d4-676b946280c4@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Thu, 22 Feb 2024 18:12:56 +0000
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-fixes
+Message-ID: <gl2antuifidtzn3dfm426p7xwh5fxj23behagwh26owfnosh2w@gqoa7vj5prnh>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="5hhkflxukzuxfpx5"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,20 +95,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/02/2024 17:14, Jessica Zhang wrote:
-> Hi Adam,
-> 
-> Just wondering, why the change to 120 here?
-> 
-> Thanks,
-> 
-> Jessica Zhang
+
+--5hhkflxukzuxfpx5
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-The 120ms is taken from the datasheet specification for the controller 
-as maximum time it takes for the display to reset,
+Here's this week drm-misc-fixes PR
 
-Kind regards,
+Maxime
 
-Adam
+drm-misc-fixes-2024-02-22:
+A list handling fix and 64bit division on 32bit platform fix for the
+drm/buddy allocator, a cast warning and an initialization fix for
+nouveau, a bridge handling fix for meson, an initialisation fix for
+ivpu, a SPARC build fix for fbdev, a double-free fix for ttm, and two
+fence handling fixes for syncobj.
+The following changes since commit a64056bb5a3215bd31c8ce17d609ba0f4d5c55ea:
+
+  drm/tests/drm_buddy: add alloc_contiguous test (2024-02-14 15:22:21 +0100)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2024-02-22
+
+for you to fetch changes up to 2aa6f5b0fd052e363bb9d4b547189f0bf6b3d6d3:
+
+  drm/syncobj: handle NULL fence in syncobj_eventfd_entry_func (2024-02-22 =
+13:52:52 +0100)
+
+----------------------------------------------------------------
+A list handling fix and 64bit division on 32bit platform fix for the
+drm/buddy allocator, a cast warning and an initialization fix for
+nouveau, a bridge handling fix for meson, an initialisation fix for
+ivpu, a SPARC build fix for fbdev, a double-free fix for ttm, and two
+fence handling fixes for syncobj.
+
+----------------------------------------------------------------
+Andrzej Kacprowski (1):
+      accel/ivpu: Don't enable any tiles by default on VPU40xx
+
+Arnd Bergmann (1):
+      nouveau: fix function cast warnings
+
+Arunpravin Paneer Selvam (1):
+      drm/buddy: Modify duplicate list_splice_tail call
+
+Dan Carpenter (1):
+      drm/nouveau/mmu/r535: uninitialized variable in r535_bar_new_()
+
+Erik Kurzinger (2):
+      drm/syncobj: call drm_syncobj_fence_add_wait when WAIT_AVAILABLE flag=
+ is set
+      drm/syncobj: handle NULL fence in syncobj_eventfd_entry_func
+
+Javier Martinez Canillas (1):
+      sparc: Fix undefined reference to fb_is_primary_device
+
+Martin Blumenstingl (1):
+      drm/meson: Don't remove bridges which are created by other drivers
+
+Matthew Auld (1):
+      drm/tests/drm_buddy: fix 32b build
+
+Thomas Hellstr=F6m (1):
+      drm/ttm: Fix an invalid freeing on already freed page in error path
+
+ arch/sparc/Makefile                               |  2 +-
+ arch/sparc/video/Makefile                         |  2 +-
+ drivers/accel/ivpu/ivpu_hw_40xx.c                 |  2 +-
+ drivers/gpu/drm/drm_buddy.c                       |  4 ++--
+ drivers/gpu/drm/drm_syncobj.c                     | 19 ++++++++++++++++---
+ drivers/gpu/drm/meson/meson_encoder_cvbs.c        |  1 -
+ drivers/gpu/drm/meson/meson_encoder_dsi.c         |  1 -
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c        |  1 -
+ drivers/gpu/drm/nouveau/nvkm/subdev/bar/r535.c    |  5 ++---
+ drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c |  8 +++++++-
+ drivers/gpu/drm/tests/drm_buddy_test.c            | 16 ++++++++--------
+ drivers/gpu/drm/ttm/ttm_pool.c                    |  2 +-
+ 12 files changed, 39 insertions(+), 24 deletions(-)
+
+--5hhkflxukzuxfpx5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZdeJBgAKCRDj7w1vZxhR
+xRbyAQCnYNCfqIbjHWMolyt0BYbCzpSWutK1vtBD/FsjqQY9XAEA32eKhN0BzJOP
+Gq2TJ8zFcUD6FfaFtG79ZAscIZFXLw8=
+=4w2f
+-----END PGP SIGNATURE-----
+
+--5hhkflxukzuxfpx5--
+
