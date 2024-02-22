@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CBF185FD67
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 16:59:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73D7885FD69
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Feb 2024 16:59:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B75A10E9AF;
-	Thu, 22 Feb 2024 15:59:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9274510E9AC;
+	Thu, 22 Feb 2024 15:59:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ntnolnnc";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="rtfPl72U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2064.outbound.protection.outlook.com [40.107.93.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8811D10E9AA;
- Thu, 22 Feb 2024 15:59:17 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2050.outbound.protection.outlook.com [40.107.237.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7915F10E9A4;
+ Thu, 22 Feb 2024 15:59:20 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fHEPq3sn8H8Zhyc82+r+xNp5E4gu4Zd6pAZzaWxcShKtmiAYziWBRM6wNKCdzwqW258b6od6FMA8QlEfAOsjYqAeydaoJnu64hYYxwr7bnyIjTPK5qONQ3B+F7QHBur8fLDSuiz1EzpoJcjQhIFJDysortIreR42pw4PnA0boo/S3lE8LzP6rpr6mBBUk9ORrBjciUp8h4RBv/B6T1gTBeDJUkpDj53LpXHWDnO2fGH4i2sWX6+yjPJLUy2zxHXTQ3gZMlJ0e8HA4myIAOqgxejPQBi2CSKM1gGxWsYTVUD3P2/m8PeQMU8mUXpVvYCNJ66FC7AiDTc35BC7Upfwzw==
+ b=lq/lmBcVg3qZSyjiGx3fqIjokFmxqJNn8pnRQKHNrz9NyEjLVq93Ty54GwzP5qGkxSZfBFwtmBAjJC4bjGx5IHL/XYop4Lc7WBPG3bKLqArws8DIYAnqZD8XYz63HC6u/kDkdLfwxs6eNHz+p/QetONYvI9/wnJA+YOXs/Wj+5//GK4g2w8Qiri+jLo6XDEl36driVnAdlAiyyT318oAwdMXXG4JjCB0J6ebtm64z1jFD6WBPWRyntCqt2V1oVsUTtPbTHjZfbPIVgY0MByZTOTwAAaukSiHLiPKLMij6eDfdhbB8a8YTwkwLgjoueNsNVBW8gmK8WnBZideY0dg4Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jHB5vJQtFzwbDU1rSzUCK8PpDDp8ubMGGoP5Z/ykLBc=;
- b=cxR3+0psoU1R2r9ZT195YyjeLAJAF+JE/nKzsKZ9q6rdKZ0thSMP0KZm19/Qk8p1gVEarbzGlzB/MuVY0TJVPfACD9idOj+PoeBG+LtvcieHghVw0e0Qyw3VhD4vm6FZib+2tXnV5rqxxT7vBgJmbgHkNTZFKmLCI7BMGnCDlsLYamCljg7ZJfBojSpRKTPFg91z06XxqkvvZhmGy7xgOBxaKkKju8Fz6rkia8I7s0IMkSJR83vTaLMaC+FaCp0ITsS+bHmZVRkGiMKPoXDv7MmXYxfdZxGUde+aOTS1I1FRva0/MVLEYb9GvAhTiBNJab5RCwH+SlTk2B6i1/tRzQ==
+ bh=ZVbrci4nt5hqcszVy2yN/aUSRYEICcA9XWed4U2e5PY=;
+ b=cx00r1/SglcnFbwT5wwoCXaHLgmmqPjzUySh43Nh6VqpED+Dl1PkCVN3p7/MNT3G2scB8Y/vNjLtcfYeRtf+2zkpWVOqBfzZb0NlgTPHf7288HfTmDC6BQhDbDovYLHLpgekndh67xLh8IIEe8x8Rwi9Tfglo5kXdJwJ8Dz/zhlo03Z06veQ0+3UK2iPD5c7IFMrN8QSkgZoqhUc0nmNWB1npa3GuGu9qUjxo4WQUzrYQp94GUrdGXSLLYN4ILoMaxwsROyGJs4aDMQnaruG4apl47OE9r8FV1Q+XT5oABSFGRT4gK50lXjWopi8Mex2h/MoIjpTOpMCJjSCRDp6Yw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=linux.ie smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jHB5vJQtFzwbDU1rSzUCK8PpDDp8ubMGGoP5Z/ykLBc=;
- b=ntnolnncGYs628wezCBJqOuKoDB9mAnOja9d++9sNf7PVc4R/tGHadI24Rbw/xlfndhdCmuz9fnydDRjz0UJa/E+0Pr7hx6qNCgb4ea+pzde4nC+bUZ6DTd53VTdaCuUOmUoAlrs8cveW2fZbw5WEkyMT5XQ4TKXYKzkPfwAdds=
-Received: from PH0PR07CA0044.namprd07.prod.outlook.com (2603:10b6:510:e::19)
- by PH0PR12MB8173.namprd12.prod.outlook.com (2603:10b6:510:296::14) with
+ bh=ZVbrci4nt5hqcszVy2yN/aUSRYEICcA9XWed4U2e5PY=;
+ b=rtfPl72UZ51BznpTfAMuGbRZDHzF0u0ZjVq3ORMGo1rZqvL9bg3IS2szxyLcGpFlqxk4tceLtJXEltJ+HtOg3Z3plYdlW/9vm4aeqRZk1gOKA+oKga8/Qa7w7/yv4it3IOn6LDT72LEmt/2EbhP8vVdLcqj8HrL2RSi4SS75RS8=
+Received: from SN7PR04CA0097.namprd04.prod.outlook.com (2603:10b6:806:122::12)
+ by DM3PR12MB9286.namprd12.prod.outlook.com (2603:10b6:8:1ae::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.24; Thu, 22 Feb
- 2024 15:59:13 +0000
-Received: from SA2PEPF000015CC.namprd03.prod.outlook.com
- (2603:10b6:510:e:cafe::75) by PH0PR07CA0044.outlook.office365.com
- (2603:10b6:510:e::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.43 via Frontend
- Transport; Thu, 22 Feb 2024 15:59:13 +0000
+ 2024 15:59:16 +0000
+Received: from SA2PEPF000015C7.namprd03.prod.outlook.com
+ (2603:10b6:806:122:cafe::38) by SN7PR04CA0097.outlook.office365.com
+ (2603:10b6:806:122::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.42 via Frontend
+ Transport; Thu, 22 Feb 2024 15:59:16 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SA2PEPF000015CC.mail.protection.outlook.com (10.167.241.202) with Microsoft
+ SA2PEPF000015C7.mail.protection.outlook.com (10.167.241.197) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7292.25 via Frontend Transport; Thu, 22 Feb 2024 15:59:13 +0000
+ 15.20.7292.25 via Frontend Transport; Thu, 22 Feb 2024 15:59:15 +0000
 Received: from smtp.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Thu, 22 Feb
- 2024 09:59:09 -0600
+ 2024 09:59:12 -0600
 From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 To: Alex Deucher <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
  <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
@@ -68,11 +68,11 @@ CC: <kunit-dev@googlegroups.com>, <tales.aparecida@gmail.com>,
  <amd-gfx@lists.freedesktop.org>, <mwen@igalia.com>, <mairacanal@riseup.net>,
  <dri-devel@lists.freedesktop.org>, Isabella Basso <isabbasso@riseup.net>,
  <andrealmeid@riseup.net>, Trevor Woerner <twoerner@gmail.com>,
- <javierm@redhat.com>, kernel test robot <lkp@intel.com>
-Subject: [PATCH v5 7/8] drm/amd/display: Introduce KUnit tests to dc_dmub_srv
- library
-Date: Thu, 22 Feb 2024 08:56:19 -0700
-Message-ID: <20240222155811.44096-8-Rodrigo.Siqueira@amd.com>
+ <javierm@redhat.com>
+Subject: [PATCH v5 8/8] Documentation/gpu: Add Display Core Unit Test
+ documentation
+Date: Thu, 22 Feb 2024 08:56:20 -0700
+Message-ID: <20240222155811.44096-9-Rodrigo.Siqueira@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240222155811.44096-1-Rodrigo.Siqueira@amd.com>
 References: <20240222155811.44096-1-Rodrigo.Siqueira@amd.com>
@@ -84,25 +84,25 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF000015CC:EE_|PH0PR12MB8173:EE_
-X-MS-Office365-Filtering-Correlation-Id: b4c82e42-c9d1-43b0-90ea-08dc33bf370f
+X-MS-TrafficTypeDiagnostic: SA2PEPF000015C7:EE_|DM3PR12MB9286:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9383d1e9-f2fe-4e46-23b3-08dc33bf388a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fXLRZ2K5jkLyl90bZ7Y6TpDAoE0sQDkVxr84ao2FfsGcUkBZgghvMR11/tiEMMoLiWoealwovv1AHi/Yyg3cqeOTFwYlbUp2+Fh45MOdEvY6oqZHNzpOO3jFYSAZiMssPHWQz5+mVAG9hkXpUespMb1Z+LG2UXaBgw15qum3/IJT9+++pONJJhCI4p+LvR6Oaf4AYOKYy5KnYyXPmhjGSXNgyQ1VRHE21n+hMPU2ed6BF9FjpAAXDJU6YAF1nWGKJ9dwFXYLcDwIAOcXHfUBs/zJsfZxNJIlTa1YRI1drg29ZAQeiwkxthbwv0OFeZfHsrjSnBzgssyb0ss/8sHJbowlhpxwAdzjiUBKsuRNWX63+PNbE4d1EmowQkIkbb4jtixzPbbWoUkiTqEus9RxSVZUfD/CxHX4EHJm/1KAqTvmN3i82ExlbBaH0fE4+78gAAJXJCTJkQzbkexv6YGMga33Je0ry+cOjncnbMkJjdoC9x1f4JVvc0PiSO2Zrdke2FX3hD5DVEImUDxa4YSlJjj0qUMeMVscywJUjEs3THI/Ie7irFdLwCuu76v257G+AmhTtWPDFqfJjubD7QpshOKdAxOTIU3bgVohLfQmj7zGED0i21ICHV+pTf1XyUEjiY66aQ8n/O5yJKYjdt2ARlQi8JRzrIz4hrSzEFgr3dI=
+X-Microsoft-Antispam-Message-Info: 3VMiEao5lEHN6V3MA9CpGqps1f4zDmhc4MGNpYwngHtWorTB/0l9KhGgMVwv3wDxb8UIpT0kOUPCXk5FzTEVksNJDFmptR0Vw21he1mYaV8U93yQNKoCyEa54wPVFWR6dV68wXSJes2G9dc2IR7qjFdWlGZsQqOF+Qm78LrZIc+NPtG7gY+YNxXxYZgE6xH3xkVbWhl5j8zMI4geH6BoFV08zTLu2BpGS3tp9W8gYyw8hl2BInbaQNu8f0F16NhfiTm0VDiOizWBOw6OffMlcpO80OlvhVi334HJsa5vtRV0oQyyBarSSvY8q29rEkxdhswBHTWODdI34c/50N8wqF3j6WHRojIn+rN7XcR4k6zfj2MHej9lVoI5EcwGaqYSGRUOkMT0cu3X8rXOyn5zSp94p2ELTbI8KLCnj45h/N9XdOARS5LYq6gDOcuZmpTDV+T1VMlommFKJN6cBCAD6WcONamKFTHkHqBQkNHLgh7P/lIoYwi90vfzdoIehi8lQkmKSjpAV5ilYLiYlOJYzY+RPXKy5hMKxd2fPdCkDzcCBWxyA+lIMicSBUq1PTmmKJaLoM4/b/mapMb3vWDGQZAuzJTR3Pwp6Wa1MHqXq4QtMJpUQPxNkDeTKgnlmZ5IGFCfFK7j5U47pkzL3osmYWF3/amvt5AGdW7JKjTycXI=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(36860700004)(46966006)(40470700004)(921011); DIR:OUT; SFP:1101;
+ SFS:(13230031)(36860700004)(40470700004)(46966006)(921011); DIR:OUT; SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2024 15:59:13.4367 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b4c82e42-c9d1-43b0-90ea-08dc33bf370f
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2024 15:59:15.9333 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9383d1e9-f2fe-4e46-23b3-08dc33bf388a
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF000015CC.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF000015C7.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8173
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9286
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,231 +120,123 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Maíra Canal <mairacanal@riseup.net>
 
-Add a unit test to the SubVP feature in order to avoid possible
-regressions and ensure code robustness. In particular, this new test
-validates the expected parameters when using 4k144 and 4k240 displays.
+Explain how to run the KUnit tests present in the AMDGPU's Display
+Core and clarify which architectures and tools can be used to run
+the tests. Moreover, explains how to add new tests to the existing
+tests.
 
 Signed-off-by: Maíra Canal <mairacanal@riseup.net>
-Co-developed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Reported-by: kernel test robot <lkp@intel.com>
 ---
- drivers/gpu/drm/amd/display/Kconfig           |  13 ++
- drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c  |   4 +
- .../drm/amd/display/test/kunit/.kunitconfig   |   1 +
- .../display/test/kunit/dc/dc_dmub_srv_test.c  | 159 ++++++++++++++++++
- 4 files changed, 177 insertions(+)
- create mode 100644 drivers/gpu/drm/amd/display/test/kunit/dc/dc_dmub_srv_test.c
+ .../gpu/amdgpu/display/display-test.rst       | 88 +++++++++++++++++++
+ Documentation/gpu/amdgpu/display/index.rst    |  1 +
+ 2 files changed, 89 insertions(+)
+ create mode 100644 Documentation/gpu/amdgpu/display/display-test.rst
 
-diff --git a/drivers/gpu/drm/amd/display/Kconfig b/drivers/gpu/drm/amd/display/Kconfig
-index ab52b135db85..11b0e54262f3 100644
---- a/drivers/gpu/drm/amd/display/Kconfig
-+++ b/drivers/gpu/drm/amd/display/Kconfig
-@@ -90,4 +90,17 @@ config AMD_DC_BASICS_KUNIT_TEST
- 
- 		If unsure, say N.
- 
-+config AMD_DC_KUNIT_TEST
-+	bool "Enable KUnit tests for the 'utils' sub-component of DAL" if !KUNIT_ALL_TESTS
-+	depends on DRM_AMD_DC && KUNIT
-+	default KUNIT_ALL_TESTS
-+	help
-+		Enables unit tests for the basics folder of Display Core. Only useful for
-+		kernel devs running KUnit.
-+
-+		For more information on KUnit and unit tests in general please refer to
-+		the KUnit documentation in Documentation/dev-tools/kunit/.
-+
-+		If unsure, say N.
-+
- endmenu
-diff --git a/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c b/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
-index 6083b1dcf050..7aafdfeac60e 100644
---- a/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
-+++ b/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
-@@ -1438,3 +1438,7 @@ bool dc_wake_and_execute_gpint(const struct dc_context *ctx, enum dmub_gpint_com
- 
- 	return result;
- }
-+
-+#if IS_ENABLED(CONFIG_AMD_DC_KUNIT_TEST)
-+#include "../test/kunit/dc/dc_dmub_srv_test.c"
-+#endif
-diff --git a/drivers/gpu/drm/amd/display/test/kunit/.kunitconfig b/drivers/gpu/drm/amd/display/test/kunit/.kunitconfig
-index eb6f81601757..4c5861ad58bd 100644
---- a/drivers/gpu/drm/amd/display/test/kunit/.kunitconfig
-+++ b/drivers/gpu/drm/amd/display/test/kunit/.kunitconfig
-@@ -4,5 +4,6 @@ CONFIG_DRM=y
- CONFIG_DRM_AMDGPU=y
- CONFIG_DRM_AMD_DC=y
- CONFIG_AMD_DC_BASICS_KUNIT_TEST=y
-+CONFIG_AMD_DC_KUNIT_TEST=y
- CONFIG_DCE_KUNIT_TEST=y
- CONFIG_DML_KUNIT_TEST=y
-diff --git a/drivers/gpu/drm/amd/display/test/kunit/dc/dc_dmub_srv_test.c b/drivers/gpu/drm/amd/display/test/kunit/dc/dc_dmub_srv_test.c
+diff --git a/Documentation/gpu/amdgpu/display/display-test.rst b/Documentation/gpu/amdgpu/display/display-test.rst
 new file mode 100644
-index 000000000000..d12c4e3816b5
+index 000000000000..a8c136ce87b7
 --- /dev/null
-+++ b/drivers/gpu/drm/amd/display/test/kunit/dc/dc_dmub_srv_test.c
-@@ -0,0 +1,159 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * KUnit tests for dc_dmub_srv.c
-+ *
-+ * Copyright (C) 2022, Maíra Canal <mairacanal@riseup.net>
-+ */
++++ b/Documentation/gpu/amdgpu/display/display-test.rst
+@@ -0,0 +1,88 @@
++.. SPDX-License-Identifier: GPL-2.0+
 +
-+#include <kunit/test.h>
-+#include "dc_dmub_srv.h"
++========================
++Display Core Unit Tests
++========================
 +
-+/**
-+ * DOC: overview
-+ *
-+ * The file dc_dumb_srv.c has many functions that work as an interface to
-+ * generate some of the DMUB parameters. To offload some of the complexity from
-+ * the DMUB, the 'dc_dmub_srv.c' file provides functions that perform
-+ * mathematical calculations to generate the parameter that will be passed to
-+ * the DMUB to enable specific configurations.
-+ */
++Display core provides a set of unit tests, currently focused on the Display Mode
++Library. The unit tests use KUnit (Kernel Unit Testing Framework), a common
++framework for unit tests within the Linux Kernel.
 +
-+/**
-+ * struct populate_subvp_cmd_drr_info_test_case - Fields for subvp validation
-+ *
-+ * The function populate_subvp_cmd_drr_info() performs calculations based on
-+ * different pipe context timing values. This struct maintains those fields
-+ * required to be passed to the populate_subvp_cmd_drr_info.
-+ */
-+struct populate_subvp_cmd_drr_info_test_case {
-+	const char *desc;
-+	/**
-+	* @dc: In the specific context of populate_subvp_cmd_drr_info() test,
-+	* we only care about the DC capabilities.
-+	*/
-+	struct dc *dc;
++This section covers the specifics of the tests for the AMDGPU driver. For general
++information about KUnit, please refer to Documentation/dev-tools/kunit/start.rst.
 +
-+	/**
-+	 * @subvp_pipe: This parameter plays an essential role in the
-+	 * populate_subvp_cmd_drr_info validation because it will be used to
-+	 * derive some of the parameters for the max VTotal, but it is also
-+	 * employed in a pointer validation that extracts the phantom timing
-+	 * from the context.
-+	 */
-+	struct pipe_ctx *subvp_pipe;
++How to run the tests?
++=====================
 +
-+	/**
-+	 * @vblank_pipe: This field keeps the DRR timing values used in the Max
-+	 * and Min VTotal calculation.
-+	 */
-+	struct pipe_ctx *vblank_pipe;
++In order to facilitate running the test suite, a configuration file is present
++in ``drivers/gpu/drm/amd/display/tests/dc/.kunitconfig``. This configuration file
++can be used to run the kunit_tool, a Python script (``tools/testing/kunit/kunit.py``)
++used to configure, build, exec, parse and run tests.
 +
-+	/**
-+	 * @context: In the context of populate_subvp_cmd_drr_info(), this
-+	 * field it is only necessary to fulfill the requirements for
-+	 * dc_state_get_paired_subvp_stream() helper.
-+	 */
-+	struct dc_state *context;
-+};
++.. code-block:: bash
 +
-+const struct dc_stream_status mock_dc_stream_state_returned_from_get_paired = {
-+	.mall_stream_config =  (struct mall_stream_config) {
-+		.paired_stream = &(struct dc_stream_state) {
-+			.timing = {
-+				.v_total = 216,
-+				.h_total = 4000,
-+				.v_addressable = 149,
-+				.pix_clk_100hz = 5332500,
-+				.v_front_porch = 1,
-+			},
-+		}
-+	}
-+};
++	$ ./tools/testing/kunit/kunit.py run --arch=x86_64 \
++	    --kunitconfig=drivers/gpu/drm/amd/display/tests
 +
-+struct pipe_ctx mock_vblank_pipe_parameter = {
-+	.stream = &(struct dc_stream_state) {
-+		.timing = {
-+			.v_total = 2250,
-+			.h_total = 4400,
-+			.v_addressable = 2160,
-+			.pix_clk_100hz = 23760000,
-+		},
-+	},
-+};
++Currently, the Display Core Unit Tests are only supported on x86_64.
 +
-+const struct pipe_ctx mock_subvp_pipe_parameter = {
-+	.stream = &(struct dc_stream_state) {
-+		.timing = {
-+			.h_total = 4000,
-+			.v_addressable = 2160,
-+			.pix_clk_100hz = 5332500,
-+		},
-+	},
-+};
++Moreover, the tests can also be run on real hardware or in other emulation
++environments. To include the Display Core Unit Tests on a deployable kernel,
++you might add the following config options to your ``.config``:
 +
-+struct populate_subvp_cmd_drr_info_test_case subvp_4k144_4k240_case = {
-+	.desc = "4k144 and 4k240 displays are the perfect scenario for SubVP",
-+	.dc = &(struct dc) {
-+		.caps = {
-+			.subvp_prefetch_end_to_mall_start_us = 15,
-+			.subvp_fw_processing_delay_us = 15,
-+		}
-+	},
++.. code-block:: none
 +
-+	.subvp_pipe = (struct pipe_ctx *) &mock_subvp_pipe_parameter,
-+	.vblank_pipe = &mock_vblank_pipe_parameter,
-+	.context = &(struct dc_state) {
-+		.stream_count = 1,
-+		.streams[0] = mock_subvp_pipe_parameter.stream,
-+		.stream_status[0] = mock_dc_stream_state_returned_from_get_paired,
-+	},
-+};
++	CONFIG_KUNIT=y
++	CONFIG_AMDGPU=m
++	CONFIG_AMD_DC_BASICS_KUNIT_TEST=y
++	CONFIG_AMD_DC_KUNIT_TEST=y
++	CONFIG_DCE_KUNIT_TEST=y
++	CONFIG_DML_KUNIT_TEST=y
 +
-+/**
-+ * populate_subvp_cmd_drr_info_with_4k144_4k240_parameters - Check two display with 4k144 and 4k240
-+ *
-+ * @test: Kunit parameter
-+ *
-+ * One of the scenarios where SubVP can perform really well is in a
-+ * high-resolution display with a high refresh rate. In this sense, this test
-+ * targets the parameter configuration for 4k144 and 4k240.
-+ */
-+static void populate_subvp_cmd_drr_info_with_4k144_4k240_parameters(struct kunit *test)
-+{
-+	struct dmub_cmd_fw_assisted_mclk_switch_pipe_data_v2 *pipe_data;
-+	struct populate_subvp_cmd_drr_info_test_case tmp = subvp_4k144_4k240_case;
++Once the kernel is built and installed, you can load the ``amdgpu`` module
++to run all tests available.
 +
-+	pipe_data = kunit_kzalloc(test,
-+				  sizeof(struct dmub_cmd_fw_assisted_mclk_switch_pipe_data_v2),
-+				  GFP_KERNEL);
++Also, the tests can be added to the kernel as built-in modules, by adding the
++following config options to your ``.config``:
 +
-+	populate_subvp_cmd_drr_info(tmp.dc,
-+				    tmp.context,
-+				    tmp.subvp_pipe,
-+				    tmp.vblank_pipe,
-+				    pipe_data);
++.. code-block:: none
 +
-+	// DRR must be in use
-+	KUNIT_EXPECT_EQ(test, true, pipe_data->pipe_config.vblank_data.drr_info.drr_in_use);
++	CONFIG_KUNIT=y
++	CONFIG_AMDGPU=y
++	CONFIG_AMD_DC_BASICS_KUNIT_TEST=y
++	CONFIG_AMD_DC_KUNIT_TEST=y
++	CONFIG_DCE_KUNIT_TEST=y
++	CONFIG_DML_KUNIT_TEST=y
 +
-+	// Use ramp should not be enable
-+	KUNIT_EXPECT_EQ(test, false, pipe_data->pipe_config.vblank_data.drr_info.use_ramping);
++In order to run specific tests, you can check the filter options from KUnit on
++Documentation/dev-tools/kunit/kunit-tool.rst.
 +
-+	// Expects 4ms for the DRR window size
-+	KUNIT_EXPECT_EQ(test, 4, pipe_data->pipe_config.vblank_data.drr_info.drr_window_size_ms);
++How to add new tests?
++=====================
 +
-+	KUNIT_EXPECT_EQ(test, 2906, pipe_data->pipe_config.vblank_data.drr_info.min_vtotal_supported);
-+	KUNIT_EXPECT_EQ(test, 7267, pipe_data->pipe_config.vblank_data.drr_info.max_vtotal_supported);
-+}
++Tests covering different parts of the Display Core are always welcomed. Adding
++a new test is a simple procedure, that consists in creating a unit test file
++and adding the following guard to the end of the tested file when you are
++testing static functions:
 +
-+static struct kunit_case dc_dmub_srv_cases[] = {
-+	KUNIT_CASE(populate_subvp_cmd_drr_info_with_4k144_4k240_parameters),
-+	{  }
-+};
++.. code-block:: c
 +
-+static struct kunit_suite dc_dmub_srv_suite = {
-+	.name = "dc_dmub_srv",
-+	.test_cases = dc_dmub_srv_cases,
-+};
++	#ifdef CONFIG_MY_KUNIT_TEST
++	#include "my_kunit_test.c"
++	#endif
 +
-+kunit_test_suite(dc_dmub_srv_suite);
++If you are not testing static functions, you should use the Makefile placed on
++``display/tests``. In order to add a test to the Makefile, you can just add
++the following entry to the Makefile:
++
++.. code-block:: make
++
++	ifdef CONFIG_MY_KUNIT_TEST
++		DC_TESTS += my_kunit_test.o
++	endif
++
++The ``display/tests`` folder replicates the folder hierarchy of the ``display``
++folder, so this must be considered while adding new tests.
++
++More information on how to write unit tests with the KUnit API can be provided
++on Documentation/dev-tools/kunit/api/test.rst.
+diff --git a/Documentation/gpu/amdgpu/display/index.rst b/Documentation/gpu/amdgpu/display/index.rst
+index f0c342e00a39..e5895e658943 100644
+--- a/Documentation/gpu/amdgpu/display/index.rst
++++ b/Documentation/gpu/amdgpu/display/index.rst
+@@ -92,5 +92,6 @@ table of content:
+    dcn-blocks.rst
+    mpo-overview.rst
+    dc-debug.rst
++   display-test.rst
+    display-contributing.rst
+    dc-glossary.rst
 -- 
 2.43.0
 
