@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2861F861FED
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 23:40:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B193D861FEE
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 23:40:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEA6410E122;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC2F710E129;
 	Fri, 23 Feb 2024 22:40:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="QXtxsFbS";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Eeup5agI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
- [209.85.215.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A36610E0EF
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 22:40:04 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id
- 41be03b00d2f7-5e44a2e34eeso1212827a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 14:40:04 -0800 (PST)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+ [209.85.216.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CF7F10E122
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 22:40:05 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id
+ 98e67ed59e1d1-29a61872f4eso1017395a91.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 14:40:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1708728003; x=1709332803;
+ d=chromium.org; s=google; t=1708728004; x=1709332804;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=j2NLOgJvFk9/xpCgoWWX0mwY7XC1SqoEPJetQl38NRg=;
- b=QXtxsFbS8I7orshaeb8tDfMw0/KbGl9y4yDe+hA0Pi8pP4AeU4vrKpAQnXlcOE2vD9
- F7A1SphXFBdy6ywirtucKhZKjyqu0zVc8sAHTjuDbCAs1y30c4uiYHr+pCE0BbWHrYJL
- eLDzvwn0xrPIzkU5eQVRsdcsYJXtLz7aoMtI4=
+ bh=OtJto2Kd/SieW6LbOckqb66w6924YRC023lFGaAJu7I=;
+ b=Eeup5agIEajvwg0jfrWV/IjUvw2Hb+CeSOUqKRWr9djLgZSYLx6Cz3R8uiEYhINWuJ
+ AbthSO/lLe0fX8yOGTAvLhhZBqI3p/CRCofTcciu3Qi+qZ8j2odnk8/Juh+1D9RWn8OY
+ kWMYj3Je7LXdpFz3gINcKtudiqrtQ86dd22dM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708728003; x=1709332803;
+ d=1e100.net; s=20230601; t=1708728004; x=1709332804;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=j2NLOgJvFk9/xpCgoWWX0mwY7XC1SqoEPJetQl38NRg=;
- b=vXUFRfTHVCFO/Jxy0AKk3YBW/ngRYfllDA+J+d5Vqdc2OlBZR2+qiyIWHQjyNr3e82
- duPDyX/54+/iKtW2IcMIr5+TrA8HD6zs0/Ho/Vl+Cc6R8ZyRf1H1NoZvTTf6aXO/tQ2o
- RhTNKmDiciTz334KrvZ5tn8t0Wu2wW84rw7IVAawIFw27RJrnstVCCT0UUPgLSVxiw2k
- 0fiA4c46WYJ0/TeCg0WfGe/+3QaS94C9GKzLwP5xvIje5+k26jfLDZDaH2C79iMAXGTk
- BvmZDWgVY1epAl91+Rv/MG584lYEtDYlLP6TprB0wP9SwhlGYgjP1Ool93+6Ohn2NkAb
- SJ0Q==
+ bh=OtJto2Kd/SieW6LbOckqb66w6924YRC023lFGaAJu7I=;
+ b=m0WK9jrJ25bHVryaO4ycFeB24qkSdRinhJpu0AoDX4ypjkatJR8jnKnHT0ILuWYWuh
+ akT9RruTrEdQkj1PatzZI5OS2PFevjJEX2zhCvaHLzFHyuEOqTtibNfRlrdCX+O193hB
+ pnYQ8R93BoIcn5vBjhYS/l6zJ12GyMK5YAbIDvDSZGD6s4tp+ApBKXhLfhRSz3KuKDhi
+ slqfeYpz0swFzpy93UvHB+pOssaVA9xWqv+HA4s8atsf/aVmNVYltmlgqAPU97Ds4o5j
+ UgkazTe+55AaWIAka67eRrqQBqG7KtcB4lsaKKUDkDuvYKqDsxTiNDxLvFb2VM5dueLi
+ rubA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUkJCKP3CvQWRtmza/gsXvypQqOpu+GXxCMahTQeeidr0Gu+aaYZx+NUWLfwIYapezcxfNZLLdcUYT/N8gGI85OdhtXlY4v4GSY08pKCzbI
-X-Gm-Message-State: AOJu0YywNSYDAr6JCIn92kQPMHqHztzNphsvbC1arn4W/97Vy6QJEWAy
- pMGA68muCe9BhuyxmYE6jw4U1qof5xFqPO26Scv0ikMKKA82Mg8LLjc6MURBtg==
-X-Google-Smtp-Source: AGHT+IEqAmzztLLv9pUMQIH60NYC+Jh68DPyMwr8SAMILCs8UUd15S395jHWIMuyyILxwr0lYYsk4g==
-X-Received: by 2002:a17:90b:380d:b0:299:2da5:a843 with SMTP id
- mq13-20020a17090b380d00b002992da5a843mr1194908pjb.14.1708728003603; 
- Fri, 23 Feb 2024 14:40:03 -0800 (PST)
+ AJvYcCV2ojbFXdIRMsvYKqYA7EIqqCiQxsg1vDWFDN6Po8O4Hjd8MOPhqu7XGP4O8dqcLTCbLa6EO6FQBUyC3lEbLPRtfsh3GEco8yWG14xmzg4m
+X-Gm-Message-State: AOJu0YwwqmwzAmvmHrTjab7YHQS0TDr5P5n5TH+BL0hp/bBxNFXa7zbM
+ P0B1h8uAc/j9tIM5Jw/1q96+NphYsrGIdOo6jlcJhzFkWbrckB04YtGtqi9GpA==
+X-Google-Smtp-Source: AGHT+IEVPk3T/BcnGztFSXqnNC//o637SLCFJjp4OfpRUNvGShjjo4L/qCoxs5rN+qfxLlvAOkyQ8A==
+X-Received: by 2002:a17:90b:4f4a:b0:299:96fe:1135 with SMTP id
+ pj10-20020a17090b4f4a00b0029996fe1135mr997780pjb.44.1708728004586; 
+ Fri, 23 Feb 2024 14:40:04 -0800 (PST)
 Received: from hsinyi.sjc.corp.google.com ([2620:15c:9d:2:8ff9:a089:c05c:9af])
  by smtp.gmail.com with ESMTPSA id
- cz4-20020a17090ad44400b002966a13f2e9sm2032873pjb.37.2024.02.23.14.40.02
+ cz4-20020a17090ad44400b002966a13f2e9sm2032873pjb.37.2024.02.23.14.40.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Feb 2024 14:40:03 -0800 (PST)
+ Fri, 23 Feb 2024 14:40:04 -0800 (PST)
 From: Hsin-Yi Wang <hsinyi@chromium.org>
 To: Douglas Anderson <dianders@chromium.org>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
@@ -63,9 +63,10 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] drm_edid: Add a function to get EDID base block
-Date: Fri, 23 Feb 2024 14:29:17 -0800
-Message-ID: <20240223223958.3887423-2-hsinyi@chromium.org>
+Subject: [PATCH 2/2] drm/panel: panel-edp: Match with panel hash for
+ overridden modes
+Date: Fri, 23 Feb 2024 14:29:18 -0800
+Message-ID: <20240223223958.3887423-3-hsinyi@chromium.org>
 X-Mailer: git-send-email 2.44.0.rc0.258.g7320e95886-goog
 In-Reply-To: <20240223223958.3887423-1-hsinyi@chromium.org>
 References: <20240223223958.3887423-1-hsinyi@chromium.org>
@@ -87,152 +88,151 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 It's found that some panels have variants that they share the same panel id
-although their EDID and names are different. Besides panel id, now we need
-the hash of entire EDID base block to distinguish these panel variants.
+although their EDID and names are different. One of the variants requires
+using overridden modes to resolve glitching issue as described in commit
+70e0d5550f5c ("drm/panel-edp: Add auo_b116xa3_mode"). Other variants should
+use the modes parsed from EDID.
 
-Add drm_edid_get_base_block to returns the EDID base block, so caller can
-further use it to get panel id and/or the hash.
+For example, AUO 0x405c B116XAK01.0, it has at least 2 different variants
+that EDID and panel name are different, but using the same panel id. One of
+the variants require using overridden mode. Same case for AUO 0x615c
+B116XAN06.1.
+
+Add such entries and use the hash of the EDID to match the panel needs the
+overridden modes.
 
 Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 ---
- drivers/gpu/drm/drm_edid.c        | 55 +++++++++++++++++--------------
- drivers/gpu/drm/panel/panel-edp.c |  8 +++--
- include/drm/drm_edid.h            |  3 +-
- 3 files changed, 38 insertions(+), 28 deletions(-)
+ drivers/gpu/drm/panel/panel-edp.c | 52 +++++++++++++++++++++++++++----
+ 1 file changed, 46 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 923c4423151c..55598ca4a5d1 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -2770,58 +2770,63 @@ static u32 edid_extract_panel_id(const struct edid *edid)
- }
- 
- /**
-- * drm_edid_get_panel_id - Get a panel's ID through DDC
-- * @adapter: I2C adapter to use for DDC
-+ * drm_edid_get_panel_id - Get a panel's ID from EDID base block
-+ * @base_bock: EDID base block that contains panel ID.
-  *
-- * This function reads the first block of the EDID of a panel and (assuming
-+ * This function uses the first block of the EDID of a panel and (assuming
-  * that the EDID is valid) extracts the ID out of it. The ID is a 32-bit value
-  * (16 bits of manufacturer ID and 16 bits of per-manufacturer ID) that's
-  * supposed to be different for each different modem of panel.
-  *
-+ * Return: A 32-bit ID that should be different for each make/model of panel.
-+ *         See the functions drm_edid_encode_panel_id() and
-+ *         drm_edid_decode_panel_id() for some details on the structure of this
-+ *         ID.
-+ */
-+u32 drm_edid_get_panel_id(void *base_block)
-+{
-+	return edid_extract_panel_id(base_block);
-+}
-+EXPORT_SYMBOL(drm_edid_get_panel_id);
-+
-+/**
-+ * drm_edid_get_base_block - Get a panel's EDID base block
-+ * @adapter: I2C adapter to use for DDC
-+ *
-+ * This function returns the first block of the EDID of a panel.
-+ *
-  * This function is intended to be used during early probing on devices where
-  * more than one panel might be present. Because of its intended use it must
-- * assume that the EDID of the panel is correct, at least as far as the ID
-- * is concerned (in other words, we don't process any overrides here).
-+ * assume that the EDID of the panel is correct, at least as far as the base
-+ * block is concerned (in other words, we don't process any overrides here).
-  *
-  * NOTE: it's expected that this function and drm_do_get_edid() will both
-  * be read the EDID, but there is no caching between them. Since we're only
-  * reading the first block, hopefully this extra overhead won't be too big.
-  *
-- * Return: A 32-bit ID that should be different for each make/model of panel.
-- *         See the functions drm_edid_encode_panel_id() and
-- *         drm_edid_decode_panel_id() for some details on the structure of this
-- *         ID.
-+ * Caller should free the base block after use.
-  */
--
--u32 drm_edid_get_panel_id(struct i2c_adapter *adapter)
-+void *drm_edid_get_base_block(struct i2c_adapter *adapter)
- {
- 	enum edid_block_status status;
- 	void *base_block;
--	u32 panel_id = 0;
--
--	/*
--	 * There are no manufacturer IDs of 0, so if there is a problem reading
--	 * the EDID then we'll just return 0.
--	 */
- 
- 	base_block = kzalloc(EDID_LENGTH, GFP_KERNEL);
- 	if (!base_block)
--		return 0;
-+		return NULL;
- 
- 	status = edid_block_read(base_block, 0, drm_do_probe_ddc_edid, adapter);
- 
- 	edid_block_status_print(status, base_block, 0);
- 
--	if (edid_block_status_valid(status, edid_block_tag(base_block)))
--		panel_id = edid_extract_panel_id(base_block);
--	else
-+	if (!edid_block_status_valid(status, edid_block_tag(base_block))) {
- 		edid_block_dump(KERN_NOTICE, base_block, 0);
-+		return NULL;
-+	}
- 
--	kfree(base_block);
--
--	return panel_id;
-+	return base_block;
- }
--EXPORT_SYMBOL(drm_edid_get_panel_id);
-+EXPORT_SYMBOL(drm_edid_get_base_block);
- 
- /**
-  * drm_get_edid_switcheroo - get EDID data for a vga_switcheroo output
 diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index bd71d239272a..f6ddbaa103b5 100644
+index f6ddbaa103b5..42c430036846 100644
 --- a/drivers/gpu/drm/panel/panel-edp.c
 +++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -763,6 +763,7 @@ static const struct edp_panel_entry *find_edp_panel(u32 panel_id);
+@@ -21,6 +21,7 @@
+  * DEALINGS IN THE SOFTWARE.
+  */
+ 
++#include <linux/crc32.h>
+ #include <linux/debugfs.h>
+ #include <linux/delay.h>
+ #include <linux/gpio/consumer.h>
+@@ -213,6 +214,9 @@ struct edp_panel_entry {
+ 	/** @panel_id: 32-bit ID for panel, encoded with drm_edid_encode_panel_id(). */
+ 	u32 panel_id;
+ 
++	/** @panel_hash: the CRC32 hash of the EDID base block. */
++	u32 panel_hash;
++
+ 	/** @delay: The power sequencing delays needed for this panel. */
+ 	const struct panel_delay *delay;
+ 
+@@ -758,13 +762,13 @@ static void panel_edp_parse_panel_timing_node(struct device *dev,
+ 		dev_err(dev, "Reject override mode: No display_timing found\n");
+ }
+ 
+-static const struct edp_panel_entry *find_edp_panel(u32 panel_id);
++static const struct edp_panel_entry *find_edp_panel(u32 panel_id, u32 panel_hash);
+ 
  static int generic_edp_panel_probe(struct device *dev, struct panel_edp *panel)
  {
  	struct panel_desc *desc;
-+	void *base_block;
- 	u32 panel_id;
+ 	void *base_block;
+-	u32 panel_id;
++	u32 panel_id, panel_hash;
  	char vend[4];
  	u16 product_id;
-@@ -792,8 +793,11 @@ static int generic_edp_panel_probe(struct device *dev, struct panel_edp *panel)
- 		goto exit;
- 	}
- 
--	panel_id = drm_edid_get_panel_id(panel->ddc);
--	if (!panel_id) {
-+	base_block = drm_edid_get_base_block(panel->ddc);
-+	if (base_block) {
-+		panel_id = drm_edid_get_panel_id(base_block);
-+		kfree(base_block);
-+	} else {
+ 	u32 reliable_ms = 0;
+@@ -796,15 +800,17 @@ static int generic_edp_panel_probe(struct device *dev, struct panel_edp *panel)
+ 	base_block = drm_edid_get_base_block(panel->ddc);
+ 	if (base_block) {
+ 		panel_id = drm_edid_get_panel_id(base_block);
++		panel_hash = crc32_le(~0, base_block, EDID_LENGTH) ^ 0xffffffff;
+ 		kfree(base_block);
+ 	} else {
  		dev_err(dev, "Couldn't identify panel via EDID\n");
  		ret = -EIO;
  		goto exit;
-diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-index 7923bc00dc7a..56b60f9204d3 100644
---- a/include/drm/drm_edid.h
-+++ b/include/drm/drm_edid.h
-@@ -410,7 +410,8 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
- 	void *data);
- struct edid *drm_get_edid(struct drm_connector *connector,
- 			  struct i2c_adapter *adapter);
--u32 drm_edid_get_panel_id(struct i2c_adapter *adapter);
-+void *drm_edid_get_base_block(struct i2c_adapter *adapter);
-+u32 drm_edid_get_panel_id(void *base_block);
- struct edid *drm_get_edid_switcheroo(struct drm_connector *connector,
- 				     struct i2c_adapter *adapter);
- struct edid *drm_edid_duplicate(const struct edid *edid);
+ 	}
++
+ 	drm_edid_decode_panel_id(panel_id, vend, &product_id);
+ 
+-	panel->detected_panel = find_edp_panel(panel_id);
++	panel->detected_panel = find_edp_panel(panel_id, panel_hash);
+ 
+ 	/*
+ 	 * We're using non-optimized timings and want it really obvious that
+@@ -1006,6 +1012,19 @@ static const struct panel_desc auo_b101ean01 = {
+ 	},
+ };
+ 
++static const struct drm_display_mode auo_b116xa3_mode = {
++	.clock = 70589,
++	.hdisplay = 1366,
++	.hsync_start = 1366 + 40,
++	.hsync_end = 1366 + 40 + 40,
++	.htotal = 1366 + 40 + 40 + 32,
++	.vdisplay = 768,
++	.vsync_start = 768 + 10,
++	.vsync_end = 768 + 10 + 12,
++	.vtotal = 768 + 10 + 12 + 6,
++	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
++};
++
+ static const struct drm_display_mode auo_b116xak01_mode = {
+ 	.clock = 69300,
+ 	.hdisplay = 1366,
+@@ -1926,11 +1945,13 @@ static const struct panel_delay delay_200_500_e50_po2e200 = {
+ 	.delay = _delay \
+ }
+ 
+-#define EDP_PANEL_ENTRY2(vend_chr_0, vend_chr_1, vend_chr_2, product_id, _delay, _name, _mode) \
++#define EDP_PANEL_ENTRY2(vend_chr_0, vend_chr_1, vend_chr_2, product_id, \
++			 _hash, _delay, _name, _mode) \
+ { \
+ 	.name = _name, \
+ 	.panel_id = drm_edid_encode_panel_id(vend_chr_0, vend_chr_1, vend_chr_2, \
+ 					     product_id), \
++	.panel_hash = _hash, \
+ 	.delay = _delay, \
+ 	.override_edid_mode = _mode \
+ }
+@@ -2077,13 +2098,32 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	{ /* sentinal */ }
+ };
+ 
+-static const struct edp_panel_entry *find_edp_panel(u32 panel_id)
++/*
++ * Similar to edp_panels, this table lists panel variants that require using
++ * overridden modes but have the same panel id as one of the entries in edp_panels.
++ *
++ * Sort first by vendor, then by product ID.
++ */
++static const struct edp_panel_entry edp_panels_variants[] = {
++	EDP_PANEL_ENTRY2('A', 'U', 'O', 0x405c, 0xa9951478, &auo_b116xak01.delay,
++			 "B116XAK01.0", &auo_b116xa3_mode),
++	EDP_PANEL_ENTRY2('A', 'U', 'O', 0x615c, 0x109b75b3, &delay_200_500_e50,
++			 "B116XAN06.1", &auo_b116xa3_mode),
++
++	{ /* sentinal */ }
++};
++
++static const struct edp_panel_entry *find_edp_panel(u32 panel_id, u32 panel_hash)
+ {
+ 	const struct edp_panel_entry *panel;
+ 
+-	if (!panel_id)
++	if (!panel_id || !panel_hash)
+ 		return NULL;
+ 
++	for (panel = edp_panels_variants; panel->panel_id; panel++)
++		if (panel->panel_id == panel_id && panel->panel_hash == panel_hash)
++			return panel;
++
+ 	for (panel = edp_panels; panel->panel_id; panel++)
+ 		if (panel->panel_id == panel_id)
+ 			return panel;
 -- 
 2.44.0.rc0.258.g7320e95886-goog
 
