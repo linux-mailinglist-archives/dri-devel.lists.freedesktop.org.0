@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF8F2860E8B
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 10:47:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C30A860EDF
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 11:04:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91F6410E0BB;
-	Fri, 23 Feb 2024 09:47:42 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="Q84ZGIoY";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01AAF10EB63;
+	Fri, 23 Feb 2024 10:04:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19A3910E0BB
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 09:47:40 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 46D65865F5;
- Fri, 23 Feb 2024 10:47:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1708681659;
- bh=IZHVudK+hRMDUNPMuE2ak5MJNoyz9q6t1GotRHn/DV0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Q84ZGIoYjVpWmhoPCKqWHlBt3ulGpumIYfrUOTuTjUy782TN3WF2LBZ6yp3UXshcu
- OMoAq6z+EUlwbZMXr1HvsULftZoZQyzSHVjYBq1ayCHUGSUYsQj+UJnWgzB/pqP7Kp
- S0sd+rYsINr4VyAxkpMyiGT25Y/0AHQYF/j6a6T5XOyFjkclmap7G3fu4UobyWz/9J
- HthPUYrW3t5gyHlE/PVdtoiii7JyUs/sYSSURFXZuKvLeMDb4/SK1+2Cj2Xowh1EEL
- 3hpry5b4UPu/yVER6+BYCCsPK++1z9ZkklCcA24p/hc6zdSZhpUIAIl5zZkyN38RNY
- OGA4lUAcwYkaA==
-Message-ID: <1898e9b8-9b88-4458-86bb-cd013cb95875@denx.de>
-Date: Fri, 23 Feb 2024 10:47:37 +0100
+Received: from ms7.webland.ch (ms7.webland.ch [92.43.217.107])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6803510EB62;
+ Fri, 23 Feb 2024 10:04:38 +0000 (UTC)
+Received: from [192.168.1.137] ([213.144.156.170])
+ by ms7.webland.ch (12.3.0 build 2 x64) with ASMTP (SSL) id
+ 01202402231104335773; Fri, 23 Feb 2024 11:04:33 +0100
+Message-ID: <b08c2c14-5a99-49cf-ba79-b89f86487f15@daenzer.net>
+Date: Fri, 23 Feb 2024 11:04:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/lcdif: Do not disable clock on already suspended
- hardware
-Content-Language: en-US
-To: dri-devel@lists.freedesktop.org, Liu Ying <victor.liu@nxp.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Stefan Agner <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-arm-kernel@lists.infradead.org
-References: <20240118183924.144221-1-marex@denx.de>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20240118183924.144221-1-marex@denx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Subject: Re: [PATCH 1/3] drm/amdgpu: Refuse to create a KMS FB for non-P2P
+ exported dma-bufs
+Content-Language: de-CH-frami, en-CA
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20240222172821.16901-1-michel@daenzer.net>
+ <3156ea34-0655-4b0f-9438-9113fb714373@amd.com>
+ <2d7632f0-0783-4d82-9d81-dd6bd52d5db6@daenzer.net>
+ <84fa5bc1-6b4d-4d82-844a-8070d4bd78eb@amd.com>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
+Autocrypt: addr=michel@daenzer.net; keydata=
+ xsDiBDsehS8RBACbsIQEX31aYSIuEKxEnEX82ezMR8z3LG8ktv1KjyNErUX9Pt7AUC7W3W0b
+ LUhu8Le8S2va6hi7GfSAifl0ih3k6Bv1Itzgnd+7ZmSrvCN8yGJaHNQfAevAuEboIb+MaVHo
+ 9EMJj4ikOcRZCmQWw7evu/D9uQdtkCnRY9iJiAGxbwCguBHtpoGMxDOINCr5UU6qt+m4O+UD
+ /355ohBBzzyh49lTj0kTFKr0Ozd20G2FbcqHgfFL1dc1MPyigej2gLga2osu2QY0ObvAGkOu
+ WBi3LTY8Zs8uqFGDC4ZAwMPoFy3yzu3ne6T7d/68rJil0QcdQjzzHi6ekqHuhst4a+/+D23h
+ Za8MJBEcdOhRhsaDVGAJSFEQB1qLBACOs0xN+XblejO35gsDSVVk8s+FUUw3TSWJBfZa3Imp
+ V2U2tBO4qck+wqbHNfdnU/crrsHahjzBjvk8Up7VoY8oT+z03sal2vXEonS279xN2B92Tttr
+ AgwosujguFO/7tvzymWC76rDEwue8TsADE11ErjwaBTs8ZXfnN/uAANgPM0jTWljaGVsIERh
+ ZW56ZXIgPG1pY2hlbEBkYWVuemVyLm5ldD7CXgQTEQIAHgUCQFXxJgIbAwYLCQgHAwIDFQID
+ AxYCAQIeAQIXgAAKCRBaga+OatuyAIrPAJ9ykonXI3oQcX83N2qzCEStLNW47gCeLWm/QiPY
+ jqtGUnnSbyuTQfIySkLOwE0EOx6FRRAEAJZkcvklPwJCgNiw37p0GShKmFGGqf/a3xZZEpjI
+ qNxzshFRFneZze4f5LhzbX1/vIm5+ZXsEWympJfZzyCmYPw86QcFxyZflkAxHx9LeD+89Elx
+ bw6wT0CcLvSv8ROfU1m8YhGbV6g2zWyLD0/naQGVb8e4FhVKGNY2EEbHgFBrAAMGA/0VktFO
+ CxFBdzLQ17RCTwCJ3xpyP4qsLJH0yCoA26rH2zE2RzByhrTFTYZzbFEid3ddGiHOBEL+bO+2
+ GNtfiYKmbTkj1tMZJ8L6huKONaVrASFzLvZa2dlc2zja9ZSksKmge5BOTKWgbyepEc5qxSju
+ YsYrX5xfLgTZC5abhhztpcJGBBgRAgAGBQI7HoVFAAoJEFqBr45q27IAlscAnjICalDn2zB1
+ fXqoOkGsTwElvKa5AJ9FhyKJpysFRcejfdZwrwl9xb4oOg==
+In-Reply-To: <84fa5bc1-6b4d-4d82-844a-8070d4bd78eb@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CTCH: RefID="str=0001.0A782F23.65D86DB2.0077,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0";
+ Spam="Unknown"; VOD="Unknown"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,68 +68,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/18/24 19:39, Marek Vasut wrote:
-> In case the LCDIF is enabled in DT but unused, the clock used by the
-> LCDIF are not enabled. Those clock may even have a use count of 0 in
-> case there are no other users of those clock. This can happen e.g. in
-> case the LCDIF drives HDMI bridge which has no panel plugged into the
-> HDMI connector.
+On 2024-02-23 10:34, Christian König wrote:
+> Am 23.02.24 um 09:11 schrieb Michel Dänzer:
+>> On 2024-02-23 08:06, Christian König wrote:
+>>> Am 22.02.24 um 18:28 schrieb Michel Dänzer:
+>>>> From: Michel Dänzer <mdaenzer@redhat.com>
+>>>>
+>>>> Pinning the BO storage to VRAM for scanout would make it inaccessible
+>>>> to non-P2P dma-buf importers.
+>>> Thinking more about it I don't think we can do this.
+>>>
+>>> Using the BO in a ping/pong fashion for scanout and DMA-buf is actually valid, you just can't do both at the same time.
+>>>
+>>> And if I'm not completely mistaken we actually have use cases for this at the moment,
+>> Those use cases don't have P2P & CONFIG_DMABUF_MOVE_NOTIFY?
 > 
-> Do not attempt to disable clock in the suspend callback and re-enable
-> clock in the resume callback unless the LCDIF is enabled and was in
-> use before the system entered suspend, otherwise the driver might end
-> up trying to disable clock which are already disabled with use count
-> 0, and would trigger a warning from clock core about this condition.
-> 
-> Note that the lcdif_rpm_suspend() and lcdif_rpm_resume() functions
-> internally perform the clock disable and enable operations and act
-> as runtime PM hooks too.
-> 
-> Fixes: 9db35bb349a0 ("drm: lcdif: Add support for i.MX8MP LCDIF variant")
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> ---
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: Liu Ying <victor.liu@nxp.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: NXP Linux Team <linux-imx@nxp.com>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: Stefan Agner <stefan@agner.ch>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> ---
->   drivers/gpu/drm/mxsfb/lcdif_drv.c | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> index ea10bf81582e9..0f895b8a99d62 100644
-> --- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> +++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> @@ -343,6 +343,9 @@ static int __maybe_unused lcdif_suspend(struct device *dev)
->   	if (ret)
->   		return ret;
->   
-> +	if (pm_runtime_suspended(dev))
-> +		return 0;
-> +
->   	return lcdif_rpm_suspend(dev);
->   }
->   
-> @@ -350,7 +353,8 @@ static int __maybe_unused lcdif_resume(struct device *dev)
->   {
->   	struct drm_device *drm = dev_get_drvdata(dev);
->   
-> -	lcdif_rpm_resume(dev);
-> +	if (!pm_runtime_suspended(dev))
-> +		lcdif_rpm_resume(dev);
->   
->   	return drm_mode_config_helper_resume(drm);
->   }
+> Nope, we are basically talking about unit tests and examples for inter device operations.
 
-Moving Victor to To: , it would be good to get some input on this as it 
-fixes suspend/resume on MX8MP with HDMI .
+Sounds like the "no user-space regressions" rule might not apply then.
+
+
+> Those render into a shared buffer and then display it to check if the content was rendered/transferred correctly.
+
+That can be fixed by dropping the dma-buf attachments from other GPUs before creating the KMS FB.
+
+Conversely, tests / examples which do scanout first can be fixed by destroying KMS FBs before sharing the BO with another GPU.
+
+
+> I'm not sure if we still do those test cases, the last time I looked into it was before P2P was even supported, but I also can't rule it out.
+
+Sounds too vague to block this series.
+
+
+>>> So rejecting things during CS and atomic commit is the best thing we can do.
+>> It's problematic for a Wayland compositor:
+>>
+>> The CS ioctl failing is awkward. With GL, I'm pretty sure it means the compositor would have to destroy the context and create a new one. Not sure about Vulkan, but I suspect it's painful there as well.
+>>
+>> Similarly for the KMS atomic commit ioctl. The compositor can't know why exactly it failed, all it gets is an error code.
+> 
+> Yeah, but that is not because the kernel is doing anything wrong.
+> 
+> Sharing, rendering and then doing an atomic commit is a perfectly valid use case.
+> 
+> You just can't do scanout and sharing at the same time.
+
+Per my later follow-up, Xwayland can't really avoid it.
+
+
+>> And there's no other way for the compositor to detect when both things can actually work concurrently.
+> 
+> That I totally agree with. And IIRC we already have at least a query for the buffer placement. E.g. you can already check if the BO is in GTT or VRAM and shared.
+> 
+> What's missing is exposing if the device can scanout from GTT or not.
+
+Requiring Wayland compositors to have driver-specific knowledge like that baked in isn't great either.
+
+
+-- 
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
+
