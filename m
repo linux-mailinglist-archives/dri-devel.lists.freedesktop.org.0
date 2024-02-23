@@ -2,59 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E84B6861299
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 14:25:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE62E861339
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 14:49:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 286CA10E0E7;
-	Fri, 23 Feb 2024 13:24:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3DEA10EC10;
+	Fri, 23 Feb 2024 13:49:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="XU8riCrA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Qn1mMn3a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com
- [91.218.175.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 248EC10E0E7
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 13:24:56 +0000 (UTC)
-Message-ID: <6163624c-4886-4cbe-a59f-e2f974f52c14@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1708694693;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8w/xnzKDUY29kKgSnBq6a+7mDu2LzuzIM6anbjgh4dI=;
- b=XU8riCrAoQ45E2Ul70uO1XTWiHoPaIkBu5hEWZMG2t1+QkdtwUIssCE3zOUUoFwraB/E4y
- 6NghuzAmdf5jTKspXXDN+4Zflgvc7ev2hcpvKq97+9uYHrA9BKay5noeEvA2JzdpQligNq
- lFlqsY0pQfKVWiIgITonQZ1lvQea6TY=
-Date: Fri, 23 Feb 2024 21:24:38 +0800
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C894010EC10
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 13:49:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id D4D616346C;
+ Fri, 23 Feb 2024 13:49:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D578CC433F1;
+ Fri, 23 Feb 2024 13:49:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1708696153;
+ bh=8Rl1l2yFPG+lt29qbKzTpc6sXKmsDQCVh7f3P8VQjRE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Qn1mMn3apX3+iCQRF7jvY1gWwlT8dR3Fg6RU8ULLQ1LMK9dH8EIwMzI0CY0u4AwuR
+ uk3KEDl7egdP/RiGTY8mLu9n0t0S8w7yxMY4P9KQvf7z4Ie16s/TFLaylhLKte84PI
+ l9IdjmQOVjLSl/p9wUnhziAKElzxUVLLY8pEcp4mdWQSMSzBJvsw9hcUyCyW3Rk4hK
+ vKuusjjeibhWA6JBK/P2MGrGyvh2vJ6ceY4DkdJO6o69uPrkaIetFcCjmc05Cq2ANq
+ J4dqKQhITHyqpPmfXIR0HLgcd6d972dDhEcWogMVn+aSDMTaRlYjuXT+62yWZyKecX
+ TWdGjXdYWpvRA==
+Date: Fri, 23 Feb 2024 13:49:08 +0000
+From: Lee Jones <lee@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+ Flavio Suligoi <f.suligoi@asem.it>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
+Subject: Re: [resend, PATCH v3 0/3] backlight: mp3309c: Allow to use on
+ non-OF platforms
+Message-ID: <20240223134908.GA1613065@google.com>
+References: <20240208184313.2224579-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH v7 36/36] drm/sun4i: hdmi: Switch to HDMI connector
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
- <20240222-kms-hdmi-connector-state-v7-36-8f4af575fce2@kernel.org>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20240222-kms-hdmi-connector-state-v7-36-8f4af575fce2@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240208184313.2224579-1-andriy.shevchenko@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,14 +61,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, 08 Feb 2024, Andy Shevchenko wrote:
 
-On 2024/2/23 02:14, Maxime Ripard wrote:
-> The new HDMI connector infrastructure allows to remove some boilerplate,
-> especially to generate infoframes. Let's switch to it.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> Allow to use driver on non-OF platforms and other cleanups.
+> 
+> Changelog v3:
+> - rebased on top of the last changes against this driver (Lee)
+> - added tags to patch 2 (Daniel, Flavio)
+> 
+> Changelog v2:
+> - rename pm3309c_parse_dt_node() --> mp3309c_parse_fwnode() (Daniel)                                             - add tags (Daniel, Flavio)
+> - new patch 2
+> 
+> Andy Shevchenko (3):
+>   backlight: mp3309c: Make use of device properties
+>   backlight: mp3309c: use dev_err_probe() instead of dev_err()
+>   backlight: mp3309c: Utilise temporary variable for struct device
+> 
+>  drivers/video/backlight/mp3309c.c | 88 ++++++++++++-------------------
+>  1 file changed, 35 insertions(+), 53 deletions(-)
 
+Sorry for the delay, I was on vacation and I've been fighting fires this
+week.
 
-Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+This set still doesn't apply?
 
+-- 
+Lee Jones [李琼斯]
