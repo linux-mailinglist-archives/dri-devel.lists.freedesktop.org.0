@@ -2,60 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B8CD861BFC
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 19:45:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C5BE861C3C
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 20:04:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 674E310E029;
-	Fri, 23 Feb 2024 18:45:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1896210EC74;
+	Fri, 23 Feb 2024 19:04:38 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kDnk4MTR";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD82010E029;
- Fri, 23 Feb 2024 18:45:07 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9B0810EC74
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 19:04:35 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id EF93861654;
- Fri, 23 Feb 2024 18:45:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C3ACC433C7;
- Fri, 23 Feb 2024 18:45:01 +0000 (UTC)
-Date: Fri, 23 Feb 2024 13:46:53 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Jeff Johnson <quic_jjohnson@quicinc.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, Linux Trace Kernel
- <linux-trace-kernel@vger.kernel.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- <linuxppc-dev@lists.ozlabs.org>, <kvm@vger.kernel.org>,
- <linux-block@vger.kernel.org>, <linux-cxl@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <amd-gfx@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- <freedreno@lists.freedesktop.org>, <virtualization@lists.linux.dev>,
- <linux-rdma@vger.kernel.org>, <linux-pm@vger.kernel.org>,
- <iommu@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
- <netdev@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
- <ath10k@lists.infradead.org>, <linux-wireless@vger.kernel.org>,
- <ath11k@lists.infradead.org>, <ath12k@lists.infradead.org>,
- <brcm80211@lists.linux.dev>, <brcm80211-dev-list.pdl@broadcom.com>,
- <linux-usb@vger.kernel.org>, <linux-bcachefs@vger.kernel.org>,
- <linux-nfs@vger.kernel.org>, <ocfs2-devel@lists.linux.dev>,
- <linux-cifs@vger.kernel.org>, <linux-xfs@vger.kernel.org>,
- <linux-edac@vger.kernel.org>, <selinux@vger.kernel.org>,
- <linux-btrfs@vger.kernel.org>, <linux-erofs@lists.ozlabs.org>,
- <linux-f2fs-devel@lists.sourceforge.net>, <linux-hwmon@vger.kernel.org>,
- <io-uring@vger.kernel.org>, <linux-sound@vger.kernel.org>,
- <bpf@vger.kernel.org>, <linux-wpan@vger.kernel.org>, <dev@openvswitch.org>,
- <linux-s390@vger.kernel.org>, <tipc-discussion@lists.sourceforge.net>,
- Julia Lawall <Julia.Lawall@inria.fr>
-Subject: Re: [FYI][PATCH] tracing/treewide: Remove second parameter of
- __assign_str()
-Message-ID: <20240223134653.524a5c9e@gandalf.local.home>
-In-Reply-To: <0aed6cf2-17ae-45aa-b7ff-03da932ea4e0@quicinc.com>
-References: <20240223125634.2888c973@gandalf.local.home>
- <0aed6cf2-17ae-45aa-b7ff-03da932ea4e0@quicinc.com>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ by sin.source.kernel.org (Postfix) with ESMTP id 6DA7CCE2E61;
+ Fri, 23 Feb 2024 19:04:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14F8EC433C7;
+ Fri, 23 Feb 2024 19:04:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1708715072;
+ bh=kvRBTnpXxJuiMh6rU54+PqzZxLJBaTJYWSM4jkXCnq8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kDnk4MTRhS2VGtZczg90fw1dl1rw2wbHYY25dtBT/S6bDviEGFP6FaChJVlw8+5dM
+ U3W0v2XGj4uZ4NnDFbmvJjVsbT6wtStCGQSyBz4+wfkMbJj8DZejfHdad68oGb0Zjf
+ irqro+Mzzl5AevhZTzKnZhoQGJN06azAAc7E1zTpmt/hUEuuPwDrfO2T2D3xOXhDji
+ c8zwUXY8oirTcv2HtNvJz7WyIBpA4gnSh3hw+8Q5W46wkx4v0sopm/ZytISe1Y1tHq
+ JqcnKc1qHE1g67mlNL+qYRwWyyO/sBXbfWpSULAmeSD5qIMYlMDas4a3S7L6Ksk5Gr
+ tEDR6j1zqI6OA==
+Date: Fri, 23 Feb 2024 19:04:26 +0000
+From: Conor Dooley <conor@kernel.org>
+To: =?utf-8?B?UGF3ZcWC?= Anikiel <panikiel@google.com>
+Cc: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org,
+ daniel@ffwll.ch, dinguyen@kernel.org, hverkuil-cisco@xs4all.nl,
+ krzysztof.kozlowski+dt@linaro.org,
+ maarten.lankhorst@linux.intel.com, mchehab@kernel.org,
+ mripard@kernel.org, robh+dt@kernel.org, tzimmermann@suse.de,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ chromeos-krk-upstreaming@google.com, ribalda@chromium.org
+Subject: Re: [PATCH v2 0/9] Add Chameleon v3 video support
+Message-ID: <20240223-bottle-grumpily-900dabb22491@spud>
+References: <20240221160215.484151-1-panikiel@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="OQjjAQm+Wl0cgy2+"
+Content-Disposition: inline
+In-Reply-To: <20240221160215.484151-1-panikiel@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,47 +64,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 23 Feb 2024 10:30:45 -0800
-Jeff Johnson <quic_jjohnson@quicinc.com> wrote:
 
-> On 2/23/2024 9:56 AM, Steven Rostedt wrote:
-> > From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-> > 
-> > [
-> >    This is a treewide change. I will likely re-create this patch again in
-> >    the second week of the merge window of v6.9 and submit it then. Hoping
-> >    to keep the conflicts that it will cause to a minimum.
-> > ]
-> > 
-> > With the rework of how the __string() handles dynamic strings where it
-> > saves off the source string in field in the helper structure[1], the
-> > assignment of that value to the trace event field is stored in the helper
-> > value and does not need to be passed in again.  
-> 
-> Just curious if this could be done piecemeal by first changing the
-> macros to be variadic macros which allows you to ignore the extra
-> argument. The callers could then be modified in their separate trees.
-> And then once all the callers have be merged, the macros could be
-> changed to no longer be variadic.
+--OQjjAQm+Wl0cgy2+
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I weighed doing that, but I think ripping off the band-aid is a better
-approach. One thing I found is that leaving unused parameters in the macros
-can cause bugs itself. I found one case doing my clean up, where an unused
-parameter in one of the macros was bogus, and when I made it a used
-parameter, it broke the build.
+Hey,
 
-I think for tree-wide changes, the preferred approach is to do one big
-patch at once. And since this only affects TRACE_EVENT() macros, it
-hopefully would not be too much of a burden (although out of tree users may
-suffer from this, but do we care?)
+On Wed, Feb 21, 2024 at 04:02:06PM +0000, Pawe=C5=82 Anikiel wrote:
+>   media: dt-bindings: Add Chameleon v3 framebuffer
+>   media: dt-bindings: Add Intel Displayport RX IP
 
-Now one thing I could do is to not remove the parameter, but just add:
+I'm happy with both of these patches, but I would like others to look,
+so I'll hold off leaving R-b tags until someone else has at least
+looked.
 
-	WARN_ON_ONCE((src) != __data_offsets->item##_ptr_);
+Cheers,
+Conor.
 
-in the __assign_str() macro to make sure that it's still the same that is
-assigned. But I'm not sure how useful that is, and still causes burden to
-have it. I never really liked the passing of the string in two places to
-begin with.
+--OQjjAQm+Wl0cgy2+
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- Steve
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZdjsOgAKCRB4tDGHoIJi
+0kdOAP9exKFk426JGBzS6e5PuRv/hRCsdMzhpIG2OVVZR71KBwEAzXMieV4HnLoJ
+WwUH+i5PkLVRTB7IHnBCJVtcCpoTygs=
+=COSl
+-----END PGP SIGNATURE-----
+
+--OQjjAQm+Wl0cgy2+--
