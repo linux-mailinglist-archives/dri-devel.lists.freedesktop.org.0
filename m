@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ABFE86111C
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 13:09:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33602861120
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 13:10:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2369710EBE2;
-	Fri, 23 Feb 2024 12:09:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EAE810EBDC;
+	Fri, 23 Feb 2024 12:10:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cWE+qH8Z";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="h72n9H/E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B110D10EBDC;
- Fri, 23 Feb 2024 12:09:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88C0210EBE5;
+ Fri, 23 Feb 2024 12:10:15 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 50F6860E8E;
- Fri, 23 Feb 2024 12:09:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CA89C433F1;
- Fri, 23 Feb 2024 12:09:48 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id BADC76176E;
+ Fri, 23 Feb 2024 12:10:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B80DC433C7;
+ Fri, 23 Feb 2024 12:10:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1708690189;
- bh=DAU55Q2sfD8L3ZH3fwKz/mmSeLuRFjA+iaKnPasZfYI=;
+ s=k20201202; t=1708690214;
+ bh=4mfjeqsrT5LLWTfnZOi1uQqHARRbPNHPlL7bWNXA1qs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cWE+qH8Zq+UtXRLfYmyuV3u+IKp/btik1e/z0NcFAKsg2JFdaO+l5UWXmWONEYLds
- uLpa08T9BkqJUn2j4hpCvA+SIS573tWcOmBKJqjuQwgDE/E6Q47UjoNbXT2rpw20qo
- 7fUqXMddP2LVweCKCfIgSXQk1Ka671n7VX8tk8thBXNe74TFl5p1/4AVMz8lg9HD6p
- lBIYZVzJkwWQxX5lovIMJ+xSadmHDq1uIdelyPrGCCl7fid1vWrktyF86toFZTIOYw
- X5OMymD0SIeOPhIaqSbiiFEAEKdvwmnu24v0ozwuZm9AnXcHsOkKPa5nltacZN7V5L
- exhG1FobcrI5w==
-Date: Fri, 23 Feb 2024 17:39:45 +0530
+ b=h72n9H/Ey6btg2YG3+/Lndvz6UL99KJBWHTd2DmoRO2yWH1/pu+jFKJsTzELXXwr9
+ vIacBhyEGk57aSoaG5rkePrkzJ8HlT6EbaoKn6IKXgGhBTEgUAgBUGhr9loLlZHJEp
+ ZxTqExOuYNu/bJOFEen2Or5AE7hQ+yCu4H+zmNUAz3uefWv18K3hrjLl1ZuN00s8p5
+ K19x+3oTMDVW0ePSzIr3+a0r8iefy3Qh+FtcnlzmVqSWWznSrVA1Rw9nTICEOD/aBV
+ JUuZlze6Xt3nUJzJdpMhuuzG1116zfi+uW9Z1vpbBqUi83BdreXLKp7K//DhXTLL1e
+ UnGBCgRv5PJDQ==
+Date: Fri, 23 Feb 2024 17:40:10 +0530
 From: Vinod Koul <vkoul@kernel.org>
 To: Johan Hovold <johan+linaro@kernel.org>
 Cc: Bjorn Andersson <andersson@kernel.org>,
@@ -52,14 +52,14 @@ Cc: Bjorn Andersson <andersson@kernel.org>,
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-phy@lists.infradead.org, stable@vger.kernel.org,
  Bjorn Andersson <quic_bjorande@quicinc.com>
-Subject: Re: [PATCH 5/6] phy: qcom-qmp-combo: fix drm bridge registration
-Message-ID: <ZdiLCYKCujs4DgKV@matsya>
+Subject: Re: [PATCH 6/6] phy: qcom-qmp-combo: fix type-c switch registration
+Message-ID: <ZdiLIjGIn8e5tnJc@matsya>
 References: <20240217150228.5788-1-johan+linaro@kernel.org>
- <20240217150228.5788-6-johan+linaro@kernel.org>
+ <20240217150228.5788-7-johan+linaro@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240217150228.5788-6-johan+linaro@kernel.org>
+In-Reply-To: <20240217150228.5788-7-johan+linaro@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,11 +81,7 @@ On 17-02-24, 16:02, Johan Hovold wrote:
 > deferral loop (see fbc35b45f9f6 ("Add documentation on meaning of
 > -EPROBE_DEFER")).
 > 
-> This could potentially also trigger a bug in the DRM bridge
-> implementation which does not expect bridges to go away even if device
-> links may avoid triggering this (when enabled).
-> 
-> Move registration of the DRM aux bridge to after looking up clocks and
+> Move registration of the typec switch to after looking up clocks and
 > other resources.
 > 
 > Note that PHY creation can in theory also trigger a probe deferral when
