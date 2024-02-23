@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83730861EE8
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 22:24:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D312A861EED
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 22:24:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C947010ECD4;
-	Fri, 23 Feb 2024 21:24:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AC9910ECDE;
+	Fri, 23 Feb 2024 21:24:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZDASKHJ9";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="g0M0a/Rn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com
- [209.85.219.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2057810ECD5
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 21:24:32 +0000 (UTC)
-Received: by mail-yb1-f182.google.com with SMTP id
- 3f1490d57ef6-dc6d24737d7so1170577276.0
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 13:24:32 -0800 (PST)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
+ [209.85.128.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 733BD10ECDF
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 21:24:54 +0000 (UTC)
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-60495209415so8799327b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 13:24:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708723471; x=1709328271; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1708723493; x=1709328293; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=akuPkkgI0y/oHinOKr0HxoZmwUf171P0m6vGM5/O5Js=;
- b=ZDASKHJ9MFjyjz1SPVySQ+izlWWRkI3yArPa13CKM90KaDV7njpTTmdt5sBD4BHbu3
- lvmjm3aralPoH7NMUuZtvSo85/kh0trJS8nqO/+SPkdirybzfcnQhl9q3AE9g0E21ZaA
- wuU1RyHxNNDC5zzkdaRdl48plsDuRpeYyFOxr8Nc6lSsctBerBhaEiQF6cqMdbG50zS6
- tDWVFrupy9boHEPzF3w00NkP/qiKoBfCsp/0968/5+8rC0OvmMSMLGqZjud0NnNmmDjy
- Fltx/DkCBYnRN3wQxmV4hgv/AXS0aKTUNrEOcBMtzck3y74acoSvMyQyjsFEhnyhbpX3
- XvGg==
+ bh=wgdv/OJ7jeihH3J71yo7/tj9HKsPe0FnbUozf7yDTNQ=;
+ b=g0M0a/RnWDtlohJgyx88K2gNYtTB1HWk75jebFi9kLmuB3aBd2N4hySfPfKt6nEX/M
+ pWACd03ahHyeUQulE0QXNAMxkTuuZMZtTgtN+p+IevvsJqObELCXMRJrQ+6SpKJBzO6t
+ jyV3JBRiB2pHLGh8toZKuk7bcnR011bqW7JiaxrIzv8SLB4Ph/TErIwTnB33mJRk4eJq
+ WLIP8xakaXaD7ooyRUTsnYTG0pcyklE93ZkD6UMgoNDCt6THxJqyjoT7a+iggck85N+m
+ WtmSEMxY9MCcRzR5Va/+ErU6yo7fnR/bMjDar3jswkU5WZpJaSR4fEm/o7Yb3M5Jv2sb
+ vvLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708723471; x=1709328271;
+ d=1e100.net; s=20230601; t=1708723493; x=1709328293;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=akuPkkgI0y/oHinOKr0HxoZmwUf171P0m6vGM5/O5Js=;
- b=F9Byj8NJihfMqbpRNOqfEA7fNxD0gljfmzbMpR8U+rC09ZnPJxulwXBcGftPTIQcdS
- W8tZfMysv7kVeIWAov4oGG5CyGO9wEkL/yJ2ztyPPfJgv90VIo4WbYKuipVLhNs98BdB
- WrGz7qtXzoRTH5eITxcmxry6Tk3Bf2qActXkq5DBGEKFetLDD1L1bWOO86plXupjd0qo
- 2Orm+NkIBomVOFQLkYy5mJGAdlGpTDL6NJZziNiZPoXKwWIEEE8QiTHlhL2WoGD3BSx6
- yFHNbDG1nPwrkTCoknaonJlRVtuHIu/AeqV9O8aazv3KW1EQqh35dJDRWwU/eC4eR5Ep
- w6CA==
+ bh=wgdv/OJ7jeihH3J71yo7/tj9HKsPe0FnbUozf7yDTNQ=;
+ b=l1JC/jH5yrAYqHkisSgWEYT6arB4ed79UgtoIcYL4J/t9YYzp3GOckXhL6cnT42H3X
+ dcQFhnFPQk+TLnIcV9plsFUUjHn7oeh8rJWUZBaYHUl43kdjxOoMWXBTYGlJtMb0PDJx
+ 70P95hJEsix8CrSvK4NBx5hbTxgLmkBEPUtOQn+59Dcym8+61fhzri9Zq1NtPgH/6zsV
+ Sc9lrTtPgtt4j4CvtIMFotSAPW1DrmYRQhFxTivFcBDwySThV/dFamzo5wP82MkNiKAs
+ 4OlqYilx6iPkG8MajZpY5y3UvO/KO7vqiGlVqkyCbh9m8gIZSPcjnX2yAtCNmQTFkHvV
+ cUtg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVidPW9ha1hinHkkLw9e+zUQgJ/2pTgkjEfFOPMuFkjMQLeHjk4uDhQi3v0+vG11EKeX58l6Hhw/a4ol1MPFXKFqFoSSMmyAVB4faQSMcep
-X-Gm-Message-State: AOJu0Yya8HGRHng70v43XlPip+KOnqf46OLctm9KQOmxgF/cTbBw3eZy
- vh8dsN4UUOt1ZRq/XhXG0BTibvTid+k6lOWJY/5fc4j+PbmYAlmH0wzPFXt79l8n0EthNs8wcYw
- NbJKAwg42jVHeU/OzkI6wLLgwbol7nzdfN0CIVw==
-X-Google-Smtp-Source: AGHT+IFbG9R3qzPDyULutJwOdT2KkYVwoLnuTNnZQAQUOT10IOJuFq9jx8p8pvPNgR7Ok5iVzV0j+sTC9nwDRCxlZ88=
-X-Received: by 2002:a25:c511:0:b0:db9:9537:2c39 with SMTP id
- v17-20020a25c511000000b00db995372c39mr1121626ybe.2.1708723471023; Fri, 23 Feb
- 2024 13:24:31 -0800 (PST)
+ AJvYcCUKaVzrIhTx/Ib3d8Pv0J8X61m/Q19SBMvySRYGwPWn0ZUbx6tB8YWUjY6ZL/yuR/BXUdc1ZzE328pjrjvRJof6ZwH0ezsF/sHBY/Hcm08s
+X-Gm-Message-State: AOJu0Yw/08f6O94caD0ZAztOVyRUj9DoQNF4SsboCFEFaT5AXdGlPwiH
+ +gp+LWTvl+LGi+V06i2GFCF45v3F60PtYDqksoNbdHPMWI/u1HA/QrSa450Csa7PZ904r663nsm
+ AXVbuB6BVqWuSIq9tTndCgTYd7omC4uxOLNhuWA==
+X-Google-Smtp-Source: AGHT+IFMmUBgDbCE2Q2G9lsAmZpvVhtEQwvP+lU1HPMuQilfEiaGC1y+Wv7lhCQH4132jTFroLi4zQTtEiwxKXXZKTw=
+X-Received: by 2002:a25:3082:0:b0:dc6:c2b2:c039 with SMTP id
+ w124-20020a253082000000b00dc6c2b2c039mr998519ybw.41.1708723493452; Fri, 23
+ Feb 2024 13:24:53 -0800 (PST)
 MIME-Version: 1.0
 References: <20240219-topic-rb1_gpu-v2-0-2d3d6a0db040@linaro.org>
- <20240219-topic-rb1_gpu-v2-2-2d3d6a0db040@linaro.org>
-In-Reply-To: <20240219-topic-rb1_gpu-v2-2-2d3d6a0db040@linaro.org>
+ <20240219-topic-rb1_gpu-v2-4-2d3d6a0db040@linaro.org>
+In-Reply-To: <20240219-topic-rb1_gpu-v2-4-2d3d6a0db040@linaro.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 23 Feb 2024 23:24:19 +0200
-Message-ID: <CAA8EJprR=tPUsFit7DEzh0U9TDOm8TY29m=JVJwXQwH6vEN49A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/7] clk: qcom: clk-alpha-pll: Add HUAYRA_2290 support
+Date: Fri, 23 Feb 2024 23:24:42 +0200
+Message-ID: <CAA8EJpqnAoCDer93V34BaFHf5mhiNOFMQTP1Xaeoio0BWaPzhA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/7] drm/msm/adreno: Add missing defines for A702
 To: Konrad Dybcio <konrad.dybcio@linaro.org>
 Cc: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
  Joerg Roedel <joro@8bytes.org>, Rob Herring <robh@kernel.org>, 
@@ -93,21 +93,14 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Fri, 23 Feb 2024 at 23:21, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
 >
-> Commit 134b55b7e19f ("clk: qcom: support Huayra type Alpha PLL")
-> introduced an entry to the alpha offsets array, but diving into QCM2290
-> downstream and some documentation, it turned out that the name Huayra
-> apparently has been used quite liberally across many chips, even with
-> noticeably different hardware.
+> Add some defines required for A702. Can be substituted with a header
+> sync after merging mesa!27665 [1].
 >
-> Introduce another set of offsets and a new configure function for the
-> Huayra PLL found on QCM2290. This is required e.g. for the consumers
-> of GPUCC_PLL0 to properly start.
->
+> [1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/27665
 > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
->  drivers/clk/qcom/clk-alpha-pll.c | 47 ++++++++++++++++++++++++++++++++++++++++
->  drivers/clk/qcom/clk-alpha-pll.h |  3 +++
->  2 files changed, 50 insertions(+)
+>  drivers/gpu/drm/msm/adreno/a6xx.xml.h | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
