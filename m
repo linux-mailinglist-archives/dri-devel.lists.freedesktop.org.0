@@ -2,79 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB4968610ED
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 13:01:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ABFE86111C
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 13:09:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0389010EBD9;
-	Fri, 23 Feb 2024 12:01:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2369710EBE2;
+	Fri, 23 Feb 2024 12:09:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="tOJEEK41";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cWE+qH8Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0678010EBD9
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 12:01:32 +0000 (UTC)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41N6mxgP014804; Fri, 23 Feb 2024 13:01:10 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- selector1; bh=4m/fBb7GPXD4Ccm5qYBxfwkW2HiwOoGWraBdyJd7n/M=; b=tO
- JEEK41uclKoKSLfz+xvlmAvWpsDVGhP3/6sutYdJXrfgd1a3CCwi5slWcNl9gSDi
- Y5viqyweHuHDRDxCNSuv4yzbTZrrKG8gr0DXRolJfSK8lAIYSHzSaWy+RVoT5YwI
- /vZCY+5eO3Wd73hXAlsLDTRl4ZcC833vBBLpGMmBZ8/8ps+9XRTBYoPxw7c81Z+F
- 1zSxCZXYbsOiFFNefljr68Jfmq6mj/NT91u4qOnMF11Q/xizLGCiToABNlMnEdf6
- LVy+g69fuFblawGnz3CoL7+6J4leyzxgveGtC0aWQKQEuH3bXMYGCa56WDNgmFSR
- Wx1/DqWPc14kIeeJ2kXw==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3wd203vfwr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Feb 2024 13:01:10 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 6D17440044;
- Fri, 23 Feb 2024 13:00:58 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id BE7D62816D2;
- Fri, 23 Feb 2024 12:59:45 +0100 (CET)
-Received: from [10.129.178.151] (10.129.178.151) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 23 Feb
- 2024 12:59:44 +0100
-Message-ID: <833a7287-69ff-4976-bfc6-16fabf2fa6a5@foss.st.com>
-Date: Fri, 23 Feb 2024 12:59:44 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] dt-bindings: display: simple: hardware can use
- several properties
-To: Rob Herring <robh@kernel.org>
-CC: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, Sam
- Ravnborg <sam@ravnborg.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B110D10EBDC;
+ Fri, 23 Feb 2024 12:09:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 50F6860E8E;
+ Fri, 23 Feb 2024 12:09:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CA89C433F1;
+ Fri, 23 Feb 2024 12:09:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1708690189;
+ bh=DAU55Q2sfD8L3ZH3fwKz/mmSeLuRFjA+iaKnPasZfYI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=cWE+qH8Zq+UtXRLfYmyuV3u+IKp/btik1e/z0NcFAKsg2JFdaO+l5UWXmWONEYLds
+ uLpa08T9BkqJUn2j4hpCvA+SIS573tWcOmBKJqjuQwgDE/E6Q47UjoNbXT2rpw20qo
+ 7fUqXMddP2LVweCKCfIgSXQk1Ka671n7VX8tk8thBXNe74TFl5p1/4AVMz8lg9HD6p
+ lBIYZVzJkwWQxX5lovIMJ+xSadmHDq1uIdelyPrGCCl7fid1vWrktyF86toFZTIOYw
+ X5OMymD0SIeOPhIaqSbiiFEAEKdvwmnu24v0ozwuZm9AnXcHsOkKPa5nltacZN7V5L
+ exhG1FobcrI5w==
+Date: Fri, 23 Feb 2024 17:39:45 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Johan Hovold <johan+linaro@kernel.org>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- <devicetree@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>
-References: <20240217-ltdc_mp13-v2-0-50881f1b394e@foss.st.com>
- <20240217-ltdc_mp13-v2-4-50881f1b394e@foss.st.com>
- <20240223000946.GA3848625-robh@kernel.org>
-Content-Language: en-US
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <20240223000946.GA3848625-robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.129.178.151]
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-22_15,2024-02-23_01,2023-05-22_02
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-phy@lists.infradead.org, stable@vger.kernel.org,
+ Bjorn Andersson <quic_bjorande@quicinc.com>
+Subject: Re: [PATCH 5/6] phy: qcom-qmp-combo: fix drm bridge registration
+Message-ID: <ZdiLCYKCujs4DgKV@matsya>
+References: <20240217150228.5788-1-johan+linaro@kernel.org>
+ <20240217150228.5788-6-johan+linaro@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240217150228.5788-6-johan+linaro@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,46 +75,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 17-02-24, 16:02, Johan Hovold wrote:
+> Due to a long-standing issue in driver core, drivers may not probe defer
+> after having registered child devices to avoid triggering a probe
+> deferral loop (see fbc35b45f9f6 ("Add documentation on meaning of
+> -EPROBE_DEFER")).
+> 
+> This could potentially also trigger a bug in the DRM bridge
+> implementation which does not expect bridges to go away even if device
+> links may avoid triggering this (when enabled).
+> 
+> Move registration of the DRM aux bridge to after looking up clocks and
+> other resources.
+> 
+> Note that PHY creation can in theory also trigger a probe deferral when
+> a 'phy' supply is used. This does not seem to affect the QMP PHY driver
+> but the PHY subsystem should be reworked to address this (i.e. by
+> separating initialisation and registration of the PHY).
 
-On 2/23/24 01:09, Rob Herring wrote:
-> On Sat, Feb 17, 2024 at 12:02:58PM +0100, Raphael Gallais-Pou wrote:
->> Setting a panel-timing in the device-tree overwrite the one specified in
->> the driver and set it as preferred.  In that case 'height-mm',
->> 'width-mm' and 'panel-timing' are properties that can be use for simple
->> panels, according to panel-common.yaml
->>
->> Fixes following warnings:
->> arch/arm/boot/dts/st/stm32mp135f-dk.dtb: panel-rgb: 'height-mm', 'panel-timing', 'width-mm' do not match any of the regexes: 'pinctrl-[0-9]+'
->> 	from schema $id: http://devicetree.org/schemas/display/panel/panel-simple.yaml#
->>
->> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
->> ---
->>  Documentation/devicetree/bindings/display/panel/panel-simple.yaml | 3 +++
->>  1 file changed, 3 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
->> index 634a10c6f2dd..c02cbbc7a100 100644
->> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
->> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
->> @@ -352,6 +352,9 @@ properties:
->>    no-hpd: true
->>    hpd-gpios: true
->>    data-mapping: true
->> +  height-mm: true
->> +  width-mm: true
->> +  panel-timing: true
-Hi Rob,
-> Instead, just change 'additionalProperties' to 'unevaluateProperties' 
-> and drop all these 'prop: true' lines. Pretty much anything from 
-> panel-common.yaml should be allowed.
+Acked-by: Vinod Koul <vkoul@kernel.org>
 
-
-Will do, thanks :)
-
-
-Best regards,
-
-Raphaël
-
->
-> Rob
+-- 
+~Vinod
