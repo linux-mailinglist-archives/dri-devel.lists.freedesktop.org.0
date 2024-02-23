@@ -2,63 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90BE7861D1F
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 21:02:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46760861D3D
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 21:04:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79CD610ECB0;
-	Fri, 23 Feb 2024 20:01:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 771BC10ECB7;
+	Fri, 23 Feb 2024 20:04:19 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="KBIgPNov";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA35110ECAE;
- Fri, 23 Feb 2024 20:01:55 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 8B5A9CE2E7B;
- Fri, 23 Feb 2024 20:01:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84C71C433F1;
- Fri, 23 Feb 2024 20:01:46 +0000 (UTC)
-Date: Fri, 23 Feb 2024 15:03:39 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: Jeff Johnson <quic_jjohnson@quicinc.com>, LKML
- <linux-kernel@vger.kernel.org>, Linux Trace Kernel
- <linux-trace-kernel@vger.kernel.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
- linux-block@vger.kernel.org, linux-cxl@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, virtualization@lists.linux.dev,
- linux-rdma@vger.kernel.org, linux-pm@vger.kernel.org,
- iommu@lists.linux.dev, linux-tegra@vger.kernel.org, netdev@vger.kernel.org,
- linux-hyperv@vger.kernel.org, ath10k@lists.infradead.org,
- linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
- ath12k@lists.infradead.org, brcm80211@lists.linux.dev,
- brcm80211-dev-list.pdl@broadcom.com, linux-usb@vger.kernel.org,
- linux-bcachefs@vger.kernel.org, linux-nfs@vger.kernel.org,
- ocfs2-devel@lists.linux.dev, linux-cifs@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-edac@vger.kernel.org,
- selinux@vger.kernel.org, linux-btrfs@vger.kernel.org,
- linux-erofs@lists.ozlabs.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-hwmon@vger.kernel.org, io-uring@vger.kernel.org,
- linux-sound@vger.kernel.org, bpf@vger.kernel.org,
- linux-wpan@vger.kernel.org, dev@openvswitch.org,
- linux-s390@vger.kernel.org, tipc-discussion@lists.sourceforge.net, Julia
- Lawall <Julia.Lawall@inria.fr>
-Subject: Re: [FYI][PATCH] tracing/treewide: Remove second parameter of
- __assign_str()
-Message-ID: <20240223150339.2249bc95@gandalf.local.home>
-In-Reply-To: <qsksxrdinia3cxr52tfe4p3pafsy4biktnodlfn4vyzud73p2j@6ycnhrhzwsv6>
-References: <20240223125634.2888c973@gandalf.local.home>
- <0aed6cf2-17ae-45aa-b7ff-03da932ea4e0@quicinc.com>
- <20240223134653.524a5c9e@gandalf.local.home>
- <qsksxrdinia3cxr52tfe4p3pafsy4biktnodlfn4vyzud73p2j@6ycnhrhzwsv6>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2ECE10ECB7
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 20:04:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=5dt2+tZvr8gEpbj98bVET5GVimI9tCqFE52ctu4pDkI=; b=KBIgPNovfMnNxyj/jJ3b7sbanQ
+ AawIP88/2GMwYlRFeAm7/oR/ComKS7Y5HOWg8Gow6Do9Obvc8BoZkmZoEEbKl0BSP/n36BSN0tcOi
+ o9VqUA7x023JYlF5nPNxumGPG/saJqiNOGl0umAOclQSZZtqCY5JaOtAQelsQAf2vxjpJeIw/dDih
+ dVKyr6TQM+4KKyKC9uOCXkkuy5bRfcVGjoyIIWqsJAdDE3A6ke7eD+vbQW5Rzrar5Y63gFh7Tazvn
+ ujZ5WrM3ZsOVzk2TwKrkGZJo5GBr8WqbfvHksSoM9Sj9sEsztv3zdYcpD5ssRvox8eyHzRmOEg2Es
+ JyzhvGtQ==;
+Received: from [177.34.169.255] (helo=[192.168.0.139])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1rdblz-002n73-Kb; Fri, 23 Feb 2024 21:03:55 +0100
+Message-ID: <3655f6c0-8be9-461c-bf97-543ca591e95b@igalia.com>
+Date: Fri, 23 Feb 2024 17:03:47 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/v3d: Enable V3D to use different PAGE_SIZE
+Content-Language: en-US
+To: Iago Toral <itoral@igalia.com>, Melissa Wen <mwen@igalia.com>,
+ Phil Elwell <phil@raspberrypi.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+References: <20240214193503.164462-1-mcanal@igalia.com>
+ <66cfdb02177a5ba6419b13163df44f5c8f967232.camel@igalia.com>
+ <4b77a870-8598-4d11-b14f-9144e84a6679@igalia.com>
+ <60607fcb950b9a69f7bf1e69c5d1a7698891e67d.camel@igalia.com>
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Autocrypt: addr=mcanal@igalia.com; keydata=
+ xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
+ H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
+ hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
+ GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
+ rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
+ s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
+ GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
+ pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
+In-Reply-To: <60607fcb950b9a69f7bf1e69c5d1a7698891e67d.camel@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,49 +76,195 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 23 Feb 2024 14:50:49 -0500
-Kent Overstreet <kent.overstreet@linux.dev> wrote:
+Hi Iago,
 
-> Tangentially related though, what would make me really happy is if we
-> could create the string with in the TP__fast_assign() section. I have to
-> have a bunch of annoying wrappers right now because the string length
-> has to be known when we invoke the tracepoint.
+On 2/20/24 03:35, Iago Toral wrote:
+> El lun, 19-02-2024 a las 10:00 -0300, Maíra Canal escribió:
+>> Hi Iago,
+>>
+>> On 2/19/24 09:56, Iago Toral wrote:
+>>> Hi Maíra,
+>>>
+>>> El mié, 14-02-2024 a las 16:34 -0300, Maíra Canal escribió:
+>>>> Currently, the V3D driver uses PAGE_SHIFT over the assumption
+>>>> that
+>>>> PAGE_SHIFT = 12, as the PAGE_SIZE = 4KB. But, the RPi 5 is using
+>>>> PAGE_SIZE = 16KB, so the MMU PAGE_SHIFT is different than the
+>>>> system's
+>>>> PAGE_SHIFT.
+>>>>
+>>>> Enable V3D to be used in system's with any PAGE_SIZE by making
+>>>> sure
+>>>> that
+>>>> everything MMU-related uses the MMU page shift.
+>>>>
+>>>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+>>>> ---
+>>>>    drivers/gpu/drm/v3d/v3d_bo.c      | 12 ++++++------
+>>>>    drivers/gpu/drm/v3d/v3d_debugfs.c |  2 +-
+>>>>    drivers/gpu/drm/v3d/v3d_drv.h     |  2 ++
+>>>>    drivers/gpu/drm/v3d/v3d_irq.c     |  2 +-
+>>>>    drivers/gpu/drm/v3d/v3d_mmu.c     |  2 --
+>>>>    5 files changed, 10 insertions(+), 10 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/v3d/v3d_bo.c
+>>>> b/drivers/gpu/drm/v3d/v3d_bo.c
+>>>> index 1bdfac8beafd..a07ede668cc1 100644
+>>>> --- a/drivers/gpu/drm/v3d/v3d_bo.c
+>>>> +++ b/drivers/gpu/drm/v3d/v3d_bo.c
+>>>
+>>> I think we need the same change in v3d_get_bo_vaddr, no?
+>>
+>> No, that one uses the PAGE_SHIFT of the CPU, because
+>>   is in
+>> the CPU.
+> 
+> Ah, makes sense, thanks!
+> 
+> Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
 
-You can use __string_len() to determine the string length in the tracepoint
-(which is executed in the TP_fast_assign() section).
+Applied to drm-misc/drm-misc-next!
 
-My clean up patches will make __assign_str_len() obsolete too (I'm working
-on them now), and you can just use __assign_str().
+Best Regards,
+- Maíra
 
-I noticed that I don't have a string_len example in the sample code and I'm
-actually writing it now.
-
-// cutting out everything else:
-
-TRACE_EVENT(foo_bar,
-
-	TP_PROTO(const char *foo, int bar),
-
-	TP_ARGS(foo, bar),
-
-	TP_STRUCT__entry(
-		__string_len(	lstr,	foo,	bar < strlen(foo) ? bar : strlen(foo) )
-	),
-
-	TP_fast_assign(
-		__assign_str(lstr, foo);
-
-// Note, the above is with my updates, without them, you need to duplicate the logic
-
-//		__assign_str_len(lstr, foo, bar < strlen(foo) ? bar : strlen(foo));
-	),
-
-	TP_printk("%s", __get_str(lstr))
-);
-
-
-The above will allocate "bar < strlen(foo) ? bar : strlen(foo)" size on the
-ring buffer. As the size is already stored, my clean up code uses that
-instead of requiring duplicating the logic again.
-
--- Steve
+> 
+>>
+>> Best Regards,
+>> - Maíra
+>>
+>>>
+>>> Iago
+>>>
+>>>> @@ -40,7 +40,7 @@ void v3d_free_object(struct drm_gem_object
+>>>> *obj)
+>>>>
+>>>>    	mutex_lock(&v3d->bo_lock);
+>>>>    	v3d->bo_stats.num_allocated--;
+>>>> -	v3d->bo_stats.pages_allocated -= obj->size >>
+>>>> PAGE_SHIFT;
+>>>> +	v3d->bo_stats.pages_allocated -= obj->size >>
+>>>> V3D_MMU_PAGE_SHIFT;
+>>>>    	mutex_unlock(&v3d->bo_lock);
+>>>>
+>>>>    	spin_lock(&v3d->mm_lock);
+>>>> @@ -109,8 +109,8 @@ v3d_bo_create_finish(struct drm_gem_object
+>>>> *obj)
+>>>>    	 * lifetime of the BO.
+>>>>    	 */
+>>>>    	ret = drm_mm_insert_node_generic(&v3d->mm, &bo->node,
+>>>> -					 obj->size >>
+>>>> PAGE_SHIFT,
+>>>> -					 GMP_GRANULARITY >>
+>>>> PAGE_SHIFT, 0, 0);
+>>>> +					 obj->size >>
+>>>> V3D_MMU_PAGE_SHIFT,
+>>>> +					 GMP_GRANULARITY >>
+>>>> V3D_MMU_PAGE_SHIFT, 0, 0);
+>>>>    	spin_unlock(&v3d->mm_lock);
+>>>>    	if (ret)
+>>>>    		return ret;
+>>>> @@ -118,7 +118,7 @@ v3d_bo_create_finish(struct drm_gem_object
+>>>> *obj)
+>>>>    	/* Track stats for /debug/dri/n/bo_stats. */
+>>>>    	mutex_lock(&v3d->bo_lock);
+>>>>    	v3d->bo_stats.num_allocated++;
+>>>> -	v3d->bo_stats.pages_allocated += obj->size >>
+>>>> PAGE_SHIFT;
+>>>> +	v3d->bo_stats.pages_allocated += obj->size >>
+>>>> V3D_MMU_PAGE_SHIFT;
+>>>>    	mutex_unlock(&v3d->bo_lock);
+>>>>
+>>>>    	v3d_mmu_insert_ptes(bo);
+>>>> @@ -201,7 +201,7 @@ int v3d_create_bo_ioctl(struct drm_device
+>>>> *dev,
+>>>> void *data,
+>>>>    	if (IS_ERR(bo))
+>>>>    		return PTR_ERR(bo);
+>>>>
+>>>> -	args->offset = bo->node.start << PAGE_SHIFT;
+>>>> +	args->offset = bo->node.start << V3D_MMU_PAGE_SHIFT;
+>>>>
+>>>>    	ret = drm_gem_handle_create(file_priv, &bo->base.base,
+>>>> &args->handle);
+>>>>    	drm_gem_object_put(&bo->base.base);
+>>>> @@ -246,7 +246,7 @@ int v3d_get_bo_offset_ioctl(struct drm_device
+>>>> *dev, void *data,
+>>>>    	}
+>>>>    	bo = to_v3d_bo(gem_obj);
+>>>>
+>>>> -	args->offset = bo->node.start << PAGE_SHIFT;
+>>>> +	args->offset = bo->node.start << V3D_MMU_PAGE_SHIFT;
+>>>>
+>>>>    	drm_gem_object_put(gem_obj);
+>>>>    	return 0;
+>>>> diff --git a/drivers/gpu/drm/v3d/v3d_debugfs.c
+>>>> b/drivers/gpu/drm/v3d/v3d_debugfs.c
+>>>> index dc3cf708d02e..19e3ee7ac897 100644
+>>>> --- a/drivers/gpu/drm/v3d/v3d_debugfs.c
+>>>> +++ b/drivers/gpu/drm/v3d/v3d_debugfs.c
+>>>> @@ -219,7 +219,7 @@ static int v3d_debugfs_bo_stats(struct
+>>>> seq_file
+>>>> *m, void *unused)
+>>>>    	seq_printf(m, "allocated bos:          %d\n",
+>>>>    		   v3d->bo_stats.num_allocated);
+>>>>    	seq_printf(m, "allocated bo size (kb): %ld\n",
+>>>> -		   (long)v3d->bo_stats.pages_allocated <<
+>>>> (PAGE_SHIFT - 10));
+>>>> +		   (long)v3d->bo_stats.pages_allocated <<
+>>>> (V3D_MMU_PAGE_SHIFT - 10));
+>>>>    	mutex_unlock(&v3d->bo_lock);
+>>>>
+>>>>    	return 0;
+>>>> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h
+>>>> b/drivers/gpu/drm/v3d/v3d_drv.h
+>>>> index 3c7d58866570..1950c723dde1 100644
+>>>> --- a/drivers/gpu/drm/v3d/v3d_drv.h
+>>>> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
+>>>> @@ -19,6 +19,8 @@ struct reset_control;
+>>>>
+>>>>    #define GMP_GRANULARITY (128 * 1024)
+>>>>
+>>>> +#define V3D_MMU_PAGE_SHIFT 12
+>>>> +
+>>>>    #define V3D_MAX_QUEUES (V3D_CPU + 1)
+>>>>
+>>>>    static inline char *v3d_queue_to_string(enum v3d_queue queue)
+>>>> diff --git a/drivers/gpu/drm/v3d/v3d_irq.c
+>>>> b/drivers/gpu/drm/v3d/v3d_irq.c
+>>>> index afc76390a197..2e04f6cb661e 100644
+>>>> --- a/drivers/gpu/drm/v3d/v3d_irq.c
+>>>> +++ b/drivers/gpu/drm/v3d/v3d_irq.c
+>>>> @@ -70,7 +70,7 @@ v3d_overflow_mem_work(struct work_struct *work)
+>>>>    	list_add_tail(&bo->unref_head, &v3d->bin_job->render-
+>>>>> unref_list);
+>>>>    	spin_unlock_irqrestore(&v3d->job_lock, irqflags);
+>>>>
+>>>> -	V3D_CORE_WRITE(0, V3D_PTB_BPOA, bo->node.start <<
+>>>> PAGE_SHIFT);
+>>>> +	V3D_CORE_WRITE(0, V3D_PTB_BPOA, bo->node.start <<
+>>>> V3D_MMU_PAGE_SHIFT);
+>>>>    	V3D_CORE_WRITE(0, V3D_PTB_BPOS, obj->size);
+>>>>
+>>>>    out:
+>>>> diff --git a/drivers/gpu/drm/v3d/v3d_mmu.c
+>>>> b/drivers/gpu/drm/v3d/v3d_mmu.c
+>>>> index 5a453532901f..14f3af40d6f6 100644
+>>>> --- a/drivers/gpu/drm/v3d/v3d_mmu.c
+>>>> +++ b/drivers/gpu/drm/v3d/v3d_mmu.c
+>>>> @@ -21,8 +21,6 @@
+>>>>    #include "v3d_drv.h"
+>>>>    #include "v3d_regs.h"
+>>>>
+>>>> -#define V3D_MMU_PAGE_SHIFT 12
+>>>> -
+>>>>    /* Note: All PTEs for the 1MB superpage must be filled with the
+>>>>     * superpage bit set.
+>>>>     */
+>>>> --
+>>>> 2.43.0
+>>>>
+>>>>
+>>>
+>>
+> 
