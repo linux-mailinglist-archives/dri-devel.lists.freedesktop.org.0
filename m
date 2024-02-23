@@ -2,80 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D312A861EED
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 22:24:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D87FA861EF6
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 22:25:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AC9910ECDE;
-	Fri, 23 Feb 2024 21:24:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5D1C10ECE0;
+	Fri, 23 Feb 2024 21:25:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="g0M0a/Rn";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VbBJZHvj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
- [209.85.128.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 733BD10ECDF
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 21:24:54 +0000 (UTC)
-Received: by mail-yw1-f182.google.com with SMTP id
- 00721157ae682-60495209415so8799327b3.3
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 13:24:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708723493; x=1709328293; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=wgdv/OJ7jeihH3J71yo7/tj9HKsPe0FnbUozf7yDTNQ=;
- b=g0M0a/RnWDtlohJgyx88K2gNYtTB1HWk75jebFi9kLmuB3aBd2N4hySfPfKt6nEX/M
- pWACd03ahHyeUQulE0QXNAMxkTuuZMZtTgtN+p+IevvsJqObELCXMRJrQ+6SpKJBzO6t
- jyV3JBRiB2pHLGh8toZKuk7bcnR011bqW7JiaxrIzv8SLB4Ph/TErIwTnB33mJRk4eJq
- WLIP8xakaXaD7ooyRUTsnYTG0pcyklE93ZkD6UMgoNDCt6THxJqyjoT7a+iggck85N+m
- WtmSEMxY9MCcRzR5Va/+ErU6yo7fnR/bMjDar3jswkU5WZpJaSR4fEm/o7Yb3M5Jv2sb
- vvLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708723493; x=1709328293;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wgdv/OJ7jeihH3J71yo7/tj9HKsPe0FnbUozf7yDTNQ=;
- b=l1JC/jH5yrAYqHkisSgWEYT6arB4ed79UgtoIcYL4J/t9YYzp3GOckXhL6cnT42H3X
- dcQFhnFPQk+TLnIcV9plsFUUjHn7oeh8rJWUZBaYHUl43kdjxOoMWXBTYGlJtMb0PDJx
- 70P95hJEsix8CrSvK4NBx5hbTxgLmkBEPUtOQn+59Dcym8+61fhzri9Zq1NtPgH/6zsV
- Sc9lrTtPgtt4j4CvtIMFotSAPW1DrmYRQhFxTivFcBDwySThV/dFamzo5wP82MkNiKAs
- 4OlqYilx6iPkG8MajZpY5y3UvO/KO7vqiGlVqkyCbh9m8gIZSPcjnX2yAtCNmQTFkHvV
- cUtg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUKaVzrIhTx/Ib3d8Pv0J8X61m/Q19SBMvySRYGwPWn0ZUbx6tB8YWUjY6ZL/yuR/BXUdc1ZzE328pjrjvRJof6ZwH0ezsF/sHBY/Hcm08s
-X-Gm-Message-State: AOJu0Yw/08f6O94caD0ZAztOVyRUj9DoQNF4SsboCFEFaT5AXdGlPwiH
- +gp+LWTvl+LGi+V06i2GFCF45v3F60PtYDqksoNbdHPMWI/u1HA/QrSa450Csa7PZ904r663nsm
- AXVbuB6BVqWuSIq9tTndCgTYd7omC4uxOLNhuWA==
-X-Google-Smtp-Source: AGHT+IFMmUBgDbCE2Q2G9lsAmZpvVhtEQwvP+lU1HPMuQilfEiaGC1y+Wv7lhCQH4132jTFroLi4zQTtEiwxKXXZKTw=
-X-Received: by 2002:a25:3082:0:b0:dc6:c2b2:c039 with SMTP id
- w124-20020a253082000000b00dc6c2b2c039mr998519ybw.41.1708723493452; Fri, 23
- Feb 2024 13:24:53 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75DE110ECDF;
+ Fri, 23 Feb 2024 21:25:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1708723536; x=1740259536;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=TspY4Q5sDhjnmmsVYFb9IH1hqnhWjR7pTCgdCJhKRYs=;
+ b=VbBJZHvj7+sMiVtECLKp5FCioymiFLGYcpQuI0SS2TNRVNkJ1VF1Ct2u
+ UlNTjdDwl1F9kZs3MeXuT59eOltOW4viprBOTUb7MbjiZqPHKLB/KJNSA
+ tr/3MOSvVCgcuZSWRFMoq/pn8FWTfoxZ3acfyiu3bMOW6+Vk8WlCSvxJ9
+ aSWHeoyqmR4yCHO5zoItV/Nwws4Hsl5zPoarWHxRHXbSfBplB3JLW98Du
+ vA3bestt3k/a+umZPpH6gBtQC6d4sM4rF233Tk5kEoaUzlCwYTNy5FsLG
+ nzS1/t29Q8ufxi1aMCu26/AzAWd1C9rYh7Bel3AMT02g5hQSh5HDoSVfl w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="6007277"
+X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
+   d="scan'208";a="6007277"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2024 13:25:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="827767898"
+X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; d="scan'208";a="827767898"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga001.jf.intel.com with SMTP; 23 Feb 2024 13:25:32 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 23 Feb 2024 23:25:32 +0200
+Date: Fri, 23 Feb 2024 23:25:32 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Imre Deak <imre.deak@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Uma Shankar <uma.shankar@intel.com>
+Subject: Re: [PATCH v2 16/21] drm/i915/dp: Allocate/free DP tunnel BW in the
+ encoder enable/disable hooks
+Message-ID: <ZdkNTH4cNs5RzMPf@intel.com>
+References: <20240220211841.448846-1-imre.deak@intel.com>
+ <20240220211841.448846-17-imre.deak@intel.com>
 MIME-Version: 1.0
-References: <20240219-topic-rb1_gpu-v2-0-2d3d6a0db040@linaro.org>
- <20240219-topic-rb1_gpu-v2-4-2d3d6a0db040@linaro.org>
-In-Reply-To: <20240219-topic-rb1_gpu-v2-4-2d3d6a0db040@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 23 Feb 2024 23:24:42 +0200
-Message-ID: <CAA8EJpqnAoCDer93V34BaFHf5mhiNOFMQTP1Xaeoio0BWaPzhA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/7] drm/msm/adreno: Add missing defines for A702
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
- Joerg Roedel <joro@8bytes.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- linux-arm-kernel@lists.infradead.org, 
- iommu@lists.linux.dev, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>, 
- linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240220211841.448846-17-imre.deak@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,19 +71,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 23 Feb 2024 at 23:21, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
->
-> Add some defines required for A702. Can be substituted with a header
-> sync after merging mesa!27665 [1].
->
-> [1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/27665
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx.xml.h | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
+On Tue, Feb 20, 2024 at 11:18:36PM +0200, Imre Deak wrote:
+> Allocate and free the DP tunnel BW required by a stream while
+> enabling/disabling the stream during a modeset.
+> 
+> v2:
+> - Move the allocation up from encoder hooks to
+>   intel_atomic_commit_tail().
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject should be adjusted to match.
+
+> 
+> Signed-off-by: Imre Deak <imre.deak@intel.com>
+> Reviewed-by: Uma Shankar <uma.shankar@intel.com> (v1)
+> ---
+>  drivers/gpu/drm/i915/display/intel_ddi.c     | 1 +
+>  drivers/gpu/drm/i915/display/intel_display.c | 2 ++
+>  2 files changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+> index bea4415902044..ed7301808604d 100644
+> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+> @@ -54,6 +54,7 @@
+>  #include "intel_dp_aux.h"
+>  #include "intel_dp_link_training.h"
+>  #include "intel_dp_mst.h"
+> +#include "intel_dp_tunnel.h"
+>  #include "intel_dpio_phy.h"
+>  #include "intel_dsi.h"
+>  #include "intel_fdi.h"
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> index 20647c97e86fa..445efe0087cde 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -7123,6 +7123,8 @@ static void intel_atomic_commit_tail(struct intel_atomic_state *state)
+>  
+>  	intel_commit_modeset_disables(state);
+>  
+> +	intel_dp_tunnel_atomic_alloc_bw(state);
+> +
+>  	/* FIXME: Eventually get rid of our crtc->config pointer */
+>  	for_each_new_intel_crtc_in_state(state, crtc, new_crtc_state, i)
+>  		crtc->config = new_crtc_state;
+> -- 
+> 2.39.2
 
 -- 
-With best wishes
-Dmitry
+Ville Syrjälä
+Intel
