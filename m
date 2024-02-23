@@ -2,123 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BD4A8614D7
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 15:55:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A5D9861511
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 16:03:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D704910EC39;
-	Fri, 23 Feb 2024 14:55:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9BDB10EC45;
+	Fri, 23 Feb 2024 15:03:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gOI0tzDy";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EL2vyhal";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ECE610EC39
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 14:55:15 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-412969705c2so2981005e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 06:55:15 -0800 (PST)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27B6210EC40
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 15:03:40 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-2d23d301452so12314021fa.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 07:03:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708700114; x=1709304914; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=YR4FOB3mTjpSyt3x+AV6258Jdc3Bc2u/zffBWrsEEk0=;
- b=gOI0tzDyjCM+Rgpogqk3c+aIHIZs/zKQwYDWoTzPrpMjR8Gphe2Txc89a91h61K1Zk
- oYVjwksYBV/VWyWYhcnCQgoRc2K7wFgAHa4GbLrVLcdBoSImZkT4mzCda0X96EVPDeUM
- BzzemrPKsJEe8I8iSlWVv8NsjXgiWkLM88AuBZ6/YoWRC8vNBxnE40fmRF7ooJ2/9YQQ
- gzkmrzsIb9GV/dVKNfQyKnidKARXZpyHWz+e+Rl1fWGpd7/cSQFJjqKSh/6gvMM5VHFB
- F280Z45+SaLlMYo0CyXqaYl4CO3Qh5v4jijvGl5PSOou7H8i7aQC5jNaiG7jUj727wLP
- NQHw==
+ d=gmail.com; s=20230601; t=1708700618; x=1709305418; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=bsmjM6WwTBzUeQ523EB+ChNwuteUkHGzR+sENItSXHQ=;
+ b=EL2vyhalFgt5md/WO8+KVDEzMLjnSTeQY2eFhr1LmsDb52v5qj2iOtXbEdc7nNjwlt
+ y7wywEHv/2b1dfm24ymR8SbhWvXr5Q69Xw0fkz1xCppq4vm69mZShGsTClPoa+ikA4BB
+ DMhnciZWy4xkyiompC8Mf9Syo1OZ1mdHWut2tF/g/CTZhj2mCwXdZ6LQuL5ZBZWi9KAg
+ m9olnHq91AbYVpStRluZOEHw38CPGb3vTBykPTyyCsx8LqZx6MOD2fG4/b2m2smGZE0y
+ TGF+wVSP0cgcmIKd7Yb5IfWe3P9hjGz+GghQwiSUouIZhQICHz6/AaeQgSGG2Wdmh7v4
+ nQrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708700114; x=1709304914;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=YR4FOB3mTjpSyt3x+AV6258Jdc3Bc2u/zffBWrsEEk0=;
- b=m8d4clRYLULGX4kxADVYOFyP2JR5YgtG7mzFG6oRSHmeHKSirp7w4W00zDkmcEuchc
- XDIvu27swcMM9z/T53DsbauS8puRC/YBiZtMRrdjhVwLxNPCnCbUt2vidaMCWtuZ+wRA
- J05+6XXPu7hJ3SOuBx/dCIcimvjZMRNnpC35qBbjoc/RIh7uAqVKDub2G3QWmEY2paTg
- pFqNpcFBlkfDLLQQ5xhy0wKgrKl0E1kZQOABRjPw/yt8IZ25eh4zy/j55TsJUGUBi2DL
- +wplC4+4+G/2DHeS6WWnEiaCLY4ohvw5G9u/Qa83RWa1yAk90UYhw2HosGi89rtseJuH
- FuGg==
+ d=1e100.net; s=20230601; t=1708700618; x=1709305418;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bsmjM6WwTBzUeQ523EB+ChNwuteUkHGzR+sENItSXHQ=;
+ b=C9YW+otWV/92RbwRi5O/ZQr9jx6vY40qjDT5OHSuRQbwOP3PkwU5u3ABiU9Vc7ar2R
+ H7NKH6bOSJ4+KLWBLVbT7ebRYJEvq/u6HMBSvvPC22ujWwv950biSGSr5lrGHrLyh+kK
+ pJ8w50/xXQgLqjJo7GL2iLLNw9hSZNPvtgcfTRPnIXcdVpdhPzQENvClGILyHKXBrWVH
+ +ERJ0RFNFgUjz7RRT+/gfhYLQp8pvCV+Wb7DQFcpq7EJOmFv7RjAohbuo78XkKLDSM6C
+ Fe/aanrek7073LTgeQ5NBSpaVMmvgdPp9tKiUbm9o2cmqk5YGNHR/I/zlwxSwcYGs+ZZ
+ FWcg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWpFtwc2sND11dJIiNNJpkSWwYnkVAEFv0zKoIwMfkfRwYJXusikP5qW0xjBsLP9DF0svcYxTyfMlnDTpRURuZJ3LhKGuaRJIUfMPKT86nq
-X-Gm-Message-State: AOJu0YyhoeR7+KmV7qiODSZGw06KYrUxYRZeLVJzxa2qImD068E8Rvo9
- F2fx56A3QI4xN5xMJdIeOhGQGQfhKMWfDmDXR0rWyyZNzKg0/zytnUDUVWkA+LI=
-X-Google-Smtp-Source: AGHT+IGAy96HbSPMW3k44GU39oK9LfJtPL+l0X+t5AUlvKsigL3XKGl9EWcCWb2kXfdcmrgGHf2JOw==
-X-Received: by 2002:a05:600c:46d0:b0:412:5fbe:3740 with SMTP id
- q16-20020a05600c46d000b004125fbe3740mr36553wmo.24.1708700113947; 
- Fri, 23 Feb 2024 06:55:13 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:58e3:6b80:c446:11f4?
- ([2a01:e0a:982:cbb0:58e3:6b80:c446:11f4])
+ AJvYcCVvJtWWLPZ7THE+sEhmAZfnlL9EaYinC8IPiAKp5+ZMg+Fy9RYibfka+uXXzvrvJzQJKKF4ij4LEo1KMZOTDw1/OCiIdijWVvDt+7uAV9PI
+X-Gm-Message-State: AOJu0YwnwDrPTnzt6rBhiuHyuIRutebW2QRa12p2MbjCy5xM+N1ltC58
+ XTHkOP31G7vkAX4eXGRMaQEB4v4J4svXyT4RDHociIw2kVFbkPUb
+X-Google-Smtp-Source: AGHT+IExcV0O/a9N0xbqYE77VwYcfiEtYc4dhxRdq89w4QTviBrOCekRLjxlKjQUx5n0OgF07p6nPg==
+X-Received: by 2002:a2e:a543:0:b0:2d2:31a8:cb12 with SMTP id
+ e3-20020a2ea543000000b002d231a8cb12mr56930ljn.49.1708700617383; 
+ Fri, 23 Feb 2024 07:03:37 -0800 (PST)
+Received: from localhost
+ (p200300e41f2d4600f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f2d:4600:f22f:74ff:fe1f:3a53])
  by smtp.gmail.com with ESMTPSA id
- fa15-20020a05600c518f00b0041294a1d7bcsm2314742wmb.36.2024.02.23.06.55.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Feb 2024 06:55:13 -0800 (PST)
-Message-ID: <b5401b19-09d9-4907-86d6-9aab9dc2970e@linaro.org>
-Date: Fri, 23 Feb 2024 15:55:12 +0100
+ d9-20020a05600c3ac900b00410cfc34260sm2705535wms.2.2024.02.23.07.03.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Feb 2024 07:03:37 -0800 (PST)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Jon Hunter <jonathanh@nvidia.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: [PATCH v2] drm/tegra: Remove existing framebuffer only if we support
+ display
+Date: Fri, 23 Feb 2024 16:03:33 +0100
+Message-ID: <20240223150333.1401582-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.43.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 0/6] soc: qcom: pmic_glink_altmode: fix drm bridge
- use-after-free
-Content-Language: en-US, fr
-To: Johan Hovold <johan@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: Bjorn Andersson <andersson@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Vinod Koul <vkoul@kernel.org>, Johan Hovold <johan+linaro@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, freedreno@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org
-References: <20240217150228.5788-1-johan+linaro@kernel.org>
- <170868613914.4029284.5549880672870201262.b4-ty@linaro.org>
- <3c4246b6-431a-442e-8ace-3b0d0e67743f@linaro.org>
- <ZdiU2z8rzo542_Ih@hovoldconsulting.com>
- <d4049823-ad24-4426-887b-9c66cdd96318@linaro.org>
- <ZdiqAPPTn9SvsjL8@hovoldconsulting.com>
- <77715ecd-ddb9-450c-98bf-4fcade0e81c0@linaro.org>
- <ZdixFo2EjUQDgeFh@hovoldconsulting.com>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <ZdixFo2EjUQDgeFh@hovoldconsulting.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,46 +82,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/02/2024 15:52, Johan Hovold wrote:
-> On Fri, Feb 23, 2024 at 03:38:13PM +0100, Neil Armstrong wrote:
->> On 23/02/2024 15:21, Johan Hovold wrote:
-> 
->>> But it is *not* standalone as I tried to explain above.
->>>
->>> So you have to drop it again as the later patches depend on it and
->>> cannot be merged (through a different tree) without it.
->>
->> drm-misc branches cannot be rebased, it must be reverted, but it can still be applied
->> on drm-misc-next and I'll send a revert patch for drm-misc-fixes if needed, not a big deal.
->>
->>> I thought you had all the acks you needed to take this through drm-misc,
->>> but we can wait a bit more if necessary (and there's no rush to get the
->>> first one in).
->>
->> If you want it to be in v6.9, it's too late since the last drm-misc-next PR has been sent
->> yesterday (https://cgit.freedesktop.org/drm/drm-misc/tag/?h=drm-misc-next-2024-02-22)
->>
->> Please ping Thomas or Maxime, perhaps it's not too late since the drm-misc-next tree
->> really closes on sunday.
-> 
-> I don't want this in 6.9, this is needed for *6.8* as this fixes a DRM
-> regression in 6.8-rc1 that breaks the display on machines like the X13s.
-> 
-> If you guys can't sort this out in time, then perhaps Bjorn can take
-> this through the Qualcomm tree instead (with DRM acks).
-> 
-> But again, this is fixing a severe *regression* in 6.8-rc1. It can not
-> wait for 6.9.
+From: Thierry Reding <treding@nvidia.com>
 
-Right, I can't apply them right now, I send a patchset ack so it can be applied ASAP,
+Tegra DRM doesn't support display on Tegra234 and later, so make sure
+not to remove any existing framebuffers in that case.
 
-Thanks,
-Neil
+v2: - add comments explaining how this situation can come about
+    - clear DRIVER_MODESET and DRIVER_ATOMIC feature bits
 
-> 
-> Johan
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/gpu/drm/tegra/drm.c | 23 ++++++++++++++++++++---
+ 1 file changed, 20 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+index b1e1a78e30c6..2e1cfe6f6d74 100644
+--- a/drivers/gpu/drm/tegra/drm.c
++++ b/drivers/gpu/drm/tegra/drm.c
+@@ -1220,9 +1220,26 @@ static int host1x_drm_probe(struct host1x_device *dev)
+ 
+ 	drm_mode_config_reset(drm);
+ 
+-	err = drm_aperture_remove_framebuffers(&tegra_drm_driver);
+-	if (err < 0)
+-		goto hub;
++	/*
++	 * Only take over from a potential firmware framebuffer if any CRTCs
++	 * have been registered. This must not be a fatal error because there
++	 * are other accelerators that are exposed via this driver.
++	 *
++	 * Another case where this happens is on Tegra234 where the display
++	 * hardware is no longer part of the host1x complex, so this driver
++	 * will not expose any modesetting features.
++	 */
++	if (drm->mode_config.num_crtc > 0) {
++		err = drm_aperture_remove_framebuffers(&tegra_drm_driver);
++		if (err < 0)
++			goto hub;
++	} else {
++		/*
++		 * Indicate to userspace that this doesn't expose any display
++		 * capabilities.
++		 */
++		drm->driver_features &= ~(DRIVER_MODESET | DRIVER_ATOMIC);
++	}
+ 
+ 	err = drm_dev_register(drm, 0);
+ 	if (err < 0)
+-- 
+2.43.2
 
