@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59476860BE6
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 09:11:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52903860C15
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 09:20:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F342610EB14;
-	Fri, 23 Feb 2024 08:11:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D333892CA;
+	Fri, 23 Feb 2024 08:20:23 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; secure) header.d=xff.cz header.i=@xff.cz header.b="bYZ3AfVe";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ms7.webland.ch (ms7.webland.ch [92.43.217.107])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 325F910EB14;
- Fri, 23 Feb 2024 08:11:18 +0000 (UTC)
-Received: from [192.168.1.137] ([213.144.156.170])
- by ms7.webland.ch (12.3.0 build 2 x64) with ASMTP (SSL) id
- 01202402230911154834; Fri, 23 Feb 2024 09:11:15 +0100
-Message-ID: <2d7632f0-0783-4d82-9d81-dd6bd52d5db6@daenzer.net>
-Date: Fri, 23 Feb 2024 09:11:14 +0100
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00576892CA
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 08:20:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
+ t=1708676418; bh=HeyPgo+8UCVKlR0pSsRdYja39it6FmxGSMN3doO156Q=;
+ h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
+ b=bYZ3AfVewfQLfkJOtr2NFwdGwxpB2Usry+rr9+yym0SxhK11qNA87fUyvvW/Crx52
+ Kt/zDGevmVTZsYo4hzZ7qmRBJZkxkUJVi9OgXjIN9kwjkoglf5CsDcyX9RI0QEB8gw
+ +BKARxyqsdHdcFNhHV6/hRwFibu1BJxygJF1xl7k=
+Date: Fri, 23 Feb 2024 09:20:17 +0100
+From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] drm/sun4i: Fix layer zpos change/atomic modesetting
+Message-ID: <iboaf4yyieqq6yeuu2amwjnwsao3vx7fzeqldhuplx5j6z2zxf@ex57tbxhzzk6>
+Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
+ Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
+ <https://xff.cz/key.txt>
+References: <20240216190430.1374132-1-megi@xff.cz>
+ <20240216190430.1374132-4-megi@xff.cz>
+ <inuhwnlexpt6dpre4uailtvytjhms4uqeerzehbntczurhcxol@fc4nvkdwffdd>
+ <2448947.jE0xQCEvom@jernej-laptop>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] drm/amdgpu: Refuse to create a KMS FB for non-P2P
- exported dma-bufs
-Content-Language: de-CH-frami, en-CA
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20240222172821.16901-1-michel@daenzer.net>
- <3156ea34-0655-4b0f-9438-9113fb714373@amd.com>
-From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
-Autocrypt: addr=michel@daenzer.net; keydata=
- xsDiBDsehS8RBACbsIQEX31aYSIuEKxEnEX82ezMR8z3LG8ktv1KjyNErUX9Pt7AUC7W3W0b
- LUhu8Le8S2va6hi7GfSAifl0ih3k6Bv1Itzgnd+7ZmSrvCN8yGJaHNQfAevAuEboIb+MaVHo
- 9EMJj4ikOcRZCmQWw7evu/D9uQdtkCnRY9iJiAGxbwCguBHtpoGMxDOINCr5UU6qt+m4O+UD
- /355ohBBzzyh49lTj0kTFKr0Ozd20G2FbcqHgfFL1dc1MPyigej2gLga2osu2QY0ObvAGkOu
- WBi3LTY8Zs8uqFGDC4ZAwMPoFy3yzu3ne6T7d/68rJil0QcdQjzzHi6ekqHuhst4a+/+D23h
- Za8MJBEcdOhRhsaDVGAJSFEQB1qLBACOs0xN+XblejO35gsDSVVk8s+FUUw3TSWJBfZa3Imp
- V2U2tBO4qck+wqbHNfdnU/crrsHahjzBjvk8Up7VoY8oT+z03sal2vXEonS279xN2B92Tttr
- AgwosujguFO/7tvzymWC76rDEwue8TsADE11ErjwaBTs8ZXfnN/uAANgPM0jTWljaGVsIERh
- ZW56ZXIgPG1pY2hlbEBkYWVuemVyLm5ldD7CXgQTEQIAHgUCQFXxJgIbAwYLCQgHAwIDFQID
- AxYCAQIeAQIXgAAKCRBaga+OatuyAIrPAJ9ykonXI3oQcX83N2qzCEStLNW47gCeLWm/QiPY
- jqtGUnnSbyuTQfIySkLOwE0EOx6FRRAEAJZkcvklPwJCgNiw37p0GShKmFGGqf/a3xZZEpjI
- qNxzshFRFneZze4f5LhzbX1/vIm5+ZXsEWympJfZzyCmYPw86QcFxyZflkAxHx9LeD+89Elx
- bw6wT0CcLvSv8ROfU1m8YhGbV6g2zWyLD0/naQGVb8e4FhVKGNY2EEbHgFBrAAMGA/0VktFO
- CxFBdzLQ17RCTwCJ3xpyP4qsLJH0yCoA26rH2zE2RzByhrTFTYZzbFEid3ddGiHOBEL+bO+2
- GNtfiYKmbTkj1tMZJ8L6huKONaVrASFzLvZa2dlc2zja9ZSksKmge5BOTKWgbyepEc5qxSju
- YsYrX5xfLgTZC5abhhztpcJGBBgRAgAGBQI7HoVFAAoJEFqBr45q27IAlscAnjICalDn2zB1
- fXqoOkGsTwElvKa5AJ9FhyKJpysFRcejfdZwrwl9xb4oOg==
-In-Reply-To: <3156ea34-0655-4b0f-9438-9113fb714373@amd.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CTCH: RefID="str=0001.0A782F23.65D85324.0062,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0";
- Spam="Unknown"; VOD="Unknown"
+In-Reply-To: <2448947.jE0xQCEvom@jernej-laptop>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,43 +68,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-02-23 08:06, Christian König wrote:
-> Am 22.02.24 um 18:28 schrieb Michel Dänzer:
->> From: Michel Dänzer <mdaenzer@redhat.com>
->>
->> Pinning the BO storage to VRAM for scanout would make it inaccessible
->> to non-P2P dma-buf importers.
+On Thu, Feb 22, 2024 at 09:02:53PM +0100, Jernej Škrabec wrote:
+> Dne sreda, 21. februar 2024 ob 14:45:20 CET je Maxime Ripard napisal(a):
+> > Hi,
+> > 
+> > On Fri, Feb 16, 2024 at 08:04:26PM +0100, Ondřej Jirman wrote:
+> > > From: Ondrej Jirman <megi@xff.cz>
+> > > 
+> > > Identical configurations of planes can lead to different (and wrong)
+> > > layer -> pipe routing at HW level, depending on the order of atomic
+> > > plane changes.
+> > > 
+> > > For example:
+> > > 
+> > > - Layer 1 is configured to zpos 0 and thus uses pipe 0. No other layer
+> > >   is enabled. This is a typical situation at boot.
+> > > 
+> > > - When a compositor takes over and layer 3 is enabled,
+> > >   sun8i_ui_layer_enable() will get called with old_zpos=0 zpos=1, which
+> > >   will lead to incorrect disabling of pipe 0 and enabling of pipe 1.
+> > > 
+> > > What happens is that sun8i_ui_layer_enable() function may disable
+> > > blender pipes even if it is no longer assigned to its layer.
+> > > 
+> > > To correct this, move the routing setup out of individual plane's
+> > > atomic_update into crtc's atomic_update, where it can be calculated
+> > > and updated all at once.
+> > > 
+> > > Remove the atomic_disable callback because it is no longer needed.
+> > > 
+> > > Signed-off-by: Ondrej Jirman <megi@xff.cz>
+> > 
+> > I don't have enough knowledge about the mixers code to comment on your
+> > patch, so I'll let Jernej review it. However, this feels to me like the
+> > pipe assignment is typically the sort of things that should be dealt
+> > with device-wide, and in atomic_check.
 > 
-> Thinking more about it I don't think we can do this.
+> In DE2 and DE3.0, you cannot move planes between mixers (crtcs), because each
+> one is hardwired to specific mixer. Movable planes are the feature of DE3.3
+> and one of the pain points for upstreaming the code. Anyway, this commit only
+> addresses current issue of enabling and disabling planes and handling zpos.
 > 
-> Using the BO in a ping/pong fashion for scanout and DMA-buf is actually valid, you just can't do both at the same time.
+> In atomic check you can only precalculate final register values, but I don't
+> see any benefit doing that. I think that this code elegantly solves current
+> issue of enabling or disabling wrong plane in certain situations, so:
 > 
-> And if I'm not completely mistaken we actually have use cases for this at the moment,
+> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Those use cases don't have P2P & CONFIG_DMABUF_MOVE_NOTIFY?
+Thanks for the review.
 
-(As discussed on the GitLab issue, AFAICT P2P could be made to work even without CONFIG_DMABUF_MOVE_NOTIFY, by pinning to VRAM instead of GTT for dma-buf sharing)
+> Note, if there is new revision, please rewrite blender regmap_update_bits()
+> to regmap_write(). Since there is HW issue with reads, I would like to
+> get rid of regmap_update_bits() calls eventually.
 
+BTW as a side note, one observation I made about a year back after some testing
+with a setup like this:
 
-> only as fallback but it would still break existing userspace and that is a no-go.
+- PIN photodiode in a black box directed at a display (Pinephone)
+  attached to the oscilloscope
+- GPIO signal routed to another input of the scope
+- sun4i-drm driver modification that toggles the GPIO any number of times so
+  that I can correlate brightness changes as seen by photodiode on the
+  scope with the timing of what's happening in the driver
 
-I'm obviously aware of this general rule. There are exceptions though, and this might be one.
+is that if you do atomic commit right after receiving the flip event there's
+a high chance that what you're commiting will get displayed right away,
+basically skipping the update from the previous atomic commit.
 
+It's very easy to reproduce with a test application that flips between two
+completely white and completely black framebuffers back and forth right
+after flip event. What you see on the display is seemingly random blinking
+pattern: https://megous.com/dl/tmp/c9a286427ce66d80.png when it should be
+a peridic flipping between black and white pixels like this
+https://megous.com/dl/tmp/c085a50ccd387257.png
 
-> So rejecting things during CS and atomic commit is the best thing we can do.
+This goes away for me when introducing a >150us delay between flip event
+and next atomic commit.
 
-It's problematic for a Wayland compositor:
+I did a more complex test with a test app that switches between 4 framebuffers
+of decreasing shades of gray, so that the resulting pattern of brightness should
+be a stariwise stepping signal pattern on the scope, along with gpio indicating which
+framebuffer just got commited (by the number of pulses 1-4). What I saw was
+that normally there's a 1 frame delay between commit and the corresponding
+brightness change, but often enough the brightness change is immediate.
 
-The CS ioctl failing is awkward. With GL, I'm pretty sure it means the compositor would have to destroy the context and create a new one. Not sure about Vulkan, but I suspect it's painful there as well.
+I think the hardware indicates a flip (vsync irq) some time before it performs
+the double buffered register update to shadow register for the next frame. So
+sometimes the driver manages to overwrite the values stored during the previous
+commit before they get flipped to shadow registers. Again, intorducing a 150us
+delay between flip event and atomic commit reliably fixes this, and I see
+a perfect stairwise pattern on the scope instead of occasional skipped ahead
+steps.
 
-Similarly for the KMS atomic commit ioctl. The compositor can't know why exactly it failed, all it gets is an error code.
+It seems to me that those 150us are related to display timing.
 
-And there's no other way for the compositor to detect when both things can actually work concurrently.
+Vertical blanking cycle on Pinephone lasts about 400us with 45us long vsync
+pulse roughly in the middle. In my observation it seems likely that HW signals
+VSYNC interrupt at the start or end of the VSYNC pulse and flips the double
+buffered HW registers at the end of the blanking cycle, leaving some 150us of
+time in between for a quick atomic commit to still mess up the register settings
+for the upcoming scan out, before they get commited to shadow regs. I don't have
+a way to observe vsync signal on a scope, because it's MIPI-DSI display to
+verify this exactly.
 
-Together, this means the compositor always has to assume the worst case, and do workarounds such as using the scanout GPU to copy from the scanout buffer to another buffer for access from another GPU. Even when direct access from the other GPU would actually work fine.
+The certain thing is that after vsync interrupt, the double buffered registers
+are not switched, yet. There's still some time left before that happens.
 
+Anyway, just something I'd thought I share that may help us understand this
+HW better. :)
 
--- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
+kind regards,
+	o.
 
+> Best regards,
+> Jernej
+> 
+> > 
+> > If I'm talking non-sense, it would be great to mention at least why that
+> > can't be an option in the commit log.
+> > 
+> > Maxime
+> > 
+> 
+> 
+> 
+> 
