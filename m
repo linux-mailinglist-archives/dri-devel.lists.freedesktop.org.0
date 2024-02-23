@@ -2,91 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E762861EC5
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 22:22:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7271B861EE4
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 22:24:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CAFF10ECDD;
-	Fri, 23 Feb 2024 21:22:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E091010ECD3;
+	Fri, 23 Feb 2024 21:24:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sYzsjlRi";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="e/WiBS21";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4EDC10ECDE
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 21:22:04 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id
- 4fb4d7f45d1cf-5649c25369aso1533411a12.2
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 13:22:04 -0800 (PST)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C3AD10ECD3
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 21:24:10 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-1d8da50bffaso6029315ad.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 13:24:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708723323; x=1709328123; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=z1FkVd0ZOd4HuLhR6rsPDjyD4D3QNLPmtuC+OU6cTVA=;
- b=sYzsjlRi4na23zS1+NT2uvy4FnhDI56mtDXBa/qTrai+Hy9DuLzx+enn/7oACOT3EB
- +B24XLsILF+dwj+V+7zQf314I/Gtrnt94pRJYizxdkjlDA8gKys/6IM/xxxcHgn4Z7JU
- djS/rBuq8qNZpL+7RLi1ZfD/0ebFPBBhGm+Y3NC83pTdhXeyU4w7NkRpMoAoq4Utm3fJ
- 2d+COhp7oCbuf+JqnBbC5im/COwL0NtVHdwLI9pQR8s+S2/27GexW1sps0/26AWIZMjU
- kSA/ESUKWdd1Q2bi7lqxxQwiRk3Oebc+5SbWO0uEV7QIzXllHN1qsJdpuUp9BWyKq4yC
- eI0w==
+ d=chromium.org; s=google; t=1708723449; x=1709328249;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=0M8Ho4hghHsHT9QadaKTfyu0riwtgTi9mQkpLqOU5Dg=;
+ b=e/WiBS21VbMZ0eK7tpXyGntOgLewuiUM6jFJDu+FPfB4+YUIyBVuW6BPXmQG8ywhg5
+ 9y6FUWu/5CN141ZdobwJBxOWl4N9Mpa6zwF14vf4BMx1rDFeD2y0pE3qY7x5yhNkqxTG
+ TMoIjcDLUx1ItWBsATuPBrlkTp+u/f3zhFOZU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708723323; x=1709328123;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=z1FkVd0ZOd4HuLhR6rsPDjyD4D3QNLPmtuC+OU6cTVA=;
- b=B3J2mL8M0ZX/htEziA4fZDAxmF45onpmrUfzoy9IsdSGoEvB9uwzvP7lURRkQFAzQA
- OJqEDH30TLCenesUlw6l0msOtDJac+z95iHSOBzOggyrfsG4SRSj6NNdmDdkTC9bOMXK
- iP58jNoSjBn3rLyGXsslKD29V+zfkNQcCn0wKhJnzKRTFzbc3Y2JJt3V3BtMR5IAzO8E
- HnUMIGUmJCQZzRcEraYLVIRWy96Odx3oy8KWSbLyEA2AxwQ79j+gqIVvntb0sxVo4eO+
- /NlybCc3V/z6bTYL2xLjC4baIpxiRoSXWDhwvqLzqqR0pg8MnVWADf/Ns+nbYh41aEC6
- 8oiQ==
+ d=1e100.net; s=20230601; t=1708723449; x=1709328249;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0M8Ho4hghHsHT9QadaKTfyu0riwtgTi9mQkpLqOU5Dg=;
+ b=j7WetzaW43aXZUDmF/1SFhDK/9/q/fsZvlvlM0emJdHjWko0ltaKdKIwDore+CGF+G
+ q2xqfEup/SM16YgZJjqQhuwyxg71adKFR3NVoiQB+hoLk/8wPXr9/M16m1NJ/i0Q4HSu
+ svk1g0ygENk9ubo/Ln55nKhqClkdCMxdhZ2uQJaVqXS3JHX8R6kK975Bq1ZLDjS//Cv4
+ FtV+/wWP/qM4XbERcYDDGa0ftPMasHSzxvH0+pI2oS5eCUwefc2wkL0GJmCCpTxzBEsO
+ 7KtlvT+J5q3WeRPYELcumlfY1vD+7QfmscajzGZW058QK7CcPKZUGNz1jXskJyVc2bvT
+ /EIw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUEvaqqnEFX+sWm3gBWvOkLSeTQ/QfUnySYxcTDk/ZmRNY3UFt/PrlcJ1xD5z4g/G1/00/LPPHNO/oHlHB5VNvf/w4UtmRxxP+r8AnK6DeG
-X-Gm-Message-State: AOJu0YyIqigGsZIVa3T4rVSkRNRjSkaRhACWt6512+eBC2YxVFuxYJPZ
- jvqHoVXb/HsKoU0LUblxePB+vuMKOhji/vnPz1Qlax9vzmqOP3bskrX5tEDZdWo=
-X-Google-Smtp-Source: AGHT+IGOTeJ72nc86iYe9aCP0RR8+Z6aDoD/m/NIKZ620up7wC2li1nmXfS7jDE9C25SuU9Ep338Kg==
-X-Received: by 2002:a17:906:f215:b0:a36:5079:d6cb with SMTP id
- gt21-20020a170906f21500b00a365079d6cbmr656216ejb.56.1708723322827; 
- Fri, 23 Feb 2024 13:22:02 -0800 (PST)
-Received: from [10.167.154.1] (078088045141.garwolin.vectranet.pl.
- [78.88.45.141]) by smtp.gmail.com with ESMTPSA id
- mj8-20020a170906af8800b00a3ee9305b02sm4091226ejb.20.2024.02.23.13.22.00
+ AJvYcCXT6GBq4SYBD9ARmirF0EgXhyov70EaD3HYaZahcFmRwSP3R+lHqIM7Y0iDMVtsgSh+WtfWax+dM4V+nneRIT/Sy5oGum88IE6DvIYTG223
+X-Gm-Message-State: AOJu0YweS6UHxxqCXhodrQ62RktX/7VNgVshJVYM503W+zXZUo/YZpDN
+ GehFX8q4RjCQ3SY3uhKKdrpkAzHcc9mul20x+URRMNFz9VW57YDa1N9AF2jk8Q==
+X-Google-Smtp-Source: AGHT+IF/iOCf8G84HtjaG5OPfPAZChzYV76riZA2G3uYSX6UcLKBg0B+sc+slfUuIZE19uyFrsPkxw==
+X-Received: by 2002:a17:902:7b87:b0:1d9:a2b1:8693 with SMTP id
+ w7-20020a1709027b8700b001d9a2b18693mr1106969pll.23.1708723449437; 
+ Fri, 23 Feb 2024 13:24:09 -0800 (PST)
+Received: from hsinyi.sjc.corp.google.com ([2620:15c:9d:2:8ff9:a089:c05c:9af])
+ by smtp.gmail.com with ESMTPSA id
+ b15-20020a170902d50f00b001db4b3769f6sm11970413plg.280.2024.02.23.13.24.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Feb 2024 13:22:02 -0800 (PST)
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Fri, 23 Feb 2024 22:21:43 +0100
-Subject: [PATCH v2 7/7] arm64: dts: qcom: qrb2210-rb1: Enable the GPU
+ Fri, 23 Feb 2024 13:24:09 -0800 (PST)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] drm/mediatek: Fix a null pointer crash in
+ mtk_drm_crtc_finish_page_flip
+Date: Fri, 23 Feb 2024 13:23:29 -0800
+Message-ID: <20240223212404.3709690-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.44.0.rc0.258.g7320e95886-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240219-topic-rb1_gpu-v2-7-2d3d6a0db040@linaro.org>
-References: <20240219-topic-rb1_gpu-v2-0-2d3d6a0db040@linaro.org>
-In-Reply-To: <20240219-topic-rb1_gpu-v2-0-2d3d6a0db040@linaro.org>
-To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
- Joerg Roedel <joro@8bytes.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>, 
- linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org, 
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1708723303; l=915;
- i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=/vlAxfs5pRi3jedgeW7eSy/wWzvCwowVIaHNbXcWUPw=;
- b=4NlbjUV1GBwZhD/RgzQVAtB0KvTlyLizT1CamJiEGMHqdxMJ9uLicJBWYxiAk+HFlJirPhazp
- Vg14+VV3wZTAdFOGnvbdNKKrCCVqvlFJbUo88fKB1HZyJF7PN0UX4Z8
-X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,36 +82,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable the A702 GPU (also marketed as "3D accelerator by qcom [1], lol).
+It's possible that mtk_crtc->event is NULL in
+mtk_drm_crtc_finish_page_flip().
 
-[1] https://docs.qualcomm.com/bundle/publicresource/87-61720-1_REV_A_QUALCOMM_ROBOTICS_RB1_PLATFORM__QUALCOMM_QRB2210__PRODUCT_BRIEF.pdf
+pending_needs_vblank value is set by mtk_crtc->event, but in
+mtk_drm_crtc_atomic_flush(), it's is not guarded by the same
+lock in mtk_drm_finish_page_flip(), thus a race condition happens.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Consider the following case:
+
+CPU1                              CPU2
+step 1:
+mtk_drm_crtc_atomic_begin()
+mtk_crtc->event is not null,
+                                  step 1:
+                                  mtk_drm_crtc_atomic_flush:
+                                  mtk_drm_crtc_update_config(
+                                      !!mtk_crtc->event)
+step 2:
+mtk_crtc_ddp_irq ->
+mtk_drm_finish_page_flip:
+lock
+mtk_crtc->event set to null,
+pending_needs_vblank set to false
+unlock
+                                  pending_needs_vblank set to true,
+
+                                  step 2:
+                                  mtk_crtc_ddp_irq ->
+                                  mtk_drm_finish_page_flip called again,
+                                  pending_needs_vblank is still true
+                                  //null pointer
+
+Instead of guarding the entire mtk_drm_crtc_atomic_flush(), it's more
+efficient to just check if mtk_crtc->event is null before use.
+
+Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+Fixes: 119f5173628a ("drm/mediatek: Add DRM Driver for Mediatek SoC MT8173.")
 ---
- arch/arm64/boot/dts/qcom/qrb2210-rb1.dts | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts b/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts
-index 6e9dd0312adc..c9abca5a7e39 100644
---- a/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts
-+++ b/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts
-@@ -199,6 +199,14 @@ &gpi_dma0 {
- 	status = "okay";
- };
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+index db43f9dff912..d645b85f9721 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+@@ -95,11 +95,13 @@ static void mtk_drm_crtc_finish_page_flip(struct mtk_drm_crtc *mtk_crtc)
+ 	struct drm_crtc *crtc = &mtk_crtc->base;
+ 	unsigned long flags;
  
-+&gpu {
-+	status = "okay";
-+
-+	zap-shader {
-+		firmware-name = "qcom/qcm2290/a702_zap.mbn";
-+	};
-+};
-+
- &i2c2 {
- 	clock-frequency = <400000>;
- 	status = "okay";
-
+-	spin_lock_irqsave(&crtc->dev->event_lock, flags);
+-	drm_crtc_send_vblank_event(crtc, mtk_crtc->event);
+-	drm_crtc_vblank_put(crtc);
+-	mtk_crtc->event = NULL;
+-	spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++	if (mtk_crtc->event) {
++		spin_lock_irqsave(&crtc->dev->event_lock, flags);
++		drm_crtc_send_vblank_event(crtc, mtk_crtc->event);
++		drm_crtc_vblank_put(crtc);
++		mtk_crtc->event = NULL;
++		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++	}
+ }
+ 
+ static void mtk_drm_finish_page_flip(struct mtk_drm_crtc *mtk_crtc)
 -- 
-2.43.2
+2.44.0.rc0.258.g7320e95886-goog
 
