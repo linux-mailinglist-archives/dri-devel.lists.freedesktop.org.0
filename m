@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 898D48629CE
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Feb 2024 09:50:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 777298629C9
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Feb 2024 09:49:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95AD010E1FB;
-	Sun, 25 Feb 2024 08:50:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5E2210E04F;
+	Sun, 25 Feb 2024 08:49:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="gTEy0rkq";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="C0VY++6Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE8E710EC10
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C630910EC14
  for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 13:49:00 +0000 (UTC)
 Received: from relay1-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::221])
- by mslow1.mail.gandi.net (Postfix) with ESMTP id 4E6A4C3A18
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id 50AE0C3A22
  for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 13:45:25 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0367A240003;
- Fri, 23 Feb 2024 13:45:20 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 585B5240004;
+ Fri, 23 Feb 2024 13:45:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1708695922;
+ t=1708695923;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=CUmJ2G7CxGQ9gN41KMMicO2/OzO2sVyAXn0vq+YQnEs=;
- b=gTEy0rkq6UYMGwiZTZ19b5bAZM7P5MtNF/JcL+z+6Id31uzQKxvukzqG7INnoxfz/hE5sA
- gaA0JXFzwJnX2ADB4KKpOMNs4M0hpULTxM41eZpR24F2rlTwo6CJgZB0TdIHf3L8tWamS+
- QY90FjXIpmXfsmZ5N2xJyi3tXgmV1xH9x1eVF1ptspNhFQuZhd0LQ0RzOnEP5ffJJRNlZU
- C+6pBhjcdfpt5G8PpRZUWjpQ+q+BWGXofYRijBLTb0hMpDr/Dz2w8Tbt8koOuPF9k2nDqe
- EF/kFHns6hbI75gpEdMbseAuPP5dJ/xhA6SXEQQPB890H+HatiGoKkddh4gciA==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ho0KG0zC9AsXPslehPT0ynCoF8Wo5Q+iI+TvHcw7G+g=;
+ b=C0VY++6YT9AAb94Tl+hc5gcWdRTVWqOJsHSuM2kpMxBT0FudgCcuJigYnggGUXRdEhUYAQ
+ 1oeYISw+5NEcx9MTNQuj8BdnxP7wplH02NxKcd/5V/URPEWSdxaugJZ+0f3yEaWe/inSSv
+ hGcdETgl7GjpDp/SEbCReFMKBxgYg+MOWpFa7ATXAtsFtKftai+bVJ7h90BwUmtNa/uoWR
+ gTR/NkGvEwhOFG5kb5ku4r6iNx2SjtPWsFKTqV+nuRGs++1fUtiOyEZbq15cK/hfkNuy9m
+ 3rrJff7lrMCm6gWQUzWn9v0GqagSRe5ZozaZ7SIws/JvvPiBhNjSpUeqMGi8fA==
 From: =?UTF-8?q?J=C3=A9r=C3=A9mie=20Dautheribes?=
  <jeremie.dautheribes@bootlin.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
@@ -47,10 +48,12 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
  Yen-Mei Goh <yen-mei.goh@keysight.com>,
  =?UTF-8?q?J=C3=A9r=C3=A9mie=20Dautheribes?= <jeremie.dautheribes@bootlin.com>
-Subject: [PATCH 0/3] panel-simple: add support for Crystal Clear CMT430B19N00
-Date: Fri, 23 Feb 2024 14:45:14 +0100
-Message-Id: <20240223134517.728568-1-jeremie.dautheribes@bootlin.com>
+Subject: [PATCH 1/3] dt-bindings: Add Crystal Clear Technology vendor prefix
+Date: Fri, 23 Feb 2024 14:45:15 +0100
+Message-Id: <20240223134517.728568-2-jeremie.dautheribes@bootlin.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240223134517.728568-1-jeremie.dautheribes@bootlin.com>
+References: <20240223134517.728568-1-jeremie.dautheribes@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -71,24 +74,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series add support for the Crystal Clear Technology
-CMT430B19N00 4.3" 480x272 TFT-LCD panel.
-It also adds Crystal Clear Technology to vendor-prefixes.yaml.
+Update Documentation/devicetree/bindings/vendor-prefixes.yaml to
+include "cct" as a vendor prefix for "Crystal Clear Technology". CCT is
+the vendor of the CMT430B19N00 TFT-LCD panel.
 
-Please note that unfortunately there is no public datasheet available
-for this panel.
+Signed-off-by: Jérémie Dautheribes <jeremie.dautheribes@bootlin.com>
+---
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Jérémie Dautheribes (3):
-  dt-bindings: Add Crystal Clear Technology vendor prefix
-  dt-bindings: display: simple: add support for Crystal Clear
-    CMT430B19N00
-  drm/panel: simple: add CMT430B19N00 LCD panel support
-
- .../bindings/display/panel/panel-simple.yaml  |  2 ++
- .../devicetree/bindings/vendor-prefixes.yaml  |  2 ++
- drivers/gpu/drm/panel/panel-simple.c          | 29 +++++++++++++++++++
- 3 files changed, 33 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index fef2e12b504e..96e47742e250 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -248,6 +248,8 @@ patternProperties:
+     description: Catalyst Semiconductor, Inc.
+   "^cavium,.*":
+     description: Cavium, Inc.
++  "^cct,.*":
++    description: Crystal Clear Technology Sdn. Bhd.
+   "^cdns,.*":
+     description: Cadence Design Systems Inc.
+   "^cdtech,.*":
 -- 
 2.34.1
 
