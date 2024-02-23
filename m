@@ -2,89 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03F2B860F69
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 11:34:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A32CF860F7B
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 11:36:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6D1410EB91;
-	Fri, 23 Feb 2024 10:33:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38B9410EB94;
+	Fri, 23 Feb 2024 10:36:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jgBOeTLE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CgYE8ZSE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C58C10EB8D;
- Fri, 23 Feb 2024 10:33:55 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1907710EB95;
+ Fri, 23 Feb 2024 10:36:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708684436; x=1740220436;
+ t=1708684592; x=1740220592;
  h=from:to:subject:date:message-id:references:in-reply-to:
  content-transfer-encoding:mime-version;
- bh=bt+sElV8/HphGfcnre/lyLRIT10f/+tL4Z2SrGr1lq4=;
- b=jgBOeTLErUK0eARL1QiRKMgsejKDuGvAlzvJUT3I8C2Nr+baqIfY1boU
- QzS+Anb1MYGgKYGcnjBb3u42Qc+v0SA0NluwX2VGR4W2GFNGTr8nXuV1/
- 7moyU0P3Nfc9dOr049OjQXsXnPaRJ/T7zS1PEOmrRJzJZnEr6OsCHDKjj
- 4AZnX8NPDTbtAZLNbV5aKRb1oyGSHH0+MQkrdnTEetk58q8nk38B+cPRI
- oqgzGXw+Wq/48oxN1h1crQJzeqNk4rBihHuvgiqkC3ICUTTlBMl0cEO6n
- nYmQK6ySdujQNOj7bJPOj5yu988TNZ8KyhKDIZP8ccC2ssKXfxTH7KJLh A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="3148547"
+ bh=fMvzMUaG/XKooKnWU6wrY6aYhw0cuXhvndpbbMnEtKw=;
+ b=CgYE8ZSEmvt7BwDiLiQLufLsu6CJL8vp2Qm4dw2dxxA3F50TizFjAnnX
+ JBACzvsqBHdMTVtcq2ouBYccLG+K6zw1AmCUtsna/O1yNsOxhy8qmyZ0X
+ 5lHdbn/H2Qm5b6ORXssDqFsPwAa/q7CwgU0ayS5jQzUSS0O4IGR1mVVnm
+ X7/oDvG80qDq0VZbhr8f1nP250lRpT7hvluExzGYmHV8xRtFPXyGHNGnN
+ YgTQ7nK5pONQpf2EoXeZ0RcRTqpRs9j4bFLeeFFD8RX4GgdEfD14vcH/D
+ xraG1e33LJsSVUxYp0KbhgSRiuXUsePHGz3bPvGADoYBxmUYwTlyFkPnt g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="3121173"
 X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="3148547"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2024 02:33:55 -0800
+   d="scan'208";a="3121173"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2024 02:36:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; d="scan'208";a="10565103"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orviesa003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 23 Feb 2024 02:33:55 -0800
+X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
+   d="scan'208";a="5873694"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 23 Feb 2024 02:36:29 -0800
 Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 23 Feb 2024 02:33:53 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ 15.1.2507.35; Fri, 23 Feb 2024 02:36:28 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
  fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 23 Feb 2024 02:33:53 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Fri, 23 Feb 2024 02:33:53 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ 15.1.2507.35 via Frontend Transport; Fri, 23 Feb 2024 02:36:28 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.41) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 23 Feb 2024 02:33:53 -0800
+ 15.1.2507.35; Fri, 23 Feb 2024 02:36:28 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WHdrm5ozymNDHP4RAN9zBHyuOhuPwgelByG36N+OviOvqCRfUztLnP2QW31bLatyJZyZDxxIQ2lKNRbSjvjlRmAk4qUUKtNlQQluUDT8Kcaj7pgjiBmQDzSKaSQNlb8cIQsYY0cUvCepqrJYNCUclz64Zaozlys5Gj8gtRo3kObHnoVkq7Jd8VxwugZKy9Mj8CMdp20EU5MUkgXNnGIJR2zmwGCgJTtEOuvZS5mHcM+mGEwo1pVRQRC32/PyoB66/7m+HnjEGKtMYUcWwYdVPv49wCRf2YraxrUsLsqI3WkxqgxEiVOlU0X8+PWqdao/Hk96P+jlVDf/F1Ydoci6nA==
+ b=i8xXnRwUhIRtdOTpQQFtagMFRkKtonpMJx76u4OhFnj6OvaoNquBNeVDsJyfBjrm8AwxSKArsdKdYngzr6CVCRMqGS1s4PCarv0Y1wFI9w9WHoCpTqJ7J7CJNsPLT7ntukQ+O7wJuNI/3Pj4icD8nsfDIi8IzS71pgnKwdYpXxoWb7HML4yszhWgO91DmuDFhztcU9RpuflREmpquK9iX9H5WVsyijF18jVmriSPQSkpOmvQuZdgnTjbw81SuuFE7jPZyA1c5FVymRthQ6OWep80Rx5Ktq0HoBrNoz4BuCMu4Nkh82SaSXBzgHq0RPqVnKPXYGmC77H90gJ9QyC8KQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4oGHV0UZiJye5mRF0cbE3jUy5YR7tOjKl84KZRGxhUw=;
- b=Wdn5bRoBcM/bm03FQDSGL3FqG/crAGcPBnJnE3OXccRevwlHMW7YG8RpLGcU5RazjsOy/bAxHMHAkxNhr4S7gNOaSQuOsS5UwolxGPaBqguaS6+0PJ8PK8ZHyuV+KnkwIjGnv1i01bITR14iylYyjkSo3ZMx9W5kMw9arfoNRPJSlWULg8qglngjttNMEFN0QUclCpuj7V5fIRiY1Oo8SglKUxLQ1luISNxkC1KZtAF7mgjkWU84y8EmmsNWDnpLpERd8afPE9+LYM2srqFJuKxpMbTGsn4NDx+g7YLkZT3qOWOMuGvC8NncLzNaxrqI2hlav7xNuOwTQyGFjm09sw==
+ bh=luv25MttX50XgfziuEaWoMQfs9escgUnHw9Jn7lLVjE=;
+ b=UGhQC6nFRj8f3h59q/G1ukPcz5cmcrZ8WeevnChR5RgHTozcD6hiB983++KZ341VYkQw0gTrtukkuN3V9qA1/BfLWfYYMJvJrur0aJKqXPtXwk9Q9nB2zM6SwWaFxLCYkm881mXynX8gQhvc+Dql4MfR7DkR8EY/VcyQo8XU7Y8nL3hixg1lVA/VV8IsqXoV/KCbm6OMW3p7K+RAEjqWGw39e+iF2d5Rxnos/Vg5+/ExarbOOjdkVKPzssXnoFJcz434qC8UXIq+lp+E5596/PeO5UJSitHLqIDykvr/NepEURrxLks909TqH/jK5Mbus2j38GHVHAWEj6u+8aYCXw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Received: from DM4PR11MB6360.namprd11.prod.outlook.com (2603:10b6:8:bd::12) by
- CH0PR11MB5281.namprd11.prod.outlook.com (2603:10b6:610:bc::21) with
+ PH0PR11MB5047.namprd11.prod.outlook.com (2603:10b6:510:3c::18) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7339.10; Fri, 23 Feb 2024 10:33:46 +0000
+ 15.20.7339.10; Fri, 23 Feb 2024 10:36:20 +0000
 Received: from DM4PR11MB6360.namprd11.prod.outlook.com
  ([fe80::590:38d5:5c7c:3e4d]) by DM4PR11MB6360.namprd11.prod.outlook.com
  ([fe80::590:38d5:5c7c:3e4d%7]) with mapi id 15.20.7316.018; Fri, 23 Feb 2024
- 10:33:46 +0000
+ 10:36:20 +0000
 From: "Shankar, Uma" <uma.shankar@intel.com>
 To: "Deak, Imre" <imre.deak@intel.com>, "intel-gfx@lists.freedesktop.org"
  <intel-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
  <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH v2 20/21] drm/i915/dp: Read DPRX for all long HPD pulses
-Thread-Topic: [PATCH v2 20/21] drm/i915/dp: Read DPRX for all long HPD pulses
-Thread-Index: AQHaZEJ52UOi4kgXYEix/DGERHTiX7EXvuoA
-Date: Fri, 23 Feb 2024 10:33:46 +0000
-Message-ID: <DM4PR11MB636020B4D1B18D6505A52885F4552@DM4PR11MB6360.namprd11.prod.outlook.com>
+Subject: RE: [PATCH v2 21/21] drm/i915/dp: Enable DP tunnel BW allocation mode
+Thread-Topic: [PATCH v2 21/21] drm/i915/dp: Enable DP tunnel BW allocation mode
+Thread-Index: AQHaZEJ8tBVf6GX0BkWiAmVH5V1SlrEXv5PA
+Date: Fri, 23 Feb 2024 10:36:20 +0000
+Message-ID: <DM4PR11MB6360B3AFEBAB492DFE427818F4552@DM4PR11MB6360.namprd11.prod.outlook.com>
 References: <20240220211841.448846-1-imre.deak@intel.com>
- <20240220211841.448846-21-imre.deak@intel.com>
-In-Reply-To: <20240220211841.448846-21-imre.deak@intel.com>
+ <20240220211841.448846-22-imre.deak@intel.com>
+In-Reply-To: <20240220211841.448846-22-imre.deak@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -92,56 +89,56 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR11MB6360:EE_|CH0PR11MB5281:EE_
-x-ms-office365-filtering-correlation-id: c970b01d-f78e-4103-8349-08dc345aea7a
+x-ms-traffictypediagnostic: DM4PR11MB6360:EE_|PH0PR11MB5047:EE_
+x-ms-office365-filtering-correlation-id: b47c537d-8b27-4b68-a635-08dc345b4615
 x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 6eH3A3NLTf8SdyYuoC0+Ey/trKO5B7y1AiDTmjbdSNcme/Zr0rC6kzzhe8L2Eae1A7XmyNOiWxZ8nVy1JVJZ/q/riO4AlBe0dTXQlNPJP4528Mg3K1Cb8uugjfzrjvOzDta91hddX+HEDZG00axDYQNqFH9A6UyRNaUDqJkdtUOfDu8kumAhJK+Zvt9LL7PO0qbk66mvckYKp2jCQ28zUwGi0SIjCJ/Wy9uQ16ZiTv2GJY6/STOvEDw5Q5akVEoM81ttXruc7ShA/OVJ0RuU6g/diNFM2vptf50WkGFXryPAbZBjStEKJl5/7tIBmRcLRy83MIonifHVl0IGHv+FHsRCqWInK4rT+t2lXbeHUlLO4PLXdpF9WJdZRJBmYZELJU1yMiKCQ8IDIiaixeYeOilycl6QAHvqAa5MqkeycoKgUl2J0vtrsXOjNqHDiSrahabaICJoJYawlscGLf2ujC/3xPCcOqWpBmINlbe9dbc1QavsdajQjgtbCEiC5PblK32ox9qqegRhdzZnous78M3J2SYO2LVokyvZLHui9+Ep/edOtvB9fktJ588jBerI9i46ClBYdMc+Ww/N4I5w9ZUTlWG/314L4bS6wVcV+ur/gnxH6QKwrM/b2P5itcdQ
+x-microsoft-antispam-message-info: dxXPmcvLLGBkmZQG+q7B2W08pT+RgCUW7YVm/2Vass5vyym7zkmuYmEa8JGoC++RGoOpz063AaY4Wp1HcWPtNb7i0OdVDM0hmGfKcRilEfNpLioX1fAyzLNfZ78Z6q46UwRXik6ISc8EB5SxvIr0P/NhsSCzObAnk2hYIt15Z9hc9LoDDKfiUVJwG8DBl6OOgjaOpxorLze5h2fAXNPPS2dPGTR28DDa2wtnQ9OBF1GltPmk2oQ23uYMXKWR9yWHMwusKyXIi+CmepKBBpdY4wxECiEPq0ocuKuoec88zRWDCAgt5VP7yN10dCndEOVH5N363BJawcO5qPsIOdlULl1x5LKKOvS5+D3/X9bmXE5TnAuzvz3kL+sWC/f6uXpP4Q7175O73rrO0krrDlzbzJOi2VGANclW6MGIsEYifwLc0zIJ78NNtl4s722DnzzliPdBS3vX+tuvy7qrj6OL5/nIY0TwFaFsbmCmzZsenLko+5ajSsPIxPb2/Em1lnrp1hkBvgd4vQj7DFy4KF2X+jFOifWOnr1+bvz9t1f9uVp6AzBqC0u0J+esLdGuBqMuRAWvlhesDD8aU7sQiXNhQfeWuPe7Lj2yFM0dzI0ROnIM3thccP9RkVOT3oLYRvmE
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB6360.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230031)(38070700009); DIR:OUT; SFP:1101; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?fU4MSD/oOibRYv9nVLedqybP+PyhCqGL2UUMI6epj+EMDdipM0l5GM7WypO5?=
- =?us-ascii?Q?/0pceGa3P/sz+p5FNXXAI0lu6IWE4epLIfvwy6iOC2HaNavvKbJ2PN/1wiJg?=
- =?us-ascii?Q?qdtT8xlDZXaWBu236/51K+kfggJFclw+iydkjXL6gWSBP1M4DQuLoh3FQaOL?=
- =?us-ascii?Q?G8QVQLrnhPzBljdsXFJAtYzB+L/EsXN56s8ooYMTrFWwSYl9vaQUV49zX5Zi?=
- =?us-ascii?Q?GeqMWYThIXAM6lCctu2hVczlZ1MEeKnc0G06/0MG9RezOZXafIAb+XR+jDYJ?=
- =?us-ascii?Q?6xs4E+jbXdQ+nQ9nu6tqncol1C24zWuEFkD//HM7wF5CePlmEL40FHrFrQjc?=
- =?us-ascii?Q?Anz3pTl3Rc7fRs6aS2PndC8DWCARhQfb4oIG8gByzN/8KXbC+J38DRvk5YjL?=
- =?us-ascii?Q?Xp2zDOTM2oluRjrRNhQ+Bi9BMVWzlXjmzkYfdZct270XJ4THRdOtBxqGpkNw?=
- =?us-ascii?Q?LTWJKiI8sOvsFFgdZaI7QfBagRNiX2kRd/RAqKY0d69NkLgsK7DQDaGz77PJ?=
- =?us-ascii?Q?/yS2mNIEmdaSHUMINZy6MRT4ptf9kfLmMeFRp8PICvc5LwHPqT1/9/N6DzoM?=
- =?us-ascii?Q?lKhkkoDR9Y0ZGSmQq+llZbaX8MK5eu1OBOxt3KSgQEs4PqlABQNEutagUpJn?=
- =?us-ascii?Q?p0YlYLBOYUb+ExXeIKq+t6J8nnKDMPQPPMeFX98HliqvXwMx08YSiQ66rPBT?=
- =?us-ascii?Q?BORJ5h/xHlrJ223p9j5R3SG80oujfDpa+RbQIJmb71cPtti1qeUnCCo8zeP+?=
- =?us-ascii?Q?ER59dygDY3mVmVOOQTN8mjJpUHZFTACaU2fpB3jxSe7zqF9DDcYWtE6jzaab?=
- =?us-ascii?Q?76X4DumWLTg6om1Mg9nWNb41h7ksE3jyYhKYE3C1PyPh8H9d3Pl0z126Yes4?=
- =?us-ascii?Q?RKiC9OB0KgsqReJuXRpj99iO5SUtBZsPIHv5tWOwY/wEI4hGrPUlbqy9aAec?=
- =?us-ascii?Q?852iXWqvzjpHX+y/PMziqmfhVJFFsu6qeGYStgIUJhClqWpPaud9N+zYtYJf?=
- =?us-ascii?Q?keT8NWmjnJpkcjhhUzw9me2BANjmOupYwKvGSVNtv05AwcKtsH1dYEX0MenK?=
- =?us-ascii?Q?93X44MiL60VfAe/jZJD/Lovd53YTMPCzFWiCwgRTRv7T7RqEYu8987ePnkTJ?=
- =?us-ascii?Q?ye3GaD1lFQX6+WQqaCkKcnQrmwcAGq/VEBwjib+/NkAqcndTFizmCa8BdLsH?=
- =?us-ascii?Q?g31Hgvd8c4piaUFLuqCp+Tn3mXywgKrsrmCryNvLuhkeG8pE+cMcDpymvlVb?=
- =?us-ascii?Q?wCOi5AHO6h2wS7Sq3WF7kBvtpVOSlnKVXW+AXCfFyHTWU8tfUdPPOMXFfTB5?=
- =?us-ascii?Q?hpuorSm/qioXhppeubHJGHvpQu9+3+YHYOoFmOT9hjdVsg0ltmCHQexCCNrJ?=
- =?us-ascii?Q?ih9qA+B5Pdp3k6sue6ti+zfhJ0kl/vx+vdRmdfQpou3Nac939kim0tVWy+WI?=
- =?us-ascii?Q?jjTAu6wTBySF3v4r9lXunIcY2zXAa9lpXuCX/3t7iCw9jYUFIt2yGZUynXi3?=
- =?us-ascii?Q?EGOWqAUDYa2edD4lhT2SuEk0dS4uF8chaq9s6fuo/geDv5ZnJMSgBrqClA8n?=
- =?us-ascii?Q?F0Z92UhI5faie9PBbXMR8yy2yhgMsv6OfwLbDoYB?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?kNYjyaJxbN1sS2lix3T0Ao6HY1zpD8HSVr1iN3txAuG5lXoQHcGqmLi+4Q4d?=
+ =?us-ascii?Q?KZH4LZuZ4wpSlp8MsH1aS6PnJk0BGU97Slw2Z0aMvvggpnnAFBSzq1e3/KAO?=
+ =?us-ascii?Q?u4sgcnHx5/5Xme2AlM/7typmO+4jHYSGh2Sa70NjwH6v8ObXQqm2LGyxilYr?=
+ =?us-ascii?Q?3A8Meb4zpz/p0NVju0xTXkfxndYfwDmQkP3feRwTe93TXGpdrN5tL11ZgYD7?=
+ =?us-ascii?Q?sb7zRyXZEudLUrSXfocswJBvi11Xl6pjmBDv8FnRerN2cZ+6qbdTXltBBnM8?=
+ =?us-ascii?Q?h1aCtdad1GXNC8Yf5q+phJokTy7HcTS9a/pmMVqeY9rUmzSroe7/+pkIxzri?=
+ =?us-ascii?Q?Bhg4Op9gGRxottSMhRpR6QDkWDZ5o6IprTWx3ssLywlRJdsNT97/ZDKdqazf?=
+ =?us-ascii?Q?u59RBNANkhnQnMepjbDEbgxIZc0y5jdm0HHFHfgSA7KrjKOd3zDtrt1OXxZN?=
+ =?us-ascii?Q?3m7MwBr2+AHv1cfDnGyVhUxep/5B1/YEJyZUAaeJJErAaO5ghoHJCG6vmn0T?=
+ =?us-ascii?Q?cLia9IIOED6s/xsky5Ug2CU1CnTixxPBoufs0xz9l8GKZ7u2cFjH3Xlx6VgM?=
+ =?us-ascii?Q?b0tNt0jsqL2e0D1d/tfmH9X8vpVwfTXDyIrJM1gvPsf+5P6/EM1CzHFU031w?=
+ =?us-ascii?Q?Sr6SliOg0Jw0SvQDvjO83FWZeLWI7GRcnBfPghcE8de4GQjktWtNPWaOiBSj?=
+ =?us-ascii?Q?Ue6kTK+f82++WGLJz8249+06Cq9syGlgA2F1U/BG2LfTQEZYFjF5HgIs2rY+?=
+ =?us-ascii?Q?lpmA9pFZhYq/nfGGd14/YLhiUuYoHLyUv8CTC1mvtEln+GZ+8C4wXPeXno+t?=
+ =?us-ascii?Q?OBrcLaKb2cQQC6hNb8YrkDf2R5k2W06XXxAOzS9mGUasHvIRxMNhCK9Sk7Xa?=
+ =?us-ascii?Q?6/hqgLKuqgCDlX4IUHJblOIBX4Q4g+rlMnq9DXgaxh5uyRGilMvY0EZxpuQe?=
+ =?us-ascii?Q?t48U4QsqWCGmnSlL7mgqTqwQCC0YRf+85nkbKwCQGKc5wjF7hz0ZmWXugIQ3?=
+ =?us-ascii?Q?7vQyh0SNfy+vdc+fVUhN+RaQ5zEadn+S0xPuQ1tUBB02PYJbpLVcKHf/osEN?=
+ =?us-ascii?Q?gc0YoIdLz9POIK+qE4BTLq1BqDPVEOanluFAnQuyodI2meokr7pvmQ/pcyMx?=
+ =?us-ascii?Q?1BFjpcmha/VHEgzgQ0yv0TdueKuC3Ij+Txlgzeo492fQFnTBIowg7LA0prDV?=
+ =?us-ascii?Q?9DR6HhbX64npgBEPVAMJxutSCFHUEgeqhyGXrS5gwteoMJ+4n8l54BmLFAIz?=
+ =?us-ascii?Q?63G7t7uXVZxQ9HIdHiJMpgc1FQFF7dn5kQ2e/C2y1p4OiVnmppIWnh4n5pNb?=
+ =?us-ascii?Q?amWvWk/CR3uLrEO9gezFt56iKvtCzMBzyhLmFtsvML/De3s+sLBBS8pW/hSg?=
+ =?us-ascii?Q?WAEqljbcsGLxXb1r9bB+F+G/nm3aE998Dp5XNbo0jlsu8eWpD2a+B+LZql2B?=
+ =?us-ascii?Q?K7oaxqY1UkKylkmBGAWa56uNhNoGXIaZ9DDCx9l5mMZniI6nFZyjQn09oBIR?=
+ =?us-ascii?Q?xQqE+iyxm+y/id9dTEqIIWaKHz+tTd4Cc+VDK5hlCjzk2ospl8ZJOYWCFgI3?=
+ =?us-ascii?Q?uyqK0sjaTSpvujhFWI6CV4mQIN4aFpaXi2lC1BMj?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6360.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c970b01d-f78e-4103-8349-08dc345aea7a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Feb 2024 10:33:46.5158 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b47c537d-8b27-4b68-a635-08dc345b4615
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Feb 2024 10:36:20.1750 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: IFqQDw/BI1sf0gomVOdf0jkUPYip+ZMSaPc4T+BQ7JX8aB7L1ffkuLfVGNkoaP6cbdP5lMdh6J2gHj+xy7ta+Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5281
+X-MS-Exchange-CrossTenant-userprincipalname: HDH7JSQlxvZusNWldqdXWOJ1mlW2WrLYAv9rMvPLNtlkJPz0ISVhXe/xhgVpVzQPiQpeYCh9veShu0TtZvQToA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5047
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -161,63 +158,142 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 > -----Original Message-----
-> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of Im=
+> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Im=
 re
 > Deak
 > Sent: Wednesday, February 21, 2024 2:49 AM
 > To: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
-> Subject: [PATCH v2 20/21] drm/i915/dp: Read DPRX for all long HPD pulses
+> Subject: [PATCH v2 21/21] drm/i915/dp: Enable DP tunnel BW allocation mod=
+e
 >=20
-> The TBT DP tunnel BW request logic in the Thunderbolt Connection Manager
-> depends on the GFX driver reading out the sink's DPRX capabilities in res=
-ponse to
-> a long HPD pulse. Since in i915 this read-out can be blocked by another
-> connector's/encoder's hotplug event handling (which is serialized by
-> drm_mode_config::connection_mutex), do a dummy DPRX read-out in the
-> encoder's HPD pulse handler (which is not blocked by other encoders).
+> Detect DP tunnels and enable the BW allocation mode on them. Send a hotpl=
+ug
+> notification to userspace in response to a BW change.
 
 Looks Good to me.
 Reviewed-by: Uma Shankar <uma.shankar@intel.com>
 
 > Signed-off-by: Imre Deak <imre.deak@intel.com>
 > ---
->  drivers/gpu/drm/i915/display/intel_dp.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+>  .../drm/i915/display/intel_display_driver.c   | 20 +++++++++++++++----
+>  drivers/gpu/drm/i915/display/intel_dp.c       | 14 +++++++++++--
+>  2 files changed, 28 insertions(+), 6 deletions(-)
 >=20
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_driver.c
+> b/drivers/gpu/drm/i915/display/intel_display_driver.c
+> index 4f7ba7eb03d27..87dd07e0d138d 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_driver.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display_driver.c
+> @@ -35,6 +35,7 @@
+>  #include "intel_dkl_phy.h"
+>  #include "intel_dmc.h"
+>  #include "intel_dp.h"
+> +#include "intel_dp_tunnel.h"
+>  #include "intel_dpll.h"
+>  #include "intel_dpll_mgr.h"
+>  #include "intel_fb.h"
+> @@ -434,10 +435,8 @@ int intel_display_driver_probe_nogem(struct
+> drm_i915_private *i915)
+>=20
+>  	for_each_pipe(i915, pipe) {
+>  		ret =3D intel_crtc_init(i915, pipe);
+> -		if (ret) {
+> -			intel_mode_config_cleanup(i915);
+> -			return ret;
+> -		}
+> +		if (ret)
+> +			goto err_mode_config;
+>  	}
+>=20
+>  	intel_plane_possible_crtcs_init(i915);
+> @@ -457,6 +456,10 @@ int intel_display_driver_probe_nogem(struct
+> drm_i915_private *i915)
+>  	intel_vga_disable(i915);
+>  	intel_setup_outputs(i915);
+>=20
+> +	ret =3D intel_dp_tunnel_mgr_init(i915);
+> +	if (ret)
+> +		goto err_hdcp;
+> +
+>  	intel_display_driver_disable_user_access(i915);
+>=20
+>  	drm_modeset_lock_all(dev);
+> @@ -475,6 +478,13 @@ int intel_display_driver_probe_nogem(struct
+> drm_i915_private *i915)
+>  		ilk_wm_sanitize(i915);
+>=20
+>  	return 0;
+> +
+> +err_hdcp:
+> +	intel_hdcp_component_fini(i915);
+> +err_mode_config:
+> +	intel_mode_config_cleanup(i915);
+> +
+> +	return ret;
+>  }
+>=20
+>  /* part #3: call after gem init */
+> @@ -599,6 +609,8 @@ void intel_display_driver_remove_noirq(struct
+> drm_i915_private *i915)
+>=20
+>  	intel_mode_config_cleanup(i915);
+>=20
+> +	intel_dp_tunnel_mgr_cleanup(i915);
+> +
+>  	intel_overlay_cleanup(i915);
+>=20
+>  	intel_gmbus_teardown(i915);
 > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c
 > b/drivers/gpu/drm/i915/display/intel_dp.c
-> index 35ef17439038a..f7f8bd5742ad4 100644
+> index f7f8bd5742ad4..789b5fa074fd0 100644
 > --- a/drivers/gpu/drm/i915/display/intel_dp.c
 > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -6162,6 +6162,7 @@ intel_dp_hpd_pulse(struct intel_digital_port *dig_p=
-ort,
-> bool long_hpd)  {
->  	struct drm_i915_private *i915 =3D to_i915(dig_port->base.base.dev);
->  	struct intel_dp *intel_dp =3D &dig_port->dp;
-> +	u8 dpcd[DP_RECEIVER_CAP_SIZE];
+> @@ -5726,6 +5726,7 @@ intel_dp_detect(struct drm_connector *connector,
+>  	struct intel_digital_port *dig_port =3D dp_to_dig_port(intel_dp);
+>  	struct intel_encoder *encoder =3D &dig_port->base;
+>  	enum drm_connector_status status;
+> +	int ret;
 >=20
->  	if (dig_port->base.type =3D=3D INTEL_OUTPUT_EDP &&
->  	    (long_hpd || !intel_pps_have_panel_power_or_vdd(intel_dp))) { @@ -
-> 6184,6 +6185,17 @@ intel_dp_hpd_pulse(struct intel_digital_port *dig_port=
-,
-> bool long_hpd)
->  		    dig_port->base.base.name,
->  		    long_hpd ? "long" : "short");
+>  	drm_dbg_kms(&dev_priv->drm, "[CONNECTOR:%d:%s]\n",
+>  		    connector->base.id, connector->name); @@ -5761,9 +5762,18
+> @@ intel_dp_detect(struct drm_connector *connector,
+>  							intel_dp->is_mst);
+>  		}
 >=20
-> +	/*
-> +	 * TBT DP tunnels require the GFX driver to read out the DPRX caps in
-> +	 * response to long HPD pulses. The DP hotplug handler does that,
-> +	 * however the hotplug handler may be blocked by another
-> +	 * connector's/encoder's hotplug handler. Since the TBT CM may not
-> +	 * complete the DP tunnel BW request for the latter connector/encoder
-> +	 * waiting for this encoder's DPRX read, perform a dummy read here.
-> +	 */
-> +	if (long_hpd)
-> +		intel_dp_read_dprx_caps(intel_dp, dpcd);
+> +		intel_dp_tunnel_disconnect(intel_dp);
 > +
->  	if (long_hpd) {
->  		intel_dp->reset_link_params =3D true;
->  		return IRQ_NONE;
+>  		goto out;
+>  	}
+>=20
+> +	ret =3D intel_dp_tunnel_detect(intel_dp, ctx);
+> +	if (ret =3D=3D -EDEADLK)
+> +		return ret;
+> +
+> +	if (ret =3D=3D 1)
+> +		intel_connector->base.epoch_counter++;
+> +
+>  	intel_dp_detect_dsc_caps(intel_dp, intel_connector);
+>=20
+>  	intel_dp_configure_mst(intel_dp);
+> @@ -5794,8 +5804,6 @@ intel_dp_detect(struct drm_connector *connector,
+>  	 * with an IRQ_HPD, so force a link status check.
+>  	 */
+>  	if (!intel_dp_is_edp(intel_dp)) {
+> -		int ret;
+> -
+>  		ret =3D intel_dp_retrain_link(encoder, ctx);
+>  		if (ret)
+>  			return ret;
+> @@ -5935,6 +5943,8 @@ void intel_dp_encoder_flush_work(struct
+> drm_encoder *encoder)
+>=20
+>  	intel_dp_mst_encoder_cleanup(dig_port);
+>=20
+> +	intel_dp_tunnel_destroy(intel_dp);
+> +
+>  	intel_pps_vdd_off_sync(intel_dp);
+>=20
+>  	/*
 > --
 > 2.39.2
 
