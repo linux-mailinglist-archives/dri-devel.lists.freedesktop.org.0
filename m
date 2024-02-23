@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8F0B861198
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 13:38:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC1AF861196
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 13:38:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08A7910EBF8;
-	Fri, 23 Feb 2024 12:38:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F8B710EBEE;
+	Fri, 23 Feb 2024 12:38:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="KqX52Xbx";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="Yg1oWazS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 797E010EBF0
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 12:38:29 +0000 (UTC)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0835510EBEE
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 12:38:25 +0000 (UTC)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
  by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41N6TQdn027885; Fri, 23 Feb 2024 13:38:14 +0100
+ 41NAZHt5028218; Fri, 23 Feb 2024 13:38:10 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
  from:date:subject:mime-version:content-type
  :content-transfer-encoding:message-id:references:in-reply-to:to
- :cc; s=selector1; bh=B/DdT1Hekue/y2cbdJTf13MdZkRgi2lmLP5jnu8Gv/8
- =; b=KqX52Xbx422s3kbIDBNVIVnin5onGlim3lEALQ0jXOmGxTV7NW2mTf8dMjs
- qoHfNORlZgV8mGHAEFea9S0xhycxfnqpHUut/UdMXJoWERTHYx0+gPS9PwDJz5EC
- cSVGaRuC9L3X2kOmWEBNvxnqDh+CtWUE0i2RR0cuE/YahB0KMciJteqeNRF5ut1s
- A9cgoClPl5jMnVruN/P+tfzMxxTMLSQ8TvEnSGLur3YfOsb72vIXtUukzgI/RekS
- jZjj3Uz/Uul63zBMMjxaCmL27oi7dDChNClUyE9KYI1RLnM/eRnvZV3RY/rqJNx0
- wzpioxPxCEmaMep4UYwmYk1ot7Q==
+ :cc; s=selector1; bh=Dn4f3GfvCGhg9NuA1T7NEVx1XeeRBh/2a8fH4stLPtw
+ =; b=Yg1oWazSP7Ff195paEYAmoqsIkbL8K+wa4GJgHEmXzVn59rrnrhFeaqS7fF
+ Tp86iwEMoH5Ln2FjhVOaoe25BBbZKkDID+kbO8/U4qnrG4JZZuUXQANOfDActWMF
+ 9rwq8L2XD6sgyQ5TUHWYfSxIQZGKwI3l4NXv8PmnTgq85egfub8+eoKUETq0PSHY
+ TBaDN00sYvLBjwq9vay3yls3ellXDn8qdZCKh2ZhY5NhEhOOcn9QGHqN0MnuTLoD
+ oyjrxYR/YEZ437GFE9eyxPn1S7Elq3rgm7tzFirukh/8FmeVLZA7inCjwkb+squm
+ ciE88MG9cDUnkzwWnUfXA5DIK2Q==
 Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3wd201vx12-1
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3wesr88fdv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Feb 2024 13:38:13 +0100 (CET)
+ Fri, 23 Feb 2024 13:38:10 +0100 (CET)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 4E3C740045;
- Fri, 23 Feb 2024 13:38:05 +0100 (CET)
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 575364002D;
+ Fri, 23 Feb 2024 13:38:01 +0100 (CET)
 Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9AD4B28DDC0;
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5E76728DDB8;
  Fri, 23 Feb 2024 13:36:54 +0100 (CET)
 Received: from localhost (10.129.178.151) by SHFDAG1NODE2.st.com
  (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 23 Feb
- 2024 13:36:53 +0100
+ 2024 13:36:54 +0100
 From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-Date: Fri, 23 Feb 2024 13:36:49 +0100
-Subject: [PATCH v3 2/4] ARM: dts: stm32: add LTDC pinctrl on STM32MP13x SoC
- family
+Date: Fri, 23 Feb 2024 13:36:50 +0100
+Subject: [PATCH v3 3/4] ARM: dts: stm32: enable display support on
+ stm32mp135f-dk board
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20240223-ltdc_mp13-v3-2-7f92a59ca11f@foss.st.com>
+Content-Transfer-Encoding: 8bit
+Message-ID: <20240223-ltdc_mp13-v3-3-7f92a59ca11f@foss.st.com>
 References: <20240223-ltdc_mp13-v3-0-7f92a59ca11f@foss.st.com>
 In-Reply-To: <20240223-ltdc_mp13-v3-0-7f92a59ca11f@foss.st.com>
 To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
@@ -87,81 +87,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adds LTDC pinctrl support and assigns dedicated GPIO pins.
+Link panel and display controller.
+Enable panel, backlight and display controller.
 
 Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
----
- arch/arm/boot/dts/st/stm32mp13-pinctrl.dtsi | 57 +++++++++++++++++++++++++++++
- 1 file changed, 57 insertions(+)
 
-diff --git a/arch/arm/boot/dts/st/stm32mp13-pinctrl.dtsi b/arch/arm/boot/dts/st/stm32mp13-pinctrl.dtsi
-index 27e0c3826789..32c5d8a1e06a 100644
---- a/arch/arm/boot/dts/st/stm32mp13-pinctrl.dtsi
-+++ b/arch/arm/boot/dts/st/stm32mp13-pinctrl.dtsi
-@@ -47,6 +47,63 @@ pins {
+---
+Changes in v2:
+  - Fixed dtbs_check warnings :
+arch/arm/boot/dts/st/stm32mp135f-dk.dtb: panel-backlight: 'default-brightness-level' does not match any of the regexes: 'pinctrl-[0-9]+'
+  from schema $id: http://devicetree.org/schemas/leds/backlight/gpio-backlight.yaml#
+arch/arm/boot/dts/st/stm32mp135f-dk.dtb: panel-rgb: data-mapping:0: 'bgr666' is not one of ['jeida-18', 'jeida-24', 'vesa-24']
+  from schema $id: http://devicetree.org/schemas/display/panel/panel-simple.yaml#
+arch/arm/boot/dts/st/stm32mp135f-dk.dtb: panel-rgb: compatible: ['rocktech,rk043fn48h', 'panel-dpi'] is too long
+  from schema $id: http://devicetree.org/schemas/display/panel/panel-simple.yaml#
+arch/arm/boot/dts/st/stm32mp135f-dk.dtb: panel-rgb: data-mapping: False schema does not allow ['bgr666']
+  from schema $id: http://devicetree.org/schemas/display/panel/panel-simple.yaml#
+---
+ arch/arm/boot/dts/st/stm32mp135f-dk.dts | 53 +++++++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
+
+diff --git a/arch/arm/boot/dts/st/stm32mp135f-dk.dts b/arch/arm/boot/dts/st/stm32mp135f-dk.dts
+index eea740d097c7..c918f332cbfd 100644
+--- a/arch/arm/boot/dts/st/stm32mp135f-dk.dts
++++ b/arch/arm/boot/dts/st/stm32mp135f-dk.dts
+@@ -66,6 +66,46 @@ led-blue {
+ 			default-state = "off";
  		};
  	};
++
++	panel_backlight: panel-backlight {
++		compatible = "gpio-backlight";
++		gpios = <&gpioe 12 GPIO_ACTIVE_HIGH>;
++		default-on;
++		status = "okay";
++	};
++
++	panel_rgb: panel-rgb {
++		compatible = "rocktech,rk043fn48h";
++		enable-gpios = <&gpioi 7 GPIO_ACTIVE_HIGH>;
++		backlight = <&panel_backlight>;
++		power-supply = <&scmi_v3v3_sw>;
++		status = "okay";
++
++		width-mm = <105>;
++		height-mm = <67>;
++
++		panel-timing {
++			clock-frequency = <10000000>;
++			hactive = <480>;
++			hback-porch = <43>;
++			hfront-porch = <10>;
++			hsync-len = <1>;
++			hsync-active = <0>;
++			vactive = <272>;
++			vback-porch = <26>;
++			vfront-porch = <4>;
++			vsync-len = <10>;
++			vsync-active = <0>;
++			de-active = <1>;
++			pixelclk-active = <1>;
++		};
++
++		port {
++			panel_in_rgb: endpoint {
++				remote-endpoint = <&ltdc_out_rgb>;
++			};
++		};
++	};
+ };
  
-+	ltdc_pins_a: ltdc-0 {
-+		pins {
-+			pinmux = <STM32_PINMUX('D',  9, AF13)>, /* LCD_CLK */
-+				 <STM32_PINMUX('C',  6, AF14)>, /* LCD_HSYNC */
-+				 <STM32_PINMUX('G',  4, AF11)>, /* LCD_VSYNC */
-+				 <STM32_PINMUX('H',  9, AF11)>, /* LCD_DE */
-+				 <STM32_PINMUX('G',  7, AF14)>, /* LCD_R2 */
-+				 <STM32_PINMUX('B', 12, AF13)>, /* LCD_R3 */
-+				 <STM32_PINMUX('D', 14, AF14)>, /* LCD_R4 */
-+				 <STM32_PINMUX('E',  7, AF14)>, /* LCD_R5 */
-+				 <STM32_PINMUX('E', 13, AF14)>, /* LCD_R6 */
-+				 <STM32_PINMUX('E',  9, AF14)>, /* LCD_R7 */
-+				 <STM32_PINMUX('H', 13, AF14)>, /* LCD_G2 */
-+				 <STM32_PINMUX('F',  3, AF14)>, /* LCD_G3 */
-+				 <STM32_PINMUX('D',  5, AF14)>, /* LCD_G4 */
-+				 <STM32_PINMUX('G',  0, AF14)>, /* LCD_G5 */
-+				 <STM32_PINMUX('C',  7, AF14)>, /* LCD_G6 */
-+				 <STM32_PINMUX('A', 15, AF11)>, /* LCD_G7 */
-+				 <STM32_PINMUX('D', 10, AF14)>, /* LCD_B2 */
-+				 <STM32_PINMUX('F',  2, AF14)>, /* LCD_B3 */
-+				 <STM32_PINMUX('H', 14, AF11)>, /* LCD_B4 */
-+				 <STM32_PINMUX('E',  0, AF14)>, /* LCD_B5 */
-+				 <STM32_PINMUX('B',  6, AF7)>,  /* LCD_B6 */
-+				 <STM32_PINMUX('F',  1, AF13)>; /* LCD_B7 */
-+			bias-disable;
-+			drive-push-pull;
-+			slew-rate = <0>;
+ &adc_1 {
+@@ -160,6 +200,19 @@ &iwdg2 {
+ 	status = "okay";
+ };
+ 
++&ltdc {
++	pinctrl-names = "default", "sleep";
++	pinctrl-0 = <&ltdc_pins_a>;
++	pinctrl-1 = <&ltdc_sleep_pins_a>;
++	status = "okay";
++
++	port {
++		ltdc_out_rgb: endpoint {
++			remote-endpoint = <&panel_in_rgb>;
 +		};
 +	};
++};
 +
-+	ltdc_sleep_pins_a: ltdc-sleep-0 {
-+		pins {
-+			pinmux = <STM32_PINMUX('D',  9, ANALOG)>, /* LCD_CLK */
-+				 <STM32_PINMUX('C',  6, ANALOG)>, /* LCD_HSYNC */
-+				 <STM32_PINMUX('G',  4, ANALOG)>, /* LCD_VSYNC */
-+				 <STM32_PINMUX('H',  9, ANALOG)>, /* LCD_DE */
-+				 <STM32_PINMUX('G',  7, ANALOG)>, /* LCD_R2 */
-+				 <STM32_PINMUX('B', 12, ANALOG)>, /* LCD_R3 */
-+				 <STM32_PINMUX('D', 14, ANALOG)>, /* LCD_R4 */
-+				 <STM32_PINMUX('E',  7, ANALOG)>, /* LCD_R5 */
-+				 <STM32_PINMUX('E', 13, ANALOG)>, /* LCD_R6 */
-+				 <STM32_PINMUX('E',  9, ANALOG)>, /* LCD_R7 */
-+				 <STM32_PINMUX('H', 13, ANALOG)>, /* LCD_G2 */
-+				 <STM32_PINMUX('F',  3, ANALOG)>, /* LCD_G3 */
-+				 <STM32_PINMUX('D',  5, ANALOG)>, /* LCD_G4 */
-+				 <STM32_PINMUX('G',  0, ANALOG)>, /* LCD_G5 */
-+				 <STM32_PINMUX('C',  7, ANALOG)>, /* LCD_G6 */
-+				 <STM32_PINMUX('A', 15, ANALOG)>, /* LCD_G7 */
-+				 <STM32_PINMUX('D', 10, ANALOG)>, /* LCD_B2 */
-+				 <STM32_PINMUX('F',  2, ANALOG)>, /* LCD_B3 */
-+				 <STM32_PINMUX('H', 14, ANALOG)>, /* LCD_B4 */
-+				 <STM32_PINMUX('E',  0, ANALOG)>, /* LCD_B5 */
-+				 <STM32_PINMUX('B',  6, ANALOG)>, /* LCD_B6 */
-+				 <STM32_PINMUX('F',  1, ANALOG)>; /* LCD_B7 */
-+		};
-+	};
-+
- 	mcp23017_pins_a: mcp23017-0 {
- 		pins {
- 			pinmux = <STM32_PINMUX('G', 12, GPIO)>;
+ &rtc {
+ 	status = "okay";
+ };
 
 -- 
 2.25.1
