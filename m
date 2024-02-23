@@ -2,76 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B193D861FEE
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 23:40:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 976B5861FE6
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 23:38:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC2F710E129;
-	Fri, 23 Feb 2024 22:40:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D69210E117;
+	Fri, 23 Feb 2024 22:38:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Eeup5agI";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Nulq0hYu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
- [209.85.216.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CF7F10E122
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 22:40:05 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id
- 98e67ed59e1d1-29a61872f4eso1017395a91.2
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 14:40:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1708728004; x=1709332804;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OtJto2Kd/SieW6LbOckqb66w6924YRC023lFGaAJu7I=;
- b=Eeup5agIEajvwg0jfrWV/IjUvw2Hb+CeSOUqKRWr9djLgZSYLx6Cz3R8uiEYhINWuJ
- AbthSO/lLe0fX8yOGTAvLhhZBqI3p/CRCofTcciu3Qi+qZ8j2odnk8/Juh+1D9RWn8OY
- kWMYj3Je7LXdpFz3gINcKtudiqrtQ86dd22dM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708728004; x=1709332804;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=OtJto2Kd/SieW6LbOckqb66w6924YRC023lFGaAJu7I=;
- b=m0WK9jrJ25bHVryaO4ycFeB24qkSdRinhJpu0AoDX4ypjkatJR8jnKnHT0ILuWYWuh
- akT9RruTrEdQkj1PatzZI5OS2PFevjJEX2zhCvaHLzFHyuEOqTtibNfRlrdCX+O193hB
- pnYQ8R93BoIcn5vBjhYS/l6zJ12GyMK5YAbIDvDSZGD6s4tp+ApBKXhLfhRSz3KuKDhi
- slqfeYpz0swFzpy93UvHB+pOssaVA9xWqv+HA4s8atsf/aVmNVYltmlgqAPU97Ds4o5j
- UgkazTe+55AaWIAka67eRrqQBqG7KtcB4lsaKKUDkDuvYKqDsxTiNDxLvFb2VM5dueLi
- rubA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV2ojbFXdIRMsvYKqYA7EIqqCiQxsg1vDWFDN6Po8O4Hjd8MOPhqu7XGP4O8dqcLTCbLa6EO6FQBUyC3lEbLPRtfsh3GEco8yWG14xmzg4m
-X-Gm-Message-State: AOJu0YwwqmwzAmvmHrTjab7YHQS0TDr5P5n5TH+BL0hp/bBxNFXa7zbM
- P0B1h8uAc/j9tIM5Jw/1q96+NphYsrGIdOo6jlcJhzFkWbrckB04YtGtqi9GpA==
-X-Google-Smtp-Source: AGHT+IEVPk3T/BcnGztFSXqnNC//o637SLCFJjp4OfpRUNvGShjjo4L/qCoxs5rN+qfxLlvAOkyQ8A==
-X-Received: by 2002:a17:90b:4f4a:b0:299:96fe:1135 with SMTP id
- pj10-20020a17090b4f4a00b0029996fe1135mr997780pjb.44.1708728004586; 
- Fri, 23 Feb 2024 14:40:04 -0800 (PST)
-Received: from hsinyi.sjc.corp.google.com ([2620:15c:9d:2:8ff9:a089:c05c:9af])
- by smtp.gmail.com with ESMTPSA id
- cz4-20020a17090ad44400b002966a13f2e9sm2032873pjb.37.2024.02.23.14.40.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Feb 2024 14:40:04 -0800 (PST)
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-To: Douglas Anderson <dianders@chromium.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] drm/panel: panel-edp: Match with panel hash for
- overridden modes
-Date: Fri, 23 Feb 2024 14:29:18 -0800
-Message-ID: <20240223223958.3887423-3-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.44.0.rc0.258.g7320e95886-goog
-In-Reply-To: <20240223223958.3887423-1-hsinyi@chromium.org>
-References: <20240223223958.3887423-1-hsinyi@chromium.org>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B69310E117
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 22:38:18 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 41NMY2HJ023402; Fri, 23 Feb 2024 22:38:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:references:cc:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=J46BJAXfpllB88/E0IwkFqoWI3dmnzmmD8LlpP0L3o8=; b=Nu
+ lq0hYuLT4c34CgZHTde6YxYl37zYEQFxu4PrC/yei7lCNzNRmnrDWMlO/iNU789c
+ bXLS1uCZdnd+fN3yx3uWOm0cf67nstFMXGLDffLAU2mu406tGnrcHWaS3ifzuySl
+ eLyoCx/zPxWELN/wmjXaY8V/XsZ6SHM6EbociSPhcz+ORTLtOjy5FOXdoCIlEanR
+ 9iW9O/QrgpzvhQrViuDeptUZIfj4fjnS4kC+Z6nE5TWDzhOR9WiMmJTvLsiK3LA2
+ MFInpoIkzpKhIaMsh6iwDg5OYOYyjzh5Fqv0IQ9rR6pkAutpK/ZvM9fACBxkTwc2
+ tSFUJPoipJuQ/fTGKrCw==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wf3gm02tc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 23 Feb 2024 22:38:12 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
+ [10.47.209.197])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41NMcBtG030812
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 23 Feb 2024 22:38:11 GMT
+Received: from [10.110.73.113] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 23 Feb
+ 2024 14:38:11 -0800
+Message-ID: <1eb926a6-3467-aaf4-2bc0-8d9756516d9c@quicinc.com>
+Date: Fri, 23 Feb 2024 14:38:03 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/13] accel/habanalabs/gaudi2: use single function to
+ compare FW versions
+Content-Language: en-US
+To: Oded Gabbay <ogabbay@kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+References: <20240220160129.909714-1-ogabbay@kernel.org>
+CC: Ohad Sharabi <osharabi@habana.ai>
+From: Carl Vanderlip <quic_carlv@quicinc.com>
+In-Reply-To: <20240220160129.909714-1-ogabbay@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 52C1PbaEr4JUDsBhIa0e1QkFvnkNeUYb
+X-Proofpoint-GUID: 52C1PbaEr4JUDsBhIa0e1QkFvnkNeUYb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-23_06,2024-02-23_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ mlxlogscore=999 lowpriorityscore=0 spamscore=0 clxscore=1011 bulkscore=0
+ malwarescore=0 mlxscore=0 suspectscore=0 priorityscore=1501 phishscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2402230162
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,152 +90,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's found that some panels have variants that they share the same panel id
-although their EDID and names are different. One of the variants requires
-using overridden modes to resolve glitching issue as described in commit
-70e0d5550f5c ("drm/panel-edp: Add auo_b116xa3_mode"). Other variants should
-use the modes parsed from EDID.
+On 2/20/2024 8:01 AM, Oded Gabbay wrote:> From: Ohad Sharabi 
+<osharabi@habana.ai>
+ >
+ > Currently, the code contains 2 types of FW version comparison functions:
+ > - hl_is_fw_sw_ver_[below/equal_or_greater]()
+ > - gaudi2 specific function of the type
+ >    gaudi2_is_fw_ver_[below/above]x_y_z()
+ >
+ > Moreover, some functions use the inner FW version which should be only
+ > stage during development but not version dependencies.
+ >
+ > Finally, some tests are done to deprecated FW version to which LKD
+ > should hold no compatibility.
+ >
+ > This commit aligns all APIs to a single function that just compares the
+ > version and return an integers indicator (similar in some way to
+ > strcmp()).
+ >
+ > In addition, this generic function now considers also the sub-minor FW
+ > version and also remove dead code resulting in deprecated FW versions
+ > compatibility.
+ >
+ > Signed-off-by: Ohad Sharabi <osharabi@habana.ai>
+ > Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
+ > Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
+ > ---
+ >   drivers/accel/habanalabs/common/firmware_if.c | 25 ++++++++
+ >   drivers/accel/habanalabs/common/habanalabs.h  | 20 +------
+ >   drivers/accel/habanalabs/gaudi2/gaudi2.c      | 57 +++----------------
+ >   3 files changed, 34 insertions(+), 68 deletions(-)
+ >
+...
+ > diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c 
+b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+ > index 1f061209ae21..4a0917aa4dd7 100644
+ > --- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
+ > +++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+ > @@ -2601,6 +2601,8 @@ static int gaudi2_set_fixed_properties(struct 
+hl_device *hdev)
+ >
+ >   	prop->hbw_flush_reg = mmPCIE_WRAP_SPECIAL_GLBL_SPARE_0;
+ >
+ > +	prop->supports_advanced_cpucp_rc = true;
+ > +
+ >   	return 0;
+ >
+ >   free_qprops:
+ > @@ -3308,8 +3310,6 @@ static int gaudi2_late_init(struct hl_device *hdev)
+ >   	struct gaudi2_device *gaudi2 = hdev->asic_specific;
+ >   	int rc;
+ >
+ > -	hdev->asic_prop.supports_advanced_cpucp_rc = true;
+ > -
+ >   	rc = hl_fw_send_pci_access_msg(hdev, CPUCP_PACKET_ENABLE_PCI_ACCESS,
+ >   					gaudi2->virt_msix_db_dma_addr);
+ >   	if (rc) {
 
-For example, AUO 0x405c B116XAK01.0, it has at least 2 different variants
-that EDID and panel name are different, but using the same panel id. One of
-the variants require using overridden mode. Same case for AUO 0x615c
-B116XAN06.1.
+Is this change in support of the others in this patch? Feels like this 
+should be more than one patch (adding new version_cmp, removing old checks).
 
-Add such entries and use the hash of the EDID to match the panel needs the
-overridden modes.
-
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
----
- drivers/gpu/drm/panel/panel-edp.c | 52 +++++++++++++++++++++++++++----
- 1 file changed, 46 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index f6ddbaa103b5..42c430036846 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -21,6 +21,7 @@
-  * DEALINGS IN THE SOFTWARE.
-  */
- 
-+#include <linux/crc32.h>
- #include <linux/debugfs.h>
- #include <linux/delay.h>
- #include <linux/gpio/consumer.h>
-@@ -213,6 +214,9 @@ struct edp_panel_entry {
- 	/** @panel_id: 32-bit ID for panel, encoded with drm_edid_encode_panel_id(). */
- 	u32 panel_id;
- 
-+	/** @panel_hash: the CRC32 hash of the EDID base block. */
-+	u32 panel_hash;
-+
- 	/** @delay: The power sequencing delays needed for this panel. */
- 	const struct panel_delay *delay;
- 
-@@ -758,13 +762,13 @@ static void panel_edp_parse_panel_timing_node(struct device *dev,
- 		dev_err(dev, "Reject override mode: No display_timing found\n");
- }
- 
--static const struct edp_panel_entry *find_edp_panel(u32 panel_id);
-+static const struct edp_panel_entry *find_edp_panel(u32 panel_id, u32 panel_hash);
- 
- static int generic_edp_panel_probe(struct device *dev, struct panel_edp *panel)
- {
- 	struct panel_desc *desc;
- 	void *base_block;
--	u32 panel_id;
-+	u32 panel_id, panel_hash;
- 	char vend[4];
- 	u16 product_id;
- 	u32 reliable_ms = 0;
-@@ -796,15 +800,17 @@ static int generic_edp_panel_probe(struct device *dev, struct panel_edp *panel)
- 	base_block = drm_edid_get_base_block(panel->ddc);
- 	if (base_block) {
- 		panel_id = drm_edid_get_panel_id(base_block);
-+		panel_hash = crc32_le(~0, base_block, EDID_LENGTH) ^ 0xffffffff;
- 		kfree(base_block);
- 	} else {
- 		dev_err(dev, "Couldn't identify panel via EDID\n");
- 		ret = -EIO;
- 		goto exit;
- 	}
-+
- 	drm_edid_decode_panel_id(panel_id, vend, &product_id);
- 
--	panel->detected_panel = find_edp_panel(panel_id);
-+	panel->detected_panel = find_edp_panel(panel_id, panel_hash);
- 
- 	/*
- 	 * We're using non-optimized timings and want it really obvious that
-@@ -1006,6 +1012,19 @@ static const struct panel_desc auo_b101ean01 = {
- 	},
- };
- 
-+static const struct drm_display_mode auo_b116xa3_mode = {
-+	.clock = 70589,
-+	.hdisplay = 1366,
-+	.hsync_start = 1366 + 40,
-+	.hsync_end = 1366 + 40 + 40,
-+	.htotal = 1366 + 40 + 40 + 32,
-+	.vdisplay = 768,
-+	.vsync_start = 768 + 10,
-+	.vsync_end = 768 + 10 + 12,
-+	.vtotal = 768 + 10 + 12 + 6,
-+	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
-+};
-+
- static const struct drm_display_mode auo_b116xak01_mode = {
- 	.clock = 69300,
- 	.hdisplay = 1366,
-@@ -1926,11 +1945,13 @@ static const struct panel_delay delay_200_500_e50_po2e200 = {
- 	.delay = _delay \
- }
- 
--#define EDP_PANEL_ENTRY2(vend_chr_0, vend_chr_1, vend_chr_2, product_id, _delay, _name, _mode) \
-+#define EDP_PANEL_ENTRY2(vend_chr_0, vend_chr_1, vend_chr_2, product_id, \
-+			 _hash, _delay, _name, _mode) \
- { \
- 	.name = _name, \
- 	.panel_id = drm_edid_encode_panel_id(vend_chr_0, vend_chr_1, vend_chr_2, \
- 					     product_id), \
-+	.panel_hash = _hash, \
- 	.delay = _delay, \
- 	.override_edid_mode = _mode \
- }
-@@ -2077,13 +2098,32 @@ static const struct edp_panel_entry edp_panels[] = {
- 	{ /* sentinal */ }
- };
- 
--static const struct edp_panel_entry *find_edp_panel(u32 panel_id)
-+/*
-+ * Similar to edp_panels, this table lists panel variants that require using
-+ * overridden modes but have the same panel id as one of the entries in edp_panels.
-+ *
-+ * Sort first by vendor, then by product ID.
-+ */
-+static const struct edp_panel_entry edp_panels_variants[] = {
-+	EDP_PANEL_ENTRY2('A', 'U', 'O', 0x405c, 0xa9951478, &auo_b116xak01.delay,
-+			 "B116XAK01.0", &auo_b116xa3_mode),
-+	EDP_PANEL_ENTRY2('A', 'U', 'O', 0x615c, 0x109b75b3, &delay_200_500_e50,
-+			 "B116XAN06.1", &auo_b116xa3_mode),
-+
-+	{ /* sentinal */ }
-+};
-+
-+static const struct edp_panel_entry *find_edp_panel(u32 panel_id, u32 panel_hash)
- {
- 	const struct edp_panel_entry *panel;
- 
--	if (!panel_id)
-+	if (!panel_id || !panel_hash)
- 		return NULL;
- 
-+	for (panel = edp_panels_variants; panel->panel_id; panel++)
-+		if (panel->panel_id == panel_id && panel->panel_hash == panel_hash)
-+			return panel;
-+
- 	for (panel = edp_panels; panel->panel_id; panel++)
- 		if (panel->panel_id == panel_id)
- 			return panel;
--- 
-2.44.0.rc0.258.g7320e95886-goog
-
+-Carl V.
