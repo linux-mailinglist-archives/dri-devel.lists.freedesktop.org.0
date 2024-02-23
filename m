@@ -2,65 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7B2E860F2C
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 11:25:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16FCF860F47
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 11:30:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD4E410E0B7;
-	Fri, 23 Feb 2024 10:25:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C95A710EB86;
+	Fri, 23 Feb 2024 10:30:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="biVoo5Gz";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="AITRzPou";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A951810E0B7
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 10:25:27 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 5904CCE2358;
- Fri, 23 Feb 2024 10:25:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B480C433F1;
- Fri, 23 Feb 2024 10:25:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1708683924;
- bh=UAKXalfV4EJLOzKqZ5lgk5fK0b5rmyrMA6CAZBOKxdI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=biVoo5GzsSKQq0MtzS//PqdxLS7Dw3bUyd9gr//iCqEC7R8E5DJVHOA8SFJUkxNTb
- 2KfFMB2yJtw9/J/3II6NcZkZPO15+ypEVQJp7g4/Gy1yodV5L69646k51/QITjZtb/
- bNKsS8Y5cjb47Rz6N43K2hBWzt7scl6PuH9BK2U8z3RxtYjqy4ZW1OrFbH1icMJS0f
- b4VpAMCAF99cRjuVOY27aylqpLptyuuFI0QMV1d7ETDxkZcpZYfUx7xRNV5AfSKWCH
- ZgTYlUdsbXYS4DIGa3JdN0jIl0Z4Pb062WwEigKSfNmTqR4VnuVjjdCv/+8BN5mlWh
- 0Ct9HQdu9vktA==
-Date: Fri, 23 Feb 2024 10:25:17 +0000
-From: Lee Jones <lee@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Dharma.B@microchip.com, alexandre.belloni@bootlin.com,
- linux-pwm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Conor.Dooley@microchip.com, thierry.reding@gmail.com,
- krzysztof.kozlowski+dt@linaro.org, claudiu.beznea@tuxon.dev,
- Hari.PrasathGE@microchip.com, airlied@gmail.com,
- Manikandan.M@microchip.com, sam@ravnborg.org,
- u.kleine-koenig@pengutronix.de, devicetree@vger.kernel.org,
- conor+dt@kernel.org, tzimmermann@suse.de,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- linux-arm-kernel@lists.infradead.org, bbrezillon@kernel.org,
- linux-kernel@vger.kernel.org, krzysztof.kozlowski@linaro.org,
- daniel@ffwll.ch
-Subject: Re: (subset) [linux][PATCH v6 3/3] dt-bindings: mfd: atmel,hlcdc:
- Convert to DT schema format
-Message-ID: <20240223102517.GM10170@google.com>
-References: <20240202001733.91455-1-dharma.b@microchip.com>
- <20240202001733.91455-4-dharma.b@microchip.com>
- <170738899221.920003.15342446791449663430.b4-ty@kernel.org>
- <cedecdb7-fe4a-42ea-9a11-faa82f84b57d@linaro.org>
- <ffd43756-b24e-4f19-be33-0e33047ad70c@microchip.com>
- <20240220082026.GG10170@google.com>
- <9dbfbeac-3a00-4571-95c0-83e4d47737c5@microchip.com>
- <20240222232118.GA3786028-robh@kernel.org>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95F9C10EB86
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 10:30:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1708684210;
+ bh=a5wsB2yzzq4HgC/3HlvIPTX8LqprZF/u+NXqYmbqYW8=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=AITRzPoueMRYeP57son9yL6hAeAgXHSh8sWxepR3jEGc2Mp36bHj3vHMYYi+J7aEx
+ tFcIxI397gK1+nh3flb50/8ug7TbRyAyDAKtTc4o3yOzg3wdF1pRBPZ2/OfekKUju1
+ ib3ph1KHl+R3jvap1mX0iSkEOpiech1UU5Us0C8emgMpSqp23Pk19Mwm1epvnxJLST
+ GmWULOC0PkTfYbbYBfgWC6aKawmvgh0wS9L4yjWUNTrzcbFvi90WHpE8nnT5bXg0uS
+ 1EumBITbZZDinPGrDEzkCaNX87LUD4sUdF/qvawmv+5EhkewYtAlW8QFmdr3MEu3aD
+ 1rsOgo4/wQfkg==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id E127E37820CF;
+ Fri, 23 Feb 2024 10:30:09 +0000 (UTC)
+Message-ID: <c365c2c8-8211-4e36-8ba1-8b4638e81039@collabora.com>
+Date: Fri, 23 Feb 2024 11:30:09 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240222232118.GA3786028-robh@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 03/12] soc: mediatek: cmdq: Rename cmdq_pkt_jump() to
+ cmdq_pkt_jump_abs()
+Content-Language: en-US
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Moudy Ho
+ <moudy.ho@mediatek.com>, "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org
+References: <20240222154120.16959-1-chunkuang.hu@kernel.org>
+ <20240222154120.16959-4-chunkuang.hu@kernel.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240222154120.16959-4-chunkuang.hu@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,61 +67,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 22 Feb 2024, Rob Herring wrote:
-
-> On Tue, Feb 20, 2024 at 08:30:38AM +0000, Dharma.B@microchip.com wrote:
-> > Hi Lee,
-> > 
-> > On 20/02/24 1:50 pm, Lee Jones wrote:
-> > > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
-> > > 
-> > > On Tue, 20 Feb 2024, Dharma.B@microchip.com wrote:
-> > > 
-> > >> Hi Krzysztof,
-> > >>
-> > >> On 12/02/24 3:53 pm, Krzysztof Kozlowski wrote:
-> > >>> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
-> > >>>
-> > >>> On 08/02/2024 11:43, Lee Jones wrote:
-> > >>>> On Fri, 02 Feb 2024 05:47:33 +0530, Dharma Balasubiramani wrote:
-> > >>>>> Convert the atmel,hlcdc binding to DT schema format.
-> > >>>>>
-> > >>>>> Align clocks and clock-names properties to clearly indicate that the LCD
-> > >>>>> controller expects lvds_pll_clk when interfaced with the lvds display. This
-> > >>>>> alignment with the specific hardware requirements ensures accurate device tree
-> > >>>>> configuration for systems utilizing the HLCDC IP.
-> > >>>>>
-> > >>>>> [...]
-> > >>>>
-> > >>>> Applied, thanks!
-> > >>>>
-> > >>>> [3/3] dt-bindings: mfd: atmel,hlcdc: Convert to DT schema format
-> > >>>>         commit: cb946db1335b599ece363d33966bf653ed0fa58a
-> > >>>>
-> > >>>
-> > >>> Next is still failing.
-> > >>>
-> > >>> Dharma,
-> > >>> You must explain and clearly mark dependencies between patches.
-> > >>
-> > >> I sincerely apologize for any confusion caused by the oversight. I have
-> > >> organized the patches according to their dependencies in the patch
-> > >> series, but unfortunately, I neglected to explicitly mention these
-> > >> dependencies. I understand the importance of clear communication in our
-> > >> collaborative efforts. Please feel free to provide guidance on how I can
-> > >> assist you further in resolving this matter.
-> > > 
-> > > If this continues to be an issue, I can just remove the commit.
-> > 
-> > There won't be any issue if both pwm and display binding goes before the 
-> > mfd binding.
-> > 
-> > Could you please pick the display binding as well?
+Il 22/02/24 16:41, Chun-Kuang Hu ha scritto:
+> In order to distinguish absolute jump and relative jump,
+> cmdq_pkt_jump() append absolute jump command, so rename it to
+> cmdq_pkt_jump_abs().
 > 
-> As this is still not resolved, I've applied the display binding. Not 
-> ideal, but should fix next.
+> Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 
-Works for me.
 
--- 
-Lee Jones [李琼斯]
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+
