@@ -2,68 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F2D8611CF
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 13:46:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB7968611DB
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 13:47:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C594610EBFB;
-	Fri, 23 Feb 2024 12:46:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B25C10EBFA;
+	Fri, 23 Feb 2024 12:47:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KGyzFhm7";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="mUYB9tym";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63AE910EBFA;
- Fri, 23 Feb 2024 12:46:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 75C4E6342E;
- Fri, 23 Feb 2024 12:46:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EAACC43330;
- Fri, 23 Feb 2024 12:46:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1708692372;
- bh=D8T1iuzJvdgAM8BRFbh+hcm3BNH2Qr3Lwn/NyFiXNCc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KGyzFhm7ILcP3GXTrYTNj37Jh2zhruTwranObf38pQndYH7SSUnzadWU1wxvtVqj0
- qTGEmV4Z32EIlEq08c7XGJWna2x3lkMwtjveIcgiZzFHU7xsYgbwwdTwGuHnX3OXST
- D1RXLNWq7+TUq2rxjavltUsvelEuCedCo/UgMgiOBANfVyo8HOL+zEYG5v9759klGd
- XzGpmYxdh5qbOaiVl0PTN47io8YGapFWIoQRRXww6R3c5dEImt6XFTlmI66N5sPwyv
- pNjksVmglMRXjR1DsnofXknnuHe1WXJvOO0RcaQUuLlURH0OKARgmF2OmmZCK5jnyA
- DXYjaTvKn/lDA==
-Received: from johan by xi.lan with local (Exim 4.97.1)
- (envelope-from <johan@kernel.org>) id 1rdUwR-000000002kC-3nOA;
- Fri, 23 Feb 2024 13:46:15 +0100
-Date: Fri, 23 Feb 2024 13:46:15 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Johan Hovold <johan+linaro@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Vinod Koul <vkoul@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-phy@lists.infradead.org
-Subject: Re: [PATCH 2/6] drm/bridge: aux-hpd: separate allocation and
- registration
-Message-ID: <ZdiTlwTOCROGD_AY@hovoldconsulting.com>
-References: <20240217150228.5788-1-johan+linaro@kernel.org>
- <20240217150228.5788-3-johan+linaro@kernel.org>
- <CAA8EJpoxe8BmyFqMC5yrqdx-Sx2VR_2gT3x6WT9MyhdLuw+xmA@mail.gmail.com>
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1101310EBFF
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 12:47:19 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Th8sw0Jlhz9sSH;
+ Fri, 23 Feb 2024 13:47:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1708692436;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+/crhX6cW2pmjl6WLBniM1V2UxrSq0U67T/TCqCk2fE=;
+ b=mUYB9tymaNcIiry/ypmaIWEIm+VX4A35VPVSnf5R/1sLWhpMyc5kuAZnxBmWsOsZ/F7PDw
+ Y3UpkKuja0v61FOv3dmeUdqON7Wo1fnPyLAUagk19gk9MRNtgS6Eb4nhoHq2cnqd4LOYQz
+ sLN+mQcOUzgVzURTCpfeN4fMTe3J5OXNvtwgQJdc6t755Vp8WldS3ijrh18V330slrCn9L
+ 9OzHgUdvI5TcQFiiwbuir5rWWcQbfZKaDJ2wiYNuZQlDgqfFcD6dC7Ayzkn2IL/liKu+nx
+ CIZpCcPX4crKboISuWnDqMijsnACdZHltlcc5/iLETw9uyvgrtFSjKCPlQD1AQ==
+Date: Fri, 23 Feb 2024 13:47:13 +0100
+From: Erhard Furtner <erhard_f@mailbox.org>
+To: linuxppc-dev@lists.ozlabs.org
+Cc: Linux DRI Development <dri-devel@lists.freedesktop.org>
+Subject: Re: "BUG: Kernel NULL pointer dereference on read at 0x00000000" at
+ running drm_gem_shmem_test on a Talos II, kernel 6.8-rc5
+Message-ID: <20240223134537.41a7eb16@yea>
+In-Reply-To: <20240223024222.6852d94b@yea>
+References: <20240223024222.6852d94b@yea>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAA8EJpoxe8BmyFqMC5yrqdx-Sx2VR_2gT3x6WT9MyhdLuw+xmA@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: zfsodhci5reufiskpur3pzhti5933wr8
+X-MBO-RS-ID: be16f0b82e34daef8bd
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,83 +63,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 22, 2024 at 10:57:07PM +0200, Dmitry Baryshkov wrote:
-> On Sat, 17 Feb 2024 at 17:03, Johan Hovold <johan+linaro@kernel.org> wrote:
-> >
-> > Combining allocation and registration is an anti-pattern that should be
-> > avoided. Add two new functions for allocating and registering an dp-hpd
-> > bridge with a proper 'devm' prefix so that it is clear that these are
-> > device managed interfaces.
-> >
-> >         devm_drm_dp_hpd_bridge_alloc()
-> >         devm_drm_dp_hpd_bridge_add()
-> >
-> > The new interface will be used to fix a use-after-free bug in the
-> > Qualcomm PMIC GLINK driver and may prevent similar issues from being
-> > introduced elsewhere.
-> >
-> > The existing drm_dp_hpd_bridge_register() is reimplemented using the
-> > above and left in place for now.
-> >
-> > Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+On Fri, 23 Feb 2024 02:42:22 +0100
+Erhard Furtner <erhard_f@mailbox.org> wrote:
+
+> Greetings!
 > 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Looks like my Talos II (running a BE kernel+system) fails some of the kernels internal unit tests. At running drm_gem_shmem_test via 'modprobe -v drm_gem_shmem_test' I get:
 
-Thanks for reviewing.
+KASAN gets some additional information out of it:
 
-> Minor nit below.
+[...]
+KTAP version 1
+1..1
+    KTAP version 1
+    # Subtest: drm_gem_shmem
+    # module: drm_gem_shmem_test
+    1..8
+    ok 1 drm_gem_shmem_test_obj_create
+==================================================================
+BUG: KASAN: null-ptr-deref in dma_unmap_sg_attrs+0x7c/0x210
+Read of size 8 at addr 0000000000000000 by task kunit_try_catch/4023
 
-> > diff --git a/include/drm/bridge/aux-bridge.h b/include/drm/bridge/aux-bridge.h
-> > index c4c423e97f06..4453906105ca 100644
-> > --- a/include/drm/bridge/aux-bridge.h
-> > +++ b/include/drm/bridge/aux-bridge.h
-> > @@ -9,6 +9,8 @@
-> >
-> >  #include <drm/drm_connector.h>
-> >
-> > +struct auxiliary_device;
-> > +
-> >  #if IS_ENABLED(CONFIG_DRM_AUX_BRIDGE)
-> >  int drm_aux_bridge_register(struct device *parent);
-> >  #else
-> > @@ -19,10 +21,23 @@ static inline int drm_aux_bridge_register(struct device *parent)
-> >  #endif
-> >
-> >  #if IS_ENABLED(CONFIG_DRM_AUX_HPD_BRIDGE)
-> > +struct auxiliary_device *devm_drm_dp_hpd_bridge_alloc(struct device *parent, struct device_node *np);
-> > +int devm_drm_dp_hpd_bridge_add(struct device *dev, struct auxiliary_device *adev);
-> 
-> I had a pretty close idea during prototyping, but I ended up doing it
-> as a single function for the following reasons:
-> 
-> First, this exports the implementation detail that internally the code
-> uses an aux device.
+CPU: 24 PID: 4023 Comm: kunit_try_catch Tainted: G        W       TN 6.8.0-rc5-P9-dirty #4
+Hardware name: T2P9D01 REV 1.01 POWER9 0x4e1202 opal:skiboot-bc106a0 PowerNV
+Call Trace:
+[c00020004560f920] [c0000000013c2618] dump_stack_lvl+0x74/0xb8 (unreliable)
+[c00020004560f950] [c00000000055831c] print_report+0x200/0xa64
+[c00020004560fa50] [c000000000558f5c] kasan_report+0x160/0x28c
+[c00020004560fb70] [c00000000055b3f8] __asan_load8+0xec/0x140
+[c00020004560fb90] [c000000000283d9c] dma_unmap_sg_attrs+0x7c/0x210
+[c00020004560fbf0] [c0080000227ed3bc] drm_gem_shmem_free+0x160/0x398 [drm_shmem_helper]
+[c00020004560fc80] [c008000022812cf8] drm_gem_shmem_test_obj_create_private+0x288/0x588 [drm_gem_shmem_test]
+[c00020004560fe90] [c000000000b15ca4] kunit_try_run_case+0xfc/0x34c
+[c00020004560ff50] [c000000000b1a698] kunit_generic_run_threadfn_adapter+0x50/0x7c
+[c00020004560ff80] [c0000000001cd7bc] kthread+0x1d4/0x1e0
+[c00020004560ffe0] [c00000000000d030] start_kernel_thread+0x14/0x18
+==================================================================
+BUG: Kernel NULL pointer dereference on read at 0x00000000
+Faulting instruction address: 0xc000000000283da4
+Oops: Kernel access of bad area, sig: 7 [#1]
+BE PAGE_SIZE=4K MMU=Radix SMP NR_CPUS=32 NUMA PowerNV
+Modules linked in: drm_gem_shmem_test drm_shmem_helper slub_kunit drm_rect_test drm_modes_test drm_mm_test drm_managed_test drm_framebuffer_test drm_format_test drm_exec_test drm_kunit_helpers drm_exec drm_dp_mst_helper_test drm_damage_helper_test drm_connector_test drm_cmdline_parser_test drm_buddy_test drm_buddy snd_hrtimer snd_seq snd_seq_device snd_timer snd soundcore evdev input_leds hid_generic usbhid hid radeon xts ctr cbc xhci_pci xhci_hcd drm_suballoc_helper i2c_algo_bit drm_ttm_helper ofpart aes_generic libaes cfg80211 ttm drm_display_helper vmx_crypto powernv_flash gf128mul
+ usbcore mtd backlight rfkill at24 usb_common regmap_i2c opal_prd ibmpowernv lz4 lz4_compress lz4_decompress zram pkcs8_key_parser powernv_cpufreq dm_mod loop configfs
+CPU: 24 PID: 4023 Comm: kunit_try_catch Tainted: G    B   W       TN 6.8.0-rc5-P9-dirty #4
+Hardware name: T2P9D01 REV 1.01 POWER9 0x4e1202 opal:skiboot-bc106a0 PowerNV
+NIP:  c000000000283da4 LR: c000000000283d9c CTR: 0000000000000000
+REGS: c00020004560f8f0 TRAP: 0300   Tainted: G    B   W       TN  (6.8.0-rc5-P9-dirty)
+MSR:  9000000000009032 <SF,HV,EE,ME,IR,DR,RI>  CR: 28000200  XER: 00000000
+CFAR: c00000000055b42c DAR: 0000000000000000 DSISR: 00080000 IRQMASK: 0 
+GPR00: 0000000000000000 c00020004560fb90 c0000000018f1c00 0000000000000000 
+GPR04: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 
+GPR08: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 
+GPR12: 0000000000000000 c0002005fc3ffd80 c0000000001cd5f0 c000000098368940 
+GPR16: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 
+GPR20: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 
+GPR24: 0000000000000000 0000000000000001 c00020000a992340 0000000000000000 
+GPR28: 0000000000000000 0000000000000000 0000000000000000 c000200046dfe400 
+NIP [c000000000283da4] dma_unmap_sg_attrs+0x84/0x210
+LR [c000000000283d9c] dma_unmap_sg_attrs+0x7c/0x210
+Call Trace:
+[c00020004560fb90] [c000000000283d9c] dma_unmap_sg_attrs+0x7c/0x210 (unreliable)
+[c00020004560fbf0] [c0080000227ed3bc] drm_gem_shmem_free+0x160/0x398 [drm_shmem_helper]
+[c00020004560fc80] [c008000022812cf8] drm_gem_shmem_test_obj_create_private+0x288/0x588 [drm_gem_shmem_test]
+[c00020004560fe90] [c000000000b15ca4] kunit_try_run_case+0xfc/0x34c
+[c00020004560ff50] [c000000000b1a698] kunit_generic_run_threadfn_adapter+0x50/0x7c
+[c00020004560ff80] [c0000000001cd7bc] kthread+0x1d4/0x1e0
+[c00020004560ffe0] [c00000000000d030] start_kernel_thread+0x14/0x18
+Code: 39200001 eb7f0238 7d20481e 0b090000 387f0240 482d758d 60000000 eb9f0240 7f83e378 482d757d 60000000 2c3b0000 <eb9c0000> 40820078 7fa7eb78 7fc6f378 
+---[ end trace 0000000000000000 ]---
 
-That's not an issue. The opposite, with interfaces trying to do too much
-and hide details from the developers so that they can no longer reason
-about what is going on, is a real problem though.
 
-> Also, by exporting the aux device the code becomes less type-safe. By
-> mistake one can call devm_drm_dp_hpd_bridge_add() on any aux device,
-> which is not necessarily the HPD bridge.
-
-No. First, that is currently not even an issue either as the
-registration interface is safe to use with any aux device.
-
-Second, if you cared about about type-safety you wouldn't have used a
-struct device pointer for drm_aux_hpd_bridge_notify() which you back
-cast to an aux device.
-
-> I'd prefer to see an opaque device-specific structure instead. WDYT?
-
-That should have been there from the start. But I'm not interested in
-cleaning up this mess beyond what is minimally required to fix the
-regressions it caused.
-
-This can be reworked for 6.9 or later.
-
-> >  struct device *drm_dp_hpd_bridge_register(struct device *parent,
-> >                                           struct device_node *np);
-> >  void drm_aux_hpd_bridge_notify(struct device *dev, enum drm_connector_status status);
-
-Johan
+Regards,
+Erhard
