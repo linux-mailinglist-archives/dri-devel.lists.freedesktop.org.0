@@ -2,49 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6020A8617F5
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 17:31:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA5C7861844
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 17:44:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4632E10EC60;
-	Fri, 23 Feb 2024 16:31:15 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kO2AX4SW";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BADB10EC66;
+	Fri, 23 Feb 2024 16:43:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B8C310EC61
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 16:31:14 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 4920E63575;
- Fri, 23 Feb 2024 16:31:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CB7FC43142;
- Fri, 23 Feb 2024 16:31:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1708705872;
- bh=9KObiyXeBDrFMyADFic1+zEVpdJvGxx+oX+zDNIjVi8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kO2AX4SWo1L3W2khLMFbuzILafe1Zbp5P4pYVZSAzZhKDlUp03DU+7qOFFvERY50t
- HfiOMJlGJkuHonfrOEx2wCkPIVRyNk/9X/FGQGgvOh4eiA3Pe5wQ1GYWBxSKKDHEQU
- 4aLTISzXtUNUsFHvtqUFAU+UJ0SKlHlWa3DnqBKLeSHhw3vbqMR7sXKvUZKc0xvBEI
- LI4+dgQrDC7NgvveeQqrog/oxyBwx6FbNt5zIiBrECpHyAn6UIvEroeQHnK65Gbv9e
- ZrYwXjzIe35YQi/qcwFdWKwueVr0KzecCqlQolIV7XQTdVusXlJDB6mmkV2IdZaSaP
- N2RGIxmBhMe9A==
-Date: Fri, 23 Feb 2024 16:31:08 +0000
-From: Lee Jones <lee@kernel.org>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Cc: Jingoo Han <jingoohan1@gmail.com>, Luca Weiss <luca@z3ntu.xyz>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND 0/4] Ensure all backlight drivers zero the
- properties structure
-Message-ID: <20240223163108.GL1666215@google.com>
-References: <20240220153532.76613-1-daniel.thompson@linaro.org>
+Received: from ms7.webland.ch (ms7.webland.ch [92.43.217.107])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3644910EC66;
+ Fri, 23 Feb 2024 16:43:53 +0000 (UTC)
+Received: from [192.168.1.137] ([213.144.156.170])
+ by ms7.webland.ch (12.3.0 build 2 x64) with ASMTP (SSL) id
+ 01202402231743493785; Fri, 23 Feb 2024 17:43:49 +0100
+Message-ID: <7dd49c00-8d5e-4492-801c-f1b6db5e1737@daenzer.net>
+Date: Fri, 23 Feb 2024 17:43:48 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] drm/amdgpu: Refuse to create a KMS FB for non-P2P
+ exported dma-bufs
+Content-Language: de-CH-frami, en-CA
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20240222172821.16901-1-michel@daenzer.net>
+ <3156ea34-0655-4b0f-9438-9113fb714373@amd.com>
+ <2d7632f0-0783-4d82-9d81-dd6bd52d5db6@daenzer.net>
+ <84fa5bc1-6b4d-4d82-844a-8070d4bd78eb@amd.com>
+ <b08c2c14-5a99-49cf-ba79-b89f86487f15@daenzer.net>
+Autocrypt: addr=michel@daenzer.net; keydata=
+ xsDiBDsehS8RBACbsIQEX31aYSIuEKxEnEX82ezMR8z3LG8ktv1KjyNErUX9Pt7AUC7W3W0b
+ LUhu8Le8S2va6hi7GfSAifl0ih3k6Bv1Itzgnd+7ZmSrvCN8yGJaHNQfAevAuEboIb+MaVHo
+ 9EMJj4ikOcRZCmQWw7evu/D9uQdtkCnRY9iJiAGxbwCguBHtpoGMxDOINCr5UU6qt+m4O+UD
+ /355ohBBzzyh49lTj0kTFKr0Ozd20G2FbcqHgfFL1dc1MPyigej2gLga2osu2QY0ObvAGkOu
+ WBi3LTY8Zs8uqFGDC4ZAwMPoFy3yzu3ne6T7d/68rJil0QcdQjzzHi6ekqHuhst4a+/+D23h
+ Za8MJBEcdOhRhsaDVGAJSFEQB1qLBACOs0xN+XblejO35gsDSVVk8s+FUUw3TSWJBfZa3Imp
+ V2U2tBO4qck+wqbHNfdnU/crrsHahjzBjvk8Up7VoY8oT+z03sal2vXEonS279xN2B92Tttr
+ AgwosujguFO/7tvzymWC76rDEwue8TsADE11ErjwaBTs8ZXfnN/uAANgPM0jTWljaGVsIERh
+ ZW56ZXIgPG1pY2hlbEBkYWVuemVyLm5ldD7CXgQTEQIAHgUCQFXxJgIbAwYLCQgHAwIDFQID
+ AxYCAQIeAQIXgAAKCRBaga+OatuyAIrPAJ9ykonXI3oQcX83N2qzCEStLNW47gCeLWm/QiPY
+ jqtGUnnSbyuTQfIySkLOwE0EOx6FRRAEAJZkcvklPwJCgNiw37p0GShKmFGGqf/a3xZZEpjI
+ qNxzshFRFneZze4f5LhzbX1/vIm5+ZXsEWympJfZzyCmYPw86QcFxyZflkAxHx9LeD+89Elx
+ bw6wT0CcLvSv8ROfU1m8YhGbV6g2zWyLD0/naQGVb8e4FhVKGNY2EEbHgFBrAAMGA/0VktFO
+ CxFBdzLQ17RCTwCJ3xpyP4qsLJH0yCoA26rH2zE2RzByhrTFTYZzbFEid3ddGiHOBEL+bO+2
+ GNtfiYKmbTkj1tMZJ8L6huKONaVrASFzLvZa2dlc2zja9ZSksKmge5BOTKWgbyepEc5qxSju
+ YsYrX5xfLgTZC5abhhztpcJGBBgRAgAGBQI7HoVFAAoJEFqBr45q27IAlscAnjICalDn2zB1
+ fXqoOkGsTwElvKa5AJ9FhyKJpysFRcejfdZwrwl9xb4oOg==
+In-Reply-To: <b08c2c14-5a99-49cf-ba79-b89f86487f15@daenzer.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240220153532.76613-1-daniel.thompson@linaro.org>
+X-CTCH: RefID="str=0001.0A782F19.65D8CB47.0012,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0";
+ Spam="Unknown"; VOD="Unknown"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,43 +69,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 20 Feb 2024, Daniel Thompson wrote:
+On 2024-02-23 11:04, Michel Dänzer wrote:
+> On 2024-02-23 10:34, Christian König wrote:
+>> Am 23.02.24 um 09:11 schrieb Michel Dänzer:
+>>> On 2024-02-23 08:06, Christian König wrote:
+>>>> Am 22.02.24 um 18:28 schrieb Michel Dänzer:
+>>>>> From: Michel Dänzer <mdaenzer@redhat.com>
+>>>>>
+>>>>> Pinning the BO storage to VRAM for scanout would make it inaccessible
+>>>>> to non-P2P dma-buf importers.
+>>>> Thinking more about it I don't think we can do this.
+>>>>
+>>>> Using the BO in a ping/pong fashion for scanout and DMA-buf is actually valid, you just can't do both at the same time.
+>>>>
+>>>> And if I'm not completely mistaken we actually have use cases for this at the moment,
+>>> Those use cases don't have P2P & CONFIG_DMABUF_MOVE_NOTIFY?
+>>
+>> Nope, we are basically talking about unit tests and examples for inter device operations.
+> 
+> Sounds like the "no user-space regressions" rule might not apply then.
 
-> [Sorry for the RESEND so soon... embarrassingly I got Lee's e-mail
-> address wrong the first time!]
-> 
-> Luca Weiss recently shared a patch to zero the properties structure for
-> lm3630a... and shortly afterwards I realized I should probably scan for
-                                      ^
+To clarify what I mean by that:
 
-> a similar class of errors in other drivers.
-> 
-> Results follow in the next four patches (they could all be one patch but
-> for the fact there are different Fixes: tags)!
-> 
-> Daniel Thompson (4):
->   backlight: da9052: Fully initialize backlight_properties during probe
-                             ^
->   backlight: lm3639: Fully initialize backlight_properties during probe
-                             ^
->   backlight: lp8788: Fully initialize backlight_properties during probe
-                             ^
->   backlight: mp3309c: Fully initialize backlight_properties during probe
-                              ^
+"We can't fix this issue, because it would break some unit tests and examples" is similar to saying "We can't fix this KMS bug, because there are IGT tests expecting the buggy behaviour". In practice, the latter do get fixed, along with the IGT tests.
 
-I think you may have the wrong locale set mate! :)
-
->  drivers/video/backlight/da9052_bl.c | 1 +
->  drivers/video/backlight/lm3639_bl.c | 1 +
->  drivers/video/backlight/lp8788_bl.c | 1 +
->  drivers/video/backlight/mp3309c.c   | 1 +
->  4 files changed, 4 insertions(+)
-> 
-> 
-> base-commit: b401b621758e46812da61fa58a67c3fd8d91de0d
-> --
-> 2.43.0
-> 
 
 -- 
-Lee Jones [李琼斯]
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
+
