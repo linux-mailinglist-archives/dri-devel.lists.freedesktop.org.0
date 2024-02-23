@@ -2,51 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B8B9860FDC
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 11:53:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC82A860FE4
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 11:56:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 481B510E03F;
-	Fri, 23 Feb 2024 10:53:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DB4210EB9D;
+	Fri, 23 Feb 2024 10:56:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="asVzxH/4";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="eUg5v8Pa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B686210EBA6
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 10:53:51 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 95BE7633B5;
- Fri, 23 Feb 2024 10:53:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B544C433C7;
- Fri, 23 Feb 2024 10:53:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1708685630;
- bh=2HhxQDG0pdqR6ubl6Be6PMVKag9x1iu7wWGmuYxToWs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=asVzxH/4vCF1ZFdPsyIBQrGcT3tEF9Opv5l0Jjz3DQ+pja6oLJAloDSFaJ5zEACDf
- DJPVKnmj+4o4hmbDuTe0tbxR9wO6vD33QZKYp+dFr04v8kpxYLPn917xLU/QSUQ65i
- 9BIcQ3Kqfc5SC7xw1w5uLhdoUO+U7Arkvfl4nJvsBlVQRr3vKLldDcqjsj86CCo7rs
- cqdcoqugHEYXnp3Zer4JW2whuEINRHdBZsaJd49bbV+voU0vUdqyoG4oTotKCf8hPv
- r0FxZb2inolr8Qwj0nNVl0FWfXiWYqLbxeSbyAXPMsYR8K037/2qDlt1iG1YBBq6/2
- iBNmDsWv0UrnQ==
-Date: Fri, 23 Feb 2024 10:53:45 +0000
-From: Lee Jones <lee@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: daniel.thompson@linaro.org, jingoohan1@gmail.com, deller@gmx.de,
- andy@kernel.org, robin@protonic.nl, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v2 01/10] backlight: Match backlight device against
- struct fb_info.bl_dev
-Message-ID: <20240223105345.GS10170@google.com>
-References: <20240221094324.27436-1-tzimmermann@suse.de>
- <20240221094324.27436-2-tzimmermann@suse.de>
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE8F210EBA4
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 10:56:33 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id
+ ffacd0b85a97d-33ce8cbf465so492540f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 02:56:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1708685791; x=1709290591; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=MpP8FPur0ZRYYFc1Wrt+q/AzhU6BvtHVrmCY1eGQaCU=;
+ b=eUg5v8PaVGPsGymoNsKHDM8MKHQRO3n75L8CTC6k/mRF5VZOFdlJGuTOlyCeSBxfcS
+ HMwH+kx3hbCXzINIVSp8K2GyB/2nxNlnvQeHgcIED4o+q9CNnpSPhNnT2INvYHedyR9P
+ x3yhCOnEH14cWEyzldAk0is1W801eWLXaliwX31O0wB0eya07rgLbfzt2RQN98G725He
+ u50CgRpq9Fc++L80UQiu1F7mk4VSTUlUF6sfV4vufycTXVJfkeJp56tWtW5xXdbmU4xk
+ TUlasyblGWRY9R//P8GhPh90MhWhqGczoU1o5CKbziAmZ+ho6kQesdTl0QYeWN+M+7Ng
+ fhiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708685791; x=1709290591;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=MpP8FPur0ZRYYFc1Wrt+q/AzhU6BvtHVrmCY1eGQaCU=;
+ b=o5olhOqlTgw4NwpbFhbs2cu/DSCQdn4xG2yxllt0ElRxiJbNaxr5ZUde2ZabyWk4mb
+ mm0y11qwIYkJYQ5Va5vmcrtUqvded571JhlsdV8vESkNT9jTZhP5wHONWjJtTxbQE8N9
+ apAafnS33IGLn/+3an3WZmKDUr95bQBXxJcmJ/EXZyc+5Rl4GrKhbsNocWDREKw7qBs6
+ E2EC1PmorayunJUYYwcTZFxd2B3F9T1ZYNjyh1VFF8P+aED/1z4uxDAIdLUep/i4Ch8b
+ H6fA3aYJTB2XWHEVk/gobUoQ2sM+SG/+/2yKvSHJMdkrzIm/lpfEZ3ps+O44jIDOILmh
+ g+eg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVlqAT0owfotSyqKHWTs7Tbt4RpsFAqIsNi1dxkS/w12bGi4/UJurzeY9W3ZXmA365EvFYwoXumVlQwa6Be7snnXOohC7m5OUCJ1tDuL+AG
+X-Gm-Message-State: AOJu0YzxcBAdl06KGF+WEVfasOfnLtGsnvyqymm1UQbkexomuHv7RG9w
+ ao4T2LuiP5JdYvS0bkLb5Dslc6WQCVaTiEQBPVSI9PfcPe6rUitYoNNJU6f3CFs=
+X-Google-Smtp-Source: AGHT+IFmmCVq1mpUxj8NYYdV3/x1yBin0Yvk5Q825Dxgwe9DQn6iKJQLq+DpWki3HMNZqyDu4ForCQ==
+X-Received: by 2002:a05:6000:12c1:b0:33d:3566:b5c5 with SMTP id
+ l1-20020a05600012c100b0033d3566b5c5mr1264108wrx.7.1708685791556; 
+ Fri, 23 Feb 2024 02:56:31 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:58e3:6b80:c446:11f4?
+ ([2a01:e0a:982:cbb0:58e3:6b80:c446:11f4])
+ by smtp.gmail.com with ESMTPSA id
+ b3-20020adfe643000000b0033cffd1a302sm2352588wrn.57.2024.02.23.02.56.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Feb 2024 02:56:31 -0800 (PST)
+Message-ID: <a661b9d6-966f-4202-aad2-87c2fda4f1ac@linaro.org>
+Date: Fri, 23 Feb 2024 11:56:29 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240221094324.27436-2-tzimmermann@suse.de>
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 1/6] drm/bridge: aux-hpd: fix OF node leaks
+Content-Language: en-US, fr
+To: Johan Hovold <johan+linaro@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Vinod Koul <vkoul@kernel.org>
+Cc: Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org
+References: <20240217150228.5788-1-johan+linaro@kernel.org>
+ <20240217150228.5788-2-johan+linaro@kernel.org>
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro Developer Services
+In-Reply-To: <20240217150228.5788-2-johan+linaro@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,58 +124,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 21 Feb 2024, Thomas Zimmermann wrote:
-
-> Framebuffer drivers for devices with dedicated backlight are supposed
-> to set struct fb_info.bl_dev to the backlight's respective device. Use
-> the value to match backlight and framebuffer in the backlight core code.
+On 17/02/2024 16:02, Johan Hovold wrote:
+> The two device node references taken during allocation need to be
+> dropped when the auxiliary device is freed.
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> Fixes: 6914968a0b52 ("drm/bridge: properly refcount DT nodes in aux bridge drivers")
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 > ---
->  drivers/video/backlight/backlight.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/bridge/aux-hpd-bridge.c | 3 +++
+>   1 file changed, 3 insertions(+)
 > 
-> diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
-> index 86e1cdc8e3697..48844a4f28ad3 100644
-> --- a/drivers/video/backlight/backlight.c
-> +++ b/drivers/video/backlight/backlight.c
-> @@ -98,7 +98,8 @@ static int fb_notifier_callback(struct notifier_block *self,
->  {
->  	struct backlight_device *bd;
->  	struct fb_event *evdata = data;
-> -	int node = evdata->info->node;
-> +	struct fb_info *info = evdata->info;
-> +	int node = info->node;
->  	int fb_blank = 0;
->  
->  	/* If we aren't interested in this event, skip it immediately ... */
-> @@ -110,8 +111,12 @@ static int fb_notifier_callback(struct notifier_block *self,
->  
->  	if (!bd->ops)
->  		goto out;
-> -	if (bd->ops->check_fb && !bd->ops->check_fb(bd, evdata->info))
-> +	else if (bd->ops->check_fb && !bd->ops->check_fb(bd, info))
->  		goto out;
-> +#if IS_ENABLED(CONFIG_FB_BACKLIGHT)
+> diff --git a/drivers/gpu/drm/bridge/aux-hpd-bridge.c b/drivers/gpu/drm/bridge/aux-hpd-bridge.c
+> index bb55f697a181..9e71daf95bde 100644
+> --- a/drivers/gpu/drm/bridge/aux-hpd-bridge.c
+> +++ b/drivers/gpu/drm/bridge/aux-hpd-bridge.c
+> @@ -25,6 +25,7 @@ static void drm_aux_hpd_bridge_release(struct device *dev)
+>   	ida_free(&drm_aux_hpd_bridge_ida, adev->id);
+>   
+>   	of_node_put(adev->dev.platform_data);
+> +	of_node_put(adev->dev.of_node);
+>   
+>   	kfree(adev);
+>   }
+> @@ -74,6 +75,8 @@ struct device *drm_dp_hpd_bridge_register(struct device *parent,
+>   
+>   	ret = auxiliary_device_init(adev);
+>   	if (ret) {
+> +		of_node_put(adev->dev.platform_data);
+> +		of_node_put(adev->dev.of_node);
+>   		ida_free(&drm_aux_hpd_bridge_ida, adev->id);
+>   		kfree(adev);
+>   		return ERR_PTR(ret);
 
-I don't want #ifery in C files.
-
-Please find another way.
-
-> +	else if (info->bl_dev && info->bl_dev != bd)
-> +		goto out;
-> +#endif
->  
->  	fb_blank = *(int *)evdata->data;
->  	if (fb_blank == FB_BLANK_UNBLANK && !bd->fb_bl_on[node]) {
-> -- 
-> 2.43.0
-> 
-
--- 
-Lee Jones [李琼斯]
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
