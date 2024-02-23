@@ -2,52 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB7968611DB
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 13:47:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE91C8611F5
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 13:51:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B25C10EBFA;
-	Fri, 23 Feb 2024 12:47:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4018D10EBFE;
+	Fri, 23 Feb 2024 12:51:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="mUYB9tym";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="evV+Boqp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1101310EBFF
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 12:47:19 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
- [IPv6:2001:67c:2050:b231:465::2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Th8sw0Jlhz9sSH;
- Fri, 23 Feb 2024 13:47:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1708692436;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+/crhX6cW2pmjl6WLBniM1V2UxrSq0U67T/TCqCk2fE=;
- b=mUYB9tymaNcIiry/ypmaIWEIm+VX4A35VPVSnf5R/1sLWhpMyc5kuAZnxBmWsOsZ/F7PDw
- Y3UpkKuja0v61FOv3dmeUdqON7Wo1fnPyLAUagk19gk9MRNtgS6Eb4nhoHq2cnqd4LOYQz
- sLN+mQcOUzgVzURTCpfeN4fMTe3J5OXNvtwgQJdc6t755Vp8WldS3ijrh18V330slrCn9L
- 9OzHgUdvI5TcQFiiwbuir5rWWcQbfZKaDJ2wiYNuZQlDgqfFcD6dC7Ayzkn2IL/liKu+nx
- CIZpCcPX4crKboISuWnDqMijsnACdZHltlcc5/iLETw9uyvgrtFSjKCPlQD1AQ==
-Date: Fri, 23 Feb 2024 13:47:13 +0100
-From: Erhard Furtner <erhard_f@mailbox.org>
-To: linuxppc-dev@lists.ozlabs.org
-Cc: Linux DRI Development <dri-devel@lists.freedesktop.org>
-Subject: Re: "BUG: Kernel NULL pointer dereference on read at 0x00000000" at
- running drm_gem_shmem_test on a Talos II, kernel 6.8-rc5
-Message-ID: <20240223134537.41a7eb16@yea>
-In-Reply-To: <20240223024222.6852d94b@yea>
-References: <20240223024222.6852d94b@yea>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E13010EBFD;
+ Fri, 23 Feb 2024 12:51:39 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id AEEBECE2BCF;
+ Fri, 23 Feb 2024 12:51:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDC6DC433F1;
+ Fri, 23 Feb 2024 12:51:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1708692696;
+ bh=1lJXy4uKYL7pJq5F8Vo9jDbbuH8lfKzhYgyljzDs/n0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=evV+Boqp9I4YqNzKSjDSoquLBTJkguhMnylBUp+eSde9n7BkMk3q9Lg60i9e8XMX6
+ KnVD7vHyg/cySaCtEXVuP/bnIKdedXSHu565Z9tnXNSUs8YPe1xFIzRKuV5Lg0ZXQV
+ l5kazV2J2jYV5p1S+u6WGNhBVb5rBFr+fQm9xY0lkYDytbFklcGTP7cg/mrT3n3tmj
+ s3PjVAYReKFME7zw5SaGqKfCDkAiLyIE41BxO+3TiTxQhRYcsaiqUTsS88rk0XN1+O
+ AHCRTL2asQ7U5XUr+EIzkSF1syZ/XvtniJ/7iKjkLOcduxCRcGwgDdWDqckgm/Fjq3
+ 7vD74+f1h5vkw==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+ (envelope-from <johan@kernel.org>) id 1rdV1f-000000002l8-1Rm4;
+ Fri, 23 Feb 2024 13:51:40 +0100
+Date: Fri, 23 Feb 2024 13:51:39 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Vinod Koul <vkoul@kernel.org>, Johan Hovold <johan+linaro@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-phy@lists.infradead.org
+Subject: Re: [PATCH 0/6] soc: qcom: pmic_glink_altmode: fix drm bridge
+ use-after-free
+Message-ID: <ZdiU2z8rzo542_Ih@hovoldconsulting.com>
+References: <20240217150228.5788-1-johan+linaro@kernel.org>
+ <170868613914.4029284.5549880672870201262.b4-ty@linaro.org>
+ <3c4246b6-431a-442e-8ace-3b0d0e67743f@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: zfsodhci5reufiskpur3pzhti5933wr8
-X-MBO-RS-ID: be16f0b82e34daef8bd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3c4246b6-431a-442e-8ace-3b0d0e67743f@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,75 +79,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 23 Feb 2024 02:42:22 +0100
-Erhard Furtner <erhard_f@mailbox.org> wrote:
-
-> Greetings!
+On Fri, Feb 23, 2024 at 12:03:10PM +0100, Neil Armstrong wrote:
+> On 23/02/2024 12:02, Neil Armstrong wrote:
+> > Hi,
+> > 
+> > On Sat, 17 Feb 2024 16:02:22 +0100, Johan Hovold wrote:
+> >> Starting with 6.8-rc1 the internal display sometimes fails to come up on
+> >> machines like the Lenovo ThinkPad X13s and the logs indicate that this
+> >> is due to a regression in the DRM subsystem [1].
+> >>
+> >> This series fixes a race in the pmic_glink_altmode driver which was
+> >> exposed / triggered by the transparent DRM bridges rework that went into
+> >> 6.8-rc1 and that manifested itself as a bridge failing to attach and
+> >> sometimes triggering a NULL-pointer dereference.
+> >>
+> >> [...]
+> > 
+> > Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-fixes)
+> > 
+> > [1/6] drm/bridge: aux-hpd: fix OF node leaks
+> >        https://cgit.freedesktop.org/drm/drm-misc/commit/?id=9ee485bdda68d6d3f5728cbe3150eb9013d7d22b
+> > [2/6] drm/bridge: aux-hpd: separate allocation and registration
+> >        (no commit info)
+> > [3/6] soc: qcom: pmic_glink_altmode: fix drm bridge use-after-free
+> >        (no commit info)
+> > [4/6] soc: qcom: pmic_glink: Fix boot when QRTR=m
+> >        (no commit info)
+> > [5/6] phy: qcom-qmp-combo: fix drm bridge registration
+> >        (no commit info)
+> > [6/6] phy: qcom-qmp-combo: fix type-c switch registration
+> >        (no commit info)
+> > 
 > 
-> Looks like my Talos II (running a BE kernel+system) fails some of the kernels internal unit tests. At running drm_gem_shmem_test via 'modprobe -v drm_gem_shmem_test' I get:
+> To clarify, I only applied patch 1 to drm-misc-fixes
 
-KASAN gets some additional information out of it:
+Ok, but can you please not do that? :)
 
-[...]
-KTAP version 1
-1..1
-    KTAP version 1
-    # Subtest: drm_gem_shmem
-    # module: drm_gem_shmem_test
-    1..8
-    ok 1 drm_gem_shmem_test_obj_create
-==================================================================
-BUG: KASAN: null-ptr-deref in dma_unmap_sg_attrs+0x7c/0x210
-Read of size 8 at addr 0000000000000000 by task kunit_try_catch/4023
+These patches should go in through the same tree to avoid conflicts.
 
-CPU: 24 PID: 4023 Comm: kunit_try_catch Tainted: G        W       TN 6.8.0-rc5-P9-dirty #4
-Hardware name: T2P9D01 REV 1.01 POWER9 0x4e1202 opal:skiboot-bc106a0 PowerNV
-Call Trace:
-[c00020004560f920] [c0000000013c2618] dump_stack_lvl+0x74/0xb8 (unreliable)
-[c00020004560f950] [c00000000055831c] print_report+0x200/0xa64
-[c00020004560fa50] [c000000000558f5c] kasan_report+0x160/0x28c
-[c00020004560fb70] [c00000000055b3f8] __asan_load8+0xec/0x140
-[c00020004560fb90] [c000000000283d9c] dma_unmap_sg_attrs+0x7c/0x210
-[c00020004560fbf0] [c0080000227ed3bc] drm_gem_shmem_free+0x160/0x398 [drm_shmem_helper]
-[c00020004560fc80] [c008000022812cf8] drm_gem_shmem_test_obj_create_private+0x288/0x588 [drm_gem_shmem_test]
-[c00020004560fe90] [c000000000b15ca4] kunit_try_run_case+0xfc/0x34c
-[c00020004560ff50] [c000000000b1a698] kunit_generic_run_threadfn_adapter+0x50/0x7c
-[c00020004560ff80] [c0000000001cd7bc] kthread+0x1d4/0x1e0
-[c00020004560ffe0] [c00000000000d030] start_kernel_thread+0x14/0x18
-==================================================================
-BUG: Kernel NULL pointer dereference on read at 0x00000000
-Faulting instruction address: 0xc000000000283da4
-Oops: Kernel access of bad area, sig: 7 [#1]
-BE PAGE_SIZE=4K MMU=Radix SMP NR_CPUS=32 NUMA PowerNV
-Modules linked in: drm_gem_shmem_test drm_shmem_helper slub_kunit drm_rect_test drm_modes_test drm_mm_test drm_managed_test drm_framebuffer_test drm_format_test drm_exec_test drm_kunit_helpers drm_exec drm_dp_mst_helper_test drm_damage_helper_test drm_connector_test drm_cmdline_parser_test drm_buddy_test drm_buddy snd_hrtimer snd_seq snd_seq_device snd_timer snd soundcore evdev input_leds hid_generic usbhid hid radeon xts ctr cbc xhci_pci xhci_hcd drm_suballoc_helper i2c_algo_bit drm_ttm_helper ofpart aes_generic libaes cfg80211 ttm drm_display_helper vmx_crypto powernv_flash gf128mul
- usbcore mtd backlight rfkill at24 usb_common regmap_i2c opal_prd ibmpowernv lz4 lz4_compress lz4_decompress zram pkcs8_key_parser powernv_cpufreq dm_mod loop configfs
-CPU: 24 PID: 4023 Comm: kunit_try_catch Tainted: G    B   W       TN 6.8.0-rc5-P9-dirty #4
-Hardware name: T2P9D01 REV 1.01 POWER9 0x4e1202 opal:skiboot-bc106a0 PowerNV
-NIP:  c000000000283da4 LR: c000000000283d9c CTR: 0000000000000000
-REGS: c00020004560f8f0 TRAP: 0300   Tainted: G    B   W       TN  (6.8.0-rc5-P9-dirty)
-MSR:  9000000000009032 <SF,HV,EE,ME,IR,DR,RI>  CR: 28000200  XER: 00000000
-CFAR: c00000000055b42c DAR: 0000000000000000 DSISR: 00080000 IRQMASK: 0 
-GPR00: 0000000000000000 c00020004560fb90 c0000000018f1c00 0000000000000000 
-GPR04: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 
-GPR08: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 
-GPR12: 0000000000000000 c0002005fc3ffd80 c0000000001cd5f0 c000000098368940 
-GPR16: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 
-GPR20: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 
-GPR24: 0000000000000000 0000000000000001 c00020000a992340 0000000000000000 
-GPR28: 0000000000000000 0000000000000000 0000000000000000 c000200046dfe400 
-NIP [c000000000283da4] dma_unmap_sg_attrs+0x84/0x210
-LR [c000000000283d9c] dma_unmap_sg_attrs+0x7c/0x210
-Call Trace:
-[c00020004560fb90] [c000000000283d9c] dma_unmap_sg_attrs+0x7c/0x210 (unreliable)
-[c00020004560fbf0] [c0080000227ed3bc] drm_gem_shmem_free+0x160/0x398 [drm_shmem_helper]
-[c00020004560fc80] [c008000022812cf8] drm_gem_shmem_test_obj_create_private+0x288/0x588 [drm_gem_shmem_test]
-[c00020004560fe90] [c000000000b15ca4] kunit_try_run_case+0xfc/0x34c
-[c00020004560ff50] [c000000000b1a698] kunit_generic_run_threadfn_adapter+0x50/0x7c
-[c00020004560ff80] [c0000000001cd7bc] kthread+0x1d4/0x1e0
-[c00020004560ffe0] [c00000000000d030] start_kernel_thread+0x14/0x18
-Code: 39200001 eb7f0238 7d20481e 0b090000 387f0240 482d758d 60000000 eb9f0240 7f83e378 482d757d 60000000 2c3b0000 <eb9c0000> 40820078 7fa7eb78 7fc6f378 
----[ end trace 0000000000000000 ]---
+I discussed this with Bjorn and Dmitry the other day and the conclusion
+was that it was easiest to take all of these through DRM.
 
+With Vinod acking the PHY patches, I believe you have what you need to
+merge the whole series now?
 
-Regards,
-Erhard
+Johan
