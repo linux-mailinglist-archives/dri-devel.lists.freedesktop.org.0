@@ -2,80 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDA338615B1
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 16:26:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B8A8861631
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 16:46:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09C0B10EC30;
-	Fri, 23 Feb 2024 15:26:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D26510EC42;
+	Fri, 23 Feb 2024 15:46:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="NtXSJU0G";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uIirtlHU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2377B10EC30
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 15:26:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1708701992;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NMMUmN0rsAKL+5iBGI5E5zfAAFbk9zQW3IiqyJQ5Rkc=;
- b=NtXSJU0Gh85K1PjZ1Ohkd6sSteMHWNtW1fORXXZ+ieKj+ySXo2RjpH0RuK7Fn2pa6N+KR6
- Cktbwl+CFrbynPLGNKSb/drc7zTZu/DWlOkQrWJvi+J6obWmYMwlyA0WbGEV20dcd0ZOMg
- c/Cn9uJDVbcPb1jDPfvqyPJ+d3T9J3A=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-671--dA7jA5MP621G7R60JDHOg-1; Fri, 23 Feb 2024 10:26:30 -0500
-X-MC-Unique: -dA7jA5MP621G7R60JDHOg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-4125670e7d1so2325215e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 07:26:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708701989; x=1709306789;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NMMUmN0rsAKL+5iBGI5E5zfAAFbk9zQW3IiqyJQ5Rkc=;
- b=TPzs0DhA31oEK+AjavSACVQXtkoKIKstK7EF8mH1oDXlCkif758B78ZFqlS4NhFSaK
- ncSXQ6GUsCgaTbcpX4eb57xHFTD/OpgC4+QMeL/DkQCBUvosd/wdDqsBfN9dslncwwQS
- 5sD0GAyYhcA7rWfxSTpYsfWF+2CFq0SPX+91szl8hzV+HK5dPeuBFu/PVSc/Rj056wM6
- kCHo/tkyPyu+ZUnWXyUMP2u1zvEqtopEDquPJ74zB5rqB2ApNvBGyrLwZq79fh0nw7vh
- cOOucD6eLmp+Bn5XLkN1owpSb1j1NPGnwbtoqGk/6nME4RdA3+Hro36hfcmXbwkHd4Jz
- PJJA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVnOSuv397mLjPMawtMwJUfTS0wJOYyXjoMIjJ/W8r+oLt5bIgh66HLcTVvUPyQhZivsJJNFIppuUV3fcls6lJkqcpAOsNIC3RHShUpCfIP
-X-Gm-Message-State: AOJu0YyBe1ufhcEdsJRHZYq9nsGZpSI1qYVZm98KvxB+yOPmVS534kWA
- zKc83CcJdlXiUw6u3RAp4ExxUs1Lrv7DBt7Rpv0B5F4OSXXldoTBiiHus3hSwXajr2Q5Oyey14m
- JlymhAHfIeTo9wcPKFWNhS6e0Yh4uUytPSIXObe4+FX+LEKzjvedhtzHW1sMrvXauQw==
-X-Received: by 2002:a5d:5267:0:b0:33d:47c6:24fe with SMTP id
- l7-20020a5d5267000000b0033d47c624femr97467wrc.12.1708701989504; 
- Fri, 23 Feb 2024 07:26:29 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHrjCqKcGbCqYyjSk784Q5WPDu5Uj5ZfIqXNtJ4iF/sM0sITpc89qmAng+UPf7QsynuMGvlOg==
-X-Received: by 2002:a5d:5267:0:b0:33d:47c6:24fe with SMTP id
- l7-20020a5d5267000000b0033d47c624femr97452wrc.12.1708701989155; 
- Fri, 23 Feb 2024 07:26:29 -0800 (PST)
-Received: from localhost ([195.166.127.210]) by smtp.gmail.com with ESMTPSA id
- bh9-20020a05600c3d0900b00412945d2051sm2516910wmb.12.2024.02.23.07.26.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Feb 2024 07:26:28 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thierry Reding <thierry.reding@gmail.com>, Thierry Reding
- <thierry.reding@gmail.com>
-Cc: Jon Hunter <jonathanh@nvidia.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v2] drm/tegra: Remove existing framebuffer only if we
- support display
-In-Reply-To: <20240223150333.1401582-1-thierry.reding@gmail.com>
-References: <20240223150333.1401582-1-thierry.reding@gmail.com>
-Date: Fri, 23 Feb 2024 16:26:28 +0100
-Message-ID: <87o7c76w2j.fsf@minerva.mail-host-address-is-not-set>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2A3F10EC42;
+ Fri, 23 Feb 2024 15:46:42 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 024E9634F7;
+ Fri, 23 Feb 2024 15:46:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B61CC433F1;
+ Fri, 23 Feb 2024 15:46:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1708703201;
+ bh=3K1YElhmGqBFBiWcDwhwhoj2GW63wMKrK52rUUQ+rtM=;
+ h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+ b=uIirtlHUpC1FGughklquX9RfUKvNSJRmLfGw1z6KEj84g2kNdfMf0OHxDtvMYlRpc
+ jpCHdbxXBGrv7CNMzN2Pic348dI8sAkJ6cvSJ+G353tThgHm/WNhaS914LXko7/3TG
+ CtYyjFrH3MQN0YMDAs1xk/NR8jYopK86es26QS4ut9XvudOIUQcFfBbf2nbfgO4pav
+ QEOyyt5BKwN0fn0mON21uiGer6nB4Kt54Vg1qv3eKHZpU1FsED3euVNchv4nbZs014
+ dchJL+OVNuKY+58W/itQGCUXYuUMf3UoGk2ge41JIuP4vW5A102AdbStULbdkKbjxW
+ U7S1sJP8HwoWg==
+Date: Fri, 23 Feb 2024 07:46:40 -0800
+From: Kees Cook <kees@kernel.org>
+To: kernel test robot <lkp@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>,
+ dri-devel@lists.freedesktop.org, io-uring@vger.kernel.org,
+ kunit-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-sound@vger.kernel.org, mhi@lists.linux.dev,
+ nouveau@lists.freedesktop.org, ntfs3@lists.linux.dev,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Subject: =?US-ASCII?Q?Re=3A_=5Blinux-next=3Amaster=5D_BUILD_REGRESSION?=
+ =?US-ASCII?Q?_e31185ce00a96232308300008db193416ceb9769?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <202402231222.DVB9DC74-lkp@intel.com>
+References: <202402231222.DVB9DC74-lkp@intel.com>
+Message-ID: <3532AACB-176A-4C48-9855-CCD6C97FDE91@kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,27 +68,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thierry Reding <thierry.reding@gmail.com> writes:
 
-Hello Thierry,
 
-> From: Thierry Reding <treding@nvidia.com>
+On February 22, 2024 8:29:28 PM PST, kernel test robot <lkp@intel=2Ecom> w=
+rote:
+>tree/branch: https://git=2Ekernel=2Eorg/pub/scm/linux/kernel/git/next/lin=
+ux-next=2Egit master
+>branch HEAD: e31185ce00a96232308300008db193416ceb9769  Add linux-next spe=
+cific files for 20240222
 >
-> Tegra DRM doesn't support display on Tegra234 and later, so make sure
-> not to remove any existing framebuffers in that case.
+>Error/Warning reports:
 >
-> v2: - add comments explaining how this situation can come about
->     - clear DRIVER_MODESET and DRIVER_ATOMIC feature bits
+>https://lore=2Ekernel=2Eorg/oe-kbuild-all/202402222223=2Eh9rFmYj4-lkp@int=
+el=2Ecom
+>https://lore=2Ekernel=2Eorg/oe-kbuild-all/202402222314=2EJ6A7eb4B-lkp@int=
+el=2Ecom
+>https://lore=2Ekernel=2Eorg/oe-kbuild-all/202402230537=2E2s6Nhfsn-lkp@int=
+el=2Ecom
 >
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
+>Error/Warning: (recently discovered and may have been fixed)
+>
+>arch/arm/boot/compressed/misc=2Ec:157:6: warning: no previous prototype f=
+or function '__fortify_panic' [-Wmissing-prototypes]
+>arch/arm/boot/compressed/misc=2Eh:13:36: error: macro "fortify_panic" req=
+uires 2 arguments, but only 1 given
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+This is fixed for the subsequent -next tree=2E
 
--- 
-Best regards,
+>arch/sh/boot/compressed/=2E=2E/=2E=2E/=2E=2E/=2E=2E/lib/decompress_unxz=
+=2Ec:350:(=2Etext+0x20b4): undefined reference to `__ubsan_handle_out_of_bo=
+unds'
+>sh4-linux-ld: arch/sh/boot/compressed/=2E=2E/=2E=2E/=2E=2E/=2E=2E/lib/xz/=
+xz_dec_lzma2=2Ec:751:(=2Etext+0x904): undefined reference to `__ubsan_handl=
+e_out_of_bounds'
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+This is fixed here and is waiting to land:
+https://lore=2Ekernel=2Eorg/linux-hardening/20240130232717=2Ework=2E088-ke=
+es@kernel=2Eorg/
 
+-Kees
+
+--=20
+Kees Cook
