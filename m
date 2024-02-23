@@ -2,59 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43E17861B0E
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 19:05:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C39A861B79
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Feb 2024 19:22:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E711F10E032;
-	Fri, 23 Feb 2024 18:05:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35FF010E07C;
+	Fri, 23 Feb 2024 18:22:25 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EElgjbta";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7E8089BA3;
- Fri, 23 Feb 2024 18:05:09 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25BF810E07C
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Feb 2024 18:22:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id CC73ECE2E24;
- Fri, 23 Feb 2024 18:05:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 370BEC433C7;
- Fri, 23 Feb 2024 18:05:01 +0000 (UTC)
-Date: Fri, 23 Feb 2024 13:06:53 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: LKML <linux-kernel@vger.kernel.org>, Linux Trace Kernel
- <linux-trace-kernel@vger.kernel.org>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Linus Torvalds
- <torvalds@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- kvm@vger.kernel.org, linux-block@vger.kernel.org,
- linux-cxl@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- virtualization@lists.linux.dev, linux-rdma@vger.kernel.org,
- linux-pm@vger.kernel.org, iommu@lists.linux.dev,
- linux-tegra@vger.kernel.org, netdev@vger.kernel.org,
- linux-hyperv@vger.kernel.org, ath10k@lists.infradead.org,
- linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
- ath12k@lists.infradead.org, brcm80211@lists.linux.dev,
- brcm80211-dev-list.pdl@broadcom.com, linux-usb@vger.kernel.org,
- linux-bcachefs@vger.kernel.org, linux-nfs@vger.kernel.org,
- ocfs2-devel@lists.linux.dev, linux-cifs@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-edac@vger.kernel.org,
- selinux@vger.kernel.org, linux-btrfs@vger.kernel.org,
- linux-erofs@lists.ozlabs.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-hwmon@vger.kernel.org, io-uring@vger.kernel.org,
- linux-sound@vger.kernel.org, bpf@vger.kernel.org,
- linux-wpan@vger.kernel.org, dev@openvswitch.org,
- linux-s390@vger.kernel.org, tipc-discussion@lists.sourceforge.net, Julia
- Lawall <Julia.Lawall@inria.fr>
-Subject: Re: [FYI][PATCH] tracing/treewide: Remove second parameter of
- __assign_str()
-Message-ID: <20240223130653.2cc317a8@gandalf.local.home>
-In-Reply-To: <20240223125634.2888c973@gandalf.local.home>
-References: <20240223125634.2888c973@gandalf.local.home>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5A0A161426;
+ Fri, 23 Feb 2024 18:22:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F09CC433C7;
+ Fri, 23 Feb 2024 18:22:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1708712542;
+ bh=Cqe8LWCCXqLI5nJcTymn6aKYDyIH6gIwWLFJZo8+z3k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=EElgjbtaShdUYdyHHnFLSRzMCcY/qTZuD/DGBY+Y5FOrU30PoSioGwAHJTe+P/7X2
+ CVRwj9barJ2QL4JrjzdV+vfmfBGJBde3AtH7gH9Be86Cd/VA9OjOULGymAZpzvMyCT
+ eJlKt2xf0+fD7oJMuwbUvGbqG31CQkUAt5CGa60z/0UFFjJea+8WkQAgIuxTCrtVx/
+ i/uf1izem6KHVFLxNbn08EUJ4MGtvhunnOU9kzlg5xBOmLv22Sq/4sXGVo69NrFhcM
+ TeDNJ8mtxQNXnNafq4moPHsbxLuWAZMazFEmAcfhT5pubkzWpWcqLX8NwoY/mORpdo
+ bRnN86oYQOZBQ==
+Date: Fri, 23 Feb 2024 18:22:16 +0000
+From: Conor Dooley <conor@kernel.org>
+To: =?iso-8859-1?Q?J=E9r=E9mie?= Dautheribes <jeremie.dautheribes@bootlin.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Yen-Mei Goh <yen-mei.goh@keysight.com>
+Subject: Re: [PATCH 1/3] dt-bindings: Add Crystal Clear Technology vendor
+ prefix
+Message-ID: <20240223-prepay-stadium-f09044e3e123@spud>
+References: <20240223134517.728568-1-jeremie.dautheribes@bootlin.com>
+ <20240223134517.728568-2-jeremie.dautheribes@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="tqbEmhW4lbBDVPaW"
+Content-Disposition: inline
+In-Reply-To: <20240223134517.728568-2-jeremie.dautheribes@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,22 +72,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 23 Feb 2024 12:56:34 -0500
-Steven Rostedt <rostedt@goodmis.org> wrote:
 
-> Note, the same updates will need to be done for:
-> 
->   __assign_str_len()
->   __assign_rel_str()
->   __assign_rel_str_len()
+--tqbEmhW4lbBDVPaW
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Correction: The below macros do not pass in their source to the entry
-macros, so they will not need to be updated.
+On Fri, Feb 23, 2024 at 02:45:15PM +0100, J=E9r=E9mie Dautheribes wrote:
+> Update Documentation/devicetree/bindings/vendor-prefixes.yaml to
+> include "cct" as a vendor prefix for "Crystal Clear Technology". CCT is
+> the vendor of the CMT430B19N00 TFT-LCD panel.
+>=20
 
--- Steve
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
->   __assign_bitmask()
->   __assign_rel_bitmask()
->   __assign_cpumask()
->   __assign_rel_cpumask()
+And add a
+Link: http://www.cct.com.my/
+as that actually explains why "cct" is the right choice.
 
+Cheers,
+Conor.
+
+> Signed-off-by: J=E9r=E9mie Dautheribes <jeremie.dautheribes@bootlin.com>
+> ---
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Doc=
+umentation/devicetree/bindings/vendor-prefixes.yaml
+> index fef2e12b504e..96e47742e250 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -248,6 +248,8 @@ patternProperties:
+>      description: Catalyst Semiconductor, Inc.
+>    "^cavium,.*":
+>      description: Cavium, Inc.
+> +  "^cct,.*":
+> +    description: Crystal Clear Technology Sdn. Bhd.
+>    "^cdns,.*":
+>      description: Cadence Design Systems Inc.
+>    "^cdtech,.*":
+> --=20
+> 2.34.1
+>=20
+
+--tqbEmhW4lbBDVPaW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZdjiWAAKCRB4tDGHoIJi
+0teoAP4iP4DoqDwhJ9zjgyRVfThghCGI8b7Mrw0n/J2/EBLjRgEAmE3S4BaustQN
+Vnu5lUdAAJ9L0D2ZLHvC+BoPqwMcTww=
+=BaSE
+-----END PGP SIGNATURE-----
+
+--tqbEmhW4lbBDVPaW--
