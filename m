@@ -2,58 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55A9E862C74
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Feb 2024 19:02:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9609C862C9A
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Feb 2024 20:44:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CBF710E2C6;
-	Sun, 25 Feb 2024 18:02:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2702610E349;
+	Sun, 25 Feb 2024 19:44:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Z2FkVT8M";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="CPJnfu4S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3121710E2C6
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Feb 2024 18:02:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708884134; x=1740420134;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=WQ4k+cVAnhT15Z7wFi7deNZ+ISFJHpvAqziU5YWj4Z4=;
- b=Z2FkVT8MJ+sOlSOm2DrwJYjLHSdLMbBv5kcIt7R3He+LdHs6js4BMaFK
- hIQ7/LBMeMW9bOIIFzcwFgoMIAZ78oCkNy77XvVEo8VsWDpMIQjMVRmqM
- i1i69PdX2zA3nxz4Q41JRt2tjMfnRvGc37mcF9RJ8wxB4ayKdC4DqWxTV
- NTqOp4L5n75+N9Lspap0mioDQezZCLg9LahhUnWNI8V4j7CvIQOE26LNi
- D4L3OXobhePU08l0M54nBEAVoLwkbJiiyiUkvXD0X+jvBU6+7HdDtrWJ9
- jgepUDTL16u47lt1PwkY/Q3/t4Xm6WpIsnwUXs8X9TP9gOlDfBFw3PI2o g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="20612660"
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; d="scan'208";a="20612660"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2024 10:02:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; d="scan'208";a="11088206"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
- by fmviesa004.fm.intel.com with ESMTP; 25 Feb 2024 10:02:11 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1reIpB-0009iS-0L;
- Sun, 25 Feb 2024 18:02:07 +0000
-Date: Mon, 26 Feb 2024 02:01:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [drm-misc:drm-misc-next 1/3]
- drivers/gpu/drm/i915/display/intel_dp.c:4233:8: error: call to undeclared
- function 'intel_dp_vsc_sdp_pack'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202402260120.eBo7nTYE-lkp@intel.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E516710E24F;
+ Sun, 25 Feb 2024 19:44:04 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 41PJgIjI015512; Sun, 25 Feb 2024 19:44:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=fIuZiDVUC5BxEMNoUKW/xi6MICo1paQfVTKIDQKp2M0=; b=CP
+ Jnfu4SIwT8en1/Ltz8KyjTaeD31G93lWCxafMOW7yY0/gnUlQgT+YzDQLhJ/ejAr
+ HtvYpf8xjv3CdsI1TaEwc1gkmvCTgyT5KcGB53Mr6dJdy+mZlUMcABweGRYnwy88
+ CNOYHFq9ksSWalct1JUUWJUzQ1uzQ9+PWmCnxpfuVIxHZI8ROrvmhTv3ZEAZ4CRF
+ iFjvafZ0g/KTBaejGZLlf3Oo2BFTVuK5YhXm0sSO0DcXu+IXdd3diJWXFFfQ/QSc
+ Sv6tNJyJZLRUV4CPxwz0CmYtmRn5wEQiOJLdHXVhIIoXy4i58Y4/gh7uwvXZe7YG
+ nskE4EiPAETwhu01aHZg==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wf7dv2cwc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 25 Feb 2024 19:43:59 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41PJhxPo023034
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 25 Feb 2024 19:43:59 GMT
+Received: from [10.110.76.211] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Sun, 25 Feb
+ 2024 11:43:58 -0800
+Message-ID: <4e6b41f4-27a6-4c65-dc03-67437a9716ed@quicinc.com>
+Date: Sun, 25 Feb 2024 11:43:57 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v3 1/3] drm/msm/dpu: make "vblank timeout" more useful
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>
+CC: Steev Klimaszewski <steev@kali.org>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+References: <20240225-fd-dpu-debug-timeout-v3-0-252f2b21cdcc@linaro.org>
+ <20240225-fd-dpu-debug-timeout-v3-1-252f2b21cdcc@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20240225-fd-dpu-debug-timeout-v3-1-252f2b21cdcc@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: gXNin3qXAJOwLsvYK6UlQHd4mP-BJYoC
+X-Proofpoint-ORIG-GUID: gXNin3qXAJOwLsvYK6UlQHd4mP-BJYoC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-25_22,2024-02-23_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 spamscore=0
+ bulkscore=0 mlxlogscore=949 phishscore=0 adultscore=0 suspectscore=0
+ clxscore=1011 lowpriorityscore=0 priorityscore=1501 impostorscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2402250157
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,61 +95,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-head:   de8de2c8acb931ce6197a04376a7078ccf50e821
-commit: 47f419e07111acecab3b529d4ae31a28985f5b61 [1/3] drm/dp: move intel_dp_vsc_sdp_pack() to generic helper
-config: i386-buildonly-randconfig-003-20240225 (https://download.01.org/0day-ci/archive/20240226/202402260120.eBo7nTYE-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240226/202402260120.eBo7nTYE-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402260120.eBo7nTYE-lkp@intel.com/
-
-Note: the drm-misc/drm-misc-next HEAD de8de2c8acb931ce6197a04376a7078ccf50e821 builds fine.
-      It only hurts bisectability.
-
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/i915/display/intel_dp.c:4233:8: error: call to undeclared function 'intel_dp_vsc_sdp_pack'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    4233 |         len = intel_dp_vsc_sdp_pack(vsc, &sdp, sizeof(sdp));
-         |               ^
-   drivers/gpu/drm/i915/display/intel_dp.c:4233:8: note: did you mean 'drm_dp_vsc_sdp_pack'?
-   include/drm/display/drm_dp_helper.h:815:9: note: 'drm_dp_vsc_sdp_pack' declared here
-     815 | ssize_t drm_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
-         |         ^
-   1 error generated.
 
 
-vim +/intel_dp_vsc_sdp_pack +4233 drivers/gpu/drm/i915/display/intel_dp.c
+On 2/25/2024 6:12 AM, Dmitry Baryshkov wrote:
+> We have several reports of vblank timeout messages. However after some
+> debugging it was found that there might be different causes to that.
+> To allow us to identify the DPU block that gets stuck, include the
+> actual CTL_FLUSH value into the timeout message.
+> 
 
-03c761b00c87d6 Gwan-gyeong Mun       2020-02-11  4223  
-cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4224  void intel_write_dp_vsc_sdp(struct intel_encoder *encoder,
-cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4225  			    const struct intel_crtc_state *crtc_state,
-9ce5884e513903 José Roberto de Souza 2021-09-22  4226  			    const struct drm_dp_vsc_sdp *vsc)
-cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4227  {
-7801f3b792b0fd Lucas De Marchi       2020-06-30  4228  	struct intel_digital_port *dig_port = enc_to_dig_port(encoder);
-cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4229  	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
-cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4230  	struct dp_sdp sdp = {};
-cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4231  	ssize_t len;
-cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4232  
-cafac5a9836199 Gwan-gyeong Mun       2020-05-14 @4233  	len = intel_dp_vsc_sdp_pack(vsc, &sdp, sizeof(sdp));
-cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4234  
-cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4235  	if (drm_WARN_ON(&dev_priv->drm, len < 0))
-cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4236  		return;
-cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4237  
-7801f3b792b0fd Lucas De Marchi       2020-06-30  4238  	dig_port->write_infoframe(encoder, crtc_state, DP_SDP_VSC,
-cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4239  					&sdp, len);
-cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4240  }
-cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4241  
+the flush register shall also be part of the coredump in patch 3. so why 
+is this needed?
 
-:::::: The code at line 4233 was first introduced by commit
-:::::: cafac5a983619944afa639c53f0d5d885616a3d2 drm/i915/dp: Add compute routine for DP PSR VSC SDP
-
-:::::: TO: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-:::::: CC: Jani Nikula <jani.nikula@intel.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> index 2aa72b578764..6058706f03e4 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> @@ -480,7 +480,7 @@ static int dpu_encoder_phys_vid_wait_for_commit_done(
+>   		(hw_ctl->ops.get_flush_register(hw_ctl) == 0),
+>   		msecs_to_jiffies(50));
+>   	if (ret <= 0) {
+> -		DPU_ERROR("vblank timeout\n");
+> +		DPU_ERROR("vblank timeout: %x\n", hw_ctl->ops.get_flush_register(hw_ctl));
+>   		return -ETIMEDOUT;
+>   	}
+>   
+> 
