@@ -2,90 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F71D862C37
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Feb 2024 18:14:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55A9E862C74
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Feb 2024 19:02:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50D898922E;
-	Sun, 25 Feb 2024 17:14:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CBF710E2C6;
+	Sun, 25 Feb 2024 18:02:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="I5+g21ZR";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Z2FkVT8M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37FA18922E
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Feb 2024 17:14:15 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-563d56ee65cso2864177a12.2
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Feb 2024 09:14:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1708881254; x=1709486054;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=0eZgSeXgV3xfMa5j0GZq4dgMO8aNM+WGN0zJZjS5h1g=;
- b=I5+g21ZRjZrND8SXWPXpMyNmQOzgP1RN/0AHdDQ8qqnmqzwiheBXJsRrMiQIwG8H1T
- y5tt/EJ+O0VtqTCLaalilIjUBXtblRUUKW8PM8k/nfjCpqFbkrLBQz/zJ8qvGA+3W8et
- LTqSSucyN9rS9U6SzPaa7Ris2z932L1t/wbig=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708881254; x=1709486054;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0eZgSeXgV3xfMa5j0GZq4dgMO8aNM+WGN0zJZjS5h1g=;
- b=B8tyOeQDkQ+Lx8bQEYMcRDcGXMAlLjxP7BS+ofd3bFMy7LEKmgZwgQsN10NzOpt1aX
- qgBP2s/2GmXBmapD+TdAnvD3ph8+lC8/1YaVhsG9WB7Ya7tzTGfwq9wJXF40JFhf4qXM
- 0J3iA9Sdbm8BCXDT42l635dYYPhIeWscmueJU3oyASEU/AGrBToLT+SCq5CRhkucrhoX
- piaFvzu0OM6u+A3i3HT+u4on9suRsb/7QUbmgEuVxSqkDQH7Oie7nvrGweN2NF9Oc/6b
- On/5eBs8aOfw4E0J5k2C5h5CaNlcXaWOVM0DDqoA4Ch3VQ7ZZzVPa+zerGBU3emCBy1s
- QUsA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV00HVw7fzVJuWx91sRwdG6wtQYjz9tf1/IooET7pwUKvi/qvaxLGVdDW8cfKpB1PqBQPgAszgluACnkhsyWDhlXESiwDrfW+v8NgqMSdQF
-X-Gm-Message-State: AOJu0YwNDJLXuOWDBlK5PD41FNapoNzNgWKVQMNxsdeSZ+jkRynt96o8
- OkU4CZi9nGPhNkgPFN13pP43Y4JQj3IJS394/pt/VdQAdynNoDWsR7lm4uZhVMzMNgsZjj0gnEA
- LnuIjHQ==
-X-Google-Smtp-Source: AGHT+IEaDytyPPopFyYJ+sXFNAaOL0UgHGCoc0t87CP6/i4CzlOdFgw/i9kI1AznYgXN1XIZBLvPJw==
-X-Received: by 2002:a17:906:36cd:b0:a3f:af82:569f with SMTP id
- b13-20020a17090636cd00b00a3faf82569fmr3264697ejc.33.1708881253877; 
- Sun, 25 Feb 2024 09:14:13 -0800 (PST)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com.
- [209.85.208.44]) by smtp.gmail.com with ESMTPSA id
- k25-20020a17090627d900b00a3d932d8fa7sm1618655ejc.183.2024.02.25.09.14.13
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 25 Feb 2024 09:14:13 -0800 (PST)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-563d56ee65cso2864161a12.2
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Feb 2024 09:14:13 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCU09X4BywEnkbg+/8WCqnHe9G8C+OcEMLNd8H7VZ2cJCqiNupE0Kv6fScPgyZcqCsfOewXO+SElsEx3OM/48nHKk+hfXNr9QQUlgLKeeun/
-X-Received: by 2002:a17:906:4f01:b0:a43:1201:6287 with SMTP id
- t1-20020a1709064f0100b00a4312016287mr1617440eju.73.1708881252681; Sun, 25 Feb
- 2024 09:14:12 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3121710E2C6
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Feb 2024 18:02:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1708884134; x=1740420134;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=WQ4k+cVAnhT15Z7wFi7deNZ+ISFJHpvAqziU5YWj4Z4=;
+ b=Z2FkVT8MJ+sOlSOm2DrwJYjLHSdLMbBv5kcIt7R3He+LdHs6js4BMaFK
+ hIQ7/LBMeMW9bOIIFzcwFgoMIAZ78oCkNy77XvVEo8VsWDpMIQjMVRmqM
+ i1i69PdX2zA3nxz4Q41JRt2tjMfnRvGc37mcF9RJ8wxB4ayKdC4DqWxTV
+ NTqOp4L5n75+N9Lspap0mioDQezZCLg9LahhUnWNI8V4j7CvIQOE26LNi
+ D4L3OXobhePU08l0M54nBEAVoLwkbJiiyiUkvXD0X+jvBU6+7HdDtrWJ9
+ jgepUDTL16u47lt1PwkY/Q3/t4Xm6WpIsnwUXs8X9TP9gOlDfBFw3PI2o g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="20612660"
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; d="scan'208";a="20612660"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2024 10:02:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; d="scan'208";a="11088206"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+ by fmviesa004.fm.intel.com with ESMTP; 25 Feb 2024 10:02:11 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1reIpB-0009iS-0L;
+ Sun, 25 Feb 2024 18:02:07 +0000
+Date: Mon, 26 Feb 2024 02:01:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [drm-misc:drm-misc-next 1/3]
+ drivers/gpu/drm/i915/display/intel_dp.c:4233:8: error: call to undeclared
+ function 'intel_dp_vsc_sdp_pack'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202402260120.eBo7nTYE-lkp@intel.com>
 MIME-Version: 1.0
-References: <0fff52305e584036a777f440b5f474da@AcuMS.aculab.com>
- <c6924533f157497b836bff24073934a6@AcuMS.aculab.com>
-In-Reply-To: <c6924533f157497b836bff24073934a6@AcuMS.aculab.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sun, 25 Feb 2024 09:13:56 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wgNh5Gw7RTuaRe7mvf3WrSGDRKzdA55KKdTzKt3xPCnLg@mail.gmail.com>
-Message-ID: <CAHk-=wgNh5Gw7RTuaRe7mvf3WrSGDRKzdA55KKdTzKt3xPCnLg@mail.gmail.com>
-Subject: Re: [PATCH next v2 08/11] minmax: Add min_const() and max_const()
-To: David Laight <David.Laight@aculab.com>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Netdev <netdev@vger.kernel.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Jens Axboe <axboe@kernel.dk>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Christoph Hellwig <hch@infradead.org>, 
- "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- "David S . Miller" <davem@davemloft.net>,
- Dan Carpenter <dan.carpenter@linaro.org>, 
- Jani Nikula <jani.nikula@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,33 +69,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 25 Feb 2024 at 08:53, David Laight <David.Laight@aculab.com> wrote:
->
-> The expansions of min() and max() contain statement expressions so are
-> not valid for static intialisers.
-> min_const() and max_const() are expressions so can be used for static
-> initialisers.
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   de8de2c8acb931ce6197a04376a7078ccf50e821
+commit: 47f419e07111acecab3b529d4ae31a28985f5b61 [1/3] drm/dp: move intel_dp_vsc_sdp_pack() to generic helper
+config: i386-buildonly-randconfig-003-20240225 (https://download.01.org/0day-ci/archive/20240226/202402260120.eBo7nTYE-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240226/202402260120.eBo7nTYE-lkp@intel.com/reproduce)
 
-I hate the name.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402260120.eBo7nTYE-lkp@intel.com/
 
-Naming shouldn't be about an implementation detail, particularly not
-an esoteric one like the "C constant expression" rule. That can be
-useful for some internal helper functions or macros, but not for
-something that random people are supposed to USE.
+Note: the drm-misc/drm-misc-next HEAD de8de2c8acb931ce6197a04376a7078ccf50e821 builds fine.
+      It only hurts bisectability.
 
-Telling some random developer that inside an array size declaration or
-a static initializer you need to use "max_const()" because it needs to
-syntactically be a constant expression, and our regular "max()"
-function isn't that, is just *horrid*.
+All errors (new ones prefixed by >>):
 
-No, please just use the traditional C model of just using ALL CAPS for
-macro names that don't act like a function.
+>> drivers/gpu/drm/i915/display/intel_dp.c:4233:8: error: call to undeclared function 'intel_dp_vsc_sdp_pack'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    4233 |         len = intel_dp_vsc_sdp_pack(vsc, &sdp, sizeof(sdp));
+         |               ^
+   drivers/gpu/drm/i915/display/intel_dp.c:4233:8: note: did you mean 'drm_dp_vsc_sdp_pack'?
+   include/drm/display/drm_dp_helper.h:815:9: note: 'drm_dp_vsc_sdp_pack' declared here
+     815 | ssize_t drm_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
+         |         ^
+   1 error generated.
 
-Yes, yes, that may end up requiring getting rid of some current users of
 
-  #define MIN(a,b) ((a)<(b) ? (a):(b))
+vim +/intel_dp_vsc_sdp_pack +4233 drivers/gpu/drm/i915/display/intel_dp.c
 
-but dammit, we don't actually have _that_ many of them, and why should
-we have random drivers doing that anyway?
+03c761b00c87d6 Gwan-gyeong Mun       2020-02-11  4223  
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4224  void intel_write_dp_vsc_sdp(struct intel_encoder *encoder,
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4225  			    const struct intel_crtc_state *crtc_state,
+9ce5884e513903 José Roberto de Souza 2021-09-22  4226  			    const struct drm_dp_vsc_sdp *vsc)
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4227  {
+7801f3b792b0fd Lucas De Marchi       2020-06-30  4228  	struct intel_digital_port *dig_port = enc_to_dig_port(encoder);
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4229  	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4230  	struct dp_sdp sdp = {};
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4231  	ssize_t len;
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4232  
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14 @4233  	len = intel_dp_vsc_sdp_pack(vsc, &sdp, sizeof(sdp));
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4234  
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4235  	if (drm_WARN_ON(&dev_priv->drm, len < 0))
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4236  		return;
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4237  
+7801f3b792b0fd Lucas De Marchi       2020-06-30  4238  	dig_port->write_infoframe(encoder, crtc_state, DP_SDP_VSC,
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4239  					&sdp, len);
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4240  }
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4241  
 
-              Linus
+:::::: The code at line 4233 was first introduced by commit
+:::::: cafac5a983619944afa639c53f0d5d885616a3d2 drm/i915/dp: Add compute routine for DP PSR VSC SDP
+
+:::::: TO: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+:::::: CC: Jani Nikula <jani.nikula@intel.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
