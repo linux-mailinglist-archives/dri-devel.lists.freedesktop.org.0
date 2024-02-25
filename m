@@ -2,59 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1360C862C24
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Feb 2024 17:57:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F71D862C37
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Feb 2024 18:14:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B90E10E141;
-	Sun, 25 Feb 2024 16:57:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50D898922E;
+	Sun, 25 Feb 2024 17:14:19 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="I5+g21ZR";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AC9710E141
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Feb 2024 16:57:09 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-209-DBxHGHkZP8yW0XsruhqEOw-1; Sun, 25 Feb 2024 16:57:00 +0000
-X-MC-Unique: DBxHGHkZP8yW0XsruhqEOw-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sun, 25 Feb
- 2024 16:56:59 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Sun, 25 Feb 2024 16:56:59 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: "'linux-kernel@vger.kernel.org'" <linux-kernel@vger.kernel.org>, "'Linus
- Torvalds'" <torvalds@linux-foundation.org>, 'Netdev'
- <netdev@vger.kernel.org>, "'dri-devel@lists.freedesktop.org'"
- <dri-devel@lists.freedesktop.org>
-CC: 'Jens Axboe' <axboe@kernel.dk>, "'Matthew Wilcox (Oracle)'"
- <willy@infradead.org>, 'Christoph Hellwig' <hch@infradead.org>,
- "'linux-btrfs@vger.kernel.org'" <linux-btrfs@vger.kernel.org>, "'Andrew
- Morton'" <akpm@linux-foundation.org>, 'Andy Shevchenko'
- <andriy.shevchenko@linux.intel.com>, "'David S . Miller'"
- <davem@davemloft.net>, 'Dan Carpenter' <dan.carpenter@linaro.org>, "'Jani
- Nikula'" <jani.nikula@linux.intel.com>
-Subject: [PATCH next v2 11/11] minmax: min() and max() don't need to return
- constant expressions
-Thread-Topic: [PATCH next v2 11/11] minmax: min() and max() don't need to
- return constant expressions
-Thread-Index: AdpoC6KUHy5Z1N7yRkiaBkc7ZdEdRQ==
-Date: Sun, 25 Feb 2024 16:56:58 +0000
-Message-ID: <a18dcae310f74dcb9c6fc01d5bdc0568@AcuMS.aculab.com>
-References: <0fff52305e584036a777f440b5f474da@AcuMS.aculab.com>
-In-Reply-To: <0fff52305e584036a777f440b5f474da@AcuMS.aculab.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
+ [209.85.208.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37FA18922E
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Feb 2024 17:14:15 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id
+ 4fb4d7f45d1cf-563d56ee65cso2864177a12.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Feb 2024 09:14:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google; t=1708881254; x=1709486054;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=0eZgSeXgV3xfMa5j0GZq4dgMO8aNM+WGN0zJZjS5h1g=;
+ b=I5+g21ZRjZrND8SXWPXpMyNmQOzgP1RN/0AHdDQ8qqnmqzwiheBXJsRrMiQIwG8H1T
+ y5tt/EJ+O0VtqTCLaalilIjUBXtblRUUKW8PM8k/nfjCpqFbkrLBQz/zJ8qvGA+3W8et
+ LTqSSucyN9rS9U6SzPaa7Ris2z932L1t/wbig=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708881254; x=1709486054;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0eZgSeXgV3xfMa5j0GZq4dgMO8aNM+WGN0zJZjS5h1g=;
+ b=B8tyOeQDkQ+Lx8bQEYMcRDcGXMAlLjxP7BS+ofd3bFMy7LEKmgZwgQsN10NzOpt1aX
+ qgBP2s/2GmXBmapD+TdAnvD3ph8+lC8/1YaVhsG9WB7Ya7tzTGfwq9wJXF40JFhf4qXM
+ 0J3iA9Sdbm8BCXDT42l635dYYPhIeWscmueJU3oyASEU/AGrBToLT+SCq5CRhkucrhoX
+ piaFvzu0OM6u+A3i3HT+u4on9suRsb/7QUbmgEuVxSqkDQH7Oie7nvrGweN2NF9Oc/6b
+ On/5eBs8aOfw4E0J5k2C5h5CaNlcXaWOVM0DDqoA4Ch3VQ7ZZzVPa+zerGBU3emCBy1s
+ QUsA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV00HVw7fzVJuWx91sRwdG6wtQYjz9tf1/IooET7pwUKvi/qvaxLGVdDW8cfKpB1PqBQPgAszgluACnkhsyWDhlXESiwDrfW+v8NgqMSdQF
+X-Gm-Message-State: AOJu0YwNDJLXuOWDBlK5PD41FNapoNzNgWKVQMNxsdeSZ+jkRynt96o8
+ OkU4CZi9nGPhNkgPFN13pP43Y4JQj3IJS394/pt/VdQAdynNoDWsR7lm4uZhVMzMNgsZjj0gnEA
+ LnuIjHQ==
+X-Google-Smtp-Source: AGHT+IEaDytyPPopFyYJ+sXFNAaOL0UgHGCoc0t87CP6/i4CzlOdFgw/i9kI1AznYgXN1XIZBLvPJw==
+X-Received: by 2002:a17:906:36cd:b0:a3f:af82:569f with SMTP id
+ b13-20020a17090636cd00b00a3faf82569fmr3264697ejc.33.1708881253877; 
+ Sun, 25 Feb 2024 09:14:13 -0800 (PST)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com.
+ [209.85.208.44]) by smtp.gmail.com with ESMTPSA id
+ k25-20020a17090627d900b00a3d932d8fa7sm1618655ejc.183.2024.02.25.09.14.13
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 25 Feb 2024 09:14:13 -0800 (PST)
+Received: by mail-ed1-f44.google.com with SMTP id
+ 4fb4d7f45d1cf-563d56ee65cso2864161a12.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Feb 2024 09:14:13 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU09X4BywEnkbg+/8WCqnHe9G8C+OcEMLNd8H7VZ2cJCqiNupE0Kv6fScPgyZcqCsfOewXO+SElsEx3OM/48nHKk+hfXNr9QQUlgLKeeun/
+X-Received: by 2002:a17:906:4f01:b0:a43:1201:6287 with SMTP id
+ t1-20020a1709064f0100b00a4312016287mr1617440eju.73.1708881252681; Sun, 25 Feb
+ 2024 09:14:12 -0800 (PST)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+References: <0fff52305e584036a777f440b5f474da@AcuMS.aculab.com>
+ <c6924533f157497b836bff24073934a6@AcuMS.aculab.com>
+In-Reply-To: <c6924533f157497b836bff24073934a6@AcuMS.aculab.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sun, 25 Feb 2024 09:13:56 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wgNh5Gw7RTuaRe7mvf3WrSGDRKzdA55KKdTzKt3xPCnLg@mail.gmail.com>
+Message-ID: <CAHk-=wgNh5Gw7RTuaRe7mvf3WrSGDRKzdA55KKdTzKt3xPCnLg@mail.gmail.com>
+Subject: Re: [PATCH next v2 08/11] minmax: Add min_const() and max_const()
+To: David Laight <David.Laight@aculab.com>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Netdev <netdev@vger.kernel.org>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Jens Axboe <axboe@kernel.dk>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Christoph Hellwig <hch@infradead.org>, 
+ "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ "David S . Miller" <davem@davemloft.net>,
+ Dan Carpenter <dan.carpenter@linaro.org>, 
+ Jani Nikula <jani.nikula@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,90 +101,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After changing the handful of places max() was used to size an on-stack
-array to use max_const() it is no longer necessary for min() and max()
-to return constant expressions from constant inputs.
-Remove the associated logic to reduce the expanded text.
+On Sun, 25 Feb 2024 at 08:53, David Laight <David.Laight@aculab.com> wrote:
+>
+> The expansions of min() and max() contain statement expressions so are
+> not valid for static intialisers.
+> min_const() and max_const() are expressions so can be used for static
+> initialisers.
 
-Remove the 'hack' that allowed max(bool, bool).
+I hate the name.
 
-Fixup the initial block comment to match current reality.
+Naming shouldn't be about an implementation detail, particularly not
+an esoteric one like the "C constant expression" rule. That can be
+useful for some internal helper functions or macros, but not for
+something that random people are supposed to USE.
 
-Signed-off-by: David Laight <david.laight@aculab.com>
----
- include/linux/minmax.h | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+Telling some random developer that inside an array size declaration or
+a static initializer you need to use "max_const()" because it needs to
+syntactically be a constant expression, and our regular "max()"
+function isn't that, is just *horrid*.
 
-Changes for v2:
-- Typographical and spelling corrections to the commit messages.
-  Patches unchanged.
+No, please just use the traditional C model of just using ALL CAPS for
+macro names that don't act like a function.
 
-diff --git a/include/linux/minmax.h b/include/linux/minmax.h
-index c08916588425..5e65c98ff256 100644
---- a/include/linux/minmax.h
-+++ b/include/linux/minmax.h
-@@ -8,13 +8,10 @@
- #include <linux/types.h>
-=20
- /*
-- * min()/max()/clamp() macros must accomplish three things:
-+ * min()/max()/clamp() macros must accomplish several things:
-  *
-  * - Avoid multiple evaluations of the arguments (so side-effects like
-  *   "x++" happen only once) when non-constant.
-- * - Retain result as a constant expressions when called with only
-- *   constant expressions (to avoid tripping VLA warnings in stack
-- *   allocation usage).
-  * - Perform signed v unsigned type-checking (to generate compile
-  *   errors instead of nasty runtime surprises).
-  * - Unsigned char/short are always promoted to signed int and can be
-@@ -22,13 +19,19 @@
-  * - Unsigned arguments can be compared against non-negative signed consta=
-nts.
-  * - Comparison of a signed argument against an unsigned constant fails
-  *   even if the constant is below __INT_MAX__ and could be cast to int.
-+ *
-+ * The return value of min()/max() is not a constant expression for
-+ * constant parameters - so will trigger a VLA warging if used to size
-+ * an on-stack array.
-+ * Instead use min_const() or max_const() which do generate constant
-+ * expressions and are also valid for static initialisers.
-  */
- #define __typecheck(x, y) \
- =09(!!(sizeof((typeof(x) *)1 =3D=3D (typeof(y) *)1)))
-=20
- /* Allow unsigned compares against non-negative signed constants. */
- #define __is_ok_unsigned(x) \
--=09(is_unsigned_type(typeof(x)) || (__is_constexpr(x) ? (x) + 0 >=3D 0 : 0=
-))
-+=09(is_unsigned_type(typeof(x)) || (__is_constexpr(x) ? (x) >=3D 0 : 0))
-=20
- /* Check for signed after promoting unsigned char/short to int */
- #define __is_ok_signed(x) is_signed_type(typeof((x) + 0))
-@@ -53,12 +56,10 @@
- =09typeof(y) __y_##uniq =3D (y);=09=09\
- =09__cmp(op, __x_##uniq, __y_##uniq); })
-=20
--#define __careful_cmp(op, x, y, uniq)=09=09=09=09\
--=09__builtin_choose_expr(__is_constexpr((x) - (y)),=09\
--=09=09__cmp(op, x, y),=09=09=09=09\
--=09=09({ _Static_assert(__types_ok(x, y),=09=09\
--=09=09=09#op "(" #x ", " #y ") signedness error, fix types or consider u" =
-#op "() before " #op "_t()"); \
--=09=09__cmp_once(op, x, y, uniq); }))
-+#define __careful_cmp(op, x, y, uniq) ({=09\
-+=09_Static_assert(__types_ok(x, y),=09\
-+=09=09#op "(" #x ", " #y ") signedness error, fix types or consider u" #op=
- "() before " #op "_t()"); \
-+=09__cmp_once(op, x, y, uniq); })
-=20
- #define __careful_cmp_const(op, x, y)=09=09=09=09\
- =09(BUILD_BUG_ON_ZERO(!__is_constexpr((x) - (y))) +=09\
---=20
-2.17.1
+Yes, yes, that may end up requiring getting rid of some current users of
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
+  #define MIN(a,b) ((a)<(b) ? (a):(b))
 
+but dammit, we don't actually have _that_ many of them, and why should
+we have random drivers doing that anyway?
+
+              Linus
