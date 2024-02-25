@@ -2,58 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BD49862D24
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Feb 2024 22:26:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90294862D3F
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Feb 2024 22:41:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6821210E3F4;
-	Sun, 25 Feb 2024 21:26:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C69EF10E401;
+	Sun, 25 Feb 2024 21:41:27 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="iQAV4WGH";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D85A10E3F4
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Feb 2024 21:26:36 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-274-tAV88Qm8MBmPtn9Zj4ylcQ-1; Sun, 25 Feb 2024 21:26:33 +0000
-X-MC-Unique: tAV88Qm8MBmPtn9Zj4ylcQ-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sun, 25 Feb
- 2024 21:26:32 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Sun, 25 Feb 2024 21:26:32 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Linus Torvalds' <torvalds@linux-foundation.org>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Netdev
- <netdev@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, Jens Axboe <axboe@kernel.dk>, "Matthew
- Wilcox (Oracle)" <willy@infradead.org>, Christoph Hellwig
- <hch@infradead.org>, "linux-btrfs@vger.kernel.org"
- <linux-btrfs@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, "David S . Miller"
- <davem@davemloft.net>, Dan Carpenter <dan.carpenter@linaro.org>, Jani Nikula
- <jani.nikula@linux.intel.com>
-Subject: RE: [PATCH next v2 08/11] minmax: Add min_const() and max_const()
-Thread-Topic: [PATCH next v2 08/11] minmax: Add min_const() and max_const()
-Thread-Index: AdpoCy246SYrYUdtTu+AtQRSWe90RAAAtXgAAAim0gA=
-Date: Sun, 25 Feb 2024 21:26:31 +0000
-Message-ID: <59ae7d89368a4dd5a8b8b3f7bc2ae957@AcuMS.aculab.com>
-References: <0fff52305e584036a777f440b5f474da@AcuMS.aculab.com>
- <c6924533f157497b836bff24073934a6@AcuMS.aculab.com>
- <CAHk-=wgNh5Gw7RTuaRe7mvf3WrSGDRKzdA55KKdTzKt3xPCnLg@mail.gmail.com>
-In-Reply-To: <CAHk-=wgNh5Gw7RTuaRe7mvf3WrSGDRKzdA55KKdTzKt3xPCnLg@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D447C10E400;
+ Sun, 25 Feb 2024 21:41:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1708897278;
+ bh=5+ZKEJt2lEuyeGEsKA+q6VLLnaKfdfonhOD+op5DBFs=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=iQAV4WGHDyVkBbDLR31KKV9X/vZb+b0VGWmVbJX7XPo7rwLJ5ETdF3aoU/e4jMXjG
+ Jo4P9qTtu5cXqNW/SWU+DOmxyyxvh8d5UYFgfZEZRJP5evBAmdcrLohHoAMLKFj7zF
+ nin2V18GwMgm9kZC/Z16EHLS7uhDb9B+II5boLuOrgYOUpfcwxcwQCMYd7R12Wqa45
+ 38NWSCSlsg7Z5yqLmHscFsoO8TiZwAkzaMgoafbFAVpHSD+g6AO2F/oRq2FxjB/Zw4
+ eWCbFyly0dnsh4GQCnqJqcFoWJEfD+HYzxqWlWXKLSfAH063MVj5nTDpKSakqG7kft
+ 217ihrmUMP9RA==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Tjcd907Xjz4wcD;
+ Mon, 26 Feb 2024 08:41:16 +1100 (AEDT)
+Date: Mon, 26 Feb 2024 08:41:16 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Somalapuram Amaranath
+ <Amaranath.Somalapuram@amd.com>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
+ Mailing List <linux-next@vger.kernel.org>, zack.rusin@broadcom.com,
+ tzimmermann@suse.de, thomas.hellstrom@linux.intel.com, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
+ <tvrtko.ursulin@linux.intel.com>
+Subject: Re: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20240226084116.4a41527d@canb.auug.org.au>
+In-Reply-To: <20240220084821.1c852736@canb.auug.org.au>
+References: <20240206152850.333f620d@canb.auug.org.au>
+ <87y1bp962d.fsf@intel.com>
+ <20240220084821.1c852736@canb.auug.org.au>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Type: multipart/signed; boundary="Sig_/.dDX5vFifkGrhZOnmdXK3G+";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,17 +67,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Li4uDQo+IFllcywgeWVzLCB0aGF0IG1heSBlbmQgdXAgcmVxdWlyaW5nIGdldHRpbmcgcmlkIG9m
-IHNvbWUgY3VycmVudCB1c2VycyBvZg0KPiANCj4gICAjZGVmaW5lIE1JTihhLGIpICgoYSk8KGIp
-ID8gKGEpOihiKSkNCj4gDQo+IGJ1dCBkYW1taXQsIHdlIGRvbid0IGFjdHVhbGx5IGhhdmUgX3Ro
-YXRfIG1hbnkgb2YgdGhlbSwgYW5kIHdoeSBzaG91bGQNCj4gd2UgaGF2ZSByYW5kb20gZHJpdmVy
-cyBkb2luZyB0aGF0IGFueXdheT8NCg0KVGhleSBsb29rIGxpa2UgdGhleSBjb3VsZCBiZSBjaGFu
-Z2VkIHRvIG1pbigpLg0KSXQgaXMgZXZlbiBsaWtlbHkgdGhlIGhlYWRlciBnZXRzIHB1bGxlZCBp
-biBzb21ld2hlcmUuDQoNCkknbSBub3Qgc3VyZSBhYm91dCB0aGUgb25lcyBpbiBkcml2ZXJzL2dw
-dS9kcm0vYW1kL2Rpc3BsYXkvKi4uKi8qLmMsIGJ1dCBpdA0Kd291bGRuJ3Qgc3VycHJpc2UgbWUg
-aWYgdGhhdCBjb2RlIGRvZXNuJ3QgdXNlIGFueSBzdGFuZGFyZCBrZXJuZWwgaGVhZGVycy4NCklz
-bid0IHRoYXQgYWxzbyB0aGUgY29kZSB0aGF0IG1hbmFnZXMgdG8gcGFzcyA0MiBpbnRlZ2VyIHBh
-cmFtZXRlcnMNCnRvIGZ1bmN0aW9ucz8NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVz
-cyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEg
-MVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
+--Sig_/.dDX5vFifkGrhZOnmdXK3G+
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
+Hi all,
+
+On Tue, 20 Feb 2024 08:48:21 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
+wrote:
+>=20
+> On Mon, 12 Feb 2024 15:15:54 +0200 Jani Nikula <jani.nikula@linux.intel.c=
+om> wrote:
+> >
+> > On Tue, 06 Feb 2024, Stephen Rothwell <sfr@canb.auug.org.au> wrote: =20
+> > >
+> > > After merging the drm-misc tree, today's linux-next build (i386 defco=
+nfig)
+> > > failed like this:
+> > >
+> > > In function 'i915_ttm_placement_from_obj',
+> > >     inlined from 'i915_ttm_get_pages' at drivers/gpu/drm/i915/gem/i91=
+5_gem_ttm.c:847:2:
+> > > drivers/gpu/drm/i915/gem/i915_gem_ttm.c:165:18: error: 'places[0].fla=
+gs' is used uninitialized [-Werror=3Duninitialized]
+> > >   165 |         places[0].flags |=3D TTM_PL_FLAG_DESIRED;
+> > >       |         ~~~~~~~~~^~~~~~
+> > > drivers/gpu/drm/i915/gem/i915_gem_ttm.c: In function 'i915_ttm_get_pa=
+ges':
+> > > drivers/gpu/drm/i915/gem/i915_gem_ttm.c:837:26: note: 'places' declar=
+ed here
+> > >   837 |         struct ttm_place places[I915_TTM_MAX_PLACEMENTS + 1];
+> > >       |                          ^~~~~~
+> > >
+> > > Caused by commit
+> > >
+> > >   a78a8da51b36 ("drm/ttm: replace busy placement with flags v6")   =20
+> >=20
+> > Cc: more people.
+> >  =20
+> > >
+> > > I applied the following hack for today:
+> > >
+> > > From: Stephen Rothwell <sfr@canb.auug.org.au>
+> > > Date: Tue, 6 Feb 2024 15:17:54 +1100
+> > > Subject: [PATCH] drm/ttm: initialise places
+> > >
+> > > Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> > > ---
+> > >  drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/dr=
+m/i915/gem/i915_gem_ttm.c
+> > > index 80c6cafc8887..34e699e67c25 100644
+> > > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > > @@ -834,7 +834,7 @@ static int __i915_ttm_get_pages(struct drm_i915_g=
+em_object *obj,
+> > > =20
+> > >  static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
+> > >  {
+> > > -	struct ttm_place places[I915_TTM_MAX_PLACEMENTS + 1];
+> > > +	struct ttm_place places[I915_TTM_MAX_PLACEMENTS + 1] =3D {};
+> > >  	struct ttm_placement placement;
+> > > =20
+> > >  	/* restricted by sg_alloc_table */
+> > > --=20
+> > > 2.43.0   =20
+>=20
+> I am still applying the above patch ...
+
+Any progress?
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/.dDX5vFifkGrhZOnmdXK3G+
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmXbs/wACgkQAVBC80lX
+0GzVNAf+NA5dVgLq87RWtvqT6p13nZ1XBU+lhzY1TyrQ6HnAk4MxDUyrgsuG1x9S
+isf4VzgO4JJ82ryYBxBOeEpWqZjCRJm0rFJ/Bopbc+9nO9oaxMF/2QuXM7fheOQU
+FkmZjf9k3fqrkhzO7EpnERgPYPaEODOwLHq0tbl9sqagNW3xN0vwq7QgSJ/quN43
+z3xEJ/2sGJz3F73adPCnYUhWMUHH477OjWB8Mqgjguov5scDu77zS0gEr/PTnOYA
+pNDGC/sh0jJAeVh5Yt6w+mbGSCjWRKKy25Yszh/yKGsaeZE5sP7gy9cH/QrfL8Ig
+GYpWdXwnhA7Hk0DlVVNaDvWnibdhjQ==
+=FX83
+-----END PGP SIGNATURE-----
+
+--Sig_/.dDX5vFifkGrhZOnmdXK3G+--
