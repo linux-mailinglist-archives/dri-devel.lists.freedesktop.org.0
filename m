@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91F6C86295D
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Feb 2024 07:28:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DC4186295F
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Feb 2024 07:29:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B107710E25D;
-	Sun, 25 Feb 2024 06:28:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 859DA10E268;
+	Sun, 25 Feb 2024 06:29:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=atomide.com header.i=@atomide.com header.b="qhrlmkdD";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=atomide.com header.i=@atomide.com header.b="jFki21+n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail5.25mail.st (mail5.25mail.st [74.50.62.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1E9010E25D
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Feb 2024 06:28:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D651310E25F
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Feb 2024 06:29:20 +0000 (UTC)
 Received: from localhost (91-158-86-216.elisa-laajakaista.fi [91.158.86.216])
- by mail5.25mail.st (Postfix) with ESMTPSA id D523A6058D;
- Sun, 25 Feb 2024 06:27:48 +0000 (UTC)
+ by mail5.25mail.st (Postfix) with ESMTPSA id BC6626058D;
+ Sun, 25 Feb 2024 06:28:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=atomide.com;
- s=25mailst; t=1708842512;
- bh=869ARxb/lQtJWYF/G/YbdD+II5wfq7rb9YW7zhMHzYU=;
+ s=25mailst; t=1708842560;
+ bh=VERCIMMDwj5lwKKcADSnyxcjQigwJ3k/cdfbfunsFPQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qhrlmkdDEskUdG8SuwISAfFP5o6OfO0UW9cKdj5ORsYI0RjA6TF1W9UYrAbDgfBVz
- YYqXqaBSTQm4t7qeiJITHmBDkx5vpL5ITCjRpu0QGXXByhTGzx8AVUN3FOPJdVYUzX
- mqCJ90Eq/TOyjuaAkZzEvhPTaLQ3Bcv3x3UxcWf9pHL5L9cpP0C4G733vdCpFW8QQk
- DNfDkzzzRqZOanFdwy4VgWg+rukJXE51jsFt4BfpNgUj49ZxKZX3qO870AdI6zARU4
- /yiyIo+aONJBIl2N9hZXonNXmiZEOG3zzb1MGzE6cSJrKMBqJ0zClMTizn7Z2RKLq5
- rThEOZwXW1pBw==
+ b=jFki21+nM/4h9YcgPTCs3+gS3/dLXKuPuMiSxI8kuOiAIyqcoY48O+Zil2nRgDbHK
+ q8A+2GHh/P3fyfKZ1YLkLL90AeNQo8kmZF+msKVPdXwfiM8i1AeUo7nubqrbhU9MVo
+ acuwIWRo7GTNTMuOzbWAk9EG3K29I241CMOqpwEWQ3rbzDQMjdkkjLjk5JF9SMugBU
+ DvJGXp1vjCbojDb3G68m77ZgjTYqKCwRVoWd+Qe2Dv1Fv9uS4kYoyoDzD6J6GYKsd7
+ fyMz5Q1/lEq5H7brY+oblijxmUgf5DS8U2+XTyUeioA0Wls3SOexfew+gUaFyqLHuP
+ ebTy9UOHSvjIA==
 From: Tony Lindgren <tony@atomide.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
@@ -44,9 +44,9 @@ Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  Michael Walle <mwalle@kernel.org>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org
-Subject: [PATCH v5 09/10] drm/bridge: tc358775: Add support for tc358765
-Date: Sun, 25 Feb 2024 08:19:38 +0200
-Message-ID: <20240225062008.33191-10-tony@atomide.com>
+Subject: [PATCH v5 10/10] drm/bridge: tc358775: Configure hs_rate and lp_rate
+Date: Sun, 25 Feb 2024 08:19:39 +0200
+Message-ID: <20240225062008.33191-11-tony@atomide.com>
 X-Mailer: git-send-email 2.43.1
 In-Reply-To: <20240225062008.33191-1-tony@atomide.com>
 References: <20240225062008.33191-1-tony@atomide.com>
@@ -67,107 +67,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The tc358775 bridge is pin compatible with earlier tc358765 according to
-the tc358774xbg_datasheet_en_20190118.pdf documentation. Compared to the
-tc358765, the tc358775 supports a STBY GPIO and higher data rates.
-
-The tc358765 has a register bit for video event mode vs video pulse mode.
-We must set it to video event mode for the LCD output to work, and on the
-tc358775, this bit no longer exists.
-
-Looks like the registers seem to match otherwise based on a quick glance
-comparing the defines to the earlier Android kernel tc358765 driver.
+The hs_rate and lp_rate may be used by the dsi host for timing
+calculations. The tc358775 has a maximum bit rate of 1 Gbps/lane,
+tc358765 has maximurate of 800 Mbps per lane.
 
 Reviewed-by: Michael Walle <mwalle@kernel.org>
 Signed-off-by: Tony Lindgren <tony@atomide.com>
 ---
- drivers/gpu/drm/bridge/tc358775.c | 26 ++++++++++++++++++++++----
- 1 file changed, 22 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/bridge/tc358775.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
 --- a/drivers/gpu/drm/bridge/tc358775.c
 +++ b/drivers/gpu/drm/bridge/tc358775.c
-@@ -15,6 +15,7 @@
- #include <linux/kernel.h>
- #include <linux/media-bus-format.h>
- #include <linux/module.h>
-+#include <linux/of_device.h>
- #include <linux/regulator/consumer.h>
- #include <linux/slab.h>
+@@ -637,6 +637,19 @@ static int tc_attach_host(struct tc_data *tc)
+ 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+ 			  MIPI_DSI_MODE_LPM;
  
-@@ -107,6 +108,7 @@
- #define RDPKTLN         0x0404  /* Command Read Packet Length */
- 
- #define VPCTRL          0x0450  /* Video Path Control */
-+#define EVTMODE		BIT(5)  /* Video event mode enable, tc35876x only */
- #define HTIM1           0x0454  /* Horizontal Timing Control 1 */
- #define HTIM2           0x0458  /* Horizontal Timing Control 2 */
- #define VTIM1           0x045C  /* Vertical Timing Control 1 */
-@@ -254,6 +256,11 @@ enum tc358775_ports {
- 	TC358775_LVDS_OUT1,
- };
- 
-+enum tc3587x5_type {
-+	TC358765 = 0x65,
-+	TC358775 = 0x75,
-+};
-+
- struct tc_data {
- 	struct i2c_client	*i2c;
- 	struct device		*dev;
-@@ -271,6 +278,8 @@ struct tc_data {
- 	struct gpio_desc	*stby_gpio;
- 	u8			lvds_link; /* single-link or dual-link */
- 	u8			bpc;
-+
-+	enum tc3587x5_type	type;
- };
- 
- static inline struct tc_data *bridge_to_tc(struct drm_bridge *b)
-@@ -424,10 +433,16 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
- 	d2l_write(tc->i2c, PPI_STARTPPI, PPI_START_FUNCTION);
- 	d2l_write(tc->i2c, DSI_STARTDSI, DSI_RX_START);
- 
-+	/* Video event mode vs pulse mode bit, does not exist for tc358775 */
++	/*
++	 * The hs_rate and lp_rate are data rate values. The HS mode is
++	 * differential, while the LP mode is single ended. As the HS mode
++	 * uses DDR, the DSI clock frequency is half the hs_rate. The 10 Mbs
++	 * data rate for LP mode is not specified in the bridge data sheet,
++	 * but seems to be part of the MIPI DSI spec.
++	 */
 +	if (tc->type == TC358765)
-+		val = EVTMODE;
++		dsi->hs_rate = 800000000;
 +	else
-+		val = 0;
++		dsi->hs_rate = 1000000000;
++	dsi->lp_rate = 10000000;
 +
- 	if (tc->bpc == 8)
--		val = TC358775_VPCTRL_OPXLFMT(1);
-+		val |= TC358775_VPCTRL_OPXLFMT(1);
- 	else /* bpc = 6; */
--		val = TC358775_VPCTRL_MSF(1);
-+		val |= TC358775_VPCTRL_MSF(1);
- 
- 	dsiclk = mode->crtc_clock * 3 * tc->bpc / tc->num_dsi_lanes / 1000;
- 	clkdiv = dsiclk / (tc->lvds_link == DUAL_LINK ? DIVIDE_BY_6 : DIVIDE_BY_3);
-@@ -643,6 +658,7 @@ static int tc_probe(struct i2c_client *client)
- 
- 	tc->dev = dev;
- 	tc->i2c = client;
-+	tc->type = (enum tc3587x5_type)(unsigned long)of_device_get_match_data(dev);
- 
- 	tc->panel_bridge = devm_drm_of_get_bridge(dev, dev->of_node,
- 						  TC358775_LVDS_OUT0, 0);
-@@ -704,13 +720,15 @@ static void tc_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id tc358775_i2c_ids[] = {
--	{ "tc358775", 0 },
-+	{ "tc358765", TC358765, },
-+	{ "tc358775", TC358775, },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, tc358775_i2c_ids);
- 
- static const struct of_device_id tc358775_of_ids[] = {
--	{ .compatible = "toshiba,tc358775", },
-+	{ .compatible = "toshiba,tc358765", .data = (void *)TC358765, },
-+	{ .compatible = "toshiba,tc358775", .data = (void *)TC358775, },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, tc358775_of_ids);
+ 	ret = devm_mipi_dsi_attach(dev, dsi);
+ 	if (ret < 0) {
+ 		dev_err(dev, "failed to attach dsi to host\n");
 -- 
 2.43.1
