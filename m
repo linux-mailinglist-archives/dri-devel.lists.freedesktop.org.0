@@ -2,152 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F9308629F5
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Feb 2024 11:37:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ADF9862A80
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Feb 2024 14:56:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2DD010E121;
-	Sun, 25 Feb 2024 10:37:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF05110E2C3;
+	Sun, 25 Feb 2024 13:56:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=habana.ai header.i=@habana.ai header.b="qPVSl5rb";
-	dkim=pass (2048-bit key; unprotected) header.d=habana.ai header.i=@habana.ai header.b="KaTMLoro";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Z2oOQgVc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cluster-d.mailcontrol.com (cluster-d.mailcontrol.com
- [85.115.60.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EDAC10E121
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Feb 2024 10:37:32 +0000 (UTC)
-Received: (from mailcontrol@localhost)
- by rly17d.srv.mailcontrol.com (MailControl) with ESMTP id 41PAbIQZ066066;
- Sun, 25 Feb 2024 10:37:18 GMT
-Received: from rly17d.srv.mailcontrol.com (localhost [127.0.0.1])
- by localhost (envelope-sender osharabi@habana.ai) (MIMEDefang) with ESMTP id
- 41PAbEOD065794
- (TLS bits=256 verify=OK); Sun, 25 Feb 2024 10:37:18 +0000 (GMT)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
- by rly17d.srv.mailcontrol.com (MailControl) id 41PAahwW060312;
- Sun, 25 Feb 2024 10:36:43 GMT
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
- (mail-he1eur04lp2051.outbound.protection.outlook.com [104.47.13.51])
- by rly17d-eth0.srv.mailcontrol.com (envelope-sender osharabi@habana.ai)
- (MIMEDefang) with ESMTP id 41PAaemj059908
- (TLS bits=256 verify=OK); Sun, 25 Feb 2024 10:36:43 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RSbSaYx9tlcbT8BHhnC3Gkx5+Azf7jSayYgSINX7isKbJyuZvXAzhqz/vE0YxviG/Aem0hxPeUU8GJmm2yqBd/doDiQ7RoVRK6lQOS+/VaPc6TheDQ0DyEjIx7e3O6KxoaTlX+srbjRS+GHjWi4ShwWEkUqp7rmQNrXSKr1Jn9q2fpdOiFEQyCrK1Nd5A6DzIMbjCoVjOkiJ1uCKZXfyJMnVVqjZIkWGTVTU4dW1x8XEqidBMRkL/4+43l/CeyW3YqFM8Lf7U5PpkaVw583oczKbLi+5sqIr2IJhVqStKt0yCmSFXVCOzwA0Okrf6rVHv1ELQMEmYrMPIDIj8emFuQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mX6ptR4gnspeV0qK5++gVvwnIXydn7VuHXXq9x70LR4=;
- b=L6whcbRptehU9SQ861Ha1jWDPyeI3rHP9XLHKWkuywTHdwRbTEFqr+no/ERaTHPBDtqkBMcvrOp5htyplLLzHqT3G4NaLDaJHHox5d73Zz03JbdfF6S80TmXRuF+HalKgAUjPtShy0ERze05mUnui9q3as7Vye3eTqq/W6/Bv6EhaVpc8YSeBcoACWq+PCNGHOyknPxKZ0SeYF21PhKP073G1wlWbaJTZhl8uWqEe97XD0Fidf0RYdvQfwSKAekBvWYWWFzBCokzJyZFvYInv5gBBJFoGK27xeM8a+IiYor+r84q1XE3LLnoH+vVb6PKAWNPCWrlZ4mL4Z9RQ2hdNg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=habana.ai; dmarc=pass action=none header.from=habana.ai;
- dkim=pass header.d=habana.ai; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=habana.ai; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mX6ptR4gnspeV0qK5++gVvwnIXydn7VuHXXq9x70LR4=;
- b=qPVSl5rbjZxaSVanW0URCi6LKu8Pg0tXbzVYULV8pJXN9i0ToUvDmtO9RKwWLuqYKtlEyaS5ufERDpQHPU0gxgiZpx4wREbZFZi5RGn0pFVXUSthfIVJl01oQtFtnQayfP1A51iiIaF/aQxcZyo9Vy9HGE+3F6ya1PDwvVO17hOTOHjxW3W523uA7h8IkvoIKI7Q2HorAk3EGHWYkclFUZML2+ywE9ztdFHdI0HVGcMP1SajY6ErNgvqzoUDRE5ORh3nwcKVcxoesH6UgKtWqstQT3V9XcfafW5QWSo1lMDhNH9uvzX0/k2RDoBhm6WHnTwXwTtNL3UF5lmXPgMgEQ==
-Received: from GV2PR02MB9325.eurprd02.prod.outlook.com (2603:10a6:150:db::6)
- by PR3PR02MB6396.eurprd02.prod.outlook.com (2603:10a6:102:5d::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.27; Sun, 25 Feb
- 2024 10:36:39 +0000
-Received: from GV2PR02MB9325.eurprd02.prod.outlook.com
- ([fe80::42b7:1098:d42:9b99]) by GV2PR02MB9325.eurprd02.prod.outlook.com
- ([fe80::42b7:1098:d42:9b99%7]) with mapi id 15.20.7316.031; Sun, 25 Feb 2024
- 10:36:38 +0000
-From: Ohad Sharabi <osharabi@habana.ai>
-To: Carl Vanderlip <quic_carlv@quicinc.com>, Oded Gabbay <ogabbay@kernel.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 01/13] accel/habanalabs/gaudi2: use single function to
- compare FW versions
-Thread-Topic: [PATCH 01/13] accel/habanalabs/gaudi2: use single function to
- compare FW versions
-Thread-Index: AQHaZBYYN1FGyR6lfECyGug0FdLQjLEYib+AgAJbGgA=
-Date: Sun, 25 Feb 2024 10:36:38 +0000
-Message-ID: <93778bd1-36ed-4db0-9d41-a029577d76c6@habana.ai>
-References: <20240220160129.909714-1-ogabbay@kernel.org>
- <1eb926a6-3467-aaf4-2bc0-8d9756516d9c@quicinc.com>
-In-Reply-To: <1eb926a6-3467-aaf4-2bc0-8d9756516d9c@quicinc.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=habana.ai;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: GV2PR02MB9325:EE_|PR3PR02MB6396:EE_
-x-ms-office365-filtering-correlation-id: 542a5c23-7ae2-4312-f891-08dc35eda5ef
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: VnJSpV5lCGERY7ZzbE4HFYpdixo+yIEqRE7NHipfnXA2bELfeBybafZo9/FOeJ/DNzuEfGKjCihdHZPeN9G3Qe5sz5yZZXTiqh7RborcQGHG88h9HCzqWfX/8FyJU/5SwILzWPushNX49U+8GpcByikSRI+Q0cKvK9iK6oXI/HjPvtLW6W1MnVlXqPxHz2T/CoZyKE81D3f0b26OhozsjrwhkXkGH5RjUtG5ELJ4ATf9D7vLnPYcK+8hDcwi271itWINPvPw2Njc1diuJIG4+UOdzkfpG/8/8rBd1uLpKQjlyxAN3ejOmW9KzxYthN59L/32/0Ksqeb81xA+8oH35/88CJxTtfCb6j+Ym0Mvq5UOi20W6YrZaYAcRxbEJch1TXh7kJN/1XMAm8Nb0RfStQ11cBGRfKQTklLgxLT1SXXc8LGXls7Ug7wvZrzUWqBtxrxnaMEJm5Dp9Q7y8+wd+RV24tdaBpxPthLBM/7vvjwKKgCmaGGHkKvoEnsfRNqdi0hYKNUUGQL7DBFs6oGp7sL/nnk/+A11x0dgeZdwgVKcWoSMoALOecpeBKQ9HQvMwTyzTd9ttP1xLyISQTxCpinObOuGufbHCIfvB5D+WO4dMCIiqorPG+1ltAjA+hbl
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:GV2PR02MB9325.eurprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(230273577357003)(230473577357003)(38070700009); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TUVwRHBkZFlUOFZCMURudnVqVElyOGVlM1BwV01IZ0FxZHJmalhJbmp6YVIy?=
- =?utf-8?B?cmlLeXlhTEtWMVVWODAxMVI1bVZMNkE3SkhiY1Q2L3FDY1hQVXJzWWV0QnRJ?=
- =?utf-8?B?V3lVTmo4SmZ4WG5SRHVxUllGWmhZeG9TRThRbTdTbjREWGh4RnZQakpkZlFF?=
- =?utf-8?B?SUo4Njh4WTgwSEVjZUZKSS9rclZmTnNNNXlIRGYwYXJJNGJyQlc4MUpxaXpS?=
- =?utf-8?B?RlljNlVsVlM1aWVHVExxQndxK29SUE1rM1kvYlcvaFZZUG53enM2Sjk1dUhD?=
- =?utf-8?B?MWtrNGovSkhXV2pwSkhySzFnWkJvUktSY3NtU3RCb3hDSEdTZ2kraTBTcDRF?=
- =?utf-8?B?L2hGUjRtTVZOWko0bGhkMkNkODl3cnA4aU9LaE1XcExuVWFxT1JuZjdQVkNZ?=
- =?utf-8?B?OWUxbHpDSkdIbFhPdUwzUDRnNDcwVWVEZjZCdTI4akFWQ1M1YWNWVGcxMDVG?=
- =?utf-8?B?MFhUM1JkLzlESUVGVTFuayt1VngxSEFORjV2d2Z4V214MDVET1ZOcFBFSXBv?=
- =?utf-8?B?bWhaZVdRUzN4b2RrcEdNTzdMNFhlYXFJaitKbEc4UmJQWnExNHpIVURJWEg5?=
- =?utf-8?B?TmQ4VHhnQnYxdStSdUlvSUVtYVZQak1sRDgrQUdNSFNDMjUvSEVqM2wzNFFS?=
- =?utf-8?B?cVlsM3dobU0rSnVwNWFZazBCWGJRdUladU5Pa2tiTlJxcSttSjFCeXVxSlhU?=
- =?utf-8?B?RzMzRWpPRkdkNU9GNXU3VHlrTHRXR1ZlYWVwU1dFYnhGbXdJaENZY2c3d2Jz?=
- =?utf-8?B?V2F3WkRzQ1UxM083NS9OWmhnNnVLNjY0dFJtSDk1cnJtTGtCc09BSUIyRWR5?=
- =?utf-8?B?UEFuUDh1UDlUL2dQRU9QOTBsTGtRVEJYc3EyVnBvY2NRZWREZm4yZnFOMEk5?=
- =?utf-8?B?TTh2bDNMZWhINHdkTGZZTFlXZkdhR1dMOXJCU1FkL3V3OXFsZ0FWSXp6K3Fx?=
- =?utf-8?B?WkJMbUNvSVIwYWxhRE41VkVsYW05WHdVUkJHQk5JRmU4MnN1TUNkdXVvNjNC?=
- =?utf-8?B?UHJlOEU3aFBleENXaVdHUGFXYVBXV1pUMHAySDJiZlgwMXovYW83d2prRnow?=
- =?utf-8?B?M00wWmlLWUhsVXB2ZjI2R1dJWFoydmVRQmdxMUowcEg2NDNES0FFY0tiQ0I4?=
- =?utf-8?B?ekFSZmhhbjlabkt1R0l6dUpNYU9HUm83R3F5WC9MTEhOZzNGR3VCZkR3bkpF?=
- =?utf-8?B?dUZlODBsRk4rVmNxUlQvU0h3cVdicUR6aHRBUFkxL0J5ZFJjM05qWVdVN0gy?=
- =?utf-8?B?TzgwM090UnNaWjNSbjU1aCtnY3JaWW1Veml4QnMzVDZWZ1dJUHBtZjZvWENX?=
- =?utf-8?B?bzRxZjhpa2g3ZGpEK3pNRkhJTGV4cXJSOUdpOFZPL0JDSHpiYnlpTVF3WWVI?=
- =?utf-8?B?THdRekJNRnVER0tiNEplejByMXp4Q2hhcDE0NU9uTkVhbnRSNGJLdFlBN1ZN?=
- =?utf-8?B?dUxDci9aYzE4dVVNMTR0aUtLMmI2ZjZqcHJWUEdaYWowQWdLRE1teTVJdGJI?=
- =?utf-8?B?VWJXNklGMWZCWEg5SkFiUndrdkFKd1BJeDh3L1NvbWJuQWNxeTVKYktORlFn?=
- =?utf-8?B?Uy9UV3JwNEpZamJIZXcvWGVsekw1ZjNCZ0NLSU9OWk5Zc3c3RitQRkhTZ05O?=
- =?utf-8?B?a3ludVYvV0VKTG8vbElCaW5UMk90R3N3Zjh0TmxWR3pIL2x4eGkrMmtvcnpD?=
- =?utf-8?B?d085ZTVLcVBYS25sR2h5UDQ3NmF2enhkcm1Pa0Nyc2cvTzNZOVgwb1Zub2Uz?=
- =?utf-8?B?TW1XRFRtNUtOeHNITm1HNm84eUJBT1lTbkt1Sktha1o5UmtRNXZVS2R2SEpX?=
- =?utf-8?B?b0RNZkt0M2dwT2FlWnltSWR2VHBaK3F6aUhKS0tyamt6eEt3alVGVm5HcGFl?=
- =?utf-8?B?VWJ6L2lRY0VBZVdlVEZnNDVqM21pRXRJcVB5aElGMlF4NnZkSldGSTNIb05n?=
- =?utf-8?B?WFBISFhVVmRTOE5qeGJGRnNiTFZNZHc0bW1wQWV0ZVRSeWp1YTlJcTBxTmRN?=
- =?utf-8?B?NVVIYkZsTGU5bkxIekxmNHJsM0FJTUNQU1dNNk5Bd3Joejh6L0hTMTVHV3dM?=
- =?utf-8?B?M1piMWo3K0kxTEVtTlpIVFBoN0ZuV2pBVklNWWVVVFhQZ2dMRFpJUEhvTVBH?=
- =?utf-8?Q?FBpE=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <11EA21470AA5BE4593430F92745458B7@eurprd02.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4188F10E2C3
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Feb 2024 13:56:06 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-412a3716284so2506565e9.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Feb 2024 05:56:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1708869364; x=1709474164; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=AGnq5BBZkr2hGrDZl5ODTAPalninzQXJFAE9hJDSqN8=;
+ b=Z2oOQgVc7jsTnb5MNjXe7oJc5lgxdWknIOTUdhskT/BH7yyXM349Q/mNGG+RttT0k0
+ lbEhF9fWhn2IjfUQLJTl234F9gEa5a4VL4tUDkuyh88NqTFeanTi184DcGEfb7zLgLfF
+ oZ4RJbUFuTRct30bALmaAO9ymYrDJFvFmQ3yu4TWy8dlbwI04f3d0t1etcWFQwhPPKwz
+ bqeDa4Zilc29PS4nMPwSuwGttr5RnUsRZ0tfXL1d9dob3O2t0pKjt0thr3a46kLXM96L
+ MAPtqD/Wk14yjcpLeDDewhYV9ClJ9KJmL6PeCkFg5lT2bh/8NjtcZCpCGXeo7AqBcs7f
+ xUCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708869364; x=1709474164;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=AGnq5BBZkr2hGrDZl5ODTAPalninzQXJFAE9hJDSqN8=;
+ b=UNrxwedQ0m1uFyZDEGs0+ndziKLd5Zvg+vo9iq6PPeBSM9v+x5k+pnSc1zjGbAePt8
+ 9cxdDZRK4wWa59hsdFOAthr1WHxAc55hzPW5idtjqNH0v4OeEfB6IK16rfn5IS2fK1CC
+ xhQirfAAIe5CD6fKhZ2OdWZPlUnT2xRnpj5z3NlPKW8/wdWzKeFklFgbCTy0E9N/E66T
+ 19owFx5KN7SFVobtfNS6welHCyKzBhiSd9cj9cfCWUYrcxj/3mVxU/iaxMOH4ZpjYKJ7
+ k3mq7AkwQJfkAEmw/dIJUoFfSlqp4pR7EPH4YuPHE+yW06uAAsIj6T5rb8b/E/R/Vdcp
+ wMhg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWUYidXhrRGhVdqplW69IExyHOLB16XXpLi0FiUoHdikkjtRKfw7zS6NDqSd2joztTzoS51ERpZ4lGfU+ZMKFKtDvUtwS8MMSlnicuVAAPU
+X-Gm-Message-State: AOJu0YzMD4uTYO78j+meXVneTrBvPJCjxYFM7u1CvbgwCtalmxemLo0K
+ wEMpWqGSkbKMUcwAmxyE0gVN8tUtJRqP1KA9/i4b1H3wWzgr7P4=
+X-Google-Smtp-Source: AGHT+IEcB5AtKv1xpKR/8Sb1OXcSBocoyAK3YbemvY3uOxPu2h0msOFMH1lBOExgoNpnrasxnS3OKw==
+X-Received: by 2002:a05:600c:3112:b0:40f:b0bf:6abf with SMTP id
+ g18-20020a05600c311200b0040fb0bf6abfmr3221669wmo.17.1708869363720; 
+ Sun, 25 Feb 2024 05:56:03 -0800 (PST)
+Received: from ?IPV6:2a02:810b:f40:4600:feda:c5dd:ebff:fee5?
+ ([2a02:810b:f40:4600:feda:c5dd:ebff:fee5])
+ by smtp.gmail.com with ESMTPSA id
+ h4-20020a5d4304000000b0033d6c928a95sm5167542wrq.63.2024.02.25.05.56.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 25 Feb 2024 05:56:03 -0800 (PST)
+Message-ID: <67e9fbc5-ed7f-48b9-ae2a-e07c5fbd2218@gmail.com>
+Date: Sun, 25 Feb 2024 14:56:02 +0100
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: eHLUPfVlYhMKV21Ixl3AvoFmtJRiH1jqOHUoRwjQGY2GU3kvGBPqw8v4p1OMCsSI2fCSaAN2Y2wrioHFGchmAs8V/LT0uC7Sc3kHcYCqH2/cx6xKHn7abZP82TIWFfp80mrSpcSWvu3GX/ikKc4gx4UTt61n3nUzympLa2Z0LUXXRYGuGdTr0Jz86987WF1VIikKTJWhzUgFCpnrrm4PgYRY4coGQ4aKSDJw5WKVYCxDNUnoURd/iB7m58w7zn/2eWOgg3WmXFsOtFbF1Wk5+gVE+qDRKVkT/BVqjht9pNyj/nzqZ+3pTCcutUbqnO8CKTR8PvvD3c2/olZHS9IimDj2y5L6FluB+TfK8z9QfzjQ9fkQy+nrHdzqSH7q+yPs0goJU/ZjuNlSyGBoCH0HwmZ0Ij5vw4bGkcYEzpnolv34m0bn93Kut3ZLhEfpevlA2Ebk7pGLPmnPJo2V2Oj59tycPCArHiaidUz7LeDo0ZcqZbbgKGwqRn3G1CUzXK6Gvdad6lWQIH/54EAgI4ohUUNWqU9yDqxvbEMoxZetIEAqXmO6tpbOkceq/+JEM8+huN0o5j1GWVx3vvvdvNKzuwMkI/1jBFBRyrbOO5XbNDFRy7NfqsXO3BegmqzylDfN
-X-OriginatorOrg: habana.ai
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR02MB9325.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 542a5c23-7ae2-4312-f891-08dc35eda5ef
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Feb 2024 10:36:38.6780 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0d4d4539-213c-4ed8-a251-dc9766ba127a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 64PKk8CwP4csKIJ7yNtZ24Pxwa6PHCTMJG5WeapkIZXet7cS7Vkr4pd4i5TlPjjxY60jz6DFVzQb1VFS53CFlA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR02MB6396
-X-MailControlDKIMCheck: cGFzcyBoYWJhbmEuYWkgW3Bhc3Nd
-X-MailControl-OutInfo: MTcwODg1NzQzNzpGUEtleTEucHJpdjpjWD1eWMdO5RyrGJxxQ2ZEq4XItLRp/wqkfYFgMkmWckYstG1z+JqQLaMNDcVuI6MqG5QN7J5v3JzgYcSnAVRR8i9GNEgmMpy2Me87d94d3LI/T1aHXnOlcvm/TsZ3gwu1KkUcsGBsIqwQHCxXvR7aeKSw2L0vZY/niG+SlDxjpI7vTwjLI2f8rlnpImchjUNc6YiWK8cCTlXEOYiz+4WG73qzkH97gXqecJlDTKOJqw0pG6YUr6bMJmfpp563rE43iraUbHaHZCLrqsWIYuPsTh/6ITWG7aNn8h60LSBOjbUUt/InZhmHdzos84oQ1MhoMkHJspgiXlS0pH8FUXHQ
-X-Scanned-By: MailControl 44278.2143 (www.mailcontrol.com) on 104.47.13.51
-X-Mailcontrol-Refers-To: 41PAbEOD065794
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=habana.ai;
- h=from:to:subject:date:message-id:references:in-reply-to:content-type:content-id:content-transfer-encoding:mime-version;
- s=fpkey81949-2; bh=mX6ptR4gnspeV0qK5++gVvwnIXydn7VuHXXq9x70LR4=;
- b=KaTMLoroE6GNA/khXOkM/VsIW8ygtkVeLxDUMRvmqMT155CLXgaBBU9mnWZsN3p3ax1wuwXbows3Aqzb1e+EUggaI9YRH/EBtY+/pnOKjca08uBky617BMswME1CNrF1uvK48QqAY+2iJCo/vIn8YJEPFcJLKqY0hYvWsFhshvSGQhZgEhE+7wATb9c8Q581egAkxBt+wbJWrcZ2QweVbvKfoidp+3G+uxS1aQ4qrWhcE28Ig1KeG44AbwEZFusMHlTgYSsf+gANU1V7klbJbuC3gp4Wc2c1584Hy4KNji2SiqgksWdJck2M7zSFQ8GXcYpCKF8zqEtPA7tvlrHKXQ==
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 19/36] drm/connector: hdmi: Compute bpc and format
+ automatically
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
+ <20240222-kms-hdmi-connector-state-v7-19-8f4af575fce2@kernel.org>
+Content-Language: en-US, de-DE
+From: Alex Bee <knaerzche@gmail.com>
+In-Reply-To: <20240222-kms-hdmi-connector-state-v7-19-8f4af575fce2@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,52 +100,328 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjQvMDIvMjAyNCAwOjM4LCBDYXJsIFZhbmRlcmxpcCB3cm90ZToNCj4gW1lvdSBkb24ndCBv
-ZnRlbiBnZXQgZW1haWwgZnJvbSBxdWljX2Nhcmx2QHF1aWNpbmMuY29tLiBMZWFybiB3aHkgdGhp
-cyANCj4gaXMgaW1wb3J0YW50IGF0IGh0dHBzOi8vYWthLm1zL0xlYXJuQWJvdXRTZW5kZXJJZGVu
-dGlmaWNhdGlvbiBdDQo+DQo+IE9uIDIvMjAvMjAyNCA4OjAxIEFNLCBPZGVkIEdhYmJheSB3cm90
-ZTo+IEZyb206IE9oYWQgU2hhcmFiaQ0KPiA8b3NoYXJhYmlAaGFiYW5hLmFpPg0KPiA+DQo+ID4g
-Q3VycmVudGx5LCB0aGUgY29kZSBjb250YWlucyAyIHR5cGVzIG9mIEZXIHZlcnNpb24gY29tcGFy
-aXNvbiANCj4gZnVuY3Rpb25zOg0KPiA+IC0gaGxfaXNfZndfc3dfdmVyX1tiZWxvdy9lcXVhbF9v
-cl9ncmVhdGVyXSgpDQo+ID4gLSBnYXVkaTIgc3BlY2lmaWMgZnVuY3Rpb24gb2YgdGhlIHR5cGUN
-Cj4gPsKgwqDCoCBnYXVkaTJfaXNfZndfdmVyX1tiZWxvdy9hYm92ZV14X3lfeigpDQo+ID4NCj4g
-PiBNb3Jlb3Zlciwgc29tZSBmdW5jdGlvbnMgdXNlIHRoZSBpbm5lciBGVyB2ZXJzaW9uIHdoaWNo
-IHNob3VsZCBiZSBvbmx5DQo+ID4gc3RhZ2UgZHVyaW5nIGRldmVsb3BtZW50IGJ1dCBub3QgdmVy
-c2lvbiBkZXBlbmRlbmNpZXMuDQo+ID4NCj4gPiBGaW5hbGx5LCBzb21lIHRlc3RzIGFyZSBkb25l
-IHRvIGRlcHJlY2F0ZWQgRlcgdmVyc2lvbiB0byB3aGljaCBMS0QNCj4gPiBzaG91bGQgaG9sZCBu
-byBjb21wYXRpYmlsaXR5Lg0KPiA+DQo+ID4gVGhpcyBjb21taXQgYWxpZ25zIGFsbCBBUElzIHRv
-IGEgc2luZ2xlIGZ1bmN0aW9uIHRoYXQganVzdCBjb21wYXJlcyB0aGUNCj4gPiB2ZXJzaW9uIGFu
-ZCByZXR1cm4gYW4gaW50ZWdlcnMgaW5kaWNhdG9yIChzaW1pbGFyIGluIHNvbWUgd2F5IHRvDQo+
-ID4gc3RyY21wKCkpLg0KPiA+DQo+ID4gSW4gYWRkaXRpb24sIHRoaXMgZ2VuZXJpYyBmdW5jdGlv
-biBub3cgY29uc2lkZXJzIGFsc28gdGhlIHN1Yi1taW5vciBGVw0KPiA+IHZlcnNpb24gYW5kIGFs
-c28gcmVtb3ZlIGRlYWQgY29kZSByZXN1bHRpbmcgaW4gZGVwcmVjYXRlZCBGVyB2ZXJzaW9ucw0K
-PiA+IGNvbXBhdGliaWxpdHkuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBPaGFkIFNoYXJhYmkg
-PG9zaGFyYWJpQGhhYmFuYS5haT4NCj4gPiBSZXZpZXdlZC1ieTogT2RlZCBHYWJiYXkgPG9nYWJi
-YXlAa2VybmVsLm9yZz4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBPZGVkIEdhYmJheSA8b2dhYmJheUBr
-ZXJuZWwub3JnPg0KPiA+IC0tLQ0KPiA+wqDCoCBkcml2ZXJzL2FjY2VsL2hhYmFuYWxhYnMvY29t
-bW9uL2Zpcm13YXJlX2lmLmMgfCAyNSArKysrKysrKw0KPiA+wqDCoCBkcml2ZXJzL2FjY2VsL2hh
-YmFuYWxhYnMvY29tbW9uL2hhYmFuYWxhYnMuaMKgIHwgMjAgKy0tLS0tLQ0KPiA+wqDCoCBkcml2
-ZXJzL2FjY2VsL2hhYmFuYWxhYnMvZ2F1ZGkyL2dhdWRpMi5jwqDCoMKgwqDCoCB8IDU3IA0KPiAr
-KystLS0tLS0tLS0tLS0tLS0tDQo+ID7CoMKgIDMgZmlsZXMgY2hhbmdlZCwgMzQgaW5zZXJ0aW9u
-cygrKSwgNjggZGVsZXRpb25zKC0pDQo+ID4NCj4gLi4uDQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvYWNjZWwvaGFiYW5hbGFicy9nYXVkaTIvZ2F1ZGkyLmMNCj4gYi9kcml2ZXJzL2FjY2VsL2hh
-YmFuYWxhYnMvZ2F1ZGkyL2dhdWRpMi5jDQo+ID4gaW5kZXggMWYwNjEyMDlhZTIxLi40YTA5MTdh
-YTRkZDcgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9hY2NlbC9oYWJhbmFsYWJzL2dhdWRpMi9n
-YXVkaTIuYw0KPiA+ICsrKyBiL2RyaXZlcnMvYWNjZWwvaGFiYW5hbGFicy9nYXVkaTIvZ2F1ZGky
-LmMNCj4gPiBAQCAtMjYwMSw2ICsyNjAxLDggQEAgc3RhdGljIGludCBnYXVkaTJfc2V0X2ZpeGVk
-X3Byb3BlcnRpZXMoc3RydWN0DQo+IGhsX2RldmljZSAqaGRldikNCj4gPg0KPiA+wqDCoMKgwqDC
-oCBwcm9wLT5oYndfZmx1c2hfcmVnID0gbW1QQ0lFX1dSQVBfU1BFQ0lBTF9HTEJMX1NQQVJFXzA7
-DQo+ID4NCj4gPiArwqDCoMKgIHByb3AtPnN1cHBvcnRzX2FkdmFuY2VkX2NwdWNwX3JjID0gdHJ1
-ZTsNCj4gPiArDQo+ID7CoMKgwqDCoMKgIHJldHVybiAwOw0KPiA+DQo+ID7CoMKgIGZyZWVfcXBy
-b3BzOg0KPiA+IEBAIC0zMzA4LDggKzMzMTAsNiBAQCBzdGF0aWMgaW50IGdhdWRpMl9sYXRlX2lu
-aXQoc3RydWN0IGhsX2RldmljZSANCj4gKmhkZXYpDQo+ID7CoMKgwqDCoMKgIHN0cnVjdCBnYXVk
-aTJfZGV2aWNlICpnYXVkaTIgPSBoZGV2LT5hc2ljX3NwZWNpZmljOw0KPiA+wqDCoMKgwqDCoCBp
-bnQgcmM7DQo+ID4NCj4gPiAtwqDCoMKgIGhkZXYtPmFzaWNfcHJvcC5zdXBwb3J0c19hZHZhbmNl
-ZF9jcHVjcF9yYyA9IHRydWU7DQo+ID4gLQ0KPiA+wqDCoMKgwqDCoCByYyA9IGhsX2Z3X3NlbmRf
-cGNpX2FjY2Vzc19tc2coaGRldiwgDQo+IENQVUNQX1BBQ0tFVF9FTkFCTEVfUENJX0FDQ0VTUywN
-Cj4gPiBnYXVkaTItPnZpcnRfbXNpeF9kYl9kbWFfYWRkcik7DQo+ID7CoMKgwqDCoMKgIGlmIChy
-Yykgew0KDQpDYXJsLA0KDQpTdXJlLCB3ZSdsbCBzcGxpdCB0aGUgcGF0Y2hlcw0KDQpPaGFkDQoN
-Cj4NCj4gSXMgdGhpcyBjaGFuZ2UgaW4gc3VwcG9ydCBvZiB0aGUgb3RoZXJzIGluIHRoaXMgcGF0
-Y2g/IEZlZWxzIGxpa2UgdGhpcw0KPiBzaG91bGQgYmUgbW9yZSB0aGFuIG9uZSBwYXRjaCAoYWRk
-aW5nIG5ldyB2ZXJzaW9uX2NtcCwgcmVtb3Zpbmcgb2xkIA0KPiBjaGVja3MpLg0KPg0KPiAtQ2Fy
-bCBWLg0KDQoNCg==
+Hi Maxime,
+
+Am 22.02.24 um 19:14 schrieb Maxime Ripard:
+> Now that we have all the infrastructure needed, we can add some code
+> that will, for a given connector state and mode, compute the best output
+> format and bpc.
+> 
+> The algorithm is equivalent to the one already found in i915 and vc4.
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>   drivers/gpu/drm/drm_atomic_state_helper.c          | 184 ++++++++++++++++++++-
+>   .../gpu/drm/tests/drm_atomic_state_helper_test.c   |  25 ++-
+>   2 files changed, 197 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> index 448b4a73d1c8..9f517599f117 100644
+> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> @@ -31,6 +31,7 @@
+>   #include <drm/drm_connector.h>
+>   #include <drm/drm_crtc.h>
+>   #include <drm/drm_device.h>
+> +#include <drm/drm_edid.h>
+>   #include <drm/drm_framebuffer.h>
+>   #include <drm/drm_plane.h>
+>   #include <drm/drm_print.h>
+> @@ -662,6 +663,96 @@ connector_state_get_mode(const struct drm_connector_state *conn_state)
+>   	return &crtc_state->mode;
+>   }
+>   
+> +static bool
+> +sink_supports_format_bpc(const struct drm_connector *connector,
+> +			 const struct drm_display_info *info,
+> +			 const struct drm_display_mode *mode,
+> +			 unsigned int format, unsigned int bpc)
+> +{
+> +	struct drm_device *dev = connector->dev;
+> +	u8 vic = drm_match_cea_mode(mode);
+> +
+> +	if (vic == 1 && bpc != 8) {
+> +		drm_dbg(dev, "VIC1 requires a bpc of 8, got %u\n", bpc);
+> +		return false;
+> +	}
+> +
+> +	if (!info->is_hdmi &&
+> +	    (format != HDMI_COLORSPACE_RGB || bpc != 8)) {
+> +		drm_dbg(dev, "DVI Monitors require an RGB output at 8 bpc\n");
+> +		return false;
+> +	}
+> +
+> +	if (!(connector->hdmi.supported_formats & BIT(format))) {
+> +		drm_dbg(dev, "%s format unsupported by the connector.\n",
+> +			drm_hdmi_connector_get_output_format_name(format));
+> +		return false;
+> +	}
+> +
+> +	switch (format) {
+> +	case HDMI_COLORSPACE_RGB:
+> +		drm_dbg(dev, "RGB Format, checking the constraints.\n");
+> +
+> +		if (!(info->color_formats & DRM_COLOR_FORMAT_RGB444))
+> +			return false;
+> +
+> +		if (bpc == 10 && !(info->edid_hdmi_rgb444_dc_modes & DRM_EDID_HDMI_DC_30)) {
+> +			drm_dbg(dev, "10 BPC but sink doesn't support Deep Color 30.\n");
+> +			return false;
+> +		}
+> +
+> +		if (bpc == 12 && !(info->edid_hdmi_rgb444_dc_modes & DRM_EDID_HDMI_DC_36)) {
+> +			drm_dbg(dev, "12 BPC but sink doesn't support Deep Color 36.\n");
+> +			return false;
+> +		}
+> +
+> +		drm_dbg(dev, "RGB format supported in that configuration.\n");
+> +
+> +		return true;
+> +
+> +	case HDMI_COLORSPACE_YUV422:
+> +		drm_dbg(dev, "YUV422 format, checking the constraints.\n");
+> +
+> +		if (!(info->color_formats & DRM_COLOR_FORMAT_YCBCR422)) {
+> +			drm_dbg(dev, "Sink doesn't support YUV422.\n");
+> +			return false;
+> +		}
+> +
+> +		if (bpc != 12) {
+> +			drm_dbg(dev, "YUV422 only supports 12 bpc.\n");
+> +			return false;
+> +		}
+> +
+I'm not sure this check is really necessary/helpful.
+In [0] you are quoting HDMI specs which are saying that YUV422 is just
+always 12 bpc - which I guess is correct. The problem I'm seeing here:
+There are HDMI 1.4 controllers, like Rockchip Inno HDMI, that support
+YUV422 but do not support any other color depth than 8 bpc for RGB or
+YUV444. In drmm_connector_hdmi_init you are expecting to give the max bpc
+as parameter and (if I'm getting it correctly) I'd had to set it to 12 to
+also get YUV422 modes, but I'd also get RGB/YUV444 with bpc > 8 modes which
+are not supported by this controller. I guess the same applies to other
+HDMI 1.4 controllers that support YUV422. Or would I have to filter it out
+myself?
+So I guess the easiest way around is to drop the above check since it is
+just always 12 bpc for YUV422 and there is no need to filter out anything.
+(Same applies to the similar check in [0]).
+
+Regards,
+Alex
+
+[0] 
+https://lore.kernel.org/lkml/20240222-kms-hdmi-connector-state-v7-13-8f4af575fce2@kernel.org/
+> +		drm_dbg(dev, "YUV422 format supported in that configuration.\n");
+> +
+> +		return true;
+> +
+> +	case HDMI_COLORSPACE_YUV444:
+> +		drm_dbg(dev, "YUV444 format, checking the constraints.\n");
+> +
+> +		if (!(info->color_formats & DRM_COLOR_FORMAT_YCBCR444)) {
+> +			drm_dbg(dev, "Sink doesn't support YUV444.\n");
+> +			return false;
+> +		}
+> +
+> +		if (bpc == 10 && !(info->edid_hdmi_ycbcr444_dc_modes & DRM_EDID_HDMI_DC_30)) {
+> +			drm_dbg(dev, "10 BPC but sink doesn't support Deep Color 30.\n");
+> +			return false;
+> +		}
+> +
+> +		if (bpc == 12 && !(info->edid_hdmi_ycbcr444_dc_modes & DRM_EDID_HDMI_DC_36)) {
+> +			drm_dbg(dev, "12 BPC but sink doesn't support Deep Color 36.\n");
+> +			return false;
+> +		}
+> +
+> +		drm_dbg(dev, "YUV444 format supported in that configuration.\n");
+> +
+> +		return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+>   static enum drm_mode_status
+>   hdmi_clock_valid(const struct drm_connector *connector,
+>   		 const struct drm_display_mode *mode,
+> @@ -706,6 +797,95 @@ hdmi_compute_clock(const struct drm_connector *connector,
+>   	return 0;
+>   }
+>   
+> +static bool
+> +hdmi_try_format_bpc(const struct drm_connector *connector,
+> +		    struct drm_connector_state *state,
+> +		    const struct drm_display_mode *mode,
+> +		    unsigned int bpc, enum hdmi_colorspace fmt)
+> +{
+> +	const struct drm_display_info *info = &connector->display_info;
+> +	struct drm_device *dev = connector->dev;
+> +	int ret;
+> +
+> +	drm_dbg(dev, "Trying %s output format\n",
+> +		drm_hdmi_connector_get_output_format_name(fmt));
+> +
+> +	if (!sink_supports_format_bpc(connector, info, mode, fmt, bpc)) {
+> +		drm_dbg(dev, "%s output format not supported with %u bpc\n",
+> +			drm_hdmi_connector_get_output_format_name(fmt), bpc);
+> +		return false;
+> +	}
+> +
+> +	ret = hdmi_compute_clock(connector, state, mode, bpc, fmt);
+> +	if (ret) {
+> +		drm_dbg(dev, "Couldn't compute clock for %s output format and %u bpc\n",
+> +			drm_hdmi_connector_get_output_format_name(fmt), bpc);
+> +		return false;
+> +	}
+> +
+> +	drm_dbg(dev, "%s output format supported with %u (TMDS char rate: %llu Hz)\n",
+> +		drm_hdmi_connector_get_output_format_name(fmt), bpc, state->hdmi.tmds_char_rate);
+> +
+> +	return true;
+> +}
+> +
+> +static int
+> +hdmi_compute_format(const struct drm_connector *connector,
+> +		    struct drm_connector_state *state,
+> +		    const struct drm_display_mode *mode,
+> +		    unsigned int bpc)
+> +{
+> +	struct drm_device *dev = connector->dev;
+> +
+> +	if (hdmi_try_format_bpc(connector, state, mode, bpc, HDMI_COLORSPACE_RGB)) {
+> +		state->hdmi.output_format = HDMI_COLORSPACE_RGB;
+> +		return 0;
+> +	}
+> +
+> +	if (hdmi_try_format_bpc(connector, state, mode, bpc, HDMI_COLORSPACE_YUV422)) {
+> +		state->hdmi.output_format = HDMI_COLORSPACE_YUV422;
+> +		return 0;
+> +	}
+> +
+> +	drm_dbg(dev, "Failed. No Format Supported for that bpc count.\n");
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static int
+> +hdmi_compute_config(const struct drm_connector *connector,
+> +		    struct drm_connector_state *state,
+> +		    const struct drm_display_mode *mode)
+> +{
+> +	struct drm_device *dev = connector->dev;
+> +	unsigned int max_bpc = clamp_t(unsigned int,
+> +				       state->max_bpc,
+> +				       8, connector->max_bpc);
+> +	unsigned int bpc;
+> +	int ret;
+> +
+> +	for (bpc = max_bpc; bpc >= 8; bpc -= 2) {
+> +		drm_dbg(dev, "Trying with a %d bpc output\n", bpc);
+> +
+> +		ret = hdmi_compute_format(connector, state, mode, bpc);
+> +		if (ret)
+> +			continue;
+> +
+> +		state->hdmi.output_bpc = bpc;
+> +
+> +		drm_dbg(dev,
+> +			"Mode %ux%u @ %uHz: Found configuration: bpc: %u, fmt: %s, clock: %llu\n",
+> +			mode->hdisplay, mode->vdisplay, drm_mode_vrefresh(mode),
+> +			state->hdmi.output_bpc,
+> +			drm_hdmi_connector_get_output_format_name(state->hdmi.output_format),
+> +			state->hdmi.tmds_char_rate);
+> +
+> +		return 0;
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+>   /**
+>    * drm_atomic_helper_connector_hdmi_check() - Helper to check HDMI connector atomic state
+>    * @connector: DRM Connector
+> @@ -729,9 +909,7 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
+>   		connector_state_get_mode(new_state);
+>   	int ret;
+>   
+> -	ret = hdmi_compute_clock(connector, new_state, mode,
+> -				 new_state->hdmi.output_bpc,
+> -				 new_state->hdmi.output_format);
+> +	ret = hdmi_compute_config(connector, new_state, mode);
+>   	if (ret)
+>   		return ret;
+>   
+> diff --git a/drivers/gpu/drm/tests/drm_atomic_state_helper_test.c b/drivers/gpu/drm/tests/drm_atomic_state_helper_test.c
+> index 5a8750153510..f010fde0eb69 100644
+> --- a/drivers/gpu/drm/tests/drm_atomic_state_helper_test.c
+> +++ b/drivers/gpu/drm/tests/drm_atomic_state_helper_test.c
+> @@ -70,9 +70,6 @@ static int light_up_connector(struct kunit *test,
+>   	conn_state = drm_atomic_get_connector_state(state, connector);
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
+>   
+> -	conn_state->hdmi.output_bpc = connector->max_bpc;
+> -	conn_state->hdmi.output_format = HDMI_COLORSPACE_RGB;
+> -
+>   	ret = drm_atomic_set_crtc_for_connector(conn_state, crtc);
+>   	KUNIT_EXPECT_EQ(test, ret, 0);
+>   
+> @@ -251,10 +248,15 @@ static void drm_test_check_output_bpc_crtc_mode_changed(struct kunit *test)
+>   						     10);
+>   	KUNIT_ASSERT_NOT_NULL(test, priv);
+>   
+> +	conn = &priv->connector;
+> +	ret = set_connector_edid(test, conn,
+> +				 test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz,
+> +				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz));
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+>   	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+>   
+> -	conn = &priv->connector;
+>   	preferred = find_preferred_mode(conn);
+>   	KUNIT_ASSERT_NOT_NULL(test, preferred);
+>   
+> @@ -272,11 +274,11 @@ static void drm_test_check_output_bpc_crtc_mode_changed(struct kunit *test)
+>   	old_conn_state = drm_atomic_get_old_connector_state(state, conn);
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, old_conn_state);
+>   
+> -	new_conn_state->hdmi.output_bpc = 8;
+> +	new_conn_state->max_requested_bpc = 8;
+>   
+>   	KUNIT_ASSERT_NE(test,
+> -			old_conn_state->hdmi.output_bpc,
+> -			new_conn_state->hdmi.output_bpc);
+> +			old_conn_state->max_requested_bpc,
+> +			new_conn_state->max_requested_bpc);
+>   
+>   	ret = drm_atomic_check_only(state);
+>   	KUNIT_ASSERT_EQ(test, ret, 0);
+> @@ -320,10 +322,15 @@ static void drm_test_check_output_bpc_crtc_mode_not_changed(struct kunit *test)
+>   						     10);
+>   	KUNIT_ASSERT_NOT_NULL(test, priv);
+>   
+> +	conn = &priv->connector;
+> +	ret = set_connector_edid(test, conn,
+> +				 test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz,
+> +				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz));
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+>   	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+>   
+> -	conn = &priv->connector;
+>   	preferred = find_preferred_mode(conn);
+>   	KUNIT_ASSERT_NOT_NULL(test, preferred);
+>   
+> @@ -670,7 +677,7 @@ static void drm_test_check_format_value(struct kunit *test)
+>   
+>   	conn = &priv->connector;
+>   	conn_state = conn->state;
+> -	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_RGB);
+> +	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, 0);
+>   }
+>   
+>   /*
+> 
+
