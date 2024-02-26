@@ -2,132 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77C078675BE
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 13:56:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37872867608
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 14:08:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53C6910F17D;
-	Mon, 26 Feb 2024 12:56:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7844910F1AF;
+	Mon, 26 Feb 2024 13:08:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="bmiiWaGV";
+	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="Q9HC9gdX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2BE510F17B;
- Mon, 26 Feb 2024 12:56:31 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GGZmhQ+OR9r7hbFF7vZKdeFC3ZQP1b8DsFICjZTAMKfnpiSMMKklbf2t87+qZbIA1objXBIYg7zqgL0uef6krB3c6tWz+rNrVIliXbll9+zGbYYDmUgoNf1pVgvi4SkwATbJR9Xmg58k/hTeLPPwntD4pDli/TL3BU3QfM9nn2rsSiAxG5H23Nxa9LBt+UUS3BJ/n5kRvuXSIw/dql/yJHzV//nHK5fu5KFTtIok90kh8lGrvzzsvO+Fvzj7Csfo4NSpah0M8TXHDPzbo17AthGX/Y8JXSA0lTCb+LzGyHrTc8D2SEXgUle+XsiNUlzX4F7vRqTAXbvUTqSggZkxqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y3Erolc2rOIk8SMl7pN/DETK51Zipakj39GbXHvFRmM=;
- b=jv5mTnRy7NTmC8zUX+9xbCRAoxyXh/zXx1MXioA3VnmRyhiAn+ec9i96zl+Dv1xLhj01oigNlVopvhbisYfO8k8oEldDV03WkAgjGlTvo/ke2Nb4OIhD7x9R/xXXEBNoVLHj4ThqSOWlfP2ww50MiCaQePQkiQGNHHmQ4adWnLQyjTRGFpyKivkEanI3k2Xlenr0Uyv9wtie/DehOziI3wADov1FInlXzCJVYdRTmgZ4tIrSkP1yEqWGoK5iFarJAHlcAsPr2n0hiYYadCnlseyKFOdUPj/6oX8iASgZp5Lbbp/715X6IAhMnZqGnwch8A+WptNKwwJV+VBbbt0t5w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Y3Erolc2rOIk8SMl7pN/DETK51Zipakj39GbXHvFRmM=;
- b=bmiiWaGVwV9qRivtmLxBKUSPrNyo9IkaLUOh5DTbRQT3dOz8inqTc3eG/QdmsjNPRYBuAHjE8gKie4uohd0eRjnk5yxtjjm5rJ4JvC+6+MQFTmBMub1ezmO5eXbh3INuRUdNoY8CZtqQO8AiLpWiI5suIhhyxlTYmWV571lvQS0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DM4PR12MB7670.namprd12.prod.outlook.com (2603:10b6:8:105::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.31; Mon, 26 Feb
- 2024 12:56:28 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7316.031; Mon, 26 Feb 2024
- 12:56:28 +0000
-Message-ID: <ab7bd677-e5e1-425f-8b13-301ae712a662@amd.com>
-Date: Mon, 26 Feb 2024 13:56:21 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: linux-next: build failure after merge of the drm-misc tree
-Content-Language: en-US
-To: Stephen Rothwell <sfr@canb.auug.org.au>,
- Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- zack.rusin@broadcom.com, tzimmermann@suse.de,
- thomas.hellstrom@linux.intel.com,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Dave Airlie <airlied@redhat.com>
-References: <20240206152850.333f620d@canb.auug.org.au>
- <87y1bp962d.fsf@intel.com> <20240220084821.1c852736@canb.auug.org.au>
- <20240226084116.4a41527d@canb.auug.org.au>
- <20240226084741.2df4d18b@canb.auug.org.au>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20240226084741.2df4d18b@canb.auug.org.au>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0040.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:48::11) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17EBF10F1AC
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 13:08:07 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4Tk1BZ404zzDqG9;
+ Mon, 26 Feb 2024 13:08:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1708952887; bh=qitPqKYHu5SkbJi3zE8S/yb2YXcoDr4Jzx8rsJA2d/g=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Q9HC9gdXLpyVO/iXWdfYrJMCdrQUOQr4rdNwpkzqyHEFSDppyq0RC2XgISEqsvZ+d
+ Mda5o7Z1F0QCzxx8Gk4NSq7mEkKh5oTpohLcpM+bae3ShSo8PGZpUTvLV7gb36tbHF
+ 1Dy7zTnM+3pb/3kICxxhLyI+Xc1QD4cGv8rs6M3U=
+X-Riseup-User-ID: 2BC69804A301033890366CE1256AF965CF62B045EC3E4EC86A117B16AAEE2F45
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4Tk1BS1GSzzJsBS;
+ Mon, 26 Feb 2024 13:07:59 +0000 (UTC)
+Message-ID: <406988be-48a4-4762-9c03-7a27c8e7b91e@riseup.net>
+Date: Mon, 26 Feb 2024 10:07:57 -0300
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB7670:EE_
-X-MS-Office365-Filtering-Correlation-Id: 93094a3d-9c13-4cb4-cab2-08dc36ca5922
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5VRgJ+rSEWA7ZFL/kDv06AVCQt7huK8w3H9mIFiHiArYTxzpUFrh6cImztHSeBnbGtusKr8P9bpFChzqmG6Nx6YwcfVg9a0CBhC/38R2TKXCkoh7mPYMCGxqBJ509KIgiL+ifxt0xGBhkXY6+NLlGtM6mmOBYryXbMZgx8vGqZEn1mj8YqNTQa7JvotrGXItQdalzPGznLBMTHTIRoi2MTAD92fN6kRsLejyp+Acyj4xuPdeN1M8C/DmkLuL1eiZNtFMqQJxRuajuAPVvz8izVfRvUlZWMfdLt9AUTwLE1pr8HDVWuW+iZqH6QtiJHIByjHWqSAzgOGRzYRsPXeXcXitDIvC8HsFONkPKALo/EU7Pj1Xjg9PpCAFCh5N6dGyP8tN6FOg+BIxAIs7cswESLM1Ecq/GR470C0NY4p6uJMmSqCkSHIFClLicMwDzmN0EWVWQV1RpZsXs7QoOYgRMdOR+iZfziz8N6OYvbD4c8uogdAKSmcxxIeMuZLhg12voH1hBdhKxlCn1E/fyre72LK0xVR5kOCW29ejpA2DU5Fjq6TRW1cBO1WFj7PnN0773/aEZWhFfnX96wZxUYa7soAYW6Wpp0KAHiy12Zj4Sq0jBFdDiOe/GyR7Hlh8jLL0
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dVZRbnl1RDdWczUwMHV6SFN0RVh5emRPUjRmVlJQUVIyV081azZLN0JCSXA4?=
- =?utf-8?B?UER5bU9FbncrOTdaR2lNMElFMW1nRWJRMndEMm03OTd4WHBOS2E0RTJlUnoy?=
- =?utf-8?B?bCtpYXI1OUJ2aERwNWI5bFFRU3Zyb1BKc3UwZnREcmNVdXcvRWtUVmdwTDl5?=
- =?utf-8?B?ckV5VEZnaUM3NXNDOXNVeDMzL2dGajdLaXdPZWlMZUVEb0ZGaTk2bWk2K3l5?=
- =?utf-8?B?NUliVVQ3dXhhUnlpUi9UYjZta05kZG9tc2JyVEhrT29vY3YzMmFaS25LeVhD?=
- =?utf-8?B?bTV5Ym52SENkNDNZbWFheVlrQVVkaDdtNThOWDBnUzZsTDVYVWRJQ1lHUklO?=
- =?utf-8?B?aTJLOHMxMHBEOE1kVml2OFBGZFI5UUdINDZYNVlrUVhXYXNnWGtxUkFDTTkv?=
- =?utf-8?B?UjhDbzQzWnlyN2NkUGp5M0k4S0ljUlZSZU81VW5nQUN5TUNYWXkyNGZSbHh6?=
- =?utf-8?B?a1FMQTJoaHdhR1JHUndDVWpmQTJCcUhBTHJOUUp5ekhDYXMxRHRoWlFYRmc4?=
- =?utf-8?B?WDFla0xjOStLWUVwU0Evb2J1TGRRQUh0RWZPWUtMTmRhS0R1L0twZ1RGUlNQ?=
- =?utf-8?B?N0hPUkI4SFBEZll2YkgrWlFRbG5ydU83RkNWREVWc1VtelJaY21obTZDUnA5?=
- =?utf-8?B?cmt0aDR0WGtDZC9NcDd2UXVRVG9XK3Nhbk9TUnUzeDdobWE0cFdDVGhqK0ZE?=
- =?utf-8?B?WHhDQWVGVk5FZWlSRjRyY1I5VHh1V3hXVEV1TWc1eWZxNWNSemFoeGEyRHBQ?=
- =?utf-8?B?bCt0SjJCdE5BYUFUTndUMXV2QlBSY3pXTXNZa2FxWHl5N3E1VTFLTHo5U0E3?=
- =?utf-8?B?Sk9qUG1oOVBmdjY4WVZLREE3ZEJQTGFvSjdZcEhVQmVmemliaWxJVjFXcU8y?=
- =?utf-8?B?MVdzY3ZDa3NpYXdnU1hHYXhWZ1ZvTHQvSE8zNFpUN1dKaWw4WEpJNXR4WElL?=
- =?utf-8?B?emM0d0F3QjBBTGdtZTBTR1BsaVpONEJ1SE5TMG96ZXZiaXFPN3JzajFZRUFF?=
- =?utf-8?B?b2hGRXg0cnlOL2pxUitZbFV4Q0o3ZzNkOWZTZStyaE1TSHFYZVlMVFJ0c01i?=
- =?utf-8?B?My9ZSVJLUkpuc1ZaM3dCMVVVQUdDWDZCTHhXRVBOSVFURDlqMjhUc0VSSU9z?=
- =?utf-8?B?aE53aGVGUG1aVjQrZkNYZVliM0E5RkFBajQ0NHdaaTY0MFBQME1nVDdpZFhl?=
- =?utf-8?B?T2FuWGNGT2I0SFVWcWI1S21WSEovM2VHMmtQdmtLbTJjbExvS2lXUmd4WHdQ?=
- =?utf-8?B?NitSTUV5Nm9pRmJNU2gvaEswV2JCL3Ztc2JnYXRzZGtVR3RoNFl6SW11aUsv?=
- =?utf-8?B?T3VYSUtKSVJzUk5DS2YzT2pVWTRRVG5VanlMYnpqUXBWRmRxNjZ1ZFZrWFFi?=
- =?utf-8?B?VFlINEVndEVqU0htbno1d2VPRjRSV2JaZUVRei9adkNUKzNzT0VxTE1nOGRK?=
- =?utf-8?B?MHFGL0svU0NkWVd4ckxKb3RLNzFsWmVqUFd6dWIzZS8zbHMxdFA3czVBdmFs?=
- =?utf-8?B?ejBFZWI4dHdiUzRlZkJoR0IxV2F4REo0WnJPbCs2ZkJhNmtxM1hNZEY0R2Zp?=
- =?utf-8?B?SUhIeDZqSGRHTVV6ODZwMURYWUFrN0JQblF0SW9PZ3R2MG5qenEwUmhzWjkr?=
- =?utf-8?B?TisxOWlsQk8vTnNQTGw4aDlWc3Q0QTYwYW9NcjZuUlA0eFAzTzdjY0pWYWxU?=
- =?utf-8?B?eEFvRlhLSDBma2FDeHBNTlJhcVhjMVNEbkpQbWRFTHBQUEd2c3VJSnZYcFBW?=
- =?utf-8?B?bWNIMXBJSWVjdVBFcVhUd0hnNG1LU09TVzd0dFhJSUxTSEVrSUUveFlqejFU?=
- =?utf-8?B?RjJodFRvZEpWaWxVQXB2amkyY1cyR2tYSWVDejB5cXFkcC9VQlFWbHpzZmZ0?=
- =?utf-8?B?Mm8rZFRzZ1lsSXJpRDhiZGl5UjhHelA3czBySFMzRDR1V1U5NEpmcVAvelox?=
- =?utf-8?B?Q2Y4eVZEc1NQNEVZbW9tL1U0OXJwN1hDWnkyNno2WE9mT1kyZ3p1WlFWdWZY?=
- =?utf-8?B?YVdPdW9DSm8zZ015aDhpZVJ0eW1xSE9iY0xOUUJ6UzZzajdxU0JZNWNTNGtX?=
- =?utf-8?B?a1pZb1NTdGQvTCs4SERoUEhMK3ZYM0NySlQ4Sld5VHJhN3NlcXRWTFBCSHhw?=
- =?utf-8?Q?hnTeOaKD3SseJv9CWZNv0DXz4?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 93094a3d-9c13-4cb4-cab2-08dc36ca5922
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2024 12:56:28.7905 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YCh+njYBGbRlPues6hepyue4OGf5u6sXBdsfTAhxVBefNIsWf8C1L4iU+6PUERyz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7670
+Subject: Re: [PATCH v3 3/9] drm/vkms: write/update the documentation for pixel
+ conversion and pixel write functions
+Content-Language: en-US
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ pekka.paalanen@haloniitty.fi
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com,
+ nicolejadeyee@google.com
+References: <20240226-yuv-v3-0-ff662f0994db@bootlin.com>
+ <20240226-yuv-v3-3-ff662f0994db@bootlin.com>
+From: Arthur Grillo <arthurgrillo@riseup.net>
+In-Reply-To: <20240226-yuv-v3-3-ff662f0994db@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,66 +71,188 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 25.02.24 um 22:47 schrieb Stephen Rothwell:
-> Hi all,
->
-> On Mon, 26 Feb 2024 08:41:16 +1100 Stephen Rothwell <sfr@canb.auug.org.au> wrote:
->> On Tue, 20 Feb 2024 08:48:21 +1100 Stephen Rothwell <sfr@canb.auug.org.au> wrote:
->>> On Mon, 12 Feb 2024 15:15:54 +0200 Jani Nikula <jani.nikula@linux.intel.com> wrote:
->>>> On Tue, 06 Feb 2024, Stephen Rothwell <sfr@canb.auug.org.au> wrote:
->>>>> After merging the drm-misc tree, today's linux-next build (i386 defconfig)
->>>>> failed like this:
->>>>>
->>>>> In function 'i915_ttm_placement_from_obj',
->>>>>      inlined from 'i915_ttm_get_pages' at drivers/gpu/drm/i915/gem/i915_gem_ttm.c:847:2:
->>>>> drivers/gpu/drm/i915/gem/i915_gem_ttm.c:165:18: error: 'places[0].flags' is used uninitialized [-Werror=uninitialized]
->>>>>    165 |         places[0].flags |= TTM_PL_FLAG_DESIRED;
->>>>>        |         ~~~~~~~~~^~~~~~
->>>>> drivers/gpu/drm/i915/gem/i915_gem_ttm.c: In function 'i915_ttm_get_pages':
->>>>> drivers/gpu/drm/i915/gem/i915_gem_ttm.c:837:26: note: 'places' declared here
->>>>>    837 |         struct ttm_place places[I915_TTM_MAX_PLACEMENTS + 1];
->>>>>        |                          ^~~~~~
->>>>>
->>>>> Caused by commit
->>>>>
->>>>>    a78a8da51b36 ("drm/ttm: replace busy placement with flags v6")
->>>> Cc: more people.
->>>>      
->>>>> I applied the following hack for today:
->>>>>
->>>>> From: Stephen Rothwell <sfr@canb.auug.org.au>
->>>>> Date: Tue, 6 Feb 2024 15:17:54 +1100
->>>>> Subject: [PATCH] drm/ttm: initialise places
->>>>>
->>>>> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
->>>>> ---
->>>>>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 2 +-
->>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->>>>> index 80c6cafc8887..34e699e67c25 100644
->>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->>>>> @@ -834,7 +834,7 @@ static int __i915_ttm_get_pages(struct drm_i915_gem_object *obj,
->>>>>   
->>>>>   static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
->>>>>   {
->>>>> -	struct ttm_place places[I915_TTM_MAX_PLACEMENTS + 1];
->>>>> +	struct ttm_place places[I915_TTM_MAX_PLACEMENTS + 1] = {};
->>>>>   	struct ttm_placement placement;
->>>>>   
->>>>>   	/* restricted by sg_alloc_table */
->>>>> -- 
->>>>> 2.43.0
->>> I am still applying the above patch ...
->> Any progress?
-> And this commit is now in the drm tree.
 
-Sorry for the delay. Oring in the flag needs to come after the call and 
-not before it.
 
-Going to fix this.
+On 26/02/24 05:46, Louis Chauvet wrote:
+> Add some documentation on pixel conversion functions.
+> Update of outdated comments for pixel_write functions.
+> 
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+>  drivers/gpu/drm/vkms/vkms_composer.c |  4 +++
+>  drivers/gpu/drm/vkms/vkms_drv.h      | 13 ++++++++
+>  drivers/gpu/drm/vkms/vkms_formats.c  | 58 ++++++++++++++++++++++++++++++------
+>  3 files changed, 66 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+> index c6d9b4a65809..5b341222d239 100644
+> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> @@ -189,6 +189,10 @@ static void blend(struct vkms_writeback_job *wb,
+>  
+>  	size_t crtc_y_limit = crtc_state->base.crtc->mode.vdisplay;
+>  
+> +	/*
+> +	 * The planes are composed line-by-line. It is a necessary complexity to avoid poor
+> +	 * blending performance.
 
-Thanks,
-Christian.
+At this moment in the series, you have not yet reintroduced the
+line-by-line algorithm yet. Maybe it's better to add this comment when
+you do.
 
+Also, I think it's good to give more context, like:
+"The planes are composed line-by-line, instead of pixel-by-pixel"
+
+Best Regards,
+~Arthur Grillo
+
+> +	 */
+>  	for (size_t y = 0; y < crtc_y_limit; y++) {
+>  		fill_background(&background_color, output_buffer);
+>  
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index b4b357447292..18086423a3a7 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -25,6 +25,17 @@
+>  
+>  #define VKMS_LUT_SIZE 256
+>  
+> +/**
+> + * struct vkms_frame_info - structure to store the state of a frame
+> + *
+> + * @fb: backing drm framebuffer
+> + * @src: source rectangle of this frame in the source framebuffer
+> + * @dst: destination rectangle in the crtc buffer
+> + * @map: see drm_shadow_plane_state@data
+> + * @rotation: rotation applied to the source.
+> + *
+> + * @src and @dst should have the same size modulo the rotation.
+> + */
+>  struct vkms_frame_info {
+>  	struct drm_framebuffer *fb;
+>  	struct drm_rect src, dst;
+> @@ -52,6 +63,8 @@ struct vkms_writeback_job {
+>   * vkms_plane_state - Driver specific plane state
+>   * @base: base plane state
+>   * @frame_info: data required for composing computation
+> + * @pixel_read: function to read a pixel in this plane. The creator of a vkms_plane_state must
+> + * ensure that this pointer is valid
+>   */
+>  struct vkms_plane_state {
+>  	struct drm_shadow_plane_state base;
+> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+> index 172830a3936a..cb7a49b7c8e7 100644
+> --- a/drivers/gpu/drm/vkms/vkms_formats.c
+> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+> @@ -9,6 +9,17 @@
+>  
+>  #include "vkms_formats.h"
+>  
+> +/**
+> + * packed_pixels_offset() - Get the offset of the block containing the pixel at coordinates x/y
+> + * in the first plane
+> + *
+> + * @frame_info: Buffer metadata
+> + * @x: The x coordinate of the wanted pixel in the buffer
+> + * @y: The y coordinate of the wanted pixel in the buffer
+> + *
+> + * The caller must be aware that this offset is not always a pointer to a pixel. If individual
+> + * pixel values are needed, they have to be extracted from the resulting block.
+> + */
+>  static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int y)
+>  {
+>  	struct drm_framebuffer *fb = frame_info->fb;
+> @@ -17,12 +28,13 @@ static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int
+>  			      + (x * fb->format->cpp[0]);
+>  }
+>  
+> -/*
+> - * packed_pixels_addr - Get the pointer to pixel of a given pair of coordinates
+> +/**
+> + * packed_pixels_addr() - Get the pointer to the block containing the pixel at the given
+> + * coordinates
+>   *
+>   * @frame_info: Buffer metadata
+> - * @x: The x(width) coordinate of the 2D buffer
+> - * @y: The y(Heigth) coordinate of the 2D buffer
+> + * @x: The x(width) coordinate inside the plane
+> + * @y: The y(height) coordinate inside the plane
+>   *
+>   * Takes the information stored in the frame_info, a pair of coordinates, and
+>   * returns the address of the first color channel.
+> @@ -53,6 +65,13 @@ static int get_x_position(const struct vkms_frame_info *frame_info, int limit, i
+>  	return x;
+>  }
+>  
+> +/*
+> + * The following  functions take pixel data from the buffer and convert them to the format
+> + * ARGB16161616 in out_pixel.
+> + *
+> + * They are used in the `vkms_compose_row` function to handle multiple formats.
+> + */
+> +
+>  static void ARGB8888_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
+>  {
+>  	/*
+> @@ -145,12 +164,11 @@ void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state
+>  }
+>  
+>  /*
+> - * The following  functions take an line of argb_u16 pixels from the
+> - * src_buffer, convert them to a specific format, and store them in the
+> - * destination.
+> + * The following functions take one argb_u16 pixel and convert it to a specific format. The
+> + * result is stored in @dst_pixels.
+>   *
+> - * They are used in the `compose_active_planes` to convert and store a line
+> - * from the src_buffer to the writeback buffer.
+> + * They are used in the `vkms_writeback_row` to convert and store a pixel from the src_buffer to
+> + * the writeback buffer.
+>   */
+>  static void argb_u16_to_ARGB8888(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel)
+>  {
+> @@ -216,6 +234,14 @@ static void argb_u16_to_RGB565(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel)
+>  	*pixels = cpu_to_le16(r << 11 | g << 5 | b);
+>  }
+>  
+> +/**
+> + * Generic loop for all supported writeback format. It is executed just after the blending to
+> + * write a line in the writeback buffer.
+> + *
+> + * @wb: Job where to insert the final image
+> + * @src_buffer: Line to write
+> + * @y: Row to write in the writeback buffer
+> + */
+>  void vkms_writeback_row(struct vkms_writeback_job *wb,
+>  			const struct line_buffer *src_buffer, int y)
+>  {
+> @@ -229,6 +255,13 @@ void vkms_writeback_row(struct vkms_writeback_job *wb,
+>  		wb->pixel_write(dst_pixels, &in_pixels[x]);
+>  }
+>  
+> +/**
+> + * Retrieve the correct read_pixel function for a specific format.
+> + * The returned pointer is NULL for unsupported pixel formats. The caller must ensure that the
+> + * pointer is valid before using it in a vkms_plane_state.
+> + *
+> + * @format: 4cc of the format
+> + */
+>  void *get_pixel_conversion_function(u32 format)
+>  {
+>  	switch (format) {
+> @@ -247,6 +280,13 @@ void *get_pixel_conversion_function(u32 format)
+>  	}
+>  }
+>  
+> +/**
+> + * Retrieve the correct write_pixel function for a specific format.
+> + * The returned pointer is NULL for unsupported pixel formats. The caller must ensure that the
+> + * pointer is valid before using it in a vkms_writeback_job.
+> + *
+> + * @format: 4cc of the format
+> + */
+>  void *get_pixel_write_function(u32 format)
+>  {
+>  	switch (format) {
+> 
