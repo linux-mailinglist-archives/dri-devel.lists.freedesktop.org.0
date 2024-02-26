@@ -2,55 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D4E4866AA7
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 08:29:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF3EF866AEF
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 08:35:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F75210EEED;
-	Mon, 26 Feb 2024 07:29:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8644710EEE3;
+	Mon, 26 Feb 2024 07:35:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="LSAyPjU7";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jnPA6cFn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A89EC10EEE6
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 07:29:17 +0000 (UTC)
-Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 76B7087E57;
- Mon, 26 Feb 2024 08:29:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1708932556;
- bh=Q5um3ivLQj7jnQAlIm7t/S13QiY81Td25KKqrzzD6dU=;
- h=From:To:Cc:Subject:Date:From;
- b=LSAyPjU7eWMBjFZQU+hCdwI0Gwhatpd+t8rRoYl4ECLnK/teEvdLx582EIHgEKm+m
- rG7a93pdXm598SS+xyGZLBGeMKBNyWj+yJNcaArx9e9XFrvXY0mrzjrjzzjd/77xgT
- OosvErfmql3iPr+ICfhE489fTDD2IBiDMpUpiIa8W1biislA2ybw9Z+I182sSKpcCq
- aFOAxJ7ng/ysn22LVwgIwl5CQZ2HzwuKiMpuvNOqeBID4yhygJ9EB0ElT/9WijJAuL
- ApYbNdidqYGvV+Hc1IQ7tcUgqFIzpRnuKgmCpQ427oe/IUp3mmBhRJo6DjtlDPkesL
- E5j9pYOpJfDYg==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marex@denx.de>, Liu Ying <victor.liu@nxp.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Stefan Agner <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2] drm/lcdif: Do not disable clocks on already suspended
- hardware
-Date: Mon, 26 Feb 2024 08:28:05 +0100
-Message-ID: <20240226072904.26861-1-marex@denx.de>
-X-Mailer: git-send-email 2.43.0
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7BDB10EEF2
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 07:35:11 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id
+ a640c23a62f3a-a2f22bfb4e6so351256066b.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Feb 2024 23:35:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1708932909; x=1709537709; darn=lists.freedesktop.org;
+ h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=pUKE/1khlR4GGOSrvcaQkLrtlffCXLvAWiv0mGgTovE=;
+ b=jnPA6cFn+D6CXzdpzTAurQfOxyCOlFtYIIQ7dKUrMJ3DkMXfxaDdFEBRowcuyiewL5
+ xpMCHR4OTrvIElrK/vWl3ihH7ePqL77HhMEWOvZNmxqESQOogPy3T9ld04vyKP6+g4TA
+ VPPcKOIYZ/pE2iKjcE4D6Ac/zeKIO2faaU6bv71QSToUuTR02sty5wADfvIHLOzu+dzH
+ 3o/ho4bin1pKr5kK8rq/lads26XEB6YTfFYm8YNE6EpPadR9krjyvZnDuZdqk7SekSY6
+ 8XC5mnARXfsh2YEe+pGr/m2GdWhjSUIMq9v2iaI0V4BGHg8zf35I9VC3MnvhGAeyWe9N
+ J8Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708932909; x=1709537709;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=pUKE/1khlR4GGOSrvcaQkLrtlffCXLvAWiv0mGgTovE=;
+ b=MUuG/CJaaqsT8KWoomBmG7DBtlauCOL6heQ+Prn6BFXYjoP38xSPz6kHOm8zTS8f9J
+ LIP14RtgE4As82EZjML5hh8trobXeAzhrNlko9bTJ/ZbAu/cdKcjrNSP1W4BY/E+h966
+ 3RUEZ2j1wrVLX1JbBcAEsew0xwmnf3R32jU3/mm7fVT+TZeDo+Md7zCoNIBTFe8PwSrb
+ ijTJmUZW3q1SGukuVZrQrILEASU4yJRRh1QH8OpfQi+nWeFclX+nLkN3fuB4212sq8Tu
+ 46NwPrfAuogvoEmi2I8ejGesUTkAcj4kU/pIGINDvyr8BvrJ1vSOKJpdQXEPQb5S6/9n
+ 1JWg==
+X-Gm-Message-State: AOJu0YzWRqfSV24QUK7uuagnPrD3PdJT/XWf3Wr1fosR3+WtAMwyNL1z
+ N9AmLzCqRPU3YghgTfrBMrdQdBaA/JaTalcGxGDub0nSAVZVAeBbMOKDixDQ0HEgToLf/84dB6r
+ b24V8QCdIOMz2O0wsZF22BurWTWcV8ZXvUvA=
+X-Google-Smtp-Source: AGHT+IGdYY7442X7IB+5wHqUBazEOS/R4t471ccWVjTFfR6lWKE9dcS9d3GN3iEeze68s+NL2Ls5nEsFBKyFLfBsvlA=
+X-Received: by 2002:a17:906:a40a:b0:a43:48e9:f2ad with SMTP id
+ l10-20020a170906a40a00b00a4348e9f2admr1377222ejz.74.1708932909434; Sun, 25
+ Feb 2024 23:35:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+From: Dave Airlie <airlied@gmail.com>
+Date: Mon, 26 Feb 2024 17:34:58 +1000
+Message-ID: <CAPM=9txLf5E2G-afpq54A3uRVkgdjxfUznXqhXHZ_7jNrQNfEw@mail.gmail.com>
+Subject: ttm usage inconsistency
+To: dri-devel <dri-devel@lists.freedesktop.org>, 
+ "Koenig, Christian" <Christian.Koenig@amd.com>, 
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,71 +72,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In case the LCDIF is enabled in DT but unused, the clocks used by the
-LCDIF are not enabled. Those clocks may even have a use count of 0 in
-case there are no other users of those clocks. This can happen e.g. in
-case the LCDIF drives HDMI bridge which has no panel plugged into the
-HDMI connector.
+This is probably something I knew about and forgot, but I'll ask if
+anyone has considered cleaning it up (or maybe I should fix nouveau).
 
-Do not attempt to disable clocks in the suspend callback and re-enable
-clocks in the resume callback unless the LCDIF is enabled and was in
-use before the system entered suspend, otherwise the driver might end
-up trying to disable clocks which are already disabled with use count
-0, and would trigger a warning from clocks core about this condition.
+nouveau sets up the resource manager using vram_size >> PAGE_SHIFT as
+the bounds, but the bo sizes are in bytes, hence usage ends up being
+accounted in bytes, so we have usage > size which looks wierd and also
+caused me to screw up adding an ioctl for userspace.
 
-Note that the lcdif_rpm_suspend() and lcdif_rpm_resume() functions
-internally perform the clocks disable and enable operations and act
-as runtime PM hooks too.
+Should I just make nouveau use vram_size instead?
 
-Reviewed-by: Liu Ying <victor.liu@nxp.com>
-Fixes: 9db35bb349a0 ("drm: lcdif: Add support for i.MX8MP LCDIF variant")
-Signed-off-by: Marek Vasut <marex@denx.de>
----
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Fabio Estevam <festevam@gmail.com>
-Cc: Liu Ying <victor.liu@nxp.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: NXP Linux Team <linux-imx@nxp.com>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Shawn Guo <shawnguo@kernel.org>
-Cc: Stefan Agner <stefan@agner.ch>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-arm-kernel@lists.infradead.org
----
-V2: - s@clock@clocks@g in commit message
-    - Add RB from Liu
----
- drivers/gpu/drm/mxsfb/lcdif_drv.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-index 18de2f17e2491..6494e82707569 100644
---- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
-+++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-@@ -340,6 +340,9 @@ static int __maybe_unused lcdif_suspend(struct device *dev)
- 	if (ret)
- 		return ret;
- 
-+	if (pm_runtime_suspended(dev))
-+		return 0;
-+
- 	return lcdif_rpm_suspend(dev);
- }
- 
-@@ -347,7 +350,8 @@ static int __maybe_unused lcdif_resume(struct device *dev)
- {
- 	struct drm_device *drm = dev_get_drvdata(dev);
- 
--	lcdif_rpm_resume(dev);
-+	if (!pm_runtime_suspended(dev))
-+		lcdif_rpm_resume(dev);
- 
- 	return drm_mode_config_helper_resume(drm);
- }
--- 
-2.43.0
-
+Dave.
