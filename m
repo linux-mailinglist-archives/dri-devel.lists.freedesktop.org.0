@@ -2,75 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECC78867163
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 11:38:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F6F48671A6
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 11:43:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C9A910E4DF;
-	Mon, 26 Feb 2024 10:38:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FF1010F040;
+	Mon, 26 Feb 2024 10:43:24 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="WP/aWXGj";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com
- [209.85.128.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 426E210E4DF;
- Mon, 26 Feb 2024 10:38:42 +0000 (UTC)
-Received: by mail-yw1-f174.google.com with SMTP id
- 00721157ae682-6087d1355fcso14920167b3.0; 
- Mon, 26 Feb 2024 02:38:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708943920; x=1709548720;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FrYmo90Nesq3SfmWdmUZ7XCViXsN5VGIIAMhD4WvIKo=;
- b=Mfanh7pLt6p7lov3wPHnmFyePu1DQDPgE8xVl2z7aJxdxQIwBoRr/soZFyX04ZJv4w
- dFgCPXbriUCtvom6QRqxYjDS9XlLVc8wa2nqiPTHHA4069gOgU3UO/v/KnFZ6iabialM
- +01GL7UMv9Kvz4Myo7baa8ofJAY+sRMyiGi3GoAM8rNl9C9aSHrZYIcG1cTyVeImaRH0
- cQfxcQ678C1TZs8hOpbnq+cQymly4pgzIHg/hdwBTqWN7YgIrXAtyqpRLipycA6XVJqY
- 1v1wxal3Fl9zkqUq2ynxZ3c70X1OAHH2y8i/EP92GL0GwbMzlnxZC7Ms8ICQe8ZpPtmL
- s8hw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWD8mWjSkqrz3lAi23bWnm1DwLXUiXEJNfHWDmfVMbeji8uFbBwdwmW4SAcg1cConkjMvjwRPGPHx8HvQEMPflUn1Z3j2Osoi5M/rGpGlJ+rDt36ICZvXZCpck2DAq1QofYv42RSb0xr0hxx20fxyw=
-X-Gm-Message-State: AOJu0YxIMpmN0fDixBIRlOsysq8sfCUfouNLxMQdQUxW5KDI798r+jyj
- P29D9X+qEeoMyGzB2iX9fgTLdBYIB2+maYjmswFOMrx/U2qJHnt3MbneMUBtsI8=
-X-Google-Smtp-Source: AGHT+IGlj/b9wnvU83YGJHDLFD68u1B3FqziIGOoNMHYBUD5T3d5Y1+JTtXNKk3uHWIXxMwfc1wpUg==
-X-Received: by 2002:a81:bc52:0:b0:608:8427:206 with SMTP id
- b18-20020a81bc52000000b0060884270206mr6154868ywl.27.1708943919647; 
- Mon, 26 Feb 2024 02:38:39 -0800 (PST)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com.
- [209.85.219.173]) by smtp.gmail.com with ESMTPSA id
- p201-20020a0de6d2000000b00608b3e03ec7sm1118766ywe.90.2024.02.26.02.38.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Feb 2024 02:38:39 -0800 (PST)
-Received: by mail-yb1-f173.google.com with SMTP id
- 3f1490d57ef6-dc6dcd9124bso2957043276.1; 
- Mon, 26 Feb 2024 02:38:39 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVYdTtrVPAdW+tgOElH5uubyS5+fsXVkDTstouwUQ/bNvtpAi6UAkMR9LIBib5UJ92EpB9w9OE7z7irxhfMAJNDpVzB0O3olVPuRJ/vzNHgh52fiAvzCUO/zgpakiUpEZPtthDNwrXTG/M0dyo3j0I=
-X-Received: by 2002:a25:2fc3:0:b0:dcd:3a37:bdb1 with SMTP id
- v186-20020a252fc3000000b00dcd3a37bdb1mr4219609ybv.44.1708943919042; Mon, 26
- Feb 2024 02:38:39 -0800 (PST)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC3E710F040
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 10:43:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=gZztgXP/XSLJSI+YL5JFai2EuuNwO+NB7lZeeMFJEPQ=; b=WP/aWXGjWHvv7r+76mUvjC+pNG
+ Si+HOXvuTb++8b/QJahf1MKBLR9QPxkDIkH8wozJPUWSv629/vmwalEISB2FUf+227amdVqJfPDim
+ bkWNliZ8viS+J2xAVmaN6dIRm9gb7ERyqyJSzIy52YIqDoqpRJtW2mdq89vGagLGJvWy1LvpPJQw9
+ gTYpLLaUxpDsGysaVb1HT17ZDQIHmWeFoNFSuFB952jU/Lxd8tRgwQwW7mbXZaJcmj+ulCA1HOjhZ
+ LIb00js8kAwls6kMQu/8KDwI5Va7opouVigUWCcKPHnOwqE9Akv7IlJgrFVspx3EMQIeb+UkTCNH/
+ cbdN8SKg==;
+Received: from [177.34.169.255] (helo=[192.168.0.139])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1reYRV-003X0t-2A; Mon, 26 Feb 2024 11:42:41 +0100
+Message-ID: <fc45b4c9-40e8-4335-b669-9307cc7325ad@igalia.com>
+Date: Mon, 26 Feb 2024 07:42:31 -0300
 MIME-Version: 1.0
-References: <20240215174431.285069-7-matthew.auld@intel.com>
- <96bb6e97-34d9-4e4a-b618-85c17e809738@intel.com>
- <5a9e1f30-19fc-486f-b7f5-016d82580d2f@amd.com>
- <4aea62d4-8c2a-4406-b81e-240dca772da4@intel.com>
- <45059d66-6e80-406b-aae2-72f8b8d142cb@amd.com>
- <dc8c7d2b-4c2f-41dd-9812-3699444d5273@intel.com>
- <94afe80c-9e4f-47a7-a758-17ab26eb4c00@intel.com>
- <58e423e8-316e-40e0-b622-136ca6cc0189@intel.com>
-In-Reply-To: <58e423e8-316e-40e0-b622-136ca6cc0189@intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 26 Feb 2024 11:38:26 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUjwXS=Ow+DccWbcee9+vbkdD7dWp5M9FrnC-nFRZcwTw@mail.gmail.com>
-Message-ID: <CAMuHMdUjwXS=Ow+DccWbcee9+vbkdD7dWp5M9FrnC-nFRZcwTw@mail.gmail.com>
-Subject: Re: [PATCH 1/6] drm/tests/drm_buddy: fix 32b build
-To: Matthew Auld <matthew.auld@intel.com>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- Maxime Ripard <mripard@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 01/36] drm/tests: helpers: Include missing drm_drv
+ header
+Content-Language: en-US
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
+ <20240222-kms-hdmi-connector-state-v7-1-8f4af575fce2@kernel.org>
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Autocrypt: addr=mcanal@igalia.com; keydata=
+ xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
+ H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
+ hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
+ GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
+ rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
+ s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
+ GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
+ pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
+In-Reply-To: <20240222-kms-hdmi-connector-state-v7-1-8f4af575fce2@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,68 +84,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matthew,
+On 2/22/24 15:13, Maxime Ripard wrote:
+> We have a few functions declared in our kunit helpers header, some of
+> them dereferencing the struct drm_driver.
+> 
+> However, we don't include the drm_drv.h header file defining that
+> structure, leading to compilation errors if we don't include both
+> headers.
+> 
+> Fixes: d98780310719 ("drm/tests: helpers: Allow to pass a custom drm_driver")
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-On Mon, Feb 26, 2024 at 10:58=E2=80=AFAM Matthew Auld <matthew.auld@intel.c=
-om> wrote:
-> On 19/02/2024 12:24, Matthew Auld wrote:
-> > On 19/02/2024 10:48, Matthew Auld wrote:
-> >> On 19/02/2024 10:30, Christian K=C3=B6nig wrote:
-> >>> Am 19.02.24 um 11:28 schrieb Matthew Auld:
-> >>>> On 19/02/2024 09:53, Christian K=C3=B6nig wrote:
-> >>>>> Am 19.02.24 um 10:42 schrieb Matthew Auld:
-> >>>>>> On 15/02/2024 17:44, Matthew Auld wrote:
-> >>>>>>> Doesn't seem to compile on 32b, presumably due to u64 mod/divisio=
-n.
-> >>>>>>> Simplest is to just switch over to u32 here. Also make print
-> >>>>>>> modifiers
-> >>>>>>> consistent with that.
-> >>>>>>>
-> >>>>>>> Fixes: a64056bb5a32 ("drm/tests/drm_buddy: add alloc_contiguous
-> >>>>>>> test")
-> >>>>>>> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> >>>>>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> >>>>>>> Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-> >>>>>>> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >>>>>>> Cc: Maxime Ripard <mripard@redhat.com>
-> >>>>>>
-> >>>>>> Any chance someone can push just this single patch here, since it
-> >>>>>> fixes 32b build? It already has an r-b from Arun.
-> >>>>>
-> >>>>> Already working on this. Just give me a few more minutes.
-> >>>>
-> >>>> Thanks.
-> >>>
-> >>> No, problem. I would have pushed this earlier, but my build server
-> >>> doesn't want to work any more. Looks like the SSD has passed its
-> >>> warranty :(
-> >>>
-> >>> Should I push the other three patches to drm-misc-fixes as well? I
-> >>> currently can't even build test them.
-> >>
-> >> Need to send a v2 for that. One minor change in the test just to be
-> >> consistent with using u32. Thanks.
-> >
-> > Sent v2. If you could push that when you get a chance. Thanks.
-> >
-> > https://patchwork.freedesktop.org/series/130075/
->
-> Gentle ping on merging v2.
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
 
-Your v1 and a fix from Linus already made it upstream:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/driv=
-ers/gpu/drm/tests?h=3Dv6.8-rc6
+Best Regards,
+- Maíra
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> ---
+>   include/drm/drm_kunit_helpers.h | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/include/drm/drm_kunit_helpers.h b/include/drm/drm_kunit_helpers.h
+> index ba483c87f0e7..3ae19892229d 100644
+> --- a/include/drm/drm_kunit_helpers.h
+> +++ b/include/drm/drm_kunit_helpers.h
+> @@ -3,6 +3,8 @@
+>   #ifndef DRM_KUNIT_HELPERS_H_
+>   #define DRM_KUNIT_HELPERS_H_
+>   
+> +#include <drm/drm_drv.h>
+> +
+>   #include <linux/device.h>
+>   
+>   #include <kunit/test.h>
+> 
