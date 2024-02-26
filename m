@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C912867340
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 12:36:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A868E867342
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 12:36:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 228C010F0BB;
-	Mon, 26 Feb 2024 11:36:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E180310F0BD;
+	Mon, 26 Feb 2024 11:36:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aFI8rx3z";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="O4tFc9rK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8088010F0BD
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 11:36:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6522A10F0BD
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 11:36:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 1CFBBCE173B;
- Mon, 26 Feb 2024 11:36:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8C1DC433C7;
- Mon, 26 Feb 2024 11:36:13 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 2B97ECE0A5F;
+ Mon, 26 Feb 2024 11:36:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0593C433F1;
+ Mon, 26 Feb 2024 11:36:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1708947374;
- bh=18lCdpTkYwlowtruSqPGH0iiHUJ/Amg4mhHu2w7B3A8=;
+ s=k20201202; t=1708947377;
+ bh=orG/AJAluqn3UdKHweG/Hc/qNU6ti/Zuo8QMfFzwDjI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=aFI8rx3zBJIaHvZ4AW1De/D9IKcYB6eS6pKmH23gq50DsOiODbJBEyYSB8NDQ3E16
- JKeJVog1ofOsmtoGMCMaCDNVF+KwiL88IpxZgGKktTLeoI3eMJmYnmepGeftLsCU05
- eLMkBPSPWBdGaF0rr4oEy482jBQTtvKio4ERB66eKWEfRrr3wc2Cnh7Y39aQwIZX5z
- BjZ2/JB/ARrxCpUPUnrc8+1bUA4vaeMtk9didClp+Yx4W66qTZMkUD+YR0P1DnNTGQ
- cP11Ql/8zkamc9jzpWCaYsNmhnAUgPZ2/ZQLqrQoDpBHIcQmwXnko3UoBKPcEXJUVp
- fdVAo6xoTOjEA==
+ b=O4tFc9rK1suaFsamPQHg06f0hEvxycXsIIy0gnWAhaEYSKs5Vxl6SHE9l1J8hBKfg
+ 3ByQKAW/9YKt/keNcN6Cw7TBxHUOxtLVoY5V3Oj6z+YVDk/jOQSKXjFhJ1VgomOrZ8
+ 29x9mCLNshttHckZ5Jx725RCI+ID+Yopu58JsTXQtLT2H394arH06mjdnDkeq3LwyR
+ 5OLXLuIVH9sJHCKO+ZOZgivvGxkGjV4s/7VLJqgiL8degYEONQ3IL0hwNATECZF00C
+ SeqzgwY62OWKhIVkSdswzK+xvt1Roc7KrDhsTN61W8wvGtohSQ41m8HQ8ndA/np8xf
+ ocd63RSWJCqNA==
 From: Maxime Ripard <mripard@kernel.org>
 To: dri-devel@lists.freedesktop.org
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Maxime Ripard <mripard@kernel.org>, Daniel Stone <daniels@collabora.com>
-Subject: [dim PATCH] dim: drm-misc: Membership requests now go through Gitlab
-Date: Mon, 26 Feb 2024 12:36:09 +0100
-Message-ID: <20240226113610.46343-1-mripard@kernel.org>
+Subject: [rerere PATCH] nightly.conf: Update the drm-misc repo
+Date: Mon, 26 Feb 2024 12:36:10 +0100
+Message-ID: <20240226113610.46343-2-mripard@kernel.org>
 X-Mailer: git-send-email 2.43.2
-In-Reply-To: <gnthy5o42kiyj63d2bkkxsc5krzf3wrwt23chh2kthkmlyjwbg@ybynvjvqdka7>
+In-Reply-To: <20240226113610.46343-1-mripard@kernel.org>
 References: <gnthy5o42kiyj63d2bkkxsc5krzf3wrwt23chh2kthkmlyjwbg@ybynvjvqdka7>
+ <20240226113610.46343-1-mripard@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -59,32 +60,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that drm-misc has switched to Gitlab, we don't need to make
-newcomers create a legacy SSH account. Gitlab supports access requests,
-so let's just use them.
+drm-misc has moved to gitlab now, so let's update the repo location.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- commit-access.rst | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ nightly.conf | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/commit-access.rst b/commit-access.rst
-index 539a7906e52a..3b6c1a19aae2 100644
---- a/commit-access.rst
-+++ b/commit-access.rst
-@@ -31,9 +31,10 @@ below criteria:
- - Agrees to use their commit rights in accordance with the documented merge
-   criteria, tools, processes, and :ref:`code-of-conduct`.
- 
--Apply for an account (and any other account change requests) through
-+You can apply for developpers right by requesting access to the `drm/misc`
-+subgroup on GitLab
- 
--https://www.freedesktop.org/wiki/AccountRequests/
-+https://gitlab.freedesktop.org/drm/misc
- 
- and please ping the maintainers if your request is stuck.
- 
+diff --git a/nightly.conf b/nightly.conf
+index c189f2ccad17..0362efd65cf8 100644
+--- a/nightly.conf
++++ b/nightly.conf
+@@ -37,12 +37,8 @@ https://anongit.freedesktop.org/git/drm/drm-intel
+ https://anongit.freedesktop.org/git/drm/drm-intel.git
+ "
+ drm_tip_repos[drm-misc]="
+-ssh://git.freedesktop.org/git/drm/drm-misc
+-ssh://git.freedesktop.org/git/drm-misc
+-git://anongit.freedesktop.org/drm/drm-misc
+-git://anongit.freedesktop.org/drm-misc
+-https://anongit.freedesktop.org/git/drm/drm-misc
+-https://anongit.freedesktop.org/git/drm/drm-misc.git
++https://gitlab.freedesktop.org/drm/misc/kernel.git
++ssh://git@gitlab.freedesktop.org/drm/misc/kernel.git
+ "
+ drm_tip_repos[drm]="
+ ssh://git.freedesktop.org/git/drm/drm
 -- 
 2.43.2
 
