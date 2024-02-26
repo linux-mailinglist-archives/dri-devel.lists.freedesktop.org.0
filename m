@@ -2,125 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71337866DE4
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 10:15:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA9A8866E62
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 10:28:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D31D210EFBE;
-	Mon, 26 Feb 2024 09:15:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A035510EFDF;
+	Mon, 26 Feb 2024 09:28:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IWjXlFXg";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="T+b5dLDl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
- [209.85.208.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0B1610EFBB
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 09:15:18 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id
- 4fb4d7f45d1cf-5655c7dd3b1so4408597a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 01:15:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708938917; x=1709543717; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=wlH1Ter4o/LuhmUGIySGl8jfbKhW6NJPyE0QFDQ/6s4=;
- b=IWjXlFXg/yrj1+sMvWGmBBJnebFNAVgaDBeCNWRWpCTfjGt3QwnQf5/5e6uZs44Vl8
- y5vf2Cn+zWhi9K3Kb5xaxrF4f6niBY5P7L1Fc/fia6LUDZ9iPgBhCawnNfead163GIsO
- O56J3YyNtJV+wbq3dWHmXv5azTiR8Q99vHFLlwQDtaBscBE87mrFeLmLEO5fn/5/OK4F
- x40ZjdhQguErg+kWYU+P2jjFjIZVCaYh9G8w+KCXq1wuPNMLSv99OvpiEj/LmNDJNUd+
- FACH9wkY47ktgqB4FnMtmRTtAEbFlUNtUTDgFUexZeYAgaa0BX37SG0Q28j2je6239hH
- CD/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708938917; x=1709543717;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wlH1Ter4o/LuhmUGIySGl8jfbKhW6NJPyE0QFDQ/6s4=;
- b=UQi/wUlTmE0fg7ycp+CChnt17KV5sKq0mindPo+Icu/V8gIIC22q3NNIrFuVqxNIVz
- FWBj+i5gBkL3cElJ53WoquTnqgVZ72a5baOufO5JnxRsx6qbLdZS68iYB9kmH1mRYe2n
- Upg/6xzTGdSX7w/zdOABUfYoIX5zY4oCAPfDEJoXYeSuGiADKkIEbfVpWzwWtppYEYkv
- xQSCCA70zAY7wA+Hbv2mwuakgvM5xguwvEFqA8sYB/2ccJ/fElvdmfge3ftZukfTYeul
- y6kolVH4sJPzgMQNDVZT82Rc0uxuPWg/7k7mFySuMmkepBxK2M7c7+Rq4XCI5S7UpkfN
- Bg+Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWKFr8EYmYvlxAL7tcD296xnPmDeUAHmNpK/1JGMaYp5OEpCKV4b9TZhHANPTnnb28XO4ppH118NSTZA7FVdiyOwCefhPvFIT1O/JaiVOQm
-X-Gm-Message-State: AOJu0YwXgYDKrRX/s1hC8DTOE++jDR57qDe37RwCAt0eJu0lpNjIIm/k
- GII8npKGE7xMkMHjBTzNbVRbi5dDs9JPlKI+k9LZnZucUpX/GEQPTdK6Vs1EC6Q=
-X-Google-Smtp-Source: AGHT+IEXUVR/N8Ym4kzVlbEuwaD2lWsgOYP5/F36Su6nMdyWMJ//J8As/t2DKFX23EsFXq+ZVVEfZg==
-X-Received: by 2002:a17:906:1745:b0:a3f:2168:214b with SMTP id
- d5-20020a170906174500b00a3f2168214bmr5890928eje.1.1708938916861; 
- Mon, 26 Feb 2024 01:15:16 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.222.116])
- by smtp.gmail.com with ESMTPSA id
- tl18-20020a170907c31200b00a437d3e975esm167009ejc.210.2024.02.26.01.15.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Feb 2024 01:15:16 -0800 (PST)
-Message-ID: <310cefcb-a4d5-4f4f-a482-ba2ff08a57f6@linaro.org>
-Date: Mon, 26 Feb 2024 10:15:14 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7714110EFDD
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 09:28:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1708939710; x=1740475710;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=Wz4SoLxzTswpch9tgCM4x5EOC43eeKmpBEQj+YZz5+s=;
+ b=T+b5dLDli/pkMK+JL5A83wZJ10bnvlEWVz0KLQvTS8lPvd1bprzo91Y4
+ wAIKFyv/SIsBB0J/Eaiq6zHkaqPoZ5cYkhKPcTXIdLrDUL/pxrJtZc8zW
+ A9XyorGyIsRs6mR/pUCXmrFDYCZgPANCIMaIicQkVA7UtcKHjzO84wCGB
+ lHIcEQ6VhmYUQbS4nYDpmmCQaF23mRs9k+TsOoHy9zk27h6U5uqvKqpyd
+ Dyz5I+16AKLeYDCU4Rx543n8dqg+FIXK2Ik7jVW1Eg7j4Pn8Ocdq7GnC9
+ HVUhTyBJ3SEhZBpS20oQ6GtDCDt4LLA3IMiO0OAVjjim8wBqglrnlABBP g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="7029309"
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
+   d="scan'208";a="7029309"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2024 01:28:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; d="scan'208";a="11169213"
+Received: from hibeid-mobl.amr.corp.intel.com (HELO localhost)
+ ([10.252.46.254])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2024 01:28:24 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: David Laight <David.Laight@ACULAB.COM>, "'linux-kernel@vger.kernel.org'"
+ <linux-kernel@vger.kernel.org>, 'Linus Torvalds'
+ <torvalds@linux-foundation.org>, 'Netdev' <netdev@vger.kernel.org>,
+ "'dri-devel@lists.freedesktop.org'" <dri-devel@lists.freedesktop.org>
+Cc: 'Jens Axboe' <axboe@kernel.dk>, "'Matthew Wilcox (Oracle)'"
+ <willy@infradead.org>, 'Christoph Hellwig' <hch@infradead.org>,
+ "'linux-btrfs@vger.kernel.org'" <linux-btrfs@vger.kernel.org>, 'Andrew
+ Morton' <akpm@linux-foundation.org>, 'Andy Shevchenko'
+ <andriy.shevchenko@linux.intel.com>, "'David S . Miller'"
+ <davem@davemloft.net>, 'Dan Carpenter' <dan.carpenter@linaro.org>, Rasmus
+ Villemoes <linux@rasmusvillemoes.dk>
+Subject: Re: [PATCH next v2 02/11] minmax: Use _Static_assert() instead of
+ static_assert()
+In-Reply-To: <8059bc04da1a45bc810ac339a1129a4c@AcuMS.aculab.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <0fff52305e584036a777f440b5f474da@AcuMS.aculab.com>
+ <8059bc04da1a45bc810ac339a1129a4c@AcuMS.aculab.com>
+Date: Mon, 26 Feb 2024 11:28:21 +0200
+Message-ID: <87v86bo9qi.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 9/9] ARM: dts: chameleonv3: Add video device nodes
-Content-Language: en-US
-To: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>, airlied@gmail.com,
- akpm@linux-foundation.org, conor+dt@kernel.org, daniel@ffwll.ch,
- dinguyen@kernel.org, hverkuil-cisco@xs4all.nl,
- krzysztof.kozlowski+dt@linaro.org, maarten.lankhorst@linux.intel.com,
- mchehab@kernel.org, mripard@kernel.org, robh+dt@kernel.org,
- tzimmermann@suse.de
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- chromeos-krk-upstreaming@google.com, ribalda@chromium.org
-References: <20240221160215.484151-1-panikiel@google.com>
- <20240221160215.484151-10-panikiel@google.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240221160215.484151-10-panikiel@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,26 +76,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/02/2024 17:02, Paweł Anikiel wrote:
-> Add device nodes for the video system present on the Chameleon v3.
-> It consists of six framebuffers and two Intel Displayport receivers.
-> 
-> Signed-off-by: Paweł Anikiel <panikiel@google.com>
+On Sun, 25 Feb 2024, David Laight <David.Laight@ACULAB.COM> wrote:
+> The wrapper just adds two more lines of error output when the test fails.
+
+There are only a handful of places in kernel code that use
+_Static_assert() directly. Nearly 900 instances of static_assert().
+
+Are we now saying it's fine to use _Static_assert() directly all over
+the place? People will copy-paste and cargo cult.
+
+BR,
+Jani.
+
+>
+> Signed-off-by: David Laight <david.laight@aculab.com>
 > ---
+>  include/linux/minmax.h | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> Changes for v2:
+> - Typographical and spelling corrections to the commit messages.
+>   Patches unchanged.
+>
+> diff --git a/include/linux/minmax.h b/include/linux/minmax.h
+> index 63c45865b48a..900eec7a28e5 100644
+> --- a/include/linux/minmax.h
+> +++ b/include/linux/minmax.h
+> @@ -48,7 +48,7 @@
+>  #define __cmp_once(op, x, y, unique_x, unique_y) ({	\
+>  	typeof(x) unique_x = (x);			\
+>  	typeof(y) unique_y = (y);			\
+> -	static_assert(__types_ok(x, y),			\
+> +	_Static_assert(__types_ok(x, y),			\
+>  		#op "(" #x ", " #y ") signedness error, fix types or consider u" #op "() before " #op "_t()"); \
+>  	__cmp(op, unique_x, unique_y); })
+>  
+> @@ -137,11 +137,11 @@
+>  	typeof(val) unique_val = (val);						\
+>  	typeof(lo) unique_lo = (lo);						\
+>  	typeof(hi) unique_hi = (hi);						\
+> -	static_assert(__builtin_choose_expr(__is_constexpr((lo) > (hi)),	\
+> +	_Static_assert(__builtin_choose_expr(__is_constexpr((lo) > (hi)),	\
+>  			(lo) <= (hi), true),					\
+>  		"clamp() low limit " #lo " greater than high limit " #hi);	\
+> -	static_assert(__types_ok(val, lo), "clamp() 'lo' signedness error");	\
+> -	static_assert(__types_ok(val, hi), "clamp() 'hi' signedness error");	\
+> +	_Static_assert(__types_ok(val, lo), "clamp() 'lo' signedness error");	\
+> +	_Static_assert(__types_ok(val, hi), "clamp() 'hi' signedness error");	\
+>  	__clamp(unique_val, unique_lo, unique_hi); })
+>  
+>  #define __careful_clamp(val, lo, hi) ({					\
 
-...
-
-> +		dprx_sst: dp-receiver@c0064000 {
-> +			compatible = "intel,dprx-20.0.1";
-> +			reg = <0xc0064000 0x800>;
-> +			interrupt-parent = <&dprx_sst_irq>;
-> +			interrupts = <0 IRQ_TYPE_EDGE_RISING>;
-> +			intel,max-link-rate = <0x1e>;
-
-Rate is not in hex! Rate is in Hz, at least usually...
-
-Fix your bindings...
-
-Best regards,
-Krzysztof
-
+-- 
+Jani Nikula, Intel
