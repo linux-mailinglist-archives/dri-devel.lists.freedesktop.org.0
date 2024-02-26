@@ -2,86 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB9D5867AAE
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 16:49:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9642867AC4
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 16:52:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AD5310E787;
-	Mon, 26 Feb 2024 15:49:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE00510E4A8;
+	Mon, 26 Feb 2024 15:52:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="G2ZtgY2Q";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="RAxQqA4q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DCA310E787
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 15:48:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1708962536;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XB2TRwyOPZ4MpC469uTrD2LaYCw03ZG9lAb31+BwZj4=;
- b=G2ZtgY2QelDyM+mFy0imRObxokvOXKKlQj7uz19AxkFCHJcE6R3ybsYWfeqZv6gl1U2fqd
- pCiJoM/gFMh33GuGTu/HvvZjtqf0u5ec1BqH/MSzPcWei7Pq1i4hcyEtItCfihDac+TM0Y
- ALwmBjoqhkqlIgE0ABZXr653DJGHFmU=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-131-NkuVuxNSMIu1ISEoU2Bgmg-1; Mon, 26 Feb 2024 10:48:55 -0500
-X-MC-Unique: NkuVuxNSMIu1ISEoU2Bgmg-1
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-68f74a0a3c7so49388316d6.2
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 07:48:55 -0800 (PST)
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com
+ [209.85.167.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34C0510E4A8
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 15:52:01 +0000 (UTC)
+Received: by mail-oi1-f179.google.com with SMTP id
+ 5614622812f47-3be110bbff9so1000300b6e.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 07:52:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1708962720; x=1709567520; darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=CUSSeKCNfrI8SENdwKZ8ZDRRQjwEDrUx9VFbPLeuRnM=;
+ b=RAxQqA4qZ0sbOAqw8pelcsB3ce3ka2TKoZyDANgWGvCFvQN1TmKlLC463/4+eb1CCa
+ tt9FNesZqyZJ5o78+x4X/fkuVD+55RJULxcKthb8gMp8UI6z0ybNtYGaEyD8l0StqsQ3
+ 9U4qB9diy1ABmifk+iPzmm8vKDc37Be5YrYYA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708962535; x=1709567335;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:from:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XB2TRwyOPZ4MpC469uTrD2LaYCw03ZG9lAb31+BwZj4=;
- b=NYzyE2Iaf9kgfeUhruiorN+si6UfZltT3tXjLIZnR18wM97R4Od5W6xmoj9fqk/Dx/
- kvoecvROTwowh3aKAEioGRLS44wjRTlnl7UXGbm78q0M+afrkJvKHAyfCEi51MQnbyFX
- rPX47opLncNvAYZUfqXnbOA7aOo8S/bF4UUbeprGBCJnqVrvaBDcd+xbbbRL/AveBsb/
- tHSVJa6McAuzi1mmj+jlkfPU+K0Ll6xdiDT8C3NGTvnssEYf/DuQfWuBWUT32+ImOLea
- Mjf/X33e7PztgbN3n6I1HYRK/YcP8yPN3Sh0xUswcvWMNvKyxUO2TVc6jPJEkKEeScOa
- bd5A==
+ d=1e100.net; s=20230601; t=1708962720; x=1709567520;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=CUSSeKCNfrI8SENdwKZ8ZDRRQjwEDrUx9VFbPLeuRnM=;
+ b=b92nK6zeyxE05NB8WZ/vMNU4KcZcniDhNkHbGsWtj3PkPDWJwiwgZ4YMtk4141UJ66
+ RQegjAOje0Yk9EE0kMPsuom4jVWt2wqnr9wTjU6SELlTrCiKCNs6xWHmyQo/CjGYPcd+
+ J73jNGq7npnVzxGlQF3lR89IZy9Qs0dkCu7rso2nnus6eJKieqmuFjr3+soN/VOBnkK3
+ lVAHSnazyKKd1wLyuZ9/xDrHq1pz+mQvQjp8rSVT8dI3IPjf4JZWxQA26jZFanfXP7cH
+ MeqzHqttrIt/RdlayQJDvFVKCgaMFdPOQuNOuYo2udwKMZgxOJZTw5l5KbRZ0/w8/s9Y
+ hqUw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXPm6His1XovNIFgRENUXEhkbftCdvHeWUWaV2TNPPVjsRHh40zCBbifAijMHIM31pT7cbAYoPIy3Cq5elbwri1572LCWn1bYK/pc5pn87l
-X-Gm-Message-State: AOJu0YzZZ95yu+pL1B5BZvwwsnUo0l7xdxhoqMFy9pi3rIhwY3EAe6NF
- 7wU/hK8PsvaK+JP7Ru7HWLw0Ai5CrVGrQzpXChiF3z6NMJhw+AH67rcInDT5osBs5KbqynU42bW
- vR4tHmZ0H+EZN4lLvf7ciJgIPLt4II0/YseBC+u7Gm6gcsKiCADwWqEJaPT9XJFcP
-X-Received: by 2002:a0c:9c86:0:b0:68f:9cd7:521 with SMTP id
- i6-20020a0c9c86000000b0068f9cd70521mr7468095qvf.30.1708962535131; 
- Mon, 26 Feb 2024 07:48:55 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFE3cHrLgsWDANJopb3qHNrAVGtuCMtGFhdeIBXbdNmh8ncWAWnn1WLbEmKkR5oeDI6CxkLog==
-X-Received: by 2002:a0c:9c86:0:b0:68f:9cd7:521 with SMTP id
- i6-20020a0c9c86000000b0068f9cd70521mr7468074qvf.30.1708962534878; 
- Mon, 26 Feb 2024 07:48:54 -0800 (PST)
-Received: from [192.168.9.34] (net-2-34-30-118.cust.vodafonedsl.it.
- [2.34.30.118]) by smtp.gmail.com with ESMTPSA id
- a10-20020a0c8bca000000b0068fda83f293sm3097135qvc.121.2024.02.26.07.48.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Feb 2024 07:48:54 -0800 (PST)
-Message-ID: <03915b45-94f6-4863-8b11-d0e9dbd0283a@redhat.com>
-Date: Mon, 26 Feb 2024 16:48:51 +0100
+ AJvYcCXPwITOUDtENQ60NYYW5aVLS0Y3wKgesvr4SqeSk5qiz/OGwCE6Xh5MIxtd/kbz2niZlUDXPHzF5yOVofKMaNFW/6al1MsJk2mvuqb2NTNK
+X-Gm-Message-State: AOJu0YxNdRiC0vsJU/sv4NKsURfJuw6tgwZhUixjZBhnQl53+3dTkxvV
+ wtP6tCCQOW6okOFHeM/sTKK8PxYKBIhPsoV8j/WoIhvgpckvG6+xllNL+5izQuGZQEqEZT7lveu
+ A/+ZKnyzuqJhjFQOaj9Ttt7+7vAepakx3b6x6ug==
+X-Google-Smtp-Source: AGHT+IEdiQ4U3Em4o9sDuL5RsHg1cNC4nB6yTF5zoOIg2giWwAyj6LuCUE3soBJh3R3CnQ3rPqB5bTGOiWA/ta2lfdE=
+X-Received: by 2002:a05:6871:3427:b0:21e:be91:ae48 with SMTP id
+ nh39-20020a056871342700b0021ebe91ae48mr8491032oac.1.1708962720214; Mon, 26
+ Feb 2024 07:52:00 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Marco Pagani <marpagan@redhat.com>
-Subject: Re: [PATCH] drm/test/shmem: set a DMA mask for the mock device
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Guenter Roeck <linux@roeck-us.net>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20240226110028.28009-1-marpagan@redhat.com>
- <d65v7jy4natx22lacw6awmg6iecfr2hqk3puuz3qem5dfsvj2x@hh6vp265hm5p>
-In-Reply-To: <d65v7jy4natx22lacw6awmg6iecfr2hqk3puuz3qem5dfsvj2x@hh6vp265hm5p>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240208114411.14604-1-jirislaby@kernel.org>
+In-Reply-To: <20240208114411.14604-1-jirislaby@kernel.org>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Mon, 26 Feb 2024 16:51:49 +0100
+Message-ID: <CAKMK7uH-22rmncSn0iP2qdeUNEsmOQgG5xHcOPTLwnwqANtvYQ@mail.gmail.com>
+Subject: Re: [PATCH] fbcon: always restore the old font data in
+ fbcon_do_set_font()
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Ubisectech Sirius <bugreport@ubisectech.com>, 
+ Helge Deller <deller@gmx.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,29 +76,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 8 Feb 2024 at 12:44, Jiri Slaby (SUSE) <jirislaby@kernel.org> wrote:
+>
+> Commit a5a923038d70 (fbdev: fbcon: Properly revert changes when
+> vc_resize() failed) started restoring old font data upon failure (of
+> vc_resize()). But it performs so only for user fonts. It means that the
+> "system"/internal fonts are not restored at all. So in result, the very
+> first call to fbcon_do_set_font() performs no restore at all upon
+> failing vc_resize().
+>
+> This can be reproduced by Syzkaller to crash the system on the next
+> invocation of font_get(). It's rather hard to hit the allocation failure
+> in vc_resize() on the first font_set(), but not impossible. Esp. if
+> fault injection is used to aid the execution/failure. It was
+> demonstrated by Sirius:
+>   BUG: unable to handle page fault for address: fffffffffffffff8
+>   #PF: supervisor read access in kernel mode
+>   #PF: error_code(0x0000) - not-present page
+>   PGD cb7b067 P4D cb7b067 PUD cb7d067 PMD 0
+>   Oops: 0000 [#1] PREEMPT SMP KASAN
+>   CPU: 1 PID: 8007 Comm: poc Not tainted 6.7.0-g9d1694dc91ce #20
+>   Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+>   RIP: 0010:fbcon_get_font+0x229/0x800 drivers/video/fbdev/core/fbcon.c:2286
+>   Call Trace:
+>    <TASK>
+>    con_font_get drivers/tty/vt/vt.c:4558 [inline]
+>    con_font_op+0x1fc/0xf20 drivers/tty/vt/vt.c:4673
+>    vt_k_ioctl drivers/tty/vt/vt_ioctl.c:474 [inline]
+>    vt_ioctl+0x632/0x2ec0 drivers/tty/vt/vt_ioctl.c:752
+>    tty_ioctl+0x6f8/0x1570 drivers/tty/tty_io.c:2803
+>    vfs_ioctl fs/ioctl.c:51 [inline]
+>   ...
+>
+> So restore the font data in any case, not only for user fonts. Note the
+> later 'if' is now protected by 'old_userfont' and not 'old_data' as the
+> latter is always set now. (And it is supposed to be non-NULL. Otherwise
+> we would see the bug above again.)
+>
+> Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+> Fixes: a5a923038d70 ("fbdev: fbcon: Properly revert changes when vc_resize() failed")
+> Cc: Ubisectech Sirius <bugreport@ubisectech.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
 
-On 2024-02-26 12:26, Maxime Ripard wrote:
-> Hi,
-> 
-> On Mon, Feb 26, 2024 at 12:00:27PM +0100, Marco Pagani wrote:
->> Set a DMA mask for the mock device to avoid warnings generated in
->> dma_map_sgtable().
->>
->> Reported-by: Guenter Roeck <linux@roeck-us.net>
->> Signed-off-by: Marco Pagani <marpagan@redhat.com>
-> 
-> I've submitted last week this patch:
-> https://lore.kernel.org/all/20240221125324.718192-1-mripard@kernel.org/
-> 
-> Which should be equivalent, but fixes the issue for all users in the
-> tree.
+Reviewing patches to code where assignments in if conditions are still
+cool is a pain :-/
 
-Hi, thanks for letting me know. Fixing this issue for all DRM tests that were
-using platform devices through the helpers makes perfect sense to me. I'm a
-little more thoughtful about setting the mask for all KUnit tests that use fake
-devices since there may be specific use cases. Just one curiosity: why setting
-the default mask manually instead of using one of the dma_set_*() functions?
+Merged to drm-misc-fixes with reported/tested-by credit tag for sirius added.
 
-Thanks,
-Marco
+Thanks a lot!
+-Sima
 
+> ---
+>  drivers/video/fbdev/core/fbcon.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+> index 17a9fc80b4e4..98d0e2dbcd2f 100644
+> --- a/drivers/video/fbdev/core/fbcon.c
+> +++ b/drivers/video/fbdev/core/fbcon.c
+> @@ -2395,11 +2395,9 @@ static int fbcon_do_set_font(struct vc_data *vc, int w, int h, int charcount,
+>         struct fbcon_ops *ops = info->fbcon_par;
+>         struct fbcon_display *p = &fb_display[vc->vc_num];
+>         int resize, ret, old_userfont, old_width, old_height, old_charcount;
+> -       char *old_data = NULL;
+> +       u8 *old_data = vc->vc_font.data;
+>
+>         resize = (w != vc->vc_font.width) || (h != vc->vc_font.height);
+> -       if (p->userfont)
+> -               old_data = vc->vc_font.data;
+>         vc->vc_font.data = (void *)(p->fontdata = data);
+>         old_userfont = p->userfont;
+>         if ((p->userfont = userfont))
+> @@ -2433,13 +2431,13 @@ static int fbcon_do_set_font(struct vc_data *vc, int w, int h, int charcount,
+>                 update_screen(vc);
+>         }
+>
+> -       if (old_data && (--REFCOUNT(old_data) == 0))
+> +       if (old_userfont && (--REFCOUNT(old_data) == 0))
+>                 kfree(old_data - FONT_EXTRA_WORDS * sizeof(int));
+>         return 0;
+>
+>  err_out:
+>         p->fontdata = old_data;
+> -       vc->vc_font.data = (void *)old_data;
+> +       vc->vc_font.data = old_data;
+>
+>         if (userfont) {
+>                 p->userfont = old_userfont;
+> --
+> 2.43.0
+>
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
