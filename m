@@ -2,74 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1144C8683DD
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 23:39:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ACD58683E9
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 23:43:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B04E510E62E;
-	Mon, 26 Feb 2024 22:38:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C697010E4E4;
+	Mon, 26 Feb 2024 22:43:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="mBf3iuOV";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="TtGwtBzn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com
- [209.85.210.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 001CB10E62E
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 22:38:56 +0000 (UTC)
-Received: by mail-ot1-f44.google.com with SMTP id
- 46e09a7af769-6e2c45b81d8so798993a34.0
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 14:38:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1708987136; x=1709591936;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=a91PQgJAkXhE3tI3QtihYX3shOIlngJRqPpCQigQ7j0=;
- b=mBf3iuOVCtD4sBAnDKMHpTco/u3MUtSO5AKvmxJx3ugAsnrCR7qWYNUzxQ3KvoQ9ZH
- Jr7NSfd/cJ4ni8V0fDPHow+eXe1h8VNoVC4XS2SG34m77z1z538KFDt6UoIclbjLtTgg
- g4XdPrML7UgCerjfb6c0/7xo140ge3SaBuyaA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708987136; x=1709591936;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=a91PQgJAkXhE3tI3QtihYX3shOIlngJRqPpCQigQ7j0=;
- b=SBd85b47SAtP7Lsz1KxYiaC1MXYWaRT2K1XGjWyQr4SloPOBIQnPrjI8lrdhrria0H
- vEYgK/jyCCNZdd01FHIn8ZrLGhIwtDRolORyNjRERjtZ04qljRMAfCuUpsej+sSHwZ9D
- xRvJN6wxC1dlrL/zlYlbKayXAZdf7p4U+0ijTkqAm93/tpbLnaAzZyzc5xNo1U+8Zn7u
- fUoV5sIR2+7rG1H19ksjklyCOi5RFUx9FDgWx8B2HyG0Mp3OO9CKAQAtDKxZnH6vDjTZ
- 6DCddKIF7sJDdqcq1ocW4DoSFR9jU9jlyAorRRSyBfiu8Rr7CgZzIbtOyNtl/MWv5mrB
- Bi6A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW+ekw9gJbI5tkVZ2WDaXeU+gnU7B9+dqhGwtFvnWaygEP02qfkFvGISIY9I+b51EhomYvQU08myf/A5mUQTMiAOkXoADtlROUFZNzCBiHn
-X-Gm-Message-State: AOJu0YzBl0jrJQ14NuX/jV+HNy6FgJ707R1xE008ehRCK7zS7OYwELeQ
- wYxzVzEHRz9R/HPynEKER35BNCCh/Ltq8kdMg7z8hhSEURpDYOtIzm0YlWx4aFffix1xeAlNtAU
- B0ueVkXGC6jQUqQRe9Rm3ue1F3/3PoksGtJRo
-X-Google-Smtp-Source: AGHT+IEJSF064zLDcy7THqsCR1Gu3viyZcgQ3FkbswHkFN3DhjMF+9ef6R6pAXqmZFZ5eIfckZ51AgUo6HsG2mo3Z7U=
-X-Received: by 2002:a9d:7ccc:0:b0:6e4:779d:f8bc with SMTP id
- r12-20020a9d7ccc000000b006e4779df8bcmr3715976otn.19.1708987135817; Mon, 26
- Feb 2024 14:38:55 -0800 (PST)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CF1910E4E4;
+ Mon, 26 Feb 2024 22:43:34 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 41QLn6vv021378; Mon, 26 Feb 2024 22:43:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=ZWbXPrxjhVDeIiibeDRIez4zT+ecRa5q9YmguADga+Q=; b=Tt
+ GwtBznK4KwHEh8YgapzD+5OhxfAZxPR4FaHaakw9bmVnnf5DuQnOxuJVif2lWR7k
+ 68REh9Y0Is/YWK3uitKe37H35Z057QfroLAuTrqoM6e6kSy+0StTs4l+46tZbuMI
+ fyr98ci8YVhRRpKj8e1pBRrnpg7D5TqPr4T/vCy2RHoh4IKgZlHELo41YYORVDAQ
+ XGahMaVP1EtYKNEaS8awEkclcV5ytARRxi4YgweiavSPEQsAhxbppW5J2DBM3qcz
+ NdsfcY8VzHNuS6Ii92qh10f1eUQvXjoQ+1zd8H4itkoIhuS6ZcakB7b312LA6mT8
+ uhrVl15L1w49lYrQU1hw==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wgkxq28y7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 26 Feb 2024 22:43:28 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41QMhRYx017405
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 26 Feb 2024 22:43:27 GMT
+Received: from [10.110.56.192] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 26 Feb
+ 2024 14:43:25 -0800
+Message-ID: <59d25296-e285-fdf9-5270-ad0f786768b1@quicinc.com>
+Date: Mon, 26 Feb 2024 14:43:24 -0800
 MIME-Version: 1.0
-References: <20240223223958.3887423-1-hsinyi@chromium.org>
- <20240223223958.3887423-3-hsinyi@chromium.org>
- <CAD=FV=Xs4V7ei4NW0T0x0Bq6_dQF6sZKvFSy2WGQFQsHae=61Q@mail.gmail.com>
-In-Reply-To: <CAD=FV=Xs4V7ei4NW0T0x0Bq6_dQF6sZKvFSy2WGQFQsHae=61Q@mail.gmail.com>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Mon, 26 Feb 2024 14:38:30 -0800
-Message-ID: <CAJMQK-jKuA_2Y+rQ5q4MkbmkQFJh4+DC98GhExuVt39DTfBwsg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/panel: panel-edp: Match with panel hash for
- overridden modes
-To: Doug Anderson <dianders@chromium.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm/msm/dp: fix runtime_pm handling in
+ dp_wait_hpd_asserted
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Kuogee Hsieh
+ <quic_khsieh@quicinc.com>, Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+CC: Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio
+ <konrad.dybcio@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>
+References: <20240226223446.4194079-1-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20240226223446.4194079-1-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: i-AfnFJ22IsWUHgiTLtIZJcYN5ZBej2q
+X-Proofpoint-GUID: i-AfnFJ22IsWUHgiTLtIZJcYN5ZBej2q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-26_11,2024-02-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 impostorscore=0
+ priorityscore=1501 lowpriorityscore=0 adultscore=0 clxscore=1015
+ malwarescore=0 mlxlogscore=999 suspectscore=0 spamscore=0 phishscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2402260176
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,125 +96,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 26, 2024 at 2:29=E2=80=AFPM Doug Anderson <dianders@chromium.or=
-g> wrote:
->
-> Hi,
->
-> On Fri, Feb 23, 2024 at 2:40=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromium.org=
-> wrote:
-> >
-> > It's found that some panels have variants that they share the same pane=
-l id
-> > although their EDID and names are different. One of the variants requir=
-es
-> > using overridden modes to resolve glitching issue as described in commi=
-t
-> > 70e0d5550f5c ("drm/panel-edp: Add auo_b116xa3_mode"). Other variants sh=
-ould
-> > use the modes parsed from EDID.
-> >
-> > For example, AUO 0x405c B116XAK01.0, it has at least 2 different varian=
-ts
-> > that EDID and panel name are different, but using the same panel id. On=
-e of
-> > the variants require using overridden mode. Same case for AUO 0x615c
-> > B116XAN06.1.
-> >
-> > Add such entries and use the hash of the EDID to match the panel needs =
-the
-> > overridden modes.
->
-> As pointed out in an offline discussion, it's possible that we might
-> want to "ignore" some of these bytes for the purpose of the CRC.
-> Specifically, we might want to ignore:
-> * byte 16 - Week of manufacture
-> * byte 17 - Year of manufacture
-> * byte 127 - Checksum
->
-> That way if a manufacturer actually is updating those numbers in
-> production we can still have one hash that captures all the panels. I
-> have no idea if manufacturers actually are, but IMO the hash of the
-> rest of the base block should be sufficient to differentiate between
-> different panels anyway. It would be easy to just zero out those 3
-> bytes before computing the CRC.
->
-> What do you think?
 
-Agreed that we can zero out these fields.
 
->
->
-> > @@ -758,13 +762,13 @@ static void panel_edp_parse_panel_timing_node(str=
-uct device *dev,
-> >                 dev_err(dev, "Reject override mode: No display_timing f=
-ound\n");
-> >  }
-> >
-> > -static const struct edp_panel_entry *find_edp_panel(u32 panel_id);
-> > +static const struct edp_panel_entry *find_edp_panel(u32 panel_id, u32 =
-panel_hash);
-> >
-> >  static int generic_edp_panel_probe(struct device *dev, struct panel_ed=
-p *panel)
-> >  {
-> >         struct panel_desc *desc;
-> >         void *base_block;
-> > -       u32 panel_id;
-> > +       u32 panel_id, panel_hash;
-> >         char vend[4];
-> >         u16 product_id;
-> >         u32 reliable_ms =3D 0;
-> > @@ -796,15 +800,17 @@ static int generic_edp_panel_probe(struct device =
-*dev, struct panel_edp *panel)
-> >         base_block =3D drm_edid_get_base_block(panel->ddc);
-> >         if (base_block) {
-> >                 panel_id =3D drm_edid_get_panel_id(base_block);
-> > +               panel_hash =3D crc32_le(~0, base_block, EDID_LENGTH) ^ =
-0xffffffff;
->
-> Any reason you need to XOR with 0xffffffff?
->
-To be consistent with the crc32[1] command. It's more convenient to be
-able to verify it with userspace tools.
+On 2/26/2024 2:34 PM, Dmitry Baryshkov wrote:
+> The function dp_wait_hpd_asserted() uses pm_runtime_get_sync() and
+> doesn't care about the return value. Potentially this can lead to
+> unclocked access if for some reason resuming of the DP controller fails.
+> 
+> Change the function to use pm_runtime_resume_and_get() and return an
+> error if resume fails.
+> 
+> Fixes: e2969ee30252 ("drm/msm/dp: move of_dp_aux_populate_bus() to eDP probe()")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/dp/dp_aux.c | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+> 
 
-[1] https://www.commandlinux.com/man-page/man1/crc32.1.html
-
->
-> > @@ -2077,13 +2098,32 @@ static const struct edp_panel_entry edp_panels[=
-] =3D {
-> >         { /* sentinal */ }
-> >  };
-> >
-> > -static const struct edp_panel_entry *find_edp_panel(u32 panel_id)
-> > +/*
-> > + * Similar to edp_panels, this table lists panel variants that require=
- using
-> > + * overridden modes but have the same panel id as one of the entries i=
-n edp_panels.
-> > + *
-> > + * Sort first by vendor, then by product ID.
->
-> Add ", then by hash" just in case we need it.
->
->
-> > +static const struct edp_panel_entry *find_edp_panel(u32 panel_id, u32 =
-panel_hash)
-> >  {
-> >         const struct edp_panel_entry *panel;
-> >
-> > -       if (!panel_id)
-> > +       if (!panel_id || !panel_hash)
-> >                 return NULL;
->
-> IMO just remove the check above. Not sure why it was there in the
-> first place. Maybe I had it from some older version of the code?
-> Callers shouldn't be calling us with a panel ID / hash of 0 anyway,
-> and if they do they'll go through the loop and return NULL anyway.
->
-
-Sure.
-
->
->
-> -Doug
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
