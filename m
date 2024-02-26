@@ -2,26 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8F46867C60
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 17:46:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3EF8867C93
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 17:51:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C77910E7BD;
-	Mon, 26 Feb 2024 16:46:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5CC610E7C6;
+	Mon, 26 Feb 2024 16:50:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ms7.webland.ch (ms7.webland.ch [92.43.217.107])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AC5810E7A5;
- Mon, 26 Feb 2024 16:46:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2B9910E794;
+ Mon, 26 Feb 2024 16:50:55 +0000 (UTC)
 Received: from [192.168.1.137] ([213.144.156.170])
  by ms7.webland.ch (12.3.0 build 2 x64) with ASMTP (SSL) id
- 01202402261746266351; Mon, 26 Feb 2024 17:46:26 +0100
-Message-ID: <9e2f788e-7e74-4c71-ab45-7f72c230152f@daenzer.net>
-Date: Mon, 26 Feb 2024 17:46:24 +0100
+ 01202402261750506845; Mon, 26 Feb 2024 17:50:50 +0100
+Message-ID: <08f4b8be-2059-4489-b356-ef02ef41a927@daenzer.net>
+Date: Mon, 26 Feb 2024 17:50:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/3] drm/amdgpu: Refuse to create a KMS FB for non-P2P
  exported dma-bufs
 Content-Language: de-CH-frami, en-CA
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
 To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>
 Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
@@ -34,7 +35,7 @@ References: <20240222172821.16901-1-michel@daenzer.net>
  <d1528a0e-6dd3-497a-972c-3b86efd46313@amd.com>
  <298c5ccd-d39c-4036-8ad6-624f635bc08c@daenzer.net>
  <4253f207-23af-4510-aa0c-a7509546917a@amd.com>
-From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
+ <9e2f788e-7e74-4c71-ab45-7f72c230152f@daenzer.net>
 Autocrypt: addr=michel@daenzer.net; keydata=
  xsDiBDsehS8RBACbsIQEX31aYSIuEKxEnEX82ezMR8z3LG8ktv1KjyNErUX9Pt7AUC7W3W0b
  LUhu8Le8S2va6hi7GfSAifl0ih3k6Bv1Itzgnd+7ZmSrvCN8yGJaHNQfAevAuEboIb+MaVHo
@@ -53,10 +54,10 @@ Autocrypt: addr=michel@daenzer.net; keydata=
  GNtfiYKmbTkj1tMZJ8L6huKONaVrASFzLvZa2dlc2zja9ZSksKmge5BOTKWgbyepEc5qxSju
  YsYrX5xfLgTZC5abhhztpcJGBBgRAgAGBQI7HoVFAAoJEFqBr45q27IAlscAnjICalDn2zB1
  fXqoOkGsTwElvKa5AJ9FhyKJpysFRcejfdZwrwl9xb4oOg==
-In-Reply-To: <4253f207-23af-4510-aa0c-a7509546917a@amd.com>
+In-Reply-To: <9e2f788e-7e74-4c71-ab45-7f72c230152f@daenzer.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CTCH: RefID="str=0001.0A782F24.65DCC063.0050,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0";
+X-CTCH: RefID="str=0001.0A782F21.65DCC16B.0022,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0";
  Spam="Unknown"; VOD="Unknown"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,53 +74,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-02-26 17:34, Christian König wrote:
-> Am 26.02.24 um 17:27 schrieb Michel Dänzer:
->> On 2024-02-26 16:58, Christian König wrote:
->>> Am 23.02.24 um 17:43 schrieb Michel Dänzer:
->>>> On 2024-02-23 11:04, Michel Dänzer wrote:
->>>>> On 2024-02-23 10:34, Christian König wrote:
->>>>>> Am 23.02.24 um 09:11 schrieb Michel Dänzer:
->>>>>>> On 2024-02-23 08:06, Christian König wrote:
->>>>>>>> Am 22.02.24 um 18:28 schrieb Michel Dänzer:
->>>>>>>>> From: Michel Dänzer <mdaenzer@redhat.com>
->>>>>>>>>
->>>>>>>>> Pinning the BO storage to VRAM for scanout would make it inaccessible
->>>>>>>>> to non-P2P dma-buf importers.
->>>>>>>> Thinking more about it I don't think we can do this.
->>>>>>>>
->>>>>>>> Using the BO in a ping/pong fashion for scanout and DMA-buf is actually valid, you just can't do both at the same time.
->>>>>>>>
->>>>>>>> And if I'm not completely mistaken we actually have use cases for this at the moment,
->>>>>>> Those use cases don't have P2P & CONFIG_DMABUF_MOVE_NOTIFY?
->>>>>> Nope, we are basically talking about unit tests and examples for inter device operations.
->>>>> Sounds like the "no user-space regressions" rule might not apply then.
->>>> To clarify what I mean by that:
->>>>
->>>> "We can't fix this issue, because it would break some unit tests and examples" is similar to saying "We can't fix this KMS bug, because there are IGT tests expecting the buggy behaviour". In practice, the latter do get fixed, along with the IGT tests.
->>> The problem here is that this is not a bug, but intentional behavior. Exporting BOs and using them in scanout in a ping/pong fashion is perfectly valid.
->> The problem with the status quo is that it requires amdgpu-specific knowledge and worst-case pessimization in user space.
+On 2024-02-26 17:46, Michel Dänzer wrote:
+> On 2024-02-26 17:34, Christian König wrote:
 > 
-> Yeah, I'm perfectly aware of that. But that approach here really doesn't seems to be valid.
-
-It's the only known sane approach at this point. There's no other proposal which allows using both BO sharing and scanout without pessimizing or hitting seemingly random CS ioctl failures.
-
-
->>> We have use cases which depend on this behavior and I'm not going to break those to fix your use case.
->> It's not "my" use case, it's a Wayland compositor trying to make use of BO sharing and scanout without always pessimizing for the worst case.
->>
->> That's surely more of a real-world use case than unit tests and examples.
+>> My question is why has it worked so far? I mean we are not doing this since yesterday and the problem only shows up now?
 > 
-> I've looked a bit deeper into this and we have told customers for the last ~10 years or so that this is how it is supposed to work and that they can use this approach.
-> 
-> So this is much more than unit tests and examples, we are changing existing behavior which is clearly not a bug but intentional and have a very high chance to break valid use cases.
+> Yes, Wayland compositors are only starting to try and make use of this now.
 
-"Very high chance" sounds like you still don't know of any actual real-world use case relying on it though?
-
-
-> My question is why has it worked so far? I mean we are not doing this since yesterday and the problem only shows up now?
-
-Yes, Wayland compositors are only starting to try and make use of this now.
+To expand on this, mutter will want to do something like this as well sooner or later. I suspect it's the same for others like kwin, sway etc.
 
 
 -- 
