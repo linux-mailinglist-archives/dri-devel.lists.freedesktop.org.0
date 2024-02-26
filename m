@@ -2,99 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0126867AE8
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 16:56:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E57D6867AF4
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 16:59:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C415C10E799;
-	Mon, 26 Feb 2024 15:56:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11ACF10E074;
+	Mon, 26 Feb 2024 15:59:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="jJPx5ERP";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="yHrrmBlQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
- [209.85.208.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BF9F10E799
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 15:56:32 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id
- 4fb4d7f45d1cf-563c403719cso3980968a12.2
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 07:56:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1708962988; x=1709567788;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=wTNfxtjjEuUsYp1JNTlYg2x2iUW0rS+mI/kNL5uqq8k=;
- b=jJPx5ERP5GZ2+efbAY9fflcK5Gaa45Ae2m3t6v8FX2Musq4K1n64KenBjDi8dxdbDs
- DRLauxpHh/Uy7nw/sbWzUb0huOKRB2GUJ6T97nL7+QVHmSH/lY7BO4Rgpt10aKcTPy2+
- vgb6kY2V9Jae4VSKaGHtltdzV6/JjoA3pSwKk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708962988; x=1709567788;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wTNfxtjjEuUsYp1JNTlYg2x2iUW0rS+mI/kNL5uqq8k=;
- b=V2sOuefLV5rJSP/+WpTxLfxmTA3blNydpS1qkIV8ZsXR5DWxn8AFzfTMhBd0jvJl1G
- EBB+sMB8DrifDB1G/4rOYsjPbXgGa2dFdVUnAvy9nwmNOAkQsN44sZ3kAxyOmM7jjo1p
- it+3wFGjPE4Y7UfwQbTaurRcS8jQCGlYGNeCShKpFpS/pwDHPRzefjPGlTFa0lwEEBUB
- p/LpSbm043486Cbwx8yZ+chQZV8aeDQnGby/d9sDIlAb9MqEyyckkiU/vsZKh5rhEC1V
- wYyupj382t0Dtmmt9Za2LDEEtv1crlddzHMq34ooY08AqoqZDFERwjTQ0BK/vp4jt8rc
- eboA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWd374LDf2yimRrgaforNuT/eWhx/z9l+OGX2oznQBpqiC8vfa6Pf2YuFm/IiusDdOKQ2F5acHf0Yn9yWOt8B95PbDRKRW53wwAtmMthL6A
-X-Gm-Message-State: AOJu0YxULKUkcyOJ/bRkaPom3cv7z2nYImHRzxEqKojSZSznuGcgiG0K
- zLF8vmM1nEJkRm7a9UbSJg2jBZBapCCa3T91QXBWM2bYpFzcs1YudioYSjWhF1Zw8fUMpphGdsg
- u4w==
-X-Google-Smtp-Source: AGHT+IGMuhdSTcVYJK8VpFtdqblctY4N2RiHqn93+MPlD5vjDtd8c2FDhdXHpLUz0bIR+OPVKM6K7A==
-X-Received: by 2002:a05:6402:b33:b0:565:47d0:1ea with SMTP id
- bo19-20020a0564020b3300b0056547d001eamr6017856edb.12.1708962988439; 
- Mon, 26 Feb 2024 07:56:28 -0800 (PST)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com.
- [209.85.208.46]) by smtp.gmail.com with ESMTPSA id
- z18-20020aa7c652000000b005657eefa8e9sm2417560edr.4.2024.02.26.07.56.26
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Feb 2024 07:56:27 -0800 (PST)
-Received: by mail-ed1-f46.google.com with SMTP id
- 4fb4d7f45d1cf-56619428c41so5898a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 07:56:26 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUSXQpPUN9l+fEAXx0CbvurQXXjQZUeayFipn/C3ymd4x6CBpjSg44XXqDuc1DKlaNAfQH+9E22fxmtQm0pXvlN3IocLtFwd1UulBGnw4Ee
-X-Received: by 2002:a50:9f28:0:b0:562:9d2:8857 with SMTP id
- b37-20020a509f28000000b0056209d28857mr330238edf.6.1708962985791; Mon, 26 Feb
- 2024 07:56:25 -0800 (PST)
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04on2055.outbound.protection.outlook.com [40.107.102.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BCD510E795;
+ Mon, 26 Feb 2024 15:59:04 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Mqdr8D3q/eidwwN2SiG3cw2wUk0LnXe9PMnuLh0vGPgC0LGQRndZbM5rAV6mT/zq79XBreDtclyAEtBue2jJBo+Xn7PmMsG/PRMYIq+y4xCniS82Uwnm21PUcJSbhdH+UVUA76GF59ONJgkhvxfyeu9XDarf72XtLe8evpnH051WBEy8GiuP0rC6pveeBbZqTYNEUuqAKGRAePr9uNBos/GRwt4yq4IBmiotHfcCWW1i0Qu/AI+bmU4DUKeB1PyAxmYhz6mfmOhJjBrjb4znmiXlOKGz+31jvFEhJ7/wdvEFTsZ1+YLNP0jLubkDVdSsXr3dSJ5tG+AFVVl5JJEXUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=t/Ylj4HiGCYf3ZM8XCXYUJqhyi+rw5beVQEO+OiF9XQ=;
+ b=BQDARkf5dTx2u9O6MTjO1LEux4XMz6X++odB+tG3Na1l/XdiOk4kkgwPavx/3WiOzjUlXHotUAZE0JO/gJ1h4KXFr/jL9IlIcR8E3nZ002HMb+l/+eu4OEt6DrdpR/XdSXR3GiU8/ViUdZs3FpXhzd1SFPVrYni6JsD+0aUbSvIF9PLg7vXhMTgJMTUJm9famOL/bF4cnGWHjTRqRaeo6PVtcE9buc2jTuJxFvLTBK8VZJ9DfgfitrwNioODwgPB9cgnG6OhEDgWdgYSgQMk9UPlfqJ+oL81F+aHtxb0MgeUr8V19H0CjJy45W9w1LyFMKdNz1r1ciB3OgxR4LJYYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t/Ylj4HiGCYf3ZM8XCXYUJqhyi+rw5beVQEO+OiF9XQ=;
+ b=yHrrmBlQp6cPUToJEmDF5md4zR2RSToHgvJNvLNWYSJdoArZLNwTc0U+jhqjnivovsei94qg4T3OvHzjP8bHw921g44TJcJTI01mWE5+fp/CePr+ArW3CUgNnG1uQ3bxQ0/Sb0vdneAgw20b7ddPsmt0mtykzS7OKqFU7SdLC8k=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by LV8PR12MB9334.namprd12.prod.outlook.com (2603:10b6:408:20b::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.33; Mon, 26 Feb
+ 2024 15:59:01 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7316.031; Mon, 26 Feb 2024
+ 15:59:00 +0000
+Message-ID: <d1528a0e-6dd3-497a-972c-3b86efd46313@amd.com>
+Date: Mon, 26 Feb 2024 16:58:55 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] drm/amdgpu: Refuse to create a KMS FB for non-P2P
+ exported dma-bufs
+Content-Language: en-US
+To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ Alex Deucher <alexander.deucher@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20240222172821.16901-1-michel@daenzer.net>
+ <3156ea34-0655-4b0f-9438-9113fb714373@amd.com>
+ <2d7632f0-0783-4d82-9d81-dd6bd52d5db6@daenzer.net>
+ <84fa5bc1-6b4d-4d82-844a-8070d4bd78eb@amd.com>
+ <b08c2c14-5a99-49cf-ba79-b89f86487f15@daenzer.net>
+ <7dd49c00-8d5e-4492-801c-f1b6db5e1737@daenzer.net>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <7dd49c00-8d5e-4492-801c-f1b6db5e1737@daenzer.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0140.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:96::6) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-References: <20240221-rb3gen2-dp-connector-v1-0-dc0964ef7d96@quicinc.com>
- <20240221-rb3gen2-dp-connector-v1-3-dc0964ef7d96@quicinc.com>
- <CAA8EJpo=9vhM+5YzaFxUoYRuEWQyrMS8wLNPSF3K=bN5JwWyDw@mail.gmail.com>
- <8313a7c3-3ace-4dee-ad27-8f51a06cd58c@linaro.org>
- <CAA8EJpqFj5nf8d_=Uoup7qg+nQrxqQU-DHbL3uSP138m9AcXLw@mail.gmail.com>
- <8fcb5816-2d59-4e27-ba68-8e0ed6e7d839@linaro.org>
- <CAA8EJporaUuddHHqpyYHiYSu=toHmrDxSHf9msZUJoym4Nz72g@mail.gmail.com>
- <20240222150423.GI2936378@hu-bjorande-lv.qualcomm.com>
- <CAA8EJpqd=1KV_dN8AURQDcFDDyO+YtbC59gM7ftt+HohGM93hg@mail.gmail.com>
-In-Reply-To: <CAA8EJpqd=1KV_dN8AURQDcFDDyO+YtbC59gM7ftt+HohGM93hg@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 26 Feb 2024 07:56:09 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=XJVFX-GkL-wiAoi=r6tdiDHkJ_aFSpx6FE6+gFT5xJjA@mail.gmail.com>
-Message-ID: <CAD=FV=XJVFX-GkL-wiAoi=r6tdiDHkJ_aFSpx6FE6+gFT5xJjA@mail.gmail.com>
-Subject: Re: [PATCH 3/9] arm64: dts: qcom: sc7280: Enable MDP turbo mode
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Bjorn Andersson <quic_bjorande@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- cros-qcom-dts-watchers@chromium.org, 
- Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|LV8PR12MB9334:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9850a671-c688-429e-9f46-08dc36e3d8d2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6B0cVkZpFzkZRtLri6AfW/6IvWfBHda98opclMqSd7D0DHK+PnQrkXjSKtG3lkk3r4CFgOKHrTUX09lv8bok5zWnq9ftPXxuyfD3qqFJSjDTOmWoBBH18/80rNHNrr5oOgr79S7YRfxm8VHUaV2MgiJSrBitgmlXCbNgForak9+rXX94F2JXI4AYjXgzL6nW2dR0HmeCqMqhzbZPsIz2zFb2NiwhBhDGL1LCLDJ6eTk2GQhNWdgExH4mgwq8r8wCg0JiHoXKxhhgi/jCaz5QFuh7jiNYFZhAszOcS22b5GOgnYmfPyC3j3sJhE9sWAg4lWTBvW6etFL0F5GsvgrBxWxuECp3RFjsXAFgWVsZyhvoBijkCD99AocbDtDcXRyFCvjgJc1w9QVOoqXYKAaCP7x+a9yHnfLquffRzFlHv6aQ9KsrxuCYLHFgD8/sZv1U/EhVD2WSfbjLmssbHPFYzhG7ZUKh9QtUJM65YASya9zVZrvikxdLSM/qvUTCSGMzlR6czNUMogiO8ADiylIyyxnvHDBsKQXGM8q/1SOMaiAvlIpWhgWsQLvzOGskqVhsKkZ4wwkrwYtjmt468blhbPw+Zaw5B6xyNBI9zIJBlzywQdDlWAK2IxqZ6e2NDylQYYL1H/O7twrqxqGgicX+CA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QnlnSXhaYmIrSGJzOG51Y3ZEdDFIOEJualgwZGd6U0pBNnFZanNsZXBYRzZ5?=
+ =?utf-8?B?VmhxajBoU1NPM3JQZXlPYXJGditsdmRxT21HdWhmVnBEOVBCdkswSGJvVUxk?=
+ =?utf-8?B?Z2tScUdmMllsOHllcER0Y2FjNTg4cm5qdnNFYW44OURwYmZDRDFYSEwwdmFO?=
+ =?utf-8?B?VGFDY0NkdTJjamorekhYc09OQXhzRHVJYXNpSmlkZEJzREF3Z3E5eEQ5R2NO?=
+ =?utf-8?B?V2xUQ3BZTVpKZ1laUWs1dk5saVcwSlRWbklFMUd1UDlFSE9BaXBDMGVQYVpp?=
+ =?utf-8?B?NUF5ZjNhdGMzVTEyYmJiVHh1U1JBWFNCREkwZERtV1dJQzdvU1cvZmx5Wm1l?=
+ =?utf-8?B?dzQycmZXYUl2bFdjVnliYzhSOW9GSjZodVdDUmdwQ0UxVldlY0FIdHBvRHM0?=
+ =?utf-8?B?ZUEzY05QbGc1VGd1TkRUY3hUYzlQbm5MUnp2dHkwTUdkbUd5L3I3MjBVZ1Vl?=
+ =?utf-8?B?NDMrRk9zOGgvbFJNM2JIQm1iSXhVekxwSzFwQ2szbnR5M0hwQ1RFWC85MGYv?=
+ =?utf-8?B?M3o4WHpqZm9mODVTckdscGdLYUlTQ0Y3WW5mQmY4M1FyRW1UQ3h1Njh5Qkxl?=
+ =?utf-8?B?QjA3ZkIvWVlHRndzMmNyYVZIaXlBZUpMdmxGQnBHSnB1bGduSStpUktranNm?=
+ =?utf-8?B?M2RobnhlWXNlSU1Wb21NRXFoeEh0dGpsUms5R1oyNHFuRlozQ3ByTWk2dE9m?=
+ =?utf-8?B?eTc2ZGVmTXY1ZkJtWHBiT3I5SXUrTzhUdDFBQTRvZmdUSkg5R1dxYk91ZjVN?=
+ =?utf-8?B?VFpIYkhvUnhOYmQxV0U3UkdjMUd1M2dYYzBGZWJkUTVPOFdJRFRFUFFURmJa?=
+ =?utf-8?B?cFJUYU1QODNIWVgycU9CVHdnR3NHclNiWCszdHl5NHJxRFBnQU96UjF4ZlpJ?=
+ =?utf-8?B?eGt6bUdmN2krYXFBNlNqbEloQ3JuSWhPV0xMa1REVmtFbU56WGo0dWhEUUhj?=
+ =?utf-8?B?K3hhL25XUkIvRjBnd0gvRkhBZlBSOXhyR3M2VDhDWG0zc3RWc01rUS9VaWkx?=
+ =?utf-8?B?ZVcyM2V4QTVmWUlVNFlwK1JpNG9vak9zdGdVTmZaTTF5a2lFVlBJbnZYc2JE?=
+ =?utf-8?B?ajFMSFE3Y2lvVjFURUFGWk9MWmJhSkhDMGd1WHlSeVdkRnNxMkVQNjdCY3hu?=
+ =?utf-8?B?d3lDc1MzSlduandVVllYN1FmU0REc0FNWGhwQkVIeDlFeWJxWE9DbWprNHlS?=
+ =?utf-8?B?UEpReWMwWEpMa2ZQUVQ3VGN6akFjMGlJTnZQQm5JdW12dmxhZVg4NmFORTQv?=
+ =?utf-8?B?Q1hsZ0JnZ1I1YWpCOEVoSGlxL0Q2dzgzZ0Fhazd5OWVYVG44TzFIOWI1cmky?=
+ =?utf-8?B?SkxoeG5ycUxSUDZEVFlGM1FVdit3Zk9pMHgwOXErVTVHT0dYSGpNTng3V2RY?=
+ =?utf-8?B?aUJDMFJheEllTEltdnROaDR6aU5GL3BZQkxRWDFuengycjRjS2ZrTSt1d0Ur?=
+ =?utf-8?B?Qmxad1hXQTJRaEt1bTJEaXlXYVJZNDA3OXJZYTQ1R0doSy9ZQmxOUWVORVVS?=
+ =?utf-8?B?NlhzWXNZbTl5UWxOQm5MMXpHL1BzSWIxTWJKYlRTTjVVd2FVSlU4dWxneDNq?=
+ =?utf-8?B?VTVTdTVqcWJIbEFiempFWHZ3UVA1WHc2YXllcU1CS2JtM1owWUVidHZ0aDg4?=
+ =?utf-8?B?SCtiZzlvL1o0ZzZ0QzV3UTBTRGlPNW5Xd2gvamRaaXh0MEZ4YjMzOTNsRStZ?=
+ =?utf-8?B?SjA0SGxoMEx0dHZ5bHA1dXpGZEVzMWR2dk5ydzg0dTlFdkxJWVI5TVhlckFQ?=
+ =?utf-8?B?YUVIbkM1czZLVEZtUHFiQ3Q3ODJaZE40cEpyUWEzR1BxQ2FxN25xbUorVTBL?=
+ =?utf-8?B?YVFoRDBIUWxqYjlENjE2WUVDaUtQSWlyTE5TZ2JBQ3BQelNFWDExbWhTMm01?=
+ =?utf-8?B?TzN0SG1xSEhRRzAxY3Q4dmw1OHR2QjNjcjQvNmtnMUpqWkxmajZEdHpkMTVS?=
+ =?utf-8?B?ZDNQaU9GWE1tSzNraEdFVmVWVncvWEpRVlUvOFRFQjJSY0JRVjVFaW1XR2JT?=
+ =?utf-8?B?WFM4ZnMyTXZjMkZRRi96dHV2V0VUbnpjaHlWTXJvMW8xOFZyb0o2c3A4ZEox?=
+ =?utf-8?B?UklIWjl5WkswMmh1UDl6WjJWL2dHZmdmZVlDbndzdVYxWk0zTDlqNnliUEVj?=
+ =?utf-8?Q?nf6KnxZHnUMGV+Oj81TH++sab?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9850a671-c688-429e-9f46-08dc36e3d8d2
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2024 15:59:00.5420 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ymqopRE38wEsxoa/ns1qiZx3GGTW5U8Bw2KgfkB4nituF14O61w028VXLFydUKnq
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9334
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,75 +136,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Thu, Feb 22, 2024 at 9:32=E2=80=AFAM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
+Am 23.02.24 um 17:43 schrieb Michel Dänzer:
+> On 2024-02-23 11:04, Michel Dänzer wrote:
+>> On 2024-02-23 10:34, Christian König wrote:
+>>> Am 23.02.24 um 09:11 schrieb Michel Dänzer:
+>>>> On 2024-02-23 08:06, Christian König wrote:
+>>>>> Am 22.02.24 um 18:28 schrieb Michel Dänzer:
+>>>>>> From: Michel Dänzer <mdaenzer@redhat.com>
+>>>>>>
+>>>>>> Pinning the BO storage to VRAM for scanout would make it inaccessible
+>>>>>> to non-P2P dma-buf importers.
+>>>>> Thinking more about it I don't think we can do this.
+>>>>>
+>>>>> Using the BO in a ping/pong fashion for scanout and DMA-buf is actually valid, you just can't do both at the same time.
+>>>>>
+>>>>> And if I'm not completely mistaken we actually have use cases for this at the moment,
+>>>> Those use cases don't have P2P & CONFIG_DMABUF_MOVE_NOTIFY?
+>>> Nope, we are basically talking about unit tests and examples for inter device operations.
+>> Sounds like the "no user-space regressions" rule might not apply then.
+> To clarify what I mean by that:
 >
-> On Thu, 22 Feb 2024 at 17:04, Bjorn Andersson <quic_bjorande@quicinc.com>=
- wrote:
-> >
-> > On Thu, Feb 22, 2024 at 11:46:26AM +0200, Dmitry Baryshkov wrote:
-> > > On Thu, 22 Feb 2024 at 11:28, Konrad Dybcio <konrad.dybcio@linaro.org=
-> wrote:
-> > > >
-> > > >
-> > > >
-> > > > On 2/22/24 10:04, Dmitry Baryshkov wrote:
-> > > > > On Thu, 22 Feb 2024 at 10:56, Konrad Dybcio <konrad.dybcio@linaro=
-.org> wrote:
-> > > > >>
-> > > > >>
-> > > > >>
-> > > > >> On 2/22/24 00:41, Dmitry Baryshkov wrote:
-> > > > >>> On Thu, 22 Feb 2024 at 01:19, Bjorn Andersson <quic_bjorande@qu=
-icinc.com> wrote:
-> > > > >>>>
-> > > > >>>> The max frequency listed in the DPU opp-table is 506MHz, this =
-is not
-> > > > >>>> sufficient to drive a 4k@60 display, resulting in constant und=
-errun.
-> > > > >>>>
-> > > > >>>> Add the missing MDP_CLK turbo frequency of 608MHz to the opp-t=
-able to
-> > > > >>>> fix this.
-> > > > >>>
-> > > > >>> I think we might want to keep this disabled for ChromeOS device=
-s. Doug?
-> > > > >>
-> > > > >> ChromeOS devices don't get a special SoC
-> > > > >
-> > > > > But they have the sc7280-chrome-common.dtsi, which might contain =
-a
-> > > > > corresponding /delete-node/ .
-> > > >
-> > > > What does that change? The clock rates are bound to the
-> > > > SoC and the effective values are limited by link-frequencies
-> > > > or the panel driver.
-> > >
-> > > Preventing the DPU from overheating? Or spending too much power?
-> > >
-> >
-> > Perhaps I'm misunderstanding the implementation then, are we always
-> > running at the max opp? I thought the opp was selected based on the
-> > current need for performance?
->
-> Yes. My concern was whether the Chrome people purposely skipped this
-> top/turbo freq for any reason. In such a case, surprising them by
-> adding it to all platforms might be not the best idea. I hope Doug can
-> comment here.
+> "We can't fix this issue, because it would break some unit tests and examples" is similar to saying "We can't fix this KMS bug, because there are IGT tests expecting the buggy behaviour". In practice, the latter do get fixed, along with the IGT tests.
 
-Thanks for thinking of us! In this case, I think the only users left
-of the sc7280 Chrome devices are folks like Rob and then a few folks
-on Qualcomm's display team (like Abhinav), so if they're happy with
-the change then I have no objections.
+The problem here is that this is not a bug, but intentional behavior. 
+Exporting BOs and using them in scanout in a ping/pong fashion is 
+perfectly valid.
 
-In any case, I'm not aware of any reason why this would have been
-skipped for Chrome. The Chrome devices were always intended to support
-4K so I assume this was an oversight and nothing more. ...of course,
-as Abhinav points out Chrome devices are currently limited to HBR2 + 2
-lanes DP so they can't go 4K60 anyway.
+We have use cases which depend on this behavior and I'm not going to 
+break those to fix your use case.
 
-In any case, in case it matters, feel free to have:
+So as far as I can see this approach here is a no-go.
 
-Acked-by: Douglas Anderson <dianders@chromium.org>
+Regards,
+Christian.
+
