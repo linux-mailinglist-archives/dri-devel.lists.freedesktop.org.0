@@ -2,75 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69FF48671E5
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 11:49:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80F9986724A
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 11:57:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A64FD10F03A;
-	Mon, 26 Feb 2024 10:49:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B7A310E31D;
+	Mon, 26 Feb 2024 10:57:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xJ0fO5YK";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="H0YWAJyn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
- [209.85.219.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABF3510F03A
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 10:49:54 +0000 (UTC)
-Received: by mail-yb1-f171.google.com with SMTP id
- 3f1490d57ef6-dcc73148611so3027480276.3
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 02:49:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708944593; x=1709549393; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=s6m7mLxb6EGB7+pibL2Lt1uVRcpXwzA1z72jxDuCA+g=;
- b=xJ0fO5YKsYfMsrTjPHdtRxR0zop64gi0EaB0z3V1HQmP6P5NKs1nrFAhZSZ/qywItA
- AIE+rHEWCLqiIhTHuU9OGW/JsKdTVJ0yMdMUD80C3EiO9m1ncnPfwbOKGj4/+1491l6c
- rPCy9q6dd4SfbdzxJN2jQvXHSP+H2EO89JtHjcph6kO2MdH4rtq/G5YFKZYHOS6FVDpi
- o1uLGTSI0KCN3rBdcc+cwAKtASLuyJtC4vImDDZSLXDZCs7qENIBK7M6QK06jLKxFADU
- YrUN/eR19C5j76oJY2dDZbIG+pWBd8ShAqvZtz5Bg/hmF4vvrqu4DdQpumT5iePiu2ob
- QkxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708944593; x=1709549393;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=s6m7mLxb6EGB7+pibL2Lt1uVRcpXwzA1z72jxDuCA+g=;
- b=g+UqR4pumv3BIQGjkkvn33Hitm9q2TKp7Bf3Wxgx5gk9uhNB6Gw8H9kHUwoxYfXRDY
- /wazrBQvgGOCxXVpXDtwh1U/jituGL3PoSeKro03TRkSBQjX3ZtKzOFXqmjD53cfHXwa
- m3IOeFve72zUd47lRH5ISp67bOsVznVtZypQjo2y5g5gZ1aloZzh7K23keiIafb/DIzR
- +VRPhBlHrfEjXhJO9Q9GvPjhB8Y00/4DEZaWMQX5XBBGDqDuTGukWKmksI0aj+fHbhXV
- 3P4oOckgO/k3Yad/S0c+0254EKpSe3FGwWA+v1mifOYURtpxsl9edtNjAJ6/IPSkUj3A
- h4Tw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWEZrDAAFGxbwGfHJZbeyK5pU7h0Q/Eq4ZFQsc0Qu9xVZsCY3LqzghTittZLcv/4w0LDF6fWUDpdEAKCp0nIiJuNCUGkFU+gu8xrZftdNta
-X-Gm-Message-State: AOJu0Yz44/fzQT9khH9s6KMfxC0uymvl9Fa0VwcsQ0KLYmDB0RHluWai
- AuhO8FPlZ5d0OCNFcDFohGuzd3skrwNHOwjT5/kGlwxCWfmuqM7N9Y+KuKVi613qp6ipHHzRdpV
- LbFdZ6q2NdrqoL7F0OOSorjhJ4D3SNGJ5Tx1XZw==
-X-Google-Smtp-Source: AGHT+IEH7MN2bT5ayIquRbnK+AzFjHN1amPatd61xUfPxQ5dOM6hX1JQ2XTgugFDNNK7tHBG9sw9Qo5tRbd05YV+6mg=
-X-Received: by 2002:a25:eb01:0:b0:dcc:9f62:7520 with SMTP id
- d1-20020a25eb01000000b00dcc9f627520mr3858072ybs.59.1708944593332; Mon, 26 Feb
- 2024 02:49:53 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09CC610E31D
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 10:57:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1708945028; x=1740481028;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=4CBBW4ZBYHjYKmvJucsk9myJi964v26M/utBchas9+0=;
+ b=H0YWAJynERB2puwmMKXcrpsECDKaO0h+bRu75wC4fjH9s0S91qWB8rwA
+ ydp3SL8ZWyeOQcNkXS0pmCTFCQJ90SLBUtiDlp3IxlUpOhvQkNV7KE4mH
+ N2dnl3yGD3kVaDJADrg7mfT4L6gyJ9FHMW/DOYj0uL2lfH84Z/2DMd7Nv
+ uX8TztPRreEWGdusvkcdpzyKgLyiISW5FN9YvQLkIjpuJdkxoJGMAC52V
+ qORGOfaMnMRgJgP84wUOmR0EUPxHwF3KJYYIdHOBice8ZsdRib2qtS84l
+ 5KZKfxWO9WkakSm9/8/wpd13VhcTE5jpDr4orw51EWJtJmCOsoPmsig0I g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="13918354"
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; d="scan'208";a="13918354"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2024 02:57:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
+   d="scan'208";a="6829018"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+ by fmviesa006.fm.intel.com with ESMTP; 26 Feb 2024 02:57:03 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1reYfN-000AGB-18;
+ Mon, 26 Feb 2024 10:57:01 +0000
+Date: Mon, 26 Feb 2024 18:56:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Laight <David.Laight@aculab.com>,
+ "'linux-kernel@vger.kernel.org'" <linux-kernel@vger.kernel.org>,
+ 'Linus Torvalds' <torvalds@linux-foundation.org>,
+ 'Netdev' <netdev@vger.kernel.org>,
+ "'dri-devel@lists.freedesktop.org'" <dri-devel@lists.freedesktop.org>
+Cc: oe-kbuild-all@lists.linux.dev, 'Jens Axboe' <axboe@kernel.dk>,
+ "'Matthew Wilcox (Oracle)'" <willy@infradead.org>,
+ 'Christoph Hellwig' <hch@infradead.org>,
+ "'linux-btrfs@vger.kernel.org'" <linux-btrfs@vger.kernel.org>,
+ 'Andrew Morton' <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ 'Andy Shevchenko' <andriy.shevchenko@linux.intel.com>,
+ "'David S . Miller'" <davem@davemloft.net>,
+ 'Dan Carpenter' <dan.carpenter@linaro.org>,
+ 'Jani Nikula' <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH next v2 11/11] minmax: min() and max() don't need to
+ return constant expressions
+Message-ID: <202402261802.9ShoXRwY-lkp@intel.com>
+References: <a18dcae310f74dcb9c6fc01d5bdc0568@AcuMS.aculab.com>
 MIME-Version: 1.0
-References: <20240226-fd-xml-shipped-v1-0-86bb6c3346d2@linaro.org>
- <CAK7LNAQDhpAirfbb1zExH1auWkMPzncA9XpSrkv4odXOWZdQzA@mail.gmail.com>
-In-Reply-To: <CAK7LNAQDhpAirfbb1zExH1auWkMPzncA9XpSrkv4odXOWZdQzA@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 26 Feb 2024 12:49:42 +0200
-Message-ID: <CAA8EJpotuep1MDmNvNAYAC98peK9GFUVeUJ8G-GBwunSPrsUGQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 00/12] drm/msm: add support for regenerating shipped
- xml.h headers
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- linux-kbuild@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a18dcae310f74dcb9c6fc01d5bdc0568@AcuMS.aculab.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,660 +80,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 26 Feb 2024 at 08:24, Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Mon, Feb 26, 2024 at 11:11=E2=80=AFAM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
-> >
-> > Currently display-related register headers are generated from XML files
-> > shipped withing Mesa source tree. This is not fully optimal: it require=
-s
-> > multi-stage process of the changes first being landed to Mesa and only
-> > then synced to the kernel tree.
-> >
-> > Move original XML files to the kernel tree and generate header files if
-> > required.
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->
->
->
-> Linus Torvalds is negative about version-controlling
-> shipped copies.
->
->
-> https://lore.kernel.org/all/CAHk-=3DwgSEi_ZrHdqr=3D20xv+d6dr5G895CbOAi8ok=
-+7-CQUN=3DfQ@mail.gmail.com/
->
->
->
->
-> We are decreasing *_shipped files.
->
->
-> This patch set will increase them.
->
->
-> [Before]
->
-> ./arch/powerpc/platforms/cell/spufs/spu_save_dump.h_shipped
-> ./arch/powerpc/platforms/cell/spufs/spu_restore_dump.h_shipped
-> ./fs/unicode/utf8data.c_shipped
-> ./drivers/scsi/aic7xxx/aic7xxx_reg_print.c_shipped
-> ./drivers/scsi/aic7xxx/aic79xx_seq.h_shipped
-> ./drivers/scsi/aic7xxx/aic79xx_reg.h_shipped
-> ./drivers/scsi/aic7xxx/aic79xx_reg_print.c_shipped
-> ./drivers/scsi/aic7xxx/aic7xxx_reg.h_shipped
-> ./drivers/scsi/aic7xxx/aic7xxx_seq.h_shipped
-> ./drivers/scsi/53c700_d.h_shipped
-> ./drivers/net/wan/wanxlfw.inc_shipped
-> ./drivers/tty/vt/defkeymap.c_shipped
->
->
-> [After]
->
-> ./arch/powerpc/platforms/cell/spufs/spu_save_dump.h_shipped
-> ./arch/powerpc/platforms/cell/spufs/spu_restore_dump.h_shipped
-> ./fs/unicode/utf8data.c_shipped
-> ./drivers/scsi/aic7xxx/aic7xxx_reg_print.c_shipped
-> ./drivers/scsi/aic7xxx/aic79xx_seq.h_shipped
-> ./drivers/scsi/aic7xxx/aic79xx_reg.h_shipped
-> ./drivers/scsi/aic7xxx/aic79xx_reg_print.c_shipped
-> ./drivers/scsi/aic7xxx/aic7xxx_reg.h_shipped
-> ./drivers/scsi/aic7xxx/aic7xxx_seq.h_shipped
-> ./drivers/scsi/53c700_d.h_shipped
-> ./drivers/gpu/drm/msm/registers/dsi_phy_7nm.xml.h_shipped
-> ./drivers/gpu/drm/msm/registers/dsi_phy_28nm_8960.xml.h_shipped
-> ./drivers/gpu/drm/msm/registers/sfpb.xml.h_shipped
-> ./drivers/gpu/drm/msm/registers/mdp_common.xml.h_shipped
-> ./drivers/gpu/drm/msm/registers/dsi.xml.h_shipped
-> ./drivers/gpu/drm/msm/registers/hdmi.xml.h_shipped
-> ./drivers/gpu/drm/msm/registers/dsi_phy_14nm.xml.h_shipped
-> ./drivers/gpu/drm/msm/registers/mdp5.xml.h_shipped
-> ./drivers/gpu/drm/msm/registers/dsi_phy_10nm.xml.h_shipped
-> ./drivers/gpu/drm/msm/registers/mdp4.xml.h_shipped
-> ./drivers/gpu/drm/msm/registers/dsi_phy_28nm.xml.h_shipped
-> ./drivers/gpu/drm/msm/registers/dsi_phy_20nm.xml.h_shipped
-> ./drivers/net/wan/wanxlfw.inc_shipped
-> ./drivers/tty/vt/defkeymap.c_shipped
->
->
->
-> Of course, this is because those generated headers were
-> version-controlled without _shipped, but now they
-> have been renamed to *_shipped
->
->
->
-> Since you are adding the original XML files,
-> how about generating those headers all the time?
+Hi David,
 
-This will add dependency on libxml to any kernel that has
-CONFIG_DRM_MSM enabled. We have a WIP python reimplementation, maybe
-we should finish it first, it doesn't have external dependencies.
+kernel test robot noticed the following build warnings:
 
-> For example see
-> 7c0303ff7e67b637c47d8afee533ca9e2a02359b
->
->
->
-> If you hide the tool behind DRM_MSM_GENERATE_HEADERS,
-> nobody would notice the fact that
-> drivers/gpu/drm/msm/headergen2/ is low quality code
-> that sprinkle warnings.
->
->
-> I cannot compile this patch set in the first place
-> irrespective of DRM_MSM_GENERATE_HEADERS
-> (presumably for a different reason) though.
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linux/master mkl-can-next/testing kdave/for-next akpm-mm/mm-nonmm-unstable linus/master v6.8-rc6]
+[cannot apply to next-20240223 dtor-input/next dtor-input/for-linus axboe-block/for-next horms-ipvs/master next-20240223]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Could you please specify how you tried to compile the code? I can see
-warnings from headrgen2, but I'm really puzzled by the errors from the
-MSM driver itself.
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/minmax-Put-all-the-clamp-definitions-together/20240226-005902
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/a18dcae310f74dcb9c6fc01d5bdc0568%40AcuMS.aculab.com
+patch subject: [PATCH next v2 11/11] minmax: min() and max() don't need to return constant expressions
+config: i386-randconfig-011-20240226 (https://download.01.org/0day-ci/archive/20240226/202402261802.9ShoXRwY-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240226/202402261802.9ShoXRwY-lkp@intel.com/reproduce)
 
-> drivers/gpu/drm/msm/headergen2/rnndec.c: In function =E2=80=98rnndec_deco=
-deval=E2=80=99:
-> drivers/gpu/drm/msm/headergen2/rnndec.c:187:33: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   187 |                                 asprintf (&res, "%s%s%s",
-> ctx->colors->eval, ctmp, ctx->colors->reset);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/msm/adreno/a5xx_preempt.c:5:10: fatal error:
-> msm_gem.h: No such file or directory
->     5 | #include "msm_gem.h"
->       |          ^~~~~~~~~~~
-> compilation terminated.
-> drivers/gpu/drm/msm/headergen2/rnndec.c:216:57: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   216 |
-> asprintf (&res, "%s%s%s", color, bitfields[i]->name,
-> ctx->colors->reset);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:218:57: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   218 |
-> asprintf (&tmp, "%s | %s%s%s", res, color, bitfields[i]->name,
-> ctx->colors->reset);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:230:41: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   230 |                                         asprintf (&subval,
-> "%s%#"PRIx64"%s", ctx->colors->err, field_val, ctx->colors->reset);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:235:41: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   235 |                                         asprintf (&res,
-> "%s%s%s =3D %s", ctx->colors->rname, bitfields[i]->name,
-> ctx->colors->reset, subval);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:237:41: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   237 |                                         asprintf (&tmp, "%s |
-> %s%s%s =3D %s", res, ctx->colors->rname, bitfields[i]->name,
-> ctx->colors->reset, subval);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:245:41: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   245 |                                         asprintf (&res,
-> "%s%#"PRIx64"%s", ctx->colors->err, value & ~mask,
-> ctx->colors->reset);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:247:41: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   247 |                                         asprintf (&tmp, "%s |
-> %s%#"PRIx64"%s", res, ctx->colors->err, value & ~mask,
-> ctx->colors->reset);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:253:33: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   253 |                                 asprintf (&res, "%s0%s",
-> ctx->colors->num, ctx->colors->reset);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:254:25: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   254 |                         asprintf (&tmp, "{ %s }", res);
->       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:260:25: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   260 |                         asprintf (&res, "%s%#"PRIx64"%s",
-> ctx->colors->num, value, ctx->colors->reset);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:264:33: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   264 |                                 asprintf (&res, "%s-%lf%s",
-> ctx->colors->num,
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->   265 |
-> ((double)((UINT64_C(1) << width) - value)) / ((double)(1 <<
-> ti->radix)),
->       |
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->   266 |                                                 ctx->colors->rese=
-t);
->       |                                                 ~~~~~~~~~~~~~~~~~=
-~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:271:25: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   271 |                         asprintf (&res, "%s%lf%s", ctx->colors->n=
-um,
->       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
->   272 |                                         ((double)value) /
-> ((double)(1LL << ti->radix)),
->       |
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->   273 |                                         ctx->colors->reset);
->       |                                         ~~~~~~~~~~~~~~~~~~~
->   CC [M]  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.o
-> drivers/gpu/drm/msm/headergen2/rnndec.c:276:25: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   276 |                         asprintf (&res, "%sr%"PRIu64".%c%s",
-> ctx->colors->num, (value >> 2), "xyzw"[value & 0x3],
-> ctx->colors->reset);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:279:25: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   279 |                         asprintf (&res, "%s%"PRIu64"%s",
-> ctx->colors->num, value, ctx->colors->reset);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:283:33: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   283 |                                 asprintf (&res,
-> "%s-%"PRIi64"%s", ctx->colors->num, (UINT64_C(1) << width) - value,
-> ctx->colors->reset);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:285:33: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   285 |                                 asprintf (&res,
-> "%s%"PRIi64"%s", ctx->colors->num, value, ctx->colors->reset);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:289:33: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   289 |                                 asprintf (&res, "%sFALSE%s",
-> ctx->colors->eval, ctx->colors->reset);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:291:33: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   291 |                                 asprintf (&res, "%sTRUE%s",
-> ctx->colors->eval, ctx->colors->reset);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:298:33: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   298 |                                 asprintf(&res, "%s%f%s",
-> ctx->colors->num,
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->   299 |                                         val.d, ctx->colors->reset=
-);
->       |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~=
-~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:301:33: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   301 |                                 asprintf(&res, "%s%f%s",
-> ctx->colors->num,
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->   302 |                                         val.f, ctx->colors->reset=
-);
->       |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~=
-~
-> make[6]: *** [scripts/Makefile.build:243:
-> drivers/gpu/drm/msm/adreno/a5xx_preempt.o] Error 1
-> make[6]: *** Waiting for unfinished jobs....
-> drivers/gpu/drm/msm/headergen2/rnndec.c:304:33: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   304 |                                 asprintf(&res, "%s%f%s",
-> ctx->colors->num,
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->   305 |                                         float16(value),
-> ctx->colors->reset);
->       |
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:313:25: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   313 |                         asprintf (&res, "%s%#"PRIx64"%s",
-> ctx->colors->num, value, ctx->colors->reset);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:317:17: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   317 |                 asprintf (&tmp, "%s | %s%#"PRIx64"%s", res,
-> ctx->colors->err, value_orig & ~typeinfo_mask(ti),
-> ctx->colors->reset);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/msm/adreno/a6xx_gpu.c:5:10: fatal error: msm_gem.h: No
-> such file or directory
->     5 | #include "msm_gem.h"
->       |          ^~~~~~~~~~~
->   CC [M]  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.o
-> compilation terminated.
-> drivers/gpu/drm/msm/headergen2/rnndec.c: In function =E2=80=98trymatch=E2=
-=80=99:
-> drivers/gpu/drm/msm/headergen2/rnndec.c:394:33: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   394 |                                 asprintf (&res->name,
-> "%s%s%s", ctx->colors->rname, elems[i]->name, ctx->colors->reset);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:400:41: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   400 |                                         asprintf (&tmp,
-> "%s+%s%#"PRIx64"%s", res->name, ctx->colors->err, offset,
-> ctx->colors->reset);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:424:41: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   424 |                                         asprintf (&name,
-> "%s%s%s", ctx->colors->rname, elems[i]->name, ctx->colors->reset);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:429:41: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   429 |                                         asprintf (&tmp,
-> "%s.%s", name, res->name);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:439:33: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   439 |                                 asprintf (&name, "%s%s%s",
-> ctx->colors->rname, elems[i]->name, ctx->colors->reset);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:445:41: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   445 |                                         asprintf (&tmp,
-> "%s.%s", name, res->name);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c:452:33: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   452 |                                 asprintf (&tmp,
-> "%s+%s%#"PRIx64"%s", name, ctx->colors->err, offset,
-> ctx->colors->reset);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c: In function =E2=80=98appendidx=
-=E2=80=99:
-> drivers/gpu/drm/msm/headergen2/rnndec.c:332:17: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   332 |                 asprintf (&res, "%s[%s%s%s]", name,
-> ctx->colors->eval, index_name, ctx->colors->reset);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~
-> make[6]: *** [scripts/Makefile.build:243:
-> drivers/gpu/drm/msm/adreno/a6xx_gpu.o] Error 1
-> drivers/gpu/drm/msm/headergen2/rnndec.c:334:17: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   334 |                 asprintf (&res, "%s[%s%#"PRIx64"%s]", name,
-> ctx->colors->num, idx, ctx->colors->reset);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/rnndec.c: In function =E2=80=98rnndec_deco=
-deaddr=E2=80=99:
-> drivers/gpu/drm/msm/headergen2/rnndec.c:477:9: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   477 |         asprintf (&res->name, "%s%#"PRIx64"%s",
-> ctx->colors->err, addr, ctx->colors->reset);
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/headergen2.c: In function =E2=80=98printty=
-peinfo=E2=80=99:
-> drivers/gpu/drm/msm/headergen2/headergen2.c:159:25: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   159 |                         asprintf(&typename, "enum %s", ti->name);
->       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/headergen2.c: In function =E2=80=98printde=
-lem=E2=80=99:
-> drivers/gpu/drm/msm/headergen2/headergen2.c:245:17: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   245 |                 asprintf(&offsetfn, "__offset_%s", elem->name);
->       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/msm/headergen2/headergen2.c:254:17: warning: ignoring
-> return value of =E2=80=98asprintf=E2=80=99 declared with attribute
-> =E2=80=98warn_unused_result=E2=80=99 [-Wunused-result]
->   254 |                 asprintf(&regname, "REG_%s", elem->fullname);
->       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> In file included from drivers/gpu/drm/msm/adreno/a4xx_gpu.h:7,
->                  from drivers/gpu/drm/msm/adreno/a4xx_gpu.c:4:
-> drivers/gpu/drm/msm/adreno/adreno_gpu.h:15:10: fatal error: msm_gpu.h:
-> No such file or directory
->    15 | #include "msm_gpu.h"
->       |          ^~~~~~~~~~~
-> compilation terminated.
-> make[6]: *** [scripts/Makefile.build:243:
-> drivers/gpu/drm/msm/adreno/a4xx_gpu.o] Error 1
-> In file included from drivers/gpu/drm/msm/adreno/adreno_device.c:9:
-> drivers/gpu/drm/msm/adreno/adreno_gpu.h:15:10: fatal error: msm_gpu.h:
-> No such file or directory
->    15 | #include "msm_gpu.h"
->       |          ^~~~~~~~~~~
-> compilation terminated.
-> make[6]: *** [scripts/Makefile.build:243:
-> drivers/gpu/drm/msm/adreno/adreno_device.o] Error 1
-> drivers/gpu/drm/msm/adreno/a5xx_gpu.c:12:10: fatal error: msm_gem.h:
-> No such file or directory
->    12 | #include "msm_gem.h"
->       |          ^~~~~~~~~~~
-> compilation terminated.
-> make[6]: *** [scripts/Makefile.build:243:
-> drivers/gpu/drm/msm/adreno/a5xx_gpu.o] Error 1
-> In file included from drivers/gpu/drm/msm/adreno/a3xx_gpu.h:10,
->                  from drivers/gpu/drm/msm/adreno/a3xx_gpu.c:9:
-> drivers/gpu/drm/msm/adreno/adreno_gpu.h:15:10: fatal error: msm_gpu.h:
-> No such file or directory
->    15 | #include "msm_gpu.h"
->       |          ^~~~~~~~~~~
-> compilation terminated.
-> make[6]: *** [scripts/Makefile.build:243:
-> drivers/gpu/drm/msm/adreno/a3xx_gpu.o] Error 1
-> In file included from drivers/gpu/drm/msm/adreno/a6xx_hfi.c:10:
-> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:12:10: fatal error: msm_drv.h:
-> No such file or directory
->    12 | #include "msm_drv.h"
->       |          ^~~~~~~~~~~
-> compilation terminated.
-> make[6]: *** [scripts/Makefile.build:243:
-> drivers/gpu/drm/msm/adreno/a6xx_hfi.o] Error 1
-> In file included from drivers/gpu/drm/msm/adreno/a2xx_gpu.h:7,
->                  from drivers/gpu/drm/msm/adreno/a2xx_gpu.c:4:
-> drivers/gpu/drm/msm/adreno/adreno_gpu.h:15:10: fatal error: msm_gpu.h:
-> No such file or directory
->    15 | #include "msm_gpu.h"
->       |          ^~~~~~~~~~~
-> compilation terminated.
-> In file included from drivers/gpu/drm/msm/adreno/adreno_gpu.c:19:
-> drivers/gpu/drm/msm/adreno/adreno_gpu.h:15:10: fatal error: msm_gpu.h:
-> No such file or directory
->    15 | #include "msm_gpu.h"
->       |          ^~~~~~~~~~~
-> compilation terminated.
-> make[6]: *** [scripts/Makefile.build:243:
-> drivers/gpu/drm/msm/adreno/a2xx_gpu.o] Error 1
-> make[6]: *** [scripts/Makefile.build:243:
-> drivers/gpu/drm/msm/adreno/adreno_gpu.o] Error 1
-> In file included from drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h:13=
-,
->                  from drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.=
-c:8:
-> drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h:15:10: fatal error: msm_drv.h:
-> No such file or directory
->    15 | #include "msm_drv.h"
->       |          ^~~~~~~~~~~
-> compilation terminated.
-> In file included from drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c:26:
-> drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h:15:10: fatal error: msm_drv.h:
-> No such file or directory
->    15 | #include "msm_drv.h"
->       |          ^~~~~~~~~~~
-> compilation terminated.
-> make[6]: *** [scripts/Makefile.build:243:
-> drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.o] Error 1
-> make[6]: *** [scripts/Makefile.build:243:
-> drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.o] Error 1
-> In file included from drivers/gpu/drm/msm/adreno/a5xx_gpu.h:7,
->                  from drivers/gpu/drm/msm/adreno/a5xx_power.c:6:
-> drivers/gpu/drm/msm/adreno/adreno_gpu.h:15:10: fatal error: msm_gpu.h:
-> No such file or directory
->    15 | #include "msm_gpu.h"
->       |          ^~~~~~~~~~~
-> compilation terminated.
-> make[6]: *** [scripts/Makefile.build:243:
-> drivers/gpu/drm/msm/adreno/a5xx_power.o] Error 1
-> In file included from drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c:15:
-> drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h:15:10: fatal error: msm_drv.h:
-> No such file or directory
->    15 | #include "msm_drv.h"
->       |          ^~~~~~~~~~~
-> compilation terminated.
-> make[6]: *** [scripts/Makefile.build:243:
-> drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.o] Error 1
-> drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:21:10: fatal error:
-> msm_drv.h: No such file or directory
->    21 | #include "msm_drv.h"
->       |          ^~~~~~~~~~~
-> compilation terminated.
-> make[6]: *** [scripts/Makefile.build:243:
-> drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.o] Error 1
-> In file included from drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h:13=
-,
->                  from drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.=
-c:6:
-> drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h:15:10: fatal error: msm_drv.h:
-> No such file or directory
->    15 | #include "msm_drv.h"
->       |          ^~~~~~~~~~~
-> compilation terminated.
-> make[6]: *** [scripts/Makefile.build:243:
-> drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.o] Error 1
-> In file included from drivers/gpu/drm/msm/adreno/a6xx_gpu.h:8,
->                  from drivers/gpu/drm/msm/adreno/a6xx_gmu.c:14:
-> drivers/gpu/drm/msm/adreno/adreno_gpu.h:15:10: fatal error: msm_gpu.h:
-> No such file or directory
->    15 | #include "msm_gpu.h"
->       |          ^~~~~~~~~~~
-> compilation terminated.
->
->
->
->
-> > ---
-> > Dmitry Baryshkov (12):
-> >       kbuild: create destination directory for _shipped handling
-> >       drm/msm/mdp5: add writeback block bases
-> >       drm/msm/hdmi: drop qfprom.xml.h
-> >       drm/msm/dsi: drop mmss_cc.xml.h
-> >       drm/msm: use _shipped suffix for all xml.h files
-> >       drm/msm/headergen: import source files from freedreno/envytools
-> >       drm/msm/headergen: use asprintf instead of custom aprintf
-> >       drm/msm/headergen: don't output full file paths
-> >       drm/msm/headergen: generate _shipped files
-> >       drm/msm: import XML registers database
-> >       drm/msm: tie regeneration of shipped headers
-> >       drm/msm: sync shipped headers database
-> >
-> >  drivers/gpu/drm/msm/Makefile                       |   80 +-
-> >  drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.h           |   11 +
-> >  drivers/gpu/drm/msm/disp/mdp_common.xml.h          |  111 --
-> >  drivers/gpu/drm/msm/dsi/mmss_cc.xml.h              |  131 --
-> >  drivers/gpu/drm/msm/dsi/sfpb.xml.h                 |   70 -
-> >  drivers/gpu/drm/msm/hdmi/qfprom.xml.h              |   61 -
-> >  drivers/gpu/drm/msm/headergen2/colors.c            |   61 +
-> >  drivers/gpu/drm/msm/headergen2/colors.h            |   49 +
-> >  drivers/gpu/drm/msm/headergen2/headergen2.c        |  514 ++++++++
-> >  drivers/gpu/drm/msm/headergen2/path.c              |   64 +
-> >  drivers/gpu/drm/msm/headergen2/rnn.c               | 1363 ++++++++++++=
-++++++++
-> >  drivers/gpu/drm/msm/headergen2/rnn.h               |  243 ++++
-> >  drivers/gpu/drm/msm/headergen2/rnndec.c            |  550 ++++++++
-> >  drivers/gpu/drm/msm/headergen2/rnndec.h            |   59 +
-> >  drivers/gpu/drm/msm/headergen2/util.h              |  113 ++
-> >  drivers/gpu/drm/msm/headergen2/util/u_debug.h      |   12 +
-> >  drivers/gpu/drm/msm/registers/.gitignore           |    5 +
-> >  .../{dsi/dsi.xml.h =3D> registers/dsi.xml.h_shipped} |   38 +-
-> >  .../dsi_phy_10nm.xml.h_shipped}                    |   37 +-
-> >  .../dsi_phy_14nm.xml.h_shipped}                    |   37 +-
-> >  .../dsi_phy_20nm.xml.h_shipped}                    |   37 +-
-> >  .../dsi_phy_28nm.xml.h_shipped}                    |   37 +-
-> >  .../dsi_phy_28nm_8960.xml.h_shipped}               |   37 +-
-> >  .../dsi_phy_7nm.xml.h_shipped}                     |   37 +-
-> >  .../hdmi.xml.h =3D> registers/hdmi.xml.h_shipped}    |  111 +-
-> >  .../mdp4.xml.h =3D> registers/mdp4.xml.h_shipped}    |   37 +-
-> >  .../mdp5.xml.h =3D> registers/mdp5.xml.h_shipped}    |   39 +-
-> >  .../gpu/drm/msm/registers/mdp_common.xml.h_shipped |  114 ++
-> >  drivers/gpu/drm/msm/registers/sfpb.xml.h_shipped   |   67 +
-> >  drivers/gpu/drm/msm/registers/xml/dsi.xml          |  390 ++++++
-> >  drivers/gpu/drm/msm/registers/xml/dsi_phy_10nm.xml |  102 ++
-> >  drivers/gpu/drm/msm/registers/xml/dsi_phy_14nm.xml |  135 ++
-> >  drivers/gpu/drm/msm/registers/xml/dsi_phy_20nm.xml |  100 ++
-> >  drivers/gpu/drm/msm/registers/xml/dsi_phy_28nm.xml |  180 +++
-> >  .../drm/msm/registers/xml/dsi_phy_28nm_8960.xml    |  134 ++
-> >  drivers/gpu/drm/msm/registers/xml/dsi_phy_7nm.xml  |  230 ++++
-> >  drivers/gpu/drm/msm/registers/xml/edp.xml          |  239 ++++
-> >  .../drm/msm/registers/xml/freedreno_copyright.xml  |   40 +
-> >  drivers/gpu/drm/msm/registers/xml/hdmi.xml         | 1015 ++++++++++++=
-+++
-> >  drivers/gpu/drm/msm/registers/xml/mdp4.xml         |  480 +++++++
-> >  drivers/gpu/drm/msm/registers/xml/mdp5.xml         |  806 ++++++++++++
-> >  drivers/gpu/drm/msm/registers/xml/mdp_common.xml   |   89 ++
-> >  drivers/gpu/drm/msm/registers/xml/mmss_cc.xml      |   48 +
-> >  drivers/gpu/drm/msm/registers/xml/msm.xml          |   32 +
-> >  drivers/gpu/drm/msm/registers/xml/rules-ng.xsd     |  457 +++++++
-> >  drivers/gpu/drm/msm/registers/xml/sfpb.xml         |   17 +
-> >  scripts/Makefile.lib                               |    2 +-
-> >  47 files changed, 8034 insertions(+), 587 deletions(-)
-> > ---
-> > base-commit: ffa0c87f172bf7a0132aa960db412f8d63b2f533
-> > change-id: 20240225-fd-xml-shipped-ba9a321cdedf
-> >
-> > Best regards,
-> > --
-> > Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402261802.9ShoXRwY-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   arch/x86/mm/pgtable.c: In function 'pgd_alloc':
+>> arch/x86/mm/pgtable.c:437:9: warning: ISO C90 forbids variable length array 'pmds' [-Wvla]
+     437 |         pmd_t *pmds[MAX_PREALLOCATED_PMDS];
+         |         ^~~~~
 
 
+vim +/pmds +437 arch/x86/mm/pgtable.c
 
---=20
-With best wishes
-Dmitry
+1db491f77b6ed0 Fenghua Yu          2015-01-15  432  
+d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  433  pgd_t *pgd_alloc(struct mm_struct *mm)
+1ec1fe73dfb711 Ingo Molnar         2008-03-19  434  {
+d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  435  	pgd_t *pgd;
+184d47f0fd3651 Kees Cook           2018-10-08  436  	pmd_t *u_pmds[MAX_PREALLOCATED_USER_PMDS];
+184d47f0fd3651 Kees Cook           2018-10-08 @437  	pmd_t *pmds[MAX_PREALLOCATED_PMDS];
+1ec1fe73dfb711 Ingo Molnar         2008-03-19  438  
+1db491f77b6ed0 Fenghua Yu          2015-01-15  439  	pgd = _pgd_alloc();
+1ec1fe73dfb711 Ingo Molnar         2008-03-19  440  
+d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  441  	if (pgd == NULL)
+d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  442  		goto out;
+4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  443  
+d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  444  	mm->pgd = pgd;
+4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  445  
+25226df4b9be7f Gustavo A. R. Silva 2022-09-21  446  	if (sizeof(pmds) != 0 &&
+25226df4b9be7f Gustavo A. R. Silva 2022-09-21  447  			preallocate_pmds(mm, pmds, PREALLOCATED_PMDS) != 0)
+d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  448  		goto out_free_pgd;
+d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  449  
+25226df4b9be7f Gustavo A. R. Silva 2022-09-21  450  	if (sizeof(u_pmds) != 0 &&
+25226df4b9be7f Gustavo A. R. Silva 2022-09-21  451  			preallocate_pmds(mm, u_pmds, PREALLOCATED_USER_PMDS) != 0)
+d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  452  		goto out_free_pmds;
+d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  453  
+f59dbe9ca6707e Joerg Roedel        2018-07-18  454  	if (paravirt_pgd_alloc(mm) != 0)
+f59dbe9ca6707e Joerg Roedel        2018-07-18  455  		goto out_free_user_pmds;
+f59dbe9ca6707e Joerg Roedel        2018-07-18  456  
+d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  457  	/*
+d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  458  	 * Make sure that pre-populating the pmds is atomic with
+d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  459  	 * respect to anything walking the pgd_list, so that they
+d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  460  	 * never see a partially populated pgd.
+d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  461  	 */
+a79e53d85683c6 Andrea Arcangeli    2011-02-16  462  	spin_lock(&pgd_lock);
+4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  463  
+617d34d9e5d832 Jeremy Fitzhardinge 2010-09-21  464  	pgd_ctor(mm, pgd);
+25226df4b9be7f Gustavo A. R. Silva 2022-09-21  465  	if (sizeof(pmds) != 0)
+d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  466  		pgd_prepopulate_pmd(mm, pgd, pmds);
+25226df4b9be7f Gustavo A. R. Silva 2022-09-21  467  
+25226df4b9be7f Gustavo A. R. Silva 2022-09-21  468  	if (sizeof(u_pmds) != 0)
+f59dbe9ca6707e Joerg Roedel        2018-07-18  469  		pgd_prepopulate_user_pmd(mm, pgd, u_pmds);
+4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  470  
+a79e53d85683c6 Andrea Arcangeli    2011-02-16  471  	spin_unlock(&pgd_lock);
+4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  472  
+4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  473  	return pgd;
+d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  474  
+f59dbe9ca6707e Joerg Roedel        2018-07-18  475  out_free_user_pmds:
+25226df4b9be7f Gustavo A. R. Silva 2022-09-21  476  	if (sizeof(u_pmds) != 0)
+f59dbe9ca6707e Joerg Roedel        2018-07-18  477  		free_pmds(mm, u_pmds, PREALLOCATED_USER_PMDS);
+d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  478  out_free_pmds:
+25226df4b9be7f Gustavo A. R. Silva 2022-09-21  479  	if (sizeof(pmds) != 0)
+f59dbe9ca6707e Joerg Roedel        2018-07-18  480  		free_pmds(mm, pmds, PREALLOCATED_PMDS);
+d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  481  out_free_pgd:
+1db491f77b6ed0 Fenghua Yu          2015-01-15  482  	_pgd_free(pgd);
+d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  483  out:
+d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  484  	return NULL;
+4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  485  }
+4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  486  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
