@@ -2,130 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1C6C867E79
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 18:29:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECB86867E7E
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 18:29:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A86CB10E24A;
-	Mon, 26 Feb 2024 17:29:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E969610E2A3;
+	Mon, 26 Feb 2024 17:29:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XX/9MV4J";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YgPWdAXu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA1FD10E24A
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 17:29:08 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id
- 4fb4d7f45d1cf-564fc495d83so3864167a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 09:29:08 -0800 (PST)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60C4F10E2A3
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 17:29:33 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id
+ a640c23a62f3a-a3fb8b0b7acso428611066b.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 09:29:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708968547; x=1709573347; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=xSHCqUQrlcyM1UtPy6CIgv/PhwbptcNSxQXzTOmXrHA=;
- b=XX/9MV4J5DXx6ujORpZY3+Mbqpuv1PtscIlShsm/vzukO/vGr6q8HcU9WoBxv7ABTj
- HPh0rbLQSv+Ovlue9/Q71pMVxXHk1vzaxTa2xxxAzbRB/BpK7W0gXgCWxRt34bmRhHMa
- qpW3SinLvqICWeP38kaQ0//ypUZWE8jzpBWqWuIEq/1EPvci/mdsh5SRc5M+DD0msfsR
- 3Sh2IPJVfADt90tWYth3cNF0eju55k4OEW9QeCZxE+doBeopKHPfns5aXDgFAaf5Hedf
- FfjWxkp4ONZNqLkoT+w98YMdM13U8qeecGro1DdejI8zTl/wIhyGi+A0hX5wE+F0C8iQ
- 6/cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708968547; x=1709573347;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1708968571; x=1709573371; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xSHCqUQrlcyM1UtPy6CIgv/PhwbptcNSxQXzTOmXrHA=;
- b=Y/yPwOi6mEAPhScsfvr7TIJ2Bz3FeDyin/bqaFqjKVJSpo0alZsCmFL41DLiourOaq
- 2+6Ca8U8KR+DS1Kr5xa2hRRiN0yRIzNW4T3KYDKRjh+MCHcFzSYH6IuqDgeelOwHGm0z
- iF9wrXZfdHAPB2QI65VPYvJ9Ib8LS9xBKRCvbMPh5BxqDBxTItkogo2xoaBesgxXIXeS
- x9vWMcw2jrG+VE18NHgIEgXhmPJjcuWE7KnsTKY8mzC2MsQa057n1tjB1FVhtoHdkYlb
- CGz5MKyqKr0gc5lDUN8AFAeN+/M2HPHTAxhxi9oDsdHIPwo/NbQ7UAXJjT0CX3Q/dkug
- KHvg==
+ bh=uTNfYrs5k6Gz8OzZ/jpN+432GP+s/eKGWOpfysyFss0=;
+ b=YgPWdAXu1sL/gQIDFb6/aDqE5D1dAIo1wDXWpsnJHHF3TcOoZWxNYCOtsbfJhAmaXg
+ +0UB8edjVDyY9LkpmEf2Jz7GJ4lIBWgLGZBPVUjJnm2nz0PixwxIOqwcopOlpyRnZwMj
+ GMdoOzIZtYQHbr8hmUIpY+wXo02+7PfW4syiNfLbCTIE0FeS7fbhtcEHUQuASQSKpUzu
+ 2yFYWc8lyaw/keKKBEp49TSpez8OeBtmZpfivMAw5gBcSx+J7F2INlEf1gHkvHe0XIaF
+ fWElbgp3YCgkKu8/5iEehrzXkxWdY9K4EYY9iYcNhjJZsV270U8Zc1qps8SaRB6CkZWv
+ ylWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708968571; x=1709573371;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=uTNfYrs5k6Gz8OzZ/jpN+432GP+s/eKGWOpfysyFss0=;
+ b=vqADAkzcqqaEm/fw+leJQ5TrBeRXy9JedqZSYkFipXxMnzABDz/cqswjLZLxdU5uWN
+ JUZ3yfgfQIn01g2LypiAP6hbfH5oTvGLb4MIQ76S+ZmI6jArQzwxoAyMhC83b6t6i0l2
+ tb6SX3827+39C3t/taRhQUn4z07R/xqb+TTE4+pkO49GcHrXrWLYyhM3U4+qKvoo3UZI
+ Omx5iiZIyHl7kcyBQI4rekZ3ldJw81gRTWxd9zrX3hRGLi6RZuVIFbm3pljieBwfcHtL
+ HSlWaTCEus/TlBI/5+Hp0o/7woqKlI9eXgLLqihP9KPhJg6enZtUIOz+w4Lbjj61ljo2
+ l/rw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUrLgCMclzaXtOl2bdDZoJtct6/B18qB9pmpao3VCqBKbrmd+mLale14W2BNqlWnZh/BrgDUDznk2jgdoqfxdxZtsAWuRYCys6OCc36wpxc
-X-Gm-Message-State: AOJu0YzsmvMuvy6qBTlINY0/XyR2cj9QY02/RwnQd4jbPIq1UdzxAH6w
- 7FIt/SQEX5jwaS7RzdTKaEeKg/vhPhPRlAWVHY/GyqxL/RBotv5fXUuVdwustm8=
-X-Google-Smtp-Source: AGHT+IGCBx2sVC3xleLhxR2xoPqUw5ldbavCbeDb+kP8NVH4vfw2fxcHj+dHBK2xmEv8DmrzZ98exQ==
-X-Received: by 2002:a17:906:f15a:b0:a3f:ce31:64d6 with SMTP id
- gw26-20020a170906f15a00b00a3fce3164d6mr5106209ejb.10.1708968546911; 
- Mon, 26 Feb 2024 09:29:06 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.222.116])
- by smtp.gmail.com with ESMTPSA id
- z22-20020a1709060ad600b00a3d125b9c0asm2574985ejf.81.2024.02.26.09.29.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Feb 2024 09:29:06 -0800 (PST)
-Message-ID: <890afb05-1b19-47b2-bfd8-5f6de0caeda3@linaro.org>
-Date: Mon, 26 Feb 2024 18:29:04 +0100
+ AJvYcCXLwI46ap0u/OMMc1dp92DxC5Lkv0S0vuz2lT2wiKpySKi/IH/aSaYluAvbHTQ6ByRqfDG0o3ZyN5oTr1z2qZ7E9u4n5MZ7r6/38k4b2InS
+X-Gm-Message-State: AOJu0Yz3aZuBfHa+aA1aPHv6+XlgtcmMd8nLGsV6XKeLyinjylIbhAEE
+ obXSaxQm5/pxtZ5J5ahMCWmo+2Nb+FGjdWGvxuFoYbECdQlhoe3G
+X-Google-Smtp-Source: AGHT+IF/2k+pmfOW66mPmU1VQ//WB/gsjeh7KQflarLtcUM81gJHGL8o2NsXzTzgDh1Y2GpLoJ6CEg==
+X-Received: by 2002:a17:906:d297:b0:a42:f7af:741b with SMTP id
+ ay23-20020a170906d29700b00a42f7af741bmr4236943ejb.51.1708968571164; 
+ Mon, 26 Feb 2024 09:29:31 -0800 (PST)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net.
+ [86.58.6.171]) by smtp.gmail.com with ESMTPSA id
+ bj3-20020a17090736c300b00a3f5ff7b675sm2617714ejc.23.2024.02.26.09.29.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Feb 2024 09:29:30 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: =?utf-8?B?T25kxZllag==?= Jirman <megi@xff.cz>,
+ Maxime Ripard <mripard@kernel.org>, Frank Oltmanns <frank@oltmanns.dev>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ Purism Kernel Team <kernel@puri.sm>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 0/6] Pinephone video out fixes (flipping between two
+ frames)
+Date: Mon, 26 Feb 2024 18:29:28 +0100
+Message-ID: <3546609.iIbC2pHGDl@jernej-laptop>
+In-Reply-To: <875xybr93t.fsf@oltmanns.dev>
+References: <20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev>
+ <87r0h8n64g.fsf@oltmanns.dev> <875xybr93t.fsf@oltmanns.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 8/9] media: dt-bindings: Add Intel Displayport RX IP
-To: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>
-Cc: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org,
- daniel@ffwll.ch, dinguyen@kernel.org, hverkuil-cisco@xs4all.nl,
- krzysztof.kozlowski+dt@linaro.org, maarten.lankhorst@linux.intel.com,
- mchehab@kernel.org, mripard@kernel.org, robh+dt@kernel.org,
- tzimmermann@suse.de, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, chromeos-krk-upstreaming@google.com,
- ribalda@chromium.org
-References: <20240221160215.484151-1-panikiel@google.com>
- <20240221160215.484151-9-panikiel@google.com>
- <13aeb2ff-72f4-49d9-b65e-ddc31569a936@linaro.org>
- <CAM5zL5q0oKoTMR0jSwYVAChCOJ9iKYPRFiU1vH4qDqhHALKz4w@mail.gmail.com>
- <e1fd8cbd-060b-4d15-8256-6d8dbba545da@linaro.org>
- <CAM5zL5qxBM1xQ__t86gxUKMy8O3BzoCe_vTFxxsqFq7mw4-8EQ@mail.gmail.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <CAM5zL5qxBM1xQ__t86gxUKMy8O3BzoCe_vTFxxsqFq7mw4-8EQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,31 +99,360 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/02/2024 13:43, Paweł Anikiel wrote:
->>>>> +  intel,max-stream-count:
->>>>> +    $ref: /schemas/types.yaml#/definitions/uint32
->>>>> +    description: Max stream count configuration parameter
->>>>> +
->>>>> +  port:
->>>>> +    $ref: /schemas/graph.yaml#/properties/port
->>>>> +    description: SST main link
->>>>
->>>> I don't understand why you have both port and ports. Shouldn't this be
->>>> under ports?
->>>
->>> I put both so that you can use the shorter port property when the
->>> device only has one port (i.e. no MST support). It would work fine
->>> without it. If you think that's unnecessary, I can remove it (and use
->>> the ports property even if there is only one).
->>
->> No, it is fine, but then you need allOf: which will restrict to only one
->> of them: either port or ports.
-> 
-> There already is an allOf below that says that ports is required for
-> MST support and port is required otherwise. Isn't this enough?
+Dne ponedeljek, 26. februar 2024 ob 08:13:42 CET je Frank Oltmanns napisal(=
+a):
+> Hi Jernej,
+> hi Maxime,
+> hi Ond=C5=99ej,
+>=20
+> On 2024-02-19 at 10:41:19 +0100, Frank Oltmanns <frank@oltmanns.dev> wrot=
+e:
+> > Hi Ond=C5=99ej,
+> >
+> > On 2024-02-11 at 20:25:29 +0100, Ond=C5=99ej Jirman <megi@xff.cz> wrote:
+> >> Hi Frank,
+> >>
+> >> On Sun, Feb 11, 2024 at 04:09:16PM +0100, Frank Oltmanns wrote:
+> >>> Hi Ond=C5=99ej,
+> >>>
+> >>> On 2024-02-05 at 17:02:00 +0100, Ond=C5=99ej Jirman <megi@xff.cz> wro=
+te:
+> >>> > On Mon, Feb 05, 2024 at 04:54:07PM +0100, Ond=C5=99ej Jirman wrote:
+> >>> >> On Mon, Feb 05, 2024 at 04:22:23PM +0100, Frank Oltmanns wrote:
+> >>> >>
+> >>> >> [...]
+> >>> >>
+> >>> >> Also sunxi-ng clk driver does apply NM factors at once to PLL_GPU =
+clock,
+> >>> >> which can cause sudden frequency increase beyond intended output f=
+requency,
+> >>> >> because division is applied immediately while multiplication is re=
+flected
+> >>> >> slowly.
+> >>> >>
+> >>> >> Eg. if you're changing divider from 7 to 1, you can get a sudden 7=
+x output
+> >>> >> frequency spike, before PLL VCO manages to lower the frequency thr=
+ough N clk
+> >>> >> divider feedback loop and lock on again. This can mess up whatever=
+'s connected
+> >>> >> to the output quite badly.
+> >>> >>
+> >>> >> You'd have to put logging on kernel writes to PLL_GPU register to =
+see what
+> >>> >> is written in there and if divider is lowered significantly on som=
+e GPU
+> >>> >> devfreq frequency transitions.
+> >>>
+> >>> By looking at the clocks in clk_summary in debugfs, the rate of PLL-G=
+PU
+> >>> always matches the rate of the GPU (at least at 120, 312, and 432 MHz=
+).
+> >>> This is further underlined by the fact, that none of the rates can be
+> >>> achieved by integer dividing one of the other rates. sunxi-ng would
+> >>> only favor a different rate for pll-gpu than the one that is requested
+> >>> for the gpu, if pll-gpu is already running at a rate such that there
+> >>> exists an M =E2=88=88 {1, 2, 3, 4, 5, 6, 7, 8}, where
+> >>>   rate of pll-gpu / M =3D requested gpu rate
+> >>> or if the requested rate could not be reached directly by pll-gpu. Bo=
+th
+> >>> is not the case for the rates in question (120, 192, 312, and 432 MHz=
+).
+> >>>
+> >>> This means that the following divisor/multipliers are used by sunxi-n=
+g's
+> >>> ccu_nm:
+> >>> N =3D  5, M =3D 1 for 120 MHz (min value without PATCH 6)
+> >>> N =3D  8, M =3D 1 for 192 MHz (min value after applying PATCH 6)
+> >>> N =3D 13, M =3D 1 for 312 MHz
+> >>> N =3D 18, M =3D 1 for 432 MHz
+> >>>
+> >>> So, with or without PATCH 6, the divider stays constant and it's only
+> >>> the multiplier that changes. This means, there should be no unexpected
+> >>> frequency spikes, right?
+> >>
+> >> Maybe. Thanks for giving it a try. There may still be other kinds of g=
+litches
+> >> even if the divisor stays the same. It all depends how the register up=
+date is
+> >> implemented in the PLL block. It's hard to say. I guess, unless Allwin=
+ner
+> >> guarantees glitchless output from a given PLL when changing its parame=
+ters,
+> >> you can't rely on the output being clean during changes.
+> >>
+> >>> >> It's also unclear what happens when FRAC_CLK_OUT or PLL_MODE_SEL c=
+hanges.
+> >>>
+> >>> Those are not changed once the clock is initialized. The bug however
+> >>> occurs hours or days after booting. IMO, this makes it unlikely that =
+this
+> >>> could be the culprit.
+> >>>
+> >>> >> Maybe not much because M is supposed to be set to 1, but you still=
+ need to
+> >>> >> care when enabling fractional mode, and setting M to 1 because tha=
+t's exactly
+> >>> >> the bad scenario if M was previously higher than 1.
+> >>> >>
+> >>> >> It's tricky.
+> >>> >>
+> >>> >> Having GPU module clock gated during PLL config changes may help! =
+You can
+> >>> >> do that without locking yourself out, unlike with the CPU PLL.
+> >>> >>
+> >>> >> There's a gate enable bit for it at GPU_CLK_REG.SCLK_GATING. (page=
+ 122)
+> >>>
+> >>> The GPU should already be properly gated:
+> >>> https://elixir.bootlin.com/linux/v6.7.4/source/drivers/clk/sunxi-ng/c=
+cu-sun50i-a64.c#L599
+> >>
+> >> How so? That's just clock declaration. How does it guarantee the clock=
+ to the
+> >> module is gated during parent PLL configuration changes?
+> >>
+> >
+> > You're of course right.
+> >
+> > I now tried using a similar approach like the one for changes for on
+> > PLL-CPU. It's using a notifier to connect the CPU to the 24 MHz
+> > oscillator and, after PLL-CPU is at its new rate, connecting it back to
+> > PLL-CPU.
+> >
+> > For the GPU my approach was to disable the GPU prior to changing
+> > PLL-GPU's rate and then re-enabling it, once the rate change is
+> > complete. I think, that's what you were proposing, right?
+> >
+> > Unfortunately, this results in a frozen phone even more quickly.
+> >
+> > Below is my code. Again, it doesn't solve the problem, but maybe
+> > somebody can spot what I'm doing wrong.
+>=20
+> It seems to me that all options for changing the GPU's rate in a stable
+> manner have been exhausted. There seems to be no common interpretation
+> what the phrase "Clock output of PLL_GPU can be used for GPU;and dynamic
+> frequency scaling is not supported" in the Allwinner A64 manual (chapter
+> 3.3.3) means.
+>=20
+> The BSP uses a fixed rate of 432 MHz. Unless one of you has a clever
+> idea, I suggest to remove the OPPs from the device tree and set the GPU
+> to 432 MHz.
+>=20
+> What are your thoughts on that?
 
-Add both port and ports and see if it is enough.
+I can't find original source of these points. So I'm good with removing
+them. But instead of fully removing table, you can just leave one point and
+it should work.
 
 Best regards,
-Krzysztof
+Jernej
+
+>=20
+> Best regards,
+>   Frank
+>=20
+> >
+> > Best regards,
+> >   Frank
+> >
+> > diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunxi-=
+ng/ccu-sun50i-a64.c
+> > index d68bdf7dd342..74538259d67a 100644
+> > --- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+> > +++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+> > @@ -977,6 +977,11 @@ static struct ccu_rate_reset_nb sun50i_a64_pll_vid=
+eo0_reset_tcon0_nb =3D {
+> >
+> >  #define CCU_MIPI_DSI_CLK 0x168
+> >
+> > +static struct ccu_div_nb sun50i_a64_gpu_nb =3D {
+> > +	.common		=3D &gpu_clk.common,
+> > +	.delay_us	=3D 1, /* ??? */
+> > +};
+> > +
+> >  static int sun50i_a64_ccu_probe(struct platform_device *pdev)
+> >  {
+> >  	void __iomem *reg;
+> > @@ -1025,6 +1030,10 @@ static int sun50i_a64_ccu_probe(struct platform_=
+device *pdev)
+> >  	sun50i_a64_pll_video0_reset_tcon0_nb.target_clk =3D tcon0_clk.common.=
+hw.clk;
+> >  	ccu_rate_reset_notifier_register(&sun50i_a64_pll_video0_reset_tcon0_n=
+b);
+> >
+> > +	/* Gate then ungate GPU on PLL-GPU changes */
+> > +	ccu_div_notifier_register(pll_gpu_clk.common.hw.clk,
+> > +				  &sun50i_a64_gpu_nb);
+> > +
+> >  	return 0;
+> >  }
+> >
+> > diff --git a/drivers/clk/sunxi-ng/ccu_div.c b/drivers/clk/sunxi-ng/ccu_=
+div.c
+> > index cb10a3ea23f9..83813c54fb2f 100644
+> > --- a/drivers/clk/sunxi-ng/ccu_div.c
+> > +++ b/drivers/clk/sunxi-ng/ccu_div.c
+> > @@ -4,7 +4,9 @@
+> >   * Maxime Ripard <maxime.ripard@free-electrons.com>
+> >   */
+> >
+> > +#include <linux/clk.h>
+> >  #include <linux/clk-provider.h>
+> > +#include <linux/delay.h>
+> >  #include <linux/io.h>
+> >
+> >  #include "ccu_gate.h"
+> > @@ -142,3 +144,37 @@ const struct clk_ops ccu_div_ops =3D {
+> >  	.set_rate	=3D ccu_div_set_rate,
+> >  };
+> >  EXPORT_SYMBOL_NS_GPL(ccu_div_ops, SUNXI_CCU);
+> > +
+> > +static int ccu_div_notifier_cb(struct notifier_block *nb,
+> > +			       unsigned long event, void *data)
+> > +{
+> > +	struct ccu_div_nb *div_nb =3D to_ccu_div_nb(nb);
+> > +
+> > +	if (event =3D=3D PRE_RATE_CHANGE) {
+> > +		div_nb->original_enable =3D ccu_div_is_enabled(&div_nb->common->hw);
+> > +		if (div_nb->original_enable) {
+> > +			ccu_div_disable(&div_nb->common->hw);
+> > +			udelay(div_nb->delay_us);
+> > +		}
+> > +	} else if (event =3D=3D POST_RATE_CHANGE) {
+> > +		if (div_nb->original_enable) {
+> > +			ccu_div_enable(&div_nb->common->hw);
+> > +			udelay(div_nb->delay_us);
+> > +		}
+> > +	}
+> > +
+> > +	return NOTIFY_OK;
+> > +}
+> > +
+> > +int ccu_div_notifier_register(struct clk *clk, struct ccu_div_nb *div_=
+nb)
+> > +{
+> > +	div_nb->clk_nb.notifier_call =3D ccu_div_notifier_cb;
+> > +
+> > +	return clk_notifier_register(clk, &div_nb->clk_nb);
+> > +}
+> > diff --git a/drivers/clk/sunxi-ng/ccu_div.h b/drivers/clk/sunxi-ng/ccu_=
+div.h
+> > index 90d49ee8e0cc..e096c7be5dca 100644
+> > --- a/drivers/clk/sunxi-ng/ccu_div.h
+> > +++ b/drivers/clk/sunxi-ng/ccu_div.h
+> > @@ -283,4 +283,16 @@ static inline struct ccu_div *hw_to_ccu_div(struct=
+ clk_hw *hw)
+> >
+> >  extern const struct clk_ops ccu_div_ops;
+> >
+> > +struct ccu_div_nb {
+> > +	struct notifier_block	clk_nb;
+> > +	struct ccu_common	*common;
+> > +
+> > +	u32	delay_us;	/* us to wait after changing parent rate */
+> > +	int	original_enable;/* This is set by the notifier callback */
+> > +};
+> > +
+> > +#define to_ccu_div_nb(_nb) container_of(_nb, struct ccu_div_nb, clk_nb)
+> > +
+> > +int ccu_div_notifier_register(struct clk *clk, struct ccu_div_nb *mux_=
+nb);
+> > +
+> >  #endif /* _CCU_DIV_H_ */
+> >
+> >
+> >
+> >>
+> >> CLK_SET_RATE_PARENT only gates output on re-parenting, not on parent r=
+ate changes,
+> >> according to the header:
+> >>
+> >>   https://elixir.bootlin.com/linux/v6.7.4/source/include/linux/clk-pro=
+vider.h#L19
+> >>
+> >> You'd need perhaps CLK_SET_RATE_GATE *and* still verify that it actual=
+ly works
+> >> as expected via some tracing of gpu clock enable/disable/set_rate and =
+pll-gpu
+> >> set_rate. CLK_SET_RATE_GATE seems confusingly docummented:
+> >>
+> >>   https://elixir.bootlin.com/linux/v6.7.4/source/drivers/clk/clk.c#L10=
+34
+> >>
+> >> so I don't particularly trust it does exaclty what the header claims a=
+nd what
+> >> would be needed to test the theory that gating gpu clock during rate c=
+hange
+> >> might help.
+> >>
+> >> kind regards,
+> >> 	o.
+> >>
+> >>> Thank you for your detailed proposal! It was insightful to read. But
+> >>> while those were all great ideas, they have all already been taken ca=
+re
+> >>> of. I'm fresh out of ideas again (except for pinning the GPU rate).
+> >>>
+> >>> Again, thank you so much,
+> >>>   Frank
+> >>>
+> >>> >>
+> >>> >> Kind regards,
+> >>> >> 	o.
+> >>> >>
+> >>> >> > I very much appreciate your feedback!
+> >>> >> >
+> >>> >> > [1] https://gitlab.com/postmarketOS/pmaports/-/issues/805
+> >>> >> >
+> >>> >> > Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+> >>> >> > ---
+> >>> >> > Changes in v2:
+> >>> >> > - dts: Increase minimum GPU frequency to 192 MHz.
+> >>> >> > - nkm and a64: Add minimum and maximum rate for PLL-MIPI.
+> >>> >> > - nkm: Use the same approach for skipping invalid rates in
+> >>> >> >   ccu_nkm_find_best() as in ccu_nkm_find_best_with_parent_adj().
+> >>> >> > - nkm: Improve names for ratio struct members and hence get rid =
+of
+> >>> >> >   describing comments.
+> >>> >> > - nkm and a64: Correct description in the commit messages: M/N <=
+=3D 3
+> >>> >> > - Remove patches for nm as they were not needed.
+> >>> >> > - st7703: Rework the commit message to cover more background for=
+ the
+> >>> >> >   change.
+> >>> >> > - Link to v1: https://lore.kernel.org/r/20231218-pinephone-pll-f=
+ixes-v1-0-e238b6ed6dc1@oltmanns.dev
+> >>> >> >
+> >>> >> > ---
+> >>> >> > Frank Oltmanns (6):
+> >>> >> >       clk: sunxi-ng: nkm: Support constraints on m/n ratio and p=
+arent rate
+> >>> >> >       clk: sunxi-ng: a64: Add constraints on PLL-MIPI's n/m rati=
+o and parent rate
+> >>> >> >       clk: sunxi-ng: nkm: Support minimum and maximum rate
+> >>> >> >       clk: sunxi-ng: a64: Set minimum and maximum rate for PLL-M=
+IPI
+> >>> >> >       drm/panel: st7703: Drive XBD599 panel at higher clock rate
+> >>> >> >       arm64: dts: allwinner: a64: Fix minimum GPU OPP rate
+> >>> >> >
+> >>> >> >  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi |  4 ++--
+> >>> >> >  drivers/clk/sunxi-ng/ccu-sun50i-a64.c         | 14 +++++++----
+> >>> >> >  drivers/clk/sunxi-ng/ccu_nkm.c                | 34 ++++++++++++=
++++++++++++++++
+> >>> >> >  drivers/clk/sunxi-ng/ccu_nkm.h                |  4 ++++
+> >>> >> >  drivers/gpu/drm/panel/panel-sitronix-st7703.c | 14 +++++------
+> >>> >> >  5 files changed, 56 insertions(+), 14 deletions(-)
+> >>> >> > ---
+> >>> >> > base-commit: 059c53e877ca6e723e10490c27c1487a63e66efe
+> >>> >> > change-id: 20231218-pinephone-pll-fixes-0ccdfde273e4
+> >>> >> >
+> >>> >> > Best regards,
+> >>> >> > --
+> >>> >> > Frank Oltmanns <frank@oltmanns.dev>
+> >>> >> >
+>=20
+
+
+
 
