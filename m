@@ -2,70 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52F5F8672E3
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 12:20:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAF438672EB
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 12:21:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD8C910F068;
-	Mon, 26 Feb 2024 11:20:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4F7810F096;
+	Mon, 26 Feb 2024 11:21:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fZ8Koq38";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dGw+l9fw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C77ED10F068;
- Mon, 26 Feb 2024 11:20:19 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F7F810F096;
+ Mon, 26 Feb 2024 11:21:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708946420; x=1740482420;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=ebfQqnPQVSD0OLSlfPoVFPLfxXa7rGkBnVgKvxWgKNQ=;
- b=fZ8Koq38Z7Pc7hpo3zWpcpXQ37ue4ImTrT+VVecqWW3cqMsboXbZps/t
- 0VaaDeU0YJMLt/YVokx7KWU3lBrRGKUfsCtF1X+Sw3rHdNxxvi2byiPPZ
- Ei3UDvsvyA9LeqS5PjI6ePuC9OgUcvMl51uUybS80dixlze8P40UQI22i
- YW1TgSgyCzx55mblScDeVToiTPB2Q+PhuFYQgYsfghBzmWflmVILXo2Tx
- davhoS9n65p61211kngD4+4nbndbntFnuPz5Qof1S1jhRWJ9d6Le0YwsL
- K3ljV+c4M6oUL4SmSkiUDr1iIis1b9iGnfW6VQMXkdQiJ9j4SPiA4/B9F Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="28649290"
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; d="scan'208";a="28649290"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2024 03:20:19 -0800
+ t=1708946494; x=1740482494;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=WLaaa9FNkYtE987XLlar4G18RF+/r/Aa+/az8OOyJKk=;
+ b=dGw+l9fwN30HIT6SkJk3hjXmMlihdNW/xnTasgo4IobyHYt6q9n9Yx8K
+ VIk2d6gcgBdtUxZwYvkrRC/Jv+1v+t655Bz4YWUhUzNp6GfDlopkeKwMH
+ FIsAfxLLnqnAdZ5ie9mEyA/i08AHE2L6k/pfnkYfsGeWomuWUW4d85+X8
+ uLG8o18a0ch5yF8fm8b551KUeZ9xJXZAplzul3OIdXw/OBgwKMbVRiztW
+ 5/FDjt7MDiBzmvPFuXUfxlSXbyaF99hbVAZFh0660lll2pP3l64BIxBQN
+ QOU9s6LnfHz3peu83xFT/r3ybhuve60Fn2S/btT6nU1HEOuGqIK5S3LNx w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="3770100"
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
+   d="scan'208";a="3770100"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2024 03:21:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; d="scan'208";a="44117309"
-Received: from hibeid-mobl.amr.corp.intel.com (HELO localhost)
- ([10.252.46.254])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2024 03:20:12 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>, Stephen Rothwell
- <sfr@canb.auug.org.au>
-Cc: Arnd Bergmann <arnd@arndb.de>, Arnd Bergmann <arnd@kernel.org>, Oded
- Gabbay <ogabbay@kernel.org>, Thomas
- =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Matt Roper <matthew.d.roper@intel.com>, Matthew
- Brost <matthew.brost@intel.com>, Riana Tauro <riana.tauro@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: Re: [PATCH] drm/xe: skip building debugfs code for
- CONFIG_DEBUG_FS=n
-In-Reply-To: <zospejkdqekbndbov3ubbbvr5skxwohezeslzciivhxakfjoek@oa5sp2ffcfix>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240213134817.3347574-1-arnd@kernel.org>
- <877cj88lck.fsf@intel.com>
- <17209419-093b-4674-8b43-06c92312ef61@app.fastmail.com>
- <ngu6vq5izal6suyr57p4vlxnrn4kxyii4ewdktxvw7k3uezlcz@6oevav3wpcjh>
- <20240221172117.243799cf@canb.auug.org.au>
- <zospejkdqekbndbov3ubbbvr5skxwohezeslzciivhxakfjoek@oa5sp2ffcfix>
-Date: Mon, 26 Feb 2024 13:20:10 +0200
-Message-ID: <87h6hvo4k5.fsf@intel.com>
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; d="scan'208";a="11232552"
+Received: from gtobin-mobl.ger.corp.intel.com (HELO [10.252.23.74])
+ ([10.252.23.74])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2024 03:21:32 -0800
+Message-ID: <29a24cb1-233a-45f9-ac0a-0a78ce2dbb9d@intel.com>
+Date: Mon, 26 Feb 2024 11:21:30 +0000
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/6] drm/tests/drm_buddy: fix 32b build
+Content-Language: en-GB
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ Maxime Ripard <mripard@redhat.com>
+References: <20240215174431.285069-7-matthew.auld@intel.com>
+ <96bb6e97-34d9-4e4a-b618-85c17e809738@intel.com>
+ <5a9e1f30-19fc-486f-b7f5-016d82580d2f@amd.com>
+ <4aea62d4-8c2a-4406-b81e-240dca772da4@intel.com>
+ <45059d66-6e80-406b-aae2-72f8b8d142cb@amd.com>
+ <dc8c7d2b-4c2f-41dd-9812-3699444d5273@intel.com>
+ <94afe80c-9e4f-47a7-a758-17ab26eb4c00@intel.com>
+ <58e423e8-316e-40e0-b622-136ca6cc0189@intel.com>
+ <CAMuHMdUjwXS=Ow+DccWbcee9+vbkdD7dWp5M9FrnC-nFRZcwTw@mail.gmail.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <CAMuHMdUjwXS=Ow+DccWbcee9+vbkdD7dWp5M9FrnC-nFRZcwTw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,20 +78,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 21 Feb 2024, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
-> Looking at drm-intel and drm-misc, they are using a special
-> for-linux-next. We may eventually adopt the same workflow, but I will
-> have to check with other maintainers.
+Hi,
 
-The idea is to try to better reflect what's actually going to next. For
-example, drm-intel-next starts targeting "next next" after about
--rc6. But we haven't properly automated the cutoff point, it only kicks
-in at release. So there's still a window when linux-next sees "next
-next" stuff that gets dropped. Using drm-xe-next directly makes for a
-longer window.
+On 26/02/2024 10:38, Geert Uytterhoeven wrote:
+> Hi Matthew,
+> 
+> On Mon, Feb 26, 2024 at 10:58 AM Matthew Auld <matthew.auld@intel.com> wrote:
+>> On 19/02/2024 12:24, Matthew Auld wrote:
+>>> On 19/02/2024 10:48, Matthew Auld wrote:
+>>>> On 19/02/2024 10:30, Christian König wrote:
+>>>>> Am 19.02.24 um 11:28 schrieb Matthew Auld:
+>>>>>> On 19/02/2024 09:53, Christian König wrote:
+>>>>>>> Am 19.02.24 um 10:42 schrieb Matthew Auld:
+>>>>>>>> On 15/02/2024 17:44, Matthew Auld wrote:
+>>>>>>>>> Doesn't seem to compile on 32b, presumably due to u64 mod/division.
+>>>>>>>>> Simplest is to just switch over to u32 here. Also make print
+>>>>>>>>> modifiers
+>>>>>>>>> consistent with that.
+>>>>>>>>>
+>>>>>>>>> Fixes: a64056bb5a32 ("drm/tests/drm_buddy: add alloc_contiguous
+>>>>>>>>> test")
+>>>>>>>>> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+>>>>>>>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>>>>>>>>> Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+>>>>>>>>> Cc: Christian König <christian.koenig@amd.com>
+>>>>>>>>> Cc: Maxime Ripard <mripard@redhat.com>
+>>>>>>>>
+>>>>>>>> Any chance someone can push just this single patch here, since it
+>>>>>>>> fixes 32b build? It already has an r-b from Arun.
+>>>>>>>
+>>>>>>> Already working on this. Just give me a few more minutes.
+>>>>>>
+>>>>>> Thanks.
+>>>>>
+>>>>> No, problem. I would have pushed this earlier, but my build server
+>>>>> doesn't want to work any more. Looks like the SSD has passed its
+>>>>> warranty :(
+>>>>>
+>>>>> Should I push the other three patches to drm-misc-fixes as well? I
+>>>>> currently can't even build test them.
+>>>>
+>>>> Need to send a v2 for that. One minor change in the test just to be
+>>>> consistent with using u32. Thanks.
+>>>
+>>> Sent v2. If you could push that when you get a chance. Thanks.
+>>>
+>>> https://patchwork.freedesktop.org/series/130075/
+>>
+>> Gentle ping on merging v2.
+> 
+> Your v1 and a fix from Linus already made it upstream:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/drivers/gpu/drm/tests?h=v6.8-rc6
 
-BR,
-Jani.
+Ah, right. I meant v2 for the remaining drm_buddy patches in this series:
+https://patchwork.freedesktop.org/series/130075/
 
--- 
-Jani Nikula, Intel
+> 
+> Gr{oetje,eeting}s,
+> 
+>                          Geert
+> 
