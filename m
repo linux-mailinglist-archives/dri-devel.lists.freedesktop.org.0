@@ -2,65 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92168867742
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 14:54:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84EAB86776A
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 15:00:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95D0F10F1E4;
-	Mon, 26 Feb 2024 13:54:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6F3F10E6FA;
+	Mon, 26 Feb 2024 13:59:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jKIBt2G7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mzBPP1vJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF57810E684;
- Mon, 26 Feb 2024 13:54:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708955666; x=1740491666;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=24mtJNUX0HRoeEz85msLbJcbYZOzJJBOcrmOU9W9obs=;
- b=jKIBt2G7a7hud/PEV+JOX98rc4R9/dnuduwGUDupIZaonmbP1gwalbeF
- x/gHBbuMFx0RYxs2bOcsT/Q4yKSdNv9CgoP90EtbgciLnqbk4Tvo/8/7M
- JDxOS8/y1OwKvh7FYyz6WQiJ8UCkG4wQTXKGXMAs9DOAwFKFY1HlQmQ8R
- W3zEjUBt52mHXtKNAvrrsAw7TX6JIfS1Advpdz8bLn/qi7hn+nig3zM3Y
- llUNLpMBi0hvriUairKVDgIQ4VdUpnvm4NpdW9KVDczIQL8Lf7XPBZYyH
- aSWuq2YtN2KsimZBXEex4nsiwYlmbF/bDzjenD8tC+7N4/UbMRdoMp3LA A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="14655682"
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; d="scan'208";a="14655682"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2024 05:54:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="6705760"
-Received: from hibeid-mobl.amr.corp.intel.com (HELO localhost)
- ([10.252.46.254])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2024 05:54:20 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Mika Westerberg <mika.westerberg@linux.intel.com>, Ville
- =?utf-8?B?U3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>, Uma Shankar <uma.shankar@intel.com>,
- Jouni =?utf-8?Q?H=C3=B6gander?= <jouni.hogander@intel.com>, Saranya Gopal
- <saranya.gopal@intel.com>, Rajaram Regupathy
- <rajaram.regupathy@intel.com>, Gil Fine <gil.fine@intel.com>, Naama
- Shachar <naamax.shachar@intel.com>, Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v2 00/21] drm/i915: Add Display Port tunnel BW
- allocation support
-In-Reply-To: <20240220211841.448846-1-imre.deak@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A005E10E619;
+ Mon, 26 Feb 2024 13:59:55 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id E923060280;
+ Mon, 26 Feb 2024 13:59:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4431FC433C7;
+ Mon, 26 Feb 2024 13:59:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1708955994;
+ bh=vCbtBzCqgaJiRouXjbrIN4121QvHhByTK6VZh4GYaC8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mzBPP1vJrJwoFxLzvLdDOof3HSqK9VgIoMEJueY/ahvLoonsvl45xtw685qI5h4PM
+ V7JdGuPpGlUGpv0kWML8EofqWg/BG6y50O+Xh1hPDZfpVJyLo61LHW6SrmLRxVDP5y
+ FZugLSPlrpgHVtmyrniwU0j5jjjfvDo5tZf8pudJQ0tEU9+WqDZUEJ5Ys5nuQszny2
+ wN97dJK0+gC8P1dh1s0i6EH4RGDuXBG4QuqxR6xPJaCHjwUdlZFv7JhoYsWThCmJeA
+ 4p9yvxEGKgrFVjNTISvR/DDt3weB6KH6F3fSIITE1E5GXUvVbh7CsKKblr/s94Ooh8
+ JgOhoqVocFcVA==
+Date: Mon, 26 Feb 2024 14:59:52 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>, 
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Uma Shankar <uma.shankar@intel.com>, 
+ Jouni =?utf-8?B?SMO2Z2FuZGVy?= <jouni.hogander@intel.com>,
+ Saranya Gopal <saranya.gopal@intel.com>, 
+ Rajaram Regupathy <rajaram.regupathy@intel.com>, Gil Fine <gil.fine@intel.com>,
+ Naama Shachar <naamax.shachar@intel.com>, Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v2 00/21] drm/i915: Add Display Port tunnel BW allocation
+ support
+Message-ID: <vlzxwj7flftpkydkph2bg3xikuxbm4e2lhu36n2wwe4expj5vu@r6fjs5wa3mdu>
 References: <20240220211841.448846-1-imre.deak@intel.com>
-Date: Mon, 26 Feb 2024 15:54:19 +0200
-Message-ID: <87il2bmius.fsf@intel.com>
+ <87il2bmius.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="pols76ssq4sj37jf"
+Content-Disposition: inline
+In-Reply-To: <87il2bmius.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,103 +69,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 20 Feb 2024, Imre Deak <imre.deak@intel.com> wrote:
-> This is v2 of [1], with the following changes:
->
-> - Several functional/typo/formatting fixes, detailed in the patches.
-> - Move the BW allocation from encoder hooks to
->   intel_atomic_commit_tail() fixing the allocation for MST streams
->   enabled/disabled w/o a full modeset (i.e. w/o re-enabling the master
->   stream).
-> - Fix an MST mode restore issue during system resume, which also lead
->   to a tunnel BW allocation failure. (Patch 3)
-> - Ensure a DPCD DPRX cap read as required by the TBT CM any time a long
->   HPD pulse is detected. (Patch 20)
-> - Explicitly disable the BW allocation mode during system suspend.
->
-> The patchset is also available at:
-> https://github.com/ideak/linux/commits/dp_tun_bw_alloc
->
-> Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
-> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> Cc: Uma Shankar <uma.shankar@intel.com>
-> Cc: Jouni H=C3=B6gander <jouni.hogander@intel.com>
-> Cc: Saranya Gopal <saranya.gopal@intel.com>
-> Cc: Rajaram Regupathy <rajaram.regupathy@intel.com>
-> Cc: Gil Fine <gil.fine@intel.com>
-> Cc: Naama Shachar <naamax.shachar@intel.com>
-> Cc: Pengfei Xu <pengfei.xu@intel.com>
->
-> [1] https://lore.kernel.org/all/20240123102850.390126-1-imre.deak@intel.c=
-om
->
-> Imre Deak (21):
->   drm/dp: Add drm_dp_max_dprx_data_rate()
->   drm/dp: Add support for DP tunneling
 
-Maarten, Maxime, Thomas -
+--pols76ssq4sj37jf
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Ack for merging these two patches via drm-intel-next?
+On Mon, Feb 26, 2024 at 03:54:19PM +0200, Jani Nikula wrote:
+> On Tue, 20 Feb 2024, Imre Deak <imre.deak@intel.com> wrote:
+> > This is v2 of [1], with the following changes:
+> >
+> > - Several functional/typo/formatting fixes, detailed in the patches.
+> > - Move the BW allocation from encoder hooks to
+> >   intel_atomic_commit_tail() fixing the allocation for MST streams
+> >   enabled/disabled w/o a full modeset (i.e. w/o re-enabling the master
+> >   stream).
+> > - Fix an MST mode restore issue during system resume, which also lead
+> >   to a tunnel BW allocation failure. (Patch 3)
+> > - Ensure a DPCD DPRX cap read as required by the TBT CM any time a long
+> >   HPD pulse is detected. (Patch 20)
+> > - Explicitly disable the BW allocation mode during system suspend.
+> >
+> > The patchset is also available at:
+> > https://github.com/ideak/linux/commits/dp_tun_bw_alloc
+> >
+> > Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
+> > Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > Cc: Uma Shankar <uma.shankar@intel.com>
+> > Cc: Jouni H=F6gander <jouni.hogander@intel.com>
+> > Cc: Saranya Gopal <saranya.gopal@intel.com>
+> > Cc: Rajaram Regupathy <rajaram.regupathy@intel.com>
+> > Cc: Gil Fine <gil.fine@intel.com>
+> > Cc: Naama Shachar <naamax.shachar@intel.com>
+> > Cc: Pengfei Xu <pengfei.xu@intel.com>
+> >
+> > [1] https://lore.kernel.org/all/20240123102850.390126-1-imre.deak@intel=
+=2Ecom
+> >
+> > Imre Deak (21):
+> >   drm/dp: Add drm_dp_max_dprx_data_rate()
+> >   drm/dp: Add support for DP tunneling
+>=20
+> Maarten, Maxime, Thomas -
+>=20
+> Ack for merging these two patches via drm-intel-next?
 
-BR,
-Jani.
+Yep, go ahead
 
+Maxime
 
->   drm/i915: Fix display bpp limit computation during system resume
->   drm/i915/dp: Add support to notify MST connectors to retry modesets
->   drm/i915/dp: Use drm_dp_max_dprx_data_rate()
->   drm/i915/dp: Factor out intel_dp_config_required_rate()
->   drm/i915/dp: Export intel_dp_max_common_rate/lane_count()
->   drm/i915/dp: Factor out intel_dp_update_sink_caps()
->   drm/i915/dp: Factor out intel_dp_read_dprx_caps()
->   drm/i915/dp: Add intel_dp_max_link_data_rate()
->   drm/i915/dp: Add way to get active pipes with syncing commits
->   drm/i915/dp: Add support for DP tunnel BW allocation
->   drm/i915/dp: Add DP tunnel atomic state and check BW limit
->   drm/i915/dp: Account for tunnel BW limit in
->     intel_dp_max_link_data_rate()
->   drm/i915/dp: Compute DP tunnel BW during encoder state computation
->   drm/i915/dp: Allocate/free DP tunnel BW in the encoder enable/disable
->     hooks
->   drm/i915/dp: Handle DP tunnel IRQs
->   drm/i915/dp: Call intel_dp_sync_state() always for DDI DP encoders
->   drm/i915/dp: Suspend/resume DP tunnels
->   drm/i915/dp: Read DPRX for all long HPD pulses
->   drm/i915/dp: Enable DP tunnel BW allocation mode
->
->  drivers/gpu/drm/display/Kconfig               |   21 +
->  drivers/gpu/drm/display/Makefile              |    2 +
->  drivers/gpu/drm/display/drm_dp_helper.c       |   30 +
->  drivers/gpu/drm/display/drm_dp_tunnel.c       | 1929 +++++++++++++++++
->  drivers/gpu/drm/i915/Kconfig                  |   14 +
->  drivers/gpu/drm/i915/Kconfig.debug            |    1 +
->  drivers/gpu/drm/i915/Makefile                 |    3 +
->  drivers/gpu/drm/i915/display/intel_atomic.c   |   10 +
->  drivers/gpu/drm/i915/display/intel_crtc.c     |   52 +
->  drivers/gpu/drm/i915/display/intel_crtc.h     |    2 +
->  drivers/gpu/drm/i915/display/intel_ddi.c      |    3 +-
->  drivers/gpu/drm/i915/display/intel_display.c  |   26 +-
->  .../gpu/drm/i915/display/intel_display_core.h |    1 +
->  .../drm/i915/display/intel_display_driver.c   |   20 +-
->  .../drm/i915/display/intel_display_types.h    |    9 +
->  drivers/gpu/drm/i915/display/intel_dp.c       |  292 ++-
->  drivers/gpu/drm/i915/display/intel_dp.h       |   13 +-
->  .../drm/i915/display/intel_dp_link_training.c |   33 +-
->  .../drm/i915/display/intel_dp_link_training.h |    1 +
->  drivers/gpu/drm/i915/display/intel_dp_mst.c   |   18 +-
->  .../gpu/drm/i915/display/intel_dp_tunnel.c    |  815 +++++++
->  .../gpu/drm/i915/display/intel_dp_tunnel.h    |  133 ++
->  drivers/gpu/drm/i915/display/intel_link_bw.c  |   27 +-
->  drivers/gpu/drm/i915/display/intel_link_bw.h  |    2 +-
->  drivers/gpu/drm/i915/display/intel_tc.c       |    7 +
->  include/drm/display/drm_dp.h                  |   61 +
->  include/drm/display/drm_dp_helper.h           |    2 +
->  include/drm/display/drm_dp_tunnel.h           |  248 +++
->  28 files changed, 3650 insertions(+), 125 deletions(-)
->  create mode 100644 drivers/gpu/drm/display/drm_dp_tunnel.c
->  create mode 100644 drivers/gpu/drm/i915/display/intel_dp_tunnel.c
->  create mode 100644 drivers/gpu/drm/i915/display/intel_dp_tunnel.h
->  create mode 100644 include/drm/display/drm_dp_tunnel.h
+--pols76ssq4sj37jf
+Content-Type: application/pgp-signature; name="signature.asc"
 
---=20
-Jani Nikula, Intel
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZdyZVwAKCRDj7w1vZxhR
+xRBwAP9qKehz7wdrtbscpkwUejou3PRmDl1hk46xhIU1GiFDJgEAs5H089AWRK0e
+47AH0o3KCMdeCZxAQQKPqbjP1oT5XQ0=
+=cMLO
+-----END PGP SIGNATURE-----
+
+--pols76ssq4sj37jf--
