@@ -2,77 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E58B58672AE
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 12:09:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85D278672BB
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 12:12:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2580710F08C;
-	Mon, 26 Feb 2024 11:09:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1559F10F095;
+	Mon, 26 Feb 2024 11:12:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="P+MfyMLM";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="O7JlBQ5u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
- [209.85.166.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA46B10F089
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 11:09:51 +0000 (UTC)
-Received: by mail-io1-f41.google.com with SMTP id
- ca18e2360f4ac-7c794deb6cdso139294339f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 03:09:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1708945790; x=1709550590;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JXLJhA1S2e5W/9PS2kr0cO7SXhI9yiOHp+T3ajmhreE=;
- b=P+MfyMLMFn0hkcwG37uwI3qSF9LM0ox0iJDRxEzQ1V8z4SpOcTQFKB9u7pwlQHd09s
- xfhRWLozKIzBiwWKKUqUY00wDMgwIlmX2vXMnGzmgccqUDDq0bzNRH4spGdZgOpSMZ6N
- tWtHsbJM5J3HnOtjgOUg05K5qZBcOZlIcswf8l65NBfaLIIIFO5RNXVoRKThybqBffLU
- yqP2GmaX+49hSPaYj9Ae7ejti7lMb7kJu292EC1eoDnAfrCK6lkM0HUAdqJvocMGgcSF
- AvnowJc9I3x+/XTFj8dF+HjtPmM1Uy1hUc1Vp6eFtMt+kKFVzlyE0ryh8ca+529+XHDr
- fNxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708945790; x=1709550590;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=JXLJhA1S2e5W/9PS2kr0cO7SXhI9yiOHp+T3ajmhreE=;
- b=qXtIWthmwzlkX8IRl0paw6DBE6TTYlMuJ/lhqHjUd7pirdKyN9sqz36Jt49Hh5vO+w
- tjEGoPDiI5/Wz6N2YOyd5We7XDEzWUv6SadkVsoy8Whq6FXcp6FvzYKXl0uMmXqPpUS2
- pJCSfHKuD2cP6fz5OiXCclM4U8/aNPbrAuNduGhObWnv7vNwvEZO6p5iPhCXikalBEaa
- Ukg1C3LiTzXrwhutjPOHuOpmzbNmE3XR8jqhu7yrIT+yAOqJJPEP7nCp5THDFIJK/gg8
- JGck+PlQ1sP+TjoZPwvLRP8qLs2VlSEOnPmFK1WDi72j2Ya3EjtsLidIU32fpuw8ZVWc
- DiTg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVcbSQKYc8a36W4wS2QBbhCaHxBF9Sc6oakjYxAnrQaNJ2Ag/KNt/19OPNTrOSj9U+YqNM4ctO+hhYlDvbBLKYWvySxCH4dWx/ko2CPTjof
-X-Gm-Message-State: AOJu0YzEEkcK13mEP+u7Onwhewgc7eoj1/2fNXrM+cji0utG8KKi9q73
- B5PZ4FVMgeON9j80QbIVOmgogsSQKf0zx2Yn4tGmtE0ggl5hcfsEfX3mPnBd3ZuD1WaYf7+a9ZT
- 4m40diC9JKbMxkbs7VCEGxZe8lRxOASpLRbvtdG0FfbAsKn/epi1gjP/2jw==
-X-Google-Smtp-Source: AGHT+IEwEjd31elUaYKxIxM1mh70wep688OMqmuk7WudxZLnasYmVXOgCmS1ONaiIwRiUMQlImGVZaLvPKNgX1VcCmA=
-X-Received: by 2002:a05:6602:2765:b0:7c7:9944:cc8a with SMTP id
- l5-20020a056602276500b007c79944cc8amr8677661ioe.5.1708945790588; Mon, 26 Feb
- 2024 03:09:50 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7282410F092;
+ Mon, 26 Feb 2024 11:12:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1708945948; x=1740481948;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=4XWaAgwx7oFr2VXWZiR9l2/lMcqy78gc1Riyt5vZYbk=;
+ b=O7JlBQ5uWp+wL609zoAOCuAH4jhCtqs9Q0xQoGpghpgb+5MdgpbcC1PU
+ V5BlO64+fAgGSwV7hx8LxEbwUalW5GNNm7UwQYTAWFCU6yEi70t2dmVBr
+ ACf861lTYbk/gN9VMycidmzwJmiS6cmbJjsSLH7bsW3Z+1qLomVok/jof
+ nateQkQ3Z+i0q451iwk76KbIemTWdB6OIq+p2N9K44trM/phvhQUPu6dN
+ gzQdBgYp/y8P6iux0kCEykjABVvkOH6/RHs7FKnvf1C6ARUsBoJ7IFuOR
+ ipyhbtglyuJeUlXUSaK5Q3lG89mOCoaLvodj/QETuIh/4uVWFBNL37k2l A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="3066020"
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
+   d="scan'208";a="3066020"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2024 03:12:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
+   d="scan'208";a="6560445"
+Received: from hibeid-mobl.amr.corp.intel.com (HELO localhost)
+ ([10.252.46.254])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2024 03:12:19 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Alex Deucher
+ <alexander.deucher@amd.com>, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Harry
+ Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, Rodrigo
+ Siqueira <Rodrigo.Siqueira@amd.com>, Nicholas Choi
+ <nicholas.choi@amd.com>, Daniel Latypov <dlatypov@google.com>, David Gow
+ <davidgow@google.com>, hersenxs.wu@amd.com, magalilemes00@gmail.com
+Cc: kunit-dev@googlegroups.com, tales.aparecida@gmail.com,
+ amd-gfx@lists.freedesktop.org, mwen@igalia.com, mairacanal@riseup.net,
+ dri-devel@lists.freedesktop.org, Isabella Basso <isabbasso@riseup.net>,
+ andrealmeid@riseup.net, Trevor Woerner <twoerner@gmail.com>,
+ javierm@redhat.com, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v5 7/8] drm/amd/display: Introduce KUnit tests to
+ dc_dmub_srv library
+In-Reply-To: <20240222155811.44096-8-Rodrigo.Siqueira@amd.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240222155811.44096-1-Rodrigo.Siqueira@amd.com>
+ <20240222155811.44096-8-Rodrigo.Siqueira@amd.com>
+Date: Mon, 26 Feb 2024 13:12:17 +0200
+Message-ID: <87jzmro4xa.fsf@intel.com>
 MIME-Version: 1.0
-References: <20240221160215.484151-1-panikiel@google.com>
- <20240221160215.484151-10-panikiel@google.com>
- <310cefcb-a4d5-4f4f-a482-ba2ff08a57f6@linaro.org>
-In-Reply-To: <310cefcb-a4d5-4f4f-a482-ba2ff08a57f6@linaro.org>
-From: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>
-Date: Mon, 26 Feb 2024 12:09:39 +0100
-Message-ID: <CAM5zL5rQsYuo3+rW9+YPmvUg9PtNiR0Dy59e8Kf787ranfLh3Q@mail.gmail.com>
-Subject: Re: [PATCH v2 9/9] ARM: dts: chameleonv3: Add video device nodes
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org, 
- daniel@ffwll.ch, dinguyen@kernel.org, hverkuil-cisco@xs4all.nl, 
- krzysztof.kozlowski+dt@linaro.org, maarten.lankhorst@linux.intel.com, 
- mchehab@kernel.org, mripard@kernel.org, robh+dt@kernel.org, 
- tzimmermann@suse.de, devicetree@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, chromeos-krk-upstreaming@google.com, 
- ribalda@chromium.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,31 +80,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 26, 2024 at 10:15=E2=80=AFAM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 21/02/2024 17:02, Pawe=C5=82 Anikiel wrote:
-> > Add device nodes for the video system present on the Chameleon v3.
-> > It consists of six framebuffers and two Intel Displayport receivers.
-> >
-> > Signed-off-by: Pawe=C5=82 Anikiel <panikiel@google.com>
-> > ---
->
-> ...
->
-> > +             dprx_sst: dp-receiver@c0064000 {
-> > +                     compatible =3D "intel,dprx-20.0.1";
-> > +                     reg =3D <0xc0064000 0x800>;
-> > +                     interrupt-parent =3D <&dprx_sst_irq>;
-> > +                     interrupts =3D <0 IRQ_TYPE_EDGE_RISING>;
-> > +                     intel,max-link-rate =3D <0x1e>;
->
-> Rate is not in hex! Rate is in Hz, at least usually...
->
-> Fix your bindings...
+On Thu, 22 Feb 2024, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com> wrote:
+> diff --git a/drivers/gpu/drm/amd/display/test/kunit/.kunitconfig b/drivers/gpu/drm/amd/display/test/kunit/.kunitconfig
+> index eb6f81601757..4c5861ad58bd 100644
+> --- a/drivers/gpu/drm/amd/display/test/kunit/.kunitconfig
+> +++ b/drivers/gpu/drm/amd/display/test/kunit/.kunitconfig
+> @@ -4,5 +4,6 @@ CONFIG_DRM=y
+>  CONFIG_DRM_AMDGPU=y
+>  CONFIG_DRM_AMD_DC=y
+>  CONFIG_AMD_DC_BASICS_KUNIT_TEST=y
+> +CONFIG_AMD_DC_KUNIT_TEST=y
+>  CONFIG_DCE_KUNIT_TEST=y
+>  CONFIG_DML_KUNIT_TEST=y
 
-This is the DisplayPort link rate, for which the allowed values are
-8.1 Gbps, 5.4 Gbps, 2.7 Gbps, or 1.62 Gbps. The standard way to encode
-them (used in the DisplayPort DPCD registers and this device's
-configuration) is by multiples of 0.27Gbps. This value (AFAIK) is
-usually represented in hex, so 8.1Gbps would be 0x1e.
+A bit random patch to comment on, but this hunk demonstrates the point:
+
+Should all the configs have DRM_AMD_ prefix to put them in a
+"namespace"?
+
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel
