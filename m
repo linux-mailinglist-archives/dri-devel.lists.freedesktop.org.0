@@ -2,64 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E4F1867462
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 13:08:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB4E486746F
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 13:10:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6258110F100;
-	Mon, 26 Feb 2024 12:08:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAA8D10E6FC;
+	Mon, 26 Feb 2024 12:10:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Lkeq4/Zj";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LUib533S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5975210F0FF
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 12:08:24 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CE3310E706
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 12:10:41 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 9DDFDCE176D
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 12:08:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE4D3C433B1
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 12:08:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1708949300;
- bh=CGmK3cb5vpPiodIQAGGbcXy9IWOMla8yFmXkx6fEXb4=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Lkeq4/ZjvIKuSXWU4GdgsFWxWnVnCPxstYHH46Ps6nzkMosigbdK5q9hg6JBuaokE
- /3ICU3XIwo8pLf7HUH9eNqJXU6Etr2nszZ7ICw/2pGDLUYhDv6SeAqU0AzYXMcK+3Y
- JUL2EFNjfv6Nn8QBfjpqf8FY+BhkscDSDAnuEYqrTTh50BqKCKj9dYVpybT/o9ETLC
- SSkYmEReQQ1XcHVM+UDmSZ+mW1mFQriVzfMRbB8RlR5NASbUNyA0jugTDsxuxq0NAO
- OmdWCfY8pdByagO09L+BxpMXe5J+a82lASykV6xzejch/PYlaeW+kv5WeXrRTVZyCQ
- Yo71LO6AZTYtA==
-Received: by mail-yb1-f170.google.com with SMTP id
- 3f1490d57ef6-dcbc6a6808fso2150517276.2
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 04:08:20 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUkaCwu26k+M4c88ZGA0A/2sEhjKQP49LIyFkZt3o6Bb/Cm+nSrSiQMw8jtymX0XTyY5sMnvX2AB+vgBi7twdR5YKnwafz9XlAWxobN2Cpp
-X-Gm-Message-State: AOJu0YxdjWmu3iljPU1JkYi6p2pZsHNfEmy5eH4WQ1WmmMA2SCn1/R4L
- S42cK5/G7yZFmqg6EsfvXaxa9f7w26Nt6wmGpZ498QZZ3SUFDiet5I0GebY1iAEy9h1TSgHqjWf
- Z92IuTTuFMyPCrikIEgtFWMZeUvF6OD2CN1yWCQ==
-X-Google-Smtp-Source: AGHT+IHeAB6njpp0OOhYsH7r9y+6wWY9Z5BETRDxuOciBdN7yiwuQsUEWB3+1RWp/dadJLAWNA7l1XzMj1PCBEhg7W4=
-X-Received: by 2002:a25:bb88:0:b0:dcd:24b6:1aee with SMTP id
- y8-20020a25bb88000000b00dcd24b61aeemr3978658ybg.47.1708949300089; Mon, 26 Feb
- 2024 04:08:20 -0800 (PST)
+ by dfw.source.kernel.org (Postfix) with ESMTP id BAFED6115E;
+ Mon, 26 Feb 2024 12:10:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BAA9C43390;
+ Mon, 26 Feb 2024 12:10:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1708949440;
+ bh=L7eBX1jczoJcvocELL/shsm80E0B95K24MHiZFwZa7E=;
+ h=Subject:To:Cc:From:Date:From;
+ b=LUib533SX/GjDZwLdMgmTsyGYX0gxjkhoM1zeSe/vMmOx2jZk/IqKebP/RICzAu1P
+ U1AAojAHPnnf6kiamwHXIRwDIzKhU2bYtU7rO0EM8oZYwemCBL/NtNPrWSmFGaTH3l
+ 4DBmIKAGqp7gOjMIv2bwMggvzl800WyW75ejLpgI=
+Subject: Patch "drm/ttm: Fix an invalid freeing on already freed page in error
+ path" has been added to the 6.6-stable tree
+To: airlied@redhat.com, christian.koenig@amd.com,
+ dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
+ matthew.auld@intel.com, ray.huang@amd.com, thomas.hellstrom@linux.intel.com
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Mon, 26 Feb 2024 13:08:24 +0100
+Message-ID: <2024022624-dreamland-popsicle-7481@gregkh>
 MIME-Version: 1.0
-References: <20240223150333.1401582-1-thierry.reding@gmail.com>
- <a6e73f3f-9bd6-40c4-abfa-84a22de07c23@suse.de>
- <877cirpidw.fsf@minerva.mail-host-address-is-not-set>
-In-Reply-To: <877cirpidw.fsf@minerva.mail-host-address-is-not-set>
-From: Robert Foss <rfoss@kernel.org>
-Date: Mon, 26 Feb 2024 13:08:08 +0100
-X-Gmail-Original-Message-ID: <CAN6tsi4b+77udoHNhKjo8PFo9hdgrPYPz62D3f+rBqqw4Oymzg@mail.gmail.com>
-Message-ID: <CAN6tsi4b+77udoHNhKjo8PFo9hdgrPYPz62D3f+rBqqw4Oymzg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/tegra: Remove existing framebuffer only if we
- support display
-To: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Jon Hunter <jonathanh@nvidia.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,58 +56,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 26, 2024 at 12:36=E2=80=AFPM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
->
-> Thomas Zimmermann <tzimmermann@suse.de> writes:
->
-> > Hi
-> >
-> > Am 23.02.24 um 16:03 schrieb Thierry Reding:
-> >> From: Thierry Reding <treding@nvidia.com>
-> >>
-> >> Tegra DRM doesn't support display on Tegra234 and later, so make sure
-> >> not to remove any existing framebuffers in that case.
-> >>
-> >> v2: - add comments explaining how this situation can come about
-> >>      - clear DRIVER_MODESET and DRIVER_ATOMIC feature bits
-> >>
 
-Fixes: 6848c291a54f ("drm/aperture: Convert drivers to aperture interfaces"=
-)
+This is a note to let you know that I've just added the patch titled
 
-Maybe this is more of a philosophical question, but either the
-introduction of this hardware generation is where this regression was
-introduced or this possibly this commit.
+    drm/ttm: Fix an invalid freeing on already freed page in error path
 
-Either way, I'd like to get this into the drm-misc-fixes branch.
+to the 6.6-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
-> >> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> >
-> > Makes sense as far as the aperture helpers are concerned.
-> >
-> > Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >
->
-> I believe this is drm-misc-fixes material. Since the tegra DRM will remov=
-e
-> simple{fb,drm} for Tegra234, even when the driver does not support displa=
-y
-> on that platform, leaving the system with no display output at all.
->
-> Are you going to push this patch or is going to be done by Thierry?
+The filename of the patch is:
+     drm-ttm-fix-an-invalid-freeing-on-already-freed-page-in-error-path.patch
+and it can be found in the queue-6.6 subdirectory.
 
-I'm on it.
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
 
->
-> > Best regards
-> > Thomas
-> >
->
-> --
-> Best regards,
->
-> Javier Martinez Canillas
-> Core Platforms
-> Red Hat
->
+
+From 40510a941d27d405a82dc3320823d875f94625df Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Date: Wed, 21 Feb 2024 08:33:24 +0100
+Subject: drm/ttm: Fix an invalid freeing on already freed page in error path
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+
+commit 40510a941d27d405a82dc3320823d875f94625df upstream.
+
+If caching mode change fails due to, for example, OOM we
+free the allocated pages in a two-step process. First the pages
+for which the caching change has already succeeded. Secondly
+the pages for which a caching change did not succeed.
+
+However the second step was incorrectly freeing the pages already
+freed in the first step.
+
+Fix.
+
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Fixes: 379989e7cbdc ("drm/ttm/pool: Fix ttm_pool_alloc error path")
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Christian Koenig <christian.koenig@amd.com>
+Cc: Huang Rui <ray.huang@amd.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v6.4+
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240221073324.3303-1-thomas.hellstrom@linux.intel.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/ttm/ttm_pool.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/drivers/gpu/drm/ttm/ttm_pool.c
++++ b/drivers/gpu/drm/ttm/ttm_pool.c
+@@ -384,7 +384,7 @@ static void ttm_pool_free_range(struct t
+ 				enum ttm_caching caching,
+ 				pgoff_t start_page, pgoff_t end_page)
+ {
+-	struct page **pages = tt->pages;
++	struct page **pages = &tt->pages[start_page];
+ 	unsigned int order;
+ 	pgoff_t i, nr;
+ 
+
+
+Patches currently in stable-queue which might be from thomas.hellstrom@linux.intel.com are
+
+queue-6.6/drm-ttm-fix-an-invalid-freeing-on-already-freed-page-in-error-path.patch
