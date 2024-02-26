@@ -2,87 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 801AE868350
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 22:49:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4AB58683BF
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 23:29:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2956810E26A;
-	Mon, 26 Feb 2024 21:49:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 235AD10E2D3;
+	Mon, 26 Feb 2024 22:29:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kali.org header.i=@kali.org header.b="hkXGKvtM";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="O7xwwRxx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
- [209.85.208.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4AE110E26A
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 21:49:16 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id
- 4fb4d7f45d1cf-563fe793e1cso4853405a12.3
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 13:49:16 -0800 (PST)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+ [209.85.208.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D56F510E2D3
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 22:29:24 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id
+ 4fb4d7f45d1cf-564a53b8133so2820956a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 14:29:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kali.org; s=google; t=1708984155; x=1709588955; darn=lists.freedesktop.org; 
+ d=chromium.org; s=google; t=1708986562; x=1709591362;
+ darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=LvqziGEBSPprOdiqXW0BtoohOCzdBYizN85hWV54RjA=;
- b=hkXGKvtMY3jKOVyQqa/NpeFYBjQEw4KXHxx6j/5v+m5H7DnVEi3+8PXhm6zBT76Nvc
- ZrJiHO5KnNrdudDYMitHs1TDkEBLGdTL0HabvLROfjbjf8gmdzX6hnMtyzc9HTBgyAOh
- 9bRhaRbpDEzi63XIwWLlwBz4bcVRyxGqjwrKfHRrvjhTiYTfGa73/bMtjR6z3DVADJvT
- CdAgWpSJp+BKH5JX4vLTtdyCFLMVnuaYqzVyVO4Ds4l/qzVM2wkcJKd7HwcvNkrKTRDI
- ZLRMJLmRVvcweN+2ObH8YR1FVk+5Z1KjN9+3AxlMvgqqUngl4Ps9tBoag2sO59ZrGqUF
- Enfg==
+ bh=HwHOxhCzVgWRYHLx5UlREeeks0w7r8W0vRg5wArpOeU=;
+ b=O7xwwRxxWN8QQEmgJ1c/EA+Rqiza3t2UeHvRepc0ehVTKi0L0Uce8I9I3R/OO/c2Hm
+ sBXEwZrY+PVi1KdusRpvO/TQ4pF/JoIFbNkIWwRahwUF205fJxzUVsZ/2CDHRLeqq91M
+ 6NUxNLRdorgX4rhNR3ebCNUArX/V/Eaxb0uCU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708984155; x=1709588955;
+ d=1e100.net; s=20230601; t=1708986562; x=1709591362;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LvqziGEBSPprOdiqXW0BtoohOCzdBYizN85hWV54RjA=;
- b=l7TnIgKlMPKXPO+4pda4oRyh+AyN78LWjTsCtx/ikgetQa6eGuAlMv7tGdD1CBR4w3
- wX0O0/0UUrsqPaIxWwJhNJKqlovb3MVPNkIR8C6c0cGo6XhjKA1fQBsudb+VGk+zakkQ
- QKYFkL0ii81G7p0G8gy+8cbStDewYPjF9ZgvlGpaps/tBw9eUN/ZmUYSEPqZvgGCyWkQ
- W9zizsh9NFksdzVLS+f/PNv3ak1G3Q7vyh1q+7vYNF1vkKyWsAGHS2TWAIVnLBxSzFS4
- dMNyceDuO0kAjbqVhDpaGmaZ+EpIlvxIHlYxEtk8VSMyQhYXFJ+E6c4kYi3L18z3nREn
- eD2Q==
+ bh=HwHOxhCzVgWRYHLx5UlREeeks0w7r8W0vRg5wArpOeU=;
+ b=RF9LsJHmjFbP6IFrexM3P3NKWkKDCtBJAyBc2iaqixxyVvy5E2edSCYVWzmAVbA/Ay
+ d4G+Xk6J27qIBueIUiUbIsTU9MYFsgbxqGf27K4mBNv++3lxW8admTQPKVdyUc97TTYG
+ +xHzX2FDJsKX782fwyGc4y6U3t8f8Mh9Wcf5mo6mfie6nTUTQ2qsw7qidwnNXeXo+f9j
+ 1VEGGLvMo40zrdny7M7mmfT+Zq1nnBOyVXIvbwHPSxCU8QDCkDMi4d42M6bIdSdEkuCO
+ kwBAAdDKrUtrFfdFBp/S6p7JOLkMYvhoh0XgASc6e/aVKe7RamwBisDGldHm5yH0gOrb
+ uVyg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXco3XLFKjub0uah4FjTQ1cpD/UtKYCJGQTqEa/TOUBJXjjyRubX5QQlXZZLgtV7xJZ/Mvj9ZnTr/lDVoHso+DyhNXS3cpcx9qLgDu/xsI6
-X-Gm-Message-State: AOJu0Yz3vkpgy31/vi+mk9273BsH9lgBeXhr9cPOgbnD83S+hEFhxFgv
- BLVclolmBdp/okOv3scM0SkvVEiD72uumeDXTw0jaPBtujZNmYg3K5v5/zkz2q3RuvpEjpSlbEr
- r2ehZQ7wYF29GxBkboeHP5wAHFPgOZc7LDTbVCg==
-X-Google-Smtp-Source: AGHT+IFDhjQUIvtE3gXZFBzP+tu+CRDxsI0/hiztwW0bUlj1DLWQ7Od9BSLqqvs21UZ11Tq9oSJFYh+ttSPmumwWR38=
-X-Received: by 2002:aa7:c609:0:b0:565:9e16:60da with SMTP id
- h9-20020aa7c609000000b005659e1660damr4977584edq.30.1708984154965; Mon, 26 Feb
- 2024 13:49:14 -0800 (PST)
+ AJvYcCUSeyw9CqLm1wsJFIAUXCRXn2eQ1mMJN60lHezSePd9kdKI22c/bvk3DAk5AvaXbNqj5/eRhElbabu+DsXyKa9M6QZTX9AHyv0AdwkO2WTJ
+X-Gm-Message-State: AOJu0YzEWxLHAWsfKF5cZkrPgxrvqthSg8apRjD0ipUoQNgHp92tq52n
+ BFl7E0uDzDFlOKHh5en3O8DiEp7pAuEYshW283Bia/BgD7R9fiBTGpNYDWtOzGGQRNL16cLKjYA
+ R8h8X
+X-Google-Smtp-Source: AGHT+IHg9BcmPqZb4dGKWz+ei+BaBu/4zyv6o58fQalacznx+dEzkPXCH2mjZTLd0jVnsorto3igfw==
+X-Received: by 2002:a05:6402:7cf:b0:564:eb44:8cca with SMTP id
+ u15-20020a05640207cf00b00564eb448ccamr4963200edy.18.1708986561988; 
+ Mon, 26 Feb 2024 14:29:21 -0800 (PST)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com.
+ [209.85.128.42]) by smtp.gmail.com with ESMTPSA id
+ k2-20020aa7c042000000b0055d333a0584sm162043edo.72.2024.02.26.14.29.21
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Feb 2024 14:29:21 -0800 (PST)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-412a9f272f4so14885e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 14:29:21 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU8vNcQUbZ0xAsi5GhLsF+iIOcJdcSTzMgakMoE6IvzmhndbYKrdkUrx9SIvUpS0nqBFC31G/HxSpOvjA9BETK3X/fkQFRfTFOYno1zIYy2
+X-Received: by 2002:a05:600c:4e15:b0:412:a786:e8a1 with SMTP id
+ b21-20020a05600c4e1500b00412a786e8a1mr82285wmq.6.1708986560846; Mon, 26 Feb
+ 2024 14:29:20 -0800 (PST)
 MIME-Version: 1.0
-References: <20240202141109.1.I24277520ac754ea538c9b14578edc94e1df11b48@changeid>
- <CAJMQK-it9YMod4rHKnACq4O-iaGieK2SN4x5vQ018CghsA631A@mail.gmail.com>
- <CAD=FV=VfuFrK1cSKA0maMzT5dxzKEzADqrd69fZKXuAGrU2rmA@mail.gmail.com>
- <87sf1u58k0.fsf@intel.com>
- <CAD=FV=XQdLm3PcjEd_g_dBJ9QO8zAJtj5nrXS9=cjC80+-Jbfg@mail.gmail.com>
- <cbcd981f-bd5d-477e-8482-d3414be17057@linaro.org>
- <CAD=FV=UtakQZ6OEKwERW5gNeAfS88EqkuQAHkrQoN=SicDG1JA@mail.gmail.com>
- <87frxskef7.fsf@minerva.mail-host-address-is-not-set>
- <CAD=FV=WwfB=u2DVE0ux9cD3OCCccgcWCdJBxW2-9gg4qSFSv+A@mail.gmail.com>
-In-Reply-To: <CAD=FV=WwfB=u2DVE0ux9cD3OCCccgcWCdJBxW2-9gg4qSFSv+A@mail.gmail.com>
-From: Steev Klimaszewski <steev@kali.org>
-Date: Mon, 26 Feb 2024 15:49:03 -0600
-Message-ID: <CAKXuJqiXteBsrFF1q-dziaUvFYXXTk98Q2y7ZcDit0VxONsNmQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/dp: Don't attempt AUX transfers when eDP panels are
- not powered
-To: Doug Anderson <dianders@chromium.org>
-Cc: Javier Martinez Canillas <javierm@redhat.com>, neil.armstrong@linaro.org, 
- Jani Nikula <jani.nikula@intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Hsin-Yi Wang <hsinyi@chromium.org>, dri-devel@lists.freedesktop.org,
- eizan@chromium.org, 
- Ankit Nautiyal <ankit.k.nautiyal@intel.com>, Daniel Vetter <daniel@ffwll.ch>, 
- David Airlie <airlied@gmail.com>, Heiner Kallweit <hkallweit1@gmail.com>, 
- Imre Deak <imre.deak@intel.com>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+References: <20240223223958.3887423-1-hsinyi@chromium.org>
+ <20240223223958.3887423-2-hsinyi@chromium.org>
+In-Reply-To: <20240223223958.3887423-2-hsinyi@chromium.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 26 Feb 2024 14:29:05 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XZJgFhufr8EkUfBYK+00Kb6R3dHob=EY8XUZ8NJmSChA@mail.gmail.com>
+Message-ID: <CAD=FV=XZJgFhufr8EkUfBYK+00Kb6R3dHob=EY8XUZ8NJmSChA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm_edid: Add a function to get EDID base block
+To: Hsin-Yi Wang <hsinyi@chromium.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
  Sam Ravnborg <sam@ravnborg.org>,
- Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>, 
- linux-kernel@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Johan Hovold <johan+linaro@kernel.org>
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -100,91 +98,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 16, 2024 at 9:30=E2=80=AFAM Doug Anderson <dianders@chromium.or=
-g> wrote:
->
-> Hi,
->
-> On Fri, Feb 16, 2024 at 12:21=E2=80=AFAM Javier Martinez Canillas
-> <javierm@redhat.com> wrote:
-> >
-> > > The kernel tree we landed on was the v5.15 tree, which is currently
-> > > serving all Qualcomm sc7180-based Chromebooks, all Mediatek 8173
-> > > Chromebooks and all Mediatek 8186 Chromebooks. There are also a pile
-> > > of x86 Chromebooks running our v5.15 kernel. This code shouldn't
-> > > affect them because (unless I'm mistaken) they don't use the two
-> > > affected panel drivers. In any case, I haven't heard any screams from
-> > > them either. Given my landing plans of "the week of the 26th", this
-> > > still gives another 1.5 weeks for any screams to reach my ears.
-> > >
-> > > ...or are you looking for non-ChromeOS test reports? I'm not sure how
-> > > to encourage those. I suppose sometimes folks at Red Hat end up
-> > > stumbling over similar panel problems to those of us in ChromeOS.
-> > > Maybe +Javier would be interested in providing a Tested-by?
-> > >
-> >
-> > I do have a SC7180 based HP X2 Chromebook and could test your patch (no=
-t
-> > today but I could do it early next week), although I haven't followed s=
-o
-> > if you could please let me know what exactly do you want me to verify.
-> >
-> > AFAIU the problem is that the fwupd daemon tries to scan DP busses even=
- if
-> > the panel is turned off and that's what takes a lot of time (due retrie=
-s),
-> > and your patch makes the driver to bail out immediately ? If that's the
-> > case, I guess that just starting fwupd daemon with an without your patc=
-h
-> > while the panel is turned off could be a good test ?
->
-> Sorry! I wasn't trying to sign you up for extra work. I'm not
-> convinced that any extra verification on a Chromebook is all that
-> valuable since that's pretty covered by the fact that we've already
-> pushed this patch out to real users on Chromebooks. I think Neil was
-> hoping for some confirmation that my patch didn't break someone else's
-> hardware. I think maybe good enough is if you have some type of
-> hardware that uses eDP and that you could verify that my patch does
-> break anything about it?
->
-> I'm not aware of anyone with extensive DP AUX character device usage.
-> I guess I thought of Javier because I remembered him at least also
-> using fwupd and some of the fwupd plugins try to talk to DP things
-> over the DP AUX character device.
->
-> If someone is really in a testing mood and wanted to stress the char
-> device, I guess something simple like "hexdump -C /dev/drm_dp_aux*"
-> for whatever eDP AUX is associated with eDP would at least do some
-> reading. You could stress turning the display on and off while doing
-> that with and without my patch. Presumably it will be better (error
-> out more quickly) with my patch.
->
-> If you wanted to stress the i2c path, you could do something like this
-> (the grep assumes you're using ti-sn65dsi86 as your eDP bridge chip,
-> but hopefully easy to adjust):
->
-> bus=3D$(i2cdetect -l | grep sn65 | sed 's/i2c-\([0-9]*\).*$/\1/')
-> i2cdump ${bus} 0x50 i
->
-> That should dump your EDID. Again it should error out quickly when the
-> panel is off after my patch but should start working again when the
-> panel is on.
->
->
-> Hmmm, thinking about all the above, I guess there is one case that
-> _could_ be broken by my patch. I really hope not, though. If someone
-> has a panel that's on an always-on rail or on a shared rail with some
-> other device (like the touchscreen) that's keeping the panel power on
-> then without my patch it would be possible to do DP AUX transactions
-> even when the panel was "off" from Linux's point of view. It would
-> have worked mostly due to luck, but now luck will run out and it will
-> stop working. I really hope nobody has userspace that is relying on
-> this, but I suppose it's always possible that somewhere, someone's
-> userspace is. If you are or know of someone who is then please shout.
->
-> -Doug
+Hi,
 
-Tested on my Thinkpad X13s, with display on, I get the did when
-hexdumping /dev/drm_dp_aux2, with display off I get device/resource
-busy.
-Tested-by: Steev Klimaszewski <steev@kali.org>
+On Fri, Feb 23, 2024 at 2:40=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromium.org> =
+wrote:
+>
+> @@ -2770,58 +2770,63 @@ static u32 edid_extract_panel_id(const struct edi=
+d *edid)
+>  }
+>
+>  /**
+> - * drm_edid_get_panel_id - Get a panel's ID through DDC
+> - * @adapter: I2C adapter to use for DDC
+> + * drm_edid_get_panel_id - Get a panel's ID from EDID base block
+> + * @base_bock: EDID base block that contains panel ID.
+
+s/base_bock/base_block, as identified by:
+
+scripts/kernel-doc -v drivers/gpu/drm/drm_edid.c | less 2>&1
+
+drivers/gpu/drm/drm_edid.c:2787: warning: Function parameter or struct
+member 'base_block' not described in 'drm_edid_get_panel_id'
+drivers/gpu/drm/drm_edid.c:2787: warning: Excess function parameter
+'base_bock' description in 'drm_edid_get_panel_id'
+
+
+>   *
+> - * This function reads the first block of the EDID of a panel and (assum=
+ing
+> + * This function uses the first block of the EDID of a panel and (assumi=
+ng
+>   * that the EDID is valid) extracts the ID out of it. The ID is a 32-bit=
+ value
+>   * (16 bits of manufacturer ID and 16 bits of per-manufacturer ID) that'=
+s
+>   * supposed to be different for each different modem of panel.
+>   *
+> + * Return: A 32-bit ID that should be different for each make/model of p=
+anel.
+> + *         See the functions drm_edid_encode_panel_id() and
+> + *         drm_edid_decode_panel_id() for some details on the structure =
+of this
+> + *         ID.
+> + */
+> +u32 drm_edid_get_panel_id(void *base_block)
+> +{
+> +       return edid_extract_panel_id(base_block);
+> +}
+> +EXPORT_SYMBOL(drm_edid_get_panel_id);
+> +
+> +/**
+> + * drm_edid_get_base_block - Get a panel's EDID base block
+> + * @adapter: I2C adapter to use for DDC
+> + *
+> + * This function returns the first block of the EDID of a panel.
+> + *
+>   * This function is intended to be used during early probing on devices =
+where
+>   * more than one panel might be present. Because of its intended use it =
+must
+> - * assume that the EDID of the panel is correct, at least as far as the =
+ID
+> - * is concerned (in other words, we don't process any overrides here).
+> + * assume that the EDID of the panel is correct, at least as far as the =
+base
+> + * block is concerned (in other words, we don't process any overrides he=
+re).
+>   *
+>   * NOTE: it's expected that this function and drm_do_get_edid() will bot=
+h
+>   * be read the EDID, but there is no caching between them. Since we're o=
+nly
+>   * reading the first block, hopefully this extra overhead won't be too b=
+ig.
+>   *
+> - * Return: A 32-bit ID that should be different for each make/model of p=
+anel.
+> - *         See the functions drm_edid_encode_panel_id() and
+> - *         drm_edid_decode_panel_id() for some details on the structure =
+of this
+> - *         ID.
+> + * Caller should free the base block after use.
+
+Don't you need a "Return:" clause here to document what you're returning?
+
+
+Other than the kernel-doc nits, this looks fine to me.
+
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
+
+It'll probably need at least an Ack from someone else in the DRM
+community before it can land, though, since this is touching a core
+file.
+
+
+-Doug
