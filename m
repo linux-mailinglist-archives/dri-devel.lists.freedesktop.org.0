@@ -2,45 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0513867511
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 13:33:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5164C86750B
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 13:33:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C225510E714;
-	Mon, 26 Feb 2024 12:33:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B60B10F148;
+	Mon, 26 Feb 2024 12:33:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="sAuNjqmQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nO+O7iM0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0F4A10E714
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 12:33:39 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C82310F148;
+ Mon, 26 Feb 2024 12:33:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 7FF50CE134A;
- Mon, 26 Feb 2024 12:33:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CA7CC433C7;
- Mon, 26 Feb 2024 12:33:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1708950816;
- bh=1AqAw0/lEaPveWt6/0MtaVCzDdqFWTkhs43xB0TDLWw=;
- h=Subject:To:Cc:From:Date:From;
- b=sAuNjqmQKUzsjQOQLLDBwUFS4Z+pfCXNGexs208E2elBFJxY6jy8DKT56Svhj0fpH
- tApRk/bK0z5PC7OfcWnRDt1XZX6JK5FAs1NFDC6Db7CUDNaWmAuHmmAx5PbU9xBfJP
- KFMvHcM6PoKkdA4oT/Kwxc6dzqn5nGCwqZ+NEix8=
-Subject: Patch "drm/ttm: Fix an invalid freeing on already freed page in error
- path" has been added to the 6.1-stable tree
-To: airlied@redhat.com, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
- matthew.auld@intel.com, ray.huang@amd.com, thomas.hellstrom@linux.intel.com
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Mon, 26 Feb 2024 13:33:12 +0100
-Message-ID: <2024022612-shining-vastly-e379@gregkh>
+ by dfw.source.kernel.org (Postfix) with ESMTP id C831061188;
+ Mon, 26 Feb 2024 12:33:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C91FC433F1;
+ Mon, 26 Feb 2024 12:33:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1708950799;
+ bh=iVpnFC5qoBj5u4xxTGmfXF9T+j7roJU24Cf4R1lc0S8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=nO+O7iM0FBLFuDbRoL/eG/hNUW/srk3nonkai6ZtMHseVbweZXjRqYAyEylkPeiPM
+ przp/1/YdZNfX4/+kUfdfday0DmatxiuPoyUXi05LsNmUG9KZu4EGNzJMiap18EvKy
+ bePWhHZ88di0G+NUT8Yj9cXKZUaOuPJH6JLs8JxjDiQ42B6OrFyqbxmHtRiEJI0GkH
+ DPAiCocOoEs0MgdFo/5EQvpiUyPuMWRagFzjBe82i+dbcdG4dJU2asj+GNsHON6M7E
+ WH6CVb5nRZ/dUMT7vrj/dqAAa+AYnBncjkXFFHPcDmeNUM9yqKLA9r1R7SYLj5ByDw
+ /OBc5mxR5tDxg==
+Date: Mon, 26 Feb 2024 12:33:13 +0000
+From: Lee Jones <lee@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
+ kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com,
+ daniel@ffwll.ch, airlied@gmail.com, gregkh@linuxfoundation.org,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-staging@lists.linux.dev
+Subject: Re: [PATCH v3 1/9] backlight/corgi-lcd: Include <linux/backlight.h>
+Message-ID: <20240226123313.GA23065@google.com>
+References: <20240219093941.3684-1-tzimmermann@suse.de>
+ <20240219093941.3684-2-tzimmermann@suse.de>
+ <1e577f18-c6f7-44e7-b50f-720915f257eb@suse.de>
+ <20240223105652.GT10170@google.com> <874jdvo3ia.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+In-Reply-To: <874jdvo3ia.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,73 +66,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 26 Feb 2024, Jani Nikula wrote:
 
-This is a note to let you know that I've just added the patch titled
+> On Fri, 23 Feb 2024, Lee Jones <lee@kernel.org> wrote:
+> > On Wed, 21 Feb 2024, Thomas Zimmermann wrote:
+> >
+> >> cc'ing backlight maintainers
+> >
+> > I cannot review/accept patches like this.
+> >
+> > Please submit a [RESEND].
+> 
+> I bounced the original [1] to you. Please consider acking to merge the
+> one-line #include addition via fbdev so we don't have to respin the
+> series for no good reason.
 
-    drm/ttm: Fix an invalid freeing on already freed page in error path
+The "good reason" would be that it was not sent properly in the first
+place.  My kernel.org mail is filtered by the recipients headers.  If
+the original wasn't sent to me, bouncing won't work either.  I've since
+reviewed the patch and seen the set on LORE.  This is non-optimal.
+Please use get_maintainer.pl next time.
 
-to the 6.1-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+This time only, patch is:
 
-The filename of the patch is:
-     drm-ttm-fix-an-invalid-freeing-on-already-freed-page-in-error-path.patch
-and it can be found in the queue-6.1 subdirectory.
+Acked-by: Lee Jones <lee@kernel.org>
 
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From 40510a941d27d405a82dc3320823d875f94625df Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Date: Wed, 21 Feb 2024 08:33:24 +0100
-Subject: drm/ttm: Fix an invalid freeing on already freed page in error path
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-
-commit 40510a941d27d405a82dc3320823d875f94625df upstream.
-
-If caching mode change fails due to, for example, OOM we
-free the allocated pages in a two-step process. First the pages
-for which the caching change has already succeeded. Secondly
-the pages for which a caching change did not succeed.
-
-However the second step was incorrectly freeing the pages already
-freed in the first step.
-
-Fix.
-
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Fixes: 379989e7cbdc ("drm/ttm/pool: Fix ttm_pool_alloc error path")
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Christian Koenig <christian.koenig@amd.com>
-Cc: Huang Rui <ray.huang@amd.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v6.4+
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240221073324.3303-1-thomas.hellstrom@linux.intel.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/ttm/ttm_pool.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- a/drivers/gpu/drm/ttm/ttm_pool.c
-+++ b/drivers/gpu/drm/ttm/ttm_pool.c
-@@ -383,7 +383,7 @@ static void ttm_pool_free_range(struct t
- 				enum ttm_caching caching,
- 				pgoff_t start_page, pgoff_t end_page)
- {
--	struct page **pages = tt->pages;
-+	struct page **pages = &tt->pages[start_page];
- 	unsigned int order;
- 	pgoff_t i, nr;
- 
-
-
-Patches currently in stable-queue which might be from thomas.hellstrom@linux.intel.com are
-
-queue-6.1/drm-ttm-fix-an-invalid-freeing-on-already-freed-page-in-error-path.patch
+-- 
+Lee Jones [李琼斯]
