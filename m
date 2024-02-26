@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AE1B866F63
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 10:55:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61E9C866F67
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 10:55:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E963B10F011;
-	Mon, 26 Feb 2024 09:55:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5F0910F006;
+	Mon, 26 Feb 2024 09:55:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ECS+YnwI";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UA9tMa0Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80C0010F014
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 09:55:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A23B10F013
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 09:55:36 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 078C060FCD;
- Mon, 26 Feb 2024 09:55:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E10FFC433F1;
- Mon, 26 Feb 2024 09:55:31 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 97DBE60FBE;
+ Mon, 26 Feb 2024 09:55:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C86EFC43394;
+ Mon, 26 Feb 2024 09:55:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1708941332;
- bh=MWCY1AF2C8QZmQBIryattpCWG2SaqmPxREoZl4IyA1M=;
+ s=k20201202; t=1708941335;
+ bh=fMqa43xKI+gryM08fa980kLZLgK0kWJVv6T9a0vdxd4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ECS+YnwIUKjEbwzezCsPJUILXSbLH/4qOoa5SU/95gQaBGUspjCf5BJYAdy7NCfw8
- qToZEJQT8O6XyKSZ5Ux/D5TYdSXBIFqUZkj87RBNhfA6/jRei6hK2iS4JhPqxhioRe
- Og1KGGMwBmzOGPRGqCilc4MYM4ILsuQn0zcONhreKOibrYOIz1++O7sbG3CmQg31D4
- aHf6nNoITcLWjoJse43RtS/cHgWMCY8bqJoTa3p0qCP56gHoQVNjhzrD1pwSKgP4ix
- OFCBLY51YER5/sLPFBCKj3GwGrotsLUmW11HS1YeDR86mFAIsYhj0XUGC6gMqdilCK
- 0cNjoH9gHvQWg==
+ b=UA9tMa0ZnLJU4FseNE/PEavyTD/X5o1e2gJF9Wj1PTkCFmjIEnUJ1QAGHSPoKg4Br
+ B/u4kOqQ7D5ZcYtoNICfSB1Z0j0iCHa3Y867eWAIXPpHZrlzXMYLmfA6AYXgU7VGBl
+ MD0glzXU3eS3mLZUYg3le/zr+uqeHQt+8MufptsxuqmkdWZ5GBqDiY5DzLx8fAHCnI
+ yK+L1zb8EolWCfBIYWWWMf9Oab1DY69pnu2R/dXazUEh4bnUtVA3LcVVXlWmVAIxR6
+ kDFr++sFpTaF066ttULv00qCWx5cPlHVEppspsuYKc29heOAqhmXhkD9LZZYpzKv8x
+ edP9uiXcTrWhQ==
 From: Maxime Ripard <mripard@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
@@ -45,14 +45,14 @@ Cc: Hans Verkuil <hverkuil@xs4all.nl>,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
  linux-sunxi@lists.linux.dev, Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: Re: (subset) [PATCH v7 33/36] drm/sun4i: hdmi: Move mode_set into
- enable
-Date: Mon, 26 Feb 2024 10:55:21 +0100
-Message-ID: <170894131837.29486.4668463181897393982.b4-ty@kernel.org>
+Subject: Re: (subset) [PATCH v7 34/36] drm/sun4i: hdmi: Switch to
+ container_of_const
+Date: Mon, 26 Feb 2024 10:55:22 +0100
+Message-ID: <170894131837.29486.6507796941074207475.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240222-kms-hdmi-connector-state-v7-33-8f4af575fce2@kernel.org>
+In-Reply-To: <20240222-kms-hdmi-connector-state-v7-34-8f4af575fce2@kernel.org>
 References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
- <20240222-kms-hdmi-connector-state-v7-33-8f4af575fce2@kernel.org>
+ <20240222-kms-hdmi-connector-state-v7-34-8f4af575fce2@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -71,9 +71,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 22 Feb 2024 19:14:19 +0100, Maxime Ripard wrote:
-> We're not doing anything special in atomic_mode_set so we can simply
-> merge it into atomic_enable.
+On Thu, 22 Feb 2024 19:14:20 +0100, Maxime Ripard wrote:
+> container_of_const() allows to preserve the pointer constness and is
+> thus more flexible than inline functions.
+> 
+> Let's switch all our instances of container_of() to container_of_const().
 > 
 > 
 
