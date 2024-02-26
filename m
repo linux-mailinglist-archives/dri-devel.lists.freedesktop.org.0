@@ -2,69 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80F9986724A
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 11:57:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFCAF867266
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 11:59:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B7A310E31D;
-	Mon, 26 Feb 2024 10:57:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D55C910F060;
+	Mon, 26 Feb 2024 10:59:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="H0YWAJyn";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="tdv8HBzb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09CC610E31D
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 10:57:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708945028; x=1740481028;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=4CBBW4ZBYHjYKmvJucsk9myJi964v26M/utBchas9+0=;
- b=H0YWAJynERB2puwmMKXcrpsECDKaO0h+bRu75wC4fjH9s0S91qWB8rwA
- ydp3SL8ZWyeOQcNkXS0pmCTFCQJ90SLBUtiDlp3IxlUpOhvQkNV7KE4mH
- N2dnl3yGD3kVaDJADrg7mfT4L6gyJ9FHMW/DOYj0uL2lfH84Z/2DMd7Nv
- uX8TztPRreEWGdusvkcdpzyKgLyiISW5FN9YvQLkIjpuJdkxoJGMAC52V
- qORGOfaMnMRgJgP84wUOmR0EUPxHwF3KJYYIdHOBice8ZsdRib2qtS84l
- 5KZKfxWO9WkakSm9/8/wpd13VhcTE5jpDr4orw51EWJtJmCOsoPmsig0I g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="13918354"
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; d="scan'208";a="13918354"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2024 02:57:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="6829018"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
- by fmviesa006.fm.intel.com with ESMTP; 26 Feb 2024 02:57:03 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1reYfN-000AGB-18;
- Mon, 26 Feb 2024 10:57:01 +0000
-Date: Mon, 26 Feb 2024 18:56:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Laight <David.Laight@aculab.com>,
- "'linux-kernel@vger.kernel.org'" <linux-kernel@vger.kernel.org>,
- 'Linus Torvalds' <torvalds@linux-foundation.org>,
- 'Netdev' <netdev@vger.kernel.org>,
- "'dri-devel@lists.freedesktop.org'" <dri-devel@lists.freedesktop.org>
-Cc: oe-kbuild-all@lists.linux.dev, 'Jens Axboe' <axboe@kernel.dk>,
- "'Matthew Wilcox (Oracle)'" <willy@infradead.org>,
- 'Christoph Hellwig' <hch@infradead.org>,
- "'linux-btrfs@vger.kernel.org'" <linux-btrfs@vger.kernel.org>,
- 'Andrew Morton' <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- 'Andy Shevchenko' <andriy.shevchenko@linux.intel.com>,
- "'David S . Miller'" <davem@davemloft.net>,
- 'Dan Carpenter' <dan.carpenter@linaro.org>,
- 'Jani Nikula' <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH next v2 11/11] minmax: min() and max() don't need to
- return constant expressions
-Message-ID: <202402261802.9ShoXRwY-lkp@intel.com>
-References: <a18dcae310f74dcb9c6fc01d5bdc0568@AcuMS.aculab.com>
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com
+ [209.85.166.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1861E10F060
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 10:59:54 +0000 (UTC)
+Received: by mail-io1-f54.google.com with SMTP id
+ ca18e2360f4ac-7c40863de70so188169839f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 02:59:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1708945193; x=1709549993;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9HBNX3ZrqYqah+wR2ZXlErwOwwFl2gjzLKDMAIKzAXQ=;
+ b=tdv8HBzb73esLq8WD9/ezUB6mV/Y0POocd3Xa+j+1AXKiU9rCAQZqtIZyXwbBbmgxD
+ /Aaq+8yDHEn0r/TDf/FTxEwwxDEdorai5BjjEzsoN+B5OvT+0NfuXZuy6F+9UEwKtl3g
+ VcH9hnjgIclT+kyLbGTt99/fNSJunkAmZYbr7YOIjlZUgzyPzoe9L9ydHPVRGC+PfC1t
+ yYHan5sTHTBaUHXLiGTKSKRHwzqL0HfgvT3UfFgFT7f74ILwY+FHs966KbVvLwZimmN1
+ R1TxrK/wPdC9w1UQLVfASbJpWYQdVBP2sO944jS6cndhsYJjYYu+D8IpJ7/NyJTCilwZ
+ KfJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708945193; x=1709549993;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9HBNX3ZrqYqah+wR2ZXlErwOwwFl2gjzLKDMAIKzAXQ=;
+ b=LoAkxQvgouElB/V4Hop3pYzzLONs20aym20EqfxL1cDvaVAeONCjfhBa61RXtp3sxT
+ Qu++n/QtLDmczmyenDL8Ov4Lhs/qLMGFCr5TaF2eQv9CPnzUYK29fvjFcLBaagal4Pnx
+ KnvhOheXcUJZBh8RXtcTtK6pshDSTeJBYisos6DjoFs3iLxRwo9y+n5v/ECai0xI0Z/O
+ Rm1EuZvMtgoPlbNbUOtVSbQiEEsgkJMBNw50kuSOMEtTtbppQkSehWGUmJcQajnACKsB
+ U4DX5jowojnzrc5JLzrkqFkMgZeeyAYDNLRFixHX0bJBOcCSYofWg7lUagFcoWQWSS55
+ HXGQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU0x8xZ0onIc82dmldDJi8e2Zera85jQcQlexipQQ6Dpd0a4Ytrh+NssK8NQ4jpGBkdohEO/tCITiRxTAaJXH4mMT3tHloJGyr/WsQHxChv
+X-Gm-Message-State: AOJu0Yz23AC2nejWg9kTEIMMxy8GMpLvqp1bXIZM62YVbUQx6M0nINX3
+ aEUSvXeuXwQrd0xK6AJdpQvdTpSjnzG5ZirwOuIibeJDpq46IzHxD5io7yQZVCYJ31nYnKj9AJ1
+ M9SQL5NyAdWinXUOd1eao4kzbllkPm1gVEgTt
+X-Google-Smtp-Source: AGHT+IGPWqkD9tP0s2DR5YozsFzpUTq3DqbX3426VLgw1SJtB5jrdYmWVGilTio3nCJ+QrJqqp33UcQOcDrbUDfAfdM=
+X-Received: by 2002:a05:6e02:348e:b0:363:c1ce:1a6 with SMTP id
+ bp14-20020a056e02348e00b00363c1ce01a6mr8258336ilb.13.1708945193051; Mon, 26
+ Feb 2024 02:59:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a18dcae310f74dcb9c6fc01d5bdc0568@AcuMS.aculab.com>
+References: <20240221160215.484151-1-panikiel@google.com>
+ <20240221160215.484151-9-panikiel@google.com>
+ <13aeb2ff-72f4-49d9-b65e-ddc31569a936@linaro.org>
+In-Reply-To: <13aeb2ff-72f4-49d9-b65e-ddc31569a936@linaro.org>
+From: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>
+Date: Mon, 26 Feb 2024 11:59:42 +0100
+Message-ID: <CAM5zL5q0oKoTMR0jSwYVAChCOJ9iKYPRFiU1vH4qDqhHALKz4w@mail.gmail.com>
+Subject: Re: [PATCH v2 8/9] media: dt-bindings: Add Intel Displayport RX IP
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org, 
+ daniel@ffwll.ch, dinguyen@kernel.org, hverkuil-cisco@xs4all.nl, 
+ krzysztof.kozlowski+dt@linaro.org, maarten.lankhorst@linux.intel.com, 
+ mchehab@kernel.org, mripard@kernel.org, robh+dt@kernel.org, 
+ tzimmermann@suse.de, devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, chromeos-krk-upstreaming@google.com, 
+ ribalda@chromium.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,96 +88,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi David,
+On Mon, Feb 26, 2024 at 10:13=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 21/02/2024 17:02, Pawe=C5=82 Anikiel wrote:
+> > The Intel Displayport RX IP is a part of the DisplayPort Intel FPGA IP
+> > Core. It implements a DisplayPort 1.4 receiver capable of HBR3 video
+> > capture and Multi-Stream Transport. The user guide can be found here:
+> >
+> > https://www.intel.com/programmable/technical-pdfs/683273.pdf
+> >
+> > Signed-off-by: Pawe=C5=82 Anikiel <panikiel@google.com>
+> > ---
+> >  .../devicetree/bindings/media/intel,dprx.yaml | 160 ++++++++++++++++++
+> >  1 file changed, 160 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/intel,dprx.=
+yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/intel,dprx.yaml b/=
+Documentation/devicetree/bindings/media/intel,dprx.yaml
+> > new file mode 100644
+> > index 000000000000..31025f2d5dcd
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/intel,dprx.yaml
+> > @@ -0,0 +1,160 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/intel,dprx.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Intel DisplayPort RX IP
+> > +
+> > +maintainers:
+> > +  - Pawe=C5=82 Anikiel <panikiel@google.com>
+> > +
+> > +description: |
+> > +  The Intel Displayport RX IP is a part of the DisplayPort Intel FPGA =
+IP
+> > +  Core. It implements a DisplayPort 1.4 receiver capable of HBR3 video
+> > +  capture and Multi-Stream Transport.
+> > +
+> > +  The IP features a large number of configuration parameters, found at=
+:
+> > +  https://www.intel.com/content/www/us/en/docs/programmable/683273/23-=
+3-20-0-1/sink-parameters.html
+> > +
+> > +  The following parameters have to be enabled:
+> > +    - Support DisplayPort sink
+> > +    - Enable GPU control
+> > +  The following parameters' values have to be set in the devicetree:
+> > +    - RX maximum link rate
+> > +    - Maximum lane count
+> > +    - Support MST
+> > +    - Max stream count (only if Support MST is enabled)
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: intel,dprx-20.0.1
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  intel,max-link-rate:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    description: Max link rate configuration parameter
+>
+> Please do not duplicate property name in description. It's useless.
+> Instead explain what is this responsible for.
+>
+> Why max-link-rate would differ for the same dprx-20.0.1? And why
+> standard properties cannot be used?
+>
+> Same for all questions below.
 
-kernel test robot noticed the following build warnings:
+These four properties are the IP configuration parameters mentioned in
+the device description. When generating the IP core you can set these
+parameters, which could make them differ for the same dprx-20.0.1.
+They are documented in the user guide, for which I also put a link in
+the description. Is that enough? Or should I also document these
+parameters here?
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linux/master mkl-can-next/testing kdave/for-next akpm-mm/mm-nonmm-unstable linus/master v6.8-rc6]
-[cannot apply to next-20240223 dtor-input/next dtor-input/for-linus axboe-block/for-next horms-ipvs/master next-20240223]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> > +
+> > +  intel,max-lane-count:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    description: Max lane count configuration parameter
+> > +
+> > +  intel,multi-stream-support:
+> > +    type: boolean
+> > +    description: Multi-Stream Transport support configuration paramete=
+r
+> > +
+> > +  intel,max-stream-count:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    description: Max stream count configuration parameter
+> > +
+> > +  port:
+> > +    $ref: /schemas/graph.yaml#/properties/port
+> > +    description: SST main link
+>
+> I don't understand why you have both port and ports. Shouldn't this be
+> under ports?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/minmax-Put-all-the-clamp-definitions-together/20240226-005902
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/a18dcae310f74dcb9c6fc01d5bdc0568%40AcuMS.aculab.com
-patch subject: [PATCH next v2 11/11] minmax: min() and max() don't need to return constant expressions
-config: i386-randconfig-011-20240226 (https://download.01.org/0day-ci/archive/20240226/202402261802.9ShoXRwY-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240226/202402261802.9ShoXRwY-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402261802.9ShoXRwY-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   arch/x86/mm/pgtable.c: In function 'pgd_alloc':
->> arch/x86/mm/pgtable.c:437:9: warning: ISO C90 forbids variable length array 'pmds' [-Wvla]
-     437 |         pmd_t *pmds[MAX_PREALLOCATED_PMDS];
-         |         ^~~~~
-
-
-vim +/pmds +437 arch/x86/mm/pgtable.c
-
-1db491f77b6ed0 Fenghua Yu          2015-01-15  432  
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  433  pgd_t *pgd_alloc(struct mm_struct *mm)
-1ec1fe73dfb711 Ingo Molnar         2008-03-19  434  {
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  435  	pgd_t *pgd;
-184d47f0fd3651 Kees Cook           2018-10-08  436  	pmd_t *u_pmds[MAX_PREALLOCATED_USER_PMDS];
-184d47f0fd3651 Kees Cook           2018-10-08 @437  	pmd_t *pmds[MAX_PREALLOCATED_PMDS];
-1ec1fe73dfb711 Ingo Molnar         2008-03-19  438  
-1db491f77b6ed0 Fenghua Yu          2015-01-15  439  	pgd = _pgd_alloc();
-1ec1fe73dfb711 Ingo Molnar         2008-03-19  440  
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  441  	if (pgd == NULL)
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  442  		goto out;
-4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  443  
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  444  	mm->pgd = pgd;
-4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  445  
-25226df4b9be7f Gustavo A. R. Silva 2022-09-21  446  	if (sizeof(pmds) != 0 &&
-25226df4b9be7f Gustavo A. R. Silva 2022-09-21  447  			preallocate_pmds(mm, pmds, PREALLOCATED_PMDS) != 0)
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  448  		goto out_free_pgd;
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  449  
-25226df4b9be7f Gustavo A. R. Silva 2022-09-21  450  	if (sizeof(u_pmds) != 0 &&
-25226df4b9be7f Gustavo A. R. Silva 2022-09-21  451  			preallocate_pmds(mm, u_pmds, PREALLOCATED_USER_PMDS) != 0)
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  452  		goto out_free_pmds;
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  453  
-f59dbe9ca6707e Joerg Roedel        2018-07-18  454  	if (paravirt_pgd_alloc(mm) != 0)
-f59dbe9ca6707e Joerg Roedel        2018-07-18  455  		goto out_free_user_pmds;
-f59dbe9ca6707e Joerg Roedel        2018-07-18  456  
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  457  	/*
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  458  	 * Make sure that pre-populating the pmds is atomic with
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  459  	 * respect to anything walking the pgd_list, so that they
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  460  	 * never see a partially populated pgd.
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  461  	 */
-a79e53d85683c6 Andrea Arcangeli    2011-02-16  462  	spin_lock(&pgd_lock);
-4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  463  
-617d34d9e5d832 Jeremy Fitzhardinge 2010-09-21  464  	pgd_ctor(mm, pgd);
-25226df4b9be7f Gustavo A. R. Silva 2022-09-21  465  	if (sizeof(pmds) != 0)
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  466  		pgd_prepopulate_pmd(mm, pgd, pmds);
-25226df4b9be7f Gustavo A. R. Silva 2022-09-21  467  
-25226df4b9be7f Gustavo A. R. Silva 2022-09-21  468  	if (sizeof(u_pmds) != 0)
-f59dbe9ca6707e Joerg Roedel        2018-07-18  469  		pgd_prepopulate_user_pmd(mm, pgd, u_pmds);
-4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  470  
-a79e53d85683c6 Andrea Arcangeli    2011-02-16  471  	spin_unlock(&pgd_lock);
-4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  472  
-4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  473  	return pgd;
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  474  
-f59dbe9ca6707e Joerg Roedel        2018-07-18  475  out_free_user_pmds:
-25226df4b9be7f Gustavo A. R. Silva 2022-09-21  476  	if (sizeof(u_pmds) != 0)
-f59dbe9ca6707e Joerg Roedel        2018-07-18  477  		free_pmds(mm, u_pmds, PREALLOCATED_USER_PMDS);
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  478  out_free_pmds:
-25226df4b9be7f Gustavo A. R. Silva 2022-09-21  479  	if (sizeof(pmds) != 0)
-f59dbe9ca6707e Joerg Roedel        2018-07-18  480  		free_pmds(mm, pmds, PREALLOCATED_PMDS);
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  481  out_free_pgd:
-1db491f77b6ed0 Fenghua Yu          2015-01-15  482  	_pgd_free(pgd);
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  483  out:
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  484  	return NULL;
-4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  485  }
-4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  486  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I put both so that you can use the shorter port property when the
+device only has one port (i.e. no MST support). It would work fine
+without it. If you think that's unnecessary, I can remove it (and use
+the ports property even if there is only one).
