@@ -2,152 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53691866F6B
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 10:55:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74B3A866F6D
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 10:56:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED45F10F013;
-	Mon, 26 Feb 2024 09:55:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92C0710E436;
+	Mon, 26 Feb 2024 09:56:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PhsEp8Ug";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="I0er84Bz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28B0510F014;
- Mon, 26 Feb 2024 09:55:51 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 203C010ED2C;
+ Mon, 26 Feb 2024 09:56:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708941351; x=1740477351;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=x+58+Ooj4Wr+GEpzqNTwmogz4pTGWUUKE8akzcgf6Zg=;
- b=PhsEp8UgeHoYVZ1y7xOhno+GV0cjQyoRa9JQh9QObye4cZEXOhgkAkcR
- YPJBJ1lC6aXcIDzv+19FgKemr345X86+cAaI9cgxX7PUJJ0oQLBmgiqCI
- BH1Hm/HxNC0trOs8j7NxQM3RkPBngsYX7xGV+L5klYViYl/Kmnq++vnwx
- 7In3klKQKkN1JbblH2MKS/imQzQU5aO9PI6n41AedDHhIk8rKLd92cw5Y
- fLTXtUJ3fvc5rY17Usizo5RiX311f8MkvQ/QQl34RanlwPtj6BsCW0pw9
- fWm2ofe3IOeH3YB3DR8Pzuo9ljSaIOV4ZUdXzgVARJQCT7RixVCyopMCa A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="3077374"
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="3077374"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2024 01:55:50 -0800
+ t=1708941372; x=1740477372;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=smor2AjHrUlxmVtiFaDG33FdOQgYNoZLTLf8nc8xO/o=;
+ b=I0er84BzFu611EGAd2pRvFyoiIKtV9StMATncm4UNd7NrAms7a402t46
+ qPcEo9uvo0QsV48L2zf1ClSGm9HoYbgat2nPeswCI8F7dybxsJhQWf0U+
+ o8nkGvXdU1ve5jzKwcN0dVY4FVRjq8gA4nR4X919h5jY6pl24dr3YTC+W
+ Tiz3uB0xU8tSJ1NQsjET7TifQGmfOLFPQdqU/cPbv1Qer01np1oY1tUSz
+ xQIME8LET0cn1LGu9QYVWsmL+u2ZuD8e3yrNvJGwsvvR7sDpOVQ16H+sf
+ N2TOKPTh/x9QFYBFdFNcGh/hJDv7m5cAeETa4lxXIp6Kh/QbQSj5aq3Bt w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="13859749"
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; d="scan'208";a="13859749"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2024 01:56:02 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="7043004"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 26 Feb 2024 01:55:51 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 26 Feb 2024 01:55:49 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Mon, 26 Feb 2024 01:55:49 -0800
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.41) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Mon, 26 Feb 2024 01:55:49 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XC5tQPaJrTQCu54F960tWxE1natxXQAErAC2D7For/PlJP/VohNtu0+x7Td8Ktxxq8c896C3SpdDFEiOzkbOK17hrYxq16kjxxIa+qQ+xB9q2VXhQNDg9p15u3K5lXRAsu9TMl9HX0kL4hQ1Q3DDtfylPQb0a/Dq1fmjqaaplFJEFkbXfIHl9dUEt/3eRYihUruqoB5ZUsnfQ2C2th7jspKdPphsvKT+0YBW6bq05qNtIbaBQRCdelq/ymv3+U16uhwhkY0NCWScHkQkhNxM3xMy1qTx3ZM6w8i/jwC4JHwDQsyFcyDmkCQTzHWmIOz2ZSeIWwDf9+X7p7tgMGeW3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Egvs1ciNrWov0G3F6T057Q6WauZ0N53g7xu9wAb8+6A=;
- b=CCPD8LV3ta3crdUWlPVO/x5OyLMcxYqkqhYRSzoLjT6vVbnz0x2CLIQJqDx4s8KKOSfztJXZIximVKxVwAroX3vx5kNAMKLSvOELnMlPy82i7egT42eFStynttbVR+K/AyfOyZg6PNod26VhRnyDT+6wrtKEOfCqo+M+1LYIoM5hW3G0HVdtNFSmBBSv5dBbjD5dIY0z/8WBwO3cVq489MDTn3Wob9GIZ9BJoSqjIxKzOQXazqUKU9z73Xee3XW/HtSUT0UklxKPIRNaf6IhkgPly4PL92jSBizzYcs9WetKHYXh5y55PHEargPYd6oegm2QTOnE3N+WhjOzfGP08w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5341.namprd11.prod.outlook.com (2603:10b6:5:390::22)
- by BL1PR11MB5493.namprd11.prod.outlook.com (2603:10b6:208:31f::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.25; Mon, 26 Feb
- 2024 09:55:47 +0000
-Received: from DM4PR11MB5341.namprd11.prod.outlook.com
- ([fe80::12b:4490:b758:75c2]) by DM4PR11MB5341.namprd11.prod.outlook.com
- ([fe80::12b:4490:b758:75c2%7]) with mapi id 15.20.7339.023; Mon, 26 Feb 2024
- 09:55:47 +0000
-Message-ID: <8007818a-ec7c-4ba0-a088-bc04cd99331a@intel.com>
-Date: Mon, 26 Feb 2024 15:25:40 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/6] drm/i915/display: Compute AS SDP parameters.
-Content-Language: en-US
-To: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
- <intel-gfx@lists.freedesktop.org>
-CC: <dri-devel@lists.freedesktop.org>
-References: <20240222121223.2257958-1-mitulkumar.ajitkumar.golani@intel.com>
- <20240222121223.2257958-5-mitulkumar.ajitkumar.golani@intel.com>
-From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
-In-Reply-To: <20240222121223.2257958-5-mitulkumar.ajitkumar.golani@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2PR01CA0214.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:ea::9) To DM4PR11MB5341.namprd11.prod.outlook.com
- (2603:10b6:5:390::22)
+   d="scan'208";a="6958751"
+Received: from myakobs-mobl1.ger.corp.intel.com (HELO [10.213.232.131])
+ ([10.213.232.131])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Feb 2024 01:56:00 -0800
+Message-ID: <4dde7351-3af1-4421-a594-c8f65380c097@linux.intel.com>
+Date: Mon, 26 Feb 2024 09:55:58 +0000
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5341:EE_|BL1PR11MB5493:EE_
-X-MS-Office365-Filtering-Correlation-Id: f26651ea-4b11-48f3-a6c2-08dc36b11b10
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6779DjvJvtMJjVUIH8T99DEVoi0E3rysuqyVtAKQnsYf0RRDDLhOX0E08qLc0C6Usq5TqDJ9DY9EWZ/Rv+TwBQ3ukyOUtZ/Zzb9w5JZI0JZFonoR5tasbH5OYOvRhH0ZkXSAUOnDVq+IylfxsteD+XzTTlg6iOW25Rt5kbAVrOMQ7u45sF9rXRVIFBcnReWE3dnLogOqbONw9+LW1Vqke+YpbJg8N32LtrLwmlUY31PNSJZf76x58WekfiCMoWA0zoCbWTywilFf4jkbWsN75ojiIbgie93NI32hG1qmVZSnts6hlxAfPqokr0Dy4dfIVCaEI6ZgBgmNRp7CO4FHPfm7qTxj2fRvwyHXGMJPu2PGZegzRKokHJbvUZ35BHrX1zY/NH8My3io2K3Oh+8JGu7j/d27wprdS328rrqS0TyI0m8axTQaUVZEykSNg5nm4fNiJ19NmV95JIAQIEMetQ4X7KGHDHtNp/bDRUd3d46XY8Cz6m6pZMp51ZxguRFrnQr3BhzI+0nRxL2Irr9DnDzZylU8iKTvZKx4gumA9kIvml29sNdSCb0+YhTm0lBkKKb0/RTtCfqaeDy47YPUF3P9YP7F8tj+SZM/4X55KL015apixHlBFJ5+Uoub1oDhaelK671sUqFeKXiuGYAAVw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5341.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UEczeExvZWpLOW5Vc0dVdkVIdUtLTGYxL00yMUdabzQwSkRNd3B4eVNiN0hY?=
- =?utf-8?B?Y2VWYlBHV0ljU0dXNFJzNEttcFlURWNMeEY0WWg4WThaTzRIYkNzcnlrZ2Jx?=
- =?utf-8?B?NXJwREovaFpQZmVnb3pqWTlIR1ZyenFGWnNGa0Fta2wvSm9wZThEcjczdlNM?=
- =?utf-8?B?VTR0VmgxQm45OEwrN2NTUzRIZGlHOFB2VDZlMFkrWVJBZ0o4MUtONWo2VzdO?=
- =?utf-8?B?SjM4am0yTFcraHlUMVRWVDlwUDhqN1BuMXFzTlZNVEFodHdpM25CUVpTQTZO?=
- =?utf-8?B?R3dKbFFSUlJDN2FXYXRVSXpJMEpHVnRoK1p2dlA0czhhOWRKaURKVXMrRzJR?=
- =?utf-8?B?QUczcmFtUzNjSnZBVEhiR0FrU1c3Q09JaVA3dy94K0pBMzVHNHpwQkdXL2Qv?=
- =?utf-8?B?M1NuZ25ab28zTjRzR1BVeElMaTl0TXMrVUE4WkdvM3hIMTRGNEF4WjRwZkxp?=
- =?utf-8?B?OU9NMnBDMEZLbHZvczRMRWlQUHJCOHhMWkxwNU5CbDl1QWRzRXlEQ2VuK3Za?=
- =?utf-8?B?RlprTjZqL20xZ0tpT3R3UTMzYnJTVUo2a0UrTW1IaCtyZmtmN2FNL0lYRnNH?=
- =?utf-8?B?eThTNEJ6OE5HNlJuSkR2M0srM21PTmxSOE01MFNRdkoySFBLcHlkWWZGVjU2?=
- =?utf-8?B?bkN6bWFVZmtFWHZvYjZURkpFdlMyZEI5UFR6MTN3bXl6eFBaU09WZ3gvcDJC?=
- =?utf-8?B?eEZ0blU3bURwZ0ZjaFpCOVREbnBLcjVhYmlNZVp6UmY0K1JlOGNYQkQzU0Ez?=
- =?utf-8?B?Z0RsQVZmRDg3dzZLTHg5dlRVNVFscHI0SmQrbUpvVUc2cFk4RDVaSk1kQ1Vm?=
- =?utf-8?B?WnRxdjVoc29HSkVXZnpNN3o0Y2loT2lvVFZxNkIvTHZXN0IvQ2NtTzRwWkt0?=
- =?utf-8?B?Mm82SkV1Y2NtL2FKcENNUnJYN3ZUei9kNUw2S3NEaXlJYWJLZzJveHFOdGlk?=
- =?utf-8?B?S25IdVA4VjRycDNtSnRqUzdjZ0lva1BDYXM3WkwvZVVRZG11UVVmS3BWUWxI?=
- =?utf-8?B?SitVMWhjTVUrVDdFRWVDU3ZNL29qZEplbkFUQzZjS0VTbFI2VksxcURiODBh?=
- =?utf-8?B?TmtXQ3pDNlV0TEU0M0pYK3lhY21uOGtBYURZM3phV0NVc1NhQ1kyVTRzMFBx?=
- =?utf-8?B?MlVzWW04cFBiay9ZRDBMWWdqcXJDQ2FONmU2NDhwSzM2OWtxZGZkeDdwRFhT?=
- =?utf-8?B?eFVuWlA0c3FMcEd6OWIvUVlQMjYzUDVod2xTUnpkbGF6U0xsR09zSXRMUUN4?=
- =?utf-8?B?MWdBeXVaaEQ1NUJGMWNtZHFmMmdzand0MHhTMkdYM1FFRktDWlBJbWd0VlN3?=
- =?utf-8?B?Y1lFMmJSblZ1bko3TFV5MjBuOEpJaEVuKzNPUTRkeFk1VjZDM3F1V2Z3L2pO?=
- =?utf-8?B?alNCVm1SVlVqNzZhQW5BY0lJaXBLZE53blNxUlgwRlpXeXJjOHM4K0hiN0Zr?=
- =?utf-8?B?VjhDQllMOFJlMnowZXpZcG9SbGxJZGYzakdENm9UUHplbVFvOUFqRUNyRFBM?=
- =?utf-8?B?c0tLck85QXhXYUFaOGlBMWNvenloRGY3WjgzVVhMRmp3REFjcEhiTVBVKzNM?=
- =?utf-8?B?QUt1THNhTWhpNHVWS3FQTS81Tjl4T0w4eXpGbVpMc0tVaWNEbHNqMTQ2aG5j?=
- =?utf-8?B?OTRCdm1mS2g5WTFWajNlUW1JR0JnWlJXa0xpakFjNEp4QmRvd0lpQllzY3RI?=
- =?utf-8?B?VFFxTCt5SE44dXkrdHJBTjVWY0dFUWxHdjBleTBFNGJGLzlRWFFjWEVzNkhp?=
- =?utf-8?B?dlJKUUQvUWpYQVJBNHVlbmplZ0ZYK1V1YUliTldIVWw1bUZvWmtnM2g0VkhD?=
- =?utf-8?B?TXBGMERYSlM1Z2xvMlQ1MkhJS2QrVUhUdDdTOEx3b3ZIb2M2Y3lsSk5kaWJY?=
- =?utf-8?B?VUdmcStXTUVxckNSZTFmSWdKUlBHSEZ4eml4dDYzUEhYbVpQajFNdHh3cEp3?=
- =?utf-8?B?RSsyUHdTR2E1QmQwcmhPaklOQmtHSUV5QktNcWdGYWthZDFvZnIxMS9MZ0xy?=
- =?utf-8?B?N3h0aG9ydVRSVjc5ZGlaSG8yK1N0VzAvTU54TUZ5T1N4TlBPQXhtVCtRVmUz?=
- =?utf-8?B?UVYxOThVUVdBQmtZbDErWkFZbVNsY1pmbW8yY29Dakw5Q1E2QVRSajQzSmJl?=
- =?utf-8?B?WDVSNzBoenFWNkg4dThDU3FjQUVmM080Q3RRdmtMdnNHdmdLRlRobFpuakth?=
- =?utf-8?B?R2c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f26651ea-4b11-48f3-a6c2-08dc36b11b10
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5341.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2024 09:55:47.4312 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MbaSCsiju5jbzYsquurNubx7XEtg248jVcBlVU22MSztSaf9dSTpZC17DDFwJduDKn1iqfMYtEnCajThA0PZGeAT9RLczSeCab/aCybgkec=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5493
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] drm/i915: Support replaying GPU hangs with captured
+ context image
+Content-Language: en-US
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ Carlos Santa <carlos.santa@intel.com>
+References: <20240221142245.2331484-1-tvrtko.ursulin@linux.intel.com>
+ <20240221142245.2331484-3-tvrtko.ursulin@linux.intel.com>
+ <Zde3nGm2xFPRivuB@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <Zde3nGm2xFPRivuB@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,131 +75,420 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 2/22/2024 5:42 PM, Mitul Golani wrote:
-> Add necessary functions definitions to enable
-> and compute AS SDP data. The new `intel_dp_compute_as_sdp`
-> function computes AS SDP values based on the display
-> configuration, ensuring proper handling of Variable Refresh
-> Rate (VRR).
->
-> --v2:
-> - Add DP_SDP_ADAPTIVE_SYNC to infoframe_type_to_idx().[Ankit]
-> - separate patch for intel_read/write_dp_sdp [Ankit].
-> - _HSW_VIDEO_DIP_ASYNC_DATA_A should be from ADL onward [Ankit]
-> - To fix indentation [Ankit]
->
-> --v3:
-> - Add VIDEO_DIP_ENABLE_AS_HSW flag to intel_dp_set_infoframes.
->
-> --v4:
-> - Add HAS_VRR check before write as sdp.
->
-> --v5:
-> - Add missed HAS_VRR check before read as sdp.
->
-> --v6:
-> Use Adaptive Sync sink status, which can be
-> used as a check for read/write sdp. (Ankit)
->
-> Signed-off-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
-> ---
->   .../drm/i915/display/intel_display_types.h    |  1 +
->   drivers/gpu/drm/i915/display/intel_dp.c       | 28 +++++++++++++++++++
->   drivers/gpu/drm/i915/display/intel_vrr.c      |  4 ++-
->   3 files changed, 32 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-> index 2accfe41160d..93b4b7dff1d0 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -1415,6 +1415,7 @@ struct intel_crtc_state {
->   		u8 pipeline_full;
->   		u16 flipline, vmin, vmax, guardband;
->   		u8 as_sdp_mode;
-> +		bool as_sdp_enable;
 
-This is again specific to DP, we can do away with this in vrr struct.
+On 22/02/2024 21:07, Rodrigo Vivi wrote:
+> On Wed, Feb 21, 2024 at 02:22:45PM +0000, Tvrtko Ursulin wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> When debugging GPU hangs Mesa developers are finding it useful to replay
+>> the captured error state against the simulator. But due various simulator
+>> limitations which prevent replicating all hangs, one step further is being
+>> able to replay against a real GPU.
+>>
+>> This is almost doable today with the missing part being able to upload the
+>> captured context image into the driver state prior to executing the
+>> uploaded hanging batch and all the buffers.
+>>
+>> To enable this last part we add a new context parameter called
+>> I915_CONTEXT_PARAM_CONTEXT_IMAGE. It follows the existing SSEU
+>> configuration pattern of being able to select which context to apply
+>> against, paired with the actual image and its size.
+>>
+>> Since this is adding a new concept of debug only uapi, we hide it behind
+>> a new kconfig option and also require activation with a module parameter.
+>> Together with a warning banner printed at driver load, all those combined
+>> should be sufficient to guard against inadvertently enabling the feature.
+>>
+>> In terms of implementation we allow the legacy context set param to be
+>> used since that removes the need to record the per context data in the
+>> proto context, while still allowing flexibility of specifying context
+>> images for any context.
+>>
+>> Mesa MR using the uapi can be seen at:
+>>    https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/27594
+>>
+>> v2:
+>>   * Fix whitespace alignment as per checkpatch.
+>>   * Added warning on userspace misuse.
+>>   * Rebase for extracting ce->default_state shadowing.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+>> Cc: Carlos Santa <carlos.santa@intel.com>
+>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com> # v1
+> 
+> still valid for v2. Thanks for splitting the patch.
 
->   	} vrr;
->   
->   	/* Stream Splitter for eDP MSO */
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> index b370e1da4735..5c1e2301dd52 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -2617,6 +2617,33 @@ static void intel_dp_compute_vsc_colorimetry(const struct intel_crtc_state *crtc
->   	vsc->content_type = DP_CONTENT_TYPE_NOT_DEFINED;
->   }
->   
-> +static void intel_dp_compute_as_sdp(struct intel_dp *intel_dp,
-> +				    struct intel_crtc_state *crtc_state,
-> +				    const struct drm_connector_state *conn_state)
-> +{
-> +	struct drm_dp_as_sdp *as_sdp = &crtc_state->infoframes.as_sdp;
-> +	struct intel_connector *connector = intel_dp->attached_connector;
-> +	const struct drm_display_mode *adjusted_mode =
-> +		&crtc_state->hw.adjusted_mode;
-> +	int vrefresh = drm_mode_vrefresh(adjusted_mode);
-> +
-> +	if (!intel_vrr_is_in_range(connector, vrefresh) || !crtc_state->vrr.as_sdp_enable)
-> +		return;
-> +
-> +	as_sdp->sdp_type = DP_SDP_ADAPTIVE_SYNC;
-> +	as_sdp->length = 0x9;
-> +	as_sdp->mode = crtc_state->vrr.as_sdp_mode;
-> +	as_sdp->vtotal = adjusted_mode->vtotal;
-> +
-> +	if (as_sdp->mode == DP_AS_SDP_AVT_FIXED_VTOTAL) {
+Great, thanks!
 
-Currently we are just supporting DP_AS_SDP_AVT_FIXED_VTOTAL so this 
-check is not required.
-
-But we can add a comment mentioning the same.
-
-
-> +		as_sdp->target_rr = 0;
-> +		as_sdp->duration_incr_ms = 0;
-> +		as_sdp->duration_incr_ms = 0;
-> +	}
-> +
-> +	crtc_state->infoframes.enable |= intel_hdmi_infoframe_enable(DP_SDP_ADAPTIVE_SYNC);
-> +}
-
-We will need to add this to state checker, something like 
-PIPE_CONF_CHECK_DP_AS_SDP and add function to compare the adaptive sync 
-sdp struct.
-
+Now we need to hear from Lionel if he is still keen to have this. In 
+which case some acks or tested by would be good.
 
 Regards,
 
-Ankit
+Tvrtko
 
-> +
->   static void intel_dp_compute_vsc_sdp(struct intel_dp *intel_dp,
->   				     struct intel_crtc_state *crtc_state,
->   				     const struct drm_connector_state *conn_state)
-> @@ -2942,6 +2969,7 @@ intel_dp_compute_config(struct intel_encoder *encoder,
->   		g4x_dp_set_clock(encoder, pipe_config);
->   
->   	intel_vrr_compute_config(pipe_config, conn_state);
-> +	intel_dp_compute_as_sdp(intel_dp, pipe_config, conn_state);
->   	intel_psr_compute_config(intel_dp, pipe_config, conn_state);
->   	intel_dp_drrs_compute_config(connector, pipe_config, link_bpp_x16);
->   	intel_dp_compute_vsc_sdp(intel_dp, pipe_config, conn_state);
-> diff --git a/drivers/gpu/drm/i915/display/intel_vrr.c b/drivers/gpu/drm/i915/display/intel_vrr.c
-> index d2ab7e571e62..08e3ba69bd30 100644
-> --- a/drivers/gpu/drm/i915/display/intel_vrr.c
-> +++ b/drivers/gpu/drm/i915/display/intel_vrr.c
-> @@ -167,9 +167,11 @@ intel_vrr_compute_config(struct intel_crtc_state *crtc_state,
->   		crtc_state->vrr.enable = true;
->   		crtc_state->mode_flags |= I915_MODE_FLAG_VRR;
->   
-> -		if (drm_dp_as_sdp_supported(&intel_dp->aux, intel_dp->dpcd))
-> +		if (drm_dp_as_sdp_supported(&intel_dp->aux, intel_dp->dpcd)) {
-> +			crtc_state->vrr.as_sdp_enable = true;
->   			crtc_state->vrr.as_sdp_mode =
->   						DP_AS_SDP_AVT_DYNAMIC_VTOTAL;
-> +		}
->   	}
->   }
->   
+>> ---
+>>   drivers/gpu/drm/i915/Kconfig.debug            |  17 +++
+>>   drivers/gpu/drm/i915/gem/i915_gem_context.c   | 113 ++++++++++++++++++
+>>   drivers/gpu/drm/i915/gt/intel_context.c       |   2 +
+>>   drivers/gpu/drm/i915/gt/intel_context.h       |  22 ++++
+>>   drivers/gpu/drm/i915/gt/intel_context_types.h |   1 +
+>>   drivers/gpu/drm/i915/gt/intel_lrc.c           |   3 +-
+>>   .../gpu/drm/i915/gt/intel_ring_submission.c   |   3 +-
+>>   drivers/gpu/drm/i915/i915_params.c            |   5 +
+>>   drivers/gpu/drm/i915/i915_params.h            |   3 +-
+>>   include/uapi/drm/i915_drm.h                   |  27 +++++
+>>   10 files changed, 193 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/Kconfig.debug b/drivers/gpu/drm/i915/Kconfig.debug
+>> index 5b7162076850..32e9f70e91ed 100644
+>> --- a/drivers/gpu/drm/i915/Kconfig.debug
+>> +++ b/drivers/gpu/drm/i915/Kconfig.debug
+>> @@ -16,6 +16,23 @@ config DRM_I915_WERROR
+>>   
+>>   	  If in doubt, say "N".
+>>   
+>> +config DRM_I915_REPLAY_GPU_HANGS_API
+>> +	bool "Enable GPU hang replay userspace API"
+>> +	depends on DRM_I915
+>> +	depends on EXPERT
+>> +	default n
+>> +	help
+>> +	  Choose this option if you want to enable special and unstable
+>> +	  userspace API used for replaying GPU hangs on a running system.
+>> +
+>> +	  This API is intended to be used by userspace graphics stack developers
+>> +	  and provides no stability guarantees.
+>> +
+>> +	  The API needs to be activated at boot time using the
+>> +	  enable_debug_only_api module parameter.
+>> +
+>> +	  If in doubt, say "N".
+>> +
+>>   config DRM_I915_DEBUG
+>>   	bool "Enable additional driver debugging"
+>>   	depends on DRM_I915
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>> index dcbfe32fd30c..481aacbc1772 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>> @@ -78,6 +78,7 @@
+>>   #include "gt/intel_engine_user.h"
+>>   #include "gt/intel_gpu_commands.h"
+>>   #include "gt/intel_ring.h"
+>> +#include "gt/shmem_utils.h"
+>>   
+>>   #include "pxp/intel_pxp.h"
+>>   
+>> @@ -949,6 +950,7 @@ static int set_proto_ctx_param(struct drm_i915_file_private *fpriv,
+>>   	case I915_CONTEXT_PARAM_NO_ZEROMAP:
+>>   	case I915_CONTEXT_PARAM_BAN_PERIOD:
+>>   	case I915_CONTEXT_PARAM_RINGSIZE:
+>> +	case I915_CONTEXT_PARAM_CONTEXT_IMAGE:
+>>   	default:
+>>   		ret = -EINVAL;
+>>   		break;
+>> @@ -2092,6 +2094,95 @@ static int get_protected(struct i915_gem_context *ctx,
+>>   	return 0;
+>>   }
+>>   
+>> +static int set_context_image(struct i915_gem_context *ctx,
+>> +			     struct drm_i915_gem_context_param *args)
+>> +{
+>> +	struct i915_gem_context_param_context_image user;
+>> +	struct intel_context *ce;
+>> +	struct file *shmem_state;
+>> +	unsigned long lookup;
+>> +	void *state;
+>> +	int ret = 0;
+>> +
+>> +	if (!IS_ENABLED(CONFIG_DRM_I915_REPLAY_GPU_HANGS_API))
+>> +		return -EINVAL;
+>> +
+>> +	if (!ctx->i915->params.enable_debug_only_api)
+>> +		return -EINVAL;
+>> +
+>> +	if (args->size < sizeof(user))
+>> +		return -EINVAL;
+>> +
+>> +	if (copy_from_user(&user, u64_to_user_ptr(args->value), sizeof(user)))
+>> +		return -EFAULT;
+>> +
+>> +	if (user.mbz)
+>> +		return -EINVAL;
+>> +
+>> +	if (user.flags & ~(I915_CONTEXT_IMAGE_FLAG_ENGINE_INDEX))
+>> +		return -EINVAL;
+>> +
+>> +	lookup = 0;
+>> +	if (user.flags & I915_CONTEXT_IMAGE_FLAG_ENGINE_INDEX)
+>> +		lookup |= LOOKUP_USER_INDEX;
+>> +
+>> +	ce = lookup_user_engine(ctx, lookup, &user.engine);
+>> +	if (IS_ERR(ce))
+>> +		return PTR_ERR(ce);
+>> +
+>> +	if (user.size < ce->engine->context_size) {
+>> +		ret = -EINVAL;
+>> +		goto out_ce;
+>> +	}
+>> +
+>> +	if (drm_WARN_ON_ONCE(&ctx->i915->drm,
+>> +			     test_bit(CONTEXT_ALLOC_BIT, &ce->flags))) {
+>> +		/*
+>> +		 * This is racy but for a debug only API, if userspace is keen
+>> +		 * to create and configure contexts, while simultaneously using
+>> +		 * them from a second thread, let them suffer by potentially not
+>> +		 * executing with the context image they just raced to apply.
+>> +		 */
+>> +		ret = -EBUSY;
+>> +		goto out_ce;
+>> +	}
+>> +
+>> +	state = kmalloc(ce->engine->context_size, GFP_KERNEL);
+>> +	if (!state) {
+>> +		ret = -ENOMEM;
+>> +		goto out_ce;
+>> +	}
+>> +
+>> +	if (copy_from_user(state, u64_to_user_ptr(user.image),
+>> +			   ce->engine->context_size)) {
+>> +		ret = -EFAULT;
+>> +		goto out_state;
+>> +	}
+>> +
+>> +	shmem_state = shmem_create_from_data(ce->engine->name,
+>> +					     state, ce->engine->context_size);
+>> +	if (IS_ERR(shmem_state)) {
+>> +		ret = PTR_ERR(shmem_state);
+>> +		goto out_state;
+>> +	}
+>> +
+>> +	if (intel_context_set_own_state(ce)) {
+>> +		ret = -EBUSY;
+>> +		fput(shmem_state);
+>> +		goto out_state;
+>> +	}
+>> +
+>> +	ce->default_state = shmem_state;
+>> +
+>> +	args->size = sizeof(user);
+>> +
+>> +out_state:
+>> +	kfree(state);
+>> +out_ce:
+>> +	intel_context_put(ce);
+>> +	return ret;
+>> +}
+>> +
+>>   static int ctx_setparam(struct drm_i915_file_private *fpriv,
+>>   			struct i915_gem_context *ctx,
+>>   			struct drm_i915_gem_context_param *args)
+>> @@ -2144,6 +2235,10 @@ static int ctx_setparam(struct drm_i915_file_private *fpriv,
+>>   		ret = set_persistence(ctx, args);
+>>   		break;
+>>   
+>> +	case I915_CONTEXT_PARAM_CONTEXT_IMAGE:
+>> +		ret = set_context_image(ctx, args);
+>> +		break;
+>> +
+>>   	case I915_CONTEXT_PARAM_PROTECTED_CONTENT:
+>>   	case I915_CONTEXT_PARAM_NO_ZEROMAP:
+>>   	case I915_CONTEXT_PARAM_BAN_PERIOD:
+>> @@ -2488,6 +2583,7 @@ int i915_gem_context_getparam_ioctl(struct drm_device *dev, void *data,
+>>   	case I915_CONTEXT_PARAM_BAN_PERIOD:
+>>   	case I915_CONTEXT_PARAM_ENGINES:
+>>   	case I915_CONTEXT_PARAM_RINGSIZE:
+>> +	case I915_CONTEXT_PARAM_CONTEXT_IMAGE:
+>>   	default:
+>>   		ret = -EINVAL;
+>>   		break;
+>> @@ -2600,5 +2696,22 @@ int __init i915_gem_context_module_init(void)
+>>   	if (!slab_luts)
+>>   		return -ENOMEM;
+>>   
+>> +	if (IS_ENABLED(CONFIG_DRM_I915_REPLAY_GPU_HANGS_API)) {
+>> +		pr_notice("**************************************************************\n");
+>> +		pr_notice("**     NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE     **\n");
+>> +		pr_notice("**                                                          **\n");
+>> +		if (i915_modparams.enable_debug_only_api)
+>> +			pr_notice("** i915.enable_debug_only_api is intended to be set         **\n");
+>> +		else
+>> +			pr_notice("** CONFIG_DRM_I915_REPLAY_GPU_HANGS_API builds are intended **\n");
+>> +		pr_notice("** for specific userspace graphics stack developers only!   **\n");
+>> +		pr_notice("**                                                          **\n");
+>> +		pr_notice("** If you are seeing this message please report this to the **\n");
+>> +		pr_notice("** provider of your kernel build.                           **\n");
+>> +		pr_notice("**                                                          **\n");
+>> +		pr_notice("**     NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE     **\n");
+>> +		pr_notice("**************************************************************\n");
+>> +	}
+>> +
+>>   	return 0;
+>>   }
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+>> index a2f1245741bb..b1b8695ba7c9 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_context.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+>> @@ -27,6 +27,8 @@ static void rcu_context_free(struct rcu_head *rcu)
+>>   	struct intel_context *ce = container_of(rcu, typeof(*ce), rcu);
+>>   
+>>   	trace_intel_context_free(ce);
+>> +	if (intel_context_has_own_state(ce))
+>> +		fput(ce->default_state);
+>>   	kmem_cache_free(slab_ce, ce);
+>>   }
+>>   
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
+>> index 25564c01507e..9f523999acd1 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_context.h
+>> +++ b/drivers/gpu/drm/i915/gt/intel_context.h
+>> @@ -375,6 +375,28 @@ intel_context_clear_nopreempt(struct intel_context *ce)
+>>   	clear_bit(CONTEXT_NOPREEMPT, &ce->flags);
+>>   }
+>>   
+>> +#if IS_ENABLED(CONFIG_DRM_I915_REPLAY_GPU_HANGS_API)
+>> +static inline bool intel_context_has_own_state(const struct intel_context *ce)
+>> +{
+>> +	return test_bit(CONTEXT_OWN_STATE, &ce->flags);
+>> +}
+>> +
+>> +static inline bool intel_context_set_own_state(struct intel_context *ce)
+>> +{
+>> +	return test_and_set_bit(CONTEXT_OWN_STATE, &ce->flags);
+>> +}
+>> +#else
+>> +static inline bool intel_context_has_own_state(const struct intel_context *ce)
+>> +{
+>> +	return false;
+>> +}
+>> +
+>> +static inline bool intel_context_set_own_state(struct intel_context *ce)
+>> +{
+>> +	return true;
+>> +}
+>> +#endif
+>> +
+>>   u64 intel_context_get_total_runtime_ns(struct intel_context *ce);
+>>   u64 intel_context_get_avg_runtime_ns(struct intel_context *ce);
+>>   
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+>> index b179178680a5..d91b33c3664c 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
+>> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+>> @@ -132,6 +132,7 @@ struct intel_context {
+>>   #define CONTEXT_PERMA_PIN		11
+>>   #define CONTEXT_IS_PARKING		12
+>>   #define CONTEXT_EXITING			13
+>> +#define CONTEXT_OWN_STATE		14
+>>   
+>>   	struct {
+>>   		u64 timeout_us;
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
+>> index d4eb822d20ae..1038659754f8 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_lrc.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
+>> @@ -1173,7 +1173,8 @@ int lrc_alloc(struct intel_context *ce, struct intel_engine_cs *engine)
+>>   
+>>   	GEM_BUG_ON(ce->state);
+>>   
+>> -	ce->default_state = engine->default_state;
+>> +	if (!intel_context_has_own_state(ce))
+>> +		ce->default_state = engine->default_state;
+>>   
+>>   	vma = __lrc_alloc_state(ce, engine);
+>>   	if (IS_ERR(vma))
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+>> index 8625e88e785f..72277bc8322e 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+>> @@ -569,7 +569,8 @@ static int ring_context_alloc(struct intel_context *ce)
+>>   {
+>>   	struct intel_engine_cs *engine = ce->engine;
+>>   
+>> -	ce->default_state = engine->default_state;
+>> +	if (!intel_context_has_own_state(ce))
+>> +		ce->default_state = engine->default_state;
+>>   
+>>   	/* One ringbuffer to rule them all */
+>>   	GEM_BUG_ON(!engine->legacy.ring);
+>> diff --git a/drivers/gpu/drm/i915/i915_params.c b/drivers/gpu/drm/i915/i915_params.c
+>> index de43048543e8..afd95b2b7e4b 100644
+>> --- a/drivers/gpu/drm/i915/i915_params.c
+>> +++ b/drivers/gpu/drm/i915/i915_params.c
+>> @@ -134,6 +134,11 @@ i915_param_named_unsafe(lmem_size, uint, 0400,
+>>   i915_param_named_unsafe(lmem_bar_size, uint, 0400,
+>>   			"Set the lmem bar size(in MiB).");
+>>   
+>> +#if IS_ENABLED(CONFIG_DRM_I915_REPLAY_GPU_HANGS_API)
+>> +i915_param_named(enable_debug_only_api, bool, 0400,
+>> +		 "Enable support for unstable debug only userspace API. (default:false)");
+>> +#endif
+>> +
+>>   static void _param_print_bool(struct drm_printer *p, const char *name,
+>>   			      bool val)
+>>   {
+>> diff --git a/drivers/gpu/drm/i915/i915_params.h b/drivers/gpu/drm/i915/i915_params.h
+>> index 1315d7fac850..e2cdf12ce611 100644
+>> --- a/drivers/gpu/drm/i915/i915_params.h
+>> +++ b/drivers/gpu/drm/i915/i915_params.h
+>> @@ -64,7 +64,8 @@ struct drm_printer;
+>>   	/* leave bools at the end to not create holes */ \
+>>   	param(bool, enable_hangcheck, true, 0600) \
+>>   	param(bool, error_capture, true, IS_ENABLED(CONFIG_DRM_I915_CAPTURE_ERROR) ? 0600 : 0) \
+>> -	param(bool, enable_gvt, false, IS_ENABLED(CONFIG_DRM_I915_GVT) ? 0400 : 0)
+>> +	param(bool, enable_gvt, false, IS_ENABLED(CONFIG_DRM_I915_GVT) ? 0400 : 0) \
+>> +	param(bool, enable_debug_only_api, false, IS_ENABLED(CONFIG_DRM_I915_REPLAY_GPU_HANGS_API) ? 0400 : 0)
+>>   
+>>   #define MEMBER(T, member, ...) T member;
+>>   struct i915_params {
+>> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+>> index 2ee338860b7e..e194d17c3568 100644
+>> --- a/include/uapi/drm/i915_drm.h
+>> +++ b/include/uapi/drm/i915_drm.h
+>> @@ -2154,6 +2154,15 @@ struct drm_i915_gem_context_param {
+>>   	__u64 value;
+>>   };
+>>   
+>> +/*
+>> + * I915_CONTEXT_PARAM_CONTEXT_IMAGE:
+>> + *
+>> + * Allows userspace to provide own context images.
+>> + *
+>> + * Note that this is a debug API not available on production kernel builds.
+>> + */
+>> +#define I915_CONTEXT_PARAM_CONTEXT_IMAGE	0xe
+>> +
+>>   /*
+>>    * Context SSEU programming
+>>    *
+>> @@ -2549,6 +2558,24 @@ struct i915_context_param_engines {
+>>   	struct i915_engine_class_instance engines[N__]; \
+>>   } __attribute__((packed)) name__
+>>   
+>> +struct i915_gem_context_param_context_image {
+>> +	/** @engine: Engine class & instance to be configured. */
+>> +	struct i915_engine_class_instance engine;
+>> +
+>> +	/** @flags: One of the supported flags or zero. */
+>> +	__u32 flags;
+>> +#define I915_CONTEXT_IMAGE_FLAG_ENGINE_INDEX (1u << 0)
+>> +
+>> +	/** @size: Size of the image blob pointed to by @image. */
+>> +	__u32 size;
+>> +
+>> +	/** @mbz: Must be zero. */
+>> +	__u32 mbz;
+>> +
+>> +	/** @image: Userspace memory containing the context image. */
+>> +	__u64 image;
+>> +} __attribute__((packed));
+>> +
+>>   /**
+>>    * struct drm_i915_gem_context_create_ext_setparam - Context parameter
+>>    * to set or query during context creation.
+>> -- 
+>> 2.40.1
+>>
