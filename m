@@ -2,56 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86C2F867322
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 12:33:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C912867340
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 12:36:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B20B10F0AC;
-	Mon, 26 Feb 2024 11:33:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 228C010F0BB;
+	Mon, 26 Feb 2024 11:36:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WRdqrJjx";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aFI8rx3z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73A8010F0AC
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 11:33:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708947209; x=1740483209;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=ZgaDZYW1ZAKUNbPRfolz+8pI0xs8q/ddV+Psmle/wMQ=;
- b=WRdqrJjxwcgd69FqYKQZExxcsojZT2nfH4uTIL6RhVaipyzbYzq1si/n
- HuLytr1t3y+oHp27mMgitMbhd2tsbtKm71S78IJaFRadPV28+aui+o5QC
- 121fkoWRpNQLM2H2P9W67xjdG7IgHBZbPvLLSO15venYUu2FVzvGQvw3i
- KRv+MOOHDvd+k5KB2uerAL863Rs5mlZ63KmQt/itRWi1MH2d3KY0P3zXC
- fUi8trQlTN4hE6JkFp0M7YZxjkYDmL9d1gI45sEP4xv2y4co7ERliJOmM
- 5AhxnERtL7dndM5n24wOmnyIHu/l9KLpUhLB0EdCPP41LucDRhug4T8MF w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="25693952"
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; d="scan'208";a="25693952"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2024 03:33:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="6783602"
-Received: from hibeid-mobl.amr.corp.intel.com (HELO localhost)
- ([10.252.46.254])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2024 03:33:26 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Daniel Stone <daniels@collabora.com>
-Subject: Re: drm-misc migration to Gitlab server
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8088010F0BD
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 11:36:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 1CFBBCE173B;
+ Mon, 26 Feb 2024 11:36:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8C1DC433C7;
+ Mon, 26 Feb 2024 11:36:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1708947374;
+ bh=18lCdpTkYwlowtruSqPGH0iiHUJ/Amg4mhHu2w7B3A8=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=aFI8rx3zBJIaHvZ4AW1De/D9IKcYB6eS6pKmH23gq50DsOiODbJBEyYSB8NDQ3E16
+ JKeJVog1ofOsmtoGMCMaCDNVF+KwiL88IpxZgGKktTLeoI3eMJmYnmepGeftLsCU05
+ eLMkBPSPWBdGaF0rr4oEy482jBQTtvKio4ERB66eKWEfRrr3wc2Cnh7Y39aQwIZX5z
+ BjZ2/JB/ARrxCpUPUnrc8+1bUA4vaeMtk9didClp+Yx4W66qTZMkUD+YR0P1DnNTGQ
+ cP11Ql/8zkamc9jzpWCaYsNmhnAUgPZ2/ZQLqrQoDpBHIcQmwXnko3UoBKPcEXJUVp
+ fdVAo6xoTOjEA==
+From: Maxime Ripard <mripard@kernel.org>
+To: dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>, Daniel Stone <daniels@collabora.com>
+Subject: [dim PATCH] dim: drm-misc: Membership requests now go through Gitlab
+Date: Mon, 26 Feb 2024 12:36:09 +0100
+Message-ID: <20240226113610.46343-1-mripard@kernel.org>
+X-Mailer: git-send-email 2.43.2
 In-Reply-To: <gnthy5o42kiyj63d2bkkxsc5krzf3wrwt23chh2kthkmlyjwbg@ybynvjvqdka7>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <gnthy5o42kiyj63d2bkkxsc5krzf3wrwt23chh2kthkmlyjwbg@ybynvjvqdka7>
-Date: Mon, 26 Feb 2024 13:33:24 +0200
-Message-ID: <87bk83o3y3.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,29 +59,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 20 Feb 2024, Maxime Ripard <mripard@kernel.org> wrote:
-> ## Adding the a remaining users
->
-> I was able to identify most of the users with an account on the old git
-> server. However, there's a few I couldn't match with certainty to a
-> gitlab account:
->
-> * andr2000
-> * jsarha
->
-> Please let me know your Gitlab user so I can add them to the group.
+Now that drm-misc has switched to Gitlab, we don't need to make
+newcomers create a legacy SSH account. Gitlab supports access requests,
+so let's just use them.
 
-Is there no way for project owners/maintainers to see the email
-addresses for members or access requests?
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+ commit-access.rst | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-We've been pretty lax with giving reporter role to deal with issues, but
-it's quite a different thing to give developer role with push access,
-and feels like you'll need a side channel to match usernames with email
-addresses.
-
-BR,
-Jani.
-
-
+diff --git a/commit-access.rst b/commit-access.rst
+index 539a7906e52a..3b6c1a19aae2 100644
+--- a/commit-access.rst
++++ b/commit-access.rst
+@@ -31,9 +31,10 @@ below criteria:
+ - Agrees to use their commit rights in accordance with the documented merge
+   criteria, tools, processes, and :ref:`code-of-conduct`.
+ 
+-Apply for an account (and any other account change requests) through
++You can apply for developpers right by requesting access to the `drm/misc`
++subgroup on GitLab
+ 
+-https://www.freedesktop.org/wiki/AccountRequests/
++https://gitlab.freedesktop.org/drm/misc
+ 
+ and please ping the maintainers if your request is stuck.
+ 
 -- 
-Jani Nikula, Intel
+2.43.2
+
