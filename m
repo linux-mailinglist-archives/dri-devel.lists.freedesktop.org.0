@@ -2,51 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36E53867466
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 13:08:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B4BF86746E
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 13:09:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 917B110F0FF;
-	Mon, 26 Feb 2024 12:08:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65EE110E24B;
+	Mon, 26 Feb 2024 12:09:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nBW1R7Yg";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar-org.20230601.gappssmtp.com header.i=@fooishbar-org.20230601.gappssmtp.com header.b="GruPkY5t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07FDD10F101
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 12:08:36 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 70A71610A4;
- Mon, 26 Feb 2024 12:08:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4C99C433F1;
- Mon, 26 Feb 2024 12:08:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1708949315;
- bh=adfrWuYIwgsIfTbuO3wQ6Ij/LtBOs+dKFcPeSwnWESo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nBW1R7YgmmrpE4uVCYXBVHrot1cyF2IL5Fsqpj0i23Ofr1hcP0Ql+IkSu+PcPfU3m
- OUkvTjt1sNR24Nixjq9zcN3xrrMsKMVQODdNi5XU7XvNAbEY3Vh/U+n/bLtJv4dUyB
- 1CPBJHaRTLoUqzLevs86j3tT9i/q1lqYEQEpS+hII2x6mNpmiXc98BMsUqKON1SpRD
- RBr5R71khynNoRKbRvetta5MlN0usWF9s6YMxiLbGerLHRnV3+/1anp9KS93tzK3ef
- RMU0rTJdFbB0mzA83VH6k4asFTmIbUb4xXq5NNgP6B6sC02Stlqgbn6t200MzDdHkm
- KsYC7PWuoIzLg==
-Date: Mon, 26 Feb 2024 13:08:32 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: Pekka Paalanen <pekka.paalanen@haloniitty.fi>, 
- Daniel Vetter <daniel.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v2] drm/edid/firmware: Remove built-in EDIDs
-Message-ID: <tyfnjzi7nh7537fhmt65ocooy6bl37edxkrgjrc7c3u2aloa2z@66k4po6jwy72>
-References: <20240221092636.691701-1-mripard@kernel.org>
- <20240221130731.70664a22@eldfell> <87edczo4d5.fsf@intel.com>
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
+ [209.85.160.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 129D910E24B
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 12:09:52 +0000 (UTC)
+Received: by mail-qt1-f182.google.com with SMTP id
+ d75a77b69052e-42e848fc6f6so5794171cf.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 04:09:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20230601.gappssmtp.com; s=20230601; t=1708949392; x=1709554192;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=n6Pm8rj+PxlJDm/+v2Nc3PvIGgz+GsGPsoihKku3L+8=;
+ b=GruPkY5tCOSMJ/m6f3Sz0FAc2rzq1MjHHMHZJ11sXJntbFzT40c2IcTIoYWeIXurFS
+ 40rShF5OqpDi+C1wSNqItx9mlpCpxt+bpZL0dHIWsVKoeskJs2UglIkBsmKMQMkZvPMj
+ rimct/eE0ft10HQ/YIHDyNsxrDJLerD1wlAf3KmT/7yo7vUFteso8d++pEUJagVy9Tmi
+ 7e3RJG8s67yYH12qmtaVYFhrGK7XsLMjWsF8595OfB8hYGq/IC6/pnsFZ7KnO+F3bdIF
+ Xbz6RzW6lIuCq92LE0VbtTSujGpEVN1+xQ111/1dCeFdgMWPn2+dms/oRkmq5uJvJSuT
+ SxyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708949392; x=1709554192;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=n6Pm8rj+PxlJDm/+v2Nc3PvIGgz+GsGPsoihKku3L+8=;
+ b=at/prhQWy5StUAlr/9Rvkeqgdu5p9k5yczerliCkj/8WSrUuKLd2LfwB94cut6yXcv
+ EO1GBP3r6KvVQSAFoTefFGWCu6lEBTOjE8L9sb3HPOZhhp5tzT20YebbRt2SBbgwYFsG
+ mK7Dw4FNgC76UUjstkd6vMZC894WjwqmNf6Ni8mJEWW9hZ22tICU4dAG6tSSM5qQCX+N
+ 8QRFWgc8t0QdL8FcVIFM6sk5OP3QxZdykRfyPRFviL2cRiR6UuGbyLiS906MjJsnm46p
+ mKJLWidMuYoIgHwfjab3TKyA+Nxfep6mMG/a/0T9FHW1KyICLNPa/Uha8yKkzE5Ay7Cp
+ rDnQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWuF0dHKS8i0nSThhJBJO5hSB7VYFod3Ezj+0n2GGZINIBgkkAtHqqnYimPApKXn9/K7yPPLqbpenFJDskt7WVC4nWdfWiEXF+dz9zcND5c
+X-Gm-Message-State: AOJu0YyUj3Mqbejy1sbST+I3xEtKHfyzRHVhYqv3UHMG7C6LiB6vKv37
+ 4VsYQbabmd79pHkLBxEvLmLOf2qHAzmXYGVXiYOmx3GJSZKAlIBhABuAfCNUWR7q1b9LHdwP5kj
+ lMNM6C6knfdH5ohSQOD8MSvwLWvNSUzVqwOgGDw==
+X-Google-Smtp-Source: AGHT+IHgylEl5DcJIccCG3m145uKND/U9cWYsLaVlQuVvp1aXDncO399ynhumpgQfKwv2qrWzh0qXNU+7ZiPi6RFbx4=
+X-Received: by 2002:a05:622a:1190:b0:42d:c712:ce76 with SMTP id
+ m16-20020a05622a119000b0042dc712ce76mr9940128qtk.4.1708949391938; Mon, 26 Feb
+ 2024 04:09:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="fihjdp3ksp64mjcl"
-Content-Disposition: inline
-In-Reply-To: <87edczo4d5.fsf@intel.com>
+References: <gnthy5o42kiyj63d2bkkxsc5krzf3wrwt23chh2kthkmlyjwbg@ybynvjvqdka7>
+ <87bk83o3y3.fsf@intel.com>
+ <oazstrooilko4tfmead3b4l32tmz3szqpwgzy3kyga3xahjjfw@cbosrrwaul77>
+ <871q8zo2tn.fsf@intel.com>
+ <CAPj87rPB9+o1g8gJyZk3m2DLhW=FC+3m5Nrm=Mxq3SwqxX3KCg@mail.gmail.com>
+ <87y1b7mnyu.fsf@intel.com>
+In-Reply-To: <87y1b7mnyu.fsf@intel.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Mon, 26 Feb 2024 12:09:40 +0000
+Message-ID: <CAPj87rN8DY5jYsRLC7hLCaXwsoHOALnjTrwpKLCxm0jRG6qb-Q@mail.gmail.com>
+Subject: Re: drm-misc migration to Gitlab server
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Daniel Stone <daniels@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,44 +86,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 26 Feb 2024 at 12:03, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+> On Mon, 26 Feb 2024, Daniel Stone <daniel@fooishbar.org> wrote:
+> > It's a fair question. If you want to verify that someone is
+> > @intel.com, maybe get them to email you out-of-band to check it. If
+> > you want to check something else, just ask an admin I suppose.
+>
+> I thought you wanted not to be bothered with access requests! ;D
 
---fihjdp3ksp64mjcl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Feb 26, 2024 at 01:24:22PM +0200, Jani Nikula wrote:
-> On Wed, 21 Feb 2024, Pekka Paalanen <pekka.paalanen@haloniitty.fi> wrote:
-> > Sounds good to me.
-> >
-> > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
->=20
-> Acked-by: Jani Nikula <jani.nikula@intel.com>
->=20
-> > If it turns out that these cannot be completely removed, then yet
-> > another option would to refuse to use these on digital connectors.
->=20
-> Or provide them as binaries to the linux-firmware repo?
-
-It's pretty much the discussion we had with Dave on v1, but putting the
-EDID blobs in linux-firmware alone isn't equivalent if your driver is
-built-in.
-
-You can embed them into the kernel image and then it would be
-equivalent, but there's some restrictions in licensing so I'm not sure
-we can do that ourselves.
-
-Maxime
-
---fihjdp3ksp64mjcl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZdx/QAAKCRDj7w1vZxhR
-xQLBAQDC77CDPe4omAoKgnbi4hczu4oA8EqaAYLNpcpxHdrg5gEAksuouNO3OtTL
-WW/37wS6mbpcT1Aw+mIuSk3GRfA6UAc=
-=OLVv
------END PGP SIGNATURE-----
-
---fihjdp3ksp64mjcl--
+Hey, we have like four other people with GitLab admin privileges ... I
+just want to not have to deal with LDAP mainly.
