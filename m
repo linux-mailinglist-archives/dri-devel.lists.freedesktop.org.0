@@ -2,89 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2772868312
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 22:29:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D284868316
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 22:30:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 794D710E0C2;
-	Mon, 26 Feb 2024 21:29:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB59B10E434;
+	Mon, 26 Feb 2024 21:30:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="dQuiR6Iw";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="CpP7hZZZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 734D610E0C2
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 21:29:52 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 925A510E434
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 21:30:47 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41QL0Z77032516; Mon, 26 Feb 2024 21:29:46 GMT
+ 41QKwsYa019642; Mon, 26 Feb 2024 21:30:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:references:from
+ message-id:date:mime-version:subject:to:cc:references:from
  :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=MZ9f9rx25naR6v9FTKXv7ZUWyP2Ub5DoHHljraBXq+8=; b=dQ
- uiR6Iwm1M/80I2n1yK3UbrMnlAD0X7LQNOlx5yhzo6urTdyyKCOL4l/1mwf4LgKX
- J1PYxMHASNCR3jZ0G9lRg9GNnQWx6gZDs1sVlIDq9KY6hCNtXMfgBwwlmyoWj/7w
- sygvs4TbzoBsNBEPcyQUAK0LDIN1c3cj2RqMJjiQ80UE+CVHmtGHEe/W4YNIzDsm
- mnOU6v1rxQnrhjPp7a/h8NS6RPa/Z5fqozpa4gdKUFAYmL0ptTyLYZS0qqRDkMXa
- cZFWksqyqP4sk8kseGJCfC7/Tx02ris+oiq0FlmhGX1UEKBZEapTSoAk2iscnrGd
- E2iIdKZoEt8ilZsonnwA==
+ qcppdkim1; bh=OSTWp44jheoa+xWT8hPngVRc04ZAp2z+qsvzZU/7mDA=; b=Cp
+ P7hZZZmWZMa815xpw+50oPvnQcfPVQsAMO8cyVR6VpAUp1tJBQhHMQsjU4e21T1t
+ pQIRNDGKIT0Fp7k5i3Ovzz4WrgHAQpSyD+gsENjgg+HyGBRbM0e15ddOhpofIOwQ
+ vXSmDQUp4DBBPHlMHAk8QdO9wgur/MPAf4qStJEjnxeaHJms8W8uwZAiCA6V9RhY
+ Qzpnu7+3fRUs0h19SWPKCW5alFWLL25iVdX8tbPdZY/J4I3AahXQ4v4KLBydjrrq
+ mg0JpWaZG0LYQuTn+mKFQIubkPFR/gFwpLZfCpJ1F+m5J67HQoFvwzv3+kfRt+9P
+ YikV4yW/iXNmyDFuQN9g==
 Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wh232r295-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wgkxmj579-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 26 Feb 2024 21:29:46 +0000 (GMT)
+ Mon, 26 Feb 2024 21:30:39 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
  [10.46.141.250])
- by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41QLTj4c018054
+ by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41QLUd6b020034
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 26 Feb 2024 21:29:45 GMT
+ Mon, 26 Feb 2024 21:30:39 GMT
 Received: from [10.71.111.207] (10.80.80.8) by nasanex01b.na.qualcomm.com
  (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 26 Feb
- 2024 13:29:44 -0800
-Message-ID: <a13eeb01-7df9-4577-975f-34b3aed8400f@quicinc.com>
-Date: Mon, 26 Feb 2024 13:29:44 -0800
+ 2024 13:30:38 -0800
+Message-ID: <192173ee-4e38-409e-ba59-0658d3d9c8c5@quicinc.com>
+Date: Mon, 26 Feb 2024 13:30:38 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] drm: panel: st7701: Add Hardkernel ODROID-GO Ultra
- panel support
+Subject: Re: [PATCH 3/3] drm/panel: simple: add CMT430B19N00 LCD panel support
 Content-Language: en-US
-To: Adam Green <greena88@gmail.com>, Jagan Teki <jagan@amarulasolutions.com>, 
+To: =?UTF-8?B?SsOpcsOpbWllIERhdXRoZXJpYmVz?= <jeremie.dautheribes@bootlin.com>,
  Neil Armstrong <neil.armstrong@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ Sam Ravnborg <sam@ravnborg.org>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
  <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
  <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
  <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, <dri-devel@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240221194528.1855714-1-greena88@gmail.com>
- <20240222164332.3864716-1-greena88@gmail.com>
- <20240222164332.3864716-2-greena88@gmail.com>
- <f9446923-acd3-41cf-92d4-676b946280c4@quicinc.com>
- <79a4b60e-24f3-47fd-b3b3-7d207cec1470@gmail.com>
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>
+CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, Yen-Mei Goh <yen-mei.goh@keysight.com>
+References: <20240223134517.728568-1-jeremie.dautheribes@bootlin.com>
+ <20240223134517.728568-4-jeremie.dautheribes@bootlin.com>
 From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <79a4b60e-24f3-47fd-b3b3-7d207cec1470@gmail.com>
+In-Reply-To: <20240223134517.728568-4-jeremie.dautheribes@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: icxhoZ3v6B03FuVtuvP-mhxjkuhE5VZX
-X-Proofpoint-GUID: icxhoZ3v6B03FuVtuvP-mhxjkuhE5VZX
+X-Proofpoint-GUID: wv-O8GxRmI9WbcAdf98Aerc4acGB1-LI
+X-Proofpoint-ORIG-GUID: wv-O8GxRmI9WbcAdf98Aerc4acGB1-LI
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-02-26_11,2024-02-26_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0
- mlxlogscore=999 impostorscore=0 phishscore=0 mlxscore=0 bulkscore=0
- adultscore=0 priorityscore=1501 lowpriorityscore=0 suspectscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ spamscore=0 phishscore=0
+ malwarescore=0 mlxlogscore=999 impostorscore=0 suspectscore=0
+ clxscore=1011 priorityscore=1501 mlxscore=0 lowpriorityscore=0
+ adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2402120000 definitions=main-2402260165
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -103,29 +101,71 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 2/22/2024 9:47 AM, Adam Green wrote:
-> On 22/02/2024 17:14, Jessica Zhang wrote:
->> Hi Adam,
->>
->> Just wondering, why the change to 120 here?
->>
->> Thanks,
->>
->> Jessica Zhang
+On 2/23/2024 5:45 AM, Jérémie Dautheribes wrote:
+> Add support for Crystal Clear Technology CMT430B19N00 4.3" 480x272
+> TFT-LCD panel.
 > 
-> Hi,
-> 
-> The 120ms is taken from the datasheet specification for the controller 
-> as maximum time it takes for the display to reset,
+> Signed-off-by: Jérémie Dautheribes <jeremie.dautheribes@bootlin.com>
 
-Got it. Was the shorter sleep time breaking the display and is it 
-required for the new panel to work?
+Hi Jérémie,
+
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 
 Thanks,
 
 Jessica Zhang
 
+> ---
+>   drivers/gpu/drm/panel/panel-simple.c | 29 ++++++++++++++++++++++++++++
+>   1 file changed, 29 insertions(+)
 > 
-> Kind regards,
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 20e3df1c59d4..b940220f56e2 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -1457,6 +1457,32 @@ static const struct panel_desc boe_hv070wsa = {
+>   	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+>   };
+>   
+> +static const struct drm_display_mode cct_cmt430b19n00_mode = {
+> +	.clock = 9000,
+> +	.hdisplay = 480,
+> +	.hsync_start = 480 + 43,
+> +	.hsync_end = 480 + 43 + 8,
+> +	.htotal = 480 + 43 + 8 + 4,
+> +	.vdisplay = 272,
+> +	.vsync_start = 272 + 12,
+> +	.vsync_end = 272 + 12 + 8,
+> +	.vtotal = 272 + 12 + 8 + 4,
+> +	.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+> +};
+> +
+> +static const struct panel_desc cct_cmt430b19n00 = {
+> +	.modes = &cct_cmt430b19n00_mode,
+> +	.num_modes = 1,
+> +	.bpc = 8,
+> +	.size = {
+> +		.width = 95,
+> +		.height = 53,
+> +	},
+> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
+> +	.connector_type = DRM_MODE_CONNECTOR_DPI,
+> +};
+> +
+>   static const struct drm_display_mode cdtech_s043wq26h_ct7_mode = {
+>   	.clock = 9000,
+>   	.hdisplay = 480,
+> @@ -4402,6 +4428,9 @@ static const struct of_device_id platform_of_match[] = {
+>   	}, {
+>   		.compatible = "boe,hv070wsa-100",
+>   		.data = &boe_hv070wsa
+> +	}, {
+> +		.compatible = "cct,cmt430b19n00",
+> +		.data = &cct_cmt430b19n00,
+>   	}, {
+>   		.compatible = "cdtech,s043wq26h-ct7",
+>   		.data = &cdtech_s043wq26h_ct7,
+> -- 
+> 2.34.1
 > 
-> Adam
