@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EF9C8670E0
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 11:27:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0032D867128
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 11:33:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B45110E675;
-	Mon, 26 Feb 2024 10:27:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5158F10EDDE;
+	Mon, 26 Feb 2024 10:33:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SLM+liUb";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="i+qdZdI6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 086D910E675
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 10:27:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708943250; x=1740479250;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=5L9QNoh0f+vRtiDXMwpI8NJgAp36BLuI/7gvCVOlhwg=;
- b=SLM+liUbOTfMOALNwe8Lba5XSWMgMzJPJIXsWWFwHNTC/2ZkT4MzmZKJ
- 4hCzomsahoob/7WtRLTlbsk9nRh533Em6kH+OEDA/EBocCH5k41CKZLKP
- VgzwPPyaHui480IxgbKeVpe+T2F8+bGP/Qky5kMVRF07JXiI+SSWgnfl+
- uB4q2Z8QIwyZxQeNClV0h5jQ5JGsdTp6w1VaU6UbN9LbkMqIRQLfxtdKz
- VmCSYcz/rws2eioqUyNlORq1NPbO7bJtx1eMwCk2SDDwXjzjhgcbWvlIQ
- v+cILIeekRoR8D2aSV+j0DU1SB7HtvyNRpjw+Ja3LNI3KzNGKXBzqtBxC A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="3060931"
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="3060931"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2024 02:27:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; d="scan'208";a="37629455"
-Received: from hibeid-mobl.amr.corp.intel.com (HELO localhost)
- ([10.252.46.254])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2024 02:27:24 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: David Laight <David.Laight@ACULAB.COM>, "'linux-kernel@vger.kernel.org'"
- <linux-kernel@vger.kernel.org>, 'Linus
- Torvalds' <torvalds@linux-foundation.org>, 'Netdev'
- <netdev@vger.kernel.org>, "'dri-devel@lists.freedesktop.org'"
- <dri-devel@lists.freedesktop.org>
-Cc: 'Jens Axboe' <axboe@kernel.dk>, "'Matthew Wilcox (Oracle)'"
- <willy@infradead.org>, 'Christoph Hellwig' <hch@infradead.org>,
- "'linux-btrfs@vger.kernel.org'" <linux-btrfs@vger.kernel.org>, 'Andrew
- Morton' <akpm@linux-foundation.org>, 'Andy Shevchenko'
- <andriy.shevchenko@linux.intel.com>, "'David S . Miller'"
- <davem@davemloft.net>, 'Dan Carpenter' <dan.carpenter@linaro.org>, Rasmus
- Villemoes <linux@rasmusvillemoes.dk>
-Subject: RE: [PATCH next v2 02/11] minmax: Use _Static_assert() instead of
- static_assert()
-In-Reply-To: <824b0f70413d4570bcc97b39aad81a93@AcuMS.aculab.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <0fff52305e584036a777f440b5f474da@AcuMS.aculab.com>
- <8059bc04da1a45bc810ac339a1129a4c@AcuMS.aculab.com>
- <87v86bo9qi.fsf@intel.com>
- <824b0f70413d4570bcc97b39aad81a93@AcuMS.aculab.com>
-Date: Mon, 26 Feb 2024 12:27:22 +0200
-Message-ID: <87sf1fo705.fsf@intel.com>
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+ [209.85.208.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7BC010E45E
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 10:33:37 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id
+ 4fb4d7f45d1cf-56586a6bb34so730677a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 02:33:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1708943616; x=1709548416; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=sVrgk5sT71oQLsEToda7i8I5A5amx5s6C1JRzuzIobk=;
+ b=i+qdZdI6BnB4EcOksaq/OI1FgFfpcwZnRV3uFphdFVAV79SaOa9ey3IOLen2VnX6Zy
+ Z9uGAhmlu0XMr87dHxm6OGr+2l1/c6FQK0IHwLDf2TN/MUSUiXFPROUdt1CUHOO5YPbQ
+ yNORieRzb6tVEfW2YhtM2lu9nxQnadE9ISuyE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708943616; x=1709548416;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=sVrgk5sT71oQLsEToda7i8I5A5amx5s6C1JRzuzIobk=;
+ b=gMsZxpL7ZWbCRG4L3ebUabLVBBZ9K/oS0p91GvR4VNVwsavPrFduc6VRrgicpMsaMD
+ Dlt9kmW5zCIV6U9UJ9zbjR2gNeF2DGQSF0of/IhCACrlDf+UKCDOg+MuMChAtLNUQnHH
+ bpUcGUCDlWOnxk06NMLuGpjE74+Jtr2NY6n5TfJlAawFLO/qCdbCviCBuNqt3RfACW6R
+ T0erHb9bFRloqaEOCdpZgMH8+y7/O4+PXiMg295wr6z+fE/zxAdFrEBzneg9FVqgzvDb
+ pms2SMt/n9bwgL+RQUyUi6kldpVOZEp0caNhJ5X3LbPOblheb4Uwg09Z0tJoQaw2PT5Z
+ FPHw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUKBBjE+h+KjNnkEZOYN9+cg0s+LtQPKBG/wgmE7mOBsO9pgS8XrkxLvhCEWKoRrAmqdfhrUd62qFh0XoxXBkF1iAWnxoKs6NxUsxZpCaHg
+X-Gm-Message-State: AOJu0YzJ8cCTvMXKYjXxmMX0XMcFpdYzPFhyznqus/0DNOYb+7qG5fTN
+ bI5umBVHSkptOo3HVc5DZEAixU2yeqbFOqwz2sDqRdgDjzs0oSmFfZhLkZ5n1ro=
+X-Google-Smtp-Source: AGHT+IH77xsl1BHM8uPVSmmCpKJ+eFIq4Lm5pBg0LqxA4ouT0HHYQpqbMSq6gSaZhM2RyngksGv6jg==
+X-Received: by 2002:a17:906:3193:b0:a3e:9651:1241 with SMTP id
+ 19-20020a170906319300b00a3e96511241mr4308721ejy.2.1708943615899; 
+ Mon, 26 Feb 2024 02:33:35 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ i19-20020a17090639d300b00a3f81200425sm2264426eje.122.2024.02.26.02.33.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Feb 2024 02:33:35 -0800 (PST)
+Date: Mon, 26 Feb 2024 11:33:33 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Oded Gabbay <ogabbay@kernel.org>
+Cc: airlied@gmail.com, daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org
+Subject: Re: [git pull] habanalabs for drm-next-6.9
+Message-ID: <Zdxo_VVrs4mkjUI-@phenom.ffwll.local>
+References: <ZdxJprop0EniVQtf@ogabbay-vm-u22.habana-labs.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZdxJprop0EniVQtf@ogabbay-vm-u22.habana-labs.com>
+X-Operating-System: Linux phenom 6.6.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,50 +79,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 26 Feb 2024, David Laight <David.Laight@ACULAB.COM> wrote:
-> From: Jani Nikula
->> Sent: 26 February 2024 09:28
->> 
->> On Sun, 25 Feb 2024, David Laight <David.Laight@ACULAB.COM> wrote:
->> > The wrapper just adds two more lines of error output when the test fails.
->> 
->> There are only a handful of places in kernel code that use
->> _Static_assert() directly. Nearly 900 instances of static_assert().
->
-> How many of those supply an error message?
+On Mon, Feb 26, 2024 at 10:19:50AM +0200, Oded Gabbay wrote:
+> Hi Dave, Sima.
+> 
+> Habanalabs pull request for 6.9.
+> 
+> No uapi changes this time. Just minor features, improvements, code cleanups
+> and bug fixes. Also one small change in accel subsystem file.
+> 
+> Full details are in the signed tag.
+> 
+> Thanks,
+> Oded
+> 
+> The following changes since commit 40d47c5fb4f2a7c1ef168598f01bdcbd31ba4038:
+> 
+>   Merge tag 'amd-drm-next-6.9-2024-02-19' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2024-02-22 13:21:19 +1000)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/linux.git tags/drm-habanalabs-next-2024-02-26
+> 
+> for you to fetch changes up to 576d7cc5a9e29e4cc579ffb0f9afc209e34eea31:
+> 
+>   accel: constify the struct device_type usage (2024-02-26 09:59:18 +0200)
 
-At a glance, not many.
+Pulled into drm-next, thanks a lot!
+-Sima
 
->> Are we now saying it's fine to use _Static_assert() directly all over
->> the place? People will copy-paste and cargo cult.
->
-> Is that actually a problem?
-
-I don't know. I'm asking.
-
-Usually when we have compiler wrappers, they're meant to be used instead
-of the thing being wrapped.
-
-This series deviates from that, so it would seem to fair to mention it
-slightly more verbosely than just stating what's being done.
-
-> The wrapper allows the error message to be omitted and substitutes
-> the text of the conditional.
-> But it isn't 'free'.
-> As well as slightly slowing down the compilation, the error messages
-> from the compiler get more difficult to interpret.
->
-> Most of the static_assert() will probably never generate an error.
-> But the ones in min()/max() will so it is best to make them as
-> readable as possible.
-> (Don't even look as the mess clang makes....)
-
-I'm not arguing any of this. :)
-
-
-BR,
-Jani.
-
+> 
+> ----------------------------------------------------------------
+> This tag contains habanalabs driver and accel changes for v6.9.
+> 
+> The notable changes are:
+> 
+> - New features and improvements:
+>   - Configure interrupt affinity according to NUMA nodes for the MSI-X interrupts that are
+>     assigned to the userspace application which acquires the device.
+>   - Move the HBM MMU page tables to reside inside the HBM to minimize latency when doing
+>     page-walks.
+>   - Improve the device reset mechanism when consecutive heartbeat failures occur (firmware
+>     fails to ack on heartbeat message).
+>   - Check also extended errors in the PCIe addr_dec interrupt information.
+>   - Rate limit the error messages that can be printed to dmesg log by userspace actions.
+> 
+> - Firmware related fixes:
+>   - Handle requests from firmware to reserve device memory
+> 
+> - Bug fixes and code cleanups:
+>   - constify the struct device_type usage in accel (accel_sysfs_device_minor).
+>   - Fix the PCI health check by reading uncached register.
+>   - Fix reporting of drain events.
+>   - Fix debugfs files permissions.
+>   - Fix calculation of DRAM BAR base address.
+> 
+> ----------------------------------------------------------------
+> Avri Kehat (1):
+>       accel/habanalabs: fix debugfs files permissions
+> 
+> Colin Ian King (1):
+>       accel/habanalabs/goya: remove redundant assignment to pointer 'input'
+> 
+> Dani Liberman (3):
+>       accel/habanalabs/gaudi2: add interrupt affinity for user interrupts
+>       accel/habanalabs: remove call to deprecated function
+>       accel/habanalabs: fix error print
+> 
+> Erick Archer (1):
+>       accel/habanalabs: use kcalloc() instead of kzalloc()
+> 
+> Farah Kassabri (2):
+>       accel/habanalabs/gaudi2: move HMMU page tables to device memory
+>       accel/habanalabs: remove hop size from asic properties
+> 
+> Koby Elbaz (1):
+>       accel/habanalabs: increase HL_MAX_STR to 64 bytes to avoid warnings
+> 
+> Malkoot Khan (1):
+>       accel/habanalabs: Remove unnecessary braces from if statement
+> 
+> Ofir Bitton (3):
+>       accel/habanalabs/gaudi2: drain event lacks rd/wr indication
+>       accel/habanalabs/hwmon: rate limit errors user can generate
+>       accel/habanalabs: modify pci health check
+> 
+> Ricardo B. Marliere (1):
+>       accel: constify the struct device_type usage
+> 
+> Tal Risin (1):
+>       accel/habanalabs: initialize maybe-uninitialized variables
+> 
+> Tomer Tayar (8):
+>       accel/habanalabs: fix DRAM BAR base address calculation
+>       accel/habanalabs: abort device reset for consecutive heartbeat failures
+>       accel/habanalabs/gaudi2: fail memory memset when failing to copy QM packet to device
+>       accel/habanalabs: modify print for skip loading linux FW to debug log
+>       accel/habanalabs/gaudi2: check extended errors according to PCIe addr_dec interrupt info
+>       accel/habanalabs: fix glbl error cause handling
+>       accel/habanalabs: handle reserved memory request when working with full FW
+>       accel/habanalabs: keep explicit size of reserved memory for FW
+> 
+>  drivers/accel/drm_accel.c                          |   2 +-
+>  .../accel/habanalabs/common/command_submission.c   |   3 +-
+>  drivers/accel/habanalabs/common/debugfs.c          |  18 +-
+>  drivers/accel/habanalabs/common/device.c           |  55 +++-
+>  drivers/accel/habanalabs/common/firmware_if.c      |  25 +-
+>  drivers/accel/habanalabs/common/habanalabs.h       |  43 ++-
+>  drivers/accel/habanalabs/common/hw_queue.c         |  17 +
+>  drivers/accel/habanalabs/common/hwmon.c            |  29 +-
+>  drivers/accel/habanalabs/common/mmu/Makefile       |   2 +-
+>  drivers/accel/habanalabs/common/mmu/mmu.c          | 223 ++++++++++++-
+>  drivers/accel/habanalabs/common/mmu/mmu_v1.c       | 354 +++------------------
+>  drivers/accel/habanalabs/common/mmu/mmu_v2.c       | 338 ++++++++++++++++++++
+>  drivers/accel/habanalabs/common/mmu/mmu_v2_hr.c    |  24 +-
+>  drivers/accel/habanalabs/common/security.c         |  33 +-
+>  drivers/accel/habanalabs/common/security.h         |   3 +-
+>  drivers/accel/habanalabs/gaudi/gaudi.c             |   9 +-
+>  drivers/accel/habanalabs/gaudi2/gaudi2.c           | 308 ++++++++++++------
+>  drivers/accel/habanalabs/gaudi2/gaudi2P.h          |  15 +-
+>  drivers/accel/habanalabs/goya/goya.c               |  12 +-
+>  drivers/accel/habanalabs/goya/goya_coresight.c     |   3 +-
+>  .../habanalabs/include/hw_ip/mmu/mmu_general.h     |   2 +
+>  21 files changed, 1008 insertions(+), 510 deletions(-)
+>  create mode 100644 drivers/accel/habanalabs/common/mmu/mmu_v2.c
 
 -- 
-Jani Nikula, Intel
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
