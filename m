@@ -2,73 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F6F48671A6
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 11:43:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46C3C86719E
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 11:42:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FF1010F040;
-	Mon, 26 Feb 2024 10:43:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5296A10F032;
+	Mon, 26 Feb 2024 10:42:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="WP/aWXGj";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="erJXK7mH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC3E710F040
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 10:43:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=gZztgXP/XSLJSI+YL5JFai2EuuNwO+NB7lZeeMFJEPQ=; b=WP/aWXGjWHvv7r+76mUvjC+pNG
- Si+HOXvuTb++8b/QJahf1MKBLR9QPxkDIkH8wozJPUWSv629/vmwalEISB2FUf+227amdVqJfPDim
- bkWNliZ8viS+J2xAVmaN6dIRm9gb7ERyqyJSzIy52YIqDoqpRJtW2mdq89vGagLGJvWy1LvpPJQw9
- gTYpLLaUxpDsGysaVb1HT17ZDQIHmWeFoNFSuFB952jU/Lxd8tRgwQwW7mbXZaJcmj+ulCA1HOjhZ
- LIb00js8kAwls6kMQu/8KDwI5Va7opouVigUWCcKPHnOwqE9Akv7IlJgrFVspx3EMQIeb+UkTCNH/
- cbdN8SKg==;
-Received: from [177.34.169.255] (helo=[192.168.0.139])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1reYRV-003X0t-2A; Mon, 26 Feb 2024 11:42:41 +0100
-Message-ID: <fc45b4c9-40e8-4335-b669-9307cc7325ad@igalia.com>
-Date: Mon, 26 Feb 2024 07:42:31 -0300
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C90910F033
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 10:42:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 63A8160DDD;
+ Mon, 26 Feb 2024 10:42:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2CDFC433F1;
+ Mon, 26 Feb 2024 10:42:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1708944168;
+ bh=Lu3xD6z/P21gY5Ah3fxXiHav6RawujSXWMGFHLyyndY=;
+ h=Subject:To:Cc:From:Date:From;
+ b=erJXK7mHPvLZ3AnuBZF7bYvsxBPIQf4Oj/Ejxq2uNwFIMhO0gU8BXCG2ZwHnbNNGV
+ VVBvBd0Bo1dyLUdOn4p3VzTK6+uIIJ40q265PEO1H8PowLdzffvOHGDTdZjmNDN2uf
+ VcjBy2XuXUQxKkNpP+lswnuJkAxhmdBTm0p4A0vo=
+Subject: Patch "drm/ttm: Fix an invalid freeing on already freed page in error
+ path" has been added to the 5.15-stable tree
+To: airlied@redhat.com, christian.koenig@amd.com,
+ dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
+ matthew.auld@intel.com, ray.huang@amd.com, thomas.hellstrom@linux.intel.com
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Mon, 26 Feb 2024 11:42:37 +0100
+Message-ID: <2024022637-last-geriatric-1fc9@gregkh>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 01/36] drm/tests: helpers: Include missing drm_drv
- header
-Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
- <20240222-kms-hdmi-connector-state-v7-1-8f4af575fce2@kernel.org>
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
- H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
- hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
- GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
- rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
- s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
- GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
- pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <20240222-kms-hdmi-connector-state-v7-1-8f4af575fce2@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,37 +56,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/22/24 15:13, Maxime Ripard wrote:
-> We have a few functions declared in our kunit helpers header, some of
-> them dereferencing the struct drm_driver.
-> 
-> However, we don't include the drm_drv.h header file defining that
-> structure, leading to compilation errors if we don't include both
-> headers.
-> 
-> Fixes: d98780310719 ("drm/tests: helpers: Allow to pass a custom drm_driver")
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
+This is a note to let you know that I've just added the patch titled
 
-Best Regards,
-- Maíra
+    drm/ttm: Fix an invalid freeing on already freed page in error path
 
-> ---
->   include/drm/drm_kunit_helpers.h | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/include/drm/drm_kunit_helpers.h b/include/drm/drm_kunit_helpers.h
-> index ba483c87f0e7..3ae19892229d 100644
-> --- a/include/drm/drm_kunit_helpers.h
-> +++ b/include/drm/drm_kunit_helpers.h
-> @@ -3,6 +3,8 @@
->   #ifndef DRM_KUNIT_HELPERS_H_
->   #define DRM_KUNIT_HELPERS_H_
->   
-> +#include <drm/drm_drv.h>
-> +
->   #include <linux/device.h>
->   
->   #include <kunit/test.h>
-> 
+to the 5.15-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     drm-ttm-fix-an-invalid-freeing-on-already-freed-page-in-error-path.patch
+and it can be found in the queue-5.15 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From 40510a941d27d405a82dc3320823d875f94625df Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Date: Wed, 21 Feb 2024 08:33:24 +0100
+Subject: drm/ttm: Fix an invalid freeing on already freed page in error path
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+
+commit 40510a941d27d405a82dc3320823d875f94625df upstream.
+
+If caching mode change fails due to, for example, OOM we
+free the allocated pages in a two-step process. First the pages
+for which the caching change has already succeeded. Secondly
+the pages for which a caching change did not succeed.
+
+However the second step was incorrectly freeing the pages already
+freed in the first step.
+
+Fix.
+
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Fixes: 379989e7cbdc ("drm/ttm/pool: Fix ttm_pool_alloc error path")
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Christian Koenig <christian.koenig@amd.com>
+Cc: Huang Rui <ray.huang@amd.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v6.4+
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240221073324.3303-1-thomas.hellstrom@linux.intel.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/ttm/ttm_pool.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/drivers/gpu/drm/ttm/ttm_pool.c
++++ b/drivers/gpu/drm/ttm/ttm_pool.c
+@@ -384,7 +384,7 @@ static void ttm_pool_free_range(struct t
+ 				enum ttm_caching caching,
+ 				pgoff_t start_page, pgoff_t end_page)
+ {
+-	struct page **pages = tt->pages;
++	struct page **pages = &tt->pages[start_page];
+ 	unsigned int order;
+ 	pgoff_t i, nr;
+ 
+
+
+Patches currently in stable-queue which might be from thomas.hellstrom@linux.intel.com are
+
+queue-5.15/drm-ttm-fix-an-invalid-freeing-on-already-freed-page-in-error-path.patch
