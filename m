@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A172F8667ED
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 03:12:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D0728667FB
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 03:12:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA3A810E5C6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE72310E5C8;
 	Mon, 26 Feb 2024 02:11:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jBJc6P3K";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="s5RclDCV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E88FB10E5C4
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 02:11:52 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id
- 2adb3069b0e04-512fd840142so530880e87.2
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Feb 2024 18:11:52 -0800 (PST)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C25D710E5C6
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 02:11:53 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-512f5484a37so1395975e87.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Feb 2024 18:11:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708913511; x=1709518311; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1708913512; x=1709518312; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=kbFUU4iMew5gCyNhy6Z/kEtYbNuf40upf3sZEP5LUHU=;
- b=jBJc6P3KuGiqClmfm2X0ja/PGzrMIW0HTbXwtdffMbYqCHGcLSXjP6xvUrB50cUCVr
- M5HwtZ/uKgnpIo9lCZiOqzXh6RYUkQcstiRtZSO/rwVM/ltn51MSU9X2XD/YyQnpv7DO
- DC+NGnr24bXA3EQjl5ykmQcWx7iHDw1gsNC2YOy61DlsuZpT9U2fghm9cMt/JzugV+gh
- fiGCu1Om5o9ePHGLUfrTsuc8oMFhw9pKt6TcZzipk4D1I0MeQBNiUMj1yG2MjE+D38tZ
- v8SQw+ThWFl0LxPYAzcCBQjb/E2SuuunUVOjnfCmfRZwFYn0ImJSBFg2vPNGbSM0QL8m
- a9uw==
+ :reply-to; bh=lr1blVGAcoSGI3DjOlnBnp5duz00dIqA6nxHMeCLWdU=;
+ b=s5RclDCVbyMxKaXE0IbGF9XeQU3/QyOifrZVqGD15QyRlPLyUGYy37ZFt4f8pAsJGp
+ 7KAnY54wo9ekt6NNwdMrpwbDv+2mDx8pTO9216GaOR3yisrIZeylVa4WbTbKFvTkFF49
+ Y5LOmice9Zo3D0AAA9NFfDQC4UHME5ZX6ei/z7Wvk8NEAafU23+fOA4RkvQPIFGy9xkc
+ 7r7VMu1FmUaZbran+Fiotp+xkUwwQPDQKFyFJla8+9ghonn1Lm4NeaOuf20o65mbtxzV
+ 9GIRQu9phh689FqEa6zdHOjpgc3QX85O4qqiL6hXwodnG9fyCZ+55++6oXJm1LjPPH1j
+ UY2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708913511; x=1709518311;
+ d=1e100.net; s=20230601; t=1708913512; x=1709518312;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=kbFUU4iMew5gCyNhy6Z/kEtYbNuf40upf3sZEP5LUHU=;
- b=Yr35Y/R0FzP1/lnNBuDMvDPqiF15rTZCGZhjQ6z4E7ZToQ3XkowW2BSAGj6RTAHEYM
- gYIW7FZ+b/zQNJ9sZyQNtKmz3Pge8HqHEPZBPsQGjArM/6CuCvmm8E9YZnCXmXDB4d/A
- E7nqh16a/IBqriIVUZT4d2Z2ho0cIMLbLoy/x0+xx+qGnuLra87KZTJcNKbkcgNEF87L
- 0JFBTSrzPdvGvTLjiiDhH1XMTQIVPKaNhoCzNp2tGICDJT2SIhj1wvcwYBZMHF1fpa+m
- G9A8hDC2CKt9uoWJB6ewj4dwNca7qYTC//gdkgUVhIx8talMaBCjc30uSD0QqHy1bWdp
- kI8w==
+ bh=lr1blVGAcoSGI3DjOlnBnp5duz00dIqA6nxHMeCLWdU=;
+ b=dAeBQWBP+R3/unUZUS9e0UU8c47I37McOwSLv94L3SHCt4BV79QRbDyF7gElwe+Eca
+ Nt2OqDp6eqJMzi/si3PhUu/fiJROZCkhPDyLuVmkmyyhBAK3t6rf+s3cxMihut1Mk3KD
+ wcsskbFQFFG/XA42etCvmyE0IHClkCdd4kg9ScQNvHUNpkO7lHBpLDfgeing8EZ6P6Rp
+ +xT/mtbLdLa+jXHT2ok1DQaEBxqAhpG1knu3je97bkMn/SUKzO8Va0pfJivHABCUYKp5
+ 7FdgXTu/L6lf0gDHKJoDEhGvLJGeAoz9g2/KjhrzwLGsAgWdNF2PJj+whr/ET+zBzjEN
+ Nbmg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWJNxRUKytLjZrM9ySZMKmt3Q3L2UN11jzXQmkTw0pohuHujrs5+l4UuiVE3s77+X8vIvjqz0xzhY7cSBZK0S8MAAZOHielhK5m8FCVQKQ0
-X-Gm-Message-State: AOJu0Yzd1auphf5AuCvFpETIa2K1wPpnrtZeq7HUFd7oBNjMNCBkBNhE
- 1Y4JoaBBFK2vec8Sejj8WP6JeQu1mRXz/KB/krNUMqr+V2HeABLquThMEdS3Bns=
-X-Google-Smtp-Source: AGHT+IFWEX3FGjvHck7o5EZQoQ5HeNV3HVBcNoew3wITv2ec0S2Qkt+0vdkvS+siPv6hHkgG5E3AoQ==
-X-Received: by 2002:ac2:5382:0:b0:512:ed78:2d01 with SMTP id
- g2-20020ac25382000000b00512ed782d01mr3216586lfh.33.1708913510956; 
- Sun, 25 Feb 2024 18:11:50 -0800 (PST)
+ AJvYcCVNt7//9ilI479bDdHDyV9t2S5RtBvDodjCN7hFBMKVdct/CasRrup9mJZ1+lG9lzk7ZYAEUcfNCRqFacx8toPs8VuK8HRFw/Xg/m3ySJ6G
+X-Gm-Message-State: AOJu0YzYzxVhayj2sjWWEslakDdVTp7+vgxlifqAvdSwXdp/ORik297f
+ rYK2s4TWaYlXiJ4EIBghX3g2W1b5RGPg/rqemP+RXDRGKXlDrC6mVb5vEzip+lw=
+X-Google-Smtp-Source: AGHT+IGwS1S2UIhR7u1D1bdJLxUjT0Jxa/J70GI1DJuamydDmmp3ucw1HVC+ZEydtEqM5NUTau2YZQ==
+X-Received: by 2002:a05:6512:1196:b0:512:e218:db7f with SMTP id
+ g22-20020a056512119600b00512e218db7fmr4207381lfr.67.1708913511750; 
+ Sun, 25 Feb 2024 18:11:51 -0800 (PST)
 Received: from umbar.lan (dzyjmhybhls-s--zn36gy-3.rev.dnainternet.fi.
  [2001:14ba:a00e:a300:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- m11-20020a056512358b00b00512e39ce472sm676176lfr.175.2024.02.25.18.11.50
+ m11-20020a056512358b00b00512e39ce472sm676176lfr.175.2024.02.25.18.11.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Feb 2024 18:11:50 -0800 (PST)
+ Sun, 25 Feb 2024 18:11:51 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 26 Feb 2024 04:11:40 +0200
-Subject: [PATCH RFC 04/12] drm/msm/dsi: drop mmss_cc.xml.h
+Date: Mon, 26 Feb 2024 04:11:41 +0200
+Subject: [PATCH RFC 05/12] drm/msm: use _shipped suffix for all xml.h files
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240226-fd-xml-shipped-v1-4-86bb6c3346d2@linaro.org>
+Message-Id: <20240226-fd-xml-shipped-v1-5-86bb6c3346d2@linaro.org>
 References: <20240226-fd-xml-shipped-v1-0-86bb6c3346d2@linaro.org>
 In-Reply-To: <20240226-fd-xml-shipped-v1-0-86bb6c3346d2@linaro.org>
 To: Masahiro Yamada <masahiroy@kernel.org>, 
@@ -74,16 +74,16 @@ Cc: linux-kbuild@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7249;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8048;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=gqKp1S6/zn30s6BNuSQoNE5FrMLSKTVvFXbaJQz/Q24=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBl2/NhvUtEGEwp3sD0XMR/UjOQ2YtuGr7/zEguT
- qSN7t0HmzSJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZdvzYQAKCRCLPIo+Aiko
- 1ejyB/0bWpiJYXhC1khqlucEDSDjWC2uxgCuQXfoKf4Rvd7XgyjRzb+hiMB6HgDU6XxBKmftKrf
- TlGZo/paNcjjzInyiSWtjfVYDMrHGmAf4J7xa8PFzTnwXJiBmSDCdzC0RYc/ryB+6/Dv7sOLsGr
- xKQ2FRt89sSKAGxAsQJFp7fxMTb/voKBB5fhBCOnXBHuY0sEcumefEqN2EdbHIEPd3D/9KtJjwW
- GbTX3bOQ1CxbaJvnMp+/tMUxA0QqvC3hyqkZc9YL4TcpGFgY161mqkjQscOlRrOCLnvNxArxpL6
- TRutJmRwjdJsGxmxxLNIvhG/OBWki5+nhySt1nnrXVHIwDAa
+ bh=Nx7fpXRNpbAX1r5/PwTsdJN6+2r3qO1If+c+S986pBg=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBl2/NhwB+8UhIVNwQgD1ymNg7h8cxIwJG82l3SB
+ Qh8ciUg7lqJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZdvzYQAKCRCLPIo+Aiko
+ 1QfnB/wO4OAKfkCA0ViZeKqmFzhrpWC+RtB6kbCKREZbqvsxR8ezWqAEofG1IKcWAKnCf0ZQ1jK
+ b/DeJwbAIZskh03EEqffohnxySp6RF/WIS/NlBGiYR3wdZ9A1KPhV3XvkyVJ8AozL/FKtq+gLS6
+ 9XBBJWar2aloyeQfC1D41fStDTi6QyLZYaZU2hfbLRKVRQxFIHckuTvrv9m8H8VoQM0EeBKKQnY
+ y6/ipHxkDX82EKk/DpoFvwShjl1QDcnl5vsBVcHRMkacW0bcYgP1NXqrBgtGOPHhOOoF69vd5JA
+ HTbvtv79T0lC7J1qogV+FBT3lUCKu4Cm/ESCDGfV3BlLzKZH
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,152 +101,185 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mmss_cc.xml.h file describes bits of the MMSS clock controller on
-APQ8064 / MSM8960 platforms. They are not used by the driver and do not
-belong to the DRM MSM driver. Drop the file.
+Move non-GPU xml.h files into the ./registers subdir and add the
+_shipped suffix. The GPU files are left intact for now, since they
+require processing via a gen_headers.py, while display headers are
+regenerated using headergen2
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/dsi/mmss_cc.xml.h | 131 ----------------------------------
- 1 file changed, 131 deletions(-)
+ drivers/gpu/drm/msm/Makefile                       | 53 ++++++++++++++++++----
+ .../{dsi/dsi.xml.h => registers/dsi.xml.h_shipped} |  0
+ .../dsi_phy_10nm.xml.h_shipped}                    |  0
+ .../dsi_phy_14nm.xml.h_shipped}                    |  0
+ .../dsi_phy_20nm.xml.h_shipped}                    |  0
+ .../dsi_phy_28nm.xml.h_shipped}                    |  0
+ .../dsi_phy_28nm_8960.xml.h_shipped}               |  0
+ .../dsi_phy_7nm.xml.h_shipped}                     |  0
+ .../hdmi.xml.h => registers/hdmi.xml.h_shipped}    |  0
+ .../mdp4.xml.h => registers/mdp4.xml.h_shipped}    |  0
+ .../mdp5.xml.h => registers/mdp5.xml.h_shipped}    |  0
+ .../mdp_common.xml.h_shipped}                      |  0
+ .../sfpb.xml.h => registers/sfpb.xml.h_shipped}    |  0
+ 13 files changed, 43 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dsi/mmss_cc.xml.h b/drivers/gpu/drm/msm/dsi/mmss_cc.xml.h
-deleted file mode 100644
-index 7062f7164216..000000000000
---- a/drivers/gpu/drm/msm/dsi/mmss_cc.xml.h
-+++ /dev/null
-@@ -1,131 +0,0 @@
--#ifndef MMSS_CC_XML
--#define MMSS_CC_XML
--
--/* Autogenerated file, DO NOT EDIT manually!
--
--This file was generated by the rules-ng-ng headergen tool in this git repository:
--http://github.com/freedreno/envytools/
--git clone https://github.com/freedreno/envytools.git
--
--The rules-ng-ng source files this header was generated from are:
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/msm.xml                   (    944 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/freedreno_copyright.xml   (   1572 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp4.xml              (  20912 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp_common.xml        (   2849 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp5.xml              (  37461 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi.xml               (  18746 bytes, from 2022-04-28 17:29:36)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_v2.xml        (   3236 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm_8960.xml (   4935 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm.xml      (   7004 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_20nm.xml      (   3712 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_14nm.xml      (   5381 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_10nm.xml      (   4499 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_7nm.xml       (  11007 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/sfpb.xml              (    602 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/mmss_cc.xml           (   1686 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/qfprom.xml           (    600 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/hdmi.xml             (  42350 bytes, from 2022-09-20 17:45:56)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/edp/edp.xml               (  10416 bytes, from 2022-03-08 17:40:42)
--
--Copyright (C) 2013-2022 by the following authors:
--- Rob Clark <robdclark@gmail.com> (robclark)
--- Ilia Mirkin <imirkin@alum.mit.edu> (imirkin)
--
--Permission is hereby granted, free of charge, to any person obtaining
--a copy of this software and associated documentation files (the
--"Software"), to deal in the Software without restriction, including
--without limitation the rights to use, copy, modify, merge, publish,
--distribute, sublicense, and/or sell copies of the Software, and to
--permit persons to whom the Software is furnished to do so, subject to
--the following conditions:
--
--The above copyright notice and this permission notice (including the
--next paragraph) shall be included in all copies or substantial
--portions of the Software.
--
--THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
--EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
--MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
--IN NO EVENT SHALL THE COPYRIGHT OWNER(S) AND/OR ITS SUPPLIERS BE
--LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
--OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
--WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
--*/
--
--
--enum mmss_cc_clk {
--	CLK = 0,
--	PCLK = 1,
--};
--
--#define REG_MMSS_CC_AHB						0x00000008
--
--static inline uint32_t __offset_CLK(enum mmss_cc_clk idx)
--{
--	switch (idx) {
--		case CLK: return 0x0000004c;
--		case PCLK: return 0x00000130;
--		default: return INVALID_IDX(idx);
--	}
--}
--static inline uint32_t REG_MMSS_CC_CLK(enum mmss_cc_clk i0) { return 0x00000000 + __offset_CLK(i0); }
--
--static inline uint32_t REG_MMSS_CC_CLK_CC(enum mmss_cc_clk i0) { return 0x00000000 + __offset_CLK(i0); }
--#define MMSS_CC_CLK_CC_CLK_EN					0x00000001
--#define MMSS_CC_CLK_CC_ROOT_EN					0x00000004
--#define MMSS_CC_CLK_CC_MND_EN					0x00000020
--#define MMSS_CC_CLK_CC_MND_MODE__MASK				0x000000c0
--#define MMSS_CC_CLK_CC_MND_MODE__SHIFT				6
--static inline uint32_t MMSS_CC_CLK_CC_MND_MODE(uint32_t val)
--{
--	return ((val) << MMSS_CC_CLK_CC_MND_MODE__SHIFT) & MMSS_CC_CLK_CC_MND_MODE__MASK;
--}
--#define MMSS_CC_CLK_CC_PMXO_SEL__MASK				0x00000300
--#define MMSS_CC_CLK_CC_PMXO_SEL__SHIFT				8
--static inline uint32_t MMSS_CC_CLK_CC_PMXO_SEL(uint32_t val)
--{
--	return ((val) << MMSS_CC_CLK_CC_PMXO_SEL__SHIFT) & MMSS_CC_CLK_CC_PMXO_SEL__MASK;
--}
--
--static inline uint32_t REG_MMSS_CC_CLK_MD(enum mmss_cc_clk i0) { return 0x00000004 + __offset_CLK(i0); }
--#define MMSS_CC_CLK_MD_D__MASK					0x000000ff
--#define MMSS_CC_CLK_MD_D__SHIFT					0
--static inline uint32_t MMSS_CC_CLK_MD_D(uint32_t val)
--{
--	return ((val) << MMSS_CC_CLK_MD_D__SHIFT) & MMSS_CC_CLK_MD_D__MASK;
--}
--#define MMSS_CC_CLK_MD_M__MASK					0x0000ff00
--#define MMSS_CC_CLK_MD_M__SHIFT					8
--static inline uint32_t MMSS_CC_CLK_MD_M(uint32_t val)
--{
--	return ((val) << MMSS_CC_CLK_MD_M__SHIFT) & MMSS_CC_CLK_MD_M__MASK;
--}
--
--static inline uint32_t REG_MMSS_CC_CLK_NS(enum mmss_cc_clk i0) { return 0x00000008 + __offset_CLK(i0); }
--#define MMSS_CC_CLK_NS_SRC__MASK				0x0000000f
--#define MMSS_CC_CLK_NS_SRC__SHIFT				0
--static inline uint32_t MMSS_CC_CLK_NS_SRC(uint32_t val)
--{
--	return ((val) << MMSS_CC_CLK_NS_SRC__SHIFT) & MMSS_CC_CLK_NS_SRC__MASK;
--}
--#define MMSS_CC_CLK_NS_PRE_DIV_FUNC__MASK			0x00fff000
--#define MMSS_CC_CLK_NS_PRE_DIV_FUNC__SHIFT			12
--static inline uint32_t MMSS_CC_CLK_NS_PRE_DIV_FUNC(uint32_t val)
--{
--	return ((val) << MMSS_CC_CLK_NS_PRE_DIV_FUNC__SHIFT) & MMSS_CC_CLK_NS_PRE_DIV_FUNC__MASK;
--}
--#define MMSS_CC_CLK_NS_VAL__MASK				0xff000000
--#define MMSS_CC_CLK_NS_VAL__SHIFT				24
--static inline uint32_t MMSS_CC_CLK_NS_VAL(uint32_t val)
--{
--	return ((val) << MMSS_CC_CLK_NS_VAL__SHIFT) & MMSS_CC_CLK_NS_VAL__MASK;
--}
--
--#define REG_MMSS_CC_DSI2_PIXEL_CC				0x00000094
--
--#define REG_MMSS_CC_DSI2_PIXEL_NS				0x000000e4
--
--#define REG_MMSS_CC_DSI2_PIXEL_CC2				0x00000264
--
--
--#endif /* MMSS_CC_XML */
+diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
+index 543e04fa72e3..89c9f5f93b85 100644
+--- a/drivers/gpu/drm/msm/Makefile
++++ b/drivers/gpu/drm/msm/Makefile
+@@ -1,5 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+ ccflags-y := -I $(srctree)/$(src)
++ccflags-y := -I $(obj)/registers
+ ccflags-y += -I $(srctree)/$(src)/disp/dpu1
+ ccflags-$(CONFIG_DRM_MSM_DSI) += -I $(srctree)/$(src)/dsi
+ ccflags-$(CONFIG_DRM_MSM_DP) += -I $(srctree)/$(src)/dp
+@@ -17,7 +18,7 @@ msm-y := \
+ 	adreno/a6xx_gmu.o \
+ 	adreno/a6xx_hfi.o \
+ 
+-msm-$(CONFIG_DRM_MSM_HDMI) += \
++msm-hdmi += \
+ 	hdmi/hdmi.o \
+ 	hdmi/hdmi_audio.o \
+ 	hdmi/hdmi_bridge.o \
+@@ -30,7 +31,11 @@ msm-$(CONFIG_DRM_MSM_HDMI) += \
+ 	hdmi/hdmi_phy_8x74.o \
+ 	hdmi/hdmi_pll_8960.o \
+ 
+-msm-$(CONFIG_DRM_MSM_MDP4) += \
++msm-$(CONFIG_DRM_MSM_HDMI) += $(msm-hdmi)
++
++$(addprefix $(obj)/,$(msm-hdmi)): $(obj)/registers/hdmi.xml.h
++
++msm-mdp4 += \
+ 	disp/mdp4/mdp4_crtc.o \
+ 	disp/mdp4/mdp4_dsi_encoder.o \
+ 	disp/mdp4/mdp4_dtv_encoder.o \
+@@ -41,7 +46,12 @@ msm-$(CONFIG_DRM_MSM_MDP4) += \
+ 	disp/mdp4/mdp4_kms.o \
+ 	disp/mdp4/mdp4_plane.o \
+ 
+-msm-$(CONFIG_DRM_MSM_MDP5) += \
++msm-$(CONFIG_DRM_MSM_MDP4) += $(msm-mdp4)
++
++$(addprefix $(obj)/,$(msm-mdp4)): $(obj)/registers/mdp4.xml.h
++$(addprefix $(obj)/,$(msm-mdp4)): $(obj)/registers/mdp_common.xml.h
++
++msm-mdp5 += \
+ 	disp/mdp5/mdp5_cfg.o \
+ 	disp/mdp5/mdp5_cmd_encoder.o \
+ 	disp/mdp5/mdp5_ctl.o \
+@@ -54,6 +64,10 @@ msm-$(CONFIG_DRM_MSM_MDP5) += \
+ 	disp/mdp5/mdp5_plane.o \
+ 	disp/mdp5/mdp5_smp.o \
+ 
++msm-$(CONFIG_DRM_MSM_MDP5) += $(msm-mdp5)
++$(addprefix $(obj)/,$(msm-mdp5)): $(obj)/registers/mdp5.xml.h
++$(addprefix $(obj)/,$(msm-mdp5)): $(obj)/registers/mdp_common.xml.h
++
+ msm-$(CONFIG_DRM_MSM_DPU) += \
+ 	disp/dpu1/dpu_core_perf.o \
+ 	disp/dpu1/dpu_crtc.o \
+@@ -115,6 +129,9 @@ msm-y += \
+ 	msm_gpu_tracepoints.o \
+ 	msm_gpummu.o
+ 
++$(obj)/disp/mdp_format.o: $(obj)/registers/mdp_common.xml.h
++$(obj)/disp/mdp_kms.o: $(obj)/registers/mdp_common.xml.h
++
+ msm-$(CONFIG_DEBUG_FS) += adreno/a5xx_debugfs.o \
+ 	dp/dp_debug.o
+ 
+@@ -133,17 +150,33 @@ msm-$(CONFIG_DRM_FBDEV_EMULATION) += msm_fbdev.o
+ 
+ msm-$(CONFIG_DRM_MSM_HDMI_HDCP) += hdmi/hdmi_hdcp.o
+ 
+-msm-$(CONFIG_DRM_MSM_DSI) += dsi/dsi.o \
++msm-dsi += dsi/dsi.o \
+ 			dsi/dsi_cfg.o \
+ 			dsi/dsi_host.o \
+ 			dsi/dsi_manager.o \
+ 			dsi/phy/dsi_phy.o
+ 
+-msm-$(CONFIG_DRM_MSM_DSI_28NM_PHY) += dsi/phy/dsi_phy_28nm.o
+-msm-$(CONFIG_DRM_MSM_DSI_20NM_PHY) += dsi/phy/dsi_phy_20nm.o
+-msm-$(CONFIG_DRM_MSM_DSI_28NM_8960_PHY) += dsi/phy/dsi_phy_28nm_8960.o
+-msm-$(CONFIG_DRM_MSM_DSI_14NM_PHY) += dsi/phy/dsi_phy_14nm.o
+-msm-$(CONFIG_DRM_MSM_DSI_10NM_PHY) += dsi/phy/dsi_phy_10nm.o
+-msm-$(CONFIG_DRM_MSM_DSI_7NM_PHY) += dsi/phy/dsi_phy_7nm.o
++$(obj)/dsi/dsi_host.o: $(obj)/registers/sfpb.xml.h
++
++msm-dsi-$(CONFIG_DRM_MSM_DSI_28NM_PHY) += dsi/phy/dsi_phy_28nm.o
++$(obj)/dsi/phy/dsi_phy_28nm.o: $(obj)/registers/dsi_phy_28nm.xml.h
++
++msm-dsi-$(CONFIG_DRM_MSM_DSI_20NM_PHY) += dsi/phy/dsi_phy_20nm.o
++$(obj)/dsi/phy/dsi_phy_20nm.o: $(obj)/registers/dsi_phy_20nm.xml.h
++
++msm-dsi-$(CONFIG_DRM_MSM_DSI_28NM_8960_PHY) += dsi/phy/dsi_phy_28nm_8960.o
++$(obj)/dsi/phy/dsi_phy_28nm_8960.o: $(obj)/registers/dsi_phy_28nm_8960.xml.h
++
++msm-dsi-$(CONFIG_DRM_MSM_DSI_14NM_PHY) += dsi/phy/dsi_phy_14nm.o
++$(obj)/dsi/phy/dsi_phy_14nm.o: $(obj)/registers/dsi_phy_14nm.xml.h
++
++msm-dsi-$(CONFIG_DRM_MSM_DSI_10NM_PHY) += dsi/phy/dsi_phy_10nm.o
++$(obj)/dsi/phy/dsi_phy_10nm.o: $(obj)/registers/dsi_phy_10nm.xml.h
++
++msm-dsi-$(CONFIG_DRM_MSM_DSI_7NM_PHY) += dsi/phy/dsi_phy_7nm.o
++$(obj)/dsi/phy/dsi_phy_7nm.o: $(obj)/registers/dsi_phy_7nm.xml.h
++
++msm-$(CONFIG_DRM_MSM_DSI) += $(msm-dsi) $(msm-dsi-y)
++$(addprefix $(obj)/,$(msm-dsi) $(msm-dsi-y)): $(obj)/registers/dsi.xml.h
+ 
+ obj-$(CONFIG_DRM_MSM)	+= msm.o
+diff --git a/drivers/gpu/drm/msm/dsi/dsi.xml.h b/drivers/gpu/drm/msm/registers/dsi.xml.h_shipped
+similarity index 100%
+rename from drivers/gpu/drm/msm/dsi/dsi.xml.h
+rename to drivers/gpu/drm/msm/registers/dsi.xml.h_shipped
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_phy_10nm.xml.h b/drivers/gpu/drm/msm/registers/dsi_phy_10nm.xml.h_shipped
+similarity index 100%
+rename from drivers/gpu/drm/msm/dsi/dsi_phy_10nm.xml.h
+rename to drivers/gpu/drm/msm/registers/dsi_phy_10nm.xml.h_shipped
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_phy_14nm.xml.h b/drivers/gpu/drm/msm/registers/dsi_phy_14nm.xml.h_shipped
+similarity index 100%
+rename from drivers/gpu/drm/msm/dsi/dsi_phy_14nm.xml.h
+rename to drivers/gpu/drm/msm/registers/dsi_phy_14nm.xml.h_shipped
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_phy_20nm.xml.h b/drivers/gpu/drm/msm/registers/dsi_phy_20nm.xml.h_shipped
+similarity index 100%
+rename from drivers/gpu/drm/msm/dsi/dsi_phy_20nm.xml.h
+rename to drivers/gpu/drm/msm/registers/dsi_phy_20nm.xml.h_shipped
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_phy_28nm.xml.h b/drivers/gpu/drm/msm/registers/dsi_phy_28nm.xml.h_shipped
+similarity index 100%
+rename from drivers/gpu/drm/msm/dsi/dsi_phy_28nm.xml.h
+rename to drivers/gpu/drm/msm/registers/dsi_phy_28nm.xml.h_shipped
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_phy_28nm_8960.xml.h b/drivers/gpu/drm/msm/registers/dsi_phy_28nm_8960.xml.h_shipped
+similarity index 100%
+rename from drivers/gpu/drm/msm/dsi/dsi_phy_28nm_8960.xml.h
+rename to drivers/gpu/drm/msm/registers/dsi_phy_28nm_8960.xml.h_shipped
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_phy_7nm.xml.h b/drivers/gpu/drm/msm/registers/dsi_phy_7nm.xml.h_shipped
+similarity index 100%
+rename from drivers/gpu/drm/msm/dsi/dsi_phy_7nm.xml.h
+rename to drivers/gpu/drm/msm/registers/dsi_phy_7nm.xml.h_shipped
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.xml.h b/drivers/gpu/drm/msm/registers/hdmi.xml.h_shipped
+similarity index 100%
+rename from drivers/gpu/drm/msm/hdmi/hdmi.xml.h
+rename to drivers/gpu/drm/msm/registers/hdmi.xml.h_shipped
+diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4.xml.h b/drivers/gpu/drm/msm/registers/mdp4.xml.h_shipped
+similarity index 100%
+rename from drivers/gpu/drm/msm/disp/mdp4/mdp4.xml.h
+rename to drivers/gpu/drm/msm/registers/mdp4.xml.h_shipped
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5.xml.h b/drivers/gpu/drm/msm/registers/mdp5.xml.h_shipped
+similarity index 100%
+rename from drivers/gpu/drm/msm/disp/mdp5/mdp5.xml.h
+rename to drivers/gpu/drm/msm/registers/mdp5.xml.h_shipped
+diff --git a/drivers/gpu/drm/msm/disp/mdp_common.xml.h b/drivers/gpu/drm/msm/registers/mdp_common.xml.h_shipped
+similarity index 100%
+rename from drivers/gpu/drm/msm/disp/mdp_common.xml.h
+rename to drivers/gpu/drm/msm/registers/mdp_common.xml.h_shipped
+diff --git a/drivers/gpu/drm/msm/dsi/sfpb.xml.h b/drivers/gpu/drm/msm/registers/sfpb.xml.h_shipped
+similarity index 100%
+rename from drivers/gpu/drm/msm/dsi/sfpb.xml.h
+rename to drivers/gpu/drm/msm/registers/sfpb.xml.h_shipped
 
 -- 
 2.39.2
