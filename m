@@ -2,76 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 896E8867905
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 15:50:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D81C86791C
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 15:54:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2FED10E75D;
-	Mon, 26 Feb 2024 14:50:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B325410E75E;
+	Mon, 26 Feb 2024 14:54:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="jT0VQ8k8";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="m594B+Po";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34F4910E75B
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 14:50:15 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id
- a640c23a62f3a-a3f6aed454dso96926466b.1
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 06:50:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1708959013; x=1709563813; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=vHi2E9LjIdChhnMIXpu/Wnn/NVWXjK1rQ2bzQOKMiAc=;
- b=jT0VQ8k8MHdYYNXpvbjMT+PoaJCZjhJ7E+A49AvAEDqTi3YIY6KMyJRc2ClUqYZKXS
- BuMRNVe+Wr+vfWEcqY3cPaGs7gq9Wzccs11zIMxSHTK2p7fcY2vNvpo9euQrSklW3hqD
- +zTQb77sonasHPvGZCy7IG3opXUR2DhoHyW1c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708959013; x=1709563813;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vHi2E9LjIdChhnMIXpu/Wnn/NVWXjK1rQ2bzQOKMiAc=;
- b=panjtSIEJTdcSw8fFRYoYIEe6qoXK5lB8PhVqUbwRdNRMNu4EQ4YBlBQGVW4+ME8hT
- 5IZmRmg5rUDfZLHKb73HEfYUoML12ge4wpsQfLLt6E9Xea8x5gopkuYiFcniyEc/zPMM
- v7ktnthXz12T/28Zq2+Cf+kZVacuR6BM9XbqI0cI7hwfteuis6hwu4N9CHk2RZqfUEPI
- lXfR4ynXOIPEs4KrHDcwbuXSxZPgoJ/wUMcWfXlpcppuJk2MPl0IjZE3kffx5t2/zzlY
- RtXleHC0jfG5xepSE90aiqD0dJZws5H+tWuQTn6lvBnCtOznWN8Kslxk6fWPxNc83F7I
- 7DtA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXnbyS8Fu6XADRE7v7sTCZ7c7c+CUQNNiKbXnYMfRiLkdQnn9bspDy0j6WlwHR7CkibNYPklGq3CW40J1R0LrFfBuSSAIPwXjsN2o8kkHBp
-X-Gm-Message-State: AOJu0Yy7T+/t9It9xW0rXXEuldXkbuxcjdBO6knERnp4xwDNJe4FIa5w
- x46Q09LsJvIXhjZf/yBi18zzY4pqRdtk2urgLhl4vICIXCJn6YA1ASaXCbom8AE=
-X-Google-Smtp-Source: AGHT+IH/zdAHUnSc1FPcebv9vRNYBcwKBEw+3AqhpOSvXftcbWmVhrwKfSPFbD9FKpWji8cZanlFzw==
-X-Received: by 2002:a17:906:3296:b0:a3e:9bce:b5b1 with SMTP id
- 22-20020a170906329600b00a3e9bceb5b1mr4583966ejw.5.1708959013137; 
- Mon, 26 Feb 2024 06:50:13 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- le6-20020a170906ae0600b00a3e88f99cf1sm2517845ejb.149.2024.02.26.06.50.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Feb 2024 06:50:12 -0800 (PST)
-Date: Mon, 26 Feb 2024 15:50:10 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: Daniel Stone <daniel@fooishbar.org>, Maxime Ripard <mripard@kernel.org>,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Stone <daniels@collabora.com>
-Subject: Re: drm-misc migration to Gitlab server
-Message-ID: <ZdylItWE9YyUKCKI@phenom.ffwll.local>
-References: <gnthy5o42kiyj63d2bkkxsc5krzf3wrwt23chh2kthkmlyjwbg@ybynvjvqdka7>
- <akb3fluuli75vh5due5ll7t5igg7oo5vqwkal645hkjkhyqz6w@qu62f5l6joy6>
- <CAPj87rMYC3D-PYtMcTXD3=HqNSpyyVj9jp0nodO+2PebP1guAA@mail.gmail.com>
- <20240221094643.4496313a@canb.auug.org.au>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D799C10E75E
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 14:54:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1708959265;
+ bh=lgkB/ejSf4q1D6g3ACK0ytRcy3yE2UMi3BpNvE8ZFzk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=m594B+PoBP+t/5toUSZNM5KZJCDjrVdr+i4xaIPhIC93UAUl+hEy49GX2kAhZBeI3
+ yeXyrtxtIhPWQ9s2v6rnMq6uhEZ6RkAR9yxHZzyn4trQpaXrr4V3ZBVsOsCnXfosLX
+ 4OBPRYmqs6J1Tqhvm64WWBucM7qa8PrG6VClj08RbRBYwxcFdsL5nmjArVkxZ4adW/
+ 2SUHJdcCRQEd1sMsLbQhMWd50lGDlBy++4T/8r1gvSNUGIBPNW5BkHdiVtXSyXgEyo
+ 4MsKCg+YTSypS4I7Bsu/LV17QcvRRiBJGklejkP3xmfmVx2QEOjxmrvO9DEjH5OHf5
+ OTtb2XXhg0aUg==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 17CAB37820CF;
+ Mon, 26 Feb 2024 14:54:24 +0000 (UTC)
+Message-ID: <53671deb-9c11-43c1-8deb-93fe4708651a@collabora.com>
+Date: Mon, 26 Feb 2024 15:54:23 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240221094643.4496313a@canb.auug.org.au>
-X-Operating-System: Linux phenom 6.6.11-amd64 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/18] Add audio support for the MediaTek Genio 350-evk
+ board
+Content-Language: en-US
+To: Alexandre Mergnat <amergnat@baylibre.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Lee Jones <lee@kernel.org>,
+ Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Nicolas Belin <nbelin@baylibre.com>, Fabien Parent <fparent@baylibre.com>
+References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,62 +74,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 21, 2024 at 09:46:43AM +1100, Stephen Rothwell wrote:
-> Hi Daniel,
+Il 26/02/24 15:01, Alexandre Mergnat ha scritto:
+> This serie aim to add the following audio support for the Genio 350-evk:
+> - Playback
+>    - 2ch Headset Jack (Earphone)
+>    - 1ch Line-out Jack (Speaker)
+>    - 8ch HDMI Tx
+> - Capture
+>    - 1ch DMIC (On-board Digital Microphone)
+>    - 1ch AMIC (On-board Analogic Microphone)
+>    - 1ch Headset Jack (External Analogic Microphone)
 > 
-> On Tue, 20 Feb 2024 11:25:05 +0000 Daniel Stone <daniel@fooishbar.org> wrote:
-> >
-> > On Tue, 20 Feb 2024 at 09:05, Maxime Ripard <mripard@kernel.org> wrote:
-> > > On Tue, Feb 20, 2024 at 09:49:25AM +0100, Maxime Ripard wrote:  
-> > > > This will be mostly transparent to current committers and users: we'll
-> > > > still use dim, in the exact same way, the only change will be the URL of
-> > > > the repo. This will also be transparent to linux-next, since the
-> > > > linux-next branch lives in its own repo and is pushed by dim when
-> > > > pushing a branch.  
-> > >
-> > > Actually, I double-checked and linux-next pulls our branches directly,
-> > > so once the transition is over we'll have to notify them too.  
-> > 
-> > cc sfr - once we move the DRM repos to a different location, what's
-> > the best way to update linux-next?
-> > 
-> > That being said, we could set up read-only pull mirrors in the old
-> > location ... something I want to do in March (because what else are
-> > you going to do on holiday?) is to kill the write repos on kemper
-> > (git.fd.o), move them to being on molly (cgit/anongit.fd.o) only, and
-> > just have a cronjob that regularly pulls from all the gl.fd.o repos,
-> > rather than pushing from GitLab.
+> Of course, HDMI playback need the MT8365 display patches [1] and a DTS
+> change documented in "mediatek,mt8365-mt6357.yaml".
 > 
-> These are (I think) all the drm trees/branches that I fetch every day:
+> [1]: https://lore.kernel.org/all/20231023-display-support-v1-0-5c860ed5c33b@baylibre.com/
 > 
-> git://anongit.freedesktop.org/drm-intel#for-linux-next
-> git://anongit.freedesktop.org/drm-intel#for-linux-next-fixes
-> git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
-> git://anongit.freedesktop.org/drm/drm-misc#for-linux-next-fixes
-> git://git.freedesktop.org/git/drm/drm.git#drm-fixes
-> git://git.freedesktop.org/git/drm/drm.git#drm-next
-> git://git.freedesktop.org/git/drm/drm.git#topic/drm-ci
+> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 
-This one you can drop right away, it's all merged, apologies for not
-telling you earlier.
--Sima
+Actually, I am cooking a series (I'm finishing the testing....) that brings quite
+a bit of cleanups in MTK ASoC, including the commonization of the machine driver
+probe, with the dai-link DT nodes, and which also modernizes most of the existing
+drivers to use that instead.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git#for-linux-next
-> https://gitlab.freedesktop.org/agd5f/linux#drm-next
-> https://gitlab.freedesktop.org/drm/msm.git#msm-next
-> https://gitlab.freedesktop.org/drm/tegra.git#for-next
-> https://gitlab.freedesktop.org/lumag/msm.git#msm-next-lumag
+If you wait for a day or two, your mt8365-mt6357.c driver's probe function can be
+shrunk to ~3 lines or something like that.. very easily :-)
+
+Cheers,
+Angelo
+
+> ---
+> Alexandre Mergnat (15):
+>        ASoC: dt-bindings: mediatek,mt8365-afe: Add audio afe document
+>        ASoC: dt-bindings: mediatek,mt8365-mt6357: Add audio sound card document
+>        dt-bindings: mfd: mediatek: Add codec property for MT6357 PMIC
+>        ASoC: mediatek: mt8365: Add common header
+>        SoC: mediatek: mt8365: support audio clock control
+>        ASoC: mediatek: mt8365: Add I2S DAI support
+>        ASoC: mediatek: mt8365: Add ADDA DAI support
+>        ASoC: mediatek: mt8365: Add DMIC DAI support
+>        ASoC: mediatek: mt8365: Add PCM DAI support
+>        ASoC: mediatek: mt8365: Add platform driver
+>        ASoC: mediatek: Add MT8365 support
+>        arm64: defconfig: enable mt8365 sound
+>        arm64: dts: mediatek: add mt6357 audio codec support
+>        arm64: dts: mediatek: add afe support for mt8365 SoC
+>        arm64: dts: mediatek: add audio support for mt8365-evk
 > 
-> If someone could just send me all the new equivalent URLs when the
-> change happens, I will fix them up in my config.
+> Fabien Parent (1):
+>        mfd: mt6397-core: register mt6357 sound codec
 > 
-> -- 
-> Cheers,
-> Stephen Rothwell
+> Nicolas Belin (2):
+>        ASoc: mediatek: mt8365: Add a specific soundcard for EVK
+>        ASoC: codecs: mt6357: add MT6357 codec
+> 
+>   .../devicetree/bindings/mfd/mediatek,mt6357.yaml   |   11 +
+>   .../bindings/sound/mediatek,mt8365-afe.yaml        |  164 ++
+>   .../bindings/sound/mediatek,mt8365-mt6357.yaml     |  127 ++
+>   arch/arm64/boot/dts/mediatek/mt6357.dtsi           |    6 +-
+>   arch/arm64/boot/dts/mediatek/mt8365-evk.dts        |   95 +-
+>   arch/arm64/boot/dts/mediatek/mt8365.dtsi           |   47 +-
+>   arch/arm64/configs/defconfig                       |    2 +
+>   drivers/mfd/mt6397-core.c                          |    3 +
+>   sound/soc/codecs/Kconfig                           |    7 +
+>   sound/soc/codecs/Makefile                          |    2 +
+>   sound/soc/codecs/mt6357.c                          | 1805 +++++++++++++++
+>   sound/soc/codecs/mt6357.h                          |  674 ++++++
+>   sound/soc/mediatek/Kconfig                         |   20 +
+>   sound/soc/mediatek/Makefile                        |    1 +
+>   sound/soc/mediatek/mt8365/Makefile                 |   15 +
+>   sound/soc/mediatek/mt8365/mt8365-afe-clk.c         |  455 ++++
+>   sound/soc/mediatek/mt8365/mt8365-afe-clk.h         |   55 +
+>   sound/soc/mediatek/mt8365/mt8365-afe-common.h      |  495 +++++
+>   sound/soc/mediatek/mt8365/mt8365-afe-pcm.c         | 2347 ++++++++++++++++++++
+>   sound/soc/mediatek/mt8365/mt8365-dai-adda.c        |  355 +++
+>   sound/soc/mediatek/mt8365/mt8365-dai-dmic.c        |  475 ++++
+>   sound/soc/mediatek/mt8365/mt8365-dai-i2s.c         |  901 ++++++++
+>   sound/soc/mediatek/mt8365/mt8365-dai-pcm.c         |  298 +++
+>   sound/soc/mediatek/mt8365/mt8365-mt6357.c          |  379 ++++
+>   sound/soc/mediatek/mt8365/mt8365-reg.h             |  987 ++++++++
+>   25 files changed, 9718 insertions(+), 8 deletions(-)
+> ---
+> base-commit: 6613476e225e090cc9aad49be7fa504e290dd33d
+> change-id: 20240226-audio-i350-4e11da088e55
+> 
+> Best regards,
 
 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
