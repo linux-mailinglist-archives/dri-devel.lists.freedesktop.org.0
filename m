@@ -2,57 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B15BA867370
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 12:39:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 714EC86738C
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 12:41:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C89110E59A;
-	Mon, 26 Feb 2024 11:39:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8500D10E6BD;
+	Mon, 26 Feb 2024 11:41:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jfBFvazj";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WgDj6wdo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 954DD10E586;
- Mon, 26 Feb 2024 11:39:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1708947593; x=1740483593;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=PW+3V7li7NWspCrFINqFVFDXWaO6sy9FjTLyg8NOhBI=;
- b=jfBFvazjuIa72ENiaYquVo9tLAMXijcBzGkUZ1mTT6u+JK6HGBbaRwgu
- eDZySmZje3MJMOy2C/tfEyelDZ/ZnL+1aF79e01XGYlNC6kdbx+M69bsx
- nCNuf0uuJd2pGQzuvf+PszK2e8mvGfSUyy6T9ooAwX/1NCX8rs1uoC+EI
- wEoyh9DacfJVPDQJ0VY4j2PuE+7vNLtUjmurqZiG3wwydGn6ZeiwT5z0C
- ndFdKA6uKUxOYNvAq1O0g5XlO4EY38OGlEvsqejXmLfVT6xuF+1DuyFUh
- MzqaUSm7cWlbnRX8nUw+IJ2mprN3SBYeU1BpMRT4DK+0QT5M1Nv+4oLZj Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="3145888"
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="3145888"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2024 03:39:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="7068043"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Feb 2024 03:39:51 -0800
-Date: Mon, 26 Feb 2024 13:40:13 +0200
-From: Imre Deak <imre.deak@intel.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 02/21] drm/dp: Add support for DP tunneling
-Message-ID: <Zdx4nbMF4lNwF3Ze@ideak-desk.fi.intel.com>
-References: <20240220211841.448846-1-imre.deak@intel.com>
- <20240220211841.448846-3-imre.deak@intel.com>
- <ZdkO5VHKxG4Rbzjf@intel.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3238610E6BD
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 11:41:09 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 6B0F5CE172A;
+ Mon, 26 Feb 2024 11:41:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57D3EC433F1;
+ Mon, 26 Feb 2024 11:41:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1708947665;
+ bh=JIBFjlyzbBLDb0iX6p70cfAkvi8H+VL+liziBs3MaXk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WgDj6wdopy4vRWepKoCCct74Gom09R3NxjP9Syr4wLD3eQU8e2mEHuJc2XpLekmHB
+ f71cpVZT4Z73pteKsmavYazJfrwuBQFDV/ZtoGqFlpoXhMsqaCKKieICasQOVFSYYu
+ vPByLBAgYvb79iA6c39TF24XhMsy/aJsZLNAu8g6hSdNIJgX2NUaOhIvKlydYH+dh1
+ 93AKFfJlyNIzdndQ0hcVEM8xNkBQm6Uhg714F4wOpxXS9DJkcFndmlCvOXjmyG/gBV
+ 5UV61F5AKV725JIJpSBYnsvG7fa/qkTsZ1M9EihTfv6B/geSngZzbwiDsUKbEyW9zj
+ gMvcYKnPSmUEg==
+Date: Mon, 26 Feb 2024 12:41:03 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>, 
+ David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Stone <daniels@collabora.com>
+Subject: Re: drm-misc migration to Gitlab server
+Message-ID: <oazstrooilko4tfmead3b4l32tmz3szqpwgzy3kyga3xahjjfw@cbosrrwaul77>
+References: <gnthy5o42kiyj63d2bkkxsc5krzf3wrwt23chh2kthkmlyjwbg@ybynvjvqdka7>
+ <87bk83o3y3.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="dkwkgqso6pkhal2c"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZdkO5VHKxG4Rbzjf@intel.com>
+In-Reply-To: <87bk83o3y3.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,26 +58,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 23, 2024 at 11:32:21PM +0200, Ville Syrjälä wrote:
-> On Tue, Feb 20, 2024 at 11:18:22PM +0200, Imre Deak wrote:
-> > +static inline void drm_dp_tunnel_ref_put(struct drm_dp_tunnel_ref *tunnel_ref)
-> > +{
-> > +	drm_dp_tunnel_put(tunnel_ref->tunnel, &tunnel_ref->tracker);
-> 
-> Should we set tunnel_ref->tunnel=NULL here?
 
-Yes, thanks for spotting this. It also fixes 
-intel_crtc_prepare_cleared_state()->
-intel_dp_tunnel_atomic_clear_stream_bw()
+--dkwkgqso6pkhal2c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-if crtc_state::dp_tunnel_ref state doesn't get recomputed, for instance
-when disabling the crtc.
+On Mon, Feb 26, 2024 at 01:33:24PM +0200, Jani Nikula wrote:
+> On Tue, 20 Feb 2024, Maxime Ripard <mripard@kernel.org> wrote:
+> > ## Adding the a remaining users
+> >
+> > I was able to identify most of the users with an account on the old git
+> > server. However, there's a few I couldn't match with certainty to a
+> > gitlab account:
+> >
+> > * andr2000
+> > * jsarha
+> >
+> > Please let me know your Gitlab user so I can add them to the group.
+>=20
+> Is there no way for project owners/maintainers to see the email
+> addresses for members or access requests?
+>=20
+> We've been pretty lax with giving reporter role to deal with issues, but
+> it's quite a different thing to give developer role with push access,
+> and feels like you'll need a side channel to match usernames with email
+> addresses.
 
-> 
-> -- 
-> Ville Syrjälä
-> Intel
+For the recent-ish subscriptions, it's possible since we've required to
+open a Gitlab issue for a while, so we have the association between the
+Gitlab account and the SSH account already.
+
+During the Gitlab setup, the groups were also created already with the
+people that had an SSH account at the time, and Gitlab account.
+
+But for the rest, yeah, I had to ping Daniel S. about it. He could find
+a few matches, but there's some where we just don't know if or what the
+Gitlab account is.
+
+Generally speaking, we've been conservative about it, and only added
+accounts we were sure of.
+
+Maxime
+
+--dkwkgqso6pkhal2c
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZdx4zgAKCRDj7w1vZxhR
+xenjAPwMGiuaFcj1SGZocv/kL13QZ8uXOx78ImlSrcCxZKXVdAD9E2INlZwnsSxS
+ZdIL5YY5weG2xtLaKj7ahQFouVkoWQU=
+=X2GG
+-----END PGP SIGNATURE-----
+
+--dkwkgqso6pkhal2c--
