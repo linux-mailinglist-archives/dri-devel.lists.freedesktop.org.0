@@ -2,108 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B36F0867BAB
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 17:21:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6580D867BC8
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 17:24:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABCBE10E1C0;
-	Mon, 26 Feb 2024 16:21:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40FCB10E533;
+	Mon, 26 Feb 2024 16:24:48 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="eTxF+fcV";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com
- [209.85.160.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6014610E1C0
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 16:21:50 +0000 (UTC)
-Received: by mail-oa1-f53.google.com with SMTP id
- 586e51a60fabf-218642337c9so1730574fac.3
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 08:21:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708964507; x=1709569307;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=AnNfNm5GP8AlHR3LpO3OZDALnBwQPt1VpdE5YdvyhHU=;
- b=bb1zkeLxmy3H4P1G2i95aG0vLmQ4FTR1PwCrhTcZwjw0Vb9PTtZDrpmsDeplruyfZj
- 86b5r3ABR3QXOO7SFNpca90DmnBpMsxLtu16aWR8HLHwb5hA/I8Ag8WgiDkM2bKBR6YO
- B9jcZgkA5LlTAOX1JdJzotEKBFJRFdj4LWKpM5T41U3wrF/48cXaC6ABfijK7VvH10Cj
- 4L+cfw7y1a7MYgT7R0+BTczRBEOIVebzyyIaZNrvgwofpvH6fiYLrfYymEA2PNNas4V4
- gICPC3G0GwK2+fsIfQvgCBzMrBkYxGAz3LiRyY/K+semFpiYkyx0rEf0g607Dp+aSbWg
- SBFQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUZR9j5BPQEzZaSa1tbHzNaYMP8kuBvFtaJuijvRgOq6ty8X6FMDantlHyYKJJcZxCgl2D56eBFotV7pFpJznS/QSWJZj7wzy+v+xoKauKb
-X-Gm-Message-State: AOJu0YxpOkjxq0vAaTnDVFGkLr53XW+l7cswZHu3HTckqciBikulIDZQ
- CPYSJFBFqUG2KPl6l/UEGZYboWvb/I1pGfgiPpDdw4LsZkwHXIPJLj91NVl1V/U=
-X-Google-Smtp-Source: AGHT+IHUE5Q9Ag8FZbtz6pFZ1o2kLOLe/oYr/ne+IUGwNMrFp9RO5m+7EjpuOffYyt6aD0CnaD/taw==
-X-Received: by 2002:a05:6870:3a0e:b0:21e:6d41:3a86 with SMTP id
- du14-20020a0568703a0e00b0021e6d413a86mr7214593oab.59.1708964507269; 
- Mon, 26 Feb 2024 08:21:47 -0800 (PST)
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com.
- [209.85.167.181]) by smtp.gmail.com with ESMTPSA id
- lu5-20020a056871430500b0021f3c2ebc42sm1593139oab.45.2024.02.26.08.21.46
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Feb 2024 08:21:46 -0800 (PST)
-Received: by mail-oi1-f181.google.com with SMTP id
- 5614622812f47-3bba50cd318so2440381b6e.0
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 08:21:46 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUqidrQceBTR3m4hQm5J/HPoVFEjSQgr735Q+hM+NIVLjP+A/XqgP09bBjSSNoTWS8ih8GYRj/L9t3dKhDBvMkRkzSxtZlw3LoLZeIFK0ci
-X-Received: by 2002:a25:360b:0:b0:dcc:35ca:aac4 with SMTP id
- d11-20020a25360b000000b00dcc35caaac4mr5201494yba.51.1708964485283; Mon, 26
- Feb 2024 08:21:25 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1704788539.git.ysato@users.sourceforge.jp>
- <e5d965a1ba1447466c4a70c95b1e3aa8c1aebe4b.1704788539.git.ysato@users.sourceforge.jp>
-In-Reply-To: <e5d965a1ba1447466c4a70c95b1e3aa8c1aebe4b.1704788539.git.ysato@users.sourceforge.jp>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 26 Feb 2024 17:21:13 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVyz4mbExe8ZzPkVxEujYBhCBBrh88n8D6ykcZyy3=SEA@mail.gmail.com>
-Message-ID: <CAMuHMdVyz4mbExe8ZzPkVxEujYBhCBBrh88n8D6ykcZyy3=SEA@mail.gmail.com>
-Subject: Re: [DO NOT MERGE v6 02/37] sh: Kconfig unified OF supported targets.
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: linux-sh@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>,
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFC4E10E533
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 16:24:45 +0000 (UTC)
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it
+ [93.61.96.190])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2EC21CD1;
+ Mon, 26 Feb 2024 17:24:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1708964673;
+ bh=ugSvBfochfUcf2Jzb9upyp/8f12Rq3WglkeSDD3A+Tg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=eTxF+fcVNR/zBTlCqFeMNF0lP1NuO242040KBzpm2YsW6uy/N1boOB/MeWZtSh0vD
+ pOO+fUf3Ty2RswWwjNw6QrqUO/cAA8q91OuwjfitaJ/hoJE3L9gG05RuDt0U1Hgm8H
+ /d/2/sNDg5FRzE1MoFGWS64XHeLtb8ntYqnspZwE=
+Date: Mon, 26 Feb 2024 17:24:41 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+ dri-devel@lists.freedesktop.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Thomas Gleixner <tglx@linutronix.de>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
- Bjorn Helgaas <bhelgaas@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jiri Slaby <jirislaby@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>, Rich Felker <dalias@libc.org>, 
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Lee Jones <lee@kernel.org>, 
- Helge Deller <deller@gmx.de>, Heiko Stuebner <heiko@sntech.de>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Chris Morgan <macromorgan@hotmail.com>, 
- Yang Xiwen <forbidden405@foxmail.com>, Sebastian Reichel <sre@kernel.org>, 
- Linus Walleij <linus.walleij@linaro.org>, Randy Dunlap <rdunlap@infradead.org>,
- Arnd Bergmann <arnd@arndb.de>, Vlastimil Babka <vbabka@suse.cz>,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>, 
- David Rientjes <rientjes@google.com>, Baoquan He <bhe@redhat.com>, 
- Andrew Morton <akpm@linux-foundation.org>, Guenter Roeck <linux@roeck-us.net>, 
- Stephen Rothwell <sfr@canb.auug.org.au>, Azeem Shaikh <azeemshaikh38@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Max Filippov <jcmvbkbc@gmail.com>, 
- Palmer Dabbelt <palmer@rivosinc.com>, Bin Meng <bmeng@tinylab.org>, 
- Jonathan Corbet <corbet@lwn.net>, Jacky Huang <ychuang3@nuvoton.com>, 
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
- Sam Ravnborg <sam@ravnborg.org>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
- Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-ide@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org, 
- linux-serial@vger.kernel.org, linux-fbdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maxime Ripard <mripard@kernel.org>, libcamera-devel@lists.libcamera.org, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>
+Subject: Re: [RFC] drm/fourcc: Add RPI modifiers
+Message-ID: <473ei7jyjevynhb7roinhdaj2hnmsog6owiognlyp5fpfc63pa@mdn73c5gu46r>
+References: <20240226153854.99471-1-jacopo.mondi@ideasonboard.com>
+ <CAKMK7uE2CBuGsJUYDT-L8x1Tbjb-PiHUjro8-hDpxLvBWycgLw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uE2CBuGsJUYDT-L8x1Tbjb-PiHUjro8-hDpxLvBWycgLw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,97 +58,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sato-san,
+Hi Sima
 
-On Tue, Jan 9, 2024 at 9:23=E2=80=AFAM Yoshinori Sato
-<ysato@users.sourceforge.jp> wrote:
-> Targets that support OF should be treated as one board.
+On Mon, Feb 26, 2024 at 04:46:24PM +0100, Daniel Vetter wrote:
+> On Mon, 26 Feb 2024 at 16:39, Jacopo Mondi
+> <jacopo.mondi@ideasonboard.com> wrote:
+> >
+> > Add modifiers for the Raspberry Pi PiSP compressed formats.
+> >
+> > The compressed formats are documented at:
+> > Documentation/userspace-api/media/v4l/pixfmt-pisp-comp-rggb.rst
+> >
+> > and in the PiSP datasheet:
+> > https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > ---
+> >
+> > Background:
+> > -----------
+> >
+> > The Raspberry Pi PiSP camera subsystem is on its way to upstream through the
+> > Video4Linux2 subsystem:
+> > https://patchwork.linuxtv.org/project/linux-media/list/?series=12310
+> >
+> > The PiSP camera system is composed by a "Front End" and a "Back End".
+> > The FrontEnd part is a MIPI CSI-2 receiver that store frames to memory and
+> > produce statistics, and the BackEnd is a memory-to-memory ISP that converts
+> > images in a format usable by application.
+> >
+> > The "FrontEnd" is capable of encoding RAW Bayer images as received by the
+> > image sensor in a 'compressed' format defined by Raspberry Pi and fully
+> > documented in the PiSP manual:
+> > https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
+> >
+> > The compression scheme is documented in the in-review patch series for the BE
+> > support at:
+> > https://patchwork.linuxtv.org/project/linux-media/patch/20240223163012.300763-7-jacopo.mondi@ideasonboard.com/
+> >
+> > The "BackEnd" is capable of consuming images in the compressed format and
+> > optionally user application might want to inspect those images for debugging
+> > purposes.
+> >
+> > Why a DRM modifier
+> > ------------------
+> >
+> > The PiSP support is entirely implemented in libcamera, with the support of an
+> > hw-specific library called 'libpisp'.
+> >
+> > libcamera uses the fourcc codes defined by DRM to define its formats:
+> > https://git.libcamera.org/libcamera/libcamera.git/tree/src/libcamera/formats.yaml
+> >
+> > And to define a new libcamera format for the Raspberry Pi compressed ones we
+> > need to associate the above proposed modifiers with a RAW Bayer format
+> > identifier.
+> >
+> > In example:
+> >
+> >   - RGGB16_PISP_COMP1:
+> >       fourcc: DRM_FORMAT_SRGGB16
+> >       mod: PISP_FORMAT_MOD_COMPRESS_MODE1
+> >   - GRBG16_PISP_COMP1:
+> >       fourcc: DRM_FORMAT_SGRBG16
+> >       mod: PISP_FORMAT_MOD_COMPRESS_MODE1
+> >   - GBRG16_PISP_COMP1:
+> >       fourcc: DRM_FORMAT_SGBRG16
+> >       mod: PISP_FORMAT_MOD_COMPRESS_MODE1
+> >   - BGGR16_PISP_COMP1:
+> >       fourcc: DRM_FORMAT_SBGGR16
+> >       mod: PISP_FORMAT_MOD_COMPRESS_MODE1
+> >   - MONO_PISP_COMP1:
+> >       fourcc: DRM_FORMAT_R16
+> >       mod: PISP_FORMAT_MOD_COMPRESS_MODE1
+> >
+> > See
+> > https://patchwork.libcamera.org/patch/19503/
+> >
+> > Would if be acceptable for DRM to include the above proposed modifiers for the
+> > purpose of defining the above presented libcamera formats ? There will be no
+> > graphic format associated with these modifiers as their purpose it not
+> > displaying images but rather exchange them between the components of the
+> > camera subsystem (and possibly be inspected by specialized test applications).
 >
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-
-Thanks for your patch!
-
-> --- a/arch/sh/Kconfig
-> +++ b/arch/sh/Kconfig
-> @@ -710,6 +710,7 @@ choice
->         prompt "Kernel command line"
->         optional
->         default CMDLINE_OVERWRITE
-> +       depends on !OF || USE_BUILTIN_DTB
-
-This is still useful in the generic OF case.
-
-I think it would be good to model this similar to what arm/arm64/riscv
-are using (from bootloader / extend / force).
-
->         help
->           Setting this option allows the kernel command line arguments
->           to be set.
-> diff --git a/arch/sh/boards/Kconfig b/arch/sh/boards/Kconfig
-> index 109bec4dad94..e7e52779ef62 100644
-> --- a/arch/sh/boards/Kconfig
-> +++ b/arch/sh/boards/Kconfig
-> @@ -19,16 +19,9 @@ config SH_DEVICE_TREE
->         select TIMER_OF
->         select COMMON_CLK
->         select GENERIC_CALIBRATE_DELAY
-> -
-> -config SH_JCORE_SOC
-> -       bool "J-Core SoC"
-> -       select SH_DEVICE_TREE
-> -       select CLKSRC_JCORE_PIT
-> -       select JCORE_AIC
-> -       depends on CPU_J2
-> -       help
-> -         Select this option to include drivers core components of the
-> -         J-Core SoC, including interrupt controllers and timers.
-> +       select GENERIC_IRQ_CHIP
-> +       select SYS_SUPPORTS_PCI
-> +       select GENERIC_PCI_IOMAP if PCI
+> Yeah I think libcamera using drm-fourcc formats and modifiers is
+> absolutely ok, and has my ack in principle. And for these users we're
+> ok with merging modifiers that the kernel doesn't use.
 >
->  config SH_SOLUTION_ENGINE
->         bool "SolutionEngine"
-> @@ -293,6 +286,7 @@ config SH_LANDISK
->         bool "LANDISK"
->         depends on CPU_SUBTYPE_SH7751R
->         select HAVE_PCI
-> +       select SYS_SUPPORTS_PCI
->         help
->           I-O DATA DEVICE, INC. "LANDISK Series" support.
+
+Great!
+
+> I think it would be really good to formalize this by adding libcamera
+> to the officially listed users in the "Open Source User Waiver"
+> section in the drm_fourcc.h docs:
 >
-> @@ -369,6 +363,16 @@ config SH_APSH4AD0A
->         help
->           Select AP-SH4AD-0A if configuring for an ALPHAPROJECT AP-SH4AD-=
-0A.
+> https://dri.freedesktop.org/docs/drm/gpu/drm-kms.html#open-source-user-waiver
 >
-> +config SH_OF_BOARD
-> +       bool "General Open Firmware boards"
-> +       select SH_DEVICE_TREE
-> +       select CLKSRC_JCORE_PIT if CPU_J2
-> +       select JCORE_AIC if CPU_J2
+> You might want to convert that into a list, it could get a bit
+> confusing. Then we can get that patch properly acked (by kernel and
+> libcamera folks) to record the community consensus.
+>
 
-Please move these selects to CPU_J2 instead...
+I see your point, but I wonder if libcamera actually need to be part
+of this list; we want in-kernel upstream driver and open-source
+userspace components. We allow binary 3A modules to be loaded by the
+library, but I'm not sure they will ever need to modify the DRM 4cc list.
 
-> +       select HAVE_PCI if CPU_SUBTYPE_SH7751R
+Anyway, with other libcamera people ack, I can certainly do so!
 
-... and this to CPU_SUBTYPE_SH7751R, else it will become
-a long unmaintainable list soon...
+> For the rpi modifiers themselves: They need to be properly documented,
+> least to exclude a screw-up like with the rpi modifiers we already
+> have, which unfortunately encode the buffer height (instead of just
+> the rounding algorithim to align the height to the right tile size) in
+> the modifiers, which breaks assumptions everywhere. For details see
+> https://gitlab.freedesktop.org/wlroots/wlroots/-/merge_requests/4529#note_2262057
 
-> +       help
-> +         This board means general OF supported targets.
-> +
-> +
+I see. The formats are fully documented in the above linked datasheet,
+and I've provided (with the help of RPi engineers, as I don't
+understand the compression algorithm part :) a shorter description as
+part of the V4L2 patch series that upstreams the BE driver
 
-Gr{oetje,eeting}s,
+https://patchwork.linuxtv.org/project/linux-media/patch/20240223163012.300763-7-jacopo.mondi@ideasonboard.com/
 
-                        Geert
+The only indication about the buffer's layout I see is
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+  Each scanline is padded to a multiple of 8 pixels wide, and each block of 8
+  horizontally-contiguous pixels is coded using 8 bytes.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+While the rest of the text describes the compression algorithm which
+(afaiu) doesn't affect the buffer geometry.
+
+Would you be ok with me replicating the above description (or maybe
+just reference the V4L2 documentation ?)
+
+>
+> Cheers, Sima
+>
+> >
+> > ---
+> >  include/uapi/drm/drm_fourcc.h | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> >
+> > diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> > index 00db00083175..09b182a959ad 100644
+> > --- a/include/uapi/drm/drm_fourcc.h
+> > +++ b/include/uapi/drm/drm_fourcc.h
+> > @@ -425,6 +425,7 @@ extern "C" {
+> >  #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
+> >  #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
+> >  #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
+> > +#define DRM_FORMAT_MOD_VENDOR_RPI 0x0b
+> >
+> >  /* add more to the end as needed */
+> >
+> > @@ -1568,6 +1569,10 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
+> >  #define AMD_FMT_MOD_CLEAR(field) \
+> >         (~((__u64)AMD_FMT_MOD_##field##_MASK << AMD_FMT_MOD_##field##_SHIFT))
+> >
+> > +/* RPI (Raspberry Pi) modifiers */
+> > +#define PISP_FORMAT_MOD_COMPRESS_MODE1 fourcc_mod_code(RPI, 1)
+> > +#define PISP_FORMAT_MOD_COMPRESS_MODE2 fourcc_mod_code(RPI, 2)
+> > +
+> >  #if defined(__cplusplus)
+> >  }
+> >  #endif
+> > --
+> > 2.43.0
+> >
+>
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
