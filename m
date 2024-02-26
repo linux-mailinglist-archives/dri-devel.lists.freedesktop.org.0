@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69C34866DD1
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 10:13:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71337866DE4
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 10:15:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2935310EFB9;
-	Mon, 26 Feb 2024 09:13:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D31D210EFBE;
+	Mon, 26 Feb 2024 09:15:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="HK+9xRAL";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IWjXlFXg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
- [209.85.160.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F79D10EFB9
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 09:13:03 +0000 (UTC)
-Received: by mail-qt1-f182.google.com with SMTP id
- d75a77b69052e-42e5e1643adso23852931cf.3
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 01:13:03 -0800 (PST)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
+ [209.85.208.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0B1610EFBB
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 09:15:18 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id
+ 4fb4d7f45d1cf-5655c7dd3b1so4408597a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 01:15:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1708938782; x=1709543582; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1708938917; x=1709543717; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ecRoWB6BvHUhdzEjksTvnhXSI1/zwOKVS+LkVvmOMPQ=;
- b=HK+9xRALQZcH8b9FUaASK12UtsDD4XeaasxrzqSHz9qssGJ7p7VzXH6c5eW5EsHS89
- gcQCsNnGnqG1opmWmunGjH1kIycXGjLU5eLSbaA4t41orVGh7+rkyP29TPmWxSm/MdL8
- aRe5nD9/aDA2YHdO1IjPxLHHFemx5Xj7sU1PVMWs+eVx9CtDmkgK7MGxihEaNupkXNyV
- XzEjh3qlmVp6j8mqIHFO/dEponO/ok54C3WZFPyYT22hvmwfEn39+M5HVSTNfh1ZUxAA
- /tMt1lECqfE/qF2vHdVJyK4/+hTz0ZxzbpJqGK2Ac0IAmH/0y7T9d3IqoIVqSvgtKNPN
- j4VA==
+ bh=wlH1Ter4o/LuhmUGIySGl8jfbKhW6NJPyE0QFDQ/6s4=;
+ b=IWjXlFXg/yrj1+sMvWGmBBJnebFNAVgaDBeCNWRWpCTfjGt3QwnQf5/5e6uZs44Vl8
+ y5vf2Cn+zWhi9K3Kb5xaxrF4f6niBY5P7L1Fc/fia6LUDZ9iPgBhCawnNfead163GIsO
+ O56J3YyNtJV+wbq3dWHmXv5azTiR8Q99vHFLlwQDtaBscBE87mrFeLmLEO5fn/5/OK4F
+ x40ZjdhQguErg+kWYU+P2jjFjIZVCaYh9G8w+KCXq1wuPNMLSv99OvpiEj/LmNDJNUd+
+ FACH9wkY47ktgqB4FnMtmRTtAEbFlUNtUTDgFUexZeYAgaa0BX37SG0Q28j2je6239hH
+ CD/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708938782; x=1709543582;
+ d=1e100.net; s=20230601; t=1708938917; x=1709543717;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ecRoWB6BvHUhdzEjksTvnhXSI1/zwOKVS+LkVvmOMPQ=;
- b=na7lgJ2pO2kRNULWUuFt8vGZSSTJkDH6DPGW60LuLm5hJGfIaYCeO7UH6lNvvmX+Pz
- Wruun9a6CwfMOe9oYTeQCx5sxDOc0Whi/Tr67OscP5Y6fuizgHJXJfExI1+4pTf/4218
- 12ylKEze8w/wgacy24fvOJMkxH4StLtEBw4naW0fl9zvAFJO1j7VOj/hogGZk9ybEuIT
- oZZxG4oXchwsxOPdo9JTMLAOswklKNrs5F2WURN7BjOKcwwsP4EKrzLfzLw8mRGx1/E1
- 16qetSncaalXGBucYUYAZUiVLFoI2ECKfJs7XHlzVhcB+auw+77ww/+BhV3bub1HNgte
- zjwA==
+ bh=wlH1Ter4o/LuhmUGIySGl8jfbKhW6NJPyE0QFDQ/6s4=;
+ b=UQi/wUlTmE0fg7ycp+CChnt17KV5sKq0mindPo+Icu/V8gIIC22q3NNIrFuVqxNIVz
+ FWBj+i5gBkL3cElJ53WoquTnqgVZ72a5baOufO5JnxRsx6qbLdZS68iYB9kmH1mRYe2n
+ Upg/6xzTGdSX7w/zdOABUfYoIX5zY4oCAPfDEJoXYeSuGiADKkIEbfVpWzwWtppYEYkv
+ xQSCCA70zAY7wA+Hbv2mwuakgvM5xguwvEFqA8sYB/2ccJ/fElvdmfge3ftZukfTYeul
+ y6kolVH4sJPzgMQNDVZT82Rc0uxuPWg/7k7mFySuMmkepBxK2M7c7+Rq4XCI5S7UpkfN
+ Bg+Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVxB4ceACa5Icj8ZtwCDg2kYMvVZi29KW8IFSSdwqyo3BRm6pN9Ix+I4DqPFDa/ePkPOU85bLfM1qZ/01A9Uv4LcDND8v7jP1Loq3f5XMjU
-X-Gm-Message-State: AOJu0YxiSk6vjBbV5qC9iRVf0X8VlkbIhpXT6nzsXEBIqZROvqolTwey
- BWuKZWxdtkjDmc8opF/e+Ps6QMqXsFJR2O7lwfyGzWboxPdxstZ9Gnbr6VrsRD8=
-X-Google-Smtp-Source: AGHT+IG5KS/lj1TIzuJzr6YyKgAoDATn+QTG722b2AW5Wb9VXy3fFbOF5K7XJkl+GNVP9f0gf2LiOw==
-X-Received: by 2002:ac8:5909:0:b0:42e:8bb3:33b7 with SMTP id
- 9-20020ac85909000000b0042e8bb333b7mr871347qty.11.1708938782433; 
- Mon, 26 Feb 2024 01:13:02 -0800 (PST)
+ AJvYcCWKFr8EYmYvlxAL7tcD296xnPmDeUAHmNpK/1JGMaYp5OEpCKV4b9TZhHANPTnnb28XO4ppH118NSTZA7FVdiyOwCefhPvFIT1O/JaiVOQm
+X-Gm-Message-State: AOJu0YwXgYDKrRX/s1hC8DTOE++jDR57qDe37RwCAt0eJu0lpNjIIm/k
+ GII8npKGE7xMkMHjBTzNbVRbi5dDs9JPlKI+k9LZnZucUpX/GEQPTdK6Vs1EC6Q=
+X-Google-Smtp-Source: AGHT+IEXUVR/N8Ym4kzVlbEuwaD2lWsgOYP5/F36Su6nMdyWMJ//J8As/t2DKFX23EsFXq+ZVVEfZg==
+X-Received: by 2002:a17:906:1745:b0:a3f:2168:214b with SMTP id
+ d5-20020a170906174500b00a3f2168214bmr5890928eje.1.1708938916861; 
+ Mon, 26 Feb 2024 01:15:16 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.222.116])
  by smtp.gmail.com with ESMTPSA id
- o6-20020ac85546000000b0042e637083b7sm2221677qtr.26.2024.02.26.01.12.58
+ tl18-20020a170907c31200b00a437d3e975esm167009ejc.210.2024.02.26.01.15.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Feb 2024 01:13:02 -0800 (PST)
-Message-ID: <13aeb2ff-72f4-49d9-b65e-ddc31569a936@linaro.org>
-Date: Mon, 26 Feb 2024 10:12:56 +0100
+ Mon, 26 Feb 2024 01:15:16 -0800 (PST)
+Message-ID: <310cefcb-a4d5-4f4f-a482-ba2ff08a57f6@linaro.org>
+Date: Mon, 26 Feb 2024 10:15:14 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 8/9] media: dt-bindings: Add Intel Displayport RX IP
+Subject: Re: [PATCH v2 9/9] ARM: dts: chameleonv3: Add video device nodes
 Content-Language: en-US
 To: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>, airlied@gmail.com,
  akpm@linux-foundation.org, conor+dt@kernel.org, daniel@ffwll.ch,
@@ -72,7 +72,7 @@ Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  chromeos-krk-upstreaming@google.com, ribalda@chromium.org
 References: <20240221160215.484151-1-panikiel@google.com>
- <20240221160215.484151-9-panikiel@google.com>
+ <20240221160215.484151-10-panikiel@google.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -118,7 +118,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240221160215.484151-9-panikiel@google.com>
+In-Reply-To: <20240221160215.484151-10-panikiel@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -137,132 +137,24 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 21/02/2024 17:02, Paweł Anikiel wrote:
-> The Intel Displayport RX IP is a part of the DisplayPort Intel FPGA IP
-> Core. It implements a DisplayPort 1.4 receiver capable of HBR3 video
-> capture and Multi-Stream Transport. The user guide can be found here:
-> 
-> https://www.intel.com/programmable/technical-pdfs/683273.pdf
+> Add device nodes for the video system present on the Chameleon v3.
+> It consists of six framebuffers and two Intel Displayport receivers.
 > 
 > Signed-off-by: Paweł Anikiel <panikiel@google.com>
 > ---
->  .../devicetree/bindings/media/intel,dprx.yaml | 160 ++++++++++++++++++
->  1 file changed, 160 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/intel,dprx.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/intel,dprx.yaml b/Documentation/devicetree/bindings/media/intel,dprx.yaml
-> new file mode 100644
-> index 000000000000..31025f2d5dcd
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/intel,dprx.yaml
-> @@ -0,0 +1,160 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/intel,dprx.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Intel DisplayPort RX IP
-> +
-> +maintainers:
-> +  - Paweł Anikiel <panikiel@google.com>
-> +
-> +description: |
-> +  The Intel Displayport RX IP is a part of the DisplayPort Intel FPGA IP
-> +  Core. It implements a DisplayPort 1.4 receiver capable of HBR3 video
-> +  capture and Multi-Stream Transport.
-> +
-> +  The IP features a large number of configuration parameters, found at:
-> +  https://www.intel.com/content/www/us/en/docs/programmable/683273/23-3-20-0-1/sink-parameters.html
-> +
-> +  The following parameters have to be enabled:
-> +    - Support DisplayPort sink
-> +    - Enable GPU control
-> +  The following parameters' values have to be set in the devicetree:
-> +    - RX maximum link rate
-> +    - Maximum lane count
-> +    - Support MST
-> +    - Max stream count (only if Support MST is enabled)
-> +
-> +properties:
-> +  compatible:
-> +    const: intel,dprx-20.0.1
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  intel,max-link-rate:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: Max link rate configuration parameter
 
-Please do not duplicate property name in description. It's useless.
-Instead explain what is this responsible for.
+...
 
-Why max-link-rate would differ for the same dprx-20.0.1? And why
-standard properties cannot be used?
+> +		dprx_sst: dp-receiver@c0064000 {
+> +			compatible = "intel,dprx-20.0.1";
+> +			reg = <0xc0064000 0x800>;
+> +			interrupt-parent = <&dprx_sst_irq>;
+> +			interrupts = <0 IRQ_TYPE_EDGE_RISING>;
+> +			intel,max-link-rate = <0x1e>;
 
-Same for all questions below.
+Rate is not in hex! Rate is in Hz, at least usually...
 
-> +
-> +  intel,max-lane-count:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: Max lane count configuration parameter
-> +
-> +  intel,multi-stream-support:
-> +    type: boolean
-> +    description: Multi-Stream Transport support configuration parameter
-> +
-> +  intel,max-stream-count:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: Max stream count configuration parameter
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/properties/port
-> +    description: SST main link
-
-I don't understand why you have both port and ports. Shouldn't this be
-under ports?
-
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: MST virtual channel 0 or SST main link
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: MST virtual channel 1
-> +
-> +      port@2:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: MST virtual channel 2
-> +
-> +      port@3:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: MST virtual channel 3
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +
-> +allOf:
-> +  - if:
-> +      required:
-> +        - intel,multi-stream-support
-> +    then:
-> +      required:
-> +        - intel,max-stream-count
-> +        - ports
-> +    else:
-> +      required:
-> +        - port
-
+Fix your bindings...
 
 Best regards,
 Krzysztof
