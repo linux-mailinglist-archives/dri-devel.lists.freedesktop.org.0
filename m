@@ -2,60 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72AFE8674E9
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 13:29:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECE328674F5
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 13:30:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAEA610E584;
-	Mon, 26 Feb 2024 12:29:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F9CF10F13B;
+	Mon, 26 Feb 2024 12:30:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="kYR60E33";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="EPkqIIez";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3564F10E584
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 12:29:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1708950576;
- bh=FdayiuUa0lPM16SkkBcVAS345PVinGNRNV8BhjB+2Z8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=kYR60E339+DP4Z9qcK/T9Tj7OP2p7wKAx7rRTqae8QUNhCA8BPYrkIGvrbRIFY6AS
- tTHw3LdBnnrCxZobHWzkIt5n7rJNQ1dhPXZDe1f3tEIYHsJnLFhSzgWV+G7ejNvVTk
- hA/L8+aH4VQnnPEZ4Lh6ojzo3OeGi0cSoveU9HaMRiJfMr0d5aMh95bk3a4VFy6mFA
- Wz21zZM9bMEzxpnPJOTq4zO+XVkpBsCZZvLO2q6RQDjFcydB/MH+v95F6tt8BOwIug
- C2j4UfEK0sWlyFfT111iU5cQ73M5soi+3PCg5GCrqH0FjUEMUQ0sXxfSEc5HAuuoYZ
- B1xaezf3MJdDA==
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: pq)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id D5EE137803EE;
- Mon, 26 Feb 2024 12:29:34 +0000 (UTC)
-Date: Mon, 26 Feb 2024 14:29:33 +0200
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
- <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com,
- nicolejadeyee@google.com
-Subject: Re: [PATCH v3 0/9] drm/vkms: Reimplement line-per-line pixel
- conversion for plane reading
-Message-ID: <20240226142933.56a60970.pekka.paalanen@collabora.com>
-In-Reply-To: <20240226-yuv-v3-0-ff662f0994db@bootlin.com>
-References: <20240226-yuv-v3-0-ff662f0994db@bootlin.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B47710F13B
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 12:30:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=9E9uFo1ZA4/GNHoSVHywi3ucQYA9wjLjy4y7D2QRVoQ=; b=EPkqIIez4XfxwdTWX1fAQshniD
+ FJKNTXjlGpDIVV5cx73AbQbU7Azp2+otOzvEDrCbsB1QB+UOdRraNjeC+SLcngtv5x07m/8qNxxEk
+ RFGK6TdhGxMHDTlogi9HFkwbumaJaAmi1/JIOxPj4WUSyekNPJzY70rmgEsMuxH/ga1KXbKOfLMGH
+ M4DCO2/SXb6kiAQzcWXAQL0Q0WNp1RqilelPemAmio440xzS6+9rI4r3ps1c/E4irVejK+hTBIedD
+ SFPxx2OLYHPYoYfP8T2JqQAV016Ngc6nrUsDZuyH4Nx3wzURyDeEYrR+RmUrkTBkKYVCfmB0OA9rX
+ BUDcgD0w==;
+Received: from [177.34.169.255] (helo=[192.168.0.139])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1rea7q-003YnI-Ph; Mon, 26 Feb 2024 13:30:31 +0100
+Message-ID: <1c91ff55-e6c6-4543-bbf5-c7543cc03979@igalia.com>
+Date: Mon, 26 Feb 2024 09:30:24 -0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/dkfPYvU.MIx4fUuMxdI2u57";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 30/36] drm/vc4: tests: Convert to plane creation helper
+Content-Language: en-US
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
+ <20240222-kms-hdmi-connector-state-v7-30-8f4af575fce2@kernel.org>
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Autocrypt: addr=mcanal@igalia.com; keydata=
+ xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
+ H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
+ hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
+ GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
+ rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
+ s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
+ GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
+ pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
+In-Reply-To: <20240222-kms-hdmi-connector-state-v7-30-8f4af575fce2@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,54 +83,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/dkfPYvU.MIx4fUuMxdI2u57
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 2/22/24 15:14, Maxime Ripard wrote:
+> Now that we have a plane create helper for kunit mocked drivers, let's
+> convert to it in vc4.
 
-On Mon, 26 Feb 2024 09:46:30 +0100
-Louis Chauvet <louis.chauvet@bootlin.com> wrote:
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
 
-> This patchset is the second version of [1]. It is almost a complete=20
-> rewrite to use a line-by-line algorithm for the composition.
-> It can be divided in three parts:
-> - PATCH 1 to 4: no functional change is intended, only some formatting an=
-d=20
-> documenting
-> (PATCH 2 is taken from [2])
-> - PATCH 5: main patch for this series, it reintroduce the=20
-> line-by-line algorithm
-> - PATCH 6 to 9: taken from Arthur's series [2], with sometimes adaptation=
-=20
-> to use the pixel-by-pixel algorithm.
+Best Regards,
+- Maíra
 
-Hi Louis,
-
-I'll skip v3 because I was still reviewing v2 while you posted this.
-I'm done on v2 now.
-
-
-Thanks,
-pq
-
---Sig_/dkfPYvU.MIx4fUuMxdI2u57
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXchC0ACgkQI1/ltBGq
-qqfAhQ/9HtmiTswygFvd34aYrcwIZL4tkNAGO1m9GO/tg0PCt3/rF9fDdJBJgaFq
-lg+gSqQ1hlNNcCYnveRE1n+Py/JleVrBBVWMKZAGyNeS0MX7w+7rCZvY9Ekn3lB2
-/sJrdXkIVz3egqaamewzgxaYcUyefSpscdoWwMg/peXOQ3O4HgfCtQoQ31GYBbFT
-qwgOzunbnSNaxMQJyzxx6tbTwuLyAagjnnPD1nsH9PX2M/1bElefVyvKee/VNQVy
-CDBkdJ+M3kMNbEpJflXTxNJj3NEZvoMZrvZ5yBIL9N1pv9jHo62iDoIyWxfxz+JR
-YtDktw06mdBO1qACV7RMoye32q72h0bC93vixoUFpUdoi5jJhscMZI8EXZIpeoYQ
-3oTYC5JDWWL/QaoE/1KhxBtEX9MBY1pOh65XE4eaXnEMZVpIVBdThQE042K/BHPe
-0nJBbXHWK7VOx9UoeQJtXZViwgEIepVdAqaLVkF7XOW8ki5EJaQ8ePjq2RVN0oEc
-w1yeuOibpiQ7PutqhmrYEJ+/5yQZnzeJjveyriQt2ZAJHRz4fD0P8nnTMmfYQ4pp
-i7R/LI6f75XHmgyM+cavrak7YB7kQCqour0xqYrF2VHCsXbzVR7UK4qfJJafQYKx
-tfq/SuEiQVmnHd311S5ZPTRugJHXdEAr796UWEn6hC7nwb50sWI=
-=2siJ
------END PGP SIGNATURE-----
-
---Sig_/dkfPYvU.MIx4fUuMxdI2u57--
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>   drivers/gpu/drm/vc4/tests/vc4_mock_plane.c | 34 +++++++-----------------------
+>   1 file changed, 8 insertions(+), 26 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vc4/tests/vc4_mock_plane.c b/drivers/gpu/drm/vc4/tests/vc4_mock_plane.c
+> index 973f5f929097..14357db82238 100644
+> --- a/drivers/gpu/drm/vc4/tests/vc4_mock_plane.c
+> +++ b/drivers/gpu/drm/vc4/tests/vc4_mock_plane.c
+> @@ -1,43 +1,25 @@
+>   // SPDX-License-Identifier: GPL-2.0
+>   
+> -#include <drm/drm_atomic_state_helper.h>
+> -#include <drm/drm_fourcc.h>
+> -#include <drm/drm_modeset_helper_vtables.h>
+> +#include <drm/drm_kunit_helpers.h>
+>   #include <drm/drm_plane.h>
+>   
+>   #include <kunit/test.h>
+>   
+>   #include "vc4_mock.h"
+>   
+> -static const struct drm_plane_helper_funcs vc4_dummy_plane_helper_funcs = {
+> -};
+> -
+> -static const struct drm_plane_funcs vc4_dummy_plane_funcs = {
+> -	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
+> -	.atomic_duplicate_state	= drm_atomic_helper_plane_duplicate_state,
+> -	.reset			= drm_atomic_helper_plane_reset,
+> -};
+> -
+> -static const uint32_t vc4_dummy_plane_formats[] = {
+> -	DRM_FORMAT_XRGB8888,
+> -};
+> -
+>   struct drm_plane *vc4_dummy_plane(struct kunit *test, struct drm_device *drm,
+>   				  enum drm_plane_type type)
+>   {
+>   	struct drm_plane *plane;
+>   
+> -	plane = __drmm_universal_plane_alloc(drm, sizeof(struct drm_plane), 0,
+> -						 0,
+> -						 &vc4_dummy_plane_funcs,
+> -						 vc4_dummy_plane_formats,
+> -						 ARRAY_SIZE(vc4_dummy_plane_formats),
+> -						 NULL,
+> -						 DRM_PLANE_TYPE_PRIMARY,
+> -						 NULL);
+> +	KUNIT_ASSERT_EQ(test, type, DRM_PLANE_TYPE_PRIMARY);
+> +
+> +	plane = drm_kunit_helper_create_primary_plane(test, drm,
+> +						      NULL,
+> +						      NULL,
+> +						      NULL, 0,
+> +						      NULL);
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane);
+>   
+> -	drm_plane_helper_add(plane, &vc4_dummy_plane_helper_funcs);
+> -
+>   	return plane;
+>   }
+> 
