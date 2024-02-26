@@ -2,63 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD215867A77
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 16:41:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DA79867A89
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 16:43:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD9C210E77D;
-	Mon, 26 Feb 2024 15:41:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0805610E782;
+	Mon, 26 Feb 2024 15:43:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="hjk6dUMh";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="WbEaNCZy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com
- [209.85.167.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AFDA10E77D
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 15:41:08 +0000 (UTC)
-Received: by mail-oi1-f176.google.com with SMTP id
- 5614622812f47-3bc23738beaso126033b6e.1
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 07:41:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1708962067; x=1709566867; darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=3Rjvug8FUBsUDBCli+oMoGYni81h310cRMRHKXsq8Mg=;
- b=hjk6dUMhhfq4uSOHZIAUsxMT1Aw9ikPrrrs+hr1NeH6PxZ2o7L8GyIut/SnjX1PceW
- tOfBgH4XA2ryZ4qCEsOUYQM0dIFtvxCTUX4T5w7fsdvwtPHV216VOBqaQfT7B2CnFWJG
- tn+X6f8BVSjO/GiClyGwnPWAl3znNXuc8y/wM=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E27FA10E780
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 15:43:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1708962188;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+Uxw+sQNakqQLPRpTomhLcxrX+5PbOLt6iGYhmbbhYA=;
+ b=WbEaNCZyB6yRjQ8V9HB3BtJgdE2wghp5TZaRxwAPZitcr2m7lJj9uq059qPnU+Nc5yMfEe
+ 8jAbcEJINmZ+nlSLK+z6dXKwmFmb99pFvvXTKFDbrBr1/A9VTT3q9II0zovkAhCoA1FbTn
+ x3Q8R/UJqnAlUC/IuYt6fMgepzDbDMc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-404-HRNmuWEaPXOaxLbDcHt-CQ-1; Mon, 26 Feb 2024 10:43:07 -0500
+X-MC-Unique: HRNmuWEaPXOaxLbDcHt-CQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-412a927a7abso2015875e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 07:43:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708962067; x=1709566867;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=3Rjvug8FUBsUDBCli+oMoGYni81h310cRMRHKXsq8Mg=;
- b=KWDT1c+R3K4ndzaurPyxBV82gT2wcZ2rG8KuYCNAusSYYLjvKQrFl0GUu5Fuuy9pUQ
- fDUvLAcKLiv0FHPvxJsC/5n2E5T1WIc3dM5+4I4nCOEhhkCMQ4RHGlws8ruV37rtacQD
- OhOGJh5vxUXWVMXaj0cjpYZBg0qNQTobE7Mc6zY64ECT8cl6KiXmGv+PFXHYl4jQg5ZN
- jlWG57Bp14CkzdX32ExeXvMBpLvDyf7uhj6p76tngOBZ3DUIIuxHmCKU3On9lQzCnlOo
- ATCFCrX6WJ1cVYOHcblPCd06+nLgIyI2p42Zuq2JCAQzZjs1jCUrg6mwKd2gOHPWyBpl
- UJdA==
+ d=1e100.net; s=20230601; t=1708962186; x=1709566986;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+Uxw+sQNakqQLPRpTomhLcxrX+5PbOLt6iGYhmbbhYA=;
+ b=kV3DxeFKTxoGZyNdH0UjDoQVXEEpmgT4fZ2kkYLV8QmY5S7nkVZ1pO3c77MV7LyI2C
+ 35artOqSKew5zL1mWKkGDThvfJCTAE8rx35xV4RMHYhuVg3PPCgvxiojURibjrhF4rnn
+ WZFpvqUWPa7GxC/ZKZ/+v/BwI8qf3xw/dmsMnPpRamn9jFqRQuekcHH6pbrGJ3Nil75i
+ xhHVSdZiv/VB3ZI+XDxh6IE0eHKUO3Hm11uTvBrkrbqQ3Gohsozv2j7N/32CaZejyysb
+ wdJqWtXpCfXOw6TgE69r1ekTHeKUkerleQdo5X3j/Rwy6t2DGoExV0e53IaI27rrYc7D
+ zX+w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXt7mBa8bJC7z8abMV1Grrexanh5iT7i5AfBaq72mlgBceZyQz+/X+hGrh0cCgqk3HNA9Xiwc3Fk3F/byawO59352dW2nH4PF3242T+l7Z8
-X-Gm-Message-State: AOJu0Yyw3r4ubtWIVL/6kWTnHHplcFRyWB5PueyJRgL2IenPUcpIi9A9
- KRm1KJXE2iEktBm8cQsS+Ud18jppnEjxBdP+61cAm2Ck7S2MSjCOw/bbNoiGIoqkMtULzNUFkoR
- X0l8yYSbwrkyRP6JaXLtkJRC9gFIVxKrN5Q6hbVAjyMuLakGl
-X-Google-Smtp-Source: AGHT+IEFPKxdhujM7KvcpdAG4LwkRZzoDtJU8Q7yFCNAPY9PyEIObMp/RuYuRc8J638EPo/GYgmSRK3YS+dx7NY5WgI=
-X-Received: by 2002:a05:6870:5713:b0:21f:c6a8:f870 with SMTP id
- k19-20020a056870571300b0021fc6a8f870mr7336888oap.4.1708962067569; Mon, 26 Feb
- 2024 07:41:07 -0800 (PST)
+ AJvYcCUVTWHcjL00sw1N5WvARKzxE7vdi5BPbCuVbhcSv0m6dA7a9aPP2aO0oGn/t3xlyihivRYvwulOhmGXlHANKQDiIe0Tly9dklW1UufukYMn
+X-Gm-Message-State: AOJu0YyafHNT2MeRLCnZSButjy7sifebB+fEZ2wI9G7EbQXGJrvbd+zF
+ tf//V52CWcCPXbqFg7pPXO2azLJjJ0eOBXvYGTJZbB61ZcdhEnLmgphZiksrGogDqkxAumkVNKu
+ bpSKJoIwKwIOzNmnf7b9wW3l99aGs5mvGv8D7LHe/Gciwk8QRskuS3U3ZO0XFardgWQ==
+X-Received: by 2002:a05:600c:1da3:b0:412:a9f2:74dd with SMTP id
+ p35-20020a05600c1da300b00412a9f274ddmr65648wms.38.1708962186157; 
+ Mon, 26 Feb 2024 07:43:06 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF1aXK/z2uOoyiMFTIsyuIfp+MdLZrkGeZzOXvlLof74+2bwDWNC7CQmOUNemBtXtz9+VrAFg==
+X-Received: by 2002:a05:600c:1da3:b0:412:a9f2:74dd with SMTP id
+ p35-20020a05600c1da300b00412a9f274ddmr65635wms.38.1708962185811; 
+ Mon, 26 Feb 2024 07:43:05 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ y1-20020a05600c20c100b00411a595d56bsm8476006wmm.14.2024.02.26.07.43.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Feb 2024 07:43:05 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>
+Cc: Daniel Stone <daniels@collabora.com>, Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH] MAINTAINERS: Update drm.git URL
+In-Reply-To: <20240226152123.131406-1-mripard@kernel.org>
+References: <20240226152123.131406-1-mripard@kernel.org>
+Date: Mon, 26 Feb 2024 16:43:04 +0100
+Message-ID: <871q8zp6yf.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-References: <20240226151631.130754-1-mripard@kernel.org>
-In-Reply-To: <20240226151631.130754-1-mripard@kernel.org>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Mon, 26 Feb 2024 16:40:56 +0100
-Message-ID: <CAKMK7uG4-625wJ2cZsjQRAUvJY-WSk8Y70nX1yi10o1iMzO6TQ@mail.gmail.com>
-Subject: Re: [rerere PATCH] nightly.conf: Switch drm.git to gitlab
-To: Maxime Ripard <mripard@kernel.org>
-Cc: David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org, 
- Daniel Stone <daniels@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,50 +89,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 26 Feb 2024 at 16:16, Maxime Ripard <mripard@kernel.org> wrote:
->
-> Start the big migration with drm.git.
->
-> Existing remotes need to be adjusted with
->
-> git remote set-url drm ssh://git@gitlab.freedesktop.org:drm/kernel.git
->
-> or
->
-> git remote set-url drm https://gitlab.freedesktop.org/drm/kernel.git
+Maxime Ripard <mripard@kernel.org> writes:
+
+Hello Maxime,
+
+> Now that the main DRM tree has moved to Gitlab, adjust the MAINTAINERS
+> git trees to reflect the location change.
 >
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-
-Acked.
--Sima
-
 > ---
->  nightly.conf | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->
-> diff --git a/nightly.conf b/nightly.conf
-> index c189f2ccad17..68ac687a5c7f 100644
-> --- a/nightly.conf
-> +++ b/nightly.conf
-> @@ -45,10 +45,8 @@ https://anongit.freedesktop.org/git/drm/drm-misc
->  https://anongit.freedesktop.org/git/drm/drm-misc.git
->  "
->  drm_tip_repos[drm]="
-> -ssh://git.freedesktop.org/git/drm/drm
-> -git://anongit.freedesktop.org/drm/drm
-> -https://anongit.freedesktop.org/git/drm/drm
-> -https://anongit.freedesktop.org/git/drm/drm.git
-> +https://gitlab.freedesktop.org/drm/kernel.git
-> +ssh://git@gitlab.freedesktop.org:drm/kernel.git
->  "
->  drm_tip_repos[linux-upstream]="
->  git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> --
-> 2.43.2
->
 
+Are you planning to post another patch to change the entries that point to
+the git://anongit.freedesktop.org/drm/drm-misc tree ?
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
