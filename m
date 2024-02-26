@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF93D867788
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 15:02:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3C0E867794
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 15:03:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE2B110F1F6;
-	Mon, 26 Feb 2024 14:02:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED1FE10F1FF;
+	Mon, 26 Feb 2024 14:03:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="cAorLhWY";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="PopbfQts";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B87D510F1A0
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 14:02:28 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-512d19e2cb8so4630702e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 06:02:28 -0800 (PST)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B31E110F1A0
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 14:02:29 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-412a38e2adaso8268995e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 06:02:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1708956146; x=1709560946;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1708956148; x=1709560948;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=zA6Y8WaWiyVxJ/xYCh7GUPTM71b4HBf0Ymw0AKthDEc=;
- b=cAorLhWYBRhH8HhnOsRRangL0cgxfbKCdnNWw1xe30Vefhg7fn/XI/TwPEqPTIvW37
- gLxCUzLZHLTeWzMRcIYgDBFkxl6z2yPqk/f6XWhlgIwCxX3AR8biGScrgYSPFX9DE4hp
- haQbqfv7VcIZXO8uZ8JoAHwgKMNxLejWbT+InvLBofSJlUvygoVTFlAAzqXDIpN2tuKO
- /CFng3dnO3wNTD7i5MIi4gPlck0S/UVWQoteXzAAteDYQmZBAirppj+yVhyO5rPxLgUL
- 4KDy16KmtOYqGy/bIr11jAd6k9pikSasl6kf0l6d1yo3GnqRrovBnKn4zLsWMOCSuNeK
- 7ZAw==
+ :reply-to; bh=bDWI7WdWN/xqchY8MpbLI2Q/P6BoSTpm5HQ84jq3qfg=;
+ b=PopbfQts1ny3yQ0yN3ldo5jGBLWuPU2jiLxMxHYtB8VXQslTvn+G/RIe2CXrCdnwXX
+ mZRuIyXQgbyefcRXXqUQXSL9BQAA99rVMj/B/JfQhlugc/lzEmzyn6UypY0Bze2oIQ3X
+ 7xx21y5MvsGo6VZ5fvXwJ+pLHQkXKo/M3g5oHswwr8pzjk4igQ16XXEcYYokh61KnBgn
+ tukiW4sNXBf//lVwNxP+chExwGibngnRyZw9Rxhvccty4UYq+O6slcM3Z8ukGf+RcfLn
+ R01/2ehQfhk9jrUN6NBiaCE46kXoiWUf/nHZM+469nBhtd6kR8H1m4fPD1iJHqWhV7eg
+ 9osw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708956146; x=1709560946;
+ d=1e100.net; s=20230601; t=1708956148; x=1709560948;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=zA6Y8WaWiyVxJ/xYCh7GUPTM71b4HBf0Ymw0AKthDEc=;
- b=JdLThc0kt/rMvvC8uLqUSNdRJcJGtjCd3TLZPLy2GCQZx3tL6/4Z2WYuwIRss0ICcC
- 0FccS92yzezXvtqWxtjH2CWDVj4qzUV36TqkGOntbuN67Qd0mCiR/PAYGmkthkOHNdur
- B4byydUqXKbYAbpynFl2rckjkkGqBOmP9GDuP9ak9Hr16OWOdVclf5tFVbOgr1YMlpT5
- vBixD8DNffvFE0m2ODValaT0glru9PUy0/SA6+GAZ80qN6DwwJjP1/Se4U+BxwLZjWH8
- i35T2L1zwUJqHTPeYT2Ar0EZqpze7agYGiKFN4w7O46gQTBHFU28aERayW4c+rvVR1bl
- LkKg==
+ bh=bDWI7WdWN/xqchY8MpbLI2Q/P6BoSTpm5HQ84jq3qfg=;
+ b=q38ug0Xjm9fR0udrWik0s1/JcUZgdT5Q4v0lzonEQ/rdGm66SmxZZtCx442JaF9yuq
+ 7pCM+ToDtmRrwLJYFC7bt6kG8VAOL/4vfKFmORG+bbBkq9q1YG45O6C4o341dgrVDjdz
+ jAAWX2+uoWvAlLD8mWM58lBEHG8fE0Jccg+H3llN1vC56FgO0cs99h2tnYOfIDE47657
+ UKy5YskrlVF4wTdgPWvEW4QZrSUulc6W3XYKZtFN95nF+EXzG+FST/yfJ/vkFWck/je3
+ tMyZ7L5fa5rimDc52V1lOXlhZIyCeB9+KxGIb5EULg9SAMyAsVnQZ+NbvWS8NT10sFAz
+ C1ug==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXtknC+MAzMeW6i8TDLHEKZZXrdmSI2kwXXoyPwkhSpjYikOt1bvhC6bfux4D/blFqKIHIjOoS3duHSWi4FE11N1ehcsvbT1lhe7xKqSyr2
-X-Gm-Message-State: AOJu0Yw9YTL+LbC9IrXTM0k8aUi4E6hBLEUiJzS+bJDJTdjMPuVpX40w
- E/syn0PGkG+IqYXi560UB77NMFLqaftt+m890Lm5s5Fa7sd1hsNqpTRebOzt/+U=
-X-Google-Smtp-Source: AGHT+IFZTYGnkejti+WCUV0bUYklgWDkRIQ3OpYZLpgocYTsWqEZ09TnWQAenfEV9LOzKDtQuB6hbw==
-X-Received: by 2002:a05:6512:3da9:b0:512:aa52:5cce with SMTP id
- k41-20020a0565123da900b00512aa525ccemr5583650lfv.12.1708956146625; 
- Mon, 26 Feb 2024 06:02:26 -0800 (PST)
+ AJvYcCWcXz+5GxFDdZDD7Np+ihoMjjsFQbp4YO8/C2RiuVhXppN/WqbT0kDkt+Y9U/bZz7nx5PXFL39Yx2HnhBXDb8lCLPIx62UmmfI2Dah3pt3p
+X-Gm-Message-State: AOJu0YwxNovvqkvn3AwVBgQMby+6TFVyvNmO6egw5cfy1a3ueQoUxwBj
+ flo5P0hS2WLhtQDkSaPPkBbDGXNlmM6A1TCoypLS1rbFHqhZ+4bl6dfTorpF9xQ=
+X-Google-Smtp-Source: AGHT+IHWP/qkYWdxWpHEOS8rjToyu4G798DZv6YBQMjIkLWJWPFpz5/qUpxUbGtrV03PZ5K0SplPJA==
+X-Received: by 2002:a05:600c:5489:b0:412:a1c4:66d5 with SMTP id
+ iv9-20020a05600c548900b00412a1c466d5mr2993620wmb.6.1708956147845; 
+ Mon, 26 Feb 2024 06:02:27 -0800 (PST)
 Received: from [127.0.1.1] ([93.5.22.158])
  by smtp.googlemail.com with ESMTPSA id
- d33-20020a05600c4c2100b004129f87a2c6sm2838475wmp.1.2024.02.26.06.02.25
+ d33-20020a05600c4c2100b004129f87a2c6sm2838475wmp.1.2024.02.26.06.02.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Feb 2024 06:02:26 -0800 (PST)
+ Mon, 26 Feb 2024 06:02:27 -0800 (PST)
 From: Alexandre Mergnat <amergnat@baylibre.com>
-Date: Mon, 26 Feb 2024 15:01:52 +0100
-Subject: [PATCH 14/18] ASoC: mediatek: Add MT8365 support
+Date: Mon, 26 Feb 2024 15:01:53 +0100
+Subject: [PATCH 15/18] arm64: defconfig: enable mt8365 sound
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240226-audio-i350-v1-14-4fa1cea1667f@baylibre.com>
+Message-Id: <20240226-audio-i350-v1-15-4fa1cea1667f@baylibre.com>
 References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
 In-Reply-To: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -82,20 +82,20 @@ Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
  Alexandre Mergnat <amergnat@baylibre.com>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2430; i=amergnat@baylibre.com; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=777; i=amergnat@baylibre.com; 
  h=from:subject:message-id;
- bh=7gKtKZ96mpebE4/UyNGtTbO/tF9O5foCSjcP2W5e+6o=; 
- b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBl3JncDRU2NBAq5rld4NoSuR28KwMZlIfGU8IBQSkN
- SNQJ2tqJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZdyZ3AAKCRArRkmdfjHURfDGD/
- 9m97Nzpk6hOjVqK3PFbQax0+QGFlRuqovyHNa4EU9vmGuGO8caLPUuugYcx559tE8h+O1jkQCrwNWX
- Q/XOJ1FDmQ6RI9Q+XZF3AxpJllFfCjLhgqxMDYasFUG3w/1ZZ+ENS9Nl1WonR/58W3CFvWLABh6fqV
- N3JD01coH9rYNalJvFiv512AS5tFcJFWbfHDgxPE9yPGue60swyFLkrzI5+2j3X4SrKoM6Dgzqq4wc
- eojs5yS/ONSWbcY0vq3o5QMLyQkPdZBm5BLautmVV3Jy3SHMqvwmuve/casoFCf5K/J3MBxJDDVhqs
- OxpWXaazPI1cPcWxo3B3pVoK6YuwDtZb6QH3dWTgiJlmdorv3ErELXiBUZy6Sua5s3+zvVJS8RPz8Y
- VKeco0kB7OYIYUWEs0BT0TVeGj4sUqqyV99af0vY4kP21ygqowS6nN+yioba0wVhvNidAcRHZB/qoL
- lkBf9JDhphrOQl8xUhvVGCAmMxegJ6est/k6fJZ7hCb1UE3biVtE/p7RAeYSlt8/nMBrXK+2SO58XW
- AC5zcWZnuO6QzvwI29ZugDYm0/gxJx+tHTdzK7IqfeloT5QeH3QDzvxl0JQBbP3FUXC1vKm59Or25T
- LhPQU64Udhs7slsra/bjBBFsekuxfIFzBMn9iRPU7SDoam+8QkzwtjU02C5A==
+ bh=35n2GsRcpTZr3lOxOrHagpbcqAgi2905jIabSC1TVuI=; 
+ b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBl3JndJ19aagvtDXuZQ0/9DdusYhsa8CdGoAfiK+Wc
+ Gt6z2s6JAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZdyZ3QAKCRArRkmdfjHURTqHD/
+ 934l6M/jGn2yIyXJ+H7MJY3XE3WHJZZH2XV18t06deIoLU2VYNVI9icYiXE3kWlTsugcaBrHFVdLfw
+ LXDiTpZeqxap6v7hy3e5BcB+1kBBm0b242bXkAN/yLqPLoa8J+eGpLA0DZ0GuiNZTC0B3qCQi7TPNp
+ ZJP2h+BTawbIPutN1ZogugnUa7s7abKX25cXLAfRn+3rFhcDy9hTi4cgLA5b6Y2ozG1nuvVvRsFO27
+ 9c0fgNdWilfdZbn5EWoPRVFtscYocxq1w1lqCTprO7YNT+I+4c4+8GvaVuuDgaQP33qROKicyT3IsI
+ AyAC9o4NYiaUjIX19hIvq0pEopkv22VPMXOShzFztdCon+CTTW56zvJw58DBl8ajyBG/ZEL4i9IwMX
+ e2fHAQXvwuMpNj6HVRiWWh1wqstY/tcck7h5HSGoMVnhSBqAKQANmmwyavlPir/cfla8c3Yfr68Eg2
+ MpiJbP3Pw/IACIwg/vJ1fH/IB9zbSek9i6bti0FE52dIluxg7MsCM5/ThLq7AA3ac5Lk5U9ay2q80f
+ HtfYo59N2TqCcD/MAMTArwQP4w8uyTj+N9U9bSfZ3cmHRAFnYp2Aqt8380CM1TBNqYTo5k3/uu1OqP
+ IRbvhiPyZA/odmosICzKALd0F0QjU81jby46zspKro4iZcoEuCxQ6rXSu7ug==
 X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
  fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -113,76 +113,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-- Add specific config to enable:
-  - MT8365 sound support
-  - MT6357 audio codec support
-- Add the mt8365 directory and all drivers under it.
+Enable the MediaTek MT8365-EVK sound support.
+
+The audio feature is handled by the MT8365 SoC and
+the MT6357 PMIC codec audio.
 
 Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 ---
- sound/soc/mediatek/Kconfig         | 20 ++++++++++++++++++++
- sound/soc/mediatek/Makefile        |  1 +
- sound/soc/mediatek/mt8365/Makefile | 15 +++++++++++++++
- 3 files changed, 36 insertions(+)
+ arch/arm64/configs/defconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/sound/soc/mediatek/Kconfig b/sound/soc/mediatek/Kconfig
-index 296b434caf81..671020037a99 100644
---- a/sound/soc/mediatek/Kconfig
-+++ b/sound/soc/mediatek/Kconfig
-@@ -314,3 +314,23 @@ config SND_SOC_MT8195_MT6359
- 	  boards with the MT6359 and other I2S audio codecs.
- 	  Select Y if you have such device.
- 	  If unsure select "N".
-+
-+config SND_SOC_MT8365
-+	tristate "ASoC support for Mediatek MT8365 chip"
-+	depends on ARCH_MEDIATEK
-+	select SND_SOC_MEDIATEK
-+	help
-+	  This adds ASoC platform driver support for Mediatek MT8365 chip
-+	  that can be used with other codecs.
-+	  Select Y if you have such device.
-+	  If unsure select "N".
-+
-+config SND_SOC_MT8365_MT6357
-+	tristate "ASoC Audio driver for MT8365 with MT6357 codec"
-+	depends on SND_SOC_MT8365 && MTK_PMIC_WRAP
-+	select SND_SOC_MT6357
-+	help
-+	  This adds support for ASoC machine driver for Mediatek MT8365
-+	  boards with the MT6357 codec.
-+	  Select Y if you have such device.
-+	  If unsure select "N".
-diff --git a/sound/soc/mediatek/Makefile b/sound/soc/mediatek/Makefile
-index 3938e7f75c2e..4b55434f2168 100644
---- a/sound/soc/mediatek/Makefile
-+++ b/sound/soc/mediatek/Makefile
-@@ -9,3 +9,4 @@ obj-$(CONFIG_SND_SOC_MT8186) += mt8186/
- obj-$(CONFIG_SND_SOC_MT8188) += mt8188/
- obj-$(CONFIG_SND_SOC_MT8192) += mt8192/
- obj-$(CONFIG_SND_SOC_MT8195) += mt8195/
-+obj-$(CONFIG_SND_SOC_MT8365) += mt8365/
-diff --git a/sound/soc/mediatek/mt8365/Makefile b/sound/soc/mediatek/mt8365/Makefile
-new file mode 100644
-index 000000000000..52ba45a8498a
---- /dev/null
-+++ b/sound/soc/mediatek/mt8365/Makefile
-@@ -0,0 +1,15 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+# MTK Platform driver
-+snd-soc-mt8365-pcm-objs := \
-+	mt8365-afe-clk.o \
-+	mt8365-afe-pcm.o \
-+	mt8365-dai-adda.o \
-+	mt8365-dai-dmic.o \
-+	mt8365-dai-i2s.o \
-+	mt8365-dai-pcm.o
-+
-+obj-$(CONFIG_SND_SOC_MT8365) += snd-soc-mt8365-pcm.o
-+
-+# Machine driver
-+obj-$(CONFIG_SND_SOC_MT8365_MT6357) += mt8365-mt6357.o
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index e6cf3e5d63c3..83aaefb1c866 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -929,6 +929,8 @@ CONFIG_SND_SOC_MT8192=m
+ CONFIG_SND_SOC_MT8192_MT6359_RT1015_RT5682=m
+ CONFIG_SND_SOC_MT8195=m
+ CONFIG_SND_SOC_MT8195_MT6359=m
++CONFIG_SND_SOC_MT8365=m
++CONFIG_SND_SOC_MT8365_MT6357=m
+ CONFIG_SND_MESON_AXG_SOUND_CARD=m
+ CONFIG_SND_MESON_GX_SOUND_CARD=m
+ CONFIG_SND_SOC_QCOM=m
 
 -- 
 2.25.1
