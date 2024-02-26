@@ -2,46 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13740867A70
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 16:39:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32530867A74
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 16:40:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F4E010E77A;
-	Mon, 26 Feb 2024 15:39:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46BFF10E777;
+	Mon, 26 Feb 2024 15:40:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FDtchzjr";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="O17O3/Tb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D9F110E777
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 15:39:16 +0000 (UTC)
-Received: from localhost.localdomain (93-61-96-190.ip145.fastwebnet.it
- [93.61.96.190])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 40DB8673;
- Mon, 26 Feb 2024 16:39:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1708961943;
- bh=it1/wFCrtpA8WF6VMSYJ7atoGY0tvgQDb2l4BKHt8i0=;
- h=From:To:Cc:Subject:Date:From;
- b=FDtchzjr3p1v5ic0ucCN23wDZyA8Teqa6rxs9VHeMmaSuOUtx74fm+giVSHqH795i
- FzOJmaF/cEPJ4A1GurI2oBgYNmHYhcr0tSyhiPNEx1Ez3Kh93muN8a5EDPey3cgHAO
- F+9OPx1MsXqNNwqOgBe/XSZFVsW+DWba12hx3+qk=
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Naushir Patuck <naush@raspberrypi.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, libcamera-devel@lists.libcamera.org
-Subject: [RFC] drm/fourcc: Add RPI modifiers
-Date: Mon, 26 Feb 2024 16:38:50 +0100
-Message-ID: <20240226153854.99471-1-jacopo.mondi@ideasonboard.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com
+ [209.85.210.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E35F410E777
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 15:40:50 +0000 (UTC)
+Received: by mail-ot1-f46.google.com with SMTP id
+ 46e09a7af769-6e4857d93ebso1005576a34.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 07:40:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1708962049; x=1709566849; darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=pyMLvsyxekyA4CMwFKpfc+stHn46li+mS3qSIosHUgs=;
+ b=O17O3/TbSmoBsq+wM83d2zygg6CyQhuqIW+LSnh0G8MYITbeUGg2DsXB5OitmL02XG
+ W81guBkz/CmXrgtJNBurVW2cEZ6uvA6/LpBWRlZIuiSLCUEMPQtiHNb6o2U7e5DxUF3j
+ fWtaNpmyuaBJ7DLcelx5CRi2a1aa0fesp/LR8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708962049; x=1709566849;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=pyMLvsyxekyA4CMwFKpfc+stHn46li+mS3qSIosHUgs=;
+ b=vGipK/kYXKpzHgohWwpHu2W9p/6n5HWeFMPOBURBN/ogZfZS6eZJeJuLGbVmhfzADZ
+ WQBjfX1WxHXsx06pHD6Bqg7+2vAuzlilAjODor65yHn8yqssmV4B+O+t8ZXlk7mtCzWB
+ QRzfA87q/dk/hkBEWxcXtDxDV9MLxa+uJKVoyXOhQPpDuHgFXd3FI6Z5n7XEl3zosJ6y
+ UdWu4lPZeYTuSigGMzkoDosgRdvWDb4f29qb2vYmGxwelOXHviqfLI4Kn+ua1rjw2KhQ
+ +MeA2nCUuUvEmZmGdbft6xH/lQidj+Fj3rJHWM6dNouozARmPPTcK3C7iY21kPTkafvD
+ T4hA==
+X-Gm-Message-State: AOJu0Yx9XGB5Hh9PudGBtGIP6AunyondOkyh+B7eWB6NwfB8xbjDmusB
+ f9fLXD4AEvmOhbonVZJ3E5KieT+DikeDAvcHj0HvNczbJpWq7/4QvYPRi3ehdJO/qmk07AE314p
+ ySL6UpUuXcnFksU6hElnYHY1/gvZixkjFteDPyw==
+X-Google-Smtp-Source: AGHT+IGOPKWjCteUOlp7izpTV1fiGMWHG1mpro9GvV57MswiPzrBaFi5AFwQTzqOqjIIuSP1wZw9YUcw3kkR+KTagSc=
+X-Received: by 2002:a05:6870:c112:b0:21f:ccef:a4d1 with SMTP id
+ f18-20020a056870c11200b0021fccefa4d1mr7252070oad.4.1708962049579; Mon, 26 Feb
+ 2024 07:40:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240226152123.131406-1-mripard@kernel.org>
+In-Reply-To: <20240226152123.131406-1-mripard@kernel.org>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Mon, 26 Feb 2024 16:40:37 +0100
+Message-ID: <CAKMK7uEKhtA9NO3X7PB9Kinsi7Rt9XmQZhVVjcm-DoQCy+uL1A@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: Update drm.git URL
+To: Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>, 
+ Daniel Stone <daniels@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,109 +72,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add modifiers for the Raspberry Pi PiSP compressed formats.
+On Mon, 26 Feb 2024 at 16:21, Maxime Ripard <mripard@kernel.org> wrote:
+>
+> Now that the main DRM tree has moved to Gitlab, adjust the MAINTAINERS
+> git trees to reflect the location change.
+>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-The compressed formats are documented at:
-Documentation/userspace-api/media/v4l/pixfmt-pisp-comp-rggb.rst
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-and in the PiSP datasheet:
-https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
+> ---
+>  MAINTAINERS | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 7e7e7c378913..00e8a8ff627e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -614,7 +614,7 @@ AGPGART DRIVER
+>  M:     David Airlie <airlied@redhat.com>
+>  L:     dri-devel@lists.freedesktop.org
+>  S:     Maintained
+> -T:     git git://anongit.freedesktop.org/drm/drm
+> +T:     git https://gitlab.freedesktop.org/drm/kernel.git
+>  F:     drivers/char/agp/
+>  F:     include/linux/agp*
+>  F:     include/uapi/linux/agp*
+> @@ -6996,7 +6996,7 @@ L:        dri-devel@lists.freedesktop.org
+>  S:     Maintained
+>  B:     https://gitlab.freedesktop.org/drm
+>  C:     irc://irc.oftc.net/dri-devel
+> -T:     git git://anongit.freedesktop.org/drm/drm
+> +T:     git https://gitlab.freedesktop.org/drm/kernel.git
+>  F:     Documentation/devicetree/bindings/display/
+>  F:     Documentation/devicetree/bindings/gpu/
+>  F:     Documentation/gpu/
+> --
+> 2.43.2
+>
 
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
----
 
-Background:
------------
-
-The Raspberry Pi PiSP camera subsystem is on its way to upstream through the
-Video4Linux2 subsystem:
-https://patchwork.linuxtv.org/project/linux-media/list/?series=12310
-
-The PiSP camera system is composed by a "Front End" and a "Back End".
-The FrontEnd part is a MIPI CSI-2 receiver that store frames to memory and
-produce statistics, and the BackEnd is a memory-to-memory ISP that converts
-images in a format usable by application.
-
-The "FrontEnd" is capable of encoding RAW Bayer images as received by the
-image sensor in a 'compressed' format defined by Raspberry Pi and fully
-documented in the PiSP manual:
-https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
-
-The compression scheme is documented in the in-review patch series for the BE
-support at:
-https://patchwork.linuxtv.org/project/linux-media/patch/20240223163012.300763-7-jacopo.mondi@ideasonboard.com/
-
-The "BackEnd" is capable of consuming images in the compressed format and
-optionally user application might want to inspect those images for debugging
-purposes.
-
-Why a DRM modifier
-------------------
-
-The PiSP support is entirely implemented in libcamera, with the support of an
-hw-specific library called 'libpisp'.
-
-libcamera uses the fourcc codes defined by DRM to define its formats:
-https://git.libcamera.org/libcamera/libcamera.git/tree/src/libcamera/formats.yaml
-
-And to define a new libcamera format for the Raspberry Pi compressed ones we
-need to associate the above proposed modifiers with a RAW Bayer format
-identifier.
-
-In example:
-
-  - RGGB16_PISP_COMP1:
-      fourcc: DRM_FORMAT_SRGGB16
-      mod: PISP_FORMAT_MOD_COMPRESS_MODE1
-  - GRBG16_PISP_COMP1:
-      fourcc: DRM_FORMAT_SGRBG16
-      mod: PISP_FORMAT_MOD_COMPRESS_MODE1
-  - GBRG16_PISP_COMP1:
-      fourcc: DRM_FORMAT_SGBRG16
-      mod: PISP_FORMAT_MOD_COMPRESS_MODE1
-  - BGGR16_PISP_COMP1:
-      fourcc: DRM_FORMAT_SBGGR16
-      mod: PISP_FORMAT_MOD_COMPRESS_MODE1
-  - MONO_PISP_COMP1:
-      fourcc: DRM_FORMAT_R16
-      mod: PISP_FORMAT_MOD_COMPRESS_MODE1
-
-See
-https://patchwork.libcamera.org/patch/19503/
-
-Would if be acceptable for DRM to include the above proposed modifiers for the
-purpose of defining the above presented libcamera formats ? There will be no
-graphic format associated with these modifiers as their purpose it not
-displaying images but rather exchange them between the components of the
-camera subsystem (and possibly be inspected by specialized test applications).
-
----
- include/uapi/drm/drm_fourcc.h | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-index 00db00083175..09b182a959ad 100644
---- a/include/uapi/drm/drm_fourcc.h
-+++ b/include/uapi/drm/drm_fourcc.h
-@@ -425,6 +425,7 @@ extern "C" {
- #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
- #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
- #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
-+#define DRM_FORMAT_MOD_VENDOR_RPI 0x0b
-
- /* add more to the end as needed */
-
-@@ -1568,6 +1569,10 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
- #define AMD_FMT_MOD_CLEAR(field) \
- 	(~((__u64)AMD_FMT_MOD_##field##_MASK << AMD_FMT_MOD_##field##_SHIFT))
-
-+/* RPI (Raspberry Pi) modifiers */
-+#define PISP_FORMAT_MOD_COMPRESS_MODE1 fourcc_mod_code(RPI, 1)
-+#define PISP_FORMAT_MOD_COMPRESS_MODE2 fourcc_mod_code(RPI, 2)
-+
- #if defined(__cplusplus)
- }
- #endif
---
-2.43.0
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
