@@ -2,63 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29493866D6A
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 10:01:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78091866D69
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 10:01:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D881A10EF94;
-	Mon, 26 Feb 2024 09:01:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6950110EF95;
+	Mon, 26 Feb 2024 09:01:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="ajxHPNc+";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="SYY/3zp7";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jXsvWkuL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B22510EF91
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 09:01:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1708938076; x=1740474076;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=1dfSttFAckwOQAmC1ve5LgiPNLJsHK4JP7XZDTkYNuA=;
- b=ajxHPNc+6Xn1Cwr/XwbSVl+4OIDCcl2KNi9VZw5HCMNUT8rqNiXKLiZl
- z1KmGmPcYJSv3XcKgnthDo/m/sFxvZGDR4UKGn8q9vJU5Q3szJq6QMVZZ
- RMhj1HtCsA6QvrwKVErJv7YzyeB2gaUTwjXMENct+3rox/g+ovbYllVo9
- KvJz3aun8tZAAzegJXkIS48C8CWKBzXpOwU1wrWPkCzuIJlJu+xl7lkNV
- ujU27taj3QFzXdvOlUVnfb7+cifPDE3AonaxpTqvPVaD9lElQVvZlTMld
- ZGjn0/deXBGim7n35O8Py3VWT4QF/VV3R1OKmxYOZFjxvVqMogaKjHsqd A==;
-X-IronPort-AV: E=Sophos;i="6.06,185,1705359600"; d="scan'208";a="35589021"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 26 Feb 2024 10:01:13 +0100
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 08F11161427; Mon, 26 Feb 2024 10:01:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1708938069; h=from:subject:date:message-id:to:cc:mime-version:
- content-transfer-encoding; bh=1dfSttFAckwOQAmC1ve5LgiPNLJsHK4JP7XZDTkYNuA=;
- b=SYY/3zp7x8QiKOHJcB7rCv+tbl44IANZ19yC++/0yXIFGaNJht1DExfMIudv0YEJsgcTBc
- 1zVxrLvigteiBy5ovJvSZSqeuHsKgd27UHkG2IAcVwUliifs7Q/UfP9AlrNxJPzNztl6bc
- m4s/ZKYvK2zchPUylpzkp0C4Vou/1c8o3+UNw/RXixLWXqV94Zo58VjhQqKA1FzC1PqB9X
- ntxhnIWtwK3aUe+CER7IZAw0eaK9ByEilq9Feowl+oDBFdh1/29P+65MPGqDF2LwD2/win
- WKNPk48agcvc9+H9npwk5nSDFu3IKjdKCZbqqXT0e2AxwJ4cvbPK9PJU7b9ULA==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/1] drm/bridge: Silence error messages upon probe deferral
-Date: Mon, 26 Feb 2024 09:59:18 +0100
-Message-Id: <20240226085918.264205-1-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0881710EF91
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 09:01:14 +0000 (UTC)
+Received: from [192.168.88.20] (91-154-35-128.elisa-laajakaista.fi
+ [91.154.35.128])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 18538D52;
+ Mon, 26 Feb 2024 10:01:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1708938062;
+ bh=TrzznGj+9QHW2rg6AAhuJo8UOZUrp43vQa3s2F58xdw=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=jXsvWkuL8reypA7F9OjhNj5bo+9E1NGxaQNrkFxcr2q5tsW7TkCynWGiyzOuohhGQ
+ hi/bd66ognOzJhfHtolICb5Dd4pyRnbrYoMnIweFU2uInn19lYPjfxGKLlgNSDncTX
+ ks9aV5iwzYG0Ozce1XwTvb2kZOhIGvtX+S9ajMoI=
+Message-ID: <42255362-4720-414e-b442-f98355e92968@ideasonboard.com>
+Date: Mon, 26 Feb 2024 11:01:10 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] Fixes for omapdrm console
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To: Tony Lindgren <tony@atomide.com>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+References: <20240225064700.48035-1-tony@atomide.com>
+ <43fc93f1-d602-47ae-98e5-ee6be4ea5192@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <43fc93f1-d602-47ae-98e5-ee6be4ea5192@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,47 +104,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When -EPROBE_DEFER is returned do not raise an error, but silently return
-this error instead. Fixes error like this:
-[drm:drm_bridge_attach] *ERROR* failed to attach bridge
-  /soc@0/bus@30800000/mipi-dsi@30a00000 to encoder None-34: -517
-[drm:drm_bridge_attach] *ERROR* failed to attach bridge
-  /soc@0/bus@30800000/mipi-dsi@30a00000 to encoder None-34: -517
+On 26/02/2024 10:26, Tomi Valkeinen wrote:
+> Hi Tony,
+> 
+> On 25/02/2024 08:46, Tony Lindgren wrote:
+>> Here are two fixes for omapdrm console.
+> 
+> How is it broken? I don't usually use the console (or fbdev) but 
+> enabling it now, it seems to work fine for me, on DRA76 EVM with HDMI 
+> output.
 
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-Reviewed-by: Robert Foss <rfoss@kernel.org>
----
-Changes in v3:
-* Adjust the indentation
-* Proper line breaks in commit messages
+After applying your patches, I see a lot of cache-related artifacts on 
+the screen when updating the fb.
 
- drivers/gpu/drm/drm_bridge.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 521a71c61b164..08b474d82c9fc 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -353,13 +353,15 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
- 	bridge->encoder = NULL;
- 	list_del(&bridge->chain_node);
- 
-+	if (ret != -EPROBE_DEFER) {
- #ifdef CONFIG_OF
--	DRM_ERROR("failed to attach bridge %pOF to encoder %s: %d\n",
--		  bridge->of_node, encoder->name, ret);
-+		DRM_ERROR("failed to attach bridge %pOF to encoder %s: %d\n",
-+			  bridge->of_node, encoder->name, ret);
- #else
--	DRM_ERROR("failed to attach bridge to encoder %s: %d\n",
--		  encoder->name, ret);
-+		DRM_ERROR("failed to attach bridge to encoder %s: %d\n",
-+			  encoder->name, ret);
- #endif
-+	}
- 
- 	return ret;
- }
--- 
-2.34.1
+  Tomi
 
