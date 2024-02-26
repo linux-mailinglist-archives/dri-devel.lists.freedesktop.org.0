@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EC64867536
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 13:39:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BDB8867535
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 13:39:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10AF510E720;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1714810E721;
 	Mon, 26 Feb 2024 12:39:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="xz02KPGR";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Gikzga5N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AB6710E705
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 12:39:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E8E810E712
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 12:39:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1708951161;
- bh=Vb2OybRb6EbpquqUXrX2fpZBgmRePi8veZhFDg0yXtE=;
+ s=mail; t=1708951163;
+ bh=leBMz78ecPcrLpo4jWp3OD2kzCaYPdWixO79WpUqSTM=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=xz02KPGRNIGVOdyyV41Fi7rJ7IasD2HnHqqOJxzWTlYkynqEtaFajqBmBItrpg+8g
- FlDYRJpPukRP2tFmKT5z6VlHKZNXlYjqXonZuLL9SM4cwDH6XLvvqlvI+Tg+tzQzG+
- GZNjifZrVw5nAhHP99UC4en/vf2EXKLVLncFt3xEunPoD92P4z9j5wbvo0ADkx7qzd
- 7RZ1Tfs5D7u5fH7vkgDVdS5Ts6Dsdd7iEha0lYXC5DkkhiVi5LJ6oP2jLKYAWyg3Kc
- E9Rl+Hq0AG7Im5astKl2yHniiwC9YQM+ekticvYsEZIXTvDpCuwbDswCA2yBvRAwOJ
- px0ddrg79oipw==
+ b=Gikzga5Nt88vHmKjoR02aYiPPaAHIRYRQMo9buItMr0k0CQLXw0R1p7nC7BhBButD
+ LsRc+BAhk3TlmKPkZFGSylmBpz59zUSg3eSF0MkgWANZLJizPexryHbslpF4nK2Gyy
+ jAsBdWAPNjSy4sg3IrlEglDI+Y1p3dG16ow44t6gSkXumnxA8D4TeYq/yBbnxmfveX
+ H8OOoZQUOg4uZgUBK+9kY8RrOdhZ+/ERUPiSwLxx4yZK/v3m5Iqg0v9RoSL+AF511u
+ wA9raKJC59MDuOye2oSGEA+DXQMl5pu9x51arabwGJzW+XeLq5mUTl+g5N3HelrK9k
+ YRS2BNoVv2PvA==
 Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id ED26237820D4;
- Mon, 26 Feb 2024 12:39:20 +0000 (UTC)
-Message-ID: <2a980f3b-616a-4371-8799-818367f7f65c@collabora.com>
-Date: Mon, 26 Feb 2024 13:39:20 +0100
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 0AE7F37803EE;
+ Mon, 26 Feb 2024 12:39:21 +0000 (UTC)
+Message-ID: <db96c6cb-2d7c-4a9e-8763-d2055da3a442@collabora.com>
+Date: Mon, 26 Feb 2024 13:39:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/11] drm/mediatek: Rename "mtk_drm_gem" to "mtk_gem"
+Subject: Re: [PATCH 03/11] drm/mediatek: Rename "mtk_drm_plane" to "mtk_plane"
 Content-Language: en-US
 To: Shawn Sung <shawn.sung@mediatek.com>,
  Chun-Kuang Hu <chunkuang.hu@kernel.org>
@@ -49,9 +49,9 @@ Cc: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
  linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
  Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
 References: <20240226085059.26850-1-shawn.sung@mediatek.com>
- <20240226085059.26850-5-shawn.sung@mediatek.com>
+ <20240226085059.26850-4-shawn.sung@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20240226085059.26850-5-shawn.sung@mediatek.com>
+In-Reply-To: <20240226085059.26850-4-shawn.sung@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,7 +72,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Il 26/02/24 09:50, Shawn Sung ha scritto:
 > From: Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
 > 
-> Rename all "mtk_drm_gem" to "mtk_gem":
+> Rename all "mtk_drm_plane" to "mtk_plane":
 > - To align the naming rule
 > - To reduce the code size
 > 
