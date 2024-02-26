@@ -2,68 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0032D867128
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 11:33:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECC78867163
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 11:38:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5158F10EDDE;
-	Mon, 26 Feb 2024 10:33:39 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="i+qdZdI6";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C9A910E4DF;
+	Mon, 26 Feb 2024 10:38:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7BC010E45E
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 10:33:37 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id
- 4fb4d7f45d1cf-56586a6bb34so730677a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 02:33:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1708943616; x=1709548416; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=sVrgk5sT71oQLsEToda7i8I5A5amx5s6C1JRzuzIobk=;
- b=i+qdZdI6BnB4EcOksaq/OI1FgFfpcwZnRV3uFphdFVAV79SaOa9ey3IOLen2VnX6Zy
- Z9uGAhmlu0XMr87dHxm6OGr+2l1/c6FQK0IHwLDf2TN/MUSUiXFPROUdt1CUHOO5YPbQ
- yNORieRzb6tVEfW2YhtM2lu9nxQnadE9ISuyE=
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com
+ [209.85.128.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 426E210E4DF;
+ Mon, 26 Feb 2024 10:38:42 +0000 (UTC)
+Received: by mail-yw1-f174.google.com with SMTP id
+ 00721157ae682-6087d1355fcso14920167b3.0; 
+ Mon, 26 Feb 2024 02:38:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708943616; x=1709548416;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=sVrgk5sT71oQLsEToda7i8I5A5amx5s6C1JRzuzIobk=;
- b=gMsZxpL7ZWbCRG4L3ebUabLVBBZ9K/oS0p91GvR4VNVwsavPrFduc6VRrgicpMsaMD
- Dlt9kmW5zCIV6U9UJ9zbjR2gNeF2DGQSF0of/IhCACrlDf+UKCDOg+MuMChAtLNUQnHH
- bpUcGUCDlWOnxk06NMLuGpjE74+Jtr2NY6n5TfJlAawFLO/qCdbCviCBuNqt3RfACW6R
- T0erHb9bFRloqaEOCdpZgMH8+y7/O4+PXiMg295wr6z+fE/zxAdFrEBzneg9FVqgzvDb
- pms2SMt/n9bwgL+RQUyUi6kldpVOZEp0caNhJ5X3LbPOblheb4Uwg09Z0tJoQaw2PT5Z
- FPHw==
+ d=1e100.net; s=20230601; t=1708943920; x=1709548720;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=FrYmo90Nesq3SfmWdmUZ7XCViXsN5VGIIAMhD4WvIKo=;
+ b=Mfanh7pLt6p7lov3wPHnmFyePu1DQDPgE8xVl2z7aJxdxQIwBoRr/soZFyX04ZJv4w
+ dFgCPXbriUCtvom6QRqxYjDS9XlLVc8wa2nqiPTHHA4069gOgU3UO/v/KnFZ6iabialM
+ +01GL7UMv9Kvz4Myo7baa8ofJAY+sRMyiGi3GoAM8rNl9C9aSHrZYIcG1cTyVeImaRH0
+ cQfxcQ678C1TZs8hOpbnq+cQymly4pgzIHg/hdwBTqWN7YgIrXAtyqpRLipycA6XVJqY
+ 1v1wxal3Fl9zkqUq2ynxZ3c70X1OAHH2y8i/EP92GL0GwbMzlnxZC7Ms8ICQe8ZpPtmL
+ s8hw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUKBBjE+h+KjNnkEZOYN9+cg0s+LtQPKBG/wgmE7mOBsO9pgS8XrkxLvhCEWKoRrAmqdfhrUd62qFh0XoxXBkF1iAWnxoKs6NxUsxZpCaHg
-X-Gm-Message-State: AOJu0YzJ8cCTvMXKYjXxmMX0XMcFpdYzPFhyznqus/0DNOYb+7qG5fTN
- bI5umBVHSkptOo3HVc5DZEAixU2yeqbFOqwz2sDqRdgDjzs0oSmFfZhLkZ5n1ro=
-X-Google-Smtp-Source: AGHT+IH77xsl1BHM8uPVSmmCpKJ+eFIq4Lm5pBg0LqxA4ouT0HHYQpqbMSq6gSaZhM2RyngksGv6jg==
-X-Received: by 2002:a17:906:3193:b0:a3e:9651:1241 with SMTP id
- 19-20020a170906319300b00a3e96511241mr4308721ejy.2.1708943615899; 
- Mon, 26 Feb 2024 02:33:35 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- i19-20020a17090639d300b00a3f81200425sm2264426eje.122.2024.02.26.02.33.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Feb 2024 02:33:35 -0800 (PST)
-Date: Mon, 26 Feb 2024 11:33:33 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Oded Gabbay <ogabbay@kernel.org>
-Cc: airlied@gmail.com, daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: Re: [git pull] habanalabs for drm-next-6.9
-Message-ID: <Zdxo_VVrs4mkjUI-@phenom.ffwll.local>
-References: <ZdxJprop0EniVQtf@ogabbay-vm-u22.habana-labs.com>
+ AJvYcCWD8mWjSkqrz3lAi23bWnm1DwLXUiXEJNfHWDmfVMbeji8uFbBwdwmW4SAcg1cConkjMvjwRPGPHx8HvQEMPflUn1Z3j2Osoi5M/rGpGlJ+rDt36ICZvXZCpck2DAq1QofYv42RSb0xr0hxx20fxyw=
+X-Gm-Message-State: AOJu0YxIMpmN0fDixBIRlOsysq8sfCUfouNLxMQdQUxW5KDI798r+jyj
+ P29D9X+qEeoMyGzB2iX9fgTLdBYIB2+maYjmswFOMrx/U2qJHnt3MbneMUBtsI8=
+X-Google-Smtp-Source: AGHT+IGlj/b9wnvU83YGJHDLFD68u1B3FqziIGOoNMHYBUD5T3d5Y1+JTtXNKk3uHWIXxMwfc1wpUg==
+X-Received: by 2002:a81:bc52:0:b0:608:8427:206 with SMTP id
+ b18-20020a81bc52000000b0060884270206mr6154868ywl.27.1708943919647; 
+ Mon, 26 Feb 2024 02:38:39 -0800 (PST)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com.
+ [209.85.219.173]) by smtp.gmail.com with ESMTPSA id
+ p201-20020a0de6d2000000b00608b3e03ec7sm1118766ywe.90.2024.02.26.02.38.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Feb 2024 02:38:39 -0800 (PST)
+Received: by mail-yb1-f173.google.com with SMTP id
+ 3f1490d57ef6-dc6dcd9124bso2957043276.1; 
+ Mon, 26 Feb 2024 02:38:39 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVYdTtrVPAdW+tgOElH5uubyS5+fsXVkDTstouwUQ/bNvtpAi6UAkMR9LIBib5UJ92EpB9w9OE7z7irxhfMAJNDpVzB0O3olVPuRJ/vzNHgh52fiAvzCUO/zgpakiUpEZPtthDNwrXTG/M0dyo3j0I=
+X-Received: by 2002:a25:2fc3:0:b0:dcd:3a37:bdb1 with SMTP id
+ v186-20020a252fc3000000b00dcd3a37bdb1mr4219609ybv.44.1708943919042; Mon, 26
+ Feb 2024 02:38:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZdxJprop0EniVQtf@ogabbay-vm-u22.habana-labs.com>
-X-Operating-System: Linux phenom 6.6.11-amd64 
+References: <20240215174431.285069-7-matthew.auld@intel.com>
+ <96bb6e97-34d9-4e4a-b618-85c17e809738@intel.com>
+ <5a9e1f30-19fc-486f-b7f5-016d82580d2f@amd.com>
+ <4aea62d4-8c2a-4406-b81e-240dca772da4@intel.com>
+ <45059d66-6e80-406b-aae2-72f8b8d142cb@amd.com>
+ <dc8c7d2b-4c2f-41dd-9812-3699444d5273@intel.com>
+ <94afe80c-9e4f-47a7-a758-17ab26eb4c00@intel.com>
+ <58e423e8-316e-40e0-b622-136ca6cc0189@intel.com>
+In-Reply-To: <58e423e8-316e-40e0-b622-136ca6cc0189@intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 26 Feb 2024 11:38:26 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUjwXS=Ow+DccWbcee9+vbkdD7dWp5M9FrnC-nFRZcwTw@mail.gmail.com>
+Message-ID: <CAMuHMdUjwXS=Ow+DccWbcee9+vbkdD7dWp5M9FrnC-nFRZcwTw@mail.gmail.com>
+Subject: Re: [PATCH 1/6] drm/tests/drm_buddy: fix 32b build
+To: Matthew Auld <matthew.auld@intel.com>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ Maxime Ripard <mripard@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,131 +86,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 26, 2024 at 10:19:50AM +0200, Oded Gabbay wrote:
-> Hi Dave, Sima.
-> 
-> Habanalabs pull request for 6.9.
-> 
-> No uapi changes this time. Just minor features, improvements, code cleanups
-> and bug fixes. Also one small change in accel subsystem file.
-> 
-> Full details are in the signed tag.
-> 
-> Thanks,
-> Oded
-> 
-> The following changes since commit 40d47c5fb4f2a7c1ef168598f01bdcbd31ba4038:
-> 
->   Merge tag 'amd-drm-next-6.9-2024-02-19' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2024-02-22 13:21:19 +1000)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/linux.git tags/drm-habanalabs-next-2024-02-26
-> 
-> for you to fetch changes up to 576d7cc5a9e29e4cc579ffb0f9afc209e34eea31:
-> 
->   accel: constify the struct device_type usage (2024-02-26 09:59:18 +0200)
+Hi Matthew,
 
-Pulled into drm-next, thanks a lot!
--Sima
+On Mon, Feb 26, 2024 at 10:58=E2=80=AFAM Matthew Auld <matthew.auld@intel.c=
+om> wrote:
+> On 19/02/2024 12:24, Matthew Auld wrote:
+> > On 19/02/2024 10:48, Matthew Auld wrote:
+> >> On 19/02/2024 10:30, Christian K=C3=B6nig wrote:
+> >>> Am 19.02.24 um 11:28 schrieb Matthew Auld:
+> >>>> On 19/02/2024 09:53, Christian K=C3=B6nig wrote:
+> >>>>> Am 19.02.24 um 10:42 schrieb Matthew Auld:
+> >>>>>> On 15/02/2024 17:44, Matthew Auld wrote:
+> >>>>>>> Doesn't seem to compile on 32b, presumably due to u64 mod/divisio=
+n.
+> >>>>>>> Simplest is to just switch over to u32 here. Also make print
+> >>>>>>> modifiers
+> >>>>>>> consistent with that.
+> >>>>>>>
+> >>>>>>> Fixes: a64056bb5a32 ("drm/tests/drm_buddy: add alloc_contiguous
+> >>>>>>> test")
+> >>>>>>> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> >>>>>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> >>>>>>> Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+> >>>>>>> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> >>>>>>> Cc: Maxime Ripard <mripard@redhat.com>
+> >>>>>>
+> >>>>>> Any chance someone can push just this single patch here, since it
+> >>>>>> fixes 32b build? It already has an r-b from Arun.
+> >>>>>
+> >>>>> Already working on this. Just give me a few more minutes.
+> >>>>
+> >>>> Thanks.
+> >>>
+> >>> No, problem. I would have pushed this earlier, but my build server
+> >>> doesn't want to work any more. Looks like the SSD has passed its
+> >>> warranty :(
+> >>>
+> >>> Should I push the other three patches to drm-misc-fixes as well? I
+> >>> currently can't even build test them.
+> >>
+> >> Need to send a v2 for that. One minor change in the test just to be
+> >> consistent with using u32. Thanks.
+> >
+> > Sent v2. If you could push that when you get a chance. Thanks.
+> >
+> > https://patchwork.freedesktop.org/series/130075/
+>
+> Gentle ping on merging v2.
 
-> 
-> ----------------------------------------------------------------
-> This tag contains habanalabs driver and accel changes for v6.9.
-> 
-> The notable changes are:
-> 
-> - New features and improvements:
->   - Configure interrupt affinity according to NUMA nodes for the MSI-X interrupts that are
->     assigned to the userspace application which acquires the device.
->   - Move the HBM MMU page tables to reside inside the HBM to minimize latency when doing
->     page-walks.
->   - Improve the device reset mechanism when consecutive heartbeat failures occur (firmware
->     fails to ack on heartbeat message).
->   - Check also extended errors in the PCIe addr_dec interrupt information.
->   - Rate limit the error messages that can be printed to dmesg log by userspace actions.
-> 
-> - Firmware related fixes:
->   - Handle requests from firmware to reserve device memory
-> 
-> - Bug fixes and code cleanups:
->   - constify the struct device_type usage in accel (accel_sysfs_device_minor).
->   - Fix the PCI health check by reading uncached register.
->   - Fix reporting of drain events.
->   - Fix debugfs files permissions.
->   - Fix calculation of DRAM BAR base address.
-> 
-> ----------------------------------------------------------------
-> Avri Kehat (1):
->       accel/habanalabs: fix debugfs files permissions
-> 
-> Colin Ian King (1):
->       accel/habanalabs/goya: remove redundant assignment to pointer 'input'
-> 
-> Dani Liberman (3):
->       accel/habanalabs/gaudi2: add interrupt affinity for user interrupts
->       accel/habanalabs: remove call to deprecated function
->       accel/habanalabs: fix error print
-> 
-> Erick Archer (1):
->       accel/habanalabs: use kcalloc() instead of kzalloc()
-> 
-> Farah Kassabri (2):
->       accel/habanalabs/gaudi2: move HMMU page tables to device memory
->       accel/habanalabs: remove hop size from asic properties
-> 
-> Koby Elbaz (1):
->       accel/habanalabs: increase HL_MAX_STR to 64 bytes to avoid warnings
-> 
-> Malkoot Khan (1):
->       accel/habanalabs: Remove unnecessary braces from if statement
-> 
-> Ofir Bitton (3):
->       accel/habanalabs/gaudi2: drain event lacks rd/wr indication
->       accel/habanalabs/hwmon: rate limit errors user can generate
->       accel/habanalabs: modify pci health check
-> 
-> Ricardo B. Marliere (1):
->       accel: constify the struct device_type usage
-> 
-> Tal Risin (1):
->       accel/habanalabs: initialize maybe-uninitialized variables
-> 
-> Tomer Tayar (8):
->       accel/habanalabs: fix DRAM BAR base address calculation
->       accel/habanalabs: abort device reset for consecutive heartbeat failures
->       accel/habanalabs/gaudi2: fail memory memset when failing to copy QM packet to device
->       accel/habanalabs: modify print for skip loading linux FW to debug log
->       accel/habanalabs/gaudi2: check extended errors according to PCIe addr_dec interrupt info
->       accel/habanalabs: fix glbl error cause handling
->       accel/habanalabs: handle reserved memory request when working with full FW
->       accel/habanalabs: keep explicit size of reserved memory for FW
-> 
->  drivers/accel/drm_accel.c                          |   2 +-
->  .../accel/habanalabs/common/command_submission.c   |   3 +-
->  drivers/accel/habanalabs/common/debugfs.c          |  18 +-
->  drivers/accel/habanalabs/common/device.c           |  55 +++-
->  drivers/accel/habanalabs/common/firmware_if.c      |  25 +-
->  drivers/accel/habanalabs/common/habanalabs.h       |  43 ++-
->  drivers/accel/habanalabs/common/hw_queue.c         |  17 +
->  drivers/accel/habanalabs/common/hwmon.c            |  29 +-
->  drivers/accel/habanalabs/common/mmu/Makefile       |   2 +-
->  drivers/accel/habanalabs/common/mmu/mmu.c          | 223 ++++++++++++-
->  drivers/accel/habanalabs/common/mmu/mmu_v1.c       | 354 +++------------------
->  drivers/accel/habanalabs/common/mmu/mmu_v2.c       | 338 ++++++++++++++++++++
->  drivers/accel/habanalabs/common/mmu/mmu_v2_hr.c    |  24 +-
->  drivers/accel/habanalabs/common/security.c         |  33 +-
->  drivers/accel/habanalabs/common/security.h         |   3 +-
->  drivers/accel/habanalabs/gaudi/gaudi.c             |   9 +-
->  drivers/accel/habanalabs/gaudi2/gaudi2.c           | 308 ++++++++++++------
->  drivers/accel/habanalabs/gaudi2/gaudi2P.h          |  15 +-
->  drivers/accel/habanalabs/goya/goya.c               |  12 +-
->  drivers/accel/habanalabs/goya/goya_coresight.c     |   3 +-
->  .../habanalabs/include/hw_ip/mmu/mmu_general.h     |   2 +
->  21 files changed, 1008 insertions(+), 510 deletions(-)
->  create mode 100644 drivers/accel/habanalabs/common/mmu/mmu_v2.c
+Your v1 and a fix from Linus already made it upstream:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/driv=
+ers/gpu/drm/tests?h=3Dv6.8-rc6
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
