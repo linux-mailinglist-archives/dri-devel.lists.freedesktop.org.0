@@ -2,84 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BC13867AD1
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 16:53:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0126867AE8
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 16:56:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D09BF10E78E;
-	Mon, 26 Feb 2024 15:53:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C415C10E799;
+	Mon, 26 Feb 2024 15:56:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="YvAwkT2g";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="jJPx5ERP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6589B10E78C
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 15:53:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1708962821;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/Qmbu7dBEF80J1yr1RbOxauP7q6SR5ks81jt9bNKoU4=;
- b=YvAwkT2goUkv0ki6e/1JzFyf2KqkI3MwSz0ViuWaVIvaKvGYF+c1xga4v0hko1yCXyuFCU
- wNbkuS2erF0XxMgjhRPfknD/0UBC1KDsKIn6WQ/65Mig9HBhLuPNNfXxxHXxQFS6tcm54a
- hotGeqJu3IpXnpVUjQwRG49gImWBgxU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-635-2VWNCaNLPs-_P9YXE7G7RQ-1; Mon, 26 Feb 2024 10:53:40 -0500
-X-MC-Unique: 2VWNCaNLPs-_P9YXE7G7RQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-40e435a606aso16920555e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 07:53:39 -0800 (PST)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+ [209.85.208.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BF9F10E799
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 15:56:32 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id
+ 4fb4d7f45d1cf-563c403719cso3980968a12.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 07:56:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1708962988; x=1709567788;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wTNfxtjjEuUsYp1JNTlYg2x2iUW0rS+mI/kNL5uqq8k=;
+ b=jJPx5ERP5GZ2+efbAY9fflcK5Gaa45Ae2m3t6v8FX2Musq4K1n64KenBjDi8dxdbDs
+ DRLauxpHh/Uy7nw/sbWzUb0huOKRB2GUJ6T97nL7+QVHmSH/lY7BO4Rgpt10aKcTPy2+
+ vgb6kY2V9Jae4VSKaGHtltdzV6/JjoA3pSwKk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708962819; x=1709567619;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/Qmbu7dBEF80J1yr1RbOxauP7q6SR5ks81jt9bNKoU4=;
- b=Lmn5Bk/fhvOuQeXufVZTjJGqYa1miR77Svrdv1b1EMAnLqlVPM9Zb/WGsaUNPY4LIG
- f8BfOODVaNTNxwYB53ONFAF6HKHCBEOQqXJGg19ecgl3x0aWo6alNCVtjT2oSk0KRNZe
- 7Ik5+nXuzXwLAbuR/VVzV+60KfMEzF3k0nJQUGgx49j1smHSZO/XxbY0gTtuD52bsTbA
- HKGumZSz2pKD/c3zyTGeUL5r5qbqDdP90w+cLINascRDZ8Z2GpdfFc42A1AnTLed0vIG
- IesLRqypi4VyMOLULjCNLo0kDx33o08//BqcvNsR6LLFUQI3BwcT8KpnGp2AYmoI7yZG
- geJQ==
+ d=1e100.net; s=20230601; t=1708962988; x=1709567788;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wTNfxtjjEuUsYp1JNTlYg2x2iUW0rS+mI/kNL5uqq8k=;
+ b=V2sOuefLV5rJSP/+WpTxLfxmTA3blNydpS1qkIV8ZsXR5DWxn8AFzfTMhBd0jvJl1G
+ EBB+sMB8DrifDB1G/4rOYsjPbXgGa2dFdVUnAvy9nwmNOAkQsN44sZ3kAxyOmM7jjo1p
+ it+3wFGjPE4Y7UfwQbTaurRcS8jQCGlYGNeCShKpFpS/pwDHPRzefjPGlTFa0lwEEBUB
+ p/LpSbm043486Cbwx8yZ+chQZV8aeDQnGby/d9sDIlAb9MqEyyckkiU/vsZKh5rhEC1V
+ wYyupj382t0Dtmmt9Za2LDEEtv1crlddzHMq34ooY08AqoqZDFERwjTQ0BK/vp4jt8rc
+ eboA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCURYOne7vA5pKFo/lSqXUPYWYUrpI3nCimQ/Tf631BnmJJHf4OiZMw2bQmVnH41JKGsvT5htNWoxd4VqEa7WMc8EehkU9EH/OD20Xnj7oKo
-X-Gm-Message-State: AOJu0Yyv7J8JzDsSXCMjfO4pzkDMI/uakfjxVP6/S3VEL4BaoYXvMnwS
- RHWHiclzl2Tn1J3o03omykB3wyRBg9UPSq93iNfUDsYHVIuwDmXvB+XrAPqtq+C7+2073OMYbPf
- NHjAVrDHxlmLnEwMNJqGook4blmXpWIDDQuMzkTAzY9JIz7uSz3ZoWirkdA3y37AIbw==
-X-Received: by 2002:a05:600c:190a:b0:412:9bae:d9f4 with SMTP id
- j10-20020a05600c190a00b004129baed9f4mr5084764wmq.22.1708962819004; 
- Mon, 26 Feb 2024 07:53:39 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFP8L2CjP5ZD0gmYCQtQponQ+6W/eBRjHJgM2LhXR1j5EebPpXZWN4tgy9+v7Ujj3yv5QIoiw==
-X-Received: by 2002:a05:600c:190a:b0:412:9bae:d9f4 with SMTP id
- j10-20020a05600c190a00b004129baed9f4mr5084753wmq.22.1708962818661; 
- Mon, 26 Feb 2024 07:53:38 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- m6-20020a7bce06000000b00410bca333b7sm12348012wmc.27.2024.02.26.07.53.38
+ AJvYcCWd374LDf2yimRrgaforNuT/eWhx/z9l+OGX2oznQBpqiC8vfa6Pf2YuFm/IiusDdOKQ2F5acHf0Yn9yWOt8B95PbDRKRW53wwAtmMthL6A
+X-Gm-Message-State: AOJu0YxULKUkcyOJ/bRkaPom3cv7z2nYImHRzxEqKojSZSznuGcgiG0K
+ zLF8vmM1nEJkRm7a9UbSJg2jBZBapCCa3T91QXBWM2bYpFzcs1YudioYSjWhF1Zw8fUMpphGdsg
+ u4w==
+X-Google-Smtp-Source: AGHT+IGMuhdSTcVYJK8VpFtdqblctY4N2RiHqn93+MPlD5vjDtd8c2FDhdXHpLUz0bIR+OPVKM6K7A==
+X-Received: by 2002:a05:6402:b33:b0:565:47d0:1ea with SMTP id
+ bo19-20020a0564020b3300b0056547d001eamr6017856edb.12.1708962988439; 
+ Mon, 26 Feb 2024 07:56:28 -0800 (PST)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com.
+ [209.85.208.46]) by smtp.gmail.com with ESMTPSA id
+ z18-20020aa7c652000000b005657eefa8e9sm2417560edr.4.2024.02.26.07.56.26
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Feb 2024 07:53:38 -0800 (PST)
-Message-ID: <5f2b4920-c21f-4aae-b058-53a07ecaf0ea@redhat.com>
-Date: Mon, 26 Feb 2024 16:53:37 +0100
+ Mon, 26 Feb 2024 07:56:27 -0800 (PST)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-56619428c41so5898a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 07:56:26 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUSXQpPUN9l+fEAXx0CbvurQXXjQZUeayFipn/C3ymd4x6CBpjSg44XXqDuc1DKlaNAfQH+9E22fxmtQm0pXvlN3IocLtFwd1UulBGnw4Ee
+X-Received: by 2002:a50:9f28:0:b0:562:9d2:8857 with SMTP id
+ b37-20020a509f28000000b0056209d28857mr330238edf.6.1708962985791; Mon, 26 Feb
+ 2024 07:56:25 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/mgag200: Add a workaround for low-latency
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
- airlied@redhat.com, daniel@ffwll.ch
-References: <20240208095125.377908-1-jfalempe@redhat.com>
- <7850e9fc-f67d-44e9-9795-4b84c9a3c3be@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <7850e9fc-f67d-44e9-9795-4b84c9a3c3be@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240221-rb3gen2-dp-connector-v1-0-dc0964ef7d96@quicinc.com>
+ <20240221-rb3gen2-dp-connector-v1-3-dc0964ef7d96@quicinc.com>
+ <CAA8EJpo=9vhM+5YzaFxUoYRuEWQyrMS8wLNPSF3K=bN5JwWyDw@mail.gmail.com>
+ <8313a7c3-3ace-4dee-ad27-8f51a06cd58c@linaro.org>
+ <CAA8EJpqFj5nf8d_=Uoup7qg+nQrxqQU-DHbL3uSP138m9AcXLw@mail.gmail.com>
+ <8fcb5816-2d59-4e27-ba68-8e0ed6e7d839@linaro.org>
+ <CAA8EJporaUuddHHqpyYHiYSu=toHmrDxSHf9msZUJoym4Nz72g@mail.gmail.com>
+ <20240222150423.GI2936378@hu-bjorande-lv.qualcomm.com>
+ <CAA8EJpqd=1KV_dN8AURQDcFDDyO+YtbC59gM7ftt+HohGM93hg@mail.gmail.com>
+In-Reply-To: <CAA8EJpqd=1KV_dN8AURQDcFDDyO+YtbC59gM7ftt+HohGM93hg@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 26 Feb 2024 07:56:09 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XJVFX-GkL-wiAoi=r6tdiDHkJ_aFSpx6FE6+gFT5xJjA@mail.gmail.com>
+Message-ID: <CAD=FV=XJVFX-GkL-wiAoi=r6tdiDHkJ_aFSpx6FE6+gFT5xJjA@mail.gmail.com>
+Subject: Re: [PATCH 3/9] arm64: dts: qcom: sc7280: Enable MDP turbo mode
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Bjorn Andersson <quic_bjorande@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ cros-qcom-dts-watchers@chromium.org, 
+ Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,44 +110,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 08/02/2024 12:49, Thomas Zimmermann wrote:
-> 
-> 
-> Am 08.02.24 um 10:51 schrieb Jocelyn Falempe:
->> We found a regression in v5.10 on real-time server, using the
->> rt-kernel and the mgag200 driver. It's some really specialized
->> workload, with <10us latency expectation on isolated core.
->> After the v5.10, the real time tasks missed their <10us latency
->> when something prints on the screen (fbcon or printk)
->>
->> The regression has been bisected to 2 commits:
->> commit 0b34d58b6c32 ("drm/mgag200: Enable caching for SHMEM pages")
->> commit 4862ffaec523 ("drm/mgag200: Move vmap out of commit tail")
->>
->> The first one changed the system memory framebuffer from Write-Combine
->> to the default caching.
->> Before the second commit, the mgag200 driver used to unmap the
->> framebuffer after each frame, which implicitly does a cache flush.
->> Both regressions are fixed by this commit, which restore WC mapping
->> for the framebuffer in system memory, and add a cache flush.
->> This is only needed on x86_64, for low-latency workload,
->> so the new kconfig DRM_MGAG200_IOBURST_WORKAROUND depends on
->> PREEMPT_RT and X86.
->>
->> For more context, the whole thread can be found here [1]
->>
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->> Link: 
->> https://lore.kernel.org/dri-devel/20231019135655.313759-1-jfalempe@redhat.com/ # 1
-> 
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+On Thu, Feb 22, 2024 at 9:32=E2=80=AFAM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On Thu, 22 Feb 2024 at 17:04, Bjorn Andersson <quic_bjorande@quicinc.com>=
+ wrote:
+> >
+> > On Thu, Feb 22, 2024 at 11:46:26AM +0200, Dmitry Baryshkov wrote:
+> > > On Thu, 22 Feb 2024 at 11:28, Konrad Dybcio <konrad.dybcio@linaro.org=
+> wrote:
+> > > >
+> > > >
+> > > >
+> > > > On 2/22/24 10:04, Dmitry Baryshkov wrote:
+> > > > > On Thu, 22 Feb 2024 at 10:56, Konrad Dybcio <konrad.dybcio@linaro=
+.org> wrote:
+> > > > >>
+> > > > >>
+> > > > >>
+> > > > >> On 2/22/24 00:41, Dmitry Baryshkov wrote:
+> > > > >>> On Thu, 22 Feb 2024 at 01:19, Bjorn Andersson <quic_bjorande@qu=
+icinc.com> wrote:
+> > > > >>>>
+> > > > >>>> The max frequency listed in the DPU opp-table is 506MHz, this =
+is not
+> > > > >>>> sufficient to drive a 4k@60 display, resulting in constant und=
+errun.
+> > > > >>>>
+> > > > >>>> Add the missing MDP_CLK turbo frequency of 608MHz to the opp-t=
+able to
+> > > > >>>> fix this.
+> > > > >>>
+> > > > >>> I think we might want to keep this disabled for ChromeOS device=
+s. Doug?
+> > > > >>
+> > > > >> ChromeOS devices don't get a special SoC
+> > > > >
+> > > > > But they have the sc7280-chrome-common.dtsi, which might contain =
+a
+> > > > > corresponding /delete-node/ .
+> > > >
+> > > > What does that change? The clock rates are bound to the
+> > > > SoC and the effective values are limited by link-frequencies
+> > > > or the panel driver.
+> > >
+> > > Preventing the DPU from overheating? Or spending too much power?
+> > >
+> >
+> > Perhaps I'm misunderstanding the implementation then, are we always
+> > running at the max opp? I thought the opp was selected based on the
+> > current need for performance?
+>
+> Yes. My concern was whether the Chrome people purposely skipped this
+> top/turbo freq for any reason. In such a case, surprising them by
+> adding it to all platforms might be not the best idea. I hope Doug can
+> comment here.
 
-Applied to drm-misc-next.
+Thanks for thinking of us! In this case, I think the only users left
+of the sc7280 Chrome devices are folks like Rob and then a few folks
+on Qualcomm's display team (like Abhinav), so if they're happy with
+the change then I have no objections.
 
-Thanks,
+In any case, I'm not aware of any reason why this would have been
+skipped for Chrome. The Chrome devices were always intended to support
+4K so I assume this was an oversight and nothing more. ...of course,
+as Abhinav points out Chrome devices are currently limited to HBR2 + 2
+lanes DP so they can't go 4K60 anyway.
 
--- 
+In any case, in case it matters, feel free to have:
 
-Jocelyn
-
+Acked-by: Douglas Anderson <dianders@chromium.org>
