@@ -2,53 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C477D8672FD
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 12:26:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BC1F867302
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Feb 2024 12:27:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E92710E509;
-	Mon, 26 Feb 2024 11:26:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FEEC10F039;
+	Mon, 26 Feb 2024 11:27:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=atomide.com header.i=@atomide.com header.b="f+7WAYdx";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jLgnqmOc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail5.25mail.st (mail5.25mail.st [74.50.62.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7353C10E509
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 11:26:16 +0000 (UTC)
-Received: from localhost (91-158-86-216.elisa-laajakaista.fi [91.158.86.216])
- by mail5.25mail.st (Postfix) with ESMTPSA id C7593604E8;
- Mon, 26 Feb 2024 11:25:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=atomide.com;
- s=25mailst; t=1708946774;
- bh=BsWoozpMNbEWYb7vRh+DT11XY9AOmootzk2UX1PtNfc=;
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26AEA10F039
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 11:27:01 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 96BA961128;
+ Mon, 26 Feb 2024 11:27:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8059C433F1;
+ Mon, 26 Feb 2024 11:26:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1708946820;
+ bh=U6jDkI4Rv2MdParcSGGGnlp89Kg52ruxo6sSR5sbRp0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=f+7WAYdxVzD5tI/crTSu2B3NTaAdrUDRqBlvda/8MyKMNPorUglfaj63cp4bfXDSN
- D09Wfi4kJCj4jsvYbHX0lvL74iVzbQzhyM6Kqxcma6vBBVx1Swcm5zzDQTOWV/XSaJ
- HPACncr4tTTFqsgIhg0e823wD5vvk8gbtxGYlpuyvB74J1kd60qHMXLLcGDcWJDGI1
- 2g6GAVrlUPZ9gCwC/SaYsxOfs1JxBMtPAKgKYrnK/JMG92NJ/DBVf4yc6RPei6BW/m
- VSNUqR8z34YWNZMi/BqlB81popmlx/CuSBNHDqbHAn6IcMiLojbqwzoRMSsHp3dYk4
- 8hw44/309ofHg==
-Date: Mon, 26 Feb 2024 13:25:49 +0200
-From: Tony Lindgren <tony@atomide.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v2 0/2] Fixes for omapdrm console
-Message-ID: <20240226112549.GU5299@atomide.com>
-References: <20240225064700.48035-1-tony@atomide.com>
- <43fc93f1-d602-47ae-98e5-ee6be4ea5192@ideasonboard.com>
- <42255362-4720-414e-b442-f98355e92968@ideasonboard.com>
- <ab0b8471-97a6-479a-88aa-9bb25e91fb8a@suse.de>
+ b=jLgnqmOcVf7MGoAdfaXJeujL87infBxRoDejA5lTJjNYqQJ4LNFxj1/c4qDun54jG
+ JjgQwdRLSLpgZ8EmsemxLD0yf8ur3aVkxWrKoc0t31S04/PaT2NQ8WauhquzlS6aD5
+ JFPAms4/8ovtFIZfNVVpf42mGrdtVQaKYTcAJPzazrInBoCs/ObS2WPlyqMhUoi3bE
+ g0U1RAyn9cjrzwhze4JKfa1UUl5A37s+Tr4T5PvtkvU4e/zqSXx7P8TF3TMXyxHE7C
+ QQjhzJXlcc3U8arzK6xVdtKuQttmU6F0CpyRjbHtpRWdnqZ5hwlwQ+WXXtdv2AZ88A
+ z8YCq1FLDXhNQ==
+Date: Mon, 26 Feb 2024 12:26:57 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Marco Pagani <marpagan@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Guenter Roeck <linux@roeck-us.net>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/test/shmem: set a DMA mask for the mock device
+Message-ID: <d65v7jy4natx22lacw6awmg6iecfr2hqk3puuz3qem5dfsvj2x@hh6vp265hm5p>
+References: <20240226110028.28009-1-marpagan@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="bdxjb7opyfuj56ed"
 Content-Disposition: inline
-In-Reply-To: <ab0b8471-97a6-479a-88aa-9bb25e91fb8a@suse.de>
+In-Reply-To: <20240226110028.28009-1-marpagan@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,41 +60,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Thomas Zimmermann <tzimmermann@suse.de> [240226 09:10]:
-> Hi
-> 
-> Am 26.02.24 um 10:01 schrieb Tomi Valkeinen:
-> > On 26/02/2024 10:26, Tomi Valkeinen wrote:
-> > > Hi Tony,
-> > > 
-> > > On 25/02/2024 08:46, Tony Lindgren wrote:
-> > > > Here are two fixes for omapdrm console.
-> > > 
-> > > How is it broken? I don't usually use the console (or fbdev) but
-> > > enabling it now, it seems to work fine for me, on DRA76 EVM with
-> > > HDMI output.
-> 
-> Omapdrm implements drm_framebuffer_funcs.dirty withomap_framebuffer_dirty().
-> AFAIK DRM semantics requires to run the dirty helper after writing to the
-> framebuffer's memory. Userspace does this via the DIRTYFB ioctl. [1] But (at
-> least) for correctness the console needs to do the same.
-> 
-> [1] https://elixir.bootlin.com/linux/v6.7.6/source/drivers/gpu/drm/drm_ioctl.c#L679
 
-Yes I noticed console not updating and bisected it down to the two
-commits listed. I did the bisect on a droid4 though with command mode
-LCD. I did not test with HDMI, will give that a try too.
+--bdxjb7opyfuj56ed
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > After applying your patches, I see a lot of cache-related artifacts on
-> > the screen when updating the fb.
-> 
-> I guess we might need a dma-specific mmap helper to make this work
-> correctly.
+Hi,
 
-I can easily test this if you have some suggested patch to try.
+On Mon, Feb 26, 2024 at 12:00:27PM +0100, Marco Pagani wrote:
+> Set a DMA mask for the mock device to avoid warnings generated in
+> dma_map_sgtable().
+>=20
+> Reported-by: Guenter Roeck <linux@roeck-us.net>
+> Signed-off-by: Marco Pagani <marpagan@redhat.com>
 
-Hmm so I wonder if we now have double updates happening on HDMI?
+I've submitted last week this patch:
+https://lore.kernel.org/all/20240221125324.718192-1-mripard@kernel.org/
 
-Regards,
+Which should be equivalent, but fixes the issue for all users in the
+tree.
 
-Tony
+Maxime
+
+--bdxjb7opyfuj56ed
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZdx1gAAKCRDj7w1vZxhR
+xXCRAQCilaZ5vMmOtS84duICyUXtAmRIVKAL3+kaIPvI4SqHOwEAx0cddu2i5v4M
+iGUoxIygBTAY4Y6Eo4+eNGQWiOe5fAc=
+=DzdO
+-----END PGP SIGNATURE-----
+
+--bdxjb7opyfuj56ed--
