@@ -2,60 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CBA18691B8
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 14:26:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E72D869246
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 14:33:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8200D10E2AA;
-	Tue, 27 Feb 2024 13:26:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0F7B10E3FD;
+	Tue, 27 Feb 2024 13:33:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="YI+H3/pN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="j+KKGwdY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 161ED10E3A9
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 13:26:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1709040401;
- bh=je8RxzPOXqGPjuvQPyzxZ26n+2I11ZgZOJBFkDsTSWQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=YI+H3/pNPwYSk40IM1WIt8OyCHs4sJeIYUuJLN3RZY6RsJJXgt48JtuzrdwFFpBzv
- 5a1K9LLFs+mJ1I0oJftOMhv1qrLELTQ9YpFiJEVroOyw4AwOubJ5BhhFuQot8g0ZGf
- sJhHGs2GEMTSPBdEzDaAHjhN3v4iA2WrDmHRWHVqacoyd6MEshyfjL4TCDAtuy0tv6
- jJI3/Pk7SeIXWguIWjB9RlYlEjCtw1kn90GX0GKqae0Bgc1Ky6N6nw/A4MHifaNxTe
- UTpuzM8EoaFPWgU7UnBEnbu5T9mefr2a77JC2k2/2Cfq9Oe4coyCD0gb2Nez5LBMaS
- mLg6rIa/l9MhA==
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: pq)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id DBDBB3781FE6;
- Tue, 27 Feb 2024 13:26:40 +0000 (UTC)
-Date: Tue, 27 Feb 2024 15:26:39 +0200
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Arthur Grillo <arthurgrillo@riseup.net>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
- <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/vkms: Add information on how to benchmark
-Message-ID: <20240227152639.6426c401.pekka.paalanen@collabora.com>
-In-Reply-To: <0892593d-0fd9-4381-b2bd-843627bd2723@riseup.net>
-References: <20240226-bench-vkms-v1-1-515ef91b11c8@riseup.net>
- <20240227111941.061a2892.pekka.paalanen@collabora.com>
- <8ac7bf91-fbce-4403-a801-9dfee39ea802@riseup.net>
- <20240227135545.62dd5f57.pekka.paalanen@collabora.com>
- <0892593d-0fd9-4381-b2bd-843627bd2723@riseup.net>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EBFB10E515;
+ Tue, 27 Feb 2024 13:33:48 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 28E1ACE1A4E;
+ Tue, 27 Feb 2024 13:33:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62612C433F1;
+ Tue, 27 Feb 2024 13:33:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1709040825;
+ bh=N4hJ3rbmGb3aGfm5/rEMCgX5Pes2gJRcb4blBbA46Mc=;
+ h=Date:From:To:Cc:Subject:From;
+ b=j+KKGwdYVHf4Tps9pQpbbdwOVyN1f5D00T5l2uPn0z+U9Z71vnoyhCH8hccVsAPRn
+ B4CWq8Fi8VISDe+Tw9/VF0x1XBM4QjhYB/kAsoXEqHCxxPkOQPr3thYXhZ5+lF85YC
+ Gh1LEOPgBmK5u7QTsgaShhK2d+kWWU8wiPfIsuw51hwsdsmca03112rf89TcL7ixId
+ oE/vXOZ2B0MjrHC5g8BZEPovxvkFrzioBSOB0uJWL6z1Eeri9s0MuohrwAKDDsAJGG
+ ZC26uynk0qS79KXi+o4U+u4mBddkaKQbYwiHtPKIHGiyyoDiVQ0rBk+COt0IRLypSs
+ JwHL1kvqbFXzQ==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+ (envelope-from <johan@kernel.org>) id 1rexae-000000000VL-23Zy;
+ Tue, 27 Feb 2024 14:33:48 +0100
+Date: Tue, 27 Feb 2024 14:33:48 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>,
+ quic_jesszhan@quicinc.com, quic_sbillaka@quicinc.com,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, regressions@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: drm/msm: DisplayPort hard-reset on hotplug regression in 6.8-rc1
+Message-ID: <Zd3kvD02Qvsh2Sid@hovoldconsulting.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/DX6kKQq2iBgSz7fGP6YUgnj";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,148 +66,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/DX6kKQq2iBgSz7fGP6YUgnj
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Tue, 27 Feb 2024 09:29:58 -0300
-Arthur Grillo <arthurgrillo@riseup.net> wrote:
+Since 6.8-rc1 I have seen (and received reports) of hard resets of the
+Lenovo ThinkPad X13s after connecting and disconnecting an external
+display.
 
-> On 27/02/24 08:55, Pekka Paalanen wrote:
-> > On Tue, 27 Feb 2024 08:44:52 -0300
-> > Arthur Grillo <arthurgrillo@riseup.net> wrote:
-> >  =20
-> >> On 27/02/24 06:19, Pekka Paalanen wrote: =20
-> >>> On Mon, 26 Feb 2024 17:42:11 -0300
-> >>> Arthur Grillo <arthurgrillo@riseup.net> wrote:
-> >>>    =20
-> >>>> Now that we have a defined benchmark for testing the driver, add
-> >>>> documentation on how to run it.
-> >>>>
-> >>>> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> >>>> ---
-> >>>>  Documentation/gpu/vkms.rst | 6 ++++++
-> >>>>  1 file changed, 6 insertions(+)
-> >>>>
-> >>>> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-> >>>> index ba04ac7c2167..6d07f79f77ff 100644
-> >>>> --- a/Documentation/gpu/vkms.rst
-> >>>> +++ b/Documentation/gpu/vkms.rst
-> >>>> @@ -89,6 +89,12 @@ You can also run subtests if you do not want to r=
-un the entire test::
-> >>>>    sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --devi=
-ce "sys:/sys/devices/platform/vkms"
-> >>>>    sudo IGT_DEVICE=3D"sys:/sys/devices/platform/vkms" ./build/tests/=
-kms_flip --run-subtest basic-plain-flip
-> >>>> =20
-> >>>> +If you are developing features that may affect performance, you can=
- run the kms_fb_stress   =20
-> >>>
-> >>> s/can/must/
-> >>>    =20
-> >>>> +benchmark::   =20
-> >>>
-> >>> before and after, and report the numbers.   =20
-> >>
-> >> Did you mean to write the benchmarks logs here? =20
-> >=20
-> > I mean people should be required tell their before and after numbers in
-> > either commit message (my preference) or in series cover letter (if
-> > benchmarking commits is not useful).
-> >=20
-> > With the addition of YUV support in VKMS, maybe the benchmark needs to =
-=20
->=20
-> With the upcoming addition, I've sent a patch to arbitrarily change the
-> formats on the benchmark via command-line options. It's not adding a new
-> case, but maybe just this could already help.
->=20
-> https://lore.kernel.org/all/20240226-kms_fb_stress-dev-v1-0-1c14942b1244@=
-riseup.net/
+I have triggered this on a simple disconnect while in a VT console, but
+also when stopping Xorg after having repeatedly connected and
+disconnected an external display and tried to enable it using xrandr.
 
-In that case you would need to document exactly what command line
-options to use, and ask people to report the numbers of each test
-case.
+In the former case, the last (custom debug) messages printed over an SSH
+session were once:
 
-That works. Alternatively or additionally, the test cases could be
-built in to the benchmark, and it just reports numbers for all of them
-in a single invocation. Then people running the standard benchmark do
-not need to worry about getting the command line options right, or
-running multiple cases. And reviewers do not need to ask to re-run with
-the correct options.
+    [  948.416358] usb 5-1: USB disconnect, device number 3
+    [  948.443496] msm_dpu ae01000.display-controller: msm_fbdev_client_hotplug
+    [  948.443723] msm-dp-display ae98000.displayport-controller: dp_power_clk_enable - type = 1, enable = 0
+    [  948.443872] msm-dp-display ae98000.displayport-controller: dp_ctrl_phy_exit
+    [  948.445117] msm-dp-display ae98000.displayport-controller: dp_ctrl_phy_exit - done
+    
+and then the hypervisor resets the machine.
 
-I suppose rotations might get added, too.
+Hotplug in Xorg seems to work worse than it did with 6.7, which also had
+some issues. Connecting a display once seems to work fine, but trying to
+re-enable a reconnected display using xrandr sometimes does not work at
+all, while with 6.7 it usually worked on the second xrandr execution.
 
-Or maybe you'd provide a script that covers all the standard
-performance test cases?
+xrandr reports the reconnected display as disconnected:
+
+    Screen 0: minimum 320 x 200, current 1920 x 1200, maximum 5120 x 4096
+    eDP-1 connected primary 1920x1200+0+0 (normal left inverted right x axis y axis) 286mm x 178mm
+       1920x1200     60.03*+
+       1600x1200     60.00  
+    DP-1 disconnected (normal left inverted right x axis y axis)
+    DP-2 disconnected 1920x1200+0+0 (normal left inverted right x axis y axis) 0mm x 0mm
+      1920x1200 (0x40c) 154.000MHz +HSync -VSync
+            h: width  1920 start 1968 end 2000 total 2080 skew    0 clock  74.04KHz
+            v: height 1200 start 1203 end 1209 total 1235           clock  59.95Hz
+
+Running 'xrandr --output DP-2 --auto' 2-3 times makes xrandr report the
+display as connected, but the display is still blank (unlike with 6.7).
+
+A few times after having exercised hotplug this way, the machine hard
+resets when Xorg is later stopped. Once I saw the following log messages
+on an SSH session but they may not have been printed directly before
+the hard reset:
+
+    [  214.555781] [drm:dpu_encoder_phys_vid_wait_for_commit_done:492] [dpu error]vblank timeout
+    [  214.555843] [drm:dpu_kms_wait_for_commit_done:483] [dpu error]wait for commit done returned -110
+
+Note that this appears to be unrelated to the recently fixed Qualcomm
+power domain driver bug which can trigger similar resets when
+initialising the display subsystem on boot. Specifically, I have
+triggered the hotplug resets described above also with the fix applied.
+[1]
+
+Reverting commit e467e0bde881 ("drm/msm/dp: use drm_bridge_hpd_notify()
+to report HPD status changes") which fixes the related VT console
+regression does not seem to make any difference. [2]
+
+Daniel Thompson reports that reverting the whole runtime PM series
+appears to make the hard resets he has seen with DisplayPort hotplug go
+away however:
+
+	https://lore.kernel.org/lkml/1701472789-25951-1-git-send-email-quic_khsieh@quicinc.com/
+
+So for now, let's assume that these regressions were also introduced (or
+triggered) by commit 5814b8bf086a ("drm/msm/dp: incorporate pm_runtime
+framework into DP driver").
+
+Johan
 
 
-Thanks,
-pq
-
-> > start printing YUV numbers separately as a new case.
-> >=20
-> >=20
-> > Thanks,
-> > pq
-> >  =20
-> >> =20
-> >>>    =20
-> >>>> +
-> >>>> +  sudo ./build/benchmarks/kms_fb_stress --device "sys:/sys/devices/=
-platform/vkms"
-> >>>> +  sudo IGT_DEVICE=3D"sys:/sys/devices/platform/vkms" ./build/benchm=
-arks/kms_fb_stress   =20
-> >>>
-> >>> Do people need to run both commands?   =20
-> >>
-> >> No, they don't, just two options.
-> >>
-> >> Best Regards,
-> >> ~Arthur Grillo
-> >> =20
-> >>>
-> >>> Anyway, a good idea.
-> >>>
-> >>> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> >>>
-> >>>
-> >>> Thanks,
-> >>> pq
-> >>>    =20
-> >>>> +
-> >>>>  TODO
-> >>>>  =3D=3D=3D=3D
-> >>>> =20
-> >>>>
-> >>>> ---
-> >>>> base-commit: eeb8e8d9f124f279e80ae679f4ba6e822ce4f95f
-> >>>> change-id: 20240226-bench-vkms-5b8b7aab255e
-> >>>>
-> >>>> Best regards,   =20
-> >>>    =20
-> >  =20
+[1] https://lore.kernel.org/lkml/20240226-rpmhpd-enable-corner-fix-v1-1-68c004cec48c@quicinc.com/
+[2] https://lore.kernel.org/lkml/Zd3YPGmrprxv-N-O@hovoldconsulting.com/
 
 
---Sig_/DX6kKQq2iBgSz7fGP6YUgnj
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXd4w8ACgkQI1/ltBGq
-qqfnHxAAp79lJUjUsLan8ziK6wUyuM4IoJLwb3oFaNNDCcPrFKMLXTUBu87boL/n
-n47WzJ/1mKbMlgSXCWLR/2j6RTjBy+gGCPx1TLDBY+2Jf+s48ms/RyS6GTEB1Bj0
-MhCUhYt4FrgqXecdpINJXQ4/WpIbt4RECU1chiMF0PoXvTe21G02Zhg2rfvyc1Xh
-yLn3I+I3cjwqTVmLMPTPGRIoX0ax64TWMU6L1CSWpRdHkQanUJLERb1NKZG0y3gK
-eZF2CaSyq5IM2zur9TrYIzJjuHvsvNx0ax6FBifZYLmFGWB7BSx2BPg49mCdM2zF
-8wSTcn2OW+ndUsXY1aZrUF/breJXIdCne008J43ygXOahg7ltAezMu7g0LE+tjBC
-o3tRPlspfDjyVVvjFXjDvRmdagYUzemAcZY6NldG38TqmqYegXjR/RC6NLI/MKTd
-X1Lo4xIArbPU7GU0gyJz0VwehFgc4ZcTaq8j7/KhTQRXNkDnotoNdhY8VIrd3EO/
-Fvh6xSE22xxvmFw4psscLe5lxmM3BBecRRhQ83IoBxhCIOQrOsg8+HK8rmv+dGkT
-xtwqvEieZHmvKqmSbJsLXhgNNe2OOZHz8BfyvXQUeQ7fn3V+dqepSopeVDOqS4t5
-hSd67SKpCocwdmXOkap20qYxWtiquw/0Viv4HtgD45EpnYHVi4o=
-=MeCb
------END PGP SIGNATURE-----
-
---Sig_/DX6kKQq2iBgSz7fGP6YUgnj--
+#regzbot introduced: 5814b8bf086a
