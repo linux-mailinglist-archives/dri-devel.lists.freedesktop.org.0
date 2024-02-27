@@ -2,59 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC865868BC1
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 10:10:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D618868BF9
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 10:16:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E79E10F29C;
-	Tue, 27 Feb 2024 09:10:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B43F10F2C9;
+	Tue, 27 Feb 2024 09:16:08 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="CbOSFvWg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1RT6XTdd";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CbOSFvWg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1RT6XTdd";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8896810F29C
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 09:10:14 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-128-E934HnI0OCyPXoda2PTIuw-1; Tue, 27 Feb 2024 09:10:11 +0000
-X-MC-Unique: E934HnI0OCyPXoda2PTIuw-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Tue, 27 Feb
- 2024 09:10:09 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Tue, 27 Feb 2024 09:10:09 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'kernel test robot' <lkp@intel.com>, "'linux-kernel@vger.kernel.org'"
- <linux-kernel@vger.kernel.org>, 'Linus Torvalds'
- <torvalds@linux-foundation.org>, 'Netdev' <netdev@vger.kernel.org>,
- "'dri-devel@lists.freedesktop.org'" <dri-devel@lists.freedesktop.org>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, "'Jens
- Axboe'" <axboe@kernel.dk>, "'Matthew Wilcox (Oracle)'" <willy@infradead.org>, 
- 'Christoph Hellwig' <hch@infradead.org>, "'linux-btrfs@vger.kernel.org'"
- <linux-btrfs@vger.kernel.org>, 'Andrew Morton' <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>, 'Andy Shevchenko'
- <andriy.shevchenko@linux.intel.com>, "'David S . Miller'"
- <davem@davemloft.net>, 'Dan Carpenter' <dan.carpenter@linaro.org>, "'Jani
- Nikula'" <jani.nikula@linux.intel.com>
-Subject: RE: [PATCH next v2 03/11] minmax: Simplify signedness check
-Thread-Topic: [PATCH next v2 03/11] minmax: Simplify signedness check
-Thread-Index: AdpoCqfCgp/0gHjwSqumBl0qZkMqdgBEnDuAAA9N+TA=
-Date: Tue, 27 Feb 2024 09:10:09 +0000
-Message-ID: <291975e1412548daa70abfe747dfd893@AcuMS.aculab.com>
-References: <8657dd5c2264456f8a005520a3b90e2b@AcuMS.aculab.com>
- <202402270937.9kmO5PFt-lkp@intel.com>
-In-Reply-To: <202402270937.9kmO5PFt-lkp@intel.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36CE610F2C8
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 09:16:07 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:98])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id C37E722778;
+ Tue, 27 Feb 2024 09:16:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1709025364; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ez2gI77bo+IW7JBK4/7ysD9/7pLOSxiVBQlhAMqDm10=;
+ b=CbOSFvWgkk4T8jKTKZAct6UORm+Y+SMSimguCpRI/c6J3+VadYWMAtnoqnmanFIM+aHA8W
+ +EzJ9fh0kxnIR0ztY1j01BtkHiHm/Bq5UUh3uxocqKg1bJJO8xd9BY1k4vy6yJ/h0pMz7Z
+ gKklvfr4XmyTIr8Hh4U1o+xHLRfloo4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1709025364;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ez2gI77bo+IW7JBK4/7ysD9/7pLOSxiVBQlhAMqDm10=;
+ b=1RT6XTddpxKXSfBlA/wdt1AdDFv4NKWdodJGaslkPV7yqP7vSsDM1MjR2DXfRdkFreby4p
+ XxKAezHxLWdxLMAg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1709025364; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ez2gI77bo+IW7JBK4/7ysD9/7pLOSxiVBQlhAMqDm10=;
+ b=CbOSFvWgkk4T8jKTKZAct6UORm+Y+SMSimguCpRI/c6J3+VadYWMAtnoqnmanFIM+aHA8W
+ +EzJ9fh0kxnIR0ztY1j01BtkHiHm/Bq5UUh3uxocqKg1bJJO8xd9BY1k4vy6yJ/h0pMz7Z
+ gKklvfr4XmyTIr8Hh4U1o+xHLRfloo4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1709025364;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ez2gI77bo+IW7JBK4/7ysD9/7pLOSxiVBQlhAMqDm10=;
+ b=1RT6XTddpxKXSfBlA/wdt1AdDFv4NKWdodJGaslkPV7yqP7vSsDM1MjR2DXfRdkFreby4p
+ XxKAezHxLWdxLMAg==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 766FE13419;
+ Tue, 27 Feb 2024 09:16:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap2.dmz-prg2.suse.org with ESMTPSA id tjNPG1So3WXZLgAAn2gu4w
+ (envelope-from <tzimmermann@suse.de>); Tue, 27 Feb 2024 09:16:04 +0000
+Message-ID: <587d60ae-221b-4c02-9891-17dc608009d3@suse.de>
+Date: Tue, 27 Feb 2024 10:16:04 +0100
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] Fixes for omapdrm console
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+To: Tony Lindgren <tony@atomide.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+References: <20240225064700.48035-1-tony@atomide.com>
+ <43fc93f1-d602-47ae-98e5-ee6be4ea5192@ideasonboard.com>
+ <42255362-4720-414e-b442-f98355e92968@ideasonboard.com>
+ <ab0b8471-97a6-479a-88aa-9bb25e91fb8a@suse.de>
+ <20240226112549.GU5299@atomide.com> <20240227070624.GB52537@atomide.com>
+ <7d98a0cd-e6d5-460d-8b91-35fa340736dd@suse.de>
+ <20240227080146.GW5299@atomide.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240227080146.GW5299@atomide.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=CbOSFvWg;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1RT6XTdd
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-8.00 / 50.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ XM_UA_NO_VERSION(0.01)[]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_THREE(0.00)[3]; DKIM_TRACE(0.00)[suse.de:+];
+ MX_GOOD(-0.01)[]; RCPT_COUNT_SEVEN(0.00)[11];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+]; MID_RHS_MATCH_FROM(0.00)[];
+ BAYES_HAM(-3.00)[100.00%]; ARC_NA(0.00)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+ DWL_DNSWL_HI(-3.50)[suse.de:dkim];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_CC(0.00)[ideasonboard.com,lists.freedesktop.org,vger.kernel.org,linux.intel.com,kernel.org,gmail.com,ffwll.ch,gmx.de,redhat.com,ravnborg.org];
+ RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -8.00
+X-Rspamd-Queue-Id: C37E722778
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,81 +159,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: kernel test robot
-> Sent: 27 February 2024 01:34
->=20
-> kernel test robot noticed the following build warnings:
->=20
-> [auto build test WARNING on drm-misc/drm-misc-next]
-> [also build test WARNING on linux/master mkl-can-next/testing kdave/for-n=
-ext akpm-mm/mm-nonmm-unstable
-> axboe-block/for-next linus/master v6.8-rc6 next-20240226]
-> [cannot apply to next-20240223 dtor-input/next dtor-input/for-linus horms=
--ipvs/master]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->=20
-> url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/minma=
-x-Put-all-the-clamp-
-> definitions-together/20240226-005902
-> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-> patch link:    https://lore.kernel.org/r/8657dd5c2264456f8a005520a3b90e2b=
-%40AcuMS.aculab.com
-> patch subject: [PATCH next v2 03/11] minmax: Simplify signedness check
-> config: alpha-defconfig (https://download.01.org/0day-ci/archive/20240227=
-/202402270937.9kmO5PFt-
-> lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-
-> ci/archive/20240227/202402270937.9kmO5PFt-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202402270937.9kmO5PFt-lkp=
-@intel.com/
->=20
-> All warnings (new ones prefixed by >>):
->=20
->    In file included from include/linux/kernel.h:28,
->                     from include/linux/cpumask.h:10,
->                     from include/linux/smp.h:13,
->                     from include/linux/lockdep.h:14,
->                     from include/linux/spinlock.h:63,
->                     from include/linux/swait.h:7,
->                     from include/linux/completion.h:12,
->                     from include/linux/crypto.h:15,
->                     from include/crypto/aead.h:13,
->                     from include/crypto/internal/aead.h:11,
->                     from crypto/skcipher.c:12:
->    crypto/skcipher.c: In function 'skcipher_get_spot':
-> >> include/linux/minmax.h:31:70: warning: ordered comparison of pointer w=
-ith integer zero [-Wextra]
->       31 |         (is_unsigned_type(typeof(x)) || (__is_constexpr(x) ? (=
-x) + 0 >=3D 0 : 0))
+Hi
 
-Hmmm -Wextra isn't normally set.
-But I do wish the compiler would do dead code elimination before
-these warnings.
+Am 27.02.24 um 09:01 schrieb Tony Lindgren:
+> * Thomas Zimmermann <tzimmermann@suse.de> [240227 07:56]:
+>> Am 27.02.24 um 08:06 schrieb Tony Lindgren:
+>>> * Tony Lindgren <tony@atomide.com> [240226 13:26]:
+>>>> * Thomas Zimmermann <tzimmermann@suse.de> [240226 09:10]:
+>>>>> Am 26.02.24 um 10:01 schrieb Tomi Valkeinen:
+>>>>>> On 26/02/2024 10:26, Tomi Valkeinen wrote:
+>>>>>>> How is it broken? I don't usually use the console (or fbdev) but
+>>>>>>> enabling it now, it seems to work fine for me, on DRA76 EVM with
+>>>>>>> HDMI output.
+>>>>> Omapdrm implements drm_framebuffer_funcs.dirty withomap_framebuffer_dirty().
+>>>>> AFAIK DRM semantics requires to run the dirty helper after writing to the
+>>>>> framebuffer's memory. Userspace does this via the DIRTYFB ioctl. [1] But (at
+>>>>> least) for correctness the console needs to do the same.
+>>>>>
+>>>>> [1] https://elixir.bootlin.com/linux/v6.7.6/source/drivers/gpu/drm/drm_ioctl.c#L679
+>>>> Yes I noticed console not updating and bisected it down to the two
+>>>> commits listed. I did the bisect on a droid4 though with command mode
+>>>> LCD. I did not test with HDMI, will give that a try too.
+>>> I can reproduce the cache issue with Tomi's omapfb-tests [2] below:
+>>>
+>>> while true;
+>>>         do dd if=/dev/urandom of=/dev/fb0
+>>>         ~/src/omapfb-tests/test
+>>>         sleep 1
+>>> done
+>>>
+>>> That produces short random data stripes on the test image.
+>>>
+>>>>>> After applying your patches, I see a lot of cache-related artifacts on
+>>>>>> the screen when updating the fb.
+>>>>> I guess we might need a dma-specific mmap helper to make this work
+>>>>> correctly.
+>>> Comparing the difference between drm_gem_mmap_obj() and
+>>> fb_deferred_io_mmap(), the following test patch makes the cache issue
+>>> go away for me. Not sure if this can be set based on some flag, or if
+>>> we need a separate fb_deferred_io_wc_mmap() or something like that?
+>>>
+>>> [2] https://github.com/tomba/omapfb-tests
+>>>
+>>> 8< --------------------
+>>> diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
+>>> --- a/drivers/video/fbdev/core/fb_defio.c
+>>> +++ b/drivers/video/fbdev/core/fb_defio.c
+>>> @@ -224,6 +224,7 @@ static const struct address_space_operations fb_deferred_io_aops = {
+>>>    int fb_deferred_io_mmap(struct fb_info *info, struct vm_area_struct *vma)
+>>>    {
+>>>    	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
+>>> +	vma->vm_page_prot = pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
+>> Great, that's exactly what I had in mind!
+> OK :)
+>
+>> My proposal is to add this mmap function directly to omapdrm. I'll later
+>> take care of integrating this into the overall framework. I have a few other
+>> ideas in mind that are related to this issue. Ok?
+> OK that sounds good to me, I'll post v3 set of patches.
 
-Apart from stopping code using min()/max() for pointer types
-(all the type checking is pointless) I think that __is_constextr()
-can be implemented using _Generic (instead of sizeof(type)) and then the
-true/false return values can be specified and need not be the same types.
-That test can then be:
-=09(__if_constexpr(x, x, -1) >=3D 0)
-(The '+ 0' is there to convert bool to int and won't be needed
-for non-constant bool.)
+I just realized the fb_deferred_io_mmap() is already exported. So please 
+use it instead of duplicating the code in omapdrm.
 
-I may drop the last few patches until MIN/MAX have been removed
-from everywhere else to free up the names.
+[1] 
+https://elixir.bootlin.com/linux/v6.7/source/drivers/video/fbdev/core/fb_defio.c#L237
 
-=09David
+I also noticed that omapdrm does not yet select the correct Kconfig 
+symbols. That can be fixed by
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
+  1) creating Kconfig FB_DMAMEM_HELPERS_DEFERRED that are similar to 
+their SYSMEM equivalent at [2]. The tokens should look like this
+
+configFB_DMAMEM_HELPERS_DEFERRED  <https://elixir.bootlin.com/linux/latest/K/ident/CONFIG_FB_SYSMEM_HELPERS_DEFERRED>
+bool
+depends onFB_CORE  <https://elixir.bootlin.com/linux/latest/K/ident/CONFIG_FB_CORE>
+selectFB_DEFERRED_IO  <https://elixir.bootlin.com/linux/latest/K/ident/CONFIG_FB_DEFERRED_IO>
+selectFB_DMAMEM_HELPERS  <https://elixir.bootlin.com/linux/latest/K/ident/CONFIG_FB_SYSMEM_HELPERS>
+
+
+   2) and selecting it instead of FB_DMAMEM_HELPERS under omapdrm's 
+Kconfig symbol.
+
+[2] 
+https://elixir.bootlin.com/linux/latest/source/drivers/video/fbdev/core/Kconfig#L147
+
+Best regards
+Thomas
+
+>
+> Regards,
+>
+> Tony
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
