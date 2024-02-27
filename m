@@ -2,54 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4604886914C
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 14:05:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFF8B869163
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 14:08:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA95210E6F0;
-	Tue, 27 Feb 2024 13:05:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2B6510E91C;
+	Tue, 27 Feb 2024 13:08:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=leemhuis.info header.i=@leemhuis.info header.b="Cg4NfOZ0";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Mot49NLQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [80.237.130.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA8E710E541;
- Tue, 27 Feb 2024 13:05:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
- Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
- In-Reply-To:References; bh=ZgGnPyp+t6CDuIJOxG2eFF8f52fwW7PChDnQXlWlBiU=;
- t=1709039123; x=1709471123; b=Cg4NfOZ07MPQPcntNyUtqqPnhm2nUjyCsrerychcHi96f0n
- xLxjMW5e+JM87f2dDIc1fBO7nRbGXeUroRebLkW/RpzaI7EWEMqpvRRICYjHTGgQXyuQzrmA7TI//
- qH+pvsHzxuTkJv9kh6Ft0QTNZXo4HOq0c5IvFZ/iQIQZlaRxK+H23RLfuuR/H4/bs9jxN1uHuFuNM
- FJwSO8cp0yAt+MEfHoG3iAhktnHaOyWJQlu/IumhGgPpxQESPSdfi4ZWTv+ao42qFtujly9e6V2cv
- iOXzZ7vGF49D731UC4BStppr5aqedYkml0CxsSVZJ1mb+0jyNcahMYegEc2+dP/A==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1rex96-0008H6-RV; Tue, 27 Feb 2024 14:05:20 +0100
-Message-ID: <8c444bff-99ae-410a-9c8f-96ec6d3ae2e3@leemhuis.info>
-Date: Tue, 27 Feb 2024 14:05:20 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 764A310E90A
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 13:08:27 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi
+ [89.27.53.110])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2F67B8D4;
+ Tue, 27 Feb 2024 14:08:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1709039293;
+ bh=jfjwt1TTGVuxaHJOwlRf5YKl3EIMiknvSswb55ZrDko=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Mot49NLQPtdRqOFCOsFDxHVVBq0DeBV8mMOrPn6TFZEjOYWho2T1NSi4ei8+/yDOQ
+ f04MNoL158x5mty9w2aNH58hIwvsAnoFJ5afXCZDaIu82gIbs8F/S5JQQ1NjqJCX86
+ 7t1JLOj7KiK0QXH8uALT4nxDWM7xw0jl1zSYV0Xs=
+Date: Tue, 27 Feb 2024 15:08:27 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Naushir Patuck <naush@raspberrypi.com>, dri-devel@lists.freedesktop.org,
+ libcamera-devel@lists.libcamera.org
+Subject: Re: [RFC] drm/fourcc: Add RPI modifiers
+Message-ID: <20240227130827.GA5863@pendragon.ideasonboard.com>
+References: <20240226153854.99471-1-jacopo.mondi@ideasonboard.com>
+ <CAKMK7uE2CBuGsJUYDT-L8x1Tbjb-PiHUjro8-hDpxLvBWycgLw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: drm/msm: VT console DisplayPort regression in 6.8-rc1
-Content-Language: en-US, de-DE
-To: Johan Hovold <johan@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, regressions@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <Zd3YPGmrprxv-N-O@hovoldconsulting.com>
-From: "Linux regression tracking #update (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-In-Reply-To: <Zd3YPGmrprxv-N-O@hovoldconsulting.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1709039123;
- f703608c; 
-X-HE-SMSGID: 1rex96-0008H6-RV
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uE2CBuGsJUYDT-L8x1Tbjb-PiHUjro8-hDpxLvBWycgLw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,31 +57,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[send with a reduced set of recipients, we all get enough mail already]
+On Mon, Feb 26, 2024 at 04:46:24PM +0100, Daniel Vetter wrote:
+> On Mon, 26 Feb 2024 at 16:39, Jacopo Mondi wrote:
+> >
+> > Add modifiers for the Raspberry Pi PiSP compressed formats.
+> >
+> > The compressed formats are documented at:
+> > Documentation/userspace-api/media/v4l/pixfmt-pisp-comp-rggb.rst
+> >
+> > and in the PiSP datasheet:
+> > https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > ---
+> >
+> > Background:
+> > -----------
+> >
+> > The Raspberry Pi PiSP camera subsystem is on its way to upstream through the
+> > Video4Linux2 subsystem:
+> > https://patchwork.linuxtv.org/project/linux-media/list/?series=12310
+> >
+> > The PiSP camera system is composed by a "Front End" and a "Back End".
+> > The FrontEnd part is a MIPI CSI-2 receiver that store frames to memory and
+> > produce statistics, and the BackEnd is a memory-to-memory ISP that converts
+> > images in a format usable by application.
+> >
+> > The "FrontEnd" is capable of encoding RAW Bayer images as received by the
+> > image sensor in a 'compressed' format defined by Raspberry Pi and fully
+> > documented in the PiSP manual:
+> > https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
+> >
+> > The compression scheme is documented in the in-review patch series for the BE
+> > support at:
+> > https://patchwork.linuxtv.org/project/linux-media/patch/20240223163012.300763-7-jacopo.mondi@ideasonboard.com/
+> >
+> > The "BackEnd" is capable of consuming images in the compressed format and
+> > optionally user application might want to inspect those images for debugging
+> > purposes.
+> >
+> > Why a DRM modifier
+> > ------------------
+> >
+> > The PiSP support is entirely implemented in libcamera, with the support of an
+> > hw-specific library called 'libpisp'.
+> >
+> > libcamera uses the fourcc codes defined by DRM to define its formats:
+> > https://git.libcamera.org/libcamera/libcamera.git/tree/src/libcamera/formats.yaml
+> >
+> > And to define a new libcamera format for the Raspberry Pi compressed ones we
+> > need to associate the above proposed modifiers with a RAW Bayer format
+> > identifier.
+> >
+> > In example:
+> >
+> >   - RGGB16_PISP_COMP1:
+> >       fourcc: DRM_FORMAT_SRGGB16
 
-On 27.02.24 13:40, Johan Hovold wrote:
+An "interesting" issue here is that these formats currently live in
+libcamera only, we haven't merged them in DRM "yet". This may be a
+prerequisite ?
+
+> >       mod: PISP_FORMAT_MOD_COMPRESS_MODE1
+> >   - GRBG16_PISP_COMP1:
+> >       fourcc: DRM_FORMAT_SGRBG16
+> >       mod: PISP_FORMAT_MOD_COMPRESS_MODE1
+> >   - GBRG16_PISP_COMP1:
+> >       fourcc: DRM_FORMAT_SGBRG16
+> >       mod: PISP_FORMAT_MOD_COMPRESS_MODE1
+> >   - BGGR16_PISP_COMP1:
+> >       fourcc: DRM_FORMAT_SBGGR16
+> >       mod: PISP_FORMAT_MOD_COMPRESS_MODE1
+> >   - MONO_PISP_COMP1:
+> >       fourcc: DRM_FORMAT_R16
+> >       mod: PISP_FORMAT_MOD_COMPRESS_MODE1
+> >
+> > See
+> > https://patchwork.libcamera.org/patch/19503/
+> >
+> > Would if be acceptable for DRM to include the above proposed modifiers for the
+> > purpose of defining the above presented libcamera formats ? There will be no
+> > graphic format associated with these modifiers as their purpose it not
+> > displaying images but rather exchange them between the components of the
+> > camera subsystem (and possibly be inspected by specialized test applications).
 > 
-> Since 6.8-rc1 the VT console is no longer mirrored on an external
-> display on coldplug or hotplug on the Lenovo ThinkPad X13s.
->
-
-Thx for the report!
-
-> I've previously reported this here:
+> Yeah I think libcamera using drm-fourcc formats and modifiers is
+> absolutely ok, and has my ack in principle. And for these users we're
+> ok with merging modifiers that the kernel doesn't use.
 > 
-> 	https://gitlab.freedesktop.org/drm/msm/-/issues/50
+> I think it would be really good to formalize this by adding libcamera
+> to the officially listed users in the "Open Source User Waiver"
+> section in the drm_fourcc.h docs:
+> 
+> https://dri.freedesktop.org/docs/drm/gpu/drm-kms.html#open-source-user-waiver
 
-Then let's tell regzbot about is as well, in case the ticket comes back
-to life now:
+The waiver states "the usual requirement for an upstream in-kernel or
+open source userspace user does not apply". Strictly speaking, there is
+an open-source userspace user with libcamera. It's only on the kernel
+side that the new modifier my not get used.
 
-#regzbot duplicate: https://gitlab.freedesktop.org/drm/msm/-/issues/50
+This being said, I'm fine clarifying the documentation, clarity is
+always good.
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+> You might want to convert that into a list, it could get a bit
+> confusing. Then we can get that patch properly acked (by kernel and
+> libcamera folks) to record the community consensus.
+> 
+> For the rpi modifiers themselves: They need to be properly documented,
+> least to exclude a screw-up like with the rpi modifiers we already
+> have, which unfortunately encode the buffer height (instead of just
+> the rounding algorithim to align the height to the right tile size) in
+> the modifiers, which breaks assumptions everywhere. For details see
+> https://gitlab.freedesktop.org/wlroots/wlroots/-/merge_requests/4529#note_2262057
+> 
+> > ---
+> >  include/uapi/drm/drm_fourcc.h | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> >
+> > diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> > index 00db00083175..09b182a959ad 100644
+> > --- a/include/uapi/drm/drm_fourcc.h
+> > +++ b/include/uapi/drm/drm_fourcc.h
+> > @@ -425,6 +425,7 @@ extern "C" {
+> >  #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
+> >  #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
+> >  #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
+> > +#define DRM_FORMAT_MOD_VENDOR_RPI 0x0b
+> >
+> >  /* add more to the end as needed */
+> >
+> > @@ -1568,6 +1569,10 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
+> >  #define AMD_FMT_MOD_CLEAR(field) \
+> >         (~((__u64)AMD_FMT_MOD_##field##_MASK << AMD_FMT_MOD_##field##_SHIFT))
+> >
+> > +/* RPI (Raspberry Pi) modifiers */
+> > +#define PISP_FORMAT_MOD_COMPRESS_MODE1 fourcc_mod_code(RPI, 1)
+> > +#define PISP_FORMAT_MOD_COMPRESS_MODE2 fourcc_mod_code(RPI, 2)
+> > +
+> >  #if defined(__cplusplus)
+> >  }
+> >  #endif
+
+-- 
+Regards,
+
+Laurent Pinchart
