@@ -2,61 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3561086901F
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 13:18:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E09586908D
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 13:30:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B057A10E8F7;
-	Tue, 27 Feb 2024 12:18:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A26D10E202;
+	Tue, 27 Feb 2024 12:30:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="B5srQBJ1";
+	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="mQYuSXA9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 777B810E900;
- Tue, 27 Feb 2024 12:18:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709036289; x=1740572289;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=LoqowTC6OOBrENRHvQ/wGIG1Ds/jK8vADdaatdI6yws=;
- b=B5srQBJ1/DdhClytJJDzRTdr8gJK83Kv4oWDH6X2qjQ+peIXyT1HQIDG
- Rabqci6OOzwB+ib6GBO/oJjeeG7DQ22z3cqu1DqwHnJ8UEEIVe5EMMWBI
- 1ujj97NBJkxMX93OepcBRkHi6ThBL5eMe7YfMP04ShicXkV87BsMUCK37
- 4E4SVcDLUNoPFKtmPja9J/yhUOlZXi4GZPTYUrhyj+pOQErZ01OrSnM22
- riNQp25jsxpA0Vaw15OY5XSJo90s62rZGCvoPhQiYMTMVaLGNgHVhE6I2
- dJM9vjCP4yEhqx9xjLwf/s8j3I5Dw9Q8kAa1rllVo6PkGI2j8SRy4mERX w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="3532429"
-X-IronPort-AV: E=Sophos;i="6.06,187,1705392000"; 
-   d="scan'208";a="3532429"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2024 04:18:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,187,1705392000"; d="scan'208";a="11793592"
-Received: from bdallmer-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.49.187])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2024 04:18:04 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx
- <intel-gfx@lists.freedesktop.org>, dri-devel
- <dri-devel@lists.freedesktop.org>
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Matt Roper <matthew.d.roper@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>, Tvrtko Ursulin
- <tvrtko.ursulin@linux.intel.com>, stable@vger.kernel.org, Andi Shyti
- <andi.shyti@linux.intel.com>, Andi Shyti <andi.shyti@kernel.org>
-Subject: Re: [PATCH 2/2] drm/i915/gt: Set default CCS mode '1'
-In-Reply-To: <20240220142034.257370-3-andi.shyti@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240220142034.257370-1-andi.shyti@linux.intel.com>
- <20240220142034.257370-3-andi.shyti@linux.intel.com>
-Date: Tue, 27 Feb 2024 14:18:01 +0200
-Message-ID: <87bk82je2u.fsf@intel.com>
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D8E110E202
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 12:30:06 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4TkcJG3RP2zDqxh;
+ Tue, 27 Feb 2024 12:30:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1709037006; bh=4Oml5WGpUWGH4E2pAWDmHJLXIurGcZNjrQiigLwRZxw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=mQYuSXA9hwz4kYJiAqIkpx33zjljXzNw0McZ/d8AEb4W6ypvWOENBZfqVS8Qi3TK5
+ hFaGS6zD8qKMJj5f6oDZl7wONjgkB/ngwXWKqQpZ9uaju56h8e8FU9hQjrX4UVQRD5
+ OtuptIXcDjwf18nqJPFXsHic7+YBeLheLXpyNrhk=
+X-Riseup-User-ID: 3F2DEF444453EB7DD4603CFBCDDEB278E8EE48B49FA58E4A5F087EA6FADAFF74
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4TkcJ955ZgzJpbF;
+ Tue, 27 Feb 2024 12:30:01 +0000 (UTC)
+Message-ID: <0892593d-0fd9-4381-b2bd-843627bd2723@riseup.net>
+Date: Tue, 27 Feb 2024 09:29:58 -0300
 MIME-Version: 1.0
-Content-Type: text/plain
+Subject: Re: [PATCH] drm/vkms: Add information on how to benchmark
+Content-Language: en-US
+To: Pekka Paalanen <pekka.paalanen@collabora.com>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240226-bench-vkms-v1-1-515ef91b11c8@riseup.net>
+ <20240227111941.061a2892.pekka.paalanen@collabora.com>
+ <8ac7bf91-fbce-4403-a801-9dfee39ea802@riseup.net>
+ <20240227135545.62dd5f57.pekka.paalanen@collabora.com>
+From: Arthur Grillo <arthurgrillo@riseup.net>
+In-Reply-To: <20240227135545.62dd5f57.pekka.paalanen@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,139 +69,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 20 Feb 2024, Andi Shyti <andi.shyti@linux.intel.com> wrote:
-> Since CCS automatic load balancing is disabled, we will impose a
-> fixed balancing policy that involves setting all the CCS engines
-> to work together on the same load.
->
-> Simultaneously, the user will see only 1 CCS rather than the
-> actual number. As of now, this change affects only DG2.
->
-> Fixes: d2eae8e98d59 ("drm/i915/dg2: Drop force_probe requirement")
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Matt Roper <matthew.d.roper@intel.com>
-> Cc: <stable@vger.kernel.org> # v6.2+
-> ---
->  drivers/gpu/drm/i915/gt/intel_gt.c      | 11 +++++++++++
->  drivers/gpu/drm/i915/gt/intel_gt_regs.h |  2 ++
->  drivers/gpu/drm/i915/i915_drv.h         | 17 +++++++++++++++++
->  drivers/gpu/drm/i915/i915_query.c       |  5 +++--
->  4 files changed, 33 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-> index a425db5ed3a2..e19df4ef47f6 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> @@ -168,6 +168,14 @@ static void init_unused_rings(struct intel_gt *gt)
->  	}
->  }
->  
-> +static void intel_gt_apply_ccs_mode(struct intel_gt *gt)
-> +{
-> +	if (!IS_DG2(gt->i915))
-> +		return;
-> +
-> +	intel_uncore_write(gt->uncore, XEHP_CCS_MODE, 0);
-> +}
-> +
->  int intel_gt_init_hw(struct intel_gt *gt)
->  {
->  	struct drm_i915_private *i915 = gt->i915;
-> @@ -195,6 +203,9 @@ int intel_gt_init_hw(struct intel_gt *gt)
->  
->  	intel_gt_init_swizzling(gt);
->  
-> +	/* Configure CCS mode */
-> +	intel_gt_apply_ccs_mode(gt);
-> +
->  	/*
->  	 * At least 830 can leave some of the unused rings
->  	 * "active" (ie. head != tail) after resume which
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> index cf709f6c05ae..c148113770ea 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> @@ -1605,6 +1605,8 @@
->  #define   GEN12_VOLTAGE_MASK			REG_GENMASK(10, 0)
->  #define   GEN12_CAGF_MASK			REG_GENMASK(19, 11)
->  
-> +#define XEHP_CCS_MODE                          _MMIO(0x14804)
-> +
->  #define GEN11_GT_INTR_DW(x)			_MMIO(0x190018 + ((x) * 4))
->  #define   GEN11_CSME				(31)
->  #define   GEN12_HECI_2				(30)
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index e81b3b2858ac..0853ffd3cb8d 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -396,6 +396,23 @@ static inline struct intel_gt *to_gt(const struct drm_i915_private *i915)
->  	     (engine__); \
->  	     (engine__) = rb_to_uabi_engine(rb_next(&(engine__)->uabi_node)))
->  
-> +/*
-> + * Exclude unavailable engines.
-> + *
-> + * Only the first CCS engine is utilized due to the disabling of CCS auto load
-> + * balancing. As a result, all CCS engines operate collectively, functioning
-> + * essentially as a single CCS engine, hence the count of active CCS engines is
-> + * considered '1'.
-> + * Currently, this applies to platforms with more than one CCS engine,
-> + * specifically DG2.
-> + */
-> +#define for_each_available_uabi_engine(engine__, i915__) \
 
-Hrmh, I've been trying to pester folks to move the existing engine
-iterator macros away from i915_drv.h, so not happy to see more.
 
-But since this is Cc: stable, better do that in a follow-up. Please?
+On 27/02/24 08:55, Pekka Paalanen wrote:
+> On Tue, 27 Feb 2024 08:44:52 -0300
+> Arthur Grillo <arthurgrillo@riseup.net> wrote:
+> 
+>> On 27/02/24 06:19, Pekka Paalanen wrote:
+>>> On Mon, 26 Feb 2024 17:42:11 -0300
+>>> Arthur Grillo <arthurgrillo@riseup.net> wrote:
+>>>   
+>>>> Now that we have a defined benchmark for testing the driver, add
+>>>> documentation on how to run it.
+>>>>
+>>>> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+>>>> ---
+>>>>  Documentation/gpu/vkms.rst | 6 ++++++
+>>>>  1 file changed, 6 insertions(+)
+>>>>
+>>>> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+>>>> index ba04ac7c2167..6d07f79f77ff 100644
+>>>> --- a/Documentation/gpu/vkms.rst
+>>>> +++ b/Documentation/gpu/vkms.rst
+>>>> @@ -89,6 +89,12 @@ You can also run subtests if you do not want to run the entire test::
+>>>>    sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --device "sys:/sys/devices/platform/vkms"
+>>>>    sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_flip --run-subtest basic-plain-flip
+>>>>  
+>>>> +If you are developing features that may affect performance, you can run the kms_fb_stress  
+>>>
+>>> s/can/must/
+>>>   
+>>>> +benchmark::  
+>>>
+>>> before and after, and report the numbers.  
+>>
+>> Did you mean to write the benchmarks logs here?
+> 
+> I mean people should be required tell their before and after numbers in
+> either commit message (my preference) or in series cover letter (if
+> benchmarking commits is not useful).
+> 
+> With the addition of YUV support in VKMS, maybe the benchmark needs to
 
-> +	for_each_uabi_engine(engine__, i915__) \
-> +		if ((IS_DG2(i915__)) && \
-> +		    ((engine__)->uabi_class == I915_ENGINE_CLASS_COMPUTE) && \
-> +		    ((engine__)->uabi_instance)) { } \
-> +		else
+With the upcoming addition, I've sent a patch to arbitrarily change the
+formats on the benchmark via command-line options. It's not adding a new
+case, but maybe just this could already help.
 
-We have for_each_if for this.
+https://lore.kernel.org/all/20240226-kms_fb_stress-dev-v1-0-1c14942b1244@riseup.net/
 
-> +
->  #define INTEL_INFO(i915)	((i915)->__info)
->  #define RUNTIME_INFO(i915)	(&(i915)->__runtime)
->  #define DRIVER_CAPS(i915)	(&(i915)->caps)
-> diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
-> index fa3e937ed3f5..2d41bda626a6 100644
-> --- a/drivers/gpu/drm/i915/i915_query.c
-> +++ b/drivers/gpu/drm/i915/i915_query.c
-> @@ -124,6 +124,7 @@ static int query_geometry_subslices(struct drm_i915_private *i915,
->  	return fill_topology_info(sseu, query_item, sseu->geometry_subslice_mask);
->  }
->  
-> +
+Best Regards,
+~Arthur Grillo
 
-Superfluous newline change.
-
->  static int
->  query_engine_info(struct drm_i915_private *i915,
->  		  struct drm_i915_query_item *query_item)
-> @@ -140,7 +141,7 @@ query_engine_info(struct drm_i915_private *i915,
->  	if (query_item->flags)
->  		return -EINVAL;
->  
-> -	for_each_uabi_engine(engine, i915)
-> +	for_each_available_uabi_engine(engine, i915)
->  		num_uabi_engines++;
->  
->  	len = struct_size(query_ptr, engines, num_uabi_engines);
-> @@ -155,7 +156,7 @@ query_engine_info(struct drm_i915_private *i915,
->  
->  	info_ptr = &query_ptr->engines[0];
->  
-> -	for_each_uabi_engine(engine, i915) {
-> +	for_each_available_uabi_engine(engine, i915) {
->  		info.engine.engine_class = engine->uabi_class;
->  		info.engine.engine_instance = engine->uabi_instance;
->  		info.flags = I915_ENGINE_INFO_HAS_LOGICAL_INSTANCE;
-
--- 
-Jani Nikula, Intel
+> start printing YUV numbers separately as a new case.
+> 
+> 
+> Thanks,
+> pq
+> 
+>>
+>>>   
+>>>> +
+>>>> +  sudo ./build/benchmarks/kms_fb_stress --device "sys:/sys/devices/platform/vkms"
+>>>> +  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/benchmarks/kms_fb_stress  
+>>>
+>>> Do people need to run both commands?  
+>>
+>> No, they don't, just two options.
+>>
+>> Best Regards,
+>> ~Arthur Grillo
+>>
+>>>
+>>> Anyway, a good idea.
+>>>
+>>> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+>>>
+>>>
+>>> Thanks,
+>>> pq
+>>>   
+>>>> +
+>>>>  TODO
+>>>>  ====
+>>>>  
+>>>>
+>>>> ---
+>>>> base-commit: eeb8e8d9f124f279e80ae679f4ba6e822ce4f95f
+>>>> change-id: 20240226-bench-vkms-5b8b7aab255e
+>>>>
+>>>> Best regards,  
+>>>   
+> 
