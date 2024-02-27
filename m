@@ -2,81 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6729868FB8
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 13:09:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EBB1868FF3
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 13:14:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F59510E70F;
-	Tue, 27 Feb 2024 12:09:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04A0410E6C8;
+	Tue, 27 Feb 2024 12:14:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="iloc4fiD";
+	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="WO0TL7Zm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 468B410E1C7
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 12:09:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1709035756;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oM1nmhmrYYwiRJpLohVKmwOBLO0DhpwgeVCgc2eX2Gg=;
- b=iloc4fiD9AP2RgP7/VfVKdyA2AaLvvP5DQV76OrB75gqTCiE9JinG91bf2LBM+xKwni6a1
- D0mKUHuink3M85HMSjkESTfCgtY2q1mgvcopiI7nKMsNSg5bLjqCBZjkiM4+/T9aHpoAnq
- qOInBL9tESUoZYkknfI4wQq5NSKgJmw=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-128-8fNsjWqaPnS_i15mcKuRBQ-1; Tue, 27 Feb 2024 07:09:14 -0500
-X-MC-Unique: 8fNsjWqaPnS_i15mcKuRBQ-1
-Received: by mail-lj1-f197.google.com with SMTP id
- 38308e7fff4ca-2d29355b96dso9051861fa.2
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 04:09:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709035753; x=1709640553;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oM1nmhmrYYwiRJpLohVKmwOBLO0DhpwgeVCgc2eX2Gg=;
- b=UbEDg0jxgZ0q5QvoD5D5NxQ5qjGRtdUr+zDqaa6vPOkxewIF5zTcez7nG8t6fkWnrH
- Ma4BixLkHPSgnif/oCkN69facHzFK6g7uSK0cKpEDZFZBSNiMDLS7hfjIJlnAKD/ru9f
- Kt6hBf/WBi7Txrha7WlaN1oMsuLFs2xRnEA/ufVt+dtcP7PMEFlE42ZgxXi+Ne0+9w7t
- cv8QyGnR520EiDQSuUAzDzEUVqryP8ygixnVDCwbEdhPeWf2Vogo0kG/247D/g1Kqg0d
- EYYERluAEzRKflMltLBOESd57P9ifIikcXBAX3KRCtLSe5id8RtZTgWSrnkEeeUZRiaO
- bvqA==
-X-Gm-Message-State: AOJu0YzdcEO2rLhJAQMxV9WzcE4ykbEWeNmTa2ocNgJi6FWnDD6PBbut
- eyzDHGG1Ji9gP1UhXsTqRcSOa8VPyD9gTKy9CNeKyXwJagYOCNaZ90WD+IdcOkYT0zUtgz+GMXm
- rr3BBt+xQ5yUsCgc3oY2+wKoqAktIz6RSGdjg/Ws9+I2f58omHfk82VAP+ibFIJPT+w==
-X-Received: by 2002:a05:651c:38d:b0:2d2:3018:4cdf with SMTP id
- e13-20020a05651c038d00b002d230184cdfmr4834784ljp.23.1709035753138; 
- Tue, 27 Feb 2024 04:09:13 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH9G3LparnNwkCyjvTlAUoqjf2NLbplLJPZiM9tnnaWg/TWhTIFlJEPJAE6OlRhuj6NLDGO3Q==
-X-Received: by 2002:a05:651c:38d:b0:2d2:3018:4cdf with SMTP id
- e13-20020a05651c038d00b002d230184cdfmr4834774ljp.23.1709035752703; 
- Tue, 27 Feb 2024 04:09:12 -0800 (PST)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
- by smtp.gmail.com with ESMTPSA id
- jt2-20020a05600c568200b0041290cd9483sm14863668wmb.28.2024.02.27.04.09.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Feb 2024 04:09:12 -0800 (PST)
-Date: Tue, 27 Feb 2024 13:09:12 +0100
-From: Maxime Ripard <mripard@redhat.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, 
- Daniel Vetter <daniel.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>, 
- Daniel Stone <daniels@collabora.com>, dim-tools@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-Subject: Re: DRM Migration to Gitlab
-Message-ID: <55qlpusrqjqlhuqybmc26f3hwscyhqcgadylrx42dzmqqg4gza@gxdpxuudj6r7>
-References: <k555c7lj3mcj2skzrmc2ywxzz5ndtdgfpitw7fftdlyjjpmfou@7maudk3vdxuf>
- <87edcyl38y.fsf@intel.com>
- <q4imcbwr5act2iy3pswsvhojj6r5spjbo4w3wejn2mi2a34irl@c2gin24mbiwr>
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B59910E6C8;
+ Tue, 27 Feb 2024 12:14:33 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4TkbyJ3npczDqX0;
+ Tue, 27 Feb 2024 12:14:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1709036072; bh=Yz3E4CiFT0Uvb+rCgXU3sAf4IG3Gte9QgdNN0Qj0Qhw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=WO0TL7ZmPkv5QM3vX8Q/70xTvA9lwr7KBEDaqf4v/lrqesXei1zOoyPPhCuxInwrw
+ sy5C29njj2I7yJb3GeugtcuoXkq2EXvzSMT7aeHEQ5Hb6nKGGTVHFua9//Ojx2yI6w
+ GTjGCSnskAik+EjpTkhi0eV4O62q6HhnRmdN8Ha8=
+X-Riseup-User-ID: C4283F6FCFC12BBED7CC048E3601DA23ADAC6603853D1FADCB062F6BA06CFE93
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4TkbyG6Bt8zJq9Y;
+ Tue, 27 Feb 2024 12:14:30 +0000 (UTC)
+Message-ID: <848f64f9-abc9-4ce3-a66b-65b513239ec7@riseup.net>
+Date: Tue, 27 Feb 2024 09:14:28 -0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="5xdvtw5ku5u2ryh4"
-Content-Disposition: inline
-In-Reply-To: <q4imcbwr5act2iy3pswsvhojj6r5spjbo4w3wejn2mi2a34irl@c2gin24mbiwr>
+Subject: Re: [RFC PATCH v4 06/42] drm/vkms: Add kunit tests for VKMS LUT
+ handling
+Content-Language: en-US
+To: Harry Wentland <harry.wentland@amd.com>, dri-devel@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org
+Cc: wayland-devel@lists.freedesktop.org
+References: <20240226211100.100108-1-harry.wentland@amd.com>
+ <20240226211100.100108-7-harry.wentland@amd.com>
+From: Arthur Grillo <arthurgrillo@riseup.net>
+In-Reply-To: <20240226211100.100108-7-harry.wentland@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,71 +62,261 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---5xdvtw5ku5u2ryh4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 27, 2024 at 10:18:01AM +0100, Maxime Ripard wrote:
-> Hi Jani,
->=20
-> On Tue, Feb 27, 2024 at 10:29:01AM +0200, Jani Nikula wrote:
-> > On Tue, 27 Feb 2024, Maxime Ripard <mripard@redhat.com> wrote:
-> > > Hi,
-> > >
-> > > Sima, after becoming aware of the drm-misc transition to Gitlab in the
-> > > next couple of weeks, to do the same for DRM today.
-> > >
-> > > This is now done and all the various bits (nightly.conf, MAINTAINERS,
-> > > doc, etc.) should be there.
-> > >
-> > > If all goes well, the only thing you'll notice is that dim will compl=
-ain
-> > > about the drm remote not having the right URLs.
-> > >
-> > > Any dim user should update the URL with either one of the two followi=
-ng
-> > > commands:
-> > >
-> > > git remote set-url drm ssh://git@gitlab.freedesktop.org/drm/kernel.git
-> > > git remote set-url drm https://gitlab.freedesktop.org/drm/kernel.git
-> > >
-> > > And the rest should be transparent.
-> >=20
-> > Except it isn't. If you do that before updating to new nightly.conf,
-> > it'll complain that the URL it sees in the old config isn't available,
-> > and prompts.
-> >=20
-> > If you first do 'dim ub', and then do 'dim ub' again, before changing
-> > the URL, it'll also prompt, but it's unable to override the existing drm
-> > remote.
->=20
-> Urgh, you're right... It's also partly due to drm-tip being the last
-> repo to be updated. I've overlooked that aspect since I had the local
-> changes to nightly.conf.
->=20
-> > I think dim should be updated to handle all of this without user
-> > manually doing anything other than answering a yes/no prompt.
->=20
-> I've started to work on that, but it's probably going to take a bit of
-> time to figure it out, bash isn't really my strong suit.
+On 26/02/24 18:10, Harry Wentland wrote:
+> Debugging LUT math is much easier when we can unit test
+> it. Add kunit functionality to VKMS and add tests for
+>  - get_lut_index
+>  - lerp_u16
+> 
+> v4:
+>  - Test the critical points of the lerp function (Pekka)
+> 
+> v3:
+>  - Use include way of testing static functions (Arthur)
+> 
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> Cc: Arthur Grillo <arthurgrillo@riseup.net>
+> ---
+>  drivers/gpu/drm/vkms/Kconfig                  |   5 +
+>  drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
+>  drivers/gpu/drm/vkms/tests/vkms_color_tests.c | 163 ++++++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_composer.c          |   8 +-
+>  4 files changed, 178 insertions(+), 2 deletions(-)
+>  create mode 100644 drivers/gpu/drm/vkms/tests/.kunitconfig
+>  create mode 100644 drivers/gpu/drm/vkms/tests/vkms_color_tests.c
+> 
+> diff --git a/drivers/gpu/drm/vkms/Kconfig b/drivers/gpu/drm/vkms/Kconfig
+> index b9ecdebecb0b..c1f8b343ff0e 100644
+> --- a/drivers/gpu/drm/vkms/Kconfig
+> +++ b/drivers/gpu/drm/vkms/Kconfig
+> @@ -13,3 +13,8 @@ config DRM_VKMS
+>  	  a VKMS.
+>  
+>  	  If M is selected the module will be called vkms.
+> +
+> +config DRM_VKMS_KUNIT_TESTS
+> +	tristate "Tests for VKMS" if !KUNIT_ALL_TESTS
+> +	depends on DRM_VKMS && KUNIT
+> +	default KUNIT_ALL_TESTS
+> diff --git a/drivers/gpu/drm/vkms/tests/.kunitconfig b/drivers/gpu/drm/vkms/tests/.kunitconfig
+> new file mode 100644
+> index 000000000000..70e378228cbd
+> --- /dev/null
+> +++ b/drivers/gpu/drm/vkms/tests/.kunitconfig
+> @@ -0,0 +1,4 @@
+> +CONFIG_KUNIT=y
+> +CONFIG_DRM=y
+> +CONFIG_DRM_VKMS=y
+> +CONFIG_DRM_VKMS_KUNIT_TESTS=y
+> diff --git a/drivers/gpu/drm/vkms/tests/vkms_color_tests.c b/drivers/gpu/drm/vkms/tests/vkms_color_tests.c
+> new file mode 100644
+> index 000000000000..fc73e48aa57c
+> --- /dev/null
+> +++ b/drivers/gpu/drm/vkms/tests/vkms_color_tests.c
+> @@ -0,0 +1,163 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+> +
+> +#include <kunit/test.h>
+> +
+> +#include <drm/drm_fixed.h>
+> +
+> +#define TEST_LUT_SIZE 16
+> +
+> +static struct drm_color_lut test_linear_array[TEST_LUT_SIZE] = {
+> +	{ 0x0, 0x0, 0x0, 0 },
+> +	{ 0x1111, 0x1111, 0x1111, 0 },
+> +	{ 0x2222, 0x2222, 0x2222, 0 },
+> +	{ 0x3333, 0x3333, 0x3333, 0 },
+> +	{ 0x4444, 0x4444, 0x4444, 0 },
+> +	{ 0x5555, 0x5555, 0x5555, 0 },
+> +	{ 0x6666, 0x6666, 0x6666, 0 },
+> +	{ 0x7777, 0x7777, 0x7777, 0 },
+> +	{ 0x8888, 0x8888, 0x8888, 0 },
+> +	{ 0x9999, 0x9999, 0x9999, 0 },
+> +	{ 0xaaaa, 0xaaaa, 0xaaaa, 0 },
+> +	{ 0xbbbb, 0xbbbb, 0xbbbb, 0 },
+> +	{ 0xcccc, 0xcccc, 0xcccc, 0 },
+> +	{ 0xdddd, 0xdddd, 0xdddd, 0 },
+> +	{ 0xeeee, 0xeeee, 0xeeee, 0 },
+> +	{ 0xffff, 0xffff, 0xffff, 0 },
+> +};
+> +
+> +const struct vkms_color_lut test_linear_lut = {
+> +	.base = test_linear_array,
+> +	.lut_length = TEST_LUT_SIZE,
+> +	.channel_value2index_ratio = 0xf000fll
+> +};
+> +
+> +
+> +static void vkms_color_test_get_lut_index(struct kunit *test)
+> +{
+> +	int i;
+> +
+> +	KUNIT_EXPECT_EQ(test, drm_fixp2int(get_lut_index(&test_linear_lut, test_linear_array[0].red)), 0);
+> +
+> +	for (i = 0; i < TEST_LUT_SIZE; i++)
+> +		KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(get_lut_index(&test_linear_lut, test_linear_array[i].red)), i);
+> +}
+> +
+> +static void vkms_color_test_lerp(struct kunit *test)
+> +{
+> +	/*** half-way round down ***/
+> +	s64 t = 0x80000000 - 1;
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x8);
+> +
+> +	/* odd a */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x8);
+> +
+> +	/* odd b */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0x8);
+> +
+> +	/* b = a */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
+> +
+> +	/* b = a + 1 */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x10);
+> +
+> +
+> +	/*** half-way round up ***/
+> +	t = 0x80000000;
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x8);
+> +
+> +	/* odd a */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x9);
+> +
+> +	/* odd b */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0x8);
+> +
+> +	/* b = a */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
+> +
+> +	/* b = a + 1 */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x11);
+> +
+> +	/*** t = 0.0 ***/
+> +	t = 0x0;
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x0);
+> +
+> +	/* odd a */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x1);
+> +
+> +	/* odd b */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0x1);
+> +
+> +	/* b = a */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
+> +
+> +	/* b = a + 1 */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x10);
+> +
+> +	/*** t = 1.0 ***/
+> +	t = 0x100000000;
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x10);
+> +
+> +	/* odd a */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x10);
+> +
+> +	/* odd b */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0xf);
+> +
+> +	/* b = a */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
+> +
+> +	/* b = a + 1 */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x11);
+> +
+> +
+> +	/*** t = 0.0 + 1 ***/
+> +	t = 0x0 + 1;
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x0);
+> +
+> +	/* odd a */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x1);
+> +
+> +	/* odd b */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0x1);
+> +
+> +	/* b = a */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
+> +
+> +	/* b = a + 1 */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x10);
+> +
+> +	/*** t = 1.0 - 1 ***/
+> +	t = 0x100000000 - 1;
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x10);
+> +
+> +	/* odd a */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x10);
+> +
+> +	/* odd b */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0xf);
+> +
+> +	/* b = a */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
+> +
+> +	/* b = a + 1 */
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x11);
+> +
+> +
+> +	/*** t chosen to verify the flipping point of result a (or b) to a+1 (or b-1) ***/
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x1, 0x80000000 - 1), 0x0);
+> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x1, 0x80000000), 0x1);
+> +}
+> +
+> +static struct kunit_case vkms_color_test_cases[] = {
+> +	KUNIT_CASE(vkms_color_test_get_lut_index),
+> +	KUNIT_CASE(vkms_color_test_lerp),
+> +	{}
+> +};
+> +
+> +static struct kunit_suite vkms_color_test_suite = {
+> +	.name = "vkms-color",
+> +	.test_cases = vkms_color_test_cases,
+> +};
+> +kunit_test_suite(vkms_color_test_suite);
+> +
+> +MODULE_LICENSE("GPL");
+> \ No newline at end of file
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+> index e70cd473e3be..d178f2a400f6 100644
+> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> @@ -91,7 +91,7 @@ static void fill_background(const struct pixel_argb_u16 *background_color,
+>  }
+>  
+>  // lerp(a, b, t) = a + (b - a) * t
+> -static u16 lerp_u16(u16 a, u16 b, s64 t)
+> +u16 lerp_u16(u16 a, u16 b, s64 t)
 
-I've sent a MR to handle this:
+You don't need to do that, as already said on [1].
 
-https://gitlab.freedesktop.org/drm/maintainer-tools/-/merge_requests/39
+>  {
+>  	s64 a_fp = drm_int2fixp(a);
+>  	s64 b_fp = drm_int2fixp(b);
+> @@ -101,7 +101,7 @@ static u16 lerp_u16(u16 a, u16 b, s64 t)
+>  	return drm_fixp2int_round(a_fp + delta);
+>  }
+>  
+> -static s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value)
+> +s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value)
 
-Maxime
+Same here.
 
---5xdvtw5ku5u2ryh4
-Content-Type: application/pgp-signature; name="signature.asc"
+[1]: https://lore.kernel.org/dri-devel/4df0cb7c-e738-4927-89ed-51a0e8bcac77@riseup.net/
 
------BEGIN PGP SIGNATURE-----
+Best Regards,
+~Arthur Grillo
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZd3Q5wAKCRDj7w1vZxhR
-xSjFAQDgQGgWB5/FC3Nf7LEwB7yPcrMPH9MswxIpfnK83oDc9wEAiPEZTu/l7N4w
-abEXogk4j/Ka5InNVpiwkoP/G+o60AA=
-=f9nn
------END PGP SIGNATURE-----
-
---5xdvtw5ku5u2ryh4--
-
+>  {
+>  	s64 color_channel_fp = drm_int2fixp(channel_value);
+>  
+> @@ -429,3 +429,7 @@ int vkms_set_crc_source(struct drm_crtc *crtc, const char *src_name)
+>  
+>  	return ret;
+>  }
+> +
+> +#ifdef CONFIG_DRM_VKMS_KUNIT_TESTS
+> +#include "tests/vkms_color_tests.c"
+> +#endif
