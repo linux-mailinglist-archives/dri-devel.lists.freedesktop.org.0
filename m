@@ -2,68 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95E88868CC6
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 10:58:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A47868CE1
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 11:05:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EACB910E8CE;
-	Tue, 27 Feb 2024 09:58:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBCE910E8E0;
+	Tue, 27 Feb 2024 10:05:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="dao7Y9Sl";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Y1cvDceZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FFAD10E8CE
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 09:58:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=zmsPkx8u5y9ACKXsvl6mZR69ylS6xz1/lmuCMlM+hOU=; b=dao7Y9SlN3DP3124zo9KmYIOad
- LnVlXJh/r/OKOhvX9Wn7VUKd6L6IMOApHD1UJTBdrII1+PRxIA8bb7DIPOT21CE2qwEz5tZMufJMP
- rDmWV842pLbtGbB2sXA4VM+mu0/1Oi1t8qtg9r8C0ihQwQuQONAIgcjoXJBuJ/JjAscx91hpOOa6m
- QCScgHC28HjsRDX9gShZLn+3LRtS2U5f6Jqer/YluqXAv6rQ0qqb3px1ZHIEfuC7ZulOjyP9IczVW
- wP1fSH2d7gH+gH3AwYvPiQrVTDi7SZCOjWw7d/pOKAxd3COyAgB78IF6axQzu85Fd1svF7gTZjdwk
- 8uMobrOg==;
-Received: from [194.136.85.206] (port=54632 helo=eldfell)
- by whm50.louhi.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
- (envelope-from <pekka.paalanen@haloniitty.fi>) id 1reuEP-0002WA-2y;
- Tue, 27 Feb 2024 11:58:37 +0200
-Date: Tue, 27 Feb 2024 11:58:35 +0200
-From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Nick Hollinghurst
- <nick.hollinghurst@raspberrypi.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: UAPI Re: [PATCH 1/3] drm: Add DRM_MODE_TV_MODE_MONOCHROME
-Message-ID: <20240227115835.299146c9@eldfell>
-In-Reply-To: <CAPY8ntCHi8joN-w3PNjMj31FSkCjqmJ4ZyhSDFZ1-PnfL4+FrQ@mail.gmail.com>
-References: <20240216184857.245372-1-dave.stevenson@raspberrypi.com>
- <20240216184857.245372-2-dave.stevenson@raspberrypi.com>
- <20240221110751.48da8190@eldfell>
- <b43rdl7yebxn6z3pvyeyxbikccr7umrojo5kqw5i3ybloxktso@de4oxsbskkwp>
- <20240226171143.27e60c30@eldfell>
- <CAPY8ntCHi8joN-w3PNjMj31FSkCjqmJ4ZyhSDFZ1-PnfL4+FrQ@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01E6A10E8E0
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 10:05:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1709028331;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=WEqff19JHcsYm0iDiR6uIGeiIJlWi/YnRL1Hddn3yS4=;
+ b=Y1cvDceZ6ONZ3kkfdoJ9tD+nKmEXKrEMhaq2cnjwuwxQ00WnbqYFXQBmwnQtvQO71xeUB1
+ uPzFbe0TI7wEiFOT3hR/+JaDJnoEp0n8seqGP1NLoslEazFRyEAVQ9K6Pp7bLbuFn+WlmD
+ BUvROqL6mNLoAPo3wRZE/rjMd1VuXxE=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-325-ihR4dhHmMuasOqY9G-rbYg-1; Tue,
+ 27 Feb 2024 05:05:27 -0500
+X-MC-Unique: ihR4dhHmMuasOqY9G-rbYg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 672A71C06902;
+ Tue, 27 Feb 2024 10:05:27 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.192.179])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9445723CEF;
+ Tue, 27 Feb 2024 10:05:22 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
+ javierm@redhat.com, bluescreen_avenger@verizon.net, noralf@tronnes.org
+Cc: gpiccoli@igalia.com,
+	Jocelyn Falempe <jfalempe@redhat.com>
+Subject: [RFC][PATCH v8 0/8] drm/panic: Add a drm panic handler
+Date: Tue, 27 Feb 2024 11:04:11 +0100
+Message-ID: <20240227100459.194478-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Oql0Bx3UihsRw6_b1==PDux";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - whm50.louhi.net
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - haloniitty.fi
-X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
- pekka.paalanen@haloniitty.fi
-X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,108 +70,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/Oql0Bx3UihsRw6_b1==PDux
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+This introduces a new drm panic handler, which displays a message when a panic occurs.
+So when fbcon is disabled, you can still see a kernel panic.
 
-On Mon, 26 Feb 2024 17:23:24 +0000
-Dave Stevenson <dave.stevenson@raspberrypi.com> wrote:
+This is one of the missing feature, when disabling VT/fbcon in the kernel:
+https://www.reddit.com/r/linux/comments/10eccv9/config_vtn_in_2023/
+Fbcon can be replaced by a userspace kms console, but the panic screen must be done in the kernel.
 
-> Hi Pekka
->=20
-> Sorry for the slight delay in replying.
->=20
-> On Mon, 26 Feb 2024 at 15:11, Pekka Paalanen
-> <pekka.paalanen@haloniitty.fi> wrote:
-> >
-> > On Mon, 26 Feb 2024 15:10:45 +0100
-> > Maxime Ripard <mripard@kernel.org> wrote:
-> > =20
-> > > Hi Pekka,
-> > >
-> > > On Wed, Feb 21, 2024 at 11:07:51AM +0200, Pekka Paalanen wrote: =20
-> > > > On Fri, 16 Feb 2024 18:48:55 +0000
-> > > > Dave Stevenson <dave.stevenson@raspberrypi.com> wrote:
-> > > > =20
-> > > > > From: Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>
-> > > > >
-> > > > > Add this as a value for enum_drm_connector_tv_mode, represented
-> > > > > by the string "Mono", to generate video with no colour encoding
-> > > > > or bursts. Define it to have no pedestal (since only NTSC-M calls
-> > > > > for a pedestal).
-> > > > >
-> > > > > Change default mode creation to acommodate the new tv_mode value
-> > > > > which comprises both 525-line and 625-line formats.
-> > > > >
-> > > > > Signed-off-by: Nick Hollinghurst <nick.hollinghurst@raspberrypi.c=
-om>
-> > > > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com> =20
-> > > >
-> > > > since no-one else commented yet, I'd like to remind of the new UAPI
-> > > > requirements:
-> > > > https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#open-source-=
-userspace-requirements
-> > > >
-> > > > AFAIU, adding a new value to an existing enum still counts as new U=
-API.
-> > > >
-> > > > Maybe there is no need for the full treatment here, or maybe there =
-is,
-> > > > I'm not sure. I think you should make some statement about how the =
-new
-> > > > UAPI requirements have been addressed. =20
+This is a proof of concept, and works with simpledrm, mgag200, ast, and imx.
 
-...
+To test it, make sure you're using one of the supported driver, and trigger a panic:
+echo c > /proc/sysrq-trigger
 
-> The use cases for runtime switching of the "tv_mode" are exceedingly
-> rare, so IMHO the property doesn't need exposing through the UAPI.
-> However it was added to the UAPI about 8 years ago for vc4 and sunxi,
-> and is also now used by other drivers, so can't be reverted. Does that
-> mean it can now never be changed without jumping through the hoop of
-> creating some userspace user?
-
-That is for the DRM maintainers to decide. For that, they must first
-notice that this is indeed new UAPI.
-
-History has shown that UAPI changes sometimes get through when they
-would have probably been rejected off-hand if a maintainer had a proper
-look. I saw an UAPI addition that was not in any way highlighted as
-such, with a topic that is probably uninteresting to most. The patch
-also did not discuss any of the details you now explained, which could
-serve as a justification. Naturally I screamed, hoping to attract
-maintainer attention.
+or you can enable CONFIG_DRM_PANIC_DEBUG and echo 1 > /sys/kernel/debug/drm_panic/trigger
 
 
-Thanks,
-pq
+v2:
+ * Use get_scanout_buffer() instead of the drm client API. (Thomas Zimmermann)
+ * Add the panic reason to the panic message (Nerdopolis)
+ * Add an exclamation mark (Nerdopolis)
+ 
+v3:
+ * Rework the drawing functions, to write the pixels line by line and
+ to use the drm conversion helper to support other formats.
+ (Thomas Zimmermann)
+ 
+v4:
+ * Fully support all simpledrm formats using drm conversion helpers
+ * Rename dpanic_* to drm_panic_*, and have more coherent function name.
+   (Thomas Zimmermann)
+ * Use drm_fb_r1_to_32bit for fonts (Thomas Zimmermann)
+ * Remove the default y to DRM_PANIC config option (Thomas Zimmermann)
+ * Add foreground/background color config option
+ * Fix the bottom lines not painted if the framebuffer height
+   is not a multiple of the font height.
+ * Automatically register the driver to drm_panic, if the function
+   get_scanout_buffer() exists. (Thomas Zimmermann)
+ * Add mgag200 support.
+ 
+v5:
+ * Change the drawing API, use drm_fb_blit_from_r1() to draw the font.
+   (Thomas Zimmermann)
+ * Also add drm_fb_fill() to fill area with background color.
+ * Add draw_pixel_xy() API for drivers that can't provide a linear buffer.
+ * Add a flush() callback for drivers that needs to synchronize the buffer.
+ * Add a void *private field, so drivers can pass private data to
+   draw_pixel_xy() and flush(). 
+ * Add ast support.
+ * Add experimental imx/ipuv3 support, to test on an ARM hw. (Maxime Ripard)
 
->=20
-> Regards
->   Dave
->=20
-> [3] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_mo=
-des.c#L2232
+v6:
+ * Fix sparse and __le32 warnings
+ * Drop the IMX/IPUV3 experiment, it was just to show that it works also on
+   ARM devices.
+
+v7:
+ * Add a check to see if the 4cc format is supported by drm_panic.
+ * Add a drm/plane helper to loop over all visible primary buffer,
+   simplifying the get_scanout_buffer implementations
+ * Add a generic implementation for drivers that uses drm_fb_dma. (Maxime Ripard)
+ * Add back the IMX/IPUV3 support, and use the generic implementation. (Maxime Ripard)
+
+v8:
+ * Directly register each plane to the panic notifier (Sima)
+ * Replace get_scanout_buffer() with set_scanout_buffer() to simplify
+   the locking. (Thomas Zimmermann)
+ * Add a debugfs entry, to trigger the drm_panic without a real panic (Sima)
+ * Fix the drm_panic Documentation, and include it in drm-kms.rst
+
+Best regards,
 
 
---Sig_/Oql0Bx3UihsRw6_b1==PDux
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Jocelyn Falempe (8):
+  drm/format-helper: Add drm_fb_blit_from_r1 and drm_fb_fill
+  drm/panic: Add a drm panic handler
+  drm/panic: Add debugfs entry to test without triggering panic.
+  drm/fb_dma: Add generic set_scanout_buffer() for drm_panic
+  drm/simpledrm: Add drm_panic support
+  drm/mgag200: Add drm_panic support
+  drm/imx: Add drm_panic support
+  drm/ast: Add drm_panic support
 
------BEGIN PGP SIGNATURE-----
+ Documentation/gpu/drm-kms.rst             |  12 +
+ drivers/gpu/drm/Kconfig                   |  32 ++
+ drivers/gpu/drm/Makefile                  |   1 +
+ drivers/gpu/drm/ast/ast_mode.c            |   6 +
+ drivers/gpu/drm/drm_fb_dma_helper.c       |  37 ++
+ drivers/gpu/drm/drm_format_helper.c       | 432 +++++++++++++++++----
+ drivers/gpu/drm/drm_panic.c               | 447 ++++++++++++++++++++++
+ drivers/gpu/drm/drm_plane.c               |   3 +
+ drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c   |   5 +
+ drivers/gpu/drm/mgag200/mgag200_g200.c    |   2 +
+ drivers/gpu/drm/mgag200/mgag200_g200eh.c  |   2 +
+ drivers/gpu/drm/mgag200/mgag200_g200eh3.c |   2 +
+ drivers/gpu/drm/mgag200/mgag200_g200er.c  |   2 +
+ drivers/gpu/drm/mgag200/mgag200_g200ev.c  |   2 +
+ drivers/gpu/drm/mgag200/mgag200_g200ew3.c |   2 +
+ drivers/gpu/drm/mgag200/mgag200_g200se.c  |   2 +
+ drivers/gpu/drm/mgag200/mgag200_g200wb.c  |   2 +
+ drivers/gpu/drm/mgag200/mgag200_mode.c    |   7 +
+ drivers/gpu/drm/tiny/simpledrm.c          |  17 +
+ include/drm/drm_fb_dma_helper.h           |   4 +
+ include/drm/drm_format_helper.h           |   9 +
+ include/drm/drm_modeset_helper_vtables.h  |  11 +
+ include/drm/drm_panic.h                   |  37 ++
+ include/drm/drm_plane.h                   |  17 +
+ 24 files changed, 1012 insertions(+), 81 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_panic.c
+ create mode 100644 include/drm/drm_panic.h
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXdsksACgkQI1/ltBGq
-qqfnAg//W6NpaaKTTfwxVHy2apa09YviPsJyRzGO/qvJPzHYZaWVocCvJA9Y5Rdt
-anFVEXL04YiLH2zl4WTZvQ60AViW0nLyWCysp5LrWmUfToOFipFKLyb3W3fsWh/u
-C1ccKHvcJgQYSH7KrmjV9N2F/Tb7+4LU7Vc0th9tFgtJfbCM3OHAsdqdfCenPVQl
-eXo03wlBTRdzz2NFEn2vKA2+mqER07gEB0bW9gTbWNvtBFdESpckO8TrCQkVlO0B
-Vh89xCYyWGq07mn/2USoVr0qPIGnhRNY4zrOgRXLz8b/0g4O6lmOvwVrSCE59FCB
-6zFQQRQrjJk+8x6PxG5YQwW4T8bJXY+xWzcSq/We/LCHJQmhQGg6vI6mh5ljQaSG
-6RrsBchD35wr99BqA9ZzpMusq45LWBx82cjCMHlsBBQUi89wpRNr1ugCEmGzNi1Q
-PgW2F0mwd/FE1xw2zUh+MkPrb11BEBSViLdw5xar6FxZRTGdygOYCt5j11tNr258
-K969gy/tSgDG361qQ4f5kXUDLx9q2dX35AJs9GaeJWOMMkV6+Cmp7VL8GcRHxtRK
-3KnBsB1nmOCWwQLm+HZeM+I0+4gg9uyfam7Q6kf7axP+0ssByqx8hHO9Kwkm1rCH
-XD2N79UlQLlFD2BkSR3UnLs9dqgJvt3cCPANoM4LqkFh/0gDLk4=
-=g/Rr
------END PGP SIGNATURE-----
 
---Sig_/Oql0Bx3UihsRw6_b1==PDux--
+base-commit: bfa4437fd3938ae2e186e7664b2db65bb8775670
+-- 
+2.43.0
+
