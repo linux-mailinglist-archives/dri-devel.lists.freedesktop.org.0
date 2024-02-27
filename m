@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A322D8695B4
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 15:04:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C2CA8696DD
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 15:16:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E66E110E541;
-	Tue, 27 Feb 2024 14:04:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C0D310E265;
+	Tue, 27 Feb 2024 14:16:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="is6QQbv2";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="M3euDZ3R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87C5710E504
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 14:04:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C24F010E265
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 14:16:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A2572613FB;
- Tue, 27 Feb 2024 14:04:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEB84C433F1;
- Tue, 27 Feb 2024 14:04:30 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 09BDD61241;
+ Tue, 27 Feb 2024 14:16:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51190C433F1;
+ Tue, 27 Feb 2024 14:16:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1709042671;
- bh=vjdClqs5D1fW2Tl3xotsMuKGCjf0ckS64rJuqMpLICM=;
+ s=korg; t=1709043373;
+ bh=xVfocRMoWHUihPS3SogmE1oeUFt79/SX7r4pM2iBdLI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=is6QQbv2bWwgxc83XVQbgYn2PM6mYOuoZouJpOEqZPVwMlsW09m+UnQXciK+ls8RQ
- jMejGEGrOUHejDuP03uYXc2vvgeO7pvsZmexRekLzxQHjXmtJ/HYHbrQ/PAmiHit/W
- Mykx/EB++zV7bldB0zhJxWgeupkq+p+DRBFEVQ/M=
+ b=M3euDZ3Rni/iTyERVdNOzVpFNbNArH97RsYPPn71MRJf58GO3g6goutAGAzXMzKR4
+ 8sqaye5cdGf7ITK4cMPPX7gK27jQZrUr8czkKDNncOyi3bdWr/Jw4ErYQF394Zt0xv
+ zCGB+0sMaJgcMxBtxkwSQpd9nkY35+SorN8S0yzw=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
@@ -34,13 +34,13 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  Dave Airlie <airlied@redhat.com>, Huang Rui <ray.huang@amd.com>,
  dri-devel@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>
-Subject: [PATCH 5.15 078/245] drm/ttm: Fix an invalid freeing on already freed
+Subject: [PATCH 6.1 085/195] drm/ttm: Fix an invalid freeing on already freed
  page in error path
-Date: Tue, 27 Feb 2024 14:24:26 +0100
-Message-ID: <20240227131617.776837919@linuxfoundation.org>
+Date: Tue, 27 Feb 2024 14:25:46 +0100
+Message-ID: <20240227131613.291946379@linuxfoundation.org>
 X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240227131615.098467438@linuxfoundation.org>
-References: <20240227131615.098467438@linuxfoundation.org>
+In-Reply-To: <20240227131610.391465389@linuxfoundation.org>
+References: <20240227131610.391465389@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -62,7 +62,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-5.15-stable review patch.  If anyone has any objections, please let me know.
+6.1-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -98,7 +98,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/ttm/ttm_pool.c
 +++ b/drivers/gpu/drm/ttm/ttm_pool.c
-@@ -384,7 +384,7 @@ static void ttm_pool_free_range(struct t
+@@ -383,7 +383,7 @@ static void ttm_pool_free_range(struct t
  				enum ttm_caching caching,
  				pgoff_t start_page, pgoff_t end_page)
  {
