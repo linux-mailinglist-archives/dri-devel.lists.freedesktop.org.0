@@ -2,88 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83E5B868D12
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 11:12:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1014B868D3C
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 11:20:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9977210F2E4;
-	Tue, 27 Feb 2024 10:12:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D36EC10E423;
+	Tue, 27 Feb 2024 10:20:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="U1TWSEY9";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=atomide.com header.i=@atomide.com header.b="FzQIWa/0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D74710F2E4
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 10:12:45 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-512e1991237so3401573e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 02:12:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1709028763; x=1709633563; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=xdcTuKOvy0EUhMzr/avSzwKVXZwTIOQgOR4V6+G/+Rk=;
- b=U1TWSEY9xLq1Qq8TIPEpDXg3oT7JhL0y/DNGJiaCTobPjJmfoQJ/VVHFzrv6k+5lfK
- V1KVEJfWgcdyENCYhgddViVr3fFxvrmbFqcjflzXfbj2UVNHhcBJEoFjX1A1Uoy58wxD
- T7f65L3UAls+Z7bReqdh0RGMQWlDKJUDEHXI5n1CHGrJPDxOfrUo+nen5BFvB3ocqh0T
- 7MBotphNMQcvAOAVRDuA/f5vCk92luHigV0XRtmiUdGP8hsX3rCeT2u5QhTbhGuhlrR1
- 2/VNaHAHdTvZ0ksf0DqmGgpV3oCZyhyJAMQL7YbusziJmMPMt704N5CNxq7W/TtT5ePd
- Or/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709028763; x=1709633563;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xdcTuKOvy0EUhMzr/avSzwKVXZwTIOQgOR4V6+G/+Rk=;
- b=WCFI+X5B49ch9pJZMejDrI9QSL2d7CVzvtSi8xhMYjFHc/MIbskqlZU2ljZhMSk4bC
- bDHMgtRP9/cSulMh0TjO2ZxlDa/e4JWrGw7bw4jmlMdAaIB1NyzmsECcPDw0PqOduMRf
- GTOqhtClGUu8JOTsg4pdNXW70gl8ERtv1qypU2/QrJY1ADyrPhbllJupyYA1Tj05//k5
- rURdMICYhDMg4JY/XpFijyW2iFEYi/cB0hfbgVQOxlHtGaT2tS7ecEuc4D3DzAZVkD1a
- Nui0tC52hktEIBzUarU1cZd5IsCc6vib/GEWdTzvZ6/c03z9zbbLDsqY8zIaX+aQlNEt
- picQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWrETq334JyINo5Ss3OSw1sQdp4Fqu/fMyn5HmhIjpxsn4w4wtaUkG97Su/+WQgAw0TRWpl06pm4l3IBzPzRTLeavKa26+9lXaS4mRD3kbM
-X-Gm-Message-State: AOJu0Yw5Hck0RGSYD0LQyr0d3WF1Jui201ACpYeJTCOYjT2VcY9jszmJ
- rm3tOa9dI0OrabSXy5/nfZeChGPnYzXXJ2K1JFuwJISC8ELLDQsFVAaubqSd0D8=
-X-Google-Smtp-Source: AGHT+IEuX+LAvgGR0dujrY6Se1xlvX+40UrwavICTj8b1/cNQL1xPoiOn1bdI5jJdrL4sEXbMeapyQ==
-X-Received: by 2002:a05:6512:11cf:b0:512:f389:d6e0 with SMTP id
- h15-20020a05651211cf00b00512f389d6e0mr2702097lfr.4.1709028763072; 
- Tue, 27 Feb 2024 02:12:43 -0800 (PST)
-Received: from [172.30.204.241] (UNUSED.212-182-62-129.lubman.net.pl.
- [212.182.62.129]) by smtp.gmail.com with ESMTPSA id
- x18-20020ac24892000000b005128d0e2a07sm1136919lfc.308.2024.02.27.02.12.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Feb 2024 02:12:42 -0800 (PST)
-Message-ID: <f5b373cf-79fb-4d62-9d3f-9a9ffbfb5d8a@linaro.org>
-Date: Tue, 27 Feb 2024 11:12:37 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/7] A702 support
-To: Will Deacon <will@kernel.org>
-Cc: Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+Received: from mail5.25mail.st (mail5.25mail.st [74.50.62.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6A7B10E446
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 10:20:01 +0000 (UTC)
+Received: from localhost (91-158-86-216.elisa-laajakaista.fi [91.158.86.216])
+ by mail5.25mail.st (Postfix) with ESMTPSA id A843760449;
+ Tue, 27 Feb 2024 10:19:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=atomide.com;
+ s=25mailst; t=1709029201;
+ bh=LyAbhudhxSq3yLeTK1bjs5FR0ITxA277HoI8dQfVDHw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FzQIWa/0QMI6mN04+ST5VP548LMGjL6oRyM8Ax/v/MTR+mHrH5/9a+DlRDy6phGcD
+ laiFZXZue1Y+exdbh0v+QuUlo68/i2jXcYFwoPWhO3HfV255NUTFCbJtIWmhqn1vI4
+ wD2rbkGvqEJeGZuavOvNzO50mb+eTYiSRSnWF6tAkRIGbwjMfoW+6b1rRjXgSoNS8s
+ CNWguV29qaNxMRLzfwgdsv5Q/Md0iHFq4ZP0jwn8zTi0ZUJ325RUTgu/4FBpkYOAeM
+ LApL1P6s019FyXnlrftk6wA3bDloRkrRwuYkOlJplzxOLHO5MipAlDguf24oeJavpN
+ d1LJyv2yA11Sg==
+Date: Tue, 27 Feb 2024 12:19:34 +0200
+From: Tony Lindgren <tony@atomide.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-References: <20240219-topic-rb1_gpu-v2-0-2d3d6a0db040@linaro.org>
- <20240227101055.GA13753@willie-the-truck>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20240227101055.GA13753@willie-the-truck>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Helge Deller <deller@gmx.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 0/2] Fixes for omapdrm console
+Message-ID: <20240227101934.GC52537@atomide.com>
+References: <20240225064700.48035-1-tony@atomide.com>
+ <43fc93f1-d602-47ae-98e5-ee6be4ea5192@ideasonboard.com>
+ <42255362-4720-414e-b442-f98355e92968@ideasonboard.com>
+ <ab0b8471-97a6-479a-88aa-9bb25e91fb8a@suse.de>
+ <20240226112549.GU5299@atomide.com>
+ <20240227070624.GB52537@atomide.com>
+ <7d98a0cd-e6d5-460d-8b91-35fa340736dd@suse.de>
+ <20240227080146.GW5299@atomide.com>
+ <587d60ae-221b-4c02-9891-17dc608009d3@suse.de>
+ <20240227094651.GX5299@atomide.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240227094651.GX5299@atomide.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,20 +71,163 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2/27/24 11:10, Will Deacon wrote:
-> On Fri, Feb 23, 2024 at 10:21:36PM +0100, Konrad Dybcio wrote:
->> Bit of a megaseries, bunched together for your testing convenience..
->> Needs mesa!27665 [1] on the userland part, kmscube happily spins.
->>
->> I'm feeling quite lukewarm about the memory barriers in patch 3..
->>
->> Patch 1 for Will/smmu, 5-6 for drm/msm, rest for qcom
+* Tony Lindgren <tony@atomide.com> [240227 11:47]:
+> * Thomas Zimmermann <tzimmermann@suse.de> [240227 09:16]:
+> > I just realized the fb_deferred_io_mmap() is already exported. So please use
+> > it instead of duplicating the code in omapdrm.
+> > 
+> > [1] https://elixir.bootlin.com/linux/v6.7/source/drivers/video/fbdev/core/fb_defio.c#L237
 > 
-> I'm guessing you don't really expect me to take the clock bindings?!
+> Yeah I have now:
+> 
+> static int omap_fbdev_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
+> {
+> 	vma->vm_page_prot = pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
+> 
+> 	return fb_deferred_io_mmap(info, vma);
+> }
+> 
+> > I also noticed that omapdrm does not yet select the correct Kconfig symbols.
+> > That can be fixed by
+> > 
+> >  1) creating Kconfig FB_DMAMEM_HELPERS_DEFERRED that are similar to their
+> > SYSMEM equivalent at [2]. The tokens should look like this
+> > 
+> > configFB_DMAMEM_HELPERS_DEFERRED  <https://elixir.bootlin.com/linux/latest/K/ident/CONFIG_FB_SYSMEM_HELPERS_DEFERRED>
+> > bool
+> > depends onFB_CORE  <https://elixir.bootlin.com/linux/latest/K/ident/CONFIG_FB_CORE>
+> > selectFB_DEFERRED_IO  <https://elixir.bootlin.com/linux/latest/K/ident/CONFIG_FB_DEFERRED_IO>
+> > selectFB_DMAMEM_HELPERS  <https://elixir.bootlin.com/linux/latest/K/ident/CONFIG_FB_SYSMEM_HELPERS>
+> 
+> OK
+> 
+> >   2) and selecting it instead of FB_DMAMEM_HELPERS under omapdrm's Kconfig
+> > symbol.
+> 
+> OK
 
-Sorry, I didn't remove this hunk from v1 (where it was smmu changes
-that you already took)!
+So here's what I have now, does that look OK?
 
-Konrad
+Regards,
+
+Tony
+
+8< -------------------------
+diff --git a/drivers/gpu/drm/omapdrm/Kconfig b/drivers/gpu/drm/omapdrm/Kconfig
+--- a/drivers/gpu/drm/omapdrm/Kconfig
++++ b/drivers/gpu/drm/omapdrm/Kconfig
+@@ -4,7 +4,7 @@ config DRM_OMAP
+ 	depends on DRM && OF
+ 	depends on ARCH_OMAP2PLUS
+ 	select DRM_KMS_HELPER
+-	select FB_DMAMEM_HELPERS if DRM_FBDEV_EMULATION
++	select FB_DMAMEM_HELPERS_DEFERRED if DRM_FBDEV_EMULATION
+ 	select VIDEOMODE_HELPERS
+ 	select HDMI
+ 	default n
+diff --git a/drivers/gpu/drm/omapdrm/omap_fbdev.c b/drivers/gpu/drm/omapdrm/omap_fbdev.c
+--- a/drivers/gpu/drm/omapdrm/omap_fbdev.c
++++ b/drivers/gpu/drm/omapdrm/omap_fbdev.c
+@@ -51,6 +51,10 @@ static void pan_worker(struct work_struct *work)
+ 	omap_gem_roll(bo, fbi->var.yoffset * npages);
+ }
+ 
++FB_GEN_DEFAULT_DEFERRED_DMAMEM_OPS(omap_fbdev,
++				   drm_fb_helper_damage_range,
++				   drm_fb_helper_damage_area)
++
+ static int omap_fbdev_pan_display(struct fb_var_screeninfo *var,
+ 		struct fb_info *fbi)
+ {
+@@ -78,11 +82,9 @@ static int omap_fbdev_pan_display(struct fb_var_screeninfo *var,
+ 
+ static int omap_fbdev_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
+ {
+-	struct drm_fb_helper *helper = info->par;
+-	struct drm_framebuffer *fb = helper->fb;
+-	struct drm_gem_object *bo = drm_gem_fb_get_obj(fb, 0);
++	vma->vm_page_prot = pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
+ 
+-	return drm_gem_mmap_obj(bo, omap_gem_mmap_size(bo), vma);
++	return fb_deferred_io_mmap(info, vma);
+ }
+ 
+ static void omap_fbdev_fb_destroy(struct fb_info *info)
+@@ -94,6 +96,7 @@ static void omap_fbdev_fb_destroy(struct fb_info *info)
+ 
+ 	DBG();
+ 
++	fb_deferred_io_cleanup(info);
+ 	drm_fb_helper_fini(helper);
+ 
+ 	omap_gem_unpin(bo);
+@@ -104,15 +107,19 @@ static void omap_fbdev_fb_destroy(struct fb_info *info)
+ 	kfree(fbdev);
+ }
+ 
++/*
++ * For now, we cannot use FB_DEFAULT_DEFERRED_OPS and fb_deferred_io_mmap()
++ * because we use write-combine.
++ */
+ static const struct fb_ops omap_fb_ops = {
+ 	.owner = THIS_MODULE,
+-	__FB_DEFAULT_DMAMEM_OPS_RDWR,
++	__FB_DEFAULT_DEFERRED_OPS_RDWR(omap_fbdev),
+ 	.fb_check_var	= drm_fb_helper_check_var,
+ 	.fb_set_par	= drm_fb_helper_set_par,
+ 	.fb_setcmap	= drm_fb_helper_setcmap,
+ 	.fb_blank	= drm_fb_helper_blank,
+ 	.fb_pan_display = omap_fbdev_pan_display,
+-	__FB_DEFAULT_DMAMEM_OPS_DRAW,
++	__FB_DEFAULT_DEFERRED_OPS_DRAW(omap_fbdev),
+ 	.fb_ioctl	= drm_fb_helper_ioctl,
+ 	.fb_mmap	= omap_fbdev_fb_mmap,
+ 	.fb_destroy	= omap_fbdev_fb_destroy,
+@@ -213,6 +220,15 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
+ 	fbi->fix.smem_start = dma_addr;
+ 	fbi->fix.smem_len = bo->size;
+ 
++	/* deferred I/O */
++	helper->fbdefio.delay = HZ / 20;
++	helper->fbdefio.deferred_io = drm_fb_helper_deferred_io;
++
++	fbi->fbdefio = &helper->fbdefio;
++	ret = fb_deferred_io_init(fbi);
++	if (ret)
++		goto fail;
++
+ 	/* if we have DMM, then we can use it for scrolling by just
+ 	 * shuffling pages around in DMM rather than doing sw blit.
+ 	 */
+diff --git a/drivers/video/fbdev/core/Kconfig b/drivers/video/fbdev/core/Kconfig
+--- a/drivers/video/fbdev/core/Kconfig
++++ b/drivers/video/fbdev/core/Kconfig
+@@ -144,6 +144,12 @@ config FB_DMAMEM_HELPERS
+ 	select FB_SYS_IMAGEBLIT
+ 	select FB_SYSMEM_FOPS
+ 
++config FB_DMAMEM_HELPERS_DEFERRED
++	bool
++	depends on FB_CORE
++	select FB_DEFERRED_IO
++	select FB_DMAMEM_HELPERS
++
+ config FB_IOMEM_FOPS
+ 	tristate
+ 	depends on FB_CORE
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -686,6 +686,10 @@ extern int fb_deferred_io_fsync(struct file *file, loff_t start,
+ 	__FB_GEN_DEFAULT_DEFERRED_OPS_RDWR(__prefix, __damage_range, sys) \
+ 	__FB_GEN_DEFAULT_DEFERRED_OPS_DRAW(__prefix, __damage_area, sys)
+ 
++#define FB_GEN_DEFAULT_DEFERRED_DMAMEM_OPS(__prefix, __damage_range, __damage_area) \
++	__FB_GEN_DEFAULT_DEFERRED_OPS_RDWR(__prefix, __damage_range, sys) \
++	__FB_GEN_DEFAULT_DEFERRED_OPS_DRAW(__prefix, __damage_area, sys)
++
+ /*
+  * Initializes struct fb_ops for deferred I/O.
+  */
+-- 
+2.43.1
