@@ -2,82 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 791DD868E4B
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 12:04:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C390868EFD
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 12:39:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 362DC10E8EA;
-	Tue, 27 Feb 2024 11:04:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EE2310E917;
+	Tue, 27 Feb 2024 11:39:01 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="mBofjGGT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cPjARdQH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eI+pozVz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="exgRYLYR";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
- [209.85.128.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5845C10E68E
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 11:04:35 +0000 (UTC)
-Received: by mail-yw1-f171.google.com with SMTP id
- 00721157ae682-608d55ab7b0so28053107b3.1
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 03:04:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709031872; x=1709636672;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xPv5tY8IlTb3U7rQdZHsbYJc9/8vKc1NrUUSdhaGOUc=;
- b=iI+Opw0RLdnwdeuU22rIWf1C6o4FXTd61P+rPFHgn8oJtBqFqr0oCzIQ4EBqg6MM2w
- Fzzn7DAPXmseDGb72RQpItL0h68+uHSNz5bV2s9jIKzKNk4ex+pcqyJboagilAqKm1xt
- HQ+xoeJ8ietNImo3swq5Om6IRVoqcpO6TKGBIMegKCfA9Kdpm2DHfxc7FMQnFjvEw1eb
- agVWqKfNop+hT1qUJBVJltRZdrTeJpjSQWN30uaVW6L0iC+SvWizzkCdWKUBWFUfEwza
- pRGiTVA/iwo96RJ1151HsTeLqsdLODje/EFv1Mi4IBrc1QqK2gikNrIpVGtCkubZryzb
- sYTA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUICU6ND6dAlkLX045Jn0enh3yObrXWtz84lw9OxTjy1pDO5365UisSGvr2wMv9ZsLnov5B/9MfnopkwzwtjiCEKIZe3YRpRpDOa1M6tLWV
-X-Gm-Message-State: AOJu0YzToLBAtHIRnIi9A92WIKN2h01kKTPMqPgYpsrYEPCAVh4L10EH
- 8MEINJ/89UoQDlBzM+Neua5fhoGaVF1L6dsvbHSd2qO6pMz1JVzQzKsPbMYEJIE=
-X-Google-Smtp-Source: AGHT+IGoTiiu2rKzwLnaqbyo/Fm3Cft7hAgGi4hJBQ/ii+rmEap8y+9P/UtLV2A3z1T6psP/QhQ5EA==
-X-Received: by 2002:a25:ac15:0:b0:dcc:d5aa:af36 with SMTP id
- w21-20020a25ac15000000b00dccd5aaaf36mr1865207ybi.44.1709031871698; 
- Tue, 27 Feb 2024 03:04:31 -0800 (PST)
-Received: from mail-yb1-f181.google.com ([209.85.219.181])
- by smtp.gmail.com with ESMTPSA id
- o17-20020a5b0651000000b00dcf27be1d1bsm1321940ybq.28.2024.02.27.03.04.31
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Feb 2024 03:04:31 -0800 (PST)
-Received: by mail-yb1-f181.google.com with SMTP id
- 3f1490d57ef6-dc74435c428so3645351276.2
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 03:04:31 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVxN59m9LwSXxzvVTPqyrSOFWuOp+n+7UTSdsBhjjeVXh92sQ3AjWBcV4m/XemGRNFWCL65KUkTcifC8j9KwCtXS13nnKiPo2rb9//TjKdM
-X-Received: by 2002:a5b:ecc:0:b0:dc6:c32f:6126 with SMTP id
- a12-20020a5b0ecc000000b00dc6c32f6126mr1590255ybs.22.1709031869487; Tue, 27
- Feb 2024 03:04:29 -0800 (PST)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1177610E60B;
+ Tue, 27 Feb 2024 11:38:58 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:98])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2F9E8226DE;
+ Tue, 27 Feb 2024 11:38:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1709033937; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=5C4CK+3IOQMm2tEAZJPCPaPAJ0nIVyugJd/heULKsBk=;
+ b=mBofjGGTP9buT7BDxHFEUtkHb9Ql2f+Nt/q+czcsmODUOSsHDVToHO1rbSdHvknZQbudnG
+ k2hHt0aHJn91Y6RcECo/8jW056zpIpfJ3Yz79MLw6/WF02jOAUoNUikbrZqsBstu1yf5nu
+ idUUE9n7SNp1ROkCrutkXtaKcrPlEtc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1709033937;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=5C4CK+3IOQMm2tEAZJPCPaPAJ0nIVyugJd/heULKsBk=;
+ b=cPjARdQHlGQSH6PbnVsgqDFlGcCpvBuG4JsDRalPDUbO/B7rfTktrM+LxgLEZe9J/dno6M
+ vTxrqI88UEdNoQDw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1709033936; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=5C4CK+3IOQMm2tEAZJPCPaPAJ0nIVyugJd/heULKsBk=;
+ b=eI+pozVzqRLV5xA6BGWTcd8Pv7AxusQ9mMxoad1zWnWGXNvZETiOWZ1+/5Z6tXVXxvFBC2
+ wPlzlV+bHr8bM3x45hVU+Uxx12KFhegYLTrU6xmB78e/CoyJZga7Rftdf/eTM/J4hNHhTZ
+ wm/lmNrVfwOBiCAPdqB8Mr3+/oyhxag=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1709033936;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=5C4CK+3IOQMm2tEAZJPCPaPAJ0nIVyugJd/heULKsBk=;
+ b=exgRYLYRU1toZEzhUPaWw7UpZNnMlASkq200zc0im8evnK4Spfb09O+YUahTVm6WOPVATQ
+ tTJvKgsxzJdp/JAQ==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 62B8213216;
+ Tue, 27 Feb 2024 11:38:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+ by imap2.dmz-prg2.suse.org with ESMTPSA id nxXHFs/J3WVMUQAAn2gu4w
+ (envelope-from <tzimmermann@suse.de>); Tue, 27 Feb 2024 11:38:55 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, christian.koenig@amd.com,
+ sumit.semwal@linaro.org, dmitry.osipenko@collabora.com,
+ robdclark@gmail.com, quic_abhinavk@quicinc.com,
+ dmitry.baryshkov@linaro.org, sean@poorly.run,
+ marijn.suijten@somainline.org, suijingfeng@loongson.cn, kherbst@redhat.com,
+ lyude@redhat.com, dakr@redhat.com, airlied@redhat.com, kraxel@redhat.com,
+ alexander.deucher@amd.com, Xinhui.Pan@amd.com, zack.rusin@broadcom.com,
+ bcm-kernel-feedback-list@broadcom.com
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 00/13] drm: Fix reservation locking for pin/unpin and console
+Date: Tue, 27 Feb 2024 11:14:47 +0100
+Message-ID: <20240227113853.8464-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.43.2
 MIME-Version: 1.0
-References: <20240227034539.193573-1-aford173@gmail.com>
- <20240227034539.193573-3-aford173@gmail.com>
- <39aead3b-b809-4c9c-8a5d-c0be2b36ea47@imgtec.com>
-In-Reply-To: <39aead3b-b809-4c9c-8a5d-c0be2b36ea47@imgtec.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 27 Feb 2024 12:04:17 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW5vWg=tpB9PCRXmdBmLtt0wNN9dOEN1Lp_N7R68jz0tA@mail.gmail.com>
-Message-ID: <CAMuHMdW5vWg=tpB9PCRXmdBmLtt0wNN9dOEN1Lp_N7R68jz0tA@mail.gmail.com>
-Subject: Re: [PATCH 2/6] arm64: dts: renesas: r8a774a1: Enable GPU
-To: Matt Coster <Matt.Coster@imgtec.com>
-Cc: Adam Ford <aford173@gmail.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Adam Ford <aford@beaconembedded.com>, 
- Frank Binns <Frank.Binns@imgtec.com>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, 
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=eI+pozVz;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=exgRYLYR
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-1.51 / 50.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+ TO_DN_SOME(0.00)[]; R_MISSING_CHARSET(2.50)[];
+ BROKEN_CONTENT_TYPE(1.50)[];
+ R_RATELIMIT(0.00)[to_ip_from(RLo3wgn6xaqcdyw4c639zmwwtu)];
+ RCVD_COUNT_THREE(0.00)[3]; DKIM_TRACE(0.00)[suse.de:+];
+ MX_GOOD(-0.01)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ FREEMAIL_TO(0.00)[ffwll.ch,gmail.com,kernel.org,linux.intel.com,amd.com,linaro.org,collabora.com,quicinc.com,poorly.run,somainline.org,loongson.cn,redhat.com,broadcom.com];
+ FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+];
+ BAYES_HAM(-3.00)[100.00%]; ARC_NA(0.00)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[]; DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCPT_COUNT_TWELVE(0.00)[30]; MID_CONTAINS_FROM(1.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[patchwork.freedesktop.org:url,suse.de:dkim];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -1.51
+X-Rspamd-Queue-Id: 2F9E8226DE
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,135 +124,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matt,
+Dma-buf locking semantics require the caller of pin and unpin to hold
+the buffer's reservation lock. Fix DRM to adhere to the specs. This
+enables to fix the locking in DRM's console emulation. Similar changes
+for vmap and mmap have been posted at [1][2]
 
-On Tue, Feb 27, 2024 at 10:31=E2=80=AFAM Matt Coster <Matt.Coster@imgtec.co=
-m> wrote:
->
-> Hi Adam,
->
-> Thanks for these patches! I'll just reply to this one patch, but my
-> comments apply to them all.
->
-> On 27/02/2024 03:45, Adam Ford wrote:
-> > The GPU on the RZ/G2M is a Rogue GX6250 which uses firmware
-> > rogue_4.45.2.58_v1.fw available from Imagination.
-> >
-> > When enumerated, it appears as:
-> >   powervr fd000000.gpu: [drm] loaded firmware powervr/rogue_4.45.2.58_v=
-1.fw
-> >   powervr fd000000.gpu: [drm] FW version v1.0 (build 6513336 OS)
->
-> These messages are printed after verifying the firmware blob=E2=80=99s he=
-aders,
-> *before* attempting to upload it to the device. Just because they appear
-> in dmesg does *not* imply the device is functional beyond the handful of
-> register reads in pvr_load_gpu_id().
->
-> Since Mesa does not yet have support for this GPU, there=E2=80=99s not a =
-lot
-> that can be done to actually test these bindings.
+Most DRM drivers and memory managers acquire the buffer object's
+reservation lock within their GEM pin and unpin callbacks. This
+violates dma-buf locking semantics. We get away with it because PRIME
+does not provide pin/unpin, but attach/detach, for which the locking
+semantics is correct.
 
-OK.
+Patches 1 to 8 rework DRM GEM code in various implementations to
+acquire the reservation lock when entering the pin and unpin callbacks.
+This prepares them for the next patch. Drivers that are not affected
+by these patches either don't acquire the reservation lock (amdgpu)
+or don't need preparation (loongson).
 
-> When we added upstream support for the first GPU (the AXE core in TI=E2=
-=80=99s
-> AM62), we opted to wait until userspace was sufficiently progressed to
-> the point it could be used for testing. This thought process still
-> applies when adding new GPUs.
->
-> Our main concern is that adding bindings for GPUs implies a level of
-> support that cannot be tested. That in turn may make it challenging to
-> justify UAPI changes if/when they=E2=80=99re needed to actually make thes=
-e GPUs
-> functional.
+Patch 9 moves reservation locking from the GEM pin/unpin callbacks
+into drm_gem_pin() and drm_gem_unpin(). As PRIME uses these functions
+internally it still gets the reservation lock.
 
-I guess that applies to "[PATCH 00/11] Device tree support for
-Imagination Series5 GPU", too, which has been in linux-next for about
-a month?
-https://lore.kernel.org/all/20240109171950.31010-1-afd@ti.com/
+With the updated GEM callbacks, the rest of the patchset fixes the
+fbdev emulation's buffer locking. Fbdev emulation needs to keep its
+GEM buffer object inplace while updating its content. This required
+a implicit pinning and apparently amdgpu didn't do this at all.
 
-> > Signed-off-by: Adam Ford <aford173@gmail.com>
-> >
-> > diff --git a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi b/arch/arm64/boo=
-t/dts/renesas/r8a774a1.dtsi
-> > index a8a44fe5e83b..8923d9624b39 100644
-> > --- a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-> > +++ b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-> > @@ -2352,6 +2352,16 @@ gic: interrupt-controller@f1010000 {
-> >                       resets =3D <&cpg 408>;
-> >               };
-> >
-> > +             gpu: gpu@fd000000 {
-> > +                     compatible =3D "renesas,r8a774a1-gpu", "img,img-a=
-xe";
->
-> The GX6250 is *not* an AXE core - it shouldn=E2=80=99t be listed as compa=
-tible
-> with one. For prior art, see [1] where we added support for the MT8173
-> found in Elm Chromebooks R13 (also a Series6XT GPU).
+Patch 10 introduces drm_client_buffer_vmap_local() and _vunmap_local().
+The former function map a GEM buffer into the kernel's address space
+with regular vmap operations, but keeps holding the reservation lock.
+The _vunmap_local() helper undoes the vmap and releases the lock. The
+updated GEM callbacks make this possible. Between the two calls, the
+fbdev emulation can update the buffer content without have the buffer
+moved or evicted. Update fbdev-generic to use vmap_local helpers,
+which fix amdgpu. The idea of adding a "local vmap" has previously been
+attempted at [3] in a different form.
 
-IC. And the bindings in [2].
+Patch 11 adds implicit pinning to the DRM client's regular vmap
+helper so that long-term vmap'ed buffers won't be evicted. This only
+affects fbdev-dma, but GEM DMA helpers don't require pinning. So
+there are no practical changes.
 
->
-> > +                     reg =3D <0 0xfd000000 0 0x20000>;
-> > +                     clocks =3D <&cpg CPG_MOD 112>;
-> > +                     clock-names =3D "core";
->
-> Series6XT cores have three clocks (see [1] again). I don=E2=80=99t have a
-> Renesas TRM to hand =E2=80=93 do you know if their docs go into detail on=
- the
-> GPU integration?
+Patches 12 and 13 remove implicit pinning from the vmap and vunmap
+operations in gem-vram and qxl. These pin operations are not supposed
+to be part of vmap code, but were required to keep the buffers in place
+for fbdev emulation. With the conversion o ffbdev-generic to to
+vmap_local helpers, that code can finally be removed.
 
-Not really. The diagram in the Hardware User's Manual just shows the
-following clock inputs:
-  - Clock (ZG=CF=95) from CPG,
-  - Clock (S3D1=CF=95) from CPG,
-  - MSTP (ST112) from CPG.
+Tested with amdgpu, nouveau, radeon, simpledrm and vc4.
 
-ZG is the main (programmable) 3DGE clock, running at up to 600 MHz.
-S3D1 is the fixed 266 MHz AXI bus clock.
-MSTP112 is the gateable module clock (part of the SYSC/CPG clock
-domain), and its parent is ZG.
+[1] https://patchwork.freedesktop.org/series/106371/
+[2] https://patchwork.freedesktop.org/series/116001/
+[3] https://patchwork.freedesktop.org/series/84732/
 
-According to the sources:
-  - "core" is the primary clock used by the entire GPU core, so we use
-    MSTP112 for that.
-  - "sys" is the optional system bus clock, so that could be S3D1,
-  - "mem" is the optional memory clock, no idea what that would map to.
+Thomas Zimmermann (13):
+  drm/gem-shmem: Acquire reservation lock in GEM pin/unpin callbacks
+  drm/gem-vram: Acquire reservation lock in GEM pin/unpin callbacks
+  drm/msm: Provide msm_gem_get_pages_locked()
+  drm/msm: Acquire reservation lock in GEM pin/unpin callback
+  drm/nouveau: Provide nouveau_bo_{pin,unpin}_locked()
+  drm/nouveau: Acquire reservation lock in GEM pin/unpin callbacks
+  drm/qxl: Provide qxl_bo_{pin,unpin}_locked()
+  drm/qxl: Acquire reservation lock in GEM pin/unpin callbacks
+  drm/gem: Acquire reservation lock in drm_gem_{pin/unpin}()
+  drm/fbdev-generic: Fix locking with drm_client_buffer_vmap_local()
+  drm/client: Pin vmap'ed GEM buffers
+  drm/gem-vram: Do not pin buffer objects for vmap
+  drm/qxl: Do not pin buffer objects for vmap
 
-But IMHO the two optional clocks do not matter at all (the driver
-doesn't care about their rates, and just enables them together with
-the core clock), and S3D1 is always-on, so I'd just limit clocks to
-a single item.
-
-Just wondering: is the availability of 1 clock specific to AXE, or to
-the AXE integration on AM62x?
-
-> +                     interrupts =3D <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
-> +                     power-domains =3D <&sysc R8A774A1_PD_3DG_B>;
-> +                     resets =3D <&cpg 112>;
-> +             };
-
-> [1]: https://gitlab.freedesktop.org/imagination/linux/-/blob/b3506b8bc45e=
-d6d4005eb32a994df0e33d6613f1/arch/arm64/boot/dts/mediatek/mt8173.dtsi#L993-=
-1006
-
-[2] https://gitlab.freedesktop.org/imagination/linux/-/blob/b3506b8bc45ed6d=
-4005eb32a994df0e33d6613f1/Documentation/devicetree/bindings/gpu/img,powervr=
-.yaml
+ drivers/gpu/drm/drm_client.c            |  92 ++++++++++++++++++---
+ drivers/gpu/drm/drm_fbdev_generic.c     |   4 +-
+ drivers/gpu/drm/drm_gem.c               |  34 +++++++-
+ drivers/gpu/drm/drm_gem_shmem_helper.c  |   6 +-
+ drivers/gpu/drm/drm_gem_vram_helper.c   | 101 ++++++++++--------------
+ drivers/gpu/drm/drm_internal.h          |   2 +
+ drivers/gpu/drm/loongson/lsdc_gem.c     |  13 +--
+ drivers/gpu/drm/msm/msm_gem.c           |  20 ++---
+ drivers/gpu/drm/msm/msm_gem.h           |   4 +-
+ drivers/gpu/drm/msm/msm_gem_prime.c     |  20 +++--
+ drivers/gpu/drm/nouveau/nouveau_bo.c    |  43 +++++++---
+ drivers/gpu/drm/nouveau/nouveau_bo.h    |   2 +
+ drivers/gpu/drm/nouveau/nouveau_prime.c |   8 +-
+ drivers/gpu/drm/qxl/qxl_object.c        |  26 +++---
+ drivers/gpu/drm/qxl/qxl_object.h        |   2 +
+ drivers/gpu/drm/qxl/qxl_prime.c         |   4 +-
+ drivers/gpu/drm/radeon/radeon_prime.c   |  11 ---
+ drivers/gpu/drm/vmwgfx/vmwgfx_gem.c     |  25 ++----
+ include/drm/drm_client.h                |  10 +++
+ include/drm/drm_gem.h                   |   3 +
+ include/drm/drm_gem_shmem_helper.h      |   7 +-
+ 21 files changed, 265 insertions(+), 172 deletions(-)
 
 
-Gr{oetje,eeting}s,
+base-commit: 7291e2e67dff0ff573900266382c9c9248a7dea5
+prerequisite-patch-id: bdfa0e6341b30cc9d7647172760b3473007c1216
+prerequisite-patch-id: bc27ac702099f481890ae2c7c4a9c531f4a62d64
+prerequisite-patch-id: f5d4bf16dc45334254527c2e31ee21ba4582761c
+prerequisite-patch-id: 734c87e610747779aa41be12eb9e4c984bdfa743
+prerequisite-patch-id: 0aa359f6144c4015c140c8a6750be19099c676fb
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: cbc453ee02fae02af22fbfdce56ab732c7a88c36
+-- 
+2.43.2
 
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
