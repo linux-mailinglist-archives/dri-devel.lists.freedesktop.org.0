@@ -2,91 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FFD3869A23
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 16:18:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0486869AB4
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 16:42:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DEE810E918;
-	Tue, 27 Feb 2024 15:18:40 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="2Csx4Uco";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C59C10E92D;
+	Tue, 27 Feb 2024 15:42:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com
- [209.85.219.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E36C10E918
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 15:18:38 +0000 (UTC)
-Received: by mail-qv1-f53.google.com with SMTP id
- 6a1803df08f44-68fe8e20259so17434496d6.2
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 07:18:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1709047117; x=1709651917;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=FgeSwdzfejtZ7gerQ3YAwA0BCpS4Ld6TiTQUNC32GpI=;
- b=2Csx4UcoGfqE2FrjHRadm3mJJsS/4oZ8/tVkK7jSm8j1M3nxD05PXb0m1cuh0WIZGR
- BAAYj5ArsltQctWuccOIvs/VbnWKmb1dENGcco8qft35Z24cX7+/APXpa8ViuTSGrKeN
- 4BlnM1FkcYs3G8Mix1iwUPuGFxI2SQOqmiXgXAdzPt4XugYD05esc688RLEI/Ukj7BG6
- XKu2/cJMGOJhk3xaLYZh9Y2GwGa8SfwPKg/slRLTCfTHShYnROF5G4cd99oQXr7d8Mkb
- rtb4QFANO2Ar5jq+UlH2suSKQtyVdP7pI/l2OQLL8F6PHzIsshH5TFBCj9oNJWZO1lOu
- f4zg==
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com
+ [209.85.219.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FD3510E942
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 15:42:28 +0000 (UTC)
+Received: by mail-yb1-f177.google.com with SMTP id
+ 3f1490d57ef6-dbed0710c74so3987668276.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 07:42:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709047117; x=1709651917;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FgeSwdzfejtZ7gerQ3YAwA0BCpS4Ld6TiTQUNC32GpI=;
- b=pUMtY94F8iDQnoeC4D+IY4j9mdbHhb2bgFbqKyHpR1Z1iy2lp8lXia0hF9UL+IRXZH
- 75/uVVjGBaS4Zs2kOjWRTzgaKl5VWinM2QzeI9+NaKeEG6XwQ3GxeeurxgFEUT+TFng3
- DwgnA3yScg+9c5X41BYD90AZv2otcuZ1K4rOn7JQDJLwKke8tbG3YVY2Fg08HWSu/nsg
- vhI7gbzsIlbV9euGJOP9TCWmt5j47BCr6iKbNQBAEYKDZszok3vkMaeqe9OLIIaUBb6u
- zdnoUSABjtP3i9AUbE4Rx1ieKSoXlrqG52uDpmQ49N/Sb5WzxJBj1nXVAdlKl0pmXRux
- jA5A==
+ d=1e100.net; s=20230601; t=1709048546; x=1709653346;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=PepN+vzOJ7FGNHjryvCGPsAuXBvDik+gwGMOhn9mKt8=;
+ b=O9e6iNmK2yYy+7YcBhK0rHbSFHKf7WD5eyQj4mhKzjl+uh8CRBg3tZz+CnSMeQa9AA
+ iFKtNV7uRaodp+e4bjs1wqzrLz9XQ7vToDCqQFZlqBy57NNumhpi/LvvfwzyQL33Nk8N
+ dwy4ldHR3NtnpDX9MEly58OsaTz08HJhgo95JX1zER4qoX8SU+Aaw/bl/j400tXb8N3O
+ +G4MrcuOh4u42Ruh6jqcQWOHyscgGfBGPNKfZB8jeRdxQnGfcqPVk8/t7hHukH9tS9PJ
+ AOxfXq4RaOyC85V+5QVx3CzenQtZkJNcUV90O0LAvBkvi6/0ToJ3vCq9/XhGOEKL6JJD
+ P40Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVlyydcLVrEW5q8FOrfXhCXbOPza5MOcDPxayYuTSfW+9fcBGS1gSeNCR8e41tQu8aw6AMXWkUAhamvO4ET5zzVW2JQDQjAA6cWnJBFWzRs
-X-Gm-Message-State: AOJu0YxjLK6rcGrHjHgvB4oS0oBdXHXsqjpX/rNREC+vfemUw/6oMrvZ
- bo6gXSH5KLwWq5SEPV5VGu/j4C7kCjU6ngwcZSAb/xXV9KlfmkHh94zcfhuf1wQ=
-X-Google-Smtp-Source: AGHT+IGCOPu8LzF13tl9Z5c0o4yQmsOPurtebB8rpDPdng5maYtZftIJX0pkpHN6dXZAiJKRZsdFWA==
-X-Received: by 2002:a0c:971a:0:b0:68f:ef9b:44aa with SMTP id
- k26-20020a0c971a000000b0068fef9b44aamr2191669qvd.27.1709047117308; 
- Tue, 27 Feb 2024 07:18:37 -0800 (PST)
-Received: from [192.168.1.172] ([93.5.22.158])
- by smtp.gmail.com with ESMTPSA id
- pf10-20020a056214498a00b0068f914ac80bsm2104905qvb.50.2024.02.27.07.18.33
+ AJvYcCUlUH861EqnisF1Y5Go2zF5VJhOdkI0t/9M/u1K1bObhuHX/ne/QkI2q2H/NyYxX98d3qanPKk8P3yFIiZ1ffjZAgPA0WrFma/BjpXoJcER
+X-Gm-Message-State: AOJu0YwYxqd6fsD9EksoppXuPJG4CQxnTDLuMu9Fo8fg+yt4jEIo2xrF
+ VdTLQC5onKrO0lU30U82mhz7LKkPf2st65BZv2Z7zbn9dcmhv++sdinxb/2TQr4=
+X-Google-Smtp-Source: AGHT+IHYromnFQ6iPEZHEcLUs0mKCLA6n+4DUA7cGGzXzneJnCZNSa7LuowU/fJcdAY6YGjgHNNBdQ==
+X-Received: by 2002:a25:e904:0:b0:dcc:96db:fc0d with SMTP id
+ n4-20020a25e904000000b00dcc96dbfc0dmr1916043ybd.25.1709048546420; 
+ Tue, 27 Feb 2024 07:42:26 -0800 (PST)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com.
+ [209.85.219.174]) by smtp.gmail.com with ESMTPSA id
+ t13-20020a25aa8d000000b00dcc620f4139sm1522450ybi.14.2024.02.27.07.42.26
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Feb 2024 07:18:37 -0800 (PST)
-Message-ID: <eeb3329b-0558-4237-8343-4e11f65a6a35@baylibre.com>
-Date: Tue, 27 Feb 2024 16:18:32 +0100
+ Tue, 27 Feb 2024 07:42:26 -0800 (PST)
+Received: by mail-yb1-f174.google.com with SMTP id
+ 3f1490d57ef6-dcc80d6006aso4503430276.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 07:42:26 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVxGsq2VAELgKNf6xxyFDl1ItuiFNjNwszeNZ42Owlo/jV+xrkweNnNUL/CSvVXuhK+C5kGqYe5RldDrZ/8rp+ExDdNXzzKmbQ+pyb++PaP
+X-Received: by 2002:a05:6902:2412:b0:dc7:4cb1:6817 with SMTP id
+ dr18-20020a056902241200b00dc74cb16817mr2901377ybb.22.1709048525820; Tue, 27
+ Feb 2024 07:42:05 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/18] ASoC: dt-bindings: mediatek,mt8365-afe: Add audio
- afe document
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
+References: <cover.1704788539.git.ysato@users.sourceforge.jp>
+ <222dd134b5e1c8cc5baa7afc64a3441a8174e979.1704788539.git.ysato@users.sourceforge.jp>
+In-Reply-To: <222dd134b5e1c8cc5baa7afc64a3441a8174e979.1704788539.git.ysato@users.sourceforge.jp>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 27 Feb 2024 16:41:53 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVxWrrKT8H_47EPjZ61QnEvvtrZYXFo=FmozhVeYf=4Bw@mail.gmail.com>
+Message-ID: <CAMuHMdVxWrrKT8H_47EPjZ61QnEvvtrZYXFo=FmozhVeYf=4Bw@mail.gmail.com>
+Subject: Re: [DO NOT MERGE v6 14/37] clk: Compatible with narrow registers
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: linux-sh@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>, 
+ Rob Herring <robh+dt@kernel.org>, 
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
- <20240226-audio-i350-v1-1-4fa1cea1667f@baylibre.com>
- <ce5f71a9-1b5f-4724-89db-dae2f64e8008@linaro.org>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <ce5f71a9-1b5f-4724-89db-dae2f64e8008@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Thomas Gleixner <tglx@linutronix.de>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Rich Felker <dalias@libc.org>, 
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Lee Jones <lee@kernel.org>, 
+ Helge Deller <deller@gmx.de>, Heiko Stuebner <heiko@sntech.de>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Chris Morgan <macromorgan@hotmail.com>, 
+ Yang Xiwen <forbidden405@foxmail.com>, Sebastian Reichel <sre@kernel.org>, 
+ Linus Walleij <linus.walleij@linaro.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Arnd Bergmann <arnd@arndb.de>, Vlastimil Babka <vbabka@suse.cz>,
+ Hyeonggon Yoo <42.hyeyoo@gmail.com>, 
+ David Rientjes <rientjes@google.com>, Baoquan He <bhe@redhat.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, Guenter Roeck <linux@roeck-us.net>, 
+ Stephen Rothwell <sfr@canb.auug.org.au>, Azeem Shaikh <azeemshaikh38@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, 
+ Palmer Dabbelt <palmer@rivosinc.com>, Bin Meng <bmeng@tinylab.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Jacky Huang <ychuang3@nuvoton.com>, 
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+ Sam Ravnborg <sam@ravnborg.org>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
+ Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-ide@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org, 
+ linux-serial@vger.kernel.org, linux-fbdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,261 +119,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Sato-san,
 
+On Tue, Jan 9, 2024 at 9:24=E2=80=AFAM Yoshinori Sato
+<ysato@users.sourceforge.jp> wrote:
+> divider and gate only support 32-bit registers.
+> Older hardware uses narrower registers, so I want to be able to handle
+> 8-bit and 16-bit wide registers.
+>
+> Seven clk_divider flags are used, and if I add flags for 8bit access and
+> 16bit access, 8bit will not be enough, so I expanded it to u16.
+>
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 
-On 27/02/2024 10:01, Krzysztof Kozlowski wrote:
-> On 26/02/2024 15:01, Alexandre Mergnat wrote:
->> Add MT8365 audio front-end bindings
->>
->> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
->> ---
->>   .../bindings/sound/mediatek,mt8365-afe.yaml        | 164 +++++++++++++++++++++
->>   1 file changed, 164 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8365-afe.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8365-afe.yaml
->> new file mode 100644
->> index 000000000000..1d7eb2532ad2
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8365-afe.yaml
->> @@ -0,0 +1,164 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/sound/mediatek,mt8365-afe.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: MediaTek AFE PCM controller for MT8365
->> +
->> +maintainers:
->> +  - Alexandre Mergnat <amergnat@baylibre.com>
->> +
->> +properties:
->> +  compatible:
->> +    const: mediatek,mt8365-afe-pcm
->> +
->> +  reg:
->> +    maxItems: 2
-> 
-> You must describe the items.
+Thanks for your patch!
 
-Actually, I've took downstream code that I'm not able to explain because 
-the second reg isn't on my MTK documentation.
-So I've remove the second reg and passed all functional tests 
-successfully. Then I will remove the extra reg for v2.
+> --- a/drivers/clk/clk-gate.c
+> +++ b/drivers/clk/clk-gate.c
+> @@ -143,6 +161,18 @@ struct clk_hw *__clk_hw_register_gate(struct device =
+*dev,
+>                         return ERR_PTR(-EINVAL);
+>                 }
 
-> 
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  mediatek,topckgen:
->> +    $ref: /schemas/types.yaml#/definitions/phandle
->> +    description: The phandle of the mediatek topckgen controller
-> 
-> What for? Don't repeat the property name. Say something useful.
+Please add a check for invalid CLK_GATE_HIWORD_MASK
+and register width combinations:
 
-got it
+                if (clk_gate_flags & (CLK_GATE_REG_16BIT | CLK_GATE_REG_8BI=
+T)) {
+                        pr_err("HIWORD_MASK needs 32-bit registers\n");
+                        return ERR_PTR(-EINVAL);
+                }
 
-> 
->> +
->> +  power-domains:
->> +    maxItems: 1
->> +
->> +  "#sound-dai-cells":
->> +    const: 0
->> +
->> +  clocks:
->> +    items:
->> +      - description: 26M clock
->> +      - description: mux for audio clock
->> +      - description: audio i2s0 mck
->> +      - description: audio i2s1 mck
->> +      - description: audio i2s2 mck
->> +      - description: audio i2s3 mck
->> +      - description: engen 1 clock
->> +      - description: engen 2 clock
->> +      - description: audio 1 clock
->> +      - description: audio 2 clock
->> +      - description: mux for i2s0
->> +      - description: mux for i2s1
->> +      - description: mux for i2s2
->> +      - description: mux for i2s3
->> +
->> +  clock-names:
->> +    items:
->> +      - const: top_clk26m_clk
->> +      - const: top_audio_sel
->> +      - const: audio_i2s0_m
->> +      - const: audio_i2s1_m
->> +      - const: audio_i2s2_m
->> +      - const: audio_i2s3_m
->> +      - const: engen1
->> +      - const: engen2
->> +      - const: aud1
->> +      - const: aud2
->> +      - const: i2s0_m_sel
->> +      - const: i2s1_m_sel
->> +      - const: i2s2_m_sel
->> +      - const: i2s3_m_sel
->> +
->> +  mediatek,i2s-shared-clock:
-> 
-> Why do you need this property? Linux (and other systems) handle sharing
-> clocks properly.
+>         }
+> +       if (clk_gate_flags & CLK_GATE_REG_16BIT) {
+> +               if (bit_idx > 15) {
+> +                       pr_err("gate bit exceeds 16 bits\n");
+> +                       return ERR_PTR(-EINVAL);
+> +               }
+> +       }
+> +       if (clk_gate_flags & CLK_GATE_REG_8BIT) {
+> +               if (bit_idx > 7) {
+> +                       pr_err("gate bit exceeds 8 bits\n");
+> +                       return ERR_PTR(-EINVAL);
+> +               }
+> +       }
+>
+>         /* allocate the gate */
+>         gate =3D kzalloc(sizeof(*gate), GFP_KERNEL);
+> diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
+> index ace3a4ce2fc9..e2dfc1f083f4 100644
+> --- a/include/linux/clk-provider.h
+> +++ b/include/linux/clk-provider.h
+> @@ -508,12 +508,16 @@ void of_fixed_clk_setup(struct device_node *np);
+>   * CLK_GATE_BIG_ENDIAN - by default little endian register accesses are =
+used for
+>   *     the gate register.  Setting this flag makes the register accesses=
+ big
+>   *     endian.
+> + * CLK_GATE_REG_8BIT - by default 32bit register accesses are used for
+> + *     the gate register.  Setting this flag makes the register accesses=
+ 8bit.
+> + * CLK_GATE_REG_16BIT - by default 32bit register accesses are used for
+> + *     the gate register.  Setting this flag makes the register accesses=
+ 16bit.
+>   */
+>  struct clk_gate {
+>         struct clk_hw hw;
+>         void __iomem    *reg;
+>         u8              bit_idx;
+> -       u8              flags;
+> +       u32             flags;
 
-Indeed, not needed. It was used by the downstream code driver but I 
-remove it for v2.
+There is no need to increase the size of the flags field for the gate clock=
+.
 
-> 
->> +    description:
->> +      i2s modules can share the same external clock pin.
->> +      If this property is not present the clock mode is separrate.
-> 
-> Typo
-> 
->> +    type: boolean
->> +
->> +  mediatek,dmic-iir-on:
->> +    description:
->> +      Boolean which specifies whether the DMIC IIR is enabled.
->> +      If this property is not present the IIR is disabled.
-> 
-> "is enabled" or "enable it"?
-> 
-> You described the desired Linux feature or behavior, not the actual
-> hardware. The bindings are about the latter, so instead you need to
-> rephrase the property and its description to match actual hardware
-> capabilities/features/configuration etc.
+>         spinlock_t      *lock;
+>  };
+>
+> @@ -522,6 +526,8 @@ struct clk_gate {
+>  #define CLK_GATE_SET_TO_DISABLE                BIT(0)
+>  #define CLK_GATE_HIWORD_MASK           BIT(1)
+>  #define CLK_GATE_BIG_ENDIAN            BIT(2)
+> +#define CLK_GATE_REG_8BIT              BIT(3)
+> +#define CLK_GATE_REG_16BIT             BIT(4)
+>
+>  extern const struct clk_ops clk_gate_ops;
+>  struct clk_hw *__clk_hw_register_gate(struct device *dev,
 
-I will rephrase:
+The rest LGTM.
 
-True to enable the Infinite Impulse Response (IIR) filter
-on the digital microphone inputs.
+Gr{oetje,eeting}s,
 
-> 
->> +    type: boolean
->> +
->> +  mediatek,dmic-irr-mode:
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    description:
->> +      Selects stop band of IIR DC-removal filter.
->> +      0 = Software programmable custom coeff loaded by the driver.
-> 
-> Bindings are for hardware, not drivers. Why is this a property of board DTS?
+                        Geert
 
-Actually this is a hardware feature. Mode 1 t 5 are predefined filters. 
-Mode 0, the HW will read some "coef filter registers" to setup the 
-custom filter. the "coef filter regs" are written by the driver. 
-Currently the coef values are hardcoded in the driver.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-> 
->> +      1 = 5Hz if 48KHz mode.
->> +      2 = 10Hz if 48KHz mode.
->> +      3 = 25Hz if 48KHz mode.
->> +      4 = 50Hz if 48KHz mode.
->> +      5 = 65Hz if 48KHz mode.
-> 
-> Use proper unit suffixes - hz.
-> 
-> 
->> +    enum:
->> +      - 0
->> +      - 1
->> +      - 2
->> +      - 3
->> +      - 4
->> +      - 5
->> +
->> +  mediatek,dmic-two-wire-mode:
->> +    description:
->> +      Boolean which turns on digital microphone for two wire mode.
->> +      If this property is not present the two wire mode is disabled.
-> 
-> This looks like hardware property, but the naming looks like SW. Again
-> you instruct what driver should do. Standard disclaimer:
-> 
-> You described the desired Linux feature or behavior, not the actual
-> hardware. The bindings are about the latter, so instead you need to
-> rephrase the property and its description to match actual hardware
-> capabilities/features/configuration etc.
-
-Actually this is a hardware feature. This is ALL I have to describe the 
-HW behavior from the datasheet:
-"
-bit name: ul_dmic_two_wire_ctl
-Turns on digital microphone for two wire mode.
-0: Turn off
-1: Turn on
-"
-
-On the board schematic, SoC and DMIC and linked by 3 pins:
-- clk
-- data0
-- data1
-
-IMHO, "two-wire-mode" means the HW use 2 pins for data, and the SoC must 
-be aware of that by reading the register value written by the driver, 
-using the value found in the DTS.
-
-I don't get why you think it wouldn't be hardware behavior.
-
-Rephrase description:
-"True to enable the two wire mode of the digital microphone"
-Is it better ?
-
-About the property name, "mediatek,dmic-two-wire-ctl" sound better for you ?
-
-> 
-> 
->> +    type: boolean
->> +
->> +
-> 
-> Just one blank line.
-> 
->> +required:
->> +  - compatible
->> +  - reg
->> +  - interrupts
->> +  - power-domains
->> +  - mediatek,topckgen
->> +  - clocks
->> +  - clock-names
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/clock/mediatek,mt8365-clk.h>
->> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +    #include <dt-bindings/interrupt-controller/irq.h>
->> +    #include <dt-bindings/power/mediatek,mt8365-power.h>
->> +
->> +    soc {
->> +        #address-cells = <2>;
->> +        #size-cells = <2>;
->> +
->> +        afe@11220000 {
-> 
-> What is AFE?
-
-Audio Front End, this is the same name used for other MTK SoC, to be 
-consistent.
-
-Cook a new patch serie to change "afe" by "audio-controller" for all MTK 
-SoC would be great.
-
-> 
-> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-> 
-> 
->> +            compatible = "mediatek,mt8365-afe-pcm";
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
-
--- 
-Regards,
-Alexandre
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
