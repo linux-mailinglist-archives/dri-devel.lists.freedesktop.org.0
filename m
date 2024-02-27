@@ -2,60 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D3F0869F51
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 19:47:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33AB9869F63
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 19:48:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCD9210E497;
-	Tue, 27 Feb 2024 18:47:19 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="tZatd4uG";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB29710E53C;
+	Tue, 27 Feb 2024 18:48:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 191BD10E497
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 18:47:18 +0000 (UTC)
-Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx1.riseup.net (Postfix) with ESMTPS id 4TkmgV1bw0zDqZN;
- Tue, 27 Feb 2024 18:47:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1709059638; bh=OCLERH5BUNWNqVAWRAIL2bEHXqesBK/d6BgnZQmH44Y=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=tZatd4uGVm2YCRCBLMi8R93U94cS4xMt6Tr0tv1rUgnjpt08yWOu9QkJu0fv1F/Of
- x+IOUwY9RvRuyw8wFgzxvyRS2Fh02r+AQ99roFn/R0Qptyxvgx6Kep2eSaSHEbdsTG
- 21zlNb4GepAfgsCyp8mQogVleFOtaCx80+IFy3PA=
-X-Riseup-User-ID: 4842AE2A53495A92D3F8DE93B2A9FBC67B6744533455E55C8FD1A06C80127020
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4TkmgM5zShzJpbF;
- Tue, 27 Feb 2024 18:47:11 +0000 (UTC)
-Message-ID: <592e5da7-7aac-4735-ae8f-625402e381ae@riseup.net>
-Date: Tue, 27 Feb 2024 15:47:08 -0300
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com
+ [209.85.210.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 137A710E53C
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 18:48:46 +0000 (UTC)
+Received: by mail-ot1-f42.google.com with SMTP id
+ 46e09a7af769-6e28bd74883so30752a34.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 10:48:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709059724; x=1709664524;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ZBLgqi5po9yo82z/olqeDeT73/ia9ZIG/TwGXRPLny8=;
+ b=BKEUWSHwpE9mLszUWDLUwtuc+0FSXVa7eAl+ZkkKr00Ii87FpO6hY0/ZLvOwSPH9ck
+ 0wKsSND+9KLuV8xFAhbYfkZZm/RPQDs0Vxk2xEGfXpfjHffRCbWUQAbXY8GzvnsaAj0C
+ kS51abBbqAr37WNfIuDp7fM9QHAj6wez0Ixser5oPWMaE6QZ92h5JlftTBvNsX+f+fjb
+ lXUYBN2jKyC2hqT+00XVeIUNX8cwf/nQgs9sv/+BWclD1MfNxP75wqf0onIZg5117XMx
+ ZYaGAYl4Ae2Ukcd7qGpRvLSFxvg/nLHQIsdn9gal7VYNpyE+RKNj2TKcVXnujdbw4Li3
+ uB/A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWbM7K0GCf06JFF51PqgPumyg+o1my9y40NixWv12wXZtWa3UVib8Rahy6RhDY56XOsZqgeZXREbj5oZaX1sTej0fI0UfjBrIBUQwZCybaA
+X-Gm-Message-State: AOJu0Yx0re/N2Fv1SYjh9wwvqlHLPwJQ9NuMODq69+oYoWggRC+vG6jP
+ 4GlhgZmvgUBAnLTlfZic486QhE3HFEgN566xx6leMoWc9aAS1TPgv6Gx+pMzC5fleg==
+X-Google-Smtp-Source: AGHT+IHh6380/La09l30dttKdjtudMbv22/SiVjKiGfLQiZVCaDeLpUdfPpOwGzlkJqt18oihCxTRg==
+X-Received: by 2002:a05:6830:39c7:b0:6e2:deb3:a3b6 with SMTP id
+ bt7-20020a05683039c700b006e2deb3a3b6mr87164otb.11.1709059724437; 
+ Tue, 27 Feb 2024 10:48:44 -0800 (PST)
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com.
+ [209.85.160.53]) by smtp.gmail.com with ESMTPSA id
+ j9-20020a9d7d89000000b006e4ac74c6c1sm306308otn.81.2024.02.27.10.48.43
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Feb 2024 10:48:43 -0800 (PST)
+Received: by mail-oa1-f53.google.com with SMTP id
+ 586e51a60fabf-21f5ab945e9so36744fac.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 10:48:43 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWgyAKTgAK3UdkymB5zZBRgzEd9EFWu2PakKwWLjDFMj8p3+JfwLfT2sscRlf+drLh4iNK1HKErq9/M08F/0PoKW3fbr5/U3XmBlXx/+51e
+X-Received: by 2002:a25:414a:0:b0:dc7:494e:ff33 with SMTP id
+ o71-20020a25414a000000b00dc7494eff33mr220625yba.7.1709059702806; Tue, 27 Feb
+ 2024 10:48:22 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 3/9] drm/vkms: write/update the documentation for pixel
- conversion and pixel write functions
-Content-Language: en-US
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- pekka.paalanen@haloniitty.fi, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
-References: <20240226-yuv-v3-0-ff662f0994db@bootlin.com>
- <20240226-yuv-v3-3-ff662f0994db@bootlin.com>
- <406988be-48a4-4762-9c03-7a27c8e7b91e@riseup.net>
- <Zd35csjqRMstzElA@localhost.localdomain>
-From: Arthur Grillo <arthurgrillo@riseup.net>
-In-Reply-To: <Zd35csjqRMstzElA@localhost.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <cover.1704788539.git.ysato@users.sourceforge.jp>
+ <f1f58604dd76520005c12479fada0b70ac210f89.1704788539.git.ysato@users.sourceforge.jp>
+In-Reply-To: <f1f58604dd76520005c12479fada0b70ac210f89.1704788539.git.ysato@users.sourceforge.jp>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 27 Feb 2024 19:48:10 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUxZzBD0WRhx07MYdLvamg+1twRvAxGMRM5+4-pYeDTRQ@mail.gmail.com>
+Message-ID: <CAMuHMdUxZzBD0WRhx07MYdLvamg+1twRvAxGMRM5+4-pYeDTRQ@mail.gmail.com>
+Subject: Re: [DO NOT MERGE v6 34/37] sh: Add dtbs target support.
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: linux-sh@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Thomas Gleixner <tglx@linutronix.de>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Rich Felker <dalias@libc.org>, 
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Lee Jones <lee@kernel.org>, 
+ Helge Deller <deller@gmx.de>, Heiko Stuebner <heiko@sntech.de>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Chris Morgan <macromorgan@hotmail.com>, 
+ Yang Xiwen <forbidden405@foxmail.com>, Sebastian Reichel <sre@kernel.org>, 
+ Linus Walleij <linus.walleij@linaro.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Arnd Bergmann <arnd@arndb.de>, Vlastimil Babka <vbabka@suse.cz>,
+ Hyeonggon Yoo <42.hyeyoo@gmail.com>, 
+ David Rientjes <rientjes@google.com>, Baoquan He <bhe@redhat.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, Guenter Roeck <linux@roeck-us.net>, 
+ Stephen Rothwell <sfr@canb.auug.org.au>, Azeem Shaikh <azeemshaikh38@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, 
+ Palmer Dabbelt <palmer@rivosinc.com>, Bin Meng <bmeng@tinylab.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Jacky Huang <ychuang3@nuvoton.com>, 
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+ Sam Ravnborg <sam@ravnborg.org>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
+ Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-ide@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org, 
+ linux-serial@vger.kernel.org, linux-fbdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,75 +119,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Jan 9, 2024 at 9:24=E2=80=AFAM Yoshinori Sato
+<ysato@users.sourceforge.jp> wrote:
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-On 27/02/24 12:02, Louis Chauvet wrote:
-> Le 26/02/24 - 10:07, Arthur Grillo a écrit :
->>
->>
->> On 26/02/24 05:46, Louis Chauvet wrote:
->>> Add some documentation on pixel conversion functions.
->>> Update of outdated comments for pixel_write functions.
->>>
->>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
->>> ---
->>>  drivers/gpu/drm/vkms/vkms_composer.c |  4 +++
->>>  drivers/gpu/drm/vkms/vkms_drv.h      | 13 ++++++++
->>>  drivers/gpu/drm/vkms/vkms_formats.c  | 58 ++++++++++++++++++++++++++++++------
->>>  3 files changed, 66 insertions(+), 9 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
->>> index c6d9b4a65809..5b341222d239 100644
->>> --- a/drivers/gpu/drm/vkms/vkms_composer.c
->>> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
->>> @@ -189,6 +189,10 @@ static void blend(struct vkms_writeback_job *wb,
->>>  
->>>  	size_t crtc_y_limit = crtc_state->base.crtc->mode.vdisplay;
->>>  
->>> +	/*
->>> +	 * The planes are composed line-by-line. It is a necessary complexity to avoid poor
->>> +	 * blending performance.
->>
->> At this moment in the series, you have not yet reintroduced the
->> line-by-line algorithm yet. Maybe it's better to add this comment when
->> you do.
-> 
-> Is it better with this:
-> 
-> 	/*
-> 	 * The planes are composed line-by-line to avoid heavy memory usage. It is a necessary
-> 	 * complexity to avoid poor blending performance.
-> 	 *
-> 	 * The function vkms_compose_row is used to read a line, pixel-by-pixel, into the staging
-> 	 * buffer.
-> 	 */
->  
->> Also, I think it's good to give more context, like:
->> "The planes are composed line-by-line, instead of pixel-by-pixel"
-> 
-> And after PATCHv3 5/9:
-> 
-> 	/*
-> 	 * The planes are composed line-by-line to avoid heavy memory usage. It is a necessary
-> 	 * complexity to avoid poor blending performance.
-> 	 *
-> 	 * The function pixel_read_line callback is used to read a line, using an efficient 
-> 	 * algorithm for a specific format, into the staging buffer.
-> 	 */
-> 
+Gr{oetje,eeting}s,
 
-Hi,
+                        Geert
 
-This looks good to me.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-Best Regards,
-~Arthur Grillo
-
-> Kind regards,
-> Louis Chauvet
-> 
->> Best Regards,
->> ~Arthur Grillo
-> 
-> [...]
-> 
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
