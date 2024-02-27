@@ -2,57 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 401CF86981E
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 15:29:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A44286991D
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 15:53:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FFCC10E5F1;
-	Tue, 27 Feb 2024 14:29:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C89D510E6CB;
+	Tue, 27 Feb 2024 14:53:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e7zrkFUJ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o+ZIqWP2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D3E610E5F1
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 14:29:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E8F110E594;
+ Tue, 27 Feb 2024 14:53:13 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id F090CCE18A7;
- Tue, 27 Feb 2024 14:29:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEB05C43390;
- Tue, 27 Feb 2024 14:29:12 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 8590CCE192E;
+ Tue, 27 Feb 2024 14:53:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CE1AC433C7;
+ Tue, 27 Feb 2024 14:53:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1709044153;
- bh=BeuKeRmCI8fl+4Mky6qTDE0ESLxkqayEq8heDHUciIc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=e7zrkFUJjNkuT6ejQss+PGilg6MNPyI006Dx1xx8Zoe39qoMrNhJei7Ymxa34PjBb
- XXEnchbRee8ptxfWLoZirWVOzrypkJuJN831n7y8aYviicaZZkbm+K+6LgaO8GRodf
- axaBwr1hpp/O4zsmtbMqRFCMz0fc/Bskw7Pa1KxBm8uKJbKWG3qPPaTTAVv2M1bfVm
- ZEc1BIqE6o2uzkwBPWVH3HjI46Kt9VBq12B5U+pPIDmsPZW7eVb2W4vmdytNSbU8P6
- hTbFCfJ7AxhuU5WdnavbGLC8XrL90TYMhcDVVgjnjns8L6ETTmUknj8su/EcURMCGE
- ia+RFHnjoLtnA==
-Date: Tue, 27 Feb 2024 08:29:11 -0600
-From: Rob Herring <robh@kernel.org>
-To: =?utf-8?B?UGF3ZcWC?= Anikiel <panikiel@google.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, airlied@gmail.com,
- akpm@linux-foundation.org, conor+dt@kernel.org, daniel@ffwll.ch,
- dinguyen@kernel.org, hverkuil-cisco@xs4all.nl,
- krzysztof.kozlowski+dt@linaro.org,
- maarten.lankhorst@linux.intel.com, mchehab@kernel.org,
- mripard@kernel.org, tzimmermann@suse.de, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, chromeos-krk-upstreaming@google.com,
- ribalda@chromium.org
-Subject: Re: [PATCH v2 8/9] media: dt-bindings: Add Intel Displayport RX IP
-Message-ID: <20240227142911.GB3863852-robh@kernel.org>
-References: <20240221160215.484151-1-panikiel@google.com>
- <20240221160215.484151-9-panikiel@google.com>
- <13aeb2ff-72f4-49d9-b65e-ddc31569a936@linaro.org>
- <CAM5zL5q0oKoTMR0jSwYVAChCOJ9iKYPRFiU1vH4qDqhHALKz4w@mail.gmail.com>
+ s=k20201202; t=1709045590;
+ bh=YlS+XLPkpbAB4xgj3+7khXh6HKkBzhmjNhKtEN3j9xw=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=o+ZIqWP2hpAAfsiYuOmt5JxabM8OEhtC/GyTaCjzvDEPL3/2n9i7cvRC/ML7XTEIw
+ ADfHYc0jqxaiCOqcYPHJYZB+Obh6uQbGN6RJRN+mPDVAswyoIeO03Bhm+D8dB587Kx
+ UkY3B3YyS0jPFOb7F81rZxHFFuipAbjVqXI3YpTmoVsvL4kSSEMu6A9dq0SRPBbSpn
+ g0MWwv44NyZdjIk81sZt8qdWWof0z6YrayjoiTd1g93UJWZ2nQCt+WMk3P+68iVXue
+ q+DzEKAjWbjcoxW1mnb1Mac80/jBEcGElBDS3pJ3dpCeFHAHGATzJ49IB13sf1xdQE
+ 7zP2FerHGWR5g==
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-2d29111272eso22253221fa.0; 
+ Tue, 27 Feb 2024 06:53:10 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVEIXpu7lQSR9u7tFUsnrk3fOJDZMUMss8Nnjk22pNxzUNzNFnLaGl5U4oL8XQMEqI0BUPw2e+KL8/7bacM2b3OB5PRjBY5AI3UYoqVvhOR/Rvt2PF9umwTt+CH2ToZQGJl6LulGpvt4vy8FbzCoPF+
+X-Gm-Message-State: AOJu0YwKXxz5KSNBQhvbhEx0uToLBO4kDVCGRsLwMXryAIsPByWFvBKU
+ FveZirL3K4Wfa1tWZ43PYflREinnmDJt/EIe0SneJsiv8yfv3OWOZe5IUEmmgvEYXuU9V3JYBub
+ cMMHywlxsmxf3bK3JXBc5DquS/BY=
+X-Google-Smtp-Source: AGHT+IFdU5+QVtAGPROXQ3gMPQ7H3jlS9Zb3pV4/rSiCMlShMF/7Qkq67XHHVbRlo7IYf5l0wDT+UNh7zTNTp0CQxA4=
+X-Received: by 2002:a05:651c:2128:b0:2d2:3fac:5fdc with SMTP id
+ a40-20020a05651c212800b002d23fac5fdcmr7612423ljq.10.1709045588717; Tue, 27
+ Feb 2024 06:53:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAM5zL5q0oKoTMR0jSwYVAChCOJ9iKYPRFiU1vH4qDqhHALKz4w@mail.gmail.com>
+References: <20240226-fd-xml-shipped-v1-0-86bb6c3346d2@linaro.org>
+ <20240226-fd-xml-shipped-v1-1-86bb6c3346d2@linaro.org>
+ <CAK7LNASGcs9Y3Xr87EBQhwB3Ep_t8aYFE=nCq2Rr04krwn9Thg@mail.gmail.com>
+ <CAA8EJpqhjXjaKKhp3HGxpwN+fLnL9tC_T1ibpK4TVmgayeaQwg@mail.gmail.com>
+In-Reply-To: <CAA8EJpqhjXjaKKhp3HGxpwN+fLnL9tC_T1ibpK4TVmgayeaQwg@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 27 Feb 2024 23:52:32 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASTCNRQBG3DAFaMi4k4LUfoeU7q-JV4q8TLFqrD4YLSww@mail.gmail.com>
+Message-ID: <CAK7LNASTCNRQBG3DAFaMi4k4LUfoeU7q-JV4q8TLFqrD4YLSww@mail.gmail.com>
+Subject: Re: [PATCH RFC 01/12] kbuild: create destination directory for
+ _shipped handling
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-kbuild@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,87 +79,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 26, 2024 at 11:59:42AM +0100, Paweł Anikiel wrote:
-> On Mon, Feb 26, 2024 at 10:13 AM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
+On Mon, Feb 26, 2024 at 8:01=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On Mon, 26 Feb 2024 at 08:33, Masahiro Yamada <masahiroy@kernel.org> wrot=
+e:
 > >
-> > On 21/02/2024 17:02, Paweł Anikiel wrote:
-> > > The Intel Displayport RX IP is a part of the DisplayPort Intel FPGA IP
-> > > Core. It implements a DisplayPort 1.4 receiver capable of HBR3 video
-> > > capture and Multi-Stream Transport. The user guide can be found here:
+> > On Mon, Feb 26, 2024 at 11:11=E2=80=AFAM Dmitry Baryshkov
+> > <dmitry.baryshkov@linaro.org> wrote:
 > > >
-> > > https://www.intel.com/programmable/technical-pdfs/683273.pdf
-> > >
-> > > Signed-off-by: Paweł Anikiel <panikiel@google.com>
-> > > ---
-> > >  .../devicetree/bindings/media/intel,dprx.yaml | 160 ++++++++++++++++++
-> > >  1 file changed, 160 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/media/intel,dprx.yaml
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/media/intel,dprx.yaml b/Documentation/devicetree/bindings/media/intel,dprx.yaml
-> > > new file mode 100644
-> > > index 000000000000..31025f2d5dcd
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/intel,dprx.yaml
-> > > @@ -0,0 +1,160 @@
-> > > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/intel,dprx.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Intel DisplayPort RX IP
-> > > +
-> > > +maintainers:
-> > > +  - Paweł Anikiel <panikiel@google.com>
-> > > +
-> > > +description: |
-> > > +  The Intel Displayport RX IP is a part of the DisplayPort Intel FPGA IP
-> > > +  Core. It implements a DisplayPort 1.4 receiver capable of HBR3 video
-> > > +  capture and Multi-Stream Transport.
-> > > +
-> > > +  The IP features a large number of configuration parameters, found at:
-> > > +  https://www.intel.com/content/www/us/en/docs/programmable/683273/23-3-20-0-1/sink-parameters.html
-> > > +
-> > > +  The following parameters have to be enabled:
-> > > +    - Support DisplayPort sink
-> > > +    - Enable GPU control
-> > > +  The following parameters' values have to be set in the devicetree:
-> > > +    - RX maximum link rate
-> > > +    - Maximum lane count
-> > > +    - Support MST
-> > > +    - Max stream count (only if Support MST is enabled)
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    const: intel,dprx-20.0.1
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  interrupts:
-> > > +    maxItems: 1
-> > > +
-> > > +  intel,max-link-rate:
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > +    description: Max link rate configuration parameter
+> > > The driver might decide to put the _shipped files to the subdir.
 > >
-> > Please do not duplicate property name in description. It's useless.
-> > Instead explain what is this responsible for.
 > >
-> > Why max-link-rate would differ for the same dprx-20.0.1? And why
-> > standard properties cannot be used?
 > >
-> > Same for all questions below.
-> 
-> These four properties are the IP configuration parameters mentioned in
-> the device description. When generating the IP core you can set these
-> parameters, which could make them differ for the same dprx-20.0.1.
-> They are documented in the user guide, for which I also put a link in
-> the description. Is that enough? Or should I also document these
-> parameters here?
+> > Please stop this sentence.
+> >
+> > This sounds like we are not learning.
+> >
+> > https://lore.kernel.org/all/CAHk-=3DwgSEi_ZrHdqr=3D20xv+d6dr5G895CbOAi8=
+ok+7-CQUN=3DfQ@mail.gmail.com/
+> >
+> >
+> >
+> >
+> > > In such
+> > > case the cmd_copy might fail because the destination directory is not
+> > > present. Call mkdir -p to make sure that the destination directory is
+> > > present.
+> >
+> >
+> > There is no justification for this.
+> >
+> > If you need a single generated directory
+> > (drivers/gpu/drm/msm/registers/, divers/gpu/drm/msm/generated/ or whate=
+ver)
+> > that should be super simple.
+> >
+> > Why does scripts/Makefile.lib need the modification?
+>
+> Could you please tell me how I should handle this?
+> I was looking for a way to generate
+> drivers/gpu/drm/msm/registers/foo.xml.h and then use it during
+> compilation.
+> In drivers/gpu/drm/msm/Makefile I added $(obj)/registers/foo.xml.h as
+> a dependency to the corresponding object files and then added
+> drivers/gpu/drm/msm/registers/foo.xml.h_shipped file.
+> This way Kbuild/make will attempt to call cmd_copy to generate target
+> file, which thanks to VPATH expansion boils down to `cat
+> $(srctree)/$(src)/registers/foo.xml.h_shopped >
+> $(obj)/registers/foo.xml.h`. However this breaks as there is no
+> $(obj)/registers.
+>
 
-Use the standard properties: link-frequencies and data-lanes. Those go 
-under the port(s) because they are inheritly per logical link.
 
-Rob
+
+One simple solution is to use $(shell mkdir -p ...)
+to create the output directory.
+
+scripts/Makefile.build does a similar thing.
+
+
+
+You can add the following to drivers/gpu/drm/msm/Makefile.
+
+
+
+# Create output directory when CONFIG_DRM_MSM is defined.
+# This avoids creating the output directory during 'make clean'
+ifdef CONFIG_DRM_MSM
+$(shell mkdir -p $(obj)/registers)
+endif
+
+
+
+
+
+
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
