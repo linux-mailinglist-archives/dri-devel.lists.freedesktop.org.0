@@ -2,73 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B47868EA6
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 12:20:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80729868EC1
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 12:26:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59C7410E488;
-	Tue, 27 Feb 2024 11:20:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC79510E52C;
+	Tue, 27 Feb 2024 11:26:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SqFslsJG";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="TQjuoT57";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
- [209.85.218.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDD5B10E38F
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 11:20:44 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id
- a640c23a62f3a-a3f3d0d2787so418964666b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 03:20:44 -0800 (PST)
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
+ [209.85.166.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45FB510E52C
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 11:26:42 +0000 (UTC)
+Received: by mail-io1-f41.google.com with SMTP id
+ ca18e2360f4ac-7c48ef54d9bso87200339f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 03:26:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1709032843; x=1709637643; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=pnXM6WWQcg3IDBJByAfsL/lgbgu+x4Q2+A/bZxCbEqM=;
- b=SqFslsJGo99Ug4qdd/+5hvuTX9wSeyy+c//DhXbcA9iRO8qgFENfJoHTj8JcdLFtA1
- 2rpW4i7mUItIhGF9uGJPmFwLShQB5QfoqF5SNizrmKas7mtAeqvJ1EFBPMEkcg/3Ye2E
- 1WEuW9CaQVfA+8KJHh6SO/79zBX2sJh7pjDzNwbSe+Ri3zvAjxou3uWWKtYx6mL0VFkH
- UarLKhqdY2PQdQPmdeozDRNS7sHTlQYFBOkAadlAV8E0di0YTH74Tg3MFlBkrF7wZ8PK
- nsGu5HvV16iksdSqyO6bjlAg9JB/HA0yQq40kk9I4+skdlTaZSXE8XMcuwxGPQNemrjB
- 2LvA==
+ d=google.com; s=20230601; t=1709033201; x=1709638001;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FmS1fmjtFOepekF9OghDxYFpAXEvAMzTVh2ZnQm3g+0=;
+ b=TQjuoT579tUK8N+P/6YaiE3nVJ5vt0h3tqnbXg0gnxiKBTSUMgJkTCw1PM+1bjzdHX
+ xH2AbHJcP6IDTAZoPZuekeuaao5+CKTYe/PblNFeiO15CSfig3Hac2aBNcGPgrSGspm0
+ Y6NICT3Ec3URhQN/IVzfXuIpdjWaX/21nSpF8qTCvl1iqDU7hQJgBxpUN+2tQ2USccAK
+ IfBFACjs9YgsiwbKKKh64H7EaYSy8Rgtd6xkfjtoiqQnivs9vzDaW0q9EZDBBy0k+gRT
+ oehD/ZYRTRYXgtpFY2hBOjBL1K1LVa9z7hIaIL1xA8aCrYLj+9hDCfjjYS7GnXftqdqC
+ zBrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709032843; x=1709637643;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=pnXM6WWQcg3IDBJByAfsL/lgbgu+x4Q2+A/bZxCbEqM=;
- b=mvEonDSeFw83gRc7YOnq2GRl82HwpLK++QLsbIBwpZlNkJ+hW8puQMdFwBRu5iewjJ
- IU9y+cvwwxaXMEQ3TfmyWIaVxTJrbL4//VO0wPxOQeRSs0gY0m+XcKCf6+NdmlAq5RQP
- TaAXZxXPGVq44gxfm9ogzSrOhR5k/gqjY/suFE8rtzb/riIZE1kS4EZSCK1LXHQsAhYF
- 0pftHCyMledAdxNKj8+0+0E8XJDcaHsr1W7ri68sCg6aOiVOPoW24lduqXlldaj9jJLA
- ae8vceA1uwJAOSq0YwxUiUk1y5BflC/wF+g8+gBE3mRWbcwO6AzHF1RxLjxVTNbqmbEp
- GZvg==
+ d=1e100.net; s=20230601; t=1709033201; x=1709638001;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=FmS1fmjtFOepekF9OghDxYFpAXEvAMzTVh2ZnQm3g+0=;
+ b=XQAuOhPyDU7lcUmYGAKMeH2ErPhTqr0cTLiDorRdcZcrJNOTYX6YYTR5043M3ZtMWU
+ ph/xgFH9Rsu9r4sLQwDzkczp1ClXIjkRXEvkgXKY+sg5A4gkuY44vF6BZGbFhhRnKe/Z
+ u2rXjMIIbzCoeK084FdxHoIzCdzowL+CRB36+XGx+GTUEPfuFlyEmTHW17UrpXVphv9K
+ SxYq3Xw/2Wr8Orif/Sa661Pw6YS49jn0PtYMY6JliI2LnGTxVrIzJxxfj7erfoFC6MI+
+ xg8olExmqAuptM3pd/gP66k8kQ13glHUVrR3cmSO0ImqHmyaujyIecx8WuRoJLJGJgS7
+ wcqA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUDyL1vRd87IGf+/r0RV/NWcRcLqTRXikry5OyRVRAccii/Fp8OL56TjFsGj6H/U+F/iWE2NCcf+obETmV6FOC66yMPHg636IKEksM1AHR+
-X-Gm-Message-State: AOJu0YwP8qJ+hPvmBOE/8Hag1m4+/nxxBu1PTMGlrXptJhEHej0p5KTu
- PWVStcOX+3oGSBzAtYHGo4HTNkgNyuWubAdTurByRaAoe3x6FKXQ
-X-Google-Smtp-Source: AGHT+IEGsRkSDIDre17ll6k4QVQtq1+8FNwawVjXA29IRqJ9XB/BZ3ve4EFN6atKrBPEtfW0wfA2KQ==
-X-Received: by 2002:a17:906:1d4d:b0:a3e:272e:7b98 with SMTP id
- o13-20020a1709061d4d00b00a3e272e7b98mr5997598ejh.40.1709032842637; 
- Tue, 27 Feb 2024 03:20:42 -0800 (PST)
-Received: from localhost
- (p200300e41f222300f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f22:2300:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- h16-20020a17090634d000b00a42ec98b9afsm654234ejb.158.2024.02.27.03.20.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Feb 2024 03:20:42 -0800 (PST)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: Remove drm_num_crtcs() helper
-Date: Tue, 27 Feb 2024 12:20:38 +0100
-Message-ID: <20240227112038.411846-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.44.0
+ AJvYcCWzwCMAkO8/DzjIVaMH9NtDvDGDvfS+W6rRfS6CfTTYmCEXuIqGZJC5AZX0KEBnn7dZAbEzwRVO6DcSav1aRfwErGBjMqdEw9FwfnM2v018
+X-Gm-Message-State: AOJu0Yw6GJSkX+QCpqp6jyCb67tDm9sw57JpNVh8DamMMXZqmu05T7hk
+ pgQlz8FzU49kuwT6So9WNZ38Cjx39ll00/Nmels5QMLHoWnhSdO308e54vH6HJvCA1VjYeZ9ZFR
+ qX2WSdz8uLiUZuRtWcrPBoOD0UjnMFPNAG+F+
+X-Google-Smtp-Source: AGHT+IE2fW6rEQg7HcmlpVe7tfHw8EZXpdlB0fKwjX3otFyjepZ7vQ2TUz43JF/WSjntx66KZF//1lllOC+iM+l+o0c=
+X-Received: by 2002:a05:6602:f10:b0:7c7:b5a6:42f4 with SMTP id
+ hl16-20020a0566020f1000b007c7b5a642f4mr8390166iob.3.1709033201056; Tue, 27
+ Feb 2024 03:26:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240221160215.484151-1-panikiel@google.com>
+ <20240221160215.484151-10-panikiel@google.com>
+ <310cefcb-a4d5-4f4f-a482-ba2ff08a57f6@linaro.org>
+ <CAM5zL5rQsYuo3+rW9+YPmvUg9PtNiR0Dy59e8Kf787ranfLh3Q@mail.gmail.com>
+ <e2ae7bfc-fb51-4a60-bb52-c6ccca7a4189@linaro.org>
+ <CAM5zL5pz0K5ro4-UjiYojM4h9Lqo_af5ZmH1FoZ_ajde_3+Dcg@mail.gmail.com>
+ <e210b318-dcd7-4c0e-b08e-e1c4da1a8cd9@linaro.org>
+In-Reply-To: <e210b318-dcd7-4c0e-b08e-e1c4da1a8cd9@linaro.org>
+From: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>
+Date: Tue, 27 Feb 2024 12:26:30 +0100
+Message-ID: <CAM5zL5rDKMbgN7P=KF2ZayN5ipUB7AYpVccZdLunSUNTR4_f1A@mail.gmail.com>
+Subject: Re: [PATCH v2 9/9] ARM: dts: chameleonv3: Add video device nodes
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org, 
+ daniel@ffwll.ch, dinguyen@kernel.org, hverkuil-cisco@xs4all.nl, 
+ krzysztof.kozlowski+dt@linaro.org, maarten.lankhorst@linux.intel.com, 
+ mchehab@kernel.org, mripard@kernel.org, robh+dt@kernel.org, 
+ tzimmermann@suse.de, devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, chromeos-krk-upstreaming@google.com, 
+ ribalda@chromium.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,52 +92,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thierry Reding <treding@nvidia.com>
+On Mon, Feb 26, 2024 at 6:30=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 26/02/2024 13:27, Pawe=C5=82 Anikiel wrote:
+> > On Mon, Feb 26, 2024 at 1:07=E2=80=AFPM Krzysztof Kozlowski
+> > <krzysztof.kozlowski@linaro.org> wrote:
+> >>
+> >> On 26/02/2024 12:09, Pawe=C5=82 Anikiel wrote:
+> >>> On Mon, Feb 26, 2024 at 10:15=E2=80=AFAM Krzysztof Kozlowski
+> >>> <krzysztof.kozlowski@linaro.org> wrote:
+> >>>>
+> >>>> On 21/02/2024 17:02, Pawe=C5=82 Anikiel wrote:
+> >>>>> Add device nodes for the video system present on the Chameleon v3.
+> >>>>> It consists of six framebuffers and two Intel Displayport receivers=
+.
+> >>>>>
+> >>>>> Signed-off-by: Pawe=C5=82 Anikiel <panikiel@google.com>
+> >>>>> ---
+> >>>>
+> >>>> ...
+> >>>>
+> >>>>> +             dprx_sst: dp-receiver@c0064000 {
+> >>>>> +                     compatible =3D "intel,dprx-20.0.1";
+> >>>>> +                     reg =3D <0xc0064000 0x800>;
+> >>>>> +                     interrupt-parent =3D <&dprx_sst_irq>;
+> >>>>> +                     interrupts =3D <0 IRQ_TYPE_EDGE_RISING>;
+> >>>>> +                     intel,max-link-rate =3D <0x1e>;
+> >>>>
+> >>>> Rate is not in hex! Rate is in Hz, at least usually...
+> >>>>
+> >>>> Fix your bindings...
+> >>>
+> >>> This is the DisplayPort link rate, for which the allowed values are
+> >>> 8.1 Gbps, 5.4 Gbps, 2.7 Gbps, or 1.62 Gbps. The standard way to encod=
+e
+> >>> them (used in the DisplayPort DPCD registers and this device's
+> >>
+> >> Then it is in bps or some other units:
+> >>
+> >> https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas=
+/property-units.yaml
+> >>
+> >>> configuration) is by multiples of 0.27Gbps. This value (AFAIK) is
+> >>> usually represented in hex, so 8.1Gbps would be 0x1e.
+> >>
+> >> No, the value is represented in logical units. Frequency in Hz. Rate i=
+n
+> >> bps/kbps/etc. Voltage in volts.
+> >
+> > Okay, thanks for the info. So if I understand correctly, the max link
+> > rate should be represented in bps in the devicetree, and then be
+>
+> or kbps
 
-The drm_num_crtcs() helper determines the number of CRTCs by iterating
-over the list of CRTCs that have been registered with the mode config.
-However, we already keep track of that number in the mode config's
-num_crtcs field, so we can simply retrieve the value from that and
-remove the extra helper function.
+The one that's already present in dtschema is kBps (kilobytes per
+second) which isn't right for this case IMO.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/gpu/drm/drm_crtc.c | 15 +--------------
- 1 file changed, 1 insertion(+), 14 deletions(-)
+>
+> > converted to the per 0.27Gbps value by the driver?
+>
+> If driver needs some register-based value, then yes.
+>
+> >
+> > One problem is that the values here are too large to be represented in
+> > bps (since the datatype is uint32). Can the property be in Mbps
+> > instead?
+>
+> Can be. You can submit a patch to dtschema (patch to DT spec list or
+> github pull request) adding '-mbps' as well.
 
-diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
-index 6795624f16e7..82c665d3e74b 100644
---- a/drivers/gpu/drm/drm_crtc.c
-+++ b/drivers/gpu/drm/drm_crtc.c
-@@ -107,18 +107,6 @@ int drm_crtc_force_disable(struct drm_crtc *crtc)
- 	return drm_mode_set_config_internal(&set);
- }
- 
--static unsigned int drm_num_crtcs(struct drm_device *dev)
--{
--	unsigned int num = 0;
--	struct drm_crtc *tmp;
--
--	drm_for_each_crtc(tmp, dev) {
--		num++;
--	}
--
--	return num;
--}
--
- int drm_crtc_register_all(struct drm_device *dev)
- {
- 	struct drm_crtc *crtc;
-@@ -278,8 +266,7 @@ static int __drm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *
- 	if (name) {
- 		crtc->name = kvasprintf(GFP_KERNEL, name, ap);
- 	} else {
--		crtc->name = kasprintf(GFP_KERNEL, "crtc-%d",
--				       drm_num_crtcs(dev));
-+		crtc->name = kasprintf(GFP_KERNEL, "crtc-%d", config->num_crtc);
- 	}
- 	if (!crtc->name) {
- 		drm_mode_object_unregister(dev, &crtc->base);
--- 
-2.44.0
-
+I sent a PR with both kbps and mbps.
