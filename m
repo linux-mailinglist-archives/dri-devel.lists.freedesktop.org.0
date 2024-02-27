@@ -2,55 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73F01868543
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 01:56:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35C7F868562
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 02:00:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18C0C10E850;
-	Tue, 27 Feb 2024 00:56:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6895E10EF65;
+	Tue, 27 Feb 2024 01:00:32 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="nqtHga9a";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A65C010E850
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 00:56:18 +0000 (UTC)
-Received: by mail-io1-f70.google.com with SMTP id
- ca18e2360f4ac-7bad62322f0so379269739f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 16:56:18 -0800 (PST)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C2C410EF65
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 01:00:30 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id
+ a640c23a62f3a-a3e7f7b3d95so415365866b.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 17:00:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1708995626; x=1709600426;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xlhrIQ+W/f+848er0yzcAblrCEsNA61Nvlr2TS/B7n4=;
+ b=nqtHga9aP2/r91y2tVZEU1mWDd5aaFuaIhfs31crfumIxUpM5LstIlGGZfHe/kU7c0
+ Vc4LC+gl1ybxEeIY4WQtUQ4iKHjmordkaXqNcijomBK4ddtHKYvIRyku8x9otmn/9o/m
+ A+zkB/LZIf+g8WQRSLspkYoEIODXlaT3nftMU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708995377; x=1709600177;
- h=to:from:subject:message-id:in-reply-to:date:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hGS+TsgiaJJB+YR8NChc905gWzRgJqAKHS8Fgnayr7Q=;
- b=UasfHFe3oojP4bHcKUJuBBYMO7VnpfOnahFYnfEfvPP12lr56OU34G/iDN/mk64ivR
- gwP7zIH/l4ItXQXss0n6SGK4zf0oKlA8p0a6MfPscNYl6JILnBU7K2VatMpqzngBR8fl
- APpuTArAk+Fd0qnbj59I/OJfLy63iD9XhXx/igNnM3e5ag9wQx5BKsBwgd6Y2iH5A3tL
- hTw2II6w9a+tRG4xT+cv96hkbGb6Mks0OcPI91bs9+FoOnmkFJS5MX9RT2LRzhxUBKIr
- FvybXivajzUrjIjeV3r2LTe9rbVA+oWvooqqr92NmBbQEm8sjV9vEekqbO0HFiYAb1OE
- NWkQ==
+ d=1e100.net; s=20230601; t=1708995626; x=1709600426;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xlhrIQ+W/f+848er0yzcAblrCEsNA61Nvlr2TS/B7n4=;
+ b=pvyOeTXDdmzqQDP8wk1gHt6AHudd2xBXWNSLrn8LFvIr35Xu9t1UIou7u8bzbcQRMh
+ Hg4mUU4s1bruR2lLOanu34Ty6X2Yu1EY+g1C6Mk04GXqLIZbDF1N8/ohSEs00cwVjI/H
+ ZRrYOm2jM3iiH+DSoSNIk+FqA5jydhf2tKfWr55Vpm+e9DuJ9ytBqGp7ud0KEpWOacmf
+ OKyzlCSIqelxW7eVk1JMpxGPHZVtHlLd38I9tj5KSAWamyg/6POaVFUPoI1Y+HT77Pig
+ MagNt8jkYQgZ1id2X3gi1mFRY4tF654XxowLD4Xro7rWD1pH7erCrLIRqcj0kJ2A7Z5u
+ OP4w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVZ5NpXFXU8wc3Fw2rkIN0f3qL3o5zhKFqk2Hw5ljEGFJSXZGEQCbCXgVQFiLbEeSNTCEdNkqEy4a4b0E+Xo4HOV8atT3WaH8LGZCjwnnXE
-X-Gm-Message-State: AOJu0YwnPEe7GA2r7eRrtK6udahTJ8PrkjpALWaPhEXBy4MYKTAfp6Eo
- rsvHIJ5Zd+P2SjRySbFEdK5SSaPIWX6PLZENP7eDr+Vv9VzG3+vuKe9sWXp0oH08FomXFfc6mgg
- wM6rrCULxFMj5yN90V3HgGGes947yP+fKGdCdvDbkVVWR0qwOBQ8KQbo=
-X-Google-Smtp-Source: AGHT+IFibvy0HGfjK3AZXWzszHJz5KeM8HEX+Rxvjkem2/PuwSGEwNBwChjEBm3f99nfHReI8DxFZCj8O15rYvZWT1wvvUnO4QjO
+ AJvYcCW0BDbkA9lCkF98y9vBJQ+R0dXNJwA202KTjlqEOLg1z51Uyc0d8bHl0L/DtfhtXGkJicSxhfDCXF/B+vrmuaNG5fImPaaFtNWokcMVmDUM
+X-Gm-Message-State: AOJu0Yy4WB6dyj/OEewaM3a4yFsKiG3oca+1K8ltTHeXr/RFPqSlVNAq
+ 5ldBzb4YQ+d6lP+oo8oCbYuvwO+BNxEqusWbgWjcgewr1Zu4u9A7WCHpWFVKulh/3qcTEsGP++j
+ VqOXh
+X-Google-Smtp-Source: AGHT+IE3tNlscUrBN2DCT2FrnTZLW7wCfHHKYBMm/Of38wvoAp8P3oA+dtiYhohk/g2qZfCsQOu12g==
+X-Received: by 2002:a17:906:c7d4:b0:a43:20ae:9123 with SMTP id
+ dc20-20020a170906c7d400b00a4320ae9123mr4162744ejb.50.1708995626414; 
+ Mon, 26 Feb 2024 17:00:26 -0800 (PST)
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com.
+ [209.85.208.43]) by smtp.gmail.com with ESMTPSA id
+ i25-20020a1709063c5900b00a3f596aaf9dsm247359ejg.26.2024.02.26.17.00.25
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Feb 2024 17:00:25 -0800 (PST)
+Received: by mail-ed1-f43.google.com with SMTP id
+ 4fb4d7f45d1cf-565223fd7d9so2511a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 17:00:25 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX/36KCaiZj78AJwNXbRm2F6apIVPRCnz8zYKnOriVPPfGhbrPJidCATItXFVc9DhfwEF0rZ0cCHI4dXtGc05m4QUASnYx7l2CZHS4BS2Et
+X-Received: by 2002:a50:d650:0:b0:566:1390:6329 with SMTP id
+ c16-20020a50d650000000b0056613906329mr59190edj.1.1708995625011; Mon, 26 Feb
+ 2024 17:00:25 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:2b24:b0:474:7fd9:6bf7 with SMTP id
- fm36-20020a0566382b2400b004747fd96bf7mr130994jab.4.1708995377537; Mon, 26 Feb
- 2024 16:56:17 -0800 (PST)
-Date: Mon, 26 Feb 2024 16:56:17 -0800
-In-Reply-To: <0000000000000946190610bf7bd5@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000066a91a0612527e6d@google.com>
-Subject: Re: [syzbot] [dri?] [media?] inconsistent lock state in valid_state
- (2)
-From: syzbot <syzbot+a225ee3df7e7f9372dbe@syzkaller.appspotmail.com>
-To: christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
- gustavo@padovan.org, linaro-mm-sig-bounces@lists.linaro.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, sumit.semwal@linaro.org, 
- syzkaller-bugs@googlegroups.com
+References: <20240223223958.3887423-1-hsinyi@chromium.org>
+ <CAA8EJpre_HOY1xzOZPv5gPiJ-kEZEJiEm8oyYzXTiPj66vY8aw@mail.gmail.com>
+In-Reply-To: <CAA8EJpre_HOY1xzOZPv5gPiJ-kEZEJiEm8oyYzXTiPj66vY8aw@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 26 Feb 2024 17:00:08 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=WjZZfHBdMVG3R_iT9bskP3AyHrRsSK6Hfw9h4tEZBHFg@mail.gmail.com>
+Message-ID: <CAD=FV=WjZZfHBdMVG3R_iT9bskP3AyHrRsSK6Hfw9h4tEZBHFg@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Match panel hash for overridden mode
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Hsin-Yi Wang <hsinyi@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,150 +99,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-syzbot has found a reproducer for the following issue on:
+Hi,
 
-HEAD commit:    d206a76d7d27 Linux 6.8-rc6
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=12eea106180000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=fad652894fc96962
-dashboard link: https://syzkaller.appspot.com/bug?extid=a225ee3df7e7f9372dbe
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1537934a180000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1704b3e2180000
+On Mon, Feb 26, 2024 at 4:37=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On Sat, 24 Feb 2024 at 00:40, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
+> >
+> > This series is a follow up for 1a5e81de180e ("Revert "drm/panel-edp: Ad=
+d
+> > auo_b116xa3_mode""). It's found that 2 different AUO panels use the sam=
+e
+> > product id. One of them requires an overridden mode, while the other sh=
+ould
+> > use the mode directly from edid.
+> >
+> > Since product id match is no longer sufficient, EDP_PANEL_ENTRY2 is ext=
+ended
+> > to check the crc hash of the entire edid base block.
+>
+> Do you have these EDIDs posted somewhere? Can we use something less
+> cryptic than hash for matching the panel, e.g. strings from Monitor
+> Descriptors?
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/6fa98109295d/disk-d206a76d.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/613b4087d09d/vmlinux-d206a76d.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/d8cd6514daf9/bzImage-d206a76d.xz
+We could try it if need be. I guess I'm worried that if panel vendors
+ended up re-using the panel ID for two different panels that they
+might also re-use the name field too. Hashing the majority of the
+descriptor's base block makes us more likely not to mix two panels up.
+In general it feels like the goal is that if there is any doubt that
+we shouldn't override the mode and including more fields in the hash
+works towards that goal.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+a225ee3df7e7f9372dbe@syzkaller.appspotmail.com
+I guess one thing that might help would be to make it a policy that
+any time a panel is added to this list that a full EDID is included in
+the commit message. That would mean that if we ever needed to change
+things we could. What do you think?
 
-================================
-WARNING: inconsistent lock state
-6.8.0-rc6-syzkaller #0 Not tainted
---------------------------------
-inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
-syz-executor120/5070 [HC1[1]:SC0[0]:HE0:SE1] takes:
-ffffffff8ea8cd18 (sync_timeline_list_lock){?.+.}-{2:2}, at: sync_timeline_debug_remove+0x2c/0x150 drivers/dma-buf/sync_debug.c:31
-{HARDIRQ-ON-W} state was registered at:
-  trace_hardirqs_on+0x28/0x40 kernel/trace/trace_preemptirq.c:61
-  __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:159 [inline]
-  _raw_spin_unlock_irq+0x23/0x50 kernel/locking/spinlock.c:202
-  spin_unlock_irq include/linux/spinlock.h:401 [inline]
-  sync_print_obj drivers/dma-buf/sync_debug.c:118 [inline]
-  sync_info_debugfs_show+0x158/0x4d0 drivers/dma-buf/sync_debug.c:153
-  seq_read_iter+0x445/0xd60 fs/seq_file.c:230
-  seq_read+0x3a3/0x4f0 fs/seq_file.c:162
-  vfs_read+0x204/0xb70 fs/read_write.c:474
-  ksys_read+0x1a0/0x2c0 fs/read_write.c:619
-  do_syscall_64+0xf9/0x240
-  entry_SYSCALL_64_after_hwframe+0x6f/0x77
-irq event stamp: 9608
-hardirqs last  enabled at (9607): [<ffffffff8b71f113>] __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:159 [inline]
-hardirqs last  enabled at (9607): [<ffffffff8b71f113>] _raw_spin_unlock_irq+0x23/0x50 kernel/locking/spinlock.c:202
-hardirqs last disabled at (9608): [<ffffffff8b66faee>] sysvec_irq_work+0xe/0xb0 arch/x86/kernel/irq_work.c:17
-softirqs last  enabled at (9124): [<ffffffff81592641>] invoke_softirq kernel/softirq.c:427 [inline]
-softirqs last  enabled at (9124): [<ffffffff81592641>] __irq_exit_rcu+0xf1/0x1c0 kernel/softirq.c:632
-softirqs last disabled at (9119): [<ffffffff81592641>] invoke_softirq kernel/softirq.c:427 [inline]
-softirqs last disabled at (9119): [<ffffffff81592641>] __irq_exit_rcu+0xf1/0x1c0 kernel/softirq.c:632
+That being said, if everyone thinks that the "name" field is enough,
+we could do it. I think that in the one case that we ran into it would
+have been enough...
 
-other info that might help us debug this:
- Possible unsafe locking scenario:
-
-       CPU0
-       ----
-  lock(sync_timeline_list_lock);
-  <Interrupt>
-    lock(sync_timeline_list_lock);
-
- *** DEADLOCK ***
-
-no locks held by syz-executor120/5070.
-
-stack backtrace:
-CPU: 0 PID: 5070 Comm: syz-executor120 Not tainted 6.8.0-rc6-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/25/2024
-Call Trace:
- <IRQ>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x1e7/0x2e0 lib/dump_stack.c:106
- valid_state+0x13a/0x1c0 kernel/locking/lockdep.c:4013
- mark_lock_irq+0xbb/0xc20 kernel/locking/lockdep.c:4216
- mark_lock+0x223/0x350 kernel/locking/lockdep.c:4678
- mark_usage kernel/locking/lockdep.c:4564 [inline]
- __lock_acquire+0xb8d/0x1fd0 kernel/locking/lockdep.c:5091
- lock_acquire+0x1e3/0x530 kernel/locking/lockdep.c:5754
- __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
- _raw_spin_lock_irqsave+0xd5/0x120 kernel/locking/spinlock.c:162
- sync_timeline_debug_remove+0x2c/0x150 drivers/dma-buf/sync_debug.c:31
- sync_timeline_free drivers/dma-buf/sw_sync.c:125 [inline]
- kref_put include/linux/kref.h:65 [inline]
- sync_timeline_put drivers/dma-buf/sw_sync.c:137 [inline]
- timeline_fence_release+0x204/0x250 drivers/dma-buf/sw_sync.c:165
- kref_put include/linux/kref.h:65 [inline]
- dma_fence_put include/linux/dma-fence.h:297 [inline]
- dma_fence_array_release+0x13e/0x240 drivers/dma-buf/dma-fence-array.c:120
- irq_work_single+0xe1/0x240 kernel/irq_work.c:221
- irq_work_run_list kernel/irq_work.c:252 [inline]
- irq_work_run+0x18b/0x350 kernel/irq_work.c:261
- __sysvec_irq_work+0xa8/0x3e0 arch/x86/kernel/irq_work.c:22
- sysvec_irq_work+0x8f/0xb0 arch/x86/kernel/irq_work.c:17
- </IRQ>
- <TASK>
- asm_sysvec_irq_work+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
-RIP: 0010:__raw_spin_unlock_irq include/linux/spinlock_api_smp.h:160 [inline]
-RIP: 0010:_raw_spin_unlock_irq+0x29/0x50 kernel/locking/spinlock.c:202
-Code: 90 f3 0f 1e fa 53 48 89 fb 48 83 c7 18 48 8b 74 24 08 e8 da 4b ff f5 48 89 df e8 92 8b 00 f6 e8 ad aa 28 f6 fb bf 01 00 00 00 <e8> 62 5c f2 f5 65 8b 05 e3 cd 91 74 85 c0 74 06 5b c3 cc cc cc cc
-RSP: 0018:ffffc90003a87b50 EFLAGS: 00000282
-RAX: 9ede7a61d4cee000 RBX: ffff888015fb5f30 RCX: ffffffff94485303
-RDX: dffffc0000000000 RSI: ffffffff8baab640 RDI: 0000000000000001
-RBP: ffff88807f87c63c R08: ffffffff8f8568af R09: 1ffffffff1f0ad15
-R10: dffffc0000000000 R11: fffffbfff1f0ad16 R12: ffff888015fb5f20
-R13: ffff88807f87c600 R14: dffffc0000000000 R15: ffff888015fb5ee0
- spin_unlock_irq include/linux/spinlock.h:401 [inline]
- sw_sync_debugfs_release+0x14b/0x1d0 drivers/dma-buf/sw_sync.c:359
- __fput+0x429/0x8a0 fs/file_table.c:376
- task_work_run+0x24e/0x310 kernel/task_work.c:180
- exit_task_work include/linux/task_work.h:38 [inline]
- do_exit+0xa2c/0x2740 kernel/exit.c:871
- do_group_exit+0x206/0x2c0 kernel/exit.c:1020
- __do_sys_exit_group kernel/exit.c:1031 [inline]
- __se_sys_exit_group kernel/exit.c:1029 [inline]
- __x64_sys_exit_group+0x3f/0x40 kernel/exit.c:1029
- do_syscall_64+0xf9/0x240
- entry_SYSCALL_64_after_hwframe+0x6f/0x77
-RIP: 0033:0x7fb8001b9f39
-Code: Unable to access opcode bytes at 0x7fb8001b9f0f.
-RSP: 002b:00007ffdaf45d478 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
-RAX: ffffffffffffffda RBX: 000000000000000
-----------------
-Code disassembly (best guess):
-   0:	90                   	nop
-   1:	f3 0f 1e fa          	endbr64
-   5:	53                   	push   %rbx
-   6:	48 89 fb             	mov    %rdi,%rbx
-   9:	48 83 c7 18          	add    $0x18,%rdi
-   d:	48 8b 74 24 08       	mov    0x8(%rsp),%rsi
-  12:	e8 da 4b ff f5       	call   0xf5ff4bf1
-  17:	48 89 df             	mov    %rbx,%rdi
-  1a:	e8 92 8b 00 f6       	call   0xf6008bb1
-  1f:	e8 ad aa 28 f6       	call   0xf628aad1
-  24:	fb                   	sti
-  25:	bf 01 00 00 00       	mov    $0x1,%edi
-* 2a:	e8 62 5c f2 f5       	call   0xf5f25c91 <-- trapping instruction
-  2f:	65 8b 05 e3 cd 91 74 	mov    %gs:0x7491cde3(%rip),%eax        # 0x7491ce19
-  36:	85 c0                	test   %eax,%eax
-  38:	74 06                	je     0x40
-  3a:	5b                   	pop    %rbx
-  3b:	c3                   	ret
-  3c:	cc                   	int3
-  3d:	cc                   	int3
-  3e:	cc                   	int3
-  3f:	cc                   	int3
-
-
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+-Doug
