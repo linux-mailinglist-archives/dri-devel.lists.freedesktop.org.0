@@ -2,88 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35C7F868562
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 02:00:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 548FB86857D
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 02:04:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6895E10EF65;
-	Tue, 27 Feb 2024 01:00:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E98EE10F0ED;
+	Tue, 27 Feb 2024 01:04:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="nqtHga9a";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="W3B52p5r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
- [209.85.218.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C2C410EF65
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 01:00:30 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id
- a640c23a62f3a-a3e7f7b3d95so415365866b.3
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 17:00:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1708995626; x=1709600426;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xlhrIQ+W/f+848er0yzcAblrCEsNA61Nvlr2TS/B7n4=;
- b=nqtHga9aP2/r91y2tVZEU1mWDd5aaFuaIhfs31crfumIxUpM5LstIlGGZfHe/kU7c0
- Vc4LC+gl1ybxEeIY4WQtUQ4iKHjmordkaXqNcijomBK4ddtHKYvIRyku8x9otmn/9o/m
- A+zkB/LZIf+g8WQRSLspkYoEIODXlaT3nftMU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1708995626; x=1709600426;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xlhrIQ+W/f+848er0yzcAblrCEsNA61Nvlr2TS/B7n4=;
- b=pvyOeTXDdmzqQDP8wk1gHt6AHudd2xBXWNSLrn8LFvIr35Xu9t1UIou7u8bzbcQRMh
- Hg4mUU4s1bruR2lLOanu34Ty6X2Yu1EY+g1C6Mk04GXqLIZbDF1N8/ohSEs00cwVjI/H
- ZRrYOm2jM3iiH+DSoSNIk+FqA5jydhf2tKfWr55Vpm+e9DuJ9ytBqGp7ud0KEpWOacmf
- OKyzlCSIqelxW7eVk1JMpxGPHZVtHlLd38I9tj5KSAWamyg/6POaVFUPoI1Y+HT77Pig
- MagNt8jkYQgZ1id2X3gi1mFRY4tF654XxowLD4Xro7rWD1pH7erCrLIRqcj0kJ2A7Z5u
- OP4w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW0BDbkA9lCkF98y9vBJQ+R0dXNJwA202KTjlqEOLg1z51Uyc0d8bHl0L/DtfhtXGkJicSxhfDCXF/B+vrmuaNG5fImPaaFtNWokcMVmDUM
-X-Gm-Message-State: AOJu0Yy4WB6dyj/OEewaM3a4yFsKiG3oca+1K8ltTHeXr/RFPqSlVNAq
- 5ldBzb4YQ+d6lP+oo8oCbYuvwO+BNxEqusWbgWjcgewr1Zu4u9A7WCHpWFVKulh/3qcTEsGP++j
- VqOXh
-X-Google-Smtp-Source: AGHT+IE3tNlscUrBN2DCT2FrnTZLW7wCfHHKYBMm/Of38wvoAp8P3oA+dtiYhohk/g2qZfCsQOu12g==
-X-Received: by 2002:a17:906:c7d4:b0:a43:20ae:9123 with SMTP id
- dc20-20020a170906c7d400b00a4320ae9123mr4162744ejb.50.1708995626414; 
- Mon, 26 Feb 2024 17:00:26 -0800 (PST)
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com.
- [209.85.208.43]) by smtp.gmail.com with ESMTPSA id
- i25-20020a1709063c5900b00a3f596aaf9dsm247359ejg.26.2024.02.26.17.00.25
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Feb 2024 17:00:25 -0800 (PST)
-Received: by mail-ed1-f43.google.com with SMTP id
- 4fb4d7f45d1cf-565223fd7d9so2511a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 17:00:25 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCX/36KCaiZj78AJwNXbRm2F6apIVPRCnz8zYKnOriVPPfGhbrPJidCATItXFVc9DhfwEF0rZ0cCHI4dXtGc05m4QUASnYx7l2CZHS4BS2Et
-X-Received: by 2002:a50:d650:0:b0:566:1390:6329 with SMTP id
- c16-20020a50d650000000b0056613906329mr59190edj.1.1708995625011; Mon, 26 Feb
- 2024 17:00:25 -0800 (PST)
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [198.137.202.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18A1210E070;
+ Tue, 27 Feb 2024 01:04:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=RVftSLZVJrorIFus3RabCSPKATUQtwl5EIiqBrEipvw=; b=W3B52p5rkWx27A4Lch5cd/W3XE
+ CQzIIB0ZeiYi3nNcKYxtf7lSJz75VbIih+2o2567cQH38ClJ82qNVUhPaiqInGBX3FSogPuWcHDoz
+ yTCc70jLDRXyxHPghUARld7Eampuhrruh5ZlEsZkO9KJ+DDYYXHsND0hN6vl992YJdvzOS+NZhcQr
+ e2HFkWFyZGf2hgGB+MTcBy9K14+qB0zxLQKn34kmdnSedR0jXmjTT66z+9B1In8Ky0pCorJxYDy2C
+ McNS5v/m+hqQigS5j2uQNlyCdr30L16vVbAJwbEIkpzTnaHGctBOi4qFdcXSfiR7pjJOt9vkE8aHY
+ Bnxcn6qw==;
+Received: from [50.53.50.0] (helo=[192.168.254.15])
+ by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+ id 1relt6-00000003CmL-1pZM; Tue, 27 Feb 2024 01:04:04 +0000
+Message-ID: <ca59236d-4f5c-4605-b443-8f62d71da643@infradead.org>
+Date: Mon, 26 Feb 2024 17:04:04 -0800
 MIME-Version: 1.0
-References: <20240223223958.3887423-1-hsinyi@chromium.org>
- <CAA8EJpre_HOY1xzOZPv5gPiJ-kEZEJiEm8oyYzXTiPj66vY8aw@mail.gmail.com>
-In-Reply-To: <CAA8EJpre_HOY1xzOZPv5gPiJ-kEZEJiEm8oyYzXTiPj66vY8aw@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 26 Feb 2024 17:00:08 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=WjZZfHBdMVG3R_iT9bskP3AyHrRsSK6Hfw9h4tEZBHFg@mail.gmail.com>
-Message-ID: <CAD=FV=WjZZfHBdMVG3R_iT9bskP3AyHrRsSK6Hfw9h4tEZBHFg@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Match panel hash for overridden mode
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Hsin-Yi Wang <hsinyi@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: linux-next: Tree for Feb 26 (drivers/gpu/drm/xe)
+Content-Language: en-US
+To: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+References: <20240226175509.37fa57da@canb.auug.org.au>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240226175509.37fa57da@canb.auug.org.au>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,44 +60,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Mon, Feb 26, 2024 at 4:37=E2=80=AFPM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> On Sat, 24 Feb 2024 at 00:40, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
-> >
-> > This series is a follow up for 1a5e81de180e ("Revert "drm/panel-edp: Ad=
-d
-> > auo_b116xa3_mode""). It's found that 2 different AUO panels use the sam=
-e
-> > product id. One of them requires an overridden mode, while the other sh=
-ould
-> > use the mode directly from edid.
-> >
-> > Since product id match is no longer sufficient, EDP_PANEL_ENTRY2 is ext=
-ended
-> > to check the crc hash of the entire edid base block.
->
-> Do you have these EDIDs posted somewhere? Can we use something less
-> cryptic than hash for matching the panel, e.g. strings from Monitor
-> Descriptors?
 
-We could try it if need be. I guess I'm worried that if panel vendors
-ended up re-using the panel ID for two different panels that they
-might also re-use the name field too. Hashing the majority of the
-descriptor's base block makes us more likely not to mix two panels up.
-In general it feels like the goal is that if there is any doubt that
-we shouldn't override the mode and including more fields in the hash
-works towards that goal.
+On 2/25/24 22:55, Stephen Rothwell wrote:
+> Hi all,
+> 
+> Changes since 20240223:
+> 
 
-I guess one thing that might help would be to make it a policy that
-any time a panel is added to this list that a full EDID is included in
-the commit message. That would mean that if we ever needed to change
-things we could. What do you think?
+on powerpc32 or i386:
 
-That being said, if everyone thinks that the "name" field is enough,
-we could do it. I think that in the one case that we ran into it would
-have been enough...
+../drivers/gpu/drm/xe/xe_ggtt.c: In function 'xe_ggtt_set_pte':
+../drivers/gpu/drm/xe/xe_ggtt.c:78:9: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Werror=implicit-function-declaration]
+   78 |         writeq(pte, &ggtt->gsm[addr >> XE_PTE_SHIFT]);
+      |         ^~~~~~
+      |         writel
 
--Doug
+
+-- 
+#Randy
