@@ -2,93 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81F5F86A190
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 22:23:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE32086A225
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 23:08:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C98D310E3A1;
-	Tue, 27 Feb 2024 21:23:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 083F410E40B;
+	Tue, 27 Feb 2024 22:08:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Er9y5KP8";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ccs3Tfky";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com
- [209.85.166.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D18789F41
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 21:23:31 +0000 (UTC)
-Received: by mail-io1-f51.google.com with SMTP id
- ca18e2360f4ac-7c49c979b5dso96218339f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 13:23:31 -0800 (PST)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
+ [209.85.208.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF2D810E6A9
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 22:08:11 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id
+ 38308e7fff4ca-2d28387db09so38797081fa.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 14:08:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linuxfoundation.org; s=google; t=1709069011; x=1709673811;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=DbGdkLlpvK16N0hfZoWh5Gw9/QwXnepLBQjOEcjQHHM=;
- b=Er9y5KP8iZWR2QMkOSp+CsGIyi3SFUPAOlx94TyEP+xtc20pzUpAYjlK22fSmYROTQ
- 4dqYp2LYlqU6g11rqkUf/PQ5p0deN6QJnZ25iUdUoLPgtIVQf5oDaqzzqBciTiepAZvE
- OkGJwZhK7cmpF+QdaipU6RY6SvaLjFrRdF2fQ=
+ d=linaro.org; s=google; t=1709071689; x=1709676489; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=vQcCMyGhfzH8PgY8TmCUpxm6Vv1tc9M/NiJQlsbF4kI=;
+ b=ccs3TfkyW60KxkUKm4i6B/MjqcDQgODJ1irke7ZaoUq+lIKMCzRdCYAa5dOpGZ1d38
+ 53GBJgJBxSimtquoh+76l3a333wJklfwOMebuBWz9BkFx53wbYxA5VTw2oLrXVArWGtU
+ 6Gi5mwllAJlK+TDu3vuN9FaD6AggdTYZVxICQUPjqW4FKjp3KH8UkoR6miI6LGKhlZ8w
+ zuffPPl/rxH6t6lceIYuRC6oebl3bQUZ5wYy2kacQgVTznJWf+Q0aJKe5fL1AHGEAm6g
+ IB2TH3E96EITSEFwJ5UJB0lc1aU3bukgiRpElWZkK42Lp542Mg3nHQbBFtBju3jYu5r5
+ 9hWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709069011; x=1709673811;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DbGdkLlpvK16N0hfZoWh5Gw9/QwXnepLBQjOEcjQHHM=;
- b=O4cGc1Hb9La8dBszyl35TFlQd9T8JGwVU+w6+VVy2FA5+74pWh6zvGs5eIJZPtdSeC
- vw2gzPtpW1yqPUZUwPgMrnW6LDEs6mbCn4VORuyjzQxpmblJnzfDpS8pn8E3NGdo0/22
- 4FYgCB1ThuQMc//lgg+Bp16Sh9U3xbJ2ckpyQ9AHQmHsG1YoGctTW83+BMS7ahvqYBrT
- KJ96wC6wWJ9KzE2jd7FHSkJqtlAtHnNl1ySzrLVcpFbYJJekU1ZUyoXpHEUeW5eYeeIB
- WtKnAJQOWVlNBxRLNTcUTLMKi0HpgDzHYlPAkmxlFT7zFoDR5b0KMpVi84BEe4VT/oPK
- bkoQ==
+ d=1e100.net; s=20230601; t=1709071689; x=1709676489;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vQcCMyGhfzH8PgY8TmCUpxm6Vv1tc9M/NiJQlsbF4kI=;
+ b=bCteTdUX5oU/ZeWIpD1yV4RFvlfAshoISLHezXbFxanaI2nTxPoeKc3YOl8k14nlR1
+ AmkX99HOiTCWLbUr4xy/BzUWKZp0X8VamZuhODYi9YA8w9+zuza5+rQdzQZkov7L+TsU
+ 9RkB4XMv7yaCoMruu/qv6o51cS81JuFeh5xjgnW78dgEJG2leur7cFaE4Da97n80gULf
+ llvHFMesEiRBN4Bc137Yp1fDZkLpvDp6SRBbk6OS1OLuAcvOXiN9HXzOjCKS4mJnLDen
+ ux6A92it5JeQWB9wizGuYPe/yaNl7Wn5CNpjSv9XZXtriBbSI19mhhVr0w6iJvR/dPrI
+ Y67w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW5sJPU1xlxgGSbo4iShf4x7MplvygjJGl9Xm5e09rFRWkEa5uFrjOt2ir0HCPI0HyqAY9P4g2bJ/k90e9DCRI3JJQVpmJL8ikZ4Gjqx3nW
-X-Gm-Message-State: AOJu0YwejKUQW2tPE02nsgpMAXPJpsIyXyRbq5xbs+K8fZWjp9ia0kpC
- IbBt9iZxcdzVfymwIoFZ4sLyPIYosLjCl+CkAmMEBVuP3VP+NSyYp5MN04Etm+E=
-X-Google-Smtp-Source: AGHT+IFc3RgJRdGVkP2NPs5Y/GfM+e2c3LeD0bxO2noPvCmHIWJaDhFOLsvOZQ0IljP20IzU/UY25Q==
-X-Received: by 2002:a05:6e02:214d:b0:365:3fb7:f77 with SMTP id
- d13-20020a056e02214d00b003653fb70f77mr11217673ilv.3.1709069010744; 
- Tue, 27 Feb 2024 13:23:30 -0800 (PST)
-Received: from [192.168.1.128] ([38.175.170.29])
+ AJvYcCURsHJoXnyQMiRwg8bjgCg7T9Av5WV8U2Vm3uPn61jmzpHvj5fekAF03S3k/shuY1/kEeVnJ76zcYGSa9RBzGuzY7p/KFLNhvL6lSnF4Z6T
+X-Gm-Message-State: AOJu0YzLlLgqkLMDKMlC89ldo8PR/NY8+yTiG+kpkU6E7DhIKaAC2PQV
+ hp4uAm30ITKVYrgwdFkdxNj7eOYf+MBCxGyTCNOORq2A0bseoJZtvq2zMZ3GbFA=
+X-Google-Smtp-Source: AGHT+IH+yL8luTEsjdTKKoRDh0vC98sjxGym7Upqf/nybKJw0zX+NrxDgIIl50EzB430cRbyTNIPgw==
+X-Received: by 2002:a19:f505:0:b0:512:e58c:7bf1 with SMTP id
+ j5-20020a19f505000000b00512e58c7bf1mr7137757lfb.40.1709071689142; 
+ Tue, 27 Feb 2024 14:08:09 -0800 (PST)
+Received: from umbar.lan (dzyjmhybhls-s--zn36gy-3.rev.dnainternet.fi.
+ [2001:14ba:a00e:a300:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- bf19-20020a056e02309300b0036524b8c632sm2413353ilb.0.2024.02.27.13.23.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Feb 2024 13:23:30 -0800 (PST)
-Message-ID: <56680d34-59f1-460c-a835-f1258abf4569@linuxfoundation.org>
-Date: Tue, 27 Feb 2024 14:23:29 -0700
+ d3-20020a0565123d0300b0051317bf8b39sm94466lfv.287.2024.02.27.14.08.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Feb 2024 14:08:08 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ Johan Hovold <johan@kernel.org>
+Subject: [PATCH] Revert "drm/msm/dp: use drm_bridge_hpd_notify() to report HPD
+ status changes"
+Date: Wed, 28 Feb 2024 00:08:08 +0200
+Message-Id: <20240227220808.50146-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/9] rtc: test: Fix invalid format specifier.
-Content-Language: en-US
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- David Gow <davidgow@google.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Guenter Roeck <linux@roeck-us.net>, Rae Moar <rmoar@google.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Kees Cook <keescook@chromium.org>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Willem de Bruijn <willemb@google.com>, Florian Westphal <fw@strlen.de>,
- Cassio Neri <cassio.neri@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Arthur Grillo <arthur.grillo@usp.br>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Daniel Latypov <dlatypov@google.com>, Stephen Boyd <sboyd@kernel.org>,
- David Airlie <airlied@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- "David S . Miller" <davem@davemloft.net>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org,
- linux-rtc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- kunit-dev@googlegroups.com, linux-hardening@vger.kernel.org,
- netdev@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20240221092728.1281499-1-davidgow@google.com>
- <20240221092728.1281499-6-davidgow@google.com>
- <20240227203243070e7d85@mail.local>
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20240227203243070e7d85@mail.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,24 +89,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/27/24 13:32, Alexandre Belloni wrote:
-> Hello,
-> 
-> On 21/02/2024 17:27:18+0800, David Gow wrote:
->> 'days' is a s64 (from div_s64), and so should use a %lld specifier.
->>
->> This was found by extending KUnit's assertion macros to use gcc's
->> __printf attribute.
->>
->> Fixes: 1d1bb12a8b18 ("rtc: Improve performance of rtc_time64_to_tm(). Add tests.")
->> Signed-off-by: David Gow <davidgow@google.com>
-> 
-> Who do you expect to take this patch?
-> 
+This reverts commit e467e0bde881 ("drm/msm/dp: use
+drm_bridge_hpd_notify() to report HPD status changes").
 
-I am going to be applying this series to linux-kselftest kunit next
-in just a bit. Would you like to ack the pacth?
+The commit changed the way how the MSM DP driver communicates
+HPD-related events to the userspace. The mentioned commit made some of
+the HPD events being reported earlier. This way userspace starts poking
+around. It interacts in a bad way with the dp_bridge_detect and the
+driver's state machine, ending up either with the very long delays
+during hotplug detection or even inability of the DP driver to report
+the display as connected.
 
-thanks,
--- Shuah
+A proper fix will involve redesigning of the HPD handling in the MSM DP
+driver. It is underway, but it will be intrusive and can not be thought
+about as a simple fix for the issue. Thus, revert the offending commit.
+
+Fixes: e467e0bde881 ("drm/msm/dp: use drm_bridge_hpd_notify() to report HPD status changes")
+Link: https://gitlab.freedesktop.org/drm/msm/-/issues/50
+Reported-by: Johan Hovold <johan@kernel.org>
+Link: https://lore.kernel.org/r/Zd3YPGmrprxv-N-O@hovoldconsulting.com/
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/dp/dp_display.c | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index d37d599aec27..4c72124ffb5d 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -329,10 +329,26 @@ static const struct component_ops dp_display_comp_ops = {
+ 	.unbind = dp_display_unbind,
+ };
+ 
++static void dp_display_send_hpd_event(struct msm_dp *dp_display)
++{
++	struct dp_display_private *dp;
++	struct drm_connector *connector;
++
++	dp = container_of(dp_display, struct dp_display_private, dp_display);
++
++	connector = dp->dp_display.connector;
++	drm_helper_hpd_irq_event(connector->dev);
++}
++
+ static int dp_display_send_hpd_notification(struct dp_display_private *dp,
+ 					    bool hpd)
+ {
+-	struct drm_bridge *bridge = dp->dp_display.bridge;
++	if ((hpd && dp->dp_display.link_ready) ||
++			(!hpd && !dp->dp_display.link_ready)) {
++		drm_dbg_dp(dp->drm_dev, "HPD already %s\n",
++				(hpd ? "on" : "off"));
++		return 0;
++	}
+ 
+ 	/* reset video pattern flag on disconnect */
+ 	if (!hpd) {
+@@ -348,7 +364,7 @@ static int dp_display_send_hpd_notification(struct dp_display_private *dp,
+ 
+ 	drm_dbg_dp(dp->drm_dev, "type=%d hpd=%d\n",
+ 			dp->dp_display.connector_type, hpd);
+-	drm_bridge_hpd_notify(bridge, dp->dp_display.link_ready);
++	dp_display_send_hpd_event(&dp->dp_display);
+ 
+ 	return 0;
+ }
+-- 
+2.39.2
 
