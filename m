@@ -2,87 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 921B8868D6B
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 11:23:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2525868D82
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 11:26:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68D0C10E446;
-	Tue, 27 Feb 2024 10:23:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B15B10F2E3;
+	Tue, 27 Feb 2024 10:26:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="w25SYSz6";
+	dkim=pass (2048-bit key; unprotected) header.d=froggi.es header.i=@froggi.es header.b="OLiOQHrS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com
- [209.85.166.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8617D10E446
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 10:23:35 +0000 (UTC)
-Received: by mail-il1-f171.google.com with SMTP id
- e9e14a558f8ab-3657c437835so7666825ab.2
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 02:23:35 -0800 (PST)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AB2110E8D9
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 10:26:31 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id
+ ffacd0b85a97d-33dcad9e3a2so1192151f8f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 02:26:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1709029414; x=1709634214;
- darn=lists.freedesktop.org; 
+ d=froggi.es; s=google; t=1709029589; x=1709634389; darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=wRDnUl47SBcmf8gVz+t2ubWEYD6TUCpoZIdH8z+nNoU=;
- b=w25SYSz6BIqYAkwMmO4WPxYQUd543L6kt8NvHt6EnT7zwFVKnWII+TyLf7OtDo6CTa
- IIMEYq+/mryFKW6eKBwWK1+0ow1IUZ60Kz9j/yDybLoHwR3Cm9kXVt0AyEH98ldjhn4b
- fmK/plX7HbnBD0bYHY5TpaOMEmxJPbzpnrQKZI8WjiW+aLy2oASmWHqjQVlRZKqVU5en
- LyJFsBbottWHZMiaaYfiCw8ODkBertIVltoDR13jd2ynoH+2pNSh1RLLFcxK73Cwvxpw
- wNhox54yvCLlO1+yItPm8tRl7IFmsT7zvQVCrUyxv1f6kC2kej4WMZUHYiGQSFUHDCXj
- 9GqQ==
+ bh=Uhi+WrGIQRRJ8lSNfTDvuyNrAsyGAd/wwG+ZXqbxAiY=;
+ b=OLiOQHrSZrZ7D8H3Ck0wt4cL1NgvYL5jlxkMOS/j25W5qyFE8nWEtka6tLNRoaoKAJ
+ HgmIR4Iq6zT0P1oeplNrVLqd0SjOnNnH7xWAgtUJVGum2Mkj2lgDZjbDAoG4+UDaVpKr
+ C3rveJx35ruWvt0fDjbAthki6RSYwnjMvpcijpncWbOSQ0ew7KIrdwMu1CLHhqmyisWm
+ VM5sX+1FhoCe3o+LSNadKOCh4bJgAdR4y3G6MOHKF+GWfUDNXg0PzRq+ufG74C2aABiM
+ oHg2Jm49cYZz/IghbTfnDh7pmwL8CEg/HGlYlgBVWB9GeQ6rbMCJj07dCEqLp0k+0pkf
+ VneA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709029414; x=1709634214;
+ d=1e100.net; s=20230601; t=1709029589; x=1709634389;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wRDnUl47SBcmf8gVz+t2ubWEYD6TUCpoZIdH8z+nNoU=;
- b=NBYF0UqYYkFrKvQTuuAlfNEyGv7Tu2USVqlKqgWTwQbzUqYbBtDXxKYUaIdg0R0XE5
- m3+iEQpRJ50LW8xvot4lKKaqcL3NLFyj+zF5BdgVGFKCgVv+nzZZo2mGcSE0kHB/Kneh
- YMkI8zMZFYM+GLSXuCg19NszBcEO9FtGBGPvPjRF9TAlQvuPi2Lg4n61rsC/1boWPtYx
- 2G4T7n/YHF4Xc4a4kPUKB+MCJNkn+MJO63HDSKnM/LxZsX3RE2LLCxbcQndQQFi/zcuH
- 2GffOrhizxYk5HEYc87MDZW167z5cwpixMUrZBTmaHtPsH/XwbrYUAxxpjFuxdImh202
- ZHCg==
+ bh=Uhi+WrGIQRRJ8lSNfTDvuyNrAsyGAd/wwG+ZXqbxAiY=;
+ b=ovSa3IyRNm3C+BG6RoFrwVG95UzygemOPjvRPfTCfrKprzTck4YCL6GQJdPhzZIDlX
+ RczIfb41A/wpvbwpZ8UKqaukkTeIaNOD1UddKC8/c82hg/Fqa1ghFQIZz4Wc50SS37Aa
+ uY0YkYHbsvEcyWHxQC3Rfqlpmg72xHdgNmPf1n7dji5UwaVrzSdf8kz2vqkJ7rSBdmCt
+ 5v+fLMj7y+Nh5RdccIS5Zs56+5ZDnHY+z50NYKoYex+OKmNE33078W6aRpaX3p532g1K
+ 4KXzblVdXp4D9ljfGf/t7wCD1PjKPR/JukwnUoOdM3xoGrwX7HVj/A4M3rIteWSlq/Zk
+ Gp+g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXcSYcAFniI+Vuz058nD5AyFyvgEBr5POgvhPJlPmrEH6aC2Z3+jRjmD+MMMS1IGEhC4C4OCylyuSzFQEXhW2kxeoIXXXEeOzrEGkpp5RNC
-X-Gm-Message-State: AOJu0Ywsc/oc2SxbGMzm2dTkMfiTdVICXojKmvI0h5NjywyZeRbL68Ty
- 7Iujr+97QZQcNSF9EjldXpK28BLPMCm2UQU/O2nUaDP2IlduLm/n3UhcFbRkB+Q=
-X-Google-Smtp-Source: AGHT+IFlwjkngqWStTBwNfi9zv2j3kwATePJOcv87F/BtVt3qeg8VtNnjQ+1xDPzFY8KBNxxoIwTKw==
-X-Received: by 2002:a05:6e02:e10:b0:365:1b7c:670 with SMTP id
- a16-20020a056e020e1000b003651b7c0670mr7885060ilk.8.1709029414201; 
- Tue, 27 Feb 2024 02:23:34 -0800 (PST)
-Received: from [192.168.1.172] ([93.5.22.158])
+ AJvYcCWtqOnEuMnm1Gs5X+9NeFcynOVEvUhXHH+fiD5wsuMLViqjsS4YiX255+t3lKF+4awGwwpe3P/8AlRieWHUnMFNfSMKPqJXb8Aj/1myKLaB
+X-Gm-Message-State: AOJu0YxA/xDmRRlrUoEcMpRREEnweEVRZUU4FjKAXrQ497HtbaWV4NH3
+ SDxKMVk2eZnz1y32ApUnwJZVYaGoQVI7QH94XocuHqQgqS0XwRP4Ae5me4YmPxU=
+X-Google-Smtp-Source: AGHT+IFqZH8rmOCDpZ3D4x/lYkOfBXXnFSclNKDnxRlrjGhdDlBXDhTO23kdXm0W/NqSHHSPGYLFqQ==
+X-Received: by 2002:a5d:5267:0:b0:33d:5250:71b3 with SMTP id
+ l7-20020a5d5267000000b0033d525071b3mr6901307wrc.57.1709029589425; 
+ Tue, 27 Feb 2024 02:26:29 -0800 (PST)
+Received: from [192.168.0.89]
+ (darl-09-b2-v4wan-165404-cust288.vm5.cable.virginm.net. [86.17.61.33])
  by smtp.gmail.com with ESMTPSA id
- p6-20020a92c606000000b003642dacafa5sm2063105ilm.29.2024.02.27.02.23.28
+ d24-20020adf9b98000000b0033dedaee5d5sm1600842wrc.30.2024.02.27.02.26.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Feb 2024 02:23:33 -0800 (PST)
-Message-ID: <92b9e9ac-6265-4611-888d-ba74bb871be5@baylibre.com>
-Date: Tue, 27 Feb 2024 11:23:26 +0100
+ Tue, 27 Feb 2024 02:26:28 -0800 (PST)
+Message-ID: <f4839262-493c-495d-9fd0-bb9eb81ac430@froggi.es>
+Date: Tue, 27 Feb 2024 10:26:27 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/18] ASoC: dt-bindings: mediatek,mt8365-mt6357: Add
- audio sound card document
+Subject: Re: [RFC PATCH v4 00/42] Color Pipeline API w/ VKMS
 Content-Language: en-US
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Lee Jones <lee@kernel.org>,
- Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
- <20240226-audio-i350-v1-2-4fa1cea1667f@baylibre.com>
- <e15fdb18-d4de-495f-b90b-ba0e787cbef4@collabora.com>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <e15fdb18-d4de-495f-b90b-ba0e787cbef4@collabora.com>
+To: Harry Wentland <harry.wentland@amd.com>, dri-devel@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org
+Cc: wayland-devel@lists.freedesktop.org,
+ Ville Syrjala <ville.syrjala@linux.intel.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Simon Ser <contact@emersion.fr>, Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?Q?Jonas_=C3=85dahl?= <jadahl@redhat.com>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ Shashank Sharma <shashank.sharma@amd.com>,
+ Alexander Goins <agoins@nvidia.com>, =?UTF-8?Q?Michel_D=C3=A4nzer?=
+ <mdaenzer@redhat.com>, Aleix Pol <aleixpol@kde.org>,
+ Xaver Hugl <xaver.hugl@gmail.com>,
+ Victoria Brekenfeld <victoria@system76.com>, Sima <daniel@ffwll.ch>,
+ Uma Shankar <uma.shankar@intel.com>, Naseer Ahmed <quic_naseer@quicinc.com>,
+ Christopher Braga <quic_cbraga@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>, Hector Martin <marcan@marcan.st>,
+ Liviu Dudau <Liviu.Dudau@arm.com>, Sasha McIntosh
+ <sashamcintosh@google.com>,
+ Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+References: <20240226211100.100108-1-harry.wentland@amd.com>
+From: Joshua Ashton <joshua@froggi.es>
+In-Reply-To: <20240226211100.100108-1-harry.wentland@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -102,188 +105,264 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 26/02/2024 16:30, AngeloGioacchino Del Regno wrote:
-> Il 26/02/24 15:01, Alexandre Mergnat ha scritto:
->> Add soundcard bindings for the MT8365 SoC with the MT6357 audio codec.
->>
->> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
->> ---
->>   .../bindings/sound/mediatek,mt8365-mt6357.yaml     | 127 
->> +++++++++++++++++++++
->>   1 file changed, 127 insertions(+)
->>
->> diff --git 
->> a/Documentation/devicetree/bindings/sound/mediatek,mt8365-mt6357.yaml 
->> b/Documentation/devicetree/bindings/sound/mediatek,mt8365-mt6357.yaml
->> new file mode 100644
->> index 000000000000..f469611ec6b6
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8365-mt6357.yaml
->> @@ -0,0 +1,127 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/sound/mediatek,mt8365-mt6357.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Mediatek MT8365 sound card with MT6357 sound codec.
->> +
->> +maintainers:
->> +  - Alexandre Mergnat <amergnat@baylibre.com>
->> +
->> +description:
->> +  This binding describes the MT8365 sound card.
->> +
->> +properties:
->> +  compatible:
->> +    const: mediatek,mt8365-mt6357
->> +
->> +  mediatek,hp-pull-down:
->> +    description:
->> +      Earphone driver positive output stage short to the
->> +      audio reference ground.
->> +      Default value is false.
->> +    type: boolean
->> +
->> +  mediatek,micbias0-microvolt:
->> +    description: |
+On 2/26/24 21:10, Harry Wentland wrote:
+> This is an RFC set for a color pipeline API, along with a sample
+> implementation in VKMS. All the key API bits are here. VKMS now
+> supports two named transfer function colorops and two matrix
+> colorops. We have IGT tests that check all four of these colorops
+> with a pixel-by-pixel comparison that checks that these colorops
+> do what we expect them to do with a +/- 1 8 bpc code point margin.
 > 
-> description: Selects MIC Bias 0 output voltage
+> The big new change with v4 is the addition of an amdgpu color
+> pipeline, for all AMD GPUs with DCN 3 and newer. Amdgpu now support
+> the following:
 > 
->> +      Selects MIC Bias 0 output voltage.
->> +      [1.7v, 1.8v, 1.9v, 2.0v, 2.1v, 2.5v, 2.6v, 2.7v]
->> +    enum: [0, 1, 2, 3, 4, 5, 6, 7]
+> 1. 1D Curve EOTF
+> 2. 3x4 CTM
+> 3. Multiplier
+> 4. 1D Curve Inverse EOTF
+> 5. 1D LUT
+> 6. 1D Curve EOTF
+> 7. 1D LUT
 > 
-> No, you don't say 0 1 2 3 4 to a property that says "microvolt", that's 
-> simply
-> wrong.
+> The supported curves for the 1D Curve type are:
+> - sRGB EOTF and its inverse
+> - PQ EOTF, scaled to [0.0, 125.0] and its inverse
+> - BT.2020/BT.709 OETF and its inverse
 > 
-> mediatek,micbias0-microvolt = <2100000>;
+> Note that the 1st and 5th colorops take the EOTF or Inverse
+> OETF while the 3rd colorop takes the Inverse EOTF or OETF.
 > 
-> ...so you want a binding that says
-> enum: [ 1700000, 1800000, this, that, 2700000]
+> We are working on two more ops for amdgpu, the HDR multiplier
+> and the 3DLUT, which will give us this:
+> 
+> 1. 1D Curve EOTF
+> 2. 3x4 CTM
+> 3. HDR Multiplier
+> 4. 1D Curve Inverse EOTF
+> 5. 1D LUT
+> 6. 3D LUT
+> 7. 1D Curve EOTF
+> 8. 1D LUT
+> 
+> This, essentially mirrors the color pipeline used by gamescope
+> and presented by Melissa Wen, with the exception of the DEGAM
+> LUT, which is not currently used. See
+> [1] https://indico.freedesktop.org/event/4/contributions/186/attachments/138/218/xdc2023-TheRainbowTreasureMap-MelissaWen.pdf
+> 
+> After this we'd like to also add the following ops:
+> - Scaler (Informational only)
+
+Why informational only? Having NEAREST and in general custom taps should 
+be possible on AMDGPU right?
+
+We don't have to solve this now, but I just want to make sure that we 
+aren't locking this to info only.
+
+Thanks
+
+- Joshie 🐸✨
+
+> - Color Encoding, to replace drm_plane's COLOR_ENCODING
+> - Color Range, to replace drm_plane's COLOR_RANGE
+> 
+> This patchset is grouped as follows:
+>   - Patches 1-3: couple general patches/fixes
+>   - Patches 4-7: introduce kunit to VKMS
+>   - Patch 7: description of motivation and details behind the
+>              Color Pipeline API. If you're reading nothing else
+>              but are interested in the topic I highly recommend
+>              you take a look at this.
+>   - Patches 7-27: DRM core and VKMS changes for color pipeline API
+>   - Patches 28-40: DRM core and amdgpu changes for color pipeline API
+> 
+> VKMS patches could still be improved in a few ways, though the
+> payoff might be limited and I would rather focus on other work
+> at the moment. The most obvious thing to improve would be to
+> eliminate the hard-coded LUTs for identity, and sRGB, and replace
+> them with fixed-point math instead.
+> 
+> There are plenty of things that I would like to see here but
+> haven't had a chance to look at. These will (hopefully) be
+> addressed in future iterations, either in VKMS or amdgpu:
+>   - Clear documentation for each drm_colorop_type
+>   - Add custom LUT colorops to VKMS
+>   - Add pre-blending 3DLUT
+>   - How to support HW which can't bypass entire pipeline?
+>   - Add ability to create colorops that don't have BYPASS
+>   - Can we do a LOAD / COMMIT model for LUTs (and other properties)?
+>   - read-only scaling colorop which defines scaling taps and position
+>   - read-only color format colorop to define supported color formats
+>     for a pipeline
+>   - named matrices, for things like converting YUV to RGB
+> 
+> IGT tests can be found at
+> https://gitlab.freedesktop.org/hwentland/igt-gpu-tools/-/merge_requests/1
+> 
+> IGT patches are also being sent to the igt-dev mailing list.
+> 
+> If you prefer a gitlab MR for review you can find it at
+> https://gitlab.freedesktop.org/hwentland/linux/-/merge_requests/5
+> 
+> v4:
+>   - Add amdgpu color pipeline (WIP)
+>   - Don't block setting of deprecated properties, instead pass client cap
+>     to atomic check so drivers can ignore these props
+>   - Drop IOCTL definitions (Pekka)
+>   - Use enum property for colorop TYPE (Pekka)
+>   - A few cleanups to the docs (Pekka)
+>   - Rework the TYPE enum to name relation to avoid code duplication (Pekka)
+>   - Add missing function declarations (Chaitanya Kumar Borah)
+>   - Allow setting of NEXT property to NULL in _set_ function (Chaitanya Kumar Borah)
+>   - Add helper for creation of pipeline drm_plane property (Pekka)
+>   - Always create Bypass pipeline (Pekka)
+>   - A bunch of changes to VKMS kunit tests (Pekka)
+>   - Fix index in CTM doc (Pekka)
+> 
+> v3:
+>   - Abandon IOCTLs and discover colorops as clients iterate the pipeline
+>   - Remove need for libdrm
+>   - Add color_pipeline client cap and make mutually exclusive with
+>     COLOR_RANGE and COLOR_ENCODING properties
+>   - add CTM colorop to VKMS
+>   - Use include way for kunit testing static functions (Arthur)
+>   - Make TYPE a range property
+>   - Move enum drm_colorop_type to uapi header
+>   - and a bunch of smaller bits that are highlighted in the relevant commit
+>     description
+> 
+> v2:
+>   - Rebased on drm-misc-next
+>   - Introduce a VKMS Kunit so we can test LUT functionality in vkms_composer
+>   - Incorporate feedback in color_pipeline.rst doc
+>   - Add support for sRGB inverse EOTF
+>   - Add 2nd enumerated TF colorop to VKMS
+>   - Fix LUTs and some issues with applying LUTs in VKMS
+> 
+> Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
+> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> Cc: Simon Ser <contact@emersion.fr>
+> Cc: Harry Wentland <harry.wentland@amd.com>
+> Cc: Melissa Wen <mwen@igalia.com>
+> Cc: Jonas Ådahl <jadahl@redhat.com>
+> Cc: Sebastian Wick <sebastian.wick@redhat.com>
+> Cc: Shashank Sharma <shashank.sharma@amd.com>
+> Cc: Alexander Goins <agoins@nvidia.com>
+> Cc: Joshua Ashton <joshua@froggi.es>
+> Cc: Michel Dänzer <mdaenzer@redhat.com>
+> Cc: Aleix Pol <aleixpol@kde.org>
+> Cc: Xaver Hugl <xaver.hugl@gmail.com>
+> Cc: Victoria Brekenfeld <victoria@system76.com>
+> Cc: Sima <daniel@ffwll.ch>
+> Cc: Uma Shankar <uma.shankar@intel.com>
+> Cc: Naseer Ahmed <quic_naseer@quicinc.com>
+> Cc: Christopher Braga <quic_cbraga@quicinc.com>
+> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Cc: Arthur Grillo <arthurgrillo@riseup.net>
+> Cc: Hector Martin <marcan@marcan.st>
+> Cc: Liviu Dudau <Liviu.Dudau@arm.com>
+> Cc: Sasha McIntosh <sashamcintosh@google.com>
+> Cc: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+> 
+> Alex Hung (10):
+>    drm/colorop: define a new macro for_each_new_colorop_in_state
+>    drm/amd/display: Skip color pipeline initialization for cursor plane
+>    drm/amd/display: Add support for sRGB EOTF in DEGAM block
+>    drm/amd/display: Add support for sRGB Inverse EOTF in SHAPER block
+>    drm/amd/display: Add support for sRGB EOTF in BLND block
+>    drm/colorop: Add 1D Curve Custom LUT type
+>    drm/amd/display: add shaper and blend colorops for 1D Curve Custom LUT
+>    drm/amd/display: add 3x4 matrix colorop
+>    drm/colorop: Add mutliplier type
+>    drm/amd/display: add multiplier colorop
+> 
+> Harry Wentland (32):
+>    drm: Don't treat 0 as -1 in drm_fixp2int_ceil
+>    drm: Add helper for conversion from signed-magnitude
+>    drm: Correctly round for fixp2int_round
+>    drm/vkms: Round fixp2int conversion in lerp_u16
+>    drm/vkms: Create separate Kconfig file for VKMS
+>    drm/vkms: Add kunit tests for VKMS LUT handling
+>    drm/vkms: Avoid reading beyond LUT array
+>    drm/doc/rfc: Describe why prescriptive color pipeline is needed
+>    drm/colorop: Introduce new drm_colorop mode object
+>    drm/colorop: Add TYPE property
+>    drm/colorop: Add 1D Curve subtype
+>    drm/colorop: Add BYPASS property
+>    drm/colorop: Add NEXT property
+>    drm/colorop: Add atomic state print for drm_colorop
+>    drm/plane: Add COLOR PIPELINE property
+>    drm/colorop: Add NEXT to colorop state print
+>    drm/vkms: Add enumerated 1D curve colorop
+>    drm/vkms: Add kunit tests for linear and sRGB LUTs
+>    drm/colorop: Introduce DRM_CLIENT_CAP_PLANE_COLOR_PIPELINE
+>    drm/colorop: Add 3x4 CTM type
+>    drm/vkms: Pull apply_colorop out of pre_blend_color_transform
+>    drm/vkms: Use s32 for internal color pipeline precision
+>    drm/vkms: add 3x4 matrix in color pipeline
+>    drm/tests: Add a few tests around drm_fixed.h
+>    drm/vkms: Add tests for CTM handling
+>    drm/colorop: pass plane_color_pipeline client cap to atomic check
+>    drm/amd/display: Ignore deprecated props when plane_color_pipeline set
+>    drm/amd/display: Add bypass COLOR PIPELINE
+>    drm/colorop: Add PQ 125 EOTF and its inverse
+>    drm/amd/display: Enable support for PQ 125 EOTF and Inverse
+>    drm/colorop: add BT2020/BT709 OETF and Inverse OETF
+>    drm/amd/display: Add support for BT.709 and BT.2020 TFs
+> 
+>   Documentation/gpu/rfc/color_pipeline.rst      | 360 ++++++++
+>   drivers/gpu/drm/Kconfig                       |  14 +-
+>   drivers/gpu/drm/Makefile                      |   1 +
+>   .../gpu/drm/amd/display/amdgpu_dm/Makefile    |   3 +-
+>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   4 +
+>   .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 352 ++++++++
+>   .../amd/display/amdgpu_dm/amdgpu_dm_colorop.c | 160 ++++
+>   .../amd/display/amdgpu_dm/amdgpu_dm_colorop.h |  36 +
+>   .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   |  32 +
+>   drivers/gpu/drm/drm_atomic.c                  | 161 +++-
+>   drivers/gpu/drm/drm_atomic_helper.c           |  12 +
+>   drivers/gpu/drm/drm_atomic_state_helper.c     |   5 +
+>   drivers/gpu/drm/drm_atomic_uapi.c             | 158 ++++
+>   drivers/gpu/drm/drm_colorop.c                 | 411 +++++++++
+>   drivers/gpu/drm/drm_ioctl.c                   |   7 +
+>   drivers/gpu/drm/drm_mode_config.c             |   7 +
+>   drivers/gpu/drm/drm_plane.c                   |  52 ++
+>   drivers/gpu/drm/tests/Makefile                |   3 +-
+>   drivers/gpu/drm/tests/drm_fixp_test.c         |  69 ++
+>   drivers/gpu/drm/vkms/Kconfig                  |  20 +
+>   drivers/gpu/drm/vkms/Makefile                 |   4 +-
+>   drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
+>   drivers/gpu/drm/vkms/tests/vkms_color_tests.c | 449 ++++++++++
+>   drivers/gpu/drm/vkms/vkms_colorop.c           | 100 +++
+>   drivers/gpu/drm/vkms/vkms_composer.c          | 135 ++-
+>   drivers/gpu/drm/vkms/vkms_drv.h               |   8 +
+>   drivers/gpu/drm/vkms/vkms_luts.c              | 802 ++++++++++++++++++
+>   drivers/gpu/drm/vkms/vkms_luts.h              |  12 +
+>   drivers/gpu/drm/vkms/vkms_plane.c             |   2 +
+>   include/drm/drm_atomic.h                      | 122 +++
+>   include/drm/drm_atomic_uapi.h                 |   3 +
+>   include/drm/drm_colorop.h                     | 301 +++++++
+>   include/drm/drm_file.h                        |   7 +
+>   include/drm/drm_fixed.h                       |  35 +-
+>   include/drm/drm_mode_config.h                 |  18 +
+>   include/drm/drm_plane.h                       |  13 +
+>   include/uapi/drm/drm.h                        |  16 +
+>   include/uapi/drm/drm_mode.h                   |  14 +
+>   38 files changed, 3882 insertions(+), 30 deletions(-)
+>   create mode 100644 Documentation/gpu/rfc/color_pipeline.rst
+>   create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
+>   create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h
+>   create mode 100644 drivers/gpu/drm/drm_colorop.c
+>   create mode 100644 drivers/gpu/drm/tests/drm_fixp_test.c
+>   create mode 100644 drivers/gpu/drm/vkms/Kconfig
+>   create mode 100644 drivers/gpu/drm/vkms/tests/.kunitconfig
+>   create mode 100644 drivers/gpu/drm/vkms/tests/vkms_color_tests.c
+>   create mode 100644 drivers/gpu/drm/vkms/vkms_colorop.c
+>   create mode 100644 drivers/gpu/drm/vkms/vkms_luts.c
+>   create mode 100644 drivers/gpu/drm/vkms/vkms_luts.h
+>   create mode 100644 include/drm/drm_colorop.h
+> 
+> --
+> 2.44.0
 > 
 
-Is it correct if I put "description: Selects MIC Bias 0 output voltage 
-index" ?
-
->> +
->> +  mediatek,micbias1-microvolt:
->> +    description: |
->> +      Selects MIC Bias 1 output voltage.
->> +      [1.7v, 1.8v, 1.9v, 2.0v, 2.1v, 2.5v, 2.6v, 2.7v]
->> +    enum: [0, 1, 2, 3, 4, 5, 6, 7]
-> 
-> same here.
-> 
->> +
->> +  mediatek,platform:
->> +    $ref: /schemas/types.yaml#/definitions/phandle
->> +    description: The phandle of MT8365 ASoC platform.
->> +
->> +  pinctrl-names:
->> +    minItems: 1
->> +    items:
->> +      - const: aud_default
->> +      - const: aud_dmic
->> +      - const: aud_miso_off
->> +      - const: aud_miso_on
->> +      - const: aud_mosi_off
->> +      - const: aud_mosi_on
->> +
->> +  vaud28-supply:
->> +    description:
->> +      2.8 volt supply for the audio codec
->> +
->> +patternProperties:
->> +  "^dai-link-[0-9]+$":
->> +    type: object
->> +    description:
->> +      Container for dai-link level properties and CODEC sub-nodes.
->> +
->> +    properties:
->> +      codec:
->> +        type: object
->> +        description: Holds subnode which indicates codec dai.
->> +
->> +        properties:
->> +          sound-dai:
->> +            maxItems: 1
->> +            description: phandle of the codec DAI
->> +
->> +        additionalProperties: false
->> +
->> +      link-name:
->> +        description:
->> +          This property corresponds to the name of the BE dai-link to 
->> which
->> +          we are going to update parameters in this node.
->> +        items:
->> +          const: 2ND I2S BE
->> +
->> +      sound-dai:
->> +        maxItems: 1
->> +        description: phandle of the CPU DAI
->> +
->> +    additionalProperties: false
->> +
->> +    required:
->> +      - link-name
->> +      - sound-dai
->> +
->> +additionalProperties: false
->> +
->> +required:
->> +  - compatible
->> +  - mediatek,platform
->> +  - pinctrl-names
->> +  - vaud28-supply
->> +
->> +examples:
->> +  - |
->> +    sound {
->> +        compatible = "mediatek,mt8365-mt6357";
->> +        mediatek,platform = <&afe>;
-> 
-> Please:
-> 
-> https://docs.kernel.org/devicetree/bindings/dts-coding-style.html
-
-Is it about the wrong pinctrl-names tab alignment ?
-Also, 2ND I2S BE => 2ND_I2S_BE ?
-Otherwise, I don't get it sorry.
-
-> 
-> Regards,
-> Angelo
-> 
->> +        pinctrl-names = "aud_default",
->> +            "aud_dmic",
->> +            "aud_miso_off",
->> +            "aud_miso_on",
->> +            "aud_mosi_off",
->> +            "aud_mosi_on";
->> +        pinctrl-0 = <&aud_default_pins>;
->> +        pinctrl-1 = <&aud_dmic_pins>;
->> +        pinctrl-2 = <&aud_miso_off_pins>;
->> +        pinctrl-3 = <&aud_miso_on_pins>;
->> +        pinctrl-4 = <&aud_mosi_off_pins>;
->> +        pinctrl-5 = <&aud_mosi_on_pins>;
->> +        vaud28-supply = <&mt6357_vaud28_reg>;
->> +
->> +        /* hdmi interface */
->> +        dai-link-0 {
->> +            sound-dai = <&afe>;
->> +            link-name = "2ND I2S BE";
->> +
->> +            codec {
->> +                sound-dai = <&it66121hdmitx>;
->> +            };
->> +        };
->> +    };
->>
-> 
-
--- 
-Regards,
-Alexandre
