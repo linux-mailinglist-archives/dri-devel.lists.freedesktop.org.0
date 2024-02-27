@@ -2,57 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E466868585
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 02:06:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19A24868592
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 02:10:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D1CF10F188;
-	Tue, 27 Feb 2024 01:06:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70AA010F218;
+	Tue, 27 Feb 2024 01:10:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=canonical.com header.i=@canonical.com header.b="n+wRXJm9";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="OdMtJ6nX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-relay-canonical-1.canonical.com
- (smtp-relay-canonical-1.canonical.com [185.125.188.121])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AC9510F188
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 01:06:50 +0000 (UTC)
-Received: from [192.168.178.2] (unknown [58.7.187.102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 715913FBB1; 
- Tue, 27 Feb 2024 01:06:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1708996007;
- bh=JPI0TIq/AS3U6NVorLva8uA3bgYOgG/blVsTCa7sRoo=;
- h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
- In-Reply-To:Content-Type;
- b=n+wRXJm9JkMeOwF0boDflNkPPkYPFS4IZHMFq/hxpENkuoEY3U/pS0LFm3SMUF/I2
- VHFHC7PutVal5BLgJpFPE8yqdeJaJ0ZcZTSaLuIRMCY1cEbwdKbQYrHuq2mT/ybWS+
- 9E5Iq5dZ38I/Pu09AhHuxjoZSdDnYHDPgRgS3CIOyWyj41RvdYTkQQyl8pjZtiVtbx
- 1bDxo80mvGuikzBbjV4eoyON1KIGGCO/rTycJZO0eELQi5Wwq9w37p8pw5k6yssUeY
- l1SSoHwHDPDEnXkbM0snl3YQkqm3vgsERNhq5p/KfCf9zD75WLjDBh7Ixt3hYSxMtE
- 34kYJ2O4XzH+w==
-Message-ID: <39ffe230-36ac-484a-8fc1-0a12d6c38d82@canonical.com>
-Date: Tue, 27 Feb 2024 09:06:38 +0800
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com
+ [209.85.210.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEACA10EE72
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 01:10:22 +0000 (UTC)
+Received: by mail-ot1-f48.google.com with SMTP id
+ 46e09a7af769-6e432514155so1853008a34.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 17:10:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1708996221; x=1709601021;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2nONMEgiFSJu48ujRsgQ7k5P30oEYUyNKo29jK5bJDE=;
+ b=OdMtJ6nXjUtA1IiJLsiZTEeXVCTrDGe9RA2EjvBEXqcyVrFiueROLr6tkA1B/ngomL
+ wPqP0v5Jg9RP04qelifWWtx40ryDr/7YHmwBC4STdDEF+Qf3loPOhbJJSW2p5G4ScqDw
+ vy+qZFqRtltapLZwfCpi9bCL5iRaWS9zxiPWw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1708996221; x=1709601021;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=2nONMEgiFSJu48ujRsgQ7k5P30oEYUyNKo29jK5bJDE=;
+ b=D3GMgpHUiTq/XHqMBcovFct82hEi8b/gMnpjWl3jrsinnYBbRsToMEBM4sd9AsmK8P
+ rCVErajBp/I2Q7pKys6XugOhJzTfpcyMcFoFQqGFY4K3DsmIULz6GMcmtroX652lfYf8
+ +9N3s3muFgJiMRr2b+j3LEVL2M2/GLLOo90aLlY8Yh1XYWvzCOE9587CIynUcOGzt0Gy
+ DL0C2u9R9TYIfbJWLc4V1dI6frvnaVKL+JqE9kGcFdig89tjp8l+5yvA6M5PYS7umAiM
+ uVdoWkN44aStubn88tOoi72w+lTP537nQcgWquXQuj9dryaAI4Q10Aaj8hnjZzMB7EDJ
+ TmgA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWhlUhEyrs2B+Xo861Eh5QIaElCFD0HGpcHsdPUg+t0UlxWQCXMhqZyKJsbXI4UpPap1BRxR29fivJV87gui2GJl4QHOmcvMJMhgMZU0hsP
+X-Gm-Message-State: AOJu0Yx/zuAVRXqgeu7xsqqDwQMG8oeF0itE3gcFXdhXyr+uMVZ0C3oH
+ ufki7AlQrPeHS68o+eV0jPZng88OFt1PlgxjyPscNLtiHI0zPy3JX7/3R3+ZTlt+O0+SPp9SgjP
+ 53fqxJeGhX7IZr++f4gd17OV0zvmG8zq4f8YU
+X-Google-Smtp-Source: AGHT+IFws5Kxdb14MQ1Ej+HyXspa2sh+2n9Wu72IIuj/Ruv+O9s0INJzZGTh7MdiL1GKFOMwujxIFZOuAcC7yoIIv08=
+X-Received: by 2002:a9d:6c43:0:b0:6e4:8086:571 with SMTP id
+ g3-20020a9d6c43000000b006e480860571mr8748620otq.26.1708996221486; Mon, 26 Feb
+ 2024 17:10:21 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] fbcon: Defer console takeover for splash screens to
- first switch
-Content-Language: en-US
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Mario Limonciello <mario.limonciello@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Jani Nikula <jani.nikula@intel.com>, Danilo Krummrich <dakr@redhat.com>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Sebastien Bacher <seb128@ubuntu.com>
-References: <20240202085408.23251-1-daniel.van.vugt@canonical.com>
- <20240202085408.23251-2-daniel.van.vugt@canonical.com>
- <7817a2a2-b07d-4e9d-85e6-c11c5720d66e@redhat.com>
-From: Daniel van Vugt <daniel.van.vugt@canonical.com>
-In-Reply-To: <7817a2a2-b07d-4e9d-85e6-c11c5720d66e@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240223223958.3887423-1-hsinyi@chromium.org>
+ <CAA8EJpre_HOY1xzOZPv5gPiJ-kEZEJiEm8oyYzXTiPj66vY8aw@mail.gmail.com>
+In-Reply-To: <CAA8EJpre_HOY1xzOZPv5gPiJ-kEZEJiEm8oyYzXTiPj66vY8aw@mail.gmail.com>
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Mon, 26 Feb 2024 17:09:55 -0800
+Message-ID: <CAJMQK-gfKbdPhYJeCJ5UX0dNrx3y-EmLsTiv9nj+U3Rmej38pw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Match panel hash for overridden mode
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Douglas Anderson <dianders@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,196 +84,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/2/24 02:23, Hans de Goede wrote:
-> Hi All,
-> 
-> On 2/2/24 09:53, Daniel van Vugt wrote:
->> Until now, deferred console takeover only meant defer until there is
->> output. But that risks stepping on the toes of userspace splash screens,
->> as console messages may appear before the splash screen. So check for the
->> "splash" parameter (as used by Plymouth) and if present then extend the
->> deferral until the first switch.
-> 
-> Daniel, thank you for your patch but I do not believe that this
-> is the right solution. Deferring fbcon takeover further then
-> after the first text is output means that any errors about e.g.
-> a corrupt initrd or the kernel erroring out / crashing will not
-> be visible.
+On Mon, Feb 26, 2024 at 4:37=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On Sat, 24 Feb 2024 at 00:40, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
+> >
+> > This series is a follow up for 1a5e81de180e ("Revert "drm/panel-edp: Ad=
+d
+> > auo_b116xa3_mode""). It's found that 2 different AUO panels use the sam=
+e
+> > product id. One of them requires an overridden mode, while the other sh=
+ould
+> > use the mode directly from edid.
+> >
+> > Since product id match is no longer sufficient, EDP_PANEL_ENTRY2 is ext=
+ended
+> > to check the crc hash of the entire edid base block.
+>
+> Do you have these EDIDs posted somewhere? Can we use something less
+> cryptic than hash for matching the panel, e.g. strings from Monitor
+> Descriptors?
+>
 
-That's not really correct. If a boot failure has occurred after the splash then
-pressing escape shows the log. If a boot failure has occurred before the splash
-then it can be debugged visually by rebooting without the "splash" parameter.
+Panel 1:
 
-> 
-> When the kernel e.g. oopses or panics because of not finding
-> its rootfs (I tested the latter option when writing the original
-> deferred fbcon takeover code) then fbcon must takeover and
-> print the messages from the dying kernel so that the user has
-> some notion of what is going wrong.
+00 ff ff ff ff ff ff 00 06 af 5c 40 00 00 00 00
+00 1a 01 04 95 1a 0e 78 02 99 85 95 55 56 92 28
+22 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 12 1b 56 5a 50 00 19 30 30 20
+46 00 00 90 10 00 00 18 00 00 00 0f 00 00 00 00
+00 00 00 00 00 00 00 00 00 20 00 00 00 fe 00 41
+55 4f 0a 20 20 20 20 20 20 20 20 20 00 00 00 fe
+00 42 31 31 36 58 41 4b 30 31 2e 30 20 0a 00 cc
 
-Indeed, just reboot without the "splash" parameter to do that.
+----------------
 
-> 
-> And since your patch seems to delay switching till the first
-> vc-switch this means that e.g. even after say gdm refusing
-> to start because of issues there still will be no text
-> output. This makes debugging various issues much harder.
+Block 0, Base EDID:
+  EDID Structure Version & Revision: 1.4
+  Vendor & Product Identification:
+    Manufacturer: AUO
+    Model: 16476
+    Made in: 2016
+  Basic Display Parameters & Features:
+    Digital display
+    Bits per primary color channel: 6
+    DisplayPort interface
+    Maximum image size: 26 cm x 14 cm
+    Gamma: 2.20
+    Supported color formats: RGB 4:4:4
+    First detailed timing includes the native pixel format and
+preferred refresh rate
+  Color Characteristics:
+    Red  : 0.5839, 0.3330
+    Green: 0.3378, 0.5712
+    Blue : 0.1582, 0.1328
+    White: 0.3134, 0.3291
+  Established Timings I & II: none
+  Standard Timings: none
+  Detailed Timing Descriptors:
+    DTD 1:  1366x768    60.020 Hz 683:384  47.596 kHz   69.300 MHz
+(256 mm x 144 mm)
+                 Hfront   48 Hsync  32 Hback  10 Hpol N
+                 Vfront    4 Vsync   6 Vback  15 Vpol N
+    Manufacturer-Specified Display Descriptor (0x0f): 00 0f 00 00 00
+00 00 00 00 00 00 00 00 00 00 20 '............... '
+    Alphanumeric Data String: 'AUO'
+    Alphanumeric Data String: 'B116XAK01.0 '
+Checksum: 0xcc
 
-I've debugged many gdm failures and it is never useful to use the console for
-those. Reboot and get the system journal instead.
 
-> 
-> Moreover Fedora has been doing flickerfree boot for many
-> years without needing this.
+Panel 2:
 
-I believe Fedora has a mostly working solution, but not totally reliable, as
-mentioned in the commit message:
+00 ff ff ff ff ff ff 00 06 af 5c 40 00 00 00 00
+00 19 01 04 95 1a 0e 78 02 99 85 95 55 56 92 28
+22 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 ce 1d 56 ea 50 00 1a 30 30 20
+46 00 00 90 10 00 00 18 d4 17 56 ea 50 00 1a 30
+30 20 46 00 00 90 10 00 00 18 00 00 00 fe 00 41
+55 4f 0a 20 20 20 20 20 20 20 20 20 00 00 00 fe
+00 42 31 31 36 58 41 4e 30 34 2e 30 20 0a 00 94
 
-"even systems whose splash exists in initrd may not be not immune because they
- still rely on racing against all possible kernel messages that might
- trigger the fbcon takeover"
+----------------
 
-> 
-> The kernel itself will be quiet as long as you set
-> CONFIG_CONSOLE_LOGLEVEL_QUIET=3 Ubuntu atm has set this
-> to 4 which means any kernel pr_err() or dev_err()
-> messages will get through and since there are quite
-> a few false positives of those Ubuntu really needs
-> to set CONFIG_CONSOLE_LOGLEVEL_QUIET=3 to fix part of:
-> https://bugs.launchpad.net/bugs/1970069
+Block 0, Base EDID:
+  EDID Structure Version & Revision: 1.4
+  Vendor & Product Identification:
+    Manufacturer: AUO
+    Model: 16476
+    Made in: 2015
+  Basic Display Parameters & Features:
+    Digital display
+    Bits per primary color channel: 6
+    DisplayPort interface
+    Maximum image size: 26 cm x 14 cm
+    Gamma: 2.20
+    Supported color formats: RGB 4:4:4
+    First detailed timing includes the native pixel format and
+preferred refresh rate
+  Color Characteristics:
+    Red  : 0.5839, 0.3330
+    Green: 0.3378, 0.5712
+    Blue : 0.1582, 0.1328
+    White: 0.3134, 0.3291
+  Established Timings I & II: none
+  Standard Timings: none
+  Detailed Timing Descriptors:
+    DTD 1:  1366x768    60.059824 Hz 683:384   47.688 kHz
+76.300000 MHz (256 mm x 144 mm)
+                 Hfront   48 Hsync  32 Hback  154 Hpol N
+                 Vfront    4 Vsync   6 Vback   16 Vpol N
+    DTD 2:  1366x768    48.016373 Hz 683:384   38.125 kHz
+61.000000 MHz (256 mm x 144 mm)
+                 Hfront   48 Hsync  32 Hback  154 Hpol N
+                 Vfront    4 Vsync   6 Vback   16 Vpol N
+    Alphanumeric Data String: 'AUO'
+    Alphanumeric Data String: 'B116XAN04.0 '
+Checksum: 0x94
 
-Incorrect. In my testing some laptops needed log level as low as 2 to go quiet.
-And the Ubuntu kernel team is never going to fix all those for non-sponsored
-devices.
+In this example, Descriptors can also be used to distinguish. But it's
+possible that the name field is also reused by mistake, for the same
+reason as model id is reused.
 
-> 
-> After that it is "just" a matter of not making userspace
-> output anything unless it has errors to report.
-> 
-> systemd already is quiet by default (only logging
-> errors) when quiet is on the kernel commandline.
 
-Unfortunately not true for Ubuntu. We carry a noisy systemd patch which I'm
-told we can't remove in the short term:
-
-https://bugs.launchpad.net/ubuntu/+source/plymouth/+bug/1970069/comments/39
-
-> 
-> So any remaining issues are Ubuntu specific boot
-> process bits and Ubuntu really should be able to
-> make those by silent unless they have important
-> info (errors or other unexpected things) to report.
-> 
-> Given that this will make debugging boot issues
-> much harder and that there are other IMHO better
-> alternatives I'm nacking this patch: NACK.
-> 
-> FWIW I believe that I'm actually saving Ubuntu
-> from shooting themselves in the foot here,
-> hiding all sort of boot errors (like the initrd
-> not finding /) until the user does a magic
-> alt+f2 followed by alt+f1 incantation really is
-> not doing yourself any favors wrt debugging any
-> sort of boot failures.
-> 
-> Regards,
-> 
-> Hans
-
-Thanks for your input, but I respectfully disagree and did consider these
-points already.
-
-- Daniel
-
-> 
-> 
-> 
-> 
-> 
->> Closes: https://bugs.launchpad.net/bugs/1970069
->> Cc: Mario Limonciello <mario.limonciello@amd.com>
->> Signed-off-by: Daniel van Vugt <daniel.van.vugt@canonical.com>
->> ---
->>  drivers/video/fbdev/core/fbcon.c | 32 +++++++++++++++++++++++++++++---
->>  1 file changed, 29 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
->> index 63af6ab034..5b9f7635f7 100644
->> --- a/drivers/video/fbdev/core/fbcon.c
->> +++ b/drivers/video/fbdev/core/fbcon.c
->> @@ -76,6 +76,7 @@
->>  #include <linux/crc32.h> /* For counting font checksums */
->>  #include <linux/uaccess.h>
->>  #include <asm/irq.h>
->> +#include <asm/cmdline.h>
->>  
->>  #include "fbcon.h"
->>  #include "fb_internal.h"
->> @@ -146,6 +147,7 @@ static inline void fbcon_map_override(void)
->>  
->>  #ifdef CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER
->>  static bool deferred_takeover = true;
->> +static int initial_console = -1;
->>  #else
->>  #define deferred_takeover false
->>  #endif
->> @@ -3341,7 +3343,7 @@ static void fbcon_register_existing_fbs(struct work_struct *work)
->>  	console_unlock();
->>  }
->>  
->> -static struct notifier_block fbcon_output_nb;
->> +static struct notifier_block fbcon_output_nb, fbcon_switch_nb;
->>  static DECLARE_WORK(fbcon_deferred_takeover_work, fbcon_register_existing_fbs);
->>  
->>  static int fbcon_output_notifier(struct notifier_block *nb,
->> @@ -3358,6 +3360,21 @@ static int fbcon_output_notifier(struct notifier_block *nb,
->>  
->>  	return NOTIFY_OK;
->>  }
->> +
->> +static int fbcon_switch_notifier(struct notifier_block *nb,
->> +				 unsigned long action, void *data)
->> +{
->> +	struct vc_data *vc = data;
->> +
->> +	WARN_CONSOLE_UNLOCKED();
->> +
->> +	if (vc->vc_num != initial_console) {
->> +		dummycon_unregister_switch_notifier(&fbcon_switch_nb);
->> +		dummycon_register_output_notifier(&fbcon_output_nb);
->> +	}
->> +
->> +	return NOTIFY_OK;
->> +}
->>  #endif
->>  
->>  static void fbcon_start(void)
->> @@ -3370,7 +3387,14 @@ static void fbcon_start(void)
->>  
->>  	if (deferred_takeover) {
->>  		fbcon_output_nb.notifier_call = fbcon_output_notifier;
->> -		dummycon_register_output_notifier(&fbcon_output_nb);
->> +		fbcon_switch_nb.notifier_call = fbcon_switch_notifier;
->> +		initial_console = fg_console;
->> +
->> +		if (cmdline_find_option_bool(boot_command_line, "splash"))
->> +			dummycon_register_switch_notifier(&fbcon_switch_nb);
->> +		else
->> +			dummycon_register_output_notifier(&fbcon_output_nb);
->> +
->>  		return;
->>  	}
->>  #endif
->> @@ -3417,8 +3441,10 @@ void __exit fb_console_exit(void)
->>  {
->>  #ifdef CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER
->>  	console_lock();
->> -	if (deferred_takeover)
->> +	if (deferred_takeover) {
->>  		dummycon_unregister_output_notifier(&fbcon_output_nb);
->> +		dummycon_unregister_switch_notifier(&fbcon_switch_nb);
->> +	}
->>  	console_unlock();
->>  
->>  	cancel_work_sync(&fbcon_deferred_takeover_work);
-> 
+> >
+> > Hsin-Yi Wang (2):
+> >   drm_edid: Add a function to get EDID base block
+> >   drm/panel: panel-edp: Match with panel hash for overridden modes
+> >
+> >  drivers/gpu/drm/drm_edid.c        | 55 +++++++++++++++-------------
+> >  drivers/gpu/drm/panel/panel-edp.c | 60 ++++++++++++++++++++++++++-----
+> >  include/drm/drm_edid.h            |  3 +-
+> >  3 files changed, 84 insertions(+), 34 deletions(-)
+> >
+> > --
+> > 2.44.0.rc0.258.g7320e95886-goog
+> >
+>
+>
+> --
+> With best wishes
+> Dmitry
