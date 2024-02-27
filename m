@@ -2,47 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09923869FE2
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 20:08:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF20586A049
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 20:35:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29C6710E97F;
-	Tue, 27 Feb 2024 19:08:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D7C210E53F;
+	Tue, 27 Feb 2024 19:35:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="AXdeofrm";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CAWLWCPY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3A3610E9A7;
- Tue, 27 Feb 2024 19:08:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
- Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=wTGx11RonX+yWcXjOmaJVOP9Ie5hGpQbavdwu2FkREo=; b=AXdeofrmlHTisG8Q1+P4DbKkiL
- qp8PVv+dK5bGWUbL3PxnqMqYiiDaDwsp6CClVGo5yZHRGRNk0jLDGcKdEgejBjOwcHxfu/h9C8Wlv
- +O+uS0qWMAiHaPJ+sfFfDa1uTC2Jn40Lb3aUxaKJQ2ThupYMYN2O/JPkapOyBZ+3siwVfhQfWey/a
- 1Ex7Z0lbc5E07CCc/3ubNRg7xse1NaPb/vzeCsGM0b4cH23IN9eWNbtgqsQIiwdhf4t8algzpu35b
- PVaJfwIFiD5zoKD+wAF2ZcEX7zFUO8/3LiE8MRgf6ymGJ/rg5SLtrPbc+W4vPNLJjVEUVRg1plz1W
- CJETI/gQ==;
-Received: from [189.6.17.125] (helo=killbill.home)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1rf2od-0040n4-8d; Tue, 27 Feb 2024 20:08:35 +0100
-From: Melissa Wen <mwen@igalia.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-Subject: [PATCH] drm/amd/display: check dc_link before dereferencing
-Date: Tue, 27 Feb 2024 16:08:25 -0300
-Message-ID: <20240227190828.444715-1-mwen@igalia.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E918310E50D;
+ Tue, 27 Feb 2024 19:35:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709062529; x=1740598529;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=EqYImp9gtBVxiVchOmb4nc3lf6aUa1fGHNdsKThCpKg=;
+ b=CAWLWCPYT6KhgwLdHUFOT9LCZBOTU7vNHtrUtmu7zZ2+DgYQLs7zJkxl
+ 9Rp+wB1Gqc60AbcamW42eHVHMfQVupHGecULvPgiiH++bkH4Fg+98hKA0
+ yb50QvQeHays86Vnar1zMBkfUeqnSgHwPRoFq1OEhNao/nhGAStaY61rd
+ ux3icEFG0bDe0loKZovuJzCMr6/o4+4f3pyP3/rn0V7Sq1/aF1eMmDt6q
+ TTV0XZgOf9OCogsZ/46BoWVWkggwaAeEXgMshNGCgUKNBgcKctv8kjRnr
+ r9Yxi5rN2ai3eyxrRCU83SfSfU5Lh2bRfch8ryVJ7swnUzJdGMJvCdcDU w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="6377133"
+X-IronPort-AV: E=Sophos;i="6.06,188,1705392000"; 
+   d="scan'208";a="6377133"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2024 11:35:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="827770856"
+X-IronPort-AV: E=Sophos;i="6.06,188,1705392000"; d="scan'208";a="827770856"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga001.jf.intel.com with SMTP; 27 Feb 2024 11:35:24 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 27 Feb 2024 21:35:23 +0200
+From: Ville Syrjala <ville.syrjala@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, Simon Ser <contact@emersion.fr>,
+ =?UTF-8?q?Jonas=20=C3=85dahl?= <jadahl@redhat.com>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Sameer Lattannavar <sameer.lattannavar@intel.com>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: [PATCH v2 0/2] drm: Add plane SIZE_HINTS property
+Date: Tue, 27 Feb 2024 21:35:21 +0200
+Message-ID: <20240227193523.5601-1-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,29 +71,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6683 amdgpu_dm_connector_funcs_force()
-warn: variable dereferenced before check 'dc_link' (see line 6663)
+From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Fixes: 967176179215 ("drm/amd/display: fix null-pointer dereference on edid reading")
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Signed-off-by: Melissa Wen <mwen@igalia.com>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Final version for a new plane SIZE_HINTS property to
+essentially replace the cursor size caps, based on recent
+discussion in this gitlab bug:
+https://gitlab.freedesktop.org/drm/intel/-/issues/7687
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 32efce81a5a7..46dd06e8fc7e 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -6653,7 +6653,7 @@ static void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
- 	struct edid *edid;
- 	struct i2c_adapter *ddc;
- 
--	if (dc_link->aux_mode)
-+	if (dc_link && dc_link->aux_mode)
- 		ddc = &aconnector->dm_dp_aux.aux.ddc;
- 	else
- 		ddc = &aconnector->i2c->base;
+As for userspace, so far I only did a quick modetest
+blob decoder (mainly to verify that it looks correct):
+https://gitlab.freedesktop.org/vsyrjala/libdrm/-/commits/plane_size_hints
+
+Sameer & co. have done a real mutter implementation:
+https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/3165
+
+This final version follows the original idea of having
+just a list of sizes in a blob, rather than the mode
+complex "2D bitmap" approach I also proposed later.
+I think that's fair, the bitmap was probably overly
+complicated.
+
+The only difference to the previous version of this approach
+is that the documentation now states that the list is sorted
+in order of preference, and thus userspace should pick the
+first suitable size from the list. This should match the
+aforementioned mutter implementation.
+
+Cc: Simon Ser <contact@emersion.fr>
+Cc: Jonas Ådahl <jadahl@redhat.com>
+Cc: Daniel Stone <daniel@fooishbar.org>
+Cc: Sameer Lattannavar <sameer.lattannavar@intel.com>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+
+Ville Syrjälä (2):
+  drm: Introduce plane SIZE_HINTS property
+  drm/i915: Add SIZE_HINTS property for cursors
+
+ drivers/gpu/drm/drm_mode_config.c           |  7 +++
+ drivers/gpu/drm/drm_plane.c                 | 52 +++++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_cursor.c | 24 ++++++++++
+ include/drm/drm_mode_config.h               |  5 ++
+ include/drm/drm_plane.h                     |  4 ++
+ include/uapi/drm/drm_mode.h                 | 11 +++++
+ 6 files changed, 103 insertions(+)
+
 -- 
 2.43.0
 
