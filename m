@@ -2,52 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 377C786A04F
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 20:36:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBEEA86A09D
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 21:01:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 505FA10E1AD;
-	Tue, 27 Feb 2024 19:36:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEF1A10E259;
+	Tue, 27 Feb 2024 20:01:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Mbbtdei5";
+	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="ekH4nyvL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26ACC10E98E;
- Tue, 27 Feb 2024 19:36:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709062572; x=1740598572;
- h=date:from:to:cc:subject:message-id;
- bh=t+gq8A6ziXURV723j83efeTzY1oWZAvqFy77PEToBAU=;
- b=Mbbtdei5QWhx4euVQUSroE8+mYr1UAUVbyvive+yYeh0JqeVeaN5pcMF
- GFR9nuCF4t2cGVfOWiruiRMPD6wJA0NRyOf76q3X+L865Bv7Ej4xmaUGt
- 9tbzxkATBnbcrfmV4g/3MtSLmHhlgxE0/J/aBxpKBIyn5SKJwM1RH6v2x
- MQEDGmcq0jNNqC9sC6OqRU2UfuIjFud1QhqXUpM5Kp1dVu0SZxGxYeGx2
- Yh7Cr2Rp26qXB5XFfkA0Zu9rQCqcvCObQLt1dJcG/yUCIpbwLhnTzOfrk
- mku6p0lABwideWerxFrOiMaSS1COtS5G+mVN9mhjQEc+OOD2daMzk2yD5 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="14067735"
-X-IronPort-AV: E=Sophos;i="6.06,188,1705392000"; d="scan'208";a="14067735"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2024 11:36:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,188,1705392000"; d="scan'208";a="11770449"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
- by fmviesa004.fm.intel.com with ESMTP; 27 Feb 2024 11:36:10 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rf3FH-000BTb-2U;
- Tue, 27 Feb 2024 19:36:07 +0000
-Date: Wed, 28 Feb 2024 03:35:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Linux Memory Management List <linux-mm@kvack.org>,
- dri-devel@lists.freedesktop.org, linux-mtd@lists.infradead.org,
- nouveau@lists.freedesktop.org
-Subject: [linux-next:master] BUILD REGRESSION
- 22ba90670a51a18c6b36d285fddf92b9887c0bc3
-Message-ID: <202402280351.qFQ2V2tO-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFF2110E259
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 20:01:28 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4TkpK365ywzDqSr;
+ Tue, 27 Feb 2024 20:01:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1709064088; bh=vmR4dIKhoSX8635LCRCEUUdcaKUFX4ukfyHHMirTY98=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=ekH4nyvLUQ5EOervJs9Z0xx29WGijK2KW0peRVIKcM3vzzJfIFpb2ZD3P8BR67PsG
+ 63U082hHouYUljPTHfT9UMejIAJAhfPtURduRdTUvdpA+McDwmFzFqcNIsMNaW2rTN
+ wAVgcadUal87ICRnN0am2x+Y6X/djfnCZjQ4UJo8=
+X-Riseup-User-ID: 7F6E206D49ECB5C6BB751B109C13E980F53C3D2B43A20E6F61CC74B6010DDF58
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4TkpJy0zmZzJrWB;
+ Tue, 27 Feb 2024 20:01:21 +0000 (UTC)
+Message-ID: <b23da076-0bfb-48b2-9386-383a6dec1868@riseup.net>
+Date: Tue, 27 Feb 2024 17:01:18 -0300
+MIME-Version: 1.0
+Subject: Re: [PATCH v2 6/9] drm/vkms: Add YUV support
+Content-Language: en-US
+To: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ thomas.petazzoni@bootlin.com
+References: <20240223-yuv-v2-0-aa6be2827bb7@bootlin.com>
+ <20240223-yuv-v2-6-aa6be2827bb7@bootlin.com>
+ <20240226141916.1627bbbd.pekka.paalanen@collabora.com>
+ <Zd35c_CJbhY46TjQ@localhost.localdomain>
+From: Arthur Grillo <arthurgrillo@riseup.net>
+In-Reply-To: <Zd35c_CJbhY46TjQ@localhost.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,238 +70,377 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 22ba90670a51a18c6b36d285fddf92b9887c0bc3  Add linux-next specific files for 20240227
 
-Error/Warning reports:
 
-https://lore.kernel.org/oe-kbuild-all/202402271629.7zZU8sCF-lkp@intel.com
+On 27/02/24 12:02, Louis Chauvet wrote:
+> Hi Pekka,
+> 
+> For all the comment related to the conversion part, maybe Arthur have an 
+> opinion on it, I took his patch as a "black box" (I did not want to 
+> break (and debug) it).
+> 
+> Le 26/02/24 - 14:19, Pekka Paalanen a écrit :
+>> On Fri, 23 Feb 2024 12:37:26 +0100
+>> Louis Chauvet <louis.chauvet@bootlin.com> wrote:
+>>
+>>> From: Arthur Grillo <arthurgrillo@riseup.net>
+>>>
+>>> Add support to the YUV formats bellow:
+>>>
+>>> - NV12
+>>> - NV16
+>>> - NV24
+>>> - NV21
+>>> - NV61
+>>> - NV42
+>>> - YUV420
+>>> - YUV422
+>>> - YUV444
+>>> - YVU420
+>>> - YVU422
+>>> - YVU444
+>>>
+>>> The conversion matrices of each encoding and range were obtained by
+>>> rounding the values of the original conversion matrices multiplied by
+>>> 2^8. This is done to avoid the use of fixed point operations.
+>>>
+>>> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+>>> [Louis Chauvet: Adapted Arthur's work and implemented the read_line_t
+>>> callbacks for yuv formats]
+>>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+>>> ---
+>>>  drivers/gpu/drm/vkms/vkms_composer.c |   2 +-
+>>>  drivers/gpu/drm/vkms/vkms_drv.h      |   6 +-
+>>>  drivers/gpu/drm/vkms/vkms_formats.c  | 289 +++++++++++++++++++++++++++++++++--
+>>>  drivers/gpu/drm/vkms/vkms_formats.h  |   4 +
+>>>  drivers/gpu/drm/vkms/vkms_plane.c    |  14 +-
+>>>  5 files changed, 295 insertions(+), 20 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+>>> index e555bf9c1aee..54fc5161d565 100644
+>>> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+>>> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+>>> @@ -312,7 +312,7 @@ static void blend(struct vkms_writeback_job *wb,
+>>>  			 * buffer [1]
+>>>  			 */
+>>>  			current_plane->pixel_read_line(
+>>> -				current_plane->frame_info,
+>>> +				current_plane,
+>>>  				x_start,
+>>>  				y_start,
+>>>  				direction,
+>>> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+>>> index ccc5be009f15..a4f6456cb971 100644
+>>> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+>>> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+>>> @@ -75,6 +75,8 @@ enum pixel_read_direction {
+>>>  	READ_RIGHT
+>>>  };
+>>>  
+>>> +struct vkms_plane_state;
+>>> +
+>>>  /**
+>>>  <<<<<<< HEAD
+>>>   * typedef pixel_read_line_t - These functions are used to read a pixel line in the source frame,
+>>> @@ -87,8 +89,8 @@ enum pixel_read_direction {
+>>>   * @out_pixel: Pointer where to write the pixel value. Pixels will be written between x_start and
+>>>   *  x_end.
+>>>   */
+>>> -typedef void (*pixel_read_line_t)(struct vkms_frame_info *frame_info, int x_start, int y_start, enum
+>>> -	pixel_read_direction direction, int count, struct pixel_argb_u16 out_pixel[]);
+>>> +typedef void (*pixel_read_line_t)(struct vkms_plane_state *frame_info, int x_start, int y_start,
+>>> +	enum pixel_read_direction direction, int count, struct pixel_argb_u16 out_pixel[]);
+>>
+>> This is the second or third time in this one series changing this type.
+>> Could you not do the change once, in its own patch if possible?
+> 
+> Sorry, this is not a change here, but a wrong formatting (missed when 
+> rebasing).
+> 
+> Do you think that it make sense to re-order my patches and put this 
+> typedef at the end? This way it is never updated.
+> 
+>>>  
+>>>  /**
+>>>   * vkms_plane_state - Driver specific plane state
+>>> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+>>> index 46daea6d3ee9..515c80866a58 100644
+>>> --- a/drivers/gpu/drm/vkms/vkms_formats.c
+>>> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+>>> @@ -33,7 +33,8 @@ static size_t packed_pixels_offset(const struct vkms_frame_info *frame_info, int
+>>>  	 */
+>>>  	return fb->offsets[plane_index] +
+>>>  	       (y / drm_format_info_block_width(format, plane_index)) * fb->pitches[plane_index] +
+>>> -	       (x / drm_format_info_block_height(format, plane_index)) * format->char_per_block[plane_index];
+>>> +	       (x / drm_format_info_block_height(format, plane_index)) *
+>>> +	       format->char_per_block[plane_index];
+>>
+>> Shouldn't this be in the patch that added this code in the first place?
+> 
+> Same as above, a wrong formatting, I will remove this change and keep 
+> everything on one line (even if it's more than 100 chars, it is easier to 
+> read).
+> 
+>>>  }
+>>>  
+>>>  /**
+>>> @@ -84,6 +85,32 @@ static int get_step_1x1(struct drm_framebuffer *fb, enum pixel_read_direction di
+>>>  	}
+>>>  }
+>>>  
+>>> +/**
+>>> + * get_subsampling() - Get the subsampling value on a specific direction
+>>
+>> subsampling divisor
+> 
+> Thanks for this precision.
+> 
+>>> + */
+>>> +static int get_subsampling(const struct drm_format_info *format,
+>>> +			   enum pixel_read_direction direction)
+>>> +{
+>>> +	if (direction == READ_LEFT || direction == READ_RIGHT)
+>>> +		return format->hsub;
+>>> +	else if (direction == READ_DOWN || direction == READ_UP)
+>>> +		return format->vsub;
+>>> +	return 1;
+>>
+>> In this and the below function, personally I'd prefer switch-case, with
+>> a cannot-happen-scream after the switch, so the compiler can warn about
+>> unhandled enum values.
+> 
+> As for the previous patch, I did not know about this compiler feature, 
+> thanks!
+> 
+>>> +}
+>>> +
+>>> +/**
+>>> + * get_subsampling_offset() - Get the subsampling offset to use when incrementing the pixel counter
+>>> + */
+>>> +static int get_subsampling_offset(const struct drm_format_info *format,
+>>> +				  enum pixel_read_direction direction, int x_start, int y_start)
+>>
+>> 'start' values as "increments" for a pixel counter? Is something
+>> misnamed here?
+>>
+>> Is it an increment or an offset?
+> 
+> I don't really know how to name the function. I'm open to suggestions
+> x_start and y_start are really the coordinate of the starting reading point.
+> 
+> To explain what it does:
+> 
+> When using subsampling, you have to read the next pixel of planes[1..4] 
+> not at the same "speed" as plane[0]. But I can't only rely on 
+> "read_pixel_count % subsampling == 0", because it means that the pixel 
+> incrementation on planes[1..4] may not be aligned with the buffer (if 
+> hsub=2 and the start pixel is 1, I need to increment planes[1..4] only 
+> for x=2,4,6... not 1,3,5...).
+> 
+> A way to ensure this is to add an "offset" to count, which ensure that the 
+> count % subsampling == 0 on the correct pixel.
+> 
+> I made an error, the switch case must be (as count is always counting up, 
+> for "inverted" reading direction a negative number ensure that 
+> %subsampling == 0 on the correct pixel):
+> 
+> 	switch (direction) {
+> 	case READ_UP:
+> 		return -y_start;
+> 	case READ_DOWN:
+> 		return y_start;
+> 	case READ_LEFT:
+> 		return -x_start;
+> 	case READ_RIGHT:
+> 		return x_start;
+> 	}
+> 
+>>> +{
+>>> +	if (direction == READ_RIGHT || direction == READ_LEFT)
+>>> +		return x_start;
+>>> +	else if (direction == READ_DOWN || direction == READ_UP)
+>>> +		return y_start;
+>>> +	return 0;
+>>> +}
+>>> +
+> 
+> [...]
+> 
+>>> +static void yuv_u8_to_argb_u16(struct pixel_argb_u16 *argb_u16, const struct pixel_yuv_u8 *yuv_u8,
+>>> +			       enum drm_color_encoding encoding, enum drm_color_range range)
+>>> +{
+>>> +	static const s16 bt601_full[3][3] = {
+>>> +		{ 256, 0,   359 },
+>>> +		{ 256, -88, -183 },
+>>> +		{ 256, 454, 0 },
+>>> +	};
+> 
+> [...]
+> 
+>>> +
+>>> +	u8 r = 0;
+>>> +	u8 g = 0;
+>>> +	u8 b = 0;
+>>> +	bool full = range == DRM_COLOR_YCBCR_FULL_RANGE;
+>>> +	unsigned int y_offset = full ? 0 : 16;
+>>> +
+>>> +	switch (encoding) {
+>>> +	case DRM_COLOR_YCBCR_BT601:
+>>> +		ycbcr2rgb(full ? bt601_full : bt601,
+>>
+>> Doing all these conditional again pixel by pixel is probably
+>> inefficient. Just like with the line reading functions, you could pick
+>> the matrix in advance.
+> 
+> I don't think the performance impact is huge (it's only a pair of if), but 
+> yes, it's an easy optimization. 
+> 
+> I will create a conversion_matrix structure:
+> 
+> 	struct conversion_matrix {
+> 		s16 matrix[3][3];
+> 		u16 y_offset;
+> 	}
+> 
+> I will create a `get_conversion_matrix_to_argb_u16` function to get this 
+> structure from a format+encoding+range.
+> 
+> I will also add a field `conversion_matrix` in struct vkms_plane_state to 
+> get this matrix only once per plane setup.
+> 
+> 
+>>> +			  yuv_u8->y, yuv_u8->u, yuv_u8->v, y_offset, &r, &g, &b);
+>>> +		break;
+>>> +	case DRM_COLOR_YCBCR_BT709:
+>>> +		ycbcr2rgb(full ? rec709_full : rec709,
+>>> +			  yuv_u8->y, yuv_u8->u, yuv_u8->v, y_offset, &r, &g, &b);
+>>> +		break;
+>>> +	case DRM_COLOR_YCBCR_BT2020:
+>>> +		ycbcr2rgb(full ? bt2020_full : bt2020,
+>>> +			  yuv_u8->y, yuv_u8->u, yuv_u8->v, y_offset, &r, &g, &b);
+>>> +		break;
+>>> +	default:
+>>> +		pr_warn_once("Not supported color encoding\n");
+>>> +		break;
+>>> +	}
+>>> +
+>>> +	argb_u16->r = r * 257;
+>>> +	argb_u16->g = g * 257;
+>>> +	argb_u16->b = b * 257;
+>>
+>> I wonder. Using 8-bit fixed point precision seems quite coarse for
+>> 8-bit pixel formats, and it's going to be insufficient for higher bit
+>> depths. Was supporting e.g. 10-bit YUV considered? There is even
+>> deeper, too, like DRM_FORMAT_P016.
+> 
+> It's a good point, as I explained above, I took the conversion part as a 
+> "black box" to avoid breaking (and debugging) stuff. I think it's easy to 
+> switch to s32 bits matrix with 16.16 bits (or anything with more than 16 bits in 
+> the float part).
+> 
+> Maybe Arthur have an opinion on this?
 
-Error/Warning: (recently discovered and may have been fixed)
+Yeah, I too don't see why not we could do that. The 8-bit precision was
+sufficient for those formats, but as well noted by Pekka this could be a
+problem for higher bit depths. I just need to make my terrible python
+script spit those values XD.
 
-WARNING: modpost: vmlinux: section mismatch in reference: virtio_fs_init+0x8c (section: .init.text) -> map_benchmark_cleanup (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: virtio_fs_init+0xdc (section: .init.text) -> sq_api_exit (section: .exit.text)
+> Just to be sure, the DRM subsystem don't have such matrix somewhere? It 
+> can be nice to avoid duplicating them.
 
-Unverified Error/Warning (likely false positive, please contact us if interested):
+As to my knowledge it does not exist on DRM, I think those are normally
+on the hardware itself (*please* correct me if I'm wrong).
 
-{standard input}:1474: Error: unknown pseudo-op: `.l141'
+But, v4l2 has a similar table on
+drivers/media/common/v4l2-tpg/v4l2-tpg-core.c (Actually, I started my
+code based on this), unfortunately it's only 8-bit too.
 
-Error/Warning ids grouped by kconfigs:
+Best Regards,
+~Arthur Grillo
 
-gcc_recent_errors
-|-- arc-randconfig-001-20240227
-|   `-- fs-ubifs-journal.c:warning:expecting-prototype-for-wake_up_reservation().-Prototype-was-for-add_or_start_queue()-instead
-|-- arm-randconfig-002-20240227
-|   `-- fs-ubifs-journal.c:warning:expecting-prototype-for-wake_up_reservation().-Prototype-was-for-add_or_start_queue()-instead
-|-- arm64-defconfig
-|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
-|   `-- fs-ubifs-journal.c:warning:expecting-prototype-for-wake_up_reservation().-Prototype-was-for-add_or_start_queue()-instead
-|-- i386-buildonly-randconfig-002-20240227
-|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
-|-- parisc-defconfig
-|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
-|-- parisc64-defconfig
-|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
-|-- sh-buildonly-randconfig-r003-20230528
-|   `-- WARNING:modpost:vmlinux:section-mismatch-in-reference:virtio_fs_init-(section:.init.text)-map_benchmark_cleanup-(section:.exit.text)
-|-- sh-randconfig-r003-20230713
-|   `-- standard-input:Error:unknown-pseudo-op:l141
-`-- sh-randconfig-r004-20220501
-    `-- WARNING:modpost:vmlinux:section-mismatch-in-reference:virtio_fs_init-(section:.init.text)-sq_api_exit-(section:.exit.text)
-clang_recent_errors
-|-- hexagon-allmodconfig
-|   `-- fs-ubifs-journal.c:warning:expecting-prototype-for-wake_up_reservation().-Prototype-was-for-add_or_start_queue()-instead
-|-- hexagon-allyesconfig
-|   `-- fs-ubifs-journal.c:warning:expecting-prototype-for-wake_up_reservation().-Prototype-was-for-add_or_start_queue()-instead
-`-- riscv-defconfig
-    `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
-
-elapsed time: 724m
-
-configs tested: 179
-configs skipped: 3
-
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20240227   gcc  
-arc                   randconfig-002-20240227   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                        keystone_defconfig   gcc  
-arm                        multi_v7_defconfig   gcc  
-arm                   randconfig-001-20240227   gcc  
-arm                   randconfig-002-20240227   gcc  
-arm                   randconfig-003-20240227   gcc  
-arm                   randconfig-004-20240227   gcc  
-arm                           tegra_defconfig   gcc  
-arm                    vt8500_v6_v7_defconfig   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240227   clang
-arm64                 randconfig-002-20240227   gcc  
-arm64                 randconfig-003-20240227   gcc  
-arm64                 randconfig-004-20240227   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240227   gcc  
-csky                  randconfig-002-20240227   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20240227   clang
-hexagon               randconfig-002-20240227   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240227   gcc  
-i386         buildonly-randconfig-002-20240227   gcc  
-i386         buildonly-randconfig-003-20240227   clang
-i386         buildonly-randconfig-004-20240227   gcc  
-i386         buildonly-randconfig-005-20240227   gcc  
-i386         buildonly-randconfig-006-20240227   gcc  
-i386                                defconfig   clang
-i386                  randconfig-001-20240227   gcc  
-i386                  randconfig-002-20240227   gcc  
-i386                  randconfig-003-20240227   clang
-i386                  randconfig-004-20240227   clang
-i386                  randconfig-005-20240227   clang
-i386                  randconfig-006-20240227   gcc  
-i386                  randconfig-011-20240227   clang
-i386                  randconfig-012-20240227   clang
-i386                  randconfig-013-20240227   clang
-i386                  randconfig-014-20240227   clang
-i386                  randconfig-015-20240227   clang
-i386                  randconfig-016-20240227   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240227   gcc  
-loongarch             randconfig-002-20240227   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                         amcore_defconfig   gcc  
-m68k                       bvme6000_defconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                       bmips_be_defconfig   gcc  
-mips                           ci20_defconfig   clang
-mips                         cobalt_defconfig   gcc  
-mips                     loongson2k_defconfig   gcc  
-mips                      malta_kvm_defconfig   gcc  
-mips                malta_qemu_32r6_defconfig   gcc  
-mips                           xway_defconfig   clang
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240227   gcc  
-nios2                 randconfig-002-20240227   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20240227   gcc  
-parisc                randconfig-002-20240227   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc               randconfig-001-20240227   clang
-powerpc               randconfig-002-20240227   gcc  
-powerpc               randconfig-003-20240227   clang
-powerpc                     tqm8548_defconfig   clang
-powerpc64             randconfig-001-20240227   clang
-powerpc64             randconfig-002-20240227   gcc  
-powerpc64             randconfig-003-20240227   gcc  
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-riscv                 randconfig-001-20240227   gcc  
-riscv                 randconfig-002-20240227   clang
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-s390                  randconfig-001-20240227   gcc  
-s390                  randconfig-002-20240227   clang
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                    randconfig-001-20240227   gcc  
-sh                    randconfig-002-20240227   gcc  
-sh                           sh2007_defconfig   gcc  
-sh                        sh7757lcr_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240227   gcc  
-sparc64               randconfig-002-20240227   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20240227   clang
-um                    randconfig-002-20240227   clang
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240227   clang
-x86_64       buildonly-randconfig-002-20240227   gcc  
-x86_64       buildonly-randconfig-003-20240227   clang
-x86_64       buildonly-randconfig-004-20240227   clang
-x86_64       buildonly-randconfig-005-20240227   clang
-x86_64       buildonly-randconfig-006-20240227   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20240227   clang
-x86_64                randconfig-002-20240227   clang
-x86_64                randconfig-003-20240227   gcc  
-x86_64                randconfig-004-20240227   gcc  
-x86_64                randconfig-005-20240227   gcc  
-x86_64                randconfig-006-20240227   gcc  
-x86_64                randconfig-011-20240227   gcc  
-x86_64                randconfig-012-20240227   gcc  
-x86_64                randconfig-013-20240227   clang
-x86_64                randconfig-014-20240227   gcc  
-x86_64                randconfig-015-20240227   gcc  
-x86_64                randconfig-016-20240227   gcc  
-x86_64                randconfig-071-20240227   gcc  
-x86_64                randconfig-072-20240227   clang
-x86_64                randconfig-073-20240227   gcc  
-x86_64                randconfig-074-20240227   clang
-x86_64                randconfig-075-20240227   clang
-x86_64                randconfig-076-20240227   clang
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
-xtensa                randconfig-001-20240227   gcc  
-xtensa                randconfig-002-20240227   gcc  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+>>> +} + /* * The following functions are read_line function for each
+>>> pixel format supported by VKMS. * @@ -142,13 +250,13 @@ static void
+>>> RGB565_to_argb_u16(struct pixel_argb_u16 *out_pixel, const u16 *pixe
+>>> * [1]:
+>>> https://lore.kernel.org/dri-devel/d258c8dc-78e9-4509-9037-a98f7f33b3a3@riseup.net/
+>>> */
+>>>  
+>>> -static void ARGB8888_read_line(struct vkms_frame_info *frame_info,
+>>> int x_start, int y_start, +static void ARGB8888_read_line(struct
+>>> vkms_plane_state *plane, int x_start, int y_start, enum
+>>> pixel_read_direction direction, int count, struct pixel_argb_u16
+>>> out_pixel[]) { -	u8 *src_pixels = packed_pixels_addr(frame_info,
+>>> x_start, y_start, 0); +	u8 *src_pixels =
+>>> packed_pixels_addr(plane->frame_info, x_start, y_start, 0);
+>>>  
+>>> -	int step = get_step_1x1(frame_info->fb, direction, 0); +
+>>> int step = get_step_1x1(plane->frame_info->fb, direction, 0);
+>>
+>> These are the kind of changes I would not expect to see in a patch
+>> adding YUV support. There are a lot of them, too.
+> 
+> I will put it directly this change in PATCHv2 5/9.
+> 
+> [...]
+> 
+>>> +static void semi_planar_yuv_read_line(struct vkms_plane_state
+>>> *plane, int x_start, int y_start, +
+>>> enum pixel_read_direction direction, int count, +
+>>> struct pixel_argb_u16 out_pixel[]) +{ +	u8 *y_plane =
+>>> packed_pixels_addr(plane->frame_info, x_start, y_start, 0); +
+>>> u8 *uv_plane = packed_pixels_addr(plane->frame_info, +
+>>> x_start / plane->frame_info->fb->format->hsub, +
+>>> y_start / plane->frame_info->fb->format->vsub, +
+>>> 1); +	struct pixel_yuv_u8 yuv_u8; +	int step_y =
+>>> get_step_1x1(plane->frame_info->fb, direction, 0); +	int
+>>> step_uv = get_step_1x1(plane->frame_info->fb, direction, 1); +
+>>> int subsampling = get_subsampling(plane->frame_info->fb->format,
+>>> direction); +	int subsampling_offset =
+>>> get_subsampling_offset(plane->frame_info->fb->format, direction, +
+>>> x_start, y_start); // 0 + +	for (int i = 0; i < count; i++) { +
+>>> yuv_u8.y = y_plane[0]; +		yuv_u8.u = uv_plane[0]; +
+>>> yuv_u8.v = uv_plane[1]; + +		yuv_u8_to_argb_u16(out_pixel,
+>>> &yuv_u8, plane->base.base.color_encoding, +
+>>> plane->base.base.color_range);
+>>
+>> Oh, so this was the reason to change the read-line function
+>> signature. Maybe just stash a pointer to the right matrix and the
+>> right y_offset in frame_info instead?
+> 
+> Yes, that why I changed the signature. I think I will keep this
+> signature and put the conversion_matrix inside the vkms_plane_state,
+> for me it make more sense to have pixel_read_line and
+> conversion_matrix in the same structure.
+> 
+>>> +		out_pixel += 1; +		y_plane += step_y; +
+>>> if ((i + subsampling_offset + 1) % subsampling == 0) +
+>>> uv_plane += step_uv; +	} +} + +static void
+>>> semi_planar_yvu_read_line(struct vkms_plane_state *plane, int
+>>> x_start, int y_start, +				      enum
+>>> pixel_read_direction direction, int count, +
+>>> struct pixel_argb_u16 out_pixel[]) +{ +	u8 *y_plane =
+>>> packed_pixels_addr(plane->frame_info, x_start, y_start, 0); +
+>>> u8 *vu_plane = packed_pixels_addr(plane->frame_info, +
+>>> x_start / plane->frame_info->fb->format->hsub, +
+>>> y_start / plane->frame_info->fb->format->vsub, +
+>>> 1); +	struct pixel_yuv_u8 yuv_u8; +	int step_y =
+>>> get_step_1x1(plane->frame_info->fb, direction, 0); +	int
+>>> step_vu = get_step_1x1(plane->frame_info->fb, direction, 1); +
+>>> int subsampling = get_subsampling(plane->frame_info->fb->format,
+>>> direction); +	int subsampling_offset =
+>>> get_subsampling_offset(plane->frame_info->fb->format, direction, +
+>>> x_start, y_start); +	for (int i = 0; i < count; i++) { +
+>>> yuv_u8.y = y_plane[0]; +		yuv_u8.u = vu_plane[1]; +
+>>> yuv_u8.v = vu_plane[0];
+>>
+>> You could swap matrix columns instead of writing this whole new
+>> function for UV vs. VU. Just an idea.
+> 
+> I was not happy with this duplication too, but I did not think about
+> switching columns. That's a good idea, thanks!
+>  
+> Kind regards, Louis Chauvet
+> 
+> [...]
+> 
