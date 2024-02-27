@@ -2,79 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B205C868F49
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 12:40:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 809AA868F5F
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 12:45:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E581510E8F5;
-	Tue, 27 Feb 2024 11:40:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F5D910F018;
+	Tue, 27 Feb 2024 11:45:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="aTKh9OLE";
+	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="dqJg9RIE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B10D10E8F5
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 11:40:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1709034024;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3mw01XXpryJKRKAORiZ7cEnFjgIHdaozOVRjQNVNt4A=;
- b=aTKh9OLEzm90DgFGS0OX0d/X8hNHF1PEtfhNF4RhVIZCsHd8nhW38IYS0GDI7u3C6eMWH3
- n/TiZd8omrYjuj+YdJfUaIVXo04tXnERpz04JTGCZGnwW1cbyy4Mby4RX+MuRxe7rowIr2
- TuUjTL44VYo+mnTljUwNBlqK6g9/Ql8=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-580-IUEobBMaPa-g0dGaOeue-Q-1; Tue, 27 Feb 2024 06:40:20 -0500
-X-MC-Unique: IUEobBMaPa-g0dGaOeue-Q-1
-Received: by mail-lf1-f70.google.com with SMTP id
- 2adb3069b0e04-513149e133cso93813e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 03:40:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709034019; x=1709638819;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3mw01XXpryJKRKAORiZ7cEnFjgIHdaozOVRjQNVNt4A=;
- b=IB8VnWz6Ai6ztJMCyVDQeESkvBQWLy0MmR/KO9T38W4KqSWHAonvFa2MWybPAIo7LX
- qGYgPm0o3rUv9muWHaYJ/y9WG0bCHQthh1802JF0PYrDMh26WLAcqZ6kLmckVYB1qC7y
- jiX3g1zUF7+d1G/RL8/hIHw484zNTwwjhLftRW/Hs7lKwSy1SP3EDOz+J0+dowVOQtZx
- yUa0EQTPtaF4eYE4iPLwDvkBg0BGgTDYLOH9XEPPHH1mnPbzEjfapL0+mi9Gxbjo2YCT
- mNPP9VWep5vAd79HlZqKOEvD4tdfTmIzy80mDIVsrizw7+npwHG6xEeG4sVfATyqemNZ
- qlQA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXyt1rsQv9HrLDB/5DzN2StgAPrcoVC/NmKrs6S87pa4xOtrUmOSE8Ho68OvcUfx6eRWPcTN86YoNnQJeLk5U5XxjCn+fUPP1qUWnwZforK
-X-Gm-Message-State: AOJu0YxHwmBSTbVI7kjRupuGfhGPtqrj2aFR4p+vLfg9RYNhXyaWTvse
- dCsaAznxc+AysaoxhKEv/hVQKttLXdvLIvUwNF9rUdhsCghw/GCZ3YsoaKot+4g/cmVzQpExG/w
- lsF0yGm8B/l9jPdyY+U4YMz2ZCBdKC0g6NSSkfnGLWofgB4decIE/ppWCtL1jdREGJw==
-X-Received: by 2002:ac2:46e8:0:b0:512:a9a4:d933 with SMTP id
- q8-20020ac246e8000000b00512a9a4d933mr5300865lfo.69.1709034018912; 
- Tue, 27 Feb 2024 03:40:18 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFBw1Ufu0N6OMJCScexgMEis14r2PvFD91GAV1n+pyDTqUegH7T8+rIGmGhy7XM3ak47JIm6w==
-X-Received: by 2002:ac2:46e8:0:b0:512:a9a4:d933 with SMTP id
- q8-20020ac246e8000000b00512a9a4d933mr5300858lfo.69.1709034018567; 
- Tue, 27 Feb 2024 03:40:18 -0800 (PST)
-Received: from localhost ([90.167.87.87]) by smtp.gmail.com with ESMTPSA id
- j3-20020a5d4523000000b0033cfa00e497sm11083463wra.64.2024.02.27.03.40.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Feb 2024 03:40:18 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thierry Reding <thierry.reding@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm: Remove drm_num_crtcs() helper
-In-Reply-To: <20240227112038.411846-1-thierry.reding@gmail.com>
-References: <20240227112038.411846-1-thierry.reding@gmail.com>
-Date: Tue, 27 Feb 2024 12:40:17 +0100
-Message-ID: <87a5nmrv8e.fsf@minerva.mail-host-address-is-not-set>
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D94110ED55
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 11:45:04 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx0.riseup.net (Postfix) with ESMTPS id 4TkbJH3rPtz9sjZ;
+ Tue, 27 Feb 2024 11:45:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1709034303; bh=reB1Odb45/l1dvPXc/JgyVKuOjKvEdq6Kb78XAUVaxU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=dqJg9RIE8eu8y2cKu+9cnGHYFnsGUkL7ueJyGDO2S1kJDFRYprUsj2yzAkh5kWxWi
+ Q2QIhVdaUsO9DDLumxdp3NlRr5JXaHFpL84dxbh+hM3qT1ZaxOf2VNQvXfac1Wy9C+
+ jupyHQB4Crd79qLolye0CPSa5Sjiz6c6DWNjUyGg=
+X-Riseup-User-ID: 32958693706746C82A54B118B535079799FE5CF83FAE7455EBE508B6A3F4C0A7
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4TkbJB4cHjzJqCg;
+ Tue, 27 Feb 2024 11:44:58 +0000 (UTC)
+Message-ID: <8ac7bf91-fbce-4403-a801-9dfee39ea802@riseup.net>
+Date: Tue, 27 Feb 2024 08:44:52 -0300
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Subject: Re: [PATCH] drm/vkms: Add information on how to benchmark
+To: Pekka Paalanen <pekka.paalanen@collabora.com>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240226-bench-vkms-v1-1-515ef91b11c8@riseup.net>
+ <20240227111941.061a2892.pekka.paalanen@collabora.com>
+Content-Language: en-US
+From: Arthur Grillo <arthurgrillo@riseup.net>
+In-Reply-To: <20240227111941.061a2892.pekka.paalanen@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,33 +67,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thierry Reding <thierry.reding@gmail.com> writes:
 
-Hello Thierry,
 
-> From: Thierry Reding <treding@nvidia.com>
->
-> The drm_num_crtcs() helper determines the number of CRTCs by iterating
-> over the list of CRTCs that have been registered with the mode config.
-> However, we already keep track of that number in the mode config's
-> num_crtcs field, so we can simply retrieve the value from that and
-> remove the extra helper function.
->
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  drivers/gpu/drm/drm_crtc.c | 15 +--------------
->  1 file changed, 1 insertion(+), 14 deletions(-)
->
+On 27/02/24 06:19, Pekka Paalanen wrote:
+> On Mon, 26 Feb 2024 17:42:11 -0300
+> Arthur Grillo <arthurgrillo@riseup.net> wrote:
+> 
+>> Now that we have a defined benchmark for testing the driver, add
+>> documentation on how to run it.
+>>
+>> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+>> ---
+>>  Documentation/gpu/vkms.rst | 6 ++++++
+>>  1 file changed, 6 insertions(+)
+>>
+>> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+>> index ba04ac7c2167..6d07f79f77ff 100644
+>> --- a/Documentation/gpu/vkms.rst
+>> +++ b/Documentation/gpu/vkms.rst
+>> @@ -89,6 +89,12 @@ You can also run subtests if you do not want to run the entire test::
+>>    sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --device "sys:/sys/devices/platform/vkms"
+>>    sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_flip --run-subtest basic-plain-flip
+>>  
+>> +If you are developing features that may affect performance, you can run the kms_fb_stress
+> 
+> s/can/must/
+> 
+>> +benchmark::
+> 
+> before and after, and report the numbers.
 
-Indeed. I don't see why this helper would be needed.
-Your patch makes sense to me.
+Did you mean to write the benchmarks logs here?
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> 
+>> +
+>> +  sudo ./build/benchmarks/kms_fb_stress --device "sys:/sys/devices/platform/vkms"
+>> +  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/benchmarks/kms_fb_stress
+> 
+> Do people need to run both commands?
 
--- 
-Best regards,
+No, they don't, just two options.
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+Best Regards,
+~Arthur Grillo
 
+> 
+> Anyway, a good idea.
+> 
+> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> 
+> 
+> Thanks,
+> pq
+> 
+>> +
+>>  TODO
+>>  ====
+>>  
+>>
+>> ---
+>> base-commit: eeb8e8d9f124f279e80ae679f4ba6e822ce4f95f
+>> change-id: 20240226-bench-vkms-5b8b7aab255e
+>>
+>> Best regards,
+> 
