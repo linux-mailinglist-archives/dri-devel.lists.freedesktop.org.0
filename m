@@ -2,91 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B656E86A3B2
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 00:32:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A712086A3FC
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 00:55:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A42810E959;
-	Tue, 27 Feb 2024 23:32:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF58310E2E9;
+	Tue, 27 Feb 2024 23:55:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="X2PyoMKf";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VmZx4nES";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com
- [209.85.166.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C70C10E752
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 23:32:12 +0000 (UTC)
-Received: by mail-io1-f53.google.com with SMTP id
- ca18e2360f4ac-7bff8f21b74so46713939f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 15:32:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linuxfoundation.org; s=google; t=1709076731; x=1709681531;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=80vE8I00zUuMjb98bapG9u6P0XhLZj80ZGaIUfonjH8=;
- b=X2PyoMKfgLhUNztyS4L8quH6/rG7Y+XUtCuNfkKa62qaabVILjJSzhORPSCgK0eKbU
- wADHL2YI7aKe2DFQgNT9cVmo1ftNULMiMvGQUYOULCnSquJBsjH4s0TzeusWdDhw9oWS
- eH+wwsNNr21AhQJRb+e/ng2d8ksBJeqjojhgw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709076731; x=1709681531;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=80vE8I00zUuMjb98bapG9u6P0XhLZj80ZGaIUfonjH8=;
- b=oe0t3W1uraizOZKsJJ20nbCCd5yiSb/0Qw4H2lBK2e1ofgvbJNrWknQfzQatXx0K2X
- 0pACsLZD10IwZ+ejEO+r7baS9yqmiVGIaGwqkh3U/esy8tIvLAXxEgKypG5wATgH3seN
- wYwngKf79G1ypdX4r8FuFQB2lmoj7hRz6w8ttASYax9ajAn1z6cz0TkEvUqItyGxV2dp
- +JZYAIwKnhxidQFoluB6ESFlcgRwFQ/UfTn/oZRKzj/KRwUXqu+7BO4zoCEAJc366Yjl
- ijb1SLltTUBhsSoSu92I1OcHwzi7f/BhW4VdD20Wf1FjTIlw1MRmODr74+Rs7FQHh+4U
- gxhA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVl96Y3HWraZma1DCflJDZNhLYoWoGgnJjJz/08kdEFybU7fOo1c/pJzLKj9ss/pghjCkOR3svRtzMAljVc3nAVBQAdTQgyicyE+SgHpY/v
-X-Gm-Message-State: AOJu0YyRWzSCjv2FONkyOjkilx7rbVr549eMfmBpPhWdYZ5IUzsEzHva
- 5R7Vj3qXa+eHClCbsFhemP35IPqov/6O7gt8kq/CGHX2Y+/KtUe8qGAcuORRblo=
-X-Google-Smtp-Source: AGHT+IG69oUodDQLtj9TB2lWzXOa+NfkxOjVRrZm5njOmm/xNqu/JAHdlHJH3zfk/5jCzDJ8f9tmVg==
-X-Received: by 2002:a05:6602:2195:b0:7c7:ce93:f532 with SMTP id
- b21-20020a056602219500b007c7ce93f532mr5798424iob.1.1709076731281; 
- Tue, 27 Feb 2024 15:32:11 -0800 (PST)
-Received: from [192.168.1.128] ([38.175.170.29])
- by smtp.gmail.com with ESMTPSA id
- s20-20020a6bd314000000b007c45ab3dc34sm1998648iob.29.2024.02.27.15.32.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Feb 2024 15:32:10 -0800 (PST)
-Message-ID: <fd438c6c-87a2-4976-aee1-b706212914c4@linuxfoundation.org>
-Date: Tue, 27 Feb 2024 16:32:09 -0700
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5413E10E2DB;
+ Tue, 27 Feb 2024 23:55:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709078118; x=1740614118;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=irJUKq9qyjCZ5ysAMMSk1RPXQ2DkL7Qxmj7eiKK7nOs=;
+ b=VmZx4nESPTZn2Sq5PfMEClxw5KY99gfqyn9crfGEMQ0czptnnJfRuRLv
+ yFzDInoZGUfzWFafObFz33aQhmVu77sA0oi6Y1r0MoCYa1UDW7fk7KMoc
+ 1AWbHXhAqGtPv/io44b2OHpuu71a1iL/P4hz6li6DTn7x4aaWpoIUEEnJ
+ 1bqtTqq24Rlq4oFHsi8ieLQ6dg5GTZBJ2rYFhAM7lSiXlSHEpWmv4DYeH
+ KHcTJUeS5EX5zLFteQowaNfiv0A/fYmO2+gOkFj5Q7byO/FC/o/zPxHfY
+ s7kvy8hU8ANZf0fW0B0k7hB63IZJVgO0+wTunVN1ABZN2zPnMmLL4h4NR A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="4018021"
+X-IronPort-AV: E=Sophos;i="6.06,189,1705392000"; 
+   d="scan'208";a="4018021"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2024 15:52:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,189,1705392000"; d="scan'208";a="11960260"
+Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.39.141])
+ by orviesa005.jf.intel.com with ESMTP; 27 Feb 2024 15:52:39 -0800
+From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Sushma Venkatesh Reddy <sushma.venkatesh.reddy@intel.com>
+Subject: [PATCH v2] drm/i915/guc: Use context hints for GT freq
+Date: Tue, 27 Feb 2024 15:51:31 -0800
+Message-Id: <20240227235131.2308656-1-vinay.belgaumkar@intel.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/9] kunit: Fix printf format specifier issues in KUnit
- assertions
-Content-Language: en-US
-To: David Gow <davidgow@google.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Guenter Roeck <linux@roeck-us.net>, Rae Moar <rmoar@google.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Kees Cook <keescook@chromium.org>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Willem de Bruijn <willemb@google.com>, Florian Westphal <fw@strlen.de>,
- Cassio Neri <cassio.neri@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Arthur Grillo <arthur.grillo@usp.br>
-Cc: Brendan Higgins <brendan.higgins@linux.dev>,
- Daniel Latypov <dlatypov@google.com>, Stephen Boyd <sboyd@kernel.org>,
- David Airlie <airlied@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- "David S . Miller" <davem@davemloft.net>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org,
- linux-rtc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- kunit-dev@googlegroups.com, linux-hardening@vger.kernel.org,
- netdev@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20240221092728.1281499-1-davidgow@google.com>
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20240221092728.1281499-1-davidgow@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,66 +65,317 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/21/24 02:27, David Gow wrote:
-> KUnit has several macros which accept a log message, which can contain
-> printf format specifiers. Some of these (the explicit log macros)
-> already use the __printf() gcc attribute to ensure the format specifiers
-> are valid, but those which could fail the test, and hence used
-> __kunit_do_failed_assertion() behind the scenes, did not.
-> 
-> These include:
-> - KUNIT_EXPECT_*_MSG()
-> - KUNIT_ASSERT_*_MSG()
-> - KUNIT_FAIL()
-> 
-> This series adds the __printf() attribute, and fixes all of the issues
-> uncovered. (Or, at least, all of those I could find with an x86_64
-> allyesconfig, and the default KUnit config on a number of other
-> architectures. Please test!)
-> 
-> The issues in question basically take the following forms:
-> - int / long / long long confusion: typically a type being updated, but
->    the format string not.
-> - Use of integer format specifiers (%d/%u/%li/etc) for types like size_t
->    or pointer differences (technically ptrdiff_t), which would only work
->    on some architectures.
-> - Use of integer format specifiers in combination with PTR_ERR(), where
->    %pe would make more sense.
-> - Use of empty messages which, whilst technically not incorrect, are not
->    useful and trigger a gcc warning.
-> 
-> We'd like to get these (or equivalent) in for 6.9 if possible, so please
-> do take a look if possible.
-> 
-> Thanks,
-> -- David
-> 
-> Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Closes: https://lore.kernel.org/linux-kselftest/CAHk-=wgJMOquDO5f8ShH1f4rzZwzApNVCw643m5-Yj+BfsFstA@mail.gmail.com/
-> 
-> David Gow (9):
->    kunit: test: Log the correct filter string in executor_test
->    lib/cmdline: Fix an invalid format specifier in an assertion msg
->    lib: memcpy_kunit: Fix an invalid format specifier in an assertion msg
->    time: test: Fix incorrect format specifier
->    rtc: test: Fix invalid format specifier.
->    net: test: Fix printf format specifier in skb_segment kunit test
->    drm: tests: Fix invalid printf format specifiers in KUnit tests
->    drm/xe/tests: Fix printf format specifiers in xe_migrate test
->    kunit: Annotate _MSG assertion variants with gnu printf specifiers
-> 
+Allow user to provide a low latency context hint. When set, KMD
+sends a hint to GuC which results in special handling for this
+context. SLPC will ramp the GT frequency aggressively every time
+it switches to this context. The down freq threshold will also be
+lower so GuC will ramp down the GT freq for this context more slowly.
+We also disable waitboost for this context as that will interfere with
+the strategy.
 
-Applied all patches in this series except to linux-ksefltest kunit
-for linux 6.9-rc1
+We need to enable the use of SLPC Compute strategy during init, but
+it will apply only to contexts that set this bit during context
+creation.
 
-drm: tests: Fix invalid printf format specifiers in KUnit tests
+Userland can check whether this feature is supported using a new param-
+I915_PARAM_HAS_CONTEXT_FREQ_HINTS. This flag is true for all guc submission
+enabled platforms as they use SLPC for frequency management.
 
-David, as requtested in 7/9 thread, if you can send me patch on
-top pf 6.8-rc6, will apply it
+The Mesa usage model for this flag is here -
+https://gitlab.freedesktop.org/sushmave/mesa/-/commits/compute_hint
 
-7-9 drm: tests: Fix invalid printf format specifiers in KUnit tests
+v2: Rename flags as per review suggestions (Rodrigo, Tvrtko).
+Also, use flag bits in intel_context as it allows finer control for
+toggling per engine if needed (Tvrtko).
 
-thanks,
--- Shuah
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: Sushma Venkatesh Reddy <sushma.venkatesh.reddy@intel.com>
+Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   | 15 +++++++++++--
+ .../gpu/drm/i915/gem/i915_gem_context_types.h |  1 +
+ drivers/gpu/drm/i915/gt/intel_context_types.h |  1 +
+ drivers/gpu/drm/i915/gt/intel_rps.c           |  5 +++++
+ .../drm/i915/gt/uc/abi/guc_actions_slpc_abi.h | 21 +++++++++++++++++++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   | 17 +++++++++++++++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h   |  1 +
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  6 ++++++
+ drivers/gpu/drm/i915/i915_getparam.c          | 12 +++++++++++
+ include/uapi/drm/i915_drm.h                   | 15 +++++++++++++
+ 10 files changed, 92 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+index dcbfe32fd30c..0799cb0b2803 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+@@ -879,6 +879,7 @@ static int set_proto_ctx_param(struct drm_i915_file_private *fpriv,
+ 			       struct i915_gem_proto_context *pc,
+ 			       struct drm_i915_gem_context_param *args)
+ {
++	struct drm_i915_private *i915 = fpriv->i915;
+ 	int ret = 0;
+ 
+ 	switch (args->param) {
+@@ -904,6 +905,13 @@ static int set_proto_ctx_param(struct drm_i915_file_private *fpriv,
+ 			pc->user_flags &= ~BIT(UCONTEXT_BANNABLE);
+ 		break;
+ 
++	case I915_CONTEXT_PARAM_LOW_LATENCY:
++		if (intel_uc_uses_guc_submission(&to_gt(i915)->uc))
++			pc->user_flags |= BIT(UCONTEXT_LOW_LATENCY);
++		else
++			ret = -EINVAL;
++		break;
++
+ 	case I915_CONTEXT_PARAM_RECOVERABLE:
+ 		if (args->size)
+ 			ret = -EINVAL;
+@@ -992,6 +1000,9 @@ static int intel_context_set_gem(struct intel_context *ce,
+ 	if (sseu.slice_mask && !WARN_ON(ce->engine->class != RENDER_CLASS))
+ 		ret = intel_context_reconfigure_sseu(ce, sseu);
+ 
++	if (test_bit(UCONTEXT_LOW_LATENCY, &ctx->user_flags))
++		set_bit(CONTEXT_LOW_LATENCY, &ce->flags);
++
+ 	return ret;
+ }
+ 
+@@ -1630,6 +1641,8 @@ i915_gem_create_context(struct drm_i915_private *i915,
+ 	if (vm)
+ 		ctx->vm = vm;
+ 
++	ctx->user_flags = pc->user_flags;
++
+ 	mutex_init(&ctx->engines_mutex);
+ 	if (pc->num_user_engines >= 0) {
+ 		i915_gem_context_set_user_engines(ctx);
+@@ -1652,8 +1665,6 @@ i915_gem_create_context(struct drm_i915_private *i915,
+ 	 * is no remap info, it will be a NOP. */
+ 	ctx->remap_slice = ALL_L3_SLICES(i915);
+ 
+-	ctx->user_flags = pc->user_flags;
+-
+ 	for (i = 0; i < ARRAY_SIZE(ctx->hang_timestamp); i++)
+ 		ctx->hang_timestamp[i] = jiffies - CONTEXT_FAST_HANG_JIFFIES;
+ 
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+index 03bc7f9d191b..b6d97da63d1f 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+@@ -338,6 +338,7 @@ struct i915_gem_context {
+ #define UCONTEXT_BANNABLE		2
+ #define UCONTEXT_RECOVERABLE		3
+ #define UCONTEXT_PERSISTENCE		4
++#define UCONTEXT_LOW_LATENCY		5
+ 
+ 	/**
+ 	 * @flags: small set of booleans
+diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+index 7eccbd70d89f..ed95a7b57cbb 100644
+--- a/drivers/gpu/drm/i915/gt/intel_context_types.h
++++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+@@ -130,6 +130,7 @@ struct intel_context {
+ #define CONTEXT_PERMA_PIN		11
+ #define CONTEXT_IS_PARKING		12
+ #define CONTEXT_EXITING			13
++#define CONTEXT_LOW_LATENCY		14
+ 
+ 	struct {
+ 		u64 timeout_us;
+diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+index 4feef874e6d6..3accfd8db287 100644
+--- a/drivers/gpu/drm/i915/gt/intel_rps.c
++++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+@@ -24,6 +24,7 @@
+ #include "intel_pcode.h"
+ #include "intel_rps.h"
+ #include "vlv_sideband.h"
++#include "../gem/i915_gem_context.h"
+ #include "../../../platform/x86/intel_ips.h"
+ 
+ #define BUSY_MAX_EI	20u /* ms */
+@@ -1013,6 +1014,10 @@ void intel_rps_boost(struct i915_request *rq)
+ 	if (i915_request_signaled(rq) || i915_request_has_waitboost(rq))
+ 		return;
+ 
++	/* Waitboost is not needed for contexts marked with a Freq hint */
++	if (test_bit(CONTEXT_LOW_LATENCY, &rq->context->flags))
++		return;
++
+ 	/* Serializes with i915_request_retire() */
+ 	if (!test_and_set_bit(I915_FENCE_FLAG_BOOST, &rq->fence.flags)) {
+ 		struct intel_rps *rps = &READ_ONCE(rq->engine)->gt->rps;
+diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
+index 811add10c30d..c34674e797c6 100644
+--- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
++++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
+@@ -207,6 +207,27 @@ struct slpc_shared_data {
+ 	u8 reserved_mode_definition[4096];
+ } __packed;
+ 
++struct slpc_context_frequency_request {
++	u32 frequency_request:16;
++	u32 reserved:12;
++	u32 is_compute:1;
++	u32 ignore_busyness:1;
++	u32 is_minimum:1;
++	u32 is_predefined:1;
++} __packed;
++
++#define SLPC_CTX_FREQ_REQ_IS_COMPUTE		REG_BIT(28)
++
++struct slpc_optimized_strategies {
++	u32 compute:1;
++	u32 async_flip:1;
++	u32 media:1;
++	u32 vsync_flip:1;
++	u32 reserved:28;
++} __packed;
++
++#define SLPC_OPTIMIZED_STRATEGY_COMPUTE		REG_BIT(0)
++
+ /**
+  * DOC: SLPC H2G MESSAGE FORMAT
+  *
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+index 3e681ab6fbf9..706fffca698b 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+@@ -537,6 +537,20 @@ int intel_guc_slpc_get_min_freq(struct intel_guc_slpc *slpc, u32 *val)
+ 	return ret;
+ }
+ 
++int intel_guc_slpc_set_strategy(struct intel_guc_slpc *slpc, u32 val)
++{
++	struct drm_i915_private *i915 = slpc_to_i915(slpc);
++	intel_wakeref_t wakeref;
++	int ret = 0;
++
++	with_intel_runtime_pm(&i915->runtime_pm, wakeref)
++		ret = slpc_set_param(slpc,
++				     SLPC_PARAM_STRATEGIES,
++				     val);
++
++	return ret;
++}
++
+ int intel_guc_slpc_set_media_ratio_mode(struct intel_guc_slpc *slpc, u32 val)
+ {
+ 	struct drm_i915_private *i915 = slpc_to_i915(slpc);
+@@ -711,6 +725,9 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
+ 	/* Set cached media freq ratio mode */
+ 	intel_guc_slpc_set_media_ratio_mode(slpc, slpc->media_ratio_mode);
+ 
++	/* Enable SLPC Optimized Strategy for compute */
++	intel_guc_slpc_set_strategy(slpc, SLPC_OPTIMIZED_STRATEGY_COMPUTE);
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
+index 6ac6503c39d4..1cb5fd44f05c 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
+@@ -45,5 +45,6 @@ void intel_guc_pm_intrmsk_enable(struct intel_gt *gt);
+ void intel_guc_slpc_boost(struct intel_guc_slpc *slpc);
+ void intel_guc_slpc_dec_waiters(struct intel_guc_slpc *slpc);
+ int intel_guc_slpc_set_ignore_eff_freq(struct intel_guc_slpc *slpc, bool val);
++int intel_guc_slpc_set_strategy(struct intel_guc_slpc *slpc, u32 val);
+ 
+ #endif
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index f3dcae4b9d45..d6ea4898ac39 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -2645,6 +2645,7 @@ MAKE_CONTEXT_POLICY_ADD(execution_quantum, EXECUTION_QUANTUM)
+ MAKE_CONTEXT_POLICY_ADD(preemption_timeout, PREEMPTION_TIMEOUT)
+ MAKE_CONTEXT_POLICY_ADD(priority, SCHEDULING_PRIORITY)
+ MAKE_CONTEXT_POLICY_ADD(preempt_to_idle, PREEMPT_TO_IDLE_ON_QUANTUM_EXPIRY)
++MAKE_CONTEXT_POLICY_ADD(slpc_ctx_freq_req, SLPM_GT_FREQUENCY)
+ 
+ #undef MAKE_CONTEXT_POLICY_ADD
+ 
+@@ -2664,6 +2665,7 @@ static int guc_context_policy_init_v70(struct intel_context *ce, bool loop)
+ 	struct context_policy policy;
+ 	u32 execution_quantum;
+ 	u32 preemption_timeout;
++	u32 slpc_ctx_freq_req = 0;
+ 	unsigned long flags;
+ 	int ret;
+ 
+@@ -2675,11 +2677,15 @@ static int guc_context_policy_init_v70(struct intel_context *ce, bool loop)
+ 	execution_quantum = engine->props.timeslice_duration_ms * 1000;
+ 	preemption_timeout = engine->props.preempt_timeout_ms * 1000;
+ 
++	if (ce && (ce->flags & BIT(CONTEXT_LOW_LATENCY)))
++		slpc_ctx_freq_req |= SLPC_CTX_FREQ_REQ_IS_COMPUTE;
++
+ 	__guc_context_policy_start_klv(&policy, ce->guc_id.id);
+ 
+ 	__guc_context_policy_add_priority(&policy, ce->guc_state.prio);
+ 	__guc_context_policy_add_execution_quantum(&policy, execution_quantum);
+ 	__guc_context_policy_add_preemption_timeout(&policy, preemption_timeout);
++	__guc_context_policy_add_slpc_ctx_freq_req(&policy, slpc_ctx_freq_req);
+ 
+ 	if (engine->flags & I915_ENGINE_WANT_FORCED_PREEMPTION)
+ 		__guc_context_policy_add_preempt_to_idle(&policy, 1);
+diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/i915_getparam.c
+index 5c3fec63cb4c..4fc182fdb2e8 100644
+--- a/drivers/gpu/drm/i915/i915_getparam.c
++++ b/drivers/gpu/drm/i915/i915_getparam.c
+@@ -155,6 +155,18 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
+ 		 */
+ 		value = 1;
+ 		break;
++	case I915_PARAM_HAS_CONTEXT_FREQ_HINT:
++		/*
++		 * This feature has been available in GuC for a while but
++		 * a use case now required the use of this feature. We
++		 * return true now since this is now being supported from
++		 * the kernel side as well.
++		 */
++		if (intel_uc_uses_guc_submission(&to_gt(i915)->uc))
++			value = 1;
++		else
++			value = -EINVAL;
++		break;
+ 	case I915_PARAM_HAS_CONTEXT_ISOLATION:
+ 		value = intel_engines_has_context_isolation(i915);
+ 		break;
+diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+index 2ee338860b7e..4f69f4e117ac 100644
+--- a/include/uapi/drm/i915_drm.h
++++ b/include/uapi/drm/i915_drm.h
+@@ -806,6 +806,12 @@ typedef struct drm_i915_irq_wait {
+  */
+ #define I915_PARAM_PXP_STATUS		 58
+ 
++/*
++ * Query if kernel allows marking a context to send a Freq hint to SLPC. This
++ * will enable use of the strategies allowed by the SLPC algorithm.
++ */
++#define I915_PARAM_HAS_CONTEXT_FREQ_HINT	59
++
+ /* Must be kept compact -- no holes and well documented */
+ 
+ /**
+@@ -2148,6 +2154,15 @@ struct drm_i915_gem_context_param {
+  * -EIO: The firmware did not succeed in creating the protected context.
+  */
+ #define I915_CONTEXT_PARAM_PROTECTED_CONTENT    0xd
++
++/*
++ * I915_CONTEXT_PARAM_IS_COMPUTE:
++ *
++ * Mark this context as a Compute related workload which requires aggressive GT
++ * frequency scaling. Query I915_PARAM_HAS_CONTEXT_COMPUTE to check if the kernel
++ * supports this functionality.
++ */
++#define I915_CONTEXT_PARAM_LOW_LATENCY		0xe
+ /* Must be kept compact -- no holes and well documented */
+ 
+ 	/** @value: Context parameter value to be set or queried */
+-- 
+2.38.1
 
