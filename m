@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F365386945F
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 14:53:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A322D8695B4
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 15:04:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06B5D10E0E8;
-	Tue, 27 Feb 2024 13:53:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E66E110E541;
+	Tue, 27 Feb 2024 14:04:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="cOfwVg4D";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="is6QQbv2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 174EB10E0E8
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 13:53:09 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87C5710E504
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 14:04:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 3609FCE1B72;
- Tue, 27 Feb 2024 13:53:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2395FC433F1;
- Tue, 27 Feb 2024 13:53:05 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id A2572613FB;
+ Tue, 27 Feb 2024 14:04:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEB84C433F1;
+ Tue, 27 Feb 2024 14:04:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1709041986;
- bh=CP4O3SR7g26tSZZ2ZCohLjOkCqPz/SmR7XK1e5g34kM=;
+ s=korg; t=1709042671;
+ bh=vjdClqs5D1fW2Tl3xotsMuKGCjf0ckS64rJuqMpLICM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cOfwVg4DtZxj9kr5XnzrsF5LaEdJoHDvFScIJzM2jsLcjn1V0QvTjX8rvq0UpjooR
- Ymyy1ciOCKcu99obvfNirYCO0A9HNMoyr7vZ6PzWXJ4HjaghW4KQgNb54ORK01Icsv
- 7u4x1+Zkhvij8oICJZY3ikGr5Pb9J55WKOB0FlA0=
+ b=is6QQbv2bWwgxc83XVQbgYn2PM6mYOuoZouJpOEqZPVwMlsW09m+UnQXciK+ls8RQ
+ jMejGEGrOUHejDuP03uYXc2vvgeO7pvsZmexRekLzxQHjXmtJ/HYHbrQ/PAmiHit/W
+ Mykx/EB++zV7bldB0zhJxWgeupkq+p+DRBFEVQ/M=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
@@ -34,13 +34,13 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  Dave Airlie <airlied@redhat.com>, Huang Rui <ray.huang@amd.com>,
  dri-devel@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>
-Subject: [PATCH 6.6 140/299] drm/ttm: Fix an invalid freeing on already freed
+Subject: [PATCH 5.15 078/245] drm/ttm: Fix an invalid freeing on already freed
  page in error path
-Date: Tue, 27 Feb 2024 14:24:11 +0100
-Message-ID: <20240227131630.361371422@linuxfoundation.org>
+Date: Tue, 27 Feb 2024 14:24:26 +0100
+Message-ID: <20240227131617.776837919@linuxfoundation.org>
 X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240227131625.847743063@linuxfoundation.org>
-References: <20240227131625.847743063@linuxfoundation.org>
+In-Reply-To: <20240227131615.098467438@linuxfoundation.org>
+References: <20240227131615.098467438@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -62,7 +62,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.6-stable review patch.  If anyone has any objections, please let me know.
+5.15-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
