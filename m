@@ -2,73 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 081E486A2BE
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 23:46:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DAB186A2C8
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 23:48:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 606F710E3E3;
-	Tue, 27 Feb 2024 22:46:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5A7710E9A9;
+	Tue, 27 Feb 2024 22:48:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="r3ZhuY/6";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="EpZfZxfX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C993610E3E3
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 22:45:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=GELtHCqztILJCJyymU5pQS8T2fsqGAS/e9ITGcryoD0=; b=r3ZhuY/60lM3m4cl4kp3YR5KnM
- 9SZzwe5SgNk/Q+6Dk7Co7U+crfx6xjdJtiGcrL/TX7PT5dsXKclYLe510taXv65W948NJ5aY1huiK
- WGiWYgy2E58C/SXgKZhVkRl0WOKDE/d+amjDiu7KxYCvQkSgzTPhTtaZjgv5kPSZKrLIuEkCx81+A
- uUbVKxB6G53JrleM1wHNuSABctLyDW2j0sVdTSv3bM54vtfth/9HhYHapbt63t9/UXZHXpUFFyFMi
- cnpirBCn74tDUSmH/9eXXlUAMb94x0a5DKwBlRCx+TpXEQVDF/spXq+ZYARRCs4GFtwx8QK4b+fcS
- 8n5dD4ow==;
-Received: from [200.173.162.98] (helo=[192.168.52.5])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1rf6CE-0044Ea-FM; Tue, 27 Feb 2024 23:45:10 +0100
-Message-ID: <2693770c-0d27-4186-87e1-e55a0a5f17a5@igalia.com>
-Date: Tue, 27 Feb 2024 19:45:01 -0300
+X-Greylist: delayed 8162 seconds by postgrey-1.36 at gabe;
+ Tue, 27 Feb 2024 22:48:53 UTC
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
+ [217.70.183.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF82A10E9A9;
+ Tue, 27 Feb 2024 22:48:53 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 23256E0003;
+ Tue, 27 Feb 2024 22:48:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1709074131;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QzbrrxNlmtkyJPkPXOAQ3Vi2FcRLI5aLxFCBrtjaL3U=;
+ b=EpZfZxfXqbqRaDVjijJHQoInyGWg+vri8zdceJ4B7N7f34VEuYZP/FYsn7U8EJ1WRLORLy
+ A6BlkTa3RGWIiiPEhqe5pYJv3JBtDp8sjryUNnUJF7RDlVq0i1qNkPhfOBnwjV6/28OYTZ
+ jeX0u3rrPUBJNdNv/dwo4aLzVvVH8QBnVgGivZfKJpgxkJ+/VPcQMPKxVxR0r5h1M1RzUG
+ BQFSQITGA1qlokbIRX/3D/QspUn6W8VKR7RqnibcQq1PKBDohw3KSTnN31wdYzJA+gHjiN
+ lcQlHS7S0xYfHc9BkYp9sX2cl1K024Ju+BGDQorum+y1UeQ4xrPoVm6VkkZNXA==
+Date: Tue, 27 Feb 2024 23:48:46 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: David Gow <davidgow@google.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Guenter Roeck <linux@roeck-us.net>, Rae Moar <rmoar@google.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Kees Cook <keescook@chromium.org>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Willem de Bruijn <willemb@google.com>, Florian Westphal <fw@strlen.de>,
+ Cassio Neri <cassio.neri@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Arthur Grillo <arthur.grillo@usp.br>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Daniel Latypov <dlatypov@google.com>,
+ Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ "David S . Miller" <davem@davemloft.net>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ intel-xe@lists.freedesktop.org, linux-rtc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+ linux-hardening@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH 5/9] rtc: test: Fix invalid format specifier.
+Message-ID: <20240227224846c7846f20@mail.local>
+References: <20240221092728.1281499-1-davidgow@google.com>
+ <20240221092728.1281499-6-davidgow@google.com>
+ <20240227203243070e7d85@mail.local>
+ <56680d34-59f1-460c-a835-f1258abf4569@linuxfoundation.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 29/36] drm/vc4: tests: Remove vc4_dummy_plane structure
-Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
- <20240222-kms-hdmi-connector-state-v7-29-8f4af575fce2@kernel.org>
- <244fe6b9-f295-4c85-908a-014ada0033fa@igalia.com>
- <y7mxj2i56h7bcnonywjdf2eirdqil66k32drw3wb3z7juqr3ph@4u24mlrvxslc>
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
- H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
- hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
- GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
- rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
- s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
- GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
- pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <y7mxj2i56h7bcnonywjdf2eirdqil66k32drw3wb3z7juqr3ph@4u24mlrvxslc>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <56680d34-59f1-460c-a835-f1258abf4569@linuxfoundation.org>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,42 +83,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+On 27/02/2024 14:23:29-0700, Shuah Khan wrote:
+> On 2/27/24 13:32, Alexandre Belloni wrote:
+> > Hello,
+> > 
+> > On 21/02/2024 17:27:18+0800, David Gow wrote:
+> > > 'days' is a s64 (from div_s64), and so should use a %lld specifier.
+> > > 
+> > > This was found by extending KUnit's assertion macros to use gcc's
+> > > __printf attribute.
+> > > 
+> > > Fixes: 1d1bb12a8b18 ("rtc: Improve performance of rtc_time64_to_tm(). Add tests.")
+> > > Signed-off-by: David Gow <davidgow@google.com>
+> > 
+> > Who do you expect to take this patch?
+> > 
+> 
+> I am going to be applying this series to linux-kselftest kunit next
+> in just a bit. Would you like to ack the pacth?
 
-On 2/27/24 10:02, Maxime Ripard wrote:
-> Hi Maíra,
+Sure,
+
+Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+
 > 
-> Thanks for you reviews!
+> thanks,
+> -- Shuah
 > 
-> On Mon, Feb 26, 2024 at 09:29:32AM -0300, Maíra Canal wrote:
->> On 2/22/24 15:14, Maxime Ripard wrote:
->>> The vc4_dummy_plane structure is an exact equivalent to vc4_plane, so we
->>
->> Maybe I understood incorrectly, but isn't the vc4_dummy_plane structure
->> equivalent to drm_plane?
-> 
-> Both statements are true :)
-> 
-> vc4 itself uses vc4_plane to holds its plane-related content, but it
-> turns out that there's nothing in that structure anymore and vc4_plane
-> == drm_plane.
-> 
-> In our mock driver, we have another structure meant to store the
-> mock-plane-related content which doesn't have anything in it anymore,
-> and is thus equivalent to vc4_plane.
-> 
-> So, basically, vc4_dummy_plane == vc4_plane == drm_plane.
-> 
-> This patch is only about getting rid of vc4_dummy_plane though.
-> 
-> Is it clearer?
 > 
 
-Yeah, with that pointed out, you can add my:
-
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
-
-Best Regards,
-- Maíra
-
-> Maxime
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
