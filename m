@@ -2,71 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5CF186A38F
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 00:26:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B656E86A3B2
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 00:32:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2046E10E9AF;
-	Tue, 27 Feb 2024 23:26:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A42810E959;
+	Tue, 27 Feb 2024 23:32:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OsNa3m3H";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="X2PyoMKf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
- [209.85.219.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAF6010E9AF
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 23:26:31 +0000 (UTC)
-Received: by mail-yb1-f180.google.com with SMTP id
- 3f1490d57ef6-dcbc6a6808fso4249337276.2
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 15:26:31 -0800 (PST)
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com
+ [209.85.166.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C70C10E752
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 23:32:12 +0000 (UTC)
+Received: by mail-io1-f53.google.com with SMTP id
+ ca18e2360f4ac-7bff8f21b74so46713939f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 15:32:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1709076390; x=1709681190; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=BVBbYCFm8xr3sv+kzZJvqh1w9VqUrbToySZUueJGefY=;
- b=OsNa3m3Ho1JPibEpdmVqrItoISghXuTvZs+Cdy+3d8aUClD67qAolaAeckpl6HUKzj
- gqkOAuWB08leKi2mUFljROQRuPupWbfsPWVAkCii2Kl44pXIIdX9p2PDyUMOoNtT9vip
- Vo01ba4B6wbk92yhF2usrEfsF6hw4C1BYVlpspe9Zu8GBemwi5Y2X2JfUdiCbvC91d4X
- s/MBi1E7Z3QFUkzdr0nGME8QBmJq6rymsTF4Ahz1iXnT7qXc+AVwdrWf/f1Zc1rRgOmK
- /CzHI/NNKiWtF+p+SjmI3bLuFtMd6LFXea0syoi3jWJ6irFe9Qe8i4WcKRWLk3XNSOdB
- epCA==
+ d=linuxfoundation.org; s=google; t=1709076731; x=1709681531;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=80vE8I00zUuMjb98bapG9u6P0XhLZj80ZGaIUfonjH8=;
+ b=X2PyoMKfgLhUNztyS4L8quH6/rG7Y+XUtCuNfkKa62qaabVILjJSzhORPSCgK0eKbU
+ wADHL2YI7aKe2DFQgNT9cVmo1ftNULMiMvGQUYOULCnSquJBsjH4s0TzeusWdDhw9oWS
+ eH+wwsNNr21AhQJRb+e/ng2d8ksBJeqjojhgw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709076390; x=1709681190;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=BVBbYCFm8xr3sv+kzZJvqh1w9VqUrbToySZUueJGefY=;
- b=KHaYXRnxvLmGpxPQzyq56RRS9JwnC2LqD2Jr/vRkLxzNsHzyBSKdTsIp+JYBtr/l+J
- LF4q1x92z+SlQTH+IfcKckifZOayMlB+3XeTEfisNXCZ9da+UR3PKMJPHwvu6Ms5soUr
- 0PhVrwJ8RJW40fCvfCrAk+wIRTaR0ntDCyzfKfj9JC2xtKjJc2JhYWLWlTsXTsf2a1nZ
- 8Ahn06Am5zGsZhZMzsQf8T64AIXW10ABaYQh4je0nndr6PMjaAtHiEl3vQdM4lgt8icO
- Wd5noY9DPj2U2i1fCz6P2iI1zDoiCpPMyGuyfU3NFlzYZ4yX9T/WUn7j9ky2gHb8+1Ha
- 5fbg==
-X-Gm-Message-State: AOJu0Yz3pz0ooPZyugOCvxxamj55X0OCwCG2ZufSeTCe41ljcQAgk2af
- UJl1Il1LgKUo32PzSXJXG3Z4/mXt0yVthy2MGHVHg/LfsXM+p3ttPqY9dF5Bxg//6aQEsONQcSC
- EDDmSj4M0ub1pF6ndwePyAA3Yyz0wy6JdFvZg8Q==
-X-Google-Smtp-Source: AGHT+IENq+Z2eNW1wAYtx3jcYc0DCa1qzovnKAILy5xMkbCWx5AIdIffMtBPby/y+fF9qj55pcq7eXqn7KKIej1xoAQ=
-X-Received: by 2002:a05:6902:1b88:b0:dcb:fb49:cb93 with SMTP id
- ei8-20020a0569021b8800b00dcbfb49cb93mr1087639ybb.45.1709076390718; Tue, 27
- Feb 2024 15:26:30 -0800 (PST)
+ d=1e100.net; s=20230601; t=1709076731; x=1709681531;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=80vE8I00zUuMjb98bapG9u6P0XhLZj80ZGaIUfonjH8=;
+ b=oe0t3W1uraizOZKsJJ20nbCCd5yiSb/0Qw4H2lBK2e1ofgvbJNrWknQfzQatXx0K2X
+ 0pACsLZD10IwZ+ejEO+r7baS9yqmiVGIaGwqkh3U/esy8tIvLAXxEgKypG5wATgH3seN
+ wYwngKf79G1ypdX4r8FuFQB2lmoj7hRz6w8ttASYax9ajAn1z6cz0TkEvUqItyGxV2dp
+ +JZYAIwKnhxidQFoluB6ESFlcgRwFQ/UfTn/oZRKzj/KRwUXqu+7BO4zoCEAJc366Yjl
+ ijb1SLltTUBhsSoSu92I1OcHwzi7f/BhW4VdD20Wf1FjTIlw1MRmODr74+Rs7FQHh+4U
+ gxhA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVl96Y3HWraZma1DCflJDZNhLYoWoGgnJjJz/08kdEFybU7fOo1c/pJzLKj9ss/pghjCkOR3svRtzMAljVc3nAVBQAdTQgyicyE+SgHpY/v
+X-Gm-Message-State: AOJu0YyRWzSCjv2FONkyOjkilx7rbVr549eMfmBpPhWdYZ5IUzsEzHva
+ 5R7Vj3qXa+eHClCbsFhemP35IPqov/6O7gt8kq/CGHX2Y+/KtUe8qGAcuORRblo=
+X-Google-Smtp-Source: AGHT+IG69oUodDQLtj9TB2lWzXOa+NfkxOjVRrZm5njOmm/xNqu/JAHdlHJH3zfk/5jCzDJ8f9tmVg==
+X-Received: by 2002:a05:6602:2195:b0:7c7:ce93:f532 with SMTP id
+ b21-20020a056602219500b007c7ce93f532mr5798424iob.1.1709076731281; 
+ Tue, 27 Feb 2024 15:32:11 -0800 (PST)
+Received: from [192.168.1.128] ([38.175.170.29])
+ by smtp.gmail.com with ESMTPSA id
+ s20-20020a6bd314000000b007c45ab3dc34sm1998648iob.29.2024.02.27.15.32.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Feb 2024 15:32:10 -0800 (PST)
+Message-ID: <fd438c6c-87a2-4976-aee1-b706212914c4@linuxfoundation.org>
+Date: Tue, 27 Feb 2024 16:32:09 -0700
 MIME-Version: 1.0
-References: <20240227141928.1.I24ac8d51544e4624b7e9d438d95880c4283e611b@changeid>
-In-Reply-To: <20240227141928.1.I24ac8d51544e4624b7e9d438d95880c4283e611b@changeid>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 28 Feb 2024 01:26:19 +0200
-Message-ID: <CAA8EJppQYQCGL8UCX28JwrkX7Nb4pQStboXbyaEw=T+D6F-OAQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/udl: Add ARGB8888 as a format
-To: Douglas Anderson <dianders@chromium.org>
-Cc: dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>, 
- Javier Martinez Canillas <javierm@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
- Dave Airlie <airlied@redhat.com>, David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>,
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
- Sean Paul <sean@poorly.run>, Thomas Zimmermann <tzimmermann@suse.de>, 
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/9] kunit: Fix printf format specifier issues in KUnit
+ assertions
+Content-Language: en-US
+To: David Gow <davidgow@google.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Guenter Roeck <linux@roeck-us.net>, Rae Moar <rmoar@google.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Kees Cook <keescook@chromium.org>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Willem de Bruijn <willemb@google.com>, Florian Westphal <fw@strlen.de>,
+ Cassio Neri <cassio.neri@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Arthur Grillo <arthur.grillo@usp.br>
+Cc: Brendan Higgins <brendan.higgins@linux.dev>,
+ Daniel Latypov <dlatypov@google.com>, Stephen Boyd <sboyd@kernel.org>,
+ David Airlie <airlied@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ "David S . Miller" <davem@davemloft.net>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org,
+ linux-rtc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com, linux-hardening@vger.kernel.org,
+ netdev@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <20240221092728.1281499-1-davidgow@google.com>
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20240221092728.1281499-1-davidgow@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,26 +102,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 28 Feb 2024 at 00:19, Douglas Anderson <dianders@chromium.org> wrote:
->
-> Even though the UDL driver converts to RGB565 internally (see
-> pixel32_to_be16() in udl_transfer.c), it advertises XRGB8888 for
-> compatibility. Let's add ARGB8888 to that list.
->
-> This makes UDL devices work on ChromeOS again after commit
-> c91acda3a380 ("drm/gem: Check for valid formats"). Prior to that
-> commit things were "working" because we'd silently treat the ARGB8888
-> that ChromeOS wanted as XRGB8888.
->
-> Fixes: c91acda3a380 ("drm/gem: Check for valid formats")
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
->
->  drivers/gpu/drm/udl/udl_modeset.c | 1 +
->  1 file changed, 1 insertion(+)
+On 2/21/24 02:27, David Gow wrote:
+> KUnit has several macros which accept a log message, which can contain
+> printf format specifiers. Some of these (the explicit log macros)
+> already use the __printf() gcc attribute to ensure the format specifiers
+> are valid, but those which could fail the test, and hence used
+> __kunit_do_failed_assertion() behind the scenes, did not.
+> 
+> These include:
+> - KUNIT_EXPECT_*_MSG()
+> - KUNIT_ASSERT_*_MSG()
+> - KUNIT_FAIL()
+> 
+> This series adds the __printf() attribute, and fixes all of the issues
+> uncovered. (Or, at least, all of those I could find with an x86_64
+> allyesconfig, and the default KUnit config on a number of other
+> architectures. Please test!)
+> 
+> The issues in question basically take the following forms:
+> - int / long / long long confusion: typically a type being updated, but
+>    the format string not.
+> - Use of integer format specifiers (%d/%u/%li/etc) for types like size_t
+>    or pointer differences (technically ptrdiff_t), which would only work
+>    on some architectures.
+> - Use of integer format specifiers in combination with PTR_ERR(), where
+>    %pe would make more sense.
+> - Use of empty messages which, whilst technically not incorrect, are not
+>    useful and trigger a gcc warning.
+> 
+> We'd like to get these (or equivalent) in for 6.9 if possible, so please
+> do take a look if possible.
+> 
+> Thanks,
+> -- David
+> 
+> Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Closes: https://lore.kernel.org/linux-kselftest/CAHk-=wgJMOquDO5f8ShH1f4rzZwzApNVCw643m5-Yj+BfsFstA@mail.gmail.com/
+> 
+> David Gow (9):
+>    kunit: test: Log the correct filter string in executor_test
+>    lib/cmdline: Fix an invalid format specifier in an assertion msg
+>    lib: memcpy_kunit: Fix an invalid format specifier in an assertion msg
+>    time: test: Fix incorrect format specifier
+>    rtc: test: Fix invalid format specifier.
+>    net: test: Fix printf format specifier in skb_segment kunit test
+>    drm: tests: Fix invalid printf format specifiers in KUnit tests
+>    drm/xe/tests: Fix printf format specifiers in xe_migrate test
+>    kunit: Annotate _MSG assertion variants with gnu printf specifiers
+> 
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Applied all patches in this series except to linux-ksefltest kunit
+for linux 6.9-rc1
 
--- 
-With best wishes
-Dmitry
+drm: tests: Fix invalid printf format specifiers in KUnit tests
+
+David, as requtested in 7/9 thread, if you can send me patch on
+top pf 6.8-rc6, will apply it
+
+7-9 drm: tests: Fix invalid printf format specifiers in KUnit tests
+
+thanks,
+-- Shuah
+
+
