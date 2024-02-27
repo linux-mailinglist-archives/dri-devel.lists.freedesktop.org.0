@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 448788687E1
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 04:46:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E96308687DF
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 04:46:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED0F910F2B3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDB2410F2B1;
 	Tue, 27 Feb 2024 03:46:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dbFvYQ/r";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Z066j77N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com
- [209.85.166.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C0E010F2B1
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 03:46:00 +0000 (UTC)
-Received: by mail-io1-f52.google.com with SMTP id
- ca18e2360f4ac-7bf7e37dc60so218721439f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 19:46:00 -0800 (PST)
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com
+ [209.85.166.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD3F810F2B1
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 03:46:01 +0000 (UTC)
+Received: by mail-il1-f175.google.com with SMTP id
+ e9e14a558f8ab-3657d1d4516so13604865ab.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Feb 2024 19:46:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1709005558; x=1709610358; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1709005560; x=1709610360; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ucD/+p4K6+j2ZE6i/N6HFdJPDZilTnGBi4Fcog1oUsI=;
- b=dbFvYQ/r1zuZv7sOrkn5Fe4o0e7CdlcmMqMQ8/9pRPy1buyuD78BOM6tZN86XX8/dA
- Ic50o870z1GcFNy0yRGd7qMdpItpr5wgP9lm9zUgabxVpA2Xsjual2OzDj5FrtALVMEU
- qWktCehcuQd9y9jTLJupDaTt30bzLFq90Sih675SnJJ7iSVrwSqeg3GGur6uQn/r2hxP
- u3VdQpFYoFHTVQevchU7it7g6YEYfszdXIKGsRzhUH/suOTL1xNDIfdhm63kBdB9SfP7
- tWkeH97EYxubkdt0hifQ1ngez6US5LqWWls4QvVN2Cul1pxMcI2FsKgWpReEGl8RFxUV
- YM5A==
+ bh=TFyPT0505OQhdGJk2meFYZ2auxbPN2hQffBG52zYkHM=;
+ b=Z066j77Nb0cVbx87R1/ZYXuJincKE+nyH65NxsJzvXo+Mr8+qPLJWA3kRmEWHsZeWJ
+ 5LD2hRznCYAJ8SWuK8mO7peMhjU0L4TzzY1ytB14yhjVNFxiK7xQDmi/Jj2t64tG1ghA
+ MYQH8b93rn+DCUtpV/S0gVGrDvQXg5WSTPT2/sRWvweu/EszAKovKiC1THPaK5ApEKbx
+ 7IhmlLRiWWOGPfrvlV+6nT3Zza/JXquGQpPlDafNLCnyeuJajC5e2nHnCb85QSABqHaG
+ ip7SrgwT9HUf5qJpOxt3w/ekG1QiSZZ0q/5UK2Fn++G2xZt8iWaU9uoH1v7zDd/o8RBi
+ oc7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709005558; x=1709610358;
+ d=1e100.net; s=20230601; t=1709005560; x=1709610360;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ucD/+p4K6+j2ZE6i/N6HFdJPDZilTnGBi4Fcog1oUsI=;
- b=kgAN3GwkxNYwsI+fPOQ5B9rvezrV5z/3X2SZ97+wZmlQJv3pLg8tkwYP99FAU3ddMq
- gsF+b8Haaat/TXZ5xloIi/RGlDWd8258HeFVtz8meLRklM1AiwGc+l+ZlBcI3Ia02M9C
- CkZ/rw5wwnVrkeB33K3z4Pjsl01k7KWewXGh32zEgakPAQsu7rvinK9IHHBCPuSYCks8
- k1leAc0e7NFMTvrByOEEJEhdJz7rPk1yrONWQPoDUhhjPRRh8G64K6/DB7/l4qJ8dHl3
- Mi9rRGycgkTlxjZLU1fxvE07gxuPtV6mu0Pn/mdo1nHkUsVj3IsRb4xx9tGTQam4pBrR
- PbLA==
-X-Gm-Message-State: AOJu0YxznccLxZHbhYTZfu8dx+PL12Z7Bp5zV1T8bjpbhqmEaeu0+L2N
- cL8t9bTCCohsp9E1M8DvFNyz9uSMPtCnulNSCRuTa3/ywNCDJHORQkJf6S2TYCWySICp
-X-Google-Smtp-Source: AGHT+IEEX+eGY8wwb+gRh5Rwva/dPaMluotD4yi0XNwRuMV8qyLsDXz+GtY5HhmQ4McOBOW+ph9nRg==
-X-Received: by 2002:a92:c8c4:0:b0:365:16cd:66 with SMTP id
- c4-20020a92c8c4000000b0036516cd0066mr9677139ilq.31.1709005558600; 
- Mon, 26 Feb 2024 19:45:58 -0800 (PST)
+ bh=TFyPT0505OQhdGJk2meFYZ2auxbPN2hQffBG52zYkHM=;
+ b=eNhQMhx7MUu48KzuDkZkvlqZQbtuXqaSMd+UtgugtUvpkGfgCpLqgGXz61bEd+clD1
+ PUwmrsGaUFti1eE/dglSJr04681Xb0tNddzl/hxgxqIpniqAB8M5JjXFm6fTDRrF5VwF
+ mtIopfmkVyA2Q4zzIzgMaR7R+D35mzt5J1h2tpNb/cN79JQd+RD1riUqX7fdha0AaNQu
+ 8NZ/cXAp5U8s2WPrqWh0OYG1dVLGUhs0ZexmtyZMUwOQBU65rsdGasgpVBr2+3nwqmed
+ mzVkzajOsGvtBRgcMsFuY7RbTnTDejN4+joA4/UlQjP8d7650WFPTqy5aJKdSKcR17J9
+ dT3Q==
+X-Gm-Message-State: AOJu0Yyl1B5WoK0HvVvVdY7y/AZj2mD8ZhWDCowweKbIRavkBeMWh4I0
+ QPawSTpPtBHik+Dfh7GnDG5Qxbzh9hnCfo1RDBfqIYSRI9olTtQXEEdFC8eXpywrd/np
+X-Google-Smtp-Source: AGHT+IF/j0iIPL7V2P2BUiJXLUpppCmaVzcpbY0QBgp5dSUNNZbLSyTfL1NORWHj1+f4qH0v24U45g==
+X-Received: by 2002:a92:dc86:0:b0:365:13af:84ba with SMTP id
+ c6-20020a92dc86000000b0036513af84bamr9402827iln.5.1709005560378; 
+ Mon, 26 Feb 2024 19:46:00 -0800 (PST)
 Received: from aford-System-Version.lan
  ([2601:447:d002:5be:1712:c48b:aaa0:cd8b])
  by smtp.gmail.com with ESMTPSA id
- w4-20020a92ad04000000b00362b4d251a5sm1891566ilh.25.2024.02.26.19.45.57
+ w4-20020a92ad04000000b00362b4d251a5sm1891566ilh.25.2024.02.26.19.45.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Feb 2024 19:45:58 -0800 (PST)
+ Mon, 26 Feb 2024 19:46:00 -0800 (PST)
 From: Adam Ford <aford173@gmail.com>
 To: dri-devel@lists.freedesktop.org,
 	linux-renesas-soc@vger.kernel.org
@@ -69,10 +69,9 @@ Cc: aford@beaconembedded.com, Adam Ford <aford173@gmail.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 1/6] dt-bindings: gpu: powervr-rogue: Add PowerVR support for
- some Renesas GPUs
-Date: Mon, 26 Feb 2024 21:45:31 -0600
-Message-ID: <20240227034539.193573-2-aford173@gmail.com>
+Subject: [PATCH 2/6] arm64: dts: renesas: r8a774a1: Enable GPU
+Date: Mon, 26 Feb 2024 21:45:32 -0600
+Message-ID: <20240227034539.193573-3-aford173@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240227034539.193573-1-aford173@gmail.com>
 References: <20240227034539.193573-1-aford173@gmail.com>
@@ -93,43 +92,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the binding to add support for various Renesas SoC's with PowerVR
-Rogue GX6250 and GX6650 GPUs.  These devices only need one clock, so update
-the table to indicate such like what was done for the ti,am62-gpu.
+The GPU on the RZ/G2M is a Rogue GX6250 which uses firmware
+rogue_4.45.2.58_v1.fw available from Imagination.
+
+When enumerated, it appears as:
+  powervr fd000000.gpu: [drm] loaded firmware powervr/rogue_4.45.2.58_v1.fw
+  powervr fd000000.gpu: [drm] FW version v1.0 (build 6513336 OS)
 
 Signed-off-by: Adam Ford <aford173@gmail.com>
 
-diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-index 256e252f8087..7c75104df09f 100644
---- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-+++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-@@ -14,6 +14,11 @@ properties:
-   compatible:
-     items:
-       - enum:
-+          - renesas,r8a774a1-gpu
-+          - renesas,r8a774e1-gpu
-+          - renesas,r8a77951-gpu
-+          - renesas,r8a77960-gpu
-+          - renesas,r8a77961-gpu
-           - ti,am62-gpu
-       - const: img,img-axe # IMG AXE GPU model/revision is fully discoverable
+diff --git a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+index a8a44fe5e83b..8923d9624b39 100644
+--- a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+@@ -2352,6 +2352,16 @@ gic: interrupt-controller@f1010000 {
+ 			resets = <&cpg 408>;
+ 		};
  
-@@ -51,7 +56,13 @@ allOf:
-       properties:
-         compatible:
-           contains:
--            const: ti,am62-gpu
-+            enum:
-+              - ti,am62-gpu
-+              - renesas,r8a774a1-gpu
-+              - renesas,r8a774e1-gpu
-+              - renesas,r8a77951-gpu
-+              - renesas,r8a77960-gpu
-+              - renesas,r8a77961-gpu
-     then:
-       properties:
-         clocks:
++		gpu: gpu@fd000000 {
++			compatible = "renesas,r8a774a1-gpu", "img,img-axe";
++			reg = <0 0xfd000000 0 0x20000>;
++			clocks = <&cpg CPG_MOD 112>;
++			clock-names = "core";
++			interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
++			power-domains = <&sysc R8A774A1_PD_3DG_B>;
++			resets = <&cpg 112>;
++		};
++
+ 		pciec0: pcie@fe000000 {
+ 			compatible = "renesas,pcie-r8a774a1",
+ 				     "renesas,pcie-rcar-gen3";
 -- 
 2.43.0
 
