@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 839FD868CE9
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 11:06:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89C7D868CEA
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 11:06:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28C9410F2CD;
-	Tue, 27 Feb 2024 10:06:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 977E410F2E0;
+	Tue, 27 Feb 2024 10:06:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="EM2nsMId";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="PLfHrMuU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06EC610EEA7
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 10:05:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E23E10EF1A
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 10:05:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1709028337;
+ s=mimecast20190719; t=1709028339;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hITNByNTq1P+Xj+RWDty/BpmbZyxmLWXBzUpGFGpVts=;
- b=EM2nsMIdiY6EWXzwmyA3W+zHkGnbHFAzdiD+/k9yTNL6eQGwSVyw+QDuDKKAqhJwwPnKm/
- pxOimNOacSMiMw3RGhltUGskDtIlPqZAYkbUHc9NjSwksi0u/4mHNygWprFoiWczpFKLER
- GdziYlkVNb1wBwARAD9LWsbtHu2YV5A=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-512-pnrCuvx-N2uOGBGVkcvF3w-1; Tue,
- 27 Feb 2024 05:05:34 -0500
-X-MC-Unique: pnrCuvx-N2uOGBGVkcvF3w-1
+ bh=muO4scGfp5hzN4LwY9z4VCoP0RmGrXrbkWS1jH3ydoo=;
+ b=PLfHrMuUlfQIeaWB7jZxyrz4Fz0iN5cuvCi1z/IPKuWZRNLnUUOpxLkOgvo1E0Yd66NtnI
+ EyDgF7Aj0Orq7lGMTfPpd12yjiRyBYU4Eg1buPZEp9kqWZJ4qGNEtpqEmgsU6ltVfAR8b2
+ /V6qEd+YxQFQGGODC1eiFVEz4qnFlZ8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-668-dCSiBWfvMCirrkuQgeBhpw-1; Tue, 27 Feb 2024 05:05:36 -0500
+X-MC-Unique: dCSiBWfvMCirrkuQgeBhpw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9AE1929ABA11;
- Tue, 27 Feb 2024 10:05:33 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 996E3185A782;
+ Tue, 27 Feb 2024 10:05:35 +0000 (UTC)
 Received: from hydra.redhat.com (unknown [10.39.192.179])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D3FE139CAC;
- Tue, 27 Feb 2024 10:05:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D1B9135458;
+ Tue, 27 Feb 2024 10:05:33 +0000 (UTC)
 From: Jocelyn Falempe <jfalempe@redhat.com>
 To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
  javierm@redhat.com, bluescreen_avenger@verizon.net, noralf@tronnes.org
 Cc: gpiccoli@igalia.com,
 	Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH v8 3/8] drm/panic: Add debugfs entry to test without
- triggering panic.
-Date: Tue, 27 Feb 2024 11:04:14 +0100
-Message-ID: <20240227100459.194478-4-jfalempe@redhat.com>
+Subject: [PATCH v8 4/8] drm/fb_dma: Add generic set_scanout_buffer() for
+ drm_panic
+Date: Tue, 27 Feb 2024 11:04:15 +0100
+Message-ID: <20240227100459.194478-5-jfalempe@redhat.com>
 In-Reply-To: <20240227100459.194478-1-jfalempe@redhat.com>
 References: <20240227100459.194478-1-jfalempe@redhat.com>
 MIME-Version: 1.0
@@ -74,94 +74,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a debugfs file, so you can test drm_panic without freezing
-your machine. This is unsafe, and should be enabled only for
-developer or tester.
+This was initialy done for imx6, but should work on most drivers
+using drm_fb_dma_helper.
 
-to display the drm_panic screen, just run:
-echo 1 > /sys/kernel/debug/drm_panic/trigger
+v8:
+ * Replace get_scanout_buffer() logic with drm_panic_set_buffer()
+   (Thomas Zimmermann)
 
 Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
 ---
- drivers/gpu/drm/Kconfig     |  9 +++++++
- drivers/gpu/drm/drm_panic.c | 47 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 56 insertions(+)
+ drivers/gpu/drm/drm_fb_dma_helper.c | 37 +++++++++++++++++++++++++++++
+ include/drm/drm_fb_dma_helper.h     |  4 ++++
+ 2 files changed, 41 insertions(+)
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index c17d8a8f6877..8dcea29f595c 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -125,6 +125,15 @@ config DRM_PANIC_BACKGROUND_COLOR
- 	depends on DRM_PANIC
- 	default 0x000000
- 
-+config DRM_PANIC_DEBUG
-+	bool "Add a debug fs entry to trigger drm_panic"
-+	depends on DRM_PANIC && DEBUG_FS
-+	help
-+	  Add drm_panic/trigger in the kernel debugfs, to force the panic
-+	  handler to write the panic message to the scanout buffer. This is
-+	  unsafe and should not be enabled on a production build.
-+	  If in doubt, say "N".
-+
- config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
-         bool "Enable refcount backtrace history in the DP MST helpers"
- 	depends on STACKTRACE_SUPPORT
-diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-index c9f386476ef9..c5d3f725c5f5 100644
---- a/drivers/gpu/drm/drm_panic.c
-+++ b/drivers/gpu/drm/drm_panic.c
-@@ -398,3 +398,50 @@ void drm_panic_unregister(struct drm_plane *plane)
+diff --git a/drivers/gpu/drm/drm_fb_dma_helper.c b/drivers/gpu/drm/drm_fb_dma_helper.c
+index 3b535ad1b07c..31ba71644e2b 100644
+--- a/drivers/gpu/drm/drm_fb_dma_helper.c
++++ b/drivers/gpu/drm/drm_fb_dma_helper.c
+@@ -15,6 +15,7 @@
+ #include <drm/drm_framebuffer.h>
+ #include <drm/drm_gem_dma_helper.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
++#include <drm/drm_panic.h>
+ #include <drm/drm_plane.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/module.h>
+@@ -148,3 +149,39 @@ void drm_fb_dma_sync_non_coherent(struct drm_device *drm,
+ 	}
  }
- EXPORT_SYMBOL(drm_panic_unregister);
- 
+ EXPORT_SYMBOL_GPL(drm_fb_dma_sync_non_coherent);
 +
-+/*
-+ * DEBUG, This is currently unsafe.
-+ * Also it will call all panic_notifier, since there is no way to filter and
-+ * only call the drm_panic notifier.
++#if defined(CONFIG_DRM_PANIC)
++/**
++ * drm_panic_gem_set_scanout_buffer - helper around drm_panic_set_buffer()
++ *
++ * @plane: primary plane registered to drm_panic
++ * @fb: framebuffer attached to the plane state
++ *
++ * Update plane->panic_scanout with the new framebuffer.
 + */
-+#ifdef CONFIG_DRM_PANIC_DEBUG
-+#include <linux/debugfs.h>
-+
-+static struct dentry *debug_dir;
-+static struct dentry *debug_trigger;
-+
-+static ssize_t dbgfs_trigger_write(struct file *file, const char __user *user_buf,
-+				   size_t count, loff_t *ppos)
++void drm_panic_gem_set_scanout_buffer(struct drm_plane *plane,
++				      struct drm_framebuffer *fb)
 +{
-+	bool run;
++	struct drm_gem_dma_object *dma_obj;
++	struct iosys_map map;
 +
-+	if (kstrtobool_from_user(user_buf, count, &run) == 0 && run)
-+		atomic_notifier_call_chain(&panic_notifier_list, 0, "Test drm panic from debugfs");
-+	return count;
++	if (!plane->panic_scanout)
++		return;
++
++	if (fb->modifier == DRM_FORMAT_MOD_LINEAR) {
++		dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
++		if (dma_obj && dma_obj->vaddr) {
++			iosys_map_set_vaddr(&map, dma_obj->vaddr);
++			drm_panic_set_buffer(plane->panic_scanout, fb, &map);
++			return;
++		}
++	}
++	drm_panic_unset_buffer(plane->panic_scanout);
 +}
-+
-+static const struct file_operations dbg_drm_panic_ops = {
-+	.owner = THIS_MODULE,
-+	.write = dbgfs_trigger_write,
-+};
-+
-+static int __init debugfs_start(void)
++#else
++void drm_panic_gem_set_scanout_buffer(struct drm_plane *plane,
++				      struct drm_framebuffer *fb)
 +{
-+	debug_dir = debugfs_create_dir("drm_panic", NULL);
-+
-+	if (IS_ERR(debug_dir))
-+		return PTR_ERR(debug_dir);
-+	debug_trigger = debugfs_create_file("trigger", 0200, debug_dir,
-+					    NULL, &dbg_drm_panic_ops);
-+	return 0;
 +}
-+
-+static void __exit debugfs_end(void)
-+{
-+	debugfs_remove_recursive(debug_dir);
-+}
-+
-+module_init(debugfs_start);
-+module_exit(debugfs_end);
-+
 +#endif
++EXPORT_SYMBOL(drm_panic_gem_set_scanout_buffer);
+diff --git a/include/drm/drm_fb_dma_helper.h b/include/drm/drm_fb_dma_helper.h
+index d5e036c57801..9f9ec11343cd 100644
+--- a/include/drm/drm_fb_dma_helper.h
++++ b/include/drm/drm_fb_dma_helper.h
+@@ -7,6 +7,7 @@
+ struct drm_device;
+ struct drm_framebuffer;
+ struct drm_plane_state;
++struct drm_scanout_buffer;
+ 
+ struct drm_gem_dma_object *drm_fb_dma_get_gem_obj(struct drm_framebuffer *fb,
+ 	unsigned int plane);
+@@ -19,5 +20,8 @@ void drm_fb_dma_sync_non_coherent(struct drm_device *drm,
+ 				  struct drm_plane_state *old_state,
+ 				  struct drm_plane_state *state);
+ 
++void drm_panic_gem_set_scanout_buffer(struct drm_plane *plane,
++				     struct drm_framebuffer *fb);
++
+ #endif
+ 
 -- 
 2.43.0
 
