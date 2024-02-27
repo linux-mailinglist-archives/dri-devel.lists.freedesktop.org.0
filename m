@@ -2,58 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D165868FA6
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 13:05:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB1CB868FAF
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 13:08:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C626F10E11E;
-	Tue, 27 Feb 2024 12:05:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D9E910E48A;
+	Tue, 27 Feb 2024 12:08:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="p3eb9o76";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rPcOhAiN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F38CF10E11E
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 12:05:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1709035549; x=1740571549;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=7rzlTfcbQRbubGK+HCKREzYFqosifS4DbMNEYtHdvpc=;
- b=p3eb9o76bFayFw7yZFIsdCc542NhGgbFHNaCXvv0Wgj6q6Dmawfjefs0
- SULV0LWmqsRvFjK9AOk+yxhwEgUup1xtFNr8zvnvBDmKC4GPHDWg6uG+q
- b1z5wdosKylwHL2e7meerfob+E18xXklK89PWiC3490CMz9o08Q1KhCpF
- W5ooVGDJorK8yKmYv2YOoSGkY3Y/tXgxYPFQ9nLH0HkcCHXvEbjEO6Phw
- A0zTypfdX3iQAcwjSg02bM5B9/uOEjAjYX6BcdfgMjxxrtkGAQnFIs3Wr
- XsYQgiXzOHCHSwTwGACpe1S3853iEOUaGFJGdrd4W/rppscLiGpEAGd6n A==;
-X-IronPort-AV: E=Sophos;i="6.06,187,1705359600"; d="scan'208";a="35617237"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 27 Feb 2024 13:05:46 +0100
-Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.25])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id BAB7D280075;
- Tue, 27 Feb 2024 13:05:45 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/1] drm/bridge: ti-sn65dsi83: Fix enable error path
-Date: Tue, 27 Feb 2024 13:05:46 +0100
-Message-ID: <1885005.tdWV9SEqCh@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20240222163637.12165adf@booty>
-References: <20230504065316.2640739-1-alexander.stein@ew.tq-group.com>
- <20240222163637.12165adf@booty>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FDB010E48A
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 12:08:18 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8D20661539;
+ Tue, 27 Feb 2024 12:08:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF9B4C43390;
+ Tue, 27 Feb 2024 12:08:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1709035697;
+ bh=ACaz7oj5ReqFoIR72ebNJXl994t4BOU7shgO5K8CUjs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rPcOhAiN2PtkNLYRBMqmRiMbDR6p59SbOgdUHY6MdY/GfepvdtHrN4RR9v1sZYqf6
+ jGI2QQj99JWnXpmDj76LwUn5WOEnN2l8plI/Woy9JymhacQ8VopW5b3x8MDmW6BR3I
+ 1mhXEPNwYTypLA8EvT5QrKq5WyQSqfjz/WuF4zmZbFCzvBEEroimeIedS523uwhWc0
+ uq2irP6Mmsab/1y0zyVOZI3iqcQ1Tt+elVYtsRMaL5qiHIHNgePfxDPrjcFVWcmbyP
+ nzPJdHwMz3keyVrdNrECnvtckEFIcLNcawWXousAOSunIXQ/sdzf7RMhsqiuz0ENoH
+ NKhxbGiV9gDEw==
+Date: Tue, 27 Feb 2024 13:08:14 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v7 25/36] drm/connector: hdmi: Add Infoframes generation
+Message-ID: <lxvyfigepzg4jhqub6lg6lmffen4puf477zjxmi766f3hu6trn@nnvg6htufsjn>
+References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
+ <20240222-kms-hdmi-connector-state-v7-25-8f4af575fce2@kernel.org>
+ <CAA8EJpri_whY8YfX2BsBjMN_4JvFsU-ogfr1W-KUKrasRoH-WQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ocit6yam46alzc5t"
+Content-Disposition: inline
+In-Reply-To: <CAA8EJpri_whY8YfX2BsBjMN_4JvFsU-ogfr1W-KUKrasRoH-WQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,161 +71,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Luca,
 
-Am Donnerstag, 22. Februar 2024, 16:36:37 CET schrieb Luca Ceresoli:
-> Hello Alexander,
->=20
-> On Thu,  4 May 2023 08:53:16 +0200
-> Alexander Stein <alexander.stein@ew.tq-group.com> wrote:
->=20
-> > If PLL locking failed, the regulator needs to be disabled again.
-> >=20
-> > Fixes: 5664e3c907e2 ("drm/bridge: ti-sn65dsi83: Add vcc supply regulato=
-r support")
-> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > ---
-> >  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >=20
-> > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/br=
-idge/ti-sn65dsi83.c
-> > index 75286c9afbb9..1f5c07989e2b 100644
-> > --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> > @@ -478,6 +478,7 @@ static void sn65dsi83_atomic_enable(struct drm_brid=
-ge *bridge,
-> >  		dev_err(ctx->dev, "failed to lock PLL, ret=3D%i\n", ret);
-> >  		/* On failure, disable PLL again and exit. */
-> >  		regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
-> > +		regulator_disable(ctx->vcc);
-> >  		return;
-> >  	}
->=20
-> I'm reviving this thread as I've been investigating a bug that appears
-> related to this patch.
->=20
-> Symptom: with a v6.8-rc5 kernel, if PLL fails locking, later on during
-> atomic disable I get:
->=20
-> [   41.065198] ------------[ cut here ]------------
-> [   41.069823] unbalanced disables for DOCK_SYS_1V8
-> [   41.074482] WARNING: CPU: 0 PID: 58 at drivers/regulator/core.c:2999 _=
-regulator_disable+0xf8/0x1d8
-> [   41.083457] Modules linked in: smsc smsc95xx usbnet mii imx_cpufreq_dt=
- exc3000 imx8mm_thermal snd_soc_tlv320aic3x_spi snd_soc_tlv320aic3x_i2c snd=
-_soc_tlv320aic3x tmp103 snd_soc_simple_card snd_soc_simple_card_utils fsl_l=
-db rtc_snvs snvs_pwrkey snd_soc_fsl_sai imx8mp_interconnect snd_soc_fsl_uti=
-ls imx_interconnect imx_pcm_dma rtc_rs5c372 ti_sn65dsi83 pwm_imx27 st_press=
-ure_spi st_sensors_spi st_pressure_i2c st_pressure st_sensors_i2c industria=
-lio_triggered_buffer lm75 kfifo_buf st_sensors opt3001 panel_simple etnaviv=
- gpu_sched iio_hwmon governor_userspace imx_bus imx8mp_hdmi_tx dw_hdmi drm_=
-display_helper samsung_dsim imx_sdma imx_lcdif drm_dma_helper imx8mp_hdmi_p=
-vi drm_kms_helper drm drm_panel_orientation_quirks fsl_imx8_ddr_perf caam e=
-rror sbs_battery pwm_bl backlight ltc2497 ltc2497_core crct10dif_ce
-> [   41.157281] CPU: 0 PID: 58 Comm: kworker/0:2 Not tainted 6.8.0-rc5+ #7
-> [   41.170339] Workqueue: events drm_mode_rmfb_work_fn [drm]
-> [   41.175798] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYP=
-E=3D--)
-> [   41.182762] pc : _regulator_disable+0xf8/0x1d8
-> [   41.187209] lr : _regulator_disable+0xf8/0x1d8
-> [   41.191654] sp : ffff800081aaba90
-> [   41.194967] x29: ffff800081aaba90 x28: 0000000000000000 x27: ffff00000=
-2647e80
-> [   41.202109] x26: ffff000002d7a180 x25: ffff0000037858a0 x24: ffff80007=
-9748ac8
-> [   41.209250] x23: ffff000002647ed8 x22: ffff00000263f800 x21: ffff00000=
-373d000
-> [   41.216392] x20: ffff00000373d000 x19: ffff000001de6480 x18: 000000000=
-0000006
-> [   41.223533] x17: 0000000000000000 x16: 1fffe000003423e1 x15: ffff80008=
-1aab520
-> [   41.230674] x14: 0000000000000000 x13: 3856315f5359535f x12: 4b434f442=
-0726f66
-> [   41.237815] x11: 2073656c62617369 x10: ffff8000814647a0 x9 : ffff80008=
-01b10e0
-> [   41.244957] x8 : ffff8000814bc7a0 x7 : 0000000000017fe8 x6 : ffff80008=
-14bc7a0
-> [   41.252098] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 000000000=
-0000000
-> [   41.259239] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff00000=
-11b6600
-> [   41.266380] Call trace:
-> [   41.268826]  _regulator_disable+0xf8/0x1d8
-> [   41.272925]  regulator_disable+0x4c/0x98
-> [   41.276850]  sn65dsi83_atomic_disable+0x70/0xc0 [ti_sn65dsi83]
-> [   41.282692]  drm_atomic_bridge_chain_disable+0x78/0x110 [drm]
-> [   41.288481]  disable_outputs+0x100/0x350 [drm_kms_helper]
-> [   41.293902]  drm_atomic_helper_commit_tail_rpm+0x2c/0xb0 [drm_kms_help=
-er]
-> [   41.300705]  commit_tail+0xac/0x1a0 [drm_kms_helper]
-> [   41.305685]  drm_atomic_helper_commit+0x16c/0x188 [drm_kms_helper]
-> [   41.311881]  drm_atomic_commit+0xac/0xf0 [drm]
-> [   41.316365]  drm_framebuffer_remove+0x464/0x550 [drm]
-> [   41.321458]  drm_mode_rmfb_work_fn+0x84/0xb0 [drm]
-> [   41.326291]  process_one_work+0x148/0x3b8
-> [   41.330309]  worker_thread+0x32c/0x450
-> [   41.334061]  kthread+0x11c/0x128
-> [   41.337292]  ret_from_fork+0x10/0x20
-> [   41.340873] ---[ end trace 0000000000000000 ]---
->=20
-> The reason is clear from the code flow, which looks like this (after
-> removing unrelated code):
->=20
-> static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
->                                         struct drm_bridge_state *old_brid=
-ge_state)
-> {
->         regulator_enable(ctx->vcc);
->=20
->         if (PLL failed locking) {
->                 regulator_disable(ctx->vcc);
->                 return;
->         }
-> }
->=20
-> static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
->                                      struct drm_bridge_state *old_bridge_=
-state)
-> {
->         regulator_disable(ctx->vcc);
-> }
->=20
-> So when the PLL fails locking, the vcc regulator is disable twice,
-> leading to "unbalanced disables".
->=20
-> I initially removed the regulator_disable() line in sn65dsi83_atomic_pre_=
-enable()
-> locally and it worked fine. Then I did some git log and found you added t=
-his line on
-> purpose (even though it was in sn65dsi83_atomic_enable() initially), so m=
-y question
-> is whether you can explain exactly what was wrong before your patch. I ha=
-ve been
-> working for a few weeks with the regulator_disable() line removed and fou=
-nd no issue.
+--ocit6yam46alzc5t
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Unfortunately I' cant tell the details anymore, but I do remember hitting
-some bug regarding failed PLL lock. I do remember having a lock failure
-from time to time as well.
-I wont be able to test this bridge at the moment, but you seem to be right.
-
-On a general side, IMHO enabling the PLL in atomic_pre_enable is a bit late
-anyway, because you can't bail out if enabling fails.
-
-Best regards,
-Alexander
-
-> Best regards,
-> Luca
+On Sun, Feb 25, 2024 at 05:02:51PM +0200, Dmitry Baryshkov wrote:
+> > @@ -476,6 +478,7 @@ EXPORT_SYMBOL(drmm_connector_init);
+> >   */
+> >  int drmm_connector_hdmi_init(struct drm_device *dev,
+> >                              struct drm_connector *connector,
+> > +                            const char *vendor, const char *product,
+> >                              const struct drm_connector_funcs *funcs,
+> >                              const struct drm_connector_hdmi_funcs *hdm=
+i_funcs,
+> >                              int connector_type,
+> > @@ -485,6 +488,13 @@ int drmm_connector_hdmi_init(struct drm_device *de=
+v,
+> >  {
+> >         int ret;
+> >
+> > +       if (!vendor || !product)
+> > +               return -EINVAL;
+> > +
+> > +       if ((strlen(vendor) > DRM_CONNECTOR_HDMI_VENDOR_LEN) ||
+> > +           (strlen(product) > DRM_CONNECTOR_HDMI_PRODUCT_LEN))
+> > +               return -EINVAL;
+> > +
+> >         if (!(connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA ||
+> >               connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIB))
+> >                 return -EINVAL;
+> > @@ -500,6 +510,12 @@ int drmm_connector_hdmi_init(struct drm_device *de=
+v,
+> >                 return ret;
+> >
+> >         connector->hdmi.supported_formats =3D supported_formats;
+> > +       strtomem_pad(connector->hdmi.vendor, vendor, 0);
+> > +       strtomem_pad(connector->hdmi.product, product, 0);
+> > +
+> > +       ret =3D drmm_mutex_init(dev, &connector->hdmi.infoframes.lock);
 >=20
->=20
+> I'd suggest moving this call to the generic __drm_connector_init().
+> This way no matter how the rest of the drm code (mis)uses the
+> connector, the lock is always present and valid.
 
+Yeah, that makes sense, I'll change it.
 
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
+Thanks!
+Maxime
 
+--ocit6yam46alzc5t
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZd3QrgAKCRDj7w1vZxhR
+xUw4AQDY/7kZ7wFpO+/Ak/W0YWywU3LNZ5pkN4Om9GBNtAUK6wD/YV9OiFjDhmlL
+sW/aBGeDNa/yzjkkc0NKa5D6dGQe5Qc=
+=FJc2
+-----END PGP SIGNATURE-----
+
+--ocit6yam46alzc5t--
