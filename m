@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF4C868798
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 04:14:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B502F8687CA
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 04:29:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B96CF10E1B0;
-	Tue, 27 Feb 2024 03:14:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA3D110EFFE;
+	Tue, 27 Feb 2024 03:29:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ssg/Qxyh";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ax96dnXx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39FCE10F2AA;
- Tue, 27 Feb 2024 03:14:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D84D10E50A;
+ Tue, 27 Feb 2024 03:29:47 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1E5AB61491;
- Tue, 27 Feb 2024 03:14:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2585C433C7;
- Tue, 27 Feb 2024 03:14:21 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id E4E19611C8;
+ Tue, 27 Feb 2024 03:29:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76537C433C7;
+ Tue, 27 Feb 2024 03:29:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1709003661;
- bh=+NW+lDyow4SyOhdect9IQeTUOPcisVXIrgGQDYWrvvk=;
+ s=k20201202; t=1709004586;
+ bh=PbO3bY7v829gg1IDZCPUZSdq4KzbKx2n62G+pK1sFDI=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Ssg/QxyhOJaeXFkrLJMUmAPDsXzwnBE39E8CbEID4AG+W2Lrcs0+nNu7jmx0PXCxF
- cnbeHjJ2SUUMjwauBStXvT5oqhuwl+v6R7c/65O4crURWAjGoIG22VNzPM5wlYBxTC
- 8RNm0ixH0fdmzjPZFx1ToA7AKAsoY7v3onj4O/PjhYzQ+pV5nQ5FCM06JVhiW9BLgM
- fvqymuS0NHMjw1uv4TldwG+GVT0efutR1R4XYCijr5OQwgzD9PrSXMr3PBctISK76m
- VwAAeuTulVMVcsczI1+bN8+PB7Fop1CuC2BNuBppAYaGyzdqBqcX27lC0FvJQze6GK
- RW9Tp/Cv4uYqA==
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-2d2991e8c12so2330231fa.0; 
- Mon, 26 Feb 2024 19:14:21 -0800 (PST)
+ b=Ax96dnXxkxu8RHIhyoshWA9FfATjtaSk3DhZT3/qR9Skj6FA4aKfp6EIR71GOzDoq
+ EeS0LvagwoVql7+JFIkzthyvX+pIGLO1uXak5Ua9va20+RFdvM2R1Ys4CZH+F186/5
+ kFVTbsVHaCZjaMffNdGdFHpzf4u/Jo8rTmh+mZkw3Og/s8p45+iGBfYCkVIgK3BPQp
+ QCs1JTowZKml5nIzR8iPlstsbXU5H/KD0XFttphrkc9cG+1mb0Z1sDppKvSJbXTHxz
+ 9cIZC1L1sc3H5IRpvWzqABMEL+/qAYEuPP6NqJiu9lBSHMkci3UNM7R6ayHHC88Gdh
+ 5lgeHDWLlOzPw==
+Received: by mail-lj1-f174.google.com with SMTP id
+ 38308e7fff4ca-2d269b2ff48so43820721fa.3; 
+ Mon, 26 Feb 2024 19:29:46 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXl8z0EKsibBqWEppgnceSepzbJWcVUmLNJfv8Ias/9qFFGQqeJrwBLVvuiM/FuHraMQR8Kpe/3t0UYsBv1YVBp5rFLy8EkrqDXXIcQU8i9H2kxL8iNDbLeJqkdxNVV/tbzUx8rKNnSZbYlM4oTMqJj
-X-Gm-Message-State: AOJu0YzK+f2s9La5s04nkVNFm99nI42nb+Nm8hd1xTN3zVRiAbSyrsVm
- 6IeKB87PramKSN32DYeorBrojLG090Wq6YMgpIF0lms6fvGJ0FSF9HWClYgMp+DALnRyV9lFeX9
- kQDA5X2dVhvPcqOq9+2cjmWNy7S0=
-X-Google-Smtp-Source: AGHT+IHZR4anyPKBr3MB8qJcW7vCCqkYdpYN/Q5FVYBf6CE/Thk6VlcOx5h6wQFjPwPvyD+a8+DWJDi/ANHG223b+SE=
-X-Received: by 2002:a2e:712:0:b0:2d2:8051:3248 with SMTP id
- 18-20020a2e0712000000b002d280513248mr2491810ljh.18.1709003660412; Mon, 26 Feb
- 2024 19:14:20 -0800 (PST)
+ AJvYcCWMZRMnvk3tIPOoBNwqQN5S219trYF5/zDzN7K5162jvC3GQOuItuYnpNOhKR3EjKc9UcJCTAnDdAr8i4NdTwKo8Uz43ATOzTAiOkYzp7/T6wk0/efhT4/p58IreIh7qrqrHC6TxWeUAJ3L7aXRMlx/
+X-Gm-Message-State: AOJu0YyDLa3hf+IV/BDB23jvsosn3UVIGZfj7or5bMbwQ0o+8gq8GoKG
+ L6L+ZlOjNVijZwVh8FaSEAZNEdlBxTEZedGP4Qxo/3dzNHfWzyeJqq5tYhPMB5exVEyR8X5X1Ln
+ 079LSXjrmJFSoeGfGTqZWVF0+4sk=
+X-Google-Smtp-Source: AGHT+IEN5BN0+IfYhtY5KkvP3G7KdFLbDw6kvjAQ7IBhqxFHBEWQjHjvlLnOT09TheBp+TnxJKyTZut06ED13DYqfMA=
+X-Received: by 2002:a2e:3316:0:b0:2d1:26f0:8167 with SMTP id
+ d22-20020a2e3316000000b002d126f08167mr5270312ljc.35.1709004585013; Mon, 26
+ Feb 2024 19:29:45 -0800 (PST)
 MIME-Version: 1.0
 References: <20240226-fd-xml-shipped-v1-0-86bb6c3346d2@linaro.org>
- <20240226-fd-xml-shipped-v1-5-86bb6c3346d2@linaro.org>
-In-Reply-To: <20240226-fd-xml-shipped-v1-5-86bb6c3346d2@linaro.org>
+ <CAK7LNAQDhpAirfbb1zExH1auWkMPzncA9XpSrkv4odXOWZdQzA@mail.gmail.com>
+ <CAA8EJpotuep1MDmNvNAYAC98peK9GFUVeUJ8G-GBwunSPrsUGQ@mail.gmail.com>
+In-Reply-To: <CAA8EJpotuep1MDmNvNAYAC98peK9GFUVeUJ8G-GBwunSPrsUGQ@mail.gmail.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 27 Feb 2024 12:13:43 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARi+VwYKfVy3c2B4NKJq_VxMKQE8t8fWBF4qXJfNYA4JQ@mail.gmail.com>
-Message-ID: <CAK7LNARi+VwYKfVy3c2B4NKJq_VxMKQE8t8fWBF4qXJfNYA4JQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 05/12] drm/msm: use _shipped suffix for all xml.h files
+Date: Tue, 27 Feb 2024 12:29:08 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATwM_8imfbYZKEL5WjvxgAgu1bY3p74CiP69H4QxO9B1w@mail.gmail.com>
+Message-ID: <CAK7LNATwM_8imfbYZKEL5WjvxgAgu1bY3p74CiP69H4QxO9B1w@mail.gmail.com>
+Subject: Re: [PATCH RFC 00/12] drm/msm: add support for regenerating shipped
+ xml.h headers
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
  Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -76,54 +78,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 26, 2024 at 11:11=E2=80=AFAM Dmitry Baryshkov
+On Mon, Feb 26, 2024 at 7:49=E2=80=AFPM Dmitry Baryshkov
 <dmitry.baryshkov@linaro.org> wrote:
->
-> Move non-GPU xml.h files into the ./registers subdir and add the
-> _shipped suffix. The GPU files are left intact for now, since they
-> require processing via a gen_headers.py, while display headers are
-> regenerated using headergen2
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/msm/Makefile                       | 53 ++++++++++++++++=
-++----
->  .../{dsi/dsi.xml.h =3D> registers/dsi.xml.h_shipped} |  0
->  .../dsi_phy_10nm.xml.h_shipped}                    |  0
->  .../dsi_phy_14nm.xml.h_shipped}                    |  0
->  .../dsi_phy_20nm.xml.h_shipped}                    |  0
->  .../dsi_phy_28nm.xml.h_shipped}                    |  0
->  .../dsi_phy_28nm_8960.xml.h_shipped}               |  0
->  .../dsi_phy_7nm.xml.h_shipped}                     |  0
->  .../hdmi.xml.h =3D> registers/hdmi.xml.h_shipped}    |  0
->  .../mdp4.xml.h =3D> registers/mdp4.xml.h_shipped}    |  0
->  .../mdp5.xml.h =3D> registers/mdp5.xml.h_shipped}    |  0
->  .../mdp_common.xml.h_shipped}                      |  0
->  .../sfpb.xml.h =3D> registers/sfpb.xml.h_shipped}    |  0
->  13 files changed, 43 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
-> index 543e04fa72e3..89c9f5f93b85 100644
-> --- a/drivers/gpu/drm/msm/Makefile
-> +++ b/drivers/gpu/drm/msm/Makefile
-> @@ -1,5 +1,6 @@
->  # SPDX-License-Identifier: GPL-2.0
->  ccflags-y :=3D -I $(srctree)/$(src)
-> +ccflags-y :=3D -I $(obj)/registers
 
-
-This accidentally overwrites ccflags-y defined above.
-So, "-I $(srctree)/$(src)" is lost.
+> Could you please specify how you tried to compile the code? I can see
+> warnings from headrgen2, but I'm really puzzled by the errors from the
+> MSM driver itself.
 
 
 
-It should be
-
-  ccflags-y +=3D -I $(obj)/registers
+I applied this patch set onto v6.8-rc6.
 
 
+masahiro@zoe:~/ref/linux(testing7)$ git log --oneline  -15
+40eb59f162cc (HEAD -> testing7) drm/msm: sync shipped headers database
+ae850f45f243 drm/msm: tie regeneration of shipped headers
+45401d4034ef drm/msm: import XML registers database
+491e4d41308e drm/msm/headergen: generate _shipped files
+6766c628c097 drm/msm/headergen: don't output full file paths
+e48e9a8eaf21 drm/msm/headergen: use asprintf instead of custom aprintf
+b12d6fb5d2a0 drm/msm/headergen: import source files from freedreno/envytool=
+s
+4699358f5c5b drm/msm: use _shipped suffix for all xml.h files
+295fcf923852 drm/msm/dsi: drop mmss_cc.xml.h
+a15c0faba637 drm/msm/hdmi: drop qfprom.xml.h
+6811afe14414 drm/msm/mdp5: add writeback block bases
+feee4929582e kbuild: create destination directory for _shipped handling
+d206a76d7d27 (tag: v6.8-rc6, origin/master, origin/HEAD, master) Linux 6.8-=
+rc6
+e231dbd452a7 Merge tag 'bcachefs-2024-02-25' of
+https://evilpiepirate.org/git/bcachefs
+5197728f8182 bcachefs: fix bch2_save_backtrace()
 
-I see several build errors.
+
+I see the build errors with arm64 defconfig.
+
+[build step]
+
+  $ git clean -fdx
+  $ make ARCH=3Darm64 CROSS_COMPILE=3Daarch64-linux-gnu- defconfig
+  $ make ARCH=3Darm64 CROSS_COMPILE=3Daarch64-linux-gnu-  -j$(nproc)
+
+
+
+
+
+
+As I commented in 05/12, -I$(srctree)/$(src) is lost.
+
+
+I was able to build it with the following fix-up.
+
+
+
+--- a/drivers/gpu/drm/msm/Makefile
++++ b/drivers/gpu/drm/msm/Makefile
+@@ -1,6 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+ ccflags-y :=3D -I $(srctree)/$(src)
+-ccflags-y :=3D -I $(obj)/registers
++ccflags-y +=3D -I $(obj)/registers
+ ccflags-y +=3D -I $(srctree)/$(src)/disp/dpu1
+ ccflags-$(CONFIG_DRM_MSM_DSI) +=3D -I $(srctree)/$(src)/dsi
+ ccflags-$(CONFIG_DRM_MSM_DP) +=3D -I $(srctree)/$(src)/dp
+
+
+
+
+
+
+Better fixes would be to use #include "" properly.
+It should be relative to the source file.
+
+
+
+
+
+
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+index 592b296aab22..cf878490abd0 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+@@ -9,7 +9,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/notifier.h>
+ #include <linux/soc/qcom/qcom_aoss.h>
+-#include "msm_drv.h"
++#include "../msm_drv.h"
+ #include "a6xx_hfi.h"
+
+ struct a6xx_gmu_bo {
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index c9c55e2ea584..3a109453db31 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -2,9 +2,9 @@
+ /* Copyright (c) 2017-2019 The Linux Foundation. All rights reserved. */
+
+
+-#include "msm_gem.h"
+-#include "msm_mmu.h"
+-#include "msm_gpu_trace.h"
++#include "../msm_gem.h"
++#include "../msm_mmu.h"
++#include "../msm_gpu_trace.h"
+ #include "a6xx_gpu.h"
+ #include "a6xx_gmu.xml.h"
+
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+index bc14df96feb0..007788bf38ce 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+@@ -12,7 +12,7 @@
+ #include <linux/firmware.h>
+ #include <linux/iopoll.h>
+
+-#include "msm_gpu.h"
++#include "../msm_gpu.h"
+
+ #include "adreno_common.xml.h"
+ #include "adreno_pm4.xml.h"
+
+
+
+
 
 
 
