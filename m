@@ -2,62 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62ADF868CE8
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 11:06:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2734E868D07
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 11:11:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DD7010F2D5;
-	Tue, 27 Feb 2024 10:05:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71DF610F2DE;
+	Tue, 27 Feb 2024 10:11:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Pxebyuyg";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fSsI7Av8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A04B10F2CD
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 10:05:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1709028348;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FgZ4XMRKqEoBvch7muKogk7aZ5cshe+lV0i9UU8j50U=;
- b=PxebyuygXIaBp0IoAbB+dUzHi3tLmYISEVrpSJPXHsnVQC8Ku0bowmsGg3hxKg19QZe238
- wcU7kiGFh9zfjQ3xaAOTaUJDf7jzethwIPc0xjHJKTqULCd6+xppb5pTVguJ0uIei7v+b3
- q4XerPUEDEFf30SfhsDCpgqQd1J52nQ=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-116-s8WNrcPHPE-yUnQNaZMO-Q-1; Tue,
- 27 Feb 2024 05:05:45 -0500
-X-MC-Unique: s8WNrcPHPE-yUnQNaZMO-Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 99A1E1C0690B;
- Tue, 27 Feb 2024 10:05:44 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.39.192.179])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D223E39CAC;
- Tue, 27 Feb 2024 10:05:42 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
- javierm@redhat.com, bluescreen_avenger@verizon.net, noralf@tronnes.org
-Cc: gpiccoli@igalia.com,
-	Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH v8 8/8] drm/ast: Add drm_panic support
-Date: Tue, 27 Feb 2024 11:04:19 +0100
-Message-ID: <20240227100459.194478-9-jfalempe@redhat.com>
-In-Reply-To: <20240227100459.194478-1-jfalempe@redhat.com>
-References: <20240227100459.194478-1-jfalempe@redhat.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5135C10F2DE;
+ Tue, 27 Feb 2024 10:11:07 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id B6727CE1BA9;
+ Tue, 27 Feb 2024 10:11:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C7A1C433C7;
+ Tue, 27 Feb 2024 10:10:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1709028664;
+ bh=Q29CPa5vEr5QpJf4/e5PnJkinSzjOGGgvQ3q+BgSUQk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fSsI7Av8QnF7sgdMK78349upV4ZYcCdGzrX0KWLYJqZxbDWdBDf5zvbK0tO2FricU
+ 8eXY5S6PFywcWHEZ8hvJG60rZYRUyK/kS+vsVCkREZJh6YoBgmKuBjLc79GM7hQN1J
+ vnS9/LffgFYO+Bray3g2Hp7GXy/HnYXXdbWy9Zw3OK7ABKwMYn7EdGl5nHdMfWU7YR
+ SMyNx3oY488XRzZhTTiJIvebzSO1C+8Ex8VURuEou76CeoNJBHykd1ce+YzK94EXry
+ J2Jjcfmn0YtSBeUC8oetDg0Zgw/EfGycoJsQuICDVkFZIi5p/dlrdiVuN/M/rqQd7H
+ AbUPfCOI/iSIQ==
+Date: Tue, 27 Feb 2024 10:10:56 +0000
+From: Will Deacon <will@kernel.org>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v2 0/7] A702 support
+Message-ID: <20240227101055.GA13753@willie-the-truck>
+References: <20240219-topic-rb1_gpu-v2-0-2d3d6a0db040@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240219-topic-rb1_gpu-v2-0-2d3d6a0db040@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,55 +72,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the drm_panic module, which displays a message to
-the screen when a kernel panic occurs.
+On Fri, Feb 23, 2024 at 10:21:36PM +0100, Konrad Dybcio wrote:
+> Bit of a megaseries, bunched together for your testing convenience..
+> Needs mesa!27665 [1] on the userland part, kmscube happily spins.
+> 
+> I'm feeling quite lukewarm about the memory barriers in patch 3..
+> 
+> Patch 1 for Will/smmu, 5-6 for drm/msm, rest for qcom
 
-v7
- * Use drm_for_each_primary_visible_plane()
+I'm guessing you don't really expect me to take the clock bindings?!
 
-v8:
- * Replace get_scanout_buffer() logic with drm_panic_set_buffer()
-   (Thomas Zimmermann)
-
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- drivers/gpu/drm/ast/ast_mode.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index a718646a66b8..3d6d4c71bc34 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -43,6 +43,7 @@
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_gem_shmem_helper.h>
- #include <drm/drm_managed.h>
-+#include <drm/drm_panic.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
- 
-@@ -656,9 +657,13 @@ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 		struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
- 		struct ast_crtc_state *ast_crtc_state = to_ast_crtc_state(crtc_state);
- 		struct ast_vbios_mode_info *vbios_mode_info = &ast_crtc_state->vbios_mode_info;
-+		struct iosys_map map;
- 
- 		ast_set_color_reg(ast, fb->format);
- 		ast_set_vbios_color_reg(ast, fb->format, vbios_mode_info);
-+
-+		iosys_map_set_vaddr_iomem(&map, ast_plane->vaddr);
-+		drm_panic_set_buffer(plane->panic_scanout, fb, &map);
- 	}
- 
- 	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
-@@ -736,6 +741,7 @@ static int ast_primary_plane_init(struct ast_device *ast)
- 	}
- 	drm_plane_helper_add(primary_plane, &ast_primary_plane_helper_funcs);
- 	drm_plane_enable_fb_damage_clips(primary_plane);
-+	drm_panic_register(primary_plane);
- 
- 	return 0;
- }
--- 
-2.43.0
-
+Will
