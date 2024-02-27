@@ -2,86 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A64286A235
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 23:12:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAE8986A24F
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 23:19:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5336F10E6A9;
-	Tue, 27 Feb 2024 22:12:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15DDA10E97E;
+	Tue, 27 Feb 2024 22:19:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="X0GbBcKV";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="QzcDkQqB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9204510E646;
- Tue, 27 Feb 2024 22:12:19 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41R9YUVi007412; Tue, 27 Feb 2024 22:12:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=uKrmizMD77wsqT5ztJQ/oRCWujpPGtrue2Z1MAxzsag=; b=X0
- GbBcKVq7EFy+g61H6Q/hHYetAGyakbqd0v7uOq3IBVMHeUJULCjOcx757hmAthkx
- eMNMH3DcgNYrzBEd2GgqWuJSlpb3v3U/alA6z4kMOEnUUvwK8q6bDkHqgHg6luIV
- uI0qhkIoJs3m7T1syIznbVdDkcFxW+XU4zVyNjbqBh3eluKmEDo7w0TP0ohE6ytE
- puHEpWc1egqkNOjCifmPuGWhrGTPxFqdcBHeCWHYilNZ9E+RVaHbw8rF70uovPj1
- CH2pUrXFYaUHxBNHUvt8mATOnO5X1zK6HH0QxD42EnOO6QtR90Z64Tn5ih9nIuUd
- FSg2MWOhWLiVt0zDJiYw==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wh8auje1b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 27 Feb 2024 22:12:13 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41RMBwP0003967
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 27 Feb 2024 22:11:58 GMT
-Received: from [10.110.56.192] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 27 Feb
- 2024 14:11:57 -0800
-Message-ID: <46fa8e0a-0af2-2a44-f5f9-70fd49649aa4@quicinc.com>
-Date: Tue, 27 Feb 2024 14:11:56 -0800
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
+ [209.85.214.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64B1510E97E
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 22:19:53 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id
+ d9443c01a7336-1dc1e7c0e29so25475785ad.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 14:19:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1709072392; x=1709677192;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=siqoqedRmX2wPOUVHojbCwdAvexAbFGkcd6CPRaGDIY=;
+ b=QzcDkQqBnaT4aaUdZS/I8UHYfniESbjhI0gammVvvreWm1KeBF731Hb67Ro1XWerYj
+ qRgtM4jKkV2EGvNdyoHrTZLswujf2Ok129Dd5GIUl6VPRjkL3ORyOLtBkS8bnKQzuaOJ
+ 8U9/I2Rmi3+VTTfuLT0jlt5SnuNOQMWXFSy+Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709072392; x=1709677192;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=siqoqedRmX2wPOUVHojbCwdAvexAbFGkcd6CPRaGDIY=;
+ b=YoUfZpHFZFNl/N6SllwQkjg8J9ttWFfxaG/z8YysXWOU4kIahoqcd6+VbjT9tI6t0+
+ vzrcjPqNpIMosW1Qsb91621HfiHtCLWQo9mdruCjsW5FnnkBNUGRjPDOFsQFPvDhZPlh
+ OCOQd+7MsHzPp6EqAlFnLbTJbsWYlK8E3OhM6Bys1Q0nX/Kx3VLvTiAZAyHolalrgYP2
+ XpL36YePmAN6KI9+FH9FzNko7zIG97dcT9hN5QmZAT4z5450se9YBNWMRdJL1ADufq7j
+ /Y3lJpXq6hzcd4xRDtFD5xw5L0o2fKyyIyRETQpX77xq4OP+b+MPm2/aXETRQdVblsaV
+ RHfQ==
+X-Gm-Message-State: AOJu0YxmbQ9+tVGIqvXoZqxqsBx8tBq5deE53VULaPlSSnzV2FT2Rzys
+ V+yobB8EiuSAXm9n8LiO5k4LY253hdqU2fHiGdTOGL5usH/rVEWq+ZE0Wud7cBZIQNaBXPhLQfF
+ qcFN/
+X-Google-Smtp-Source: AGHT+IH1lcjzhqQizUXuOPIrr9G1+WlHe9Wkmz7qQRPWhtBpFB1p3i5u5gHC00NhNR/XxtpIWOdy9g==
+X-Received: by 2002:a17:902:dac6:b0:1dc:c445:b253 with SMTP id
+ q6-20020a170902dac600b001dcc445b253mr1771550plx.36.1709072391882; 
+ Tue, 27 Feb 2024 14:19:51 -0800 (PST)
+Received: from dianders.sjc.corp.google.com
+ ([2620:15c:9d:2:ff74:aba4:ea8d:f18e])
+ by smtp.gmail.com with ESMTPSA id
+ f13-20020a170903104d00b001dc78455383sm2006780plc.223.2024.02.27.14.19.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Feb 2024 14:19:51 -0800 (PST)
+From: Douglas Anderson <dianders@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Douglas Anderson <dianders@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
+ Dave Airlie <airlied@redhat.com>, David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Sean Paul <sean@poorly.run>, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/udl: Add ARGB8888 as a format
+Date: Tue, 27 Feb 2024 14:19:29 -0800
+Message-ID: <20240227141928.1.I24ac8d51544e4624b7e9d438d95880c4283e611b@changeid>
+X-Mailer: git-send-email 2.44.0.rc1.240.g4c46232300-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] Revert "drm/msm/dp: use drm_bridge_hpd_notify() to report
- HPD status changes"
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Kuogee Hsieh
- <quic_khsieh@quicinc.com>, Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-CC: Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio
- <konrad.dybcio@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- Johan Hovold <johan@kernel.org>
-References: <20240227220808.50146-1-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240227220808.50146-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: uV5HZSVJu--Vw-VsVcE2SpBk7PJyke9G
-X-Proofpoint-GUID: uV5HZSVJu--Vw-VsVcE2SpBk7PJyke9G
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-27_09,2024-02-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- impostorscore=0 bulkscore=0 suspectscore=0 phishscore=0 malwarescore=0
- mlxscore=0 lowpriorityscore=0 adultscore=0 mlxlogscore=999 clxscore=1015
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2402270171
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,43 +86,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Even though the UDL driver converts to RGB565 internally (see
+pixel32_to_be16() in udl_transfer.c), it advertises XRGB8888 for
+compatibility. Let's add ARGB8888 to that list.
 
+This makes UDL devices work on ChromeOS again after commit
+c91acda3a380 ("drm/gem: Check for valid formats"). Prior to that
+commit things were "working" because we'd silently treat the ARGB8888
+that ChromeOS wanted as XRGB8888.
 
-On 2/27/2024 2:08 PM, Dmitry Baryshkov wrote:
-> This reverts commit e467e0bde881 ("drm/msm/dp: use
-> drm_bridge_hpd_notify() to report HPD status changes").
-> 
-> The commit changed the way how the MSM DP driver communicates
-> HPD-related events to the userspace. The mentioned commit made some of
-> the HPD events being reported earlier. This way userspace starts poking
-> around. It interacts in a bad way with the dp_bridge_detect and the
-> driver's state machine, ending up either with the very long delays
-> during hotplug detection or even inability of the DP driver to report
-> the display as connected.
-> 
-> A proper fix will involve redesigning of the HPD handling in the MSM DP
-> driver. It is underway, but it will be intrusive and can not be thought
-> about as a simple fix for the issue. Thus, revert the offending commit.
-> 
+Fixes: c91acda3a380 ("drm/gem: Check for valid formats")
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
 
-Yes, for fixing this on 6.9 I am fine with this.
+ drivers/gpu/drm/udl/udl_modeset.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-I hope there were not other changes which were built on top of this. So 
-it will be better if we retest internal HPD case as well with this.
+diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
+index 7702359c90c2..0f8d3678770e 100644
+--- a/drivers/gpu/drm/udl/udl_modeset.c
++++ b/drivers/gpu/drm/udl/udl_modeset.c
+@@ -253,6 +253,7 @@ static int udl_handle_damage(struct drm_framebuffer *fb,
+ static const uint32_t udl_primary_plane_formats[] = {
+ 	DRM_FORMAT_RGB565,
+ 	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_ARGB8888,
+ };
+ 
+ static const uint64_t udl_primary_plane_fmtmods[] = {
+-- 
+2.44.0.rc1.240.g4c46232300-goog
 
-We will do that in a day or two and give Tested-by.
-
-> Fixes: e467e0bde881 ("drm/msm/dp: use drm_bridge_hpd_notify() to report HPD status changes")
-> Link: https://gitlab.freedesktop.org/drm/msm/-/issues/50
-> Reported-by: Johan Hovold <johan@kernel.org>
-> Link: https://lore.kernel.org/r/Zd3YPGmrprxv-N-O@hovoldconsulting.com/
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/dp/dp_display.c | 20 ++++++++++++++++++--
->   1 file changed, 18 insertions(+), 2 deletions(-)
-> 
-
-For the change itself,
-
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
