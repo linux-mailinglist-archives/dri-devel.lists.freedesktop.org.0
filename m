@@ -2,83 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76BA9869EAD
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 19:12:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D46CE869EBA
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 19:15:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CBC710E388;
-	Tue, 27 Feb 2024 18:12:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AA1010E3A2;
+	Tue, 27 Feb 2024 18:15:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="B0Nn05bt";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="g3bMKRZR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com
- [209.85.166.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CCA610E388
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 18:12:46 +0000 (UTC)
-Received: by mail-il1-f177.google.com with SMTP id
- e9e14a558f8ab-3651d6dea15so107345ab.1
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 10:12:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1709057565; x=1709662365;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=9xo3DafYnz7qDd1iyNarBE0C+acGQnxfRXgU4VP6u+M=;
- b=B0Nn05btPnwWdQ1mf0FPbUtbDG17Q/k1exXChPqPzrHZGzp5TvVUkpw6y/BHRYVHdA
- 2IXnLRbvqBx/GzMUka8znGemHlSE5eGubUceHWfMhNCf+IcjhoiHp3eyJKkVqGJfXfzY
- C6SBoBL3I2W0R3mO/VdiHtFFy96Ctp1Dik/5Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709057565; x=1709662365;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9xo3DafYnz7qDd1iyNarBE0C+acGQnxfRXgU4VP6u+M=;
- b=t0K+zKnGuQQsxcbTLG0pbKqSUSXXQ8HPNM1CfGzPkPgAhw4aBxybt7TpJ8U0DCJJcS
- WHIjWhYG9YiHrBoRsUXc81vPd0ZS9CyD4Jouv7L9fCAg8QPTjal4RJhyLwjwRjwRo1ds
- i/muN6Nkqb1dO+yH0Kwt1qzqQBFsoBiusBN7XnefLQR74HO7aPja7/9Jto5/ks2OXZwx
- BgneBSlrtu7XxaPGb79CYk1EMFviphdlAalQCwQi+dfNZGkq2dvDu64itHlRaCTUQnMV
- /3d3H+ulZYs7tz6/a3C07sUYbpsBxls3DgW8kFgmrDgTDC/WcmlzU1DZilkoWyCQTh98
- vieA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVL4Av7xPhfg7XLA44arsh368TJR4/olklzN5GElJ0y/d43EaLk3TkIo7dwA4FCymPgI9sli80kbXqjbf3lF0JiC8vFFup0UCgJAh5/wcX7
-X-Gm-Message-State: AOJu0YwOVUnTWj3C/Bk6lYBvmYh89JvLy5oF6zWtkAbV3TO2JRwxIwLY
- C84B7M2XXWmPC9825YgbI9OVuyd/mr4K9NCCwArDEbzLzSmF3fVo6VgcTxWZsw==
-X-Google-Smtp-Source: AGHT+IGjrhhbq3O4yJbGQNPJHVvQDH/cLI79okVS/czvt6vJUsosc4jtEJE++l5mG9grtKNLuUoKMw==
-X-Received: by 2002:a05:6e02:1aae:b0:365:b00e:c3cc with SMTP id
- l14-20020a056e021aae00b00365b00ec3ccmr105566ilv.2.1709057565143; 
- Tue, 27 Feb 2024 10:12:45 -0800 (PST)
-Received: from localhost (147.220.222.35.bc.googleusercontent.com.
- [35.222.220.147]) by smtp.gmail.com with UTF8SMTPSA id
- br17-20020a05663846d100b004742452a382sm1963310jab.45.2024.02.27.10.12.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Feb 2024 10:12:44 -0800 (PST)
-Date: Tue, 27 Feb 2024 18:12:44 +0000
-From: Matthias Kaehlcke <mka@chromium.org>
-To: Javier Carrasco <javier.carrasco@wolfvision.net>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Helen Koike <helen.koike@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Russell King <linux@armlinux.org.uk>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 6/8] usb: misc: onboard_dev: use device supply names
-Message-ID: <Zd4mHOEs6tHELUXl@google.com>
-References: <20240220-onboard_xvf3500-v4-0-dc1617cc5dd4@wolfvision.net>
- <20240220-onboard_xvf3500-v4-6-dc1617cc5dd4@wolfvision.net>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C1AD10E3A2;
+ Tue, 27 Feb 2024 18:15:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1709057701;
+ bh=+YGlht2j8DKNiyJTxizt7m7K6VT5e57wafvM3lFhmI0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=g3bMKRZR8z46141kcoZ+/3ISYqCWcnf2sDx309BP6HtZ5OMyM1xvUwcax9hAxy/B5
+ 91N9GfiPOvoR2alFxNnQpooyTqAtUmAs7HqMK4pX8L7whYcPnyjZUgKN1r8u4hdUH+
+ UJyn17e6HXA+5rPlTmHYhxPngj5uSP3icELO1rnNY5dGY7bN42Ot7nvW4LvB+ot4SJ
+ CAUG+el9HsuiCmXP9KodUlbfOb8o2QlAVUATRalEsdXHFC1EaJ+nxfqwvOz5fR26aK
+ b7fTsR1RrX7ubrIkRzSSVbLTTyjQTwLI9hmQapb+GkZp7FmwoVVsFrg2CWGAe2iGdc
+ bLXAlX4YE+fZQ==
+Received: from [100.109.49.129] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id CDEBB378000B;
+ Tue, 27 Feb 2024 18:14:59 +0000 (UTC)
+Message-ID: <d854f70b-1d62-4da7-bfbd-2184456d1d25@collabora.com>
+Date: Tue, 27 Feb 2024 21:14:57 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240220-onboard_xvf3500-v4-6-dc1617cc5dd4@wolfvision.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/13] drm: Fix reservation locking for pin/unpin and
+ console
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ christian.koenig@amd.com, sumit.semwal@linaro.org, robdclark@gmail.com,
+ quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
+ marijn.suijten@somainline.org, suijingfeng@loongson.cn, kherbst@redhat.com,
+ lyude@redhat.com, dakr@redhat.com, airlied@redhat.com, kraxel@redhat.com,
+ alexander.deucher@amd.com, Xinhui.Pan@amd.com, zack.rusin@broadcom.com,
+ bcm-kernel-feedback-list@broadcom.com
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+References: <20240227113853.8464-1-tzimmermann@suse.de>
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20240227113853.8464-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,17 +72,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 20, 2024 at 03:05:50PM +0100, Javier Carrasco wrote:
-> The current mechanism uses generic names for the power supplies, which
-> conflicts with proper name definitions in the device bindings.
-> 
-> Add a per-device property to include real supply names and keep generic
-> names as a fallback mechanism for backward compatibility.
-> 
-> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
+Hello,
 
-For v5 you could consider making this [1/8] (i.e. before the renaming
-of the driver). That way support for new hubs doesn't necessarily have
-to wait for the entire series to land. Since this series is underway
-I think new bindings shouldn't use 'vdd-supply' but the device
-specific name of the supply.
+Thank you for the patches!
+
+On 2/27/24 13:14, Thomas Zimmermann wrote:
+> Dma-buf locking semantics require the caller of pin and unpin to hold
+> the buffer's reservation lock. Fix DRM to adhere to the specs. This
+> enables to fix the locking in DRM's console emulation. Similar changes
+> for vmap and mmap have been posted at [1][2]
+> 
+> Most DRM drivers and memory managers acquire the buffer object's
+> reservation lock within their GEM pin and unpin callbacks. This
+> violates dma-buf locking semantics. We get away with it because PRIME
+> does not provide pin/unpin, but attach/detach, for which the locking
+> semantics is correct.
+> 
+> Patches 1 to 8 rework DRM GEM code in various implementations to
+> acquire the reservation lock when entering the pin and unpin callbacks.
+> This prepares them for the next patch. Drivers that are not affected
+> by these patches either don't acquire the reservation lock (amdgpu)
+> or don't need preparation (loongson).
+> 
+> Patch 9 moves reservation locking from the GEM pin/unpin callbacks
+> into drm_gem_pin() and drm_gem_unpin(). As PRIME uses these functions
+> internally it still gets the reservation lock.
+> 
+> With the updated GEM callbacks, the rest of the patchset fixes the
+> fbdev emulation's buffer locking. Fbdev emulation needs to keep its
+> GEM buffer object inplace while updating its content. This required
+> a implicit pinning and apparently amdgpu didn't do this at all.
+> 
+> Patch 10 introduces drm_client_buffer_vmap_local() and _vunmap_local().
+> The former function map a GEM buffer into the kernel's address space
+> with regular vmap operations, but keeps holding the reservation lock.
+> The _vunmap_local() helper undoes the vmap and releases the lock. The
+> updated GEM callbacks make this possible. Between the two calls, the
+> fbdev emulation can update the buffer content without have the buffer
+> moved or evicted. Update fbdev-generic to use vmap_local helpers,
+> which fix amdgpu. The idea of adding a "local vmap" has previously been
+> attempted at [3] in a different form.
+> 
+> Patch 11 adds implicit pinning to the DRM client's regular vmap
+> helper so that long-term vmap'ed buffers won't be evicted. This only
+> affects fbdev-dma, but GEM DMA helpers don't require pinning. So
+> there are no practical changes.
+> 
+> Patches 12 and 13 remove implicit pinning from the vmap and vunmap
+> operations in gem-vram and qxl. These pin operations are not supposed
+> to be part of vmap code, but were required to keep the buffers in place
+> for fbdev emulation. With the conversion o ffbdev-generic to to
+> vmap_local helpers, that code can finally be removed.
+
+Isn't it a common behaviour for all DRM drivers to implicitly pin BO
+while it's vmapped? I was sure it should be common /o\
+
+Why would you want to kmap BO that isn't pinned?
+
+Shouldn't TTM's vmap() be changed to do the pinning?
+
+I missed that TTM doesn't pin BO on vmap() and now surprised to see it.
+It should be a rather serious problem requiring backporting of the
+fixes, but I don't see the fixes tags on the patches (?)
+
+-- 
+Best regards,
+Dmitry
+
