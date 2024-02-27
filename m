@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6197C868CE2
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 11:05:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA5F0868CE4
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 11:05:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31A0C10EEFE;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E573510EEA7;
 	Tue, 27 Feb 2024 10:05:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BuypG1FO";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FjRUq2vE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D319410EE5B
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 10:05:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FB8410EEA7
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 10:05:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1709028334;
+ s=mimecast20190719; t=1709028335;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LF15U/xSjuKVIEvYZJ5X4RcU8YpgFStYC8xrGGVbmpo=;
- b=BuypG1FOhb27+okDpmC1LBF4xBe/Co82ZdGX60eRE+LgDknyl6bIyHws4WutxBClLKk0e0
- Y1/CP4DXws2/+3bcHq2aSmVAgYttCDw9fEv+wsRJK3LtnsRPCPXoWU+nPM8tP7059+YOUW
- QVcSO5QAQ7LAaBypgTd8C7ejV/f3qkE=
+ bh=tetytB+GBZgzl0nelZ/2IDk2rPDs1ShAqHs3SXGXklM=;
+ b=FjRUq2vEwuqAO8o6ewEsIGzxTagmybMfgcIREYLOHn3W+rXeeFH+ra6ZhE+qsm5Ciu02ms
+ WqEJX9LJNM8b7ARespuklxCUFkbmF+aq3Jrp/A5vQDkN34fT90TUQJufJtroJ3dAEkCIl1
+ hpbqW24ImfcBImANEL7Bg1CW56hMMJM=
 Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
  by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-340-Z-UPekbBOGG8_jKqLq8c_g-1; Tue,
- 27 Feb 2024 05:05:30 -0500
-X-MC-Unique: Z-UPekbBOGG8_jKqLq8c_g-1
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-402-YEu_DepgMXmFzYEvxd6XKQ-1; Tue,
+ 27 Feb 2024 05:05:32 -0500
+X-MC-Unique: YEu_DepgMXmFzYEvxd6XKQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 850B61C0691A;
- Tue, 27 Feb 2024 10:05:29 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9C83B1C0690E;
+ Tue, 27 Feb 2024 10:05:31 +0000 (UTC)
 Received: from hydra.redhat.com (unknown [10.39.192.179])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9E90139CAC;
- Tue, 27 Feb 2024 10:05:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B935B39CCE;
+ Tue, 27 Feb 2024 10:05:29 +0000 (UTC)
 From: Jocelyn Falempe <jfalempe@redhat.com>
 To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
  javierm@redhat.com, bluescreen_avenger@verizon.net, noralf@tronnes.org
 Cc: gpiccoli@igalia.com,
 	Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH v8 1/8] drm/format-helper: Add drm_fb_blit_from_r1 and
- drm_fb_fill
-Date: Tue, 27 Feb 2024 11:04:12 +0100
-Message-ID: <20240227100459.194478-2-jfalempe@redhat.com>
+Subject: [PATCH v8 2/8] drm/panic: Add a drm panic handler
+Date: Tue, 27 Feb 2024 11:04:13 +0100
+Message-ID: <20240227100459.194478-3-jfalempe@redhat.com>
 In-Reply-To: <20240227100459.194478-1-jfalempe@redhat.com>
 References: <20240227100459.194478-1-jfalempe@redhat.com>
 MIME-Version: 1.0
@@ -74,571 +73,663 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is needed for drm_panic, to draw the font, and fill
-the background color, in multiple color format.
+This module displays a user friendly message when a kernel panic
+occurs. It currently doesn't contain any debug information,
+but that can be added later.
 
-v5:
+v2
+ * Use get_scanout_buffer() instead of the drm client API.
+  (Thomas Zimmermann)
+ * Add the panic reason to the panic message (Nerdopolis)
+ * Add an exclamation mark (Nerdopolis)
+
+v3
+ * Rework the drawing functions, to write the pixels line by line and
+ to use the drm conversion helper to support other formats.
+ (Thomas Zimmermann)
+
+v4
+ * Use drm_fb_r1_to_32bit for fonts (Thomas Zimmermann)
+ * Remove the default y to DRM_PANIC config option (Thomas Zimmermann)
+ * Add foreground/background color config option
+ * Fix the bottom lines not painted if the framebuffer height
+   is not a multiple of the font height.
+ * Automatically register the device to drm_panic, if the function
+   get_scanout_buffer exists. (Thomas Zimmermann)
+
+v5
  * Change the drawing API, use drm_fb_blit_from_r1() to draw the font.
  * Also add drm_fb_fill() to fill area with background color.
-v6:
- * fix __le32 conversion warning found by the kernel test bot
+ * Add draw_pixel_xy() API for drivers that can't provide a linear buffer.
+ * Add a flush() callback for drivers that needs to synchronize the buffer.
+ * Add a void *private field, so drivers can pass private data to
+   draw_pixel_xy() and flush().
+
+v6
+ * Fix sparse warning for panic_msg and logo.
+
+v7
+ * Add select DRM_KMS_HELPER for the color conversion functions.
+
+v8
+ * Register directly each plane to the panic notifier (Sima)
+ * Add raw_spinlock to properly handle concurrency (Sima)
+ * Register plane instead of device, to avoid looping through plane
+   list, and simplify code.
+ * Replace get_scanout_buffer() logic with drm_panic_set_buffer()
+  (Thomas Zimmermann)
+ * Removed the draw_pixel_xy() API, will see later if it can be added back.
 
 Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
 ---
- drivers/gpu/drm/drm_format_helper.c | 432 ++++++++++++++++++++++------
- include/drm/drm_format_helper.h     |   9 +
- 2 files changed, 360 insertions(+), 81 deletions(-)
+ Documentation/gpu/drm-kms.rst            |  12 +
+ drivers/gpu/drm/Kconfig                  |  23 ++
+ drivers/gpu/drm/Makefile                 |   1 +
+ drivers/gpu/drm/drm_panic.c              | 400 +++++++++++++++++++++++
+ drivers/gpu/drm/drm_plane.c              |   3 +
+ include/drm/drm_modeset_helper_vtables.h |  11 +
+ include/drm/drm_panic.h                  |  37 +++
+ include/drm/drm_plane.h                  |  17 +
+ 8 files changed, 504 insertions(+)
+ create mode 100644 drivers/gpu/drm/drm_panic.c
+ create mode 100644 include/drm/drm_panic.h
 
-diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index b1be458ed4dd..2d9646cefc4f 100644
---- a/drivers/gpu/drm/drm_format_helper.c
-+++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -111,6 +111,153 @@ void drm_format_conv_state_release(struct drm_format_conv_state *state)
- }
- EXPORT_SYMBOL(drm_format_conv_state_release);
+diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+index 13d3627d8bc0..b64334661aeb 100644
+--- a/Documentation/gpu/drm-kms.rst
++++ b/Documentation/gpu/drm-kms.rst
+@@ -398,6 +398,18 @@ Plane Damage Tracking Functions Reference
+ .. kernel-doc:: include/drm/drm_damage_helper.h
+    :internal:
  
-+static __le16 drm_format_xrgb8888_to_rgb565(__le32 val32)
-+{
-+	u16 val16;
-+	u32 pix;
++Plane Panic Feature
++-------------------
 +
-+	pix = le32_to_cpu(val32);
-+	val16 = ((pix & 0x00F80000) >> 8) |
-+		((pix & 0x0000FC00) >> 5) |
-+		((pix & 0x000000F8) >> 3);
-+	return cpu_to_le16(val16);
-+}
++.. kernel-doc:: drivers/gpu/drm/drm_panic.c
++   :doc: overview
 +
-+static __le16 drm_format_xrgb8888_to_rgba5551(__le32 val32)
-+{
-+	u16 val16;
-+	u32 pix;
++Plane Panic Functions Reference
++-------------------------------
 +
-+	pix = le32_to_cpu(val32);
-+	val16 = ((pix & 0x00f80000) >> 8) |
-+		((pix & 0x0000f800) >> 5) |
-+		((pix & 0x000000f8) >> 2) |
-+		BIT(0); /* set alpha bit */
-+	return cpu_to_le16(val16);
-+}
++.. kernel-doc:: drivers/gpu/drm/drm_panic.c
++   :export:
 +
-+static __le16 drm_format_xrgb8888_to_xrgb1555(__le32 val32)
-+{
-+	u16 val16;
-+	u32 pix;
+ Display Modes Function Reference
+ ================================
+ 
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 872edb47bb53..c17d8a8f6877 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -102,6 +102,29 @@ config DRM_KMS_HELPER
+ 	help
+ 	  CRTC helpers for KMS drivers.
+ 
++config DRM_PANIC
++	bool "Display a user-friendly message when a kernel panic occurs"
++	depends on DRM && !FRAMEBUFFER_CONSOLE
++	select DRM_KMS_HELPER
++	select FONT_SUPPORT
++	help
++	  Enable a drm panic handler, which will display a user-friendly message
++	  when a kernel panic occurs. It's useful when using a user-space
++	  console instead of fbcon.
++	  It will only work if your graphic driver supports this feature.
++	  To support Hi-DPI Display, you can enable bigger fonts like
++	  FONT_TER16x32
 +
-+	pix = le32_to_cpu(val32);
-+	val16 = ((pix & 0x00f80000) >> 9) |
-+		((pix & 0x0000f800) >> 6) |
-+		((pix & 0x000000f8) >> 3);
-+	return cpu_to_le16(val16);
-+}
++config DRM_PANIC_FOREGROUND_COLOR
++	hex "Drm panic screen foreground color, in RGB"
++	depends on DRM_PANIC
++	default 0xffffff
 +
-+static __le16 drm_format_xrgb8888_to_argb1555(__le32 val32)
-+{
-+	u16 val16;
-+	u32 pix;
++config DRM_PANIC_BACKGROUND_COLOR
++	hex "Drm panic screen background color, in RGB"
++	depends on DRM_PANIC
++	default 0x000000
 +
-+	pix = le32_to_cpu(val32);
-+	val16 = BIT(15) | /* set alpha bit */
-+		((pix & 0x00f80000) >> 9) |
-+		((pix & 0x0000f800) >> 6) |
-+		((pix & 0x000000f8) >> 3);
-+	return cpu_to_le16(val16);
-+}
+ config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
+         bool "Enable refcount backtrace history in the DP MST helpers"
+ 	depends on STACKTRACE_SUPPORT
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 104b42df2e95..49905b7e333f 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -60,6 +60,7 @@ drm-$(CONFIG_DRM_PRIVACY_SCREEN) += \
+ 	drm_privacy_screen.o \
+ 	drm_privacy_screen_x86.o
+ drm-$(CONFIG_DRM_ACCEL) += ../../accel/drm_accel.o
++drm-$(CONFIG_DRM_PANIC) += drm_panic.o
+ obj-$(CONFIG_DRM)	+= drm.o
+ 
+ obj-$(CONFIG_DRM_PANEL_ORIENTATION_QUIRKS) += drm_panel_orientation_quirks.o
+diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+new file mode 100644
+index 000000000000..c9f386476ef9
+--- /dev/null
++++ b/drivers/gpu/drm/drm_panic.c
+@@ -0,0 +1,400 @@
++// SPDX-License-Identifier: GPL-2.0 or MIT
++/*
++ * Copyright (c) 2023 Red Hat.
++ * Author: Jocelyn Falempe <jfalempe@redhat.com>
++ * inspired by the drm_log driver from David Herrmann <dh.herrmann@gmail.com>
++ * Tux Ascii art taken from cowsay written by Tony Monroe
++ */
 +
-+static __le32 drm_format_xrgb8888_to_argb8888(__le32 pix)
-+{
-+	u32 val32;
++#include <linux/font.h>
++#include <linux/iosys-map.h>
++#include <linux/kdebug.h>
++#include <linux/list.h>
++#include <linux/module.h>
++#include <linux/panic_notifier.h>
++#include <linux/types.h>
 +
-+	val32 = le32_to_cpu(pix);
-+	val32 |= GENMASK(31, 24); /* fill alpha bits */
-+	return cpu_to_le32(val32);
-+}
++#include <drm/drm_drv.h>
++#include <drm/drm_format_helper.h>
++#include <drm/drm_fourcc.h>
++#include <drm/drm_framebuffer.h>
++#include <drm/drm_modeset_helper_vtables.h>
++#include <drm/drm_panic.h>
++#include <drm/drm_plane.h>
++#include <drm/drm_print.h>
 +
-+static __le32 drm_format_xrgb8888_to_xbgr8888(__le32 pix)
-+{
-+	u32 val32;
 +
-+	val32 = le32_to_cpu(pix);
-+	val32 = ((val32 & 0x00ff0000) >> 16) <<  0 |
-+		((val32 & 0x0000ff00) >>  8) <<  8 |
-+		((val32 & 0x000000ff) >>  0) << 16 |
-+		((val32 & 0xff000000) >> 24) << 24;
-+	return cpu_to_le32(val32);
-+}
-+
-+static __le32 drm_format_xrgb8888_to_abgr8888(__le32 pix)
-+{
-+	u32 val32;
-+
-+	val32 = le32_to_cpu(pix);
-+	val32 = ((val32 & 0x00ff0000) >> 16) <<  0 |
-+		((val32 & 0x0000ff00) >>  8) <<  8 |
-+		((val32 & 0x000000ff) >>  0) << 16 |
-+		GENMASK(31, 24); /* fill alpha bits */
-+	return cpu_to_le32(val32);
-+}
-+
-+static __le32 drm_format_xrgb8888_to_xrgb2101010(__le32 pix)
-+{
-+	u32 val32;
-+
-+	val32 = le32_to_cpu(pix);
-+	val32 = ((val32 & 0x000000FF) << 2) |
-+		((val32 & 0x0000FF00) << 4) |
-+		((val32 & 0x00FF0000) << 6);
-+	return cpu_to_le32(val32 | ((val32 >> 8) & 0x00300C03));
-+}
-+
-+static __le32 drm_format_xrgb8888_to_argb2101010(__le32 pix)
-+{
-+	u32 val32;
-+
-+	val32 = le32_to_cpu(pix);
-+	val32 = ((val32 & 0x000000FF) << 2) |
-+		((val32 & 0x0000FF00) << 4) |
-+		((val32 & 0x00FF0000) << 6);
-+	val32 = GENMASK(31, 30) | /* set alpha bits */
-+	      val32 | ((val32 >> 8) & 0x00300c03);
-+	return cpu_to_le32(val32);
-+}
++MODULE_AUTHOR("Jocelyn Falempe");
++MODULE_DESCRIPTION("DRM panic handler");
++MODULE_LICENSE("GPL");
 +
 +/**
-+ * drm_fb_convert_from_xrgb8888 - convert one pixel from xrgb8888 to the desired format
-+ * @color: input color, in xrgb8888 format
-+ * @format: output format
++ * DOC: overview
 + *
-+ * Returns:
-+ * Color in the format specified, casted to u32.
-+ * Or 0 if the format is unknown.
++ * To enable DRM panic for a driver, you should register the primary plane
++ * with drm_panic_register(). Then when a scanout buffer is set for this plane,
++ * call drm_panic_set_buffer(), so if a panic occurs, it will draw to this.
++ * Make sure to update it when the scanout buffer changes. Also you should call
++ * drm_panic_unset_buffer() when the plane is disabled, or when the scanout
++ * buffer is no more accessible.
 + */
-+u32 drm_fb_convert_from_xrgb8888(u32 color, u32 format)
-+{
-+	__le32 pix = cpu_to_le32(color);
 +
-+	switch (format) {
-+	case DRM_FORMAT_RGB565:
-+		return le16_to_cpu(drm_format_xrgb8888_to_rgb565(pix));
-+	case DRM_FORMAT_RGBA5551:
-+		return le16_to_cpu(drm_format_xrgb8888_to_rgba5551(pix));
-+	case DRM_FORMAT_XRGB1555:
-+		return le16_to_cpu(drm_format_xrgb8888_to_xrgb1555(pix));
-+	case DRM_FORMAT_ARGB1555:
-+		return le16_to_cpu(drm_format_xrgb8888_to_argb1555(pix));
-+	case DRM_FORMAT_RGB888:
-+	case DRM_FORMAT_XRGB8888:
-+		return le32_to_cpu(pix);
-+	case DRM_FORMAT_ARGB8888:
-+		return le32_to_cpu(drm_format_xrgb8888_to_argb8888(pix));
-+	case DRM_FORMAT_XBGR8888:
-+		return le32_to_cpu(drm_format_xrgb8888_to_xbgr8888(pix));
-+	case DRM_FORMAT_XRGB2101010:
-+		return le32_to_cpu(drm_format_xrgb8888_to_xrgb2101010(pix));
-+	case DRM_FORMAT_ARGB2101010:
-+		return le32_to_cpu(drm_format_xrgb8888_to_argb2101010(pix));
-+	default:
-+		WARN_ONCE(1, "Can't convert to %p4cc\n", &format);
++/*
++ * This module displays a user friendly message on screen when a kernel panic
++ * occurs. This is conflicting with fbcon, so you can only enable it when fbcon
++ * is disabled.
++ * It's intended for end-user, so have minimal technical/debug information.
++ *
++ * Implementation details:
++ *
++ * It is a panic handler, so it can't take lock, allocate memory, run tasks/irq,
++ * or attempt to sleep. It's a best effort, and it may not be able to display
++ * the message in all situations (like if the panic occurs in the middle of a
++ * modesetting).
++ * It will display only one static frame, so performance optimizations are low
++ * priority as the machine is already in an unusable state.
++ */
++
++/**
++ * struct drm_scanout_buffer - DRM scanout buffer
++ *
++ * This structure holds the information necessary for drm_panic to draw the
++ * panic screen, and display it.
++ */
++struct drm_scanout_buffer {
++	/**
++	 * @lock:
++	 *
++	 * a raw spinlock to make sure that when the panic handler is running
++	 * the data in this struct is valid.
++	 */
++	struct raw_spinlock lock;
++	/**
++	 * @format:
++	 *
++	 * drm format of the scanout buffer.
++	 */
++	const struct drm_format_info *format;
++	/**
++	 * @map:
++	 *
++	 * Virtual address of the scanout buffer, either in memory or iomem.
++	 * The scanout buffer should be in linear format, and can be directly
++	 * sent to the display hardware. Tearing is not an issue for the panic
++	 * screen.
++	 */
++	struct iosys_map map;
++	/**
++	 * @width: Width of the scanout buffer, in pixels.
++	 */
++	unsigned int width;
++	/**
++	 * @height: Height of the scanout buffer, in pixels.
++	 */
++	unsigned int height;
++	/**
++	 * @pitch: Length in bytes between the start of two consecutive lines.
++	 */
++	unsigned int pitch;
++};
++
++static inline struct drm_plane *to_drm_plane(struct notifier_block *nb)
++{
++	return container_of(nb, struct drm_plane, panic_notifier);
++}
++
++struct drm_panic_line {
++	u32 len;
++	const char *txt;
++};
++
++#define PANIC_LINE(s) {.len = sizeof(s) - 1, .txt = s}
++
++static struct drm_panic_line panic_msg[] = {
++	PANIC_LINE("KERNEL PANIC !"),
++	PANIC_LINE(""),
++	PANIC_LINE("Please reboot your computer."),
++	PANIC_LINE(""),
++	PANIC_LINE(""), /* overwritten with panic reason */
++};
++
++static const struct drm_panic_line logo[] = {
++	PANIC_LINE("     .--.        _"),
++	PANIC_LINE("    |o_o |      | |"),
++	PANIC_LINE("    |:_/ |      | |"),
++	PANIC_LINE("   //   \\ \\     |_|"),
++	PANIC_LINE("  (|     | )     _"),
++	PANIC_LINE(" /'\\_   _/`\\    (_)"),
++	PANIC_LINE(" \\___)=(___/"),
++};
++
++static void draw_empty_line(struct drm_scanout_buffer *sb, size_t top, size_t height, u32 color)
++{
++	struct iosys_map dst = sb->map;
++
++	iosys_map_incr(&dst, top * sb->pitch);
++	drm_fb_fill(&dst, sb->pitch, height, sb->width, color, sb->format->cpp[0]);
++}
++
++static void draw_txt_line(const struct drm_panic_line *msg, size_t left, size_t top,
++			      struct drm_scanout_buffer *sb, u32 fg_color, u32 bg_color,
++			      const struct font_desc *font)
++{
++	size_t i;
++	const u8 *src;
++	size_t src_stride = DIV_ROUND_UP(font->width, 8);
++	struct iosys_map dst = sb->map;
++	size_t end_text;
++	unsigned int px_width = sb->format->cpp[0];
++
++	iosys_map_incr(&dst, top * sb->pitch);
++	drm_fb_fill(&dst, sb->pitch, font->height, left, bg_color, px_width);
++	iosys_map_incr(&dst, left * px_width);
++	for (i = 0; i < msg->len; i++) {
++		src = font->data + (msg->txt[i] * font->height) * src_stride;
++		drm_fb_blit_from_r1(&dst, sb->pitch, src, src_stride, font->height, font->width,
++				    fg_color, bg_color, px_width);
++		iosys_map_incr(&dst, font->width * px_width);
++	}
++	end_text = (msg->len * font->width) + left;
++	if (sb->width > end_text)
++		drm_fb_fill(&dst, sb->pitch, font->height, sb->width - end_text,
++			    bg_color, px_width);
++}
++
++
++static size_t panic_msg_needed_lines(size_t chars_per_line)
++{
++	size_t msg_len = ARRAY_SIZE(panic_msg);
++	size_t lines = 0;
++	size_t i;
++
++	for (i = 0; i < msg_len; i++)
++		lines += panic_msg[i].len ? DIV_ROUND_UP(panic_msg[i].len, chars_per_line) : 1;
++	return lines;
++}
++
++static bool can_draw_logo(size_t chars_per_line, size_t lines, size_t msg_lines)
++{
++	size_t i;
++
++	for (i = 0; i < ARRAY_SIZE(logo); i++) {
++		if (logo[i].len > chars_per_line)
++			return false;
++	}
++	if (lines < msg_lines + ARRAY_SIZE(logo))
++		return false;
++	return true;
++}
++
++static size_t get_start_line(size_t lines, size_t msg_lines, bool draw_logo)
++{
++	size_t remaining;
++	size_t logo_len = ARRAY_SIZE(logo);
++
++	if (lines < msg_lines)
 +		return 0;
-+	}
++	remaining = lines - msg_lines;
++	if (draw_logo && remaining / 2 <= logo_len)
++		return logo_len + (remaining - logo_len) / 4;
++	return remaining / 2;
 +}
-+EXPORT_SYMBOL(drm_fb_convert_from_xrgb8888);
 +
- static unsigned int clip_offset(const struct drm_rect *clip, unsigned int pitch, unsigned int cpp)
- {
- 	return clip->y1 * pitch + clip->x1 * cpp;
-@@ -366,6 +513,193 @@ void drm_fb_swab(struct iosys_map *dst, const unsigned int *dst_pitch,
- }
- EXPORT_SYMBOL(drm_fb_swab);
- 
-+static void drm_fb_r1_to_16bit(struct iosys_map *dmap, unsigned int dpitch,
-+			       const u8 *sbuf8, unsigned int spitch,
-+			       unsigned int height, unsigned int width,
-+			       __le16 fg16, __le16 bg16)
++/*
++ * Draw the panic message at the center of the screen
++ */
++static void draw_panic_static(struct drm_scanout_buffer *sb, const char *msg)
 +{
-+	unsigned int l, x;
-+	__le16 val16;
++	size_t lines, msg_lines, l, msg_start_line, remaining, msgi;
++	size_t chars_per_line;
++	bool draw_logo;
++	struct drm_panic_line panic_line;
++	size_t msg_len = ARRAY_SIZE(panic_msg);
++	size_t logo_len = ARRAY_SIZE(logo);
++	u32 fg_color = CONFIG_DRM_PANIC_FOREGROUND_COLOR;
++	u32 bg_color = CONFIG_DRM_PANIC_BACKGROUND_COLOR;
++	const struct font_desc *font = get_default_font(sb->width, sb->height,
++							0x80808080, 0x80808080);
 +
-+	for (l = 0; l < height; l++) {
-+		for (x = 0; x < width; x++) {
-+			val16 = (sbuf8[(l * spitch) + x / 8] & (0x80 >> (x % 8))) ? fg16 : bg16;
-+			iosys_map_wr(dmap, l * dpitch + x * sizeof(u16), u16, le16_to_cpu(val16));
++	if (!font)
++		return;
++
++	/* Set the panic reason */
++	panic_msg[msg_len - 1].len = strlen(msg);
++	panic_msg[msg_len - 1].txt = msg;
++
++	lines = sb->height / font->height;
++	chars_per_line = sb->width / font->width;
++
++	msg_lines = panic_msg_needed_lines(chars_per_line);
++	draw_logo = can_draw_logo(chars_per_line, lines, msg_lines);
++	msg_start_line = get_start_line(lines, msg_lines, draw_logo);
++
++	fg_color = drm_fb_convert_from_xrgb8888(fg_color, sb->format->format);
++	bg_color = drm_fb_convert_from_xrgb8888(bg_color, sb->format->format);
++
++	msgi = 0;
++	panic_line.len = 0;
++	for (l = 0; l < lines; l++) {
++		if (draw_logo && l < logo_len)
++			draw_txt_line(&logo[l], 0, l * font->height, sb, fg_color, bg_color, font);
++		else if (l >= msg_start_line && msgi < msg_len) {
++			if (!panic_line.len) {
++				panic_line.txt = panic_msg[msgi].txt;
++				panic_line.len = panic_msg[msgi].len;
++			}
++			if (!panic_line.len) {
++				draw_empty_line(sb, l * font->height, font->height, bg_color);
++				msgi++;
++			} else if (panic_line.len > chars_per_line) {
++				remaining = panic_line.len - chars_per_line;
++				panic_line.len = chars_per_line;
++				draw_txt_line(&panic_line, 0, l * font->height, sb, fg_color,
++					      bg_color, font);
++				panic_line.txt += chars_per_line;
++				panic_line.len = remaining;
++			} else {
++				draw_txt_line(&panic_line,
++					      font->width * (chars_per_line - panic_line.len) / 2,
++					      l * font->height, sb, fg_color, bg_color, font);
++				panic_line.len = 0;
++				msgi++;
++			}
++		} else {
++			draw_empty_line(sb, l * font->height, font->height, bg_color);
 +		}
 +	}
++	/* Fill the bottom of the screen, if sb->height is not a multiple of font->height */
++	if (sb->height % font->height)
++		draw_empty_line(sb, l * font->height, sb->height - l * font->height, bg_color);
 +}
 +
-+static void drm_fb_r1_to_24bit(struct iosys_map *dmap, unsigned int dpitch,
-+			       const u8 *sbuf8, unsigned int spitch,
-+			       unsigned int height, unsigned int width,
-+			       __le32 fg32, __le32 bg32)
++/*
++ * drm_panic_is_format_supported()
++ * @format: a fourcc color code
++ * Returns: true if supported, false otherwise.
++ *
++ * Check if drm_panic will be able to use this color format.
++ */
++static bool drm_panic_is_format_supported(u32 format)
 +{
-+	unsigned int l, x;
-+	__le32 color;
-+	u32 val32;
-+
-+	for (l = 0; l < height; l++) {
-+		for (x = 0; x < width; x++) {
-+			u32 off = l * dpitch + x * 3;
-+
-+			color = (sbuf8[(l * spitch) + x / 8] & (0x80 >> (x % 8))) ? fg32 : bg32;
-+			val32 = le32_to_cpu(color);
-+
-+			/* write blue-green-red to output in little endianness */
-+			iosys_map_wr(dmap, off, u8, (val32 & 0x000000FF) >> 0);
-+			iosys_map_wr(dmap, off + 1, u8, (val32 & 0x0000FF00) >> 8);
-+			iosys_map_wr(dmap, off + 2, u8, (val32 & 0x00FF0000) >> 16);
-+		}
-+	}
++	return drm_fb_convert_from_xrgb8888(0xffffff, format) != 0;
 +}
 +
-+static void drm_fb_r1_to_32bit(struct iosys_map *dmap, unsigned int dpitch,
-+			       const u8 *sbuf8, unsigned int spitch,
-+			       unsigned int height, unsigned int width,
-+			       __le32 fg32, __le32 bg32)
++static void draw_panic_plane(struct drm_plane *plane, const char *msg)
 +{
-+	unsigned int l, x;
-+	__le32 val32;
++	struct drm_scanout_buffer *sb = plane->panic_scanout;
 +
-+	for (l = 0; l < height; l++) {
-+		for (x = 0; x < width; x++) {
-+			val32 = (sbuf8[(l * spitch) + x / 8] & (0x80 >> (x % 8))) ? fg32 : bg32;
-+			iosys_map_wr(dmap, l * dpitch + x * sizeof(u32), u32, le32_to_cpu(val32));
-+		}
++	if (!sb)
++		return;
++
++	if (!raw_spin_trylock(&sb->lock))
++		return;
++
++	if (!iosys_map_is_null(&sb->map) && drm_panic_is_format_supported(sb->format->format)) {
++		draw_panic_static(sb, msg);
++		if (plane->helper_private->panic_flush)
++			plane->helper_private->panic_flush(plane);
 +	}
++	raw_spin_unlock(&sb->lock);
 +}
++
++static int drm_panic(struct notifier_block *this, unsigned long event,
++		     void *ptr)
++{
++	struct drm_plane *plane = to_drm_plane(this);
++
++	draw_panic_plane(plane, ptr);
++
++	return NOTIFY_OK;
++}
++/**
++ * drm_panic_set_buffer()
++ *
++ * @sb: The scanout_buffer to set.
++ * @fb: The current drm_framebuffer struct (only format, height, width and
++ *      pitches[0]) is used.
++ * @map: The iosys_map pointing to the current scanout buffer.
++ *
++ * Set the scanout buffer, that will be used if a panic occurs.
++ * Make sure to update it before the iosysmap is no longer valid.
++ */
++void drm_panic_set_buffer(struct drm_scanout_buffer *sb,
++			  struct drm_framebuffer *fb,
++			  struct iosys_map *map)
++{
++	if (!sb)
++		return;
++
++	raw_spin_lock(&sb->lock);
++	sb->map = *map;
++	sb->format = fb->format;
++	sb->height = fb->height;
++	sb->width = fb->width;
++	sb->pitch = fb->pitches[0];
++	raw_spin_unlock(&sb->lock);
++}
++EXPORT_SYMBOL(drm_panic_set_buffer);
 +
 +/**
-+ * drm_fb_blit_from_r1 - convert a monochrome image to a linear framebuffer
-+ * @dmap: destination iosys_map
-+ * @dpitch: destination pitch in bytes
-+ * @sbuf8: source buffer, in monochrome format, 8 pixels per byte.
-+ * @spitch: source pitch in bytes
-+ * @height: height of the image to copy, in pixels
-+ * @width: width of the image to copy, in pixels
-+ * @fg_color: foreground color, in destination format
-+ * @bg_color: background color, in destination format
-+ * @pixel_width: pixel width in bytes.
++ * drm_panic_unset_buffer()
 + *
-+ * This can be used to draw font which are monochrome images, to a framebuffer
-+ * in other supported format.
++ * Unset the scanout buffer before it is no longer accessible.
++ * @sb: the scanout_buffer to be cleared.
++ *
++ * After calling this function, if a panic occurs, it won't be displayed on this
++ * plane.
 + */
-+void drm_fb_blit_from_r1(struct iosys_map *dmap, unsigned int dpitch,
-+			 const u8 *sbuf8, unsigned int spitch,
-+			 unsigned int height, unsigned int width,
-+			 u32 fg_color, u32 bg_color,
-+			 unsigned int pixel_width)
++void drm_panic_unset_buffer(struct drm_scanout_buffer *sb)
 +{
-+	switch (pixel_width) {
-+	case 2:
-+		drm_fb_r1_to_16bit(dmap, dpitch, sbuf8, spitch,
-+				   height, width,
-+				   cpu_to_le16(fg_color),
-+				   cpu_to_le16(bg_color));
-+	break;
-+	case 3:
-+		drm_fb_r1_to_24bit(dmap, dpitch, sbuf8, spitch,
-+				   height, width,
-+				   cpu_to_le32(fg_color),
-+				   cpu_to_le32(bg_color));
-+	break;
-+	case 4:
-+		drm_fb_r1_to_32bit(dmap, dpitch, sbuf8, spitch,
-+				   height, width,
-+				   cpu_to_le32(fg_color),
-+				   cpu_to_le32(bg_color));
-+	break;
-+	default:
-+		WARN_ONCE(1, "Can't blit with pixel width %d\n", pixel_width);
-+	}
++	if (!sb)
++		return;
++
++	raw_spin_lock(&sb->lock);
++	iosys_map_clear(&sb->map);
++	sb->format = NULL;
++	raw_spin_unlock(&sb->lock);
 +}
-+EXPORT_SYMBOL(drm_fb_blit_from_r1);
-+
-+static void drm_fb_fill8(struct iosys_map *dmap, unsigned int dpitch,
-+			 unsigned int height, unsigned int width,
-+			 u8 color)
-+{
-+	unsigned int l, x;
-+
-+	for (l = 0; l < height; l++)
-+		for (x = 0; x < width; x++)
-+			iosys_map_wr(dmap, l * dpitch + x * sizeof(u8), u8, color);
-+}
-+
-+static void drm_fb_fill16(struct iosys_map *dmap, unsigned int dpitch,
-+			  unsigned int height, unsigned int width,
-+			  u16 color)
-+{
-+	unsigned int l, x;
-+
-+	for (l = 0; l < height; l++)
-+		for (x = 0; x < width; x++)
-+			iosys_map_wr(dmap, l * dpitch + x * sizeof(u16), u16, color);
-+}
-+
-+static void drm_fb_fill24(struct iosys_map *dmap, unsigned int dpitch,
-+			  unsigned int height, unsigned int width,
-+			  u32 color)
-+{
-+	unsigned int l, x;
-+
-+	for (l = 0; l < height; l++) {
-+		for (x = 0; x < width; x++) {
-+			unsigned int off = l * dpitch + x * 3;
-+
-+			/* write blue-green-red to output in little endianness */
-+			iosys_map_wr(dmap, off, u8, (color & 0x000000FF) >> 0);
-+			iosys_map_wr(dmap, off + 1, u8, (color & 0x0000FF00) >> 8);
-+			iosys_map_wr(dmap, off + 2, u8, (color & 0x00FF0000) >> 16);
-+		}
-+	}
-+}
-+
-+static void drm_fb_fill32(struct iosys_map *dmap, unsigned int dpitch,
-+			  unsigned int height, unsigned int width,
-+			  u32 color)
-+{
-+	unsigned int l, x;
-+
-+	for (l = 0; l < height; l++)
-+		for (x = 0; x < width; x++)
-+			iosys_map_wr(dmap, l * dpitch + x * sizeof(u32), u32, color);
-+}
++EXPORT_SYMBOL(drm_panic_unset_buffer);
 +
 +/**
-+ * drm_fb_fill - Fill a rectangle with a color
-+ * @dmap: destination iosys_map, pointing to the top left corner of the rectangle
-+ * @dpitch: destination pitch in bytes
-+ * @height: height of the rectangle, in pixels
-+ * @width: width of the rectangle, in pixels
-+ * @color: color to fill the rectangle.
-+ * @pixel_width: pixel width in bytes
-+ *
-+ * Fill a rectangle with a color, in a linear framebuffer.
++ * drm_panic_register() - Initialize DRM panic for a primary plane
++ * @plane: the plane on which the panic screen will be displayed.
 + */
-+void drm_fb_fill(struct iosys_map *dmap, unsigned int dpitch,
-+			 unsigned int height, unsigned int width,
-+			 u32 color, unsigned int pixel_width)
++void drm_panic_register(struct drm_plane *plane)
 +{
-+	switch (pixel_width) {
-+	case 1:
-+		drm_fb_fill8(dmap, dpitch, height, width, color);
-+	break;
-+	case 2:
-+		drm_fb_fill16(dmap, dpitch, height, width, color);
-+	break;
-+	case 3:
-+		drm_fb_fill24(dmap, dpitch, height, width, color);
-+	break;
-+	case 4:
-+		drm_fb_fill32(dmap, dpitch, height, width, color);
-+	break;
-+	default:
-+		WARN_ONCE(1, "Can't fill with pixel width %d\n", pixel_width);
++	struct drm_scanout_buffer *sb;
++
++	sb = kzalloc(sizeof(*sb), GFP_KERNEL);
++	if (!sb)
++		return;
++
++	raw_spin_lock_init(&sb->lock);
++	plane->panic_scanout = sb;
++	plane->panic_notifier.notifier_call = drm_panic;
++	plane->panic_notifier.priority = -5;
++	if (atomic_notifier_chain_register(&panic_notifier_list,
++					   &plane->panic_notifier)) {
++		drm_warn(plane->dev, "Failed to register panic handler\n");
++		plane->panic_scanout = NULL;
++		kfree(sb);
++	} else
++		drm_info(plane->dev, "Registered with drm panic\n");
++}
++EXPORT_SYMBOL(drm_panic_register);
++
++/**
++ * drm_panic_unregister()
++ * @plane: the plane previously registered.
++ */
++void drm_panic_unregister(struct drm_plane *plane)
++{
++	if (plane->panic_scanout) {
++		atomic_notifier_chain_unregister(&panic_notifier_list,
++						 &plane->panic_notifier);
++		kfree(plane->panic_scanout);
++		plane->panic_scanout = NULL;
 +	}
 +}
-+EXPORT_SYMBOL(drm_fb_fill);
++EXPORT_SYMBOL(drm_panic_unregister);
 +
- static void drm_fb_xrgb8888_to_rgb332_line(void *dbuf, const void *sbuf, unsigned int pixels)
- {
- 	u8 *dbuf8 = dbuf;
-@@ -420,15 +754,9 @@ static void drm_fb_xrgb8888_to_rgb565_line(void *dbuf, const void *sbuf, unsigne
- 	__le16 *dbuf16 = dbuf;
- 	const __le32 *sbuf32 = sbuf;
- 	unsigned int x;
--	u16 val16;
--	u32 pix;
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index 672c655c7a8e..aee5a9bd3a98 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -31,6 +31,7 @@
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_managed.h>
++#include <drm/drm_panic.h>
+ #include <drm/drm_vblank.h>
  
- 	for (x = 0; x < pixels; x++) {
--		pix = le32_to_cpu(sbuf32[x]);
--		val16 = ((pix & 0x00F80000) >> 8) |
--			((pix & 0x0000FC00) >> 5) |
--			((pix & 0x000000F8) >> 3);
--		dbuf16[x] = cpu_to_le16(val16);
-+		dbuf16[x] = drm_format_xrgb8888_to_rgb565(sbuf32[x]);
- 	}
- }
+ #include "drm_crtc_internal.h"
+@@ -644,6 +645,8 @@ void drm_plane_cleanup(struct drm_plane *plane)
+ 	kfree(plane->modifiers);
+ 	drm_mode_object_unregister(dev, &plane->base);
  
-@@ -498,16 +826,9 @@ static void drm_fb_xrgb8888_to_xrgb1555_line(void *dbuf, const void *sbuf, unsig
- 	__le16 *dbuf16 = dbuf;
- 	const __le32 *sbuf32 = sbuf;
- 	unsigned int x;
--	u16 val16;
--	u32 pix;
++	drm_panic_unregister(plane);
++
+ 	BUG_ON(list_empty(&plane->head));
  
--	for (x = 0; x < pixels; x++) {
--		pix = le32_to_cpu(sbuf32[x]);
--		val16 = ((pix & 0x00f80000) >> 9) |
--			((pix & 0x0000f800) >> 6) |
--			((pix & 0x000000f8) >> 3);
--		dbuf16[x] = cpu_to_le16(val16);
--	}
-+	for (x = 0; x < pixels; x++)
-+		dbuf16[x] = drm_format_xrgb8888_to_xrgb1555(sbuf32[x]);
- }
- 
- /**
-@@ -550,17 +871,9 @@ static void drm_fb_xrgb8888_to_argb1555_line(void *dbuf, const void *sbuf, unsig
- 	__le16 *dbuf16 = dbuf;
- 	const __le32 *sbuf32 = sbuf;
- 	unsigned int x;
--	u16 val16;
--	u32 pix;
- 
--	for (x = 0; x < pixels; x++) {
--		pix = le32_to_cpu(sbuf32[x]);
--		val16 = BIT(15) | /* set alpha bit */
--			((pix & 0x00f80000) >> 9) |
--			((pix & 0x0000f800) >> 6) |
--			((pix & 0x000000f8) >> 3);
--		dbuf16[x] = cpu_to_le16(val16);
--	}
-+	for (x = 0; x < pixels; x++)
-+		dbuf16[x] = drm_format_xrgb8888_to_argb1555(sbuf32[x]);
- }
+ 	/* Note that the plane_list is considered to be static; should we
+diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
+index 881b03e4dc28..d5643ff6a54b 100644
+--- a/include/drm/drm_modeset_helper_vtables.h
++++ b/include/drm/drm_modeset_helper_vtables.h
+@@ -1442,6 +1442,17 @@ struct drm_plane_helper_funcs {
+ 	 */
+ 	void (*atomic_async_update)(struct drm_plane *plane,
+ 				    struct drm_atomic_state *state);
++	/**
++	 * @panic_flush:
++	 *
++	 * It is used by drm_panic, and is called after the panic screen is
++	 * drawn to the scanout buffer. In this function, the driver
++	 * can send additional commands to the hardware, to make the scanout
++	 * buffer visible.
++	 * It is called from panic context, so this function should follow the
++	 * panic restrictions, and not allocate or lock.
++	 */
++	void (*panic_flush)(struct drm_plane *plane);
+ };
  
  /**
-@@ -603,17 +916,9 @@ static void drm_fb_xrgb8888_to_rgba5551_line(void *dbuf, const void *sbuf, unsig
- 	__le16 *dbuf16 = dbuf;
- 	const __le32 *sbuf32 = sbuf;
- 	unsigned int x;
--	u16 val16;
--	u32 pix;
+diff --git a/include/drm/drm_panic.h b/include/drm/drm_panic.h
+new file mode 100644
+index 000000000000..c9f5c5577eaf
+--- /dev/null
++++ b/include/drm/drm_panic.h
+@@ -0,0 +1,37 @@
++/* SPDX-License-Identifier: GPL-2.0 or MIT */
++#ifndef __DRM_PANIC_H__
++#define __DRM_PANIC_H__
++
++/*
++ * Copyright (c) 2023 Red Hat.
++ * Author: Jocelyn Falempe <jfalempe@redhat.com>
++ */
++
++#include <linux/module.h>
++#include <linux/types.h>
++#include <linux/iosys-map.h>
++
++struct drm_plane;
++
++#ifdef CONFIG_DRM_PANIC
++
++void drm_panic_register(struct drm_plane *plane);
++void drm_panic_unregister(struct drm_plane *plane);
++
++void drm_panic_set_buffer(struct drm_scanout_buffer *sb,
++			  struct drm_framebuffer *fb,
++			  struct iosys_map *map);
++void drm_panic_unset_buffer(struct drm_scanout_buffer *sb);
++#else
++
++static inline void drm_panic_register(struct drm_plane *plane) {}
++static inline void drm_panic_unregister(struct drm_plane *plane) {}
++
++static inline void drm_panic_set_buffer(struct drm_scanout_buffer *sb,
++				 struct drm_framebuffer *fb,
++				 struct iosys_map *map) {}
++static inline void drm_panic_unset_buffer(struct drm_scanout_buffer *sb) {}
++
++#endif
++
++#endif /* __DRM_PANIC_H__ */
+diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+index 641fe298052d..ebe1844e5f22 100644
+--- a/include/drm/drm_plane.h
++++ b/include/drm/drm_plane.h
+@@ -34,6 +34,7 @@
+ struct drm_crtc;
+ struct drm_printer;
+ struct drm_modeset_acquire_ctx;
++struct drm_scanout_buffer;
  
--	for (x = 0; x < pixels; x++) {
--		pix = le32_to_cpu(sbuf32[x]);
--		val16 = ((pix & 0x00f80000) >> 8) |
--			((pix & 0x0000f800) >> 5) |
--			((pix & 0x000000f8) >> 2) |
--			BIT(0); /* set alpha bit */
--		dbuf16[x] = cpu_to_le16(val16);
--	}
-+	for (x = 0; x < pixels; x++)
-+		dbuf16[x] = drm_format_xrgb8888_to_rgba5551(sbuf32[x]);
- }
+ enum drm_scaling_filter {
+ 	DRM_SCALING_FILTER_DEFAULT,
+@@ -779,6 +780,22 @@ struct drm_plane {
+ 	 * @hotspot_y_property: property to set mouse hotspot y offset.
+ 	 */
+ 	struct drm_property *hotspot_y_property;
++
++	/**
++	 * @panic_notifier: Used to register a panic notifier for this plane
++	 */
++	struct notifier_block panic_notifier;
++
++	/**
++	 * @panic_scanout:
++	 *
++	 * Optional Panic scanout data, it is allocated when calling
++	 * drm_panic_register() for this plane.
++	 * This will be used by drm panic when a panic occurs.
++	 * Don't access it directly, only use drm_panic_set_buffer() and
++	 * drm_panic_unset_buffer() if there is no scanout buffer available.
++	 */
++	struct drm_scanout_buffer *panic_scanout;
+ };
  
- /**
-@@ -707,13 +1012,9 @@ static void drm_fb_xrgb8888_to_argb8888_line(void *dbuf, const void *sbuf, unsig
- 	__le32 *dbuf32 = dbuf;
- 	const __le32 *sbuf32 = sbuf;
- 	unsigned int x;
--	u32 pix;
- 
--	for (x = 0; x < pixels; x++) {
--		pix = le32_to_cpu(sbuf32[x]);
--		pix |= GENMASK(31, 24); /* fill alpha bits */
--		dbuf32[x] = cpu_to_le32(pix);
--	}
-+	for (x = 0; x < pixels; x++)
-+		dbuf32[x] = drm_format_xrgb8888_to_argb8888(sbuf32[x]);
- }
- 
- /**
-@@ -756,16 +1057,9 @@ static void drm_fb_xrgb8888_to_abgr8888_line(void *dbuf, const void *sbuf, unsig
- 	__le32 *dbuf32 = dbuf;
- 	const __le32 *sbuf32 = sbuf;
- 	unsigned int x;
--	u32 pix;
- 
--	for (x = 0; x < pixels; x++) {
--		pix = le32_to_cpu(sbuf32[x]);
--		pix = ((pix & 0x00ff0000) >> 16) <<  0 |
--		      ((pix & 0x0000ff00) >>  8) <<  8 |
--		      ((pix & 0x000000ff) >>  0) << 16 |
--		      GENMASK(31, 24); /* fill alpha bits */
--		*dbuf32++ = cpu_to_le32(pix);
--	}
-+	for (x = 0; x < pixels; x++)
-+		*dbuf32++ = drm_format_xrgb8888_to_abgr8888(sbuf32[x]);
- }
- 
- static void drm_fb_xrgb8888_to_abgr8888(struct iosys_map *dst, const unsigned int *dst_pitch,
-@@ -787,16 +1081,9 @@ static void drm_fb_xrgb8888_to_xbgr8888_line(void *dbuf, const void *sbuf, unsig
- 	__le32 *dbuf32 = dbuf;
- 	const __le32 *sbuf32 = sbuf;
- 	unsigned int x;
--	u32 pix;
- 
--	for (x = 0; x < pixels; x++) {
--		pix = le32_to_cpu(sbuf32[x]);
--		pix = ((pix & 0x00ff0000) >> 16) <<  0 |
--		      ((pix & 0x0000ff00) >>  8) <<  8 |
--		      ((pix & 0x000000ff) >>  0) << 16 |
--		      ((pix & 0xff000000) >> 24) << 24;
--		*dbuf32++ = cpu_to_le32(pix);
--	}
-+	for (x = 0; x < pixels; x++)
-+		*dbuf32++ = drm_format_xrgb8888_to_xbgr8888(sbuf32[x]);
- }
- 
- static void drm_fb_xrgb8888_to_xbgr8888(struct iosys_map *dst, const unsigned int *dst_pitch,
-@@ -818,17 +1105,9 @@ static void drm_fb_xrgb8888_to_xrgb2101010_line(void *dbuf, const void *sbuf, un
- 	__le32 *dbuf32 = dbuf;
- 	const __le32 *sbuf32 = sbuf;
- 	unsigned int x;
--	u32 val32;
--	u32 pix;
- 
--	for (x = 0; x < pixels; x++) {
--		pix = le32_to_cpu(sbuf32[x]);
--		val32 = ((pix & 0x000000FF) << 2) |
--			((pix & 0x0000FF00) << 4) |
--			((pix & 0x00FF0000) << 6);
--		pix = val32 | ((val32 >> 8) & 0x00300C03);
--		*dbuf32++ = cpu_to_le32(pix);
--	}
-+	for (x = 0; x < pixels; x++)
-+		*dbuf32++ = drm_format_xrgb8888_to_xrgb2101010(sbuf32[x]);
- }
- 
- /**
-@@ -872,18 +1151,9 @@ static void drm_fb_xrgb8888_to_argb2101010_line(void *dbuf, const void *sbuf, un
- 	__le32 *dbuf32 = dbuf;
- 	const __le32 *sbuf32 = sbuf;
- 	unsigned int x;
--	u32 val32;
--	u32 pix;
- 
--	for (x = 0; x < pixels; x++) {
--		pix = le32_to_cpu(sbuf32[x]);
--		val32 = ((pix & 0x000000ff) << 2) |
--			((pix & 0x0000ff00) << 4) |
--			((pix & 0x00ff0000) << 6);
--		pix = GENMASK(31, 30) | /* set alpha bits */
--		      val32 | ((val32 >> 8) & 0x00300c03);
--		*dbuf32++ = cpu_to_le32(pix);
--	}
-+	for (x = 0; x < pixels; x++)
-+		*dbuf32++ = drm_format_xrgb8888_to_argb2101010(sbuf32[x]);
- }
- 
- /**
-diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
-index f13b34e0b752..f416f0bef52d 100644
---- a/include/drm/drm_format_helper.h
-+++ b/include/drm/drm_format_helper.h
-@@ -66,6 +66,7 @@ void *drm_format_conv_state_reserve(struct drm_format_conv_state *state,
- 				    size_t new_size, gfp_t flags);
- void drm_format_conv_state_release(struct drm_format_conv_state *state);
- 
-+u32 drm_fb_convert_from_xrgb8888(u32 color, u32 format);
- unsigned int drm_fb_clip_offset(unsigned int pitch, const struct drm_format_info *format,
- 				const struct drm_rect *clip);
- 
-@@ -76,6 +77,14 @@ void drm_fb_swab(struct iosys_map *dst, const unsigned int *dst_pitch,
- 		 const struct iosys_map *src, const struct drm_framebuffer *fb,
- 		 const struct drm_rect *clip, bool cached,
- 		 struct drm_format_conv_state *state);
-+void drm_fb_blit_from_r1(struct iosys_map *dmap, unsigned int dpitch,
-+			 const u8 *sbuf8, unsigned int spitch,
-+			 unsigned int height, unsigned int width,
-+			 u32 fg_color, u32 bg_color,
-+			 unsigned int pixel_width);
-+void drm_fb_fill(struct iosys_map *dmap, unsigned int dpitch,
-+		 unsigned int height, unsigned int width,
-+		 u32 color, unsigned int pixel_width);
- void drm_fb_xrgb8888_to_rgb332(struct iosys_map *dst, const unsigned int *dst_pitch,
- 			       const struct iosys_map *src, const struct drm_framebuffer *fb,
- 			       const struct drm_rect *clip, struct drm_format_conv_state *state);
+ #define obj_to_plane(x) container_of(x, struct drm_plane, base)
 -- 
 2.43.0
 
