@@ -2,50 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EBB1868FF3
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 13:14:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3561086901F
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Feb 2024 13:18:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04A0410E6C8;
-	Tue, 27 Feb 2024 12:14:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B057A10E8F7;
+	Tue, 27 Feb 2024 12:18:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="WO0TL7Zm";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="B5srQBJ1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B59910E6C8;
- Tue, 27 Feb 2024 12:14:33 +0000 (UTC)
-Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx1.riseup.net (Postfix) with ESMTPS id 4TkbyJ3npczDqX0;
- Tue, 27 Feb 2024 12:14:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1709036072; bh=Yz3E4CiFT0Uvb+rCgXU3sAf4IG3Gte9QgdNN0Qj0Qhw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=WO0TL7ZmPkv5QM3vX8Q/70xTvA9lwr7KBEDaqf4v/lrqesXei1zOoyPPhCuxInwrw
- sy5C29njj2I7yJb3GeugtcuoXkq2EXvzSMT7aeHEQ5Hb6nKGGTVHFua9//Ojx2yI6w
- GTjGCSnskAik+EjpTkhi0eV4O62q6HhnRmdN8Ha8=
-X-Riseup-User-ID: C4283F6FCFC12BBED7CC048E3601DA23ADAC6603853D1FADCB062F6BA06CFE93
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4TkbyG6Bt8zJq9Y;
- Tue, 27 Feb 2024 12:14:30 +0000 (UTC)
-Message-ID: <848f64f9-abc9-4ce3-a66b-65b513239ec7@riseup.net>
-Date: Tue, 27 Feb 2024 09:14:28 -0300
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 777B810E900;
+ Tue, 27 Feb 2024 12:18:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709036289; x=1740572289;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=LoqowTC6OOBrENRHvQ/wGIG1Ds/jK8vADdaatdI6yws=;
+ b=B5srQBJ1/DdhClytJJDzRTdr8gJK83Kv4oWDH6X2qjQ+peIXyT1HQIDG
+ Rabqci6OOzwB+ib6GBO/oJjeeG7DQ22z3cqu1DqwHnJ8UEEIVe5EMMWBI
+ 1ujj97NBJkxMX93OepcBRkHi6ThBL5eMe7YfMP04ShicXkV87BsMUCK37
+ 4E4SVcDLUNoPFKtmPja9J/yhUOlZXi4GZPTYUrhyj+pOQErZ01OrSnM22
+ riNQp25jsxpA0Vaw15OY5XSJo90s62rZGCvoPhQiYMTMVaLGNgHVhE6I2
+ dJM9vjCP4yEhqx9xjLwf/s8j3I5Dw9Q8kAa1rllVo6PkGI2j8SRy4mERX w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="3532429"
+X-IronPort-AV: E=Sophos;i="6.06,187,1705392000"; 
+   d="scan'208";a="3532429"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2024 04:18:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,187,1705392000"; d="scan'208";a="11793592"
+Received: from bdallmer-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.49.187])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2024 04:18:04 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx
+ <intel-gfx@lists.freedesktop.org>, dri-devel
+ <dri-devel@lists.freedesktop.org>
+Cc: Chris Wilson <chris.p.wilson@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Matt Roper <matthew.d.roper@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>, Tvrtko Ursulin
+ <tvrtko.ursulin@linux.intel.com>, stable@vger.kernel.org, Andi Shyti
+ <andi.shyti@linux.intel.com>, Andi Shyti <andi.shyti@kernel.org>
+Subject: Re: [PATCH 2/2] drm/i915/gt: Set default CCS mode '1'
+In-Reply-To: <20240220142034.257370-3-andi.shyti@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240220142034.257370-1-andi.shyti@linux.intel.com>
+ <20240220142034.257370-3-andi.shyti@linux.intel.com>
+Date: Tue, 27 Feb 2024 14:18:01 +0200
+Message-ID: <87bk82je2u.fsf@intel.com>
 MIME-Version: 1.0
-Subject: Re: [RFC PATCH v4 06/42] drm/vkms: Add kunit tests for VKMS LUT
- handling
-Content-Language: en-US
-To: Harry Wentland <harry.wentland@amd.com>, dri-devel@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org
-Cc: wayland-devel@lists.freedesktop.org
-References: <20240226211100.100108-1-harry.wentland@amd.com>
- <20240226211100.100108-7-harry.wentland@amd.com>
-From: Arthur Grillo <arthurgrillo@riseup.net>
-In-Reply-To: <20240226211100.100108-7-harry.wentland@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,262 +72,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 26/02/24 18:10, Harry Wentland wrote:
-> Debugging LUT math is much easier when we can unit test
-> it. Add kunit functionality to VKMS and add tests for
->  - get_lut_index
->  - lerp_u16
-> 
-> v4:
->  - Test the critical points of the lerp function (Pekka)
-> 
-> v3:
->  - Use include way of testing static functions (Arthur)
-> 
-> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> Cc: Arthur Grillo <arthurgrillo@riseup.net>
+On Tue, 20 Feb 2024, Andi Shyti <andi.shyti@linux.intel.com> wrote:
+> Since CCS automatic load balancing is disabled, we will impose a
+> fixed balancing policy that involves setting all the CCS engines
+> to work together on the same load.
+>
+> Simultaneously, the user will see only 1 CCS rather than the
+> actual number. As of now, this change affects only DG2.
+>
+> Fixes: d2eae8e98d59 ("drm/i915/dg2: Drop force_probe requirement")
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> Cc: <stable@vger.kernel.org> # v6.2+
 > ---
->  drivers/gpu/drm/vkms/Kconfig                  |   5 +
->  drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
->  drivers/gpu/drm/vkms/tests/vkms_color_tests.c | 163 ++++++++++++++++++
->  drivers/gpu/drm/vkms/vkms_composer.c          |   8 +-
->  4 files changed, 178 insertions(+), 2 deletions(-)
->  create mode 100644 drivers/gpu/drm/vkms/tests/.kunitconfig
->  create mode 100644 drivers/gpu/drm/vkms/tests/vkms_color_tests.c
-> 
-> diff --git a/drivers/gpu/drm/vkms/Kconfig b/drivers/gpu/drm/vkms/Kconfig
-> index b9ecdebecb0b..c1f8b343ff0e 100644
-> --- a/drivers/gpu/drm/vkms/Kconfig
-> +++ b/drivers/gpu/drm/vkms/Kconfig
-> @@ -13,3 +13,8 @@ config DRM_VKMS
->  	  a VKMS.
+>  drivers/gpu/drm/i915/gt/intel_gt.c      | 11 +++++++++++
+>  drivers/gpu/drm/i915/gt/intel_gt_regs.h |  2 ++
+>  drivers/gpu/drm/i915/i915_drv.h         | 17 +++++++++++++++++
+>  drivers/gpu/drm/i915/i915_query.c       |  5 +++--
+>  4 files changed, 33 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+> index a425db5ed3a2..e19df4ef47f6 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+> @@ -168,6 +168,14 @@ static void init_unused_rings(struct intel_gt *gt)
+>  	}
+>  }
 >  
->  	  If M is selected the module will be called vkms.
-> +
-> +config DRM_VKMS_KUNIT_TESTS
-> +	tristate "Tests for VKMS" if !KUNIT_ALL_TESTS
-> +	depends on DRM_VKMS && KUNIT
-> +	default KUNIT_ALL_TESTS
-> diff --git a/drivers/gpu/drm/vkms/tests/.kunitconfig b/drivers/gpu/drm/vkms/tests/.kunitconfig
-> new file mode 100644
-> index 000000000000..70e378228cbd
-> --- /dev/null
-> +++ b/drivers/gpu/drm/vkms/tests/.kunitconfig
-> @@ -0,0 +1,4 @@
-> +CONFIG_KUNIT=y
-> +CONFIG_DRM=y
-> +CONFIG_DRM_VKMS=y
-> +CONFIG_DRM_VKMS_KUNIT_TESTS=y
-> diff --git a/drivers/gpu/drm/vkms/tests/vkms_color_tests.c b/drivers/gpu/drm/vkms/tests/vkms_color_tests.c
-> new file mode 100644
-> index 000000000000..fc73e48aa57c
-> --- /dev/null
-> +++ b/drivers/gpu/drm/vkms/tests/vkms_color_tests.c
-> @@ -0,0 +1,163 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ */
-> +
-> +#include <kunit/test.h>
-> +
-> +#include <drm/drm_fixed.h>
-> +
-> +#define TEST_LUT_SIZE 16
-> +
-> +static struct drm_color_lut test_linear_array[TEST_LUT_SIZE] = {
-> +	{ 0x0, 0x0, 0x0, 0 },
-> +	{ 0x1111, 0x1111, 0x1111, 0 },
-> +	{ 0x2222, 0x2222, 0x2222, 0 },
-> +	{ 0x3333, 0x3333, 0x3333, 0 },
-> +	{ 0x4444, 0x4444, 0x4444, 0 },
-> +	{ 0x5555, 0x5555, 0x5555, 0 },
-> +	{ 0x6666, 0x6666, 0x6666, 0 },
-> +	{ 0x7777, 0x7777, 0x7777, 0 },
-> +	{ 0x8888, 0x8888, 0x8888, 0 },
-> +	{ 0x9999, 0x9999, 0x9999, 0 },
-> +	{ 0xaaaa, 0xaaaa, 0xaaaa, 0 },
-> +	{ 0xbbbb, 0xbbbb, 0xbbbb, 0 },
-> +	{ 0xcccc, 0xcccc, 0xcccc, 0 },
-> +	{ 0xdddd, 0xdddd, 0xdddd, 0 },
-> +	{ 0xeeee, 0xeeee, 0xeeee, 0 },
-> +	{ 0xffff, 0xffff, 0xffff, 0 },
-> +};
-> +
-> +const struct vkms_color_lut test_linear_lut = {
-> +	.base = test_linear_array,
-> +	.lut_length = TEST_LUT_SIZE,
-> +	.channel_value2index_ratio = 0xf000fll
-> +};
-> +
-> +
-> +static void vkms_color_test_get_lut_index(struct kunit *test)
+> +static void intel_gt_apply_ccs_mode(struct intel_gt *gt)
 > +{
-> +	int i;
+> +	if (!IS_DG2(gt->i915))
+> +		return;
 > +
-> +	KUNIT_EXPECT_EQ(test, drm_fixp2int(get_lut_index(&test_linear_lut, test_linear_array[0].red)), 0);
-> +
-> +	for (i = 0; i < TEST_LUT_SIZE; i++)
-> +		KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(get_lut_index(&test_linear_lut, test_linear_array[i].red)), i);
+> +	intel_uncore_write(gt->uncore, XEHP_CCS_MODE, 0);
 > +}
 > +
-> +static void vkms_color_test_lerp(struct kunit *test)
-> +{
-> +	/*** half-way round down ***/
-> +	s64 t = 0x80000000 - 1;
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x8);
-> +
-> +	/* odd a */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x8);
-> +
-> +	/* odd b */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0x8);
-> +
-> +	/* b = a */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
-> +
-> +	/* b = a + 1 */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x10);
-> +
-> +
-> +	/*** half-way round up ***/
-> +	t = 0x80000000;
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x8);
-> +
-> +	/* odd a */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x9);
-> +
-> +	/* odd b */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0x8);
-> +
-> +	/* b = a */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
-> +
-> +	/* b = a + 1 */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x11);
-> +
-> +	/*** t = 0.0 ***/
-> +	t = 0x0;
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x0);
-> +
-> +	/* odd a */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x1);
-> +
-> +	/* odd b */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0x1);
-> +
-> +	/* b = a */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
-> +
-> +	/* b = a + 1 */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x10);
-> +
-> +	/*** t = 1.0 ***/
-> +	t = 0x100000000;
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x10);
-> +
-> +	/* odd a */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x10);
-> +
-> +	/* odd b */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0xf);
-> +
-> +	/* b = a */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
-> +
-> +	/* b = a + 1 */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x11);
-> +
-> +
-> +	/*** t = 0.0 + 1 ***/
-> +	t = 0x0 + 1;
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x0);
-> +
-> +	/* odd a */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x1);
-> +
-> +	/* odd b */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0x1);
-> +
-> +	/* b = a */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
-> +
-> +	/* b = a + 1 */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x10);
-> +
-> +	/*** t = 1.0 - 1 ***/
-> +	t = 0x100000000 - 1;
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x10);
-> +
-> +	/* odd a */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x10);
-> +
-> +	/* odd b */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0xf);
-> +
-> +	/* b = a */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
-> +
-> +	/* b = a + 1 */
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x11);
-> +
-> +
-> +	/*** t chosen to verify the flipping point of result a (or b) to a+1 (or b-1) ***/
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x1, 0x80000000 - 1), 0x0);
-> +	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x1, 0x80000000), 0x1);
-> +}
-> +
-> +static struct kunit_case vkms_color_test_cases[] = {
-> +	KUNIT_CASE(vkms_color_test_get_lut_index),
-> +	KUNIT_CASE(vkms_color_test_lerp),
-> +	{}
-> +};
-> +
-> +static struct kunit_suite vkms_color_test_suite = {
-> +	.name = "vkms-color",
-> +	.test_cases = vkms_color_test_cases,
-> +};
-> +kunit_test_suite(vkms_color_test_suite);
-> +
-> +MODULE_LICENSE("GPL");
-> \ No newline at end of file
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-> index e70cd473e3be..d178f2a400f6 100644
-> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> @@ -91,7 +91,7 @@ static void fill_background(const struct pixel_argb_u16 *background_color,
->  }
->  
->  // lerp(a, b, t) = a + (b - a) * t
-> -static u16 lerp_u16(u16 a, u16 b, s64 t)
-> +u16 lerp_u16(u16 a, u16 b, s64 t)
-
-You don't need to do that, as already said on [1].
-
+>  int intel_gt_init_hw(struct intel_gt *gt)
 >  {
->  	s64 a_fp = drm_int2fixp(a);
->  	s64 b_fp = drm_int2fixp(b);
-> @@ -101,7 +101,7 @@ static u16 lerp_u16(u16 a, u16 b, s64 t)
->  	return drm_fixp2int_round(a_fp + delta);
->  }
+>  	struct drm_i915_private *i915 = gt->i915;
+> @@ -195,6 +203,9 @@ int intel_gt_init_hw(struct intel_gt *gt)
 >  
-> -static s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value)
-> +s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value)
-
-Same here.
-
-[1]: https://lore.kernel.org/dri-devel/4df0cb7c-e738-4927-89ed-51a0e8bcac77@riseup.net/
-
-Best Regards,
-~Arthur Grillo
-
->  {
->  	s64 color_channel_fp = drm_int2fixp(channel_value);
+>  	intel_gt_init_swizzling(gt);
 >  
-> @@ -429,3 +429,7 @@ int vkms_set_crc_source(struct drm_crtc *crtc, const char *src_name)
->  
->  	return ret;
->  }
+> +	/* Configure CCS mode */
+> +	intel_gt_apply_ccs_mode(gt);
 > +
-> +#ifdef CONFIG_DRM_VKMS_KUNIT_TESTS
-> +#include "tests/vkms_color_tests.c"
-> +#endif
+>  	/*
+>  	 * At least 830 can leave some of the unused rings
+>  	 * "active" (ie. head != tail) after resume which
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> index cf709f6c05ae..c148113770ea 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> @@ -1605,6 +1605,8 @@
+>  #define   GEN12_VOLTAGE_MASK			REG_GENMASK(10, 0)
+>  #define   GEN12_CAGF_MASK			REG_GENMASK(19, 11)
+>  
+> +#define XEHP_CCS_MODE                          _MMIO(0x14804)
+> +
+>  #define GEN11_GT_INTR_DW(x)			_MMIO(0x190018 + ((x) * 4))
+>  #define   GEN11_CSME				(31)
+>  #define   GEN12_HECI_2				(30)
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> index e81b3b2858ac..0853ffd3cb8d 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -396,6 +396,23 @@ static inline struct intel_gt *to_gt(const struct drm_i915_private *i915)
+>  	     (engine__); \
+>  	     (engine__) = rb_to_uabi_engine(rb_next(&(engine__)->uabi_node)))
+>  
+> +/*
+> + * Exclude unavailable engines.
+> + *
+> + * Only the first CCS engine is utilized due to the disabling of CCS auto load
+> + * balancing. As a result, all CCS engines operate collectively, functioning
+> + * essentially as a single CCS engine, hence the count of active CCS engines is
+> + * considered '1'.
+> + * Currently, this applies to platforms with more than one CCS engine,
+> + * specifically DG2.
+> + */
+> +#define for_each_available_uabi_engine(engine__, i915__) \
+
+Hrmh, I've been trying to pester folks to move the existing engine
+iterator macros away from i915_drv.h, so not happy to see more.
+
+But since this is Cc: stable, better do that in a follow-up. Please?
+
+> +	for_each_uabi_engine(engine__, i915__) \
+> +		if ((IS_DG2(i915__)) && \
+> +		    ((engine__)->uabi_class == I915_ENGINE_CLASS_COMPUTE) && \
+> +		    ((engine__)->uabi_instance)) { } \
+> +		else
+
+We have for_each_if for this.
+
+> +
+>  #define INTEL_INFO(i915)	((i915)->__info)
+>  #define RUNTIME_INFO(i915)	(&(i915)->__runtime)
+>  #define DRIVER_CAPS(i915)	(&(i915)->caps)
+> diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
+> index fa3e937ed3f5..2d41bda626a6 100644
+> --- a/drivers/gpu/drm/i915/i915_query.c
+> +++ b/drivers/gpu/drm/i915/i915_query.c
+> @@ -124,6 +124,7 @@ static int query_geometry_subslices(struct drm_i915_private *i915,
+>  	return fill_topology_info(sseu, query_item, sseu->geometry_subslice_mask);
+>  }
+>  
+> +
+
+Superfluous newline change.
+
+>  static int
+>  query_engine_info(struct drm_i915_private *i915,
+>  		  struct drm_i915_query_item *query_item)
+> @@ -140,7 +141,7 @@ query_engine_info(struct drm_i915_private *i915,
+>  	if (query_item->flags)
+>  		return -EINVAL;
+>  
+> -	for_each_uabi_engine(engine, i915)
+> +	for_each_available_uabi_engine(engine, i915)
+>  		num_uabi_engines++;
+>  
+>  	len = struct_size(query_ptr, engines, num_uabi_engines);
+> @@ -155,7 +156,7 @@ query_engine_info(struct drm_i915_private *i915,
+>  
+>  	info_ptr = &query_ptr->engines[0];
+>  
+> -	for_each_uabi_engine(engine, i915) {
+> +	for_each_available_uabi_engine(engine, i915) {
+>  		info.engine.engine_class = engine->uabi_class;
+>  		info.engine.engine_instance = engine->uabi_instance;
+>  		info.flags = I915_ENGINE_INFO_HAS_LOGICAL_INSTANCE;
+
+-- 
+Jani Nikula, Intel
