@@ -2,77 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C4E86B275
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 15:56:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BFCC86B278
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 15:56:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2847510E9F9;
-	Wed, 28 Feb 2024 14:56:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 314E910EA00;
+	Wed, 28 Feb 2024 14:56:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="aOKztkQt";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ldhPtvEy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A5BD10E9F9
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 14:56:09 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-2d2c8c1b76cso2867631fa.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 06:56:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1709132167; x=1709736967; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+vcMWHnsgqS7W8fnpj1PaXiom5DksSZX96pEaShUzcc=;
- b=aOKztkQtfkNeR1Al4MlCrZOM0NVQlK53cppkazMtK1PZqCZpbEG9/3CSU1XIcXS/7l
- SaGHY6FyxjSjxoghYsugDSdNoj0rIKEQARlvteHnfAdHB1oDKYl8iUWqdiBn1Alw0mD4
- U3y+/oKwMzEaQFhwRhkkxWbzlQIynX3pjGMJM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709132167; x=1709736967;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+vcMWHnsgqS7W8fnpj1PaXiom5DksSZX96pEaShUzcc=;
- b=Ez8/CtXLx6yXe3QDuPmVE8iubBW8eX8a4FRazm7PLAF6fF+N2MPbnj3B9cx1ZKX8X2
- Zz1V62oh8ZiuYVzJ0XMydPe2MW7537Gm0F8OTcloPNi+5BkkJyt2G3jlP3NbQThwJgLE
- PNVoSTwkaar95NO8q/yQJ5IdN9OqhJbVJmq3ySvbzrCHKrQSHhR2oAm/xPpVHxNd4n1f
- 6saHX+64Kfde21obKN91j3GZ4aIXkfvqYB6tAwlcitaEJlDpk5GwgMsB5Um9dsRW548V
- r85EHierijiIamDDd0XvLxMvJkpfPokdg1jQ/ZBVAK9K1M4XhXHe3ZY19x3LAKG9XKC9
- lXrg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWEVB4j7xpZ1FALqkD4fRIP7x3ZzimWqA55PXOkKiz/+doUn31WkWGjkYgIZ8S2zd9I1yKj0F0PdUdkrXvqOFD1oopAp1zkLYLDwXkvmdta
-X-Gm-Message-State: AOJu0YzEpYZMPbfRn17nblLMgx1Zrtr++1DstBI4Hm/+2QYJPsmTQJpE
- ZgirblvBUgzCGGjf0GnEMiOMIpogs0Tc5JzDV/UYMDq0K4i+7w/rTJRxXCKMbKw=
-X-Google-Smtp-Source: AGHT+IEAGFSW/uX/YpbDaJT1Mv1OsObD1Iuo5PxtDuR6p/AmF+ZMAoYUnQ3pqM6XlOYLcbdO9CcHKg==
-X-Received: by 2002:a05:6512:3d88:b0:513:16a8:4292 with SMTP id
- k8-20020a0565123d8800b0051316a84292mr2579206lfv.2.1709132167118; 
- Wed, 28 Feb 2024 06:56:07 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- t4-20020a0560001a4400b0033d06dfcf84sm14599276wry.100.2024.02.28.06.56.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Feb 2024 06:56:06 -0800 (PST)
-Date: Wed, 28 Feb 2024 15:56:04 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Kunwu Chan <chentao@kylinos.cn>
-Cc: ltuikov89@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C7F910E9FF;
+ Wed, 28 Feb 2024 14:56:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709132177; x=1740668177;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=XHKMIZTbj9bitp8a+76rJdKa+WSqMzI2I1WztVw5LMs=;
+ b=ldhPtvEyKUEi9wX8apsTF+IBN9g/nfLQK95HtemVlVbmJKtAve2DLusR
+ T8Qksx13m+4oRpCHmBYJ6uv/QEXZDccaRAdj6y1H5Q3WjtMyjpwOFCk7d
+ nMyKy9XtUDQUYF469YCM9ERpv3wq4yNgj6aDDbpkjvAskKv7rbKnmFOO1
+ +WvbSqsOzgwf+W9WiO1TSxcM48SOpfc8N+LcM06+LDIi6NxzSQu8uTN/g
+ 382BJoOyAfhchP12Kol1CjiiiuXHlOpRfxDRRiC67R3RtAsHQnTAWi0nS
+ H8b5gXiGLZ1a17zMY3DFZXPx6gFx31je6icKZCCyB0xxxsKVFCadouBQL A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="14952692"
+X-IronPort-AV: E=Sophos;i="6.06,190,1705392000"; d="scan'208";a="14952692"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2024 06:56:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,190,1705392000"; d="scan'208";a="12121542"
+Received: from tmelzer-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.32.33])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2024 06:56:13 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/scheduler: Simplify the allocation of slab caches in
- drm_sched_fence_slab_init
-Message-ID: <Zd9JhJ8gXfk7k9sz@phenom.ffwll.local>
-Mail-Followup-To: Kunwu Chan <chentao@kylinos.cn>, ltuikov89@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20240221085558.166774-1-chentao@kylinos.cn>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Dave Airlie <airlied@redhat.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH] MAINTAINERS: Update email address for Tvrtko Ursulin
+In-Reply-To: <20240228142240.2539358-1-tvrtko.ursulin@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240228142240.2539358-1-tvrtko.ursulin@linux.intel.com>
+Date: Wed, 28 Feb 2024 16:56:09 +0200
+Message-ID: <8734tcab92.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240221085558.166774-1-chentao@kylinos.cn>
-X-Operating-System: Linux phenom 6.6.11-amd64 
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,39 +69,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 21, 2024 at 04:55:58PM +0800, Kunwu Chan wrote:
-> Use the new KMEM_CACHE() macro instead of direct kmem_cache_create
-> to simplify the creation of SLAB caches.
-> 
-> Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
+On Wed, 28 Feb 2024, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
+> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>
+> I will lose access to my @.*intel.com e-mail addresses soon so let me
+> adjust the maintainers entry and update the mailmap too.
+>
+> While at it consolidate a few other of my old emails to point to the
+> main one.
+>
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-Applied to drm-misc-next, thanks for your patch!
--Sima
+Acked-by: Jani Nikula <jani.nikula@intel.com>
 
 > ---
->  drivers/gpu/drm/scheduler/sched_fence.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
-> index 06cedfe4b486..0f35f009b9d3 100644
-> --- a/drivers/gpu/drm/scheduler/sched_fence.c
-> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
-> @@ -33,9 +33,7 @@ static struct kmem_cache *sched_fence_slab;
->  
->  static int __init drm_sched_fence_slab_init(void)
->  {
-> -	sched_fence_slab = kmem_cache_create(
-> -		"drm_sched_fence", sizeof(struct drm_sched_fence), 0,
-> -		SLAB_HWCACHE_ALIGN, NULL);
-> +	sched_fence_slab = KMEM_CACHE(drm_sched_fence, SLAB_HWCACHE_ALIGN);
->  	if (!sched_fence_slab)
->  		return -ENOMEM;
->  
-> -- 
-> 2.39.2
-> 
+>  .mailmap    | 5 +++++
+>  MAINTAINERS | 2 +-
+>  2 files changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/.mailmap b/.mailmap
+> index b99a238ee3bd..d67e351bce8e 100644
+> --- a/.mailmap
+> +++ b/.mailmap
+> @@ -608,6 +608,11 @@ TripleX Chung <xxx.phy@gmail.com> <triplex@zh-kernel=
+.org>
+>  TripleX Chung <xxx.phy@gmail.com> <zhongyu@18mail.cn>
+>  Tsuneo Yoshioka <Tsuneo.Yoshioka@f-secure.com>
+>  Tudor Ambarus <tudor.ambarus@linaro.org> <tudor.ambarus@microchip.com>
+> +Tvrtko Ursulin <tursulin@ursulin.net> <tvrtko.ursulin@intel.com>
+> +Tvrtko Ursulin <tursulin@ursulin.net> <tvrtko.ursulin@linux.intel.com>
+> +Tvrtko Ursulin <tursulin@ursulin.net> <tvrtko.ursulin@sophos.com>
+> +Tvrtko Ursulin <tursulin@ursulin.net> <tvrtko.ursulin@onelan.co.uk>
+> +Tvrtko Ursulin <tursulin@ursulin.net> <tvrtko@ursulin.net>
+>  Tycho Andersen <tycho@tycho.pizza> <tycho@tycho.ws>
+>  Tzung-Bi Shih <tzungbi@kernel.org> <tzungbi@google.com>
+>  Uwe Kleine-K=C3=B6nig <ukleinek@informatik.uni-freiburg.de>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 19f6f8014f94..b940bfe2a692 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -10734,7 +10734,7 @@ INTEL DRM I915 DRIVER (Meteor Lake, DG2 and older=
+ excluding Poulsbo, Moorestown
+>  M:	Jani Nikula <jani.nikula@linux.intel.com>
+>  M:	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+>  M:	Rodrigo Vivi <rodrigo.vivi@intel.com>
+> -M:	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> +M:	Tvrtko Ursulin <tursulin@ursulin.net>
+>  L:	intel-gfx@lists.freedesktop.org
+>  S:	Supported
+>  W:	https://drm.pages.freedesktop.org/intel-docs/
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+--=20
+Jani Nikula, Intel
