@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E99586B35B
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 16:40:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7DED86B361
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 16:40:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E63FB10EA0B;
-	Wed, 28 Feb 2024 15:40:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D03A10EA0E;
+	Wed, 28 Feb 2024 15:40:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Onus0vDw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oc0UR0W5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39F3510EA0E
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 15:40:31 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BCE110EA0D
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 15:40:36 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 92F7B61209;
- Wed, 28 Feb 2024 15:40:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAE18C43390;
- Wed, 28 Feb 2024 15:40:29 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 2D487CE21AA;
+ Wed, 28 Feb 2024 15:40:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11DA2C433F1;
+ Wed, 28 Feb 2024 15:40:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1709134830;
- bh=O03fJy88SAwwnAExh76BlIaO2MQNOOk831uCTyW6lAk=;
+ s=k20201202; t=1709134833;
+ bh=tsYF06O0hUx6z4ZysguYUFGc6hPhoeQDqvJiBqFtdJ8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Onus0vDwWiOKzvmQccBQ/B7iRCGG5+HbvgGB4a5v4PnW6UsMSNUKjEcj1r4+WtbM2
- iEqqNYECIA5mnS4gN7xWpYQ11/54TzmPaetXbO2dBwOGrjM2EJ/pfslVMZZjRYaHXD
- t+KfDCVfzEFpKimEFkkvh7J5T5Eso38JOClJ5GBDBcgLPoNVsqDokVVH4B/d395pi5
- cwCsWRHzUuswUbsxJ1/nZOjTjU4e6vnFVhZwKQV2j1s7oyCvQocrVTM00D/DeHZ0pf
- E48Zz6eSdMv7rVYolvjfKkdZ0Lhnp0EjNQdEApBHm3ubaROIQAO4P2mI7sPQrZKNaH
- uwCE0dhODbV6g==
+ b=oc0UR0W52EEdg18ChVfUPfTObi+XvVwTxZAZCH0pYpvuH6Rkp35mP2PjYQsFADrls
+ m1ezLLZ7tR5oWqiOAxAQRelAOAltWSIuPcaDMoxN+UVuJdSpvgFp6vwIGR/Vc1l8Ai
+ iRgF4MnYtsQZsdsdcbZFF+LDY6lV5lN4GcHclccBBlheViyEExSKgTtkBQ9q/hisbG
+ 586XL4Z+RGP7nn5eE4Mx/B1kOEj/na4QsBOCC/I2odX0ikOs1PHi/kwcoJpH3Y6Z4Q
+ K1rFK8gKXXSvRmcCyP/ctftY0FsQIr+ziGP7tk02F/ENhvL4ANxcDf0BImQmltQlW8
+ RJCXawW2vMoMA==
 From: Maxime Ripard <mripard@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
@@ -45,14 +45,14 @@ Cc: Hans Verkuil <hverkuil@xs4all.nl>,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
  linux-sunxi@lists.linux.dev
-Subject: Re: (subset) [PATCH v7 03/36] drm/tests: Add helper to create mock
- plane
-Date: Wed, 28 Feb 2024 16:40:16 +0100
-Message-ID: <170913481316.384117.4001941914188313587.b4-ty@kernel.org>
+Subject: Re: (subset) [PATCH v7 04/36] drm/tests: Add helper to create mock
+ crtc
+Date: Wed, 28 Feb 2024 16:40:17 +0100
+Message-ID: <170913481316.384117.15338048951068923035.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240222-kms-hdmi-connector-state-v7-3-8f4af575fce2@kernel.org>
+In-Reply-To: <20240222-kms-hdmi-connector-state-v7-4-8f4af575fce2@kernel.org>
 References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
- <20240222-kms-hdmi-connector-state-v7-3-8f4af575fce2@kernel.org>
+ <20240222-kms-hdmi-connector-state-v7-4-8f4af575fce2@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -71,13 +71,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 22 Feb 2024 19:13:49 +0100, Maxime Ripard wrote:
+On Thu, 22 Feb 2024 19:13:50 +0100, Maxime Ripard wrote:
 > We're going to need a full-blown, functional, KMS device to test more
 > components of the atomic modesetting infrastructure.
 > 
-> Let's add a new helper to create a dumb, mocked, primary plane. By
-> default, it will create a linear XRGB8888 plane, using the default
-> helpers.
+> Let's add a new helper to create a dumb, mocked, CRTC. By default it
+> will create a CRTC relying only on the default helpers, but drivers are
+> free to deviate from that.
 > 
 > [...]
 
