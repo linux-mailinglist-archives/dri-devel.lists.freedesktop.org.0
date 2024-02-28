@@ -2,88 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB0CB86B9FE
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 22:34:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA62086BA2E
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 22:49:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8125D10E028;
-	Wed, 28 Feb 2024 21:34:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC90510E050;
+	Wed, 28 Feb 2024 21:49:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="aCBAjpCB";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="O0EgQD+6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com
- [209.85.166.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 687AF10E028
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 21:34:35 +0000 (UTC)
-Received: by mail-il1-f174.google.com with SMTP id
- e9e14a558f8ab-36423c819a3so1657045ab.0
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 13:34:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1709156074; x=1709760874;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Ud3jsbNEeuU2tmgvB1e9X78Ey55SQRcSwnTZ1T/aebs=;
- b=aCBAjpCBt9PCRqfnmQPUByq5pGIeVWw09jFBkrzn1AAP9OfjCycxYei+ZOANna9IXK
- MLGkEpvBRBGgOF0IQ52EPfV1dLKxZ4soeT4WiW+gnQaqQAIyvqtAfGvVd6X/VRVdFUnT
- 6k/H50W8narzsEtkNp9j7Z94YSh0JzsOgRvMg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709156074; x=1709760874;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Ud3jsbNEeuU2tmgvB1e9X78Ey55SQRcSwnTZ1T/aebs=;
- b=w9dccNSejSIHSZiHAvmt4HG2l5n8r0c8aONVrxxN44A2iQVDsGEkIO7+RCfZJEehkY
- xxRpDS/Z35QLRZV+e5qD/qV+W7ueEz8THlmDBtucAL29hUGN/Virb1ampW/ElusSRgaO
- /6CZKONyjqO60yHGKQtQAVXtcE+yp7G/Ok7KAXjDCmxIbi8x8GW1B7pGajj4pQxigz/e
- ire/EmDVqe2qNfgDyBFij6Qst5AC6p37sVFdSEzs9hTbV5hbaTd5w71dNxVgUJEBnhEk
- 5JlRYfOkeIID7gICGKiVVnslhnRGhq4AxX6Tazj/dMoMhWg9BTwHXOQZwopU44SjyQMh
- 1Fig==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXMl8Wo2C36HdblLETWJbNI59XcGLpP5a8gJTLKXGwab0gJKOLT7jmDhCLBdy07b2OZ+el2HHCqpIgYFQtbZc4DMHmgAjlVaBt80tHx47Pi
-X-Gm-Message-State: AOJu0YzvnlqmhuekGmIk0jjDOoNq0RH1S80SswipxpJ8GjNXT86KxCx0
- xkOqR7MAjcwax9HPZFpn3VVxdgwV7KXwl1sZ3My/9XGXH1EthqlMEKmtJK8Xww==
-X-Google-Smtp-Source: AGHT+IFRn4MDh7nvzu0eSOUCvjYdM8/HpCDcsTdPwQHR4UeGWg9wLpczoWIYWROWR4Qj4A2q46iIUg==
-X-Received: by 2002:a05:6e02:524:b0:365:1749:cadf with SMTP id
- h4-20020a056e02052400b003651749cadfmr613056ils.16.1709156074288; 
- Wed, 28 Feb 2024 13:34:34 -0800 (PST)
-Received: from localhost (144.57.222.35.bc.googleusercontent.com.
- [35.222.57.144]) by smtp.gmail.com with UTF8SMTPSA id
- e4-20020a92de44000000b00365760eb777sm68026ilr.81.2024.02.28.13.34.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Feb 2024 13:34:33 -0800 (PST)
-Date: Wed, 28 Feb 2024 21:34:33 +0000
-From: Matthias Kaehlcke <mka@chromium.org>
-To: Javier Carrasco <javier.carrasco@wolfvision.net>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Helen Koike <helen.koike@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Russell King <linux@armlinux.org.uk>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v5 6/8] usb: misc: onboard_dev: add support for non-hub
- devices
-Message-ID: <Zd-m6WNd5ukXyJGx@google.com>
-References: <20240228-onboard_xvf3500-v5-0-76b805fd3fe6@wolfvision.net>
- <20240228-onboard_xvf3500-v5-6-76b805fd3fe6@wolfvision.net>
- <Zd93JZTlN4BCxWm7@google.com>
- <ecf303c3-d7a1-49d5-a997-32596215e43d@wolfvision.net>
- <Zd-ahtPpI8zbAYQ9@google.com>
- <63d9be60-40dd-49f6-9a75-72d4be746024@wolfvision.net>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C637C10E031
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 21:49:43 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 41SJnTpX017138; Wed, 28 Feb 2024 21:49:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=QVXUnd4fEQs7WnsKDeEjm15pi3EzyqRuIaFQJZzbhDM=; b=O0
+ EgQD+6vir+QcEB0tBCVv28I+iZhzG/Q6MLZ83Wx3DHs3EeCcVBsjadsrufwksFaU
+ 2X1fspS59rVSCsBEMDWXHrI2vhERsKwAqwV8suGuJTCHxbXWICt26DyK0oUaZQY6
+ Okv8HbBNX+KkgDubAtEWifjetwfK/xNmvenj2lR36JSIz2ab8GaNM+7TlhNxFff7
+ FuX8LucmuDAjTNz0QxRPk9DtszrIEvGkMf3YoU0aTFcpUiJUiEjiOF5ZowPYO+S8
+ Q9WcrHIGaQnAdqIWjjDRzQWGCi3oLJB9yg3QdShb3YLlkYtpfU9JfO2XYjv7bSx5
+ CrG9L+yXKx3ReOzrnmDw==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wj458hjpp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Feb 2024 21:49:36 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41SLnZCq008734
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Feb 2024 21:49:35 GMT
+Received: from [10.71.111.207] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 28 Feb
+ 2024 13:49:35 -0800
+Message-ID: <6470960a-dbe8-43ca-889a-b5a7cc934569@quicinc.com>
+Date: Wed, 28 Feb 2024 13:49:34 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <63d9be60-40dd-49f6-9a75-72d4be746024@wolfvision.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 0/4] Support for Simulated Panels
+Content-Language: en-US
+To: Maxime Ripard <mripard@kernel.org>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ "Neil Armstrong" <neil.armstrong@linaro.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>,
+ Sam Ravnborg <sam@ravnborg.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, "David Airlie" <airlied@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+ "open list:OPEN FIRMWARE AND
+ FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>
+References: <20240116-jz-test-sim-panel-v1-0-f9511f46c9c7@quicinc.com>
+ <x6wi5xnihnbpqsujjfjfw3ft6njncruta5l3xa44pds5oxmdkw@mmvv4bciy65s>
+ <87cyu0qn81.fsf@intel.com> <e1f10583-1d5b-fdac-24bf-098a0ba06241@quicinc.com>
+ <hhmbghooegclx3jbsx2neryligk3mj77lq7gns5xegags5ltoz@acdu6hssqwlw>
+ <99705d73-abcf-6d41-3d50-757e706cf1fc@quicinc.com>
+ <Zbi4-S49CWlUkO__@phenom.ffwll.local>
+ <gs634bhdctmpxhhdjw3bddirvc6ex7fwdmy4xr4pygyibvmp5g@zfouf76tmti2>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <gs634bhdctmpxhhdjw3bddirvc6ex7fwdmy4xr4pygyibvmp5g@zfouf76tmti2>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 4vNwddsN7ybfojmIkMJj-oI8WVkddllE
+X-Proofpoint-ORIG-GUID: 4vNwddsN7ybfojmIkMJj-oI8WVkddllE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-28_08,2024-02-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1011
+ phishscore=0 mlxlogscore=999 mlxscore=0 spamscore=0 adultscore=0
+ priorityscore=1501 malwarescore=0 suspectscore=0 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2402280173
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,89 +103,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 28, 2024 at 09:50:22PM +0100, Javier Carrasco wrote:
-> On 28.02.24 21:41, Matthias Kaehlcke wrote:
-> > On Wed, Feb 28, 2024 at 09:21:00PM +0100, Javier Carrasco wrote:
-> >> On 28.02.24 19:10, Matthias Kaehlcke wrote:
-> >>> On Wed, Feb 28, 2024 at 02:51:33PM +0100, Javier Carrasco wrote:
-> >>>> Most of the functionality this driver provides can be used by non-hub
-> >>>> devices as well.
-> >>>>
-> >>>> To account for the hub-specific code, add a flag to the device data
-> >>>> structure and check its value for hub-specific code.
-> >>>>
-> >>>> The 'always_powered_in_supend' attribute is only available for hub
-> >>>> devices, keeping the driver's default behavior for non-hub devices (keep
-> >>>> on in suspend).
-> >>>>
-> >>>> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
-> >>>> ---
-> >>>>  drivers/usb/misc/onboard_usb_dev.c | 25 +++++++++++++++++++++++--
-> >>>>  drivers/usb/misc/onboard_usb_dev.h | 10 ++++++++++
-> >>>>  2 files changed, 33 insertions(+), 2 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/usb/misc/onboard_usb_dev.c b/drivers/usb/misc/onboard_usb_dev.c
-> >>>> index e1779bd2d126..df0ed172c7ec 100644
-> >>>> --- a/drivers/usb/misc/onboard_usb_dev.c
-> >>>> +++ b/drivers/usb/misc/onboard_usb_dev.c
-> >>>> @@ -132,7 +132,8 @@ static int __maybe_unused onboard_dev_suspend(struct device *dev)
-> >>>>  	struct usbdev_node *node;
-> >>>>  	bool power_off = true;
-> >>>>  
-> >>>> -	if (onboard_dev->always_powered_in_suspend)
-> >>>> +	if (onboard_dev->always_powered_in_suspend &&
-> >>>> +	    !onboard_dev->pdata->is_hub)
-> >>>>  		return 0;
-> >>>
-> >>> With this non-hub devices would always be powered down, since
-> >>> 'always_powerd_in_suspend' is not set for them. This should be:
-> >>>
-> >>
-> >> May I ask you what you meant in v4 with this comment?
-> >>
-> >>> Even without the sysfs attribute the field 'always_powered_in_suspend'
-> >>> could
-> >>> be set to true by probe() for non-hub devices.
-> > 
-> > struct onboard_dev always has the field 'always_powered_in_suspend',
-> > even for non-hubs, that don't have the corresponding sysfs attribute.
-> > Currently it is left uninitialized (i.e. false) for non-hubs. Instead
-> > it could be initialized to true by probe() for non-hubs, which would
-> > be semantically correct. With that it wouldn't be necessary to check
-> > here whether a device is hub, because the field would provide the
-> > necessary information.
-> > 
+
+
+On 2/2/2024 2:15 AM, Maxime Ripard wrote:
+> On Tue, Jan 30, 2024 at 09:53:13AM +0100, Daniel Vetter wrote:
+>>>>>>> Wouldn't it be simpler if we had a vkms-like panel that we could either
+>>>>>>> configure from DT or from debugfs that would just be registered the
+>>>>>>> usual way and would be the only panel we register?
+>>>>>>
+>>>>>
+>>>>> No, we need to have validate actual hardware pipeline with the simulated
+>>>>> panel. With vkms, actual display pipeline will not be validated. With
+>>>>> incorrect display pipeline misconfigurations arising from different panel
+>>>>> combinations, this can easily be caught with any existing IGT CRC testing.
+>>>>> In addition, all performance related bugs can also be easily caught by
+>>>>> simulating high resolution displays.
+>>>>
+>>>> That's not what I meant. What I meant was that something like a
+>>>> user-configurable, generic, panel driver would be a good idea. Just like
+>>>> vkms (with the debugfs patches) is for a full blown KMS device.
+>>>>
+>>>
+>>> Let me respond for both this question and the one below from you/Jani.
+>>>
+>>> Certainly having user-configurable information is a goal here. The end-goal
+>>> is to make everything there in the existing panels such as below like I
+>>> wrote:
+>>>
+>>> 1) Display resolution with timings (drm_display_mode)
+>>> 2) Compression/non-compression
+>>> 3) Command mode/Video mode
+>>> 4) MIPI mode flags
+>>> 5) DCS commands for panel enable/disable and other panel sequences
+>>> 6) Power-up/Power-down sequence for the panel
+>>>
+>>> But, we also have to see what all is feasible today from the DRM fwk
+>>> standpoint. There are some limitations about what is boot-time configurable
+>>> using bootparams and what is runtime configurable (across a modeset) using
+>>> debugfs.
+>>>
+>>> 1) Today, everything part of struct mipi_dsi_device needs to be available at
+>>> boot time from what I can see as we need that while calling
+>>> mipi_dsi_attach(). So for that we went with boot-params.
+>>>
+>>> 2) For the list of modes, we can move this to a debugfs like
+>>> "populate_modes" which the client using a sim panel can call before picking
+>>> a mode and triggering a commit.
+>>>
+>>> But we need to have some default mode and configuration.
+>>
+>> Uh, at the risk of sounding a bit like I'm just chasing the latest
+>> buzzwords, but this sounds like something that's screaming for ebpf.
 > 
-> That is maybe what is confusing me a bit. Should it not be false for
-> non-hub devices? That property is only meant for hubs, so why should
-> non-hub devices be always powered in suspend? I thought it should always
-> be false for non-hub devices, and configurable for hubs.
+> I make a half-joke to Jani on IRC about it, but I was also being
+> half-serious. If the goal we want to have is to fully emulate any panel
+> variation, ebpf really looks like the best and most flexible way
+> forward.
 
-I suspect the confusion stems from the sysfs attribute 'always_powered_...'
-vs. the struct field with the same name.
+Hi Maxime and Daniel,
 
-The sysfs attribute defaults to 'false', which results in USB devices
-being powered down in suspend. That was the desired behavior for a device
-I was working on when I implemented this driver, but in hindsight I think
-the default should have been 'true'.
+For our current sim panel requirements, we can go with implementing the 
+configfs first then add ebpf if requirements get more complex.
 
-We agreed that non-hub devices shouldn't be powered down in suspend. It
-would be unexpected for users and could have side effects like delays
-or losing status. Since (I think) we can't change the default of the
-attribute we said we'd limit it to hubs, and not create it for other
-types of USB devices. Other USB devices would remain powered during
-system suspend.
+Thanks,
 
-Are we in agreement up to this point, in particular that non-hub
-devices should remain powered?
+Jessica Zhang
 
-struct onboard_dev has the field 'always_powered_...', which in the
-existing code is *always* associated with the sysfs attribute of
-the same name. But there is no reason to not to use the field when
-the sysfs attribute does not exist. For any device at any given time
-the field could indicate whether the device should be remain powered
-during suspend. For hubs the value can be changed at runtime
-through the sysfs attribute, for non-hubs it would be static and
-always indicate that the device should remain powered.
-
-Does that clarify your doubts?
+> 
+> Maxime
