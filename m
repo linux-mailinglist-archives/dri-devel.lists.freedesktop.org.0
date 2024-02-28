@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12ED886AD93
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 12:37:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66F7086AD95
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 12:37:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D93F10E51D;
-	Wed, 28 Feb 2024 11:37:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC4A810E5BB;
+	Wed, 28 Feb 2024 11:37:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YqfgNl19";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lOsTVqbq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
- [209.85.166.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBB5210E51D
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 11:37:47 +0000 (UTC)
-Received: by mail-io1-f50.google.com with SMTP id
- ca18e2360f4ac-7bade847536so298840339f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 03:37:47 -0800 (PST)
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
+ [209.85.166.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61A2510E5BB
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 11:37:49 +0000 (UTC)
+Received: by mail-io1-f41.google.com with SMTP id
+ ca18e2360f4ac-7c76a566218so252334939f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 03:37:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1709120266; x=1709725066; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=hFtrXUgWnMJ9NQ2PU+2dtB8bMmOfzlQTR6EQYNPIXm0=;
- b=YqfgNl190h/pX1bTo80iHs3pSOtb61Hdm7HUGEPjpKrGKiPb+bw+NH96RtJOLnZQJs
- 739GJKO5ASCSMX2Y7RX06swvddqtNqK/3DWCGGOGehqNNU8TToNOTyjTXT+OS20Dn9kH
- DW+mbreY0nhq+9NBeZjKat83oNrIWpj/mC8DF602pfvGeW8OYT0Rkz9Tic3rvaIhdUU2
- Zy1apaxYxorvpTFPvZv2Nxj7wRZH6YC/vlo806WKy/jDYdAj7isz/KWlzCZJcrTKP2gW
- 7+D+ei62ohSM0JulfI275bmh3ci6xGZIcTX/nWuc/V1s9loQ/NqIGxh7Kht0DG8/j6DM
- 5vTQ==
+ d=gmail.com; s=20230601; t=1709120268; x=1709725068; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=VjHmD27Zn5f9qcl1J3ud5c045eXb4S8qmKaQOkxlviQ=;
+ b=lOsTVqbqk9zjyPXY90V6zrqbWQAM2dRsINGjWGq+9/Jrqlj0l7VrQ/MMF8ewPEEGz2
+ WTJLGDuREEBRXgbPOL6XWhJf3E0TXNS70gQPSLYGMDRRPLwMpyu6hxEPMZEBtBh7CwUf
+ BmqadQIIR4QEx03GlMJOQrY1vfYEWPJGjmqceBJu5/pOvRC2k8ERbaqp+t4HyUEfuzn0
+ RmwSCTX2YzkoK6Fz8Cc7bsLG0yaXaqJ4EMyQ8Ilzq0tOUgXJMRtxgcEjesdnNmahn7kK
+ HZbQiPY5He5E8quyXqWjIkhgzke39nYWlLEev78T1cDAuw+b86SgCfhdZHf64VzkgwGL
+ SoJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709120266; x=1709725066;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=hFtrXUgWnMJ9NQ2PU+2dtB8bMmOfzlQTR6EQYNPIXm0=;
- b=ifkAhRZu22oql3qQP/9PAxy1JFEmJmLwDtnwG2zGgG180X81XRRFXMw9+K4YdL09OT
- w83OYzMvkyuHKt7i8OvxuvzxR55zdtX1zl9kLccc312/6R600SOVcANBzLOAVbROP0ta
- mPJdZgHBL4RpfmnDOc9uxfrQ2gnVNryvoNA5UtSNgHwXLXDbWDyhVoCihwyXHgvPUEj6
- jWmGQtlZbEZDOA9HM9rakEzBoszYwJH9ik/3HZveTsxN4qE47FxyRCTYowky8StTS9eD
- pdj40HjHLKPDNw1UJn/EGXbbWdw3EZRGHeJ207F2cFL4Aa2H+tEU2VY2CM6LpPnzBag8
- gwcA==
-X-Gm-Message-State: AOJu0YzGrjhEUqMmZigvwd/MgZL+t3UP5WPYyfwZPl9C6Y4jC9wPSUws
- oqq32SarVRTG7RIiSlii+rOBfrtN8i1hgAr6dpL/ebAyNIdx5OAqvNlos4O7tGECCyhU
-X-Google-Smtp-Source: AGHT+IEwYOiAlwhhDwfp6MFMf8Kh9Xrgrs548zAUc51dykwi25IhwwwaKGbQtiBKAvrlGS0wowxSjQ==
-X-Received: by 2002:a5e:8f01:0:b0:7c7:fc3e:6f1b with SMTP id
- c1-20020a5e8f01000000b007c7fc3e6f1bmr967586iok.7.1709120266374; 
- Wed, 28 Feb 2024 03:37:46 -0800 (PST)
+ d=1e100.net; s=20230601; t=1709120268; x=1709725068;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=VjHmD27Zn5f9qcl1J3ud5c045eXb4S8qmKaQOkxlviQ=;
+ b=v3HzPOa9vPbM1fC5DLdDG/ttGK5cAyTfdkHNcQ1JYJWlnALb7eRmp/UJ3DoFjqrW9a
+ YSVMNPSULD4pjJWFMY6IttvO34Cbwx1VtoFuOfFrE1ytcv3iEXOuOG7ov00kreA8dKYZ
+ 1y82jtjxEVaoOK8vaLqlfwIuIi3c+GIC4vpGx1y/DHQ2XHR/FGptygfUPeSOF9cc/lLh
+ IArdtMtV537hM3ivAzf6SGLT/SksKI0Py9ghqJzreAIkA9ek3K+bospCX4Jjy4nZePhX
+ xzi5HhixW5jrYKMet51Pi0DC2yex5f1OC1Xh8HPW784SwoaKCAjPZkaPEP4vFdtobGW1
+ iHiw==
+X-Gm-Message-State: AOJu0YwJtEKzwA6RyBh6lfESPfHZvnAVyWEQTFNnPNEXiecOMHkWFQwO
+ edY7au5/IYiLuaBAgWcTMpJnb+seJ99LIxu3DvJMcKk1mpOHcauM954YHMHgwK7POpK3
+X-Google-Smtp-Source: AGHT+IGw+AwPTdvF2K2zzuaTTuvgEgfn6uZbhI7INlVZj/9AQPcv5DRB1Uszb8mE8Xlc7RpERydtsA==
+X-Received: by 2002:a6b:7219:0:b0:7c7:8b50:fedf with SMTP id
+ n25-20020a6b7219000000b007c78b50fedfmr14907652ioc.4.1709120268020; 
+ Wed, 28 Feb 2024 03:37:48 -0800 (PST)
 Received: from aford-System-Version.lan
  ([2601:447:d002:5be:abe6:89f4:1061:8343])
  by smtp.gmail.com with ESMTPSA id
- k6-20020a02c646000000b004747d876aefsm1833147jan.6.2024.02.28.03.37.44
+ k6-20020a02c646000000b004747d876aefsm1833147jan.6.2024.02.28.03.37.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Feb 2024 03:37:45 -0800 (PST)
+ Wed, 28 Feb 2024 03:37:47 -0800 (PST)
 From: Adam Ford <aford173@gmail.com>
 To: dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org
@@ -73,10 +74,12 @@ Cc: aford@beaconembedded.com, Adam Ford <aford173@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, devicetree@vger.kernel.org,
  imx@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] drm/bridge: adv7511:  Allow IRQ to share GPIO pins
-Date: Wed, 28 Feb 2024 05:37:35 -0600
-Message-ID: <20240228113737.43434-1-aford173@gmail.com>
+Subject: [PATCH 2/2] arm64: dts: imx8mp-beacon-kit: Enable HDMI bridge HPD
+Date: Wed, 28 Feb 2024 05:37:36 -0600
+Message-ID: <20240228113737.43434-2-aford173@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240228113737.43434-1-aford173@gmail.com>
+References: <20240228113737.43434-1-aford173@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -94,28 +97,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The IRQ registration currently assumes that the GPIO is
-dedicated to it, but that may not necessarily be the case.
-If the board has another device sharing the IRQ, it won't be
-registered and the hot-plug detect fails.  This is easily
-fixed by add the IRQF_SHARED flag.
+The DSI to HDMI bridge supports hot-plut-detect, but the
+driver didn't previously support a shared IRQ GPIO.  With
+the driver updated, the interrupt can be added to the bridge.
 
 Signed-off-by: Adam Ford <aford173@gmail.com>
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index b5518ff97165..21f08b2ae265 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -1318,7 +1318,8 @@ static int adv7511_probe(struct i2c_client *i2c)
+diff --git a/arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dts b/arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dts
+index 8de4dd268908..d854c94ec997 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dts
++++ b/arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dts
+@@ -405,6 +405,8 @@ adv_bridge: hdmi@3d {
+ 		compatible = "adi,adv7535";
+ 		reg = <0x3d>, <0x3c>, <0x3e>, <0x3f>;
+ 		reg-names = "main", "cec", "edid", "packet";
++		interrupt-parent = <&gpio4>;
++		interrupts = <27 IRQ_TYPE_EDGE_FALLING>;
+ 		adi,dsi-lanes = <4>;
+ 		#sound-dai-cells = <0>;
  
- 		ret = devm_request_threaded_irq(dev, i2c->irq, NULL,
- 						adv7511_irq_handler,
--						IRQF_ONESHOT, dev_name(dev),
-+						IRQF_ONESHOT | IRQF_SHARED,
-+						dev_name(dev),
- 						adv7511);
- 		if (ret)
- 			goto err_unregister_audio;
 -- 
 2.43.0
 
