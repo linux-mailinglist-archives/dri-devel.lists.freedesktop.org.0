@@ -2,55 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C35386B1A7
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 15:22:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6E9986B225
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 15:45:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9077D10E88B;
-	Wed, 28 Feb 2024 14:22:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0353F10E681;
+	Wed, 28 Feb 2024 14:45:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nuMY0IFL";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jP3LqWlC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE42D10E88B;
- Wed, 28 Feb 2024 14:22:49 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43FAD10E992;
+ Wed, 28 Feb 2024 14:45:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709130169; x=1740666169;
+ t=1709131511; x=1740667511;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=Zyy3vOWbN9CNXIJi3DeG6e23eV6FtWhsMR1FozLh5EA=;
- b=nuMY0IFL+7TaKenuWwjmaX08f5vMVa+kHVyiBLWNQIaKw6wuBG7C90Lt
- ygiHSc8QUHkdc6J5vheU7GIiYsVvNg6j/yVDP3PsoACbf72Iur2r3z1iY
- oEPYUfZFeNB+fzJvXNcDtsivoTUScSOB1MH9B9ZjwvWBrCaYWFUNRf32p
- RusROzkXV+2VNny/6bDm2n8feQEzf0N9afQHwbMe4+yE1GIRhPxz7ebSi
- TuwWgUGHm4IbUWNu4YUnOHGn6KOQZ1uCPbiSYzrJ32fJtkfy3/eEzTmuR
- 0C6CbdIIMkRwZuWSgjUdQrzDpV+7kPD47blkeMkFUUCm34Ll1qJuzt5ad A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="14948592"
-X-IronPort-AV: E=Sophos;i="6.06,190,1705392000"; d="scan'208";a="14948592"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2024 06:22:48 -0800
+ bh=xj+wzDCtHPX8yNxQJdD4djHzoys6IJbBpvnp9SN24xg=;
+ b=jP3LqWlCFooL9mJUC/Q/IRMTNE+KyHtv6+at8LOP+ow6LNzArR+cmBrx
+ vwT34FAKYBZGzJX9qYJ8bsDP8tS0oeFHuM8Zmp39E4yjDaUT6wUZxnWG8
+ fILrXpxI9wAs5UlUdBf+owpUhsylWJT+0KdN+zgMf5sXjEWU9nuRXBYMb
+ 4GDFgrrWkcx+Ui1jq+2N6/td1ZTSS0aQYrwAWFSVVrpnJKCqFsNWpIuso
+ iC8V1nAsh2GFpE41nN/5Ut+Fkq7ag5xCu5uy4xJVrngLKVURQ6hvlrhUk
+ 1xBXyI86wxC5gN4VdLjAXiIHL+e/HlAdGHp+WR+4dWCbYGhQ+d+uBEHSD w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="7356118"
+X-IronPort-AV: E=Sophos;i="6.06,190,1705392000"; 
+   d="scan'208";a="7356118"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2024 06:45:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,190,1705392000"; d="scan'208";a="11989525"
-Received: from mcox1-mobl1.ger.corp.intel.com (HELO localhost.localdomain)
- ([10.213.233.55])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2024 06:22:47 -0800
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- Dave Airlie <airlied@redhat.com>, Jani Nikula <jani.nikula@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: [PATCH] MAINTAINERS: Update email address for Tvrtko Ursulin
-Date: Wed, 28 Feb 2024 14:22:40 +0000
-Message-Id: <20240228142240.2539358-1-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.40.1
+X-IronPort-AV: E=Sophos;i="6.06,190,1705392000"; 
+   d="scan'208";a="7663076"
+Received: from mgolanimitul-x299-ud4-pro.iind.intel.com ([10.190.239.114])
+ by fmviesa006.fm.intel.com with ESMTP; 28 Feb 2024 06:45:08 -0800
+From: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, jani.nikula@intel.com,
+ ankit.k.nautiyal@intel.com,
+ Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+Subject: [PATCH v12 0/8] Enable Adaptive Sync SDP Support for DP
+Date: Wed, 28 Feb 2024 20:08:15 +0530
+Message-Id: <20240228143823.2762595-1-mitulkumar.ajitkumar.golani@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,54 +64,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+An Adaptive-Sync-capable DP protocol
+converter indicates its support by setting the related bit
+in the DPCD register.
 
-I will lose access to my @.*intel.com e-mail addresses soon so let me
-adjust the maintainers entry and update the mailmap too.
+Computes AS SDP values based on the display configuration,
+ensuring proper handling of Variable Refresh Rate (VRR)
+in the context of Adaptive Sync.
 
-While at it consolidate a few other of my old emails to point to the
-main one.
+--v2:
+- Update logging to Patch-1
+- use as_sdp instead of async
+- Put definitions to correct placeholders from where it is defined.
+- Update member types of as_sdp for uniformity.
+- Correct use of REG_BIT and REG_GENMASK.
+- Remove unrelated comments and changes.
+- Correct code indents.
+- separate out patch changes for intel_read/write_dp_sdp.
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
----
- .mailmap    | 5 +++++
- MAINTAINERS | 2 +-
- 2 files changed, 6 insertions(+), 1 deletion(-)
+--v3:
+- Add VIDEO_DIP_ASYNC_DATA_SIZE definition and comment in as_sdp_pack
+  function to patch 2 as originally used there. [Patch 2].
+- Add VIDEO_DIP_ENABLE_AS_HSW flag to intel_dp_set_infoframes [Patch 3].
 
-diff --git a/.mailmap b/.mailmap
-index b99a238ee3bd..d67e351bce8e 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -608,6 +608,11 @@ TripleX Chung <xxx.phy@gmail.com> <triplex@zh-kernel.org>
- TripleX Chung <xxx.phy@gmail.com> <zhongyu@18mail.cn>
- Tsuneo Yoshioka <Tsuneo.Yoshioka@f-secure.com>
- Tudor Ambarus <tudor.ambarus@linaro.org> <tudor.ambarus@microchip.com>
-+Tvrtko Ursulin <tursulin@ursulin.net> <tvrtko.ursulin@intel.com>
-+Tvrtko Ursulin <tursulin@ursulin.net> <tvrtko.ursulin@linux.intel.com>
-+Tvrtko Ursulin <tursulin@ursulin.net> <tvrtko.ursulin@sophos.com>
-+Tvrtko Ursulin <tursulin@ursulin.net> <tvrtko.ursulin@onelan.co.uk>
-+Tvrtko Ursulin <tursulin@ursulin.net> <tvrtko@ursulin.net>
- Tycho Andersen <tycho@tycho.pizza> <tycho@tycho.ws>
- Tzung-Bi Shih <tzungbi@kernel.org> <tzungbi@google.com>
- Uwe Kleine-König <ukleinek@informatik.uni-freiburg.de>
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 19f6f8014f94..b940bfe2a692 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10734,7 +10734,7 @@ INTEL DRM I915 DRIVER (Meteor Lake, DG2 and older excluding Poulsbo, Moorestown
- M:	Jani Nikula <jani.nikula@linux.intel.com>
- M:	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
- M:	Rodrigo Vivi <rodrigo.vivi@intel.com>
--M:	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-+M:	Tvrtko Ursulin <tursulin@ursulin.net>
- L:	intel-gfx@lists.freedesktop.org
- S:	Supported
- W:	https://drm.pages.freedesktop.org/intel-docs/
+--v4:
+- Add check for HAS_VRR before writing AS SDP. [Patch 3].
+
+--v5:
+- Add missing check for HAS_VRR before reading AS SDP as well [Patch 3].
+
+--v6:
+- Rebase all patches.
+- Compute TRANS_VRR_VSYNC.
+
+-v7:
+- Move vrr_vsync_start/end to compute config.
+- Use correct function for drm_debug_printer.
+
+-v8:
+- Code refactoring.
+- Update, VSYNC_START/END macros to VRR_VSYNC_START/END.(Ankit)
+- Update bit fields of VRR_VSYNC_START/END.(Ankit)
+- Send patches to dri-devel.(Ankit)
+- Update definition names for AS SDP which are starting from
+HSW, as these defines are applicable for ADLP+.(Ankit)
+- Remove unused bitfield define, AS_SDP_ENABLE.
+- Add support in drm for Adaptive Sync sink status, which can be
+used later as a check for read/write sdp. (Ankit)
+
+-v9:
+- Add enum to operation mode to represent different AVT and
+FAVT modes. (Ankit)
+- Operation_mode, target_rr etc should be filled from as_sdp struct. (Ankit)
+- Fill as_sdp->*All Params* from compute config, read from the sdp. (Ankit)
+- Move configs to the appropriate patch where it used first.(Ankit)
+- There should be a check if as sdp is enable is set or not. (Ankit)
+- Add variables in crtc state->vrr for ad sdp enable and operation mode. (Ankit)
+- Use above variables for tracking AS SDP. (Ankit)
+- Revert unused changes. (Ankit)
+
+-v10:
+- Send Patches to dri-devel (Ankit).
+
+-v11:
+- Remove as_sdp_mode and enable from crtc_state.
+- For consistency, update ADL_ prefix or post fix as required.
+- Add a comment mentioning current support of
+  DP_AS_SDP_AVT_FIXED_VTOTAL.
+- Add state checker for AS_SDP infoframe enable.
+- Add PIPE_CONF_CHECK_I(vrr.vsync_start/end).
+- Read/write vrr_vsync params only when we intend to send
+adaptive_sync sdp.
+
+-v12:
+- Update cover letter
+
+Signed-off-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+
+Mitul Golani (8):
+  drm/dp: Add support to indicate if sink supports AS SDP
+  drm: Add Adaptive Sync SDP logging
+  drm/i915/dp: Add Read/Write support for Adaptive Sync SDP
+  drm/i915/display/dp: Add wrapper function to check AS SDP
+  drm/i915/display: Compute AS SDP parameters.
+  drm/i915/display: Add state checker for Adaptive Sync SDP
+  drm/i915/display: Compute vrr_vsync params
+  drm/i915/display: Read/Write AS sdp only when sink/source has enabled
+
+ drivers/gpu/drm/display/drm_dp_helper.c       |  37 +++++
+ .../drm/i915/display/intel_crtc_state_dump.c  |  12 ++
+ drivers/gpu/drm/i915/display/intel_ddi.c      |   4 +
+ drivers/gpu/drm/i915/display/intel_display.c  |  48 +++++++
+ .../drm/i915/display/intel_display_device.h   |   1 +
+ .../drm/i915/display/intel_display_types.h    |   2 +
+ drivers/gpu/drm/i915/display/intel_dp.c       | 127 +++++++++++++++++-
+ drivers/gpu/drm/i915/display/intel_dp.h       |   1 +
+ drivers/gpu/drm/i915/display/intel_hdmi.c     |  12 +-
+ drivers/gpu/drm/i915/display/intel_vrr.c      |  29 +++-
+ drivers/gpu/drm/i915/i915_reg.h               |  15 +++
+ include/drm/display/drm_dp.h                  |   9 ++
+ include/drm/display/drm_dp_helper.h           |  35 +++++
+ 13 files changed, 327 insertions(+), 5 deletions(-)
+
 -- 
-2.40.1
+2.25.1
 
