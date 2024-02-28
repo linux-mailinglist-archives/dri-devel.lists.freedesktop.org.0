@@ -2,84 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C49186BBFF
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 00:12:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D73186BC29
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 00:27:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C280910E278;
-	Wed, 28 Feb 2024 23:12:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8BF310E215;
+	Wed, 28 Feb 2024 23:26:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Od3C0iru";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SUY66pP/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34A3310E278
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 23:12:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1709161932;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=M2IAhhTxkG9uPUwm7NpsFl2OrlljKctFXF++HriPSyQ=;
- b=Od3C0iruFK3tTPA6fhrF0qnCKeXj3MaT8W8G3E+5lgIj8DWhSZ/n0YfbZhILaJjWFXIIrC
- 9SWIYU46pPjIIUIoukWmrVFScwYyox4LxRb1tbjIzNQtNA9W5ruD7cSBBS/Izr5Ph+OEWh
- oOWsR9KXk1QlDCepH/n0Ktr2KwgqLHU=
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-394-2XjmrENcOiKjXSkm17WWTw-1; Wed, 28 Feb 2024 18:12:10 -0500
-X-MC-Unique: 2XjmrENcOiKjXSkm17WWTw-1
-Received: by mail-oo1-f69.google.com with SMTP id
- 006d021491bc7-5a03e749ecfso285833eaf.0
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 15:12:10 -0800 (PST)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43FB110E2A0
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 23:26:57 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-513235b5975so273567e87.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 15:26:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1709162815; x=1709767615; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=7eYiCisy9EvDzPpdsA8EnqFrzrb2WGQGdFzfYxWz3OE=;
+ b=SUY66pP/dgcLxtcahy0RYDRWVzL0ljDxqm5n630oQTqviTWywLJh2z4rOMIVC4huNC
+ XNumPZ+RPWWlAos7guWeYz4YzSLnFQATl/wP13vqUUx3FI8p7NNBXXkw/5mGEo5obA0O
+ IUZt+I6tXp8FjdJ5w2x4OJOj+hdQr0wYF+yw2VQE8Q0E+osAPfwD6ZQrj+dtIH+athy0
+ 3zagxbgJUjZuUi8LKhZbOuTb+tcOwggzRc2dPmggk1P05jSe4CSb3FoQe45TxpfdExYo
+ RTYSAZlgmv1xW8Nvn/Iult+CtsRL/eksl0OLFxEG2XaX1NWZVX2bhY2S8zTSyPJsAmAW
+ IWkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709161930; x=1709766730;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=M2IAhhTxkG9uPUwm7NpsFl2OrlljKctFXF++HriPSyQ=;
- b=f+N+1rgmQ2KaSzbVCqQt35z6WXzdU7HsVsSJtvFGmysQfDahyfkvLVJTL9ly5TphtR
- IcH9vB9kawZaihOIvJv2ArzM7Md//9D/BJJNS7MJrN/noOI1ufGKx9a9Sl0ejuE0OjGY
- sKkE/0jnGbuqWSXUa4QYXLJs9dNMiRWMEcMVhCvhIbTR5CCnevFa6xZr5Z5fLBjZGyiF
- uihH+7K7d0tUxBVE1z1GJIs0G8phIY3u/QJ01v7nei5E6In3p0VPfnjaBeUW8IWqaLz0
- 9yrDMXc+9AEAqlap7JVOLc8zjNbbIjBZ+V9TSqY0qYGvR+vmNu4dg/6DRxVBvg5DH78G
- GvTA==
+ d=1e100.net; s=20230601; t=1709162815; x=1709767615;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7eYiCisy9EvDzPpdsA8EnqFrzrb2WGQGdFzfYxWz3OE=;
+ b=tmPSyvr0gEV4n6I8YeL4Aj+AUsn3ZM/rG3lK7Z2IfdgaM1q/bkLOVFq815eeuYj5HT
+ Tu9wBbS0JGV8XQvjgSCqobjqHx4BBGOPdFvlkkxwzbb2xnDltO0OLUIqqImTYgKgzblx
+ UasbRzKNXUAChZNR9F/bCqqyCEP9Rq031SsNg8vxEadycjbpAwQjUEjOvVm9h0Ttq8cL
+ qf8gLmgbPaC2JcTbHt51YWXFWtgpPPcIXpcyKJBF0sk+wXPBeMghglzRmXUK2B5dyvqW
+ AU/HJInCIwlBjVWlWWNlCfBQBfkLMyXOHOA46UI35j+AKKcpzUqtZ2Wnmx3YJ3FC+YmI
+ YC9A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUSd8UBKz7qp7m15ZLszQ+QHs5SS7s4Prl3HdS022tcaHqctLAG6aD0FOetl1Xzegr9Ye0hj4QgLVE2HA+Duj4l47tuvD/4c9+FDiMwNkxE
-X-Gm-Message-State: AOJu0Yw/ld1F2YUIVj1vFL+W+p/zMKd9rdhFDKc6n5LNn9PlVQAHdpoX
- RqqtRlsO56zraI+p+OGU4FdNO9RilN52jrQ0FRd7waaniO5bdcqLmKNtxQa7iOLMd0bI4n+E2mF
- yWKJxzFD32MjKf4bl1xRgo6E82bYrPwR08i71VvazDvgxnMzxaXifkiZ+izNlPP/c0luMfa8yFs
- zgr/7qhzG/wHoPJxSRb/+vTrvrX5cBRDg0VcCjkGrG
-X-Received: by 2002:a4a:3447:0:b0:59f:fc2d:8179 with SMTP id
- n7-20020a4a3447000000b0059ffc2d8179mr493596oof.9.1709161929916; 
- Wed, 28 Feb 2024 15:12:09 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFntvEPbQKWTGSDsAEHdmd9g3EM74H/QdrIiJ47zPCDBlTr2DD7PBA+alIV24Pc/h5p+S7aH/zbiYAQw5HARoE=
-X-Received: by 2002:a4a:3447:0:b0:59f:fc2d:8179 with SMTP id
- n7-20020a4a3447000000b0059ffc2d8179mr493578oof.9.1709161929669; Wed, 28 Feb
- 2024 15:12:09 -0800 (PST)
+ AJvYcCWHquKR/iPPhgw4BCTe7NvuIwQSBI+QtIrTXOzdsPCy0Gj9KZagQbZk+Cj4hxIPbMQ02Ukn/mRy/Yw274WMflfWvseq/IP/E7cQ9GUAhwAU
+X-Gm-Message-State: AOJu0Yw9efUt6k9Jb9ZTLLyu4tao9IZAgdFLD3i+VaLL2NS+RH+5GBN/
+ aK2X3PF/Oxuvj0P2Xg0Ts3Xt1TSSjuwZ+nbZefjEhytVcz+5iEICOriS7QYG5/E=
+X-Google-Smtp-Source: AGHT+IEauPA8YU76AZ2HWn9YzhqJSaQh/sxY5dBOq9kCUqmFc1a7D67zChdJwrqxqulBHP/Mq3mKqg==
+X-Received: by 2002:a05:6512:34d3:b0:512:f6a0:1311 with SMTP id
+ w19-20020a05651234d300b00512f6a01311mr236650lfr.47.1709162815082; 
+ Wed, 28 Feb 2024 15:26:55 -0800 (PST)
+Received: from [172.30.205.146] (UNUSED.212-182-62-129.lubman.net.pl.
+ [212.182.62.129]) by smtp.gmail.com with ESMTPSA id
+ j10-20020a056512028a00b00512dec300dcsm28686lfp.2.2024.02.28.15.26.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Feb 2024 15:26:54 -0800 (PST)
+Message-ID: <c25aa425-f350-4ad2-b92e-67de996daed3@linaro.org>
+Date: Thu, 29 Feb 2024 00:26:49 +0100
 MIME-Version: 1.0
-References: <20240228-tidss-dev-err-probe-v1-1-5482252326d3@redhat.com>
- <8734tcnt7y.fsf@minerva.mail-host-address-is-not-set>
-In-Reply-To: <8734tcnt7y.fsf@minerva.mail-host-address-is-not-set>
-From: Enric Balletbo i Serra <eballetb@redhat.com>
-Date: Thu, 29 Feb 2024 00:11:59 +0100
-Message-ID: <CALE0LRvUMQmMv57UQNncrDFZu=ucmOuSXZNCaJ-10VTFjvenvQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/tidss: Use dev_err_probe() over dev_dbg() when
- failing to probe the port
-To: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Andrew Halaney <ahalaney@redhat.com>, Jyri Sarha <jyri.sarha@iki.fi>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] soc: qcom: pmic_glink_altmode: Use common error handling
+ code in pmic_glink_altmode_probe()
+To: Markus Elfring <Markus.Elfring@web.de>, linux-arm-msm@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Johan Hovold <johan+linaro@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Robert Foss <rfoss@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Peter Zijlstra <peterz@infradead.org>
+References: <29b63eb4-2342-4ca8-a313-5de2a6ec6a83@web.de>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <29b63eb4-2342-4ca8-a313-5de2a6ec6a83@web.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,50 +100,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Andrew,
 
-Many thanks for proposing this.
 
-On Wed, Feb 28, 2024 at 11:02=E2=80=AFPM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
->
-> Andrew Halaney <ahalaney@redhat.com> writes:
->
-> Hello Andrew,
->
-> > This gets logged out to /sys/kernel/debug/devices_deferred in the
-> > -EPROBE_DEFER case and as an error otherwise. The message here provides
-> > useful information to the user when troubleshooting why their display i=
-s
-> > not working in either case, so let's make it output appropriately.
-> >
-> > Signed-off-by: Andrew Halaney <ahalaney@redhat.com>
-> > ---
-> > There's definitely more spots in this driver that could be upgraded fro=
-m
-> > dev_dbg() to something more appropriate, but this one burned me today s=
-o
-> > I thought I'd send a patch for it specifically before I forget.
-> > ---
->
-> Makes sense to me and I agree that's useful to have that information ther=
-e.
->
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
->
+On 2/28/24 19:05, Markus Elfring wrote:
+> From: Markus Elfring <elfring@users.sourceforge.net>
+> Date: Wed, 28 Feb 2024 18:45:13 +0100
+> 
+> Add a jump target so that a bit of exception handling can be better reused
+> at the end of this function implementation.
+> 
+> This issue was transformed by using the Coccinelle software.
+> 
+> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+> ---
 
-Logging in  /sys/kernel/debug/devices_deferred was useful for me, so
+(+CC Peter)
 
-Tested-by: Enric Balletbo i Serra <eballetbo@kernel.org>
+Hmm.. this looks very similar to the problem that __free solves
+with <linux/cleanup.h>..
 
-Cheers,
-  Enric
+I know no better, but wouldn't the same mechanism, down to the
+usage of DEFINE_FREE work fine for _put-like functions?
 
-> --
-> Best regards,
->
-> Javier Martinez Canillas
-> Core Platforms
-> Red Hat
->
-
+Konrad
