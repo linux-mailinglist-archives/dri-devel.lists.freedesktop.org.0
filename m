@@ -2,94 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B77DC86AE01
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 12:48:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D1DA86AE41
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 12:54:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 124DF10E5F2;
-	Wed, 28 Feb 2024 11:48:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9832910E9F3;
+	Wed, 28 Feb 2024 11:54:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="kFlAEwSJ";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="gIi5aVL4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C444A10E5F2
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 11:48:08 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-40fd72f7125so42183585e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 03:48:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1709120886; x=1709725686;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=zu3ewqCG+5EQn7RzZWf4wxjkdVeCPYXJSPVh/ZEGpuY=;
- b=kFlAEwSJQzazjmxt+VwKF07ru07jgd2YZvswI8hEkEEMv8uNOm18BIdxdyJeUBSbjJ
- ZZqnWpvJYRonic+GVfO9pElwNwrCLyqtnnqZcRUZ92635Vo1j2wIUdiW+humOn073sWi
- qZQ/luierhkGhfyhMFpzUVE5Onno1gEOKzHV3MrUgtzeVmseGDT5+omzGIZHXCGvmhXb
- uVjF1QDfPmPE9cX1TwmSb+HVEqVzV8no9Ntoisi75Lj9nFBuIP5A3zHAZL33NHO4O27O
- hAuoD3uHfkCyIhGKOo7qmGmGfVDOm1WJD6qYgjxfgwLWyNcN3acQc8Ftt+LvOHSDHlq2
- 7uGg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E9D910E9EF
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 11:54:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1709121263;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3m23KN2oxQGA8PKJVYWsLsGHNiKbHQfnqPKCmN3vJ3s=;
+ b=gIi5aVL4cLlix7N2FIidT6yyOkojRCqb+GVWwukxaUb2vxFr0/JFbS17+AJpMa1+tHo9iK
+ 9OhW6NDTMNrQxV1LMADst67s6xrdtyXZE9CZBHdW91k11dI9a+e/H+GYAK1LdaJE3Kv0X1
+ w/KCCaR3rX4xAwK4QfhLuhk4ZD5yHXM=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-231-rS6QUSSqNrCfRD_GK0Zsgg-1; Wed, 28 Feb 2024 06:54:21 -0500
+X-MC-Unique: rS6QUSSqNrCfRD_GK0Zsgg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ 4fb4d7f45d1cf-564902d757bso2987237a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 03:54:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709120886; x=1709725686;
+ d=1e100.net; s=20230601; t=1709121260; x=1709726060;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zu3ewqCG+5EQn7RzZWf4wxjkdVeCPYXJSPVh/ZEGpuY=;
- b=jtEu7kXE7vgsm6c7Ti/1qg6HfJDpX7D9+975G8EzXrWUr63fT7ZzL1vh2W6xelrSG+
- 7dZI7Aq1jtxLd9TH9PlnZhznG0NegVX6uE6+1wMHiHSzd+9RcrXrnmDhpvcumJGFis4F
- PSkmc8sffvI0DLUs9Gt7Y2Nbj2+MC+dMmwsa24tz2xP7lx38ZLzmI8rdw+Z29HJOH741
- uTPOq8sxvx3fhZJB9vtKcZoAOsWOR+OFqLAkshj4iTdvKICbtRXMO8s1ZGJJ1bU8VsCd
- W+BVTtIp6FRZjUjphStROjUPbCR++7dsmFjSlYGDejT7i6IFpDON83hcydPy5D4kRJ0g
- DY6Q==
+ bh=3m23KN2oxQGA8PKJVYWsLsGHNiKbHQfnqPKCmN3vJ3s=;
+ b=azIy4p8Ycp/OSZpxiGy9vElGVpRdAEe1+eg/mXs52xelhYLFP7OHLowXXgTFErFoMi
+ YhpVWMCVBVYn1+zVwDhswFYE+kZyLpUfpZ7C7zsxn/ykht4RjWARUWZWM118sV5sn4Bv
+ PY9aqnxMRqTS06MISStlXMxFfA5Y3JmWtTXVW5xtH7oMGHxaxjds30nlXO1VWyov4r45
+ 6QbpJLbmUoM7JCY6kKCb/NnZk0bwim8QO1Pp129iuT8Fo1aLDYBrh44RGRDuZZ6RJ21t
+ A1XOWxdQoCYsiXK+Ld0dYQspLuzEL8tCsz2VTAhc8MitQ6XcfF4vYrJBOXCjnTniu4GZ
+ R2mA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVSwqMoyNNEwal24WXLaN5MaVgPbzHIk0X6wAWPUVVyaprTBs6hZsKAQrIEo/rvLzk/RHeBPWdBWNsOBDrsEbFq1T6nOGlfbcBaaB8BvNN5
-X-Gm-Message-State: AOJu0YxAezq76b+AyBDhELBYutymXhUHpmbT0TJPbblp3YwsDzYuZHGp
- jjs9aqaX7JUBKkyCZPRItkwdHg4NVvJbJcSwwS4XywyIpviDnf2ZCz07xJaUgZU=
-X-Google-Smtp-Source: AGHT+IEB/UQwleJbf7XKW6dc1tBjhAXHjTKhYWiBK169zurfst+bdJvN4ZyFBulks3zB3QHX3zW7pQ==
-X-Received: by 2002:adf:fd44:0:b0:33d:277d:a2c7 with SMTP id
- h4-20020adffd44000000b0033d277da2c7mr7855219wrs.16.1709120886505; 
- Wed, 28 Feb 2024 03:48:06 -0800 (PST)
-Received: from [192.168.1.172] ([93.5.22.158])
+ AJvYcCWkGm6QcppJM04KCQBhAVnzpDhfPpDgMxEbLsO0SE0C9eI/FD2/d1cg0vs2PxbfV7RsgLmqmnXB6D1lNn7/C1mBtrsn6W3zw6OiN4B8/Xhc
+X-Gm-Message-State: AOJu0Yx4AURdNPuyLpbwB5itjSfrZfQAYwRyPO+dqPNeSAEtMuATXLPE
+ TkNsimZFynHtFENcl6cRQ+tpKREi1ZrO2kUnWnkdQBioTmMbwVAaqotOm7stPZydJjZMDEPTOTv
+ ga7axs1SAgAbbwqW5Hq5qQteFGtyRyNXcYLAQBlCyLX5PUt/HLp8mfBEPb5AXBNLsYQ==
+X-Received: by 2002:aa7:d898:0:b0:566:44b4:ea58 with SMTP id
+ u24-20020aa7d898000000b0056644b4ea58mr2815509edq.38.1709121260260; 
+ Wed, 28 Feb 2024 03:54:20 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH6FptwXKWdpRbAQsOoG8p3qTzmPhbLL1FUk7wDRIbtUMMjEi+ybuAd+y7W+VRLU+xIWuIjIw==
+X-Received: by 2002:aa7:d898:0:b0:566:44b4:ea58 with SMTP id
+ u24-20020aa7d898000000b0056644b4ea58mr2815489edq.38.1709121259904; 
+ Wed, 28 Feb 2024 03:54:19 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
+ (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
  by smtp.gmail.com with ESMTPSA id
- bo14-20020a056000068e00b0033d6bc17d0esm15009877wrb.74.2024.02.28.03.48.05
+ u16-20020aa7d550000000b00564c7454bf3sm1720890edr.8.2024.02.28.03.54.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Feb 2024 03:48:06 -0800 (PST)
-Message-ID: <a4ba6a35-cfb4-4c3d-a9c7-ccd47d4c32d8@baylibre.com>
-Date: Wed, 28 Feb 2024 12:48:04 +0100
+ Wed, 28 Feb 2024 03:54:19 -0800 (PST)
+Message-ID: <f4ef7381-06e5-4067-af0f-f48dd8d636bb@redhat.com>
+Date: Wed, 28 Feb 2024 12:54:18 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/18] ASoC: dt-bindings: mediatek,mt8365-afe: Add audio
- afe document
-Content-Language: en-US
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Lee Jones <lee@kernel.org>,
- Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
- <20240226-audio-i350-v1-1-4fa1cea1667f@baylibre.com>
- <ce5f71a9-1b5f-4724-89db-dae2f64e8008@linaro.org>
- <eeb3329b-0558-4237-8343-4e11f65a6a35@baylibre.com>
- <bd4bf6ae-350e-4ee6-a924-7dd31b2c6034@linaro.org>
- <66e527af-0253-4565-9822-04ed84e5817c@baylibre.com>
- <bb86b986-ecd7-416a-9036-082a3cff2176@collabora.com>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <bb86b986-ecd7-416a-9036-082a3cff2176@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 2/2] fbcon: Defer console takeover for splash screens to
+ first switch
+To: Daniel van Vugt <daniel.van.vugt@canonical.com>
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ Jani Nikula <jani.nikula@intel.com>, Danilo Krummrich <dakr@redhat.com>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Sebastien Bacher <seb128@ubuntu.com>
+References: <20240202085408.23251-1-daniel.van.vugt@canonical.com>
+ <20240202085408.23251-2-daniel.van.vugt@canonical.com>
+ <7817a2a2-b07d-4e9d-85e6-c11c5720d66e@redhat.com>
+ <39ffe230-36ac-484a-8fc1-0a12d6c38d82@canonical.com>
+ <f3cdd944-5e68-49e5-bae8-4bc1f9f59131@redhat.com>
+ <b98562cc-c4ca-4a74-a0c1-e1192e67d19c@canonical.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <b98562cc-c4ca-4a74-a0c1-e1192e67d19c@canonical.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,195 +105,208 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Daniel,
 
+On 2/28/24 03:00, Daniel van Vugt wrote:
+> On 27/2/24 21:47, Hans de Goede wrote:
 
-On 28/02/2024 11:25, AngeloGioacchino Del Regno wrote:
-> Il 28/02/24 10:57, Alexandre Mergnat ha scritto:
->> I think I got it.
->>
->> - mediatek,i2s-shared-clock: will be remove from DT
->> - mediatek,dmic-iir-on: will be remove from DT
->> - mediatek,dmic-irr-mode: will be remove from DT
->> - mediatek,dmic-two-wire-mode: rephrase description needed
->>
->> I've did abstraction (despite me) that IIR settings are runtime config 
->> because the driver implement its usage like a one-time-setup -_-'
->>
-> 
-> Yes but just one more thing I just noticed: 
-> `mediatek,dmic-two-wire-mode` - can we
-> please rename this to `mediatek,dmic-mode` ?
+<snip>
 
-Sure, I wasn't aware of this property. I will do it.
+> I think some boot failures also take you to the grub menu automatically next time?
 
-Note: the description isn't consistent with the enum comments
-"
-0 means two wires, 1 means one wire.
-...
-        - 0 # one wire
-        - 1 # two wires
-"
+In Fedora all boot failures will unhide the grub menu on
+the next boot. This unfortunately relies on downstream changes
+so I don't know what Ubuntu does here.
 
-> 
-> That'd be for consistency check mt6359.yaml and mt6358.txt
-> 
->    mediatek,dmic-mode:
->      $ref: /schemas/types.yaml#/definitions/uint32
->      description: |
->        Indicates how many data pins are used to transmit two channels of 
-> PDM
->        signal. 0 means two wires, 1 means one wire. Default value is 0.
->      enum:
->        - 0 # one wire
->        - 1 # two wires
-> 
-> Cheers,
-> Angelo
-> 
-> 
-> 
->> Thanks for the explanations, that help.
->>
->> Regards,
->> Alexandre
->>
->> On 28/02/2024 08:28, Krzysztof Kozlowski wrote:
->>> On 27/02/2024 16:18, Alexandre Mergnat wrote:
->>>>>
->>>>>> +    type: boolean
->>>>>> +
->>>>>> +  mediatek,dmic-iir-on:
->>>>>> +    description:
->>>>>> +      Boolean which specifies whether the DMIC IIR is enabled.
->>>>>> +      If this property is not present the IIR is disabled.
->>>>>
->>>>> "is enabled" or "enable it"?
->>>>>
->>>>> You described the desired Linux feature or behavior, not the actual
->>>>> hardware. The bindings are about the latter, so instead you need to
->>>>> rephrase the property and its description to match actual hardware
->>>>> capabilities/features/configuration etc.
->>>>
->>>> I will rephrase:
->>>>
->>>> True to enable the Infinite Impulse Response (IIR) filter
->>>> on the digital microphone inputs.
->>>
->>> I still don't know why this is DT-specific. You still tell driver what
->>> to do...
->>>
->>>>
->>>>>
->>>>>> +    type: boolean
->>>>>> +
->>>>>> +  mediatek,dmic-irr-mode:
->>>>>> +    $ref: /schemas/types.yaml#/definitions/uint32
->>>>>> +    description:
->>>>>> +      Selects stop band of IIR DC-removal filter.
->>>>>> +      0 = Software programmable custom coeff loaded by the driver.
->>>>>
->>>>> Bindings are for hardware, not drivers. Why is this a property of 
->>>>> board DTS?
->>>>
->>>> Actually this is a hardware feature. Mode 1 t 5 are predefined filters.
->>>> Mode 0, the HW will read some "coef filter registers" to setup the
->>>> custom filter. the "coef filter regs" are written by the driver.
->>>> Currently the coef values are hardcoded in the driver.
->>>
->>> You don't get the point. Just because you choose some mode it does not
->>> mean is hardware feature for DT. Sampling frequency done by hardware is
->>> also "hardware feature", but do you put it to DT? No.
->>>
->>> Explain why this is board-specific, not runtime configuration.
->>>
->>>>
->>>>>
->>>>>> +      1 = 5Hz if 48KHz mode.
->>>>>> +      2 = 10Hz if 48KHz mode.
->>>>>> +      3 = 25Hz if 48KHz mode.
->>>>>> +      4 = 50Hz if 48KHz mode.
->>>>>> +      5 = 65Hz if 48KHz mode.
->>>>>
->>>>> Use proper unit suffixes - hz.
->>>>>
->>>>>
->>>>>> +    enum:
->>>>>> +      - 0
->>>>>> +      - 1
->>>>>> +      - 2
->>>>>> +      - 3
->>>>>> +      - 4
->>>>>> +      - 5
->>>>>> +
->>>>>> +  mediatek,dmic-two-wire-mode:
->>>>>> +    description:
->>>>>> +      Boolean which turns on digital microphone for two wire mode.
->>>>>> +      If this property is not present the two wire mode is disabled.
->>>>>
->>>>> This looks like hardware property, but the naming looks like SW. Again
->>>>> you instruct what driver should do. Standard disclaimer:
->>>>>
->>>>> You described the desired Linux feature or behavior, not the actual
->>>>> hardware. The bindings are about the latter, so instead you need to
->>>>> rephrase the property and its description to match actual hardware
->>>>> capabilities/features/configuration etc.
->>>>
->>>> Actually this is a hardware feature. This is ALL I have to describe the
->>>> HW behavior from the datasheet:
->>>> "
->>>> bit name: ul_dmic_two_wire_ctl
->>>> Turns on digital microphone for two wire mode.
->>>> 0: Turn off
->>>> 1: Turn on
->>>
->>> That's rather suggestion it is not a description of hardware but you
->>> want driver to do something...
->>>
->>>> "
->>>>
->>>> On the board schematic, SoC and DMIC and linked by 3 pins:
->>>> - clk
->>>> - data0
->>>> - data1
->>>>
->>>> IMHO, "two-wire-mode" means the HW use 2 pins for data, and the SoC 
->>>> must
->>>> be aware of that by reading the register value written by the driver,
->>>> using the value found in the DTS.
->>>
->>> So this depends on type of connection of DMIC? Then rephrase description
->>> property like this.
->>>
->>>>
->>>> I don't get why you think it wouldn't be hardware behavior.
->>>
->>> Because telling what to write to the registers which is typical sign of
->>> people stuffing to DT whatever they need to configure the hardware.
->>>
->>>>
->>>> Rephrase description:
->>>> "True to enable the two wire mode of the digital microphone"
->>>> Is it better ?
->>>
->>> No, because again you describe some sort of mode. If you insist on such
->>> description, then my answer is: it's runtime, so not suitable for DT.
->>> Instead describe what is the hardware problem/configuration, e.g. "DMIC
->>> is connected with only CLK and DATA0, without third pin" etc.
->>>
->>>>
->>>> About the property name, "mediatek,dmic-two-wire-ctl" sound better 
->>>> for you ?
->>>
->>> To sound more like a register less like physical characteristic of the
->>> board? No. The name can stay, I don't have better ideas.
->>>
->>>
->>> Best regards,
->>> Krzysztof
->>>
->>
-> 
+<snip>
 
--- 
+>>>> The kernel itself will be quiet as long as you set
+>>>> CONFIG_CONSOLE_LOGLEVEL_QUIET=3 Ubuntu atm has set this
+>>>> to 4 which means any kernel pr_err() or dev_err()
+>>>> messages will get through and since there are quite
+>>>> a few false positives of those Ubuntu really needs
+>>>> to set CONFIG_CONSOLE_LOGLEVEL_QUIET=3 to fix part of:
+>>>> https://bugs.launchpad.net/bugs/1970069
+>>>
+>>> Incorrect. In my testing some laptops needed log level as low as 2 to go quiet.
+>>> And the Ubuntu kernel team is never going to fix all those for non-sponsored
+>>> devices.
+>>
+>> Notice that atm Ubuntu's kernel is using the too high
+>> CONFIG_CONSOLE_LOGLEVEL_QUIET=4 with
+>> CONFIG_CONSOLE_LOGLEVEL_QUIET=3 getting any errors logged
+>> to the console should be very very rare.
+>>
+>> The only thing I can think of is if the kernel oopses
+>> / WARN()s early on but the cause is innocent enough
+>> that the boot happily continues.
+>>
+>> In that case actually showing the oops/WARN() is a good
+>> thing.
+>>
+>> For all the years Fedora has had flickerfree boot I have
+>> seen zero bug reports about this. If you have examples
+>> of this actually being a problem please file bugs for
+>> them (launchpad or bugzilla.kernel.org is fine) and
+>> then lets take a look at those bugs and fix them.
+>>
+>> These should be so rare that I'm not worried about this
+>> becoming a never ending list of bugs (unlike pr_err() /
+>> dev_err() messages of which there are simply too many).
+> 
+> I personally own many laptops with so many different boot messages that it's
+> overwhelming for me already to report bugs for each of them. Hence this patch.
+> 
+> Also I don't own all the laptops in the world, so fixing all the errors just
+> for my collection wouldn't solve all cases. Whereas this patch does.
+
+Almost all of those boot messages are because Ubuntu has
+set CONFIG_CONSOLE_LOGLEVEL_QUIET too high. Once that is fixed
+there should be very little of not no messages left.
+
+I too own many laptops and I'm not seeing this issue on
+any of them.
+
+You claim you are still seeing errors with
+CONFIG_CONSOLE_LOGLEVEL_QUIET=3 yet you have not provided
+a single example!
+
+>> Sorry, but your real problem here seems to be your
+>> noisy downstream systemd patch. I'm not going to ack
+>> a kernel patch which I consider a bad idea because
+>> Ubuntu has a non standard systemd patch which is
+>> to trigger happy with spamming the console.
+> 
+> Indeed the systemd patch is a big problem. We seem to have had it for 9 years
+> or so. I only just discovered it recently and would love to drop it, but was
+> told we can't. Its main problem is that it uses the console as a communication
+> pipe to plymouth. So simply making it less noisy isn't possible without
+> disabling its functionality. It was seemingly intended to run behind the
+> splash, but since it does fsck it tends to run before the splash (because DRM
+> startup takes a few more seconds).
+
+This does indeed sound like it is a non trivial problem to fix,
+but that is still not a good reason to add this (IMHO) hack
+to the kernel.
+
+The issue deferred fbcon takeover was designed to fix is that
+the fbcon would mess up the framebuffer contents even if
+nothing was ever logged to the console.
+
+The whole idea being that to still have the fbcon come up
+as soon as there are any messages.
+
+Actively hiding messages was never part of the design, so
+this is still a NACK from me.
+
+Also note that this matches how things work in grub
+and shim when I first implemented flickerfree boot
+I also had to patch shim and grub to not make EFI
+text output protocol calls (including init()) until
+they actually had some text to show.
+
+So the whole design here for shim, grub and the kernel
+has always been to not mess with the framebuffer until
+there is some text (any text) to output and then show
+that text immediately.
+
+I do not think that deviating from this design is a good
+idea.
+
 Regards,
-Alexandre
+
+Hans
+
+
+
+>>>>> Closes: https://bugs.launchpad.net/bugs/1970069
+>>>>> Cc: Mario Limonciello <mario.limonciello@amd.com>
+>>>>> Signed-off-by: Daniel van Vugt <daniel.van.vugt@canonical.com>
+>>>>> ---
+>>>>>  drivers/video/fbdev/core/fbcon.c | 32 +++++++++++++++++++++++++++++---
+>>>>>  1 file changed, 29 insertions(+), 3 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+>>>>> index 63af6ab034..5b9f7635f7 100644
+>>>>> --- a/drivers/video/fbdev/core/fbcon.c
+>>>>> +++ b/drivers/video/fbdev/core/fbcon.c
+>>>>> @@ -76,6 +76,7 @@
+>>>>>  #include <linux/crc32.h> /* For counting font checksums */
+>>>>>  #include <linux/uaccess.h>
+>>>>>  #include <asm/irq.h>
+>>>>> +#include <asm/cmdline.h>
+>>>>>  
+>>>>>  #include "fbcon.h"
+>>>>>  #include "fb_internal.h"
+>>>>> @@ -146,6 +147,7 @@ static inline void fbcon_map_override(void)
+>>>>>  
+>>>>>  #ifdef CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER
+>>>>>  static bool deferred_takeover = true;
+>>>>> +static int initial_console = -1;
+>>>>>  #else
+>>>>>  #define deferred_takeover false
+>>>>>  #endif
+>>>>> @@ -3341,7 +3343,7 @@ static void fbcon_register_existing_fbs(struct work_struct *work)
+>>>>>  	console_unlock();
+>>>>>  }
+>>>>>  
+>>>>> -static struct notifier_block fbcon_output_nb;
+>>>>> +static struct notifier_block fbcon_output_nb, fbcon_switch_nb;
+>>>>>  static DECLARE_WORK(fbcon_deferred_takeover_work, fbcon_register_existing_fbs);
+>>>>>  
+>>>>>  static int fbcon_output_notifier(struct notifier_block *nb,
+>>>>> @@ -3358,6 +3360,21 @@ static int fbcon_output_notifier(struct notifier_block *nb,
+>>>>>  
+>>>>>  	return NOTIFY_OK;
+>>>>>  }
+>>>>> +
+>>>>> +static int fbcon_switch_notifier(struct notifier_block *nb,
+>>>>> +				 unsigned long action, void *data)
+>>>>> +{
+>>>>> +	struct vc_data *vc = data;
+>>>>> +
+>>>>> +	WARN_CONSOLE_UNLOCKED();
+>>>>> +
+>>>>> +	if (vc->vc_num != initial_console) {
+>>>>> +		dummycon_unregister_switch_notifier(&fbcon_switch_nb);
+>>>>> +		dummycon_register_output_notifier(&fbcon_output_nb);
+>>>>> +	}
+>>>>> +
+>>>>> +	return NOTIFY_OK;
+>>>>> +}
+>>>>>  #endif
+>>>>>  
+>>>>>  static void fbcon_start(void)
+>>>>> @@ -3370,7 +3387,14 @@ static void fbcon_start(void)
+>>>>>  
+>>>>>  	if (deferred_takeover) {
+>>>>>  		fbcon_output_nb.notifier_call = fbcon_output_notifier;
+>>>>> -		dummycon_register_output_notifier(&fbcon_output_nb);
+>>>>> +		fbcon_switch_nb.notifier_call = fbcon_switch_notifier;
+>>>>> +		initial_console = fg_console;
+>>>>> +
+>>>>> +		if (cmdline_find_option_bool(boot_command_line, "splash"))
+>>>>> +			dummycon_register_switch_notifier(&fbcon_switch_nb);
+>>>>> +		else
+>>>>> +			dummycon_register_output_notifier(&fbcon_output_nb);
+>>>>> +
+>>>>>  		return;
+>>>>>  	}
+>>>>>  #endif
+>>>>> @@ -3417,8 +3441,10 @@ void __exit fb_console_exit(void)
+>>>>>  {
+>>>>>  #ifdef CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER
+>>>>>  	console_lock();
+>>>>> -	if (deferred_takeover)
+>>>>> +	if (deferred_takeover) {
+>>>>>  		dummycon_unregister_output_notifier(&fbcon_output_nb);
+>>>>> +		dummycon_unregister_switch_notifier(&fbcon_switch_nb);
+>>>>> +	}
+>>>>>  	console_unlock();
+>>>>>  
+>>>>>  	cancel_work_sync(&fbcon_deferred_takeover_work);
+>>>>
+>>>
+>>
+> 
+
