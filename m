@@ -2,64 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9955A86B876
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 20:44:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7F5386B884
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 20:47:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7448F10E209;
-	Wed, 28 Feb 2024 19:44:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7835D10E287;
+	Wed, 28 Feb 2024 19:47:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lErPlaJc";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="RIvtqqoL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0D3F10E1FF;
- Wed, 28 Feb 2024 19:44:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709149450; x=1740685450;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=V0ilXmhRKxli9jjfPc07HZw+QOYaraP3+0PgQZD1VWc=;
- b=lErPlaJcaPgnuhAgCzPdqHdKiF0xncXldjv8qwR1unrCDL72PYpa17Dr
- zZ7OsZucQYZECKyLXTUA2XheKQvjnIfs+Y2SOWqOMYSm9vqQ+tbmMuZlF
- pv2er91q7WcatHcFyxHLsDf9SGrEc9WywCwagq/myHM94FNEso/dWkD4+
- KPZL1A3fek5izm+UjIikfHOxbvBgt88de8EaULSnarybIa1uI/MR2Wfw2
- sbCsTZsTTgF2bSDj+/38Bb2d0AIQUxxBwsIVvLihgSPiDN2ayVSqxGeQy
- al00KE9aZmDLSujnzMM1p82QcKW/he89/mWF8C3BcSh2ZcbUZC0RLDzh4 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="14216823"
-X-IronPort-AV: E=Sophos;i="6.06,191,1705392000"; d="scan'208";a="14216823"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2024 11:44:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,191,1705392000"; 
-   d="scan'208";a="7502494"
-Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2024 11:44:07 -0800
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Oded Gabbay <ogabbay@kernel.org>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Arnd Bergmann <arnd@kernel.org>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>, Arnd Bergmann <arnd@arndb.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Jani Nikula <jani.nikula@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] [v2] drm/xe/kunit: fix link failure with built-in xe
-Date: Wed, 28 Feb 2024 11:44:35 -0800
-Message-ID: <170914939984.3691978.2185510121426316962.b4-ty@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240226124736.1272949-1-arnd@kernel.org>
-References: <20240226124736.1272949-1-arnd@kernel.org>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3242810E287;
+ Wed, 28 Feb 2024 19:47:52 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 41SId338018907; Wed, 28 Feb 2024 19:47:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding:content-type; s=qcppdkim1; bh=whxourV
+ MeBw3kwOIKUI1wmUPTkxnfJ/I0Aau54gzUIc=; b=RIvtqqoLpqeWQ4wWovKxKad
+ OyKMqSudYScHDDXSuxLHL/FZ5fsCpljz2DW5ss68mN7M0H2qN/iUpe6obLF/yMyF
+ RVIUQCfgED65tu3lifQmzi0R+9KI/f3h1fRK10EKOoU2z3M6HeHOqVxBXx4bMdMX
+ GFdDGa7scfOp979GyEtEzmOafdO7PCIDS1HYCdyvlO7ZHzBhagQKzqJURdQi3d9p
+ 3K6ulTJwGPCqlL5gPRWGjj5XJ2HMAxjQj7j/W8F9JnxjiYp458wTLEilyNFWv0uV
+ JNmB0E8nG43n4LKiZ+peDUt4rKF/vXuShaFfecTfNcE77PEo0D6h01VxIdcqgYw=
+ =
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wja0eg66j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Feb 2024 19:47:48 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41SJlkRa022143
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Feb 2024 19:47:46 GMT
+Received: from abhinavk-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Wed, 28 Feb 2024 11:47:46 -0800
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>
+CC: <dri-devel@lists.freedesktop.org>, <quic_parellan@quicinc.com>,
+ <quic_jesszhan@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH 1/2] drm/msm/dpu: drop unused dpu_kms from interface
+ initialization
+Date: Wed, 28 Feb 2024 11:47:29 -0800
+Message-ID: <20240228194730.619204-1-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: u1ew2RsuXItpJHf9_6JmdetIjdjS_gRq
+X-Proofpoint-ORIG-GUID: u1ew2RsuXItpJHf9_6JmdetIjdjS_gRq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-28_08,2024-02-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 malwarescore=0
+ lowpriorityscore=0 suspectscore=0 mlxscore=0 impostorscore=0 adultscore=0
+ clxscore=1015 bulkscore=0 priorityscore=1501 spamscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2402120000
+ definitions=main-2402280155
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,27 +92,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+dpu_kms seems unused while initializing DSI, HDMI and DP through
+their respective _dpu_kms_initialize_* functions.
 
-On Mon, 26 Feb 2024 13:46:36 +0100, Arnd Bergmann wrote:
-> When the driver is built-in but the tests are in loadable modules,
-> the helpers don't actually get put into the driver:
-> 
-> ERROR: modpost: "xe_kunit_helper_alloc_xe_device" [drivers/gpu/drm/xe/tests/xe_test.ko] undefined!
-> 
-> Change the Makefile to ensure they are always part of the driver
-> even when the rest of the kunit tests are in loadable modules.
-> 
-> [...]
+Hence lets drop the parameter altogether.
 
-All 3 patches applied to drm-xe-next. Thanks!
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-[1/3] drm/xe/kunit: fix link failure with built-in xe
-      commit: 0e6fec6da25167a568fbaeb8401d8172069124ad
-[2/3] drm/xe/mmio: fix build warning for BAR resize on 32-bit
-      commit: f5d3983366c0b88ec388b3407b29c1c0862ee2b8
-[3/3] drm/xe/xe2: fix 64-bit division in pte_update_size
-      commit: 1408784b599927d2f361bac6dc5170d2ee275f17
-
-Best regards,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index 2af62d8fa9a7..ab924ac78c9b 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -494,8 +494,7 @@ static void dpu_kms_wait_flush(struct msm_kms *kms, unsigned crtc_mask)
+ }
+ 
+ static int _dpu_kms_initialize_dsi(struct drm_device *dev,
+-				    struct msm_drm_private *priv,
+-				    struct dpu_kms *dpu_kms)
++				   struct msm_drm_private *priv)
+ {
+ 	struct drm_encoder *encoder = NULL;
+ 	struct msm_display_info info;
+@@ -558,8 +557,7 @@ static int _dpu_kms_initialize_dsi(struct drm_device *dev,
+ }
+ 
+ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
+-					    struct msm_drm_private *priv,
+-					    struct dpu_kms *dpu_kms)
++					   struct msm_drm_private *priv)
+ {
+ 	struct drm_encoder *encoder = NULL;
+ 	struct msm_display_info info;
+@@ -592,8 +590,7 @@ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
+ }
+ 
+ static int _dpu_kms_initialize_hdmi(struct drm_device *dev,
+-				    struct msm_drm_private *priv,
+-				    struct dpu_kms *dpu_kms)
++				    struct msm_drm_private *priv)
+ {
+ 	struct drm_encoder *encoder = NULL;
+ 	struct msm_display_info info;
+@@ -671,19 +668,19 @@ static int _dpu_kms_setup_displays(struct drm_device *dev,
+ 	int rc = 0;
+ 	int i;
+ 
+-	rc = _dpu_kms_initialize_dsi(dev, priv, dpu_kms);
++	rc = _dpu_kms_initialize_dsi(dev, priv);
+ 	if (rc) {
+ 		DPU_ERROR("initialize_dsi failed, rc = %d\n", rc);
+ 		return rc;
+ 	}
+ 
+-	rc = _dpu_kms_initialize_displayport(dev, priv, dpu_kms);
++	rc = _dpu_kms_initialize_displayport(dev, priv);
+ 	if (rc) {
+ 		DPU_ERROR("initialize_DP failed, rc = %d\n", rc);
+ 		return rc;
+ 	}
+ 
+-	rc = _dpu_kms_initialize_hdmi(dev, priv, dpu_kms);
++	rc = _dpu_kms_initialize_hdmi(dev, priv);
+ 	if (rc) {
+ 		DPU_ERROR("initialize HDMI failed, rc = %d\n", rc);
+ 		return rc;
 -- 
-Lucas De Marchi <lucas.demarchi@intel.com>
+2.34.1
+
