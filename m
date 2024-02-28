@@ -2,45 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7851486B4AA
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 17:22:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F00886B4AE
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 17:23:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1408310E547;
-	Wed, 28 Feb 2024 16:22:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3180C10E820;
+	Wed, 28 Feb 2024 16:23:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lgbztTkG";
+	dkim=pass (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="BUXHcGfK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13F6A10E547
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 16:22:23 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi
- [89.27.53.110])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C86496B3;
- Wed, 28 Feb 2024 17:22:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1709137330;
- bh=/3zDOS2PejvTm0xV78aQExrLl1BoCDLR7sm/RYS9aU8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lgbztTkGoUfv9hR8sP0de8pZbHV8zgzqNLgzwcLeXuzKGUCAZtbrDLWDLbDcxItVb
- e2PtaJwF00ogqLWm9f6jS4V+DBz/Q4hq9Wywj/LHPgN2eIWxAn0+1nf/EzCRz2n6pj
- 4PUdWySeVm86re+/9+nBTi00iw8P2sWZiD5KQz0A=
-Date: Wed, 28 Feb 2024 18:22:24 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Rohit Visavalia <rohit.visavalia@amd.com>
-Cc: gregkh@linuxfoundation.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, michal.simek@amd.com, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm: xlnx: dp: Reset DisplayPort IP
-Message-ID: <20240228162224.GG9863@pendragon.ideasonboard.com>
-References: <20240216124043.1226713-1-rohit.visavalia@amd.com>
+Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB9BD10EA14
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 16:23:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1709137386; x=1709396586;
+ bh=sDA3E/nyjWG2GZo3oYjGL1EpQbnwDze4vBdSxGgTTCc=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=BUXHcGfKzuB2zB8JGt+xoOKZnOInLPu9zHV3pvj/2n9XEz0xt6c8NhQqU7eJX0Oce
+ d7e8c5IOYOduoNKj7PGgFWDWlhuRgc8EcakQZAasDnUE2BdjLXeC3tMo5T+sZOIzbl
+ aDGyWx0jHMPPhPESh7/TBN60FmlcdVmBAInzVCJ6LwkVUCWL4+tawBC0OWE0GopBB/
+ c3HLidwR9oKHX0FLwcvayIzv27feZz1K2l7TOejUIrHb2Gr4k7u2zFF1mC7L7LdWJ9
+ N0v2fGoAmakyD/IhEhh/iqvtEmrzlNDmkSXo4eukWdERqqhSoPh7zRsPJR4M7Ia8av
+ dWQ3JY0zr7UPQ==
+Date: Wed, 28 Feb 2024 16:22:56 +0000
+To: Maxime Ripard <mripard@kernel.org>
+From: Simon Ser <contact@emersion.fr>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Pekka Paalanen <pekka.paalanen@haloniitty.fi>, dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>
+Subject: Re: UAPI Re: [PATCH 1/3] drm: Add DRM_MODE_TV_MODE_MONOCHROME
+Message-ID: <ttd0tkA6ym5NBhHqKQFa88BjxMoctTVJd03aIqnSyXZ0ve0jPPrlkTVmUNWIQGNyNBpFvxzplydGqGFQa5VaYuf5mm1n9dEGDM5MG25j_4Q=@emersion.fr>
+In-Reply-To: <20240228-nice-flat-cormorant-badff7@houat>
+References: <20240216184857.245372-1-dave.stevenson@raspberrypi.com>
+ <20240216184857.245372-2-dave.stevenson@raspberrypi.com>
+ <20240221110751.48da8190@eldfell>
+ <b43rdl7yebxn6z3pvyeyxbikccr7umrojo5kqw5i3ybloxktso@de4oxsbskkwp>
+ <20240226171143.27e60c30@eldfell>
+ <CAPY8ntCHi8joN-w3PNjMj31FSkCjqmJ4ZyhSDFZ1-PnfL4+FrQ@mail.gmail.com>
+ <5us3AK9XJ5zu1AOKQeZxKWsK0f6Xtm7vHWttRTFPRo57Ph5WO62deVIK8TrkQIFmjFMrn-a2qusgP3W74dV6SKTA5OdTt4zncR7J2qQ_Qck=@emersion.fr>
+ <20240228-nice-flat-cormorant-badff7@houat>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240216124043.1226713-1-rohit.visavalia@amd.com>
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,73 +65,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Rohit,
+On Wednesday, February 28th, 2024 at 17:14, Maxime Ripard <mripard@kernel.o=
+rg> wrote:
 
-Thank you for the patch.
+> > I don't know what the rules were 8 years ago, but the current uAPI rule=
+s
+> > are what they are, and a new enum entry is new uAPI.
+>=20
+> TBF, and even if the wayland compositors support is missing, this
+> property is perfectly usable as it is with upstream, open-source code,
+> through either the command-line or X.org, and it's documented.
+>=20
+> So it's fine by me from a UAPI requirement side.
 
-On Fri, Feb 16, 2024 at 04:40:43AM -0800, Rohit Visavalia wrote:
-> Assert DisplayPort reset signal before deasserting,
-> it is to clear out any registers programmed before booting kernel.
-> 
-> Signed-off-by: Rohit Visavalia <rohit.visavalia@amd.com>
-> ---
->  drivers/gpu/drm/xlnx/zynqmp_dp.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> index 1846c4971fd8..5a40aa1d4283 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> @@ -1714,6 +1714,10 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
->  		goto err_free;
->  	}
->  
-> +	ret = zynqmp_dp_reset(dp, true);
-> +	if (ret < 0)
-> +		return ret;
-> +
+That is not a valid way to pass the uAPI requirements IMHO. Yes, one
+can program any KMS property via modetest or xrandr. Does that mean that
+none of the new uAPI need a "real" implementation anymore? Does that mean
+that the massive patch adding a color pipeline uAPI doesn't need
+user-space anymore?
 
-This looks fine to me, so
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-However, looking at zynqmp_dp_reset(), we have
-
-static int zynqmp_dp_reset(struct zynqmp_dp *dp, bool assert)
-{
-	unsigned long timeout;
-
-	if (assert)
-		reset_control_assert(dp->reset);
-	else
-		reset_control_deassert(dp->reset);
-
-	/* Wait for the (de)assert to complete. */
-	timeout = jiffies + msecs_to_jiffies(RST_TIMEOUT_MS);
-	while (!time_after_eq(jiffies, timeout)) {
-		bool status = !!reset_control_status(dp->reset);
-
-		if (assert == status)
-			return 0;
-
-		cpu_relax();
-	}
-
-	dev_err(dp->dev, "reset %s timeout\n", assert ? "assert" : "deassert");
-	return -ETIMEDOUT;
-}
-
-That doesn't seem quite right. Aren't reset_control_assert() and
-reset_control_deassert() supposed to be synchronous ? If so there should
-be no need to wait, and if there's a need to wait, it could be a bug in
-the reset controller driver. This should be fixed, and then the code in
-probe could be replaced with a call to reset_control_reset().
-
->  	ret = zynqmp_dp_reset(dp, false);
->  	if (ret < 0)
->  		goto err_free;
-
--- 
-Regards,
-
-Laurent Pinchart
+The only thing I'm saying is that this breaks the usual DRM requirements.
+If, as a maintainer, you're fine with breaking the rules and have a good
+motivation to do so, that's fine by me. Rules are meant to be broken from
+time to time depending on the situation. But please don't pretend that
+modetest/xrandr is valid user-space to pass the rules.
