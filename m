@@ -2,150 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3419B86BA6B
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 23:03:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBB6F86BA83
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 23:05:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8885D10E1A9;
-	Wed, 28 Feb 2024 22:03:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC04410E099;
+	Wed, 28 Feb 2024 22:05:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lnAAXkoE";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="UCW6aDwP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7926210E1A7;
- Wed, 28 Feb 2024 22:03:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709157791; x=1740693791;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=ze64DGQvdviW8TxzxI+uUFWHQW3HhDlmwIQ6G7lsMxo=;
- b=lnAAXkoEvFg8lfulkgU2B4Ws8lHACG+A4DjG/EM8MSZP8T6iboYnyCm7
- 1I8qO3TbKXE9WtPV0dnFxMMmUKJE3gFnkxffkKeyqjEXdajXKBPiSnh2k
- FGdMqx/qSs+xrDCoPnNnqz1zaxxCGmvlu+fYosf2PpsE3LxgrU0LeQbm2
- YnyIlQ7NpMD1jaiR9GclynaEyur5XC2XcJGUpPUTmuhwgrTusZFc/o2dr
- YSBTPc4fgCR8S2/7iBS/Dql3XaMMifG8sdZ57ZULwLEJAODKc4przwk3K
- t81hk8h6XQW6ntT32ADd9j5zfXRW8ht+0qI2zhLD66tVwArAefp8Jh8cb Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="3755759"
-X-IronPort-AV: E=Sophos;i="6.06,191,1705392000"; 
-   d="scan'208";a="3755759"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2024 14:03:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,191,1705392000"; d="scan'208";a="38432916"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 28 Feb 2024 14:03:10 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 28 Feb 2024 14:03:09 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 28 Feb 2024 14:03:08 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Wed, 28 Feb 2024 14:03:08 -0800
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.41) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 28 Feb 2024 14:03:08 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CsWUP/4QkJBX1Vv8DXurhOy00+Wpl7PUBbABo/wT7I/VbHifleYduagLIk7viO8i7VEefl0R1P9brWAyk94cPfRjJoufdwG0yNYbv3RLAdOneW00N44dEQwHOWSvYdiHql+TgbgX9X7Q2AqYzuFDEjkM8bx15fKFgxXbdbE9N4CYuR5O1YB1e3QsHmUCQ/jouERjwussDnUk+4f+Mb60kB2YQ2ipJGDOs4YKdSScgY3UnSz/TeZXBQ5n11uF0GKC5hGWBV7iWgyjMY80ybV2d+e/C5kOf6O+C9YED7xyo9GkJxqfFaLcuZVX6PYEAmzM65PUXlRHR4HQKdFUR48wYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ze64DGQvdviW8TxzxI+uUFWHQW3HhDlmwIQ6G7lsMxo=;
- b=X6kFW0eIbTr9kWtrYzMs8p+p4iQp8L77zlItYuh9sdBfhMpKwQKkboGjW4hbPVtIotTQ8u3gd8sArSGqDwPh/ikEmP6Xs9xQ5GHIzmURnECJMY863YuV2v1IIBHwK1Mo5oYNTuWUpik2RGlNjZekxM5Z3t97OpOtpAf4hZaVyzqOD0fITufPGKLHN6GzIxNhhOsbiPmMBH9dJ98/GnqOArD5pA1GNO2XEP7+345QqIx0FIxmQP8y3i7MG0GTLJmd8/tXZQusCefQfATBHDbM0V9t/r0NVO+776G1g8AkAYqT4G5pHURDzN9wL156MAoQLBspY2ZV8ETU8onBKW5k/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by PH8PR11MB8064.namprd11.prod.outlook.com (2603:10b6:510:253::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.24; Wed, 28 Feb
- 2024 22:03:06 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7352:aa4b:e13e:cb01]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7352:aa4b:e13e:cb01%7]) with mapi id 15.20.7339.024; Wed, 28 Feb 2024
- 22:03:06 +0000
-Date: Wed, 28 Feb 2024 16:03:03 -0600
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: kernel test robot <lkp@intel.com>
-CC: Andrew Morton <akpm@linux-foundation.org>, Linux Memory Management List
- <linux-mm@kvack.org>, <dri-devel@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <io-uring@vger.kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-leds@vger.kernel.org>,
- <linux-mtd@lists.infradead.org>, <linux-pm@vger.kernel.org>,
- <linux-sound@vger.kernel.org>, <mhi@lists.linux.dev>,
- <netdev@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
- <ntfs3@lists.linux.dev>
-Subject: Re: [linux-next:master] BUILD REGRESSION
- 20af1ca418d2c0b11bc2a1fe8c0c88f67bcc2a7e
-Message-ID: <hi5aznnmjnblxth6zov7cqen7c3gx3trdrzd5eyopudr2idsmu@n3wjzv27na6o>
-References: <202402290145.QdPSD3XP-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <202402290145.QdPSD3XP-lkp@intel.com>
-X-ClientProxiedBy: SJ0PR03CA0231.namprd03.prod.outlook.com
- (2603:10b6:a03:39f::26) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D04B410E099
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 22:05:01 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 41SKT5Nh004597; Wed, 28 Feb 2024 22:04:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=5lN3aH6J7KARNWoMolvJiFw86gWoxQtAUt3u8IOAS1w=; b=UC
+ W6aDwP1HglPeKsNVWw9gT4qh2ZVe61vIyMUoTBhCDlKdLxXdmBgDpcPd2RseGy/o
+ ovorH0AV7Ko/BCbW090jPH7hlYlTmlgf0tB5YV1l/ms/IRJCM4b8cfc4AP9o/RJl
+ z90AIln+276DHbdfdCKP2X9FBDH44uYid8sj2Wo+OIxjOaZQIhG0sqDVg4uJJhWM
+ 224ymikhab3EHeYumhc+dFbRcMghoRThn2sK2k+B6VW0ZeOiD7WeGA7/A/4K7zBK
+ NEEjBQawZ7P4NK+qqUM7/8IVqxz6lPm7w9gKVdGz0F6juWILs71GV8V/wHVCtPdt
+ fDrifIGNo/ulw9DLlQKg==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wj1d9sy7u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Feb 2024 22:04:54 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41SM4sKm011037
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Feb 2024 22:04:54 GMT
+Received: from [10.71.111.207] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 28 Feb
+ 2024 14:04:53 -0800
+Message-ID: <ffa82d23-2731-4126-bcfc-2dd82255c0f6@quicinc.com>
+Date: Wed, 28 Feb 2024 14:04:53 -0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|PH8PR11MB8064:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7d8b23bd-5644-4eba-52ed-08dc38a90ae2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 24x9qogm1sh3KVEKP8GWDCPKTBdFFqDc40pMcUnROPXpHc4J5aCfeFeb3b1FHlfr9JfZ07EhZ9x94mqmIwu3GUB7nph5kyCFuKNAWHSX+wYpxbQBm0CxSx1far3pLw5kibD0V9PqLzyvmXoYJLed4/vs6N2ve4ZLsgs0TC8Uh2oXZ6ZlcdfUyCv/uDqG61O4gWvBjvgYT+chcV5FpjCK1wTf5uPZoZ8GNcyyqzwII0Rx1Cak8Sv8YzUjB93Tba1U0ixnsxslxbPFICfhK5AO8nl8XwhwpLwVPLf2VtjxQfwWIvPdQfI1IEHoSZCmBd9owJONJiE3ErgVcquF9r+nb62LeXK+gTcuw/As2O79JxTJqvkY+c21SFBK9s0jivcHnGpT4wtKNFdHxyKiedQ+x9/TXktGmNBvpgbkdGOpHZEGhrw/GFcHv5VTMt7OnplBLkBhePARefc5U0y6ZG+Gv3w0rVRiPsk9XEBsCvQexDazZxkXG5M/Q9IFffuI/eLcnEFPHfqAsJ0UJPjbxwRWqy0/7+QBrZOUPEJVqz34wHBqBqbrLwVUXpSqDZG9dmsjPddCMDEoXCMwfhuoySK3LkqyJsW9LRFEMr/7+3k+OS9HTupHs6g6ick176rWUEpR
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0eoCi1EEuKXZTh/GMbUTLSl2RAvaaHkneYG7MAQpb2mITXOYNVjSNls+b3Hq?=
- =?us-ascii?Q?NhlSG6CfdN8YU7lsgToAgG/tT3xKXbtITpJ4XhryslZP9o0rJAJHjn8mrvkD?=
- =?us-ascii?Q?W/S9yPcIdE2pw1U1m4k7tuWOqtURZwUY5eacHVEmLkieoF6ZYVdRBt4w4e/l?=
- =?us-ascii?Q?/KTVf7uhPWwZGj6pDzwkoKjtnKUYl3ztAJX1Ejv4XyKDB/UaOhcLMOfqwI50?=
- =?us-ascii?Q?sA9H5qKSa6iEfHycEAXYnjbYT11u1DhRiIJHAmLEbHt5GIF14A22cTNiXzyu?=
- =?us-ascii?Q?mZxZRbJ71faKd8koP6TvMP2PNqWQ/WUMeLW510mcPeR+bU5C5x48kzDiT0Z1?=
- =?us-ascii?Q?gANgxHdh+jFIrIq02UvmWe8hCbjuZVbmOV2qgQb0zXaS66BDOuHgRsk+f3hX?=
- =?us-ascii?Q?bRtVcg+4SMY6pZpOw/Ej0sSPjGGenjYbKrZ6JLjLzj6bT9pDMT97WWQSJl+V?=
- =?us-ascii?Q?Q2q4EbZFQ2aziDrJ+QIlDnudSldPz+hXAzLQHL6Fg2xdx/gSoIjwEwS3xWRn?=
- =?us-ascii?Q?nvlRmVO0jWeHOdm6K6NodmM/018xOMyL0QhPurwuhMUUKGcIFRMHGqtKZjeO?=
- =?us-ascii?Q?OcY4AIGfC34G0HHqdb5sdOIQU0+4mgEeVNfJggoK/vK9L3VfjjvRbZNa74yk?=
- =?us-ascii?Q?dIE78TAy/HfrT82dUeSoN12jzMrz8QJryaKOqzbbzfWXpsldQOQIj+sgX7YB?=
- =?us-ascii?Q?ILcGFs2Pfv3ZT3bJqq+OtysfveD9nqDlFuiOEnBctG55pECbQFuhmsysSFYC?=
- =?us-ascii?Q?t+V1DJaqPwqu/+iStH3JWlLY7OwALoPuZhCuuTdYiS6ryFjSwg8EqWO+LQAS?=
- =?us-ascii?Q?FUGw1Zulv5xZIK/T3hgOU8uREVCGPchH5ogWypvctvfHEf6zGwbn/uiOFFXz?=
- =?us-ascii?Q?k7oqWgiIh1XlKIbtWtTm9AXjY6fr1mOVsTvFS8LygUsj85uHKdL4DNPMYpHX?=
- =?us-ascii?Q?WPT74QgA2qzKD1rGOgXuavbS4YTTZgiYkDcbcJeK2EUPozaPnt5NjMEaYJml?=
- =?us-ascii?Q?3+xBa/kGFfPxP908o6Mz2VJtXCL3JuWTC95WniVPCea3PQu5mVFiOwwBD4Zj?=
- =?us-ascii?Q?ayZIgeki1cQctdVjD7eVvBuLsoG7IbT//BA7TbZxNZypM3Cela/Ud0JOctGB?=
- =?us-ascii?Q?WS6Ho7vaRZAnbaRD4e2cC8nE2U8p3b8pHGH8Cx1uCWrpcS7rCpnu8/Cx8YTd?=
- =?us-ascii?Q?gH03q0vTgtqAMdbGGBXsxZS13qZ9kPiPZPCgpn6PRWD/gP5JW2I3DQTiMvVm?=
- =?us-ascii?Q?Ru/T3bflOLhUnQudD6LC6DMhwiscLwhKgJVFnYS0WzbCYxOpXxvBhJvMpoBf?=
- =?us-ascii?Q?VNTTUMC+T5jDfo0yy/MT8pchs6biv47cSrHD0iQQuYYqBQ2Hh3qa7NmFkCT5?=
- =?us-ascii?Q?e1kW58Bzq2A4Q8tDj2mG2zQRyc6tAvkq9F6tA6MuONQopx7+oQQN7xZP5kg0?=
- =?us-ascii?Q?q4F3af/5SVQxSMchNgSZpnksQNP2SZPuGaRvKKJw7T+C/Nzki6Gcxt8iy0Pt?=
- =?us-ascii?Q?IoXoPXmkrLFHFeu/MrrH47tNeVI0Vv3b7YEDP3Ywhx5PKO36ccEmhQsa5sVW?=
- =?us-ascii?Q?3GxTxjz2Sw2qDRBosNOnWdyykBRzOZvNTrbcz5iagRMG4E4KGU2TjA0Ljnc9?=
- =?us-ascii?Q?iA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7d8b23bd-5644-4eba-52ed-08dc38a90ae2
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2024 22:03:06.4300 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lAX2Nk/o5Z+4p/kGNo6Tg9q3cGsQ2/Sz7laMC/2iGz394wGS8OFMQ+r3l91MiKM3ef4zH73bNJiuwgfx07mro4fYLGV0XpiW9OMC8o2MZLY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB8064
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] drm/panel: add samsung s6e3fa7 panel driver
+Content-Language: en-US
+To: Richard Acayan <mailingradian@gmail.com>
+CC: Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg
+ <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-arm-msm@vger.kernel.org>
+References: <20240209001639.387374-6-mailingradian@gmail.com>
+ <20240209001639.387374-8-mailingradian@gmail.com>
+ <09ef60d6-8404-4a2f-b2f5-8cd77668e4f0@quicinc.com> <ZcayjJxSKwprA0y_@radian>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <ZcayjJxSKwprA0y_@radian>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: xnJWLzOqwQhP10btwP4z6gmLWkDBB_TK
+X-Proofpoint-ORIG-GUID: xnJWLzOqwQhP10btwP4z6gmLWkDBB_TK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-28_08,2024-02-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxlogscore=999
+ mlxscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0
+ suspectscore=0 impostorscore=0 spamscore=0 priorityscore=1501
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2402280175
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,9 +100,385 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 29, 2024 at 01:31:53AM +0800, kernel test robot wrote:
->drivers/gpu/drm/xe/xe_mmio.c:109:23: error: result of comparison of constant 4294967296 with expression of type 'resource_size_t' (aka 'unsigned int') is always false [-Werror,-Wtautological-constant-out-of-range-compare]
 
-this is fixed now in drm-xe-next.
 
-Lucas De Marchi
+On 2/9/2024 3:17 PM, Richard Acayan wrote:
+> On Thu, Feb 08, 2024 at 05:34:57PM -0800, Jessica Zhang wrote:
+>> On 2/8/2024 4:16 PM, Richard Acayan wrote:
+>>> The S6E3FA7 display controller is enabled in every Pixel 3a (non-XL)
+>>> variant. Add the driver for it, generated by
+>>> linux-mdss-dsi-panel-driver-generator.
+>>>
+>>> There are other panels connected to the same S6E3FA7 display controller,
+>>> such as the AMS604NL01 panel, which are incompatible with this driver.
+>>> Name the device tree compatible after the panel model according to
+>>> iFixit.
+>>>
+>>> Link: https://github.com/msm8916-mainline/linux-mdss-dsi-panel-driver-generator
+>>> Link: https://android.googlesource.com/kernel/msm/+/7fda1cd7b64710dafac5f34899611c6d35eb4cd2/arch/arm64/boot/dts/google/dsi-panel-s6e3fa7-1080p-cmd.dtsi
+>>> Link: https://github.com/msm8953-mainline/linux/blob/v6.6.12-r0/drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c
+>>> Link: https://www.ifixit.com/Guide/Image/meta/muyjtLQTHu6MDkhK
+>>> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+>>> ---
+>>>    drivers/gpu/drm/panel/Kconfig                 |   9 +
+>>>    drivers/gpu/drm/panel/Makefile                |   1 +
+>>>    drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c | 285 ++++++++++++++++++
+>>>    3 files changed, 295 insertions(+)
+>>>    create mode 100644 drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c
+>>>
+>>> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+>>> index 8f3783742208..a693b03f680e 100644
+>>> --- a/drivers/gpu/drm/panel/Kconfig
+>>> +++ b/drivers/gpu/drm/panel/Kconfig
+>>> @@ -577,6 +577,15 @@ config DRM_PANEL_SAMSUNG_DB7430
+>>>    	  DB7430 DPI display controller used in such devices as the
+>>>    	  LMS397KF04 480x800 DPI panel.
+>>> +config DRM_PANEL_SAMSUNG_S6E3FA7
+>>> +	tristate "Samsung S6E3FA7 panel driver"
+>>> +	depends on OF
+>>> +	depends on DRM_MIPI_DSI
+>>> +	depends on BACKLIGHT_CLASS_DEVICE
+>>> +	help
+>>> +	  Say Y here if you want to enable support for the Samsung S6E3FA7
+>>> +	  1920x2220 panel.
+>>> +
+>>>    config DRM_PANEL_SAMSUNG_S6D16D0
+>>>    	tristate "Samsung S6D16D0 DSI video mode panel"
+>>>    	depends on OF
+>>> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+>>> index d94a644d0a6c..560b62129f68 100644
+>>> --- a/drivers/gpu/drm/panel/Makefile
+>>> +++ b/drivers/gpu/drm/panel/Makefile
+>>> @@ -59,6 +59,7 @@ obj-$(CONFIG_DRM_PANEL_SAMSUNG_LD9040) += panel-samsung-ld9040.o
+>>>    obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6D16D0) += panel-samsung-s6d16d0.o
+>>>    obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6D27A1) += panel-samsung-s6d27a1.o
+>>>    obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6D7AA0) += panel-samsung-s6d7aa0.o
+>>> +obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E3FA7) += panel-samsung-s6e3fa7.o
+>>>    obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E3HA2) += panel-samsung-s6e3ha2.o
+>>>    obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E63J0X03) += panel-samsung-s6e63j0x03.o
+>>>    obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E63M0) += panel-samsung-s6e63m0.o
+>>> diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c b/drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c
+>>> new file mode 100644
+>>> index 000000000000..10bc8fb5f1f9
+>>> --- /dev/null
+>>> +++ b/drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c
+>>> @@ -0,0 +1,285 @@
+>>> +// SPDX-License-Identifier: GPL-2.0-only
+>>> +/*
+>>> + * Driver for the Samsung S6E3FA7 panel.
+>>> + *
+>>> + * Copyright (c) 2022-2024, The Linux Foundation. All rights reserved.
+>>
+>>
+>> Hi Richard,
+>>
+>> Not really sure about the copyright dates -- since this is a completely new
+>> file to this tree, wouldn't the year be just 2024?
+> 
+> That would be more concise, but the original driver was generated and
+> added to a kernel fork [1] in 2022 and amendments have been made since then.
+
+Ah, got it. Sounds good.
+
+In that case
+
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+
+Thanks,
+
+Jessica Zhang
+
+> 
+> [1] https://gitlab.com/sdm670-mainline/linux/-/blob/sdm670-v6.2.6/drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c?ref_type=tags
+> 
+>>
+>> The rest LGTM.
+>>
+>> Thanks,
+>>
+>> Jessica Zhang
+>>
+>>> + * Generated with linux-mdss-dsi-panel-driver-generator from vendor device tree:
+>>> + * Copyright (c) 2013, The Linux Foundation. All rights reserved.
+>>> + */ > +
+>>> +#include <linux/backlight.h>
+>>> +#include <linux/delay.h>
+>>> +#include <linux/gpio/consumer.h>
+>>> +#include <linux/module.h>
+>>> +#include <linux/of.h>
+>>> +
+>>> +#include <video/mipi_display.h>
+>>> +
+>>> +#include <drm/drm_mipi_dsi.h>
+>>> +#include <drm/drm_modes.h>
+>>> +#include <drm/drm_panel.h>
+>>> +
+>>> +struct s6e3fa7_panel {
+>>> +	struct drm_panel panel;
+>>> +	struct mipi_dsi_device *dsi;
+>>> +	struct gpio_desc *reset_gpio;
+>>> +};
+>>> +
+>>> +static inline struct s6e3fa7_panel *to_s6e3fa7_panel(struct drm_panel *panel)
+>>> +{
+>>> +	return container_of(panel, struct s6e3fa7_panel, panel);
+>>> +}
+>>> +
+>>> +static void s6e3fa7_panel_reset(struct s6e3fa7_panel *ctx)
+>>> +{
+>>> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+>>> +	usleep_range(1000, 2000);
+>>> +	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
+>>> +	usleep_range(10000, 11000);
+>>> +}
+>>> +
+>>> +static int s6e3fa7_panel_on(struct s6e3fa7_panel *ctx)
+>>> +{
+>>> +	struct mipi_dsi_device *dsi = ctx->dsi;
+>>> +	struct device *dev = &dsi->dev;
+>>> +	int ret;
+>>> +
+>>> +	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+>>> +	if (ret < 0) {
+>>> +		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
+>>> +		return ret;
+>>> +	}
+>>> +	msleep(120);
+>>> +
+>>> +	ret = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+>>> +	if (ret < 0) {
+>>> +		dev_err(dev, "Failed to set tear on: %d\n", ret);
+>>> +		return ret;
+>>> +	}
+>>> +
+>>> +	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
+>>> +	mipi_dsi_dcs_write_seq(dsi, 0xf4,
+>>> +			       0xbb, 0x23, 0x19, 0x3a, 0x9f, 0x0f, 0x09, 0xc0,
+>>> +			       0x00, 0xb4, 0x37, 0x70, 0x79, 0x69);
+>>> +	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
+>>> +	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x20);
+>>> +
+>>> +	ret = mipi_dsi_dcs_set_display_on(dsi);
+>>> +	if (ret < 0) {
+>>> +		dev_err(dev, "Failed to set display on: %d\n", ret);
+>>> +		return ret;
+>>> +	}
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +static int s6e3fa7_panel_prepare(struct drm_panel *panel)
+>>> +{
+>>> +	struct s6e3fa7_panel *ctx = to_s6e3fa7_panel(panel);
+>>> +	struct device *dev = &ctx->dsi->dev;
+>>> +	int ret;
+>>> +
+>>> +	s6e3fa7_panel_reset(ctx);
+>>> +
+>>> +	ret = s6e3fa7_panel_on(ctx);
+>>> +	if (ret < 0) {
+>>> +		dev_err(dev, "Failed to initialize panel: %d\n", ret);
+>>> +		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+>>> +		return ret;
+>>> +	}
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +static int s6e3fa7_panel_unprepare(struct drm_panel *panel)
+>>> +{
+>>> +	struct s6e3fa7_panel *ctx = to_s6e3fa7_panel(panel);
+>>> +
+>>> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +static int s6e3fa7_panel_disable(struct drm_panel *panel)
+>>> +{
+>>> +	struct s6e3fa7_panel *ctx = to_s6e3fa7_panel(panel);
+>>> +	struct mipi_dsi_device *dsi = ctx->dsi;
+>>> +	struct device *dev = &dsi->dev;
+>>> +	int ret;
+>>> +
+>>> +	ret = mipi_dsi_dcs_set_display_off(dsi);
+>>> +	if (ret < 0) {
+>>> +		dev_err(dev, "Failed to set display off: %d\n", ret);
+>>> +		return ret;
+>>> +	}
+>>> +
+>>> +	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+>>> +	if (ret < 0) {
+>>> +		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
+>>> +		return ret;
+>>> +	}
+>>> +	msleep(120);
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +static const struct drm_display_mode s6e3fa7_panel_mode = {
+>>> +	.clock = (1080 + 32 + 32 + 78) * (2220 + 32 + 4 + 78) * 60 / 1000,
+>>> +	.hdisplay = 1080,
+>>> +	.hsync_start = 1080 + 32,
+>>> +	.hsync_end = 1080 + 32 + 32,
+>>> +	.htotal = 1080 + 32 + 32 + 78,
+>>> +	.vdisplay = 2220,
+>>> +	.vsync_start = 2220 + 32,
+>>> +	.vsync_end = 2220 + 32 + 4,
+>>> +	.vtotal = 2220 + 32 + 4 + 78,
+>>> +	.width_mm = 62,
+>>> +	.height_mm = 127,
+>>> +};
+>>> +
+>>> +static int s6e3fa7_panel_get_modes(struct drm_panel *panel,
+>>> +				 struct drm_connector *connector)
+>>> +{
+>>> +	struct drm_display_mode *mode;
+>>> +
+>>> +	mode = drm_mode_duplicate(connector->dev, &s6e3fa7_panel_mode);
+>>> +	if (!mode)
+>>> +		return -ENOMEM;
+>>> +
+>>> +	drm_mode_set_name(mode);
+>>> +
+>>> +	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+>>> +	connector->display_info.width_mm = mode->width_mm;
+>>> +	connector->display_info.height_mm = mode->height_mm;
+>>> +	drm_mode_probed_add(connector, mode);
+>>> +
+>>> +	return 1;
+>>> +}
+>>> +
+>>> +static const struct drm_panel_funcs s6e3fa7_panel_funcs = {
+>>> +	.prepare = s6e3fa7_panel_prepare,
+>>> +	.unprepare = s6e3fa7_panel_unprepare,
+>>> +	.disable = s6e3fa7_panel_disable,
+>>> +	.get_modes = s6e3fa7_panel_get_modes,
+>>> +};
+>>> +
+>>> +static int s6e3fa7_panel_bl_update_status(struct backlight_device *bl)
+>>> +{
+>>> +	struct mipi_dsi_device *dsi = bl_get_data(bl);
+>>> +	u16 brightness = backlight_get_brightness(bl);
+>>> +	int ret;
+>>> +
+>>> +	ret = mipi_dsi_dcs_set_display_brightness_large(dsi, brightness);
+>>> +	if (ret < 0)
+>>> +		return ret;
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +static int s6e3fa7_panel_bl_get_brightness(struct backlight_device *bl)
+>>> +{
+>>> +	struct mipi_dsi_device *dsi = bl_get_data(bl);
+>>> +	u16 brightness;
+>>> +	int ret;
+>>> +
+>>> +	ret = mipi_dsi_dcs_get_display_brightness_large(dsi, &brightness);
+>>> +	if (ret < 0)
+>>> +		return ret;
+>>> +
+>>> +	return brightness;
+>>> +}
+>>> +
+>>> +static const struct backlight_ops s6e3fa7_panel_bl_ops = {
+>>> +	.update_status = s6e3fa7_panel_bl_update_status,
+>>> +	.get_brightness = s6e3fa7_panel_bl_get_brightness,
+>>> +};
+>>> +
+>>> +static struct backlight_device *
+>>> +s6e3fa7_panel_create_backlight(struct mipi_dsi_device *dsi)
+>>> +{
+>>> +	struct device *dev = &dsi->dev;
+>>> +	const struct backlight_properties props = {
+>>> +		.type = BACKLIGHT_RAW,
+>>> +		.brightness = 1023,
+>>> +		.max_brightness = 1023,
+>>> +	};
+>>> +
+>>> +	return devm_backlight_device_register(dev, dev_name(dev), dev, dsi,
+>>> +					      &s6e3fa7_panel_bl_ops, &props);
+>>> +}
+>>> +
+>>> +static int s6e3fa7_panel_probe(struct mipi_dsi_device *dsi)
+>>> +{
+>>> +	struct device *dev = &dsi->dev;
+>>> +	struct s6e3fa7_panel *ctx;
+>>> +	int ret;
+>>> +
+>>> +	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+>>> +	if (!ctx)
+>>> +		return -ENOMEM;
+>>> +
+>>> +	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+>>> +	if (IS_ERR(ctx->reset_gpio))
+>>> +		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
+>>> +				     "Failed to get reset-gpios\n");
+>>> +
+>>> +	ctx->dsi = dsi;
+>>> +	mipi_dsi_set_drvdata(dsi, ctx);
+>>> +
+>>> +	dsi->lanes = 4;
+>>> +	dsi->format = MIPI_DSI_FMT_RGB888;
+>>> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_BURST |
+>>> +			  MIPI_DSI_CLOCK_NON_CONTINUOUS | MIPI_DSI_MODE_LPM;
+>>> +
+>>> +	drm_panel_init(&ctx->panel, dev, &s6e3fa7_panel_funcs,
+>>> +		       DRM_MODE_CONNECTOR_DSI);
+>>> +	ctx->panel.prepare_prev_first = true;
+>>> +
+>>> +	ctx->panel.backlight = s6e3fa7_panel_create_backlight(dsi);
+>>> +	if (IS_ERR(ctx->panel.backlight))
+>>> +		return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
+>>> +				     "Failed to create backlight\n");
+>>> +
+>>> +	drm_panel_add(&ctx->panel);
+>>> +
+>>> +	ret = mipi_dsi_attach(dsi);
+>>> +	if (ret < 0) {
+>>> +		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
+>>> +		drm_panel_remove(&ctx->panel);
+>>> +		return ret;
+>>> +	}
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +static void s6e3fa7_panel_remove(struct mipi_dsi_device *dsi)
+>>> +{
+>>> +	struct s6e3fa7_panel *ctx = mipi_dsi_get_drvdata(dsi);
+>>> +	int ret;
+>>> +
+>>> +	ret = mipi_dsi_detach(dsi);
+>>> +	if (ret < 0)
+>>> +		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
+>>> +
+>>> +	drm_panel_remove(&ctx->panel);
+>>> +}
+>>> +
+>>> +static const struct of_device_id s6e3fa7_panel_of_match[] = {
+>>> +	{ .compatible = "samsung,s6e3fa7-ams559nk06" },
+>>> +	{ /* sentinel */ }
+>>> +};
+>>> +MODULE_DEVICE_TABLE(of, s6e3fa7_panel_of_match);
+>>> +
+>>> +static struct mipi_dsi_driver s6e3fa7_panel_driver = {
+>>> +	.probe = s6e3fa7_panel_probe,
+>>> +	.remove = s6e3fa7_panel_remove,
+>>> +	.driver = {
+>>> +		.name = "panel-samsung-s6e3fa7",
+>>> +		.of_match_table = s6e3fa7_panel_of_match,
+>>> +	},
+>>> +};
+>>> +module_mipi_dsi_driver(s6e3fa7_panel_driver);
+>>> +
+>>> +MODULE_AUTHOR("Richard Acayan <mailingradian@gmail.com>");
+>>> +MODULE_DESCRIPTION("DRM driver for Samsung S6E3FA7 command mode DSI panel");
+>>> +MODULE_LICENSE("GPL");
+>>> -- 
+>>> 2.43.0
+>>>
+>>>
+> 
