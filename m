@@ -2,79 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5546E86B310
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 16:25:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A888786B317
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 16:25:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B82E10E67A;
-	Wed, 28 Feb 2024 15:24:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A909410E698;
+	Wed, 28 Feb 2024 15:25:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BvQzL5bC";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WYDeFpMt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0900210E67A
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 15:24:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1709133895;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=t335GacvZZWB9ZO5aGOP1T/vlOmDu6s2tX+hVADPKvE=;
- b=BvQzL5bCCRUgX/5GKRvMZ4ti7zodUpzKUjkib0AutHwwUmQteSeiAZxy1DBg8EO3eT6tPY
- 1X/j+Wf4tp5R6Jpb26uKWgWQBJYOb0Cl6fRt4yajMlJZ25wShnipWaFCecNhOfps/3HtOI
- f9pvxdd0LThKq+ULuU0prj+ADZG4PNM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-257-reKdaKVOPl2vJKy3iYnjHw-1; Wed, 28 Feb 2024 10:24:54 -0500
-X-MC-Unique: reKdaKVOPl2vJKy3iYnjHw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-33d7fcb70c2so457367f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 07:24:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709133893; x=1709738693;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=t335GacvZZWB9ZO5aGOP1T/vlOmDu6s2tX+hVADPKvE=;
- b=n6WncuDoGG909C3oiJoolIYOXuMAz+vGMOhOEHZwdVImg1Y/KPzA9uF0kyyUkFzyIM
- 60XwszuT4VstIUYyY5yonLEvY6WTD2ovfRdZ98AQgoDS5kXPojT5lrJFdY9NfknV8nZz
- KMeJ01HLc5SfJlUEd0SZgoqLeH2xTj5gMbP7ehVVtIhzmBBAvfZxkjnikNc7I6vYBsHd
- IIHoe4Rl5y/d9cXCmY5v4IuSLavXgUIg5g7xVIkgszRLHoDhZ1LWf4NoFhog0QZyU73q
- vqpuOHl3tmjJOIqaXav2X5dQaazoAB3ydaSczva079I1J+UpZQu3tuyduuSoMTOHEz3e
- IOQw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUMIwS3U0offXPKciIRtA/IHTQ+9gA8ahLVV4EWR8dTNNaMifTuru+5sXJCgHK+p0sT1mhoItHDompIOGpfYzyG/Geb+4+O6zw7Tx7fgmlz
-X-Gm-Message-State: AOJu0YyJBzDBGDWpssHaFJ7I/eueyfVivMzf34izHgUZeFWrpvHya6R+
- jb867Zvdf4hfM566xkwdz9H+tH5ReV2tLidrZ5oyJPFpoEupFoN3oKXLjigzrjF9gljvjaxRWtV
- rmd4/2U+NXL3CKzl9RzadjJQvB2grR5P6fnMvDSB4Nxje1ExNhmgLDIwZcuycBunPhA==
-X-Received: by 2002:a5d:4051:0:b0:33d:754c:8daf with SMTP id
- w17-20020a5d4051000000b0033d754c8dafmr2616986wrp.10.1709133893053; 
- Wed, 28 Feb 2024 07:24:53 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGz4TYBPMDPkjBGoQZEc2FYZsGCfoARLYG/DpULb7Um4sgHyz+8OZKvQUvexwWeQKigI601uw==
-X-Received: by 2002:a5d:4051:0:b0:33d:754c:8daf with SMTP id
- w17-20020a5d4051000000b0033d754c8dafmr2616967wrp.10.1709133892665; 
- Wed, 28 Feb 2024 07:24:52 -0800 (PST)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
- by smtp.gmail.com with ESMTPSA id
- o9-20020a5d4a89000000b0033df1dc39f0sm5116060wrq.4.2024.02.28.07.23.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Feb 2024 07:24:05 -0800 (PST)
-Date: Wed, 28 Feb 2024 16:23:05 +0100
-From: Maxime Ripard <mripard@redhat.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org
-Subject: ECC memory semantics for heaps
-Message-ID: <20240228-nifty-flashy-shrew-905edc@houat>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8C2A10E698;
+ Wed, 28 Feb 2024 15:25:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709133937; x=1740669937;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=pXQpmtipgtjBO4sYkFOxboXA1pY/k2kWg4CRTcJLzec=;
+ b=WYDeFpMtVHvRdrHmBvxdmu/RZ20TfEcYEI41WOqHUKqNj2Hd8Y3zc5w0
+ jOTPP/prm0pIXzx1q0YQso0oWKqSIM8lTRXWjOooH+cC7oi6zsmMwuqSb
+ aUbGUHomYKpxmie251G2if347Cw2CL0qo39QG/BPMIn9rylfy8WU780Q1
+ b1fY+D128q8oShwiM9Zo4ZLz17UPETSV8jwo0NbR1bDjQ59c6uNmJkIXO
+ X0HhyMt/3fRkTQODGgY+xgVoc1JifLAoGLw9BbFxlpyyXvL1LUOq+99PW
+ Wkz25yeDtBchTfPDQz5pqT/h/5Q6k99Aiw9Yv71eZujaxTuJmCIUNHv/H g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="4110851"
+X-IronPort-AV: E=Sophos;i="6.06,190,1705392000"; 
+   d="scan'208";a="4110851"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2024 07:25:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,190,1705392000"; 
+   d="scan'208";a="8031763"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.213.24.19])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2024 07:25:33 -0800
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: Jani Nikula <jani.nikula@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
+ Andi Shyti <andi.shyti@kernel.org>, Nirmoy Das <nirmoy.das@intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Subject: [PATCH] drm/i915/selftest_hangcheck: Check sanity with more patience
+Date: Wed, 28 Feb 2024 16:24:41 +0100
+Message-ID: <20240228152500.38267-2-janusz.krzysztofik@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="uqpcltwn5uxrumgj"
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,54 +69,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+While trying to reproduce some other issues reported by CI for i915
+hangcheck live selftest, I found them hidden behind timeout failures
+reported by igt_hang_sanitycheck -- the very first hangcheck test case
+executed.
 
---uqpcltwn5uxrumgj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Feb 22 19:49:06 DUT1394ACMR kernel: calling  mei_gsc_driver_init+0x0/0xff0 [mei_gsc] @ 121074
+Feb 22 19:49:06 DUT1394ACMR kernel: i915 0000:03:00.0: [drm] DRM_I915_DEBUG enabled
+Feb 22 19:49:06 DUT1394ACMR kernel: i915 0000:03:00.0: [drm] Cannot find any crtc or sizes
+Feb 22 19:49:06 DUT1394ACMR kernel: probe of i915.mei-gsc.768 returned 0 after 1475 usecs
+Feb 22 19:49:06 DUT1394ACMR kernel: probe of i915.mei-gscfi.768 returned 0 after 1441 usecs
+Feb 22 19:49:06 DUT1394ACMR kernel: initcall mei_gsc_driver_init+0x0/0xff0 [mei_gsc] returned 0 after 3010 usecs
+Feb 22 19:49:06 DUT1394ACMR kernel: i915 0000:03:00.0: [drm] DRM_I915_DEBUG_GEM enabled
+Feb 22 19:49:06 DUT1394ACMR kernel: i915 0000:03:00.0: [drm] DRM_I915_DEBUG_RUNTIME_PM enabled
+Feb 22 19:49:06 DUT1394ACMR kernel: i915: Performing live selftests with st_random_seed=0x4c26c048 st_timeout=500
+Feb 22 19:49:07 DUT1394ACMR kernel: i915: Running hangcheck
+Feb 22 19:49:07 DUT1394ACMR kernel: calling  mei_hdcp_driver_init+0x0/0xff0 [mei_hdcp] @ 121074
+Feb 22 19:49:07 DUT1394ACMR kernel: i915: Running intel_hangcheck_live_selftests/igt_hang_sanitycheck
+Feb 22 19:49:07 DUT1394ACMR kernel: probe of 0000:00:16.0-b638ab7e-94e2-4ea2-a552-d1c54b627f04 returned 0 after 1398 usecs
+Feb 22 19:49:07 DUT1394ACMR kernel: probe of i915.mei-gsc.768-b638ab7e-94e2-4ea2-a552-d1c54b627f04 returned 0 after 97 usecs
+Feb 22 19:49:07 DUT1394ACMR kernel: initcall mei_hdcp_driver_init+0x0/0xff0 [mei_hdcp] returned 0 after 101960 usecs
+Feb 22 19:49:07 DUT1394ACMR kernel: calling  mei_pxp_driver_init+0x0/0xff0 [mei_pxp] @ 121094
+Feb 22 19:49:07 DUT1394ACMR kernel: probe of 0000:00:16.0-fbf6fcf1-96cf-4e2e-a6a6-1bab8cbe36b1 returned 0 after 435 usecs
+Feb 22 19:49:07 DUT1394ACMR kernel: mei_pxp i915.mei-gsc.768-fbf6fcf1-96cf-4e2e-a6a6-1bab8cbe36b1: bound 0000:03:00.0 (ops i915_pxp_tee_component_ops [i915])
+Feb 22 19:49:07 DUT1394ACMR kernel: 100ms wait for request failed on rcs0, err=-62
+Feb 22 19:49:07 DUT1394ACMR kernel: probe of i915.mei-gsc.768-fbf6fcf1-96cf-4e2e-a6a6-1bab8cbe36b1 returned 0 after 158425 usecs
+Feb 22 19:49:07 DUT1394ACMR kernel: initcall mei_pxp_driver_init+0x0/0xff0 [mei_pxp] returned 0 after 224159 usecs
+Feb 22 19:49:07 DUT1394ACMR kernel: i915/intel_hangcheck_live_selftests: igt_hang_sanitycheck failed with error -5
+Feb 22 19:49:07 DUT1394ACMR kernel: i915: probe of 0000:03:00.0 failed with error -5
 
-Hi,
+Those request waits, once timed out after 100ms, have never been
+confirmed to still persist over another 100ms, always being able to
+complete within the originally requested wait time doubled.
 
-I'm currently working on a platform that seems to have togglable RAM ECC
-support. Enabling ECC reduces the memory capacity and memory bandwidth,
-so while it's a good idea to protect most of the system, it's not worth
-it for things like framebuffers that won't really be affected by a
-bitflip.
+Taking into account potentially significant additional concurrent workload
+generated by new auxiliary drivers that didn't exist before and now are
+loaded in parallel with the i915 module also when loaded in selftest mode,
+relax our expectations on time consumed by the sanity check request before
+it completes.
 
-It's currently setup by enabling ECC on the entire memory, and then
-having a region of memory where ECC is disabled and where we're supposed
-to allocate from for allocations that don't need it.
+Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-My first thought to support this was to create a reserved memory region
-for the !ECC memory, and to create a heap to allocate buffers from that
-region. That would leave the system protected by ECC, while enabling
-userspace to be nicer to the system by allocating buffers from the !ECC
-region if it doesn't need it.
-
-However, this creates basically a new combination compared to the one we
-already have (ie, physically contiguous vs virtually contiguous), and we
-probably would want to throw in cacheable vs non-cacheable too.
-
-If we had to provide new heaps for each variation, we would have 8 heaps
-(and 6 new ones), which could be fine I guess but would still increase
-quite a lot the number of heaps we have so far.
-
-Is it something that would be a problem? If it is, do you see another
-way to support those kind of allocations (like providing hints through
-the ioctl maybe?)?
-
-Thanks!
-Maxime
-
---uqpcltwn5uxrumgj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZd9P2AAKCRDj7w1vZxhR
-xcseAQDNXhfizqmm5H2uN2EY4Je+TYwTRgFflpibGSH+mgadZQEA/ztn8Tq2H8na
-rgGnZua3Ci5jMoTbhctf8Hh0oDZuOw4=
-=pw5E
------END PGP SIGNATURE-----
-
---uqpcltwn5uxrumgj--
+diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+index 0dd4d00ee894e..9ce8ff1c04fe5 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
++++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+@@ -319,7 +319,7 @@ static int igt_hang_sanitycheck(void *arg)
+ 		i915_request_add(rq);
+ 
+ 		timeout = 0;
+-		intel_wedge_on_timeout(&w, gt, HZ / 10 /* 100ms */)
++		intel_wedge_on_timeout(&w, gt, HZ / 5 /* 200ms */)
+ 			timeout = i915_request_wait(rq, 0,
+ 						    MAX_SCHEDULE_TIMEOUT);
+ 		if (intel_gt_is_wedged(gt))
+-- 
+2.43.0
 
