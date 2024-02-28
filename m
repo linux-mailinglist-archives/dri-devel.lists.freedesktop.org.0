@@ -2,50 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3E2786A86A
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 07:37:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C80A86A87E
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 07:46:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03E0410E4C8;
-	Wed, 28 Feb 2024 06:37:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86F9310E51C;
+	Wed, 28 Feb 2024 06:46:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=atomide.com header.i=@atomide.com header.b="dKSl2fuv";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="qo+3eXH8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail5.25mail.st (mail5.25mail.st [74.50.62.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B8C710E4C8
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 06:37:31 +0000 (UTC)
-Received: from localhost (91-158-86-216.elisa-laajakaista.fi [91.158.86.216])
- by mail5.25mail.st (Postfix) with ESMTPSA id A43E5603C6;
- Wed, 28 Feb 2024 06:37:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=atomide.com;
- s=25mailst; t=1709102250;
- bh=Dq/9EYGpTQVaxDhJFiMnpFF7+26h119JJHSyGwcavBw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dKSl2fuvEno5WCAAW9Z7OtUkalqREZVqfQhXjwh7Y3F0HhSQllL1DbCKca9FX/6vx
- PEmt0n6D8y09sY+QorHH4lpes3Lb8+3JCfP3zWVv3M+n4GcoH+jsdQQBusy7ot6Nak
- O2A0Yos5gtUEbIZYo1dZuOpUe7hwKhMBrPCIkPoTB7kCPYR9Wx3L7sQf55etqtTDQA
- 4uko9njCszGEXIf2LMqaVBWL5VtVhsyIbeUXmauU1gbINTYZDXGEglm80FEW79PQ5U
- QHVbzMDUtqTY7tIW/cvMbL5VkkTBq9HxhcwDqNKLdHH1NDvXUZfb5z8TKIzcfuE3ve
- 6ls6wCWlaBF9A==
-From: Tony Lindgren <tony@atomide.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2087.outbound.protection.outlook.com [40.107.101.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FCC210E51C;
+ Wed, 28 Feb 2024 06:46:49 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I6UgaGQdKKb0RN1/+JHDc/BReMwJcuH1huipLPMOu7hYAs7D2PaUx/8mqHb8BfOaRCqIpdmFXl4jUZO2dqsKw9LXbh1W213n63zm1KT6DGLYHgUCwZU0A3W2x0h5WKRj1LP710wvhFWhBUNZNMNdz+UQm+RimlHguXCv3VFM2xliZPAC2e85DdXtYd46x/vLSUhPkiDdwwwmf5ZUPFnUkDDa3j+fM8AC+zeQGxZTrU6Z9pnbrq+RKrwRJMHwL9hw8KdGxfc67mbX99KZI362nw2yfRkovk6EDo2btl0fi7LDmNeZA1fRHSIAecDaxAUGcRsvrBc7q7/fy1oA8pvaYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uDGS+TH2M/YhbrqkS/M58yCqKOQLGM4eFkFgNqWsAJ4=;
+ b=ESTjqErM2qgZZFknINyndt44GrRahdhA3C/1d1LmHepkyQhB2pGkktUclb7/7wpZr5/z3qMYNDBh3etXT3GYRTuR6gQXpOmnHdQj+askadoShSLDKTPsD2T69Y7reM7n2fTujo8l9zUP4y8ToHs18DOaxRYWhysC29kz7muZEJpPRp5vT5S62Juwdby6bX/BDTqM8mo0FyVIiTV93uATroN/RkkMNqGjVLcZAs4lklOVKMRUqAglNwRvN3J775NJUt1oijVN4oNTP/h36kD7Yx91hMfqNPW5rm6OpGTd2PxWplBd8kTa3MO3cmsm254HudQlJsecBweaEF1JKyKgCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uDGS+TH2M/YhbrqkS/M58yCqKOQLGM4eFkFgNqWsAJ4=;
+ b=qo+3eXH8qZBToddBd0tM5ZmRg0k/32aeq/Qo4foqg4f0R3rZnjtYMS93fErrY8GIxB2lfN17rxq6gH4Zi/jB0Ti9Bqv+7e9faBBAaxn6NkPwAbzaQZJeE8lfI9I+bq6ui+9Y24Sk72vAUstzQGbAvU3zHIFeFVFO+SHN3milMkQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SJ1PR12MB6028.namprd12.prod.outlook.com (2603:10b6:a03:489::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.24; Wed, 28 Feb
+ 2024 06:46:47 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7316.031; Wed, 28 Feb 2024
+ 06:46:47 +0000
+Message-ID: <562e35a8-b0fd-441b-a1cf-a786461a8fb6@amd.com>
+Date: Wed, 28 Feb 2024 07:46:42 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/i915/ttm: Fix TTM_PL_FLAG_DESIRED
+Content-Language: en-US
+To: Ville Syrjala <ville.syrjala@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org
-Subject: [PATCH v3 2/2] drm/omapdrm: Fix console with deferred ops
-Date: Wed, 28 Feb 2024 08:35:32 +0200
-Message-ID: <20240228063540.4444-3-tony@atomide.com>
-X-Mailer: git-send-email 2.43.1
-In-Reply-To: <20240228063540.4444-1-tony@atomide.com>
-References: <20240228063540.4444-1-tony@atomide.com>
-MIME-Version: 1.0
+ Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+ Zack Rusin <zack.rusin@broadcom.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>
+References: <20240227202645.20111-1-ville.syrjala@linux.intel.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20240227202645.20111-1-ville.syrjala@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0052.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:4a::23) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ1PR12MB6028:EE_
+X-MS-Office365-Filtering-Correlation-Id: 84df102e-d27b-461f-acdf-08dc3829088e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: eGo+GYpXlYVBVdGVyBAfcVY8ENByt9oYfGvI4yGmo+03pVLwE+BEWyYSt2jLbgQNsA2CWCjiroetaWd1S9xnotWhycIc2msHjVMhyGNuTRf04XAPc8QD7NT0LD35ZMjfvyJ/V891HMRY25GAXviiVpATgJJ6hyDRny4E3yfxIN/YEYBlBS7cjn3OfB1Rwro4ocKvVVO+Mb/o7O70/MlJYGnBnyItqX3GKMR7HJiN5fOvUkBs/pxo6pNX8BP615aKmTTohpb8K5MfyXturNPlO7089Fc4QHASxLdP3YLf34qQPCGIPiRcYjveCDZcgVtwVG21hGY2dZMgt1Wu6MTUVzsmL6P0V4rac0JVIv/ppd01DtQEfb0JBrbe2ukodrIilkiFtiNstIOD7SFgVMrunHMraKRCdUaAUgwhDv6TUGUkhsAcLBu8MvtbXVXBn7CddECKH8wJL39HCGkxtw3yRDTppPfV4hCLAd6mIitnPnxOfZq+BRdqlhu8iTKaVgkQd5CxCUZ82HYQMQ3FR0IujKNdfX88DXXSM6yEXOp+uJBDQlsAbCOPCWrjmCcRQfFp2pqX3Peg/scgrdnqFdEgI0TcOmLV1euMmnhcjHuxiFWGT1GE19DCcontijsDF3ZgbBNdxkwaSrLBvjw8EEn78WyD9UeUnjD+QQswYtc5PNg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(230273577357003); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SWtDMXRTOEkvSWJ2V2xTQ3UzVTVnSXF2cFBGdnl4VmlibzlXMGE2MVk3NU14?=
+ =?utf-8?B?dzgrUjVkVXg3YXdqSlJEbk1oemlCK1Bvb2xwb0RqUWx4NmtEVTkvYVdxb1F2?=
+ =?utf-8?B?SVVmb2d0MFYvcXdiU2NrOVZ4Q202MUsyaVRtVWxqdi9UR1QvN3N3aDcwOCs2?=
+ =?utf-8?B?N0lvdTVRUmhJZFk1b3BnQWFLdERxU0drVTlFZndmd1huMHo0ZExNSXFaell6?=
+ =?utf-8?B?bXZsYTJKL0xLclFLR2VpT3Fqd1VoSktwbzMxMWxlWXJreG1MN0ZGTmsrRElV?=
+ =?utf-8?B?cldORmtSSDNMaXlHYzlOMUVlOGJuQUNGL2cwcE4wNlpZeVFObk91b3ExZmll?=
+ =?utf-8?B?cjBNbEl4ejV3NytKVlJkRVU4MlVSeDJLTW9LOFRJM1dralVweFI4MnNZQlB4?=
+ =?utf-8?B?UG9pajJpc1V5SThqazJ5Nk9mdEJ0VFhleGlzazJmQUYwbGE1Q3d6bnZXTy8x?=
+ =?utf-8?B?RW1lWjR1OVdDbWI1R3ZHcG16Y2NNK3daWDdmbTdlKzNQZmFwK1h0Z0dMb1RM?=
+ =?utf-8?B?ZmlpeWgwUkRlWTdqeTlHMTBLbVozVU5SRFhSSUcxTzQ4V01TMGU2L2orOVc5?=
+ =?utf-8?B?b21XTEVDaURpaG9idXhhNlEzMHR5enN3QU5kMDBMcFRlbk0zdVV0YjIxNXpj?=
+ =?utf-8?B?S0VacWM1enh4ekRJV1N0VnJjMjM4NHRUcVZNZTNRTENhWE4rUUJoQ1M1aVBr?=
+ =?utf-8?B?Rnd0dkJ1dVE2ZEkySEFGZi80SnE0b3JaSVNBN2NDVmkrS0dEOW1xdTdBc0Fo?=
+ =?utf-8?B?RnBPL0dVbDlGdXFlUS9mWG8rQzY3UFJMeG1DQjR1d1Y4SzY2dHJ6dkJZRUpQ?=
+ =?utf-8?B?U1FIT291cHJrV3lCWGU0L1ptSnByeHF6TStrVzZBc2lseU5CMEpaU1lRVW4v?=
+ =?utf-8?B?WWRYaklwZk01TUROalRQRzhyMVpyaE1yNXQ0MHlMN2V1WE9ZT3ZIRkc5Uitt?=
+ =?utf-8?B?ZmNQbEdQbWJqWjFSSHg2bUJBdjN5bVZZd0JoU0ZPbUV1NllyaldVd0xvclph?=
+ =?utf-8?B?RnFrei9BTXNwYkxNT0tKRHVpSDEyTnFsRHN2a3R3bURuMit4K3RHU25QRjEr?=
+ =?utf-8?B?RUIvLy8wdDFPTkM0MEIxcWFPcnpNOHZUbXFYRjJ4LzI2QXljR3lGRUJ4QXZj?=
+ =?utf-8?B?OHB6UlBrUGJxeXF2aDkzVmhvbndRdW15WHFXQUVWVVJyYlV5ejJSSXY3WkEz?=
+ =?utf-8?B?NHdhYjQ2b0xDMnJTM0FTcHdDbkFlQ1Ayd3NVVnVFZXl0SzNFbXJOK09MVndP?=
+ =?utf-8?B?b0lGNitITnBxNEJCNVhJVk5CZENwS1BDS3JocUR2Mi8zNk5IZHZrUWd6VVQ1?=
+ =?utf-8?B?ZGk0QXIwMDJDYkp4OWFaOVNyQ0prYkIyWEN1djBtczFjUU01cEdaVjVpL0xx?=
+ =?utf-8?B?MnVxWGpwVm5vUHlBMWk4WHdhRC84SnZIQll6OUJGakc4ZW1tWkpYK2pUQ0NR?=
+ =?utf-8?B?WXl6U04wblN2ZjdJODFnR1lVQXdqTXBJVXZpTHg4eklUQjlVMXJpeW4rSmQz?=
+ =?utf-8?B?cVNaQnVHZTFuVFVrQTU1cHEyT3U4djdJMjFkTjQzcHFjQ0xxL3NMaWlPVnBv?=
+ =?utf-8?B?YkVmcmt1ekp4dCtUcG14aUhGLzlEcXFjSW1kZWJNWFJpMU5KRXBXNEhkbnRs?=
+ =?utf-8?B?djRwaW1EQjViL2d2MjY5WEx4Vm15K3lOcGFmbGZVYkcxc0lzOGxwUkl0aEpO?=
+ =?utf-8?B?M2s0RnA3WUhpZENNZ2loVWY1d2N4N0grRklsbGFqdnQxcCt0b3psOUxmbTdI?=
+ =?utf-8?B?bjZTanRMQnJBcHR1MUNBM3kvOTlQLzBmbkkvaFJDK3Y2NExDZVNmK3FJVkwy?=
+ =?utf-8?B?SVhEaGMwNDZwRm9KUHVNNnBZVEpDUys0a3pCSUsydDN2c01jeXA3TFJGZ3Rt?=
+ =?utf-8?B?d0oweHpnbnFmb1VrY3NkOXFiblNtZmtqU3BIdGcrZy91dG1TcmV5WERRTStN?=
+ =?utf-8?B?NlVoVTBDTjlJcGt5ZWx2ZUhHbVdaM05qQllwbEtSVDlHK045V3BCMVpHQlFF?=
+ =?utf-8?B?a0NUSHRScWNreWRnNjNoOEZYYmdOcmNWYkUrSkpLS01IR01zMlQvc0FUSU10?=
+ =?utf-8?B?Y0RZVkpHZjlCcTB4emRHaDcvS2lXNHJ0a21IU3RSRTB3VXJLaEJuNlRJQUZY?=
+ =?utf-8?Q?VKZE=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 84df102e-d27b-461f-acdf-08dc3829088e
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2024 06:46:46.9480 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Oq4QO8jpXRaPYUd8DcB+c0fcRqmGklVXveKvFgIamXXZThe5rIiTOmS03dnnchW+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6028
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,142 +134,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 95da53d63dcf ("drm/omapdrm: Use regular fbdev I/O helpers")
-stopped console from updating for command mode displays because there is
-no damage handling in fb_sys_write() unlike we had earlier in
-drm_fb_helper_sys_write().
+Am 27.02.24 um 21:26 schrieb Ville Syrjala:
+> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+>
+> inlined from ‘i915_ttm_get_pages’ at ../drivers/gpu/drm/i915/gem/i915_gem_ttm.c:847:2:
+> ../drivers/gpu/drm/i915/gem/i915_gem_ttm.c:165:18: warning: ‘places[0].flags’ is used uninitialized [-Wuninitialized]
+>    165 |         places[0].flags |= TTM_PL_FLAG_DESIRED;
+>        |         ~~~~~~~~~^~~~~~
+> ../drivers/gpu/drm/i915/gem/i915_gem_ttm.c: In function ‘i915_ttm_get_pages’:
+> ../drivers/gpu/drm/i915/gem/i915_gem_ttm.c:837:26: note: ‘places’ declared here
+>    837 |         struct ttm_place places[I915_TTM_MAX_PLACEMENTS + 1];
+>        |                          ^~~~~~
+>
+> Furhermore we then proceed to call i915_ttm_place_from_region() which
+> memset()s the whole thing back to zero anyway. So in the end we lose
+> the TTM_PL_FLAG_DESIRED flag (and fortunately also whatever else stack
+> garbage happened to be in the flags at this point).
+>
+> No idea what functional changes this will result in...
 
-Let's fix the issue by adding FB_GEN_DEFAULT_DEFERRED_DMAMEM_OPS and
-FB_DMAMEM_HELPERS_DEFERRED as suggested by Thomas. We cannot use the
-FB_DEFAULT_DEFERRED_OPS as fb_deferred_io_mmap() won't work properly
-for write-combine.
+I've already send out the same patch yesterday. Please review that one.
 
-Fixes: 95da53d63dcf ("drm/omapdrm: Use regular fbdev I/O helpers")
-Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Tony Lindgren <tony@atomide.com>
----
- drivers/gpu/drm/omapdrm/Kconfig      |  2 +-
- drivers/gpu/drm/omapdrm/omap_fbdev.c | 28 ++++++++++++++++++++++------
- drivers/video/fbdev/core/Kconfig     |  6 ++++++
- include/linux/fb.h                   |  4 ++++
- 4 files changed, 33 insertions(+), 7 deletions(-)
+Sorry for the noise, didn't realized that i915_ttm_place_from_region() 
+was initializing the flags and not the caller while converting this.
 
-diff --git a/drivers/gpu/drm/omapdrm/Kconfig b/drivers/gpu/drm/omapdrm/Kconfig
---- a/drivers/gpu/drm/omapdrm/Kconfig
-+++ b/drivers/gpu/drm/omapdrm/Kconfig
-@@ -4,7 +4,7 @@ config DRM_OMAP
- 	depends on DRM && OF
- 	depends on ARCH_OMAP2PLUS
- 	select DRM_KMS_HELPER
--	select FB_DMAMEM_HELPERS if DRM_FBDEV_EMULATION
-+	select FB_DMAMEM_HELPERS_DEFERRED if DRM_FBDEV_EMULATION
- 	select VIDEOMODE_HELPERS
- 	select HDMI
- 	default n
-diff --git a/drivers/gpu/drm/omapdrm/omap_fbdev.c b/drivers/gpu/drm/omapdrm/omap_fbdev.c
---- a/drivers/gpu/drm/omapdrm/omap_fbdev.c
-+++ b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-@@ -51,6 +51,10 @@ static void pan_worker(struct work_struct *work)
- 	omap_gem_roll(bo, fbi->var.yoffset * npages);
- }
- 
-+FB_GEN_DEFAULT_DEFERRED_DMAMEM_OPS(omap_fbdev,
-+				   drm_fb_helper_damage_range,
-+				   drm_fb_helper_damage_area)
-+
- static int omap_fbdev_pan_display(struct fb_var_screeninfo *var,
- 		struct fb_info *fbi)
- {
-@@ -78,11 +82,9 @@ static int omap_fbdev_pan_display(struct fb_var_screeninfo *var,
- 
- static int omap_fbdev_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
- {
--	struct drm_fb_helper *helper = info->par;
--	struct drm_framebuffer *fb = helper->fb;
--	struct drm_gem_object *bo = drm_gem_fb_get_obj(fb, 0);
-+	vma->vm_page_prot = pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
- 
--	return drm_gem_mmap_obj(bo, omap_gem_mmap_size(bo), vma);
-+	return fb_deferred_io_mmap(info, vma);
- }
- 
- static void omap_fbdev_fb_destroy(struct fb_info *info)
-@@ -94,6 +96,7 @@ static void omap_fbdev_fb_destroy(struct fb_info *info)
- 
- 	DBG();
- 
-+	fb_deferred_io_cleanup(info);
- 	drm_fb_helper_fini(helper);
- 
- 	omap_gem_unpin(bo);
-@@ -104,15 +107,19 @@ static void omap_fbdev_fb_destroy(struct fb_info *info)
- 	kfree(fbdev);
- }
- 
-+/*
-+ * For now, we cannot use FB_DEFAULT_DEFERRED_OPS and fb_deferred_io_mmap()
-+ * because we use write-combine.
-+ */
- static const struct fb_ops omap_fb_ops = {
- 	.owner = THIS_MODULE,
--	__FB_DEFAULT_DMAMEM_OPS_RDWR,
-+	__FB_DEFAULT_DEFERRED_OPS_RDWR(omap_fbdev),
- 	.fb_check_var	= drm_fb_helper_check_var,
- 	.fb_set_par	= drm_fb_helper_set_par,
- 	.fb_setcmap	= drm_fb_helper_setcmap,
- 	.fb_blank	= drm_fb_helper_blank,
- 	.fb_pan_display = omap_fbdev_pan_display,
--	__FB_DEFAULT_DMAMEM_OPS_DRAW,
-+	__FB_DEFAULT_DEFERRED_OPS_DRAW(omap_fbdev),
- 	.fb_ioctl	= drm_fb_helper_ioctl,
- 	.fb_mmap	= omap_fbdev_fb_mmap,
- 	.fb_destroy	= omap_fbdev_fb_destroy,
-@@ -213,6 +220,15 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
- 	fbi->fix.smem_start = dma_addr;
- 	fbi->fix.smem_len = bo->size;
- 
-+	/* deferred I/O */
-+	helper->fbdefio.delay = HZ / 20;
-+	helper->fbdefio.deferred_io = drm_fb_helper_deferred_io;
-+
-+	fbi->fbdefio = &helper->fbdefio;
-+	ret = fb_deferred_io_init(fbi);
-+	if (ret)
-+		goto fail;
-+
- 	/* if we have DMM, then we can use it for scrolling by just
- 	 * shuffling pages around in DMM rather than doing sw blit.
- 	 */
-diff --git a/drivers/video/fbdev/core/Kconfig b/drivers/video/fbdev/core/Kconfig
---- a/drivers/video/fbdev/core/Kconfig
-+++ b/drivers/video/fbdev/core/Kconfig
-@@ -144,6 +144,12 @@ config FB_DMAMEM_HELPERS
- 	select FB_SYS_IMAGEBLIT
- 	select FB_SYSMEM_FOPS
- 
-+config FB_DMAMEM_HELPERS_DEFERRED
-+	bool
-+	depends on FB_CORE
-+	select FB_DEFERRED_IO
-+	select FB_DMAMEM_HELPERS
-+
- config FB_IOMEM_FOPS
- 	tristate
- 	depends on FB_CORE
-diff --git a/include/linux/fb.h b/include/linux/fb.h
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -686,6 +686,10 @@ extern int fb_deferred_io_fsync(struct file *file, loff_t start,
- 	__FB_GEN_DEFAULT_DEFERRED_OPS_RDWR(__prefix, __damage_range, sys) \
- 	__FB_GEN_DEFAULT_DEFERRED_OPS_DRAW(__prefix, __damage_area, sys)
- 
-+#define FB_GEN_DEFAULT_DEFERRED_DMAMEM_OPS(__prefix, __damage_range, __damage_area) \
-+	__FB_GEN_DEFAULT_DEFERRED_OPS_RDWR(__prefix, __damage_range, sys) \
-+	__FB_GEN_DEFAULT_DEFERRED_OPS_DRAW(__prefix, __damage_area, sys)
-+
- /*
-  * Initializes struct fb_ops for deferred I/O.
-  */
--- 
-2.43.1
+Thanks,
+Christian.
+
+>
+> Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Zack Rusin <zack.rusin@broadcom.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Fixes: a78a8da51b36 ("drm/ttm: replace busy placement with flags v6")
+> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> index 27dcfd8a34bb..e6f177183c0f 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -162,10 +162,10 @@ i915_ttm_placement_from_obj(const struct drm_i915_gem_object *obj,
+>   	unsigned int flags = obj->flags;
+>   	unsigned int i;
+>   
+> -	places[0].flags |= TTM_PL_FLAG_DESIRED;
+>   	i915_ttm_place_from_region(num_allowed ? obj->mm.placements[0] :
+>   				   obj->mm.region, &places[0], obj->bo_offset,
+>   				   obj->base.size, flags);
+> +	places[0].flags |= TTM_PL_FLAG_DESIRED;
+>   
+>   	/* Cache this on object? */
+>   	for (i = 0; i < num_allowed; ++i) {
+
