@@ -2,104 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F5A786A995
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 09:10:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3D8F86A8B5
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 08:13:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9713110E93A;
-	Wed, 28 Feb 2024 08:10:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3B3410E257;
+	Wed, 28 Feb 2024 07:13:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=salutedevices.com header.i=@salutedevices.com header.b="qLatxXAR";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rqu0hlkd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 499 seconds by postgrey-1.36 at gabe;
- Wed, 28 Feb 2024 00:35:27 UTC
-Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8FBC10E228;
- Wed, 28 Feb 2024 00:35:27 +0000 (UTC)
-Received: from p-infra-ksmg-sc-msk02 (localhost [127.0.0.1])
- by mx1.sberdevices.ru (Postfix) with ESMTP id 8814D120031;
- Wed, 28 Feb 2024 03:27:05 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 8814D120031
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
- s=mail; t=1709080025;
- bh=WFSesTI6AKgWxIyZBgA4VNH7+YIxoCmy6FNQCkaJmb8=;
- h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From;
- b=qLatxXAR7X400BA7yaSZOrZmgm+u/ztJ9pmTDuq1aWYlIaFhx4RHUzNm34Hn6N123
- J5r/Yp1/TUxsLcoIts/B87901veNCOud1mqfa+skmLc2DFccMlynrXmoxMiCzjqpLt
- 7W8GUIA3LZrvC7hvMPkaCumqFnNmXjpRez5vlLIkvS9nEdDlHx6YUwvK2Gn1nXrbHb
- 6D7FSaAI0Cqp7qKt3ACruZAQWJFjqTnEU1yEb3fzaBl7ONsRHrfm1+SEc3pLGPor64
- eOQcEzSdFyXqSNArd2DPIWd72YvRUPsj/kzBKOVIq8qxYeyQFExUjB6sn9Prff3+eU
- bOu79fQjKuyHw==
-Received: from smtp.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru
- [172.16.192.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mx1.sberdevices.ru (Postfix) with ESMTPS;
- Wed, 28 Feb 2024 03:27:05 +0300 (MSK)
-Received: from [192.168.1.143] (100.64.160.123) by
- p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Wed, 28 Feb 2024 03:27:04 +0300
-Message-ID: <4cc76f3a-dc64-4146-b8d6-761386a4abde@salutedevices.com>
-Date: Wed, 28 Feb 2024 03:27:04 +0300
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
+ [209.85.208.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABC6310E257
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 07:13:05 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id
+ 4fb4d7f45d1cf-55a8fd60af0so7004625a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 23:13:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1709104384; x=1709709184; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=CNdPc6+/WUqqX4kt3+KqbfHYuEAisR+ylNVDGSNtOD8=;
+ b=rqu0hlkdtscluvI1Y4nJCgBWEh+XpHfJ3riS+yiO181AaEbllnCcyIl7OOj0/BdGSy
+ oY61nl8sr1fvTWZoy7ojD/5qeI+zKuftge0lo9Z1mYncnURK5IXjb7pxQNcIFpG5uUY7
+ MTzc85cjN/dgZn+R2tgFpwBE8LYcFnmMO0ncEE0Jxf3OM6vlwz/lPH8shYjRyPzp74cp
+ YCLU5OSQLK1K+k5bmcedZs0KM6rFHW/fFS9c1UhAFSgFTjmilICttRYwbI3npquDElZV
+ ziZ7Lt7SRvhpt8/+EuSmriVyVH+X5cDqxZ3w/zUPRodgylf7hOUXz/XyMbRkQ07bmLh0
+ FaJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709104384; x=1709709184;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=CNdPc6+/WUqqX4kt3+KqbfHYuEAisR+ylNVDGSNtOD8=;
+ b=sKSC9lBx66gQS57gGJODjQlxHvWL4XeuVl13QG3mHGP02W81DhS5TKmJrm2mQ9rTJO
+ sMhyYOXnp7PiR1EsFaOAgW6pR65YurbBtcZgE1CnbAYUNzjoysEVBc5Mkdu0qukWBqgh
+ wx8nm5m9an8ZGbovbmbYvK3MJPXFVXyw5cglLB6c0l8dr+8ZzLbPuzGJedYkmB5xfQru
+ JcM3hTZRfqKmtADaAA/2w/ueZdzN68aDozAicpdx8wCivFSBWuJjqbYa0apoWbmYowRm
+ 6c6D62hOx4/CusDKtA7qhgj7jr+mAWb4+QwNiT/qMxnsW9o/fcD5nUndNG1vqJ3w5NZ4
+ qkGg==
+X-Gm-Message-State: AOJu0YyS02euXTuvoVu+meW7IzMvERjfBG+hOmX20jshQKcLNQV71/uq
+ 8hv6qWk43cd3avXM3qXVAgYYKYogu3nfdXS03RvyaE37K40ZwwcPeyqW50AFGv0=
+X-Google-Smtp-Source: AGHT+IE5uB/4bndIABLOLHtsnV2NeFb1VFiYOgG2DNrEeIyAYHRM60hN6KB3erWsqGHyH7otqFSmIQ==
+X-Received: by 2002:aa7:d618:0:b0:566:117c:cfca with SMTP id
+ c24-20020aa7d618000000b00566117ccfcamr4309310edr.4.1709104383912; 
+ Tue, 27 Feb 2024 23:13:03 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.222.116])
+ by smtp.gmail.com with ESMTPSA id
+ m18-20020a50d7d2000000b00564e4debe29sm1570011edj.78.2024.02.27.23.13.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Feb 2024 23:13:03 -0800 (PST)
+Message-ID: <9bf7e492-891c-4d8f-b388-3b2ebae611c1@linaro.org>
+Date: Wed, 28 Feb 2024 08:13:00 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] devm-helpers: Add resource managed version of mutex
- init
+Subject: Re: [PATCH] dt-bindings: display: atmel,lcdc: convert to dtschema
+To: Dharma.B@microchip.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ Nicolas.Ferre@microchip.com, alexandre.belloni@bootlin.com,
+ claudiu.beznea@tuxon.dev
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20240223-lcdc-fb-v1-1-4c64cb6277df@microchip.com>
+ <796652d5-af57-4aca-87c2-10a7b0b55959@linaro.org>
+ <11c545e2-45df-4587-a5c7-12b05c2f01e0@microchip.com>
 Content-Language: en-US
-To: <andy.shevchenko@gmail.com>, =?UTF-8?Q?Marek_Beh=C3=BAn?=
- <kabel@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, Hans de Goede <hdegoede@redhat.com>, Matti
- Vaittinen <mazziesaccount@gmail.com>, Linus Walleij
- <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Lucas De
- Marchi <lucas.demarchi@intel.com>, Oded Gabbay <ogabbay@kernel.org>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Aleksandr Mezin
- <mezin.alexander@gmail.com>, Jean Delvare <jdelvare@suse.com>, Guenter Roeck
- <linux@roeck-us.net>, Pavel Machek <pavel@ucw.cz>, Lee Jones
- <lee@kernel.org>, Sebastian Reichel <sre@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, <linux-gpio@vger.kernel.org>,
- <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-hwmon@vger.kernel.org>, <linux-leds@vger.kernel.org>,
- <linux-pm@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-mediatek@lists.infradead.org>, "kernel@salutedevices.com"
- <kernel@salutedevices.com>
-References: <20240222145838.12916-1-kabel@kernel.org>
- <Zde_s8iecR2ArKjC@surfacebook.localdomain> <20240223132641.3e2ba16c@dellmb>
-From: George Stark <gnstark@salutedevices.com>
-In-Reply-To: <20240223132641.3e2ba16c@dellmb>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [100.64.160.123]
-X-ClientProxiedBy: p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) To
- p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
-X-KSMG-Rule-ID: 10
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 183791 [Feb 27 2024]
-X-KSMG-AntiSpam-Version: 6.1.0.3
-X-KSMG-AntiSpam-Envelope-From: gnstark@salutedevices.com
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 7 0.3.7
- 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a, {Tracking_uf_ne_domains},
- {Tracking_urls_end_caps}, {Tracking_from_domain_doesnt_match_to},
- d41d8cd98f00b204e9800998ecf8427e.com:7.1.1; 127.0.0.199:7.1.2;
- smtp.sberdevices.ru:5.0.1,7.1.1; 100.64.160.123:7.1.2; salutedevices.com:7.1.1;
- lore.kernel.org:7.1.1, FromAlignment: s, ApMailHostAddress: 100.64.160.123
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean, bases: 2024/02/27 23:49:00
-X-KSMG-LinksScanning: Clean, bases: 2024/02/27 23:49:00
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960,
- bases: 2024/02/27 18:14:00 #23853308
-X-KSMG-AntiVirus-Status: Clean, skipped
-X-Mailman-Approved-At: Wed, 28 Feb 2024 08:10:49 +0000
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <11c545e2-45df-4587-a5c7-12b05c2f01e0@microchip.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,53 +134,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 2/23/24 15:26, Marek Behún wrote:
-> On Thu, 22 Feb 2024 23:42:11 +0200
-> andy.shevchenko@gmail.com wrote:
+On 28/02/2024 07:59, Dharma.B@microchip.com wrote:
 > 
->> Thu, Feb 22, 2024 at 03:58:37PM +0100, Marek Behún kirjoitti:
->>> A few drivers are doing resource-managed mutex initialization by
->>> implementing ad-hoc one-liner mutex dropping functions and using them
->>> with devm_add_action_or_reset(). Help drivers avoid these repeated
->>> one-liners by adding managed version of mutex initialization.
->>>
->>> Use the new function devm_mutex_init() in the following drivers:
->>>    drivers/gpio/gpio-pisosr.c
->>>    drivers/gpio/gpio-sim.c
->>>    drivers/gpu/drm/xe/xe_hwmon.c
->>>    drivers/hwmon/nzxt-smart2.c
->>>    drivers/leds/leds-is31fl319x.c
->>>    drivers/power/supply/mt6370-charger.c
->>>    drivers/power/supply/rt9467-charger.c
 >>
->> Pardon me, but why?
->>
->> https://lore.kernel.org/linux-leds/20231214173614.2820929-1-gnstark@salutedevices.com/
->>
->> Can you cooperate, folks, instead of doing something independently?
-
-Hello Andy
-
-Thanks for pointing to my patch series
+>> I don't know what's this exactly, but if embedded display then maybe
+>> could be part of this device node. If some other display, then maybe you
+>> need another schema, with compatible? But first I would check how others
+>> are doing this.
 > 
-> Thanks Andy for pointing to George's patch series.
-> 
-> I can drop the mutex_init() part and add just the debugfs part.
+> Okay, then I think the driver also needs to be modified, currently the 
+> driver parses the phandle and looks for these properties. Also the 
+> corresponding dts files.
 
-Hello Marek
+Driver does not have to be modified in my proposal. You would still have
+phandle.
 
-I started to propose devm_mutex_init in December 2023. We tried to put 
-it in devm-helpers.h firstly then we came to conclusion that 
-linux/mutex.h would be a better place for it. Now I'm waiting for this 
-series [1] to be merged because my patch depends on it. I'll let you 
-know when I have an update.
 
-[1] 
-https://lore.kernel.org/lkml/20240222150540.79981-2-longman@redhat.com/T/
-> 
-> Marek
+Best regards,
+Krzysztof
 
--- 
-Best regards
-George
