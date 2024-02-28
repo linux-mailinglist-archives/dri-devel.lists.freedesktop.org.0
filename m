@@ -2,71 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FB9986A500
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 02:28:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCF6086A503
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 02:28:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E37C110E953;
-	Wed, 28 Feb 2024 01:27:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 465F410E9BF;
+	Wed, 28 Feb 2024 01:28:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="fTYRg9md";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="kjf9YQBZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com
- [209.85.160.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F26210E953
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 01:27:57 +0000 (UTC)
-Received: by mail-oa1-f54.google.com with SMTP id
- 586e51a60fabf-21e8a740439so157504fac.1
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 17:27:57 -0800 (PST)
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com
+ [209.85.210.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE1A810E9BF
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 01:28:32 +0000 (UTC)
+Received: by mail-ot1-f46.google.com with SMTP id
+ 46e09a7af769-6e4a5ee63f4so1108358a34.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Feb 2024 17:28:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1709083676; x=1709688476;
+ d=chromium.org; s=google; t=1709083712; x=1709688512;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0dxfTrIeGuxrLyxuOISFvFT3KpY95fspH4sv4tIhPI0=;
- b=fTYRg9md0nm0Ix9qcWrDve1YBAbXJwemZkW4WSc2KOUcseRuj3HOf066C3xu+yxzdp
- 5SsFFZFzkFk2Yut809Mtu+LtWWHtTtUIdqxjFYzonam8ngkyR769qwejIs+NAuocMjPL
- Etn+iAKL3PW1JZSioYM1sKO1EBlCMA+yFDego=
+ bh=TG9LRH7eFEOhXweP6BfJavoKE1KflH590lEzMtnAQb4=;
+ b=kjf9YQBZMZxwyFOhC1xrqBIrPUP+Yq35UH9tB0d/qdxDt+Bg8ZAl/K7RVTBD3xXjzj
+ znMGfFps0B20IIar5GjNxWgzyR8UmBcNWxghgYxG5gY4IZKWcBXK35BYlNQo7WCix2w7
+ TcoYWE8Izupb6fGa/O5l5lx5bqso9IBKnyh/U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709083676; x=1709688476;
+ d=1e100.net; s=20230601; t=1709083712; x=1709688512;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0dxfTrIeGuxrLyxuOISFvFT3KpY95fspH4sv4tIhPI0=;
- b=ePjim6rd/waQTuLtuP7yPziZIIDUmutNFlcSGHO+9qX+VSfe4zYS4xvcVrrqSNqKjJ
- He/BSoRtWCSTgC/0e12ygpFH2+NXPizvqYyL9yKQACCD2lLi84mdFpZnYZuHz0N4eekP
- quVY2JjfD8Um5+rHJ1ZBx2HgL884fhsVSBF+BQ4UQLrvIpBtfzHRVojIlC0RSzDLSvVy
- K9a9OF6CskFKOlE5rVll3FT6xf1B4/XxGBLjYla0Nrjk0ULvupA+R1mh0iPKd5IZj3SA
- a0Syh8m5qww3vwSGW87gis2hJR/V8O4L5ZznqUFMubDNAYm1MNpNzT/Yz6VQN8/gH7Ly
- mmaA==
+ bh=TG9LRH7eFEOhXweP6BfJavoKE1KflH590lEzMtnAQb4=;
+ b=EpvkFqNW4R90HMsrBEwMKfn2ngLkgLCrH+sZrzIt2PLD5EsZGO0IJLEwLkV3wZlcg/
+ VPHJM1ypzt8ug9SzRd4LsHi+FEGJaM8kYz42ffmbkOGu/Sysga749xsRMLlyDRWR5gAO
+ 8EVJcDxjM58sftwkcKAxQbBfSa6O8imbpPNUiBjlouQKPa4jL9m6K4yICShbqd5FKcZ6
+ tL23sEc/bSnU+Ms5Zn+xkbZKVC8QjFUPrarDgdIswXqlHCnJfk1KMqz9Ym5KnBthGZoQ
+ SXIKoJQ1tVIjwTqD+FNGjBU2eVowp083BM8ABIfsV7RtiVUwYji58cgrLlbVReL2RxCW
+ LiRA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXbYBIppbXQQLarOdYszRNPGtTLm/IyXjnqB0983g3Y6UAdhvFq0TBJxKeU1ogmRICnukzwNJiLmeWEjNQVu51Gkuffolj+O9GBW/sXeNNk
-X-Gm-Message-State: AOJu0YwhfE0Hfm+wVQeq+WyTUTRUNAZLY8ENGNk7OvxQIR/UYlHwKC0E
- /IdkqbzzYvf0cBfYCpJLDnS4RNMnTtzGp/xk/BlO73kO4KWKD5bDQDoLLeWcwYu9vMISb9rJ7Tf
- dVo5qkDJyAVm1XUUAj8iGabaA9ayx4JmjK98p
-X-Google-Smtp-Source: AGHT+IHqTW+E+2DQPHcqL4YIkPCYB/B/51xhy690aev+KstBxVrO/Upt/E3fmt5OcYTiHRheu2KC8KpuQFsk7tVF8Ro=
-X-Received: by 2002:a05:6870:5b9a:b0:21f:8eec:f19f with SMTP id
- em26-20020a0568705b9a00b0021f8eecf19fmr450959oab.12.1709083676221; Tue, 27
- Feb 2024 17:27:56 -0800 (PST)
+ AJvYcCWen3OTMKyhAv5QS2Yn5JXDp4c+H64pLLvKXokR53PRGPU5oTT7GqKPXR9BBNy1odue+Ogyi86RS7EZ4vTg+UFUB5UrGN5dICA0e5VTYTSs
+X-Gm-Message-State: AOJu0YzXNPDOVMgup4ynGEb+oARXZOHhllRNn2ZaLDwwK1q+q7BGEzpf
+ h3+4uVkEoSRPpdLi9mJolnsAFg/23KBvomBOX83zWglqM03ahs4qIZ+jyf5Nk20/ATB/cUcXVgh
+ NcO8whuL1V2FQAzuOTPQ7Qa0mZGPdfDIM0yj7
+X-Google-Smtp-Source: AGHT+IG1dEAkf5yEFaKk9SWNj5ZtLwHK0Fg2SkuBw6fFTV//VPKF/d0SiFkgQOj+YmtOoPBTxv5ug7sL0HVECZSr2jM=
+X-Received: by 2002:a05:6830:11d2:b0:6e4:6305:367b with SMTP id
+ v18-20020a05683011d200b006e46305367bmr13453954otq.30.1709083711928; Tue, 27
+ Feb 2024 17:28:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20240223223958.3887423-1-hsinyi@chromium.org>
- <20240223223958.3887423-2-hsinyi@chromium.org>
- <87wmqqjmt9.fsf@intel.com>
-In-Reply-To: <87wmqqjmt9.fsf@intel.com>
+References: <20240228011133.1238439-1-hsinyi@chromium.org>
+ <20240228011133.1238439-2-hsinyi@chromium.org>
+In-Reply-To: <20240228011133.1238439-2-hsinyi@chromium.org>
 From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Tue, 27 Feb 2024 17:27:30 -0800
-Message-ID: <CAJMQK-jSPg6vU3SLmRy7zwNHJ4yqO2hT6RaiYxA4ifZ7CzwD9Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm_edid: Add a function to get EDID base block
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Douglas Anderson <dianders@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
+Date: Tue, 27 Feb 2024 17:28:06 -0800
+Message-ID: <CAJMQK-h2RcZb_PmyYQxndBogY=dBiXMOBZJB=mXgwQb5Wm6ucg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] drm_edid: Support getting EDID through ddc without
+ connector
+To: Douglas Anderson <dianders@chromium.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -85,218 +84,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 27, 2024 at 1:09=E2=80=AFAM Jani Nikula <jani.nikula@linux.inte=
-l.com> wrote:
+On Tue, Feb 27, 2024 at 5:11=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromium.org> =
+wrote:
 >
-> On Fri, 23 Feb 2024, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
-> > It's found that some panels have variants that they share the same pane=
-l id
-> > although their EDID and names are different. Besides panel id, now we n=
-eed
-> > the hash of entire EDID base block to distinguish these panel variants.
-> >
-> > Add drm_edid_get_base_block to returns the EDID base block, so caller c=
-an
-> > further use it to get panel id and/or the hash.
+> Some panels are interested in the EDID during early probe when connector
+> is still unknown.
 >
-> Please reconsider the whole approach here.
+> Add a function drm_get_edid_no_connector() to get edid without connector.
+> No functional change for existing usage.
 >
-> Please let's not add single-use special case functions to read an EDID
-> base block.
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> ---
+> v1->v2:
+> add a function to return the entire edid without updating connector.
+> ---
+>  drivers/gpu/drm/drm_edid.c | 45 ++++++++++++++++++++++++++++----------
+>  include/drm/drm_edid.h     |  1 +
+>  2 files changed, 34 insertions(+), 12 deletions(-)
 >
-> Please consider reading the whole EDID, using the regular EDID reading
-> functions, and use that instead.
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 1ad94473e400..15b97c8ed993 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -2364,7 +2364,7 @@ static struct edid *_drm_do_get_edid(struct drm_con=
+nector *connector,
+>         struct edid *edid, *new;
+>         size_t alloc_size =3D EDID_LENGTH;
 >
-> Most likely you'll only have 1-2 blocks anyway. And you might consider
-> caching the EDID in struct panel_edp if reading the entire EDID is too
-> slow. (And if it is, this is probably sensible even if the EDID only
-> consists of one block.)
->
-> Anyway, please do *not* merge this as-is.
->
+> -       override =3D drm_edid_override_get(connector);
+> +       override =3D connector ? drm_edid_override_get(connector) : false=
+;
 
-hi Jani,
+typo: should be NULL here. I'll update in the next version with other comme=
+nts.
 
-I sent a v2 here implementing this method:
-https://lore.kernel.org/lkml/20240228011133.1238439-2-hsinyi@chromium.org/
-
-We still have to read edid twice due to:
-1. The first caller is in panel probe, at that time, connector is
-still unknown, so we can't update connector status (eg. update
-edid_corrupt).
-2. It's possible that the connector can have some override
-(drm_edid_override_get) to EDID, that is still unknown during the
-first read.
-
-> BR,
-> Jani.
+>         if (override) {
+>                 alloc_size =3D override->size;
+>                 edid =3D kmemdup(override->edid, alloc_size, GFP_KERNEL);
+> @@ -2385,18 +2385,20 @@ static struct edid *_drm_do_get_edid(struct drm_c=
+onnector *connector,
+>         if (status =3D=3D EDID_BLOCK_READ_FAIL)
+>                 goto fail;
 >
-> >
-> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> > ---
-> >  drivers/gpu/drm/drm_edid.c        | 55 +++++++++++++++++--------------
-> >  drivers/gpu/drm/panel/panel-edp.c |  8 +++--
-> >  include/drm/drm_edid.h            |  3 +-
-> >  3 files changed, 38 insertions(+), 28 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> > index 923c4423151c..55598ca4a5d1 100644
-> > --- a/drivers/gpu/drm/drm_edid.c
-> > +++ b/drivers/gpu/drm/drm_edid.c
-> > @@ -2770,58 +2770,63 @@ static u32 edid_extract_panel_id(const struct e=
-did *edid)
-> >  }
-> >
-> >  /**
-> > - * drm_edid_get_panel_id - Get a panel's ID through DDC
-> > - * @adapter: I2C adapter to use for DDC
-> > + * drm_edid_get_panel_id - Get a panel's ID from EDID base block
-> > + * @base_bock: EDID base block that contains panel ID.
-> >   *
-> > - * This function reads the first block of the EDID of a panel and (ass=
-uming
-> > + * This function uses the first block of the EDID of a panel and (assu=
-ming
-> >   * that the EDID is valid) extracts the ID out of it. The ID is a 32-b=
-it value
-> >   * (16 bits of manufacturer ID and 16 bits of per-manufacturer ID) tha=
-t's
-> >   * supposed to be different for each different modem of panel.
-> >   *
-> > + * Return: A 32-bit ID that should be different for each make/model of=
- panel.
-> > + *         See the functions drm_edid_encode_panel_id() and
-> > + *         drm_edid_decode_panel_id() for some details on the structur=
-e of this
-> > + *         ID.
-> > + */
-> > +u32 drm_edid_get_panel_id(void *base_block)
-> > +{
-> > +     return edid_extract_panel_id(base_block);
-> > +}
-> > +EXPORT_SYMBOL(drm_edid_get_panel_id);
-> > +
-> > +/**
-> > + * drm_edid_get_base_block - Get a panel's EDID base block
-> > + * @adapter: I2C adapter to use for DDC
-> > + *
-> > + * This function returns the first block of the EDID of a panel.
-> > + *
-> >   * This function is intended to be used during early probing on device=
-s where
-> >   * more than one panel might be present. Because of its intended use i=
-t must
-> > - * assume that the EDID of the panel is correct, at least as far as th=
-e ID
-> > - * is concerned (in other words, we don't process any overrides here).
-> > + * assume that the EDID of the panel is correct, at least as far as th=
-e base
-> > + * block is concerned (in other words, we don't process any overrides =
-here).
-> >   *
-> >   * NOTE: it's expected that this function and drm_do_get_edid() will b=
-oth
-> >   * be read the EDID, but there is no caching between them. Since we're=
- only
-> >   * reading the first block, hopefully this extra overhead won't be too=
- big.
-> >   *
-> > - * Return: A 32-bit ID that should be different for each make/model of=
- panel.
-> > - *         See the functions drm_edid_encode_panel_id() and
-> > - *         drm_edid_decode_panel_id() for some details on the structur=
-e of this
-> > - *         ID.
-> > + * Caller should free the base block after use.
-> >   */
-> > -
-> > -u32 drm_edid_get_panel_id(struct i2c_adapter *adapter)
-> > +void *drm_edid_get_base_block(struct i2c_adapter *adapter)
-> >  {
-> >       enum edid_block_status status;
-> >       void *base_block;
-> > -     u32 panel_id =3D 0;
-> > -
-> > -     /*
-> > -      * There are no manufacturer IDs of 0, so if there is a problem r=
-eading
-> > -      * the EDID then we'll just return 0.
-> > -      */
-> >
-> >       base_block =3D kzalloc(EDID_LENGTH, GFP_KERNEL);
-> >       if (!base_block)
-> > -             return 0;
-> > +             return NULL;
-> >
-> >       status =3D edid_block_read(base_block, 0, drm_do_probe_ddc_edid, =
-adapter);
-> >
-> >       edid_block_status_print(status, base_block, 0);
-> >
-> > -     if (edid_block_status_valid(status, edid_block_tag(base_block)))
-> > -             panel_id =3D edid_extract_panel_id(base_block);
-> > -     else
-> > +     if (!edid_block_status_valid(status, edid_block_tag(base_block)))=
- {
-> >               edid_block_dump(KERN_NOTICE, base_block, 0);
-> > +             return NULL;
-> > +     }
-> >
-> > -     kfree(base_block);
-> > -
-> > -     return panel_id;
-> > +     return base_block;
-> >  }
-> > -EXPORT_SYMBOL(drm_edid_get_panel_id);
-> > +EXPORT_SYMBOL(drm_edid_get_base_block);
-> >
-> >  /**
-> >   * drm_get_edid_switcheroo - get EDID data for a vga_switcheroo output
-> > diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/=
-panel-edp.c
-> > index bd71d239272a..f6ddbaa103b5 100644
-> > --- a/drivers/gpu/drm/panel/panel-edp.c
-> > +++ b/drivers/gpu/drm/panel/panel-edp.c
-> > @@ -763,6 +763,7 @@ static const struct edp_panel_entry *find_edp_panel=
-(u32 panel_id);
-> >  static int generic_edp_panel_probe(struct device *dev, struct panel_ed=
-p *panel)
-> >  {
-> >       struct panel_desc *desc;
-> > +     void *base_block;
-> >       u32 panel_id;
-> >       char vend[4];
-> >       u16 product_id;
-> > @@ -792,8 +793,11 @@ static int generic_edp_panel_probe(struct device *=
-dev, struct panel_edp *panel)
-> >               goto exit;
-> >       }
-> >
-> > -     panel_id =3D drm_edid_get_panel_id(panel->ddc);
-> > -     if (!panel_id) {
-> > +     base_block =3D drm_edid_get_base_block(panel->ddc);
-> > +     if (base_block) {
-> > +             panel_id =3D drm_edid_get_panel_id(base_block);
-> > +             kfree(base_block);
-> > +     } else {
-> >               dev_err(dev, "Couldn't identify panel via EDID\n");
-> >               ret =3D -EIO;
-> >               goto exit;
-> > diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-> > index 7923bc00dc7a..56b60f9204d3 100644
-> > --- a/include/drm/drm_edid.h
-> > +++ b/include/drm/drm_edid.h
-> > @@ -410,7 +410,8 @@ struct edid *drm_do_get_edid(struct drm_connector *=
-connector,
-> >       void *data);
-> >  struct edid *drm_get_edid(struct drm_connector *connector,
-> >                         struct i2c_adapter *adapter);
-> > -u32 drm_edid_get_panel_id(struct i2c_adapter *adapter);
-> > +void *drm_edid_get_base_block(struct i2c_adapter *adapter);
-> > +u32 drm_edid_get_panel_id(void *base_block);
-> >  struct edid *drm_get_edid_switcheroo(struct drm_connector *connector,
-> >                                    struct i2c_adapter *adapter);
-> >  struct edid *drm_edid_duplicate(const struct edid *edid);
+> -       /* FIXME: Clarify what a corrupt EDID actually means. */
+> -       if (status =3D=3D EDID_BLOCK_OK || status =3D=3D EDID_BLOCK_VERSI=
+ON)
+> -               connector->edid_corrupt =3D false;
+> -       else
+> -               connector->edid_corrupt =3D true;
+> +       if (connector) {
+> +               /* FIXME: Clarify what a corrupt EDID actually means. */
+> +               if (status =3D=3D EDID_BLOCK_OK || status =3D=3D EDID_BLO=
+CK_VERSION)
+> +                       connector->edid_corrupt =3D false;
+> +               else
+> +                       connector->edid_corrupt =3D true;
 >
+> -       if (!edid_block_status_valid(status, edid_block_tag(edid))) {
+> -               if (status =3D=3D EDID_BLOCK_ZERO)
+> -                       connector->null_edid_counter++;
+> +               if (!edid_block_status_valid(status, edid_block_tag(edid)=
+)) {
+> +                       if (status =3D=3D EDID_BLOCK_ZERO)
+> +                               connector->null_edid_counter++;
+>
+> -               connector_bad_edid(connector, edid, 1);
+> -               goto fail;
+> +                       connector_bad_edid(connector, edid, 1);
+> +                       goto fail;
+> +               }
+>         }
+>
+>         if (!edid_extension_block_count(edid))
+> @@ -2444,7 +2446,8 @@ static struct edid *_drm_do_get_edid(struct drm_con=
+nector *connector,
+>         }
+>
+>         if (invalid_blocks) {
+> -               connector_bad_edid(connector, edid, num_blocks);
+> +               if (connector)
+> +                       connector_bad_edid(connector, edid, num_blocks);
+>
+>                 edid =3D edid_filter_invalid_blocks(edid, &alloc_size);
+>         }
+> @@ -2637,6 +2640,24 @@ struct edid *drm_get_edid(struct drm_connector *co=
+nnector,
+>  }
+>  EXPORT_SYMBOL(drm_get_edid);
+>
+> +/**
+> + * drm_get_edid_no_connector - get EDID data without updating connector =
+status
+> + * @adapter: I2C adapter to use for DDC
+> + *
+> + * Similar to drm_edid_read_ddc(), but not checking any connector status=
+. Use
+> + * this function to get EDID when connector is still unknown.
+> + *
+> + * Return: Pointer to valid EDID or NULL if we couldn't find any.
+> + */
+> +struct edid *drm_get_edid_no_connector(struct i2c_adapter *adapter)
+> +{
+> +       if (!drm_probe_ddc(adapter))
+> +               return NULL;
+> +
+> +       return _drm_do_get_edid(NULL, drm_do_probe_ddc_edid, adapter, NUL=
+L);
+> +}
+> +EXPORT_SYMBOL(drm_get_edid_no_connector);
+> +
+>  /**
+>   * drm_edid_read_custom - Read EDID data using given EDID block read fun=
+ction
+>   * @connector: Connector to use
+> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+> index 70ae6c290bdc..80c9e32ff80e 100644
+> --- a/include/drm/drm_edid.h
+> +++ b/include/drm/drm_edid.h
+> @@ -565,6 +565,7 @@ struct edid *drm_do_get_edid(struct drm_connector *co=
+nnector,
+>         void *data);
+>  struct edid *drm_get_edid(struct drm_connector *connector,
+>                           struct i2c_adapter *adapter);
+> +struct edid *drm_get_edid_no_connector(struct i2c_adapter *adapter);
+>  u32 drm_edid_get_panel_id(struct i2c_adapter *adapter);
+>  struct edid *drm_get_edid_switcheroo(struct drm_connector *connector,
+>                                      struct i2c_adapter *adapter);
 > --
-> Jani Nikula, Intel
+> 2.44.0.rc1.240.g4c46232300-goog
+>
