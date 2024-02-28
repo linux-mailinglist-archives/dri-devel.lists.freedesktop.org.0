@@ -2,90 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90F2F86AB0D
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 10:18:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B39FC86AB16
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 10:20:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 190C010E523;
-	Wed, 28 Feb 2024 09:18:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99EA410E912;
+	Wed, 28 Feb 2024 09:20:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="FrzNEBT/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nLYO1jwM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E73610E523
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 09:18:41 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-33de64c91abso1400816f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 01:18:41 -0800 (PST)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6859C10E912;
+ Wed, 28 Feb 2024 09:20:46 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-512ab55fde6so7068707e87.2; 
+ Wed, 28 Feb 2024 01:20:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1709111920; x=1709716720;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=hMmaHFxsdOxXG7OCPRHkrxQe1P3t75LjLh+737W0FeA=;
- b=FrzNEBT/n2n1Y/FZ+HHdWXHjnetPUmfhvVNK4zXXkv2iOaRDqvDCPeC54p2pWD7pJZ
- sibka+LxGKvshS0RVN/8Gj2MULg63RPFYJTDIBX9qCvnROeDyl81hJ+qcbeTiCmv6SMb
- Iq41luPyE62zVpg9N+2BMfKwykjo5eKFNcvjdAQZ0zqjSdKs5QnHoVrrJY1PbEhjzZV+
- IgTtG74R4yD/2derVRLb0K9rZw4cOxJl5v6fY276RL+YEVNa6Qa4tJnpG6c/O/I+GB2Q
- obeOBwKH5TeWTTKydc0Zdv9banPz1perOEZSGOpHW6MdBPiwVrRtfpynwd7icJMO2q1N
- W0CQ==
+ d=gmail.com; s=20230601; t=1709112044; x=1709716844; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=a2noyD+gH5EeHWvIbCVfQ5txzmPqGPvNkLe5Kdw3vzI=;
+ b=nLYO1jwM4XXG6+8JbzL5oLiisE+BNChveSjeUG4L4LojqCqoXz9hzwnMnvYKRwMADO
+ kBIGqp6lhDV8IOTT2JjZdcEFEn19vE7mgSaL7JQq93hhNfoJ4Aqxs9YVGNcByRFJwGRm
+ 6hKCepbu6IO56HoHiLvbjSSYgFzmVbTbhV2VvBKTgyhMA00wLGckkFPAOjE981DHq9DB
+ nz9iisEf2+DimjNdF4wPBJwK4ijIHtOqHh8+DRu26kp+ZrtrMN+Yf5ooqu8VnWUPho63
+ a7sqShp9n5VL295tri5/gnxcM5syGLgnkLK4UNOKzOTOHVOt94iwCImQjjGkQnBA9k51
+ 8Ibw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709111920; x=1709716720;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hMmaHFxsdOxXG7OCPRHkrxQe1P3t75LjLh+737W0FeA=;
- b=SpD9AqXodzIZlbhwOisLP/zkKbWnCpuj5/J0k5uC+Zj5LXIonf7rZomwVymToLvNeU
- J41TMXG/T4V9I0twebbeaEmXee0rmiR0jyQKkOli/H0w/9bbmPJeBTFJNB/heA5kTPYg
- 5PQ/exPl6Ov581YGSwwYy2sG6aViv2X5+KN0199+35LwQq3xQD8LZqHLZvY2uRV7usja
- v0hwtIpriaBuEWdUG29ylMupITZPAbaZuP6bAElbg1wvPTXbQvxN54BtqJqUh0Lu0NG5
- p9abgc0WS075eXwD2P39MbpdOIwDH51M99ZkelzkY7GGKk7JVlDUIeODELRZxbQUDxfQ
- 4lSQ==
+ d=1e100.net; s=20230601; t=1709112044; x=1709716844;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=a2noyD+gH5EeHWvIbCVfQ5txzmPqGPvNkLe5Kdw3vzI=;
+ b=fH3C1jfjabiebr3tqijM2D2nq/yFv6ms3QRxE06Iac+g7STD35hbp2tUdVit3nsXMu
+ G6eUgccRjRrDFF52a41dQv6oqit96FznMwdRg9Cl6c1/cxwoz5V5f8fqagrz1f/0j2Ju
+ kGERSpWjYWvBRBmT/McV/hx5H74iwY9B4vGoAKPxD7UakPIX3mlolim4vtT6eJ+HqB4I
+ pjjN8cSPkANES5hhMJJwgoa+73zpAit+Bm8SMKt+lCuVOpCWoS3/RYhY0h3dDayoBct7
+ 8tjKPAZk/V+o0kK5hIAPizLoaTcCektqi/SF+12KUelWoXf4a2Rw0W4jlp+nGDh0rumI
+ YGiA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVc56jZJmKHRC9wnpC65I7C6OzvP9d0NSAzk9VOYhfCUrZTjOWhjQG8oaQDLTTop+6ae4163h9W0UcdZJd29tGamWsVOizfTuJ2Pv9j5Mwz
-X-Gm-Message-State: AOJu0YzQ9cRK6slxBLJwbvZ/BAAzxieB22GEvm2aCdwywjFl4lEyDa86
- mpZw/o88v7wHM5Wyt19oEUGb0b9IYt7Wgq3eRq8ZOex2iokKqDvaFOtG0Z72Wt0=
-X-Google-Smtp-Source: AGHT+IHl+T1jJDOelrcnlLr/v3d1Q6gKha6LkXJVtKyTJdnBjWcimArxu7uFwJpoiZ24rSsAKDTJ4Q==
-X-Received: by 2002:adf:fd8e:0:b0:33d:af84:2a59 with SMTP id
- d14-20020adffd8e000000b0033daf842a59mr7977078wrr.28.1709111919598; 
- Wed, 28 Feb 2024 01:18:39 -0800 (PST)
-Received: from [192.168.1.172] ([93.5.22.158])
- by smtp.gmail.com with ESMTPSA id
- b14-20020a05600003ce00b0033dd06e628asm10602047wrg.27.2024.02.28.01.18.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Feb 2024 01:18:39 -0800 (PST)
-Message-ID: <77509c18-a4a8-4803-8370-cdcaa175ada1@baylibre.com>
-Date: Wed, 28 Feb 2024 10:18:38 +0100
+ AJvYcCURYMA/w6ROvDCCJKX50Q/LKPX6YqvMZ3p0R7s3Xcnkt7eKAXKiCi2WcBHLWucWavS6aFZlLM51gKHO45FYpBYSD8WmroZbSlknz5KuIn/Awc/Ele+lNQhAxO0ob8soq7T4SGYMQrXHBvAOtygY1B6Qzh6uOWDPIbkOPSYrq0KQBhxak5+wXxCwv9noIa9vO6k=
+X-Gm-Message-State: AOJu0YzGKnQbZRgOf2/Kuj2JgKFe0FQ4CbMzJ9mKSQomGpALSknb50+W
+ tGHsKfDD0oA10Cc3r7p/iXzcB/Bg3s2ZBGbivrd2Hw2ibRpsiqQ5
+X-Google-Smtp-Source: AGHT+IHqmkUwiO2sfj7BD6bTWs5IUeTj5Q2VJyj4bs2CxxwV7i3xk4DbJ+e5SZU7I6iDYoTpbxt8yg==
+X-Received: by 2002:a05:6512:991:b0:512:ee1f:b5af with SMTP id
+ w17-20020a056512099100b00512ee1fb5afmr6493372lft.41.1709112043681; 
+ Wed, 28 Feb 2024 01:20:43 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
+ 17-20020a05600c229100b00412b2afb2c8sm1457617wmf.26.2024.02.28.01.20.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Feb 2024 01:20:43 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] drm/i915/dp: Fix spelling mistake "redect" -> "reject"
+Date: Wed, 28 Feb 2024 09:20:42 +0000
+Message-Id: <20240228092042.4125617-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/18] ASoC: dt-bindings: mediatek,mt8365-mt6357: Add
- audio sound card document
-Content-Language: en-US
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Lee Jones <lee@kernel.org>,
- Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
- <20240226-audio-i350-v1-2-4fa1cea1667f@baylibre.com>
- <e15fdb18-d4de-495f-b90b-ba0e787cbef4@collabora.com>
- <92b9e9ac-6265-4611-888d-ba74bb871be5@baylibre.com>
- <e0907559-121f-4cdf-8b5a-744295ec85b3@collabora.com>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <e0907559-121f-4cdf-8b5a-744295ec85b3@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -102,231 +87,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+There is a spelling mistake in a drm_dbg_kms message. Fix it.
 
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/i915/display/intel_dp_tunnel.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 27/02/2024 13:38, AngeloGioacchino Del Regno wrote:
-> Il 27/02/24 11:23, Alexandre Mergnat ha scritto:
->>
->>
->> On 26/02/2024 16:30, AngeloGioacchino Del Regno wrote:
->>> Il 26/02/24 15:01, Alexandre Mergnat ha scritto:
->>>> Add soundcard bindings for the MT8365 SoC with the MT6357 audio codec.
->>>>
->>>> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
->>>> ---
->>>>   .../bindings/sound/mediatek,mt8365-mt6357.yaml     | 127 
->>>> +++++++++++++++++++++
->>>>   1 file changed, 127 insertions(+)
->>>>
->>>> diff --git 
->>>> a/Documentation/devicetree/bindings/sound/mediatek,mt8365-mt6357.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8365-mt6357.yaml
->>>> new file mode 100644
->>>> index 000000000000..f469611ec6b6
->>>> --- /dev/null
->>>> +++ 
->>>> b/Documentation/devicetree/bindings/sound/mediatek,mt8365-mt6357.yaml
->>>> @@ -0,0 +1,127 @@
->>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>>> +%YAML 1.2
->>>> +---
->>>> +$id: http://devicetree.org/schemas/sound/mediatek,mt8365-mt6357.yaml#
->>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>> +
->>>> +title: Mediatek MT8365 sound card with MT6357 sound codec.
->>>> +
->>>> +maintainers:
->>>> +  - Alexandre Mergnat <amergnat@baylibre.com>
->>>> +
->>>> +description:
->>>> +  This binding describes the MT8365 sound card.
->>>> +
->>>> +properties:
->>>> +  compatible:
->>>> +    const: mediatek,mt8365-mt6357
->>>> +
->>>> +  mediatek,hp-pull-down:
->>>> +    description:
->>>> +      Earphone driver positive output stage short to the
->>>> +      audio reference ground.
->>>> +      Default value is false.
->>>> +    type: boolean
->>>> +
->>>> +  mediatek,micbias0-microvolt:
->>>> +    description: |
->>>
->>> description: Selects MIC Bias 0 output voltage
->>>
->>>> +      Selects MIC Bias 0 output voltage.
->>>> +      [1.7v, 1.8v, 1.9v, 2.0v, 2.1v, 2.5v, 2.6v, 2.7v]
->>>> +    enum: [0, 1, 2, 3, 4, 5, 6, 7]
->>>
->>> No, you don't say 0 1 2 3 4 to a property that says "microvolt", 
->>> that's simply
->>> wrong.
->>>
->>> mediatek,micbias0-microvolt = <2100000>;
->>>
->>> ...so you want a binding that says
->>> enum: [ 1700000, 1800000, this, that, 2700000]
->>>
->>
->> Is it correct if I put "description: Selects MIC Bias 0 output voltage 
->> index" ?
->>
-> 
-> No, it's still not correct. You have to pass microvolt values.
-> 
-> The driver will then transform the microvolt values to the index and 
-> subsequently
-> write the index value to the hardware registers.
-> 
-> The bindings shall be generic, in the sense that they shall not express 
-> hardware
-> register values... and this is especially true when we have a value that 
-> *does*
-> actually have means to be expressed in common units.
-> 
-> Besides, in the cases in which there's no common units involved, the 
-> values most
-> probably won't be suited for devicetree//bindings, so those would be 
-> hardcoded in
-> the driver as platform data.
-> 
-> This is not the case, so, please keep this property but specify 
-> microvolts in the
-> bindings (and obviously in devicetree).
-
-Got it, thx !
-
-> 
->>>> +
->>>> +  mediatek,micbias1-microvolt:
->>>> +    description: |
->>>> +      Selects MIC Bias 1 output voltage.
->>>> +      [1.7v, 1.8v, 1.9v, 2.0v, 2.1v, 2.5v, 2.6v, 2.7v]
->>>> +    enum: [0, 1, 2, 3, 4, 5, 6, 7]
->>>
->>> same here.
->>>
->>>> +
->>>> +  mediatek,platform:
->>>> +    $ref: /schemas/types.yaml#/definitions/phandle
->>>> +    description: The phandle of MT8365 ASoC platform.
->>>> +
->>>> +  pinctrl-names:
->>>> +    minItems: 1
->>>> +    items:
->>>> +      - const: aud_default
->>>> +      - const: aud_dmic
->>>> +      - const: aud_miso_off
->>>> +      - const: aud_miso_on
->>>> +      - const: aud_mosi_off
->>>> +      - const: aud_mosi_on
->>>> +
->>>> +  vaud28-supply:
->>>> +    description:
->>>> +      2.8 volt supply for the audio codec
->>>> +
->>>> +patternProperties:
->>>> +  "^dai-link-[0-9]+$":
->>>> +    type: object
->>>> +    description:
->>>> +      Container for dai-link level properties and CODEC sub-nodes.
->>>> +
->>>> +    properties:
->>>> +      codec:
->>>> +        type: object
->>>> +        description: Holds subnode which indicates codec dai.
->>>> +
->>>> +        properties:
->>>> +          sound-dai:
->>>> +            maxItems: 1
->>>> +            description: phandle of the codec DAI
->>>> +
->>>> +        additionalProperties: false
->>>> +
->>>> +      link-name:
->>>> +        description:
->>>> +          This property corresponds to the name of the BE dai-link 
->>>> to which
->>>> +          we are going to update parameters in this node.
->>>> +        items:
->>>> +          const: 2ND I2S BE
->>>> +
->>>> +      sound-dai:
->>>> +        maxItems: 1
->>>> +        description: phandle of the CPU DAI
->>>> +
->>>> +    additionalProperties: false
->>>> +
->>>> +    required:
->>>> +      - link-name
->>>> +      - sound-dai
->>>> +
->>>> +additionalProperties: false
->>>> +
->>>> +required:
->>>> +  - compatible
->>>> +  - mediatek,platform
->>>> +  - pinctrl-names
->>>> +  - vaud28-supply
->>>> +
->>>> +examples:
->>>> +  - |
->>>> +    sound {
->>>> +        compatible = "mediatek,mt8365-mt6357";
->>>> +        mediatek,platform = <&afe>;
->>>
->>> Please:
->>>
->>> https://docs.kernel.org/devicetree/bindings/dts-coding-style.html
->>
->> Is it about the wrong pinctrl-names tab alignment ?
->> Also, 2ND I2S BE => 2ND_I2S_BE ?
->> Otherwise, I don't get it sorry.
->>
-> 
-> ...as Krzysztof already clarified, won't repeat :-P
-
-Yes it is, I will fix that.
-
-> 
-> Cheers!
-> 
->>>
->>> Regards,
->>> Angelo
->>>
->>>> +        pinctrl-names = "aud_default",
->>>> +            "aud_dmic",
->>>> +            "aud_miso_off",
->>>> +            "aud_miso_on",
->>>> +            "aud_mosi_off",
->>>> +            "aud_mosi_on";
->>>> +        pinctrl-0 = <&aud_default_pins>;
->>>> +        pinctrl-1 = <&aud_dmic_pins>;
->>>> +        pinctrl-2 = <&aud_miso_off_pins>;
->>>> +        pinctrl-3 = <&aud_miso_on_pins>;
->>>> +        pinctrl-4 = <&aud_mosi_off_pins>;
->>>> +        pinctrl-5 = <&aud_mosi_on_pins>;
->>>> +        vaud28-supply = <&mt6357_vaud28_reg>;
->>>> +
->>>> +        /* hdmi interface */
->>>> +        dai-link-0 {
->>>> +            sound-dai = <&afe>;
->>>> +            link-name = "2ND I2S BE";
->>>> +
->>>> +            codec {
->>>> +                sound-dai = <&it66121hdmitx>;
->>>> +            };
->>>> +        };
->>>> +    };
->>>>
->>>
->>
-> 
-> 
-
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_tunnel.c b/drivers/gpu/drm/i915/display/intel_dp_tunnel.c
+index 75d76f91ecbd..6503abdc2b98 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_tunnel.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_tunnel.c
+@@ -348,7 +348,7 @@ void intel_dp_tunnel_resume(struct intel_dp *intel_dp,
+ 
+ out_err:
+ 	drm_dbg_kms(&i915->drm,
+-		    "[DPTUN %s][CONNECTOR:%d:%s][ENCODER:%d:%s] Tunnel can't be resumed, will drop and redect it (err %pe)\n",
++		    "[DPTUN %s][CONNECTOR:%d:%s][ENCODER:%d:%s] Tunnel can't be resumed, will drop and reject it (err %pe)\n",
+ 		    drm_dp_tunnel_name(intel_dp->tunnel),
+ 		    connector->base.base.id, connector->base.name,
+ 		    encoder->base.base.id, encoder->base.name,
 -- 
-Regards,
-Alexandre
+2.39.2
+
