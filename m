@@ -2,44 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70DFB86AC37
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 11:31:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 728F286AC41
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 11:35:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7DA210E19D;
-	Wed, 28 Feb 2024 10:31:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78BE210E036;
+	Wed, 28 Feb 2024 10:35:19 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="eCDM+bPL";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 410DF10E0BA
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 10:31:44 +0000 (UTC)
-Received: from i53875b6c.versanet.de ([83.135.91.108] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1rfHDx-0000MV-78; Wed, 28 Feb 2024 11:31:41 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: dri-devel@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
- "Marty E . Plummer" <hanetzer@startmail.com>, Rob Herring <robh@kernel.org>,
- =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>,
- Nicolas Boichat <drinkcat@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Faith Ekstrand <faith.ekstrand@collabora.com>,
- Daniel Stone <daniels@collabora.com>, Liviu Dudau <Liviu.Dudau@arm.com>,
- Steven Price <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>,
- kernel@collabora.com, Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
- Chris Diamand <chris.diamand@foss.arm.com>,
- Ketil Johnsen <ketil.johnsen@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>
-Subject: Re: [PATCH v5 00/14] drm: Add a driver for CSF-based Mali GPUs
-Date: Wed, 28 Feb 2024 11:31:39 +0100
-Message-ID: <28020837.gRfpFWEtPU@diego>
-In-Reply-To: <20240218214131.3035480-1-boris.brezillon@collabora.com>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E0C910E036
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 10:35:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1709116515;
+ bh=NRqr1dpwYUlQ6FoUMm6M+TEnJE1+w5bLR4PyT/dhe/I=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=eCDM+bPLoXmAIxi0rf4MO760UiCKetBnx9hA3AVD+az3ori0UWAvGiusf73t8rSq8
+ ePsDM+F4ugmgznTDD/0zA6ZA3P1GtfDQPU7lg0mq9JbZ8On0ZQVvKtcf5S7XWY59Iy
+ b7/P6kXGmZpO8flFgbTIU+CTChA9unb9t8zJDfZD3VtcwiogDZErY4Z7HGSSSTwj8o
+ aZ+teo0Hk87aBKP6GrU9EL3MnBUsxUGk1ylWtIgl57DFEt/HtHn/C3d0uyKP5wEd06
+ MDDn/KRnVNRzDe5635yStUr976zj33VZozQXZJIlFLGetI9j8RT1e+ACiDksGklB0B
+ puk4nRHzVxzbw==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 14B6037820D0;
+ Wed, 28 Feb 2024 10:35:14 +0000 (UTC)
+Date: Wed, 28 Feb 2024 11:35:12 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, "Marty E . Plummer"
+ <hanetzer@startmail.com>, Rob Herring <robh@kernel.org>, =?UTF-8?B?Q2w=?=
+ =?UTF-8?B?w6ltZW50IFDDqXJvbg==?= <peron.clem@gmail.com>, Nicolas Boichat
+ <drinkcat@chromium.org>, Neil Armstrong <neil.armstrong@linaro.org>, Faith
+ Ekstrand <faith.ekstrand@collabora.com>, Daniel Stone
+ <daniels@collabora.com>, Liviu Dudau <Liviu.Dudau@arm.com>, Steven Price
+ <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>,
+ kernel@collabora.com, Heiko Stuebner <heiko@sntech.de>, Tatsuyuki Ishi
+ <ishitatsuyuki@gmail.com>, Chris Diamand <chris.diamand@foss.arm.com>,
+ Ketil Johnsen <ketil.johnsen@arm.com>, Grant Likely
+ <grant.likely@linaro.org>
+Subject: Re: [PATCH v5 12/14] drm/panthor: Allow driver compilation
+Message-ID: <20240228113512.300db712@collabora.com>
+In-Reply-To: <20240218214131.3035480-13-boris.brezillon@collabora.com>
 References: <20240218214131.3035480-1-boris.brezillon@collabora.com>
+ <20240218214131.3035480-13-boris.brezillon@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,73 +71,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Sonntag, 18. Februar 2024, 22:41:14 CET schrieb Boris Brezillon:
-> Hello,
-> 
-> This is the 5th version of the kernel driver for Mali CSF-based GPUs,
-> and, unless someone has good reasons to block the merging of this
-> driver, I expect it to be the last one (the gallium driver is now
-> in a decent state, and is mostly waiting for the kernel driver to
-> be accepted).
-> 
-> A branch based on drm-misc-next is available here[1], and here is
-> another one [2] containing extra patches to have things working on
-> rk3588. The CSF firmware binary is now merged in linux-firmware [3].
-> 
-> The mesa MR adding v10 support on top of panthor is available here [4].
-> 
-> Here is a non-exhaustive changelog, check each commit for a detailed
-> changelog.
-> 
-> v5:
-> - No fundamental changes in this v5
-> - Various bug fixes (see the per-commit changelogs)
-> - Various docs/typos fixes
+On Sun, 18 Feb 2024 22:41:26 +0100
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
+
+> Now that all blocks are available, we can add/update Kconfig/Makefile
+> files to allow compilation.
 > 
 > v4:
-> - Fix various bugs in the VM logic
-> - Address comments from Steven, Liviu, Ketil and Chris
-> - Move tiler OOM handling out of the scheduler interrupt handling path
->   so we can properly recover when the system runs out of memory, and
->   panthor is blocked trying to allocate heap chunks
-> - Rework the heap locking to support concurrent chunk allocation. Not
->   sure if this is supposed to happen, but we need to be robust against
->   userspace passing the same heap context to two scheduling groups.
->   Wasn't needed before the tiler_oom rework, because heap allocation
->   base serialized by the scheduler lock.
-> - Make kernel BO destruction robust to NULL/ERR pointers
+> - Add Steve's R-b
 > 
-> v3;
-> - Quite a few changes at the MMU/sched level to make the fix some
->   race conditions and deadlocks
-> - Addition of the a sync-only VM_BIND operation (to support
->   vkQueueSparseBind with zero commands).
-> - Addition of a VM_GET_STATE ioctl
+> v3:
+> - Add a dep on DRM_GPUVM
+> - Fix dependencies in Kconfig
+> - Expand help text to (hopefully) describe which GPUs are to be
+>   supported by this driver and which are for panfrost.
 > 
-> [1]https://gitlab.freedesktop.org/panfrost/linux/-/tree/panthor-v5
-> [2]https://gitlab.freedesktop.org/panfrost/linux/-/tree/panthor-v5+rk3588
-> [3]https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/arm/mali/arch10.8
-> [4]https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/26358
+> Co-developed-by: Steven Price <steven.price@arm.com>
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Acked-by: Steven Price <steven.price@arm.com> # MIT+GPL2 relicensing,Arm
+> Acked-by: Grant Likely <grant.likely@linaro.org> # MIT+GPL2 relicensing,Linaro
+> Acked-by: Boris Brezillon <boris.brezillon@collabora.com> # MIT+GPL2 relicensing,Collabora
+> Reviewed-by: Steven Price <steven.price@arm.com>
+> ---
+>  drivers/gpu/drm/Kconfig          |  2 ++
+>  drivers/gpu/drm/Makefile         |  1 +
+>  drivers/gpu/drm/panthor/Kconfig  | 23 +++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/Makefile | 15 +++++++++++++++
+>  4 files changed, 41 insertions(+)
+>  create mode 100644 drivers/gpu/drm/panthor/Kconfig
+>  create mode 100644 drivers/gpu/drm/panthor/Makefile
 > 
-> Boris Brezillon (13):
->   drm/panthor: Add uAPI
->   drm/panthor: Add GPU register definitions
->   drm/panthor: Add the device logical block
->   drm/panthor: Add the GPU logical block
->   drm/panthor: Add GEM logical block
->   drm/panthor: Add the devfreq logical block
->   drm/panthor: Add the MMU/VM logical block
->   drm/panthor: Add the FW logical block
->   drm/panthor: Add the heap logical block
->   drm/panthor: Add the scheduler logical block
->   drm/panthor: Add the driver frontend block
->   drm/panthor: Allow driver compilation
->   drm/panthor: Add an entry to MAINTAINERS
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 872edb47bb53..ad8227d88840 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -370,6 +370,8 @@ source "drivers/gpu/drm/lima/Kconfig"
+>  
+>  source "drivers/gpu/drm/panfrost/Kconfig"
+>  
+> +source "drivers/gpu/drm/panthor/Kconfig"
+> +
+>  source "drivers/gpu/drm/aspeed/Kconfig"
+>  
+>  source "drivers/gpu/drm/mcde/Kconfig"
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index 104b42df2e95..6eb2b553a163 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -179,6 +179,7 @@ obj-$(CONFIG_DRM_XEN) += xen/
+>  obj-$(CONFIG_DRM_VBOXVIDEO) += vboxvideo/
+>  obj-$(CONFIG_DRM_LIMA)  += lima/
+>  obj-$(CONFIG_DRM_PANFROST) += panfrost/
+> +obj-$(CONFIG_DRM_PANTHOR) += panthor/
+>  obj-$(CONFIG_DRM_ASPEED_GFX) += aspeed/
+>  obj-$(CONFIG_DRM_MCDE) += mcde/
+>  obj-$(CONFIG_DRM_TIDSS) += tidss/
+> diff --git a/drivers/gpu/drm/panthor/Kconfig b/drivers/gpu/drm/panthor/Kconfig
+> new file mode 100644
+> index 000000000000..159845e51116
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panthor/Kconfig
+> @@ -0,0 +1,23 @@
+> +# SPDX-License-Identifier: GPL-2.0 or MIT
+> +
+> +config DRM_PANTHOR
+> +	tristate "Panthor (DRM support for ARM Mali CSF-based GPUs)"
+> +	depends on DRM
+> +	depends on ARM || ARM64 || COMPILE_TEST
+> +	depends on !GENERIC_ATOMIC64  # for IOMMU_IO_PGTABLE_LPAE
+> +	depends on MMU
+> +	select DRM_GPUVM
+> +	select DRM_EXEC
+> +	select DRM_SCHED
+> +	select IOMMU_SUPPORT
+> +	select IOMMU_IO_PGTABLE_LPAE
+> +	select DRM_GEM_SHMEM_HELPER
+> +	select PM_DEVFREQ
+> +	select DEVFREQ_GOV_SIMPLE_ONDEMAND
+> +	help
+> +	  DRM driver for ARM Mali CSF-based GPUs.
+> +
+> +	  This driver is for Mali (or Immortalis) Valhall Gxxx GPUs.
+> +
+> +	  Note that the Mali-G68 and Mali-G78, while Valhall architecture, will
+> +	  be supported with the panfrost driver as they are not CSF GPUs.
+> diff --git a/drivers/gpu/drm/panthor/Makefile b/drivers/gpu/drm/panthor/Makefile
+> new file mode 100644
+> index 000000000000..64193a484879
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panthor/Makefile
+> @@ -0,0 +1,15 @@
+> +# SPDX-License-Identifier: GPL-2.0 or MIT
+> +
+> +panthor-y := \
+> +	panthor_devfreq.o \
+> +	panthor_device.o \
+> +	panthor_drv.o \
+> +	panthor_gem.o \
+> +	panthor_gpu.o \
+> +	panthor_heap.o \
+> +	panthor_heap.o \
 
-on a rk3588-jaguar with pending hdmi patches
-Tested-by: Heiko Stuebner <heiko@sntech.de>
+Duplicate panthor_heap.o
 
-Also the series looks nice to my cursory glance, so
-Acked-by: Heiko Stuebner <heiko@sntech.de>
+> +	panthor_fw.o \
 
+Should be moved before panthor_gem.o if we want to keep things
+alphabetically ordered.
+
+I'll fix both of these when applying the patch series to drm-misc-next.
+
+> +	panthor_mmu.o \
+> +	panthor_sched.o
+> +
+> +obj-$(CONFIG_DRM_PANTHOR) += panthor.o
 
