@@ -2,58 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5E0286A89D
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 07:59:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3BA486A89F
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 08:00:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20DF510E0D4;
-	Wed, 28 Feb 2024 06:59:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B80C10E44A;
+	Wed, 28 Feb 2024 07:00:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="pjSiOcEz";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="BIZRh0dF";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="tFoBykL7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3581F10E0D4
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 06:59:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1709103560; x=1740639560;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ikwrsScvsjir7tppFS7Vodgwt8ZO4tWkBRKFYXv4xCM=;
- b=pjSiOcEzdOV44sPXN0x2FG2okmKdpkSdSSl551tw+YdSqG+jwUkUDz99
- 3ISbiD5A+hEv/KC0qRrIb1rmZ0dZ/e6r0vNqAfLzLBZzOl3w88NM5yOQA
- mq6h+b8Ipaha2IjIxw5l9mJHNA4/OfkHutG0EtbFEIxmp8brZQooyyaFL
- /B6lvD3n1GkSLokbNzg+dFPQiBDBNyIlWuBqoRBOO5sQ69jgzphFfRlOO
- f3Aa7w37pw1rGLbXgwEFnZkZFcr1mIl99NuPqiX/QM8KwCNILBMuFemBJ
- dA3VTxgrFH2/WAZXIoiCk3OmfABi+6WF6Dknc/bxhuui2oYioMAlE4RYt g==;
-X-IronPort-AV: E=Sophos;i="6.06,190,1705359600"; d="scan'208";a="35630903"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 28 Feb 2024 07:59:17 +0100
-Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.25])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 04FD6280071;
- Wed, 28 Feb 2024 07:59:16 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/1] drm/bridge: ti-sn65dsi83: Fix enable error path
-Date: Wed, 28 Feb 2024 07:59:17 +0100
-Message-ID: <2930550.e9J7NaK4W3@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20240227184144.19729521@booty>
-References: <20230504065316.2640739-1-alexander.stein@ew.tq-group.com>
- <1885005.tdWV9SEqCh@steina-w> <20240227184144.19729521@booty>
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.154.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E333F10E44A
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 07:00:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1709103635; x=1740639635;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=NfE5g0YRCRE/rgsHoclrXjQ2zD81XoyLIeKbfeUZdYs=;
+ b=BIZRh0dFe8vjwSxTs60KDMAoC0T0lwinA4cKDMb62t93vyWR9ZQy0ex5
+ rgYxaxtPjn0X+mZcn/bRVuzPFZ2jUIXWvmhnYIvVDe1U3fdlW5WCeuHd5
+ 1VmX6GbWrr8WZSPrXFPrq0czyiGQwSSz37deAKBJbBaUiCzWWXjBwpfMZ
+ P1KRCc7U0xTD4rQQAvx/lHFK6aMKerQos9eScYh4roKM1geTVt3k/VQs3
+ AS5OpjV4HEF3EHFaYsjDqshEPCxG+JWhjgZXJ3u/WOLfgHnXbyG/I5idR
+ IsXQJZtLtWC07xl4SCzEdxFC0XfkrUMWGhPxMkyLPzuunXMQH2KT/7lUZ g==;
+X-CSE-ConnectionGUID: 9HY/Db7CQ5K8Svqp2VCHfQ==
+X-CSE-MsgGUID: PmZLBuLLSbeIUO4HosWQSg==
+X-IronPort-AV: E=Sophos;i="6.06,190,1705388400"; d="scan'208";a="184207705"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+ by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 28 Feb 2024 00:00:32 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 28 Feb 2024 00:00:02 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (10.10.215.250)
+ by email.microchip.com (10.10.87.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Wed, 28 Feb 2024 00:00:01 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=njuZBCCuNzVdkz70oVV2XGV6Rs/MBlCA0jmISRhCc5ozBCC4JITCCOc24NVUTCnL9YVYf14OSCYXbDL5dGwV+2NrMlNQAsPPJ76R0JAwxsTphFVplZkIJdnXlV9W46gJCFW10qWfAGoMJrjM0cYwhX+4X96ZqKDHOIsdyextPNILMH/1r2gUAy1VX2QGQxBDQ6rZh6w9FrnIdqiGXOIZb7MyK5qKA22pmTr5Z8EhlU1zP3z3Y6Fnj7Q1sWZHl4UrGj81WFzaA2L8EdxwQJwOO9bEkCnpLawSN0zQkXnHYcEntyJ2dy0kSARauwhXKdQGzchG24EcdJJ68PkrqY6oLw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NfE5g0YRCRE/rgsHoclrXjQ2zD81XoyLIeKbfeUZdYs=;
+ b=OqhtH0N5bR60uB6JC6CzK9C2ckgEbuzPOGyKMek6Sv6B1+hCPXzZFbiOkKhVxnUgtbw7DQviVnmBTyxwKRCCUrjec2HyMo2llwbtr2TqDJRLnKSnT1c/CEuDbctmgXFpl11BKn0aQ7ccg4qNNQ3AwGU5r5toz4TAVQifoUR2lJQDbtc7WP5j8WTGHWByvOPqAtGHhLP3PxUA/s0WoOEE8VsUUx1HXvPAcgPee+o17yAnW9dZ0vhBGlsNeHjIPxEs0DNAdYkyPzhyRj4tmqeEcYCsc6u0GOYchk096J5ouFHsiK5LNGYOXMhoZwutDISUpYM7N6qDRKEx30WTrdUqvA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microchip.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NfE5g0YRCRE/rgsHoclrXjQ2zD81XoyLIeKbfeUZdYs=;
+ b=tFoBykL7anrnOB93MKTTsZIKFolw4j++OpwLRrSF1xGJRaxMVLnTYKz3M2DzWxV0UF31V7osvwAkKIIFa758BOXEpNx/QsmivSPNktWQKpED4KQuR8IyOpQKXE6rAYkgsbveOrih0GZSittNtOlaISzaVnFCf4yHXjWxVKqa6VIlkcDgWZ8lXSjXTcmcoApcTzQE+qb3qM8DEtd0wLEDmychLaAMgo8CUCFFspyHk75QahdcavYZtXjsfHH7sktRB+OYZ7TSjmn+tKsu36Mrxlao5BpP5+cjylcf0IE1Zh5kTv/RCviaIhXWs5S6Bsb6Up/0tiZ9JIkO6008v4OlCw==
+Received: from PH7PR11MB6451.namprd11.prod.outlook.com (2603:10b6:510:1f4::16)
+ by CO1PR11MB5122.namprd11.prod.outlook.com (2603:10b6:303:95::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.25; Wed, 28 Feb
+ 2024 06:59:59 +0000
+Received: from PH7PR11MB6451.namprd11.prod.outlook.com
+ ([fe80::c2e8:2ace:1ddf:54dd]) by PH7PR11MB6451.namprd11.prod.outlook.com
+ ([fe80::c2e8:2ace:1ddf:54dd%3]) with mapi id 15.20.7339.022; Wed, 28 Feb 2024
+ 06:59:59 +0000
+From: <Dharma.B@microchip.com>
+To: <krzysztof.kozlowski@linaro.org>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>, <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>, 
+ <conor+dt@kernel.org>, <Nicolas.Ferre@microchip.com>,
+ <alexandre.belloni@bootlin.com>, <claudiu.beznea@tuxon.dev>
+CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] dt-bindings: display: atmel,lcdc: convert to dtschema
+Thread-Topic: [PATCH] dt-bindings: display: atmel,lcdc: convert to dtschema
+Thread-Index: AQHaZjjd01Ir06e0kkmO7KWz3iDwFbEeHZWAgAE9Z4A=
+Date: Wed, 28 Feb 2024 06:59:59 +0000
+Message-ID: <11c545e2-45df-4587-a5c7-12b05c2f01e0@microchip.com>
+References: <20240223-lcdc-fb-v1-1-4c64cb6277df@microchip.com>
+ <796652d5-af57-4aca-87c2-10a7b0b55959@linaro.org>
+In-Reply-To: <796652d5-af57-4aca-87c2-10a7b0b55959@linaro.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microchip.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH7PR11MB6451:EE_|CO1PR11MB5122:EE_
+x-ms-office365-filtering-correlation-id: bf490cb3-fe48-49ad-f939-08dc382ae0f1
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 3VJ1XMVUt3F8Q6DB1hr11/EH5CVznv1f23jDxE2dFf+MkRgX4mzmnOdCt/gfXOLMzxJG9ejZZPCZkPvguTV8R+9U+vTixYk9S/6opxxi6d50sGBzqvNLM46tQvr7wueC1z27IJe9PdqIChNtU+G7TV0oQrIv6bfq8aIOI6mOSNI01udSgVutPFAn+mRqqdOdFhuyV2hNJ3c/eKw2MTHba9y0htNq4ppe6ASNYH66r25CpBXUajKnmJVCY/mKAWXfOPzXTDTdFPyuLCsyTqheloMgKKhLBrzJGabAclINF8YZZh+t7nwDFGErn6ghjd2UieOzdkxNs20O3Fb2A0OEbUxJVXoiZhtfi2XKLUcRTTHuaMNYbUQDb20MTZZEMg+M/ZthAC1jy4n0G542Gt+NvSYMLHoJzNFAQw8aUzJzVPy7pHNO6fXNROpFIDV1F8aAqfxKWI/V/wS+oxgN6JgYsB46srClcqbpUcTLeW8DlvxADPQWBZdGiBLNXfedAf3RrtzXZdwy2TAS175fTBfMejwq8QdFHiD6i6Kgqda/voW46LdeLjGBVEkCTG52SHR8ipKIlo3POGSyZw8xezlC6fVQn3Fq4Xh7O9j4W8A3J9vvmiUnYIO04g/Bj+Mla/aOeq+AFIbE6opOB9KtBgPp0OfR+pStpjL1e7tThPgY6MWYZIT62zHnzOqccCWJrqaxaGriEKT5RnaskVNKBTWiXz4zLmYp3xOybl8pR9E+Dtk=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6451.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(230273577357003)(38070700009)(921011); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VndtdFFBQkhsWWRpVjFvYm1BbWpwVmNvazh1c3ZRYWxXby9qZFdLQXMxTHRq?=
+ =?utf-8?B?LzF4Wk95OWkydm9aZVNLWG1pdGlJUWRzb0FKc3RyRDlpZUxnVGRXbFByZnVQ?=
+ =?utf-8?B?YTZCbGphTmRpZUltMlVjRFUxUmNXbS90dUVXcE8zdWU0ODZ4cjV4UHFZdEVo?=
+ =?utf-8?B?TTdzRTR3SzRmK0xSWWJvYnk3VEVDVjNObzhiaDRZVTl6aUlwTGdtTTl5ci9v?=
+ =?utf-8?B?NlJ1ajFFVzJyeWNQRDVuNHVaQnB1cmFxRXk4Rm5qUmlJRTdwZFNZdmMzbnB0?=
+ =?utf-8?B?MW83WHJadUpRRWNnK292WFZzV2RTQXFvYVRPSDV0QXloVk8xMU5nVmRNOWRC?=
+ =?utf-8?B?T2JRaXdESEorUnozS3pMaDFENjdhRFQ3QmtvQkZXeURFb1JFcDYwNGJSRmVj?=
+ =?utf-8?B?MkNkempXV1VKaC9WWWNaNjI2MnlYb1FtR3dhNVhFTnhBSGg1bjFpMWc0SDZm?=
+ =?utf-8?B?RmRGZW9SMzZIZTE2dVZYR2pnY2JKLzVVM1hBOEFrV2pCTGJWNDVIRnowa0ZW?=
+ =?utf-8?B?dTM0aEFYakpEOXh5a29wY2VGK1BNWlpwT1BhVjZrdUNVZlJHQUwrNVo5Ynhv?=
+ =?utf-8?B?RjlmdTdqTEVZc2ZtMFNvVGNFdCtwaTRtZGdXa015WGxlalFjOE9Yck5TVk50?=
+ =?utf-8?B?Skw3d2UyVWh1ZEN4R0VBWERSck9DRmh0L0tUSVpUWmxBVHZaZTI1eDFyOXlS?=
+ =?utf-8?B?dkVNYzVCNjRoNGlXQk5HeGF1T0xEa2VZQmhuQllsOEk2ZnhKQTV1eWIxZFVq?=
+ =?utf-8?B?a1dLZjI0c1Y3Q0tDazhOWUZBWnIzdVRFNDcyOGFDcmxPSkpvMmlSaU4xNVVy?=
+ =?utf-8?B?T09DZ0svVzFWd3g0TmhLMW1JK0VoNm5RbHl2c09xZ1R2TS9jeGZ4YWZTejdS?=
+ =?utf-8?B?U1lRbE1OM1VSMlhUMGNycW4yZndCZDJuVmFvdG95ZndheU9qMXZBMHB2RWpS?=
+ =?utf-8?B?aUJCZVpjaVJsNDFtRGpqbVlqcSt0bjBqQlZkZTV4T0ZHQW1YRVNrR1R6a21O?=
+ =?utf-8?B?WVEzWUxwWkZSWWlIRWJZTUZ1b3FRRTk4b3pzY1VDeFpvS2tqbCtvYVVMbkx5?=
+ =?utf-8?B?NjJEZENmODZVaUI0dG03YnhHbEdFanREUno0YUw3NmgxUDBDSW9tdTk0bnc3?=
+ =?utf-8?B?VkphRk1MUFZzcmNZVEdYa2t0SDlYelBhd3h0bTBnekt1Wjdyd252TXI3TFNL?=
+ =?utf-8?B?ZEV6N3pLaCtXaGNBUjIwVGZwam9VRm52clRjOTg2Zk9CYzR2ejJOVWR5MkRn?=
+ =?utf-8?B?OHkvTFM1MS9BSXZodzJpdzl1UXA4OHhCSERHaTg0N2VWZGdOeThyL2VrNTd3?=
+ =?utf-8?B?ajJDQXQ3Z2QxRUdCUGJxRlNEa1NjWU1DWE90UklTcTFWT2hWZHhPUHBvbFo4?=
+ =?utf-8?B?d25OTk5DZzZ2bVM1ek1hYUdrTkxKbkVhd0tXeHpnaDJSYXdkUUVZVFBncGtK?=
+ =?utf-8?B?Wjd6TWs5Z1VJb25hWitzVDA3UlN2YWpwc3U5aCsvZTU3eCtBSzFGUGIrbENp?=
+ =?utf-8?B?OFlhNE5LUzVIWnk3WjMvQlVSQ3A1a2tTN3NKSHM2UVN3d0ZMZGh2SEg0WVBu?=
+ =?utf-8?B?YTVUallTVUh2OU90ZnhWZkJMa0xmMC9EVGVXaXZsSXRidGV1NFV3U3U2NFRp?=
+ =?utf-8?B?eGEyWEt1WUNKYVFjUGJvM2FLZGt2cnBtei9YUzFpalN1NUJ4VXQxeTlQTXk2?=
+ =?utf-8?B?NUhESVhneFR2MVF4eXpSQVd4andOWXUvdjlrN0pTU0MxTklwNFRzRzVMcWRY?=
+ =?utf-8?B?NkxDbDVjSXZndDdDdzEvMERsMTdWZitncWZmZUpXN0dvYVBSeDNYUmY3L0Zm?=
+ =?utf-8?B?S0c0ZzVrd0pDWTdrVlFjOGo2NmloenljNWZ1d0N3Q29LT2VUdlJyczdEOER1?=
+ =?utf-8?B?OHQ4YzlYekR4ZVU1dk9NOWJzK2RjbDE3Q0RnTnB6NjQwZnBsay9HTXNubzdT?=
+ =?utf-8?B?ek9YSnlXR3g2VkFYODZBMHZPU3hVNjgyTkFGQk9wSHlYanBYeTZrNXB3TnNE?=
+ =?utf-8?B?N0w4czZjYmVjYWVzdG1zM3hTZ1hYdnd3VmpkclppSTRCQ0U1QUsvUUJVL2l3?=
+ =?utf-8?B?YmNEd2ppTUEwZ3BRWlBpcDJMT2ZzcXduVTR1S08wc0tLMklYYmdKK1dyWURv?=
+ =?utf-8?Q?jF9dUgkRjQGZ1MhLCtq8v867s?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E6FB034AF1423C4BBFFAA4831F4CF561@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6451.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf490cb3-fe48-49ad-f939-08dc382ae0f1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Feb 2024 06:59:59.3459 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zdnh4LtLxP9p9RaHdhITLsgmX2PHkSK7tSPq21Js6A7X8OKtruVN3W7j5Y3Z/HYzYQJ4kmZJjizYcx+yq5YUjA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5122
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,205 +165,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Luca,
-
-Am Dienstag, 27. Februar 2024, 18:41:44 CET schrieb Luca Ceresoli:
-> Hi Alexander,
->=20
-> thanks for your feedback!
->=20
-> On Tue, 27 Feb 2024 13:05:46 +0100
-> Alexander Stein <alexander.stein@ew.tq-group.com> wrote:
->=20
-> > Hi Luca,
-> >=20
-> > Am Donnerstag, 22. Februar 2024, 16:36:37 CET schrieb Luca Ceresoli:
-> > > Hello Alexander,
-> > >=20
-> > > On Thu,  4 May 2023 08:53:16 +0200
-> > > Alexander Stein <alexander.stein@ew.tq-group.com> wrote:
-> > >  =20
-> > > > If PLL locking failed, the regulator needs to be disabled again.
-> > > >=20
-> > > > Fixes: 5664e3c907e2 ("drm/bridge: ti-sn65dsi83: Add vcc supply regu=
-lator support")
-> > > > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > > > ---
-> > > >  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 1 +
-> > > >  1 file changed, 1 insertion(+)
-> > > >=20
-> > > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/dr=
-m/bridge/ti-sn65dsi83.c
-> > > > index 75286c9afbb9..1f5c07989e2b 100644
-> > > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> > > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> > > > @@ -478,6 +478,7 @@ static void sn65dsi83_atomic_enable(struct drm_=
-bridge *bridge,
-> > > >  		dev_err(ctx->dev, "failed to lock PLL, ret=3D%i\n", ret);
-> > > >  		/* On failure, disable PLL again and exit. */
-> > > >  		regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
-> > > > +		regulator_disable(ctx->vcc);
-> > > >  		return;
-> > > >  	} =20
-> > >=20
-> > > I'm reviving this thread as I've been investigating a bug that appears
-> > > related to this patch.
-> > >=20
-> > > Symptom: with a v6.8-rc5 kernel, if PLL fails locking, later on during
-> > > atomic disable I get:
-> > >=20
-> > > [   41.065198] ------------[ cut here ]------------
-> > > [   41.069823] unbalanced disables for DOCK_SYS_1V8
-> > > [   41.074482] WARNING: CPU: 0 PID: 58 at drivers/regulator/core.c:29=
-99 _regulator_disable+0xf8/0x1d8
-> > > [   41.083457] Modules linked in: smsc smsc95xx usbnet mii imx_cpufre=
-q_dt exc3000 imx8mm_thermal snd_soc_tlv320aic3x_spi snd_soc_tlv320aic3x_i2c=
- snd_soc_tlv320aic3x tmp103 snd_soc_simple_card snd_soc_simple_card_utils f=
-sl_ldb rtc_snvs snvs_pwrkey snd_soc_fsl_sai imx8mp_interconnect snd_soc_fsl=
-_utils imx_interconnect imx_pcm_dma rtc_rs5c372 ti_sn65dsi83 pwm_imx27 st_p=
-ressure_spi st_sensors_spi st_pressure_i2c st_pressure st_sensors_i2c indus=
-trialio_triggered_buffer lm75 kfifo_buf st_sensors opt3001 panel_simple etn=
-aviv gpu_sched iio_hwmon governor_userspace imx_bus imx8mp_hdmi_tx dw_hdmi =
-drm_display_helper samsung_dsim imx_sdma imx_lcdif drm_dma_helper imx8mp_hd=
-mi_pvi drm_kms_helper drm drm_panel_orientation_quirks fsl_imx8_ddr_perf ca=
-am error sbs_battery pwm_bl backlight ltc2497 ltc2497_core crct10dif_ce
-> > > [   41.157281] CPU: 0 PID: 58 Comm: kworker/0:2 Not tainted 6.8.0-rc5=
-+ #7
-> > > [   41.170339] Workqueue: events drm_mode_rmfb_work_fn [drm]
-> > > [   41.175798] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS =
-BTYPE=3D--)
-> > > [   41.182762] pc : _regulator_disable+0xf8/0x1d8
-> > > [   41.187209] lr : _regulator_disable+0xf8/0x1d8
-> > > [   41.191654] sp : ffff800081aaba90
-> > > [   41.194967] x29: ffff800081aaba90 x28: 0000000000000000 x27: ffff0=
-00002647e80
-> > > [   41.202109] x26: ffff000002d7a180 x25: ffff0000037858a0 x24: ffff8=
-00079748ac8
-> > > [   41.209250] x23: ffff000002647ed8 x22: ffff00000263f800 x21: ffff0=
-0000373d000
-> > > [   41.216392] x20: ffff00000373d000 x19: ffff000001de6480 x18: 00000=
-00000000006
-> > > [   41.223533] x17: 0000000000000000 x16: 1fffe000003423e1 x15: ffff8=
-00081aab520
-> > > [   41.230674] x14: 0000000000000000 x13: 3856315f5359535f x12: 4b434=
-f4420726f66
-> > > [   41.237815] x11: 2073656c62617369 x10: ffff8000814647a0 x9 : ffff8=
-000801b10e0
-> > > [   41.244957] x8 : ffff8000814bc7a0 x7 : 0000000000017fe8 x6 : ffff8=
-000814bc7a0
-> > > [   41.252098] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 00000=
-00000000000
-> > > [   41.259239] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0=
-000011b6600
-> > > [   41.266380] Call trace:
-> > > [   41.268826]  _regulator_disable+0xf8/0x1d8
-> > > [   41.272925]  regulator_disable+0x4c/0x98
-> > > [   41.276850]  sn65dsi83_atomic_disable+0x70/0xc0 [ti_sn65dsi83]
-> > > [   41.282692]  drm_atomic_bridge_chain_disable+0x78/0x110 [drm]
-> > > [   41.288481]  disable_outputs+0x100/0x350 [drm_kms_helper]
-> > > [   41.293902]  drm_atomic_helper_commit_tail_rpm+0x2c/0xb0 [drm_kms_=
-helper]
-> > > [   41.300705]  commit_tail+0xac/0x1a0 [drm_kms_helper]
-> > > [   41.305685]  drm_atomic_helper_commit+0x16c/0x188 [drm_kms_helper]
-> > > [   41.311881]  drm_atomic_commit+0xac/0xf0 [drm]
-> > > [   41.316365]  drm_framebuffer_remove+0x464/0x550 [drm]
-> > > [   41.321458]  drm_mode_rmfb_work_fn+0x84/0xb0 [drm]
-> > > [   41.326291]  process_one_work+0x148/0x3b8
-> > > [   41.330309]  worker_thread+0x32c/0x450
-> > > [   41.334061]  kthread+0x11c/0x128
-> > > [   41.337292]  ret_from_fork+0x10/0x20
-> > > [   41.340873] ---[ end trace 0000000000000000 ]---
-> > >=20
-> > > The reason is clear from the code flow, which looks like this (after
-> > > removing unrelated code):
-> > >=20
-> > > static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
-> > >                                         struct drm_bridge_state *old_=
-bridge_state)
-> > > {
-> > >         regulator_enable(ctx->vcc);
-> > >=20
-> > >         if (PLL failed locking) {
-> > >                 regulator_disable(ctx->vcc);
-> > >                 return;
-> > >         }
-> > > }
-> > >=20
-> > > static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
-> > >                                      struct drm_bridge_state *old_bri=
-dge_state)
-> > > {
-> > >         regulator_disable(ctx->vcc);
-> > > }
-> > >=20
-> > > So when the PLL fails locking, the vcc regulator is disable twice,
-> > > leading to "unbalanced disables".
-> > >=20
-> > > I initially removed the regulator_disable() line in sn65dsi83_atomic_=
-pre_enable()
-> > > locally and it worked fine. Then I did some git log and found you add=
-ed this line on
-> > > purpose (even though it was in sn65dsi83_atomic_enable() initially), =
-so my question
-> > > is whether you can explain exactly what was wrong before your patch. =
-I have been
-> > > working for a few weeks with the regulator_disable() line removed and=
- found no issue. =20
-> >=20
-> > Unfortunately I' cant tell the details anymore, but I do remember hitti=
-ng
-> > some bug regarding failed PLL lock. I do remember having a lock failure
-> > from time to time as well.
->=20
-> Too bad, and unfortunately the commit message is not providing an
-> example. However...
->=20
-> > I wont be able to test this bridge at the moment, but you seem to be ri=
-ght.
->=20
-> ...if you could test it soonish and report back that would be great.
-> Otherwise to move forward from the current situation I see two options:
->=20
->  * remove the regulator_disable() in the PLL failure case, de facto
->    reverting commit 8a91b29f1f50 ("drm/bridge: ti-sn65dsi83: Fix enable
->    error path"), and see if any problem happens again
->  * add a flag to take not of whether we enabled the regulator or not,
->    and in sn65dsi83_atomic_disable() call regulator_disable()
->    conditionally based on that
->=20
-> The first approach is simpler. It also means that in the window between
-> atomic_pre_enable and atomic_disable the regulator would be enabled
-> without need. I don't think this is a relevant problem as the video
-> output is not working without a PLL, so people will fix that soon I
-> guess.
->=20
-> The second approach means introducing a little more complexity and we
-> are not sure whether it is needed or not.
->=20
-> So I have some preference for the first proposal unless there is a
-> valid example where the added regulator_disable() is surely needed.
-> This is what is running here singe several weeks, and it didn't show
-> other issues.
-
-=46eel free to go the first version, my platform still has DSI problems so
-there is no board which might break right now.
-
-> > On a general side, IMHO enabling the PLL in atomic_pre_enable is a bit =
-late
-> > anyway, because you can't bail out if enabling fails.
->=20
-> True. However I don't see what we can do about that without changes to
-> the DRM core, which would not be quick to do. So in the short term we
-> need a fix in this driver.
-
-Indeed, I was just mentioning, no need to address this right now.
-
-Best regards,
-Alexander
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
-
+SGkgS3J6eXN6dG9mLA0KDQpPbiAyNy8wMi8yNCA1OjMzIHBtLCBLcnp5c3p0b2YgS296bG93c2tp
+IHdyb3RlOg0KPiBFWFRFUk5BTCBFTUFJTDogRG8gbm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0
+YWNobWVudHMgdW5sZXNzIHlvdSBrbm93IHRoZSBjb250ZW50IGlzIHNhZmUNCj4gDQo+IE9uIDIz
+LzAyLzIwMjQgMTA6MTQsIERoYXJtYSBCYWxhc3ViaXJhbWFuaSB3cm90ZToNCj4+IENvbnZlcnQg
+dGhlIGF0bWVsLGxjZGMgYmluZGluZ3MgdG8gRFQgc2NoZW1hLg0KPj4gQ2hhbmdlcyBkdXJpbmcg
+Y29udmVyc2lvbjogYWRkIG1pc3NpbmcgY2xvY2tzIGFuZCBjbG9jay1uYW1lcyBwcm9wZXJ0aWVz
+Lg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IERoYXJtYSBCYWxhc3ViaXJhbWFuaSA8ZGhhcm1hLmJA
+bWljcm9jaGlwLmNvbT4NCj4+IC0tLQ0KPj4gICAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNw
+bGF5L2F0bWVsLGxjZGMudHh0ICAgICB8ICA4NyAtLS0tLS0tLS0tLS0tLQ0KPj4gICAuLi4vZGV2
+aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2F0bWVsLGxjZGMueWFtbCAgICB8IDEzMyArKysrKysr
+KysrKysrKysrKysrKysNCj4+ICAgMiBmaWxlcyBjaGFuZ2VkLCAxMzMgaW5zZXJ0aW9ucygrKSwg
+ODcgZGVsZXRpb25zKC0pDQo+IA0KPiBZb3UgaGF2ZSBzZXZlcmFsIHBhdGNoIGVycm9ycy4uLiBj
+aGVjayB5b3VyIGdpdCByZXBvIChnaXQgc2hvdykuIFlvdQ0KPiB3aWxsIGVhc2lseSBzcG90IHRo
+ZW0uIE9yIGp1c3QgdXNlIGRlY2VudCB0ZXh0IGVkaXRvciB0byBjbGVhbiBpdCB1cC4NCj4gUnVu
+IGNoZWNrcGF0Y2guLi4NCj4gDQoNClRoZXJlIHNlZW1zIHRvIGJlIGFuIGlzc3VlIHdpdGggbXkg
+Z2l0IGhvb2tzLCBUaGFua3MgZm9yIGxldHRpbmcgbWUga25vdyANCnRoZXNlIGVycm9ycywgSSB3
+aWxsIGZpeCBpdC4NCg0KPiAuLi4NCj4gDQo+PiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9k
+ZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYXRtZWwsbGNkYy55YW1sIGIvRG9jdW1lbnRhdGlv
+bi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYXRtZWwsbGNkYy55YW1sDQo+PiBuZXcgZmls
+ZSBtb2RlIDEwMDY0NA0KPj4gaW5kZXggMDAwMDAwMDAwMDAwLi40YTFkZTVhOGQ2NGINCj4+IC0t
+LSAvZGV2L251bGwNCj4+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9k
+aXNwbGF5L2F0bWVsLGxjZGMueWFtbA0KPj4gQEAgLTAsMCArMSwxMzMgQEANCj4+ICsjIFNQRFgt
+TGljZW5zZS1JZGVudGlmaWVyOiAoR1BMLTIuMCBPUiBCU0QtMi1DbGF1c2UpDQo+PiArJVlBTUwg
+MS4yDQo+PiArLS0tDQo+PiArJGlkOiBodHRwOi8vZGV2aWNldHJlZS5vcmcvc2NoZW1hcy9kaXNw
+bGF5L2F0bWVsLGxjZGMueWFtbCMNCj4+ICskc2NoZW1hOiBodHRwOi8vZGV2aWNldHJlZS5vcmcv
+bWV0YS1zY2hlbWFzL2NvcmUueWFtbCMNCj4+ICsNCj4+ICt0aXRsZTogTWljcm9jaGlwJ3MgTENE
+QyBGcmFtZWJ1ZmZlcg0KPj4gKw0KPj4gK21haW50YWluZXJzOg0KPj4gKyAgLSBOaWNvbGFzIEZl
+cnJlIDxuaWNvbGFzLmZlcnJlQG1pY3JvY2hpcC5jb20+DQo+PiArICAtIERoYXJtYSBCYWxhc3Vi
+aXJhbWFuaSA8ZGhhcm1hLmJAbWljcm9jaGlwLmNvbT4NCj4+ICsNCj4+ICtkZXNjcmlwdGlvbjoN
+Cj4+ICsgIFRoZSBMQ0RDIHdvcmtzIHdpdGggYSBmcmFtZWJ1ZmZlciwgd2hpY2ggaXMgYSBzZWN0
+aW9uIG9mIG1lbW9yeSB0aGF0IGNvbnRhaW5zDQo+PiArICBhIGNvbXBsZXRlIGZyYW1lIG9mIGRh
+dGEgcmVwcmVzZW50aW5nIHBpeGVsIHZhbHVlcyBmb3IgdGhlIGRpc3BsYXkuIFRoZSBMQ0RDDQo+
+PiArICByZWFkcyB0aGUgcGl4ZWwgZGF0YSBmcm9tIHRoZSBmcmFtZWJ1ZmZlciBhbmQgc2VuZHMg
+aXQgdG8gdGhlIExDRCBwYW5lbCB0bw0KPj4gKyAgcmVuZGVyIHRoZSBpbWFnZS4NCj4+ICsNCj4+
+ICtwcm9wZXJ0aWVzOg0KPj4gKyAgY29tcGF0aWJsZToNCj4+ICsgICAgZW51bToNCj4+ICsgICAg
+ICAtIGF0bWVsLGF0OTFzYW05MjYxLWxjZGMNCj4+ICsgICAgICAtIGF0bWVsLGF0OTFzYW05MjYz
+LWxjZGMNCj4+ICsgICAgICAtIGF0bWVsLGF0OTFzYW05ZzEwLWxjZGMNCj4+ICsgICAgICAtIGF0
+bWVsLGF0OTFzYW05ZzQ1LWxjZGMNCj4+ICsgICAgICAtIGF0bWVsLGF0OTFzYW05ZzQ1ZXMtbGNk
+Yw0KPj4gKyAgICAgIC0gYXRtZWwsYXQ5MXNhbTlybC1sY2RjDQo+PiArDQo+PiArICByZWc6DQo+
+PiArICAgIG1heEl0ZW1zOiAxDQo+PiArDQo+PiArICBpbnRlcnJ1cHRzOg0KPj4gKyAgICBtYXhJ
+dGVtczogMQ0KPj4gKw0KPj4gKyAgY2xvY2tzOg0KPj4gKyAgICBtYXhJdGVtczogMg0KPj4gKw0K
+Pj4gKyAgY2xvY2stbmFtZXM6DQo+PiArICAgIGl0ZW1zOg0KPj4gKyAgICAgIC0gY29uc3Q6IGhj
+bGsNCj4+ICsgICAgICAtIGNvbnN0OiBsY2RjX2Nsaw0KPj4gKw0KPj4gKyAgZGlzcGxheToNCj4+
+ICsgICAgJHJlZjogL3NjaGVtYXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvcGhhbmRsZQ0KPj4g
+KyAgICBkZXNjcmlwdGlvbjogQSBwaGFuZGxlIHBvaW50aW5nIHRvIHRoZSBkaXNwbGF5IG5vZGUu
+DQo+IA0KPiBQaGFuZGxlIGRvZXMgbm90IGhhdmUgcHJvcGVydGllcy4gRGlkbid0IHlvdSB3YW50
+IG9iamVjdD8NCj4gDQo+IFRoaXMgY2Fubm90IHdvcmsgLSBqdXN0IHRlc3QgaXQuIENoYW5nZSB0
+aGUgcHJvcGVydGllcyBpbiB0aGUgZXhhbXBsZSwNCj4gcmVtb3ZlIG9yIGFkZCBzb21ldGhpbmcu
+IERvIHlvdSBzZWUgZXJyb3JzPyBObywgYmVjYXVzZSBpdCBkb2VzIG5vdCB3b3JrDQo+IGF0IGFs
+bC4NCg0KWWVzIEluZGVlZCwgSSB0aG91Z2h0IGl0cyB3b3JraW5nIGFzIGV4cGVjdGVkIGFzIEkg
+aGFkIGFsbCByZXF1aXJlZCANCnByb3BlcnR5Lg0KDQo+IA0KPiBJIGRvbid0IGtub3cgd2hhdCdz
+IHRoaXMgZXhhY3RseSwgYnV0IGlmIGVtYmVkZGVkIGRpc3BsYXkgdGhlbiBtYXliZQ0KPiBjb3Vs
+ZCBiZSBwYXJ0IG9mIHRoaXMgZGV2aWNlIG5vZGUuIElmIHNvbWUgb3RoZXIgZGlzcGxheSwgdGhl
+biBtYXliZSB5b3UNCj4gbmVlZCBhbm90aGVyIHNjaGVtYSwgd2l0aCBjb21wYXRpYmxlPyBCdXQg
+Zmlyc3QgSSB3b3VsZCBjaGVjayBob3cgb3RoZXJzDQo+IGFyZSBkb2luZyB0aGlzLg0KDQpPa2F5
+LCB0aGVuIEkgdGhpbmsgdGhlIGRyaXZlciBhbHNvIG5lZWRzIHRvIGJlIG1vZGlmaWVkLCBjdXJy
+ZW50bHkgdGhlIA0KZHJpdmVyIHBhcnNlcyB0aGUgcGhhbmRsZSBhbmQgbG9va3MgZm9yIHRoZXNl
+IHByb3BlcnRpZXMuIEFsc28gdGhlIA0KY29ycmVzcG9uZGluZyBkdHMgZmlsZXMuDQoNCj4gDQo+
+IA0KPj4gKw0KPj4gKyAgICBwcm9wZXJ0aWVzOg0KPj4gKyAgICAgIGF0bWVsLGRtYWNvbjoNCj4+
+ICsgICAgICAgICRyZWY6IC9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3VpbnQzMg0K
+Pj4gKyAgICAgICAgZGVzY3JpcHRpb246IGRtYSBjb250cm9sbGVyIGNvbmZpZ3VyYXRpb24NCj4+
+ICsNCj4+ICsgICAgICBhdG1lbCxsY2Rjb24yOg0KPj4gKyAgICAgICAgJHJlZjogL3NjaGVtYXMv
+dHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvdWludDMyDQo+PiArICAgICAgICBkZXNjcmlwdGlvbjog
+bGNkIGNvbnRyb2xsZXIgY29uZmlndXJhdGlvbg0KPj4gKw0KPj4gKyAgICAgIGF0bWVsLGd1YXJk
+LXRpbWU6DQo+PiArICAgICAgICAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9u
+cy91aW50MzINCj4+ICsgICAgICAgIGRlc2NyaXB0aW9uOiBsY2QgZ3VhcmQgdGltZSAoRGVsYXkg
+aW4gZnJhbWUgcGVyaW9kcykNCj4+ICsNCj4+ICsgICAgICBiaXRzLXBlci1waXhlbDoNCj4+ICsg
+ICAgICAgICRyZWY6IC9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3VpbnQzMg0KPj4g
+KyAgICAgICAgZGVzY3JpcHRpb246IGxjZCBwYW5lbCBiaXQtZGVwdGguDQo+PiArDQo+PiArICAg
+ICAgYXRtZWwsbGNkY29uLWJhY2tsaWdodDoNCj4+ICsgICAgICAgICRyZWY6IC9zY2hlbWFzL3R5
+cGVzLnlhbWwjL2RlZmluaXRpb25zL2ZsYWcNCj4+ICsgICAgICAgIGRlc2NyaXB0aW9uOiBlbmFi
+bGUgYmFja2xpZ2h0DQo+PiArDQo+PiArICAgICAgYXRtZWwsbGNkY29uLWJhY2tsaWdodC1pbnZl
+cnRlZDoNCj4+ICsgICAgICAgICRyZWY6IC9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25z
+L2ZsYWcNCj4+ICsgICAgICAgIGRlc2NyaXB0aW9uOiBpbnZlcnQgYmFja2xpZ2h0IFBXTSBwb2xh
+cml0eQ0KPj4gKw0KPj4gKyAgICAgIGF0bWVsLGxjZC13aXJpbmctbW9kZToNCj4+ICsgICAgICAg
+ICRyZWY6IC9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL25vbi11bmlxdWUtc3RyaW5n
+LWFycmF5DQo+PiArICAgICAgICBkZXNjcmlwdGlvbjogbGNkIHdpcmluZyBtb2RlICJSR0IiIG9y
+ICJCUkciDQo+PiArDQo+PiArICAgICAgYXRtZWwscG93ZXItY29udHJvbC1ncGlvOg0KPj4gKyAg
+ICAgICAgZGVzY3JpcHRpb246IGdwaW8gdG8gcG93ZXIgb24gb3Igb2ZmIHRoZSBMQ0QgKGFzIG1h
+bnkgYXMgbmVlZGVkKQ0KPj4gKw0KPj4gKyAgICByZXF1aXJlZDoNCj4+ICsgICAgICAtIGF0bWVs
+LGRtYWNvbg0KPj4gKyAgICAgIC0gYXRtZWwsbGNkY29uMg0KPj4gKyAgICAgIC0gYXRtZWwsZ3Vh
+cmQtdGltZQ0KPj4gKyAgICAgIC0gYml0cy1wZXItcGl4ZWwNCj4+ICsNCj4+ICsgICAgYWRkaXRp
+b25hbFByb3BlcnRpZXM6IGZhbHNlDQo+PiArDQo+PiArcmVxdWlyZWQ6DQo+PiArICAtIGNvbXBh
+dGlibGUNCj4+ICsgIC0gcmVnDQo+PiArICAtIGludGVycnVwdHMNCj4+ICsgIC0gY2xvY2tzDQo+
+PiArICAtIGNsb2NrLW5hbWVzDQo+PiArICAtIGRpc3BsYXkNCj4+ICsNCj4+ICthZGRpdGlvbmFs
+UHJvcGVydGllczogZmFsc2UNCj4+ICsNCj4+ICtleGFtcGxlczoNCj4+ICsgIC0gfA0KPj4gKyAg
+ICAjaW5jbHVkZSA8ZHQtYmluZGluZ3MvY2xvY2svYXQ5MS5oPg0KPj4gKyAgICBmYkA1MDAwMDAg
+ew0KPj4gKyAgICAgIGNvbXBhdGlibGUgPSAiYXRtZWwsYXQ5MXNhbTlnNDUtbGNkYyI7DQo+PiAr
+ICAgICAgcmVnID0gPDB4MDA1MDAwMDAgMHgxMDAwPjsNCj4+ICsgICAgICBpbnRlcnJ1cHRzID0g
+PDIzIDMgMD47DQo+IA0KPiBBcmVuJ3QgaGVyZSBzb21lIHN0YW5kYXJkIGludGVycnVwdCBmbGFn
+cz8NCg0KSSB3aWxsIHVwZGF0ZSB0aGUgZmxhZ3MgYXMgd2VsbCBpbiB0aGUgbmV4dCByZXZpc2lv
+bi4NCg0KPiANCj4+ICsgICAgICBwaW5jdHJsLW5hbWVzID0gImRlZmF1bHQiOw0KPj4gKyAgICAg
+IHBpbmN0cmwtMCA9IDwmcGluY3RybF9mYj47DQo+PiArICAgICAgY2xvY2tzID0gPCZwbWMgUE1D
+X1RZUEVfUEVSSVBIRVJBTCAyMz4sIDwmcG1jIFBNQ19UWVBFX1BFUklQSEVSQUwgMjM+Ow0KPj4g
+KyAgICAgIGNsb2NrLW5hbWVzID0gImhjbGsiLCAibGNkY19jbGsiOw0KPj4gKyAgICAgIGRpc3Bs
+YXkgPSA8JmRpc3BsYXkwPjsNCj4+ICsgICAgfTsNCj4+ICsNCj4gDQo+IA0KPiBCZXN0IHJlZ2Fy
+ZHMsDQo+IEtyenlzenRvZg0KPiANCg0KLS0gDQpXaXRoIEJlc3QgUmVnYXJkcywNCkRoYXJtYSBC
+Lg0KDQo=
