@@ -2,56 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14C6686B467
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 17:14:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26BF986B47F
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 17:16:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4119C10E713;
-	Wed, 28 Feb 2024 16:14:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F18EB10E793;
+	Wed, 28 Feb 2024 16:16:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IF29Uk+V";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sZmZYn/w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DA3F10E713
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 16:14:06 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 226EA10E793
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 16:16:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id C954BCE12A1;
- Wed, 28 Feb 2024 16:14:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8BCCC433C7;
- Wed, 28 Feb 2024 16:14:03 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 776F4618D8;
+ Wed, 28 Feb 2024 16:16:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB65FC433C7;
+ Wed, 28 Feb 2024 16:16:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1709136844;
- bh=+5C3vqa46Z5TueGROchrOvaCvAo76c8wgPV51Z2KIGk=;
+ s=k20201202; t=1709137011;
+ bh=fErWKInGULVeVxqgQI2zMH4IGVMKKtYkJXd20L7xtH0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IF29Uk+Vy1iQLc3TQ+atArn7bdmZj6yahnQjdhYGcsd0/SSi/iawTZauHyg6Ymw8V
- 2iDS/Kg9dGoibjE5vPPc65LJII0QWE2Fd9pIoS/HWtArrJxD7gu/XG8WLvnxPCrAcA
- nBObrXI8i8+NDt2hEBJv0tZaJ2wiasPBy2jkxyc3O0+ZoXtkwyPpWNchqybJSelxeI
- nESehopb5bztSkIksYrz/utYZJvRw1Pa2NZVtj06cKrkCczfMb9MLjLQszvkzlH8BP
- E4GCuiTy52eeU+qL83deT9FS/ylbZdJSPKoH/yPMXQhBaQdXQMV8glTNH38qGOj2Fk
- jv4Ib5rF/GwwQ==
-Date: Wed, 28 Feb 2024 17:14:01 +0100
+ b=sZmZYn/wQtnIX3Ao7DScrIzuZTZ3OmuPwAm6201EzNpKwrM7pobEvjOs+wRU2Rk/f
+ NYhJ69FIupcA1l5fjn3ecGzgrtRyNeFj2bPjLMHFsrXnNUlO+ifepw73K5DWTBVwiS
+ /8ltKWfS6D7ubOtpSSG06ul0hV/Jekp8/X2T0UTM8hCgiOLmRRLKIQII2ZbMPQkHwq
+ WVD7NzgaXHzXS4SfcgoP8RiknLVnNzZ+B+/ZqRBuHgbNNtwtYj775EGgo7PkmEN5pw
+ ykI0fXySHnqeNMg+b7D/GX3TQYIXLmf3yjvgnZOtfpEepUFYWLCkU0s64SjBCmPPRq
+ 0/Rl4/cJstcDQ==
+Date: Wed, 28 Feb 2024 17:16:48 +0100
 From: Maxime Ripard <mripard@kernel.org>
-To: Simon Ser <contact@emersion.fr>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Pekka Paalanen <pekka.paalanen@haloniitty.fi>, dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>
-Subject: Re: UAPI Re: [PATCH 1/3] drm: Add DRM_MODE_TV_MODE_MONOCHROME
-Message-ID: <20240228-nice-flat-cormorant-badff7@houat>
-References: <20240216184857.245372-1-dave.stevenson@raspberrypi.com>
- <20240216184857.245372-2-dave.stevenson@raspberrypi.com>
- <20240221110751.48da8190@eldfell>
- <b43rdl7yebxn6z3pvyeyxbikccr7umrojo5kqw5i3ybloxktso@de4oxsbskkwp>
- <20240226171143.27e60c30@eldfell>
- <CAPY8ntCHi8joN-w3PNjMj31FSkCjqmJ4ZyhSDFZ1-PnfL4+FrQ@mail.gmail.com>
- <5us3AK9XJ5zu1AOKQeZxKWsK0f6Xtm7vHWttRTFPRo57Ph5WO62deVIK8TrkQIFmjFMrn-a2qusgP3W74dV6SKTA5OdTt4zncR7J2qQ_Qck=@emersion.fr>
+To: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v7 29/36] drm/vc4: tests: Remove vc4_dummy_plane structure
+Message-ID: <20240228-nifty-flashy-shrew-905edc@houat>
+References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
+ <20240222-kms-hdmi-connector-state-v7-29-8f4af575fce2@kernel.org>
+ <244fe6b9-f295-4c85-908a-014ada0033fa@igalia.com>
+ <y7mxj2i56h7bcnonywjdf2eirdqil66k32drw3wb3z7juqr3ph@4u24mlrvxslc>
+ <2693770c-0d27-4186-87e1-e55a0a5f17a5@igalia.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="iwivmlctecqyfcwu"
+ protocol="application/pgp-signature"; boundary="bzsukvurqrxvmgmq"
 Content-Disposition: inline
-In-Reply-To: <5us3AK9XJ5zu1AOKQeZxKWsK0f6Xtm7vHWttRTFPRo57Ph5WO62deVIK8TrkQIFmjFMrn-a2qusgP3W74dV6SKTA5OdTt4zncR7J2qQ_Qck=@emersion.fr>
+In-Reply-To: <2693770c-0d27-4186-87e1-e55a0a5f17a5@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,67 +74,63 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---iwivmlctecqyfcwu
-Content-Type: text/plain; charset=us-ascii
+--bzsukvurqrxvmgmq
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Tue, Feb 27, 2024 at 09:51:06AM +0000, Simon Ser wrote:
-> On Monday, February 26th, 2024 at 18:23, Dave Stevenson <dave.stevenson@r=
-aspberrypi.com> wrote:
-> > > and I've also completely missed any kernel command line
-> > > arguments manipulating KMS properties.
-> >=20
-> > "tv_mode" on the command line is handled in
-> > drm_mode_parse_cmdline_options() [3], as are rotate, reflect_x,
-> > reflect_y, margin_[left|right|top|bottom], and panel_orientation all
-> > to set the relevant KMS properties.
-> >=20
-> > Having "video=3DComposite-1:PAL,tv_mode=3DMono" on the kernel command l=
-ine
-> > will set up connector Composite-1 with the standard 720x576 50Hz
-> > interlaced timings, and DRM_MODE_TV_MODE_MONOCHROME selected on the
-> > tv_mode property. Swap in different tv_mode descriptions as required
-> > (eg PAL,tv_mode=3DSECAM), although some make little sense.
-> >=20
-> > That's the main route I'm looking at for configuring this property,
-> > for situations such as having a black and white TV connected. You
-> > don't get the opportunity to interrogate a composite display over what
-> > it supports, so it has to be configured manually somewhere in the
-> > system. If your monitor doesn't support the system default, then you
-> > can't see a GUI in order to change the option, and there is no
-> > guaranteed supported configuration so the command line is about the
-> > only option.
-> >=20
-> > The use cases for runtime switching of the "tv_mode" are exceedingly
-> > rare, so IMHO the property doesn't need exposing through the UAPI.
-> > However it was added to the UAPI about 8 years ago for vc4 and sunxi,
-> > and is also now used by other drivers, so can't be reverted. Does that
-> > mean it can now never be changed without jumping through the hoop of
-> > creating some userspace user?
+On Tue, Feb 27, 2024 at 07:45:01PM -0300, Ma=EDra Canal wrote:
+> Hi Maxime,
 >=20
-> I don't know what the rules were 8 years ago, but the current uAPI rules
-> are what they are, and a new enum entry is new uAPI.
+> On 2/27/24 10:02, Maxime Ripard wrote:
+> > Hi Ma=EDra,
+> >=20
+> > Thanks for you reviews!
+> >=20
+> > On Mon, Feb 26, 2024 at 09:29:32AM -0300, Ma=EDra Canal wrote:
+> > > On 2/22/24 15:14, Maxime Ripard wrote:
+> > > > The vc4_dummy_plane structure is an exact equivalent to vc4_plane, =
+so we
+> > >=20
+> > > Maybe I understood incorrectly, but isn't the vc4_dummy_plane structu=
+re
+> > > equivalent to drm_plane?
+> >=20
+> > Both statements are true :)
+> >=20
+> > vc4 itself uses vc4_plane to holds its plane-related content, but it
+> > turns out that there's nothing in that structure anymore and vc4_plane
+> > =3D=3D drm_plane.
+> >=20
+> > In our mock driver, we have another structure meant to store the
+> > mock-plane-related content which doesn't have anything in it anymore,
+> > and is thus equivalent to vc4_plane.
+> >=20
+> > So, basically, vc4_dummy_plane =3D=3D vc4_plane =3D=3D drm_plane.
+> >=20
+> > This patch is only about getting rid of vc4_dummy_plane though.
+> >=20
+> > Is it clearer?
+> >=20
+>=20
+> Yeah, with that pointed out, you can add my:
 
-TBF, and even if the wayland compositors support is missing, this
-property is perfectly usable as it is with upstream, open-source code,
-through either the command-line or X.org, and it's documented.
+I'll rephrase for the next version then
 
-So it's fine by me from a UAPI requirement side.
+> Reviewed-by: Ma=EDra Canal <mcanal@igalia.com>
 
+Thanks!
 Maxime
 
---iwivmlctecqyfcwu
+--bzsukvurqrxvmgmq
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZd9byAAKCRDj7w1vZxhR
-xS+rAQC3pv4X/pZYkwS3813abI/HCnD/jUXKh/M9hptl1+NUAwEAwICyoyWFuXRC
-HnfJKHzq7c2riNgK9SixO6u+sFrC1wI=
-=EIhy
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZd9ccAAKCRDj7w1vZxhR
+xQ/aAQDzU4vVfau883o71TzEeE+lysJ38XPUbtp9Q818fxbvSAD/TfNo9QsQjVLO
+TjOhPuL8arGdUmexXtTS6jTunClBzAA=
+=6H0O
 -----END PGP SIGNATURE-----
 
---iwivmlctecqyfcwu--
+--bzsukvurqrxvmgmq--
