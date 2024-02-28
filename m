@@ -2,64 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4100186B752
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 19:41:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7AF686B80C
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 20:22:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F3C210E46B;
-	Wed, 28 Feb 2024 18:41:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47F9C10E254;
+	Wed, 28 Feb 2024 19:22:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Er4etOa5";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="NS1oQ/IW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA76610E46B;
- Wed, 28 Feb 2024 18:41:30 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id
- 4fb4d7f45d1cf-5661b7b1f51so181197a12.2; 
- Wed, 28 Feb 2024 10:41:30 -0800 (PST)
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com
+ [209.85.166.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 285EF10E254
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 19:22:20 +0000 (UTC)
+Received: by mail-il1-f172.google.com with SMTP id
+ e9e14a558f8ab-36519980c04so538595ab.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 11:22:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1709145689; x=1709750489; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=95wFx2aCsFcmw8X3YJUhwgxK0Zm3iU4v5YjwKuQWRT0=;
- b=Er4etOa56SX/8V0bDBzqJeVI28yOIeaowLBfUhWWUpBeY0fV9pNO8ZlDqNzP0aOzIS
- FjTi2Si/jDyCx9f4mgPa2h+BT0l+BCzFVrhuGtih5XYIjVrNjGtX05kU0XbGsgwpI0wB
- S1dJe2est2AryA+lF4X/UQNg/vtRW7EQ5QpXWVxsIS5Q3tQDGy5MkPjQEeMELTLQod7u
- AMV0gwwyB7shtvMuWqvva0vmFoqjyUIaYif9oe7P9BqAXinbyjkf3MmdjkCFYCWmtnpJ
- AWCpgGra4tdgmGb5GXfopgolKr45zSLg7Y5GlwShWbq/XwGdB87UPFXrt/9VktbmHisr
- uuAw==
+ d=chromium.org; s=google; t=1709148139; x=1709752939;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=cWZCONUO1eBq93ur5BQyYMDhfKl8EM5yFU5z78+cztc=;
+ b=NS1oQ/IWewx42GZFZzMitu+QpHNZklqM9ul+R/XfvsWffZtE3ky1UnTuMuQEiAN0ei
+ Dn6zwg16PomihwAhqM53aFtcVRhm2NJVk9zpziXr3kD9DYoYGkmMpz1oM2DXnWxdTS+W
+ 5+G+OufftvYZkNfFnRgPQT2EGUzi2UxJg9Yw8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709145689; x=1709750489;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=95wFx2aCsFcmw8X3YJUhwgxK0Zm3iU4v5YjwKuQWRT0=;
- b=INOlQa4eD3DPdTAtei4G295o2w8Gidgrtq/k+iShwILkbSW2X2BN8fGbe0WwoF6c1y
- QO+mWaBYY32bumdBD3ivqEBRc6AI0eh++OimsGpdyk89sHh4nRz9zxcUaE3y/WEDV+kc
- 2Cql99OKdXIa0t2KPl+6vk9rPz1ghRssElLiL16Gr7T1NUUbN/CRSbuFNvt8SGPwk4hA
- JoBYr+SN7SWS9pwp6qk6Nh13oEn1m3RdyfMlyZrtoksUKKTm0xw4FKFChs+JHYu710+2
- BTb0I9vNK3zAdSmuDbYlDRh15p+A2PU5QGzchm2Zne2zi+yEOUz80l0jH0mbUSK2fOUp
- W6zg==
+ d=1e100.net; s=20230601; t=1709148139; x=1709752939;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=cWZCONUO1eBq93ur5BQyYMDhfKl8EM5yFU5z78+cztc=;
+ b=ku6Epzh8xgSMflet2EVjPfVbmQ7W8I5a1EcFT3JfTQYwt1bw/4z5JKwMKEurha5nxa
+ 4WaCyRxu+W0xHwQiLymoBrrdMQXb5wk1AP7P/DsJdb51Bf4DLNPUosGPj95aP4SuM/0i
+ 6+vifcRRrY+tLCSHHptpRibHPED6zfZauhkg0Im9jp+Eb244pvhHDkixheM+qLz3az/K
+ EgDZtq5KLpMqwxoESsEKX4ilz1nGrm/pVycYrSMqnGdaWqAoX2q/7aBZamPLuOLQG0Hy
+ hgTUYND08+BlDTynEZIlY3eGNedyukzmkCxQAcqjeqKwmG8syqTWByqxmRHDuyuqqYiH
+ GSYQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXvJN2pDyswYsOpL25JUxW3I15K7lbtYGGU3NeD+yxSrU804jR0QJbOREMVB6DQ/K5sbg93UuEQz8z2wtYaM4HiZjqh4ypzfh2DbBMHkBBF
-X-Gm-Message-State: AOJu0Yy/7sroDcXU7BDuxkINEev5V3GuWt8CvNOEXl0n7c87Rba9PfIr
- G3BwyJuOewp6VBuvgzWj/PxsZMwUNwLgfpiygR7vSw375VAvfxphSSQDnuIbG5VmJr35V/W+pDu
- sVmcX3BcIY9lSwZEghwCYUIgNPzAcnxHM6N0=
-X-Google-Smtp-Source: AGHT+IEa4/vZnJzDBE36BxmCOOtWA7C9UykVSL4tVjlLlSy8+V/RsmB/GdG30jwh0G2AiZ3gyhpAF9Z1Td38YY6WgNw=
-X-Received: by 2002:aa7:cfd1:0:b0:566:44b4:ea58 with SMTP id
- r17-20020aa7cfd1000000b0056644b4ea58mr172224edy.38.1709145688531; Wed, 28 Feb
- 2024 10:41:28 -0800 (PST)
+ AJvYcCWRkdJ46q6h9jw6PU6hPFFs+YWHQvXXEEnZuvHhJHaU0kVwCju/AmmIP31trcBsTXttGgcQaFoaFRa2mE5Vjk+3rp8on7nx+53xKRjtU84j
+X-Gm-Message-State: AOJu0Yy6j9pGAhQYxHuoqolS6fRSvy7E23q4B3W60Y5cDXsSH9+ce47i
+ Ig7RIQBVqSG2aY2BriZ0uJlNi7jRhyKkqfd7KXoyRvZ8xHHSL/oLzOTL5E3LVQ==
+X-Google-Smtp-Source: AGHT+IFqbcv66YZt2FKNF964iMhI6GTiYtKK3x/4hGk7YfuhA2JWmeUUh4jB5yMEezmNt7X9tFEO2w==
+X-Received: by 2002:a92:c5a9:0:b0:365:a9fd:1a7a with SMTP id
+ r9-20020a92c5a9000000b00365a9fd1a7amr178874ilt.26.1709148139247; 
+ Wed, 28 Feb 2024 11:22:19 -0800 (PST)
+Received: from localhost (144.57.222.35.bc.googleusercontent.com.
+ [35.222.57.144]) by smtp.gmail.com with UTF8SMTPSA id
+ x3-20020a92d643000000b003638f9a9debsm10233ilp.75.2024.02.28.11.22.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Feb 2024 11:22:18 -0800 (PST)
+Date: Wed, 28 Feb 2024 19:22:18 +0000
+From: Matthias Kaehlcke <mka@chromium.org>
+To: Javier Carrasco <javier.carrasco@wolfvision.net>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Helen Koike <helen.koike@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v5 8/8] usb: misc: onboard_hub: add support for XMOS
+ XVF3500
+Message-ID: <Zd-H6hVPv1poXoa1@google.com>
+References: <20240228-onboard_xvf3500-v5-0-76b805fd3fe6@wolfvision.net>
+ <20240228-onboard_xvf3500-v5-8-76b805fd3fe6@wolfvision.net>
 MIME-Version: 1.0
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 28 Feb 2024 10:41:16 -0800
-Message-ID: <CAF6AEGvhWvHiPGQ1pRD2XPAQoHEM2M35kjhrsSAEtzh8AMSRvg@mail.gmail.com>
-Subject: [pull] drm/msm: drm-msm-fixes-2024-02-28 for v6.8-rc7
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
- freedreno <freedreno@lists.freedesktop.org>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240228-onboard_xvf3500-v5-8-76b805fd3fe6@wolfvision.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,33 +95,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+On Wed, Feb 28, 2024 at 02:51:35PM +0100, Javier Carrasco wrote:
+> The XMOS XVF3500 VocalFusion Voice Processor[1] is a low-latency, 32-bit
+> multicore controller for voice processing.
+> 
+> This device requires a specific power sequence, which consists of
+> enabling the regulators that control the 3V3 and 1V0 device supplies,
+> and a reset de-assertion after a delay of at least 100ns. Such power
+> sequence is already supported by the onboard_hub driver, and it can be
+> reused for non-hub USB devices as well.
 
-A late revert to address a displayport hpd regression.
+Please update the commit message, the onboard_hub driver no longer
+exists as such with the other patches of this series.
 
-The following changes since commit 8c7bfd8262319fd3f127a5380f593ea76f1b88a2:
+> Once in normal operation, the XVF3500 registers itself as a USB device,
+> and it does not require any device-specific operations in the driver.
+> 
+> [1] https://www.xmos.com/xvf3500/
+> 
+> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
 
-  drm/msm: Wire up tlb ops (2024-02-15 08:51:31 -0800)
+Acked-by: Matthias Kaehlcke <mka@chromium.org>
 
-are available in the Git repository at:
+> ---
+>  drivers/usb/misc/onboard_usb_dev.c | 2 ++
+>  drivers/usb/misc/onboard_usb_dev.h | 8 ++++++++
+>  2 files changed, 10 insertions(+)
+> 
+> diff --git a/drivers/usb/misc/onboard_usb_dev.c b/drivers/usb/misc/onboard_usb_dev.c
+> index df0ed172c7ec..50f84c5278a2 100644
+> --- a/drivers/usb/misc/onboard_usb_dev.c
+> +++ b/drivers/usb/misc/onboard_usb_dev.c
+> @@ -405,6 +405,7 @@ static struct platform_driver onboard_dev_driver = {
+>  #define VENDOR_ID_REALTEK	0x0bda
+>  #define VENDOR_ID_TI		0x0451
+>  #define VENDOR_ID_VIA		0x2109
+> +#define VENDOR_ID_XMOS		0x20B1
+>  
+>  /*
+>   * Returns the onboard_dev platform device that is associated with the USB
+> @@ -497,6 +498,7 @@ static const struct usb_device_id onboard_dev_id_table[] = {
+>  	{ USB_DEVICE(VENDOR_ID_TI, 0x8142) }, /* TI USB8041 2.0 */
+>  	{ USB_DEVICE(VENDOR_ID_VIA, 0x0817) }, /* VIA VL817 3.1 */
+>  	{ USB_DEVICE(VENDOR_ID_VIA, 0x2817) }, /* VIA VL817 2.0 */
+> +	{ USB_DEVICE(VENDOR_ID_XMOS, 0x0013) }, /* XVF3500 */
 
-  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-fixes-2024-02-28
+nit: be a bit more specific? e.g. XVF3500 Voice Processor, or XMOS XVF3500
 
-for you to fetch changes up to 664bad6af3cbe01d6804b7264bee674b3e7dae7e:
-
-  Revert "drm/msm/dp: use drm_bridge_hpd_notify() to report HPD status
-changes" (2024-02-28 15:32:29 +0200)
-
-----------------------------------------------------------------
-Fixes for v6.8-rc7
-
-DP:
-- Revert a change which was causing a HDP regression
-
-----------------------------------------------------------------
-Dmitry Baryshkov (1):
-      Revert "drm/msm/dp: use drm_bridge_hpd_notify() to report HPD
-status changes"
-
- drivers/gpu/drm/msm/dp/dp_display.c | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
+The other entries were implicitly hubs since this was the 'onboard_hub'
+driver. It wouldn't be a bad idea to add 'hub' to these entries in the
+patch that 'renames' the driver.
