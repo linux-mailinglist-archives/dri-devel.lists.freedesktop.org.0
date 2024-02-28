@@ -2,60 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD9E786B6EA
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 19:14:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 777E486B700
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Feb 2024 19:18:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DEAF10E0BD;
-	Wed, 28 Feb 2024 18:14:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 539BF10E3BB;
+	Wed, 28 Feb 2024 18:18:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="OHsoRZ2F";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="TOwHYEYT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E36210E0BD
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 18:14:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1709144061;
- bh=lFLmr4YsE/iHQkrK6fWHlChGvxg1NH/Nq4mPNkLEFIk=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=OHsoRZ2FAmw36E5R8ClKabtQwkfH/vIBJE6ev/h9MCTFFMQx3zF9IqgKpF3XE6WcZ
- m3uX11fNIVqcXISEMbOaaM/qMt4J/3Gz0SjpXlWMhC3Ksn7tfGA5s9KNiHXSNx4qF3
- j/IL0TQTMYVKy66jQ6JE/PYY2oVN+Wl53lbkTq7yk8N/bzQA4Z1i2STTuYy60g5ir4
- OwZZCcTGiuh+11Vf02rfHuaYTJ/tEB/4+tmAjrXSrH3L8Io8izaH/BqspNQ/Q6Azdu
- 4oSbARcDlx6Cms0Y6wJqjs8AJHE/E1+Ejaa3ynVKO6kRpcasLze0GWEeMBYMUqdusW
- ObVA78v7Wv5lw==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id DE9F03781FE3;
- Wed, 28 Feb 2024 18:14:19 +0000 (UTC)
-Date: Wed, 28 Feb 2024 19:14:18 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Daniel Vetter <daniel@ffwll.ch>, "Marty E . Plummer"
- <hanetzer@startmail.com>, Rob Herring <robh@kernel.org>, =?UTF-8?B?Q2w=?=
- =?UTF-8?B?w6ltZW50IFDDqXJvbg==?= <peron.clem@gmail.com>, Nicolas Boichat
- <drinkcat@chromium.org>, Neil Armstrong <neil.armstrong@linaro.org>, Faith
- Ekstrand <faith.ekstrand@collabora.com>, Daniel Stone
- <daniels@collabora.com>, Liviu Dudau <Liviu.Dudau@arm.com>, Steven Price
- <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>,
- kernel@collabora.com, Heiko Stuebner <heiko@sntech.de>, Tatsuyuki Ishi
- <ishitatsuyuki@gmail.com>, Chris Diamand <chris.diamand@foss.arm.com>,
- Ketil Johnsen <ketil.johnsen@arm.com>, Grant Likely
- <grant.likely@linaro.org>
-Subject: Re: [PATCH v5 07/14] drm/panthor: Add the MMU/VM logical block
-Message-ID: <20240228191418.614fc3c0@collabora.com>
-In-Reply-To: <20240218214131.3035480-8-boris.brezillon@collabora.com>
-References: <20240218214131.3035480-1-boris.brezillon@collabora.com>
- <20240218214131.3035480-8-boris.brezillon@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com
+ [209.85.166.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBD2610E3B3
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 18:18:20 +0000 (UTC)
+Received: by mail-il1-f169.google.com with SMTP id
+ e9e14a558f8ab-365169e0938so159255ab.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 10:18:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1709144300; x=1709749100;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=yMuVBDlnhpO034F2/q+tE22z1XBw0OPkVpUXz7Iw1ik=;
+ b=TOwHYEYT2eGXIA7h7hxxek9nuydtfn/CVLA0fXVSQNHucIxg+QNIWpppc72FbF/Ze4
+ YQRs+8bXsV88iN73GzdEzlnqicqHljaHWk50hMnco5OV3X7IVEiLIKV5LZocKMrwfK3w
+ Y9MKqH1LfiL0A5jztAGPIJUQcibGDXDYfMoLc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709144300; x=1709749100;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yMuVBDlnhpO034F2/q+tE22z1XBw0OPkVpUXz7Iw1ik=;
+ b=K6qnd228GBe94DxHVbHwu2gbEQQhm9HjKyCo8XCev8fZI/u513fVyX58uULvQvi5Jz
+ Of+surbKamAjjeqMRk26OikY1rLbqJ49eqGh4x03NdZ0eytCKXjewurEkl7gavDYCtm7
+ qib8abjlBz4cwnPgz7gv95utpU6+lJlvAfaAqojwLLbBHeEmR8oXT+0Y1qajJTgpHK7N
+ jpaOytOHNJd+jQ2cXd/Fv3iXAKChgFTF2tYWbA3BNAQCeEV9QdfOFKccI7/qhk9AzjqV
+ KQ3Waenpw+4QIjAUKBGSdgNLAb5dyiyBYsWftAbY3wuQ+Z8cUlGeV6Z5XR7NIB/h67Dj
+ PKEA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUX3XZ/blH+xBpNCvLu9dSD4CQ0PR3rBFI20xk3f0fiuSwEhbwBcrfpwn79MR3EjgWwQKnxusq4ZYbLnR6G4R/WkHgo15MN0pH6OpQjbSW9
+X-Gm-Message-State: AOJu0YwNxj1LWgwddKB2EdLBYFYxIjLhHG9VPD+bvQJnIkW6MvxWxoRc
+ qCJ+yvxrX1saoEm/WZAcTeduKwL/W/X3PW/3sMMSwyy+oZbeM36TumlDHhRSxg==
+X-Google-Smtp-Source: AGHT+IHXEHGYeHKTpMNJ+KuzBh/Bght5BJMrKbIQmxnIMu1FTfUkGMBXH786Efps00aZM2tFe5bRbw==
+X-Received: by 2002:a05:6e02:1e07:b0:365:102a:ee10 with SMTP id
+ g7-20020a056e021e0700b00365102aee10mr154842ila.6.1709144299900; 
+ Wed, 28 Feb 2024 10:18:19 -0800 (PST)
+Received: from localhost (144.57.222.35.bc.googleusercontent.com.
+ [35.222.57.144]) by smtp.gmail.com with UTF8SMTPSA id
+ a24-20020a02ac18000000b004747f3fc39asm1951147jao.160.2024.02.28.10.18.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Feb 2024 10:18:19 -0800 (PST)
+Date: Wed, 28 Feb 2024 18:18:18 +0000
+From: Matthias Kaehlcke <mka@chromium.org>
+To: Javier Carrasco <javier.carrasco@wolfvision.net>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Helen Koike <helen.koike@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v5 2/8] usb: misc: onboard_hub: rename to onboard_dev
+Message-ID: <Zd946sKywJNvIJq6@google.com>
+References: <20240228-onboard_xvf3500-v5-0-76b805fd3fe6@wolfvision.net>
+ <20240228-onboard_xvf3500-v5-2-76b805fd3fe6@wolfvision.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240228-onboard_xvf3500-v5-2-76b805fd3fe6@wolfvision.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,108 +94,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 18 Feb 2024 22:41:21 +0100
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
+On Wed, Feb 28, 2024 at 02:51:29PM +0100, Javier Carrasco wrote:
+> This patch prepares onboad_hub to support non-hub devices by renaming
+> the driver files and their content, the headers and their references.
+> 
+> The comments and descriptions have been slightly modified to keep
+> coherence and account for the specific cases that only affect onboard
+> hubs (e.g. peer-hub).
+> 
+> The "hub" variables in functions where "dev" (and similar names) variables
+> already exist have been renamed to onboard_dev for clarity, which adds a
+> few lines in cases where more than 80 characters are used.
+> 
+> No new functionality has been added.
+> 
+> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
+> ---
+>  ...-usb-hub => sysfs-bus-platform-onboard-usb-dev} |   3 +-
+>  MAINTAINERS                                        |   4 +-
+>  drivers/usb/core/Makefile                          |   4 +-
+>  drivers/usb/core/hub.c                             |   8 +-
+>  drivers/usb/core/hub.h                             |   2 +-
+>  drivers/usb/misc/Kconfig                           |  16 +-
+>  drivers/usb/misc/Makefile                          |   2 +-
+>  drivers/usb/misc/onboard_usb_dev.c                 | 519 +++++++++++++++++++++
+>  .../misc/{onboard_usb_hub.h => onboard_usb_dev.h}  |  28 +-
+>  ...ard_usb_hub_pdevs.c => onboard_usb_dev_pdevs.c} |  47 +-
+>  include/linux/usb/onboard_dev.h                    |  18 +
+>  include/linux/usb/onboard_hub.h                    |  18 -
+>  12 files changed, 595 insertions(+), 74 deletions(-)
 
-> +int panthor_vm_active(struct panthor_vm *vm)
-> +{
-> +	struct panthor_device *ptdev = vm->ptdev;
-> +	struct io_pgtable_cfg *cfg = &io_pgtable_ops_to_pgtable(vm->pgtbl_ops)->cfg;
-> +	int ret = 0, as, cookie;
-> +	u64 transtab, transcfg;
-> +
-> +	if (!drm_dev_enter(&ptdev->base, &cookie))
-> +		return -ENODEV;
-> +
-> +	if (refcount_inc_not_zero(&vm->as.active_cnt))
-> +		goto out_dev_exit;
-> +
-> +	mutex_lock(&ptdev->mmu->as.slots_lock);
-> +
-> +	if (refcount_inc_not_zero(&vm->as.active_cnt))
-> +		goto out_unlock;
-> +
-> +	as = vm->as.id;
-> +	if (as >= 0) {
-> +		/* Unhandled pagefault on this AS, the MMU was disabled. We need to
-> +		 * re-enable the MMU after clearing+unmasking the AS interrupts.
-> +		 */
-> +		if (ptdev->mmu->as.faulty_mask & panthor_mmu_as_fault_mask(ptdev, as))
-> +			goto out_enable_as;
-> +
-> +		goto out_make_active;
-> +	}
-> +
-> +	/* Check for a free AS */
-> +	if (vm->for_mcu) {
-> +		drm_WARN_ON(&ptdev->base, ptdev->mmu->as.alloc_mask & BIT(0));
-> +		as = 0;
-> +	} else {
-> +		as = ffz(ptdev->mmu->as.alloc_mask | BIT(0));
-> +	}
-> +
-> +	if (!(BIT(as) & ptdev->gpu_info.as_present)) {
-> +		struct panthor_vm *lru_vm;
-> +
-> +		lru_vm = list_first_entry_or_null(&ptdev->mmu->as.lru_list,
-> +						  struct panthor_vm,
-> +						  as.lru_node);
-> +		if (drm_WARN_ON(&ptdev->base, !lru_vm)) {
-> +			ret = -EBUSY;
-> +			goto out_unlock;
-> +		}
-> +
-> +		drm_WARN_ON(&ptdev->base, refcount_read(&lru_vm->as.active_cnt));
-> +		as = lru_vm->as.id;
-> +		panthor_vm_release_as_locked(lru_vm);
-> +	}
-> +
-> +	/* Assign the free or reclaimed AS to the FD */
-> +	vm->as.id = as;
-> +	set_bit(as, &ptdev->mmu->as.alloc_mask);
-> +	ptdev->mmu->as.slots[as].vm = vm;
-> +
-> +out_enable_as:
-> +	transtab = cfg->arm_lpae_s1_cfg.ttbr;
-> +	transcfg = AS_TRANSCFG_PTW_MEMATTR_WB |
-> +		   AS_TRANSCFG_PTW_RA |
-> +		   AS_TRANSCFG_ADRMODE_AARCH64_4K;
-
-We also need
-
-		   AS_TRANSCFG_INA_BITS(55 - va_bits);
-
-otherwise we lack one page table level on 32-bit platforms where the
-virtual address space is artificially limited to 32bits.
-
-
-> +	if (ptdev->coherent)
-> +		transcfg |= AS_TRANSCFG_PTW_SH_OS;
-> +
-> +	/* If the VM is re-activated, we clear the fault. */
-> +	vm->unhandled_fault = false;
-> +
-> +	/* Unhandled pagefault on this AS, clear the fault and re-enable interrupts
-> +	 * before enabling the AS.
-> +	 */
-> +	if (ptdev->mmu->as.faulty_mask & panthor_mmu_as_fault_mask(ptdev, as)) {
-> +		gpu_write(ptdev, MMU_INT_CLEAR, panthor_mmu_as_fault_mask(ptdev, as));
-> +		ptdev->mmu->as.faulty_mask &= ~panthor_mmu_as_fault_mask(ptdev, as);
-> +		gpu_write(ptdev, MMU_INT_MASK, ~ptdev->mmu->as.faulty_mask);
-> +	}
-> +
-> +	ret = panthor_mmu_as_enable(vm->ptdev, vm->as.id, transtab, transcfg, vm->memattr);
-> +
-> +out_make_active:
-> +	if (!ret) {
-> +		refcount_set(&vm->as.active_cnt, 1);
-> +		list_del_init(&vm->as.lru_node);
-> +	}
-> +
-> +out_unlock:
-> +	mutex_unlock(&ptdev->mmu->as.slots_lock);
-> +
-> +out_dev_exit:
-> +	drm_dev_exit(cookie);
-> +	return ret;
-> +}
+This does not rename/delete onboard_usb_hub.c. With a rename there would
+probably be an actual diff for onboard_usb_dev.c instead of a new file,
+which would help with reviewing.
