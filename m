@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10F2986CD66
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 16:49:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D288F86CD74
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 16:49:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3213110E4CF;
-	Thu, 29 Feb 2024 15:49:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F33410E4DC;
+	Thu, 29 Feb 2024 15:49:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m3E1Be57";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QHEAFsis";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA66110E4CF;
- Thu, 29 Feb 2024 15:48:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1339210E4DC;
+ Thu, 29 Feb 2024 15:49:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6B82C61172;
- Thu, 29 Feb 2024 15:48:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8368C433C7;
- Thu, 29 Feb 2024 15:48:55 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6B48B61129;
+ Thu, 29 Feb 2024 15:49:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C9FBC43394;
+ Thu, 29 Feb 2024 15:49:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1709221737;
- bh=+fv1LPuaO3JTr5Lszuh69m3jbmo7lu1K9f9DlffKTl0=;
+ s=k20201202; t=1709221792;
+ bh=9rAub/AT11/jIi5X3yn6EW32jwa3A2xARBjtsu2qsUQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=m3E1Be57eLLRArCxNRg61A/O//oceVyBUTHRtMBl63v4OnH/U3v8HO0duTaaOyofh
- rWyoombPTuixp8pYtLgk0WFvYBCNkX5oPDCl7UdCXzLwpBItvNg2ejg66lPwlcoFhE
- N56rs45yWd+E5RJ57GRoYkl4ny534R928bggwV+eIefzq4MUegzuGsyHHxBDpkQJnb
- 8qXKcd60pQDTen0cVhvWdRI2LnkwpbsX3c8IypEUCk88U0bkEkvytpfLJ7kvXH1x1f
- bj/58TugtMOV2kAflpybcQx5cIES8Gfed9+zXKt2yrEqk3/XIoK7zrkjGoOzb7p+4F
- 18A02WvHIa6hQ==
+ b=QHEAFsisVibUfjxzKDXGs1NsZk81ZiLc5xhJcUeUQSYm8NuVUmoyYQ6WRYvwWwF+t
+ s4SVpmdl4L9gZiW6I804HHbOTrYhAul1mp4B4RExPldZ4nBgASmn9rXY5rdwD7kps0
+ J0qrUimwKxPAn+lfk0ftkzbteJ6yhq/nMhGZmeakx2uBPlO1tO24BZJYexEomGayRQ
+ QQPAh/4JFvkcSHoiQkSDr6bsvmBZB3Qjl+bXpRXruQ9lSCuG8VkGW1A4Rg2jrqi1Xg
+ E+K4gvHTOAplYpu1JorXnR8RR5Byx4z4ujwhCj8j5JVd1+Qxyo8uF6TShO8L2OedLP
+ FXhluh5165Lvg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -38,17 +38,17 @@ Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
  dmitry.baryshkov@linaro.org, airlied@gmail.com, daniel@ffwll.ch,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.7 03/26] Revert "drm/msm/gpu: Push gpu lock down
+Subject: [PATCH AUTOSEL 6.6 03/21] Revert "drm/msm/gpu: Push gpu lock down
  past runpm"
-Date: Thu, 29 Feb 2024 10:48:22 -0500
-Message-ID: <20240229154851.2849367-3-sashal@kernel.org>
+Date: Thu, 29 Feb 2024 10:49:23 -0500
+Message-ID: <20240229154946.2850012-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240229154851.2849367-1-sashal@kernel.org>
-References: <20240229154851.2849367-1-sashal@kernel.org>
+In-Reply-To: <20240229154946.2850012-1-sashal@kernel.org>
+References: <20240229154946.2850012-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.7.6
+X-stable-base: Linux 6.6.18
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -121,7 +121,7 @@ index 7f64c66673002..5c10b559a5957 100644
  
  /*
 diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
-index 95257ab0185dc..a7e152f659a2c 100644
+index 40c0bc35a44ce..7f5e0a961bba7 100644
 --- a/drivers/gpu/drm/msm/msm_ringbuffer.c
 +++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
 @@ -21,8 +21,6 @@ static struct dma_fence *msm_job_run(struct drm_sched_job *job)
