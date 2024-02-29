@@ -2,128 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C11086C73E
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 11:48:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE22D86C74B
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 11:50:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BD4010E154;
-	Thu, 29 Feb 2024 10:48:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 147AC10E3FF;
+	Thu, 29 Feb 2024 10:50:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mysnt.onmicrosoft.com header.i=@mysnt.onmicrosoft.com header.b="OLgXzcmZ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="N6Pv2Zeq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur04on2117.outbound.protection.outlook.com [40.107.8.117])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54F5E10E458
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 10:48:35 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dBXxIEvgWbWkpYMTM5nUdGSx3XiTUWa8AVWt26aDFNDgh9Wyx+p0fNrhWy9i2GZWVlm6gPheqZvByYTQK4YyrRh38aNF2gn8mJxtlitiJuj/BooLy6xJPdcdt895qjlALo6fsQlSyyI7ZJXT39ieGK3pCLHlV6Dcr1tqxfA8jtcznoHTudIQqBNBRMoxF2Pj52huMmSXtuy/KzL5m4z2ImzJXHa1TBDpMR+8IPQxEBJj40gC1jjQOmG4D021sTowO2B45zGAmTh7siJmE0fdAt5/6ZlXThMvl8A26OpGLDIPILIaHurevt4ULOmpkjHV9bko+Llelh3cSPBUw3c5dg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TO4JEyQCkOhlXU6R5z1A0xSihOIvudDdP8nVNCT19TY=;
- b=asY+YS70Pk24TUodXr8+ksiIPDP++eSzhPoZGOvAem9TulBS1d4sGv1NN0Na8bGMkUl6dOQT6DRmoRKxBmc0W78VbPvq9Rm7D2632RfUSYef9y07KTndm4aEp9VhirKvpevA5LnfRMMHIhWN6DFmJLrhILy4A74zikIrcA4ukC+1+EcE0FEmYrZDIcXjGKXGJxN/jQ3OFdI67sJVzRmB/frKH99zb3i79EkyciK4zc4gjRaQ8agWYCX3IqRglUujQD+fiYTAKQFLjejJj+qVskCYk8D8NR2U15iiFSrLMCBJ5xgxgEFlwDt4bLsbvoV0wwP7SmZ34nbhOUrI5ETlng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
- dkim=pass header.d=kontron.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com; 
- s=selector2-mysnt-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TO4JEyQCkOhlXU6R5z1A0xSihOIvudDdP8nVNCT19TY=;
- b=OLgXzcmZPSQE1TNLgCr2sHEqM54MX4AYmMkdDm/ljzTOlbOt5s8lqm70B09kJdUQ6dCvxDg4o6ZfImRO3uSDvPXZg6xLu7yMe+MjV2CYwNjM7a3aDZ4n0oprXKfy1IO4zl+LHkBFlsWaxl4qZnHTZQe0KF/jnpw5UlsbwMBXxXc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=kontron.de;
-Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
- by GV1PR10MB6730.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:86::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.34; Thu, 29 Feb
- 2024 10:48:29 +0000
-Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::d045:edb:e12b:93ec]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::d045:edb:e12b:93ec%6]) with mapi id 15.20.7316.037; Thu, 29 Feb 2024
- 10:48:29 +0000
-Message-ID: <9480d2fa-136b-47bf-ad76-c8d6d7c9c070@kontron.de>
-Date: Thu, 29 Feb 2024 11:48:27 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] drm/bridge: ti-sn65dsi83: Fix enable error path
-Content-Language: en-US, de-DE
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-References: <20230504065316.2640739-1-alexander.stein@ew.tq-group.com>
- <1885005.tdWV9SEqCh@steina-w> <20240227184144.19729521@booty>
- <3798602.kQq0lBPeGt@steina-w> <20240229104723.7aa71075@booty>
-From: Frieder Schrempf <frieder.schrempf@kontron.de>
-In-Reply-To: <20240229104723.7aa71075@booty>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0104.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a9::15) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:102:263::10)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA41710E33B;
+ Thu, 29 Feb 2024 10:50:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709203805; x=1740739805;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=0Ghs1427kpjULFuDpCFdojY0v88USn8crvkTL9I/BSk=;
+ b=N6Pv2Zeq3cWfFKggCRbj1IAic3YB+s2daIHsXIjPMj7JQ8b419s8+XX7
+ Uj+bDExNjhqg+7mdARsSU8uHmGJEeRT7HheLe3OD7TizapdzsUS9O9YAj
+ CgZS7fJdiJb4yfQFSNRl+c0sRVCbM4KPgz67j/nwr+AfyNvQF+fCO6q8X
+ MrkGsKHRsExPv0v2t62xQURPWDhX/gjSRuh9n5Qmldu4ivbjE5kqop5MH
+ 4MhFCPuw5ITcEFqYDcKUr3p6UcTdEGnp6sNF2fyuDI27HEYkDAJHd4YGC
+ mueG+EC/bhsx60AoyU4frKrrAIzrKe8v/xud8GhgY5WZtOhYwKEjVHVsC Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="21121861"
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; d="scan'208";a="21121861"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Feb 2024 02:50:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="913978834"
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; d="scan'208";a="913978834"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Feb 2024 02:50:01 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1rfdzC-00000008e4b-0MBF; Thu, 29 Feb 2024 12:49:58 +0200
+Date: Thu, 29 Feb 2024 12:49:57 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Yury Norov <yury.norov@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v3 1/3] bits: introduce fixed-type genmasks
+Message-ID: <ZeBhVb__VNQCgTQk@smile.fi.intel.com>
+References: <20240208074521.577076-1-lucas.demarchi@intel.com>
+ <20240208074521.577076-2-lucas.demarchi@intel.com>
+ <CAA8EJpprfrtOjNzT6TFhV1n6MXzLdTahanfxcRW4uVjeHaBduA@mail.gmail.com>
+ <ZdZlVn9BI-0q1Xdn@smile.fi.intel.com>
+ <btssirjumey2kcp5dyhe6m3embdwd5bswjz3c6swrhxfijfhld@lztxaptkegw6>
+ <ZddfF7kb54o2c/QR@yury-ThinkPad>
+ <3o3nvkg76sofrhgcuogo3wuhitnz3bgus6qzle7pejng3v4s62@frdbuj46uiu7>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|GV1PR10MB6730:EE_
-X-MS-Office365-Filtering-Correlation-Id: 27eead90-6ef3-44f0-12f3-08dc3913f707
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Tda8LpW6bD7P8/+KiM6KfJwpUywZrFm6RQLzWUpQJCSu3zRPxp/7DZU32djiprMILAxhE0jT7Rsafzw6ZS3ITg+LlkrG/AoeI6EywCPiU1CIUVs8J2tWU8GcP6/GWrdBOUFt9WhJUeWJUHTDdw2Q75hO4O2EKuOw97tEFiGHI6v016+gUPNknEDQZpTslZXf0lUWqGztZfYeuHSAwRy7ueNsq9AkXGRO8kQ29w8tbIG9oQGxkLI7eqg4Ww3m7cigNCo2h5dJzJXU7piePcYXJc3miCDXCasOvykMToE8c+UFPyT2UhWP9CAy4TwGs9z/QV0f7CLvD+96tWPOJ7tXEffcLy3PqwPrzmulRUksP+Kkt8FtWaOmUT9uCEL1nAxjeJhcSyCc/TTAzEgGszNCPF2IaKeRsma9dj5vRiH1nw/WVWHxOuK9yIqE6RLPwTVEE3toa45KZEwRAJhEYeUQpC0EyNCLhltJgqu2HbluprGly3xpNIfNw8IgFU+AfwAMJU22W5of04bVH6dm1UCYhT0GTUq8lWq1SXFRBvvHN/TrqhXbFnFqXHU6aA3IJkY7sDw8DCZnua04X3Fo5BSzzw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230031); DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UVRzVnRRRVI5MG9LWnRzZXRFYURPYWNSdDZZcEhsdmN4eW5ySlpna0x3bS9Z?=
- =?utf-8?B?UXB4NGs5U1A2VkV1c0xtV1dobmRydERpaDRYQ2krMlJWM3F3QzZkZU11ZDVE?=
- =?utf-8?B?Sm4yOUJzUVk5RWMxQTZabjZWQzlwVmFXZXVJNmt2bU5STHNOSjZuSk1LWkdn?=
- =?utf-8?B?WDF5ckRONnBjNVVwVCt3S1ByeXpoV3hVOGRvSWJlRlRGaTgycDB1a2ExMkpp?=
- =?utf-8?B?amw3WHdIRTNjL0RKWUl0UkFuOGk5MlJSRUVMaU1vMWJkRmxQekFQdjRJandQ?=
- =?utf-8?B?U003T2JKd21vSGZ1RmhGQStPM2p2bGlDSjBZWkxjazBpQVNEU0JnT0RuMVpM?=
- =?utf-8?B?SGhkM3lSdjY5SzdhdFFGQ0QyTUlJM2d3VzNsd0hsTGVyVmdpQlkvckFiMWdL?=
- =?utf-8?B?TFhqUUZFQUYzNWc1Y1g2TE1oTFRjb1MzZzJpdmJQNGNPMlpUZXd3ODJuWGdU?=
- =?utf-8?B?Slh1Z0JqMWxNWXFLZERpZkRZMFBjUmpBMEJ1SHAzWlU3bnQxckZsSDF6ZGZH?=
- =?utf-8?B?R0o3RlhpOHY2S0FUU0JCS082VitLR1dwZmlBY3hZSHdIUnplaGxvNURRbFhw?=
- =?utf-8?B?Sjl4RE51MEdBcXRMRXZVQU9kbGlSb2EyQXJZT01NaDZxZ0VjVldkQW1FaCt6?=
- =?utf-8?B?Y3lFNm1JNFlVTDNHbW84TjVIeDBoVlMwZWlWdE9lOGlNeTY4emk0T1pmOW83?=
- =?utf-8?B?QzdaUUJCK3A2R1NWUkJEVmdMSXB5SUVxVDBtM01UcW9jS1oxeDlGS1NVbk1a?=
- =?utf-8?B?Mlg2TlhsWmpQRG1iQWUrL3oxL2VadzB3MW9NSmZPeFJkTDhqMFIzMWJaRE9B?=
- =?utf-8?B?QkZON2g2Tnh2S0NrMzNHb3dlZytvQmVkaWoveU96cFUvWm5MWU13czhWMXZv?=
- =?utf-8?B?VURvTGNCdmlLTGFra1ZZczNFRHJoSFNXTFhwRW9Zd2VmZmlaR3AxdEwvZGZG?=
- =?utf-8?B?a2g0ZjMzWmx1L3lyNWNvVkFzeThhRWIvUjVJVUFOVVpGTmFaenI4djV6SUgv?=
- =?utf-8?B?N3VSRyswcU9CUFBmODRvWTlsRHVRQUQxMHo3di9lWk1vR0dIL0g1WTlzRk95?=
- =?utf-8?B?WWhyYXJlNlRLR3pmM1hEUkJSTmo4Yk9RSFpuMnExc2ZlekVxRllWb1dpSXBj?=
- =?utf-8?B?ckNIYytLVnJ4NFNSRXROM09ZTk03QlgwVnE4ampZL0lva0c1UFF3STQ1TXY3?=
- =?utf-8?B?ek9YM2FkaFFNc1paR25jbmpQcmxBQ1RxZTdJWmc2TUdpOHFMV0ErWHFLcEVH?=
- =?utf-8?B?d2tSMk5Ob0tHdm9OMWk2aU9Rd0E2UE9nbkVWMHRoaUlEVTRJY2lYbkFUbUFY?=
- =?utf-8?B?R0JNeEcrbWF2OEJMekVDUlBNSVhqMDMrM1Z1Y1lEcE95a2pSeENSM3MzbWhw?=
- =?utf-8?B?R0ppNitSK2FmOEJYSHB5VlplQ3AwdzQ1aGcvRjd5b1JBVmlaVU5PN1pseFVz?=
- =?utf-8?B?V1NONXhiZU5SU0U2OExEVDdINzJ2K1ptQnVEcHRITmlzUlFoQlhnRDBWc0gx?=
- =?utf-8?B?REZEQW9xNFIrdXM2cjZEVGJzc2sreC92MkdndXNNRFNieU10MjVFWTdEY1d3?=
- =?utf-8?B?T2RhSG9HWk1jVm40TzJ4eURWWXorUVNwTFdGOEhOZ3RaUnV4TVlnaVlPZkE4?=
- =?utf-8?B?SlFHYnhETjVKZG5DZWV2amNIOVpsbEMrek1VZW42dGNCL0Fud0ZpR3l0RHNz?=
- =?utf-8?B?ZTFtQVZkalArUVZJM3QzWUxwcnlNQVVzSkNRMCsxNUZkeWJWcU04UzQxTm41?=
- =?utf-8?B?NnAyenBZMGNCZ2tGa3dKN1o5RlozbjBHVm5KNmN6Z05tUnEwZ2xlSnRIWUJq?=
- =?utf-8?B?Q3l4NlJoQTFTelFlbHNwQjRIWSsxa1ZnMTBoaXVwTHVGSUwvUjZxcWtaMmV5?=
- =?utf-8?B?QWt4NHZvd013S2VFODU5Z05UekNWKzR2YTBIdzl0am9DK1U3eVpDRlBzWi9V?=
- =?utf-8?B?SzUvckNGZWNBM1MwRElsbW1GOUk5YVF4Mm5rNk5uOU5KVGswdE5nS3E5ZE1S?=
- =?utf-8?B?bU5jZTFNY25CRithbVZlbDduU2Z5NlRCZXNDZkZqeTNvZU9meFlxZ3VGaHl0?=
- =?utf-8?B?R3dJRzdhcW04Ymg3YmVxYlEvcEw1Vi9PQnpBOXRXNXF3RzVlQXZtSHZLYWtT?=
- =?utf-8?B?bEtEeXlaRTVWcWU0VDM4bFFucENrTTEzMkhBSFltV3J1WklIRE8rV1BLMmdy?=
- =?utf-8?B?OEE9PQ==?=
-X-OriginatorOrg: kontron.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 27eead90-6ef3-44f0-12f3-08dc3913f707
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Feb 2024 10:48:29.2896 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uhhI3lrrTEDkpRbD2+kRltHBtfUkgJJhCiaO+Dq6p9+vo4ga1E/aAUoYb4xD6zV1J6g9sCdy9kZDhIpugzJOERDiWQzQKCs1JzmZ6cM+aIw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR10MB6730
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3o3nvkg76sofrhgcuogo3wuhitnz3bgus6qzle7pejng3v4s62@frdbuj46uiu7>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,80 +79,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29.02.24 10:47, Luca Ceresoli wrote:
-> Hello Alexander,
-> 
-> On Wed, 28 Feb 2024 09:15:46 +0100
-> Alexander Stein <alexander.stein@ew.tq-group.com> wrote:
-> 
-> 
-> [...]
-> 
->> Oh I mistook this DSI-LVDS bridge with the DSI-DP bridge on a different
->> board, my bad. I hope I can provide some insights. My platform is
->> imx8mm-tqma8mqml-mba8mx-lvds-tm070jvhg33.dtb.
->> I can easily cause a PLL lock failure by reducing the delay for the
->> enable-gpios 'gpio_delays'. This will result in a PLL lock faiure.
->> On my platform the vcc-supply counters do look sane:
->>> /sys/kernel/debug/regulator/SN65DSI83_1V8/open_count:1
->>> /sys/kernel/debug/regulator/SN65DSI83_1V8/use_count:0  
-> 
-> Interesting. Thanks for taking time to report your initial issue!
-> 
->> Once I remove the ti_sn65dsi83 module, the open_count decrements to 0 as
->> well. Looks sane to me.
->>
->> If I revert commit c81cd8f7c774 ("Revert "drm/bridge: ti-sn65dsi83:
->> Fix enable error path""), vcc-supply counters are:
->>> /sys/kernel/debug/regulator/SN65DSI83_1V8/open_count:1
->>> /sys/kernel/debug/regulator/SN65DSI83_1V8/use_count:1  
->>
->> So in my case the use_count does not decrease! If I remove the module
->> ti_sn65dsi83, I get the WARN_ON (enable_count is still non-zero):
->>> WARNING: CPU: 2 PID: 402 at drivers/regulator/core.c:2398 _regulator_put+0x15c/0x164  
->>
->> This is on 6.8.0-rc6-next-20240228 with the following diff applied:
->> --->8---  
->> diff --git a/arch/arm64/boot/dts/freescale/mba8mx.dtsi b/arch/arm64/boot/dts/freescale/mba8mx.dtsi
->> index 427467df42bf..8461e1fd396f 100644
->> --- a/arch/arm64/boot/dts/freescale/mba8mx.dtsi
->> +++ b/arch/arm64/boot/dts/freescale/mba8mx.dtsi
->> @@ -285,7 +285,7 @@ &i2c3 {
->>         dsi_lvds_bridge: bridge@2d {
->>                 compatible = "ti,sn65dsi84";
->>                 reg = <0x2d>;
->> -               enable-gpios = <&gpio_delays 0 130000 0>;
->> +               enable-gpios = <&gpio_delays 0 0 0>;
->>                 vcc-supply = <&reg_sn65dsi83_1v8>;
->>                 status = "disabled";
->>  
->> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
->> index 4814b7b6d1fd..57a7ed13f996 100644
->> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
->> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
->> @@ -478,7 +478,6 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
->>                 dev_err(ctx->dev, "failed to lock PLL, ret=%i\n", ret);
->>                 /* On failure, disable PLL again and exit. */
->>                 regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
->> -               regulator_disable(ctx->vcc);
->>                 return;
->>         }
->> --->8---  
->>
->> So my patch indeed did fix an actual problem. On the other hand it seems
->> sn65dsi83_atomic_disable is not called in my case for some reason.
-> 
-> So you remove the module and atomic_disable is not called, after
-> having called atomic_pre_enable?
-> 
-> I'm very possibly missing something, but this looks like a bug in the
-> DRM bridge code at first sight.
+On Wed, Feb 28, 2024 at 05:39:21PM -0600, Lucas De Marchi wrote:
+> On Thu, Feb 22, 2024 at 06:49:59AM -0800, Yury Norov wrote:
+> > On Wed, Feb 21, 2024 at 03:59:06PM -0600, Lucas De Marchi wrote:
+> > > On Wed, Feb 21, 2024 at 11:04:22PM +0200, Andy Shevchenko wrote:
+> > > > On Wed, Feb 21, 2024 at 10:30:02PM +0200, Dmitry Baryshkov wrote:
+> > > > > On Thu, 8 Feb 2024 at 09:45, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
 
-I'm just guessing, but could it be that this patch [1] would fix it?
+...
 
-It looks like nobody cared to pick this up, although there are several
-reports for defects caused by [2] and this patch is supposed to fix them.
+> I build-tested this in x86-64, x86-32 and arm64. I didn't like much the
+> need to fork the __GENMASK() implementation on the 2 sides of the ifdef
+> since I think the GENMASK_INPUT_CHECK() should be the one covering the
+> input checks. However to make it common we'd need to solve 2 problems:
+> the casts and the sizeof. The sizeof can be passed as arg to
+> __GENMASK(), however the casts I think would need a __CAST_U8(x)
+> or the like and sprinkle it everywhere, which would hurt readability.
+> Not pretty. Or go back to the original submission and make it less
+> horrible :-/
 
-[1] https://patchwork.freedesktop.org/patch/529288/
-[2]
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=4fb912e5e19075874379cfcf074d90bd51ebf8ea
+I'm wondering if we can use _Generic() approach here.
+
+...
+
+> > #define GENMASK_INPUT_CHECK(h, l) 0
+> > +#define __GENMASK(t, h, l) \
+> > +	((~0 - (1 << (l)) + 1) & (~0 >> (BITS_PER_LONG - 1 - (h))))
+> 
+> humn... this builds, but does it work if GENMASK_ULL() is used in
+> assembly? That BITS_PER_LONG does not match the type width.
+
+UL()/ULL() macros are not just for fun.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
