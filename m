@@ -2,79 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59DEC86C301
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 09:03:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38FA686C2FE
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 09:03:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC2D010E15A;
-	Thu, 29 Feb 2024 08:03:10 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=falconsigh.net header.i=@falconsigh.net header.b="g2KTl6PC";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="lm9iFBIr";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB92810E0EC;
+	Thu, 29 Feb 2024 08:03:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 820 seconds by postgrey-1.36 at gabe;
- Thu, 29 Feb 2024 08:03:08 UTC
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDF0910E15A;
- Thu, 29 Feb 2024 08:03:08 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 093713200B01;
- Thu, 29 Feb 2024 02:49:26 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 29 Feb 2024 02:49:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=falconsigh.net;
- h=cc:cc:content-transfer-encoding:content-type:date:date:from
- :from:in-reply-to:message-id:mime-version:reply-to:subject
- :subject:to:to; s=fm1; t=1709192966; x=1709279366; bh=YJlyQmihHg
- WJB+zxbV0YUoaP1zY3ZZHgqMVC82I85a8=; b=g2KTl6PCYMkLzkhypU8vv+BSo8
- m1CVyp+oGcun1DDow0e0w5GL0oPiqCX9NKrlPoFJe0FKrqvxfdmZ2Sv+jduZRCcN
- ZFRx25dQwiPAamSai55Z2qplgk7tieStdjwKHSmf4/hrAaPWtFAEWQAQpUPmclfN
- 6f7obUZiFUaCqz6visYoHFoD/wfgQJ8bar0VdU00zdbkIOcR6MOFM/sPAk6cZjKD
- +mjsLXSvMt5rrIOgMh3Zfs2IFWngykTqL0O8hxijLwnrXQYs6mp+JfbvZZ9OWtW0
- Czock65HDoZs+R5tf1o4TVXq6hHBtaANzctIHRAuWeVSOdCBCBpbwEMmgyPg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:message-id:mime-version:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1709192966; x=1709279366; bh=YJlyQmihHgWJB+zxbV0YUoaP1zY3
- ZZHgqMVC82I85a8=; b=lm9iFBIrvq3kidi5Pv/mKd/C+ekOeVd2Za6PaZyoA5+N
- yiApJ/DzjorRMToY2UQFWYHwRToW8qt6a0xpW8rqjhGqcVsud/xg86nxKieUUnlS
- awcPPhm1Ekg2KlEwL1CV8TBYg9LcgTe8rqCQLphyoo35Gm+t/oCr7EevJlE/cwqv
- xHYhTM7xjxk66DGPZqZC/bvkaBAlr9mr4glOuzi+v12fF7sjeWkAfwRVW9oSUk/7
- MByjL1aFZqyZJy1DbJMFivZtWUqZSSX1b4pjFCIxs0ktF1yHdyqd8Q/FZhJARsbj
- HCzrArfEExsluLWC/4q0SIPRMZtapI/kpexk3tolug==
-X-ME-Sender: <xms:BjfgZVjtIJU5cYA5pj2lULXXCq8Roby4mOqpd4BxRntrLpxHYrrK3A>
- <xme:BjfgZaA6WHkg4o5leX08UK-6Y8AfAITXSs9qu06e2jwHxxcKpi6SRGd5KAVUsQbyB
- zi2MnezjUNk1sa62Q>
-X-ME-Received: <xmr:BjfgZVEOHbKl8Md5Q0tSLJj-Sq-DzftJX1vXgsTayCP9j4KRqy0XQjt1uPGeQNZskrkhtZjfCzWflU02Qn8HLfi2m7T2mwE6DUDQ0IAXx1L6aZ8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrgeekgdduuddtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepiigrnhesfhgr
- lhgtohhnshhighhhrdhnvghtnecuggftrfgrthhtvghrnhepueeuieegueehieetveehge
- dukeffteeuffdtjeeuteetjeeigeekgeetudffhfdtnecuvehluhhsthgvrhfuihiivgep
- tdenucfrrghrrghmpehmrghilhhfrhhomhepiigrnhesfhgrlhgtohhnshhighhhrdhnvg
- ht
-X-ME-Proxy: <xmx:BjfgZaRKy6bVmURTnQ_tT5dO0x2t1fQD39aSMcWrA1xel_IXujqFKA>
- <xmx:BjfgZSzkEe2_c8DZyZ8Iso3DA2yFUFcZe07HEozmj2Y6BA7Uxvildw>
- <xmx:BjfgZQ5LFAXzZpyRqm89bFRuiuhJ_G4AMaPJpXW652cGw6Z9p3czeg>
- <xmx:BjfgZXqGm4S_OnCIQgCOy7jmbq01iSsc-upMIAJtYW4IbLI7sgqEJQ>
-Feedback-ID: i9d3c4088:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 29 Feb 2024 02:49:25 -0500 (EST)
-From: zan@falconsigh.net
-To: dri-devel@lists.freedesktop.org
-Cc: freedreno@lists.freedesktop.org, robdclark@gmail.com,
- Zan Dobersek <zdobersek@igalia.com>
-Subject: [PATCH] drm/msm/a7xx: allow writing to CP_BV counter selection
- registers
-Date: Thu, 29 Feb 2024 08:49:11 +0100
-Message-ID: <20240229074913.3463365-1-zan@falconsigh.net>
-X-Mailer: git-send-email 2.43.0
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A9EC10E0AE
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 08:02:58 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 7E750CE23F5;
+ Thu, 29 Feb 2024 08:02:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57A78C433C7;
+ Thu, 29 Feb 2024 08:02:51 +0000 (UTC)
+Message-ID: <03f65fbc-9cf8-4347-8277-e53cb01b00a5@xs4all.nl>
+Date: Thu, 29 Feb 2024 09:02:49 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/9] media: v4l2-subdev: Add a pad variant of
+ .query_dv_timings()
+Content-Language: en-US, nl
+To: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>
+Cc: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org,
+ daniel@ffwll.ch, dinguyen@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ maarten.lankhorst@linux.intel.com, mchehab@kernel.org, mripard@kernel.org,
+ robh+dt@kernel.org, tzimmermann@suse.de, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, chromeos-krk-upstreaming@google.com,
+ ribalda@chromium.org
+References: <20240221160215.484151-1-panikiel@google.com>
+ <20240221160215.484151-2-panikiel@google.com>
+ <ce262cda-84ba-4d8f-a916-76488c94066d@xs4all.nl>
+ <CAM5zL5qrMNfyiXMOJHUzLySm_U2U8kbD=D_Cyn0WjkvpikiYpQ@mail.gmail.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <CAM5zL5qrMNfyiXMOJHUzLySm_U2U8kbD=D_Cyn0WjkvpikiYpQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,33 +55,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zan Dobersek <zdobersek@igalia.com>
+On 28/02/2024 16:34, Paweł Anikiel wrote:
+> On Wed, Feb 28, 2024 at 12:25 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>>
+>> Hi Paweł,
+>>
+>> On 21/02/2024 17:02, Paweł Anikiel wrote:
+>>> Currently, .query_dv_timings() is defined as a video callback without
+>>> a pad argument. This is a problem if the subdevice can have different
+>>> dv timings for each pad (e.g. a DisplayPort receiver with multiple
+>>> virtual channels).
+>>>
+>>> To solve this, add a pad variant of this callback which includes
+>>> the pad number as an argument.
+>>
+>> So now we have two query_dv_timings ops: one for video ops, and one
+>> for pad ops. That's not very maintainable. I would suggest switching
+>> all current users of the video op over to the pad op.
+> 
+> I agree it would be better if there was only one. However, I have some concerns:
+> 1. Isn't there a problem with backwards compatibility? For example, an
+> out-of-tree driver is likely to use this callback, which would break.
+> I'm asking because I'm not familiar with how such API changes are
+> handled.
 
-In addition to the CP_PERFCTR_CP_SEL register range, allow writes to the
-CP_BV_PERFCTR_CP_SEL registers in the 0x8e0-0x8e6 range for profiling
-purposes of tools like fdperf and perfetto.
+It's out of tree, so they will just have to adapt. That's how life is if
+you are not part of the mainline kernel.
 
-Signed-off-by: Zan Dobersek <zdobersek@igalia.com>
----
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+> 2. If I do switch all current users to the pad op, I can't test those
+> changes. Isn't that a problem?
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index c9c55e2ea584..09c554f2fcf6 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -1175,8 +1175,9 @@ static const u32 a730_protect[] = {
- 	A6XX_PROTECT_NORDWR(0x00699, 0x01e9),
- 	A6XX_PROTECT_NORDWR(0x008a0, 0x0008),
- 	A6XX_PROTECT_NORDWR(0x008ab, 0x0024),
--	/* 0x008d0-0x008dd are unprotected on purpose for tools like perfetto */
--	A6XX_PROTECT_RDONLY(0x008de, 0x0154),
-+	/* 0x008d0-0x008dd and 0x008e0-0x008e6 are unprotected on purpose for tools like perfetto */
-+	A6XX_PROTECT_NORDWR(0x008de, 0x0001),
-+	A6XX_PROTECT_RDONLY(0x008e7, 0x014b),
- 	A6XX_PROTECT_NORDWR(0x00900, 0x004d),
- 	A6XX_PROTECT_NORDWR(0x0098d, 0x00b2),
- 	A6XX_PROTECT_NORDWR(0x00a41, 0x01be),
--- 
-2.43.0
+I can test one or two drivers, but in general I don't expect this to be
+a problem.
 
+> 3. Would I need to get ACK from all the driver maintainers?
+
+CC the patches to the maintainers. Generally you will get back Acks from
+some but not all maintainers, but that's OK. For changes affecting multiple
+drivers you never reach 100% on that. I can review the remainder. The DV
+Timings API is my expert area, so that shouldn't be a problem.
+
+A quick grep gives me these subdev drivers that implement it:
+
+adv748x, adv7604, adv7842, tc358743, tda1997x, tvp7002, gs1662.
+
+And these bridge drivers that call the subdevs:
+
+cobalt, rcar-vin, vpif_capture.
+
+The bridge drivers can use the following pad when calling query_dv_timings:
+
+cobalt: ADV76XX_PAD_HDMI_PORT_A
+rcar_vin: vin->parallel.sink_pad
+vpif_capture: 0
+
+The converted subdev drivers should check if the pad is an input pad.
+Ideally it should check if the pad is equal to the current input pad
+since most devices can only query the timings for the currently selected
+input pad. But some older drivers predate the pad concept and they
+ignore the pad value.
+
+Regards,
+
+	Hans
