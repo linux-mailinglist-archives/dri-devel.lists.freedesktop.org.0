@@ -2,66 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 882C086CC7F
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 16:12:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8623186CC80
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 16:12:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB42A10E3BD;
-	Thu, 29 Feb 2024 15:12:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3594510E457;
+	Thu, 29 Feb 2024 15:12:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UAeZ8AmI";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="O3A68sLX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B86B10E463
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 11:10:21 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-513181719easo417018e87.3
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 03:10:21 -0800 (PST)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40B1510E482
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 11:22:19 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-5131316693cso964188e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 03:22:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1709205019; x=1709809819; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=gmail.com; s=20230601; t=1709205737; x=1709810537; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=GIBPoOk+1kYrUDtUJWUP6LK4VMtPXxz+WnWICgzvGsc=;
- b=UAeZ8AmIK3nSsGlJ9RJ1AtdrLesKGYLcjhcSrYSUEncnXnP3b75t/jd6jnHoahYMo+
- x5h1aZBiAgnTkRJXkfsHxYgG2N2+yLIvySTdFGHkG9JpYwA10/kjPhY9XxtM6uSsrX/i
- iI98D1Pk08X5wbTPXhDNyFUThkvV1+bJt+kFN7zy90JDS2MTxJ9+J3YVQlMbewjpIejd
- e1lQ0k5wMGA+R1lyYWAocadXklPTG55JI0A8PKtPnOLNzE4L5DGsI+8mXKWAMiQVU7Qw
- iFS3hS8VVKlvm5QEetBhT2rSGMzRQKmpAa6C/Wg/0v+khuby4CeiXl7u80NUsX5Hxurh
- i9yQ==
+ bh=DCYVJOxva7cbL0S0SVuUSyy8FG+Nl+cI8gxD3kxwuN8=;
+ b=O3A68sLXD+ihoiUHbTQozysRnoKEKJKsw+Ax0GNIdiAy2BfAnF8YwRfdPXE7usXa79
+ 4Kjp+kmQCAob+Fgnk0mob/canS2RcZl60Ugc+WKdA2sglZj1OxOpdYaHPCqO6ubj0K0R
+ uZY3fVaNM2gQXbvkGasF66SPTC6UobxuF9pnW86w0TyfD2U9ZDPgtb5k8hOu8rCkBgnG
+ gGNg8lN3sm29dnIdqRPYVFkKUnPLQiwH04zWtvCnsSY1cGC6s5Fw54IxtHCUqPBfluYX
+ yX+55d58DeYzXctfS8gVxq2H+8a1EiCu3c4uPCa25vNe8JYzkBGDRv1fK2AL7F7FtU9R
+ aMbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709205019; x=1709809819;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1709205737; x=1709810537;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GIBPoOk+1kYrUDtUJWUP6LK4VMtPXxz+WnWICgzvGsc=;
- b=j9T8JdNk6teid6q9ZP4onHbE5An0qeX38Nv31dy4V7AHERwl/V3+cqds/cBDZ1kkcI
- orT5EUIZOxCDQSUoPP+zj7mAiKoYV18o+mlv0Rs8DUY2vtZe2U2e+3EN+DKTqqEh5oGK
- VNfj0ZQlzI69HwqIBm4tOygri97bKcKKMcYQ7uNte4Ma7NKdpDHO3uRNkFuqKe+M8EnH
- fEbDk/itadR6pex/aaFfsL7n7HVVIMSvqaeiQ9awVKYRia4FIcBWOI4II+t4MyFibnH6
- +stbzI4mKXkQIj5k8ai/RhlkdW0EALRogWNUiFFlSWWoHQ/94mPDgvre2HSitirJECeD
- x7ag==
+ bh=DCYVJOxva7cbL0S0SVuUSyy8FG+Nl+cI8gxD3kxwuN8=;
+ b=ruwjlgZaOHANyBhVf9cvi0LeAWqv84knVW3w3E+0J+iyYMw57y+tgu1WiNkgVGSfI/
+ vuSUOVq2ZyimCRccEgBEVAu3WC0CwtcezlT0+jhBxAtHqDl5n3/VBNIt0Tp3Pe8AO+5r
+ b4DqLu8tdRCsIA8yJTi4ZiNLM+CbOjZAF+vpwdMRYkPPNvxT+uDuqdUZG1idnbcjFCMG
+ pHfzS4gwYjFmEMHsmcauEmKuBnGt8SVtXJRnp/nBth521SAo5X+j1LGe1B3/3nJah4wX
+ +6oBs3rwZ/Q+xnQSNlAivRLK3P+l375jkL/5ia/yHPhccnTogw8u+ZuOHsgu9/qoo8E7
+ lReg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVMtilGAJnEIqOiUw9PuOAaZLmwVCfPf4ji3fzH3cIdGpDdGc0RNeU+IXjOSEbpkadUQEhorofWYxOh21RP39Ai4umFCIAekoApptEcnBzb
-X-Gm-Message-State: AOJu0YzPn8j63iaIaQIqLMHnmb8ORUgAUk5goOf4gWkgsAv1ubFzRcr9
- 23tMDjPhbXAVRCoy2hOY8LJqzD9JmwMSQl+UquDHvejugRJHmaS3
-X-Google-Smtp-Source: AGHT+IE1rn1IKpuRyvo4Opm0Zt3B82O24f9hp/M7IbQ1wdOiuJCWMOZg3kcfpBECPXoLQ+BpqOoHNg==
-X-Received: by 2002:ac2:547a:0:b0:513:22d2:ede8 with SMTP id
- e26-20020ac2547a000000b0051322d2ede8mr1329851lfn.39.1709205018795; 
- Thu, 29 Feb 2024 03:10:18 -0800 (PST)
+ AJvYcCUrtwqLU8rckEhQNOsK5W+QC57OC3xb6gkcXbr/Cu+sn7uLSS1UYWC9TLc8Uaxrf+oo5pmPz+MPdg2DJXuPCcvbn5LpHTwwGi+45eJ8P+9E
+X-Gm-Message-State: AOJu0Yzo4qjiQU1sErRGNH0HNTxkDEVvWYSVbrRVs0exAQQqpdn+nI8p
+ uG3iukKFX9FVOhelYt2DbriBjxe8HrL+W2ohJCd5rv4ya8jzg5gb
+X-Google-Smtp-Source: AGHT+IEcyGxv3boJhUbIfcxE4GAXJlXVJLOoxb0MGuYy2YDFLHQehEYV64lneBXAaSEL4H2H7EwLgQ==
+X-Received: by 2002:ac2:544f:0:b0:512:b3ef:350f with SMTP id
+ d15-20020ac2544f000000b00512b3ef350fmr1193587lfn.49.1709205736954; 
+ Thu, 29 Feb 2024 03:22:16 -0800 (PST)
 Received: from [10.32.57.243] (yritysnetti-5422ea-26.businessinternet.fi.
  [84.34.234.26]) by smtp.gmail.com with ESMTPSA id
- m17-20020ac24ad1000000b005128d91b9f2sm210079lfp.161.2024.02.29.03.10.17
+ d5-20020a056512368500b005128d0e2a07sm214031lfs.308.2024.02.29.03.22.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Feb 2024 03:10:18 -0800 (PST)
-Message-ID: <655f89fa-6ccb-4b54-adcd-69024b4a1e28@gmail.com>
-Date: Thu, 29 Feb 2024 13:10:16 +0200
+ Thu, 29 Feb 2024 03:22:16 -0800 (PST)
+Message-ID: <2c9e322f-edc9-457b-8c0a-0628c9a5d6f9@gmail.com>
+Date: Thu, 29 Feb 2024 13:22:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 0/3] kci-gitlab: Introducing GitLab-CI Pipeline for Kernel
  Testing
+Content-Language: en-US
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org,
  dave.pigott@collabora.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
@@ -77,9 +78,10 @@ References: <20240228225527.1052240-1-helen.koike@collabora.com>
  <20240228230725.GF1659@pendragon.ideasonboard.com>
  <0a5bf7d1-0a7e-4071-877a-a3d312d80084@gmail.com>
  <20240229093402.GA30889@pendragon.ideasonboard.com>
-Content-Language: en-US
+ <655f89fa-6ccb-4b54-adcd-69024b4a1e28@gmail.com>
+ <20240229111919.GF30889@pendragon.ideasonboard.com>
 From: Nikolai Kondrashov <spbnick@gmail.com>
-In-Reply-To: <20240229093402.GA30889@pendragon.ideasonboard.com>
+In-Reply-To: <20240229111919.GF30889@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Thu, 29 Feb 2024 15:12:01 +0000
@@ -98,30 +100,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/29/24 11:34 AM, Laurent Pinchart wrote:
-> On Thu, Feb 29, 2024 at 11:26:51AM +0200, Nikolai Kondrashov wrote:
->> On 2/29/24 01:07, Laurent Pinchart wrote:
->>> On Wed, Feb 28, 2024 at 07:55:24PM -0300, Helen Koike wrote:
->>>> **Join Our Slack Channel:**
->>>> We have a Slack channel, #gitlab-ci, on the KernelCI Slack instance https://kernelci.slack.com/ .
->>>> Feel free to join and contribute to the conversation. The KernelCI team has
->>>> weekly calls where we also discuss the GitLab-CI pipeline.
+On 2/29/24 1:19 PM, Laurent Pinchart wrote:
+> On Thu, Feb 29, 2024 at 01:10:16PM +0200, Nikolai Kondrashov wrote:
+>> On 2/29/24 11:34 AM, Laurent Pinchart wrote:
+>>> On Thu, Feb 29, 2024 at 11:26:51AM +0200, Nikolai Kondrashov wrote:
+>>>> On 2/29/24 01:07, Laurent Pinchart wrote:
+>>>>> On Wed, Feb 28, 2024 at 07:55:24PM -0300, Helen Koike wrote:
+>>>>>> **Join Our Slack Channel:**
+>>>>>> We have a Slack channel, #gitlab-ci, on the KernelCI Slack instance https://kernelci.slack.com/ .
+>>>>>> Feel free to join and contribute to the conversation. The KernelCI team has
+>>>>>> weekly calls where we also discuss the GitLab-CI pipeline.
+>>>>>
+>>>>> Could we communicate using free software please ? Furthermore, it's not
+>>>>> possible to create an account on that slack instance unless you have an
+>>>>> e-mail address affiliated with a small number of companies
+>>>>> (https://kernelci.slack.com/signup#/domain-signup). That's a big no-go
+>>>>> for me.
+>>>>
+>>>> Yes, it's not ideal that we use closed-source software for communication, but
+>>>> FWIW I'd be happy to invite you there. Perhaps if you try logging in e.g. with
+>>>> a Google account, I'd be able to see and approve your attempt too.
 >>>
->>> Could we communicate using free software please ? Furthermore, it's not
->>> possible to create an account on that slack instance unless you have an
->>> e-mail address affiliated with a small number of companies
->>> (https://kernelci.slack.com/signup#/domain-signup). That's a big no-go
->>> for me.
+>>> I don't use Google accounts to authenticate to third-party services,
+>>> sorry. And in any case, that won't make slack free software.
 >>
->> Yes, it's not ideal that we use closed-source software for communication, but
->> FWIW I'd be happy to invite you there. Perhaps if you try logging in e.g. with
->> a Google account, I'd be able to see and approve your attempt too.
+>> Of course. You're also welcome to join the #kernelci channel on libera.chat.
 > 
-> I don't use Google accounts to authenticate to third-party services,
-> sorry. And in any case, that won't make slack free software.
+> Isn't that a bit pointless if it's no the main IM channel ?
 
-Of course. You're also welcome to join the #kernelci channel on libera.chat.
-
-It's much quieter there, though.
+Yes, it's not ideal, but if more people come there, more discussions will 
+happen there too.
 
 Nick
+
+
