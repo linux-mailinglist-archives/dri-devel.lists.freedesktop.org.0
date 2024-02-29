@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AD9186CEC8
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 17:22:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EECD686CECC
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 17:22:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3F3310E519;
-	Thu, 29 Feb 2024 16:22:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C70D10E52B;
+	Thu, 29 Feb 2024 16:22:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="nDFPajeR";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="EqJkMs2d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EC6310E500
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 16:22:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2004110E500
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 16:22:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1709223760;
- bh=MsqulX4US4tAiqQq+Emzz/xctP1qp8esG7g0EH95B4o=;
+ s=mail; t=1709223761;
+ bh=nFvyqQamoMhxhh27nP23SgYoHxQ9w1fnN6OCdZAJErY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nDFPajeRHOczTC3HlsAJ4hGOgawC5cGhBdAS5kyKSrLhAcXElH1qARNxvSPUwMBP4
- 0PTuH43q+4YkATKC3IacQ6qXHYW92tohEyYi3HQscufw+PjOciNxiVux2eJzxwxdMp
- qCxx/EfSXg3RLAj6BxP8KmRMAdHkFMuuzpuyDFd76WTtAdJYjKE98PEAZVV1gevhr2
- 2ituzp7X7td+KFsk/+IavfiOarLA1Cyj7Rw3HwDvYdYr53y3+3ICpYlHeqQLFbLD+t
- pYLufy0JOShPXhuKjfzt+rS4o3ZmA2W97HzytGUAjSx3zbOS3EaFHl11LRgRS44XmK
- XWOVq4eEPvnHg==
+ b=EqJkMs2dYOyl/7BV/m4JuiWFvRLveMmFePCy1LdhC9OJ0lFlDBe61OXGyNdKJf2Pw
+ uxsBab1Z1CPntu/aHZPp5a8gsfwNglECYo4Q1hZh3h7NobtPOp8fjbRwWF+ZcPeWnP
+ azRxZ6KEzSTuxdOjdRDjpC0a3WFU+qtm71Vl9laA/F+/3JtUZbaROPfih/HhK57gkY
+ rkSWNy2H9k5iTRlEz9vTJvRC/HTp3blHFWn40JOWVFvQlsyhQYYhvIAYYHXVi/VY+D
+ 9X4wa+v9bwl/g2hPlv9I0Yrv+tDaJkEMnScMllbXEF5r9wZVzYCBeRNjQnVSHTDKw0
+ /w4gCUg/krgSw==
 Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2BE0137820E9;
- Thu, 29 Feb 2024 16:22:39 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9E76C37820ED;
+ Thu, 29 Feb 2024 16:22:40 +0000 (UTC)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: dri-devel@lists.freedesktop.org
 Cc: Daniel Vetter <daniel@ffwll.ch>,
@@ -48,15 +48,15 @@ Cc: Daniel Vetter <daniel@ffwll.ch>,
  Chris Diamand <chris.diamand@foss.arm.com>,
  Ketil Johnsen <ketil.johnsen@arm.com>,
  Boris Brezillon <boris.brezillon@collabora.com>,
- Grant Likely <grant.likely@linaro.org>, Liviu Dudau <liviu.dudau@arm.com>,
- Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH v6 05/14] drm/panthor: Add GEM logical block
-Date: Thu, 29 Feb 2024 17:22:19 +0100
-Message-ID: <20240229162230.2634044-6-boris.brezillon@collabora.com>
+ Grant Likely <grant.likely@linaro.org>, Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v6 06/14] drm/panthor: Add the devfreq logical block
+Date: Thu, 29 Feb 2024 17:22:20 +0100
+Message-ID: <20240229162230.2634044-7-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240229162230.2634044-1-boris.brezillon@collabora.com>
 References: <20240229162230.2634044-1-boris.brezillon@collabora.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,432 +73,359 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Anything relating to GEM object management is placed here. Nothing
-particularly interesting here, given the implementation is based on
-drm_gem_shmem_object, which is doing most of the work.
+Every thing related to devfreq in placed in panthor_devfreq.c, and
+helpers that can be called by other logical blocks are exposed through
+panthor_devfreq.h.
+
+This implementation is loosely based on the panfrost implementation,
+the only difference being that we don't count device users, because
+the idle/active state will be managed by the scheduler logic.
 
 v6:
 - Add Maxime's and Heiko's acks
-- Return a page-aligned BO size to userspace when creating a BO
 - Keep header inclusion alphabetically ordered
 
-v5:
-- Add Liviu's and Steve's R-b
-
 v4:
-- Force kernel BOs to be GPU mapped
-- Make panthor_kernel_bo_destroy() robust against ERR/NULL BO pointers
-  to simplify the call sites
+- Add Clément's A-b for the relicensing
 
 v3:
 - Add acks for the MIT/GPL2 relicensing
-- Provide a panthor_kernel_bo abstraction for buffer objects managed by
-  the kernel (will replace panthor_fw_mem and be used everywhere we were
-  using panthor_gem_create_and_map() before)
-- Adjust things to match drm_gpuvm changes
-- Change return of panthor_gem_create_with_handle() to int
 
-Co-developed-by: Steven Price <steven.price@arm.com>
-Signed-off-by: Steven Price <steven.price@arm.com>
+v2:
+- Added in v2
+
+Cc: Clément Péron <peron.clem@gmail.com> # MIT+GPL2 relicensing
+Reviewed-by: Steven Price <steven.price@arm.com>
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 Acked-by: Steven Price <steven.price@arm.com> # MIT+GPL2 relicensing,Arm
 Acked-by: Grant Likely <grant.likely@linaro.org> # MIT+GPL2 relicensing,Linaro
 Acked-by: Boris Brezillon <boris.brezillon@collabora.com> # MIT+GPL2 relicensing,Collabora
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
+Acked-by: Clément Péron <peron.clem@gmail.com> # MIT+GPL2 relicensing
 Acked-by: Maxime Ripard <mripard@kernel.org>
 Acked-by: Heiko Stuebner <heiko@sntech.de>
 ---
- drivers/gpu/drm/panthor/panthor_gem.c | 230 ++++++++++++++++++++++++++
- drivers/gpu/drm/panthor/panthor_gem.h | 142 ++++++++++++++++
- 2 files changed, 372 insertions(+)
- create mode 100644 drivers/gpu/drm/panthor/panthor_gem.c
- create mode 100644 drivers/gpu/drm/panthor/panthor_gem.h
+ drivers/gpu/drm/panthor/panthor_devfreq.c | 283 ++++++++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_devfreq.h |  21 ++
+ 2 files changed, 304 insertions(+)
+ create mode 100644 drivers/gpu/drm/panthor/panthor_devfreq.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_devfreq.h
 
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.c b/drivers/gpu/drm/panthor/panthor_devfreq.c
 new file mode 100644
-index 000000000000..d6483266d0c2
+index 000000000000..7ac4fa290f27
 --- /dev/null
-+++ b/drivers/gpu/drm/panthor/panthor_gem.c
-@@ -0,0 +1,230 @@
++++ b/drivers/gpu/drm/panthor/panthor_devfreq.c
+@@ -0,0 +1,283 @@
 +// SPDX-License-Identifier: GPL-2.0 or MIT
-+/* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
-+/* Copyright 2023 Collabora ltd. */
++/* Copyright 2019 Collabora ltd. */
 +
-+#include <linux/dma-buf.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/err.h>
-+#include <linux/slab.h>
++#include <linux/clk.h>
++#include <linux/devfreq.h>
++#include <linux/devfreq_cooling.h>
++#include <linux/platform_device.h>
++#include <linux/pm_opp.h>
 +
-+#include <drm/panthor_drm.h>
++#include <drm/drm_managed.h>
 +
++#include "panthor_devfreq.h"
 +#include "panthor_device.h"
-+#include "panthor_gem.h"
-+#include "panthor_mmu.h"
-+
-+static void panthor_gem_free_object(struct drm_gem_object *obj)
-+{
-+	struct panthor_gem_object *bo = to_panthor_bo(obj);
-+	struct drm_gem_object *vm_root_gem = bo->exclusive_vm_root_gem;
-+
-+	drm_gem_free_mmap_offset(&bo->base.base);
-+	mutex_destroy(&bo->gpuva_list_lock);
-+	drm_gem_shmem_free(&bo->base);
-+	drm_gem_object_put(vm_root_gem);
-+}
 +
 +/**
-+ * panthor_kernel_bo_destroy() - Destroy a kernel buffer object
-+ * @vm: The VM this BO was mapped to.
-+ * @bo: Kernel buffer object to destroy. If NULL or an ERR_PTR(), the destruction
-+ * is skipped.
++ * struct panthor_devfreq - Device frequency management
 + */
-+void panthor_kernel_bo_destroy(struct panthor_vm *vm,
-+			       struct panthor_kernel_bo *bo)
-+{
-+	int ret;
++struct panthor_devfreq {
++	/** @devfreq: devfreq device. */
++	struct devfreq *devfreq;
 +
-+	if (IS_ERR_OR_NULL(bo))
-+		return;
++	/** @gov_data: Governor data. */
++	struct devfreq_simple_ondemand_data gov_data;
 +
-+	panthor_kernel_bo_vunmap(bo);
++	/** @busy_time: Busy time. */
++	ktime_t busy_time;
 +
-+	if (drm_WARN_ON(bo->obj->dev,
-+			to_panthor_bo(bo->obj)->exclusive_vm_root_gem != panthor_vm_root_gem(vm)))
-+		goto out_free_bo;
++	/** @idle_time: Idle time. */
++	ktime_t idle_time;
 +
-+	ret = panthor_vm_unmap_range(vm, bo->va_node.start,
-+				     panthor_kernel_bo_size(bo));
-+	if (ret)
-+		goto out_free_bo;
++	/** @time_last_update: Last update time. */
++	ktime_t time_last_update;
 +
-+	panthor_vm_free_va(vm, &bo->va_node);
-+	drm_gem_object_put(bo->obj);
-+
-+out_free_bo:
-+	kfree(bo);
-+}
-+
-+/**
-+ * panthor_kernel_bo_create() - Create and map a GEM object to a VM
-+ * @ptdev: Device.
-+ * @vm: VM to map the GEM to. If NULL, the kernel object is not GPU mapped.
-+ * @size: Size of the buffer object.
-+ * @bo_flags: Combination of drm_panthor_bo_flags flags.
-+ * @vm_map_flags: Combination of drm_panthor_vm_bind_op_flags (only those
-+ * that are related to map operations).
-+ * @gpu_va: GPU address assigned when mapping to the VM.
-+ * If gpu_va == PANTHOR_VM_KERNEL_AUTO_VA, the virtual address will be
-+ * automatically allocated.
-+ *
-+ * Return: A valid pointer in case of success, an ERR_PTR() otherwise.
-+ */
-+struct panthor_kernel_bo *
-+panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
-+			 size_t size, u32 bo_flags, u32 vm_map_flags,
-+			 u64 gpu_va)
-+{
-+	struct drm_gem_shmem_object *obj;
-+	struct panthor_kernel_bo *kbo;
-+	struct panthor_gem_object *bo;
-+	int ret;
-+
-+	if (drm_WARN_ON(&ptdev->base, !vm))
-+		return ERR_PTR(-EINVAL);
-+
-+	kbo = kzalloc(sizeof(*kbo), GFP_KERNEL);
-+	if (!kbo)
-+		return ERR_PTR(-ENOMEM);
-+
-+	obj = drm_gem_shmem_create(&ptdev->base, size);
-+	if (IS_ERR(obj)) {
-+		ret = PTR_ERR(obj);
-+		goto err_free_bo;
-+	}
-+
-+	bo = to_panthor_bo(&obj->base);
-+	size = obj->base.size;
-+	kbo->obj = &obj->base;
-+	bo->flags = bo_flags;
-+
-+	ret = panthor_vm_alloc_va(vm, gpu_va, size, &kbo->va_node);
-+	if (ret)
-+		goto err_put_obj;
-+
-+	ret = panthor_vm_map_bo_range(vm, bo, 0, size, kbo->va_node.start, vm_map_flags);
-+	if (ret)
-+		goto err_free_va;
-+
-+	bo->exclusive_vm_root_gem = panthor_vm_root_gem(vm);
-+	drm_gem_object_get(bo->exclusive_vm_root_gem);
-+	bo->base.base.resv = bo->exclusive_vm_root_gem->resv;
-+	return kbo;
-+
-+err_free_va:
-+	panthor_vm_free_va(vm, &kbo->va_node);
-+
-+err_put_obj:
-+	drm_gem_object_put(&obj->base);
-+
-+err_free_bo:
-+	kfree(kbo);
-+	return ERR_PTR(ret);
-+}
-+
-+static int panthor_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
-+{
-+	struct panthor_gem_object *bo = to_panthor_bo(obj);
-+
-+	/* Don't allow mmap on objects that have the NO_MMAP flag set. */
-+	if (bo->flags & DRM_PANTHOR_BO_NO_MMAP)
-+		return -EINVAL;
-+
-+	return drm_gem_shmem_object_mmap(obj, vma);
-+}
-+
-+static struct dma_buf *
-+panthor_gem_prime_export(struct drm_gem_object *obj, int flags)
-+{
-+	/* We can't export GEMs that have an exclusive VM. */
-+	if (to_panthor_bo(obj)->exclusive_vm_root_gem)
-+		return ERR_PTR(-EINVAL);
-+
-+	return drm_gem_prime_export(obj, flags);
-+}
-+
-+static const struct drm_gem_object_funcs panthor_gem_funcs = {
-+	.free = panthor_gem_free_object,
-+	.print_info = drm_gem_shmem_object_print_info,
-+	.pin = drm_gem_shmem_object_pin,
-+	.unpin = drm_gem_shmem_object_unpin,
-+	.get_sg_table = drm_gem_shmem_object_get_sg_table,
-+	.vmap = drm_gem_shmem_object_vmap,
-+	.vunmap = drm_gem_shmem_object_vunmap,
-+	.mmap = panthor_gem_mmap,
-+	.export = panthor_gem_prime_export,
-+	.vm_ops = &drm_gem_shmem_vm_ops,
-+};
-+
-+/**
-+ * panthor_gem_create_object - Implementation of driver->gem_create_object.
-+ * @ddev: DRM device
-+ * @size: Size in bytes of the memory the object will reference
-+ *
-+ * This lets the GEM helpers allocate object structs for us, and keep
-+ * our BO stats correct.
-+ */
-+struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t size)
-+{
-+	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
-+	struct panthor_gem_object *obj;
-+
-+	obj = kzalloc(sizeof(*obj), GFP_KERNEL);
-+	if (!obj)
-+		return ERR_PTR(-ENOMEM);
-+
-+	obj->base.base.funcs = &panthor_gem_funcs;
-+	obj->base.map_wc = !ptdev->coherent;
-+	mutex_init(&obj->gpuva_list_lock);
-+	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
-+
-+	return &obj->base.base;
-+}
-+
-+/**
-+ * panthor_gem_create_with_handle() - Create a GEM object and attach it to a handle.
-+ * @file: DRM file.
-+ * @ddev: DRM device.
-+ * @exclusive_vm: Exclusive VM. Not NULL if the GEM object can't be shared.
-+ * @size: Size of the GEM object to allocate.
-+ * @flags: Combination of drm_panthor_bo_flags flags.
-+ * @handle: Pointer holding the handle pointing to the new GEM object.
-+ *
-+ * Return: Zero on success
-+ */
-+int
-+panthor_gem_create_with_handle(struct drm_file *file,
-+			       struct drm_device *ddev,
-+			       struct panthor_vm *exclusive_vm,
-+			       u64 *size, u32 flags, u32 *handle)
-+{
-+	int ret;
-+	struct drm_gem_shmem_object *shmem;
-+	struct panthor_gem_object *bo;
-+
-+	shmem = drm_gem_shmem_create(ddev, *size);
-+	if (IS_ERR(shmem))
-+		return PTR_ERR(shmem);
-+
-+	bo = to_panthor_bo(&shmem->base);
-+	bo->flags = flags;
-+
-+	if (exclusive_vm) {
-+		bo->exclusive_vm_root_gem = panthor_vm_root_gem(exclusive_vm);
-+		drm_gem_object_get(bo->exclusive_vm_root_gem);
-+		bo->base.base.resv = bo->exclusive_vm_root_gem->resv;
-+	}
++	/** @last_busy_state: True if the GPU was busy last time we updated the state. */
++	bool last_busy_state;
 +
 +	/*
-+	 * Allocate an id of idr table where the obj is registered
-+	 * and handle has the id what user can see.
++	 * @lock: Lock used to protect busy_time, idle_time, time_last_update and
++	 * last_busy_state.
++	 *
++	 * These fields can be accessed concurrently by panthor_devfreq_get_dev_status()
++	 * and panthor_devfreq_record_{busy,idle}().
 +	 */
-+	ret = drm_gem_handle_create(file, &shmem->base, handle);
-+	if (!ret)
-+		*size = bo->base.base.size;
-+
-+	/* drop reference from allocate - handle holds it now. */
-+	drm_gem_object_put(&shmem->base);
-+
-+	return ret;
-+}
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-new file mode 100644
-index 000000000000..3bccba394d00
---- /dev/null
-+++ b/drivers/gpu/drm/panthor/panthor_gem.h
-@@ -0,0 +1,142 @@
-+/* SPDX-License-Identifier: GPL-2.0 or MIT */
-+/* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
-+/* Copyright 2023 Collabora ltd. */
-+
-+#ifndef __PANTHOR_GEM_H__
-+#define __PANTHOR_GEM_H__
-+
-+#include <drm/drm_gem_shmem_helper.h>
-+#include <drm/drm_mm.h>
-+
-+#include <linux/iosys-map.h>
-+#include <linux/rwsem.h>
-+
-+struct panthor_vm;
-+
-+/**
-+ * struct panthor_gem_object - Driver specific GEM object.
-+ */
-+struct panthor_gem_object {
-+	/** @base: Inherit from drm_gem_shmem_object. */
-+	struct drm_gem_shmem_object base;
-+
-+	/**
-+	 * @exclusive_vm_root_gem: Root GEM of the exclusive VM this GEM object
-+	 * is attached to.
-+	 *
-+	 * If @exclusive_vm_root_gem != NULL, any attempt to bind the GEM to a
-+	 * different VM will fail.
-+	 *
-+	 * All FW memory objects have this field set to the root GEM of the MCU
-+	 * VM.
-+	 */
-+	struct drm_gem_object *exclusive_vm_root_gem;
-+
-+	/**
-+	 * @gpuva_list_lock: Custom GPUVA lock.
-+	 *
-+	 * Used to protect insertion of drm_gpuva elements to the
-+	 * drm_gem_object.gpuva.list list.
-+	 *
-+	 * We can't use the GEM resv for that, because drm_gpuva_link() is
-+	 * called in a dma-signaling path, where we're not allowed to take
-+	 * resv locks.
-+	 */
-+	struct mutex gpuva_list_lock;
-+
-+	/** @flags: Combination of drm_panthor_bo_flags flags. */
-+	u32 flags;
++	spinlock_t lock;
 +};
 +
-+/**
-+ * struct panthor_kernel_bo - Kernel buffer object.
-+ *
-+ * These objects are only manipulated by the kernel driver and not
-+ * directly exposed to the userspace. The GPU address of a kernel
-+ * BO might be passed to userspace though.
-+ */
-+struct panthor_kernel_bo {
-+	/**
-+	 * @obj: The GEM object backing this kernel buffer object.
-+	 */
-+	struct drm_gem_object *obj;
-+
-+	/**
-+	 * @va_node: VA space allocated to this GEM.
-+	 */
-+	struct drm_mm_node va_node;
-+
-+	/**
-+	 * @kmap: Kernel CPU mapping of @gem.
-+	 */
-+	void *kmap;
-+};
-+
-+static inline
-+struct panthor_gem_object *to_panthor_bo(struct drm_gem_object *obj)
++static void panthor_devfreq_update_utilization(struct panthor_devfreq *pdevfreq)
 +{
-+	return container_of(to_drm_gem_shmem_obj(obj), struct panthor_gem_object, base);
++	ktime_t now, last;
++
++	now = ktime_get();
++	last = pdevfreq->time_last_update;
++
++	if (pdevfreq->last_busy_state)
++		pdevfreq->busy_time += ktime_sub(now, last);
++	else
++		pdevfreq->idle_time += ktime_sub(now, last);
++
++	pdevfreq->time_last_update = now;
 +}
 +
-+struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t size);
-+
-+struct drm_gem_object *
-+panthor_gem_prime_import_sg_table(struct drm_device *ddev,
-+				  struct dma_buf_attachment *attach,
-+				  struct sg_table *sgt);
-+
-+int
-+panthor_gem_create_with_handle(struct drm_file *file,
-+			       struct drm_device *ddev,
-+			       struct panthor_vm *exclusive_vm,
-+			       u64 *size, u32 flags, uint32_t *handle);
-+
-+static inline u64
-+panthor_kernel_bo_gpuva(struct panthor_kernel_bo *bo)
++static int panthor_devfreq_target(struct device *dev, unsigned long *freq,
++				  u32 flags)
 +{
-+	return bo->va_node.start;
++	struct dev_pm_opp *opp;
++
++	opp = devfreq_recommended_opp(dev, freq, flags);
++	if (IS_ERR(opp))
++		return PTR_ERR(opp);
++	dev_pm_opp_put(opp);
++
++	return dev_pm_opp_set_rate(dev, *freq);
 +}
 +
-+static inline size_t
-+panthor_kernel_bo_size(struct panthor_kernel_bo *bo)
++static void panthor_devfreq_reset(struct panthor_devfreq *pdevfreq)
 +{
-+	return bo->obj->size;
++	pdevfreq->busy_time = 0;
++	pdevfreq->idle_time = 0;
++	pdevfreq->time_last_update = ktime_get();
 +}
 +
-+static inline int
-+panthor_kernel_bo_vmap(struct panthor_kernel_bo *bo)
++static int panthor_devfreq_get_dev_status(struct device *dev,
++					  struct devfreq_dev_status *status)
 +{
-+	struct iosys_map map;
-+	int ret;
++	struct panthor_device *ptdev = dev_get_drvdata(dev);
++	struct panthor_devfreq *pdevfreq = ptdev->devfreq;
++	unsigned long irqflags;
 +
-+	if (bo->kmap)
-+		return 0;
++	status->current_frequency = clk_get_rate(ptdev->clks.core);
 +
-+	ret = drm_gem_vmap_unlocked(bo->obj, &map);
-+	if (ret)
-+		return ret;
++	spin_lock_irqsave(&pdevfreq->lock, irqflags);
 +
-+	bo->kmap = map.vaddr;
++	panthor_devfreq_update_utilization(pdevfreq);
++
++	status->total_time = ktime_to_ns(ktime_add(pdevfreq->busy_time,
++						   pdevfreq->idle_time));
++
++	status->busy_time = ktime_to_ns(pdevfreq->busy_time);
++
++	panthor_devfreq_reset(pdevfreq);
++
++	spin_unlock_irqrestore(&pdevfreq->lock, irqflags);
++
++	drm_dbg(&ptdev->base, "busy %lu total %lu %lu %% freq %lu MHz\n",
++		status->busy_time, status->total_time,
++		status->busy_time / (status->total_time / 100),
++		status->current_frequency / 1000 / 1000);
++
 +	return 0;
 +}
 +
-+static inline void
-+panthor_kernel_bo_vunmap(struct panthor_kernel_bo *bo)
-+{
-+	if (bo->kmap) {
-+		struct iosys_map map = IOSYS_MAP_INIT_VADDR(bo->kmap);
++static struct devfreq_dev_profile panthor_devfreq_profile = {
++	.timer = DEVFREQ_TIMER_DELAYED,
++	.polling_ms = 50, /* ~3 frames */
++	.target = panthor_devfreq_target,
++	.get_dev_status = panthor_devfreq_get_dev_status,
++};
 +
-+		drm_gem_vunmap_unlocked(bo->obj, &map);
-+		bo->kmap = NULL;
++int panthor_devfreq_init(struct panthor_device *ptdev)
++{
++	/* There's actually 2 regulators (mali and sram), but the OPP core only
++	 * supports one.
++	 *
++	 * We assume the sram regulator is coupled with the mali one and let
++	 * the coupling logic deal with voltage updates.
++	 */
++	static const char * const reg_names[] = { "mali", NULL };
++	struct thermal_cooling_device *cooling;
++	struct device *dev = ptdev->base.dev;
++	struct panthor_devfreq *pdevfreq;
++	struct dev_pm_opp *opp;
++	unsigned long cur_freq;
++	int ret;
++
++	pdevfreq = drmm_kzalloc(&ptdev->base, sizeof(*ptdev->devfreq), GFP_KERNEL);
++	if (!pdevfreq)
++		return -ENOMEM;
++
++	ptdev->devfreq = pdevfreq;
++
++	ret = devm_pm_opp_set_regulators(dev, reg_names);
++	if (ret) {
++		if (ret != -EPROBE_DEFER)
++			DRM_DEV_ERROR(dev, "Couldn't set OPP regulators\n");
++
++		return ret;
 +	}
++
++	ret = devm_pm_opp_of_add_table(dev);
++	if (ret)
++		return ret;
++
++	spin_lock_init(&pdevfreq->lock);
++
++	panthor_devfreq_reset(pdevfreq);
++
++	cur_freq = clk_get_rate(ptdev->clks.core);
++
++	opp = devfreq_recommended_opp(dev, &cur_freq, 0);
++	if (IS_ERR(opp))
++		return PTR_ERR(opp);
++
++	panthor_devfreq_profile.initial_freq = cur_freq;
++
++	/* Regulator coupling only takes care of synchronizing/balancing voltage
++	 * updates, but the coupled regulator needs to be enabled manually.
++	 *
++	 * We use devm_regulator_get_enable_optional() and keep the sram supply
++	 * enabled until the device is removed, just like we do for the mali
++	 * supply, which is enabled when dev_pm_opp_set_opp(dev, opp) is called,
++	 * and disabled when the opp_table is torn down, using the devm action.
++	 *
++	 * If we really care about disabling regulators on suspend, we should:
++	 * - use devm_regulator_get_optional() here
++	 * - call dev_pm_opp_set_opp(dev, NULL) before leaving this function
++	 *   (this disables the regulator passed to the OPP layer)
++	 * - call dev_pm_opp_set_opp(dev, NULL) and
++	 *   regulator_disable(ptdev->regulators.sram) in
++	 *   panthor_devfreq_suspend()
++	 * - call dev_pm_opp_set_opp(dev, default_opp) and
++	 *   regulator_enable(ptdev->regulators.sram) in
++	 *   panthor_devfreq_resume()
++	 *
++	 * But without knowing if it's beneficial or not (in term of power
++	 * consumption), or how much it slows down the suspend/resume steps,
++	 * let's just keep regulators enabled for the device lifetime.
++	 */
++	ret = devm_regulator_get_enable_optional(dev, "sram");
++	if (ret && ret != -ENODEV) {
++		if (ret != -EPROBE_DEFER)
++			DRM_DEV_ERROR(dev, "Couldn't retrieve/enable sram supply\n");
++		return ret;
++	}
++
++	/*
++	 * Set the recommend OPP this will enable and configure the regulator
++	 * if any and will avoid a switch off by regulator_late_cleanup()
++	 */
++	ret = dev_pm_opp_set_opp(dev, opp);
++	if (ret) {
++		DRM_DEV_ERROR(dev, "Couldn't set recommended OPP\n");
++		return ret;
++	}
++
++	dev_pm_opp_put(opp);
++
++	/*
++	 * Setup default thresholds for the simple_ondemand governor.
++	 * The values are chosen based on experiments.
++	 */
++	pdevfreq->gov_data.upthreshold = 45;
++	pdevfreq->gov_data.downdifferential = 5;
++
++	pdevfreq->devfreq = devm_devfreq_add_device(dev, &panthor_devfreq_profile,
++						    DEVFREQ_GOV_SIMPLE_ONDEMAND,
++						    &pdevfreq->gov_data);
++	if (IS_ERR(pdevfreq->devfreq)) {
++		DRM_DEV_ERROR(dev, "Couldn't initialize GPU devfreq\n");
++		ret = PTR_ERR(pdevfreq->devfreq);
++		pdevfreq->devfreq = NULL;
++		return ret;
++	}
++
++	cooling = devfreq_cooling_em_register(pdevfreq->devfreq, NULL);
++	if (IS_ERR(cooling))
++		DRM_DEV_INFO(dev, "Failed to register cooling device\n");
++
++	return 0;
 +}
 +
-+struct panthor_kernel_bo *
-+panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
-+			 size_t size, u32 bo_flags, u32 vm_map_flags,
-+			 u64 gpu_va);
++int panthor_devfreq_resume(struct panthor_device *ptdev)
++{
++	struct panthor_devfreq *pdevfreq = ptdev->devfreq;
 +
-+void panthor_kernel_bo_destroy(struct panthor_vm *vm,
-+			       struct panthor_kernel_bo *bo);
++	if (!pdevfreq->devfreq)
++		return 0;
 +
-+#endif /* __PANTHOR_GEM_H__ */
++	panthor_devfreq_reset(pdevfreq);
++
++	return devfreq_resume_device(pdevfreq->devfreq);
++}
++
++int panthor_devfreq_suspend(struct panthor_device *ptdev)
++{
++	struct panthor_devfreq *pdevfreq = ptdev->devfreq;
++
++	if (!pdevfreq->devfreq)
++		return 0;
++
++	return devfreq_suspend_device(pdevfreq->devfreq);
++}
++
++void panthor_devfreq_record_busy(struct panthor_device *ptdev)
++{
++	struct panthor_devfreq *pdevfreq = ptdev->devfreq;
++	unsigned long irqflags;
++
++	if (!pdevfreq->devfreq)
++		return;
++
++	spin_lock_irqsave(&pdevfreq->lock, irqflags);
++
++	panthor_devfreq_update_utilization(pdevfreq);
++	pdevfreq->last_busy_state = true;
++
++	spin_unlock_irqrestore(&pdevfreq->lock, irqflags);
++}
++
++void panthor_devfreq_record_idle(struct panthor_device *ptdev)
++{
++	struct panthor_devfreq *pdevfreq = ptdev->devfreq;
++	unsigned long irqflags;
++
++	if (!pdevfreq->devfreq)
++		return;
++
++	spin_lock_irqsave(&pdevfreq->lock, irqflags);
++
++	panthor_devfreq_update_utilization(pdevfreq);
++	pdevfreq->last_busy_state = false;
++
++	spin_unlock_irqrestore(&pdevfreq->lock, irqflags);
++}
+diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.h b/drivers/gpu/drm/panthor/panthor_devfreq.h
+new file mode 100644
+index 000000000000..83a5c9522493
+--- /dev/null
++++ b/drivers/gpu/drm/panthor/panthor_devfreq.h
+@@ -0,0 +1,21 @@
++/* SPDX-License-Identifier: GPL-2.0 or MIT */
++/* Copyright 2019 Collabora ltd. */
++
++#ifndef __PANTHOR_DEVFREQ_H__
++#define __PANTHOR_DEVFREQ_H__
++
++struct devfreq;
++struct thermal_cooling_device;
++
++struct panthor_device;
++struct panthor_devfreq;
++
++int panthor_devfreq_init(struct panthor_device *ptdev);
++
++int panthor_devfreq_resume(struct panthor_device *ptdev);
++int panthor_devfreq_suspend(struct panthor_device *ptdev);
++
++void panthor_devfreq_record_busy(struct panthor_device *ptdev);
++void panthor_devfreq_record_idle(struct panthor_device *ptdev);
++
++#endif /* __PANTHOR_DEVFREQ_H__ */
 -- 
 2.43.0
 
