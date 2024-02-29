@@ -2,69 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8623186CC80
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 16:12:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1849586CC7D
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 16:12:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3594510E457;
-	Thu, 29 Feb 2024 15:12:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FAD510E47B;
+	Thu, 29 Feb 2024 15:12:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="O3A68sLX";
+	dkim=pass (2048-bit key; unprotected) header.d=gtucker.io header.i=@gtucker.io header.b="lvMq4XJf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40B1510E482
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 11:22:19 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-5131316693cso964188e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 03:22:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1709205737; x=1709810537; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=DCYVJOxva7cbL0S0SVuUSyy8FG+Nl+cI8gxD3kxwuN8=;
- b=O3A68sLXD+ihoiUHbTQozysRnoKEKJKsw+Ax0GNIdiAy2BfAnF8YwRfdPXE7usXa79
- 4Kjp+kmQCAob+Fgnk0mob/canS2RcZl60Ugc+WKdA2sglZj1OxOpdYaHPCqO6ubj0K0R
- uZY3fVaNM2gQXbvkGasF66SPTC6UobxuF9pnW86w0TyfD2U9ZDPgtb5k8hOu8rCkBgnG
- gGNg8lN3sm29dnIdqRPYVFkKUnPLQiwH04zWtvCnsSY1cGC6s5Fw54IxtHCUqPBfluYX
- yX+55d58DeYzXctfS8gVxq2H+8a1EiCu3c4uPCa25vNe8JYzkBGDRv1fK2AL7F7FtU9R
- aMbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709205737; x=1709810537;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DCYVJOxva7cbL0S0SVuUSyy8FG+Nl+cI8gxD3kxwuN8=;
- b=ruwjlgZaOHANyBhVf9cvi0LeAWqv84knVW3w3E+0J+iyYMw57y+tgu1WiNkgVGSfI/
- vuSUOVq2ZyimCRccEgBEVAu3WC0CwtcezlT0+jhBxAtHqDl5n3/VBNIt0Tp3Pe8AO+5r
- b4DqLu8tdRCsIA8yJTi4ZiNLM+CbOjZAF+vpwdMRYkPPNvxT+uDuqdUZG1idnbcjFCMG
- pHfzS4gwYjFmEMHsmcauEmKuBnGt8SVtXJRnp/nBth521SAo5X+j1LGe1B3/3nJah4wX
- +6oBs3rwZ/Q+xnQSNlAivRLK3P+l375jkL/5ia/yHPhccnTogw8u+ZuOHsgu9/qoo8E7
- lReg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUrtwqLU8rckEhQNOsK5W+QC57OC3xb6gkcXbr/Cu+sn7uLSS1UYWC9TLc8Uaxrf+oo5pmPz+MPdg2DJXuPCcvbn5LpHTwwGi+45eJ8P+9E
-X-Gm-Message-State: AOJu0Yzo4qjiQU1sErRGNH0HNTxkDEVvWYSVbrRVs0exAQQqpdn+nI8p
- uG3iukKFX9FVOhelYt2DbriBjxe8HrL+W2ohJCd5rv4ya8jzg5gb
-X-Google-Smtp-Source: AGHT+IEcyGxv3boJhUbIfcxE4GAXJlXVJLOoxb0MGuYy2YDFLHQehEYV64lneBXAaSEL4H2H7EwLgQ==
-X-Received: by 2002:ac2:544f:0:b0:512:b3ef:350f with SMTP id
- d15-20020ac2544f000000b00512b3ef350fmr1193587lfn.49.1709205736954; 
- Thu, 29 Feb 2024 03:22:16 -0800 (PST)
-Received: from [10.32.57.243] (yritysnetti-5422ea-26.businessinternet.fi.
- [84.34.234.26]) by smtp.gmail.com with ESMTPSA id
- d5-20020a056512368500b005128d0e2a07sm214031lfs.308.2024.02.29.03.22.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Feb 2024 03:22:16 -0800 (PST)
-Message-ID: <2c9e322f-edc9-457b-8c0a-0628c9a5d6f9@gmail.com>
-Date: Thu, 29 Feb 2024 13:22:15 +0200
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0820210E15B
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 12:00:21 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (unknown [217.70.183.199])
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id 39708C21E9
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 11:53:46 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 66A0AFF802;
+ Thu, 29 Feb 2024 11:53:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
+ t=1709207622;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BaToIPDzXPunSHPMARHyvDeuyEwDr1/ZO+a/4iNtt4U=;
+ b=lvMq4XJfkUm+hqYjnbZC8YybN52tAczd6MyvYXAmNWe1H+cCDijJ8iweHc9mMYwqRAp6pQ
+ cVpAJS4mvNq9CbaMQClD5F+VPienkcvhhOr68EsSyt+KDmeO5ZPxnkSur7yYCQP1aVRo8J
+ Hb5CtEBdDjHtmAJ9mMiY0X0ifSqaWRmnQl8ufw2zNFRSjGZ5INDE8810qo5lj1Jrb9Z2l2
+ 2j7+nMAAAp91ewPsVQmsQPnjyl9KYun0eDa0XPPh6lM+BBGUBjZLTcQJBdMeVqZMyZVe6R
+ V7dFk74JbD1pcEUT1zA+IHVojyGc65UdG7/s7rJJ1/fHGE57DtHP/K64S9lr1A==
+Message-ID: <b3fb89aa-56b4-4b3c-88f6-c6320bf5c489@gtucker.io>
+Date: Thu, 29 Feb 2024 12:53:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 0/3] kci-gitlab: Introducing GitLab-CI Pipeline for Kernel
  Testing
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org,
+To: Mark Brown <broonie@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Nikolai Kondrashov <spbnick@gmail.com>,
+ Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org,
  dave.pigott@collabora.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
  gustavo.padovan@collabora.com, pawiecz@collabora.com,
@@ -80,10 +57,14 @@ References: <20240228225527.1052240-1-helen.koike@collabora.com>
  <20240229093402.GA30889@pendragon.ideasonboard.com>
  <655f89fa-6ccb-4b54-adcd-69024b4a1e28@gmail.com>
  <20240229111919.GF30889@pendragon.ideasonboard.com>
-From: Nikolai Kondrashov <spbnick@gmail.com>
-In-Reply-To: <20240229111919.GF30889@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <a4fc23e1-5689-4f86-beb7-5b63a0d13359@sirena.org.uk>
+Content-Language: en-GB
+From: Guillaume Tucker <gtucker@gtucker.io>
+Organization: gtucker.io
+In-Reply-To: <a4fc23e1-5689-4f86-beb7-5b63a0d13359@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-GND-Sasl: gtucker@gtucker.io
 X-Mailman-Approved-At: Thu, 29 Feb 2024 15:12:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -100,37 +81,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/29/24 1:19 PM, Laurent Pinchart wrote:
-> On Thu, Feb 29, 2024 at 01:10:16PM +0200, Nikolai Kondrashov wrote:
->> On 2/29/24 11:34 AM, Laurent Pinchart wrote:
->>> On Thu, Feb 29, 2024 at 11:26:51AM +0200, Nikolai Kondrashov wrote:
->>>> On 2/29/24 01:07, Laurent Pinchart wrote:
->>>>> On Wed, Feb 28, 2024 at 07:55:24PM -0300, Helen Koike wrote:
->>>>>> **Join Our Slack Channel:**
->>>>>> We have a Slack channel, #gitlab-ci, on the KernelCI Slack instance https://kernelci.slack.com/ .
->>>>>> Feel free to join and contribute to the conversation. The KernelCI team has
->>>>>> weekly calls where we also discuss the GitLab-CI pipeline.
->>>>>
->>>>> Could we communicate using free software please ? Furthermore, it's not
->>>>> possible to create an account on that slack instance unless you have an
->>>>> e-mail address affiliated with a small number of companies
->>>>> (https://kernelci.slack.com/signup#/domain-signup). That's a big no-go
->>>>> for me.
->>>>
->>>> Yes, it's not ideal that we use closed-source software for communication, but
->>>> FWIW I'd be happy to invite you there. Perhaps if you try logging in e.g. with
->>>> a Google account, I'd be able to see and approve your attempt too.
->>>
->>> I don't use Google accounts to authenticate to third-party services,
->>> sorry. And in any case, that won't make slack free software.
->>
->> Of course. You're also welcome to join the #kernelci channel on libera.chat.
+On 29/02/2024 12:41, Mark Brown wrote:
+> On Thu, Feb 29, 2024 at 01:19:19PM +0200, Laurent Pinchart wrote:
+>> On Thu, Feb 29, 2024 at 01:10:16PM +0200, Nikolai Kondrashov wrote:
 > 
-> Isn't that a bit pointless if it's no the main IM channel ?
+>>> Of course. You're also welcome to join the #kernelci channel on libera.chat.
+> 
+>> Isn't that a bit pointless if it's no the main IM channel ?
+> 
+> It *was* the original channel and still gets some usage (mostly started
+> by me admittedly since I've never joined slack for a bunch of reasons
+> that make it hassle), IIRC the Slack was started because there were some
+> interns who had trouble figuring out IRC and intermittent connectivity
+> but people seem to have migrated.
 
-Yes, it's not ideal, but if more people come there, more discussions will 
-happen there too.
+In fact it was initially created for the members of the Linux
+Foundation project only, which is why registration is moderated
+for emails that don't have a domain linked to a member (BTW not
+any Google account will just work e.g. @gmail.com is moderated,
+only @google.com for Google employees isn't).
 
-Nick
+And yes IRC is the "least common denominator" chat platform.
+Maybe having a bridge between the main Slack channel and IRC
+would help.
 
+Guillaume
 
