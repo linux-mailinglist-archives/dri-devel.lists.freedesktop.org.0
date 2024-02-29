@@ -2,55 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D9CB86C5F8
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 10:47:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9DE786C5FC
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 10:48:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E21CE10E030;
-	Thu, 29 Feb 2024 09:47:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEEE810E1AA;
+	Thu, 29 Feb 2024 09:48:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="QtFI7VAj";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DKpVElAs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A98EE10E030
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 09:47:28 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8F9E91C0005;
- Thu, 29 Feb 2024 09:47:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1709200045;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dLOsKkSstGKuygF2kpbVdpnYpVw5jbt/6cncLhtyez0=;
- b=QtFI7VAjXnK+tE327My6hHmbvUSrD+WZYY/2aNSrzZT4j5I+DkObdfq/RQbSE08gioGmVX
- MSzlBTopz/ofQ7fJmePRAYW1AlhnYwXKokSNTuDq92YKYDyYhhk2F5IL3VijCK56+Vgy8E
- DuckYgCxpPKpi2krotxqpR2oRIPs5f8eQW8VAytgncHCP4os6n5/zoa99vYU4H8Gq6FTxw
- Q36B7aR1Ir2hiJFVAJMekUR5hgM+j9/tTc+d9u+jTgk10BbPXQA5j1323Fnqqj+djIKIJ9
- wkJ7LEaIEVtRJEGArs90KC130qS6N8+y1zcUMLjmDTrBfVcWTHr6p9HHJFTQKw==
-Date: Thu, 29 Feb 2024 10:47:23 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/1] drm/bridge: ti-sn65dsi83: Fix enable error path
-Message-ID: <20240229104723.7aa71075@booty>
-In-Reply-To: <3798602.kQq0lBPeGt@steina-w>
-References: <20230504065316.2640739-1-alexander.stein@ew.tq-group.com>
- <1885005.tdWV9SEqCh@steina-w> <20240227184144.19729521@booty>
- <3798602.kQq0lBPeGt@steina-w>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B319D10E1AA
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 09:48:29 +0000 (UTC)
+Received: from [192.168.88.20] (91-154-35-128.elisa-laajakaista.fi
+ [91.154.35.128])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A2C75E0C;
+ Thu, 29 Feb 2024 10:48:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1709200095;
+ bh=oCt4IvGA78XjOCNkkr6NJQLkEgot7XJbsr4NIlMTiyY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=DKpVElAsWFlQ/0EajSHW+gb7aGqiDNt2TpzzeLOUhGLRI1Yw+DGGKo11lakTwiZXS
+ LEcMPlYSRaDPZCkG7II/7yYaX4lhgCfGkDIBHxI8n5C1ZhJE3NWsE3qPmGjTyLe5/2
+ BKniBnMILnfCLwx0R2iGNJHptfL8gtYa3U1ix/ng=
+Message-ID: <ccd159ea-483b-4f00-a532-fcafc09e8f98@ideasonboard.com>
+Date: Thu, 29 Feb 2024 11:48:24 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm: xlnx: dp: Reset DisplayPort IP
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Rohit Visavalia <rohit.visavalia@amd.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, michal.simek@amd.com,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20240216124043.1226713-1-rohit.visavalia@amd.com>
+ <20240228162224.GG9863@pendragon.ideasonboard.com>
+ <20240229090511.GG1659@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20240229090511.GG1659@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,77 +104,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Alexander,
-
-On Wed, 28 Feb 2024 09:15:46 +0100
-Alexander Stein <alexander.stein@ew.tq-group.com> wrote:
-
-
-[...]
-
-> Oh I mistook this DSI-LVDS bridge with the DSI-DP bridge on a different
-> board, my bad. I hope I can provide some insights. My platform is
-> imx8mm-tqma8mqml-mba8mx-lvds-tm070jvhg33.dtb.
-> I can easily cause a PLL lock failure by reducing the delay for the
-> enable-gpios 'gpio_delays'. This will result in a PLL lock faiure.
-> On my platform the vcc-supply counters do look sane:
-> > /sys/kernel/debug/regulator/SN65DSI83_1V8/open_count:1
-> > /sys/kernel/debug/regulator/SN65DSI83_1V8/use_count:0  
-
-Interesting. Thanks for taking time to report your initial issue!
-
-> Once I remove the ti_sn65dsi83 module, the open_count decrements to 0 as
-> well. Looks sane to me.
+On 29/02/2024 11:05, Laurent Pinchart wrote:
+> Tomi, could you push this through drm-misc ?
 > 
-> If I revert commit c81cd8f7c774 ("Revert "drm/bridge: ti-sn65dsi83:
-> Fix enable error path""), vcc-supply counters are:
-> > /sys/kernel/debug/regulator/SN65DSI83_1V8/open_count:1
-> > /sys/kernel/debug/regulator/SN65DSI83_1V8/use_count:1  
-> 
-> So in my case the use_count does not decrease! If I remove the module
-> ti_sn65dsi83, I get the WARN_ON (enable_count is still non-zero):
-> > WARNING: CPU: 2 PID: 402 at drivers/regulator/core.c:2398 _regulator_put+0x15c/0x164  
-> 
-> This is on 6.8.0-rc6-next-20240228 with the following diff applied:
-> --->8---  
-> diff --git a/arch/arm64/boot/dts/freescale/mba8mx.dtsi b/arch/arm64/boot/dts/freescale/mba8mx.dtsi
-> index 427467df42bf..8461e1fd396f 100644
-> --- a/arch/arm64/boot/dts/freescale/mba8mx.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/mba8mx.dtsi
-> @@ -285,7 +285,7 @@ &i2c3 {
->         dsi_lvds_bridge: bridge@2d {
->                 compatible = "ti,sn65dsi84";
->                 reg = <0x2d>;
-> -               enable-gpios = <&gpio_delays 0 130000 0>;
-> +               enable-gpios = <&gpio_delays 0 0 0>;
->                 vcc-supply = <&reg_sn65dsi83_1v8>;
->                 status = "disabled";
->  
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> index 4814b7b6d1fd..57a7ed13f996 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> @@ -478,7 +478,6 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
->                 dev_err(ctx->dev, "failed to lock PLL, ret=%i\n", ret);
->                 /* On failure, disable PLL again and exit. */
->                 regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
-> -               regulator_disable(ctx->vcc);
->                 return;
->         }
-> --->8---  
-> 
-> So my patch indeed did fix an actual problem. On the other hand it seems
-> sn65dsi83_atomic_disable is not called in my case for some reason.
+> On Wed, Feb 28, 2024 at 06:22:25PM +0200, Laurent Pinchart wrote:
+>> Hello Rohit,
+>>
+>> Thank you for the patch.
+>>
+>> On Fri, Feb 16, 2024 at 04:40:43AM -0800, Rohit Visavalia wrote:
+>>> Assert DisplayPort reset signal before deasserting,
+>>> it is to clear out any registers programmed before booting kernel.
+>>>
+>>> Signed-off-by: Rohit Visavalia <rohit.visavalia@amd.com>
+>>> ---
+>>>   drivers/gpu/drm/xlnx/zynqmp_dp.c | 4 ++++
+>>>   1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+>>> index 1846c4971fd8..5a40aa1d4283 100644
+>>> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
+>>> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+>>> @@ -1714,6 +1714,10 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
+>>>   		goto err_free;
+>>>   	}
+>>>   
+>>> +	ret = zynqmp_dp_reset(dp, true);
+>>> +	if (ret < 0)
+>>> +		return ret;
+>>> +
+>>
+>> This looks fine to me, so
+>>
+>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>
 
-So you remove the module and atomic_disable is not called, after
-having called atomic_pre_enable?
+Thanks, tested and pushed to drm-misc-next.
 
-I'm very possibly missing something, but this looks like a bug in the
-DRM bridge code at first sight.
+  Tomi
 
-Luca
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
