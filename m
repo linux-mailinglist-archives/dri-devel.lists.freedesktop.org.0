@@ -2,63 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F39C86C960
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 13:41:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B03B786C987
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 13:55:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B966F10E266;
-	Thu, 29 Feb 2024 12:41:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF87710E059;
+	Thu, 29 Feb 2024 12:55:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="DgavKIbQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="c81NXlZ5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96F0C10E05E
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 12:41:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1709210500;
- bh=bYwenActmo0DJIFiEmMoeGrYokDOzONoZ2KvaEqH3jQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=DgavKIbQIDwous2datEXLvFLQIqT8gkwH/KHbsvYsyazEvx1ex1CjAm0/yY63TT8z
- t3ThwFpUZ+QR+PwwV6rQgMGdhfnSirsMjJVRP54VSIwnle5jGcPFCqJqCz9WRDiEGm
- jMsAhLPLVYomlaB04GzQWI6Q+iXF906z9tLBMqYbk/Tjs00O58DtwUTznnyddBNtgr
- OfoRd0UgS4HTEmAX1cJpkpmScQ1oq3va+vMwoduScnNq5ww0iSkXy3a5mtTWaxTaDD
- MaHDdwKMlonV2Xe7YzWVs81i/peEZylWjis9Pn7u/9lCC2kWjbH7nevGAWWbLVW6ns
- SEVJPKlHwvWLQ==
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: pq)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id EF34F3782089;
- Thu, 29 Feb 2024 12:41:38 +0000 (UTC)
-Date: Thu, 29 Feb 2024 14:41:37 +0200
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Arthur Grillo <arthurgrillo@riseup.net>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
- <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
-Subject: Re: [PATCH v3 3/9] drm/vkms: write/update the documentation for
- pixel conversion and pixel write functions
-Message-ID: <20240229144137.75ae1cde.pekka.paalanen@collabora.com>
-In-Reply-To: <592e5da7-7aac-4735-ae8f-625402e381ae@riseup.net>
-References: <20240226-yuv-v3-0-ff662f0994db@bootlin.com>
- <20240226-yuv-v3-3-ff662f0994db@bootlin.com>
- <406988be-48a4-4762-9c03-7a27c8e7b91e@riseup.net>
- <Zd35csjqRMstzElA@localhost.localdomain>
- <592e5da7-7aac-4735-ae8f-625402e381ae@riseup.net>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FEC610E048
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 12:55:31 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 59086CE0ECA;
+ Thu, 29 Feb 2024 12:55:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 473E0C433C7;
+ Thu, 29 Feb 2024 12:55:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1709211327;
+ bh=AAOZbfgDtX2uqx7LGFvsfYisJG7tn2CJDlp3b01p2iI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=c81NXlZ5jIW0JjAQj9sDceqpzEIL/IL+Dlp0KoivZP7DQ7gWwzB3pzifc9FeWiYah
+ UEmi2KCusNidZdxieS0R6znZpVCwaobeqGJez8ohospBOZvX2RuwnXhT5Z4vkI3TNV
+ qeLE/4ZOMgQjYVoE+XU3LC0uR7VA5c82z5L1g6BSw3vNirXPl/sHPMhjTbD8TLK+NZ
+ 3K8CqhF0XMM7Q8rCozytCa6m+iUYEex1YG8WD5SKEBgmx1VDszRwZqHMZfGpkiZ2VE
+ jjuJ+geK0kmQULykJ31dmaeeAApTSsrNzlI/hnWxvyAxg+MAQHwZvWYztd3x4CRuV6
+ eOgHmSoPoGpgQ==
+Date: Thu, 29 Feb 2024 13:55:24 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Simon Ser <contact@emersion.fr>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Pekka Paalanen <pekka.paalanen@haloniitty.fi>, dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>
+Subject: Re: UAPI Re: [PATCH 1/3] drm: Add DRM_MODE_TV_MODE_MONOCHROME
+Message-ID: <20240229-mature-quick-squirrel-9b2c9b@houat>
+References: <20240216184857.245372-1-dave.stevenson@raspberrypi.com>
+ <20240216184857.245372-2-dave.stevenson@raspberrypi.com>
+ <20240221110751.48da8190@eldfell>
+ <b43rdl7yebxn6z3pvyeyxbikccr7umrojo5kqw5i3ybloxktso@de4oxsbskkwp>
+ <20240226171143.27e60c30@eldfell>
+ <CAPY8ntCHi8joN-w3PNjMj31FSkCjqmJ4ZyhSDFZ1-PnfL4+FrQ@mail.gmail.com>
+ <5us3AK9XJ5zu1AOKQeZxKWsK0f6Xtm7vHWttRTFPRo57Ph5WO62deVIK8TrkQIFmjFMrn-a2qusgP3W74dV6SKTA5OdTt4zncR7J2qQ_Qck=@emersion.fr>
+ <20240228-nice-flat-cormorant-badff7@houat>
+ <ttd0tkA6ym5NBhHqKQFa88BjxMoctTVJd03aIqnSyXZ0ve0jPPrlkTVmUNWIQGNyNBpFvxzplydGqGFQa5VaYuf5mm1n9dEGDM5MG25j_4Q=@emersion.fr>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/ppy=jx7+zAsqz9DWBleezt6";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="5ltxif5aa4uv66wn"
+Content-Disposition: inline
+In-Reply-To: <ttd0tkA6ym5NBhHqKQFa88BjxMoctTVJd03aIqnSyXZ0ve0jPPrlkTVmUNWIQGNyNBpFvxzplydGqGFQa5VaYuf5mm1n9dEGDM5MG25j_4Q=@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,125 +69,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/ppy=jx7+zAsqz9DWBleezt6
-Content-Type: text/plain; charset=UTF-8
+
+--5ltxif5aa4uv66wn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 27 Feb 2024 15:47:08 -0300
-Arthur Grillo <arthurgrillo@riseup.net> wrote:
+Hi Simon,
 
-> On 27/02/24 12:02, Louis Chauvet wrote:
-> > Le 26/02/24 - 10:07, Arthur Grillo a =C3=A9crit : =20
-> >>
-> >>
-> >> On 26/02/24 05:46, Louis Chauvet wrote: =20
-> >>> Add some documentation on pixel conversion functions.
-> >>> Update of outdated comments for pixel_write functions.
-> >>>
-> >>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> >>> ---
-> >>>  drivers/gpu/drm/vkms/vkms_composer.c |  4 +++
-> >>>  drivers/gpu/drm/vkms/vkms_drv.h      | 13 ++++++++
-> >>>  drivers/gpu/drm/vkms/vkms_formats.c  | 58 ++++++++++++++++++++++++++=
-++++------
-> >>>  3 files changed, 66 insertions(+), 9 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/v=
-kms/vkms_composer.c
-> >>> index c6d9b4a65809..5b341222d239 100644
-> >>> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> >>> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> >>> @@ -189,6 +189,10 @@ static void blend(struct vkms_writeback_job *wb,
-> >>> =20
-> >>>  	size_t crtc_y_limit =3D crtc_state->base.crtc->mode.vdisplay;
-> >>> =20
-> >>> +	/*
-> >>> +	 * The planes are composed line-by-line. It is a necessary complexi=
-ty to avoid poor
-> >>> +	 * blending performance. =20
-> >>
-> >> At this moment in the series, you have not yet reintroduced the
-> >> line-by-line algorithm yet. Maybe it's better to add this comment when
-> >> you do. =20
+On Wed, Feb 28, 2024 at 04:22:56PM +0000, Simon Ser wrote:
+> On Wednesday, February 28th, 2024 at 17:14, Maxime Ripard <mripard@kernel=
+=2Eorg> wrote:
+>=20
+> > > I don't know what the rules were 8 years ago, but the current uAPI ru=
+les
+> > > are what they are, and a new enum entry is new uAPI.
 > >=20
-> > Is it better with this:
+> > TBF, and even if the wayland compositors support is missing, this
+> > property is perfectly usable as it is with upstream, open-source code,
+> > through either the command-line or X.org, and it's documented.
 > >=20
-> > 	/*
-> > 	 * The planes are composed line-by-line to avoid heavy memory usage. I=
-t is a necessary
-> > 	 * complexity to avoid poor blending performance.
-> > 	 *
-> > 	 * The function vkms_compose_row is used to read a line, pixel-by-pixe=
-l, into the staging
-> > 	 * buffer.
-> > 	 */
-> >   =20
-> >> Also, I think it's good to give more context, like:
-> >> "The planes are composed line-by-line, instead of pixel-by-pixel" =20
-> >=20
-> > And after PATCHv3 5/9:
-> >=20
-> > 	/*
-> > 	 * The planes are composed line-by-line to avoid heavy memory usage. I=
-t is a necessary
-> > 	 * complexity to avoid poor blending performance.
-> > 	 *
-> > 	 * The function pixel_read_line callback is used to read a line, using=
- an efficient=20
-> > 	 * algorithm for a specific format, into the staging buffer.
-> > 	 */
-> >  =20
+> > So it's fine by me from a UAPI requirement side.
+>=20
+> That is not a valid way to pass the uAPI requirements IMHO. Yes, one
+> can program any KMS property via modetest or xrandr. Does that mean that
+> none of the new uAPI need a "real" implementation anymore? Does that mean
+> that the massive patch adding a color pipeline uAPI doesn't need
+> user-space anymore?
 
-Hi,
+I guess it's also a matter what the API is exactly? Like, xrandr or the
+kernel command line allows to use that particular API fully.
 
-there are a few reasons for the line-by-line algorithm, and the
-optimizations at large:
+Can you fully exert the color pipeline uAPI with xrandr?
 
-VKMS uses temporary stage and output buffers so that blending functions
-can operate on just one high-precision pixel format, struct
-pixel_argb_u16. We can make pixel-format-specific read and write
-functions completely orthogonal from the blending operations and FB
-format combinations. This avoids a combinatorial explosion of needed
-functions for { input pixel formats =C3=97 blending operations =C3=97 outpu=
-t pixel
-formats }.
+And at the time we submitted it, even with our best intent, we couldn't
+totally clear the userspace requirement because the PR would have been
+rejected because nobody wanted to deal with analog TV. And that's fair,
+any upstream project is free to do as it wants and analog TV is
+certainly not the state of the art anymore.
 
-We can use a temporary stage and output buffer whose size is one line
-and not whole FB or CRTC framebuffer. This is the memory savings.
+But we had some variation of that property used in many drivers (i915,
+nouveau, vc4, sun4i and amlogic from the top of my head), all
+drivers-specific, and having that kind of support was also one of the
+blockers to move the few remaining fbdev drivers to KMS.
 
-Using a temporary output buffer also avoids repeated
-read-decode-blend-encode-write cycles into the final destination
-buffer, as we don't need to decode/encode the pixel format.
+It seems a bit unfair to put that requirement now that maybe some
+compositors could be interested.
 
-Finally, doing elementary operations (read, blend, write) line-by-line
-is much more efficient than pixel-by-pixel, because it allows making
-the inner-most loop very tight. It avoids repeatedly computing a result
-that does not change, like which function to call for a specific pixel
-format or blending equation.
+> The only thing I'm saying is that this breaks the usual DRM requirements.
+> If, as a maintainer, you're fine with breaking the rules and have a good
+> motivation to do so, that's fine by me. Rules are meant to be broken from
+> time to time depending on the situation. But please don't pretend that
+> modetest/xrandr is valid user-space to pass the rules.
 
+Ack. And indeed, modetest surely was a bad example.
 
-Thanks,
-pq
+Maxime
 
---Sig_/ppy=jx7+zAsqz9DWBleezt6
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+--5ltxif5aa4uv66wn
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXge4EACgkQI1/ltBGq
-qqekCA/9H2SBK6/zbiLJ1s9dhN6MeJPRfUQqtWLebfifxniKaSJuXOLHG2j6qemx
-zo6q6QAHexA+eD4oXWxpbVAzlmfpgxaiMxrQeTeG1ZrwJxbHZgpHO5PeplhIlLfF
-5w9uB0gjCn7SLyWABo7i0WIuj/GI7Sfgf+uhiOYbyEZLQzTs5Ob+whVt0CDGQUXq
-0TUhaXz0N/L/HlepprYdfRBF8UIIXoz90ASRgyPLHbzfjH18UqjvgY+y4O3nv2Fb
-jzvTLHJ4OwsSfNymDDGTeQBAFif+8B3KGt6bgsJLi7D+HxlOArAcQQtRjUC/GQYc
-ia2JXmD6ywS6h7+3NDZVEGqS5goSidPDXP+sZv+bH8j+7rF4OXCcubOe0pnzN50g
-OVlACtxWptXWlDebJLDyALk79C0RpcGkC+dhoNscjDSe8lsm++4eO6FxY85ikCGt
-x4KiemghnhkZxh24DPFjX6chGBvxuIIWf3Ku0iTj1HHinzkOCPxsoaRiIz8w6XtK
-VMFQRn5avEigcYTo4C8icSCpkGvJPt9XDEyZwWqX4uiVhFFrjd9ObP9evGoyi2fv
-NTIwy90iReIu6OMSwiiFa2kvVwTbGqsqKTpGpPlNPyF0aZnaN6nYz5Vz8JYPtNO3
-aHV+H77b8GX1wcdTAwXdANwVCbQm72Fuq6m28tClX8DNNiwvPZY=
-=Vbxy
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZeB+vAAKCRDj7w1vZxhR
+xeaDAQCHEhlhlgSgyN49msMDGAuTummJL3+95y05cVQ3uLCZJgEAj/V4WwkKfGd9
+CB0Rnmg2Ok+S4p9LJ7CVLEDMXSUZIgk=
+=ss+5
 -----END PGP SIGNATURE-----
 
---Sig_/ppy=jx7+zAsqz9DWBleezt6--
+--5ltxif5aa4uv66wn--
