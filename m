@@ -2,85 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2881B86CC7C
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 16:12:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B14D86CC59
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 16:07:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FF2510E3E9;
-	Thu, 29 Feb 2024 15:12:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37A9010E2B6;
+	Thu, 29 Feb 2024 15:07:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="P8GHMA0q";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="b8CuipEh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
- [209.85.219.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D124C10E189
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 14:16:21 +0000 (UTC)
-Received: by mail-qv1-f47.google.com with SMTP id
- 6a1803df08f44-68fcedcf8aaso3733976d6.2
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 06:16:21 -0800 (PST)
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com
+ [209.85.166.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3056210E2A5
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 15:07:13 +0000 (UTC)
+Received: by mail-il1-f179.google.com with SMTP id
+ e9e14a558f8ab-3651ee59db4so1056715ab.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 07:07:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1709216180; x=1709820980; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=linuxfoundation.org; s=google; t=1709219232; x=1709824032;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=/W/wZXm/lm7nezS3iJK5hhPJV5z7bm8xrMOjN7sfA2c=;
- b=P8GHMA0q02bpmMFFE5i5nPoXhnLQb59xp1bhaOVaaUMo7ACpE4cYoJx5Uv4bcxY9cw
- 7YcDLg+nlWOcJ2gzNAFbNhprP6FvwZN/fhfyUidXVHLpWaTmFRFZEiCGBsDCQGiYvBD6
- ZOdLWTr4y6dY01dl2DJWjPAuyqUT/t6tHIgE1yWhjwLCB03uJs36e7OZ+wDZXcjcM6ZO
- xMu46gaHehhj71zQMB9C/UUqU+8NKASTCuQr3A23rJn+HpZyQ/zn6uqcti5ZEL5XzWT3
- rN53pLs4pCoH/3pyDsT8IfVn1RJ4ytaWf5xmELiSBSibA3EW44nCEjhN5YqBApy0Vh4o
- 1kCQ==
+ bh=lUr9WwPm1bDr07bGVGyHcZBKICuYFoD9+zTSPH1u+LA=;
+ b=b8CuipEhvdn9EtWYpsNHxcdK4DlpeE/4JjmiljMhkN/0OyVZ9zlH6PttP7YhD5hC05
+ 1U/T/thj9/Ysx+1elnTV0h5NnCqSipzitEyAS1BwGkLpYTf/kBCC9m7zHAaVZNhZ7agq
+ Gtr84YPIjH96yxOXy9gRNPsqMifkV4R8T3aLU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709216180; x=1709820980;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1709219232; x=1709824032;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/W/wZXm/lm7nezS3iJK5hhPJV5z7bm8xrMOjN7sfA2c=;
- b=fMiRbRocxqv3G0kNsqtZZW9UNzfr/t0tZTFr4+foilAFcOlDbfWC1aBRGruntcrTMu
- rNjCxsxP5pYijJ/xVBs8dTzcCFkdgXU5X4eAfMVtxGm9JgAzc4tQsebA2LZkRVlFmm90
- JpSNJEejQOpP1JmcPYQWeDuyP27A0y9eNbQPIGvN1y8ML8jdNDQTMRdU/jWRnlr2Gb7b
- 38i3/xkp5SV2YAO4ka4JnVyAdRg1XaU7SnZYU51sQ0GmGCVcWP6A+b3BGjHZrqsEGJqT
- sU5GUQiC+g7HR2au5Ag+jFHJxgxHt3npdoJHN4nBA5FdUfSOL4h5XtDHxdMdwUR6xbLJ
- SUcA==
+ bh=lUr9WwPm1bDr07bGVGyHcZBKICuYFoD9+zTSPH1u+LA=;
+ b=F7K4Ob8S8lQVsM5GvsBNY5I1Qi+LpVFH2ecAC8DLSpTk0hFRUtS4XH080AngiCsfRE
+ nIWootKSKwPSlrp1x5aXINpuEu23o6EP92EW+OIbLsPcrCZ36EOwqmTGTrTISz55DP/V
+ eb5LXydfemEyuyePoZWFZNyjIP3Scvhh8Tko2HT8y6uVPFaZWo/WV+yBnxhg+R2Zk2mx
+ kjLLaZ+iGftmo/qisDi0okzO89yuX0SCjNDCzXaDy0Sg/qvd2v/j8gnO92W6NPNNB9Pt
+ owpU03VPbLg/qWx4pYv4AfYDypVrZum9XIhKGYeKlx1i1UqiJSSEjeARbc5AeWJ7VB8r
+ VXag==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUSVvyacvjz9JYEvqyunlMa/bfQ3EZvsFKeQ94qVTZIn4qmU9E7D/DFRr+rzCQ1BRfkjGlCYFCbVIGWUiwbHczMt7FWoNXiM26hP93KFq6P
-X-Gm-Message-State: AOJu0YzzCxrQz1mcaJs07Va2SfPqeoSLkhJdWwMqCcoUvKJOqemEOOju
- CUwy2jp2Bcdv31OvtyewpAjYb2FG7LvESB803BBUNyLqz/y4MFXE
-X-Google-Smtp-Source: AGHT+IHs1YnZ0esHs1BMxISmBCDSRJY5ZhDnZqGmDP5+mD/g+W2yrpWgUSNeF5GUTRda4q1JIaSsQQ==
-X-Received: by 2002:a0c:e80e:0:b0:68f:3058:a0 with SMTP id
- y14-20020a0ce80e000000b0068f305800a0mr2481153qvn.41.1709216180406; 
- Thu, 29 Feb 2024 06:16:20 -0800 (PST)
-Received: from [192.168.0.118] (88-113-27-52.elisa-laajakaista.fi.
- [88.113.27.52]) by smtp.gmail.com with ESMTPSA id
- ng8-20020a0562143bc800b0068fa4534070sm770363qvb.83.2024.02.29.06.16.16
+ AJvYcCU970lEqws5SKDvGZxFKdOpuNTF3Pmis+XGbhtA1WIfkXBhCM8n43r2uLGiF5/7z7UJIMw5NfkGiBec+QmJKB/EspvOu1+4G7Ku75sM3Upz
+X-Gm-Message-State: AOJu0Yybc2JnITZrUDtsNz3Oe7fFD6pUVvyRk4/uaGMIy2nPYo3pY3bm
+ k56TEZMVnBl3lmHWWK1wVMV6GLlA8BSl4JWUg2lrNNb0yi7i7WWK+B+MKx571y4=
+X-Google-Smtp-Source: AGHT+IGnBv7cnuB5+Ygx0Spp8dOixJyI7HqA7kTIXE4S9xFxwubQmYW37F+sI4cGzNH5Sqb9chjpgg==
+X-Received: by 2002:a05:6e02:1a27:b0:365:2bd4:2f74 with SMTP id
+ g7-20020a056e021a2700b003652bd42f74mr2811151ile.0.1709219232030; 
+ Thu, 29 Feb 2024 07:07:12 -0800 (PST)
+Received: from [192.168.1.128] ([38.175.170.29])
+ by smtp.gmail.com with ESMTPSA id
+ m15-20020a02c88f000000b004745b40ba6fsm346477jao.164.2024.02.29.07.07.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Feb 2024 06:16:20 -0800 (PST)
-Message-ID: <a5726043-1906-44ba-a6ee-a725a2776269@gmail.com>
-Date: Thu, 29 Feb 2024 16:16:15 +0200
+ Thu, 29 Feb 2024 07:07:11 -0800 (PST)
+Message-ID: <be2e812c-3898-4be8-8a9d-e221acb837c3@linuxfoundation.org>
+Date: Thu, 29 Feb 2024 08:07:10 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] kci-gitlab: Introducing GitLab-CI Pipeline for Kernel
- Testing
+Subject: Re: linux-next: build failure after merge of the kunit-next tree
+To: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Brendan Higgins <brendanhiggins@google.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>, David Gow <davidgow@google.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20240229152653.09ecf771@canb.auug.org.au>
 Content-Language: en-US
-To: Guillaume Tucker <gtucker@gtucker.io>,
- Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org,
- dave.pigott@collabora.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
- gustavo.padovan@collabora.com, pawiecz@collabora.com,
- tales.aparecida@gmail.com, workflows@vger.kernel.org,
- kernelci@lists.linux.dev, skhan@linuxfoundation.org,
- kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com,
- cocci@inria.fr, Julia.Lawall@inria.fr, laura.nao@collabora.com,
- ricardo.canuelo@collabora.com, kernel@collabora.com,
- torvalds@linuxfoundation.org, gregkh@linuxfoundation.org
-References: <20240228225527.1052240-1-helen.koike@collabora.com>
- <d99d026e-ed32-4432-bab3-db75296e67d8@gtucker.io>
-From: Nikolai Kondrashov <spbnick@gmail.com>
-In-Reply-To: <d99d026e-ed32-4432-bab3-db75296e67d8@gtucker.io>
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20240229152653.09ecf771@canb.auug.org.au>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Thu, 29 Feb 2024 15:12:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,67 +90,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/29/24 2:20 PM, Guillaume Tucker wrote:
-> Hello,
-> 
-> On 28/02/2024 23:55, Helen Koike wrote:
->> Dear Kernel Community,
->>
->> This patch introduces a `.gitlab-ci` file along with a `ci/` folder, defining a
->> basic test pipeline triggered by code pushes to a GitLab-CI instance. This
->> initial version includes static checks (checkpatch and smatch for now) and build
->> tests across various architectures and configurations. It leverages an
->> integrated cache for efficient build times and introduces a flexible 'scenarios'
->> mechanism for subsystem-specific extensions.
-> 
-> This sounds like a nice starting point to me as an additional way
-> to run tests upstream.  I have one particular question as I see a
-> pattern through the rest of the email, please see below.
-> 
-> [...]
-> 
->> 4. **Collaborative Testing Environment:** The kernel community is already
->> engaged in numerous testing efforts, including various GitLab-CI pipelines such
->> as DRM-CI, which I maintain, along with other solutions like KernelCI and
->> BPF-CI. This proposal is designed to further stimulate contributions to the
->> evolving testing landscape. Our goal is to establish a comprehensive suite of
->> common tools and files.
-> 
-> [...]
-> 
->> **Leveraging External Test Labs:**
->> We can extend our testing to external labs, similar to what DRM-CI currently
->> does. This includes:
->> - Lava labs
->> - Bare metal labs
->> - Using KernelCI-provided labs
->>
->> **Other integrations**
->> - Submit results to KCIDB
-> 
-> [...]
-> 
->> **Join Our Slack Channel:**
->> We have a Slack channel, #gitlab-ci, on the KernelCI Slack instance https://kernelci.slack.com/ .
->> Feel free to join and contribute to the conversation. The KernelCI team has
->> weekly calls where we also discuss the GitLab-CI pipeline.
->>
->> **Acknowledgments:**
->> A special thanks to Nikolai Kondrashov, Tales da Aparecida - both from Red Hat -
->> and KernelCI community for their valuable feedback and support in this proposal.
-> 
-> Where does this fit on the KernelCI roadmap?
-> 
-> I see it mentioned a few times but it's not entirely clear
-> whether this initiative is an independent one or in some way
-> linked to KernelCI.  Say, are you planning to use the kci tool,
-> new API, compiler toolchains, user-space and Docker images etc?
-> Or, are KernelCI plans evolving to follow this move?
+Hi Stephen,
 
-I would say this is an important part of KernelCI the project, considering its 
-aim to improve testing and CI in the kernel. It's not a part of KernelCI the 
-service as it is right now, although I would say it would be good to have 
-ability to submit KernelCI jobs from GitLab CI and pull results in the same 
-pipeline, as we discussed earlier.
+On 2/28/24 21:26, Stephen Rothwell wrote:
+> Hi all,
+> 
+> After merging the kunit-next tree, today's linux-next build (x86_64
+> allmodconfig) failed like this:
+> 
+> In file included from drivers/gpu/drm/tests/drm_buddy_test.c:7:
+> drivers/gpu/drm/tests/drm_buddy_test.c: In function 'drm_test_buddy_alloc_range_bias':
+> drivers/gpu/drm/tests/drm_buddy_test.c:191:40: error: format '%u' expects a matching 'unsigned int' argument [-Werror=format=]
+>    191 |                                        "buddy_alloc failed with bias(%x-%x), size=%u, ps=%u\n",
+>        |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> include/kunit/test.h:597:37: note: in definition of macro '_KUNIT_FAILED'
+>    597 |                                     fmt,                                       \
+>        |                                     ^~~
+> include/kunit/test.h:662:9: note: in expansion of macro 'KUNIT_UNARY_ASSERTION'
+>    662 |         KUNIT_UNARY_ASSERTION(test,                                            \
+>        |         ^~~~~~~~~~~~~~~~~~~~~
+> include/kunit/test.h:1233:9: note: in expansion of macro 'KUNIT_FALSE_MSG_ASSERTION'
+>   1233 |         KUNIT_FALSE_MSG_ASSERTION(test,                                        \
+>        |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/tests/drm_buddy_test.c:186:17: note: in expansion of macro 'KUNIT_ASSERT_FALSE_MSG'
+>    186 |                 KUNIT_ASSERT_FALSE_MSG(test,
+>        |                 ^~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/tests/drm_buddy_test.c:191:91: note: format string is defined here
+>    191 |                                        "buddy_alloc failed with bias(%x-%x), size=%u, ps=%u\n",
+>        |                                                                                          ~^
+>        |                                                                                           |
+>        |                                                                                           unsigned int
+> cc1: all warnings being treated as errors
+> 
+> Caused by commit
+> 
+>    806cb2270237 ("kunit: Annotate _MSG assertion variants with gnu printf specifiers")
+> 
 
-Nick
+Thank you. I did allmodconfig build on kselftest kunit branch to make
+sure all is well, before I pushed the commits.
+
+> interacting with commit
+> 
+>    c70703320e55 ("drm/tests/drm_buddy: add alloc_range_bias test")
+  > 
+> from the drm-misc-fixes tree.
+> 
+> I have applied the following patch for today (this should probably
+> actually be fixed in the drm-misc-fixes tree).
+> 
+
+Danial, David,
+
+I can carry the fix through kselftest kunit if it works
+for all.
+
+> From: Stephen Rothwell <sfr@canb.auug.org.au>
+> Date: Thu, 29 Feb 2024 15:18:36 +1100
+> Subject: [PATCH] fix up for "drm/tests/drm_buddy: add alloc_range_bias test"
+> 
+> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> ---
+>   drivers/gpu/drm/tests/drm_buddy_test.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
+> index 1e73e3f0d278..369edf587b44 100644
+> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
+> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
+> @@ -188,7 +188,7 @@ static void drm_test_buddy_alloc_range_bias(struct kunit *test)
+>   							      bias_end, size, ps,
+>   							      &allocated,
+>   							      DRM_BUDDY_RANGE_ALLOCATION),
+> -				       "buddy_alloc failed with bias(%x-%x), size=%u, ps=%u\n",
+> +				       "buddy_alloc failed with bias(%x-%x), size=%u\n",
+>   				       bias_start, bias_end, size);
+>   		bias_rem -= size;
+>   
+
+thanks,
+-- Shuah
