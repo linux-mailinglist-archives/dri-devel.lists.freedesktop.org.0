@@ -2,63 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B81B86C26B
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 08:26:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCA6186C28B
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 08:31:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2901310E110;
-	Thu, 29 Feb 2024 07:26:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22F1310E174;
+	Thu, 29 Feb 2024 07:31:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UU7Tl3d+";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="T0RMOVev";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AF5E10E14A;
- Thu, 29 Feb 2024 07:26:51 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E7D5C60FDB;
- Thu, 29 Feb 2024 07:26:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C8CBC433C7;
- Thu, 29 Feb 2024 07:26:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1709191609;
- bh=rMk9Mq5uSwnCF4Vo6oHey/a58txk1WO/19yQeIrkNSs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UU7Tl3d+FHVbZACDNCYqUysPv0VOScznnblvu9KlrKpKNctZzBoF5OTmD/8ZBeUCY
- cLubMJxr5Xn++8AjAskuej1W1RbIsRXTJDBVvkGv8KH8wl98YQQ3B+QCTUWXs39Etq
- NHBOd1u9tc0W7up5CfrTfkp8a47Wk0N8gCY88fAeQ/qtZ7sqXuNnesaBq1FAV5YSO9
- c8JYbJp3FfjKR/Zd1Mc5H8or7YfIqR9a228MXJi3hvN+GL+OVlSH95MuXLIbVq32ry
- Kkkdb17vs7rdH6BVlK+uAM2vcJj7rmiOjOs/ZQlxXle/m2qneLUemKWKHOoB1dWMvu
- 7YuU18DR0iNIw==
-Received: from johan by xi.lan with local (Exim 4.97.1)
- (envelope-from <johan@kernel.org>) id 1rfaoj-0000000009i-0mvc;
- Thu, 29 Feb 2024 08:26:57 +0100
-Date: Thu, 29 Feb 2024 08:26:57 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB90A10E16E
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 07:31:26 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-412af1c91f3so4290715e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 23:31:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1709191885; x=1709796685; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=RiWXS0Lycg9PCC0fyWU9eT4uTxRcxADLMUayXiNfgPY=;
+ b=T0RMOVev3w1xxi0w0pHHTurWDPRslvNyUdeIbmJm1vHw7ho79OZuRseur0HB9gGggU
+ oEke7vR5hdRPg1OVrbFy+73ZRPwprrklIjlXxL08Oq+NItIsDu4V7sDGp4ZKUvvJDp5N
+ tXKFQeUYDBfarKjxfKbuQTm8uiR1O+8wpSfvc/PpA0WRz7ROEqRLRLXi9sc9RT5olR8M
+ tq0iRCcUFfWOkNGHyDuu0SNvrJLtxwAc6Pg+S2kIgHV2udTd4dVOETLRW1uyKtWxGj9r
+ mGQnzSYvK+6t6dvRGHd6tJhempFn6DaBAGOqZ6wBJ3Yq7XKCYWRNE9SWOTMzWQtbRdBu
+ t2Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709191885; x=1709796685;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RiWXS0Lycg9PCC0fyWU9eT4uTxRcxADLMUayXiNfgPY=;
+ b=R5tL7WJAmcRe89/W7JzZNW6a3FSsXvO+3fgseCjtIs9FmryYokyk3OVHDVHaLXefou
+ i1s3DrfdHY6aYYMU65eIxtBFcCvPPHz10rxP/wC1u3W8FyDmaKLi4sbvWtTIVdXO4QPs
+ HuAA4cST41faDMuD7P9HFBJfhA4sPslgQLgnQXsrXPcOqRlz53Ou20t2ZzhwlnkJ/4vy
+ T8+jEHNqbrZnH1Zb0NnXHdgJ6XsczlmN2fwZPRsgHDHkQr1dL73yBdfa9En+uRBFDHlw
+ wI5scjD0zlEZy0NjN+mQ3urImTaRYoI4WWVNkhlbWoy2wOAZL+K4k8UdLHyjiM8EE71z
+ SiVA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUOLKkgptqkswjHkgud9Wf42kKE1L90pt4pnHU8ezxG0NmS8xdfLLMKoFzSF+9dCi5YWTY6uz9jQSOmA53wPu0qMTO711bVxKh1/CbFx7oV
+X-Gm-Message-State: AOJu0YyZPDEb9W+WYXcVKcBAs8Hniuhf4EhuIUqwc705BO3Q+ZBEJHzx
+ mFqkH/M/u5EHq+VEY2wQ4m2o4gcSVN8mhs590wdNCShFIXeCgxkWEyV69cd/hwg=
+X-Google-Smtp-Source: AGHT+IFm2NXimeRlzG6mxS8tXCGpz0iq1MJcSQj/J2MMs2rGLvivZnF1HI63cA99XXODIDWyyxPCYw==
+X-Received: by 2002:a05:600c:190c:b0:412:b8cf:150b with SMTP id
+ j12-20020a05600c190c00b00412b8cf150bmr973212wmq.10.1709191884805; 
+ Wed, 28 Feb 2024 23:31:24 -0800 (PST)
+Received: from localhost ([102.222.70.76]) by smtp.gmail.com with ESMTPSA id
+ q16-20020a5d6590000000b0033d56aa4f45sm928856wru.112.2024.02.28.23.31.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Feb 2024 23:31:24 -0800 (PST)
+Date: Thu, 29 Feb 2024 10:31:20 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Jonathan Cameron <jic23@kernel.org>
+Cc: Markus Elfring <Markus.Elfring@web.de>, linux-arm-msm@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Johan Hovold <johan+linaro@kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-phy@lists.infradead.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
  Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: Re: [PATCH] Revert "drm/msm/dp: use drm_bridge_hpd_notify() to
- report HPD status changes"
-Message-ID: <ZeAxwVa3aGlstfdr@hovoldconsulting.com>
-References: <20240227220808.50146-1-dmitry.baryshkov@linaro.org>
- <46fa8e0a-0af2-2a44-f5f9-70fd49649aa4@quicinc.com>
- <Zd8B6T6ROHFCqEyB@hovoldconsulting.com>
- <CAA8EJppvansib9NxqPcuuAVe+qc1i8HmDqNh6+kaDZn6zFijpw@mail.gmail.com>
- <Zd81BWaj5zJeDA2Q@hovoldconsulting.com>
- <a8b68a42-f41d-5ce1-0d14-7fc158dff673@quicinc.com>
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH] soc: qcom: pmic_glink_altmode: Use common error handling
+ code in pmic_glink_altmode_probe()
+Message-ID: <fefbec63-df17-4515-8e63-66ba3a3b9cd2@moroto.mountain>
+References: <29b63eb4-2342-4ca8-a313-5de2a6ec6a83@web.de>
+ <c25aa425-f350-4ad2-b92e-67de996daed3@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a8b68a42-f41d-5ce1-0d14-7fc158dff673@quicinc.com>
+In-Reply-To: <c25aa425-f350-4ad2-b92e-67de996daed3@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,18 +101,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 28, 2024 at 10:10:10AM -0800, Abhinav Kumar wrote:
-> On 2/28/2024 5:28 AM, Johan Hovold wrote:
-
-> > This is a fix for a user-visible regression that was reported formally
-> > two weeks ago and informally (e.g. to you) soon after rc1 came out, and
-> > which now also has an identified cause and an analysis of the problem.
-> > And we're at rc6 so there should be no reason to delay fixing this (e.g.
-> > even if you want to run some more tests for a couple of days).
+On Thu, Feb 29, 2024 at 12:26:49AM +0100, Konrad Dybcio wrote:
 > 
-> Yup, we landed it in msm-fixes now, so this will go as a late -fixes PR 
-> for 6.8.
+> 
+> On 2/28/24 19:05, Markus Elfring wrote:
+> > From: Markus Elfring <elfring@users.sourceforge.net>
+> > Date: Wed, 28 Feb 2024 18:45:13 +0100
+> > 
+> > Add a jump target so that a bit of exception handling can be better reused
+> > at the end of this function implementation.
+> > 
+> > This issue was transformed by using the Coccinelle software.
+> > 
+> > Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+> > ---
+> 
+> (+CC Peter)
+> 
+> Hmm.. this looks very similar to the problem that __free solves
+> with <linux/cleanup.h>..
+> 
+> I know no better, but wouldn't the same mechanism, down to the
+> usage of DEFINE_FREE work fine for _put-like functions?
 
-Perfect, thanks!
+Jonathan Cameron has created something like this:
+https://lore.kernel.org/all/20240225142714.286440-1-jic23@kernel.org/
 
-Johan
+It hasn't been merged yet and it would need a bit of adjusting for this
+use case but it's basically what you want.
+
+regards,
+dan carpenter
+
