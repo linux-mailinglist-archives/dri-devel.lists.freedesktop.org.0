@@ -2,119 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24C3786C7B9
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 12:09:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4B6486C7BA
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 12:09:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D00810E44B;
-	Thu, 29 Feb 2024 11:09:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBA1210E449;
+	Thu, 29 Feb 2024 11:09:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="v6peOof2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AKcbF2F8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2084.outbound.protection.outlook.com [40.107.102.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B33010E460
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 11:09:32 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hT9lD659eaSYtnQuk0J0xCyHsCpWY3DPmrfvtzKiYXoyibJ6Z9D/4AXRbO+3kv4tOgPIpokWwAxxY207p6A6uh3/RSVQYeREZANArTpyprvcs6FcKzzfgjE33leTVUwASz03NSh9a4aa5AUkkM9nKyX80/LxWsoB7kwMtf3mOEiv6J5UN7/tYB6X1kzwwAOIDFkg+ka3aoAtocJVnN8gnUJrDcxReypEMjuRVeZbGxtkE9PPJ4NIkhNTwhrVw45EWoy19mmJgAtLIIRrjlEgapgmGpkYifqNFpXteYRxLl3gnbnOeHtgwMq9tAhzxocGVtEkZTrVW4GwwHIjtKSblw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vgV+GaZvOJ6r16Z8JtPgJCaeC5ZKm/HhyvzZb2g79lg=;
- b=KJhQxN4pyfIfLU5kmkgXXWtfTMpZIu3qLrOGM+NKiqm3IxkVseUlh8+5Z9qrCLwNHcqllrbdqPDAJKG9dGY3ytj6yjUZuF0BFWfL00mgd5LiNJSi6gTRJqj9r0WoNyKyUunaqTEAiYZYSA/A21Q0DDivAh7nogSf+lb7pFuCPCHLH+Jo+/+9mxD4qGhXtkrdwKZsvS20n948Y12xkcSyjEDjvf2uThmi+32zbGT8bmVJuXi4CEyPTaN4DuV0B+GvNC7gxZVkFgsruhR6YNEbBwQBxdj4AH7Tkkp8Nsq5zJo7jxzcCgmP1xs6qJbKy0oLp/3KzA9bITaaGuTC6BVhyw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vgV+GaZvOJ6r16Z8JtPgJCaeC5ZKm/HhyvzZb2g79lg=;
- b=v6peOof2VBS26Qp/Qw/rJ81RqafxrKed7EQarV3bw/OorKfjRCIT1/JAoIEh7E48Y7UYLKKuQxbcPmCn8g0o6kPnt6Vf6wD3iUve3iRxQhdRweOSPKu7IbeqsmbdOZdG/0lf1cmYD6k94H/9xW9VjgKREOq1njXnPtPtvV3UrSg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB4342.namprd12.prod.outlook.com (2603:10b6:208:264::7)
- by DM4PR12MB7598.namprd12.prod.outlook.com (2603:10b6:8:10a::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.41; Thu, 29 Feb
- 2024 11:09:30 +0000
-Received: from MN2PR12MB4342.namprd12.prod.outlook.com
- ([fe80::6610:4b4b:1f3a:151b]) by MN2PR12MB4342.namprd12.prod.outlook.com
- ([fe80::6610:4b4b:1f3a:151b%5]) with mapi id 15.20.7316.039; Thu, 29 Feb 2024
- 11:09:29 +0000
-Content-Type: multipart/alternative;
- boundary="------------cKBnt9SwLULy0jXbZkY98RMg"
-Message-ID: <a217c0f2-b387-45ef-9c03-d6363d57783a@amd.com>
-Date: Thu, 29 Feb 2024 16:39:22 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/buddy: stop using PAGE_SIZE
-Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Arnd Bergmann <arnd@arndb.de>
-References: <20240229105112.250077-3-matthew.auld@intel.com>
-From: "Paneer Selvam, Arunpravin" <arunpravin.paneerselvam@amd.com>
-In-Reply-To: <20240229105112.250077-3-matthew.auld@intel.com>
-X-ClientProxiedBy: PN3PR01CA0102.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:9b::23) To MN2PR12MB4342.namprd12.prod.outlook.com
- (2603:10b6:208:264::7)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C31110E449
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 11:09:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0070D61517;
+ Thu, 29 Feb 2024 11:09:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B7E3C433C7;
+ Thu, 29 Feb 2024 11:09:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1709204988;
+ bh=3Jp3DLK4GaGdce9BlkhMX4N5x38K7gfZP7ZzlOJJEfY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=AKcbF2F8ZMtL7sBtcMDzQD6+mAG3TlIU9zJO8V9rQDocWsppaDOIxHNY1RvGjFHWw
+ MJmN90Q2aEVdInZAr/grLzs0Qg/1CJblp0gm9YcUTPcllXe24r7VbFt1/mrOY9scQ4
+ JsXgknMvJkYmR4XQHtS0+FB80b5EpjX1ToXNL2uGfJvbdagyEGVniY9+268P+sZc8o
+ YQUKobwfQOW1cnqEV5CEOko6ZGbFyxko1jaPKVXNYchKccAaMlH/lanDmDt5p7Ehko
+ onxsBZFkSNU59cP1t7HX5eK1pzTx63dac9NAaSD7gB2n4+jyOBoVxwiwg0DYfcvd6H
+ TjlmtFWS6dkGA==
+Date: Thu, 29 Feb 2024 11:09:41 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org,
+ dave.pigott@collabora.com, mripard@kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kselftest@vger.kernel.org, pawiecz@collabora.com,
+ tales.aparecida@gmail.com, workflows@vger.kernel.org,
+ kernelci@lists.linux.dev, kunit-dev@googlegroups.com,
+ nfraprado@collabora.com, davidgow@google.com, cocci@inria.fr,
+ Julia.Lawall@inria.fr, kernel@collabora.com,
+ torvalds@linuxfoundation.org, gregkh@linuxfoundation.org
+Subject: Re: [PATCH 0/3] kci-gitlab: Introducing GitLab-CI Pipeline for
+ Kernel Testing
+Message-ID: <c7df72f5-857f-4ebb-b751-25fcb786427e@sirena.org.uk>
+References: <20240228225527.1052240-1-helen.koike@collabora.com>
+ <20240228230725.GF1659@pendragon.ideasonboard.com>
+ <ZeBQtfY8FG_qtoEJ@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4342:EE_|DM4PR12MB7598:EE_
-X-MS-Office365-Filtering-Correlation-Id: da948d43-1d55-46dc-4ea4-08dc3916e64c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VuOi6wBn6aZ9uIDmuYY8py8LIAPOeLhiUgXMRAcTCAK4b6aN3c+CWIlTrc3NJka6n2OSj2lua1R6wu0VKcRxfYeyonw8N6m+7v8hJzN3g1tw0ephavISszMD8PqLn1kbMu3FrdaJbtkaJ2FFPmNSqJvCmTY+s1sH5WWjvZv7lASKCGzE/k7nk7f4bPq+5/dR18DtSbWRXmY2cHwqtQskkW+ftvXK2N8G+zdDi+7YD2A73xODNUyE7uUHJT3eYm2GWGhMbbGJTl8uXm6QliH8L4HpWGgI/e93Fk2dQ1POm0OgDy6X1S3vyw5FAMM/a0wYo8/FJiGtNDF7DugSBifelF0nwkQySgSP0qyLMLx8F7/RpTHF1UdyEe3EO0Ljxs2EDySYjIPK1vmJ6IH+lV0z96CZiSRqCClvwGtzOsYiBzEzBED53k1OcQZ6+5vFFrKTb+AWgIiOOkqyFMcjD50EPUlmVFO234Hv3wcNX7VUxjsUmVJgOM1SBlWSRDYsUYyKLWs3d7tH5WL2CLF+YqCT/37fQy03bFhZR7Qxe9Fs9zGxpV7NpGBrSVD9ZXrqLOPm1sPH18nSMPVDw80eMX4Jsa3/LQ86JoZgPYF3P1j3Cq2ONsq3xauHlW0dVPpT9ryBqnLZ28C3g7/A7pGlevhKTg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4342.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eW5MN3c3SEdobkYybmIrZUtVcm93S2MrOHNtUVg1Rnk5Y1ZhYkw1RE9CcVls?=
- =?utf-8?B?eFdmaHFzZ09LS1VUbjl3VmtnMXliaFpoaUNQY2g0cFFBaG5QRkwvams4ZjY0?=
- =?utf-8?B?YjcwZ1JUOWI1WmpmS3JaWGc3RExFRER0SUNnbjZRcTd3N0wrWGdiNitSYU9D?=
- =?utf-8?B?QlNnMHVuUjRXaFZQZVBFOE9GdGZWdXF2bnorSTNnNDJQUkhMdHI5emx4OTJK?=
- =?utf-8?B?SlRWNVhaWDJ0dWJENCs2d1JLeFpuVGhJSnpLcmRiUHhWZGVlaW4yMUkwdCtn?=
- =?utf-8?B?cE0wM3I0REo3YmcvRENFcndQcFZVWUxDUEpIOWMrWjhoaURNU0VKeVRkbit2?=
- =?utf-8?B?aXUrYVBXekdRWUhTaFpQT1JZUFowMlhYamR3aWxBbmhZN0Q5cUZWRnpKemQy?=
- =?utf-8?B?T1daVU1ySnZKV2dHdFhibTBJK0h6cjRlNG1DZUpZNmhoR2VvZVMrdGdESTd1?=
- =?utf-8?B?UWs1bU5NVHJ3enFBTHJmUS9wdUV4TllNZm9LQWpDY3ZvUFNzN0tyZ0tDc2Mw?=
- =?utf-8?B?K3ZqYVdLSEQxR3lRRUtYQkVvcmpXZ2ZTYnJpaUdXVmQyR3RXRkc1RTlUa0Zo?=
- =?utf-8?B?cGlzemtyVXBFTlFyWTZYaGpUWjZHZFFsSUFQQ25HN2FNVHMvemRjTHp1cFU0?=
- =?utf-8?B?V2s5S1ZOWERXMG5JNEt5bHorbTFXOVhFUkZQZSszdUNjNEVTZ3gweGhHQXp4?=
- =?utf-8?B?ZlkxTWt2cWR2UHRCeDdtWlA1cjcrSEk3ZzZsb0xEWmJBcVZBS205akFMWVNp?=
- =?utf-8?B?RkpLczdPOG1ncDR2U0J1STBKMDJqNENqVm04TVZxYmRZbmo4VGFISVFKSldY?=
- =?utf-8?B?cGVmczgxZFloVkVzK01CT2lnc3lLRHltalU1SXF1VXBYdHVhOUtkZlcrYXFm?=
- =?utf-8?B?VU04ZnRUY2pHUlNoNDIwSXFWTDBRUGV6M3M0MTlLc3dYZTBFc3g1MXRjWm9t?=
- =?utf-8?B?cTlnMUZXU0RnT0dJd3dVOHl1aDZvd1VPUmZSU0k5SEVRZW9vT1dKV3EwVHRL?=
- =?utf-8?B?L3FqcHBIdUtVL2N4Z3hVTUFDQW80TTlyb3RxNTJUTEZZdm52RCtydkEzRlpn?=
- =?utf-8?B?U3dJbGlQdWZvNzMwTHJvRWoySWdudGVOLzRGSHJaN3czdGpHSVF1NWNjaFNT?=
- =?utf-8?B?R3lLOU1JY0RmaVZmbTFYSW45aTJLejJNdi83Qk95azI0bEZpQmIrRi9Cc2Uw?=
- =?utf-8?B?WEtFM2wwc3J4aW4yMFcyOE00M3hJbUs5djVmZkRsV2lVU0grOTNDZml0YVVk?=
- =?utf-8?B?dDJhb3JScFRiSEZwQzk2OXBROU15c0ZUNTFTOXJ5Q3ZEbVA2QzJidERzTldW?=
- =?utf-8?B?VzVFK3FZZjVaZGRFMzZmcGdoMmRPcGpjd3BDUTRDLzhUSnMwb0hZdDJzbFE2?=
- =?utf-8?B?SE8ra3U1bDBKTHduSXdON2xyNnF0OFcycHd6bWVWdTFORkpiY2tzZmp5V1c5?=
- =?utf-8?B?enZSYk80TUMxNzVDR1pqSFJqUUM1ekRWTTdBNUVpWXJkYjVjM29yQjV1MzV5?=
- =?utf-8?B?TmpEVmF6YWlvYkNWZ1dVamxJNitCZ0JjL1NyMnZkZzVWcnVRUGhHVmt5UFRY?=
- =?utf-8?B?VTdMS2FocE84U1d3TTc2TVRVeXA3bXo2ZENPR2NlSEdHSmVtemN6S2d6anIr?=
- =?utf-8?B?dnZ1OWRLNVR4bGFxRXExdjFnSDlpU0hmUk81VlMwaExKelNOY1dOd0JpbTdh?=
- =?utf-8?B?aFRXb1kwVSt4aGViMlE1dFliK2FwMkdlU0w5UEpMbEtkUHJHZTUvemx2dmpQ?=
- =?utf-8?B?U1llYlkrRGNHTnlxZFNFczVKNlh5V1VDQkthak02c2pndnE5L3E5MzFSNVVN?=
- =?utf-8?B?QU0ydmVMQlRoazdsdThacWVPdk9JU1U4Qkk1SjU0Z3pUYVZDb1U3V3UrbHU0?=
- =?utf-8?B?TnlGdjNpRlVYYytBcm1DNWNVbnlUd3JXT1YzVFVndS8yMjVLalc4c3FXdmV6?=
- =?utf-8?B?UCtZVmxBUTNET2hWWG1JMCtSVm1qNkQ0blkrZk05c1kxaFlnWWI1cmxzQjli?=
- =?utf-8?B?S0llTGQyWmt4TGhGZHdBZ25ZTk1IVDNOT1NwQkROMytjQ0lzc2pLcUt6S0Rs?=
- =?utf-8?B?ODVPc0tUeXZUVThhNGJvSjdUK1NKR0tGZTJ6U0pJb3UwWlpreEJsR1R4am9l?=
- =?utf-8?Q?v9ZTPTWuT02QmW83gDAEjpq/v?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: da948d43-1d55-46dc-4ea4-08dc3916e64c
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4342.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Feb 2024 11:09:29.8882 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0QvRsjymMQc0vRPbZGv6i1YqbSR3JH3sCXUS4xEG1hwP3RdBqKn0Apr2Y06RHuLWQ6F7cLuXDRF22Bf6K+vyfA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7598
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="Iws3dWkEFVnb2rF9"
+Content-Disposition: inline
+In-Reply-To: <ZeBQtfY8FG_qtoEJ@valkosipuli.retiisi.eu>
+X-Cookie: Marriage is the sole cause of divorce.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,133 +70,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------cKBnt9SwLULy0jXbZkY98RMg
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-Reviewed-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+--Iws3dWkEFVnb2rF9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2/29/2024 4:21 PM, Matthew Auld wrote:
-> The drm_buddy minimum page-size requirements should be distinct from the
-> CPU PAGE_SIZE. Only restriction is that the minimum page-size is at
-> least 4K.
->
-> Signed-off-by: Matthew Auld<matthew.auld@intel.com>
-> Cc: Arunpravin Paneer Selvam<Arunpravin.PaneerSelvam@amd.com>
-> Cc: Christian König<christian.koenig@amd.com>
-> Cc: Arnd Bergmann<arnd@arndb.de>
-> ---
->   drivers/gpu/drm/drm_buddy.c | 2 +-
->   include/drm/drm_buddy.h     | 6 +++---
->   2 files changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-> index 5ebdd6f8f36e..f999568d69c1 100644
-> --- a/drivers/gpu/drm/drm_buddy.c
-> +++ b/drivers/gpu/drm/drm_buddy.c
-> @@ -102,7 +102,7 @@ int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 chunk_size)
->   	if (size < chunk_size)
->   		return -EINVAL;
->   
-> -	if (chunk_size < PAGE_SIZE)
-> +	if (chunk_size < SZ_4K)
->   		return -EINVAL;
->   
->   	if (!is_power_of_2(chunk_size))
-> diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
-> index a5b39fc01003..19ed661a32f3 100644
-> --- a/include/drm/drm_buddy.h
-> +++ b/include/drm/drm_buddy.h
-> @@ -53,8 +53,8 @@ struct drm_buddy_block {
->   	struct list_head tmp_link;
->   };
->   
-> -/* Order-zero must be at least PAGE_SIZE */
-> -#define DRM_BUDDY_MAX_ORDER (63 - PAGE_SHIFT)
-> +/* Order-zero must be at least SZ_4K */
-> +#define DRM_BUDDY_MAX_ORDER (63 - 12)
->   
->   /*
->    * Binary Buddy System.
-> @@ -82,7 +82,7 @@ struct drm_buddy {
->   	unsigned int n_roots;
->   	unsigned int max_order;
->   
-> -	/* Must be at least PAGE_SIZE */
-> +	/* Must be at least SZ_4K */
->   	u64 chunk_size;
->   	u64 size;
->   	u64 avail;
+On Thu, Feb 29, 2024 at 09:39:01AM +0000, Sakari Ailus wrote:
+> On Thu, Feb 29, 2024 at 01:07:25AM +0200, Laurent Pinchart wrote:
 
---------------cKBnt9SwLULy0jXbZkY98RMg
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+> > > We have a Slack channel, #gitlab-ci, on the KernelCI Slack instance https://kernelci.slack.com/ .
+> > > Feel free to join and contribute to the conversation. The KernelCI team has
+> > > weekly calls where we also discuss the GitLab-CI pipeline.
 
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    Reviewed-by:
-    Arunpravin Paneer Selvam &lt;<a href="mailto:Arunpravin.PaneerSelvam@amd.com" class="moz-txt-link-freetext">Arunpravin.PaneerSelvam@amd.com</a>&gt;<br>
-    <br>
-    <div class="moz-cite-prefix">On 2/29/2024 4:21 PM, Matthew Auld
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:20240229105112.250077-3-matthew.auld@intel.com">
-      <pre class="moz-quote-pre" wrap="">The drm_buddy minimum page-size requirements should be distinct from the
-CPU PAGE_SIZE. Only restriction is that the minimum page-size is at
-least 4K.
+> > Could we communicate using free software please ? Furthermore, it's not
+> > possible to create an account on that slack instance unless you have an
+> > e-mail address affiliated with a small number of companies
+> > (https://kernelci.slack.com/signup#/domain-signup). That's a big no-go
+> > for me.
 
-Signed-off-by: Matthew Auld <a class="moz-txt-link-rfc2396E" href="mailto:matthew.auld@intel.com">&lt;matthew.auld@intel.com&gt;</a>
-Cc: Arunpravin Paneer Selvam <a class="moz-txt-link-rfc2396E" href="mailto:Arunpravin.PaneerSelvam@amd.com">&lt;Arunpravin.PaneerSelvam@amd.com&gt;</a>
-Cc: Christian König <a class="moz-txt-link-rfc2396E" href="mailto:christian.koenig@amd.com">&lt;christian.koenig@amd.com&gt;</a>
-Cc: Arnd Bergmann <a class="moz-txt-link-rfc2396E" href="mailto:arnd@arndb.de">&lt;arnd@arndb.de&gt;</a>
----
- drivers/gpu/drm/drm_buddy.c | 2 +-
- include/drm/drm_buddy.h     | 6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
+> I agree. There is no shortage of good alternatives either: we have IRC,
+> Matrix and XMPP for instance. Just pick one of them.
 
-diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-index 5ebdd6f8f36e..f999568d69c1 100644
---- a/drivers/gpu/drm/drm_buddy.c
-+++ b/drivers/gpu/drm/drm_buddy.c
-@@ -102,7 +102,7 @@ int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 chunk_size)
- 	if (size &lt; chunk_size)
- 		return -EINVAL;
- 
--	if (chunk_size &lt; PAGE_SIZE)
-+	if (chunk_size &lt; SZ_4K)
- 		return -EINVAL;
- 
- 	if (!is_power_of_2(chunk_size))
-diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
-index a5b39fc01003..19ed661a32f3 100644
---- a/include/drm/drm_buddy.h
-+++ b/include/drm/drm_buddy.h
-@@ -53,8 +53,8 @@ struct drm_buddy_block {
- 	struct list_head tmp_link;
- };
- 
--/* Order-zero must be at least PAGE_SIZE */
--#define DRM_BUDDY_MAX_ORDER (63 - PAGE_SHIFT)
-+/* Order-zero must be at least SZ_4K */
-+#define DRM_BUDDY_MAX_ORDER (63 - 12)
- 
- /*
-  * Binary Buddy System.
-@@ -82,7 +82,7 @@ struct drm_buddy {
- 	unsigned int n_roots;
- 	unsigned int max_order;
- 
--	/* Must be at least PAGE_SIZE */
-+	/* Must be at least SZ_4K */
- 	u64 chunk_size;
- 	u64 size;
- 	u64 avail;
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
+And indeed KernelCI does actually already have #kernelci on libera.chat.
 
---------------cKBnt9SwLULy0jXbZkY98RMg--
+--Iws3dWkEFVnb2rF9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXgZfQACgkQJNaLcl1U
+h9AdtAf/TjlgwmBR+dFt3Imb6vVXvcZz1uk0yqE9QdLn/+P7uF+i6O6Lo61wzzW7
+wZF6S/KVkz5gmMx3Ow6CzP1eyKOYvn2N/m2F7ImNuRtqKUMKv/0/rzxEtH5DK+da
+F1p6iV8WH3xIplXt0+nxc198yzskr+/zj8i5Qbs/OCVOl/VNmYZ70u9BFAhmsdmo
+O3YFYTKWetaRZPx8u8uoPUnAVofMV3vF4PtGQQDHPTmK9AC+4poc0jIx2V6PviY8
+yYgh9MrynKWlj1WRPrutfENQo++scSX66MdRQj4DfDeZm+7LUHDe1FzK3bRncJgo
+e5RUDmeCXKOY6foBuo2NKtLQHPBOPw==
+=uZ/p
+-----END PGP SIGNATURE-----
+
+--Iws3dWkEFVnb2rF9--
