@@ -2,49 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1849586CC7D
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 16:12:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6247C86CC82
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 16:12:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FAD510E47B;
-	Thu, 29 Feb 2024 15:12:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42C5810E45E;
+	Thu, 29 Feb 2024 15:12:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gtucker.io header.i=@gtucker.io header.b="lvMq4XJf";
+	dkim=pass (2048-bit key; unprotected) header.d=gtucker.io header.i=@gtucker.io header.b="e6dw9jxm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0820210E15B
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 12:00:21 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (unknown [217.70.183.199])
- by mslow1.mail.gandi.net (Postfix) with ESMTP id 39708C21E9
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 11:53:46 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 66A0AFF802;
- Thu, 29 Feb 2024 11:53:39 +0000 (UTC)
+X-Greylist: delayed 1621 seconds by postgrey-1.36 at gabe;
+ Thu, 29 Feb 2024 12:20:46 UTC
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [217.70.183.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A075110E364
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 12:20:46 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id DF335C000C;
+ Thu, 29 Feb 2024 12:20:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
- t=1709207622;
+ t=1709209244;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BaToIPDzXPunSHPMARHyvDeuyEwDr1/ZO+a/4iNtt4U=;
- b=lvMq4XJfkUm+hqYjnbZC8YybN52tAczd6MyvYXAmNWe1H+cCDijJ8iweHc9mMYwqRAp6pQ
- cVpAJS4mvNq9CbaMQClD5F+VPienkcvhhOr68EsSyt+KDmeO5ZPxnkSur7yYCQP1aVRo8J
- Hb5CtEBdDjHtmAJ9mMiY0X0ifSqaWRmnQl8ufw2zNFRSjGZ5INDE8810qo5lj1Jrb9Z2l2
- 2j7+nMAAAp91ewPsVQmsQPnjyl9KYun0eDa0XPPh6lM+BBGUBjZLTcQJBdMeVqZMyZVe6R
- V7dFk74JbD1pcEUT1zA+IHVojyGc65UdG7/s7rJJ1/fHGE57DtHP/K64S9lr1A==
-Message-ID: <b3fb89aa-56b4-4b3c-88f6-c6320bf5c489@gtucker.io>
-Date: Thu, 29 Feb 2024 12:53:38 +0100
+ bh=B6cMCmcnKMLLaSkCY/Q3FEaIM22/n5JPr+A3k3857Ak=;
+ b=e6dw9jxmOjxEWGL4CwLLpcu3etN9VgBLkvgGBS77nGo2i9JzqcGhXcMi/ZSamcRjBIgJcC
+ 8rMyWgs5i1dkhCkBSSstzl76l5Url9CebPIMUY3HOFlqtJFVe78xbWwcys1jzPAL5xiJI9
+ c4cNPvbfFqC7+JJ4lcc/JQ3Co5dc62CJKdsQ2LnpqvTFvilVwOA1EIRjdCIOF/FPg7nyEU
+ AkY74Rh4APJZ4cJBP18refisPFoFZm8tJjfp0LZBDIFjJFy5+xPhV6Jpw+8fxNxBhQkuJN
+ dtF8DxpoYoTODY6x5CIgUtN3qYPB1OTIcr5EcDRC1GKU/nraf/VxFHNRA/XmMA==
+Message-ID: <d99d026e-ed32-4432-bab3-db75296e67d8@gtucker.io>
+Date: Thu, 29 Feb 2024 13:20:41 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 0/3] kci-gitlab: Introducing GitLab-CI Pipeline for Kernel
  Testing
-To: Mark Brown <broonie@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Nikolai Kondrashov <spbnick@gmail.com>,
- Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org,
+Content-Language: en-GB
+To: Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org,
  dave.pigott@collabora.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
- gustavo.padovan@collabora.com, pawiecz@collabora.com,
+ gustavo.padovan@collabora.com, pawiecz@collabora.com, spbnick@gmail.com,
  tales.aparecida@gmail.com, workflows@vger.kernel.org,
  kernelci@lists.linux.dev, skhan@linuxfoundation.org,
  kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com,
@@ -52,16 +50,9 @@ Cc: Nikolai Kondrashov <spbnick@gmail.com>,
  ricardo.canuelo@collabora.com, kernel@collabora.com,
  torvalds@linuxfoundation.org, gregkh@linuxfoundation.org
 References: <20240228225527.1052240-1-helen.koike@collabora.com>
- <20240228230725.GF1659@pendragon.ideasonboard.com>
- <0a5bf7d1-0a7e-4071-877a-a3d312d80084@gmail.com>
- <20240229093402.GA30889@pendragon.ideasonboard.com>
- <655f89fa-6ccb-4b54-adcd-69024b4a1e28@gmail.com>
- <20240229111919.GF30889@pendragon.ideasonboard.com>
- <a4fc23e1-5689-4f86-beb7-5b63a0d13359@sirena.org.uk>
-Content-Language: en-GB
 From: Guillaume Tucker <gtucker@gtucker.io>
 Organization: gtucker.io
-In-Reply-To: <a4fc23e1-5689-4f86-beb7-5b63a0d13359@sirena.org.uk>
+In-Reply-To: <20240228225527.1052240-1-helen.koike@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-GND-Sasl: gtucker@gtucker.io
@@ -81,29 +72,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/02/2024 12:41, Mark Brown wrote:
-> On Thu, Feb 29, 2024 at 01:19:19PM +0200, Laurent Pinchart wrote:
->> On Thu, Feb 29, 2024 at 01:10:16PM +0200, Nikolai Kondrashov wrote:
-> 
->>> Of course. You're also welcome to join the #kernelci channel on libera.chat.
-> 
->> Isn't that a bit pointless if it's no the main IM channel ?
-> 
-> It *was* the original channel and still gets some usage (mostly started
-> by me admittedly since I've never joined slack for a bunch of reasons
-> that make it hassle), IIRC the Slack was started because there were some
-> interns who had trouble figuring out IRC and intermittent connectivity
-> but people seem to have migrated.
+Hello,
 
-In fact it was initially created for the members of the Linux
-Foundation project only, which is why registration is moderated
-for emails that don't have a domain linked to a member (BTW not
-any Google account will just work e.g. @gmail.com is moderated,
-only @google.com for Google employees isn't).
+On 28/02/2024 23:55, Helen Koike wrote:
+> Dear Kernel Community,
+> 
+> This patch introduces a `.gitlab-ci` file along with a `ci/` folder, defining a
+> basic test pipeline triggered by code pushes to a GitLab-CI instance. This
+> initial version includes static checks (checkpatch and smatch for now) and build
+> tests across various architectures and configurations. It leverages an
+> integrated cache for efficient build times and introduces a flexible 'scenarios'
+> mechanism for subsystem-specific extensions.
 
-And yes IRC is the "least common denominator" chat platform.
-Maybe having a bridge between the main Slack channel and IRC
-would help.
+This sounds like a nice starting point to me as an additional way
+to run tests upstream.  I have one particular question as I see a
+pattern through the rest of the email, please see below.
 
+[...]
+
+> 4. **Collaborative Testing Environment:** The kernel community is already
+> engaged in numerous testing efforts, including various GitLab-CI pipelines such
+> as DRM-CI, which I maintain, along with other solutions like KernelCI and
+> BPF-CI. This proposal is designed to further stimulate contributions to the
+> evolving testing landscape. Our goal is to establish a comprehensive suite of
+> common tools and files.
+
+[...]
+
+> **Leveraging External Test Labs:**
+> We can extend our testing to external labs, similar to what DRM-CI currently
+> does. This includes:
+> - Lava labs
+> - Bare metal labs
+> - Using KernelCI-provided labs
+> 
+> **Other integrations**
+> - Submit results to KCIDB
+
+[...]
+
+> **Join Our Slack Channel:**
+> We have a Slack channel, #gitlab-ci, on the KernelCI Slack instance https://kernelci.slack.com/ .
+> Feel free to join and contribute to the conversation. The KernelCI team has
+> weekly calls where we also discuss the GitLab-CI pipeline.
+> 
+> **Acknowledgments:**
+> A special thanks to Nikolai Kondrashov, Tales da Aparecida - both from Red Hat -
+> and KernelCI community for their valuable feedback and support in this proposal.
+
+Where does this fit on the KernelCI roadmap?
+
+I see it mentioned a few times but it's not entirely clear
+whether this initiative is an independent one or in some way
+linked to KernelCI.  Say, are you planning to use the kci tool,
+new API, compiler toolchains, user-space and Docker images etc?
+Or, are KernelCI plans evolving to follow this move?
+
+Thanks,
 Guillaume
 
