@@ -2,73 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 326C186CA71
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 14:40:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CBEA86CABF
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 14:54:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 430C510E14D;
-	Thu, 29 Feb 2024 13:40:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C30810E0BF;
+	Thu, 29 Feb 2024 13:54:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DDDQTuhT";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="E+BK1lDK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
- [209.85.218.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64E1210E14D;
- Thu, 29 Feb 2024 13:40:07 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id
- a640c23a62f3a-a3ed9cae56fso392996366b.1; 
- Thu, 29 Feb 2024 05:40:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1709214005; x=1709818805; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=EsD9duYaaP/guPxTYG25ecMaCbHiDY/ZqhIHI87Zhf8=;
- b=DDDQTuhTM6MrNU46kpsHahHan80ufzfSTWxDKeiXGag9eoGJ/vodzGFWfb+sQi4Mfz
- MmDfdRwpiMnu6QiRRfUH/W0dqZRRkq8pOkrgfKzVTSkCs16xwBf6jD6VQ1ndAI8iP/ev
- nOzjULYUpC4aNQEkuvWPNLodavtVNqFIVWpu3AYFwzaAX6FCOG9tThydKGChcFVktXrz
- XeGOoglE8XrPL86NFOMuy9WJLsjYjSUpmgbXqitLcbf893ggfiK+hnNpjtUNk06s24+g
- ezInE6CBbjqoNR9wJgAB+65TiHqaNU1p9bdLBTNKDYM2OnxYq3nWNlmAR8BBqio9+Fad
- EGlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709214005; x=1709818805;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EsD9duYaaP/guPxTYG25ecMaCbHiDY/ZqhIHI87Zhf8=;
- b=I7gzj5CRg1KFka2MB9IOergkWrRpei3tt8Rt+nj2lwxkjB70Xxi9+iylJCESui6jN0
- yhu/QwckrbJ4RTQXSMeTHj06h+ZSeI2C1KslgBa8ujP/Ybr1WRL1z6s9s9jqvy0osvhF
- jI4jJb0JHgYXQHKrhf4uEIRVHDkGNOK27AZUNQbH906lYVyK/8rs59rFKMlR9TKZJGCv
- rOstWN/JHtreD7T0N87F8HklPvpR9d45rS2K55QzD7kfDOhyuvLwloYMXu37qRxAU5aa
- UPtzFV5y0VuUTVQHX79Os0S1vDGVhUrvZ5GbvJs7wwzU/dj2wHORkArGTChLxveDHmlT
- d0zg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXQQgmFi0MYHuDMIXV+So/r5SwTT7oq22dFoIM+aiEYtZCNUvNmW9zU+bdFafTqsufSTkP0IVDGq9DmV+b3yg8u+sERAkj0JW0K5FXOZjDkEmVPjKk28rT7nWDuKm9PGkL79kynJFWUee4uX4XoK91USYdwyz2nIWYHpdt3YiWC+YjBH+OeNBd+uHCHwpTSIg==
-X-Gm-Message-State: AOJu0YzVXgF0XOxcRl+ECv982CPsxYoiCP0NYgT1tXn0LjbRzV38Irti
- RDBn843q0C0pyfuCpyVphEGuwkvrRz9QNg0XuNsmNw8soUnk81il
-X-Google-Smtp-Source: AGHT+IGmoMWPdN+QD3+ShE1Q9nuwX6oAOM5DSiXBvLPNPDsB4d1jYwwHqT0JV7b38lqG/ISJbsWc5w==
-X-Received: by 2002:a17:906:f107:b0:a44:690:86de with SMTP id
- gv7-20020a170906f10700b00a44069086demr1569347ejb.0.1709214005453; 
- Thu, 29 Feb 2024 05:40:05 -0800 (PST)
-Received: from able.fritz.box ([2a00:e180:15dd:1300:6947:88a8:d838:c55])
- by smtp.gmail.com with ESMTPSA id
- pv25-20020a170907209900b00a3ee9305b02sm698153ejb.20.2024.02.29.05.40.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Feb 2024 05:40:05 -0800 (PST)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: matthew.auld@intel.com, thomas.hellstrom@linux.intel.com,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- nouveau@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/amdgpu: use GTT only as fallback for VRAM|GTT
-Date: Thu, 29 Feb 2024 14:40:03 +0100
-Message-Id: <20240229134003.3688-2-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240229134003.3688-1-christian.koenig@amd.com>
-References: <20240229134003.3688-1-christian.koenig@amd.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DDBE10E0BF;
+ Thu, 29 Feb 2024 13:54:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709214878; x=1740750878;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=iBI0xnd7Mg37QjrQpGvQUFwvYvz/xUb59/vMsiBf7UU=;
+ b=E+BK1lDK2HBJja7t8M9Erbeswzn6aN+LLCxSWtFaHgAEGaKwoUCDKc8L
+ 4llkBUIzznSaG+9Gbd9arEmi5YILJIYdZ7KDTFC7GXstTHSrk1IT8ZbQ8
+ itAhJ3l6qs3Nz4StDRMxM1pcFnqNRneVAE9zw+pVY/r+1KvOssJM4YcHm
+ 0EgkLlHomPkPsOsdN8bPQsQhJOocnbpa7HmiKKX+Qfmsab2ZlTGugQF4p
+ 2d/zWgvd/D6vD4ybuZBu+QznV6fZ8ar+xyCXvHBnysnuitShUjisKxjCf
+ ScgFmtZPdKvoAMxMtS/YRlxz5CK349Uc3/QNvJN9J6fJfcOHwx60ROX/2 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="6632515"
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
+   d="scan'208";a="6632515"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Feb 2024 05:54:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; d="scan'208";a="45350095"
+Received: from mhaehnex-mobl1.ger.corp.intel.com (HELO [10.252.3.131])
+ ([10.252.3.131])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Feb 2024 05:54:32 -0800
+Message-ID: <455d1cf5-e885-42bf-9bda-4cf6d51b2de0@intel.com>
+Date: Thu, 29 Feb 2024 13:54:30 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PULL] drm-misc-fixes
+Content-Language: en-GB
+To: Maxime Ripard <mripard@redhat.com>, Dave Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dim-tools@lists.freedesktop.org
+References: <20240229-angelic-adorable-teal-fbfabb@houat>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20240229-angelic-adorable-teal-fbfabb@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,34 +79,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Try to fill up VRAM as well by setting the busy flag on GTT allocations.
+On 29/02/2024 13:37, Maxime Ripard wrote:
+> Hi,
+> 
+> Here's this week drm-misc fixes PR.
+> 
+> There's two commits for files unders drivers/soc/qcom that don't have a
+> maintainer Acked-by. Bjorn's Acked-by was provided on IRC, and Konrad
+> provided it by mail after the facts so we're covered.
+> 
+> Maxime
+> 
+> drm-misc-fixes-2024-02-29:
+> A reset fix for host1x, a resource leak fix and a probe fix for aux-hpd,
+> a use-after-free fix and a boot fix for a pmic_glink qcom driver in
+> drivers/soc, a fix for the simpledrm/tegra transition, a kunit fix for
+> the TTM tests, a font handling fix for fbcon, two allocation fixes and a
+> kunit test to cover them for drm/buddy
+> The following changes since commit 72fa02fdf83306c52bc1eede28359e3fa32a151a:
+> 
+>    nouveau: add an ioctl to report vram usage (2024-02-23 10:20:07 +1000)
+> 
+> are available in the Git repository at:
+> 
+>    https://anongit.freedesktop.org/git/drm/drm-misc tags/drm-misc-fixes-2024-02-29
+> 
+> for you to fetch changes up to c70703320e557ff30847915e6a7631a9abdda16b:
+> 
+>    drm/tests/drm_buddy: add alloc_range_bias test (2024-02-28 08:03:29 +0100)
+> 
+> ----------------------------------------------------------------
+> A reset fix for host1x, a resource leak fix and a probe fix for aux-hpd,
+> a use-after-free fix and a boot fix for a pmic_glink qcom driver in
+> drivers/soc, a fix for the simpledrm/tegra transition, a kunit fix for
+> the TTM tests, a font handling fix for fbcon, two allocation fixes and a
+> kunit test to cover them for drm/buddy
+> 
+> ----------------------------------------------------------------
+> Christian König (1):
+>        drm/ttm/tests: depend on UML || COMPILE_TEST
+> 
+> Jiri Slaby (SUSE) (1):
+>        fbcon: always restore the old font data in fbcon_do_set_font()
+> 
+> Johan Hovold (3):
+>        drm/bridge: aux-hpd: fix OF node leaks
+>        drm/bridge: aux-hpd: separate allocation and registration
+>        soc: qcom: pmic_glink_altmode: fix drm bridge use-after-free
+> 
+> Matthew Auld (3):
+>        drm/buddy: fix range bias
+>        drm/buddy: check range allocation matches alignment
+>        drm/tests/drm_buddy: add alloc_range_bias test
 
-This fixes the issue that when VRAM was evacuated for suspend it's never
-filled up again unless the application is restarted.
+Note that there is a build fix needed for this one:
+https://patchwork.freedesktop.org/patch/580568/?series=130552&rev=1
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Zack Rusin <zack.rusin@broadcom.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index 010b0cb7693c..8bc79924d171 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -173,6 +173,12 @@ void amdgpu_bo_placement_from_domain(struct amdgpu_bo *abo, u32 domain)
- 			abo->flags & AMDGPU_GEM_CREATE_PREEMPTIBLE ?
- 			AMDGPU_PL_PREEMPT : TTM_PL_TT;
- 		places[c].flags = 0;
-+		/*
-+		 * When GTT is just an alternative to VRAM make sure that we
-+		 * only use it as fallback and still try to fill up VRAM first.
-+		 */
-+		if (domain & abo->preferred_domains & AMDGPU_GEM_DOMAIN_VRAM)
-+			places[c].flags |= TTM_PL_FLAG_FALLBACK;
- 		c++;
- 	}
- 
--- 
-2.34.1
-
+> 
+> Maxime Ripard (1):
+>        Merge drm/drm-fixes into drm-misc-fixes
+> 
+> Mikko Perttunen (1):
+>        gpu: host1x: Skip reset assert on Tegra186
+> 
+> Rob Clark (1):
+>        soc: qcom: pmic_glink: Fix boot when QRTR=m
+> 
+> Thierry Reding (1):
+>        drm/tegra: Remove existing framebuffer only if we support display
+> 
+>   drivers/gpu/drm/Kconfig                 |   5 +-
+>   drivers/gpu/drm/bridge/aux-hpd-bridge.c |  70 +++++++---
+>   drivers/gpu/drm/drm_buddy.c             |  16 ++-
+>   drivers/gpu/drm/tegra/drm.c             |  23 +++-
+>   drivers/gpu/drm/tests/drm_buddy_test.c  | 218 ++++++++++++++++++++++++++++++++
+>   drivers/gpu/host1x/dev.c                |  15 ++-
+>   drivers/gpu/host1x/dev.h                |   6 +
+>   drivers/soc/qcom/pmic_glink.c           |  21 +--
+>   drivers/soc/qcom/pmic_glink_altmode.c   |  16 ++-
+>   drivers/video/fbdev/core/fbcon.c        |   8 +-
+>   include/drm/bridge/aux-bridge.h         |  15 +++
+>   11 files changed, 368 insertions(+), 45 deletions(-)
