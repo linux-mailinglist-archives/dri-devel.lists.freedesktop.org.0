@@ -2,71 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C734E86CD59
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 16:46:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10F2986CD66
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 16:49:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92D2410E4D2;
-	Thu, 29 Feb 2024 15:46:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3213110E4CF;
+	Thu, 29 Feb 2024 15:49:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jkfv7Fdp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m3E1Be57";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2664E10E4CC;
- Thu, 29 Feb 2024 15:46:35 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-1dc29f1956cso9609445ad.0; 
- Thu, 29 Feb 2024 07:46:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1709221594; x=1709826394; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=eEWJ7fHnFKVu8gdE5jXlSXn13xT8OIn42g9Z5EsEfXs=;
- b=jkfv7FdpKOQfGSLE01AegPGrGdA2gM4fGg4GB55xheY5TVDOughyEg2dktbjCkyGHo
- sAVG1kdnt0UVIL1xcd5H/YG6Z5n5wNManNk+XwuDwGINKv5+3ay4a+IyvBdL1Eteweib
- A/e12TMOdjw+xOqRw9pF5C/PfXojIzUORX9d62vDbp4b/niM1CBEZst+8q7uncRteZu+
- Ai1exc6a2wIZyGe+xbyPYFzP6vRwBQ4+t56X3QXhPo9VS766Fwr365wTezmIhHnDt6Ru
- WjI6sEjhMmlYF4Sh5lWa6xH19vw5sxUgijiy5fTlXMm5sB3Lo7RDTB3AY8QmA9tJtMNZ
- rHBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709221594; x=1709826394;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=eEWJ7fHnFKVu8gdE5jXlSXn13xT8OIn42g9Z5EsEfXs=;
- b=VAJ4ZrBgbRDRcDJZDBDjNRBdEdFz4qSQQQTNimOIHVQEmm4YQn2YrIF4ht/iJgrb+0
- ltJzcOZLilchVAvDcQbTP5qg7K5eOmj38RQ3xw/xkgfW8rgIubefpaeuFjXvBBfFRKTv
- 8NRAAlQyg8wIMHy1sOP+XMTpdn7KhNaWrv9qdq0O6B88tzViDtmTZPeYk5TK+mQ7rsim
- dtIcXABbRN/Rte4m9JsEdhk4VXSpQtsdiXOLIYFCbh+wrxCG3+cKg2zVhjkQfvJEVHcx
- PB6/V618GtxUR8B9fp6vwWTOwJmp9VUznK2tWOnvyHyAp03EhUKCmAhA+wmuJb03gS0u
- y27Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXp35HFXJ6INUgRYw6PoR4hCAAXY5+sS85VSdJdgajfNYDPVdPUhXVQpKfy1ZQtwZdJRxsxJSnQN2jLunOxw0uhPE5e0693eFcGzhVOucyxwd7I5xlnw/OGWVvn53kqgV6Qu1Yw1T/wGIfzQ1YyYA==
-X-Gm-Message-State: AOJu0Yz4iCSNM67o4uf38J4y8hpKUPJ/1JwLvyx+xlD0HBQbbg0+TB+2
- DtXXxnyBaui64/3AxHvY/KT3d+ytGIx4ymn80PClJOgUxwEuY8eMhIeIlAP7R6OPPq69k85zo6B
- PhDab68Pr5ezjYauP/Ktmv3GfR8dKygJm
-X-Google-Smtp-Source: AGHT+IGrbashKqBZ2tV3PLN8CgPZa2z5gJJYfc88kdevqUke36eNBirRViD6TQOxEDvojhYYho1Fm4jUKaAFHyNuFtI=
-X-Received: by 2002:a17:902:ecc9:b0:1dc:b003:6382 with SMTP id
- a9-20020a170902ecc900b001dcb0036382mr3128455plh.0.1709221594508; Thu, 29 Feb
- 2024 07:46:34 -0800 (PST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA66110E4CF;
+ Thu, 29 Feb 2024 15:48:58 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6B82C61172;
+ Thu, 29 Feb 2024 15:48:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8368C433C7;
+ Thu, 29 Feb 2024 15:48:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1709221737;
+ bh=+fv1LPuaO3JTr5Lszuh69m3jbmo7lu1K9f9DlffKTl0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=m3E1Be57eLLRArCxNRg61A/O//oceVyBUTHRtMBl63v4OnH/U3v8HO0duTaaOyofh
+ rWyoombPTuixp8pYtLgk0WFvYBCNkX5oPDCl7UdCXzLwpBItvNg2ejg66lPwlcoFhE
+ N56rs45yWd+E5RJ57GRoYkl4ny534R928bggwV+eIefzq4MUegzuGsyHHxBDpkQJnb
+ 8qXKcd60pQDTen0cVhvWdRI2LnkwpbsX3c8IypEUCk88U0bkEkvytpfLJ7kvXH1x1f
+ bj/58TugtMOV2kAflpybcQx5cIES8Gfed9+zXKt2yrEqk3/XIoK7zrkjGoOzb7p+4F
+ 18A02WvHIa6hQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
+ robdclark@gmail.com, quic_abhinavk@quicinc.com,
+ dmitry.baryshkov@linaro.org, airlied@gmail.com, daniel@ffwll.ch,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.7 03/26] Revert "drm/msm/gpu: Push gpu lock down
+ past runpm"
+Date: Thu, 29 Feb 2024 10:48:22 -0500
+Message-ID: <20240229154851.2849367-3-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240229154851.2849367-1-sashal@kernel.org>
+References: <20240229154851.2849367-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20240227190828.444715-1-mwen@igalia.com>
-In-Reply-To: <20240227190828.444715-1-mwen@igalia.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 29 Feb 2024 10:46:23 -0500
-Message-ID: <CADnq5_Pt1ncb_omsjwpoFNawt-2EhwQXFQ7QEk1=-Px-m=frKw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: check dc_link before dereferencing
-To: Melissa Wen <mwen@igalia.com>
-Cc: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, 
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
- airlied@gmail.com, daniel@ffwll.ch, Dan Carpenter <dan.carpenter@linaro.org>, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- kernel-dev@igalia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.7.6
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,38 +65,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+From: Rob Clark <robdclark@chromium.org>
 
-On Tue, Feb 27, 2024 at 2:08=E2=80=AFPM Melissa Wen <mwen@igalia.com> wrote=
-:
->
-> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6683 amdgpu_d=
-m_connector_funcs_force()
-> warn: variable dereferenced before check 'dc_link' (see line 6663)
->
-> Fixes: 967176179215 ("drm/amd/display: fix null-pointer dereference on ed=
-id reading")
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Signed-off-by: Melissa Wen <mwen@igalia.com>
-> ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/=
-gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 32efce81a5a7..46dd06e8fc7e 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -6653,7 +6653,7 @@ static void amdgpu_dm_connector_funcs_force(struct =
-drm_connector *connector)
->         struct edid *edid;
->         struct i2c_adapter *ddc;
->
-> -       if (dc_link->aux_mode)
-> +       if (dc_link && dc_link->aux_mode)
->                 ddc =3D &aconnector->dm_dp_aux.aux.ddc;
->         else
->                 ddc =3D &aconnector->i2c->base;
-> --
-> 2.43.0
->
+[ Upstream commit 917e9b7c2350e3e53162fcf5035e5f2d68e2cbed ]
+
+This reverts commit abe2023b4cea192ab266b351fd38dc9dbd846df0.
+
+Changing the locking order means that scheduler/msm_job_run() can race
+with the recovery kthread worker, with the result that the GPU gets an
+extra runpm get when we are trying to power it off.  Leaving the GPU in
+an unrecovered state.
+
+I'll need to come up with a different scheme for appeasing lockdep.
+
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+Patchwork: https://patchwork.freedesktop.org/patch/573835/
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/msm/msm_gpu.c        | 11 +++++------
+ drivers/gpu/drm/msm/msm_ringbuffer.c |  7 +++++--
+ 2 files changed, 10 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index 7f64c66673002..5c10b559a5957 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -749,12 +749,14 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+ 	struct msm_ringbuffer *ring = submit->ring;
+ 	unsigned long flags;
+ 
+-	pm_runtime_get_sync(&gpu->pdev->dev);
++	WARN_ON(!mutex_is_locked(&gpu->lock));
+ 
+-	mutex_lock(&gpu->lock);
++	pm_runtime_get_sync(&gpu->pdev->dev);
+ 
+ 	msm_gpu_hw_init(gpu);
+ 
++	submit->seqno = submit->hw_fence->seqno;
++
+ 	update_sw_cntrs(gpu);
+ 
+ 	/*
+@@ -779,11 +781,8 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+ 	gpu->funcs->submit(gpu, submit);
+ 	gpu->cur_ctx_seqno = submit->queue->ctx->seqno;
+ 
+-	hangcheck_timer_reset(gpu);
+-
+-	mutex_unlock(&gpu->lock);
+-
+ 	pm_runtime_put(&gpu->pdev->dev);
++	hangcheck_timer_reset(gpu);
+ }
+ 
+ /*
+diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
+index 95257ab0185dc..a7e152f659a2c 100644
+--- a/drivers/gpu/drm/msm/msm_ringbuffer.c
++++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
+@@ -21,8 +21,6 @@ static struct dma_fence *msm_job_run(struct drm_sched_job *job)
+ 
+ 	msm_fence_init(submit->hw_fence, fctx);
+ 
+-	submit->seqno = submit->hw_fence->seqno;
+-
+ 	mutex_lock(&priv->lru.lock);
+ 
+ 	for (i = 0; i < submit->nr_bos; i++) {
+@@ -34,8 +32,13 @@ static struct dma_fence *msm_job_run(struct drm_sched_job *job)
+ 
+ 	mutex_unlock(&priv->lru.lock);
+ 
++	/* TODO move submit path over to using a per-ring lock.. */
++	mutex_lock(&gpu->lock);
++
+ 	msm_gpu_submit(gpu, submit);
+ 
++	mutex_unlock(&gpu->lock);
++
+ 	return dma_fence_get(submit->hw_fence);
+ }
+ 
+-- 
+2.43.0
+
