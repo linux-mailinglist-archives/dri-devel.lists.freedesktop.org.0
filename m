@@ -2,61 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65EC786CC8B
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 16:12:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24CDF86CCD4
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 16:24:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FD6210E496;
-	Thu, 29 Feb 2024 15:12:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EFAB10E068;
+	Thu, 29 Feb 2024 15:24:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FuVzOpCX";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="WOZNBmvH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39A4610E495
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 15:12:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709219558; x=1740755558;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=hS3oRDkgcCI4XD5/ymHvl8mYvsN6LWJ2l6plGFrYmJ4=;
- b=FuVzOpCXrRf6nC8m2T7W8jpl5S093JxYqI7kjiY42M8439n4j1hpoF0P
- 4PYL/eq7n5vCQaLpCYJNlujEEb79SjDMsX8VrS90aQz+wbbBy53oiQOQe
- vBS1Ly3BotaEmCX/FQijcq6FJ/Yt0eal2AUoCshScX4KjKzI7xrptwQlA
- Cr1Njo1FJ647oCnQ1XPXXf4JW1J+USXDZHt13E4dR0buFBdjN/GaZj8Ok
- CNz9iLpjY6R+C6lfNieEz7WUserdXc66PUmbFJkU2TjY2D1W+tXyazesa
- dMkU39aByRpD3BHpfbiApUZVX/PUTtlVVZkzg/mm6tQOQFGOiKhstWyFu g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="3860374"
-X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="3860374"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Feb 2024 07:12:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; d="scan'208";a="38697370"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
- by orviesa002.jf.intel.com with ESMTP; 29 Feb 2024 07:12:15 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rfi4y-000D1f-1a;
- Thu, 29 Feb 2024 15:12:12 +0000
-Date: Thu, 29 Feb 2024 23:12:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, airlied@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- daniel@ffwll.ch, javierm@redhat.com, bluescreen_avenger@verizon.net,
- noralf@tronnes.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- gpiccoli@igalia.com, Jocelyn Falempe <jfalempe@redhat.com>
-Subject: Re: [PATCH v8 4/8] drm/fb_dma: Add generic set_scanout_buffer() for
- drm_panic
-Message-ID: <202402292348.4l5K5ZmN-lkp@intel.com>
-References: <20240227100459.194478-5-jfalempe@redhat.com>
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2083.outbound.protection.outlook.com [40.107.93.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D445910E068;
+ Thu, 29 Feb 2024 15:24:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MCGWyX0Joc1z9UgV2xXuwwHntu5N0giwwMxx4t7j5+C3fjks6mZ8/kNYCgiKGTLSkq6XBfvp5zHQYEZLUJwmbcO1FW2Sox/fz+k2H+GPvRzZNzxZreQPo/xy0k3X9wWsH9bH1DES3a3JuYuboKotdB8puFWlufkI5WhOesGvvL3x9IIQ3MTVTdc45YfHn4/BKNQkrQT8xYYvsiwwo9GIZGGon+LDsQbBEA3jvAwe1QUM9ghiIQp0zZmkZ9/OYOHHVQqWBvy1u+QK3FPB8oufq1xMTLw+01Rn1HPFei5vrTfuq9TUuVe+xKeBgAkWj24xYacuz9mPsaFNXIwxJH/DYQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=w+DeikyNmN3E7Sm/VvZJZ3NvH+0QTAtJpZSs3KAVVAQ=;
+ b=MJ0lryengicXPGHcJ+0hpeNkKbnZQK30v5RkyJZChZH0HyoA2cHTk06WfVee4FO0niUJhw9UqfQ4aH1pY0x1r7bSkh/5KCMKii0T46PQCe10EbOQw/gytmCRrKPgcT63GrfwwY2thDvxt3+Mf/PPx4bP5WWjPIaMrwInqdptzTiqwV74qTGwWcklX1jMFhX+Mr4kWBxj4ON8T1BGIGj0zLNfrnjw+VFyeSMOxxssXn2g2dgmwynIiUa3Iid2YA4se7HajxjRRpwIN7cvM4Wn/fWDbN0MYeTJNrSY/LVvtlAhthp3rbj9JzjGpOHrJwlgmH8RTSGX3GoFNKprLLeyjA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w+DeikyNmN3E7Sm/VvZJZ3NvH+0QTAtJpZSs3KAVVAQ=;
+ b=WOZNBmvH0myBUFzcfaPv1x6UY1QR+kIMXyUODDoSEAoTVfycwI2QftxrgN3WzvKDnie7vdQzd9bIDdALUZ7gnddWGMUqUsVeKW++ySlOdkSc1q+AmpkrNOPd9AC3ZRga9zKqtxPAfQtfB03AxuPbqYeyzr9vsmQOCYL/d5L57R4=
+Received: from MN2PR15CA0024.namprd15.prod.outlook.com (2603:10b6:208:1b4::37)
+ by BL3PR12MB6473.namprd12.prod.outlook.com (2603:10b6:208:3b9::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.32; Thu, 29 Feb
+ 2024 15:24:39 +0000
+Received: from BL6PEPF0001AB75.namprd02.prod.outlook.com
+ (2603:10b6:208:1b4:cafe::6f) by MN2PR15CA0024.outlook.office365.com
+ (2603:10b6:208:1b4::37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.27 via Frontend
+ Transport; Thu, 29 Feb 2024 15:24:39 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL6PEPF0001AB75.mail.protection.outlook.com (10.167.242.168) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7292.25 via Frontend Transport; Thu, 29 Feb 2024 15:24:39 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Thu, 29 Feb
+ 2024 09:24:38 -0600
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+CC: Alex Deucher <alexander.deucher@amd.com>
+Subject: [pull] amdgpu drm-fixes-6.8
+Date: Thu, 29 Feb 2024 10:24:24 -0500
+Message-ID: <20240229152424.6646-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240227100459.194478-5-jfalempe@redhat.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB75:EE_|BL3PR12MB6473:EE_
+X-MS-Office365-Filtering-Correlation-Id: bcf7b5a2-1bdb-4f5e-c459-08dc393a8bf4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cR5dXuxrbkcfjQNUJIwPQpEAaohwhHMH5urlZNXF5LQkPwq4K8rpHxNifL2o583xh6U9uCs5pu1oWK040FllP4NGpMGOYaGS/UHYxd2vmNOZ7TRjl7eveN3HNBXqK2pFLaLgKG4xKYYVDQmKl/RL5kCPqYeFKJ+djRlL9VH5obIsNACKiTeujAaqCVmeQtefrdIzbS/5JsLfmWVIaq9AGuNSuet/sKUl6N3X7L6noATZU8mE77oZli8oooK5ajadoB6H4Ec5xoMLT/qk05sM/Z5z1kap9R/soTOyFQIiqiusCkLvqFZEqMlAYDmE7WwREicN5x06q6pnnZdbg6uz28t64FsFiJr1baeNMrXlAHJhSY7wDX8T8+TeoqZ+DBt6ejT8RPPjVa22hqZlsQv0MXz8+/9WeSnoUwxcp7TsnlP7ibxC+bKrVL0iG/zU9H3ki01iHiOZPRnkqETvisdHWB+i2J58bw6Se1hV/abERFr+GiCMY9JaXvSl67520LwwoRVwQe3c0yK5XFB9CYac47NSqQsZDE3987lVYv0UIGOHhDxg+DHxdDpwa/CI5qIjfdbzHKtrnKdaJR2fHnwbMB6cyQ5JOS0WpnxurOtCvMArwy227MxDijQNd4/wTifEI3lssm7zKHGwVumIAFyvXnK7uNygeQLlaaBNL67ByNmAXmPoEkRqTm5B+JE4n5ewkkxCLXK8uhut1NceBqCvWg==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(36860700004)(82310400014); DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Feb 2024 15:24:39.8259 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bcf7b5a2-1bdb-4f5e-c459-08dc393a8bf4
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB75.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6473
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,52 +105,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jocelyn,
+Hi Dave, Sima,
 
-kernel test robot noticed the following build warnings:
+Fixes for 6.8.
 
-[auto build test WARNING on bfa4437fd3938ae2e186e7664b2db65bb8775670]
+The following changes since commit d206a76d7d2726f3b096037f2079ce0bd3ba329b:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-format-helper-Add-drm_fb_blit_from_r1-and-drm_fb_fill/20240227-185901
-base:   bfa4437fd3938ae2e186e7664b2db65bb8775670
-patch link:    https://lore.kernel.org/r/20240227100459.194478-5-jfalempe%40redhat.com
-patch subject: [PATCH v8 4/8] drm/fb_dma: Add generic set_scanout_buffer() for drm_panic
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240229/202402292348.4l5K5ZmN-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240229/202402292348.4l5K5ZmN-lkp@intel.com/reproduce)
+  Linux 6.8-rc6 (2024-02-25 15:46:06 -0800)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402292348.4l5K5ZmN-lkp@intel.com/
+are available in the Git repository at:
 
-All warnings (new ones prefixed by >>):
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.8-2024-02-29
 
-   In file included from drivers/gpu/drm/pl111/pl111_display.c:18:
->> include/drm/drm_fb_dma_helper.h:23:46: warning: declaration of 'struct drm_plane' will not be visible outside of this function [-Wvisibility]
-   void drm_panic_gem_set_scanout_buffer(struct drm_plane *plane,
-                                                ^
-   1 warning generated.
+for you to fetch changes up to b7cdccc6a849568775f738b1e233f751a8fed013:
 
+  drm/amd/display: Add monitor patch for specific eDP (2024-02-28 17:33:05 -0500)
 
-vim +23 include/drm/drm_fb_dma_helper.h
+----------------------------------------------------------------
+amd-drm-fixes-6.8-2024-02-29:
 
-    11	
-    12	struct drm_gem_dma_object *drm_fb_dma_get_gem_obj(struct drm_framebuffer *fb,
-    13		unsigned int plane);
-    14	
-    15	dma_addr_t drm_fb_dma_get_gem_addr(struct drm_framebuffer *fb,
-    16					   struct drm_plane_state *state,
-    17					   unsigned int plane);
-    18	
-    19	void drm_fb_dma_sync_non_coherent(struct drm_device *drm,
-    20					  struct drm_plane_state *old_state,
-    21					  struct drm_plane_state *state);
-    22	
-  > 23	void drm_panic_gem_set_scanout_buffer(struct drm_plane *plane,
-    24					     struct drm_framebuffer *fb);
-    25	
+amdgpu:
+- Fix potential buffer overflow
+- Fix power min cap
+- Suspend/resume fix
+- SI PM fix
+- eDP fix
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+----------------------------------------------------------------
+Alex Deucher (1):
+      Revert "drm/amd/pm: resolve reboot exception for si oland"
+
+Ma Jun (1):
+      drm/amdgpu/pm: Fix the power1_min_cap value
+
+Prike Liang (1):
+      drm/amdgpu: Enable gpu reset for S3 abort cases on Raven series
+
+Ryan Lin (1):
+      drm/amd/display: Add monitor patch for specific eDP
+
+Srinivasan Shanmugam (1):
+      drm/amd/display: Prevent potential buffer overflow in map_hw_resources
+
+ drivers/gpu/drm/amd/amdgpu/soc15.c                 | 45 ++++++++++++----------
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  |  6 ++-
+ drivers/gpu/drm/amd/display/dc/dml2/dml2_wrapper.c |  5 +++
+ drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c         | 29 ++++++++++++++
+ drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c  |  9 ++---
+ drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c    |  9 ++---
+ .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |  9 ++---
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   |  9 ++---
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c   |  9 ++---
+ 9 files changed, 83 insertions(+), 47 deletions(-)
