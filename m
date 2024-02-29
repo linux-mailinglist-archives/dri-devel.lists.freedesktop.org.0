@@ -2,93 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A71086D03B
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 18:12:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E22BE86D048
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 18:13:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 093C910E24F;
-	Thu, 29 Feb 2024 17:12:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F61F10E4C6;
+	Thu, 29 Feb 2024 17:13:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="jPb7cDDI";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hVxk5CU/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28CEB10E4C7
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 17:12:02 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id
- 4fb4d7f45d1cf-564647bcdbfso1600082a12.2
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 09:12:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1709226717; x=1709831517;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NxpSjfrVdVSOexvPvV+MdNfT9diBzg4rPMFPF1MyWmU=;
- b=jPb7cDDIZykOt3hsq11n6fqBEfDdaJaZhRF0HgX2WQkMmabTMSWQSeOKmo5JFCZ1Ix
- cDixOZCAPJveuyTSstFrIN760OvNBn2hkBA7MP7mYh/0EwgS70gBScXNI8edtOwtIgb1
- DDHmiNg/VNyXV+gVELCTRHWGRJVsDrGD6JzEo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709226717; x=1709831517;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=NxpSjfrVdVSOexvPvV+MdNfT9diBzg4rPMFPF1MyWmU=;
- b=hCgj9xqpZSur/M2hp76hCcfNwQj7gozB4hOFO8R5xcJ/cGkq1qczAolwt7osf99SAn
- zFTVMMcUnG6j6dNRlzNxl6I43AMO3rCM7GFAQMqGGPMetGx/YNthIEsJm+ZVpMymfYG+
- eokK3im8oh+N14ef68RggzCn4UWcYRsdlErI4YLDQ2ms1PFrP7wUbpN2T6wBbo1kQIZ1
- rYhleK4m2mtuMnpK4/H8jyF5AxW78lrrcDFzx1eETpWAYdGLUEJPodqvYmhDYWK7qG3Q
- 7kD4C2Ypv+NBVDsgxG7VrfgvpvFPCr0hzb2tM+EvCQvtKXRW2g71RARfgjdEyd5JeKwo
- lJVw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVOB9wxJf9tWexYniGZDLXD07lKZpheUR+038A4+LKG1bd9iJHt8KgLWhB/MLrbS2nD6FhhKHGAhRut4FWMdxfj+YftKS+mPBHzQ3w2hAfV
-X-Gm-Message-State: AOJu0YxpCgoUHaiJDy5RSI5ybRkrUQWNOLtXLD7fsbJ4scXMTbj9JC1A
- 5bXMNO9igBvih55h2oCZunYZFLM2zrSbGRTZwW/Qer6KO6uotdmDVMP/qrQDG+QR//FqyjbI03f
- 7/m07
-X-Google-Smtp-Source: AGHT+IEx1fLeMjDIJMf+pjakZo4c9bmOukVD6c6m9C1FM9N9Uhs8X2wH5r6ikZvlQNXcVmLJ1B2Qeg==
-X-Received: by 2002:a17:906:aad3:b0:a3f:db30:872a with SMTP id
- kt19-20020a170906aad300b00a3fdb30872amr1844463ejb.66.1709226716941; 
- Thu, 29 Feb 2024 09:11:56 -0800 (PST)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com.
- [209.85.128.44]) by smtp.gmail.com with ESMTPSA id
- vb7-20020a170907d04700b00a444567fbbfsm769588ejc.53.2024.02.29.09.11.55
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Feb 2024 09:11:56 -0800 (PST)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-4129a5f7b54so82985e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 09:11:55 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWeyBXce/mrNWUw0GXWsWwQRajsegTnOSLSBBw4KtW4iLlmbgbkmz/UvOAHSeyUFCAe6wm2TAJE7n5LHzpLry/mSg1FLuQccsaI6Le6ofcm
-X-Received: by 2002:a05:600c:5194:b0:412:c353:cefc with SMTP id
- fa20-20020a05600c519400b00412c353cefcmr45032wmb.0.1709226714821; Thu, 29 Feb
- 2024 09:11:54 -0800 (PST)
-MIME-Version: 1.0
-References: <20240223223958.3887423-1-hsinyi@chromium.org>
- <20240223223958.3887423-2-hsinyi@chromium.org>
- <87wmqqjmt9.fsf@intel.com>
- <CAJMQK-jSPg6vU3SLmRy7zwNHJ4yqO2hT6RaiYxA4ifZ7CzwD9Q@mail.gmail.com>
- <CAD=FV=WU-2yystd40e+g9VNDNTiv5c=nP0uQg-AR03o7UGMTdA@mail.gmail.com>
- <87bk7z6x1w.fsf@intel.com>
-In-Reply-To: <87bk7z6x1w.fsf@intel.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 29 Feb 2024 09:11:39 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=Wzm9Y7m9Q6KqO7yWdnc1xToaRMb2f1s2TQMJqpqVYLOg@mail.gmail.com>
-Message-ID: <CAD=FV=Wzm9Y7m9Q6KqO7yWdnc1xToaRMb2f1s2TQMJqpqVYLOg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm_edid: Add a function to get EDID base block
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Hsin-Yi Wang <hsinyi@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D751210E49D;
+ Thu, 29 Feb 2024 17:13:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709226834; x=1740762834;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=ggL2ejLmDl3iKLECeOmUsD/VQnpDkbc4+L4hSOY54DI=;
+ b=hVxk5CU/1L91oiutcsdH4GjhOBUbvevf6Gi9EaxsZJQTUKDWhN5CiQRw
+ u/JYSMsqREXwUsgW3/6iNOKuS8OX7HSBKNJvzMnnjhWVEULqQmwSSmx1D
+ XXi0B8wWYJ9F9Wxc7ZjAFoN/jv1ZbK8E5Xj4NI1NYMAvu9hDsigz0s8xN
+ jSJzTDoyzE6mBHZ9bXOZMGxBpilg4+g5X2kNG58DcnkeLAlmQFCOetMha
+ nvvfebwCRKjk3muYjXV7HZGyCu04ZJf9H0Nohn2OiJ/vx+LzOS7RXXkVy
+ 6JgjtoPPRyh4lH5jr4aGEEjcEvvFFvWYFyuKsjkUu2oOktfbzcncV/pyu g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="3597607"
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
+   d="scan'208";a="3597607"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Feb 2024 09:12:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
+   d="scan'208";a="8459162"
+Received: from srdoo-mobl1.ger.corp.intel.com (HELO [10.252.3.93])
+ ([10.252.3.93])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Feb 2024 09:12:04 -0800
+Message-ID: <7eb835594110980f2e9f061512fd488bbd63fd11.camel@linux.intel.com>
+Subject: Re: Making drm_gpuvm work across gpu devices
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, "Zeng,
+ Oak" <oak.zeng@intel.com>, Danilo Krummrich <dakr@redhat.com>, Dave Airlie
+ <airlied@redhat.com>, Daniel Vetter <daniel@ffwll.ch>, Felix Kuehling
+ <felix.kuehling@amd.com>, "jglisse@redhat.com" <jglisse@redhat.com>
+Cc: "Welty, Brian" <brian.welty@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, "Bommu,
+ Krishnaiah" <krishnaiah.bommu@intel.com>, "Ghimiray, Himal Prasad"
+ <himal.prasad.ghimiray@intel.com>, "Vishwanathapura, Niranjana"
+ <niranjana.vishwanathapura@intel.com>, "Brost, Matthew"
+ <matthew.brost@intel.com>, "Gupta, saurabhg" <saurabhg.gupta@intel.com>
+Date: Thu, 29 Feb 2024 18:12:02 +0100
+In-Reply-To: <ada8e6cc-a7d2-4b6f-8f70-f0448cc2e420@amd.com>
+References: <20240117221223.18540-1-oak.zeng@intel.com>
+ <20240117221223.18540-22-oak.zeng@intel.com>
+ <ad21ec11-a9cb-4fb2-b9fd-00a4fa11525f@intel.com>
+ <PH7PR11MB70049E7E6A2F40BF6282ECC292742@PH7PR11MB7004.namprd11.prod.outlook.com>
+ <PH7PR11MB700440CE88BC0A94CFF8499792742@PH7PR11MB7004.namprd11.prod.outlook.com>
+ <2928ce36-06a6-4bee-b115-8dd61cc41dca@amd.com>
+ <SA1PR11MB699192584C01A26C781E2F9992742@SA1PR11MB6991.namprd11.prod.outlook.com>
+ <ccf34f6a-d704-43de-a15e-2ae2890f9381@amd.com>
+ <SA1PR11MB6991FDAFF07E3654538F5BBF92552@SA1PR11MB6991.namprd11.prod.outlook.com>
+ <df2df998-af26-4ae9-a0a4-5aac1b9e3c73@amd.com>
+ <SA1PR11MB6991786DA69422A1A6095A1E92592@SA1PR11MB6991.namprd11.prod.outlook.com>
+ <SA1PR11MB6991B3DA606280EBC6952D1092582@SA1PR11MB6991.namprd11.prod.outlook.com>
+ <ada8e6cc-a7d2-4b6f-8f70-f0448cc2e420@amd.com>
+Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
+Organization: Intel Sweden AB, Registration Number: 556189-6027
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,129 +91,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi, Christian.
 
-On Thu, Feb 29, 2024 at 8:43=E2=80=AFAM Jani Nikula <jani.nikula@linux.inte=
-l.com> wrote:
->
-> On Wed, 28 Feb 2024, Doug Anderson <dianders@chromium.org> wrote:
-> > Hi,
-> >
-> > On Tue, Feb 27, 2024 at 5:27=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromium.o=
-rg> wrote:
-> >>
-> >> On Tue, Feb 27, 2024 at 1:09=E2=80=AFAM Jani Nikula <jani.nikula@linux=
-.intel.com> wrote:
-> >> >
-> >> > On Fri, 23 Feb 2024, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
-> >> > > It's found that some panels have variants that they share the same=
- panel id
-> >> > > although their EDID and names are different. Besides panel id, now=
- we need
-> >> > > the hash of entire EDID base block to distinguish these panel vari=
-ants.
-> >> > >
-> >> > > Add drm_edid_get_base_block to returns the EDID base block, so cal=
-ler can
-> >> > > further use it to get panel id and/or the hash.
-> >> >
-> >> > Please reconsider the whole approach here.
-> >> >
-> >> > Please let's not add single-use special case functions to read an ED=
-ID
-> >> > base block.
-> >> >
-> >> > Please consider reading the whole EDID, using the regular EDID readi=
-ng
-> >> > functions, and use that instead.
-> >> >
-> >> > Most likely you'll only have 1-2 blocks anyway. And you might consid=
-er
-> >> > caching the EDID in struct panel_edp if reading the entire EDID is t=
-oo
-> >> > slow. (And if it is, this is probably sensible even if the EDID only
-> >> > consists of one block.)
-> >> >
-> >> > Anyway, please do *not* merge this as-is.
-> >> >
-> >>
-> >> hi Jani,
-> >>
-> >> I sent a v2 here implementing this method:
-> >> https://lore.kernel.org/lkml/20240228011133.1238439-2-hsinyi@chromium.=
-org/
-> >>
-> >> We still have to read edid twice due to:
-> >> 1. The first caller is in panel probe, at that time, connector is
-> >> still unknown, so we can't update connector status (eg. update
-> >> edid_corrupt).
-> >> 2. It's possible that the connector can have some override
-> >> (drm_edid_override_get) to EDID, that is still unknown during the
-> >> first read.
-> >
-> > I'll also comment in Hsin-Yi's v2, but given Hsin-Yi's digging and the
-> > fact that we can't cache the EDID (because we don't yet have a
-> > "drm_connector"), I'd much prefer Hsin-Yi's solution here from v1 that
-> > allows reading just the first block. If we try to boot a device with a
-> > multi-block EDID we're now wastefully reading all the blocks of the
-> > EDID twice at bootup which will slow boot time.
-> >
-> > If you can see a good solution to avoid reading the EDID twice then
-> > that would be amazing, but if not it seems like we should go back to
-> > what's here in v1. What do you think? Anyone else have any opinions?
->
-> I haven't replied so far, because I've been going back and forth with
-> this. I'm afraid I don't really like either approach now. Handling the
-> no connector case in v2 is a bit ugly too. :(
->
-> Seems like you only need this to extend the panel ID with a hash. And
-> panel-edp.c is the only user of drm_edid_get_panel_id(). And EDID quirks
-> in drm_edid.c could theoretically hit the same problem you're solving.
+On Thu, 2024-02-29 at 10:41 +0100, Christian K=C3=B6nig wrote:
+> Am 28.02.24 um 20:51 schrieb Zeng, Oak:
+> >=20
+> > The mail wasn=E2=80=99t indent/preface correctly. Manually format it.
+> >=20
+> > *From:*Christian K=C3=B6nig <christian.koenig@amd.com>
+> > *Sent:* Tuesday, February 27, 2024 1:54 AM
+> > *To:* Zeng, Oak <oak.zeng@intel.com>; Danilo Krummrich=20
+> > <dakr@redhat.com>; Dave Airlie <airlied@redhat.com>; Daniel Vetter=20
+> > <daniel@ffwll.ch>; Felix Kuehling <felix.kuehling@amd.com>;=20
+> > jglisse@redhat.com
+> > *Cc:* Welty, Brian <brian.welty@intel.com>;=20
+> > dri-devel@lists.freedesktop.org; intel-xe@lists.freedesktop.org;=20
+> > Bommu, Krishnaiah <krishnaiah.bommu@intel.com>; Ghimiray, Himal
+> > Prasad=20
+> > <himal.prasad.ghimiray@intel.com>;
+> > Thomas.Hellstrom@linux.intel.com;=20
+> > Vishwanathapura, Niranjana <niranjana.vishwanathapura@intel.com>;=20
+> > Brost, Matthew <matthew.brost@intel.com>; Gupta, saurabhg=20
+> > <saurabhg.gupta@intel.com>
+> > *Subject:* Re: Making drm_gpuvm work across gpu devices
+> >=20
+> > Hi Oak,
+> >=20
+> > Am 23.02.24 um 21:12 schrieb Zeng, Oak:
+> >=20
+> > =C2=A0=C2=A0=C2=A0 Hi Christian,
+> >=20
+> > =C2=A0=C2=A0=C2=A0 I go back this old email to ask a question.
+> >=20
+> >=20
+> > sorry totally missed that one.
+> >=20
+> > =C2=A0=C2=A0=C2=A0 Quote from your email:
+> >=20
+> > =C2=A0=C2=A0=C2=A0 =E2=80=9CThose ranges can then be used to implement =
+the SVM feature
+> > =C2=A0=C2=A0=C2=A0 required for higher level APIs and not something you=
+ need at
+> > the
+> > =C2=A0=C2=A0=C2=A0 UAPI or even inside the low level kernel memory mana=
+gement.=E2=80=9D
+> >=20
+> > =C2=A0=C2=A0=C2=A0 =E2=80=9CSVM is a high level concept of OpenCL, Cuda=
+, ROCm etc.. This
+> > =C2=A0=C2=A0=C2=A0 should not have any influence on the design of the k=
+ernel
+> > UAPI.=E2=80=9D
+> >=20
+> > =C2=A0=C2=A0=C2=A0 There are two category of SVM:
+> >=20
+> > =C2=A0=C2=A0=C2=A0 1.driver svm allocator: this is implemented in user =
+space,
+> > =C2=A0i.g.,
+> > =C2=A0=C2=A0=C2=A0 cudaMallocManaged (cuda) or zeMemAllocShared (L0) or
+> > =C2=A0=C2=A0=C2=A0 clSVMAlloc(openCL). Intel already have gem_create/vm=
+_bind in
+> > xekmd
+> > =C2=A0=C2=A0=C2=A0 and our umd implemented clSVMAlloc and zeMemAllocSha=
+red on top
+> > of
+> > =C2=A0=C2=A0=C2=A0 gem_create/vm_bind. Range A..B of the process addres=
+s space is
+> > =C2=A0=C2=A0=C2=A0 mapped into a range C..D of the GPU address space, e=
+xactly as
+> > you
+> > =C2=A0=C2=A0=C2=A0 said.
+> >=20
+> > =C2=A0=C2=A0=C2=A0 2.system svm allocator: =C2=A0This doesn=E2=80=99t i=
+ntroduce extra driver
+> > API
+> > =C2=A0=C2=A0=C2=A0 for memory allocation. Any valid CPU virtual address=
+ can be
+> > used
+> > =C2=A0=C2=A0=C2=A0 directly transparently in a GPU program without any =
+extra
+> > driver
+> > =C2=A0=C2=A0=C2=A0 API call. Quote from kernel Documentation/vm/hmm.hst=
+: =E2=80=9CAny
+> > =C2=A0=C2=A0=C2=A0 application memory region (private anonymous, shared=
+ memory, or
+> > =C2=A0=C2=A0=C2=A0 regular file backed memory) can be used by a device
+> > transparently=E2=80=9D
+> > =C2=A0=C2=A0=C2=A0 and =E2=80=9Cto share the address space by duplicati=
+ng the CPU page
+> > table
+> > =C2=A0=C2=A0=C2=A0 in the device page table so the same address points =
+to the same
+> > =C2=A0=C2=A0=C2=A0 physical memory for any valid main memory address in=
+ the
+> > process
+> > =C2=A0=C2=A0=C2=A0 address space=E2=80=9D. In system svm allocator, we =
+don=E2=80=99t need that
+> > A..B
+> > =C2=A0=C2=A0=C2=A0 C..D mapping.
+> >=20
+> > =C2=A0=C2=A0=C2=A0 It looks like you were talking of 1). Were you?
+> >=20
+> >=20
+> > No, even when you fully mirror the whole address space from a
+> > process=20
+> > into the GPU you still need to enable this somehow with an IOCTL.
+> >=20
+> > And while enabling this you absolutely should specify to which part
+> > of=20
+> > the address space this mirroring applies and where it maps to.
+> >=20
+> > */[Zeng, Oak] /*
+> >=20
+> > Lets say we have a hardware platform where both CPU and GPU support
+> > 57bit(use it for example. The statement apply to any address range)
+> > virtual address range, how do you decide =E2=80=9Cwhich part of the add=
+ress
+> > space this mirroring applies=E2=80=9D? You have to mirror the whole add=
+ress
+> > space [0~2^57-1], do you? As you designed it, the gigantic=20
+> > vm_bind/mirroring happens at the process initialization time, and
+> > at=20
+> > that time, you don=E2=80=99t know which part of the address space will =
+be
+> > used=20
+> > for gpu program. Remember for system allocator, *any* valid CPU=20
+> > address can be used for GPU program. =C2=A0If you add an offset to=20
+> > [0~2^57-1], you get an address out of 57bit address range. Is this
+> > a=20
+> > valid concern?
+> >=20
+>=20
+> Well you can perfectly mirror on demand. You just need something
+> similar=20
+> to userfaultfd() for the GPU. This way you don't need to mirror the
+> full=20
+> address space, but can rather work with large chunks created on
+> demand,=20
+> let's say 1GiB or something like that.
 
-Good point. That would imply that more of the logic could go into
-"drm_edid.c" in case the EDID quirks code eventually needs it.
+
+What we're looking at as the current design is an augmented userptr
+(A..B -> C..D mapping) which is internally sparsely populated in
+chunks. KMD manages the population using gpu pagefaults. We acknowledge
+that some parts of this mirror will not have a valid CPU mapping. That
+is, no vma so a gpu page-fault that resolves to such a mirror address
+will cause an error. Would you have any concerns / objections against
+such an approach?
+
+Thanks,
+Thomas
 
 
-> So maybe something like:
->
->         u32 drm_edid_get_panel_id(struct i2c_adapter *adapter, u32 *hash)=
-;
->
-> or if you want to be fancy add a struct capturing both id and hash:
->
->         bool drm_edid_get_panel_id(struct i2c_adapter *adapter, struct dr=
-m_edid_panel_id *id);
->
-> And put the hash (or whatever mechanism you have) computation in
-> drm_edid.c. Just hide it all in drm_edid.c, and keep the EDID interfaces
-> neat.
->
-> How would that work for you?
 
-The problem is that Dmitry didn't like the idea of using a hash and in
-v2 Hsin-Yi has moved to using the name of the display. ...except of
-course that eDP panels don't always properly specify
-"EDID_DETAIL_MONITOR_NAME". See the discussion [1]. If you want to see
-some of the EDIDs involved, you can see Hsin-Yi's post [2]. The panels
-included stuff like this:
-
-    Alphanumeric Data String: 'AUO'
-    Alphanumeric Data String: 'B116XAN04.0 '
-
-The fact that there is more than one string in there makes it hard to
-just "return" the display name in a generic way. The way Hsin-Yi's
-code was doing it was that it would consider it a match if the panel
-name was in any of the strings...
-
-How about this as a solution: we change drm_edid_get_panel_id() to
-return an opaque type (struct drm_edid_panel_id_blob) that's really
-just the first block of the EDID but we can all pretend that it isn't.
-Then we can add a function in drm_edid.c that takes this opaque blob,
-a 32-bit integer (as per drm_edid_encode_panel_id()), and a string
-name and it can tell us if the blob matches?
-
-
-[1] https://lore.kernel.org/r/CAD=3DFV=3DVMVr+eJ7eyuLGa671fMgH6ZX9zPOkbKzYJ=
-0H79MZ2k9A@mail.gmail.com
-[2] https://lore.kernel.org/r/CAJMQK-gfKbdPhYJeCJ5UX0dNrx3y-EmLsTiv9nj+U3Rm=
-ej38pw@mail.gmail.com
