@@ -2,90 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCA6186C28B
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 08:31:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59DEC86C301
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 09:03:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22F1310E174;
-	Thu, 29 Feb 2024 07:31:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC2D010E15A;
+	Thu, 29 Feb 2024 08:03:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="T0RMOVev";
+	dkim=pass (2048-bit key; unprotected) header.d=falconsigh.net header.i=@falconsigh.net header.b="g2KTl6PC";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="lm9iFBIr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB90A10E16E
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 07:31:26 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-412af1c91f3so4290715e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 23:31:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1709191885; x=1709796685; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=RiWXS0Lycg9PCC0fyWU9eT4uTxRcxADLMUayXiNfgPY=;
- b=T0RMOVev3w1xxi0w0pHHTurWDPRslvNyUdeIbmJm1vHw7ho79OZuRseur0HB9gGggU
- oEke7vR5hdRPg1OVrbFy+73ZRPwprrklIjlXxL08Oq+NItIsDu4V7sDGp4ZKUvvJDp5N
- tXKFQeUYDBfarKjxfKbuQTm8uiR1O+8wpSfvc/PpA0WRz7ROEqRLRLXi9sc9RT5olR8M
- tq0iRCcUFfWOkNGHyDuu0SNvrJLtxwAc6Pg+S2kIgHV2udTd4dVOETLRW1uyKtWxGj9r
- mGQnzSYvK+6t6dvRGHd6tJhempFn6DaBAGOqZ6wBJ3Yq7XKCYWRNE9SWOTMzWQtbRdBu
- t2Ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709191885; x=1709796685;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RiWXS0Lycg9PCC0fyWU9eT4uTxRcxADLMUayXiNfgPY=;
- b=R5tL7WJAmcRe89/W7JzZNW6a3FSsXvO+3fgseCjtIs9FmryYokyk3OVHDVHaLXefou
- i1s3DrfdHY6aYYMU65eIxtBFcCvPPHz10rxP/wC1u3W8FyDmaKLi4sbvWtTIVdXO4QPs
- HuAA4cST41faDMuD7P9HFBJfhA4sPslgQLgnQXsrXPcOqRlz53Ou20t2ZzhwlnkJ/4vy
- T8+jEHNqbrZnH1Zb0NnXHdgJ6XsczlmN2fwZPRsgHDHkQr1dL73yBdfa9En+uRBFDHlw
- wI5scjD0zlEZy0NjN+mQ3urImTaRYoI4WWVNkhlbWoy2wOAZL+K4k8UdLHyjiM8EE71z
- SiVA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUOLKkgptqkswjHkgud9Wf42kKE1L90pt4pnHU8ezxG0NmS8xdfLLMKoFzSF+9dCi5YWTY6uz9jQSOmA53wPu0qMTO711bVxKh1/CbFx7oV
-X-Gm-Message-State: AOJu0YyZPDEb9W+WYXcVKcBAs8Hniuhf4EhuIUqwc705BO3Q+ZBEJHzx
- mFqkH/M/u5EHq+VEY2wQ4m2o4gcSVN8mhs590wdNCShFIXeCgxkWEyV69cd/hwg=
-X-Google-Smtp-Source: AGHT+IFm2NXimeRlzG6mxS8tXCGpz0iq1MJcSQj/J2MMs2rGLvivZnF1HI63cA99XXODIDWyyxPCYw==
-X-Received: by 2002:a05:600c:190c:b0:412:b8cf:150b with SMTP id
- j12-20020a05600c190c00b00412b8cf150bmr973212wmq.10.1709191884805; 
- Wed, 28 Feb 2024 23:31:24 -0800 (PST)
-Received: from localhost ([102.222.70.76]) by smtp.gmail.com with ESMTPSA id
- q16-20020a5d6590000000b0033d56aa4f45sm928856wru.112.2024.02.28.23.31.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Feb 2024 23:31:24 -0800 (PST)
-Date: Thu, 29 Feb 2024 10:31:20 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>,
- Jonathan Cameron <jic23@kernel.org>
-Cc: Markus Elfring <Markus.Elfring@web.de>, linux-arm-msm@vger.kernel.org,
- kernel-janitors@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Johan Hovold <johan+linaro@kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-phy@lists.infradead.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [PATCH] soc: qcom: pmic_glink_altmode: Use common error handling
- code in pmic_glink_altmode_probe()
-Message-ID: <fefbec63-df17-4515-8e63-66ba3a3b9cd2@moroto.mountain>
-References: <29b63eb4-2342-4ca8-a313-5de2a6ec6a83@web.de>
- <c25aa425-f350-4ad2-b92e-67de996daed3@linaro.org>
+X-Greylist: delayed 820 seconds by postgrey-1.36 at gabe;
+ Thu, 29 Feb 2024 08:03:08 UTC
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
+ [64.147.123.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDF0910E15A;
+ Thu, 29 Feb 2024 08:03:08 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 093713200B01;
+ Thu, 29 Feb 2024 02:49:26 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Thu, 29 Feb 2024 02:49:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=falconsigh.net;
+ h=cc:cc:content-transfer-encoding:content-type:date:date:from
+ :from:in-reply-to:message-id:mime-version:reply-to:subject
+ :subject:to:to; s=fm1; t=1709192966; x=1709279366; bh=YJlyQmihHg
+ WJB+zxbV0YUoaP1zY3ZZHgqMVC82I85a8=; b=g2KTl6PCYMkLzkhypU8vv+BSo8
+ m1CVyp+oGcun1DDow0e0w5GL0oPiqCX9NKrlPoFJe0FKrqvxfdmZ2Sv+jduZRCcN
+ ZFRx25dQwiPAamSai55Z2qplgk7tieStdjwKHSmf4/hrAaPWtFAEWQAQpUPmclfN
+ 6f7obUZiFUaCqz6visYoHFoD/wfgQJ8bar0VdU00zdbkIOcR6MOFM/sPAk6cZjKD
+ +mjsLXSvMt5rrIOgMh3Zfs2IFWngykTqL0O8hxijLwnrXQYs6mp+JfbvZZ9OWtW0
+ Czock65HDoZs+R5tf1o4TVXq6hHBtaANzctIHRAuWeVSOdCBCBpbwEMmgyPg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1709192966; x=1709279366; bh=YJlyQmihHgWJB+zxbV0YUoaP1zY3
+ ZZHgqMVC82I85a8=; b=lm9iFBIrvq3kidi5Pv/mKd/C+ekOeVd2Za6PaZyoA5+N
+ yiApJ/DzjorRMToY2UQFWYHwRToW8qt6a0xpW8rqjhGqcVsud/xg86nxKieUUnlS
+ awcPPhm1Ekg2KlEwL1CV8TBYg9LcgTe8rqCQLphyoo35Gm+t/oCr7EevJlE/cwqv
+ xHYhTM7xjxk66DGPZqZC/bvkaBAlr9mr4glOuzi+v12fF7sjeWkAfwRVW9oSUk/7
+ MByjL1aFZqyZJy1DbJMFivZtWUqZSSX1b4pjFCIxs0ktF1yHdyqd8Q/FZhJARsbj
+ HCzrArfEExsluLWC/4q0SIPRMZtapI/kpexk3tolug==
+X-ME-Sender: <xms:BjfgZVjtIJU5cYA5pj2lULXXCq8Roby4mOqpd4BxRntrLpxHYrrK3A>
+ <xme:BjfgZaA6WHkg4o5leX08UK-6Y8AfAITXSs9qu06e2jwHxxcKpi6SRGd5KAVUsQbyB
+ zi2MnezjUNk1sa62Q>
+X-ME-Received: <xmr:BjfgZVEOHbKl8Md5Q0tSLJj-Sq-DzftJX1vXgsTayCP9j4KRqy0XQjt1uPGeQNZskrkhtZjfCzWflU02Qn8HLfi2m7T2mwE6DUDQ0IAXx1L6aZ8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrgeekgdduuddtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepiigrnhesfhgr
+ lhgtohhnshhighhhrdhnvghtnecuggftrfgrthhtvghrnhepueeuieegueehieetveehge
+ dukeffteeuffdtjeeuteetjeeigeekgeetudffhfdtnecuvehluhhsthgvrhfuihiivgep
+ tdenucfrrghrrghmpehmrghilhhfrhhomhepiigrnhesfhgrlhgtohhnshhighhhrdhnvg
+ ht
+X-ME-Proxy: <xmx:BjfgZaRKy6bVmURTnQ_tT5dO0x2t1fQD39aSMcWrA1xel_IXujqFKA>
+ <xmx:BjfgZSzkEe2_c8DZyZ8Iso3DA2yFUFcZe07HEozmj2Y6BA7Uxvildw>
+ <xmx:BjfgZQ5LFAXzZpyRqm89bFRuiuhJ_G4AMaPJpXW652cGw6Z9p3czeg>
+ <xmx:BjfgZXqGm4S_OnCIQgCOy7jmbq01iSsc-upMIAJtYW4IbLI7sgqEJQ>
+Feedback-ID: i9d3c4088:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 29 Feb 2024 02:49:25 -0500 (EST)
+From: zan@falconsigh.net
+To: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, robdclark@gmail.com,
+ Zan Dobersek <zdobersek@igalia.com>
+Subject: [PATCH] drm/msm/a7xx: allow writing to CP_BV counter selection
+ registers
+Date: Thu, 29 Feb 2024 08:49:11 +0100
+Message-ID: <20240229074913.3463365-1-zan@falconsigh.net>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c25aa425-f350-4ad2-b92e-67de996daed3@linaro.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,35 +91,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 29, 2024 at 12:26:49AM +0100, Konrad Dybcio wrote:
-> 
-> 
-> On 2/28/24 19:05, Markus Elfring wrote:
-> > From: Markus Elfring <elfring@users.sourceforge.net>
-> > Date: Wed, 28 Feb 2024 18:45:13 +0100
-> > 
-> > Add a jump target so that a bit of exception handling can be better reused
-> > at the end of this function implementation.
-> > 
-> > This issue was transformed by using the Coccinelle software.
-> > 
-> > Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-> > ---
-> 
-> (+CC Peter)
-> 
-> Hmm.. this looks very similar to the problem that __free solves
-> with <linux/cleanup.h>..
-> 
-> I know no better, but wouldn't the same mechanism, down to the
-> usage of DEFINE_FREE work fine for _put-like functions?
+From: Zan Dobersek <zdobersek@igalia.com>
 
-Jonathan Cameron has created something like this:
-https://lore.kernel.org/all/20240225142714.286440-1-jic23@kernel.org/
+In addition to the CP_PERFCTR_CP_SEL register range, allow writes to the
+CP_BV_PERFCTR_CP_SEL registers in the 0x8e0-0x8e6 range for profiling
+purposes of tools like fdperf and perfetto.
 
-It hasn't been merged yet and it would need a bit of adjusting for this
-use case but it's basically what you want.
+Signed-off-by: Zan Dobersek <zdobersek@igalia.com>
+---
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index c9c55e2ea584..09c554f2fcf6 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -1175,8 +1175,9 @@ static const u32 a730_protect[] = {
+ 	A6XX_PROTECT_NORDWR(0x00699, 0x01e9),
+ 	A6XX_PROTECT_NORDWR(0x008a0, 0x0008),
+ 	A6XX_PROTECT_NORDWR(0x008ab, 0x0024),
+-	/* 0x008d0-0x008dd are unprotected on purpose for tools like perfetto */
+-	A6XX_PROTECT_RDONLY(0x008de, 0x0154),
++	/* 0x008d0-0x008dd and 0x008e0-0x008e6 are unprotected on purpose for tools like perfetto */
++	A6XX_PROTECT_NORDWR(0x008de, 0x0001),
++	A6XX_PROTECT_RDONLY(0x008e7, 0x014b),
+ 	A6XX_PROTECT_NORDWR(0x00900, 0x004d),
+ 	A6XX_PROTECT_NORDWR(0x0098d, 0x00b2),
+ 	A6XX_PROTECT_NORDWR(0x00a41, 0x01be),
+-- 
+2.43.0
 
