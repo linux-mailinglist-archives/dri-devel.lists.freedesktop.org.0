@@ -2,133 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4FB386C36E
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 09:27:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A14986C380
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 09:31:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B89B10E16C;
-	Thu, 29 Feb 2024 08:27:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 984E910E1D6;
+	Thu, 29 Feb 2024 08:31:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sG3VXqPf";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FsF5V3F3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
- [209.85.218.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9CB610E16C
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 08:27:32 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id
- a640c23a62f3a-a293f2280c7so120134266b.1
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 00:27:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1709195251; x=1709800051; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=rgnff8MGvBMD8EBe8P50qmhLYND/U/bzSrvV7E5aiFo=;
- b=sG3VXqPfwX/k7wrRBd+ETJnyOpbHf1HoN8y6MG5meYwvEXD1LsaU2nOocpuMbcbKf2
- ujjRcTK3E/CiGIvKpRRIXb6yWMh0M6hCxMzGJxb4uIpwHSqghvpoW+Dtu2lDgl6tjPi8
- 5MOl/67MnGSXH3+Ebr2qAXMA+PcLIhqnPSE983hl2BIipW9uNkMCfmW7QwRM/XMoKfx+
- bqOHRUNxs/9BSErdQmyBTV7YksPbMRFPJR0hxrWiUuW/BR/U33njvitOcT2HTA14+9PP
- 1oQMaDx1iFTLkHA2G1mZyyaz+QQlq9AGnWh6rwbvsPFnrVmFBKNYhjg2lrtEoX9/SLNC
- wKmg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD90610E1D6
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 08:31:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1709195485;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=F96VMGY/1+ny0v3zBI/FmNuBoJ9l2wiLijc1Bjt3peM=;
+ b=FsF5V3F3Ltg2n0kXYtgCndXTD2alMQbwFoFmWAki72H3jHS5+Wk6ofxrryrdK68VF7slfY
+ 5Kly8ghC+ngyF5lVzbmycQGTN+0JTlMt4XfGyrqvZm2NfgtbR76Xw7evwXkb1k4AVi+hiy
+ OwOT6IPgdyVQaVIOuYR/8MU5KFgOxaQ=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-287-2fw1qOZUO1CFI1vvNGQ7Hw-1; Thu, 29 Feb 2024 03:31:24 -0500
+X-MC-Unique: 2fw1qOZUO1CFI1vvNGQ7Hw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ 4fb4d7f45d1cf-565465a4df8so46832a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 00:31:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709195251; x=1709800051;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rgnff8MGvBMD8EBe8P50qmhLYND/U/bzSrvV7E5aiFo=;
- b=VUc48xHkbZxhq6jQyrtTo+rfApVL6iXuTfQQS/YhlkQx9+UF3PR6aPDBAzLdl4EtSN
- KgJtG4emKyQxk4zl2gJuZfG+p5DXvCArbfQl034cHFZnNCXKscan1itTHGH+upImr1r/
- 6zvogLUo0NCCle6WyWYgpln7riKhzP8wmfGovTiyhcpjd31ciDHTB/kD/B6A4aDmfxqy
- DwxguFHSSA4UEOTzOts7WXPCkEmWtVgcrq+dtB/bxcZNPijyu231l6FFIGO3NI++k2vM
- VE9lmjJfiy66JAfZ1hq/lUCqrv6JVXq7IBzeG+J9y2tHLsxrGtfiQZQZRbzupD2RYOTY
- VOvg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVVvXqiz2OV4EqC6Qii8fdrx/8ShCasCz2E7qwGKNhsp4DdDpfOpxMXwqjDNvKBALDZuDWgmoSJ6AnbdWjWCeo87g9CJMxg9E6fOWTbwGZP
-X-Gm-Message-State: AOJu0Yy+ZY2MHrPCaapt+EF6S8fr5q9BCs27bY8eKC66ReAy2YCEJo7o
- AH40N2tobqUlgnKCiIs3sjE/+BMZ7KCeo8EQV8WQgfCZry4RB9bdhMT+rLwdS3U=
-X-Google-Smtp-Source: AGHT+IGcBZwPTv20828ePbiFHjn6j5WHPedNHJ8vYa+BwrVvKeH88EAeB/GeP2y/LI5tX4vo9G5Qwg==
-X-Received: by 2002:a17:906:44d:b0:a3e:b523:90b with SMTP id
- e13-20020a170906044d00b00a3eb523090bmr960614eja.14.1709195250894; 
- Thu, 29 Feb 2024 00:27:30 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.222.116])
+ d=1e100.net; s=20230601; t=1709195483; x=1709800283;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=F96VMGY/1+ny0v3zBI/FmNuBoJ9l2wiLijc1Bjt3peM=;
+ b=farmzp7d6mBzRNVM4355i2I3/FcHOFXo7sCUtvB4Gl+MMFTl3ULOYYkNHp6p4NVkFP
+ T9wYxajEhDeOGa2uyTTdYfm+4g1SqcHKuajJlRbx3o8DbO7E9jVHDnl3g28X0cwvwFBj
+ dFHtrUEmNbs9U3w2rQ3iqfiFWw3qykXzQQIPo/UcNJuBjP5ysUHmMpeDo2JFTnk8zWSU
+ f8W7LoSFQKiSfZWHKyUZF6ZxHCugCBmsij7PO56T/mjkLZx99+5U9fUs7v9TI+mYLADs
+ 0Ox0dZmqZfivdvIlToZR8OLSVDSjd4J7yi5lOq56oM1H8vnVCr4QHYnZhgtT3PyFBUQm
+ l3qQ==
+X-Gm-Message-State: AOJu0YzBMv2XGDnumJHILYrGxpHvKy5imkLVK8XK1SD9dd309wcql0Ow
+ BUhh+N6kYX9ZQRwbb9g/nZk3rdsvxAShbIhvjjOncaLJXnpWmcwLsUxQb0rPALZ+js0walo7BOq
+ S8VfYuFx30C830Jv/mk7RMbf49ekI+EtBQk2waIsovdQS9dtBIVWSkpK1EIf9nIQXWA==
+X-Received: by 2002:a05:6402:348a:b0:565:4b6e:7f71 with SMTP id
+ v10-20020a056402348a00b005654b6e7f71mr1021717edc.3.1709195483374; 
+ Thu, 29 Feb 2024 00:31:23 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEJyLgQTYvjx+Awxx6Pkh5a+KQTrqM3/9iyg3u8Appxys0BavMevcua4mg/ZxWXcAt9yVscxA==
+X-Received: by 2002:a05:6402:348a:b0:565:4b6e:7f71 with SMTP id
+ v10-20020a056402348a00b005654b6e7f71mr1021663edc.3.1709195482544; 
+ Thu, 29 Feb 2024 00:31:22 -0800 (PST)
+Received: from pstanner-thinkpadt14sgen1.remote.csb
+ ([2001:9e8:32e0:8800:227b:d2ff:fe26:2a7a])
  by smtp.gmail.com with ESMTPSA id
- vg9-20020a170907d30900b00a4439b7756bsm434508ejc.6.2024.02.29.00.27.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Feb 2024 00:27:30 -0800 (PST)
-Message-ID: <d5c23bd6-3732-477c-af54-7ee1657e390c@linaro.org>
-Date: Thu, 29 Feb 2024 09:27:28 +0100
+ en12-20020a056402528c00b005667bcc44b4sm395856edb.9.2024.02.29.00.31.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Feb 2024 00:31:21 -0800 (PST)
+Message-ID: <2057fd477ad404c9adf603eac1ad933c04ecf293.camel@redhat.com>
+Subject: Re: [PATCH v3 00/10] Make PCI's devres API more consistent
+From: Philipp Stanner <pstanner@redhat.com>
+To: Hans de Goede <hdegoede@redhat.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas <bhelgaas@google.com>, Sam
+ Ravnborg <sam@ravnborg.org>, dakr@redhat.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-pci@vger.kernel.org
+Date: Thu, 29 Feb 2024 09:31:20 +0100
+In-Reply-To: <20240206134000.23561-2-pstanner@redhat.com>
+References: <20240206134000.23561-2-pstanner@redhat.com>
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: display: mediatek: gamma: Change MT8195
- to single enum group
-Content-Language: en-US
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, Jason-ch Chen <jason-ch.chen@mediatek.com>,
- Johnson Wang <johnson.wang@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- Shawn Sung <shawn.sung@mediatek.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Fei Shao <fshao@chromium.org>
-References: <20240229023522.15870-1-jason-jh.lin@mediatek.com>
- <20240229023522.15870-2-jason-jh.lin@mediatek.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240229023522.15870-2-jason-jh.lin@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,18 +96,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/02/2024 03:35, Jason-JH.Lin wrote:
-> Since MT8195 gamma has multiple bank for 12 bits LUT and it is
-> different from any other SoC LUT setting.
-> 
-> So we move MT8195 compatible from the one of items to the
-> single enum group.
-> 
-> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> ---
+@Bjorn:
+Hey Bjorn, are we good with this series? Any more wishes or
+suggestions?
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+P.
 
-Best regards,
-Krzysztof
+
+On Tue, 2024-02-06 at 14:39 +0100, Philipp Stanner wrote:
+> Changes in v3:
+> =C2=A0 - Use the term "PCI devres API" in some forgotten places.
+> =C2=A0 - Fix more grammar errors in patch #3.
+> =C2=A0 - Remove the comment advising to call (the outdated) pcim_intx() i=
+n
+> pci.c
+> =C2=A0 - Rename __pcim_request_region_range() flags-field "exclusive" to
+> =C2=A0=C2=A0=C2=A0 "req_flags", since this is what the int actually repre=
+sents.
+> =C2=A0 - Remove the call to pcim_region_request() from patch #10. (Hans)
+>=20
+> Changes in v2:
+> =C2=A0 - Make commit head lines congruent with PCI's style (Bjorn)
+> =C2=A0 - Add missing error checks for devm_add_action(). (Andy)
+> =C2=A0 - Repair the "Returns: " marks for docu generation (Andy)
+> =C2=A0 - Initialize the addr_devres struct with memset(). (Andy)
+> =C2=A0 - Make pcim_intx() a PCI-internal function so that new drivers
+> won't
+> =C2=A0=C2=A0=C2=A0 be encouraged to use the outdated pci_intx() mechanism=
+.
+> =C2=A0=C2=A0=C2=A0 (Andy / Philipp)
+> =C2=A0 - Fix grammar and spelling (Bjorn)
+> =C2=A0 - Be more precise on why pcim_iomap_table() is problematic (Bjorn)
+> =C2=A0 - Provide the actual structs' and functions' names in the commit
+> =C2=A0=C2=A0=C2=A0 messages (Bjorn)
+> =C2=A0 - Remove redundant variable initializers (Andy)
+> =C2=A0 - Regroup PM bitfield members in struct pci_dev (Andy)
+> =C2=A0 - Make pcim_intx() visible only for the PCI subsystem so that
+> new=C2=A0=C2=A0=C2=A0=20
+> =C2=A0=C2=A0=C2=A0 drivers won't use this outdated API (Andy, Myself)
+> =C2=A0 - Add a NOTE to pcim_iomap() to warn about this function being
+> the=C2=A0=C2=A0=C2=A0 onee
+> =C2=A0=C2=A0=C2=A0 xception that does just return NULL.
+> =C2=A0 - Consistently use the term "PCI devres API"; also in Patch #10
+> (Bjorn)
+>=20
+>=20
+> =C2=A1Hola!
+>=20
+> PCI's devres API suffers several weaknesses:
+>=20
+> 1. There are functions prefixed with pcim_. Those are always managed
+> =C2=A0=C2=A0 counterparts to never-managed functions prefixed with pci_ =
+=E2=80=93 or so
+> one
+> =C2=A0=C2=A0 would like to think. There are some apparently unmanaged fun=
+ctions
+> =C2=A0=C2=A0 (all region-request / release functions, and pci_intx()) whi=
+ch
+> =C2=A0=C2=A0 suddenly become managed once the user has initialized the de=
+vice
+> with
+> =C2=A0=C2=A0 pcim_enable_device() instead of pci_enable_device(). This
+> "sometimes
+> =C2=A0=C2=A0 yes, sometimes no" nature of those functions is confusing an=
+d
+> =C2=A0=C2=A0 therefore bug-provoking. In fact, it has already caused a bu=
+g in
+> DRM.
+> =C2=A0=C2=A0 The last patch in this series fixes that bug.
+> 2. iomappings: Instead of giving each mapping its own callback, the
+> =C2=A0=C2=A0 existing API uses a statically allocated struct tracking one
+> mapping
+> =C2=A0=C2=A0 per bar. This is not extensible. Especially, you can't creat=
+e
+> =C2=A0=C2=A0 _ranged_ managed mappings that way, which many drivers want.
+> 3. Managed request functions only exist as "plural versions" with a
+> =C2=A0=C2=A0 bit-mask as a parameter. That's quite over-engineered consid=
+ering
+> =C2=A0=C2=A0 that each user only ever mapps one, maybe two bars.
+>=20
+> This series:
+> - add a set of new "singular" devres functions that use devres the
+> way
+> =C2=A0 its intended, with one callback per resource.
+> - deprecates the existing iomap-table mechanism.
+> - deprecates the hybrid nature of pci_ functions.
+> - preserves backwards compatibility so that drivers using the
+> existing
+> =C2=A0 API won't notice any changes.
+> - adds documentation, especially some warning users about the
+> =C2=A0 complicated nature of PCI's devres.
+>=20
+>=20
+> Note that this series is based on my "unify pci_iounmap"-series from
+> a
+> few weeks ago. [1]
+>=20
+> I tested this on a x86 VM with a simple pci test-device with two
+> regions. Operates and reserves resources as intended on my system.
+> Kasan and kmemleak didn't find any problems.
+>=20
+> I believe this series cleans the API up as much as possible without
+> having to port all existing drivers to the new API. Especially, I
+> think
+> that this implementation is easy to extend if the need for new
+> managed
+> functions arises :)
+>=20
+> Greetings,
+> P.
+>=20
+> Philipp Stanner (10):
+> =C2=A0 PCI: Add new set of devres functions
+> =C2=A0 PCI: Deprecate iomap-table functions
+> =C2=A0 PCI: Warn users about complicated devres nature
+> =C2=A0 PCI: Make devres region requests consistent
+> =C2=A0 PCI: Move dev-enabled status bit to struct pci_dev
+> =C2=A0 PCI: Move pinned status bit to struct pci_dev
+> =C2=A0 PCI: Give pcim_set_mwi() its own devres callback
+> =C2=A0 PCI: Give pci(m)_intx its own devres callback
+> =C2=A0 PCI: Remove legacy pcim_release()
+> =C2=A0 drm/vboxvideo: fix mapping leaks
+>=20
+> =C2=A0drivers/gpu/drm/vboxvideo/vbox_main.c |=C2=A0=C2=A0 20 +-
+> =C2=A0drivers/pci/devres.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1015 ++++++++++=
++++++++++++--
+> --
+> =C2=A0drivers/pci/iomap.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 =
+18 +
+> =C2=A0drivers/pci/pci.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0 123 ++-
+> =C2=A0drivers/pci/pci.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0=C2=A0 25 +-
+> =C2=A0include/linux/pci.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 =
+18 +-
+> =C2=A06 files changed, 1004 insertions(+), 215 deletions(-)
+>=20
 
