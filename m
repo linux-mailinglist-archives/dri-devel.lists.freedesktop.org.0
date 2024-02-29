@@ -2,101 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B86F386C43E
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 09:53:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A728C86C451
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 09:56:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6361410E385;
-	Thu, 29 Feb 2024 08:53:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89F9310E19F;
+	Thu, 29 Feb 2024 08:56:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="M1m7sqFq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uGuzMgmZ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M1m7sqFq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uGuzMgmZ";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="cP7n2UeD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6CE010E385;
- Thu, 29 Feb 2024 08:53:34 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 3F945228E4;
- Thu, 29 Feb 2024 08:53:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1709196813; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=0cJH8I45VoLCuP6O+LhlP2KE+Wv6PaXjRZdZXC3fSDo=;
- b=M1m7sqFqwiPxiU0yhSOF5ZQHOiDs4nTJXKR3+uwsvnXGsnoVoH0J5uqNzJjOFX0Ql8LD7o
- wKbJjhs5WN+9n8h4OsvK2eLUmQBa4tqcB1XYtRCFOUMFmUm0BNVUksMPtjaKXzkTg3D7Dk
- Jo7HBnUnVAvADDcA2TNnjhWE+QOb8A8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1709196813;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=0cJH8I45VoLCuP6O+LhlP2KE+Wv6PaXjRZdZXC3fSDo=;
- b=uGuzMgmZsMJIfDE826KF2BqRYn/dBiNxwCeDnWV2wnY62GDbOVg7o5a1jgXcFT0vwIUoh7
- qOg1tfYT0RynqaBQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1709196813; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=0cJH8I45VoLCuP6O+LhlP2KE+Wv6PaXjRZdZXC3fSDo=;
- b=M1m7sqFqwiPxiU0yhSOF5ZQHOiDs4nTJXKR3+uwsvnXGsnoVoH0J5uqNzJjOFX0Ql8LD7o
- wKbJjhs5WN+9n8h4OsvK2eLUmQBa4tqcB1XYtRCFOUMFmUm0BNVUksMPtjaKXzkTg3D7Dk
- Jo7HBnUnVAvADDcA2TNnjhWE+QOb8A8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1709196813;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=0cJH8I45VoLCuP6O+LhlP2KE+Wv6PaXjRZdZXC3fSDo=;
- b=uGuzMgmZsMJIfDE826KF2BqRYn/dBiNxwCeDnWV2wnY62GDbOVg7o5a1jgXcFT0vwIUoh7
- qOg1tfYT0RynqaBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C931513A58;
- Thu, 29 Feb 2024 08:53:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id zRvFLwxG4GUYUQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 29 Feb 2024 08:53:32 +0000
-Date: Thu, 29 Feb 2024 09:53:31 +0100
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-next-fixes
-Message-ID: <20240229085331.GA25863@localhost.localdomain>
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B5F110E178
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 08:56:09 +0000 (UTC)
+Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 41T4cbCP014616; Thu, 29 Feb 2024 09:55:53 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ selector1; bh=PRClVcFO7m3xuOH5U/cKOHOTQgP4AbIEED6u8ca7mZQ=; b=cP
+ 7n2UeD+dqWjp2VgHFeaJV7rLqzqvAv/tCpec0uTogLLHJlLCXgW6l2qsPYBcgRPe
+ yomymGQy1m8Uq4MwbLXz6IHX0L/PxPqjjKIQ2f71PrrnbCYcs/FFetp1gcfE254D
+ SAbww/pouzlgpYMf7G+Org7WIoB8HMQTwl+IKg8dNRY0/x0Q0LsNFIbtNbMLOfXH
+ 9+iUCSEwSMV0dmt81O9mJvGbcwgYuV8JU2G4Fm21Ty8rsf1Ch0GDRbPKsz9FERgD
+ hAB6Wm/LO7QQCDJCRsE9rd898qoCf/k4wxgi4YFoVRf6Odz9JYD/cGiA/KxlEZcF
+ LLidL0NXM3ENveByDsTg==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3whf4bh934-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 29 Feb 2024 09:55:52 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 056F840049;
+ Thu, 29 Feb 2024 09:55:41 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id ADD16249A2D;
+ Thu, 29 Feb 2024 09:54:20 +0100 (CET)
+Received: from [10.201.21.122] (10.201.21.122) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Thu, 29 Feb
+ 2024 09:54:19 +0100
+Message-ID: <fe3b18a0-c25f-4c81-ba2f-f6daf5eca087@foss.st.com>
+Date: Thu, 29 Feb 2024 09:54:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
- NEURAL_HAM_LONG(-1.00)[-1.000]; RCVD_COUNT_THREE(0.00)[3];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-0.989]; RCPT_COUNT_TWELVE(0.00)[16];
- FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
- BAYES_HAM(-3.00)[100.00%]
-X-Spam-Flag: NO
+User-Agent: Mozilla Thunderbird
+Subject: Re: [drm-drm-misc:drm-misc-next v2] dt-bindings: nt35510: document
+ 'port' property
+To: Dario Binacchi <dario.binacchi@amarulasolutions.com>, <heiko@sntech.de>,
+ Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh+dt@kernel.org>
+CC: Conor Dooley <conor@kernel.org>, <linux-kernel@vger.kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie
+ <airlied@gmail.com>, Jessica Zhang <quic_jesszhan@quicinc.com>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, <devicetree@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>
+References: <20240131092852.643844-1-dario.binacchi@amarulasolutions.com>
+ <20240131-gap-making-59055befaf04@spud>
+ <494b51fa-0f0e-4c1b-add3-73b5fe0b3c29@foss.st.com>
+ <CABGWkvr8RQrUf0Uc+e83qDgqmzUT7OBcS4EDr2DFQnavfRTRDQ@mail.gmail.com>
+Content-Language: en-US
+From: Alexandre TORGUE <alexandre.torgue@foss.st.com>
+In-Reply-To: <CABGWkvr8RQrUf0Uc+e83qDgqmzUT7OBcS4EDr2DFQnavfRTRDQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.201.21.122]
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-29_01,2024-02-27_01,2023-05-22_02
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,68 +90,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
+Hi
 
-here's the release cycle's first PR for drm-misc-next-fixes.
+On 2/25/24 10:01, Dario Binacchi wrote:
+> Hi,
+> 
+> On Wed, Feb 14, 2024 at 10:47 AM Alexandre TORGUE
+> <alexandre.torgue@foss.st.com> wrote:
+>>
+>> Hi Heiko
+>>
+>> On 1/31/24 16:53, Conor Dooley wrote:
+>>> On Wed, Jan 31, 2024 at 10:28:44AM +0100, Dario Binacchi wrote:
+>>>> Allow 'port' property (coming from panel-common.yaml) to be used in DTS:
+>>>>
+>>>>     st/stm32f769-disco-mb1166-reva09.dtb: panel@0: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
+>>>>
+>>>> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+>>>> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+>>>
+>>> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+>>>
+>>>
+>>>>
+>>>> ---
+>>>>
+>>>> Changes in v2:
+>>>> - Rework the patch to drop errors found by command
+>>>>     'make DT_CHECKER_FLAGS=-m dt_binding_check'.
+>>>>
+>>>>    .../devicetree/bindings/display/panel/novatek,nt35510.yaml       | 1 +
+>>>>    1 file changed, 1 insertion(+)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
+>>>> index a4afaff483b7..91921f4b0e5f 100644
+>>>> --- a/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
+>>>> +++ b/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
+>>>> @@ -31,6 +31,7 @@ properties:
+>>>>      vddi-supply:
+>>>>        description: regulator that supplies the vddi voltage
+>>>>      backlight: true
+>>>> +  port: true
+>>>>
+>>>>    required:
+>>>>      - compatible
+>>>> --
+>>>> 2.43.0
+>>>>
+>>
+>> Do you plan to take this patch in drm-misc next branch ? As I have a
+>> dependency with it to merge a DT patch I can take in my tree
+>> (stm32-next) if you prefer. Let me know.
+>>
+>> Cheers
+>> Alex
+> 
+> It's been some weeks, so a gentle ping seems in order :)
 
-Best regards
-Thomas
+Applied on stm32-next.
 
-drm-misc-next-fixes-2024-02-29:
-Short summary of fixes pull:
+Thanks
+Alex
 
-i915:
-- Fix NULL-pointer deref
 
-imx:
-- dcss: Fix resource-size calculation
-
-firmware:
-- sysfb: Fix returned error code
-The following changes since commit f112b68f273fb0121cb64e0c3ac06adcb91e32b8:
-
-  Merge v6.8-rc6 into drm-next (2024-02-26 11:41:07 +0100)
-
-are available in the Git repository at:
-
-  https://anongit.freedesktop.org/git/drm/drm-misc tags/drm-misc-next-fixes-2024-02-29
-
-for you to fetch changes up to 9cb3542aeeac31b3dd6b5a7d58b9b7d6fe9fd2bc:
-
-  drm/imx/dcss: fix resource size calculation (2024-02-28 09:16:59 +0000)
-
-----------------------------------------------------------------
-Short summary of fixes pull:
-
-i915:
-- Fix NULL-pointer deref
-
-imx:
-- dcss: Fix resource-size calculation
-
-firmware:
-- sysfb: Fix returned error code
-
-----------------------------------------------------------------
-Dan Carpenter (2):
-      firmware/sysfb: fix an error code in sysfb_init()
-      drm/imx/dcss: fix resource size calculation
-
-Thomas Zimmermann (1):
-      Merge drm/drm-next into drm-misc-next-fixes
-
-Tvrtko Ursulin (1):
-      drm/i915: Fix possible null pointer dereference after drm_dbg_printer conversion
-
- drivers/firmware/sysfb.c                         | 4 +++-
- drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c | 4 ++--
- drivers/gpu/drm/imx/dcss/dcss-dev.c              | 4 +---
- 3 files changed, 6 insertions(+), 6 deletions(-)
-
--- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+> 
+> Thanks and regards,
+> Dario
+> 
