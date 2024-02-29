@@ -2,82 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD51486C43B
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 09:53:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B86F386C43E
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 09:53:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D53310E16E;
-	Thu, 29 Feb 2024 08:53:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6361410E385;
+	Thu, 29 Feb 2024 08:53:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qYTrc3qG";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="M1m7sqFq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uGuzMgmZ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M1m7sqFq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uGuzMgmZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6668D10E16E
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 08:53:06 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-2d24a727f78so7206161fa.0
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 00:53:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1709196784; x=1709801584; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=6YCkAMwndPY5JXUyFNPlUTDBu8Mn74IDbgKtuE9Roys=;
- b=qYTrc3qGfMEIws+NoV1juDHM1MH8mIGboG6v4JvY+sdcuVadrnNZdckIYczAefUbxd
- fAYSYxYDEY9N+rj0RTCDgjb7N6KmWm509RqfWa4WUnBkslY/pBHD+PrbgUtMi0m8h8qK
- rd2Mhj7lRiy7ES2u/jO5ygYV8TG/VkWeoZcMBHfm/Uq8J3FDiUr8xnXWhamtNaaHu80a
- kOWfNDQBLgwH4z3/p3qLO8PEFsd58JJJ4pigddiqDDq4UAZw5FcrG6kDgnvdRj4DOrLa
- ZYSWEhTQ7s4vakD321ijz4xsWBA5VPhB5JNwRltN1xEbGZJi9SkO6z9W+0WKYXXPdqjT
- ux/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709196784; x=1709801584;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6YCkAMwndPY5JXUyFNPlUTDBu8Mn74IDbgKtuE9Roys=;
- b=pvAH5l2PX0RUVtYO5YDb4MWl0bz28RzUzoE83SU8JhQ4dMZLFYbGGXvkyceyI3cnig
- UyUXD+JmO69uGXbDiLiT+vcFKIiy1XWQAh33jPPmEWfGQRVnP+ODtfiOXDcjZwEYk6/p
- lRb90Oit9qg0+GkldP9HX7/9phxR1ZA2qHueZUDGqYybXwIM1077xMLIKDl/ns9yBoUr
- byd3errCOvFTu7qiko9TqGw7JzQq06dbzj51LBVH3Usy8ckswdo78AjbdFmay6B3WNuw
- au+4JaYEXlpyKXM6o7RA4MhnEg0reutEVZzMN12+Uc0JnQEhpBQ2hZinzTjzxZoPKBcQ
- LpqQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUdliGJ++l2bpRj9digUohPJWkQqFOHoXpsg6u+gFLgr2KuOAyz8yduWeboYxX5MoZ5hilo12m/8SfQT8oSQJGIe07svHq2bgxPNT6wg0fc
-X-Gm-Message-State: AOJu0Yy4NHQgwMkNjrowW0gSHfDlrWHHx5vegiSI65i36Xyrtf0hbzkc
- J1iHA8+WrglSgby4Vtpcs9N2Frwu6hL7g1s9zpUF2s40sD6kxg3mmT3juu077TDqAqTtG/W9rCc
- x/wU=
-X-Google-Smtp-Source: AGHT+IHi3einEO6k8IOuS7H+FVSXmqnBzg3Xm6fjChZanRXFLI+Eg9cbk9F9XQqbm4zd3PzaOUZEUw==
-X-Received: by 2002:a2e:854e:0:b0:2d2:cdb8:2dcf with SMTP id
- u14-20020a2e854e000000b002d2cdb82dcfmr1057749ljj.36.1709196783988; 
- Thu, 29 Feb 2024 00:53:03 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
- by smtp.gmail.com with ESMTPSA id
- n12-20020a05600c500c00b00412abfb0ed0sm4715433wmr.0.2024.02.29.00.53.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Feb 2024 00:53:03 -0800 (PST)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Richard Acayan <mailingradian@gmail.com>
-In-Reply-To: <20240209001639.387374-6-mailingradian@gmail.com>
-References: <20240209001639.387374-6-mailingradian@gmail.com>
-Subject: Re: (subset) [PATCH 0/3] drm/panel: Pixel 3a Panel
-Message-Id: <170919678300.2018319.4183838499915522690.b4-ty@linaro.org>
-Date: Thu, 29 Feb 2024 09:53:03 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6CE010E385;
+ Thu, 29 Feb 2024 08:53:34 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 3F945228E4;
+ Thu, 29 Feb 2024 08:53:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1709196813; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=0cJH8I45VoLCuP6O+LhlP2KE+Wv6PaXjRZdZXC3fSDo=;
+ b=M1m7sqFqwiPxiU0yhSOF5ZQHOiDs4nTJXKR3+uwsvnXGsnoVoH0J5uqNzJjOFX0Ql8LD7o
+ wKbJjhs5WN+9n8h4OsvK2eLUmQBa4tqcB1XYtRCFOUMFmUm0BNVUksMPtjaKXzkTg3D7Dk
+ Jo7HBnUnVAvADDcA2TNnjhWE+QOb8A8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1709196813;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=0cJH8I45VoLCuP6O+LhlP2KE+Wv6PaXjRZdZXC3fSDo=;
+ b=uGuzMgmZsMJIfDE826KF2BqRYn/dBiNxwCeDnWV2wnY62GDbOVg7o5a1jgXcFT0vwIUoh7
+ qOg1tfYT0RynqaBQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1709196813; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=0cJH8I45VoLCuP6O+LhlP2KE+Wv6PaXjRZdZXC3fSDo=;
+ b=M1m7sqFqwiPxiU0yhSOF5ZQHOiDs4nTJXKR3+uwsvnXGsnoVoH0J5uqNzJjOFX0Ql8LD7o
+ wKbJjhs5WN+9n8h4OsvK2eLUmQBa4tqcB1XYtRCFOUMFmUm0BNVUksMPtjaKXzkTg3D7Dk
+ Jo7HBnUnVAvADDcA2TNnjhWE+QOb8A8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1709196813;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=0cJH8I45VoLCuP6O+LhlP2KE+Wv6PaXjRZdZXC3fSDo=;
+ b=uGuzMgmZsMJIfDE826KF2BqRYn/dBiNxwCeDnWV2wnY62GDbOVg7o5a1jgXcFT0vwIUoh7
+ qOg1tfYT0RynqaBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C931513A58;
+ Thu, 29 Feb 2024 08:53:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id zRvFLwxG4GUYUQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 29 Feb 2024 08:53:32 +0000
+Date: Thu, 29 Feb 2024 09:53:31 +0100
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-next-fixes
+Message-ID: <20240229085331.GA25863@localhost.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; RCVD_COUNT_THREE(0.00)[3];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-0.989]; RCPT_COUNT_TWELVE(0.00)[16];
+ FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
+ BAYES_HAM(-3.00)[100.00%]
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,26 +112,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Dave, Sima,
 
-On Thu, 08 Feb 2024 19:16:41 -0500, Richard Acayan wrote:
-> This adds support for the AMS559NK06 panel with the S6E3FA7 display
-> controller and enables the display subsystem on the Pixel 3a.
-> 
-> Richard Acayan (3):
->   dt-bindings: display: panel-simple-dsi: add s6e3fa7 ams559nk06 compat
->   drm/panel: add samsung s6e3fa7 panel driver
->   arm64: dts: qcom: sdm670-google-sargo: add panel
-> 
-> [...]
+here's the release cycle's first PR for drm-misc-next-fixes.
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+Best regards
+Thomas
 
-[1/3] dt-bindings: display: panel-simple-dsi: add s6e3fa7 ams559nk06 compat
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=2689b33b88641a3b9a8cc411a0c8094cbed7e871
-[2/3] drm/panel: add samsung s6e3fa7 panel driver
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=bf0390e2c95bf630b22dddc7cde5f83762b658e5
+drm-misc-next-fixes-2024-02-29:
+Short summary of fixes pull:
+
+i915:
+- Fix NULL-pointer deref
+
+imx:
+- dcss: Fix resource-size calculation
+
+firmware:
+- sysfb: Fix returned error code
+The following changes since commit f112b68f273fb0121cb64e0c3ac06adcb91e32b8:
+
+  Merge v6.8-rc6 into drm-next (2024-02-26 11:41:07 +0100)
+
+are available in the Git repository at:
+
+  https://anongit.freedesktop.org/git/drm/drm-misc tags/drm-misc-next-fixes-2024-02-29
+
+for you to fetch changes up to 9cb3542aeeac31b3dd6b5a7d58b9b7d6fe9fd2bc:
+
+  drm/imx/dcss: fix resource size calculation (2024-02-28 09:16:59 +0000)
+
+----------------------------------------------------------------
+Short summary of fixes pull:
+
+i915:
+- Fix NULL-pointer deref
+
+imx:
+- dcss: Fix resource-size calculation
+
+firmware:
+- sysfb: Fix returned error code
+
+----------------------------------------------------------------
+Dan Carpenter (2):
+      firmware/sysfb: fix an error code in sysfb_init()
+      drm/imx/dcss: fix resource size calculation
+
+Thomas Zimmermann (1):
+      Merge drm/drm-next into drm-misc-next-fixes
+
+Tvrtko Ursulin (1):
+      drm/i915: Fix possible null pointer dereference after drm_dbg_printer conversion
+
+ drivers/firmware/sysfb.c                         | 4 +++-
+ drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c | 4 ++--
+ drivers/gpu/drm/imx/dcss/dcss-dev.c              | 4 +---
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
 -- 
-Neil
-
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
