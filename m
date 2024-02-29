@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26E6286BCB4
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 01:21:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6175386BCB9
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 01:21:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 612E710E0DD;
-	Thu, 29 Feb 2024 00:21:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A62C210E02C;
+	Thu, 29 Feb 2024 00:21:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="WcpJb+Z+";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="JHKHR3lq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B42910E0DD
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 00:21:30 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-5661b7b1f51so601143a12.2
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 16:21:30 -0800 (PST)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
+ [209.85.208.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0506010E02C
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 00:21:54 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id
+ 4fb4d7f45d1cf-565a3910f86so530273a12.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 16:21:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1709166088; x=1709770888;
+ d=chromium.org; s=google; t=1709166110; x=1709770910;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2HVmQOCE5dsZxHVlTQMXFLciN4XwV4vxvdF0QHFS3GY=;
- b=WcpJb+Z+czPfpqAbqYJcflkH7Cd5C6D4zyrDEq88gX/Ve23lvLLZZgSvEh2317BES7
- z8imjYWNxpW3EA6R237xtaYwTHUf+PJ6VM4YkWFBM7tA2PirsH7Jh2tp0tm8NnycRAWC
- zCE/mZrmTcWst5/mttU0ttKLAv4FNuH5SHX0o=
+ bh=QMYd+3PehQzWrhjo72mtYlH8CA55wcaPeIXXwpZd4Nk=;
+ b=JHKHR3lqQ4V8jz4/pUpCmxZ4yKfCiFg4mKaQYe00qhsWK1/UzUBhCc7lvXBXbcc9gY
+ K0iR/BFTb/9nWckQj5FavWoOnLOGkx68s70mJO09KDTn4w84JWnwrXbcUzyJaSwV29Jd
+ VR/boUa3TUztgxmgd54fNDHdfiAc8Uc6ypK+w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709166088; x=1709770888;
+ d=1e100.net; s=20230601; t=1709166110; x=1709770910;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2HVmQOCE5dsZxHVlTQMXFLciN4XwV4vxvdF0QHFS3GY=;
- b=f9cIjtKRG9tDbNLNqzOgjMCQsKwGEgXGFsFPLvtTMUDjDjkk1+8ZUSO+Y6Jd0Xpnpy
- hqW3PzPPj49Cu17CL5E6WwCym3CqiNVHnIGwOD8qePkMvW+7GU3XrPFMKwNnkI74OY/y
- jg2/wbfFCP6R530ukRLkeQau8+SCsVVqDOk8tB56Eb6r2pRdms0EmNn7T05W+HkBo1V0
- FNhm9dgNZ60piKBBmtQZcDA+Ts8mDil85kwij1tjEKugfwenbQ3EEfW5qQLZSYSa9DYB
- UU7lKlAeK02gk9KxJCxcvrLqA0Tp+qLjsweJoHg2lHUB4QLpkBGuupGDLyYhC9NTFXhj
- WPvQ==
+ bh=QMYd+3PehQzWrhjo72mtYlH8CA55wcaPeIXXwpZd4Nk=;
+ b=fEWhi9ls3rTq16DhA4NUsAXkRfTEvC66wWevr8MOxMWFKOcnqdLj9m2mWeyBB9AasU
+ rW2djeeDgdvSLxuxXu25eFNCKql0BjG7soWjME/8vCmqszLwyw87JsMWzwWrrOZOWxzP
+ c3DfvsZXwRJ0/RW5zUJBmH41n5eZw4RXWtDsWTYGbobN1oXSF+jDopsxZ810cDqH1MGM
+ fZ10dkKYZm+QqV5ZU3P3G6wZxkw94Ub7CIb8b/nVScTY76Y5oDmY/uEyoTbk7bV+XpWP
+ bj8PoOG6gtE9UxBojTpEfs8WG4bEvcpJ/5CmBz4ZPog7mJUEXU0JhnbPSCERI77mpckQ
+ hCWw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVjEz4Kn2kZWji3blOAPYpWeWYCJDK02UO9QPJy2sQuRi335RPa5u2AKEs1hJVmk1wjKsmAwy051ZBps2cltESzYVjEYeL8jU95VsWRMcNZ
-X-Gm-Message-State: AOJu0YwDTmifaAgMluw8gPjAh5WazNjRu/nhVHk8ieQfF3/veukvrHMb
- KV0ozQyW9t0QU8sQT0ZCKgqitHffBWURF3jOulTZl+TnQ/C8oS24jVr94rfm7HEIwbez/AtGm3s
- IhJX6
-X-Google-Smtp-Source: AGHT+IEUtNQbLMgOzJPkc9EwFdB5FWZ6xbVAFEcvJ6H0VzywJkRR0LuTxcNOCQwbKVOwyBKDajrN6Q==
-X-Received: by 2002:a05:6402:2153:b0:565:9fa4:dd59 with SMTP id
- bq19-20020a056402215300b005659fa4dd59mr334775edb.5.1709166088427; 
- Wed, 28 Feb 2024 16:21:28 -0800 (PST)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com.
- [209.85.128.53]) by smtp.gmail.com with ESMTPSA id
- m18-20020aa7c492000000b005662d3418dfsm58383edq.74.2024.02.28.16.21.23
+ AJvYcCU5VUrcyyjR2E66kbtIBXzgxNm+KggZ2cA+ix5ipNCUz4x+brwngRSBlsHzdFymwKHewfcb1422qkLkqG9bya5kLGKWZgz3jygP54BI14GL
+X-Gm-Message-State: AOJu0YyxhCRTauQwPJAbEWDkT22ki3cJc5o5QCkLVeecYc4Zq4BZah2Y
+ yvU4uu6SBPsD04QypfD5miqDnbGhj+jfvHR0TH31+bfFVztt1xFLbYXvfJXhp4yE8ta28rxg85t
+ NE7PS
+X-Google-Smtp-Source: AGHT+IENj/6O+aGjqUMdqIGlXg+ok+8g+aMX0e2cbPTDISwgK0ZBJMqJkrNGbH3kZBOWxRfRewL3aQ==
+X-Received: by 2002:a17:906:f1cc:b0:a3f:7d84:4d2e with SMTP id
+ gx12-20020a170906f1cc00b00a3f7d844d2emr293322ejb.30.1709166110292; 
+ Wed, 28 Feb 2024 16:21:50 -0800 (PST)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com.
+ [209.85.128.50]) by smtp.gmail.com with ESMTPSA id
+ a21-20020a170906245500b00a442299199esm71558ejb.86.2024.02.28.16.21.49
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Feb 2024 16:21:28 -0800 (PST)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-4129a5f7b54so15455e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 16:21:23 -0800 (PST)
+ Wed, 28 Feb 2024 16:21:50 -0800 (PST)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-4129a5f7b54so15575e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Feb 2024 16:21:49 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCWQeQPIfME303+zBbWBzSlHdoKqxeyTK+BJF4kkj8yUQ0vBpxuoGE7tZ3zJLvdLN5PB6aIBvUigHMYaFDPgq5usepNHYM0eBw+Uh2LrnVNg
-X-Received: by 2002:a05:600c:34c7:b0:412:acde:4839 with SMTP id
- d7-20020a05600c34c700b00412acde4839mr1564wmq.3.1709166083091; Wed, 28 Feb
- 2024 16:21:23 -0800 (PST)
+ AJvYcCW62pNof2f2rNQy1/Oe2h78zqEnzoqrLTDaH+M2MfbIKhVDbAbcDHG8VtsZq4ZF9/0jzLvXgYHDU2tW5fc1q5RAyHRLKzqhQFFDyqAfGYBO
+X-Received: by 2002:a05:600c:a386:b0:412:aa80:bdd9 with SMTP id
+ hn6-20020a05600ca38600b00412aa80bdd9mr37037wmb.2.1709166108715; Wed, 28 Feb
+ 2024 16:21:48 -0800 (PST)
 MIME-Version: 1.0
 References: <20240228011133.1238439-1-hsinyi@chromium.org>
- <20240228011133.1238439-2-hsinyi@chromium.org>
-In-Reply-To: <20240228011133.1238439-2-hsinyi@chromium.org>
+ <20240228011133.1238439-3-hsinyi@chromium.org>
+In-Reply-To: <20240228011133.1238439-3-hsinyi@chromium.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 28 Feb 2024 16:21:11 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=XCGCpLmCQhfTXfrOON99KLbR5pR59jaiD_V14szn6qsA@mail.gmail.com>
-Message-ID: <CAD=FV=XCGCpLmCQhfTXfrOON99KLbR5pR59jaiD_V14szn6qsA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] drm_edid: Support getting EDID through ddc without
- connector
+Date: Wed, 28 Feb 2024 16:21:37 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=VMVr+eJ7eyuLGa671fMgH6ZX9zPOkbKzYJ0H79MZ2k9A@mail.gmail.com>
+Message-ID: <CAD=FV=VMVr+eJ7eyuLGa671fMgH6ZX9zPOkbKzYJ0H79MZ2k9A@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] drm/panel: panel-edp: Match edp_panels with panel
+ name
 To: Hsin-Yi Wang <hsinyi@chromium.org>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, 
@@ -104,59 +104,91 @@ Hi,
 On Tue, Feb 27, 2024 at 5:11=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromium.org> =
 wrote:
 >
-> Some panels are interested in the EDID during early probe when connector
-> is still unknown.
+> @@ -2107,13 +2113,41 @@ static const struct edp_panel_entry edp_panels[] =
+=3D {
+>         { /* sentinal */ }
+>  };
 >
-> Add a function drm_get_edid_no_connector() to get edid without connector.
-> No functional change for existing usage.
->
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> ---
-> v1->v2:
-> add a function to return the entire edid without updating connector.
-> ---
->  drivers/gpu/drm/drm_edid.c | 45 ++++++++++++++++++++++++++++----------
->  include/drm/drm_edid.h     |  1 +
->  2 files changed, 34 insertions(+), 12 deletions(-)
+> -static const struct edp_panel_entry *find_edp_panel(u32 panel_id)
+> +static bool edid_has_name(struct edid *edid, const char *panel_name)
+> +{
+> +       int i, j;
+> +       char buf[13];
+> +
 
-I'll respond in the discussion in v1 too, but overall I'm not a fan of
-reading the whole EDID twice at bootup. Personally I'd love to see us
-to back to just reading the base block like in v1, but I guess we can
-see what Jani and others say.
+Should have some comment about why this can't use
+drm_edid_get_monitor_name(). AKA because panels seem to be storing the
+monitor name tagged as raw strings instead of as the name. Should
+probably also have some of the other checks from
+is_display_descriptor() like checking for clock of 0 and pad1 of 0.
 
 
-> @@ -2385,18 +2385,20 @@ static struct edid *_drm_do_get_edid(struct drm_c=
-onnector *connector,
->         if (status =3D=3D EDID_BLOCK_READ_FAIL)
->                 goto fail;
->
-> -       /* FIXME: Clarify what a corrupt EDID actually means. */
-> -       if (status =3D=3D EDID_BLOCK_OK || status =3D=3D EDID_BLOCK_VERSI=
-ON)
-> -               connector->edid_corrupt =3D false;
-> -       else
-> -               connector->edid_corrupt =3D true;
-> +       if (connector) {
-> +               /* FIXME: Clarify what a corrupt EDID actually means. */
-> +               if (status =3D=3D EDID_BLOCK_OK || status =3D=3D EDID_BLO=
-CK_VERSION)
-> +                       connector->edid_corrupt =3D false;
-> +               else
-> +                       connector->edid_corrupt =3D true;
->
-> -       if (!edid_block_status_valid(status, edid_block_tag(edid))) {
-> -               if (status =3D=3D EDID_BLOCK_ZERO)
-> -                       connector->null_edid_counter++;
-> +               if (!edid_block_status_valid(status, edid_block_tag(edid)=
-)) {
-> +                       if (status =3D=3D EDID_BLOCK_ZERO)
-> +                               connector->null_edid_counter++;
->
-> -               connector_bad_edid(connector, edid, 1);
-> -               goto fail;
-> +                       connector_bad_edid(connector, edid, 1);
-> +                       goto fail;
+> +       for (i =3D 0; i < 4; i++) {
 
-This "goto fail" is now only run "if (connector)" which means that
-you're not properly checking if the EDID is valid when "connector =3D=3D
-NULL", right? That seems like a bug unless I missed something...
+Instead of 4, I think this can be ARRAY_SIZE(edid->detailed_timings), right=
+?
+
+
+> +               strncpy(buf, edid->detailed_timings[i].data.other_data.da=
+ta.str.str,
+> +                       sizeof(buf));
+
+I can never quite remember which of the strXcpy() routines are frowned
+upon and which are the golden children at the moment. ...but I don't
+think we really need the copy nor the local buffer anyway, right?
+You're already going through this thing 1 byte at a time so just
+compare it straight away.
+
+
+> +               for (j =3D 0; j < 13; j++) {
+> +                       if (buf[j] =3D=3D 0x0a) {
+
+Instead of hardcoding 0x0a, I think you want '\n', no?
+
+
+> +                               buf[j] =3D '\0';
+> +                               break;
+> +                       }
+> +               }
+> +               buf[12] =3D '\0';
+> +               if (strncmp(panel_name, buf, strlen(panel_name)) =3D=3D 0=
+)
+> +                       return true;
+
+Untested, but I think with my suggestions above the function becomes this:
+
+static bool edid_has_name(struct edid *edid, const char *panel_name)
+{
+    int i, j;
+
+    /*
+     * We can't use drm_edid_get_monitor_name() since many eDP panels store
+     * their name as a raw string. We'll accept either a string or name
+     * match as long as the panel ID also matches.
+     */
+    for (i =3D 0; i < ARRAY_SIZE(edid->detailed_timings); i++) {
+        struct detailed_timing *timing =3D &edid->detailed_timings[i];
+
+        if (timing->pixel_clock !=3D 0 ||
+            timing->data.other_data.pad1 !=3D 0 ||
+            (timing->data.other_data.type !=3D EDID_DETAIL_MONITOR_NAME &&
+             timing->data.other_data.type !=3D EDID_DETAIL_MONITOR_STRING))
+                continue;
+
+        for (j =3D 0; j < ARRAY_SIZE(timing->data.other_data.data.str.str);=
+ j++) {
+            const char *str =3D timing->data.other_data.data.str.str;
+
+            if (panel_name[j] =3D=3D '\0') {
+                if (str[j] =3D=3D '\0' || str[j] =3D=3D '\n')
+                    return true;
+                break;
+            }
+        }
+        if (j =3D=3D ARRAY_SIZE(timing->data.other_data.data.str.str) &&
+            panel_name[j] =3D=3D '\0')
+            return true;
+    }
+
+    return false;
+}
