@@ -2,67 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 187CE86C93B
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 13:30:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F39C86C960
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 13:41:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 216CF10E467;
-	Thu, 29 Feb 2024 12:30:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B966F10E266;
+	Thu, 29 Feb 2024 12:41:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="j2uwzqMw";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="DgavKIbQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2852110E0E0;
- Thu, 29 Feb 2024 12:30:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709209850; x=1740745850;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=I8wHXrw5KXLL0vG+bL726Zb9dp643IbYVediCET50o8=;
- b=j2uwzqMwbbIMsHc2vNzCj2RxJwQzdoJJST3I4Y4PWwcyfj6WEVyHT67b
- Os3g/lf1t9n30F/3+GDrny9ZbMRXOiESw47MGOwJYWyiOXxJQK+nx6Mxr
- XrLScKhpoT7v6Vxo+dMvCWwpjNbaZQVJQZadRx0WNVsuBXkbL26uxdUjF
- IhhIVtj8sGb+nXDD2QY6TMXH8qTp8Gt+sr/HiMXWCX9CqrCDHB0bPoknE
- awrNuz6siCJ3yjYHOdmgDoc2Saan7BFgwLkpyOWHyHUCBlanquNm0XGgL
- xCKeo7SZFPPCcNqLbQIdF4d2Qn/6SbXl6SiUbm9SCu8Jy8o029s4A/tDr w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="4255541"
-X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="4255541"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Feb 2024 04:30:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="827771475"
-X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; d="scan'208";a="827771475"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 29 Feb 2024 04:30:30 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 29 Feb 2024 14:30:29 +0200
-Date: Thu, 29 Feb 2024 14:30:29 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Nikita Kiryushin <kiryushin@ancud.ru>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Manasi Navare <manasi.d.navare@intel.com>,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- project@linuxtesting.org
-Subject: Re: [PATCH] drm/i915: Remove unneeded double drm_rect_visible call
- in check_overlay_dst
-Message-ID: <ZeB45WKv4lP8QQpv@intel.com>
-References: <>
- <79c92cfa-cf5a-4a23-8a93-11c1af7432fc@ancud.ru>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96F0C10E05E
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 12:41:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1709210500;
+ bh=bYwenActmo0DJIFiEmMoeGrYokDOzONoZ2KvaEqH3jQ=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=DgavKIbQIDwous2datEXLvFLQIqT8gkwH/KHbsvYsyazEvx1ex1CjAm0/yY63TT8z
+ t3ThwFpUZ+QR+PwwV6rQgMGdhfnSirsMjJVRP54VSIwnle5jGcPFCqJqCz9WRDiEGm
+ jMsAhLPLVYomlaB04GzQWI6Q+iXF906z9tLBMqYbk/Tjs00O58DtwUTznnyddBNtgr
+ OfoRd0UgS4HTEmAX1cJpkpmScQ1oq3va+vMwoduScnNq5ww0iSkXy3a5mtTWaxTaDD
+ MaHDdwKMlonV2Xe7YzWVs81i/peEZylWjis9Pn7u/9lCC2kWjbH7nevGAWWbLVW6ns
+ SEVJPKlHwvWLQ==
+Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: pq)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id EF34F3782089;
+ Thu, 29 Feb 2024 12:41:38 +0000 (UTC)
+Date: Thu, 29 Feb 2024 14:41:37 +0200
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Arthur Grillo <arthurgrillo@riseup.net>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
+ <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
+Subject: Re: [PATCH v3 3/9] drm/vkms: write/update the documentation for
+ pixel conversion and pixel write functions
+Message-ID: <20240229144137.75ae1cde.pekka.paalanen@collabora.com>
+In-Reply-To: <592e5da7-7aac-4735-ae8f-625402e381ae@riseup.net>
+References: <20240226-yuv-v3-0-ff662f0994db@bootlin.com>
+ <20240226-yuv-v3-3-ff662f0994db@bootlin.com>
+ <406988be-48a4-4762-9c03-7a27c8e7b91e@riseup.net>
+ <Zd35csjqRMstzElA@localhost.localdomain>
+ <592e5da7-7aac-4735-ae8f-625402e381ae@riseup.net>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <79c92cfa-cf5a-4a23-8a93-11c1af7432fc@ancud.ru>
-X-Patchwork-Hint: comment
+Content-Type: multipart/signed; boundary="Sig_/ppy=jx7+zAsqz9DWBleezt6";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,41 +74,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 28, 2024 at 09:32:47PM +0300, Nikita Kiryushin wrote:
-> 
-> check_overlay_dst for clipped is called 2 times: in drm_rect_intersect 
-> and than directly. Change second call for check of drm_rect_intersect 
-> result to save some time (in locked code section).
-> 
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> 
-> Fixes: 8d8b2dd3995f ("drm/i915: Make the PIPESRC rect relative to the 
-> entire bigjoiner area")
-> Signed-off-by: Nikita Kiryushin <kiryushin@ancud.ru>
-> ---
->   drivers/gpu/drm/i915/display/intel_overlay.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_overlay.c 
-> b/drivers/gpu/drm/i915/display/intel_overlay.c
-> index 2b1392d5a902..1cda1c163a92 100644
-> --- a/drivers/gpu/drm/i915/display/intel_overlay.c
-> +++ b/drivers/gpu/drm/i915/display/intel_overlay.c
-> @@ -972,9 +972,8 @@ static int check_overlay_dst(struct intel_overlay 
-> *overlay,
->   		      rec->dst_width, rec->dst_height);
->    	clipped = req;
-> -	drm_rect_intersect(&clipped, &crtc_state->pipe_src);
->   -	if (!drm_rect_visible(&clipped) ||
-> +	if (!drm_rect_intersect(&clipped, &crtc_state->pipe_src) ||
+--Sig_/ppy=jx7+zAsqz9DWBleezt6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-I prefer the current way where we have no side effects in
-the if statement.
+On Tue, 27 Feb 2024 15:47:08 -0300
+Arthur Grillo <arthurgrillo@riseup.net> wrote:
 
->   	    !drm_rect_equals(&clipped, &req))
->   		return -EINVAL;
->   -- 2.34.1
+> On 27/02/24 12:02, Louis Chauvet wrote:
+> > Le 26/02/24 - 10:07, Arthur Grillo a =C3=A9crit : =20
+> >>
+> >>
+> >> On 26/02/24 05:46, Louis Chauvet wrote: =20
+> >>> Add some documentation on pixel conversion functions.
+> >>> Update of outdated comments for pixel_write functions.
+> >>>
+> >>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> >>> ---
+> >>>  drivers/gpu/drm/vkms/vkms_composer.c |  4 +++
+> >>>  drivers/gpu/drm/vkms/vkms_drv.h      | 13 ++++++++
+> >>>  drivers/gpu/drm/vkms/vkms_formats.c  | 58 ++++++++++++++++++++++++++=
+++++------
+> >>>  3 files changed, 66 insertions(+), 9 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/v=
+kms/vkms_composer.c
+> >>> index c6d9b4a65809..5b341222d239 100644
+> >>> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> >>> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> >>> @@ -189,6 +189,10 @@ static void blend(struct vkms_writeback_job *wb,
+> >>> =20
+> >>>  	size_t crtc_y_limit =3D crtc_state->base.crtc->mode.vdisplay;
+> >>> =20
+> >>> +	/*
+> >>> +	 * The planes are composed line-by-line. It is a necessary complexi=
+ty to avoid poor
+> >>> +	 * blending performance. =20
+> >>
+> >> At this moment in the series, you have not yet reintroduced the
+> >> line-by-line algorithm yet. Maybe it's better to add this comment when
+> >> you do. =20
+> >=20
+> > Is it better with this:
+> >=20
+> > 	/*
+> > 	 * The planes are composed line-by-line to avoid heavy memory usage. I=
+t is a necessary
+> > 	 * complexity to avoid poor blending performance.
+> > 	 *
+> > 	 * The function vkms_compose_row is used to read a line, pixel-by-pixe=
+l, into the staging
+> > 	 * buffer.
+> > 	 */
+> >   =20
+> >> Also, I think it's good to give more context, like:
+> >> "The planes are composed line-by-line, instead of pixel-by-pixel" =20
+> >=20
+> > And after PATCHv3 5/9:
+> >=20
+> > 	/*
+> > 	 * The planes are composed line-by-line to avoid heavy memory usage. I=
+t is a necessary
+> > 	 * complexity to avoid poor blending performance.
+> > 	 *
+> > 	 * The function pixel_read_line callback is used to read a line, using=
+ an efficient=20
+> > 	 * algorithm for a specific format, into the staging buffer.
+> > 	 */
+> >  =20
 
--- 
-Ville Syrjälä
-Intel
+Hi,
+
+there are a few reasons for the line-by-line algorithm, and the
+optimizations at large:
+
+VKMS uses temporary stage and output buffers so that blending functions
+can operate on just one high-precision pixel format, struct
+pixel_argb_u16. We can make pixel-format-specific read and write
+functions completely orthogonal from the blending operations and FB
+format combinations. This avoids a combinatorial explosion of needed
+functions for { input pixel formats =C3=97 blending operations =C3=97 outpu=
+t pixel
+formats }.
+
+We can use a temporary stage and output buffer whose size is one line
+and not whole FB or CRTC framebuffer. This is the memory savings.
+
+Using a temporary output buffer also avoids repeated
+read-decode-blend-encode-write cycles into the final destination
+buffer, as we don't need to decode/encode the pixel format.
+
+Finally, doing elementary operations (read, blend, write) line-by-line
+is much more efficient than pixel-by-pixel, because it allows making
+the inner-most loop very tight. It avoids repeatedly computing a result
+that does not change, like which function to call for a specific pixel
+format or blending equation.
+
+
+Thanks,
+pq
+
+--Sig_/ppy=jx7+zAsqz9DWBleezt6
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXge4EACgkQI1/ltBGq
+qqekCA/9H2SBK6/zbiLJ1s9dhN6MeJPRfUQqtWLebfifxniKaSJuXOLHG2j6qemx
+zo6q6QAHexA+eD4oXWxpbVAzlmfpgxaiMxrQeTeG1ZrwJxbHZgpHO5PeplhIlLfF
+5w9uB0gjCn7SLyWABo7i0WIuj/GI7Sfgf+uhiOYbyEZLQzTs5Ob+whVt0CDGQUXq
+0TUhaXz0N/L/HlepprYdfRBF8UIIXoz90ASRgyPLHbzfjH18UqjvgY+y4O3nv2Fb
+jzvTLHJ4OwsSfNymDDGTeQBAFif+8B3KGt6bgsJLi7D+HxlOArAcQQtRjUC/GQYc
+ia2JXmD6ywS6h7+3NDZVEGqS5goSidPDXP+sZv+bH8j+7rF4OXCcubOe0pnzN50g
+OVlACtxWptXWlDebJLDyALk79C0RpcGkC+dhoNscjDSe8lsm++4eO6FxY85ikCGt
+x4KiemghnhkZxh24DPFjX6chGBvxuIIWf3Ku0iTj1HHinzkOCPxsoaRiIz8w6XtK
+VMFQRn5avEigcYTo4C8icSCpkGvJPt9XDEyZwWqX4uiVhFFrjd9ObP9evGoyi2fv
+NTIwy90iReIu6OMSwiiFa2kvVwTbGqsqKTpGpPlNPyF0aZnaN6nYz5Vz8JYPtNO3
+aHV+H77b8GX1wcdTAwXdANwVCbQm72Fuq6m28tClX8DNNiwvPZY=
+=Vbxy
+-----END PGP SIGNATURE-----
+
+--Sig_/ppy=jx7+zAsqz9DWBleezt6--
