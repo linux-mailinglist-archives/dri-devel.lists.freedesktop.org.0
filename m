@@ -2,92 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB57286D630
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 22:30:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 029EF86D7B5
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 00:26:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1195710E0CC;
-	Thu, 29 Feb 2024 21:30:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97EC110E6E5;
+	Thu, 29 Feb 2024 23:26:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="PZR67QWI";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZiVx8Bhi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39AE710E0CC
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 21:30:32 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 41T60xOw011993; Thu, 29 Feb 2024 21:30:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=2XAL70ahopTl3Ft92hpHa/oa4WdjMZaAss/IdzUZWzA=; b=PZ
- R67QWIUSP2bcOFnJ0JhXAWP6tpzjGwyWi33htZHjEWIReK6NcbiQ3t7j7kSm/EUA
- +s5csKXAgar4t3UJeT8O135LLTOzRXf8aQWqx5P4WmwyekYmz2LMyPu/z67tplDZ
- nnMLN5jb/9oixLY2KzIOlocOde+u54vcizaq1p+rSere50ha9SFZm2Ao5nhMSBCr
- n7AX0yArZdAAq6orjd5mhE1zFp6wRePYKRNunV9vzXgGNwAtaWVgTnSmnKF3ulR8
- rtDuCc3t02fmJ1wHgrlhM08uYwsICLYWS+VY2Ekw6QF2hc6xBcoAIZlCDb4boTyx
- 3l9BI8TMpbfDPnQqtExw==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wjm9mjk7u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 29 Feb 2024 21:30:25 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41TLUOJC025968
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 29 Feb 2024 21:30:24 GMT
-Received: from [10.71.111.207] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 29 Feb
- 2024 13:30:23 -0800
-Message-ID: <aea154d3-e272-48e1-9e91-890c9ae3fa0f@quicinc.com>
-Date: Thu, 29 Feb 2024 13:30:22 -0800
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 384E310E6E5
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 23:26:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1709249171;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=KfbPgYrMbRvjqJfH9XiwG72zsrb2/xSuJyU18MOmvYM=;
+ b=ZiVx8BhiYe2I7n/9IS/oIST+jSOcW2yrG2uUkpjRlK61flbwGHkXarM5+63E2E3yQTJ5Py
+ v3P93+2xFZiXI5u1URIKq7B5QLIypS7fDRzlA7pPwQDL86zRrDgGJZamWLRPsNLJjHQmOH
+ 7BCY0pC2ZaX9yNgFynM1/o0hPuxRKn0=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-320-9IkUGTLmObOoGACWzG98nA-1; Thu, 29 Feb 2024 18:26:09 -0500
+X-MC-Unique: 9IkUGTLmObOoGACWzG98nA-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ 38308e7fff4ca-2d31843ae13so6573001fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 15:26:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709249167; x=1709853967;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=KfbPgYrMbRvjqJfH9XiwG72zsrb2/xSuJyU18MOmvYM=;
+ b=VBJA1kFQ0IiquU8sv39g5qvOVKkfn58SqVkcu1Hnche77aoqHZ1pT7YnU3MSlszHw4
+ 4jT9Wu3S9GSTm4Aj+bzcU4IaqyIYH8GOwtRG+PVaLchPK6/o62+E+2a3cPHV1LCIOfK7
+ cTO0OcS2qZ7zLFBReeMarKAJykN2ZDcW1fNucW8i6YBQcp/a1c/8/O0dvWHlvJrCpMxa
+ C0aw5T1iViOzCSBgA56F5RfUNdZzztByz+F+FxqhxKp98WxlK1UpKK3q+RPqrAAwrp63
+ wD1Vd6HnT2na3UAeiJRYHXY3cmk5ER0z2tzf9hBKqn2YipJzJTBSSj9F1IfYLRKYOR9o
+ EiiA==
+X-Gm-Message-State: AOJu0YzwM+442XVGloiEZfAQwvik29yyXUYsdmGQvJEw3WlrGPUcYKP0
+ hekN7SvUUuMLkkBpGZPPBpnMxIakMoeiGotPF1M5XqEnsFblgs+nzz9cOHU96jFQz9V3+s/MDec
+ Bi+vfVBQa0m4Vko07PT7KZmbT7o5AukIMiZnfwzN397nUn4oT+NU7tO1/AY6VfTFkmENwhPVmjM
+ 9vjXyUAKnS5Cs6OVz3+00yMWKHnspZYdsaFA/3Ojsr7DWdsL8x7rWIQjFV8p3PAfM=
+X-Received: by 2002:a2e:a23a:0:b0:2d3:2a95:6ebe with SMTP id
+ i26-20020a2ea23a000000b002d32a956ebemr373220ljm.36.1709249167542; 
+ Thu, 29 Feb 2024 15:26:07 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGZ+FJmzrY7P+5l+z3Hwms+UP8SZ3mKvf+VEpPectelcfVsnvNT2QksgCjnGuh8SSKsDXY06g==
+X-Received: by 2002:a2e:a23a:0:b0:2d3:2a95:6ebe with SMTP id
+ i26-20020a2ea23a000000b002d32a956ebemr373204ljm.36.1709249167101; 
+ Thu, 29 Feb 2024 15:26:07 -0800 (PST)
+Received: from toolbox ([2001:9e8:8984:bd00:2340:7b35:5e60:4abd])
+ by smtp.gmail.com with ESMTPSA id
+ z11-20020a1c4c0b000000b00412ba5cda16sm3767679wmf.33.2024.02.29.15.26.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Feb 2024 15:26:06 -0800 (PST)
+Date: Fri, 1 Mar 2024 00:26:05 +0100
+From: Sebastian Wick <sebastian.wick@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Pekka Paalanen <ppaalanen@gmail.com>,
+ Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Joshua Ashton <joshua@froggi.es>, Xaver Hugl <xaver.hugl@gmail.com>
+Subject: Colorspace "Default" and the CTA-861 spec
+Message-ID: <20240229232605.GC166694@toolbox>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] drm: panel: st7701: Add Hardkernel ODROID-GO Ultra
- panel support
-Content-Language: en-US
-To: Adam Green <greena88@gmail.com>, Jagan Teki <jagan@amarulasolutions.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, <dri-devel@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240221194528.1855714-1-greena88@gmail.com>
- <20240222164332.3864716-1-greena88@gmail.com>
- <20240222164332.3864716-2-greena88@gmail.com>
- <f9446923-acd3-41cf-92d4-676b946280c4@quicinc.com>
- <79a4b60e-24f3-47fd-b3b3-7d207cec1470@gmail.com>
- <a13eeb01-7df9-4577-975f-34b3aed8400f@quicinc.com>
- <8bbb2957-9452-424a-8e9f-4ddbd4f24722@gmail.com>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <8bbb2957-9452-424a-8e9f-4ddbd4f24722@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 3uUMOATMM-pFSjbRxSaYOWXO5EAknyy8
-X-Proofpoint-ORIG-GUID: 3uUMOATMM-pFSjbRxSaYOWXO5EAknyy8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-29_06,2024-02-29_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 spamscore=0
- lowpriorityscore=0 impostorscore=0 malwarescore=0 clxscore=1015
- adultscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=999 suspectscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2402290167
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,49 +88,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hey all,
 
+I was trying to document the Colorspace property variants with what the
+sink expects, what kind of data the CRTC should be configured to
+produce, and what drivers must guarantee. I tried to stick to CTA-861-I
+for this exercise and after more than an hour to get the "Default"
+variant right, I gave up and now I'm writing this mail.
 
-On 2/29/2024 9:23 AM, Adam Green wrote:
-> On 26/02/2024 21:29, Jessica Zhang wrote:
->  > Got it. Was the shorter sleep time breaking the display and is it
->  > required for the new panel to work?
->  >
->  > Thanks,
->  >
->  > Jessica Zhang
-> 
-> Hi Jessica,
-> 
-> I will be submitting a v3 shortly, the change to the sleep time was not 
-> necessary for the new panel
-> to work.
+There are actually 4 distinct parameters that have to be known: the
+colorimetry (primaries and white point), the transfer characteristics,
+the YCbCr conversion matrix and the quantization level.
 
-Hi Adam,
+Section 5.1 has two paragraphs talking about the default color space
+(which should imply the rest of the parameters). For IT formats, and CE
+formats in some situations "the RGB color space used should be the RGB
+color space the Sink declares in the Basic Display Parameters and
+Features Block of its EDID". For sinks that accept YCbCr data and
+InfoFrames, CE formats default to other color spaces. They do support
+setting InfoFrames though and thus can set Y2=Y1=Y0=0 and force the sink
+into accepting RGB (Table 18) and set C1=C0=0 for Colorimetry RGB. Foote
+a helpfully notes that this is the colorimetry declared in the EDID.
 
-Got it. If the panel isn't affected by the 20ms sleep time, I'd prefer 
-to keep it since 100ms is a pretty big increase.
+Now, the first obvious issue is that none of that defines the YCbCr
+matrix to be used. It is entirely undefined. If drivers use an YCbCr
+output format, user space gets undefined behavior.
 
-> 
-> I have been able to re-use the gip sequence from the kd50t048a panel 
-> used in the Hardkernel Odroid
-> Go Super as I have been led to believe it is the same elida panel, 
-> unfortunately the same modes
-> used by that device do not work for the Odroid Go Ultra and so its still 
-> necessary to have the
-> patchset,
-Got it. FWIW, I do see the Odroid Go Ultra being described as having the 
-kd50t048a panel [1] [2]. Looking forward to seeing the v3 changes.
+The second issue is the transfer characteristics. Section 5.3 defines
+the transfer characteristics when a specific color space is selected. If
+the colorimetry is RGB then the BT.709 transfer characteristics are used
+(and not the gamma from the EDID) whereas the default color space as
+defined in 5.1 seems to point to the EDID even for gamma.
 
-Thanks,
+That would means depending on if we have an IT mode or a CE mode with a
+sink that supports YCbCr and InfoFrames, the default transfer
+characteristics could be different. User space would have to figure all
+of that out to know which transfer characteristics it should use.
 
-Jessica Zhang
+Is the spec just wrong here?
 
-[1] https://gitlab.com/amlogic-foss/mainline-linux-issues-tracker/-/issues/7
+There also is the "defaultRGB" colorimetry. This one actually clearly
+defines that the sink shall expect data with the colorimetry and gamma
+from the EDID. It seems to have been added in CTA-861-I so support for
+it is basically non-existent.
 
-[2] 441e129cbf81 ("dt-bindings: display: panel: sitronix,st7701: Add 
-Elida KD50T048A Panel")
+So what should we do? To me it seems almost impossible to define
+anything useful for the "Default" property variant, but because the
+"defaultRGB" colorimetry is not supported at all right now, making
+"Default" undefined means we can't get predictable colors on almost all
+displays.
 
-> 
-> Best regards,
-> 
-> Adam
+Cheers,
+Sebastian
+
