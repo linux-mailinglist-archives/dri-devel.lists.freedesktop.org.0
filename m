@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6247C86CC82
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 16:12:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A63486CC88
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 16:12:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42C5810E45E;
-	Thu, 29 Feb 2024 15:12:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C28910E483;
+	Thu, 29 Feb 2024 15:12:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gtucker.io header.i=@gtucker.io header.b="e6dw9jxm";
+	dkim=pass (1024-bit key; unprotected) header.d=nppct.ru header.i=@nppct.ru header.b="swmK264+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1621 seconds by postgrey-1.36 at gabe;
- Thu, 29 Feb 2024 12:20:46 UTC
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A075110E364
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 12:20:46 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id DF335C000C;
- Thu, 29 Feb 2024 12:20:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
- t=1709209244;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=B6cMCmcnKMLLaSkCY/Q3FEaIM22/n5JPr+A3k3857Ak=;
- b=e6dw9jxmOjxEWGL4CwLLpcu3etN9VgBLkvgGBS77nGo2i9JzqcGhXcMi/ZSamcRjBIgJcC
- 8rMyWgs5i1dkhCkBSSstzl76l5Url9CebPIMUY3HOFlqtJFVe78xbWwcys1jzPAL5xiJI9
- c4cNPvbfFqC7+JJ4lcc/JQ3Co5dc62CJKdsQ2LnpqvTFvilVwOA1EIRjdCIOF/FPg7nyEU
- AkY74Rh4APJZ4cJBP18refisPFoFZm8tJjfp0LZBDIFjJFy5+xPhV6Jpw+8fxNxBhQkuJN
- dtF8DxpoYoTODY6x5CIgUtN3qYPB1OTIcr5EcDRC1GKU/nraf/VxFHNRA/XmMA==
-Message-ID: <d99d026e-ed32-4432-bab3-db75296e67d8@gtucker.io>
-Date: Thu, 29 Feb 2024 13:20:41 +0100
+X-Greylist: delayed 511 seconds by postgrey-1.36 at gabe;
+ Thu, 29 Feb 2024 13:19:20 UTC
+Received: from mail.nppct.ru (mail.nppct.ru [195.133.245.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E19F510E109
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 13:19:20 +0000 (UTC)
+Received: from mail.nppct.ru (localhost [127.0.0.1])
+ by mail.nppct.ru (Postfix) with ESMTP id 371391C0E6B
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 16:10:44 +0300 (MSK)
+Authentication-Results: mail.nppct.ru (amavisd-new); dkim=pass (1024-bit key)
+ reason="pass (just generated,
+ assumed good)" header.d=nppct.ru
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nppct.ru; h=
+ content-transfer-encoding:mime-version:x-mailer:message-id:date
+ :date:subject:subject:to:from:from; s=dkim; t=1709212241; x=
+ 1710076242; bh=dRCSejW2kzJ3xySBJGPqpUgKdSkvijfiyJXAlXGgd3E=; b=s
+ wmK264+d7BKARVqi2zLZol6DmlbFocJuau9EPyNn7wqMNTliEEg1C2tktfOKVmpo
+ FB9vZtTgRBiioFceE+/363gbVdLQgmENgAcrd2W89P4xVDWq5YqKbRwfIDXwwkbz
+ y1Cfv/gJ1CePeh6yku/1jn+ffDZtNKCFGiyfEM+118=
+X-Virus-Scanned: Debian amavisd-new at mail.nppct.ru
+Received: from mail.nppct.ru ([127.0.0.1])
+ by mail.nppct.ru (mail.nppct.ru [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id EqI9H6vm9LTW for <dri-devel@lists.freedesktop.org>;
+ Thu, 29 Feb 2024 16:10:41 +0300 (MSK)
+Received: from localhost.localdomain (mail.dev-ai-melanoma.ru
+ [185.130.227.204])
+ by mail.nppct.ru (Postfix) with ESMTPSA id 02F0A1C05FF;
+ Thu, 29 Feb 2024 16:10:37 +0300 (MSK)
+From: Andrey Shumilin <shum.sdl@nppct.ru>
+To: Karol Herbst <kherbst@redhat.com>
+Cc: Andrey Shumilin <shum.sdl@nppct.ru>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@redhat.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ lvc-project@linuxtesting.org, khoroshilov@ispras.ru, ykarpov@ispras.ru,
+ vmerzlyakov@ispras.ru, vefanov@ispras.ru
+Subject: [PATCH 3/3] drivers/gpu/drm/nouveau/nvkm/subdev/mxm/base.c:
+ BUFFER_OVERFLOW
+Date: Thu, 29 Feb 2024 16:10:24 +0300
+Message-Id: <20240229131024.636527-1-shum.sdl@nppct.ru>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] kci-gitlab: Introducing GitLab-CI Pipeline for Kernel
- Testing
-Content-Language: en-GB
-To: Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org,
- dave.pigott@collabora.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
- gustavo.padovan@collabora.com, pawiecz@collabora.com, spbnick@gmail.com,
- tales.aparecida@gmail.com, workflows@vger.kernel.org,
- kernelci@lists.linux.dev, skhan@linuxfoundation.org,
- kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com,
- cocci@inria.fr, Julia.Lawall@inria.fr, laura.nao@collabora.com,
- ricardo.canuelo@collabora.com, kernel@collabora.com,
- torvalds@linuxfoundation.org, gregkh@linuxfoundation.org
-References: <20240228225527.1052240-1-helen.koike@collabora.com>
-From: Guillaume Tucker <gtucker@gtucker.io>
-Organization: gtucker.io
-In-Reply-To: <20240228225527.1052240-1-helen.koike@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: gtucker@gtucker.io
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Thu, 29 Feb 2024 15:12:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,62 +70,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+The mxms_structlen function returns u16 (2 bytes).
+Therefore it reads 2 bytes beyond the mxms array.
 
-On 28/02/2024 23:55, Helen Koike wrote:
-> Dear Kernel Community,
-> 
-> This patch introduces a `.gitlab-ci` file along with a `ci/` folder, defining a
-> basic test pipeline triggered by code pushes to a GitLab-CI instance. This
-> initial version includes static checks (checkpatch and smatch for now) and build
-> tests across various architectures and configurations. It leverages an
-> integrated cache for efficient build times and introduces a flexible 'scenarios'
-> mechanism for subsystem-specific extensions.
+Signed-off-by: Andrey Shumilin <shum.sdl@nppct.ru>
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
+---
+ drivers/gpu/drm/nouveau/nvkm/subdev/mxm/base.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This sounds like a nice starting point to me as an additional way
-to run tests upstream.  I have one particular question as I see a
-pattern through the rest of the email, please see below.
-
-[...]
-
-> 4. **Collaborative Testing Environment:** The kernel community is already
-> engaged in numerous testing efforts, including various GitLab-CI pipelines such
-> as DRM-CI, which I maintain, along with other solutions like KernelCI and
-> BPF-CI. This proposal is designed to further stimulate contributions to the
-> evolving testing landscape. Our goal is to establish a comprehensive suite of
-> common tools and files.
-
-[...]
-
-> **Leveraging External Test Labs:**
-> We can extend our testing to external labs, similar to what DRM-CI currently
-> does. This includes:
-> - Lava labs
-> - Bare metal labs
-> - Using KernelCI-provided labs
-> 
-> **Other integrations**
-> - Submit results to KCIDB
-
-[...]
-
-> **Join Our Slack Channel:**
-> We have a Slack channel, #gitlab-ci, on the KernelCI Slack instance https://kernelci.slack.com/ .
-> Feel free to join and contribute to the conversation. The KernelCI team has
-> weekly calls where we also discuss the GitLab-CI pipeline.
-> 
-> **Acknowledgments:**
-> A special thanks to Nikolai Kondrashov, Tales da Aparecida - both from Red Hat -
-> and KernelCI community for their valuable feedback and support in this proposal.
-
-Where does this fit on the KernelCI roadmap?
-
-I see it mentioned a few times but it's not entirely clear
-whether this initiative is an independent one or in some way
-linked to KernelCI.  Say, are you planning to use the kci tool,
-new API, compiler toolchains, user-space and Docker images etc?
-Or, are KernelCI plans evolving to follow this move?
-
-Thanks,
-Guillaume
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mxm/base.c b/drivers/gpu/drm/nouveau/nvkm/subdev/mxm/base.c
+index c1acfe642da3..efd0c874742e 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/mxm/base.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mxm/base.c
+@@ -47,7 +47,7 @@ mxm_shadow_rom(struct nvkm_mxm *mxm, u8 version)
+ 	struct nvkm_bios *bios = device->bios;
+ 	struct nvkm_i2c *i2c = device->i2c;
+ 	struct nvkm_i2c_bus *bus = NULL;
+-	u8 i2cidx, mxms[6], addr, size;
++	u8 i2cidx, mxms[8], addr, size;
+ 
+ 	i2cidx = mxm_ddc_map(bios, 1 /* LVDS_DDC */) & 0x0f;
+ 	if (i2cidx < 0x0f)
+-- 
+2.30.2
 
