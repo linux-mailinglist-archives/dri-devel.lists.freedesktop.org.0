@@ -2,59 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A8386C8F2
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 13:15:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDF8F86C90A
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 13:20:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 687FA10E192;
-	Thu, 29 Feb 2024 12:15:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE91010E18C;
+	Thu, 29 Feb 2024 12:20:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ki+GRa/O";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IqN3QhQZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FE9510E192;
- Thu, 29 Feb 2024 12:15:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709208930; x=1740744930;
- h=mime-version:content-transfer-encoding:in-reply-to:
- references:cc:from:to:subject:message-id:date;
- bh=7JW5a96LhXrKrTtbr+0l/ZJtLu422Uf2mF5PXmTYswI=;
- b=ki+GRa/OnZj+Wpg0Msx0tpHRiPm7cOAX4OuEf05XCI3AB6bsQ/mI+hjQ
- iLtT/pN+p14qZKikrurqrKwlS8r6W9eycf2WSEDbyKMmNC7m2ZvuBEqes
- cgXXMMfFGByBShHWXaT7hzCWTlCKY1C8Mlt+5gGqfyaCwZdAmSjc3mtmP
- G6VMTcV5PzG0ns7sYoptRDIJlcIPtXdUK5kex8zO11C959NjjbY+uRhNw
- vqRNq0tpoFlsHVbj0sCN+tGtdLlWNdynw9jNOeYyRoMlWnh3Cfs4dBRlZ
- EkeaKoXRFF9tAOIlJDpS0OHo04yrtOhICH0itSZMo4X8DntLRzzCCeDHU A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="3552421"
-X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="3552421"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Feb 2024 04:15:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; d="scan'208";a="38649580"
-Received: from unknown (HELO localhost) ([10.245.244.80])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Feb 2024 04:15:27 -0800
-Content-Type: text/plain; charset="utf-8"
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B50DB10E18C
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 12:20:40 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi
+ [89.27.53.110])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 04C6E673;
+ Thu, 29 Feb 2024 13:20:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1709209225;
+ bh=emQm7hFesm1ix53qkhKXk/Ui+MWdzCkGTzLlugguFwU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=IqN3QhQZMd06ouU9VAf2MIJT4ISmQMj11yF1qHSQEqULk6VFr9BVsMVkwwcty4L9U
+ 3kcec5y7Ii/cM1IvKdbrbm66BC/F7dPzgm10TZNwomr15OXWS8mOtFMkw4oGWdlZrh
+ m1PJta3Pe42j2OYxP0d3lsvvJDtu4m8HhZ8ECO7g=
+Date: Thu, 29 Feb 2024 14:20:40 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Guillaume Tucker <gtucker@gtucker.io>
+Cc: Mark Brown <broonie@kernel.org>, Nikolai Kondrashov <spbnick@gmail.com>,
+ Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org,
+ dave.pigott@collabora.com, mripard@kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kselftest@vger.kernel.org, gustavo.padovan@collabora.com,
+ pawiecz@collabora.com, tales.aparecida@gmail.com,
+ workflows@vger.kernel.org, kernelci@lists.linux.dev,
+ skhan@linuxfoundation.org, kunit-dev@googlegroups.com,
+ nfraprado@collabora.com, davidgow@google.com, cocci@inria.fr,
+ Julia.Lawall@inria.fr, laura.nao@collabora.com,
+ ricardo.canuelo@collabora.com, kernel@collabora.com,
+ torvalds@linuxfoundation.org, gregkh@linuxfoundation.org
+Subject: Re: [PATCH 0/3] kci-gitlab: Introducing GitLab-CI Pipeline for
+ Kernel Testing
+Message-ID: <20240229122040.GG30889@pendragon.ideasonboard.com>
+References: <20240228225527.1052240-1-helen.koike@collabora.com>
+ <20240228230725.GF1659@pendragon.ideasonboard.com>
+ <0a5bf7d1-0a7e-4071-877a-a3d312d80084@gmail.com>
+ <20240229093402.GA30889@pendragon.ideasonboard.com>
+ <655f89fa-6ccb-4b54-adcd-69024b4a1e28@gmail.com>
+ <20240229111919.GF30889@pendragon.ideasonboard.com>
+ <a4fc23e1-5689-4f86-beb7-5b63a0d13359@sirena.org.uk>
+ <b3fb89aa-56b4-4b3c-88f6-c6320bf5c489@gtucker.io>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20240228142240.2539358-1-tvrtko.ursulin@linux.intel.com>
-References: <20240228142240.2539358-1-tvrtko.ursulin@linux.intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- Dave Airlie <airlied@redhat.com>, Jani Nikula <jani.nikula@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] MAINTAINERS: Update email address for Tvrtko Ursulin
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Message-ID: <170920892379.4178.17894356700899757288@jlahtine-mobl.ger.corp.intel.com>
-User-Agent: alot/0.8.1
-Date: Thu, 29 Feb 2024 14:15:23 +0200
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <b3fb89aa-56b4-4b3c-88f6-c6320bf5c489@gtucker.io>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,22 +72,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Tvrtko Ursulin (2024-02-28 16:22:40)
-> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->=20
-> I will lose access to my @.*intel.com e-mail addresses soon so let me
-> adjust the maintainers entry and update the mailmap too.
->=20
-> While at it consolidate a few other of my old emails to point to the
-> main one.
->=20
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+On Thu, Feb 29, 2024 at 12:53:38PM +0100, Guillaume Tucker wrote:
+> On 29/02/2024 12:41, Mark Brown wrote:
+> > On Thu, Feb 29, 2024 at 01:19:19PM +0200, Laurent Pinchart wrote:
+> >> On Thu, Feb 29, 2024 at 01:10:16PM +0200, Nikolai Kondrashov wrote:
+> > 
+> >>> Of course. You're also welcome to join the #kernelci channel on libera.chat.
+> > 
+> >> Isn't that a bit pointless if it's no the main IM channel ?
+> > 
+> > It *was* the original channel and still gets some usage (mostly started
+> > by me admittedly since I've never joined slack for a bunch of reasons
+> > that make it hassle), IIRC the Slack was started because there were some
+> > interns who had trouble figuring out IRC and intermittent connectivity
+> > but people seem to have migrated.
+> 
+> In fact it was initially created for the members of the Linux
+> Foundation project only, which is why registration is moderated
+> for emails that don't have a domain linked to a member (BTW not
+> any Google account will just work e.g. @gmail.com is moderated,
+> only @google.com for Google employees isn't).
+> 
+> And yes IRC is the "least common denominator" chat platform.
+> Maybe having a bridge between the main Slack channel and IRC
+> would help.
 
-Acked-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+If the gitlab CI pipeline proposal wants to be considered for inclusion
+in the kernel, I think it needs to switch to a free software solution
+for its *main* communication channels.
 
-Regards, Joonas
+-- 
+Regards,
+
+Laurent Pinchart
