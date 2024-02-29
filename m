@@ -2,62 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 433EC86C92B
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 13:25:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 187CE86C93B
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 13:30:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5152810E15B;
-	Thu, 29 Feb 2024 12:25:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 216CF10E467;
+	Thu, 29 Feb 2024 12:30:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wcBsRyjr";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="j2uwzqMw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97E9A10E195
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 12:25:02 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi
- [89.27.53.110])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id DDB93673;
- Thu, 29 Feb 2024 13:24:47 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1709209488;
- bh=K6neWUIvFeoUW8xXFJdX5R3tPB5XjlIDUunhao1jtTY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=wcBsRyjry5kHLIzEbjm/NFi/nTIml+y2541VxIqpb3C8yubjlwE8UsajGdDLFH389
- D0Z6S/eV/nzltcCvWj9KNHyE+vYdlE3MkXlYXglPUTSKBRwzWpgOBXeLeUO/yelXKn
- Dg7fnds8NhKgxTm8mvtHILYR/TNTkjA8+vvwO3W8=
-Date: Thu, 29 Feb 2024 14:25:03 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Guillaume Tucker <gtucker@gtucker.io>
-Cc: Mark Brown <broonie@kernel.org>, Nikolai Kondrashov <spbnick@gmail.com>,
- Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org,
- dave.pigott@collabora.com, mripard@kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kselftest@vger.kernel.org, gustavo.padovan@collabora.com,
- pawiecz@collabora.com, tales.aparecida@gmail.com,
- workflows@vger.kernel.org, kernelci@lists.linux.dev,
- skhan@linuxfoundation.org, kunit-dev@googlegroups.com,
- nfraprado@collabora.com, davidgow@google.com, cocci@inria.fr,
- Julia.Lawall@inria.fr, laura.nao@collabora.com,
- ricardo.canuelo@collabora.com, kernel@collabora.com,
- torvalds@linuxfoundation.org, gregkh@linuxfoundation.org
-Subject: Re: [PATCH 0/3] kci-gitlab: Introducing GitLab-CI Pipeline for
- Kernel Testing
-Message-ID: <20240229122503.GH30889@pendragon.ideasonboard.com>
-References: <20240228225527.1052240-1-helen.koike@collabora.com>
- <20240228230725.GF1659@pendragon.ideasonboard.com>
- <0a5bf7d1-0a7e-4071-877a-a3d312d80084@gmail.com>
- <20240229093402.GA30889@pendragon.ideasonboard.com>
- <655f89fa-6ccb-4b54-adcd-69024b4a1e28@gmail.com>
- <20240229111919.GF30889@pendragon.ideasonboard.com>
- <a4fc23e1-5689-4f86-beb7-5b63a0d13359@sirena.org.uk>
- <b3fb89aa-56b4-4b3c-88f6-c6320bf5c489@gtucker.io>
- <20240229122040.GG30889@pendragon.ideasonboard.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2852110E0E0;
+ Thu, 29 Feb 2024 12:30:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709209850; x=1740745850;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=I8wHXrw5KXLL0vG+bL726Zb9dp643IbYVediCET50o8=;
+ b=j2uwzqMwbbIMsHc2vNzCj2RxJwQzdoJJST3I4Y4PWwcyfj6WEVyHT67b
+ Os3g/lf1t9n30F/3+GDrny9ZbMRXOiESw47MGOwJYWyiOXxJQK+nx6Mxr
+ XrLScKhpoT7v6Vxo+dMvCWwpjNbaZQVJQZadRx0WNVsuBXkbL26uxdUjF
+ IhhIVtj8sGb+nXDD2QY6TMXH8qTp8Gt+sr/HiMXWCX9CqrCDHB0bPoknE
+ awrNuz6siCJ3yjYHOdmgDoc2Saan7BFgwLkpyOWHyHUCBlanquNm0XGgL
+ xCKeo7SZFPPCcNqLbQIdF4d2Qn/6SbXl6SiUbm9SCu8Jy8o029s4A/tDr w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="4255541"
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
+   d="scan'208";a="4255541"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Feb 2024 04:30:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="827771475"
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; d="scan'208";a="827771475"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga001.jf.intel.com with SMTP; 29 Feb 2024 04:30:30 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 29 Feb 2024 14:30:29 +0200
+Date: Thu, 29 Feb 2024 14:30:29 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Nikita Kiryushin <kiryushin@ancud.ru>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Manasi Navare <manasi.d.navare@intel.com>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ project@linuxtesting.org
+Subject: Re: [PATCH] drm/i915: Remove unneeded double drm_rect_visible call
+ in check_overlay_dst
+Message-ID: <ZeB45WKv4lP8QQpv@intel.com>
+References: <>
+ <79c92cfa-cf5a-4a23-8a93-11c1af7432fc@ancud.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240229122040.GG30889@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <79c92cfa-cf5a-4a23-8a93-11c1af7432fc@ancud.ru>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,41 +78,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 29, 2024 at 02:20:41PM +0200, Laurent Pinchart wrote:
-> On Thu, Feb 29, 2024 at 12:53:38PM +0100, Guillaume Tucker wrote:
-> > On 29/02/2024 12:41, Mark Brown wrote:
-> > > On Thu, Feb 29, 2024 at 01:19:19PM +0200, Laurent Pinchart wrote:
-> > >> On Thu, Feb 29, 2024 at 01:10:16PM +0200, Nikolai Kondrashov wrote:
-> > > 
-> > >>> Of course. You're also welcome to join the #kernelci channel on libera.chat.
-> > > 
-> > >> Isn't that a bit pointless if it's no the main IM channel ?
-> > > 
-> > > It *was* the original channel and still gets some usage (mostly started
-> > > by me admittedly since I've never joined slack for a bunch of reasons
-> > > that make it hassle), IIRC the Slack was started because there were some
-> > > interns who had trouble figuring out IRC and intermittent connectivity
-> > > but people seem to have migrated.
-> > 
-> > In fact it was initially created for the members of the Linux
-> > Foundation project only, which is why registration is moderated
-> > for emails that don't have a domain linked to a member (BTW not
-> > any Google account will just work e.g. @gmail.com is moderated,
-> > only @google.com for Google employees isn't).
-> > 
-> > And yes IRC is the "least common denominator" chat platform.
-> > Maybe having a bridge between the main Slack channel and IRC
-> > would help.
+On Wed, Feb 28, 2024 at 09:32:47PM +0300, Nikita Kiryushin wrote:
 > 
-> If the gitlab CI pipeline proposal wants to be considered for inclusion
-> in the kernel, I think it needs to switch to a free software solution
-> for its *main* communication channels.
+> check_overlay_dst for clipped is called 2 times: in drm_rect_intersect 
+> and than directly. Change second call for check of drm_rect_intersect 
+> result to save some time (in locked code section).
+> 
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> 
+> Fixes: 8d8b2dd3995f ("drm/i915: Make the PIPESRC rect relative to the 
+> entire bigjoiner area")
+> Signed-off-by: Nikita Kiryushin <kiryushin@ancud.ru>
+> ---
+>   drivers/gpu/drm/i915/display/intel_overlay.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_overlay.c 
+> b/drivers/gpu/drm/i915/display/intel_overlay.c
+> index 2b1392d5a902..1cda1c163a92 100644
+> --- a/drivers/gpu/drm/i915/display/intel_overlay.c
+> +++ b/drivers/gpu/drm/i915/display/intel_overlay.c
+> @@ -972,9 +972,8 @@ static int check_overlay_dst(struct intel_overlay 
+> *overlay,
+>   		      rec->dst_width, rec->dst_height);
+>    	clipped = req;
+> -	drm_rect_intersect(&clipped, &crtc_state->pipe_src);
+>   -	if (!drm_rect_visible(&clipped) ||
+> +	if (!drm_rect_intersect(&clipped, &crtc_state->pipe_src) ||
 
-And to clarify, I didn't meant the kernel CI project, but only the
-gitlab CI pipeline for the Linux kernel project. I don't know how
-tightly integrated the two projects are though.
+I prefer the current way where we have no side effects in
+the if statement.
+
+>   	    !drm_rect_equals(&clipped, &req))
+>   		return -EINVAL;
+>   -- 2.34.1
 
 -- 
-Regards,
-
-Laurent Pinchart
+Ville Syrjälä
+Intel
