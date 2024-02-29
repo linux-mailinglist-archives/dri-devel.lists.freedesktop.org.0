@@ -2,60 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B64F386D2D0
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 20:09:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A841B86D2E3
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 20:12:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E37F610E37F;
-	Thu, 29 Feb 2024 19:08:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF9BA10E5A0;
+	Thu, 29 Feb 2024 19:12:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dhRsKKpE";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="i1kKTX/9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A446110E37F
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 19:08:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709233736; x=1740769736;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=w6E4MG54xTr/SKuoxjWCy8IgGAwmFc7wmAROgT72Pdc=;
- b=dhRsKKpEsjw1vomCaZMbV4Z1o8Fx8BnIV/YDCJ1OE/R47ANLCN9cG64T
- LV8Hw+huSZAurfTTu+7GBRe40IKhdtiAzkEgTJ9itu9HFjoJ8AKQW5rcL
- obU6IxOgpv4kT7TOAIS9wmHSLfx8lJZdaQWyNLkL98roSxqSm8QpgOGHA
- jeVJFtKnWC/OO2JzoxBUo94hwBnT0fmYWlC5Zw5pVeuoFSWVH65gOOZ09
- X6IB5bKe+KQyKu05IoJDT5N06qlB54o7ZRmEDNd3CIHmKSuAT2LVRt/w8
- nkO3k3tlSCK/aVF3Zieeo5BcRddsOQW7p89b5iH4Ms31EponrLikjqB9z Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="14304512"
-X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; d="scan'208";a="14304512"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Feb 2024 11:08:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; d="scan'208";a="12587397"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
- by orviesa004.jf.intel.com with ESMTP; 29 Feb 2024 11:08:52 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rfllx-000DDj-23;
- Thu, 29 Feb 2024 19:08:49 +0000
-Date: Fri, 1 Mar 2024 03:08:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, airlied@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- daniel@ffwll.ch, javierm@redhat.com, bluescreen_avenger@verizon.net,
- noralf@tronnes.org
-Cc: oe-kbuild-all@lists.linux.dev, gpiccoli@igalia.com,
- Jocelyn Falempe <jfalempe@redhat.com>
-Subject: Re: [PATCH v8 3/8] drm/panic: Add debugfs entry to test without
- triggering panic.
-Message-ID: <202403010210.gfty1nKq-lkp@intel.com>
-References: <20240227100459.194478-4-jfalempe@redhat.com>
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+ [209.85.216.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23FFF10E47C;
+ Thu, 29 Feb 2024 19:12:53 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id
+ 98e67ed59e1d1-29b02e5c54cso942165a91.1; 
+ Thu, 29 Feb 2024 11:12:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1709233972; x=1709838772; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Px+JyXf4tLpdcNsZuGtIfGj/dsN60RYAYJbqilYoB+8=;
+ b=i1kKTX/9mGvufT35/92q/b2+LRTk/GP8YC50VobBn8vpH2TKQ28KCM7+2Jb6Y+f6oR
+ yrm+0JMtMJCHkVNeabIRBsGYAuJRZg5TG1CnfeHUCuxweK3NpiZ9PPQs7ReQN8uGdjQO
+ h4ZAqxif7U1A/HlTXiOw5AyQtt2I+I4/KS/0LDC81qcvVC8WdgVGQS8XVsBQvvHCzJqs
+ 1J4+zO1sohvF1qhce3R8ryosXfRxbVxTsQ1NuGIl2H7nSPutBXunUZjyClJtN96eMDzw
+ mojfJ0nB8kzG0Lrp8pwmefR/cWD3gZyjSOR+/U1PLansMb4v32B0LHcRCws4mZs7cCnG
+ mpfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709233972; x=1709838772;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Px+JyXf4tLpdcNsZuGtIfGj/dsN60RYAYJbqilYoB+8=;
+ b=DsSbHZgQR4nerNAGwJcVrMVhz4//Pk9o8QcVYNKyGltNiNFkzQS5+Av4bcH3uuTUh1
+ WAxiHN//WyYEUmOmWgzwfAocvosAuZ2/iX7HFTy9WHD7PIs11efmPPKNyI6ymP9SpiIB
+ hgDP0oLojJLmB0JHq0XXTLEX1qjcfI7Oi+5kajQmalQM1xjf/7JFHSi5k4my0x6FczVA
+ nviQ0OtKz+nHMtqMEq5OGmlLkItrgK8WZXly+ibruLFKyzwkUmy21XdchYXozDanHMel
+ v5oM6AIxsuQtNw9CFsVw2jwzGmGZOfpKgrXnJYLzMDvBgUfMGVaN09/WoPo4MkJfBvTM
+ BDcw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX3ukbPqcaW9Xl0LbdqMYVFeG1C92bEMGZzKCGBreTy0eDJ+LSFr3tMPf6UHtsVeLeMGJBRxVZwi/OswhLFrqxHHyla21vm5Vvxyfq1wBFEMrV2qvnQkTepFGsCmLKpzVXVRAUhf6YTs+6HwyJ/5g==
+X-Gm-Message-State: AOJu0Ywv2rq96dNg9YC1W4o1J2TZsatcN9rpnnX8bTF2VovPs+pJg1LO
+ ZLeRmrxc2msPdZZFCa08+H1NmivCXn/LKIE1lEttCnXLy19bvIqM/sJyWvMBozylDuHFW0bmGUl
+ 0oVXQ+IJyFhTFwhlwMgZf3Sr79/g=
+X-Google-Smtp-Source: AGHT+IFMzzhy10NqDN+BK2sKx5qHOBOz1iWOCM7oh2BvBq+hmVZas4TDKA77iA356owZsETodRWHQmax6qLWPeR7z20=
+X-Received: by 2002:a17:90b:ec6:b0:29b:17de:6951 with SMTP id
+ gz6-20020a17090b0ec600b0029b17de6951mr1582952pjb.3.1709233972379; Thu, 29 Feb
+ 2024 11:12:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240227100459.194478-4-jfalempe@redhat.com>
+References: <20240229181106.351877-1-helgaas@kernel.org>
+In-Reply-To: <20240229181106.351877-1-helgaas@kernel.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 29 Feb 2024 14:12:40 -0500
+Message-ID: <CADnq5_OdYfOOckVNzxZHgxCn5tuYHrCUuaTEnEubJS_2jwXw-Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: remove misleading amdgpu_pmops_runtime_idle()
+ comment
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Pan@freedesktop.org, Xinhui <Xinhui.Pan@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Bjorn Helgaas <bhelgaas@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,32 +84,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jocelyn,
+Applied.  Thanks!
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bfa4437fd3938ae2e186e7664b2db65bb8775670]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-format-helper-Add-drm_fb_blit_from_r1-and-drm_fb_fill/20240227-185901
-base:   bfa4437fd3938ae2e186e7664b2db65bb8775670
-patch link:    https://lore.kernel.org/r/20240227100459.194478-4-jfalempe%40redhat.com
-patch subject: [PATCH v8 3/8] drm/panic: Add debugfs entry to test without triggering panic.
-config: m68k-randconfig-r052-20240229 (https://download.01.org/0day-ci/archive/20240301/202403010210.gfty1nKq-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240301/202403010210.gfty1nKq-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403010210.gfty1nKq-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   m68k-linux-ld: drivers/gpu/drm/drm_panic.o: in function `debugfs_start':
->> drm_panic.c:(.init.text+0x0): multiple definition of `init_module'; drivers/gpu/drm/drm_drv.o:drm_drv.c:(.init.text+0x0): first defined here
-   m68k-linux-ld: drivers/gpu/drm/drm_panic.o: in function `debugfs_end':
->> drm_panic.c:(.exit.text+0x0): multiple definition of `cleanup_module'; drivers/gpu/drm/drm_drv.o:drm_drv.c:(.text+0x714): first defined here
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Thu, Feb 29, 2024 at 1:11=E2=80=AFPM Bjorn Helgaas <helgaas@kernel.org> =
+wrote:
+>
+> From: Bjorn Helgaas <bhelgaas@google.com>
+>
+> After 4020c2280233 ("drm/amdgpu: don't runtime suspend if there are
+> displays attached (v3)"), "ret" is unconditionally set later before being
+> used, so there's point in initializing it and the associated comment is n=
+o
+> longer meaningful.
+>
+> Remove the comment and the unnecessary initialization.
+>
+> Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/am=
+d/amdgpu/amdgpu_drv.c
+> index cc69005f5b46..68416e2a9130 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> @@ -2744,8 +2744,7 @@ static int amdgpu_pmops_runtime_idle(struct device =
+*dev)
+>  {
+>         struct drm_device *drm_dev =3D dev_get_drvdata(dev);
+>         struct amdgpu_device *adev =3D drm_to_adev(drm_dev);
+> -       /* we don't want the main rpm_idle to call suspend - we want to a=
+utosuspend */
+> -       int ret =3D 1;
+> +       int ret;
+>
+>         if (adev->pm.rpm_mode =3D=3D AMDGPU_RUNPM_NONE) {
+>                 pm_runtime_forbid(dev);
+> --
+> 2.34.1
+>
