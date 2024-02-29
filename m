@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE1DD86C36B
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 09:27:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4FB386C36E
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 09:27:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 988FB10E22E;
-	Thu, 29 Feb 2024 08:27:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B89B10E16C;
+	Thu, 29 Feb 2024 08:27:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="V47TjnOl";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sG3VXqPf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D94E310E22E
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 08:27:24 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id
- a640c23a62f3a-a43fc42e697so81423166b.1
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 00:27:24 -0800 (PST)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9CB610E16C
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 08:27:32 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id
+ a640c23a62f3a-a293f2280c7so120134266b.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 00:27:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1709195243; x=1709800043; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1709195251; x=1709800051; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=+jC9NU+Sr0rM0Ox02DOM4ORkqse489i4dWP/gSCDCTs=;
- b=V47TjnOlul9oiqac314G07JQpV8b7yOCTP9ytztEPm6ouia8tdG2XKq9bJmdnmjEVm
- SwZZsdmkKUXCMnTMHvy3ukql8yKdnu9iUHsZdFfJodUb6E+w+9bey89QdelH9Z2jKOQc
- rwBrSSiwwmmgJBrcExc1ck4KgCBES3mGD34GtJBoAJEjMQyznTKcqmHSHBuUoXmi6WNq
- snO8O1qekCitvvjsdXeU51pvCDTLKoDJJkydXwgfP1TIY2XyjBRVZNIpvT3DMGDg9skl
- krbfBSmBqxwrZozPUbup//zOMGGhUUgjBsjrdSKcHyQGB1cCpKIAgKq9KscEgrtAMEDB
- 55Cw==
+ bh=rgnff8MGvBMD8EBe8P50qmhLYND/U/bzSrvV7E5aiFo=;
+ b=sG3VXqPfwX/k7wrRBd+ETJnyOpbHf1HoN8y6MG5meYwvEXD1LsaU2nOocpuMbcbKf2
+ ujjRcTK3E/CiGIvKpRRIXb6yWMh0M6hCxMzGJxb4uIpwHSqghvpoW+Dtu2lDgl6tjPi8
+ 5MOl/67MnGSXH3+Ebr2qAXMA+PcLIhqnPSE983hl2BIipW9uNkMCfmW7QwRM/XMoKfx+
+ bqOHRUNxs/9BSErdQmyBTV7YksPbMRFPJR0hxrWiUuW/BR/U33njvitOcT2HTA14+9PP
+ 1oQMaDx1iFTLkHA2G1mZyyaz+QQlq9AGnWh6rwbvsPFnrVmFBKNYhjg2lrtEoX9/SLNC
+ wKmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709195243; x=1709800043;
+ d=1e100.net; s=20230601; t=1709195251; x=1709800051;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+jC9NU+Sr0rM0Ox02DOM4ORkqse489i4dWP/gSCDCTs=;
- b=IwCFlAYNFQv38yZBuspwoS1AbDY+z6w5cSKv9maCZlSVqCC/aaW63452xHUb7lX6/p
- wOLL0qdvqz7I+E95RlQa+IkkD6LBkjj/EhLJeoE93l0bdRAYYOcwTiHXRU0QoXlXF42T
- FibRuA98u371ZCShCG5qBLJ2n5dVCcY3mNGRvVuyYJid//IZGey+uoU7dvKbs3agej7N
- Ph6iLVzFQ2DsFCzG4FJEzwt7AuQW3/bXcHRJaolGPC+KjCFlHiQu5tyxePLTIsRCRFVI
- bU8aCjFOCFc84BZqXanQQdppJW78Z9vpDcUMxiVOkxXmvRxeMtiSpL30EfxElUXX8EOo
- 3JYA==
+ bh=rgnff8MGvBMD8EBe8P50qmhLYND/U/bzSrvV7E5aiFo=;
+ b=VUc48xHkbZxhq6jQyrtTo+rfApVL6iXuTfQQS/YhlkQx9+UF3PR6aPDBAzLdl4EtSN
+ KgJtG4emKyQxk4zl2gJuZfG+p5DXvCArbfQl034cHFZnNCXKscan1itTHGH+upImr1r/
+ 6zvogLUo0NCCle6WyWYgpln7riKhzP8wmfGovTiyhcpjd31ciDHTB/kD/B6A4aDmfxqy
+ DwxguFHSSA4UEOTzOts7WXPCkEmWtVgcrq+dtB/bxcZNPijyu231l6FFIGO3NI++k2vM
+ VE9lmjJfiy66JAfZ1hq/lUCqrv6JVXq7IBzeG+J9y2tHLsxrGtfiQZQZRbzupD2RYOTY
+ VOvg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWdBaICne275lSgtrBYi1ZFvEy1NbxCGSrbv/G8mUUz5Zrjtm1q83DHZjiUzvpDJkVal36VdYQKHZbSn8EY1IFYKZ6SFjyuOQPP1cR4qJcN
-X-Gm-Message-State: AOJu0YzyaE/3iEQh3bXeYmfYHfWvtXDJlz3AS9FgEtDuYu0e1OBFjvDZ
- sBlEAb6jTzNuhPIiZo0pwGNldH8GMZkoNd+TYvV8idxaVC72Wtc/YIqHMKihLfA=
-X-Google-Smtp-Source: AGHT+IHtFnTGokxus4yJA0VW8KJfoHKca5tzjEOBUp5rScvISxrFcHYTgLMG8YRVsaFj8MwttJR4fQ==
-X-Received: by 2002:a17:906:dd4:b0:a44:f88:323b with SMTP id
- p20-20020a1709060dd400b00a440f88323bmr967443eji.54.1709195242806; 
- Thu, 29 Feb 2024 00:27:22 -0800 (PST)
+ AJvYcCVVvXqiz2OV4EqC6Qii8fdrx/8ShCasCz2E7qwGKNhsp4DdDpfOpxMXwqjDNvKBALDZuDWgmoSJ6AnbdWjWCeo87g9CJMxg9E6fOWTbwGZP
+X-Gm-Message-State: AOJu0Yy+ZY2MHrPCaapt+EF6S8fr5q9BCs27bY8eKC66ReAy2YCEJo7o
+ AH40N2tobqUlgnKCiIs3sjE/+BMZ7KCeo8EQV8WQgfCZry4RB9bdhMT+rLwdS3U=
+X-Google-Smtp-Source: AGHT+IGcBZwPTv20828ePbiFHjn6j5WHPedNHJ8vYa+BwrVvKeH88EAeB/GeP2y/LI5tX4vo9G5Qwg==
+X-Received: by 2002:a17:906:44d:b0:a3e:b523:90b with SMTP id
+ e13-20020a170906044d00b00a3eb523090bmr960614eja.14.1709195250894; 
+ Thu, 29 Feb 2024 00:27:30 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.222.116])
  by smtp.gmail.com with ESMTPSA id
- vg9-20020a170907d30900b00a4439b7756bsm434508ejc.6.2024.02.29.00.27.20
+ vg9-20020a170907d30900b00a4439b7756bsm434508ejc.6.2024.02.29.00.27.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Feb 2024 00:27:22 -0800 (PST)
-Message-ID: <23a99e13-fe45-4cb7-8e1c-f6c85d70becc@linaro.org>
-Date: Thu, 29 Feb 2024 09:27:20 +0100
+ Thu, 29 Feb 2024 00:27:30 -0800 (PST)
+Message-ID: <d5c23bd6-3732-477c-af54-7ee1657e390c@linaro.org>
+Date: Thu, 29 Feb 2024 09:27:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] dt-bindings: display: mediatek: gamma: Add support
- for MT8188
+Subject: Re: [PATCH 1/3] dt-bindings: display: mediatek: gamma: Change MT8195
+ to single enum group
 Content-Language: en-US
 To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
  Rob Herring <robh+dt@kernel.org>,
@@ -80,7 +80,7 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  Project_Global_Chrome_Upstream_Group@mediatek.com,
  Fei Shao <fshao@chromium.org>
 References: <20240229023522.15870-1-jason-jh.lin@mediatek.com>
- <20240229023522.15870-3-jason-jh.lin@mediatek.com>
+ <20240229023522.15870-2-jason-jh.lin@mediatek.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -126,7 +126,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240229023522.15870-3-jason-jh.lin@mediatek.com>
+In-Reply-To: <20240229023522.15870-2-jason-jh.lin@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -145,32 +145,16 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 29/02/2024 03:35, Jason-JH.Lin wrote:
-> The gamma LUT setting of MT8188 and MT8195 are the same, so we create
-> a one of items for MT8188 to reuse the driver data settings of MT8195.
+> Since MT8195 gamma has multiple bank for 12 bits LUT and it is
+> different from any other SoC LUT setting.
+> 
+> So we move MT8195 compatible from the one of items to the
+> single enum group.
 > 
 > Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 > ---
->  .../devicetree/bindings/display/mediatek/mediatek,gamma.yaml  | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml
-> index 3e6cb8f48bcc..90c454eea06f 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml
-> @@ -29,6 +29,10 @@ properties:
->            - enum:
->                - mediatek,mt6795-disp-gamma
->            - const: mediatek,mt8173-disp-gamma
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt8188-disp-gamma
-> +          - const: mediatek,mt8195-disp-gamma
->        - items:
->            - enum:
->                - mediatek,mt8186-disp-gamma
 
-Please keep this ordered by fallback compatible, so your list with 8195
-fallback should go below the list here.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
