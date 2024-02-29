@@ -2,66 +2,146 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F15AC86CF1B
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 17:29:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 711A586CF5D
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 17:34:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 204D110E2A5;
-	Thu, 29 Feb 2024 16:28:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83DFC10E1F2;
+	Thu, 29 Feb 2024 16:34:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Q14FqFwO";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QP7iWI/1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7425E10E2A5
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 16:28:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1709224134;
- bh=z4pcMkbx7CwYtTLR1xVSD2jGRP8EoN4FBh8txazgN9A=;
- h=Subject:From:To:Date:In-Reply-To:References:From;
- b=Q14FqFwOkU3VixMurYxnw1yk1ZbMV9inkY4T1bEtUk4/XS5dyG+R94vFtllvI/t1b
- BLOtyXu7swxRNfucTD11pVsSgdE0emaKDk+nNA+iRUqy11TXgGKLTE0dbr4QtYhiAW
- 3R3NW0akW34+qswicx0By/kpbDHalnrt0hcUHs1fQf08vDKcmYxD0p4odjklxshMID
- bek9QpSuvYFpYd2ms1DWsCyijWVcDNkR+DROy3guaDoYd21B1zBqeAE/1j+qZu0tTL
- nVulcl3OdM19BKtZutlAs+shYJGgpfIoXjlhEB9AgDh2FFQa2kdoq7wtco/LS2xlHT
- dlzl/nirPPcnA==
-Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com
- [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: nicolas)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 92CC13782066;
- Thu, 29 Feb 2024 16:28:51 +0000 (UTC)
-Message-ID: <51fa8932e57010620e9a9e16a1979f4883e95a7d.camel@collabora.com>
-Subject: Re: [PATCH 0/3] kci-gitlab: Introducing GitLab-CI Pipeline for
- Kernel Testing
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Nikolai Kondrashov <spbnick@gmail.com>, Guillaume Tucker
- <gtucker@gtucker.io>, Helen Koike <helen.koike@collabora.com>, 
- linuxtv-ci@linuxtv.org, dave.pigott@collabora.com, mripard@kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-kselftest@vger.kernel.org, gustavo.padovan@collabora.com, 
- pawiecz@collabora.com, tales.aparecida@gmail.com,
- workflows@vger.kernel.org,  kernelci@lists.linux.dev,
- skhan@linuxfoundation.org, kunit-dev@googlegroups.com, 
- nfraprado@collabora.com, davidgow@google.com, cocci@inria.fr, 
- Julia.Lawall@inria.fr, laura.nao@collabora.com,
- ricardo.canuelo@collabora.com,  kernel@collabora.com,
- torvalds@linuxfoundation.org, gregkh@linuxfoundation.org
-Date: Thu, 29 Feb 2024 11:28:48 -0500
-In-Reply-To: <a5726043-1906-44ba-a6ee-a725a2776269@gmail.com>
-References: <20240228225527.1052240-1-helen.koike@collabora.com>
- <d99d026e-ed32-4432-bab3-db75296e67d8@gtucker.io>
- <a5726043-1906-44ba-a6ee-a725a2776269@gmail.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BB0F10E53A;
+ Thu, 29 Feb 2024 16:34:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709224442; x=1740760442;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=aWm+L/QPDBb8eD4+xivVm+Vx8beKNhMbYKG/xplPWB0=;
+ b=QP7iWI/14p/LiekxQ7PuhIpIUUd60E1hzAIoSkkQr9OrsJYC32fSNotP
+ 81jw8p7jemeiNLpfyJvBD4AkFGB5w2tgpae2oIZczofQNo5TYsRPHbea6
+ WbuzQt4gSVp4RH8dbW3MyT4zRMn/mlr4DlDap8o88jDewvGe3gH15S4vH
+ fcLL2BJ5PWgNnT0w3ZzEVXDf9FceuGTFQfYwmNIbDdv9UySN4ZENuNQJC
+ VwebzTCFxJcGva+JQQCd5/kjy1Wsm6jF0GVluZaNWsqfXj5kMxL2EojCO
+ 9XCTDF2KQrku1mSHXOsAYtRkPIcZ0cej6TEsmKzjdBiUy+miLmiH5bSAi A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="26169197"
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; d="scan'208";a="26169197"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Feb 2024 08:34:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
+   d="scan'208";a="8121347"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 29 Feb 2024 08:34:00 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 29 Feb 2024 08:34:00 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Thu, 29 Feb 2024 08:34:00 -0800
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.40) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Thu, 29 Feb 2024 08:33:59 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fkEEKZXPR/1KQXNvl45u7oRZJtC81bOWrHcQ2D+v4U+fNhPs++yEOImhjsQA96yHUkJy5OesCJTrcaWk859sQ29J6gAllSwwExAca190QLq7a0DFgS29Mzn7y9HkVkLYccUL5365LKqcbgmqSruubgEFvo0JzgKl5L3sutPSyNdU8IXUXqrnkPxmMQP4mo2kqZtlJZBIaTkOyhnoQs07H7THw1da1mxAVNLLliNoxwhF+YgZ4Opdeo5qSHMxSNDKl8/9dJ9zJogvBoDInDSQeTdHxHnIX5pRdzGK45yIUv/e5nnmtVsfUQtOEhInmNV1Ls/BsHp8YvFIjlqZCGK2qQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aWm+L/QPDBb8eD4+xivVm+Vx8beKNhMbYKG/xplPWB0=;
+ b=QsQKGmOcoVGuPWqJ92LPw06sAjwm6VR2mPbzD1ibzvgwfroh6HCJIDgybdbC/ZKcAGvcHN8rJqMSKMyeJysnbgbat3eQOX0MMWs1sXd3IkC01xtV/tsNItT4MMrGPtZnVKTab6tEyMkJmfg93z0qem4F1/Rxd0WLsGZ7/9KOulhOLNkXe9hVn0SDuYdaK7RK5at4wCHwcajN/S+8xca97NKR2r7r2cmBsxH49YFJdGK8vh1spFw4KbwKOxfdZ5wNjO3oX0GrGhzuLKfw+QzRmYaxFH+KsRwQVOJ3S++o+CCQvuT9Bm6kpeAINjyG8ZObxB3EZJlaxE+A/Hsocivmgg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA1PR11MB6348.namprd11.prod.outlook.com (2603:10b6:208:3af::16)
+ by SJ2PR11MB8499.namprd11.prod.outlook.com (2603:10b6:a03:578::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.12; Thu, 29 Feb
+ 2024 16:33:56 +0000
+Received: from IA1PR11MB6348.namprd11.prod.outlook.com
+ ([fe80::27fc:befb:9a38:279]) by IA1PR11MB6348.namprd11.prod.outlook.com
+ ([fe80::27fc:befb:9a38:279%4]) with mapi id 15.20.7339.024; Thu, 29 Feb 2024
+ 16:33:56 +0000
+From: "Golani, Mitulkumar Ajitkumar" <mitulkumar.ajitkumar.golani@intel.com>
+To: "Nikula, Jani" <jani.nikula@intel.com>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
+Subject: RE: [PATCH v12 2/8] drm: Add Adaptive Sync SDP logging
+Thread-Topic: [PATCH v12 2/8] drm: Add Adaptive Sync SDP logging
+Thread-Index: AQHaalTHRUKmBtobpEGD2AqjrUtCWbEhIfcAgABjHEA=
+Date: Thu, 29 Feb 2024 16:33:56 +0000
+Message-ID: <IA1PR11MB6348DD3317E4B9D860E426CCB25F2@IA1PR11MB6348.namprd11.prod.outlook.com>
+References: <20240228143823.2762595-1-mitulkumar.ajitkumar.golani@intel.com>
+ <20240228143823.2762595-3-mitulkumar.ajitkumar.golani@intel.com>
+ <87msrj8sjx.fsf@intel.com>
+In-Reply-To: <87msrj8sjx.fsf@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA1PR11MB6348:EE_|SJ2PR11MB8499:EE_
+x-ms-office365-filtering-correlation-id: 03a6b25e-891c-4531-c62e-08dc39443971
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: FANtoGnTKE+AaUZzFfo4F8evunfFfmptaUtUqrA6lYYyk4O/CninsNlUOujoGkBGvIVPRvVRjn2pFPUwKi8CKzfLg08SfxiyCEDbt4QWAtKj6r8H/GLvoZRXu/bJtV/IR+8FCzqUMwn4qeLPOpxF9/gp4hYEfY/LANMTo7u5niwIk7hrzhsZ5TvN7HCDM+HmXgK4AWcGuQTibs0B4MrBJXa3Yjq/CmFhulaRnk9Jv3Ny85eRBgVRKFS7Dwtp3uQyQS27llzMuCCJ2Pyr3JGf3Dc5lzjA5Wf14Aw20bYFHA9BTIfnr5VE2hzoh8QEbB78OvOgIc7/3L8gv3iLHBd+HGBjNcoKP9SxkPmIiA0RH2Sfd4cq9LQeH1s/ZQLZRjbkHRLGo6plMa7lOMe91GcUepYLfr2xoSRBrLJtZf8sA/WKdj++vrWDE4fDuNb6thLZsMxLFk0Jepg4/ntf4BdNUKjQjs7kXaw9CjcOwuPOXSbuQivuYTnSQ5Y8vAvOWULmPBkeJ/Tos8SUkZh6Fn5LJQBKyzNxY//8khb9BCpj9xh8rDwbtW57WK4YBTJqFGPQZuNHA8UqPfSIQUwQAZRd3b/sbQwpMuf0J2ie/PLd2P5gtK1qnkoy69/ZfZj79ZJkX4+U5jhjKs0jx4Q2VRsLtO2XvlguSMGCmtcGWH5wOCPgcVzHnylVYaYN5a1BEwjlEMqIbrCa9bzi4WDO7UNEiXYhkNht0Dp4fZxRzTTnvFI=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:IA1PR11MB6348.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(38070700009); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ukh8VILi/fji4D2VfNKvM94Lf1ABLomPKneWfpwJD12Pa0saY7wZdSThNsae?=
+ =?us-ascii?Q?+cLu5zmxeX/jT/9cd5nY939bRHv204GkKaV9n71yLHDsH2jYfz9Aas1aQR/R?=
+ =?us-ascii?Q?mlsAMk3Ix29n7p4mISvWVvYuCmoNu6SK7F8cnVMqxDg5Riqt+XTMTV/81t1E?=
+ =?us-ascii?Q?MxUKtnd2uLWCDIwOkzeCCmIH4eH8FN2lgOLh9acZb3y6iXLo6WZgCq5ceyON?=
+ =?us-ascii?Q?UNTe8BMM3h08uyPzAC0ntOUgIk8x/TFUuTPBhSNONPuFvLNeg+Md5uEELLpn?=
+ =?us-ascii?Q?3NwkCAx5c67NYb3WEHqfqMMcQoZPI7SFgNqX6f8NkPU8+lg96QAKxDatczKq?=
+ =?us-ascii?Q?HyXqbLjemq9z+2CyDocLLFDUiwRE2g3smI9a3kk/cciCcDAAZDhGuozFSpOw?=
+ =?us-ascii?Q?N3pJSFs95PEMETrIHOgJgSWJkf0qzqJJ0YNcNBHBToArIFZ1zcMU1jPqtrdE?=
+ =?us-ascii?Q?d96F/tJiEBpmdbXUmnIs2KuyzxajKhPBpVwBl5Y4uJZB5x7kvhscfseacZtI?=
+ =?us-ascii?Q?pQYs8BCxWbvbwr36GoUKhiS2edwH+IMWGrC/463a+q55i8lRBgYVxdRCmY+n?=
+ =?us-ascii?Q?H5CIp+inoeZdECk2W3ScWS7QIqrpaYVzRM5lDUg4OdW+VkMgi9zSFTjbpdA6?=
+ =?us-ascii?Q?UbPUkMIFrdnJr03O/1dWtr++F2zlJoE4IHjG3JzC54ed30IKKBBskIQ97hgI?=
+ =?us-ascii?Q?nHloIq4E4N5KV7IJetJObxGavZRYUKpZQ5pL84i/XGtEsjT9CHqirLWJnHlN?=
+ =?us-ascii?Q?ux6C4Ra+kKBRym06nCrR1FmpV9gOdD+FJ458x50uzY/xVyy2pteTu8mBPXaV?=
+ =?us-ascii?Q?3Icv6mvqmaLcMumhNijwDgkuKYLEEtgbbGkSncY0ZZOIOR+T4vIrkzRAXwF9?=
+ =?us-ascii?Q?vPv03WP5LTlxUQ3YmK0nfbtcmvcRCa8ntySbf0IaPOyu0dzalArN0c9iRHG8?=
+ =?us-ascii?Q?wvwSwQNrdEbfX0SrqTmKWR6kecEOlvCP7Wcl+yIe5FYWoKRPXtFHxMfhrOKC?=
+ =?us-ascii?Q?D6YNrwWtIUm3fkXb5lXDbfip4Y1M/ZRPNbDfgULEmQC8aVgj2F46GEkk+uTU?=
+ =?us-ascii?Q?2TW+RbXkgwzSlFLXw6Hs4mGwpz6LRQnrxyWWxDpgLq/NkwHmjrVZ55F1S8u4?=
+ =?us-ascii?Q?G/okLdluMLEsLA8UsIOGClTnuM7egIWDgs4KmeH3Nw6/izMAEqTyGG5GQ7h/?=
+ =?us-ascii?Q?i1p4sLKO/PM2YCTw3+9q7DXpX4A+MPEbyaiNgmUYxVkPanYRscf2qfuX7Ene?=
+ =?us-ascii?Q?0ViaHpvilQVayaS6kpw5KvDniTK+yytTPm8rHfKNt0dafk1So0MqhSuVx1NT?=
+ =?us-ascii?Q?pWtfYd6UcqGowrWTPoK4VbCV+olhX3CBHI0kP6TRdVHBNPZdiODa1bJ+pR9k?=
+ =?us-ascii?Q?nSaU9OPlOsUYpOFEDPsYo6+TXFEJ7BXoPog6+JMcE/Oxp35tuL2/id4M/rE4?=
+ =?us-ascii?Q?mC/yFUepQYtGJBxQ+AvpJzq3UmPVavs6qPZyGXTkJ9uACqT9zL2uzG1+JRYU?=
+ =?us-ascii?Q?kX5+G5RQIaXqVVCWtNF2nGL20zlOsJJjFcdClUIKMWkv4g0bGymeaO/wugc0?=
+ =?us-ascii?Q?bchGi8Xch3gAVBKxfz1UB9sHzvJgWMzswwbTSxSIKxoPSPrB3xGct0opX1dW?=
+ =?us-ascii?Q?tJX6TpV+P9yDyzaORK8O7ns=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB6348.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 03a6b25e-891c-4531-c62e-08dc39443971
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Feb 2024 16:33:56.3672 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: chQaMGMVd7cNTNktRJyoaUtR42sI1LYMUnEf0wbCX7QryhKzlxAUsKTWoFC1Hz/uvJtiQTWAsUks1Osvk7Ax/E7Mb5yUykV1nZakhWVtmEvEMZdKc3iFtmxTbAN3TQI9
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB8499
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,116 +157,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-Le jeudi 29 f=C3=A9vrier 2024 =C3=A0 16:16 +0200, Nikolai Kondrashov a =C3=
-=A9crit=C2=A0:
-> On 2/29/24 2:20 PM, Guillaume Tucker wrote:
-> > Hello,
-> >=20
-> > On 28/02/2024 23:55, Helen Koike wrote:
-> > > Dear Kernel Community,
-> > >=20
-> > > This patch introduces a `.gitlab-ci` file along with a `ci/` folder, =
-defining a
-> > > basic test pipeline triggered by code pushes to a GitLab-CI instance.=
- This
-> > > initial version includes static checks (checkpatch and smatch for now=
-) and build
-> > > tests across various architectures and configurations. It leverages a=
-n
-> > > integrated cache for efficient build times and introduces a flexible =
-'scenarios'
-> > > mechanism for subsystem-specific extensions.
-> >=20
-> > This sounds like a nice starting point to me as an additional way
-> > to run tests upstream.  I have one particular question as I see a
-> > pattern through the rest of the email, please see below.
-> >=20
-> > [...]
-> >=20
-> > > 4. **Collaborative Testing Environment:** The kernel community is alr=
-eady
-> > > engaged in numerous testing efforts, including various GitLab-CI pipe=
-lines such
-> > > as DRM-CI, which I maintain, along with other solutions like KernelCI=
- and
-> > > BPF-CI. This proposal is designed to further stimulate contributions =
-to the
-> > > evolving testing landscape. Our goal is to establish a comprehensive =
-suite of
-> > > common tools and files.
-> >=20
-> > [...]
-> >=20
-> > > **Leveraging External Test Labs:**
-> > > We can extend our testing to external labs, similar to what DRM-CI cu=
-rrently
-> > > does. This includes:
-> > > - Lava labs
-> > > - Bare metal labs
-> > > - Using KernelCI-provided labs
-> > >=20
-> > > **Other integrations**
-> > > - Submit results to KCIDB
-> >=20
-> > [...]
-> >=20
-> > > **Join Our Slack Channel:**
-> > > We have a Slack channel, #gitlab-ci, on the KernelCI Slack instance h=
-ttps://kernelci.slack.com/ .
-> > > Feel free to join and contribute to the conversation. The KernelCI te=
-am has
-> > > weekly calls where we also discuss the GitLab-CI pipeline.
-> > >=20
-> > > **Acknowledgments:**
-> > > A special thanks to Nikolai Kondrashov, Tales da Aparecida - both fro=
-m Red Hat -
-> > > and KernelCI community for their valuable feedback and support in thi=
-s proposal.
-> >=20
-> > Where does this fit on the KernelCI roadmap?
-> >=20
-> > I see it mentioned a few times but it's not entirely clear
-> > whether this initiative is an independent one or in some way
-> > linked to KernelCI.  Say, are you planning to use the kci tool,
-> > new API, compiler toolchains, user-space and Docker images etc?
-> > Or, are KernelCI plans evolving to follow this move?
+
+> -----Original Message-----
+> From: Nikula, Jani <jani.nikula@intel.com>
+> Sent: Thursday, February 29, 2024 4:08 PM
+> To: Golani, Mitulkumar Ajitkumar <mitulkumar.ajitkumar.golani@intel.com>;
+> intel-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org; Nautiyal, Ankit K
+> <ankit.k.nautiyal@intel.com>; Golani, Mitulkumar Ajitkumar
+> <mitulkumar.ajitkumar.golani@intel.com>
+> Subject: Re: [PATCH v12 2/8] drm: Add Adaptive Sync SDP logging
 >=20
-> I would say this is an important part of KernelCI the project, considerin=
-g its=20
-> aim to improve testing and CI in the kernel. It's not a part of KernelCI =
-the=20
-> service as it is right now, although I would say it would be good to have=
-=20
-> ability to submit KernelCI jobs from GitLab CI and pull results in the sa=
-me=20
-> pipeline, as we discussed earlier.
+> On Wed, 28 Feb 2024, Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+> wrote:
+> > Add structure representing Adaptive Sync Secondary Data Packet (AS SDP)=
+.
+> > Also, add Adaptive Sync SDP logging in drm_dp_helper.c to facilitate
+> > debugging.
+>=20
+> To be honest, the division of patches is a bit weird. There's no reason t=
+o change
+> i915 here, is there?
+>=20
 
-I'd like to add that both CI have a different purpose in the Linux project.=
- This
-CI work is a pre-merge verification. Everyone needs to run checkpatch and
-smatch, this is automating it (and will catch those that forgot or ran it
-incorrectly). But it can go further by effectively testing specific patches=
- on
-real hardware (with pretty narrow filters). It will help catch submission i=
-ssues
-earlier, and reduce kernelCI regression rate. As a side effect, kernelCI in=
-fra
-will endup catching the "integration" issues, which are the issue as a resu=
-lt of
-simultenous changes in different trees. They are also often more complex an=
-d
-benefit from the bisection capabilities.
+Hi Jani,
 
-kernelCI tests are also a lot more intensive, they usually covers everythin=
-g,
-but they bundle multiple changes per run. The pre-merge tests will be reduc=
-ed to
-what seems meaningful for the changes. Its important to understand that pre=
--
-merge CI have a time cost, and we need to make sure CI time does not exceed=
- the
-merge window period.
+Thought behind this was to use the function where it was defined. But no wo=
+rries, I have split it with new patch series floated.
 
-Nicolas
+Regards,
+Mitul
