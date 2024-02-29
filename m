@@ -2,156 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 772FA86C667
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 11:08:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9FD486C6B5
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 11:21:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5104710E3F6;
-	Thu, 29 Feb 2024 10:08:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E039710E35A;
+	Thu, 29 Feb 2024 10:21:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MEY+NO+M";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ehxjgMdl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0015D10E3F3;
- Thu, 29 Feb 2024 10:08:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709201327; x=1740737327;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=cDtJJeUCVb7Q6Th0AmnoPqCuTcQ0ss818Bw9lJy8WL4=;
- b=MEY+NO+Mh1z0RMwpTcvVSsJmHExTtc3hwIvfmeY9S9w9b1ftmGxj3wr6
- 63BgOsafyt0ttUrc+JceeNSajuz6K1C2I/FaXbXkmG3W487aR8Ed/ge55
- RVHLzcJMNynhWhtcU/ShxtrDVnuw+zNByC7B44TP6JGclPYFUDw28dCQ2
- sqA0emlH93fkBgxpktjXhkPZh7vk2YbPnSm29SBLY9zffff6uD2GXPZsm
- tE1t5OMN9Kh6tDZRCYboFBToJAWclJFJkGuDQUHXl8JudguMCmupDxsjU
- IUOv3afJQhK6q1cLHv7farLDkUf/dW53fhdJ2l2ugy+A63ruFKOi3UfyR g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="21203518"
-X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; d="scan'208";a="21203518"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Feb 2024 02:08:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="7691227"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmviesa009.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 29 Feb 2024 02:08:46 -0800
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 29 Feb 2024 02:08:45 -0800
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 29 Feb 2024 02:08:44 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Thu, 29 Feb 2024 02:08:44 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 29 Feb 2024 02:08:05 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J3EQUWF5ekldCbOMQp/SALmgAweZaUCczFIKoaEGIeOtKkV0d6rsbEcJjLNhkMeSG9Qszc+3UrJwvRJHMZQBmJ6MxF31NO1gWN3srC/iWL7faerZu1LTN1fOpSyXS9GoHr9pa+bMx2H50r/RGAnFO6j7fv7cxRBqpqRZP9+gjEXxNV9AgrYq3eY5rz1Ry6JQYrIJij58JuW1+eU7CjV6Sm/gMbtY2tsOf9qWwa4U1yIv9uAoRMymrrFJR/YWT0ZwWex7W6EcfrB6/qOHqlWNpseEJoQQ0Z9LSZrGmNqMIJHBmoJFRTffpYT2tfSweTBG5MRMIm7s23aja/9eVHdjCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J+iuYghr/W9ktL1EsIA6bUKOH8pv9j4zrpoWeldxX4o=;
- b=kSeEzar9oG1zmUteXoPm6xb69hrHEY9tdw/krIOJ3GPrlMofCwOatQu/5M59WjLKBY6UJffQVWYdOKxv6ch2lIdMIrRCcbTgiR32L9vJVs8xVJR2YREW4ZXIqrFLPGMvJxwevydgn9/KXKoq1Yws2H3JMsg3Uq6zmIEreAeXoXBMtJ+ywf7ZqfMnUTpYpfa4aMhtoLUJW4Ckbf3PuaiemKICxkQ/jKH3teCHQHrfRXfTqopLDYzKVF65ZAdoHjfhZCv/+tKg3fP+mHGHrrZ9fecFlJ9iVlKr2rff0YhLzULOcSkJ9RqcQcudo49o344aBgV5VkfqLBKmfsjC0j4zpA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5341.namprd11.prod.outlook.com (2603:10b6:5:390::22)
- by IA1PR11MB7320.namprd11.prod.outlook.com (2603:10b6:208:424::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.15; Thu, 29 Feb
- 2024 10:08:03 +0000
-Received: from DM4PR11MB5341.namprd11.prod.outlook.com
- ([fe80::12b:4490:b758:75c2]) by DM4PR11MB5341.namprd11.prod.outlook.com
- ([fe80::12b:4490:b758:75c2%7]) with mapi id 15.20.7339.024; Thu, 29 Feb 2024
- 10:08:03 +0000
-Message-ID: <4b7b2711-040c-4aed-ab05-e752527cf5cb@intel.com>
-Date: Thu, 29 Feb 2024 15:37:57 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 2/8] drm: Add Adaptive Sync SDP logging
-Content-Language: en-US
-To: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
- <intel-gfx@lists.freedesktop.org>
-CC: <dri-devel@lists.freedesktop.org>, <jani.nikula@intel.com>
-References: <20240228143823.2762595-1-mitulkumar.ajitkumar.golani@intel.com>
- <20240228143823.2762595-3-mitulkumar.ajitkumar.golani@intel.com>
-From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
-In-Reply-To: <20240228143823.2762595-3-mitulkumar.ajitkumar.golani@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN3PR01CA0166.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:de::10) To DM4PR11MB5341.namprd11.prod.outlook.com
- (2603:10b6:5:390::22)
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96B6210E35A
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 10:21:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1709202088;
+ bh=snvD5kWXFLB6AcGQ8H5+y7jL/rrDUq79ugF9+pgwUCY=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=ehxjgMdlLzDJu4DgpVFueM0u8n+qfHqzszoekyZuJ9ANMOdM8f9AxSKIUlsRnN2HR
+ UHG/NLiAAC1WVAoAe/dFLA1RYQzZ74LpXClzP5mp+/6ujW1kUHDkeM3DMuuRDZuYXC
+ Yk8/QUR+HisuzwUXqOe1B+lYveRJ1m8iz6lUwAguXS+hJZmpGfXDCoDfMjxDF3LuvO
+ GKInLTb04i+SqeiqgT57bGh9HmKdUlquqVr4HjfRUhHjeo+q6yr0wrth4O06Hk7Rcs
+ kHFBOGRcweu/voXc4WJwZ0wRitR3EIpFcLFY4okuwvNufafbSXicAech2SArQxKz7u
+ shJFrB+IpwdpA==
+Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: pq)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id AC6493780029;
+ Thu, 29 Feb 2024 10:21:27 +0000 (UTC)
+Date: Thu, 29 Feb 2024 12:21:26 +0200
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
+ <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ thomas.petazzoni@bootlin.com
+Subject: Re: [PATCH v2 5/9] drm/vkms: Re-introduce line-per-line composition
+ algorithm
+Message-ID: <20240229122126.6bdb1d2f.pekka.paalanen@collabora.com>
+In-Reply-To: <Zd35cY6uxP7akjw8@localhost.localdomain>
+References: <20240223-yuv-v2-0-aa6be2827bb7@bootlin.com>
+ <20240223-yuv-v2-5-aa6be2827bb7@bootlin.com>
+ <20240226133706.281deb59.pekka.paalanen@collabora.com>
+ <Zd35cY6uxP7akjw8@localhost.localdomain>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5341:EE_|IA1PR11MB7320:EE_
-X-MS-Office365-Filtering-Correlation-Id: dbc9ec60-342c-41c7-7071-08dc390e5128
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ifsFVnCkLgttowac5ccWzudgH5katub1+gwsZm1XJFIIZ194rHteIMhI+3oWkdNnv23g10hP2CvTWhT7WsvkaDkd9tN8hph9sm4I5kb0I1SpC/QSg0/u4mWk9OEJPqTNiafjON3o2Io39t5Z5y/tvpsj8/15dIpmf3JCYBuxpiMPTWeLHIiuZWfHntXzbm80S8Nlwe8a8pTsJZPJ8O09xrPv88o2v3yZCUnAEorrdYsIGmCiSsefAPbctL2TXwa9rF/DiDOCv9heSyfbIAznAVaO+KpPXZLGsQmNxdZvzpBcpy+oFUKYRkFvs0Nwp9Hd0sNvvdmcdH7WD9jPNcs2MzXdeoG4FWLjSDcUMo8IfRmvYGVlFz4bHef0cojfwmL22OqT09f1wYz7zQ4tGpwJMa1sXwk9xNbpo9BQv8VhZR19htArd2S0R2u+5bbHwG8xvHdHwe/97RHo6u9oYExOZpXXfIQlWSI0hDsgG4dvFJIWnuMpbG+YgesNd+neWKuLBuIf9CsZLUofCr4gQwNgjWsFZ6SZlPoX0+xtLn7s5oirsmKoD37myaAqa/EwoxXG5ibEXOdnu7jzyfpDLOhHFATVXRWjRyV0XYTQBUCaXCrrYihqQre7KMeYUgsHlMg7KGsGEf5cJBBV5Jp/x4dyzg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5341.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SGRISXQzWFNENWhjYUlQK0xoSlFhMno0bG9xejd6ZlMzamU2d0hqd3VtbUgw?=
- =?utf-8?B?akRWbFJuaVFBZENqakxmdk5EcHBnZFZ1c3JZL29sMkNUTG0yU1o2OVVUNDdE?=
- =?utf-8?B?R0ZuNWFCNVZZRENPdlpLejRRRy9DZURNT2pSVUdwT01zakxTSTJublNsMmR6?=
- =?utf-8?B?Q2d5Q1ppMk9QMHJWREJTUzFrOHFBay9hS3BIaURiUXFjcnBzdWp6T0JuWW9N?=
- =?utf-8?B?OC9idklicmplbE4zb0VnRDVtempUOEhDR1JLYTJFZm00Z0lmRE0wUldlRjdO?=
- =?utf-8?B?L2pnWjlETXJxcFFDcHVTSkM4SEs3OVBWdlJCeStIOEM2RTd0VnBvSGRnVDlz?=
- =?utf-8?B?VlMySHQxcWZ5UGVsV3ViY2poZldJbjM2SEttSXJnUFZZOUYwd3BzdnRXSjRm?=
- =?utf-8?B?WDJZT3B4SytDV3RqYkhYclIvcDFkZGhMdVdhekVtZlpZUFVjYU5uUnZrY1JC?=
- =?utf-8?B?ZWZzYzZBN1diU1BWSUdNaGVWMTYxZmovVUcyam9RTHY2SEZyalNKa2xwY1J1?=
- =?utf-8?B?dElZTWhaWjFxZ3BkQjlkR1l2eDJHOG9icjVSVi9FODdqa08xNmUwTlNua3Vi?=
- =?utf-8?B?a1IzcG9Pdk1vOWM0WXNVQ1d5Z0FKZFg3R0VPYVdBNWl0bnJIR0xxNVZCMk9B?=
- =?utf-8?B?cEFKSHhpUHlRY00xd1VraWRWWFVCeEpNR1JvRExFallHbDRPZkpUU2VoV0p0?=
- =?utf-8?B?Q2RvVllPTGZOUWhZd2o5dHBmZXRFRTZ6cXNBWEJqRVhwZEtQeGUvOU9KNE5j?=
- =?utf-8?B?RGc0OHFuM2s0eVgvSlFHYUNYRTNwemhLSkt5UTg0VlpRVjVLazAyY3V3dVFy?=
- =?utf-8?B?OUlMUWRRanIyTmdDN3FnZkZFZmp2bkp3M1ZmcnNhRko4SzJOTTVmcEhRZTY0?=
- =?utf-8?B?V0RjSk9McEI5VUlRcUxvMHhKUWlkOGVVbnlhWXRrM3U3TW1RL3ZTQ3VWcVhW?=
- =?utf-8?B?eW90aDVlLzZtOWg0Rkl2dFU2Um5BV2FnSHJMUHY2b2I2UklPWHNvYkJ6NlE1?=
- =?utf-8?B?T2NWd1Q3VGF2elBkUWM4dVAwdFlvYk1VK0Z6TDBueFRwYlgwWmhPd2JwVXE1?=
- =?utf-8?B?MEVvaXltbjJKNkNGVU4rYlIxOVZxWGNOUVh3TTU3WnY5cWIwMVdNR3ZQMzB1?=
- =?utf-8?B?Rys1bGhQZHhwcmVnc2VwNlZ4dTZLL3ZWaldxc3FmdUZQYVc1VWZQMFlzZ1VH?=
- =?utf-8?B?Q1RuZFZKRWhCL1ArR3ZObGVWZ1NPMnBndEk4T0RGTjJ4cGpNOFpsbjdRVERz?=
- =?utf-8?B?T2FsWUtvQ0U2WlcybVp0OFJhRE8xR2ZtNUxncElFcnB2bVJyY2xMM0tyYi9o?=
- =?utf-8?B?TDlwemludlhmQ1FGUHNiMVowcGR3cVpZZWJ2K2w2ZWJwcmVFM0xYL05zNFdh?=
- =?utf-8?B?WDZGUFdZcDNlanFGK2daVlVmUlZSdDFjR1ZFNmRzMFpDSjlrR0Z1elorY053?=
- =?utf-8?B?azRUeEZKTU1lYXl1b283VURZYTZZVzg3ZnpJZjhvUkJ5SkUyUlQ1MDRtbmEx?=
- =?utf-8?B?MzhnZWNWaVNaOUhScTR4MHU4T1NaL3prcC9LMW5KTXBHSkNJM21GVlI1UEpq?=
- =?utf-8?B?dmVhY0NDN0pncnY1OUptU0s3NDRoTllNd1ZVcXNMM2V0eVVMRXREanordUNY?=
- =?utf-8?B?R1VQQk5UaHNpdXkwSnViNUxrbzVYTGVNZ1lvN3FaTlBTQkRHeTVVRmw3UUZl?=
- =?utf-8?B?MWI3bVJUNmhqUUk4aDFrOWJrNkwvMU1qaGZNT0srY29kMnZKM0lhbG92K05u?=
- =?utf-8?B?NWI3YndvWkNlcmRzYm1WSDl5WktyRUxCWVFoTmpHZm9OS2dmUTlRSFhzMzNl?=
- =?utf-8?B?TmJNeGYxWUxTdU5EY0cwa2EzUlpMZjhuK0ZRd0QwdDNQcWZnbytPRVRLL2Rs?=
- =?utf-8?B?QUcyMXdCSFlyR2l3VHg1S2U4VTRZSzk2L1ZTZUkyYVBpV3QxbStnVVJGcSs2?=
- =?utf-8?B?YmRhdCs1cFBrRGx1R2hqdDBBQjYxRElNUzJhUnIycWFvb2tGSkR4ZjBwVUtz?=
- =?utf-8?B?OW1UYTVuZzBvbHQ5dDRLYXFNZWFSczJTNHBzZFZBSVJZSmNNcjRsSUZ6M1Bj?=
- =?utf-8?B?dTJxdXJhdllMNUhkVVY3a1lveE9KSk1mc1BnY1Vmc1pjdlJqVWRiUy94Qkor?=
- =?utf-8?B?SllzMVFTbUIrTTVKMjJhMSt0ZElyN2lsRkNONTlMQ2ZKbFpLV2J1V3NBYUto?=
- =?utf-8?B?R2c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: dbc9ec60-342c-41c7-7071-08dc390e5128
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5341.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Feb 2024 10:08:03.7052 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: W4NEorj+gQfw+vPLs9wrsfStFiYxnapHJBpF1huYcXvONqfdeO9aYLrVWWKzgHafIrtWdn9FkmuT8nPdCaoNFgPlRUxpjuwCxM6wwCIII38=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7320
-X-OriginatorOrg: intel.com
+Content-Type: multipart/signed; boundary="Sig_/NgwUThjmbjg9x4BlzesBpBe";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -167,193 +73,474 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--Sig_/NgwUThjmbjg9x4BlzesBpBe
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On 2/28/2024 8:08 PM, Mitul Golani wrote:
-> Add structure representing Adaptive Sync Secondary Data Packet (AS SDP).
-> Also, add Adaptive Sync SDP logging in drm_dp_helper.c to facilitate
-> debugging.
->
-> --v2:
-> - Update logging. [Jani, Ankit]
-> - Use 'as_sdp' instead of 'async' [Ankit]
-> - Correct define placeholders to where they are actually used. [Jani]
-> - Update members in 'as_sdp' structure to make it uniform. [Jani]
->
-> --v3:
-> - Added changes to dri-devel mailing list. No code changes.
->
-> --v4:
-> - Instead of directly using operation mode, use an enum to accommodate
-> all operation modes (Ankit).
->
-> --v5:
-> Nit-pick changes to commit message.
->
-> Signed-off-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
-> ---
->   drivers/gpu/drm/display/drm_dp_helper.c       | 12 +++++++
->   .../drm/i915/display/intel_crtc_state_dump.c  | 12 +++++++
->   .../drm/i915/display/intel_display_types.h    |  1 +
->   include/drm/display/drm_dp.h                  |  9 +++++
->   include/drm/display/drm_dp_helper.h           | 33 +++++++++++++++++++
->   5 files changed, 67 insertions(+)
->
-> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-> index f94c04db7187..b1459ac92aea 100644
-> --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> @@ -2913,6 +2913,18 @@ void drm_dp_vsc_sdp_log(struct drm_printer *p, const struct drm_dp_vsc_sdp *vsc)
->   }
->   EXPORT_SYMBOL(drm_dp_vsc_sdp_log);
->   
-> +void drm_dp_as_sdp_log(struct drm_printer *p, const struct drm_dp_as_sdp *as_sdp)
-> +{
-> +	drm_printf(p, "DP SDP: AS_SDP, revision %u, length %u\n",
-> +		   as_sdp->revision, as_sdp->length);
-> +	drm_printf(p, "    vtotal: %d\n", as_sdp->vtotal);
-> +	drm_printf(p, "    target_rr: %d\n", as_sdp->target_rr);
-> +	drm_printf(p, "    duration_incr_ms: %d\n", as_sdp->duration_incr_ms);
-> +	drm_printf(p, "    duration_decr_ms: %d\n", as_sdp->duration_decr_ms);
-> +	drm_printf(p, "    operation_mode: %d\n", as_sdp->mode);
-> +}
-> +EXPORT_SYMBOL(drm_dp_as_sdp_log);
-> +
->   /**
->    * drm_dp_as_sdp_supported() - check if adaptive sync sdp is supported
->    * @aux: DisplayPort AUX channel
-> diff --git a/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c b/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
-> index 4bcf446c75f4..26d77c2934e8 100644
-> --- a/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
-> +++ b/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
-> @@ -60,6 +60,15 @@ intel_dump_dp_vsc_sdp(struct drm_i915_private *i915,
->   	drm_dp_vsc_sdp_log(&p, vsc);
->   }
->   
-> +static void
-> +intel_dump_dp_as_sdp(struct drm_i915_private *i915,
-> +		     const struct drm_dp_as_sdp *as_sdp)
-> +{
-> +	struct drm_printer p = drm_dbg_printer(&i915->drm, DRM_UT_KMS, "AS_SDP");
-> +
-> +	drm_dp_as_sdp_log(&p, as_sdp);
-> +}
-> +
->   static void
->   intel_dump_buffer(struct drm_i915_private *i915,
->   		  const char *prefix, const u8 *buf, size_t len)
-> @@ -299,6 +308,9 @@ void intel_crtc_state_dump(const struct intel_crtc_state *pipe_config,
->   	if (pipe_config->infoframes.enable &
->   	    intel_hdmi_infoframe_enable(HDMI_PACKET_TYPE_GAMUT_METADATA))
->   		intel_dump_infoframe(i915, &pipe_config->infoframes.drm);
-> +	if (pipe_config->infoframes.enable &
-> +	    intel_hdmi_infoframe_enable(DP_SDP_ADAPTIVE_SYNC))
-> +		intel_dump_dp_as_sdp(i915, &pipe_config->infoframes.as_sdp);
->   	if (pipe_config->infoframes.enable &
->   	    intel_hdmi_infoframe_enable(DP_SDP_VSC))
->   		intel_dump_dp_vsc_sdp(i915, &pipe_config->infoframes.vsc);
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-> index 8ce986fadd9a..1256730ea276 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -1335,6 +1335,7 @@ struct intel_crtc_state {
->   		union hdmi_infoframe hdmi;
->   		union hdmi_infoframe drm;
->   		struct drm_dp_vsc_sdp vsc;
-> +		struct drm_dp_as_sdp as_sdp;
->   	} infoframes;
->   
->   	u8 eld[MAX_ELD_BYTES];
-> diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
-> index 281afff6ee4e..0601b95d53db 100644
-> --- a/include/drm/display/drm_dp.h
-> +++ b/include/drm/display/drm_dp.h
-> @@ -1578,10 +1578,12 @@ enum drm_dp_phy {
->   #define DP_SDP_AUDIO_COPYMANAGEMENT	0x05 /* DP 1.2 */
->   #define DP_SDP_ISRC			0x06 /* DP 1.2 */
->   #define DP_SDP_VSC			0x07 /* DP 1.2 */
-> +#define DP_SDP_ADAPTIVE_SYNC		0x22 /* DP 1.4 */
->   #define DP_SDP_CAMERA_GENERIC(i)	(0x08 + (i)) /* 0-7, DP 1.3 */
->   #define DP_SDP_PPS			0x10 /* DP 1.4 */
->   #define DP_SDP_VSC_EXT_VESA		0x20 /* DP 1.4 */
->   #define DP_SDP_VSC_EXT_CEA		0x21 /* DP 1.4 */
-> +
->   /* 0x80+ CEA-861 infoframe types */
->   
->   #define DP_SDP_AUDIO_INFOFRAME_HB2	0x1b
-> @@ -1737,4 +1739,11 @@ enum dp_content_type {
->   	DP_CONTENT_TYPE_GAME = 0x04,
->   };
->   
-> +enum operation_mode {
-> +	DP_AS_SDP_AVT_DYNAMIC_VTOTAL = 0x00,
-> +	DP_AS_SDP_AVT_FIXED_VTOTAL = 0x01,
-> +	DP_AS_SDP_FAVT_TRR_NOT_REACHED = 0x02,
-> +	DP_AS_SDP_FAVT_TRR_REACHED = 0x03
-> +};
+On Tue, 27 Feb 2024 16:02:09 +0100
+Louis Chauvet <louis.chauvet@bootlin.com> wrote:
 
-We can drop the initialization here.
+> [...]
+>=20
+> > > -static void pre_mul_alpha_blend(struct vkms_frame_info *frame_info,
+> > > -				struct line_buffer *stage_buffer,
+> > > -				struct line_buffer *output_buffer)
+> > > +static void pre_mul_alpha_blend(
+> > > +	struct line_buffer *stage_buffer,
+> > > +	struct line_buffer *output_buffer,
+> > > +	int x_start,
+> > > +	int pixel_count)
+> > >  {
+> > > -	int x_dst =3D frame_info->dst.x1;
+> > > -	struct pixel_argb_u16 *out =3D output_buffer->pixels + x_dst;
+> > > -	struct pixel_argb_u16 *in =3D stage_buffer->pixels;
+> > > -	int x_limit =3D min_t(size_t, drm_rect_width(&frame_info->dst),
+> > > -			    stage_buffer->n_pixels);
+> > > -
+> > > -	for (int x =3D 0; x < x_limit; x++) {
+> > > -		out[x].a =3D (u16)0xffff;
+> > > -		out[x].r =3D pre_mul_blend_channel(in[x].r, out[x].r, in[x].a);
+> > > -		out[x].g =3D pre_mul_blend_channel(in[x].g, out[x].g, in[x].a);
+> > > -		out[x].b =3D pre_mul_blend_channel(in[x].b, out[x].b, in[x].a);
+> > > +	struct pixel_argb_u16 *out =3D &output_buffer->pixels[x_start];
+> > > +	struct pixel_argb_u16 *in =3D &stage_buffer->pixels[x_start]; =20
+> >=20
+> > Input buffers and pointers should be const. =20
+>=20
+> They will be const in v4.
+> =20
+> > > +
+> > > +	for (int i =3D 0; i < pixel_count; i++) {
+> > > +		out[i].a =3D (u16)0xffff;
+> > > +		out[i].r =3D pre_mul_blend_channel(in[i].r, out[i].r, in[i].a);
+> > > +		out[i].g =3D pre_mul_blend_channel(in[i].g, out[i].g, in[i].a);
+> > > +		out[i].b =3D pre_mul_blend_channel(in[i].b, out[i].b, in[i].a);
+> > >  	}
+> > >  } =20
+> >=20
+> > Somehow the hunk above does not feel like it is part of "re-introduce
+> > line-per-line composition algorithm". This function was already running
+> > line-by-line. Would it be easy enough to collect this and directly
+> > related changes into a separate patch? =20
+>=20
+> It is not directly related to the reintroduction of line-by-line=20
+> algorithm, but in the simplification and maintenability effort, I=20
+> changed a bit the function to avoid having multiple place computing the=20
+> x_start/pixel_count values. I don't see an interrest to extract it, it=20
+> will be just a translation of the few lines into the calling place.
+
+It does make review more difficult, because it makes the patch bigger
+and is not explained in the commit message. It is a surprise to a
+reviewer, who then needs to think what this means and does it belong
+here.
+
+If you explain it in the commit message and note it in the commit
+summary line, I think it would become fairly obvious that this patch is
+doing two things rather than one.
+
+Therefore, *if* it is easy to extract as a separate patch, then it
+would be nice to do so. However, if doing so would require you to write
+a bunch of temporary code that the next patch would just rewrite again,
+then doing so would be counter-productive.
+
+Patch split is about finding a good trade-off to make things easy for
+reviewers:
+
+- Smaller patches are better as long as they are self-standing and
+  understandable in isolation, and of course do not regress anything.
+
+- Rewriting the same thing multiple times in the same series is extra
+  work for a reviewer and therefore best avoided.
+
+- The simpler the semantic change, the bigger a patch can be and still
+  be easy to review.
+
+And all the patch writing rules specific to the kernel project that I
+don't know about.
+
+> [...]
+>=20
+> > > +/**
+> > > + * direction_for_rotation() - Helper to get the correct reading dire=
+ction for a specific rotation
+> > > + *
+> > > + * @rotation: rotation to analyze =20
+> >=20
+> > This is KMS plane rotation property, right?
+> >=20
+> > So the KMS plane has been rotated by this, and what we want to find is
+> > the read direction on the attached FB so that reading returns pixels in
+> > the CRTC line/scanout order, right?
+> >=20
+> > Maybe extend the doc to explain that. =20
+>=20
+> Is it better?
+>=20
+>  * direction_for_rotation() - Get the correct reading direction for a giv=
+en rotation
+>  *
+>  * This function will use the @rotation parameter to compute the correct =
+reading direction to read
+>  * a line from the source buffer.
+>  * For example, if the buffer is reflected on X axis, the pixel must be r=
+ead from right to left.
+>  * @rotation: Rotation to analyze. It correspond the the field @frame_inf=
+o.rotation.
+
+I think it is important to define what determines the correct result.
+In this case, we want the reading to produce pixels in the CRTC scanout
+line order, I believe. If you don't say "CRTC", the reader does not
+know what "the correct reading direction" should match to.
+
+> > > + */
+> > > +enum pixel_read_direction direction_for_rotation(unsigned int rotati=
+on)
+> > > +{
+> > > +	if (rotation & DRM_MODE_ROTATE_0) {
+> > > +		if (rotation & DRM_MODE_REFLECT_X)
+> > > +			return READ_LEFT;
+> > > +		else
+> > > +			return READ_RIGHT;
+> > > +	} else if (rotation & DRM_MODE_ROTATE_90) {
+> > > +		if (rotation & DRM_MODE_REFLECT_Y)
+> > > +			return READ_UP;
+> > > +		else
+> > > +			return READ_DOWN;
+> > > +	} else if (rotation & DRM_MODE_ROTATE_180) {
+> > > +		if (rotation & DRM_MODE_REFLECT_X)
+> > > +			return READ_RIGHT;
+> > > +		else
+> > > +			return READ_LEFT;
+> > > +	} else if (rotation & DRM_MODE_ROTATE_270) {
+> > > +		if (rotation & DRM_MODE_REFLECT_Y)
+> > > +			return READ_DOWN;
+> > > +		else
+> > > +			return READ_UP;
+> > > +	}
+> > > +	return READ_RIGHT;
+> > > +}
+> > > +
+> > >  /**
+> > >   * blend - blend the pixels from all planes and compute crc
+> > >   * @wb: The writeback frame buffer metadata
+> > > @@ -183,11 +187,11 @@ static void blend(struct vkms_writeback_job *wb,
+> > >  {
+> > >  	struct vkms_plane_state **plane =3D crtc_state->active_planes;
+> > >  	u32 n_active_planes =3D crtc_state->num_active_planes;
+> > > -	int y_pos;
+> > > =20
+> > >  	const struct pixel_argb_u16 background_color =3D { .a =3D 0xffff };
+> > > =20
+> > >  	size_t crtc_y_limit =3D crtc_state->base.crtc->mode.vdisplay;
+> > > +	size_t crtc_x_limit =3D crtc_state->base.crtc->mode.hdisplay; =20
+> >=20
+> > Wonder why these were size_t, causing needs to cast below... =20
+>=20
+> For crtc_x_limit I just copied the crtc_y_limit. I will change both to u1=
+6=20
+> (the type of h/vdisplay).
+
+Don't go unsigned, that can cause unexpected results when mixed in
+computations with signed variables.
+
+Oh, the cast was probably not about size but signedness. Indeed, size_t
+is unsigned.
+
+I don't see a reason to use a 16-bit size either, it just exposes the
+computations to under/overflows that would then be needed to check for.
+s32 should be as fast as any, and perhaps enough bits to never
+under/overflow in these computations, but please verify that.
+
+> > > =20
+> > >  	/*
+> > >  	 * The planes are composed line-by-line. It is a necessary complexi=
+ty to avoid poor
+> > > @@ -198,22 +202,133 @@ static void blend(struct vkms_writeback_job *w=
+b,
+> > > =20
+> > >  		/* The active planes are composed associatively in z-order. */
+> > >  		for (size_t i =3D 0; i < n_active_planes; i++) {
+> > > -			y_pos =3D get_y_pos(plane[i]->frame_info, y);
+> > > +			struct vkms_plane_state *current_plane =3D plane[i];
+> > > =20
+> > > -			if (!check_limit(plane[i]->frame_info, y_pos))
+> > > +			/* Avoid rendering useless lines */
+> > > +			if (y < current_plane->frame_info->dst.y1 ||
+> > > +			    y >=3D current_plane->frame_info->dst.y2) {
+> > >  				continue;
+> > > -
+> > > -			vkms_compose_row(stage_buffer, plane[i], y_pos);
+> > > -			pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
+> > > -					    output_buffer);
+> > > +			}
+> > > +
+> > > +			/*
+> > > +			 * src_px is the line to copy. The initial coordinates are inside=
+ the
+> > > +			 * destination framebuffer, and then drm_rect_* helpers are used =
+to
+> > > +			 * compute the correct position into the source framebuffer.
+> > > +			 */
+> > > +			struct drm_rect src_px =3D DRM_RECT_INIT(
+> > > +				current_plane->frame_info->dst.x1, y,
+> > > +				drm_rect_width(&current_plane->frame_info->dst), 1);
+> > > +			struct drm_rect tmp_src;
+> > > +
+> > > +			drm_rect_fp_to_int(&tmp_src, &current_plane->frame_info->src);
+> > > +
+> > > +			/*
+> > > +			 * [1]: Clamping src_px to the crtc_x_limit to avoid writing outs=
+ide of the
+> > > +			 * destination buffer
+> > > +			 */
+> > > +			src_px.x2 =3D min_t(int, src_px.x2, (int)crtc_x_limit); =20
+> >=20
+> > Up to and including this point, it would be better if src_px was called
+> > dst_px, because only the below computation converts it into actual
+> > src_px. =20
+>=20
+> I agree, it will be changed for the v4. I will also change the name to=20
+> `dst_line` and `src_line`.
+
+Alright.
+
+...
 
 
-> +
->   #endif /* _DRM_DP_H_ */
-> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-> index 7c1aa3a703c8..7b7729488ad8 100644
-> --- a/include/drm/display/drm_dp_helper.h
-> +++ b/include/drm/display/drm_dp_helper.h
-> @@ -98,6 +98,37 @@ struct drm_dp_vsc_sdp {
->   	enum dp_content_type content_type;
->   };
->   
-> +/**
-> + * struct drm_dp_as_sdp - drm DP Adaptive Sync SDP
-> + *
-> + * This structure represents a DP AS SDP of drm
-> + * It is based on DP 2.1 spec [Table 2-126:  Adaptive-Sync SDP Header Bytes] and
-> + * [Table 2-127: Adaptive-Sync SDP Payload for DB0 through DB8]
-> + *
-> + * @sdp_type: Secondary-data packet type
-> + * @revision: Revision Number
-> + * @length: Number of valid data bytes
-> + * @vtotal: Minimum Vertical Vtotal
-> + * @target_rr: Target Refresh
-> + * @duration_incr_ms: Successive frame duration increase
-> + * @duration_decr_ms: Successive frame duration decrease
-> + * @operation_mode: Adaptive Sync Operation Mode
-> + */
-> +
-> +struct drm_dp_as_sdp {
-> +	unsigned char sdp_type;
-> +	unsigned char revision;
-> +	unsigned char length;
-> +	int vtotal;
-> +	int target_rr;
-> +	int duration_incr_ms;
-> +	int duration_decr_ms;
-> +	enum operation_mode mode;
-> +};
-> +
-> +void drm_dp_as_sdp_log(struct drm_printer *p,
-> +		       const struct drm_dp_as_sdp *as_sdp);
-> +
->   void drm_dp_vsc_sdp_log(struct drm_printer *p, const struct drm_dp_vsc_sdp *vsc);
->   
->   bool drm_dp_vsc_sdp_supported(struct drm_dp_aux *aux, const u8 dpcd[DP_RECEIVER_CAP_SIZE]);
-> @@ -810,6 +841,8 @@ int drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8 color_spc);
->   #define DRM_DP_BW_OVERHEAD_FEC		BIT(3)
->   #define DRM_DP_BW_OVERHEAD_DSC		BIT(4)
->   
-> +#define AS_SDP_OP_MODE			GENMASK(1, 0)
+> > >  }
+> > > =20
+> > > -static void *get_packed_src_addr(const struct vkms_frame_info *frame=
+_info, int y)
+> > > +/**
+> > > + * get_step_1x1() - Common helper to compute the correct step value =
+between each pixel to read in a
+> > > + * certain direction.
+> > > + * This must be used only with format where blockh =3D=3D blockw =3D=
+=3D 1.
+> > > + * In the case when direction is not a valid pixel_read_direction, t=
+he returned step is 0, so you
+> > > + * must not rely on this result to create a loop variant.
+> > > + *
+> > > + * @fb Framebuffer to iter on
+> > > + * @direction Direction of the reading
+> > > + */
+> > > +static int get_step_1x1(struct drm_framebuffer *fb, enum pixel_read_=
+direction direction,
+> > > +			int plane_index)
+> > >  {
+> > > -	int x_src =3D frame_info->src.x1 >> 16;
+> > > -	int y_src =3D y - frame_info->rotated.y1 + (frame_info->src.y1 >> 1=
+6);
+> > > -
+> > > -	return packed_pixels_addr(frame_info, x_src, y_src);
+> > > +	switch (direction) {
+> > > +	default:
+> > > +		DRM_ERROR("Invalid direction for pixel reading: %d\n", direction);
+> > > +		return 0; =20
+> >=20
+> > What I'd do here is move the default: section outside of the switch
+> > completely. Then the compiler can warn if any enum value is not handled
+> > here. Since every case in the switch is a return statement, falling out
+> > of the switch block is the default case. =20
+>=20
+> Hoo, I did not know that gcc can warn when using enums, I will definitly=
+=20
+> do it for the v4.
+> =20
+> > Maybe the enum variable containing an illegal value could be handled
+> > more harshly so that callers could rely on this function always
+> > returning a good value?
+> >=20
+> > Just like passing in fb=3DNULL is handled by the kernel as an OOPS. =20
+>=20
+> I don't think it's a good idea to OOPS inside a driver.
 
-I think we can keep this along the enum.
+Everyone already do that. Most functions that do not expect to be called
+with NULL never check the arguments for NULL. They just OOPS on
+dereference if someone passes in NULL. And for a good reason: adding
+all those checks is both code churn and it casts doubt: "maybe it is
+legal and expected to call this function with NULL sometimes, what good
+does that do?".
 
-Apart from the above minor things, patch LGTM.
+> An error here is=20
+> maybe dangerous, but is not fatal to the kernel. Maybe you know how to do=
+=20
+> a "local" OOPS to break only this driver and not the whole kernel?
 
-Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+I don't know what the best practices are in the kernel.
+
+> For the v4 I will keep a DRM_ERROR and return 0.
+
+Does that require the caller to check for 0? Could the 0 cause
+something else to end up in an endless loop? If it does return 0, how
+should a caller handle this case that "cannot" ever happen? Why have
+code for something that cannot happen?
+
+Of course it's a trade-off between correctness and limping along
+injured, and the kernel tends to strongly lean toward the latter for the
+obvious reasons.
+
+> > > +	case READ_RIGHT:
+> > > +		return fb->format->char_per_block[plane_index];
+> > > +	case READ_LEFT:
+> > > +		return -fb->format->char_per_block[plane_index];
+> > > +	case READ_DOWN:
+> > > +		return (int)fb->pitches[plane_index];
+> > > +	case READ_UP:
+> > > +		return -(int)fb->pitches[plane_index];
+> > > +	}
+> > >  }
+> > > =20
+> > > -static int get_x_position(const struct vkms_frame_info *frame_info, =
+int limit, int x)
+> > > -{
+> > > -	if (frame_info->rotation & (DRM_MODE_REFLECT_X | DRM_MODE_ROTATE_27=
+0))
+> > > -		return limit - x - 1;
+> > > -	return x;
+> > > -}
+> > > =20
+> > >  /*
+> > > - * The following  functions take pixel data from the buffer and conv=
+ert them to the format
+> > > + * The following  functions take pixel data (a, r, g, b, pixel, ...)=
+, convert them to the format
+> > >   * ARGB16161616 in out_pixel.
+> > >   *
+> > > - * They are used in the `vkms_compose_row` function to handle multip=
+le formats.
+> > > + * They are used in the `read_line`s functions to avoid duplicate wo=
+rk for some pixel formats.
+> > >   */
+> > > =20
+> > > -static void ARGB8888_to_argb_u16(u8 *src_pixels, struct pixel_argb_u=
+16 *out_pixel)
+> > > +static void ARGB8888_to_argb_u16(struct pixel_argb_u16 *out_pixel, i=
+nt a, int r, int g, int b) =20
+> >=20
+> > The function name ARGB8888_to_argb_u16() is confusing. It's not taking
+> > in ARGB8888 pixels but separate a,r,g,b ints. The only assumption it
+> > needs from the pixel format is the 8888 part. =20
+>=20
+> I don't realy know how to name it. What I like with ARGB8888 is that it's=
+=20
+> clear that the values are 8 bits and in argb format.
+
+I could even propose=20
+
+static struct pixel_argb_u16
+argb_u16_from_u8888(int a, int r, int g, int b)
+
+perhaps. Yes, returning a struct by value. I think it would fit, and
+these are supposed to get fully inlined anyway, too.
+
+c.f argb_u16_from_u2101010().
+
+Not a big deal though, I think I'm getting a little bit too involved to
+see what would be the most intuitively understandable naming scheme for
+someone not familiar with the code.
+
+> Do you think that `argb_u8_to_argb_u16`, with a new structure=20
+> pixel_argb_u8 will be better? (like PATCH 6/9 with pixel_yuv_u8).
+>=20
+> If so, I will introduce the argb_u8 structure in an other commit.
+
+How would you handle 10-bpc formats? Is there a need for
+proliferation of bit-depth-specific struct types?
+
+> [...]
+>=20
+> > > + * The following functions are read_line function for each pixel for=
+mat supported by VKMS.
+> > >   *
+> > > - * This function composes a single row of a plane. It gets the sourc=
+e pixels
+> > > - * through the y coordinate (see get_packed_src_addr()) and goes lin=
+early
+> > > - * through the source pixel, reading the pixels and converting it to
+> > > - * ARGB16161616 (see the pixel_read() callback). For rotate-90 and r=
+otate-270,
+> > > - * the source pixels are not traversed linearly. The source pixels a=
+re queried
+> > > - * on each iteration in order to traverse the pixels vertically.
+> > > + * They read a line starting at the point @x_start,@y_start followin=
+g the @direction. The result
+> > > + * is stored in @out_pixel and in the format ARGB16161616.
+> > > + *
+> > > + * Those function are very similar, but it is required for performan=
+ce reason. In the past, some
+> > > + * experiment were done, and with a generic loop the performance are=
+ very reduced [1].
+> > > + *
+> > > + * [1]: https://lore.kernel.org/dri-devel/d258c8dc-78e9-4509-9037-a9=
+8f7f33b3a3@riseup.net/
+> > >   */
+> > > -void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_=
+plane_state *plane, int y)
+> > > +
+> > > +static void ARGB8888_read_line(struct vkms_frame_info *frame_info, i=
+nt x_start, int y_start,
+> > > +			       enum pixel_read_direction direction, int count,
+> > > +			       struct pixel_argb_u16 out_pixel[])
+> > > +{
+> > > +	u8 *src_pixels =3D packed_pixels_addr(frame_info, x_start, y_start,=
+ 0);
+> > > +
+> > > +	int step =3D get_step_1x1(frame_info->fb, direction, 0);
+> > > +
+> > > +	while (count) {
+> > > +		u8 *px =3D (u8 *)src_pixels;
+> > > +
+> > > +		ARGB8888_to_argb_u16(out_pixel, px[3], px[2], px[1], px[0]);
+> > > +		out_pixel +=3D 1;
+> > > +		src_pixels +=3D step;
+> > > +		count--; =20
+> >=20
+> > btw. you could eliminate decrementing 'count' if you computed end
+> > address and used while (out_pixel < end). =20
+>=20
+> Yes, you are right, but after thinking about it, neither out_pixel < end=
+=20
+> and while (count) are conveying "this loop will copy `count` pixels. I=20
+> think a for-loop here is more understandable. There is no ambiguity in th=
+e=20
+> number of pixels written and less error-prone. I will replace
+> 	while (count)=20
+> by
+> 	for(int i =3D 0; i < count; i++)
+
+I agree that a for-loop is the most obvious way of saying it, but I
+also think while (out_pixel < end) is very close too, and so is while (coun=
+t).
+None of those would make me think twice.
+
+However, I'm thinking of performance here. After all, this is the
+hottest code path there is in VKMS. Is the compiler smart enough to
+eliminate count-- or i to reduce the number of CPU cycles?
 
 
+Thanks,
+pq
 
+--Sig_/NgwUThjmbjg9x4BlzesBpBe
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-> +
->   int drm_dp_bw_overhead(int lane_count, int hactive,
->   		       int dsc_slice_count,
->   		       int bpp_x16, unsigned long flags);
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXgWqYACgkQI1/ltBGq
+qqdY3hAAkxCjQGC1S80ldn4Wla92DLQjngYKVjkZh8+PFSdQmCPuyrwQJKuNUn6q
+wpNVZLPpVtUVXoIaTJTdViv8P6RYOHxbekhkM3OhYn1DJfsUwKjGD4Zqn8rtuVsu
+N3+5fv2hGxXFZOodCmCaMoGW5FqHsQJh3UAqqQihFvzOcYKGtxW1N3pwg16QFpoS
+B+0pqfOFFD+05snF2Iry+TsRAuMDR/UzhNh8TRwVHhIqTRsEBhuvpDxijfiC7IF2
+cVs6xYGF1OZtI+7d+LK9z44R4TZwguCOEyxO+UGXB2V3EPJHTa4O8RLWfADbQBFH
+9iNtG7Q4Op6+w+1iZWqfRCTO3lbMD231ArhPYwMhfPRp9sAfAvMPxrXW4mIk7roR
+KCbYhS38qqKfquA82UV+pLXqmi2sTtD0RzwaIpYonzlfk39acPqu9w3FrWqj/Hw0
+ltCKhzypCEwej4WtFyCJGs8FFDhH3DXypQWUSmZ46CkxhKrsIz3nVhQtqzd3OOKI
+3qsRuR4agGoYZT0+iRkCm/08J6VrRSPO2M4fyo8V3obmdefZAJ1KY3asSq7NONnF
+ZJSBimYwdRyXZyNut0iarCkty2bAU0QfADixcGVJ7HXy+GXbqlrfLXlKOKlo4Yl4
+b+XhWTUW3U7fKo+WqQQGv1qjYacUsOOPDRwPHm4tHS6O28nXIx8=
+=Hl30
+-----END PGP SIGNATURE-----
+
+--Sig_/NgwUThjmbjg9x4BlzesBpBe--
