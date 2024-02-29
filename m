@@ -2,63 +2,158 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 046E886C8EA
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 13:12:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08C1686C8ED
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 13:14:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BDFA10E212;
-	Thu, 29 Feb 2024 12:12:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76BA410E063;
+	Thu, 29 Feb 2024 12:14:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="iP9T+HAM";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZIjKGO3e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A45B10E1DF
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 12:12:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1709208768;
- bh=vX7w3GK4U6Ne7FTquMI/vNH/sF6ZqHuZXnTGrG9f4Js=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=iP9T+HAMeIl/UOfMkUQPlThXvnNi6N0kK8Cpx/2w3UsvxuiirM6AnMFAxrZ10WCqX
- cCvr7RdXXJmGvhLsyTtUxf9V51pWqHZzSDXeEz1LgRT7iDzzDX5j268XtuLoowr7GM
- R25QJOIoDxOS64Ik3w8opd8fI7HfXg1Odhw/uux7ZCyaINULDFhdK7BfJOPVjqKnQm
- S4QkHNSLoa5xIZ4ImaMW8GNPvbVJ7IYVWr+VV/9nd4j7QaVOd3tgqbT52lcdJBBSsN
- 0ZPBPa3htp3teyAReWnLXCu78QWoI1jGJkkjd5jqK0ZRnkRYWk/L5SfU5dphFGCL+q
- OAI7KqZiEX4Og==
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: pq)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id F41D037820E2;
- Thu, 29 Feb 2024 12:12:46 +0000 (UTC)
-Date: Thu, 29 Feb 2024 14:12:38 +0200
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Arthur Grillo <arthurgrillo@riseup.net>, Louis Chauvet
- <louis.chauvet@bootlin.com>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
- <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com
-Subject: Re: [PATCH v2 6/9] drm/vkms: Add YUV support
-Message-ID: <20240229141238.51891cad.pekka.paalanen@collabora.com>
-In-Reply-To: <8fc07f0f-f14d-4878-9884-2bc4b4c6f426@riseup.net>
-References: <20240223-yuv-v2-0-aa6be2827bb7@bootlin.com>
- <20240223-yuv-v2-6-aa6be2827bb7@bootlin.com>
- <20240226141916.1627bbbd.pekka.paalanen@collabora.com>
- <Zd35c_CJbhY46TjQ@localhost.localdomain>
- <b23da076-0bfb-48b2-9386-383a6dec1868@riseup.net>
- <8fc07f0f-f14d-4878-9884-2bc4b4c6f426@riseup.net>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A686C10E063;
+ Thu, 29 Feb 2024 12:14:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709208840; x=1740744840;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=L3CUBe0ydv5KeQPYx37vUjUW3MN++iFL46XsnqWuhqg=;
+ b=ZIjKGO3eTx9T51PkdjWkx3y6bv02g7WrdPFzoKFbRXLc4XHBfdxqWdTY
+ tCDjwz3dsVGT9c+R2zN2cFAlzE+jCbrxCW6IGLahtIU9/5OpSjqc8o9TJ
+ mfeqaQjLqc2D4fZzoAh9Lj71OjDEyBIoWR0GRW8DmAdmJFw0NZYDZ1r4s
+ TNwHrcuu8l/SS5X3fmIB/7n50uXnqjNhazX8+runWSoqd7SBmw6q/tS/o
+ XZ6GGjVhVGJV2O6dwEP66sERK5ng/1GemcmSqIBc9ghupLovrv3ht3pJp
+ yk+8uSFG5HUolTA5f6BO+ivOXwcE5t9v40fjV+KIB04Tr3YsoWCICg7N+ w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="3837978"
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
+   d="scan'208";a="3837978"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Feb 2024 04:13:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
+   d="scan'208";a="8165778"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 29 Feb 2024 04:13:59 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 29 Feb 2024 04:13:58 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 29 Feb 2024 04:13:58 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Thu, 29 Feb 2024 04:13:58 -0800
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.41) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Thu, 29 Feb 2024 04:13:52 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bgP9zkpIbFxmXWN2CBD79EXxAN4QDaxj5xl3WLMZw8o8g9g6NWIAWvPbRFN6ghgZpmp2g8FWOSEB0jxPIF/2pSzZfG5wpVgDAB4168xCs47J+qKx3dFwtfucI1YUhr/iUE0CqxN6OqVkm/QYEpbkaElvEV0xY3QYCIyopeoQUTEymhuH4rLHyHDvzuL1MHRw9TknY+vl8y/NWfUKEZrVyKkbGUjHZd+z2qpURmOAHMPyiGgWII1CGU46IrJEfnYdTEiOEP7vQ7u9RrStKspJ/GhjF9JCxtFbZQ/v2wY5k2NtZ+vMBieG8/HcBwsIbuihSHsK3xEsYXe0vTjbJ5kBJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eZGlltC0Ym3l34jO8LrW/yFqUEVheR+9lnmCDBoBuvo=;
+ b=Vo2OFNtqLR2LzN/0gtDw/rK/3oHV7ZX8X1bXyKpEPjOR0ZegLTaB1ikFVAnaKcTpRfLQ7GqU4W6noFTjWydJDJoTfiLzqPObXBRtKVmZerF2BvvNWiC4oM0WxkDMSJL9kV1xkg3Qwk2TVct5Pjpc7ZuKRyx69N2cSVgNovDf7dXjAKZ+bVCpRAVgxFME1kAeABNoPuIfaUbdHjelv2Q2CuIpISk6EQwHWQBFb8K+e/sVZelfH+KquzdjJqEGeuLEoWV0ZWum/8CgGlEb+N74qlquqFVhCWVi7dAh6/bRHnuNUFM91qag9cqKrHxVvot9xPdjoM0O/jvd+aYzMEQ0OQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5341.namprd11.prod.outlook.com (2603:10b6:5:390::22)
+ by DS7PR11MB6077.namprd11.prod.outlook.com (2603:10b6:8:87::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.24; Thu, 29 Feb
+ 2024 12:13:49 +0000
+Received: from DM4PR11MB5341.namprd11.prod.outlook.com
+ ([fe80::12b:4490:b758:75c2]) by DM4PR11MB5341.namprd11.prod.outlook.com
+ ([fe80::12b:4490:b758:75c2%7]) with mapi id 15.20.7339.024; Thu, 29 Feb 2024
+ 12:13:49 +0000
+Message-ID: <8c7ca84f-ff77-46b1-b06b-8944b31078c8@intel.com>
+Date: Thu, 29 Feb 2024 17:43:42 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 2/8] drm: Add Adaptive Sync SDP logging
+Content-Language: en-US
+To: Jani Nikula <jani.nikula@intel.com>, Mitul Golani
+ <mitulkumar.ajitkumar.golani@intel.com>, <intel-gfx@lists.freedesktop.org>
+CC: <dri-devel@lists.freedesktop.org>
+References: <20240228143823.2762595-1-mitulkumar.ajitkumar.golani@intel.com>
+ <20240228143823.2762595-3-mitulkumar.ajitkumar.golani@intel.com>
+ <4b7b2711-040c-4aed-ab05-e752527cf5cb@intel.com> <87frxb8qg3.fsf@intel.com>
+From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
+In-Reply-To: <87frxb8qg3.fsf@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN3PR01CA0117.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:96::21) To DM4PR11MB5341.namprd11.prod.outlook.com
+ (2603:10b6:5:390::22)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/WR3ByqJEAt6f5+lYdW.21IQ";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5341:EE_|DS7PR11MB6077:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2d985149-bf4a-4b69-0146-08dc391fe2dc
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 79ijUu/NPK1//ffFBuX4dIHD8ckLbq4AaQVdoQ/zjWMaqSj5u0dfowAKANO2OWjyjHcpIO0c/oJubuhbokYtpubrwzQzcO3pY2AdukYV7K5gYcp/IAUjoDTmk51Ajatr5EZjuQJdhKWsSL9a1A1pWQ1h7lAMAd/ZqjDhqdYPyPD9pOmHiKnWffBmlPPK6fk74TSjX6AYBOrStHiE22a9ffWUoL0qG95v/XyxqwIc6g/EVNlcPecR5lf7HWaE2NgBbXXpeL4bnkVruEWnyyis1Q7JQerRilkX6Zw/1z9bmuLh4kIW9mtr4zODeC43LAXQgJ1CyGeGdNGCKG+oqI54ihQh4fnn1JQ4u5BMa//Nr4vmKTkDpxNzQBL0l6EF/TKE1dhjQIaGOkMXxMESBvOxdxTlueSTVL/RR/afXA0ryC6PPV2BtZsIRK6DXav30jLOK9657TuVhPTBFFlZ7Vnmd83LxttH/betqeNch0OfRLa3WKwiRX75mYkIRRctZsSUqlDg6NysbpQYVw0krx9noNvv5kYui6JJhUi+g7bsYvZUgJpabhamncB+zeLJpkH2dB96b0x/wlv/fbgfqZ4cag340awR8w39mdWMAbQsK/LHDcosAvTZBgXGmgLGbC+M
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5341.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dkhKbm5FUUJ3MWFrVS9GTElHcENURFRCbFIvbzF5SE05OHBOTzJhazBZNDdh?=
+ =?utf-8?B?WVAybFdld2t1b3RtRkpwUjY0M0t1d1lLcndTbG8wNHlQMFFTdnFiN253Mm5T?=
+ =?utf-8?B?b1BzVWpCYnAvYVFpcFdLZllVU0M1UHUwSmQyc1FWYXBCTEdpdWFGM1dINzBH?=
+ =?utf-8?B?K1p6SlgvUUJBYzNDNHNpdUp0QnczRW5Fd0NjMUE4S3g0amJ5Q2VNU0tFeHI3?=
+ =?utf-8?B?K2VWdjVxUVpKTXVsVmRVZ3BSOUhuYTVxTCttZ1Y4SVU1MHFRTHRjRko4RGV2?=
+ =?utf-8?B?aDd6ZlZaaFczYlNONzJEZzhtU1ZEdGlTbmQ0TnVoYWxhaWZ5N1YvbVpGengz?=
+ =?utf-8?B?cXpnQUV1Tmg1TW5QeVpFQzhtc2oxN3VaWldacUlPOUVOZFNsRXBCZUNHbmtl?=
+ =?utf-8?B?TmZiQTJXVkh3VVZiNTZQbXFLbEl4VU9ndkI3RFJLU012RjFqSmRqS3VqMjFi?=
+ =?utf-8?B?UXVlZWNOVU8wQWpZazVJS0RnRHNlMG14ZmVzanlkN2htRjRIUlowWjA5M29t?=
+ =?utf-8?B?bFNCVGt6dWpBQnU2S2tuYlFkWEJmVkw1Sk5DZGt1M3V4b1R3aTRHa3lhWEth?=
+ =?utf-8?B?QTBzR1NhV25tOERjTkZjZkNvNUE3SmJOK0lrSXR3WThybmxqOXlFYk9iTStr?=
+ =?utf-8?B?aXBIVmNZZk1tVXBGUXRsUWx6TFZUeTg5bGs4YndEQXBlZlRIWkJTWGhOOG9Y?=
+ =?utf-8?B?RTg0L2FDNGpjTG5UY3VQbmxUb1FDVDVIQ05FSkxUdFMxYWtHSmNPWThPNG1J?=
+ =?utf-8?B?U09oUnFiRDUrdU5DUjFjNjJPOGdBVHBrRWtCQU04ZkpPYzMveUI3Z0FiZlFP?=
+ =?utf-8?B?a3hrblo5amc1YmExTVRkSU91Mi9pVElYWGF1T3dWSWh5dTYzdmY0d0F5NUVa?=
+ =?utf-8?B?dG9zUTFYc1NzeDlLVk0rUlhEbEJsZnRWU0JXRCtQZjlMM0dieE9NYXYxUE9M?=
+ =?utf-8?B?OVdGdUlkNFlXWEttTjdSTTFUMFVYSU5BUFZmeTRQOWFGNjdSYmV1aVVMTXNr?=
+ =?utf-8?B?UXVuMlJrOGFlOG00THpRSERhd3BoeG9PWUJzeWd2ZjRGRHc1MjR2Z29VWTl0?=
+ =?utf-8?B?T2R0MUtqU0ZNc2MzNkNSeG5DTUpSVnpzOVFBWGs3NTBzUzZBbGtpV1pNdFNR?=
+ =?utf-8?B?M0lnN0lncFlCSzZIV1YrSHZrMDFodmlZZlh6TlhGSUpzVFZkeGxaOVZPWkF0?=
+ =?utf-8?B?VVdQTnhVU215djFmZ2s2OHVyS2hUVHUvZEpWVE0wQVl6UXJLeUZOaFd2VmNs?=
+ =?utf-8?B?dmh6VlNMMDJISDlQcnF2TDI2WG9RbXhEVXZ4dENwd0krZzg5bDk0SGN6ZGRT?=
+ =?utf-8?B?WjU1V1J0TU5YbTdNT1dEbFBzNWV1T2MxZU5uSzdSMmNTRGRSeHlxUUV4VUVY?=
+ =?utf-8?B?Y1Bpci8rNlNtQmNGVFNOWk5JRnNadHhzS29MS0tpYXZlZ3AyZVVVZ0ozNHJX?=
+ =?utf-8?B?b2t3WVFIenhuUWU1WUs4WktCMEZSN3hBN0U4Y3JUVnVMa0djRlpSMnY2TE8v?=
+ =?utf-8?B?QTA3MjJBMEQ0MklxZXkzTnJTTDNqS2d0eXZ0cUVGdmhjSFljSVU2aFRBSXd2?=
+ =?utf-8?B?ei9nbWEzdjlUUGdWSDJiVUJZT0JzeThnWkFySFdQNDhxOElYcUdZU1pTK3p0?=
+ =?utf-8?B?UzRXb1JVdVVwcjdxZFFtZGR0TjlEZmhzbWF5UzRRVEh2SU51WDRnb3NWbDZt?=
+ =?utf-8?B?TEN1OVM4R01STWVLeXJwR3VFWkpUbHloeXRYbkpWclNPWkQ2NmtncXB1YzBT?=
+ =?utf-8?B?OERyb2hBd1JnUHRMbDNUUTR6SDBTdWtrRkszZFlITUVTclEyQ3I0YkoyOTlL?=
+ =?utf-8?B?S1NqL2d2OStnUmY0U1dGM3FweWRtc1ZhaGRHbk1rODhUZXpxaXIvWGVvY3Iz?=
+ =?utf-8?B?T1Vyd2xNN0xNMDlsMmtwbWtPN2xmaGZSaDN3eGdiekFBQk1WeUVuUUl0Tk1U?=
+ =?utf-8?B?dEF4MXFKZFVCcnluUjJvWDFKNVFCWHFQL2dSdmFSMlZFeGJXV3VHUmg0Ryts?=
+ =?utf-8?B?TDJ2dkFpWkJ2N0VnWFNKM0pqek9iZ1VyYzdwVmVHaThwbnVVT0RwcXpsZEFY?=
+ =?utf-8?B?UE5maDJXemNld1F2bzYzSFRKSXFFbnZOZXVoYWhDMHMzT1crSHErcmVlZEp1?=
+ =?utf-8?B?Yk9FME9oV3ZJM1VJQnpZWTRlUlN0VHhVRjJSSDB0SVlnRERzR1NCT1BxSmNh?=
+ =?utf-8?B?cHc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d985149-bf4a-4b69-0146-08dc391fe2dc
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5341.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Feb 2024 12:13:49.6287 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vJlVhrcPTVKDCTWDsjtcWrdMkRKd0n8/WMx2yriF98130vS1pT/jQa/B+MgCQKRoAmiR8s3WZAYFyBm7LpW6/iAciMaHFTc4icbX1h3PGbU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB6077
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,516 +169,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/WR3ByqJEAt6f5+lYdW.21IQ
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, 28 Feb 2024 22:52:09 -0300
-Arthur Grillo <arthurgrillo@riseup.net> wrote:
+On 2/29/2024 4:53 PM, Jani Nikula wrote:
+> On Thu, 29 Feb 2024, "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com> wrote:
+>> On 2/28/2024 8:08 PM, Mitul Golani wrote:
+>>> +enum operation_mode {
+>>> +	DP_AS_SDP_AVT_DYNAMIC_VTOTAL = 0x00,
+>>> +	DP_AS_SDP_AVT_FIXED_VTOTAL = 0x01,
+>>> +	DP_AS_SDP_FAVT_TRR_NOT_REACHED = 0x02,
+>>> +	DP_AS_SDP_FAVT_TRR_REACHED = 0x03
+>>> +};
+>> We can drop the initialization here.
+> For stuff that needs to match the spec it's common to include the
+> initializations instead of relying on the auto enumeration.
 
-> On 27/02/24 17:01, Arthur Grillo wrote:
-> >=20
-> >=20
-> > On 27/02/24 12:02, Louis Chauvet wrote: =20
-> >> Hi Pekka,
-> >>
-> >> For all the comment related to the conversion part, maybe Arthur have =
-an=20
-> >> opinion on it, I took his patch as a "black box" (I did not want to=20
-> >> break (and debug) it).
-> >>
-> >> Le 26/02/24 - 14:19, Pekka Paalanen a =C3=A9crit : =20
-> >>> On Fri, 23 Feb 2024 12:37:26 +0100
-> >>> Louis Chauvet <louis.chauvet@bootlin.com> wrote:
-> >>> =20
-> >>>> From: Arthur Grillo <arthurgrillo@riseup.net>
-> >>>>
-> >>>> Add support to the YUV formats bellow:
-> >>>>
-> >>>> - NV12
-> >>>> - NV16
-> >>>> - NV24
-> >>>> - NV21
-> >>>> - NV61
-> >>>> - NV42
-> >>>> - YUV420
-> >>>> - YUV422
-> >>>> - YUV444
-> >>>> - YVU420
-> >>>> - YVU422
-> >>>> - YVU444
-> >>>>
-> >>>> The conversion matrices of each encoding and range were obtained by
-> >>>> rounding the values of the original conversion matrices multiplied by
-> >>>> 2^8. This is done to avoid the use of fixed point operations.
-> >>>>
-> >>>> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> >>>> [Louis Chauvet: Adapted Arthur's work and implemented the read_line_t
-> >>>> callbacks for yuv formats]
-> >>>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> >>>> ---
-> >>>>  drivers/gpu/drm/vkms/vkms_composer.c |   2 +-
-> >>>>  drivers/gpu/drm/vkms/vkms_drv.h      |   6 +-
-> >>>>  drivers/gpu/drm/vkms/vkms_formats.c  | 289 ++++++++++++++++++++++++=
-+++++++++--
-> >>>>  drivers/gpu/drm/vkms/vkms_formats.h  |   4 +
-> >>>>  drivers/gpu/drm/vkms/vkms_plane.c    |  14 +-
-> >>>>  5 files changed, 295 insertions(+), 20 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/=
-vkms/vkms_composer.c
-> >>>> index e555bf9c1aee..54fc5161d565 100644
-> >>>> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> >>>> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> >>>> @@ -312,7 +312,7 @@ static void blend(struct vkms_writeback_job *wb,
-> >>>>  			 * buffer [1]
-> >>>>  			 */
-> >>>>  			current_plane->pixel_read_line(
-> >>>> -				current_plane->frame_info,
-> >>>> +				current_plane,
-> >>>>  				x_start,
-> >>>>  				y_start,
-> >>>>  				direction,
-> >>>> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/=
-vkms_drv.h
-> >>>> index ccc5be009f15..a4f6456cb971 100644
-> >>>> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> >>>> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> >>>> @@ -75,6 +75,8 @@ enum pixel_read_direction {
-> >>>>  	READ_RIGHT
-> >>>>  };
-> >>>> =20
-> >>>> +struct vkms_plane_state;
-> >>>> +
-> >>>>  /**
-> >>>>  <<<<<<< HEAD
-> >>>>   * typedef pixel_read_line_t - These functions are used to read a p=
-ixel line in the source frame,
-> >>>> @@ -87,8 +89,8 @@ enum pixel_read_direction {
-> >>>>   * @out_pixel: Pointer where to write the pixel value. Pixels will =
-be written between x_start and
-> >>>>   *  x_end.
-> >>>>   */
-> >>>> -typedef void (*pixel_read_line_t)(struct vkms_frame_info *frame_inf=
-o, int x_start, int y_start, enum
-> >>>> -	pixel_read_direction direction, int count, struct pixel_argb_u16 o=
-ut_pixel[]);
-> >>>> +typedef void (*pixel_read_line_t)(struct vkms_plane_state *frame_in=
-fo, int x_start, int y_start,
-> >>>> +	enum pixel_read_direction direction, int count, struct pixel_argb_=
-u16 out_pixel[]); =20
-> >>>
-> >>> This is the second or third time in this one series changing this typ=
-e.
-> >>> Could you not do the change once, in its own patch if possible? =20
-> >>
-> >> Sorry, this is not a change here, but a wrong formatting (missed when=
-=20
-> >> rebasing).
-> >>
-> >> Do you think that it make sense to re-order my patches and put this=20
-> >> typedef at the end? This way it is never updated.
+Ah alright, got it.
 
-I'm not sure, I haven't checked how it would change your patches. The
-intermediate changes might get a lot uglier?
+Regards,
 
-Just try to fold changes so that you don't need to change something
-twice over the series unless there is a good reason to. "How hard would
-it be to review this?" is my measure stick.
+Ankit
 
 
-> >> =20
-> >>>> =20
-> >>>>  /**
-> >>>>   * vkms_plane_state - Driver specific plane state
-> >>>> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/v=
-kms/vkms_formats.c
-> >>>> index 46daea6d3ee9..515c80866a58 100644
-> >>>> --- a/drivers/gpu/drm/vkms/vkms_formats.c
-> >>>> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> >>>> @@ -33,7 +33,8 @@ static size_t packed_pixels_offset(const struct vk=
-ms_frame_info *frame_info, int
-> >>>>  	 */
-> >>>>  	return fb->offsets[plane_index] +
-> >>>>  	       (y / drm_format_info_block_width(format, plane_index)) * fb=
-->pitches[plane_index] +
-> >>>> -	       (x / drm_format_info_block_height(format, plane_index)) * f=
-ormat->char_per_block[plane_index];
-> >>>> +	       (x / drm_format_info_block_height(format, plane_index)) *
-> >>>> +	       format->char_per_block[plane_index]; =20
-> >>>
-> >>> Shouldn't this be in the patch that added this code in the first plac=
-e? =20
-> >>
-> >> Same as above, a wrong formatting, I will remove this change and keep=
-=20
-> >> everything on one line (even if it's more than 100 chars, it is easier=
- to=20
-> >> read).
-
-Personally I agree that readability is more important than strict line
-length limits. I'm not sure how the kernel rolls there.
-
-> >> =20
-> >>>>  }
-> >>>> =20
-> >>>>  /**
-> >>>> @@ -84,6 +85,32 @@ static int get_step_1x1(struct drm_framebuffer *f=
-b, enum pixel_read_direction di
-> >>>>  	}
-> >>>>  }
-> >>>> =20
-> >>>> +/**
-> >>>> + * get_subsampling() - Get the subsampling value on a specific dire=
-ction =20
-> >>>
-> >>> subsampling divisor =20
-> >>
-> >> Thanks for this precision.
-> >> =20
-> >>>> + */
-> >>>> +static int get_subsampling(const struct drm_format_info *format,
-> >>>> +			   enum pixel_read_direction direction)
-> >>>> +{
-> >>>> +	if (direction =3D=3D READ_LEFT || direction =3D=3D READ_RIGHT)
-> >>>> +		return format->hsub;
-> >>>> +	else if (direction =3D=3D READ_DOWN || direction =3D=3D READ_UP)
-> >>>> +		return format->vsub;
-> >>>> +	return 1; =20
-> >>>
-> >>> In this and the below function, personally I'd prefer switch-case, wi=
-th
-> >>> a cannot-happen-scream after the switch, so the compiler can warn abo=
-ut
-> >>> unhandled enum values. =20
-> >>
-> >> As for the previous patch, I did not know about this compiler feature,=
-=20
-> >> thanks!
-> >> =20
-> >>>> +}
-> >>>> +
-> >>>> +/**
-> >>>> + * get_subsampling_offset() - Get the subsampling offset to use whe=
-n incrementing the pixel counter
-> >>>> + */
-> >>>> +static int get_subsampling_offset(const struct drm_format_info *for=
-mat,
-> >>>> +				  enum pixel_read_direction direction, int x_start, int y_start=
-) =20
-> >>>
-> >>> 'start' values as "increments" for a pixel counter? Is something
-> >>> misnamed here?
-> >>>
-> >>> Is it an increment or an offset? =20
-> >>
-> >> I don't really know how to name the function. I'm open to suggestions
-> >> x_start and y_start are really the coordinate of the starting reading =
-point.
-
-I looks like it's an offset, so "offset" and "start" are good words.
-Then the only misleading piece is the doc:
-
-	"Get the subsampling offset to use when incrementing the pixel counter"
-
-This sounds like the offset is used when incrementing a counter, that
-is, counter is increment by offset each time. That's my problem with
-this.
-
-Fix just the doc, and it's good, I think.
-
-> >>
-> >> To explain what it does:
-> >>
-> >> When using subsampling, you have to read the next pixel of planes[1..4=
-]=20
-> >> not at the same "speed" as plane[0]. But I can't only rely on=20
-> >> "read_pixel_count % subsampling =3D=3D 0", because it means that the p=
-ixel=20
-> >> incrementation on planes[1..4] may not be aligned with the buffer (if=
-=20
-> >> hsub=3D2 and the start pixel is 1, I need to increment planes[1..4] on=
-ly=20
-> >> for x=3D2,4,6... not 1,3,5...).
-> >>
-> >> A way to ensure this is to add an "offset" to count, which ensure that=
- the=20
-> >> count % subsampling =3D=3D 0 on the correct pixel.
-
-Yes, I think I did get that feeling from the code eventually somehow,
-but it wouldn't hurt to explain it in the comment.
-
-"An offset for keeping the chroma siting consistent regardless of
-x_start and y_start" maybe?
-
-> >>
-> >> I made an error, the switch case must be (as count is always counting =
-up,=20
-> >> for "inverted" reading direction a negative number ensure that=20
-> >> %subsampling =3D=3D 0 on the correct pixel):
-> >>
-> >> 	switch (direction) {
-> >> 	case READ_UP:
-> >> 		return -y_start;
-> >> 	case READ_DOWN:
-> >> 		return y_start;
-> >> 	case READ_LEFT:
-> >> 		return -x_start;
-> >> 	case READ_RIGHT:
-> >> 		return x_start;
-> >> 	}
-
-Yes, the inverted reading directions are different indeed. I did not
-think through if this works also for sub-sampling divisors > 2 which I
-don't think are ever used.
-
-Does IGT find this mistake? If not, maybe IGT should be extended.
-
-> >> =20
-> >>>> +{
-> >>>> +	if (direction =3D=3D READ_RIGHT || direction =3D=3D READ_LEFT)
-> >>>> +		return x_start;
-> >>>> +	else if (direction =3D=3D READ_DOWN || direction =3D=3D READ_UP)
-> >>>> +		return y_start;
-> >>>> +	return 0;
-> >>>> +}
-> >>>> + =20
-> >>
-> >> [...]
-> >> =20
-> >>>> +static void yuv_u8_to_argb_u16(struct pixel_argb_u16 *argb_u16, con=
-st struct pixel_yuv_u8 *yuv_u8,
-> >>>> +			       enum drm_color_encoding encoding, enum drm_color_range ra=
-nge)
-> >>>> +{
-> >>>> +	static const s16 bt601_full[3][3] =3D {
-> >>>> +		{ 256, 0,   359 },
-> >>>> +		{ 256, -88, -183 },
-> >>>> +		{ 256, 454, 0 },
-> >>>> +	}; =20
-> >>
-> >> [...]
-> >> =20
-> >>>> +
-> >>>> +	u8 r =3D 0;
-> >>>> +	u8 g =3D 0;
-> >>>> +	u8 b =3D 0;
-> >>>> +	bool full =3D range =3D=3D DRM_COLOR_YCBCR_FULL_RANGE;
-> >>>> +	unsigned int y_offset =3D full ? 0 : 16;
-> >>>> +
-> >>>> +	switch (encoding) {
-> >>>> +	case DRM_COLOR_YCBCR_BT601:
-> >>>> +		ycbcr2rgb(full ? bt601_full : bt601, =20
-> >>>
-> >>> Doing all these conditional again pixel by pixel is probably
-> >>> inefficient. Just like with the line reading functions, you could pick
-> >>> the matrix in advance. =20
-> >>
-> >> I don't think the performance impact is huge (it's only a pair of if),=
- but=20
-> >> yes, it's an easy optimization.=20
-> >>
-> >> I will create a conversion_matrix structure:
-> >>
-> >> 	struct conversion_matrix {
-> >> 		s16 matrix[3][3];
-> >> 		u16 y_offset;
-> >> 	}
-
-When defining such a struct type, it would be good to document the
-matrix layout (which one is row, which one is column), and what the s16
-mean (fixed point?).
-
-Try to not mix signed and unsigned types, too. The C implicit type
-promotion rules can be surprising. Just make everything signed while
-computing, and convert to/from unsigned only for storage.
-
-> >>
-> >> I will create a `get_conversion_matrix_to_argb_u16` function to get th=
-is=20
-> >> structure from a format+encoding+range.
-> >>
-> >> I will also add a field `conversion_matrix` in struct vkms_plane_state=
- to=20
-> >> get this matrix only once per plane setup.
-
-Alright. Let's see how that works.
-
-> >>
-> >> =20
-> >>>> +			  yuv_u8->y, yuv_u8->u, yuv_u8->v, y_offset, &r, &g, &b);
-> >>>> +		break;
-> >>>> +	case DRM_COLOR_YCBCR_BT709:
-> >>>> +		ycbcr2rgb(full ? rec709_full : rec709,
-> >>>> +			  yuv_u8->y, yuv_u8->u, yuv_u8->v, y_offset, &r, &g, &b);
-> >>>> +		break;
-> >>>> +	case DRM_COLOR_YCBCR_BT2020:
-> >>>> +		ycbcr2rgb(full ? bt2020_full : bt2020,
-> >>>> +			  yuv_u8->y, yuv_u8->u, yuv_u8->v, y_offset, &r, &g, &b);
-> >>>> +		break;
-> >>>> +	default:
-> >>>> +		pr_warn_once("Not supported color encoding\n");
-> >>>> +		break;
-> >>>> +	}
-> >>>> +
-> >>>> +	argb_u16->r =3D r * 257;
-> >>>> +	argb_u16->g =3D g * 257;
-> >>>> +	argb_u16->b =3D b * 257; =20
-> >>>
-> >>> I wonder. Using 8-bit fixed point precision seems quite coarse for
-> >>> 8-bit pixel formats, and it's going to be insufficient for higher bit
-> >>> depths. Was supporting e.g. 10-bit YUV considered? There is even
-> >>> deeper, too, like DRM_FORMAT_P016. =20
-> >>
-> >> It's a good point, as I explained above, I took the conversion part as=
- a=20
-> >> "black box" to avoid breaking (and debugging) stuff. I think it's easy=
- to=20
-> >> switch to s32 bits matrix with 16.16 bits (or anything with more than =
-16 bits in=20
-> >> the float part).
-> >>
-> >> Maybe Arthur have an opinion on this? =20
-> >=20
-> > Yeah, I too don't see why not we could do that. The 8-bit precision was
-> > sufficient for those formats, but as well noted by Pekka this could be a
-> > problem for higher bit depths. I just need to make my terrible python
-> > script spit those values XD. =20
->=20
-> Finally, I got it working with 32-bit precision.
->=20
-> I basically threw all my untrusted python code away, and started using
-> the colour python framework suggested by Sebastian[1]. After knowing the
-> right values (and staring at numbers for hours), I found that with a
-> little bit of rounding, the conversion works.
->=20
-> Also, while at it, I changed the name rec709 to bt709 to follow the
-> pattern and added "_full" to the full ranges matrices.
->=20
-> While using the library, I noticed that the red component is wrong on
-> the color red in one test case.
->=20
-> [1]: https://lore.kernel.org/all/20240115150600.GC160656@toolbox/
-
-That all sounds good. I wish the kernel code contained comments
-explaining how exactly you computed those matrices with python/colour.
-If the python snippets are not too long, including them verbatim as
-code comments would be really nice for both reviewers and posterity.
-
-The same for the VKMS unit tests, too, how you got the expected result
-values.
-
->=20
-> Best Regards,
-> ~Arthur Grillo
->=20
-> ---
->=20
-> diff --git a/drivers/gpu/drm/vkms/tests/vkms_format_test.c b/drivers/gpu/=
-drm/vkms/tests/vkms_format_test.c
-> index f66584549827..4cee3c2d8d84 100644
-> --- a/drivers/gpu/drm/vkms/tests/vkms_format_test.c
-> +++ b/drivers/gpu/drm/vkms/tests/vkms_format_test.c
-> @@ -59,7 +59,7 @@ static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u1=
-6_cases[] =3D {
->  			{"white", {0xff, 0x80, 0x80}, {0x0000, 0xffff, 0xffff, 0xffff}},
->  			{"gray",  {0x80, 0x80, 0x80}, {0x0000, 0x8000, 0x8000, 0x8000}},
->  			{"black", {0x00, 0x80, 0x80}, {0x0000, 0x0000, 0x0000, 0x0000}},
-> -			{"red",   {0x35, 0x63, 0xff}, {0x0000, 0xffff, 0x0000, 0x0000}},
-> +			{"red",   {0x36, 0x63, 0xff}, {0x0000, 0xffff, 0x0000, 0x0000}},
->  			{"green", {0xb6, 0x1e, 0x0c}, {0x0000, 0x0000, 0xffff, 0x0000}},
->  			{"blue",  {0x12, 0xff, 0x74}, {0x0000, 0x0000, 0x0000, 0xffff}},
->  		},
-> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/v=
-kms_formats.c
-> index e06bbd7c0a67..043f23dbf80d 100644
-> --- a/drivers/gpu/drm/vkms/vkms_formats.c
-> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> @@ -121,10 +121,12 @@ static void RGB565_to_argb_u16(u8 **src_pixels, str=
-uct pixel_argb_u16 *out_pixel
->  	out_pixel->b =3D drm_fixp2int_round(drm_fixp_mul(fp_b, fp_rb_ratio));
->  }
-> =20
-> -static void ycbcr2rgb(const s16 m[3][3], u8 y, u8 cb, u8 cr, u8 y_offset=
-, u8 *r, u8 *g, u8 *b)
-> +#define BIT_DEPTH 32
-> +
-> +static void ycbcr2rgb(const s64 m[3][3], u8 y, u8 cb, u8 cr, u8 y_offset=
-, u8 *r, u8 *g, u8 *b)
->  {
-> -	s32 y_16, cb_16, cr_16;
-> -	s32 r_16, g_16, b_16;
-> +	s64 y_16, cb_16, cr_16;
-> +	s64 r_16, g_16, b_16;
-> =20
->  	y_16 =3D  y - y_offset;
->  	cb_16 =3D cb - 128;
-> @@ -134,9 +136,18 @@ static void ycbcr2rgb(const s16 m[3][3], u8 y, u8 cb=
-, u8 cr, u8 y_offset, u8 *r,
->  	g_16 =3D m[1][0] * y_16 + m[1][1] * cb_16 + m[1][2] * cr_16;
->  	b_16 =3D m[2][0] * y_16 + m[2][1] * cb_16 + m[2][2] * cr_16;
-> =20
-> -	*r =3D clamp(r_16, 0, 0xffff) >> 8;
-> -	*g =3D clamp(g_16, 0, 0xffff) >> 8;
-> -	*b =3D clamp(b_16, 0, 0xffff) >> 8;
-> +	// rounding the values
-> +	r_16 =3D r_16 + (1LL << (BIT_DEPTH - 4));
-> +	g_16 =3D g_16 + (1LL << (BIT_DEPTH - 4));
-> +	b_16 =3D b_16 + (1LL << (BIT_DEPTH - 4));
-> +
-> +	r_16 =3D clamp(r_16, 0, (1LL << (BIT_DEPTH + 8)) - 1);
-> +	g_16 =3D clamp(g_16, 0, (1LL << (BIT_DEPTH + 8)) - 1);
-> +	b_16 =3D clamp(b_16, 0, (1LL << (BIT_DEPTH + 8)) - 1);
-
-Where do the BIT_DEPTH - 4 and BIT_DEPTH + 8 come from?
-
-> +
-> +	*r =3D r_16 >> BIT_DEPTH;
-> +	*g =3D g_16 >> BIT_DEPTH;
-> +	*b =3D b_16 >> BIT_DEPTH;
->  }
-
-...
-
-> >  =20
-> >> Just to be sure, the DRM subsystem don't have such matrix somewhere? I=
-t=20
-> >> can be nice to avoid duplicating them. =20
-> >=20
-> > As to my knowledge it does not exist on DRM, I think those are normally
-> > on the hardware itself (*please* correct me if I'm wrong).
-
-I couldn't find a matrix type either on a quick glance, but there is
-drm_fixed.h for a couple different fixed point formats, it seems. FWIW.
-drm_fixed.h didn't feel very appealing for this here.
-
-> >=20
-> > But, v4l2 has a similar table on
-> > drivers/media/common/v4l2-tpg/v4l2-tpg-core.c (Actually, I started my
-> > code based on this), unfortunately it's only 8-bit too.
-
-Thanks,
-pq
-
---Sig_/WR3ByqJEAt6f5+lYdW.21IQ
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXgdLYACgkQI1/ltBGq
-qqfepQ//UK9qBoYRyfhDXlzTs+6MByDDRNKikoBaJBNJqaFjNC359pEj5HTpDNMC
-OCKLkLbMroo6Gjo91T7BCo176ksw2VkgTh2zbs+UOcLTjPTJdB/f+YseFkD4rjAT
-AlmF5ovjvhu5D8u+ZIRzO7yp6/r9qsKvr63ODwv8DtFPd/0JFPI6zfvOjJjUkAvP
-AVjdudMt1CfSwbwkl+NlSjZPjkZTFxypP/vmGKjqb3VEOP7svQCZJgJ4+nm7l5uw
-0oSGFNebxrOfazeZnWroGJz4Yos9Rcnu0nZzL0tFx6buGOziGzvibYjCGMjftGMO
-jfiV8R8IBXaLYpyZznJ5JWFVvwdzjCEGAr0yT/VpPlDQxE6BBd4jfCZ3M+ap0lkP
-za1m2PNieszpX9z16j32h/s1IXzWJzCpnw/K4FzL4tgQk5+PXG4nyfpgtl4YrRg7
-tYHn7c7yN20GZbFPvwHoP6NKsxWYOpopszQOKIec5BhBptek6jssVT1S3dmslnpW
-X4U4cMLB+zoJBOz0X0ZGJoffIyArrAtjb7xndm8+wq/EcCn0EtsHMTDTsWzEx/24
-JuXldIiQHP+tcI+p2gro9hZXv1tcj8MbBWmB997FSejHat+Wo686KaAb+XfirGmW
-1l04SAZXkZ0RzOt/0seupMsYIZHTH4dEszmbOSjPB5PavPVcWag=
-=lR9b
------END PGP SIGNATURE-----
-
---Sig_/WR3ByqJEAt6f5+lYdW.21IQ--
+>
+> BR,
+> Jani.
+>
+>
