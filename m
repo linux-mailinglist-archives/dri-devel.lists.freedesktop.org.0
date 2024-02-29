@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF80386D198
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 19:11:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 036EB86D1C2
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 19:14:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D5C610E410;
-	Thu, 29 Feb 2024 18:11:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B72E10E58E;
+	Thu, 29 Feb 2024 18:14:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="l2yCqsHZ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IgwLOh3/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D05910E3F8;
- Thu, 29 Feb 2024 18:11:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18C2310E4A3
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 18:14:09 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 394C161333;
- Thu, 29 Feb 2024 18:11:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA85BC433A6;
- Thu, 29 Feb 2024 18:11:09 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 58D1660DE7;
+ Thu, 29 Feb 2024 18:14:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90F53C433F1;
+ Thu, 29 Feb 2024 18:14:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1709230270;
- bh=a5/6+2LTn+N0eUr8eiV1Ty/edBikw63mMsI6aVDC6Ss=;
+ s=k20201202; t=1709230447;
+ bh=puQJBrcPK5Z3RCYzqNZihfMO0Tg5uf4iB/iw30xgVpg=;
  h=From:To:Cc:Subject:Date:From;
- b=l2yCqsHZ6H7hX115YD1FwHAzweYh5q7rp1bnWXvWvqrMjEQtBO2S0OD5YHzjg5IKz
- vlixsoeEX2ykU/3WRJwPYUvU+1fpah+SIV71lDnHmKF8PrsdwRQGAf8ohE8ofyHJI5
- FOE8hk15AEsB6Ro8NiO7Yc0eAvDJuxkY1jVw5//stvK+juNOWsKfJ1n5LuUoH7uHqD
- sf8a1P/b7FW4B1JEtGpT0DlsTU4TWbqplGvLDnKRGN27VEiUnmno+SgUS5/BQb6Alc
- M1A7GbDAcMkaBC2U82NaxG21HYa06KamZAS0PHt6qDrRcEp0zKHrQSOPrwEhccmOAs
- WKMpWj5S6D8gA==
+ b=IgwLOh3/lmwXC0mbjV854Af52B9itc20DwBDBtiL+ZCpBmeB/rhY7uPTW9t45066c
+ u760pkPWHfLKADi2HRS1Lm2VzYNXbbYQ5n2FK2cfgJpJMWgU4blPaYQWINfPCncMsg
+ RtOAAGd5AaIT8CAw7W9z8AEon1NtdPyptUww6kaibhwSpX2SPWIUC+etomWPM0q3bV
+ jyrdVowQI3n6qBOJAHnRM+HqyKMQ6vz9vBMOAlwFOseItcTwtMvcNgGksBvhOC4Azm
+ tdOJlS+CdFLB9eWTe1xRX41UPYh8oRiYFuwU6dd/LqTng83HNykivVnnEvdR2Ld27e
+ RaWr2REeoswMA==
 From: Bjorn Helgaas <helgaas@kernel.org>
 To: David Airlie <airlied@gmail.com>,
 	Daniel Vetter <daniel@ffwll.ch>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Pan@freedesktop.org, Xinhui <Xinhui.Pan@amd.com>,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>
-Subject: [PATCH] drm/amdgpu: remove misleading amdgpu_pmops_runtime_idle()
- comment
-Date: Thu, 29 Feb 2024 12:11:06 -0600
-Message-Id: <20240229181106.351877-1-helgaas@kernel.org>
+Cc: Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>
+Subject: [PATCH] drm/fsl-dcu: remove unnecessary NULL checks
+Date: Thu, 29 Feb 2024 12:14:04 -0600
+Message-Id: <20240229181404.352531-1-helgaas@kernel.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -62,32 +61,41 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Bjorn Helgaas <bhelgaas@google.com>
 
-After 4020c2280233 ("drm/amdgpu: don't runtime suspend if there are
-displays attached (v3)"), "ret" is unconditionally set later before being
-used, so there's point in initializing it and the associated comment is no
-longer meaningful.
+The power management callbacks are never called unless .probe() has already
+returned success, which means it has set drvdata to a non-NULL pointer, so
+"dev" can never be NULL in the other callbacks.
 
-Remove the comment and the unnecessary initialization.
+Remove the unnecessary checks.
 
 Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index cc69005f5b46..68416e2a9130 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -2744,8 +2744,7 @@ static int amdgpu_pmops_runtime_idle(struct device *dev)
- {
- 	struct drm_device *drm_dev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(drm_dev);
--	/* we don't want the main rpm_idle to call suspend - we want to autosuspend */
--	int ret = 1;
-+	int ret;
+diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+index ab6c0c6cd0e2..ca23a2ca16bb 100644
+--- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
++++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+@@ -170,9 +170,6 @@ static int fsl_dcu_drm_pm_suspend(struct device *dev)
+ 	struct fsl_dcu_drm_device *fsl_dev = dev_get_drvdata(dev);
+ 	int ret;
  
- 	if (adev->pm.rpm_mode == AMDGPU_RUNPM_NONE) {
- 		pm_runtime_forbid(dev);
+-	if (!fsl_dev)
+-		return 0;
+-
+ 	disable_irq(fsl_dev->irq);
+ 
+ 	ret = drm_mode_config_helper_suspend(fsl_dev->drm);
+@@ -191,9 +188,6 @@ static int fsl_dcu_drm_pm_resume(struct device *dev)
+ 	struct fsl_dcu_drm_device *fsl_dev = dev_get_drvdata(dev);
+ 	int ret;
+ 
+-	if (!fsl_dev)
+-		return 0;
+-
+ 	ret = clk_prepare_enable(fsl_dev->clk);
+ 	if (ret < 0) {
+ 		dev_err(dev, "failed to enable dcu clk\n");
 -- 
 2.34.1
 
