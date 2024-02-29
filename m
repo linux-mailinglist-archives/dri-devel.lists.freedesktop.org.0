@@ -2,84 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C32F86D3B0
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 20:52:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 181F486D3BA
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 20:53:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2299E10E0BC;
-	Thu, 29 Feb 2024 19:52:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 136A510E5CB;
+	Thu, 29 Feb 2024 19:53:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="jAXt7v8T";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="heuLEv2n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com
- [209.85.166.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 718D610E0BC
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 19:52:30 +0000 (UTC)
-Received: by mail-io1-f45.google.com with SMTP id
- ca18e2360f4ac-7c7701f95b6so72174239f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 11:52:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1709236349; x=1709841149;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=2t6iwGhsnNUxY4xM8qxSPssm7+cm45B8gw+DhHQKME4=;
- b=jAXt7v8T2V7KuLu5aS2EZ2QOGYnC+IFyxFKcyj1CJSPwC80jnhPAZkTt4eTwnuD2WF
- b8fc8eEEZSYUAi6I6RNZEcoOMnGYeE2m3XfAhutXuZoZ2Xee+WNqbWiG0VohWLA8S5Hb
- EJ1ZA3cxzxqAUN68ld4cS7Br26eZf7gbNgn+0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709236349; x=1709841149;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2t6iwGhsnNUxY4xM8qxSPssm7+cm45B8gw+DhHQKME4=;
- b=tlMbV5eoQy73ZPS2qW25IJlV2W0oePG/IAUR/SS4s76mXSQ9LzhFZIltN1lMIYr4sa
- ytieMLdQjNBCbMsuGs0JUivVvlHbcK9hyhQuxVgyBcNsxKoCRLPNr0idK2h8VPaztixC
- wMqHsZbqOmBnZGPZbVVRngfidGfeWh7wyAsHhaGuIHWigj1wxybJi75kABlnB/shf9y5
- PJp10o8JsGveIeNVFcQJcCOOUZbExalXCS9PUcopidEgeMwXccNc9MLTTEy0pH516bSE
- 9FQTMGsgkVXpD2FpKsXJpzrshvnMdDpdDKjOKLpRRh9IopUbrE41RrR7rCMJkeEo1fT7
- bFcw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX7fXYYSGJdEvq1oTzvaAwVcdo5H/dqEGHRAhVeXEkoIm7M9Fsk+s8QAM5PX7INcoDAjHJ0xzz8h+fQpg36VW2nSdEgWVaHUOveCca/buNG
-X-Gm-Message-State: AOJu0Yz/4FmBiHpnASnu6CQrUDOyKl7X99A5Bw+fwun5lQkGhGnHgx4O
- C1tUwcmD6E5upOlkSEES+LoQX2Y+1mHuC+3FvTuY0vWM0S+ugLXH/+uiwHNF+A==
-X-Google-Smtp-Source: AGHT+IEZumlIxb4G0d4K62o0AbkepaXShc33hqlL9UEbLbxcWjF6LoBXCm4td2IpRYXolb4bY9ObCA==
-X-Received: by 2002:a05:6e02:1a8e:b0:365:185a:83ed with SMTP id
- k14-20020a056e021a8e00b00365185a83edmr1768942ilv.10.1709236349457; 
- Thu, 29 Feb 2024 11:52:29 -0800 (PST)
-Received: from localhost (144.57.222.35.bc.googleusercontent.com.
- [35.222.57.144]) by smtp.gmail.com with UTF8SMTPSA id
- 6-20020a056e020ca600b003653eb24e14sm492989ilg.78.2024.02.29.11.52.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Feb 2024 11:52:29 -0800 (PST)
-Date: Thu, 29 Feb 2024 19:52:28 +0000
-From: Matthias Kaehlcke <mka@chromium.org>
-To: Javier Carrasco <javier.carrasco@wolfvision.net>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Helen Koike <helen.koike@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Russell King <linux@armlinux.org.uk>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v6 7/9] usb: misc: onboard_dev: add support for non-hub
- devices
-Message-ID: <ZeDgfIojODIbhs6N@google.com>
-References: <20240229-onboard_xvf3500-v6-0-a0aff2947040@wolfvision.net>
- <20240229-onboard_xvf3500-v6-7-a0aff2947040@wolfvision.net>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D824D10E5CB;
+ Thu, 29 Feb 2024 19:53:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709236420; x=1740772420;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=PmXYPXVdjUcahNYb77OMvU6VRoZSqlCvW7/geLcuTNw=;
+ b=heuLEv2nBgIxtL3U6LuIy4OOlUTLLLr7NxUxRZLiGYr/9McX92PIwskW
+ Yx4KXMe2z9qTLrl8+ZkYguZ8UmnBRl6ChEZKKKCnIdPY0HkAfpfdl87JU
+ OwdRCjk1Y8mNOkU1iMYduCxGmIFuNUCazARbZrDsk30cu2Tl421BnJBFq
+ XFE9lIdM2vxuhZwMuZVRLJEH8tZaxGbCN0R4eIBQSCf872MBzjlc3nVU7
+ wzN+7KlzcGjoDZKa2jO/xLK7p24IYCeiek2bcouNOgfxxVP9o2wO++6US
+ cFvBbYipAreeR5Dt5shuHGguaONDSWv/pcosiWGPE8gOzHtfj/+mzt59O Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="14443759"
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; d="scan'208";a="14443759"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Feb 2024 11:53:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
+   d="scan'208";a="8181796"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 29 Feb 2024 11:53:39 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 29 Feb 2024 11:53:38 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Thu, 29 Feb 2024 11:53:38 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.41) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Thu, 29 Feb 2024 11:53:38 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MwN8U3oebdPrAY7pQ0+RaTF5k/eOe5KfKwCq1WK03wWWb0mDL43zJyKc+fcfQUBaKPQgdj78FXX8HDNoWj06WZJdVROfBkyFfiNFX4ZfQ9DFEdqM1RaC6wJ9tNTvn1wxXeVhyLEot37MMLjXxid2c3iYkqU1ZvIm64BRsTX0B4xwWu2GNrQ6i1klgKqniu5eqMptA0nylK30psljKFKKYnTDihnHyF8d+YcYruHI9S+yWHglgSG9ZOsVQ7HSGs2AdsihmUDGO4kA7uB+oWbQ8D477BQEKxs3PTF2c3u0RWawIysKSlIBrRuQbI72rV9pOnQ66X4i4Y6JtlZqiX4gnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PmXYPXVdjUcahNYb77OMvU6VRoZSqlCvW7/geLcuTNw=;
+ b=W0wXmJ5tLV+1NMr2KTyhsvihAIuv4EYttaI7CwrW6rFn2UFWILp4quYwrERGRatJQRngbhKZTsUWcpJKIh8CuhOBsYI8aCrsTIjQUw11DwlkyWn7xxUM5SfzE+TosqD9wLdMAd+LY7w2bZFtYpZW6NLEd2u+9UjQQGEhvmxCc/MKkE5EWm4RHSrOxnlFDu/k0QY6vpTLsPXjhgY+ATJmA634cY6uQLyQf0yYVjkt1eXctXB8QzLQUS5XaUugHACCNSDBeLzEQO/4CDdEu3tStX5itRJK4zAXIfurPnf6tIGZUmVFv4C+GngS023eCxYg241BPPLL4CHYtu0IJSmeEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA1PR11MB6348.namprd11.prod.outlook.com (2603:10b6:208:3af::16)
+ by DM4PR11MB6408.namprd11.prod.outlook.com (2603:10b6:8:b7::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.26; Thu, 29 Feb
+ 2024 19:53:36 +0000
+Received: from IA1PR11MB6348.namprd11.prod.outlook.com
+ ([fe80::27fc:befb:9a38:279]) by IA1PR11MB6348.namprd11.prod.outlook.com
+ ([fe80::27fc:befb:9a38:279%4]) with mapi id 15.20.7339.024; Thu, 29 Feb 2024
+ 19:53:36 +0000
+From: "Golani, Mitulkumar Ajitkumar" <mitulkumar.ajitkumar.golani@intel.com>
+To: "Nikula, Jani" <jani.nikula@intel.com>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
+Subject: RE: [PATCH v12 2/8] drm: Add Adaptive Sync SDP logging
+Thread-Topic: [PATCH v12 2/8] drm: Add Adaptive Sync SDP logging
+Thread-Index: AQHaalTHRUKmBtobpEGD2AqjrUtCWbEhIfcAgABjHECAADHjgIAABiKA
+Date: Thu, 29 Feb 2024 19:53:36 +0000
+Message-ID: <IA1PR11MB6348AB44BA666E7041F3E6CFB25F2@IA1PR11MB6348.namprd11.prod.outlook.com>
+References: <20240228143823.2762595-1-mitulkumar.ajitkumar.golani@intel.com>
+ <20240228143823.2762595-3-mitulkumar.ajitkumar.golani@intel.com>
+ <87msrj8sjx.fsf@intel.com>
+ <IA1PR11MB6348DD3317E4B9D860E426CCB25F2@IA1PR11MB6348.namprd11.prod.outlook.com>
+ <877cin6pao.fsf@intel.com>
+In-Reply-To: <877cin6pao.fsf@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA1PR11MB6348:EE_|DM4PR11MB6408:EE_
+x-ms-office365-filtering-correlation-id: 3865a506-f25a-4829-e9ce-08dc39601dec
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: KBooeF/XG/x1X9rMFHVCYy7bbhSEKP+01qmt+6jMyxmyeX5x5biTXp+tgoPE95MKWJXby8H0cGAgxLIzNpGQdSMZc6hN1Fc7QedAMb2OxDaeSI6Wq9v4e7cFO8c52gErg7uzkNqGyxJrAoX66lxnXayWDSymlvJwD9apoWzZTU8i649GQ1BQchJbcUD0LlPgfuPUXWWkFdLm7dQFTaS0VfTcw620RTJftzsgOc+GTGIijC9gQU+MGSxXWypthNN3zTdYgu9lGHBJh+36rY9b9FS6MYkERzSB3B7x8RLm9Hb1d9PHaKVvR8ALjIBml0o5v0gLxj9MktYhw28hxsd9Es87ag24Oa79j6ykaISEqH+qkSBqN78Fy2ge76uNZlhYxFurcnK/W8HdT6a4Wf90Gd2yzXdoFNwyLSKjYjWqgthjlpkQavqsacGzg3zPrZU2+lKuS6PtOBLUtzYXAhhNO6MMaQssGiKmef/W7Zdyhjt5BVmHxiT9QXlkve5LWO5PmL8eYrgGSSc+/IRVxQ3SCvyjjbdRuUnkXdmyECsL0Cy24F6IP/jqGyk0RSfn2gzTART4nY941N2U0IpD8cSMr0538oHomm5LPfm5hoWkNUQnkAIVuzPftF0OCwfa0W8k9459XaDZTTH3Me34/l4mWsgLZw/iqrv6nNWnhXH5ME7l1Ho4ldQrrTq+mu++VCdl8SB++Gzy5acoGvjwf+SHUOn9ZiOugVrzJxmkl/luNqE=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:IA1PR11MB6348.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(38070700009); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?zsVYpcQTt3kApeYIP/dsthlgSX6CMfBVDPo9rbMBAM6dNtHG3DRANGPp2hXe?=
+ =?us-ascii?Q?IfJmwI812US79PCgdZYMD1crEtn3mw1sD7FGfk1CB5Eudzz/x+8vbp7fpEol?=
+ =?us-ascii?Q?rIpw0elQ10ZfVtj5Yx0YKda7HzkijPIwZa1UMcYnSquvTv8NfWcGs4pqUYdx?=
+ =?us-ascii?Q?lPpk4l1Jw1JGX0z+AJslmxflZu50AECJyGauw18hFyOW9IqnP4xz0k9QPoQT?=
+ =?us-ascii?Q?j2VI8Zp/1qZBk37eSe2I2GLa9w9GPEpatgQyO41zJqghXEgxP2vrZsgfQdON?=
+ =?us-ascii?Q?m8OSvPZHh28F+7BalWntObsBZLU7zwLwcjgnWD1Z5q0ky1sgm843Q7RIRk6j?=
+ =?us-ascii?Q?y+E1phWKYQl1MUwUSYO07nQGrIINQvCjy5ZzZQnlCgqy2V7X8stNO1IORPRQ?=
+ =?us-ascii?Q?33gXWh06UKvdiPoNDyUAM5JzpR7Uc0SL6JCMREJf0BHVK2PGKSUUL8BjgFNS?=
+ =?us-ascii?Q?US7MuMJUAXq3Rfgy04P/CWWyJc2fpohKopp8rnzqwnHAOFPN7T6xqgRAPJv3?=
+ =?us-ascii?Q?T/wkqUmZLAQY/qwm1UvYuwMRli87kFFJb0h6bx152a6MTnbR/YxmlYaxLD6Z?=
+ =?us-ascii?Q?KHbjFfa0+mDrSlsVveWIcQimKdL/cqxd2+91+hY9OdL2n7gX4yhAyJUg9meI?=
+ =?us-ascii?Q?ugBuxCgqLfCfzsoEtRTfYNHBrmgf7gIHLt1T1TEIEus0+LEEWU/dHeIekXTn?=
+ =?us-ascii?Q?BtIN7qi7NzBCG10QHvPDqJY24rzH632fo44DB6e0tIE0uJhF/gjuyZFbUlU/?=
+ =?us-ascii?Q?dhy8U+2tDlviFdUQPoYlnV7aZUNGfFyWhQSUknM9m+qOdpfcTzBeWLyXO7bk?=
+ =?us-ascii?Q?I/glDKpjvNOzBEXB67jxQLMEO2ZqGN5kbRcD5OY4LBfXAqIZMBaMOzQUyPO2?=
+ =?us-ascii?Q?GX2gEdQEuDmlJkH8Nw1hsleE5c4w7EK9/ttZe/kXOM9uMtMbEbtMvkrUcrho?=
+ =?us-ascii?Q?lnoaDtjhKQknwLw1waFYi/v7K1TRE036f+aTU8mhK6Y3WJJEojjrDLADUqJ5?=
+ =?us-ascii?Q?ALLVBLRD7l4qwlWM7Ri3VhMB2cyoyoW1zGc4kKQoN6kTHmLKv+5iQau40LRs?=
+ =?us-ascii?Q?KIIjsLGO+lmjovUuiQO6Qh7I8PHgKqgPT4vm7ntScMWaNZpXDbuAtqu+OCCf?=
+ =?us-ascii?Q?IybFyckGukXFTuj8xQAKuCsOEVzVG4K1UU2SB00GRdTvKToHR9wYXNQa6NNZ?=
+ =?us-ascii?Q?gnvFacQUcXCVVkKKE6L89LMj/cmpN5pngKS3Ka6zvJEvBQGz1drW3rHOXoPR?=
+ =?us-ascii?Q?nwkY3Ef44m7QYqckRPM3u7xbx5dEY61SpXvuGEubPVSb3AnR1WajFCgwZ8Lh?=
+ =?us-ascii?Q?mOyVAXgQGp41ijk3k5lQ2HzFZ5IW6Fl0giu3qGdUjDmumdoKfPp4aETnrs4n?=
+ =?us-ascii?Q?DPMtFLYIvgu2bQucIj0WxFp+7ainOAEjOSV0TRibsmJUX/EkcBJcESbpY07T?=
+ =?us-ascii?Q?nJWvBkZU4B8m3NR6qxGGyHtK+Tr9rix+uqi0FGzfEzRcSWi6cF980iozJFHQ?=
+ =?us-ascii?Q?h1wxWU4b/E8YjPX0alDp0NWe7dZS92yLbu2P3g/KR8RrX63wtC4vzvc8pfnA?=
+ =?us-ascii?Q?RORTBimWz3gXDDnF+5wlgJrA9IodILigHY8FGULAAFgHNkDM1P3UAh+BLwWy?=
+ =?us-ascii?Q?dXAKcKYuToC5W2UXYNiHNTY=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240229-onboard_xvf3500-v6-7-a0aff2947040@wolfvision.net>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB6348.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3865a506-f25a-4829-e9ce-08dc39601dec
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Feb 2024 19:53:36.0968 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: LChnwbTRBG2dPPz0b3ogrf4JvkfJfhhZoN9j2L+oDUXFg8CShujHHiVJX+z+YO42KJvff/wmEMj3EoT1WtAram61YML/x0g3pXZyO+dofamy1cjz4BtC3WGzz+4cdT2Q
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6408
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,80 +159,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 29, 2024 at 09:34:50AM +0100, Javier Carrasco wrote:
-> Most of the functionality this driver provides can be used by non-hub
-> devices as well.
-> 
-> To account for the hub-specific code, add a flag to the device data
-> structure and check its value for hub-specific code.
-> 
-> The 'always_powered_in_supend' attribute is only available for hub
-> devices, keeping the driver's default behavior for non-hub devices (keep
-> on in suspend).
-> 
-> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
-> ---
->  drivers/usb/misc/onboard_usb_dev.c | 25 ++++++++++++++++++++++++-
->  drivers/usb/misc/onboard_usb_dev.h | 10 ++++++++++
->  2 files changed, 34 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/misc/onboard_usb_dev.c b/drivers/usb/misc/onboard_usb_dev.c
-> index 4ae580445408..f1b174503c44 100644
-> --- a/drivers/usb/misc/onboard_usb_dev.c
-> +++ b/drivers/usb/misc/onboard_usb_dev.c
-> @@ -261,7 +261,27 @@ static struct attribute *onboard_dev_attrs[] = {
->  	&dev_attr_always_powered_in_suspend.attr,
->  	NULL,
->  };
-> -ATTRIBUTE_GROUPS(onboard_dev);
-> +
-> +static umode_t onboard_dev_attrs_are_visible(struct kobject *kobj,
-> +					     struct attribute *attr,
-> +					     int n)
-> +{
-> +	struct device *dev = kobj_to_dev(kobj);
-> +	struct onboard_dev *onboard_dev = dev_get_drvdata(dev);
-> +
-> +	if (attr == &dev_attr_always_powered_in_suspend.attr &&
-> +	    !onboard_dev->pdata->is_hub)
-> +		return 0;
-> +
-> +	return attr->mode;
-> +}
-> +
-> +static const struct attribute_group onboard_dev_group = {
-> +	.is_visible = onboard_dev_attrs_are_visible,
-> +	.attrs = onboard_dev_attrs,
-> +};
-> +__ATTRIBUTE_GROUPS(onboard_dev);
-> +
+> On Thu, 29 Feb 2024, "Golani, Mitulkumar Ajitkumar"
+> <mitulkumar.ajitkumar.golani@intel.com> wrote:
+> > Thought behind this was to use the function where it was defined. But
+> > no worries, I have split it with new patch series floated.
+>=20
+> Please do not rush to send so many new versions! Let the review come to a
+> conclusion first.
 
-nit: remove one empty line
+Apologies, Jani, for the rapid succession of patch releases. I missed inclu=
+ding the first patch in the initial series float, leading to its inclusion =
+in the subsequent revision.
 
->  
->  static void onboard_dev_attach_usb_driver(struct work_struct *work)
->  {
-> @@ -286,6 +306,9 @@ static int onboard_dev_probe(struct platform_device *pdev)
->  	if (!onboard_dev->pdata)
->  		return -EINVAL;
->  
-> +	if (!onboard_dev->pdata->is_hub)
-> +		onboard_dev->always_powered_in_suspend = true;
-> +
->  	onboard_dev->dev = dev;
->  
->  	err = onboard_dev_get_regulators(onboard_dev);
-> diff --git a/drivers/usb/misc/onboard_usb_dev.h b/drivers/usb/misc/onboard_usb_dev.h
-> index 4da9f3b7f9e9..58cf8c81b2cf 100644
-> --- a/drivers/usb/misc/onboard_usb_dev.h
-> +++ b/drivers/usb/misc/onboard_usb_dev.h
-> @@ -12,60 +12,70 @@ struct onboard_dev_pdata {
->  	unsigned long reset_us;		/* reset pulse width in us */
->  	unsigned int num_supplies;	/* number of supplies */
->  	const char * const supply_names[MAX_SUPPLIES];
-> +	bool is_hub;			/* true if the device is a HUB */
+Regards,
+Mitul
 
-nit: either drop the comment (the variable name is pretty self explaining),
-or s/HUB/hub/ ('hub' isn't an acronym).
-
-Acked-by: Matthias Kaehlcke <mka@chromium.org>
