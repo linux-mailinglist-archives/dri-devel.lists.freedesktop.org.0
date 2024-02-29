@@ -2,76 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B553B86C6F5
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 11:31:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B965286C715
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 11:37:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD02110E426;
-	Thu, 29 Feb 2024 10:31:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86D4510E420;
+	Thu, 29 Feb 2024 10:37:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Ilixnbku";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KqCfOZcw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2405210E420
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 10:31:11 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id
- ffacd0b85a97d-33dcc82ecc1so167695f8f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 02:31:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1709202669; x=1709807469; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=oCCRYUVkzEW74bA3wPKxqIN5m8hMZvpa6nGmDbuITfY=;
- b=IlixnbkuGMQkgyERoKFtwoq2mrR9KzsedUBemeHhAKJUenm2HQmOD92DKDRwsxUQKs
- jJz7ooA+4uhUySzMZgFtQ/PmdNYJ8GqtNUkro0YM+N0/IDRQs61iPs2V0XWNl6R1i39Q
- xaPlZBeT0WgsAayUlxRdtQrMxaRdC7lS69WmA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709202669; x=1709807469;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oCCRYUVkzEW74bA3wPKxqIN5m8hMZvpa6nGmDbuITfY=;
- b=PJW0it65tKSHJruHbvMxniI5hy6SMGzHijU2uiNMJnHig2H86+fBqVnngblM3HqS14
- QCVHmft1qONgRIbFi51nI8cRm5BLCQ/tX4kLMDSjPO8+CPxbfza09fQ2g6NzUOBgOF1M
- TZSzHCKIm8qHSqDdbk4Zwu/pLFa7oxTFEHtuODyHfC/6uRfLthQtoCmgCRYpMsm93NNy
- B5mUN/Bv4p18KSzPiUUmbrl+jFXaDDNfSUviv20yGDYSI3K/D4DkIIGc4JSGUsXtDSRl
- v4fqDV7Ttx04beaYrY+kPy3qHr/AUvjAiem9AssKyUkxWXgx1UkJVWyj18m6BJtXxLSg
- d5Ig==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVrPOpCKIuiubKfGU2n9QweNS3uwiP1EVMLhbJNpacvigV1WF74jCTXsBFV5vTndtiFC0VhM3tKQVa/luyMfSpogtR4gJgbgIB0rUAYcEiK
-X-Gm-Message-State: AOJu0YyDA1BvyJTjg/eP18T2K+rh7RLfQhWpiOJsO8ZVBFRP9uawTAHU
- pSsW3oKB5Wfprr9YJwInso4HrScVS5bXGOdTsvQ5fPp0c5xYA19Nj6rIP1Xd6UQ=
-X-Google-Smtp-Source: AGHT+IGZGcWyleP0w0O0pOg+nQfRGNOlKJCa4eGypGpJ0HUnHG9IG5DW/Jkj2kEDzvuJIVi/RO7jWA==
-X-Received: by 2002:a05:600c:3b82:b0:412:a71e:98a3 with SMTP id
- n2-20020a05600c3b8200b00412a71e98a3mr1345088wms.3.1709202669001; 
- Thu, 29 Feb 2024 02:31:09 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- fc18-20020a05600c525200b00412aeb77bbcsm1655397wmb.19.2024.02.29.02.31.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Feb 2024 02:31:08 -0800 (PST)
-Date: Thu, 29 Feb 2024 11:31:06 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, libcamera-devel@lists.libcamera.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>
-Subject: Re: [RFC] drm/fourcc: Add RPI modifiers
-Message-ID: <ZeBc6idqpsVm_Oqt@phenom.ffwll.local>
-References: <20240226153854.99471-1-jacopo.mondi@ideasonboard.com>
- <CAKMK7uE2CBuGsJUYDT-L8x1Tbjb-PiHUjro8-hDpxLvBWycgLw@mail.gmail.com>
- <473ei7jyjevynhb7roinhdaj2hnmsog6owiognlyp5fpfc63pa@mdn73c5gu46r>
- <20240227131006.GB5863@pendragon.ideasonboard.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D4ED10E3FB;
+ Thu, 29 Feb 2024 10:37:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709203064; x=1740739064;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=hpKSgYGqvJQ3oE+hBFflzdNtVFWuhZCktLf62FrxXaI=;
+ b=KqCfOZcwFLgFtZgEwTmp7enNgPOvg8kDAj+JQ/ubSRvqPre2UhPGH8ud
+ +TDTeOJy+uzxpTi+kXCSwWdRm6uqFQixKBhwlQnLD0RO9dtrhEMn7f9Ky
+ CA7FGNAUzo8mUKBG6j/JFHKIQsL0gNjZRa7DRkfnRhn3Vi5ilndtBXLZ5
+ 6jKSTwOqr50g4JeMMEMhS2G+jYfwipDkLjAWDgLLgpSgLPjABZJgI1zSx
+ HghISubPIsSv7sQ626yjTN9JRaKhgqZSRHvV028N+TsxLeVRU7Guh4J60
+ rGUuHIUQdNxZXV6H1vKefJBwTh3ZFlNVjl2RP3wZk3iXGigZ+UH3ZQYw7 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="14814897"
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; d="scan'208";a="14814897"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Feb 2024 02:37:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
+   d="scan'208";a="7737780"
+Received: from smatua-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.47.143])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Feb 2024 02:37:41 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
+ intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, ankit.k.nautiyal@intel.com, Mitul
+ Golani <mitulkumar.ajitkumar.golani@intel.com>
+Subject: Re: [PATCH v12 2/8] drm: Add Adaptive Sync SDP logging
+In-Reply-To: <20240228143823.2762595-3-mitulkumar.ajitkumar.golani@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240228143823.2762595-1-mitulkumar.ajitkumar.golani@intel.com>
+ <20240228143823.2762595-3-mitulkumar.ajitkumar.golani@intel.com>
+Date: Thu, 29 Feb 2024 12:37:38 +0200
+Message-ID: <87msrj8sjx.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240227131006.GB5863@pendragon.ideasonboard.com>
-X-Operating-System: Linux phenom 6.6.11-amd64 
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,200 +68,190 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 27, 2024 at 03:10:06PM +0200, Laurent Pinchart wrote:
-> On Mon, Feb 26, 2024 at 05:24:41PM +0100, Jacopo Mondi wrote:
-> > On Mon, Feb 26, 2024 at 04:46:24PM +0100, Daniel Vetter wrote:
-> > > On Mon, 26 Feb 2024 at 16:39, Jacopo Mondi wrote:
-> > > >
-> > > > Add modifiers for the Raspberry Pi PiSP compressed formats.
-> > > >
-> > > > The compressed formats are documented at:
-> > > > Documentation/userspace-api/media/v4l/pixfmt-pisp-comp-rggb.rst
-> > > >
-> > > > and in the PiSP datasheet:
-> > > > https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
-> > > >
-> > > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > > > ---
-> > > >
-> > > > Background:
-> > > > -----------
-> > > >
-> > > > The Raspberry Pi PiSP camera subsystem is on its way to upstream through the
-> > > > Video4Linux2 subsystem:
-> > > > https://patchwork.linuxtv.org/project/linux-media/list/?series=12310
-> > > >
-> > > > The PiSP camera system is composed by a "Front End" and a "Back End".
-> > > > The FrontEnd part is a MIPI CSI-2 receiver that store frames to memory and
-> > > > produce statistics, and the BackEnd is a memory-to-memory ISP that converts
-> > > > images in a format usable by application.
-> > > >
-> > > > The "FrontEnd" is capable of encoding RAW Bayer images as received by the
-> > > > image sensor in a 'compressed' format defined by Raspberry Pi and fully
-> > > > documented in the PiSP manual:
-> > > > https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
-> > > >
-> > > > The compression scheme is documented in the in-review patch series for the BE
-> > > > support at:
-> > > > https://patchwork.linuxtv.org/project/linux-media/patch/20240223163012.300763-7-jacopo.mondi@ideasonboard.com/
-> > > >
-> > > > The "BackEnd" is capable of consuming images in the compressed format and
-> > > > optionally user application might want to inspect those images for debugging
-> > > > purposes.
-> > > >
-> > > > Why a DRM modifier
-> > > > ------------------
-> > > >
-> > > > The PiSP support is entirely implemented in libcamera, with the support of an
-> > > > hw-specific library called 'libpisp'.
-> > > >
-> > > > libcamera uses the fourcc codes defined by DRM to define its formats:
-> > > > https://git.libcamera.org/libcamera/libcamera.git/tree/src/libcamera/formats.yaml
-> > > >
-> > > > And to define a new libcamera format for the Raspberry Pi compressed ones we
-> > > > need to associate the above proposed modifiers with a RAW Bayer format
-> > > > identifier.
-> > > >
-> > > > In example:
-> > > >
-> > > >   - RGGB16_PISP_COMP1:
-> > > >       fourcc: DRM_FORMAT_SRGGB16
-> > > >       mod: PISP_FORMAT_MOD_COMPRESS_MODE1
-> > > >   - GRBG16_PISP_COMP1:
-> > > >       fourcc: DRM_FORMAT_SGRBG16
-> > > >       mod: PISP_FORMAT_MOD_COMPRESS_MODE1
-> > > >   - GBRG16_PISP_COMP1:
-> > > >       fourcc: DRM_FORMAT_SGBRG16
-> > > >       mod: PISP_FORMAT_MOD_COMPRESS_MODE1
-> > > >   - BGGR16_PISP_COMP1:
-> > > >       fourcc: DRM_FORMAT_SBGGR16
-> > > >       mod: PISP_FORMAT_MOD_COMPRESS_MODE1
-> > > >   - MONO_PISP_COMP1:
-> > > >       fourcc: DRM_FORMAT_R16
-> > > >       mod: PISP_FORMAT_MOD_COMPRESS_MODE1
-> > > >
-> > > > See
-> > > > https://patchwork.libcamera.org/patch/19503/
-> > > >
-> > > > Would if be acceptable for DRM to include the above proposed modifiers for the
-> > > > purpose of defining the above presented libcamera formats ? There will be no
-> > > > graphic format associated with these modifiers as their purpose it not
-> > > > displaying images but rather exchange them between the components of the
-> > > > camera subsystem (and possibly be inspected by specialized test applications).
-> > >
-> > > Yeah I think libcamera using drm-fourcc formats and modifiers is
-> > > absolutely ok, and has my ack in principle. And for these users we're
-> > > ok with merging modifiers that the kernel doesn't use.
-> > 
-> > Great!
-> > 
-> > > I think it would be really good to formalize this by adding libcamera
-> > > to the officially listed users in the "Open Source User Waiver"
-> > > section in the drm_fourcc.h docs:
-> > >
-> > > https://dri.freedesktop.org/docs/drm/gpu/drm-kms.html#open-source-user-waiver
-> > >
-> > > You might want to convert that into a list, it could get a bit
-> > > confusing. Then we can get that patch properly acked (by kernel and
-> > > libcamera folks) to record the community consensus.
-> > 
-> > I see your point, but I wonder if libcamera actually need to be part
-> > of this list; we want in-kernel upstream driver and open-source
-> 
-> For the kernel side we'll use V4L2, so the DRM modifier won't have an
-> in-kernel user.
+On Wed, 28 Feb 2024, Mitul Golani <mitulkumar.ajitkumar.golani@intel.com> wrote:
+> Add structure representing Adaptive Sync Secondary Data Packet (AS SDP).
+> Also, add Adaptive Sync SDP logging in drm_dp_helper.c to facilitate
+> debugging.
 
-Also if you e.g. use a gpu or accel thing for post-processing, which would
-be a drm driver, then you still don't have an in-kernel user for these
-because the userspace driver handles that all directly and just sends
-command buffers to the kernel.
+To be honest, the division of patches is a bit weird. There's no reason
+to change i915 here, is there?
 
-So I think adding libcamera explicitly would be really good.
+> --v2:
+> - Update logging. [Jani, Ankit]
+> - Use 'as_sdp' instead of 'async' [Ankit]
+> - Correct define placeholders to where they are actually used. [Jani]
+> - Update members in 'as_sdp' structure to make it uniform. [Jani]
+>
+> --v3:
+> - Added changes to dri-devel mailing list. No code changes.
+>
+> --v4:
+> - Instead of directly using operation mode, use an enum to accommodate
+> all operation modes (Ankit).
+>
+> --v5:
+> Nit-pick changes to commit message.
+>
+> Signed-off-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+> ---
+>  drivers/gpu/drm/display/drm_dp_helper.c       | 12 +++++++
+>  .../drm/i915/display/intel_crtc_state_dump.c  | 12 +++++++
+>  .../drm/i915/display/intel_display_types.h    |  1 +
+>  include/drm/display/drm_dp.h                  |  9 +++++
+>  include/drm/display/drm_dp_helper.h           | 33 +++++++++++++++++++
+>  5 files changed, 67 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+> index f94c04db7187..b1459ac92aea 100644
+> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> @@ -2913,6 +2913,18 @@ void drm_dp_vsc_sdp_log(struct drm_printer *p, const struct drm_dp_vsc_sdp *vsc)
+>  }
+>  EXPORT_SYMBOL(drm_dp_vsc_sdp_log);
+>  
+> +void drm_dp_as_sdp_log(struct drm_printer *p, const struct drm_dp_as_sdp *as_sdp)
+> +{
+> +	drm_printf(p, "DP SDP: AS_SDP, revision %u, length %u\n",
+> +		   as_sdp->revision, as_sdp->length);
+> +	drm_printf(p, "    vtotal: %d\n", as_sdp->vtotal);
+> +	drm_printf(p, "    target_rr: %d\n", as_sdp->target_rr);
+> +	drm_printf(p, "    duration_incr_ms: %d\n", as_sdp->duration_incr_ms);
+> +	drm_printf(p, "    duration_decr_ms: %d\n", as_sdp->duration_decr_ms);
+> +	drm_printf(p, "    operation_mode: %d\n", as_sdp->mode);
+> +}
+> +EXPORT_SYMBOL(drm_dp_as_sdp_log);
+> +
+>  /**
+>   * drm_dp_as_sdp_supported() - check if adaptive sync sdp is supported
+>   * @aux: DisplayPort AUX channel
+> diff --git a/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c b/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
+> index 4bcf446c75f4..26d77c2934e8 100644
+> --- a/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
+> +++ b/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
+> @@ -60,6 +60,15 @@ intel_dump_dp_vsc_sdp(struct drm_i915_private *i915,
+>  	drm_dp_vsc_sdp_log(&p, vsc);
+>  }
+>  
+> +static void
+> +intel_dump_dp_as_sdp(struct drm_i915_private *i915,
+> +		     const struct drm_dp_as_sdp *as_sdp)
+> +{
+> +	struct drm_printer p = drm_dbg_printer(&i915->drm, DRM_UT_KMS, "AS_SDP");
+> +
+> +	drm_dp_as_sdp_log(&p, as_sdp);
+> +}
+> +
+>  static void
+>  intel_dump_buffer(struct drm_i915_private *i915,
+>  		  const char *prefix, const u8 *buf, size_t len)
+> @@ -299,6 +308,9 @@ void intel_crtc_state_dump(const struct intel_crtc_state *pipe_config,
+>  	if (pipe_config->infoframes.enable &
+>  	    intel_hdmi_infoframe_enable(HDMI_PACKET_TYPE_GAMUT_METADATA))
+>  		intel_dump_infoframe(i915, &pipe_config->infoframes.drm);
+> +	if (pipe_config->infoframes.enable &
+> +	    intel_hdmi_infoframe_enable(DP_SDP_ADAPTIVE_SYNC))
+> +		intel_dump_dp_as_sdp(i915, &pipe_config->infoframes.as_sdp);
+>  	if (pipe_config->infoframes.enable &
+>  	    intel_hdmi_infoframe_enable(DP_SDP_VSC))
+>  		intel_dump_dp_vsc_sdp(i915, &pipe_config->infoframes.vsc);
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+> index 8ce986fadd9a..1256730ea276 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+> @@ -1335,6 +1335,7 @@ struct intel_crtc_state {
+>  		union hdmi_infoframe hdmi;
+>  		union hdmi_infoframe drm;
+>  		struct drm_dp_vsc_sdp vsc;
+> +		struct drm_dp_as_sdp as_sdp;
+>  	} infoframes;
+>  
+>  	u8 eld[MAX_ELD_BYTES];
+> diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
+> index 281afff6ee4e..0601b95d53db 100644
+> --- a/include/drm/display/drm_dp.h
+> +++ b/include/drm/display/drm_dp.h
+> @@ -1578,10 +1578,12 @@ enum drm_dp_phy {
+>  #define DP_SDP_AUDIO_COPYMANAGEMENT	0x05 /* DP 1.2 */
+>  #define DP_SDP_ISRC			0x06 /* DP 1.2 */
+>  #define DP_SDP_VSC			0x07 /* DP 1.2 */
+> +#define DP_SDP_ADAPTIVE_SYNC		0x22 /* DP 1.4 */
+>  #define DP_SDP_CAMERA_GENERIC(i)	(0x08 + (i)) /* 0-7, DP 1.3 */
+>  #define DP_SDP_PPS			0x10 /* DP 1.4 */
+>  #define DP_SDP_VSC_EXT_VESA		0x20 /* DP 1.4 */
+>  #define DP_SDP_VSC_EXT_CEA		0x21 /* DP 1.4 */
+> +
+>  /* 0x80+ CEA-861 infoframe types */
+>  
+>  #define DP_SDP_AUDIO_INFOFRAME_HB2	0x1b
+> @@ -1737,4 +1739,11 @@ enum dp_content_type {
+>  	DP_CONTENT_TYPE_GAME = 0x04,
+>  };
+>  
+> +enum operation_mode {
+> +	DP_AS_SDP_AVT_DYNAMIC_VTOTAL = 0x00,
+> +	DP_AS_SDP_AVT_FIXED_VTOTAL = 0x01,
+> +	DP_AS_SDP_FAVT_TRR_NOT_REACHED = 0x02,
+> +	DP_AS_SDP_FAVT_TRR_REACHED = 0x03
+> +};
+> +
+>  #endif /* _DRM_DP_H_ */
+> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+> index 7c1aa3a703c8..7b7729488ad8 100644
+> --- a/include/drm/display/drm_dp_helper.h
+> +++ b/include/drm/display/drm_dp_helper.h
+> @@ -98,6 +98,37 @@ struct drm_dp_vsc_sdp {
+>  	enum dp_content_type content_type;
+>  };
+>  
+> +/**
+> + * struct drm_dp_as_sdp - drm DP Adaptive Sync SDP
+> + *
+> + * This structure represents a DP AS SDP of drm
+> + * It is based on DP 2.1 spec [Table 2-126:  Adaptive-Sync SDP Header Bytes] and
+> + * [Table 2-127: Adaptive-Sync SDP Payload for DB0 through DB8]
+> + *
+> + * @sdp_type: Secondary-data packet type
+> + * @revision: Revision Number
+> + * @length: Number of valid data bytes
+> + * @vtotal: Minimum Vertical Vtotal
+> + * @target_rr: Target Refresh
+> + * @duration_incr_ms: Successive frame duration increase
+> + * @duration_decr_ms: Successive frame duration decrease
+> + * @operation_mode: Adaptive Sync Operation Mode
+> + */
+> +
 
-Also if you convert the list to a proper list it might be good to link to
-the relevant gl/vk extensions directly instead of just vaguely hinting at
-them.
+Superfluous newline.
 
-> On the userspace side, yes, there will be an open-source user with
-> libcamera.
-> 
-> > userspace components. We allow binary 3A modules to be loaded by the
-> > library, but I'm not sure they will ever need to modify the DRM 4cc list.
-> > 
-> > Anyway, with other libcamera people ack, I can certainly do so!
-> > 
-> > > For the rpi modifiers themselves: They need to be properly documented,
-> > > least to exclude a screw-up like with the rpi modifiers we already
-> > > have, which unfortunately encode the buffer height (instead of just
-> > > the rounding algorithim to align the height to the right tile size) in
-> > > the modifiers, which breaks assumptions everywhere. For details see
-> > > https://gitlab.freedesktop.org/wlroots/wlroots/-/merge_requests/4529#note_2262057
-> > 
-> > I see. The formats are fully documented in the above linked datasheet,
-> > and I've provided (with the help of RPi engineers, as I don't
-> > understand the compression algorithm part :) a shorter description as
-> > part of the V4L2 patch series that upstreams the BE driver
+> +struct drm_dp_as_sdp {
+> +	unsigned char sdp_type;
+> +	unsigned char revision;
+> +	unsigned char length;
+> +	int vtotal;
+> +	int target_rr;
+> +	int duration_incr_ms;
+> +	int duration_decr_ms;
+> +	enum operation_mode mode;
+> +};
+> +
+> +void drm_dp_as_sdp_log(struct drm_printer *p,
+> +		       const struct drm_dp_as_sdp *as_sdp);
+> +
+>  void drm_dp_vsc_sdp_log(struct drm_printer *p, const struct drm_dp_vsc_sdp *vsc);
+>  
+>  bool drm_dp_vsc_sdp_supported(struct drm_dp_aux *aux, const u8 dpcd[DP_RECEIVER_CAP_SIZE]);
+> @@ -810,6 +841,8 @@ int drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8 color_spc);
+>  #define DRM_DP_BW_OVERHEAD_FEC		BIT(3)
+>  #define DRM_DP_BW_OVERHEAD_DSC		BIT(4)
+>  
+> +#define AS_SDP_OP_MODE			GENMASK(1, 0)
 
-I think linking to the datasheet in the comment above the modifiers is ok
-too, if we don't have anything better. Just not entirely undocumented
-magic values, because those result in giantic confusion all around.
+Oddly placed, oddly named.
 
-Also for the namespace, I'm assuming this format is actually rpi IP, and
-not something they've lincensed from someone else? Because the point here
-is interop, so if it's a licensed format we need to put the modifiers
-under the name of the original IP vendor, or people will create duplicated
-modifiers and the entire interop dream is just a dream.
--Sima
-
-
-> > 
-> > https://patchwork.linuxtv.org/project/linux-media/patch/20240223163012.300763-7-jacopo.mondi@ideasonboard.com/
-> > 
-> > The only indication about the buffer's layout I see is
-> > 
-> >   Each scanline is padded to a multiple of 8 pixels wide, and each block of 8
-> >   horizontally-contiguous pixels is coded using 8 bytes.
-> > 
-> > While the rest of the text describes the compression algorithm which
-> > (afaiu) doesn't affect the buffer geometry.
-> > 
-> > Would you be ok with me replicating the above description (or maybe
-> > just reference the V4L2 documentation ?)
-> > 
-> > > > ---
-> > > >  include/uapi/drm/drm_fourcc.h | 5 +++++
-> > > >  1 file changed, 5 insertions(+)
-> > > >
-> > > > diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> > > > index 00db00083175..09b182a959ad 100644
-> > > > --- a/include/uapi/drm/drm_fourcc.h
-> > > > +++ b/include/uapi/drm/drm_fourcc.h
-> > > > @@ -425,6 +425,7 @@ extern "C" {
-> > > >  #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
-> > > >  #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
-> > > >  #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
-> > > > +#define DRM_FORMAT_MOD_VENDOR_RPI 0x0b
-> > > >
-> > > >  /* add more to the end as needed */
-> > > >
-> > > > @@ -1568,6 +1569,10 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
-> > > >  #define AMD_FMT_MOD_CLEAR(field) \
-> > > >         (~((__u64)AMD_FMT_MOD_##field##_MASK << AMD_FMT_MOD_##field##_SHIFT))
-> > > >
-> > > > +/* RPI (Raspberry Pi) modifiers */
-> > > > +#define PISP_FORMAT_MOD_COMPRESS_MODE1 fourcc_mod_code(RPI, 1)
-> > > > +#define PISP_FORMAT_MOD_COMPRESS_MODE2 fourcc_mod_code(RPI, 2)
-> > > > +
-> > > >  #if defined(__cplusplus)
-> > > >  }
-> > > >  #endif
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+> +
+>  int drm_dp_bw_overhead(int lane_count, int hactive,
+>  		       int dsc_slice_count,
+>  		       int bpp_x16, unsigned long flags);
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Jani Nikula, Intel
