@@ -2,44 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38FA686C2FE
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 09:03:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C078C86C34E
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Feb 2024 09:21:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB92810E0EC;
-	Thu, 29 Feb 2024 08:03:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D74C10E270;
+	Thu, 29 Feb 2024 08:21:12 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QczWfHG9";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A9EC10E0AE
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 08:02:58 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2454F10E270
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 08:21:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 7E750CE23F5;
- Thu, 29 Feb 2024 08:02:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57A78C433C7;
- Thu, 29 Feb 2024 08:02:51 +0000 (UTC)
-Message-ID: <03f65fbc-9cf8-4347-8277-e53cb01b00a5@xs4all.nl>
-Date: Thu, 29 Feb 2024 09:02:49 +0100
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5DC1E61AA9;
+ Thu, 29 Feb 2024 08:21:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8947EC433C7;
+ Thu, 29 Feb 2024 08:21:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1709194870;
+ bh=rKNBuW8y42BsiMkdbpdNnHpLhtnB04eGCNz7vyIXnxw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=QczWfHG9UEVVneRoWGMmkbXgEyytmMYUnY0vq0Xqa8LEOaqYopuX3t2SOmx7tPnDi
+ 5ErLtcwULad5ImD9cSc4VNAJzeV3kNE8fII3cTAArBCbP36gk/RxzeSFDG2afemaNA
+ ljXEtuBQ4OWfw0NLheod+v/Ji13oBMpOGFCuzPyl7JBbST1xFwYtWpADLaW5H+LP1v
+ 9fIrYihed70QhFj1yY+USRvi7MnuZG+nDGlJSKqu74xfZWMilc1RZpZojpMF0DTRaj
+ iwIEP/We2Cz54zhMj2sBh6YU1/UtQwwVjM418FIOd3qck6jUe2XsGzb7wb673WJGt7
+ 9BtH7SEABSIpg==
+Date: Thu, 29 Feb 2024 09:21:07 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: "Klymenko, Anatoliy" <Anatoliy.Klymenko@amd.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ "Simek, Michal" <michal.simek@amd.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 4/4] drm/atomic-helper: Add select_output_bus_format
+ callback
+Message-ID: <20240229-crane-of-eternal-joy-f675d7@houat>
+References: <20240226-dp-live-fmt-v1-0-b78c3f69c9d8@amd.com>
+ <20240226-dp-live-fmt-v1-4-b78c3f69c9d8@amd.com>
+ <20240228-nifty-flashy-shrew-905edc@houat>
+ <PH7PR12MB7163136599B97B071979E72EE6582@PH7PR12MB7163.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/9] media: v4l2-subdev: Add a pad variant of
- .query_dv_timings()
-Content-Language: en-US, nl
-To: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>
-Cc: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org,
- daniel@ffwll.ch, dinguyen@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- maarten.lankhorst@linux.intel.com, mchehab@kernel.org, mripard@kernel.org,
- robh+dt@kernel.org, tzimmermann@suse.de, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, chromeos-krk-upstreaming@google.com,
- ribalda@chromium.org
-References: <20240221160215.484151-1-panikiel@google.com>
- <20240221160215.484151-2-panikiel@google.com>
- <ce262cda-84ba-4d8f-a916-76488c94066d@xs4all.nl>
- <CAM5zL5qrMNfyiXMOJHUzLySm_U2U8kbD=D_Cyn0WjkvpikiYpQ@mail.gmail.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <CAM5zL5qrMNfyiXMOJHUzLySm_U2U8kbD=D_Cyn0WjkvpikiYpQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="rs5ri76nt4anyhzn"
+Content-Disposition: inline
+In-Reply-To: <PH7PR12MB7163136599B97B071979E72EE6582@PH7PR12MB7163.namprd12.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,66 +71,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/02/2024 16:34, Paweł Anikiel wrote:
-> On Wed, Feb 28, 2024 at 12:25 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->>
->> Hi Paweł,
->>
->> On 21/02/2024 17:02, Paweł Anikiel wrote:
->>> Currently, .query_dv_timings() is defined as a video callback without
->>> a pad argument. This is a problem if the subdevice can have different
->>> dv timings for each pad (e.g. a DisplayPort receiver with multiple
->>> virtual channels).
->>>
->>> To solve this, add a pad variant of this callback which includes
->>> the pad number as an argument.
->>
->> So now we have two query_dv_timings ops: one for video ops, and one
->> for pad ops. That's not very maintainable. I would suggest switching
->> all current users of the video op over to the pad op.
-> 
-> I agree it would be better if there was only one. However, I have some concerns:
-> 1. Isn't there a problem with backwards compatibility? For example, an
-> out-of-tree driver is likely to use this callback, which would break.
-> I'm asking because I'm not familiar with how such API changes are
-> handled.
 
-It's out of tree, so they will just have to adapt. That's how life is if
-you are not part of the mainline kernel.
+--rs5ri76nt4anyhzn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 2. If I do switch all current users to the pad op, I can't test those
-> changes. Isn't that a problem?
+Hi,
 
-I can test one or two drivers, but in general I don't expect this to be
-a problem.
+On Wed, Feb 28, 2024 at 10:00:19PM +0000, Klymenko, Anatoliy wrote:
+> > > diff --git a/include/drm/drm_modeset_helper_vtables.h
+> > > b/include/drm/drm_modeset_helper_vtables.h
+> > > index 881b03e4dc28..7c21ae1fe3ad 100644
+> > > --- a/include/drm/drm_modeset_helper_vtables.h
+> > > +++ b/include/drm/drm_modeset_helper_vtables.h
+> > > @@ -489,6 +489,37 @@ struct drm_crtc_helper_funcs {
+> > >  				     bool in_vblank_irq, int *vpos, int *hpos,
+> > >  				     ktime_t *stime, ktime_t *etime,
+> > >  				     const struct drm_display_mode *mode);
+> > > +
+> > > +	/**
+> > > +	 * @select_output_bus_format
+> > > +	 *
+> > > +	 * Called by the first connected DRM bridge to negotiate input media
+> > > +	 * bus format. CRTC is expected to pick preferable media formats fr=
+om
+> > > +	 * the list supported by the DRM bridge chain.
+> >=20
+> > There's nothing restricting it to bridges here. Please rephrase this to=
+ remove the
+> > bridge mention. The user is typically going to be the encoder, and brid=
+ges are just
+> > an automagic implementation of an encoder.
+> >=20
+>=20
+> OK. I'll fix than in the next version.
+>=20
+> > And generally speaking, I'd really like to have an implementation avail=
+able before
+> > merging this.
+> >
+>=20
+> Well, 2 instances of this callback implementations exist as drafts, as
+> this is the new API. A little bit of a chicken and egg problem. I'll
+> try to groom at least one of them into upstreamable shape and attach
+> it to the patch set.
 
-> 3. Would I need to get ACK from all the driver maintainers?
+That's totally what I meant :)
 
-CC the patches to the maintainers. Generally you will get back Acks from
-some but not all maintainers, but that's OK. For changes affecting multiple
-drivers you never reach 100% on that. I can review the remainder. The DV
-Timings API is my expert area, so that shouldn't be a problem.
+I basically don't want to have an interface that isn't used. If you
+provide an implementation in the same series, it's totally reasonable
 
-A quick grep gives me these subdev drivers that implement it:
+Maxime
 
-adv748x, adv7604, adv7842, tc358743, tda1997x, tvp7002, gs1662.
+--rs5ri76nt4anyhzn
+Content-Type: application/pgp-signature; name="signature.asc"
 
-And these bridge drivers that call the subdevs:
+-----BEGIN PGP SIGNATURE-----
 
-cobalt, rcar-vin, vpif_capture.
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZeA+cgAKCRDj7w1vZxhR
+xQLtAP9/fGoxq0DXjo7CwyIuSIvVRUO1zC+/mQvsS2T+X6Z0gQD/aTj1xrt+ImK+
+u6CAeB4rSGry8XnZlOByE/CzK+HDXwM=
+=dkG1
+-----END PGP SIGNATURE-----
 
-The bridge drivers can use the following pad when calling query_dv_timings:
-
-cobalt: ADV76XX_PAD_HDMI_PORT_A
-rcar_vin: vin->parallel.sink_pad
-vpif_capture: 0
-
-The converted subdev drivers should check if the pad is an input pad.
-Ideally it should check if the pad is equal to the current input pad
-since most devices can only query the timings for the currently selected
-input pad. But some older drivers predate the pad concept and they
-ignore the pad value.
-
-Regards,
-
-	Hans
+--rs5ri76nt4anyhzn--
