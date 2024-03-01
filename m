@@ -2,56 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86D0D86F385
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Mar 2024 04:37:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C974186F478
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Mar 2024 11:46:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE1AB10F73B;
-	Sun,  3 Mar 2024 03:37:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E584A10F97B;
+	Sun,  3 Mar 2024 10:46:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VGarNBz0";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="UFyFfzd8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43C1A10F73B
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Mar 2024 03:37:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709437029; x=1740973029;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=bF7vFyDX5q2OU0jwqgNH0eLxV4EBMU9jpnjH9btEcdw=;
- b=VGarNBz0AL7oGIwzu0Ehu88tsGY9pSt3XZ6dS7vf3yozMDtuy3gyZlf7
- Pt62b1ZrGRoc6jN7GquJMyCy1JAgNJj/+TzhmnE6IQKl0HTv80/Xk1Hlk
- 6y6qcm8v+QJtk5kyJhcjszKSldz91KDuFWvmDFQRKfpm4RmsAiKk20VC3
- MmTFTdIlerJv/Q3n5/lwPlpYqTug/y4K3+jKgqEn+bivTNZbUgJzL2de3
- yo4Fj7AtWP+U/5Mj1rWLGMfkejtkBS46BUcwAu8La300B2eQ/f+fM2KOb
- b3aPffcsqMB63qlHM5a283uxxBYohnmuu3RrHdqwjMCQevdIpLncEyait w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11001"; a="4117906"
-X-IronPort-AV: E=Sophos;i="6.06,200,1705392000"; 
-   d="scan'208";a="4117906"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2024 19:37:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,200,1705392000"; 
-   d="scan'208";a="8559497"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
- by orviesa010.jf.intel.com with ESMTP; 02 Mar 2024 19:37:07 -0800
-Received: from kbuild by b21307750695 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rgceu-0000U0-1D;
- Sun, 03 Mar 2024 03:37:04 +0000
-Date: Sun, 3 Mar 2024 11:36:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Boris Brezillon <bbrezillon@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Steven Price <steven.price@arm.com>
-Subject: [drm-misc:drm-misc-next 12/14]
- drivers/gpu/drm/panthor/panthor_device.c:355:31: error: implicit declaration
- of function 'virt_to_pfn'; did you mean 'virt_to_kpte'?
-Message-ID: <202403031142.Vl4pW7X6-lkp@intel.com>
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com
+ [209.85.128.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5184810EC4B
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 09:39:28 +0000 (UTC)
+Received: by mail-yw1-f178.google.com with SMTP id
+ 00721157ae682-60925c4235eso19436567b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Mar 2024 01:39:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google; t=1709285967; x=1709890767;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=T4FReK8go5B+QNMImpm5GNB78mbfotA8iWW7uG0MwSU=;
+ b=UFyFfzd8v54lsVwdyyQijTJrHi+WV/7tYkmdjtzgPd2Dv8Q/ucS6G/AtZwTz3nfLps
+ YRP9L4VBGlPidBj7KU4wvJJRISfdMCRPktbLNTXv5Et4hqgTyHrOQhVJHVyc1gG6MCS/
+ +9Ji5whjZGlIpfIRgJ7GvM4ZKaL2LcJMpw3XCq4YxSNFsGKEzhcimPXh1cqBrp+n3RVt
+ qGb2iRmZbeuXCw4ozMV30647o1qo5wLDwNthK+KiENio6Xh1G4LFXQiI255FkarYAgJA
+ /QRhSkOmsNMtIQz0f9BuhLE/6O5q1diU6j+2jT22B5e/Om9FQpjKM53lkc75Qx1sxSpI
+ GNHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709285967; x=1709890767;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=T4FReK8go5B+QNMImpm5GNB78mbfotA8iWW7uG0MwSU=;
+ b=vvuHDg2elKA9wkmVmprsfE+4P6JsTdF8X5Wsyx5gWoF4NBUFJflNhNYceJHL5sof4v
+ rBZEOBxcyoLcoOrmVG4yQkbEzbUO9Rqu1Juti+i/11UsBC/LDkNNCJj/IJ8atBI/lDlP
+ aG21DL1zgM5V1ukpNhgp/KQ9KeZKz7csDQ5kHO7BjyRJz3Xw1g24ZFCuQvZTAe3nw/1t
+ WAFd36fzPG4GeGV9yuVkInUqEj4Jc+dkTbSfD15RrapBujp3CZDj2Zknws69FCEMqgrj
+ /WpA43AzA0uruVdBGh/NkIwCXoW9tDnFGf+2LzKOgxWQffhjXoRuxCvbYTOwESwFJXur
+ 331w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXXrGWz9XOuKsOEfrqzlHupEkFNn3XbyL3YrBSjGsEittFp13h4bC2j26Vqen1vvuRoYVtwsm7TZKAoFVT6Gi6sJBadTRlENDzR7qoGeYFo
+X-Gm-Message-State: AOJu0Yzl292A290QVuv6uwccnfXb8Xwpg4Yfb2fUAMmeKLt6M+1M5OHD
+ cEoaWZEye7HrRIq5N/U/ZlBNv3L3aPo8mfGba9+MCiLdiWWdy2hKbr4LevufZCTh6ERWuBMscvT
+ TsijMUoTkoyAVxus70Q0s5OJEuYZGTJW0WCuJ7w==
+X-Google-Smtp-Source: AGHT+IHBJlVslNQf72z5nYstBMHq1r6NEyZlI3Q+57WJ6N+cTDUWeKdD7ZbOQA3tq8oZz2pmh/Zc/ze9767bOaC8j2U=
+X-Received: by 2002:a81:4c44:0:b0:607:cb4e:eb41 with SMTP id
+ z65-20020a814c44000000b00607cb4eeb41mr1042777ywa.35.1709285967144; Fri, 01
+ Mar 2024 01:39:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240226132544.82817-1-jacopo.mondi@ideasonboard.com>
+In-Reply-To: <20240226132544.82817-1-jacopo.mondi@ideasonboard.com>
+From: Naushir Patuck <naush@raspberrypi.com>
+Date: Fri, 1 Mar 2024 09:38:51 +0000
+Message-ID: <CAEmqJPpKWsRr=qZS=V8YQPHPye7BQZuG2BWO96qvRxqVO3+mXw@mail.gmail.com>
+Subject: Re: [PATCH] drm/fourcc: Add RGB161616 and BGR161616 formats
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ libcamera-devel@lists.libcamera.org
+Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Sun, 03 Mar 2024 10:45:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,84 +82,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Boris,
+Hi Jacopo,
 
-First bad commit (maybe != root cause):
+Thank you for this patch.
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-head:   216c1282dde38ca87ebdf1ccacee5a0682901574
-commit: d72f049087d4f973f6332b599c92177e718107de [12/14] drm/panthor: Allow driver compilation
-config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20240303/202403031142.Vl4pW7X6-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240303/202403031142.Vl4pW7X6-lkp@intel.com/reproduce)
+On Mon, 26 Feb 2024 at 13:26, Jacopo Mondi
+<jacopo.mondi@ideasonboard.com> wrote:
+>
+> Add FourCC definitions for the 48-bit RGB/BGR formats to the
+> DRM/KMS uapi.
+>
+> The format will be used by the Raspberry Pi PiSP Back End,
+> supported by a V4L2 driver in kernel space and by libcamera in
+> userspace, which uses the DRM FourCC identifiers.
+>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403031142.Vl4pW7X6-lkp@intel.com/
+All the fields look reasonable to me, so:
 
-All errors (new ones prefixed by >>):
+Reviewed-by: Naushir Patuck <naush@raspberrypi.com>
 
-   drivers/gpu/drm/panthor/panthor_device.c: In function 'panthor_mmio_vm_fault':
->> drivers/gpu/drm/panthor/panthor_device.c:355:31: error: implicit declaration of function 'virt_to_pfn'; did you mean 'virt_to_kpte'? [-Werror=implicit-function-declaration]
-     355 |                         pfn = virt_to_pfn(ptdev->pm.dummy_latest_flush);
-         |                               ^~~~~~~~~~~
-         |                               virt_to_kpte
-   cc1: some warnings being treated as errors
-
-
-vim +355 drivers/gpu/drm/panthor/panthor_device.c
-
-5fe909cae118a7 Boris Brezillon 2024-02-29  332  
-5fe909cae118a7 Boris Brezillon 2024-02-29  333  static vm_fault_t panthor_mmio_vm_fault(struct vm_fault *vmf)
-5fe909cae118a7 Boris Brezillon 2024-02-29  334  {
-5fe909cae118a7 Boris Brezillon 2024-02-29  335  	struct vm_area_struct *vma = vmf->vma;
-5fe909cae118a7 Boris Brezillon 2024-02-29  336  	struct panthor_device *ptdev = vma->vm_private_data;
-5fe909cae118a7 Boris Brezillon 2024-02-29  337  	u64 id = (u64)vma->vm_pgoff << PAGE_SHIFT;
-5fe909cae118a7 Boris Brezillon 2024-02-29  338  	unsigned long pfn;
-5fe909cae118a7 Boris Brezillon 2024-02-29  339  	pgprot_t pgprot;
-5fe909cae118a7 Boris Brezillon 2024-02-29  340  	vm_fault_t ret;
-5fe909cae118a7 Boris Brezillon 2024-02-29  341  	bool active;
-5fe909cae118a7 Boris Brezillon 2024-02-29  342  	int cookie;
-5fe909cae118a7 Boris Brezillon 2024-02-29  343  
-5fe909cae118a7 Boris Brezillon 2024-02-29  344  	if (!drm_dev_enter(&ptdev->base, &cookie))
-5fe909cae118a7 Boris Brezillon 2024-02-29  345  		return VM_FAULT_SIGBUS;
-5fe909cae118a7 Boris Brezillon 2024-02-29  346  
-5fe909cae118a7 Boris Brezillon 2024-02-29  347  	mutex_lock(&ptdev->pm.mmio_lock);
-5fe909cae118a7 Boris Brezillon 2024-02-29  348  	active = atomic_read(&ptdev->pm.state) == PANTHOR_DEVICE_PM_STATE_ACTIVE;
-5fe909cae118a7 Boris Brezillon 2024-02-29  349  
-5fe909cae118a7 Boris Brezillon 2024-02-29  350  	switch (panthor_device_mmio_offset(id)) {
-5fe909cae118a7 Boris Brezillon 2024-02-29  351  	case DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET:
-5fe909cae118a7 Boris Brezillon 2024-02-29  352  		if (active)
-5fe909cae118a7 Boris Brezillon 2024-02-29  353  			pfn = __phys_to_pfn(ptdev->phys_addr + CSF_GPU_LATEST_FLUSH_ID);
-5fe909cae118a7 Boris Brezillon 2024-02-29  354  		else
-5fe909cae118a7 Boris Brezillon 2024-02-29 @355  			pfn = virt_to_pfn(ptdev->pm.dummy_latest_flush);
-5fe909cae118a7 Boris Brezillon 2024-02-29  356  		break;
-5fe909cae118a7 Boris Brezillon 2024-02-29  357  
-5fe909cae118a7 Boris Brezillon 2024-02-29  358  	default:
-5fe909cae118a7 Boris Brezillon 2024-02-29  359  		ret = VM_FAULT_SIGBUS;
-5fe909cae118a7 Boris Brezillon 2024-02-29  360  		goto out_unlock;
-5fe909cae118a7 Boris Brezillon 2024-02-29  361  	}
-5fe909cae118a7 Boris Brezillon 2024-02-29  362  
-5fe909cae118a7 Boris Brezillon 2024-02-29  363  	pgprot = vma->vm_page_prot;
-5fe909cae118a7 Boris Brezillon 2024-02-29  364  	if (active)
-5fe909cae118a7 Boris Brezillon 2024-02-29  365  		pgprot = pgprot_noncached(pgprot);
-5fe909cae118a7 Boris Brezillon 2024-02-29  366  
-5fe909cae118a7 Boris Brezillon 2024-02-29  367  	ret = vmf_insert_pfn_prot(vma, vmf->address, pfn, pgprot);
-5fe909cae118a7 Boris Brezillon 2024-02-29  368  
-5fe909cae118a7 Boris Brezillon 2024-02-29  369  out_unlock:
-5fe909cae118a7 Boris Brezillon 2024-02-29  370  	mutex_unlock(&ptdev->pm.mmio_lock);
-5fe909cae118a7 Boris Brezillon 2024-02-29  371  	drm_dev_exit(cookie);
-5fe909cae118a7 Boris Brezillon 2024-02-29  372  	return ret;
-5fe909cae118a7 Boris Brezillon 2024-02-29  373  }
-5fe909cae118a7 Boris Brezillon 2024-02-29  374  
-
-:::::: The code at line 355 was first introduced by commit
-:::::: 5fe909cae118a757a77afb37174b99436a36d2e2 drm/panthor: Add the device logical block
-
-:::::: TO: Boris Brezillon <boris.brezillon@collabora.com>
-:::::: CC: Boris Brezillon <boris.brezillon@collabora.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> ---
+>  drivers/gpu/drm/drm_fourcc.c  | 8 ++++++++
+>  include/uapi/drm/drm_fourcc.h | 4 ++++
+>  2 files changed, 12 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+> index 193cf8ed7912..908f20b96fd5 100644
+> --- a/drivers/gpu/drm/drm_fourcc.c
+> +++ b/drivers/gpu/drm/drm_fourcc.c
+> @@ -210,6 +210,14 @@ const struct drm_format_info *__drm_format_info(u32 format)
+>                 { .format = DRM_FORMAT_ABGR2101010,     .depth = 30, .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+>                 { .format = DRM_FORMAT_RGBA1010102,     .depth = 30, .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+>                 { .format = DRM_FORMAT_BGRA1010102,     .depth = 30, .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+> +               { .format = DRM_FORMAT_RGB161616,       .depth = 0,
+> +                 .num_planes = 1, .char_per_block = { 6, 0, 0 },
+> +                 .block_w = { 1, 0, 0 }, .block_h = { 1, 0, 0 },
+> +                 .hsub = 1, .vsub = 1, .has_alpha = false },
+> +               { .format = DRM_FORMAT_BGR161616,       .depth = 0,
+> +                 .num_planes = 1, .char_per_block = { 6, 0, 0 },
+> +                 .block_w = { 1, 0, 0 }, .block_h = { 1, 0, 0 },
+> +                 .hsub = 1, .vsub = 1, .has_alpha = false },
+>                 { .format = DRM_FORMAT_ARGB8888,        .depth = 32, .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+>                 { .format = DRM_FORMAT_ABGR8888,        .depth = 32, .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+>                 { .format = DRM_FORMAT_RGBA8888,        .depth = 32, .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> index 84d502e42961..00db00083175 100644
+> --- a/include/uapi/drm/drm_fourcc.h
+> +++ b/include/uapi/drm/drm_fourcc.h
+> @@ -210,6 +210,10 @@ extern "C" {
+>  #define DRM_FORMAT_RGBA1010102 fourcc_code('R', 'A', '3', '0') /* [31:0] R:G:B:A 10:10:10:2 little endian */
+>  #define DRM_FORMAT_BGRA1010102 fourcc_code('B', 'A', '3', '0') /* [31:0] B:G:R:A 10:10:10:2 little endian */
+>
+> +/* 48 bpp RGB */
+> +#define DRM_FORMAT_RGB161616 fourcc_code('R', 'G', '4', '8') /* [47:0] R:G:B 16:16:16 little endian */
+> +#define DRM_FORMAT_BGR161616 fourcc_code('B', 'G', '4', '8') /* [47:0] B:G:R 16:16:16 little endian */
+> +
+>  /* 64 bpp RGB */
+>  #define DRM_FORMAT_XRGB16161616        fourcc_code('X', 'R', '4', '8') /* [63:0] x:R:G:B 16:16:16:16 little endian */
+>  #define DRM_FORMAT_XBGR16161616        fourcc_code('X', 'B', '4', '8') /* [63:0] x:B:G:R 16:16:16:16 little endian */
+> --
+> 2.43.0
+>
