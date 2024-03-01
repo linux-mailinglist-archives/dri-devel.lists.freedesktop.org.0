@@ -2,71 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D6A986E1FE
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 14:30:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 235F686E294
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 14:45:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 474B310EDB4;
-	Fri,  1 Mar 2024 13:30:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F228B10EE51;
+	Fri,  1 Mar 2024 13:44:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hRNmi28/";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="VY/Pplys";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vgSaZiJ0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VY/Pplys";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vgSaZiJ0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
- [209.85.215.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7F1710EDB2;
- Fri,  1 Mar 2024 13:30:13 +0000 (UTC)
-Received: by mail-pg1-f178.google.com with SMTP id
- 41be03b00d2f7-5cedfc32250so1780729a12.0; 
- Fri, 01 Mar 2024 05:30:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1709299813; x=1709904613; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=HHckA948ZmaGkyMViYat8ojP3Slv0abWxwkHxBmiobA=;
- b=hRNmi28/MLPQFUGAWK618f0OcBaOTkLCSW3DX7184qyr010d1WKJtibAxD+UCBbPgD
- 3ne+PPvIpq7289w+t7jtB4UdLgdi/hu4yCC/pybkcEO/NvqOnT6vAdOJSqb+vuSItjB2
- Nub01WRcsmhTa+k30ULTedZfJz9Rueg4H0PN/h43vrSnb42gKiJ+fvxgGCAp1gBwazp7
- g0K2h8CTUt4jCogQAKxd9RQYsd/7F72wtfw6qin55yUokGrI+cgqIlhXkHsnKxCP1jyy
- rdGnBo51ruKmUrBmZa6D8YL7uZdplSF2OACnKSkaNerQ2dOjYqvABsQPbsVw0slM+C5H
- zc7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709299813; x=1709904613;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=HHckA948ZmaGkyMViYat8ojP3Slv0abWxwkHxBmiobA=;
- b=MABajPVDv17Xfk7MIxBxygeYJ57hMyr5zEaXQy/Sb+b45oAsT2IaRTf2S6AlMiF8Hp
- C3MA5Cp+4bpVFJNuT1wO46uHv8Qcu/BqaKsiTFzNEWcqVpSaPMtvQzNCOSGXKcgd3x8Z
- +UaFQEpz/lkWFCB9nPZfz1EF8w+8+ceKDR5L5RwbBaK4LaIvap3r+6KCyS3mzXcAvMzz
- BTnoJNGOJCp/XBbcaVbAg2lP1YKevHB5Wrc3GJ7RebldT2yXbc8JEqRy2q2dBOEUN7H1
- i5zkZ9AnYWytFYIQz843aLA4f1xCb/UwHyiHjRhB60arAvG0GMBAvWKQORn++JNd3/gn
- 19Bg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWS7DI9B3wbMt1LPeExzPujNwCKULOQHe+u8HqZVYkLIt60LzP95X3I6+MgvT4UmnAMMac/7KcS1jic1a9djlZNOvRXWTgi92AKXaF+e+L+lkDYvQqwvUaCidBu2CkRbVbpTjzKZjiURBif5Y9mQA==
-X-Gm-Message-State: AOJu0YyiQ67mqfvm6tAUz1cKwdcwz4jqckTpPPAPpS5IgcOpacU5TY7Y
- TcEJT98WH8pgpqLW5g/wO5kcV/wfPxvL3+rQjj/H36m/NbE03Wm3WJ7QI6JWYw/TRjK8vOuyafq
- ekFbz2MWYiPdeMhWzMVKyuJLg/Gw=
-X-Google-Smtp-Source: AGHT+IFjPiaNvT7Wmp/5bfnXXjIvPQWaa0U3BGSTH5v/V1+baHlSVrYfIKXQxO+DT5ucIicUHZPSIsOYQ1+VUT2jHHs=
-X-Received: by 2002:a17:90a:4981:b0:29b:6a7:c52c with SMTP id
- d1-20020a17090a498100b0029b06a7c52cmr1588418pjh.38.1709299812985; Fri, 01 Mar
- 2024 05:30:12 -0800 (PST)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B109C10EE3A;
+ Fri,  1 Mar 2024 13:44:53 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:98])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id BB47133A4D;
+ Fri,  1 Mar 2024 13:44:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1709300691; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ARP4jrw5MkIbGLx1+GgSw29w79TSPir+uBp+ooHQv50=;
+ b=VY/PplyshXTLdbzuwH3x3uLZA4nDDvWG1WfT2QzKR9nlj0IcQNCvqID2uftqO34N5C3KZ0
+ Sp1EY/sxVeGvMI2FfPK/X45KRDCQW8suTbWF+5DUhqtFZD2EzAg3xenUg8LAQxXt8wJhDN
+ lQpWnTubjNOGEkx/u/2naeUWCZLqIo0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1709300691;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ARP4jrw5MkIbGLx1+GgSw29w79TSPir+uBp+ooHQv50=;
+ b=vgSaZiJ0C/eF9VAeDf7GcxJA5Ozo/nnvc1GvNkMOC6fGnaB1JDgOnQFq9dxfYXL/UxPAaL
+ RWBzBGkikp0ka5Aw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1709300691; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ARP4jrw5MkIbGLx1+GgSw29w79TSPir+uBp+ooHQv50=;
+ b=VY/PplyshXTLdbzuwH3x3uLZA4nDDvWG1WfT2QzKR9nlj0IcQNCvqID2uftqO34N5C3KZ0
+ Sp1EY/sxVeGvMI2FfPK/X45KRDCQW8suTbWF+5DUhqtFZD2EzAg3xenUg8LAQxXt8wJhDN
+ lQpWnTubjNOGEkx/u/2naeUWCZLqIo0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1709300691;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ARP4jrw5MkIbGLx1+GgSw29w79TSPir+uBp+ooHQv50=;
+ b=vgSaZiJ0C/eF9VAeDf7GcxJA5Ozo/nnvc1GvNkMOC6fGnaB1JDgOnQFq9dxfYXL/UxPAaL
+ RWBzBGkikp0ka5Aw==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 37B8413581;
+ Fri,  1 Mar 2024 13:44:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+ by imap2.dmz-prg2.suse.org with ESMTPSA id FOATDNPb4WU2WAAAn2gu4w
+ (envelope-from <tzimmermann@suse.de>); Fri, 01 Mar 2024 13:44:51 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com,
+ ville.syrjala@linux.intel.com, imre.deak@intel.com,
+ tejas.upadhyay@intel.com, jouni.hogander@intel.com, javierm@redhat.com,
+ airlied@gmail.com, daniel@ffwll.ch, lucas.demarchi@intel.com,
+ ogabbay@kernel.org, thomas.hellstrom@linux.intel.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v7 0/6] drm/i915: Convert fbdev to DRM client
+Date: Fri,  1 Mar 2024 14:42:53 +0100
+Message-ID: <20240301134448.31289-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.43.2
 MIME-Version: 1.0
-References: <20240229195532.7815-1-christian.gmeiner@gmail.com>
- <2d65be7ae251221bd7524871e0cbf4b22d16a9f9.camel@pengutronix.de>
-In-Reply-To: <2d65be7ae251221bd7524871e0cbf4b22d16a9f9.camel@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Fri, 1 Mar 2024 14:30:01 +0100
-Message-ID: <CAH9NwWe3r1sbB7BqW1zmFGxjnzOOg8Z-LBzhAP7x_kq=o9T=0A@mail.gmail.com>
-Subject: Re: [PATCH] etnaviv: Restore some id values
-To: Lucas Stach <l.stach@pengutronix.de>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Christian Gmeiner <cgmeiner@igalia.com>,
- stable@vger.kernel.org, 
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b="VY/Pplys";
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=vgSaZiJ0
+X-Spamd-Result: default: False [-3.81 / 50.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_DKIM_ARC_DNSWL_HI(-1.00)[]; RCVD_COUNT_THREE(0.00)[3];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DKIM_TRACE(0.00)[suse.de:+]; MX_GOOD(-0.01)[];
+ RCPT_COUNT_TWELVE(0.00)[18]; MID_CONTAINS_FROM(1.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+ FREEMAIL_TO(0.00)[linux.intel.com,intel.com,redhat.com,gmail.com,ffwll.ch,kernel.org];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+];
+ RCVD_IN_DNSWL_HI(-0.50)[2a07:de40:b281:104:10:150:64:98:from];
+ RCVD_TLS_ALL(0.00)[]; BAYES_HAM(-3.00)[100.00%]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: BB47133A4D
+X-Spam-Level: 
+X-Spam-Score: -3.81
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,87 +122,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lucas,
+Convert i915's fbdev code to struct drm_client. Replaces the current
+ad-hoc integration. The conversion includes a number of cleanups. The
+patchset also enables unloading of driver modules with in-kernel DRM
+clients; a feature required by i915. Also update the xe driver where
+necessary.
 
->
-> prefix for etnaviv kernel patches should be "drm/etnaviv: ..."
+As with the other drivers' fbdev emulation, fbdev in i915 is now
+an in-kernel DRM client that runs after the DRM device has been
+registered. This allows to remove the asynchronous initialization.
 
-Ah yeah .. corrected in v2.
+i915 is the last driver with an fbdev emulation that is not build
+upon struct drm_client. Once reviewed, the patches would ideally go
+into drm-misc-next, so that the old fbdev helper code can be removed.
+We can also attempt to add additional in-kernel clients. A DRM-based
+dmesg log or a bootsplash are commonly mentioned. DRM can then switch
+easily among the existing clients if/when required.
 
->
-> Am Donnerstag, dem 29.02.2024 um 20:55 +0100 schrieb Christian Gmeiner:
-> > From: Christian Gmeiner <cgmeiner@igalia.com>
-> >
-> > The hwdb selection logic as a feature that allows it to mark some fields
-> > as 'don't care'. If we match with such a field we memcpy(..)
-> > the current etnaviv_chip_identity into ident.
-> >
-> > This step can overwrite some id values read from the GPU with the
-> > 'don't care' value.
-> >
-> > Fix this issue by restoring the affected values after the memcpy(..).
-> >
-> > As this is crucial for user space to know when this feature works as
-> > expected increment the minor version too.
->
-> Uh, right. Lying to userspace about the GPU identity doesn't seem like
-> a good idea.
->
-> >
-> > Fixes: 4078a1186dd3 ("drm/etnaviv: update hwdb selection logic")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Christian Gmeiner <cgmeiner@igalia.com>
-> > ---
-> >  drivers/gpu/drm/etnaviv/etnaviv_drv.c  |  2 +-
-> >  drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 14 ++++++++++++++
-> >  2 files changed, 15 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> > index 6228ce603248..9a2965741dab 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> > @@ -494,7 +494,7 @@ static const struct drm_driver etnaviv_drm_driver = {
-> >       .desc               = "etnaviv DRM",
-> >       .date               = "20151214",
-> >       .major              = 1,
-> > -     .minor              = 3,
-> > +     .minor              = 4,
-> >  };
-> >
-> >  /*
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> > index 67201242438b..1e38d66702f1 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> > @@ -265,6 +265,9 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
-> >  bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu)
-> >  {
-> >       struct etnaviv_chip_identity *ident = &gpu->identity;
-> > +     const u32 product_id = ident->product_id;
-> > +     const u32 customer_id = ident->customer_id;
-> > +     const u32 eco_id = ident->eco_id;
-> >       int i;
-> >
-> >       for (i = 0; i < ARRAY_SIZE(etnaviv_chip_identities); i++) {
-> > @@ -278,6 +281,17 @@ bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu)
-> >                        etnaviv_chip_identities[i].eco_id == ~0U)) {
-> >                       memcpy(ident, &etnaviv_chip_identities[i],
-> >                              sizeof(*ident));
-> > +
-> > +                     /* Restore some id values if ~0U aka 'don't care' is used. */
-> > +                     if (etnaviv_chip_identities[i].product_id == ~0U)
->
-> You can drop all those if clauses. Either the hwdb value is an exact
-> match and the value is the same or it's the don't care value and you
-> want to restore it, so a simple unconditional assignment would make
-> this a bit more compact.
->
+v7:
+	* update xe driver
+v6:
+	* reorder patches to fix build (Jouni)
+	* remove unnecessary handling of non-atomic commits (Jouni, Ville)
+	* return errors from callbacks (Jouni)
+	* various minor fixes
+v5:
+	* style fixes (checkpatch)
+v4:
+	<no changes>
+v3:
+	* support module unloading (Jani, CI bot)
+	* as before, silently ignore devices without displays (CI  bot)
+v2:
+	* fix error handling (Jani)
+	* fix non-fbdev builds
+	* various minor fixes and cleanups
 
-Makes sense - thanks for your review!
+Thomas Zimmermann (6):
+  drm/client: Export drm_client_dev_unregister()
+  drm/i915: Unregister in-kernel clients
+  drm/i915: Move fbdev functions
+  drm/i915: Initialize fbdev DRM client with callback functions
+  drm/i915: Implement fbdev client callbacks
+  drm/i915: Implement fbdev emulation as in-kernel client
+
+ drivers/gpu/drm/drm_client.c                  |  13 +
+ drivers/gpu/drm/i915/display/intel_display.c  |   1 -
+ .../drm/i915/display/intel_display_driver.c   |  19 --
+ drivers/gpu/drm/i915/display/intel_fbdev.c    | 265 ++++++++++--------
+ drivers/gpu/drm/i915/display/intel_fbdev.h    |  29 +-
+ drivers/gpu/drm/i915/i915_driver.c            |  27 +-
+ drivers/gpu/drm/xe/display/xe_display.c       |  11 -
+ drivers/gpu/drm/xe/xe_device.c                |   3 +
+ 8 files changed, 169 insertions(+), 199 deletions(-)
 
 -- 
-greets
---
-Christian Gmeiner, MSc
+2.43.2
 
-https://christian-gmeiner.info/privacypolicy
