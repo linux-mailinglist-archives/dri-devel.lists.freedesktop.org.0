@@ -2,93 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61DF586F476
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Mar 2024 11:46:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1367D86F473
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Mar 2024 11:46:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71CE610F97A;
-	Sun,  3 Mar 2024 10:46:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD80710F973;
+	Sun,  3 Mar 2024 10:45:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="A+lg2b0V";
+	dkim=pass (2048-bit key; unprotected) header.d=gtucker.io header.i=@gtucker.io header.b="F+UgJ7+W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
- [209.85.208.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C602C10EAC0
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 20:10:55 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-563b7b3e3ecso4120016a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Mar 2024 12:10:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linuxfoundation.org; s=google; t=1709323853; x=1709928653;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=GjHlLe8ifOuwGHIPhGu9Px14t+AYIlwm+A28Gp3fNW8=;
- b=A+lg2b0Vh66iF7z4A4O/XW2lIhy/5CWGnmUQsGeCwv/ZdceCovA7kV3A1GROhIyXLu
- o3/V7anNrtcjcOUny8MPFemxJZWyuBJ6Pcef0cLA4fS2GlniCria2pgGFNmtgOlFQhXu
- +bJGoolWM+gh5b2aLHcI/U2P3Kdm+Jy1mV5gE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709323853; x=1709928653;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=GjHlLe8ifOuwGHIPhGu9Px14t+AYIlwm+A28Gp3fNW8=;
- b=S9ToMPqvE7jxavSeHN02Szx9Cg+BDgjaCPQODiRwe/IV9nUn84PeV8G2jOFKuhmUum
- qz41mUmp/ZJPK8YfVOWpJ4dPggBZjwpv2NlklWQf43VvkiIb+WwQTGEV7YjrYD402Qxm
- EJwnmLSi3pPCU3dDkECa0u37qtIqsGspbrHJ7sdFkiHhCoLKGs2Jo9lbQei3oKSG2aCH
- EoJlXqW3NTy/DBjtHYLu5/hm2IqFEg0SIeLtQU/KGmGc1zXBKm37LxQv22i75AKgsZZ7
- 8aHjntQjjHwxzyiw+bGfWD06vP2Epf09vsPH9csGr33cwRfBtv8LRSRLxBqanFxkfDMx
- zuOw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUfeEWP19D0hv3OxKDFiU97THlJY3EOibaBaTthtRMAuVr8HO+LK0zFLK0Wcf2WuJvRuwhdG851RrqWAQLejJdtxP6GSkfllSzRO6I6KjU2
-X-Gm-Message-State: AOJu0YzY/Ghvf6NchwJWhRosEjme1B4X8ShDCuZJ79l4xKW0nbpLVDre
- PVkcAgAeFMNwSHb9d5XVN8Ale8xygvRsMrVvJmonbaqsKHe0nVkUIh749L/TQpT6+Q0ZocsOQwi
- OD+b3Lg==
-X-Google-Smtp-Source: AGHT+IGcHgh0dUnJ1OTlf6zEVzmJl6+essAS+vvWtc/i2PKQJYpEXBB6LozgUgUmAMUHPAfucbyAuw==
-X-Received: by 2002:a17:906:3b8f:b0:a43:4654:f739 with SMTP id
- u15-20020a1709063b8f00b00a434654f739mr2033984ejf.33.1709323853155; 
- Fri, 01 Mar 2024 12:10:53 -0800 (PST)
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com.
- [209.85.208.42]) by smtp.gmail.com with ESMTPSA id
- cu5-20020a170906ba8500b00a440ec600e3sm1987823ejd.121.2024.03.01.12.10.52
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Mar 2024 12:10:52 -0800 (PST)
-Received: by mail-ed1-f42.google.com with SMTP id
- 4fb4d7f45d1cf-5658082d2c4so3766559a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Mar 2024 12:10:52 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVH/X3rXD+bjUUc1lCT3HHYMpEY98v+k50L5wOTbaAHH0FH2vVHesn1FPHmVmtZXFfcwe1jRDzoVtrsM6/tfg3t7DTCjCpPSYufnZmTlQNv
-X-Received: by 2002:a17:906:e08d:b0:a44:731c:bace with SMTP id
- gh13-20020a170906e08d00b00a44731cbacemr2324717ejb.35.1709323852310; Fri, 01
- Mar 2024 12:10:52 -0800 (PST)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 731D310ECFC
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 21:56:35 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D6DA21BF204;
+ Fri,  1 Mar 2024 21:56:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
+ t=1709330193;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ex6e7ljG1u9CpeqxUac1ORmdsnFmutQlF+JwXX6GWe4=;
+ b=F+UgJ7+Wlx7CID/E0C31iTFp3J7wvXkMR8t3SEApCU6UE+1DR/ebRqy5mmra9ttxxEtKTU
+ 01jx5p8xCvFmNeT1nbkUVnwo1pFNn/rQjxEGzctzP7MxSM1xMxmbo9PFJtNmUarKd3JxOp
+ bx7n5eR7K1rds4JZGo06V8PTGlQ2Y/c6sWiduCOwVv4WFYTMzF4Wo4UNv0kzrKY0nFNhtx
+ foNNQGp159yAGYFzGwTwKwe/KB2g5x6lzRSXe4fIqBfQAqDGEyZ6XGf65lLl9xr+hSYEFl
+ S3pSXbz7ZKdtRxvmMCfJyKJXDBvbPwzfa6dhbssWPsvtjmySbaeBNZuGxW5mHg==
+Message-ID: <3d7e66bc-967e-45ec-a9e9-12dafd3b3e68@gtucker.io>
+Date: Fri, 1 Mar 2024 22:56:30 +0100
 MIME-Version: 1.0
-References: <20240228225527.1052240-1-helen.koike@collabora.com>
- <20240228225527.1052240-2-helen.koike@collabora.com>
- <20240229-dancing-laughing-groundhog-d85161@houat>
- <5d7ed81b-37f9-48e9-ab7e-484b74ca886c@gmail.com>
- <CAHk-=wixVy3WYvjbt43ZSrCqPDsS76QJQSkXFbbPsAOs1MCSAQ@mail.gmail.com>
- <44ae0339-daf1-4bb9-a12d-e3d2e79b889e@gmail.com>
-In-Reply-To: <44ae0339-daf1-4bb9-a12d-e3d2e79b889e@gmail.com>
-From: Linus Torvalds <torvalds@linuxfoundation.org>
-Date: Fri, 1 Mar 2024 12:10:35 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wiccniE=iZDC_e7T+J8iPVQbh1Wi5BaVee9COfy+ZaYKg@mail.gmail.com>
-Message-ID: <CAHk-=wiccniE=iZDC_e7T+J8iPVQbh1Wi5BaVee9COfy+ZaYKg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] kci-gitlab: Introducing GitLab-CI Pipeline for Kernel
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] kci-gitlab: Introducing GitLab-CI Pipeline for Kernel
  Testing
-To: Nikolai Kondrashov <spbnick@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Helen Koike <helen.koike@collabora.com>,
- linuxtv-ci@linuxtv.org, dave.pigott@collabora.com, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-kselftest@vger.kernel.org, gustavo.padovan@collabora.com, 
- pawiecz@collabora.com, tales.aparecida@gmail.com, workflows@vger.kernel.org, 
- kernelci@lists.linux.dev, skhan@linuxfoundation.org, 
- kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com, 
- cocci@inria.fr, Julia.Lawall@inria.fr, laura.nao@collabora.com, 
- ricardo.canuelo@collabora.com, kernel@collabora.com, 
- gregkh@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-GB
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Nikolai Kondrashov <spbnick@gmail.com>,
+ Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org,
+ dave.pigott@collabora.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
+ gustavo.padovan@collabora.com, pawiecz@collabora.com,
+ tales.aparecida@gmail.com, workflows@vger.kernel.org,
+ kernelci@lists.linux.dev, skhan@linuxfoundation.org,
+ kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com,
+ cocci@inria.fr, Julia.Lawall@inria.fr, laura.nao@collabora.com,
+ ricardo.canuelo@collabora.com, kernel@collabora.com,
+ torvalds@linuxfoundation.org, gregkh@linuxfoundation.org
+References: <20240228225527.1052240-1-helen.koike@collabora.com>
+ <d99d026e-ed32-4432-bab3-db75296e67d8@gtucker.io>
+ <a5726043-1906-44ba-a6ee-a725a2776269@gmail.com>
+ <51fa8932e57010620e9a9e16a1979f4883e95a7d.camel@collabora.com>
+From: Guillaume Tucker <gtucker@gtucker.io>
+Organization: gtucker.io
+In-Reply-To: <51fa8932e57010620e9a9e16a1979f4883e95a7d.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: gtucker@gtucker.io
 X-Mailman-Approved-At: Sun, 03 Mar 2024 10:45:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -105,30 +75,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 1 Mar 2024 at 02:27, Nikolai Kondrashov <spbnick@gmail.com> wrote:
->
-> I agree, it's hard to imagine even a simple majority agreeing on how GitLab CI
-> should be done. Still, we would like to help people, who are interested in
-> this kind of thing, to set it up. How about we reframe this contribution as a
-> sort of template, or a reference for people to start their setup with,
-> assuming that most maintainers would want to tweak it? We would also be glad
-> to stand by for questions and help, as people try to use it.
+On 29/02/2024 17:28, Nicolas Dufresne wrote:
+> Hi,
+> 
+> Le jeudi 29 février 2024 à 16:16 +0200, Nikolai Kondrashov a écrit :
+>> On 2/29/24 2:20 PM, Guillaume Tucker wrote:
+>>> Hello,
+>>>
+>>> On 28/02/2024 23:55, Helen Koike wrote:
+>>>> Dear Kernel Community,
+>>>>
+>>>> This patch introduces a `.gitlab-ci` file along with a `ci/` folder, defining a
+>>>> basic test pipeline triggered by code pushes to a GitLab-CI instance. This
+>>>> initial version includes static checks (checkpatch and smatch for now) and build
+>>>> tests across various architectures and configurations. It leverages an
+>>>> integrated cache for efficient build times and introduces a flexible 'scenarios'
+>>>> mechanism for subsystem-specific extensions.
+>>>
+>>> This sounds like a nice starting point to me as an additional way
+>>> to run tests upstream.  I have one particular question as I see a
+>>> pattern through the rest of the email, please see below.
+>>>
+>>> [...]
+>>>
+>>>> 4. **Collaborative Testing Environment:** The kernel community is already
+>>>> engaged in numerous testing efforts, including various GitLab-CI pipelines such
+>>>> as DRM-CI, which I maintain, along with other solutions like KernelCI and
+>>>> BPF-CI. This proposal is designed to further stimulate contributions to the
+>>>> evolving testing landscape. Our goal is to establish a comprehensive suite of
+>>>> common tools and files.
+>>>
+>>> [...]
+>>>
+>>>> **Leveraging External Test Labs:**
+>>>> We can extend our testing to external labs, similar to what DRM-CI currently
+>>>> does. This includes:
+>>>> - Lava labs
+>>>> - Bare metal labs
+>>>> - Using KernelCI-provided labs
+>>>>
+>>>> **Other integrations**
+>>>> - Submit results to KCIDB
+>>>
+>>> [...]
+>>>
+>>>> **Join Our Slack Channel:**
+>>>> We have a Slack channel, #gitlab-ci, on the KernelCI Slack instance https://kernelci.slack.com/ .
+>>>> Feel free to join and contribute to the conversation. The KernelCI team has
+>>>> weekly calls where we also discuss the GitLab-CI pipeline.
+>>>>
+>>>> **Acknowledgments:**
+>>>> A special thanks to Nikolai Kondrashov, Tales da Aparecida - both from Red Hat -
+>>>> and KernelCI community for their valuable feedback and support in this proposal.
+>>>
+>>> Where does this fit on the KernelCI roadmap?
+>>>
+>>> I see it mentioned a few times but it's not entirely clear
+>>> whether this initiative is an independent one or in some way
+>>> linked to KernelCI.  Say, are you planning to use the kci tool,
+>>> new API, compiler toolchains, user-space and Docker images etc?
+>>> Or, are KernelCI plans evolving to follow this move?
+>>
+>> I would say this is an important part of KernelCI the project, considering its 
+>> aim to improve testing and CI in the kernel. It's not a part of KernelCI the 
+>> service as it is right now, although I would say it would be good to have 
+>> ability to submit KernelCI jobs from GitLab CI and pull results in the same 
+>> pipeline, as we discussed earlier.
 
-Ack. I think seeing it as a library for various gitlab CI models would
-be a lot more palatable. Particularly if you can then show that yes,
-it is also relevant to our currently existing drm case.
+Right, I think this needs a bit of disambiguation.  The legacy
+KernelCI system from the Linaro days several years ago is really
+a service on its own like the many other CIs out there.  However,
+the new KernelCI API and related tooling (kci command line, new
+web dashboard, modular runtime design etc.) is not that.  It's
+about addressing all the community requirements and that includes
+being able to run a same test manually in a shell, or in a VM, or
+automatically from GitLab CI or using a main generic pipeline
+hosted by KernelCI itself.  With this approach, there's no
+distinction between "the project" and "the service", and as we
+discussed before there shouldn't even be a distinction with
+KCIDB.  Just KernelCI.
 
-So I'm not objecting to having (for example) some kind of CI helper
-templates - I think a logical place would be in tools/ci/ which is
-kind of alongside our tools/testing subdirectory.
+However I don't really see this happening, unless I'm missing a
+part of the story or some upcoming announcement with an updated
+roadmap.  For some reason the old and established paradigm seems
+unshakeable.  The new KernelCI implementation is starting to look
+just like a refresh of the old one with newer components - which
+is a huge missed opportunity to really change things IMHO.
 
-(And then perhaps have a 'gitlab' directory under that. I'm not sure
-whether - and how much - commonality there might be between the
-different CI models of different hosts).
+This may sound like a bit of a tangent, facilitating GitLab CI
+for the upstream kernel is of course significant progress in any
+case - no question about that.  My comment is more about why it's
+being driven hand-in-hand with KernelCI in what seems like a
+diverging direction from KernelCI's announced plans.  Why push
+for a GitLab-centered orchestration when there's a more universal
+solution being proposed by the project?  I would find it easier
+to understand - and I sense I'm not the only one here reading the
+thread - if KernelCI wasn't mentioned that many times in the
+cover letter and if the scripts didn't have KCI_* in so many
+places, basically if this was clearly an independent initiative
+such as KUnit, 0-day or regzbot.
 
-Just to clarify: when I say "a logical place", I very much want to
-emphasize the "a" - maybe there are better places, and I'm not saying
-that is the only possible place. But it sounds more logical to me than
-some.
+> I'd like to add that both CI have a different purpose in the Linux project. This
+> CI work is a pre-merge verification. Everyone needs to run checkpatch and
+> smatch, this is automating it (and will catch those that forgot or ran it
+> incorrectly). But it can go further by effectively testing specific patches on
+> real hardware (with pretty narrow filters). It will help catch submission issues
+> earlier, and reduce kernelCI regression rate. As a side effect, kernelCI infra
+> will endup catching the "integration" issues, which are the issue as a result of
+> simultenous changes in different trees. They are also often more complex and
+> benefit from the bisection capabilities.
+> 
+> kernelCI tests are also a lot more intensive, they usually covers everything,
+> but they bundle multiple changes per run. The pre-merge tests will be reduced to
+> what seems meaningful for the changes. Its important to understand that pre-
+> merge CI have a time cost, and we need to make sure CI time does not exceed the
+> merge window period.
 
-            Linus
+You're referring to the legacy KernelCI, to illustrate the point
+I made earlier.  The plan with the new implementation was to be
+able to do pre-merge testing as well as many other things,
+basically to provide a platform able to cope with the diversity
+of workflows across the kernel subsystems and the complexity of
+the "system under test" itself.
+
+
+Well, let's see how this goes and it does look quite promising.
+Evolution is always a chaotic process, especially in a complex
+project like this.  I'm not expecting to get all the answers to
+the questions I have but it seemed important to raise this point
+and seek a bit more clarity around KernelCI.
+
+Guillaume
+
