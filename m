@@ -2,185 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 396DD86DC64
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 08:51:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 883EC86DC7F
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 08:55:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81F1210EBDE;
-	Fri,  1 Mar 2024 07:51:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44C7E10EBE2;
+	Fri,  1 Mar 2024 07:55:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="e7JSo6BG";
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="U49UX0eZ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jfIZbZft";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76B0B10EBD7
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 07:51:22 +0000 (UTC)
-X-UUID: 7b30b2c0d7a011eeb8927bc1f75efef4-20240301
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
- bh=2O5CnQ64n9pIi0Va7vUTxnaB4zgGvyarGGNysu9VYuw=; 
- b=e7JSo6BGTkT2YsKjunSmWSbnLXGdkmvfIVp8r5gEda2M2q97acnrEuFjIWCL7WdZ+ctnibDUayBTYn5Q9E0kyBKg2a1SEm2IaMCnLKbsxWintk/d/w/Ok2nimhAgsrFdr7dAhx51to0f0+27SxCdfknXswtmY04RFxmiG3pXLE8=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.37, REQID:ae9bd675-66a8-495a-abec-2a0d4f29e09e, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:6f543d0, CLOUDID:08087e84-8d4f-477b-89d2-1e3bdbef96d1,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
- :1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: 7b30b2c0d7a011eeb8927bc1f75efef4-20240301
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 937733496; Fri, 01 Mar 2024 15:51:15 +0800
-Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22F0810EBDD;
+ Fri,  1 Mar 2024 07:55:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709279726; x=1740815726;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=GOuoV5LeggiQ7EuyWZXTMUg3cf4E5/SRnNBbYF/uyBo=;
+ b=jfIZbZftPnHy2tpddXx5ezkXaQxMhbGMUPW6ft5dKVDYV4ReqxIJCQoI
+ ppP7AxT3tB/XIi/4ZKXUOTBaMDmRPcNgFq51bfI4jrpnnTEKH4MV23qez
+ BjdaGvRepcgSrLn6XokLxqlZyA1+scItvWy3p2NpLfsDcoFgMigdfVE8O
+ LAnsD7ShZCMDABsiS11aTeIeBMfh1UB2vVE8VY2D/WmN6AXWUgA2yiKqE
+ SAR03A3mVzHbHH1bCxDAQgZZkB49QPb4TzWn2gMBim9NhcER7Lt3Teklu
+ RQ8xRMHJPBLxn70rnloNL8WPsmjllg/Q2tFOlRAmhoE5QDjnNE3mXWVKP g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="3651881"
+X-IronPort-AV: E=Sophos;i="6.06,195,1705392000"; 
+   d="scan'208";a="3651881"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Feb 2024 23:55:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,195,1705392000"; d="scan'208";a="12800148"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by orviesa004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 29 Feb 2024 23:55:26 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 29 Feb 2024 23:55:24 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 29 Feb 2024 23:55:24 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Thu, 29 Feb 2024 23:55:24 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 1 Mar 2024 15:51:14 +0800
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP
- Server id
- 15.2.1118.26 via Frontend Transport; Fri, 1 Mar 2024 15:51:14 +0800
+ 15.1.2507.35; Thu, 29 Feb 2024 23:55:23 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dZz4rtFwLJ9h/MZy0Z+NPgfOaR+ZeZYk6WKGZUCqg2jRA70s4xsVK9r7S88DvXef4WC6UvXdE2yZz+eYrRMW4fn4VAEhtN+kzC0mWDD2Cl9/wrQ8sxzBj4OhoG950QoLLLDWJ7lnIkZjLZYzn4oDpCz6TzqQSan0EfOQz3KykH0/D3VKFbmIC7J0hCJHlLXoUBI4IlPniRl4F5o7Vg1g3f7t/4aBORKHpc77YaMa+MTZ+56+0r9Wnhc2iK1QP3zbFYt/HZ5AQ+4oUy3gqbQcZiN6wMxVmUFlNxI3FWPnrOP9VrF+6+AUh5n0LvlwWWffLvHmDes3XFmDNXd/hxkmlg==
+ b=LYZ3g7e4QVxIJg7T2icXORCALKVc+OMn3zPrqJK+/E3p28kVFKcl4mS7XU11snAu/07QJIiTBD1WpO9dJrG+J3ThNvgsenrZDdTMXkLYLHNskPJw508xxTysbGSnpuuODQP7tmQxNYi1dbSxSiWkEeOZm5IcJbdv9Hi6Z1gGYzVyZ3rEirnoIb+e4nMEP71iEwiGx1vdwcX1ARJCYb/eMP3VSaOb7wCcmLN/+lA66DiyxSeaxe4aqxi87HOnX0dtvgLK1gX6N+qTSdnl0QuV1Vi9WCdogud0CSTUyA7v8O+kDtUMwalx7zkqD5G5XVOPRDylAyWP0vzTSDqVPbX2OQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0R/UxT8j8Q64OC4MD+YH7Mv/e/vMIuKgz3LdhhXrOdM=;
- b=VY4cfuRNoq68tHQ4TjxBA84ATG5N3Hon8UCTPn08t3EorqwaaayzYmnb8tvQB/a7DDRi0taU8gcjVQSSEHpcmjGcSgetUf5R3kw2imwwFgBEtSQiLbU/qZ80TDBoH1cjqyI3Rl7zCmDC/wz89SrWnNCb+u0doM40PxIWOazory/x9eiArsvGQJ3L0d7hg02ZDCCVnzGhyx/sO9katgu4xewb8DNzUcNu0LwsmVhpJM5zlJ4NftEGe6SNiyW/WAg+0z6rgmiXcxXO1G6wVNxJJYhl775ewjC8gwL1ankjSOhdJAKVxezYp9ZrHyyG3MspiEjMMxyaTCUsXZmctRmsWg==
+ bh=cfL4bLG3l+9V2XrdcCANQsir92d7U3fip9yWzPyrxYw=;
+ b=BgeCg9r7XR8vE1w3MvMKuNOliX6JP3+cPqXftig8uWG4vr4wgrUGZdDa2cqIeqaCmJ798mRoHd2kgyK6uWJbmT1sI8QyNhUO/6Dxb7Gj8UX2nd3CalEdV7ZsF17MUNv/TLUKFyn1jXY7N20ZS56rbJjCeTUaTN44yRLogCMgdRy/lnKguk45+91kuQT0eafeHn39/PsWNgrl1ZG5zvsHbcBR2As+zoJrJu8mgwh6SK5WhutlNV+juSXcWNg6Ae+xEVwHrfR3kKfonbZFollD9Wn0CB33lzyEeDwaTJ6Ap7kDRwdSFfbuOproBDHRgL4iJT1a08mOLKYR0r7lUCylDA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0R/UxT8j8Q64OC4MD+YH7Mv/e/vMIuKgz3LdhhXrOdM=;
- b=U49UX0eZwCE8trwDit7kB5ATQMu6jRsQDGkvd7GQN7/xyf/VJI+VfOI+LBBjuwAzGac64K0yoD8cXVCBUH99asmeaoI8imNOkIGCornlC4b8jLR52pnvPy5doBAumDzhMOQw/MQStACGiDGSK5+l+euMYN05SjiMA3iWxWcUaFQ=
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
- by SI6PR03MB9236.apcprd03.prod.outlook.com (2603:1096:4:27f::5) with
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5341.namprd11.prod.outlook.com (2603:10b6:5:390::22)
+ by DS0PR11MB8208.namprd11.prod.outlook.com (2603:10b6:8:165::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.39; Fri, 1 Mar
- 2024 07:51:12 +0000
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::b705:ea58:46d:e98d]) by TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::b705:ea58:46d:e98d%4]) with mapi id 15.20.7316.039; Fri, 1 Mar 2024
- 07:51:11 +0000
-From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
-To: =?utf-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>, "chunkuang.hu@kernel.org"
- <chunkuang.hu@kernel.org>
-CC: "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- =?utf-8?B?QmliYnkgSHNpZWggKOisnea/n+mBoCk=?= <Bibby.Hsieh@mediatek.com>,
- "jason-ch.chen@mediatek.corp-partner.google.com"
- <jason-ch.chen@mediatek.corp-partner.google.com>,
- =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "p.zabel@pengutronix.de"
- <p.zabel@pengutronix.de>, "seanpaul@chromium.org" <seanpaul@chromium.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "matthias.bgg@gmail.com"
- <matthias.bgg@gmail.com>, "fshao@chromium.org" <fshao@chromium.org>
-Subject: Re: [PATCH v5 06/13] drm/mediatek: Turn off the layers with zero
- width or height
-Thread-Topic: [PATCH v5 06/13] drm/mediatek: Turn off the layers with zero
- width or height
-Thread-Index: AQHaX/dYZgeAgBFvZESouybYjCpgWbEimoWA
-Date: Fri, 1 Mar 2024 07:51:11 +0000
-Message-ID: <dc7569baf040a0cf2ba9d176ea69e250dddfabdd.camel@mediatek.com>
-References: <20240215101119.12629-1-shawn.sung@mediatek.com>
- <20240215101119.12629-7-shawn.sung@mediatek.com>
-In-Reply-To: <20240215101119.12629-7-shawn.sung@mediatek.com>
-Accept-Language: en-US
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.17; Fri, 1 Mar
+ 2024 07:55:21 +0000
+Received: from DM4PR11MB5341.namprd11.prod.outlook.com
+ ([fe80::12b:4490:b758:75c2]) by DM4PR11MB5341.namprd11.prod.outlook.com
+ ([fe80::12b:4490:b758:75c2%7]) with mapi id 15.20.7362.015; Fri, 1 Mar 2024
+ 07:55:20 +0000
+Message-ID: <9cd8b971-2e9c-47d4-9552-196a2ac0dee6@intel.com>
+Date: Fri, 1 Mar 2024 13:25:13 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 4/9] drm/i915/dp: Add Read/Write support for Adaptive
+ Sync SDP
+To: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
+ <intel-gfx@lists.freedesktop.org>
+CC: <dri-devel@lists.freedesktop.org>, <jani.nikula@intel.com>
+References: <20240229163957.2948182-1-mitulkumar.ajitkumar.golani@intel.com>
+ <20240229163957.2948182-5-mitulkumar.ajitkumar.golani@intel.com>
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|SI6PR03MB9236:EE_
-x-ms-office365-filtering-correlation-id: 9a9cf524-5500-4bc9-9ac1-08dc39c45d24
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 4CbF0Df4cx5OSJmPF5Zz3HU76S+0jxnGPNfoR123nMLW4Oml6a+vUQOpM7wOpA6J0FtaSZ1/jkfCLvlzVH0mO9Lgb8jaFSgcAWeVeusXzli7F/B7MXo9CIJCX9MBm0sXP5yFd476mKlmkea0y5MiX0SSDsGQO/tBln2ttk7WelSusOoHpGnHgi8trnhr3XnD/4Spcuoreoi78nG4vJ9GMsNBOuZoccPcXdlA10EIPtR98TDWCwfZGbLwGaulg8DIIlo9B/mxqYd0PPGfzxNzv8xI3MmuoZLgDQ1r7RsZbKh4WLNn3vP7sSGNQHweTFgCrrp/nzC0o45kdrAjGqW+5hnBPDQnzUUsM1x4qAJbMr69XLeNkrhNkaHUioPCjmBVFtMQNCw+6i/0kKAc131X2csG+elnX4eVXUHZrfFKm6uzVGr9JI8Z97xSa6wIEUkn85ZuJwf/XcTmjJn9IE2KkowlfwuOslXYwTryTox8vGrSdxrF+vquSzQLjt5UUrAY3ZZh2kV/+5P92buzszw+Eececk0mQBEPDK7owbXmmr4LgW7gxSYNBDB/Kke1UnhqPEiYslRnha1dkQyCp5vJ9zdid6qYnts6GweOITaVUJmMMIfSDf5QLi06le9X1mN0EdCcM2+F/Z2972qsoggy1rj+ae3JRdiDPGvsbtrsTOb3qSz9hYNAHZvdzR8eOoYOc/XyQsxguK00jxJxqsuFow==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(38070700009); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?aDVGb3B6bElOWDJrdUJDTXZaKzJhM24wcW1iNkNKQkNmdXh5bXhob0V5MlJR?=
- =?utf-8?B?NXV0c3doZjJxR1EySVdBRXJtU0FPSDlOL2UvZTZQUzk4ME1qck9jejFrbzJl?=
- =?utf-8?B?cW1TSXdQeG5VU0tNQkUxZy95aUpGY0YwMkJwc2ZWQThtYXlnbFJMZGFaMnNT?=
- =?utf-8?B?RzMvZDF2SGZ0RzFoTU1pbmRLZ3Vwc2REMnlpdmRjSEtLejlOYm9BVklJTlFx?=
- =?utf-8?B?bUxlV2lhby9DenVTdFJlVTZvZHkwUWllTjFTeXRiYng1L05IbUZWMDVteDRn?=
- =?utf-8?B?R1d2eUY5cUE4SzZTU0ZMa2JmdFNkMUZINGxaQzhhcFBQK1U4bGdYcDRPcGgx?=
- =?utf-8?B?T0t1OGgreVRpRUVuM084QXNsSEt2UFlaalNFUlRBRXpENy9ENE5NNlQxbHRS?=
- =?utf-8?B?cS9BdWlON3cxZGQrelVHb1BOT1hBTUN4UlZHSmlubTNMSDl3QlVqUmJtVTha?=
- =?utf-8?B?ZXJtL0ZFdjROK0QwZGRIV1VJMXVLVHpBZUFkazNTSUc0TWQ4WHdkM3cyOE5F?=
- =?utf-8?B?Sy9wcUNUUHZaVVpLaG5oV0poUEVOTHRRZDV5MGRBdWxubndMbVFqeEZCUDlX?=
- =?utf-8?B?aXRCTVAvV3I3akp6amxhbUVIR0ZSUjNBZFhWRENDM2xQMUJIVGtBY3V4eTNs?=
- =?utf-8?B?Vlc0QzVLQmNUM0gyWTVMdlJWczk5L3VUN3AzR0NES3V1bHVJTi83dVhZdnRh?=
- =?utf-8?B?LzVUZWdNSG5xbVVDakdRZFowNWlPdm4yUE8vamFDRHI1ZjBEaU54K294Wkhj?=
- =?utf-8?B?bHpaQXI1Tkk0Z2F0TjRvcXRWQXIwTldDQ2pJZHBRa1BnWmNBcEFBL1NCWGdy?=
- =?utf-8?B?MkxwajkvUUp0akZVUjYyYzIvTDVPbVpIZUVibmFNQjQ1UmQ0RE9wWFJpVity?=
- =?utf-8?B?bzNXd2dmcjZnR1pCNHFndllycnpoNTUzcHhUajNCTzlZQnlJMnZVUmdseGxr?=
- =?utf-8?B?SU9zdWFvb2NzQWkyV2RTRGRTQlNoYUtEU2p1NDhkTkxEcXZ4N1hINEswVS9Y?=
- =?utf-8?B?MWRQRHBVeXhNTzZzUU1RcURCR1lZNXQrOFViQzlLL1lVRE1UZGtwWDBRRlpJ?=
- =?utf-8?B?Ky9jblYxWlBNRUJjaTlwejBVRDI1RktLQVAwQWNmODU5cmwxcXpVUmlscEFX?=
- =?utf-8?B?N1dyZE1GdkwrcDRNMFlzcnJUcm1pSnJqTzFlSkx6dlpiVFV2alhoSW5lVmdv?=
- =?utf-8?B?UXBxbjVjME5ickNYOWxrZ1VzWFNtWUs0L0hTVWY2MUNHc2NqYVM5WHVOR0Zo?=
- =?utf-8?B?S2M2NE81S25DSWxkQWRWRzdNMzNFMk9GRjl5TjJzc0lWTzU3S2tlOElzMEYw?=
- =?utf-8?B?RWduaGNEWkh6OExxMVNSUWVtUG14azVhN0J0b2I4TlFHMXE4aDFSRVZSdk9v?=
- =?utf-8?B?RE9WMHY3bmF6ZElvWmdtWDlpbUs0L01YSzFhdloyWnp4Yzkxb2tIZ2NNVWlw?=
- =?utf-8?B?SWhsSURPSDFqaWd2b0hkSE5lcWdpRE5yU2p2cWdmN200SWsySmN2VlpiTFBM?=
- =?utf-8?B?WTdMRnZlVXk5elZweENsVStkWjUvaSthUGN6Sk5ueEIzVWFTakR3Kys0d096?=
- =?utf-8?B?YmR5THdjTlFZZTRXaC9vZXB4MFdTYk5OUmc0bVJSMWRaQ3pqWDJ5VDZRTUZa?=
- =?utf-8?B?VUFjL0hQQ1EyQ0Vzc3NWYlgwNGRqbVVhb29neWFLZ0c2cmY3Q2NHUjA0L0c0?=
- =?utf-8?B?MDlaM1VvdGJUb3lCYUpKQ2M5V29WYXNoZ2FkUHJpQkYwS3BtdzBUTXlBQjBl?=
- =?utf-8?B?KzZ6Q2JwdnhNQWpocTk0T2tqUmtuMjdLY0svMlB3N1RYVG8vMWp4UXVGbkpm?=
- =?utf-8?B?dnJyZ0creDJpY0d1ZUkrb1JTT0hsYXJERlM4MngwcG5vL2VHWGJMVkViMmRw?=
- =?utf-8?B?VkFlUDZWTTZQUXM5N3U5MWRhWFM4T0kwb2phdU5OZFd1TFRycXNGVWl6aEV1?=
- =?utf-8?B?bFo1dVMzcXBUN0ZueStucUJlZnRTd05tKy9KVFIxbHVSYkx6WUgwd0NhNytN?=
- =?utf-8?B?YWdQMThkL1RVcDBncThMM2pNdTNlMENwYTJ2dmhLWVBCc3BHc3hTMWsyVVZj?=
- =?utf-8?B?c2tWYml4ZURqcjlSb1MzWW0yR1haeENlRmlhajR3Zk80bURBRWloTmpIQ2JR?=
- =?utf-8?Q?wrbK6qwyMpV+O9+rMeAxH8maH?=
-Content-ID: <B0162D233976694E83EB794F1F3392D6@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
+In-Reply-To: <20240229163957.2948182-5-mitulkumar.ajitkumar.golani@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN2PR01CA0043.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:22::18) To DM4PR11MB5341.namprd11.prod.outlook.com
+ (2603:10b6:5:390::22)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5341:EE_|DS0PR11MB8208:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7d376fa6-00fc-4dc2-e4ab-08dc39c4f13a
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: SB3wsAzzSlf/ZrGTyjyRwWtRk6CtWpHLuyr9G/n2y4EA0DYlfxQUdB/TQ1u4fvh1hK/QlmjYNYopaqkHvE8TdAW7/7BVDKY9GoN+4YGynybJuuUUPO0PG+RohdF7D7e9ZXo5t2TYzRVPwIQTCD7rczMD5SGcSU9b2q+tCpqdtlFBo/K1sJBLLuLy9tDIFUqSnsoekTV/Hm/v6kjcUXfTLjF+vdNTmYSJQy6YDvnrNn3esDyW/LWjjKW9+bsyxkeITBbe3cWzdsc95xxU+4uM9teCrTpck23l/CNzAOoZePAI7QnGFCKAu63zsi0wFBEfv7LSY8IWyQHYZL4yDgwcGwGuVEHfg0VjYAj9iaupA68/GYgxXfoM5R0i6/SqJtiSlua9vrbSf/vOYJOG/LnGOeXfAIw/YphJI6i53BzK2DlEmnj8jiV9Ov7jqayNI/IganqgdjzFMR5t7wu2jf22b61mMgE+5Dj+ykMGvJclKbJ7zPW0nVGuIcXvUZLZmOtYdPJ9fsQO3Og14QOPmy1ex9UnM/2uyP+oPzgprRBBdYQF3RkEACmpKnbgLA2ZTaEivLi/RYM6lCe4happxX9b/GpV3IQSyLp+AFCxxBOkpCFMB8KTvC8pJJX0qvzaBTf/
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5341.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Znhnb1Yzd1JnRVk2MFcxaC8rTWFRcERtSEZHSzNyMlpRdHhveXlOT00yVFdE?=
+ =?utf-8?B?OFlxVE9MT3FmcWJmblN5OUpYZ3ZISERZOXJTMk9TR2U4bEhxNjAwaVpZb2l4?=
+ =?utf-8?B?SlNSRFgzeDBKQkdSTEExdm9QR1pPcStndE9BTDFIKzNETGZTb0xTbHlib1di?=
+ =?utf-8?B?Mi9Lb3ZZQnhjU2pGa05LSkZPeVhaUy9pYUsxOFY4SnBsNEZmMUhQdElNWmgy?=
+ =?utf-8?B?SXFRVHVWWXdaWElLeWovUmZ0ODlVR1hKVUJNY0VSZ1d3cmN0Q3hhYmF0YXVi?=
+ =?utf-8?B?amlOTnV5b3lxQzR6RVh4Z2lodGgveW5LcmJSZ2ErcmM3NGo4bG1rQkZpUEJL?=
+ =?utf-8?B?ZkVldzhHUlNYcCszZG5ySFRhc3R6VzlhVVNuNVg2d1ZCM0pta25iZ0tycDhP?=
+ =?utf-8?B?ZDhFRENaNFdOVHV0dHZFdGVSTUVCeVpVYm5qUHI5cHBGc0d0blRDcXlFeWgr?=
+ =?utf-8?B?VURpVVB2eGNMYVYzbVF4OEJ2cTE4T3pIaDVhRm5EODNhcHZ0KzZtbmF4R2du?=
+ =?utf-8?B?cFdVaW01QzZNNkdyNlovSkYwbVlPVm9aMzdWeVc5YkFDalpZem5rMlVoZzgv?=
+ =?utf-8?B?WnVnZUNZQm9YYitSWGdJM2hoSkErYXdNWndXMU9HZ0tncm4xcEN1WXFtcG9r?=
+ =?utf-8?B?S3hQNVJoYkttTzFFYXRkZHF0S0F5K3FBRUpEcFEyMEFrYTlEQ3lnaDlCS1ls?=
+ =?utf-8?B?am52TUtBQlBZNnJKYUFsWkVJUVRJYkdNYmU1VmoyN0xGZTZEVUZFQWN1L0pO?=
+ =?utf-8?B?OVJDRCtFQzF2NE1CQ2pybE1MVEhiRFZUY2VoTmxmOXN2Y2h2Y1c3bnBabVNT?=
+ =?utf-8?B?aFdDVGI4SVJyZzI1RWtBdUFXTm1aUVd6RkNINTZxRWl4cVhpaitnRUxFVUxm?=
+ =?utf-8?B?OUlKRkJ6bllBUHdQMElzT3RJa2tzOXRPNmRKRlFxM053NGJ6SUU1OEFpVlJG?=
+ =?utf-8?B?Vi9Mb016UHpQaFlCUnFSZUNVeHRBbEg5YVBDZERiSXBJVHJ2cVNpVGt3V2dw?=
+ =?utf-8?B?TkhLcU1vWWR6WEplL1I1V09sM29kcW1vU1VIUFN2bkxoVnFzT2MwZVExa2o5?=
+ =?utf-8?B?VTNpMXBJd2VuZWEya2RGaUN1Y0NnaUZzeGd3SjJxRkQ0Q0kzVzU4R3RySm13?=
+ =?utf-8?B?dE9hQmdZeW0wY0oxRk1KdllPZkpQMEowTlJrTGwrL05Ta3BjQzhYcktUYXJR?=
+ =?utf-8?B?a0RWQ0xQVUVBcEhyYURhVndscklreSsrSUptL2EyOGM1SEozc09vTlRxekY5?=
+ =?utf-8?B?UERxL0ptQVRONnR4Ym5vRXFyb2xGc1Z4ckk2SUVHYzVJc3R3UG5YY3FiZS9C?=
+ =?utf-8?B?Z2U5R1RPam15MGFsN0hhM3RTUHRtM2kvVjI2azRPdVNzemZPMVlzZEt2K09Q?=
+ =?utf-8?B?aWdvemxBaW5meFdkTy93NXlCUTZSWkVLL1B3eGxlSDhaTi9oL3ZKQWxPbXpj?=
+ =?utf-8?B?ZTVGR2ROUTVTd044T2FiVGpCRXZ3b0xIYlNjS1FNbkJrQ2NGam5tWmRvUUtM?=
+ =?utf-8?B?bnpYekRjdnJWUUJBNWs3Snc3cDBaRnhQWVBYaUJDam9USFU4QUJ1a0RBQUp1?=
+ =?utf-8?B?QUNjRGFEdFk5V2l2Q3V6cDNmK0gva3hqcll2RHBNUEpHbkYzck82WnNZeGhO?=
+ =?utf-8?B?dDBsNkNOVVA2QTQvMW42NkVDbHV4aTFUWDBCNkcxZXRoZmxlTi9RU0o2eGxq?=
+ =?utf-8?B?akF0eEloYmJWdDB5RkdQRWk1VlIxWmJmVmFDcUFmS3A4UG9nT3UzN2tvWEVs?=
+ =?utf-8?B?MkJDNUFKS0JJb01vSTNUZ1pFSzVodmhyTEhQcmF2NVd2d1RaYTQ4dnVXMTA0?=
+ =?utf-8?B?S2g4NlN4VUV5NllnNjdYaTVzMFdDc0V4WmE5bThsZ3hsWk94Y1VYVncrZ2h2?=
+ =?utf-8?B?RDNiQkoxQ2UrT3kvMDdaNHJKMHVFZGI5R0lHRHRmL2hENVhMRllkYUc2K1A1?=
+ =?utf-8?B?NGVZYkQweGxCZ3lvRGV0a3lkM1RNdGQ4azVjZTZOdlB0VlpvWmY1bnlzQy82?=
+ =?utf-8?B?UEYrSkVsSHBVYWEzZzFUUUEwY0gybjczakcwK21uZExDdFN0K2JpSzRySXV2?=
+ =?utf-8?B?T2lHVENodVJVYmtFSWc0cURtT3RXNlpjWHlqaXNvT1VXVnN1TmdSbHlaZ2RJ?=
+ =?utf-8?B?Y0xZWjJUUDhEWFVyN0RJek9sSXY2YW9wOTNtVDVHK3VZbm1hU1JXZUxhVFJJ?=
+ =?utf-8?B?TWc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d376fa6-00fc-4dc2-e4ab-08dc39c4f13a
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5341.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a9cf524-5500-4bc9-9ac1-08dc39c45d24
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Mar 2024 07:51:11.8585 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: j1ws57hJmEvTsr36qaGbR5IxtusovyF6XRi+raGiYBYMQdALydyQYoy8Ordzmw/d67FOmAwYjO79QZ+W4F4ZnQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI6PR03MB9236
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--7.690800-8.000000
-X-TMASE-MatchedRID: scwq2vQP8OE/XHdICuW5rya1MaKuob8PofZV/2Xa0cKOUV82NDH4AlU1
- mKBqgGzKxLXSu8yTUJprDRXfw8gpTTajbKvQDWp/Y1bQMCMvmn64vBuE2X0HleQIoW+okd7JASS
- 25Kb4JAKMZBHIGOaSwOKOmN63egZIbn83JMqUbr2HZXNSWjgdU5KLNrbpy/A0FLXUWU5hGiFHdE
- c8dOyw1fWjlKSodAPqPdHjjly2GDoM8jMXjBF+sNIFVVzYGjNKWQy9YC5qGvz6APa9i04WGCq2r
- l3dzGQ1ssOcArzi9zmr7rxEWL5Lz96zW3K1Ch3efXvBVamN/zgaB75N/QjOchb+U31CofkCL06m
- Urak0UaSPRYAfWdVjFFKsN+E2SHGVRHgklYfjug9XGVRM/cag7sCWxFv9DtZChiU+c//xP8WW1i
- V/cL+I0MMprcbiest
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--7.690800-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 2775F6B6D88A3E1E849EBA7B9AE12FA4D9AC59D19B2B9BB3E8862533EFA3DC422000:8
-Content-Type: multipart/alternative;
- boundary="__=_Part_Boundary_003_265338661.1026509750"
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2024 07:55:20.9183 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1yaSttVpW8IH/Ru2GXUVgigoC0F/iQHzmE1CBgLiMQlGw9Dto4x7xdo9gmp6mghNEfu2cCUP+vWRpi6i2E0bcjL94gXYxHo4TPOajv2DAdo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8208
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -196,141 +168,320 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---__=_Part_Boundary_003_265338661.1026509750
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
 
-SGksIEhzaWFvLWNoaWVuOg0KDQpPbiBUaHUsIDIwMjQtMDItMTUgYXQgMTg6MTEgKzA4MDAsIEhz
-aWFvIENoaWVuIFN1bmcgd3JvdGU6DQo+IFdlIGZvdW5kIHRoYXQgSUdUIChJbnRlbCBHUFUgVG9v
-bCkgd2lsbCB0cnkgdG8gY29tbWl0IGxheWVycyB3aXRoDQo+IHplcm8gd2lkdGggb3IgaGVpZ2h0
-IGFuZCBsZWFkIHRvIHVuZGVmaW5lZCBiZWhhdmlvcnMgaW4gaGFyZHdhcmUuDQo+IERpc2FibGUg
-dGhlIGxheWVycyBpbiBzdWNoIGEgc2l0dWF0aW9uLg0KDQpSZXZpZXdlZC1ieTogQ0sgSHUgPGNr
-Lmh1QG1lZGlhdGVrLmNvbT4NCg0KSSBoYXZlIHJldmlld2VkIG92bCBkcml2ZXIsIG92bCBkb2Vz
-IG5vdCBoYXZlIHRoaXMgbGltaXRhdGlvbiwgc28gaXQncw0KYmV0dGVyIHRvIHBvaW50IG91dCB3
-aGljaCBoYXJkd2FyZSBoYXMgdGhpcyBsaW1pdGF0aW9uLiBUaGF0J3MgT0sgaWYNCnlvdSBoYXZl
-IG5vIGluZm9ybWF0aW9uLg0KDQpSZWdhcmRzLA0KQ0sNCg0KPiANCj4gRml4ZXM6IDc3N2I3YmM4
-NmEwYTMgKCJkcm0vbWVkaWF0ZWs6IEFkZCBvdmxfYWRhcHRvciBzdXBwb3J0IGZvcg0KPiBNVDgx
-OTUiKQ0KPiBGaXhlczogZmE5N2ZlNzFmNmY5MyAoImRybS9tZWRpYXRlazogQWRkIEVUSERSIHN1
-cHBvcnQgZm9yIE1UODE5NSIpDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBIc2lhbyBDaGllbiBTdW5n
-IDxzaGF3bi5zdW5nQG1lZGlhdGVrLmNvbT4NCj4gLS0tDQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVk
-aWF0ZWsvbXRrX2Rpc3Bfb3ZsX2FkYXB0b3IuYyB8IDIgKy0NCj4gIGRyaXZlcnMvZ3B1L2RybS9t
-ZWRpYXRlay9tdGtfZXRoZHIuYyAgICAgICAgICAgIHwgNyArKysrKystDQo+ICAyIGZpbGVzIGNo
-YW5nZWQsIDcgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3Bfb3ZsX2FkYXB0b3IuYw0KPiBiL2Ry
-aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9vdmxfYWRhcHRvci5jDQo+IGluZGV4IGQ0
-YTEzYTE0MDIxNDguLjY4YTIwMzEyYWM2ZjEgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9tZWRpYXRlay9tdGtfZGlzcF9vdmxfYWRhcHRvci5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9tZWRpYXRlay9tdGtfZGlzcF9vdmxfYWRhcHRvci5jDQo+IEBAIC0xNTcsNyArMTU3LDcgQEAg
-dm9pZCBtdGtfb3ZsX2FkYXB0b3JfbGF5ZXJfY29uZmlnKHN0cnVjdCBkZXZpY2UNCj4gKmRldiwg
-dW5zaWduZWQgaW50IGlkeCwNCj4gIAltZXJnZSA9IG92bF9hZGFwdG9yLT5vdmxfYWRhcHRvcl9j
-b21wW09WTF9BREFQVE9SX01FUkdFMCArDQo+IGlkeF07DQo+ICAJZXRoZHIgPSBvdmxfYWRhcHRv
-ci0+b3ZsX2FkYXB0b3JfY29tcFtPVkxfQURBUFRPUl9FVEhEUjBdOw0KPiAgDQo+IC0JaWYgKCFw
-ZW5kaW5nLT5lbmFibGUpIHsNCj4gKwlpZiAoIXBlbmRpbmctPmVuYWJsZSB8fCAhcGVuZGluZy0+
-d2lkdGggfHwgIXBlbmRpbmctPmhlaWdodCkgew0KPiAgCQltdGtfbWVyZ2Vfc3RvcF9jbWRxKG1l
-cmdlLCBjbWRxX3BrdCk7DQo+ICAJCW10a19tZHBfcmRtYV9zdG9wKHJkbWFfbCwgY21kcV9wa3Qp
-Ow0KPiAgCQltdGtfbWRwX3JkbWFfc3RvcChyZG1hX3IsIGNtZHFfcGt0KTsNCj4gZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZXRoZHIuYw0KPiBiL2RyaXZlcnMvZ3B1
-L2RybS9tZWRpYXRlay9tdGtfZXRoZHIuYw0KPiBpbmRleCA3M2RjNGRhM2JhM2JkLi42OTg3MmI3
-NzkyMmViIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2V0aGRy
-LmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19ldGhkci5jDQo+IEBAIC0x
-NjAsNyArMTYwLDEyIEBAIHZvaWQgbXRrX2V0aGRyX2xheWVyX2NvbmZpZyhzdHJ1Y3QgZGV2aWNl
-ICpkZXYsDQo+IHVuc2lnbmVkIGludCBpZHgsDQo+ICAJaWYgKGlkeCA+PSA0KQ0KPiAgCQlyZXR1
-cm47DQo+ICANCj4gLQlpZiAoIXBlbmRpbmctPmVuYWJsZSkgew0KPiArCWlmICghcGVuZGluZy0+
-ZW5hYmxlIHx8ICFwZW5kaW5nLT53aWR0aCB8fCAhcGVuZGluZy0+aGVpZ2h0KSB7DQo+ICsJCS8q
-DQo+ICsJCSAqIGluc3RlYWQgb2YgZGlzYWJsaW5nIGxheWVyIHdpdGggTUlYX1NSQ19DT04gZGly
-ZWN0bHkNCj4gKwkJICogc2V0IHRoZSBzaXplIHRvIDAgdG8gYXZvaWQgc2NyZWVuIHNoaWZ0IGR1
-ZSB0byBtaXhlcg0KPiArCQkgKiBtb2RlIHN3aXRjaCAoaGFyZHdhcmUgYmVoYXZpb3IpDQo+ICsJ
-CSAqLw0KPiAgCQltdGtfZGRwX3dyaXRlKGNtZHFfcGt0LCAwLCAmbWl4ZXItPmNtZHFfYmFzZSwg
-bWl4ZXItDQo+ID5yZWdzLCBNSVhfTF9TUkNfU0laRShpZHgpKTsNCj4gIAkJcmV0dXJuOw0KPiAg
-CX0NCg==
+On 2/29/2024 10:09 PM, Mitul Golani wrote:
+> Add the necessary structures and functions to handle reading and
+> unpacking Adaptive Sync Secondary Data Packets. Also add support
+> to write and pack AS SDP.
+>
+> --v2:
+> - Correct use of REG_BIT and REG_GENMASK. [Jani]
+> - Use as_sdp instead of async. [Jani]
+> - Remove unrelated comments and changes. [Jani]
+> - Correct code indent. [Jani]
+>
+> --v3:
+> - Update definition names for AS SDP which are starting from
+> HSW, as these defines are applicable for ADLP+.(Ankit)
+>
+> --v4:
+> - Remove as_sdp_mode from crtc_state.
+> - Drop metadata keyword.
+> - For consistency, update ADL_ prefix or post fix as required.
+>
+> --v5:
+> - Check if AS_SDP bit is set in crtc_state->infoframes.enable. If not
+>    return.
+> - Check for HAS_AS_SDP() before setting VIDEO_DIP_ENABLE_AS_ADL mask.
+> Signed-off-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+> ---
+>   .../drm/i915/display/intel_display_device.h   |  1 +
+>   drivers/gpu/drm/i915/display/intel_dp.c       | 91 +++++++++++++++++++
+>   drivers/gpu/drm/i915/display/intel_hdmi.c     | 12 ++-
+>   drivers/gpu/drm/i915/i915_reg.h               |  8 ++
+>   include/drm/display/drm_dp_helper.h           |  2 +-
+>   5 files changed, 112 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_device.h b/drivers/gpu/drm/i915/display/intel_display_device.h
+> index fe4268813786..6399fbc6c738 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_device.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_device.h
+> @@ -68,6 +68,7 @@ struct drm_printer;
+>   #define HAS_TRANSCODER(i915, trans)	((DISPLAY_RUNTIME_INFO(i915)->cpu_transcoder_mask & \
+>   					  BIT(trans)) != 0)
+>   #define HAS_VRR(i915)			(DISPLAY_VER(i915) >= 11)
+> +#define HAS_AS_SDP(i915)		(DISPLAY_VER(i915) >= 13)
+>   #define INTEL_NUM_PIPES(i915)		(hweight8(DISPLAY_RUNTIME_INFO(i915)->pipe_mask))
+>   #define I915_HAS_HOTPLUG(i915)		(DISPLAY_INFO(i915)->has_hotplug)
+>   #define OVERLAY_NEEDS_PHYSICAL(i915)	(DISPLAY_INFO(i915)->overlay_needs_physical)
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index e13121dc3a03..7cf849015797 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -4089,6 +4089,32 @@ intel_dp_needs_vsc_sdp(const struct intel_crtc_state *crtc_state,
+>   	return false;
+>   }
+>   
+> +static ssize_t intel_dp_as_sdp_pack(const struct drm_dp_as_sdp *as_sdp,
+> +				    struct dp_sdp *sdp, size_t size)
+> +{
+> +	size_t length = sizeof(struct dp_sdp);
+> +
+> +	if (size < length)
+> +		return -ENOSPC;
+> +
+> +	memset(sdp, 0, size);
+> +
+> +	/* Prepare AS (Adaptive Sync) SDP Header */
+> +	sdp->sdp_header.HB0 = 0;
+> +	sdp->sdp_header.HB1 = as_sdp->sdp_type;
+> +	sdp->sdp_header.HB2 = 0x02;
+> +	sdp->sdp_header.HB3 = as_sdp->length;
+> +
+> +	/* Fill AS (Adaptive Sync) SDP Payload */
+> +	sdp->db[0] = as_sdp->mode;
+> +	sdp->db[1] = as_sdp->vtotal & 0xFF;
+> +	sdp->db[2] = (as_sdp->vtotal >> 8) & 0xFF;
+> +	sdp->db[3] = as_sdp->target_rr;
+> +	sdp->db[4] = (as_sdp->target_rr >> 8) & 0x3;
+> +
+> +	return length;
+> +}
+> +
+>   static ssize_t
+>   intel_dp_hdr_metadata_infoframe_sdp_pack(struct drm_i915_private *i915,
+>   					 const struct hdmi_drm_infoframe *drm_infoframe,
+> @@ -4188,6 +4214,10 @@ static void intel_write_dp_sdp(struct intel_encoder *encoder,
+>   							       &crtc_state->infoframes.drm.drm,
+>   							       &sdp, sizeof(sdp));
+>   		break;
+> +	case DP_SDP_ADAPTIVE_SYNC:
+> +		len = intel_dp_as_sdp_pack(&crtc_state->infoframes.as_sdp, &sdp,
+> +					   sizeof(sdp));
+> +		break;
+>   	default:
+>   		MISSING_CASE(type);
+>   		return;
+> @@ -4209,6 +4239,10 @@ void intel_dp_set_infoframes(struct intel_encoder *encoder,
+>   	u32 dip_enable = VIDEO_DIP_ENABLE_AVI_HSW | VIDEO_DIP_ENABLE_GCP_HSW |
+>   			 VIDEO_DIP_ENABLE_VS_HSW | VIDEO_DIP_ENABLE_GMP_HSW |
+>   			 VIDEO_DIP_ENABLE_SPD_HSW | VIDEO_DIP_ENABLE_DRM_GLK;
+> +
+> +	if (HAS_AS_SDP(dev_priv))
+> +		dip_enable |= VIDEO_DIP_ENABLE_AS_ADL;
+> +
+>   	u32 val = intel_de_read(dev_priv, reg) & ~dip_enable;
+>   
+>   	/* TODO: Sanitize DSC enabling wrt. intel_dsc_dp_pps_write(). */
+> @@ -4230,6 +4264,36 @@ void intel_dp_set_infoframes(struct intel_encoder *encoder,
+>   	intel_write_dp_sdp(encoder, crtc_state, HDMI_PACKET_TYPE_GAMUT_METADATA);
+>   }
+>   
+> +static
+> +int intel_dp_as_sdp_unpack(struct drm_dp_as_sdp *as_sdp,
+> +			   const void *buffer, size_t size)
+> +{
+> +	const struct dp_sdp *sdp = buffer;
+> +
+> +	if (size < sizeof(struct dp_sdp))
+> +		return -EINVAL;
+> +
+> +	memset(as_sdp, 0, sizeof(*as_sdp));
+> +
+> +	if (sdp->sdp_header.HB0 != 0)
+> +		return -EINVAL;
+> +
+> +	if (sdp->sdp_header.HB1 != DP_SDP_ADAPTIVE_SYNC)
+> +		return -EINVAL;
+> +
+> +	if (sdp->sdp_header.HB2 != 0x02)
+> +		return -EINVAL;
+> +
+> +	if ((sdp->sdp_header.HB3 & 0x3F) != 9)
+> +		return -EINVAL;
+> +
+> +	as_sdp->mode = sdp->db[0] & DP_ADAPTIVE_SYNC_SDP_OPERATION_MODE;
+> +	as_sdp->vtotal = ((u64)sdp->db[2] << 32) | (u64)sdp->db[1];
+> +	as_sdp->target_rr = (u64)sdp->db[3] | ((u64)sdp->db[4] & 0x3);
+> +
+> +	return 0;
+> +}
+> +
+>   static int intel_dp_vsc_sdp_unpack(struct drm_dp_vsc_sdp *vsc,
+>   				   const void *buffer, size_t size)
+>   {
+> @@ -4300,6 +4364,29 @@ static int intel_dp_vsc_sdp_unpack(struct drm_dp_vsc_sdp *vsc,
+>   	return 0;
+>   }
+>   
+> +static void
+> +intel_read_dp_infoframe_as_sdp(struct intel_encoder *encoder,
 
---__=_Part_Boundary_003_265338661.1026509750
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+This can simply be intel_read_dp_as_sdp.
 
-PGh0bWw+PGJvZHk+PHA+DQo8cHJlPg0KSGksJiMzMjtIc2lhby1jaGllbjoNCg0KT24mIzMyO1Ro
-dSwmIzMyOzIwMjQtMDItMTUmIzMyO2F0JiMzMjsxODoxMSYjMzI7KzA4MDAsJiMzMjtIc2lhbyYj
-MzI7Q2hpZW4mIzMyO1N1bmcmIzMyO3dyb3RlOg0KJmd0OyYjMzI7V2UmIzMyO2ZvdW5kJiMzMjt0
-aGF0JiMzMjtJR1QmIzMyOyhJbnRlbCYjMzI7R1BVJiMzMjtUb29sKSYjMzI7d2lsbCYjMzI7dHJ5
-JiMzMjt0byYjMzI7Y29tbWl0JiMzMjtsYXllcnMmIzMyO3dpdGgNCiZndDsmIzMyO3plcm8mIzMy
-O3dpZHRoJiMzMjtvciYjMzI7aGVpZ2h0JiMzMjthbmQmIzMyO2xlYWQmIzMyO3RvJiMzMjt1bmRl
-ZmluZWQmIzMyO2JlaGF2aW9ycyYjMzI7aW4mIzMyO2hhcmR3YXJlLg0KJmd0OyYjMzI7RGlzYWJs
-ZSYjMzI7dGhlJiMzMjtsYXllcnMmIzMyO2luJiMzMjtzdWNoJiMzMjthJiMzMjtzaXR1YXRpb24u
-DQoNClJldmlld2VkLWJ5OiYjMzI7Q0smIzMyO0h1JiMzMjsmbHQ7Y2suaHVAbWVkaWF0ZWsuY29t
-Jmd0Ow0KDQpJJiMzMjtoYXZlJiMzMjtyZXZpZXdlZCYjMzI7b3ZsJiMzMjtkcml2ZXIsJiMzMjtv
-dmwmIzMyO2RvZXMmIzMyO25vdCYjMzI7aGF2ZSYjMzI7dGhpcyYjMzI7bGltaXRhdGlvbiwmIzMy
-O3NvJiMzMjtpdCYjMzk7cw0KYmV0dGVyJiMzMjt0byYjMzI7cG9pbnQmIzMyO291dCYjMzI7d2hp
-Y2gmIzMyO2hhcmR3YXJlJiMzMjtoYXMmIzMyO3RoaXMmIzMyO2xpbWl0YXRpb24uJiMzMjtUaGF0
-JiMzOTtzJiMzMjtPSyYjMzI7aWYNCnlvdSYjMzI7aGF2ZSYjMzI7bm8mIzMyO2luZm9ybWF0aW9u
-Lg0KDQpSZWdhcmRzLA0KQ0sNCg0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtGaXhlczomIzMyOzc3N2I3
-YmM4NmEwYTMmIzMyOygmcXVvdDtkcm0vbWVkaWF0ZWs6JiMzMjtBZGQmIzMyO292bF9hZGFwdG9y
-JiMzMjtzdXBwb3J0JiMzMjtmb3INCiZndDsmIzMyO01UODE5NSZxdW90OykNCiZndDsmIzMyO0Zp
-eGVzOiYjMzI7ZmE5N2ZlNzFmNmY5MyYjMzI7KCZxdW90O2RybS9tZWRpYXRlazomIzMyO0FkZCYj
-MzI7RVRIRFImIzMyO3N1cHBvcnQmIzMyO2ZvciYjMzI7TVQ4MTk1JnF1b3Q7KQ0KJmd0OyYjMzI7
-DQomZ3Q7JiMzMjtTaWduZWQtb2ZmLWJ5OiYjMzI7SHNpYW8mIzMyO0NoaWVuJiMzMjtTdW5nJiMz
-MjsmbHQ7c2hhd24uc3VuZ0BtZWRpYXRlay5jb20mZ3Q7DQomZ3Q7JiMzMjstLS0NCiZndDsmIzMy
-OyYjMzI7ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX292bF9hZGFwdG9yLmMmIzMy
-O3wmIzMyOzImIzMyOystDQomZ3Q7JiMzMjsmIzMyO2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9t
-dGtfZXRoZHIuYyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyO3wmIzMyOzcmIzMyOysrKysrKy0NCiZndDsmIzMyOyYjMzI7MiYjMzI7Zmls
-ZXMmIzMyO2NoYW5nZWQsJiMzMjs3JiMzMjtpbnNlcnRpb25zKCspLCYjMzI7MiYjMzI7ZGVsZXRp
-b25zKC0pDQomZ3Q7JiMzMjsNCiZndDsmIzMyO2RpZmYmIzMyOy0tZ2l0JiMzMjthL2RyaXZlcnMv
-Z3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9vdmxfYWRhcHRvci5jDQomZ3Q7JiMzMjtiL2RyaXZl
-cnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9vdmxfYWRhcHRvci5jDQomZ3Q7JiMzMjtpbmRl
-eCYjMzI7ZDRhMTNhMTQwMjE0OC4uNjhhMjAzMTJhYzZmMSYjMzI7MTAwNjQ0DQomZ3Q7JiMzMjst
-LS0mIzMyO2EvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX292bF9hZGFwdG9yLmMN
-CiZndDsmIzMyOysrKyYjMzI7Yi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3Bfb3Zs
-X2FkYXB0b3IuYw0KJmd0OyYjMzI7QEAmIzMyOy0xNTcsNyYjMzI7KzE1Nyw3JiMzMjtAQCYjMzI7
-dm9pZCYjMzI7bXRrX292bF9hZGFwdG9yX2xheWVyX2NvbmZpZyhzdHJ1Y3QmIzMyO2RldmljZQ0K
-Jmd0OyYjMzI7KmRldiwmIzMyO3Vuc2lnbmVkJiMzMjtpbnQmIzMyO2lkeCwNCiZndDsmIzMyOyYj
-MzI7bWVyZ2UmIzMyOz0mIzMyO292bF9hZGFwdG9yLSZndDtvdmxfYWRhcHRvcl9jb21wW09WTF9B
-REFQVE9SX01FUkdFMCYjMzI7Kw0KJmd0OyYjMzI7aWR4XTsNCiZndDsmIzMyOyYjMzI7ZXRoZHIm
-IzMyOz0mIzMyO292bF9hZGFwdG9yLSZndDtvdmxfYWRhcHRvcl9jb21wW09WTF9BREFQVE9SX0VU
-SERSMF07DQomZ3Q7JiMzMjsmIzMyOw0KJmd0OyYjMzI7LWlmJiMzMjsoIXBlbmRpbmctJmd0O2Vu
-YWJsZSkmIzMyO3sNCiZndDsmIzMyOytpZiYjMzI7KCFwZW5kaW5nLSZndDtlbmFibGUmIzMyO3x8
-JiMzMjshcGVuZGluZy0mZ3Q7d2lkdGgmIzMyO3x8JiMzMjshcGVuZGluZy0mZ3Q7aGVpZ2h0KSYj
-MzI7ew0KJmd0OyYjMzI7JiMzMjttdGtfbWVyZ2Vfc3RvcF9jbWRxKG1lcmdlLCYjMzI7Y21kcV9w
-a3QpOw0KJmd0OyYjMzI7JiMzMjttdGtfbWRwX3JkbWFfc3RvcChyZG1hX2wsJiMzMjtjbWRxX3Br
-dCk7DQomZ3Q7JiMzMjsmIzMyO210a19tZHBfcmRtYV9zdG9wKHJkbWFfciwmIzMyO2NtZHFfcGt0
-KTsNCiZndDsmIzMyO2RpZmYmIzMyOy0tZ2l0JiMzMjthL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRl
-ay9tdGtfZXRoZHIuYw0KJmd0OyYjMzI7Yi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2V0
-aGRyLmMNCiZndDsmIzMyO2luZGV4JiMzMjs3M2RjNGRhM2JhM2JkLi42OTg3MmI3NzkyMmViJiMz
-MjsxMDA2NDQNCiZndDsmIzMyOy0tLSYjMzI7YS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRr
-X2V0aGRyLmMNCiZndDsmIzMyOysrKyYjMzI7Yi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRr
-X2V0aGRyLmMNCiZndDsmIzMyO0BAJiMzMjstMTYwLDcmIzMyOysxNjAsMTImIzMyO0BAJiMzMjt2
-b2lkJiMzMjttdGtfZXRoZHJfbGF5ZXJfY29uZmlnKHN0cnVjdCYjMzI7ZGV2aWNlJiMzMjsqZGV2
-LA0KJmd0OyYjMzI7dW5zaWduZWQmIzMyO2ludCYjMzI7aWR4LA0KJmd0OyYjMzI7JiMzMjtpZiYj
-MzI7KGlkeCYjMzI7Jmd0Oz0mIzMyOzQpDQomZ3Q7JiMzMjsmIzMyO3JldHVybjsNCiZndDsmIzMy
-OyYjMzI7DQomZ3Q7JiMzMjstaWYmIzMyOyghcGVuZGluZy0mZ3Q7ZW5hYmxlKSYjMzI7ew0KJmd0
-OyYjMzI7K2lmJiMzMjsoIXBlbmRpbmctJmd0O2VuYWJsZSYjMzI7fHwmIzMyOyFwZW5kaW5nLSZn
-dDt3aWR0aCYjMzI7fHwmIzMyOyFwZW5kaW5nLSZndDtoZWlnaHQpJiMzMjt7DQomZ3Q7JiMzMjsr
-LyoNCiZndDsmIzMyOysmIzMyOyomIzMyO2luc3RlYWQmIzMyO29mJiMzMjtkaXNhYmxpbmcmIzMy
-O2xheWVyJiMzMjt3aXRoJiMzMjtNSVhfU1JDX0NPTiYjMzI7ZGlyZWN0bHkNCiZndDsmIzMyOysm
-IzMyOyomIzMyO3NldCYjMzI7dGhlJiMzMjtzaXplJiMzMjt0byYjMzI7MCYjMzI7dG8mIzMyO2F2
-b2lkJiMzMjtzY3JlZW4mIzMyO3NoaWZ0JiMzMjtkdWUmIzMyO3RvJiMzMjttaXhlcg0KJmd0OyYj
-MzI7KyYjMzI7KiYjMzI7bW9kZSYjMzI7c3dpdGNoJiMzMjsoaGFyZHdhcmUmIzMyO2JlaGF2aW9y
-KQ0KJmd0OyYjMzI7KyYjMzI7Ki8NCiZndDsmIzMyOyYjMzI7bXRrX2RkcF93cml0ZShjbWRxX3Br
-dCwmIzMyOzAsJiMzMjsmYW1wO21peGVyLSZndDtjbWRxX2Jhc2UsJiMzMjttaXhlci0NCiZndDsm
-IzMyOyZndDtyZWdzLCYjMzI7TUlYX0xfU1JDX1NJWkUoaWR4KSk7DQomZ3Q7JiMzMjsmIzMyO3Jl
-dHVybjsNCiZndDsmIzMyOyYjMzI7fQ0KDQo8L3ByZT4NCjwvcD48L2JvZHk+PC9odG1sPjwhLS10
-eXBlOnRleHQtLT48IS0tey0tPjxwcmU+KioqKioqKioqKioqKiBNRURJQVRFSyBDb25maWRlbnRp
-YWxpdHkgTm90aWNlICoqKioqKioqKioqKioqKioqKioqDQpUaGUgaW5mb3JtYXRpb24gY29udGFp
-bmVkIGluIHRoaXMgZS1tYWlsIG1lc3NhZ2UgKGluY2x1ZGluZyBhbnkgDQphdHRhY2htZW50cykg
-bWF5IGJlIGNvbmZpZGVudGlhbCwgcHJvcHJpZXRhcnksIHByaXZpbGVnZWQsIG9yIG90aGVyd2lz
-ZQ0KZXhlbXB0IGZyb20gZGlzY2xvc3VyZSB1bmRlciBhcHBsaWNhYmxlIGxhd3MuIEl0IGlzIGlu
-dGVuZGVkIHRvIGJlIA0KY29udmV5ZWQgb25seSB0byB0aGUgZGVzaWduYXRlZCByZWNpcGllbnQo
-cykuIEFueSB1c2UsIGRpc3NlbWluYXRpb24sIA0KZGlzdHJpYnV0aW9uLCBwcmludGluZywgcmV0
-YWluaW5nIG9yIGNvcHlpbmcgb2YgdGhpcyBlLW1haWwgKGluY2x1ZGluZyBpdHMgDQphdHRhY2ht
-ZW50cykgYnkgdW5pbnRlbmRlZCByZWNpcGllbnQocykgaXMgc3RyaWN0bHkgcHJvaGliaXRlZCBh
-bmQgbWF5IA0KYmUgdW5sYXdmdWwuIElmIHlvdSBhcmUgbm90IGFuIGludGVuZGVkIHJlY2lwaWVu
-dCBvZiB0aGlzIGUtbWFpbCwgb3IgYmVsaWV2ZSANCnRoYXQgeW91IGhhdmUgcmVjZWl2ZWQgdGhp
-cyBlLW1haWwgaW4gZXJyb3IsIHBsZWFzZSBub3RpZnkgdGhlIHNlbmRlciANCmltbWVkaWF0ZWx5
-IChieSByZXBseWluZyB0byB0aGlzIGUtbWFpbCksIGRlbGV0ZSBhbnkgYW5kIGFsbCBjb3BpZXMg
-b2YgDQp0aGlzIGUtbWFpbCAoaW5jbHVkaW5nIGFueSBhdHRhY2htZW50cykgZnJvbSB5b3VyIHN5
-c3RlbSwgYW5kIGRvIG5vdA0KZGlzY2xvc2UgdGhlIGNvbnRlbnQgb2YgdGhpcyBlLW1haWwgdG8g
-YW55IG90aGVyIHBlcnNvbi4gVGhhbmsgeW91IQ0KPC9wcmU+PCEtLX0tLT4=
 
---__=_Part_Boundary_003_265338661.1026509750--
+> +			       struct intel_crtc_state *crtc_state,
+> +			       struct drm_dp_as_sdp *as_sdp)
+> +{
+> +	struct intel_digital_port *dig_port = enc_to_dig_port(encoder);
+> +	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
+> +	unsigned int type = DP_SDP_ADAPTIVE_SYNC;
+> +	struct dp_sdp sdp = {};
+> +	int ret;
+> +
+> +	if ((crtc_state->infoframes.enable &
+> +	     intel_hdmi_infoframe_enable(type)) == 0)
+> +		return;
+> +
+> +	dig_port->read_infoframe(encoder, crtc_state, type, &sdp,
+> +				 sizeof(sdp));
+> +
+> +	ret = intel_dp_as_sdp_unpack(as_sdp, &sdp, sizeof(sdp));
+> +	if (ret)
+> +		drm_dbg_kms(&dev_priv->drm, "Failed to unpack DP AS SDP\n");
+> +}
+> +
+>   static int
+>   intel_dp_hdr_metadata_infoframe_sdp_unpack(struct hdmi_drm_infoframe *drm_infoframe,
+>   					   const void *buffer, size_t size)
+> @@ -4406,6 +4493,10 @@ void intel_read_dp_sdp(struct intel_encoder *encoder,
+>   		intel_read_dp_hdr_metadata_infoframe_sdp(encoder, crtc_state,
+>   							 &crtc_state->infoframes.drm.drm);
+>   		break;
+> +	case DP_SDP_ADAPTIVE_SYNC:
+> +		intel_read_dp_infoframe_as_sdp(encoder, crtc_state,
+> +					       &crtc_state->infoframes.as_sdp);
+> +		break;
+>   	default:
+>   		MISSING_CASE(type);
+>   		break;
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> index 90d2236fede3..fb134bf64dae 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> @@ -137,6 +137,8 @@ static u32 hsw_infoframe_enable(unsigned int type)
+>   		return VIDEO_DIP_ENABLE_GMP_HSW;
+>   	case DP_SDP_VSC:
+>   		return VIDEO_DIP_ENABLE_VSC_HSW;
+> +	case DP_SDP_ADAPTIVE_SYNC:
+> +		return VIDEO_DIP_ENABLE_AS_ADL;
 
+
+Need to add an entry in g4x_infoframe_enable too, similar to DP_SDP_VSC. 
+(See BAT failure for CI machine fi-bsw-n3050)
+
+
+Regards,
+
+Ankit
+
+
+>   	case DP_SDP_PPS:
+>   		return VDIP_ENABLE_PPS;
+>   	case HDMI_INFOFRAME_TYPE_AVI:
+> @@ -164,6 +166,8 @@ hsw_dip_data_reg(struct drm_i915_private *dev_priv,
+>   		return HSW_TVIDEO_DIP_GMP_DATA(cpu_transcoder, i);
+>   	case DP_SDP_VSC:
+>   		return HSW_TVIDEO_DIP_VSC_DATA(cpu_transcoder, i);
+> +	case DP_SDP_ADAPTIVE_SYNC:
+> +		return ADL_TVIDEO_DIP_AS_SDP_DATA(cpu_transcoder, i);
+>   	case DP_SDP_PPS:
+>   		return ICL_VIDEO_DIP_PPS_DATA(cpu_transcoder, i);
+>   	case HDMI_INFOFRAME_TYPE_AVI:
+> @@ -186,6 +190,8 @@ static int hsw_dip_data_size(struct drm_i915_private *dev_priv,
+>   	switch (type) {
+>   	case DP_SDP_VSC:
+>   		return VIDEO_DIP_VSC_DATA_SIZE;
+> +	case DP_SDP_ADAPTIVE_SYNC:
+> +		return VIDEO_DIP_ASYNC_DATA_SIZE;
+>   	case DP_SDP_PPS:
+>   		return VIDEO_DIP_PPS_DATA_SIZE;
+>   	case HDMI_PACKET_TYPE_GAMUT_METADATA:
+> @@ -563,6 +569,9 @@ static u32 hsw_infoframes_enabled(struct intel_encoder *encoder,
+>   	if (DISPLAY_VER(dev_priv) >= 10)
+>   		mask |= VIDEO_DIP_ENABLE_DRM_GLK;
+>   
+> +	if (HAS_AS_SDP(dev_priv))
+> +		mask |= VIDEO_DIP_ENABLE_AS_ADL;
+> +
+>   	return val & mask;
+>   }
+>   
+> @@ -570,6 +579,7 @@ static const u8 infoframe_type_to_idx[] = {
+>   	HDMI_PACKET_TYPE_GENERAL_CONTROL,
+>   	HDMI_PACKET_TYPE_GAMUT_METADATA,
+>   	DP_SDP_VSC,
+> +	DP_SDP_ADAPTIVE_SYNC,
+>   	HDMI_INFOFRAME_TYPE_AVI,
+>   	HDMI_INFOFRAME_TYPE_SPD,
+>   	HDMI_INFOFRAME_TYPE_VENDOR,
+> @@ -1212,7 +1222,7 @@ static void hsw_set_infoframes(struct intel_encoder *encoder,
+>   	val &= ~(VIDEO_DIP_ENABLE_VSC_HSW | VIDEO_DIP_ENABLE_AVI_HSW |
+>   		 VIDEO_DIP_ENABLE_GCP_HSW | VIDEO_DIP_ENABLE_VS_HSW |
+>   		 VIDEO_DIP_ENABLE_GMP_HSW | VIDEO_DIP_ENABLE_SPD_HSW |
+> -		 VIDEO_DIP_ENABLE_DRM_GLK);
+> +		 VIDEO_DIP_ENABLE_DRM_GLK | VIDEO_DIP_ENABLE_AS_ADL);
+>   
+>   	if (!enable) {
+>   		intel_de_write(dev_priv, reg, val);
+> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+> index e00557e1a57f..dce276236707 100644
+> --- a/drivers/gpu/drm/i915/i915_reg.h
+> +++ b/drivers/gpu/drm/i915/i915_reg.h
+> @@ -2312,6 +2312,7 @@
+>    * (Haswell and newer) to see which VIDEO_DIP_DATA byte corresponds to each byte
+>    * of the infoframe structure specified by CEA-861. */
+>   #define   VIDEO_DIP_DATA_SIZE	32
+> +#define   VIDEO_DIP_ASYNC_DATA_SIZE	36
+>   #define   VIDEO_DIP_GMP_DATA_SIZE	36
+>   #define   VIDEO_DIP_VSC_DATA_SIZE	36
+>   #define   VIDEO_DIP_PPS_DATA_SIZE	132
+> @@ -2350,6 +2351,8 @@
+>   #define   VIDEO_DIP_ENABLE_VS_HSW	(1 << 8)
+>   #define   VIDEO_DIP_ENABLE_GMP_HSW	(1 << 4)
+>   #define   VIDEO_DIP_ENABLE_SPD_HSW	(1 << 0)
+> +/* ADL and later: */
+> +#define   VIDEO_DIP_ENABLE_AS_ADL	REG_BIT(23)
+>   
+>   /* Panel fitting */
+>   #define PFIT_CONTROL	_MMIO(DISPLAY_MMIO_BASE(dev_priv) + 0x61230)
+> @@ -5040,6 +5043,7 @@
+>   #define _HSW_VIDEO_DIP_SPD_DATA_A	0x602A0
+>   #define _HSW_VIDEO_DIP_GMP_DATA_A	0x602E0
+>   #define _HSW_VIDEO_DIP_VSC_DATA_A	0x60320
+> +#define	_ADL_VIDEO_DIP_AS_DATA_A	0x60484
+>   #define _GLK_VIDEO_DIP_DRM_DATA_A	0x60440
+>   #define _HSW_VIDEO_DIP_AVI_ECC_A	0x60240
+>   #define _HSW_VIDEO_DIP_VS_ECC_A		0x60280
+> @@ -5054,6 +5058,7 @@
+>   #define _HSW_VIDEO_DIP_SPD_DATA_B	0x612A0
+>   #define _HSW_VIDEO_DIP_GMP_DATA_B	0x612E0
+>   #define _HSW_VIDEO_DIP_VSC_DATA_B	0x61320
+> +#define _ADL_VIDEO_DIP_AS_DATA_B	0x61484
+>   #define _GLK_VIDEO_DIP_DRM_DATA_B	0x61440
+>   #define _HSW_VIDEO_DIP_BVI_ECC_B	0x61240
+>   #define _HSW_VIDEO_DIP_VS_ECC_B		0x61280
+> @@ -5083,6 +5088,9 @@
+>   #define GLK_TVIDEO_DIP_DRM_DATA(trans, i)	_MMIO_TRANS2(trans, _GLK_VIDEO_DIP_DRM_DATA_A + (i) * 4)
+>   #define ICL_VIDEO_DIP_PPS_DATA(trans, i)	_MMIO_TRANS2(trans, _ICL_VIDEO_DIP_PPS_DATA_A + (i) * 4)
+>   #define ICL_VIDEO_DIP_PPS_ECC(trans, i)		_MMIO_TRANS2(trans, _ICL_VIDEO_DIP_PPS_ECC_A + (i) * 4)
+> +/*ADLP and later: */
+> +#define ADL_TVIDEO_DIP_AS_SDP_DATA(trans, i)	_MMIO_TRANS2(trans,\
+> +							     _ADL_VIDEO_DIP_AS_DATA_A + (i) * 4)
+>   
+>   #define _HSW_STEREO_3D_CTL_A		0x70020
+>   #define   S3D_ENABLE			(1 << 31)
+> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+> index 94eb0d92abae..3f6003656e3d 100644
+> --- a/include/drm/display/drm_dp_helper.h
+> +++ b/include/drm/display/drm_dp_helper.h
+> @@ -130,8 +130,8 @@ void drm_dp_as_sdp_log(struct drm_printer *p,
+>   void drm_dp_vsc_sdp_log(struct drm_printer *p, const struct drm_dp_vsc_sdp *vsc);
+>   
+>   bool drm_dp_vsc_sdp_supported(struct drm_dp_aux *aux, const u8 dpcd[DP_RECEIVER_CAP_SIZE]);
+> -bool drm_dp_as_sdp_supported(struct drm_dp_aux *aux, const u8 dpcd[DP_RECEIVER_CAP_SIZE]);
+>   
+> +bool drm_dp_as_sdp_supported(struct drm_dp_aux *aux, const u8 dpcd[DP_RECEIVER_CAP_SIZE]);
+>   int drm_dp_psr_setup_time(const u8 psr_cap[EDP_PSR_RECEIVER_CAP_SIZE]);
+>   
+>   static inline int
