@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1263986D82E
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 01:12:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEB1486D830
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 01:12:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DC9510E733;
-	Fri,  1 Mar 2024 00:12:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E856510E736;
+	Fri,  1 Mar 2024 00:12:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="V7r6Wd2Z";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="QMCvJvfO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E60B10E733
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 00:12:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB6B710E736
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 00:12:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1709251953;
- bh=WVysYAyr15mAm5m4P/SUrQDSA/7qQTGaNZ7Cnm3KAOg=;
+ s=mail; t=1709251958;
+ bh=iH06xccM8Cux1F3BhJ2YYDHKnbi65kEA+R8Dz6nQIhU=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=V7r6Wd2Zq7IqIuAc7RYAeEuBl0zwwqCHFPKfaWlTO2uEW2vOT9jyvDiBZ6TFEb+Rs
- gt5QZzWWrRQfSCGcp8YRrVaxwmhhPz2/hh9JPtZex3VA7AwvOIiIFJAExoV3x/fmCi
- wZjd8m9VkO2VLjx38KFB2oRaBPbsKpmmB4H8jw81L+TJhwC5INjvPOPRPvwMkDWg8z
- WhPSGy/WLLe6fY806qHsH93O/e3zKEmb/qv6m7e70WOD83C1vRaaqT5xvFnwycVA5w
- irwu6+6iVgQoWiKfxKrOl3r8wN+Yd5sIqISzT6grUcL4p5ihJKYbNHmxtnV1RVBJD1
- QwiJeZD5JMy2w==
+ b=QMCvJvfOb47s8BTrX0J8KLUOyCSWQFMsBlKURkN5Iw8iy2JCXUPnT1XgpLe5jYetj
+ I7sbsjq8rs2nSsg2sCt1bsy1BfN4ACvsXxEDFAP8nIVgA0JZra/2MuIP/4H3Ats7Ea
+ Nb4XKvZov0gHj3KHnIQO/pA1L7KoQooL8mpZSfzV4QyqpubiltMDDZ9zNuqQkuGGFe
+ b2QjpJD+FN4NStVvM4H0/VFql14kh89WNclXaT8XNe/8z/xx0BNa3Jzz+Kw5IzqPxA
+ xwj9O2qma7BGQ+NMGCLO5tMTd2DvzcNKr/jZ3REDPV+wfyjft3mG4R1fTGSWHNDy8s
+ e21co4cIe/pGQ==
 Received: from [192.168.1.205] (zone.collabora.co.uk [167.235.23.81])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: nfraprado)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 3CDB937820EE;
- Fri,  1 Mar 2024 00:12:28 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 8B471378000E;
+ Fri,  1 Mar 2024 00:12:33 +0000 (UTC)
 From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-Date: Thu, 29 Feb 2024 19:12:09 -0500
-Subject: [PATCH v2 3/9] drm/bridge: lt8912b: Don't log an error when DSI
+Date: Thu, 29 Feb 2024 19:12:10 -0500
+Subject: [PATCH v2 4/9] drm/bridge: lt9611: Don't log an error when DSI
  host can't be found
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240229-anx7625-defer-log-no-dsi-host-v2-3-00506941049a@collabora.com>
+Message-Id: <20240229-anx7625-defer-log-no-dsi-host-v2-4-00506941049a@collabora.com>
 References: <20240229-anx7625-defer-log-no-dsi-host-v2-0-00506941049a@collabora.com>
 In-Reply-To: <20240229-anx7625-defer-log-no-dsi-host-v2-0-00506941049a@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -85,27 +85,27 @@ make use of dev_err_probe() to log the reason. This makes the defer
 probe reason available and avoids alerting userspace about something
 that is not necessarily an error.
 
-Fixes: 30e2ae943c26 ("drm/bridge: Introduce LT8912B DSI to HDMI bridge")
+Fixes: 23278bf54afe ("drm/bridge: Introduce LT9611 DSI to HDMI bridge")
 Suggested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 ---
- drivers/gpu/drm/bridge/lontium-lt8912b.c | 6 ++----
+ drivers/gpu/drm/bridge/lontium-lt9611.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-index 273157428c82..15aa890c3e6d 100644
---- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-@@ -496,10 +496,8 @@ static int lt8912_attach_dsi(struct lt8912 *lt)
- 						 };
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
+index 9663601ce098..89bdd938757e 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+@@ -760,10 +760,8 @@ static struct mipi_dsi_device *lt9611_attach_dsi(struct lt9611 *lt9611,
+ 	int ret;
  
- 	host = of_find_mipi_dsi_host_by_node(lt->host_node);
+ 	host = of_find_mipi_dsi_host_by_node(dsi_node);
 -	if (!host) {
--		dev_err(dev, "failed to find dsi host\n");
--		return -EPROBE_DEFER;
+-		dev_err(lt9611->dev, "failed to find dsi host\n");
+-		return ERR_PTR(-EPROBE_DEFER);
 -	}
 +	if (!host)
-+		return dev_err_probe(dev, -EPROBE_DEFER, "failed to find dsi host\n");
++		return ERR_PTR(dev_err_probe(lt9611->dev, -EPROBE_DEFER, "failed to find dsi host\n"));
  
  	dsi = devm_mipi_dsi_device_register_full(dev, host, &info);
  	if (IS_ERR(dsi)) {
