@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0EB586DD94
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 09:51:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC5C86DD97
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 09:52:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F302C10EB8B;
-	Fri,  1 Mar 2024 08:51:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B0D610EC0E;
+	Fri,  1 Mar 2024 08:51:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OrY1/HCf";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="k3FqT3Jl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 165A810EB8B;
- Fri,  1 Mar 2024 08:51:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 140A910EC0D;
+ Fri,  1 Mar 2024 08:51:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709283115; x=1740819115;
+ t=1709283117; x=1740819117;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=1B0suLzTUxXJAP4u7J4LECoOuYADc4RWRqqRf9ntyfo=;
- b=OrY1/HCf6OJsZIjDfu7LimNXRDZ9vecPqMOPFQ9VxBYBAbXOV5T2juNN
- niP4wrQKYgjf5/kWRcjAu7nUUP4xWO8fRK2Cc1S915/be/+IczPoBoKm2
- REB13iuj6M08waLq0IZNo1PirVflX5Zik0+I7M/nvQz1OCCCn4Imgs/J0
- Z7c8zMmYhnNMONj/EvtLwv+VyLHgkO+b9GW8g7NHxKHz2rpTAujyii782
- TMbQPRx1G9MwAGz7+LsBcFD7jFqa3Ou/QUdQcga9TDiwLfGOgNJQ4oi2Y
- 2ZYMoMDefpVaJ4KLScdnEDMwJ36ZYB8Vl13VRKnvd9iGzW+quJ9acYHjq Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="14516476"
-X-IronPort-AV: E=Sophos;i="6.06,195,1705392000"; d="scan'208";a="14516476"
+ bh=FQSwVbk0GjfRCtFqTiHg+5ZBLMtKEj3aCARUJiU3eq4=;
+ b=k3FqT3JlxUZl9Jo73XiWY9o6ODJ7h3m6uy5bPnp5WWem7oVoVcWePvhv
+ bV6MBN+VVmvKRaSM5UXo9WHKwFKQt7ZvqnnXfJLswmYjfGpE1SAGpVY6R
+ UVTaWkfwfmLf3mIsF/Hi6SbfuLpCNhKHBV2r8+BA88eUFjf2P6g3abPid
+ IU/V6WASJfHj4hIZ/Kgmib51Dn/DWRfi0rNn6L2GdinaE5ZWNPkv89pHL
+ sncckdSmAcgrJloFb+/EapPehxhPeG9tuJpLBM2qsoDP35wfJoYQbgnV0
+ dFDqr8scWk10GoiuV8sJYWmTVhJSYzlwrScE3nnlSA58b9RlFOQ6Gg9zz g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="14516480"
+X-IronPort-AV: E=Sophos;i="6.06,195,1705392000"; d="scan'208";a="14516480"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Mar 2024 00:51:55 -0800
+ 01 Mar 2024 00:51:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,195,1705392000"; d="scan'208";a="38986452"
+X-IronPort-AV: E=Sophos;i="6.06,195,1705392000"; d="scan'208";a="38986455"
 Received: from mgolanimitul-x299-ud4-pro.iind.intel.com ([10.190.239.114])
- by orviesa002.jf.intel.com with ESMTP; 01 Mar 2024 00:51:53 -0800
+ by orviesa002.jf.intel.com with ESMTP; 01 Mar 2024 00:51:56 -0800
 From: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
 To: intel-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org, jani.nikula@intel.com,
  ankit.k.nautiyal@intel.com,
  Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
-Subject: [PATCH v15 2/9] drm: Add Adaptive Sync SDP logging
-Date: Fri,  1 Mar 2024 14:14:56 +0530
-Message-Id: <20240301084503.2971826-3-mitulkumar.ajitkumar.golani@intel.com>
+Subject: [PATCH v15 3/9] drm: Add crtc state dump for Adaptive Sync SDP
+Date: Fri,  1 Mar 2024 14:14:57 +0530
+Message-Id: <20240301084503.2971826-4-mitulkumar.ajitkumar.golani@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240301084503.2971826-1-mitulkumar.ajitkumar.golani@intel.com>
 References: <20240301084503.2971826-1-mitulkumar.ajitkumar.golani@intel.com>
@@ -64,138 +64,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add structure representing Adaptive Sync Secondary Data Packet (AS SDP).
-Also, add Adaptive Sync SDP logging in drm_dp_helper.c to facilitate
-debugging.
-
---v2:
-- Update logging. [Jani, Ankit]
-- Use 'as_sdp' instead of 'async' [Ankit]
-- Correct define placeholders to where they are actually used. [Jani]
-- Update members in 'as_sdp' structure to make it uniform. [Jani]
-
---v3:
-- Added changes to dri-devel mailing list. No code changes.
-
---v4:
-- Instead of directly using operation mode, use an enum to accommodate
-all operation modes (Ankit).
-
---v5:
-Nit-pick changes to commit message.
-
---v6:
-- Add correct place holder and name change for AS_SDP_OP_MODE.
-- Separate i915 changes from drm changes.
-- Remove extra lines.
+Add crtc state dump for Adaptive Sync SDP to know which
+crtc specifically caused the failure.
 
 Signed-off-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
 ---
- drivers/gpu/drm/display/drm_dp_helper.c | 12 ++++++++++
- include/drm/display/drm_dp.h            | 10 +++++++++
- include/drm/display/drm_dp_helper.h     | 29 +++++++++++++++++++++++++
- 3 files changed, 51 insertions(+)
+ .../gpu/drm/i915/display/intel_crtc_state_dump.c    | 13 +++++++++++++
+ drivers/gpu/drm/i915/display/intel_display_types.h  |  1 +
+ 2 files changed, 14 insertions(+)
 
-diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-index f2fabb673aa4..f880bc7b2153 100644
---- a/drivers/gpu/drm/display/drm_dp_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -2948,6 +2948,18 @@ void drm_dp_vsc_sdp_log(struct drm_printer *p, const struct drm_dp_vsc_sdp *vsc)
+diff --git a/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c b/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
+index 4bcf446c75f4..1e4618271156 100644
+--- a/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
++++ b/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
+@@ -51,6 +51,15 @@ intel_dump_infoframe(struct drm_i915_private *i915,
+ 	hdmi_infoframe_log(KERN_DEBUG, i915->drm.dev, frame);
  }
- EXPORT_SYMBOL(drm_dp_vsc_sdp_log);
  
-+void drm_dp_as_sdp_log(struct drm_printer *p, const struct drm_dp_as_sdp *as_sdp)
++static void
++intel_dump_dp_as_sdp(struct drm_i915_private *i915,
++		     const struct drm_dp_as_sdp *as_sdp)
 +{
-+	drm_printf(p, "DP SDP: AS_SDP, revision %u, length %u\n",
-+		   as_sdp->revision, as_sdp->length);
-+	drm_printf(p, "    vtotal: %d\n", as_sdp->vtotal);
-+	drm_printf(p, "    target_rr: %d\n", as_sdp->target_rr);
-+	drm_printf(p, "    duration_incr_ms: %d\n", as_sdp->duration_incr_ms);
-+	drm_printf(p, "    duration_decr_ms: %d\n", as_sdp->duration_decr_ms);
-+	drm_printf(p, "    operation_mode: %d\n", as_sdp->mode);
++	struct drm_printer p = drm_dbg_printer(&i915->drm, DRM_UT_KMS, "AS_SDP");
++
++	drm_dp_as_sdp_log(&p, as_sdp);
 +}
-+EXPORT_SYMBOL(drm_dp_as_sdp_log);
 +
- /**
-  * drm_dp_as_sdp_supported() - check if adaptive sync sdp is supported
-  * @aux: DisplayPort AUX channel
-diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
-index 4891bd916d26..e39a22a714e2 100644
---- a/include/drm/display/drm_dp.h
-+++ b/include/drm/display/drm_dp.h
-@@ -1150,6 +1150,7 @@
- 
- #define DP_DPRX_FEATURE_ENUMERATION_LIST_CONT_1         0x2214 /* 2.0 E11 */
- # define DP_ADAPTIVE_SYNC_SDP_SUPPORTED    (1 << 0)
-+# define DP_ADAPTIVE_SYNC_SDP_OPERATION_MODE		GENMASK(1, 0)
- # define DP_AS_SDP_FIRST_HALF_LINE_OR_3840_PIXEL_CYCLE_WINDOW_NOT_SUPPORTED (1 << 1)
- # define DP_VSC_EXT_SDP_FRAMEWORK_VERSION_1_SUPPORTED  (1 << 4)
- 
-@@ -1639,10 +1640,12 @@ enum drm_dp_phy {
- #define DP_SDP_AUDIO_COPYMANAGEMENT	0x05 /* DP 1.2 */
- #define DP_SDP_ISRC			0x06 /* DP 1.2 */
- #define DP_SDP_VSC			0x07 /* DP 1.2 */
-+#define DP_SDP_ADAPTIVE_SYNC		0x22 /* DP 1.4 */
- #define DP_SDP_CAMERA_GENERIC(i)	(0x08 + (i)) /* 0-7, DP 1.3 */
- #define DP_SDP_PPS			0x10 /* DP 1.4 */
- #define DP_SDP_VSC_EXT_VESA		0x20 /* DP 1.4 */
- #define DP_SDP_VSC_EXT_CEA		0x21 /* DP 1.4 */
+ static void
+ intel_dump_dp_vsc_sdp(struct drm_i915_private *i915,
+ 		      const struct drm_dp_vsc_sdp *vsc)
+@@ -302,6 +311,10 @@ void intel_crtc_state_dump(const struct intel_crtc_state *pipe_config,
+ 	if (pipe_config->infoframes.enable &
+ 	    intel_hdmi_infoframe_enable(DP_SDP_VSC))
+ 		intel_dump_dp_vsc_sdp(i915, &pipe_config->infoframes.vsc);
++	if (pipe_config->infoframes.enable &
++	    intel_hdmi_infoframe_enable(DP_SDP_ADAPTIVE_SYNC))
++		intel_dump_dp_as_sdp(i915, &pipe_config->infoframes.as_sdp);
 +
- /* 0x80+ CEA-861 infoframe types */
  
- #define DP_SDP_AUDIO_INFOFRAME_HB2	0x1b
-@@ -1798,4 +1801,11 @@ enum dp_content_type {
- 	DP_CONTENT_TYPE_GAME = 0x04,
- };
+ 	if (pipe_config->has_audio)
+ 		intel_dump_buffer(i915, "ELD: ", pipe_config->eld,
+diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+index 860e867586f4..098957cea25b 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_types.h
++++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+@@ -1338,6 +1338,7 @@ struct intel_crtc_state {
+ 		union hdmi_infoframe hdmi;
+ 		union hdmi_infoframe drm;
+ 		struct drm_dp_vsc_sdp vsc;
++		struct drm_dp_as_sdp as_sdp;
+ 	} infoframes;
  
-+enum operation_mode {
-+	DP_AS_SDP_AVT_DYNAMIC_VTOTAL = 0x00,
-+	DP_AS_SDP_AVT_FIXED_VTOTAL = 0x01,
-+	DP_AS_SDP_FAVT_TRR_NOT_REACHED = 0x02,
-+	DP_AS_SDP_FAVT_TRR_REACHED = 0x03
-+};
-+
- #endif /* _DRM_DP_H_ */
-diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-index 7df19acdc790..10147ae96326 100644
---- a/include/drm/display/drm_dp_helper.h
-+++ b/include/drm/display/drm_dp_helper.h
-@@ -98,6 +98,35 @@ struct drm_dp_vsc_sdp {
- 	enum dp_content_type content_type;
- };
- 
-+/**
-+ * struct drm_dp_as_sdp - drm DP Adaptive Sync SDP
-+ *
-+ * This structure represents a DP AS SDP of drm
-+ * It is based on DP 2.1 spec [Table 2-126:  Adaptive-Sync SDP Header Bytes] and
-+ * [Table 2-127: Adaptive-Sync SDP Payload for DB0 through DB8]
-+ *
-+ * @sdp_type: Secondary-data packet type
-+ * @revision: Revision Number
-+ * @length: Number of valid data bytes
-+ * @vtotal: Minimum Vertical Vtotal
-+ * @target_rr: Target Refresh
-+ * @duration_incr_ms: Successive frame duration increase
-+ * @duration_decr_ms: Successive frame duration decrease
-+ * @operation_mode: Adaptive Sync Operation Mode
-+ */
-+struct drm_dp_as_sdp {
-+	unsigned char sdp_type;
-+	unsigned char revision;
-+	unsigned char length;
-+	int vtotal;
-+	int target_rr;
-+	int duration_incr_ms;
-+	int duration_decr_ms;
-+	enum operation_mode mode;
-+};
-+
-+void drm_dp_as_sdp_log(struct drm_printer *p,
-+		       const struct drm_dp_as_sdp *as_sdp);
- void drm_dp_vsc_sdp_log(struct drm_printer *p, const struct drm_dp_vsc_sdp *vsc);
- 
- bool drm_dp_vsc_sdp_supported(struct drm_dp_aux *aux, const u8 dpcd[DP_RECEIVER_CAP_SIZE]);
+ 	u8 eld[MAX_ELD_BYTES];
 -- 
 2.25.1
 
