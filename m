@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79D886DDE6
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 10:13:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CF0C86DE08
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 10:19:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03D7710EC2F;
-	Fri,  1 Mar 2024 09:13:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8406910EC3B;
+	Fri,  1 Mar 2024 09:19:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="n6vUYUWC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bqGGa5EU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 354BD10EC2D
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 09:13:38 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4B667C000D;
- Fri,  1 Mar 2024 09:13:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1709284416;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oKUC9cfoNF8xTSgffCz2iTSEH+f4q6CdFZYQZOYiENU=;
- b=n6vUYUWCwRejbttVHqHkGoksDAI0/HC1as0gYFx2cZgCLFwWjI7orlgQhnTl9BVVp+HYGE
- GKemOe1wb1Ocqrp1eZA6BPuxQmiFmpx4CEWaXjz5Oai56OA54ijVGzr7SJ5zQlG8dkbJUL
- NhJZ6QU1CnlMSI78BmNd76cK75qlJidMad7HVYHQlZGohkGz+BMfTWipwaU4rYsD+UuI0L
- N+uOVfA9DAsBttmxH1JGCf29zKdRE1G3We8z9p+ZapTRvuwkiaydN4KheoSqlmChdNouYj
- d+tPnTDKwtARF4JbsJLrM618IHlUeQzPW40UIiXpcaesqZ52g/xpA3fORFrvWw==
-Date: Fri, 1 Mar 2024 10:13:33 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Frieder Schrempf <frieder.schrempf@kontron.de>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/1] drm/bridge: ti-sn65dsi83: Fix enable error path
-Message-ID: <20240301101333.54f1fbd3@booty>
-In-Reply-To: <9480d2fa-136b-47bf-ad76-c8d6d7c9c070@kontron.de>
-References: <20230504065316.2640739-1-alexander.stein@ew.tq-group.com>
- <1885005.tdWV9SEqCh@steina-w> <20240227184144.19729521@booty>
- <3798602.kQq0lBPeGt@steina-w> <20240229104723.7aa71075@booty>
- <9480d2fa-136b-47bf-ad76-c8d6d7c9c070@kontron.de>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3181810EC3A
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 09:19:46 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 871B46164E;
+ Fri,  1 Mar 2024 09:19:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16522C433F1;
+ Fri,  1 Mar 2024 09:19:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1709284785;
+ bh=JqsVIGDlCP1wu/pwYjBj+DhvFfWoXCVCb65NYnp1sO4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bqGGa5EUE0/3CibnOgppDLmpuYqEQPjTBEImGJd7cTJvuHSrR5AHjykaMbDMUnf13
+ tsHdbyXJs8qt3WWB29PhJY3qpddr/0HewC1/GIGUutQG0PLZw8JVi4JdddjRh/6HEt
+ IECxRiDvK9A02dYiYs4GvLZxE8Adi9D6jgUby9BXd/QwGB2fl6GncOt0BDertQ5YEY
+ AhCeKKj4lIfYY6bhhtoGYRhq/d8ZtBj3gWAEjJg9WmoRog5HwVfkSfjT/noECTJjSF
+ LyFDVSxDhTjypqeHIcTGnYsUYw7BF7yuz279ydc3h8LxcixJRFPR8M6B4kVTL6IuoT
+ 9uLNTuV1jt+pg==
+Date: Fri, 1 Mar 2024 09:19:38 +0000
+From: Lee Jones <lee@kernel.org>
+To: Manikandan Muralidharan <manikandan.m@microchip.com>
+Cc: sam@ravnborg.org, bbrezillon@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
+ claudiu.beznea@tuxon.dev, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Hari.PrasathGE@microchip.com, Balamanikandan.Gunasundar@microchip.com,
+ Durai.ManickamKR@microchip.com, Nayabbasha.Sayed@microchip.com,
+ Dharma.B@microchip.com, Varshini.Rajendran@microchip.com,
+ Balakrishnan.S@microchip.com, Charan.Pedumuru@microchip.com
+Subject: Re: [PATCH v9 2/8] drm: atmel-hlcdc: Define XLCDC specific registers
+Message-ID: <20240301091938.GB1688857@google.com>
+References: <20240301052534.38651-1-manikandan.m@microchip.com>
+ <20240301052534.38651-3-manikandan.m@microchip.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240301052534.38651-3-manikandan.m@microchip.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,100 +67,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 29 Feb 2024 11:48:27 +0100
-Frieder Schrempf <frieder.schrempf@kontron.de> wrote:
+On Fri, 01 Mar 2024, Manikandan Muralidharan wrote:
 
-> On 29.02.24 10:47, Luca Ceresoli wrote:
-> > Hello Alexander,
-> > 
-> > On Wed, 28 Feb 2024 09:15:46 +0100
-> > Alexander Stein <alexander.stein@ew.tq-group.com> wrote:
-> > 
-> > 
-> > [...]
-> >   
-> >> Oh I mistook this DSI-LVDS bridge with the DSI-DP bridge on a different
-> >> board, my bad. I hope I can provide some insights. My platform is
-> >> imx8mm-tqma8mqml-mba8mx-lvds-tm070jvhg33.dtb.
-> >> I can easily cause a PLL lock failure by reducing the delay for the
-> >> enable-gpios 'gpio_delays'. This will result in a PLL lock faiure.
-> >> On my platform the vcc-supply counters do look sane:  
-> >>> /sys/kernel/debug/regulator/SN65DSI83_1V8/open_count:1
-> >>> /sys/kernel/debug/regulator/SN65DSI83_1V8/use_count:0    
-> > 
-> > Interesting. Thanks for taking time to report your initial issue!
-> >   
-> >> Once I remove the ti_sn65dsi83 module, the open_count decrements to 0 as
-> >> well. Looks sane to me.
-> >>
-> >> If I revert commit c81cd8f7c774 ("Revert "drm/bridge: ti-sn65dsi83:
-> >> Fix enable error path""), vcc-supply counters are:  
-> >>> /sys/kernel/debug/regulator/SN65DSI83_1V8/open_count:1
-> >>> /sys/kernel/debug/regulator/SN65DSI83_1V8/use_count:1    
-> >>
-> >> So in my case the use_count does not decrease! If I remove the module
-> >> ti_sn65dsi83, I get the WARN_ON (enable_count is still non-zero):  
-> >>> WARNING: CPU: 2 PID: 402 at drivers/regulator/core.c:2398 _regulator_put+0x15c/0x164    
-> >>
-> >> This is on 6.8.0-rc6-next-20240228 with the following diff applied:  
-> >> --->8---    
-> >> diff --git a/arch/arm64/boot/dts/freescale/mba8mx.dtsi b/arch/arm64/boot/dts/freescale/mba8mx.dtsi
-> >> index 427467df42bf..8461e1fd396f 100644
-> >> --- a/arch/arm64/boot/dts/freescale/mba8mx.dtsi
-> >> +++ b/arch/arm64/boot/dts/freescale/mba8mx.dtsi
-> >> @@ -285,7 +285,7 @@ &i2c3 {
-> >>         dsi_lvds_bridge: bridge@2d {
-> >>                 compatible = "ti,sn65dsi84";
-> >>                 reg = <0x2d>;
-> >> -               enable-gpios = <&gpio_delays 0 130000 0>;
-> >> +               enable-gpios = <&gpio_delays 0 0 0>;
-> >>                 vcc-supply = <&reg_sn65dsi83_1v8>;
-> >>                 status = "disabled";
-> >>  
-> >> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> >> index 4814b7b6d1fd..57a7ed13f996 100644
-> >> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> >> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> >> @@ -478,7 +478,6 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
-> >>                 dev_err(ctx->dev, "failed to lock PLL, ret=%i\n", ret);
-> >>                 /* On failure, disable PLL again and exit. */
-> >>                 regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
-> >> -               regulator_disable(ctx->vcc);
-> >>                 return;
-> >>         }  
-> >> --->8---    
-> >>
-> >> So my patch indeed did fix an actual problem. On the other hand it seems
-> >> sn65dsi83_atomic_disable is not called in my case for some reason.  
-> > 
-> > So you remove the module and atomic_disable is not called, after
-> > having called atomic_pre_enable?
-> > 
-> > I'm very possibly missing something, but this looks like a bug in the
-> > DRM bridge code at first sight.  
+> From: Durai Manickam KR <durai.manickamkr@microchip.com>
 > 
-> I'm just guessing, but could it be that this patch [1] would fix it?
+> The register address of the XLCDC IP used in SAM9X7 SoC family
+> are different from the previous HLCDC. Defining those address
+> space with valid macros.
 > 
-> It looks like nobody cared to pick this up, although there are several
-> reports for defects caused by [2] and this patch is supposed to fix them.
+> Signed-off-by: Durai Manickam KR <durai.manickamkr@microchip.com>
+> [manikandan.m@microchip.com: Remove unused macro definitions]
+> Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
+> ---
+>  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h | 42 ++++++++++++++++++++
 
-It looks like [1] (or the other patches mentioned by Michael in the same
-thread?) should be applied indeed. I'm going to test those patches
-ASAP, perhaps next week.
+>  include/linux/mfd/atmel-hlcdc.h              | 10 +++++
 
-However I'm not sure this is related to the problem being discussed
-here: the patches about pre_enable_prev_first are touching
-atomic_pre_enable and atomic_pre_disable. Here Alexander reported when
-removing the bridge atomic_disable is not called, and atomic_disable
-is not affected by pre_enable_prev_first.
+Acked-by: Lee Jones <lee@kernel.org>
 
-> [1] https://patchwork.freedesktop.org/patch/529288/
-> [2]
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=4fb912e5e19075874379cfcf074d90bd51ebf8ea
-
-Luca
+>  2 files changed, 52 insertions(+)
 
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Lee Jones [李琼斯]
