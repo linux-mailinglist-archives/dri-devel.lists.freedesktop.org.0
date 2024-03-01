@@ -2,72 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5553E86DB59
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 07:11:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01E8386DB6F
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 07:29:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6504E10E69C;
-	Fri,  1 Mar 2024 06:11:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59B3B10EB53;
+	Fri,  1 Mar 2024 06:29:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="UkjgdR+w";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="voaQ/OQU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
- [209.85.216.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A12CD10E69C
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 06:11:48 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id
- 98e67ed59e1d1-29996cc6382so1332693a91.3
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 22:11:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1709273508; x=1709878308; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Rr3q7FsdLCaRHkXKKCZsUMF6OYrj2cJelo1MSVgbjk0=;
- b=UkjgdR+w6Lt/IJB22ZVUYWH6l9EeYyt+5k+kvcvnjAOKYLRPTrjpm+r7OHXS9TWRmu
- Rs9EwP3kMKXwS5stIA9RAZ+GixeAk0Qq0vm/uqGZMllIXyXA/CPhZO5bd2YKiSJYx6xd
- zcv8FsbluKww/tmTIgRr0rC/nfa+LDMzNeRsPVN2FzKqfYMIHUISC8LvqA050GCN9vVb
- kBwITETvns9SjxNVfAIxNCHgXQSUZtzOl516hBzbYZPzaLY5kivhgzBaOLecQh0GqPK1
- 4uNGWDIS0pgmLaQki9m0eAg6l3xHxxl4TdXcVUURDpfpyqG5TZlONUVsnF8GuXR1JZPm
- 5EKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709273508; x=1709878308;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Rr3q7FsdLCaRHkXKKCZsUMF6OYrj2cJelo1MSVgbjk0=;
- b=BxrTztSiuOxx4U32VHyKHVzVzYFk4Ebmfr1jFkDuMSdzBKjFwz0suGzlWh7/fDBsDT
- QYFt+5vqh8nzsi8k9AxFzwUykwCDhnpiHiQpVkwWY89u5T7Qza0c6w1mnjJUj0fnuoec
- ScJk8GEP9VPQcz3XMn36PQoYXf7FcCYOUtuYma5Bw/eK7B95hpjRrWEFGO9tfFXvSeiv
- wQK9iPJjf4hIY7TgRViaAksVEEMr/gXdGSbspalKl3O5/C9dPyvNcQ0x6G5WkCP+sPfi
- H1LalzZh0TaSHCiLOnbFumWSUiNHh6W40TR3BA0Q3hPMO8zGhEu3TrfjgA2pP3MIY/wT
- xCKg==
-X-Gm-Message-State: AOJu0YwssXcf0O0ISQJLAqlBwtW5KdAKfpVuxSqYDLDIW2Iwpsl6ZFJ0
- b9BnTsk5XoGxXHbEXxZKMfrCDOCsyDQx1QVaIMKPi0ncrpSgDYHWCKPHAXhM/xw=
-X-Google-Smtp-Source: AGHT+IHauwRo1CPioT0EvuRk51QDIG/BoMYAzEg0M4YzOYJ0ErvD9wXy45DaO7v4Ou0TWGDQ6KMw9w==
-X-Received: by 2002:a17:90a:fa98:b0:29a:8b5a:892a with SMTP id
- cu24-20020a17090afa9800b0029a8b5a892amr760942pjb.39.1709273507844; 
- Thu, 29 Feb 2024 22:11:47 -0800 (PST)
-Received: from localhost.localdomain ([116.66.212.162])
- by smtp.gmail.com with ESMTPSA id
- n7-20020a170903110700b001dc9893b03bsm2543965plh.272.2024.02.29.22.11.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Feb 2024 22:11:47 -0800 (PST)
-From: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-To: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
- dianders@chromium.org, hsinyi@chromium.org, swboyd@chromium.org,
- airlied@gmail.com
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6B5210EB53
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 06:29:19 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi
+ [89.27.53.110])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 41EAE9CE;
+ Fri,  1 Mar 2024 07:29:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1709274543;
+ bh=aeGiOvUNWFB44kw5uf/9p/wmucL3JVEsUpe4CuPUWEA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=voaQ/OQU5xC3qLX5hG8/6UBRTL7Hcwa1D39IHDyTqxiNPAIylYE2vEdH1x+BAZl6F
+ SS6IHESFOkEucozhKW9m+gbfUt3fCbubJz0QFflZas+SZLyn5kKDhb2Z/IB9dyx9Oi
+ G/TSTeinLVtk8N/LzgNyM3F9w2nY1poo7yUwZH/s=
+Date: Fri, 1 Mar 2024 08:29:20 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ owen <qwt9588@gmail.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Vasut <marex@denx.de>, Adrien Grassein <adrien.grassein@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Bjorn Andersson <andersson@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Vinay Simha BN <simhavcs@gmail.com>,
+ Christopher Vollo <chris@renewoutreach.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org,
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Subject: [PATCH] drm/panel: boe-tv101wum-nl6: Fine tune Himax83102-j02 panel
- HFP and HBP
-Date: Fri,  1 Mar 2024 14:11:28 +0800
-Message-Id: <20240301061128.3145982-1-yangcong5@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.25.1
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v2 8/9] drm/panel: novatek-nt35950: Don't log an error
+ when DSI host can't be found
+Message-ID: <20240301062920.GK30889@pendragon.ideasonboard.com>
+References: <20240229-anx7625-defer-log-no-dsi-host-v2-0-00506941049a@collabora.com>
+ <20240229-anx7625-defer-log-no-dsi-host-v2-8-00506941049a@collabora.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240229-anx7625-defer-log-no-dsi-host-v2-8-00506941049a@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,38 +77,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current measured frame rate is 59.95Hz, which does not meet the
-requirements of touch-stylus and stylus cannot work normally. After
-adjustment, the actual measurement is 60.001Hz. Now this panel looks
-like it's only used by me on the MTK platform, so let's change this
-set of parameters.
+Hi Nicolas,
 
-Fixes: cea7008190ad ("drm/panel: Fine tune Himax83102-j02 panel HFP and HBP")
-Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
----
- drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Thank you for the patch.
 
-diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-index bc08814954f9..0ffe8f8c01de 100644
---- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-+++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-@@ -1768,11 +1768,11 @@ static const struct panel_desc starry_qfh032011_53g_desc = {
- };
- 
- static const struct drm_display_mode starry_himax83102_j02_default_mode = {
--	.clock = 162850,
-+	.clock = 162680,
- 	.hdisplay = 1200,
--	.hsync_start = 1200 + 50,
--	.hsync_end = 1200 + 50 + 20,
--	.htotal = 1200 + 50 + 20 + 50,
-+	.hsync_start = 1200 + 60,
-+	.hsync_end = 1200 + 60 + 20,
-+	.htotal = 1200 + 60 + 20 + 40,
- 	.vdisplay = 1920,
- 	.vsync_start = 1920 + 116,
- 	.vsync_end = 1920 + 116 + 8,
+On Thu, Feb 29, 2024 at 07:12:14PM -0500, Nícolas F. R. A. Prado wrote:
+> Given that failing to find a DSI host causes the driver to defer probe,
+> make use of dev_err_probe() to log the reason. This makes the defer
+> probe reason available and avoids alerting userspace about something
+> that is not necessarily an error.
+> 
+> Fixes: 623a3531e9cf ("drm/panel: Add driver for Novatek NT35950 DSI DriverIC panels")
+> Suggested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> ---
+>  drivers/gpu/drm/panel/panel-novatek-nt35950.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35950.c b/drivers/gpu/drm/panel/panel-novatek-nt35950.c
+> index 648ce9201426..028fdac293f7 100644
+> --- a/drivers/gpu/drm/panel/panel-novatek-nt35950.c
+> +++ b/drivers/gpu/drm/panel/panel-novatek-nt35950.c
+> @@ -556,10 +556,8 @@ static int nt35950_probe(struct mipi_dsi_device *dsi)
+>  		}
+>  		dsi_r_host = of_find_mipi_dsi_host_by_node(dsi_r);
+>  		of_node_put(dsi_r);
+> -		if (!dsi_r_host) {
+> -			dev_err(dev, "Cannot get secondary DSI host\n");
+> -			return -EPROBE_DEFER;
+> -		}
+> +		if (!dsi_r_host)
+> +			return dev_err_probe(dev, -EPROBE_DEFER, "Cannot get secondary DSI host\n");
+
+			return dev_err_probe(dev, -EPROBE_DEFER,
+					     "Cannot get secondary DSI host\n");
+
+With this,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+>  
+>  		nt->dsi[1] = mipi_dsi_device_register_full(dsi_r_host, info);
+>  		if (!nt->dsi[1]) {
+> 
+
 -- 
-2.25.1
+Regards,
 
+Laurent Pinchart
