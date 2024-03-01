@@ -2,57 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26F9786E7FA
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 19:10:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B231686E8CC
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 19:54:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 418D110E662;
-	Fri,  1 Mar 2024 18:10:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36F4710EB20;
+	Fri,  1 Mar 2024 18:53:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IK8N7CTx";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fgO1JQFv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C68BC10E662
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 18:10:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id DB8F761A09;
- Fri,  1 Mar 2024 18:10:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 524E8C433C7;
- Fri,  1 Mar 2024 18:10:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1709316609;
- bh=oGgDYAMEcOek5vzs12UcoMNqw0pBRI+Tp6Tw2lcrknA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IK8N7CTxXCT+ZohlOgRwslhOwKmwn14JE//RO0B49dvzoU0LIQhX04JV9TqoA6xB3
- kZH1ErLMAK+dq4z/Lne+YMOjfFwrtGAyeGR8QvXI2IyTdV7wrFEERyDKF29Lq6/xIQ
- z2Aal86VP39Ab2yob5tMqJ5CJLpBO6Nr/bhi5+oM4v2m+rdP+jy5IbmeNcDvj8HS3K
- S7C/BCRe4HE6QNg4pXYsrBGO7jlsdcqDho7ZRR65wFGKfRXi6SjxWewX+5ZiAEFCiL
- t1cUzHAxEKftKEJuTfm89UIrrIEMeMOO9zH2j//+g+54Uk4f8nRXg3lLRQVb+He3mV
- juJGoyCGAIgXw==
-Date: Fri, 1 Mar 2024 12:10:07 -0600
-From: Rob Herring <robh@kernel.org>
-To: Dharma.B@microchip.com
-Cc: krzysztof.kozlowski@linaro.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, Nicolas.Ferre@microchip.com,
- alexandre.belloni@bootlin.com, claudiu.beznea@tuxon.dev,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: display: atmel,lcdc: convert to dtschema
-Message-ID: <20240301181007.GA2481641-robh@kernel.org>
-References: <20240223-lcdc-fb-v1-1-4c64cb6277df@microchip.com>
- <796652d5-af57-4aca-87c2-10a7b0b55959@linaro.org>
- <11c545e2-45df-4587-a5c7-12b05c2f01e0@microchip.com>
- <9bf7e492-891c-4d8f-b388-3b2ebae611c1@linaro.org>
- <e5cb705f-56cc-47cc-beb5-700c9a35c8cf@microchip.com>
- <34388175-7d5b-4f6b-b264-e85b84e98677@linaro.org>
- <dc8181d9-c7c9-4817-96f1-84a1b64575d6@microchip.com>
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
+ [209.85.216.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE90110E8E3;
+ Fri,  1 Mar 2024 18:53:55 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id
+ 98e67ed59e1d1-2997a92e23bso1825123a91.3; 
+ Fri, 01 Mar 2024 10:53:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1709319234; x=1709924034; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=yIYqiiV52DrCvcmUn0qPP1S4nB6cxKqcd4qPrzkso9I=;
+ b=fgO1JQFvQkLGzAHCCwnxaVOk6ripygKZmDzIg1PMHaH5n4mnmYIyEkF/g34dwPfmRl
+ uSlqj9S4U6riYAmUgoityD/T3D7GXAaiGUKj2xyYnW66hyED1sWRvwDix7vO7+AdOKsu
+ o3HYM/i+MxQbOPz8LxUAzKazKfEEr8yR3srkW/3HhfET4zwzSL89xsO3XqTkCgL+mTDq
+ 9S/MG9uW86I9Ezk75RMYTfb/DKWrst1lwnXgkWBkS3k288Qcq7Z/fG5Mb/QeE0s1o5cv
+ n7f8PIz4RXoDs5yt1jCIZWzvvqoLOPa5sWL1gcQ9DrRh6D/0NMcBFlLE6NQMjqTIQ6R9
+ pDiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709319234; x=1709924034;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yIYqiiV52DrCvcmUn0qPP1S4nB6cxKqcd4qPrzkso9I=;
+ b=ltlBmUklo/gbkTAdrIC86ryqy2104wn9Gwt8WqGmSNM0jXGHVCMOwCk5gaX1yPfgOH
+ 649BGNUhvih2f35NzGeKjf7CI8h5FY8nwbEe+WDOQDsxHKltWKeRZV18Uz9k9DGuWgWF
+ ar2yptsCaLEUMNk9kKLFQGraMLnx8SOaEzLcnwhbXC+iLhrxK68vYlDI7vpmvt1WwAOr
+ Y2XMsb+EaSLQipbf2f2yq2P77HjC5Y/VCdjnh9UA+qmsI6zyGitUYp91MlYJQJifp4pJ
+ YufHmISPlZ9do/IU0v+juioQaDUBHzlSmaMv1HwGZfPAFayrgQGl2BRCkkQM2B9U7J66
+ zytQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCURolugdCLgcQUSQxdz0wVzsEVn8k0DFkZwBxTWs+doB1OaZx72F2ydBEABciG7pf6NYHVHbYan+rT4b/8i9Wfk3/Lrmuf/kXKduyg9Wc0u
+X-Gm-Message-State: AOJu0YwThJuzdU073ekMhkjVm/39LYJUvlCNh19xkvCwtd+8j3uL1SP/
+ lhR5KPGpZ/6vaiUGvIs/xzI0WjZ2ZlliLvSQcU6rU4Gf5Rc7G4jXfYX4Sdrq
+X-Google-Smtp-Source: AGHT+IFBLkTRqvmopJ44TtJLDd19SqEGIN2btaMvXJlxKW3m/Decir/GU7WF6Ioh8FWOIXcT9G9s9A==
+X-Received: by 2002:a17:90a:bf01:b0:29a:a1c7:fc28 with SMTP id
+ c1-20020a17090abf0100b0029aa1c7fc28mr2436127pjs.10.1709319234277; 
+ Fri, 01 Mar 2024 10:53:54 -0800 (PST)
+Received: from localhost ([2601:1c0:5000:d5c:ae1c:de46:682a:206])
+ by smtp.gmail.com with ESMTPSA id
+ sl6-20020a17090b2e0600b0029aaabcb82asm5706114pjb.10.2024.03.01.10.53.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Mar 2024 10:53:53 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Clark <robdclark@chromium.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, linux-kernel@vger.kernel.org (open list)
+Subject: [RFC] drm/msm: Add GPU memory traces
+Date: Fri,  1 Mar 2024 10:53:45 -0800
+Message-ID: <20240301185346.10412-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dc8181d9-c7c9-4817-96f1-84a1b64575d6@microchip.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,66 +86,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 29, 2024 at 06:25:56AM +0000, Dharma.B@microchip.com wrote:
-> On 28/02/24 3:53 pm, Krzysztof Kozlowski wrote:
-> > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
-> > 
-> > On 28/02/2024 11:18, Dharma.B@microchip.com wrote:
-> >> On 28/02/24 12:43 pm, Krzysztof Kozlowski wrote:
-> >>> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
-> >>>
-> >>> On 28/02/2024 07:59, Dharma.B@microchip.com wrote:
-> >>>>
-> >>>>>
-> >>>>> I don't know what's this exactly, but if embedded display then maybe
-> >>>>> could be part of this device node. If some other display, then maybe you
-> >>>>> need another schema, with compatible? But first I would check how others
-> >>>>> are doing this.
-> >>>>
-> >>>> Okay, then I think the driver also needs to be modified, currently the
-> >>>> driver parses the phandle and looks for these properties. Also the
-> >>>> corresponding dts files.
-> >>>
-> >>> Driver does not have to be modified in my proposal. You would still have
-> >>> phandle.
-> >>
-> >> If I understand correctly, I could define the dt bindings as below
-> >>
-> >>     display:
-> >>       $ref: /schemas/types.yaml#/definitions/phandle
-> >>       description: A phandle pointing to the display node.
-> >>
-> >>     panel:
-> >>       $ref: panel/panel-common.yaml#
-> >>       properties:
-> >>
-> > 
-> > So these are standard panel bindings? Then the node should live outside
-> > of lcdc. If current driver needs to poke inside panel and panel could be
-> > anything, then probably you need peripheral-props-like approach. :/
-> 
-> Thank you so much, so can I use something like this
-> 
->    display:
->      $ref: /schemas/types.yaml#/definitions/phandle
->      description: A phandle pointing to the display node.
-> 
-> patternProperties:
->    "^panel":
+From: Rob Clark <robdclark@chromium.org>
 
-Just 'panel' and not a pattern.
+Perfetto can use these traces to track global and per-process GPU memory
+usage.
 
-However, that's not what the original binding had. It was a separate 
-node. If you want to preserve that, then you'll need a separate 
-schema file and a special 'select'. Something like:
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+I realized the tracepoint that perfetto uses to show GPU memory usage
+globally and per-process was already upstream, but with no users.
 
-select:
-  anyOf:
-    - required: [ atmel,dmacon ]
-    - required: [ atmel,lcdcon2 ]
-    - required: [ atmel,guard-time ]
+This overlaps a bit with fdinfo, but ftrace is a lighter weight
+mechanism and fits better with perfetto (plus is already supported in
+trace_processor and perfetto UI, whereas something fdinfo based would
+require new code to be added in perfetto.
 
-Up to you and at91 maintainers if you want to have to update your dts 
-files or not.
+We could probably do this more globally (ie. drm_gem_get/put_pages() and
+drm_gem_handle_create_tail()/drm_gem_object_release_handle() if folks
+prefer.  Not sure where that leaves the TTM drivers.
 
-Rob
+ drivers/gpu/drm/msm/Kconfig   |  1 +
+ drivers/gpu/drm/msm/msm_drv.h |  5 +++++
+ drivers/gpu/drm/msm/msm_gem.c | 37 +++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/msm/msm_gpu.h |  8 ++++++++
+ 4 files changed, 51 insertions(+)
+
+diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
+index f202f26adab2..e4c912fcaf22 100644
+--- a/drivers/gpu/drm/msm/Kconfig
++++ b/drivers/gpu/drm/msm/Kconfig
+@@ -33,6 +33,7 @@ config DRM_MSM
+ 	select PM_OPP
+ 	select NVMEM
+ 	select PM_GENERIC_DOMAINS
++	select TRACE_GPU_MEM
+ 	help
+ 	  DRM/KMS driver for MSM/snapdragon.
+ 
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index 16a7cbc0b7dd..cb8f7e804b5b 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -137,6 +137,11 @@ struct msm_drm_private {
+ 	struct msm_rd_state *hangrd;   /* debugfs to dump hanging submits */
+ 	struct msm_perf_state *perf;
+ 
++	/**
++	 * total_mem: Total/global amount of memory backing GEM objects.
++	 */
++	atomic64_t total_mem;
++
+ 	/**
+ 	 * List of all GEM objects (mainly for debugfs, protected by obj_lock
+ 	 * (acquire before per GEM object lock)
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index 175ee4ab8a6f..e04c4af5d154 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -12,6 +12,9 @@
+ #include <linux/pfn_t.h>
+ 
+ #include <drm/drm_prime.h>
++#include <drm/drm_file.h>
++
++#include <trace/events/gpu_mem.h>
+ 
+ #include "msm_drv.h"
+ #include "msm_fence.h"
+@@ -33,6 +36,34 @@ static bool use_pages(struct drm_gem_object *obj)
+ 	return !msm_obj->vram_node;
+ }
+ 
++static void update_device_mem(struct msm_drm_private *priv, ssize_t size)
++{
++	uint64_t total_mem = atomic64_add_return(size, &priv->total_mem);
++	trace_gpu_mem_total(0, 0, total_mem);
++}
++
++static void update_ctx_mem(struct drm_file *file, ssize_t size)
++{
++	struct msm_file_private *ctx = file->driver_priv;
++	uint64_t ctx_mem = atomic64_add_return(size, &ctx->ctx_mem);
++
++	rcu_read_lock(); /* Locks file->pid! */
++	trace_gpu_mem_total(0, pid_nr(file->pid), ctx_mem);
++	rcu_read_unlock();
++
++}
++
++static int msm_gem_open(struct drm_gem_object *obj, struct drm_file *file)
++{
++	update_ctx_mem(file, obj->size);
++	return 0;
++}
++
++static void msm_gem_close(struct drm_gem_object *obj, struct drm_file *file)
++{
++	update_ctx_mem(file, -obj->size);
++}
++
+ /*
+  * Cache sync.. this is a bit over-complicated, to fit dma-mapping
+  * API.  Really GPU cache is out of scope here (handled on cmdstream)
+@@ -156,6 +187,8 @@ static struct page **get_pages(struct drm_gem_object *obj)
+ 			return p;
+ 		}
+ 
++		update_device_mem(dev->dev_private, obj->size);
++
+ 		msm_obj->pages = p;
+ 
+ 		msm_obj->sgt = drm_prime_pages_to_sg(obj->dev, p, npages);
+@@ -209,6 +242,8 @@ static void put_pages(struct drm_gem_object *obj)
+ 			msm_obj->sgt = NULL;
+ 		}
+ 
++		update_device_mem(obj->dev->dev_private, -obj->size);
++
+ 		if (use_pages(obj))
+ 			drm_gem_put_pages(obj, msm_obj->pages, true, false);
+ 		else
+@@ -1118,6 +1153,8 @@ static const struct vm_operations_struct vm_ops = {
+ 
+ static const struct drm_gem_object_funcs msm_gem_object_funcs = {
+ 	.free = msm_gem_free_object,
++	.open = msm_gem_open,
++	.close = msm_gem_close,
+ 	.pin = msm_gem_prime_pin,
+ 	.unpin = msm_gem_prime_unpin,
+ 	.get_sg_table = msm_gem_prime_get_sg_table,
+diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+index 2bfcb222e353..f7d2a7d6f8cc 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.h
++++ b/drivers/gpu/drm/msm/msm_gpu.h
+@@ -428,6 +428,14 @@ struct msm_file_private {
+ 	 * level.
+ 	 */
+ 	struct drm_sched_entity *entities[NR_SCHED_PRIORITIES * MSM_GPU_MAX_RINGS];
++
++	/**
++	 * ctx_mem:
++	 *
++	 * Total amount of memory of GEM buffers with handles attached for
++	 * this context.
++	 */
++	atomic64_t ctx_mem;
+ };
+ 
+ /**
+-- 
+2.44.0
+
