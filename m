@@ -2,58 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F01A86DEB2
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 10:57:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FF0586DEDA
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 11:05:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B10110E7F2;
-	Fri,  1 Mar 2024 09:57:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8652F10E1CA;
+	Fri,  1 Mar 2024 10:05:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="AVflkdlw";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="eiHgy1Us";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 637A710EA73
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 09:57:40 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1A0B10E1CA
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 10:05:22 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-50e4e36c09cso630437e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Mar 2024 02:05:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1709287060; x=1740823060;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=oJsbiTOu8KC7onsbdZnapM/BlmrJ2CkY8/Tzku2b0N0=;
- b=AVflkdlwlpLhJ+6pNWzjZgQcjTm3xH9JtxmgMQzDHo/LRlY2aCtgU1NV
- 93ieXGI44YAj7vRY4sV/xb142W/3R+fjnCpR1cfT/1dhofqdaRY6T6RVV
- 3dzpBvCDFjenOXh3nBTJC9NjRD1gA/26dnvTga2711V4bk136fFHrVgAN
- e2LxqzBu1TfLhqBsZ6SIBhojYLHo7blQzLSm8JAoDma6v+LgCaUar7zv6
- x/NsLb1mj4KXxUIAeq6TcUZeyuoFUd/qLssVMumUR3tleKvn/qYLU+Q2s
- qn/PQomtRlGNUKvwIrkxL8EVjI0JMJ4NrMIDUJ3/U6F/Y766IbYgKsP7P g==;
-X-IronPort-AV: E=Sophos;i="6.06,195,1705359600"; d="scan'208";a="35685519"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 01 Mar 2024 10:57:37 +0100
-Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.25])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 4044B280071;
- Fri,  1 Mar 2024 10:57:37 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/1] drm/bridge: ti-sn65dsi83: Fix enable error path
-Date: Fri, 01 Mar 2024 10:57:37 +0100
-Message-ID: <15244220.uLZWGnKmhe@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20240301104449.242cc352@booty>
-References: <20230504065316.2640739-1-alexander.stein@ew.tq-group.com>
- <1931621.taCxCBeP46@steina-w> <20240301104449.242cc352@booty>
+ d=ffwll.ch; s=google; t=1709287520; x=1709892320; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=wQGNsd9pf3Q0pJgkYTHLsj6DvJ2Trk9t60cOcnToq+A=;
+ b=eiHgy1UssSioTv3p6eloSXFZI63u3/oio+TYT3rvvc2XW5WFPbp8ycPTTukVVVH63A
+ V3gA17W4chnKjY0Jtpbqwb79dstKBpIj3nsiicTn+fHSXfboLaFzm1Kyz7qd5s+IaFFa
+ D8GDObJ9nNK3Zl6toUT0Q1sbcF/lyew6xT4Lo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709287520; x=1709892320;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wQGNsd9pf3Q0pJgkYTHLsj6DvJ2Trk9t60cOcnToq+A=;
+ b=gkB6mx6S8hBww01FD+ZLXaTlA5loze34kjv1EuQUMdenyNefOSoovtH5lMZb6zl45P
+ 4SZ5dygbZW8OhfBbHFKgNjBB7nfRo64lz307USQmZATEsrKxcbU/4ZY2mRWRKNGDePmW
+ /Tjfb0kBzCuKSEtG4rCXSI8QVZFjJhD+VtuAaZ2sC85yzzNOulqrm4rJEUQXO0pt+hNU
+ 9B1h81CwouQOaGXWy8pCF+CgVBhj80XvdLFKW76fdRFtvth8w9PzxUfT2nplFHQBgxru
+ vInG6jJ6LeIvaViL28hXw8y+JyFnbzsWcluFfWrYj4Idde8YzceidrEQa2YOHnU7tYt5
+ bElg==
+X-Gm-Message-State: AOJu0Yxh0Y3bAwy3/zUGQNx8lzvgWJ2ofggJ0T7kD8PUTzBOCg2+2T2H
+ CwMxy01E2XU15yuFVxH5lBND6a+VK8gS3zU959EUuIRpc2QWtVzzGTOgrT5GygXTsPRWycs22v6
+ G
+X-Google-Smtp-Source: AGHT+IGrJCEmEmHGxfNfvl9FgRwQCRJTk01GBtqjkFgg71Me8R+hir23GDTbTBt3mKAYS3Sep2uEjg==
+X-Received: by 2002:a05:6512:514:b0:513:22d5:3ab5 with SMTP id
+ o20-20020a056512051400b0051322d53ab5mr654363lfb.5.1709287520336; 
+ Fri, 01 Mar 2024 02:05:20 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ h12-20020adf9ccc000000b0033e03a6b1ecsm4144127wre.18.2024.03.01.02.05.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Mar 2024 02:05:19 -0800 (PST)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Jocelyn Falempe <jfalempe@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+ Lukas Wunner <lukas@wunner.de>, Petr Mladek <pmladek@suse.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ John Ogness <john.ogness@linutronix.de>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [RFC] drm/panic: Add drm panic locking
+Date: Fri,  1 Mar 2024 11:05:16 +0100
+Message-ID: <20240301100516.2516297-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,133 +86,237 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Luca,
+From: Jocelyn Falempe <jfalempe@redhat.com>
 
-Am Freitag, 1. M=E4rz 2024, 10:44:49 CET schrieb Luca Ceresoli:
-> Hello Alexander,
->=20
-> On Thu, 29 Feb 2024 12:11:23 +0100
-> Alexander Stein <alexander.stein@ew.tq-group.com> wrote:
->=20
-> > Hi Luca,
-> >=20
-> > Am Donnerstag, 29. Februar 2024, 10:47:23 CET schrieb Luca Ceresoli:
-> > > Hello Alexander,
-> > >=20
-> > > On Wed, 28 Feb 2024 09:15:46 +0100
-> > > Alexander Stein <alexander.stein@ew.tq-group.com> wrote:
-> > >=20
-> > >=20
-> > > [...]
-> > >  =20
-> > > > Oh I mistook this DSI-LVDS bridge with the DSI-DP bridge on a diffe=
-rent
-> > > > board, my bad. I hope I can provide some insights. My platform is
-> > > > imx8mm-tqma8mqml-mba8mx-lvds-tm070jvhg33.dtb.
-> > > > I can easily cause a PLL lock failure by reducing the delay for the
-> > > > enable-gpios 'gpio_delays'. This will result in a PLL lock faiure.
-> > > > On my platform the vcc-supply counters do look sane: =20
-> > > > > /sys/kernel/debug/regulator/SN65DSI83_1V8/open_count:1
-> > > > > /sys/kernel/debug/regulator/SN65DSI83_1V8/use_count:0   =20
-> > >=20
-> > > Interesting. Thanks for taking time to report your initial issue!
-> > >  =20
-> > > > Once I remove the ti_sn65dsi83 module, the open_count decrements to=
- 0 as
-> > > > well. Looks sane to me.
-> > > >=20
-> > > > If I revert commit c81cd8f7c774 ("Revert "drm/bridge: ti-sn65dsi83:
-> > > > Fix enable error path""), vcc-supply counters are: =20
-> > > > > /sys/kernel/debug/regulator/SN65DSI83_1V8/open_count:1
-> > > > > /sys/kernel/debug/regulator/SN65DSI83_1V8/use_count:1   =20
-> > > >=20
-> > > > So in my case the use_count does not decrease! If I remove the modu=
-le
-> > > > ti_sn65dsi83, I get the WARN_ON (enable_count is still non-zero): =
-=20
-> > > > > WARNING: CPU: 2 PID: 402 at drivers/regulator/core.c:2398 _regula=
-tor_put+0x15c/0x164   =20
-> > > >=20
-> > > > This is on 6.8.0-rc6-next-20240228 with the following diff applied:=
- =20
-> > > > --->8---   =20
-> > > > diff --git a/arch/arm64/boot/dts/freescale/mba8mx.dtsi b/arch/arm64=
-/boot/dts/freescale/mba8mx.dtsi
-> > > > index 427467df42bf..8461e1fd396f 100644
-> > > > --- a/arch/arm64/boot/dts/freescale/mba8mx.dtsi
-> > > > +++ b/arch/arm64/boot/dts/freescale/mba8mx.dtsi
-> > > > @@ -285,7 +285,7 @@ &i2c3 {
-> > > >         dsi_lvds_bridge: bridge@2d {
-> > > >                 compatible =3D "ti,sn65dsi84";
-> > > >                 reg =3D <0x2d>;
-> > > > -               enable-gpios =3D <&gpio_delays 0 130000 0>;
-> > > > +               enable-gpios =3D <&gpio_delays 0 0 0>;
-> > > >                 vcc-supply =3D <&reg_sn65dsi83_1v8>;
-> > > >                 status =3D "disabled";
-> > > > =20
-> > > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/dr=
-m/bridge/ti-sn65dsi83.c
-> > > > index 4814b7b6d1fd..57a7ed13f996 100644
-> > > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> > > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> > > > @@ -478,7 +478,6 @@ static void sn65dsi83_atomic_pre_enable(struct =
-drm_bridge *bridge,
-> > > >                 dev_err(ctx->dev, "failed to lock PLL, ret=3D%i\n",=
- ret);
-> > > >                 /* On failure, disable PLL again and exit. */
-> > > >                 regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
-> > > > -               regulator_disable(ctx->vcc);
-> > > >                 return;
-> > > >         } =20
-> > > > --->8---   =20
-> > > >=20
-> > > > So my patch indeed did fix an actual problem. On the other hand it =
-seems
-> > > > sn65dsi83_atomic_disable is not called in my case for some reason. =
-=20
-> > >=20
-> > > So you remove the module and atomic_disable is not called, after
-> > > having called atomic_pre_enable? =20
-> >=20
-> > Yes, that's the case.
->=20
-> Ah, it's quite obvious looking at the code: removing the module will
-> call sn65dsi83_remove()
-> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/bridge/ti-=
-sn65dsi83.c#L729
->=20
-> which does just call drm_bridge_remove()
-> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_bridge=
-=2Ec#L243
->=20
-> which just removes the bridge from the list.
->=20
-> So maybe sn65dsi83_remove() should call regulator_disable() as a last
-> resort, but I'm not sure this is the correct solution and it would
-> involve some housekeeping to not disable the regulator more times than
-> it has been enabled.
+Rough sketch for the locking of drm panic printing code. The upshot of
+this approach is that we can pretty much entirely rely on the atomic
+commit flow, with the pair of raw_spin_lock/unlock providing any
+barriers we need, without having to create really big critical
+sections in code.
 
-Actually I think removing the module should be prohibited while the bridge
-is enabled in the first place.
+This also avoids the need that drivers must explicitly update the
+panic handler state, which they might forget to do, or not do
+consistently, and then we blow up in the worst possible times.
 
-> What is the use case you have for removing the driver module?
+It is somewhat racy against a concurrent atomic update, and we might
+write into a buffer which the hardware will never display. But there's
+fundamentally no way to avoid that - if we do the panic state update
+explicitly after writing to the hardware, we might instead write to an
+old buffer that the user will barely ever see.
 
-I was dealing the PLL lock failure myself, caused by some external delays.
-=46or easy testing I was loading/unloading the module.
+Note that an rcu protected deference of plane->state would give us the
+the same guarantees, but it has the downside that we then need to
+protect the plane state freeing functions with call_rcu too. Which
+would very widely impact a lot of code and therefore doesn't seem
+worth the it compared to a raw spinlock with very tiny critical
+sections. Plus rcu cannot be used to protect access to peek/poke registers
+anyway, so we'd still need it for those cases.
 
-> I'm not implying removing the modules is wrong, but it definitely looks
-> like not supported / not working. I'm just trying to understand the big
-> picture.
+Peek/poke registers for vram access (or a gart pte reserved just for
+panic code) are also the reason I've gone with a per-device and not
+per-plane spinlock, since usually these things are global for the
+entire display. Going with per-plane locks would mean drivers for such
+hardware would need additional locks, which we don't want, since it
+deviates from the per-console takeoverlocks design.
 
-Unloading should be possible, but not if the bridge is currently enabled.
-Thanks for looking into this.
+Longer term it might be useful if the panic notifiers grow a bit more
+structure than just the absolute bare
+EXPORT_SYMBOL(panic_notifier_list) - somewhat aside, why is that not
+EXPORT_SYMBOL_GPL ... If panic notifiers would be more like console
+drivers with proper register/unregister interfaces we could perhaps
+reuse the very fancy console lock with all it's check and takeover
+semantics that John Ogness is developing to fix the console_lock mess.
+But for the initial cut of a drm panic printing support I don't think
+we need that, because the critical sections are extremely small and
+only happen once per display refresh. So generally just 60 tiny locked
+sections per second, which is nothing compared to a serial console
+running a 115kbaud doing really slow mmio writes for each byte. So for
+now the raw spintrylock in drm panic notifier callback should be good
+enough.
 
-Best regards,
-Alexander
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
+Another benefit of making panic notifiers more like full blown
+consoles (that are used in panics only) would be that we get the two
+stage design, where first all the safe outputs are used. And then the
+dangerous takeover tricks are deployed (where for display drivers we
+also might try to intercept any in-flight display buffer flips, which
+if we race and misprogram fifos and watermarks can hang the memory
+controller on some hw).
 
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+Cc: Lukas Wunner <lukas@wunner.de>
+Cc: Petr Mladek <pmladek@suse.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: John Ogness <john.ogness@linutronix.de>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+---
+ drivers/gpu/drm/drm_atomic_helper.c |  3 +
+ include/drm/drm_mode_config.h       | 10 +++
+ include/drm/drm_panic.h             | 99 +++++++++++++++++++++++++++++
+ 3 files changed, 112 insertions(+)
+ create mode 100644 include/drm/drm_panic.h
+
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index 40c2bd3e62e8..5a908c186037 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -38,6 +38,7 @@
+ #include <drm/drm_drv.h>
+ #include <drm/drm_framebuffer.h>
+ #include <drm/drm_gem_atomic_helper.h>
++#include <drm/drm_panic.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_self_refresh_helper.h>
+ #include <drm/drm_vblank.h>
+@@ -3086,6 +3087,7 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
+ 		}
+ 	}
+ 
++	drm_panic_lock(state->dev);
+ 	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane_state, i) {
+ 		WARN_ON(plane->state != old_plane_state);
+ 
+@@ -3095,6 +3097,7 @@ int drm_atomic_helper_swap_state(struct drm_atomic_state *state,
+ 		state->planes[i].state = old_plane_state;
+ 		plane->state = new_plane_state;
+ 	}
++	drm_panic_unlock(state->dev);
+ 
+ 	for_each_oldnew_private_obj_in_state(state, obj, old_obj_state, new_obj_state, i) {
+ 		WARN_ON(obj->state != old_obj_state);
+diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+index 973119a9176b..92a390379e85 100644
+--- a/include/drm/drm_mode_config.h
++++ b/include/drm/drm_mode_config.h
+@@ -505,6 +505,16 @@ struct drm_mode_config {
+ 	 */
+ 	struct list_head plane_list;
+ 
++	/**
++	 * @panic_lock:
++	 *
++	 * Raw spinlock used to protect critical sections of code that access
++	 * the display hardware or modeset software, which the panic printing
++	 * code must be protected against. See drm_panic_trylock(),
++	 * drm_panic_lock() and drm_panic_unlock().
++	 */
++	struct raw_spinlock panic_lock;
++
+ 	/**
+ 	 * @num_crtc:
+ 	 *
+diff --git a/include/drm/drm_panic.h b/include/drm/drm_panic.h
+new file mode 100644
+index 000000000000..caa12f60beae
+--- /dev/null
++++ b/include/drm/drm_panic.h
+@@ -0,0 +1,99 @@
++/* SPDX-License-Identifier: GPL-2.0 or MIT */
++#ifndef __DRM_PANIC_H__
++#define __DRM_PANIC_H__
++
++#include <drm/drm_device.h>
++/*
++ * Copyright (c) 2024 Intel
++ */
++
++/**
++ * drm_panic_trylock - try to enter the panic printing critical section
++ * @dev: struct drm_device
++ *
++ * This function must be called by any panic printing code. The panic printing
++ * attempt must be aborted if the trylock fails.
++ *
++ * Panic printing code can make the following assumptions while holding the
++ * panic lock:
++ *
++ * - Anything protected by drm_panic_lock() and drm_panic_unlock() pairs is safe
++ *   to access.
++ *
++ * - Furthermore the panic printing code only registers in drm_dev_unregister()
++ *   and gets removed in drm_dev_unregister(). This allows the panic code to
++ *   safely access any state which is invariant in between these two function
++ *   calls, like the list of planes drm_mode_config.plane_list or most of the
++ *   struct drm_plane structure.
++ *
++ * Specifically thanks to the protection around plane updates in
++ * drm_atomic_helper_swap_state() the following additional guarantees hold:
++ *
++ * - It is safe to deference the drm_plane.state pointer.
++ *
++ * - Anything in struct drm_plane_state or the driver's subclass thereof which
++ *   stays invariant after the atomic check code has finished is safe to access.
++ *   Specifically this includes the reference counted pointers to framebuffer
++ *   and buffer objects.
++ *
++ * - Anything set up by drm_plane_helper_funcs.fb_prepare and cleaned up
++ *   drm_plane_helper_funcs.fb_cleanup is safe to access, as long as it stays
++ *   invariant between these two calls. This also means that for drivers using
++ *   dynamic buffer management the framebuffer is pinned, and therefer all
++ *   relevant datastructures can be accessed without taking any further locks
++ *   (which would be impossible in panic context anyway).
++ *
++ * - Importantly, software and hardware state set up by
++ *   drm_plane_helper_funcs.begin_fb_access and
++ *   drm_plane_helper_funcs.end_fb_access is not safe to access.
++ *
++ * Drivers must not make any assumptions about the actual state of the hardware,
++ * unless they explicitly protected these hardware access with drm_panic_lock()
++ * and drm_panic_unlock().
++ *
++ * Returns:
++ *
++ * 0 when failing to acquire the raw spinlock, nonzero on success.:w
++ */
++static inline int drm_panic_trylock(struct drm_device *dev)
++{
++	return raw_spin_trylock(&dev->mode_config.panic_lock);
++}
++
++/**
++ * drm_panic_lock - protect panic printing relevant state
++ * @dev: struct drm_device
++ *
++ * This function must be called to protect software and hardware state that the
++ * panic printing code must be able to rely on. The protected sections must be
++ * as small as possible. Examples include:
++ *
++ * - Access to peek/poke or other similar registers, if that is the way the
++ *   driver prints the pixels into the scanout buffer at panic time.
++ *
++ * - Updates to pointers like drm_plane.state, allowing the panic handler to
++ *   safely deference these. This is done in drm_atomic_helper_swap_state().
++ *
++ * - An state that isn't invariant and that the driver must be able to access
++ *   during panic printing.
++ *
++ * Call drm_panic_unlock() to unlock the locked spinlock.
++ */
++static inline void drm_panic_lock(struct drm_device *dev)
++{
++	return raw_spin_lock(&dev->mode_config.panic_lock);
++}
++
++/**
++ * drm_panic_unlock - end of the panic printing critical section
++ * @dev: struct drm_device
++ *
++ * Unlocks the raw spinlock acquired by either drm_panic_lock() or
++ * drm_panic_trylock().
++ */
++static inline void drm_panic_unlock(struct drm_device *dev)
++{
++	raw_spin_unlock(&dev->mode_config.panic_lock);
++}
++
++#endif /* __DRM_PANIC_H__ */
+-- 
+2.43.0
 
