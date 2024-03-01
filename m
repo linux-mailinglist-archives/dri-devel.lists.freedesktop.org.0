@@ -2,91 +2,136 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03C3086DD18
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 09:29:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4890886DD2F
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 09:36:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F17E10EBF2;
-	Fri,  1 Mar 2024 08:29:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D348410EC06;
+	Fri,  1 Mar 2024 08:36:44 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=wolfvision.net header.i=@wolfvision.net header.b="jYXSeCCM";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3EA010EBF2
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 08:29:35 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 72B56CE0917;
- Fri,  1 Mar 2024 08:29:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 468B9C433C7;
- Fri,  1 Mar 2024 08:29:19 +0000 (UTC)
-Message-ID: <5a8366aa-34b9-4f80-9b14-d92e99873349@xs4all.nl>
-Date: Fri, 1 Mar 2024 09:29:17 +0100
-MIME-Version: 1.0
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur04on2093.outbound.protection.outlook.com [40.107.8.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DE1710EC06
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 08:36:43 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Wp9X+CXl7mCHzpXH37dkqVvrX/nMg4bcMXhyA1JLa8lI6sSS8vWwPym2sTuwolPKYpMHAiLnTWMKWzvvWYJHjOz9czomrAtU7DZ0R17poYQkRJ5El3uf29JZWB2WAVXDUfVfe99C4Oyxl3i9XmwVuchAA7Z3G7GtAisKpd9ubvbyVFZBM3guj/dyis8RFMB0MligyymJzGiH1DgRE+9n4BE4rX3ordh6+q8TUkXmLe91MwSrzk3qYdEJrfNkdy8250j/xt9E6BkvUzJUL1QPvLLFMFS6EakMnqYG/AaiS43FUWfC+Y96XCaWEHL9EVLrLfasxZgwAWWzll5W/UUY+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AeELHccgS+d2UEnIjXMBfHR14N8yFGOSX9u7CpJvMrI=;
+ b=igw8VLuTMITqbYpvuJh5ibE6wHdu4WASPyWGIQKybpZSfk3qXl9/pE7EYlNsGhnlTxYqw8cW+zuwL/S2YFKSyK164vHkmZn5NczW3cVZw6VhKzX4eHXbPwB4JaWNQxBbh9dAAuYHMV+Np9OghIJ8pXJT6BriXsCu8HXvS6qLStuLzBlaKvkznKypLfc1jsf9pGo4N9+v2ERnKi2eT5SLLdqItY2AwmHmL7d/2XumsD1REN1QcEn/2Hfs5cnmVWNPQ1q3fZa+wUNobVcITcz5Smt3r9GGCXV6ACSgEANExgTj8xIsM10ouoCjlXkEAtn0RQKWscQukjhDis9TgEIAEQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AeELHccgS+d2UEnIjXMBfHR14N8yFGOSX9u7CpJvMrI=;
+ b=jYXSeCCMRWeM+cZV8DoOPvp9RqkzdnN4+eklZGXS6/86KDPvoMHtAghl6yuH6RXMc5vR33VF4BdubhpDyZ2jDnGA/vxBkumiHC3gWyO3SXO6AloHaxOr4L/lGHl6Q6EZEVJ9x2DjAFl4ayp5krqjfj+hSDxqexvZqeo6dxtgvTo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wolfvision.net;
+Received: from VE1PR08MB4974.eurprd08.prod.outlook.com (2603:10a6:803:111::15)
+ by AS8PR08MB6344.eurprd08.prod.outlook.com (2603:10a6:20b:319::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.41; Fri, 1 Mar
+ 2024 08:36:40 +0000
+Received: from VE1PR08MB4974.eurprd08.prod.outlook.com
+ ([fe80::9e35:6de9:e4fc:843f]) by VE1PR08MB4974.eurprd08.prod.outlook.com
+ ([fe80::9e35:6de9:e4fc:843f%6]) with mapi id 15.20.7316.035; Fri, 1 Mar 2024
+ 08:36:39 +0000
+Message-ID: <80e5800e-366d-4f29-80a5-8445ab692e5e@wolfvision.net>
+Date: Fri, 1 Mar 2024 09:36:37 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 21/36] drm/connector: hdmi: Add Broadcast RGB property
-Content-Language: en-US, nl
-To: Sebastian Wick <sebastian.wick@redhat.com>,
- Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Dave Stevenson <dave.stevenson@raspberrypi.com>
-References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
- <20240222-kms-hdmi-connector-state-v7-21-8f4af575fce2@kernel.org>
- <20240229194726.GB166694@toolbox>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20240229194726.GB166694@toolbox>
+Subject: Re: [PATCH v6 7/9] usb: misc: onboard_dev: add support for non-hub
+ devices
+To: Matthias Kaehlcke <mka@chromium.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Helen Koike <helen.koike@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Russell King <linux@armlinux.org.uk>, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20240229-onboard_xvf3500-v6-0-a0aff2947040@wolfvision.net>
+ <20240229-onboard_xvf3500-v6-7-a0aff2947040@wolfvision.net>
+ <ZeDgfIojODIbhs6N@google.com>
+Content-Language: en-US
+From: Javier Carrasco <javier.carrasco@wolfvision.net>
+In-Reply-To: <ZeDgfIojODIbhs6N@google.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0137.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:95::11) To VE1PR08MB4974.eurprd08.prod.outlook.com
+ (2603:10a6:803:111::15)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VE1PR08MB4974:EE_|AS8PR08MB6344:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9b779804-9090-42a6-b520-08dc39cab6d9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: XfYXka8SBp/49XZNVQJQxd/+xy6Dr2+UAv5iKaHDZFdUJ5RFI45eZlI3V/msc9W9qRQtucGX2fOiyGyeirUFJY14CDedE9DuTkaW+qOqJTt5+GKUJn+vEEt73Uap18fwgy72p82xYgMp2TmC4FfRsvxZqftObzKFthLi9PNlG0BPWrML3hrq4into/kC7OAY/6Zf8zBI4DZZ7uuojZhraye5DjJhyAYZyOQ8j72Xrm671X8s5QsllpyRoqpx4oD5WisCDlcK0Mn5x65UB51MWt7tW17JWeGEfViT/i0nDJPX/EcXdu6xeifDXE7Kwysb506BB2ZfsoWOcFohBBfyplU+Agwb7nzLTtKgFc7lDYffTYBPnzSgbnRaSOsKRO1rk5mJgjEgFVExz6Jsu0uLZZEIstTEPQkoAPH84C9l4UTmbfDxP+cfHtX3MYhoyqGRRljtZef6FjPTmNnw7LhK0UZ1Sj18sasD02QMWXuASiH7koW08w8Z+yMSyYPodAY7uHLgvSfuI/ZGDCnV4MVR9lrtfxmuZBznxFI2Uh377NDS0fQW4ONaHjZXcZGyjY1Ul++uSqR9M/VhlpWX2ogCAX5DUXJmxfAzC0lowoSVrgG5dxgYtNQoVJ4c/tpy8XhIlxsZM3oT4Cjr+kvIYqK6IQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VE1PR08MB4974.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031); DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K3ZwbE1qZHUxVGdET2xBaEdZaXBGZ25kcHdNMjUwSzZWdjcwcGs5YU80aVhh?=
+ =?utf-8?B?c0p1N1dZd1hGcXNDOVE1OFZPR0ZtTUdTM0VHenVXSmlGK1c2cjE0S29pSk82?=
+ =?utf-8?B?cmcvWTNBSzZzbFlnMXVEcDRXVC9OY0ZqMWZvYkp0MXgvK2J6dWtZYXQyUVA5?=
+ =?utf-8?B?ZUhIMDhaUEh4emU2ZDhKZWo1QmZSNkpGT1dEQUV6N3hiL3hRU29RUjI2aTY3?=
+ =?utf-8?B?MTFyQWFqOGFpOGorWE9udjcvVm0yR3BDQUtOaG96Tk5Vd3NGWGxNVGlMeWRX?=
+ =?utf-8?B?R1pDb0FDUVc5TDdYdi80bjVqaXpvN2lPd2hKQUk4VlgzcGRHVy9oeld6ZDV0?=
+ =?utf-8?B?YmcvRHFTbXk2YStiRVY4dHNVaGJWZkxJWldVd1pxSmdER3JOMDBPNyttWGFW?=
+ =?utf-8?B?T0tPWFFiVDR0ZnErTGQ3ekFONTVoVTA2L2EvNkxkVmV2SWVFOGpHNklzN3NB?=
+ =?utf-8?B?dFBocVZ4S1BPRElYY2pFTkRSeDR2SExnZWxaRmF6U2s2ckVxYWJQUmJia2tz?=
+ =?utf-8?B?akRRSTNENjY1by9DdEswbFYwaUQ5SUpOc1pzVnZ0N0NIaHdKamNyZk9vQXVk?=
+ =?utf-8?B?MmpQTFJJd0ZLSUdqaUF2RUU1VDNTbk1RbjRtekNGQVNzTW5PQld5UEN6cVk2?=
+ =?utf-8?B?TjRXcEZ2cTJ5cW81UHN2cFFLVWttZ3NCR1ZNV05BSUZsbjVmWVFwZnYyd3pK?=
+ =?utf-8?B?N0NucWVaeXhIN1lxV2o3RUd2REY4aTJlNDNnM0V2ZGJ3QVNFTGIrRGtjYXoy?=
+ =?utf-8?B?bTBuZ0Y0YzdQSG5rQ2NxazRGWkJnRXk2dmVlSTJoNWN4Y3ZKakhLckdvYjNB?=
+ =?utf-8?B?cHRjZjVid3VRVGw4VktyMGJ1ME02dFdENEliNHpGN0tZYUVnZjNzcStzTEVp?=
+ =?utf-8?B?OElGUGUwM1RPeU51T2o5d3N5Qy83YjdZRWlmaTdsbm1yUnNZTUY4WnRqSHNB?=
+ =?utf-8?B?SUZjSHJNdnBWSWRVbTJrME1yTHdOc1Zlck03bThCd29CWmFVM0pJcnR1YVIz?=
+ =?utf-8?B?QUZwZHJaTis2SG5tM0l1eVVJcHdJN3JXNWVDeU1RcXdQb0ZleEdnZSt5QkRX?=
+ =?utf-8?B?RVRGTGpJeUpVQjFGSlhLWW9GYkhveFlBUkkvTHp6QjNEUHNrVEsxa21sbmpZ?=
+ =?utf-8?B?aXNiTGZUdE9YbVJzWlNpQWhidzQydTdjRW5laWZnV3ZEQ3FCVGRvT0FFRmpB?=
+ =?utf-8?B?SVN0aVMvalVYTWhyd0xXRndzL1ZBSGhSclZBYlN6bWFNeGdVUXprVHBjbHgz?=
+ =?utf-8?B?SmdzT1ZYVnpNd0xwSnZYNVExdUdobnA3VGgxOVEwUjBDMGIxOVc2WExEWWdL?=
+ =?utf-8?B?M0lVWFM1RFQ5L0s0QmpxNEluU1lKUEN6TktydE85cHF5elh2WlllVTNvWkJj?=
+ =?utf-8?B?Y2YvUUthZVRWMytmeHRKbHROTThCOEJXR0hOSEluSnZraytDYWNTM1RScFRE?=
+ =?utf-8?B?SkwxekJVZHlFM2Q4Mk9kbWUwOElJclV1eU9kbnUwd0k3aDVnMS91cXdZdVkw?=
+ =?utf-8?B?YVJpSUpiR1M3MEkwdEwydTQrdmhrd24vTUFSdC9VRVBGSTlxekkxNTlJZllq?=
+ =?utf-8?B?clpGN1NZVlh4THcxYXdkRkdOeE5vUlh4YzVRSW5xTVdnemIzdzZFY3IxYlFl?=
+ =?utf-8?B?YkVwU0ZJdis5Y1RsalpFWmtub3FibGRRYW5wakZvWUdkcTRJN2lrL1NWUDBn?=
+ =?utf-8?B?VW5aU1JkY0VybENtWU9xZStzcWJoN2dsaU1rTDBNY1pQUjV4dmhONmVIVi9j?=
+ =?utf-8?B?R2F5OC8zdThnaC82TDNicmRXY3JBVGJ4RVJEQnBpcUE1cS9CSFo5c3hsbnV5?=
+ =?utf-8?B?MmJURStOQmg2U00vbVVyRC9BK2lpUGxtVmxYYW5CZkp2THU4Tnc5MWJXdEQ5?=
+ =?utf-8?B?ZURwdThZTDFtSmRMNi96SmR0RWVJeHZxVitONkt2ZVN5dHY4RGw1c0lTRE1s?=
+ =?utf-8?B?RmRaTEdCT3hxN3JjR0NTQ0R2MGNsZ0RMY3dZcU1sRU1DWUNyNk5TcXVCNThQ?=
+ =?utf-8?B?b3dhaHZ6TGh6NW95bnJDREJrYW9qUi8wSXQwdFpuUy90MUwvTlRwcjR2eTQy?=
+ =?utf-8?B?MlBzWlVCVmxYQ29xWHRITDkwdXBLbmhsOXFZaHdyY0xTckpUMWtRQ2Q5elBG?=
+ =?utf-8?B?VjNON1BjUlU1S0FxMDY3TGZYc2d4RExVS3I1YnIxVjRXKy9mVjdPY29tUk1E?=
+ =?utf-8?B?elE9PQ==?=
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9b779804-9090-42a6-b520-08dc39cab6d9
+X-MS-Exchange-CrossTenant-AuthSource: VE1PR08MB4974.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2024 08:36:39.5578 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: i6rX8HC/LhZeG0aYO3+zUjRjppuyDq+5aCIFx0hlfx4TDkAzcvrFlafV8962l5Lno+CWouLRiQL2x3qeMX8bXZT73ezHlKVqtEdhKDUk6ls=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6344
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,306 +147,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/02/2024 20:47, Sebastian Wick wrote:
-> On Thu, Feb 22, 2024 at 07:14:07PM +0100, Maxime Ripard wrote:
->> The i915 driver has a property to force the RGB range of an HDMI output.
->> The vc4 driver then implemented the same property with the same
->> semantics. KWin has support for it, and a PR for mutter is also there to
->> support it.
+On 29.02.24 20:52, Matthias Kaehlcke wrote:
+> On Thu, Feb 29, 2024 at 09:34:50AM +0100, Javier Carrasco wrote:
+>> Most of the functionality this driver provides can be used by non-hub
+>> devices as well.
 >>
->> Both drivers implementing the same property with the same semantics,
->> plus the userspace having support for it, is proof enough that it's
->> pretty much a de-facto standard now and we can provide helpers for it.
+>> To account for the hub-specific code, add a flag to the device data
+>> structure and check its value for hub-specific code.
 >>
->> Let's plumb it into the newly created HDMI connector.
+>> The 'always_powered_in_supend' attribute is only available for hub
+>> devices, keeping the driver's default behavior for non-hub devices (keep
+>> on in suspend).
 >>
->> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
->> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+>> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
 >> ---
->>  Documentation/gpu/kms-properties.csv      |  1 -
->>  drivers/gpu/drm/drm_atomic.c              |  2 +
->>  drivers/gpu/drm/drm_atomic_state_helper.c |  4 +-
->>  drivers/gpu/drm/drm_atomic_uapi.c         |  4 ++
->>  drivers/gpu/drm/drm_connector.c           | 89 +++++++++++++++++++++++++++++++
->>  include/drm/drm_connector.h               | 36 +++++++++++++
->>  6 files changed, 134 insertions(+), 2 deletions(-)
+>>  drivers/usb/misc/onboard_usb_dev.c | 25 ++++++++++++++++++++++++-
+>>  drivers/usb/misc/onboard_usb_dev.h | 10 ++++++++++
+>>  2 files changed, 34 insertions(+), 1 deletion(-)
 >>
->> diff --git a/Documentation/gpu/kms-properties.csv b/Documentation/gpu/kms-properties.csv
->> index 0f9590834829..caef14c532d4 100644
->> --- a/Documentation/gpu/kms-properties.csv
->> +++ b/Documentation/gpu/kms-properties.csv
->> @@ -17,7 +17,6 @@ Owner Module/Drivers,Group,Property Name,Type,Property Values,Object attached,De
->>  ,Virtual GPU,“suggested X”,RANGE,"Min=0, Max=0xffffffff",Connector,property to suggest an X offset for a connector
->>  ,,“suggested Y”,RANGE,"Min=0, Max=0xffffffff",Connector,property to suggest an Y offset for a connector
->>  ,Optional,"""aspect ratio""",ENUM,"{ ""None"", ""4:3"", ""16:9"" }",Connector,TDB
->> -i915,Generic,"""Broadcast RGB""",ENUM,"{ ""Automatic"", ""Full"", ""Limited 16:235"" }",Connector,"When this property is set to Limited 16:235 and CTM is set, the hardware will be programmed with the result of the multiplication of CTM by the limited range matrix to ensure the pixels normally in the range 0..1.0 are remapped to the range 16/255..235/255."
->>  ,,“audio”,ENUM,"{ ""force-dvi"", ""off"", ""auto"", ""on"" }",Connector,TBD
->>  ,SDVO-TV,“mode”,ENUM,"{ ""NTSC_M"", ""NTSC_J"", ""NTSC_443"", ""PAL_B"" } etc.",Connector,TBD
->>  ,,"""left_margin""",RANGE,"Min=0, Max= SDVO dependent",Connector,TBD
->> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
->> index 26f9e525c0a0..3e57d98d8418 100644
->> --- a/drivers/gpu/drm/drm_atomic.c
->> +++ b/drivers/gpu/drm/drm_atomic.c
->> @@ -1145,6 +1145,8 @@ static void drm_atomic_connector_print_state(struct drm_printer *p,
->>  
->>  	if (connector->connector_type == DRM_MODE_CONNECTOR_HDMIA ||
->>  	    connector->connector_type == DRM_MODE_CONNECTOR_HDMIB) {
->> +		drm_printf(p, "\tbroadcast_rgb=%s\n",
->> +			   drm_hdmi_connector_get_broadcast_rgb_name(state->hdmi.broadcast_rgb));
->>  		drm_printf(p, "\toutput_bpc=%u\n", state->hdmi.output_bpc);
->>  		drm_printf(p, "\toutput_format=%s\n",
->>  			   drm_hdmi_connector_get_output_format_name(state->hdmi.output_format));
->> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
->> index 9f517599f117..0e8fb653965a 100644
->> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
->> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
->> @@ -589,6 +589,7 @@ void __drm_atomic_helper_connector_hdmi_reset(struct drm_connector *connector,
->>  
->>  	new_state->max_bpc = max_bpc;
->>  	new_state->max_requested_bpc = max_bpc;
->> +	new_state->hdmi.broadcast_rgb = DRM_HDMI_BROADCAST_RGB_AUTO;
->>  }
->>  EXPORT_SYMBOL(__drm_atomic_helper_connector_hdmi_reset);
->>  
->> @@ -913,7 +914,8 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
->>  	if (ret)
->>  		return ret;
->>  
->> -	if (old_state->hdmi.output_bpc != new_state->hdmi.output_bpc ||
->> +	if (old_state->hdmi.broadcast_rgb != new_state->hdmi.broadcast_rgb ||
->> +	    old_state->hdmi.output_bpc != new_state->hdmi.output_bpc ||
->>  	    old_state->hdmi.output_format != new_state->hdmi.output_format) {
->>  		struct drm_crtc *crtc = new_state->crtc;
->>  		struct drm_crtc_state *crtc_state;
->> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
->> index 29d4940188d4..2b415b4ed506 100644
->> --- a/drivers/gpu/drm/drm_atomic_uapi.c
->> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
->> @@ -776,6 +776,8 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
->>  		state->max_requested_bpc = val;
->>  	} else if (property == connector->privacy_screen_sw_state_property) {
->>  		state->privacy_screen_sw_state = val;
->> +	} else if (property == connector->broadcast_rgb_property) {
->> +		state->hdmi.broadcast_rgb = val;
->>  	} else if (connector->funcs->atomic_set_property) {
->>  		return connector->funcs->atomic_set_property(connector,
->>  				state, property, val);
->> @@ -859,6 +861,8 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
->>  		*val = state->max_requested_bpc;
->>  	} else if (property == connector->privacy_screen_sw_state_property) {
->>  		*val = state->privacy_screen_sw_state;
->> +	} else if (property == connector->broadcast_rgb_property) {
->> +		*val = state->hdmi.broadcast_rgb;
->>  	} else if (connector->funcs->atomic_get_property) {
->>  		return connector->funcs->atomic_get_property(connector,
->>  				state, property, val);
->> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
->> index 591d2d500f61..6ffe59d01698 100644
->> --- a/drivers/gpu/drm/drm_connector.c
->> +++ b/drivers/gpu/drm/drm_connector.c
->> @@ -1212,6 +1212,29 @@ static const u32 dp_colorspaces =
->>  	BIT(DRM_MODE_COLORIMETRY_BT2020_CYCC) |
->>  	BIT(DRM_MODE_COLORIMETRY_BT2020_YCC);
->>  
->> +static const struct drm_prop_enum_list broadcast_rgb_names[] = {
->> +	{ DRM_HDMI_BROADCAST_RGB_AUTO, "Automatic" },
->> +	{ DRM_HDMI_BROADCAST_RGB_FULL, "Full" },
->> +	{ DRM_HDMI_BROADCAST_RGB_LIMITED, "Limited 16:235" },
->> +};
->> +
->> +/*
->> + * drm_hdmi_connector_get_broadcast_rgb_name - Return a string for HDMI connector RGB broadcast selection
->> + * @broadcast_rgb: Broadcast RGB selection to compute name of
->> + *
->> + * Returns: the name of the Broadcast RGB selection, or NULL if the type
->> + * is not valid.
->> + */
->> +const char *
->> +drm_hdmi_connector_get_broadcast_rgb_name(enum drm_hdmi_broadcast_rgb broadcast_rgb)
->> +{
->> +	if (broadcast_rgb > DRM_HDMI_BROADCAST_RGB_LIMITED)
->> +		return NULL;
->> +
->> +	return broadcast_rgb_names[broadcast_rgb].name;
->> +}
->> +EXPORT_SYMBOL(drm_hdmi_connector_get_broadcast_rgb_name);
->> +
->>  static const char * const output_format_str[] = {
->>  	[HDMI_COLORSPACE_RGB]		= "RGB",
->>  	[HDMI_COLORSPACE_YUV420]	= "YUV 4:2:0",
->> @@ -1708,6 +1731,39 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector_property);
->>  /**
->>   * DOC: HDMI connector properties
->>   *
->> + * Broadcast RGB (HDMI specific)
->> + *      Indicates the Quantization Range (Full vs Limited) used. The color
->> + *      processing pipeline will be adjusted to match the value of the
->> + *      property, and the Infoframes will be generated and sent accordingly.
->> + *
->> + *      This property is only relevant if the HDMI output format is RGB. If
->> + *      it's one of the YCbCr variant, it will be ignored and the output will
->> + *      use a limited quantization range.
-> 
-> Uh, maybe just say that the quantization range is selected automatically
-> in case a YCbCr output format is in use. I'm not sure every YCbCr
-> variant requires limited and even if it does, new formats could change
-> this.
-
-For HDMI every YCbCr output format is limited range by default. It is
-highly unlikely that future YCbCr formats would ever use full range by
-default.
-
-So I am fine with the current text since it is actually correct and it
-explicitly states which quantization range will be used.
-
-Regards,
-
-	Hans
-
-> 
-> With this changed, this patch is
-> 
-> Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
-> 
->> + *
->> + *      The CRTC attached to the connector must be configured by user-space to
->> + *      always produce full-range pixels.
->> + *
->> + *      The value of this property can be one of the following:
->> + *
->> + *      Automatic:
->> + *              The quantization range is selected automatically based on the
->> + *              mode according to the HDMI specifications (HDMI 1.4b - Section
->> + *              6.6 - Video Quantization Ranges).
->> + *
->> + *      Full:
->> + *              Full quantization range is forced.
->> + *
->> + *      Limited 16:235:
->> + *              Limited quantization range is forced. Unlike the name suggests,
->> + *              this works for any number of bits-per-component.
->> + *
->> + *      Property values other than Automatic can result in colors being off (if
->> + *      limited is selected but the display expects full), or a black screen
->> + *      (if full is selected but the display expects limited).
->> + *
->> + *      Drivers can set up this property by calling
->> + *      drm_connector_attach_broadcast_rgb_property().
->> + *
->>   * content type (HDMI specific):
->>   *	Indicates content type setting to be used in HDMI infoframes to indicate
->>   *	content type for the external device, so that it adjusts its display
->> @@ -2570,6 +2626,39 @@ int drm_connector_attach_hdr_output_metadata_property(struct drm_connector *conn
->>  }
->>  EXPORT_SYMBOL(drm_connector_attach_hdr_output_metadata_property);
->>  
->> +/**
->> + * drm_connector_attach_broadcast_rgb_property - attach "Broadcast RGB" property
->> + * @connector: connector to attach the property on.
->> + *
->> + * This is used to add support for forcing the RGB range on a connector
->> + *
->> + * Returns:
->> + * Zero on success, negative errno on failure.
->> + */
->> +int drm_connector_attach_broadcast_rgb_property(struct drm_connector *connector)
->> +{
->> +	struct drm_device *dev = connector->dev;
->> +	struct drm_property *prop;
->> +
->> +	prop = connector->broadcast_rgb_property;
->> +	if (!prop) {
->> +		prop = drm_property_create_enum(dev, DRM_MODE_PROP_ENUM,
->> +						"Broadcast RGB",
->> +						broadcast_rgb_names,
->> +						ARRAY_SIZE(broadcast_rgb_names));
->> +		if (!prop)
->> +			return -EINVAL;
->> +
->> +		connector->broadcast_rgb_property = prop;
->> +	}
->> +
->> +	drm_object_attach_property(&connector->base, prop,
->> +				   DRM_HDMI_BROADCAST_RGB_AUTO);
->> +
->> +	return 0;
->> +}
->> +EXPORT_SYMBOL(drm_connector_attach_broadcast_rgb_property);
->> +
->>  /**
->>   * drm_connector_attach_colorspace_property - attach "Colorspace" property
->>   * @connector: connector to attach the property on.
->> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
->> index 8cda902934cd..bb6b6a36ade3 100644
->> --- a/include/drm/drm_connector.h
->> +++ b/include/drm/drm_connector.h
->> @@ -369,6 +369,29 @@ enum drm_panel_orientation {
->>  	DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
+>> diff --git a/drivers/usb/misc/onboard_usb_dev.c b/drivers/usb/misc/onboard_usb_dev.c
+>> index 4ae580445408..f1b174503c44 100644
+>> --- a/drivers/usb/misc/onboard_usb_dev.c
+>> +++ b/drivers/usb/misc/onboard_usb_dev.c
+>> @@ -261,7 +261,27 @@ static struct attribute *onboard_dev_attrs[] = {
+>>  	&dev_attr_always_powered_in_suspend.attr,
+>>  	NULL,
 >>  };
->>  
->> +/**
->> + * enum drm_hdmi_broadcast_rgb - Broadcast RGB Selection for an HDMI @drm_connector
->> + */
->> +enum drm_hdmi_broadcast_rgb {
->> +	/**
->> +	 * @DRM_HDMI_BROADCAST_RGB_AUTO: The RGB range is selected
->> +	 * automatically based on the mode.
->> +	 */
->> +	DRM_HDMI_BROADCAST_RGB_AUTO,
+>> -ATTRIBUTE_GROUPS(onboard_dev);
 >> +
->> +	/**
->> +	 * @DRM_HDMI_BROADCAST_RGB_FULL: Full range RGB is forced.
->> +	 */
->> +	DRM_HDMI_BROADCAST_RGB_FULL,
+>> +static umode_t onboard_dev_attrs_are_visible(struct kobject *kobj,
+>> +					     struct attribute *attr,
+>> +					     int n)
+>> +{
+>> +	struct device *dev = kobj_to_dev(kobj);
+>> +	struct onboard_dev *onboard_dev = dev_get_drvdata(dev);
 >> +
->> +	/**
->> +	 * @DRM_HDMI_BROADCAST_RGB_LIMITED: Limited range RGB is forced.
->> +	 */
->> +	DRM_HDMI_BROADCAST_RGB_LIMITED,
+>> +	if (attr == &dev_attr_always_powered_in_suspend.attr &&
+>> +	    !onboard_dev->pdata->is_hub)
+>> +		return 0;
+>> +
+>> +	return attr->mode;
+>> +}
+>> +
+>> +static const struct attribute_group onboard_dev_group = {
+>> +	.is_visible = onboard_dev_attrs_are_visible,
+>> +	.attrs = onboard_dev_attrs,
 >> +};
+>> +__ATTRIBUTE_GROUPS(onboard_dev);
 >> +
->> +const char *
->> +drm_hdmi_connector_get_broadcast_rgb_name(enum drm_hdmi_broadcast_rgb broadcast_rgb);
->>  const char *
->>  drm_hdmi_connector_get_output_format_name(enum hdmi_colorspace fmt);
->>  
->> @@ -1041,6 +1064,12 @@ struct drm_connector_state {
->>  	 * @drm_atomic_helper_connector_hdmi_check().
->>  	 */
->>  	struct {
->> +		/**
->> +		 * @broadcast_rgb: Connector property to pass the
->> +		 * Broadcast RGB selection value.
->> +		 */
->> +		enum drm_hdmi_broadcast_rgb broadcast_rgb;
->> +
->>  		/**
->>  		 * @output_bpc: Bits per color channel to output.
->>  		 */
->> @@ -1753,6 +1782,12 @@ struct drm_connector {
->>  	 */
->>  	struct drm_property *privacy_screen_hw_state_property;
->>  
->> +	/**
->> +	 * @broadcast_rgb_property: Connector property to set the
->> +	 * Broadcast RGB selection to output with.
->> +	 */
->> +	struct drm_property *broadcast_rgb_property;
->> +
->>  #define DRM_CONNECTOR_POLL_HPD (1 << 0)
->>  #define DRM_CONNECTOR_POLL_CONNECT (1 << 1)
->>  #define DRM_CONNECTOR_POLL_DISCONNECT (1 << 2)
->> @@ -2092,6 +2127,7 @@ int drm_connector_attach_scaling_mode_property(struct drm_connector *connector,
->>  					       u32 scaling_mode_mask);
->>  int drm_connector_attach_vrr_capable_property(
->>  		struct drm_connector *connector);
->> +int drm_connector_attach_broadcast_rgb_property(struct drm_connector *connector);
->>  int drm_connector_attach_colorspace_property(struct drm_connector *connector);
->>  int drm_connector_attach_hdr_output_metadata_property(struct drm_connector *connector);
->>  bool drm_connector_atomic_hdr_metadata_equal(struct drm_connector_state *old_state,
->>
->> -- 
->> 2.43.2
->>
 > 
+> nit: remove one empty line
+> 
+>>  
+>>  static void onboard_dev_attach_usb_driver(struct work_struct *work)
+>>  {
+>> @@ -286,6 +306,9 @@ static int onboard_dev_probe(struct platform_device *pdev)
+>>  	if (!onboard_dev->pdata)
+>>  		return -EINVAL;
+>>  
+>> +	if (!onboard_dev->pdata->is_hub)
+>> +		onboard_dev->always_powered_in_suspend = true;
+>> +
+>>  	onboard_dev->dev = dev;
+>>  
+>>  	err = onboard_dev_get_regulators(onboard_dev);
+>> diff --git a/drivers/usb/misc/onboard_usb_dev.h b/drivers/usb/misc/onboard_usb_dev.h
+>> index 4da9f3b7f9e9..58cf8c81b2cf 100644
+>> --- a/drivers/usb/misc/onboard_usb_dev.h
+>> +++ b/drivers/usb/misc/onboard_usb_dev.h
+>> @@ -12,60 +12,70 @@ struct onboard_dev_pdata {
+>>  	unsigned long reset_us;		/* reset pulse width in us */
+>>  	unsigned int num_supplies;	/* number of supplies */
+>>  	const char * const supply_names[MAX_SUPPLIES];
+>> +	bool is_hub;			/* true if the device is a HUB */
+> 
+> nit: either drop the comment (the variable name is pretty self explaining),
+> or s/HUB/hub/ ('hub' isn't an acronym).
+> 
+> Acked-by: Matthias Kaehlcke <mka@chromium.org>
+
+To be honest, I added the description to follow the same pattern used
+for the previous fields:
+
+unsigned long reset_us;		/* reset pulse width in us */
+unsigned int num_supplies;	/* number of supplies */
+
+Best regards,
+Javier Carrasco
 
