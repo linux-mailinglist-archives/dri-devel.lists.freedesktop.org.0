@@ -2,96 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51E6286E1A7
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 14:15:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E7C986E1F4
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 14:28:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21BC210ED12;
-	Fri,  1 Mar 2024 13:15:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 297C410ED97;
+	Fri,  1 Mar 2024 13:28:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="RVa4J3Wl";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fwqlUhbv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49FD410ED12
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 13:15:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1709298926;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=j6JDdzMRW33EgNy8WVE2rwXJul+k7YILcoZp2XURKLI=;
- b=RVa4J3Wlfk1aD4BVAnTbkPGGxMmrunaF2e22Gbsw6fzkGMIXuLhwrLJd4zbSvmYcrO+rq8
- s5Jx1ET5CM0BJUgbAK50GuuUse0ZwxBisABVXUfNjsUcOwD3B41FLy+7GqDpy5aP8x1rp+
- LCg+zqCm8lKB5aBGtkfW3guFtpmuxXs=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-680-So7GBlpKNTCpeAqkooKeVg-1; Fri, 01 Mar 2024 08:15:23 -0500
-X-MC-Unique: So7GBlpKNTCpeAqkooKeVg-1
-Received: by mail-lf1-f72.google.com with SMTP id
- 2adb3069b0e04-512a5c6465bso1589244e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Mar 2024 05:15:23 -0800 (PST)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
+ [209.85.208.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E102E10ED96;
+ Fri,  1 Mar 2024 13:28:18 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id
+ 38308e7fff4ca-2d27fef509eso27736711fa.3; 
+ Fri, 01 Mar 2024 05:28:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1709299696; x=1709904496; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=5l7YTgHQJ4uu8ywnkoccEqji+CWQ03nsYaLhWI1QXxI=;
+ b=fwqlUhbvfy38eaBrYb21kkK7GS878ooldnZ9/ZTY8Vjhyi9I7CnE6eaSKvVsRkZ9A4
+ 3dW3l9pQ0awC/SAfywmTNQYbanKtpj617arMCe96EDfNYgPY0gLKs0tk42nKMDkf5ymV
+ GhfP89rPpEVLMNrVWHS6A2Yhv+06wcnp0EjGOprMO83Vi7MEz6326jrttB0gweVaDx6M
+ rEef28pW+vE9xW2yFatJQ8nMC+ujj4vzvwL6XcqGJjpIo6n/Y9kibw/cfOmCcIqv+hu4
+ ZF93MKQid6F/4dkum6ufKxOWy/FnmOe/LNxB/K4guWPHJV91ii4GmaueAvbaRrrZt71V
+ NNYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709298922; x=1709903722;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=j6JDdzMRW33EgNy8WVE2rwXJul+k7YILcoZp2XURKLI=;
- b=gUfzoz4L3GFX3Bg2mHnkd8iR1InZfZG2r7Ft3s0U7YCuQVwR+WYqsCHm4Aw/mN+InJ
- V5thQbTP34tbjvd6pe+7wuo/fPnXPnopwaQOf1KZmSG14SSWc2QsdhiaR8S2xpf3qu4D
- aThvnSLx2BhBRDEdocTf2EN2ehmF80Ix+I7jJxt5Kwps93+5gSySVV++rlzfdqAVSBg+
- Gw4Mw6tPMkcquftgJa+hk3jAN8DZPFaLbdGMd0IH9xtsUbYrPJPPBexFO/9lnLfhmp84
- W7kaogXjqDGgTqud4hnj+3kPXMHDi1f+6Spdea1In0pEEYS+INMpnyb30EG2mSHsYP46
- RzFw==
+ d=1e100.net; s=20230601; t=1709299696; x=1709904496;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5l7YTgHQJ4uu8ywnkoccEqji+CWQ03nsYaLhWI1QXxI=;
+ b=bc+4qknUCSiCHdrz55xMyfCHLMPcXWd2Vdz+WVJiob8uEbEF1dTJGPiyF3eTX0JCA2
+ idGiwqcduXlCDJPoisZFDpIPJ76AEOnoU7EF1449j/8VY2LA63yt8GstwXirTjWKRUVg
+ pRORICnGHzOHCd1fwPthdLebDPeKis08n+gWRk9NfmS0+w6ryr0UH/SyF9kyc3mJVpza
+ L9XMXhqmqoCy2mFuhXrnMhJz4rgtRKIHW861gu0MUo0UhTae36dTu6s6IypuGy+WOVY2
+ TVQqKaj+YyQHlPoDVySxH7NncOk+CH6hnD/7PvXKZdUYviJdzvISOJKl0Ks2x6R6S+FM
+ uHhQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUgAWrfLG0rolf5sjCfPqda85wy6cYoNaLZNSDq5l6MX40Sa0DodsheWF0eUhJ0uS6vjOE8WPaC8Jy3KRXNEeEYcnbykNsok8PrKp3DKd+v
-X-Gm-Message-State: AOJu0YwkRew02FZBIh2aFi/ecr2e4wxyr6MeWLwTAogr45KKHpqU8V9A
- xoto+2F06+wZVQgFCD2+Xfeqcuj8fxcsG4KHhBWmrXSnIG2SCKGcjcFD1pIbi8EIaLbWY0Kk4wS
- PKnU4jTyaR56nRC/cSllyJNCpbD0vDJkjZgI/xDZwE9UEm86exNeQZF77AZnENU+xgA==
-X-Received: by 2002:ac2:599b:0:b0:512:f6d3:9998 with SMTP id
- w27-20020ac2599b000000b00512f6d39998mr1223721lfn.17.1709298922220; 
- Fri, 01 Mar 2024 05:15:22 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFwlzt5HlgK0WAcZyh2ZsOJe95EyGGHjhxje8QxMH4nFVP4Pvs9Hg/dbyzZ0Awcz9X/EGacJg==
-X-Received: by 2002:ac2:599b:0:b0:512:f6d3:9998 with SMTP id
- w27-20020ac2599b000000b00512f6d39998mr1223689lfn.17.1709298921881; 
- Fri, 01 Mar 2024 05:15:21 -0800 (PST)
-Received: from toolbox ([2001:9e8:89a0:c500:c65:1f3a:8c08:2a1d])
- by smtp.gmail.com with ESMTPSA id
- bw1-20020a0560001f8100b0033db0c866f7sm4639850wrb.11.2024.03.01.05.15.21
+ AJvYcCVW2yHeI3Ar+qNpvWjFsFxz1MLtzjVw7YQCObdbYqZemLP0unktJ5NxcPEXP48ofDKIqJvkxgodp3S2oX5SEMCfSjmXrl/fMEZ8grEdwThWEZ8C3obAa4yvd9ZMs2lbdgqtnpKxc9IVYP6ufZLQ6Q==
+X-Gm-Message-State: AOJu0Yz79utJQqwcr5tTdyjDfLyoWiW5bY7THEdjYG5hsQicZ7yETILk
+ eAwuHVtV+aqeB+L6ab9lOMFy6eUhmHBud+63cvktZ1Jac5z50x9O
+X-Google-Smtp-Source: AGHT+IHAEBq2eERb1YzHcNf/A5asZKhYcTLxJdEqg8fO6iB0nq2rpd2QfL9efFx0rYhM6arWjvOKVA==
+X-Received: by 2002:a2e:a368:0:b0:2d2:a3ae:b339 with SMTP id
+ i8-20020a2ea368000000b002d2a3aeb339mr1177503ljn.48.1709299695979; 
+ Fri, 01 Mar 2024 05:28:15 -0800 (PST)
+Received: from localhost.localdomain (80-108-76-242.cable.dynamic.surfer.at.
+ [80.108.76.242]) by smtp.gmail.com with ESMTPSA id
+ f8-20020a7bc8c8000000b004104bc8d841sm8317526wml.13.2024.03.01.05.28.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Mar 2024 05:15:21 -0800 (PST)
-Date: Fri, 1 Mar 2024 14:15:19 +0100
-From: Sebastian Wick <sebastian.wick@redhat.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
- Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v7 21/36] drm/connector: hdmi: Add Broadcast RGB property
-Message-ID: <20240301131519.GA10491@toolbox>
-References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
- <20240222-kms-hdmi-connector-state-v7-21-8f4af575fce2@kernel.org>
- <20240229194726.GB166694@toolbox>
- <20240301-light-impressive-grasshopper-adabeb@houat>
- <20240301112941.GE166694@toolbox>
- <20240301-loyal-cornflower-oxpecker-83ed59@houat>
+ Fri, 01 Mar 2024 05:28:15 -0800 (PST)
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+To: tomeu@tomeuvizoso.net, Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: Christian Gmeiner <cgmeiner@igalia.com>, stable@vger.kernel.org,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/etnaviv: Restore some id values
+Date: Fri,  1 Mar 2024 14:28:11 +0100
+Message-ID: <20240301132812.15463-1-christian.gmeiner@gmail.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-In-Reply-To: <20240301-loyal-cornflower-oxpecker-83ed59@houat>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,54 +84,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 01, 2024 at 01:12:02PM +0100, Maxime Ripard wrote:
-> On Fri, Mar 01, 2024 at 12:29:41PM +0100, Sebastian Wick wrote:
-> > On Fri, Mar 01, 2024 at 11:30:56AM +0100, Maxime Ripard wrote:
-> > > On Thu, Feb 29, 2024 at 08:47:26PM +0100, Sebastian Wick wrote:
-> > > > > @@ -1708,6 +1731,39 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector_property);
-> > > > >  /**
-> > > > >   * DOC: HDMI connector properties
-> > > > >   *
-> > > > > + * Broadcast RGB (HDMI specific)
-> > > > > + *      Indicates the Quantization Range (Full vs Limited) used. The color
-> > > > > + *      processing pipeline will be adjusted to match the value of the
-> > > > > + *      property, and the Infoframes will be generated and sent accordingly.
-> > > > > + *
-> > > > > + *      This property is only relevant if the HDMI output format is RGB. If
-> > > > > + *      it's one of the YCbCr variant, it will be ignored and the output will
-> > > > > + *      use a limited quantization range.
-> > > > 
-> > > > Uh, maybe just say that the quantization range is selected automatically
-> > > > in case a YCbCr output format is in use. I'm not sure every YCbCr
-> > > > variant requires limited and even if it does, new formats could change
-> > > > this.
-> > > 
-> > > I documented what i915 is doing:
-> > > https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/i915/display/intel_hdmi.c#L2143
-> > 
-> > Sure, this is one valid strategy for the automatic behavior of YCbCr.
-> > Drivers could also always send an InfoFrame to ensure full range where
-> > possible. The point here is that this property shall not affect YCbCr
-> > output formats!
-> > 
-> > Maybe it's even better to say "driver specific" instead of "automatic".
-> 
-> Honestly, I'm not sure what you want from me here. Ville and you
-> insisted on the previous version to document what i915 is doing and to
-> follow whatever the behaviour was, and that we shouldn't spend time
-> improving the property. Fine, I did that.
-> 
-> But now, you want me to ... improve the property?
+From: Christian Gmeiner <cgmeiner@igalia.com>
 
-The property has a clear scope: quantization range for RGB output
-formats. What Intel does with things that are not in scope of the
-property is irrelevant. This isn't improving the property either but
-documenting the scope of the property.
+The hwdb selection logic as a feature that allows it to mark some fields
+as 'don't care'. If we match with such a field we memcpy(..)
+the current etnaviv_chip_identity into ident.
 
-Sorry if this seems arbitrary but these details are so important to get
-right because the interactions between all the different things is
-already majorly broken.
+This step can overwrite some id values read from the GPU with the
+'don't care' value.
 
-> Maxime
-> 
+Fix this issue by restoring the affected values after the memcpy(..).
+
+As this is crucial for user space to know when this feature works as
+expected increment the minor version too.
+
+Fixes: 4078a1186dd3 ("drm/etnaviv: update hwdb selection logic")
+Cc: stable@vger.kernel.org
+Signed-off-by: Christian Gmeiner <cgmeiner@igalia.com>
+---
+
+V1 -> V2: Fixed patch subject line and removed not needed if clauses.
+
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c  | 2 +-
+ drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 9 +++++++++
+ 2 files changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+index 6228ce603248..9a2965741dab 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+@@ -494,7 +494,7 @@ static const struct drm_driver etnaviv_drm_driver = {
+ 	.desc               = "etnaviv DRM",
+ 	.date               = "20151214",
+ 	.major              = 1,
+-	.minor              = 3,
++	.minor              = 4,
+ };
+ 
+ /*
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+index 67201242438b..8665f2658d51 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+@@ -265,6 +265,9 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu)
+ {
+ 	struct etnaviv_chip_identity *ident = &gpu->identity;
++	const u32 product_id = ident->product_id;
++	const u32 customer_id = ident->customer_id;
++	const u32 eco_id = ident->eco_id;
+ 	int i;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(etnaviv_chip_identities); i++) {
+@@ -278,6 +281,12 @@ bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu)
+ 			 etnaviv_chip_identities[i].eco_id == ~0U)) {
+ 			memcpy(ident, &etnaviv_chip_identities[i],
+ 			       sizeof(*ident));
++
++			/* Restore some id values as ~0U aka 'don't care' might been used. */
++			ident->product_id = product_id;
++			ident->customer_id = customer_id;
++			ident->eco_id = eco_id;
++
+ 			return true;
+ 		}
+ 	}
+-- 
+2.44.0
 
