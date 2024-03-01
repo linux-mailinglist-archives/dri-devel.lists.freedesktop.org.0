@@ -2,82 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68D2286E4F6
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 17:06:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ADB386E50D
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 17:11:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99B1E10E3F7;
-	Fri,  1 Mar 2024 16:06:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 791BB10E622;
+	Fri,  1 Mar 2024 16:11:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NbLuOXWL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qjsU8/rM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com
- [209.85.166.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF95F10E406
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 16:06:00 +0000 (UTC)
-Received: by mail-io1-f44.google.com with SMTP id
- ca18e2360f4ac-7c495be1924so7029839f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Mar 2024 08:06:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linuxfoundation.org; s=google; t=1709309159; x=1709913959;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=GUbUE7aHZo3BLjOSoTSY6Sj6NCxr1dF8uNficZHUOxs=;
- b=NbLuOXWLbvNX7fyUqY846/yAQs1a2ndTq88xP/SE4Llh/2Y9T0wo1oXTKi6X6LHvIp
- nQA+YIB7MeNZoqIhp3dGbDv95gJJVMhYcBRRmnPhUwhwWPbmPVsre8z+nkEZjAXmOaFu
- fEpoBVqpKRBKbo939w0VNfq3/mYWVrk/c/rBQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709309159; x=1709913959;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GUbUE7aHZo3BLjOSoTSY6Sj6NCxr1dF8uNficZHUOxs=;
- b=I0qUZFEct907xmAJ8yArgdWahD4VkiLGbxW2N7jWFNKUnXkYZ0/o9iCZW0hJhxMFvO
- Et35Yzo4ntkIGH2eSheu8KZ9stwzozu7VUu2Tg1/7aNYXUdD8B71BNXiAPBDc9F+2xuy
- W1ehlPJl9+hVbmW13gtTnF2SiJKYzVvgbQwvprxsPvBI1XWOP1CcIlIpHHMbuI6jP3pF
- AtcxHOFT+xGtMr8sgxYeEo4rhMw1dnUxNhgBg77gOf7n2QlOtb++UP5gnllr6b19SPvO
- h+tRmAvhHK9YMFDXZHgXNWY1TxhVJJWlM0SOsWii9PYofQltFFiKFNCsYJNwC2KAJ4wO
- XRMA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW4jQ4llqGUOckt1eeAksZKDLxHBVR/z1d2mxnw9bckVDBXPvtTmwlVjSNQyyefVmgCzY8I8Tw0N38FxjD6aLZTHRkxmtU7EY83B87P+5cD
-X-Gm-Message-State: AOJu0Yy1/F906PIea0uwdSdxY0m+pqJFrkZV6IdfRF3zuTGSFRrfbYii
- A3xjggaRw5AG2OaoaXiu9DtDrja+oGwSOL1/Nxro3HeHj69bXx0wtDk1gmYyVoI=
-X-Google-Smtp-Source: AGHT+IGLKG/dlw1Pu3A6/meWaV0By6c320QkCU8gs6LdvRo4CGlpb1xlzzuSAIl6HVYSrqxP9Zte7g==
-X-Received: by 2002:a05:6e02:1bea:b0:365:2f19:e58e with SMTP id
- y10-20020a056e021bea00b003652f19e58emr2334918ilv.3.1709309159574; 
- Fri, 01 Mar 2024 08:05:59 -0800 (PST)
-Received: from [192.168.1.128] ([38.175.170.29])
- by smtp.gmail.com with ESMTPSA id
- fw20-20020a0566381d9400b004747c7f22bdsm866787jab.74.2024.03.01.08.05.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Mar 2024 08:05:59 -0800 (PST)
-Message-ID: <86d87830-100f-4f29-bb7f-9a612b90866a@linuxfoundation.org>
-Date: Fri, 1 Mar 2024 09:05:57 -0700
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 689B410E622
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 16:11:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id ACF4FCE25BA;
+ Fri,  1 Mar 2024 16:11:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96D2DC433F1;
+ Fri,  1 Mar 2024 16:11:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1709309505;
+ bh=8cB+9zbNH8jaDoktAsNfOEmmtzyQCQ2xpzsCcbjmugM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qjsU8/rMum31+d1BmGBf7mI042/NWP+4ou5aW0hE0/vJpPRGphZpzQPLDzDXiEIkN
+ gKWTwLHQgGB/80+f3S68rrxpQ/YF4Tuy8APIyIr8+99SrN6kw1Dhxc12JnwtY5jf7x
+ pvL586RnxERNwpJb+iElq7OGcah7eMjibELE95obe2NJK5r8MICTofbQPKpkN/Y0C8
+ 7RdppAmicvHVelboG0k9OjlAoAlRA2MNe1BOK/mr5vOryoKEFyc3Xd/wB6j8XlSn3Q
+ yy0EvyBe/AK2I0H+Wae0uhGVJ+IJVFKj94Eg3Ks+jeddtr+EigFGAJ/m1dBCzVIYzT
+ aY1TAAAyPQtVA==
+Date: Fri, 1 Mar 2024 17:11:43 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Daniel Stone <daniels@collabora.com>
+Subject: Re: drm-misc migration to Gitlab server
+Message-ID: <20240301-enigmatic-brown-skylark-7bff1b@houat>
+References: <gnthy5o42kiyj63d2bkkxsc5krzf3wrwt23chh2kthkmlyjwbg@ybynvjvqdka7>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: linux-next: build failure after merge of the kunit-next tree
-Content-Language: en-US
-To: Stephen Rothwell <sfr@canb.auug.org.au>, David Gow <davidgow@google.com>
-Cc: Brendan Higgins <brendanhiggins@google.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20240229152653.09ecf771@canb.auug.org.au>
- <be2e812c-3898-4be8-8a9d-e221acb837c3@linuxfoundation.org>
- <CABVgOSmAmkOcY8hFnpPSgz5WZXFkez_BDGhKjBepbWFpKykfUg@mail.gmail.com>
- <20240301214358.7fdecd66@canb.auug.org.au>
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20240301214358.7fdecd66@canb.auug.org.au>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="hyb3eyzndzemzb26"
+Content-Disposition: inline
+In-Reply-To: <gnthy5o42kiyj63d2bkkxsc5krzf3wrwt23chh2kthkmlyjwbg@ybynvjvqdka7>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,27 +60,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/1/24 03:43, Stephen Rothwell wrote:
-> Hi all,
-> 
-> On Fri, 1 Mar 2024 15:15:02 +0800 David Gow <davidgow@google.com> wrote:
->>
->> On Thu, 29 Feb 2024 at 23:07, Shuah Khan <skhan@linuxfoundation.org> wrote:
->>>
->>> I can carry the fix through kselftest kunit if it works
->>> for all.
->>
->> I'm happy for this to go in with the KUnit changes if that's the best
->> way to keep all of the printk formatting fixes together.
-> 
-> I am pretty sure that the proper fix has been applied to the drm-fixes
-> tree today (in the merge of the drm-misc-fixes tree).
-> 
 
-What's the commit id for this fix? I Would like to include the details
-in my pull request to Linus.
+--hyb3eyzndzemzb26
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-If this fix is going before the merge window - we are all set.
+Hi,
 
-thanks,
--- Shuah
+On Tue, Feb 20, 2024 at 09:49:25AM +0100, Maxime Ripard wrote:
+> ## Changing the default location repo
+>=20
+> Dim gets its repos list in the drm-rerere nightly.conf file. We will
+> need to change that file to match the gitlab repo, and drop the old cgit
+> URLs to avoid people pushing to the wrong place once the transition is
+> made.
+>=20
+> I guess the next merge window is a good time to do so, it's usually a
+> quiet time for us and a small disruption would be easier to handle. I'll
+> be off-duty during that time too, so I'll have time to handle any
+> complication.
+
+Looking back at the drm.git transition this week, there's probably some
+adjustments to make.
+
+First, we shouldn't remove the old repos URLs from nightly.conf entirely
+but use the drm_old_urls array we now have to migrate people seamlessly
+over time.
+
+Since a lot of people are going to commit compared to drm though, it's
+probably best to setup the cgit drm-misc repo as a mirror / read-only
+right away and just before committing the nightly.conf modifications.
+This way we will avoid a duplication of drm-misc if someone for some
+reason didn't switch to the new URL.
+
+And then there's the drm-tip topic. drm-tip at the moment gives write
+access to the drm, drm-intel, drm-misc and drm-xe committers. All these
+have the gitlab groups setup but drm-intel.
+
+The best scenario would have been to migrate drm-tip before drm-misc so
+we don't have a period of time where some people that could have been
+granted privileges on the gitlab side wouldn't have cgit credentials,
+and thus wouldn't be able to push to drm-tip.
+
+However, it's not clear yet how drm-intel wants to set things up, so we
+might have to do that still. Or do both at the same time, for additional
+fun.
+
+Maxime
+
+--hyb3eyzndzemzb26
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZeH+PgAKCRDj7w1vZxhR
+xQW+AP9OcLMTL2AlSjYfTK7hIzKCbiiK+ZDAtleZJDSt4zgqhQEAg6SHaSgjyU2f
+laNZ9DKGppQMCOak3e5u7W81B8GcTgs=
+=oGTT
+-----END PGP SIGNATURE-----
+
+--hyb3eyzndzemzb26--
