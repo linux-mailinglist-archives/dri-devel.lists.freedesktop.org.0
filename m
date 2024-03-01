@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FAF286D82B
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 01:12:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C43586D82C
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 01:12:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A148C10E732;
-	Fri,  1 Mar 2024 00:12:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B644A10E735;
+	Fri,  1 Mar 2024 00:12:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="e8JXK2GO";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="EJPD0bSu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D600D10E732
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 00:12:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F347810E735
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 00:12:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1709251941;
- bh=iUKjpcxm8TFpwUzlmp7yRUbrK5h61wBPcr0xFrIbQOE=;
+ s=mail; t=1709251947;
+ bh=gnT6fVbzwGxli2Y/mzqkTnDg8570zOrbc+nwHaRR3vk=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=e8JXK2GOsswG8I8J52YRL7iPEzLNsC5XsWsDNXpEVTibaB1WMH1dL8YIf7J9QsSSk
- NnyQRDQ4DyPxjUTIYaKL8rFl++rl880Sz+WAj9FPgeNqG9K0HJudCCHcy3K6TaZe0G
- Djwp2AWiUZcXVMe0BSlk20atDAYYMsjFE78WNuExOBNqKnYsBgByOOMu1+eIIq8SRf
- qa982cgqHWfMo3Xp2Ng1DUZkrQtPjATv5/RLnzS5whCqUVXYzQluP4DEkgApLOBslS
- uON8t7ObVdJYg+AIe1+G1gc1/nASEr5j3d48YeHOM3l7opZx1tAcoMsGcgYdQB4jFR
- A82h3nhp8QT1g==
+ b=EJPD0bSuCixJT6fY8/gLwi/Fr+UYpNod4uZfw2eAXxkQkbdiJ9XVQvnlzO0gTomxk
+ IgF8iDGPhmZsvqLVaamRP9kf84r/VZtfn1qPnAL0v9GgB0HmH+9K1JVcAynmED7xMh
+ ySOj2EmBuIuQcvBmCbti4lh1EAGne009cw+QwqORex2vndvoXh5l6UWYQ0tRNTK6ck
+ j5PNRasF89dtlTJrOgE+L7h1A/y5i0U5D3dAOtwZ8d4dahWTp4NkGNxZCqNRV1juGc
+ CUELRpn3PUqYiiuHClJxJgO1SdE2FOhUc8Xz3Ri5TZvFDeNPqH8RcjTFg3cQ17wF3a
+ FFeExNDQ7bzfA==
 Received: from [192.168.1.205] (zone.collabora.co.uk [167.235.23.81])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: nfraprado)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id B813E37820D8;
- Fri,  1 Mar 2024 00:12:15 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 0007737820EC;
+ Fri,  1 Mar 2024 00:12:21 +0000 (UTC)
 From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-Date: Thu, 29 Feb 2024 19:12:07 -0500
-Subject: [PATCH v2 1/9] drm/bridge: anx7625: Don't log an error when DSI
+Date: Thu, 29 Feb 2024 19:12:08 -0500
+Subject: [PATCH v2 2/9] drm/bridge: icn6211: Don't log an error when DSI
  host can't be found
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240229-anx7625-defer-log-no-dsi-host-v2-1-00506941049a@collabora.com>
+Message-Id: <20240229-anx7625-defer-log-no-dsi-host-v2-2-00506941049a@collabora.com>
 References: <20240229-anx7625-defer-log-no-dsi-host-v2-0-00506941049a@collabora.com>
 In-Reply-To: <20240229-anx7625-defer-log-no-dsi-host-v2-0-00506941049a@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -85,30 +85,29 @@ make use of dev_err_probe() to log the reason. This makes the defer
 probe reason available and avoids alerting userspace about something
 that is not necessarily an error.
 
-Fixes: 269332997a16 ("drm/bridge: anx7625: Return -EPROBE_DEFER if the dsi host was not found")
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Fixes: 8dde6f7452a1 ("drm: bridge: icn6211: Add I2C configuration support")
+Suggested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 ---
- drivers/gpu/drm/bridge/analogix/anx7625.c | 6 ++----
+ drivers/gpu/drm/bridge/chipone-icn6211.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 29d91493b101..4ee5614a2623 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -2076,10 +2076,8 @@ static int anx7625_setup_dsi_device(struct anx7625_data *ctx)
- 	};
+diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
+index 82d23e4df09e..ff3284b6b1a3 100644
+--- a/drivers/gpu/drm/bridge/chipone-icn6211.c
++++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
+@@ -563,10 +563,8 @@ static int chipone_dsi_host_attach(struct chipone *icn)
  
- 	host = of_find_mipi_dsi_host_by_node(ctx->pdata.mipi_host_node);
+ 	host = of_find_mipi_dsi_host_by_node(host_node);
+ 	of_node_put(host_node);
 -	if (!host) {
--		DRM_DEV_ERROR(dev, "fail to find dsi host.\n");
+-		dev_err(dev, "failed to find dsi host\n");
 -		return -EPROBE_DEFER;
 -	}
 +	if (!host)
-+		return dev_err_probe(dev, -EPROBE_DEFER, "fail to find dsi host.\n");
++		return dev_err_probe(dev, -EPROBE_DEFER, "failed to find dsi host\n");
  
- 	dsi = devm_mipi_dsi_device_register_full(dev, host, &info);
+ 	dsi = mipi_dsi_device_register_full(host, &info);
  	if (IS_ERR(dsi)) {
 
 -- 
