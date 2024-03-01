@@ -2,49 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ADB386E50D
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 17:11:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0624986E525
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 17:19:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 791BB10E622;
-	Fri,  1 Mar 2024 16:11:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3605910E833;
+	Fri,  1 Mar 2024 16:19:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qjsU8/rM";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="pCICPBF/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 689B410E622
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 16:11:49 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id ACF4FCE25BA;
- Fri,  1 Mar 2024 16:11:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96D2DC433F1;
- Fri,  1 Mar 2024 16:11:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1709309505;
- bh=8cB+9zbNH8jaDoktAsNfOEmmtzyQCQ2xpzsCcbjmugM=;
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7019010E833
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 16:19:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1709309975;
+ bh=kqHrLNm7gDmwTCEs36YV2jdsUTVUUwpuDbx4vMGSjBY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qjsU8/rMum31+d1BmGBf7mI042/NWP+4ou5aW0hE0/vJpPRGphZpzQPLDzDXiEIkN
- gKWTwLHQgGB/80+f3S68rrxpQ/YF4Tuy8APIyIr8+99SrN6kw1Dhxc12JnwtY5jf7x
- pvL586RnxERNwpJb+iElq7OGcah7eMjibELE95obe2NJK5r8MICTofbQPKpkN/Y0C8
- 7RdppAmicvHVelboG0k9OjlAoAlRA2MNe1BOK/mr5vOryoKEFyc3Xd/wB6j8XlSn3Q
- yy0EvyBe/AK2I0H+Wae0uhGVJ+IJVFKj94Eg3Ks+jeddtr+EigFGAJ/m1dBCzVIYzT
- aY1TAAAyPQtVA==
-Date: Fri, 1 Mar 2024 17:11:43 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: dri-devel@lists.freedesktop.org
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ b=pCICPBF/U+f0qA9JBho7Cn4BcnOMh7J9a6GJRnJM70+TKdPZJvA+UQgKeB/ZN7x5r
+ iuKY1AdEjmvtKAMlNcFQ7QOMltgsxDhIh+uNNp0MsMSCe5mNno0MKtJhrFzwP4VJvg
+ mqDaI9sG7ThZOwLhWmRg6kzQC8I+7bm3rZ/Ww9kvEAwB5oRscDHmaj7RccIYmIZam1
+ gOfryn3fu76cTmnnZxaDzvexSd7t5P7agslSTbFJ7GaUErw0Hjlamht4WGtUqEy93e
+ Dfl7EoZvCoYTwUrDnc9c7XENiKzBQi1fvTeqFGY+aEifREVWG9GO2pIVxmdE5RfKzF
+ 7RKGyUXyfoKiA==
+Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: nfraprado)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9CC7F37813F2;
+ Fri,  1 Mar 2024 16:19:29 +0000 (UTC)
+Date: Fri, 1 Mar 2024 11:19:27 -0500
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Daniel Stone <daniels@collabora.com>
-Subject: Re: drm-misc migration to Gitlab server
-Message-ID: <20240301-enigmatic-brown-skylark-7bff1b@houat>
-References: <gnthy5o42kiyj63d2bkkxsc5krzf3wrwt23chh2kthkmlyjwbg@ybynvjvqdka7>
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ owen <qwt9588@gmail.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Vasut <marex@denx.de>, Adrien Grassein <adrien.grassein@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Bjorn Andersson <andersson@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Vinay Simha BN <simhavcs@gmail.com>,
+ Christopher Vollo <chris@renewoutreach.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v2 0/9] drm: Switch from dev_err to dev_err_probe for
+ missing DSI host error path
+Message-ID: <33209063-de58-4d53-a6e0-2d9f74052358@notapiano>
+References: <20240229-anx7625-defer-log-no-dsi-host-v2-0-00506941049a@collabora.com>
+ <20240301063431.GM30889@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="hyb3eyzndzemzb26"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <gnthy5o42kiyj63d2bkkxsc5krzf3wrwt23chh2kthkmlyjwbg@ybynvjvqdka7>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240301063431.GM30889@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,64 +83,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Mar 01, 2024 at 08:34:31AM +0200, Laurent Pinchart wrote:
+> Hi Nícolas,
+> 
+> On Thu, Feb 29, 2024 at 07:12:06PM -0500, Nícolas F. R. A. Prado wrote:
+> > This series changes every occurence of the following pattern: 
+> > 
+> > 	dsi_host = of_find_mipi_dsi_host_by_node(dsi);
+> > 	if (!dsi_host) {
+> > 		dev_err(dev, "failed to find dsi host\n");
+> > 		return -EPROBE_DEFER;
+> > 	}
+> > 
+> > into
+> > 
+> > 	dsi_host = of_find_mipi_dsi_host_by_node(dsi);
+> > 	if (!dsi_host)
+> > 		return dev_err_probe(dev, -EPROBE_DEFER, "failed to find dsi host\n");
+> > 
+> > This registers the defer probe reason (so it can later be printed by the
+> > driver core or checked on demand through the devices_deferred file in
+> > debugfs) and prevents errors to be spammed in the kernel log every time
+> > the driver retries to probe, unnecessarily alerting userspace about
+> > something that is a normal part of the boot process.
+> 
+> The idea is good, but I have a small issue with patches 1/9 to 7/9. They
+> all patch a function that is called by the probe function. Calling
+> dev_err_probe() in such functions is error-prone. I had to manually
+> check when reviewing the patches that those functions were indeed called
+> at probe time, and not through other code paths, and I also had to check
+> that no callers were using dev_err_probe() in the error handling path,
+> as that would have overridden the error message.
+> 
+> Would there be a way to move the dev_err_probe() to the top-level ? I
+> understand it's not always possible or convenient, but if it was doable
+> in at least some of the drivers, I think it would be better. I'll let
+> you be the judge.
 
---hyb3eyzndzemzb26
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hey Laurent, thanks for the review.
 
-Hi,
+I get where you're coming from, as I checked those things myself while writing
+the patch. That said, I don't think moving dev_err_probe() to the top-level is a
+good move for a few reasons:
+* Keeping the log message as close to the source of the error makes it more
+  specific, and consequently, more useful.
+* The original code already returned -EPROBE_DEFER, implying the function is
+  expected to be called only from the probe function.
 
-On Tue, Feb 20, 2024 at 09:49:25AM +0100, Maxime Ripard wrote:
-> ## Changing the default location repo
->=20
-> Dim gets its repos list in the drm-rerere nightly.conf file. We will
-> need to change that file to match the gitlab repo, and drop the old cgit
-> URLs to avoid people pushing to the wrong place once the transition is
-> made.
->=20
-> I guess the next merge window is a good time to do so, it's usually a
-> quiet time for us and a small disruption would be easier to handle. I'll
-> be off-duty during that time too, so I'll have time to handle any
-> complication.
+With those points in mind, the only way I see to guarantee
+dev_err_probe(...,-EPROBE_DEFER...) would only be called by probe, and that the
+reason wouldn't be overriden, would be to move the entire code path of that
+function that calls into dev_err_probe() up into the probe function. But if we
+adopt this pattern consistently across the drivers in the tree, I think it would
+drastically worsen readability and cancel out the benefits.
 
-Looking back at the drm.git transition this week, there's probably some
-adjustments to make.
+IMO the way forward with the API we have, is to make use of warnings and static
+checkers to catch cases where dev_err_probe() is overriding a defer probe
+reason, and where it's called outside of the probe function scope.
 
-First, we shouldn't remove the old repos URLs from nightly.conf entirely
-but use the drm_old_urls array we now have to migrate people seamlessly
-over time.
+So I'm inclined to leave the patches as they are, but am happy to discuss this
+further or other ideas.
 
-Since a lot of people are going to commit compared to drm though, it's
-probably best to setup the cgit drm-misc repo as a mirror / read-only
-right away and just before committing the nightly.conf modifications.
-This way we will avoid a duplication of drm-misc if someone for some
-reason didn't switch to the new URL.
-
-And then there's the drm-tip topic. drm-tip at the moment gives write
-access to the drm, drm-intel, drm-misc and drm-xe committers. All these
-have the gitlab groups setup but drm-intel.
-
-The best scenario would have been to migrate drm-tip before drm-misc so
-we don't have a period of time where some people that could have been
-granted privileges on the gitlab side wouldn't have cgit credentials,
-and thus wouldn't be able to push to drm-tip.
-
-However, it's not clear yet how drm-intel wants to set things up, so we
-might have to do that still. Or do both at the same time, for additional
-fun.
-
-Maxime
-
---hyb3eyzndzemzb26
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZeH+PgAKCRDj7w1vZxhR
-xQW+AP9OcLMTL2AlSjYfTK7hIzKCbiiK+ZDAtleZJDSt4zgqhQEAg6SHaSgjyU2f
-laNZ9DKGppQMCOak3e5u7W81B8GcTgs=
-=oGTT
------END PGP SIGNATURE-----
-
---hyb3eyzndzemzb26--
+Thanks,
+Nícolas
