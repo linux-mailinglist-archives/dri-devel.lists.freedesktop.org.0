@@ -2,86 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B124E86DFF5
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 12:14:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9482686E028
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 12:26:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D15C110EC9D;
-	Fri,  1 Mar 2024 11:14:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC52E10ECA8;
+	Fri,  1 Mar 2024 11:26:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="fdiFsW0O";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="DbdPbgLR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D98910EC9A
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 11:14:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1709291657;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=fEE62HUTb2Km+FBqYhB0pIcbLbRriFu9+pLa43NvRsg=;
- b=fdiFsW0OaE2DraRYOKG2eklcBGd9O6RxtDjm2HX3F2+5kaqQJrwrRSsyQ1PNfMyk2kfEGj
- 0tPH0DsuZxnQNrbdx3PzJUusnBT2lGc+buepaEqGjEjPw/nUX3Zbhs/LhVGkfZzp4HiiTO
- v4Bqm5uX9aaW7ZxU0sl7RcdGkA4mAY4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-93-I3vPXzUROZyITpwtBLv6kg-1; Fri, 01 Mar 2024 06:14:15 -0500
-X-MC-Unique: I3vPXzUROZyITpwtBLv6kg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-412ad75b517so9933395e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Mar 2024 03:14:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709291655; x=1709896455;
- h=content-transfer-encoding:cc:to:subject:from:content-language
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=fEE62HUTb2Km+FBqYhB0pIcbLbRriFu9+pLa43NvRsg=;
- b=g+gF4g3ap9o5bRZCLUSQwX6xNLRqjcWowDSd28eJH7V6j1qOQqDA+V2yqPEom0P71G
- CSjBbF8V5KCJTM7Hya1KV6Qjl9xkoWGFaBW05M/xRhvp0qogTk9PYZJ8arkTKLGSnsDB
- pqLdd0qxP8cvA2MDYhYO5CvqpSvvWIUQ4zURipJcPBdNTj80CAKGqLiZDuvVNZcPAd7j
- HWBHQFtod3XakCVERt6TMgcBk5tPHV0O8P8Zmeh0+Zs4OZlAs2wSp3WCvirloUazcLF3
- 4PpVAg/tT6BSSxTA4OzOXSKNFqUICQm/r5wB//7iGZ2PCgPF2npu4EJFyVoMw3Bwyhpx
- 20wA==
-X-Gm-Message-State: AOJu0YwGConUrTTvXJZRMAuBcuutuXF56vn7nuSce9OiWAILRxyZ+WOW
- 0kV3bh4CGTMc4OCi+svujnNqgFLN4BYGVrSYW4yFq5G9LfsFTRL/zTqDZbabtvpRK07Ie2krqeB
- QOAcEdI0IsZe5fSRIzQvoe6GDxABXBeHG1zLc3VTWdrWa+oK6v0NmO8+BML9U621YBw==
-X-Received: by 2002:a05:600c:46cd:b0:412:abe9:b011 with SMTP id
- q13-20020a05600c46cd00b00412abe9b011mr1239783wmo.25.1709291654801; 
- Fri, 01 Mar 2024 03:14:14 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHX4vhWUpLzjqkUt2iL5RROANZ+KBN2JNGU+nOrrm8U1XZkHM6jXQJ2tnbKyKLklpLbECrcAA==
-X-Received: by 2002:a05:600c:46cd:b0:412:abe9:b011 with SMTP id
- q13-20020a05600c46cd00b00412abe9b011mr1239766wmo.25.1709291654398; 
- Fri, 01 Mar 2024 03:14:14 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- u17-20020a05600c19d100b00412a31d2e2asm5124244wmq.32.2024.03.01.03.14.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Mar 2024 03:14:13 -0800 (PST)
-Message-ID: <266579a9-fde6-40ff-b13d-fb2312db406c@redhat.com>
-Date: Fri, 1 Mar 2024 12:14:12 +0100
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6881910E2EA;
+ Fri,  1 Mar 2024 11:26:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Cc:References:To:Subject:From:MIME-Version:Date:
+ Message-ID:Content-Type:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=9zGj0u7K/llTIdI+zCbw5MSt0B627m1u3Gyazm8fnG0=; b=DbdPbgLRFv9Jr4Na/vkh9jkbkh
+ a2ZUqeXZMWz+dJI5mVrEl3Flq8+0yDCeOl3aMpafSme5Mn3lxL+H+sU8rxp9vx7EJ3/xhSDwGRCqg
+ 7S5tyfohr4TKlza911E06IvGnDJlfUjzTML/AuO4+ykWVRdwpgF6nzkUak7xltmf7eh0KFf3JcFvN
+ dSP+Pk+u724DmUDBLm374IABVjo0vffvBoX75YXnZthpGu6Mgu7g89dasIwRD3lPKGnvDJAvkE+C/
+ 5fjjP9wxg9OXU9m2Z6iVeS/lPS/pAfTKJK+6kCJF2aLR4Nj7KM5rh7x+CrfwRJv2WpZCA/p9jRh9H
+ TttfjN4w==;
+Received: from c-71-59-88-35.hsd1.nj.comcast.net ([71.59.88.35]
+ helo=[192.168.1.99]) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1rg11b-0051OZ-0a; Fri, 01 Mar 2024 12:25:59 +0100
+Content-Type: multipart/alternative;
+ boundary="------------PdOyCBePms0bkn01b4OZdjuV"
+Message-ID: <08f8a967-25e1-4362-be38-3f1b050ec6f2@igalia.com>
+Date: Fri, 1 Mar 2024 06:25:53 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [RFC] How to test panic handlers, without crashing the kernel
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- John Ogness <john.ogness@linutronix.de>, Daniel Vetter <daniel@ffwll.ch>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Peter Zijlstra (Intel)" <peterz@infradead.org>,
- Josh Poimboeuf <jpoimboe@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Kefeng Wang <wangkefeng.wang@huawei.com>, Lukas Wunner <lukas@wunner.de>,
- Uros Bizjak <ubizjak@gmail.com>, "Guilherme G. Piccoli"
- <gpiccoli@igalia.com>, Uros Bizjak <ubizjak@gmail.com>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- David Airlie <airlied@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Christopher Michael <cmichael@igalia.com>
+Subject: 2024 X.Org Board of Directors Elections timeline extended, request
+ for nominations
+To: events@lists.x.org, xorg-devel@lists.x.org,
+ wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ libre-soc-dev@lists.libre-soc.org, elections@x.org, members@x.org,
+ xorg@lists.freedesktop.org
+References: <0efcdfe3-ea9e-43e5-ab07-6d69dca2c04a@igalia.com>
+Content-Language: en-US
+Cc: board <board@foundation.x.org>
+In-Reply-To: <0efcdfe3-ea9e-43e5-ab07-6d69dca2c04a@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,34 +67,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This is a multi-part message in MIME format.
+--------------PdOyCBePms0bkn01b4OZdjuV
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-While writing a panic handler for drm devices [1], I needed a way to 
-test it without crashing the machine.
-So from debugfs, I called 
-atomic_notifier_call_chain(&panic_notifier_list, ...), but it has the 
-side effect of calling all other panic notifiers registered.
-
-So Sima suggested to move that to the generic panic code, and test all 
-panic notifiers with a dedicated debugfs interface.
-
-I can move that code to kernel/, but before doing that, I would like to 
-know if you think that's the right way to test the panic code.
+We are seeking nominations for candidates for election to the X.org 
+Foundation Board of Directors. However, as we presently do not have 
+enough nominations to start the election - the decision has been made to 
+extend the timeline by 2 weeks. Note this is a fairly regular part of 
+the elections process.
 
 
-The second question is how to simulate a panic context in a 
-non-destructive way, so we can test the panic notifiers in CI, without 
-crashing the machine. The worst case for a panic notifier, is when the 
-panic occurs in NMI context, but I don't know how to simulate that. The 
-goal would be to find early if a panic notifier tries to sleep, or do 
-other things that are not allowed in a panic context.
+The new deadline for nominations to the X.org Board of Directors is 
+23:59 UTC on 11 March 2024
 
 
-Best regards,
+The Board consists of directors elected from the membership. Each year, 
+an election is held to bring the total number of directors to eight. The 
+four members receiving the highest vote totals will serve as directors 
+for two year terms.
 
--- 
+The directors who received two year terms starting in 2023 were 
+Arkadiusz Hiler, Christopher Michael, Lyude Paul, and Daniel Vetter. 
+They will continue to serve until their term ends in 2024. Current 
+directors whose term expires in 2024 are Emma Anholt, Mark Filion, 
+Ricardo Garcia, and Alyssa Rosenzweig.
+<https://rosenzweig.io/>
 
-Jocelyn
+A director is expected to participate in the fortnightly IRC meeting to 
+discuss current business and to attend the annual meeting of the X.Org 
+Foundation, which will be held at a location determined in advance by 
+the Board of Directors.
 
-[1] https://patchwork.freedesktop.org/patch/580183/?series=122244&rev=8
+A member may nominate themselves or any other member they feel is 
+qualified. Nominations should be sent to the Election Committee at 
+elections@x.org.
 
+Nominees shall be required to be current members of the X.Org 
+Foundation, and submit a personal statement of up to 200 words that will 
+be provided to prospective voters. The collected statements, along with 
+the statement of contribution to the X.Org Foundation in the member's 
+account page on http://members.x.org, will be made available to all 
+voters to help them make their voting decisions.
+
+Nominations and completed personal statements must be received no later 
+than 23:59 UTC on 11 March 2024.
+
+The slate of candidates will be published 18 March 2024 and candidate 
+Q&A will begin then. The deadline for Xorg membership applications and 
+renewals has also been extended 2 weeks and is now 25 March 2024.
+
+
+Cheers,
+
+Christopher Michael, on behalf of the X.Org BoD
+
+
+--------------PdOyCBePms0bkn01b4OZdjuV
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>We are seeking nominations for candidates for election to the
+      X.org Foundation Board of Directors. However, as we presently do
+      not have enough nominations to start the election - the decision
+      has been made to extend the timeline by 2 weeks. Note this is a
+      fairly regular part of the elections process.</p>
+    <p><br>
+    </p>
+    <p>The new deadline for nominations to the X.org Board of Directors
+      is 23:59 UTC on 11 March 2024</p>
+    <br>
+    The Board consists of directors elected from the membership. Each
+    year, an election is held to bring the total number of directors to
+    eight. The four members receiving the highest vote totals will serve
+    as directors for two year terms.
+    <p>The directors who received two year terms starting in 2023 were <span
+        class="createlink">Arkadiusz Hiler, </span><span
+        class="createlink">Christopher Michael, </span><span
+        class="createlink">Lyude Paul, and Daniel Vetter</span>. They
+      will continue to serve until their term ends in 2024. Current
+      directors whose term expires in 2024 are <span class="createlink">Emma
+        Anholt, </span><span class="createlink">Mark Filion, </span><span
+        class="createlink">Ricardo Garcia, and Alyssa Rosenzweig.</span><a
+        href="https://rosenzweig.io/"><br>
+      </a></p>
+    <p>A director is expected to participate in the fortnightly IRC
+      meeting to discuss current business and to attend the annual
+      meeting of the X.Org Foundation, which will be held at a location
+      determined in advance by the Board of Directors.</p>
+    <p>A member may nominate themselves or any other member they feel is
+      qualified. Nominations should be sent to the Election Committee at
+      <a class="moz-txt-link-abbreviated moz-txt-link-freetext"
+        href="mailto:elections@x.org">elections@x.org</a>.<br>
+    </p>
+    <p>Nominees shall be required to be current members of the X.Org
+      Foundation, and submit a personal statement of up to 200 words
+      that will be provided to prospective voters. The collected
+      statements, along with the statement of contribution to the X.Org
+      Foundation in the member's account page on <a
+        class="moz-txt-link-freetext" href="http://members.x.org">http://members.x.org</a>,
+      will be made available to all voters to help them make their
+      voting decisions.</p>
+    <p>Nominations and completed personal statements must be received no
+      later than 23:59 UTC on 11 March 2024.</p>
+    <p>The slate of candidates will be published 18 March 2024 and
+      candidate Q&amp;A will begin then. The deadline for Xorg
+      membership applications and renewals has also been extended 2
+      weeks and is now 25 March 2024.</p>
+    <p><br>
+    </p>
+    <p>Cheers,</p>
+    <p>Christopher Michael, on behalf of the X.Org BoD</p>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------PdOyCBePms0bkn01b4OZdjuV--
