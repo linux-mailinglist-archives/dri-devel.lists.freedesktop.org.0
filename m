@@ -2,60 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7741486D7F8
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 00:41:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41A1686D82A
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 01:12:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C568A10E70B;
-	Thu, 29 Feb 2024 23:41:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EB3C10E72D;
+	Fri,  1 Mar 2024 00:12:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cS9mRqRE";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="D7Km4Ojv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3562210E70B;
- Thu, 29 Feb 2024 23:41:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709250096; x=1740786096;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=7eL2vRJy8qWdKtthljeGVe/BWAPqo+5V7brXOBt5dWI=;
- b=cS9mRqRECGAVa6286s+0jXSS4BMrf/NTWa4stipiw/XmqLYssT+Iz2g8
- Bw+SMeTzoAkXYo+9MjGGgN13YNH00HCSpO5Sl7ZhgKGp/8FxDSE8zE5F7
- yQvda9MRy8jcmUh71r12MXz1FcFON5WJx9kvqx4d059vD4fzxcBwil1Wl
- srRCD00bS2C+CKWlQSi7HeAWVoFZjherbNDDEGOcaoJqfElCswxBs4bDS
- gV6fvJglMxXgWJDxxyy5LsJ55l5Mil6Zz5+LAMyFYeVcql2aMq99uSsvL
- QIgbYB2kyUezcnGFkk9Gt1EdVxpVW9RFK+/+uPMvWxtgaq1WBWzqzC1qP w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="3927936"
-X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="3927936"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Feb 2024 15:41:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; d="scan'208";a="12666254"
-Received: from syhu-mobl2.ccr.corp.intel.com (HELO intel.com) ([10.94.248.193])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Feb 2024 15:41:33 -0800
-Date: Fri, 1 Mar 2024 00:41:30 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@kernel.org>,
- Nirmoy Das <nirmoy.das@intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>
-Subject: Re: [PATCH] drm/i915/selftest_hangcheck: Check sanity with more
- patience
-Message-ID: <ZeEWKsTIG-kke3GX@ashyti-mobl2.lan>
-References: <20240228152500.38267-2-janusz.krzysztofik@linux.intel.com>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD02910E732
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 00:12:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1709251935;
+ bh=ddNDXXuct86kt9fa1yOGg6EFSRsJaqUkVKYspL0iIzM=;
+ h=From:Subject:Date:To:Cc:From;
+ b=D7Km4Ojv9tZIrYtyn+iT03V9mKDPM3/jf96hLHKZ2I7VHIJlrFZ2LNgA5CgKz+J0D
+ 8JfN9NZDqnwudR/RkCWIAgWbCKmO8G2GKznUx3fXrtw8F1cDLviJmnMz5APg6BYUrv
+ VGbqPYn4i3VgW/IWXZtltgImXg4QX90KUosiMqBMqg3qp0Zj1aQx0VoulGbmfmwSW1
+ N67HKyN6WTLX8imZP2NXsfDjmjXETOvgB/9Yz0Lts76bH5kq6nyiYOba0VfFStWSkL
+ Xw/1FmRAFWmiV8FY9ZRAjCqXum9BhKGUivMyMovnjEdlAx54OfL+6IvykySSMEiKpj
+ M815uNpg3QwaA==
+Received: from [192.168.1.205] (zone.collabora.co.uk [167.235.23.81])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: nfraprado)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 49B4A378000E;
+ Fri,  1 Mar 2024 00:12:09 +0000 (UTC)
+From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+Subject: [PATCH v2 0/9] drm: Switch from dev_err to dev_err_probe for
+ missing DSI host error path
+Date: Thu, 29 Feb 2024 19:12:06 -0500
+Message-Id: <20240229-anx7625-defer-log-no-dsi-host-v2-0-00506941049a@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240228152500.38267-2-janusz.krzysztofik@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAFYd4WUC/43NQQ6CMBCF4auYrh1DBwR05T0Mi3aYQhPsmJYQD
+ OHuVk7g8nuL/20qcfSc1P20qciLT15CBp5PikYTBgbfZysssCoQazBhbWq8Qs+OI0wyQBDok4d
+ R0gxUuhuRJYtto3LjHdn59eg/u+zRp1ni57hb9G/9t7xo0IAVWm1cqdu2epBMk7ESzYXkpbp93
+ 79ZrL/tzgAAAA==
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ owen <qwt9588@gmail.com>, Jagan Teki <jagan@amarulasolutions.com>, 
+ Marek Vasut <marex@denx.de>, Adrien Grassein <adrien.grassein@gmail.com>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Sam Ravnborg <sam@ravnborg.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Vinod Koul <vkoul@kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Vinay Simha BN <simhavcs@gmail.com>, 
+ Christopher Vollo <chris@renewoutreach.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+X-Mailer: b4 0.13.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,53 +82,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Janusz,
+This series changes every occurence of the following pattern: 
 
-On Wed, Feb 28, 2024 at 04:24:41PM +0100, Janusz Krzysztofik wrote:
-> While trying to reproduce some other issues reported by CI for i915
-> hangcheck live selftest, I found them hidden behind timeout failures
-> reported by igt_hang_sanitycheck -- the very first hangcheck test case
-> executed.
-> 
-> Feb 22 19:49:06 DUT1394ACMR kernel: calling  mei_gsc_driver_init+0x0/0xff0 [mei_gsc] @ 121074
-> Feb 22 19:49:06 DUT1394ACMR kernel: i915 0000:03:00.0: [drm] DRM_I915_DEBUG enabled
-> Feb 22 19:49:06 DUT1394ACMR kernel: i915 0000:03:00.0: [drm] Cannot find any crtc or sizes
-> Feb 22 19:49:06 DUT1394ACMR kernel: probe of i915.mei-gsc.768 returned 0 after 1475 usecs
-> Feb 22 19:49:06 DUT1394ACMR kernel: probe of i915.mei-gscfi.768 returned 0 after 1441 usecs
-> Feb 22 19:49:06 DUT1394ACMR kernel: initcall mei_gsc_driver_init+0x0/0xff0 [mei_gsc] returned 0 after 3010 usecs
-> Feb 22 19:49:06 DUT1394ACMR kernel: i915 0000:03:00.0: [drm] DRM_I915_DEBUG_GEM enabled
-> Feb 22 19:49:06 DUT1394ACMR kernel: i915 0000:03:00.0: [drm] DRM_I915_DEBUG_RUNTIME_PM enabled
-> Feb 22 19:49:06 DUT1394ACMR kernel: i915: Performing live selftests with st_random_seed=0x4c26c048 st_timeout=500
-> Feb 22 19:49:07 DUT1394ACMR kernel: i915: Running hangcheck
-> Feb 22 19:49:07 DUT1394ACMR kernel: calling  mei_hdcp_driver_init+0x0/0xff0 [mei_hdcp] @ 121074
-> Feb 22 19:49:07 DUT1394ACMR kernel: i915: Running intel_hangcheck_live_selftests/igt_hang_sanitycheck
-> Feb 22 19:49:07 DUT1394ACMR kernel: probe of 0000:00:16.0-b638ab7e-94e2-4ea2-a552-d1c54b627f04 returned 0 after 1398 usecs
-> Feb 22 19:49:07 DUT1394ACMR kernel: probe of i915.mei-gsc.768-b638ab7e-94e2-4ea2-a552-d1c54b627f04 returned 0 after 97 usecs
-> Feb 22 19:49:07 DUT1394ACMR kernel: initcall mei_hdcp_driver_init+0x0/0xff0 [mei_hdcp] returned 0 after 101960 usecs
-> Feb 22 19:49:07 DUT1394ACMR kernel: calling  mei_pxp_driver_init+0x0/0xff0 [mei_pxp] @ 121094
-> Feb 22 19:49:07 DUT1394ACMR kernel: probe of 0000:00:16.0-fbf6fcf1-96cf-4e2e-a6a6-1bab8cbe36b1 returned 0 after 435 usecs
-> Feb 22 19:49:07 DUT1394ACMR kernel: mei_pxp i915.mei-gsc.768-fbf6fcf1-96cf-4e2e-a6a6-1bab8cbe36b1: bound 0000:03:00.0 (ops i915_pxp_tee_component_ops [i915])
-> Feb 22 19:49:07 DUT1394ACMR kernel: 100ms wait for request failed on rcs0, err=-62
-> Feb 22 19:49:07 DUT1394ACMR kernel: probe of i915.mei-gsc.768-fbf6fcf1-96cf-4e2e-a6a6-1bab8cbe36b1 returned 0 after 158425 usecs
-> Feb 22 19:49:07 DUT1394ACMR kernel: initcall mei_pxp_driver_init+0x0/0xff0 [mei_pxp] returned 0 after 224159 usecs
-> Feb 22 19:49:07 DUT1394ACMR kernel: i915/intel_hangcheck_live_selftests: igt_hang_sanitycheck failed with error -5
-> Feb 22 19:49:07 DUT1394ACMR kernel: i915: probe of 0000:03:00.0 failed with error -5
-> 
-> Those request waits, once timed out after 100ms, have never been
-> confirmed to still persist over another 100ms, always being able to
-> complete within the originally requested wait time doubled.
-> 
-> Taking into account potentially significant additional concurrent workload
-> generated by new auxiliary drivers that didn't exist before and now are
-> loaded in parallel with the i915 module also when loaded in selftest mode,
-> relax our expectations on time consumed by the sanity check request before
-> it completes.
-> 
-> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+	dsi_host = of_find_mipi_dsi_host_by_node(dsi);
+	if (!dsi_host) {
+		dev_err(dev, "failed to find dsi host\n");
+		return -EPROBE_DEFER;
+	}
 
-I'm OK with it...
+into
 
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+	dsi_host = of_find_mipi_dsi_host_by_node(dsi);
+	if (!dsi_host)
+		return dev_err_probe(dev, -EPROBE_DEFER, "failed to find dsi host\n");
 
-Thanks,
-Andi
+This registers the defer probe reason (so it can later be printed by the
+driver core or checked on demand through the devices_deferred file in
+debugfs) and prevents errors to be spammed in the kernel log every time
+the driver retries to probe, unnecessarily alerting userspace about
+something that is a normal part of the boot process.
+
+I have omitted a Fixes: tag in the last patch, for the truly-nt35597
+panel, because it predates the dev_err_probe() helper.
+
+Changes in v2:
+- Added patches 2 onwards to fix all occurences of this pattern instead
+  of just for the anx7625 driver
+- Link to v1: https://lore.kernel.org/r/20240226-anx7625-defer-log-no-dsi-host-v1-1-242b1af31884@collabora.com
+
+---
+Nícolas F. R. A. Prado (9):
+      drm/bridge: anx7625: Don't log an error when DSI host can't be found
+      drm/bridge: icn6211: Don't log an error when DSI host can't be found
+      drm/bridge: lt8912b: Don't log an error when DSI host can't be found
+      drm/bridge: lt9611: Don't log an error when DSI host can't be found
+      drm/bridge: lt9611uxc: Don't log an error when DSI host can't be found
+      drm/bridge: tc358775: Don't log an error when DSI host can't be found
+      drm/bridge: dpc3433: Don't log an error when DSI host can't be found
+      drm/panel: novatek-nt35950: Don't log an error when DSI host can't be found
+      drm/panel: truly-nt35597: Don't log an error when DSI host can't be found
+
+ drivers/gpu/drm/bridge/analogix/anx7625.c     |  6 ++----
+ drivers/gpu/drm/bridge/chipone-icn6211.c      |  6 ++----
+ drivers/gpu/drm/bridge/lontium-lt8912b.c      |  6 ++----
+ drivers/gpu/drm/bridge/lontium-lt9611.c       |  6 ++----
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c    |  6 ++----
+ drivers/gpu/drm/bridge/tc358775.c             |  6 ++----
+ drivers/gpu/drm/bridge/ti-dlpc3433.c          | 17 +++++++++--------
+ drivers/gpu/drm/panel/panel-novatek-nt35950.c |  6 ++----
+ drivers/gpu/drm/panel/panel-truly-nt35597.c   |  6 ++----
+ 9 files changed, 25 insertions(+), 40 deletions(-)
+---
+base-commit: 2ae0a045e6814c8c1d676d6153c605a65746aa29
+change-id: 20240226-anx7625-defer-log-no-dsi-host-c3f9ccbcb287
+
+Best regards,
+-- 
+Nícolas F. R. A. Prado <nfraprado@collabora.com>
+
