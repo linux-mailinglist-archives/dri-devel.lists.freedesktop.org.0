@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E8386DB6F
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 07:29:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B7AF86DB72
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 07:30:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59B3B10EB53;
-	Fri,  1 Mar 2024 06:29:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D7BF10EB57;
+	Fri,  1 Mar 2024 06:30:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="voaQ/OQU";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sjuvuVk3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6B5210EB53
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 06:29:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E576110EB57
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 06:30:18 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi
  [89.27.53.110])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 41EAE9CE;
- Fri,  1 Mar 2024 07:29:03 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B21AD15EE;
+ Fri,  1 Mar 2024 07:30:03 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1709274543;
- bh=aeGiOvUNWFB44kw5uf/9p/wmucL3JVEsUpe4CuPUWEA=;
+ s=mail; t=1709274603;
+ bh=yQbUQsOdFYQQXWH7Fu3bQwR+ZertHCl0TbbU2bMrM9I=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=voaQ/OQU5xC3qLX5hG8/6UBRTL7Hcwa1D39IHDyTqxiNPAIylYE2vEdH1x+BAZl6F
- SS6IHESFOkEucozhKW9m+gbfUt3fCbubJz0QFflZas+SZLyn5kKDhb2Z/IB9dyx9Oi
- G/TSTeinLVtk8N/LzgNyM3F9w2nY1poo7yUwZH/s=
-Date: Fri, 1 Mar 2024 08:29:20 +0200
+ b=sjuvuVk3mvhPD4qOQdsUfQL9rsF7Ebg/5dWQ0amqTckNifDDjFNTOQRMzgM3usEBu
+ /py7bYR1hX+q7b0FmLKseEmEHuUoiAxuU6Eypnw6UXw0yQk6hiBSEOqggJocR7sJgB
+ +8aPDIfsBp3wgLtdNcPC7z1VReju+5hs4I/6PfLg=
+Date: Fri, 1 Mar 2024 08:30:20 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -52,16 +52,16 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  kernel@collabora.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v2 8/9] drm/panel: novatek-nt35950: Don't log an error
- when DSI host can't be found
-Message-ID: <20240301062920.GK30889@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 9/9] drm/panel: truly-nt35597: Don't log an error when
+ DSI host can't be found
+Message-ID: <20240301063020.GL30889@pendragon.ideasonboard.com>
 References: <20240229-anx7625-defer-log-no-dsi-host-v2-0-00506941049a@collabora.com>
- <20240229-anx7625-defer-log-no-dsi-host-v2-8-00506941049a@collabora.com>
+ <20240229-anx7625-defer-log-no-dsi-host-v2-9-00506941049a@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240229-anx7625-defer-log-no-dsi-host-v2-8-00506941049a@collabora.com>
+In-Reply-To: <20240229-anx7625-defer-log-no-dsi-host-v2-9-00506941049a@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,48 +77,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nicolas,
+Hi Nícolas,
 
 Thank you for the patch.
 
-On Thu, Feb 29, 2024 at 07:12:14PM -0500, Nícolas F. R. A. Prado wrote:
+On Thu, Feb 29, 2024 at 07:12:15PM -0500, Nícolas F. R. A. Prado wrote:
 > Given that failing to find a DSI host causes the driver to defer probe,
 > make use of dev_err_probe() to log the reason. This makes the defer
 > probe reason available and avoids alerting userspace about something
 > that is not necessarily an error.
 > 
-> Fixes: 623a3531e9cf ("drm/panel: Add driver for Novatek NT35950 DSI DriverIC panels")
 > Suggested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 > ---
->  drivers/gpu/drm/panel/panel-novatek-nt35950.c | 6 ++----
+>  drivers/gpu/drm/panel/panel-truly-nt35597.c | 6 ++----
 >  1 file changed, 2 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35950.c b/drivers/gpu/drm/panel/panel-novatek-nt35950.c
-> index 648ce9201426..028fdac293f7 100644
-> --- a/drivers/gpu/drm/panel/panel-novatek-nt35950.c
-> +++ b/drivers/gpu/drm/panel/panel-novatek-nt35950.c
-> @@ -556,10 +556,8 @@ static int nt35950_probe(struct mipi_dsi_device *dsi)
->  		}
->  		dsi_r_host = of_find_mipi_dsi_host_by_node(dsi_r);
->  		of_node_put(dsi_r);
-> -		if (!dsi_r_host) {
-> -			dev_err(dev, "Cannot get secondary DSI host\n");
-> -			return -EPROBE_DEFER;
-> -		}
-> +		if (!dsi_r_host)
-> +			return dev_err_probe(dev, -EPROBE_DEFER, "Cannot get secondary DSI host\n");
+> diff --git a/drivers/gpu/drm/panel/panel-truly-nt35597.c b/drivers/gpu/drm/panel/panel-truly-nt35597.c
+> index b73448cf349d..d447db912a61 100644
+> --- a/drivers/gpu/drm/panel/panel-truly-nt35597.c
+> +++ b/drivers/gpu/drm/panel/panel-truly-nt35597.c
+> @@ -550,10 +550,8 @@ static int truly_nt35597_probe(struct mipi_dsi_device *dsi)
+>  
+>  	dsi1_host = of_find_mipi_dsi_host_by_node(dsi1);
+>  	of_node_put(dsi1);
+> -	if (!dsi1_host) {
+> -		dev_err(dev, "failed to find dsi host\n");
+> -		return -EPROBE_DEFER;
+> -	}
+> +	if (!dsi1_host)
+> +		return dev_err_probe(dev, -EPROBE_DEFER, "failed to find dsi host\n");
 
-			return dev_err_probe(dev, -EPROBE_DEFER,
-					     "Cannot get secondary DSI host\n");
+		return dev_err_probe(dev, -EPROBE_DEFER,
+				     "failed to find dsi host\n");
 
-With this,
+With this addressed,
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 >  
->  		nt->dsi[1] = mipi_dsi_device_register_full(dsi_r_host, info);
->  		if (!nt->dsi[1]) {
+>  	/* register the second DSI device */
+>  	dsi1_device = mipi_dsi_device_register_full(dsi1_host, &info);
 > 
 
 -- 
