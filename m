@@ -2,69 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8218286DB15
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 06:27:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D852F86DB36
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Mar 2024 06:41:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06F7610EAFB;
-	Fri,  1 Mar 2024 05:27:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5408E10EB10;
+	Fri,  1 Mar 2024 05:41:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="QzbKi4Q0";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FFlPhdJA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7639410EAFB
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 05:27:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1709270851; x=1740806851;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=OKLm0TpKtjMzC5zoHct+zFILT4roGx2dwy6wf/eZcDs=;
- b=QzbKi4Q0s3whKc94/oG1GJqrHGjZ2L3gMh9LcvH25QzqpseiXbDlVDD9
- Z+yFXmhEIC8azNM42dI5zSBMJi5jkNl3nFL8sEmPycf165evFACc2QlTS
- z4oHQvGTjUw1oPRPq1eIxTkkBz0/q58pHxkIVE6O/0R6fzZenKzvmlkaA
- 7ewfOdpp1AkTQ7r8jPwSGvpTFUjvgGMUsoyi/HZzp8CPUSCq/v4qrURnt
- ZGlDqAPSWfr0LY6+lJQVlTUwxk0a3CJw2YnJ5l675OdoAhrgmE+eaGBpT
- 6iFmCIHhOg0QGj2r7zjCwy//fb8uTSuZmPdA2A1ibnd0uspMXzt5OMkID A==;
-X-CSE-ConnectionGUID: RLX9j2keSXCRNMfMnLOX2w==
-X-CSE-MsgGUID: sgnPbwnPQxSwz4TRJalR/A==
-X-IronPort-AV: E=Sophos;i="6.06,195,1705388400"; d="scan'208";a="17055855"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 29 Feb 2024 22:27:30 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 29 Feb 2024 22:27:03 -0700
-Received: from che-lt-i67131.microchip.com (10.10.85.11) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Thu, 29 Feb 2024 22:26:55 -0700
-From: Manikandan Muralidharan <manikandan.m@microchip.com>
-To: <sam@ravnborg.org>, <bbrezillon@kernel.org>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
- <claudiu.beznea@tuxon.dev>, <lee@kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>
-CC: <Hari.PrasathGE@microchip.com>, <Balamanikandan.Gunasundar@microchip.com>, 
- <Durai.ManickamKR@microchip.com>, <Nayabbasha.Sayed@microchip.com>,
- <Dharma.B@microchip.com>, <Varshini.Rajendran@microchip.com>,
- <Balakrishnan.S@microchip.com>, <Charan.Pedumuru@microchip.com>, "Manikandan
- Muralidharan" <manikandan.m@microchip.com>
-Subject: [PATCH v9 8/8] drm: atmel-hlcdc: add LCD controller layer definition
- for sam9x75
-Date: Fri, 1 Mar 2024 10:55:34 +0530
-Message-ID: <20240301052534.38651-9-manikandan.m@microchip.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240301052534.38651-1-manikandan.m@microchip.com>
-References: <20240301052534.38651-1-manikandan.m@microchip.com>
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
+ [209.85.218.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A61610EB10
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 05:41:17 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id
+ a640c23a62f3a-a3ddc13bbb3so473980066b.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Feb 2024 21:41:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1709271675; x=1709876475; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=DOjC4nxpEij9WxAX1kxnNARpFgG4U26yhskqesqGE6Q=;
+ b=FFlPhdJAtNcYFJFL8NXry5H4U0V6Re517sBm+d2RKPZ8MVgmSLb4ZUCgjQ/ihqPinc
+ Q3YvXpS8b5B1XwhLxVAqHo/ZLBLg7sZdybfJIO7yFX54Zl5Figgb+0yffu+libUrIqbB
+ a0s2R36WHoheImybCqGvj+FVKAtUw4/l9ZPISSPSPSSKV58xxu7F2aSsuK7uDgcku7vM
+ kcK/vmK/1lzCoNl1CS0vaKsijxkc9IB5DeLo3I0J4GFf9va7Mu+Q9mbDY1F/KfEteIVF
+ U6oQezZ5VLlTeYI9yJE+eHqfdgZArG9uBhazPeGIAtaZ03U/enLMh4o+Ygi/iqbn2NnC
+ UmbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709271675; x=1709876475;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=DOjC4nxpEij9WxAX1kxnNARpFgG4U26yhskqesqGE6Q=;
+ b=rdBzbdc6Y0zOe0sRB6RcS25u1cXgH7OY96Rd5KUc4dBn7FtOcLzfzGTIhkooRHn1+n
+ SXnp+TQl10WpFHY4K9fHxiDQ362MlNi39YQb8kkhUSX6O8ucxLo9E7Pwyrch35aZ5VzC
+ CBynysjg5BJx3PJwrTyZS9TSTOpbkxz/RsELaRaF9Sc90U6K3bW2dlcQ9C+1PT4s0Gn8
+ tT14aYu7u398gw18S24TriE5tTBJPDnXTRlmyrGl6mxKn9XL1mb28dmh2zkVPxxZJ4iK
+ ErUfzklsp2uJq0bJLoGZhaH2MvEezl3qUgwWm2SuuWr7hn4gri7h6iuEXVlE4fo/uzv6
+ j1YA==
+X-Gm-Message-State: AOJu0YzswgI07I6+IykK4cjiWWBuqXwlip/2CFLfeco2uGHlWDi4OLJw
+ uNXuVLVe8lMQplxzYWP3YRNtST07+ECr855sKWcEhbNwS1p1P40CnRHF8Gqsxyt2OG0SYkUjkcX
+ 8szs0C3E19dCGBlyhu9apT/n+VZA=
+X-Google-Smtp-Source: AGHT+IG9v4HM3fFKna7+0z/CzZAAQDHmA47gTT+yDJADeC0NIo6pUe6imnkssYpQqp9TtA4uy3JLF/vZ5VgJZWOYwKE=
+X-Received: by 2002:a17:906:cb90:b0:a44:cd4:95e0 with SMTP id
+ mf16-20020a170906cb9000b00a440cd495e0mr795658ejb.1.1709271674998; Thu, 29 Feb
+ 2024 21:41:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 1 Mar 2024 15:41:03 +1000
+Message-ID: <CAPM=9tyc=L_69XMch05z=R+Kw2BC-jRCgnYMXMRtUN+RkCW=2w@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.8-rc7
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,136 +75,255 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the LCD controller layer definition and descriptor structure for
-sam9x75 for the following layers:
-- Base Layer
-- Overlay1 Layer
-- Overlay2 Layer
-- High End Overlay
+Hi Linus,
 
-Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
----
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 100 +++++++++++++++++++
- 1 file changed, 100 insertions(+)
+Regular weekly fixes pull, I'll be travelling for a few days but I
+don't think it should interfere with anything apart from my
+responsiveness if things go wrong :-P.
 
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-index b09df821cbc0..9ce429f889ca 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-@@ -467,6 +467,102 @@ static const struct atmel_hlcdc_dc_desc atmel_hlcdc_dc_sam9x60 = {
- 	.ops = &atmel_hlcdc_ops,
- };
- 
-+static const struct atmel_hlcdc_layer_desc atmel_xlcdc_sam9x75_layers[] = {
-+	{
-+		.name = "base",
-+		.formats = &atmel_hlcdc_plane_rgb_formats,
-+		.regs_offset = 0x60,
-+		.id = 0,
-+		.type = ATMEL_HLCDC_BASE_LAYER,
-+		.cfgs_offset = 0x1c,
-+		.layout = {
-+			.xstride = { 2 },
-+			.default_color = 3,
-+			.general_config = 4,
-+			.disc_pos = 5,
-+			.disc_size = 6,
-+		},
-+		.clut_offset = 0x700,
-+	},
-+	{
-+		.name = "overlay1",
-+		.formats = &atmel_hlcdc_plane_rgb_formats,
-+		.regs_offset = 0x160,
-+		.id = 1,
-+		.type = ATMEL_HLCDC_OVERLAY_LAYER,
-+		.cfgs_offset = 0x1c,
-+		.layout = {
-+			.pos = 2,
-+			.size = 3,
-+			.xstride = { 4 },
-+			.pstride = { 5 },
-+			.default_color = 6,
-+			.chroma_key = 7,
-+			.chroma_key_mask = 8,
-+			.general_config = 9,
-+		},
-+		.clut_offset = 0xb00,
-+	},
-+	{
-+		.name = "overlay2",
-+		.formats = &atmel_hlcdc_plane_rgb_formats,
-+		.regs_offset = 0x260,
-+		.id = 2,
-+		.type = ATMEL_HLCDC_OVERLAY_LAYER,
-+		.cfgs_offset = 0x1c,
-+		.layout = {
-+			.pos = 2,
-+			.size = 3,
-+			.xstride = { 4 },
-+			.pstride = { 5 },
-+			.default_color = 6,
-+			.chroma_key = 7,
-+			.chroma_key_mask = 8,
-+			.general_config = 9,
-+		},
-+		.clut_offset = 0xf00,
-+	},
-+	{
-+		.name = "high-end-overlay",
-+		.formats = &atmel_hlcdc_plane_rgb_and_yuv_formats,
-+		.regs_offset = 0x360,
-+		.id = 3,
-+		.type = ATMEL_HLCDC_OVERLAY_LAYER,
-+		.cfgs_offset = 0x30,
-+		.layout = {
-+			.pos = 2,
-+			.size = 3,
-+			.memsize = 4,
-+			.xstride = { 5, 7 },
-+			.pstride = { 6, 8 },
-+			.default_color = 9,
-+			.chroma_key = 10,
-+			.chroma_key_mask = 11,
-+			.general_config = 12,
-+			.csc = 16,
-+			.scaler_config = 23,
-+			.vxs_config = 30,
-+			.hxs_config = 31,
-+		},
-+		.clut_offset = 0x1300,
-+	},
-+};
-+
-+static const struct atmel_hlcdc_dc_desc atmel_xlcdc_dc_sam9x75 = {
-+	.min_width = 0,
-+	.min_height = 0,
-+	.max_width = 2048,
-+	.max_height = 2048,
-+	.max_spw = 0x3ff,
-+	.max_vpw = 0x3ff,
-+	.max_hpw = 0x3ff,
-+	.fixed_clksrc = true,
-+	.is_xlcdc = true,
-+	.nlayers = ARRAY_SIZE(atmel_xlcdc_sam9x75_layers),
-+	.layers = atmel_xlcdc_sam9x75_layers,
-+	.ops = &atmel_xlcdc_ops,
-+};
-+
- static const struct of_device_id atmel_hlcdc_of_match[] = {
- 	{
- 		.compatible = "atmel,at91sam9n12-hlcdc",
-@@ -492,6 +588,10 @@ static const struct of_device_id atmel_hlcdc_of_match[] = {
- 		.compatible = "microchip,sam9x60-hlcdc",
- 		.data = &atmel_hlcdc_dc_sam9x60,
- 	},
-+	{
-+		.compatible = "microchip,sam9x75-xlcdc",
-+		.data = &atmel_xlcdc_dc_sam9x75,
-+	},
- 	{ /* sentinel */ },
- };
- MODULE_DEVICE_TABLE(of, atmel_hlcdc_of_match);
--- 
-2.25.1
+Bunch of fixes, xe, amdgpu, nouveau and tegra all have a few. Then
+drm/bridge including some drivers/soc fallout fixes. The biggest thing
+in here is a new unit test for some buddy allocator fixes, otherwise a
+misc fbcon, ttm unit test and one msm revert.
 
+Seems to pretty normal for this stage.
+
+Regards,
+Dave.
+
+drm-fixes-2024-03-01:
+drm fixes for 6.8-rc7
+
+buddy:
+- two allocation fixes + unit test
+
+fbcon:
+- font restore syzkaller fix
+
+ttm:
+- kunit test fix
+
+bridge:
+- fix aux-hpd leaks
+- fix aux-hpd registration
+- fix use after free in soc/qcom
+- fix boot on soc/qcom
+
+xe:
+- A couple of tracepoint updates from Priyanka and Lucas.
+- Make sure BINDs are completed before accepting UNBINDs on LR vms.
+- Don't arbitrarily restrict max number of batched binds.
+- Add uapi for dumpable bos (agreed on IRC).
+- Remove unused uapi flags and a leftover comment.
+- A couple of fixes related to the execlist backend.
+
+msm:
+- DP: Revert a change which was causing a HDP regression
+
+amdgpu:
+- Fix potential buffer overflow
+- Fix power min cap
+- Suspend/resume fix
+- SI PM fix
+- eDP fix
+
+nouveau:
+- fix a misreported VRAM sizing
+- fix a regression in suspend/resume due to freeing
+
+tegra:
+- host1x reset fix
+- only remove existing driver if display is possible
+The following changes since commit d206a76d7d2726f3b096037f2079ce0bd3ba329b=
+:
+
+  Linux 6.8-rc6 (2024-02-25 15:46:06 -0800)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-03-01
+
+for you to fetch changes up to f6ecfdad359a01c7fd8a3bcfde3ef0acdf107e6e:
+
+  drm/nouveau: keep DMA buffers required for suspend/resume
+(2024-03-01 15:27:04 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.8-rc7
+
+buddy:
+- two allocation fixes + unit test
+
+fbcon:
+- font restore syzkaller fix
+
+ttm:
+- kunit test fix
+
+bridge:
+- fix aux-hpd leaks
+- fix aux-hpd registration
+- fix use after free in soc/qcom
+- fix boot on soc/qcom
+
+xe:
+- A couple of tracepoint updates from Priyanka and Lucas.
+- Make sure BINDs are completed before accepting UNBINDs on LR vms.
+- Don't arbitrarily restrict max number of batched binds.
+- Add uapi for dumpable bos (agreed on IRC).
+- Remove unused uapi flags and a leftover comment.
+- A couple of fixes related to the execlist backend.
+
+msm:
+- DP: Revert a change which was causing a HDP regression
+
+amdgpu:
+- Fix potential buffer overflow
+- Fix power min cap
+- Suspend/resume fix
+- SI PM fix
+- eDP fix
+
+nouveau:
+- fix a misreported VRAM sizing
+- fix a regression in suspend/resume due to freeing
+
+tegra:
+- host1x reset fix
+- only remove existing driver if display is possible
+
+----------------------------------------------------------------
+Alex Deucher (1):
+      Revert "drm/amd/pm: resolve reboot exception for si oland"
+
+Arnd Bergmann (1):
+      drm/xe/mmio: fix build warning for BAR resize on 32-bit
+
+Christian K=C3=B6nig (1):
+      drm/ttm/tests: depend on UML || COMPILE_TEST
+
+Dave Airlie (5):
+      Merge tag 'drm-misc-fixes-2024-02-29' of
+https://anongit.freedesktop.org/git/drm/drm-misc into drm-fixes
+      Merge tag 'drm-xe-fixes-2024-02-29' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+      Merge tag 'drm-msm-fixes-2024-02-28' of
+https://gitlab.freedesktop.org/drm/msm into drm-fixes
+      Merge tag 'amd-drm-fixes-6.8-2024-02-29' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      nouveau: report byte usage in VRAM usage.
+
+Dmitry Baryshkov (1):
+      Revert "drm/msm/dp: use drm_bridge_hpd_notify() to report HPD
+status changes"
+
+Francois Dugast (1):
+      drm/xe/uapi: Remove unused flags
+
+Jiri Slaby (SUSE) (1):
+      fbcon: always restore the old font data in fbcon_do_set_font()
+
+Johan Hovold (3):
+      drm/bridge: aux-hpd: fix OF node leaks
+      drm/bridge: aux-hpd: separate allocation and registration
+      soc: qcom: pmic_glink_altmode: fix drm bridge use-after-free
+
+Jos=C3=A9 Roberto de Souza (1):
+      drm/xe/uapi: Remove DRM_XE_VM_BIND_FLAG_ASYNC comment left over
+
+Lucas De Marchi (1):
+      drm/xe: Use pointers in trace events
+
+Ma Jun (1):
+      drm/amdgpu/pm: Fix the power1_min_cap value
+
+Maarten Lankhorst (1):
+      drm/xe: Add uapi for dumpable bos
+
+Matthew Auld (3):
+      drm/buddy: fix range bias
+      drm/buddy: check range allocation matches alignment
+      drm/tests/drm_buddy: add alloc_range_bias test
+
+Matthew Brost (3):
+      drm/xe: Fix execlist splat
+      drm/xe: Don't support execlists in xe_gt_tlb_invalidation layer
+      drm/xe: Use vmalloc for array of bind allocation in bind IOCTL
+
+Maxime Ripard (1):
+      Merge drm/drm-fixes into drm-misc-fixes
+
+Mika Kuoppala (2):
+      drm/xe: Expose user fence from xe_sync_entry
+      drm/xe: Deny unbinds if uapi ufence pending
+
+Mikko Perttunen (1):
+      gpu: host1x: Skip reset assert on Tegra186
+
+Paulo Zanoni (1):
+      drm/xe: get rid of MAX_BINDS
+
+Prike Liang (1):
+      drm/amdgpu: Enable gpu reset for S3 abort cases on Raven series
+
+Priyanka Dandamudi (2):
+      drm/xe/xe_bo_move: Enhance xe_bo_move trace
+      drm/xe/xe_trace: Add move_lacks_source detail to xe_bo_move trace
+
+Rob Clark (1):
+      soc: qcom: pmic_glink: Fix boot when QRTR=3Dm
+
+Ryan Lin (1):
+      drm/amd/display: Add monitor patch for specific eDP
+
+Sid Pranjale (1):
+      drm/nouveau: keep DMA buffers required for suspend/resume
+
+Srinivasan Shanmugam (1):
+      drm/amd/display: Prevent potential buffer overflow in map_hw_resource=
+s
+
+Thierry Reding (1):
+      drm/tegra: Remove existing framebuffer only if we support display
+
+ drivers/gpu/drm/Kconfig                            |   5 +-
+ drivers/gpu/drm/amd/amdgpu/soc15.c                 |  45 +++--
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  |   6 +-
+ drivers/gpu/drm/amd/display/dc/dml2/dml2_wrapper.c |   5 +
+ drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c         |  29 +++
+ drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c  |   9 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c    |   9 +-
+ .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |   9 +-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   |   9 +-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c   |   9 +-
+ drivers/gpu/drm/bridge/aux-hpd-bridge.c            |  70 +++++--
+ drivers/gpu/drm/drm_buddy.c                        |  16 +-
+ drivers/gpu/drm/msm/dp/dp_display.c                |  20 +-
+ drivers/gpu/drm/nouveau/nouveau_abi16.c            |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c     |   4 +-
+ drivers/gpu/drm/tegra/drm.c                        |  23 ++-
+ drivers/gpu/drm/tests/drm_buddy_test.c             | 218 +++++++++++++++++=
+++++
+ drivers/gpu/drm/xe/xe_bo.c                         |  11 +-
+ drivers/gpu/drm/xe/xe_bo.h                         |   1 +
+ drivers/gpu/drm/xe/xe_drm_client.c                 |  12 +-
+ drivers/gpu/drm/xe/xe_exec_queue.c                 |  88 +--------
+ drivers/gpu/drm/xe/xe_exec_queue_types.h           |  10 -
+ drivers/gpu/drm/xe/xe_execlist.c                   |   2 +-
+ drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c        |  12 ++
+ drivers/gpu/drm/xe/xe_lrc.c                        |  10 +-
+ drivers/gpu/drm/xe/xe_mmio.c                       |   2 +-
+ drivers/gpu/drm/xe/xe_sync.c                       |  58 +++++-
+ drivers/gpu/drm/xe/xe_sync.h                       |   4 +
+ drivers/gpu/drm/xe/xe_sync_types.h                 |   2 +-
+ drivers/gpu/drm/xe/xe_trace.h                      |  59 ++++--
+ drivers/gpu/drm/xe/xe_vm.c                         |  80 +++++---
+ drivers/gpu/drm/xe/xe_vm_types.h                   |  11 +-
+ drivers/gpu/host1x/dev.c                           |  15 +-
+ drivers/gpu/host1x/dev.h                           |   6 +
+ drivers/soc/qcom/pmic_glink.c                      |  21 +-
+ drivers/soc/qcom/pmic_glink_altmode.c              |  16 +-
+ drivers/video/fbdev/core/fbcon.c                   |   8 +-
+ include/drm/bridge/aux-bridge.h                    |  15 ++
+ include/uapi/drm/xe_drm.h                          |  21 +-
+ 39 files changed, 659 insertions(+), 293 deletions(-)
