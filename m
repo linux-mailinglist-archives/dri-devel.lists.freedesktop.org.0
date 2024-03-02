@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3438486EF12
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Mar 2024 08:15:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC2586EFD0
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Mar 2024 10:28:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 373EB10EFEB;
-	Sat,  2 Mar 2024 07:15:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8916B10EFC0;
+	Sat,  2 Mar 2024 09:28:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gsBdR5Oq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="s9i134pZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EED5110EFEB
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Mar 2024 07:15:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F6E710EFC0
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Mar 2024 09:27:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 3608CCE009F
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Mar 2024 07:15:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6FC03C433F1
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Mar 2024 07:15:01 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id D1E74CE0922
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Mar 2024 09:27:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1A6FEC433C7
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Mar 2024 09:27:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1709363701;
- bh=A3BgE3LrN9xhjTWNWZkUkfLajD55iolrIrOySQxgSDM=;
+ s=k20201202; t=1709371675;
+ bh=JKjp1XohTi9H2LKnFhRMtnyM0X/7PZzp+KJy/ZEBi/M=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=gsBdR5OqTNa0pGYLM4Ii7EL78MpiXKfhZgaKQowPaE6z0BFduBxHXPdvIWrAo/9mL
- Ysmk5rOP/AfQIRqfo4U6I9y3f/oSRkR+MAbTfIfFva1NVdUBIyVDb67Pfgdg5KRQno
- QHxsitwdolfjP3jpXChRsET4eKQzV65i8TpfCT/U0+T6ZZCCVcypTpKO0kcQZKkTxr
- fgonVn+LUGVLfPGywLfvjqQn5lRZ81DZj3EHsNp/gVpHzlEcrRl8GBLGA1Cit13chj
- wTP8pFqy+7sGw3hUQFjsxrheMLr8ILGBw6rD+LUcoWy4VCk7hbZdMjLsSLJJ3UNdjb
- 81tF9T6mH3rbA==
+ b=s9i134pZ7Z/Tufcviuj85hxauFdSk/WwfqYLYpxr9JiD/j6Z6X08hW/0KHTIAS7Yl
+ h1EnqzIKzYkov0o5WQ4zjMZrrwwsY78MK/c11iRN31sic2K5a/Fk9nHQAt48cYaVC1
+ km1Uo0g/m8FBJNa8vJA2Cl8NDEW2ipfv59u9HEeT/WWaCT/M/N1xelJevSR+moBnvY
+ wYBevqpwmqVNT3DdaxuJw/jQy7naKCZ7i2lofqONHU3tnnjpMLbHtQ5b4d6X2tvc1A
+ oV/dCwL+TvMDTKctUf8yYcnhRZ9hgJ2AwotmczWorNo6EChxpR8mMs88KUOxCMvnkU
+ MB8xDO+cnsClA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 60DFEC53BCD; Sat,  2 Mar 2024 07:15:01 +0000 (UTC)
+ from userid 48) id 02781C53BD0; Sat,  2 Mar 2024 09:27:55 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 218549] [REGRESSION] in 6.7.5, amdgpu: amdgpu_device_ip_resume
  failed (-62).
-Date: Sat, 02 Mar 2024 07:15:01 +0000
+Date: Sat, 02 Mar 2024 09:27:54 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,14 +45,15 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: emerg.reanimator@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
+X-Bugzilla-Who: aros@gmx.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: ANSWERED
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-218549-2300-350zQN8ZdE@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: bug_status cf_kernel_version resolution
+ cf_regression
+Message-ID: <bug-218549-2300-QOjziOGMIR@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-218549-2300@https.bugzilla.kernel.org/>
 References: <bug-218549-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -77,10 +78,19 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D218549
 
---- Comment #3 from Alexander Goomenyuk (emerg.reanimator@gmail.com) ---
-Created attachment 305947
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D305947&action=3Dedit
-modinfo amdgpu, 6.7.5, failure
+Artem S. Tashkinov (aros@gmx.com) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+     Kernel Version|                            |6.7.5
+         Resolution|---                         |ANSWERED
+         Regression|No                          |Yes
+
+--- Comment #4 from Artem S. Tashkinov (aros@gmx.com) ---
+amdgpu bug tracker is here: https://gitlab.freedesktop.org/drm/amd/-/issues
+
+Please post there.
 
 --=20
 You may reply to this email to add a comment.
