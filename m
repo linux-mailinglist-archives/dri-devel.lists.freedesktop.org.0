@@ -2,63 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1367D86F473
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Mar 2024 11:46:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 659CB86F471
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Mar 2024 11:46:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD80710F973;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD37610F972;
 	Sun,  3 Mar 2024 10:45:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gtucker.io header.i=@gtucker.io header.b="F+UgJ7+W";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=paroga.com header.i=@paroga.com header.b="KKsmLH+h";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=paroga.com header.i=@paroga.com header.b="KKsmLH+h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 731D310ECFC
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Mar 2024 21:56:35 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D6DA21BF204;
- Fri,  1 Mar 2024 21:56:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
- t=1709330193;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ex6e7ljG1u9CpeqxUac1ORmdsnFmutQlF+JwXX6GWe4=;
- b=F+UgJ7+Wlx7CID/E0C31iTFp3J7wvXkMR8t3SEApCU6UE+1DR/ebRqy5mmra9ttxxEtKTU
- 01jx5p8xCvFmNeT1nbkUVnwo1pFNn/rQjxEGzctzP7MxSM1xMxmbo9PFJtNmUarKd3JxOp
- bx7n5eR7K1rds4JZGo06V8PTGlQ2Y/c6sWiduCOwVv4WFYTMzF4Wo4UNv0kzrKY0nFNhtx
- foNNQGp159yAGYFzGwTwKwe/KB2g5x6lzRSXe4fIqBfQAqDGEyZ6XGf65lLl9xr+hSYEFl
- S3pSXbz7ZKdtRxvmMCfJyKJXDBvbPwzfa6dhbssWPsvtjmySbaeBNZuGxW5mHg==
-Message-ID: <3d7e66bc-967e-45ec-a9e9-12dafd3b3e68@gtucker.io>
-Date: Fri, 1 Mar 2024 22:56:30 +0100
+Received: from mx104.easyname.com (mx104.easyname.com [77.244.243.90])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9060510EA3D
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Mar 2024 21:44:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=paroga.com; 
+ s=easyname;
+ h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject
+ :Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=xW0+iejT2yalW3I7uR9ol2fUym281bnWm2BFQ5PTo00=; b=KKsmLH+hrJ/dLyuvRglF437rQp
+ UTuhYPTJmBawJs914abLazYsGvwKPMF1Em12A7ITFtEZzARda/lhMSVxv8eqj+92idr5sTwNhTut5
+ CqUrWR7XZQzcnXWU7zuu+rn3W3IgyusTy/koN+8FaoAkNd/N2l51JEYhtaMqVV2ZgaM0hVOztd7x2
+ KbN6+2cPwhoFB6iZ6b/pE465GaPpcw/dYQsnqICcVBQjiJxQmUwZdIsnWOuK6S4ygS22nQB2IzGZq
+ ZL8c4H3gSqHQwBPxTkT1xZmLuG3fO2i/koYUcwOGQEa6zPDhC/QT/RJO3eVwZ8NoliAKJcOgvIXar
+ wDtmQX6w==;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=paroga.com; 
+ s=easyname;
+ h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject
+ :Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=xW0+iejT2yalW3I7uR9ol2fUym281bnWm2BFQ5PTo00=; b=KKsmLH+hrJ/dLyuvRglF437rQp
+ UTuhYPTJmBawJs914abLazYsGvwKPMF1Em12A7ITFtEZzARda/lhMSVxv8eqj+92idr5sTwNhTut5
+ CqUrWR7XZQzcnXWU7zuu+rn3W3IgyusTy/koN+8FaoAkNd/N2l51JEYhtaMqVV2ZgaM0hVOztd7x2
+ KbN6+2cPwhoFB6iZ6b/pE465GaPpcw/dYQsnqICcVBQjiJxQmUwZdIsnWOuK6S4ygS22nQB2IzGZq
+ ZL8c4H3gSqHQwBPxTkT1xZmLuG3fO2i/koYUcwOGQEa6zPDhC/QT/RJO3eVwZ8NoliAKJcOgvIXar
+ wDtmQX6w==;
+Received: from 84-115-228-205.cable.dynamic.surfer.at ([84.115.228.205]
+ helo=localhost.localdomain)
+ by mx.easyname.com with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <paroga@paroga.com>)
+ id 1rgWue-0005aa-Du; Sat, 02 Mar 2024 21:29:00 +0000
+From: Patrick Gansterer <paroga@paroga.com>
+To: dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Patrick Gansterer <paroga@paroga.com>
+Subject: [PATCH 1/2] dt-bindings: backlight: Add Texas Instruments LM3509
+ bindings
+Date: Sat,  2 Mar 2024 22:27:56 +0100
+Message-ID: <20240302212757.1871164-1-paroga@paroga.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] kci-gitlab: Introducing GitLab-CI Pipeline for Kernel
- Testing
-Content-Language: en-GB
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Nikolai Kondrashov <spbnick@gmail.com>,
- Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org,
- dave.pigott@collabora.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
- gustavo.padovan@collabora.com, pawiecz@collabora.com,
- tales.aparecida@gmail.com, workflows@vger.kernel.org,
- kernelci@lists.linux.dev, skhan@linuxfoundation.org,
- kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com,
- cocci@inria.fr, Julia.Lawall@inria.fr, laura.nao@collabora.com,
- ricardo.canuelo@collabora.com, kernel@collabora.com,
- torvalds@linuxfoundation.org, gregkh@linuxfoundation.org
-References: <20240228225527.1052240-1-helen.koike@collabora.com>
- <d99d026e-ed32-4432-bab3-db75296e67d8@gtucker.io>
- <a5726043-1906-44ba-a6ee-a725a2776269@gmail.com>
- <51fa8932e57010620e9a9e16a1979f4883e95a7d.camel@collabora.com>
-From: Guillaume Tucker <gtucker@gtucker.io>
-Organization: gtucker.io
-In-Reply-To: <51fa8932e57010620e9a9e16a1979f4883e95a7d.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-GND-Sasl: gtucker@gtucker.io
+X-Easy-Autoreply: EN
 X-Mailman-Approved-At: Sun, 03 Mar 2024 10:45:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,135 +78,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/02/2024 17:28, Nicolas Dufresne wrote:
-> Hi,
-> 
-> Le jeudi 29 février 2024 à 16:16 +0200, Nikolai Kondrashov a écrit :
->> On 2/29/24 2:20 PM, Guillaume Tucker wrote:
->>> Hello,
->>>
->>> On 28/02/2024 23:55, Helen Koike wrote:
->>>> Dear Kernel Community,
->>>>
->>>> This patch introduces a `.gitlab-ci` file along with a `ci/` folder, defining a
->>>> basic test pipeline triggered by code pushes to a GitLab-CI instance. This
->>>> initial version includes static checks (checkpatch and smatch for now) and build
->>>> tests across various architectures and configurations. It leverages an
->>>> integrated cache for efficient build times and introduces a flexible 'scenarios'
->>>> mechanism for subsystem-specific extensions.
->>>
->>> This sounds like a nice starting point to me as an additional way
->>> to run tests upstream.  I have one particular question as I see a
->>> pattern through the rest of the email, please see below.
->>>
->>> [...]
->>>
->>>> 4. **Collaborative Testing Environment:** The kernel community is already
->>>> engaged in numerous testing efforts, including various GitLab-CI pipelines such
->>>> as DRM-CI, which I maintain, along with other solutions like KernelCI and
->>>> BPF-CI. This proposal is designed to further stimulate contributions to the
->>>> evolving testing landscape. Our goal is to establish a comprehensive suite of
->>>> common tools and files.
->>>
->>> [...]
->>>
->>>> **Leveraging External Test Labs:**
->>>> We can extend our testing to external labs, similar to what DRM-CI currently
->>>> does. This includes:
->>>> - Lava labs
->>>> - Bare metal labs
->>>> - Using KernelCI-provided labs
->>>>
->>>> **Other integrations**
->>>> - Submit results to KCIDB
->>>
->>> [...]
->>>
->>>> **Join Our Slack Channel:**
->>>> We have a Slack channel, #gitlab-ci, on the KernelCI Slack instance https://kernelci.slack.com/ .
->>>> Feel free to join and contribute to the conversation. The KernelCI team has
->>>> weekly calls where we also discuss the GitLab-CI pipeline.
->>>>
->>>> **Acknowledgments:**
->>>> A special thanks to Nikolai Kondrashov, Tales da Aparecida - both from Red Hat -
->>>> and KernelCI community for their valuable feedback and support in this proposal.
->>>
->>> Where does this fit on the KernelCI roadmap?
->>>
->>> I see it mentioned a few times but it's not entirely clear
->>> whether this initiative is an independent one or in some way
->>> linked to KernelCI.  Say, are you planning to use the kci tool,
->>> new API, compiler toolchains, user-space and Docker images etc?
->>> Or, are KernelCI plans evolving to follow this move?
->>
->> I would say this is an important part of KernelCI the project, considering its 
->> aim to improve testing and CI in the kernel. It's not a part of KernelCI the 
->> service as it is right now, although I would say it would be good to have 
->> ability to submit KernelCI jobs from GitLab CI and pull results in the same 
->> pipeline, as we discussed earlier.
+Add Device Tree bindings for Texas Instruments LM3509 - a
+High Efficiency Boost for White LED's and/or OLED Displays
 
-Right, I think this needs a bit of disambiguation.  The legacy
-KernelCI system from the Linaro days several years ago is really
-a service on its own like the many other CIs out there.  However,
-the new KernelCI API and related tooling (kci command line, new
-web dashboard, modular runtime design etc.) is not that.  It's
-about addressing all the community requirements and that includes
-being able to run a same test manually in a shell, or in a VM, or
-automatically from GitLab CI or using a main generic pipeline
-hosted by KernelCI itself.  With this approach, there's no
-distinction between "the project" and "the service", and as we
-discussed before there shouldn't even be a distinction with
-KCIDB.  Just KernelCI.
+Signed-off-by: Patrick Gansterer <paroga@paroga.com>
+---
+ .../bindings/leds/backlight/ti,lm3509.yaml    | 81 +++++++++++++++++++
+ 1 file changed, 81 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/ti,lm3509.yaml
 
-However I don't really see this happening, unless I'm missing a
-part of the story or some upcoming announcement with an updated
-roadmap.  For some reason the old and established paradigm seems
-unshakeable.  The new KernelCI implementation is starting to look
-just like a refresh of the old one with newer components - which
-is a huge missed opportunity to really change things IMHO.
-
-This may sound like a bit of a tangent, facilitating GitLab CI
-for the upstream kernel is of course significant progress in any
-case - no question about that.  My comment is more about why it's
-being driven hand-in-hand with KernelCI in what seems like a
-diverging direction from KernelCI's announced plans.  Why push
-for a GitLab-centered orchestration when there's a more universal
-solution being proposed by the project?  I would find it easier
-to understand - and I sense I'm not the only one here reading the
-thread - if KernelCI wasn't mentioned that many times in the
-cover letter and if the scripts didn't have KCI_* in so many
-places, basically if this was clearly an independent initiative
-such as KUnit, 0-day or regzbot.
-
-> I'd like to add that both CI have a different purpose in the Linux project. This
-> CI work is a pre-merge verification. Everyone needs to run checkpatch and
-> smatch, this is automating it (and will catch those that forgot or ran it
-> incorrectly). But it can go further by effectively testing specific patches on
-> real hardware (with pretty narrow filters). It will help catch submission issues
-> earlier, and reduce kernelCI regression rate. As a side effect, kernelCI infra
-> will endup catching the "integration" issues, which are the issue as a result of
-> simultenous changes in different trees. They are also often more complex and
-> benefit from the bisection capabilities.
-> 
-> kernelCI tests are also a lot more intensive, they usually covers everything,
-> but they bundle multiple changes per run. The pre-merge tests will be reduced to
-> what seems meaningful for the changes. Its important to understand that pre-
-> merge CI have a time cost, and we need to make sure CI time does not exceed the
-> merge window period.
-
-You're referring to the legacy KernelCI, to illustrate the point
-I made earlier.  The plan with the new implementation was to be
-able to do pre-merge testing as well as many other things,
-basically to provide a platform able to cope with the diversity
-of workflows across the kernel subsystems and the complexity of
-the "system under test" itself.
-
-
-Well, let's see how this goes and it does look quite promising.
-Evolution is always a chaotic process, especially in a complex
-project like this.  I'm not expecting to get all the answers to
-the questions I have but it seemed important to raise this point
-and seek a bit more clarity around KernelCI.
-
-Guillaume
+diff --git a/Documentation/devicetree/bindings/leds/backlight/ti,lm3509.yaml b/Documentation/devicetree/bindings/leds/backlight/ti,lm3509.yaml
+new file mode 100644
+index 000000000000..8fbb83934e30
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/backlight/ti,lm3509.yaml
+@@ -0,0 +1,81 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/backlight/ti,lm3509.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: TI LM3509 High Efficiency Boost for White LED's and/or OLED Displays
++
++maintainers:
++  - Patrick Gansterer <paroga@paroga.com>
++
++description: |
++  The LM3509 current mode boost converter offers two separate outputs.
++  https://www.ti.com/product/LM3509
++
++properties:
++  compatible:
++    const: ti,lm3509
++
++  reg:
++    maxItems: 1
++
++  reset-gpios:
++    maxItems: 1
++
++  default-brightness:
++    minimum: 0
++    maximum: 15
++
++  max-brightness:
++    minimum: 0
++    maximum: 15
++
++  ti,brightness-rate-of-change-us:
++    description: Brightness Rate of Change in microseconds.
++    enum: [51, 13000, 26000, 52000]
++
++  ti,oled-mode:
++    description: Enable OLED mode.
++    type: boolean
++
++  ti,unison-mode:
++    description: |
++      Enable unison mode. If disabled, then it will provide two
++      independent controllable LED currents for BMAIN and BSUB.
++    type: boolean
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        backlight@36 {
++            compatible = "ti,lm3509";
++            reg = <0x36>;
++
++            reset-gpios = <&gpio2 5 GPIO_ACTIVE_LOW>;
++
++            ti,unison-mode;
++        };
++    };
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        backlight@36 {
++            compatible = "ti,lm3509";
++            reg = <0x36>;
++
++            ti,brightness-rate-of-change-us = <52000>;
++        };
++    };
+-- 
+2.44.0
 
