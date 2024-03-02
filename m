@@ -2,56 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D61286F0F1
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Mar 2024 16:49:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEE4F86F29A
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Mar 2024 22:48:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA74F10F4C7;
-	Sat,  2 Mar 2024 15:49:35 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Q7+2ok62";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28EED10F2DA;
+	Sat,  2 Mar 2024 21:48:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DBB210F4C6
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Mar 2024 15:49:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1709394573;
- bh=pVdbaVjIIA20Bjg3c6GsLHOmOo/dWqiDf6i0eRkE78c=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Q7+2ok625bLrkH3ObT64vZxoMSGrYnzdkt2J6ct9diCtRTHf9116ukA7dAfR4Jmel
- yKgid/5g+4UR6amFRnAwgJxdnpi1aFpi5pvs4me18uanPOHnHslJZHljf0LqQO2vUm
- GO3vB9SAqn3+5Gr6FYdsXDQBpt5DHEB23dK/ChC4kles4CWEOam59fJshn7+isRSh5
- 2TsvlMZCEQofX2h8uZ+zV437kMHIGg34mlYdPG+LPcwdX7lQnOxUhxlRtdnQhdckYM
- GzsKMSrZdpHp8Zy5ZIwMotvyF+G3S4TmJHknOFoaL2K6bSb7MMM2hiT9T/iT2wrbn+
- Y99P5bpocz2WA==
-Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: alarumbe)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5455F378208D;
- Sat,  2 Mar 2024 15:49:32 +0000 (UTC)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>
-Cc: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org
-Subject: [PATCH v2 1/1] drm/panfrost: Replace fdinfo's profiling debugfs knob
- with sysfs
-Date: Sat,  2 Mar 2024 15:48:41 +0000
-Message-ID: <20240302154845.3223223-3-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240302154845.3223223-2-adrian.larumbe@collabora.com>
-References: <20240302154845.3223223-2-adrian.larumbe@collabora.com>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47D3910F2DA
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Mar 2024 21:48:09 +0000 (UTC)
+Received: from harlem.collaboradmins.com (harlem.collaboradmins.com
+ [IPv6:2a01:4f8:1c0c:5936::1])
+ by madrid.collaboradmins.com (Postfix) with ESMTP id 4D7B83781183;
+ Sat,  2 Mar 2024 21:48:05 +0000 (UTC)
+From: "Gustavo Padovan" <gustavo.padovan@collabora.com>
+In-Reply-To: <3d7e66bc-967e-45ec-a9e9-12dafd3b3e68@gtucker.io>
+Content-Type: text/plain; charset="utf-8"
+X-Forward: 127.0.0.1
+References: <20240228225527.1052240-1-helen.koike@collabora.com>
+ <d99d026e-ed32-4432-bab3-db75296e67d8@gtucker.io>
+ <a5726043-1906-44ba-a6ee-a725a2776269@gmail.com>
+ <51fa8932e57010620e9a9e16a1979f4883e95a7d.camel@collabora.com>
+ <3d7e66bc-967e-45ec-a9e9-12dafd3b3e68@gtucker.io>
+Date: Sat, 02 Mar 2024 21:48:05 +0000
+Cc: "Nicolas Dufresne" <nicolas.dufresne@collabora.com>,
+ "Nikolai Kondrashov" <spbnick@gmail.com>,
+ "Helen Koike" <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org,
+ dave.pigott@collabora.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
+ pawiecz@collabora.com, tales.aparecida@gmail.com, workflows@vger.kernel.org,
+ kernelci@lists.linux.dev, skhan@linuxfoundation.org,
+ kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com,
+ cocci@inria.fr, Julia.Lawall@inria.fr, laura.nao@collabora.com,
+ ricardo.canuelo@collabora.com, kernel@collabora.com,
+ torvalds@linuxfoundation.org, gregkh@linuxfoundation.org
+To: "Guillaume Tucker" <gtucker@gtucker.io>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Message-ID: <1801a-65e39e80-6d-2f4e1180@80294519>
+Subject: =?utf-8?q?Re=3A?= [PATCH 0/3] =?utf-8?q?kci-gitlab=3A?= Introducing 
+ GitLab-CI Pipeline for Kernel Testing
+User-Agent: SOGoMail 5.10.0
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,303 +60,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Debugfs isn't always available in production builds that try to squeeze
-every single byte out of the kernel image, but we still need a way to
-toggle the timestamp and cycle counter registers so that jobs can be
-profiled for fdinfo's drm engine and cycle calculations.
+On Friday, March 01, 2024 18:56 -03, Guillaume Tucker <gtucker@gtucker.=
+io> wrote:
 
-Drop the debugfs knob and replace it with a sysfs file that accomplishes
-the same functionality, and document its ABI in a separate file.
+> On 29/02/2024 17:28, Nicolas Dufresne wrote:
+> > Hi,
+> >=20
+> > Le jeudi 29 f=C3=A9vrier 2024 =C3=A0 16:16 +0200, Nikolai Kondrasho=
+v a =C3=A9crit=C2=A0:
+> >> On 2/29/24 2:20 PM, Guillaume Tucker wrote:
+> >>> Hello,
+> >>>
+> >>> On 28/02/2024 23:55, Helen Koike wrote:
+> >>>> Dear Kernel Community,
+> >>>>
+> >>>> This patch introduces a `.gitlab-ci` file along with a `ci/` fol=
+der, defining a
+> >>>> basic test pipeline triggered by code pushes to a GitLab-CI inst=
+ance. This
+> >>>> initial version includes static checks (checkpatch and smatch fo=
+r now) and build
+> >>>> tests across various architectures and configurations. It levera=
+ges an
+> >>>> integrated cache for efficient build times and introduces a flex=
+ible 'scenarios'
+> >>>> mechanism for subsystem-specific extensions.
+> >>>
+> >>> This sounds like a nice starting point to me as an additional way
+> >>> to run tests upstream.  I have one particular question as I see a
+> >>> pattern through the rest of the email, please see below.
+> >>>
+> >>> [...]
+> >>>
+> >>>> 4. **Collaborative Testing Environment:** The kernel community i=
+s already
+> >>>> engaged in numerous testing efforts, including various GitLab-CI=
+ pipelines such
+> >>>> as DRM-CI, which I maintain, along with other solutions like Ker=
+nelCI and
+> >>>> BPF-CI. This proposal is designed to further stimulate contribut=
+ions to the
+> >>>> evolving testing landscape. Our goal is to establish a comprehen=
+sive suite of
+> >>>> common tools and files.
+> >>>
+> >>> [...]
+> >>>
+> >>>> **Leveraging External Test Labs:**
+> >>>> We can extend our testing to external labs, similar to what DRM-=
+CI currently
+> >>>> does. This includes:
+> >>>> - Lava labs
+> >>>> - Bare metal labs
+> >>>> - Using KernelCI-provided labs
+> >>>>
+> >>>> **Other integrations**
+> >>>> - Submit results to KCIDB
+> >>>
+> >>> [...]
+> >>>
+> >>>> **Join Our Slack Channel:**
+> >>>> We have a Slack channel, #gitlab-ci, on the KernelCI Slack insta=
+nce https://kernelci.slack.com/ .
+> >>>> Feel free to join and contribute to the conversation. The Kernel=
+CI team has
+> >>>> weekly calls where we also discuss the GitLab-CI pipeline.
+> >>>>
+> >>>> **Acknowledgments:**
+> >>>> A special thanks to Nikolai Kondrashov, Tales da Aparecida - bot=
+h from Red Hat -
+> >>>> and KernelCI community for their valuable feedback and support i=
+n this proposal.
+> >>>
+> >>> Where does this fit on the KernelCI roadmap?
+> >>>
+> >>> I see it mentioned a few times but it's not entirely clear
+> >>> whether this initiative is an independent one or in some way
+> >>> linked to KernelCI.  Say, are you planning to use the kci tool,
+> >>> new API, compiler toolchains, user-space and Docker images etc?
+> >>> Or, are KernelCI plans evolving to follow this move?
+> >>
+> >> I would say this is an important part of KernelCI the project, con=
+sidering its=20
+> >> aim to improve testing and CI in the kernel. It's not a part of Ke=
+rnelCI the=20
+> >> service as it is right now, although I would say it would be good =
+to have=20
+> >> ability to submit KernelCI jobs from GitLab CI and pull results in=
+ the same=20
+> >> pipeline, as we discussed earlier.
+>=20
+> Right, I think this needs a bit of disambiguation.  The legacy
+> KernelCI system from the Linaro days several years ago is really
+> a service on its own like the many other CIs out there.  However,
+> the new KernelCI API and related tooling (kci command line, new
+> web dashboard, modular runtime design etc.) is not that.  It's
+> about addressing all the community requirements and that includes
+> being able to run a same test manually in a shell, or in a VM, or
+> automatically from GitLab CI or using a main generic pipeline
+> hosted by KernelCI itself.  With this approach, there's no
+> distinction between "the project" and "the service", and as we
+> discussed before there shouldn't even be a distinction with
+> KCIDB.  Just KernelCI.
+>=20
+> However I don't really see this happening, unless I'm missing a
+> part of the story or some upcoming announcement with an updated
+> roadmap.  For some reason the old and established paradigm seems
+> unshakeable.  The new KernelCI implementation is starting to look
+> just like a refresh of the old one with newer components - which
+> is a huge missed opportunity to really change things IMHO.
 
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
----
- .../testing/sysfs-driver-panfrost-profiling   | 10 +++
- Documentation/gpu/panfrost.rst                |  9 +++
- drivers/gpu/drm/panfrost/Makefile             |  5 +-
- drivers/gpu/drm/panfrost/panfrost_debugfs.c   | 21 ------
- drivers/gpu/drm/panfrost/panfrost_debugfs.h   | 14 ----
- drivers/gpu/drm/panfrost/panfrost_device.h    |  5 +-
- drivers/gpu/drm/panfrost/panfrost_drv.c       | 14 ++--
- drivers/gpu/drm/panfrost/panfrost_job.c       |  2 +-
- drivers/gpu/drm/panfrost/panfrost_sysfs.c     | 70 +++++++++++++++++++
- drivers/gpu/drm/panfrost/panfrost_sysfs.h     | 15 ++++
- 10 files changed, 120 insertions(+), 45 deletions(-)
- create mode 100644 Documentation/ABI/testing/sysfs-driver-panfrost-profiling
- delete mode 100644 drivers/gpu/drm/panfrost/panfrost_debugfs.c
- delete mode 100644 drivers/gpu/drm/panfrost/panfrost_debugfs.h
- create mode 100644 drivers/gpu/drm/panfrost/panfrost_sysfs.c
- create mode 100644 drivers/gpu/drm/panfrost/panfrost_sysfs.h
+Calling that a missed opportunity is a subjective perspective about
+the latest developments in KernelCI. The system implementation is
+one level less important than the actual kernel community engagement
+the project can generate. If one asks people around, the lack of
+community engagement with KernelCI is evident.
 
-diff --git a/Documentation/ABI/testing/sysfs-driver-panfrost-profiling b/Documentation/ABI/testing/sysfs-driver-panfrost-profiling
-new file mode 100644
-index 000000000000..889527b71b9d
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-driver-panfrost-profiling
-@@ -0,0 +1,10 @@
-+What:		/sys/bus/.../drivers/panfrost/.../drm/../profiling/status
-+Date:		February 2024
-+KernelVersion:	6.8.0
-+Contact:	Adrian Larumbe <adrian.larumbe@collabora.com>
-+Description:
-+		Get/set drm fdinfo's engine and cycles profiling status.
-+		Valid values are:
-+		0: Don't enable fdinfo job profiling sources.
-+		1: Enable fdinfo job profiling sources, this enables both the GPU's
-+		   timestamp and cycle counter registers.
-\ No newline at end of file
-diff --git a/Documentation/gpu/panfrost.rst b/Documentation/gpu/panfrost.rst
-index b80e41f4b2c5..be4ac282ef63 100644
---- a/Documentation/gpu/panfrost.rst
-+++ b/Documentation/gpu/panfrost.rst
-@@ -38,3 +38,12 @@ the currently possible format options:
- 
- Possible `drm-engine-` key names are: `fragment`, and  `vertex-tiler`.
- `drm-curfreq-` values convey the current operating frequency for that engine.
-+
-+Users must bear in mind that engine and cycle sampling are disabled by default,
-+because of power saving concerns. `fdinfo` users and benchmark applications which
-+query the fdinfo file must make sure to toggle the job profiling status of the
-+driver by writing into the appropriate sysfs node::
-+
-+    echo <N> > /sys/bus/platform/drivers/panfrost/[a-f0-9]*.gpu/drm/card1/profiling
-+
-+Where `N` is either `0` or `1`, depending on the desired enablement status.
-diff --git a/drivers/gpu/drm/panfrost/Makefile b/drivers/gpu/drm/panfrost/Makefile
-index 2c01c1e7523e..6e718595d8a6 100644
---- a/drivers/gpu/drm/panfrost/Makefile
-+++ b/drivers/gpu/drm/panfrost/Makefile
-@@ -10,8 +10,7 @@ panfrost-y := \
- 	panfrost_job.o \
- 	panfrost_mmu.o \
- 	panfrost_perfcnt.o \
--	panfrost_dump.o
--
--panfrost-$(CONFIG_DEBUG_FS) += panfrost_debugfs.o
-+	panfrost_dump.o \
-+	panfrost_sysfs.o
- 
- obj-$(CONFIG_DRM_PANFROST) += panfrost.o
-diff --git a/drivers/gpu/drm/panfrost/panfrost_debugfs.c b/drivers/gpu/drm/panfrost/panfrost_debugfs.c
-deleted file mode 100644
-index 72d4286a6bf7..000000000000
---- a/drivers/gpu/drm/panfrost/panfrost_debugfs.c
-+++ /dev/null
-@@ -1,21 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/* Copyright 2023 Collabora ltd. */
--/* Copyright 2023 Amazon.com, Inc. or its affiliates. */
--
--#include <linux/debugfs.h>
--#include <linux/platform_device.h>
--#include <drm/drm_debugfs.h>
--#include <drm/drm_file.h>
--#include <drm/panfrost_drm.h>
--
--#include "panfrost_device.h"
--#include "panfrost_gpu.h"
--#include "panfrost_debugfs.h"
--
--void panfrost_debugfs_init(struct drm_minor *minor)
--{
--	struct drm_device *dev = minor->dev;
--	struct panfrost_device *pfdev = platform_get_drvdata(to_platform_device(dev->dev));
--
--	debugfs_create_atomic_t("profile", 0600, minor->debugfs_root, &pfdev->profile_mode);
--}
-diff --git a/drivers/gpu/drm/panfrost/panfrost_debugfs.h b/drivers/gpu/drm/panfrost/panfrost_debugfs.h
-deleted file mode 100644
-index c5af5f35877f..000000000000
---- a/drivers/gpu/drm/panfrost/panfrost_debugfs.h
-+++ /dev/null
-@@ -1,14 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/*
-- * Copyright 2023 Collabora ltd.
-- * Copyright 2023 Amazon.com, Inc. or its affiliates.
-- */
--
--#ifndef PANFROST_DEBUGFS_H
--#define PANFROST_DEBUGFS_H
--
--#ifdef CONFIG_DEBUG_FS
--void panfrost_debugfs_init(struct drm_minor *minor);
--#endif
--
--#endif  /* PANFROST_DEBUGFS_H */
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-index 62f7e3527385..2f3580c7ba0d 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-@@ -130,7 +130,10 @@ struct panfrost_device {
- 	struct list_head scheduled_jobs;
- 
- 	struct panfrost_perfcnt *perfcnt;
--	atomic_t profile_mode;
-+	struct kobj_profiling {
-+		struct kobject base;
-+		bool profile_mode;
-+	} profiling;
- 
- 	struct mutex sched_lock;
- 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index a926d71e8131..6db1ea453514 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -20,7 +20,7 @@
- #include "panfrost_job.h"
- #include "panfrost_gpu.h"
- #include "panfrost_perfcnt.h"
--#include "panfrost_debugfs.h"
-+#include "panfrost_sysfs.h"
- 
- static bool unstable_ioctls;
- module_param_unsafe(unstable_ioctls, bool, 0600);
-@@ -600,10 +600,6 @@ static const struct drm_driver panfrost_drm_driver = {
- 
- 	.gem_create_object	= panfrost_gem_create_object,
- 	.gem_prime_import_sg_table = panfrost_gem_prime_import_sg_table,
--
--#ifdef CONFIG_DEBUG_FS
--	.debugfs_init		= panfrost_debugfs_init,
--#endif
- };
- 
- static int panfrost_probe(struct platform_device *pdev)
-@@ -663,8 +659,14 @@ static int panfrost_probe(struct platform_device *pdev)
- 	if (err)
- 		goto err_out2;
- 
-+	err = panfrost_sysfs_init(pfdev);
-+	if (err)
-+		goto err_out3;
-+
- 	return 0;
- 
-+err_out3:
-+	panfrost_gem_shrinker_cleanup(ddev);
- err_out2:
- 	drm_dev_unregister(ddev);
- err_out1:
-@@ -681,6 +683,8 @@ static void panfrost_remove(struct platform_device *pdev)
- 	struct panfrost_device *pfdev = platform_get_drvdata(pdev);
- 	struct drm_device *ddev = pfdev->ddev;
- 
-+	panfrost_sysfs_cleanup(pfdev);
-+
- 	drm_dev_unregister(ddev);
- 	panfrost_gem_shrinker_cleanup(ddev);
- 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index 0c2dbf6ef2a5..1be9c31b2b61 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -243,7 +243,7 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
- 	subslot = panfrost_enqueue_job(pfdev, js, job);
- 	/* Don't queue the job if a reset is in progress */
- 	if (!atomic_read(&pfdev->reset.pending)) {
--		if (atomic_read(&pfdev->profile_mode)) {
-+		if (pfdev->profiling.profile_mode) {
- 			panfrost_cycle_counter_get(pfdev);
- 			job->is_profiled = true;
- 			job->start_time = ktime_get();
-diff --git a/drivers/gpu/drm/panfrost/panfrost_sysfs.c b/drivers/gpu/drm/panfrost/panfrost_sysfs.c
-new file mode 100644
-index 000000000000..380d74e61611
---- /dev/null
-+++ b/drivers/gpu/drm/panfrost/panfrost_sysfs.c
-@@ -0,0 +1,70 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Copyright 2023 Collabora ltd. */
-+/* Copyright 2023 Amazon.com, Inc. or its affiliates. */
-+
-+#include <linux/platform_device.h>
-+#include <drm/drm_file.h>
-+#include <drm/panfrost_drm.h>
-+
-+#include "panfrost_device.h"
-+#include "panfrost_gpu.h"
-+#include "panfrost_sysfs.h"
-+
-+static ssize_t
-+profiling_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
-+{
-+	bool *profile_mode =
-+		&container_of(kobj, struct panfrost_device,
-+			      profiling.base)->profiling.profile_mode;
-+
-+	return sysfs_emit(buf, "%d\n", *profile_mode);
-+}
-+
-+static ssize_t
-+profiling_store(struct kobject *kobj, struct kobj_attribute *attr,
-+	       const char *buf, size_t count)
-+{
-+	bool *profile_mode =
-+		&container_of(kobj, struct panfrost_device,
-+			      profiling.base)->profiling.profile_mode;
-+	int err, value;
-+
-+	err = kstrtoint(buf, 0, &value);
-+	if (err)
-+		return err;
-+
-+	*profile_mode = !!value;
-+
-+	return count;
-+}
-+
-+static const struct kobj_attribute profiling_status =
-+__ATTR(status, 0644, profiling_show, profiling_store);
-+
-+static const struct kobj_type kobj_profile_type = {
-+	.sysfs_ops = &kobj_sysfs_ops,
-+};
-+
-+int panfrost_sysfs_init(struct panfrost_device *pfdev)
-+{
-+	struct device *kdev = pfdev->ddev->primary->kdev;
-+	int err;
-+
-+	kobject_init(&pfdev->profiling.base, &kobj_profile_type);
-+
-+	err = kobject_add(&pfdev->profiling.base, &kdev->kobj, "%s", "profiling");
-+	if (err)
-+		return err;
-+
-+	err = sysfs_create_file(&pfdev->profiling.base, &profiling_status.attr);
-+	if (err)
-+		kobject_del(&pfdev->profiling.base);
-+
-+	return err;
-+}
-+
-+void panfrost_sysfs_cleanup(struct panfrost_device *pfdev)
-+{
-+	sysfs_remove_file(&pfdev->profiling.base, &profiling_status.attr);
-+	kobject_del(&pfdev->profiling.base);
-+}
-diff --git a/drivers/gpu/drm/panfrost/panfrost_sysfs.h b/drivers/gpu/drm/panfrost/panfrost_sysfs.h
-new file mode 100644
-index 000000000000..5fc9c8c1091a
---- /dev/null
-+++ b/drivers/gpu/drm/panfrost/panfrost_sysfs.h
-@@ -0,0 +1,15 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright 2023 Collabora ltd.
-+ * Copyright 2023 Amazon.com, Inc. or its affiliates.
-+ */
-+
-+#ifndef PANFROST_SYSFS_H
-+#define PANFROST_SYSFS_H
-+
-+struct panfrost_device;
-+
-+int panfrost_sysfs_init(struct panfrost_device *pfdev);
-+void panfrost_sysfs_cleanup(struct panfrost_device *pfdev);
-+
-+#endif  /* PANFROST_SYSFS_H */
--- 
-2.43.0
+However, after the recent leadership change in the project there is a
+growing effort to bring the kernel community closer to the KernelCI
+project with a renewed focus on high quality test results, clean regres=
+sion
+reporting, among other things. Then, with an increased number of commun=
+ity
+members involved, we will have the necessary feedback (and funding!) to
+evolve the KernelCI infrastructure and technology to new levels.
+
+Otherwise, envisioning something that can solve *all* community testing
+needs would never be anything more than a fantasy in people's heads.
+
+- Gus
+
+--=20
+Gustavo Padovan
+Kernel Lead
+Collabora Ltd.
 
