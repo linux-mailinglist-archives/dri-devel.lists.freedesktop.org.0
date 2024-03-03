@@ -2,49 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15C4386F475
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Mar 2024 11:46:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5220886F429
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Mar 2024 10:31:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AB4210F977;
-	Sun,  3 Mar 2024 10:45:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E312510F928;
+	Sun,  3 Mar 2024 09:31:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1190 seconds by postgrey-1.36 at gabe;
- Sun, 03 Mar 2024 08:13:46 UTC
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net
- (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
- by gabe.freedesktop.org (Postfix) with ESMTP id 43CA510E0FE;
- Sun,  3 Mar 2024 08:13:45 +0000 (UTC)
-Received: from ubuntu.localdomain (unknown [218.12.16.66])
- by mail-app3 (Coremail) with SMTP id cC_KCgAHDjkrMeRlNVjaAQ--.21339S2;
- Sun, 03 Mar 2024 16:13:40 +0800 (CST)
-From: Duoming Zhou <duoming@zju.edu.cn>
-To: nouveau@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org,
-	Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH] nouveau/dmem: handle kcalloc() allocation failure
-Date: Sun,  3 Mar 2024 16:13:30 +0800
-Message-Id: <20240303081330.61091-1-duoming@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cC_KCgAHDjkrMeRlNVjaAQ--.21339S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7trW5Aw4kur1fWF4UGF13CFg_yoW8ZF48pF
- WxGF1jyr42yayjqry8tF1kur4ayan3JayxKa9Fy3sI9a4rXFy7Z3y7Aa45WFWYqrW7CrWa
- qr4Dta43ZF4Ut3JanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9S14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
- JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
- CE3s1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE
- 6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72
- CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7
- MxkF7I0En4kS14v26r1q6r43MxkIecxEwVAFwVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxV
- CFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r10
- 6r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxV
- WUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG
- 6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr
- 1UYxBIdaVFxhVjvjDU0xZFpf9x0JUsZ2-UUUUU=
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwIIAWXjdVMBCAAfs+
-X-Mailman-Approved-At: Sun, 03 Mar 2024 10:45:57 +0000
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com
+ [209.85.128.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3DF910F927
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Mar 2024 09:31:14 +0000 (UTC)
+Received: by mail-yw1-f172.google.com with SMTP id
+ 00721157ae682-607f8894550so23692937b3.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Mar 2024 01:31:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709458271; x=1710063071;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+h+cxR9Zi+zZIFamlmv2ivpOejR06HV/J+RWDkEaK2g=;
+ b=KKt3uU2tvtsa8A8p8mh4RWibAAyX66eVDDx+cGQvoOnRGaRt286Syq5yalfgp6Gvx8
+ HCuklLzv0TU/FzV0wnhnY2bauRE9RB830naudFHPCDar/ish8meQZzt8SAV64hFq18+H
+ q2R1XoUJC+nefqHrNmPMF8cKTaSIx1tcTQDK0Ldson5aU7dmzHxGr993XGINnnnSuiIh
+ Em3VD/YARFkKU2GYm7KOQExI4/mXDWPgBG2WzLuAW+JEijg18zZ9XyhMnQd8cXQbYfXi
+ qALwAeTubI3OBKNbCqrvI7CAESyyjo03dakS4xUyomquMpneEa7S/hfvROf73zBIEtfd
+ 44zA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVNvfvJ+hbPW4s6lVFVmK4Uz4h1fVpiZ9FlxPUrZlC6lQIj/3vQz2dycB07FQYvV/iHvWts5JE2zCUaR7CNeXZVX2aXfjCtbU8G3gnngZxL
+X-Gm-Message-State: AOJu0YyBDUHYUf/1SdYrxqdSrxSxvd0lvJWRi3NGs0+M3TnX4bcaRYG4
+ MICtlrHEMqkTriClZsp29SC2DgaIcSjhYeHBtcnVmYlqPgw/Icp9S4s24i4Hmdw=
+X-Google-Smtp-Source: AGHT+IH4FkWJDmWLEkBskojYi12NpZuDAshx2+ji8SDaRcx+tzpr3OMUh3UDXonSLNbo7omZmXKlaQ==
+X-Received: by 2002:a81:49d5:0:b0:609:4736:b05d with SMTP id
+ w204-20020a8149d5000000b006094736b05dmr5672582ywa.1.1709458270844; 
+ Sun, 03 Mar 2024 01:31:10 -0800 (PST)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com.
+ [209.85.219.171]) by smtp.gmail.com with ESMTPSA id
+ h130-20020a816c88000000b0060997a156dcsm638633ywc.78.2024.03.03.01.31.09
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 03 Mar 2024 01:31:10 -0800 (PST)
+Received: by mail-yb1-f171.google.com with SMTP id
+ 3f1490d57ef6-dcd94fb9e4dso3465833276.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Mar 2024 01:31:09 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVrK0c8wcaf2YPJOF0p0iMdB5gHBySsbvbmsEwxs5ubRUwNIzUZNr3/E5OaqH4IYubHW4oMfL4oPZrtl0TXEdIEzMOZC/uK2UrpLi8nwUtf
+X-Received: by 2002:a81:8494:0:b0:604:9b50:e973 with SMTP id
+ u142-20020a818494000000b006049b50e973mr5488306ywf.44.1709458269052; Sun, 03
+ Mar 2024 01:31:09 -0800 (PST)
+MIME-Version: 1.0
+References: <20240228225527.1052240-1-helen.koike@collabora.com>
+ <20240228225527.1052240-2-helen.koike@collabora.com>
+ <20240229-dancing-laughing-groundhog-d85161@houat>
+ <5d7ed81b-37f9-48e9-ab7e-484b74ca886c@gmail.com>
+ <CAHk-=wixVy3WYvjbt43ZSrCqPDsS76QJQSkXFbbPsAOs1MCSAQ@mail.gmail.com>
+ <CABXOdTeT2ip1uS2EG2w8pW7254Tnd=ZDNz-KC61-G-yqDTVgJA@mail.gmail.com>
+ <269232e6-41c9-4aa1-9320-662beabcd69b@infradead.org>
+In-Reply-To: <269232e6-41c9-4aa1-9320-662beabcd69b@infradead.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Sun, 3 Mar 2024 10:30:56 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXuXV9WV3aANFTteuP8Q3JY6R5OWsVBedGOP7e_JguxqA@mail.gmail.com>
+Message-ID: <CAMuHMdXuXV9WV3aANFTteuP8Q3JY6R5OWsVBedGOP7e_JguxqA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] kci-gitlab: Introducing GitLab-CI Pipeline for Kernel
+ Testing
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Guenter Roeck <groeck@google.com>,
+ Linus Torvalds <torvalds@linuxfoundation.org>, 
+ Nikolai Kondrashov <spbnick@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
+ Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org, 
+ dave.pigott@collabora.com, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org, 
+ gustavo.padovan@collabora.com, pawiecz@collabora.com, 
+ tales.aparecida@gmail.com, workflows@vger.kernel.org, 
+ kernelci@lists.linux.dev, skhan@linuxfoundation.org, 
+ kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com, 
+ cocci@inria.fr, Julia.Lawall@inria.fr, laura.nao@collabora.com, 
+ ricardo.canuelo@collabora.com, kernel@collabora.com, 
+ gregkh@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,54 +96,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The kcalloc() in nouveau_dmem_evict_chunk() will return null if
-the physical memory has run out. As a result, if we dereference
-src_pfns, dst_pfns or dma_addrs, the null pointer dereference bugs
-will happen.
+On Sun, Mar 3, 2024 at 3:30=E2=80=AFAM Randy Dunlap <rdunlap@infradead.org>=
+ wrote:
+> On 3/2/24 14:10, Guenter Roeck wrote:
+> > On Thu, Feb 29, 2024 at 12:21=E2=80=AFPM Linus Torvalds
+> > <torvalds@linuxfoundation.org> wrote:
+> >> On Thu, 29 Feb 2024 at 01:23, Nikolai Kondrashov <spbnick@gmail.com> w=
+rote:
+> >>>
+> >>> However, I think a better approach would be *not* to add the .gitlab-=
+ci.yaml
+> >>> file in the root of the source tree, but instead change the very same=
+ repo
+> >>> setting to point to a particular entry YAML, *inside* the repo (somew=
+here
+> >>> under "ci" directory) instead.
+> >>
+> >> I really don't want some kind of top-level CI for the base kernel proj=
+ect.
+> >>
+> >> We already have the situation that the drm people have their own ci
+> >> model. II'm ok with that, partly because then at least the maintainers
+> >> of that subsystem can agree on the rules for that one subsystem.
+> >>
+> >> I'm not at all interested in having something that people will then
+> >> either fight about, or - more likely - ignore, at the top level
+> >> because there isn't some global agreement about what the rules are.
+> >>
+> >> For example, even just running checkpatch is often a stylistic thing,
+> >> and not everybody agrees about all the checkpatch warnings.
+> >
+> > While checkpatch is indeed of arguable value, I think it would help a
+> > lot not having to bother about the persistent _build_ failures on
+> > 32-bit systems. You mentioned the fancy drm CI system above, but they
+> > don't run tests and not even test builds on 32-bit targets, which has
+> > repeatedly caused (and currently does cause) build failures in drm
+> > code when trying to build, say, arm:allmodconfig in linux-next. Most
+> > trivial build failures in linux-next (and, yes, sometimes mainline)
+> > could be prevented with a simple generic CI.
+>
+> Yes, definitely. Thanks for bringing that up.
 
-This patch uses stack variables to replace the kcalloc().
++1
 
-Fixes: 249881232e14 ("nouveau/dmem: evict device private memory during release")
-Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
----
- drivers/gpu/drm/nouveau/nouveau_dmem.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+> > Sure, argue against checkpatch as much as you like, but the code
+> > should at least _build_, and it should not be necessary for random
+> > people to report build failures to the submitters.
+>
+> I do 110 randconfig builds nightly (10 each of 11 $ARCH/$BITS).
+> That's about all the horsepower that I have. and I am not a CI.  :)
+>
+> So I see quite a bit of what you are saying. It seems that Arnd is
+> in the same boat.
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-index 12feecf71e7..9a578262c6d 100644
---- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-@@ -374,13 +374,13 @@ static void
- nouveau_dmem_evict_chunk(struct nouveau_dmem_chunk *chunk)
- {
- 	unsigned long i, npages = range_len(&chunk->pagemap.range) >> PAGE_SHIFT;
--	unsigned long *src_pfns, *dst_pfns;
--	dma_addr_t *dma_addrs;
-+	unsigned long src_pfns[npages], dst_pfns[npages];
-+	dma_addr_t dma_addrs[npages];
- 	struct nouveau_fence *fence;
- 
--	src_pfns = kcalloc(npages, sizeof(*src_pfns), GFP_KERNEL);
--	dst_pfns = kcalloc(npages, sizeof(*dst_pfns), GFP_KERNEL);
--	dma_addrs = kcalloc(npages, sizeof(*dma_addrs), GFP_KERNEL);
-+	memset(src_pfns, 0, npages);
-+	memset(dst_pfns, 0, npages);
-+	memset(dma_addrs, 0, npages);
- 
- 	migrate_device_range(src_pfns, chunk->pagemap.range.start >> PAGE_SHIFT,
- 			npages);
-@@ -406,11 +406,8 @@ nouveau_dmem_evict_chunk(struct nouveau_dmem_chunk *chunk)
- 	migrate_device_pages(src_pfns, dst_pfns, npages);
- 	nouveau_dmem_fence_done(&fence);
- 	migrate_device_finalize(src_pfns, dst_pfns, npages);
--	kfree(src_pfns);
--	kfree(dst_pfns);
- 	for (i = 0; i < npages; i++)
- 		dma_unmap_page(chunk->drm->dev->dev, dma_addrs[i], PAGE_SIZE, DMA_BIDIRECTIONAL);
--	kfree(dma_addrs);
- }
- 
- void
--- 
-2.17.1
+You don't even have to do your own builds (although it does help),
+and can look at e.g. http://kisskb.ellerman.id.au/kisskb/
 
+Kisskb can send out email when builds get broken, and when they get
+fixed again.  I receive such emails for the m68k builds.
+I have the feeling this is not used up to its full potential yet.
+My initial plan with the "Build regressions/improvements in ..." emails
+[1] was to fully automate this, and enable it for the other daily builds
+(e.g. linux-next), too, but there are only so many hours in a day...
+
+[1] https://lore.kernel.org/all/20240226081253.3688538-1-geert@linux-m68k.o=
+rg/
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
