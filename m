@@ -2,82 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C82886F6FD
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Mar 2024 21:17:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 554F886F70C
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Mar 2024 21:38:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CF9310EC87;
-	Sun,  3 Mar 2024 20:17:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D04B310F3AB;
+	Sun,  3 Mar 2024 20:38:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="J3LfmBc4";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bF5Lyg8L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com
- [209.85.219.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48D8B10F0EC
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Mar 2024 20:17:41 +0000 (UTC)
-Received: by mail-yb1-f178.google.com with SMTP id
- 3f1490d57ef6-d9b9adaf291so3282298276.1
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Mar 2024 12:17:41 -0800 (PST)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com
+ [209.85.128.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D0A810F3AB
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Mar 2024 20:38:04 +0000 (UTC)
+Received: by mail-yw1-f175.google.com with SMTP id
+ 00721157ae682-6098bf69909so15779517b3.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Mar 2024 12:38:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1709497060; x=1710101860; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1709498283; x=1710103083; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=0oLMJ7QyQW9M1dcmvX6Tku2vCY05PL1Xxf4L46VwXmk=;
- b=J3LfmBc4wUx0og4RrH/QZ8wlgmyVUiu2ePCb6kaUNjUFQFfNLb+LrXHJQKTcUy4YKx
- rGKaVeP19F2FxZn+rLlji4Oamjpk+re0diM6ph2DmyLJ9JPaakHyEb8ycqc1j4PMh335
- Bf6ndpdnhC5kiYZDIUVcMb2HsTqSf4lxJRP0HRxqDhWqKdUjrev6uDACN3VJ+A0wJ1q9
- pPnoXJuWvLkV6tn0G/Z5o/4h5TZSIdXXMaHBhYNCyY6l9FHBwENi0zPPAvIpSAUkQxQq
- n6BL9n1ZJkUIqUfiPUAbAwV+5RxPYYLSxwaE9/WtLTWni+mxR6ZyYlN8lVpXLNSQFKsZ
- 35Ug==
+ bh=dTEJxntvNcBZ56iY+D/YvQDXi/WrmMk0Lilb5w4ab2I=;
+ b=bF5Lyg8Ln9za6vw8CuP0WEcoxfblF1KGGUfHBXq0TYugk9cFundMefljkuAsZHr48u
+ 5prmxXHCB6z+OHme6v6cAX68yQEwjTcdkftqnEdvLgVsSNgzulHMn9x+LmPG6z7OYWOz
+ X4QTG95b1vtBeRviEcpT5dhKZmK65BFRN61XTxKX5ajBT0XK+K2NORCKzxkQ4JvH4bgU
+ pKownMzba1R8oGc/1XT3q/9M0C9F8+fv1EVrhabR5ldlU86hF+DhGMhF0XfIQPvizJAA
+ SuBtWPVOESKhbhYsqCL0VvALbw4a+4Mt3OxmQqojyZgS6ENNCGn24+XW1DDIAh3INfkw
+ xlhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709497060; x=1710101860;
+ d=1e100.net; s=20230601; t=1709498283; x=1710103083;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=0oLMJ7QyQW9M1dcmvX6Tku2vCY05PL1Xxf4L46VwXmk=;
- b=otZlxY1C0VF3m9Rt7UkCwbfN0/ZaVcO79kfISPlMApF7U7QM+DfgThiZAfOkYFTYuP
- tzGpsVZ5oppubtIxnjIbKTVFfLLH8BSTGeq0rTe5tBAiQLvSZZSgEkCtZPxVq8NW37FZ
- 9sU5ySVdWuYogAZjh2UetSlCeuMFMPv3MSEy5k9+LTrRLxiBNtl91VfFEzkxnAkmypfj
- 1YwxBW/1hWu4dMgRST+5n2KPwljR6L24ozSmOXTASSIA3f1Zvr1jMqAsYQFwkeDkdNnR
- tKHf0WWrkeG8W3H/mIQAa5JUpRi0fEsHPZFsAL8JpLbv/gMf1YcLJn23ZNPTX6K18nXi
- idqQ==
+ bh=dTEJxntvNcBZ56iY+D/YvQDXi/WrmMk0Lilb5w4ab2I=;
+ b=j12QkLhthb+gRfY29FApfQ5pkD0878WPVb1ZhX7PwwLeMaOGXFg+K/0jd5zqWQKpqe
+ AL/YL2QJdlRHeJGj0ClJjXiEOVF/gSHzLIKoKRsfJ8v8i+p/cp6knj7u7eCXKy6A1d2M
+ yvnmazcrTuWDT0uQgfPQ95K1cpw2ksYVHI8z43shycjQPAs1FkDqzgNkP0N6fkDD/5ju
+ N1OTaJ8rH/H4v2Xejg/XrGYmMfq87qG1SY/HKTqwCy3Iqbsfp8ykSid/U9u+mi3W5itS
+ xPcxAfN9BqOSMiu3J2g2ssjwXP1lObva5glvT6EQUFsAzmcit/5rw8wT1SYB7fR0NYSr
+ 0N0Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXHY7VkmOX1j7xW63ahek4zCIRABHnWi9uYAn+8jcD0aT/OJ7VVN723VZRkhRDb3bX849jzttFbplJlqBcxYzvQn4YIU20PX791kH/NM+Of
-X-Gm-Message-State: AOJu0YwuYPzocIG1J43WnVIo+dyPeXvwbHl5oMGnkslO/W7FvQXRO3Cz
- W3M1oXFbSmGSE9a7yo47o8oe4QjWI9NW51z7NPTN9eNMv6rpTHOa0FOnzhv1BMye43ufEd68P/t
- zqcet8/IF2a81QH0AMRdUi+ubffuO/7yePCT2rQ==
-X-Google-Smtp-Source: AGHT+IFPY9ZyADmDsmR9SjEm5ehQQZqmjmvwRGcwPSo1nZrtoYE3mGo81maMBFS4xRF5pgWyRBvOsVR35VN7iVyETrc=
-X-Received: by 2002:a81:4744:0:b0:608:b5e4:9576 with SMTP id
- u65-20020a814744000000b00608b5e49576mr4921561ywa.45.1709497059898; Sun, 03
- Mar 2024 12:17:39 -0800 (PST)
+ AJvYcCXapbAirZsvfza/z1FTkjhcL0Ue+fzE8ESaA+/yr2Ac/bdm/P651wxhotNiYFKI2axEHiJUhJU5yRPXkk8Rfx645N8fiQCU0IR1sqOk6dU0
+X-Gm-Message-State: AOJu0Yyc5DpLSSl6v8deOrwnfSoopSvOvddWkIFcfDvHC/Trnugxb16A
+ L90V9DPOPlva9Cs428CU6ZoMndxWzzIVFB/FFcjqK39wQK+Yl6wjQX2zWiITaCcMP6V3u7iVO6W
+ OiVCLB2zkiN8MSly9FAb2/s+z5KBzCS7JPKF2Jw==
+X-Google-Smtp-Source: AGHT+IFBO5gSa9X30AT+NFRPbWSXLFEUtICo9UN0O47OM1rGMJBVkS/RT7uCPfNYDTSDuVQFKmwjyXClyQjTFs/3AYQ=
+X-Received: by 2002:a81:b34a:0:b0:609:456e:683b with SMTP id
+ r71-20020a81b34a000000b00609456e683bmr5138328ywh.14.1709498283167; Sun, 03
+ Mar 2024 12:38:03 -0800 (PST)
 MIME-Version: 1.0
-References: <20240222-x1e80100-display-refactor-connector-v2-0-bd4197dfceab@linaro.org>
- <20240222-x1e80100-display-refactor-connector-v2-1-bd4197dfceab@linaro.org>
- <a90dcd83-d158-4ec1-9186-0658c108afef@linaro.org>
- <20240301175205.GB2438612-robh@kernel.org>
-In-Reply-To: <20240301175205.GB2438612-robh@kernel.org>
+References: <20240111-drm-panel-bridge-fixup-v1-1-e06292f6f500@fairphone.com>
+ <b1da07f9-7e15-4d83-bef3-d0ce157654bc@linaro.org>
+ <CYGUWBAM3D62.35CPP5HGEYJ3Y@fairphone.com>
+ <CZHGFD9QYM82.371U2DPG1AEGQ@fairphone.com>
+In-Reply-To: <CZHGFD9QYM82.371U2DPG1AEGQ@fairphone.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 3 Mar 2024 22:17:28 +0200
-Message-ID: <CAA8EJppVhMyA_QK_RzC_+M3dniBrm5wxUKeoeh0Dg2w++JoZ2g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: display: msm: dp-controller: document
- X1E80100 compatible
-To: Rob Herring <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Abel Vesa <abel.vesa@linaro.org>, 
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+Date: Sun, 3 Mar 2024 22:37:52 +0200
+Message-ID: <CAA8EJppZRABYGuoDc-6e6VMwtAo3LvEyDpsHdkHFckrR=q+0ig@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: Select DRM_KMS_HELPER for DRM_PANEL_BRIDGE
+To: Luca Weiss <luca.weiss@fairphone.com>
+Cc: neil.armstrong@linaro.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Johan Hovold <johan@kernel.org>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -94,86 +88,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 1 Mar 2024 at 19:52, Rob Herring <robh@kernel.org> wrote:
+On Thu, 29 Feb 2024 at 11:27, Luca Weiss <luca.weiss@fairphone.com> wrote:
 >
-> On Tue, Feb 27, 2024 at 04:45:25PM +0100, Krzysztof Kozlowski wrote:
-> > On 22/02/2024 16:55, Abel Vesa wrote:
-> > > Add the X1E80100 to the list of compatibles and document the is-edp
-> > > flag. The controllers are expected to operate in DP mode by default,
-> > > and this flag can be used to select eDP mode.
+> On Wed Jan 17, 2024 at 9:59 AM CET, Luca Weiss wrote:
+> > On Mon Jan 15, 2024 at 9:43 AM CET, Neil Armstrong wrote:
+> > > Hi Luca,
 > > >
-> > > Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
-> > > ---
-> > >  Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 6 ++++++
-> > >  1 file changed, 6 insertions(+)
+> > > On 11/01/2024 13:38, Luca Weiss wrote:
+> > > > Since the kconfig symbol of DRM_PANEL_BRIDGE is only adding
+> > > > bridge/panel.o to drm_kms_helper object, we need to select
+> > > > DRM_KMS_HELPER to make sure the file is actually getting built.
+> > > >
+> > > > Otherwise with certain defconfigs e.g. devm_drm_of_get_bridge will not
+> > > > be properly available:
+> > > >
+> > > >    aarch64-linux-gnu-ld: drivers/phy/qualcomm/phy-qcom-qmp-combo.o: in function `qmp_combo_bridge_attach':
+> > > >    drivers/phy/qualcomm/phy-qcom-qmp-combo.c:3204:(.text+0x8f4): undefined reference to `devm_drm_of_get_bridge'
+> > > >
+> > > > Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+> > > > ---
+> > > > I can see "depends on DRM_KMS_HELPER" was removed with commit
+> > > > 3c3384050d68 ("drm: Don't make DRM_PANEL_BRIDGE dependent on DRM_KMS_HELPERS")
+
+Could you please make sure that the usecase described in the mentioned
+commit message doesn't get broken by your change?
+
+> > > >
+> > > > I'm not too familiar with Kconfig but it feels more correct if
+> > > > PHY_QCOM_QMP_COMBO selects DRM_PANEL_BRIDGE that that's enough; and it
+> > > > doesn't also has to explicitly select DRM_KMS_HELPER because of how the
+> > > > objects are built in the Makefile.
+> > > >
+> > > > Alternatively solution to this patch could be adjusting this line in
+> > > > include/drm/drm_bridge.h:
+> > > >
+> > > >    -#if defined(CONFIG_OF) && defined(CONFIG_DRM_PANEL_BRIDGE)
+> > > >    +#if defined(CONFIG_OF) && defined(CONFIG_DRM_PANEL_BRIDGE) && defined(CONFIG_DRM_KMS_HELPER)
+> > > >     struct drm_bridge *devm_drm_of_get_bridge(struct device *dev, struct device_node *node,
+> > > >                                              u32 port, u32 endpoint);
+> > > >
+> > > > .. and then selecting DRM_KMS_HELPER for PHY_QCOM_QMP_COMBO.
+> > > >
+> > > > But I think the solution in this patch is better. Let me know what you
+> > > > think.
 > > >
-> > > diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> > > index ae53cbfb2193..ed11852e403d 100644
-> > > --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> > > +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> > > @@ -27,6 +27,7 @@ properties:
-> > >            - qcom,sdm845-dp
-> > >            - qcom,sm8350-dp
-> > >            - qcom,sm8650-dp
-> > > +          - qcom,x1e80100-dp
-> > >        - items:
-> > >            - enum:
-> > >                - qcom,sm8150-dp
-> > > @@ -73,6 +74,11 @@ properties:
-> > >        - description: phy 0 parent
-> > >        - description: phy 1 parent
+> > > I think this is no more the case after on linux-next:
+> > > 35921910bbd0 phy: qcom: qmp-combo: switch to DRM_AUX_BRIDGE
 > > >
-> > > +  is-edp:
-> > > +    $ref: /schemas/types.yaml#/definitions/flag
-> > > +    description:
-> > > +      Tells the controller to switch to eDP mode
+> > > But could you still check ?
+> >
+> > On next-20240117 the error happens in the aux-bridge file instead then.
+> >
+> > aarch64-linux-gnu-ld: drivers/gpu/drm/bridge/aux-bridge.o: in function `drm_aux_bridge_probe':
+> > drivers/gpu/drm/bridge/aux-bridge.c:115:(.text+0xe0): undefined reference to `devm_drm_of_get_bridge'
+> >
+> > I'm attaching the defconfig with which I can reproduce this but it's
+> > really just DRM_KMS_HELPER=n and PHY_QCOM_QMP_COMBO=y I believe.
+>
+> Hi Neil,
+>
+> Ping on this patch
+>
+> Regards
+> Luca
+>
+> >
+> > Regards
+> > Luca
 > >
 > >
-> > DP controller cannot be edp, so property "is-edp" is confusing. Probably
-> > you want to choose some phy mode, so you should rather use "phy-mode"
-> > property. I am sure we've been here...
+> > >
+> > > Neil
+> > >
+> > > > ---
+> > > >   drivers/gpu/drm/bridge/Kconfig | 1 +
+> > > >   1 file changed, 1 insertion(+)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> > > > index ac9ec5073619..ae782b427829 100644
+> > > > --- a/drivers/gpu/drm/bridge/Kconfig
+> > > > +++ b/drivers/gpu/drm/bridge/Kconfig
+> > > > @@ -8,6 +8,7 @@ config DRM_BRIDGE
+> > > >   config DRM_PANEL_BRIDGE
+> > > >           def_bool y
+> > > >           depends on DRM_BRIDGE
+> > > > + select DRM_KMS_HELPER
+> > > >           select DRM_PANEL
+> > > >           help
+> > > >             DRM bridge wrapper of DRM panels
+> > > >
+> > > > ---
+> > > > base-commit: b9c3a1fa6fb324e691a03cf124b79f4842e65d76
+> > > > change-id: 20240111-drm-panel-bridge-fixup-5c2977fb969f
+> > > >
+> > > > Best regards,
 >
-> phy-mode belongs in the phy node though. Not that you couldn't look in
-> the phy node and see, but everyone likes all the properties they need
-> nicely packaged up in their driver's node.
->
-> > Anyway, if you define completely new property without vendor prefix,
-> > that's a generic property, so you need to put it in some common schema
-> > for all Display Controllers, not only Qualcomm.
 
-Is there a generic schema for DisplayPort controllers? I think there
-is none at this point. We can probably add it, declaring is-edp
-property, link-frequencies, etc.
-However Mediatek already uses a different option to specify supported
-link frequencies.
-
->
-> I'm trying to unsee what the driver is doing... Hard-coding the
-> connector type and some instance indices. Uhhhh! I'm sure I'm to blame
-> for rejecting those in DT.
-
-Once this patchset is accepted (in this or that or whatever else
-form), we will cleanup most of those hardcoded types.
-
->
-> I've suggested connector nodes in the past. More generally, whatever is
-> attached at the other end (as it could be a bridge rather than a
-> connector) knows what mode is needed. It's simple negotiation. Each end
-> presents what they support. You take the union of the list(s) and get
-> the mode. If there's more than one, then the kernel or user gets to
-> choose.
-
-It's not that easy. First, probing of the bridge chain differs
-slightly depending on whether the controller is eDP or DP controller.
-eDP should use AUX BUS, while DP (currently) doesn't use it. More
-importantly, error conditions differ too. For example, in the DP case
-it is perfectly fine to have nothing attached to the controller. It
-just means that the display chain needs no additional handling and the
-HPD pin will be handled by the controller itself. In the eDP case if
-neither a panel nor a bridge are attached, it is considered to be an
-error and thus the driver will return probe error.
-
-> Qualcomm is not the only one with this problem. Solve it for everyone...
 
 -- 
 With best wishes
