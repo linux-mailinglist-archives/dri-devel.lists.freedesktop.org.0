@@ -2,69 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FA7987093D
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 19:13:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62993870957
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 19:18:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2FD8112432;
-	Mon,  4 Mar 2024 18:13:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7519112441;
+	Mon,  4 Mar 2024 18:18:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Bpn2jrS6";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="BxSEvcOI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
- [209.85.128.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB097112433
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 18:13:40 +0000 (UTC)
-Received: by mail-yw1-f182.google.com with SMTP id
- 00721157ae682-608959cfcbfso52655927b3.3
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 10:13:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1709576019; x=1710180819; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=EjE93o2p/BNRD6duwy1hrbCPE/L1Bz04gG2eWZQ12G8=;
- b=Bpn2jrS6bCzrnUcZsJBBjB3f6Rp2Xz41UqiAI7c4KBKSlOAkzuaS69wyWw7SNxrkGj
- fP3Vi84UKRcDTp0t+Y4+rvGeZ3LJZOh1QSiONW7uvdUBOUfyPmEQVSzrsm15l3V1TzUF
- u1ezyvSCbYPLaehypZEGN/yMjfZue0Fz5nLRJGNcWifFWp0yK/Znh6nC6utdQ7gFwv3M
- 5Z4HTRhXpf3CCVOyA/z0BMYA18FJvLzDvZ/jyx5cpqNPBmSGHD2VWfWqn8jvGWobgyDE
- lzySbekTkLxN8PedWszFHM3KfcwBbwLLO8GwLXkYlUtsqeNKcJlj3JY6i+bhhkuvBgVq
- UwyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709576019; x=1710180819;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=EjE93o2p/BNRD6duwy1hrbCPE/L1Bz04gG2eWZQ12G8=;
- b=a2QujWui4Dl6uc9rz4ydMbNJ3ZYRwAb97zr9o73DiW47FzPGusHIDfG/WT5ixiCWHF
- IfiIA5AMXGYpwMK9ST0l70CmN+/X+WbExDgFzFFC+ghMghxvkCbNKOx7G6xE3sRLIVQ2
- v1AAjPYUdXRywqyfnPzMIr3d4x7i7IwPLa9U13gqYYmOGe+arP8CgI7GJx5EhIJPoScQ
- B3VugMj0Gt3ZUub+dbrFx9We//UEjVUhpi69S71svFLDbR16e7872eN0c2q6lVrXpJQN
- hsnt23ACCHY3wGe9lCbXDxuNFrkyQsdn/erOf6rCmICwpx8LuCjOkNcVM41X0+7Z1oV7
- T75w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWjL639zAqGrHHNiLsWYgjZfEezuzPwxK9TubymO37kodq9RupsiFeX1lWx7RTkC1hjS4KToeZzyBz5RtgqIT1jLpEIYlYmwhiS7MtOTe3n
-X-Gm-Message-State: AOJu0Yy6mMsrzfO+dZuv7C0FhFchf4Bs/7ZWRoNyqa82vf9ofOfzxKUX
- HJJa/y+CV9UHvBCCBWwVpnNmouWovoVeZb8m81590QpkBmigaO6ODx1YADw8ejIjsqPTMdSnLrp
- nAPYbT7UaRl5YUqPaeH9JZLUPtuuADePcPajVvw==
-X-Google-Smtp-Source: AGHT+IHEsG0xIbxTLt0nqR9d2jAuFPIONsiU/QGgPiLY+SElLJU2fbWTW9Q10bJjRdOjSCCR3L+cVAZZv/zuB053MDw=
-X-Received: by 2002:a0d:d491:0:b0:609:8132:79b3 with SMTP id
- w139-20020a0dd491000000b00609813279b3mr10243342ywd.10.1709576019520; Mon, 04
- Mar 2024 10:13:39 -0800 (PST)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA2A611243B;
+ Mon,  4 Mar 2024 18:17:58 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id D2F05CE138D;
+ Mon,  4 Mar 2024 18:17:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9673C43390;
+ Mon,  4 Mar 2024 18:17:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1709576275;
+ bh=TRrFQ9pD/Iily52Kp7udEWxsInCWw3tf6/0GfcLYQCQ=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:From;
+ b=BxSEvcOI5P/5iD0fedbyQOFZmTT+L+Od2gOZTaklzNeFmBPjqCh/Pu3SISzDan6m6
+ I2wQXrUxcnX9PUDnvLOL2xb28KpqkxUv/HqD7lpDmeNuK4Kln9O2eOkNc5nu4tqTis
+ JQIOJcXdwiMmGwVnl0jE3h9T/bnKwWaIZ22dcTHQ=
+Subject: Patch "drm/nouveau: don't fini scheduler before entity flush" has
+ been added to the 6.6-stable tree
+To: dakr@redhat.com, dri-devel@lists.freedesktop.org,
+ gregkh@linuxfoundation.org, kherbst@redhat.com, nouveau@lists.freedesktop.org
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Mon, 04 Mar 2024 19:17:18 +0100
+In-Reply-To: <20240304170158.4206-1-dakr@redhat.com>
+Message-ID: <2024030418-marshland-struck-b63a@gregkh>
 MIME-Version: 1.0
-References: <20240304175152.1199270-1-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20240304175152.1199270-1-andriy.shevchenko@linux.intel.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 4 Mar 2024 20:13:28 +0200
-Message-ID: <CAA8EJpqAzWdntbmg-NyQcbLHtUoh-m=g_u=ZWiMimubsWW22sQ@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] drm/msm/hdmi: Replace of_gpio.h by proper one
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=ANSI_X3.4-1968
+Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,40 +56,191 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 4 Mar 2024 at 19:51, Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> of_gpio.h is deprecated and subject to remove.
-> The driver doesn't use it directly, replace it
-> with what is really being used.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+This is a note to let you know that I've just added the patch titled
 
-> ---
->  drivers/gpu/drm/msm/hdmi/hdmi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> index c8ebd75176bb..24abcb7254cc 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> @@ -5,8 +5,8 @@
->   * Author: Rob Clark <robdclark@gmail.com>
->   */
->
-> +#include <linux/gpio/consumer.h>
->  #include <linux/of_irq.h>
-> -#include <linux/of_gpio.h>
->  #include <linux/of_platform.h>
->  #include <linux/platform_device.h>
->
-> --
-> 2.43.0.rc1.1.gbec44491f096
->
+    drm/nouveau: don't fini scheduler before entity flush
+
+to the 6.6-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     drm-nouveau-don-t-fini-scheduler-before-entity-flush.patch
+and it can be found in the queue-6.6 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
 
 
--- 
-With best wishes
-Dmitry
+From dakr@redhat.com  Mon Mar  4 18:52:25 2024
+From: Danilo Krummrich <dakr@redhat.com>
+Date: Mon,  4 Mar 2024 18:01:46 +0100
+Subject: drm/nouveau: don't fini scheduler before entity flush
+To: stable@vger.kernel.org, nouveau@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@redhat.com>, Karol Herbst <kherbst@redhat.com>
+Message-ID: <20240304170158.4206-1-dakr@redhat.com>
+
+From: Danilo Krummrich <dakr@redhat.com>
+
+This bug is present in v6.7 only, since the scheduler design has been
+re-worked in v6.8.
+
+Client scheduler entities must be flushed before an associated GPU
+scheduler is teared down. Otherwise the entitiy might still hold a
+pointer to the scheduler's runqueue which is freed at scheduler tear
+down already.
+
+[  305.224293] ==================================================================
+[  305.224297] BUG: KASAN: slab-use-after-free in drm_sched_entity_flush+0x6c4/0x7b0 [gpu_sched]
+[  305.224310] Read of size 8 at addr ffff8881440a8f48 by task rmmod/4436
+
+[  305.224317] CPU: 10 PID: 4436 Comm: rmmod Tainted: G     U             6.7.6-100.fc38.x86_64+debug #1
+[  305.224321] Hardware name: Dell Inc. Precision 7550/01PXFR, BIOS 1.27.0 11/08/2023
+[  305.224324] Call Trace:
+[  305.224327]  <TASK>
+[  305.224329]  dump_stack_lvl+0x76/0xd0
+[  305.224336]  print_report+0xcf/0x670
+[  305.224342]  ? drm_sched_entity_flush+0x6c4/0x7b0 [gpu_sched]
+[  305.224352]  ? __virt_addr_valid+0x215/0x410
+[  305.224359]  ? drm_sched_entity_flush+0x6c4/0x7b0 [gpu_sched]
+[  305.224368]  kasan_report+0xa6/0xe0
+[  305.224373]  ? drm_sched_entity_flush+0x6c4/0x7b0 [gpu_sched]
+[  305.224385]  drm_sched_entity_flush+0x6c4/0x7b0 [gpu_sched]
+[  305.224395]  ? __pfx_drm_sched_entity_flush+0x10/0x10 [gpu_sched]
+[  305.224406]  ? rcu_is_watching+0x15/0xb0
+[  305.224413]  drm_sched_entity_destroy+0x17/0x20 [gpu_sched]
+[  305.224422]  nouveau_cli_fini+0x6c/0x120 [nouveau]
+[  305.224658]  nouveau_drm_device_fini+0x2ac/0x490 [nouveau]
+[  305.224871]  nouveau_drm_remove+0x18e/0x220 [nouveau]
+[  305.225082]  ? __pfx_nouveau_drm_remove+0x10/0x10 [nouveau]
+[  305.225290]  ? rcu_is_watching+0x15/0xb0
+[  305.225295]  ? _raw_spin_unlock_irqrestore+0x66/0x80
+[  305.225299]  ? trace_hardirqs_on+0x16/0x100
+[  305.225304]  ? _raw_spin_unlock_irqrestore+0x4f/0x80
+[  305.225310]  pci_device_remove+0xa3/0x1d0
+[  305.225316]  device_release_driver_internal+0x379/0x540
+[  305.225322]  driver_detach+0xc5/0x180
+[  305.225327]  bus_remove_driver+0x11e/0x2a0
+[  305.225333]  pci_unregister_driver+0x2a/0x250
+[  305.225339]  nouveau_drm_exit+0x1f/0x970 [nouveau]
+[  305.225548]  __do_sys_delete_module+0x350/0x580
+[  305.225554]  ? __pfx___do_sys_delete_module+0x10/0x10
+[  305.225562]  ? syscall_enter_from_user_mode+0x26/0x90
+[  305.225567]  ? rcu_is_watching+0x15/0xb0
+[  305.225571]  ? syscall_enter_from_user_mode+0x26/0x90
+[  305.225575]  ? trace_hardirqs_on+0x16/0x100
+[  305.225580]  do_syscall_64+0x61/0xe0
+[  305.225584]  ? rcu_is_watching+0x15/0xb0
+[  305.225587]  ? syscall_exit_to_user_mode+0x1f/0x50
+[  305.225592]  ? trace_hardirqs_on_prepare+0xe3/0x100
+[  305.225596]  ? do_syscall_64+0x70/0xe0
+[  305.225600]  ? trace_hardirqs_on_prepare+0xe3/0x100
+[  305.225604]  entry_SYSCALL_64_after_hwframe+0x6e/0x76
+[  305.225609] RIP: 0033:0x7f6148f3592b
+[  305.225650] Code: 73 01 c3 48 8b 0d dd 04 0c 00 f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa b8 b0 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d ad 04 0c 00 f7 d8 64 89 01 48
+[  305.225653] RSP: 002b:00007ffe89986f08 EFLAGS: 00000206 ORIG_RAX: 00000000000000b0
+[  305.225659] RAX: ffffffffffffffda RBX: 000055cbb036e900 RCX: 00007f6148f3592b
+[  305.225662] RDX: 0000000000000000 RSI: 0000000000000800 RDI: 000055cbb036e968
+[  305.225664] RBP: 00007ffe89986f30 R08: 1999999999999999 R09: 0000000000000000
+[  305.225667] R10: 00007f6148fa6ac0 R11: 0000000000000206 R12: 0000000000000000
+[  305.225670] R13: 00007ffe89987190 R14: 000055cbb036e900 R15: 0000000000000000
+[  305.225678]  </TASK>
+
+[  305.225683] Allocated by task 484:
+[  305.225685]  kasan_save_stack+0x33/0x60
+[  305.225690]  kasan_set_track+0x25/0x30
+[  305.225693]  __kasan_kmalloc+0x8f/0xa0
+[  305.225696]  drm_sched_init+0x3c7/0xce0 [gpu_sched]
+[  305.225705]  nouveau_sched_init+0xd2/0x110 [nouveau]
+[  305.225913]  nouveau_drm_device_init+0x130/0x3290 [nouveau]
+[  305.226121]  nouveau_drm_probe+0x1ab/0x6b0 [nouveau]
+[  305.226329]  local_pci_probe+0xda/0x190
+[  305.226333]  pci_device_probe+0x23a/0x780
+[  305.226337]  really_probe+0x3df/0xb80
+[  305.226341]  __driver_probe_device+0x18c/0x450
+[  305.226345]  driver_probe_device+0x4a/0x120
+[  305.226348]  __driver_attach+0x1e5/0x4a0
+[  305.226351]  bus_for_each_dev+0x106/0x190
+[  305.226355]  bus_add_driver+0x2a1/0x570
+[  305.226358]  driver_register+0x134/0x460
+[  305.226361]  do_one_initcall+0xd3/0x430
+[  305.226366]  do_init_module+0x238/0x770
+[  305.226370]  load_module+0x5581/0x6f10
+[  305.226374]  __do_sys_init_module+0x1f2/0x220
+[  305.226377]  do_syscall_64+0x61/0xe0
+[  305.226381]  entry_SYSCALL_64_after_hwframe+0x6e/0x76
+
+[  305.226387] Freed by task 4436:
+[  305.226389]  kasan_save_stack+0x33/0x60
+[  305.226392]  kasan_set_track+0x25/0x30
+[  305.226396]  kasan_save_free_info+0x2b/0x50
+[  305.226399]  __kasan_slab_free+0x10b/0x1a0
+[  305.226402]  slab_free_freelist_hook+0x12b/0x1e0
+[  305.226406]  __kmem_cache_free+0xd4/0x1d0
+[  305.226410]  drm_sched_fini+0x178/0x320 [gpu_sched]
+[  305.226418]  nouveau_drm_device_fini+0x2a0/0x490 [nouveau]
+[  305.226624]  nouveau_drm_remove+0x18e/0x220 [nouveau]
+[  305.226832]  pci_device_remove+0xa3/0x1d0
+[  305.226836]  device_release_driver_internal+0x379/0x540
+[  305.226840]  driver_detach+0xc5/0x180
+[  305.226843]  bus_remove_driver+0x11e/0x2a0
+[  305.226847]  pci_unregister_driver+0x2a/0x250
+[  305.226850]  nouveau_drm_exit+0x1f/0x970 [nouveau]
+[  305.227056]  __do_sys_delete_module+0x350/0x580
+[  305.227060]  do_syscall_64+0x61/0xe0
+[  305.227064]  entry_SYSCALL_64_after_hwframe+0x6e/0x76
+
+[  305.227070] The buggy address belongs to the object at ffff8881440a8f00
+                which belongs to the cache kmalloc-128 of size 128
+[  305.227073] The buggy address is located 72 bytes inside of
+                freed 128-byte region [ffff8881440a8f00, ffff8881440a8f80)
+
+[  305.227078] The buggy address belongs to the physical page:
+[  305.227081] page:00000000627efa0a refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1440a8
+[  305.227085] head:00000000627efa0a order:1 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+[  305.227088] flags: 0x17ffffc0000840(slab|head|node=0|zone=2|lastcpupid=0x1fffff)
+[  305.227093] page_type: 0xffffffff()
+[  305.227097] raw: 0017ffffc0000840 ffff8881000428c0 ffffea0005b33500 dead000000000002
+[  305.227100] raw: 0000000000000000 0000000000200020 00000001ffffffff 0000000000000000
+[  305.227102] page dumped because: kasan: bad access detected
+
+[  305.227106] Memory state around the buggy address:
+[  305.227109]  ffff8881440a8e00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+[  305.227112]  ffff8881440a8e80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+[  305.227114] >ffff8881440a8f00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[  305.227117]                                               ^
+[  305.227120]  ffff8881440a8f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+[  305.227122]  ffff8881440a9000: 00 00 00 00 00 00 00 00 00 00 00 00 00 fc fc fc
+[  305.227125] ==================================================================
+
+Cc: <stable@vger.kernel.org> # v6.7 only
+Reported-by: Karol Herbst <kherbst@redhat.com>
+Closes: https://gist.githubusercontent.com/karolherbst/a20eb0f937a06ed6aabe2ac2ca3d11b5/raw/9cd8b1dc5894872d0eeebbee3dd0fdd28bb576bc/gistfile1.txt
+Fixes: b88baab82871 ("drm/nouveau: implement new VM_BIND uAPI")
+Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/nouveau/nouveau_drm.c |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+--- a/drivers/gpu/drm/nouveau/nouveau_drm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
+@@ -708,10 +708,11 @@ nouveau_drm_device_fini(struct drm_devic
+ 	}
+ 	mutex_unlock(&drm->clients_lock);
+ 
+-	nouveau_sched_fini(drm);
+-
+ 	nouveau_cli_fini(&drm->client);
+ 	nouveau_cli_fini(&drm->master);
++
++	nouveau_sched_fini(drm);
++
+ 	nvif_parent_dtor(&drm->parent);
+ 	mutex_destroy(&drm->clients_lock);
+ 	kfree(drm);
+
+
+Patches currently in stable-queue which might be from dakr@redhat.com are
+
+queue-6.6/drm-nouveau-don-t-fini-scheduler-before-entity-flush.patch
