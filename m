@@ -2,68 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B45086FFF7
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 12:11:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82DB786FFFD
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 12:12:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5287110FFE9;
-	Mon,  4 Mar 2024 11:11:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 732D010FFEA;
+	Mon,  4 Mar 2024 11:12:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="f9CripOA";
+	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="yvc3lv5W";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="MGCCBcZG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A44E10FFE3;
- Mon,  4 Mar 2024 11:11:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709550684; x=1741086684;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=0T0lhm8LzcAdzbLDuBp+ZTGZjesoCjhi5zU7O8aSCKI=;
- b=f9CripOA53/9SXNGSz+zq2JlTMz1QpfLG06Rp8dFiiv6jRJJC3zGadXv
- URNX0JDSLzzLF4LrHSbcuVRwVHrSPJ7/SP/6wkmRw4odyWRzODjmthBZB
- er9wzOk5XBC8mIZFTyCFM83crmdnA9Ndfw5hijyTEFQlaeX5iPRvu0O2G
- UMhW6hh5f3kHo6RFGmZRTpLi2eQe3iWu3yGMkUj0fngd/K7sQXQimppR/
- A1v6DCvMTrOw8Yzhvu6kGXRnE7Y12n5bwgIO+xZ6Q11njjRPnLjVrfbuW
- Q896JnC3KpaUZDtusRcL3O6D5nJughBec5rh9OuJVqO+PFv8gQViBGWkI w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="4160899"
-X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
-   d="scan'208";a="4160899"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2024 03:11:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="827773138"
-X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; d="scan'208";a="827773138"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 04 Mar 2024 03:11:18 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 04 Mar 2024 13:11:17 +0200
-Date: Mon, 4 Mar 2024 13:11:17 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Nikita Kiryushin <kiryushin@ancud.ru>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Manasi Navare <manasi.d.navare@intel.com>,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- lvc-project@linuxtesting.org
-Subject: Re: [PATCH] drm/i915: Remove unneeded double drm_rect_visible call
- in check_overlay_dst
-Message-ID: <ZeWsVXhj1AUD4q3G@intel.com>
-References: <> <79c92cfa-cf5a-4a23-8a93-11c1af7432fc@ancud.ru>
- <ZeB45WKv4lP8QQpv@intel.com>
- <ecfb0f31-a454-4a51-9fb8-9cd0aca3195c@ancud.ru>
+Received: from wfhigh1-smtp.messagingengine.com
+ (wfhigh1-smtp.messagingengine.com [64.147.123.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46D4410FFEA
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 11:12:00 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailfhigh.west.internal (Postfix) with ESMTP id E81031800071;
+ Mon,  4 Mar 2024 06:11:58 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+ by compute5.internal (MEProxy); Mon, 04 Mar 2024 06:12:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:subject
+ :subject:to:to; s=fm3; t=1709550718; x=1709637118; bh=EdyAyreUFv
+ IgIM6ctI+YdhHOhoypCpmrpuxvB1wsxPs=; b=yvc3lv5Wisgl69XprFcP5LoTvy
+ xOnR8ClrH2/ISMMCpe99Rj5lDH/mge/sdO8Q75eVh6ydyXO57A8YdnKv0uzyNUpx
+ 7PG4TgXn9G9Me+kcKeAg/kPyZr20lkoE8Ge2PDZ0m0vvsssQX1uqCDBCVnQs4W3N
+ +wgnEzVauN3lLU7jf3CzxfNawof7guszJvZe02DYntMXlHpJG/yx1gvxsW0MT+bi
+ pFCPkfYc/KicROYhNZTnDHnP0uSUmy0/PfwLLpfzUh7P2YlatkXUsXudhqlkpChJ
+ NJjNqcyyoT6eqOCj46xFzfMY95lfa2hGbbCYGgVdNFVwICTdfRAsOEXX3fow==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1709550718; x=1709637118; bh=EdyAyreUFvIgIM6ctI+YdhHOhoyp
+ CpmrpuxvB1wsxPs=; b=MGCCBcZGWn6rAsXfzV4j1gaxH0Y2kffQfmDiJk8KF2GP
+ EoRo+xLTsXklU/QyL43TRHXVU3SdQGqau0Rw5/qC119H4DCDVvVHLYeAd2gXEYLR
+ XrJ067icxcSWRPBom4IlHWcjm0D5NawrA6H95J7ayq2qt/IK0YGlIMhvAaZhEmvL
+ zH2SsDruheTp8pljRm3f5HlFGH2k+U/Ah83zjcr6TA/mTqfE4wAMl+K3gjLf5Qo8
+ Jjdn9wlSnOZnr4M4Nr2lwIPZV4uOzRYDpvz/AbTEHtD1q0Unu6kzTPS4Q+bnc29k
+ +C4K8CTyxFoPau/lJun7a4c9COVbpR7XBoxJUJWQkQ==
+X-ME-Sender: <xms:fqzlZbfowZCDDY1dEYxarEK4eXUh520wbI7RsI0tgztE-LKszHYnjg>
+ <xme:fqzlZROcTlyFsKnY4Oe0qUgjVmAB4bGWwtOBURj2kXAH0jeLOiBQuPDmMk9KgGQNq
+ fOW2xDm8LEhcmu7iak>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrheejgddvgecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+ ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+ gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+ ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+ hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:fqzlZUjelUD9zaEr8nSDoJCtK559fTWiBiqAimb_sOoBNtSNx2EMMQ>
+ <xmx:fqzlZc_Ax8RVY9-c2Kpg8k8WwgUcknhXfOiVo-pP0vFyJP5vh7iZ-w>
+ <xmx:fqzlZXvWXr15D_PiaqiRY-ISbFDDa9D67Fx5YAbYK89hWhvycAn8Pw>
+ <xmx:fqzlZVKzGqHIXK_nBLwwCS2YB7JRMTnXAT0BKwWflGbNWy2SnBXzsdZsHwE>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 1DB36B6008D; Mon,  4 Mar 2024 06:11:58 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-205-g4dbcac4545-fm-20240301.001-g4dbcac45
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ecfb0f31-a454-4a51-9fb8-9cd0aca3195c@ancud.ru>
-X-Patchwork-Hint: comment
+Message-Id: <338c89bb-a70b-4f35-b71b-f974e90e3383@app.fastmail.com>
+In-Reply-To: <CA+G9fYvG9KE15PGNoLu+SBVyShe+u5HBLQ81+kK9Zop6u=ywmw@mail.gmail.com>
+References: <CA+G9fYvG9KE15PGNoLu+SBVyShe+u5HBLQ81+kK9Zop6u=ywmw@mail.gmail.com>
+Date: Mon, 04 Mar 2024 12:11:36 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Naresh Kamboju" <naresh.kamboju@linaro.org>,
+ "open list" <linux-kernel@vger.kernel.org>,
+ "Linux ARM" <linux-arm-kernel@lists.infradead.org>,
+ linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ lkft-triage@lists.linaro.org
+Cc: "Maxime Ripard" <mripard@kernel.org>, "Dave Airlie" <airlied@redhat.com>, 
+ "Dan Carpenter" <dan.carpenter@linaro.org>,
+ "Ard Biesheuvel" <ardb@kernel.org>
+Subject: Re: arm: ERROR: modpost: "__aeabi_uldivmod"
+ [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,45 +96,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 01, 2024 at 09:56:41PM +0300, Nikita Kiryushin wrote:
-> On 2/29/24 15:30, Ville Syrjälä wrote:
-> > I prefer the current way where we have no side effects in
-> > the if statement.
-> >
-> 
-> This seem like a valid concern from readability and maintainability 
-> standpoint. My patch was aimed mostly at performance and maintainability 
-> using tools: some more pedantic analyzers are sensitive to non-checked 
-> return values (as of now, drm_rect_intersect is ignored).
-> 
-> Would it be a better idea to make an update to the patch with second 
-> drm_rect_visible call changed to an appropriately named state flag set 
-> with drm_rect_intersect result?
+On Mon, Mar 4, 2024, at 09:07, Naresh Kamboju wrote:
+> The arm defconfig builds failed on today's Linux next tag next-20240304.
+>
+> Build log:
+> ---------
+> ERROR: modpost: "__aeabi_uldivmod"
+> [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
+>
 
-I was thinking of maybe removing that drm_rect_visible() from
-drm_rect_intersect() entirely, but looks like it's used fairly
-extensively, so would require a bunch of work.
+Apparently caused by the 64-bit division in 358e76fd613a
+("drm/sun4i: hdmi: Consolidate atomic_check and mode_valid"):
 
-But now that I though about this I recalled that there was an earlier
-patch trying to do exactly what you suggested in this patch. And looks
-like there was a second version posted which I completely missed:
-https://patchwork.freedesktop.org/series/115605/
 
-While that does still have drm_rect_intersect() with its side effects
-inside the if() I don't find it quite as objectionable since it's the
-only thing in there. So it's a bit more obvious what is happening.
-I've gone and merged that one.
++static enum drm_mode_status
++sun4i_hdmi_connector_clock_valid(const struct drm_connector *connector,
++                                const struct drm_display_mode *mode,
++                                unsigned long long clock)
+ {
+-       struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
+-       unsigned long rate = mode->clock * 1000;
+-       unsigned long diff = rate / 200; /* +-0.5% allowed by HDMI spec */
++       const struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
++       unsigned long diff = clock / 200; /* +-0.5% allowed by HDMI spec */
+        long rounded_rate;
 
-Thanks for the patch regardless. At least I reminded me to look at the
-earlier attempt ;)
+This used to be a 32-bit division. If the rate is never more than
+4.2GHz, clock could be turned back into 'unsigned long' to avoid
+the expensive div_u64().
 
-> 
-> BTW, the original patch somehow got mangled while it made its way to the 
-> patchwork: source list line in patch got broken, which permits the patch 
-> from being applied (the original version did not have that line break). 
-> Any ideas how to prevent this happening with the second version of patch 
-> (in case the idea is viable)?
-
--- 
-Ville Syrjälä
-Intel
+      Arnd
