@@ -2,125 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3FE686FAEF
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 08:36:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ABAB86FB2B
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 08:56:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC7DA10FDB9;
-	Mon,  4 Mar 2024 07:36:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CBD310FDEB;
+	Mon,  4 Mar 2024 07:56:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="npOit2ns";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FEVCwF70";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 093D710FDB9
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 07:36:19 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-2d23114b19dso50857931fa.3
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Mar 2024 23:36:19 -0800 (PST)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DB8410FDEC
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 07:56:24 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id
+ a640c23a62f3a-a45606c8444so41621466b.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Mar 2024 23:56:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1709537778; x=1710142578; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=O4FlQyVTG7p+3ARaoCOGwbmy/932YEedHD7xhr0/eEY=;
- b=npOit2nsiRDAZs8e6QQQeiRUPYBZ7Ov7qQYV3XQ7NT+GIv3m2aj3cKgaSLC0wDUfbj
- 7GS4/0Y6+YEN0tNvhR6DDutGpEX8klu33MpDbbJdudCDDeAVTmv6DKDy8G5bKK0+IyD+
- SoCGSCOuaHjjymQAjY4SCEzFcZPUFRXuUGRAaoJ4chLuQ23wyqCiuBB6rY7T0+HLtPF0
- 1NbNJ71vivvjz8AEkwArcN7649zEyV/fWgJcNUY9eUAFNdNIR28GwprYDkY7clg1zBs7
- jrWAoW75JczJbUwkbOZclIAvied30Q1Tx18/r5gNev6YnnGglB0s907w/7Kw31DA5N9D
- xjyg==
+ d=gmail.com; s=20230601; t=1709538983; x=1710143783; darn=lists.freedesktop.org;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=JU7B4JEXTqNDcYf4cw4oV1wq3naZdiA7hXrTs7ex2DA=;
+ b=FEVCwF70sGBhNyINwNnT8YqbseZ5n0/dQJ0JgdNajkOOTQU1ND1O59AgEKXoMEAn+C
+ 5F+EcMAhEtkmgO1XFqKjNQ3+MTON4jGu4Dgudfg9ZwGypheSoKQldf2hSVUWdZFPzSRt
+ hUqDlyxnHLyjxi2GB7gZlyqXU/qkcL/tx58QjISLQlH2n5UAo9Q/QquzjGlmEz4H6zJC
+ TKFsIIcztETaUIt0oiCQw6jEUJX6z1R2DTuXxy7ePP0B8k5Jv5TNes2/hxDBR5IRbKRY
+ MXlUzcosjhGYCpze/k66Js08kI3EcoEiKNeXd8TYDrH17G2+OFkVSM0Gqe+qt7s9p7tm
+ g1Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709537778; x=1710142578;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=O4FlQyVTG7p+3ARaoCOGwbmy/932YEedHD7xhr0/eEY=;
- b=Iz4jH9jlOI5QMvRahJlTdpjyYXjsoDcoEPffUvFXdYJBAnhHhtmCQR6nfukGozWoj5
- 3RvB7CvRKXqYF0WlLqddRJtsW5LOcCkNdIfRPv8sNynCZMpndyFj+FgOOX2hgCwPm34U
- vkmdF1ZpjJ7td08aJym3l3zWDvBcBWlD4G2+VhN+VeMimaDTwcv0FwkofFo7JtJe8xAh
- fCxfJfQcOWqPsUZ411WDD88BCmg75+qhQM5tRajp6eH91f3JpNavuXpP6wfD9ErG2kVr
- V3oog3R3jQm3GeXPLDa/mDK6NW9QW7cnG/U5Ws4HrYsxlzyeHI2eibHRB72Cs1SsvqdN
- l72w==
-X-Gm-Message-State: AOJu0YwIBu4GDE4PKs7oREVwkkCtXxejmX53VnP6hd9fkDriRfZ+Hoxa
- pUOXvDTAcz97eUyLwMSX0JIfDQB6/v0248KWgwfkD96zxKq4Q28YJ5VcwqMiUok=
-X-Google-Smtp-Source: AGHT+IGhKbZArLVZK7s0XrRO/PDXj8uz7pOfozYwmD5XCpo9DhwrJC58mJArQBT8UBVtGv5CvjtxIw==
-X-Received: by 2002:a05:651c:10a1:b0:2d2:d6a0:6f3e with SMTP id
- k1-20020a05651c10a100b002d2d6a06f3emr5837047ljn.13.1709537777893; 
- Sun, 03 Mar 2024 23:36:17 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.222.97])
+ d=1e100.net; s=20230601; t=1709538983; x=1710143783;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=JU7B4JEXTqNDcYf4cw4oV1wq3naZdiA7hXrTs7ex2DA=;
+ b=itoY6OE5sQuJCulpDI84xiaMZpemnSDURdYa18TQVbzM7DF5ME3sGvoY0UAjqKIG1d
+ qdmnwYnlOJMEZzeQEyJGTg/yZYH/mY+cOc3JEP9b94L4SwsuWdDnIZC8PthzJLZidWXl
+ 1aheLhPODEn4P8GyQJNldHsw1m/8cZp0rYd0Hipo0DWc6qjO4nuuZhVQs1mehdUBdVOg
+ PXPY/+UtWj4uCorpPrM2wRgjEs5iaS7Db+J3WMKl1M9HtTBmvLz+KoTrnIqIe69YcGPN
+ ASM2KwVls0HC7wAAkWnuja8/2/JyGGqjWujVvAzSzcI5h+B0JU3QrFN6TctswPDFYtBA
+ 1GWA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUexm2yszmj/9OXZcqjSxqivE+D+kwPBCLxjFprEaL8eyrfJC1luEzs3uUcA/4r7BXRqPKZJ25+hBpO/0EAO/du9c7HGd/VvqcrKhVb8TTk
+X-Gm-Message-State: AOJu0YxdVD7s3YvV9dxoKQb07OzEqu7KwCVngCfAQw/MpBtcG+AodVl8
+ TvU4NckBWFbLgH9aTlcfxKJmkITNsgKEbc5qOd5XkngGFuI6y+Z+
+X-Google-Smtp-Source: AGHT+IFDGr7vFAQ+PxmjQk9WiX9JA+Bj/agAwF6Fti3FyVIMSz4fL7PwqOI0+GiLNxiumrzfSC6zRg==
+X-Received: by 2002:a17:906:f293:b0:a45:1fa8:3850 with SMTP id
+ gu19-20020a170906f29300b00a451fa83850mr1753968ejb.58.1709538982788; 
+ Sun, 03 Mar 2024 23:56:22 -0800 (PST)
+Received: from ?IPv6:2003:f6:ef1b:2000:944c:cbc7:1e1c:2c47?
+ (p200300f6ef1b2000944ccbc71e1c2c47.dip0.t-ipconnect.de.
+ [2003:f6:ef1b:2000:944c:cbc7:1e1c:2c47])
  by smtp.gmail.com with ESMTPSA id
- c26-20020a2e9d9a000000b002d29e1845c9sm1615609ljj.58.2024.03.03.23.36.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 03 Mar 2024 23:36:17 -0800 (PST)
-Message-ID: <ce1c5ba1-4f6a-4d20-8a12-fbae9003657a@linaro.org>
-Date: Mon, 4 Mar 2024 08:36:14 +0100
+ h4-20020a1709063b4400b00a433f470cf1sm4402055ejf.138.2024.03.03.23.56.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 03 Mar 2024 23:56:22 -0800 (PST)
+Message-ID: <43787ce68f731b9267ee558c4c38d634acffe8b9.camel@gmail.com>
+Subject: Re: [PATCH v7 0/6] iio: new DMABUF based API
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>, Nuno Sa <nuno.sa@analog.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>,  Jonathan Corbet <corbet@lwn.net>, Paul
+ Cercueil <paul@crapouillou.net>, Daniel Vetter <daniel@ffwll.ch>, Michael
+ Hennerich <Michael.Hennerich@analog.com>,  linux-doc@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-iio@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org
+Date: Mon, 04 Mar 2024 08:59:47 +0100
+In-Reply-To: <20240303174245.37efc0b0@jic23-huawei>
+References: <20240223-iio-dmabuf-v7-0-78cfaad117b9@analog.com>
+ <20240303174245.37efc0b0@jic23-huawei>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] dt-bindings: display: atmel,lcdc: convert to dtschema
-Content-Language: en-US
-To: Dharma Balasubiramani <dharma.b@microchip.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20240304-lcdc-fb-v2-1-a14b463c157a@microchip.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
- m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
- HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
- XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
- mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
- v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
- cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
- rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
- qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
- aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
- gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
- dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
- NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
- hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
- oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
- H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
- yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
- 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
- 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
- +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
- FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
- 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
- DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
- oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
- 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
- Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
- qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
- /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
- qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
- EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
- KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
- fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240304-lcdc-fb-v2-1-a14b463c157a@microchip.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,74 +93,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/03/2024 06:36, Dharma Balasubiramani wrote:
-> Convert the atmel,lcdc bindings to DT schema.
-> Changes during conversion: add missing clocks and clock-names properties.
-> 
-> Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
-> ---
-> This patch converts the existing lcdc display text binding to JSON schema.
-> The binding is split into two namely
-> lcdc.yaml
-> - Holds the frame buffer properties
-> lcdc-display.yaml
-> - Holds the display panel properties which is a phandle to the display
-> property in lcdc fb node.
-> 
-> These bindings are tested against the existing at91 dts files using
-> dtbs_check.
-> ---
-> Changes in v2:
-> - Run checkpatch and remove whitespace errors.
-> - Add the standard interrupt flags.
-> - Split the binding into two, namely lcdc.yaml and lcdc-display.yaml.
-> - Link to v1: https://lore.kernel.org/r/20240223-lcdc-fb-v1-1-4c64cb6277df@microchip.com
-> ---
->  .../bindings/display/atmel,lcdc-display.yaml       | 98 ++++++++++++++++++++++
->  .../devicetree/bindings/display/atmel,lcdc.txt     | 87 -------------------
->  .../devicetree/bindings/display/atmel,lcdc.yaml    | 70 ++++++++++++++++
->  3 files changed, 168 insertions(+), 87 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/atmel,lcdc-display.yaml b/Documentation/devicetree/bindings/display/atmel,lcdc-display.yaml
-> new file mode 100644
-> index 000000000000..ea4fd34b9e2c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/atmel,lcdc-display.yaml
-> @@ -0,0 +1,98 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/atmel,lcdc-display.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Microchip's LCDC Display
-> +
-> +maintainers:
-> +  - Nicolas Ferre <nicolas.ferre@microchip.com>
-> +  - Dharma Balasubiramani <dharma.b@microchip.com>
-> +
-> +description:
-> +  The LCD Controller (LCDC) consists of logic for transferring LCD image data
-> +  from an external display buffer to a TFT LCD panel. The LCDC has one display
-> +  input buffer per layer that fetches pixels through the single bus host
-> +  interface and a look-up table to allow palletized display configurations. The
-> +  LCDC is programmable on a per layer basis, and supports different LCD
-> +  resolutions, window sizes, image formats and pixel depths.
-> +
-> +# We need a select here since this schema is applicable only for nodes with the
-> +# following properties
-> +
-> +select:
-> +  anyOf:
-> +    - required: [ 'atmel,dmacon' ]
-> +    - required: [ 'atmel,lcdcon2' ]
-> +    - required: [ 'atmel,guard-time' ]
-> +    - required: [ bits-per-pixel ]
+On Sun, 2024-03-03 at 17:42 +0000, Jonathan Cameron wrote:
+> On Fri, 23 Feb 2024 13:13:58 +0100
+> Nuno Sa <nuno.sa@analog.com> wrote:
+>=20
+> > Hi Jonathan, likely you're wondering why I'm sending v7. Well, to be
+> > honest, we're hoping to get this merged this for the 6.9 merge window.
+> > Main reason is because the USB part is already in (so it would be nice
+> > to get the whole thing in). Moreover, the changes asked in v6 were simp=
+le
+> > (even though I'm not quite sure in one of them) and Paul has no access =
+to
+> > it's laptop so he can't send v7 himself. So he kind of said/asked for m=
+e to
+> > do it.
+>=20
+> So, we are cutting this very fine. If Linus hints strongly at an rc8 mayb=
+e we
+> can sneak this in. However, I need an Ack from Vinod for the dma engine
+> changes first.
+>=20
+> Also I'd love a final 'looks ok' comment from DMABUF folk (Ack even bette=
+r!)
+>=20
+> Seems that the other side got resolved in the USB gadget, but last we hea=
+rd
+> form
+> Daniel and Christian looks to have been back on v5. I'd like them to conf=
+irm
+> they are fine with the changes made as a result.=20
+>=20
 
-Why quotes in other places? bits-per-pixel is generic property, so you
-are now selecting other bindings. Read carefully what Rob wrote.
+I can ask Christian or Daniel for some acks but my feeling (I still need, a=
+t
+some point, to get really familiar with all of this) is that this should be
+pretty similar to the USB series (from a DMABUF point of view) as they are =
+both
+importers.
 
+> I've been happy with the IIO parts for a few versions now but my ability =
+to
+> review
+> the DMABUF and DMA engine bits is limited.
+>=20
+> A realistic path to get this in is rc8 is happening, is all Acks in place=
+ by
+> Wednesday,
+> I get apply it and hits Linux-next Thursday, Pull request to Greg on Satu=
+rday
+> and Greg
+> is feeling particularly generous to take one on the day he normally close=
+s his
+> trees.
+>=20
 
-Best regards,
-Krzysztof
+Well, it looks like we still have a shot. I'll try to see if Vinod is fine =
+with
+the DMAENGINE stuff.
+
+- Nuno S=C3=A1
 
