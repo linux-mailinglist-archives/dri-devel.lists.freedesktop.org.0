@@ -2,57 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7167D87001A
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 12:16:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E91B87001D
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 12:16:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 449EC10FFF9;
-	Mon,  4 Mar 2024 11:16:43 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="c5wNRuRw";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9839D10FFFF;
+	Mon,  4 Mar 2024 11:16:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C00010FFF9
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 11:16:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709551002; x=1741087002;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=AQrOOWHGmfRbYvwpO+pjPTsk5el/uOh59X3PKshhoZI=;
- b=c5wNRuRw2Br9zWrDIxm2EDYf5alEfVQXN4uMCBb+N47mT17B62eW5jaY
- Kn34mmAEM6G1YJwjOtSnRaunW4aGoUstDBxgyQRPYxH6nsMDD3bJr5kh+
- CtT8Qh9AMbKen2yLgXgI6S4rpHzyr+sKUiYsIgTblHLtsKg88PMlT0TUA
- iak/UGrAdchKj9RPHz+x2ehvdfs7WhiOf+/PJhX99aJjxlrUqZy3jRZVc
- m5hMZwoA0bpPt04cM3qE9KSw0qXSmF+c21UCCKG6jwZqbx+pApjypz6bE
- 2v1RLQPr94DfyLEK3NK+0NrIxbrmecoCeNi0Q+CfZHmgDMQhIx6ApGqIU Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="14680367"
-X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; d="scan'208";a="14680367"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2024 03:16:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
-   d="scan'208";a="9541582"
-Received: from syakovle-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.51.3])
- by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2024 03:16:37 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, mpe@ellerman.id.au,
- naresh.kamboju@linaro.org, deller@gmx.de
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- lkft-triage@lists.linaro.org, linux-kernel@vger.kernel.org, Thomas
- Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] fbdev/chipsfb: Include <linux/backlight.h>
-In-Reply-To: <20240304103820.16708-1-tzimmermann@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240304103820.16708-1-tzimmermann@suse.de>
-Date: Mon, 04 Mar 2024 13:16:26 +0200
-Message-ID: <878r2y5jsl.fsf@intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7F7F810FFFE
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 11:16:55 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BEED31FB
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 03:17:31 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C2FF43F738
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 03:16:54 -0800 (PST)
+Date: Mon, 4 Mar 2024 11:16:48 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
+ kernel@collabora.com, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH 2/3] drm/panthor: Explicitly include page.h for the
+ {virt,__phys)_to_pfn() defs
+Message-ID: <ZeWtoNjlHanzybMd@e110455-lin.cambridge.arm.com>
+References: <20240304090812.3941084-1-boris.brezillon@collabora.com>
+ <20240304090812.3941084-3-boris.brezillon@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240304090812.3941084-3-boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,44 +49,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 04 Mar 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Fix builds with CONFIG_PMAC_BACKLIGHT=y. The include statement for
-> the backlight header has recently been removed from <linux/fb.h>.
->
-> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
-> Closes: https://lore.kernel.org/dri-devel/CA+G9fYsAk5TbqqxFC2W4oHLGA0CbTHMxbeq8QayFXTU75YiueA@mail.gmail.com/
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 11b4eedfc87d ("fbdev: Do not include <linux/backlight.h> in header")
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
+On Mon, Mar 04, 2024 at 10:08:11AM +0100, Boris Brezillon wrote:
+> Something on arm[64] must be including <asm/page.h>, but things fail
+> to compile on sparc64. Make sure this header is included explicitly
+> so this driver can be compile-tested on all supported architectures.
 
-I would've added the include in arch/powerpc/include/asm/backlight.h
-[1], but either way is fine by me.
+Is compilation on sparc64 possible because of 'depends on COMPILE_TEST'?
+Otherwise it doesn't make sense to try to build this for any arch other
+than arm[64].
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Regardless, patch looks harmless, so
 
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 
-[1] https://lore.kernel.org/r/20240304095512.742348-1-jani.nikula@intel.com
+Best regards,
+Liviu
 
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202403031142.Vl4pW7X6-lkp@intel.com/
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 > ---
->  drivers/video/fbdev/chipsfb.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/video/fbdev/chipsfb.c b/drivers/video/fbdev/chipsfb.c
-> index b80711f13df8a..b16a905588fed 100644
-> --- a/drivers/video/fbdev/chipsfb.c
-> +++ b/drivers/video/fbdev/chipsfb.c
-> @@ -15,6 +15,7 @@
->   */
+>  drivers/gpu/drm/panthor/panthor_device.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> index bfe8da4a6e4c..68e467ee458a 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -3,6 +3,8 @@
+>  /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
+>  /* Copyright 2023 Collabora ltd. */
 >  
->  #include <linux/aperture.h>
-> +#include <linux/backlight.h>
->  #include <linux/module.h>
->  #include <linux/kernel.h>
->  #include <linux/errno.h>
+> +#include <asm/page.h>
+> +
+>  #include <linux/clk.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_domain.h>
+> -- 
+> 2.43.0
+> 
 
 -- 
-Jani Nikula, Intel
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
