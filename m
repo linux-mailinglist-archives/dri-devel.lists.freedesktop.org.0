@@ -2,84 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B04870790
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 17:51:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9040B87079C
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 17:51:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1C5B112356;
-	Mon,  4 Mar 2024 16:51:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D11E311235B;
+	Mon,  4 Mar 2024 16:51:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="MwiAHia/";
+	dkim=pass (1024-bit key; secure) header.d=riseup.net header.i=@riseup.net header.b="UpIyXMpM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
- [209.85.208.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE9B9112356
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 16:51:28 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id
- 38308e7fff4ca-2d228a132acso61892711fa.0
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 08:51:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1709571084; x=1710175884;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xOyMFcdZeiizIIdM2h9cviSaGUWkoYW6H6plPEQ7/JE=;
- b=MwiAHia/OSypyS99+y/E5XJ77VgmaWl0+hnhK6MxHbc1udorS64Z/mtoHW6q/nlKRr
- Ajh6xPOu+ZinizLCX/dck6gO/epdkjW5efsvYF/XFjslToQua+wEpWrMfduUSo8a2/Wk
- jYJQlCc/D/H47/hU2XWFVpAIHYSmm9iYu8hBI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709571084; x=1710175884;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xOyMFcdZeiizIIdM2h9cviSaGUWkoYW6H6plPEQ7/JE=;
- b=a+KhfgG57+tgw//DHk7jZ87ortJOGbZ9p1ZMsFtCuPseuGikytGwvBotXRPhuuAsps
- fYPHzUpbScokHBodRx49SkW2lKN8/0aWs+JO3JR6HT53qWtaPgtpO9IdFEhXsAdY4oNV
- N2cQaFWRRvCrAQCb9c37iyrhDbQTU1mNcNs9eq4xQSgCbOJtm4iL4z57xWRTTnMDs1OB
- xp3w6mmXtmcdt/5qwWM05rHd9mESAyr9Oh4jlHm6QgjpAfNZPIHVShrUzU26HXv8PrB4
- WBzFya50lEv/nEzC2SlCoPINRGbeRyzpXdKDIGcXBpugOCg+hAg0+uDXxtzwcxwIZIUF
- /rgw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW89KsYRPWlGrco/pWvBdvJK0EVoR0LXQn2jcTtt7yiJavl4h9xhCajFNeK3BYUqKf7WNsFsRkOudDJuHuB7i8Lk5wQZv5wknkjmJ8ZEpRk
-X-Gm-Message-State: AOJu0YwnoFilMAIEfPUKLOl/JZVA2APdrtE2NYNn5n0UyPC+RG1hO/ed
- gjhUJhHGwxQd66P+/NBT52F7hfzpaSG5iYuUTkoHC4+rv/9gtmvAedy36MyBfS8/ASowubJEHcz
- z/5N0
-X-Google-Smtp-Source: AGHT+IHnML6Trsu5gftAkW9YLNGpx+haochEfEZRj+IhUI+r5xrUk7gt5bUNuvA1U934/nsGyuYmgQ==
-X-Received: by 2002:ac2:5e67:0:b0:513:df6:dcd3 with SMTP id
- a7-20020ac25e67000000b005130df6dcd3mr6260563lfr.48.1709571084233; 
- Mon, 04 Mar 2024 08:51:24 -0800 (PST)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com.
- [209.85.128.47]) by smtp.gmail.com with ESMTPSA id
- ag12-20020a1709069a8c00b00a45403d68cesm1495360ejc.175.2024.03.04.08.51.22
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Mar 2024 08:51:23 -0800 (PST)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-412d84ffbfaso98015e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 08:51:22 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUnTGDaJprwjlzq3XaJ5XWxAtVMobV6zFLa893Pz/td5IPr90FWEoCFV88TDkPpi3yCBEFhpak8LlQDSJrk5P9Ulv9NgIMMnx96WReTMZJU
-X-Received: by 2002:a7b:c417:0:b0:412:dd21:292 with SMTP id
- k23-20020a7bc417000000b00412dd210292mr263164wmi.0.1709571082557; Mon, 04 Mar
- 2024 08:51:22 -0800 (PST)
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F4E111235C
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 16:51:50 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4TpPqT273bzDqfp;
+ Mon,  4 Mar 2024 16:51:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1709571109; bh=DJTqJrjrHlAoRJqjQnntulfFZGXjgIOpKQ2L7DkN6ME=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=UpIyXMpMAo0OZLv5zfEBQRN/shiYM+8HOOF/FFxNrylzMc9PaSpuiy/rhccn76V2C
+ /bRvSM1qAYSXEaXvPd4nViOZbzME28tEGhD10NaaOlnbraMPZAcVf69S9h+Ah2TabY
+ QkXWqmJZPQL2YKb7HA5Di7EtDEOVQjIzIMc196Z8=
+X-Riseup-User-ID: FA1D33366E1C79C3B9466C79853F08938AD91ED24D444E2BD1C545552ECD762E
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4TpPqN2XcdzJqTr;
+ Mon,  4 Mar 2024 16:51:44 +0000 (UTC)
+Message-ID: <a1de0c95-cb5f-456d-8831-684b4e5573db@riseup.net>
+Date: Mon, 4 Mar 2024 13:51:42 -0300
 MIME-Version: 1.0
-References: <20240301061128.3145982-1-yangcong5@huaqin.corp-partner.google.com>
-In-Reply-To: <20240301061128.3145982-1-yangcong5@huaqin.corp-partner.google.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 4 Mar 2024 08:51:06 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=UP9NxfmT8rqLd-HUq8QwJXa5xO7UbrgYHLw4vOKZO7hA@mail.gmail.com>
-Message-ID: <CAD=FV=UP9NxfmT8rqLd-HUq8QwJXa5xO7UbrgYHLw4vOKZO7hA@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: boe-tv101wum-nl6: Fine tune Himax83102-j02
- panel HFP and HBP
-To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch, 
- hsinyi@chromium.org, swboyd@chromium.org, airlied@gmail.com, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 6/9] drm/vkms: Add YUV support
+Content-Language: en-US
+To: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ thomas.petazzoni@bootlin.com
+References: <20240223-yuv-v2-0-aa6be2827bb7@bootlin.com>
+ <20240223-yuv-v2-6-aa6be2827bb7@bootlin.com>
+ <20240226141916.1627bbbd.pekka.paalanen@collabora.com>
+ <Zd35c_CJbhY46TjQ@localhost.localdomain>
+ <b23da076-0bfb-48b2-9386-383a6dec1868@riseup.net>
+ <8fc07f0f-f14d-4878-9884-2bc4b4c6f426@riseup.net>
+ <20240229141238.51891cad.pekka.paalanen@collabora.com>
+ <ZeXoo4DJxlzhuK4W@localhost.localdomain>
+ <fde6b1d5-56c9-43d0-9ccc-87683b700734@riseup.net>
+ <ZeXtWAM1XDEhxWOM@localhost.localdomain>
+From: Arthur Grillo <arthurgrillo@riseup.net>
+In-Reply-To: <ZeXtWAM1XDEhxWOM@localhost.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,47 +76,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Thu, Feb 29, 2024 at 10:11=E2=80=AFPM Cong Yang
-<yangcong5@huaqin.corp-partner.google.com> wrote:
->
-> The current measured frame rate is 59.95Hz, which does not meet the
-> requirements of touch-stylus and stylus cannot work normally. After
-> adjustment, the actual measurement is 60.001Hz. Now this panel looks
-> like it's only used by me on the MTK platform, so let's change this
-> set of parameters.
->
-> Fixes: cea7008190ad ("drm/panel: Fine tune Himax83102-j02 panel HFP and H=
-BP")
-
-Your "Fixes:" tag is not quite right. It needs to have the _exact_
-subject of the old commit message, AKA:
-
-Fixes: cea7008190ad ("drm/panel: boe-tv101wum-nl6: Fine tune
-Himax83102-j02 panel HFP and HBP")
-
-> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-> ---
->  drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-
-A little odd that the patch you're fixing claimed that it caused the
-measured rate to be 60.01Hz and here you're saying that it ended up
-being 59.95Hz. I guess there was a measurement error when the previous
-patch was posted?
-
-In any case, the argument still holds that this is a panel that still
-appears to be only used by your board, so small tweaks to the numbers
-here seem OK.
-
-Landed to "drm-misc-fixes" after:
-* Adding "(again)" to the end of the subject to make it distinct from
-the previous patch description
-* Fixing your Fixes tag
-
-9dfc46c87cdc drm/panel: boe-tv101wum-nl6: Fine tune Himax83102-j02
-panel HFP and HBP (again)
 
 
--Doug
+On 04/03/24 12:48, Louis Chauvet wrote:
+> [...]
+> 
+>>> @arthur, I will submit a v4 with this:
+>>> - matrix selection in plane_atomic_update (so it's selected only once)
+>>> - s64 numbers for matrix
+>>> - avoiding multiple loop implementation by switching matrix columns
+>>
+>> This looks good to me.
+>>
+>>>
+>>> Regarding the YUV part, I don't feel confortable adressing Pekka's 
+>>> comments, would you mind doing it?
+>>
+>> I'm already doing that, how do you want me to send those changes? I reply to
+>> your series, like a did before?
+> 
+> Yes, simply reply to my series, so I can rebase everything on the 
+> line-by-line work.
+
+OK, I will do that.
+
+Best Regards,
+~Arthur Grillo
+
+> Kind regards,
+> Louis Chauvet
+> 
+>> Best Regards,
+>> ~Arthur Grillo
+>>
+>>>
+>>> Kind regards,
+>>> Louis Chauvet
+>>>
+>>> [...]
+>>>
+> 
