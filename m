@@ -2,89 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94C5186FE81
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 11:12:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB25086FE8B
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 11:13:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B4CE10FF3B;
-	Mon,  4 Mar 2024 10:12:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCB4710FF3D;
+	Mon,  4 Mar 2024 10:13:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="NXwAoybP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ISA3KxiA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
- [209.85.218.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF6D210FF3A
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 10:12:04 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id
- a640c23a62f3a-a45670f9508so56166766b.0
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 02:12:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1709547123; x=1710151923; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=qkscxkyuLKmNGJ13PCRB5gPU2riBC6Uyvc9FkqhiTrI=;
- b=NXwAoybPf/aaUJdA7uVLvz6bxwAmShLLyJfC2Cf6wzK976aOkatQSwpF8nS00USkmm
- PuPAEHb6YJWq+KLC0lhlxIek7Z4vfrs22hcxW5q1u/Mi1zOKkmQ20b78AFBXnK+SXTkM
- h6jgatOI0h2fDJ8Q23u+x+1ovahq9QwVssCvjOhslr0sX/bt2DbGnD78rGDCc9xMMn5O
- ezvqtwm6bGy3Y0l+ZazrgGuOhiGa0gmHSNLPIyTKVvopUgJ/z9MtZE9Unnl2DkdSwPq/
- KjBzsm2D+5sVhTiR6rR/nIX+HIEuYxPQnNwRIbF4Cas6onqpzRzc2/mtjjXJEeWxT5O6
- lw1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709547123; x=1710151923;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=qkscxkyuLKmNGJ13PCRB5gPU2riBC6Uyvc9FkqhiTrI=;
- b=XiT3gBPrcgISBXQOwSDmM7P+qTbrQVBvlYaglmnc9AWIq7J+nDXpOES50byCAOMC6m
- Lb2KNbb8XQQYj9/nZPx5AAXT/ssbht0Cagiu2TOVYy1jQ0DH0UdvczX7faTI9cHyRS0I
- tGU/O2NGbCskFptm9fNwnvreuSZnbyrFm9T48NzNmiRF4Y07OOXj1l/bxokWfg/vNoUE
- Kzd65ob3KvK2MYZlXFWhWkuPCxJxPRcsqTNXwfqCA1uFIccLFiR6EdAXwSqIFGgJiCfd
- p8BNIFGxIu1VcghOhukYNK0LBY/HdD2h4HkTpbSP1ieUgHECKvH9ug2Kw9a5D6Y6k3fT
- dDnw==
-X-Gm-Message-State: AOJu0YxJHol2307Ns5Ag0kSXbWHROqc1jKlsIAGDstMdqYJ5iKABaGAN
- NIoXgTSIPjudfxl4cvgDuWXT0CGNokOEzeEI88LINysZ8TVN1UiQkHBF1KBFZVWzZV+5LeqhL/E
- O
-X-Google-Smtp-Source: AGHT+IGrR48vptQZf+rBErBNW3zRh8A4eRQbm5RBoTdBYRzBDUp2kfXMSXqolT28sPSNVPFt+B9itg==
-X-Received: by 2002:a17:906:1c90:b0:a44:86d4:70a1 with SMTP id
- g16-20020a1709061c9000b00a4486d470a1mr5679948ejh.59.1709547123118; 
- Mon, 04 Mar 2024 02:12:03 -0800 (PST)
-Received: from [127.0.1.1] ([178.197.222.97]) by smtp.gmail.com with ESMTPSA id
- ef11-20020a17090697cb00b00a44bc99cd89sm2938481ejb.42.2024.03.04.02.12.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Mar 2024 02:12:02 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Mon, 04 Mar 2024 11:11:44 +0100
-Subject: [PATCH 7/7] backlight: pandora_bl: Drop unneeded ENOMEM error message
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A62E10FF3C;
+ Mon,  4 Mar 2024 10:12:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709547180; x=1741083180;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=D3wh7nu8Wv1NoiTK0vTUDVXofKVqCVHcsiaoW+dMsxY=;
+ b=ISA3KxiA0DudS6OR2as6WsHHJFqRmdiyGqEAPkODTjDxZcdsk9hRUkN/
+ bhVVWcVMFRS4nSfaFcrsRnPpa0AvFitsAuY2GyGPboRKaQJv/qwxyErod
+ Za1dFFKXpilUnQirRyiujh0g75MPi28GoXc0fuy8AdGkurBm4Btpfuf12
+ +HmxdeeSuauCEh2MWAjNQAJgYgSuXALj47bvAQFm+G4LqeMBwEknNRQrH
+ l4LzUwyAlqYKi0T2cfbZDt/yUw1/oaMBSrI2Q47uEv5I0YgOCmm0bNqXu
+ OWDNOx6lxSr9yzjDf4bx3OVuUvkMPaiL1r4v7h7O+FMb9xGcc6juUdotk w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="4197158"
+X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
+   d="scan'208";a="4197158"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2024 02:12:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
+   d="scan'208";a="8879066"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orviesa010.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 04 Mar 2024 02:12:59 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 4 Mar 2024 02:12:58 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Mon, 4 Mar 2024 02:12:58 -0800
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.168)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Mon, 4 Mar 2024 02:12:58 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GyCFsuGZ0QijjBWA+S0MCtAVtbasYZMROW7/evlF1f8Ng58g2RtxKlyjgw7GndruwVO4prVUmMyd+SfEgdtP2WKNMg+9QlUUPMR3Oa2j3xfXO54GVZp2W9hthGJ/YP3nqeO9rJ+5aaj1EJILl3wNdU3l53C5CV9+Q9Ef3Jl4t7ODyAk+8C5RyemOh0q2WFhOcqIbYWa3tIuKSe5uJcDwvMFxNwZp9IAvf9QKYt09E+M0zXtsj8RbLMQXcDn1lmEIwpOKF2PDjsfxWO3UnDGjnhaTT1+1QIA+vTcRAb/efPe2kuyAXEL6d1zlI/HQ0mJ98hB39MDKTlGITcZVaCzAHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0Vg9PhYhWCRkK8XlSvCnQ73v+oRX80co2WETzxPhXS0=;
+ b=Ujo/1tkSAldzzdS6FZmdlYvFcpwNcU4tkOw0oQiURZIme9HLQmS88oSTG5VQhi0rb6Np26CjbDtoes9WaW5p/lT9XY+3hB6h0+7IZ/mnKFkPvmjco6K/8BqYpkoC0vDIobsT46y2EIhVAMX60/647swkJgqWmZZUn5kFf1ufQpE6nWovrdHEiSyrrM9JToshkj3DOS6kscpEqKEZXWXdpNwlOpqB6v1d3aqOeVRi3DIroCF/q+nAx0hMEYul0UC84hIFMNiaWMrEaJ7VkfwBSftqV1Po5FNPhmxD0lwDFNothnN5cpqSMcHS9xeboqF2smgblyzKXAIBAHHbJKSqrg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5341.namprd11.prod.outlook.com (2603:10b6:5:390::22)
+ by IA0PR11MB7377.namprd11.prod.outlook.com (2603:10b6:208:433::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.23; Mon, 4 Mar
+ 2024 10:12:56 +0000
+Received: from DM4PR11MB5341.namprd11.prod.outlook.com
+ ([fe80::12b:4490:b758:75c2]) by DM4PR11MB5341.namprd11.prod.outlook.com
+ ([fe80::12b:4490:b758:75c2%7]) with mapi id 15.20.7362.019; Mon, 4 Mar 2024
+ 10:12:56 +0000
+Message-ID: <fc0b7ec3-4fb8-4a1b-af4b-48e586e48c72@intel.com>
+Date: Mon, 4 Mar 2024 15:42:49 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 6/9] drm/i915/display: Compute AS SDP parameters
+Content-Language: en-US
+To: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
+ <intel-gfx@lists.freedesktop.org>
+CC: <dri-devel@lists.freedesktop.org>, <jani.nikula@intel.com>
+References: <20240301084503.2971826-1-mitulkumar.ajitkumar.golani@intel.com>
+ <20240301084503.2971826-7-mitulkumar.ajitkumar.golani@intel.com>
+From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
+In-Reply-To: <20240301084503.2971826-7-mitulkumar.ajitkumar.golani@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240304-backlight-probe-v1-7-e5f57d0df6e6@linaro.org>
-References: <20240304-backlight-probe-v1-0-e5f57d0df6e6@linaro.org>
-In-Reply-To: <20240304-backlight-probe-v1-0-e5f57d0df6e6@linaro.org>
-To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=861;
- i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=IQiBIX1ptsqUCh17mmsk9JR1+iQzH5+7RhWBq7Lbzeo=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBl5Z5mnfBQ5T6LEu6wSHreyeIddxcFaUtThG5hR
- a7P7xtBFQOJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZeWeZgAKCRDBN2bmhouD
- 1+bBEACC1mknggxkpb8buuVG+0wI2sOUPaDlTNanVp8VneZ1l/BNkKBQ16feuUhfuQwjRbtWsUf
- ZuSeoXHhpFP4r86SdVkbEVDk2lHP0KnDRoyq62CN2cvKV/jH1gOV+dRRjQwaQ/+1O2GMx0mPbDu
- iaqhbqb5oqrns4Ycj+pUyBUD0pjID8r0TnOsriFXB2OKlIj30CaBhcaq8P6ChS8t7bP6qgDjSqs
- jUOVa9GFE0IiX7CJhIBtOO7Uk6GaQ12WeQxZuikLzwrGgiv9PCvohPt6a9xgmqEyDchFF/V+IwX
- SXAHRzQdkez8EzzNYFlwKbaRtTOzF9uPqZvzLJowH+HXPrBowr7kCJ0XlBosRMxlNkeGPjGC8zF
- klwHa4J6M4rQnL27yx8qzkeaTjuHw2OCKdyrBEFikRSKRNWw0tVjgKWdmMJ5uP7LXnLGxiK330C
- UbwI0ZPdFqScbrPDf83rLA0+DP+abdH2Wr9o0vbFTuEW8NxPwqys23rwj29dj7O3Hdw5okM306X
- kMaeqS5zhQ0Oq8XJrf6wUIGnGJkLS9anoWh5FJTS+xQWg0V4kfM1v3bc7klOT2G67xTXllFT3gG
- TAkA+gLn74eZZxkaYbAwdLovsbQnn1Ey7Zoui+W7wRwR8NgCwbgKmETXcsNMbdkRGvXyAstq/Sh
- X7Mj1VxLbKE+uxg==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+X-ClientProxiedBy: PN3PR01CA0091.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:9b::20) To DM4PR11MB5341.namprd11.prod.outlook.com
+ (2603:10b6:5:390::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5341:EE_|IA0PR11MB7377:EE_
+X-MS-Office365-Filtering-Correlation-Id: ec6150f5-70d1-4c74-210b-08dc3c33a986
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: RSR+3ZIByfqWv+mL9dPsAcQ/ReIdQQSpHYd5C22XZVhuYG1wiaewJlknLmXyuyf2O+NiTsWNCsaIagkgaxJ/pFVBh2+IlgNScdnfhjlR7gmystXfSGc3Et3L+zUZWlLYlniZzzTujgFLN9LJwOjJsAD9DYmzO+n3l+ZGRfLghv5laKM/EDX/6+b+kIgYGrU7jpgz3Rb65CvGgSQ+wS2EkQweJ092yhZvFmCw4cyBrzOGn6H+kc4/HePwl1Rb7KXq120SHxPYb5IL7G1Ql5138C7FYIVVQJiCcfyFHScXloJWPLt0KDZhRQu9pf9OPXn670IBE7kuboLg/gXN2/37rjPbGZT4tzWlB4Jzm9tVqJ2ejtIlhfdVVOT6WgpxnVe6F/Dxpey7TuIl9EqNtp8jZUh5k5NNEhgu/4nU+nw3v3Nf8pKRKtyZzTeqlBBaqqf5hDLZtjbrGRhZrOkVHKzvxw/r088v3nYAO8kCJ4u0RnTbwPdxC9YIjcqtwfYwwRBdql2JQ18+2kGHshiUnyswYjceZ1SeFfxF26u2hgq/ehLFyB/l2xsF90ls2AMRJOBK4y9QvYOCHX6DAp/J9cxWqt28lgfcPQjDH/AG9+BZl5syVIhjXssHr/BokkJAzFgnN1Bhq4nS1P95Ue1jWMlbLmBxwBIRpRDDKmwjuHgYgyc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5341.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376005); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OXowdHdJYXdlcXVmMExCVGVjdkxpSFcwNnZPb3VvWC9jUmt6emg1UnFnSGJX?=
+ =?utf-8?B?c21tejFjQXpTV3FHU3FERXYxN1ViRTYrQ211dEM3ZGczdGgySzV4SlFBOC9j?=
+ =?utf-8?B?U3BZajFFN2FHZ1c4RjNuOTFqZjdmUW4vcUtmSm1hN0x3M2o4MjlldW9xanBB?=
+ =?utf-8?B?dE1TRUlHMklEZUxDYkFueDVETDdvMS9NMXM1aTJsUjg5NlRmNUZnSkhyWGtW?=
+ =?utf-8?B?ZXIwUThJRjhxK25qOWFrL3ROZWJaNnoxajczb2x4RVlWVGIzSENFbm5oY2Zm?=
+ =?utf-8?B?eDAySEV2TXBMQlJQNUpwa2xMMUpMaDJDblNNR2ZydTJ0Z1Y4MisvTkdlcFJy?=
+ =?utf-8?B?N25xanNTbTVYL3RGeDlFcUpWZHE0L1VoWHRLNlFFSEgzZE5kendLNWg0UHdK?=
+ =?utf-8?B?MmNSYTJlVHRtT0twd25DS0RSeng5UHFEbFlQUzVqUzFFWVdqME94RnR6eVBD?=
+ =?utf-8?B?ODhuNU5FRW1vcjI1cC92QzFoMXREWnNMbmxmMk1SRVcxSE8yU0gzckJ1aGZO?=
+ =?utf-8?B?dlY5aHpGWkFJUFRsYVllU0p1UjEvbUt5eUIxVDdRK1BuZDYwdmxzeTlwK045?=
+ =?utf-8?B?bU15dWxBWHV5bzZNRXFvWWJNVDZaRDF0ZjlETVJyVXJaY1pDTjZYUGVvYkUr?=
+ =?utf-8?B?UVJDS3hnYWZIQTVacTZFNGRHZGxXYXkrNTFwN1M3a2RJeXlKWDZrSVhBWTNU?=
+ =?utf-8?B?VjBFcUErWlBuY0RGTm5YeEdDSXhmK0ZWUGtUbWRYcTU0czdvdDhCTHNScm5K?=
+ =?utf-8?B?RTF4NWtsRVlTY2Z3cVhoKzZXMS9VWmpNZ2o2VlJVQXlKTVlBRmMwWWhGRGUz?=
+ =?utf-8?B?N0ZTa0JtVktMak5vYVY1ZHlLbllvOWljZmUyYWs2ZEplN3hhVjZLVUpRVkJP?=
+ =?utf-8?B?emNQVGNwSXdaeWFpbHZpdzJIdE51TlBTcVdqamtyVkxNRUYyNG1SY2NKT3dl?=
+ =?utf-8?B?QTR3NVVFbUluRk1wYWtFWHdpdU1ydjh5MFJQNjI5MlVjTHRFZnRYdHozb2s3?=
+ =?utf-8?B?aDlVOUNJZXNZdEVXWWdpWmU2a29kYUlHWDRLQnBEZEl5TnBBL0JXdUhQeWJq?=
+ =?utf-8?B?SHJURkFJUW1WTWEvZ2FsVEZldEZhMHFha1NxelpmYXIvUFV6VkZNaGhNTzVL?=
+ =?utf-8?B?dlpvNGhQTUtQUjYrSmtSQlZqakgxR0R1RDh0UU1JUmhVZGR3UXRkYnZvL1Zm?=
+ =?utf-8?B?Ky8xVzBlZnIwZEZhM2lsN0o4L1VaWEF1dU00MkN6aGg3UXZ5SlpjSHFoNlYx?=
+ =?utf-8?B?UVlheVVLL3JyTFRwMnJReGdUNWNMdDhsbmhZY3NuL2ZBditMSWFYT2UzU2lw?=
+ =?utf-8?B?WU9KODNRd3BQSENRL3Y4UG93ZmJHSk9CaDdIVDFYd2k0TnBVcHFNZzBwMURp?=
+ =?utf-8?B?QWhOMFo0MWRnTitLWE1FbTZvYlJnTVIvSjNmdHRUV2JZaTQrOFJSak45WFpF?=
+ =?utf-8?B?dm5aR0NKbEFGMWUyaGFsQ0xnVWo0NUZaMENpeWRYSzQ1TVFMWlFvS3FDbThv?=
+ =?utf-8?B?RFNSdjcxS29NckRYQjBEQlIwdXFsb3BCdVRJdDErdEdUN25JNlhYeThUaVlv?=
+ =?utf-8?B?VUVTZUlOVEt2R08zc2tXdnVHK01Gak9tMnJzZHoxNGlURDVvUXQ0bFhUQjU1?=
+ =?utf-8?B?WUtsWEpHZCs4dlJFVW1YU1FqUmswWFViWDBZYlZob05pbyttMTRBSzU5NjdZ?=
+ =?utf-8?B?R0pPdzdjN3BrVGNMdnhkZ2hDb1U4YlNpMTgvNXZ0Y2VtT2ZSdVJwNGVjWHlO?=
+ =?utf-8?B?Snc0YjdHTFhZWkMwTmEzVzBEdVZJYVRhcGVtejJHRXFJSk56TXhhN09tMUY4?=
+ =?utf-8?B?ZFdFYTVxelpWNjFhN3FlOHVUQi9EYjk0ckM5RkcyU0hSUU4vRE1sQWlzMFRD?=
+ =?utf-8?B?ZExoMUhVbVlrbnhQREIvZE1EbXNlMlVPRTN0dW1nS3djcGJuWm9aN0RNaHFT?=
+ =?utf-8?B?UXpndUM4Z2UzS295N1poNW9mbCtVaytpaStubU1zSzFIY1FGZDMvR0tyMU1K?=
+ =?utf-8?B?U0pGSjZNdzJZRzE0anlpOHV2UWNlV2psbTEyTnVCRkplZWZRY012citBVlpY?=
+ =?utf-8?B?NEwvSk84eVF1WFppTXpjZGZ1a2I2NWtQOUlJVENlbU1CMFFuS3lmdnRPR1F3?=
+ =?utf-8?B?ZjR5b1ZlMWErU3hhRkxPNnF6eGg1bElXMEJNbEFXdGJiZTUxdkpnSGhjMGE1?=
+ =?utf-8?B?L2c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec6150f5-70d1-4c74-210b-08dc3c33a986
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5341.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2024 10:12:56.8363 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xDAJCfdPzu+quQCO6E71biBEbDHyZHYlPG9Ts5ewm7DtFLe9N4Qn2F6NK7iHmBMjLieIZrPwV9TITD7sBqbHCI2SyyahQv+TY1DYVKuGDyE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7377
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,31 +164,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Core code already prints detailed information about failure of memory
-allocation.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- drivers/video/backlight/pandora_bl.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+On 3/1/2024 2:15 PM, Mitul Golani wrote:
+> Add necessary function definitions to compute AS SDP data.
+> The new intel_dp_compute_as_sdp function computes AS SDP
+> values based on the display configuration, ensuring proper
+> handling of Variable Refresh Rate (VRR).
+>
+> --v2:
+> - Added DP_SDP_ADAPTIVE_SYNC to infoframe_type_to_idx(). [Ankit]
+> - Separated patch for intel_read/write_dp_sdp. [Ankit]
+> - _HSW_VIDEO_DIP_ASYNC_DATA_A should be from ADL onward. [Ankit]
+> - Fixed indentation issues. [Ankit]
+>
+> --v3:
+> - Added VIDEO_DIP_ENABLE_AS_HSW flag to intel_dp_set_infoframes.
+>
+> --v4:
+> - Added HAS_VRR check before writing AS SDP.
+>
+> --v5:
+> Added missed HAS_VRR check before reading AS SDP.
+>
+> --v6:
+> - Used Adaptive Sync sink status as a check for read/write SDP. (Ankit)
+>
+> --v7:
+> - Remove as_sdp_enable from crtc_state.
+> - Add a comment mentioning current support of
+>    DP_AS_SDP_AVT_FIXED_VTOTAL.
+> - Add state checker for AS_SDP infoframe enable.
+>
+> --v8:
+> - Drop conn_state from intel_dp_compute_as_sdp, as not used.
+> - Remove fullstop in subject line.
+>
+> --v9:
+> - Add vrr.enable instead of is_in_vrr_range.
+>
+> Signed-off-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+> Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> ---
+>   drivers/gpu/drm/i915/display/intel_dp.c | 26 +++++++++++++++++++++++++
+>   1 file changed, 26 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index 1b3e7ae3dd76..ef1543205ee9 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -2620,6 +2620,31 @@ static void intel_dp_compute_vsc_colorimetry(const struct intel_crtc_state *crtc
+>   	vsc->content_type = DP_CONTENT_TYPE_NOT_DEFINED;
+>   }
+>   
+> +static void intel_dp_compute_as_sdp(struct intel_dp *intel_dp,
+> +				    struct intel_crtc_state *crtc_state)
+> +{
+> +	struct drm_dp_as_sdp *as_sdp = &crtc_state->infoframes.as_sdp;
+> +	struct intel_connector *connector = intel_dp->attached_connector;
+> +	const struct drm_display_mode *adjusted_mode =
+> +		&crtc_state->hw.adjusted_mode;
+> +	int vrefresh = drm_mode_vrefresh(adjusted_mode);
 
-diff --git a/drivers/video/backlight/pandora_bl.c b/drivers/video/backlight/pandora_bl.c
-index f946470ce9f6..51faa889e01f 100644
---- a/drivers/video/backlight/pandora_bl.c
-+++ b/drivers/video/backlight/pandora_bl.c
-@@ -114,10 +114,8 @@ static int pandora_backlight_probe(struct platform_device *pdev)
- 	u8 r;
- 
- 	priv = devm_kmalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
--	if (!priv) {
--		dev_err(&pdev->dev, "failed to allocate driver private data\n");
-+	if (!priv)
- 		return -ENOMEM;
--	}
- 
- 	memset(&props, 0, sizeof(props));
- 	props.max_brightness = MAX_USER_VALUE;
 
--- 
-2.34.1
+I think you missed to remove vrefresh and connector, as they are no 
+longer required.
 
+
+Regards,
+
+Ankit
+
+> +
+> +	if (!crtc_state->vrr.enable ||
+> +	    !intel_dp_as_sdp_supported(intel_dp))
+> +		return;
+> +
+> +	crtc_state->infoframes.enable |= intel_hdmi_infoframe_enable(DP_SDP_ADAPTIVE_SYNC);
+> +
+> +	/* Currently only DP_AS_SDP_AVT_FIXED_VTOTAL mode supported */
+> +	as_sdp->sdp_type = DP_SDP_ADAPTIVE_SYNC;
+> +	as_sdp->length = 0x9;
+> +	as_sdp->mode = DP_AS_SDP_AVT_FIXED_VTOTAL;
+> +	as_sdp->vtotal = adjusted_mode->vtotal;
+> +	as_sdp->target_rr = 0;
+> +	as_sdp->duration_incr_ms = 0;
+> +	as_sdp->duration_incr_ms = 0;
+> +}
+> +
+>   static void intel_dp_compute_vsc_sdp(struct intel_dp *intel_dp,
+>   				     struct intel_crtc_state *crtc_state,
+>   				     const struct drm_connector_state *conn_state)
+> @@ -2980,6 +3005,7 @@ intel_dp_compute_config(struct intel_encoder *encoder,
+>   		g4x_dp_set_clock(encoder, pipe_config);
+>   
+>   	intel_vrr_compute_config(pipe_config, conn_state);
+> +	intel_dp_compute_as_sdp(intel_dp, pipe_config);
+>   	intel_psr_compute_config(intel_dp, pipe_config, conn_state);
+>   	intel_dp_drrs_compute_config(connector, pipe_config, link_bpp_x16);
+>   	intel_dp_compute_vsc_sdp(intel_dp, pipe_config, conn_state);
