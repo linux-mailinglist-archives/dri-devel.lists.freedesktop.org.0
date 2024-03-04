@@ -2,124 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4AEE86FBDE
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 09:30:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB0CA86FBF2
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 09:33:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A4B710E947;
-	Mon,  4 Mar 2024 08:30:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C8E510FE42;
+	Mon,  4 Mar 2024 08:33:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KKhnOSPh";
+	dkim=pass (2048-bit key; unprotected) header.d=gtucker.io header.i=@gtucker.io header.b="AfNcS3MZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4247510E72F
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 08:30:17 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id
- 4fb4d7f45d1cf-566adfeced4so4174277a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 00:30:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1709541015; x=1710145815; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
- :from:content-language:subject:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=cXodLn2AqA+jGe7aFk4xbwbDjXlF1ZD/jgmAB1nQRi8=;
- b=KKhnOSPhz3xT9efXcAGuOoChmhIyCnfErK9Vvh6dO+PHH9j9shMPSZDI3i4/+6qr8c
- JT0J9gLOItDa4MB0aYNeKPVxWW7m4tRwY6F48jJbeNYsThwT0MwyrnOjcpeBlgHDtaKT
- YhazVkyFEo9iBxPovBnYKsIB3hOWqVD+7YlI1wwtlCYt7CPXv9cVuJlUHeTF+lahRj3J
- /bRS3I9oBzopXFhAF8BsBQynsPoq+5alI/b/w7gt4dA7FiT4c91xbCfez9rdW8omfJU5
- BbzhputT0OosRNiHI2w/Mn85oL1k9vMAOSFWO1Mle1VrK3TO+9fgARoMADljDs/w0asr
- Y5Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709541015; x=1710145815;
- h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
- :from:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=cXodLn2AqA+jGe7aFk4xbwbDjXlF1ZD/jgmAB1nQRi8=;
- b=G1GAxrdz5er2VQNqcEbA+MBloNudYdUk8WFkrrdw7Y9gw9DZsOKEWgiNkIxFIXjux2
- 9HUgtFi7s8op1ZlzUOgDcV+l0/bN/CwTcaMtNgxg7tsgJKiDXiuO6F61v60iYGsMTTZN
- pyiZq+sTHbeNRlQxq1U4O/tAYP9lIADAyNZc4BgJpT39gYlb65TmCj8d1ujAWiNEdubO
- tgDsetGhM9XOT4DoudaROkY/R8OcvOrhxry1xaK+dz17nt8uzZhfwAJQSzNo/e1HbznL
- hNPIj/BskgnDJ0Er601RPC8C9XZrFWfsOv4OLRNtl9GzD3aaZ3CP4PrYRTs7EFMh4EN6
- SqEg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV0p5EJ+/295rjwMmF3WgkRJK7N/h0BmUWAljSvIN7tRf3ZnMa/kJD38GVqtfqFrkfB/QvTfwzVFOuNAMD2uGERGqXtoAOmlh17oaotbmxo
-X-Gm-Message-State: AOJu0YwrXOZi45xKvk5qsg0RZJTz7JDFWMWWNmVyItXlZxjsTuDSyr6S
- Aw0OvfUeUc+Ak4y0deGeGzdbL5y20ZozFycvlygBgI4spzlnRTI3VJ5nxzWz+ko=
-X-Google-Smtp-Source: AGHT+IFQU6GsiKMtMHVhsaOqM7egMUNq7xmFkMY/eyrFnRRw6x82wnExdgNg3ruqslS5fYQk8Yzs+A==
-X-Received: by 2002:a17:906:b00b:b0:a44:c583:dfc8 with SMTP id
- v11-20020a170906b00b00b00a44c583dfc8mr4101791ejy.48.1709541015290; 
- Mon, 04 Mar 2024 00:30:15 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.222.97])
- by smtp.gmail.com with ESMTPSA id
- mc18-20020a170906eb5200b00a3f28bf94f8sm4489928ejb.199.2024.03.04.00.30.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Mar 2024 00:30:14 -0800 (PST)
-Message-ID: <76e8adc7-66b7-4c03-a6ca-1f9a77511f95@linaro.org>
-Date: Mon, 4 Mar 2024 09:30:12 +0100
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C48BF10FE42
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 08:33:35 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 95C611C000A;
+ Mon,  4 Mar 2024 08:33:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
+ t=1709541213;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WTHSqccs0gSHawyzY/q7v34wU0Ao/p7rZ42hjzeaIWE=;
+ b=AfNcS3MZXihW4yqhgCLLzoODR3kQMI7e1ytKPDPv/R2CDSfLqkv3F5t97W2AhsE4OMopHk
+ yg8qA05nindM+pDRNtW5UdUK/PWtnhEARqfnyQv+3MO3kp7rztjI7naJroMwKWYuzFC0SF
+ 13KVIfnEMq9KwX9ZMOuIeXkAneMkjrxxs7DK06cZ+Kr08QbXbi0o7tg/5LhwoGEgQZl09M
+ KQx+X4C5wxP8G0yhPTwFX73cv6rMOLFluxHlEzbaWYPB36Uf08RUx/NcUgM8KL3Dq/yKp3
+ o5GDwGaxqngePLsSf+LyUj9IJ6KP8+skrfQ2cJkZp4LpJYdYqZVfAAn8g/CJeA==
+Message-ID: <1788e114-45ea-4593-ae3c-9c2e794b987a@gtucker.io>
+Date: Mon, 4 Mar 2024 09:33:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] backlight: Add new lm3509 backlight driver
+Subject: Re: [PATCH 0/3] kci-gitlab: Introducing GitLab-CI Pipeline for Kernel
+ Testing
 Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Patrick Gansterer <paroga@paroga.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-References: <20240302212757.1871164-1-paroga@paroga.com>
- <20240302212757.1871164-2-paroga@paroga.com>
- <c758d0b2-d46f-43ce-bfc2-c7ede4c3a945@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <c758d0b2-d46f-43ce-bfc2-c7ede4c3a945@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Gustavo Padovan <gustavo.padovan@collabora.com>
+Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Nikolai Kondrashov <spbnick@gmail.com>,
+ Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org,
+ dave.pigott@collabora.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
+ pawiecz@collabora.com, tales.aparecida@gmail.com, workflows@vger.kernel.org,
+ kernelci@lists.linux.dev, skhan@linuxfoundation.org,
+ kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com,
+ cocci@inria.fr, Julia.Lawall@inria.fr, laura.nao@collabora.com,
+ ricardo.canuelo@collabora.com, kernel@collabora.com,
+ torvalds@linuxfoundation.org, gregkh@linuxfoundation.org
+References: <20240228225527.1052240-1-helen.koike@collabora.com>
+ <d99d026e-ed32-4432-bab3-db75296e67d8@gtucker.io>
+ <a5726043-1906-44ba-a6ee-a725a2776269@gmail.com>
+ <51fa8932e57010620e9a9e16a1979f4883e95a7d.camel@collabora.com>
+ <3d7e66bc-967e-45ec-a9e9-12dafd3b3e68@gtucker.io>
+ <1801a-65e39e80-6d-2f4e1180@80294519>
+From: Guillaume Tucker <gtucker@gtucker.io>
+In-Reply-To: <1801a-65e39e80-6d-2f4e1180@80294519>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: gtucker@gtucker.io
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,23 +75,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/03/2024 09:23, Krzysztof Kozlowski wrote:
+On 02/03/2024 10:48 pm, Gustavo Padovan wrote:
+> On Friday, March 01, 2024 18:56 -03, Guillaume Tucker <gtucker@gtucker.io> wrote:
 > 
->> +		return PTR_ERR(data->regmap);
->> +	}
->> +	i2c_set_clientdata(client, data);
->> +
->> +	data->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
->> +	if (IS_ERR(data->reset_gpio)) {
->> +		ret = PTR_ERR(data->reset_gpio);
->> +		if (ret != -EPROBE_DEFER)
->> +			dev_err(dev, "fail : get reset GPIO: %d\n", ret);
+>> On 29/02/2024 17:28, Nicolas Dufresne wrote:
+>>> Hi,
+>>>
+>>> Le jeudi 29 février 2024 à 16:16 +0200, Nikolai Kondrashov a écrit :
+>>>> On 2/29/24 2:20 PM, Guillaume Tucker wrote:
+>>>>> Hello,
+>>>>>
+>>>>> On 28/02/2024 23:55, Helen Koike wrote:
+>>>>>> Dear Kernel Community,
+>>>>>>
+>>>>>> This patch introduces a `.gitlab-ci` file along with a `ci/` folder, defining a
+>>>>>> basic test pipeline triggered by code pushes to a GitLab-CI instance. This
+>>>>>> initial version includes static checks (checkpatch and smatch for now) and build
+>>>>>> tests across various architectures and configurations. It leverages an
+>>>>>> integrated cache for efficient build times and introduces a flexible 'scenarios'
+>>>>>> mechanism for subsystem-specific extensions.
+>>>>>
+>>>>> This sounds like a nice starting point to me as an additional way
+>>>>> to run tests upstream.  I have one particular question as I see a
+>>>>> pattern through the rest of the email, please see below.
+>>>>>
+>>>>> [...]
+>>>>>
+>>>>>> 4. **Collaborative Testing Environment:** The kernel community is already
+>>>>>> engaged in numerous testing efforts, including various GitLab-CI pipelines such
+>>>>>> as DRM-CI, which I maintain, along with other solutions like KernelCI and
+>>>>>> BPF-CI. This proposal is designed to further stimulate contributions to the
+>>>>>> evolving testing landscape. Our goal is to establish a comprehensive suite of
+>>>>>> common tools and files.
+>>>>>
+>>>>> [...]
+>>>>>
+>>>>>> **Leveraging External Test Labs:**
+>>>>>> We can extend our testing to external labs, similar to what DRM-CI currently
+>>>>>> does. This includes:
+>>>>>> - Lava labs
+>>>>>> - Bare metal labs
+>>>>>> - Using KernelCI-provided labs
+>>>>>>
+>>>>>> **Other integrations**
+>>>>>> - Submit results to KCIDB
+>>>>>
+>>>>> [...]
+>>>>>
+>>>>>> **Join Our Slack Channel:**
+>>>>>> We have a Slack channel, #gitlab-ci, on the KernelCI Slack instance https://kernelci.slack.com/ .
+>>>>>> Feel free to join and contribute to the conversation. The KernelCI team has
+>>>>>> weekly calls where we also discuss the GitLab-CI pipeline.
+>>>>>>
+>>>>>> **Acknowledgments:**
+>>>>>> A special thanks to Nikolai Kondrashov, Tales da Aparecida - both from Red Hat -
+>>>>>> and KernelCI community for their valuable feedback and support in this proposal.
+>>>>>
+>>>>> Where does this fit on the KernelCI roadmap?
+>>>>>
+>>>>> I see it mentioned a few times but it's not entirely clear
+>>>>> whether this initiative is an independent one or in some way
+>>>>> linked to KernelCI.  Say, are you planning to use the kci tool,
+>>>>> new API, compiler toolchains, user-space and Docker images etc?
+>>>>> Or, are KernelCI plans evolving to follow this move?
+>>>>
+>>>> I would say this is an important part of KernelCI the project, considering its
+>>>> aim to improve testing and CI in the kernel. It's not a part of KernelCI the
+>>>> service as it is right now, although I would say it would be good to have
+>>>> ability to submit KernelCI jobs from GitLab CI and pull results in the same
+>>>> pipeline, as we discussed earlier.
+>>
+>> Right, I think this needs a bit of disambiguation.  The legacy
+>> KernelCI system from the Linaro days several years ago is really
+>> a service on its own like the many other CIs out there.  However,
+>> the new KernelCI API and related tooling (kci command line, new
+>> web dashboard, modular runtime design etc.) is not that.  It's
+>> about addressing all the community requirements and that includes
+>> being able to run a same test manually in a shell, or in a VM, or
+>> automatically from GitLab CI or using a main generic pipeline
+>> hosted by KernelCI itself.  With this approach, there's no
+>> distinction between "the project" and "the service", and as we
+>> discussed before there shouldn't even be a distinction with
+>> KCIDB.  Just KernelCI.
+>>
+>> However I don't really see this happening, unless I'm missing a
+>> part of the story or some upcoming announcement with an updated
+>> roadmap.  For some reason the old and established paradigm seems
+>> unshakeable.  The new KernelCI implementation is starting to look
+>> just like a refresh of the old one with newer components - which
+>> is a huge missed opportunity to really change things IMHO.
 > 
-> No, don't upstream old vendor code directly but instead choose existing
-> mainline driver and customize it. The syntax is `return dev_err_probe()
+> Calling that a missed opportunity is a subjective perspective about
+> the latest developments in KernelCI. The system implementation is
+> one level less important than the actual kernel community engagement
+> the project can generate. If one asks people around, the lack of
+> community engagement with KernelCI is evident.
 
-Hm, I found such pattern in gpio backlight. I'll fix it.
+Well I would argue that community engagement and technical
+development work side-by-side, not as a hierarchy.  You can't run
+Android phones or data centers with community engagement, and you
+can't write the code without the people.
 
-Best regards,
-Krzysztof
+I was enquiring about this in particluar because I'm preparing a
+LF webinar, so I've started another thread to avoid spamming this
+one as it's really a side topic:
 
+ 
+https://lore.kernel.org/all/71f59a56-aef3-4bae-867b-769a0cdd1c1b@gtucker.io/T/#u
+
+> However, after the recent leadership change in the project there is a
+> growing effort to bring the kernel community closer to the KernelCI
+> project with a renewed focus on high quality test results, clean regression
+> reporting, among other things. Then, with an increased number of community
+> members involved, we will have the necessary feedback (and funding!) to
+> evolve the KernelCI infrastructure and technology to new levels.
+
+In a nutshell, KernelCI started small and then joined the LF.
+The scope changed to encompass the whole kernel community, and as
+a result a number of things were done: community survey, lots of
+conf talks and email discussions with kernel devs etc.  Then some
+plan was put in place with the new API and web dashboard designs,
+but other priorities slowed things down on this front which is
+why it's still not quite there two years later.  That's also why
+community engagement has been low.  But that's OK, plans are just
+plans and things are catching up again now I think.
+
+And once again, I think this GitLab CI move is great :)
+
+Guillaume
