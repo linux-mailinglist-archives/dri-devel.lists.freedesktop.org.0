@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44E24870CF1
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 22:30:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8C7C870EA8
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 22:46:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A370B1125EE;
-	Mon,  4 Mar 2024 21:30:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6108112620;
+	Mon,  4 Mar 2024 21:46:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="y7Moknq/";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GeLq7F7O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DB731125E7
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 21:30:04 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B388511261D
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 21:46:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B5F7961046;
- Mon,  4 Mar 2024 21:30:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F625C433C7;
- Mon,  4 Mar 2024 21:30:02 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 97009CE10E4;
+ Mon,  4 Mar 2024 21:45:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89BD2C433F1;
+ Mon,  4 Mar 2024 21:45:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1709587803;
- bh=ZJBwGmk47ic449+qQnD+JLpO9z5oW7nb5N16ISZAkYc=;
+ s=korg; t=1709588758;
+ bh=KebFIugYVCXkOlv7H6Xh4Ak3iGjYVdxCWWCuF0w//jo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=y7Moknq/dApOSYYjwD+QyhU3tc3zNA7e6zy8fRweP7F4aKVavSLIhWNbn2jxK+X43
- iJLxqayEMDOmIC3XnRKW+F4kfSkDIvhqZQ3+DkYdho5WnfAE4XlOTZTllAVb0RCm4V
- 2fWqkkJo/KvyMjbNxczRdznMZvc6/XP8/GH5SjXc=
+ b=GeLq7F7OqevbWhkEEQILaIHVvYAZEGQ3oaJFcJPlwNMAeB4SlPibmZF1DyyF32TLA
+ 16HHpGpXsI1Zq2fZiQQu+Dh7483HowBwp1fLViVxAgqFc23PiPSYIWSOtZR8AaRgot
+ qxuF3c43qkZmEspY3Nf6+97PR3kNT1SH4/wQCOj4=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
@@ -35,13 +35,13 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>,
  linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Daniel Vetter <daniel.vetter@ffwll.ch>, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.7 062/162] fbcon: always restore the old font data in
+Subject: [PATCH 6.1 068/215] fbcon: always restore the old font data in
  fbcon_do_set_font()
-Date: Mon,  4 Mar 2024 21:22:07 +0000
-Message-ID: <20240304211553.833429338@linuxfoundation.org>
+Date: Mon,  4 Mar 2024 21:22:11 +0000
+Message-ID: <20240304211559.140747119@linuxfoundation.org>
 X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240304211551.833500257@linuxfoundation.org>
-References: <20240304211551.833500257@linuxfoundation.org>
+In-Reply-To: <20240304211556.993132804@linuxfoundation.org>
+References: <20240304211556.993132804@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -62,7 +62,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.7-stable review patch.  If anyone has any objections, please let me know.
+6.1-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -121,10 +121,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 63af6ab034b5f..e6c45d585482f 100644
+index fa205be94a4b8..14498a0d13e0b 100644
 --- a/drivers/video/fbdev/core/fbcon.c
 +++ b/drivers/video/fbdev/core/fbcon.c
-@@ -2400,11 +2400,9 @@ static int fbcon_do_set_font(struct vc_data *vc, int w, int h, int charcount,
+@@ -2397,11 +2397,9 @@ static int fbcon_do_set_font(struct vc_data *vc, int w, int h, int charcount,
  	struct fbcon_ops *ops = info->fbcon_par;
  	struct fbcon_display *p = &fb_display[vc->vc_num];
  	int resize, ret, old_userfont, old_width, old_height, old_charcount;
@@ -137,7 +137,7 @@ index 63af6ab034b5f..e6c45d585482f 100644
  	vc->vc_font.data = (void *)(p->fontdata = data);
  	old_userfont = p->userfont;
  	if ((p->userfont = userfont))
-@@ -2438,13 +2436,13 @@ static int fbcon_do_set_font(struct vc_data *vc, int w, int h, int charcount,
+@@ -2435,13 +2433,13 @@ static int fbcon_do_set_font(struct vc_data *vc, int w, int h, int charcount,
  		update_screen(vc);
  	}
  
