@@ -2,68 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 522C68701EE
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 14:02:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D4FC87021E
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 14:07:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2AAA112115;
-	Mon,  4 Mar 2024 13:02:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F75311211F;
+	Mon,  4 Mar 2024 13:06:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="R6udMehQ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="oOK5ET4O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFD6310F072
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 13:02:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 21ECC60F57
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 13:02:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C77FBC43390
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 13:02:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1709557325;
- bh=OIq1GSC2Asx+nhf1HO80avSwemP0Jz8lS4ttehqA8ZU=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=R6udMehQjtGtAmCDZAgC2ey6ZZa2Fpc/S37zT4e/Fz4fKNGZkVChcMbHvkTFveoGM
- NnPBVlNnGBeQNSFy/lSpBEtrZ1wT2/JFHMTL7pG/OBXGT6HX1wUTkbDocayN8MKH/5
- QSUh376bb+5TpGQ05AWlTqXDFLDHDmR30hdlwZXjM6cjhY0Obo0hpyguC/9qY1MYgG
- ztT/7WDnMYHXxiNtmcrJrSmlc5ikKtJJOtzcwr1miWI40llHyeAPJAr/OFb9mQEZqn
- UwNWjmVveUB5B0wwZzXTEh93FepK8Z9PPNnwC4aJ9TmMTn6VLaKqT0tEHPEXq+mRCL
- vAn7tpvgG0giw==
-Received: by mail-lj1-f180.google.com with SMTP id
- 38308e7fff4ca-2d26227d508so50826581fa.2
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 05:02:05 -0800 (PST)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com
+ [209.85.219.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C06811211F
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 13:06:56 +0000 (UTC)
+Received: by mail-yb1-f182.google.com with SMTP id
+ 3f1490d57ef6-dcbd1d4904dso5089102276.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 05:06:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1709557615; x=1710162415; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZF5EHPeguAlmw8pt+rnW85Aj9ppqfHEoGqFfoa9ov8U=;
+ b=oOK5ET4OfD3fx8p1xfhzWKX1T8FNAMB/HTlSgIZ8D5LlTqi9CY+Nwxa3chvkhffLPB
+ ykCMLt5t73xBZSK5zAO8XYzslKlaWx+53WRzr25/ydH9h2WWAuDXnRdNgfMGTzmmBz2Q
+ VuVxeME1UwlLbeLSL8Qy6Inj+k5kFzhiywB1vDR2gruNK/AOcUJVHIso1HMeHuDonPAR
+ SbMno218hc1s6S8KeqF+0ps/Rz4fXPE1vSqZYFncGe0/OUgT6+oAgok4wyiLlP87gbLA
+ qDq5LCqZ/uPRu2n3vdjrXmES1ieGjYmTI6EemjjwD3LwbNy2vHigpK7f2Qj8em2OePMM
+ QENg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709557615; x=1710162415;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ZF5EHPeguAlmw8pt+rnW85Aj9ppqfHEoGqFfoa9ov8U=;
+ b=I3GiM9Eu96q3GlDrUFmLK8AhZIJ4dyRbsMD7D2w0UmAg51GtcXmIgUyeRzuWzt3UCn
+ 9sa4qb45pt3KA6u7C2JOWxk1Ma0YIC1IgT2+NOhPjrxbMVOTYQ5+uhCJFq99fu5JjxBx
+ TtadeZt146861y4KypmHrwSUq0VkhlVe8TOw1pMq/KKdAdzgvoixzoI8+iPQV4+ulb5L
+ Mjsj++2KBzuD++Xya7byvXSPGOrR1NxN/UkotoKJ01EbOwk95fzs87ckyAl/rjeH417Z
+ OhcTFqwUonO25KjpUaHxVD2TghMMXdLOBysFKO7Ao/eS1LXMqXhj+eeQh6hhUSxCyXN5
+ CmqA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWGa7RC+mwgsP4vgmXxOt95zk0s3qW+lPnN8i1gmwpSjA9XcartDMF1RF6Xq++GzhQ/BSmuWk4eykM18nWEzt+cErftFGDGpdWJAQR/b5Ro
-X-Gm-Message-State: AOJu0Yxua9GVhBMSDGhOmCD0LDkMtB1WLe4T8DTyQ8rISe5SS/aVlftW
- 3nRwZETvwidLnbGxGORzg7PvzMYM0bIcySwUJxCdsFBacSDeLWXjfvYfnDSjqVACVfrMCNjjK+b
- Q3cn6u8JKQFnYV08b1fJgcsgSe/Y=
-X-Google-Smtp-Source: AGHT+IG/OA7ZMcjudPV6N8aicvGiKXhcJmEswxwxeWIXUritE6emx8GV5K/5qAJZF0zwdxS1l9ICWj5NavvClL6iM/Q=
-X-Received: by 2002:a2e:240c:0:b0:2d2:d9b2:b310 with SMTP id
- k12-20020a2e240c000000b002d2d9b2b310mr5659217ljk.47.1709557323922; Mon, 04
- Mar 2024 05:02:03 -0800 (PST)
+ AJvYcCXd11I/bRDX9EIQuU6qSXaZJSxcpyogc7gxnKbO6owl6mqVSTm9VzAnvlVHpPAk6dmN0ofYBzaW4JW1d1Cd5hE4JlqWdSRXisBVUeH+RH57
+X-Gm-Message-State: AOJu0YybT6/mwEs1b6M9oy7g01EE195fOgRaeOjX+bDoABxjMh8nKnhc
+ rCYpXWyQcKmCCr2Xv3VEOD0xpMlO3uyufRpSmmgZfISEwoeeueiF+TiYU1em+Be2puODvOVpadc
+ DjAyCZCIcNemiZTYCh5JUKgJP4BdOBJPVgZcwpQ==
+X-Google-Smtp-Source: AGHT+IHDoyrZSgo3d0pdsvjs58WMMhEuCQvAoO7S/07i8igiKmULNd3ZGDbVm0+XF7UvoNRUriBuP/dHX1xzq05mxT0=
+X-Received: by 2002:a5b:b05:0:b0:dcd:13ba:cdd6 with SMTP id
+ z5-20020a5b0b05000000b00dcd13bacdd6mr6132325ybp.47.1709557615168; Mon, 04 Mar
+ 2024 05:06:55 -0800 (PST)
 MIME-Version: 1.0
-References: <CA+G9fYvG9KE15PGNoLu+SBVyShe+u5HBLQ81+kK9Zop6u=ywmw@mail.gmail.com>
- <338c89bb-a70b-4f35-b71b-f974e90e3383@app.fastmail.com>
- <20240304112441.707ded23@donnerap.manchester.arm.com>
- <1baf9a7f-b0e4-45d8-ac57-0727a213d82d@app.fastmail.com>
- <20240304114546.4e8e1e32@donnerap.manchester.arm.com>
- <badf279a-f1fa-4938-a5d2-492b89d7c27c@app.fastmail.com>
-In-Reply-To: <badf279a-f1fa-4938-a5d2-492b89d7c27c@app.fastmail.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Mon, 4 Mar 2024 14:01:52 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXENYqUx=esK9b_pGd4wpwE43fNaGRCUhJLK_4MQzrAQeg@mail.gmail.com>
-Message-ID: <CAMj1kXENYqUx=esK9b_pGd4wpwE43fNaGRCUhJLK_4MQzrAQeg@mail.gmail.com>
-Subject: Re: arm: ERROR: modpost: "__aeabi_uldivmod"
- [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Andre Przywara <andre.przywara@arm.com>,
- Naresh Kamboju <naresh.kamboju@linaro.org>, 
- open list <linux-kernel@vger.kernel.org>, 
- Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
- dri-devel@lists.freedesktop.org, lkft-triage@lists.linaro.org, 
- Maxime Ripard <mripard@kernel.org>, Dave Airlie <airlied@redhat.com>, 
- Dan Carpenter <dan.carpenter@linaro.org>
+References: <20240228194730.619204-1-quic_abhinavk@quicinc.com>
+In-Reply-To: <20240228194730.619204-1-quic_abhinavk@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 4 Mar 2024 15:06:43 +0200
+Message-ID: <CAA8EJppf0ebg+qnw7Z4P_6W4pgf0E4+KLGLEhU138f4k8+QxOw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/msm/dpu: drop unused dpu_kms from interface
+ initialization
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, 
+ quic_parellan@quicinc.com, quic_jesszhan@quicinc.com, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,52 +82,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 4 Mar 2024 at 13:35, Arnd Bergmann <arnd@arndb.de> wrote:
+On Wed, 28 Feb 2024 at 21:47, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
 >
-> On Mon, Mar 4, 2024, at 12:45, Andre Przywara wrote:
-> > On Mon, 04 Mar 2024 12:26:46 +0100
-> > "Arnd Bergmann" <arnd@arndb.de> wrote:
-> >
-> >> On Mon, Mar 4, 2024, at 12:24, Andre Przywara wrote:
-> >> > On Mon, 04 Mar 2024 12:11:36 +0100 "Arnd Bergmann" <arnd@arndb.de> wrote:
-> >> >>
-> >> >> This used to be a 32-bit division. If the rate is never more than
-> >> >> 4.2GHz, clock could be turned back into 'unsigned long' to avoid
-> >> >> the expensive div_u64().
-> >> >
-> >> > Wouldn't "div_u64(clock, 200)" solve this problem?
-> >>
-> >> Yes, that's why I mentioned it as the worse of the two obvious
-> >> solutions. ;-)
-> >
-> > Argh, should have cleaned my glasses first ;-)
-> >
-> > I guess I was put somehow put off by the word "expensive". While it's
-> > admittedly not trivial, I wonder if we care about the (hidden) complexity
-> > of that function? I mean it's neither core code nor something called
-> > frequently?
+> dpu_kms seems unused while initializing DSI, HDMI and DP through
+> their respective _dpu_kms_initialize_* functions.
 >
-> It's not critical if this is called infrequently, and as Maxime
-> just replied, the 64-bit division is in fact required here.
-> Since we are dividing by a constant value (200), there is a good
-> chance that this will be get turned into fairly efficient
-> multiply/shift code.
+> Hence lets drop the parameter altogether.
+>
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 15 ++++++---------
+>  1 file changed, 6 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index 2af62d8fa9a7..ab924ac78c9b 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -494,8 +494,7 @@ static void dpu_kms_wait_flush(struct msm_kms *kms, unsigned crtc_mask)
+>  }
+>
+>  static int _dpu_kms_initialize_dsi(struct drm_device *dev,
+> -                                   struct msm_drm_private *priv,
+> -                                   struct dpu_kms *dpu_kms)
+> +                                  struct msm_drm_private *priv)
+>  {
+>         struct drm_encoder *encoder = NULL;
+>         struct msm_display_info info;
+> @@ -558,8 +557,7 @@ static int _dpu_kms_initialize_dsi(struct drm_device *dev,
+>  }
+>
+>  static int _dpu_kms_initialize_displayport(struct drm_device *dev,
+> -                                           struct msm_drm_private *priv,
+> -                                           struct dpu_kms *dpu_kms)
+> +                                          struct msm_drm_private *priv)
+
+This breaks now on top of YUV patchset:
+
+drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c: In function
+'_dpu_kms_initialize_displayport':
+drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c:583:35: error: 'dpu_kms'
+undeclared (first use in this function)
+583 | yuv_supported = !!dpu_kms->catalog->cdm;
+
+As this requires adding of the yuv_supported argument, let's consider
+moving it backwards: for  _dpu_kms_initialize_writeback() we can get
+format_list and n_formats from the dpu_kms.
+
+
+>  {
+>         struct drm_encoder *encoder = NULL;
+>         struct msm_display_info info;
+> @@ -592,8 +590,7 @@ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
+>  }
+>
+>  static int _dpu_kms_initialize_hdmi(struct drm_device *dev,
+> -                                   struct msm_drm_private *priv,
+> -                                   struct dpu_kms *dpu_kms)
+> +                                   struct msm_drm_private *priv)
+>  {
+>         struct drm_encoder *encoder = NULL;
+>         struct msm_display_info info;
+> @@ -671,19 +668,19 @@ static int _dpu_kms_setup_displays(struct drm_device *dev,
+>         int rc = 0;
+>         int i;
+>
+> -       rc = _dpu_kms_initialize_dsi(dev, priv, dpu_kms);
+> +       rc = _dpu_kms_initialize_dsi(dev, priv);
+>         if (rc) {
+>                 DPU_ERROR("initialize_dsi failed, rc = %d\n", rc);
+>                 return rc;
+>         }
+>
+> -       rc = _dpu_kms_initialize_displayport(dev, priv, dpu_kms);
+> +       rc = _dpu_kms_initialize_displayport(dev, priv);
+>         if (rc) {
+>                 DPU_ERROR("initialize_DP failed, rc = %d\n", rc);
+>                 return rc;
+>         }
+>
+> -       rc = _dpu_kms_initialize_hdmi(dev, priv, dpu_kms);
+> +       rc = _dpu_kms_initialize_hdmi(dev, priv);
+>         if (rc) {
+>                 DPU_ERROR("initialize HDMI failed, rc = %d\n", rc);
+>                 return rc;
+> --
+> 2.34.1
 >
 
-Clang does not implement that optimization for 64-bit division. That
-is how we ended up with this error in the first place.
 
-Perhaps it is worthwhile to make div_u64() check its divisor, e.g.,
-
---- a/include/linux/math64.h
-+++ b/include/linux/math64.h
-@@ -127,6 +127,9 @@
- static inline u64 div_u64(u64 dividend, u32 divisor)
- {
-        u32 remainder;
-+
-+       if (IS_ENABLED(CONFIG_CC_IS_GCC) && __builtin_constant_p(divisor))
-+               return dividend / divisor;
-        return div_u64_rem(dividend, divisor, &remainder);
- }
- #endif
+--
+With best wishes
+Dmitry
