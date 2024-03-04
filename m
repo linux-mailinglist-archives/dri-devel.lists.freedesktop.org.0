@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8331A86FE7E
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 11:12:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F09E886FE7F
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 11:12:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4228810FF38;
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC8D010FF39;
 	Mon,  4 Mar 2024 10:12:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FDThCF4D";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="i+mzBnNc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
- [209.85.218.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A88C10FF37
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 10:12:00 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id
- a640c23a62f3a-a2f22bfb4e6so701943166b.0
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 02:12:00 -0800 (PST)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8F9F10FF38
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 10:12:01 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-55a179f5fa1so6401477a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 02:12:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1709547118; x=1710151918; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1709547120; x=1710151920; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=C7jNpD8JVN2zPECncF/JczEVQcdrOC4+lvPqKzDW3Nk=;
- b=FDThCF4Dgtzb1E9r8vNDH959okrYMxiLQkz8G7JWnNcLzO3tq++6rs3+7EUB9ARSt8
- HOXMsVQ4u8fAPeeMJfcAxq+tofqAu2pPM5SYbnjkXIGRGToBHlaefv4S3IdxdNX287Tj
- SLMRoC9SgT8wIiGw+lDw32+PTRenrEXu2nTP1BeUTxiWBD5g47UfRWH4NPZJuRg1mp2I
- NppuMwoe+jeNcJaEqQ/ZpAqZbHsm+AozOcgtDIWUpjr5V0fHRj7dShdvKYmSiObs9Egn
- esptS/O0JQHa4lxonRjhxYQ3t4gZ46jUfmuSnSvQXNxSJUXGHqAmSm8WaAUa8Fu2SMqr
- apGA==
+ :reply-to; bh=LCgoEF8+45p8Lp99q3OTs1MMW8tsgAmVbVFGKP9cQEM=;
+ b=i+mzBnNce1NOKg8qoOQI6wEQBFgwmNeaAEoQKwNCskO2nTlLG6evEdXsUKidm0Dpah
+ h1rdUcEPAEHTe1xqdrrijT+4+UPCb99bUYbGb7NpEZQ6QN5KTvAegPiHi46VTbvTHYbU
+ Cz2V1oDuN7j/fDLgucJ/9LfmHNS3f8BfmJAJ3DVsFEL+V6DPnNMjtBuGDEdhUje4OGvx
+ bIAroDHN79EsLSlH4s9RWkAyMlk/NbHT+n6q6v9blq7YCjTY4XfLgjppegckBwCTN06G
+ CL31qDrRAro5bJciAPSokd4fLdfaNVywZmwbh2UkVgGCKh5s2wTvoygKs2TgKAd+aKK9
+ x3mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709547118; x=1710151918;
+ d=1e100.net; s=20230601; t=1709547120; x=1710151920;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=C7jNpD8JVN2zPECncF/JczEVQcdrOC4+lvPqKzDW3Nk=;
- b=sgWcusSmD3Onie/+X/lqiPA7IGmyyvxIOa6rQjxFA1SzQ0vMvQqGqUUOQgzh+giW+C
- ID0n1cPIKXOjyifdxk0C2IdRyv29LqX0nWKvQSSE0w1T4Ssfm9jktECh9EKVI6gN0E8r
- QYd4mVFXjDbmtMgGsciYMHa84vpmXUpaX1/pV4nBPCC79aBcpYWtu4QIBBDLyFP/aBp6
- hAZ7jv1I425kc8oACiQVXy7puzej4VVtKNIucF5bh6hueEDIsTNgI0mpzAmHaQKL3IIk
- UBsp5LwwQwfikuaKo5WVdOC5OZ+B7I5WAsapEk2bYiEJveRxSH26j5B0iM8A2r7XdplQ
- 9KRw==
-X-Gm-Message-State: AOJu0Yzg3pSeCN66LODFg0RbV7L2diICqkSzVldbrhM1elQt9hG2mUZj
- dpyHfupyLa5nHSkMPIjR5YhlpWXFwx2TZ6oWAsUF4r7al9NcqsUwO8LSFFCpsrM=
-X-Google-Smtp-Source: AGHT+IHIKfIPI9q/DWJfY1zams1q9M6IFh+MBVE0LB3ZesWC40W+rYmZ2rQFJmiyAV8Fad1klY2w+A==
-X-Received: by 2002:a17:906:f759:b0:a45:6251:f8e2 with SMTP id
- jp25-20020a170906f75900b00a456251f8e2mr895177ejb.7.1709547118705; 
- Mon, 04 Mar 2024 02:11:58 -0800 (PST)
+ bh=LCgoEF8+45p8Lp99q3OTs1MMW8tsgAmVbVFGKP9cQEM=;
+ b=n858a1s2d9ghMI5wYXFGD0gZ2/cC94FQPkjvLWTV7kE9gVXdCR6agmFvyYuPy6enMP
+ lbMI2LuEo14Oab7D/SKie8xqYz4KRd8gBJZ2l3jK3o6PDJTs9bne3O9V3pKewbKxdCEN
+ 4tXdZz16aMfpWjvv9LdOmznkXzSe3T5A2rP5GnCXShOwGLgVc0nmc9meFqRfhz8tTR3j
+ IDZ0256NucyGYtTYA7RfhUf/p4xwhtTIDyFVPZowXFEvkeP3fB4YBMJbvPszfNzYo6tB
+ W2SOUP3O5404FUMEUf2GV4rPuoA6jlgeq/k7gE1Eg3hQ7VDjiVzcB8EZ7Arz2XaneQi5
+ 6JXw==
+X-Gm-Message-State: AOJu0Yyn7PCywSpSYGlxYdLrzyzTfiaS8bPFPwapxSsOIJbt8yEroamS
+ QHKDyGYMrzWHgnctK23ZSxtDBmeoW87yMrB5gNGrU4liPEE0hEbFK1p6Bp81J5E=
+X-Google-Smtp-Source: AGHT+IHMXps/Sdsau2lL4BC5kTEGautlKze0rWGzpZvXGJF/HaAiRzHSpujG/+PG5cV0scGrNC4GgQ==
+X-Received: by 2002:a17:906:c318:b0:a45:2b2c:8968 with SMTP id
+ s24-20020a170906c31800b00a452b2c8968mr1743474ejz.20.1709547120032; 
+ Mon, 04 Mar 2024 02:12:00 -0800 (PST)
 Received: from [127.0.1.1] ([178.197.222.97]) by smtp.gmail.com with ESMTPSA id
- ef11-20020a17090697cb00b00a44bc99cd89sm2938481ejb.42.2024.03.04.02.11.57
+ ef11-20020a17090697cb00b00a44bc99cd89sm2938481ejb.42.2024.03.04.02.11.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Mar 2024 02:11:58 -0800 (PST)
+ Mon, 04 Mar 2024 02:11:59 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Mon, 04 Mar 2024 11:11:41 +0100
-Subject: [PATCH 4/7] backlight: as3711_bl: Handle deferred probe
+Date: Mon, 04 Mar 2024 11:11:42 +0100
+Subject: [PATCH 5/7] backlight: lm3630a_bl: Handle deferred probe
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240304-backlight-probe-v1-4-e5f57d0df6e6@linaro.org>
+Message-Id: <20240304-backlight-probe-v1-5-e5f57d0df6e6@linaro.org>
 References: <20240304-backlight-probe-v1-0-e5f57d0df6e6@linaro.org>
 In-Reply-To: <20240304-backlight-probe-v1-0-e5f57d0df6e6@linaro.org>
 To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
@@ -67,21 +67,21 @@ Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=900;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1010;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=tYiRyc4GCWh0OQZcegdBJotlKUvQmMppy24vmgOYX4U=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBl5Z5kf3pCwb8HgUK+ziA6YZsz55ShzwCbPlrjj
- dMl2yuN1lWJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZeWeZAAKCRDBN2bmhouD
- 1/DiD/9EClVTNg83B4aoTpYk6q3ArcCWKbx42PizR2X6dccHjBKLN0SzFYUPp8ZRWNevidleHfh
- hupUfnR2wyDAYPVPWV8dJtdgoXjqCxq1y/1koCVZDMh7rajI7WnOkS6+g9z8POlL19KGLVYdi//
- Namj816X6p+XoGcwG7ns1mStAJdsc/RkT0gkuAN42tg/vREKdLIesdNxqO6PHytr8lr0oL5Qlf2
- O8Spa4QNgRt9FIlVFBvPv/UGY2ZlDjhUaPDn+xoIlqoCUN843JiGiAncg6CY+xPxs4XxbyKLFGp
- k2CSN4qRLf/sdfX4PagBz5wRrLKEkHDITyx0lJZ8K9NiSCWBD5XuJAApZJF81Fdam+7DIoyxPLd
- MxNndDTpFtHki2BkCFnq4kcOzKukGbR2jN0qBgi8y3H2JKsAdqQO3kgFS7Bec5ltmWT/4Qjtu2k
- cgw3rNW0c8rrFL/RpfV7mfgnnkB1HTcrv03TWerMJVvtTZlnp2udLIqpvjLsLiFj1Rl6Uy5ugtS
- aZ7OQgZkXseN2eOnZy3iB6URxjsuYEjwfWQ2pW8y8Y/1L4Sr/qJHZSTPRXKfNNsV19TI7msionx
- gDk54z5VALicMkbhcQGfaMiLD1bzd2ms0GRYNQ9KOFTFKsIu+56uI6bAXtAnbN2p5NypV/7lJ4w
- O9o+19pX4CAdJ5Q==
+ bh=l2zBfccz8Tq6SqYayq64DiM3PIARxZs9iJsKbpWBrMU=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBl5Z5k1b8EW68f6XfirNTSL7SEI9ygTM0istLZw
+ TdhuvuJzgCJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZeWeZAAKCRDBN2bmhouD
+ 13BKEACHkxYLvnrmNqz2S2EAVq1squYd3iDN3nmrgGmHzpunYRmnlsYHaCQP1Ne+LT3Rzk/0DT5
+ 2kPItHRavwLGtfzXlkwLcdWIJ4O1tCilY9lQb6KQJG1N9EjK6+Vipl/8WV+iF6plMs25+pTlU/b
+ 0nf9uT/r5IL5cC3Rf+Sg3s7hDFKjeEh0aH78KMaIeMolZlM+QX36Ud6sxRYH4lQcrewimowQ37F
+ BIWqy+6khodGvB7Q+qGPFYLcXGHewXmq2xJjqhlop6PNPMNCwi00HZEodZCENGKrOnSTKLKyd7j
+ kr1Y0UwfHgcnT8G4v+VJum0+eWAnptHxA/FwqhO4AQZTofuq66Y4gDPQTF+OqXheDd2ZFwDJ7JU
+ 78vL843x5VMZVe7AEfJSkfOKhHTOXFr6HyP1klsJ5lY29G454mNYhNyMDN/erwKwx3w7/On3XMQ
+ 5c1r0t7sXFMBBdRJpi+0/JjnEttDlF7acH7BflLiltf6atwGJWjBHKQf55RFYLRofb4Pq2WB24U
+ Wymjysgg61HAlduM+RW7/OFURHUF0JWU81CR/GKmWfT21lmhjUsYGtbkS/qVftIpVhVpBW+xuCy
+ FrdNSxjgUhfOPA9/yU645iXlG+RRMoc4CYG/aWlJyTaAo7Wu0meTzCE7rM+06ZSRWJY/FevD3M/
+ XJeQstxrm5vdEtA==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,26 +104,27 @@ dev_err_probe().
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/video/backlight/as3711_bl.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/video/backlight/lm3630a_bl.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/video/backlight/as3711_bl.c b/drivers/video/backlight/as3711_bl.c
-index 28437c2da0f5..e6f66bb35ef5 100644
---- a/drivers/video/backlight/as3711_bl.c
-+++ b/drivers/video/backlight/as3711_bl.c
-@@ -383,10 +383,8 @@ static int as3711_backlight_probe(struct platform_device *pdev)
- 
- 	if (pdev->dev.parent->of_node) {
- 		ret = as3711_backlight_parse_dt(&pdev->dev);
--		if (ret < 0) {
--			dev_err(&pdev->dev, "DT parsing failed: %d\n", ret);
--			return ret;
+diff --git a/drivers/video/backlight/lm3630a_bl.c b/drivers/video/backlight/lm3630a_bl.c
+index a3412c936ca2..93fd6dbccc28 100644
+--- a/drivers/video/backlight/lm3630a_bl.c
++++ b/drivers/video/backlight/lm3630a_bl.c
+@@ -563,10 +563,9 @@ static int lm3630a_probe(struct i2c_client *client)
+ 	/* pwm */
+ 	if (pdata->pwm_ctrl != LM3630A_PWM_DISABLE) {
+ 		pchip->pwmd = devm_pwm_get(pchip->dev, "lm3630a-pwm");
+-		if (IS_ERR(pchip->pwmd)) {
+-			dev_err(&client->dev, "fail : get pwm device\n");
+-			return PTR_ERR(pchip->pwmd);
 -		}
-+		if (ret < 0)
-+			return dev_err_probe(&pdev->dev, ret, "DT parsing failed\n");
- 	}
++		if (IS_ERR(pchip->pwmd))
++			return dev_err_probe(&client->dev, PTR_ERR(pchip->pwmd),
++					     "fail : get pwm device\n");
  
- 	if (!pdata->su1_fb && !pdata->su2_fb) {
+ 		pwm_init_state(pchip->pwmd, &pchip->pwmd_state);
+ 	}
 
 -- 
 2.34.1
