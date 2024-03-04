@@ -2,68 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19802870069
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 12:28:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFC4B87006C
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 12:30:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3BA410E408;
-	Mon,  4 Mar 2024 11:28:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DD0210FFE0;
+	Mon,  4 Mar 2024 11:30:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Od6ndyT7";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="eXb1qc1U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1F8C10E224
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 11:28:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id DAF8C60EB3;
- Mon,  4 Mar 2024 11:28:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08565C433C7;
- Mon,  4 Mar 2024 11:28:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1709551722;
- bh=or2T4offzEJ0CeMUlNFZZpSiTyyFitZkNk9jwiLFRK4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Od6ndyT7ylv+7TEzrS8j958J4csrcec8FRIw7OBTQts/NviexhqeLOFTx4R12ljuL
- iwHWeBlVji12HBhf6bRNj4u12aiBZ28Al3Kohn4OzfohMfPPLxnPs8zD62a8pEYwmF
- ZyWdqCqx+GUachME3oQ4mdmnLbfai31LS6l+OKeQMbNtx8k+Q330vY2t9UQJDOpsVJ
- djzcX5svtSJhXinZ8dfhYqCqLVf1fzfjTjE6dpbIsdW07bwZJsExf4dM3roVWv0GlG
- yYsGLVYe0SNDSh9CAXaj+XhR9UBEFViaR41rZ0hIQeYPnCBEfD4f3FJo97szqo5zX4
- 6kBn5u2Tyc38A==
-Date: Mon, 4 Mar 2024 12:28:39 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Guenter Roeck <groeck@google.com>,
- Linus Torvalds <torvalds@linuxfoundation.org>, 
- Nikolai Kondrashov <spbnick@gmail.com>, Helen Koike <helen.koike@collabora.com>,
- linuxtv-ci@linuxtv.org, 
- dave.pigott@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- linux-kselftest@vger.kernel.org, gustavo.padovan@collabora.com,
- pawiecz@collabora.com, 
- tales.aparecida@gmail.com, workflows@vger.kernel.org, kernelci@lists.linux.dev,
- skhan@linuxfoundation.org, kunit-dev@googlegroups.com, nfraprado@collabora.com,
- davidgow@google.com, cocci@inria.fr, Julia.Lawall@inria.fr,
- laura.nao@collabora.com, 
- ricardo.canuelo@collabora.com, kernel@collabora.com, gregkh@linuxfoundation.org
-Subject: Re: [PATCH 1/3] kci-gitlab: Introducing GitLab-CI Pipeline for
- Kernel Testing
-Message-ID: <20240304-shrewd-encouraging-marmoset-54ffb2@houat>
-References: <5d7ed81b-37f9-48e9-ab7e-484b74ca886c@gmail.com>
- <CAHk-=wixVy3WYvjbt43ZSrCqPDsS76QJQSkXFbbPsAOs1MCSAQ@mail.gmail.com>
- <CABXOdTeT2ip1uS2EG2w8pW7254Tnd=ZDNz-KC61-G-yqDTVgJA@mail.gmail.com>
- <269232e6-41c9-4aa1-9320-662beabcd69b@infradead.org>
- <CAMuHMdXuXV9WV3aANFTteuP8Q3JY6R5OWsVBedGOP7e_JguxqA@mail.gmail.com>
- <CAMuHMdWi069YAvOoXe7sHJ_o702tY4tDQgL3sfApPR3aCnZboQ@mail.gmail.com>
- <20240304-transparent-oriole-of-honeydew-f4174e@houat>
- <CAMuHMdXyvcyXw8eXc2MONNaBYYGpVdnPh2h3T=QV38MEUzhu9A@mail.gmail.com>
- <20240304-dangerous-mastiff-of-fury-1fac5c@houat>
- <CAMuHMdV2HkYjowOZBgSZQ3N01UeUTnyv5kjx-82C9YJ+dsgsxQ@mail.gmail.com>
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
+ [209.85.208.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D38C10FFE0
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 11:30:00 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id
+ 38308e7fff4ca-2d2305589a2so64303471fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 03:30:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1709551798; x=1710156598; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=4vL0LqK5KGeMh29yJkxMT78RWM5joaKt0C5y/rSqDNA=;
+ b=eXb1qc1UJy5CU8aUy/27D6kavEeFWQSJABacFKj+4Xkahi/HKmbsgKqDo1lfsEA3rl
+ DXJui5E9RkyXbAijoglfrlvl1XQi+G0EYI6xG6o6hCl2oR9r5DdHcSXNkMeNK7pMB6Ae
+ XGtVoPmUDJfcXkamIUADXsWjZNprvqlUJldmW6Lb+dsmvrMzs9PtilVsMFOpwdF2vdIC
+ 58Ze6BeAQcOspZgSDhx2uOck1fQAEnOKNL/vr1tD8bvzHwPIfmuNFwPSTnGzKTEOBWTo
+ W7mMfI3XHwFy8e1++cBmeV4GJTIVRValgOrlSGMe4Gkn2QouNpy+iyflbGk4fX+rB6ci
+ u93A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709551798; x=1710156598;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4vL0LqK5KGeMh29yJkxMT78RWM5joaKt0C5y/rSqDNA=;
+ b=p8bexqEUG/KYobgAyPzijT354wnmVI1vaCzPc+lp0isTmiFbKtU7yP6rU7w0vJ3dhB
+ PK/aYUNrUNwjHOMNl//CMM5w1t1SZKjBuBKgLkNCK8mIR/1WFeTj2iH9XJFMtsN4Ip79
+ c90BPoUGEtPjHK3gMJnS1D3p93CWmoGad4bk1uKLvgbB18UxlfLzZR6vZZMmLUL+In6r
+ le9O+kT/cqckK9P4SMSkaM+qzfyw9QZNSUhX/xX7Ap7mOcg+fGF6LMhw34grLMz2FENv
+ gdJH2UlDL/FayQoNoCmwWAkOqyuBtzWNlgGkFguRVm6v9gdczRIVSvc21UhE6Dg6EDop
+ BHqQ==
+X-Gm-Message-State: AOJu0YwfzNDiJwCpSOeyrZ5pfbKCcYo2UUHgR/k0uHRlvCQBs2q2USO1
+ pAUFgI88b5ubgVtqYcST7zSy1mj4oc7NPUt9Ay2DQ3X06kEj9jJP/HzpSHJU98w=
+X-Google-Smtp-Source: AGHT+IFCZr5TnZzbIjgFDs70xFEbSdnDduXpFSo0k5iseIZ42JOLm6EDtlRW4UYmc7bEsd4Ex6jYzA==
+X-Received: by 2002:a2e:9914:0:b0:2d2:b929:9389 with SMTP id
+ v20-20020a2e9914000000b002d2b9299389mr5842283lji.40.1709551798212; 
+ Mon, 04 Mar 2024 03:29:58 -0800 (PST)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ r9-20020a05600c458900b00412b3bf811bsm14264443wmo.8.2024.03.04.03.29.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Mar 2024 03:29:57 -0800 (PST)
+Date: Mon, 4 Mar 2024 11:29:56 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Patrick Gansterer <paroga@paroga.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: backlight: Add Texas Instruments LM3509
+ bindings
+Message-ID: <20240304112956.GH102563@aspen.lan>
+References: <20240302212757.1871164-1-paroga@paroga.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ymv3tdq2u4ztffpw"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdV2HkYjowOZBgSZQ3N01UeUTnyv5kjx-82C9YJ+dsgsxQ@mail.gmail.com>
+In-Reply-To: <20240302212757.1871164-1-paroga@paroga.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,68 +85,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sat, Mar 02, 2024 at 10:27:56PM +0100, Patrick Gansterer wrote:
+> Add Device Tree bindings for Texas Instruments LM3509 - a
+> High Efficiency Boost for White LED's and/or OLED Displays
+>
+> Signed-off-by: Patrick Gansterer <paroga@paroga.com>
+> ---
+> <snip>
+> +  ti,unison-mode:
+> +    description: |
+> +      Enable unison mode. If disabled, then it will provide two
+> +      independent controllable LED currents for BMAIN and BSUB.
+> +    type: boolean
 
---ymv3tdq2u4ztffpw
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+How does not-unison mode interact with the backlight property in
+panel-common.yaml ?
 
-On Mon, Mar 04, 2024 at 12:12:47PM +0100, Geert Uytterhoeven wrote:
-> Hi Maxime,
->=20
-> On Mon, Mar 4, 2024 at 11:20=E2=80=AFAM Maxime Ripard <mripard@kernel.org=
-> wrote:
-> > On Mon, Mar 04, 2024 at 11:07:22AM +0100, Geert Uytterhoeven wrote:
-> > > On Mon, Mar 4, 2024 at 10:15=E2=80=AFAM Maxime Ripard <mripard@kernel=
-=2Eorg> wrote:
-> > > > On Mon, Mar 04, 2024 at 09:12:38AM +0100, Geert Uytterhoeven wrote:
-> > > > > On Sun, Mar 3, 2024 at 10:30=E2=80=AFAM Geert Uytterhoeven <geert=
-@linux-m68k.org> wrote:
-> > > > > ERROR: modpost: "__udivdi3" [drivers/gpu/drm/sun4i/sun4i-drm-hdmi=
-=2Eko] undefined!
-> > > > > make[3]: *** [scripts/Makefile.modpost:145: Module.symvers] Error=
- 1
-> > > > > make[2]: *** [Makefile:1871: modpost] Error 2
-> > > > > make[1]: *** [Makefile:240: __sub-make] Error 2
-> > > > > make: *** [Makefile:240: __sub-make] Error 2
-> > > > >
-> > > > > No warnings found in log.
-> > > > > -----------------------------------------------------------------=
--->8---
-> > > >
-> > > > The driver is meant for a controller featured in an SoC with a Cort=
-ex-A8
-> > > > ARM CPU and less than a GiB/s memory bandwidth.
-> > >
-> > > Good, so the hardware cannot possibly need 64-bit pixel clock values =
-;-)
-> >
-> > This is an early patch to convert that function into a framework hook
-> > implementation. HDMI 2.1 has a max TMDS character rate of slightly less
-> > than 6GHz, so larger than 2^32 - 1.
-> >
-> > So yes, this driver doesn't need to. The framework does however.
->=20
-> That's gonna be interesting, as the Common Clock Framework does not
-> support 64-bit clock rates on 32-bit platforms yet...
+If this mode intended to provide two strings that can be controlled by
+different panels then a phandle link will no longer be sufficient to
+describe the connectivity.
 
-As far as KMS goes, it doesn't really matter. The TMDS character rate
-doesn't need to be backed by a CCF clock.
 
-And realistically speaking, I don't expect any 32 bit platform to
-support HDMI 2.1.
-
-Maxime
-
---ymv3tdq2u4ztffpw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZeWwZwAKCRDj7w1vZxhR
-xaKuAP9qEN4vzS30W73MSnW/4xHYdwyadBOylpEz37phu0ydjwEA0XJSmLO2W7Ui
-31PIhTlZnimQzWdsNxR4U30hC+EXvQA=
-=FW8N
------END PGP SIGNATURE-----
-
---ymv3tdq2u4ztffpw--
+Daniel.
