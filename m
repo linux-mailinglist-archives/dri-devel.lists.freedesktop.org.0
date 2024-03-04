@@ -2,88 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A712F870065
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 12:27:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19802870069
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 12:28:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8710311201D;
-	Mon,  4 Mar 2024 11:27:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3BA410E408;
+	Mon,  4 Mar 2024 11:28:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="eRq7C42j";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="Ro/Zm46E";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Od6ndyT7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh6-smtp.messagingengine.com
- (fhigh6-smtp.messagingengine.com [103.168.172.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBCB0112019
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 11:27:11 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailfhigh.nyi.internal (Postfix) with ESMTP id 9137C11400AA;
- Mon,  4 Mar 2024 06:27:10 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
- by compute5.internal (MEProxy); Mon, 04 Mar 2024 06:27:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:subject
- :subject:to:to; s=fm3; t=1709551630; x=1709638030; bh=WCLCx6ZXib
- mkTszLQSSQ7hZc4cbzBKS93Xk+HpWXKXg=; b=eRq7C42jv0AVG+FYFsv3Xw43fr
- rV6E/nvYM21RbXjn3fXQBH8l2aFkmDTpyjwXVGR2ldOeN33m8y2reY8mm1+asd89
- XeLVDyzt5YFPIOFjDcyd7Q26dwvTRcA768lp9lDsIEJCr2KVTYYvhrmX8TafAqtA
- 3694/F49vq711//XazCx4o/eFmoauA5E0r1o9aOtxZF+1mKDwbIZfA8ZT5MefHwd
- +RLVgmOi0uajoei5Mej9rjhM3ujtmmiiiVdtmgiUBqfjYhDUNICI12n5S2Mo7ELu
- 7boySfVmDoipTB4Wp1va34ylhlEvGXudJXqUVd+OuJOqiQ8zAi6bt+n0d1tQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1709551630; x=1709638030; bh=WCLCx6ZXibmkTszLQSSQ7hZc4cbz
- BKS93Xk+HpWXKXg=; b=Ro/Zm46EuO3nd92ZCxytDuo9hBCXLF/cZmtg1ONfP5cr
- t4xjhm7yOoMxI9q6gOnsvFAofIL/tXOiqSBHAeZi5E5AWiRNaA3jp2jt103MrRks
- 8/2rTP82txkOYf+QfR4vl6w12h1Q+ZznZp2+dHgJApFn0OoP6YvmogL4yPbnlXNc
- pnlNbPpwEb0Wb7s5kg1/Pq4Qe5Zb8SfWslhDk29TKlZOq/wKw0BwpsbZwCKt4ypF
- rw0+hvsNEd99IHK907WWne8rF3k59uDovu9RB6GPHApTc8e+VnwbY664UJHiCRvs
- Tlm72+mjdZ8cYwYBakOM3qXC6b5NyeLwMNi+uOFc8w==
-X-ME-Sender: <xms:DrDlZXntkvws9IQn3ORO4enwQBHkCLTp3pwe7sgcWrHt8y-DpeFqJg>
- <xme:DrDlZa3ua634C7USDJNZ4uDU0a2UaWOyRn1tRNqytbaRjC3KKL5O6y6Yntkju0cj6
- Ca0Fh8hZ-j7agBfI1c>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrheejgddvjecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
- ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
- gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
- ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
- hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:DrDlZdplQNTvcUoTNsECURnF4Qi8faEISXUABHp2IUIKdwdp2VnKKQ>
- <xmx:DrDlZfmlyHD6-nfbYFrL9r9pTKiz47WmMBQ-n-vXG3SrrviTV01q-w>
- <xmx:DrDlZV0lXHYkWXttK2dbV5v9zVXe79f74wqrPazIWUd0O-H7lfiinQ>
- <xmx:DrDlZevIOiRT-axKExEQu8-6neS-9FmHi2dnVdzCIa2tUktonrEUIw>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 46BEEB6008D; Mon,  4 Mar 2024 06:27:10 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-205-g4dbcac4545-fm-20240301.001-g4dbcac45
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1F8C10E224
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 11:28:43 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id DAF8C60EB3;
+ Mon,  4 Mar 2024 11:28:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08565C433C7;
+ Mon,  4 Mar 2024 11:28:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1709551722;
+ bh=or2T4offzEJ0CeMUlNFZZpSiTyyFitZkNk9jwiLFRK4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Od6ndyT7ylv+7TEzrS8j958J4csrcec8FRIw7OBTQts/NviexhqeLOFTx4R12ljuL
+ iwHWeBlVji12HBhf6bRNj4u12aiBZ28Al3Kohn4OzfohMfPPLxnPs8zD62a8pEYwmF
+ ZyWdqCqx+GUachME3oQ4mdmnLbfai31LS6l+OKeQMbNtx8k+Q330vY2t9UQJDOpsVJ
+ djzcX5svtSJhXinZ8dfhYqCqLVf1fzfjTjE6dpbIsdW07bwZJsExf4dM3roVWv0GlG
+ yYsGLVYe0SNDSh9CAXaj+XhR9UBEFViaR41rZ0hIQeYPnCBEfD4f3FJo97szqo5zX4
+ 6kBn5u2Tyc38A==
+Date: Mon, 4 Mar 2024 12:28:39 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>, Guenter Roeck <groeck@google.com>,
+ Linus Torvalds <torvalds@linuxfoundation.org>, 
+ Nikolai Kondrashov <spbnick@gmail.com>, Helen Koike <helen.koike@collabora.com>,
+ linuxtv-ci@linuxtv.org, 
+ dave.pigott@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ linux-kselftest@vger.kernel.org, gustavo.padovan@collabora.com,
+ pawiecz@collabora.com, 
+ tales.aparecida@gmail.com, workflows@vger.kernel.org, kernelci@lists.linux.dev,
+ skhan@linuxfoundation.org, kunit-dev@googlegroups.com, nfraprado@collabora.com,
+ davidgow@google.com, cocci@inria.fr, Julia.Lawall@inria.fr,
+ laura.nao@collabora.com, 
+ ricardo.canuelo@collabora.com, kernel@collabora.com, gregkh@linuxfoundation.org
+Subject: Re: [PATCH 1/3] kci-gitlab: Introducing GitLab-CI Pipeline for
+ Kernel Testing
+Message-ID: <20240304-shrewd-encouraging-marmoset-54ffb2@houat>
+References: <5d7ed81b-37f9-48e9-ab7e-484b74ca886c@gmail.com>
+ <CAHk-=wixVy3WYvjbt43ZSrCqPDsS76QJQSkXFbbPsAOs1MCSAQ@mail.gmail.com>
+ <CABXOdTeT2ip1uS2EG2w8pW7254Tnd=ZDNz-KC61-G-yqDTVgJA@mail.gmail.com>
+ <269232e6-41c9-4aa1-9320-662beabcd69b@infradead.org>
+ <CAMuHMdXuXV9WV3aANFTteuP8Q3JY6R5OWsVBedGOP7e_JguxqA@mail.gmail.com>
+ <CAMuHMdWi069YAvOoXe7sHJ_o702tY4tDQgL3sfApPR3aCnZboQ@mail.gmail.com>
+ <20240304-transparent-oriole-of-honeydew-f4174e@houat>
+ <CAMuHMdXyvcyXw8eXc2MONNaBYYGpVdnPh2h3T=QV38MEUzhu9A@mail.gmail.com>
+ <20240304-dangerous-mastiff-of-fury-1fac5c@houat>
+ <CAMuHMdV2HkYjowOZBgSZQ3N01UeUTnyv5kjx-82C9YJ+dsgsxQ@mail.gmail.com>
 MIME-Version: 1.0
-Message-Id: <1baf9a7f-b0e4-45d8-ac57-0727a213d82d@app.fastmail.com>
-In-Reply-To: <20240304112441.707ded23@donnerap.manchester.arm.com>
-References: <CA+G9fYvG9KE15PGNoLu+SBVyShe+u5HBLQ81+kK9Zop6u=ywmw@mail.gmail.com>
- <338c89bb-a70b-4f35-b71b-f974e90e3383@app.fastmail.com>
- <20240304112441.707ded23@donnerap.manchester.arm.com>
-Date: Mon, 04 Mar 2024 12:26:46 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Andre Przywara" <andre.przywara@arm.com>
-Cc: "Naresh Kamboju" <naresh.kamboju@linaro.org>,
- "open list" <linux-kernel@vger.kernel.org>,
- "Linux ARM" <linux-arm-kernel@lists.infradead.org>,
- linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org,
- lkft-triage@lists.linaro.org, "Maxime Ripard" <mripard@kernel.org>,
- "Dave Airlie" <airlied@redhat.com>,
- "Dan Carpenter" <dan.carpenter@linaro.org>,
- "Ard Biesheuvel" <ardb@kernel.org>
-Subject: Re: arm: ERROR: modpost: "__aeabi_uldivmod"
- [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ymv3tdq2u4ztffpw"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdV2HkYjowOZBgSZQ3N01UeUTnyv5kjx-82C9YJ+dsgsxQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,16 +79,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 4, 2024, at 12:24, Andre Przywara wrote:
-> On Mon, 04 Mar 2024 12:11:36 +0100 "Arnd Bergmann" <arnd@arndb.de> wrote:
->>
->> This used to be a 32-bit division. If the rate is never more than
->> 4.2GHz, clock could be turned back into 'unsigned long' to avoid
->> the expensive div_u64().
->
-> Wouldn't "div_u64(clock, 200)" solve this problem?
 
-Yes, that's why I mentioned it as the worse of the two obvious
-solutions. ;-)
+--ymv3tdq2u4ztffpw
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-     Arnd
+On Mon, Mar 04, 2024 at 12:12:47PM +0100, Geert Uytterhoeven wrote:
+> Hi Maxime,
+>=20
+> On Mon, Mar 4, 2024 at 11:20=E2=80=AFAM Maxime Ripard <mripard@kernel.org=
+> wrote:
+> > On Mon, Mar 04, 2024 at 11:07:22AM +0100, Geert Uytterhoeven wrote:
+> > > On Mon, Mar 4, 2024 at 10:15=E2=80=AFAM Maxime Ripard <mripard@kernel=
+=2Eorg> wrote:
+> > > > On Mon, Mar 04, 2024 at 09:12:38AM +0100, Geert Uytterhoeven wrote:
+> > > > > On Sun, Mar 3, 2024 at 10:30=E2=80=AFAM Geert Uytterhoeven <geert=
+@linux-m68k.org> wrote:
+> > > > > ERROR: modpost: "__udivdi3" [drivers/gpu/drm/sun4i/sun4i-drm-hdmi=
+=2Eko] undefined!
+> > > > > make[3]: *** [scripts/Makefile.modpost:145: Module.symvers] Error=
+ 1
+> > > > > make[2]: *** [Makefile:1871: modpost] Error 2
+> > > > > make[1]: *** [Makefile:240: __sub-make] Error 2
+> > > > > make: *** [Makefile:240: __sub-make] Error 2
+> > > > >
+> > > > > No warnings found in log.
+> > > > > -----------------------------------------------------------------=
+-->8---
+> > > >
+> > > > The driver is meant for a controller featured in an SoC with a Cort=
+ex-A8
+> > > > ARM CPU and less than a GiB/s memory bandwidth.
+> > >
+> > > Good, so the hardware cannot possibly need 64-bit pixel clock values =
+;-)
+> >
+> > This is an early patch to convert that function into a framework hook
+> > implementation. HDMI 2.1 has a max TMDS character rate of slightly less
+> > than 6GHz, so larger than 2^32 - 1.
+> >
+> > So yes, this driver doesn't need to. The framework does however.
+>=20
+> That's gonna be interesting, as the Common Clock Framework does not
+> support 64-bit clock rates on 32-bit platforms yet...
+
+As far as KMS goes, it doesn't really matter. The TMDS character rate
+doesn't need to be backed by a CCF clock.
+
+And realistically speaking, I don't expect any 32 bit platform to
+support HDMI 2.1.
+
+Maxime
+
+--ymv3tdq2u4ztffpw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZeWwZwAKCRDj7w1vZxhR
+xaKuAP9qEN4vzS30W73MSnW/4xHYdwyadBOylpEz37phu0ydjwEA0XJSmLO2W7Ui
+31PIhTlZnimQzWdsNxR4U30hC+EXvQA=
+=FW8N
+-----END PGP SIGNATURE-----
+
+--ymv3tdq2u4ztffpw--
