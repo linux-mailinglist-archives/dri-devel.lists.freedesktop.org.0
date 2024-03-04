@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2150386FABF
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 08:30:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 310FA86FAC0
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 08:30:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 280E110FDA6;
-	Mon,  4 Mar 2024 07:30:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40D1E10FDA7;
+	Mon,  4 Mar 2024 07:30:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="GMJy/Frx";
+	dkim=pass (2048-bit key; unprotected) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="YeMV72ad";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A0C810FDA7
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 07:30:04 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64E5810FDA7
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 07:30:10 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::102])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4Tp9MD5Wltz9sp7;
- Mon,  4 Mar 2024 08:30:00 +0100 (CET)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Tp9ML5Yrfz9t2n;
+ Mon,  4 Mar 2024 08:30:06 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
- s=MBO0001; t=1709537400;
+ s=MBO0001; t=1709537406;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=NoCsY0uVPieE3Bki0yClO1kq6+DglOQe3SGQtQLnjtI=;
- b=GMJy/FrxoUhe66dmuSip7yLhn85T8/o5Pw4MZOhYaDRt4ckcRkuULKweChYZaDXWdhgr6I
- 4O4PnCij30/5YG9dfZOrjrM0fRaJcwH8MzZQOStZtmUi5+p8V/Q6Ej94Gzg3cEVOw7HD43
- NrTBoWAVzbFhXlOm9EiElTj9Jyilj9WqnhImvbYxcRxTiRWlBbekJ3xdknOio5IvDB1Ugb
- 61WmDNptyR0lsWVIQuLDEnpHHPjSNd4OToqrfY2m4Plg2z6wRVzH66HE54qps5JNCE3xkk
- O10pyaI3h4yANsmY7yeqrFcQEzBnnwnMUIo9965KXqmUr10WxIE8qFKtsAbdbQ==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mnGPlwQbxgYzC8CJbOlihTimeXPqyx+4nw1QX4Qc3a4=;
+ b=YeMV72adDA3ovCNfkGgcelTnSDFkmPEFqbbyQEx8XPg9qoNpmoAdcLxRlii7IVxjbPCbYR
+ AaVv5ibjU3FKZf5zo4YCEw5S/W37qluQZpo29E/i4ncIWE3p12RzACQerHb+MzHiyY/dGn
+ 6GV2LZQ0jj/V6TmnYrShwjTcZ4BQ28K10YDdl5G+Etd5U/+1LLLtRLP2nL5y4dlF/9SrzZ
+ Y7PfuwrQCgOGc+a+xNqonkactQB7kcwl9J7zil+D8vzA3AlsXj5xsRw/KxklkTA+3pbF44
+ XVv3bD1Ru//306dp12fS+qHv2KShsbrm7vW7pVmMu7o4RcX1uc5MklGRUNDlyA==
 From: Frank Oltmanns <frank@oltmanns.dev>
-Subject: [PATCH v3 0/5] Pinephone video out fixes (flipping between two frames)
-Date: Mon, 04 Mar 2024 08:29:16 +0100
-Message-Id: <20240304-pinephone-pll-fixes-v3-0-94ab828f269a@oltmanns.dev>
+Date: Mon, 04 Mar 2024 08:29:17 +0100
+Subject: [PATCH v3 1/5] clk: sunxi-ng: common: Support minimum and maximum rate
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAEx45WUC/33NQQ7CIBAF0Ks0rMXAULHtynsYFxSmlqQCgYZom
- t5d2sSNMS7/n/w3C0kYLSbSVQuJmG2y3pUgDhXRo3J3pNaUTICB4MAbGqzDMHqHNEwTHewTE2V
- am8EgnAXWpCxDxP1QhtdbyaNNs4+v/UnmW/vfy5wyiiCaXqKRRvOLn+aHci4dDWaykRk+TM2An
- X4zUJhWqloqMI1u+y9mXdc3KDivswABAAA=
+Message-Id: <20240304-pinephone-pll-fixes-v3-1-94ab828f269a@oltmanns.dev>
+References: <20240304-pinephone-pll-fixes-v3-0-94ab828f269a@oltmanns.dev>
+In-Reply-To: <20240304-pinephone-pll-fixes-v3-0-94ab828f269a@oltmanns.dev>
 To: Michael Turquette <mturquette@baylibre.com>, 
  Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
  Jernej Skrabec <jernej.skrabec@gmail.com>, 
@@ -60,21 +60,21 @@ To: Michael Turquette <mturquette@baylibre.com>,
 Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- Frank Oltmanns <frank@oltmanns.dev>, stable@vger.kernel.org, 
- Diego Roversi <diegor@tiscali.it>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3360; i=frank@oltmanns.dev;
- h=from:subject:message-id; bh=Gjmx1LoCeFmH3HZQN2zSbyKOB5bSkpnKc14O2QudTyc=;
- b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBl5XhwsffaJUTjKesrQMFXm9SL0rmYfvGrVtp+e
- o8WbpVFG1iJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZeV4cAAKCRCaaaIIlErT
- xw1JC/4s83wVFPqgCyLwlwxOrDIhPUUecHpIS8lGXewEMxp/h32L7wyzeW+UxwBCskTIPbbSgZk
- PYfNUZpk7IOalDYXZMfQeR1HW0oMPQBTS7/YbjMmwz5NB1KpK/WMQ/FJRBI/Xpts4eLjCtPFWAm
- IyaKjK3f+niwlnuRdV5pVlgkxg+jhj+TueaP1b+DAJOYFWdMzIk+V/hKwPi680FEqLvIwdK9+Ut
- ByYnzM1BZlYBgy2jUc8b44dTZ5/OvVkRwX1ZAQGBLZwLwPCTjR3tejhmmNBtx8XxioAAVzBU4b2
- 9xbRYfAyPxfqToJx0nshopXEPRsotlDyVJxORuZE1fJkT/wTvKk8JlOWZhnmeAqBxBw4Dh6id3P
- vmIQAGU95RWoj6PUm5IcZcMQp70f9RZSMD35KLwXRtpG/y4jWWzQqaRHzsRXvSwJwKp7c9k+EjJ
- W5CwokuXlcyh+nHidpUSJK9Sck0/D8Rji7HxtSXhDkQ3RkQDPwJn+CaEjgqqchZP5qaTI=
+ Frank Oltmanns <frank@oltmanns.dev>, stable@vger.kernel.org
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2460; i=frank@oltmanns.dev;
+ h=from:subject:message-id; bh=IgKKqgNhp4KB//qmzijjif4cj92H3twV7OcBpE9KPnQ=;
+ b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBl5XhwllXkjTz+CPi39L+nSvOMTVguM6U40A16z
+ a6r/JmMQyiJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZeV4cAAKCRCaaaIIlErT
+ x+6VC/wKGTYAgaNwasNsccW5LE4ekOaeCHb2E2E6k6v84qe1/t/Vgg6L2c1n30zckB4Vftb7RuA
+ Bae3m6mB70PtKIgWPaujYgLN85otFzOKe5lYrkiF4EDPaqLlRHLz/NmkzLM7wQLEtlC+Febu8yF
+ QjrW9TlhvxBQvlc71zbzrk97gsxMpnWN47eu4O5pW1BNbCKrWeytELPymhVUhp6VxwDMUywXFqR
+ TRf5Irleb8KdyEKiwQv2VtF59tu0QDjjiiwsnsPzcPsNHzfiLEmiXEb2ToD5gnegCcbxG0/HEjh
+ 3if/2LS8QQ+vJuSIJBLhB4Ey3UnvHNz1syeRFYTwOD/muEUZsqtG+cEqy3zLjoGxkLCFQZ+EX4n
+ /ToemlOq0q9cqL9Fgz5KEwfXuiN8jpjBCLnZVmyU8RTuxWKbOImC+Xskxvcu1ZsD+yLABXTSutv
+ cHjqb0RXfA0eIgTBtkp16EVP/WTk9DmBC3nz8OhtbYK1KaxCsnVEDGV2PFYiPecpn7dm0=
 X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
  fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
+X-Rspamd-Queue-Id: 4Tp9ML5Yrfz9t2n
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,80 +90,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On some pinephones the video output sometimes freezes (flips between two
-frames) [1]. It seems to be that the reason for this behaviour is that
-PLL-MIPI is outside its limits, and the GPU is not running at a fixed
-rate.
+The Allwinner SoC's typically have an upper and lower limit for their
+clocks' rates. Up until now, support for that has been implemented
+separately for each clock type.
 
-In this patch series I propose the following changes:
-  1. sunxi-ng: Adhere to the following constraints given in the
-     Allwinner A64 Manual regarding PLL-MIPI:
-      * M/N <= 3
-      * (PLL_VIDEO0)/M >= 24MHz
-      * 500MHz <= clockrate <= 1400MHz
+Implement that functionality in the sunxi-ng's common part making use of
+the CCF rate liming capabilities, so that it is available for all clock
+types.
 
-  2. Remove two operating points from the A64 DTS OPPs, so that the GPU
-     runs at a fixed rate of 432 MHz.
-
-Note, that when pinning the GPU to 432 MHz the issue [1] completely
-disappears for me. I've searched the BSP and could not find any
-indication that supports the idea of having the three OPPs. The only
-frequency I found in the BPSs for A64 is 432 MHz, which has also proven
-stable for me.
-
-Another bigger change compared to the previous version is that I've
-removed the patch to adapt the XBD599 panel's timings to Allwinner A64's
-PLL-MIPI new constraints from this series. Mainly, because I'm currently
-evaluationg other options that may or may not work. (It may work at
-least until HDMI support is upstreamed.) I'll probably resend the patch
-at a later point in time.
-
-I very much appreciate your feedback!
-
-[1] https://gitlab.com/postmarketOS/pmaports/-/issues/805
-
+Suggested-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+Cc: stable@vger.kernel.org
 ---
-Changes in v3:
-- dts: Pin GPU to 432 MHz.
-- nkm and a64: Move minimum and maximum rate handling to the common part
-  of the sunxi-ng driver.
-- Removed st7703 patch from series.
-- Link to v2: https://lore.kernel.org/r/20240205-pinephone-pll-fixes-v2-0-96a46a2d8c9b@oltmanns.dev
+ drivers/clk/sunxi-ng/ccu_common.c | 15 +++++++++++++++
+ drivers/clk/sunxi-ng/ccu_common.h |  3 +++
+ 2 files changed, 18 insertions(+)
 
-Changes in v2:
-- dts: Increase minimum GPU frequency to 192 MHz.
-- nkm and a64: Add minimum and maximum rate for PLL-MIPI.
-- nkm: Use the same approach for skipping invalid rates in
-  ccu_nkm_find_best() as in ccu_nkm_find_best_with_parent_adj().
-- nkm: Improve names for ratio struct members and hence get rid of
-  describing comments.
-- nkm and a64: Correct description in the commit messages: M/N <= 3
-- Remove patches for nm as they were not needed.
-- st7703: Rework the commit message to cover more background for the
-  change.
-- Link to v1: https://lore.kernel.org/r/20231218-pinephone-pll-fixes-v1-0-e238b6ed6dc1@oltmanns.dev
+diff --git a/drivers/clk/sunxi-ng/ccu_common.c b/drivers/clk/sunxi-ng/ccu_common.c
+index 8babce55302f..2152063eee16 100644
+--- a/drivers/clk/sunxi-ng/ccu_common.c
++++ b/drivers/clk/sunxi-ng/ccu_common.c
+@@ -44,6 +44,12 @@ bool ccu_is_better_rate(struct ccu_common *common,
+ 			unsigned long current_rate,
+ 			unsigned long best_rate)
+ {
++	if (common->max_rate && current_rate > common->max_rate)
++		return false;
++
++	if (common->min_rate && current_rate < common->min_rate)
++		return false;
++
+ 	if (common->features & CCU_FEATURE_CLOSEST_RATE)
+ 		return abs(current_rate - target_rate) < abs(best_rate - target_rate);
+ 
+@@ -122,7 +128,10 @@ static int sunxi_ccu_probe(struct sunxi_ccu *ccu, struct device *dev,
+ 
+ 	for (i = 0; i < desc->hw_clks->num ; i++) {
+ 		struct clk_hw *hw = desc->hw_clks->hws[i];
++		struct ccu_common *common = hw_to_ccu_common(hw);
+ 		const char *name;
++		unsigned long min_rate = 0;
++		unsigned long max_rate = ULONG_MAX;
+ 
+ 		if (!hw)
+ 			continue;
+@@ -136,6 +145,12 @@ static int sunxi_ccu_probe(struct sunxi_ccu *ccu, struct device *dev,
+ 			pr_err("Couldn't register clock %d - %s\n", i, name);
+ 			goto err_clk_unreg;
+ 		}
++
++		if (common->min_rate)
++			min_rate = common->min_rate;
++		if (common->max_rate)
++			max_rate = common->max_rate;
++		clk_hw_set_rate_range(hw, min_rate, max_rate);
+ 	}
+ 
+ 	ret = of_clk_add_hw_provider(node, of_clk_hw_onecell_get,
+diff --git a/drivers/clk/sunxi-ng/ccu_common.h b/drivers/clk/sunxi-ng/ccu_common.h
+index 942a72c09437..329734f8cf42 100644
+--- a/drivers/clk/sunxi-ng/ccu_common.h
++++ b/drivers/clk/sunxi-ng/ccu_common.h
+@@ -31,6 +31,9 @@ struct ccu_common {
+ 	u16		lock_reg;
+ 	u32		prediv;
+ 
++	unsigned long	min_rate;
++	unsigned long	max_rate;
++
+ 	unsigned long	features;
+ 	spinlock_t	*lock;
+ 	struct clk_hw	hw;
 
----
-Frank Oltmanns (5):
-      clk: sunxi-ng: common: Support minimum and maximum rate
-      clk: sunxi-ng: a64: Set minimum and maximum rate for PLL-MIPI
-      clk: sunxi-ng: nkm: Support constraints on m/n ratio and parent rate
-      clk: sunxi-ng: a64: Add constraints on PLL-MIPI's n/m ratio and parent rate
-      arm64: dts: allwinner: a64: Run GPU at 432 MHz
-
- arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi |  8 --------
- drivers/clk/sunxi-ng/ccu-sun50i-a64.c         | 14 +++++++++-----
- drivers/clk/sunxi-ng/ccu_common.c             | 15 +++++++++++++++
- drivers/clk/sunxi-ng/ccu_common.h             |  3 +++
- drivers/clk/sunxi-ng/ccu_nkm.c                | 21 +++++++++++++++++++++
- drivers/clk/sunxi-ng/ccu_nkm.h                |  2 ++
- 6 files changed, 50 insertions(+), 13 deletions(-)
----
-base-commit: 216c1282dde38ca87ebdf1ccacee5a0682901574
-change-id: 20231218-pinephone-pll-fixes-0ccdfde273e4
-
-Best regards,
 -- 
-Frank Oltmanns <frank@oltmanns.dev>
+2.44.0
 
