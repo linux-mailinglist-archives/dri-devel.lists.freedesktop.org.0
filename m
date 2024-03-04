@@ -2,63 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3704870009
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 12:13:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4255387000D
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 12:13:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A51D10FFED;
-	Mon,  4 Mar 2024 11:13:09 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Yd7hU+5q";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 680C210FFCE;
+	Mon,  4 Mar 2024 11:13:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92F8A10FFED;
- Mon,  4 Mar 2024 11:13:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709550789; x=1741086789;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=zWCb/ku/h76tcpLs23jrW8GlvwCDULDEu7boNNfTOxU=;
- b=Yd7hU+5qLYpLX+3gOUDY1/ixjhLxHtna/KE0CMIVPs4M4oEOwS7eTBt1
- D06VyaWlZVuMGM/bPPKYvwtnZYi4egBOQtleIx/IrPuqkSjcqapTt24PL
- +3ZLpMhhtlATVl0PilD5Ww2AYHJoWKs4qOo7pX4w7y3UDfhB8+RABRkrg
- HbuJMcT1FnjJflBoqY7oFwTWMbEgTWFYrbMh9LFZQ4tgjOgEk2Gt+ynxb
- hnaNE1efHLEOh7nXCUATQbKhHoZQQt1w0jRrf81l/1AW0lruC76bjDLx8
- KVHiqTkTw2+DLD62lXZUsiFzBFpzUwKpJwDa+NaSkwHqcsnUaWYLWYqdy Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="4161018"
-X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
-   d="scan'208";a="4161018"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2024 03:13:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="827773141"
-X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; d="scan'208";a="827773141"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga001.jf.intel.com with SMTP; 04 Mar 2024 03:13:03 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 04 Mar 2024 13:13:03 +0200
-Date: Mon, 4 Mar 2024 13:13:03 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Arthur Grillo <arthurgrillo@riseup.net>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- mairacanal@riseup.net, andrealmeid@riseup.net,
- tales.aparecida@gmail.com, daniel@ffwll.ch, airlied@gmail.com,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com,
- lucas.demarchi@intel.com
-Subject: Re: [PATCH v2] drm/i915/overlay: Remove redundant drm_rect_visible()
- use
-Message-ID: <ZeWsv4xbEWGyBgFo@intel.com>
-References: <20230325172719.92102-1-arthurgrillo@riseup.net>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5193510E52A
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 11:13:39 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CAA4C1FB
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 03:14:14 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CF6963F738
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 03:13:37 -0800 (PST)
+Date: Mon, 4 Mar 2024 11:13:31 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
+ kernel@collabora.com, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH 3/3] drm/panthor: Fix undefined
+ panthor_device_suspend/resume symbol issue
+Message-ID: <ZeWs2zsbagsyZVKo@e110455-lin.cambridge.arm.com>
+References: <20240304090812.3941084-1-boris.brezillon@collabora.com>
+ <20240304090812.3941084-4-boris.brezillon@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230325172719.92102-1-arthurgrillo@riseup.net>
-X-Patchwork-Hint: comment
+In-Reply-To: <20240304090812.3941084-4-boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,44 +49,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Mar 25, 2023 at 02:27:19PM -0300, Arthur Grillo wrote:
-> The drm_rect_intersect() already returns if the intersection is visible
-> or not, so the use of drm_rect_visible() is duplicate.
+On Mon, Mar 04, 2024 at 10:08:12AM +0100, Boris Brezillon wrote:
+> panthor_device_resume/suspend() are only compiled when CONFIG_PM is
+> enabled but panthro_drv.c doesn't use the pm_ptr() macro to conditionally
+> discard resume/suspend assignments, which causes undefined symbol
+> errors at link time when !PM.
 > 
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> We could fix that by using pm_ptr(), but supporting the !PM case makes
+> little sense (the whole point of these embedded GPUs is to be low power,
+> so proper PM is a basic requirement in that case). So let's just enforce
+> the presence of CONFIG_PM with a Kconfig dependency instead.
+> 
+> If someone needs to relax this dependency, it can be done in a follow-up.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202403031944.EOimQ8WK-lkp@intel.com/
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Sorry, looks like I completely missed this.
-Now push the drm-intel-next. Thanks.
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+
+Agree on this, there is no point on running on kernels without CONFIG_PM enabled.
+
+Best regards,
+Liviu
+
 
 > ---
-> v1->v2: https://lore.kernel.org/all/20230324142533.6357-1-arthurgrillo@riseup.net/
-> - Split the if condition.
-> ---
->  drivers/gpu/drm/i915/display/intel_overlay.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/panthor/Kconfig          | 1 +
+>  drivers/gpu/drm/panthor/panthor_device.c | 2 --
+>  2 files changed, 1 insertion(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/display/intel_overlay.c b/drivers/gpu/drm/i915/display/intel_overlay.c
-> index c12bdca8da9b..d55153587cae 100644
-> --- a/drivers/gpu/drm/i915/display/intel_overlay.c
-> +++ b/drivers/gpu/drm/i915/display/intel_overlay.c
-> @@ -966,10 +966,11 @@ static int check_overlay_dst(struct intel_overlay *overlay,
->  		      rec->dst_width, rec->dst_height);
->  
->  	clipped = req;
-> -	drm_rect_intersect(&clipped, &crtc_state->pipe_src);
->  
-> -	if (!drm_rect_visible(&clipped) ||
-> -	    !drm_rect_equals(&clipped, &req))
-> +	if (!drm_rect_intersect(&clipped, &crtc_state->pipe_src))
-> +		return -EINVAL;
-> +
-> +	if (!drm_rect_equals(&clipped, &req))
->  		return -EINVAL;
->  
+> diff --git a/drivers/gpu/drm/panthor/Kconfig b/drivers/gpu/drm/panthor/Kconfig
+> index 55b40ad07f3b..fdce7c1b2310 100644
+> --- a/drivers/gpu/drm/panthor/Kconfig
+> +++ b/drivers/gpu/drm/panthor/Kconfig
+> @@ -6,6 +6,7 @@ config DRM_PANTHOR
+>  	depends on ARM || ARM64 || COMPILE_TEST
+>  	depends on !GENERIC_ATOMIC64  # for IOMMU_IO_PGTABLE_LPAE
+>  	depends on MMU
+> +	depends on PM
+>  	select DEVFREQ_GOV_SIMPLE_ONDEMAND
+>  	select DRM_EXEC
+>  	select DRM_GEM_SHMEM_HELPER
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> index 68e467ee458a..efea29143a54 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -403,7 +403,6 @@ int panthor_device_mmap_io(struct panthor_device *ptdev, struct vm_area_struct *
 >  	return 0;
+>  }
+>  
+> -#ifdef CONFIG_PM
+>  int panthor_device_resume(struct device *dev)
+>  {
+>  	struct panthor_device *ptdev = dev_get_drvdata(dev);
+> @@ -548,4 +547,3 @@ int panthor_device_suspend(struct device *dev)
+>  	mutex_unlock(&ptdev->pm.mmio_lock);
+>  	return ret;
+>  }
+> -#endif
 > -- 
-> 2.39.2
+> 2.43.0
+> 
 
 -- 
-Ville Syrjälä
-Intel
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    Â¯\_(ãƒ„)_/Â¯
