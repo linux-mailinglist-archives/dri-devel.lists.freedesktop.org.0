@@ -2,86 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBCE586FB5F
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 09:12:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B871086FB9A
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 09:19:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C8F810FE12;
-	Mon,  4 Mar 2024 08:12:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0B0110E837;
+	Mon,  4 Mar 2024 08:19:53 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="A+tKll/S";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
- [209.85.128.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F12310FE12
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 08:12:53 +0000 (UTC)
-Received: by mail-yw1-f181.google.com with SMTP id
- 00721157ae682-6087396e405so41597437b3.0
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 00:12:53 -0800 (PST)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4935110E837
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 08:19:52 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id
+ a640c23a62f3a-a4515f8e13cso104615166b.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 00:19:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1709540390; x=1710145190; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=wP36DpTVEwlDdpN2Rgpr18aOZ9WEG6xNPrA2wbISAeY=;
+ b=A+tKll/S1gik89EoqY1n2e4DUmY1wE0P8Pxdl+550/a8sY0LBqB1rYg1w11+0gT6d3
+ X8zrfltj3SjeA0HCQrZRc8znfdraab21FP8zSXLTFRTRLctTNtKdp/NVGQTvDMryUBe3
+ MJdqVs5eIMFYmEI2H4QkSohVYQPbhw0bRKTgO67JvNV4/x462G3LdsRUl+HY9zxs+X4u
+ SHIyNLH7xZ+sgI8I2k2WFAs2CbuyU0+cYaq+U9mF059rAURt3hdnlpAoOakNK+aCGZXk
+ Svvj074ih6wbBAkBMk73uRngMauWp9zU5r1IxyymiRKXyd7MXr/+rgqSDcmcKUFEZLpV
+ XKtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709539972; x=1710144772;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2J1p7SXZtqr3McfoeaXd0vJRTrL26m9P2IwKT4zVhdI=;
- b=WE0eZ6jKlBhUPOSdzvRrseLoZKvCJ1bJVIDD40Y0deFZipxfCuH4ZoOkbBNP0BBgnb
- G5Z3Qogr8Wq8nOZDaOyIREMIvp+9sxSX1nucIqorafDcakNk9qaR+JwVA0Sk9RNVNUmz
- wF+sWspGCvNnKXY8c0DE6ZThTlavu9qeWEUkHU6bqAJmnyAPpWtysJCx1YDla6tXPikJ
- x2aDJC1B3126NMpn50tN2+7qYkTVImS0yBdjOn6Uzf7mdqiNkpPvfNcrAeKJ0kF8Y02V
- X0dXvCsSvGMLYVcRy6swe2x2Z5OVrqPN4x1bVI2KYaXdqo0yn7mFgzx1pBD8h5aCLXaE
- riLQ==
+ d=1e100.net; s=20230601; t=1709540390; x=1710145190;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=wP36DpTVEwlDdpN2Rgpr18aOZ9WEG6xNPrA2wbISAeY=;
+ b=p3YsNry1iFZyGxQ4EGIQqWzF5TUmf6eYvMTzRIAH6GnZVm4aarf9kYXoMUu8n2luhK
+ nbzd7C8mRYpQj6iYYDJy3JtkpKcM9ppgTuwcpPLGr1IE+0L5HzcGYRINZhUaVGh8Aj1H
+ wOsjx8zcuc1mTsIUpIC2To4NvLOzNpso9ZSdHt4hobXuhUDoFqJ6eduvwIEr7JXSwcoi
+ 1zuL9MsOM3iVVS0LfDwKso8iq6kEf5+Y0t5a4nSFoLQVGh6BkDQdXUo5DbwLFbMWxQLG
+ macizrKCPUQ2J/WZo0+raP4x3SVd0LQzlkhgrYyi+EBbFwipH+mUxma+SylAamBB7P0J
+ kSeg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX1LAPxs3pwl+fF6H8FKWFRrDcLnwTCSPliKadrq6woTq4NPUfxJzW2UlyKV9uvw5CJq+O7ehNuETUi/JT9uqZahprEmnio8taB8G90D3y4
-X-Gm-Message-State: AOJu0YzfoTKlxs2oEk1iXN38HrBDpu/EGWFGiyTovMOB6McEC1dpSkK5
- QdzpxpUJxWrPgO67Nb5U4y0lbNlJ+ktgEAV6o1lK/T3OeU1zkCjd5XaAcfQ8sqc=
-X-Google-Smtp-Source: AGHT+IEIrHAnEQR64lX/ascT6CT5rKO76Tt91Ih/Hz+dLd6y9g9dNx6kEF/+F0bYrWri4PRT0DNgyA==
-X-Received: by 2002:a05:6902:2493:b0:dcc:6894:4ac0 with SMTP id
- ds19-20020a056902249300b00dcc68944ac0mr6719312ybb.20.1709539971590; 
- Mon, 04 Mar 2024 00:12:51 -0800 (PST)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com.
- [209.85.128.170]) by smtp.gmail.com with ESMTPSA id
- f6-20020a5b0d46000000b00dc254858399sm2049872ybr.2.2024.03.04.00.12.50
- for <dri-devel@lists.freedesktop.org>
+ AJvYcCXTYs2xnzBAAygyu42+S14O7mveqLPExBz0RCUsyql09tQyMQa8FfoFgycA9G2ztpaoLXd26Tf3Z7LLped19yuP0bjVg1fo85+kbPNxZseM
+X-Gm-Message-State: AOJu0Yw30EGHtoE7iZhz4Dz6LPVEmSN33tqbKYfvkeZtd+FRem5CxhFQ
+ k4P+T/p3v6n1s2xNeW20khYXaM6EoHK7EFQQ7+n03+tmd8z55kgRU85EJz1HCzo=
+X-Google-Smtp-Source: AGHT+IEdgNwrez3UPbmH/gniI1QjyVB3umAZnsREwIgGSU47l4YPWdjHO++qRwYpjOZS2x55BowHww==
+X-Received: by 2002:a17:906:480a:b0:a45:6423:b445 with SMTP id
+ w10-20020a170906480a00b00a456423b445mr679610ejq.65.1709540390295; 
+ Mon, 04 Mar 2024 00:19:50 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.222.97])
+ by smtp.gmail.com with ESMTPSA id
+ pv25-20020a170907209900b00a3ee9305b02sm4471907ejb.20.2024.03.04.00.19.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Mar 2024 00:12:50 -0800 (PST)
-Received: by mail-yw1-f170.google.com with SMTP id
- 00721157ae682-607e54b6cf5so26969467b3.0
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 00:12:50 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUeIrqTgIFFI+CTyONpBqOmrIWH6o5QjCPnWq8EiuterW+Atg2Une9XUBZsJq2h7s8sMqa/EvOXhxt3Y5zKNhCZKparjN8k7Qa3Mv0xtYcW
-X-Received: by 2002:a81:451c:0:b0:609:7699:dc63 with SMTP id
- s28-20020a81451c000000b006097699dc63mr5362566ywa.9.1709539970555; Mon, 04 Mar
- 2024 00:12:50 -0800 (PST)
+ Mon, 04 Mar 2024 00:19:49 -0800 (PST)
+Message-ID: <877d01a6-f49e-4d7c-bca9-5f9ba44a7232@linaro.org>
+Date: Mon, 4 Mar 2024 09:19:48 +0100
 MIME-Version: 1.0
-References: <20240228225527.1052240-1-helen.koike@collabora.com>
- <20240228225527.1052240-2-helen.koike@collabora.com>
- <20240229-dancing-laughing-groundhog-d85161@houat>
- <5d7ed81b-37f9-48e9-ab7e-484b74ca886c@gmail.com>
- <CAHk-=wixVy3WYvjbt43ZSrCqPDsS76QJQSkXFbbPsAOs1MCSAQ@mail.gmail.com>
- <CABXOdTeT2ip1uS2EG2w8pW7254Tnd=ZDNz-KC61-G-yqDTVgJA@mail.gmail.com>
- <269232e6-41c9-4aa1-9320-662beabcd69b@infradead.org>
- <CAMuHMdXuXV9WV3aANFTteuP8Q3JY6R5OWsVBedGOP7e_JguxqA@mail.gmail.com>
-In-Reply-To: <CAMuHMdXuXV9WV3aANFTteuP8Q3JY6R5OWsVBedGOP7e_JguxqA@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 4 Mar 2024 09:12:38 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWi069YAvOoXe7sHJ_o702tY4tDQgL3sfApPR3aCnZboQ@mail.gmail.com>
-Message-ID: <CAMuHMdWi069YAvOoXe7sHJ_o702tY4tDQgL3sfApPR3aCnZboQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] kci-gitlab: Introducing GitLab-CI Pipeline for Kernel
- Testing
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Guenter Roeck <groeck@google.com>,
- Linus Torvalds <torvalds@linuxfoundation.org>, 
- Nikolai Kondrashov <spbnick@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
- Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org, 
- dave.pigott@collabora.com, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org, 
- gustavo.padovan@collabora.com, pawiecz@collabora.com, 
- tales.aparecida@gmail.com, workflows@vger.kernel.org, 
- kernelci@lists.linux.dev, skhan@linuxfoundation.org, 
- kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com, 
- cocci@inria.fr, Julia.Lawall@inria.fr, laura.nao@collabora.com, 
- ricardo.canuelo@collabora.com, kernel@collabora.com, 
- gregkh@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: backlight: Add Texas Instruments LM3509
+ bindings
+Content-Language: en-US
+To: Patrick Gansterer <paroga@paroga.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+References: <20240302212757.1871164-1-paroga@paroga.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
+ m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
+ HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
+ XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
+ mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
+ v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
+ cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
+ rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
+ qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
+ aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
+ gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
+ dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
+ NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
+ hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
+ oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
+ H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
+ yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
+ 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
+ 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
+ +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
+ FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
+ 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
+ DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
+ oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
+ 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
+ Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
+ qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
+ /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
+ qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
+ EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
+ KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
+ fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240302212757.1871164-1-paroga@paroga.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,67 +133,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Mar 3, 2024 at 10:30=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
-> On Sun, Mar 3, 2024 at 3:30=E2=80=AFAM Randy Dunlap <rdunlap@infradead.or=
-g> wrote:
-> > On 3/2/24 14:10, Guenter Roeck wrote:
-> > > While checkpatch is indeed of arguable value, I think it would help a
-> > > lot not having to bother about the persistent _build_ failures on
-> > > 32-bit systems. You mentioned the fancy drm CI system above, but they
-> > > don't run tests and not even test builds on 32-bit targets, which has
-> > > repeatedly caused (and currently does cause) build failures in drm
-> > > code when trying to build, say, arm:allmodconfig in linux-next. Most
-> > > trivial build failures in linux-next (and, yes, sometimes mainline)
-> > > could be prevented with a simple generic CI.
-> >
-> > Yes, definitely. Thanks for bringing that up.
->
-> +1
+On 02/03/2024 22:27, Patrick Gansterer wrote:
+> Add Device Tree bindings for Texas Instruments LM3509 - a
+> High Efficiency Boost for White LED's and/or OLED Displays
+> 
+> Signed-off-by: Patrick Gansterer <paroga@paroga.com>
 
-> Kisskb can send out email when builds get broken, and when they get
-> fixed again.  I receive such emails for the m68k builds.
+A nit, subject: drop second/last, redundant "bindings". The
+"dt-bindings" prefix is already stating that these are bindings.
+See also:
+https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
 
-Like this (yes, one more in DRM; sometimes I wonder if DRM is meant only
-for 64-bit little-endian platforms with +200 GiB/s memory bandwidth):
+> ---
+>  .../bindings/leds/backlight/ti,lm3509.yaml    | 81 +++++++++++++++++++
+>  1 file changed, 81 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/ti,lm3509.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/ti,lm3509.yaml b/Documentation/devicetree/bindings/leds/backlight/ti,lm3509.yaml
+> new file mode 100644
+> index 000000000000..8fbb83934e30
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/backlight/ti,lm3509.yaml
+> @@ -0,0 +1,81 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/backlight/ti,lm3509.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: TI LM3509 High Efficiency Boost for White LED's and/or OLED Displays
+> +
+> +maintainers:
+> +  - Patrick Gansterer <paroga@paroga.com>
+> +
+> +description: |
 
----8<-------------------------------------------------------------------
-Subject: kisskb: FAILED linux-next/m68k-allmodconfig/m68k-gcc8 Mon Mar 04, =
-06:35
-To: geert@linux-m68k.org
-Date: Mon, 04 Mar 2024 08:05:14 -0000
+Do not need '|' unless you need to preserve formatting.
 
-FAILED linux-next/m68k-allmodconfig/m68k-gcc8 Mon Mar 04, 06:35
+> +  The LM3509 current mode boost converter offers two separate outputs.
+> +  https://www.ti.com/product/LM3509
+> +
 
-http://kisskb.ellerman.id.au/kisskb/buildresult/15135537/
+Missing allOf with ref to common.yaml
 
-Commit:   Add linux-next specific files for 20240304
-          67908bf6954b7635d33760ff6dfc189fc26ccc89
-Compiler: m68k-linux-gcc (GCC) 8.5.0 / GNU ld (GNU Binutils) 2.36.1
+> +properties:
+> +  compatible:
+> +    const: ti,lm3509
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +
+> +  default-brightness:
+> +    minimum: 0
+> +    maximum: 15
+> +
+> +  max-brightness:
+> +    minimum: 0
+> +    maximum: 15
+> +
+> +  ti,brightness-rate-of-change-us:
+> +    description: Brightness Rate of Change in microseconds.
+> +    enum: [51, 13000, 26000, 52000]
+> +
+> +  ti,oled-mode:
+> +    description: Enable OLED mode.
+> +    type: boolean
+> +
+> +  ti,unison-mode:
+> +    description: |
 
-Possible errors
----------------
+Do not need '|' unless you need to preserve formatting.
 
-ERROR: modpost: "__udivdi3" [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undef=
-ined!
-make[3]: *** [scripts/Makefile.modpost:145: Module.symvers] Error 1
-make[2]: *** [Makefile:1871: modpost] Error 2
-make[1]: *** [Makefile:240: __sub-make] Error 2
-make: *** [Makefile:240: __sub-make] Error 2
+> +      Enable unison mode. If disabled, then it will provide two
+> +      independent controllable LED currents for BMAIN and BSUB.
+> +    type: boolean
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
 
-No warnings found in log.
-------------------------------------------------------------------->8---
+unevaluatedProperties instead (open existing bindings and look how they
+do it).
 
-Gr{oetje,eeting}s,
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        backlight@36 {
+> +            compatible = "ti,lm3509";
+> +            reg = <0x36>;
+> +
+> +            reset-gpios = <&gpio2 5 GPIO_ACTIVE_LOW>;
+> +
+> +            ti,unison-mode;
+> +        };
+> +    };
+> +  - |
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        backlight@36 {
+> +            compatible = "ti,lm3509";
+> +            reg = <0x36>;
+> +
+> +            ti,brightness-rate-of-change-us = <52000>;
 
-                        Geert
+Just combine these examples.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+> +        };
+> +    };
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Best regards,
+Krzysztof
+
