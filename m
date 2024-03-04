@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2001D870B03
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 20:52:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37EDC870B06
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 20:52:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0F28112520;
-	Mon,  4 Mar 2024 19:52:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9F70112521;
+	Mon,  4 Mar 2024 19:52:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Yrlxn8cQ";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="DWrRk/62";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
- [209.85.210.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 105C811251F
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+ [209.85.210.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18DD5112521
  for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 19:52:20 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id
- d2e1a72fcca58-6e6277f72d8so836319b3a.1
+Received: by mail-pf1-f176.google.com with SMTP id
+ d2e1a72fcca58-6e635b772eeso422085b3a.2
  for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 11:52:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1709581939; x=1710186739;
+ d=chromium.org; s=google; t=1709581940; x=1710186740;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Oeg1ks8Z5TiI329gqNMDbm7TYAS4q9yMPCP31gjx14E=;
- b=Yrlxn8cQa2nhWBiV2pyitXGh5xy7BwJx2PtGOp/Z2ApGLxl6vNc27pPSHLPXqYqD75
- Lnawr2Cx+XJ4FVlSJKfGvVOQogUi+rTf44ldY7hNh0MplIKwoJMozO+08XQ36tL1uB1a
- pdhCnppjT1rScDfSD+kVv5tqweaLSPUkJasB8=
+ bh=T3Jp14BDf8QPEEvMzAymcf9k4zD9ixOAGCQ7prLq3JA=;
+ b=DWrRk/620e/vTJanaa5V0Xx5XeAlS98aVObFwPGV/clw5kYtG7CZUqYImwjt+FzZtO
+ p80tjIv/aro5UTdm5mjFEi9z3ZahqmypMKaoIlYu1/PzslJye3SkS1EkMr2gVa3XRYe3
+ PLagIKcG3NRaWFJgIRVszK2RaufcMfh1aKVfs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709581939; x=1710186739;
+ d=1e100.net; s=20230601; t=1709581940; x=1710186740;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Oeg1ks8Z5TiI329gqNMDbm7TYAS4q9yMPCP31gjx14E=;
- b=MYqIieKfjXVKUQFJ7AngdOEfRqCkuRNyFrQBvuokECqzsKuEU3LhbPEelPMKHr4RO5
- jzwAAnXyTU9GHhP///NyiZFaiX6xYNBmE/JsyediMLVqI/hwaUq41f+Z1n0kHgxl4o9V
- kamVMCBfvKXt5wak948FJPPwluyBv2skBSlFnluhCnlDGpWGaHx9cGbT+mSKYEbSiFUv
- Gh7LN9bSkKa43tqcswNjDmfqpuruwG4ZAFZDsHUwIuUwKRpY9L2gxV/1wUFLL8bl+8fa
- ZG/xPraOyJto9oP9VHEcE6uI2j98lWvjq5oYGagsUZohKV1t4t8g08qwdh6lX3FMpTp8
- kIEA==
+ bh=T3Jp14BDf8QPEEvMzAymcf9k4zD9ixOAGCQ7prLq3JA=;
+ b=kLmVEbD6CDLTkzFsfJwD2X8p4E5lGGWW/uNQQ+u11I4NuZcYvYXxOFQncBQyL6gxy6
+ BxJYqwmUzB2GJlo4OPrsTuNu7KI1IdmIfwBOClbDzbpyw3mRMj1a1Y/o3bpnrbFzDNJu
+ fhAGoNdbrJ3F/ptT/pW5tE4NlycE/c7ewLMo6P0h1M5DQixXwNx22/ozHHbgzXCmevEz
+ txCkXLUVU3LPKsOYOhsn6vW5VjRX2tun2Ir+RGx9D0YRjyYmgEGi24yLHztKvbV0Lo1E
+ 26Nlq+/M/5gLEQLJQyt9VuyhWAYQI9DjUU6h6OTtHSNnGw2NHMVaLJ8lBtq0/rx2fQAP
+ FqCQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXEm+GK/rctrytdVRyIH1ubEkVw6mDJ6O73NmiRLLUHOoC4EhAtUMbTAfwbRPeAyNpKFoAxZxugDquD4xdDPArS2yPt8KNeuJiXUMdTrrDZ
-X-Gm-Message-State: AOJu0YxkgAoJxIBqGWKU4cJhFW9TmtKYpVf6EU1CVjchc7VjrJDQeyD9
- 4MZL/CxOzUS1khD9Nyl/TgMnvB0ulgnxXpi3pgw9IKUPDnfJM1lk43oo5HuDUw==
-X-Google-Smtp-Source: AGHT+IHLmXC5K65w/XvN1QDNXYVbf7LPTiLwzZQXv2LlpjmfZV2obLbzbD8eHFHeFT4rlwCqsjH5GQ==
-X-Received: by 2002:a05:6a20:3d01:b0:1a1:14f2:4b70 with SMTP id
- y1-20020a056a203d0100b001a114f24b70mr9419789pzi.22.1709581939567; 
- Mon, 04 Mar 2024 11:52:19 -0800 (PST)
+ AJvYcCV8HDM27usGNZBteWmVoGh0ZAZg97YVEswsGxx1rPbEcW2GYDnChUgIu35SimTWXXRBokobHWdfs3tTSZlKwA7tbTEk5el+Pbl9IjlCKGqI
+X-Gm-Message-State: AOJu0Yz4sbOskWs/zrHSVsONt28TNJ+FOxZIrXHiJfMNTp2xhJQ/d7gQ
+ GDNrLLslL+x+suuRcbfdR4QbUWpnSi2c6rx5fa2jJStlZ0T1t3tNEK9N1R2gIQ==
+X-Google-Smtp-Source: AGHT+IHK/PazsA/rAq12BUCaXQt6do7doHeEYNnPIuOEBjQwpxHmb2OW8AC1Tseh0xuGhFovu2zIEA==
+X-Received: by 2002:a05:6a00:18a8:b0:6e6:21b3:cf2 with SMTP id
+ x40-20020a056a0018a800b006e621b30cf2mr4672758pfh.8.1709581940519; 
+ Mon, 04 Mar 2024 11:52:20 -0800 (PST)
 Received: from hsinyi.sjc.corp.google.com ([2620:15c:9d:2:bcf3:25da:25cd:199])
  by smtp.gmail.com with ESMTPSA id
- r27-20020aa7845b000000b006e04d2be954sm7600820pfn.187.2024.03.04.11.52.18
+ r27-20020aa7845b000000b006e04d2be954sm7600820pfn.187.2024.03.04.11.52.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Mar 2024 11:52:19 -0800 (PST)
+ Mon, 04 Mar 2024 11:52:20 -0800 (PST)
 From: Hsin-Yi Wang <hsinyi@chromium.org>
 To: Douglas Anderson <dianders@chromium.org>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
@@ -63,9 +63,9 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/4] drm/edid: Add a function to check monitor string
-Date: Mon,  4 Mar 2024 11:44:57 -0800
-Message-ID: <20240304195214.14563-3-hsinyi@chromium.org>
+Subject: [PATCH v3 3/4] drm/panel: panel-edp: Match edp_panels with panel name
+Date: Mon,  4 Mar 2024 11:44:58 -0800
+Message-ID: <20240304195214.14563-4-hsinyi@chromium.org>
 X-Mailer: git-send-email 2.44.0.rc1.240.g4c46232300-goog
 In-Reply-To: <20240304195214.14563-1-hsinyi@chromium.org>
 References: <20240304195214.14563-1-hsinyi@chromium.org>
@@ -86,92 +86,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a function to check if the EDID base block contains a given string.
-
-One of the use cases is fetching panel from a list of panel names, since
-some panel vendors put the monitor name after EDID_DETAIL_MONITOR_STRING
-instead of EDID_DETAIL_MONITOR_NAME.
+It's found that some panels have variants that they share the same panel id
+although their EDID and names are different. When matching generic edp
+panels, we should first match with both panel id and panel name by checking
+if edid contains the name string. If not found, match with panel id only.
 
 Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 ---
 v2->v3: move string matching to drm_edid
 ---
- drivers/gpu/drm/drm_edid.c | 49 ++++++++++++++++++++++++++++++++++++++
- include/drm/drm_edid.h     |  1 +
- 2 files changed, 50 insertions(+)
+ drivers/gpu/drm/panel/panel-edp.c | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 13454bc64ca2..fcdc2bd143dd 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -2789,6 +2789,55 @@ u32 drm_edid_get_panel_id(struct edid_base_block *base_block)
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index fc2d648fd3ab..e3044e34c5f8 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -761,7 +761,8 @@ static void panel_edp_parse_panel_timing_node(struct device *dev,
+ 		dev_err(dev, "Reject override mode: No display_timing found\n");
  }
- EXPORT_SYMBOL(drm_edid_get_panel_id);
  
-+/**
-+ * drm_edid_has_monitor_string - Check if a EDID base block has certain string.
-+ * @base_block: EDID base block to check.
-+ * @str: pointer to a character array to hold the string to be checked.
-+ *
-+ * Check if the detailed timings section of a EDID base block has the given
-+ * string.
-+ *
-+ * Return: True if the EDID base block contains the string, false otherwise.
-+ */
-+bool drm_edid_has_monitor_string(struct edid_base_block *base_block, const char *str)
-+{
-+	unsigned int i, j, k, buflen = strlen(str);
+-static const struct edp_panel_entry *find_edp_panel(u32 panel_id);
++static const struct edp_panel_entry *find_edp_panel(u32 panel_id,
++						    struct edid_base_block *base_block);
+ 
+ static int generic_edp_panel_probe(struct device *dev, struct panel_edp *panel)
+ {
+@@ -799,7 +800,6 @@ static int generic_edp_panel_probe(struct device *dev, struct panel_edp *panel)
+ 	base_block = drm_edid_get_base_block(panel->ddc);
+ 	if (base_block) {
+ 		panel_id = drm_edid_get_panel_id(base_block);
+-		kfree(base_block);
+ 	} else {
+ 		dev_err(dev, "Couldn't identify panel via EDID\n");
+ 		ret = -EIO;
+@@ -807,7 +807,9 @@ static int generic_edp_panel_probe(struct device *dev, struct panel_edp *panel)
+ 	}
+ 	drm_edid_decode_panel_id(panel_id, vend, &product_id);
+ 
+-	panel->detected_panel = find_edp_panel(panel_id);
++	panel->detected_panel = find_edp_panel(panel_id, base_block);
 +
-+	for (i = 0; i < EDID_DETAILED_TIMINGS; i++) {
-+		struct detailed_timing *timing = &base_block->edid.detailed_timings[i];
-+		unsigned int size = ARRAY_SIZE(timing->data.other_data.data.str.str);
-+
-+		if (buflen > size || timing->pixel_clock != 0 ||
-+		    timing->data.other_data.pad1 != 0 ||
-+		    (timing->data.other_data.type != EDID_DETAIL_MONITOR_NAME &&
-+		     timing->data.other_data.type != EDID_DETAIL_MONITOR_STRING))
-+			continue;
-+
-+		for (j = 0; j < buflen; j++) {
-+			char c = timing->data.other_data.data.str.str[j];
-+
-+			if (c != str[j] ||  c == '\n')
-+				break;
-+		}
-+
-+		if (j == buflen) {
-+			/* Allow trailing white spaces. */
-+			for (k = j; k < size; k++) {
-+				char c = timing->data.other_data.data.str.str[k];
-+
-+				if (c == '\n')
-+					return true;
-+				else if (c != ' ')
-+					break;
-+			}
-+			if (k == size)
-+				return true;
-+		}
-+	}
-+
-+	return false;
-+}
-+
- /**
-  * drm_edid_get_base_block - Get a panel's EDID base block
-  * @adapter: I2C adapter to use for DDC
-diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-index 2455d6ab2221..248ddb0a6b5d 100644
---- a/include/drm/drm_edid.h
-+++ b/include/drm/drm_edid.h
-@@ -416,6 +416,7 @@ struct edid *drm_get_edid(struct drm_connector *connector,
- 			  struct i2c_adapter *adapter);
- struct edid_base_block *drm_edid_get_base_block(struct i2c_adapter *adapter);
- u32 drm_edid_get_panel_id(struct edid_base_block *base_block);
-+bool drm_edid_has_monitor_string(struct edid_base_block *base_block, const char *str);
- struct edid *drm_get_edid_switcheroo(struct drm_connector *connector,
- 				     struct i2c_adapter *adapter);
- struct edid *drm_edid_duplicate(const struct edid *edid);
++	kfree(base_block);
+ 
+ 	/*
+ 	 * We're using non-optimized timings and want it really obvious that
+@@ -2087,13 +2089,18 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	{ /* sentinal */ }
+ };
+ 
+-static const struct edp_panel_entry *find_edp_panel(u32 panel_id)
++static const struct edp_panel_entry *find_edp_panel(u32 panel_id,
++						    struct edid_base_block *base_block)
+ {
+ 	const struct edp_panel_entry *panel;
+ 
+-	if (!panel_id)
+-		return NULL;
++	 /* Match with both panel_id and name */
++	for (panel = edp_panels; panel->panel_id; panel++)
++		if (panel->panel_id == panel_id &&
++		    drm_edid_has_monitor_string(base_block, panel->name))
++			return panel;
+ 
++	/* Match with only panel_id */
+ 	for (panel = edp_panels; panel->panel_id; panel++)
+ 		if (panel->panel_id == panel_id)
+ 			return panel;
 -- 
 2.44.0.rc1.240.g4c46232300-goog
 
