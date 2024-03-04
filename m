@@ -2,80 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB8078707D8
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 18:02:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E02258707EA
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 18:03:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93888112371;
-	Mon,  4 Mar 2024 17:02:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D2CB112377;
+	Mon,  4 Mar 2024 17:03:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="NKYJxSTY";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="EJmp2YwZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70272112371
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 17:02:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1709571749;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=bRb2G3rGVCWNmjR6j8Y0jK9sd42QWUsDe6AfIQJkqsw=;
- b=NKYJxSTYLgL+WhcaTXOCk+FUBmc5TH3f57rvsJVGfzc/m+2VXpSJcGRhaYGgA+tOeSqtj1
- 8+x7WktoEnUToGbaWBclyStXZvBL018EcWW/oqFYY3FQarEWun1Pu9226SekPsR2Y/VXeM
- aJblKG89ZcoXrcP/LGKsV0kjRb2Xhww=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-279-h5M_NsCAPmi7iOgkaRzl2A-1; Mon, 04 Mar 2024 12:02:27 -0500
-X-MC-Unique: h5M_NsCAPmi7iOgkaRzl2A-1
-Received: by mail-ej1-f70.google.com with SMTP id
- a640c23a62f3a-a440b057909so288227966b.3
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 09:02:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709571746; x=1710176546;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=bRb2G3rGVCWNmjR6j8Y0jK9sd42QWUsDe6AfIQJkqsw=;
- b=jU2cGuswnYu8C0YRQgsukOzM1Wo3l2pobcx3zI1Tb7JRSgixmMc85Sx40psLvJSDXP
- AF+xLjMv2h3BJ4KAimLZR4Tm96FGNviIJEa+dBlvj0Kp25nHIzbrpQtWkXCUQDtFXoeR
- 0oWYN+9l5ARj3DQFOj/m9R1g/jB9emLr66oUs5ZbsSF5kKE0XOrb3BohA1ncueRF/tKP
- /NERAhpCUWPoPPW9TKf17NIHk3tVsishAgBNZw42ahZZWLjg6c9tnAoza1KHyzRjbTBN
- qOcFqA1uztaquc3QI6mbdfVc8Rp54MBYFi9vGi8nU/DFYMdzMNe8Kwwf3pLwLupt86J2
- zetg==
-X-Gm-Message-State: AOJu0Yx8rYNfneiLYwFLdQb1NenNUi/CwtCOs8EfeBo3sdwrwzdYYa1W
- dIt2RQoO2IXeWGcJCJsF681oymEEeWWEC4+49/nWvndzTpzx+w3FIuseVkGbaTnxp7usl+8liC7
- llYXxRo2TWV9CkMyKUxoxgeS5jpsAG9KhxhoObPznpjR+5aeZQDLgm7gBRuWxRYr3ty3XzXFa2Q
- ==
-X-Received: by 2002:a17:906:34d7:b0:a45:29f3:6cc9 with SMTP id
- h23-20020a17090634d700b00a4529f36cc9mr2924243ejb.20.1709571746332; 
- Mon, 04 Mar 2024 09:02:26 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGEXK6MgN54UtOiHFSF4R6S0QqKf3vQjkdthql3Vdr45tKN/JnSK4chUqihHQ930YEbFsgjVA==
-X-Received: by 2002:a17:906:34d7:b0:a45:29f3:6cc9 with SMTP id
- h23-20020a17090634d700b00a4529f36cc9mr2924219ejb.20.1709571745935; 
- Mon, 04 Mar 2024 09:02:25 -0800 (PST)
-Received: from altair.. ([2a02:810d:4b3f:ee94:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- gl11-20020a170906e0cb00b00a448fab02easm3913637ejb.37.2024.03.04.09.02.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Mar 2024 09:02:25 -0800 (PST)
-From: Danilo Krummrich <dakr@redhat.com>
-To: stable@vger.kernel.org,
-	nouveau@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Danilo Krummrich <dakr@redhat.com>, Karol Herbst <kherbst@redhat.com>
-Subject: [PATCH stable v6.7] drm/nouveau: don't fini scheduler before entity
- flush
-Date: Mon,  4 Mar 2024 18:01:46 +0100
-Message-ID: <20240304170158.4206-1-dakr@redhat.com>
-X-Mailer: git-send-email 2.44.0
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02211112377
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 17:03:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1709571832;
+ bh=QVFxd1YSLwW2a7fCHIdyRN5o6f+rp+oB5zXu4FiVrfE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=EJmp2YwZN2npYth3cYKdcDbjC89Fb7BLm57YTX0okcstsmnZ2dZbh3wZR1kizg1Ub
+ +Yyhexq7++bev8BdvIY8jg2WruI3TFqiC4b5fZu6ju3SEW2bWc46mgGXwB8WFLYZ2i
+ BmyUK8/ZWSSB68ITN6ZouphhbjLQbni0j3qC/px+ewUQbX9jKo52QGBMGwSCYpKniE
+ C20k2wE/ATntdD4anS+VAtEvfgv8w/UyXjQzqtEE3JD/VHMqh0HXLvqnHPrzMx4gO1
+ BqE63y/PqhbfRgx2UlaXy3DfiC+fTAnNtHIeHoZIZgJv1Stwm24NtAm/+5i4IlQDbd
+ vQXJnI6Jqs5Yw==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 32BCB37820CC;
+ Mon,  4 Mar 2024 17:03:52 +0000 (UTC)
+Date: Mon, 4 Mar 2024 18:03:50 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>, Rob
+ Herring <robh@kernel.org>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] drm/panfrost: Replace fdinfo's profiling debugfs
+ knob with sysfs
+Message-ID: <20240304180350.74e7e385@collabora.com>
+In-Reply-To: <51167b19-5a2c-4749-8b8c-b2a0e6050a33@arm.com>
+References: <20240302154845.3223223-2-adrian.larumbe@collabora.com>
+ <20240302154845.3223223-3-adrian.larumbe@collabora.com>
+ <51167b19-5a2c-4749-8b8c-b2a0e6050a33@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,164 +69,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This bug is present in v6.7 only, since the scheduler design has been
-re-worked in v6.8.
+On Mon, 4 Mar 2024 16:04:34 +0000
+Steven Price <steven.price@arm.com> wrote:
 
-Client scheduler entities must be flushed before an associated GPU
-scheduler is teared down. Otherwise the entitiy might still hold a
-pointer to the scheduler's runqueue which is freed at scheduler tear
-down already.
+> On 02/03/2024 15:48, Adri=C3=A1n Larumbe wrote:
+> > Debugfs isn't always available in production builds that try to squeeze
+> > every single byte out of the kernel image, but we still need a way to
+> > toggle the timestamp and cycle counter registers so that jobs can be
+> > profiled for fdinfo's drm engine and cycle calculations.
+> >=20
+> > Drop the debugfs knob and replace it with a sysfs file that accomplishes
+> > the same functionality, and document its ABI in a separate file.
+> >=20
+> > Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> =20
+>=20
+> I'm happy with this.
+>=20
+> Reviewed-by: Steven Price <steven.price@arm.com>
+>=20
+> Boris: are you happy with the sysfs ABI, or would you like to
+> investigate further the implications of leaving the counters enabled all
+> the time during execution before committing to the sysfs ABI?
 
-[  305.224293] ==================================================================
-[  305.224297] BUG: KASAN: slab-use-after-free in drm_sched_entity_flush+0x6c4/0x7b0 [gpu_sched]
-[  305.224310] Read of size 8 at addr ffff8881440a8f48 by task rmmod/4436
+No, that's fine, but I have a few comments on the implementation.
 
-[  305.224317] CPU: 10 PID: 4436 Comm: rmmod Tainted: G     U             6.7.6-100.fc38.x86_64+debug #1
-[  305.224321] Hardware name: Dell Inc. Precision 7550/01PXFR, BIOS 1.27.0 11/08/2023
-[  305.224324] Call Trace:
-[  305.224327]  <TASK>
-[  305.224329]  dump_stack_lvl+0x76/0xd0
-[  305.224336]  print_report+0xcf/0x670
-[  305.224342]  ? drm_sched_entity_flush+0x6c4/0x7b0 [gpu_sched]
-[  305.224352]  ? __virt_addr_valid+0x215/0x410
-[  305.224359]  ? drm_sched_entity_flush+0x6c4/0x7b0 [gpu_sched]
-[  305.224368]  kasan_report+0xa6/0xe0
-[  305.224373]  ? drm_sched_entity_flush+0x6c4/0x7b0 [gpu_sched]
-[  305.224385]  drm_sched_entity_flush+0x6c4/0x7b0 [gpu_sched]
-[  305.224395]  ? __pfx_drm_sched_entity_flush+0x10/0x10 [gpu_sched]
-[  305.224406]  ? rcu_is_watching+0x15/0xb0
-[  305.224413]  drm_sched_entity_destroy+0x17/0x20 [gpu_sched]
-[  305.224422]  nouveau_cli_fini+0x6c/0x120 [nouveau]
-[  305.224658]  nouveau_drm_device_fini+0x2ac/0x490 [nouveau]
-[  305.224871]  nouveau_drm_remove+0x18e/0x220 [nouveau]
-[  305.225082]  ? __pfx_nouveau_drm_remove+0x10/0x10 [nouveau]
-[  305.225290]  ? rcu_is_watching+0x15/0xb0
-[  305.225295]  ? _raw_spin_unlock_irqrestore+0x66/0x80
-[  305.225299]  ? trace_hardirqs_on+0x16/0x100
-[  305.225304]  ? _raw_spin_unlock_irqrestore+0x4f/0x80
-[  305.225310]  pci_device_remove+0xa3/0x1d0
-[  305.225316]  device_release_driver_internal+0x379/0x540
-[  305.225322]  driver_detach+0xc5/0x180
-[  305.225327]  bus_remove_driver+0x11e/0x2a0
-[  305.225333]  pci_unregister_driver+0x2a/0x250
-[  305.225339]  nouveau_drm_exit+0x1f/0x970 [nouveau]
-[  305.225548]  __do_sys_delete_module+0x350/0x580
-[  305.225554]  ? __pfx___do_sys_delete_module+0x10/0x10
-[  305.225562]  ? syscall_enter_from_user_mode+0x26/0x90
-[  305.225567]  ? rcu_is_watching+0x15/0xb0
-[  305.225571]  ? syscall_enter_from_user_mode+0x26/0x90
-[  305.225575]  ? trace_hardirqs_on+0x16/0x100
-[  305.225580]  do_syscall_64+0x61/0xe0
-[  305.225584]  ? rcu_is_watching+0x15/0xb0
-[  305.225587]  ? syscall_exit_to_user_mode+0x1f/0x50
-[  305.225592]  ? trace_hardirqs_on_prepare+0xe3/0x100
-[  305.225596]  ? do_syscall_64+0x70/0xe0
-[  305.225600]  ? trace_hardirqs_on_prepare+0xe3/0x100
-[  305.225604]  entry_SYSCALL_64_after_hwframe+0x6e/0x76
-[  305.225609] RIP: 0033:0x7f6148f3592b
-[  305.225650] Code: 73 01 c3 48 8b 0d dd 04 0c 00 f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa b8 b0 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d ad 04 0c 00 f7 d8 64 89 01 48
-[  305.225653] RSP: 002b:00007ffe89986f08 EFLAGS: 00000206 ORIG_RAX: 00000000000000b0
-[  305.225659] RAX: ffffffffffffffda RBX: 000055cbb036e900 RCX: 00007f6148f3592b
-[  305.225662] RDX: 0000000000000000 RSI: 0000000000000800 RDI: 000055cbb036e968
-[  305.225664] RBP: 00007ffe89986f30 R08: 1999999999999999 R09: 0000000000000000
-[  305.225667] R10: 00007f6148fa6ac0 R11: 0000000000000206 R12: 0000000000000000
-[  305.225670] R13: 00007ffe89987190 R14: 000055cbb036e900 R15: 0000000000000000
-[  305.225678]  </TASK>
+> > +static ssize_t
+> > +profiling_show(struct kobject *kobj, struct kobj_attribute *attr, char=
+ *buf)
+> > +{
+> > +	bool *profile_mode =3D
+> > +		&container_of(kobj, struct panfrost_device,
+> > +			      profiling.base)->profiling.profile_mode;
+> > +
+> > +	return sysfs_emit(buf, "%d\n", *profile_mode);
+> > +}
+> > +
+> > +static ssize_t
+> > +profiling_store(struct kobject *kobj, struct kobj_attribute *attr,
+> > +	       const char *buf, size_t count)
+> > +{
+> > +	bool *profile_mode =3D
+> > +		&container_of(kobj, struct panfrost_device,
+> > +			      profiling.base)->profiling.profile_mode;
+> > +	int err, value;
+> > +
+> > +	err =3D kstrtoint(buf, 0, &value);
 
-[  305.225683] Allocated by task 484:
-[  305.225685]  kasan_save_stack+0x33/0x60
-[  305.225690]  kasan_set_track+0x25/0x30
-[  305.225693]  __kasan_kmalloc+0x8f/0xa0
-[  305.225696]  drm_sched_init+0x3c7/0xce0 [gpu_sched]
-[  305.225705]  nouveau_sched_init+0xd2/0x110 [nouveau]
-[  305.225913]  nouveau_drm_device_init+0x130/0x3290 [nouveau]
-[  305.226121]  nouveau_drm_probe+0x1ab/0x6b0 [nouveau]
-[  305.226329]  local_pci_probe+0xda/0x190
-[  305.226333]  pci_device_probe+0x23a/0x780
-[  305.226337]  really_probe+0x3df/0xb80
-[  305.226341]  __driver_probe_device+0x18c/0x450
-[  305.226345]  driver_probe_device+0x4a/0x120
-[  305.226348]  __driver_attach+0x1e5/0x4a0
-[  305.226351]  bus_for_each_dev+0x106/0x190
-[  305.226355]  bus_add_driver+0x2a1/0x570
-[  305.226358]  driver_register+0x134/0x460
-[  305.226361]  do_one_initcall+0xd3/0x430
-[  305.226366]  do_init_module+0x238/0x770
-[  305.226370]  load_module+0x5581/0x6f10
-[  305.226374]  __do_sys_init_module+0x1f2/0x220
-[  305.226377]  do_syscall_64+0x61/0xe0
-[  305.226381]  entry_SYSCALL_64_after_hwframe+0x6e/0x76
+I'd suggest using kstrtobool() since you make the result a boolean
+anyway.
 
-[  305.226387] Freed by task 4436:
-[  305.226389]  kasan_save_stack+0x33/0x60
-[  305.226392]  kasan_set_track+0x25/0x30
-[  305.226396]  kasan_save_free_info+0x2b/0x50
-[  305.226399]  __kasan_slab_free+0x10b/0x1a0
-[  305.226402]  slab_free_freelist_hook+0x12b/0x1e0
-[  305.226406]  __kmem_cache_free+0xd4/0x1d0
-[  305.226410]  drm_sched_fini+0x178/0x320 [gpu_sched]
-[  305.226418]  nouveau_drm_device_fini+0x2a0/0x490 [nouveau]
-[  305.226624]  nouveau_drm_remove+0x18e/0x220 [nouveau]
-[  305.226832]  pci_device_remove+0xa3/0x1d0
-[  305.226836]  device_release_driver_internal+0x379/0x540
-[  305.226840]  driver_detach+0xc5/0x180
-[  305.226843]  bus_remove_driver+0x11e/0x2a0
-[  305.226847]  pci_unregister_driver+0x2a/0x250
-[  305.226850]  nouveau_drm_exit+0x1f/0x970 [nouveau]
-[  305.227056]  __do_sys_delete_module+0x350/0x580
-[  305.227060]  do_syscall_64+0x61/0xe0
-[  305.227064]  entry_SYSCALL_64_after_hwframe+0x6e/0x76
+> > +	if (err)
+> > +		return err;
+> > +
+> > +	*profile_mode =3D !!value;
+> > +
+> > +	return count;
+> > +}
+> > +
+> > +static const struct kobj_attribute profiling_status =3D
+> > +__ATTR(status, 0644, profiling_show, profiling_store);
+> > +
+> > +static const struct kobj_type kobj_profile_type =3D {
+> > +	.sysfs_ops =3D &kobj_sysfs_ops,
+> > +};
 
-[  305.227070] The buggy address belongs to the object at ffff8881440a8f00
-                which belongs to the cache kmalloc-128 of size 128
-[  305.227073] The buggy address is located 72 bytes inside of
-                freed 128-byte region [ffff8881440a8f00, ffff8881440a8f80)
+DEVICE_ATTR(profiling, 0644, profiling_show, profiling_store);
 
-[  305.227078] The buggy address belongs to the physical page:
-[  305.227081] page:00000000627efa0a refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1440a8
-[  305.227085] head:00000000627efa0a order:1 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-[  305.227088] flags: 0x17ffffc0000840(slab|head|node=0|zone=2|lastcpupid=0x1fffff)
-[  305.227093] page_type: 0xffffffff()
-[  305.227097] raw: 0017ffffc0000840 ffff8881000428c0 ffffea0005b33500 dead000000000002
-[  305.227100] raw: 0000000000000000 0000000000200020 00000001ffffffff 0000000000000000
-[  305.227102] page dumped because: kasan: bad access detected
+?
 
-[  305.227106] Memory state around the buggy address:
-[  305.227109]  ffff8881440a8e00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-[  305.227112]  ffff8881440a8e80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-[  305.227114] >ffff8881440a8f00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-[  305.227117]                                               ^
-[  305.227120]  ffff8881440a8f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-[  305.227122]  ffff8881440a9000: 00 00 00 00 00 00 00 00 00 00 00 00 00 fc fc fc
-[  305.227125] ==================================================================
+> > +
+> > +int panfrost_sysfs_init(struct panfrost_device *pfdev)
+> > +{
+> > +	struct device *kdev =3D pfdev->ddev->primary->kdev;
+> > +	int err;
+> > +
+> > +	kobject_init(&pfdev->profiling.base, &kobj_profile_type);
+> > +
+> > +	err =3D kobject_add(&pfdev->profiling.base, &kdev->kobj, "%s", "profi=
+ling");
 
-Cc: <stable@vger.kernel.org> # v6.7 only
-Reported-by: Karol Herbst <kherbst@redhat.com>
-Closes: https://gist.githubusercontent.com/karolherbst/a20eb0f937a06ed6aabe2ac2ca3d11b5/raw/9cd8b1dc5894872d0eeebbee3dd0fdd28bb576bc/gistfile1.txt
-Fixes: b88baab82871 ("drm/nouveau: implement new VM_BIND uAPI")
-Signed-off-by: Danilo Krummrich <dakr@redhat.com>
----
- drivers/gpu/drm/nouveau/nouveau_drm.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Can we make it a device attribute instead of adding an extra kboj?
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-index 50589f982d1a..75545da9d1e9 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-@@ -708,10 +708,11 @@ nouveau_drm_device_fini(struct drm_device *dev)
- 	}
- 	mutex_unlock(&drm->clients_lock);
- 
--	nouveau_sched_fini(drm);
--
- 	nouveau_cli_fini(&drm->client);
- 	nouveau_cli_fini(&drm->master);
-+
-+	nouveau_sched_fini(drm);
-+
- 	nvif_parent_dtor(&drm->parent);
- 	mutex_destroy(&drm->clients_lock);
- 	kfree(drm);
--- 
-2.44.0
-
+> > +	if (err)
+> > +		return err;
+> > +
+> > +	err =3D sysfs_create_file(&pfdev->profiling.base, &profiling_status.a=
+ttr);
+> > +	if (err)
+> > +		kobject_del(&pfdev->profiling.base);
+> > +
+> > +	return err;
+> > +}
