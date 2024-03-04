@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17F3286FCBA
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 10:08:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C216886FCBB
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 10:08:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54FBA10F81D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D527710F92D;
 	Mon,  4 Mar 2024 09:08:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="uOhODQ6Z";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="YwNgXp06";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 687CB10F81D
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A04610F854
  for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 09:08:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1709543295;
- bh=6mRlUPbfZovKiq4rcnuMPT51uO+ViTMmFzKE+/mqjIs=;
- h=From:To:Cc:Subject:Date:From;
- b=uOhODQ6ZEskhvjkZY3lNZBhFuc2JqvVMy6rTNxydm/FJ2A7uflc8JMQnABk0WqV8R
- 9THpBzYSKLDoSKpntskiqYYM/fgUKGnVT8vIopvm6ZU+J+9JPihDjNORHu5sYeOp3C
- ufwCP+sCgu6X3ULxl0dAcndkZhrYSthULdt1W12DNiWTYXRW5QflBE1wm7q0mOtU1O
- wviClYBQs6eduiF/bdlpr4RoBwuhin9B9H5IQN0DBBt9a7uBV0fujGINXSRmTcC169
- s1BEj/UaXPrf5O+DE3n50aTRx4lMgs/ljnvZmfixS2KmKvJRBVz2yFQsbcyaOcPtnH
- ECn/DiLX/e2sw==
+ s=mail; t=1709543296;
+ bh=QPXsIbRatBSX4gi8djpHjmQR2L68eVQyR8dNMMXdxx0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=YwNgXp06wXMbjM9K5VXqvsItUUkAbl9nK42Z6vhVfgXEQmi9HtbdJg4ePYphOyiI+
+ sI9NtCHd8xVpDjAFlUZlsTC3I/7G7LZdSpsFAB3joapqWEBL6mNpuN52P3Yl+PA9r+
+ njjXNF3mdIVOioiO2f9A4HnssJni8Q1/CewQ+9CgQSTbm6JisRqLqhDXyZgR/rizA4
+ ismOCu757x3Gr1wZK6zpeD38CpOs0NjC0SoNwLawaQR2wG1k++QYyn7Qgn0Hvkhwy0
+ 930qIfXcVdS941VZm/48gxDqUo90gZNZaiOx4yGNYHbS7LOapODLYcGnbnbdKuMc5y
+ y/KUlltve0nCg==
 Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 082C03781FE9;
- Mon,  4 Mar 2024 09:08:14 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id ADAC83782076;
+ Mon,  4 Mar 2024 09:08:15 +0000 (UTC)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>
-Cc: dri-devel@lists.freedesktop.org,
-	kernel@collabora.com
-Subject: [PATCH 0/3] drm/panthor: Fix 3 issues reported by the kernel test bot
-Date: Mon,  4 Mar 2024 10:08:09 +0100
-Message-ID: <20240304090812.3941084-1-boris.brezillon@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com,
+ kernel test robot <lkp@intel.com>
+Subject: [PATCH 1/3] drm/panthor: Fix panthor_devfreq kerneldoc
+Date: Mon,  4 Mar 2024 10:08:10 +0100
+Message-ID: <20240304090812.3941084-2-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240304090812.3941084-1-boris.brezillon@collabora.com>
+References: <20240304090812.3941084-1-boris.brezillon@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,26 +60,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Missing '*' to have a valid kerneldoc prefix.
 
-Here are three trivial fixes for bugs reported by the intel kernel test
-bot.
-
-Regards,
-
-Boris
-
-Boris Brezillon (3):
-  drm/panthor: Fix panthor_devfreq kerneldoc
-  drm/panthor: Explicitly include page.h for the {virt,__phys)_to_pfn()
-    defs
-  drm/panthor: Fix undefined panthor_device_suspend/resume symbol issue
-
- drivers/gpu/drm/panthor/Kconfig           | 1 +
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202403031019.6jvrOqGT-lkp@intel.com/
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+---
  drivers/gpu/drm/panthor/panthor_devfreq.c | 2 +-
- drivers/gpu/drm/panthor/panthor_device.c  | 4 ++--
- 3 files changed, 4 insertions(+), 3 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.c b/drivers/gpu/drm/panthor/panthor_devfreq.c
+index 7ac4fa290f27..c6d3c327cc24 100644
+--- a/drivers/gpu/drm/panthor/panthor_devfreq.c
++++ b/drivers/gpu/drm/panthor/panthor_devfreq.c
+@@ -34,7 +34,7 @@ struct panthor_devfreq {
+ 	/** @last_busy_state: True if the GPU was busy last time we updated the state. */
+ 	bool last_busy_state;
+ 
+-	/*
++	/**
+ 	 * @lock: Lock used to protect busy_time, idle_time, time_last_update and
+ 	 * last_busy_state.
+ 	 *
 -- 
 2.43.0
 
