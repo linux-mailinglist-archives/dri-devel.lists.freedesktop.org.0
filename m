@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 560FD86FE80
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 11:12:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94C5186FE81
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 11:12:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 073B610FF3A;
-	Mon,  4 Mar 2024 10:12:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B4CE10FF3B;
+	Mon,  4 Mar 2024 10:12:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ET4hFVwb";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="NXwAoybP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
- [209.85.218.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D87610FF3A
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 10:12:03 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id
- a640c23a62f3a-a449c5411e1so346070566b.1
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 02:12:02 -0800 (PST)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
+ [209.85.218.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF6D210FF3A
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 10:12:04 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id
+ a640c23a62f3a-a45670f9508so56166766b.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 02:12:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1709547121; x=1710151921; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1709547123; x=1710151923; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=LwjyvFJUk04Z9SLWkJyPD6nPLgMovuAGzXog2OSB5eE=;
- b=ET4hFVwbKGprMSczVkG2U8DGnvdNBqLDA83CAuV2uEk0PnIZ2oHIN80vTR7173Ry7V
- hJySlJgNb3rs1nsbePfocPKpa1m21611r9CEvjz3GSNw+3Wc13vawVHEfp8XuxfzVOrx
- EgwHwqlvadELoVMYqN7ctrbRj7Wbb6ipmC0cMWb93WiSFcZse/AdHJLVP//t/oLRxJVM
- cJUFpWxQO/gS3M08CIVfSwHy/rijJHVsloPSR59diA8gThU9sS7iZPlvqchdZYLJEunt
- QId1mYbpbcVKA8MreD7olkadPni9OCOZrjaWvLTIsp/wrEFBqrLDSnxrzcanxUfaqIy0
- jZCg==
+ :reply-to; bh=qkscxkyuLKmNGJ13PCRB5gPU2riBC6Uyvc9FkqhiTrI=;
+ b=NXwAoybPf/aaUJdA7uVLvz6bxwAmShLLyJfC2Cf6wzK976aOkatQSwpF8nS00USkmm
+ PuPAEHb6YJWq+KLC0lhlxIek7Z4vfrs22hcxW5q1u/Mi1zOKkmQ20b78AFBXnK+SXTkM
+ h6jgatOI0h2fDJ8Q23u+x+1ovahq9QwVssCvjOhslr0sX/bt2DbGnD78rGDCc9xMMn5O
+ ezvqtwm6bGy3Y0l+ZazrgGuOhiGa0gmHSNLPIyTKVvopUgJ/z9MtZE9Unnl2DkdSwPq/
+ KjBzsm2D+5sVhTiR6rR/nIX+HIEuYxPQnNwRIbF4Cas6onqpzRzc2/mtjjXJEeWxT5O6
+ lw1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709547121; x=1710151921;
+ d=1e100.net; s=20230601; t=1709547123; x=1710151923;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LwjyvFJUk04Z9SLWkJyPD6nPLgMovuAGzXog2OSB5eE=;
- b=I9yvZ2AnUumJ/4UOoaU0qIPaMkmWDZ5kruzD4KStj32IIoWBJPpSd2+iPXak3v6BDz
- MsFjhlQM4lcmDgWP2C4Ds6/JRsHM8J+r4e8aBn0xvHhJoIQky3DZ4r4VxRKX7rH5Ec11
- z8M/Wa1gQlNW7IBEhvhmijHCV0BiGNbyvgQsOSu5zUi/xDVY2ohpZrbx4qAKmXy5kMNE
- x2p07pFbl+KN6/l/Sbjqp67E7mz/z+KftqfqMyO39eBfBtjyyGFPkzc5WBdrPVIiyblN
- bvbNsn6+x4U8p4f+zaLZN+Y/SqM3xwRLpL0aRgPekPD97XtpAGMFruvUcrs02Esm5XML
- r2Lw==
-X-Gm-Message-State: AOJu0YzWwD6Zuo5qC8rMTBZKjl4gHOJp285tBkhaHfZu+KpEIbexv0D5
- yY3Gei5zZ+u0NqsXGtjOmhhA045InoYPw+fWc5qUACWMl/fQaJsyhfSSy2HShRU=
-X-Google-Smtp-Source: AGHT+IFUzjedvr/C84chcdr3/bRdz0Po8+qn9pjVm/iLXEGelmIh6PIw2Cts9hyPI3is7lGZn4Uqbg==
-X-Received: by 2002:a17:906:d20a:b0:a3f:c006:f141 with SMTP id
- w10-20020a170906d20a00b00a3fc006f141mr5347674ejz.62.1709547121499; 
- Mon, 04 Mar 2024 02:12:01 -0800 (PST)
+ bh=qkscxkyuLKmNGJ13PCRB5gPU2riBC6Uyvc9FkqhiTrI=;
+ b=XiT3gBPrcgISBXQOwSDmM7P+qTbrQVBvlYaglmnc9AWIq7J+nDXpOES50byCAOMC6m
+ Lb2KNbb8XQQYj9/nZPx5AAXT/ssbht0Cagiu2TOVYy1jQ0DH0UdvczX7faTI9cHyRS0I
+ tGU/O2NGbCskFptm9fNwnvreuSZnbyrFm9T48NzNmiRF4Y07OOXj1l/bxokWfg/vNoUE
+ Kzd65ob3KvK2MYZlXFWhWkuPCxJxPRcsqTNXwfqCA1uFIccLFiR6EdAXwSqIFGgJiCfd
+ p8BNIFGxIu1VcghOhukYNK0LBY/HdD2h4HkTpbSP1ieUgHECKvH9ug2Kw9a5D6Y6k3fT
+ dDnw==
+X-Gm-Message-State: AOJu0YxJHol2307Ns5Ag0kSXbWHROqc1jKlsIAGDstMdqYJ5iKABaGAN
+ NIoXgTSIPjudfxl4cvgDuWXT0CGNokOEzeEI88LINysZ8TVN1UiQkHBF1KBFZVWzZV+5LeqhL/E
+ O
+X-Google-Smtp-Source: AGHT+IGrR48vptQZf+rBErBNW3zRh8A4eRQbm5RBoTdBYRzBDUp2kfXMSXqolT28sPSNVPFt+B9itg==
+X-Received: by 2002:a17:906:1c90:b0:a44:86d4:70a1 with SMTP id
+ g16-20020a1709061c9000b00a4486d470a1mr5679948ejh.59.1709547123118; 
+ Mon, 04 Mar 2024 02:12:03 -0800 (PST)
 Received: from [127.0.1.1] ([178.197.222.97]) by smtp.gmail.com with ESMTPSA id
- ef11-20020a17090697cb00b00a44bc99cd89sm2938481ejb.42.2024.03.04.02.12.00
+ ef11-20020a17090697cb00b00a44bc99cd89sm2938481ejb.42.2024.03.04.02.12.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Mar 2024 02:12:01 -0800 (PST)
+ Mon, 04 Mar 2024 02:12:02 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Mon, 04 Mar 2024 11:11:43 +0100
-Subject: [PATCH 6/7] backlight: lm3630a_bl: Simplify probe return on gpio
- request error
+Date: Mon, 04 Mar 2024 11:11:44 +0100
+Subject: [PATCH 7/7] backlight: pandora_bl: Drop unneeded ENOMEM error message
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240304-backlight-probe-v1-6-e5f57d0df6e6@linaro.org>
+Message-Id: <20240304-backlight-probe-v1-7-e5f57d0df6e6@linaro.org>
 References: <20240304-backlight-probe-v1-0-e5f57d0df6e6@linaro.org>
 In-Reply-To: <20240304-backlight-probe-v1-0-e5f57d0df6e6@linaro.org>
 To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
@@ -68,21 +68,21 @@ Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=902;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=861;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=pd2WBlK2PnnolkSqpfShUm10rFxXfMK9JJcdv/+/o+8=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBl5Z5lXJ/VFjg/mpbVkfSabBfIk9lZsDYAkyfe/
- D+nlFwxH7iJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZeWeZQAKCRDBN2bmhouD
- 11j9D/40TMnoJeYnOPMbLd5xVtL3dXUyBwE62gtbjuZcDCQVRF6H312FNVRBLVT7r2af2vQUh1f
- 17GF0ogLebzfS7zgk8oEakUcVhkyq75oe02QLqCD6dNLu3sqeDVVW3e9Fqj0sb0UeaSHmaoWJ7+
- bP36HaSjz6gKYGqCuRQDiXSAed5uhxEW+B2cx7tyuE1j9IbyXs3WPZiyimbEYPiGXMrcg2byaOM
- Z+lNdioUPzs/fdMNLFlGD2DLdBHf4MlasTvQK4MCkk1CtF4KqnyqDMkKDJtOxTrzfz4FIJ8KLVR
- oLFviGSGKBbwMWywSjHw5aYh0guqG7i+RpAsh0fCQzShk8jZEiJAFJuvvyIGiz/XwGD2zyIyduy
- BIvF9Oaco7OeswzIqZ6Wb9+xBUahYeESyrNthUD+xFaynrVx9KxONqkL9l94IyFNqUWMp2+SREO
- aMG5K4viwKrtcjepKKRHZMdds0uNiE4HC0qqocxELok9nQ9lpjifoeVULxwx5HTE3hw0ub41Q4Y
- um9RLtNuSP4cn9IWYcrVJ78ZEP9LAcef2DwfCpR/lEdtqDV2dDiFni1Yt/b6VgacmVbyvBaUld7
- Po0f1M2DCrEH7UPbHXYgXCfhZ+B1Bp/XKFsDmz1UgsRVFJ54UfUCo8RJnzySYQOPTSmGT5HOudB
- o90wSGxwVpTTALQ==
+ bh=IQiBIX1ptsqUCh17mmsk9JR1+iQzH5+7RhWBq7Lbzeo=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBl5Z5mnfBQ5T6LEu6wSHreyeIddxcFaUtThG5hR
+ a7P7xtBFQOJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZeWeZgAKCRDBN2bmhouD
+ 1+bBEACC1mknggxkpb8buuVG+0wI2sOUPaDlTNanVp8VneZ1l/BNkKBQ16feuUhfuQwjRbtWsUf
+ ZuSeoXHhpFP4r86SdVkbEVDk2lHP0KnDRoyq62CN2cvKV/jH1gOV+dRRjQwaQ/+1O2GMx0mPbDu
+ iaqhbqb5oqrns4Ycj+pUyBUD0pjID8r0TnOsriFXB2OKlIj30CaBhcaq8P6ChS8t7bP6qgDjSqs
+ jUOVa9GFE0IiX7CJhIBtOO7Uk6GaQ12WeQxZuikLzwrGgiv9PCvohPt6a9xgmqEyDchFF/V+IwX
+ SXAHRzQdkez8EzzNYFlwKbaRtTOzF9uPqZvzLJowH+HXPrBowr7kCJ0XlBosRMxlNkeGPjGC8zF
+ klwHa4J6M4rQnL27yx8qzkeaTjuHw2OCKdyrBEFikRSKRNWw0tVjgKWdmMJ5uP7LXnLGxiK330C
+ UbwI0ZPdFqScbrPDf83rLA0+DP+abdH2Wr9o0vbFTuEW8NxPwqys23rwj29dj7O3Hdw5okM306X
+ kMaeqS5zhQ0Oq8XJrf6wUIGnGJkLS9anoWh5FJTS+xQWg0V4kfM1v3bc7klOT2G67xTXllFT3gG
+ TAkA+gLn74eZZxkaYbAwdLovsbQnn1Ey7Zoui+W7wRwR8NgCwbgKmETXcsNMbdkRGvXyAstq/Sh
+ X7Mj1VxLbKE+uxg==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -100,31 +100,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Code can be simpler: return directly when devm_gpiod_get_optional()
-failed.
+Core code already prints detailed information about failure of memory
+allocation.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/video/backlight/lm3630a_bl.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/video/backlight/pandora_bl.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/video/backlight/lm3630a_bl.c b/drivers/video/backlight/lm3630a_bl.c
-index 93fd6dbccc28..ac0a60e39e39 100644
---- a/drivers/video/backlight/lm3630a_bl.c
-+++ b/drivers/video/backlight/lm3630a_bl.c
-@@ -543,10 +543,8 @@ static int lm3630a_probe(struct i2c_client *client)
+diff --git a/drivers/video/backlight/pandora_bl.c b/drivers/video/backlight/pandora_bl.c
+index f946470ce9f6..51faa889e01f 100644
+--- a/drivers/video/backlight/pandora_bl.c
++++ b/drivers/video/backlight/pandora_bl.c
+@@ -114,10 +114,8 @@ static int pandora_backlight_probe(struct platform_device *pdev)
+ 	u8 r;
  
- 	pchip->enable_gpio = devm_gpiod_get_optional(&client->dev, "enable",
- 						GPIOD_OUT_HIGH);
--	if (IS_ERR(pchip->enable_gpio)) {
--		rval = PTR_ERR(pchip->enable_gpio);
--		return rval;
+ 	priv = devm_kmalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+-	if (!priv) {
+-		dev_err(&pdev->dev, "failed to allocate driver private data\n");
++	if (!priv)
+ 		return -ENOMEM;
 -	}
-+	if (IS_ERR(pchip->enable_gpio))
-+		return PTR_ERR(pchip->enable_gpio);
  
- 	/* chip initialize */
- 	rval = lm3630a_chip_init(pchip);
+ 	memset(&props, 0, sizeof(props));
+ 	props.max_brightness = MAX_USER_VALUE;
 
 -- 
 2.34.1
