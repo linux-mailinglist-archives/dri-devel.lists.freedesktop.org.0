@@ -2,84 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7534186FFC5
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 12:07:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B45086FFF7
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 12:11:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B09B810FFD7;
-	Mon,  4 Mar 2024 11:07:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5287110FFE9;
+	Mon,  4 Mar 2024 11:11:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fHrbQlSE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="f9CripOA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3C9D10FFD7
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 11:07:36 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id
- a640c23a62f3a-a3566c0309fso548091666b.1
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 03:07:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1709550455; x=1710155255; darn=lists.freedesktop.org;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=Wu1HQfAzXdwAMW97wtn2MyUT9kqXYE4x4WqJIu7nsOI=;
- b=fHrbQlSEciNve1PNNMZyVi+A1LPIOCSD7bCuin+X1o7TudiebLl5QrL7eYs/2LDxuS
- W6n/bpWvU93T+FnoNzT5d0TKIcOqFq8Pr7aGGR2KAsvLtSDnV9pyG92zfG48C45seZdQ
- Ir/8SVUOtYijljLRcYH7/6tUsr5kk5E9LReMbu+5/lW+3k8OkP+JJtm+1TglHygFt/QV
- VtaL5q+NHgzeU3W4fS3JLeAMAnJ2l5z1I6TMWKnyQTDONEDr51uuaZ1p1bhdpV6mBhRd
- 1dITfQ3rt97ha96DPUcDW6z50pIE4mV6S+k28tj+LZiJf9THh8NueIKx6GWrDRxqacL4
- hcdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709550455; x=1710155255;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Wu1HQfAzXdwAMW97wtn2MyUT9kqXYE4x4WqJIu7nsOI=;
- b=SPyZe+2JzS5ak+JLt5Ql3/afW7QzFtwG+jLGvPRRSbbHSZOks+zy9RblA7s8orIfRR
- 79raHdGvFAmYAHNh8dqbmYNAjdkQuEIkAsLpiRhZmn2a1QAs1oZK6xR6V7OPSbfWFq/0
- qzvokr1le+TBu8rRJG4p5XtRB+F55HbLSmo9sJ6NSAz8nFdoesgsbvEgxMtOwdBsQpqS
- W2tTd1KWia5d8Z1pS+476Ba1itT+3R4uT1Tuftk4OvQhcrNIXG7Pi5e/MQltAIDHeMYK
- L8GhQwVr74c0NuyP7eMnTQ/Gz45U+TvoEYW710ZT1d9shOfuhrSHDRLaxnhnLeoNKcKC
- qC5w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWBYzszt5o6D9AwXMhuqL6MWuReYBcCJbB1/82ZJEDCdhMJT53XUVERTLnfqZ7+37xAIrYxLXSQpYbdo1wDteKR3G1DSqxnwoo+XeAxGQMx
-X-Gm-Message-State: AOJu0YyhdRNCGiice+kXZjDOery61qDcYDGVyhRxrsVsibQ+YpXYSug4
- PB7cpskWqQ34hGazHL1QnJLWN8I3+kjuT9dy73vcKX6to8ZVaDty
-X-Google-Smtp-Source: AGHT+IHgDGK/BZFLZ4o0q5QlhX+iDooVzGPEucKa4H0749pnNAkElImYC6SGV1YXCUk8M8A4OsMdqw==
-X-Received: by 2002:a17:906:3511:b0:a3f:ac2f:893a with SMTP id
- r17-20020a170906351100b00a3fac2f893amr5794723eja.73.1709550454470; 
- Mon, 04 Mar 2024 03:07:34 -0800 (PST)
-Received: from ?IPv6:2003:f6:ef1b:2000:944c:cbc7:1e1c:2c47?
- (p200300f6ef1b2000944ccbc71e1c2c47.dip0.t-ipconnect.de.
- [2003:f6:ef1b:2000:944c:cbc7:1e1c:2c47])
- by smtp.gmail.com with ESMTPSA id
- i23-20020a170906265700b00a44dca5f9c1sm2512075ejc.100.2024.03.04.03.07.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Mar 2024 03:07:34 -0800 (PST)
-Message-ID: <a8c3bddfb7a53682f23f4c99ce46e67ffc0213d1.camel@gmail.com>
-Subject: Re: [PATCH v7 1/6] dmaengine: Add API function
- dmaengine_prep_peripheral_dma_vec()
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Nuno Sa <nuno.sa@analog.com>, Vinod Koul <vkoul@kernel.org>, Lars-Peter
- Clausen <lars@metafoo.de>, Jonathan Cameron <jic23@kernel.org>, Sumit
- Semwal <sumit.semwal@linaro.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Jonathan Corbet <corbet@lwn.net>, Paul Cercueil
- <paul@crapouillou.net>
-Cc: Daniel Vetter <daniel@ffwll.ch>, Michael Hennerich
- <Michael.Hennerich@analog.com>, linux-doc@vger.kernel.org, 
- dmaengine@vger.kernel.org, linux-iio@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org
-Date: Mon, 04 Mar 2024 12:10:58 +0100
-In-Reply-To: <20240223-iio-dmabuf-v7-1-78cfaad117b9@analog.com>
-References: <20240223-iio-dmabuf-v7-0-78cfaad117b9@analog.com>
- <20240223-iio-dmabuf-v7-1-78cfaad117b9@analog.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A44E10FFE3;
+ Mon,  4 Mar 2024 11:11:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709550684; x=1741086684;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=0T0lhm8LzcAdzbLDuBp+ZTGZjesoCjhi5zU7O8aSCKI=;
+ b=f9CripOA53/9SXNGSz+zq2JlTMz1QpfLG06Rp8dFiiv6jRJJC3zGadXv
+ URNX0JDSLzzLF4LrHSbcuVRwVHrSPJ7/SP/6wkmRw4odyWRzODjmthBZB
+ er9wzOk5XBC8mIZFTyCFM83crmdnA9Ndfw5hijyTEFQlaeX5iPRvu0O2G
+ UMhW6hh5f3kHo6RFGmZRTpLi2eQe3iWu3yGMkUj0fngd/K7sQXQimppR/
+ A1v6DCvMTrOw8Yzhvu6kGXRnE7Y12n5bwgIO+xZ6Q11njjRPnLjVrfbuW
+ Q896JnC3KpaUZDtusRcL3O6D5nJughBec5rh9OuJVqO+PFv8gQViBGWkI w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="4160899"
+X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
+   d="scan'208";a="4160899"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2024 03:11:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="827773138"
+X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; d="scan'208";a="827773138"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga001.jf.intel.com with SMTP; 04 Mar 2024 03:11:18 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 04 Mar 2024 13:11:17 +0200
+Date: Mon, 4 Mar 2024 13:11:17 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Nikita Kiryushin <kiryushin@ancud.ru>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Manasi Navare <manasi.d.navare@intel.com>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ lvc-project@linuxtesting.org
+Subject: Re: [PATCH] drm/i915: Remove unneeded double drm_rect_visible call
+ in check_overlay_dst
+Message-ID: <ZeWsVXhj1AUD4q3G@intel.com>
+References: <> <79c92cfa-cf5a-4a23-8a93-11c1af7432fc@ancud.ru>
+ <ZeB45WKv4lP8QQpv@intel.com>
+ <ecfb0f31-a454-4a51-9fb8-9cd0aca3195c@ancud.ru>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ecfb0f31-a454-4a51-9fb8-9cd0aca3195c@ancud.ru>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,40 +79,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2024-02-23 at 13:13 +0100, Nuno Sa wrote:
-> From: Paul Cercueil <paul@crapouillou.net>
->=20
-> This function can be used to initiate a scatter-gather DMA transfer,
-> where the address and size of each segment is located in one entry of
-> the dma_vec array.
->=20
-> The major difference with dmaengine_prep_slave_sg() is that it supports
-> specifying the lengths of each DMA transfer; as trying to override the
-> length of the transfer with dmaengine_prep_slave_sg() is a very tedious
-> process. The introduction of a new API function is also justified by the
-> fact that scatterlists are on their way out.
->=20
-> Note that dmaengine_prep_interleaved_dma() is not helpful either in that
-> case, as it assumes that the address of each segment will be higher than
-> the one of the previous segment, which we just cannot guarantee in case
-> of a scatter-gather transfer.
->=20
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> Signed-off-by: Nuno Sa <nuno.sa@analog.com>
-> ---
+On Fri, Mar 01, 2024 at 09:56:41PM +0300, Nikita Kiryushin wrote:
+> On 2/29/24 15:30, Ville Syrjälä wrote:
+> > I prefer the current way where we have no side effects in
+> > the if statement.
+> >
+> 
+> This seem like a valid concern from readability and maintainability 
+> standpoint. My patch was aimed mostly at performance and maintainability 
+> using tools: some more pedantic analyzers are sensitive to non-checked 
+> return values (as of now, drm_rect_intersect is ignored).
+> 
+> Would it be a better idea to make an update to the patch with second 
+> drm_rect_visible call changed to an appropriately named state flag set 
+> with drm_rect_intersect result?
 
-Hi Vinod,
+I was thinking of maybe removing that drm_rect_visible() from
+drm_rect_intersect() entirely, but looks like it's used fairly
+extensively, so would require a bunch of work.
 
-Is this already good for you? I do not want to be pushy but we're trying to=
- see
-if we can have this in the 6.9 cycle and Jonathan definitely wants an ack f=
-rom
-you before merging this in his tree. I've more or less till Wednesday so th=
-at's
-why I'm asking already today so I still have time to re-spin if you want so=
-me
-changes.
+But now that I though about this I recalled that there was an earlier
+patch trying to do exactly what you suggested in this patch. And looks
+like there was a second version posted which I completely missed:
+https://patchwork.freedesktop.org/series/115605/
 
-- Nuno S=C3=A1
+While that does still have drm_rect_intersect() with its side effects
+inside the if() I don't find it quite as objectionable since it's the
+only thing in there. So it's a bit more obvious what is happening.
+I've gone and merged that one.
 
+Thanks for the patch regardless. At least I reminded me to look at the
+earlier attempt ;)
 
+> 
+> BTW, the original patch somehow got mangled while it made its way to the 
+> patchwork: source list line in patch got broken, which permits the patch 
+> from being applied (the original version did not have that line break). 
+> Any ideas how to prevent this happening with the second version of patch 
+> (in case the idea is viable)?
+
+-- 
+Ville Syrjälä
+Intel
