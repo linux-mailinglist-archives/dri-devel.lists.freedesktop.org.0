@@ -2,69 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA777870BB6
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 21:44:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6808C870C37
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 22:13:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72B9110E287;
-	Mon,  4 Mar 2024 20:44:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9080E1125D1;
+	Mon,  4 Mar 2024 21:13:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="isixOAQd";
+	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.b="ksgBo3Ej";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="6EKTe+l/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B08410E287
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 20:44:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709585062; x=1741121062;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=+LDt+7BROXBNv2O1HJAcO8FeyqvfobiscAmbl8mDiQk=;
- b=isixOAQdCUb0vHHFbrVUQxDN6Dq/AExS5y6Q9RnDRlJodjOJpjsrNR6V
- 0YEzZXbGM6dAC68lfjMt78Q4xgCpDHxvsf8UmL5/UweCTnDnBoI5iLUAQ
- XbDZ1WCDexmvtRzLBXLZKb8+xib2BM4QktJXCA6dA0QSbMDkhlCmSBSea
- sKnN+O2CgXBK59OB2d4vnxzHuTHcJ24Sp/3t+uFQNz4Iz+/XXlR94qre3
- z1b8rXH7aDe+pzgSYHrTG3Lie0l1qYNi3UoO3HickpdZDRSjNIXgG8UP4
- 1FJv4Mhr4pLeFIMLPkRL0674C5GdNU7OYznwe7sbb2Vqwx552zxzJ/PkM Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="4027931"
-X-IronPort-AV: E=Sophos;i="6.06,204,1705392000"; 
-   d="scan'208";a="4027931"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2024 12:44:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,204,1705392000"; d="scan'208";a="40118905"
-Received: from syakovle-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.51.3])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2024 12:44:15 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Hsin-Yi Wang <hsinyi@chromium.org>, Doug Anderson <dianders@chromium.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Sam Ravnborg <sam@ravnborg.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] drm_edid: Add a function to get EDID base block
-In-Reply-To: <CAJMQK-gKF+ZeAe4Hp8di83Zx8gp-BJ0vuj6uzi0hsaxeju8GyQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240223223958.3887423-1-hsinyi@chromium.org>
- <20240223223958.3887423-2-hsinyi@chromium.org> <87wmqqjmt9.fsf@intel.com>
- <CAJMQK-jSPg6vU3SLmRy7zwNHJ4yqO2hT6RaiYxA4ifZ7CzwD9Q@mail.gmail.com>
- <CAD=FV=WU-2yystd40e+g9VNDNTiv5c=nP0uQg-AR03o7UGMTdA@mail.gmail.com>
- <87bk7z6x1w.fsf@intel.com>
- <CAD=FV=Wzm9Y7m9Q6KqO7yWdnc1xToaRMb2f1s2TQMJqpqVYLOg@mail.gmail.com>
- <CAA8EJpqHJTbc+TCpkccjx_eQH36zaNgcQ9QssecNeQUQgfYApQ@mail.gmail.com>
- <CAD=FV=XyV=V-USfq8kp058=FzRQq=bPA5A4GDb1p0zO-KPbtwQ@mail.gmail.com>
- <CAJMQK-gKF+ZeAe4Hp8di83Zx8gp-BJ0vuj6uzi0hsaxeju8GyQ@mail.gmail.com>
-Date: Mon, 04 Mar 2024 22:44:04 +0200
-Message-ID: <877cih4tij.fsf@intel.com>
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12F101125D0
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 21:13:01 +0000 (UTC)
+From: John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1709586779;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=KTp//xg2p3SQSnpDgV8BdiNH9CEAQZVSTL74QA4IE/E=;
+ b=ksgBo3Ej/9aEpeZGTWjdXVZgr3ZjFxJgFJrqm5ZL74t+ipQEMM7x2B357WuKOT3DkLF7XD
+ WCwcsUMQvEn/cgtwG9tuxbMeeZh/uq11JIJXtytaiHhJNjCuw6uiWqCDdXl9iyb5Jri3+X
+ GjboRYq2HTHH7x+KJmiPEosDN9EGFo7/kmMNSEBGcwGXln/L61qn8s4u8coJ1LOmpngs2a
+ uSBRXtragPgAjcAPICYhv7CGvDeh3JKWj2XUjwPYMBbXBDLZLsOUlr4FSXsihzQ8Yua3Gl
+ t/Yuf0LPm//4D2WgCZ72vFD9fCA8cVW7kcjW56IDz3nQ6ts0BpmqDsjGx9/FqQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1709586779;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=KTp//xg2p3SQSnpDgV8BdiNH9CEAQZVSTL74QA4IE/E=;
+ b=6EKTe+l/QqSriJ0g/Bbn7l0O3YKRE6L0rFP1Jx2bp5Zti3184ExK9/fPBVd6i/bd19BvxU
+ mBgDg7IBny7/94AQ==
+To: Jocelyn Falempe <jfalempe@redhat.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Daniel Vetter <daniel@ffwll.ch>, Andrew
+ Morton <akpm@linux-foundation.org>, "Peter Zijlstra (Intel)"
+ <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>, Arnd
+ Bergmann <arnd@arndb.de>, Kefeng Wang <wangkefeng.wang@huawei.com>, Lukas
+ Wunner <lukas@wunner.de>, Uros Bizjak <ubizjak@gmail.com>, "Guilherme G.
+ Piccoli" <gpiccoli@igalia.com>, Uros Bizjak <ubizjak@gmail.com>, Petr
+ Mladek <pmladek@suse.com>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Douglas Anderson <dianders@chromium.org>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [RFC] How to test panic handlers, without crashing the kernel
+In-Reply-To: <266579a9-fde6-40ff-b13d-fb2312db406c@redhat.com>
+References: <266579a9-fde6-40ff-b13d-fb2312db406c@redhat.com>
+Date: Mon, 04 Mar 2024 22:18:24 +0106
+Message-ID: <87edcpn1l3.fsf@jogness.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,80 +69,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 04 Mar 2024, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
-> On Mon, Mar 4, 2024 at 8:17=E2=80=AFAM Doug Anderson <dianders@chromium.o=
-rg> wrote:
->>
->> Hi,
->>
->> On Sun, Mar 3, 2024 at 1:30=E2=80=AFPM Dmitry Baryshkov
->> <dmitry.baryshkov@linaro.org> wrote:
->> >
->> > > The problem is that Dmitry didn't like the idea of using a hash and =
-in
->> > > v2 Hsin-Yi has moved to using the name of the display. ...except of
->> > > course that eDP panels don't always properly specify
->> > > "EDID_DETAIL_MONITOR_NAME". See the discussion [1]. If you want to s=
-ee
->> > > some of the EDIDs involved, you can see Hsin-Yi's post [2]. The pane=
-ls
->> > > included stuff like this:
->> > >
->> > >     Alphanumeric Data String: 'AUO'
->> > >     Alphanumeric Data String: 'B116XAN04.0 '
->> > >
->> > > The fact that there is more than one string in there makes it hard to
->> > > just "return" the display name in a generic way. The way Hsin-Yi's
->> > > code was doing it was that it would consider it a match if the panel
->> > > name was in any of the strings...
->> > >
->> > > How about this as a solution: we change drm_edid_get_panel_id() to
->> > > return an opaque type (struct drm_edid_panel_id_blob) that's really
->> > > just the first block of the EDID but we can all pretend that it isn'=
-t.
->> > > Then we can add a function in drm_edid.c that takes this opaque blob,
->> > > a 32-bit integer (as per drm_edid_encode_panel_id()), and a string
->> > > name and it can tell us if the blob matches?
->> >
->> > Would it be easier to push drm_edid_match to drm_edid.c? It looks way
->> > more simpler than the opaque blob.
->>
->> Yeah, that sounds reasonable / cleaner to me. Good idea! Maybe Hsin-Yi
->> will be able to try this out and see if there's a reason it wouldn't
->> work.
+[Added printk maintainer and kdb folks]
+
+Hi Jocelyn,
+
+On 2024-03-01, Jocelyn Falempe <jfalempe@redhat.com> wrote:
+> While writing a panic handler for drm devices [1], I needed a way to 
+> test it without crashing the machine.
+> So from debugfs, I called 
+> atomic_notifier_call_chain(&panic_notifier_list, ...), but it has the 
+> side effect of calling all other panic notifiers registered.
 >
-> Thanks for all the suggestions. I sent out v3, which still has a blob
-> type since we need
-> 1. get panel id
-> 2. do the string matching.
+> So Sima suggested to move that to the generic panic code, and test all 
+> panic notifiers with a dedicated debugfs interface.
 >
-> And I felt that packing these 2 steps into one function may make that
-> function do multiple tasks?
->
-> But let me know if it's preferred in this way.
->
-> v3: https://lore.kernel.org/lkml/20240304195214.14563-1-hsinyi@chromium.o=
-rg/
+> I can move that code to kernel/, but before doing that, I would like to 
+> know if you think that's the right way to test the panic code.
 
-I still don't like it, but incorporating all the ideas here, and in the
-previous patches, I think I have a suggestion that covers all cases in a
-reasonable manner [1].
+One major event that happens before the panic notifiers is
+panic_other_cpus_shutdown(). This can cause special situations because
+CPUs can be stopped while holding resources (such as raw spin
+locks). And these are the situations that make it so tricky to have safe
+and reliable notifiers. If triggered from debugfs, these situations will
+never occur.
 
-Sorry about being so inflexible about this. I've just put 140+ commits
-worth of effort in drm_edid.c in the past couple of years, and I'm keen
-on keeping it nice and tidy. :)
+My concern is that the tests via debugfs will always succeed, but in the
+real world panic notifiers are failing/hanging/exploding. IMHO useful
+panic testing requires real panic'ing.
 
+For my printk panic tests I trigger unknown NMIs while booting with
+"unknown_nmi_panic". Particularly with Qemu this is quite easy and
+amazingly effective at catching problems. In fact, a recent printk
+series [0] fixed seven issues that were found through this method of
+panic testing.
 
-BR,
-Jani.
+> The second question is how to simulate a panic context in a
+> non-destructive way, so we can test the panic notifiers in CI, without
+> crashing the machine.
 
+I'm wondering if a "fake panic" can be implemented that quiesces all the
+other CPUs via NMI (similar to kdb) and then calls the panic
+notifiers. And finally releases everything back to normal. That might
+produce a fairly realistic panic situation and should be fairly
+non-destructive (depending on what the notifiers do and how long they
+take).
 
-[1] https://lore.kernel.org/r/87a5nd4tsg.fsf@intel.com
+> The worst case for a panic notifier, is when the panic occurs in NMI
+> context, but I don't know how to simulate that. The goal would be to
+> find early if a panic notifier tries to sleep, or do other things that
+> are not allowed in a panic context.
 
+Maybe with a new boot argument "unknown_nmi_fake_panic" that triggers
+the fake panic instead?
 
->
->>
->> -Doug
+John Ogness
 
---=20
-Jani Nikula, Intel
+[0] https://lore.kernel.org/lkml/20240207134103.1357162-1-john.ogness@linutronix.de
