@@ -2,59 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7C248708A9
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 18:52:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39BDF8708F2
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 19:01:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BE211123EB;
-	Mon,  4 Mar 2024 17:52:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EAC9112413;
+	Mon,  4 Mar 2024 18:01:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HLwQyqWu";
+	dkim=pass (2048-bit key; unprotected) header.d=kroah.com header.i=@kroah.com header.b="UijKYUII";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="LONYJcWf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB9E31123EA;
- Mon,  4 Mar 2024 17:51:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709574719; x=1741110719;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=4DfBSXNJM2nONjEhv8h2o0Di7f5jtcMwhU0s7F1/xz0=;
- b=HLwQyqWuq6bfxlg3QlgRmt/mir+4hIMZ/hMZquoDVrew4b1nvn6Qvfbs
- v297J8itc9Z2z6rFsJCkAH3CHfMqkjQGOz20hCZVlO4DcsS5pon2lpug3
- GZ1yUmO7n3SQOp1ZmRSkisBPfiUfLWYF7qsjC8BzH8vFtO0MVR4wVi2em
- /UDXXLDROo0Cw+BZbMaQO3TkgcfTorYVuca41oLHgkrEYpa4Ifs0F0aHm
- +NxLvyvmmvlBn0QJuTJO1Hlc5pOnIxV012mLc2zJtlFfLEw1dqZnzRUhq
- NY/ZbEX5HK4MihrH08mNtdv+6mKL8aGuecd9yfCwPES5X9ARX5S/XjSYS Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="4209805"
-X-IronPort-AV: E=Sophos;i="6.06,204,1705392000"; 
-   d="scan'208";a="4209805"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2024 09:51:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="937040905"
-X-IronPort-AV: E=Sophos;i="6.06,204,1705392000"; d="scan'208";a="937040905"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmsmga001.fm.intel.com with ESMTP; 04 Mar 2024 09:51:55 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
- id 42E2915C; Mon,  4 Mar 2024 19:51:53 +0200 (EET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 1/1] drm/msm/hdmi: Replace of_gpio.h by proper one
-Date: Mon,  4 Mar 2024 19:51:52 +0200
-Message-ID: <20240304175152.1199270-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
+Received: from fhigh2-smtp.messagingengine.com
+ (fhigh2-smtp.messagingengine.com [103.168.172.153])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D4EF11240B;
+ Mon,  4 Mar 2024 18:01:31 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailfhigh.nyi.internal (Postfix) with ESMTP id 75BD811400A5;
+ Mon,  4 Mar 2024 12:54:46 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Mon, 04 Mar 2024 12:54:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:subject
+ :subject:to:to; s=fm1; t=1709574886; x=1709661286; bh=SPcmanJw9a
+ ZzYzBS08sp4txIx1ZQ+vV0dQEw8ThQ9mQ=; b=UijKYUII8e8JZaOKGvse7Dq+Xx
+ scMykYwcSm8LYhuZh3BbDrPGBIvjoV2YodfDbBoA3zDG6iMgQjND77Jy8q8Dlvkk
+ CFYiIIuEM0znzfRJ7xzBqzuf1nIyqYF8tvVaFDakeaynLUZc7UMFRc2Dv4GWda47
+ eb3dh9XqLZdD2N8DpnN4ERCYyvAIe3/X0lTXofXjIrMARNaOWkn+sbkC5PkHZit8
+ 47pwoCd39iKA4DcomuzDEBzFWylx2zWMYDeKXEowv71FGAZ301Jm/x2sTaFN4/KV
+ SY7sXCt7f7s2MoqahgPbUCsXhx1e/ZvbTFZW1tpVClN4FjjdVSyIiNS6QmDw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1709574886; x=1709661286; bh=SPcmanJw9aZzYzBS08sp4txIx1ZQ
+ +vV0dQEw8ThQ9mQ=; b=LONYJcWf4zNMDllQ+Wrbrxew6Yd17x/fhtETUPfmUsyx
+ /vXRgQ2UWMVLp/18AJb0bw9hsAcgoX8hRoUrhl6H6dG4JbcNO+8rcEol9hnDdpoL
+ /5m9TL4KnNEEIiWUCI4R4AzRcKK6vbjbL1bjNGTXSiOTPaY3CA/R8lbzqtoOnLlb
+ VcUNd0cQYxHMJopb053LjhiuueCMb/mi04813wi5yNr6F3JFo8sHCW2/OpMaj7UG
+ 1FkY/JeB0FCNlyQ1Degs+m7FVaJ8viZ2R/QjsdPBH+oXDTehggUIlKwvvJvwF80I
+ Y+WPYnFm/rZp6qjtjfqPOznkXqtiA5D5iV1EDE2BaA==
+X-ME-Sender: <xms:5grmZaSHD0nmrTa97QZM_3V5X6-jqGG5V8BYRmfGlWP-0bevPvObVA>
+ <xme:5grmZfw0oJqYo5jpfzn28sBvb2Vfc-Mhz-fIAVaitnNSvMpdg_bzY21pSvntrx2Co
+ nNgAL8B0L9dzQ>
+X-ME-Received: <xmr:5grmZX1PgR2W9hXyQy-A461PeyLSMULMJtBTh8LBVSqHivdZokeLlmyWaA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrheejgddutdegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghg
+ ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepheegvd
+ evvdeljeeugfdtudduhfekledtiefhveejkeejuefhtdeufefhgfehkeetnecuvehluhhs
+ thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorg
+ hhrdgtohhm
+X-ME-Proxy: <xmx:5grmZWCSmK-_BTPVOQ2K6twhJN9WPVLJnQwH1bphxS3_paGap6rWNw>
+ <xmx:5grmZThXPET9z3bpygZPvO3vOWmmSrkOH2lV6xo11Zku8UQed2JQ1g>
+ <xmx:5grmZSoPlLxzAj-bEp5_qtiTugf1mDmcXGxMW8h2_BST04KfB9nTdg>
+ <xmx:5grmZcYsQWcD9amB5TplbGFuUKpJ-9DJ0tAFaDNpXtf21qM1H37Q4g>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 4 Mar 2024 12:54:45 -0500 (EST)
+Date: Mon, 4 Mar 2024 18:54:43 +0100
+From: Greg KH <greg@kroah.com>
+To: Danilo Krummrich <dakr@redhat.com>
+Cc: stable@vger.kernel.org, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Karol Herbst <kherbst@redhat.com>
+Subject: Re: [PATCH stable v6.7] drm/nouveau: don't fini scheduler before
+ entity flush
+Message-ID: <2024030436-console-enlisted-07d2@gregkh>
+References: <20240304170158.4206-1-dakr@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240304170158.4206-1-dakr@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,29 +92,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-of_gpio.h is deprecated and subject to remove.
-The driver doesn't use it directly, replace it
-with what is really being used.
+On Mon, Mar 04, 2024 at 06:01:46PM +0100, Danilo Krummrich wrote:
+> This bug is present in v6.7 only, since the scheduler design has been
+> re-worked in v6.8.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/gpu/drm/msm/hdmi/hdmi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Now queued up, thanks.
 
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-index c8ebd75176bb..24abcb7254cc 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-@@ -5,8 +5,8 @@
-  * Author: Rob Clark <robdclark@gmail.com>
-  */
- 
-+#include <linux/gpio/consumer.h>
- #include <linux/of_irq.h>
--#include <linux/of_gpio.h>
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
- 
--- 
-2.43.0.rc1.1.gbec44491f096
-
+greg k-h
