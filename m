@@ -2,89 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C607870008
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 12:13:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3704870009
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 12:13:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F81A10FFEE;
-	Mon,  4 Mar 2024 11:13:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A51D10FFED;
+	Mon,  4 Mar 2024 11:13:09 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Yd7hU+5q";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com
- [209.85.128.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 203C110FFEE
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 11:13:05 +0000 (UTC)
-Received: by mail-yw1-f176.google.com with SMTP id
- 00721157ae682-6084e809788so41290427b3.1
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 03:13:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709550781; x=1710155581;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=X8dLsJKtv+8j8qXEd3qFacsSzLxPyFjQtVyNStvTTTM=;
- b=e574mZ4xDe00S4uGV8JQvslX3KwAav8lEy9owej6TeOmS1M2YQWwVC/fPUfZPxX6Jz
- jJImMe8GoyKWqErV/SpDVK8eWp4jOqBdajW7B7SFzkRPhj6T8hoXZL5wJPi5vDE8SGBy
- Ku0e0y7LNBI6sdENpulOb6BcUH1nUMA8Oe9JNMCOJt+rNc3fI3UGDvr5ruzAGGn/Rg8O
- ngRI7z1n80Hzgf4/CtkWPYsLJWQhkdszXHOqZmllNbCSeahx1ZImnZ+dwj0wZv79cA0T
- MTAgIh1ua3bZb0i4181rlKI01T3WWzLbhYpKcakGMnAlOu9TfvU05DLOiuPRiD+ORDa9
- chwQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVO5OT/r+JsYOlTEy1OJTWx5Vj03MWEVO6IWEmX3GIACLqjNDygybSyYmNsLO/gAiskqR1/YVL+ljyC/wvrmcDPeTDU8unL4JP2cRA2aEDR
-X-Gm-Message-State: AOJu0Yzv44lGtqKlXgXwEfmzGtqnLbaf3R/Yti8iRHCShUfTg/OMWKMV
- JdKm47g0LtO2+Ncxh5WximeCSQk5pqd77xjDDPd+1rFnyDuhjzlkXKxkYQAW4HI=
-X-Google-Smtp-Source: AGHT+IG5DaPmn3BgRvBQ8SVGucBGYKxCvV6IIhjwFbaEoSx2HGEFd/YYycUaWvbb+4DimAdiKMMNBg==
-X-Received: by 2002:a25:aaa3:0:b0:dc6:ca3a:31da with SMTP id
- t32-20020a25aaa3000000b00dc6ca3a31damr8745853ybi.16.1709550781055; 
- Mon, 04 Mar 2024 03:13:01 -0800 (PST)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com.
- [209.85.219.170]) by smtp.gmail.com with ESMTPSA id
- q14-20020a25820e000000b00dc6c58ae000sm2096927ybk.16.2024.03.04.03.12.59
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Mar 2024 03:13:00 -0800 (PST)
-Received: by mail-yb1-f170.google.com with SMTP id
- 3f1490d57ef6-dbed179f0faso3679951276.1
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 03:12:59 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVh/sg3P66Z1ngC3we0s+HKL+Vve7pIzZ/RaB2b7Qet/BFFyqxjSp5QHxAD6VyXk0xeVnTazPQYrI3wr6CKJspJR83MoxxmcyX9T9rDJSsK
-X-Received: by 2002:a25:ab44:0:b0:dcc:55e9:ec34 with SMTP id
- u62-20020a25ab44000000b00dcc55e9ec34mr4965526ybi.30.1709550779663; Mon, 04
- Mar 2024 03:12:59 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92F8A10FFED;
+ Mon,  4 Mar 2024 11:13:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709550789; x=1741086789;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=zWCb/ku/h76tcpLs23jrW8GlvwCDULDEu7boNNfTOxU=;
+ b=Yd7hU+5qLYpLX+3gOUDY1/ixjhLxHtna/KE0CMIVPs4M4oEOwS7eTBt1
+ D06VyaWlZVuMGM/bPPKYvwtnZYi4egBOQtleIx/IrPuqkSjcqapTt24PL
+ +3ZLpMhhtlATVl0PilD5Ww2AYHJoWKs4qOo7pX4w7y3UDfhB8+RABRkrg
+ HbuJMcT1FnjJflBoqY7oFwTWMbEgTWFYrbMh9LFZQ4tgjOgEk2Gt+ynxb
+ hnaNE1efHLEOh7nXCUATQbKhHoZQQt1w0jRrf81l/1AW0lruC76bjDLx8
+ KVHiqTkTw2+DLD62lXZUsiFzBFpzUwKpJwDa+NaSkwHqcsnUaWYLWYqdy Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="4161018"
+X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
+   d="scan'208";a="4161018"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2024 03:13:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="827773141"
+X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; d="scan'208";a="827773141"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga001.jf.intel.com with SMTP; 04 Mar 2024 03:13:03 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 04 Mar 2024 13:13:03 +0200
+Date: Mon, 4 Mar 2024 13:13:03 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Arthur Grillo <arthurgrillo@riseup.net>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ mairacanal@riseup.net, andrealmeid@riseup.net,
+ tales.aparecida@gmail.com, daniel@ffwll.ch, airlied@gmail.com,
+ jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com,
+ lucas.demarchi@intel.com
+Subject: Re: [PATCH v2] drm/i915/overlay: Remove redundant drm_rect_visible()
+ use
+Message-ID: <ZeWsv4xbEWGyBgFo@intel.com>
+References: <20230325172719.92102-1-arthurgrillo@riseup.net>
 MIME-Version: 1.0
-References: <20240228225527.1052240-2-helen.koike@collabora.com>
- <20240229-dancing-laughing-groundhog-d85161@houat>
- <5d7ed81b-37f9-48e9-ab7e-484b74ca886c@gmail.com>
- <CAHk-=wixVy3WYvjbt43ZSrCqPDsS76QJQSkXFbbPsAOs1MCSAQ@mail.gmail.com>
- <CABXOdTeT2ip1uS2EG2w8pW7254Tnd=ZDNz-KC61-G-yqDTVgJA@mail.gmail.com>
- <269232e6-41c9-4aa1-9320-662beabcd69b@infradead.org>
- <CAMuHMdXuXV9WV3aANFTteuP8Q3JY6R5OWsVBedGOP7e_JguxqA@mail.gmail.com>
- <CAMuHMdWi069YAvOoXe7sHJ_o702tY4tDQgL3sfApPR3aCnZboQ@mail.gmail.com>
- <20240304-transparent-oriole-of-honeydew-f4174e@houat>
- <CAMuHMdXyvcyXw8eXc2MONNaBYYGpVdnPh2h3T=QV38MEUzhu9A@mail.gmail.com>
- <20240304-dangerous-mastiff-of-fury-1fac5c@houat>
-In-Reply-To: <20240304-dangerous-mastiff-of-fury-1fac5c@houat>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 4 Mar 2024 12:12:47 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV2HkYjowOZBgSZQ3N01UeUTnyv5kjx-82C9YJ+dsgsxQ@mail.gmail.com>
-Message-ID: <CAMuHMdV2HkYjowOZBgSZQ3N01UeUTnyv5kjx-82C9YJ+dsgsxQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] kci-gitlab: Introducing GitLab-CI Pipeline for Kernel
- Testing
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Guenter Roeck <groeck@google.com>, 
- Linus Torvalds <torvalds@linuxfoundation.org>,
- Nikolai Kondrashov <spbnick@gmail.com>, 
- Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org, 
- dave.pigott@collabora.com, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org, 
- gustavo.padovan@collabora.com, pawiecz@collabora.com, 
- tales.aparecida@gmail.com, workflows@vger.kernel.org, 
- kernelci@lists.linux.dev, skhan@linuxfoundation.org, 
- kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com, 
- cocci@inria.fr, Julia.Lawall@inria.fr, laura.nao@collabora.com, 
- ricardo.canuelo@collabora.com, kernel@collabora.com, 
- gregkh@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230325172719.92102-1-arthurgrillo@riseup.net>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,53 +74,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+On Sat, Mar 25, 2023 at 02:27:19PM -0300, Arthur Grillo wrote:
+> The drm_rect_intersect() already returns if the intersection is visible
+> or not, so the use of drm_rect_visible() is duplicate.
+> 
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
 
-On Mon, Mar 4, 2024 at 11:20=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
-wrote:
-> On Mon, Mar 04, 2024 at 11:07:22AM +0100, Geert Uytterhoeven wrote:
-> > On Mon, Mar 4, 2024 at 10:15=E2=80=AFAM Maxime Ripard <mripard@kernel.o=
-rg> wrote:
-> > > On Mon, Mar 04, 2024 at 09:12:38AM +0100, Geert Uytterhoeven wrote:
-> > > > On Sun, Mar 3, 2024 at 10:30=E2=80=AFAM Geert Uytterhoeven <geert@l=
-inux-m68k.org> wrote:
-> > > > ERROR: modpost: "__udivdi3" [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.k=
-o] undefined!
-> > > > make[3]: *** [scripts/Makefile.modpost:145: Module.symvers] Error 1
-> > > > make[2]: *** [Makefile:1871: modpost] Error 2
-> > > > make[1]: *** [Makefile:240: __sub-make] Error 2
-> > > > make: *** [Makefile:240: __sub-make] Error 2
-> > > >
-> > > > No warnings found in log.
-> > > > -------------------------------------------------------------------=
->8---
-> > >
-> > > The driver is meant for a controller featured in an SoC with a Cortex=
--A8
-> > > ARM CPU and less than a GiB/s memory bandwidth.
-> >
-> > Good, so the hardware cannot possibly need 64-bit pixel clock values ;-=
-)
->
-> This is an early patch to convert that function into a framework hook
-> implementation. HDMI 2.1 has a max TMDS character rate of slightly less
-> than 6GHz, so larger than 2^32 - 1.
->
-> So yes, this driver doesn't need to. The framework does however.
+Sorry, looks like I completely missed this.
+Now push the drm-intel-next. Thanks.
 
-That's gonna be interesting, as the Common Clock Framework does not
-support 64-bit clock rates on 32-bit platforms yet...
+> ---
+> v1->v2: https://lore.kernel.org/all/20230324142533.6357-1-arthurgrillo@riseup.net/
+> - Split the if condition.
+> ---
+>  drivers/gpu/drm/i915/display/intel_overlay.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_overlay.c b/drivers/gpu/drm/i915/display/intel_overlay.c
+> index c12bdca8da9b..d55153587cae 100644
+> --- a/drivers/gpu/drm/i915/display/intel_overlay.c
+> +++ b/drivers/gpu/drm/i915/display/intel_overlay.c
+> @@ -966,10 +966,11 @@ static int check_overlay_dst(struct intel_overlay *overlay,
+>  		      rec->dst_width, rec->dst_height);
+>  
+>  	clipped = req;
+> -	drm_rect_intersect(&clipped, &crtc_state->pipe_src);
+>  
+> -	if (!drm_rect_visible(&clipped) ||
+> -	    !drm_rect_equals(&clipped, &req))
+> +	if (!drm_rect_intersect(&clipped, &crtc_state->pipe_src))
+> +		return -EINVAL;
+> +
+> +	if (!drm_rect_equals(&clipped, &req))
+>  		return -EINVAL;
+>  
+>  	return 0;
+> -- 
+> 2.39.2
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+Ville Syrjälä
+Intel
