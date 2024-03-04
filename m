@@ -2,67 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CEB186FE47
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 11:05:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB34786FE4D
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 11:06:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B38710FF10;
-	Mon,  4 Mar 2024 10:05:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1802110FF1B;
+	Mon,  4 Mar 2024 10:06:44 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Pww2daha";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
- [209.85.128.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E9C110FF10
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 10:05:29 +0000 (UTC)
-Received: by mail-yw1-f171.google.com with SMTP id
- 00721157ae682-6093e067220so38171407b3.0
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 02:05:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709546726; x=1710151526;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Oy2SzYfcUDrGL3J66h8Xddc1g80levpMxXsFMRTfvtY=;
- b=Gd1X4zL054/YAPR/G7iRST4w0MTH0ABU3Ih7x422jHVavB/HjhVOrwjccfftLfX2J1
- R16dMRK+cHHsKLPPviZWngr6JxzcuQVAnMfiODvCy6hlJvmLCoqAdlxszXkt/3wHCuDV
- R9qIMA/6BH7OO/UEQmpETI/Dr1sEnCNjd7njIXhUwkZMFPX8GboJnGoxCFrTpd8xeFDp
- /kwrxP2+NKuaf1OTfMpVJ/fZsOUtsP1NWcIwABZJJ1/huO2wu+9yPvyJUbECtL8zQ9Lq
- WLS4iCZeg83vTn8ogFuUO1u7bYBFAvDSA8QuvgiwYh1mRrPkKEJNXL6Z0W/OAKuc8qnU
- 8PKQ==
-X-Gm-Message-State: AOJu0Yy82UtkFQElSF4ZyzuQWu7A7FwSbYJW39DQcTMGeBsDjO23zLqA
- EFguRvPHQfA3dOmN6xiY8PiN/+sAHeAkMHFlmKPSXziJMrag0ujQmRWo6Ifz1cc=
-X-Google-Smtp-Source: AGHT+IF/fyHDk7FzGSSkPRgvd97GPh2aAbIN04NDgQDKNjcxQeqoZ1fa4fKG5LATBATiO87Ol6Rz7A==
-X-Received: by 2002:a81:79d8:0:b0:609:846b:aa5f with SMTP id
- u207-20020a8179d8000000b00609846baa5fmr7377137ywc.41.1709546726526; 
- Mon, 04 Mar 2024 02:05:26 -0800 (PST)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com.
- [209.85.219.170]) by smtp.gmail.com with ESMTPSA id
- c7-20020a81c947000000b006049de6fa26sm2493573ywl.57.2024.03.04.02.05.25
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Mar 2024 02:05:26 -0800 (PST)
-Received: by mail-yb1-f170.google.com with SMTP id
- 3f1490d57ef6-dc74435c428so4625882276.2
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 02:05:25 -0800 (PST)
-X-Received: by 2002:a25:2b89:0:b0:dcf:288e:21ca with SMTP id
- r131-20020a252b89000000b00dcf288e21camr6044369ybr.11.1709546725700; Mon, 04
- Mar 2024 02:05:25 -0800 (PST)
-MIME-Version: 1.0
-References: <20240304091225.366325-1-mripard@kernel.org>
-In-Reply-To: <20240304091225.366325-1-mripard@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 4 Mar 2024 11:05:14 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW-H=yvY-fhADXKtbFY4NnhTinXxk-Xbr-69H1_aR0cPQ@mail.gmail.com>
-Message-ID: <CAMuHMdW-H=yvY-fhADXKtbFY4NnhTinXxk-Xbr-69H1_aR0cPQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/sun4i: hdmi: Fix u64 div on 32bit arch
-To: Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>, 
- David Airlie <airlied@gmail.com>,
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 867BA10FF1C
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 10:06:42 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id AA55C60E09;
+ Mon,  4 Mar 2024 10:06:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6E61C433C7;
+ Mon,  4 Mar 2024 10:06:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1709546801;
+ bh=ql2YE9dLy7/HqksxFsL3EMa70qfrq6G0Ss3uyxIAfU8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Pww2dahaYktpZw8zT+GAeiG3eZOnqVJMgGXYa9jEHCUPuvpwexEgiwYHLp8oIPWV1
+ p9Nfs2tLGMtfRtk/61TvqOxv6B/o8bdnNnoNv4fmtMezl9QEk1KTwDhwsXfJQhjb0R
+ S8h/M2BjnZsTX1daFrf3PHgFHyPx/I/hW2Bd7Tg7nKt2GEvzlbv3awpzmXs8VmBuEz
+ YAzCR9rxIfj0eY9MHL/Hs6xaKa1v/WiUM4kjerG4w5F0PtzOvRZsegSxW7fevoo+Wl
+ L6UHJUJs6JB0QPzhTtfH3TutaU8TBxfoCo5iNyFvwFfdBp+I8psu0Q8zPKUB5ig+iD
+ mpOFS/TxydkMA==
+Date: Mon, 4 Mar 2024 11:06:38 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Frank Oltmanns <frank@oltmanns.dev>
+Cc: Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>,
+ Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Sam Ravnborg <sam@ravnborg.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Naresh Kamboju <naresh.kamboju@linaro.org>, 
- kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-clk@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH v3 1/5] clk: sunxi-ng: common: Support minimum and
+ maximum rate
+Message-ID: <20240304-satisfied-terrier-of-refinement-af48cd@houat>
+References: <20240304-pinephone-pll-fixes-v3-0-94ab828f269a@oltmanns.dev>
+ <20240304-pinephone-pll-fixes-v3-1-94ab828f269a@oltmanns.dev>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="66d2eote3zmcdjtu"
+Content-Disposition: inline
+In-Reply-To: <20240304-pinephone-pll-fixes-v3-1-94ab828f269a@oltmanns.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,66 +75,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
 
-Thanks for your patch!
+--66d2eote3zmcdjtu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 4, 2024 at 10:12=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
-wrote:
-> Commit 358e76fd613a ("drm/sun4i: hdmi: Consolidate atomic_check and
-> mode_valid") changed the clock rate from an unsigned long to an unsigned
-> long long resulting in a a 64-bit division that might not be supported
-> on all platforms.
-
-Why was this changed to unsigned long long?
-Can a valid pixel clock really not fit in 32-bit?
-
-> The resulted in compilation being broken at least for m68k, xtensa and
-> some arm configurations, at least.
->
-> Fixes: 358e76fd613a ("drm/sun4i: hdmi: Consolidate atomic_check and mode_=
-valid")
-> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
-> Closes: https://lore.kernel.org/r/CA+G9fYvG9KE15PGNoLu+SBVyShe+u5HBLQ81+k=
-K9Zop6u=3Dywmw@mail.gmail.com/
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202403011839.KLiXh4wC-lkp@i=
-ntel.com/
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-
-> --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-> @@ -163,11 +163,11 @@ static enum drm_mode_status
->  sun4i_hdmi_connector_clock_valid(const struct drm_connector *connector,
->                                  const struct drm_display_mode *mode,
->                                  unsigned long long clock)
+On Mon, Mar 04, 2024 at 08:29:17AM +0100, Frank Oltmanns wrote:
+> The Allwinner SoC's typically have an upper and lower limit for their
+> clocks' rates. Up until now, support for that has been implemented
+> separately for each clock type.
+>=20
+> Implement that functionality in the sunxi-ng's common part making use of
+> the CCF rate liming capabilities, so that it is available for all clock
+> types.
+>=20
+> Suggested-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+> Cc: stable@vger.kernel.org
+> ---
+>  drivers/clk/sunxi-ng/ccu_common.c | 15 +++++++++++++++
+>  drivers/clk/sunxi-ng/ccu_common.h |  3 +++
+>  2 files changed, 18 insertions(+)
+>=20
+> diff --git a/drivers/clk/sunxi-ng/ccu_common.c b/drivers/clk/sunxi-ng/ccu=
+_common.c
+> index 8babce55302f..2152063eee16 100644
+> --- a/drivers/clk/sunxi-ng/ccu_common.c
+> +++ b/drivers/clk/sunxi-ng/ccu_common.c
+> @@ -44,6 +44,12 @@ bool ccu_is_better_rate(struct ccu_common *common,
+>  			unsigned long current_rate,
+>  			unsigned long best_rate)
 >  {
->         const struct sun4i_hdmi *hdmi =3D drm_connector_to_sun4i_hdmi(con=
-nector);
-> -       unsigned long diff =3D clock / 200; /* +-0.5% allowed by HDMI spe=
-c */
-> +       unsigned long diff =3D div_u64(clock, 200); /* +-0.5% allowed by =
-HDMI spec */
+> +	if (common->max_rate && current_rate > common->max_rate)
+> +		return false;
+> +
+> +	if (common->min_rate && current_rate < common->min_rate)
+> +		return false;
+> +
 
-I'd rather see clock changed back to unsigned long.
+We should use clk_hw_get_rate_range() here, there might be some
+additional constraints to the rate range than the hardware ones (ie,
+calls to clk_set_rate_range()).
 
->         long rounded_rate;
->
->         if (mode->flags & DRM_MODE_FLAG_DBLCLK)
->                 return MODE_BAD;
->
+>  	if (common->features & CCU_FEATURE_CLOSEST_RATE)
+>  		return abs(current_rate - target_rate) < abs(best_rate - target_rate);
+> =20
+> @@ -122,7 +128,10 @@ static int sunxi_ccu_probe(struct sunxi_ccu *ccu, st=
+ruct device *dev,
+> =20
+>  	for (i =3D 0; i < desc->hw_clks->num ; i++) {
+>  		struct clk_hw *hw =3D desc->hw_clks->hws[i];
+> +		struct ccu_common *common =3D hw_to_ccu_common(hw);
+>  		const char *name;
+> +		unsigned long min_rate =3D 0;
+> +		unsigned long max_rate =3D ULONG_MAX;
+> =20
+>  		if (!hw)
+>  			continue;
+> @@ -136,6 +145,12 @@ static int sunxi_ccu_probe(struct sunxi_ccu *ccu, st=
+ruct device *dev,
+>  			pr_err("Couldn't register clock %d - %s\n", i, name);
+>  			goto err_clk_unreg;
+>  		}
+> +
+> +		if (common->min_rate)
+> +			min_rate =3D common->min_rate;
+> +		if (common->max_rate)
+> +			max_rate =3D common->max_rate;
 
-Gr{oetje,eeting}s,
+max_rate should always be set to ULONG_MAX. I would drop the tests for
+both here, and warn if max_rate is set to 0.
 
-                        Geert
+Maxime
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+--66d2eote3zmcdjtu
+Content-Type: application/pgp-signature; name="signature.asc"
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZeWdLgAKCRDj7w1vZxhR
+xb2SAP9ET0NeahIoRnvn18FEj694GWHVCshWmVdZSbx52ubyUQEAquQE3UNMNiFK
+TI7im2BmnlMaX7gl9ElohBH6qB5TBgE=
+=/sgn
+-----END PGP SIGNATURE-----
+
+--66d2eote3zmcdjtu--
