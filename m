@@ -2,86 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05ACA870612
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 16:46:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33714870620
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 16:48:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E95711229C;
-	Mon,  4 Mar 2024 15:46:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FADD11224E;
+	Mon,  4 Mar 2024 15:48:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="bZBs3Vcp";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="OTjcR5kw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
- [209.85.160.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7949311229B
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 15:46:48 +0000 (UTC)
-Received: by mail-qt1-f182.google.com with SMTP id
- d75a77b69052e-42e6939d34fso1035191cf.0
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 07:46:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1709567207; x=1710172007;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FmYFhieBdwNBCdmRDPjUD9GHVVYPw43TwbCvph3PCyc=;
- b=bZBs3Vcpwr2LDLUbvjoFbg4R8xkNkn4Ha+TLZBWsmIqfygyMtMbrGx1rOiGt0nqrW6
- +M+rXzX+SkcPo22YspCPLCAa0h7ZfRioGBdVdzI+kmG+LA5LIJf8NX6nCup52ASy1Lc/
- XEsnTQiFtC/mvPTRycgusRvCsL80YQFSbqyJQVoIIOwzaueOfXNSRa5O1xnXKP52VEhl
- rkvjdkdckiOARJb7BhmFO/oYwIM5yigZjxmRIHSF4uAQVgl1hEoJg1787se7/6SpSedS
- t0IklCVD+CQwQl6pJAZT6OoeDNFkzkfOsFkidx2XRO1ZGdBLb4ysk0I84Abs+UV6Z7cJ
- PWww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709567207; x=1710172007;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FmYFhieBdwNBCdmRDPjUD9GHVVYPw43TwbCvph3PCyc=;
- b=oTBWuoj7c6vwuqDtpng/7/8hHmoyUqJoNvsp4eysWn2Ly2LzwLBogpGxhPtl+Wl4GE
- MSNPvMCHV6Yx94I6IfDebj9sHVkxd3G9NSSRBd2/C5DQQepxCaoRr4IuAF/kORhsfTXy
- W2ukBFjc1LDIscFOHULjV11qUBCqx6GF0+9p+3qDZMDLlmXEhssIi5djTM/SRKiZmKsC
- r0sNPvvmjjmQlWBp9vmKct5pJGpFsZNkchRtMak9AQ49QamgofB3bbgnlzW27TUltf4j
- fCw6iyjQT8Iag5ICA4+wPpWA24NzDKVl5O/TUrFoFREirUtI51T14huKF/yo6PitgB8C
- Os+Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUd1sA9r3FlALaoP8yOXAIz3YYvGYR4Q+aQxJUMw4fwtX98h4gJObm2mRSjCxxSsmalUmSBdwdhDqvekGtrS/VkpBaYSkpsfA1VRciltaRN
-X-Gm-Message-State: AOJu0Ywp24+rmDoDEc/RQhT/au0KRktjd7Y8Irg2lAK7beZWmci8KrlX
- MZxLOU48VDN/buAOHfWH21RGynLHtA25+VZh8fwDwNEvBZ9Z92ox0Gp6X3z2QVDrY6NaqT/8J0t
- ttsL0bdv9lDdxc7jHMqH9YH6zY7Lijd54QbEa
-X-Google-Smtp-Source: AGHT+IFVI6LZq4ULZ2pJwHISc+k1i94355Y/0LAb1CjD+NtEu1Yvguv+RgPLIv7k3k/C3Vw9/9vsUOmbNMtl5qL4OZI=
-X-Received: by 2002:a05:622a:11cd:b0:42e:d8fb:8ab5 with SMTP id
- n13-20020a05622a11cd00b0042ed8fb8ab5mr505328qtk.5.1709567206948; Mon, 04 Mar
- 2024 07:46:46 -0800 (PST)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [217.70.183.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CF3A1122B7
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 15:48:44 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A38A0C0003;
+ Mon,  4 Mar 2024 15:48:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1709567323;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=i0Rx6kS4aBKT4TZ4Uy9UR+iMb1g1h163O9nRLaaNYMk=;
+ b=OTjcR5kwIY3YRerZd/3Rlvx9nRKePt5/jdKJxCevdagYUuXXF1Y4rd9zDjufno3GUZzYCR
+ io+/YROohcglgoAZAk2tOMTBScP0keHzqcyFUCwpfkD/MfPFTZlrDytIFc1CEwHEFZWgze
+ 0pAtClsvJ4+8MoPpWsVQizCrTqh1vqtl/6oBW/Y8eCp3Kx9qcJ4nlalkIcBVmHCcVDL3kw
+ EoF62Ciw9bw0d7q0FKUwFOyruLtvQcEE02iYPItnZQocJiXl3vZyuV2eGHeV3a2nmtMGOr
+ 0yaU+GTPUsQpwelFhrRDp/LwSFBS2dvou1M7hLTthr/btuvAzILJEIpOKbV5UA==
+Date: Mon, 4 Mar 2024 16:48:40 +0100
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Arthur Grillo <arthurgrillo@riseup.net>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ thomas.petazzoni@bootlin.com
+Subject: Re: [PATCH v2 6/9] drm/vkms: Add YUV support
+Message-ID: <ZeXtWAM1XDEhxWOM@localhost.localdomain>
+Mail-Followup-To: Arthur Grillo <arthurgrillo@riseup.net>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ thomas.petazzoni@bootlin.com
+References: <20240223-yuv-v2-0-aa6be2827bb7@bootlin.com>
+ <20240223-yuv-v2-6-aa6be2827bb7@bootlin.com>
+ <20240226141916.1627bbbd.pekka.paalanen@collabora.com>
+ <Zd35c_CJbhY46TjQ@localhost.localdomain>
+ <b23da076-0bfb-48b2-9386-383a6dec1868@riseup.net>
+ <8fc07f0f-f14d-4878-9884-2bc4b4c6f426@riseup.net>
+ <20240229141238.51891cad.pekka.paalanen@collabora.com>
+ <ZeXoo4DJxlzhuK4W@localhost.localdomain>
+ <fde6b1d5-56c9-43d0-9ccc-87683b700734@riseup.net>
 MIME-Version: 1.0
-References: <20240228225527.1052240-1-helen.koike@collabora.com>
- <20240228225527.1052240-2-helen.koike@collabora.com>
- <20240229-dancing-laughing-groundhog-d85161@houat>
- <5d7ed81b-37f9-48e9-ab7e-484b74ca886c@gmail.com>
- <CAHk-=wixVy3WYvjbt43ZSrCqPDsS76QJQSkXFbbPsAOs1MCSAQ@mail.gmail.com>
- <CABXOdTeT2ip1uS2EG2w8pW7254Tnd=ZDNz-KC61-G-yqDTVgJA@mail.gmail.com>
- <20240304-rigorous-silkworm-of-awe-4eee8f@houat>
-In-Reply-To: <20240304-rigorous-silkworm-of-awe-4eee8f@houat>
-From: Guenter Roeck <groeck@google.com>
-Date: Mon, 4 Mar 2024 07:46:34 -0800
-Message-ID: <CABXOdTc4MXcjwgGuJb4_69-4OFELD37x0B6oMr=4z=nxZ2HPXQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] kci-gitlab: Introducing GitLab-CI Pipeline for Kernel
- Testing
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Linus Torvalds <torvalds@linuxfoundation.org>,
- Nikolai Kondrashov <spbnick@gmail.com>, 
- Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org, 
- dave.pigott@collabora.com, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org, 
- gustavo.padovan@collabora.com, pawiecz@collabora.com, 
- tales.aparecida@gmail.com, workflows@vger.kernel.org, 
- kernelci@lists.linux.dev, skhan@linuxfoundation.org, 
- kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com, 
- cocci@inria.fr, Julia.Lawall@inria.fr, laura.nao@collabora.com, 
- ricardo.canuelo@collabora.com, kernel@collabora.com, 
- gregkh@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fde6b1d5-56c9-43d0-9ccc-87683b700734@riseup.net>
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,21 +89,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 4, 2024 at 1:24=E2=80=AFAM Maxime Ripard <mripard@kernel.org> w=
-rote:
-[ ... ]
->
-> If anything, it's more of a side-effect to the push for COMPILE_TEST
-> than anything.
->
+[...]
 
-If the drm subsystem maintainers don't want people to build it with
-COMPILE_TEST while at the same time not limiting it to platforms where
-it doesn't even build, I'd suggest making it dependent on
-!COMPILE_TEST.
+> > @arthur, I will submit a v4 with this:
+> > - matrix selection in plane_atomic_update (so it's selected only once)
+> > - s64 numbers for matrix
+> > - avoiding multiple loop implementation by switching matrix columns
+> 
+> This looks good to me.
+> 
+> > 
+> > Regarding the YUV part, I don't feel confortable adressing Pekka's 
+> > comments, would you mind doing it?
+> 
+> I'm already doing that, how do you want me to send those changes? I reply to
+> your series, like a did before?
 
-The same applies to all other subsystems where maintainers don't want
-build tests to run but also don't want to add restrictions such as
-"64-bit only". After all, this was just one example.
+Yes, simply reply to my series, so I can rebase everything on the 
+line-by-line work.
+ 
+Kind regards,
+Louis Chauvet
 
-Guenter
+> Best Regards,
+> ~Arthur Grillo
+> 
+> > 
+> > Kind regards,
+> > Louis Chauvet
+> > 
+> > [...]
+> > 
+
+-- 
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
