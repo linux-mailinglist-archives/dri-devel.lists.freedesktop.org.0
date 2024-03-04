@@ -2,62 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4306F87067D
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 17:05:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F189B87067E
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 17:05:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AC281122D8;
-	Mon,  4 Mar 2024 16:05:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 292361122DA;
+	Mon,  4 Mar 2024 16:05:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="hSIUVb6E";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hPZUFFoI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8679C1122D4
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 16:05:04 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::227])
- by mslow1.mail.gandi.net (Postfix) with ESMTP id 447ECC399F
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 16:05:03 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 949B920004;
- Mon,  4 Mar 2024 16:05:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1709568301;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=02ddm9Xy6N7z/+neL8gzCb13I4/NT+KuYhzJAZBmiP4=;
- b=hSIUVb6E9z+JSB3bVvrNY/dPAlfXj7zfaI3INTwE8Z2MqF10k09JJmTREEaB3DRgjsWAQj
- YwzYwrwJKxnGbuvvtKJw9iaJxJvbXAzkzEXZeTUcF58cWnZDswtLxwJNXEVgAPkiSIgJtc
- 9lroxmwHSoB34Yz6fFszoK/HGENu8aOAhW+7unBeOQ2lIxYlqzYMgCqQwIYnS3ASG9W+mX
- tixzkUi6qIOWAa+ekwBb2CBGStwPBvV/uqrjaRzm4I8BjtYxsd/8EjxtKvgcf8zQ1GRw7Y
- tu1aM+ajydcauOYQjMoKO7iApTuYrnLSblJ2fCiJYBYBBnYiG5xrDw6qRSSo7A==
-From: =?UTF-8?q?J=C3=A9r=C3=A9mie=20Dautheribes?=
- <jeremie.dautheribes@bootlin.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Yen-Mei Goh <yen-mei.goh@keysight.com>,
- =?UTF-8?q?J=C3=A9r=C3=A9mie=20Dautheribes?= <jeremie.dautheribes@bootlin.com>
-Subject: [PATCH v2 3/3] drm/panel: simple: add CMT430B19N00 LCD panel support
-Date: Mon,  4 Mar 2024 17:04:54 +0100
-Message-Id: <20240304160454.96977-4-jeremie.dautheribes@bootlin.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240304160454.96977-1-jeremie.dautheribes@bootlin.com>
-References: <20240304160454.96977-1-jeremie.dautheribes@bootlin.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16B1F1122DD
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 16:05:10 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id B908DCE13CD;
+ Mon,  4 Mar 2024 16:05:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10655C43390;
+ Mon,  4 Mar 2024 16:05:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1709568308;
+ bh=IqKjf/V5VV8UE4R3lEGBliAPiP3FkHrOso1nqZ3aCuQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hPZUFFoISF7hoNFdL4xnmd1M1+T9744bsa0ut//cI3GKpuvePacbzacYODEpQ1W5Y
+ u8uGDRH9+VYz7Yjuz7BwP6ilvpq7SZZCEFpnrmpMuGisdmSPKQb7rHGkFb+Gk5KPAe
+ TK6E2wMKN59TlYacTHf/3lGf/YRz4bOjxt8K9wPuFGLde3itcwuXOd7EVvbGuR6RHL
+ f3DuH1pJ8n5cJtyk1kIRZJwMspexJsb9YlZ7gqCOIWWK/hAIzysux3q+Dtm+h36w9u
+ zSr2MHI5200MBnykWbm823kjJdKxWD9muE7sg3HmLwFmVpBr/v0r89Sa9SW/vZ/elK
+ shgUZUIvnzILg==
+Date: Mon, 4 Mar 2024 17:05:05 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Guenter Roeck <groeck@google.com>
+Cc: Linus Torvalds <torvalds@linuxfoundation.org>, 
+ Nikolai Kondrashov <spbnick@gmail.com>, Helen Koike <helen.koike@collabora.com>,
+ linuxtv-ci@linuxtv.org, 
+ dave.pigott@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ linux-kselftest@vger.kernel.org, gustavo.padovan@collabora.com,
+ pawiecz@collabora.com, 
+ tales.aparecida@gmail.com, workflows@vger.kernel.org, kernelci@lists.linux.dev,
+ skhan@linuxfoundation.org, kunit-dev@googlegroups.com, nfraprado@collabora.com,
+ davidgow@google.com, cocci@inria.fr, Julia.Lawall@inria.fr,
+ laura.nao@collabora.com, 
+ ricardo.canuelo@collabora.com, kernel@collabora.com, gregkh@linuxfoundation.org
+Subject: Re: [PATCH 1/3] kci-gitlab: Introducing GitLab-CI Pipeline for
+ Kernel Testing
+Message-ID: <20240304-ludicrous-grinning-goldfish-090aac@houat>
+References: <20240228225527.1052240-1-helen.koike@collabora.com>
+ <20240228225527.1052240-2-helen.koike@collabora.com>
+ <20240229-dancing-laughing-groundhog-d85161@houat>
+ <5d7ed81b-37f9-48e9-ab7e-484b74ca886c@gmail.com>
+ <CAHk-=wixVy3WYvjbt43ZSrCqPDsS76QJQSkXFbbPsAOs1MCSAQ@mail.gmail.com>
+ <CABXOdTeT2ip1uS2EG2w8pW7254Tnd=ZDNz-KC61-G-yqDTVgJA@mail.gmail.com>
+ <20240304-rigorous-silkworm-of-awe-4eee8f@houat>
+ <CABXOdTc4MXcjwgGuJb4_69-4OFELD37x0B6oMr=4z=nxZ2HPXQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: jeremie.dautheribes@bootlin.com
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="thflmdlthwp7swbs"
+Content-Disposition: inline
+In-Reply-To: <CABXOdTc4MXcjwgGuJb4_69-4OFELD37x0B6oMr=4z=nxZ2HPXQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,61 +76,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for Crystal Clear Technology CMT430B19N00 4.3" 480x272
-TFT-LCD panel.
 
-Signed-off-by: Jérémie Dautheribes <jeremie.dautheribes@bootlin.com>
----
- drivers/gpu/drm/panel/panel-simple.c | 29 ++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+--thflmdlthwp7swbs
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 20e3df1c59d4..b940220f56e2 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -1457,6 +1457,32 @@ static const struct panel_desc boe_hv070wsa = {
- 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
-+static const struct drm_display_mode cct_cmt430b19n00_mode = {
-+	.clock = 9000,
-+	.hdisplay = 480,
-+	.hsync_start = 480 + 43,
-+	.hsync_end = 480 + 43 + 8,
-+	.htotal = 480 + 43 + 8 + 4,
-+	.vdisplay = 272,
-+	.vsync_start = 272 + 12,
-+	.vsync_end = 272 + 12 + 8,
-+	.vtotal = 272 + 12 + 8 + 4,
-+	.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-+};
-+
-+static const struct panel_desc cct_cmt430b19n00 = {
-+	.modes = &cct_cmt430b19n00_mode,
-+	.num_modes = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 95,
-+		.height = 53,
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
-+	.connector_type = DRM_MODE_CONNECTOR_DPI,
-+};
-+
- static const struct drm_display_mode cdtech_s043wq26h_ct7_mode = {
- 	.clock = 9000,
- 	.hdisplay = 480,
-@@ -4402,6 +4428,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "boe,hv070wsa-100",
- 		.data = &boe_hv070wsa
-+	}, {
-+		.compatible = "cct,cmt430b19n00",
-+		.data = &cct_cmt430b19n00,
- 	}, {
- 		.compatible = "cdtech,s043wq26h-ct7",
- 		.data = &cdtech_s043wq26h_ct7,
--- 
-2.34.1
+On Mon, Mar 04, 2024 at 07:46:34AM -0800, Guenter Roeck wrote:
+> On Mon, Mar 4, 2024 at 1:24=E2=80=AFAM Maxime Ripard <mripard@kernel.org>=
+ wrote:
+> [ ... ]
+> >
+> > If anything, it's more of a side-effect to the push for COMPILE_TEST
+> > than anything.
+> >
+>=20
+> If the drm subsystem maintainers don't want people to build it with
+> COMPILE_TEST while at the same time not limiting it to platforms where
+> it doesn't even build, I'd suggest making it dependent on
+> !COMPILE_TEST.
 
+I don't think we want anything. My point was that you can't have an
+option that is meant to explore for bad practices and expose drivers
+that don't go through the proper abstraction, and at the same time
+complain that things gets broken. It's the whole point of it.
+
+> The same applies to all other subsystems where maintainers don't want
+> build tests to run but also don't want to add restrictions such as
+> "64-bit only". After all, this was just one example.
+
+We have drivers for some 32 bits platforms.
+
+Maxime
+
+--thflmdlthwp7swbs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZeXxMAAKCRDj7w1vZxhR
+xYlQAPwIi05mGTIAHwJKG4sBeZKb2fVtGkVhOtt6zHMKVCL4UgEA4a2ngKZUqIko
+YkvJr1Lsw7kRsL8JpjsPGMT6i86ACwY=
+=NUWE
+-----END PGP SIGNATURE-----
+
+--thflmdlthwp7swbs--
