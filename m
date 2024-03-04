@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E91B87001D
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 12:16:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3EE5870024
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 12:17:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9839D10FFFF;
-	Mon,  4 Mar 2024 11:16:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF35410FFFE;
+	Mon,  4 Mar 2024 11:17:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7F7F810FFFE
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 11:16:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5C0D410FFFE
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 11:17:32 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BEED31FB
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 03:17:31 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C55091FB
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 03:18:08 -0800 (PST)
 Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
  [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C2FF43F738
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 03:16:54 -0800 (PST)
-Date: Mon, 4 Mar 2024 11:16:48 +0000
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CA09D3F738
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 03:17:31 -0800 (PST)
+Date: Mon, 4 Mar 2024 11:17:28 +0000
 From: Liviu Dudau <liviu.dudau@arm.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>
 Cc: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
  kernel@collabora.com, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 2/3] drm/panthor: Explicitly include page.h for the
- {virt,__phys)_to_pfn() defs
-Message-ID: <ZeWtoNjlHanzybMd@e110455-lin.cambridge.arm.com>
+Subject: Re: [PATCH 1/3] drm/panthor: Fix panthor_devfreq kerneldoc
+Message-ID: <ZeWtyLX7SQIynpNI@e110455-lin.cambridge.arm.com>
 References: <20240304090812.3941084-1-boris.brezillon@collabora.com>
- <20240304090812.3941084-3-boris.brezillon@collabora.com>
+ <20240304090812.3941084-2-boris.brezillon@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240304090812.3941084-3-boris.brezillon@collabora.com>
+In-Reply-To: <20240304090812.3941084-2-boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,43 +48,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 04, 2024 at 10:08:11AM +0100, Boris Brezillon wrote:
-> Something on arm[64] must be including <asm/page.h>, but things fail
-> to compile on sparc64. Make sure this header is included explicitly
-> so this driver can be compile-tested on all supported architectures.
+On Mon, Mar 04, 2024 at 10:08:10AM +0100, Boris Brezillon wrote:
+> Missing '*' to have a valid kerneldoc prefix.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202403031019.6jvrOqGT-lkp@intel.com/
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Is compilation on sparc64 possible because of 'depends on COMPILE_TEST'?
-Otherwise it doesn't make sense to try to build this for any arch other
-than arm[64].
-
-Regardless, patch looks harmless, so
-
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+LGTM :)
 
 Best regards,
 Liviu
 
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202403031142.Vl4pW7X6-lkp@intel.com/
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 > ---
->  drivers/gpu/drm/panthor/panthor_device.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  drivers/gpu/drm/panthor/panthor_devfreq.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> index bfe8da4a6e4c..68e467ee458a 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -3,6 +3,8 @@
->  /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
->  /* Copyright 2023 Collabora ltd. */
+> diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.c b/drivers/gpu/drm/panthor/panthor_devfreq.c
+> index 7ac4fa290f27..c6d3c327cc24 100644
+> --- a/drivers/gpu/drm/panthor/panthor_devfreq.c
+> +++ b/drivers/gpu/drm/panthor/panthor_devfreq.c
+> @@ -34,7 +34,7 @@ struct panthor_devfreq {
+>  	/** @last_busy_state: True if the GPU was busy last time we updated the state. */
+>  	bool last_busy_state;
 >  
-> +#include <asm/page.h>
-> +
->  #include <linux/clk.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_domain.h>
+> -	/*
+> +	/**
+>  	 * @lock: Lock used to protect busy_time, idle_time, time_last_update and
+>  	 * last_busy_state.
+>  	 *
 > -- 
 > 2.43.0
 > 
