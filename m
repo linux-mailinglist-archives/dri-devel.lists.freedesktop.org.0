@@ -2,136 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45C2186F988
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 06:16:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A900A86F99F
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 06:37:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CA5C10FC73;
-	Mon,  4 Mar 2024 05:16:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9EBB10FC9C;
+	Mon,  4 Mar 2024 05:37:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=renesas.com header.i=@renesas.com header.b="L3Yvvu5w";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="qu0F0wDN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com
- (mail-os0jpn01on2075.outbound.protection.outlook.com [40.107.113.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D96A10FC73
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 05:16:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NgnnemBLyd0JX93vUseHxxw6EW1dLdMgV9/ysf8LJcYw3hkuDtvSWQImOOJpQTLkg+7vjUYw5NmMBSAEm/fIUzkGCqv/blR98ZNuywXdJzePTzoWFGsDc3Frz0xvHkUCC0nlYYMFcH2jHUfAVO0XEtKhsT1YQix/RawfT/Ud/CnP+nOt0Pys3SETefWSmy4TmG/EWpEuX92aepqsPCO5fJ87gVyj06aibbNtnCZ+dJUCAuYY4yZkWmksKZG7m97QQ9NBcUyBuLzlD4Aloph7qTVSY7qHSIzHmVlHUSTue/GoapfWPoi7IXV3y/djTgiHkiyKfQ4WXQuBDKHWLlK21w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iPWy+PYtnAvN+6i0I6jsdtewufqRlqn7Qxjn1KjTnik=;
- b=Dhj7B7q0YAbds3an2/uDPVIWRomeNzWcEkwKbEIEkxTltkgK3fNKGriBHWJzgghRsTqv3lpOo9wCVigEUHWHphkbr36qVWX2k/Bqd2GEHYuw0yj80WhdU0Hw0pFPjsWC3QmA0ShDty/+L1zvUtfab6RYrwxYLGzF+pjAWg/ciDBnCaXSckdoGIFUDmtKDensuOptU+etd5kB0oO4Qg2vXFYEVz2FOybbCWDndbawQ9kURBlNRIqk3nkJTE578imPsNm7LrTKvFjpJyaFEnig6CVkvZ8WrBiUQVZ5usCxbaci6crPrVIkPY/cesYtkBs5VqiWE9ux6vQ2CF+4p71T4A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iPWy+PYtnAvN+6i0I6jsdtewufqRlqn7Qxjn1KjTnik=;
- b=L3Yvvu5wrTS0eFs32MUsSh9J2UL/PKq/Uf/7AhIniPtnKajt33Cwhv9ZJJiYoldnLZH5sp62imxEjzKkSuDtMkA60JArxhpwOF/uSxvGZMDJYFUbTGjQafZ/dxKvBmulC01fdWAJXbcX4RUuCTC/+wrKW/vUhc0i73ZE7R2dwp0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OSZPR01MB6616.jpnprd01.prod.outlook.com
- (2603:1096:604:fe::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.38; Mon, 4 Mar
- 2024 05:16:42 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::1934:4a38:d599:33a2]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::1934:4a38:d599:33a2%5]) with mapi id 15.20.7339.035; Mon, 4 Mar 2024
- 05:16:42 +0000
-Message-ID: <87jzmih8zq.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87plwah92n.wl-kuninori.morimoto.gx@renesas.com>
-References: <87plwah92n.wl-kuninori.morimoto.gx@renesas.com>
-To: Rob Herring <robh+dt@kernel.org>, "Lad Prabhakar"
- <prabhakar.csengg@gmail.com>, =?ISO-8859-1?Q?=22Uwe_Kleine-K=F6nig=22?=
- <u.kleine-koenig@pengutronix.de>, Alain Volmat <alain.volmat@foss.st.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Alexey Brodkin <abrodkin@synopsys.com>,
- Alim Akhtar <alim.akhtar@samsung.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Claudiu Beznea
- <claudiu.beznea@tuxon.dev>, Daniel Vetter <daniel@ffwll.ch>, Dave Stevenson
- <dave.stevenson@raspberrypi.com>, David Airlie <airlied@gmail.com>, Eugen
- Hristev <eugen.hristev@collabora.com>, Florian Fainelli
- <florian.fainelli@broadcom.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Helge Deller <deller@gmx.de>, Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Jacopo Mondi <jacopo@jmondi.org>, Jessica Zhang
- <quic_jesszhan@quicinc.com>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Maxime
- Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Sam Ravnborg <sam@ravnborg.org>, Sylwester
- Nawrocki <s.nawrocki@samsung.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Tim Harvey <tharvey@gateworks.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
- linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v2 4/4] video: fbdev: replace of_graph_get_next_endpoint()
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 4 Mar 2024 05:16:41 +0000
-X-ClientProxiedBy: TYCP286CA0130.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b6::12) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.153.233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B02210FC9C
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 05:37:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1709530628; x=1741066628;
+ h=from:date:subject:mime-version:content-transfer-encoding:
+ message-id:to:cc;
+ bh=HjXWF3YIEhulQdNJEtfbqmTCEkvDaFvH0ggPzHbk8Cc=;
+ b=qu0F0wDNudG3ex//La5bpaaDxECrkoMBfcNJ/GGDHQFvGKUjqUYCs0fT
+ rx+bauu5OkIBtVWQnDOZ7MJTM3f8NuJgjEg+VilcciVjWFMpxWQontcQe
+ /fyGAzI+taX9ARm0oFM10FxK76H5WZa/bsfP8WWamCneFBdMC9rxh1BAb
+ ELXqxGm6kElAMi2LyJNhe2fmCqKbJ/69yQ6YO3J1ey6PqB/UhwB1v/SUY
+ jhMkr2lnuJP18/GFs8uz/GoxlCQvZKarS7uUg4XL09wmt/ICRhbT8wwS6
+ Zp6OLR71lYttnB6LvIzZyukhN4bNy1X14KQRT/4S4iiERHzt5ALGrsXMO Q==;
+X-CSE-ConnectionGUID: BFFWnpeARXSwNbz8PKIqCA==
+X-CSE-MsgGUID: TFY0ZBszR/y5IYBHvTBWdQ==
+X-IronPort-AV: E=Sophos;i="6.06,203,1705388400"; d="scan'208";a="18764271"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+ by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 03 Mar 2024 22:37:06 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Sun, 3 Mar 2024 22:37:00 -0700
+Received: from che-lt-i70843lx.microchip.com (10.10.85.11) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Sun, 3 Mar 2024 22:36:54 -0700
+From: Dharma Balasubiramani <dharma.b@microchip.com>
+Date: Mon, 4 Mar 2024 11:06:39 +0530
+Subject: [PATCH v2] dt-bindings: display: atmel,lcdc: convert to dtschema
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OSZPR01MB6616:EE_
-X-MS-Office365-Filtering-Correlation-Id: ce6f1ffa-ad5a-4f71-8bc9-08dc3c0a470a
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0yeRBJMdvOV/MHZmmaEQlT3LNiGRRzxmZks+64Hk4BQZzfFb7ZqnxAtq2eMWxvdfANe/0irG2/6cOtkdIVyL3OnGlEUvGUERW9+djVx4ISARbGB4GgVVdQGEw1qHdMkBnB5E2T2Xx6mCaR7qNdacUeepu93pv1VAm5ofEU5ovr6lGQG87FmUjv9MAvh3bBU6CpG49BeUkgv3Wt+06GpTSS5ba3BngM0x8ZhISCoRN9tUh5aDm1y6c8dtPKqGDObZJYMhIA/7boFp3wJyXiS7EBRx1C7o7D/IbGBi+0LipCA4UTc3acJuoc4K0elglB5tul2XRQgGHfzQoRpBm/ds7G2anEzv3WQa3QtwLcuMwvP9Lw7vEAZRPwqJ5ZHolVtcRBi87qWc9HduYJ6d526j2X6U4SOHqJIMrqBV0nEjkzTA9kwBdXg/XlOlVO+eOKFrzQ20beDvm/CKgLkbROYmpQ4z+dgmYIppE1hU2LVB3Xddbur4TVb+y8YhuJE95CcaoZ6uiR4DVAkTj5GY4WAJSZbJOar0z0ztriP8Ce2squ5T7wqR7vL8G1/jXeNFqChPAoYs6oy2NX0GVdPTTOv06beKWJfYPXIBFLXNipeSA17B/+0vIMAF7hurHicmj+qPwrF0nJAog+OSK/PFFW0MQeXWT5krl/DcO/kUUcojPjGubr7U5w47WFv1GXhsnKai
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYCPR01MB10914.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005)(921011)(38350700005); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IvU4vwrGHc5Vd6eJhNTkPK5uRVJeeOKrarNLItYzXj4Jl+rRaBvykgX23mss?=
- =?us-ascii?Q?eZRp8MO5AlqRwR6F5Q6V1AsYZGxJx54tPOUZ5TC1up6L9ai6AlN8Gu8SV+ql?=
- =?us-ascii?Q?PS6goQTvv2s93eo55rhcC929k44dKsIDWUI9GYB5LeQTPOolByNvXlOcpzPJ?=
- =?us-ascii?Q?FhO9ZW6HHjjUt9wusa/Ts31uhKO8/+XW7DggVkObrconXsXkUiiBxOXtt6PQ?=
- =?us-ascii?Q?n5AdhIaRuwwC+tIB4LkggH58p+DGiELlCjlWzMVkfWGjBFFLPvDXEYmGgqB1?=
- =?us-ascii?Q?7Em9tj7wfVe0ekeCQmDkkUjMgmEYfm5+CczaaSZNav67dbIP5flqxIzzQmFy?=
- =?us-ascii?Q?yk6Tbb8g8Zt7BxO+w+dN8F01zSJYzdOSomefWWcKfOfwd/wsnOvZ885P8mNL?=
- =?us-ascii?Q?ARDSec7VjAVPSWzL7CbBhA2KvwVFZEHnO2USmOjVX+oQ2LjctOV0mvagUJts?=
- =?us-ascii?Q?sYVfWQHRke9nPFQr1k7TybvlE+0v35StSb0UMkXZmZCsOwCoL8tOObe1ynKU?=
- =?us-ascii?Q?Yjkt8B/Zl79e9Jk+q8KllUHMYGaWhgEPh50x+8Kj4MQ6wde6UeGisfIU0WNE?=
- =?us-ascii?Q?YawVTIVpOPZobWgHdycilHaklMQpHVhYsu3YpugZEycNnNpOk9I3UFAoXHc6?=
- =?us-ascii?Q?fTWz5H/PpMK2/67VLsR2WHumb4DqAXQ4Ru4vsnUy4hWU+zX+liIVfuQzc+k9?=
- =?us-ascii?Q?EV82cmElZntMH2ZOKX0UO2xvo4lVWxaxWIb7bQ3b5EgXkfM9FdwrmZMkqZmq?=
- =?us-ascii?Q?zdt0i3fuH3NjLpdq6PYsPfJd8UOdopR5zsb0lDZf7uFuIZJob80RuWqaFscW?=
- =?us-ascii?Q?Za0jSfpyx1KADHkfCMZkqzxiDNL1yZ55wueUI9q/QxgoAlocwARiDIegCcS6?=
- =?us-ascii?Q?frHKFyaWZgu9vqxtGn6dKKyp0stPO9E07aOvugG4aV1JfwDegysdkSNwUe3l?=
- =?us-ascii?Q?/myRIvaIPjTrRimuj2KtdnQ+VrQCX4nug13cK6jTyJbN13jBbUOhL+VH9oNt?=
- =?us-ascii?Q?BO3mBYlXkyzQ/eb5df6fCoqWC/YTUZHorAspES1Aot1Ct3xEXyg4cUnULgW6?=
- =?us-ascii?Q?0vWmsGqcNLHZ9Gpj2ZT/FBpXsHSNhGH79ID9wHhJ8k599fULlbFTtZH8tQ3Z?=
- =?us-ascii?Q?DoYETOpaZ/2O0398QmQBduH3bUkuFx2tISHpe/7QxNaUPfK04iF1pubFLY1q?=
- =?us-ascii?Q?WAGYtJP++YXsplQA1E4vPHP54N7i4H6NqEWll2pfI7nnxIuBQraOikEXORkJ?=
- =?us-ascii?Q?3+XpJAjvC0kQZnwPU3slqFkzbUUCoLhKwQY9rSEcR3pOvD8Dy/o58CIVoPfU?=
- =?us-ascii?Q?uAECAqxubiiKbNW7ihbwY3D1tWbCNt2rVdU3ENIYkOhZXsaRVoLhdc4WzKD2?=
- =?us-ascii?Q?8U26jt/irUYiv2zLMQFY36UZS2q3xytf4FlAfNR+tq6cugzKaYKac8uzprSK?=
- =?us-ascii?Q?84ogN9XrDEQ4yETNkn7ZUWVPRQsAE9rm4dnWijflSmEZ+MnAcevjFgebmjny?=
- =?us-ascii?Q?V+WPhHZ/7lmO63ekUgKdZDSS9yLrpNkYCU3y+LJ9VQO8fcFq/g8fgOBq24d2?=
- =?us-ascii?Q?p5HjQkcW/HA2Hk+i1UvaQFjjSQcR0WMeftsOqa4mnHJBgrZ2sPW4XE47EICB?=
- =?us-ascii?Q?vZOJRTMiY6xPKSpQSE6Cz9c=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce6f1ffa-ad5a-4f71-8bc9-08dc3c0a470a
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2024 05:16:42.0006 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: u/YeQt0iLyiGlUAXtyF6YJdBdL5yWM9uUuvNWZmTSo4Mlb9TgZyVNHrestba5hrgBguSA/HeosSnh/ItW9VTfYM6V4ncZ9ha+jGJ9PDBrP025UNEAPr5eCttpVHjJq7j
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB6616
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20240304-lcdc-fb-v2-1-a14b463c157a@microchip.com>
+X-B4-Tracking: v=1; b=H4sIAOZd5WUC/2XMQQrCMBCF4auUWRtppqFVV95DujCTiRmwTUmkK
+ CV3N3br8n88vg0yJ+EMl2aDxKtkiXMNPDRA4T4/WImrDdiiaRE79SRHyltlTw4ZfUdnbaC+l8R
+ e3rt0G2sHya+YPju86t/6b6xaaWWoN2R7HAbnr5NQihRkOVKcYCylfAHkeWP8ogAAAA==
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>
+CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ Dharma Balasubiramani <dharma.b@microchip.com>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1709530605; l=9543;
+ i=dharma.b@microchip.com; s=20240209; h=from:subject:message-id;
+ bh=HjXWF3YIEhulQdNJEtfbqmTCEkvDaFvH0ggPzHbk8Cc=;
+ b=94IRQwX7s9gnTfvI89sYFyGFfb2/zTDBlP2tesca5BXKYhwTOxOR2fmhzfCVTizuThfraY/xL
+ vlXlKQ8yR2iDuJ0PGZEAl+ibN2vL9V6ZHreClongs0/iqur3eXTsAtq
+X-Developer-Key: i=dharma.b@microchip.com; a=ed25519;
+ pk=kCq31LcpLAe9HDfIz9ZJ1U7T+osjOi7OZSbe0gqtyQ4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,185 +85,312 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From DT point of view, in general, drivers should be asking for a
-specific port number because their function is fixed in the binding.
+Convert the atmel,lcdc bindings to DT schema.
+Changes during conversion: add missing clocks and clock-names properties.
 
-of_graph_get_next_endpoint() doesn't match to this concept.
-
-Simply replace
-
-	- of_graph_get_next_endpoint(xxx, NULL);
-	+ of_graph_get_endpoint_by_regs(xxx, 0, -1);
-
-Link: https://lore.kernel.org/r/20240202174941.GA310089-robh@kernel.org
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
 ---
- drivers/video/fbdev/omap2/omapfb/dss/dsi.c    |  3 ++-
- drivers/video/fbdev/omap2/omapfb/dss/dss-of.c | 20 +------------------
- drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c  |  3 ++-
- drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c  |  3 ++-
- drivers/video/fbdev/omap2/omapfb/dss/venc.c   |  3 ++-
- drivers/video/fbdev/pxafb.c                   |  2 +-
- include/video/omapfb_dss.h                    |  3 ---
- 7 files changed, 10 insertions(+), 27 deletions(-)
+This patch converts the existing lcdc display text binding to JSON schema.
+The binding is split into two namely
+lcdc.yaml
+- Holds the frame buffer properties
+lcdc-display.yaml
+- Holds the display panel properties which is a phandle to the display
+property in lcdc fb node.
 
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dsi.c b/drivers/video/fbd=
-ev/omap2/omapfb/dss/dsi.c
-index b7eb17a16ec4..1f13bcf73da5 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
-@@ -28,6 +28,7 @@
- #include <linux/debugfs.h>
- #include <linux/pm_runtime.h>
- #include <linux/of.h>
-+#include <linux/of_graph.h>
- #include <linux/of_platform.h>
- #include <linux/component.h>
-=20
-@@ -5079,7 +5080,7 @@ static int dsi_probe_of(struct platform_device *pdev)
- 	struct device_node *ep;
- 	struct omap_dsi_pin_config pin_cfg;
-=20
--	ep =3D omapdss_of_get_first_endpoint(node);
-+	ep =3D of_graph_get_endpoint_by_regs(node, 0, -1);
- 	if (!ep)
- 		return 0;
-=20
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dss-of.c b/drivers/video/=
-fbdev/omap2/omapfb/dss/dss-of.c
-index 0282d4eef139..14965a3fd05b 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/dss-of.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/dss-of.c
-@@ -130,24 +130,6 @@ static struct device_node *omapdss_of_get_remote_port(=
-const struct device_node *
- 	return np;
- }
-=20
--struct device_node *
--omapdss_of_get_first_endpoint(const struct device_node *parent)
--{
--	struct device_node *port, *ep;
+These bindings are tested against the existing at91 dts files using
+dtbs_check.
+---
+Changes in v2:
+- Run checkpatch and remove whitespace errors.
+- Add the standard interrupt flags.
+- Split the binding into two, namely lcdc.yaml and lcdc-display.yaml.
+- Link to v1: https://lore.kernel.org/r/20240223-lcdc-fb-v1-1-4c64cb6277df@microchip.com
+---
+ .../bindings/display/atmel,lcdc-display.yaml       | 98 ++++++++++++++++++++++
+ .../devicetree/bindings/display/atmel,lcdc.txt     | 87 -------------------
+ .../devicetree/bindings/display/atmel,lcdc.yaml    | 70 ++++++++++++++++
+ 3 files changed, 168 insertions(+), 87 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/display/atmel,lcdc-display.yaml b/Documentation/devicetree/bindings/display/atmel,lcdc-display.yaml
+new file mode 100644
+index 000000000000..ea4fd34b9e2c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/atmel,lcdc-display.yaml
+@@ -0,0 +1,98 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/atmel,lcdc-display.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Microchip's LCDC Display
++
++maintainers:
++  - Nicolas Ferre <nicolas.ferre@microchip.com>
++  - Dharma Balasubiramani <dharma.b@microchip.com>
++
++description:
++  The LCD Controller (LCDC) consists of logic for transferring LCD image data
++  from an external display buffer to a TFT LCD panel. The LCDC has one display
++  input buffer per layer that fetches pixels through the single bus host
++  interface and a look-up table to allow palletized display configurations. The
++  LCDC is programmable on a per layer basis, and supports different LCD
++  resolutions, window sizes, image formats and pixel depths.
++
++# We need a select here since this schema is applicable only for nodes with the
++# following properties
++
++select:
++  anyOf:
++    - required: [ 'atmel,dmacon' ]
++    - required: [ 'atmel,lcdcon2' ]
++    - required: [ 'atmel,guard-time' ]
++    - required: [ bits-per-pixel ]
++
++properties:
++  atmel,dmacon:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: dma controller configuration
++
++  atmel,lcdcon2:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: lcd controller configuration
++
++  atmel,guard-time:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: lcd guard time (Delay in frame periods)
++
++  bits-per-pixel:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: lcd panel bit-depth.
++
++  atmel,lcdcon-backlight:
++    $ref: /schemas/types.yaml#/definitions/flag
++    description: enable backlight
++
++  atmel,lcdcon-backlight-inverted:
++    $ref: /schemas/types.yaml#/definitions/flag
++    description: invert backlight PWM polarity
++
++  atmel,lcd-wiring-mode:
++    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
++    description: lcd wiring mode "RGB" or "BRG"
++
++  atmel,power-control-gpio:
++    description: gpio to power on or off the LCD (as many as needed)
++
++  display-timings:
++    $ref: panel/display-timings.yaml#
++
++required:
++  - atmel,dmacon
++  - atmel,lcdcon2
++  - atmel,guard-time
++  - bits-per-pixel
++
++additionalProperties: false
++
++examples:
++  - |
++    display: panel {
++      bits-per-pixel = <32>;
++      atmel,lcdcon-backlight;
++      atmel,dmacon = <0x1>;
++      atmel,lcdcon2 = <0x80008002>;
++      atmel,guard-time = <9>;
++      atmel,lcd-wiring-mode = <1>;
++
++      display-timings {
++        native-mode = <&timing0>;
++        timing0: timing0 {
++          clock-frequency = <9000000>;
++          hactive = <480>;
++          vactive = <272>;
++          hback-porch = <1>;
++          hfront-porch = <1>;
++          vback-porch = <40>;
++          vfront-porch = <1>;
++          hsync-len = <45>;
++          vsync-len = <1>;
++        };
++      };
++    };
+diff --git a/Documentation/devicetree/bindings/display/atmel,lcdc.txt b/Documentation/devicetree/bindings/display/atmel,lcdc.txt
+deleted file mode 100644
+index b5e355ada2fa..000000000000
+--- a/Documentation/devicetree/bindings/display/atmel,lcdc.txt
++++ /dev/null
+@@ -1,87 +0,0 @@
+-Atmel LCDC Framebuffer
+------------------------------------------------------
 -
--	port =3D omapdss_of_get_next_port(parent, NULL);
+-Required properties:
+-- compatible :
+-	"atmel,at91sam9261-lcdc" , 
+-	"atmel,at91sam9263-lcdc" ,
+-	"atmel,at91sam9g10-lcdc" ,
+-	"atmel,at91sam9g45-lcdc" ,
+-	"atmel,at91sam9g45es-lcdc" ,
+-	"atmel,at91sam9rl-lcdc" ,
+-- reg : Should contain 1 register ranges(address and length).
+-	Can contain an additional register range(address and length)
+-	for fixed framebuffer memory. Useful for dedicated memories.
+-- interrupts : framebuffer controller interrupt
+-- display: a phandle pointing to the display node
 -
--	if (!port)
--		return NULL;
+-Required nodes:
+-- display: a display node is required to initialize the lcd panel
+-	This should be in the board dts.
+-- default-mode: a videomode within the display with timing parameters
+-	as specified below.
 -
--	ep =3D omapdss_of_get_next_endpoint(port, NULL);
+-Optional properties:
+-- lcd-supply: Regulator for LCD supply voltage.
 -
--	of_node_put(port);
+-Example:
 -
--	return ep;
--}
--EXPORT_SYMBOL_GPL(omapdss_of_get_first_endpoint);
+-	fb0: fb@00500000 {
+-		compatible = "atmel,at91sam9g45-lcdc";
+-		reg = <0x00500000 0x1000>;
+-		interrupts = <23 3 0>;
+-		pinctrl-names = "default";
+-		pinctrl-0 = <&pinctrl_fb>;
+-		display = <&display0>;
+-		#address-cells = <1>;
+-		#size-cells = <1>;
 -
- struct omap_dss_device *
- omapdss_of_find_source_for_first_ep(struct device_node *node)
- {
-@@ -155,7 +137,7 @@ omapdss_of_find_source_for_first_ep(struct device_node =
-*node)
- 	struct device_node *src_port;
- 	struct omap_dss_device *src;
-=20
--	ep =3D omapdss_of_get_first_endpoint(node);
-+	ep =3D of_graph_get_endpoint_by_regs(node, 0, -1);
- 	if (!ep)
- 		return ERR_PTR(-EINVAL);
-=20
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c b/drivers/video/f=
-bdev/omap2/omapfb/dss/hdmi4.c
-index f05b4e35a842..8f407ec134dc 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c
-@@ -20,6 +20,7 @@
- #include <linux/pm_runtime.h>
- #include <linux/clk.h>
- #include <linux/of.h>
-+#include <linux/of_graph.h>
- #include <linux/regulator/consumer.h>
- #include <linux/component.h>
- #include <video/omapfb_dss.h>
-@@ -529,7 +530,7 @@ static int hdmi_probe_of(struct platform_device *pdev)
- 	struct device_node *ep;
- 	int r;
-=20
--	ep =3D omapdss_of_get_first_endpoint(node);
-+	ep =3D of_graph_get_endpoint_by_regs(node, 0, -1);
- 	if (!ep)
- 		return 0;
-=20
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c b/drivers/video/f=
-bdev/omap2/omapfb/dss/hdmi5.c
-index 03292945b1d4..4ad219f522b9 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c
-@@ -25,6 +25,7 @@
- #include <linux/pm_runtime.h>
- #include <linux/clk.h>
- #include <linux/of.h>
-+#include <linux/of_graph.h>
- #include <linux/regulator/consumer.h>
- #include <linux/component.h>
- #include <video/omapfb_dss.h>
-@@ -561,7 +562,7 @@ static int hdmi_probe_of(struct platform_device *pdev)
- 	struct device_node *ep;
- 	int r;
-=20
--	ep =3D omapdss_of_get_first_endpoint(node);
-+	ep =3D of_graph_get_endpoint_by_regs(node, 0, -1);
- 	if (!ep)
- 		return 0;
-=20
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/venc.c b/drivers/video/fb=
-dev/omap2/omapfb/dss/venc.c
-index c9d40e28a06f..0bd80d3b8f1b 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/venc.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/venc.c
-@@ -24,6 +24,7 @@
- #include <linux/regulator/consumer.h>
- #include <linux/pm_runtime.h>
- #include <linux/of.h>
-+#include <linux/of_graph.h>
- #include <linux/component.h>
-=20
- #include <video/omapfb_dss.h>
-@@ -764,7 +765,7 @@ static int venc_probe_of(struct platform_device *pdev)
- 	u32 channels;
- 	int r;
-=20
--	ep =3D omapdss_of_get_first_endpoint(node);
-+	ep =3D of_graph_get_endpoint_by_regs(node, 0, -1);
- 	if (!ep)
- 		return 0;
-=20
-diff --git a/drivers/video/fbdev/pxafb.c b/drivers/video/fbdev/pxafb.c
-index fa943612c4e2..2ef56fa28aff 100644
---- a/drivers/video/fbdev/pxafb.c
-+++ b/drivers/video/fbdev/pxafb.c
-@@ -2171,7 +2171,7 @@ static int of_get_pxafb_mode_info(struct device *dev,
- 	u32 bus_width;
- 	int ret, i;
-=20
--	np =3D of_graph_get_next_endpoint(dev->of_node, NULL);
-+	np =3D of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
- 	if (!np) {
- 		dev_err(dev, "could not find endpoint\n");
- 		return -EINVAL;
-diff --git a/include/video/omapfb_dss.h b/include/video/omapfb_dss.h
-index e8eaac2cb7b8..a8c0c3eeeb5b 100644
---- a/include/video/omapfb_dss.h
-+++ b/include/video/omapfb_dss.h
-@@ -819,9 +819,6 @@ struct device_node *
- omapdss_of_get_next_endpoint(const struct device_node *parent,
- 			     struct device_node *prev);
-=20
--struct device_node *
--omapdss_of_get_first_endpoint(const struct device_node *parent);
+-	};
 -
- struct omap_dss_device *
- omapdss_of_find_source_for_first_ep(struct device_node *node);
- #else
---=20
-2.25.1
+-Example for fixed framebuffer memory:
+-
+-	fb0: fb@00500000 {
+-		compatible = "atmel,at91sam9263-lcdc";
+-		reg = <0x00700000 0x1000 0x70000000 0x200000>;
+-		[...]
+-	};
+-
+-Atmel LCDC Display
+------------------------------------------------------
+-Required properties (as per of_videomode_helper):
+-
+- - atmel,dmacon: dma controller configuration
+- - atmel,lcdcon2: lcd controller configuration
+- - atmel,guard-time: lcd guard time (Delay in frame periods)
+- - bits-per-pixel: lcd panel bit-depth.
+-
+-Optional properties (as per of_videomode_helper):
+- - atmel,lcdcon-backlight: enable backlight
+- - atmel,lcdcon-backlight-inverted: invert backlight PWM polarity
+- - atmel,lcd-wiring-mode: lcd wiring mode "RGB" or "BRG"
+- - atmel,power-control-gpio: gpio to power on or off the LCD (as many as needed)
+-
+-Example:
+-	display0: display {
+-		bits-per-pixel = <32>;
+-		atmel,lcdcon-backlight;
+-		atmel,dmacon = <0x1>;
+-		atmel,lcdcon2 = <0x80008002>;
+-		atmel,guard-time = <9>;
+-		atmel,lcd-wiring-mode = <1>;
+-
+-		display-timings {
+-			native-mode = <&timing0>;
+-			timing0: timing0 {
+-				clock-frequency = <9000000>;
+-				hactive = <480>;
+-				vactive = <272>;
+-				hback-porch = <1>;
+-				hfront-porch = <1>;
+-				vback-porch = <40>;
+-				vfront-porch = <1>;
+-				hsync-len = <45>;
+-				vsync-len = <1>;
+-			};
+-		};
+-	};
+diff --git a/Documentation/devicetree/bindings/display/atmel,lcdc.yaml b/Documentation/devicetree/bindings/display/atmel,lcdc.yaml
+new file mode 100644
+index 000000000000..1b6f7e395006
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/atmel,lcdc.yaml
+@@ -0,0 +1,70 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/atmel,lcdc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Microchip's LCDC Framebuffer
++
++maintainers:
++  - Nicolas Ferre <nicolas.ferre@microchip.com>
++  - Dharma Balasubiramani <dharma.b@microchip.com>
++
++description:
++  The LCDC works with a framebuffer, which is a section of memory that contains
++  a complete frame of data representing pixel values for the display. The LCDC
++  reads the pixel data from the framebuffer and sends it to the LCD panel to
++  render the image.
++
++properties:
++  compatible:
++    enum:
++      - atmel,at91sam9261-lcdc
++      - atmel,at91sam9263-lcdc
++      - atmel,at91sam9g10-lcdc
++      - atmel,at91sam9g45-lcdc
++      - atmel,at91sam9g45es-lcdc
++      - atmel,at91sam9rl-lcdc
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    maxItems: 2
++
++  clock-names:
++    items:
++      - const: hclk
++      - const: lcdc_clk
++
++  display:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: A phandle pointing to the display node.
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++  - display
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/at91.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++    fb@500000 {
++      compatible = "atmel,at91sam9g45-lcdc";
++      reg = <0x00500000 0x1000>;
++      interrupts = <23 IRQ_TYPE_LEVEL_HIGH 0>;
++      pinctrl-names = "default";
++      pinctrl-0 = <&pinctrl_fb>;
++      clocks = <&pmc PMC_TYPE_PERIPHERAL 23>, <&pmc PMC_TYPE_PERIPHERAL 23>;
++      clock-names = "hclk", "lcdc_clk";
++      display = <&display>;
++    };
+
+---
+base-commit: 90d35da658da8cff0d4ecbb5113f5fac9d00eb72
+change-id: 20240223-lcdc-fb-b8d2e2f3c914
+
+Best regards,
+-- 
+Dharma Balasubiramani <dharma.b@microchip.com>
 
