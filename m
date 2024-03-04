@@ -2,86 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B15288706CB
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 17:17:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 914CB8706CE
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 17:17:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDAE41122F6;
-	Mon,  4 Mar 2024 16:17:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B84F81122F5;
+	Mon,  4 Mar 2024 16:17:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="1QWYB9vZ";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Am8V6hM3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
- [209.85.160.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A70511122F6
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 16:17:36 +0000 (UTC)
-Received: by mail-qt1-f178.google.com with SMTP id
- d75a77b69052e-428405a0205so1026101cf.1
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 08:17:36 -0800 (PST)
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
+ [209.85.208.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31B6A1122F5
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 16:17:55 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id
+ 4fb4d7f45d1cf-565b434f90aso6792340a12.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 08:17:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1709569055; x=1710173855;
+ d=chromium.org; s=google; t=1709569070; x=1710173870;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=pJO9gacEPP5sFMHLlJa9c2bsoqfYUttJAmzyO8JWUPM=;
- b=1QWYB9vZReuyq1+ilmumwdxCGMmfFlK/X1GgmxHSM7hDAppEMWRgJ4W+tMgMySFxB+
- E0fuzRRYE/vLwDfy5HJKdyh5h0wbHrksQqqvSGCdoSEyETJZcI9YDYkm+ADrpS5oXVio
- q1KGOxjf6K9HvVCeD6EqRYWnsCwl0Mk9FAZTyvUlk1/SyamVvMaps8/rvrDqz9prnXXy
- DINTYFzAMuf63NMnfNQbEwchXhNVWN51NhGrXXaAqcp1HKg3CG52v2EcpJnp82HhFEdY
- eJJdgjcUbNToh+kmzsE2ezgHkWdxKTikXbX40lMnYhukM5lnl5774/7DJeK8qmmBIO6T
- kL1g==
+ bh=km22joOP3BJvhNiKy5z6xew4BuTiJqbVYs51+71h3NQ=;
+ b=Am8V6hM3ZaqM83NpKIqPg4ja05LfwCtGcv7QZVotNnkxB/Z0jqTooxHxdewe655XKb
+ h7fTVYIxMiSaKok9aJq3/6DLXijoVLGpvHo70q5yUMCJTa4BKGAFCUhOQr9Kl6S9QMXe
+ 92gCQ1R8db31gl09VTMrolRZsLyJQfhbV7qZw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709569055; x=1710173855;
+ d=1e100.net; s=20230601; t=1709569070; x=1710173870;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=pJO9gacEPP5sFMHLlJa9c2bsoqfYUttJAmzyO8JWUPM=;
- b=I9So/AFxngcOQw0efF4KhnSGjfExjW/Jt2QufeWHiT48D5Md37oU1S0o02WayhDxSh
- haA/m0k/ZGk5Z3pTUxouDoxctnkhsTCTtyS5jHVFpOJANB7CSN9Ok8SHW8UzdRhSgVLj
- FYO8O0NXLJoFPdXN7ghZBjEejG3JCzOR32B58RlBy5sSqaIsz3Jz7vsSUrtmLVGC/7yR
- nZ4Y6KPM2/QYaFNLyaK1Vtom9QrCOQA6bv5NNmC/awOOkSYpjc4Zkh7xYA4zXfNDQ9hq
- fskBYk2B5xGpFPELUKvrFR7Ns8XRhXF52wKxyliVHvu+raAD/MZOAO6ErsTog9qDHaDh
- nmdA==
+ bh=km22joOP3BJvhNiKy5z6xew4BuTiJqbVYs51+71h3NQ=;
+ b=ZheW/AVP62a4DqhKoG1XVcfFfsNwOMyM62FOR3hhBUM1UFtrJ1c/jShveNSJstTJgS
+ DYzYZc6l/ZPx4mDhLJfP59Z5HHvTMuiOLkQ5+XKOdRrKFeplOBC31ZQ8jSPHNzbj+Q+m
+ UKFFw+BHKzb4avGSvvAZ2TOL7ZQDfHcwUdkKYwyCchbsU0dm8iKUjcgCNovL6WGArd/O
+ KuYI6vPqBbOX7kWctTbwzf1sQSJvoHwnu8i/1zh1wyK8efE2d19krkmogFTkrwvgFTnH
+ G3Mq4Z1R8JIG79LhkTa5N58uQMvGe8/HVI8UZqWr1T9Qo0rsPDnx30g7RMT/A+32t0u5
+ F0/w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVaKHoZ4fhSqbAyA7QcXPa+rCN7Nd0UJoVcVLkGE+bkiVuqdYgwSTQt6UVjcK3CRV1nz4I8868YKDuO6lkP/5x2iI/voYe5RzsP729XAyBQ
-X-Gm-Message-State: AOJu0Yx6m6fXoO4+apgfkXifn9mqexHN40qdvbipwhMjGmdIO9pqUfs/
- H8XXk1ya5qXdwwT8Nt0BIRSvgwDdWYh2MA6QiCgorM6ieege5+hJtnIsYs4F29VPfjdtPY68P/+
- 7F+Y2BHO7ni/Ct2lmMxCRA1D2wBWIilBqTWI+
-X-Google-Smtp-Source: AGHT+IHbFr+UrpkmDyx9eEQjvWp5e9il7+Ss/3DBjwoc6vhBdezPC0MNPvzzn5kv1q0w0+yTuTK/ZwenVZtUrxnT/+s=
-X-Received: by 2002:ac8:68a:0:b0:42e:9dd8:4a64 with SMTP id
- f10-20020ac8068a000000b0042e9dd84a64mr708152qth.18.1709569055283; Mon, 04 Mar
- 2024 08:17:35 -0800 (PST)
+ AJvYcCUQUJ0WAJOVn9aWJeVy6QFaVhcQ3TmlanSALuUNY7aI4cgUeVOWvIaxpgQGclTRgYxlTJtfbTKNFNG+XLiu3tjvjwLx+XhqR6t8KBalU56n
+X-Gm-Message-State: AOJu0Ywa8L1oszQymJKHH8P4l7LqTEQg9u83Ckl8V3/vrxpGzgjXVIkJ
+ Erg2Zy5hcE4A9SQkToRubvJt8X2ao3SjokKrqnCJTFmG7VG+CaMOHYoMMnwb+4mCz+cCTS5K7mj
+ yVQ==
+X-Google-Smtp-Source: AGHT+IFxmeA8LKTHf7kV4v1imdvnM0wH2MlVS6sj4j8SZkWSrff/ji1XVqeL8tWikMxqPs4j9OcJow==
+X-Received: by 2002:a05:6402:c94:b0:566:a235:7f14 with SMTP id
+ cm20-20020a0564020c9400b00566a2357f14mr6428416edb.16.1709569070676; 
+ Mon, 04 Mar 2024 08:17:50 -0800 (PST)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com.
+ [209.85.128.42]) by smtp.gmail.com with ESMTPSA id
+ n3-20020aa7db43000000b005656bbb5b3fsm4797589edt.63.2024.03.04.08.17.49
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Mar 2024 08:17:49 -0800 (PST)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-412d84ffbfaso93925e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 08:17:49 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW09NRW7lnetP8aiOI5yu/53mBnPIkp3CDg6ahknvgMn+l23xqJJJzC7g7+PiX6d8DnXmMsVMS/WyAZ4avSDyE9bg94CNyqjnKFNKTR0vvc
+X-Received: by 2002:a05:600c:518b:b0:412:e492:7e5 with SMTP id
+ fa11-20020a05600c518b00b00412e49207e5mr156141wmb.1.1709569068931; Mon, 04 Mar
+ 2024 08:17:48 -0800 (PST)
 MIME-Version: 1.0
-References: <20240228225527.1052240-1-helen.koike@collabora.com>
- <20240228225527.1052240-2-helen.koike@collabora.com>
- <20240229-dancing-laughing-groundhog-d85161@houat>
- <5d7ed81b-37f9-48e9-ab7e-484b74ca886c@gmail.com>
- <CAHk-=wixVy3WYvjbt43ZSrCqPDsS76QJQSkXFbbPsAOs1MCSAQ@mail.gmail.com>
- <CABXOdTeT2ip1uS2EG2w8pW7254Tnd=ZDNz-KC61-G-yqDTVgJA@mail.gmail.com>
- <20240304-rigorous-silkworm-of-awe-4eee8f@houat>
- <CABXOdTc4MXcjwgGuJb4_69-4OFELD37x0B6oMr=4z=nxZ2HPXQ@mail.gmail.com>
- <20240304-ludicrous-grinning-goldfish-090aac@houat>
-In-Reply-To: <20240304-ludicrous-grinning-goldfish-090aac@houat>
-From: Guenter Roeck <groeck@google.com>
-Date: Mon, 4 Mar 2024 08:17:22 -0800
-Message-ID: <CABXOdTeDydWO9mf2yxWjjebHZ1bE=R2HPs1P4XYwNhzznNKxmw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] kci-gitlab: Introducing GitLab-CI Pipeline for Kernel
- Testing
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Linus Torvalds <torvalds@linuxfoundation.org>,
- Nikolai Kondrashov <spbnick@gmail.com>, 
- Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org, 
- dave.pigott@collabora.com, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org, 
- gustavo.padovan@collabora.com, pawiecz@collabora.com, 
- tales.aparecida@gmail.com, workflows@vger.kernel.org, 
- kernelci@lists.linux.dev, skhan@linuxfoundation.org, 
- kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com, 
- cocci@inria.fr, Julia.Lawall@inria.fr, laura.nao@collabora.com, 
- ricardo.canuelo@collabora.com, kernel@collabora.com, 
- gregkh@linuxfoundation.org
+References: <20240223223958.3887423-1-hsinyi@chromium.org>
+ <20240223223958.3887423-2-hsinyi@chromium.org>
+ <87wmqqjmt9.fsf@intel.com>
+ <CAJMQK-jSPg6vU3SLmRy7zwNHJ4yqO2hT6RaiYxA4ifZ7CzwD9Q@mail.gmail.com>
+ <CAD=FV=WU-2yystd40e+g9VNDNTiv5c=nP0uQg-AR03o7UGMTdA@mail.gmail.com>
+ <87bk7z6x1w.fsf@intel.com>
+ <CAD=FV=Wzm9Y7m9Q6KqO7yWdnc1xToaRMb2f1s2TQMJqpqVYLOg@mail.gmail.com>
+ <CAA8EJpqHJTbc+TCpkccjx_eQH36zaNgcQ9QssecNeQUQgfYApQ@mail.gmail.com>
+In-Reply-To: <CAA8EJpqHJTbc+TCpkccjx_eQH36zaNgcQ9QssecNeQUQgfYApQ@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 4 Mar 2024 08:17:32 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XyV=V-USfq8kp058=FzRQq=bPA5A4GDb1p0zO-KPbtwQ@mail.gmail.com>
+Message-ID: <CAD=FV=XyV=V-USfq8kp058=FzRQq=bPA5A4GDb1p0zO-KPbtwQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm_edid: Add a function to get EDID base block
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -99,49 +106,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 4, 2024 at 8:05=E2=80=AFAM Maxime Ripard <mripard@kernel.org> w=
-rote:
+Hi,
+
+On Sun, Mar 3, 2024 at 1:30=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
 >
-> On Mon, Mar 04, 2024 at 07:46:34AM -0800, Guenter Roeck wrote:
-> > On Mon, Mar 4, 2024 at 1:24=E2=80=AFAM Maxime Ripard <mripard@kernel.or=
-g> wrote:
-> > [ ... ]
-> > >
-> > > If anything, it's more of a side-effect to the push for COMPILE_TEST
-> > > than anything.
-> > >
+> > The problem is that Dmitry didn't like the idea of using a hash and in
+> > v2 Hsin-Yi has moved to using the name of the display. ...except of
+> > course that eDP panels don't always properly specify
+> > "EDID_DETAIL_MONITOR_NAME". See the discussion [1]. If you want to see
+> > some of the EDIDs involved, you can see Hsin-Yi's post [2]. The panels
+> > included stuff like this:
 > >
-> > If the drm subsystem maintainers don't want people to build it with
-> > COMPILE_TEST while at the same time not limiting it to platforms where
-> > it doesn't even build, I'd suggest making it dependent on
-> > !COMPILE_TEST.
+> >     Alphanumeric Data String: 'AUO'
+> >     Alphanumeric Data String: 'B116XAN04.0 '
+> >
+> > The fact that there is more than one string in there makes it hard to
+> > just "return" the display name in a generic way. The way Hsin-Yi's
+> > code was doing it was that it would consider it a match if the panel
+> > name was in any of the strings...
+> >
+> > How about this as a solution: we change drm_edid_get_panel_id() to
+> > return an opaque type (struct drm_edid_panel_id_blob) that's really
+> > just the first block of the EDID but we can all pretend that it isn't.
+> > Then we can add a function in drm_edid.c that takes this opaque blob,
+> > a 32-bit integer (as per drm_edid_encode_panel_id()), and a string
+> > name and it can tell us if the blob matches?
 >
-> I don't think we want anything. My point was that you can't have an
-> option that is meant to explore for bad practices and expose drivers
-> that don't go through the proper abstraction, and at the same time
-> complain that things gets broken. It's the whole point of it.
->
-Can we get back to the original problem, please ?
+> Would it be easier to push drm_edid_match to drm_edid.c? It looks way
+> more simpler than the opaque blob.
 
-Build errors such as failed 32-bit builds are a nuisance for those
-running build tests. It seems to me that an automated infrastructure
-to prevent such build errors from making it into the kernel should be
-desirable. You seem to disagree, and at least it looked like you
-complained about the existence of COMPILE_TEST, or that people are
-doing COMPILE_TEST builds. What is your suggested alternative ?
-Disabling build tests on drm doesn't seem to be it, and it seems you
-don't like the idea of a basic generic CI either, but what is it ?
+Yeah, that sounds reasonable / cleaner to me. Good idea! Maybe Hsin-Yi
+will be able to try this out and see if there's a reason it wouldn't
+work.
 
-> > The same applies to all other subsystems where maintainers don't want
-> > build tests to run but also don't want to add restrictions such as
-> > "64-bit only". After all, this was just one example.
->
-> We have drivers for some 32 bits platforms.
->
-I said "such as". Again, that was an example. In this case it would
-obviously only apply to parts of drm which are not supported on 32-bit
-systems (and, presumably, the parts of drm which are supposed to be
-supported on 32-bit systems should build on those).
-
-Thanks,
-Guenter
+-Doug
