@@ -2,47 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD8E686FE6F
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 11:10:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E431586FE78
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 11:11:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBAC410FF25;
-	Mon,  4 Mar 2024 10:10:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E40910FF33;
+	Mon,  4 Mar 2024 10:11:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="V1g4ZJXg";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="d5xTq9TW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.220])
- by gabe.freedesktop.org (Postfix) with ESMTP id 18D5410FF25
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 10:10:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=rWWze
- ynqvpKTE8wM5BvJ7WhI4cRh2jw6a0Kbi0ZwsdA=; b=V1g4ZJXgnDduvAq01bKml
- dVxaDiyDzC5H4z8/n32ZfrcKQKaIKR84bNNjoy39SlkZ4ACN02OkX7LyOHn3rPMt
- 3o5L/JA0VGQGxfl9d6OGJoZ6RYmMk3p9veoiCHDvQ2k/XdiEmDlo1ZL8lSo48HFe
- dM9SAFp1cugZROOeyXS7fM=
-Received: from ProDesk.. (unknown [103.29.142.67])
- by gzga-smtp-mta-g0-3 (Coremail) with SMTP id _____wD3n_jzneVlOacmAQ--.60415S2;
- Mon, 04 Mar 2024 18:10:01 +0800 (CST)
-From: Andy Yan <andyshrk@163.com>
-To: heiko@sntech.de
-Cc: hjc@rock-chips.com, s.hauer@pengutronix.de,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- Andy Yan <andy.yan@rock-chips.com>
-Subject: [PATCH] drm/rockchip: vop2: Remove AR30 and AB30 format support
-Date: Mon,  4 Mar 2024 18:09:52 +0800
-Message-Id: <20240304100952.3592984-1-andyshrk@163.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
+ [209.85.218.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB94310FF31
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 10:11:54 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id
+ a640c23a62f3a-a446b5a08f0so525198866b.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 02:11:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1709547113; x=1710151913; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=eJK/ZZpOUq8+bFA/FBthzsUU3+Ts6yS8JiIZkaVwCyU=;
+ b=d5xTq9TWP+xHxKHwP2yz5JzcPLCk1TkuiFxuTsKgY86x+Hu7vnXCwWPgVOKHouIa/d
+ N866BtLkLhicVaKANA0dcBU2+OHt1O5RMbDSM58oqIFQjgJTh8cCvHmowtj/3Sozdj2Z
+ awL/DAtUUKLHzwHAL5u0MVPpdLrw8yYkwErDX1n4FR6csydEaMtmKPFnVyglvWfYJVDr
+ MuH/Odno8cMSHbr1TIzBX2AvNvkJj8ah7xA+EnB0HpHpAM8feWV07UKcV0N76+kRumyJ
+ OtjSUC9Fn31WCK9xPtDR9hC2KhIdkvywRDRha/a+HJHacS9ar4xpyCjRg+J4nIJ/xP8X
+ C5oA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709547113; x=1710151913;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=eJK/ZZpOUq8+bFA/FBthzsUU3+Ts6yS8JiIZkaVwCyU=;
+ b=CZzf1Q1rj7OXcbeRGIsVyl5B2IyW1brQgH9+mEUN1AXzO1y7xCDwS/2vw2Dtf8YVcS
+ B/jj2OfHftGmYN0COXIdG8y1H9Zkns68xqdYS34jBGfFBxgXxuT6Chx/FbmmaE8TEOCC
+ GA5DmclGfL7/+MuQfH6CBzC3pXT2YCXcD5N4Oe8ZkRqiEW/5tonpEY6VQVNnJlnNFLng
+ fEDgRexctoZGlJo4oDXK/kWpFgDngg79xMvh1/zCOvJmBnWjOE/SOOi11JAX1ZHPE2SU
+ Vzwne7wDteuKrzLQRd00FR1C6majDSeFSeiT83x1ENzeMmKqmVOhZxPL2TobYkWfNgaf
+ DHYg==
+X-Gm-Message-State: AOJu0Yyo8vssla2iW35dRz4NdZ8hIP55SCD0Af/Tj4eKrkMGDcL+ZZG6
+ m4Mjo2MESjwPGnSGBlVzU62auOKRY9+XdGO5gcqUgOSvZLuX35ovNiU3rLnkvXM=
+X-Google-Smtp-Source: AGHT+IHZE7yeVB2iVKBhJxbVE1pgPHbTCTtzc2QKtPQnk0+uRO6kJqqAwgSPdV91EQzA6wVWbRasbw==
+X-Received: by 2002:a17:906:1155:b0:a45:73b0:bcc3 with SMTP id
+ i21-20020a170906115500b00a4573b0bcc3mr705495eja.34.1709547112780; 
+ Mon, 04 Mar 2024 02:11:52 -0800 (PST)
+Received: from [127.0.1.1] ([178.197.222.97]) by smtp.gmail.com with ESMTPSA id
+ ef11-20020a17090697cb00b00a44bc99cd89sm2938481ejb.42.2024.03.04.02.11.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Mar 2024 02:11:52 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 0/7] backlight: Simplify probe in few drivers
+Date: Mon, 04 Mar 2024 11:11:37 +0100
+Message-Id: <20240304-backlight-probe-v1-0-e5f57d0df6e6@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wD3n_jzneVlOacmAQ--.60415S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrKr47XrWkGr4DZw17ur45KFg_yoWfuwcEk3
- 47X3Wfur4xCrn8Jw12y3y7WrZFy3WI9Fs2ga9Yyan5AF1vvw1rXFy0vry7Gas8JF42kFs7
- GF1jqry3CFn8WjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU1YL95UUUUU==
-X-Originating-IP: [103.29.142.67]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBEB6XXmVOCknmwAAAsJ
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFme5WUC/x3MQQqAIBRF0a3IHyeoRYO2Eg00X/UpUjQiCPeeN
+ DyDe1/KSIxMg3gp4ebM4azQjaB5s+cKyb6ajDKdalUnnZ33g9ftkjEFB9lqD2gs6HtDtYoJCz/
+ /cZxK+QD3cVb4YQAAAA==
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1126;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=OH7NMQUj9xup9rOtpZMXbczseEaMEMJgnLbgyXngbZ4=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBl5Z5dtncXmblc14GzkUUxjTcJ79A3s5elTn7Qu
+ /wxqyXw/CGJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZeWeXQAKCRDBN2bmhouD
+ 135QEACP8yEtprvbd9at0xw0H2t+hJLRhjMI+Ro3IfuXFHyJyqBFmK0784zd1uuuICJCToCMhCk
+ I4lE8leqiLL2WM/2dCZLBkPdy9oXnZ4MYAi1jXXmkljBr4tyHFs6ZbaIS4SZxYWG5x/7XGok+r4
+ o09ykWvDXg0SjjvwHCKAPl7MlBOQrrN3XblcBBDSvE1KKz5lUrWPTUh6o1Kkw/8Qx5oc3aSxcpq
+ Qwn9pxptQ62HWVmlbIISMUUMlC/qzML+MlEx8k5JuD7ECLA6UkJ2d+E0zMOY3hkytKOFENnLiQ2
+ U8X5F+gGqIv5kexKKXS/HmWAHS9vKrA3UlPjI11r/ggruvLdkc8VPOo3MfrBE4IN+yDD04d+Wez
+ EEHxsWDbcwqvcWdtOY04P7roKxbtSCHBq2MoVbgHoBEbjVpZQN6ngIg44eUPTP5PFYE4sU4zLQI
+ fjtkvo2wSlNdFhnHxvPx6rhgtMRgt1xF+GfNT2yJz+zVgqSbhG+i7bnHK70LCZ6Gvuxv6xo9r9/
+ GDRkLun9z4dDpm3XOgWAT5vi6+5mE7p4Xm7YtEO1TDnXmk8hArv2O8iFBpNdsnCRGbnIFXlBqP6
+ vZLzU5YWBVi7MfziBeYwz/u5lzxzN+HFD6INptjm55Nff+kgSDCA5zmn5nzRWtkn9bzC2xOz5Ur
+ aScFZfLhOOHRV8Q==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,33 +100,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andy Yan <andy.yan@rock-chips.com>
+Hi,
 
-The Alpha blending for 30 bit RGB/BGR are not
-functioning properly for rk3568/rk3588, so remove
-it from the format list.
+Simplify old code in few backlight drivers.
 
-Fixes: bfd8a5c228fa ("drm/rockchip: vop2: Add more supported 10bit formats")
-Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+Best regards,
+Krzysztof
+
 ---
+Krzysztof Kozlowski (7):
+      backlight: gpio: Simplify with dev_err_probe()
+      backlight: l4f00242t03: Simplify with dev_err_probe()
+      backlight: bd6107: Handle deferred probe
+      backlight: as3711_bl: Handle deferred probe
+      backlight: lm3630a_bl: Handle deferred probe
+      backlight: lm3630a_bl: Simplify probe return on gpio request error
+      backlight: pandora_bl: Drop unneeded ENOMEM error message
 
- drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/video/backlight/as3711_bl.c      |  6 ++----
+ drivers/video/backlight/bd6107.c         |  9 +++------
+ drivers/video/backlight/gpio_backlight.c | 10 +++-------
+ drivers/video/backlight/l4f00242t03.c    | 34 +++++++++++++-------------------
+ drivers/video/backlight/lm3630a_bl.c     | 13 +++++-------
+ drivers/video/backlight/pandora_bl.c     |  4 +---
+ 6 files changed, 28 insertions(+), 48 deletions(-)
+---
+base-commit: 1870cdc0e8dee32e3c221704a2977898ba4c10e8
+change-id: 20240304-backlight-probe-31dee1efe662
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-index 48170694ac6b..18efb3fe1c00 100644
---- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-@@ -17,9 +17,7 @@
- 
- static const uint32_t formats_cluster[] = {
- 	DRM_FORMAT_XRGB2101010,
--	DRM_FORMAT_ARGB2101010,
- 	DRM_FORMAT_XBGR2101010,
--	DRM_FORMAT_ABGR2101010,
- 	DRM_FORMAT_XRGB8888,
- 	DRM_FORMAT_ARGB8888,
- 	DRM_FORMAT_XBGR8888,
+Best regards,
 -- 
-2.34.1
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
