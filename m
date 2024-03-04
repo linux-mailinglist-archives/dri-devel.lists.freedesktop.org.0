@@ -2,51 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F156870F77
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 22:54:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FADA870C6B
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 22:25:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F99B10E36D;
-	Mon,  4 Mar 2024 21:54:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2517F10E432;
+	Mon,  4 Mar 2024 21:24:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="StmttDSk";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZDNv2tss";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E42B10E3C6
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 21:54:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4882010E432
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 21:24:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 8B641CE17A2;
- Mon,  4 Mar 2024 21:54:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D5C0C433C7;
- Mon,  4 Mar 2024 21:54:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1709589287;
- bh=iSD8lQrUC2a6huqfUP7TPUMa7hjhEO/fw2MLY3BN+q0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=StmttDSkWtfPqp1rjLY5wefMHDM3EAO7I52atZzaLNLCye12WYOkb04upifDt2bUd
- Ibl6g6kr2oUPiMuN8N7BsDghhzsYkskMaLgrE/83lc8AP8SGYblCfwcg8ACQ42oOlx
- jJndxkTEPGfdrk88mFlhkUIMTA5dADIoHqjMKhHg=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
- Ubisectech Sirius <bugreport@ubisectech.com>,
- Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.15 44/84] fbcon: always restore the old font data in
- fbcon_do_set_font()
-Date: Mon,  4 Mar 2024 21:24:17 +0000
-Message-ID: <20240304211543.802938730@linuxfoundation.org>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240304211542.332206551@linuxfoundation.org>
-References: <20240304211542.332206551@linuxfoundation.org>
-User-Agent: quilt/0.67
-X-stable: review
-X-Patchwork-Hint: ignore
+ by sin.source.kernel.org (Postfix) with ESMTP id 68233CE1389;
+ Mon,  4 Mar 2024 21:24:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A8EBC433F1;
+ Mon,  4 Mar 2024 21:24:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1709587493;
+ bh=GCATK6oSIl6USFFqC/CxN7o9XWA+S9y2ORbBrX3q6D4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZDNv2tssnLutTbFa6WyGdwustA4QBnMEu+28wfPUMo8UNbH7x/MrrHWTsx7jUSH5Z
+ V4CJ06PkqW0wuMHZ8pqttIE/qrZ/x44WPTlFEJwiVG8dOO24EMkqPvYD+IKV4GZVie
+ Roo7g86uMFOT1N9XHiL4cYPEFT6Kuwj+ZQ1vBnpLkDWaU63Mvz6Jhl68f/CpCqlc6r
+ ZyLqOSTH84Yure/F/MqxK///OW/RM+98OcmotAdR990IgQ7biJM64boHyCEtNU0wJX
+ AgoK8A5P3tEtDHg4OjgwsniRYohrj8FID/DHQ4H1y8hJ+NBIFa4C4WQebR7K6hO/rH
+ ZXjuy84CFAd1Q==
+Date: Mon, 4 Mar 2024 15:24:51 -0600
+From: Rob Herring <robh@kernel.org>
+To: Conor Dooley <conor@kernel.org>
+Cc: =?iso-8859-1?Q?J=E9r=E9mie?= Dautheribes <jeremie.dautheribes@bootlin.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Yen-Mei Goh <yen-mei.goh@keysight.com>
+Subject: Re: [PATCH v2 0/3] panel-simple: add support for Crystal Clear
+ CMT430B19N00
+Message-ID: <20240304212451.GA1056406-robh@kernel.org>
+References: <20240304160454.96977-1-jeremie.dautheribes@bootlin.com>
+ <20240304-drivable-property-feaeba782880@spud>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240304-drivable-property-feaeba782880@spud>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,99 +72,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-5.15-stable review patch.  If anyone has any objections, please let me know.
+On Mon, Mar 04, 2024 at 07:29:04PM +0000, Conor Dooley wrote:
+> On Mon, Mar 04, 2024 at 05:04:51PM +0100, Jérémie Dautheribes wrote:
+> > Hello everyone,
+> > 
+> > This patch series add support for the Crystal Clear Technology
+> > CMT430B19N00 4.3" 480x272 TFT-LCD panel.
+> > It also adds Crystal Clear Technology to vendor-prefixes.yaml.
+> > 
+> > Please note that unfortunately there is no public datasheet available
+> > for this panel.
+> > 
+> > Changes in v2:
+> >   - add link to the Crystal Clear Technology website in commit message, as
+> >   suggested by Conor Dooley and Neil Armstrong.
+> 
+> You forgot however to add the acks that I gave you for the two
+> dt-binding patches.
 
-------------------
+I was wondering why my scripts said this was already reviewed with that 
+missing. Turns out b4 will now check prior versions and add the tags as 
+long as the patch-id matches. Neat, but the submitter really has to 
+grasp how that all works (knowing if the patch-id changed) as well as 
+the maintainer has to use b4, so we can't really rely on it.
 
-From: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+Here's b4 debug log:
 
-[ Upstream commit 00d6a284fcf3fad1b7e1b5bc3cd87cbfb60ce03f ]
-
-Commit a5a923038d70 (fbdev: fbcon: Properly revert changes when
-vc_resize() failed) started restoring old font data upon failure (of
-vc_resize()). But it performs so only for user fonts. It means that the
-"system"/internal fonts are not restored at all. So in result, the very
-first call to fbcon_do_set_font() performs no restore at all upon
-failing vc_resize().
-
-This can be reproduced by Syzkaller to crash the system on the next
-invocation of font_get(). It's rather hard to hit the allocation failure
-in vc_resize() on the first font_set(), but not impossible. Esp. if
-fault injection is used to aid the execution/failure. It was
-demonstrated by Sirius:
-  BUG: unable to handle page fault for address: fffffffffffffff8
-  #PF: supervisor read access in kernel mode
-  #PF: error_code(0x0000) - not-present page
-  PGD cb7b067 P4D cb7b067 PUD cb7d067 PMD 0
-  Oops: 0000 [#1] PREEMPT SMP KASAN
-  CPU: 1 PID: 8007 Comm: poc Not tainted 6.7.0-g9d1694dc91ce #20
-  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
-  RIP: 0010:fbcon_get_font+0x229/0x800 drivers/video/fbdev/core/fbcon.c:2286
-  Call Trace:
-   <TASK>
-   con_font_get drivers/tty/vt/vt.c:4558 [inline]
-   con_font_op+0x1fc/0xf20 drivers/tty/vt/vt.c:4673
-   vt_k_ioctl drivers/tty/vt/vt_ioctl.c:474 [inline]
-   vt_ioctl+0x632/0x2ec0 drivers/tty/vt/vt_ioctl.c:752
-   tty_ioctl+0x6f8/0x1570 drivers/tty/tty_io.c:2803
-   vfs_ioctl fs/ioctl.c:51 [inline]
-  ...
-
-So restore the font data in any case, not only for user fonts. Note the
-later 'if' is now protected by 'old_userfont' and not 'old_data' as the
-latter is always set now. (And it is supposed to be non-NULL. Otherwise
-we would see the bug above again.)
-
-Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
-Fixes: a5a923038d70 ("fbdev: fbcon: Properly revert changes when vc_resize() failed")
-Reported-and-tested-by: Ubisectech Sirius <bugreport@ubisectech.com>
-Cc: Ubisectech Sirius <bugreport@ubisectech.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Helge Deller <deller@gmx.de>
-Cc: linux-fbdev@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240208114411.14604-1-jirislaby@kernel.org
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/video/fbdev/core/fbcon.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index b6712655ec1f0..b163b54b868e6 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -2409,11 +2409,9 @@ static int fbcon_do_set_font(struct vc_data *vc, int w, int h, int charcount,
- 	struct fbcon_ops *ops = info->fbcon_par;
- 	struct fbcon_display *p = &fb_display[vc->vc_num];
- 	int resize, ret, old_userfont, old_width, old_height, old_charcount;
--	char *old_data = NULL;
-+	u8 *old_data = vc->vc_font.data;
- 
- 	resize = (w != vc->vc_font.width) || (h != vc->vc_font.height);
--	if (p->userfont)
--		old_data = vc->vc_font.data;
- 	vc->vc_font.data = (void *)(p->fontdata = data);
- 	old_userfont = p->userfont;
- 	if ((p->userfont = userfont))
-@@ -2447,13 +2445,13 @@ static int fbcon_do_set_font(struct vc_data *vc, int w, int h, int charcount,
- 		update_screen(vc);
- 	}
- 
--	if (old_data && (--REFCOUNT(old_data) == 0))
-+	if (old_userfont && (--REFCOUNT(old_data) == 0))
- 		kfree(old_data - FONT_EXTRA_WORDS * sizeof(int));
- 	return 0;
- 
- err_out:
- 	p->fontdata = old_data;
--	vc->vc_font.data = (void *)old_data;
-+	vc->vc_font.data = old_data;
- 
- 	if (userfont) {
- 		p->userfont = old_userfont;
--- 
-2.43.0
-
-
-
+  new message: 20240223-subtotal-aground-268d135adeff@spud                                                                     
+Running git --no-pager patch-id --stable                                                                                       
+  found matching patch-id for Re: [PATCH 2/3] dt-bindings: display: simple: add support for Crystal Clear CMT430B19N00         
+  new message: 20240229-woven-lively-1d90687b2d03@spud                                                                         
+  skipping reply without trailers: 20240229-woven-lively-1d90687b2d03@spud
+  new message: 20240223134517.728568-2-jeremie.dautheribes@bootlin.com                                                         
+  skipping non-reply: 20240223134517.728568-2-jeremie.dautheribes@bootlin.com                                                  
+Analyzing follow-up: Re: [PATCH v2 0/3] panel-simple: add support for Crystal Clear CMT430B19N00 (conor@kernel.org)            
+  no trailers found, skipping                                                                                                  
+Analyzing follow-up: Re: [PATCH v2 3/3] drm/panel: simple: add CMT430B19N00 LCD panel support (mripard@kernel.org)             
+  no trailers found, skipping                                                                                                  
+    adding "Acked-by: Conor Dooley <conor.dooley@microchip.com>" from trailer_map to: [PATCH v2 1/3] dt-bindings: Add Crystal C
+lear Technology vendor prefix                                                                                                  
+    adding "Link: http://www.cct.com.my/" from trailer_map to: [PATCH v2 1/3] dt-bindings: Add Crystal Clear Technology vendor 
+prefix                                                                                                                         
+    adding "Acked-by: Conor Dooley <conor.dooley@microchip.com>" from trailer_map to: [PATCH v2 2/3] dt-bindings: display: simp
+le: add support for Crystal Clear CMT430B19N00                                                                                 
+    adding "Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>" from trailer_map to: [PATCH v2 3/3] drm/panel: simple: add
+ CMT430B19N00 LCD panel support                                                                                                
+    adding "Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>" from trailer_map to: [PATCH v2 3/3] drm/panel: simple: add 
+CMT430B19N00 LCD panel support                                                                                                 
