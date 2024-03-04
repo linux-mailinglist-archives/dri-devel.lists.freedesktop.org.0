@@ -2,71 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4FC87021E
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 14:07:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C16687026F
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 14:17:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F75311211F;
-	Mon,  4 Mar 2024 13:06:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5157911213B;
+	Mon,  4 Mar 2024 13:17:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="oOK5ET4O";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="psfqezqt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com
- [209.85.219.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C06811211F
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 13:06:56 +0000 (UTC)
-Received: by mail-yb1-f182.google.com with SMTP id
- 3f1490d57ef6-dcbd1d4904dso5089102276.3
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 05:06:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1709557615; x=1710162415; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ZF5EHPeguAlmw8pt+rnW85Aj9ppqfHEoGqFfoa9ov8U=;
- b=oOK5ET4OfD3fx8p1xfhzWKX1T8FNAMB/HTlSgIZ8D5LlTqi9CY+Nwxa3chvkhffLPB
- ykCMLt5t73xBZSK5zAO8XYzslKlaWx+53WRzr25/ydH9h2WWAuDXnRdNgfMGTzmmBz2Q
- VuVxeME1UwlLbeLSL8Qy6Inj+k5kFzhiywB1vDR2gruNK/AOcUJVHIso1HMeHuDonPAR
- SbMno218hc1s6S8KeqF+0ps/Rz4fXPE1vSqZYFncGe0/OUgT6+oAgok4wyiLlP87gbLA
- qDq5LCqZ/uPRu2n3vdjrXmES1ieGjYmTI6EemjjwD3LwbNy2vHigpK7f2Qj8em2OePMM
- QENg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709557615; x=1710162415;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ZF5EHPeguAlmw8pt+rnW85Aj9ppqfHEoGqFfoa9ov8U=;
- b=I3GiM9Eu96q3GlDrUFmLK8AhZIJ4dyRbsMD7D2w0UmAg51GtcXmIgUyeRzuWzt3UCn
- 9sa4qb45pt3KA6u7C2JOWxk1Ma0YIC1IgT2+NOhPjrxbMVOTYQ5+uhCJFq99fu5JjxBx
- TtadeZt146861y4KypmHrwSUq0VkhlVe8TOw1pMq/KKdAdzgvoixzoI8+iPQV4+ulb5L
- Mjsj++2KBzuD++Xya7byvXSPGOrR1NxN/UkotoKJ01EbOwk95fzs87ckyAl/rjeH417Z
- OhcTFqwUonO25KjpUaHxVD2TghMMXdLOBysFKO7Ao/eS1LXMqXhj+eeQh6hhUSxCyXN5
- CmqA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXd11I/bRDX9EIQuU6qSXaZJSxcpyogc7gxnKbO6owl6mqVSTm9VzAnvlVHpPAk6dmN0ofYBzaW4JW1d1Cd5hE4JlqWdSRXisBVUeH+RH57
-X-Gm-Message-State: AOJu0YybT6/mwEs1b6M9oy7g01EE195fOgRaeOjX+bDoABxjMh8nKnhc
- rCYpXWyQcKmCCr2Xv3VEOD0xpMlO3uyufRpSmmgZfISEwoeeueiF+TiYU1em+Be2puODvOVpadc
- DjAyCZCIcNemiZTYCh5JUKgJP4BdOBJPVgZcwpQ==
-X-Google-Smtp-Source: AGHT+IHDoyrZSgo3d0pdsvjs58WMMhEuCQvAoO7S/07i8igiKmULNd3ZGDbVm0+XF7UvoNRUriBuP/dHX1xzq05mxT0=
-X-Received: by 2002:a5b:b05:0:b0:dcd:13ba:cdd6 with SMTP id
- z5-20020a5b0b05000000b00dcd13bacdd6mr6132325ybp.47.1709557615168; Mon, 04 Mar
- 2024 05:06:55 -0800 (PST)
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28B3A11213B
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 13:17:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1709558230;
+ bh=891A/GwRTFxXBWsENHQ+ZvT3FWtVkguSadkoSVZcP4k=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=psfqezqtTmd7R0gHFyE92NpEO8gMsXLIOOv1ovKKB1GXJp+4ZxvBMnFYgzf8L5Nz5
+ 8tEdVg+KBXbPfhSncd1pBEI+A6gzx8qfL3+/+CXXXS53Ws7eh/Bk/tfrm2WWnCT88W
+ Kfn3sIFvbOu2kCDJ9NfaYqv02arEPbrEQX903Ux/z2/tmIm6Xgy7G2dUaI9tTYTGx2
+ PGYXPMo91afP1FwecK6LO4vu1iHf8mUeko+sl5HHF+CAONcVZ+IYRw+/OM3G3TXqcx
+ XGu6fis63BEhLojp9pEK4xUS/+2rT8aM0Ha2BLrbUJK6ipPdcTRA4x5It3SG5f3MS5
+ iWfYAy9Q+osIg==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id C39503780629;
+ Mon,  4 Mar 2024 13:17:09 +0000 (UTC)
+Date: Mon, 4 Mar 2024 14:17:08 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
+ kernel@collabora.com, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH 2/3] drm/panthor: Explicitly include page.h for the
+ {virt,__phys)_to_pfn() defs
+Message-ID: <20240304141708.4f886418@collabora.com>
+In-Reply-To: <bbd9d18b-8e34-4972-980a-15bd348051ea@arm.com>
+References: <20240304090812.3941084-1-boris.brezillon@collabora.com>
+ <20240304090812.3941084-3-boris.brezillon@collabora.com>
+ <bbd9d18b-8e34-4972-980a-15bd348051ea@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20240228194730.619204-1-quic_abhinavk@quicinc.com>
-In-Reply-To: <20240228194730.619204-1-quic_abhinavk@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 4 Mar 2024 15:06:43 +0200
-Message-ID: <CAA8EJppf0ebg+qnw7Z4P_6W4pgf0E4+KLGLEhU138f4k8+QxOw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/msm/dpu: drop unused dpu_kms from interface
- initialization
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, 
- quic_parellan@quicinc.com, quic_jesszhan@quicinc.com, 
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,94 +64,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 28 Feb 2024 at 21:47, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
-> dpu_kms seems unused while initializing DSI, HDMI and DP through
-> their respective _dpu_kms_initialize_* functions.
->
-> Hence lets drop the parameter altogether.
->
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 15 ++++++---------
->  1 file changed, 6 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index 2af62d8fa9a7..ab924ac78c9b 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -494,8 +494,7 @@ static void dpu_kms_wait_flush(struct msm_kms *kms, unsigned crtc_mask)
->  }
->
->  static int _dpu_kms_initialize_dsi(struct drm_device *dev,
-> -                                   struct msm_drm_private *priv,
-> -                                   struct dpu_kms *dpu_kms)
-> +                                  struct msm_drm_private *priv)
->  {
->         struct drm_encoder *encoder = NULL;
->         struct msm_display_info info;
-> @@ -558,8 +557,7 @@ static int _dpu_kms_initialize_dsi(struct drm_device *dev,
->  }
->
->  static int _dpu_kms_initialize_displayport(struct drm_device *dev,
-> -                                           struct msm_drm_private *priv,
-> -                                           struct dpu_kms *dpu_kms)
-> +                                          struct msm_drm_private *priv)
+On Mon, 4 Mar 2024 12:31:23 +0000
+Steven Price <steven.price@arm.com> wrote:
 
-This breaks now on top of YUV patchset:
+> On 04/03/2024 09:08, Boris Brezillon wrote:
+> > Something on arm[64] must be including <asm/page.h>, but things fail
+> > to compile on sparc64. Make sure this header is included explicitly
+> > so this driver can be compile-tested on all supported architectures.
+> > 
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202403031142.Vl4pW7X6-lkp@intel.com/
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>  
+> 
+> Seems reasonable, although I do wonder if it's right to include a "asm"
+> header here or if we should pull in something like "linux/mm.h" which
+> includes asm/page.h. I can find examples of both. Either way:
 
-drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c: In function
-'_dpu_kms_initialize_displayport':
-drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c:583:35: error: 'dpu_kms'
-undeclared (first use in this function)
-583 | yuv_supported = !!dpu_kms->catalog->cdm;
+Actually, I considered including linux/mm.h too, so I'm happy to go for
+this option (will fix when applying.
 
-As this requires adding of the yuv_supported argument, let's consider
-moving it backwards: for  _dpu_kms_initialize_writeback() we can get
-format_list and n_formats from the dpu_kms.
+> 
+> Reviewed-by: Steven Price <steven.price@arm.com>
+> 
+> > ---
+> >  drivers/gpu/drm/panthor/panthor_device.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> > index bfe8da4a6e4c..68e467ee458a 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_device.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> > @@ -3,6 +3,8 @@
+> >  /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
+> >  /* Copyright 2023 Collabora ltd. */
+> >  
+> > +#include <asm/page.h>
+> > +
+> >  #include <linux/clk.h>
+> >  #include <linux/platform_device.h>
+> >  #include <linux/pm_domain.h>  
+> 
 
-
->  {
->         struct drm_encoder *encoder = NULL;
->         struct msm_display_info info;
-> @@ -592,8 +590,7 @@ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
->  }
->
->  static int _dpu_kms_initialize_hdmi(struct drm_device *dev,
-> -                                   struct msm_drm_private *priv,
-> -                                   struct dpu_kms *dpu_kms)
-> +                                   struct msm_drm_private *priv)
->  {
->         struct drm_encoder *encoder = NULL;
->         struct msm_display_info info;
-> @@ -671,19 +668,19 @@ static int _dpu_kms_setup_displays(struct drm_device *dev,
->         int rc = 0;
->         int i;
->
-> -       rc = _dpu_kms_initialize_dsi(dev, priv, dpu_kms);
-> +       rc = _dpu_kms_initialize_dsi(dev, priv);
->         if (rc) {
->                 DPU_ERROR("initialize_dsi failed, rc = %d\n", rc);
->                 return rc;
->         }
->
-> -       rc = _dpu_kms_initialize_displayport(dev, priv, dpu_kms);
-> +       rc = _dpu_kms_initialize_displayport(dev, priv);
->         if (rc) {
->                 DPU_ERROR("initialize_DP failed, rc = %d\n", rc);
->                 return rc;
->         }
->
-> -       rc = _dpu_kms_initialize_hdmi(dev, priv, dpu_kms);
-> +       rc = _dpu_kms_initialize_hdmi(dev, priv);
->         if (rc) {
->                 DPU_ERROR("initialize HDMI failed, rc = %d\n", rc);
->                 return rc;
-> --
-> 2.34.1
->
-
-
---
-With best wishes
-Dmitry
