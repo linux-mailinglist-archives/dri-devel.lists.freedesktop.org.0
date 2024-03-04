@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DE1B870572
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 16:29:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93492870573
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 16:29:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACA701122A3;
-	Mon,  4 Mar 2024 15:29:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00EC411228F;
+	Mon,  4 Mar 2024 15:29:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="SGnKRm17";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="V340mM9e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
  [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B36311228A
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 15:29:28 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id DD57E1C0005;
- Mon,  4 Mar 2024 15:29:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CFB711205E
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 15:29:29 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 00B5B1C000E;
+ Mon,  4 Mar 2024 15:29:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1709566166;
+ t=1709566167;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tkMA90xZNbAtS5RoA+EDPhLYGxyx6rZctamxCUhrcic=;
- b=SGnKRm17Zx46uCAKdiTDmu/qAN/XtL96BcTrAC1bWB7ZnvOBwmKWs1MZz2QPJcMLknjJMh
- 36o46HveSFxrg3CJl2FVwp3K5Aicl0s4kQqEtbeaVlvr4xwOJnEugokcBdiPCsXfsBQRvW
- 7vwAUJT7RXVCGzjJCbdTo+enZXXo05+2OY3bSHK2ANQc9a9hZ5t90DA5QxUhxCwlEm/m86
- 8pIWv8GQJ+zsL4hwu0KYAz+SOoqqGX/VDs4KcjSrQ5Hk8whMfCAAanhhtYKfCY2YXoCcM6
- 5RgZ/UJy9+9NUD4V1w+yQTwWY6ehW8UkRVlIDdUa44enrZEKkmXuQFedT0x3+w==
+ bh=zlPJwPnunQbGidl7fHxGe4JYFmFSn93i4z+wR+eCxZY=;
+ b=V340mM9ebh4hDSnmayeSxNSglNxrj1f5u7xvWPsVXFvoxE/xLBpYmUMQJZL0aFf5vneJ24
+ yhD5vU/Cw2APf+1txmZrYf1fkVbTSWV9//srZfnBcHaMXQnU9GQ7CpVvpL6n2FgUri4HNp
+ 33eFgKOnMQYBwW/oSJk8b/LyzWh5VvayU0oVBua344OHJPD87gtXqyy/DvDmwrBicRXD50
+ WYa3Rx20XelYV2/HIwZAfjKoTBhbIEmgaBSClhI8OYQvN3Glq/3qAMerauXnKHTsiAD5GI
+ N5sIiPCXWcY1puh7oBonIS1w0VussWxywP0kFEXNti6ejhwi1Z59sU7LjaevWA==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Mon, 04 Mar 2024 16:28:12 +0100
-Subject: [PATCH v4 07/14] drm/vkms: Update pixels accessor to support
- packed and multi-plane formats.
+Date: Mon, 04 Mar 2024 16:28:13 +0100
+Subject: [PATCH v4 08/14] drm/vkms: Avoid computing blending limits inside
+ pre_mul_alpha_blend
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240304-yuv-v4-7-76beac8e9793@bootlin.com>
+Message-Id: <20240304-yuv-v4-8-76beac8e9793@bootlin.com>
 References: <20240304-yuv-v4-0-76beac8e9793@bootlin.com>
 In-Reply-To: <20240304-yuv-v4-0-76beac8e9793@bootlin.com>
 To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
@@ -53,20 +53,20 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com, 
  nicolejadeyee@google.com, Louis Chauvet <louis.chauvet@bootlin.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6343;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4025;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=JIoXrYSBgeg0QLNIPh8bxgpI6Eagu1fkt6Zjo95AAXg=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBl5ejLB5olR9HyMbIVafJg3K0bne07ZtxNWsInxYTw
- m3vcOXWJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZeXoywAKCRAgrS7GWxAs4qKkD/
- 9uf7hPdWfm5uXVdtNAAm/Bml6Jt6c7eKPIqp0WVrbVRfu9v2xKRE0pAJTzj+ZcmyNfPcPbp89b8Wly
- 5eQNEXrjxhaIHFm2dgTOw6cOX5hLtWhhpLs6tYxpF6Lu9WXmpUhYDJVWqj9xwtgrrkLZ2jmQmSQjxS
- +eUyFtKGrMdN1BuCw3Dw2Hz4llqIny8G7McEVmcNspkvM/jwY3j77jm5zSO1JZ4kI/jtTFLOTmC3D4
- oRSWZ6G92hKalEh1XHHrWlsAF0x0335u7q1cU61YZHURZuP+VIXPMtP2DT98DnlSk1RGUUeW64SGkt
- wOW0f79Ka4sg0xHFcrg3Nz3hULmSCQ5Nf4wUYp/zJ03Y+8JeEDcwh/2oyjE+4xnNl4JXhjan1JvSnZ
- J3dXLDLW6LDTBtRtappU5swFvgOsXtJQAQPS0JOxeSB2ZeVK1hgITV08YNA/dQz2gFbcg2Uk0bKaCU
- MLMQkOTJaNQJo0pJRCT0H4WYYSoKY7bOi5OFqgftXg6sf2JvM+hWk7Qr4ZkO5LAQpl0LzzHLcU1Qif
- YRPrfME2K5OT+pjHGOmin0As6MxALomwJFKod5WloVRoLWg2CLZxuQfimfoX7GPHT6fyyNItNmtS0K
- RItClVkD503P6MG9s+X1yGfGsWpXHE5Lc9W6COs9kjhbOTlGBb6a6LNyoSug==
+ bh=XzAcWcn+2gPTC+2NmrNB0BrJq5y1708nNfvcdGRsxyM=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBl5ejMEigVnIk7GZaM3RDJKUfZuS41fLYX6FeURKUO
+ wUlMk2CJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZeXozAAKCRAgrS7GWxAs4ky1EA
+ CEw8nxLowl2vjtUYcf3BR0As9SZjqf6gU9aVS6z+SF48UKqM09GPw8ZgIUtr0GbcVZH/KxrEb4ckj2
+ N5WxU08kkYxkEvYUOyQ/xziP/fi4RJsGPf/o2F/HGP7fWs98UcsF0BvQ63jDgbASvuEY9Oyc9ZjN3/
+ eW650EorgyZilJ+u/qAfDbTEVDL3oUw11Ty1gdAYldTMSKoaANy/40mC0gEJvjBWwDTzKpZwmuR+SJ
+ egiNxCpB7AOEUzupFMP4dSx6znT3t4G1tnRZPL+V2BfnurTaqx0R1QLFSj6mq+49U2ccYK2bAXDzcu
+ JH/pkhatIZl9KfJSU8zW80MiNNuhLTvEpz1UwEXGw21RmJ7E8RQ+ReR2Kl7VYSruKfObGZsjds+JaJ
+ 2bS0tH2rAesEu/PozDyqJTf49REwbh2I8G5NqgoSp7ewfVB9IMqSoPVwx8qRrE63ZE/J2z4V92lqmQ
+ Il9mVFB7k2195HFZyKbc2L/xvtwigsWFslJnf6Ocmi9Qnr6OrgoyCIf12EarVOQEtNprRPjVUeXJWR
+ O2MX/TQyePmkTXwvkBAY0P2tMvPtWybX1MemyBfLIY/k3CsxNZ/2ItW+1t6uDMC5s8J8rxySuPgC1K
+ mknUrYsC2zPmHCCIj6GUq7PhstjYBfTCZnt9nLKaI9sQEhxCusFRVp9Efm9A==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-Sasl: louis.chauvet@bootlin.com
@@ -85,136 +85,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce the usage of block_h/block_w to compute the offset and the
-pointer of a pixel. The previous implementation was specialized for
-planes with block_h == block_w == 1. To avoid confusion and allow easier
-implementation of tiled formats. It also remove the usage of the
-deprecated format field `cpp`.
-
-Introduce the plane_index parameter to get an offset/pointer on a
-different plane.
+The pre_mul_alpha_blend is dedicated to blending, so to avoid mixing
+different concepts (coordinate calculation and color management), extract
+the x_limit and x_dst computation outside of this helper.
+It also increases the maintainability by grouping the computation related
+to coordinates in the same place: the loop in `blend`.
 
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_formats.c | 59 +++++++++++++++++++++----------------
- 1 file changed, 34 insertions(+), 25 deletions(-)
+ drivers/gpu/drm/vkms/vkms_composer.c | 43 ++++++++++++++++++------------------
+ 1 file changed, 22 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index bdd15964ce24..089e4bdd5da8 100644
---- a/drivers/gpu/drm/vkms/vkms_formats.c
-+++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -10,23 +10,33 @@
- #include "vkms_formats.h"
+diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+index da0651a94c9b..26e8789630bd 100644
+--- a/drivers/gpu/drm/vkms/vkms_composer.c
++++ b/drivers/gpu/drm/vkms/vkms_composer.c
+@@ -24,34 +24,33 @@ static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
  
  /**
-- * pixel_offset() - Get the offset of the pixel at coordinates x/y in the first plane
-+ * packed_pixels_offset() - Get the offset of the block containing the pixel at coordinates x/y
+  * pre_mul_alpha_blend - alpha blending equation
+- * @frame_info: Source framebuffer's metadata
+  * @stage_buffer: The line with the pixels from src_plane
+  * @output_buffer: A line buffer that receives all the blends output
++ * @x_start: The start offset to avoid useless copy
++ * @count: The number of byte to copy
   *
-  * @frame_info: Buffer metadata
-  * @x: The x coordinate of the wanted pixel in the buffer
-  * @y: The y coordinate of the wanted pixel in the buffer
-+ * @plane_index: The index of the plane to use
+- * Using the information from the `frame_info`, this blends only the
+- * necessary pixels from the `stage_buffer` to the `output_buffer`
+- * using premultiplied blend formula.
++ * Using @x_start and @count information, only few pixel can be blended instead of the whole line
++ * each time.
   *
-- * The caller must ensure that the framebuffer associated with this request uses a pixel format
-- * where block_h == block_w == 1.
-- * If this requirement is not fulfilled, the resulting offset can point to an other pixel or
-- * outside of the buffer.
-+ * The returned offset correspond to the offset of the block containing the pixel at coordinates
-+ * x/y.
-+ * The caller must use this offset with care, as for formats with block_h != 1 or block_w != 1
-+ * the requested pixel value may have to be extracted from the block, even if they are
-+ * individually addressable.
+  * The current DRM assumption is that pixel color values have been already
+  * pre-multiplied with the alpha channel values. See more
+  * drm_plane_create_blend_mode_property(). Also, this formula assumes a
+  * completely opaque background.
   */
--static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int y)
-+static size_t packed_pixels_offset(const struct vkms_frame_info *frame_info, int x, int y,
-+				   size_t plane_index)
+-static void pre_mul_alpha_blend(struct vkms_frame_info *frame_info,
+-				struct line_buffer *stage_buffer,
+-				struct line_buffer *output_buffer)
++static void pre_mul_alpha_blend(
++	const struct line_buffer *stage_buffer,
++	struct line_buffer *output_buffer,
++	int x_start,
++	int pixel_count)
  {
- 	struct drm_framebuffer *fb = frame_info->fb;
+-	int x_dst = frame_info->dst.x1;
+-	struct pixel_argb_u16 *out = output_buffer->pixels + x_dst;
+-	struct pixel_argb_u16 *in = stage_buffer->pixels;
+-	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+-			    stage_buffer->n_pixels);
 -
--	return fb->offsets[0] + (y * fb->pitches[0])
--			      + (x * fb->format->cpp[0]);
-+	const struct drm_format_info *format = frame_info->fb->format;
-+	/* Directly using x and y to multiply pitches and format->ccp is not sufficient because
-+	 * in some formats a block can represent multiple pixels.
-+	 *
-+	 * Dividing x and y by the block size allows to extract the correct offset of the block
-+	 * containing the pixel.
-+	 */
-+	return fb->offsets[plane_index] +
-+	       (y / drm_format_info_block_width(format, plane_index)) * fb->pitches[plane_index] +
-+	       (x / drm_format_info_block_height(format, plane_index)) * format->char_per_block[plane_index];
+-	for (int x = 0; x < x_limit; x++) {
+-		out[x].a = (u16)0xffff;
+-		out[x].r = pre_mul_blend_channel(in[x].r, out[x].r, in[x].a);
+-		out[x].g = pre_mul_blend_channel(in[x].g, out[x].g, in[x].a);
+-		out[x].b = pre_mul_blend_channel(in[x].b, out[x].b, in[x].a);
++	struct pixel_argb_u16 *out = &output_buffer->pixels[x_start];
++	const struct pixel_argb_u16 *in = &stage_buffer->pixels[x_start];
++
++	for (int i = 0; i < pixel_count; i++) {
++		out[i].a = (u16)0xffff;
++		out[i].r = pre_mul_blend_channel(in[i].r, out[i].r, in[i].a);
++		out[i].g = pre_mul_blend_channel(in[i].g, out[i].g, in[i].a);
++		out[i].b = pre_mul_blend_channel(in[i].b, out[i].b, in[i].a);
+ 	}
  }
  
- /**
-@@ -36,30 +46,29 @@ static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int
-  * @frame_info: Buffer metadata
-  * @x: The x(width) coordinate inside the plane
-  * @y: The y(height) coordinate inside the plane
-+ * @plane_index: The index of the plane
-  *
-- * Takes the information stored in the frame_info, a pair of coordinates, and
-- * returns the address of the first color channel.
-- * This function assumes the channels are packed together, i.e. a color channel
-- * comes immediately after another in the memory. And therefore, this function
-- * doesn't work for YUV with chroma subsampling (e.g. YUV420 and NV21).
-+ * Takes the information stored in the frame_info, a pair of coordinates, and returns the address
-+ * of the block containing this pixel.
-  *
-- * The caller must ensure that the framebuffer associated with this request uses a pixel format
-- * where block_h == block_w == 1, otherwise the returned pointer can be outside the buffer.
-+ * The returned pointer points to the block containing the pixel at coordinates x/y.
-+ * The caller must use this pointer with care, as for formats with block_h != 1 or block_w != 1
-+ * the requested pixel may have to be extracted from the block, even if they are
-+ * individually addressable.
-  */
- static void *packed_pixels_addr(const struct vkms_frame_info *frame_info,
--				int x, int y)
-+				int x, int y, size_t plane_index)
+@@ -183,7 +182,7 @@ static void blend(struct vkms_writeback_job *wb,
  {
--	size_t offset = pixel_offset(frame_info, x, y);
--
--	return (u8 *)frame_info->map[0].vaddr + offset;
-+	return (u8 *)frame_info->map[0].vaddr + packed_pixels_offset(frame_info, x, y, plane_index);
- }
+ 	struct vkms_plane_state **plane = crtc_state->active_planes;
+ 	u32 n_active_planes = crtc_state->num_active_planes;
+-	int y_pos;
++	int y_pos, x_dst, x_limit;
  
--static void *get_packed_src_addr(const struct vkms_frame_info *frame_info, int y)
-+static void *get_packed_src_addr(const struct vkms_frame_info *frame_info, int y,
-+				 size_t plane_index)
- {
- 	int x_src = frame_info->src.x1 >> 16;
- 	int y_src = y - frame_info->rotated.y1 + (frame_info->src.y1 >> 16);
+ 	const struct pixel_argb_u16 background_color = { .a = 0xffff };
  
--	return packed_pixels_addr(frame_info, x_src, y_src);
-+	return packed_pixels_addr(frame_info, x_src, y_src, plane_index);
- }
+@@ -201,14 +200,16 @@ static void blend(struct vkms_writeback_job *wb,
  
- static int get_x_position(const struct vkms_frame_info *frame_info, int limit, int x)
-@@ -168,14 +177,14 @@ void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state
- {
- 	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
- 	struct vkms_frame_info *frame_info = plane->frame_info;
--	u8 *src_pixels = get_packed_src_addr(frame_info, y);
-+	u8 *src_pixels = get_packed_src_addr(frame_info, y, 0);
- 	int limit = min_t(size_t, drm_rect_width(&frame_info->dst), stage_buffer->n_pixels);
+ 		/* The active planes are composed associatively in z-order. */
+ 		for (size_t i = 0; i < n_active_planes; i++) {
++			x_dst = plane[i]->frame_info->dst.x1;
++			x_limit = min_t(size_t, drm_rect_width(&plane[i]->frame_info->dst),
++					stage_buffer->n_pixels);
+ 			y_pos = get_y_pos(plane[i]->frame_info, y);
  
- 	for (size_t x = 0; x < limit; x++, src_pixels += frame_info->fb->format->cpp[0]) {
- 		int x_pos = get_x_position(frame_info, limit, x);
+ 			if (!check_limit(plane[i]->frame_info, y_pos))
+ 				continue;
  
- 		if (drm_rotation_90_or_270(frame_info->rotation))
--			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1)
-+			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1, 0)
- 				+ frame_info->fb->format->cpp[0] * y;
+ 			vkms_compose_row(stage_buffer, plane[i], y_pos);
+-			pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
+-					    output_buffer);
++			pre_mul_alpha_blend(stage_buffer, output_buffer, x_dst, x_limit);
+ 		}
  
- 		plane->pixel_read(src_pixels, &out_pixels[x_pos]);
-@@ -275,7 +284,7 @@ void vkms_writeback_row(struct vkms_writeback_job *wb,
- {
- 	struct vkms_frame_info *frame_info = &wb->wb_frame_info;
- 	int x_dst = frame_info->dst.x1;
--	u8 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
-+	u8 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y, 0);
- 	struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
- 	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst), src_buffer->n_pixels);
- 
+ 		apply_lut(crtc_state, output_buffer);
 
 -- 
 2.43.0
