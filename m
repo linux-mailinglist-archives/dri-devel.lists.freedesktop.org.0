@@ -2,90 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 695B0870198
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 13:35:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B2188701A5
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 13:36:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85A1710E5BB;
-	Mon,  4 Mar 2024 12:35:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 170491120DB;
+	Mon,  4 Mar 2024 12:36:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="T9/BQtSi";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="E6PLUkad";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RkzrbKpc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout4-smtp.messagingengine.com (fout4-smtp.messagingengine.com
- [103.168.172.147])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DDE110E5BB
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 12:35:10 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailfout.nyi.internal (Postfix) with ESMTP id 08E0713800B1;
- Mon,  4 Mar 2024 07:35:10 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
- by compute5.internal (MEProxy); Mon, 04 Mar 2024 07:35:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:subject
- :subject:to:to; s=fm3; t=1709555710; x=1709642110; bh=+TroZF8jeB
- zIowpYrGF9jrP9uh+0X1BM1HbguhEHK/Y=; b=T9/BQtSiILQpMCnqJv+UGt4nim
- DKXKwfSy6GCSmU9MI/Pjsfj44Z3Wenf6/LEy+I4ZoIzLMkMgMHF+PhBwQrEQSd4R
- 3rZ34vnDWPzOLcBAQ62+F62GS/PCSwLGOjzWb+4HYu61h70JZQCIMRnQeh4xv94L
- RqYEnHdxXR+DuyS6xSsASBQtPM6SWEa9H5ufn4ujyn/GfVm6eqdJVo0J2tl1Q9JN
- osTb1ZoBQT/GDSHLKe+qDqnCkft9Ctrbkk5rdzz0PysbgoloPjWfVGYPC/WFEi3S
- fwraymKJf8Oz5X0l6etK+pq0APaTc34fcxeJ/yGvKIwwpEcW1Cueh3TlRW2Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1709555710; x=1709642110; bh=+TroZF8jeBzIowpYrGF9jrP9uh+0
- X1BM1HbguhEHK/Y=; b=E6PLUkad/4kqaHFHfUpwwh4uJpCKtRVopl24PVUHG9Mw
- LECgX5ZE9tMDn2FoHcmaohB658HUZmtIEw/WZy3lnp1a/CWLhvo2ivZz6E7VADD0
- 62B/D08u2/oLOME9TQj8WnUl4qtdfDQvJoaRgVNeIrOzjw+tSSGK8jYnQdxMteWO
- B68q0Iind1V77AMyiOD0AvrLeopaQo55R7a69/krkZWyZVLFhaPCYOUN6nDofW94
- sxV5UjKcnlMguzeNrZFy9PHtSJbq8oMRGtSY1qWVoWlxqqrTvJjKoCzJMaxjcR0z
- PA3GyhuUq7W/yzGqROK+aw8iiAxFUrplNkVwb/B/ew==
-X-ME-Sender: <xms:_b_lZejkpGfPnkZ6rWHmnlF83ytm5tLUqBDv525-BSP26reAj07lWw>
- <xme:_b_lZfACtMQggRtzKMcil5im_zd8ZbalEEKkC-rfuv8tx8uUhDTIOuJUqTPf6H8zF
- i4LkP3AMKbjW3Re-Kk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrheejgdegtdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
- ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
- gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
- ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
- hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:_b_lZWE46UepRGStc-ln7gow_V2jQP-_Q_XxHslclj-_ee0Oz5Yl-w>
- <xmx:_b_lZXSTQ4OTlJjnlshezWanXyeIh7YpBpBVHTBFpEUGfZJ7tncL1A>
- <xmx:_b_lZbzEc11JtuWNBa_9xbo1ZfetGIJ_nairqqjxFQaF5dkINnhbxw>
- <xmx:_r_lZQr-hNcmlRBZu5F-5E4vJ6n1LfLuyiyftEFvlDNfCRd2z4rDrg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id AA096B6008F; Mon,  4 Mar 2024 07:35:09 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-205-g4dbcac4545-fm-20240301.001-g4dbcac45
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DED31120DA;
+ Mon,  4 Mar 2024 12:36:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709555802; x=1741091802;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=+FtajtSxKbInVirJmin7eCfNQOWaG6cSc3qGgSAMFUQ=;
+ b=RkzrbKpcHxKvsjkEQJEsmws/hqLN4K/XOzfBPwM1TxYQi0Jr3ctkFxnt
+ 0Pnpfd7VqlsvlWD+4PojASTqhRR1mFClmulprgS9su9Ww9Beu0N4gE1aU
+ V+yBJjUSZU1L8gtE12OWmo18FHwbAsHeeozLHp70oh/qdEaiWzYXsIJgS
+ y7j55CnLSIF9N7RjYximc1J7a18VbUFpePfjpQH2bsbNo0FUvqQc06K4k
+ lWTqVxHzrWE/jcSqrOC09YWrUzPtv6Jg4EOHtcTR35I+3av1JsrBRk67x
+ q6ERCeVMJvE490mcgU1h0sTg0dPkuk6w/mLNoA8T/NDJ0hT0kDCe2HhNG g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="7854531"
+X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
+   d="scan'208";a="7854531"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2024 04:36:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
+   d="scan'208";a="8937331"
+Received: from mshirdel-mobl.ger.corp.intel.com (HELO [10.252.23.228])
+ ([10.252.23.228])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2024 04:36:39 -0800
+Message-ID: <0bae5cd3-2cb0-4ed2-ba49-ac991e909cbd@intel.com>
+Date: Mon, 4 Mar 2024 12:36:36 +0000
 MIME-Version: 1.0
-Message-Id: <badf279a-f1fa-4938-a5d2-492b89d7c27c@app.fastmail.com>
-In-Reply-To: <20240304114546.4e8e1e32@donnerap.manchester.arm.com>
-References: <CA+G9fYvG9KE15PGNoLu+SBVyShe+u5HBLQ81+kK9Zop6u=ywmw@mail.gmail.com>
- <338c89bb-a70b-4f35-b71b-f974e90e3383@app.fastmail.com>
- <20240304112441.707ded23@donnerap.manchester.arm.com>
- <1baf9a7f-b0e4-45d8-ac57-0727a213d82d@app.fastmail.com>
- <20240304114546.4e8e1e32@donnerap.manchester.arm.com>
-Date: Mon, 04 Mar 2024 13:34:49 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Andre Przywara" <andre.przywara@arm.com>
-Cc: "Naresh Kamboju" <naresh.kamboju@linaro.org>,
- "open list" <linux-kernel@vger.kernel.org>,
- "Linux ARM" <linux-arm-kernel@lists.infradead.org>,
- linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org,
- lkft-triage@lists.linaro.org, "Maxime Ripard" <mripard@kernel.org>,
- "Dave Airlie" <airlied@redhat.com>,
- "Dan Carpenter" <dan.carpenter@linaro.org>,
- "Ard Biesheuvel" <ardb@kernel.org>
-Subject: Re: arm: ERROR: modpost: "__aeabi_uldivmod"
- [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] undefined!
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 3/3] drm/buddy: Add defragmentation support
+Content-Language: en-GB
+To: "Paneer Selvam, Arunpravin" <arunpravin.paneerselvam@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Cc: christian.koenig@amd.com, alexander.deucher@amd.com, felix.kuehling@amd.com
+References: <20240221121801.3252-1-Arunpravin.PaneerSelvam@amd.com>
+ <20240221121801.3252-3-Arunpravin.PaneerSelvam@amd.com>
+ <2c841f63-10d5-4de3-b331-6b320a92dc64@intel.com>
+ <ebdc7ceb-2ec4-460c-b8a3-c90184cd800e@amd.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <ebdc7ceb-2ec4-460c-b8a3-c90184cd800e@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,42 +73,253 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 4, 2024, at 12:45, Andre Przywara wrote:
-> On Mon, 04 Mar 2024 12:26:46 +0100
-> "Arnd Bergmann" <arnd@arndb.de> wrote:
->
->> On Mon, Mar 4, 2024, at 12:24, Andre Przywara wrote:
->> > On Mon, 04 Mar 2024 12:11:36 +0100 "Arnd Bergmann" <arnd@arndb.de> wrote:  
->> >>
->> >> This used to be a 32-bit division. If the rate is never more than
->> >> 4.2GHz, clock could be turned back into 'unsigned long' to avoid
->> >> the expensive div_u64().  
->> >
->> > Wouldn't "div_u64(clock, 200)" solve this problem?  
->> 
->> Yes, that's why I mentioned it as the worse of the two obvious
->> solutions. ;-)
->
-> Argh, should have cleaned my glasses first ;-)
->
-> I guess I was put somehow put off by the word "expensive". While it's
-> admittedly not trivial, I wonder if we care about the (hidden) complexity
-> of that function? I mean it's neither core code nor something called
-> frequently?
+On 04/03/2024 12:22, Paneer Selvam, Arunpravin wrote:
+> Hi Matthew,
+> 
+> On 2/22/2024 12:12 AM, Matthew Auld wrote:
+>> On 21/02/2024 12:18, Arunpravin Paneer Selvam wrote:
+>>> Add a function to support defragmentation.
+>>>
+>>> v1:
+>>>    - Defragment the memory beginning from min_order
+>>>      till the required memory space is available.
+>>>
+>>> v2(Matthew):
+>>>    - add amdgpu user for defragmentation
+>>>    - add a warning if the two blocks are incompatible on
+>>>      defragmentation
+>>>    - call full defragmentation in the fini() function
+>>>    - place a condition to test if min_order is equal to 0
+>>>    - replace the list with safe_reverse() variant as we might
+>>>      remove the block from the list.
+>>>
+>>> Signed-off-by: Arunpravin Paneer Selvam 
+>>> <Arunpravin.PaneerSelvam@amd.com>
+>>> Suggested-by: Matthew Auld <matthew.auld@intel.com>
+>>> ---
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 17 +++-
+>>>   drivers/gpu/drm/drm_buddy.c                  | 93 +++++++++++++++++---
+>>>   include/drm/drm_buddy.h                      |  3 +
+>>>   3 files changed, 97 insertions(+), 16 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c 
+>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+>>> index e494f5bf136a..cff8a526c622 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+>>> @@ -533,8 +533,21 @@ static int amdgpu_vram_mgr_new(struct 
+>>> ttm_resource_manager *man,
+>>>                          min_block_size,
+>>>                          &vres->blocks,
+>>>                          vres->flags);
+>>> -        if (unlikely(r))
+>>> -            goto error_free_blocks;
+>>> +        if (unlikely(r)) {
+>>> +            if (r == -ENOSPC) {
+>>> +                drm_buddy_defrag(mm, min_block_size);
+>>> +                r = drm_buddy_alloc_blocks(mm, fpfn,
+>>> +                               lpfn,
+>>> +                               size,
+>>> +                               min_block_size,
+>>> +                               &vres->blocks,
+>>> +                               vres->flags);
+>>> +                if (unlikely(r))
+>>> +                    goto error_free_blocks;
+>>> +            } else {
+>>> +                goto error_free_blocks;
+>>> +            }
+>>> +        }
+>>>             if (size > remaining_size)
+>>>               remaining_size = 0;
+>>> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+>>> index 18e004fa39d3..56bd1560fbcd 100644
+>>> --- a/drivers/gpu/drm/drm_buddy.c
+>>> +++ b/drivers/gpu/drm/drm_buddy.c
+>>> @@ -203,6 +203,8 @@ void drm_buddy_fini(struct drm_buddy *mm)
+>>>           drm_block_free(mm, mm->roots[i]);
+>>>       }
+>>>   +    drm_buddy_defrag(mm, mm->chunk_size << mm->max_order);
+>>
+>> I think this needs to be called higher up, otherwise we blow up with 
+>> the WARN, plus we just freed the root(s). There is also the case with 
+>> non-power-of-two VRAM size, in which case you get multiple roots and 
+>> max_order is just the largest root and not entire address space. I 
+>> guess do this in the loop above and use the root order instead?
+>>
+>> Also this should be done as part of the first patch and then in this 
+>> patch it is just a case of exporting it. Every commit should ideally 
+>> be functional by itself.
+> You mean we move the above change in drm_buddy_fini function and 
+> drm_buddy_defrag function as part of first patch.
+> And just we add export function and add amdgpu user in this patch. Is my 
+> understanding correct?
 
-It's not critical if this is called infrequently, and as Maxime
-just replied, the 64-bit division is in fact required here.
-Since we are dividing by a constant value (200), there is a good
-chance that this will be get turned into fairly efficient
-multiply/shift code.
+Yeah, I think that makes sense.
 
-> I don't think we have any clock exceeding 3GHz at the moment, but it
-> sounds fishy to rely on that.
-
-Right, it's just important to look at each case individually.
-The cost of 64-bit division is crazy if it gets called repeatedly,
-which is of course the entire reason we don't provide a
-__aeabi_uldivmod() function and require developers to think
-before adding div_u64().
-
-     Arnd
+> 
+> Thanks,
+> Arun.
+>>
+>>> +
+>>>       WARN_ON(mm->avail != mm->size);
+>>>         kfree(mm->roots);
+>>> @@ -276,25 +278,39 @@ drm_get_buddy(struct drm_buddy_block *block)
+>>>   }
+>>>   EXPORT_SYMBOL(drm_get_buddy);
+>>>   -static void __drm_buddy_free(struct drm_buddy *mm,
+>>> -                 struct drm_buddy_block *block)
+>>> +static unsigned int __drm_buddy_free(struct drm_buddy *mm,
+>>> +                     struct drm_buddy_block *block,
+>>> +                     bool defrag)
+>>>   {
+>>> +    unsigned int order, block_order;
+>>>       struct drm_buddy_block *parent;
+>>>   +    block_order = drm_buddy_block_order(block);
+>>> +
+>>>       while ((parent = block->parent)) {
+>>> -        struct drm_buddy_block *buddy;
+>>> +        struct drm_buddy_block *buddy = NULL;
+>>>             buddy = __get_buddy(block);
+>>>             if (!drm_buddy_block_is_free(buddy))
+>>>               break;
+>>>   -        if (drm_buddy_block_is_clear(block) !=
+>>> -            drm_buddy_block_is_clear(buddy))
+>>> -            break;
+>>> +        if (!defrag) {
+>>> +            /*
+>>> +             * Check the block and its buddy clear state and exit
+>>> +             * the loop if they both have the dissimilar state.
+>>> +             */
+>>> +            if (drm_buddy_block_is_clear(block) !=
+>>> +                drm_buddy_block_is_clear(buddy))
+>>> +                break;
+>>>   -        if (drm_buddy_block_is_clear(block))
+>>> -            mark_cleared(parent);
+>>> +            if (drm_buddy_block_is_clear(block))
+>>> +                mark_cleared(parent);
+>>> +        }
+>>> +
+>>> +        WARN_ON(defrag &&
+>>> +            (drm_buddy_block_is_clear(block) ==
+>>> +             drm_buddy_block_is_clear(buddy)));
+>>>             list_del(&buddy->link);
+>>>   @@ -304,8 +320,57 @@ static void __drm_buddy_free(struct drm_buddy 
+>>> *mm,
+>>>           block = parent;
+>>>       }
+>>>   -    mark_free(mm, block);
+>>> +    order = drm_buddy_block_order(block);
+>>> +    if (block_order != order)
+>>> +        mark_free(mm, block);
+>>> +
+>>> +    return order;
+>>> +}
+>>> +
+>>> +/**
+>>> + * drm_buddy_defrag - Defragmentation routine
+>>> + *
+>>> + * @mm: DRM buddy manager
+>>> + * @min_block_size: minimum size in bytes to begin
+>>> + * the defragmentation process
+>>> + *
+>>> + * Driver calls the defragmentation function when the
+>>> + * requested memory allocation returns -ENOSPC.
+>>> + */
+>>> +void drm_buddy_defrag(struct drm_buddy *mm,
+>>> +              unsigned int min_block_size)
+>>
+>> u64 min_block_size. Most cards have 4G+ of VRAM :)
+>>
+>>> +{
+>>> +    struct drm_buddy_block *block, *tmp;
+>>> +    unsigned int order, min_order;
+>>> +    struct list_head *list;
+>>> +    unsigned long pages;
+>>> +    int i;
+>>> +
+>>> +    pages = min_block_size >> ilog2(mm->chunk_size);
+>>> +    min_order = fls(pages) - 1;
+>>
+>> I think min_block_size should be power-of-two, no?
+>>
+>>> +
+>>> +    if (!min_order)
+>>> +        return;
+>>> +
+>>> +    if (min_order > mm->max_order)
+>>> +        return;
+>>> +
+>>> +    for (i = min_order - 1; i >= 0; i--) {
+>>> +        list = &mm->free_list[i];
+>>> +        if (list_empty(list))
+>>> +            continue;
+>>> +
+>>> +        list_for_each_entry_safe_reverse(block, tmp, list, link) {
+>>> +            if (!block->parent)
+>>> +                continue;
+>>> +
+>>> +            order = __drm_buddy_free(mm, block, 1);
+>>
+>> s/1/true/
+>>
+>>> +            if (order >= min_order)
+>>> +                return;
+>>> +        }
+>>> +    }
+>>>   }
+>>> +EXPORT_SYMBOL(drm_buddy_defrag);
+>>>     /**
+>>>    * drm_buddy_free_block - free a block
+>>> @@ -321,7 +386,7 @@ void drm_buddy_free_block(struct drm_buddy *mm,
+>>>       if (drm_buddy_block_is_clear(block))
+>>>           mm->clear_avail += drm_buddy_block_size(mm, block);
+>>>   -    __drm_buddy_free(mm, block);
+>>> +    __drm_buddy_free(mm, block, 0);
+>>>   }
+>>>   EXPORT_SYMBOL(drm_buddy_free_block);
+>>>   @@ -468,7 +533,7 @@ __alloc_range_bias(struct drm_buddy *mm,
+>>>       if (buddy &&
+>>>           (drm_buddy_block_is_free(block) &&
+>>>            drm_buddy_block_is_free(buddy)))
+>>> -        __drm_buddy_free(mm, block);
+>>> +        __drm_buddy_free(mm, block, 0);
+>>>       return ERR_PTR(err);
+>>>   }
+>>>   @@ -586,7 +651,7 @@ alloc_from_freelist(struct drm_buddy *mm,
+>>>     err_undo:
+>>>       if (tmp != order)
+>>> -        __drm_buddy_free(mm, block);
+>>> +        __drm_buddy_free(mm, block, 0);
+>>>       return ERR_PTR(err);
+>>>   }
+>>>   @@ -666,7 +731,7 @@ static int __alloc_range(struct drm_buddy *mm,
+>>>       if (buddy &&
+>>>           (drm_buddy_block_is_free(block) &&
+>>>            drm_buddy_block_is_free(buddy)))
+>>> -        __drm_buddy_free(mm, block);
+>>> +        __drm_buddy_free(mm, block, 0);
+>>>     err_free:
+>>>       if (err == -ENOSPC && total_allocated_on_err) {
+>>> @@ -828,7 +893,7 @@ EXPORT_SYMBOL(drm_buddy_block_trim);
+>>>    * @mm: DRM buddy manager to allocate from
+>>>    * @start: start of the allowed range for this block
+>>>    * @end: end of the allowed range for this block
+>>> - * @size: size of the allocation
+>>> + * @size: size of the allocation in bytes
+>>>    * @min_block_size: alignment of the allocation
+>>>    * @blocks: output list head to add allocated blocks
+>>>    * @flags: DRM_BUDDY_*_ALLOCATION flags
+>>> diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
+>>> index 352a6364e26a..68a874846e78 100644
+>>> --- a/include/drm/drm_buddy.h
+>>> +++ b/include/drm/drm_buddy.h
+>>> @@ -167,6 +167,9 @@ void drm_buddy_free_list(struct drm_buddy *mm,
+>>>                struct list_head *objects,
+>>>                unsigned int flags);
+>>>   +void drm_buddy_defrag(struct drm_buddy *mm,
+>>> +              unsigned int min_order);
+>>> +
+>>>   void drm_buddy_print(struct drm_buddy *mm, struct drm_printer *p);
+>>>   void drm_buddy_block_print(struct drm_buddy *mm,
+>>>                  struct drm_buddy_block *block,
+> 
