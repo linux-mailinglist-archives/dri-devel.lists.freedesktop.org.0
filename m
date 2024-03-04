@@ -2,64 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB0CA86FBF2
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 09:33:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E18BD86FC1F
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 09:44:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C8E510FE42;
-	Mon,  4 Mar 2024 08:33:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3A1A10E7FB;
+	Mon,  4 Mar 2024 08:44:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gtucker.io header.i=@gtucker.io header.b="AfNcS3MZ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AYMSEpcE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C48BF10FE42
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 08:33:35 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 95C611C000A;
- Mon,  4 Mar 2024 08:33:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
- t=1709541213;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WTHSqccs0gSHawyzY/q7v34wU0Ao/p7rZ42hjzeaIWE=;
- b=AfNcS3MZXihW4yqhgCLLzoODR3kQMI7e1ytKPDPv/R2CDSfLqkv3F5t97W2AhsE4OMopHk
- yg8qA05nindM+pDRNtW5UdUK/PWtnhEARqfnyQv+3MO3kp7rztjI7naJroMwKWYuzFC0SF
- 13KVIfnEMq9KwX9ZMOuIeXkAneMkjrxxs7DK06cZ+Kr08QbXbi0o7tg/5LhwoGEgQZl09M
- KQx+X4C5wxP8G0yhPTwFX73cv6rMOLFluxHlEzbaWYPB36Uf08RUx/NcUgM8KL3Dq/yKp3
- o5GDwGaxqngePLsSf+LyUj9IJ6KP8+skrfQ2cJkZp4LpJYdYqZVfAAn8g/CJeA==
-Message-ID: <1788e114-45ea-4593-ae3c-9c2e794b987a@gtucker.io>
-Date: Mon, 4 Mar 2024 09:33:28 +0100
-MIME-Version: 1.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63D6A10E7FB;
+ Mon,  4 Mar 2024 08:44:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709541896; x=1741077896;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=zM6UoHMdKncI0nnhYgMYoiKFE9SnbxMxo1Rtx2BUf2Q=;
+ b=AYMSEpcE2lX9Ixh9AN/l6Qew932Oe/dITV81So1SHeuYt35nFmHk6RqO
+ QiC42NdBO66kosgiRm1ATlP9bKXr1DKKGkkp2ebGruumL+O32hVyQ53BL
+ tJfNpeVT3D/4e5o1wlZ1oXVIIK0fyWD3gDF0cw4wiZ8Bxz4ROxvyQl7W7
+ Zc/wjP6ZuHAaCKPLJ6HsTlk3h4WmxKc/MOAhFybQ5UTFLA64mUZuS+kGF
+ Ro5agIF2zY75Kgp2KJNV/LZNvwJ64Fd0NkS3wuHVrJoITtRQdxBSM7KCx
+ VYoJ2B6CPwy0+MzxRhnAvnG6WShkweBKI7pbDHHVLnJ5tVtRMuYJ+sykc Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="4144567"
+X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
+   d="scan'208";a="4144567"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2024 00:44:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; d="scan'208";a="39915876"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 04 Mar 2024 00:44:55 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 4 Mar 2024 00:44:54 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Mon, 4 Mar 2024 00:44:54 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.101)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Mon, 4 Mar 2024 00:44:54 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CY8LJEMhv0dNqXQ6kk512P8ag28EMKnAiYW3ROIOneBPvzDt8VCbT3WDGkL3hcHzimnSrTNPKWv8lQHMzwSjEWZIXJUfyXuBCUGnpxxxiHKMZuRPWM13QsaZNNH1S0DxfSpXHJGrgGiu85zDxkNjesNw4bG2HBCpHMB9IHmVpOMjDidkulc7mX1LVXaX3dGWY0mPHTnkHlk7rGi7AU0YfFGVharIL+UaZRLxSMEj4mrQeIu2IY+oplr8peMj4z9Dc7saBK013vJGp4PBqpJC0GWU7dI+kU3c1HWfNjEWj65bgo2bjZSaILfzolt4JQLV7OCrz/odu/q93iTk4j7hBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uQTUbUDR9ZYnqtWd6kb/0a3Y6aHP3vlwNrRyP3J0bDQ=;
+ b=RlhDVZ1OQ/AsKgg5ThP5hcUF5SsLIagRGRRFbydUnY04fuj5gKdrZ5fxSNS0Ie6T1p4Wl5JHa66EzeN9ae/YlUa5nLmoSYKMpL1X6ydBPshc0ZB0mcsg7v0yR53cpRiICQvXSrF4KoZpMBjQpYvI+BGSdPLNRe/0waF/WVIu37WC9NbNycN+g1CNNjhyyY0BPOO+yliYT5Ku6biQcqWvorYzwTKhhPq2t/uYvGwYrp6uoEaPdt0InVtTtt7H0vl1yy9rdDlvDLxf8CHwmrtPmZmw5DwB8rwe6ZNYb3QAZ3AqlpUoaztHoUQGsH56XefRVZ4mBIJ3DCImlcqGem8KMQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5341.namprd11.prod.outlook.com (2603:10b6:5:390::22)
+ by PH8PR11MB6801.namprd11.prod.outlook.com (2603:10b6:510:1c9::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.22; Mon, 4 Mar
+ 2024 08:44:52 +0000
+Received: from DM4PR11MB5341.namprd11.prod.outlook.com
+ ([fe80::12b:4490:b758:75c2]) by DM4PR11MB5341.namprd11.prod.outlook.com
+ ([fe80::12b:4490:b758:75c2%7]) with mapi id 15.20.7362.019; Mon, 4 Mar 2024
+ 08:44:51 +0000
+Message-ID: <7c90afb9-9323-488c-a4de-510e6e81ae6f@intel.com>
+Date: Mon, 4 Mar 2024 14:14:45 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] kci-gitlab: Introducing GitLab-CI Pipeline for Kernel
- Testing
+Subject: Re: [PATCH v15 1/9] drm/dp: Add support to indicate if sink supports
+ AS SDP
+To: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
+ <intel-gfx@lists.freedesktop.org>
+CC: <dri-devel@lists.freedesktop.org>, <jani.nikula@intel.com>
+References: <20240301084503.2971826-1-mitulkumar.ajitkumar.golani@intel.com>
+ <20240301084503.2971826-2-mitulkumar.ajitkumar.golani@intel.com>
 Content-Language: en-US
-To: Gustavo Padovan <gustavo.padovan@collabora.com>
-Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Nikolai Kondrashov <spbnick@gmail.com>,
- Helen Koike <helen.koike@collabora.com>, linuxtv-ci@linuxtv.org,
- dave.pigott@collabora.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
- pawiecz@collabora.com, tales.aparecida@gmail.com, workflows@vger.kernel.org,
- kernelci@lists.linux.dev, skhan@linuxfoundation.org,
- kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com,
- cocci@inria.fr, Julia.Lawall@inria.fr, laura.nao@collabora.com,
- ricardo.canuelo@collabora.com, kernel@collabora.com,
- torvalds@linuxfoundation.org, gregkh@linuxfoundation.org
-References: <20240228225527.1052240-1-helen.koike@collabora.com>
- <d99d026e-ed32-4432-bab3-db75296e67d8@gtucker.io>
- <a5726043-1906-44ba-a6ee-a725a2776269@gmail.com>
- <51fa8932e57010620e9a9e16a1979f4883e95a7d.camel@collabora.com>
- <3d7e66bc-967e-45ec-a9e9-12dafd3b3e68@gtucker.io>
- <1801a-65e39e80-6d-2f4e1180@80294519>
-From: Guillaume Tucker <gtucker@gtucker.io>
-In-Reply-To: <1801a-65e39e80-6d-2f4e1180@80294519>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: gtucker@gtucker.io
+From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
+In-Reply-To: <20240301084503.2971826-2-mitulkumar.ajitkumar.golani@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BM1P287CA0005.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:b00:40::18) To DM4PR11MB5341.namprd11.prod.outlook.com
+ (2603:10b6:5:390::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5341:EE_|PH8PR11MB6801:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6db61ce0-6869-4f36-95d4-08dc3c275b66
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: gjHeZ2ncwxJlR19Miw31x+DNinnaSXyst49GjktxHgSybSAWg0pIC/3wUI3fZh9UrNQvrDVOAwZCIq/nFp7vzLUB0lBoR4VKDjBV7lkT/HPZHRPbkaw7z9DbmdtJC3+Gh6ICWihqKKXN8qPZc9WQG6x6vsJ30d5q6nhgp7BHbeOWb3WhYEXSqzPJuM7r0DsXOkMByOXangejm1tH7aabGcbKMWGyrJM6AJSmMbMVZL0IiOT3ZcShLmrKg7XlL1LqMoBn1IrxAgSjJLY1Ows+OC88VpVv0Xc4QR3zhU0sWXaAtUx0wXgMhyL1MjVpj9JgTSC04dbw6BLNBPX6HtkjuRYHqG52nB9HQuscj8lqO5AOnAzs6mpchmPMbsza7USf+3PqxpVhEJycSTHtXVa1F6Nlb/TqjTD9E4vAjjJsP+rpQ8yFlyOVvxR7wKWS0FRxtQVESSIVt8U2lDxn3QUWpv88ORfwA1eVJ56/0gs87Bw1iAgUecBmeKrGIw+NUc+K7R8jZRlG3Mm1SOmE5Fya+IWPT5Zz4tSdvol/auT7pDo+hvYV4e96DX1VOE5UN+tBXPapMHiJbjrgi7+9wpUZlaVMFQmvl+z1d4Bi3hSbkx3UfORN2EYlEPZ5cTiL0Hl1h+JF+uyRl31h/xMC7OXBgJIbs0G5r04OUGJpxQ4ocZ4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5341.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376005); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aVFTaVh3MVdobVBxaUF6d0hoOFR2dFk2am5ZV01jYzV0ZzR0MUZtbGNvM1Fm?=
+ =?utf-8?B?d2RNeGdrTXN2RllLNTBhSExpSDdFSXdYemk2UzZoL1k2cHoxaFdxaFdvUXZX?=
+ =?utf-8?B?QkVQcUxoQ2hxTFJsR3lsbjcxWm4xMXJJVFNQdlZyaVhzYXQ1cU83amFMS0dy?=
+ =?utf-8?B?bEFLbUlOUTFUcFdqOGY1TSsyeDk1M0h0ZERubVFaVFc1ang5YmpRRFF6Um14?=
+ =?utf-8?B?MHpSUGM3RklpdXloRVhxNHR1NGlkVCtpL0ZDN0tIRkRQOUQ2L1VWYVlYRmFm?=
+ =?utf-8?B?cHhqajlPT3dhOXpXKzJLOWpsYmhKbXNUbHhmekQrSm03eDBVdG1HTFNnS0FE?=
+ =?utf-8?B?Z3krNUlqZk1lTkpwLzkzT2NaL2ROajQvVXdOQzZNQUo0R1FibU5wTFBFMjRi?=
+ =?utf-8?B?ZkFGdXRwQ1E5YThDbVNrRll5bm80STRra29XTFNHUTVtV29xWGIvVmwzenU4?=
+ =?utf-8?B?ZnZQTHB5TU16ampLQUxJdWVBZHcxbGRJY3pQWGIzNU14RzcwbXJTZ3EzK25T?=
+ =?utf-8?B?Qm1MMjZJSEQ5NUdWTHF6eUhPeXZLYnRZc2o1RVE3OXRYWkROSDBKN1JNMFRu?=
+ =?utf-8?B?ZWRuQll6d3NSM0lJRzhWeHRUMDdlS2h4WVRPTzhZMThobzlhaUptcEpDTmxB?=
+ =?utf-8?B?dGQ1dlg4RTM0dUx4Y3ZsQlVhc1NMOVZSOGFpMFV6d3RJdE5uZ2IweTNyUjR5?=
+ =?utf-8?B?Z0RnUUttdjdScEdpa1lzRDVucHBqSzdJYXZFTjFMU1MrbkNqN1k2dnNSTnFz?=
+ =?utf-8?B?bWU4aWhZZjRLekkwR0c4K285ZGllc2ZYSDlEMHYrSUphdTZ2V2xEUlFISENY?=
+ =?utf-8?B?VGJaNk5BQUNvWTh4d1FpYll0MGM4cG9FcjBEWFBackpaY1J6MCtPM1FuckZR?=
+ =?utf-8?B?dzNIUXY5Y0ZjT1hxUGthdzFZYTdlMXE1dU00SzdhQjg0VkxCWkdOc3BxS3FW?=
+ =?utf-8?B?Zi9RdENDVEVhZHpGUjdQcDJLVnZCSkRKZytmRUFQZFRpWFp3d3dVZ3V4aEhR?=
+ =?utf-8?B?VVFHZm9YTFYvckZybXVRNXFoZ3NpV2tzZGpuUGNoU01TVzlPMCtQOXZNZXYw?=
+ =?utf-8?B?dGY5UDk0SlFVdW9mSzVQMTQ5SDl6c0ZZSzVYSjUrbHkzUnhxRWxxL1ZnUDlU?=
+ =?utf-8?B?VVBsaXVaMnBVa3BYOEFhd0tKb2g0NmgyM2R4S0ZyZ0N3T0FxYzhwdVgrTGV5?=
+ =?utf-8?B?aHh5Y2tvSEZLQmhQOTM4TmI3SGk3V3VHaUpQa2o4cTdWdmZldzhIa0pBOEZO?=
+ =?utf-8?B?MTJoekNGMUJaTFdrR0NMR0hNcUhFNmc3eTBaR0xTR1ppY0x6SE5LZk93eGw2?=
+ =?utf-8?B?aDhKeSthRDVSa0ZTOTlZMVJjUHVpdnBpcTl1Wjgrdml5ditxWVg3MGw0d2lI?=
+ =?utf-8?B?QmR5SndVaDl3cUxrOENQKzIvSTRzaUlCWEVzS2RGclBmejZRNWEycldmZjBa?=
+ =?utf-8?B?SEpFdkVDSTlQSFd1aTVEd0pTSmhkZ0VuNDNiOEdCM3oyd1pOV0lpMDJOQlZY?=
+ =?utf-8?B?ZG45QVk1aEhpWVUySFFvV2U4V2R6L0JpMEUrQnNwbkN5WnJUci84V2RYKzBI?=
+ =?utf-8?B?MWh0UjBVRFp4SURmWG1JV0ZjVVN2TXFHL3RzUUtJQk1HOEFSM3VEQ05JLzdP?=
+ =?utf-8?B?dHRxTG9hTlVaY003WHUyOUhDeWtyNytnd1QxRlpjK2JsNThxbmpvdjk4Vnk3?=
+ =?utf-8?B?TFltdW56aGJZVjEzc05NQWtwRHJlTktWU2RFSTR1elVyOXg3NXQxL2l5T2dE?=
+ =?utf-8?B?dHA5a29lc3lVNm82RG8zU3VkeWtiTHFvQmdvLzVlREU2YzZabWtXaFV0QzhK?=
+ =?utf-8?B?SmJ6VFVQMThFcHJrZFVQMVRsWHVNdXQxdGl3T2pqRm9nNURIVXVHQStab2VX?=
+ =?utf-8?B?RVg2TDJhL3NYUHVnU0ZzR2V1cTJrUGo0Q3dFeXBFV0w1MWx2WWNhU0MwRnB3?=
+ =?utf-8?B?OVppSklGc3NldlBxTlNiTEx2bUZTeUZIUElMV2NXTk0rYzZjdXVvOW1GRU8z?=
+ =?utf-8?B?Ykl2YXMwRDRjQW9SV2pRNDNRWjZmWC9GM0FRNS9uL2xPV29ibW5RMDJEU1Vn?=
+ =?utf-8?B?TThaMCtRTCtVeUpYRGJTdWpqUGl1QzRWNDQvS1AxREswdTgvT1I5NXRXMGJw?=
+ =?utf-8?B?OFB2U2NUclpCL0VBSFB3d1ZXd1ErRlkwZ1liYW8yOGs5M2Q4QytLbEhWN2JN?=
+ =?utf-8?B?K2c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6db61ce0-6869-4f36-95d4-08dc3c275b66
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5341.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2024 08:44:51.8245 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: isNdyyKGOdhEuCIXHclFhf5ipKo3dmPeAUdNBAFfsLjAlJZtKC52QY/WaFEEu8h/Ilh0gnycbayR4oMRU9BuUXWPODBbShXgq/IeE2d1ngM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6801
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,131 +164,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/03/2024 10:48 pm, Gustavo Padovan wrote:
-> On Friday, March 01, 2024 18:56 -03, Guillaume Tucker <gtucker@gtucker.io> wrote:
-> 
->> On 29/02/2024 17:28, Nicolas Dufresne wrote:
->>> Hi,
->>>
->>> Le jeudi 29 février 2024 à 16:16 +0200, Nikolai Kondrashov a écrit :
->>>> On 2/29/24 2:20 PM, Guillaume Tucker wrote:
->>>>> Hello,
->>>>>
->>>>> On 28/02/2024 23:55, Helen Koike wrote:
->>>>>> Dear Kernel Community,
->>>>>>
->>>>>> This patch introduces a `.gitlab-ci` file along with a `ci/` folder, defining a
->>>>>> basic test pipeline triggered by code pushes to a GitLab-CI instance. This
->>>>>> initial version includes static checks (checkpatch and smatch for now) and build
->>>>>> tests across various architectures and configurations. It leverages an
->>>>>> integrated cache for efficient build times and introduces a flexible 'scenarios'
->>>>>> mechanism for subsystem-specific extensions.
->>>>>
->>>>> This sounds like a nice starting point to me as an additional way
->>>>> to run tests upstream.  I have one particular question as I see a
->>>>> pattern through the rest of the email, please see below.
->>>>>
->>>>> [...]
->>>>>
->>>>>> 4. **Collaborative Testing Environment:** The kernel community is already
->>>>>> engaged in numerous testing efforts, including various GitLab-CI pipelines such
->>>>>> as DRM-CI, which I maintain, along with other solutions like KernelCI and
->>>>>> BPF-CI. This proposal is designed to further stimulate contributions to the
->>>>>> evolving testing landscape. Our goal is to establish a comprehensive suite of
->>>>>> common tools and files.
->>>>>
->>>>> [...]
->>>>>
->>>>>> **Leveraging External Test Labs:**
->>>>>> We can extend our testing to external labs, similar to what DRM-CI currently
->>>>>> does. This includes:
->>>>>> - Lava labs
->>>>>> - Bare metal labs
->>>>>> - Using KernelCI-provided labs
->>>>>>
->>>>>> **Other integrations**
->>>>>> - Submit results to KCIDB
->>>>>
->>>>> [...]
->>>>>
->>>>>> **Join Our Slack Channel:**
->>>>>> We have a Slack channel, #gitlab-ci, on the KernelCI Slack instance https://kernelci.slack.com/ .
->>>>>> Feel free to join and contribute to the conversation. The KernelCI team has
->>>>>> weekly calls where we also discuss the GitLab-CI pipeline.
->>>>>>
->>>>>> **Acknowledgments:**
->>>>>> A special thanks to Nikolai Kondrashov, Tales da Aparecida - both from Red Hat -
->>>>>> and KernelCI community for their valuable feedback and support in this proposal.
->>>>>
->>>>> Where does this fit on the KernelCI roadmap?
->>>>>
->>>>> I see it mentioned a few times but it's not entirely clear
->>>>> whether this initiative is an independent one or in some way
->>>>> linked to KernelCI.  Say, are you planning to use the kci tool,
->>>>> new API, compiler toolchains, user-space and Docker images etc?
->>>>> Or, are KernelCI plans evolving to follow this move?
->>>>
->>>> I would say this is an important part of KernelCI the project, considering its
->>>> aim to improve testing and CI in the kernel. It's not a part of KernelCI the
->>>> service as it is right now, although I would say it would be good to have
->>>> ability to submit KernelCI jobs from GitLab CI and pull results in the same
->>>> pipeline, as we discussed earlier.
->>
->> Right, I think this needs a bit of disambiguation.  The legacy
->> KernelCI system from the Linaro days several years ago is really
->> a service on its own like the many other CIs out there.  However,
->> the new KernelCI API and related tooling (kci command line, new
->> web dashboard, modular runtime design etc.) is not that.  It's
->> about addressing all the community requirements and that includes
->> being able to run a same test manually in a shell, or in a VM, or
->> automatically from GitLab CI or using a main generic pipeline
->> hosted by KernelCI itself.  With this approach, there's no
->> distinction between "the project" and "the service", and as we
->> discussed before there shouldn't even be a distinction with
->> KCIDB.  Just KernelCI.
->>
->> However I don't really see this happening, unless I'm missing a
->> part of the story or some upcoming announcement with an updated
->> roadmap.  For some reason the old and established paradigm seems
->> unshakeable.  The new KernelCI implementation is starting to look
->> just like a refresh of the old one with newer components - which
->> is a huge missed opportunity to really change things IMHO.
-> 
-> Calling that a missed opportunity is a subjective perspective about
-> the latest developments in KernelCI. The system implementation is
-> one level less important than the actual kernel community engagement
-> the project can generate. If one asks people around, the lack of
-> community engagement with KernelCI is evident.
 
-Well I would argue that community engagement and technical
-development work side-by-side, not as a hierarchy.  You can't run
-Android phones or data centers with community engagement, and you
-can't write the code without the people.
+On 3/1/2024 2:14 PM, Mitul Golani wrote:
+> Add an API that indicates support for Adaptive Sync SDP in
+> the sink, which can be utilized by the rest of the DP programming.
+>
+> --v1:
+> - Format commit message properly.
+>
+> Signed-off-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
 
-I was enquiring about this in particluar because I'm preparing a
-LF webinar, so I've started another thread to avoid spamming this
-one as it's really a side topic:
+LGTM.
 
- 
-https://lore.kernel.org/all/71f59a56-aef3-4bae-867b-769a0cdd1c1b@gtucker.io/T/#u
+Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 
-> However, after the recent leadership change in the project there is a
-> growing effort to bring the kernel community closer to the KernelCI
-> project with a renewed focus on high quality test results, clean regression
-> reporting, among other things. Then, with an increased number of community
-> members involved, we will have the necessary feedback (and funding!) to
-> evolve the KernelCI infrastructure and technology to new levels.
 
-In a nutshell, KernelCI started small and then joined the LF.
-The scope changed to encompass the whole kernel community, and as
-a result a number of things were done: community survey, lots of
-conf talks and email discussions with kernel devs etc.  Then some
-plan was put in place with the new API and web dashboard designs,
-but other priorities slowed things down on this front which is
-why it's still not quite there two years later.  That's also why
-community engagement has been low.  But that's OK, plans are just
-plans and things are catching up again now I think.
-
-And once again, I think this GitLab CI move is great :)
-
-Guillaume
+> ---
+>   drivers/gpu/drm/display/drm_dp_helper.c | 25 +++++++++++++++++++++++++
+>   include/drm/display/drm_dp_helper.h     |  1 +
+>   2 files changed, 26 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+> index 266826eac4a7..f2fabb673aa4 100644
+> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> @@ -2948,6 +2948,31 @@ void drm_dp_vsc_sdp_log(struct drm_printer *p, const struct drm_dp_vsc_sdp *vsc)
+>   }
+>   EXPORT_SYMBOL(drm_dp_vsc_sdp_log);
+>   
+> +/**
+> + * drm_dp_as_sdp_supported() - check if adaptive sync sdp is supported
+> + * @aux: DisplayPort AUX channel
+> + * @dpcd: DisplayPort configuration data
+> + *
+> + * Returns true if adaptive sync sdp is supported, else returns false
+> + */
+> +bool drm_dp_as_sdp_supported(struct drm_dp_aux *aux, const u8 dpcd[DP_RECEIVER_CAP_SIZE])
+> +{
+> +	u8 rx_feature;
+> +
+> +	if (dpcd[DP_DPCD_REV] < DP_DPCD_REV_13)
+> +		return false;
+> +
+> +	if (drm_dp_dpcd_readb(aux, DP_DPRX_FEATURE_ENUMERATION_LIST_CONT_1,
+> +			      &rx_feature) != 1) {
+> +		drm_dbg_dp(aux->drm_dev,
+> +			   "Failed to read DP_DPRX_FEATURE_ENUMERATION_LIST_CONT_1\n");
+> +		return false;
+> +	}
+> +
+> +	return (rx_feature & DP_ADAPTIVE_SYNC_SDP_SUPPORTED);
+> +}
+> +EXPORT_SYMBOL(drm_dp_as_sdp_supported);
+> +
+>   /**
+>    * drm_dp_vsc_sdp_supported() - check if vsc sdp is supported
+>    * @aux: DisplayPort AUX channel
+> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+> index a62fcd051d4d..7df19acdc790 100644
+> --- a/include/drm/display/drm_dp_helper.h
+> +++ b/include/drm/display/drm_dp_helper.h
+> @@ -101,6 +101,7 @@ struct drm_dp_vsc_sdp {
+>   void drm_dp_vsc_sdp_log(struct drm_printer *p, const struct drm_dp_vsc_sdp *vsc);
+>   
+>   bool drm_dp_vsc_sdp_supported(struct drm_dp_aux *aux, const u8 dpcd[DP_RECEIVER_CAP_SIZE]);
+> +bool drm_dp_as_sdp_supported(struct drm_dp_aux *aux, const u8 dpcd[DP_RECEIVER_CAP_SIZE]);
+>   
+>   int drm_dp_psr_setup_time(const u8 psr_cap[EDP_PSR_RECEIVER_CAP_SIZE]);
+>   
