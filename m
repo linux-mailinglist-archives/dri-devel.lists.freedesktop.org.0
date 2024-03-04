@@ -2,67 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10936870808
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 18:09:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCECB870825
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 18:17:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8C7D10FB20;
-	Mon,  4 Mar 2024 17:09:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EEF31123AB;
+	Mon,  4 Mar 2024 17:17:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eCtFf9/2";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Jkc1qPvl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5497F10E6FE
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 17:09:36 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 27411CE13BB;
- Mon,  4 Mar 2024 17:09:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1522FC433C7;
- Mon,  4 Mar 2024 17:09:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1709572173;
- bh=KFuuK6Z/Lbtgs0+49Cr4tb8gzfzX+qY3CeO9ab9UQbM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eCtFf9/2G5rTnjGvWTuJiR5sMtfoApydEFX+YkpjmcQc4hX533qVYJHvPVrgzmXxP
- tA1flS8fgAkpUjkjQuynvbudLq2kcpL1bln2Un50p0Aj1RjVHqmt5QSq84gRBqHgq3
- iZQc1nr/AcWvDRYveT8ZJu+R6Fz48VyIOWF+j69EGOHkJK+EEBaKkN97DORJ7vBXQ5
- 10jwJhHpLRKJYnaSkH+C1uK/wg7ml3pbdwn1/JNl7QqQZlpour37eYwO1heGhmLOT0
- 9KR93efnH2icsYGHSacwW7Git2KGjvh+DRh1TKFqOC4v1g4UrfMNpFNLqPdOCiXRgC
- 73oA9EHPJ+xyA==
-Date: Mon, 4 Mar 2024 18:09:31 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Guenter Roeck <groeck@google.com>
-Cc: Linus Torvalds <torvalds@linuxfoundation.org>, 
- Nikolai Kondrashov <spbnick@gmail.com>, Helen Koike <helen.koike@collabora.com>,
- linuxtv-ci@linuxtv.org, 
- dave.pigott@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- linux-kselftest@vger.kernel.org, gustavo.padovan@collabora.com,
- pawiecz@collabora.com, 
- tales.aparecida@gmail.com, workflows@vger.kernel.org, kernelci@lists.linux.dev,
- skhan@linuxfoundation.org, kunit-dev@googlegroups.com, nfraprado@collabora.com,
- davidgow@google.com, cocci@inria.fr, Julia.Lawall@inria.fr,
- laura.nao@collabora.com, 
- ricardo.canuelo@collabora.com, kernel@collabora.com, gregkh@linuxfoundation.org
-Subject: Re: [PATCH 1/3] kci-gitlab: Introducing GitLab-CI Pipeline for
- Kernel Testing
-Message-ID: <20240304-benevolent-brawny-urchin-0af0ad@houat>
-References: <20240228225527.1052240-1-helen.koike@collabora.com>
- <20240228225527.1052240-2-helen.koike@collabora.com>
- <20240229-dancing-laughing-groundhog-d85161@houat>
- <5d7ed81b-37f9-48e9-ab7e-484b74ca886c@gmail.com>
- <CAHk-=wixVy3WYvjbt43ZSrCqPDsS76QJQSkXFbbPsAOs1MCSAQ@mail.gmail.com>
- <CABXOdTeT2ip1uS2EG2w8pW7254Tnd=ZDNz-KC61-G-yqDTVgJA@mail.gmail.com>
- <20240304-rigorous-silkworm-of-awe-4eee8f@houat>
- <CABXOdTc4MXcjwgGuJb4_69-4OFELD37x0B6oMr=4z=nxZ2HPXQ@mail.gmail.com>
- <20240304-ludicrous-grinning-goldfish-090aac@houat>
- <CABXOdTeDydWO9mf2yxWjjebHZ1bE=R2HPs1P4XYwNhzznNKxmw@mail.gmail.com>
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 162AA11239D
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 17:17:17 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-55a5e7fa471so6618973a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 09:17:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1709572633; x=1710177433;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tf2GCMAMCZVgBPTFhp5oiB/JxG7pAEQpQpgTp9OZnBc=;
+ b=Jkc1qPvlBsge+rPF3LvQaxEQ9iIUrY1g048X+saSMym3nolgWfusOqNS0kjUGUouMD
+ n/bLmUqTqvOK5X1zEtpuHM4+dzJTXn6SNGHrer98iUPKcOPGEBep74CIlSZkCxnjydaI
+ zewfrUhaJ96hiFJ/HMXFNeOmTqYKwfYHwBYL4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709572633; x=1710177433;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tf2GCMAMCZVgBPTFhp5oiB/JxG7pAEQpQpgTp9OZnBc=;
+ b=fEYOsigc1nrdaNN3QNj+h0GNY3G8rRCmBU1DQlPlj7dLZjn9Kf2TvdmWZThE5qWr5m
+ WIPSnxV4sAXqHJu/riozftcPK/ugT32IUVIdMs1HCgyE+bEDKBCYwq/UK3eB0j9lMRFW
+ NFUyDN/YKinwNbGulcrNhteFIi+0u3knO/aYWS2M3h7m4GOGXgRRLy2p5XIdGivXu8dI
+ DCh9kMTYhg49YtAfR16W0URENX+3eJgiSMx+/5LLn0n5a7Vj6U6rF2iOFbXygiiq4YaL
+ jQe3jHdG4IO81M0ESQLJfFWJbjSGwXg5q7+Z+VJdbuE5WJKdcEImrzBQI0+grEsaOvJ5
+ zpcQ==
+X-Gm-Message-State: AOJu0Yz8te5/eiLIRey2k4DswCKE7tYEA83H5l7bcEfZfjedlnOGTTon
+ WZ8z0c2eBXm3XpgvBePCUz3DnHH1Jnr9sU/p1VwcKjEZAmVp2iYvFwg2oVQdtAek3u1fcUSXRCz
+ lZiXk
+X-Google-Smtp-Source: AGHT+IH0rpWoldLZMDkjnmFtnmi7OXgwtO5o3JATn1WSKScVNIO22MyNF+MlqmtGApXqrIGHsRZcmA==
+X-Received: by 2002:a17:906:6b8c:b0:a45:2865:3fe1 with SMTP id
+ l12-20020a1709066b8c00b00a4528653fe1mr3075188ejr.42.1709572633395; 
+ Mon, 04 Mar 2024 09:17:13 -0800 (PST)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com.
+ [209.85.128.54]) by smtp.gmail.com with ESMTPSA id
+ jw11-20020a170906e94b00b00a455d78be5bsm1103885ejb.9.2024.03.04.09.17.12
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Mar 2024 09:17:12 -0800 (PST)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-412a2c2ce88so187715e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 09:17:12 -0800 (PST)
+X-Received: by 2002:a05:600c:49aa:b0:412:dbba:ca67 with SMTP id
+ h42-20020a05600c49aa00b00412dbbaca67mr300900wmp.4.1709572632243; Mon, 04 Mar
+ 2024 09:17:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ufoh4k2ksxi7sc3r"
-Content-Disposition: inline
-In-Reply-To: <CABXOdTeDydWO9mf2yxWjjebHZ1bE=R2HPs1P4XYwNhzznNKxmw@mail.gmail.com>
+References: <20240301084006.14422-1-xiazhengqiao@huaqin.corp-partner.google.com>
+In-Reply-To: <20240301084006.14422-1-xiazhengqiao@huaqin.corp-partner.google.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 4 Mar 2024 09:16:55 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=UK7Npa0S6NC1uxoWppZ28xN1j6yY+zpERQU6-XTbFNAQ@mail.gmail.com>
+Message-ID: <CAD=FV=UK7Npa0S6NC1uxoWppZ28xN1j6yY+zpERQU6-XTbFNAQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: panel-edp: Add prepare_to_enable to 200ms for
+ MNC207QS1-1
+To: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, sam@ravnborg.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, daniel@ffwll.ch
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,79 +91,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---ufoh4k2ksxi7sc3r
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, Mar 1, 2024 at 12:40=E2=80=AFAM Zhengqiao Xia
+<xiazhengqiao@huaqin.corp-partner.google.com> wrote:
+>
+> For MNC207QS1-1 panel, Splash screen occur when switch from VT1 to VT2.
+> The BL_EN signal does not conform to the VESA protocol.
+> BL_EN signal needs to be pulled high after video signal.
+> So add prepare_to_enable to 200ms.
+>
+> Signed-off-by: Zhengqiao Xia <xiazhengqiao@huaqin.corp-partner.google.com=
+>
+> ---
+>  drivers/gpu/drm/panel/panel-edp.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 
-On Mon, Mar 04, 2024 at 08:17:22AM -0800, Guenter Roeck wrote:
-> On Mon, Mar 4, 2024 at 8:05=E2=80=AFAM Maxime Ripard <mripard@kernel.org>=
- wrote:
-> >
-> > On Mon, Mar 04, 2024 at 07:46:34AM -0800, Guenter Roeck wrote:
-> > > On Mon, Mar 4, 2024 at 1:24=E2=80=AFAM Maxime Ripard <mripard@kernel.=
-org> wrote:
-> > > [ ... ]
-> > > >
-> > > > If anything, it's more of a side-effect to the push for COMPILE_TEST
-> > > > than anything.
-> > > >
-> > >
-> > > If the drm subsystem maintainers don't want people to build it with
-> > > COMPILE_TEST while at the same time not limiting it to platforms where
-> > > it doesn't even build, I'd suggest making it dependent on
-> > > !COMPILE_TEST.
-> >
-> > I don't think we want anything. My point was that you can't have an
-> > option that is meant to explore for bad practices and expose drivers
-> > that don't go through the proper abstraction, and at the same time
-> > complain that things gets broken. It's the whole point of it.
-> >
-> Can we get back to the original problem, please ?
+Should have:
 
-Sure.
+Fixes: 0547692ac146 ("drm/panel-edp: Add several generic edp panels")
 
-> Build errors such as failed 32-bit builds are a nuisance for those
-> running build tests. It seems to me that an automated infrastructure
-> to prevent such build errors from making it into the kernel should be
-> desirable. You seem to disagree, and at least it looked like you
-> complained about the existence of COMPILE_TEST, or that people are
-> doing COMPILE_TEST builds. What is your suggested alternative ?
-> Disabling build tests on drm doesn't seem to be it, and it seems you
-> don't like the idea of a basic generic CI either, but what is it ?
+Also note that the subject tag "drm/panel-edp" is much more common
+than others for this file and probably better to use that than
+"drm/panel: panel-edp".
 
-You don't have to be aggressive about it though. Anyway. The original
-problem I pointed out was funding. You can't expect everyone to pay for
-builders running things they fundamentally don't care about.
+Other than that this looks fine to me. Applying to drm-misc-next since
+the patch this is fixing isn't in mainline yet and this doesn't seem
+massively urgent.
 
-That's it.
+e635b7eb7062 drm/panel-edp: Add prepare_to_enable to 200ms for MNC207QS1-1
 
-I'm all for CI, I'm all for automated tests and builds, I don't think
-COMPILE_TEST is a bad idea, I also think doing those kind of builds is
-worth it and useful.
-
-But the point of those exploratory kind of builds is precisely to look
-for breakages, so is something we should expect, not complain about.
-There's nothing to fix, or nothing to improve to me, except the general
-discourse.
-
-And singling out DRM because it regularly allegedly breaks things on
-xtensa or m68k and claiming we're not taking CI seriously because of it
-is completely ridiculous. If the all the subsystems were taking CI as
-seriously as DRM, we would be in a much better place.
-
-Maxime
-
---ufoh4k2ksxi7sc3r
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZeYASgAKCRDj7w1vZxhR
-xXLuAP4wC5xDGdiHGqBC8Uk90cIgeJhuDjincOi98AnfIDAzLwEAlRjgqNP7e2++
-8/J5xjuIH8MC29W7H8pSrQAXvFY5Dg0=
-=DYuz
------END PGP SIGNATURE-----
-
---ufoh4k2ksxi7sc3r--
+-Doug
