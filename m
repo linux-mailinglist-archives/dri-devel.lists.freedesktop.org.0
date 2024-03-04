@@ -2,58 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9222386F8C2
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 04:03:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B7B586F8C7
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 04:08:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2311410FB26;
-	Mon,  4 Mar 2024 03:03:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFB8610FB3B;
+	Mon,  4 Mar 2024 03:08:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UksjCd1W";
+	dkim=pass (2048-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="kdqTflJy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1B2810FB25;
- Mon,  4 Mar 2024 03:03:11 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B665A602FA;
- Mon,  4 Mar 2024 03:03:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A7ABC433F1;
- Mon,  4 Mar 2024 03:03:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1709521390;
- bh=qw4NTha07yO8OXxY5DryR/Df1qykKh7rgNuoMQa8woU=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=UksjCd1WShioQl1ydEQDIgqJiksNETrmUKTvjQBRCQBOInBP/57XAAFJPytnzwVEo
- +8aStMsnvcisREJBGp64iiGyu3KlIOpmsaJ199tWX7dwLkP4dkmSC8vcxisH7k96CW
- sKsHSmJILvZZWS5zERBxfB26wRWzRRcan2QrTitBYELLktmA6N9K1idaLKd+8YULTm
- s4EGQ3C9uJ+/do+glf9/c+8IVeoEhdP3ZCNHObhgIS345JS+PKzdkY9G0vvRI0DVqr
- b6HmjR5zvV/snYlfAWpj0X499/DmZ4Y852th/urXAlgwOhlQ3GXeyIw1uq/hzTqrcO
- oXApG1vC+M0lQ==
-Received: by mail-ej1-f48.google.com with SMTP id
- a640c23a62f3a-a4554d4cb62so36277566b.2; 
- Sun, 03 Mar 2024 19:03:10 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCV9/+hKVUEo6svaGj1SeU0zRWSXSot2c/PZWGFV1zxsqnkx3n/cLeE4dlLseprRb0N2/US+jg1tbzSQSGRbfdmpyseRsQbQXHUUPfEVWHQj
-X-Gm-Message-State: AOJu0Yx9A23+kTZj7XNU3+TIR63XDGckjL9klxVTLnUuEmWq4GaA0Tw5
- Y3CHCQbfAo6nWrS4t/RdbOzb9z/40npC8E8MqcvCfG+cNznN2VzJ6Z5Za6mUnhyubRlRRLKDtKj
- /IHo2+MCaVx8EI+sm13rVrgzm+Js=
-X-Google-Smtp-Source: AGHT+IGfA7qFClRnZaa3hlQIfQnVKwgKJc+HOwvSJacvX1L7QULKO9WaR9WuKWvGawC2lOPW65eHH4op77JHipLOnis=
-X-Received: by 2002:a17:906:a18d:b0:a3e:7a8f:27dc with SMTP id
- s13-20020a170906a18d00b00a3e7a8f27dcmr5133135ejy.49.1709521388851; Sun, 03
- Mar 2024 19:03:08 -0800 (PST)
+Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
+ [60.251.196.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56F4410FB3B
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 03:08:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=wDTq/D2hc/OJm7z52caZ+Fc3DqtMuNzZgV4Uj2VbYcU=;
+ b=kdqTflJyvp4GatjcXWJv1ijZSys5szMHMozkJrz1IzacHI2L0E/oRiAk
+ CccGIXk8ypHwXpoSxdFNvXh3qKG6QDaR7ip9RPJtXP89LjkRw7ZcpCVxF
+ BnZaNfS4ZQ4DcfnD7Zot9jJLJdOrZwnHmWfKbRv0CNVht8/vQ6UhwR+wS
+ JZtDX1O4gBo8ur5b23Le6IdIa5L1Nklv/WcenqFco5GX/N/fH7EKp2HOQ
+ AcWUAOBX5NnxSRX/PNWGtLb1vh1AHTaoDGtRsDi1M564Zo49Mxwlj1gfE
+ mvm4iN02ZlV631q2L7uV1o8kYdDsEnDo8vMuOB4b7d3DDg19ZdWZaGLqp A==;
+Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
+ by ironport.ite.com.tw with ESMTP; 04 Mar 2024 11:08:29 +0800
+Received: from CSBMAIL1.internal.ite.com.tw (CSBMAIL1.internal.ite.com.tw
+ [192.168.65.58]) by mse.ite.com.tw with ESMTP id 42438Rbj022561;
+ Mon, 4 Mar 2024 11:08:27 +0800 (GMT-8)
+ (envelope-from kuro.chung@ite.com.tw)
+Received: from ite-XPS-13-9360.internal.ite.com.tw (192.168.72.42) by
+ CSBMAIL1.internal.ite.com.tw (192.168.65.58) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 4 Mar 2024 11:08:26 +0800
+From: kuro <kuro.chung@ite.com.tw>
+To: 
+CC: Allen Chen <allen.chen@ite.com.tw>, Pin-yen Lin <treapking@chromium.org>, 
+ Kuro Chung <kuro.chung@ite.com.tw>,
+ Kenneth Haung <kenneth.hung@ite.com.tw>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 0/1] drm/bridge: it6505: fix hibernate to resume no display
+ issue patch v2
+Date: Mon, 4 Mar 2024 11:19:43 +0800
+Message-ID: <20240304031945.250763-1-kuro.chung@ite.com.tw>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20240303081330.61091-1-duoming@zju.edu.cn>
-In-Reply-To: <20240303081330.61091-1-duoming@zju.edu.cn>
-From: Timur Tabi <timur@kernel.org>
-Date: Sun, 3 Mar 2024 21:02:32 -0600
-X-Gmail-Original-Message-ID: <CAOZdJXUebAScPBjJdCbdzzA_Hmotk11bd7MvLLxe+pqS5-upHQ@mail.gmail.com>
-Message-ID: <CAOZdJXUebAScPBjJdCbdzzA_Hmotk11bd7MvLLxe+pqS5-upHQ@mail.gmail.com>
-Subject: Re: [PATCH] nouveau/dmem: handle kcalloc() allocation failure
-To: Duoming Zhou <duoming@zju.edu.cn>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.72.42]
+X-ClientProxiedBy: CSBMAIL1.internal.ite.com.tw (192.168.65.58) To
+ CSBMAIL1.internal.ite.com.tw (192.168.65.58)
+X-TM-SNTS-SMTP: 7F0A6FCDE736CFB60C97BD189F2683B14FE28BD5CCD7DA3F713AB6A0ED3C61D12002:8
+X-MAIL: mse.ite.com.tw 42438Rbj022561
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,15 +73,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Mar 3, 2024 at 4:46=E2=80=AFAM Duoming Zhou <duoming@zju.edu.cn> wr=
-ote:
->
-> The kcalloc() in nouveau_dmem_evict_chunk() will return null if
-> the physical memory has run out. As a result, if we dereference
-> src_pfns, dst_pfns or dma_addrs, the null pointer dereference bugs
-> will happen.
->
-> This patch uses stack variables to replace the kcalloc().
+From: kuro chung <kuro.chung@ite.com.tw>
 
-Won't this blow the stack?  And why not just test the return value of kcall=
-oc?
+New patch description for v2 patch
+
+	Missing declaration for i variable in function it6505_irq_video_error_handler
+	, add it by this patch
+
+Origianl description for v1 patch 
+
+	drm/bridge: it6505: fix hibernate to resume no display issue
+
+	ITE added a FIFO reset bit for input video. When system power resume,
+	the TTL input of it6505 may get some noise before video signal stable
+	and the hardware function reset is required.
+	But the input FIFO reset will also trigger error interrupts of output module rising.
+	Thus, it6505 have to wait a period can clear those expected error interrupts
+	caused by manual hardware reset in one interrupt handler calling to avoid interrupt looping.
+
+	Signed-off-by: Allen Chen <allen.chen@ite.corp-partner.google.com>
+	(cherry picked from commit Iaa3cd9da92a625496f579d87d0ab74ca9c4937c4)
+
+allen (1):
+  UPSTREAM: drm/bridge: it6505: fix hibernate to resume no display issue
+
+ drivers/gpu/drm/bridge/ite-it6505.c | 54 ++++++++++++++++++++++++-----
+ 1 file changed, 45 insertions(+), 9 deletions(-)
+
+-- 
+2.25.1
+
