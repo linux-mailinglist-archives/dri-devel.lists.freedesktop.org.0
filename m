@@ -2,49 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D8F86FCD4
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 10:12:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 859B286FCE4
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 10:15:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE38010FE63;
-	Mon,  4 Mar 2024 09:12:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A47910FE90;
+	Mon,  4 Mar 2024 09:15:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="feuSlk3q";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HP+FZFPX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AEBE10FE63
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 09:12:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0606010FE90
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 09:15:13 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2CD5D60BA3;
- Mon,  4 Mar 2024 09:12:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46F32C433F1;
- Mon,  4 Mar 2024 09:12:29 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 3773160CF4;
+ Mon,  4 Mar 2024 09:15:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53598C433F1;
+ Mon,  4 Mar 2024 09:15:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1709543549;
- bh=zNrkS99ITWg3c+ED++GLYzO4mcPMtSnb85xx8rlt3vU=;
- h=From:To:Cc:Subject:Date:From;
- b=feuSlk3qYygjcy5TMy4getp6B7thKwxRIOLliL+TBbaMBX30PZd3i5zTeW95YGnlP
- ATpj5yV+pP1OiNk+hmQIZa/2C9/qg8A9uAvM+sk6URDSWgAd+0j2Zo8OcHfNrPYIx/
- eW2btmd43qwC1A3sQ9Ym+k5o3cXcAFG9AtE4TezGuQfbs8daT/DZanE6dxIT+yO+hV
- p6a/tAvoImx47R63O7UQfv/UFz2x5tiwKrMvBekaiPd1YIHkqIFue/sEgRpNDKXQiz
- 8sicMZ+/cmwjDCwiBZ6Ecar83zeSEE8p+DQiU/LGbp4066fKrpyxJBqc4oqyykMe3c
- yDdZ71kYcXYQg==
+ s=k20201202; t=1709543712;
+ bh=/HGmx2mq7+zg1VO1bSo8RtqdxxMsZLXO968The90xlA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HP+FZFPXOKKVJQsIdgavlDGoYvqXJQUUJTik+VmyfcSVlIHCJoOStOdSi67o8BgPM
+ RNxJ35itRHMj1xY40xFyKnCgdz3eUb8MP1wyTyhkKisRaFFZJxOXzFUwUuguJ2jNT2
+ GqcVwRbfg/acC7TVu9+6Mfvs+gkXBi4QWXYhuEbnN9CSGMlzH+GPwt3QyHJj/Bx3tp
+ Gpk/72avlZJlrZv+YakX+vBFNnYwKVT/EYQZUskVAkmgb05w5CnLqJK3yGfkQEr7gW
+ QK00Wouky8PtAZDqSL9ruRet3bKRKQhct0Nhq2l5tqQpqGgxjXjFk/i6v3wuSzk4/U
+ XwIwYdTcGOzbg==
+Date: Mon, 4 Mar 2024 10:15:10 +0100
 From: Maxime Ripard <mripard@kernel.org>
-To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- David Airlie <airlied@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- kernel test robot <lkp@intel.com>
-Subject: [PATCH] drm/sun4i: hdmi: Fix u64 div on 32bit arch
-Date: Mon,  4 Mar 2024 10:12:25 +0100
-Message-ID: <20240304091225.366325-1-mripard@kernel.org>
-X-Mailer: git-send-email 2.43.2
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>, Guenter Roeck <groeck@google.com>,
+ Linus Torvalds <torvalds@linuxfoundation.org>, 
+ Nikolai Kondrashov <spbnick@gmail.com>, Helen Koike <helen.koike@collabora.com>,
+ linuxtv-ci@linuxtv.org, 
+ dave.pigott@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ linux-kselftest@vger.kernel.org, gustavo.padovan@collabora.com,
+ pawiecz@collabora.com, 
+ tales.aparecida@gmail.com, workflows@vger.kernel.org, kernelci@lists.linux.dev,
+ skhan@linuxfoundation.org, kunit-dev@googlegroups.com, nfraprado@collabora.com,
+ davidgow@google.com, cocci@inria.fr, Julia.Lawall@inria.fr,
+ laura.nao@collabora.com, 
+ ricardo.canuelo@collabora.com, kernel@collabora.com, gregkh@linuxfoundation.org
+Subject: Re: [PATCH 1/3] kci-gitlab: Introducing GitLab-CI Pipeline for
+ Kernel Testing
+Message-ID: <20240304-transparent-oriole-of-honeydew-f4174e@houat>
+References: <20240228225527.1052240-1-helen.koike@collabora.com>
+ <20240228225527.1052240-2-helen.koike@collabora.com>
+ <20240229-dancing-laughing-groundhog-d85161@houat>
+ <5d7ed81b-37f9-48e9-ab7e-484b74ca886c@gmail.com>
+ <CAHk-=wixVy3WYvjbt43ZSrCqPDsS76QJQSkXFbbPsAOs1MCSAQ@mail.gmail.com>
+ <CABXOdTeT2ip1uS2EG2w8pW7254Tnd=ZDNz-KC61-G-yqDTVgJA@mail.gmail.com>
+ <269232e6-41c9-4aa1-9320-662beabcd69b@infradead.org>
+ <CAMuHMdXuXV9WV3aANFTteuP8Q3JY6R5OWsVBedGOP7e_JguxqA@mail.gmail.com>
+ <CAMuHMdWi069YAvOoXe7sHJ_o702tY4tDQgL3sfApPR3aCnZboQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="pjbdi6a4euq6tzrc"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWi069YAvOoXe7sHJ_o702tY4tDQgL3sfApPR3aCnZboQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,42 +78,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 358e76fd613a ("drm/sun4i: hdmi: Consolidate atomic_check and
-mode_valid") changed the clock rate from an unsigned long to an unsigned
-long long resulting in a a 64-bit division that might not be supported
-on all platforms.
 
-The resulted in compilation being broken at least for m68k, xtensa and
-some arm configurations, at least.
+--pjbdi6a4euq6tzrc
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: 358e76fd613a ("drm/sun4i: hdmi: Consolidate atomic_check and mode_valid")
-Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
-Closes: https://lore.kernel.org/r/CA+G9fYvG9KE15PGNoLu+SBVyShe+u5HBLQ81+kK9Zop6u=ywmw@mail.gmail.com/
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202403011839.KLiXh4wC-lkp@intel.com/
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, Mar 04, 2024 at 09:12:38AM +0100, Geert Uytterhoeven wrote:
+> On Sun, Mar 3, 2024 at 10:30=E2=80=AFAM Geert Uytterhoeven <geert@linux-m=
+68k.org> wrote:
+> > On Sun, Mar 3, 2024 at 3:30=E2=80=AFAM Randy Dunlap <rdunlap@infradead.=
+org> wrote:
+> > > On 3/2/24 14:10, Guenter Roeck wrote:
+> > > > While checkpatch is indeed of arguable value, I think it would help=
+ a
+> > > > lot not having to bother about the persistent _build_ failures on
+> > > > 32-bit systems. You mentioned the fancy drm CI system above, but th=
+ey
+> > > > don't run tests and not even test builds on 32-bit targets, which h=
+as
+> > > > repeatedly caused (and currently does cause) build failures in drm
+> > > > code when trying to build, say, arm:allmodconfig in linux-next. Most
+> > > > trivial build failures in linux-next (and, yes, sometimes mainline)
+> > > > could be prevented with a simple generic CI.
+> > >
+> > > Yes, definitely. Thanks for bringing that up.
+> >
+> > +1
+>=20
+> > Kisskb can send out email when builds get broken, and when they get
+> > fixed again.  I receive such emails for the m68k builds.
+>=20
+> Like this (yes, one more in DRM; sometimes I wonder if DRM is meant only
+> for 64-bit little-endian platforms with +200 GiB/s memory bandwidth):
+>
+> ---8<-------------------------------------------------------------------
+> Subject: kisskb: FAILED linux-next/m68k-allmodconfig/m68k-gcc8 Mon Mar 04=
+, 06:35
+> To: geert@linux-m68k.org
+> Date: Mon, 04 Mar 2024 08:05:14 -0000
+>=20
+> FAILED linux-next/m68k-allmodconfig/m68k-gcc8 Mon Mar 04, 06:35
+>=20
+> http://kisskb.ellerman.id.au/kisskb/buildresult/15135537/
+>=20
+> Commit:   Add linux-next specific files for 20240304
+>           67908bf6954b7635d33760ff6dfc189fc26ccc89
+> Compiler: m68k-linux-gcc (GCC) 8.5.0 / GNU ld (GNU Binutils) 2.36.1
+>=20
+> Possible errors
+> ---------------
+>=20
+> ERROR: modpost: "__udivdi3" [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko] und=
+efined!
+> make[3]: *** [scripts/Makefile.modpost:145: Module.symvers] Error 1
+> make[2]: *** [Makefile:1871: modpost] Error 2
+> make[1]: *** [Makefile:240: __sub-make] Error 2
+> make: *** [Makefile:240: __sub-make] Error 2
+>=20
+> No warnings found in log.
+> ------------------------------------------------------------------->8---
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index b7cf369b1906..987041850df2 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -163,11 +163,11 @@ static enum drm_mode_status
- sun4i_hdmi_connector_clock_valid(const struct drm_connector *connector,
- 				 const struct drm_display_mode *mode,
- 				 unsigned long long clock)
- {
- 	const struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
--	unsigned long diff = clock / 200; /* +-0.5% allowed by HDMI spec */
-+	unsigned long diff = div_u64(clock, 200); /* +-0.5% allowed by HDMI spec */
- 	long rounded_rate;
- 
- 	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
- 		return MODE_BAD;
- 
--- 
-2.43.2
+The driver is meant for a controller featured in an SoC with a Cortex-A8
+ARM CPU and less than a GiB/s memory bandwidth.
 
+And I just sent a fix for that one, thanks for the report.
+
+Maxime
+
+--pjbdi6a4euq6tzrc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZeWRHQAKCRDj7w1vZxhR
+xWFcAPoCgSeoB/8bmUbd4z1ay49ZfEoCqaiqzPyPCcSF7f1QgwD/d8uPHuZl+yLF
+9/aw+Ej9d0qSGEpya7QRzssHubW/7wA=
+=khgr
+-----END PGP SIGNATURE-----
+
+--pjbdi6a4euq6tzrc--
