@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BECB86FCBD
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 10:08:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F06BF86FCBC
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 10:08:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4DC710F854;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEE4410F9B9;
 	Mon,  4 Mar 2024 09:08:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="gkuDDwLW";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PKyJblPT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 046CC10F81D
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B222110F854
  for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 09:08:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1709543296;
- bh=mdkjyKSCATVVY9J+XIO2JOeVw2i5dFVKvoUzHKs3xHc=;
+ s=mail; t=1709543297;
+ bh=JF7pYoYuekm/+xrcimq5rjyT6LvJu2tYAR7CeQRBj/E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gkuDDwLWlOaxLlrFN6sAGpFaLFhs4jew/dLXR2SsV0AP0RMTSINz/JOBqvE8GZiXb
- A1oJgBd7MtVH0BnAtl8mTC2M9HUqNBXPEqTg6xLj98zv4m9XIszuwvb0kd1gyqTo49
- D8o/ORLVtuKbCLvLsmQ/1E8S4spyW21uOB3RIKM4NaFYsSu1hYcPx/kZ0Z5dBxCJkT
- 5OWil9Z5zitJqv7eo0M8cjhBa94vX2wOYizUxDa9H3mPNm+pCpQROSTZ99LF+AHQrt
- dCxgyowaYvWa7UXxDa+IP1PVovXr6N5xlCBkarS3eVOsKEpZkgn7uSWlUW5KymHNZJ
- YxX9a1Z7TuGhQ==
+ b=PKyJblPT3ykrcaedcDmzO+QGYvyZMPKsyLu/4ODEEE8TvNDUpgnbLmvYjGhvVbzDL
+ JIpE8wr6+oCDr1xnsqcDAck9ngkqnK8QxHXqBWDXWQT04XNaP6yGU7/2NRV6pwA8tQ
+ MBVHQR7Dxd/RGCrbGUuuZcayFl5LDxDmUExFQLU32LAhEKceNu38NhiBEDrul9AOay
+ LsE1gnIXMk+6DgYFkX3XjjYr4rDcoeoNjkwU8LmHSyn8CJLOIwJbGjgZ2nyOrhqoh8
+ DzgcPVOy53tNXCIFqPanASpCO9WtJKQC7iT0v2cbYQUVqcANVw3VgHDzp9QdrHKDqH
+ c0NTsrjfjsFEQ==
 Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5D61E3782091;
- Mon,  4 Mar 2024 09:08:16 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 0ECBB37820C3;
+ Mon,  4 Mar 2024 09:08:17 +0000 (UTC)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>
 Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com,
  kernel test robot <lkp@intel.com>
-Subject: [PATCH 2/3] drm/panthor: Explicitly include page.h for the {virt,
- __phys)_to_pfn() defs
-Date: Mon,  4 Mar 2024 10:08:11 +0100
-Message-ID: <20240304090812.3941084-3-boris.brezillon@collabora.com>
+Subject: [PATCH 3/3] drm/panthor: Fix undefined panthor_device_suspend/resume
+ symbol issue
+Date: Mon,  4 Mar 2024 10:08:12 +0100
+Message-ID: <20240304090812.3941084-4-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240304090812.3941084-1-boris.brezillon@collabora.com>
 References: <20240304090812.3941084-1-boris.brezillon@collabora.com>
@@ -61,30 +61,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Something on arm[64] must be including <asm/page.h>, but things fail
-to compile on sparc64. Make sure this header is included explicitly
-so this driver can be compile-tested on all supported architectures.
+panthor_device_resume/suspend() are only compiled when CONFIG_PM is
+enabled but panthro_drv.c doesn't use the pm_ptr() macro to conditionally
+discard resume/suspend assignments, which causes undefined symbol
+errors at link time when !PM.
+
+We could fix that by using pm_ptr(), but supporting the !PM case makes
+little sense (the whole point of these embedded GPUs is to be low power,
+so proper PM is a basic requirement in that case). So let's just enforce
+the presence of CONFIG_PM with a Kconfig dependency instead.
+
+If someone needs to relax this dependency, it can be done in a follow-up.
 
 Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202403031142.Vl4pW7X6-lkp@intel.com/
+Closes: https://lore.kernel.org/oe-kbuild-all/202403031944.EOimQ8WK-lkp@intel.com/
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/panthor/panthor_device.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/panthor/Kconfig          | 1 +
+ drivers/gpu/drm/panthor/panthor_device.c | 2 --
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
+diff --git a/drivers/gpu/drm/panthor/Kconfig b/drivers/gpu/drm/panthor/Kconfig
+index 55b40ad07f3b..fdce7c1b2310 100644
+--- a/drivers/gpu/drm/panthor/Kconfig
++++ b/drivers/gpu/drm/panthor/Kconfig
+@@ -6,6 +6,7 @@ config DRM_PANTHOR
+ 	depends on ARM || ARM64 || COMPILE_TEST
+ 	depends on !GENERIC_ATOMIC64  # for IOMMU_IO_PGTABLE_LPAE
+ 	depends on MMU
++	depends on PM
+ 	select DEVFREQ_GOV_SIMPLE_ONDEMAND
+ 	select DRM_EXEC
+ 	select DRM_GEM_SHMEM_HELPER
 diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-index bfe8da4a6e4c..68e467ee458a 100644
+index 68e467ee458a..efea29143a54 100644
 --- a/drivers/gpu/drm/panthor/panthor_device.c
 +++ b/drivers/gpu/drm/panthor/panthor_device.c
-@@ -3,6 +3,8 @@
- /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
- /* Copyright 2023 Collabora ltd. */
+@@ -403,7 +403,6 @@ int panthor_device_mmap_io(struct panthor_device *ptdev, struct vm_area_struct *
+ 	return 0;
+ }
  
-+#include <asm/page.h>
-+
- #include <linux/clk.h>
- #include <linux/platform_device.h>
- #include <linux/pm_domain.h>
+-#ifdef CONFIG_PM
+ int panthor_device_resume(struct device *dev)
+ {
+ 	struct panthor_device *ptdev = dev_get_drvdata(dev);
+@@ -548,4 +547,3 @@ int panthor_device_suspend(struct device *dev)
+ 	mutex_unlock(&ptdev->pm.mmio_lock);
+ 	return ret;
+ }
+-#endif
 -- 
 2.43.0
 
