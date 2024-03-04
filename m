@@ -2,95 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4E5386FF30
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 11:38:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36B0F86FF36
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 11:40:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BEAE10FF87;
-	Mon,  4 Mar 2024 10:38:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FF3410E9E8;
+	Mon,  4 Mar 2024 10:40:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Br3bE28p";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="r9rao9pD";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sKxDlXcE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Uu7Ext8z";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KvL0jlL1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A148A10FF87
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 10:38:26 +0000 (UTC)
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id ECBF64E1B1;
- Mon,  4 Mar 2024 10:38:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1709548704; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=7knSlm+Xpz79/wAHVMqO9b7j5pNgWs2u9Mnb/BYTBvw=;
- b=Br3bE28pWqvogHlWf8fRZ8ugTUz7OIFkZdZGP3b8iD287614SGEjWyoY+7l+Klkmt+8mVy
- 1xaNYlfeduOyQTKOmV5FVI1+10oxdid/CEoQrfTWQktJRmKOAe2Few8SVcJ1WGReIB3Dm0
- hvglzldjd6VLkRUmjeld1kaEgRwC6sY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1709548704;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=7knSlm+Xpz79/wAHVMqO9b7j5pNgWs2u9Mnb/BYTBvw=;
- b=r9rao9pDfbZfv0nim7tX82CynDya97UVgObySznDvV9Mo4IRlAV39FBRMr2QDBO7LTGU56
- YAwFon53U3myziCg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1709548702; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=7knSlm+Xpz79/wAHVMqO9b7j5pNgWs2u9Mnb/BYTBvw=;
- b=sKxDlXcEet3xyZlJ6DgHRdVXZ39rQ6B697kzUbwmr2crMqnUAu66XSY7sznbPFba/J/Yml
- YDJdIvknNAqqH2x7QVPxOEYVSMy7HGDNP+xunGq1goG9KfAIqT4F8P8liksB32VIVLbguX
- I+tGLDdToTv5g9c3UvZrWuWuJvqU/xk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1709548702;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=7knSlm+Xpz79/wAHVMqO9b7j5pNgWs2u9Mnb/BYTBvw=;
- b=Uu7Ext8zCTL2u5ll5E0jWv74v6MycogfTUQ3Fe0AZEzSStXBzLtTSO88a8lzQG/GinPvZh
- FWnByVlaMRExgZDg==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id A19DD13419;
- Mon,  4 Mar 2024 10:38:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
- by imap2.dmz-prg2.suse.org with ESMTPSA id UzjRJZ6k5WUQHAAAn2gu4w
- (envelope-from <tzimmermann@suse.de>); Mon, 04 Mar 2024 10:38:22 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: mpe@ellerman.id.au, jani.nikula@intel.com, naresh.kamboju@linaro.org,
- deller@gmx.de
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- lkft-triage@lists.linaro.org, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH] fbdev/chipsfb: Include <linux/backlight.h>
-Date: Mon,  4 Mar 2024 11:38:01 +0100
-Message-ID: <20240304103820.16708-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.44.0
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+ [209.85.208.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11AF110E9E8
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 10:40:04 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id
+ 38308e7fff4ca-2d109e82bd0so49595311fa.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 02:40:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1709548803; x=1710153603; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=W9/tP/ZbC0JsITFItqvv/KxYTeSI+hdxPkuzSwYAtNM=;
+ b=KvL0jlL16cGlKY5kXTEzLQaxf7iHkyeBgs85zM8uRC39LCj6C8uftE2zqvTEOzE5d1
+ QBr0p1BFQlyWVoqY+zhgVhVebceQhlBW9bmCyW5OdnXSRmG2lrnjwoE9afV9gIuOTVGB
+ 7vYtLZcmkaV4h9AOBa1OTwpL7JqvpheV5hpU3E1l3F2OhmpQTTs4SvFobzssav692Hxi
+ 6tY45VJ9BmAT8BfCVqK+2sNIU0vWU9M1dc0Sot1lsMXX+Io/VhAhaaa3VL4Se17ZwdN/
+ omkYBfm9rbXpOAa796uSfkXDCun3Gi7Rgpkltu0IOonUePuhwp0otRiz8/CVnWaIxy8u
+ rOow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709548803; x=1710153603;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=W9/tP/ZbC0JsITFItqvv/KxYTeSI+hdxPkuzSwYAtNM=;
+ b=R/sSABxPti47zaGVFN0+BtR+xqxmGSLqBusES9dJ+ehP90ewMDZnDdLaLC8ev5dE8K
+ w6d49gkHk47u8W7c30xP4loA+SCwJLrSunmKGRDDShVssRxHCAnQAoT4/qV1OMYKwwSy
+ atCsLi3idusV9CsrUaRuCzdotAnaIBzYQesZ2Gtapewt/U0Kuy3PWpHQx49hbC/OwSil
+ YBjRl7yV8kXgI247Muw0Smwpg1SMZL9NJ1dSWoiXUClwGqfIrAr+MWn16cPNyzFvQ00W
+ 5zUOEfESM42WeQ7Pu7kKPBVxF8bKv7T+5WW/6XunekbwxZpkCkJVBaSZSiYltjV+Z+/G
+ AlLw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVCcQDJsEQU0CGXl5RJFeyb+bjzffk7oAQMfB+1c/Tkbv0dtEv/eXzhMw48z+ElqGwZEKDe/6D7GD5hbQ0bas0yntZSJSQ9jGtQt7kz1pRa
+X-Gm-Message-State: AOJu0Yx8pzlDsukFIEMVMey7LUnUOyu3M+yai7JHOsFsoJSVMghJt/78
+ kieXlScW1kP04aHPnZ7M/bT5YmdrunZUNbeNfaxAfurjQNU8WdEPGHeUg5bFa7k=
+X-Google-Smtp-Source: AGHT+IHy2hD7I8n57uZ/ZLTPk4mOw39Pr9Mxe+/s9Lm4AJxmZpTlPtP8zpuXOrVna1EzdyQwmIaOcA==
+X-Received: by 2002:a2e:3801:0:b0:2d2:a9f8:c436 with SMTP id
+ f1-20020a2e3801000000b002d2a9f8c436mr4984250lja.53.1709548802698; 
+ Mon, 04 Mar 2024 02:40:02 -0800 (PST)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ hg14-20020a05600c538e00b0041228b2e179sm14216843wmb.39.2024.03.04.02.40.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Mar 2024 02:40:02 -0800 (PST)
+Date: Mon, 4 Mar 2024 10:40:00 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/7] backlight: gpio: Simplify with dev_err_probe()
+Message-ID: <20240304104000.GA102563@aspen.lan>
+References: <20240304-backlight-probe-v1-0-e5f57d0df6e6@linaro.org>
+ <20240304-backlight-probe-v1-1-e5f57d0df6e6@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [2.80 / 50.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmx.de];
- R_MISSING_CHARSET(2.50)[]; MIME_GOOD(-0.10)[text/plain];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; BROKEN_CONTENT_TYPE(1.50)[];
- RCVD_COUNT_THREE(0.00)[3];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCPT_COUNT_SEVEN(0.00)[9]; MID_CONTAINS_FROM(1.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[gmx.de:email,linaro.org:email,suse.de:email,lists.freedesktop.org:email,intel.com:email];
- FREEMAIL_TO(0.00)[ellerman.id.au,intel.com,linaro.org,gmx.de];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
- BAYES_HAM(-2.10)[95.65%]
-X-Spam-Level: **
-X-Spam-Score: 2.80
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240304-backlight-probe-v1-1-e5f57d0df6e6@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,34 +85,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix builds with CONFIG_PMAC_BACKLIGHT=y. The include statement for
-the backlight header has recently been removed from <linux/fb.h>.
+On Mon, Mar 04, 2024 at 11:11:38AM +0100, Krzysztof Kozlowski wrote:
+> Common pattern of handling deferred probe can be simplified with
+> dev_err_probe().  Less code and also it prints the error value.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  drivers/video/backlight/gpio_backlight.c | 10 +++-------
+>  1 file changed, 3 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/video/backlight/gpio_backlight.c b/drivers/video/backlight/gpio_backlight.c
+> index d28c30b2a35d..9f960f853b6e 100644
+> --- a/drivers/video/backlight/gpio_backlight.c
+> +++ b/drivers/video/backlight/gpio_backlight.c
+> @@ -64,13 +64,9 @@ static int gpio_backlight_probe(struct platform_device *pdev)
+>  	def_value = device_property_read_bool(dev, "default-on");
+>
+>  	gbl->gpiod = devm_gpiod_get(dev, NULL, GPIOD_ASIS);
+> -	if (IS_ERR(gbl->gpiod)) {
+> -		ret = PTR_ERR(gbl->gpiod);
+> -		if (ret != -EPROBE_DEFER)
+> -			dev_err(dev,
+> -				"Error: The gpios parameter is missing or invalid.\n");
+> -		return ret;
+> -	}
+> +	if (IS_ERR(gbl->gpiod))
+> +		return dev_err_probe(dev, PTR_ERR(gbl->gpiod),
+> +				     "Error: The gpios parameter is missing or invalid.\n");
 
-Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
-Closes: https://lore.kernel.org/dri-devel/CA+G9fYsAk5TbqqxFC2W4oHLGA0CbTHMxbeq8QayFXTU75YiueA@mail.gmail.com/
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 11b4eedfc87d ("fbdev: Do not include <linux/backlight.h> in header")
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Helge Deller <deller@gmx.de>
-Cc: linux-fbdev@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
----
- drivers/video/fbdev/chipsfb.c | 1 +
- 1 file changed, 1 insertion(+)
+The "Error: " should be removed from the string. dev_err_probe() already prints
+that.
 
-diff --git a/drivers/video/fbdev/chipsfb.c b/drivers/video/fbdev/chipsfb.c
-index b80711f13df8a..b16a905588fed 100644
---- a/drivers/video/fbdev/chipsfb.c
-+++ b/drivers/video/fbdev/chipsfb.c
-@@ -15,6 +15,7 @@
-  */
- 
- #include <linux/aperture.h>
-+#include <linux/backlight.h>
- #include <linux/module.h>
- #include <linux/kernel.h>
- #include <linux/errno.h>
--- 
-2.44.0
 
+Daniel.
