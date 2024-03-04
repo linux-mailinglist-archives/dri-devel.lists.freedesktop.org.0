@@ -2,38 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4255387000D
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 12:13:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7167D87001A
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 12:16:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 680C210FFCE;
-	Mon,  4 Mar 2024 11:13:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 449EC10FFF9;
+	Mon,  4 Mar 2024 11:16:43 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="c5wNRuRw";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5193510E52A
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 11:13:39 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CAA4C1FB
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 03:14:14 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CF6963F738
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 03:13:37 -0800 (PST)
-Date: Mon, 4 Mar 2024 11:13:31 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
- kernel@collabora.com, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 3/3] drm/panthor: Fix undefined
- panthor_device_suspend/resume symbol issue
-Message-ID: <ZeWs2zsbagsyZVKo@e110455-lin.cambridge.arm.com>
-References: <20240304090812.3941084-1-boris.brezillon@collabora.com>
- <20240304090812.3941084-4-boris.brezillon@collabora.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C00010FFF9
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 11:16:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709551002; x=1741087002;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=AQrOOWHGmfRbYvwpO+pjPTsk5el/uOh59X3PKshhoZI=;
+ b=c5wNRuRw2Br9zWrDIxm2EDYf5alEfVQXN4uMCBb+N47mT17B62eW5jaY
+ Kn34mmAEM6G1YJwjOtSnRaunW4aGoUstDBxgyQRPYxH6nsMDD3bJr5kh+
+ CtT8Qh9AMbKen2yLgXgI6S4rpHzyr+sKUiYsIgTblHLtsKg88PMlT0TUA
+ iak/UGrAdchKj9RPHz+x2ehvdfs7WhiOf+/PJhX99aJjxlrUqZy3jRZVc
+ m5hMZwoA0bpPt04cM3qE9KSw0qXSmF+c21UCCKG6jwZqbx+pApjypz6bE
+ 2v1RLQPr94DfyLEK3NK+0NrIxbrmecoCeNi0Q+CfZHmgDMQhIx6ApGqIU Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="14680367"
+X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; d="scan'208";a="14680367"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2024 03:16:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
+   d="scan'208";a="9541582"
+Received: from syakovle-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.51.3])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Mar 2024 03:16:37 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, mpe@ellerman.id.au,
+ naresh.kamboju@linaro.org, deller@gmx.de
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ lkft-triage@lists.linaro.org, linux-kernel@vger.kernel.org, Thomas
+ Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] fbdev/chipsfb: Include <linux/backlight.h>
+In-Reply-To: <20240304103820.16708-1-tzimmermann@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240304103820.16708-1-tzimmermann@suse.de>
+Date: Mon, 04 Mar 2024 13:16:26 +0200
+Message-ID: <878r2y5jsl.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240304090812.3941084-4-boris.brezillon@collabora.com>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,75 +68,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 04, 2024 at 10:08:12AM +0100, Boris Brezillon wrote:
-> panthor_device_resume/suspend() are only compiled when CONFIG_PM is
-> enabled but panthro_drv.c doesn't use the pm_ptr() macro to conditionally
-> discard resume/suspend assignments, which causes undefined symbol
-> errors at link time when !PM.
-> 
-> We could fix that by using pm_ptr(), but supporting the !PM case makes
-> little sense (the whole point of these embedded GPUs is to be low power,
-> so proper PM is a basic requirement in that case). So let's just enforce
-> the presence of CONFIG_PM with a Kconfig dependency instead.
-> 
-> If someone needs to relax this dependency, it can be done in a follow-up.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202403031944.EOimQ8WK-lkp@intel.com/
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+On Mon, 04 Mar 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> Fix builds with CONFIG_PMAC_BACKLIGHT=y. The include statement for
+> the backlight header has recently been removed from <linux/fb.h>.
+>
+> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+> Closes: https://lore.kernel.org/dri-devel/CA+G9fYsAk5TbqqxFC2W4oHLGA0CbTHMxbeq8QayFXTU75YiueA@mail.gmail.com/
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 11b4eedfc87d ("fbdev: Do not include <linux/backlight.h> in header")
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+I would've added the include in arch/powerpc/include/asm/backlight.h
+[1], but either way is fine by me.
 
-Agree on this, there is no point on running on kernels without CONFIG_PM enabled.
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
-Best regards,
-Liviu
 
+[1] https://lore.kernel.org/r/20240304095512.742348-1-jani.nikula@intel.com
 
 > ---
->  drivers/gpu/drm/panthor/Kconfig          | 1 +
->  drivers/gpu/drm/panthor/panthor_device.c | 2 --
->  2 files changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/Kconfig b/drivers/gpu/drm/panthor/Kconfig
-> index 55b40ad07f3b..fdce7c1b2310 100644
-> --- a/drivers/gpu/drm/panthor/Kconfig
-> +++ b/drivers/gpu/drm/panthor/Kconfig
-> @@ -6,6 +6,7 @@ config DRM_PANTHOR
->  	depends on ARM || ARM64 || COMPILE_TEST
->  	depends on !GENERIC_ATOMIC64  # for IOMMU_IO_PGTABLE_LPAE
->  	depends on MMU
-> +	depends on PM
->  	select DEVFREQ_GOV_SIMPLE_ONDEMAND
->  	select DRM_EXEC
->  	select DRM_GEM_SHMEM_HELPER
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> index 68e467ee458a..efea29143a54 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -403,7 +403,6 @@ int panthor_device_mmap_io(struct panthor_device *ptdev, struct vm_area_struct *
->  	return 0;
->  }
+>  drivers/video/fbdev/chipsfb.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/video/fbdev/chipsfb.c b/drivers/video/fbdev/chipsfb.c
+> index b80711f13df8a..b16a905588fed 100644
+> --- a/drivers/video/fbdev/chipsfb.c
+> +++ b/drivers/video/fbdev/chipsfb.c
+> @@ -15,6 +15,7 @@
+>   */
 >  
-> -#ifdef CONFIG_PM
->  int panthor_device_resume(struct device *dev)
->  {
->  	struct panthor_device *ptdev = dev_get_drvdata(dev);
-> @@ -548,4 +547,3 @@ int panthor_device_suspend(struct device *dev)
->  	mutex_unlock(&ptdev->pm.mmio_lock);
->  	return ret;
->  }
-> -#endif
-> -- 
-> 2.43.0
-> 
+>  #include <linux/aperture.h>
+> +#include <linux/backlight.h>
+>  #include <linux/module.h>
+>  #include <linux/kernel.h>
+>  #include <linux/errno.h>
 
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Jani Nikula, Intel
