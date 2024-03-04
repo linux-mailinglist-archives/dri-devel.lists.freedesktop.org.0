@@ -2,68 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05B1986FECE
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 11:20:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA71C86FF1D
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 11:32:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05F3710FF61;
-	Mon,  4 Mar 2024 10:20:01 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bRRI1ubY";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA01110FF76;
+	Mon,  4 Mar 2024 10:32:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7C9A10FF58
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 10:19:59 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E736B60C75;
- Mon,  4 Mar 2024 10:19:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 242B6C433C7;
- Mon,  4 Mar 2024 10:19:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1709547598;
- bh=NGSlH5LAcmLr4NWdQQqksxXC4KeXnJMqiaUMMa23O50=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bRRI1ubYB5JLR6RYkkFRyyWTMvUvIRQozW4dwLP5i/+wQZkTnCyPC95hsxQV4GZov
- goGHLSsYZaXSnpEV9fVjdZ8Ox43GHjb/dEkLdj5043G+vivYB2R6PaiTu1lHwxmh0O
- OiFLWRUpMj6f0APGq0FS30auKhGOixxDIthM4bh1UzJ8qF4Zgb0Iez6AMjdCvHNuWS
- pYvpreuSujRVYwFwDTg676pDmnKw0bBRM2Ctc16P9uXJYnZMZ9kk+hxbVIW86Nw7CR
- oW3xlkmxFjDuOwTQushm3mTvoYKTW7WwVtqalJDd2hwJBmfE8KqWiSQp6c8tjgWFo4
- EkMmUBkruKt9Q==
-Date: Mon, 4 Mar 2024 11:19:56 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Guenter Roeck <groeck@google.com>,
- Linus Torvalds <torvalds@linuxfoundation.org>, 
- Nikolai Kondrashov <spbnick@gmail.com>, Helen Koike <helen.koike@collabora.com>,
- linuxtv-ci@linuxtv.org, 
- dave.pigott@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- linux-kselftest@vger.kernel.org, gustavo.padovan@collabora.com,
- pawiecz@collabora.com, 
- tales.aparecida@gmail.com, workflows@vger.kernel.org, kernelci@lists.linux.dev,
- skhan@linuxfoundation.org, kunit-dev@googlegroups.com, nfraprado@collabora.com,
- davidgow@google.com, cocci@inria.fr, Julia.Lawall@inria.fr,
- laura.nao@collabora.com, 
- ricardo.canuelo@collabora.com, kernel@collabora.com, gregkh@linuxfoundation.org
-Subject: Re: [PATCH 1/3] kci-gitlab: Introducing GitLab-CI Pipeline for
- Kernel Testing
-Message-ID: <20240304-dangerous-mastiff-of-fury-1fac5c@houat>
-References: <20240228225527.1052240-2-helen.koike@collabora.com>
- <20240229-dancing-laughing-groundhog-d85161@houat>
- <5d7ed81b-37f9-48e9-ab7e-484b74ca886c@gmail.com>
- <CAHk-=wixVy3WYvjbt43ZSrCqPDsS76QJQSkXFbbPsAOs1MCSAQ@mail.gmail.com>
- <CABXOdTeT2ip1uS2EG2w8pW7254Tnd=ZDNz-KC61-G-yqDTVgJA@mail.gmail.com>
- <269232e6-41c9-4aa1-9320-662beabcd69b@infradead.org>
- <CAMuHMdXuXV9WV3aANFTteuP8Q3JY6R5OWsVBedGOP7e_JguxqA@mail.gmail.com>
- <CAMuHMdWi069YAvOoXe7sHJ_o702tY4tDQgL3sfApPR3aCnZboQ@mail.gmail.com>
- <20240304-transparent-oriole-of-honeydew-f4174e@houat>
- <CAMuHMdXyvcyXw8eXc2MONNaBYYGpVdnPh2h3T=QV38MEUzhu9A@mail.gmail.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9F9E10FF76
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 10:32:44 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:98])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 181464E16F;
+ Mon,  4 Mar 2024 10:32:43 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id CE63C13419;
+ Mon,  4 Mar 2024 10:32:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap2.dmz-prg2.suse.org with ESMTPSA id oKW5MEqj5WXVGgAAn2gu4w
+ (envelope-from <tzimmermann@suse.de>); Mon, 04 Mar 2024 10:32:42 +0000
+Message-ID: <eed9bb0f-486f-47f3-b4b5-c07adda4a1c7@suse.de>
+Date: Mon, 4 Mar 2024 11:32:42 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ba2cnmoytyqarlnv"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXyvcyXw8eXc2MONNaBYYGpVdnPh2h3T=QV38MEUzhu9A@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] powerpc: include linux/backlight.h from asm/backlight.h
+To: Jani Nikula <jani.nikula@intel.com>, Michael Ellerman
+ <mpe@ellerman.id.au>, linuxppc-dev@lists.ozlabs.org
+Cc: dri-devel@lists.freedesktop.org, lkft-triage@lists.linaro.org,
+ linux-kernel@vger.kernel.org, Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org
+References: <CA+G9fYsAk5TbqqxFC2W4oHLGA0CbTHMxbeq8QayFXTU75YiueA@mail.gmail.com>
+ <20240304095512.742348-1-jani.nikula@intel.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240304095512.742348-1-jani.nikula@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	 REPLY(-4.00)[]
+X-Spam-Score: -4.00
+X-Rspamd-Queue-Id: 181464E16F
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,107 +93,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi
 
---ba2cnmoytyqarlnv
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Am 04.03.24 um 10:55 schrieb Jani Nikula:
+> Removal of the backlight include from fb.h uncovered an implicit
+> dependency in powerpc asm/backlight.h. Add the explicit include.
+>
+> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+> Closes: https://lore.kernel.org/r/CA+G9fYsAk5TbqqxFC2W4oHLGA0CbTHMxbeq8QayFXTU75YiueA@mail.gmail.com
+> Fixes: 11b4eedfc87d ("fbdev: Do not include <linux/backlight.h> in header")
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: linux-fbdev@vger.kernel.org
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>
+> ---
+>
+> Not even compile tested!
 
-On Mon, Mar 04, 2024 at 11:07:22AM +0100, Geert Uytterhoeven wrote:
-> Hi Maxime,
->=20
-> On Mon, Mar 4, 2024 at 10:15=E2=80=AFAM Maxime Ripard <mripard@kernel.org=
-> wrote:
-> > On Mon, Mar 04, 2024 at 09:12:38AM +0100, Geert Uytterhoeven wrote:
-> > > On Sun, Mar 3, 2024 at 10:30=E2=80=AFAM Geert Uytterhoeven <geert@lin=
-ux-m68k.org> wrote:
-> > > > On Sun, Mar 3, 2024 at 3:30=E2=80=AFAM Randy Dunlap <rdunlap@infrad=
-ead.org> wrote:
-> > > > > On 3/2/24 14:10, Guenter Roeck wrote:
-> > > > > > While checkpatch is indeed of arguable value, I think it would =
-help a
-> > > > > > lot not having to bother about the persistent _build_ failures =
-on
-> > > > > > 32-bit systems. You mentioned the fancy drm CI system above, bu=
-t they
-> > > > > > don't run tests and not even test builds on 32-bit targets, whi=
-ch has
-> > > > > > repeatedly caused (and currently does cause) build failures in =
-drm
-> > > > > > code when trying to build, say, arm:allmodconfig in linux-next.=
- Most
-> > > > > > trivial build failures in linux-next (and, yes, sometimes mainl=
-ine)
-> > > > > > could be prevented with a simple generic CI.
-> > > > >
-> > > > > Yes, definitely. Thanks for bringing that up.
-> > > >
-> > > > +1
-> > >
-> > > > Kisskb can send out email when builds get broken, and when they get
-> > > > fixed again.  I receive such emails for the m68k builds.
-> > >
-> > > Like this (yes, one more in DRM; sometimes I wonder if DRM is meant o=
-nly
-> > > for 64-bit little-endian platforms with +200 GiB/s memory bandwidth):
-> > >
-> > > ---8<----------------------------------------------------------------=
----
-> > > Subject: kisskb: FAILED linux-next/m68k-allmodconfig/m68k-gcc8 Mon Ma=
-r 04, 06:35
-> > > To: geert@linux-m68k.org
-> > > Date: Mon, 04 Mar 2024 08:05:14 -0000
-> > >
-> > > FAILED linux-next/m68k-allmodconfig/m68k-gcc8 Mon Mar 04, 06:35
-> > >
-> > > http://kisskb.ellerman.id.au/kisskb/buildresult/15135537/
-> > >
-> > > Commit:   Add linux-next specific files for 20240304
-> > >           67908bf6954b7635d33760ff6dfc189fc26ccc89
-> > > Compiler: m68k-linux-gcc (GCC) 8.5.0 / GNU ld (GNU Binutils) 2.36.1
-> > >
-> > > Possible errors
-> > > ---------------
-> > >
-> > > ERROR: modpost: "__udivdi3" [drivers/gpu/drm/sun4i/sun4i-drm-hdmi.ko]=
- undefined!
-> > > make[3]: *** [scripts/Makefile.modpost:145: Module.symvers] Error 1
-> > > make[2]: *** [Makefile:1871: modpost] Error 2
-> > > make[1]: *** [Makefile:240: __sub-make] Error 2
-> > > make: *** [Makefile:240: __sub-make] Error 2
-> > >
-> > > No warnings found in log.
-> > > ------------------------------------------------------------------->8=
----
-> >
-> > The driver is meant for a controller featured in an SoC with a Cortex-A8
-> > ARM CPU and less than a GiB/s memory bandwidth.
->=20
-> Good, so the hardware cannot possibly need 64-bit pixel clock values ;-)
+That's one of the cases that's hard to catch unless you get the config 
+right.
 
-This is an early patch to convert that function into a framework hook
-implementation. HDMI 2.1 has a max TMDS character rate of slightly less
-than 6GHz, so larger than 2^32 - 1.
+> ---
+>   arch/powerpc/include/asm/backlight.h | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/arch/powerpc/include/asm/backlight.h b/arch/powerpc/include/asm/backlight.h
+> index 1b5eab62ed04..275d5bb9aa04 100644
+> --- a/arch/powerpc/include/asm/backlight.h
+> +++ b/arch/powerpc/include/asm/backlight.h
+> @@ -10,6 +10,7 @@
+>   #define __ASM_POWERPC_BACKLIGHT_H
+>   #ifdef __KERNEL__
+>   
+> +#include <linux/backlight.h>
 
-So yes, this driver doesn't need to. The framework does however.
+Thanks, but I think this should go directly into chipsfb.c. I would have 
+provided a patch already, if our mail server didn't have issues this 
+morning. Let me try again.
 
-> BTW, doesn't the build fail on arm32, too?
+Best regards
+Thomas
 
-It seems like gcc vs clang plays a role too. I had the same defconfig
-building for arm with gcc and reporting the error above with clang. I
-didn't look further because there was something to fix indeed.
+>   #include <linux/fb.h>
+>   #include <linux/mutex.h>
+>   
 
-Maxime
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
---ba2cnmoytyqarlnv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZeWgSwAKCRDj7w1vZxhR
-xQndAP4hm7WKDSfvUr1OAuA+byAHKabfcMBOAmOIiPdzHz82XAEA7D2tFnMHWIHL
-IFc/+TOVt18ZzPG2ws1AqKPXOolwxA4=
-=Pk79
------END PGP SIGNATURE-----
-
---ba2cnmoytyqarlnv--
