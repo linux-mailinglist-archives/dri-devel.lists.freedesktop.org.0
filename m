@@ -2,56 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CAA887012F
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 13:25:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D344687014F
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 13:31:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A54EC1120BB;
-	Mon,  4 Mar 2024 12:25:04 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LDU/P27e";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85B371120CB;
+	Mon,  4 Mar 2024 12:31:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA6631120BB
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 12:25:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709555105; x=1741091105;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=7fm2qOLOx0If10Aa9jpAj8dYjJuoPkt4GL9F2Mu7h1U=;
- b=LDU/P27e41ywaDBa3DbtV1pyd/ZLLFtDu+LjyvOiyS/yXrKKuzzSJuTQ
- /uL4Vu/A3ToD2Sb5c41Y+jZSxMx//dJx/5hloVBIFgFpOCiLKUuOGKRiC
- bgQs2YJlS7mwHdJhenn7M5wOzRgS1GtCEfs2jqimaDJKZ3Z/fOC9XuN5n
- BsqRyDMHSpJHIi94KfT4gx0+yLaKN9mkyG1j4g0dWeR982nYwIb0eXH0t
- d3CP346t52+Z5ROOZ/dUiotzPlprlpqfSJ2B69ay3KwXaKaXiGE0OLMM1
- giQnfxNPkp3rzR65cl/XdorzBJ8fWRcNWzljpqaf8lug6HkwlQ/15xShm Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="3892408"
-X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
-   d="scan'208";a="3892408"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2024 04:25:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; d="scan'208";a="13642847"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Mar 2024 04:25:00 -0800
-Date: Mon, 4 Mar 2024 14:25:24 +0200
-From: Imre Deak <imre.deak@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm: Fix output poll work for drm_kms_helper_poll=n
-Message-ID: <ZeW9tDG49yZmsH1z@ideak-desk.fi.intel.com>
-References: <20240301152243.1670573-1-imre.deak@intel.com>
- <CAA8EJppk+gA0g3Wn-e4C0CKKYHLwtU1+euez4VBKhB-qrt54rw@mail.gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1BAAD1120CB
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 12:31:13 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A506C1FB;
+ Mon,  4 Mar 2024 04:31:49 -0800 (PST)
+Received: from [10.57.13.242] (unknown [10.57.13.242])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B38143F738;
+ Mon,  4 Mar 2024 04:31:11 -0800 (PST)
+Message-ID: <15e124e1-8a8d-4862-b129-45cae83ad3cd@arm.com>
+Date: Mon, 4 Mar 2024 12:31:21 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAA8EJppk+gA0g3Wn-e4C0CKKYHLwtU1+euez4VBKhB-qrt54rw@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] drm/panthor: Fix panthor_devfreq kerneldoc
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com,
+ kernel test robot <lkp@intel.com>
+References: <20240304090812.3941084-1-boris.brezillon@collabora.com>
+ <20240304090812.3941084-2-boris.brezillon@collabora.com>
+Content-Language: en-GB
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20240304090812.3941084-2-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,43 +46,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Mar 02, 2024 at 12:55:48PM +0300, Dmitry Baryshkov wrote:
-> On Fri, 1 Mar 2024 at 18:22, Imre Deak <imre.deak@intel.com> wrote:
-> >
-> > If drm_kms_helper_poll=n the output poll work will only get scheduled
-> > from drm_helper_probe_single_connector_modes() to handle a delayed
-> > hotplug event. Since polling is disabled the work in this case should
-> > just call drm_kms_helper_hotplug_event() w/o detecting the state of
-> > connectors and rescheduling the work.
-> >
-> > After commit d33a54e3991d after a delayed hotplug event above the
-> > connectors did get re-detected in the poll work and the work got
-> > re-scheduled periodically (since poll_running is also false if
-> > drm_kms_helper_poll=n), in effect ignoring the drm_kms_helper_poll=n
-> > kernel param.
-> >
-> > Fix the above by calling only drm_kms_helper_hotplug_event() for a
-> > delayed hotplug event if drm_kms_helper_hotplug_event=n, as was done
-> > before d33a54e3991d.
-> >
-> > Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Reported-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > Fixes: d33a54e3991d ("drm/probe_helper: sort out poll_running vs poll_enabled")
+On 04/03/2024 09:08, Boris Brezillon wrote:
+> Missing '*' to have a valid kerneldoc prefix.
 > 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202403031019.6jvrOqGT-lkp@intel.com/
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Patch is pushed to drm-misc-fixes, thanks for the report and review.
+Reviewed-by: Steven Price <steven.price@arm.com>
 
+> ---
+>  drivers/gpu/drm/panthor/panthor_devfreq.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> > Signed-off-by: Imre Deak <imre.deak@intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_probe_helper.c | 8 +++++---
-> >  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> -- 
-> With best wishes
-> Dmitry
+> diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.c b/drivers/gpu/drm/panthor/panthor_devfreq.c
+> index 7ac4fa290f27..c6d3c327cc24 100644
+> --- a/drivers/gpu/drm/panthor/panthor_devfreq.c
+> +++ b/drivers/gpu/drm/panthor/panthor_devfreq.c
+> @@ -34,7 +34,7 @@ struct panthor_devfreq {
+>  	/** @last_busy_state: True if the GPU was busy last time we updated the state. */
+>  	bool last_busy_state;
+>  
+> -	/*
+> +	/**
+>  	 * @lock: Lock used to protect busy_time, idle_time, time_last_update and
+>  	 * last_busy_state.
+>  	 *
+
