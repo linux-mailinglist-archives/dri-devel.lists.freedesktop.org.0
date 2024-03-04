@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F036B86F976
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 06:15:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF33986F97B
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 06:16:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B5B610FC6F;
-	Mon,  4 Mar 2024 05:15:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01C4210FC6E;
+	Mon,  4 Mar 2024 05:16:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=renesas.com header.i=@renesas.com header.b="GpgFSVBA";
+	dkim=pass (1024-bit key; unprotected) header.d=renesas.com header.i=@renesas.com header.b="N5EPfGSq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from JPN01-OS0-obe.outbound.protection.outlook.com
- (mail-os0jpn01on2072.outbound.protection.outlook.com [40.107.113.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D2F210FC6E
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 05:15:50 +0000 (UTC)
+ (mail-os0jpn01on2052.outbound.protection.outlook.com [40.107.113.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A649310FC6E
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 05:16:09 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QUuQFx+d9dsn1xbMfkGPeP3zqDXn6+gJF5MNdanwjp43BtBRebtTJrR3T3m4SdRttZna9TqocCcIxe4eKghJPduwzYzhD4JYekPeRVr3BY1Kn5wP2GprHw0UyrNLIHMujl2zHkNqZG6WIqnM4B75EezzP8rbw/NcBGQ/wJyuwrZZF7w+vwkuqhVRdIl199Wdg4ayKTAvaqRbLeL17MEISpOrUVI1TPC+d3ubx9ffQ3Ojy+u+Inoxp5GIPPl9InBFvHwBAgNc/D4Ub3ypn7axRL1+Xff3Nrt6DVpweiAukv1pPT6agSfPe/knDyW8WZ+41DTTwjZllq9zMP620mGLUQ==
+ b=G4sCZqc+KjXNPuZQWAi+uva8+E6krowfYosXTJpRYWzJKsO15dWKKuTux8sn7c++00eZ+4UFh50Jy/55QtdX0qbOx5th2qT8UjixXjTDzH2Gu1gBDhTXu11MPVJZdRQPTKx++45Jg229G9MN71iLldUN+vRz94MNmF9fU1M6E41VWkreUG/aVJcjCEz2eyGhyvwh/UtU7oguSVAc1lsOj8JhSALihUGpJ7NGkL4cEyt0zTNCavEzNd4VSLmQGxAojL0Afzmz8Hl1RUJKkiVXnVHeR/1MsvnuUiJNUDWbIVcNy/v56ZdWrIXArJDh5Mb7JPdsRY0c3VpVs82/5PYYMg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=U+nNdu9cruwklfWfBXe1iTRh4EtTiIw5DoO94oGqHpw=;
- b=Az2wD6v576Ct5UYpDvDQMaW7Z2X9kaUZhppFYrgk5TUHRUDPme5ozMbeBMcHEC0fgepdKWy7bxyQN4LoyeVokTZeV3Sau78fBVBLw9jSRIyGypLPDjxQx4ntnNH/ZZhwxqjPF5vbLP6+vH0SnTrJcYfXWxBvayPiB17w8G76Katd0Bx7ONQ8KoYX/SeT7vA+0lqCEDtdUa1knwbsa8LWmpAQanCvs6dZQsL0CdsD7lIA7cYsBmdsw8gAzyhj1+2MxYJ6rXLM46ASIFRApJlsXLJy5Dew7Or0auyaaAHUc1nYBhof3tr8yKxknrAuHTBgMmCxVABd6DgBG6i0kEv2xw==
+ bh=o7lQcPCnpEicxp36lyHMSuSuqJ+WxW2JpXlU2FrAGS8=;
+ b=LHSxpSJFiaasUmo5ohk9AL/DlpRsGvpUgoJ0p9kO19CGQncRoNxv4kjlPX9YlXownuzjjY5WLdozl9evncKCCCPc+aMMfv5BkMbzAJQSoI2DQR2drAHivYrntzh1ceMdmXo2okdDu7H6Hn3bB8sldOgTbhpAb+s9zjtDs7cBucdbSzVf9RmXq4wozMyYpaTqi86Gz7RkFa+n1LYJRZrhXDbSM7zPqhKO7Wu9WpRbLFyxYNcLXhUEbqcrmPyc0wqPkCtWPWmxGRfCQLs7ggxlr3n4DO1BBTpJ0MRiIy3yhDt5IuKLO1BrgT1PcYOeQMc4fOkLPyG0FHeEPQ8p2P6Lew==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U+nNdu9cruwklfWfBXe1iTRh4EtTiIw5DoO94oGqHpw=;
- b=GpgFSVBAPRajKFu9zDNUK/5G+4GqfBUuIgwYWMfSO7I8GiJnQoabbXhC103EBZMtuXrJNLTF0TwQsEAdE+IlYOFc/aedkIN3/4s9/kIpI8AhgoJHTju8sp2vEXBZwEfGF44TqJHZdsa2Fnl87+GM9bGlFVcvppCEExhQ/qWjrE8=
+ bh=o7lQcPCnpEicxp36lyHMSuSuqJ+WxW2JpXlU2FrAGS8=;
+ b=N5EPfGSq/blXTa5/njJulfBb5IZmZTlpM3dYZfd4OQHUMZT5FjzyO0fhAEV/v6OQ0veTIcyHEKcstM0Rat/UfPxX4CTt3LMktwCmKjCbqpFA/BHLalsgL+YTtftuh6Q8rj+ChR5jjn7wsVhXrKhJp3l5ewJ0AE8tkAYWdVM9yUc=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11) by OSZPR01MB6616.jpnprd01.prod.outlook.com
  (2603:1096:604:fe::7) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.38; Mon, 4 Mar
- 2024 05:15:47 +0000
+ 2024 05:16:06 +0000
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::1934:4a38:d599:33a2]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::1934:4a38:d599:33a2%5]) with mapi id 15.20.7339.035; Mon, 4 Mar 2024
- 05:15:47 +0000
-Message-ID: <87o7buh919.wl-kuninori.morimoto.gx@renesas.com>
+ 05:16:06 +0000
+Message-ID: <87msreh90p.wl-kuninori.morimoto.gx@renesas.com>
 In-Reply-To: <87plwah92n.wl-kuninori.morimoto.gx@renesas.com>
 References: <87plwah92n.wl-kuninori.morimoto.gx@renesas.com>
 To: Rob Herring <robh+dt@kernel.org>, "Lad Prabhakar"
@@ -74,63 +74,63 @@ To: Rob Herring <robh+dt@kernel.org>, "Lad Prabhakar"
  linux-rpi-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v2 1/4] gpu: drm: replace of_graph_get_next_endpoint()
+Subject: [PATCH v2 2/4] media: i2c: replace of_graph_get_next_endpoint()
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 4 Mar 2024 05:15:46 +0000
-X-ClientProxiedBy: TYWP286CA0015.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:178::13) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+Date: Mon, 4 Mar 2024 05:16:06 +0000
+X-ClientProxiedBy: TYAPR01CA0032.jpnprd01.prod.outlook.com
+ (2603:1096:404:28::20) To TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OSZPR01MB6616:EE_
-X-MS-Office365-Filtering-Correlation-Id: a0306d5b-1051-422c-a1a3-08dc3c0a2660
+X-MS-Office365-Filtering-Correlation-Id: 3cfc520e-d541-46b4-2f39-08dc3c0a31fd
 X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Gelbs0U0e8n5M7glvrCs7WP8seUmE2yyuSeXKy4fzdnsOsMrvLOaLEWar/RpRSkAE879y9VpvK3J3mdgb2h41tljsdaC0tSq5xHq8u/ZsJQIILaJoIsqAoq86Jyn2AUyFJ3gQLeQ2PB30iuwbbSceUkwc5b7mD6X+8SwnNXklX+bAng62m5dk7aA649+6JveMh/5qDtTrrTgWpXwpHvAG9PL30kUM7y99QYEuflBDqySAu1kQSbsPBBJgJydLtX3KxCrfMSCQqy+71d/MA/H51/xqfGYJm4rKqX1HX/p+nYsZE5HhtF3YFSzsxhEhLA4I12tt8eIuJl0Dg5KxFfDuQ3g2uav2ud8bZogsYiELxW+dA7lwwNLV/83z4pO8YR9qDOELA9yw+472Vjg1n1Ms6m2J4vfuVaukZDmV35Bk0lU1VaBMqhUXpzHqf9SalaY4hBOfoZOGO00w+AoCx78PIjDEEb+O5tV/V9Tus2nkaO2aOH+UUOu62rFa6DYPYlW81CHoq4wdpOfwUmVR+VsaCuTrxOHFIhFpW7W/AXUQ176fB+JIeDMHW5wgVlnzCdJ0fsIZiGuLuFfKbgdxmrac107T0puigid/GLlN5nvT5dQDogF0E3oPU5Pf1eOY5+RCloW7FkjxVcP9U6ZK29midoHcYupkELKe4/skJLYvLzEGXsMEtgaq74JOSy5JKNa
+X-Microsoft-Antispam-Message-Info: vMQgnG0E2+Fg7Xx9hs1EciMqsd4hE6/ZRy9ED+wMk/NOsIzipLur5RhVErB1W0vgY6C9Uf35kaK3n1c5rR3QE6Sx4xuLhNzusNOrG1Ztl65K+z5vnQEYXL+9gzDka0eGvoZ/a/Asiygm2uzkBnLf0+l7bUEQnGtRskMzHWoxz3T0gRR4XlSJ2PKkTXjg5DdfMhkVOa4WgELd3dKcFM/E3QZfxUBkcJA+GA4pBcvcyllAmMTWc/nQancksOA8kJ0VXegJiDH8HMo+IKNAzLBCPKgArFXxINHk1U8jaA4L2s+nsCDMFU/hNIrfnKt1WVR1UOyh6FFoVekH7b9pMqMqCLqHFYsES+58gfCQWu82UM965VTGRZ/XlGI9lvLzm/jT0z8ahOmM2s9YnXiNkPBSV4Dqu5Q12a3tS6JMLprfBlq1YrzjZJBti+R5v8nLN33mZqnZs20PGQPV62Xt2WFKJsbOJgpZ3lAVS6HPoEN8QzWzUZvRmjWwTWBuH2a9ZCizix7zFi6lbFQIfcginZdzsryIYMUklBSpCJQg43y2/Wun/PiPXmISJnTWiC27n64vpSG1En6vUWJBiIBTOOhMlgnjFKuyaU2VxSBckhEu3WuVy/itLVCwJFye7DNAaPSw+/gn7TbQMkfUuIwk3hQciZbaQXkGjfLYHxw6dP7005Uhkdph5yi7saEZhDnyGDNC
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:TYCPR01MB10914.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230031)(376005)(921011)(38350700005); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WonskMxYEqfGDHPcO/oyG4jSCVcAtaLFl5gull6P6urDc/vI/U3xNqWtiCJH?=
- =?us-ascii?Q?Z1Nj+dMnvhK3r4OSABRx9YFswp+4dbFFobgeCTFHgOEFq5igxW64aj1pQYRl?=
- =?us-ascii?Q?qkLtQIaQBje8s8dVzIX2ymrTjKAFrhTla9jTAlPoNwc2MtG+e8MMMyfgXNzt?=
- =?us-ascii?Q?BPYjKr7fyeFLvLwH62CmfBlk6wahdFwaPCIh8Y4OeXLBfDwe1rDN3SgIlicm?=
- =?us-ascii?Q?+xpHu0OsdeL+++qvQ23LsL2/OtOnbhKpD+M5ZwYzKphMwIU0KdhXbUbwMZSn?=
- =?us-ascii?Q?B3rdh5eyUsx2m2VKCVyV2DeliT6DBKeDEBQCAAKUGIcq447usT+wjLM5cL3+?=
- =?us-ascii?Q?FmrFMIe2o4WfL4tTOEQ3gMsV8hjjkZQly/nrCwF8g7r5Rj90PH6OnT364EfI?=
- =?us-ascii?Q?v4HTz+PAT282m5l4QS/E6Dm8uGylMvhG0AkjT9p5qBq+iTOsAOoNnZ8uK1wm?=
- =?us-ascii?Q?sDKHfygVcxJi/JyPXvgvxqvgZEVfxraZoUwbD3d9G/8ATfze2Kyo0pFgmh3U?=
- =?us-ascii?Q?7kitMWcy1+jn13bu7AXWgnBvxd3myA94tDRrFGcNDb1xwoySdBUnc3cjycpE?=
- =?us-ascii?Q?DgjMMnL3/jPTHoj7zY5+jFFL4r+T5Bgo0CpDIeZC2T5tvBxIqo+8aZbl4vWd?=
- =?us-ascii?Q?RRO0Qk/tglixtZz4O6rK58u/DGZbsjoV27f+J3ZEjfvqpVNpXDJmZq0Vk9kK?=
- =?us-ascii?Q?DpYs/A6plZoBxZQaFiFWkSRG54t/rwF4i7RdAhtGo21A0hXxsN59X6xP6LxB?=
- =?us-ascii?Q?nIMNTH+nuAIO62z3uM1MESkm4ErYZARMuvJzp3AzBwfSV5P4UcT/R3XBJTLk?=
- =?us-ascii?Q?Bgd5JVfhJWg8WuuFd6DEAAJ/O92BHBvr9D7oCVkf0CYI9ywwFLVTUs8uKHEK?=
- =?us-ascii?Q?kbxM0Tm3Kz1Xv1AGKWGV6ZCcQxEE7/KKtO/fkr98bprjNHtz+YNMNq3cYwoD?=
- =?us-ascii?Q?aMGSec+VlXD1v63KT7IA53AMkPfwIGMItrjJILucTq3HV6eEI9eCIGoVXlXw?=
- =?us-ascii?Q?rOoA4BaIZZdTL+v/RhKTo5n1wA8WDdRyA9H61nWIB2vsWDAGjLDdv3MtkFBF?=
- =?us-ascii?Q?choUE/WoDwSl2rhhCyokLr0SNMBGYzwtZp9uXrPyOOcgNRhBx+EW8BpdJy9C?=
- =?us-ascii?Q?HcUkwgUwEYXgpVsxCcoTTQ4A09qg9ZM2gNs3Q+a5jPgWXHoSE4cpcf2Z9Gbc?=
- =?us-ascii?Q?qgCJ45ESUzmc5SJC7APB6ZLjN637aqofjNk21M3lhkzcpQ/gXSA+sLHR2ueo?=
- =?us-ascii?Q?lJUENHRzHO6zYlW84YXbD/Vti9LCLgCL9gXzABaP6GPb10GY6W+qE85LY/Rg?=
- =?us-ascii?Q?mKH8cxUcsnIwg6W85mHlcLvtq3aOTSeagdInhRMPHMxqXVZzTT+P63rXbXLE?=
- =?us-ascii?Q?UD6OXVFn9f3Zc5MOzIIOuVwLurTk9PAWmbfydRsXYfLYFQYMqepI+PY0yZxj?=
- =?us-ascii?Q?uT3U5qChpPd2Mp9opd/0Y+e+41PNDJ+V65lA3SU3ZEm1wyl6F7WojoVKCzoJ?=
- =?us-ascii?Q?A2LKigPykaJk09eSXRba7RkFXvkyj+mMLjXye4AxgrP4tQEegeolbCSoUV5x?=
- =?us-ascii?Q?nfLiX9B+EG4QN6BlXglY8WI6wVrIgqoO2SRAiWA4GkcQQhH4+qByIbUM7eyk?=
- =?us-ascii?Q?QyRDqslF2qBZIaFAFxeZUYo=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?UXqbD4MipEzUTLVcsVsncL99vRmxLqQjAoaiEcNqUDfjEzCry7NK8RD7/gzk?=
+ =?us-ascii?Q?Fx2S/6KUMCa7nY+hASSICr0Hz8BpWine93SJg4J8JNn4yVl/YhMuDuTVj5+H?=
+ =?us-ascii?Q?Hh1J4DHZ9xJ4x0xIBXt88a6B85k7lr305jVGVHY/ojF43ZqGWaQ2PH6C8VJN?=
+ =?us-ascii?Q?Qz7gP7XXeFBjBOtst7CfwjkDWD3I21SXI5rgRLsMSmBiV3YzSWdV98htfbpu?=
+ =?us-ascii?Q?IhQiG1KdXQvgUkYAYTA10/bffmtMoyeU4+4n7JunuMIzDgk18A9+Y8wLZBeD?=
+ =?us-ascii?Q?nCpDwuzf+EX7aIJBy3JA4EQfNyUZqp6NQGgWyJHLvRbiTeVn2qI/J62kklk9?=
+ =?us-ascii?Q?rKOunH+Eewcf1bK3ci+SqGWPH3YiJiIqw4DZpLGmaJuzTSDuBEyGz7n3l9Ii?=
+ =?us-ascii?Q?0BmU4HXPD++iuJULlWmqrRv+wuYGgagHyak9V9iA56rz8yjdy+cVfu7IM2pJ?=
+ =?us-ascii?Q?go7VV6vYgJX56OW9NJ476EHIFR/jhIqp8Edb3eWYpNV6cpfVqHs4g3GRvtUm?=
+ =?us-ascii?Q?v1G+WKkVeoMLGFHCjVr989S24j2ZQ700wmuVrLWw1Ft4TfazPF6BGm9580oz?=
+ =?us-ascii?Q?fG6upq+lhuikueQAmdN4XFly28MX4xJAsq818ghe014mzQtH8/flcYsrH3OY?=
+ =?us-ascii?Q?rVN5YkizlrjEl6xlMBE8QtqBem6/nYn+JE+DKIy3od9JxSF4fu5Fz3AcBae0?=
+ =?us-ascii?Q?TJZJwp9JGPpunPGWvAWaaRKSR5ZiE8eZ9kX+kDLY3ZzXt4pTkv0QMUyYzGqv?=
+ =?us-ascii?Q?nz84/G6er6itRleOZ++urNvG7ueSCPeAfI+F3e8Qb3uAgYuO4Uw6bYkumBZt?=
+ =?us-ascii?Q?u3MEFnL32HZeuIB8HujEK0VDdLwSYe83uhZRZr9vCBbfDwYvU4Fs28vwqMm/?=
+ =?us-ascii?Q?8BIEThL5dCE2H8ISMf57VpjdThxEHP0iASIlASFByKHfu5NXNbBY/k6h2maG?=
+ =?us-ascii?Q?8xPtjQ8EygvOBQQ5uz0rDaJkcqpWOgxBmK+den0NJwnsKnJOOpU0gNd9JERU?=
+ =?us-ascii?Q?fw0OEXpUPEJhaxbhjrHPdL1ynDe6hZDDa/gSoUoEfEgeowO+WMXSlHs5xH5H?=
+ =?us-ascii?Q?L+TkGN5sg8B5Iquy9mQtNvS5vWizX1qA37aPa8pWYGe+UssvYrCK9W67xYEj?=
+ =?us-ascii?Q?5UWumjzfaPOtcB1LcT+uaSXz3gqVOmuM0INWO2HgG176NE/NO+i6Q/JzcuqH?=
+ =?us-ascii?Q?N5Fno5ThP/q/3O0UGLDhJG4n+6Sjt4WrYS365Ra2h2vgie7EcWNY+rtM6sif?=
+ =?us-ascii?Q?IIzR+hy0bbOF/Fq4GQcLutCStJSSjDtSWTsl0F1i2WYSBYIyYFKzXkExSDBD?=
+ =?us-ascii?Q?ZVCvrMjQbKQHrjdycdOMZxUkEkPMH3ZDpDK9Ko76ZbZsR0FOtuAl8LsvEqJt?=
+ =?us-ascii?Q?8w4WiqS3AhO0GF+b88wq2oWTXhidXFXpCgdYDwsGlh9SU9APi14Dn1++dwGI?=
+ =?us-ascii?Q?2bRnUWiDxND5IkuYG48ddt8VjG8AFWxdQafvZbzjcw5ZCjdt7yekQynon7DN?=
+ =?us-ascii?Q?BHmBTnkQMSebi+8jT7Ee/I8AhYPw8fwURS0/wTDxgwdaHCAc3q55ctuNIT2r?=
+ =?us-ascii?Q?nTazTTKYH9qUtitQlLNu14bjb5538GxPmHQ4k/gSIYVaX810Qx/aVb1vaSGR?=
+ =?us-ascii?Q?GxUBDNfoJasauvRQU23UFls=3D?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a0306d5b-1051-422c-a1a3-08dc3c0a2660
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3cfc520e-d541-46b4-2f39-08dc3c0a31fd
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2024 05:15:47.2389 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2024 05:16:06.6957 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Xr/UyTOcksQEwMT+pvwMtyOLy9rbICTLFfNj5KW7fdqoJI2T/W2bxTD6V1aWLECOBSB2kyNwQucPVgmjrUbmgVaUSnIBN5jqlx1/K353r7btrIHoTf/Yl7SIaS70vgIL
+X-MS-Exchange-CrossTenant-UserPrincipalName: GxCmLzoyJofO0FH/kVpjPHZJjf/dNripP3SiH/vZHCfgJ8teAKn7lOLTMCig7SykywsUgQm1yG+mNoYNe1QGn6HMItJ5aNgVgyTUv7xC+L9Pb5reya9eM0gd8WkZ27Bm
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB6616
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -158,67 +158,202 @@ Simply replace
 	+ of_graph_get_endpoint_by_regs(xxx, 0, -1);
 
 Link: https://lore.kernel.org/r/20240202174941.GA310089-robh@kernel.org
+Link: https://lore.kernel.org/r/9d1e99b0-892d-4a72-a9b3-886b8ed094b0@xs4all=
+.nl
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/gpu/drm/drm_of.c                              | 4 +++-
- drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c | 2 +-
- drivers/gpu/drm/tiny/arcpgu.c                         | 2 +-
- 3 files changed, 5 insertions(+), 3 deletions(-)
+ drivers/media/i2c/adv7343.c              | 2 +-
+ drivers/media/i2c/adv7604.c              | 4 ++--
+ drivers/media/i2c/mt9p031.c              | 2 +-
+ drivers/media/i2c/mt9v032.c              | 2 +-
+ drivers/media/i2c/ov2659.c               | 2 +-
+ drivers/media/i2c/ov5645.c               | 2 +-
+ drivers/media/i2c/ov5647.c               | 2 +-
+ drivers/media/i2c/s5c73m3/s5c73m3-core.c | 2 +-
+ drivers/media/i2c/s5k5baf.c              | 2 +-
+ drivers/media/i2c/tc358743.c             | 2 +-
+ drivers/media/i2c/tda1997x.c             | 2 +-
+ drivers/media/i2c/tvp514x.c              | 2 +-
+ drivers/media/i2c/tvp7002.c              | 2 +-
+ 13 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-index 177b600895d3..b6b2cade69ae 100644
---- a/drivers/gpu/drm/drm_of.c
-+++ b/drivers/gpu/drm/drm_of.c
-@@ -504,6 +504,8 @@ EXPORT_SYMBOL_GPL(drm_of_get_data_lanes_count_ep);
-  * Gets parent DSI bus for a DSI device controlled through a bus other
-  * than MIPI-DCS (SPI, I2C, etc.) using the Device Tree.
-  *
-+ * This function assumes that the device's port@0 is the DSI input.
-+ *
-  * Returns pointer to mipi_dsi_host if successful, -EINVAL if the
-  * request is unsupported, -EPROBE_DEFER if the DSI host is found but
-  * not available, or -ENODEV otherwise.
-@@ -516,7 +518,7 @@ struct mipi_dsi_host *drm_of_get_dsi_bus(struct device =
-*dev)
- 	/*
- 	 * Get first endpoint child from device.
- 	 */
+diff --git a/drivers/media/i2c/adv7343.c b/drivers/media/i2c/adv7343.c
+index ff21cd4744d3..4fbe4e18570e 100644
+--- a/drivers/media/i2c/adv7343.c
++++ b/drivers/media/i2c/adv7343.c
+@@ -403,7 +403,7 @@ adv7343_get_pdata(struct i2c_client *client)
+ 	if (!IS_ENABLED(CONFIG_OF) || !client->dev.of_node)
+ 		return client->dev.platform_data;
+=20
+-	np =3D of_graph_get_next_endpoint(client->dev.of_node, NULL);
++	np =3D of_graph_get_endpoint_by_regs(client->dev.of_node, 0, -1);
+ 	if (!np)
+ 		return NULL;
+=20
+diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
+index 810fa8826f30..319db3e847c4 100644
+--- a/drivers/media/i2c/adv7604.c
++++ b/drivers/media/i2c/adv7604.c
+@@ -3204,8 +3204,8 @@ static int adv76xx_parse_dt(struct adv76xx_state *sta=
+te)
+=20
+ 	np =3D state->i2c_clients[ADV76XX_PAGE_IO]->dev.of_node;
+=20
+-	/* Parse the endpoint. */
+-	endpoint =3D of_graph_get_next_endpoint(np, NULL);
++	/* FIXME: Parse the endpoint. */
++	endpoint =3D of_graph_get_endpoint_by_regs(np, -1, -1);
+ 	if (!endpoint)
+ 		return -EINVAL;
+=20
+diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
+index 596200d0248c..f4b481212356 100644
+--- a/drivers/media/i2c/mt9p031.c
++++ b/drivers/media/i2c/mt9p031.c
+@@ -1078,7 +1078,7 @@ mt9p031_get_pdata(struct i2c_client *client)
+ 	if (!IS_ENABLED(CONFIG_OF) || !client->dev.of_node)
+ 		return client->dev.platform_data;
+=20
+-	np =3D of_graph_get_next_endpoint(client->dev.of_node, NULL);
++	np =3D of_graph_get_endpoint_by_regs(client->dev.of_node, 0, -1);
+ 	if (!np)
+ 		return NULL;
+=20
+diff --git a/drivers/media/i2c/mt9v032.c b/drivers/media/i2c/mt9v032.c
+index 3ca76eeae7ff..e9f5c6647f97 100644
+--- a/drivers/media/i2c/mt9v032.c
++++ b/drivers/media/i2c/mt9v032.c
+@@ -1006,7 +1006,7 @@ mt9v032_get_pdata(struct i2c_client *client)
+ 	if (!IS_ENABLED(CONFIG_OF) || !client->dev.of_node)
+ 		return client->dev.platform_data;
+=20
+-	np =3D of_graph_get_next_endpoint(client->dev.of_node, NULL);
++	np =3D of_graph_get_endpoint_by_regs(client->dev.of_node, 0, -1);
+ 	if (!np)
+ 		return NULL;
+=20
+diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
+index 1d0ef72a6403..d1653d7431d0 100644
+--- a/drivers/media/i2c/ov2659.c
++++ b/drivers/media/i2c/ov2659.c
+@@ -1388,7 +1388,7 @@ ov2659_get_pdata(struct i2c_client *client)
+ 	if (!IS_ENABLED(CONFIG_OF) || !client->dev.of_node)
+ 		return client->dev.platform_data;
+=20
+-	endpoint =3D of_graph_get_next_endpoint(client->dev.of_node, NULL);
++	endpoint =3D of_graph_get_endpoint_by_regs(client->dev.of_node, 0, -1);
+ 	if (!endpoint)
+ 		return NULL;
+=20
+diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
+index a26ac11c989d..9daf06ffedf4 100644
+--- a/drivers/media/i2c/ov5645.c
++++ b/drivers/media/i2c/ov5645.c
+@@ -1056,7 +1056,7 @@ static int ov5645_probe(struct i2c_client *client)
+ 	ov5645->i2c_client =3D client;
+ 	ov5645->dev =3D dev;
+=20
 -	endpoint =3D of_graph_get_next_endpoint(dev->of_node, NULL);
 +	endpoint =3D of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
+ 	if (!endpoint) {
+ 		dev_err(dev, "endpoint node not found\n");
+ 		return -EINVAL;
+diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+index 96c0fd4ff5ab..7e1ecdf2485f 100644
+--- a/drivers/media/i2c/ov5647.c
++++ b/drivers/media/i2c/ov5647.c
+@@ -1363,7 +1363,7 @@ static int ov5647_parse_dt(struct ov5647 *sensor, str=
+uct device_node *np)
+ 	struct device_node *ep;
+ 	int ret;
+=20
+-	ep =3D of_graph_get_next_endpoint(np, NULL);
++	ep =3D of_graph_get_endpoint_by_regs(np, 0, -1);
+ 	if (!ep)
+ 		return -EINVAL;
+=20
+diff --git a/drivers/media/i2c/s5c73m3/s5c73m3-core.c b/drivers/media/i2c/s=
+5c73m3/s5c73m3-core.c
+index af8d01f78c32..cf6be509af33 100644
+--- a/drivers/media/i2c/s5c73m3/s5c73m3-core.c
++++ b/drivers/media/i2c/s5c73m3/s5c73m3-core.c
+@@ -1568,7 +1568,7 @@ static int s5c73m3_get_dt_data(struct s5c73m3 *state)
+ 				     "failed to request gpio S5C73M3_RST\n");
+ 	gpiod_set_consumer_name(state->reset, "S5C73M3_RST");
+=20
+-	node_ep =3D of_graph_get_next_endpoint(node, NULL);
++	node_ep =3D of_graph_get_endpoint_by_regs(node, 0, -1);
+ 	if (!node_ep) {
+ 		dev_warn(dev, "no endpoint defined for node: %pOF\n", node);
+ 		return 0;
+diff --git a/drivers/media/i2c/s5k5baf.c b/drivers/media/i2c/s5k5baf.c
+index de079d2c9282..6b11039c3579 100644
+--- a/drivers/media/i2c/s5k5baf.c
++++ b/drivers/media/i2c/s5k5baf.c
+@@ -1849,7 +1849,7 @@ static int s5k5baf_parse_device_node(struct s5k5baf *=
+state, struct device *dev)
+ 			 state->mclk_frequency);
+ 	}
+=20
+-	node_ep =3D of_graph_get_next_endpoint(node, NULL);
++	node_ep =3D of_graph_get_endpoint_by_regs(node, 0, -1);
+ 	if (!node_ep) {
+ 		dev_err(dev, "no endpoint defined at node %pOF\n", node);
+ 		return -EINVAL;
+diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
+index 2785935da497..872e802cdfbe 100644
+--- a/drivers/media/i2c/tc358743.c
++++ b/drivers/media/i2c/tc358743.c
+@@ -1895,7 +1895,7 @@ static int tc358743_probe_of(struct tc358743_state *s=
+tate)
+ 		return dev_err_probe(dev, PTR_ERR(refclk),
+ 				     "failed to get refclk\n");
+=20
+-	ep =3D of_graph_get_next_endpoint(dev->of_node, NULL);
++	ep =3D of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
+ 	if (!ep) {
+ 		dev_err(dev, "missing endpoint node\n");
+ 		return -EINVAL;
+diff --git a/drivers/media/i2c/tda1997x.c b/drivers/media/i2c/tda1997x.c
+index 1ea703a9909f..8e4a0718c4b6 100644
+--- a/drivers/media/i2c/tda1997x.c
++++ b/drivers/media/i2c/tda1997x.c
+@@ -2310,7 +2310,7 @@ static int tda1997x_parse_dt(struct tda1997x_state *s=
+tate)
+ 	pdata->vidout_sel_de =3D DE_FREF_SEL_DE_VHREF;
+=20
+ 	np =3D state->client->dev.of_node;
+-	ep =3D of_graph_get_next_endpoint(np, NULL);
++	ep =3D of_graph_get_endpoint_by_regs(np, 0, -1);
+ 	if (!ep)
+ 		return -EINVAL;
+=20
+diff --git a/drivers/media/i2c/tvp514x.c b/drivers/media/i2c/tvp514x.c
+index 5a561e5bf659..f9c9c80c33ac 100644
+--- a/drivers/media/i2c/tvp514x.c
++++ b/drivers/media/i2c/tvp514x.c
+@@ -987,7 +987,7 @@ tvp514x_get_pdata(struct i2c_client *client)
+ 	if (!IS_ENABLED(CONFIG_OF) || !client->dev.of_node)
+ 		return client->dev.platform_data;
+=20
+-	endpoint =3D of_graph_get_next_endpoint(client->dev.of_node, NULL);
++	endpoint =3D of_graph_get_endpoint_by_regs(client->dev.of_node, 0, -1);
  	if (!endpoint)
- 		return ERR_PTR(-ENODEV);
+ 		return NULL;
 =20
-diff --git a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c b/driver=
-s/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-index 4618c892cdd6..e10e469aa7a6 100644
---- a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-+++ b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-@@ -400,7 +400,7 @@ static int rpi_touchscreen_probe(struct i2c_client *i2c=
-)
- 	rpi_touchscreen_i2c_write(ts, REG_POWERON, 0);
+diff --git a/drivers/media/i2c/tvp7002.c b/drivers/media/i2c/tvp7002.c
+index 30831b4b56d6..6a04ffae5343 100644
+--- a/drivers/media/i2c/tvp7002.c
++++ b/drivers/media/i2c/tvp7002.c
+@@ -893,7 +893,7 @@ tvp7002_get_pdata(struct i2c_client *client)
+ 	if (!IS_ENABLED(CONFIG_OF) || !client->dev.of_node)
+ 		return client->dev.platform_data;
 =20
- 	/* Look up the DSI host.  It needs to probe before we do. */
--	endpoint =3D of_graph_get_next_endpoint(dev->of_node, NULL);
-+	endpoint =3D of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
+-	endpoint =3D of_graph_get_next_endpoint(client->dev.of_node, NULL);
++	endpoint =3D of_graph_get_endpoint_by_regs(client->dev.of_node, 0, -1);
  	if (!endpoint)
- 		return -ENODEV;
+ 		return NULL;
 =20
-diff --git a/drivers/gpu/drm/tiny/arcpgu.c b/drivers/gpu/drm/tiny/arcpgu.c
-index 4f8f3172379e..8c29b719ea62 100644
---- a/drivers/gpu/drm/tiny/arcpgu.c
-+++ b/drivers/gpu/drm/tiny/arcpgu.c
-@@ -288,7 +288,7 @@ static int arcpgu_load(struct arcpgu_drm_private *arcpg=
-u)
- 	 * There is only one output port inside each device. It is linked with
- 	 * encoder endpoint.
- 	 */
--	endpoint_node =3D of_graph_get_next_endpoint(pdev->dev.of_node, NULL);
-+	endpoint_node =3D of_graph_get_endpoint_by_regs(pdev->dev.of_node, 0, -1)=
-;
- 	if (endpoint_node) {
- 		encoder_node =3D of_graph_get_remote_port_parent(endpoint_node);
- 		of_node_put(endpoint_node);
 --=20
 2.25.1
 
