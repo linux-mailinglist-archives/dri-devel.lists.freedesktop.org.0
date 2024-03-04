@@ -2,122 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B871086FB9A
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 09:19:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B202A86FB9F
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Mar 2024 09:20:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0B0110E837;
-	Mon,  4 Mar 2024 08:19:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E403F10FE32;
+	Mon,  4 Mar 2024 08:20:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="A+tKll/S";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="yeeNUWlp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
- [209.85.218.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4935110E837
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 08:19:52 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id
- a640c23a62f3a-a4515f8e13cso104615166b.3
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 00:19:52 -0800 (PST)
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com
+ [209.85.221.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBC5310FE36
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Mar 2024 08:20:55 +0000 (UTC)
+Received: by mail-vk1-f171.google.com with SMTP id
+ 71dfb90a1353d-4d34fbbd91eso757986e0c.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 00:20:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1709540390; x=1710145190; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=wP36DpTVEwlDdpN2Rgpr18aOZ9WEG6xNPrA2wbISAeY=;
- b=A+tKll/S1gik89EoqY1n2e4DUmY1wE0P8Pxdl+550/a8sY0LBqB1rYg1w11+0gT6d3
- X8zrfltj3SjeA0HCQrZRc8znfdraab21FP8zSXLTFRTRLctTNtKdp/NVGQTvDMryUBe3
- MJdqVs5eIMFYmEI2H4QkSohVYQPbhw0bRKTgO67JvNV4/x462G3LdsRUl+HY9zxs+X4u
- SHIyNLH7xZ+sgI8I2k2WFAs2CbuyU0+cYaq+U9mF059rAURt3hdnlpAoOakNK+aCGZXk
- Svvj074ih6wbBAkBMk73uRngMauWp9zU5r1IxyymiRKXyd7MXr/+rgqSDcmcKUFEZLpV
- XKtA==
+ d=linaro.org; s=google; t=1709540454; x=1710145254; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=yyEcn3m2A7yavQvE00TpjSl9UF2QJItgWnXnzeCS3YM=;
+ b=yeeNUWlpjlqf4DUX/vRxJchD0JZnxVck+V3cUdG3y0BrxDkHaeBvlWqBso9HNahhqI
+ b3Q0kvwttBq7GjHM7HIds9ugLXGtIY83Q704SPYADNiOTYT0SRWsVFQ15mwLlTZeKHLU
+ ZGbyVqjYDD11MkVTzTMBsD1J61/KwCo5fbI2T+24zkvInGLmrKZVyIzJSfuQK6sxMYDc
+ AqUdpLgPHjv/MaKVjzLcWaBYyCVd0wW576oJ6u+QZqOG8bPMy2ywgTcq3mBknghxAN/c
+ yADke+Pjh87nI4c9ptC+6qnidOlMBWDFgC8xLrac+VntAyMYHMqjDwaTbyOWTBpRN2xm
+ 6gxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709540390; x=1710145190;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wP36DpTVEwlDdpN2Rgpr18aOZ9WEG6xNPrA2wbISAeY=;
- b=p3YsNry1iFZyGxQ4EGIQqWzF5TUmf6eYvMTzRIAH6GnZVm4aarf9kYXoMUu8n2luhK
- nbzd7C8mRYpQj6iYYDJy3JtkpKcM9ppgTuwcpPLGr1IE+0L5HzcGYRINZhUaVGh8Aj1H
- wOsjx8zcuc1mTsIUpIC2To4NvLOzNpso9ZSdHt4hobXuhUDoFqJ6eduvwIEr7JXSwcoi
- 1zuL9MsOM3iVVS0LfDwKso8iq6kEf5+Y0t5a4nSFoLQVGh6BkDQdXUo5DbwLFbMWxQLG
- macizrKCPUQ2J/WZo0+raP4x3SVd0LQzlkhgrYyi+EBbFwipH+mUxma+SylAamBB7P0J
- kSeg==
+ d=1e100.net; s=20230601; t=1709540454; x=1710145254;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=yyEcn3m2A7yavQvE00TpjSl9UF2QJItgWnXnzeCS3YM=;
+ b=MzG4Vm3jM9bM8FpQf8yu20EPbbC40n5lb3waf69kTcYduU6Kx3kUYAPrgXCsWI7aNK
+ Av2bPWm9ColZiN5EylZQo6Kfkc87ePZGwz9I8Yji/EfrVbdNbbwyZbP8jJ1S+aCnzZqb
+ QZ56obkqwU4pNednMEf08vMtU8eQDKGmu3k0FkWOYy49ErABBQrYenY2Vb0LfmaGyHlv
+ EfVh457VYy2JnDZvhwWcjFKIrEoEdWlkMfYYGyzEBXe8MrWi9raPu00rjW6S94bKAgmk
+ rmMIAaxYWi8RgGKa/NrUumuXv/pfVvQUjgddczJM2zQNzvAm93xDjvHVJuKZZvOtxZLn
+ UAqw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXTYs2xnzBAAygyu42+S14O7mveqLPExBz0RCUsyql09tQyMQa8FfoFgycA9G2ztpaoLXd26Tf3Z7LLped19yuP0bjVg1fo85+kbPNxZseM
-X-Gm-Message-State: AOJu0Yw30EGHtoE7iZhz4Dz6LPVEmSN33tqbKYfvkeZtd+FRem5CxhFQ
- k4P+T/p3v6n1s2xNeW20khYXaM6EoHK7EFQQ7+n03+tmd8z55kgRU85EJz1HCzo=
-X-Google-Smtp-Source: AGHT+IEdgNwrez3UPbmH/gniI1QjyVB3umAZnsREwIgGSU47l4YPWdjHO++qRwYpjOZS2x55BowHww==
-X-Received: by 2002:a17:906:480a:b0:a45:6423:b445 with SMTP id
- w10-20020a170906480a00b00a456423b445mr679610ejq.65.1709540390295; 
- Mon, 04 Mar 2024 00:19:50 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.222.97])
- by smtp.gmail.com with ESMTPSA id
- pv25-20020a170907209900b00a3ee9305b02sm4471907ejb.20.2024.03.04.00.19.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Mar 2024 00:19:49 -0800 (PST)
-Message-ID: <877d01a6-f49e-4d7c-bca9-5f9ba44a7232@linaro.org>
-Date: Mon, 4 Mar 2024 09:19:48 +0100
+ AJvYcCWXhD7UUpavVCdTUO/9yza3pA2qChwHTt99HVBFbNGD0+p3v34odVlByqviMaPkl98857UjNb7xuLb/m2YyrGpMNmCIgrPIU8APfUUDxnPk
+X-Gm-Message-State: AOJu0YyMB764Pgl9qCzxsWSsLTlN1jOqykOU+0DFXqPOpcF1KQUpI54C
+ tr0SGyOPcNMA+W7FKk7Os0tpmw7tpWoYwqh8yopy7JVUNzhDSHfe1KAVfAEYdiUO/zimElErQXv
+ Nkedj0ZEtQRJpMoIgDzhXwSl6U7NShFdXCACg8Q==
+X-Google-Smtp-Source: AGHT+IHi5xUT6VReqMwudYvcimoxVjZtj0eGM2mqhV92LARqhWB+invYdIZQv1GlviuVLJkoncYGckQNqOnQq2cbuuE=
+X-Received: by 2002:a05:6122:917:b0:4d3:4aad:a8c6 with SMTP id
+ j23-20020a056122091700b004d34aada8c6mr5928625vka.0.1709540454609; Mon, 04 Mar
+ 2024 00:20:54 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: backlight: Add Texas Instruments LM3509
- bindings
-Content-Language: en-US
-To: Patrick Gansterer <paroga@paroga.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-References: <20240302212757.1871164-1-paroga@paroga.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240302212757.1871164-1-paroga@paroga.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+Date: Mon, 4 Mar 2024 13:50:43 +0530
+Message-ID: <CA+G9fYsAk5TbqqxFC2W4oHLGA0CbTHMxbeq8QayFXTU75YiueA@mail.gmail.com>
+Subject: fbdev/chipsfb.c:401:31: error: invalid use of undefined type 'struct
+ backlight_device'
+To: open list <linux-kernel@vger.kernel.org>, linux-fbdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, lkft-triage@lists.linaro.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Helge Deller <deller@gmx.de>,
+ Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,126 +76,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/03/2024 22:27, Patrick Gansterer wrote:
-> Add Device Tree bindings for Texas Instruments LM3509 - a
-> High Efficiency Boost for White LED's and/or OLED Displays
-> 
-> Signed-off-by: Patrick Gansterer <paroga@paroga.com>
+The powerpc ppc6xx_defconfig builds failed on today's Linux next tag
+next-20240304.
 
-A nit, subject: drop second/last, redundant "bindings". The
-"dt-bindings" prefix is already stating that these are bindings.
-See also:
-https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
+Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
 
-> ---
->  .../bindings/leds/backlight/ti,lm3509.yaml    | 81 +++++++++++++++++++
->  1 file changed, 81 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/ti,lm3509.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/ti,lm3509.yaml b/Documentation/devicetree/bindings/leds/backlight/ti,lm3509.yaml
-> new file mode 100644
-> index 000000000000..8fbb83934e30
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/ti,lm3509.yaml
-> @@ -0,0 +1,81 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/backlight/ti,lm3509.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: TI LM3509 High Efficiency Boost for White LED's and/or OLED Displays
-> +
-> +maintainers:
-> +  - Patrick Gansterer <paroga@paroga.com>
-> +
-> +description: |
+Build log:
+---------
+drivers/video/fbdev/chipsfb.c: In function 'chipsfb_pci_init':
+drivers/video/fbdev/chipsfb.c:401:31: error: invalid use of undefined
+type 'struct backlight_device'
+  401 |                 pmac_backlight->props.power = FB_BLANK_UNBLANK;
+      |                               ^~
 
-Do not need '|' unless you need to preserve formatting.
+Steps to reproduce:
+ # tuxmake --runtime podman --target-arch powerpc --toolchain gcc-13
+--kconfig ppc6xx_defconfig
+ - https://storage.tuxsuite.com/public/linaro/lkft/builds/2dDE297yLFrAr3gigIDy8tIleDh/tuxmake_reproducer.sh
 
-> +  The LM3509 current mode boost converter offers two separate outputs.
-> +  https://www.ti.com/product/LM3509
-> +
+Links:
+- https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20240304/testrun/22919857/suite/build/test/gcc-13-ppc6xx_defconfig/details/
+- https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20240304/testrun/22919857/suite/build/test/gcc-13-ppc6xx_defconfig/log
+- https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20240304/testrun/22919857/suite/build/test/gcc-13-ppc6xx_defconfig/history/
 
-Missing allOf with ref to common.yaml
 
-> +properties:
-> +  compatible:
-> +    const: ti,lm3509
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +
-> +  default-brightness:
-> +    minimum: 0
-> +    maximum: 15
-> +
-> +  max-brightness:
-> +    minimum: 0
-> +    maximum: 15
-> +
-> +  ti,brightness-rate-of-change-us:
-> +    description: Brightness Rate of Change in microseconds.
-> +    enum: [51, 13000, 26000, 52000]
-> +
-> +  ti,oled-mode:
-> +    description: Enable OLED mode.
-> +    type: boolean
-> +
-> +  ti,unison-mode:
-> +    description: |
-
-Do not need '|' unless you need to preserve formatting.
-
-> +      Enable unison mode. If disabled, then it will provide two
-> +      independent controllable LED currents for BMAIN and BSUB.
-> +    type: boolean
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-
-unevaluatedProperties instead (open existing bindings and look how they
-do it).
-
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        backlight@36 {
-> +            compatible = "ti,lm3509";
-> +            reg = <0x36>;
-> +
-> +            reset-gpios = <&gpio2 5 GPIO_ACTIVE_LOW>;
-> +
-> +            ti,unison-mode;
-> +        };
-> +    };
-> +  - |
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        backlight@36 {
-> +            compatible = "ti,lm3509";
-> +            reg = <0x36>;
-> +
-> +            ti,brightness-rate-of-change-us = <52000>;
-
-Just combine these examples.
-
-> +        };
-> +    };
-
-Best regards,
-Krzysztof
-
+--
+Linaro LKFT
+https://lkft.linaro.org
