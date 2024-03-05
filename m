@@ -2,76 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FEEF871FD2
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 14:13:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1C21871FCF
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 14:11:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BCF089F38;
-	Tue,  5 Mar 2024 13:13:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EEF4112AB8;
+	Tue,  5 Mar 2024 13:11:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D3F4112ABA
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 13:13:32 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.44])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4TpwTG1JyWz1Q9lF;
- Tue,  5 Mar 2024 20:52:50 +0800 (CST)
-Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
- by mail.maildlp.com (Postfix) with ESMTPS id CFEDC1402CE;
- Tue,  5 Mar 2024 20:55:10 +0800 (CST)
-Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
- (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Tue, 5 Mar
- 2024 20:55:10 +0800
-Subject: Re: [RFC PATCH net-next v6 05/15] netdev: support binding dma-buf to
- netdevice
-To: Mina Almasry <almasrymina@google.com>, <netdev@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-alpha@vger.kernel.org>, <linux-mips@vger.kernel.org>,
- <linux-parisc@vger.kernel.org>, <sparclinux@vger.kernel.org>,
- <linux-trace-kernel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
- <bpf@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
-CC: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Richard Henderson
- <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
- Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
- <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
- <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
- <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
- <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav Fomichev
- <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
- David Ahern <dsahern@kernel.org>, Willem de Bruijn
- <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, Sumit
- Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=c3=b6nig?=
- <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, David
- Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Shailend Chand
- <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel
- Butt <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>, Praveen
- Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
- Kaiyuan Zhang <kaiyuanz@google.com>
-References: <20240305020153.2787423-1-almasrymina@google.com>
- <20240305020153.2787423-6-almasrymina@google.com>
-From: Yunsheng Lin <linyunsheng@huawei.com>
-Message-ID: <da42cea9-c169-599e-f087-d38c419e3dab@huawei.com>
-Date: Tue, 5 Mar 2024 20:55:09 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net
+ (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 62E11112AB9;
+ Tue,  5 Mar 2024 13:11:05 +0000 (UTC)
+Received: from duoming$zju.edu.cn ( [106.117.76.127] ) by
+ ajax-webmail-mail-app2 (Coremail) ; Tue, 5 Mar 2024 21:08:49 +0800
+ (GMT+08:00)
+X-Originating-IP: [106.117.76.127]
+Date: Tue, 5 Mar 2024 21:08:49 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: duoming@zju.edu.cn
+To: "Jani Nikula" <jani.nikula@linux.intel.com>
+Cc: "Timur Tabi" <timur@kernel.org>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] nouveau/dmem: handle kcalloc() allocation failure
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT5 build
+ 20231205(37e20f0e) Copyright (c) 2002-2024 www.mailtech.cn
+ mispb-4df6dc2c-e274-4d1c-b502-72c5c3dfa9ce-zj.edu.cn
+In-Reply-To: <87y1ay42ir.fsf@intel.com>
+References: <20240303081330.61091-1-duoming@zju.edu.cn>
+ <CAOZdJXUebAScPBjJdCbdzzA_Hmotk11bd7MvLLxe+pqS5-upHQ@mail.gmail.com>
+ <87y1ay42ir.fsf@intel.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-In-Reply-To: <20240305020153.2787423-6-almasrymina@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.69.30.204]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500005.china.huawei.com (7.185.36.74)
+Message-ID: <601512f5.b287.18e0ebb25d4.Coremail.duoming@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: by_KCgDHB6dhGedle0e7Ag--.8664W
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwULAWXmGFMTDgAAsZ
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+ CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+ daVFxhVjvjDU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,238 +57,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024/3/5 10:01, Mina Almasry wrote:
-
-...
-
-> 
-> The netdev_dmabuf_binding struct is refcounted, and releases its
-> resources only when all the refs are released.
-> 
-> Signed-off-by: Willem de Bruijn <willemb@google.com>
-> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> 
-> ---
-> 
-> RFC v6:
-> - Validate rx queue index
-> - Refactor new functions into devmem.c (Pavel)
-
-It seems odd that the functions or stucts in a file called devmem.c
-are named after 'dmabuf' instead of 'devmem'.
-
-> 
-
-...
-
-> diff --git a/include/net/netmem.h b/include/net/netmem.h
-> index d8b810245c1d..72e932a1a948 100644
-> --- a/include/net/netmem.h
-> +++ b/include/net/netmem.h
-> @@ -8,6 +8,16 @@
->  #ifndef _NET_NETMEM_H
->  #define _NET_NETMEM_H
->  
-> +#include <net/devmem.h>
-> +
-> +/* net_iov */
-> +
-> +struct net_iov {
-> +	struct dmabuf_genpool_chunk_owner *owner;
-> +};
-> +
-> +/* netmem */
-> +
->  /**
->   * typedef netmem_ref - a nonexistent type marking a reference to generic
->   * network memory.
-> diff --git a/net/core/Makefile b/net/core/Makefile
-> index 821aec06abf1..592f955c1241 100644
-> --- a/net/core/Makefile
-> +++ b/net/core/Makefile
-> @@ -13,7 +13,7 @@ obj-y		     += dev.o dev_addr_lists.o dst.o netevent.o \
->  			neighbour.o rtnetlink.o utils.o link_watch.o filter.o \
->  			sock_diag.o dev_ioctl.o tso.o sock_reuseport.o \
->  			fib_notifier.o xdp.o flow_offload.o gro.o \
-> -			netdev-genl.o netdev-genl-gen.o gso.o
-> +			netdev-genl.o netdev-genl-gen.o gso.o devmem.o
->  
->  obj-$(CONFIG_NETDEV_ADDR_LIST_TEST) += dev_addr_lists_test.o
->  
-> diff --git a/net/core/dev.c b/net/core/dev.c
-> index fe054cbd41e9..bbea1b252529 100644
-> --- a/net/core/dev.c
-> +++ b/net/core/dev.c
-> @@ -155,6 +155,9 @@
->  #include <net/netdev_rx_queue.h>
->  #include <net/page_pool/types.h>
->  #include <net/page_pool/helpers.h>
-> +#include <linux/genalloc.h>
-> +#include <linux/dma-buf.h>
-> +#include <net/devmem.h>
->  
->  #include "dev.h"
->  #include "net-sysfs.h"
-> diff --git a/net/core/devmem.c b/net/core/devmem.c
-> new file mode 100644
-> index 000000000000..779ad990971e
-> --- /dev/null
-> +++ b/net/core/devmem.c
-> @@ -0,0 +1,293 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + *      Devmem TCP
-> + *
-> + *      Authors:	Mina Almasry <almasrymina@google.com>
-> + *			Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-> + *			Kaiyuan Zhang <kaiyuanz@google.com
-> + */
-> +
-> +#include <linux/types.h>
-> +#include <linux/mm.h>
-> +#include <linux/netdevice.h>
-> +#include <trace/events/page_pool.h>
-> +#include <net/netdev_rx_queue.h>
-> +#include <net/page_pool/types.h>
-> +#include <net/page_pool/helpers.h>
-> +#include <linux/genalloc.h>
-> +#include <linux/dma-buf.h>
-> +#include <net/devmem.h>
-> +
-> +/* Device memory support */
-> +
-> +#ifdef CONFIG_DMA_SHARED_BUFFER
-
-I still think it is worth adding its own config for devmem or dma-buf
-for networking, thinking about the embeded system.
-
-> +static void netdev_dmabuf_free_chunk_owner(struct gen_pool *genpool,
-> +					   struct gen_pool_chunk *chunk,
-> +					   void *not_used)
-
-It seems odd to still keep the netdev_ prefix as it is not really related
-to netdev, perhaps use 'net_' or something better.
-
-> +{
-> +	struct dmabuf_genpool_chunk_owner *owner = chunk->owner;
-> +
-> +	kvfree(owner->niovs);
-> +	kfree(owner);
-> +}
-> +
-> +void __netdev_dmabuf_binding_free(struct netdev_dmabuf_binding *binding)
-> +{
-> +	size_t size, avail;
-> +
-> +	gen_pool_for_each_chunk(binding->chunk_pool,
-> +				netdev_dmabuf_free_chunk_owner, NULL);
-> +
-> +	size = gen_pool_size(binding->chunk_pool);
-> +	avail = gen_pool_avail(binding->chunk_pool);
-> +
-> +	if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
-> +		  size, avail))
-> +		gen_pool_destroy(binding->chunk_pool);
-> +
-> +	dma_buf_unmap_attachment(binding->attachment, binding->sgt,
-> +				 DMA_BIDIRECTIONAL);
-
-For now DMA_FROM_DEVICE seems enough as tx is not supported yet.
-
-> +	dma_buf_detach(binding->dmabuf, binding->attachment);
-> +	dma_buf_put(binding->dmabuf);
-> +	xa_destroy(&binding->bound_rxq_list);
-> +	kfree(binding);
-> +}
-> +
-> +static int netdev_restart_rx_queue(struct net_device *dev, int rxq_idx)
-> +{
-> +	void *new_mem;
-> +	void *old_mem;
-> +	int err;
-> +
-> +	if (!dev || !dev->netdev_ops)
-> +		return -EINVAL;
-> +
-> +	if (!dev->netdev_ops->ndo_queue_stop ||
-> +	    !dev->netdev_ops->ndo_queue_mem_free ||
-> +	    !dev->netdev_ops->ndo_queue_mem_alloc ||
-> +	    !dev->netdev_ops->ndo_queue_start)
-> +		return -EOPNOTSUPP;
-> +
-> +	new_mem = dev->netdev_ops->ndo_queue_mem_alloc(dev, rxq_idx);
-> +	if (!new_mem)
-> +		return -ENOMEM;
-> +
-> +	err = dev->netdev_ops->ndo_queue_stop(dev, rxq_idx, &old_mem);
-> +	if (err)
-> +		goto err_free_new_mem;
-> +
-> +	err = dev->netdev_ops->ndo_queue_start(dev, rxq_idx, new_mem);
-> +	if (err)
-> +		goto err_start_queue;
-> +
-> +	dev->netdev_ops->ndo_queue_mem_free(dev, old_mem);
-> +
-> +	return 0;
-> +
-> +err_start_queue:
-> +	dev->netdev_ops->ndo_queue_start(dev, rxq_idx, old_mem);
-
-It might worth mentioning why queue start with old_mem will always
-success here as the return value seems to be ignored here.
-
-> +
-> +err_free_new_mem:
-> +	dev->netdev_ops->ndo_queue_mem_free(dev, new_mem);
-> +
-> +	return err;
-> +}
-> +
-> +/* Protected by rtnl_lock() */
-> +static DEFINE_XARRAY_FLAGS(netdev_dmabuf_bindings, XA_FLAGS_ALLOC1);
-> +
-> +void netdev_unbind_dmabuf(struct netdev_dmabuf_binding *binding)
-> +{
-> +	struct netdev_rx_queue *rxq;
-> +	unsigned long xa_idx;
-> +	unsigned int rxq_idx;
-> +
-> +	if (!binding)
-> +		return;
-> +
-> +	if (binding->list.next)
-> +		list_del(&binding->list);
-
-The above does not seems to be a good pattern to delete a entry, is
-there any reason having a checking before the list_del()? seems like
-defensive programming?
-
-> +
-> +	xa_for_each(&binding->bound_rxq_list, xa_idx, rxq) {
-> +		if (rxq->binding == binding) {
-
-It seems like defensive programming here too?
-
-> +			/* We hold the rtnl_lock while binding/unbinding
-> +			 * dma-buf, so we can't race with another thread that
-> +			 * is also modifying this value. However, the driver
-> +			 * may read this config while it's creating its
-> +			 * rx-queues. WRITE_ONCE() here to match the
-> +			 * READ_ONCE() in the driver.
-> +			 */
-> +			WRITE_ONCE(rxq->binding, NULL);
-> +
-> +			rxq_idx = get_netdev_rx_queue_index(rxq);
-> +
-> +			netdev_restart_rx_queue(binding->dev, rxq_idx);
-> +		}
-> +	}
-> +
-> +	xa_erase(&netdev_dmabuf_bindings, binding->id);
-> +
-> +	netdev_dmabuf_binding_put(binding);
-> +}
-> +
-
+T24gTW9uLCAwNCBNYXIgMjAyNCAxNDoxNDo1MiArMDIwMCBKYW5pIE5pa3VsYSB3cm90ZToKPiA+
+PiBUaGUga2NhbGxvYygpIGluIG5vdXZlYXVfZG1lbV9ldmljdF9jaHVuaygpIHdpbGwgcmV0dXJu
+IG51bGwgaWYKPiA+PiB0aGUgcGh5c2ljYWwgbWVtb3J5IGhhcyBydW4gb3V0LiBBcyBhIHJlc3Vs
+dCwgaWYgd2UgZGVyZWZlcmVuY2UKPiA+PiBzcmNfcGZucywgZHN0X3BmbnMgb3IgZG1hX2FkZHJz
+LCB0aGUgbnVsbCBwb2ludGVyIGRlcmVmZXJlbmNlIGJ1Z3MKPiA+PiB3aWxsIGhhcHBlbi4KPiA+
+Pgo+ID4+IFRoaXMgcGF0Y2ggdXNlcyBzdGFjayB2YXJpYWJsZXMgdG8gcmVwbGFjZSB0aGUga2Nh
+bGxvYygpLgo+ID4KPiA+IFdvbid0IHRoaXMgYmxvdyB0aGUgc3RhY2s/ICBBbmQgd2h5IG5vdCBq
+dXN0IHRlc3QgdGhlIHJldHVybiB2YWx1ZSBvZgo+ID4ga2NhbGxvYz8KPiAKPiBWTEFzIHNob3Vs
+ZCBub3QgYmUgdXNlZCBpbiB0aGUga2VybmVsIGFueW1vcmUuIEJ1aWxkaW5nIHRoaXMgcmVzdWx0
+cyBpbgo+IGEgd2FybmluZyBkdWUgdG8gLVd2bGEuIFNlZSAwYmI5NWY4MGEzOGYgKCJNYWtlZmls
+ZTogR2xvYmFsbHkgZW5hYmxlIFZMQQo+IHdhcm5pbmciKS4KPiAKPiBFcnJvciBjaGVja2luZyBh
+bmQgcHJvcGFnYXRpb24gaXMgdGhlIHdheSB0byBnby4KClRoZSBHUFUgaXMgZ29pbmcgYXdheS4g
+SWYgdGhlIGtjYWxsb2MoKSBpbiBub3V2ZWF1X2RtZW1fZXZpY3RfY2h1bmsoKSBmYWlsLAp3ZSBj
+b3VsZCBub3QgZXZpY3QgYWxsIHBhZ2VzIG1hcHBpbmcgYSBjaHVuay4gRG8geW91IHRoaW5rIHdl
+IHNob3VsZCBhZGQgYQpfX0dGUF9OT0ZBSUwgZmxhZyBpbiBrY2FsbG9jKCk/IEkgc2VlIHRoZSBf
+X0dGUF9OT0ZBSUwgZmxhZyBpcyB1c2VkIGluIHRoZQpmb2xsb3dpbmcgY29kZToKCi8qCiogX0dG
+UF9OT0ZBSUwgYmVjYXVzZSB0aGUgR1BVIGlzIGdvaW5nIGF3YXkgYW5kIHRoZXJlCiogaXMgbm90
+aGluZyBzZW5zaWJsZSB3ZSBjYW4gZG8gaWYgd2UgY2FuJ3QgY29weSB0aGUKKiBkYXRhIGJhY2su
+CiovCmRwYWdlID0gYWxsb2NfcGFnZShHRlBfSElHSFVTRVIgfCBfX0dGUF9OT0ZBSUwpOwoKQmVz
+dCByZWdhcmRzLApEdW9taW5nIFpob3UK
