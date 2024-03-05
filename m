@@ -2,126 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47F308726BB
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 19:39:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4EE98726BF
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 19:40:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87D3410F3CF;
-	Tue,  5 Mar 2024 18:39:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 073C11127B1;
+	Tue,  5 Mar 2024 18:40:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="intW3G7N";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="A6OEg3YI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2073.outbound.protection.outlook.com [40.107.94.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B0F910F3CF;
- Tue,  5 Mar 2024 18:39:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KbeD+d0bxXesHChETdrJFyyv8XZe8g+addV4WFb+Nl9OOEJq9NCSsA7DoKUHmM5fgLmfgl5256Mry86Qb8n3QGrU2YxEV/elvq9XaeAYzNQcAi5kXEaKp6msKLH9yDM7tcX6BLi++JAtfxEpcZxiMnpbmFiXWLkLZLoZOr63Ms2VN5zZLo1PRtlx9VFf2Wajy15+loumYOcYIEIu8a/zPWN6UCHRP2sM3yN2wTfeHIRAzH2MaCJHbjzq6vhvg3eN4nro7WeoKJpZljvucoiXyL9Ao5q4JRVmbBjPWRWjtVf7SSV8yZxjrk8pd3Ti0bygwKIp7J07ZsgntWfNRvfo8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tCiWSFDfv24dXyyUJUUM+lL+IuXu7upiYEPmP5PHpa8=;
- b=ci2F1g3N/kIg+MMeO6TWBO/kAhydyesxW3IezlzfSoCLl6eG3wYpwvn0ZmBK+SuIKOfZgOa7eX6XKzw/m2CBJW7JTcIb0gDSFYfSemDOjeNIb95/wacUgjPKSy3CwflllOruPedc8hJ2ZfQIlzMvmRWjVWG01QV7DsSX9b3fHk3A5oZiUaSfH5zKTySbqygqB9ds8E1o71vPLsgmfMcvs3yUiVhWqeoOFipQ26aG4ipD9Xmj3K4UhclbRoJbcetkQDOoreZobrXQ9UbSvjlJgsbZiUouC1frEO/o32XXTwDLtfJUUxVZtuodMXjroUsOswSzXfB5Ihyc4vMHjuoznw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tCiWSFDfv24dXyyUJUUM+lL+IuXu7upiYEPmP5PHpa8=;
- b=intW3G7NzWr1Y3Nk46QjHaw7qEFueq0T8KWygOsT/gRx2ju55wcaOc3y6cMawHHNWFP6yNWWmsDpvXt8bE9zzMOIU6mItrv5cozDQzE+HSDGBCeoBvE8mBx6D2urEyV9F1/cVOozzUKnFo/GJlt0GgnkgBrVSgEQrQljaF+dLyBiGtA1gIwe42kswt2RLAkL7XZdajMBPwyWFpPoZAC1g+uCssHz6WXwfIJkkT1SbH52BljXU+4ZjMTgW1xUD9CDxyszcP6Ukdx8fMEMivN2aXSdE2Yfrlbh7Sim8/aJ7mtmyOPqYFnXHMTJT8aj8LIwMaWCQz/iG/qO2GBQXoWlXQ==
-Received: from SN7PR12MB8769.namprd12.prod.outlook.com (2603:10b6:806:34b::12)
- by SA3PR12MB9091.namprd12.prod.outlook.com (2603:10b6:806:395::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.39; Tue, 5 Mar
- 2024 18:39:49 +0000
-Received: from SN7PR12MB8769.namprd12.prod.outlook.com
- ([fe80::5971:c817:90dd:4fe6]) by SN7PR12MB8769.namprd12.prod.outlook.com
- ([fe80::5971:c817:90dd:4fe6%5]) with mapi id 15.20.7339.035; Tue, 5 Mar 2024
- 18:39:49 +0000
-From: Timur Tabi <ttabi@nvidia.com>
-To: "airlied@redhat.com" <airlied@redhat.com>, "akpm@linux-foundation.org"
- <akpm@linux-foundation.org>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>
-Subject: Re: [linux-next:master] BUILD REGRESSION
- 11afac187274a6177a7ac82997f8691c0f469e41
-Thread-Topic: [linux-next:master] BUILD REGRESSION
- 11afac187274a6177a7ac82997f8691c0f469e41
-Thread-Index: AQHabykUrJG0RYvtDUCmXGbXfSqBmbEpeq+A
-Date: Tue, 5 Mar 2024 18:39:49 +0000
-Message-ID: <99f96c0399b473efe5f0c1c2cf4064ccc09870a4.camel@nvidia.com>
-References: <202403060216.deurYF3s-lkp@intel.com>
-In-Reply-To: <202403060216.deurYF3s-lkp@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.44.4-0ubuntu2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN7PR12MB8769:EE_|SA3PR12MB9091:EE_
-x-ms-office365-filtering-correlation-id: b9881b02-9523-448c-1306-08dc3d43a3a8
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: c5KTKiB3Tes22q/ZY/JmKGLXLIKzqIu5B0O9Jm7RKQ4AFtOpsxMTK6gslXJ8epO0+SJzvBzDKDu9et9FF7tH9mzLGg0HU6gWhATo9N8qtmq2ZQcd6ONIF4zi53e3zUDU+J0Gk16YGmCqmZiOXuP6xpEsO69JDCs8xsrNVQ4vkzpWZxkY2zP8nEhRmliHcOC555MbXrmsCAcneMwxUVP7dCtaA8sputlHaU2jtzUsx7AfbY0gsIhh2o/4FN/BaI9ZSe+dUDOw1pfIF3Iq79agyYZkD6XTJQMVQ9MIAaZAEYyfI2+XoigegN9i7TJoOZjDv8Q+PEFWLxT4B+s4Y846BGdTEejoGXCkizv8TTUM83wn8rEJfMdm+7X8ymA82E207DnS2A260j+rsbeh2kznliZwpftoJyPBF+JdlQJriD796qSO20KPshVM5HlIKHT6jgiiBqkhjIWBZdL+A0hjRbtK36WpAKQL3bwgl3iy2fofi2UQjcZzvhvE9IzoWMolrRSG7JOvWjHi7ZGTPGUH5uP8XYl6g0DmwJ6Yib1PbhPIxoRghxO9hgQZRyhYl8OmUpoIljJup5tw+Hhjqj8OMPsi6swWKIzXXPFz/aWM8XXh7xGxtyg4Z/Zs2LUD82H9DHUVVyTlY3mbKqCF3wVeZrCRWeGXxHIWTRHk+B2u4CJWOEiGRoIUMsJIYKCkwcKL4ColvwclgLrn3sevVdvGSg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN7PR12MB8769.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005)(38070700009); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NmZ6ZTMyaE5MUVZQL0Y1RXZ5eFEwWGR6dFpMYnlCYkt4UEFJWFhqUjRxMDRM?=
- =?utf-8?B?S0hTd3RkOXR4VUJydSt5RUFCRllzakVDS20rWEdJNXprN291Q1hpNDRKSXBa?=
- =?utf-8?B?ZTNtemVsMS9LM3R4WUtFSlZWcEhsbFJRS3ZleTVnZ0c5M1FmYllUUjltSjZS?=
- =?utf-8?B?OE56RUp1ZmhCMklXeHJONnR0b0xiNVU5c0xXOXFCSXUrVnl5RUZHSGM0NTJY?=
- =?utf-8?B?SWI2OFpNY2FDNTdlSzREMHhPbTdHd1NGdlpHR2xmdllkR1FrZFpTdUdldWdW?=
- =?utf-8?B?T3NwbUNmc2VQZFFwcHBHK2M0by94VDJjUkdrVVZSQXUzWExFdG15ZWVwNyto?=
- =?utf-8?B?U0ZSSEFuWUl1Q3pvSUlvSTNIQ0puVGVQNXJ4L3A2T3RjMFFUcExIYWZjNHRm?=
- =?utf-8?B?MDNyTktQWlVRTDlIbSs0b2o1QktXYjJLeTFkUW1tLzd2UTRnc1RoWkk1TjRv?=
- =?utf-8?B?b3U1NXlEdnlYNXkxck1Td2xSeXM1emRQYlQrdGZndzM1czlPYi9uenhyNnBq?=
- =?utf-8?B?SjhaSzB4WnhBUDBVL0FkRDR3LzVLRmoxQWlDTE16VGxYRW1LNmpvdjd2K1NS?=
- =?utf-8?B?SlVzRk03V3dCc1VmRVhpL0owKzlSYllIY3NHWUtIUDQ0Tyt6aXlLdGF5allM?=
- =?utf-8?B?b2xCSXk1YWZraVo2UE91d004N0czY2FGRlhDWmFvT2JnemhoRHk3ZkJTQyt2?=
- =?utf-8?B?T3NRcVgrZ3VJRU80c2lFbVFNRG5JYjRnckhjd2xONXJCVmZPWWlvWUhkZTEr?=
- =?utf-8?B?UGtISGRuY25udXlQN0d2L1ozRWVvUGNJQTRTNEYxSXFqdzI4QndtbVByS3ZP?=
- =?utf-8?B?c25rVDZEa0tpTjVXV2paZE9rZkdnbFFTcE4rTUUrZlo4eUpiU2h4dytjWm5t?=
- =?utf-8?B?RmIrT0FYOCtFU2E3bHgxZzVjdXpPWFNyWnVvSnlzQ1MyMUtDelNDcXFMcy82?=
- =?utf-8?B?OWQvWUJ0c2d5OGVkdEFhMjcvaFhVNzV5K3ZkekNPNitINWVCR2l5WGZEQjFq?=
- =?utf-8?B?Z0k0eXJ2NHVUZ1QwOWNkUTJPTmFOZFhVR2hNeU42SGJGNEFIcVMwOGNaTXZ3?=
- =?utf-8?B?cXN6YVJhSjNVblRHSW1yN01mV1MxczNlRjNtc1VHN3A2VzVRMkptRFdVa2xN?=
- =?utf-8?B?RytoN1JZRDN4KzY4cWVEKzNHeFZEQkxOem5mRkRWUEdlRUt5NGZQN2xMcHl4?=
- =?utf-8?B?bWRmZk43aEtHeFFjVE1nMlNoM1NNbThFQTFGYTJOMlU0SHBXNyt0azRDNTZm?=
- =?utf-8?B?NHBxRm5OVHZ1bUZOQ3F1WFRsaExwS3ZhSTJWakVuYUJycll6dVJ1Mm92eTF2?=
- =?utf-8?B?aUhuTEhwcFo1VU5FSjVlWlV0UnJPWlE1OXBuOWFLQlBLMFNsZDhJQVQ2SkdI?=
- =?utf-8?B?ZHBTZ1c2alRXb29jNk9RKytXVWUxSUlLKzZsa1NHbGVaUi9QTVZjclRNYWEy?=
- =?utf-8?B?a3gvYUg4ZklnZ0VLQUFLM2FTWEN2Tk90ZjhCaVNTdFZJdEErRi9QR25rZDVH?=
- =?utf-8?B?bnA1aDdQTnF6anl4THFBVHgydXZBZHl4YXVDN3Fhb3N1L25GNThSRVFIMGhE?=
- =?utf-8?B?TFBJb0tRZW90WWY5SUExVnAvR3dqMEhwWkZsMVhhNzR6MnVSYk1GWW44NlBj?=
- =?utf-8?B?emFrTDlKdGR4QmRuSFBnTkRoVWk0ZjE2T01lK0RCTE01NnoxTG1iWkdRTlZ4?=
- =?utf-8?B?WFQ4eCtVeC9kSFd5Y2RRRFhSNnFDaTc3UTBCTmlnV0FRbTZDTVlNNjc3RWpi?=
- =?utf-8?B?QlZQVlk5d0RJRDhVVnRWWHRwR1d6VnNqc0NoSTZXSVFKY1BpSHdzM0FhRjhq?=
- =?utf-8?B?dm5NS2JScXRXY0svYzBLbjdWdlE5dlE1WmJBbzRkVFFoTjRXbStvSDJpR3Nm?=
- =?utf-8?B?bG9iamFuTyt3U1UzdWN4amhvN25jUGc0R3ROM1ZpazNjL0hQM2FqSVJlNVRZ?=
- =?utf-8?B?SGUyNUNSVG91THA3L0NGc3pZREFrMkdPa29iczVYZW5zY2ZPeksxeEVsdU52?=
- =?utf-8?B?ZVllM1lFV2ZXcy9JWkkyM1BzZVVlbTZrakx0QytoMlRzejZXL3hLWEtWVThk?=
- =?utf-8?B?dFZseTd1SllsSXVRV3pmeExKbHRPaDlHS0ZpTklRRE1pT1lZVTlzdUZwVXBk?=
- =?utf-8?Q?l9eTPFTDkFS2S6qTurLeMRuqI?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <F29E4776D2DC164DBE1569C5680575FF@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mail-il1-f181.google.com (mail-il1-f181.google.com
+ [209.85.166.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13B801127B1
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 18:40:40 +0000 (UTC)
+Received: by mail-il1-f181.google.com with SMTP id
+ e9e14a558f8ab-36524116e30so3171055ab.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 10:40:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1709664040; x=1710268840; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+ bh=YQLzgqGcJCQTSOmHQSBuR9Qy4cscbXhB7FIpF8lqDFg=;
+ b=A6OEg3YINMt3ouUDMgtjKviRpqjxHZoODRLFaxcaGZw69/fhSPms1zfN2GrSzMmF+G
+ je28i7ho3OTtXNGxMtfwYkF4B4laN+pDi0C8xn6/Vpqt8W1qurfWKt2W1piN8xDqvsJ/
+ /4ZD+k+/WxSbV58pkJqSchWeFjW0wPrSUhCEMDA9z+WntS28wG73AiEtU7qIBTmBaojg
+ eRE+7v2nTgexDJtkkJQl+XrRZw7ns4MNn8KK1gp/ijexgtr8ig7uKCRsnHSL7v3De0Mk
+ 3fZzBuRu0KMjTvxOAoJcDajSCoV26jZgUfe91uZwLokaXHnag9u8NZF8OvPR63KnyCvH
+ 695g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709664040; x=1710268840;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:sender:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YQLzgqGcJCQTSOmHQSBuR9Qy4cscbXhB7FIpF8lqDFg=;
+ b=pdAGnzKy+/oyj0ISpD7+T63XrB41kGTocFj5tb4pK0HIM//8KxFUGUXCl7Z8V9wCAs
+ EygAJ0pQghaK5nvqG7i5BEW6onyuTF+KAJlS1ZfBeXGqnFE3mBEuJ48FzGfEMHe51nQt
+ U6IE5LVQuXbD1Sinpq1FSu1R092YWEJlBaIu+EJ3KfBuHoBQ+9I9FNo2DTTyWYvmqXPX
+ 4YDa1whkk9FzwT7z4yrNyG4ZaKXm9hLPSpxcbEMMVfWILxDMEhx+wFFlibR1cbPm2w67
+ 29z85eoYOpQiSG+YDwjQCAJOFvHZdeBec25QtndtZ7GgylJGtqxBw0cs6WsM84bpNB1r
+ eQ6w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWbCncO5hDVUR2un0Y3eRYuRENfVUYxdbcSf5ymSFcYFzVKVjUQD4Plb2V62roGPv5ayFhsTwWclFjQhy5Sy8OVgbnl0SDtDiqSUB5im5Y8
+X-Gm-Message-State: AOJu0Yx/+OPAgNwL8wAf0hZfhvGwnsCbBaIiw3o9JkN6VjvHxKtxAWTZ
+ kzTRrw7Csx8Ni/h1ustTP90WvxSIFrS89ulhiVupDHiSZe+cKPWJ
+X-Google-Smtp-Source: AGHT+IHLOs8AkdboH9ufe3uVfCMuBj2myZQffsOSLGEYtVubGujAxHdd/KSSUYo1ed4iTaJle6dOCA==
+X-Received: by 2002:a05:6e02:1564:b0:366:140:801 with SMTP id
+ k4-20020a056e02156400b0036601400801mr1621302ilu.20.1709664040035; 
+ Tue, 05 Mar 2024 10:40:40 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ f17-20020a63e311000000b005dc4da2121fsm9444697pgh.6.2024.03.05.10.40.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Mar 2024 10:40:38 -0800 (PST)
+From: Guenter Roeck <linux@roeck-us.net>
+To: linux-kselftest@vger.kernel.org
+Cc: David Airlie <airlied@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ Kees Cook <keescook@chromium.org>, Daniel Diaz <daniel.diaz@linaro.org>,
+ David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ kunit-dev@googlegroups.com, linux-arch@vger.kernel.org,
+ Guenter Roeck <linux@roeck-us.net>
+Subject: [RFC PATCH 0/5] Add support for suppressing warning backtraces
+Date: Tue,  5 Mar 2024 10:40:28 -0800
+Message-Id: <20240305184033.425294-1-linux@roeck-us.net>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8769.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b9881b02-9523-448c-1306-08dc3d43a3a8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Mar 2024 18:39:49.7506 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: aaLxSpJkUetHw9NYzqcekP5Fsr1IpdMUu2RrfBWW4iipleyRWaRY1Eag3NlihohQWTFh9YUInvIQGFZDqOSWFQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB9091
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,10 +94,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyMDI0LTAzLTA2IGF0IDAyOjE0ICswODAwLCBrZXJuZWwgdGVzdCByb2JvdCB3cm90
-ZToNCj4gPiDCoMKgIHwtLSBkcml2ZXJzLWdwdS1kcm0tbm91dmVhdS1udmttLXN1YmRldi1nc3At
-cjUzNS5jOndhcm5pbmc6RnVuY3Rpb24tDQo+ID4gcGFyYW1ldGVyLW9yLXN0cnVjdC1tZW1iZXIt
-Z3NwLW5vdC1kZXNjcmliZWQtaW4tbnZrbV9nc3BfcmFkaXgzX3NnDQoNCkNvdWxkIHNvbWVvbmUg
-cGxlYXNlIGFwcGx5DQpodHRwczovL2xvcmUua2VybmVsLm9yZy9ub3V2ZWF1LzIwMjQwMjEwMDAy
-OTAwLjE0ODk4Mi0xLXR0YWJpQG52aWRpYS5jb20vVC8NCnRvIGZpbmFsbHkgc3RvcCB0aGVzZSB3
-YXJuaW5ncz8gIFRoYW5rcw0KDQo=
+Some unit tests intentionally trigger warning backtraces by passing bad
+parameters to kernel API functions. Such unit tests typically check the
+return value from such calls, not the existence of the warning backtrace.
+
+Such intentionally generated warning backtraces are neither desirable
+nor useful for a number of reasons.
+- They can result in overlooked real problems.
+- A warning that suddenly starts to show up in unit tests needs to be
+  investigated and has to be marked to be ignored, for example by
+  adjusting filter scripts. Such filters are ad-hoc because there is
+  no real standard format for warnings. On top of that, such filter
+  scripts would require constant maintenance.
+
+One option to address problem would be to add messages such as "expected
+warning backtraces start / end here" to the kernel log.  However, that
+would again require filter scripts, it might result in missing real
+problematic warning backtraces triggered while the test is running, and
+the irrelevant backtrace(s) would still clog the kernel log.
+
+Solve the problem by providing a means to identify and suppress specific
+warning backtraces while executing test code. Support suppressing multiple
+backtraces while at the same time limiting changes to generic code to the
+absolute minimum. Architecture specific changes are kept at minimum by
+retaining function names only if both CONFIG_DEBUG_BUGVERBOSE and
+CONFIG_KUNIT are enabled.
+
+The first patch of the series introduces the necessary infrastructure.
+The second patch marks the warning message in drm_calc_scale() in the DRM
+subsystem as intentional where warranted. This patch is intended to serve
+as an example for the use of the functionality introduced with this series.
+The last three patches in the series introduce the necessary architecture
+specific changes for x86, arm64, and loongarch.
+
+This series is based on the RFC patch and subsequent discussion at
+https://patchwork.kernel.org/project/linux-kselftest/patch/02546e59-1afe-4b08-ba81-d94f3b691c9a@moroto.mountain/
+and offers a more comprehensive solution of the problem discussed there.
+
+Checkpatch note:
+  Remaining checkpatch errors and warnings were deliberately ignored.
+  Some are triggered by matching coding style or by comments interpreted
+  as code, others by assembler macros which are disliked by checkpatch.
+  Suggestions for improvements are welcome.
+
+Some questions:
+
+- Is the general approach promising ? If not, are there other possible
+  solutions ?
+- Function pointers are only added to the __bug_table section if both
+  CONFIG_KUNIT and CONFIG_DEBUG_BUGVERBOSE are enabled. This avoids image
+  size increases if CONFIG_KUNIT=n. Downside is slightly more complex
+  architecture specific assembler code. If function pointers were always
+  added to the __bug_table section, vmlinux image size would increase by
+  approximately 0.6-0.7%. Is the increased complexity in assembler code
+  worth the reduced image size ? I think so, but I would like to hear
+  other opinions.
+- There are additional possibilities associated with storing the bug
+  function name in the __bug_table section. It could be independent of
+  KUNIT, it could be a configuration flag, and/or it could be used to
+  display the name of the offending function in BUG/WARN messages.
+  Is any of those of interest ?
+
+----------------------------------------------------------------
+Guenter Roeck (5):
+      bug: Core support for suppressing warning backtraces
+      drm: Suppress intentional warning backtraces in scaling unit tests
+      x86: Add support for suppressing warning tracebacks
+      arm64: Add support for suppressing warning tracebacks
+      loongarch: Add support for suppressing warning tracebacks
+
+ arch/arm64/include/asm/asm-bug.h      | 29 +++++++++++++-------
+ arch/arm64/include/asm/bug.h          |  8 +++++-
+ arch/loongarch/include/asm/bug.h      | 38 ++++++++++++++++++--------
+ arch/x86/include/asm/bug.h            | 21 +++++++++++----
+ drivers/gpu/drm/tests/drm_rect_test.c |  6 +++++
+ include/asm-generic/bug.h             | 16 ++++++++---
+ include/kunit/bug.h                   | 51 +++++++++++++++++++++++++++++++++++
+ include/linux/bug.h                   | 13 +++++++++
+ lib/bug.c                             | 51 ++++++++++++++++++++++++++++++++---
+ lib/kunit/Makefile                    |  6 +++--
+ lib/kunit/bug.c                       | 40 +++++++++++++++++++++++++++
+ 11 files changed, 243 insertions(+), 36 deletions(-)
+ create mode 100644 include/kunit/bug.h
+ create mode 100644 lib/kunit/bug.c
