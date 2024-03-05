@@ -2,83 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 267B08720B0
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 14:47:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 819F58720D3
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 14:52:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06820112B05;
-	Tue,  5 Mar 2024 13:47:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56748112AE9;
+	Tue,  5 Mar 2024 13:52:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lP6/lebH";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="H05uQjxo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F9D7112B03
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 13:47:34 +0000 (UTC)
-Received: by mail-pj1-f43.google.com with SMTP id
- 98e67ed59e1d1-29a6dcfdd30so4266119a91.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 05:47:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1709646454; x=1710251254; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NdMAZiRIAHsJUc1Mjq85NsXecYABbu9svdLTciq/OhY=;
- b=lP6/lebHhCwgwNOlb6jJxMCxREB/SKzoVC5dn/E+9AK5ogXL/zGzEir+20PPnYuk4r
- LM7X4wZ3Z2NSeldBpGuSC0/qNJeaLqw8FtUdhcyAbGcwh/1TpA23zGQvGU0i0wS5Rp1w
- 5q2J2J03VliJPJjx9r83G5KscGSFMwYzMFkrjfTPo6H4P86rP6G+V0SD+IR2vHbPBRG2
- j+Z40/WzGvhwXsIVXEimJ4jOMMFH1Gxar2Q/+89rwNgNNkfkbx64n10KaE1Ehv8SRxWV
- HVs3JOplTjy2vNCf3y5lfx7U30UcM8gSsUbM2GvWJhA2LqhzzW7VaJLUL1Pn45gxwFZ5
- EaRQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53A02112B0A
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 13:52:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1709646719;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=HuPJFjAWsKypg8ZeoyYOV15NoGLVMPS18P+BxsXUyRk=;
+ b=H05uQjxohAczYGkVEcMOQ0ZPST0WFZxFS9Rg2qX7hLMVDzKwchuAjRJmaSt6A1MuyzCLLM
+ fg8lgYNC+5wGZAvaUelRdFEV4hallV4ua7606Sw327zHAA3zPTucWmOZ47J+ucCW6Db3dh
+ yyfEdHRh9x+LG0DMB1aoL/T7Egf0N9I=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-221-w6x6J1kfNxen_WBqA5XyKA-1; Tue, 05 Mar 2024 08:51:57 -0500
+X-MC-Unique: w6x6J1kfNxen_WBqA5XyKA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-40e4478a3afso29227315e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 05:51:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709646454; x=1710251254;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=NdMAZiRIAHsJUc1Mjq85NsXecYABbu9svdLTciq/OhY=;
- b=SoKcE33TkgU33EuRcV1T35FwmqL6JQMY696umdf4QGG+tphSoxNVUvlIZOrVE3nfmd
- MDTAHG1QvvZOv1WTjUmNdOFjErb2+HL+VJGGkdhkk7Nc2jwYuMDzKiDu6wIY4rP/l0/D
- R9bLI7KSMNvA9Gbc0ICs0N6umuOtGm3EW+J3FBnRlm3im9u7yle8dSfW1PLxVl2wmXEg
- ujeAkwe230e1eG45pR0tHDkbtoWEG/ftoG4oM9xsqDrukM0SXdYpj3fPJHSnJaw/UQHV
- B79zAbz4OP46CIpPhSJeyIcaolLHehUUQonGELtHKJIVKlrERmYR9vTjwvF4KH7V9cBL
- 27SA==
+ d=1e100.net; s=20230601; t=1709646717; x=1710251517;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=HuPJFjAWsKypg8ZeoyYOV15NoGLVMPS18P+BxsXUyRk=;
+ b=eOYWUkkRzuM2ksJD8L3y8TP96rHMxy2i69fFgscCU8ocE/7a7mLztkh9BoaRawT2BL
+ 00Rw6a7QLApa3wKu70RzsmgzUxIgjD0JbjuRqMlgkYBjd8K88O02oJfL3l2ZW4jL3aVc
+ jMeuJ3KmmTUc2MZJosed7tn4+7ZhwFG+bHEX9a+wesoTOK6jynKPuwWg1lmV5RtPQIuX
+ Hh9CrvEl41XqDZ9C6+acJ33QqLa6Xtd6pB0HBIzH6BoeLV03dhUV6f/ZF4142OWwCBEl
+ UZnv7fsJej1+Xq0lmrTGCBLNPRUYdkg+h2MfX7gRKiG1QlM5KgfZzyF6rwCc99JbkAVT
+ XVmQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW3v6uRTF1AWYs1VeXMagrsFqFUfDsgQw0m/aea3cml/93YsyZklskL+oBYfDPNV6t24rHQzLkBFqAvHnrMV6FEwxVLQ27PkO1F64d8Xb04
-X-Gm-Message-State: AOJu0Yw9aeU2+uIwuZoWcGAzX9EVn5VuwPSZc+SOa0a5OyaG/iALH85q
- 1CG6poT1He5W7XKpN8fEgGOsK4quLYz/GvsckuGdo5ZVx8CterapBF8KboZV/mw9h4D3tPb+9n6
- 9rSo0QyUDf8Kdgps6i5jmuAgteXI=
-X-Google-Smtp-Source: AGHT+IFIyTA9lyBuwaMRD+Ynxt5VrqnElevZJi9yhFl7HItD+Z67hgXbxvk0yLdnGIfu0In26xytbWEI6KxA1jrOO28=
-X-Received: by 2002:a17:90a:f191:b0:29b:2a8:9a89 with SMTP id
- bv17-20020a17090af19100b0029b02a89a89mr10234445pjb.21.1709646453778; Tue, 05
- Mar 2024 05:47:33 -0800 (PST)
+ AJvYcCVl/jSao1IJOTTm3haEwONVLcjETr7s8DYQsI8e4aQgIkhfY1NFcacE5aMBrbByWA/A6+Ow9+AAJTNU9ZLGpI1wgSD358ODtr7bXG/f9kQC
+X-Gm-Message-State: AOJu0YwIeiChNJbMmwWUY1TBlnNAZsEUN6k2AIJdn0oG5bUaaXaOqm2G
+ Av0ISJCd489B6iYhHLpDGicOE38RbRzhWzOSWb0lfp2yMT55ilC1ZFdHkS9090fnzxJhU07euya
+ 3yhoMZlGc1soXBBMhJ6DL6jZ8CQV17cJnok02H9rAJ1OxMj8dxOPBrluI0ByHN9v6CQ==
+X-Received: by 2002:a05:600c:3111:b0:412:f09d:67ef with SMTP id
+ g17-20020a05600c311100b00412f09d67efmr180231wmo.10.1709646716855; 
+ Tue, 05 Mar 2024 05:51:56 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGT+v94cNlPuRn9BCoWkkRgnChsa4Zxxoh4qGBCqYAJX2s5n9hG4uCCziRT82Hx/7k/SRmDOA==
+X-Received: by 2002:a05:600c:3111:b0:412:f09d:67ef with SMTP id
+ g17-20020a05600c311100b00412f09d67efmr180212wmo.10.1709646716359; 
+ Tue, 05 Mar 2024 05:51:56 -0800 (PST)
+Received: from toolbox.fritz.box ([2001:9e8:898a:6d00:3d3a:c29e:3324:fc0e])
+ by smtp.gmail.com with ESMTPSA id
+ n6-20020a05600c500600b00412ee8e2f2asm1519587wmr.9.2024.03.05.05.51.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Mar 2024 05:51:56 -0800 (PST)
+From: Sebastian Wick <sebastian.wick@redhat.com>
+To: 
+Cc: Harry Wentland <harry.wentland@amd.com>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Xaver Hugl <xaver.hugl@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/drm_connector: Document Colorspace property variants
+Date: Tue,  5 Mar 2024 14:51:49 +0100
+Message-ID: <20240305135155.231687-1-sebastian.wick@redhat.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-References: <6be2558b8462fc08095c24c9257563ab5f3ae013.1708001398.git.geert+renesas@glider.be>
- <kycepdxukfsww3tnxoo5hoiuo3vcgpqqmynokzhtl4vodgm6zc@ih4uhw7gz4jh>
- <CAMuHMdVf7ophCwKt-n_N-LBHV4+t14Gjb4d1O0T8FDk_9xMFtA@mail.gmail.com>
- <CAHCN7xJ65RP8TO7cS0p5DwE6zru5NEF0_JA+8siT_OpSeLD7pA@mail.gmail.com>
- <CAHCN7x+EnSU8qk5dBFco=0vkeknGq18qEN7vFmZs0_q83T_3+w@mail.gmail.com>
- <76065296ad514898e2b8c29cd921c104b3692ae0.camel@imgtec.com>
-In-Reply-To: <76065296ad514898e2b8c29cd921c104b3692ae0.camel@imgtec.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Tue, 5 Mar 2024 07:47:22 -0600
-Message-ID: <CAHCN7xJ6uEghqDcUTKKQg7Lcg8uF55rz=vEHF=1xHRYfsDNGsA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/imagination: DRM_POWERVR should depend on ARCH_K3
-To: Frank Binns <Frank.Binns@imgtec.com>
-Cc: "geert@linux-m68k.org" <geert@linux-m68k.org>, 
- "marek.vasut@mailbox.org" <marek.vasut@mailbox.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>, 
- Matt Coster <Matt.Coster@imgtec.com>, "javierm@redhat.com" <javierm@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "airlied@gmail.com" <airlied@gmail.com>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "nm@ti.com" <nm@ti.com>, 
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- Sarah Walker <Sarah.Walker@imgtec.com>, 
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "mripard@kernel.org" <mripard@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,144 +97,147 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 5, 2024 at 5:58=E2=80=AFAM Frank Binns <Frank.Binns@imgtec.com>=
- wrote:
->
-> Hi Adam,
->
-> Sorry for not responding sooner. I've recently just returned from paterni=
-ty
-> leave, so just catching up on everything.
+The initial idea of the Colorspace prop was that this maps 1:1 to
+InfoFrames/SDP but KMS does not give user space enough information nor
+control over the output format to figure out which variants can be used
+for a given KMS commit. At the same time, properties like Broadcast RGB
+expect full range quantization range being produced by user space from
+the CRTC and drivers to convert to the range expected by the sink for
+the chosen output format, mode, InfoFrames, etc.
 
-Congratulations!
+This change documents the reality of the Colorspace property. The
+Default variant unfortunately is very much driver specific and not
+reflected by the EDID. The BT2020 variants are in active use by generic
+compositors which have expectations from the driver about the
+conversions it has to do when selecting certain output formats.
 
->
-> On Thu, 2024-02-15 at 11:22 -0600, Adam Ford wrote:
-> > On Thu, Feb 15, 2024 at 11:10=E2=80=AFAM Adam Ford <aford173@gmail.com>=
- wrote:
-> > > On Thu, Feb 15, 2024 at 10:54=E2=80=AFAM Geert Uytterhoeven
-> > > <geert@linux-m68k.org> wrote:
-> > > > Hi Maxime,
-> > > >
-> > > > On Thu, Feb 15, 2024 at 5:18=E2=80=AFPM Maxime Ripard <mripard@kern=
-el.org> wrote:
-> > > > > On Thu, Feb 15, 2024 at 01:50:09PM +0100, Geert Uytterhoeven wrot=
-e:
-> > > > > > Using the Imagination Technologies PowerVR Series 6 GPU require=
-s a
-> > > > > > proprietary firmware image, which is currently only available f=
-or Texas
-> > > > > > Instruments K3 AM62x SoCs.  Hence add a dependency on ARCH_K3, =
-to
-> > > > > > prevent asking the user about this driver when configuring a ke=
-rnel
-> > > > > > without Texas Instruments K3 Multicore SoC support.
-> > > > >
-> > > > > This wasn't making sense the first time you sent it, and now that=
- commit
-> > > > > log is just plain wrong. We have firmwares for the G6110, GX6250,
-> > > > > GX6650, BXE-4-32, and BXS-4-64 models, which can be found on (at =
-least)
-> > > > > Renesas, Mediatek, Rockchip, TI and StarFive, so across three
-> > > >
-> > > > I am so happy to be proven wrong!
-> > > > Yeah, GX6650 is found on e.g. R-Car H3, and GX6250 on e.g. R-Car M3=
--W.
-> > > >
-> > > > > architectures and 5 platforms. In two months.
-> > > >
-> > > > That sounds like great progress, thanks a lot!
-> > > >
-> > > Geert,
-> > >
-> > > > Where can I find these firmwares? Linux-firmware[1] seems to lack a=
-ll
-> > > > but the original K3 AM62x one.
-> > >
-> > > I think PowerVR has a repo [1], but the last time I checked it, the
-> > > BVNC for the firmware didn't match what was necessary for the GX6250
-> > > on the RZ/G2M.  I can't remember what the corresponding R-Car3 model
-> > > is.  I haven't tried recently because I was told more documentation
-> > > for firmware porting would be delayed until everything was pushed int=
-o
-> > > the kernel and Mesa.  Maybe there is a better repo and/or newer
-> > > firmware somewhere else.
-> > >
-> > I should have doubled checked the repo contents before I sent my last
-> > e-mail , but it appears the firmware  [2] for the RZ/G2M, might be
-> > present now. I don't know if there are driver updates necessary. I
-> > checked my e-mails, but I didn't see any notification, or I would have
-> > tried it earlier.  Either way, thank you Frank for adding it.  I'll
-> > try to test when I have some time.
-> >
->
-> You may have noticed from one of Matt's emails that we now have a set of =
-repos
-> (linux, linux-firmware and Mesa) in our own area on freedesktop.org GitLa=
-b:
-> https://gitlab.freedesktop.org/imagination/
->
-> We'll be using this as a staging area for work that isn't ready to be ups=
-treamed
-> yet (including firmware binaries).
->
+Everything else is also marked as undefined. Coming up with valid
+behavior that makes it usable from user space and consistent with other
+KMS properties for those variants is left as an exercise for whoever
+wants to use them.
 
-I tried to play with these a little, but it seems like there is still
-a fair amount of work to be done on the 6XT series. I tried to add the
-device tree support for several Renesas boards, but the series was
-NAK'd due to an inability to test it.
->
-> > > adam
-> > >
-> > > [1] https://gitlab.freedesktop.org/frankbinns/linux-firmware/-/tree/p=
-owervr/powervr?ref_type=3Dheads
-> >
-> > [2] - https://gitlab.freedesktop.org/frankbinns/linux-firmware/-/commit=
-/fecb3caebf29f37221fe0a20236e5e1415d39d0b
-> >
->
-> This is now the place to get the firmware for devices that aren't yet sup=
-ported
-> upstream:
-> https://gitlab.freedesktop.org/imagination/linux-firmware/-/commits/power=
-vr/?ref_type=3DHEADS
->
-I've been following several of these repos and checking for software
-updates in both the Firmware, driver and userspace layers.
+v2:
+ * Talk about "pixel operation properties" that user space configures
+ * Mention that user space is responsible for checking the EDID for sink
+   support
+ * Make it clear that drivers can choose between RGB and YCbCr on their
+   own
 
-> With the firmware for the Renesas variant of GX6250 being found in this c=
-ommit:
-> https://gitlab.freedesktop.org/imagination/linux-firmware/-/commit/fecb3c=
-aebf29f37221fe0a20236e5e1415d39d0b
->
+Signed-off-by: Sebastian Wick <sebastian.wick@redhat.com>
+---
+ drivers/gpu/drm/drm_connector.c | 79 +++++++++++++++++++++++++--------
+ include/drm/drm_connector.h     |  8 ----
+ 2 files changed, 61 insertions(+), 26 deletions(-)
 
-If your group thinks they have stuff they want tested, I am willing to
-test them on the two platforms I have if I am CC'd on anything.
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index b0516505f7ae..65cdcc7d22db 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -2147,24 +2147,67 @@ EXPORT_SYMBOL(drm_mode_create_aspect_ratio_property);
+  * DOC: standard connector properties
+  *
+  * Colorspace:
+- *     This property helps select a suitable colorspace based on the sink
+- *     capability. Modern sink devices support wider gamut like BT2020.
+- *     This helps switch to BT2020 mode if the BT2020 encoded video stream
+- *     is being played by the user, same for any other colorspace. Thereby
+- *     giving a good visual experience to users.
+- *
+- *     The expectation from userspace is that it should parse the EDID
+- *     and get supported colorspaces. Use this property and switch to the
+- *     one supported. Sink supported colorspaces should be retrieved by
+- *     userspace from EDID and driver will not explicitly expose them.
+- *
+- *     Basically the expectation from userspace is:
+- *      - Set up CRTC DEGAMMA/CTM/GAMMA to convert to some sink
+- *        colorspace
+- *      - Set this new property to let the sink know what it
+- *        converted the CRTC output to.
+- *      - This property is just to inform sink what colorspace
+- *        source is trying to drive.
++ *	This property is used to inform the driver about the color encoding
++ *	user space configured the pixel operation properties to produce.
++ *	The variants set the colorimetry, transfer characteristics, and which
++ *	YCbCr conversion should be used when necessary.
++ *	The transfer characteristics from HDR_OUTPUT_METADATA takes precedence
++ *	over this property.
++ *	User space always configures the pixel operation properties to produce
++ *	full quantization range data (see the Broadcast RGB property).
++ *
++ *	Drivers inform the sink about what colorimetry, transfer
++ *	characteristics, YCbCr conversion, and quantization range to expect
++ *	(this can depend on the output mode, output format and other
++ *	properties). Drivers also convert the user space provided data to what
++ *	the sink expects.
++ *
++ *	User space has to check if the sink supports all of the possible
++ *	colorimetries that the driver is allowed to pick by parsing the EDID.
++ *
++ *	For historical reasons this property exposes a number of variants which
++ *	result in undefined behavior.
++ *
++ *	Default:
++ *		The behavior is driver-specific.
++ *	BT2020_RGB:
++ *	BT2020_YCC:
++ *		User space configures the pixel operation properties to produce
++ *		RGB content with Rec. ITU-R BT.2020 colorimetry, Rec.
++ *		ITU-R BT.2020 (Table 4, RGB) transfer characteristics and full
++ *		quantization range.
++ *		User space can use the HDR_OUTPUT_METADATA property to set the
++ *		transfer characteristics to PQ (Rec. ITU-R BT.2100 Table 4) or
++ *		HLG (Rec. ITU-R BT.2100 Table 5) in which case, user space
++ *		configures pixel operation properties to produce content with
++ *		the respective transfer characteristics.
++ *		User space has to make sure the sink supports Rec.
++ *		ITU-R BT.2020 R'G'B' and Rec. ITU-R BT.2020 Y'C'BC'R
++ *		colorimetry.
++ *		Drivers can configure the sink to use an RGB format, tell the
++ *		sink to expect Rec. ITU-R BT.2020 R'G'B' colorimetry and convert
++ *		to the appropriate quantization range.
++ *		Drivers can configure the sink to use a YCbCr format, tell the
++ *		sink to expect Rec. ITU-R BT.2020 Y'C'BC'R colorimetry, convert
++ *		to YCbCr using the Rec. ITU-R BT.2020 non-constant luminance
++ *		conversion matrix and convert to the appropriate quantization
++ *		range.
++ *		The variants BT2020_RGB and BT2020_YCC are equivalent and the
++ *		driver chooses between RGB and YCbCr on its own.
++ *	SMPTE_170M_YCC:
++ *	BT709_YCC:
++ *	XVYCC_601:
++ *	XVYCC_709:
++ *	SYCC_601:
++ *	opYCC_601:
++ *	opRGB:
++ *	BT2020_CYCC:
++ *	DCI-P3_RGB_D65:
++ *	DCI-P3_RGB_Theater:
++ *	RGB_WIDE_FIXED:
++ *	RGB_WIDE_FLOAT:
++ *	BT601_YCC:
++ *		The behavior is undefined.
+  *
+  * Because between HDMI and DP have different colorspaces,
+  * drm_mode_create_hdmi_colorspace_property() is used for HDMI connector and
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index fe88d7fc6b8f..02c42b01a3a7 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -437,14 +437,6 @@ enum drm_privacy_screen_status {
+  *
+  * DP definitions come from the DP v2.0 spec
+  * HDMI definitions come from the CTA-861-H spec
+- *
+- * A note on YCC and RGB variants:
+- *
+- * Since userspace is not aware of the encoding on the wire
+- * (RGB or YCbCr), drivers are free to pick the appropriate
+- * variant, regardless of what userspace selects. E.g., if
+- * BT2020_RGB is selected by userspace a driver will pick
+- * BT2020_YCC if the encoding on the wire is YUV444 or YUV420.
+   *
+  * @DRM_MODE_COLORIMETRY_DEFAULT:
+  *   Driver specific behavior.
+-- 
+2.44.0
 
-Thanks for the work your group has done so far.  It'll be nice to see the w=
-ork.
-
-adam
-
-> Thanks
-> Frank
->
-> > >
-> > > > Thanks again!
-> > > >
-> > > > [1] https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-=
-firmware.git/
-> > > >
-> > > > Gr{oetje,eeting}s,
-> > > >
-> > > >                         Geert
-> > > >
-> > > > --
-> > > > Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@li=
-nux-m68k.org
-> > > >
-> > > > In personal conversations with technical people, I call myself a ha=
-cker. But
-> > > > when I'm talking to journalists I just say "programmer" or somethin=
-g like that.
-> > > >                                 -- Linus Torvalds
