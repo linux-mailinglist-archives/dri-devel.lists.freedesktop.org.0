@@ -2,108 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74BE48729C7
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 22:55:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B2728729E2
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 22:59:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7718210E607;
-	Tue,  5 Mar 2024 21:55:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5762E112D13;
+	Tue,  5 Mar 2024 21:59:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b="OsYe7azL";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="eK71pGBZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD15710E607
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 21:55:07 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-1dccb2edc6dso51626945ad.3
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 13:55:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=davidwei-uk.20230601.gappssmtp.com; s=20230601; t=1709675707; x=1710280507;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=jL7LWnaopqqB5nwV+btClF0x89yXnbnHF4XK+f8SkuU=;
- b=OsYe7azLTFtocI9E9+UoMlDpFMTnYAAROjjccdIvtjNqgC5zCpn4JhrSnV6Vm+ZLXG
- ilgGtgmcSYMzgzmZRSsomc2uKICJv7ff/WwbPRISWmJGAlVgr3x+1GOQMAbOZ9pKM7Py
- gO4QPxq4LFwQciQA34cLuhuQGEpSZBlkULuCS8Qje48tb8SRCUaBGhDDI8avgVZxA6DG
- z6ccKyEwNAX5by/yXQ/fjn/HaEbMfNaFAN/jCTVCHEcCAFPtVvyxahW478mz/hnNcpWR
- XFDNvW+PlrMnAR+fwMz1SWZmcSJxXoG4+/fMfE684jsuQVuyVogM6C4OIisyJz4zomPp
- I0wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709675707; x=1710280507;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jL7LWnaopqqB5nwV+btClF0x89yXnbnHF4XK+f8SkuU=;
- b=SG+5kcP1B80Zw+fnor8boVjHpSk+LG2GXB8esq0+CWDRpk6YX7rXeh9pacpsyW4z7V
- pJVyXGxS/7HeZ7lRvrpse/IpYoffSOm3eZwwjIZf9QMEErZ3mSNVdZDvkIcwvfubPg/Y
- gq7s7q0IYWnMtjq2Angwp9I+snltnSfeGMLuWf4gG3ANNpiB+GNpUtRAqejMZM9odCOp
- bbeZp2GQe3vrtnswrBZUSJa+iICsreNtF1CfxPAr40gwv9jQwOJRv0X1ogHQp5Mm+kbX
- JC/ekh0DwSqMPJTWSp4/KiaGTWN/npZ8O/NtwR7ORDgJjKGb6HsdjEaUiApmn1H15Hoa
- 1iFw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUp3DAnp2iFa5+9dPT0eYBL8gTRTwJS/6E7LlTLsC+QdCMBII2jHN1uz7a1bmSE9CqyfaZ4ATbzycs05o+bUuLRnIxSs3i4WoxQam7lX8Vh
-X-Gm-Message-State: AOJu0YwiBH3EkniWUaochvtYErtNZZVSp+Rhv+OqC+mGkC/kKDY5cTMK
- YIg+9YcqS167b9YhrHr2frWghfnUdDWUo788cHKBC8CVdHc+T4fIma+PTwbASJCDza0b8cMasVf
- HDu0=
-X-Google-Smtp-Source: AGHT+IEzUHguUj9gf1hY/ZH3iwQaSPj6FKRjbFS32/33ns0rokMOZjx9/UvRjY93Qc1WGHn/9lMP2w==
-X-Received: by 2002:a17:902:aa86:b0:1dc:cb04:82e8 with SMTP id
- d6-20020a170902aa8600b001dccb0482e8mr2800530plr.22.1709675706778; 
- Tue, 05 Mar 2024 13:55:06 -0800 (PST)
-Received: from ?IPV6:2a03:83e0:1256:2:c51:2090:e106:83fa?
- ([2620:10d:c090:500::7:4943]) by smtp.gmail.com with ESMTPSA id
- w7-20020a170902e88700b001dba739d15bsm11097297plg.76.2024.03.05.13.55.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Mar 2024 13:55:06 -0800 (PST)
-Message-ID: <1b57dac2-4b04-4bec-b2d7-d0edb4fcabbc@davidwei.uk>
-Date: Tue, 5 Mar 2024 13:54:59 -0800
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FCD0112D11;
+ Tue,  5 Mar 2024 21:59:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1709675943;
+ bh=Pi6T1W5bDFqqI2XXQ+4KYgY88rVQ95Vyl3n/fcXtOEo=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=eK71pGBZ6Cz51o8qikvWm9K+PhISQRoVeIfPrE1JiwaG7q1A3dZgkjtiTAbgZgp4B
+ m69Q9A106Ja++jlIoMXxTtnhwo2cpnaGCPXX+0rOsMd7edcefjvG+OthSgVAm0YG+f
+ 84likditwTT7tx9UMns7EZBUfNHVdaIggZo1SEbHhX2IVe3jHtEaJO1DB/Xtbr53Hk
+ BCF2Q3TBsTYA3Lh7WSssBcx882ZZbaRRWyKc6XKmxYGQjlL0JzyxoACxfQkGzlgTS5
+ NfyWcJb5SAZclkjKZJdvPiySMBpD7/0op+jwvAnR0C3GCqBiyzqwaht8c3ZJeFNSQ6
+ nfSnf4FKoD2aw==
+Received: from [100.109.49.129] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 64017378149B;
+ Tue,  5 Mar 2024 21:59:01 +0000 (UTC)
+Message-ID: <c844b72e-6c4e-4c99-8e7f-b9c62f63209d@collabora.com>
+Date: Wed, 6 Mar 2024 00:58:58 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH net-next v6 02/15] net: page_pool: create hooks for
- custom page providers
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Pavel Begunkov <asml.silence@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>
-References: <20240305020153.2787423-1-almasrymina@google.com>
- <20240305020153.2787423-3-almasrymina@google.com>
-Content-Language: en-GB
-From: David Wei <dw@davidwei.uk>
-In-Reply-To: <20240305020153.2787423-3-almasrymina@google.com>
+Subject: Re: [PATCH 00/13] drm: Fix reservation locking for pin/unpin and
+ console
+Content-Language: en-US
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ christian.koenig@amd.com, sumit.semwal@linaro.org, robdclark@gmail.com,
+ quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
+ marijn.suijten@somainline.org, suijingfeng@loongson.cn, kherbst@redhat.com,
+ lyude@redhat.com, dakr@redhat.com, airlied@redhat.com, kraxel@redhat.com,
+ alexander.deucher@amd.com, Xinhui.Pan@amd.com, zack.rusin@broadcom.com,
+ bcm-kernel-feedback-list@broadcom.com
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+References: <20240227113853.8464-1-tzimmermann@suse.de>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20240227113853.8464-1-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -121,14 +72,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-03-04 18:01, Mina Almasry wrote:
-> +struct memory_provider_ops {
-> +	int (*init)(struct page_pool *pool);
-> +	void (*destroy)(struct page_pool *pool);
-> +	struct page *(*alloc_pages)(struct page_pool *pool, gfp_t gfp);
-> +	bool (*release_page)(struct page_pool *pool, struct page *page);
+On 2/27/24 13:14, Thomas Zimmermann wrote:
+> Dma-buf locking semantics require the caller of pin and unpin to hold
+> the buffer's reservation lock. Fix DRM to adhere to the specs. This
+> enables to fix the locking in DRM's console emulation. Similar changes
+> for vmap and mmap have been posted at [1][2]
+> 
+> Most DRM drivers and memory managers acquire the buffer object's
+> reservation lock within their GEM pin and unpin callbacks. This
+> violates dma-buf locking semantics. We get away with it because PRIME
+> does not provide pin/unpin, but attach/detach, for which the locking
+> semantics is correct.
+> 
+> Patches 1 to 8 rework DRM GEM code in various implementations to
+> acquire the reservation lock when entering the pin and unpin callbacks.
+> This prepares them for the next patch. Drivers that are not affected
+> by these patches either don't acquire the reservation lock (amdgpu)
+> or don't need preparation (loongson).
+> 
+> Patch 9 moves reservation locking from the GEM pin/unpin callbacks
+> into drm_gem_pin() and drm_gem_unpin(). As PRIME uses these functions
+> internally it still gets the reservation lock.
+> 
+> With the updated GEM callbacks, the rest of the patchset fixes the
+> fbdev emulation's buffer locking. Fbdev emulation needs to keep its
+> GEM buffer object inplace while updating its content. This required
+> a implicit pinning and apparently amdgpu didn't do this at all.
+> 
+> Patch 10 introduces drm_client_buffer_vmap_local() and _vunmap_local().
+> The former function map a GEM buffer into the kernel's address space
+> with regular vmap operations, but keeps holding the reservation lock.
+> The _vunmap_local() helper undoes the vmap and releases the lock. The
+> updated GEM callbacks make this possible. Between the two calls, the
+> fbdev emulation can update the buffer content without have the buffer
+> moved or evicted. Update fbdev-generic to use vmap_local helpers,
+> which fix amdgpu. The idea of adding a "local vmap" has previously been
+> attempted at [3] in a different form.
+> 
+> Patch 11 adds implicit pinning to the DRM client's regular vmap
+> helper so that long-term vmap'ed buffers won't be evicted. This only
+> affects fbdev-dma, but GEM DMA helpers don't require pinning. So
+> there are no practical changes.
+> 
+> Patches 12 and 13 remove implicit pinning from the vmap and vunmap
+> operations in gem-vram and qxl. These pin operations are not supposed
+> to be part of vmap code, but were required to keep the buffers in place
+> for fbdev emulation. With the conversion o ffbdev-generic to to
+> vmap_local helpers, that code can finally be removed.
+> 
+> Tested with amdgpu, nouveau, radeon, simpledrm and vc4.
+> 
+> [1] https://patchwork.freedesktop.org/series/106371/
+> [2] https://patchwork.freedesktop.org/series/116001/
+> [3] https://patchwork.freedesktop.org/series/84732/
+> 
+> Thomas Zimmermann (13):
+>   drm/gem-shmem: Acquire reservation lock in GEM pin/unpin callbacks
+>   drm/gem-vram: Acquire reservation lock in GEM pin/unpin callbacks
+>   drm/msm: Provide msm_gem_get_pages_locked()
+>   drm/msm: Acquire reservation lock in GEM pin/unpin callback
+>   drm/nouveau: Provide nouveau_bo_{pin,unpin}_locked()
+>   drm/nouveau: Acquire reservation lock in GEM pin/unpin callbacks
+>   drm/qxl: Provide qxl_bo_{pin,unpin}_locked()
+>   drm/qxl: Acquire reservation lock in GEM pin/unpin callbacks
+>   drm/gem: Acquire reservation lock in drm_gem_{pin/unpin}()
+>   drm/fbdev-generic: Fix locking with drm_client_buffer_vmap_local()
+>   drm/client: Pin vmap'ed GEM buffers
+>   drm/gem-vram: Do not pin buffer objects for vmap
+>   drm/qxl: Do not pin buffer objects for vmap
 
-For ZC Rx we added a scrub() function to memory_provider_ops that is
-called from page_pool_scrub(). Does TCP devmem not custom behaviour
-waiting for all netmem_refs to return before destroying the page pool?
-What happens if e.g. application crashes?
+The patches look good. I gave them fbtest on virtio-gpu, no problems
+spotted.
+
+Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Tested-by: Dmitry Osipenko <dmitry.osipenko@collabora.com> # virtio-gpu
+
+-- 
+Best regards,
+Dmitry
+
