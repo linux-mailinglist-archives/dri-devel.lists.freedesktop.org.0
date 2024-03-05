@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A60B87201D
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 14:28:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7302B872046
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 14:34:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BF02112AD9;
-	Tue,  5 Mar 2024 13:28:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C207810F28B;
+	Tue,  5 Mar 2024 13:34:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.b="fcCvJcgA";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="OQDU6ggv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DB88112ADF
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 13:28:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
- s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
- Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
- Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
- bh=2o5mFGZCvQCk7WKP/xRNSu+/KpBgcWlkfRQoWTuInbY=; b=fcCvJcgAkcMcQFOc4nYDR/Yzhv
- Y8IiVBCtwKjUMpOh02072azemJ8Sb6tC/SVw+f74ahwPgdczkKF8WJ9UMCYkcOVxYnaoVgZ6Z3Jwt
- iiS6/PoKPPutlUHIT5TpgkIpdugZ8H0BsYpd3BejSVa4AjBYvnRK+kDjUeDZosHHJi3Q=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
- (envelope-from <andrew@lunn.ch>)
- id 1rhUqi-009Qae-FR; Tue, 05 Mar 2024 14:28:52 +0100
-Date: Tue, 5 Mar 2024 14:28:52 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Julien Panis <jpanis@baylibre.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Russell King <linux@armlinux.org.uk>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Simon Horman <horms@kernel.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v2 2/2] net: ethernet: ti: am65-cpsw: Add minimal XDP
- support
-Message-ID: <be16d069-062e-489d-b8e9-19ef3ef90029@lunn.ch>
-References: <20240223-am65-cpsw-xdp-basic-v2-0-01c6caacabb6@baylibre.com>
- <20240223-am65-cpsw-xdp-basic-v2-2-01c6caacabb6@baylibre.com>
- <356f4dd4-eb0e-49fa-a9eb-4dffbe5c7e7c@lunn.ch>
- <3a5f3950-e47f-409a-b881-0c8545778b91@baylibre.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AF6C10F28B
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 13:34:30 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 093B3CE1AEE;
+ Tue,  5 Mar 2024 13:34:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BED44C433C7;
+ Tue,  5 Mar 2024 13:34:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1709645666;
+ bh=g4/QOF7J2Wwmq5RED3wJPXCTwXZH4+mZplLeZQexveM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OQDU6ggv54aYtD+1IDFT3k/iv4TejmdReAkqFsd71PddBRutvzVhsCX2zY6h6LWzy
+ bn0crC1yL+7OcLzk3aopjSjrkAZ46owcDTJgOJVpF1d2jCXNsQ1m/XS4t2m6nhL9td
+ L8mD7q2UXsAf02KQLlN5ebDD0p0btdc5WgKFlPVY=
+Date: Tue, 5 Mar 2024 13:34:21 +0000
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Javier Carrasco <javier.carrasco@wolfvision.net>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Kaehlcke <mka@chromium.org>,
+ Helen Koike <helen.koike@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v7 2/9] usb: misc: onboard_hub: use device supply names
+Message-ID: <2024030557-mutable-subtype-f340@gregkh>
+References: <20240305-onboard_xvf3500-v7-0-ad3fb50e593b@wolfvision.net>
+ <20240305-onboard_xvf3500-v7-2-ad3fb50e593b@wolfvision.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3a5f3950-e47f-409a-b881-0c8545778b91@baylibre.com>
+In-Reply-To: <20240305-onboard_xvf3500-v7-2-ad3fb50e593b@wolfvision.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,41 +67,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 05, 2024 at 11:46:00AM +0100, Julien Panis wrote:
-> On 3/1/24 17:38, Andrew Lunn wrote:
-> > On Fri, Mar 01, 2024 at 04:02:53PM +0100, Julien Panis wrote:
-> > > This patch adds XDP (eXpress Data Path) support to TI AM65 CPSW
-> > > Ethernet driver. The following features are implemented:
-> > > - NETDEV_XDP_ACT_BASIC (XDP_PASS, XDP_TX, XDP_DROP, XDP_ABORTED)
-> > > - NETDEV_XDP_ACT_REDIRECT (XDP_REDIRECT)
-> > > - NETDEV_XDP_ACT_NDO_XMIT (ndo_xdp_xmit callback)
-> > > 
-> > > The page pool memory model is used to get better performance.
-> > Do you have any benchmark numbers? It should help with none XDP
-> > traffic as well. So maybe iperf numbers before and after?
-> > 
-> > 	Andrew
+On Tue, Mar 05, 2024 at 06:55:02AM +0100, Javier Carrasco wrote:
+> The current implementation uses generic names for the power supplies,
+> which conflicts with proper name definitions in the device bindings.
 > 
-> Argh...Houston, we have a problem. I checked my v3, which is ready for
-> submission, with iperf3:
-> 1) Before = without page pool -> 500 MBits/sec
-> 2) After = with page pool -> 442 MBits/sec
-> -> ~ 10% worse with page pool here.
+> Add a per-device property to include real supply names and keep generic
+> names for existing devices to keep backward compatibility.
 > 
-> Unless the difference is not due to page pool. Maybe there's something else
-> which is not good in my patch. I'm going to send the v3 which uses page pool,
-> hopefully someone will find out something suspicious. Meanwhile, I'll carry on
-> investigating: I'll check the results with my patch, by removing only the using of
-> page pool.
+> Acked-by: Matthias Kaehlcke <mka@chromium.org>
+> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
+> ---
+>  drivers/usb/misc/onboard_usb_hub.c | 49 ++++++++++++++++++++------------------
+>  drivers/usb/misc/onboard_usb_hub.h | 12 ++++++++++
+>  2 files changed, 38 insertions(+), 23 deletions(-)
 
-You can also go the other way. First add page pool support. For the
-FEC, that improved its performance. Then add XDP, which i think
-decreased the performance a little. It is extra processing in the hot
-path, so a little loss is not unsurprising.
+Due to other patches to this file, this commit does not apply to my
+tree.  Can you rebase and resend after -rc1 is out?
 
-What tends to be expensive with ARM is cache invalidation and
-flush. So make sure you have the lengths correct. You don't want to
-operate on more memory than necessary. No point flushing the full MTU
-for a 64 byte TCP ACK, etc.
+thanks,
 
-      Andrew
+greg k-h
