@@ -2,86 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B3F872620
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 19:02:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C701872643
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 19:08:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33BD610F49E;
-	Tue,  5 Mar 2024 18:02:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFE52112C1B;
+	Tue,  5 Mar 2024 18:08:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=marliere.net header.i=@marliere.net header.b="aI8/vsEf";
+	dkim=pass (2048-bit key; unprotected) header.d=marliere.net header.i=@marliere.net header.b="bs/DfrmL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D63D1123B2
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 18:02:25 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-1dba177c596so163175ad.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 10:02:25 -0800 (PST)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+ [209.85.210.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5791A112C1B;
+ Tue,  5 Mar 2024 18:08:10 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id
+ d2e1a72fcca58-6e5d7f1f25fso2613721b3a.0; 
+ Tue, 05 Mar 2024 10:08:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709661744; x=1710266544;
+ d=1e100.net; s=20230601; t=1709662090; x=1710266890;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:dkim-signature:date:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=YJ70Tv4h5AKfiBQVV4/s2rwMqfxMbFKTboyKv27NZLU=;
- b=Oc8XAr1oNmucjH59ZL58jbsaN7bMaQjgT4L6m1xWJwN5BYMp3jG4xzkYmf7ZT9yeWP
- c3LXKv7eNE8H8x5FdI7z5ald4VPBqOfNDBVd6XprrUdfgvZiRxjNrbVGmhZmf+WzG3Ud
- Q4FHNLvJ0Q98DaWAuAQ/CRnfIur6Ap3QzrA2PRIT7dKv5W6T3PPVHwn1N0yKlQojggi9
- eUogxV72JNVNLLonu78VpqjsyxC2A4h4FAY0U6iSWEkRPP/ehllCJ0EoputHFVUFKaFH
- 1nYOATWg1GeIaxqp7uhgwOgQRTF2Ri+mgdLq9YgIOCnBMvUduwmZ962W5uAzpr9vr/yD
- H8tw==
+ bh=x5whaAzOMVpJ9oleSNFRgGIgTqWcKl3NhWO0NiuDErg=;
+ b=uSe8YEseQNGrAa1Up4uSwj9ShEfvthhQswmvxHt+xrIzm7Wm8aIVt1SmDBezyxyag4
+ J70ZpBFrKOZb9g+7lkOllRUaYGzeBHsMciMzqXfmQ3baQ2yMfSEYWHPVox8+xBMBOzg3
+ dJwjD/dD9o91dVXU9dJiWSFkrWlz5l7i2fRKlmWCWqpxJU7XZbvJ2m0HEZjzkyo1htsn
+ zvjQX/JTMXpj3iqsZzSag3EzNHWhDgOmsZrYOoa66zqZSBc+Ju65ta+hzUfUes69uTnp
+ pByGmhLNhmYShgWlGT29XZGbLxppSoCbeU2JgQjVss4apsIHbbPM/ZxQ9JTz6g48l7AJ
+ pA2Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUkeknTEcNzEGfBtvtLi/vT4a5PI6pDiGMHsYoSyx3ZxoT0bhIK+CR3xErFshyVqf2j9Th0NxetGgf1bS2uGPpHsTV21/HXCNY2m6TrBxVx
-X-Gm-Message-State: AOJu0YwZykRdJiSUHmW+qc0iOAWOoeKzVHEtm09CY8PGEUEmlME8LPRp
- tQxvPxIze4tCGZBjLIU1AHToXOj6HnIZOjXY2pi0G95XMFYgLNl7
-X-Google-Smtp-Source: AGHT+IE+QeWdybpOmeVBdSyQw2r7Ej1xSRJHaUNhk4fq9R6Iz6FjMOYAhuLG29kBbDSLUmIvi0ExUw==
-X-Received: by 2002:a17:903:1cc:b0:1d9:a15:615d with SMTP id
- e12-20020a17090301cc00b001d90a15615dmr4010129plh.1.1709661744304; 
- Tue, 05 Mar 2024 10:02:24 -0800 (PST)
+ AJvYcCV1+Kiru4wXvbsZP9sBaaPXcb4znQib13PngeEoaqCgSxW1T9XCPOykzki5t0PU7ytb71IgjaHtoTK2ttSsmmeP/M5pDOjAkSOarKKD3PTCxmL/hQ/YYH1o8mXb8e6gd3h7mKiIFiErM0vxSvrOdg==
+X-Gm-Message-State: AOJu0Yz1Tf4jN9mQN1O4Qr5IyQ/2jbaxJ09LO5oPZePUAmFG9kq4pF4e
+ IcWCe4Bh70+n7AqP/H1VMyfCrjUEM+vF2KvUT84rqo35c3g/pz6Z
+X-Google-Smtp-Source: AGHT+IHsBuJZigH06x0TIQSPMWS5CzB5BE8Lix9SJIw0WAHEauJC2Yg3UCxAysG+IWH+PtEQGVWj8w==
+X-Received: by 2002:a05:6a00:2d20:b0:6e6:1822:1315 with SMTP id
+ fa32-20020a056a002d2000b006e618221315mr7585099pfb.23.1709662088686; 
+ Tue, 05 Mar 2024 10:08:08 -0800 (PST)
 Received: from mail.marliere.net ([24.199.118.162])
  by smtp.gmail.com with ESMTPSA id
- s14-20020a170902ea0e00b001dd38bce653sm28566plg.99.2024.03.05.10.02.23
+ jw37-20020a056a0092a500b006e621e75cffsm3796044pfb.83.2024.03.05.10.08.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Mar 2024 10:02:23 -0800 (PST)
-Date: Tue, 5 Mar 2024 15:02:18 -0300
+ Tue, 05 Mar 2024 10:08:08 -0800 (PST)
+Date: Tue, 5 Mar 2024 15:08:04 -0300
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
- s=2024; t=1709661742;
+ s=2024; t=1709662086;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=YJ70Tv4h5AKfiBQVV4/s2rwMqfxMbFKTboyKv27NZLU=;
- b=aI8/vsEfN/Bld3c1dh2lfn+V3skU5KzIAqhIHcK7NAjAqJBfROsAnrKyK4eQ+UyoGoN+NP
- zzlbhCR32haBdY7hr8R76en3m52BMB2qTNeH1riF0Yo4h/OL1vI/mWmODXCQHNS+kipiA1
- eymqvBd6Un7r1WO2rW64vrCVs1RTBYhhHa5VzXn6zajrWFIiu79tGxfvIsfxqXPmL0AlKs
- N2m7SPUbPh7LCr6ibTBZNTbKPxaVqX5e/9ntlV71Z0VfXAi7iszHHGH6a5F959mB1mZr1G
- gXGLiFS6K0vFVxf9oxGTPFiWjVIUttDTGYfNoknFC+wlLnCrwH6+HqoE0dMHFg==
+ bh=x5whaAzOMVpJ9oleSNFRgGIgTqWcKl3NhWO0NiuDErg=;
+ b=bs/DfrmLdwl2DuC1Sf7HIL2FdGgIdBdssE7oEwpnxFCNWPqZWFMc8sRttKEHufHlYzm4YB
+ 2b3fWMVo/o8oXzb2YI379S0dHjN8oS1c59yXYUPsFaDlLyOxV/of2TdYt8Kp4+h14D2i/n
+ b43Jr7p+64MCbklVwOlgvXYuLYFCb6Ksrtmkk7VDU9voHQntmvLhN6Ji7Mv6Iu3pwOkExm
+ tWXDg1iVWP58WAHyBosnvgyxXXRgl1prlryOfoXpwnLQvc1gQsxPuni7zs1KYF809P25Zt
+ 9qECQfyv8mFvAIuIdTSrNaXokuLjlAUAvOsTqb+oNOd436IRspqk7ACuQTOYSA==
 Authentication-Results: ORIGINATING;
  auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
 From: "Ricardo B. Marliere" <ricardo@marliere.net>
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Hans de Goede <hdegoede@redhat.com>, Helge Deller <deller@gmx.de>, 
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+To: Felix Kuehling <felix.kuehling@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, 
  Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org, 
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH RESEND drm-misc 4/4] dma-buf: heaps: make dma_heap_class
- constant
-Message-ID: <gdkioaqffaoiocsybn22qwfpkgz6cujy5oklrdicgdcbatlsan@v7qjtak5jacn>
-References: <20240305-class_cleanup-drm-v1-0-94f82740525a@marliere.net>
- <20240305-class_cleanup-drm-v1-4-94f82740525a@marliere.net>
- <CABdmKX0VGyBdTo8gzEocyz2HFcqEtu_31PYVjWzioBdCbnXW6w@mail.gmail.com>
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] drm/amdkfd: make kfd_class constant
+Message-ID: <iiyzek47iwn4av7bohszmhbgwkjpk3ytqkuwq7sk2qpoqdzrvg@msh5rt5bp3iy>
+References: <20240305-class_cleanup-drm-amd-v1-1-ea99b37f26c7@marliere.net>
+ <0f572801-8dcb-4124-94fa-cb219f60730d@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CABdmKX0VGyBdTo8gzEocyz2HFcqEtu_31PYVjWzioBdCbnXW6w@mail.gmail.com>
+In-Reply-To: <0f572801-8dcb-4124-94fa-cb219f60730d@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,20 +89,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On  5 Mar 09:07, T.J. Mercier wrote:
+On  5 Mar 12:38, Felix Kuehling wrote:
+> On 2024-03-05 7:15, Ricardo B. Marliere wrote:
+> > Since commit 43a7206b0963 ("driver core: class: make class_register() take
+> > a const *"), the driver core allows for struct class to be in read-only
+> > memory, so move the kfd_class structure to be declared at build time
+> > placing it into read-only memory, instead of having to be dynamically
+> > allocated at boot time.
+> >
+> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
 > 
-> Reviewed-by: T.J. Mercier <tjmercier@google.com>
+> The patch looks good to me. Do you want me to apply this to Alex's 
+> amd-staging-drm-next?
 > 
-> Is this really a resend? I don't see anything on lore and I can't
-> recall seeing this patch in my inbox before.
+> Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
 
-Hi T.J. thanks for reviewing!
+Hi Felix!
 
-I'm sorry about that, I sent the series only to Greg before but I
-thought it had Cc'ed the lists as well. Then I realized it was sent
-publicly only once. Double mistake :(
+Thanks for reviewing. The patch was based in agd5f/linux/drm-next. But I
+think amd-staging-drm-next would be fine, too.
 
 Best regards,
 -	Ricardo.
 
 
+> 
+> 
+> > ---
+> >   drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 21 +++++++++++----------
+> >   1 file changed, 11 insertions(+), 10 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+> > index f030cafc5a0a..dfa8c69532d4 100644
+> > --- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+> > +++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+> > @@ -63,8 +63,10 @@ static const struct file_operations kfd_fops = {
+> >   };
+> >   
+> >   static int kfd_char_dev_major = -1;
+> > -static struct class *kfd_class;
+> >   struct device *kfd_device;
+> > +static const struct class kfd_class = {
+> > +	.name = kfd_dev_name,
+> > +};
+> >   
+> >   static inline struct kfd_process_device *kfd_lock_pdd_by_id(struct kfd_process *p, __u32 gpu_id)
+> >   {
+> > @@ -94,14 +96,13 @@ int kfd_chardev_init(void)
+> >   	if (err < 0)
+> >   		goto err_register_chrdev;
+> >   
+> > -	kfd_class = class_create(kfd_dev_name);
+> > -	err = PTR_ERR(kfd_class);
+> > -	if (IS_ERR(kfd_class))
+> > +	err = class_register(&kfd_class);
+> > +	if (err)
+> >   		goto err_class_create;
+> >   
+> > -	kfd_device = device_create(kfd_class, NULL,
+> > -					MKDEV(kfd_char_dev_major, 0),
+> > -					NULL, kfd_dev_name);
+> > +	kfd_device = device_create(&kfd_class, NULL,
+> > +				   MKDEV(kfd_char_dev_major, 0),
+> > +				   NULL, kfd_dev_name);
+> >   	err = PTR_ERR(kfd_device);
+> >   	if (IS_ERR(kfd_device))
+> >   		goto err_device_create;
+> > @@ -109,7 +110,7 @@ int kfd_chardev_init(void)
+> >   	return 0;
+> >   
+> >   err_device_create:
+> > -	class_destroy(kfd_class);
+> > +	class_unregister(&kfd_class);
+> >   err_class_create:
+> >   	unregister_chrdev(kfd_char_dev_major, kfd_dev_name);
+> >   err_register_chrdev:
+> > @@ -118,8 +119,8 @@ int kfd_chardev_init(void)
+> >   
+> >   void kfd_chardev_exit(void)
+> >   {
+> > -	device_destroy(kfd_class, MKDEV(kfd_char_dev_major, 0));
+> > -	class_destroy(kfd_class);
+> > +	device_destroy(&kfd_class, MKDEV(kfd_char_dev_major, 0));
+> > +	class_unregister(&kfd_class);
+> >   	unregister_chrdev(kfd_char_dev_major, kfd_dev_name);
+> >   	kfd_device = NULL;
+> >   }
+> >
+> > ---
+> > base-commit: 8bc75586ea01f1c645063d3472c115ecab03e76c
+> > change-id: 20240305-class_cleanup-drm-amd-bdc7255b7540
+> >
+> > Best regards,
