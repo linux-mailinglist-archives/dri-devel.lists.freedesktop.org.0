@@ -2,76 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C07868711AE
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 01:28:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 693A48711B0
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 01:28:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45B5A112776;
-	Tue,  5 Mar 2024 00:28:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ADEE112779;
+	Tue,  5 Mar 2024 00:28:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="TL+t/wQG";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IivV+VJo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
  [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15511112775
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 00:28:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CBDC112775
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 00:28:14 +0000 (UTC)
 Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-5101cd91017so7108976e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 16:28:12 -0800 (PST)
+ 2adb3069b0e04-5131316693cso6664920e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 16:28:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1709598491; x=1710203291; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1709598492; x=1710203292; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=UgihA/j9MMe4W3y4lHJTNEdOriPRYiwOGRsjM+J9mKU=;
- b=TL+t/wQGuPtp8XB6M16Ol2LF3G5ksparMUvhEzD8oGi0ZTUAexfjiBHEz6UvQS4sUb
- 3IpqyAWXzY/z3Xi/P/tGNX9iW6fCw5YkUbFkWVwlicOHPoFL3+1LOpkmu35NyyqM7PDq
- WzNuqo0burCDuzCTdmOc2aiTTfm/1zseG/oPWWL1MzpuPr/Gy5eH1iWOwLBUr+IiNTKV
- m8tnhsh6ongzuD3pIe4QsBsEJT46hPL5F33Z8TdqQw+AFXTgcE1KJ82/FYsro0y1X5jw
- BFrPKwb5KoaY4k6s3pVDS1CoH8FcNfhvKVKLEZ0f/SyUluBmM+viktYdSSsW9Q9ijWwW
- 16Eg==
+ bh=xr6wCNfPCWT62O+BkzsYtFI7aI+vAwjbi8UvrqmJnMk=;
+ b=IivV+VJoTj2wK28sO/cKSi8X67yYGWmqAR4Q0McYR7HYIx1CScTySMW6KvgiNUrMRf
+ 0hRX9ghT63WJc0plH0ieys7qmyZNihQ496SlQG75xEJ8TNuwRNQHKx/qdrFoxM/hH44u
+ 5sX6dIun1eIV7noHZKwd9SMmuUVPkhPrNqf73K+3FiZ/p3p7UDcTu2Tt+mE+uQIelOtJ
+ 6Aepw378uCozuPrD4VWqpB1kjOiyT8xooYevRd4TyDbAu+6RjY5gyKb3l0CLxXu+ECHJ
+ 0N0EabD8AWSQ7LqGLsEz3stU6F4VngQt6RgeJF7xZAWYWpSEDSyH4DTpil29e7XqDkTt
+ gaBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709598491; x=1710203291;
+ d=1e100.net; s=20230601; t=1709598492; x=1710203292;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=UgihA/j9MMe4W3y4lHJTNEdOriPRYiwOGRsjM+J9mKU=;
- b=aCFvx+LdBaIeGEiYdhC3734qCqOHlB97b7Ny/EreweBrtc1+FU+80Jzi6FAqiDDWvb
- Var8C6WUwP4gRtQi/7Wbs4E1nkGsU4EMVwMxMinj5NWghecTcmwF5q5UZm5pNUo1F1FZ
- VtRwZZLLCkmnVq98ONwY5FvAdhnW2UG0l4quGxYibGIZqGHjaCNKtjKNg0bjcH5+pXP1
- yyzRfozpC3N5sLqU3UyczAcLJXaf6DNjO2GgQciITATD7kqw+TB2kCLxKvt/LVlpfpHp
- 3ca53Ln0+SIOKD/V4wA3P827zv3UfPVvFEvuHmbATbwN3kwqgck9LDmeStxe5g7hNAHb
- Iu6w==
+ bh=xr6wCNfPCWT62O+BkzsYtFI7aI+vAwjbi8UvrqmJnMk=;
+ b=NzH1iD2pL/RJdWV+cAWz2ot5G81tRyPZZalWgXbZBfn2HZ03qko6JRbCdrU/TuN5VU
+ 1yG4/RP0WFY2rqq/5aWGTgU998Md/uSstwbXs9ksXKz4i+MvShzSDWjc8+bS9ZByq+9+
+ 2g86c3Ow6yXaLRQOaSJ+pRNzmbxWGhfhR9r0DIl8p+SibXS+/aagRBj+UtCUohTPtNvu
+ 7rDTH+hYSvUNzPQm7uh4WHJFKLMk8F3hh69mG6MDNDO4FrLmqCCfjvhF5xVbCcUghT6/
+ zafj9TrD+/NaX8AwmuSbQOuEeGbUYlJU9gPbmfdfQ7ciygK7MdFcKugaueO2yOiqTueN
+ 4c7w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVCKbg+99twYnuEDDvE74RZPNzEVIGhyLhy4Mfs958VZXFbMDU8FZ8P0KdnOFlfdbWnYyyuLdC3nUhlFLtJer8QgK/JsBJKmZqvi2F8QasI
-X-Gm-Message-State: AOJu0YxcHdwpnNR6JZ6O4nmkcmFCkHA6yr4TMCLG6I50GxWvTVXiiBLJ
- 3tbIIp8uIautYpWGm0ei7f1P0aBorfo2rxr39dfkbfft/+lbbjj8FIfWBIhOiAE=
-X-Google-Smtp-Source: AGHT+IFDZK6sfIEdXRUKSjRI7ZdugsypJRMtPgYmqMfgXbm1nTdG+dB8phMOK0N67CVLvFXHeQOFIw==
-X-Received: by 2002:a05:6512:282c:b0:513:2c50:9644 with SMTP id
- cf44-20020a056512282c00b005132c509644mr257056lfb.12.1709598490724; 
- Mon, 04 Mar 2024 16:28:10 -0800 (PST)
+ AJvYcCU6+uYmzHBMEdmRWA7/HPNcNSTqBuSCsHUXVatojWi0N/ibTGUjae0uSIMKwKc+tliqplCj55TXaeUU+KDiDaSYK/A1ONO6RzgzYLy4qpJP
+X-Gm-Message-State: AOJu0YwQGOgPYJyghU3e72l+oFZcw29kAbqCFKF9yXvHmCyaDGmumHGO
+ Vq1o0MOQqIiJwdhDd2RABeO0leaVY8hjEsZqUZLwpLs5Vv6RXR0tcTqILdKL8qE=
+X-Google-Smtp-Source: AGHT+IEpVKRUi1hJu8a/8XKiX0WCgdeworthxvQWON2xS5SR2ABish/KNB9qVAXfHDN+7CkXvRAV7w==
+X-Received: by 2002:a05:6512:1243:b0:513:23da:9766 with SMTP id
+ fb3-20020a056512124300b0051323da9766mr231986lfb.55.1709598491832; 
+ Mon, 04 Mar 2024 16:28:11 -0800 (PST)
 Received: from umbar.lan (dzyjmhybhls-s--zn36gy-3.rev.dnainternet.fi.
  [2001:14ba:a00e:a300:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- s15-20020ac2464f000000b005133d11b261sm1149416lfo.92.2024.03.04.16.28.09
+ s15-20020ac2464f000000b005133d11b261sm1149416lfo.92.2024.03.04.16.28.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Mar 2024 16:28:10 -0800 (PST)
+ Mon, 04 Mar 2024 16:28:11 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Steev Klimaszewski <steev@kali.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/3] drm/msm/dpu: debug commit_done timeouts
-Date: Tue,  5 Mar 2024 02:28:08 +0200
-Message-Id: <170959846405.1203069.5519628464509979288.b4-ty@linaro.org>
+To: freedreno@lists.freedesktop.org,
+ Paloma Arellano <quic_parellan@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ robdclark@gmail.com, seanpaul@chromium.org, swboyd@chromium.org,
+ quic_abhinavk@quicinc.com, quic_jesszhan@quicinc.com,
+ quic_khsieh@quicinc.com, marijn.suijten@somainline.org,
+ neil.armstrong@linaro.org
+Subject: Re: [PATCH v5 00/19] Add support for CDM over DP
+Date: Tue,  5 Mar 2024 02:28:09 +0200
+Message-Id: <170959846405.1203069.15666159691656225354.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240226-fd-dpu-debug-timeout-v4-0-51eec83dde23@linaro.org>
-References: <20240226-fd-dpu-debug-timeout-v4-0-51eec83dde23@linaro.org>
+In-Reply-To: <20240222194025.25329-1-quic_parellan@quicinc.com>
+References: <20240222194025.25329-1-quic_parellan@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -91,24 +90,57 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Mon, 26 Feb 2024 04:27:58 +0200, Dmitry Baryshkov wrote:
-> In order to debug commit_done timeouts ([1]) display the sticky bits of
-> the CTL_FLUSH register and capture the devcore dump when the first such
-> timeout occurs.
+On Thu, 22 Feb 2024 11:39:45 -0800, Paloma Arellano wrote:
+> The Chroma Down Sampling (CDM) block is a hardware component in the DPU
+> pipeline that includes a CSC block capable of converting RGB input from
+> the DPU to YUV data.
 > 
-> [1] https://gitlab.freedesktop.org/drm/msm/-/issues/33
-> 
+> This block can be used with either HDMI, DP, or writeback interfaces.
+> This series adds support for the CDM block to be used with DP in
+> YUV420 mode format.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/3] drm/msm/dpu: make "vblank timeout" more useful
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/f1d0b196ff2e
-[2/3] drm/msm/dpu: split dpu_encoder_wait_for_event into two functions
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/d72a3d35b7ef
-[3/3] drm/msm/dpu: capture snapshot on the first commit_done timeout
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/4be445f5b6b6
+[01/19] drm/msm/dpu: allow certain formats for CDM for DP
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/32b6ff95b912
+[02/19] drm/msm/dpu: add division of drm_display_mode's hskew parameter
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/551ee0f21099
+[03/19] drm/msm/dpu: pass mode dimensions instead of fb size in CDM setup
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/d6e547c091d8
+[04/19] drm/msm/dpu: allow dpu_encoder_helper_phys_setup_cdm to work for DP
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/7cde7ce5be3e
+[05/19] drm/msm/dpu: move dpu_encoder_helper_phys_setup_cdm to dpu_encoder
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/0ab07bb96826
+[06/19] drm/msm/dp: rename wide_bus_en to wide_bus_supported
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/3ed77f333bb0
+[07/19] drm/msm/dp: store mode YUV420 information to be used by rest of DP
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/5b30d1cbd4fb
+[08/19] drm/msm/dp: check if VSC SDP is supported in DP programming
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/ab2f8603e22e
+[09/19] drm/msm/dpu: move widebus logic to its own API
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/1cfc64a6ea55
+[10/19] drm/msm/dp: program config ctrl for YUV420 over DP
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/683d374582e3
+[11/19] drm/msm/dp: change clock related programming for YUV420 over DP
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/6db6e5606576
+[12/19] drm/msm/dp: move parity calculation to dp_utils
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/09b27a482a18
+[13/19] drm/msm/dp: add VSC SDP support for YUV420 over DP
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/55fb8ffc1802
+[14/19] drm/msm/dpu: add support of new peripheral flush mechanism
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/64f7b81f0358
+[15/19] drm/msm/dp: enable SDP and SDE periph flush update
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/21497a463347
+[16/19] drm/msm/dpu: modify encoder programming for CDM over DP
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/b40c8377d792
+[17/19] drm/msm/dpu: modify timing engine programming for YUV420 over DP
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/57d6ca4c1917
+[18/19] drm/msm/dpu: reserve CDM blocks for DP if mode is YUV420
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/984809d85007
+[19/19] drm/msm/dp: allow YUV420 mode for DP connector when CDM available
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/ee2fcc0f514b
 
 Best regards,
 -- 
