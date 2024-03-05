@@ -2,50 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A1D48721B8
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 15:40:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BAC58721E5
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 15:48:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 336BA10E127;
-	Tue,  5 Mar 2024 14:40:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9AE7112B79;
+	Tue,  5 Mar 2024 14:48:28 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="H3DWv5X1";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 5465 seconds by postgrey-1.36 at gabe;
- Tue, 05 Mar 2024 14:40:07 UTC
-Received: from zg8tmty3ljk5ljewns4xndka.icoremail.net
- (zg8tmty3ljk5ljewns4xndka.icoremail.net [167.99.105.149])
- by gabe.freedesktop.org (Postfix) with ESMTP id 483A810E127;
- Tue,  5 Mar 2024 14:40:06 +0000 (UTC)
-Received: from ubuntu.localdomain (unknown [106.117.76.127])
- by mail-app3 (Coremail) with SMTP id cC_KCgAX+zSoLudlI534AQ--.59749S2;
- Tue, 05 Mar 2024 22:39:52 +0800 (CST)
-From: Duoming Zhou <duoming@zju.edu.cn>
-To: nouveau@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- daniel@ffwll.ch, airlied@gmail.com, dakr@redhat.com, lyude@redhat.com,
- kherbst@redhat.com, timur@kernel.org, jani.nikula@linux.intel.com,
- Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH v2] nouveau/dmem: handle kcalloc() allocation failure
-Date: Tue,  5 Mar 2024 22:39:36 +0800
-Message-Id: <20240305143936.25283-1-duoming@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cC_KCgAX+zSoLudlI534AQ--.59749S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7trW5Aw4kur1fXw1DKr4kJFb_yoW8WrWfpF
- Z7Gr12vF4jya1jvry8KF48CF13AanxJay8Ka9Fy3sI9Fn5ZFy7C3y2yFyUWayFvr1fCrWv
- qr4kta4Y9F4jqwUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
- JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
- CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
- 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
- W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
- Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
- 0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
- zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
- 4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
- CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
- nIWIevJa73UjIFyTuYvjfUonmRUUUUU
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwULAWXmGFMTDgAqsz
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8425B112B77
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 14:48:27 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 57DA0615D3
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 14:48:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7BF6C43399
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 14:48:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1709650105;
+ bh=UqbZu3xyqlDk5uHjlUMrd1Dn1OrXuEFDbeFQfIakCxI=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=H3DWv5X17/rqyKaoDTm9YrnRyq39WLZ65+TtNLksEuL0+ZHnGsM8KLTqed+p2/6TM
+ 3vyCs1RiYNULQh7Rndp6MtPSkHl5NuRrxXqrIcsMJr4IU32jpJEj4fx8YMvsiTksC/
+ 35UsdNMFeJ527dnwHfO3vqTELjlUMXx+2I4w0VNy42lqVdvf/avHu/fnl7J2JwQCNQ
+ yiyJ1ZPsg8deNZboVJoh9GrJUQy3sQBZybi1Yt6I5iMJdXX+1BeKYSXEAxYFsDaZCq
+ Ae9n9VztEXiHzASoMOCvV8ToLK2TUNKCIgLctQTJnh+VU+ZGsKzC/2VqfU9Nkbv2K0
+ +cXYsKcOlFhRQ==
+Received: by mail-yb1-f176.google.com with SMTP id
+ 3f1490d57ef6-dcc80d6006aso5954686276.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 06:48:25 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVe3tTjOL4NCJeHgAeME4ofHUffY1/ukU224hmszd5y4Kscop0n52HuwFX8bcslNpcOZNgiJtghgyuH28NZBA/Ur5F4KCKrnojFeR4A8eka
+X-Gm-Message-State: AOJu0YzbZQOStyUozFfJm3AUZ1XAutsQgc3LmBv095xrjIhBqDRaAGMm
+ gMchNgSNTgeVlu8ckhlAE6Tr3ufUkXn7O/nyAkJIlZbOcZuVewrNN2S54M8YN+MuRYcVCNcdXno
+ HRSpW0y7T4YopCI91/CpV19VfPF7sFM5Rqg0NYQ==
+X-Google-Smtp-Source: AGHT+IHGpjkxxxTDIEldpzuSjFQqyR2XC5Ojqd9dAjXKm3mSL5YM47Oljf9oiBFSbYSoAYKPG/dKTAtSCh67GxN6TdA=
+X-Received: by 2002:a5b:3c5:0:b0:dcc:7af5:97b4 with SMTP id
+ t5-20020a5b03c5000000b00dcc7af597b4mr8182681ybp.12.1709650104981; Tue, 05 Mar
+ 2024 06:48:24 -0800 (PST)
+MIME-Version: 1.0
+References: <20230328170752.1102347-1-jagan@amarulasolutions.com>
+ <27b3b4fa-95b8-4411-8612-f2d4002eb7fb@kontron.de>
+In-Reply-To: <27b3b4fa-95b8-4411-8612-f2d4002eb7fb@kontron.de>
+From: Robert Foss <rfoss@kernel.org>
+Date: Tue, 5 Mar 2024 15:48:14 +0100
+X-Gmail-Original-Message-ID: <CAN6tsi4pGWBAHT2yU0mj_gt_iLicPBSYuHLk6O6LLBgofOssjQ@mail.gmail.com>
+Message-ID: <CAN6tsi4pGWBAHT2yU0mj_gt_iLicPBSYuHLk6O6LLBgofOssjQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] drm/bridge: Fix improper bridge init order with
+ pre_enable_prev_first
+To: Frieder Schrempf <frieder.schrempf@kontron.de>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Marek Vasut <marex@denx.de>, linux-amarula <linux-amarula@amarulasolutions.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,41 +79,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The kcalloc() in nouveau_dmem_evict_chunk() will return null if
-the physical memory has run out. As a result, if we dereference
-src_pfns, dst_pfns or dma_addrs, the null pointer dereference bugs
-will happen.
+On Thu, Feb 29, 2024 at 12:39=E2=80=AFPM Frieder Schrempf
+<frieder.schrempf@kontron.de> wrote:
+>
+> Hi,
+>
+> On 28.03.23 19:07, Jagan Teki wrote:
+> > For a given bridge pipeline if any bridge sets pre_enable_prev_first
+> > flag then the pre_enable for the previous bridge will be called before
+> > pre_enable of this bridge and opposite is done for post_disable.
+> >
+> > These are the potential bridge flags to alter bridge init order in orde=
+r
+> > to satisfy the MIPI DSI host and downstream panel or bridge to function=
+.
+> > However the existing pre_enable_prev_first logic with associated bridge
+> > ordering has broken for both pre_enable and post_disable calls.
+> >
+> > [pre_enable]
+> >
+> > The altered bridge ordering has failed if two consecutive bridges on a
+> > given pipeline enables the pre_enable_prev_first flag.
+> >
+> > Example:
+> > - Panel
+> > - Bridge 1
+> > - Bridge 2 pre_enable_prev_first
+> > - Bridge 3
+> > - Bridge 4 pre_enable_prev_first
+> > - Bridge 5 pre_enable_prev_first
+> > - Bridge 6
+> > - Encoder
+> >
+> > In this example, Bridge 4 and Bridge 5 have pre_enable_prev_first.
+> >
+> > The logic looks for a bridge which enabled pre_enable_prev_first flag
+> > on each iteration and assigned the previou bridge to limit pointer
+> > if the bridge doesn't enable pre_enable_prev_first flags.
+> >
+> > If control found Bridge 2 is pre_enable_prev_first then the iteration
+> > looks for Bridge 3 and found it is not pre_enable_prev_first and assign=
+s
+> > it's previous Bridge 4 to limit pointer and calls pre_enable of Bridge =
+3
+> > and Bridge 2 and assign iter pointer with limit which is Bridge 4.
+> >
+> > Here is the actual problem, for the next iteration control look for
+> > Bridge 5 instead of Bridge 4 has iter pointer in previous iteration
+> > moved to Bridge 4 so this iteration skips the Bridge 4. The iteration
+> > found Bridge 6 doesn't pre_enable_prev_first flags so the limit assigne=
+d
+> > to Encoder. From next iteration Encoder skips as it is the last bridge
+> > for reverse order pipeline.
+> >
+> > So, the resulting pre_enable bridge order would be,
+> > - Panel, Bridge 1, Bridge 3, Bridge 2, Bridge 6, Bridge 5.
+> >
+> > This patch fixes this by assigning limit to next pointer instead of
+> > previous bridge since the iteration always looks for bridge that does
+> > NOT request prev so assigning next makes sure the last bridge on a
+> > given iteration what exactly the limit bridge is.
+> >
+> > So, the resulting pre_enable bridge order with fix would be,
+> > - Panel, Bridge 1, Bridge 3, Bridge 2, Bridge 6, Bridge 5, Bridge 4,
+> >   Encoder.
+> >
+> > [post_disable]
+> >
+> > The altered bridge ordering has failed if two consecutive bridges on a
+> > given pipeline enables the pre_enable_prev_first flag.
+> >
+> > Example:
+> > - Panel
+> > - Bridge 1
+> > - Bridge 2 pre_enable_prev_first
+> > - Bridge 3
+> > - Bridge 4 pre_enable_prev_first
+> > - Bridge 5 pre_enable_prev_first
+> > - Bridge 6
+> > - Encoder
+> >
+> > In this example Bridge 5 and Bridge 4 have pre_enable_prev_first.
+> >
+> > The logic looks for a bridge which enabled pre_enable_prev_first flags
+> > on each iteration and assigned the previou bridge to next and next to
+> > limit pointer if the bridge does enable pre_enable_prev_first flag.
+> >
+> > If control starts from Bridge 6 then it found next Bridge 5 is
+> > pre_enable_prev_first and immediately the next assigned to previous
+> > Bridge 6 and limit assignments to next Bridge 6 and call post_enable
+> > of Bridge 6 even though the next consecutive Bridge 5 is enabled with
+> > pre_enable_prev_first. This clearly misses the logic to find the state
+> > of next conducive bridge as everytime the next and limit assigns
+> > previous bridge if given bridge enabled pre_enable_prev_first.
+> >
+> > So, the resulting post_disable bridge order would be,
+> > - Encoder, Bridge 6, Bridge 5, Bridge 4, Bridge 3, Bridge 2, Bridge 1,
+> >   Panel.
+> >
+> > This patch fixes this by assigning next with previou bridge only if the
+> > bridge doesn't enable pre_enable_prev_first flag and the next further
+> > assign it to limit. This way we can find the bridge that NOT requested
+> > prev to disable last.
+> >
+> > So, the resulting pre_enable bridge order with fix would be,
+> > - Encoder, Bridge 4, Bridge 5, Bridge 6, Bridge 2, Bridge 3, Bridge 1,
+> >   Panel.
+> >
+> > Validated the bridge init ordering by incorporating dummy bridges in
+> > the sun6i-mipi-dsi pipeline
+> >
+> > Fixes: 4fb912e5e190 ("drm/bridge: Introduce pre_enable_prev_first to
+> > alter bridge init order")
+> > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+>
+> This patch is now almost 1 year old and it has been tested and reviewed
+> and there have been multiple pings.
+>
+> Is there anything missing? Why is it not applied yet?
 
-Moreover, the GPU is going away. If the kcalloc() fails, we could not
-evict all pages mapping a chunk. So this patch adds a __GFP_NOFAIL
-flag in kcalloc().
+Sorry about the delay. This has been tested and reviewed properly, so
+I will apply it  now.
 
-Fixes: 249881232e14 ("nouveau/dmem: evict device private memory during release")
-Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
----
-Changes in v2:
-  - Allocate with __GFP_NOFAIL.
-
- drivers/gpu/drm/nouveau/nouveau_dmem.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-index 12feecf71e7..f5ae9724ee2 100644
---- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-@@ -378,9 +378,9 @@ nouveau_dmem_evict_chunk(struct nouveau_dmem_chunk *chunk)
- 	dma_addr_t *dma_addrs;
- 	struct nouveau_fence *fence;
- 
--	src_pfns = kcalloc(npages, sizeof(*src_pfns), GFP_KERNEL);
--	dst_pfns = kcalloc(npages, sizeof(*dst_pfns), GFP_KERNEL);
--	dma_addrs = kcalloc(npages, sizeof(*dma_addrs), GFP_KERNEL);
-+	src_pfns = kcalloc(npages, sizeof(*src_pfns), GFP_KERNEL | __GFP_NOFAIL);
-+	dst_pfns = kcalloc(npages, sizeof(*dst_pfns), GFP_KERNEL | __GFP_NOFAIL);
-+	dma_addrs = kcalloc(npages, sizeof(*dma_addrs), GFP_KERNEL | __GFP_NOFAIL);
- 
- 	migrate_device_range(src_pfns, chunk->pagemap.range.start >> PAGE_SHIFT,
- 			npages);
--- 
-2.17.1
-
+>
+> Andrzej, Neil, Robert: As DRM bridge maintainers, can you take care of th=
+is?
+>
+> Thanks
+> Frieder
+>
