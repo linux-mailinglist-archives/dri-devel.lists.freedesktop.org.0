@@ -2,81 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B3798719D3
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 10:45:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F1228719E2
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 10:48:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF9B410F96E;
-	Tue,  5 Mar 2024 09:45:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B04D10F763;
+	Tue,  5 Mar 2024 09:48:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JqKsENGX";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="dHjABGRk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C2CD10E361
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 09:45:49 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A20010F763
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 09:47:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1709631949;
+ s=mimecast20190719; t=1709632078;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qlPaL+1qbcMigBEz3qx7ZtCPheah+YYYXpFOCWieYr8=;
- b=JqKsENGXo7dfmWIU4/xaDbg+EcRBodDO5fBJYFiBMANdsuBUPkdIgUiA4IlHaSJLqiMIHw
- 1x7hrhziZXI6Wz9L27zgJHX2D9HFOj1Y+QdHd5/7t37UEeYPlovccB+FSWePjoU1YHpvqh
- UBIdUlZHRwKgQWSxpMPxhUM849ZoKLg=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=WbI5i4Q4tsI2CMeqv6RPoW9fsJnk/FBruMClWqYDOF0=;
+ b=dHjABGRkeXZVlBjhbvy9pyHLBXcpQSbixcNtn326AcKDi8JcHoxcq1SLaeqEUqy0f9Jj4g
+ GVSkGjOk07PiBUSNstUkoUJJaZ+adrRICDq1C2GjTMUJ9drHMZbiFishPO7bIOtwzyXUVy
+ GZYhlqMxj1AslLjrB4DwOgReaB9FBHs=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-461-duqE7kmSN9eO3gbCO0oe-w-1; Tue, 05 Mar 2024 04:45:47 -0500
-X-MC-Unique: duqE7kmSN9eO3gbCO0oe-w-1
-Received: by mail-ua1-f72.google.com with SMTP id
- a1e0cc1a2514c-7da5136a758so4893672241.1
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 01:45:47 -0800 (PST)
+ us-mta-630-uAxWZHOUM4OyRASUn0eXQg-1; Tue, 05 Mar 2024 04:47:57 -0500
+X-MC-Unique: uAxWZHOUM4OyRASUn0eXQg-1
+Received: by mail-il1-f198.google.com with SMTP id
+ e9e14a558f8ab-365bde344ebso63078305ab.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 01:47:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709631947; x=1710236747;
+ d=1e100.net; s=20230601; t=1709632076; x=1710236876;
  h=content-transfer-encoding:in-reply-to:organization:from:references
  :cc:to:content-language:subject:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=qlPaL+1qbcMigBEz3qx7ZtCPheah+YYYXpFOCWieYr8=;
- b=k65+/LMzhmpCa9wHn8YT0l55dOdrufy2HIogyn4NA40mN/L7HaYkVrDtS4lIQGtU9x
- j9ZUCH6Y6TmpM42fQht3rtlmQKJ4lkZfjuMWFWjGJUNdniuhhJ0/aEwOqbSfWMLtu/qR
- qN2uzVr/btXmGsGJgKNganzLa1AnOkL5YTjpb6lm1kXoBxchWfzBNM5vEJcL3y1h1omp
- sZ9Z5NXHA7tt+5VBBWhM10jeoWQFEjBly4ICv7phLBIAZ1Aaeam2JZSW8w3+y5tMzNnX
- jQr67hf/psotMxMA8qz5HungRiocjBgpUdvCCwBkreo7tQkq2Hbll7uPe0Igwpp9XSpw
- JB8Q==
+ bh=WbI5i4Q4tsI2CMeqv6RPoW9fsJnk/FBruMClWqYDOF0=;
+ b=eNcLc224Sw72u46QXaxXZacmSf/HFMBRbMvLuVdbEJEQoyuYw6Cpicx1hi5AccchBM
+ w9YfCaezlvxv4M12h2dLIrovgUc0sy4HXrkfTfq6FPeFr063pHlNF7PIZ85vFXgI/8b7
+ OJJfxNGtYMlu8d+9FJxj3riR2iIF7GbPetmJgVxzzL3rUrBlierK8NM5Im0Bfbks4sPQ
+ uKyZqcNNtZcREcA1B1IwZ8CQfqmAiCMUHnnSa8ifUZ39Kd98AtywKNdanz0N0ZdzfQBi
+ JQNXGIqq7rqM366g6V6IKj8fY4pHprr9PfLv/yqX7xPBSS9uqOL9nMZi5Ni7HgeeeoEL
+ Di5g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXBtpd1EOJ00678ZNrkUMQ3AGSptrKbiwQ7epcnk3yFEuWH7Z4TdKRBcHfhFZJPTObqfXtb36v8VHl1C+EIBumCR8mgnMNgALpgriUCOIaS
-X-Gm-Message-State: AOJu0YxddM9nOXLlQRPsPeOlpYSB41Q9LqAjvcdwATL7CcaA49Qb217P
- MbQIvtDqsqq9uQ0OLB0GfKbxmQXW8QWoSMNVwnhic4RMre4y6dsjT7MlEI/zRLm7jt/eDhOMX75
- PbIsc9BVuI6r7UkOglWXo8ndqVrpinheom+vWTOXZZhj/vzq58/gATZWRXASkNIU3gw==
-X-Received: by 2002:a05:620a:5e13:b0:788:33ec:d8a8 with SMTP id
- xz19-20020a05620a5e1300b0078833ecd8a8mr2119015qkn.19.1709630320807; 
- Tue, 05 Mar 2024 01:18:40 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFL7ZlquCoZ60Snk3iqt0FcWv+4rmgyNgIzTovW4+l2TWmVx4HZr2FQyZGXyzR6Vzz7p4retg==
-X-Received: by 2002:a05:620a:5e13:b0:788:33ec:d8a8 with SMTP id
- xz19-20020a05620a5e1300b0078833ecd8a8mr2119001qkn.19.1709630320559; 
- Tue, 05 Mar 2024 01:18:40 -0800 (PST)
+ AJvYcCW/tZPslnBTxwWIy7xI1k1sY/I+TA9/pJcaB7++o3EP3ZAoSg0CkPNZSZZLZiGr4xTRqTzUgBcMuf2gmkA9qFg2RCNXnGh07RB9zyv88JcQ
+X-Gm-Message-State: AOJu0Yzd1pES+KqRAykgGZsjLmYfuQzzgL6YDzHt9C6MDAeDhONrLmtO
+ IdyNDdxYDxuXgY1L52Ko1SJK3ogSBqjqOE5UIxZeQlxHvgAhAEVjODaKwK/qinDMmhQd/Qnb9J5
+ WqXRS96D7OSi2ifobOduSq0zeJ2n0rNgvRmwZJeFPRInB97FO8Hwv8007PN56kRd9oQ==
+X-Received: by 2002:a05:620a:1242:b0:787:d904:c4a0 with SMTP id
+ a2-20020a05620a124200b00787d904c4a0mr1202518qkl.22.1709630353363; 
+ Tue, 05 Mar 2024 01:19:13 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFR/eLfKqYtzfYee7+jBwIfv5EmSixRoxgVGr/h1uW7ijmEXZ0/siIVOehOVecT/HyGvhvi8w==
+X-Received: by 2002:a05:620a:1242:b0:787:d904:c4a0 with SMTP id
+ a2-20020a05620a124200b00787d904c4a0mr1202512qkl.22.1709630353047; 
+ Tue, 05 Mar 2024 01:19:13 -0800 (PST)
 Received: from [10.32.64.131] (nat-pool-muc-t.redhat.com. [149.14.88.26])
  by smtp.gmail.com with ESMTPSA id
- bp9-20020a05620a458900b0078812f8a042sm3635157qkb.90.2024.03.05.01.18.39
+ bp9-20020a05620a458900b0078812f8a042sm3635157qkb.90.2024.03.05.01.19.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Mar 2024 01:18:40 -0800 (PST)
-Message-ID: <deaeaceb-bfb0-4dbf-b800-b0debfd3bac9@redhat.com>
-Date: Tue, 5 Mar 2024 10:18:38 +0100
+ Tue, 05 Mar 2024 01:19:12 -0800 (PST)
+Message-ID: <123c38bd-5b68-4f28-a218-b96fbb41f15d@redhat.com>
+Date: Tue, 5 Mar 2024 10:19:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/nouveau: fix stale locked mutex in
- nouveau_gem_ioctl_pushbuf
+Subject: Re: [PATCH 2/2] drm/nouveau: move more missing UAPI bits
 To: Karol Herbst <kherbst@redhat.com>, linux-kernel@vger.kernel.org
 Cc: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
  nouveau@lists.freedesktop.org
 References: <20240304183157.1587152-1-kherbst@redhat.com>
+ <20240304183157.1587152-2-kherbst@redhat.com>
 From: Danilo Krummrich <dakr@redhat.com>
 Organization: RedHat
-In-Reply-To: <20240304183157.1587152-1-kherbst@redhat.com>
+In-Reply-To: <20240304183157.1587152-2-kherbst@redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -98,34 +98,111 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 3/4/24 19:31, Karol Herbst wrote:
-> If VM_BIND is enabled on the client the legacy submission ioctl can't be
-> used, however if a client tries to do so regardless it will return an
-> error. In this case the clients mutex remained unlocked leading to a
-> deadlock inside nouveau_drm_postclose or any other nouveau ioctl call.
+> Those are already de-facto UAPI, so let's just move it into the uapi
+> header.
 > 
-> Fixes: b88baab82871 ("drm/nouveau: implement new VM_BIND uAPI")
-> Cc: Danilo Krummrich <dakr@redhat.com>
 > Signed-off-by: Karol Herbst <kherbst@redhat.com>
-
-Should add a stable tag for that one, otherwise:
 
 Reviewed-by: Danilo Krummrich <dakr@redhat.com>
 
 > ---
->   drivers/gpu/drm/nouveau/nouveau_gem.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/gpu/drm/nouveau/nouveau_abi16.c | 20 +++++++++++++++-----
+>   drivers/gpu/drm/nouveau/nouveau_abi16.h | 12 ------------
+>   include/uapi/drm/nouveau_drm.h          | 22 ++++++++++++++++++++++
+>   3 files changed, 37 insertions(+), 17 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
-> index 49c2bcbef1299..5a887d67dc0e8 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_gem.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
-> @@ -764,7 +764,7 @@ nouveau_gem_ioctl_pushbuf(struct drm_device *dev, void *data,
->   		return -ENOMEM;
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_abi16.c b/drivers/gpu/drm/nouveau/nouveau_abi16.c
+> index cd14f993bdd1b..92f9127b284ac 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_abi16.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_abi16.c
+> @@ -312,11 +312,21 @@ nouveau_abi16_ioctl_channel_alloc(ABI16_IOCTL_ARGS)
+>   	if (device->info.family >= NV_DEVICE_INFO_V0_KEPLER) {
+>   		if (init->fb_ctxdma_handle == ~0) {
+>   			switch (init->tt_ctxdma_handle) {
+> -			case 0x01: engine = NV_DEVICE_HOST_RUNLIST_ENGINES_GR    ; break;
+> -			case 0x02: engine = NV_DEVICE_HOST_RUNLIST_ENGINES_MSPDEC; break;
+> -			case 0x04: engine = NV_DEVICE_HOST_RUNLIST_ENGINES_MSPPP ; break;
+> -			case 0x08: engine = NV_DEVICE_HOST_RUNLIST_ENGINES_MSVLD ; break;
+> -			case 0x30: engine = NV_DEVICE_HOST_RUNLIST_ENGINES_CE    ; break;
+> +			case NOUVEAU_FIFO_ENGINE_GR:
+> +				engine = NV_DEVICE_HOST_RUNLIST_ENGINES_GR;
+> +				break;
+> +			case NOUVEAU_FIFO_ENGINE_VP:
+> +				engine = NV_DEVICE_HOST_RUNLIST_ENGINES_MSPDEC;
+> +				break;
+> +			case NOUVEAU_FIFO_ENGINE_PPP:
+> +				engine = NV_DEVICE_HOST_RUNLIST_ENGINES_MSPPP;
+> +				break;
+> +			case NOUVEAU_FIFO_ENGINE_BSP:
+> +				engine = NV_DEVICE_HOST_RUNLIST_ENGINES_MSVLD;
+> +				break;
+> +			case NOUVEAU_FIFO_ENGINE_CE:
+> +				engine = NV_DEVICE_HOST_RUNLIST_ENGINES_CE;
+> +				break;
+>   			default:
+>   				return nouveau_abi16_put(abi16, -ENOSYS);
+>   			}
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_abi16.h b/drivers/gpu/drm/nouveau/nouveau_abi16.h
+> index 11c8c4a80079b..661b901d8ecc9 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_abi16.h
+> +++ b/drivers/gpu/drm/nouveau/nouveau_abi16.h
+> @@ -50,18 +50,6 @@ struct drm_nouveau_grobj_alloc {
+>   	int      class;
+>   };
 >   
->   	if (unlikely(nouveau_cli_uvmm(cli)))
-> -		return -ENOSYS;
-> +		return nouveau_abi16_put(abi16, -ENOSYS);
+> -struct drm_nouveau_notifierobj_alloc {
+> -	uint32_t channel;
+> -	uint32_t handle;
+> -	uint32_t size;
+> -	uint32_t offset;
+> -};
+> -
+> -struct drm_nouveau_gpuobj_free {
+> -	int      channel;
+> -	uint32_t handle;
+> -};
+> -
+>   struct drm_nouveau_setparam {
+>   	uint64_t param;
+>   	uint64_t value;
+> diff --git a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau_drm.h
+> index 77d7ff0d5b110..5404d4cfff4c2 100644
+> --- a/include/uapi/drm/nouveau_drm.h
+> +++ b/include/uapi/drm/nouveau_drm.h
+> @@ -73,6 +73,16 @@ struct drm_nouveau_getparam {
+>   	__u64 value;
+>   };
 >   
->   	list_for_each_entry(temp, &abi16->channels, head) {
->   		if (temp->chan->chid == req->channel) {
+> +/*
+> + * Those are used to support selecting the main engine used on Kepler.
+> + * This goes into drm_nouveau_channel_alloc::tt_ctxdma_handle
+> + */
+> +#define NOUVEAU_FIFO_ENGINE_GR  0x01
+> +#define NOUVEAU_FIFO_ENGINE_VP  0x02
+> +#define NOUVEAU_FIFO_ENGINE_PPP 0x04
+> +#define NOUVEAU_FIFO_ENGINE_BSP 0x08
+> +#define NOUVEAU_FIFO_ENGINE_CE  0x30
+> +
+>   struct drm_nouveau_channel_alloc {
+>   	__u32     fb_ctxdma_handle;
+>   	__u32     tt_ctxdma_handle;
+> @@ -95,6 +105,18 @@ struct drm_nouveau_channel_free {
+>   	__s32 channel;
+>   };
+>   
+> +struct drm_nouveau_notifierobj_alloc {
+> +	__u32 channel;
+> +	__u32 handle;
+> +	__u32 size;
+> +	__u32 offset;
+> +};
+> +
+> +struct drm_nouveau_gpuobj_free {
+> +	__s32 channel;
+> +	__u32 handle;
+> +};
+> +
+>   #define NOUVEAU_GEM_DOMAIN_CPU       (1 << 0)
+>   #define NOUVEAU_GEM_DOMAIN_VRAM      (1 << 1)
+>   #define NOUVEAU_GEM_DOMAIN_GART      (1 << 2)
 
