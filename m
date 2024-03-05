@@ -2,61 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35C5A871951
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 10:15:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B3798719D3
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 10:45:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BDDB10E185;
-	Tue,  5 Mar 2024 09:15:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF9B410F96E;
+	Tue,  5 Mar 2024 09:45:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Grzigh3L";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JqKsENGX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BE8710E185
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 09:15:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709630136; x=1741166136;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=hMKs0ciZCs4Sa96j2l4fRH7HRRb+NS8yKx3L+577Xis=;
- b=Grzigh3LAbUw/WOG48aPiMXGuqWR1nt/imC9OXleqIioLFoSwcfr5omc
- TSLj9r0+NxwqQueSOQQQiX7j2NOuSyy3u+9Wi5zKg/M7SfScFSMEEEnX8
- Yyn1qTenPBN3zsWJKlJTogwwtm9ul6+/5TRjBjoajxNL04UCE1lwRn8Lr
- 4X2S5lxzkkBBHq9tSlzxNOtlLdQrc/KxlYJ6bawB6iTzOmXQ6UXLtWLmq
- duxZoHskO5Rl5FvdqXX9wWqAlT/hajNx3/nbrbT4co9USknk+AFyytZ0f
- f0muBTulAkbfVEZD/xncF1D/74gb0qdhvZuttK18yLfj5O+/+zvVjzEE5 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="14885912"
-X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; d="scan'208";a="14885912"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2024 01:15:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="9724146"
-Received: from omakhlou-mobl4.amr.corp.intel.com (HELO localhost)
- ([10.252.51.143])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2024 01:15:30 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, mpe@ellerman.id.au,
- naresh.kamboju@linaro.org, deller@gmx.de, npiggin@gmail.com,
- christophe.leroy@csgroup.eu, aneesh.kumar@kernel.org,
- naveen.n.rao@linux.ibm.com
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- lkft-triage@lists.linaro.org, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 3/3] arch/powerpc: Remove <linux/fb.h> from backlight
- code
-In-Reply-To: <20240305090910.26742-4-tzimmermann@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240305090910.26742-1-tzimmermann@suse.de>
- <20240305090910.26742-4-tzimmermann@suse.de>
-Date: Tue, 05 Mar 2024 11:15:27 +0200
-Message-ID: <87msrd2g5s.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C2CD10E361
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 09:45:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1709631949;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qlPaL+1qbcMigBEz3qx7ZtCPheah+YYYXpFOCWieYr8=;
+ b=JqKsENGXo7dfmWIU4/xaDbg+EcRBodDO5fBJYFiBMANdsuBUPkdIgUiA4IlHaSJLqiMIHw
+ 1x7hrhziZXI6Wz9L27zgJHX2D9HFOj1Y+QdHd5/7t37UEeYPlovccB+FSWePjoU1YHpvqh
+ UBIdUlZHRwKgQWSxpMPxhUM849ZoKLg=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-461-duqE7kmSN9eO3gbCO0oe-w-1; Tue, 05 Mar 2024 04:45:47 -0500
+X-MC-Unique: duqE7kmSN9eO3gbCO0oe-w-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ a1e0cc1a2514c-7da5136a758so4893672241.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 01:45:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709631947; x=1710236747;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qlPaL+1qbcMigBEz3qx7ZtCPheah+YYYXpFOCWieYr8=;
+ b=k65+/LMzhmpCa9wHn8YT0l55dOdrufy2HIogyn4NA40mN/L7HaYkVrDtS4lIQGtU9x
+ j9ZUCH6Y6TmpM42fQht3rtlmQKJ4lkZfjuMWFWjGJUNdniuhhJ0/aEwOqbSfWMLtu/qR
+ qN2uzVr/btXmGsGJgKNganzLa1AnOkL5YTjpb6lm1kXoBxchWfzBNM5vEJcL3y1h1omp
+ sZ9Z5NXHA7tt+5VBBWhM10jeoWQFEjBly4ICv7phLBIAZ1Aaeam2JZSW8w3+y5tMzNnX
+ jQr67hf/psotMxMA8qz5HungRiocjBgpUdvCCwBkreo7tQkq2Hbll7uPe0Igwpp9XSpw
+ JB8Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXBtpd1EOJ00678ZNrkUMQ3AGSptrKbiwQ7epcnk3yFEuWH7Z4TdKRBcHfhFZJPTObqfXtb36v8VHl1C+EIBumCR8mgnMNgALpgriUCOIaS
+X-Gm-Message-State: AOJu0YxddM9nOXLlQRPsPeOlpYSB41Q9LqAjvcdwATL7CcaA49Qb217P
+ MbQIvtDqsqq9uQ0OLB0GfKbxmQXW8QWoSMNVwnhic4RMre4y6dsjT7MlEI/zRLm7jt/eDhOMX75
+ PbIsc9BVuI6r7UkOglWXo8ndqVrpinheom+vWTOXZZhj/vzq58/gATZWRXASkNIU3gw==
+X-Received: by 2002:a05:620a:5e13:b0:788:33ec:d8a8 with SMTP id
+ xz19-20020a05620a5e1300b0078833ecd8a8mr2119015qkn.19.1709630320807; 
+ Tue, 05 Mar 2024 01:18:40 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFL7ZlquCoZ60Snk3iqt0FcWv+4rmgyNgIzTovW4+l2TWmVx4HZr2FQyZGXyzR6Vzz7p4retg==
+X-Received: by 2002:a05:620a:5e13:b0:788:33ec:d8a8 with SMTP id
+ xz19-20020a05620a5e1300b0078833ecd8a8mr2119001qkn.19.1709630320559; 
+ Tue, 05 Mar 2024 01:18:40 -0800 (PST)
+Received: from [10.32.64.131] (nat-pool-muc-t.redhat.com. [149.14.88.26])
+ by smtp.gmail.com with ESMTPSA id
+ bp9-20020a05620a458900b0078812f8a042sm3635157qkb.90.2024.03.05.01.18.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Mar 2024 01:18:40 -0800 (PST)
+Message-ID: <deaeaceb-bfb0-4dbf-b800-b0debfd3bac9@redhat.com>
+Date: Tue, 5 Mar 2024 10:18:38 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/nouveau: fix stale locked mutex in
+ nouveau_gem_ioctl_pushbuf
+To: Karol Herbst <kherbst@redhat.com>, linux-kernel@vger.kernel.org
+Cc: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org
+References: <20240304183157.1587152-1-kherbst@redhat.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <20240304183157.1587152-1-kherbst@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,92 +97,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 05 Mar 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Replace <linux/fb.h> with a forward declaration in <asm/backlight.h> to
-> resolves an unnecessary dependency. Remove pmac_backlight_curve_lookup()
+On 3/4/24 19:31, Karol Herbst wrote:
+> If VM_BIND is enabled on the client the legacy submission ioctl can't be
+> used, however if a client tries to do so regardless it will return an
+> error. In this case the clients mutex remained unlocked leading to a
+> deadlock inside nouveau_drm_postclose or any other nouveau ioctl call.
+> 
+> Fixes: b88baab82871 ("drm/nouveau: implement new VM_BIND uAPI")
+> Cc: Danilo Krummrich <dakr@redhat.com>
+> Signed-off-by: Karol Herbst <kherbst@redhat.com>
 
-*resolve
+Should add a stable tag for that one, otherwise:
 
-> and struct fb_info from source and header files. The function and the
-> framebuffer struct is unused. No functional changes.
+Reviewed-by: Danilo Krummrich <dakr@redhat.com>
 
-*are
-
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  arch/powerpc/include/asm/backlight.h        |  5 ++--
->  arch/powerpc/platforms/powermac/backlight.c | 26 ---------------------
->  2 files changed, 2 insertions(+), 29 deletions(-)
->
-> diff --git a/arch/powerpc/include/asm/backlight.h b/arch/powerpc/include/asm/backlight.h
-> index 1b5eab62ed047..061a910d74929 100644
-> --- a/arch/powerpc/include/asm/backlight.h
-> +++ b/arch/powerpc/include/asm/backlight.h
-> @@ -10,15 +10,14 @@
->  #define __ASM_POWERPC_BACKLIGHT_H
->  #ifdef __KERNEL__
->  
-> -#include <linux/fb.h>
->  #include <linux/mutex.h>
->  
-> +struct backlight_device;
-> +
->  /* For locking instructions, see the implementation file */
->  extern struct backlight_device *pmac_backlight;
->  extern struct mutex pmac_backlight_mutex;
->  
-> -extern int pmac_backlight_curve_lookup(struct fb_info *info, int value);
-> -
->  extern int pmac_has_backlight_type(const char *type);
->  
->  extern void pmac_backlight_key(int direction);
-> diff --git a/arch/powerpc/platforms/powermac/backlight.c b/arch/powerpc/platforms/powermac/backlight.c
-> index aeb79a8b3e109..12bc01353bd3c 100644
-> --- a/arch/powerpc/platforms/powermac/backlight.c
-> +++ b/arch/powerpc/platforms/powermac/backlight.c
-> @@ -9,7 +9,6 @@
->   */
->  
->  #include <linux/kernel.h>
-> -#include <linux/fb.h>
->  #include <linux/backlight.h>
->  #include <linux/adb.h>
->  #include <linux/pmu.h>
-> @@ -72,31 +71,6 @@ int pmac_has_backlight_type(const char *type)
->  	return 0;
->  }
->  
-> -int pmac_backlight_curve_lookup(struct fb_info *info, int value)
-> -{
-> -	int level = (FB_BACKLIGHT_LEVELS - 1);
-> -
-> -	if (info && info->bl_dev) {
-> -		int i, max = 0;
-> -
-> -		/* Look for biggest value */
-> -		for (i = 0; i < FB_BACKLIGHT_LEVELS; i++)
-> -			max = max((int)info->bl_curve[i], max);
-> -
-> -		/* Look for nearest value */
-> -		for (i = 0; i < FB_BACKLIGHT_LEVELS; i++) {
-> -			int diff = abs(info->bl_curve[i] - value);
-> -			if (diff < max) {
-> -				max = diff;
-> -				level = i;
-> -			}
-> -		}
-> -
-> -	}
-> -
-> -	return level;
-> -}
-> -
->  static void pmac_backlight_key_worker(struct work_struct *work)
->  {
->  	if (atomic_read(&kernel_backlight_disabled))
+>   drivers/gpu/drm/nouveau/nouveau_gem.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
+> index 49c2bcbef1299..5a887d67dc0e8 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_gem.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
+> @@ -764,7 +764,7 @@ nouveau_gem_ioctl_pushbuf(struct drm_device *dev, void *data,
+>   		return -ENOMEM;
+>   
+>   	if (unlikely(nouveau_cli_uvmm(cli)))
+> -		return -ENOSYS;
+> +		return nouveau_abi16_put(abi16, -ENOSYS);
+>   
+>   	list_for_each_entry(temp, &abi16->channels, head) {
+>   		if (temp->chan->chid == req->channel) {
 
--- 
-Jani Nikula, Intel
