@@ -2,65 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 088698712A2
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 03:02:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E7138712A9
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 03:02:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E96511282B;
-	Tue,  5 Mar 2024 02:02:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 138A311282D;
+	Tue,  5 Mar 2024 02:02:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="aNTe5vnv";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="m7opawKi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com
- [209.85.219.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18A4511282C
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 02:02:18 +0000 (UTC)
-Received: by mail-yb1-f201.google.com with SMTP id
- 3f1490d57ef6-dcc15b03287so7306720276.3
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 18:02:18 -0800 (PST)
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com
+ [209.85.219.202])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41A70112829
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 02:02:20 +0000 (UTC)
+Received: by mail-yb1-f202.google.com with SMTP id
+ 3f1490d57ef6-dd0ae66422fso225730276.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 18:02:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1709604137; x=1710208937;
+ d=google.com; s=20230601; t=1709604139; x=1710208939;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=byPVwM06Y0oEPlUZgHka14Nm3J9bKSTxMh+j9bVfhME=;
- b=aNTe5vnvHY89EOPPB3aGt9plBIqg786UWOM8QgNGuGVYAneETYpgnHhkqh3oQsq2sk
- i8CktLorSXb47DIuVU5NT8MJ4ewBCacDL4/ulJ4CwFGe/AtR08A+IBLwG3mOFHE7UBtz
- jinvJCc85bh4YskF8u9s45fl1MWmC76wPqIGH6I34J/sMjtVlwowGJDNhXUej/mgyrr7
- kfjyj2oTqXq85q8/MYGlwqwB9vW3hbWHk9r8NQEFy0DVoNMk3arAdTuTQ5a5DD6Otsxf
- EP4Pn22tLT+9HjtMT77P0kMbEhyp3Ul0xPPhCX3ldAkc//xsafqMI3qTfk8h0WJ1qbvq
- dWyg==
+ bh=kFOLH8z6Kc1/DHNjJCRtctXlk4wkt0G4E5LxaUbD2lM=;
+ b=m7opawKiQ1ZkrgIeovAy5jEwHh5i5wjnL5FiPB9ILIwwuipWWCNNXXyWVV5DcWA/+j
+ jSZcXTwtws36tVSvR4fAYPwEqsTor7d/XXRlf7WOe1CosAQvTEPcFmcpVkeAvoRZ2KR5
+ Nn1wOYmTwdd84izQ4UpMxxfziw9ORZNDI7aU+CMP0rYVs2Rt8RPuaiFQ9NEB6lpK+EEN
+ B6hCO4vqhG1CV22fqyV7inepoUWoNdDxgpNFHKNutOTvB4oLjhFIcgEdjkLeHAZnDQa2
+ lqglI/vpum/mH8x2ATtQSWqfPrBTb4tzJXIoNsQKezILUzEXfx8i5e49ISE5YzT7zYcl
+ SLXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709604137; x=1710208937;
+ d=1e100.net; s=20230601; t=1709604139; x=1710208939;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=byPVwM06Y0oEPlUZgHka14Nm3J9bKSTxMh+j9bVfhME=;
- b=GiKY20hKM1yaqNFL0HE5Q76V6XRCbOBBfq3z06H7wxhzvCRIof00JcsQuRG24HQ2+J
- Fign5C8oPx7wzuoCNxcrOaDkOF9bhy7tJjuv0vEzecZj10aeH3Ef96smzxK1IC3b3pI+
- enOmZsEaHrDwUgB8qy5i2hl9tlDXewAme9XO789PA4fMGiFYwUlAkIcBQpZcbi2jzMbZ
- 4FW5/jjVzJk1NBtTT6M0+hc6z6XeS2eGleLVOjma3uN5kNP4bwd7IhpcyL3+H+D655hP
- 6LgQXLQ7Mq5JlvhlW3HSJ6P35ZimEoAdpvUZNr1x6kRi6Gbe/Po0wGteo/kgUvNBuAXy
- sXvQ==
+ bh=kFOLH8z6Kc1/DHNjJCRtctXlk4wkt0G4E5LxaUbD2lM=;
+ b=Vrmqpj07PE5Xbjv8G6O5kQXEaWAl/UC8manFHWdJz6Ct1NRfRHOX2bcDy8IM0BspQu
+ PyRnFxJB6a4gQeMKsprAO09RjKZoExw52o+sABH8bxcezdWqyyguWaO/VcVtp9WteF6x
+ eN6gL4TdjFpGyf6bAAt6bkh/KFkT9JWlWAIi75KYCSXrYwXph2Ecaq6rHmXCUXtX4wxq
+ Cah/Fev6em637We/ne8SNzN3XRtRh6rgwu2Hd/w5fAOqerHMH+O1KujnhDgnbGD+2Xxz
+ PTRLLq0VHVEmYdpC9A73Sa7t2G2ut3zny7fMxqIf0yi0DhbJzLoLxRwL32h/Id/oyl0f
+ 4ADg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXO7wPNBhP2oc6XZUc6+TPO9EXbHoBNaVj3ucvMUqHK9t+Ak4jslcg03v1tynstNawwowvdmOlokVhhLN0PjrTRCcokNgV1xpcwjwhGIWVr
-X-Gm-Message-State: AOJu0Ywh/2QS7wbr0asrI2eVmfmemRn7PAG4WpSmIcU8ZfSITE3D+GpK
- n3JfXQl6uDdldjbe3eHrGJ8OdrF6YLIjlqTCpHGZ0K6xBUtMh4eUrQbWY4EKJVD7YfmrnfuyWts
- aC+oGTGsWcPP2q8rfCMNyRw==
-X-Google-Smtp-Source: AGHT+IEoXl0wNdHnbs6D9FyjuWe8y/qyisOWLTyu22a+L//Vxmoz1SXuDH6MSW6bIn4oo2iyEmWJJoNV4OBrBIfN8g==
+ AJvYcCUmkP12+ZSRw1AXCTcs3VHPpo26tuQHWBWZjmje+GGYfUZWUxb0M2dpPkiRHvfAU+3cupq3OGoNeECLvSr1aFPhqX7Vwy4yiIXTv17Na60+
+X-Gm-Message-State: AOJu0YwlBP48Ge38GX3pE/sgEIerwRpGQhJzl2ImNAsw092cB8To0l+g
+ WnRlekPIO+sOt5z5iHSLlfM1POJfueQfjvrklDZf8nKLUPW+kLjbtCxEgVOmfK/oEnTDMdNX76N
+ IBTF9DM4UQELP9uvFbGZu8A==
+X-Google-Smtp-Source: AGHT+IERAxLDH9CLsybVTiG1Kl+Ij4FHQxio+Skkp7XFr1VDsZ/QGA1eBFcDme38Y+MfcJE7+b6HhIBoi+3CQvIBng==
 X-Received: from almasrymina.svl.corp.google.com
  ([2620:15c:2c4:200:b614:914c:63cd:3830])
- (user=almasrymina job=sendgmr) by 2002:a05:6902:f0b:b0:dcc:79ab:e522 with
- SMTP id et11-20020a0569020f0b00b00dcc79abe522mr463378ybb.11.1709604137118;
- Mon, 04 Mar 2024 18:02:17 -0800 (PST)
-Date: Mon,  4 Mar 2024 18:01:44 -0800
+ (user=almasrymina job=sendgmr) by 2002:a05:6902:1504:b0:dbd:b4e8:1565 with
+ SMTP id q4-20020a056902150400b00dbdb4e81565mr342247ybu.4.1709604139120; Mon,
+ 04 Mar 2024 18:02:19 -0800 (PST)
+Date: Mon,  4 Mar 2024 18:01:45 -0800
 In-Reply-To: <20240305020153.2787423-1-almasrymina@google.com>
 Mime-Version: 1.0
 References: <20240305020153.2787423-1-almasrymina@google.com>
 X-Mailer: git-send-email 2.44.0.rc1.240.g4c46232300-goog
-Message-ID: <20240305020153.2787423-10-almasrymina@google.com>
-Subject: [RFC PATCH net-next v6 09/15] memory-provider: dmabuf devmem memory
- provider
+Message-ID: <20240305020153.2787423-11-almasrymina@google.com>
+Subject: [RFC PATCH net-next v6 10/15] net: support non paged skb frags
 From: Mina Almasry <almasrymina@google.com>
 To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
@@ -101,8 +100,7 @@ Cc: Mina Almasry <almasrymina@google.com>,
  Shailend Chand <shailend@google.com>,
  Harshitha Ramamurthy <hramamurthy@google.com>, 
  Shakeel Butt <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>, 
- Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+ Praveen Kaligineedi <pkaligineedi@google.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -119,286 +117,185 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement a memory provider that allocates dmabuf devmem in the form of
-net_iov.
+Make skb_frag_page() fail in the case where the frag is not backed
+by a page, and fix its relevant callers to handle this case.
 
-The provider receives a reference to the struct netdev_dmabuf_binding
-via the pool->mp_priv pointer. The driver needs to set this pointer for
-the provider in the net_iov.
-
-The provider obtains a reference on the netdev_dmabuf_binding which
-guarantees the binding and the underlying mapping remains alive until
-the provider is destroyed.
-
-Usage of PP_FLAG_DMA_MAP is required for this memory provide such that
-the page_pool can provide the driver with the dma-addrs of the devmem.
-
-Support for PP_FLAG_DMA_SYNC_DEV is omitted for simplicity & p.order !=
-0.
-
-Signed-off-by: Willem de Bruijn <willemb@google.com>
-Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
 Signed-off-by: Mina Almasry <almasrymina@google.com>
+
 
 ---
 
 v6:
-- refactor new memory provider functions into net/core/devmem.c (Pavel)
+- Rebased on top of the merged netmem changes.
 
-v2:
-- Disable devmem for p.order != 0
-
-v1:
-- static_branch check in page_is_page_pool_iov() (Willem & Paolo).
-- PP_DEVMEM -> PP_IOV (David).
-- Require PP_FLAG_DMA_MAP (Jakub).
+Changes in v1:
+- Fix illegal_highdma() (Yunsheng).
+- Rework napi_pp_put_page() slightly to reduce code churn (Willem).
 
 ---
- include/net/netmem.h            | 14 ++++++
- include/net/page_pool/helpers.h | 21 +++++++++
- include/net/page_pool/types.h   |  2 +
- net/core/devmem.c               | 82 +++++++++++++++++++++++++++++++++
- net/core/page_pool.c            | 35 ++++++--------
- 5 files changed, 132 insertions(+), 22 deletions(-)
+ include/linux/skbuff.h | 47 +++++++++++++++++++++++++++++++++++++-----
+ net/core/dev.c         |  3 ++-
+ net/core/gro.c         |  2 +-
+ net/core/skbuff.c      | 11 ++++++++++
+ net/ipv4/tcp.c         |  3 +++
+ 5 files changed, 59 insertions(+), 7 deletions(-)
 
-diff --git a/include/net/netmem.h b/include/net/netmem.h
-index 8699788d587d..a2de9411025d 100644
---- a/include/net/netmem.h
-+++ b/include/net/netmem.h
-@@ -127,6 +127,20 @@ static inline struct page *netmem_to_page(netmem_ref netmem)
- 	return (__force struct page *)netmem;
+diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+index ca29d1fd4561..d68d430dc596 100644
+--- a/include/linux/skbuff.h
++++ b/include/linux/skbuff.h
+@@ -3466,17 +3466,53 @@ static inline void skb_frag_off_copy(skb_frag_t *fragto,
+ 	fragto->offset = fragfrom->offset;
  }
  
-+static inline struct net_iov *netmem_to_net_iov(netmem_ref netmem)
++/* Returns true if the skb_frag contains a net_iov. */
++static inline bool skb_frag_is_net_iov(const skb_frag_t *frag)
 +{
-+	if (netmem_is_net_iov(netmem))
-+		return (struct net_iov *)((__force unsigned long)netmem & ~NET_IOV);
-+
-+	DEBUG_NET_WARN_ON_ONCE(true);
-+	return NULL;
++	return netmem_is_net_iov(frag->netmem);
 +}
 +
-+static inline netmem_ref net_iov_to_netmem(struct net_iov *niov)
++/**
++ * skb_frag_net_iov - retrieve the net_iov referred to by fragment
++ * @frag: the fragment
++ *
++ * Returns the &struct net_iov associated with @frag. Returns NULL if this
++ * frag has no associated net_iov.
++ */
++static inline struct net_iov *skb_frag_net_iov(const skb_frag_t *frag)
 +{
-+	return (__force netmem_ref)((unsigned long)niov | NET_IOV);
++	if (!skb_frag_is_net_iov(frag))
++		return NULL;
++
++	return netmem_to_net_iov(frag->netmem);
 +}
 +
- static inline netmem_ref page_to_netmem(struct page *page)
+ /**
+  * skb_frag_page - retrieve the page referred to by a paged fragment
+  * @frag: the paged fragment
+  *
+- * Returns the &struct page associated with @frag.
++ * Returns the &struct page associated with @frag. Returns NULL if this frag
++ * has no associated page.
+  */
+ static inline struct page *skb_frag_page(const skb_frag_t *frag)
  {
- 	return (__force netmem_ref)page;
-diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/helpers.h
-index c6a55eddefae..00682b4de6e8 100644
---- a/include/net/page_pool/helpers.h
-+++ b/include/net/page_pool/helpers.h
-@@ -453,4 +453,25 @@ static inline void page_pool_nid_changed(struct page_pool *pool, int new_nid)
- 		page_pool_update_nid(pool, new_nid);
++	if (skb_frag_is_net_iov(frag))
++		return NULL;
++
+ 	return netmem_to_page(frag->netmem);
  }
  
-+static inline void page_pool_set_pp_info(struct page_pool *pool, netmem_ref netmem)
++/**
++ * skb_frag_netmem - retrieve the netmem referred to by a fragment
++ * @frag: the fragment
++ *
++ * Returns the &netmem_ref associated with @frag.
++ */
++static inline netmem_ref skb_frag_netmem(const skb_frag_t *frag)
 +{
-+	netmem_set_pp(netmem, pool);
-+	netmem_or_pp_magic(netmem, PP_SIGNATURE);
-+
-+	/* Ensuring all pages have been split into one fragment initially:
-+	 * page_pool_set_pp_info() is only called once for every page when it
-+	 * is allocated from the page allocator and page_pool_fragment_page()
-+	 * is dirtying the same cache line as the page->pp_magic above, so
-+	 * the overhead is negligible.
-+	 */
-+	page_pool_fragment_netmem(netmem, 1);
-+	if (pool->has_init_callback)
-+		pool->slow.init_callback(netmem, pool->slow.init_arg);
++	return frag->netmem;
 +}
 +
-+static inline void page_pool_clear_pp_info(netmem_ref netmem)
-+{
-+	netmem_clear_pp_magic(netmem);
-+	netmem_set_pp(netmem, NULL);
-+}
- #endif /* _NET_PAGE_POOL_HELPERS_H */
-diff --git a/include/net/page_pool/types.h b/include/net/page_pool/types.h
-index e29e77f7934e..096cd2455b2c 100644
---- a/include/net/page_pool/types.h
-+++ b/include/net/page_pool/types.h
-@@ -136,6 +136,8 @@ struct memory_provider_ops {
- 	bool (*release_page)(struct page_pool *pool, netmem_ref netmem);
- };
- 
-+extern const struct memory_provider_ops dmabuf_devmem_ops;
-+
- struct page_pool {
- 	struct page_pool_params_fast p;
- 
-diff --git a/net/core/devmem.c b/net/core/devmem.c
-index 57d3a1f223ef..3ced312f7860 100644
---- a/net/core/devmem.c
-+++ b/net/core/devmem.c
-@@ -329,3 +329,85 @@ int netdev_bind_dmabuf(struct net_device *dev, unsigned int dmabuf_fd,
- 	return err;
- }
+ /**
+  * __skb_frag_ref - take an addition reference on a paged fragment.
+  * @frag: the paged fragment
+@@ -3509,13 +3545,11 @@ bool napi_pp_put_page(netmem_ref netmem, bool napi_safe);
+ static inline void
+ napi_frag_unref(skb_frag_t *frag, bool recycle, bool napi_safe)
+ {
+-	struct page *page = skb_frag_page(frag);
+-
+ #ifdef CONFIG_PAGE_POOL
+-	if (recycle && napi_pp_put_page(page_to_netmem(page), napi_safe))
++	if (recycle && napi_pp_put_page(skb_frag_netmem(frag), napi_safe))
+ 		return;
  #endif
-+
-+/*** "Dmabuf devmem memory provider" ***/
-+
-+static int mp_dmabuf_devmem_init(struct page_pool *pool)
-+{
-+	struct netdev_dmabuf_binding *binding = pool->mp_priv;
-+
-+	if (!binding)
-+		return -EINVAL;
-+
-+	if (!(pool->p.flags & PP_FLAG_DMA_MAP))
-+		return -EOPNOTSUPP;
-+
-+	if (pool->p.flags & PP_FLAG_DMA_SYNC_DEV)
-+		return -EOPNOTSUPP;
-+
-+	if (pool->p.order != 0)
-+		return -E2BIG;
-+
-+	netdev_dmabuf_binding_get(binding);
-+	return 0;
-+}
-+
-+static netmem_ref mp_dmabuf_devmem_alloc_pages(struct page_pool *pool,
-+					       gfp_t gfp)
-+{
-+	struct netdev_dmabuf_binding *binding = pool->mp_priv;
-+	netmem_ref netmem;
-+	struct net_iov *niov;
-+	dma_addr_t dma_addr;
-+
-+	niov = netdev_alloc_dmabuf(binding);
-+	if (!niov)
-+		return 0;
-+
-+	dma_addr = net_iov_dma_addr(niov);
-+
-+	netmem = net_iov_to_netmem(niov);
-+
-+	page_pool_set_pp_info(pool, netmem);
-+
-+	if (page_pool_set_dma_addr_netmem(netmem, dma_addr))
-+		goto err_free;
-+
-+	pool->pages_state_hold_cnt++;
-+	trace_page_pool_state_hold(pool, netmem, pool->pages_state_hold_cnt);
-+	return netmem;
-+
-+err_free:
-+	netdev_free_dmabuf(niov);
-+	return 0;
-+}
-+
-+static void mp_dmabuf_devmem_destroy(struct page_pool *pool)
-+{
-+	struct netdev_dmabuf_binding *binding = pool->mp_priv;
-+
-+	netdev_dmabuf_binding_put(binding);
-+}
-+
-+static bool mp_dmabuf_devmem_release_page(struct page_pool *pool,
-+					  netmem_ref netmem)
-+{
-+	WARN_ON_ONCE(!netmem_is_net_iov(netmem));
-+	WARN_ON_ONCE(atomic_long_read(netmem_get_pp_ref_count_ref(netmem))
-+			!= 1);
-+
-+	page_pool_clear_pp_info(netmem);
-+
-+	netdev_free_dmabuf(netmem_to_net_iov(netmem));
-+
-+	/* We don't want the page pool put_page()ing our net_iovs. */
-+	return false;
-+}
-+
-+const struct memory_provider_ops dmabuf_devmem_ops = {
-+	.init			= mp_dmabuf_devmem_init,
-+	.destroy		= mp_dmabuf_devmem_destroy,
-+	.alloc_pages		= mp_dmabuf_devmem_alloc_pages,
-+	.release_page		= mp_dmabuf_devmem_release_page,
-+};
-+EXPORT_SYMBOL(dmabuf_devmem_ops);
-diff --git a/net/core/page_pool.c b/net/core/page_pool.c
-index 22e3d439da18..2cee7d9f6ca6 100644
---- a/net/core/page_pool.c
-+++ b/net/core/page_pool.c
-@@ -12,6 +12,7 @@
- 
- #include <net/page_pool/helpers.h>
- #include <net/xdp.h>
-+#include <net/netdev_rx_queue.h>
- 
- #include <linux/dma-direction.h>
- #include <linux/dma-mapping.h>
-@@ -20,12 +21,15 @@
- #include <linux/poison.h>
- #include <linux/ethtool.h>
- #include <linux/netdevice.h>
-+#include <linux/genalloc.h>
-+#include <net/devmem.h>
- 
- #include <trace/events/page_pool.h>
- 
- #include "page_pool_priv.h"
- 
- DEFINE_STATIC_KEY_FALSE(page_pool_mem_providers);
-+EXPORT_SYMBOL(page_pool_mem_providers);
- 
- #define DEFER_TIME (msecs_to_jiffies(1000))
- #define DEFER_WARN_INTERVAL (60 * HZ)
-@@ -178,6 +182,7 @@ static int page_pool_init(struct page_pool *pool,
- 			  const struct page_pool_params *params,
- 			  int cpuid)
- {
-+	struct netdev_dmabuf_binding *binding = NULL;
- 	unsigned int ring_qsize = 1024; /* Default */
- 	int err;
- 
-@@ -251,6 +256,14 @@ static int page_pool_init(struct page_pool *pool,
- 	/* Driver calling page_pool_create() also call page_pool_destroy() */
- 	refcount_set(&pool->user_cnt, 1);
- 
-+	if (pool->p.queue)
-+		binding = READ_ONCE(pool->p.queue->binding);
-+
-+	if (binding) {
-+		pool->mp_ops = &dmabuf_devmem_ops;
-+		pool->mp_priv = binding;
-+	}
-+
- 	if (pool->mp_ops) {
- 		err = pool->mp_ops->init(pool);
- 		if (err) {
-@@ -444,28 +457,6 @@ static bool page_pool_dma_map(struct page_pool *pool, netmem_ref netmem)
- 	return false;
+-	put_page(page);
++	put_page(skb_frag_page(frag));
  }
  
--static void page_pool_set_pp_info(struct page_pool *pool, netmem_ref netmem)
--{
--	netmem_set_pp(netmem, pool);
--	netmem_or_pp_magic(netmem, PP_SIGNATURE);
--
--	/* Ensuring all pages have been split into one fragment initially:
--	 * page_pool_set_pp_info() is only called once for every page when it
--	 * is allocated from the page allocator and page_pool_fragment_page()
--	 * is dirtying the same cache line as the page->pp_magic above, so
--	 * the overhead is negligible.
--	 */
--	page_pool_fragment_netmem(netmem, 1);
--	if (pool->has_init_callback)
--		pool->slow.init_callback(netmem, pool->slow.init_arg);
--}
--
--static void page_pool_clear_pp_info(netmem_ref netmem)
--{
--	netmem_clear_pp_magic(netmem);
--	netmem_set_pp(netmem, NULL);
--}
--
- static struct page *__page_pool_alloc_page_order(struct page_pool *pool,
- 						 gfp_t gfp)
+ /**
+@@ -3555,6 +3589,9 @@ static inline void skb_frag_unref(struct sk_buff *skb, int f)
+  */
+ static inline void *skb_frag_address(const skb_frag_t *frag)
  {
++	if (!skb_frag_page(frag))
++		return NULL;
++
+ 	return page_address(skb_frag_page(frag)) + skb_frag_off(frag);
+ }
+ 
+diff --git a/net/core/dev.c b/net/core/dev.c
+index bbea1b252529..765f4a995693 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -3385,8 +3385,9 @@ static int illegal_highdma(struct net_device *dev, struct sk_buff *skb)
+ 	if (!(dev->features & NETIF_F_HIGHDMA)) {
+ 		for (i = 0; i < skb_shinfo(skb)->nr_frags; i++) {
+ 			skb_frag_t *frag = &skb_shinfo(skb)->frags[i];
++			struct page *page = skb_frag_page(frag);
+ 
+-			if (PageHighMem(skb_frag_page(frag)))
++			if (page && PageHighMem(page))
+ 				return 1;
+ 		}
+ 	}
+diff --git a/net/core/gro.c b/net/core/gro.c
+index 0759277dc14e..42d7f6755f32 100644
+--- a/net/core/gro.c
++++ b/net/core/gro.c
+@@ -376,7 +376,7 @@ static inline void skb_gro_reset_offset(struct sk_buff *skb, u32 nhoff)
+ 	NAPI_GRO_CB(skb)->frag0 = NULL;
+ 	NAPI_GRO_CB(skb)->frag0_len = 0;
+ 
+-	if (!skb_headlen(skb) && pinfo->nr_frags &&
++	if (!skb_headlen(skb) && pinfo->nr_frags && skb_frag_page(frag0) &&
+ 	    !PageHighMem(skb_frag_page(frag0)) &&
+ 	    (!NET_IP_ALIGN || !((skb_frag_off(frag0) + nhoff) & 3))) {
+ 		NAPI_GRO_CB(skb)->frag0 = skb_frag_address(frag0);
+diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+index cf23392e97f5..907fff2894d3 100644
+--- a/net/core/skbuff.c
++++ b/net/core/skbuff.c
+@@ -1378,6 +1378,14 @@ void skb_dump(const char *level, const struct sk_buff *skb, bool full_pkt)
+ 		struct page *p;
+ 		u8 *vaddr;
+ 
++		if (skb_frag_is_net_iov(frag)) {
++			printk("%sskb frag %d: not readable\n", level, i);
++			len -= frag->bv_len;
++			if (!len)
++				break;
++			continue;
++		}
++
+ 		skb_frag_foreach_page(frag, skb_frag_off(frag),
+ 				      skb_frag_size(frag), p, p_off, p_len,
+ 				      copied) {
+@@ -3145,6 +3153,9 @@ static bool __skb_splice_bits(struct sk_buff *skb, struct pipe_inode_info *pipe,
+ 	for (seg = 0; seg < skb_shinfo(skb)->nr_frags; seg++) {
+ 		const skb_frag_t *f = &skb_shinfo(skb)->frags[seg];
+ 
++		if (WARN_ON_ONCE(!skb_frag_page(f)))
++			return false;
++
+ 		if (__splice_segment(skb_frag_page(f),
+ 				     skb_frag_off(f), skb_frag_size(f),
+ 				     offset, len, spd, false, sk, pipe))
+diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
+index c82dc42f57c6..51a5d263e8b4 100644
+--- a/net/ipv4/tcp.c
++++ b/net/ipv4/tcp.c
+@@ -2166,6 +2166,9 @@ static int tcp_zerocopy_receive(struct sock *sk,
+ 			break;
+ 		}
+ 		page = skb_frag_page(frags);
++		if (WARN_ON_ONCE(!page))
++			break;
++
+ 		prefetchw(page);
+ 		pages[pages_to_map++] = page;
+ 		length += PAGE_SIZE;
 -- 
 2.44.0.rc1.240.g4c46232300-goog
 
