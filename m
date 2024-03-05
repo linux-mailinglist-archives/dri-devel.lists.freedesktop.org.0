@@ -2,69 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 269F2871DF1
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 12:34:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F4229871DF2
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 12:34:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 332D8112A4D;
-	Tue,  5 Mar 2024 11:34:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EEBE112A4C;
+	Tue,  5 Mar 2024 11:34:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=marliere.net header.i=@marliere.net header.b="BZQuDztV";
+	dkim=pass (2048-bit key; unprotected) header.d=marliere.net header.i=@marliere.net header.b="ZeOa8Sr0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
- [209.85.214.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1887B112A4D
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 11:34:26 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id
- d9443c01a7336-1dc5d0162bcso47671405ad.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 03:34:26 -0800 (PST)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E192112A4C
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 11:34:30 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id
+ d9443c01a7336-1dc0d11d1b7so45201515ad.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 03:34:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709638466; x=1710243266;
+ d=1e100.net; s=20230601; t=1709638470; x=1710243270;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:dkim-signature:from:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
- bh=C1DfDZMTMffYiTmyqOzmLOtfTydk4L3JihPgMKHs/SA=;
- b=QqYRo7YC6UKXuIeTZq2hvzlB4Ciz3JdktgijVeszCD40bttDFrV8RdA03GAX3TAqK3
- 0Y0A5r/86XmrvyrKm/9kM0w2uSu7bx16cIHQ/mSKylgNg7FWGthQVGjXiVJ1n2dIoQXw
- Yg0xz3QG+3VGLoJX1OxS6IWXiYnO0ApPCNdpIEX4f8VM+VXRyZd0pLqqUEwCOrir2JDI
- OvFTgRhn00Uv513qOydaWdkejAZuxoQFRh3CdmWaCiGqAUJjfsjtIdQ8qTAbP9f7Njf6
- k7DPwthK4PTbTd0e23/AyNwnKoaUsSNK+gPPaCkUZfJuTK4AqB09hkr6QnE4i3ZVv/sh
- TSzA==
+ bh=SGvjvL1l3IEoVUIMcNND+raHtPvpiWRh02eFx2GTgcs=;
+ b=cJ9kaD8MDru0Wgv2Pn33g2HXtsx+EOp42jDvnAecNKyIhJ7108LSTQ/wcey63xvcAn
+ 7rpEKuEoofLQrqG4po/G66qmLgSKZ3JirCm6Anfby+lqH19nIZj/gcAzvo0bV+zrguxv
+ Qm3JwGcdOw4XMpBIFdlvZMxlwQqEveBzaQuRo3aNsqLDpVqjbp2gUtrE3oRESIVmvh5I
+ sZ8bN9BX4JZDsXSvAzsx+Bt06dxdnzDlCE/9wS2bLBbg4cOK/reeBUEcbcGIJpkR9Iha
+ azXen4tSnkb6Dbj0+9wIm8lF1nd8Xdxd+bjuFe5mQ0E5Uy1pHZ0t61kSdO7p0sdyFiHE
+ XQ/A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUGgoWWpEXN62SfrFHqRhKxk5UrkmGyqUT8X8y+0xu6U3Pn4c9HXMtis59ovtgWZT14ndHpNA4NAabgzgCrYNAzBaGG9t1xbGcoEKTfEiZa
-X-Gm-Message-State: AOJu0YzQ5+8xvCdALgt9ZRs+y5o28tX6pFFEuylIOjNJn+lwSVqvoFSv
- CDr8mthDli+uT4jiCcqsIdKqi4o/XgqqBt5sKgjy7a2V6w/Qzqwt+Ust/HdhAOqSXw==
-X-Google-Smtp-Source: AGHT+IHZWXKL+Lk1FfhlYKJcnfb5e8jQKTcN0jHBpaUNr32Y5e7OuV6Xsl+nwlXMjRn/fQRALMcOQw==
-X-Received: by 2002:a17:90a:ea87:b0:29b:41aa:1673 with SMTP id
- h7-20020a17090aea8700b0029b41aa1673mr5116953pjz.23.1709638466494; 
- Tue, 05 Mar 2024 03:34:26 -0800 (PST)
+ AJvYcCXNaT4FAP0UOYgo27dQFr8meNI8vcgDog2LT7SqQG/VErtIapQfD/6LmBTrO5/raQ6EYfdmQroKLTAjhp/SEbqfmbmhqq3PmC7qiiQ8PXfd
+X-Gm-Message-State: AOJu0YzE0uk+oF8hp1oGGcsNjaRe7JSKU8yJRamNG54zFXaeVxDkhhh1
+ AtVm1rkIXl2Vf+VZZS5RQKZjDRghii64Gm2gxQTP09qlregKvoB1
+X-Google-Smtp-Source: AGHT+IEvvXqVgNig+0Ajd3GcxrPcqCzSQEPkm0LQdI67Nas42de+ACS1GOh6k+iqXrCZCfKKLop+HQ==
+X-Received: by 2002:a17:902:e74b:b0:1da:22d9:e7fd with SMTP id
+ p11-20020a170902e74b00b001da22d9e7fdmr1703170plf.20.1709638469624; 
+ Tue, 05 Mar 2024 03:34:29 -0800 (PST)
 Received: from mail.marliere.net ([24.199.118.162])
  by smtp.gmail.com with ESMTPSA id
- s12-20020a17090ad48c00b0029aac9c523fsm9293361pju.47.2024.03.05.03.34.25
+ d15-20020a170903230f00b001dc3c4e7a12sm10315600plh.14.2024.03.05.03.34.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Mar 2024 03:34:26 -0800 (PST)
+ Tue, 05 Mar 2024 03:34:29 -0800 (PST)
 From: "Ricardo B. Marliere" <ricardo@marliere.net>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
- s=2024; t=1709638464;
+ s=2024; t=1709638468;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C1DfDZMTMffYiTmyqOzmLOtfTydk4L3JihPgMKHs/SA=;
- b=BZQuDztVgmgzi+Uh2Sd6As8Sivl/LlMh5BhXMEd6lIWOGJryGqMmd+71wdK9N+jv6cdSu4
- F4BSAou210tR40UJyLZloxJWaYTbes3MpVIk7dssKXFSks/ezD1EdvAoPbtgvjfMLaX2IH
- Dv1m4NcbqRygZs2NjqtFMLo9z2FwgT0S9ld1ztiX/uiKpd5Yg/nn1wmBm3/mXCEy5LdTEP
- xdmrqcdNcuOy8ouXEF4XE/5LmTb8S7dyu50pZF39aMWRkRyzXaVKauS6okL+5SIZXovq13
- lRJRlCNsBrZ8SPeWmSxzTAtPAEi1geuJ5D2q8BrsVzLnfrHcWLAZBiqojoX3NQ==
+ bh=SGvjvL1l3IEoVUIMcNND+raHtPvpiWRh02eFx2GTgcs=;
+ b=ZeOa8Sr0g4u6ioHCa+AEJa2P0N6xyD41cZUQ99KQvEzFdKnmd85LBQCyqKPIR5hy9KPSf7
+ 2+tam0hUlZYXqIDf0mcMsitkiEf4w2O2Dsug3zulLjOsnzEaXf10zv9c76IibqBwUbkjxn
+ MWnSweGc9mb7nk902l1B8nIts3HHOF/UOhYGjUTALy8vy8lGwsa28tCcLbBXgfvcuUjmLn
+ d6M6yTQvSWAXtpSrKnFRA/ZhPJRh47SAhJag2AzLaXAhKco444IbXSptaSEjuK0sIydl4h
+ h7PH7a3+TI9JSbm/NNmJU4sIXPFk7ie9bTMFZIZv2WLs3VbdxddhAK4zjQxccQ==
 Authentication-Results: ORIGINATING;
  auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
-Date: Tue, 05 Mar 2024 08:34:12 -0300
-Subject: [PATCH RESEND drm-misc 3/4] drm/fbdev/core: make fb_class constant
+Date: Tue, 05 Mar 2024 08:34:13 -0300
+Subject: [PATCH RESEND drm-misc 4/4] dma-buf: heaps: make dma_heap_class
+ constant
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240305-class_cleanup-drm-v1-3-94f82740525a@marliere.net>
+Message-Id: <20240305-class_cleanup-drm-v1-4-94f82740525a@marliere.net>
 References: <20240305-class_cleanup-drm-v1-0-94f82740525a@marliere.net>
 In-Reply-To: <20240305-class_cleanup-drm-v1-0-94f82740525a@marliere.net>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -81,21 +82,21 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org, 
  linaro-mm-sig@lists.linaro.org, 
  "Ricardo B. Marliere" <ricardo@marliere.net>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4135; i=ricardo@marliere.net; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2638; i=ricardo@marliere.net; 
  h=from:subject:message-id;
- bh=odlS9XGQQRwzN+B0py2AY1reM8pgKOyyB/x+HH+DGwc=; 
- b=owEBbQKS/ZANAwAKAckLinxjhlimAcsmYgBl5wMz/VClmII16tlzVnls2AkPKRQDOF8ITXAxS
- E2AX4MDYLaJAjMEAAEKAB0WIQQDCo6eQk7jwGVXh+HJC4p8Y4ZYpgUCZecDMwAKCRDJC4p8Y4ZY
- pi6cD/48CYEbxbcvKs7TOaESq2VHY7ujmAiw6OqMderld8pQkDBzFtKAj9msxKjTqw6CHYhgOZK
- +mSSI6QSE/tqwMuM8NehJCfvyf4VpXXFRgY5llCm3hOvBXd6SydElVVwgg1ZWxlkyuZUjQ+fHtw
- gb0wcB5XPSTORMAqMxUADS0a1GJ9TOx1hfQe1KZFnz7Axi0uWdzLKAhs8VoKLaSBIjKCzDIrhPW
- 2r+mvo0gFhyZ304vStg1xKyg2RdAYWgTXfbBlE2q77AIsVdqZgi5cZ92Uhzpsx0IyVe3+YKqGK5
- xUhJQPQlAUPx4sN0r6GvkhT2umuxNf5wFaqznS/CTslhKtKEXbUaHNO6sl4CjXIU6IrcU55QSfv
- OwdRg+pB7hVLcjNC/IdRO6CbHWhnBc7TJubNFKi3bBN8jsLiWGXV8dTYpw3DBwDxWhyVyjTDixl
- 8XRBbuC3zHSwSA4U60z28nrjlvvJDJcFy1lcZpn2roUQ6capAKh3j+ELXMX+sYTNRDEmau8heih
- jdhAwWQ7Mr18+F32vgALXzZTEUVFUrciJ7fmd+rAAAl0bfBuWa7dQ6ZjCzdf0BXefAAVRX8wqnz
- 3VDKtI0xWBQPQYNPdUOQ9nxrwsThkJB8HA3SEiASF3JsOwd1xqVftYRmVvREWJLO4z09+kpqTHq
- lmV9bhnUmwWMHWg==
+ bh=TBVpOiYhHL/5knKRvD0InlYh5cmtDcK9l0qZqxgxL78=; 
+ b=owEBbQKS/ZANAwAKAckLinxjhlimAcsmYgBl5wMzXXEwr5JfufBuY7fFwRJL8nmL4A2R2R+Df
+ j91UwjdnM+JAjMEAAEKAB0WIQQDCo6eQk7jwGVXh+HJC4p8Y4ZYpgUCZecDMwAKCRDJC4p8Y4ZY
+ pqQCD/9dAq8lWzYs5OjaBNAHM65zzjgz6Bgu/yB5UChhzZHSF5jbEB1KCMPsLUcOAD+H6g5bK69
+ pAUxqPv2rzp9CWK1LphHF75Ys/ePMnp2Bcf4OyzIE6f91RhLoj6a4vbkFPo3ZEjSx/18f21XIqK
+ 7npqmmzF9bMJZ4uEDe+jODA+DBQYN9hVaJbTKxDS8gCZmfU25oI1BHVDQhreY8re7+ix7JSRyBm
+ wPUj4mXuV+tzsbL9ZckyDvXuWCbO9ahj9PS3uSjE9nNg5frRpySuqZc8r94FQaSLRmTtmqSMmEa
+ SaOKMQjsYWaR7HDt0KtlK2iZTXF+vm7jUvldFW4No5i3FP74h3rBI791dRMszvQXVMxe0YSJp1p
+ S65Q9hxfqClvd7imVlKLKicraIepW+0Q+1p/FN5pf9wbZH4HmFKRlFJwDXpizdmwDpzqrPs2Fcz
+ TS1Ke2yr1f9azqJrtXe2RyDIazXjn8oFYjH/iQ0NVI5qSTQgSiCN7XIsc0P5FF1QaF1J0OycvAg
+ a7Y1NrbrkMUlnY3C/s6vWjrVcIDlj+65mOwFAUPdE9/908I9+Wxr3trDsTEbbyM5D1NEFpIhqvP
+ kIBLJ4SWnDQasUHC1nJXCj2BVKfRDUdfhOGMRhz6653ioDf0gAwIeNI58zjAOjDGasGv4o8TfbK
+ nsoMJNbrypYMCcQ==
 X-Developer-Key: i=ricardo@marliere.net; a=openpgp;
  fpr=030A8E9E424EE3C0655787E1C90B8A7C638658A6
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,125 +116,86 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Since commit 43a7206b0963 ("driver core: class: make class_register() take
 a const *"), the driver core allows for struct class to be in read-only
-memory, so move the fb_class structure to be declared at build time placing
-it into read-only memory, instead of having to be dynamically allocated at
-boot time.
+memory, so move the dma_heap_class structure to be declared at build time
+placing it into read-only memory, instead of having to be dynamically
+allocated at boot time.
 
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
 ---
- drivers/video/fbdev/core/fb_internal.h |  2 +-
- drivers/video/fbdev/core/fbcon.c       |  4 ++--
- drivers/video/fbdev/core/fbmem.c       | 17 ++++++++---------
- drivers/video/fbdev/core/fbsysfs.c     |  4 ++--
- 4 files changed, 13 insertions(+), 14 deletions(-)
+ drivers/dma-buf/dma-heap.c | 26 ++++++++++++++------------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/video/fbdev/core/fb_internal.h b/drivers/video/fbdev/core/fb_internal.h
-index 613832d335fe..f1c0f1386675 100644
---- a/drivers/video/fbdev/core/fb_internal.h
-+++ b/drivers/video/fbdev/core/fb_internal.h
-@@ -38,7 +38,7 @@ static inline int fb_show_logo(struct fb_info *info, int rotate)
- #endif /* CONFIG_LOGO */
+diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+index 84ae708fafe7..bcca6a2bbce8 100644
+--- a/drivers/dma-buf/dma-heap.c
++++ b/drivers/dma-buf/dma-heap.c
+@@ -43,10 +43,18 @@ struct dma_heap {
+ 	struct cdev heap_cdev;
+ };
  
- /* fbmem.c */
--extern struct class *fb_class;
-+extern const struct class fb_class;
- extern struct mutex registration_lock;
- extern struct fb_info *registered_fb[FB_MAX];
- extern int num_registered_fb;
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 1183e7a871f8..4d87a6ebdbdf 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -3380,7 +3380,7 @@ void __init fb_console_init(void)
- 	int i;
- 
- 	console_lock();
--	fbcon_device = device_create(fb_class, NULL, MKDEV(0, 0), NULL,
-+	fbcon_device = device_create(&fb_class, NULL, MKDEV(0, 0), NULL,
- 				     "fbcon");
- 
- 	if (IS_ERR(fbcon_device)) {
-@@ -3425,7 +3425,7 @@ void __exit fb_console_exit(void)
- 
- 	console_lock();
- 	fbcon_deinit_device();
--	device_destroy(fb_class, MKDEV(0, 0));
-+	device_destroy(&fb_class, MKDEV(0, 0));
- 
- 	do_unregister_con_driver(&fb_con);
- 	console_unlock();
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index 48287366e0d4..d868194499fb 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -26,7 +26,9 @@
- 
- #define FBPIXMAPSIZE	(1024 * 8)
- 
--struct class *fb_class;
-+const struct class fb_class = {
-+	.name = "graphics",
++static char *dma_heap_devnode(const struct device *dev, umode_t *mode)
++{
++	return kasprintf(GFP_KERNEL, "dma_heap/%s", dev_name(dev));
++}
++
+ static LIST_HEAD(heap_list);
+ static DEFINE_MUTEX(heap_list_lock);
+ static dev_t dma_heap_devt;
+-static struct class *dma_heap_class;
++static struct class dma_heap_class = {
++	.name = DEVNAME,
++	.devnode = dma_heap_devnode,
 +};
+ static DEFINE_XARRAY_ALLOC(dma_heap_minors);
  
- DEFINE_MUTEX(registration_lock);
- struct fb_info *registered_fb[FB_MAX] __read_mostly;
-@@ -571,11 +573,10 @@ static int __init fbmem_init(void)
- {
- 	int ret;
- 
--	fb_class = class_create("graphics");
--	if (IS_ERR(fb_class)) {
--		ret = PTR_ERR(fb_class);
-+	ret = class_register(&fb_class);
-+	if (ret) {
- 		pr_err("Unable to create fb class; errno = %d\n", ret);
--		goto err_fb_class;
-+		return ret;
+ static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
+@@ -261,7 +269,7 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+ 		goto err1;
  	}
  
- 	ret = fb_init_procfs();
-@@ -593,9 +594,7 @@ static int __init fbmem_init(void)
- err_fb_cleanup_procfs:
- 	fb_cleanup_procfs();
- err_class_destroy:
--	class_destroy(fb_class);
--err_fb_class:
--	fb_class = NULL;
-+	class_unregister(&fb_class);
- 	return ret;
+-	dev_ret = device_create(dma_heap_class,
++	dev_ret = device_create(&dma_heap_class,
+ 				NULL,
+ 				heap->heap_devt,
+ 				NULL,
+@@ -291,7 +299,7 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+ 	return heap;
+ 
+ err3:
+-	device_destroy(dma_heap_class, heap->heap_devt);
++	device_destroy(&dma_heap_class, heap->heap_devt);
+ err2:
+ 	cdev_del(&heap->heap_cdev);
+ err1:
+@@ -301,11 +309,6 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+ 	return err_ret;
  }
  
-@@ -605,7 +604,7 @@ static void __exit fbmem_exit(void)
- 	fb_console_exit();
- 	fb_unregister_chrdev();
- 	fb_cleanup_procfs();
--	class_destroy(fb_class);
-+	class_unregister(&fb_class);
- }
- 
- module_init(fbmem_init);
-diff --git a/drivers/video/fbdev/core/fbsysfs.c b/drivers/video/fbdev/core/fbsysfs.c
-index 1b3c9958ef5c..aac013dfe06a 100644
---- a/drivers/video/fbdev/core/fbsysfs.c
-+++ b/drivers/video/fbdev/core/fbsysfs.c
-@@ -476,7 +476,7 @@ int fb_device_create(struct fb_info *fb_info)
- 	dev_t devt = MKDEV(FB_MAJOR, node);
+-static char *dma_heap_devnode(const struct device *dev, umode_t *mode)
+-{
+-	return kasprintf(GFP_KERNEL, "dma_heap/%s", dev_name(dev));
+-}
+-
+ static int dma_heap_init(void)
+ {
  	int ret;
+@@ -314,12 +317,11 @@ static int dma_heap_init(void)
+ 	if (ret)
+ 		return ret;
  
--	fb_info->dev = device_create(fb_class, fb_info->device, devt, NULL, "fb%d", node);
-+	fb_info->dev = device_create(&fb_class, fb_info->device, devt, NULL, "fb%d", node);
- 	if (IS_ERR(fb_info->dev)) {
- 		/* Not fatal */
- 		ret = PTR_ERR(fb_info->dev);
-@@ -497,6 +497,6 @@ void fb_device_destroy(struct fb_info *fb_info)
- 		return;
+-	dma_heap_class = class_create(DEVNAME);
+-	if (IS_ERR(dma_heap_class)) {
++	ret = class_register(&dma_heap_class);
++	if (ret) {
+ 		unregister_chrdev_region(dma_heap_devt, NUM_HEAP_MINORS);
+-		return PTR_ERR(dma_heap_class);
++		return ret;
+ 	}
+-	dma_heap_class->devnode = dma_heap_devnode;
  
- 	fb_cleanup_device(fb_info);
--	device_destroy(fb_class, devt);
-+	device_destroy(&fb_class, devt);
- 	fb_info->dev = NULL;
+ 	return 0;
  }
 
 -- 
