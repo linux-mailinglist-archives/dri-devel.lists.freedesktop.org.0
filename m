@@ -2,72 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CAD48712DB
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 03:04:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D26D487135F
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 03:12:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36BC1112837;
-	Tue,  5 Mar 2024 02:04:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4987211283F;
+	Tue,  5 Mar 2024 02:12:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dEFYMIVo";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="EX7VBYl+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF483112834;
- Tue,  5 Mar 2024 02:04:06 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-51321e71673so5901415e87.2; 
- Mon, 04 Mar 2024 18:04:06 -0800 (PST)
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com
+ [209.85.210.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCFE911283F
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 02:12:19 +0000 (UTC)
+Received: by mail-ot1-f50.google.com with SMTP id
+ 46e09a7af769-6e4f7975121so36409a34.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 18:12:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1709604245; x=1710209045; darn=lists.freedesktop.org;
+ d=chromium.org; s=google; t=1709604739; x=1710209539;
+ darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=tNlCYCD3A5X7opMa78QyTbPYgKpu//YZT0Q5xl7o9vw=;
- b=dEFYMIVoX3+2gmAlVnT+dtn8tnfQfZfyoQIoJt7VO5i950CwM7zD7PVx4MXE3KM5pH
- cPGxXjlQyTi2yFTEv0aAtVJPHaLmigu+XRpb9lKk4d1MQEzYCGzzBOTO9COfgkgkSdQh
- T3o3GzR9qxLt4+R1OzpKQADbdULkdMklAkNHHweRQn5CXIdaokDLp9355nvqZFs8hhqj
- GYoym77fM9nRShknOPu58gglsSAftwFUh1CdMzgnKI4ZdNQ+KjRcZ6yEjBf9wXi4MajV
- X4LVeke6PRGi9M4ANbW+RTdwFw6/PJygnVc3SJJuojuCj0U8Gtw81J3OfEffA8lGu7sy
- vgHw==
+ bh=CF+fEVjSH5v4rFI4iZimQ3ZeTa/4LGoYI8GB9M78M10=;
+ b=EX7VBYl+OqJW4wlezhXtr1m4j3FBBdExodkKAWNgCIsqSZzRkfG7s7XVWAafki8m3c
+ SOnZuZDySmF1vRe/9Z8J0hBvc59MPsjAVnQ3hlDAHEJFCpuUCzGygXqHjbN022pSMKtM
+ hRcFmnyYW19sVAoGOrMfjmFb7OAA3mPZlyYgI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709604245; x=1710209045;
+ d=1e100.net; s=20230601; t=1709604739; x=1710209539;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=tNlCYCD3A5X7opMa78QyTbPYgKpu//YZT0Q5xl7o9vw=;
- b=C1SpR4zAsR6nYZzDRxpsDi9yTqlR8hMi8/TSSJry3u7C8mmwY8coJbEgl+BJbiAOAi
- BqSkodxzce2NF/RTvvU+CRZ97r5DTfKq+EmRuUAoiGTfkcZf0KK/56tnKsS2dNMivIcE
- 4AcX86j0SDP7pifKEFax5qNWv8CKoJPjsRRj8pu0kv3UgaBYv49vIn0d6MYVB1wDL+Ql
- AcBQeSJwtOjrVZJ6rzHG10Mr1dCcy471ep7MZV/PrDztMpIEDNTFFAhbEhTk0DXldeAE
- JFvUKTTCqR00Mw1K0h/8q7I0ZMY5zw7VhpNfM2kv8o4dXKO0T1ldfzX5hqeLmNjhm39O
- eVXg==
+ bh=CF+fEVjSH5v4rFI4iZimQ3ZeTa/4LGoYI8GB9M78M10=;
+ b=NWIQXhCyUi1g569zVmKqJAE0wuckjq656OvOrZNu2k01JpDaTt/edKQ+FZXQUIZalb
+ koqmUkp7A5s+5BgMABoBIUz8ewrHKcge/K+SD1jwBg0WFg8ImqE2wBJmkPp63+JUZdPx
+ Ax6EkuCfIr+Idcu8TbGIjVzbKGNsyschNIoXV4H+ph9jwX5u+LeJbtkYST//QiaDmZI6
+ r97Y/yB6OJJDLS+B0+lsldh5Y0Qc+Y911EiOH9DrZxDonvrj3C0alU01c1PJ7i1GyWx3
+ LuYe9VS65OLFcZcHEQ11QMdq/Kjd+Cllhdm93mujPEIbVFq2BFAjlHzXcYtQswsGzaPk
+ +EvA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWiDR/5aNlYnk2PZyH8qw40TfJDvhtCe9QkTg5ZigwAmwJb5hZu0EJK3i+CyWJCACvG8GfZEJ/vGm0TSysO6/KFMLZ3tGoEKwMj6Hsw9iRn
-X-Gm-Message-State: AOJu0Yx386yIwk/48Pa74Mc+cpyGfkwrnu4gDSTTZgbOo6ZmG2oy5x6V
- 5Yvi/8ZxYKBMOn6AWUfVzjSgcN73qw51bIYh55tFLRb/JJ/u9AEOl01W9DOzbZtBmjDD8cfhb/5
- Xj/QUoTuQMEvqf88aC7LLJXQcGsA=
-X-Google-Smtp-Source: AGHT+IGRZQ/BGfXr4JyRSnaEMtBihRHwRoaenXLEwD0fFOB7V17Y1jXXWBjl3v+IqZFEixVDxybirYpjYDfuPmdJPZg=
-X-Received: by 2002:ac2:428a:0:b0:513:3309:cc62 with SMTP id
- m10-20020ac2428a000000b005133309cc62mr303303lfh.47.1709604244339; Mon, 04 Mar
- 2024 18:04:04 -0800 (PST)
+ AJvYcCUnL+WkOhJxlp580hB6N+kK9u3KRUPXq3SX02l3IRAYJrmGPff9Yvx5ZxszhwMXtumIqFGz3Du1RmhE7xsmEQzc6ETxP0IzCqZCw1sTXv1t
+X-Gm-Message-State: AOJu0YwIEx8OqJ3HPbDya3KWy4p6aY00Sz98fshncCFlx1IsfH9MJds2
+ vsXWRpeTcKBrs8nHTNFHoicMdESlqcGMuN/zULzwwe/YmP2Ve/XQqjJRRB86lCFHMgJkGKHDhbt
+ qjFBPonHvNTG9NKCSVs3KD0GJXwPwIMWmnOtb
+X-Google-Smtp-Source: AGHT+IGQXOyx1de033pAPnzJObrTw4uLW6N5nNSAQeaF4CnzaxgBhDz/k4lSXBcbRD7WW0jUiJ2y1jrfIQgkZEpGppg=
+X-Received: by 2002:a05:6830:6d08:b0:6e4:d884:40d0 with SMTP id
+ dz8-20020a0568306d0800b006e4d88440d0mr1095179otb.0.1709604738800; Mon, 04 Mar
+ 2024 18:12:18 -0800 (PST)
 MIME-Version: 1.0
-References: <20240301185346.10412-1-robdclark@gmail.com>
- <CAAfnVBnXCqCQjamnSC0SArrNykiSgjwNpMvrkmb7kTuufW-opg@mail.gmail.com>
-In-Reply-To: <CAAfnVBnXCqCQjamnSC0SArrNykiSgjwNpMvrkmb7kTuufW-opg@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 4 Mar 2024 18:03:52 -0800
-Message-ID: <CAF6AEGuvXAXgtDgVTL0Z80pbR4d-oUnwBf0uB1GRJkZHd=2ftQ@mail.gmail.com>
-Subject: Re: [RFC] drm/msm: Add GPU memory traces
-To: Gurchetan Singh <gurchetansingh@chromium.org>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
- freedreno@lists.freedesktop.org, Tvrtko Ursulin <tursulin@ursulin.net>, 
- Daniel Vetter <daniel@ffwll.ch>, Rob Clark <robdclark@chromium.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, open list <linux-kernel@vger.kernel.org>
+References: <20240304195214.14563-1-hsinyi@chromium.org>
+ <20240304195214.14563-3-hsinyi@chromium.org>
+ <87a5nd4tsg.fsf@intel.com>
+ <CAJMQK-j4wGah=szyUW53hu-v6Q4QjgR7WMLKnspoFaO9oPfaQw@mail.gmail.com>
+ <874jdl4k01.fsf@intel.com>
+In-Reply-To: <874jdl4k01.fsf@intel.com>
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Mon, 4 Mar 2024 18:11:52 -0800
+Message-ID: <CAJMQK-i284bO=dSOZTsgJaMMWDCqXmYB_SDJbhx3U1s-U==S2A@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] drm/edid: Add a function to check monitor string
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Douglas Anderson <dianders@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,209 +88,250 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 4, 2024 at 5:38=E2=80=AFPM Gurchetan Singh
-<gurchetansingh@chromium.org> wrote:
+On Mon, Mar 4, 2024 at 4:09=E2=80=AFPM Jani Nikula <jani.nikula@linux.intel=
+.com> wrote:
 >
+> On Mon, 04 Mar 2024, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
+> > On Mon, Mar 4, 2024 at 12:38=E2=80=AFPM Jani Nikula <jani.nikula@linux.=
+intel.com> wrote:
+> >>
+> >> On Mon, 04 Mar 2024, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
+> >> > Add a function to check if the EDID base block contains a given stri=
+ng.
+> >> >
+> >> > One of the use cases is fetching panel from a list of panel names, s=
+ince
+> >> > some panel vendors put the monitor name after EDID_DETAIL_MONITOR_ST=
+RING
+> >> > instead of EDID_DETAIL_MONITOR_NAME.
+> >> >
+> >> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> >> > ---
+> >> > v2->v3: move string matching to drm_edid
+> >> > ---
+> >> >  drivers/gpu/drm/drm_edid.c | 49 +++++++++++++++++++++++++++++++++++=
++++
+> >> >  include/drm/drm_edid.h     |  1 +
+> >> >  2 files changed, 50 insertions(+)
+> >> >
+> >> > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> >> > index 13454bc64ca2..fcdc2bd143dd 100644
+> >> > --- a/drivers/gpu/drm/drm_edid.c
+> >> > +++ b/drivers/gpu/drm/drm_edid.c
+> >> > @@ -2789,6 +2789,55 @@ u32 drm_edid_get_panel_id(struct edid_base_bl=
+ock *base_block)
+> >> >  }
+> >> >  EXPORT_SYMBOL(drm_edid_get_panel_id);
+> >> >
+> >> > +/**
+> >> > + * drm_edid_has_monitor_string - Check if a EDID base block has cer=
+tain string.
+> >> > + * @base_block: EDID base block to check.
+> >> > + * @str: pointer to a character array to hold the string to be chec=
+ked.
+> >> > + *
+> >> > + * Check if the detailed timings section of a EDID base block has t=
+he given
+> >> > + * string.
+> >> > + *
+> >> > + * Return: True if the EDID base block contains the string, false o=
+therwise.
+> >> > + */
+> >> > +bool drm_edid_has_monitor_string(struct edid_base_block *base_block=
+, const char *str)
+> >> > +{
+> >> > +     unsigned int i, j, k, buflen =3D strlen(str);
+> >> > +
+> >> > +     for (i =3D 0; i < EDID_DETAILED_TIMINGS; i++) {
+> >> > +             struct detailed_timing *timing =3D &base_block->edid.d=
+etailed_timings[i];
+> >> > +             unsigned int size =3D ARRAY_SIZE(timing->data.other_da=
+ta.data.str.str);
+> >> > +
+> >> > +             if (buflen > size || timing->pixel_clock !=3D 0 ||
+> >> > +                 timing->data.other_data.pad1 !=3D 0 ||
+> >> > +                 (timing->data.other_data.type !=3D EDID_DETAIL_MON=
+ITOR_NAME &&
+> >> > +                  timing->data.other_data.type !=3D EDID_DETAIL_MON=
+ITOR_STRING))
+> >> > +                     continue;
+> >> > +
+> >> > +             for (j =3D 0; j < buflen; j++) {
+> >> > +                     char c =3D timing->data.other_data.data.str.st=
+r[j];
+> >> > +
+> >> > +                     if (c !=3D str[j] ||  c =3D=3D '\n')
+> >> > +                             break;
+> >> > +             }
+> >> > +
+> >> > +             if (j =3D=3D buflen) {
+> >> > +                     /* Allow trailing white spaces. */
+> >> > +                     for (k =3D j; k < size; k++) {
+> >> > +                             char c =3D timing->data.other_data.dat=
+a.str.str[k];
+> >> > +
+> >> > +                             if (c =3D=3D '\n')
+> >> > +                                     return true;
+> >> > +                             else if (c !=3D ' ')
+> >> > +                                     break;
+> >> > +                     }
+> >> > +                     if (k =3D=3D size)
+> >> > +                             return true;
+> >> > +             }
+> >> > +     }
+> >> > +
+> >> > +     return false;
+> >> > +}
+> >> > +
+> >>
+> >> So we've put a lot of effort into converting from struct edid to struc=
+t
+> >> drm_edid, passing that around in drm_edid.c, with the allocation size =
+it
+> >> provides, and generally cleaning stuff up.
+> >>
+> >> I'm not at all happy to see *another* struct added just for the base
+> >> block, and detailed timing iteration as well as monitor name parsing
+> >> duplicated.
+> >>
+> >> With struct drm_edid you can actually return an EDID that only has the
+> >> base block and size 128, even if the EDID indicates more
+> >> extensions. Because the whole thing is *designed* to handle that
+> >> gracefully. The allocated size matters, not what the blob originating
+> >> outside of the kernel tells you.
+> >>
+> >> What I'm thinking is:
+> >>
+> >> - Add some struct drm_edid_ident or similar. Add all the information
+> >>   that's needed to identify a panel there. I guess initially that's
+> >>   panel_id and name.
+> >>
+> >>     struct drm_edid_ident {
+> >>         u32 panel_id;
+> >>         const char *name;
+> >>     };
+> >>
+> >> - Add function:
+> >>
+> >>     bool drm_edid_match(const struct drm_edid *drm_edid, const struct =
+drm_edid_ident *ident);
+> >>
+> >>   Check if stuff in ident matches drm_edid. You can use and extend the
+> >>   existing drm_edid based iteration etc. in
+> >>   drm_edid.c. Straightforward. The fields in ident can trivially be
+> >>   extended later, and the stuff can be useful for other drivers and
+> >>   quirks etc.
+> >>
+> >> - Restructure struct edp_panel_entry to contain struct
+> >>   drm_edid_ident. Change the iteration of edp_panels array to use
+> >>   drm_edid_match() on the array elements and the edid.
+> >>
+> >> - Add a function to read the EDID base block *but* make it return cons=
+t
+> >>   struct drm_edid *. Add warnings in the comments that it's only for
+> >>   panel and for transition until it switches to reading full EDIDs.
+> >>
+> >>     const struct drm_edid *drm_edid_read_base_block(struct i2c_adapter=
+ *adapter);
+> >>
+> >>   This is the *only* hackish part of the whole thing, and it's nicely
+> >>   isolated. For the most part you can use drm_edid_get_panel_id() code
+> >>   for this, just return the blob wrapped in a struct drm_edid envelope=
+.
+> >
+> > To clarify:
+> > struct drm_edid currently is only internal to drm_edid.c. So with
+> > change we will have to move it to the header drm_edid.h
 >
+> Absolutely not, struct drm_edid must remain an opaque type. The point is
+> that you ask drm_edid.c if there's a match or not, and the panel code
+> does not need to care what's inside struct drm_edid.
 >
->
-> On Fri, Mar 1, 2024 at 10:54=E2=80=AFAM Rob Clark <robdclark@gmail.com> w=
-rote:
->>
->> From: Rob Clark <robdclark@chromium.org>
->>
->> Perfetto can use these traces to track global and per-process GPU memory
->> usage.
->>
->> Signed-off-by: Rob Clark <robdclark@chromium.org>
->> ---
->> I realized the tracepoint that perfetto uses to show GPU memory usage
->> globally and per-process was already upstream, but with no users.
->>
->> This overlaps a bit with fdinfo, but ftrace is a lighter weight
->> mechanism and fits better with perfetto (plus is already supported in
->> trace_processor and perfetto UI, whereas something fdinfo based would
->> require new code to be added in perfetto.
->>
->> We could probably do this more globally (ie. drm_gem_get/put_pages() and
->> drm_gem_handle_create_tail()/drm_gem_object_release_handle() if folks
->> prefer.  Not sure where that leaves the TTM drivers.
->>
->>  drivers/gpu/drm/msm/Kconfig   |  1 +
->>  drivers/gpu/drm/msm/msm_drv.h |  5 +++++
->>  drivers/gpu/drm/msm/msm_gem.c | 37 +++++++++++++++++++++++++++++++++++
->>  drivers/gpu/drm/msm/msm_gpu.h |  8 ++++++++
->>  4 files changed, 51 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
->> index f202f26adab2..e4c912fcaf22 100644
->> --- a/drivers/gpu/drm/msm/Kconfig
->> +++ b/drivers/gpu/drm/msm/Kconfig
->> @@ -33,6 +33,7 @@ config DRM_MSM
->>         select PM_OPP
->>         select NVMEM
->>         select PM_GENERIC_DOMAINS
->> +       select TRACE_GPU_MEM
->>         help
->>           DRM/KMS driver for MSM/snapdragon.
->>
->> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv=
-.h
->> index 16a7cbc0b7dd..cb8f7e804b5b 100644
->> --- a/drivers/gpu/drm/msm/msm_drv.h
->> +++ b/drivers/gpu/drm/msm/msm_drv.h
->> @@ -137,6 +137,11 @@ struct msm_drm_private {
->>         struct msm_rd_state *hangrd;   /* debugfs to dump hanging submit=
-s */
->>         struct msm_perf_state *perf;
->>
->> +       /**
->> +        * total_mem: Total/global amount of memory backing GEM objects.
->> +        */
->> +       atomic64_t total_mem;
->> +
->>         /**
->>          * List of all GEM objects (mainly for debugfs, protected by obj=
-_lock
->>          * (acquire before per GEM object lock)
->> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem=
-.c
->> index 175ee4ab8a6f..e04c4af5d154 100644
->> --- a/drivers/gpu/drm/msm/msm_gem.c
->> +++ b/drivers/gpu/drm/msm/msm_gem.c
->> @@ -12,6 +12,9 @@
->>  #include <linux/pfn_t.h>
->>
->>  #include <drm/drm_prime.h>
->> +#include <drm/drm_file.h>
->> +
->> +#include <trace/events/gpu_mem.h>
->>
->>  #include "msm_drv.h"
->>  #include "msm_fence.h"
->> @@ -33,6 +36,34 @@ static bool use_pages(struct drm_gem_object *obj)
->>         return !msm_obj->vram_node;
->>  }
->>
->> +static void update_device_mem(struct msm_drm_private *priv, ssize_t siz=
-e)
->> +{
->> +       uint64_t total_mem =3D atomic64_add_return(size, &priv->total_me=
-m);
->> +       trace_gpu_mem_total(0, 0, total_mem);
->> +}
->> +
->> +static void update_ctx_mem(struct drm_file *file, ssize_t size)
->> +{
->> +       struct msm_file_private *ctx =3D file->driver_priv;
->> +       uint64_t ctx_mem =3D atomic64_add_return(size, &ctx->ctx_mem);
->> +
->> +       rcu_read_lock(); /* Locks file->pid! */
->> +       trace_gpu_mem_total(0, pid_nr(file->pid), ctx_mem);
->> +       rcu_read_unlock();
->> +
->> +}
->> +
->> +static int msm_gem_open(struct drm_gem_object *obj, struct drm_file *fi=
-le)
->> +{
->> +       update_ctx_mem(file, obj->size);
->> +       return 0;
->> +}
->> +
->> +static void msm_gem_close(struct drm_gem_object *obj, struct drm_file *=
-file)
->> +{
->> +       update_ctx_mem(file, -obj->size);
->> +}
->> +
->>  /*
->>   * Cache sync.. this is a bit over-complicated, to fit dma-mapping
->>   * API.  Really GPU cache is out of scope here (handled on cmdstream)
->> @@ -156,6 +187,8 @@ static struct page **get_pages(struct drm_gem_object=
- *obj)
->>                         return p;
->>                 }
->>
->> +               update_device_mem(dev->dev_private, obj->size);
->> +
->>                 msm_obj->pages =3D p;
->>
->>                 msm_obj->sgt =3D drm_prime_pages_to_sg(obj->dev, p, npag=
-es);
->> @@ -209,6 +242,8 @@ static void put_pages(struct drm_gem_object *obj)
->>                         msm_obj->sgt =3D NULL;
->>                 }
->>
->> +               update_device_mem(obj->dev->dev_private, -obj->size);
->> +
->>                 if (use_pages(obj))
->>                         drm_gem_put_pages(obj, msm_obj->pages, true, fal=
-se);
->>                 else
->> @@ -1118,6 +1153,8 @@ static const struct vm_operations_struct vm_ops =
-=3D {
->>
->>  static const struct drm_gem_object_funcs msm_gem_object_funcs =3D {
->>         .free =3D msm_gem_free_object,
->> +       .open =3D msm_gem_open,
->> +       .close =3D msm_gem_close,
->>         .pin =3D msm_gem_prime_pin,
->>         .unpin =3D msm_gem_prime_unpin,
->>         .get_sg_table =3D msm_gem_prime_get_sg_table,
->> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu=
-.h
->> index 2bfcb222e353..f7d2a7d6f8cc 100644
->> --- a/drivers/gpu/drm/msm/msm_gpu.h
->> +++ b/drivers/gpu/drm/msm/msm_gpu.h
->> @@ -428,6 +428,14 @@ struct msm_file_private {
->>          * level.
->>          */
->>         struct drm_sched_entity *entities[NR_SCHED_PRIORITIES * MSM_GPU_=
-MAX_RINGS];
->> +
->> +       /**
->> +        * ctx_mem:
->> +        *
->> +        * Total amount of memory of GEM buffers with handles attached f=
-or
->> +        * this context.
->> +        */
->> +       atomic64_t ctx_mem;
->>  };
->
->
->
-> Just for added context, past discussions on TRACE_GPU_MEM:
->
-> https://lists.freedesktop.org/archives/dri-devel/2021-October/328260.html
-> https://lists.freedesktop.org/archives/dri-devel/2021-January/295120.html
->
-> Some have even suggested deleting the tracepoint altogether.
->
-> Personally, I think we should land an internal user in a non-breaking way=
-, since userspace (Perfetto) already depends on it.  Right now, we're in li=
-mbo for multiple years ...
 
-For better or for worse, the tracepoint already landed.. and tbh I
-don't see any real problem with it.  And it defn seems like a valid
-option to land support for in-driver and later refactor for more
-shared code.  We already have the uapi and the userspace consuming it,
-so doesn't seem like there is any debate there.  Maybe there is
-something from the original series that could be recycled for
-something less driver specific.
+Sorry I might be misunderstanding about the requests here:
 
-Re: some of the discussion about cgroups, I think that is a
-non-sequitur because (AFAICT) perfetto wants a global view of pids/etc
-(at least I'm not really sure what the value of system tracing is if
-it isn't, you know, system level.. I deliberately avoided using
-virtual-pid's for that reason)
+If drm_edid should remain opaque, then struct drm_edid remains opaque,
+drm_edid_match() should take struct edid *edid as a parameter? just as
+other exposed functions in drm_edid.
 
-BR,
--R
+If panel edp doesn't hold drm_edid returned from
+drm_edid_read_base_block(), what should it use to iterate the
+edp_panels array?
 
->>
->>  /**
->> --
->> 2.44.0
->>
+for (panel =3D edp_panels; panel->panel_id; panel++)
+    if(drm_edid_match(drm_edid, panel->ident))
+        ...
+
+> >
+> >>
+> >> - Remove function:
+> >>
+> >>     u32 drm_edid_get_panel_id(struct i2c_adapter *adapter);
+> >>
+> >
+> > Probably change to u32 drm_edid_get_panel_id(const struct drm_edid
+> > *);? Given that we still need to parse id from
+> > drm_edid_read_base_block().
+>
+> No, we no longer need to parse the id outside of drm_edid.c. You'll have
+> the id's in panel code in the form of struct drm_edid_ident (or
+> whatever), and use the match function to see if the opaque drm_edid
+> matches.
+>
+> >
+> >> - Refactor edid_quirk_list to use the same id struct and match functio=
+n
+> >>   and mechanism within drm_edid.c (can be follow-up too).
+> >>
+> >
+> > edid_quirk currently doesn't have panel names in it, and it might be a
+> > bit difficult to get all the correct names of these panels without
+> > having the datasheets.
+> > One way is to leave the name as null and if the name is empty and skip
+> > matching the name in drm_edid_match().
+>
+> Exactly. NULL in drm_edid_ident would mean "don't care". I think most of
+> the ones in panel code also won't use the name for matching.
+>
+> BR,
+> Jani.
+>
+> >
+> >> - Once you change the panel code to read the whole EDID using
+> >>   drm_edid_read family of functions in the future, you don't have to
+> >>   change *anything* about the iteration or matching or anything, becau=
+se
+> >>   it's already passing struct drm_edid around.
+> >>
+> >>
+> >> I hope this covers everything.
+> >>
+> >> BR,
+> >> Jani.
+> >>
+> >>
+> >> >  /**
+> >> >   * drm_edid_get_base_block - Get a panel's EDID base block
+> >> >   * @adapter: I2C adapter to use for DDC
+> >> > diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+> >> > index 2455d6ab2221..248ddb0a6b5d 100644
+> >> > --- a/include/drm/drm_edid.h
+> >> > +++ b/include/drm/drm_edid.h
+> >> > @@ -416,6 +416,7 @@ struct edid *drm_get_edid(struct drm_connector *=
+connector,
+> >> >                         struct i2c_adapter *adapter);
+> >> >  struct edid_base_block *drm_edid_get_base_block(struct i2c_adapter =
+*adapter);
+> >> >  u32 drm_edid_get_panel_id(struct edid_base_block *base_block);
+> >> > +bool drm_edid_has_monitor_string(struct edid_base_block *base_block=
+, const char *str);
+> >> >  struct edid *drm_get_edid_switcheroo(struct drm_connector *connecto=
+r,
+> >> >                                    struct i2c_adapter *adapter);
+> >> >  struct edid *drm_edid_duplicate(const struct edid *edid);
+> >>
+> >> --
+> >> Jani Nikula, Intel
+>
+> --
+> Jani Nikula, Intel
