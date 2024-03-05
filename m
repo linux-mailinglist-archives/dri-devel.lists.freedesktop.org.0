@@ -2,88 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 290C6871BEE
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 11:46:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00E93871C17
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 11:49:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43F1610E0B0;
-	Tue,  5 Mar 2024 10:46:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51A1B112A19;
+	Tue,  5 Mar 2024 10:49:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Yp6hRZCs";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="hLyTDs6C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52CF710E0B0
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 10:46:05 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-412eced6d1aso3226595e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 02:46:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1709635563; x=1710240363;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=JVA1JqDTMPvckuRaTHq5sqq6pnFxGrbQ8TF6seYnelo=;
- b=Yp6hRZCsFC33wO5Y8u0MgOs/oSSok1vx7NvYFtU+c79JT+GOrvGDUL11vez5M4Kf3G
- y+VCnvywzsHZx/ig7rFHm5WORnbHV1RHBLhjhS5UklTKKJr2SasbelaiP1neuXoTYih8
- AJ7HUSxDEvMWHP8qe6lHNLszluzWCOqIQ/wgGlAz5Ub8JSUgsgn/yjT05TGj8qtl+fne
- AtPNd5CC5hdfLpOIq2s4ifSDLB+8oiRWPDWaxz7NJKcwo3+FdB1D57f6vqZHm0Dlgg+p
- 91R+d/97dRsHtWLoQmTQam1gpI/20XVUwR1+HRlSsw2/xkAkoGE5kYVKMs0V+n+bebKK
- GsAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709635563; x=1710240363;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JVA1JqDTMPvckuRaTHq5sqq6pnFxGrbQ8TF6seYnelo=;
- b=GHkmkmSOu4+P8Xoxye7dGaOgaQn0M/YD19N02wCwYm4pkmKsPcW7KEayOjAJt6IAzM
- ax+jCwSH49MUVDF2AClyxbPdmVVTR0p67cjK8ev3mODPsBdyvJ0KUjajqW/Z8grQLxYz
- pxoW1e4ABpvhNJmvJjhUCPZ80w59iwFEpIocmDBroS4jYJ6TQEaMBaIAi/vFM0Le5AIp
- cIutk2U439G0QylU+ATdvpJYBOKxmcdvGa2N5Y8ep0ieRbpkYNaRXFYNStIO1DmgMqyu
- 9k3wySKkBx88X/p7r1BJRtLMzG5iiIyteans7zmA+7nqZUIcqa3VWZqEhZIDUhb8k4K5
- Z/rQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX4WUHb0ZwjwTP22S0+WHLW8CeDCtJ6L+Ww5124zFtsF3zMISZMWNtLI9XoaZ6YAQ5J56Br1nX4FjnY4EmXlnnqJU8L4WAvy+Gyi7+aoNHj
-X-Gm-Message-State: AOJu0Yw2dHmgZqN/sjblWOTWsXVrf43TmQlqwyJMDmiP1rmPufrD8nJu
- VoYs5YQKGYyOFxJ2sIZ9fIeoNEzuKmpnIsyDJFcG29srkDuSqXmZkc8i7FuygyE=
-X-Google-Smtp-Source: AGHT+IE/L4A6bnauZ4LpcW6naeeYuRNA8WEWJrlnt645s9ZaWVjgn/tE11DGJ0F5XhXa7k+kx2lEzw==
-X-Received: by 2002:a05:6000:1249:b0:33d:2226:a28b with SMTP id
- j9-20020a056000124900b0033d2226a28bmr7827513wrx.37.1709635563236; 
- Tue, 05 Mar 2024 02:46:03 -0800 (PST)
-Received: from [192.168.1.70] ([84.102.31.43])
- by smtp.gmail.com with ESMTPSA id
- d15-20020a5d644f000000b0033e052be14fsm14577187wrw.98.2024.03.05.02.46.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Mar 2024 02:46:02 -0800 (PST)
-Message-ID: <3a5f3950-e47f-409a-b881-0c8545778b91@baylibre.com>
-Date: Tue, 5 Mar 2024 11:46:00 +0100
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC300112A0F;
+ Tue,  5 Mar 2024 10:49:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+ Message-ID:Content-Type:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=K3yp7C0pQ7ldKDkCbhOar0UBhiv6KJOFunnEtqi5GAQ=; b=hLyTDs6CWwg/1gSgwVj9cG+Zt/
+ zG352kTlF22EQDBx6hJJgWpdGRZX0WUi+LuLMAFlSwHDwVZjMnYfLpBpTHCsG5zCw6laVqDXjXneN
+ eeXH4QvEVtbdjcRD7ytwQ18t1bOfhHDeQw9m8dQRbBSjUGym9AZNCnr2FxE33p3XtT/UbJzeaSw9/
+ BfWecHt2BCw0BXEv3Z0z0V23KDLBFHd8Gj81gEYlhW3GsTaIeRMd/G4Dnb9ZpAOOjKuaRWaJBK2hr
+ emrsI0r8sbGN5R07Zt5GhyJw80LsLxKxD2bGtFXz2mIijYDhpgtRwmqX2jvx26LOY/GQm0rCk5K5o
+ 9PHPnVbQ==;
+Received: from c-71-59-88-35.hsd1.nj.comcast.net ([71.59.88.35]
+ helo=[192.168.1.99]) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1rhSMX-006CeC-Jf; Tue, 05 Mar 2024 11:49:33 +0100
+Content-Type: multipart/alternative;
+ boundary="------------PUCnCxgdF0nKqUJPe2Gx1RhO"
+Message-ID: <39fac3a4-f9de-4968-b0ff-ac3bf503a4fb@igalia.com>
+Date: Tue, 5 Mar 2024 05:49:27 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] net: ethernet: ti: am65-cpsw: Add minimal XDP
- support
+Subject: Reminder: 2024 X.Org Board of Directors Elections timeline extended, 
+ request for nominations
 Content-Language: en-US
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Simon Horman <horms@kernel.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <20240223-am65-cpsw-xdp-basic-v2-0-01c6caacabb6@baylibre.com>
- <20240223-am65-cpsw-xdp-basic-v2-2-01c6caacabb6@baylibre.com>
- <356f4dd4-eb0e-49fa-a9eb-4dffbe5c7e7c@lunn.ch>
-From: Julien Panis <jpanis@baylibre.com>
-In-Reply-To: <356f4dd4-eb0e-49fa-a9eb-4dffbe5c7e7c@lunn.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Christopher Michael <cmichael@igalia.com>
+To: events@lists.x.org, xorg-devel@lists.x.org,
+ wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ libre-soc-dev@lists.libre-soc.org, elections@x.org, members@x.org,
+ xorg@lists.freedesktop.org
+Cc: board <board@foundation.x.org>
+References: <0efcdfe3-ea9e-43e5-ab07-6d69dca2c04a@igalia.com>
+ <08f8a967-25e1-4362-be38-3f1b050ec6f2@igalia.com>
+In-Reply-To: <08f8a967-25e1-4362-be38-3f1b050ec6f2@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,33 +68,161 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/1/24 17:38, Andrew Lunn wrote:
-> On Fri, Mar 01, 2024 at 04:02:53PM +0100, Julien Panis wrote:
->> This patch adds XDP (eXpress Data Path) support to TI AM65 CPSW
->> Ethernet driver. The following features are implemented:
->> - NETDEV_XDP_ACT_BASIC (XDP_PASS, XDP_TX, XDP_DROP, XDP_ABORTED)
->> - NETDEV_XDP_ACT_REDIRECT (XDP_REDIRECT)
->> - NETDEV_XDP_ACT_NDO_XMIT (ndo_xdp_xmit callback)
->>
->> The page pool memory model is used to get better performance.
-> Do you have any benchmark numbers? It should help with none XDP
-> traffic as well. So maybe iperf numbers before and after?
+This is a multi-part message in MIME format.
+--------------PUCnCxgdF0nKqUJPe2Gx1RhO
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+This is a reminder that we are still looking for candidates for the 
+upcoming X.Org Board of Directors elections, and that membership 
+renewals are still open and will be needed to vote on those elections. 
+Please read below for more details.
+
+
+Cheers,
+
+Christopher Michael, on behalf of the X.Org BoD
+
+
+On 3/1/24 06:25, Christopher Michael wrote:
 >
-> 	Andrew
+> We are seeking nominations for candidates for election to the X.org 
+> Foundation Board of Directors. However, as we presently do not have 
+> enough nominations to start the election - the decision has been made 
+> to extend the timeline by 2 weeks. Note this is a fairly regular part 
+> of the elections process.
+>
+>
+> The new deadline for nominations to the X.org Board of Directors is 
+> 23:59 UTC on 11 March 2024
+>
+>
+> The Board consists of directors elected from the membership. Each 
+> year, an election is held to bring the total number of directors to 
+> eight. The four members receiving the highest vote totals will serve 
+> as directors for two year terms.
+>
+> The directors who received two year terms starting in 2023 were 
+> Arkadiusz Hiler, Christopher Michael, Lyude Paul, and Daniel Vetter. 
+> They will continue to serve until their term ends in 2024. Current 
+> directors whose term expires in 2024 are Emma Anholt, Mark Filion, 
+> Ricardo Garcia, and Alyssa Rosenzweig.
+> <https://rosenzweig.io/>
+>
+> A director is expected to participate in the fortnightly IRC meeting 
+> to discuss current business and to attend the annual meeting of the 
+> X.Org Foundation, which will be held at a location determined in 
+> advance by the Board of Directors.
+>
+> A member may nominate themselves or any other member they feel is 
+> qualified. Nominations should be sent to the Election Committee at 
+> elections@x.org.
+>
+> Nominees shall be required to be current members of the X.Org 
+> Foundation, and submit a personal statement of up to 200 words that 
+> will be provided to prospective voters. The collected statements, 
+> along with the statement of contribution to the X.Org Foundation in 
+> the member's account page on http://members.x.org, will be made 
+> available to all voters to help them make their voting decisions.
+>
+> Nominations and completed personal statements must be received no 
+> later than 23:59 UTC on 11 March 2024.
+>
+> The slate of candidates will be published 18 March 2024 and candidate 
+> Q&A will begin then. The deadline for Xorg membership applications and 
+> renewals has also been extended 2 weeks and is now 25 March 2024.
+>
+>
+> Cheers,
+>
+> Christopher Michael, on behalf of the X.Org BoD
+>
+>
+--------------PUCnCxgdF0nKqUJPe2Gx1RhO
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Argh...Houston, we have a problem. I checked my v3, which is ready for
-submission, with iperf3:
-1) Before = without page pool -> 500 MBits/sec
-2) After = with page pool -> 442 MBits/sec
--> ~ 10% worse with page pool here.
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>This is a reminder that we are still looking for candidates for
+      the upcoming X.Org Board of Directors elections, and that
+      membership renewals are still open and will be needed to vote on
+      those elections. Please read below for more details. <br>
+    </p>
+    <p><br>
+    </p>
+    <p>Cheers,</p>
+    <p>Christopher Michael, on behalf of the X.Org BoD</p>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 3/1/24 06:25, Christopher Michael
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:08f8a967-25e1-4362-be38-3f1b050ec6f2@igalia.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <p>We are seeking nominations for candidates for election to the
+        X.org Foundation Board of Directors. However, as we presently do
+        not have enough nominations to start the election - the decision
+        has been made to extend the timeline by 2 weeks. Note this is a
+        fairly regular part of the elections process.</p>
+      <p><br>
+      </p>
+      <p>The new deadline for nominations to the X.org Board of
+        Directors is 23:59 UTC on 11 March 2024</p>
+      <br>
+      The Board consists of directors elected from the membership. Each
+      year, an election is held to bring the total number of directors
+      to eight. The four members receiving the highest vote totals will
+      serve as directors for two year terms.
+      <p>The directors who received two year terms starting in 2023 were
+        <span class="createlink">Arkadiusz Hiler, </span><span
+          class="createlink">Christopher Michael, </span><span
+          class="createlink">Lyude Paul, and Daniel Vetter</span>. They
+        will continue to serve until their term ends in 2024. Current
+        directors whose term expires in 2024 are <span
+          class="createlink">Emma Anholt, </span><span
+          class="createlink">Mark Filion, </span><span
+          class="createlink">Ricardo Garcia, and Alyssa Rosenzweig.</span><a
+          href="https://rosenzweig.io/" moz-do-not-send="true"><br>
+        </a></p>
+      <p>A director is expected to participate in the fortnightly IRC
+        meeting to discuss current business and to attend the annual
+        meeting of the X.Org Foundation, which will be held at a
+        location determined in advance by the Board of Directors.</p>
+      <p>A member may nominate themselves or any other member they feel
+        is qualified. Nominations should be sent to the Election
+        Committee at <a
+          class="moz-txt-link-abbreviated moz-txt-link-freetext"
+          href="mailto:elections@x.org" moz-do-not-send="true">elections@x.org</a>.<br>
+      </p>
+      <p>Nominees shall be required to be current members of the X.Org
+        Foundation, and submit a personal statement of up to 200 words
+        that will be provided to prospective voters. The collected
+        statements, along with the statement of contribution to the
+        X.Org Foundation in the member's account page on <a
+          class="moz-txt-link-freetext" href="http://members.x.org"
+          moz-do-not-send="true">http://members.x.org</a>, will be made
+        available to all voters to help them make their voting
+        decisions.</p>
+      <p>Nominations and completed personal statements must be received
+        no later than 23:59 UTC on 11 March 2024.</p>
+      <p>The slate of candidates will be published 18 March 2024 and
+        candidate Q&amp;A will begin then. The deadline for Xorg
+        membership applications and renewals has also been extended 2
+        weeks and is now 25 March 2024.</p>
+      <p><br>
+      </p>
+      <p>Cheers,</p>
+      <p>Christopher Michael, on behalf of the X.Org BoD</p>
+      <p><br>
+      </p>
+    </blockquote>
+  </body>
+</html>
 
-Unless the difference is not due to page pool. Maybe there's something else
-which is not good in my patch. I'm going to send the v3 which uses page pool,
-hopefully someone will find out something suspicious. Meanwhile, I'll carry on
-investigating: I'll check the results with my patch, by removing only the using of
-page pool.
-
-Julien
-
-
-
+--------------PUCnCxgdF0nKqUJPe2Gx1RhO--
