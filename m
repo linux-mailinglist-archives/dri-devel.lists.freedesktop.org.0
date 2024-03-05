@@ -2,75 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34DAB872067
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 14:39:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85CC187206A
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 14:39:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A20210E1A4;
-	Tue,  5 Mar 2024 13:39:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 417ED10E266;
+	Tue,  5 Mar 2024 13:39:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="OObaOxIR";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="O6HrI93Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70D3510E1A4
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B70CE112AFA
  for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 13:38:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1709645937;
+ s=mimecast20190719; t=1709645938;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=RZmDbi0/7NtmfurlLAzP54jPejCnlehzU2sr97TUoiA=;
- b=OObaOxIR2rZi7GO8+U2q/MPm1eChaqhouB0SyABlihD5NT2xn4TDkLK3QIwjkzbByUFLBC
- UQgUglBNiiJ1N9lK9xIEp626bAeqkTRzFZV5+GZCkZciufLRF04CtGRmoBxpHsfCo8ZG6l
- QNuTWOeTVQlT5NYnlxVq18kjOBPHFv8=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=11CPXNNF150pfEUFPWGbUJ1IKwl89RXoTZySYxmoYV8=;
+ b=O6HrI93QwkG7/JiaZ2bi4bjyOJPS52JpflvpeTqaD56nILjD/Jg3ZfkH0HmLMRDM1p6aF1
+ 9eoXYEd+yfLavfOSYplOVSxUiOXNp985V5W2aPo5gLShtGuRcmlBzM/5RqoZQlUlDf/nIl
+ tNq1W5VnWYdLA9d6aP3w4+LCMZFUtBg=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-417-MLy7EcRAPty9wBBzW2Yaqw-1; Tue, 05 Mar 2024 08:38:55 -0500
-X-MC-Unique: MLy7EcRAPty9wBBzW2Yaqw-1
-Received: by mail-ej1-f70.google.com with SMTP id
- a640c23a62f3a-a442979dc04so52129266b.1
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 05:38:55 -0800 (PST)
+ us-mta-185-dNPiGzOrPN-Ag-HoWnmg5g-1; Tue, 05 Mar 2024 08:38:56 -0500
+X-MC-Unique: dNPiGzOrPN-Ag-HoWnmg5g-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ a640c23a62f3a-a2777fdf6d4so117018466b.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 05:38:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1709645935; x=1710250735;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=RZmDbi0/7NtmfurlLAzP54jPejCnlehzU2sr97TUoiA=;
- b=UzXceuZB5ITwGID8wC+vegA2l+Bn85e7q5RoxjrrDBA4xt8IVfDAFWPwrjQmUtB9es
- MaGoSZve8ZpEYh46dz+ldGVNNk33imjSEgs+HZ6yzftupYawJTZu8X2gn8YSXtCOwK8E
- GSUzOE9LZLVp0ynyUlLPSNVsd9lAvzeEPcLeV+yvQ34onvxcK3mnTo/gOMG4Mn/ZAOvi
- gzWXKL1XbWeNSg93VUcKCe7S6Ha7WZOVAgp+LA9WEy6PaYchbyM4w8YGM/2tlI+YIhXN
- GbK2EljpKW/IcIrq+oU+9WU7bNYnpKucVAMNr3cBmG6mfhDbqyPaQy8GiKR9UXEKTyd5
- wBTw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=11CPXNNF150pfEUFPWGbUJ1IKwl89RXoTZySYxmoYV8=;
+ b=ZvlpPzWQBc45CkphDb7VVTUa5EFMRrXKiGLgz5fjRZ+unEgdthehah6jBu7z8x/Tqe
+ VbKBLnN1EujDGdlX3J5K5J89yIH0etxevPPi5kZeTDj50cXiulglZ+yyW9gltElYRy9s
+ zODZBTDRgF8JSuhmI3uhwMCY6AY0eyKPqSDMdNL3aPEvfuxD22M5FD3s/yJPXeGvoIVz
+ czxWphW1xCYjFopV+y9ULdAgANR7Xq6MiM+Rlx6s0CZS5cR6wd2NFbUlrl1XFCh0COu1
+ /TKPKhDkmCroJuPKu63ezmypATAya7eGic5tMEEYUwGy0DHZ+1LqiYddxY+5eSPrQA9g
+ F45g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWv3Fo3oYdphez4VyN6dkxMnujT0GEMv6pu/4VnpMXwHLEPEauafbgnQR4jMmcvXuliNIQcSrZytFxfmKQp2nsTES/rhplJl5aAjjK7pCs3
-X-Gm-Message-State: AOJu0YwSCxGKEysgBPbf92/LOKDO9fLhcUbt27GqE6XI1e4nWIB2pjv+
- +r1V3ITMWPCgcJW3vHUnrKgnzCCXmhxCLI+4fnwphxj2mvutiATXsQeaOhLYMB2JhGEhNQ307kF
- 9zvzZmjFThO7mvuP+h/3IQpUcdhfIPruYzlLcLTLjNo5oXaR7DMukNz5l8EJK6ma6xQ==
-X-Received: by 2002:a17:907:8e99:b0:a45:ac3d:c7b with SMTP id
- tx25-20020a1709078e9900b00a45ac3d0c7bmr392290ejc.0.1709645934810; 
- Tue, 05 Mar 2024 05:38:54 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHoA5EnVACQYWqtrKszYM26SCh3o7LzluQPz/dl1CKgBblrnDtnRwmrcAiwSzosvNxTTtA1Fg==
-X-Received: by 2002:a17:907:8e99:b0:a45:ac3d:c7b with SMTP id
- tx25-20020a1709078e9900b00a45ac3d0c7bmr392262ejc.0.1709645934470; 
- Tue, 05 Mar 2024 05:38:54 -0800 (PST)
+ AJvYcCVwmUDJ6Du/W9sDQLm5CZL8faPmHBxMxsX9KFh4F2x+1+ejqrYoFlOqxDIOFLe/Q730bkJwV0rOr/jaM6kLLWvIsxv9cyqnHRxmVyiZ5vhr
+X-Gm-Message-State: AOJu0Yzajf89kbUrF31Jqy0qSQf1qrp9NSiLPZTTdIT3raI3ycB1sjxH
+ xG85e8YzbArT5V1VJtMl2eB4bpJNjM/VOpIVQmietaSS9nUmjJCkO+CSLgZ+4WfnQ0QP5VuN4rX
+ K3Fl64/QmzgkH+B+yrzZFCip8bJrdXpu1ZLgF1nVuoBLfA+UooSqfiGrXsy+7CObsxQ==
+X-Received: by 2002:a17:907:a68b:b0:a3f:161b:cc13 with SMTP id
+ vv11-20020a170907a68b00b00a3f161bcc13mr402047ejc.7.1709645935539; 
+ Tue, 05 Mar 2024 05:38:55 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEGf3/3KYPfk68CgY/nW360g4A9tp+KNIVj9PFBRcH+lHdipruHA8YbSsz9ZbASe2wCJh5jOw==
+X-Received: by 2002:a17:907:a68b:b0:a3f:161b:cc13 with SMTP id
+ vv11-20020a170907a68b00b00a3f161bcc13mr402031ejc.7.1709645935129; 
+ Tue, 05 Mar 2024 05:38:55 -0800 (PST)
 Received: from kherbst.pingu ([77.20.15.65]) by smtp.gmail.com with ESMTPSA id
- wk16-20020a170907055000b00a4532d289edsm2641326ejb.116.2024.03.05.05.38.53
+ wk16-20020a170907055000b00a4532d289edsm2641326ejb.116.2024.03.05.05.38.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 05 Mar 2024 05:38:54 -0800 (PST)
 From: Karol Herbst <kherbst@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@redhat.com>,
  dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- Karol Herbst <kherbst@redhat.com>, stable@vger.kernel.org
-Subject: [PATCH v2 1/2] drm/nouveau: fix stale locked mutex in
- nouveau_gem_ioctl_pushbuf
-Date: Tue,  5 Mar 2024 14:38:52 +0100
-Message-ID: <20240305133853.2214268-1-kherbst@redhat.com>
+ Karol Herbst <kherbst@redhat.com>
+Subject: [PATCH v2 2/2] drm/nouveau: move more missing UAPI bits
+Date: Tue,  5 Mar 2024 14:38:53 +0100
+Message-ID: <20240305133853.2214268-2-kherbst@redhat.com>
 X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240305133853.2214268-1-kherbst@redhat.com>
+References: <20240305133853.2214268-1-kherbst@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -91,35 +93,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If VM_BIND is enabled on the client the legacy submission ioctl can't be
-used, however if a client tries to do so regardless it will return an
-error. In this case the clients mutex remained unlocked leading to a
-deadlock inside nouveau_drm_postclose or any other nouveau ioctl call.
+Those are already de-facto UAPI, so let's just move it into the uapi
+header.
 
-Fixes: b88baab82871 ("drm/nouveau: implement new VM_BIND uAPI")
-Cc: Danilo Krummrich <dakr@redhat.com>
-Cc: <stable@vger.kernel.org> # v6.6+
 Signed-off-by: Karol Herbst <kherbst@redhat.com>
 Reviewed-by: Lyude Paul <lyude@redhat.com>
 Reviewed-by: Danilo Krummrich <dakr@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240304183157.1587152-1-kherbst@redhat.com
+Link: https://patchwork.freedesktop.org/patch/msgid/20240304183157.1587152-2-kherbst@redhat.com
 ---
- drivers/gpu/drm/nouveau/nouveau_gem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/nouveau_abi16.c | 20 +++++++++++++++-----
+ drivers/gpu/drm/nouveau/nouveau_abi16.h | 12 ------------
+ include/uapi/drm/nouveau_drm.h          | 22 ++++++++++++++++++++++
+ 3 files changed, 37 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
-index 49c2bcbef1299..5a887d67dc0e8 100644
---- a/drivers/gpu/drm/nouveau/nouveau_gem.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
-@@ -764,7 +764,7 @@ nouveau_gem_ioctl_pushbuf(struct drm_device *dev, void *data,
- 		return -ENOMEM;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_abi16.c b/drivers/gpu/drm/nouveau/nouveau_abi16.c
+index cd14f993bdd1b..92f9127b284ac 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_abi16.c
++++ b/drivers/gpu/drm/nouveau/nouveau_abi16.c
+@@ -312,11 +312,21 @@ nouveau_abi16_ioctl_channel_alloc(ABI16_IOCTL_ARGS)
+ 	if (device->info.family >= NV_DEVICE_INFO_V0_KEPLER) {
+ 		if (init->fb_ctxdma_handle == ~0) {
+ 			switch (init->tt_ctxdma_handle) {
+-			case 0x01: engine = NV_DEVICE_HOST_RUNLIST_ENGINES_GR    ; break;
+-			case 0x02: engine = NV_DEVICE_HOST_RUNLIST_ENGINES_MSPDEC; break;
+-			case 0x04: engine = NV_DEVICE_HOST_RUNLIST_ENGINES_MSPPP ; break;
+-			case 0x08: engine = NV_DEVICE_HOST_RUNLIST_ENGINES_MSVLD ; break;
+-			case 0x30: engine = NV_DEVICE_HOST_RUNLIST_ENGINES_CE    ; break;
++			case NOUVEAU_FIFO_ENGINE_GR:
++				engine = NV_DEVICE_HOST_RUNLIST_ENGINES_GR;
++				break;
++			case NOUVEAU_FIFO_ENGINE_VP:
++				engine = NV_DEVICE_HOST_RUNLIST_ENGINES_MSPDEC;
++				break;
++			case NOUVEAU_FIFO_ENGINE_PPP:
++				engine = NV_DEVICE_HOST_RUNLIST_ENGINES_MSPPP;
++				break;
++			case NOUVEAU_FIFO_ENGINE_BSP:
++				engine = NV_DEVICE_HOST_RUNLIST_ENGINES_MSVLD;
++				break;
++			case NOUVEAU_FIFO_ENGINE_CE:
++				engine = NV_DEVICE_HOST_RUNLIST_ENGINES_CE;
++				break;
+ 			default:
+ 				return nouveau_abi16_put(abi16, -ENOSYS);
+ 			}
+diff --git a/drivers/gpu/drm/nouveau/nouveau_abi16.h b/drivers/gpu/drm/nouveau/nouveau_abi16.h
+index 11c8c4a80079b..661b901d8ecc9 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_abi16.h
++++ b/drivers/gpu/drm/nouveau/nouveau_abi16.h
+@@ -50,18 +50,6 @@ struct drm_nouveau_grobj_alloc {
+ 	int      class;
+ };
  
- 	if (unlikely(nouveau_cli_uvmm(cli)))
--		return -ENOSYS;
-+		return nouveau_abi16_put(abi16, -ENOSYS);
+-struct drm_nouveau_notifierobj_alloc {
+-	uint32_t channel;
+-	uint32_t handle;
+-	uint32_t size;
+-	uint32_t offset;
+-};
+-
+-struct drm_nouveau_gpuobj_free {
+-	int      channel;
+-	uint32_t handle;
+-};
+-
+ struct drm_nouveau_setparam {
+ 	uint64_t param;
+ 	uint64_t value;
+diff --git a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau_drm.h
+index 77d7ff0d5b110..5404d4cfff4c2 100644
+--- a/include/uapi/drm/nouveau_drm.h
++++ b/include/uapi/drm/nouveau_drm.h
+@@ -73,6 +73,16 @@ struct drm_nouveau_getparam {
+ 	__u64 value;
+ };
  
- 	list_for_each_entry(temp, &abi16->channels, head) {
- 		if (temp->chan->chid == req->channel) {
++/*
++ * Those are used to support selecting the main engine used on Kepler.
++ * This goes into drm_nouveau_channel_alloc::tt_ctxdma_handle
++ */
++#define NOUVEAU_FIFO_ENGINE_GR  0x01
++#define NOUVEAU_FIFO_ENGINE_VP  0x02
++#define NOUVEAU_FIFO_ENGINE_PPP 0x04
++#define NOUVEAU_FIFO_ENGINE_BSP 0x08
++#define NOUVEAU_FIFO_ENGINE_CE  0x30
++
+ struct drm_nouveau_channel_alloc {
+ 	__u32     fb_ctxdma_handle;
+ 	__u32     tt_ctxdma_handle;
+@@ -95,6 +105,18 @@ struct drm_nouveau_channel_free {
+ 	__s32 channel;
+ };
+ 
++struct drm_nouveau_notifierobj_alloc {
++	__u32 channel;
++	__u32 handle;
++	__u32 size;
++	__u32 offset;
++};
++
++struct drm_nouveau_gpuobj_free {
++	__s32 channel;
++	__u32 handle;
++};
++
+ #define NOUVEAU_GEM_DOMAIN_CPU       (1 << 0)
+ #define NOUVEAU_GEM_DOMAIN_VRAM      (1 << 1)
+ #define NOUVEAU_GEM_DOMAIN_GART      (1 << 2)
 -- 
 2.44.0
 
