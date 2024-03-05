@@ -2,71 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E82FC8725F2
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 18:50:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFCEE872600
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 18:51:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D58310E4F9;
-	Tue,  5 Mar 2024 17:50:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C99691128F7;
+	Tue,  5 Mar 2024 17:51:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="H0xqWyhf";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="O19GfPtP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 539F710E4F9;
- Tue,  5 Mar 2024 17:50:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709661013; x=1741197013;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=oXCspTC4fxc4lI9uLj74+Tv5/GNSN4LB8uP31e2gEzY=;
- b=H0xqWyhfkBMEuHdLT357/yW3pRnXiW8N8Q737YMNJXVPhjGGVombjpWo
- CkdvXOnT68MtpYH3dg4muwECsIKK9/RE3NOenMk4yZ7wkU2m22l0fyHkF
- lNRprKEzD5GwPlqQjfd1ST2LapUMlHtQuhc2yYZPNxWJQFqyWMT+GHg/F
- e3KEUIKkheDNcIrjSJpglJH+2IwIQpXzReANSdboDIFlaFULcSD3W/fl2
- rogZnsZ4Ky06707lr0RFYY1DmIQl0Cq8Mvd873RMkmIaszRIfFyMSReE4
- 4thevNGcSRrpjiyNp+BwkO4/kryl2uSMPn3fBSfo/LvR649YDuysIMDnr Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="4406587"
-X-IronPort-AV: E=Sophos;i="6.06,206,1705392000"; 
-   d="scan'208";a="4406587"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2024 09:50:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,206,1705392000"; 
-   d="scan'208";a="9524589"
-Received: from omakhlou-mobl4.amr.corp.intel.com (HELO localhost)
- ([10.252.51.143])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2024 09:50:06 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, Abhinav
- Kumar <quic_abhinavk@quicinc.com>, Alex Deucher
- <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, Danilo Krummrich <dakr@redhat.com>, David
- Airlie <airlied@gmail.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Hamza
- Mahfooz <hamza.mahfooz@amd.com>, Javier Martinez Canillas
- <javierm@redhat.com>, Karol Herbst <kherbst@redhat.com>, Lyude Paul
- <lyude@redhat.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Marijn Suijten <marijn.suijten@somainline.org>, Xinhui.Pan@amd.com, Rob
- Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Sui Jingfeng
- <sui.jingfeng@linux.dev>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [RESEND v3 0/2] drm: enable W=1 warnings by default across the
- subsystem
-In-Reply-To: <yfsm3rrqtv3z6c6xyprappevvgqtxpwgjgt5ejoe74gfvhvcia@ybmkknyulv5x>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1709629403.git.jani.nikula@intel.com>
- <0df557af4aaceeb1ef85ee3c74169ee9@kernel.org> <8734t41sno.fsf@intel.com>
- <yfsm3rrqtv3z6c6xyprappevvgqtxpwgjgt5ejoe74gfvhvcia@ybmkknyulv5x>
-Date: Tue, 05 Mar 2024 19:50:02 +0200
-Message-ID: <87zfvczhyt.fsf@intel.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B180F112C15
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 17:51:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=OryvIzzC78fLNiJM5tDS7CTV+mpBOEM5K+ePV0wOwPk=; b=O19GfPtPID2BGaSmWQCLguZxAP
+ D/yNCoLEHrezKsM6KVaOVznHugp7dZmQ//e7ggcsbplUqqJhCH9pwRbPA2g5ah3vBLXkEvj8cnrLT
+ GZIflT5D80XVUnT5yHDwOEFM61Sh7cBIDL2lgOU6UnE3cMTLesLzlB7g0lBN28hTq9S8psqLDCqDu
+ JbIGr4gg1lLFLK/3ZwSNYVHoyy1kJ9Pw0ArrN5VcBG2qxXVKYEE7EofhVyW+SFfa43ofdKOiKkgpQ
+ CGLoWX/ZYhjCMuCm67HuyOEY02WxXXv/xCetL/4B7xOdQEIpsBlYsZlfUzD/E80ly2gmCb+xnPYxJ
+ zgphCLag==;
+Received: from [187.90.173.251] (helo=[192.168.1.60])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1rhYwM-006KfD-MC; Tue, 05 Mar 2024 18:50:58 +0100
+Message-ID: <3d0c4180-aa6d-4519-d6d8-8f16b98587dc@igalia.com>
+Date: Tue, 5 Mar 2024 14:50:51 -0300
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [RFC] How to test panic handlers, without crashing the kernel
+Content-Language: en-US
+To: Jocelyn Falempe <jfalempe@redhat.com>,
+ Michael Kelley <mhklinux@outlook.com>,
+ John Ogness <john.ogness@linutronix.de>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
+ "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+ Josh Poimboeuf <jpoimboe@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Kefeng Wang <wangkefeng.wang@huawei.com>, Lukas Wunner <lukas@wunner.de>,
+ Uros Bizjak <ubizjak@gmail.com>, Petr Mladek <pmladek@suse.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Douglas Anderson <dianders@chromium.org>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>
+References: <266579a9-fde6-40ff-b13d-fb2312db406c@redhat.com>
+ <87edcpn1l3.fsf@jogness.linutronix.de>
+ <15015345-3068-2fb8-aa38-f32acf27e1d0@igalia.com>
+ <SN6PR02MB4157AF2E765F7ED3B9487351D4222@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <d1d2093c-72a3-4f64-9a8f-9844dc38f0c5@redhat.com>
+From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <d1d2093c-72a3-4f64-9a8f-9844dc38f0c5@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,19 +76,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 05 Mar 2024, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
-> On Tue, Mar 05, 2024 at 07:43:07PM +0200, Jani Nikula wrote:
->>Thanks everyone for acks and reviews, pushed to drm-misc-next.
->
-> should we start removing the now duplicate ones in i915 and xe?
+On 05/03/2024 13:52, Jocelyn Falempe wrote:
+> [...]
+> Or maybe have two lists of panic notifiers, the safe and the destructive 
+> list. So in case of fake panic, we can only call the safe notifiers.
+> 
 
-After the drm-misc-next to drm-next merge and subsequent backmerge to
-drm-intel-next and drm-xe-next i.e. sometime after the merge window.
+I tried something like that:
+https://lore.kernel.org/lkml/20220427224924.592546-1-gpiccoli@igalia.com/
 
-BR,
-Jani.
+There were many suggestions, a completely refactor of the idea (panic
+lists are not really seen as reliable things).
+
+Given that, I'm not really sure splitting in lists gonna fly; maybe
+restricting the test infrastructure to drm_panic plus some paths of
+panic would be enough for this debugfs interface, in principle? I mean,
+to unblock your work on the drm panic stuff.
+
+Cheers,
 
 
-
--- 
-Jani Nikula, Intel
+Guilherme
