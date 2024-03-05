@@ -2,71 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94B408727FD
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 20:51:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76F908720F6
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 14:57:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A5DE112C71;
-	Tue,  5 Mar 2024 19:51:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14F9B112B18;
+	Tue,  5 Mar 2024 13:57:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84FDA112B0C
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 13:52:59 +0000 (UTC)
-Received: from localhost.localdomain (78.37.41.175) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Tue, 5 Mar
- 2024 16:52:48 +0300
-From: Roman Smirnov <r.smirnov@omp.ru>
-To: Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>
-CC: Roman Smirnov <r.smirnov@omp.ru>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Sergey Shtylyov <s.shtylyov@omp.ru>, Karina Yankevich <k.yankevich@omp.ru>,
- <linux-fbdev@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>
-Subject: [PATCH v2] fbmon: prevent division by zero in
- fb_videomode_from_videomode()
-Date: Tue, 5 Mar 2024 16:51:50 +0300
-Message-ID: <20240305135150.23240-1-r.smirnov@omp.ru>
+Received: from rtg-sunil-navi33.amd.com (unknown [165.204.156.251])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE711112B13;
+ Tue,  5 Mar 2024 13:57:45 +0000 (UTC)
+Received: from rtg-sunil-navi33.amd.com (localhost [127.0.0.1])
+ by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTP id
+ 425Dve6o3162904; Tue, 5 Mar 2024 19:27:40 +0530
+Received: (from sunil@localhost)
+ by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Submit) id 425DvegI3162903;
+ Tue, 5 Mar 2024 19:27:40 +0530
+From: Sunil Khatri <sunil.khatri@amd.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Shashank Sharma <shashank.sharma@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, Pan@rtg-sunil-navi33.amd.com,
+ Xinhui <Xinhui.Pan@amd.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Sunil Khatri <sunil.khatri@amd.com>
+Subject: [PATCH v3] drm/amdgpu: add ring timeout information in devcoredump
+Date: Tue,  5 Mar 2024 19:27:38 +0530
+Message-Id: <20240305135738.3162878-1-sunil.khatri@amd.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [78.37.41.175]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 03/05/2024 13:15:25
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 183964 [Mar 05 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.3
-X-KSE-AntiSpam-Info: Envelope from: r.smirnov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 8 0.3.8 4a99897b35b48c45ee5c877607d26a2d9f419920
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 78.37.41.175 in (user) dbl.spamhaus.org}
-X-KSE-AntiSpam-Info: omp.ru:7.1.1; d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;
- 127.0.0.199:7.1.2
-X-KSE-AntiSpam-Info: ApMailHostAddress: 78.37.41.175
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 03/05/2024 13:20:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 3/5/2024 11:10:00 AM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-X-Mailman-Approved-At: Tue, 05 Mar 2024 19:51:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,33 +46,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The expression htotal * vtotal can have a zero value on
-overflow. It is necessary to prevent division by zero like in
-fb_var_to_videomode().
+Add ring timeout related information in the amdgpu
+devcoredump file for debugging purposes.
 
-Found by Linux Verification Center (linuxtesting.org) with Svace.
+During the gpu recovery process the registered call
+is triggered and add the debug information in data
+file created by devcoredump framework under the
+directory /sys/class/devcoredump/devcdx/
 
-Signed-off-by: Roman Smirnov <r.smirnov@omp.ru>
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
 ---
- V1 -> V2: Replaced the code of the first version with a check.
+ drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c | 14 ++++++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h |  1 +
+ 2 files changed, 15 insertions(+)
 
- drivers/video/fbdev/core/fbmon.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/video/fbdev/core/fbmon.c b/drivers/video/fbdev/core/fbmon.c
-index 79e5bfbdd34c..b137590386da 100644
---- a/drivers/video/fbdev/core/fbmon.c
-+++ b/drivers/video/fbdev/core/fbmon.c
-@@ -1344,7 +1344,7 @@ int fb_videomode_from_videomode(const struct videomode *vm,
- 	vtotal = vm->vactive + vm->vfront_porch + vm->vback_porch +
- 		 vm->vsync_len;
- 	/* prevent division by zero */
--	if (htotal && vtotal) {
-+	if (htotal && vtotal && (vm->pixelclock / htotal >= vtotal)) {
- 		fbmode->refresh = vm->pixelclock / (htotal * vtotal);
- 	/* a mode must have htotal and vtotal != 0 or it is invalid */
- 	} else {
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
+index a59364e9b6ed..b5fd93cc5731 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
+@@ -196,6 +196,13 @@ amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
+ 			   coredump->reset_task_info.process_name,
+ 			   coredump->reset_task_info.pid);
+ 
++	if (coredump->ring) {
++		drm_printf(&p, "\nRing timed out details\n");
++		drm_printf(&p, "IP Type: %d Ring Name: %s \n",
++				coredump->ring->funcs->type,
++				coredump->ring->name);
++	}
++
+ 	if (coredump->reset_vram_lost)
+ 		drm_printf(&p, "VRAM is lost due to GPU reset!\n");
+ 	if (coredump->adev->reset_info.num_regs) {
+@@ -220,6 +227,8 @@ void amdgpu_coredump(struct amdgpu_device *adev, bool vram_lost,
+ {
+ 	struct amdgpu_coredump_info *coredump;
+ 	struct drm_device *dev = adev_to_drm(adev);
++	struct amdgpu_job *job = reset_context->job;
++	struct drm_sched_job *s_job;
+ 
+ 	coredump = kzalloc(sizeof(*coredump), GFP_NOWAIT);
+ 
+@@ -241,6 +250,11 @@ void amdgpu_coredump(struct amdgpu_device *adev, bool vram_lost,
+ 		}
+ 	}
+ 
++	if (job) {
++		s_job = &job->base;
++		coredump->ring = to_amdgpu_ring(s_job->sched);
++	}
++
+ 	coredump->adev = adev;
+ 
+ 	ktime_get_ts64(&coredump->reset_time);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
+index 19899f6b9b2b..60522963aaca 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
+@@ -97,6 +97,7 @@ struct amdgpu_coredump_info {
+ 	struct amdgpu_task_info         reset_task_info;
+ 	struct timespec64               reset_time;
+ 	bool                            reset_vram_lost;
++	struct amdgpu_ring			*ring;
+ };
+ #endif
+ 
 -- 
 2.34.1
 
