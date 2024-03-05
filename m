@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B956872014
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 14:26:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A60B87201D
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 14:28:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC3D510E8C3;
-	Tue,  5 Mar 2024 13:26:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BF02112AD9;
+	Tue,  5 Mar 2024 13:28:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AW7R7ZRd";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.b="fcCvJcgA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEF1810E070;
- Tue,  5 Mar 2024 13:26:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709645207; x=1741181207;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=yXNm14NxN++hrLExbM8fzKn8NTqUH42Iaz49C2BIFwY=;
- b=AW7R7ZRdYCFtdhJV7xLCz4QsPJL2luSncPkFmXTjsmlbxr9RXcn5O4Ns
- Z2CqSLKzn7dVRkTUzYiozZ6d76RoQoPE9yHm4gu8SPLzRU1CKq3y3smtA
- ayM4lJqVUfJr6UPjhGQWvgti5bEdrwOekcVb4+ryGUznYR+KCMot0P3Iu
- Ys8riaZA4dtrWDvd6AzSRXe9jesYREMsqXsg0fJFF1NA3PzsL+nENueH6
- 9iA8iO7EEe4day959G5W7Rajxhyl7YWk5bWfkrqOhgT5aoh/4yOgOXTS/
- vSlcU8QPBvMaeyjbADUrcQK/Xt2G+gWUKrLJOqOQALOjxoCgnZjuat1Ve g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="7140296"
-X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="7140296"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2024 05:26:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; d="scan'208";a="46909850"
-Received: from omakhlou-mobl4.amr.corp.intel.com (HELO localhost)
- ([10.252.51.143])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2024 05:26:44 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: duoming@zju.edu.cn
-Cc: Timur Tabi <timur@kernel.org>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] nouveau/dmem: handle kcalloc() allocation failure
-In-Reply-To: <601512f5.b287.18e0ebb25d4.Coremail.duoming@zju.edu.cn>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240303081330.61091-1-duoming@zju.edu.cn>
- <CAOZdJXUebAScPBjJdCbdzzA_Hmotk11bd7MvLLxe+pqS5-upHQ@mail.gmail.com>
- <87y1ay42ir.fsf@intel.com>
- <601512f5.b287.18e0ebb25d4.Coremail.duoming@zju.edu.cn>
-Date: Tue, 05 Mar 2024 15:26:41 +0200
-Message-ID: <87a5nc3j3i.fsf@intel.com>
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DB88112ADF
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 13:28:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+ s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+ Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+ Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+ bh=2o5mFGZCvQCk7WKP/xRNSu+/KpBgcWlkfRQoWTuInbY=; b=fcCvJcgAkcMcQFOc4nYDR/Yzhv
+ Y8IiVBCtwKjUMpOh02072azemJ8Sb6tC/SVw+f74ahwPgdczkKF8WJ9UMCYkcOVxYnaoVgZ6Z3Jwt
+ iiS6/PoKPPutlUHIT5TpgkIpdugZ8H0BsYpd3BejSVa4AjBYvnRK+kDjUeDZosHHJi3Q=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+ (envelope-from <andrew@lunn.ch>)
+ id 1rhUqi-009Qae-FR; Tue, 05 Mar 2024 14:28:52 +0100
+Date: Tue, 5 Mar 2024 14:28:52 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Julien Panis <jpanis@baylibre.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Russell King <linux@armlinux.org.uk>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Simon Horman <horms@kernel.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v2 2/2] net: ethernet: ti: am65-cpsw: Add minimal XDP
+ support
+Message-ID: <be16d069-062e-489d-b8e9-19ef3ef90029@lunn.ch>
+References: <20240223-am65-cpsw-xdp-basic-v2-0-01c6caacabb6@baylibre.com>
+ <20240223-am65-cpsw-xdp-basic-v2-2-01c6caacabb6@baylibre.com>
+ <356f4dd4-eb0e-49fa-a9eb-4dffbe5c7e7c@lunn.ch>
+ <3a5f3950-e47f-409a-b881-0c8545778b91@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3a5f3950-e47f-409a-b881-0c8545778b91@baylibre.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,42 +68,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 05 Mar 2024, duoming@zju.edu.cn wrote:
-> On Mon, 04 Mar 2024 14:14:52 +0200 Jani Nikula wrote:
->> >> The kcalloc() in nouveau_dmem_evict_chunk() will return null if
->> >> the physical memory has run out. As a result, if we dereference
->> >> src_pfns, dst_pfns or dma_addrs, the null pointer dereference bugs
->> >> will happen.
->> >>
->> >> This patch uses stack variables to replace the kcalloc().
->> >
->> > Won't this blow the stack?  And why not just test the return value of
->> > kcalloc?
->> 
->> VLAs should not be used in the kernel anymore. Building this results in
->> a warning due to -Wvla. See 0bb95f80a38f ("Makefile: Globally enable VLA
->> warning").
->> 
->> Error checking and propagation is the way to go.
->
-> The GPU is going away. If the kcalloc() in nouveau_dmem_evict_chunk() fail,
-> we could not evict all pages mapping a chunk. Do you think we should add a
-> __GFP_NOFAIL flag in kcalloc()? I see the __GFP_NOFAIL flag is used in the
-> following code:
->
-> /*
-> * _GFP_NOFAIL because the GPU is going away and there
-> * is nothing sensible we can do if we can't copy the
-> * data back.
-> */
-> dpage = alloc_page(GFP_HIGHUSER | __GFP_NOFAIL);
+On Tue, Mar 05, 2024 at 11:46:00AM +0100, Julien Panis wrote:
+> On 3/1/24 17:38, Andrew Lunn wrote:
+> > On Fri, Mar 01, 2024 at 04:02:53PM +0100, Julien Panis wrote:
+> > > This patch adds XDP (eXpress Data Path) support to TI AM65 CPSW
+> > > Ethernet driver. The following features are implemented:
+> > > - NETDEV_XDP_ACT_BASIC (XDP_PASS, XDP_TX, XDP_DROP, XDP_ABORTED)
+> > > - NETDEV_XDP_ACT_REDIRECT (XDP_REDIRECT)
+> > > - NETDEV_XDP_ACT_NDO_XMIT (ndo_xdp_xmit callback)
+> > > 
+> > > The page pool memory model is used to get better performance.
+> > Do you have any benchmark numbers? It should help with none XDP
+> > traffic as well. So maybe iperf numbers before and after?
+> > 
+> > 	Andrew
+> 
+> Argh...Houston, we have a problem. I checked my v3, which is ready for
+> submission, with iperf3:
+> 1) Before = without page pool -> 500 MBits/sec
+> 2) After = with page pool -> 442 MBits/sec
+> -> ~ 10% worse with page pool here.
+> 
+> Unless the difference is not due to page pool. Maybe there's something else
+> which is not good in my patch. I'm going to send the v3 which uses page pool,
+> hopefully someone will find out something suspicious. Meanwhile, I'll carry on
+> investigating: I'll check the results with my patch, by removing only the using of
+> page pool.
 
-This is all up to the nouveau maintainers, really. All I'm saying is
-that VLA isn't the solution you're looking for.
+You can also go the other way. First add page pool support. For the
+FEC, that improved its performance. Then add XDP, which i think
+decreased the performance a little. It is extra processing in the hot
+path, so a little loss is not unsurprising.
 
-BR,
-Jani.
+What tends to be expensive with ARM is cache invalidation and
+flush. So make sure you have the lengths correct. You don't want to
+operate on more memory than necessary. No point flushing the full MTU
+for a 64 byte TCP ACK, etc.
 
-
--- 
-Jani Nikula, Intel
+      Andrew
