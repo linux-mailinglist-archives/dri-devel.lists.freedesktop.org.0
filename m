@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66EFA871767
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 08:53:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A77871768
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 08:53:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9806B1128EE;
-	Tue,  5 Mar 2024 07:53:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8676B1128F0;
+	Tue,  5 Mar 2024 07:53:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="mWhvmpu1";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cKsIf+WY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
- [209.85.218.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D6971128EE
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 07:53:33 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id
- a640c23a62f3a-a45a15f2bafso46902966b.0
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 23:53:33 -0800 (PST)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B16781128F0
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 07:53:42 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-51320ca689aso6440856e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Mar 2024 23:53:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1709625212; x=1710230012; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1709625220; x=1710230020; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Qm7d8B+DkbJ7Jgiy9fqEkUg8rwERrs7SAxsLTaBklGw=;
- b=mWhvmpu1CG1DDdoTB9Ap14YhDIW5B4U1Kvv5bft+y8WZ5ZPVg/Us54eQXMs9dSDsIb
- NMq61aur+PmF0gjq1CCFdUrvSxXTG9mpAQbOP4nT/PWpYhyauS9t3BtktJwLz33TOek3
- MAuskCWnLUFTONXECREg6yM4+qSeVQ8KglUFP8zPITi0CQmuan/NMD3qKhmRVRX36Xiv
- wY9AGlDEn4AWVUWZot0PepBwXLaVOwVLJn3l38Uw+tYaD1JxjUokhWo+x5TmZu6PIYOg
- RDCHU0vGwYU8SLsIXeYR/KoG51oQLofkVAEzR4IbHOlost42y+GuTwo9vVg2Agr/RIc+
- gtlg==
+ bh=B4SPQAzElDyq14vPvLj+BILESqGYT5m1eVTz0qWhhJM=;
+ b=cKsIf+WYdTFs7lANlqkvO5Bba7IpAtzc9vrHZ8KgpRxJ1IShSqYXhiIjw5iSqzH/s9
+ 9GU++KlD3NSfBjQlyRVGjY9tveoFhph7rsgP1HnZssFzxdxhdf88gD6XMo2r1+GuZa1T
+ ZKjDgPJEw5eLgEYnRPpVlyC39pc/Xz6tZCJghzEsJzIMAF1BMz14sbCTZhDbueqMZcGw
+ jrjDrdn1d+7Bp9kMvD/abHn5aWAsODGcE8aMtRbAkVCSJhhbSkI6Dvmg10d2t7VSsEsp
+ TQ2iArsgI72PjnuSmTvuEDjqwG36SHO8kKtE6eCnuo/id2llH2A/V1SoVKeZEsELN07r
+ 4ecA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709625212; x=1710230012;
+ d=1e100.net; s=20230601; t=1709625220; x=1710230020;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Qm7d8B+DkbJ7Jgiy9fqEkUg8rwERrs7SAxsLTaBklGw=;
- b=Fbth+p588NIlfZxMYZEFpOsV3R7JSB2NiH6ntno3X8Rd8uqKtqRlEjfm8t8iL/UNy2
- oUoZerD99wA9Wx5vr1ObJTg8CcEKhURrkCcKSYAgcmHu2Y8tJjFAlfluGNBBzUfrkQ+p
- /qgdYJw4NOlHXCduGceAAIJplJWnVZJtvXaS66Bx54KJyb5lb0r4ds4KxiQ8zNlw5I1b
- wL3EBwNakNWatO0TQbN1F8v9aP6yezXSN9/9ZzVRk/+SXWvMeImU+3Mo+5cFkI9RMHe2
- NMhRluZN4Ua0d5Yw4M+oNMPOSjD0f15q4MgIhlRlgbUZ/0sNCmzXY9Jg5MP722SanHdz
- jxDw==
-X-Gm-Message-State: AOJu0YwWm/+z+Uoi1WtrAKq2XFDYjbTf3aW8ebM6xlTWj8ivE+NkL1Dv
- swPTWIUdZ1Uyxfqg68uRONne0OXtLK82izSdSEqGd9xDvn45pG1cZ8rv22xrMRY=
-X-Google-Smtp-Source: AGHT+IEZ32OL5p3C/MNK75XGVpZbYBiG1XrQrcwjKmRbziO++5eFN+96jWxkKt5NXDnk5V1IvRU1dA==
-X-Received: by 2002:a17:906:cd03:b0:a44:511d:630b with SMTP id
- oz3-20020a170906cd0300b00a44511d630bmr7360893ejb.24.1709625211623; 
- Mon, 04 Mar 2024 23:53:31 -0800 (PST)
+ bh=B4SPQAzElDyq14vPvLj+BILESqGYT5m1eVTz0qWhhJM=;
+ b=M635kfO8LCPQIzqiPsJ+5lxle3OwWKnKHJJ1/M2yzGh/7zUzOAtsF8fP6qm5OmfDkr
+ RwVkVUtt2dyMxcEBagX+Exhn7Q2GOxYP4D6UHe3AM25g5+XuOW4j7vSTQ/U+2dGMDiBw
+ q9IADCufXlclkI9tOu/un2bCswyi5L0N5aKzOFyNnc9zwJ5de0zfB8IPaA2c2mTdpxe5
+ 5dw9En5gJbmSEJ8bH/BPF2n+SoJuEim0M6iWGG+D/IiV1o4mz7erkFHGTGmFJzEauTdr
+ +uqznDcxStVXgxD3WolzPuPjLFZWGei06+liZDq1fjErqIBU0G10pjuTauxSM7ziG3LE
+ FfXA==
+X-Gm-Message-State: AOJu0YyNNJhqv4VOE72VRLYrlln+r6mQLIS2edk2Lr/NfasSLAfLOqVy
+ jNVHIgFFCXUe0oUbmuI8AACoqtCWckgPAqVlvyWuFcDrHWwfvUPJmGjFTi3EiDs=
+X-Google-Smtp-Source: AGHT+IFeNSisyBNvSpi9O8TxVaLR/w4lX20QLwTGhN64glgx6zi3ujE3VfhVBZhTMyzCdySNTk3fKg==
+X-Received: by 2002:a05:6512:2c99:b0:513:3fa6:efe3 with SMTP id
+ dw25-20020a0565122c9900b005133fa6efe3mr899103lfb.8.1709625220477; 
+ Mon, 04 Mar 2024 23:53:40 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.222.97])
  by smtp.gmail.com with ESMTPSA id
- tj10-20020a170907c24a00b00a4452ed413asm5538593ejc.16.2024.03.04.23.53.29
+ tj10-20020a170907c24a00b00a4452ed413asm5538593ejc.16.2024.03.04.23.53.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Mar 2024 23:53:31 -0800 (PST)
-Message-ID: <55e5af68-bceb-4256-89f1-e0902821d6eb@linaro.org>
-Date: Tue, 5 Mar 2024 08:53:28 +0100
+ Mon, 04 Mar 2024 23:53:39 -0800 (PST)
+Message-ID: <6642af07-27ee-4364-92d2-89aab0014b01@linaro.org>
+Date: Tue, 5 Mar 2024 08:53:37 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] dt-bindings: Add Crystal Clear Technology vendor
- prefix
+Subject: Re: [PATCH v2 2/3] dt-bindings: display: simple: add support for
+ Crystal Clear CMT430B19N00
 Content-Language: en-US
 To: =?UTF-8?B?SsOpcsOpbWllIERhdXRoZXJpYmVz?=
  <jeremie.dautheribes@bootlin.com>, Neil Armstrong
@@ -75,7 +75,7 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Thomas Petazzoni
  <thomas.petazzoni@bootlin.com>, Yen-Mei Goh <yen-mei.goh@keysight.com>
 References: <20240304160454.96977-1-jeremie.dautheribes@bootlin.com>
- <20240304160454.96977-2-jeremie.dautheribes@bootlin.com>
+ <20240304160454.96977-3-jeremie.dautheribes@bootlin.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -121,7 +121,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240304160454.96977-2-jeremie.dautheribes@bootlin.com>
+In-Reply-To: <20240304160454.96977-3-jeremie.dautheribes@bootlin.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -140,13 +140,13 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 04/03/2024 17:04, Jérémie Dautheribes wrote:
-> Update Documentation/devicetree/bindings/vendor-prefixes.yaml to
-> include "cct" as a vendor prefix for "Crystal Clear Technology". CCT is
-> the vendor of the CMT430B19N00 TFT-LCD panel.
+> Add Crystal Clear Technology CMT430B19N00 4.3" 480x272 TFT-LCD panel
+> compatible string.
 > 
-> Link: http://www.cct.com.my/
 > Signed-off-by: Jérémie Dautheribes <jeremie.dautheribes@bootlin.com>
 > ---
+>  .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+>  1 file changed, 2 insertions(+)
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
