@@ -2,62 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9E287289F
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 21:25:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0AC4872929
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 22:11:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B628C10E48C;
-	Tue,  5 Mar 2024 20:25:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8888A112CB8;
+	Tue,  5 Mar 2024 21:11:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VodZSlly";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="endf5MQ4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76C2810E5B2
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 20:25:31 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 949FECE1EF5;
- Tue,  5 Mar 2024 20:25:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56F29C43390;
- Tue,  5 Mar 2024 20:25:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1709670326;
- bh=j7E+4ilNyI2ogqO9xhojvzYBsle7e7wsgBy4bElHkbo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VodZSlly5fm4dpOGfW8UXP9Sqzd7xlx3YIeZ2atQCQw2EnmvyU8sYtWMGsvZOaB8P
- 20UOrJ97Y9+2xaTtJdoFAi2wrEZ6n9WEbPE0KlIkYMrOiqkY4fEj7mhSqWsu81KEQR
- tbTEMPCSZkAZki6sJ8PhTLWOtHK6DqfNAF/0JQmFLQsVxzPhUfDLx4GyGXifW8Y1L8
- a+j0KcgiHi9zPJcDGvLrPV/ZAVuWSGRDKQhQgoTgx11Vf7TzxadU2FHxXO4VURTpWA
- WKYfJNuacU/2leQ06iQDkdlw55pqn24CPuw/M3DEoN+qbU0kB5T+HRtKsLDQB6mkPT
- VJQhb7E+H9Img==
-Date: Tue, 5 Mar 2024 20:25:21 +0000
-From: Conor Dooley <conor@kernel.org>
-To: =?iso-8859-1?Q?J=E9r=E9mie?= Dautheribes <jeremie.dautheribes@bootlin.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Yen-Mei Goh <yen-mei.goh@keysight.com>
-Subject: Re: [PATCH v2 0/3] panel-simple: add support for Crystal Clear
- CMT430B19N00
-Message-ID: <20240305-hacked-udder-6d8396015ad5@spud>
-References: <20240304160454.96977-1-jeremie.dautheribes@bootlin.com>
- <20240304-drivable-property-feaeba782880@spud>
- <5c3acbaa-dc95-4f8a-87cf-c62b6ccc442c@bootlin.com>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0C4F112CB8
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 21:11:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1709673079;
+ bh=OKwLmlwHaVM9YDm02QY7BaQXKQlATiOtDVXMPFzNoF8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=endf5MQ4Js1GWRWnOg9eYVceof+qnDPQd9vjpPl2lb7brl2Zb1u9q52UXgNOVC7c/
+ WcxuQO+i6VGwX6XlON4J4lF9kFK++q4eOycYsNU7LXi1Tj1RPGPaAPNpmWSq2PXmPv
+ CQO1cqJFXHzVaCju3q3WmTk+M6dPf+WKm6+u4CtH/SLRcSyhR7LEkhsj7+1ohtyRD7
+ ZfhZc2hs5Tz4kUaGIKJ8ELkj9Ld/PbLAtmt5HwRCunJwg/T/fOCgNtTs9eIRXdwO7e
+ lZguXX9MEhYQWltncKNDIAmFIbXWkecfTIj9eeuNqzGwaMk6+i4kO+le8WQxhnLv+R
+ 4kOHJOdE4oUwg==
+Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: alarumbe)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5B5663781FDF;
+ Tue,  5 Mar 2024 21:11:18 +0000 (UTC)
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: boris.brezillon@collabora.com, steven.price@arm.com, liviu.dudau@arm.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch
+Cc: adrian.larumbe@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kernel@collabora.com
+Subject: [PATCH 0/2] Support fdinfo runtime and memory stats on Panthor
+Date: Tue,  5 Mar 2024 21:05:48 +0000
+Message-ID: <20240305211000.659103-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="OnU1VrWnwRjDQ5qV"
-Content-Disposition: inline
-In-Reply-To: <5c3acbaa-dc95-4f8a-87cf-c62b6ccc442c@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,52 +60,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patch series enables userspace utilities like gputop and nvtop to
+query a render context's fdinfo file and figure out rates of engine
+and memory utilisation.
 
---OnU1VrWnwRjDQ5qV
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Adrián Larumbe (2):
+  drm/panthor: Enable fdinfo for cycle and time measurements
+  drm/panthor: Enable fdinfo for memory stats
 
-On Tue, Mar 05, 2024 at 10:48:56AM +0100, J=E9r=E9mie Dautheribes wrote:
-> Hi Conor,
->=20
-> On 04/03/2024 20:29, Conor Dooley wrote:
-> > On Mon, Mar 04, 2024 at 05:04:51PM +0100, J=E9r=E9mie Dautheribes wrote:
-> > > Hello everyone,
-> > >=20
-> > > This patch series add support for the Crystal Clear Technology
-> > > CMT430B19N00 4.3" 480x272 TFT-LCD panel.
-> > > It also adds Crystal Clear Technology to vendor-prefixes.yaml.
-> > >=20
-> > > Please note that unfortunately there is no public datasheet available
-> > > for this panel.
-> > >=20
-> > > Changes in v2:
-> > >    - add link to the Crystal Clear Technology website in commit messa=
-ge, as
-> > >    suggested by Conor Dooley and Neil Armstrong.
-> >=20
-> > You forgot however to add the acks that I gave you for the two
-> > dt-binding patches.
->=20
->=20
-> Oops you are right, I'm sorry. Should I send a v3 containing these acks?
+ drivers/gpu/drm/panthor/panthor_devfreq.c |  10 +
+ drivers/gpu/drm/panthor/panthor_device.h  |  11 ++
+ drivers/gpu/drm/panthor/panthor_drv.c     |  32 ++++
+ drivers/gpu/drm/panthor/panthor_gem.c     |  12 ++
+ drivers/gpu/drm/panthor/panthor_sched.c   | 217 +++++++++++++++++++---
+ 5 files changed, 254 insertions(+), 28 deletions(-)
 
-I was going to just provide them here, I just wanted to make sure you
-didn't intentionally drop them first. But in the interim you got some
-=66rom Krzysztof, making some from me redundant anyway :)
-I wouldn't bother adding the forgotten acks or resending, I don't care
-about my ack count :)
 
---OnU1VrWnwRjDQ5qV
-Content-Type: application/pgp-signature; name="signature.asc"
+base-commit: e635b7eb7062b464bbd9795308b1a80eac0b01f5
+-- 
+2.43.0
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZed/sAAKCRB4tDGHoIJi
-0vLvAQDO/sy0qtDDk88ASr2plItuCqG83Rp3/buiOkwrdMYpAwEAqhujH3JiXO3I
-7dfR2aeehYrL5n3pZkBJD/b4l8QCSgM=
-=HgAm
------END PGP SIGNATURE-----
-
---OnU1VrWnwRjDQ5qV--
