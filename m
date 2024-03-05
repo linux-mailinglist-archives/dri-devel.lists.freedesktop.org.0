@@ -2,56 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B6C5871ABC
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 11:21:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E862871B33
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 11:30:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD3341129EE;
-	Tue,  5 Mar 2024 10:21:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C77D10FE4C;
+	Tue,  5 Mar 2024 10:30:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="YPw2pNpI";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZFTxySPR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 180521129E7;
- Tue,  5 Mar 2024 10:21:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1709634099;
- bh=nzGENR6qPVPcbYLF4x3N7tmWM6ERhotNjmvi/Zt/WQg=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=YPw2pNpIepIbB+3vJ5Z06Bdl1TptFLGJ0VsudVqJCHg30R8rbAT2F7jBIBmivp4I7
- NFLJYQx1ERVW7s5/j0U+U5wFD3SpGmRg+Gi1fJp+5qk9BupBIhjL7tjIVAKf2x4peI
- iqibceRInpRuLJEI8axpebcBrb8uxlaa91cWY5vUmzwZNm8cFOdUU/fN+cAUBlYZyb
- CZIj/EliXPM6ACSl8vKwxR5qDMlZI/ESdkGimn+bcXRW0L9MOCacsCPe67nnq+Tk4P
- tgnOx0mkgTNFgXtZyALuNGIhZThWaXb5pekq3aEcqSHmZFwj6wQnqr7a5zrA5BuO0D
- 857ea9Cb3r7DA==
-Received: from [100.66.96.193] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id A204E3781FEF;
- Tue,  5 Mar 2024 10:21:36 +0000 (UTC)
-Message-ID: <dbaf7eee-9a54-18f4-cdd2-c782581261e8@collabora.com>
-Date: Tue, 5 Mar 2024 15:51:29 +0530
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DB311129EF
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 10:30:27 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 05AFACE19A9;
+ Tue,  5 Mar 2024 10:30:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFA5DC433C7;
+ Tue,  5 Mar 2024 10:30:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1709634625;
+ bh=NFHYZPCn1iRdzYwgW5HIMl0T/4npS5nF2/vEjh+JuOs=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=ZFTxySPRZx59XD3uzj19WgnlvWjAgsAma51hEVMdNa1Slm5uVyfvgeeghyi6U/ewx
+ nYHtHCFdJ7KfvL0M471EaXSHXN3G8cXXzkL73uuky/BkJEjwZ033+xNMz9DwjrSaiM
+ iMYCJCPsV+5mBBsu0Kz1CbGEL7PEeIsRI+OSB4qayHDrNp26r2FXnuK+h0Hpy090dG
+ +EUczuIuHBwuUO/1fH8Z/u8K9ZpK5aAU3OUx4JbgnZgwRNiMEtiFyRo1HqaXHPbkfn
+ dFTmQ/yQd0qUjctrtxumpJPJHbKUK2ochzOrndK0Gzlpd18jkpewFO/JyAHXnPvUer
+ RA2EPQpyTikCA==
+From: Lee Jones <lee@kernel.org>
+To: andy@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com, 
+ deller@gmx.de, robin@protonic.nl, javierm@redhat.com, 
+ Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
+In-Reply-To: <20240304163220.19144-1-tzimmermann@suse.de>
+References: <20240304163220.19144-1-tzimmermann@suse.de>
+Subject: Re: [PATCH v3 00/10] backlight: Replace struct fb_info in interfaces
+Message-Id: <170963462254.80615.15102290140369290410.b4-ty@kernel.org>
+Date: Tue, 05 Mar 2024 10:30:22 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] drm/ci: update device type for volteer devices
-From: Vignesh Raman <vignesh.raman@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Cc: daniels@collabora.com, helen.koike@collabora.com, airlied@gmail.com,
- daniel@ffwll.ch, david.heidelberg@collabora.com,
- sergi.blanch.torne@collabora.com, guilherme.gallo@collabora.com,
- robdclark@gmail.com, jani.nikula@linux.intel.com,
- joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
- tvrtko.ursulin@linux.intel.com, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240305101626.36357-1-vignesh.raman@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20240305101626.36357-1-vignesh.raman@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.12.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,46 +60,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-Below is the pipeline with the job passing,
-https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1119672
-
-Regards,
-Vignesh
-
-On 05/03/24 15:46, Vignesh Raman wrote:
-> Volteer devices in the collabora lab are categorized under the
-> asus-cx9400-volteer device type. The majority of these units
-> has an Intel Core i5-1130G7 CPU, while some of them have a
-> Intel Core i7-1160G7 CPU instead. So due to this difference,
-> new device type template is added for the Intel Core i5-1130G7
-> and i7-1160G7 variants of the Acer Chromebook Spin 514 (CP514-2H)
-> volteer Chromebooks. So update the same in drm-ci.
+On Mon, 04 Mar 2024 17:29:45 +0100, Thomas Zimmermann wrote:
+> Backlight drivers implement struct backlight_ops.check_fb, which
+> uses struct fb_info in its interface. Replace the callback with one
+> that does not use fb_info.
 > 
-> https://gitlab.collabora.com/lava/lava/-/merge_requests/149
+> In DRM, we have several drivers that implement backlight support. By
+> including <linux/backlight.h> these drivers depend on <linux/fb.h>.
+> At the same time, fbdev is deprecated for new drivers and likely to
+> be replaced on many systems.
 > 
-> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
-> ---
->   drivers/gpu/drm/ci/test.yml | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
-> index 0857773e5c5f..8bc63912fddb 100644
-> --- a/drivers/gpu/drm/ci/test.yml
-> +++ b/drivers/gpu/drm/ci/test.yml
-> @@ -252,11 +252,11 @@ i915:cml:
->   i915:tgl:
->     extends:
->       - .i915
-> -  parallel: 8
-> +  parallel: 5
->     variables:
-> -    DEVICE_TYPE: asus-cx9400-volteer
-> +    DEVICE_TYPE: acer-cp514-2h-1130g7-volteer
->       GPU_VERSION: tgl
-> -    RUNNER_TAG: mesa-ci-x86-64-lava-asus-cx9400-volteer
-> +    RUNNER_TAG: mesa-ci-x86-64-lava-acer-cp514-2h-1130g7-volteer
->   
->   .amdgpu:
->     extends:
+> [...]
+
+Applied, thanks!
+
+[01/10] backlight: Match backlight device against struct fb_info.bl_dev
+        commit: 67716b34e1be2beb7464f9b9d0b47b2cc7dbc208
+[02/10] auxdisplay/ht16k33: Remove struct backlight_ops.check_fb
+        commit: 747554336b46a26fcdf47e2e48044c7e175b6a5f
+[03/10] hid/hid-picolcd: Fix initialization order
+        commit: d55b578e3b0cd6abdc52e2c34d88dd3487bb10a2
+[04/10] hid/hid-picolcd: Remove struct backlight_ops.check_fb
+        commit: 09ca774d2e87f9b086b23354b1605709fb50205f
+[05/10] backlight/aat2870-backlight: Remove struct backlight.check_fb
+        commit: 61e837e975abcb4d278c3427d927e1cbaaed0090
+[06/10] backlight/pwm-backlight: Remove struct backlight_ops.check_fb
+        commit: 9c2be31d2951c8dce90950db000c095330406f94
+[07/10] fbdev/sh_mobile_lcdc_fb: Remove struct backlight_ops.check_fb
+        commit: a2a8fbdb54a78fd18850cd0b74b465657ffb1e0c
+[08/10] fbdev/ssd1307fb: Init backlight before registering framebuffer
+        commit: 5500326bd33e52230866f50770ca822ce400a4ab
+[09/10] fbdev/ssd1307fb: Remove struct backlight_ops.check_fb
+        commit: d1b82cc44fd8be4013538992814c45f0e55c02b4
+[10/10] backlight: Add controls_device callback to struct backlight_ops
+        commit: 7e508af663e20e9e40003bb30e06b926c754159b
+
+--
+Lee Jones [李琼斯]
+
