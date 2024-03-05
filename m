@@ -2,80 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6DF6871EA1
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 13:11:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B613D871EC6
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 13:15:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C0F8112578;
-	Tue,  5 Mar 2024 12:11:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7CE010E455;
+	Tue,  5 Mar 2024 12:15:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HZ59FvuN";
+	dkim=pass (2048-bit key; unprotected) header.d=marliere.net header.i=@marliere.net header.b="BGTAePN3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C88D3112578;
- Tue,  5 Mar 2024 12:11:51 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-412e1b52934so13560815e9.1; 
- Tue, 05 Mar 2024 04:11:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1709640710; x=1710245510; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=79jaKyfdpKy+1NMDJb03g6RVhJ14q9VXyWQQ+0hrcUc=;
- b=HZ59FvuNlKar0p3xhNltXRobUcjAJu75xGehGDTjxyj9HONFR8aZX3tHYd/ve3Mi6Y
- OSjdNqzlL46ayplStDlp6StnVzaiKzuy8QKje2nngFjPeW6iwxGYS4dji2WEcQxGkGjy
- WFJNzd5zmdvsbzqlGkBPxZ+Ar8gZetdV2+LWgUZ0aWDga1I+YkMcN5DI97+IuWpN/WQs
- 3Jfg9IIir80IsLPsbu7Cn2iCgKj67MdfJRcvjegVCMfcpDE6EPERd4KO4AFeD7/OJfpR
- 8Oqj7LwWxY10pyIKQuwG2iH8LMGpRQWvz+l3gdfa8KVSrUeGhOGZ3v58kUIPVyb6SynV
- 5vDw==
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2351E10E415;
+ Tue,  5 Mar 2024 12:15:22 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-1dc13fb0133so41293725ad.3; 
+ Tue, 05 Mar 2024 04:15:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709640710; x=1710245510;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=79jaKyfdpKy+1NMDJb03g6RVhJ14q9VXyWQQ+0hrcUc=;
- b=iDkZIcNkJGj3miZivdk0/0Fo242fhJbfjbr+KHY6oeCUZmPjhGO+mBSKNKX3wjH/7o
- Pt2cy2AzU3+vKvc7pta6VuJIxaZ/5bZpqxVhtBx8tXNirJVQO1ybe+THUUW8xvlNYfp3
- XE2zjpd1eljbHTRb2BOjSqMFwvaiaeszzh3CvehgIA8BKlOcZxOFNnOrYqXqYvC75qHp
- Q0JtGx4Z29npHdt2/Ex0LZTVDYCHvXq7KPMMrZVpJ3G4eE0Nb5ONFokYLYOubRw8PekR
- 4Ig81hvWs28SKeC8cwt+p4lX94AMk2u4TOgE6EXJZIdgLOOki8m0ZFxJCArsjQ5kWK1Y
- 1GIA==
+ d=1e100.net; s=20230601; t=1709640921; x=1710245721;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:dkim-signature:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hVie1ubg1vO+1LPda2Bilx+ZCICOse/T4HjTbJik150=;
+ b=s3nWZnYwqzYpDMYO8Oi0wwB3qN63qe8AtbherbX7YozWKw3EjAR/h+LdOT0tU4rCaI
+ 2WOBv8+saj+a1TDuJX711F7y1d9hKmPDAlrNVa198dqsbc46DIFiOH9xkg+zKQLdY1/n
+ zLMOHvIbTpM4yX5ogNBTsikLh4doJSe6ATGsiDsc5DRb5pqs0ZhyBfpaCow/IC/B5yOr
+ cq9ftqtYvOiAjooVX88P33Gb6xBzMttDrwh99LDHNEcDuhRtji1M2wHIJFYMuhCJPuGS
+ PU/hCTN+HR1vDchW38is53sIieZkAWVCl9vX9Xd0FCYcumTfOda6YAlN0ZnNlsW+0CZ/
+ jNkg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWqiN1jsmlgsJOL7y548arM01jOGB5NPGMkKwtfrIWwa+iyj6ILGpMOVqBgR4BHVb1pK2YaJ6zrNIrfHqFGhSB83J9hf9OaiAByHvXW2hlYycJkavCSAuB3yIqyfem5ouEzP4Ea6ume7noh7TkLkMSe6H3e255EFiu7cbiqV49rL04EEqADrCqSSMC9GvWnDA==
-X-Gm-Message-State: AOJu0YzoUl8Nq1qGjQl3qco9RYyFkzy6fCancmto8nz0tyKkPZET1RVq
- lTwyj/Nt2A3wxslgMFCsxvw29VR+DS/1Inet9WGCPL2DleNg4Bdi
-X-Google-Smtp-Source: AGHT+IHzQqU0+5WnRZPb1BDcCRMX2yZ2q2KRwjr10P/4VnWZ9Ct6ATEg/82gChlvVPfNXOWbcLcKvA==
-X-Received: by 2002:a05:600c:1e22:b0:412:ef76:3d3d with SMTP id
- ay34-20020a05600c1e2200b00412ef763d3dmr664742wmb.18.1709640709584; 
- Tue, 05 Mar 2024 04:11:49 -0800 (PST)
-Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+ AJvYcCUuH5U0/1ckg5nVPriPWnxfBblnvstO4vzUV+zx8blg+RJtZ3RWttDUNmnDyWMBLyfCHfOGx45o1d2yzk7wB/lRgL2meABg93dTeADVqp6c
+X-Gm-Message-State: AOJu0Yx6N1P4YdSXppxEahxBS8b0Y5SQm9dDci0PHihIwacZ3SdmP8x8
+ V0cbxciKwBYaW+sVJlkiULyq1x7Z/8dsfcLUUjtu2Srsqojp6oJ7
+X-Google-Smtp-Source: AGHT+IGJOKhnhB8IG8kVYywr4PNMnLud3LPOcz2BGEvgb9t9EUw/+82Q9SP6kp1RrbEw8S9TIE5C6Q==
+X-Received: by 2002:a17:902:a389:b0:1db:cfa0:4045 with SMTP id
+ x9-20020a170902a38900b001dbcfa04045mr1648983pla.60.1709640921328; 
+ Tue, 05 Mar 2024 04:15:21 -0800 (PST)
+Received: from mail.marliere.net ([24.199.118.162])
  by smtp.gmail.com with ESMTPSA id
- m9-20020a05600c4f4900b00412ec373ad4sm2004265wmq.27.2024.03.05.04.11.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Mar 2024 04:11:49 -0800 (PST)
-Message-ID: <db55d7ac-0811-496f-81e3-56c742a9ae56@gmail.com>
-Date: Tue, 5 Mar 2024 13:11:47 +0100
+ u14-20020a17090341ce00b001dd1096e365sm4182621ple.281.2024.03.05.04.15.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Mar 2024 04:15:20 -0800 (PST)
+From: "Ricardo B. Marliere" <ricardo@marliere.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
+ s=2024; t=1709640919;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hVie1ubg1vO+1LPda2Bilx+ZCICOse/T4HjTbJik150=;
+ b=BGTAePN3bozrIykaFwJ7dZRpAb3BkQUm8T27HtTgPzaCi4Jm5WG3/t8NFKNtGBKWMQo6vI
+ VR8DZQz063RYjfaq0Dt0oivWnNRDf5chrbwk5oVXUjaiV2JkX7i3G6cqOAotaQlunulpgF
+ IiiY8NOHzefaKVSSqwOw5SslHHaYVxLQs7hvb4nKIEEbmS5N67S8gFZLNEpZ/JhDYHAB+m
+ esgBwae0rbuvwMvTGCM2i4vWOckYvswPONJiJ5nWyrhiRcAkCndD67y/jjvMX9a+qvEAmd
+ YrGWD8FoqwuQPe2ETfmDvJb2TxgiLJlZ+4+kXpM7VLTK01nO7yLLbcK8rDBE4w==
+Authentication-Results: ORIGINATING;
+ auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
+Date: Tue, 05 Mar 2024 09:15:14 -0300
+Subject: [PATCH] drm/amdkfd: make kfd_class constant
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 3/3] drm/buddy: Add user for defragmentation
-Content-Language: en-US
-To: "Paneer Selvam, Arunpravin" <arunpravin.paneerselvam@amd.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Cc: christian.koenig@amd.com, alexander.deucher@amd.com,
- matthew.auld@intel.com, felix.kuehling@amd.com, mario.limonciello@amd.com
-References: <20240304163220.3093-1-Arunpravin.PaneerSelvam@amd.com>
- <20240304163220.3093-3-Arunpravin.PaneerSelvam@amd.com>
- <77148946-83ef-4576-a26b-ec84f9a4c63a@gmail.com>
- <aaf76e24-787d-4ca7-b3af-3636d065c1f6@amd.com>
- <f0fae5dd-533b-4649-b338-935f4518036c@amd.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <f0fae5dd-533b-4649-b338-935f4518036c@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240305-class_cleanup-drm-amd-v1-1-ea99b37f26c7@marliere.net>
+X-B4-Tracking: v=1; b=H4sIANEM52UC/x3M3QpAQBBA4VfRXJtay6a8iqT9GUyxtBMpeXeby
+ +/inAeEEpNAVzyQ6GLhPWZUZQF+sXEm5JANWulG1cqgX63I6Fey8TwwpA3tFtAF32pjXGsaBbk
+ 9Ek18/99+eN8PW1ehI2cAAAA=
+To: Felix Kuehling <Felix.Kuehling@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Ricardo B. Marliere" <ricardo@marliere.net>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2580; i=ricardo@marliere.net; 
+ h=from:subject:message-id;
+ bh=kW6ySO9UjKoPkDNKLl904Eg7AGlGAj8q4urpp8bhL+A=; 
+ b=owEBbQKS/ZANAwAKAckLinxjhlimAcsmYgBl5wzUrYRyC7QPry2Qt/QVSUFHko1BN60HYq8im
+ pKi9crZA16JAjMEAAEKAB0WIQQDCo6eQk7jwGVXh+HJC4p8Y4ZYpgUCZecM1AAKCRDJC4p8Y4ZY
+ pojlD/4+yZ4Gt+Nxg1Sgg2TByTe24SdCm8LDHQY7YesXADry34SCqGMvqx/PEXvJylFH9kcgh/s
+ NPZLOCmapuanwhUJXelV4CqSQS4An59xgPNJuFvmUa4iS4O8Chj3vgPGjtZFpIOsObdTxY0nYmI
+ KkBMeUrNPYlVTFUFhnvXSFjSvrd552Un0aSb/IO2+ArAIF43bNQFgC0AeruTxuLRew+OEgYuMR0
+ Flkq4sUbzc2i/GJID7KgIzhPM5ZcTPVmapA3B8JXvQAgPHOoazUPMBg0ruRZSwX5973Ul3rzvjl
+ F2SkfJSzAvP7BFU3CDkPfXujvWr0U53VRqruHd9Rzr4mreStGDiTDK7kW9pikwU6SK4zG6NDknB
+ EgfWQnhxm9wvZmmkQNGEpO7FsyXpKY3ZTj/S4XkflIR3zrnYdZafhiSiz+LwI34TwMMkIp8QD9g
+ Zw6fZAgGNlfkTrQOzl+FAqzn4psKVPu3lv8yy1ipGmJbxP0Okwywi/OMk/SBYt8344Iwsz2Nwgp
+ q1mM+J5h5/czFQqZmcws2MN7RiFoJH4ccKcD7BgSBAUsgqYbGd/ltg9Y38pcj9021m9/jDxCaQN
+ c0/KZdhyOj3Fn/HzGgXONhT9xz3178ZH8jAvtC7uWcH5g7GW8n4QU3EqKyZTBqiehwrHjSGRgGk
+ 6cTcmFrf0f88Jxg==
+X-Developer-Key: i=ricardo@marliere.net; a=openpgp;
+ fpr=030A8E9E424EE3C0655787E1C90B8A7C638658A6
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,121 +107,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 05.03.24 um 12:14 schrieb Paneer Selvam, Arunpravin:
-> On 3/5/2024 4:33 PM, Paneer Selvam, Arunpravin wrote:
->> Hi Christian,
->>
->> On 3/4/2024 10:09 PM, Christian König wrote:
->>> Am 04.03.24 um 17:32 schrieb Arunpravin Paneer Selvam:
->>>> Add amdgpu driver as user for the drm buddy
->>>> defragmentation.
->>>>
->>>> Signed-off-by: Arunpravin Paneer Selvam 
->>>> <Arunpravin.PaneerSelvam@amd.com>
->>>> ---
->>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 17 +++++++++++++++--
->>>>   drivers/gpu/drm/drm_buddy.c                  |  1 +
->>>>   2 files changed, 16 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c 
->>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
->>>> index e494f5bf136a..cff8a526c622 100644
->>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
->>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
->>>> @@ -533,8 +533,21 @@ static int amdgpu_vram_mgr_new(struct 
->>>> ttm_resource_manager *man,
->>>>                          min_block_size,
->>>>                          &vres->blocks,
->>>>                          vres->flags);
->>>> -        if (unlikely(r))
->>>> -            goto error_free_blocks;
->>>> +        if (unlikely(r)) {
->>>> +            if (r == -ENOSPC) {
->>>> +                drm_buddy_defrag(mm, min_block_size);
->>>> +                r = drm_buddy_alloc_blocks(mm, fpfn,
->>>> +                               lpfn,
->>>> +                               size,
->>>> +                               min_block_size,
->>>> +                               &vres->blocks,
->>>> +                               vres->flags);
->>>
->>> That doesn't looks like something we should do.
->>>
->>> We might fallback when contiguous memory is requested, but certainly 
->>> not on normal allocation failure.
->> yes, defrag here not useful for normal allocations. But worried about 
->> the bigger min_block_size normal allocations.
->> In such cases, I think we should move this drm_buddy_defrag() call 
->> into buddy allocator file. For example if the required
->> size is 1024KiB and if min_block_size is 256KiB, the allocator first 
->> tries to find the 1024KiB block, when there is no single 1024KiB block,
->> the allocator goes one level below in freelist and tries to search 
->> for two 512KiB blocks and goes on. At one point of time if we have 
->> less space,
->> we might go further levels below to search four 256KiB blocks to 
->> satisfy the request.
->>
->> Assuming if the allocator cannot find the first 256KiB block, that 
->> time I think we might need to merge the two 128KiB blocks
->> through defragmentation function. And again for the second 256KiB 
->> block, we might need to call the defragmentation again to
->> merge two 128KiB blocks or four 64KiB blocks to form minimum 
->> alignment size of 256KiB. This goes on for the third and fourth
->> 256KiB blocks to complete the required size allocation of 1024KiB. 
->> Please let me know if my understanding is not correct.
+Since commit 43a7206b0963 ("driver core: class: make class_register() take
+a const *"), the driver core allows for struct class to be in read-only
+memory, so move the kfd_class structure to be declared at build time
+placing it into read-only memory, instead of having to be dynamically
+allocated at boot time.
 
-I don't think we should do that. We essentially have to support two 
-different use cases:
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
 
-1. Non contiguous allocation with 2MiB min_block_size for everything 
-larger than 2MiB. Using a block size as large as possible is desirable, 
-but not something we enforce.
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+index f030cafc5a0a..dfa8c69532d4 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+@@ -63,8 +63,10 @@ static const struct file_operations kfd_fops = {
+ };
+ 
+ static int kfd_char_dev_major = -1;
+-static struct class *kfd_class;
+ struct device *kfd_device;
++static const struct class kfd_class = {
++	.name = kfd_dev_name,
++};
+ 
+ static inline struct kfd_process_device *kfd_lock_pdd_by_id(struct kfd_process *p, __u32 gpu_id)
+ {
+@@ -94,14 +96,13 @@ int kfd_chardev_init(void)
+ 	if (err < 0)
+ 		goto err_register_chrdev;
+ 
+-	kfd_class = class_create(kfd_dev_name);
+-	err = PTR_ERR(kfd_class);
+-	if (IS_ERR(kfd_class))
++	err = class_register(&kfd_class);
++	if (err)
+ 		goto err_class_create;
+ 
+-	kfd_device = device_create(kfd_class, NULL,
+-					MKDEV(kfd_char_dev_major, 0),
+-					NULL, kfd_dev_name);
++	kfd_device = device_create(&kfd_class, NULL,
++				   MKDEV(kfd_char_dev_major, 0),
++				   NULL, kfd_dev_name);
+ 	err = PTR_ERR(kfd_device);
+ 	if (IS_ERR(kfd_device))
+ 		goto err_device_create;
+@@ -109,7 +110,7 @@ int kfd_chardev_init(void)
+ 	return 0;
+ 
+ err_device_create:
+-	class_destroy(kfd_class);
++	class_unregister(&kfd_class);
+ err_class_create:
+ 	unregister_chrdev(kfd_char_dev_major, kfd_dev_name);
+ err_register_chrdev:
+@@ -118,8 +119,8 @@ int kfd_chardev_init(void)
+ 
+ void kfd_chardev_exit(void)
+ {
+-	device_destroy(kfd_class, MKDEV(kfd_char_dev_major, 0));
+-	class_destroy(kfd_class);
++	device_destroy(&kfd_class, MKDEV(kfd_char_dev_major, 0));
++	class_unregister(&kfd_class);
+ 	unregister_chrdev(kfd_char_dev_major, kfd_dev_name);
+ 	kfd_device = NULL;
+ }
 
-2. Contiguous allocations for display, firmware etc.. Here we need to 
-enforce a large block size and can live with the additional overhead 
-caused by force merging.
+---
+base-commit: 8bc75586ea01f1c645063d3472c115ecab03e76c
+change-id: 20240305-class_cleanup-drm-amd-bdc7255b7540
 
->
-> As you have suggested we can also rename this as force merge or some 
-> other names.
-
-Yeah, but just an suggestion. You are way deeper in the code and 
-handling than I'm, so feel free to name it whatever you think fits best.
-
-Regards,
-Christian.
-
-
->
-> Thanks,
-> Arun.
->>
->> Thanks,
->> Arun.
->>>
->>> Regards,
->>> Christian.
->>>
->>>> +                if (unlikely(r))
->>>> +                    goto error_free_blocks;
->>>> +            } else {
->>>> +                goto error_free_blocks;
->>>> +            }
->>>> +        }
->>>>             if (size > remaining_size)
->>>>               remaining_size = 0;
->>>> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
->>>> index 40131ed9b0cd..19440f8caec0 100644
->>>> --- a/drivers/gpu/drm/drm_buddy.c
->>>> +++ b/drivers/gpu/drm/drm_buddy.c
->>>> @@ -396,6 +396,7 @@ void drm_buddy_defrag(struct drm_buddy *mm,
->>>>           }
->>>>       }
->>>>   }
->>>> +EXPORT_SYMBOL(drm_buddy_defrag);
->>>>     /**
->>>>    * drm_buddy_free_block - free a block
->>>
->>
->
+Best regards,
+-- 
+Ricardo B. Marliere <ricardo@marliere.net>
 
