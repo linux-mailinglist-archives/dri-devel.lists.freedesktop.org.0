@@ -2,91 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1556F871EFC
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 13:21:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7578A871FD0
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 14:11:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBEA1112A91;
-	Tue,  5 Mar 2024 12:21:29 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=marliere.net header.i=@marliere.net header.b="YgK6NkcV";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F3B1112AB9;
+	Tue,  5 Mar 2024 13:11:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71DAB112A91
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 12:21:29 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-1dc49b00bdbso50134775ad.3
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 04:21:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709641289; x=1710246089;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:dkim-signature:from:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=SEx+zb9TSgK4yB6p6tHYNUfZEDI6oNw+ZcHBjx9ShfU=;
- b=YsTvcnVlPFdYjQkW0n+FuMeAMrc/tpD6lSPUegtngE+ZFYZN++DbG01sIHj1Tj/sTy
- K9aT2TZFqprfhvsCE6xE+Ede2JhSWLXIf46geioaaCp4W7AwfWjNryCSqS5jxIlQ0jzf
- rrp4CmSDFOlAVN/HHOZAIsYSK4FcrH8EUDjp6CD3WvRMjKP7WsaD8qAG9QgplBoeWfvo
- f26H/hffgCFgy3oxQrSb1EttdkvXne7gVwrFLCR+lBTd+1ip291weWwB5zNB7KvvyQce
- f2JuRK4WrTXItGSc7Ji6O/m+KxIHonkdLWsxB5CaA0XfHKfZwYdKhub6L7k1G9/GNZf/
- gagw==
-X-Gm-Message-State: AOJu0YzRmputoan8/BvE4VOSSPg/IDqLCAshLcPc9Cmcf6Lnma08zVVz
- wIpBylBnTNVFVNOaBvnY3F5CfIrdLqqoGmEN0nEty5Vobh6MiGkk
-X-Google-Smtp-Source: AGHT+IGmOCmr/nPchd/IbKo+mLmdiGP2sn/dFWTak1HHJNlB1jMqv56PTesOXkry/3ewNFEhPLEIng==
-X-Received: by 2002:a17:902:da86:b0:1dd:2bc2:ed25 with SMTP id
- j6-20020a170902da8600b001dd2bc2ed25mr1645988plx.42.1709641288888; 
- Tue, 05 Mar 2024 04:21:28 -0800 (PST)
-Received: from mail.marliere.net ([24.199.118.162])
- by smtp.gmail.com with ESMTPSA id
- 4-20020a170902e9c400b001d7252fef6bsm10369231plk.299.2024.03.05.04.21.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Mar 2024 04:21:28 -0800 (PST)
-From: "Ricardo B. Marliere" <ricardo@marliere.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
- s=2024; t=1709641287;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SEx+zb9TSgK4yB6p6tHYNUfZEDI6oNw+ZcHBjx9ShfU=;
- b=YgK6NkcV2HDpRzMn7ctoup6zYb4x8csJ7THtUKcJzzjJ8RcVsmDRAsPh4Yfvkh2QaPSsaE
- JzOn9WH/glkdghz21tc3GPWUrUDeE7BnH2ybn4ms06a+w72XsjUDASvRLOFLWL+rBPg9ef
- fh+GPzYNlr3V+Kl7meY8aFAlHLT3PrDL8yPha+WydzDgR8udWGjKKBvVsABH45S0HIts00
- m6unjkmPUmZbjwEqDDOro6CmzU3Rso4OEfHdrv0WfT9loTGwFFs4J+EM4O6PhKpTylotpa
- qLFXuvR0MWsh/pmh7Zl048oqbcMUfKrzja8mzI0FWCoq/M7E5Gq0UxYlMJ+c/Q==
-Authentication-Results: ORIGINATING;
- auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
-Date: Tue, 05 Mar 2024 09:21:18 -0300
-Subject: [PATCH 2/2] video: backlight: lcd: make lcd_class constant
+X-Greylist: delayed 1012 seconds by postgrey-1.36 at gabe;
+ Tue, 05 Mar 2024 13:11:39 UTC
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4464D112AB9
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 13:11:39 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.174])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4TpwVc6CY4zbcjb;
+ Tue,  5 Mar 2024 20:54:00 +0800 (CST)
+Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
+ by mail.maildlp.com (Postfix) with ESMTPS id D491214037C;
+ Tue,  5 Mar 2024 20:54:42 +0800 (CST)
+Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
+ (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Tue, 5 Mar
+ 2024 20:54:42 +0800
+Subject: Re: [RFC PATCH net-next v6 00/15] Device Memory TCP
+To: Mina Almasry <almasrymina@google.com>, <netdev@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-alpha@vger.kernel.org>, <linux-mips@vger.kernel.org>,
+ <linux-parisc@vger.kernel.org>, <sparclinux@vger.kernel.org>,
+ <linux-trace-kernel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+ <bpf@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
+CC: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Richard Henderson
+ <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer
+ <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
+ <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
+ <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav Fomichev
+ <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+ David Ahern <dsahern@kernel.org>, Willem de Bruijn
+ <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, Sumit
+ Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=c3=b6nig?=
+ <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, David
+ Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Shailend Chand
+ <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel
+ Butt <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>, Praveen
+ Kaligineedi <pkaligineedi@google.com>
+References: <20240305020153.2787423-1-almasrymina@google.com>
+From: Yunsheng Lin <linyunsheng@huawei.com>
+Message-ID: <6208950d-6453-e797-7fc3-1dcf15b49dbe@huawei.com>
+Date: Tue, 5 Mar 2024 20:54:42 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
+In-Reply-To: <20240305020153.2787423-1-almasrymina@google.com>
 Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240305-class_cleanup-backlight-v1-2-c0e15cc25be1@marliere.net>
-References: <20240305-class_cleanup-backlight-v1-0-c0e15cc25be1@marliere.net>
-In-Reply-To: <20240305-class_cleanup-backlight-v1-0-c0e15cc25be1@marliere.net>
-To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, "Ricardo B. Marliere" <ricardo@marliere.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2445; i=ricardo@marliere.net; 
- h=from:subject:message-id;
- bh=zA1QI3pTmF4PVrGfMGQ4T6AJuBZkkUOxdUv7rVLqvq8=; 
- b=owEBbQKS/ZANAwAKAckLinxjhlimAcsmYgBl5w4+iSyNLDZC3tRX7TPpVThd4AQXUWdlE0ijV
- xMPTkgRv36JAjMEAAEKAB0WIQQDCo6eQk7jwGVXh+HJC4p8Y4ZYpgUCZecOPgAKCRDJC4p8Y4ZY
- pobYD/4jQPHj7hJi/so8GQHNZhM9h2mU0OKK45lxlhm1Q3dv8hDKlVyL9rq7nXJl4ST4ztys0VI
- trz7QE3BfAjjJqPjqFyxGRXNNGG9DCAjc5iYeMao8xiYOIDrXQWikf81wWNtJJ2jPWmBVIfQgQ3
- qksMZFWx5vVy7oITR3JGVurioxGUV8/MkG7CbiaLqyboIRMseZ5K+I9PIK1QIQ+u26knlbcsIEC
- WC0fckurcLyEnqXEd+ILPgiXzMpm6RpdvZQB058YL9sSkgkFEzg53EtaoeyM2f4yyLv4p/j9tUG
- sybiXdf+j9AXLbKebqkgrJ1oy3k+2F/9CpqO3GfOOfDTqhkheUhALj1B6cpiuMdyxuQe9KoLeAU
- VPXSNHC+Hz4hx2irj88cHO2aYFFRQXIUSYO4Di4Q0b4xYNTGMnV5M8iDAQ1WMFRYVpRMJoD4vcl
- 7j3OyKLoRjiF2tUzyc7cK3UsOEEvmv5qD+u45T6y+Gv1nZ6KKfytun2qzJYjm/w7m5wIFjH/EER
- uf6f/GhL3OcKs/MLSRkBETzFm4hPdZJrc9fmZCfV+Pes0dEfGYYlvEIrQRL4bL/SNeZ33AN3OVp
- Ti8gaoYCLznvyG71OlDEdm9Sor7/Tr0kwK8fA1Sco+2c1XHKdYjlrv2ko835i16JDo5RFgu6F+8
- CCmkHoOql2/vOgw==
-X-Developer-Key: i=ricardo@marliere.net; a=openpgp;
- fpr=030A8E9E424EE3C0655787E1C90B8A7C638658A6
+X-Originating-IP: [10.69.30.204]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500005.china.huawei.com (7.185.36.74)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,81 +86,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since commit 43a7206b0963 ("driver core: class: make class_register() take
-a const *"), the driver core allows for struct class to be in read-only
-memory, so move the lcd_class structure to be declared at build time
-placing it into read-only memory, instead of having to be dynamically
-allocated at boot time.
+On 2024/3/5 10:01, Mina Almasry wrote:
 
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
----
- drivers/video/backlight/lcd.c | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
+...
 
-diff --git a/drivers/video/backlight/lcd.c b/drivers/video/backlight/lcd.c
-index 77c5cb2a44e2..ba4771cbd781 100644
---- a/drivers/video/backlight/lcd.c
-+++ b/drivers/video/backlight/lcd.c
-@@ -159,8 +159,6 @@ static ssize_t max_contrast_show(struct device *dev,
- }
- static DEVICE_ATTR_RO(max_contrast);
- 
--static struct class *lcd_class;
--
- static void lcd_device_release(struct device *dev)
- {
- 	struct lcd_device *ld = to_lcd_device(dev);
-@@ -175,6 +173,11 @@ static struct attribute *lcd_device_attrs[] = {
- };
- ATTRIBUTE_GROUPS(lcd_device);
- 
-+static const struct class lcd_class = {
-+	.name = "lcd",
-+	.dev_groups = lcd_device_groups,
-+};
-+
- /**
-  * lcd_device_register - register a new object of lcd_device class.
-  * @name: the name of the new object(must be the same as the name of the
-@@ -202,7 +205,7 @@ struct lcd_device *lcd_device_register(const char *name, struct device *parent,
- 	mutex_init(&new_ld->ops_lock);
- 	mutex_init(&new_ld->update_lock);
- 
--	new_ld->dev.class = lcd_class;
-+	new_ld->dev.class = &lcd_class;
- 	new_ld->dev.parent = parent;
- 	new_ld->dev.release = lcd_device_release;
- 	dev_set_name(&new_ld->dev, "%s", name);
-@@ -318,19 +321,19 @@ EXPORT_SYMBOL(devm_lcd_device_unregister);
- 
- static void __exit lcd_class_exit(void)
- {
--	class_destroy(lcd_class);
-+	class_unregister(&lcd_class);
- }
- 
- static int __init lcd_class_init(void)
- {
--	lcd_class = class_create("lcd");
--	if (IS_ERR(lcd_class)) {
--		pr_warn("Unable to create backlight class; errno = %ld\n",
--			PTR_ERR(lcd_class));
--		return PTR_ERR(lcd_class);
-+	int ret;
-+
-+	ret = class_register(&lcd_class);
-+	if (ret) {
-+		pr_warn("Unable to create backlight class; errno = %d\n", ret);
-+		return ret;
- 	}
- 
--	lcd_class->dev_groups = lcd_device_groups;
- 	return 0;
- }
- 
+> 
+> Perf - page-pool benchmark:
+> ---------------------------
+> 
+> bench_page_pool_simple.ko tests with and without these changes:
+> https://pastebin.com/raw/ncHDwAbn
+> 
+> AFAIK the number that really matters in the perf tests is the
+> 'tasklet_page_pool01_fast_path Per elem'. This one measures at about 8
+> cycles without the changes but there is some 1 cycle noise in some
+> results.
+> 
+> With the patches this regresses to 9 cycles with the changes but there
+> is 1 cycle noise occasionally running this test repeatedly.
+> 
+> Lastly I tried disable the static_branch_unlikely() in
+> netmem_is_net_iov() check. To my surprise disabling the
+> static_branch_unlikely() check reduces the fast path back to 8 cycles,
+> but the 1 cycle noise remains.
+> 
 
--- 
-2.43.0
-
+The last sentence seems to be suggesting the above 1 ns regresses is caused
+by the static_branch_unlikely() checking?
