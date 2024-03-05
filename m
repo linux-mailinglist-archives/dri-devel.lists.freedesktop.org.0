@@ -2,87 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40AA9871A18
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 11:01:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B65D871A25
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 11:04:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B4421129BE;
-	Tue,  5 Mar 2024 10:01:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4A5610E245;
+	Tue,  5 Mar 2024 10:04:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="XyRejtvR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xcpE/vo/";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XyRejtvR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xcpE/vo/";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="G5vasWwx";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="R4fg3BR+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="G5vasWwx";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="R4fg3BR+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2FF11129BD
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 10:00:59 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83D451129C1
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 10:04:28 +0000 (UTC)
 Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:98])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 5182E76B80;
- Tue,  5 Mar 2024 10:00:58 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id AE2BF6AB06;
+ Tue,  5 Mar 2024 10:04:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1709632858; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1709633066; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=3ZNvgjCKLTo59v5cGYhNXJrpwhp2uWIuN8Ir+MiwbT0=;
- b=XyRejtvRGJX8vcMZduTnzE9Hcd1obvFQWtAZ8Br5f6pduQ0knbXb05NcLie8p11u56KxfL
- 5q6+iK52U/r1tEeY+fgdf0Bb4MWwM5z429CF++sT94AARphZFC6cD8Er5rkJg3LL6a03ZV
- 4n06WERnpAlXv+sfw69GKFso4Zkf2GU=
+ bh=TER6JpIJ4/RVnjarJCWAeQTVqdl0Kel7dheCcqNkqMA=;
+ b=G5vasWwxzx8tORqS9VBloBUYmuFmH7Eu+pmP6W3ZHVbna7BR1ELrAGtJemQeU3LILk08a0
+ DPAALqc7QW81E5BfOUlRx8dv707dKiF+aJYJpI8E/ebkyoXZ7NET2BGJ17HvxWDFXKplyz
+ 7tOuexj/93nBplcGrj1+5vE6iirbxpc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1709632858;
+ s=susede2_ed25519; t=1709633066;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=3ZNvgjCKLTo59v5cGYhNXJrpwhp2uWIuN8Ir+MiwbT0=;
- b=xcpE/vo/bk7BfXZVch8orRTu0N4sLBMt7EMxmhN89Qx0xwLUK5r756hgdj/m35y2TaXFww
- YNR/l5MusGJh7oCg==
+ bh=TER6JpIJ4/RVnjarJCWAeQTVqdl0Kel7dheCcqNkqMA=;
+ b=R4fg3BR+ZzWyyBENiRZ+/DanzPr+KLoMkcrRN+tn2nuUmCuYRP+96LN6yVOgO4y35WF+ZN
+ H0JDieqbO5vaYbAw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1709632858; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1709633066; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=3ZNvgjCKLTo59v5cGYhNXJrpwhp2uWIuN8Ir+MiwbT0=;
- b=XyRejtvRGJX8vcMZduTnzE9Hcd1obvFQWtAZ8Br5f6pduQ0knbXb05NcLie8p11u56KxfL
- 5q6+iK52U/r1tEeY+fgdf0Bb4MWwM5z429CF++sT94AARphZFC6cD8Er5rkJg3LL6a03ZV
- 4n06WERnpAlXv+sfw69GKFso4Zkf2GU=
+ bh=TER6JpIJ4/RVnjarJCWAeQTVqdl0Kel7dheCcqNkqMA=;
+ b=G5vasWwxzx8tORqS9VBloBUYmuFmH7Eu+pmP6W3ZHVbna7BR1ELrAGtJemQeU3LILk08a0
+ DPAALqc7QW81E5BfOUlRx8dv707dKiF+aJYJpI8E/ebkyoXZ7NET2BGJ17HvxWDFXKplyz
+ 7tOuexj/93nBplcGrj1+5vE6iirbxpc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1709632858;
+ s=susede2_ed25519; t=1709633066;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=3ZNvgjCKLTo59v5cGYhNXJrpwhp2uWIuN8Ir+MiwbT0=;
- b=xcpE/vo/bk7BfXZVch8orRTu0N4sLBMt7EMxmhN89Qx0xwLUK5r756hgdj/m35y2TaXFww
- YNR/l5MusGJh7oCg==
+ bh=TER6JpIJ4/RVnjarJCWAeQTVqdl0Kel7dheCcqNkqMA=;
+ b=R4fg3BR+ZzWyyBENiRZ+/DanzPr+KLoMkcrRN+tn2nuUmCuYRP+96LN6yVOgO4y35WF+ZN
+ H0JDieqbO5vaYbAw==
 Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 0AA0B13A5D;
- Tue,  5 Mar 2024 10:00:58 +0000 (UTC)
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 5086113A5D;
+ Tue,  5 Mar 2024 10:04:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap2.dmz-prg2.suse.org with ESMTPSA id 4TBHAVrt5mU1cQAAn2gu4w
- (envelope-from <tzimmermann@suse.de>); Tue, 05 Mar 2024 10:00:58 +0000
-Message-ID: <814c0da4-73f9-4260-868e-831a48fcb042@suse.de>
-Date: Tue, 5 Mar 2024 11:00:57 +0100
+ by imap2.dmz-prg2.suse.org with ESMTPSA id GT4iEiru5mUhcgAAn2gu4w
+ (envelope-from <tzimmermann@suse.de>); Tue, 05 Mar 2024 10:04:26 +0000
+Message-ID: <f7503198-ab1b-463c-a8c8-9addbdcdab1b@suse.de>
+Date: Tue, 5 Mar 2024 11:04:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/10] backlight: Replace struct fb_info in interfaces
+Subject: Re: [PATCH v2 3/3] arch/powerpc: Remove <linux/fb.h> from backlight
+ code
 Content-Language: en-US
-To: Lee Jones <lee@kernel.org>
-Cc: andy@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
- deller@gmx.de, robin@protonic.nl, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
-References: <20240304163220.19144-1-tzimmermann@suse.de>
- <20240305093632.GC5206@google.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>,
+ "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
+ "jani.nikula@intel.com" <jani.nikula@intel.com>,
+ "naresh.kamboju@linaro.org" <naresh.kamboju@linaro.org>,
+ "deller@gmx.de" <deller@gmx.de>, "npiggin@gmail.com" <npiggin@gmail.com>,
+ "aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>,
+ "naveen.n.rao@linux.ibm.com" <naveen.n.rao@linux.ibm.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "lkft-triage@lists.linaro.org" <lkft-triage@lists.linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
+References: <20240305090910.26742-1-tzimmermann@suse.de>
+ <20240305090910.26742-4-tzimmermann@suse.de>
+ <15e13364-8b43-402c-836b-436499906b74@csgroup.eu>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
@@ -108,33 +117,34 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20240305093632.GC5206@google.com>
+In-Reply-To: <15e13364-8b43-402c-836b-436499906b74@csgroup.eu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XyRejtvR;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="xcpE/vo/"
-X-Spamd-Result: default: False [-5.30 / 50.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- XM_UA_NO_VERSION(0.01)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
- DWL_DNSWL_MED(-2.00)[suse.de:dkim]; BAYES_HAM(-3.00)[100.00%];
- RCVD_COUNT_THREE(0.00)[3];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DKIM_TRACE(0.00)[suse.de:+]; MX_GOOD(-0.01)[];
- RCPT_COUNT_SEVEN(0.00)[11];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- MIME_TRACE(0.00)[0:+];
- FREEMAIL_CC(0.00)[kernel.org,linaro.org,gmail.com,gmx.de,protonic.nl,redhat.com,lists.freedesktop.org,vger.kernel.org];
- RCVD_TLS_ALL(0.00)[]; MID_RHS_MATCH_FROM(0.00)[]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 5182E76B80
+Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
-X-Spam-Score: -5.30
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=G5vasWwx;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=R4fg3BR+
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.50 / 50.00]; TO_DN_EQ_ADDR_SOME(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; XM_UA_NO_VERSION(0.01)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+ TO_DN_SOME(0.00)[]; RCVD_COUNT_THREE(0.00)[3];
+ DKIM_TRACE(0.00)[suse.de:+]; MX_GOOD(-0.01)[];
+ NEURAL_HAM_SHORT(-0.20)[-0.992];
+ FREEMAIL_TO(0.00)[csgroup.eu,ellerman.id.au,intel.com,linaro.org,gmx.de,gmail.com,kernel.org,linux.ibm.com];
+ FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+];
+ BAYES_HAM(-3.00)[100.00%]; MID_RHS_MATCH_FROM(0.00)[];
+ ARC_NA(0.00)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCPT_COUNT_TWELVE(0.00)[13];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -4.50
+X-Rspamd-Queue-Id: AE2BF6AB06
 X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -153,76 +163,101 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi
 
-Am 05.03.24 um 10:36 schrieb Lee Jones:
-> On Mon, 04 Mar 2024, Thomas Zimmermann wrote:
+Am 05.03.24 um 10:25 schrieb Christophe Leroy:
 >
->> Backlight drivers implement struct backlight_ops.check_fb, which
->> uses struct fb_info in its interface. Replace the callback with one
->> that does not use fb_info.
->>
->> In DRM, we have several drivers that implement backlight support. By
->> including <linux/backlight.h> these drivers depend on <linux/fb.h>.
->> At the same time, fbdev is deprecated for new drivers and likely to
->> be replaced on many systems.
->>
->> This patchset is part of a larger effort to implement the backlight
->> code without depending on fbdev.
->>
->> Patch 1 makes the backlight core match backlight and framebuffer
->> devices via struct fb_info.bl_dev. Patches 2 to 9 then go through
->> drivers and remove unnecessary implementations of check_fb. Finally,
->> patch 10 replaces the check_fb hook with controls_device, which
->> uses the framebuffer's Linux device instead of the framebuffer.
->>
->> v3:
->> 	* hide CONFIG_FB_BACKLIGHT behind fb_bl_device() (Lee)
->> 	* if-else cleanups (Andy)
->> 	* fix commit message of patch 2 (Andy)
->> v2:
->> 	* fix hid-picolcd for CONFIG_FB_BACKLIGHT=n
->> 	* fixes to commit messages
->>
->> Thomas Zimmermann (10):
->>    backlight: Match backlight device against struct fb_info.bl_dev
->>    auxdisplay/ht16k33: Remove struct backlight_ops.check_fb
->>    hid/hid-picolcd: Fix initialization order
->>    hid/hid-picolcd: Remove struct backlight_ops.check_fb
->>    backlight/aat2870-backlight: Remove struct backlight.check_fb
->>    backlight/pwm-backlight: Remove struct backlight_ops.check_fb
->>    fbdev/sh_mobile_lcdc_fb: Remove struct backlight_ops.check_fb
->>    fbdev/ssd1307fb: Init backlight before registering framebuffer
->>    fbdev/ssd1307fb: Remove struct backlight_ops.check_fb
->>    backlight: Add controls_device callback to struct backlight_ops
->>
->>   drivers/auxdisplay/ht16k33.c             |  8 ------
->>   drivers/hid/hid-picolcd_backlight.c      |  7 ------
->>   drivers/hid/hid-picolcd_core.c           | 14 +++++------
->>   drivers/hid/hid-picolcd_fb.c             |  6 +++++
->>   drivers/video/backlight/aat2870_bl.c     |  7 ------
->>   drivers/video/backlight/backlight.c      |  8 ++++--
->>   drivers/video/backlight/bd6107.c         | 12 ++++-----
->>   drivers/video/backlight/gpio_backlight.c | 12 ++++-----
->>   drivers/video/backlight/lv5207lp.c       | 12 ++++-----
->>   drivers/video/backlight/pwm_bl.c         | 12 ---------
->>   drivers/video/fbdev/core/fb_backlight.c  |  5 ++++
->>   drivers/video/fbdev/sh_mobile_lcdcfb.c   |  7 ------
->>   drivers/video/fbdev/ssd1307fb.c          | 31 +++++++++---------------
->>   include/linux/backlight.h                | 16 ++++++------
->>   include/linux/fb.h                       |  9 +++++++
->>   include/linux/pwm_backlight.h            |  1 -
->>   16 files changed, 70 insertions(+), 97 deletions(-)
-> Which Acks are you missing for us to merge this?
-
-Only yours.
-
-If you decide to only merge the backlight patches, I'll merge the other 
-patches via other fbdev/drm trees during the next release cycle. Patch 
-10/10 would afterwards go into the backlight tree again.
-
-Best regards
-Thomas
-
+> Le 05/03/2024 à 10:01, Thomas Zimmermann a écrit :
+>> Replace <linux/fb.h> with a forward declaration in <asm/backlight.h> to
+>> resolves an unnecessary dependency. Remove pmac_backlight_curve_lookup()
+>> and struct fb_info from source and header files. The function and the
+>> framebuffer struct is unused. No functional changes.
+> When you remove pmac_backlight_curve_lookup() prototype you'll then get
+> a warning/error about missing prototype when building
+> arch/powerpc/platforms/powermac/backlight.c
 >
+> The fonction is not used outside of that file so it should be static.
+> And then it is not used in that file either so it should be removed
+> completely. Indeed last use of that function was removed by commit
+> d565dd3b0824 ("[PATCH] powerpc: More via-pmu backlight fixes") so the
+> function can safely be removed.
+
+Isn't that what my patch is doing? I have no callers of the function in 
+my tree (drm-tip), so I removed it entirely. Should I add a Fixes tag 
+against commit d565dd3b0824? Best regards Thomas
+>
+> Christophe
+>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>    arch/powerpc/include/asm/backlight.h        |  5 ++--
+>>    arch/powerpc/platforms/powermac/backlight.c | 26 ---------------------
+>>    2 files changed, 2 insertions(+), 29 deletions(-)
+>>
+>> diff --git a/arch/powerpc/include/asm/backlight.h b/arch/powerpc/include/asm/backlight.h
+>> index 1b5eab62ed047..061a910d74929 100644
+>> --- a/arch/powerpc/include/asm/backlight.h
+>> +++ b/arch/powerpc/include/asm/backlight.h
+>> @@ -10,15 +10,14 @@
+>>    #define __ASM_POWERPC_BACKLIGHT_H
+>>    #ifdef __KERNEL__
+>>    
+>> -#include <linux/fb.h>
+>>    #include <linux/mutex.h>
+>>    
+>> +struct backlight_device;
+>> +
+>>    /* For locking instructions, see the implementation file */
+>>    extern struct backlight_device *pmac_backlight;
+>>    extern struct mutex pmac_backlight_mutex;
+>>    
+>> -extern int pmac_backlight_curve_lookup(struct fb_info *info, int value);
+>> -
+>>    extern int pmac_has_backlight_type(const char *type);
+>>    
+>>    extern void pmac_backlight_key(int direction);
+>> diff --git a/arch/powerpc/platforms/powermac/backlight.c b/arch/powerpc/platforms/powermac/backlight.c
+>> index aeb79a8b3e109..12bc01353bd3c 100644
+>> --- a/arch/powerpc/platforms/powermac/backlight.c
+>> +++ b/arch/powerpc/platforms/powermac/backlight.c
+>> @@ -9,7 +9,6 @@
+>>     */
+>>    
+>>    #include <linux/kernel.h>
+>> -#include <linux/fb.h>
+>>    #include <linux/backlight.h>
+>>    #include <linux/adb.h>
+>>    #include <linux/pmu.h>
+>> @@ -72,31 +71,6 @@ int pmac_has_backlight_type(const char *type)
+>>    	return 0;
+>>    }
+>>    
+>> -int pmac_backlight_curve_lookup(struct fb_info *info, int value)
+>> -{
+>> -	int level = (FB_BACKLIGHT_LEVELS - 1);
+>> -
+>> -	if (info && info->bl_dev) {
+>> -		int i, max = 0;
+>> -
+>> -		/* Look for biggest value */
+>> -		for (i = 0; i < FB_BACKLIGHT_LEVELS; i++)
+>> -			max = max((int)info->bl_curve[i], max);
+>> -
+>> -		/* Look for nearest value */
+>> -		for (i = 0; i < FB_BACKLIGHT_LEVELS; i++) {
+>> -			int diff = abs(info->bl_curve[i] - value);
+>> -			if (diff < max) {
+>> -				max = diff;
+>> -				level = i;
+>> -			}
+>> -		}
+>> -
+>> -	}
+>> -
+>> -	return level;
+>> -}
+>> -
+>>    static void pmac_backlight_key_worker(struct work_struct *work)
+>>    {
+>>    	if (atomic_read(&kernel_backlight_disabled))
 
 -- 
 --
