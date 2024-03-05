@@ -2,49 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1D0D871BE1
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 11:45:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 290C6871BEE
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 11:46:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB80810E030;
-	Tue,  5 Mar 2024 10:45:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43F1610E0B0;
+	Tue,  5 Mar 2024 10:46:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ib32rDTh";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Yp6hRZCs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF1BE10E030
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 10:45:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9A6FC61489;
- Tue,  5 Mar 2024 10:45:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC4A1C433C7;
- Tue,  5 Mar 2024 10:45:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1709635505;
- bh=8VjRaJlSO52iUgJuSPtyZYPQMgxH2rtz0BnF9RAJWh4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Ib32rDTh4IJYYPZKnoiSk9MLqhEOKNsNr1vEYi4ugZ0s5BDM8Mht4heLcu0Udkxag
- 8v0nX4T7ukk8LMFRAhRQ8uqDx/xOQMPUzeSu60R3VdRhJXj4O1nzOR8eaFlbL96JFu
- soCK+s47ucZI/XIqYtx+PY1I8b9MWsw3ywh3jfQzPQwrVWfkAyOWd7ozPyvoqOQ9yM
- AbwvJ/0dBjchXuN1RaH6qMHcgF372gCrI9vBrJ8IhsR0g//jDRywFazfy74BqdAVD5
- 303nVglW7uUTyNujcbgQtlD1sEJ/4m7n7RG5j2qbbcbwFNhdVwxcL9msRwmNIq3Nlr
- Hlyk7IKCnXt0w==
-Date: Tue, 5 Mar 2024 10:44:59 +0000
-From: Lee Jones <lee@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: andy@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
- deller@gmx.de, robin@protonic.nl, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v3 00/10] backlight: Replace struct fb_info in interfaces
-Message-ID: <20240305104459.GA86322@google.com>
-References: <20240304163220.19144-1-tzimmermann@suse.de>
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52CF710E0B0
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 10:46:05 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-412eced6d1aso3226595e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 02:46:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1709635563; x=1710240363;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=JVA1JqDTMPvckuRaTHq5sqq6pnFxGrbQ8TF6seYnelo=;
+ b=Yp6hRZCsFC33wO5Y8u0MgOs/oSSok1vx7NvYFtU+c79JT+GOrvGDUL11vez5M4Kf3G
+ y+VCnvywzsHZx/ig7rFHm5WORnbHV1RHBLhjhS5UklTKKJr2SasbelaiP1neuXoTYih8
+ AJ7HUSxDEvMWHP8qe6lHNLszluzWCOqIQ/wgGlAz5Ub8JSUgsgn/yjT05TGj8qtl+fne
+ AtPNd5CC5hdfLpOIq2s4ifSDLB+8oiRWPDWaxz7NJKcwo3+FdB1D57f6vqZHm0Dlgg+p
+ 91R+d/97dRsHtWLoQmTQam1gpI/20XVUwR1+HRlSsw2/xkAkoGE5kYVKMs0V+n+bebKK
+ GsAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1709635563; x=1710240363;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=JVA1JqDTMPvckuRaTHq5sqq6pnFxGrbQ8TF6seYnelo=;
+ b=GHkmkmSOu4+P8Xoxye7dGaOgaQn0M/YD19N02wCwYm4pkmKsPcW7KEayOjAJt6IAzM
+ ax+jCwSH49MUVDF2AClyxbPdmVVTR0p67cjK8ev3mODPsBdyvJ0KUjajqW/Z8grQLxYz
+ pxoW1e4ABpvhNJmvJjhUCPZ80w59iwFEpIocmDBroS4jYJ6TQEaMBaIAi/vFM0Le5AIp
+ cIutk2U439G0QylU+ATdvpJYBOKxmcdvGa2N5Y8ep0ieRbpkYNaRXFYNStIO1DmgMqyu
+ 9k3wySKkBx88X/p7r1BJRtLMzG5iiIyteans7zmA+7nqZUIcqa3VWZqEhZIDUhb8k4K5
+ Z/rQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX4WUHb0ZwjwTP22S0+WHLW8CeDCtJ6L+Ww5124zFtsF3zMISZMWNtLI9XoaZ6YAQ5J56Br1nX4FjnY4EmXlnnqJU8L4WAvy+Gyi7+aoNHj
+X-Gm-Message-State: AOJu0Yw2dHmgZqN/sjblWOTWsXVrf43TmQlqwyJMDmiP1rmPufrD8nJu
+ VoYs5YQKGYyOFxJ2sIZ9fIeoNEzuKmpnIsyDJFcG29srkDuSqXmZkc8i7FuygyE=
+X-Google-Smtp-Source: AGHT+IE/L4A6bnauZ4LpcW6naeeYuRNA8WEWJrlnt645s9ZaWVjgn/tE11DGJ0F5XhXa7k+kx2lEzw==
+X-Received: by 2002:a05:6000:1249:b0:33d:2226:a28b with SMTP id
+ j9-20020a056000124900b0033d2226a28bmr7827513wrx.37.1709635563236; 
+ Tue, 05 Mar 2024 02:46:03 -0800 (PST)
+Received: from [192.168.1.70] ([84.102.31.43])
+ by smtp.gmail.com with ESMTPSA id
+ d15-20020a5d644f000000b0033e052be14fsm14577187wrw.98.2024.03.05.02.46.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Mar 2024 02:46:02 -0800 (PST)
+Message-ID: <3a5f3950-e47f-409a-b881-0c8545778b91@baylibre.com>
+Date: Tue, 5 Mar 2024 11:46:00 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240304163220.19144-1-tzimmermann@suse.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] net: ethernet: ti: am65-cpsw: Add minimal XDP
+ support
+Content-Language: en-US
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Simon Horman <horms@kernel.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20240223-am65-cpsw-xdp-basic-v2-0-01c6caacabb6@baylibre.com>
+ <20240223-am65-cpsw-xdp-basic-v2-2-01c6caacabb6@baylibre.com>
+ <356f4dd4-eb0e-49fa-a9eb-4dffbe5c7e7c@lunn.ch>
+From: Julien Panis <jpanis@baylibre.com>
+In-Reply-To: <356f4dd4-eb0e-49fa-a9eb-4dffbe5c7e7c@lunn.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,67 +99,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 04 Mar 2024, Thomas Zimmermann wrote:
+On 3/1/24 17:38, Andrew Lunn wrote:
+> On Fri, Mar 01, 2024 at 04:02:53PM +0100, Julien Panis wrote:
+>> This patch adds XDP (eXpress Data Path) support to TI AM65 CPSW
+>> Ethernet driver. The following features are implemented:
+>> - NETDEV_XDP_ACT_BASIC (XDP_PASS, XDP_TX, XDP_DROP, XDP_ABORTED)
+>> - NETDEV_XDP_ACT_REDIRECT (XDP_REDIRECT)
+>> - NETDEV_XDP_ACT_NDO_XMIT (ndo_xdp_xmit callback)
+>>
+>> The page pool memory model is used to get better performance.
+> Do you have any benchmark numbers? It should help with none XDP
+> traffic as well. So maybe iperf numbers before and after?
+>
+> 	Andrew
 
-> Backlight drivers implement struct backlight_ops.check_fb, which
-> uses struct fb_info in its interface. Replace the callback with one
-> that does not use fb_info.
-> 
-> In DRM, we have several drivers that implement backlight support. By
-> including <linux/backlight.h> these drivers depend on <linux/fb.h>.
-> At the same time, fbdev is deprecated for new drivers and likely to
-> be replaced on many systems.
-> 
-> This patchset is part of a larger effort to implement the backlight
-> code without depending on fbdev.
-> 
-> Patch 1 makes the backlight core match backlight and framebuffer
-> devices via struct fb_info.bl_dev. Patches 2 to 9 then go through
-> drivers and remove unnecessary implementations of check_fb. Finally,
-> patch 10 replaces the check_fb hook with controls_device, which
-> uses the framebuffer's Linux device instead of the framebuffer.
-> 
-> v3:
-> 	* hide CONFIG_FB_BACKLIGHT behind fb_bl_device() (Lee)
-> 	* if-else cleanups (Andy)
-> 	* fix commit message of patch 2 (Andy)
-> v2:
-> 	* fix hid-picolcd for CONFIG_FB_BACKLIGHT=n
-> 	* fixes to commit messages
-> 
-> Thomas Zimmermann (10):
->   backlight: Match backlight device against struct fb_info.bl_dev
->   auxdisplay/ht16k33: Remove struct backlight_ops.check_fb
->   hid/hid-picolcd: Fix initialization order
->   hid/hid-picolcd: Remove struct backlight_ops.check_fb
->   backlight/aat2870-backlight: Remove struct backlight.check_fb
->   backlight/pwm-backlight: Remove struct backlight_ops.check_fb
->   fbdev/sh_mobile_lcdc_fb: Remove struct backlight_ops.check_fb
->   fbdev/ssd1307fb: Init backlight before registering framebuffer
->   fbdev/ssd1307fb: Remove struct backlight_ops.check_fb
->   backlight: Add controls_device callback to struct backlight_ops
-> 
->  drivers/auxdisplay/ht16k33.c             |  8 ------
->  drivers/hid/hid-picolcd_backlight.c      |  7 ------
->  drivers/hid/hid-picolcd_core.c           | 14 +++++------
->  drivers/hid/hid-picolcd_fb.c             |  6 +++++
->  drivers/video/backlight/aat2870_bl.c     |  7 ------
->  drivers/video/backlight/backlight.c      |  8 ++++--
->  drivers/video/backlight/bd6107.c         | 12 ++++-----
->  drivers/video/backlight/gpio_backlight.c | 12 ++++-----
->  drivers/video/backlight/lv5207lp.c       | 12 ++++-----
->  drivers/video/backlight/pwm_bl.c         | 12 ---------
->  drivers/video/fbdev/core/fb_backlight.c  |  5 ++++
->  drivers/video/fbdev/sh_mobile_lcdcfb.c   |  7 ------
->  drivers/video/fbdev/ssd1307fb.c          | 31 +++++++++---------------
->  include/linux/backlight.h                | 16 ++++++------
->  include/linux/fb.h                       |  9 +++++++
->  include/linux/pwm_backlight.h            |  1 -
->  16 files changed, 70 insertions(+), 97 deletions(-)
+Argh...Houston, we have a problem. I checked my v3, which is ready for
+submission, with iperf3:
+1) Before = without page pool -> 500 MBits/sec
+2) After = with page pool -> 442 MBits/sec
+-> ~ 10% worse with page pool here.
 
-All applied.  Submitted for build testing.
+Unless the difference is not due to page pool. Maybe there's something else
+which is not good in my patch. I'm going to send the v3 which uses page pool,
+hopefully someone will find out something suspicious. Meanwhile, I'll carry on
+investigating: I'll check the results with my patch, by removing only the using of
+page pool.
 
-Will follow-up with a PR once that's passed.
+Julien
 
--- 
-Lee Jones [李琼斯]
+
+
