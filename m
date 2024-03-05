@@ -2,122 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 178EA872107
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 15:00:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19AED87219E
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 15:38:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97E7B10E186;
-	Tue,  5 Mar 2024 14:00:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89AC2112B54;
+	Tue,  5 Mar 2024 14:38:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="jyQKXNrr";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mL0qPsn6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2066.outbound.protection.outlook.com [40.107.244.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 857D710E186;
- Tue,  5 Mar 2024 14:00:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NJTzbWxncX4Jr4RVu6g4ehLSy57OoodoP7LHeb84HwHKkDJkLRTdie/brTO5X2Ap+YpqMaIRJiObzzarC4/yBKBoq9L/UuslfAQnr4MmctC8QdQVMdefs93xbHbBtBE9D8x7T3UdRr8LHKKCg/1A8LnZCUhYgfRycnzGiuw5yIg+sY1m+R/+gC0iNEA06Q/ndY/LskO3vzUw1xW4M4bk1S7lWwdLuFFtowtyL8sbr91RlOIUYnc7DbqX5lgveIk0hospwaE9/A1qCElSHIfjzvughZuVGyq4a41ltLYixSMm/cdsEnZS5lWL3jTywYfUNYdiO4T2mEx8ab7eyj7gCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=E/RYnXqfVMyrpzP7so2DFKnPKZL6qoXhgFMadFdMyRU=;
- b=IMzCcKhs0b0ijHkS49TCH0BRyRzle8MOpjaclM6Xe0RJI9AH12cmCg7iWkFpOjGW6OAHeBHOYQTTx47wHKKHnkTvHP++UiU5v8yoZTzuOtvVixZfKeJpLy+Yg9fBqqRmJfQ3+jjFNUpblDEPTWAvJ+88tV67zJbCcAtgf3pg8BMdu7xvKILu3DLiisxGtb1SUBvQczygiwT63JeP5Ny29igkHRLPNKOT4phwud99z6iCYgjld1ryyFGn8iFf5XTKkpacyR2WI+HtbMmlPSElfxrcrp0vFU82RGfyNKY1ccGqa7T7CvNTIIFthiTM+R+qW6BgnhSWxwe3tpf/BkTQdA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E/RYnXqfVMyrpzP7so2DFKnPKZL6qoXhgFMadFdMyRU=;
- b=jyQKXNrreB1Lqv2LFH2JIP8i2IC4VW35c70JrzdEQUw83B2/Fp6zaf1ZepHIJlcbA06s0wu2d4ep6Xv7yE1bPprG2e1Opikp6gIlAINzXErzuzEB1l08vflXl4zEXXsVCJ/czN8DhetjLYjiUOa3T2H3cG30YutE6RyI3kYvchc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH7PR12MB5949.namprd12.prod.outlook.com (2603:10b6:510:1d8::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.24; Tue, 5 Mar
- 2024 14:00:00 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7339.031; Tue, 5 Mar 2024
- 14:00:00 +0000
-Message-ID: <800f41b1-0a6e-4d68-8ffa-acf9e4237878@amd.com>
-Date: Tue, 5 Mar 2024 14:59:56 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] drm/amdgpu: add ring timeout information in devcoredump
-Content-Language: en-US
-To: Sunil Khatri <sunil.khatri@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Shashank Sharma <shashank.sharma@amd.com>
-Cc: amd-gfx@lists.freedesktop.org, Pan@rtg-sunil-navi33.amd.com,
- Xinhui <Xinhui.Pan@amd.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240305135738.3162878-1-sunil.khatri@amd.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20240305135738.3162878-1-sunil.khatri@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0106.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a8::7) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B2ED112B57;
+ Tue,  5 Mar 2024 14:38:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709649492; x=1741185492;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Y008fVBLZq+njJXDlLMOOJ4wGOvMEVtctYmoMJfNaIQ=;
+ b=mL0qPsn6OKeWocwlggkZGfdCGZ6I9BVHzNXuNA7DKPPft/rLdX3v87sY
+ zGhkIT3UcCPv99gUA7rRJaHEiOBoU0hAjuvzMQ9IGPSLvWKUi9nZPDYRg
+ t5WAWQoIbUHS3FOtwx7kFFr7CpnmN1K09bEiWvcnMZBoRsZRSBo9UbxU8
+ QaredElbJ+evPxSyirJG+3igz07HM3RFDea5hGmTI9YprtZruEj9y/AcM
+ Y+pOqw2kj7LxPz+ri/EP+S1xit/rRtp8EatPTHMlN1nDWtwAL2hUsIdP9
+ B9fkzJpAboHvZrQjLOrSdffBMFUFvGmeLuguVrK1scTvAaYWX3kpX0rAG A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="21662431"
+X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; d="scan'208";a="21662431"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Mar 2024 06:38:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; d="scan'208";a="13959908"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO
+ jkrzyszt-mobl2.intranet) ([10.213.25.18])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Mar 2024 06:38:08 -0800
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Nirmoy Das <nirmoy.das@intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Subject: [PATCH v7 0/3] drm/i915: Fix VMA UAF on destroy against deactivate
+ race
+Date: Tue,  5 Mar 2024 15:35:05 +0100
+Message-ID: <20240305143747.335367-5-janusz.krzysztofik@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB5949:EE_
-X-MS-Office365-Filtering-Correlation-Id: 74cf05d6-405c-4974-f79f-08dc3d1c8c63
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FpReJj1o6pstQbaqHDiLviFjsXDmeaHeI8MX4SJXY6dPVNeRYsbRovGNbGLqFIvhwpqIqZagGY7+abA4XIuiObXEm6z+V93RTfMNz60pRUWO6AnOhXp9y62bSkNCibCc5v8Rxk/WZqA5GCxP4zxSzcYDSS6q8GVq3P0zO8XwsPZo6/vC24FAM/ZYj8rXX3mt3AG3hr97F9vqsPjo+aumU8w7E+0X0lBlqsiFej+w+1uO9twOWZS9x/o70ei6aNGnJbcR4hi3ooQE2FatiqsDq3RW+iybTtEv7kOWHZoscDymCv/7U6JCI/kU+24wMMJTmqanD5MT9YbYsIjYWEWqzlq37MzlUeUAuSb2cd7Rl4Kc1Ndz4SmA7bHX4kMZg4bfXD8qQekFpK5ZinGHkDRq6IOWy9kIsl8H7sl1vgHlf7NcRdw5Xk4aoTFVomu4kGqxev1rHc/coa55qk/ykhLoPYReOjjSbxug0iHfOZulWeWjcjuB1uAFfqDdX3rqpU09iV0Z2kdhwXTekMRW5FeoZPxnRmtEgrkRQNoFFI85u6MBS9Gjm5ct0WpjOiCx+4wdsV6ckv3faow7YWaRiPg+QnNwPYVRrV3KzwYrH1V31LdbLFADldoJMPaEm1avYFAprDGi5xSVTB2B0eH0ZKk1xYI56pRd4SArDwLLa5VUUEU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UTVPOTJKb096VDNUN1UrZzNMdWxad1lTOGh3UzFoV0VYMUVNK2xqcEQ2Wjl5?=
- =?utf-8?B?UzFxMXg2K0hXQlM0bGJXeDRuSjU3VU5JSlBITVY1K2c5Y0Z1YWFqSldyT01U?=
- =?utf-8?B?dkpWR3RIZCtObTZvaXBHSThnZmM0T1ZUNzd3Z1orNHY3RGRycERSMko5YVlN?=
- =?utf-8?B?ZG5LSmdrK2Fnelp0Rm9xWTdMUHROYjUwUHRVZzdWNG5CNUVKemJVa3R0Vy8r?=
- =?utf-8?B?d1FnMnlLUVdyZ2ViR0dVUXVQNDNLdWpQdkExb002dFVhTzFWWGx0Z0w5aDlC?=
- =?utf-8?B?RUxhaGtVWXZHRU43blhEYlZHYVhSdVN0aDJHU3oyeVlKVmJrMmlDS2NLNm9a?=
- =?utf-8?B?dnFiM0JObTV4aU8rS2hsUkFXUjhqYllVeXJGRnFHY3BxWG5qb2pqUlk3ZERD?=
- =?utf-8?B?YUIwNUhWWHJqWHRYYllSRGhTK1lJeXZCTnAra2dKYitZQ25DWE42aUd2ajVr?=
- =?utf-8?B?NlZBa2RiUXR4akhIUkx4MkQ3eGxOQmNWWDg0K2poTGI2dkdIWCtpdkx4Qk5s?=
- =?utf-8?B?UXlEVUdXcUp4VEZUbE1SYVl3bjRDS3NIZFBXNWNVZmlqcFhEU2hkWXgyVnJE?=
- =?utf-8?B?ZlA3aTc4UU42VjBNS2Q3cm9NeHU3RWE1OU9rUldGVEZmelJ1WnY5Z1Q2VlVz?=
- =?utf-8?B?WGVZRWJ1MzQ0K2pSZEp2VGZsOEFETXRXbWxHUWFrZ1NNZWE1UVZGZmdZL2pw?=
- =?utf-8?B?eHJxUC9waGwrY0VrYnNRRmVCWTh5T1Fhci84QVptYW1VbXZ5YnBXMktsL3g5?=
- =?utf-8?B?MTdxWWVGSVhyYzJPdW5Dcm0xYTJnUTNndTZkc2pkbWVCVFFBV3R3V0RZZlVv?=
- =?utf-8?B?eXl3V2s2ZlZLblN6d2VEc281a3gxVjl2OUg4VE8zUmdmbzYwK3dmYzBlWEZw?=
- =?utf-8?B?NkZXellJUzJ6RDZ2S2VnUmVTWW1acytmRElWbjc3cXdyWi9WR0ZiQXFNaC91?=
- =?utf-8?B?dlp3WWhHZ01Tbk03NEFBSll2STZPVHI3WW5XTFZod2QxeitoR3B1OFc5cmZJ?=
- =?utf-8?B?cmVDMjFYNlNVOGQzYkM0aVptRW9vbWQ5RUtza2JDRll3Yk1CYnNsSHMzdGZn?=
- =?utf-8?B?OStacjBRYzM0OHJ4Sjl4RUpoZEJiSjlxWXhRUHRBb2txa2xtaU5UUW9pY0RL?=
- =?utf-8?B?SHJkSngxZlVwNUJHS04zU2VwcGlobzN6VUI4KzhVaCs3NkpVOGYzeFEyeEUy?=
- =?utf-8?B?YW9TMUw0MTIxeGQ0eU1XdEFuanJOeUZiOGt0S29Xc0NKSTVROGFtcUhteElJ?=
- =?utf-8?B?TTRxM2V2amI2dzhWZjlJR0w3cnJicHFwY3MvTDJ4THR4M2dVUzZCMkkvekdB?=
- =?utf-8?B?YVVZWi9Ub2E0RHk3Tld6V0puclVkZ2hHditJdEtwZ0hzUHVjdlJPRlgzOE1B?=
- =?utf-8?B?WC9jcXlkNTkxcjJPQm44ZmhoL3hJRzhRUWZpc0xZWUJLc25lRHRqalQyMHRQ?=
- =?utf-8?B?azltck1uQmJaQkE3VWdmQzJDNTlZTjl3UmxMSytlZDdNcW8ydEtSbVpyYWVo?=
- =?utf-8?B?QXBTNitNcVRTd254VXdYVFNJTEJtM1F1a1BvUHllTVdtbGZUWFRRNzlhcDlK?=
- =?utf-8?B?L0JvTExZNy9tV3Y2Q0tkeXhkK09md21ycnl5MGJycnZ1TXU1d0Irem9Qek1h?=
- =?utf-8?B?ek5hRmhJNjQrUXNLVTVROENaTERjWTViTmtVdWlDdkIyRndpUjJ1QUF2LzFy?=
- =?utf-8?B?U0Z6Y2VkaVVXdlY4OUZUNGp3SEpMWXArRkQvZUc1QXdkWWpYOU9sblIwdy9J?=
- =?utf-8?B?Vm1CbWRNUC9UQU0weFd5TXcvVHBCV04waGFwOGYxaHhkdWVuVDhmZ1pSbDI3?=
- =?utf-8?B?QnVPNWpKd3BOWitndHoreTJBVWUrVkdmNER5WGJFbDBoWXRDd2FZZlBJeWZq?=
- =?utf-8?B?RCtaU0JDZFl3S0doVnlPZG9pWjIvMExxb0VGYkNGckk5Z3ZjdDhLc2o2ZUxH?=
- =?utf-8?B?NDlnazFNQUNFTVNZRUd2SEVreHVySkFOK2Niajkzbm9wR1ZuQkd5MEoyc2RZ?=
- =?utf-8?B?RWRSaG5FYXJZa2VqS2FQMFZmRDdKT3JHR0R1OWtGdGhSMjJrYVRoOC9rT1JM?=
- =?utf-8?B?bmg1SjliS2ZKc3hMRm91Vlg0UUZ5S0ZxOW51Y0JuWCszSHhQWFYwUitEaXVq?=
- =?utf-8?Q?pcfVkaDIHA8upHR0LAC6yP+mS?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 74cf05d6-405c-4974-f79f-08dc3d1c8c63
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2024 14:00:00.4716 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QdBF8QVXLoAQl1UUOT8V1sMy2Q6aH9O+qyzjys1jt7Rn1kwCKdYpU9sGjuJehUDg
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5949
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,73 +73,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 05.03.24 um 14:57 schrieb Sunil Khatri:
-> Add ring timeout related information in the amdgpu
-> devcoredump file for debugging purposes.
->
-> During the gpu recovery process the registered call
-> is triggered and add the debug information in data
-> file created by devcoredump framework under the
-> directory /sys/class/devcoredump/devcdx/
->
-> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
+Object debugging tools were sporadically reporting illegal attempts to
+free a still active i915 VMA object when parking a GT believed to be idle.
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+[161.359441] ODEBUG: free active (active state 0) object: ffff88811643b958 object type: i915_active hint: __i915_vma_active+0x0/0x50 [i915]
+[161.360082] WARNING: CPU: 5 PID: 276 at lib/debugobjects.c:514 debug_print_object+0x80/0xb0
+...
+[161.360304] CPU: 5 PID: 276 Comm: kworker/5:2 Not tainted 6.5.0-rc1-CI_DRM_13375-g003f860e5577+ #1
+[161.360314] Hardware name: Intel Corporation Rocket Lake Client Platform/RocketLake S UDIMM 6L RVP, BIOS RKLSFWI1.R00.3173.A03.2204210138 04/21/2022
+[161.360322] Workqueue: i915-unordered __intel_wakeref_put_work [i915]
+[161.360592] RIP: 0010:debug_print_object+0x80/0xb0
+...
+[161.361347] debug_object_free+0xeb/0x110
+[161.361362] i915_active_fini+0x14/0x130 [i915]
+[161.361866] release_references+0xfe/0x1f0 [i915]
+[161.362543] i915_vma_parked+0x1db/0x380 [i915]
+[161.363129] __gt_park+0x121/0x230 [i915]
+[161.363515] ____intel_wakeref_put_last+0x1f/0x70 [i915]
 
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c | 14 ++++++++++++++
->   drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h |  1 +
->   2 files changed, 15 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
-> index a59364e9b6ed..b5fd93cc5731 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
-> @@ -196,6 +196,13 @@ amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
->   			   coredump->reset_task_info.process_name,
->   			   coredump->reset_task_info.pid);
->   
-> +	if (coredump->ring) {
-> +		drm_printf(&p, "\nRing timed out details\n");
-> +		drm_printf(&p, "IP Type: %d Ring Name: %s \n",
-> +				coredump->ring->funcs->type,
-> +				coredump->ring->name);
-> +	}
-> +
->   	if (coredump->reset_vram_lost)
->   		drm_printf(&p, "VRAM is lost due to GPU reset!\n");
->   	if (coredump->adev->reset_info.num_regs) {
-> @@ -220,6 +227,8 @@ void amdgpu_coredump(struct amdgpu_device *adev, bool vram_lost,
->   {
->   	struct amdgpu_coredump_info *coredump;
->   	struct drm_device *dev = adev_to_drm(adev);
-> +	struct amdgpu_job *job = reset_context->job;
-> +	struct drm_sched_job *s_job;
->   
->   	coredump = kzalloc(sizeof(*coredump), GFP_NOWAIT);
->   
-> @@ -241,6 +250,11 @@ void amdgpu_coredump(struct amdgpu_device *adev, bool vram_lost,
->   		}
->   	}
->   
-> +	if (job) {
-> +		s_job = &job->base;
-> +		coredump->ring = to_amdgpu_ring(s_job->sched);
-> +	}
-> +
->   	coredump->adev = adev;
->   
->   	ktime_get_ts64(&coredump->reset_time);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
-> index 19899f6b9b2b..60522963aaca 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
-> @@ -97,6 +97,7 @@ struct amdgpu_coredump_info {
->   	struct amdgpu_task_info         reset_task_info;
->   	struct timespec64               reset_time;
->   	bool                            reset_vram_lost;
-> +	struct amdgpu_ring			*ring;
->   };
->   #endif
->   
+That has been tracked down to be happening when another thread is
+deactivating the VMA inside __active_retire() helper, after the VMA's
+active counter has been already decremented to 0, but before deactivation
+of the VMA's object is reported to the object debugging tool.
+
+We could prevent from that race by serializing i915_active_fini() with
+__active_retire() via ref->tree_lock, but that wouldn't stop the VMA from
+being used, e.g. from __i915_vma_retire() called at the end of
+__active_retire(), after that VMA has been already freed by a concurrent
+i915_vma_destroy() on return from the i915_active_fini().  Then, we should
+rather fix the issue at the VMA level, not in i915_active.
+
+Since __i915_vma_parked() is called from __gt_park() on last put of the
+GT's wakeref, the issue could be addressed by holding the GT wakeref long
+enough for __active_retire() to complete before that wakeref is released
+and the GT parked.
+
+A VMA associated with a request doesn't acquire a GT wakeref by itself.
+Instead, it depends on a wakeref held directly by the request's active
+intel_context for a GT associated with its VM, and indirectly on that
+intel_context's engine wakeref if the engine belongs to the same GT as the
+VMA's VM.  Those wakerefs are released asynchronously to VMA deactivation.
+
+In case of single-GT platforms, at least one of those wakerefs is usually
+held long enough for the request's VMA to be deactivated on time, before
+it is destroyed on last put of its VM GT wakeref.  However, on multi-GT
+platforms, a request may use a VMA from a GT other than the one that hosts
+the request's engine, then it is protected only with the intel_context's
+VM GT wakeref.
+
+There was an attempt to fix the issue on 2-GT Meteor Lake by acquiring an
+extra wakeref for a Primary GT from i915_gem_do_execbuffer() -- see commit
+f56fe3e91787 ("drm/i915: Fix a VMA UAF for multi-gt platform").  However,
+that fix occurred insufficient -- the issue was still reported by CI.
+That wakeref was released on exit from i915_gem_do_execbuffer(), then
+potentially before completion of the request and deactivation of its
+associated VMAs.  Moreover, CI reports indicated that single-GT platforms
+also suffered sporadically from the same race.
+
+I believe the issue was introduced by commit d93939730347 ("drm/i915:
+Remove the vma refcount") which moved a call to i915_active_fini() from
+a dropped i915_vma_release(), called on last put of the removed VMA kref,
+to i915_vma_parked() processing path called on last put of a GT wakeref.
+However, its visibility to the object debugging tool was suppressed by a
+bug in i915_active that was fixed two weeks later with commit e92eb246feb9
+("drm/i915/active: Fix missing debug object activation").
+
+Fix the issue by getting a wakeref for the VMA's GT when activating it,
+and putting that wakeref only after the VMA is deactivated.  However,
+exclude global GTT from that processing path, otherwise the GPU never goes
+idle.  Since __i915_vma_retire() may be called from atomic contexts, use
+async variant of wakeref put.  Also, to avoid circular locking dependency,
+take care of acquiring the wakeref before VM mutex when both are needed.
+
+Having that fixed, stop explicitly acquiring the extra GT0 wakeref from
+inside i915_gem_do_execbuffer(), and also drop an extra call to
+i915_active_wait(), introduced by commit 7a2280e8dcd2 ("drm/i915: Wait for
+active retire before i915_active_fini()") as another insufficient fix for
+this UAF race.
+
+v7: Add inline comments with justifications for:
+    - using untracked variants of intel_gt_pm_get/put() (Nirmoy),
+    - using async variant of _put(),
+    - not getting the wakeref in case of a global GTT,
+    - always getting the first wakeref outside vm->mutex.
+v6: Since __i915_vma_active/retire() callbacks are not serialized, storing
+    a wakeref tracking handle inside struct i915_vma is not safe, and
+    there is no other good place for that.  Use untracked variants of
+    intel_gt_pm_get/put_async(),
+  - drop no longer used .wakeref_gt0 field from struct i915_execbuffer.
+v5: Replace "tile" with "GT" across commit descriptions (Rodrigo),
+  - reword commit message and description of patch 2 reusing relevant
+    chunks moved there from commit description of patch 1 (Rodrigo),
+  - explain why we take a temporary wakeref unconditionally inside
+    i915_vma_pin_ww() (Rodrigo).
+v4: Refresh on top of commit 5e4e06e4087e ("drm/i915: Track gt pm
+    wakerefs") (Andi),
+  - for more easy backporting, split out removal of former insufficient
+    workarounds and move them to separate patches (Nirmoy).
+  - clean up commit message and description a bit.
+v3: Identify root cause more precisely, and a commit to blame,
+  - identify and drop former workarounds,
+  - update commit message and description.
+v2: Get the wakeref before VM mutex to avoid circular locking dependency,
+  - drop questionable Fixes: tag.
+
+Janusz Krzysztofik (3):
+  drm/i915/vma: Fix UAF on destroy against retire race
+  drm/i915: Remove extra multi-gt pm-references
+  Revert "drm/i915: Wait for active retire before i915_active_fini()"
+
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 18 -------
+ drivers/gpu/drm/i915/i915_vma.c               | 52 +++++++++++++++----
+ 2 files changed, 43 insertions(+), 27 deletions(-)
+
+-- 
+2.43.0
 
