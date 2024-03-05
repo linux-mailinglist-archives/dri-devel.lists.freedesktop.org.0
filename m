@@ -2,49 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 198FA8719B4
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 10:36:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BB008719DA
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 10:47:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EC7D11298C;
-	Tue,  5 Mar 2024 09:36:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3696810E385;
+	Tue,  5 Mar 2024 09:47:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ctFC1+e5";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="UuViqyXH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27AA611298C
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 09:36:39 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 492EE6148E;
- Tue,  5 Mar 2024 09:36:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D3AEC433C7;
- Tue,  5 Mar 2024 09:36:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1709631398;
- bh=JKisc/w7E/vIUGFzAVoD8hmtzh/whmZyLQbF+nWTv28=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ctFC1+e57EJzmEJCTPoP2Sfaf0angHBcyEZKKw6ystDKWE8QEPHEc6bL6Vpqn+mnq
- gARAdiIOzUgtiofzooCA+CRmgNzaiK32ztiiS80MTdzjFLwwIPi+MnPmF4CnvtNxnX
- 0MkEbSAi1hR/rrnVBWf59vrHyeZWqOlJ/+nCjFQxY+a47IJnT62SgmG9gXCNkVZXVr
- duU/HPc3UXrnASo35ixGQ6JRzS/nDUrQr6o/xi/fYlHDXL7SnJQ5E3aB+98Ssr3hH1
- y5uY8jVnpxHQ6MhuwM0n/wKTYOzAvsgixfSdh7WtOWY/wgO2wE+CiDNeiXLM1GhmZn
- uXkUsv6b0c3gA==
-Date: Tue, 5 Mar 2024 09:36:32 +0000
-From: Lee Jones <lee@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: andy@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
- deller@gmx.de, robin@protonic.nl, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v3 00/10] backlight: Replace struct fb_info in interfaces
-Message-ID: <20240305093632.GC5206@google.com>
-References: <20240304163220.19144-1-tzimmermann@suse.de>
+X-Greylist: delayed 63721 seconds by postgrey-1.36 at gabe;
+ Tue, 05 Mar 2024 09:47:00 UTC
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79B4310E385
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 09:47:00 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E88A91BF207;
+ Tue,  5 Mar 2024 09:46:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1709632018;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=x3jvJ31UW5g1AteAWnKjkA5Ea0CCYOiyYufsygt7PXM=;
+ b=UuViqyXHpmyiPp4V/tHhbWt98t7steNc2d9YJ3j1pxEYOmcx0JzXo0aCcKu16ynreqimG0
+ SM81f8iJQHQrzdFsbMSRaNj1TMi9jjniMcy1hLgzPYUa6x8gYm1lLaRsEnNmQcjuolmB9I
+ VX041rAp1I6nuvhAXHji/rdEQB/OQOQLa0/cZHm8yLjFpZdJhdGbcoT0TqqihFmnh5w34J
+ ZVCxqGGsAjwMHerVXfQs3QfvzieGjuPn0dzp8+66ds5WU9juv15sUrU7bod87gx2rft2ax
+ L96KGP6+qgepjgKlh84xNAiOg6qpuftAcbe9vfqgjJX66YD/ceD4PWJu+pXWfQ==
+Message-ID: <ee36a60d-5b65-4eb8-ac41-e4b6be1cf81f@bootlin.com>
+Date: Tue, 5 Mar 2024 10:46:55 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] drm/panel: simple: add CMT430B19N00 LCD panel
+ support
+Content-Language: en-US
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Thierry Reding
+ <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Yen-Mei Goh <yen-mei.goh@keysight.com>
+References: <20240304160454.96977-1-jeremie.dautheribes@bootlin.com>
+ <20240304160454.96977-4-jeremie.dautheribes@bootlin.com>
+ <20240304-inquisitive-kickass-pronghorn-c641ff@houat>
+From: =?UTF-8?B?SsOpcsOpbWllIERhdXRoZXJpYmVz?=
+ <jeremie.dautheribes@bootlin.com>
+In-Reply-To: <20240304-inquisitive-kickass-pronghorn-c641ff@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240304163220.19144-1-tzimmermann@suse.de>
+X-GND-Sasl: jeremie.dautheribes@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,65 +75,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 04 Mar 2024, Thomas Zimmermann wrote:
+Hi Maxime,
 
-> Backlight drivers implement struct backlight_ops.check_fb, which
-> uses struct fb_info in its interface. Replace the callback with one
-> that does not use fb_info.
+On 04/03/2024 17:25, Maxime Ripard wrote:
+> Hi,
 > 
-> In DRM, we have several drivers that implement backlight support. By
-> including <linux/backlight.h> these drivers depend on <linux/fb.h>.
-> At the same time, fbdev is deprecated for new drivers and likely to
-> be replaced on many systems.
+> On Mon, Mar 04, 2024 at 05:04:54PM +0100, Jérémie Dautheribes wrote:
+>> Add support for Crystal Clear Technology CMT430B19N00 4.3" 480x272
+>> TFT-LCD panel.
+>>
+>> Signed-off-by: Jérémie Dautheribes <jeremie.dautheribes@bootlin.com>
+>> ---
+>>   drivers/gpu/drm/panel/panel-simple.c | 29 ++++++++++++++++++++++++++++
+>>   1 file changed, 29 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+>> index 20e3df1c59d4..b940220f56e2 100644
+>> --- a/drivers/gpu/drm/panel/panel-simple.c
+>> +++ b/drivers/gpu/drm/panel/panel-simple.c
+>> @@ -1457,6 +1457,32 @@ static const struct panel_desc boe_hv070wsa = {
+>>   	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+>>   };
+>>   
+>> +static const struct drm_display_mode cct_cmt430b19n00_mode = {
+>> +	.clock = 9000,
+>> +	.hdisplay = 480,
+>> +	.hsync_start = 480 + 43,
+>> +	.hsync_end = 480 + 43 + 8,
+>> +	.htotal = 480 + 43 + 8 + 4,
+>> +	.vdisplay = 272,
+>> +	.vsync_start = 272 + 12,
+>> +	.vsync_end = 272 + 12 + 8,
+>> +	.vtotal = 272 + 12 + 8 + 4,
+>> +	.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+>> +};
 > 
-> This patchset is part of a larger effort to implement the backlight
-> code without depending on fbdev.
+> Your pixel clock doesn't really match the rest of the timings:
 > 
-> Patch 1 makes the backlight core match backlight and framebuffer
-> devices via struct fb_info.bl_dev. Patches 2 to 9 then go through
-> drivers and remove unnecessary implementations of check_fb. Finally,
-> patch 10 replaces the check_fb hook with controls_device, which
-> uses the framebuffer's Linux device instead of the framebuffer.
+> (480 + 43 + 8 + 4) * (272 + 12 + 8 + 4) * 60 = 9501600
 > 
-> v3:
-> 	* hide CONFIG_FB_BACKLIGHT behind fb_bl_device() (Lee)
-> 	* if-else cleanups (Andy)
-> 	* fix commit message of patch 2 (Andy)
-> v2:
-> 	* fix hid-picolcd for CONFIG_FB_BACKLIGHT=n
-> 	* fixes to commit messages
+> So a ~6% deviation.
 > 
-> Thomas Zimmermann (10):
->   backlight: Match backlight device against struct fb_info.bl_dev
->   auxdisplay/ht16k33: Remove struct backlight_ops.check_fb
->   hid/hid-picolcd: Fix initialization order
->   hid/hid-picolcd: Remove struct backlight_ops.check_fb
->   backlight/aat2870-backlight: Remove struct backlight.check_fb
->   backlight/pwm-backlight: Remove struct backlight_ops.check_fb
->   fbdev/sh_mobile_lcdc_fb: Remove struct backlight_ops.check_fb
->   fbdev/ssd1307fb: Init backlight before registering framebuffer
->   fbdev/ssd1307fb: Remove struct backlight_ops.check_fb
->   backlight: Add controls_device callback to struct backlight_ops
-> 
->  drivers/auxdisplay/ht16k33.c             |  8 ------
->  drivers/hid/hid-picolcd_backlight.c      |  7 ------
->  drivers/hid/hid-picolcd_core.c           | 14 +++++------
->  drivers/hid/hid-picolcd_fb.c             |  6 +++++
->  drivers/video/backlight/aat2870_bl.c     |  7 ------
->  drivers/video/backlight/backlight.c      |  8 ++++--
->  drivers/video/backlight/bd6107.c         | 12 ++++-----
->  drivers/video/backlight/gpio_backlight.c | 12 ++++-----
->  drivers/video/backlight/lv5207lp.c       | 12 ++++-----
->  drivers/video/backlight/pwm_bl.c         | 12 ---------
->  drivers/video/fbdev/core/fb_backlight.c  |  5 ++++
->  drivers/video/fbdev/sh_mobile_lcdcfb.c   |  7 ------
->  drivers/video/fbdev/ssd1307fb.c          | 31 +++++++++---------------
->  include/linux/backlight.h                | 16 ++++++------
->  include/linux/fb.h                       |  9 +++++++
->  include/linux/pwm_backlight.h            |  1 -
->  16 files changed, 70 insertions(+), 97 deletions(-)
+> What does the datasheet say?
 
-Which Acks are you missing for us to merge this?
+Indeed it does not exactly match but the datasheet indicates that the 
+typical clock frequency is 9MHz and when this frequency is used, the 
+typical values of the other parameters are those we have defined in the 
+drm_display_mode structure. I don't see any information about the 
+accepted deviation either.
 
--- 
-Lee Jones [李琼斯]
+Best regards,
+
+Jérémie
