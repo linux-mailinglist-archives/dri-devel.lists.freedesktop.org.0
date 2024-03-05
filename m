@@ -2,51 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23C87871A7F
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 11:17:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0273C871A78
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 11:17:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 624BE1129D5;
-	Tue,  5 Mar 2024 10:17:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25DC31129CC;
+	Tue,  5 Mar 2024 10:17:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="0A7eN71r";
+	dkim=pass (1024-bit key; unprotected) header.d=crapouillou.net header.i=@crapouillou.net header.b="gyHfXlzf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24F941129D5;
- Tue,  5 Mar 2024 10:17:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1709633832;
- bh=b7UcicYM6WU8vJRmKmFjap9G0GMKJpkN4ML3k9zwggk=;
- h=From:To:Cc:Subject:Date:From;
- b=0A7eN71rp+UmAoxwyim+zhX2GcJKHy8D8BNGiyNBc65PzZfcTxY5pqLL8kkAoXbLN
- Ndxdhbdls9ML9rNipM2Gu4y0L2/KUkrrxrceTJR/K4B6IZ29HS72Xwx0kg3EFMTshT
- MRvsb5kRVD9H/iajJmDV0qoxOoT/Skrnld2+O9fwdlCaiggS43sBQvEsRJymkZLnQe
- h5FI1Z7hXI6Q6CFsmRe6UzndZrfTJxc7jZZpOQ5uMTXoNsOI6QsM3/mRKECSfVHmQp
- a5W6gFtsseZeVLiGi4UbvwTm2b0Jd4uualf50P+9fjudEFYfDpfn+qImzinYZEusNf
- JfzUsx+AgwJzw==
-Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 4F7833781FEF;
- Tue,  5 Mar 2024 10:17:08 +0000 (UTC)
-From: Vignesh Raman <vignesh.raman@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Cc: daniels@collabora.com, helen.koike@collabora.com, airlied@gmail.com,
- daniel@ffwll.ch, david.heidelberg@collabora.com,
- sergi.blanch.torne@collabora.com, guilherme.gallo@collabora.com,
- robdclark@gmail.com, jani.nikula@linux.intel.com,
- joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
- tvrtko.ursulin@linux.intel.com, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/ci: update device type for volteer devices
-Date: Tue,  5 Mar 2024 15:46:26 +0530
-Message-Id: <20240305101626.36357-1-vignesh.raman@collabora.com>
-X-Mailer: git-send-email 2.40.1
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DF4E1129CC
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 10:17:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1709633814;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ScnhOlxqOqXKHeNtlmJscUOvM1RwyxtzC8+4oNY2t0M=;
+ b=gyHfXlzfeV7oeX4Z0Gh6LxaNFE6QK96VFIzjigpmrrVZ7WqArbmszHgF9puU2wdmZD1ILM
+ rYQBH3lbQw2dkIp7FMjvP1eioLsm5BRg6Zb/Zy0/Euz0MPS+CyWMCBgXiP71CGnzQA5tcg
+ TxWouUfeF0fkyGktmza3jbeFN/872Kg=
+Message-ID: <8d996c3d8238abf00882090caaa349bb5d3c26d3.camel@crapouillou.net>
+Subject: Re: [PATCH v7 0/6] iio: new DMABUF based API
+From: Paul Cercueil <paul@crapouillou.net>
+To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>, Nuno =?ISO-8859-1?Q?S=E1?=
+ <noname.nuno@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, Nuno Sa <nuno.sa@analog.com>, Vinod
+ Koul <vkoul@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Jonathan Corbet <corbet@lwn.net>, Daniel Vetter
+ <daniel@ffwll.ch>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+ linux-doc@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-iio@vger.kernel.org,  linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,  linaro-mm-sig@lists.linaro.org
+Date: Tue, 05 Mar 2024 11:16:52 +0100
+In-Reply-To: <20240305100742.00006a4c@Huawei.com>
+References: <20240223-iio-dmabuf-v7-0-78cfaad117b9@analog.com>
+ <20240303174245.37efc0b0@jic23-huawei>
+ <43787ce68f731b9267ee558c4c38d634acffe8b9.camel@gmail.com>
+ <20240305100742.00006a4c@Huawei.com>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
+ YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,40 +65,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Volteer devices in the collabora lab are categorized under the
-asus-cx9400-volteer device type. The majority of these units
-has an Intel Core i5-1130G7 CPU, while some of them have a
-Intel Core i7-1160G7 CPU instead. So due to this difference,
-new device type template is added for the Intel Core i5-1130G7
-and i7-1160G7 variants of the Acer Chromebook Spin 514 (CP514-2H)
-volteer Chromebooks. So update the same in drm-ci.
+Hi Jonathan,
 
-https://gitlab.collabora.com/lava/lava/-/merge_requests/149
+Le mardi 05 mars 2024 =C3=A0 10:07 +0000, Jonathan Cameron a =C3=A9crit=C2=
+=A0:
+> On Mon, 04 Mar 2024 08:59:47 +0100
+> Nuno S=C3=A1 <noname.nuno@gmail.com> wrote:
+>=20
+> > On Sun, 2024-03-03 at 17:42 +0000, Jonathan Cameron wrote:
+> > > On Fri, 23 Feb 2024 13:13:58 +0100
+> > > Nuno Sa <nuno.sa@analog.com> wrote:
+> > > =C2=A0=20
+> > > > Hi Jonathan, likely you're wondering why I'm sending v7. Well,
+> > > > to be
+> > > > honest, we're hoping to get this merged this for the 6.9 merge
+> > > > window.
+> > > > Main reason is because the USB part is already in (so it would
+> > > > be nice
+> > > > to get the whole thing in). Moreover, the changes asked in v6
+> > > > were simple
+> > > > (even though I'm not quite sure in one of them) and Paul has no
+> > > > access to
+> > > > it's laptop so he can't send v7 himself. So he kind of
+> > > > said/asked for me to
+> > > > do it.=C2=A0=20
+> > >=20
+> > > So, we are cutting this very fine. If Linus hints strongly at an
+> > > rc8 maybe we
+> > > can sneak this in. However, I need an Ack from Vinod for the dma
+> > > engine
+> > > changes first.
+> > >=20
+> > > Also I'd love a final 'looks ok' comment from DMABUF folk (Ack
+> > > even better!)
+> > >=20
+> > > Seems that the other side got resolved in the USB gadget, but
+> > > last we heard
+> > > form
+> > > Daniel and Christian looks to have been back on v5. I'd like them
+> > > to confirm
+> > > they are fine with the changes made as a result.=20
+> > > =C2=A0=20
+> >=20
+> > I can ask Christian or Daniel for some acks but my feeling (I still
+> > need, at
+> > some point, to get really familiar with all of this) is that this
+> > should be
+> > pretty similar to the USB series (from a DMABUF point of view) as
+> > they are both
+> > importers.
+> >=20
+> > > I've been happy with the IIO parts for a few versions now but my
+> > > ability to
+> > > review
+> > > the DMABUF and DMA engine bits is limited.
+> > >=20
+> > > A realistic path to get this in is rc8 is happening, is all Acks
+> > > in place by
+> > > Wednesday,
+> > > I get apply it and hits Linux-next Thursday, Pull request to Greg
+> > > on Saturday
+> > > and Greg
+> > > is feeling particularly generous to take one on the day he
+> > > normally closes his
+> > > trees.
+> > > =C2=A0=20
+> >=20
+> > Well, it looks like we still have a shot. I'll try to see if Vinod
+> > is fine with
+> > the DMAENGINE stuff.
+> >=20
+>=20
+> Sadly, looks like rc7 was at the end of a quiet week, so almost
+> certain to not
+> be an rc8 in the end. Let's aim to get this in at the start of the
+> next cycle
+> so we can build on it from there.
 
-Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
----
- drivers/gpu/drm/ci/test.yml | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+And it looks like I'll need a V8 for the few things noted by Christian.
 
-diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
-index 0857773e5c5f..8bc63912fddb 100644
---- a/drivers/gpu/drm/ci/test.yml
-+++ b/drivers/gpu/drm/ci/test.yml
-@@ -252,11 +252,11 @@ i915:cml:
- i915:tgl:
-   extends:
-     - .i915
--  parallel: 8
-+  parallel: 5
-   variables:
--    DEVICE_TYPE: asus-cx9400-volteer
-+    DEVICE_TYPE: acer-cp514-2h-1130g7-volteer
-     GPU_VERSION: tgl
--    RUNNER_TAG: mesa-ci-x86-64-lava-asus-cx9400-volteer
-+    RUNNER_TAG: mesa-ci-x86-64-lava-acer-cp514-2h-1130g7-volteer
- 
- .amdgpu:
-   extends:
--- 
-2.40.1
+Having it in 6.9 would have been great but having it eventually merged
+is all that matters - so I'm fine to have it queued for 6.10 instead.
 
+Cheers,
+-Paul
