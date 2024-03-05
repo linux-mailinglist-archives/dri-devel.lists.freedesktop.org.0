@@ -2,51 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB16C871BA2
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 11:39:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1D0D871BE1
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 11:45:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06F1110E35A;
-	Tue,  5 Mar 2024 10:39:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB80810E030;
+	Tue,  5 Mar 2024 10:45:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="wneqPtmW";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ib32rDTh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E785C10E3F3;
- Tue,  5 Mar 2024 10:39:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1709635166;
- bh=JUqcL89qGPDZrUKL7gY5CqBHkDlWDEFVMqHLYYGtoEA=;
- h=From:To:Cc:Subject:Date:From;
- b=wneqPtmW64fyroXo9XhZAZ7h+zl/SIdvBarDT6EFhdosc4xg3GZK6CU8xTa3Vc0QW
- gA5uJ+DLOg4YLEvegcuGGZg6MHsCElk3O8lpd8K/Rn1BvFvd0tAZFOA4pwc15kNu/u
- trFo49kF2k7Qwy2XkB0H/sJIw9BhyeSeQrt/nFAs0r1p3KxUdzv0NAz5UE6ZqYCCRe
- 2rLJIoLBuNUAU3me/RqkAEccFBMiitlxoAcIBiprZqaaORgxP34jc+uEsXl2oDi6tE
- mrKQODKR4gt5deNJOFC+o3GayJgj/0kx1u2TBQZh1uRXLjXufpuZAeKMMdAgMk/ymu
- lvzmxLE2s0/eQ==
-Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 06F3D37820F2;
- Tue,  5 Mar 2024 10:39:22 +0000 (UTC)
-From: Vignesh Raman <vignesh.raman@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Cc: daniels@collabora.com, helen.koike@collabora.com, airlied@gmail.com,
- daniel@ffwll.ch, david.heidelberg@collabora.com,
- sergi.blanch.torne@collabora.com, guilherme.gallo@collabora.com,
- robdclark@gmail.com, jani.nikula@linux.intel.com,
- joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
- tvrtko.ursulin@linux.intel.com, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm/ci: update device type for volteer devices
-Date: Tue,  5 Mar 2024 16:08:29 +0530
-Message-Id: <20240305103829.38350-1-vignesh.raman@collabora.com>
-X-Mailer: git-send-email 2.40.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF1BE10E030
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 10:45:06 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9A6FC61489;
+ Tue,  5 Mar 2024 10:45:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC4A1C433C7;
+ Tue,  5 Mar 2024 10:45:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1709635505;
+ bh=8VjRaJlSO52iUgJuSPtyZYPQMgxH2rtz0BnF9RAJWh4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Ib32rDTh4IJYYPZKnoiSk9MLqhEOKNsNr1vEYi4ugZ0s5BDM8Mht4heLcu0Udkxag
+ 8v0nX4T7ukk8LMFRAhRQ8uqDx/xOQMPUzeSu60R3VdRhJXj4O1nzOR8eaFlbL96JFu
+ soCK+s47ucZI/XIqYtx+PY1I8b9MWsw3ywh3jfQzPQwrVWfkAyOWd7ozPyvoqOQ9yM
+ AbwvJ/0dBjchXuN1RaH6qMHcgF372gCrI9vBrJ8IhsR0g//jDRywFazfy74BqdAVD5
+ 303nVglW7uUTyNujcbgQtlD1sEJ/4m7n7RG5j2qbbcbwFNhdVwxcL9msRwmNIq3Nlr
+ Hlyk7IKCnXt0w==
+Date: Tue, 5 Mar 2024 10:44:59 +0000
+From: Lee Jones <lee@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: andy@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
+ deller@gmx.de, robin@protonic.nl, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v3 00/10] backlight: Replace struct fb_info in interfaces
+Message-ID: <20240305104459.GA86322@google.com>
+References: <20240304163220.19144-1-tzimmermann@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240304163220.19144-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,47 +60,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Volteer devices in the collabora lab are categorized under the
-asus-cx9400-volteer device type. The majority of these units
-has an Intel Core i5-1130G7 CPU, while some of them have a
-Intel Core i7-1160G7 CPU instead. So due to this difference,
-new device type template is added for the Intel Core i5-1130G7
-and i7-1160G7 variants of the Acer Chromebook Spin 514 (CP514-2H)
-volteer Chromebooks. So update the same in drm-ci.
+On Mon, 04 Mar 2024, Thomas Zimmermann wrote:
 
-https://gitlab.collabora.com/lava/lava/-/merge_requests/149
+> Backlight drivers implement struct backlight_ops.check_fb, which
+> uses struct fb_info in its interface. Replace the callback with one
+> that does not use fb_info.
+> 
+> In DRM, we have several drivers that implement backlight support. By
+> including <linux/backlight.h> these drivers depend on <linux/fb.h>.
+> At the same time, fbdev is deprecated for new drivers and likely to
+> be replaced on many systems.
+> 
+> This patchset is part of a larger effort to implement the backlight
+> code without depending on fbdev.
+> 
+> Patch 1 makes the backlight core match backlight and framebuffer
+> devices via struct fb_info.bl_dev. Patches 2 to 9 then go through
+> drivers and remove unnecessary implementations of check_fb. Finally,
+> patch 10 replaces the check_fb hook with controls_device, which
+> uses the framebuffer's Linux device instead of the framebuffer.
+> 
+> v3:
+> 	* hide CONFIG_FB_BACKLIGHT behind fb_bl_device() (Lee)
+> 	* if-else cleanups (Andy)
+> 	* fix commit message of patch 2 (Andy)
+> v2:
+> 	* fix hid-picolcd for CONFIG_FB_BACKLIGHT=n
+> 	* fixes to commit messages
+> 
+> Thomas Zimmermann (10):
+>   backlight: Match backlight device against struct fb_info.bl_dev
+>   auxdisplay/ht16k33: Remove struct backlight_ops.check_fb
+>   hid/hid-picolcd: Fix initialization order
+>   hid/hid-picolcd: Remove struct backlight_ops.check_fb
+>   backlight/aat2870-backlight: Remove struct backlight.check_fb
+>   backlight/pwm-backlight: Remove struct backlight_ops.check_fb
+>   fbdev/sh_mobile_lcdc_fb: Remove struct backlight_ops.check_fb
+>   fbdev/ssd1307fb: Init backlight before registering framebuffer
+>   fbdev/ssd1307fb: Remove struct backlight_ops.check_fb
+>   backlight: Add controls_device callback to struct backlight_ops
+> 
+>  drivers/auxdisplay/ht16k33.c             |  8 ------
+>  drivers/hid/hid-picolcd_backlight.c      |  7 ------
+>  drivers/hid/hid-picolcd_core.c           | 14 +++++------
+>  drivers/hid/hid-picolcd_fb.c             |  6 +++++
+>  drivers/video/backlight/aat2870_bl.c     |  7 ------
+>  drivers/video/backlight/backlight.c      |  8 ++++--
+>  drivers/video/backlight/bd6107.c         | 12 ++++-----
+>  drivers/video/backlight/gpio_backlight.c | 12 ++++-----
+>  drivers/video/backlight/lv5207lp.c       | 12 ++++-----
+>  drivers/video/backlight/pwm_bl.c         | 12 ---------
+>  drivers/video/fbdev/core/fb_backlight.c  |  5 ++++
+>  drivers/video/fbdev/sh_mobile_lcdcfb.c   |  7 ------
+>  drivers/video/fbdev/ssd1307fb.c          | 31 +++++++++---------------
+>  include/linux/backlight.h                | 16 ++++++------
+>  include/linux/fb.h                       |  9 +++++++
+>  include/linux/pwm_backlight.h            |  1 -
+>  16 files changed, 70 insertions(+), 97 deletions(-)
 
-Fixes: 0119c894ab0dc ("drm: Add initial ci/ subdirectory")
-Reviewed-by: David Heidelberg <david.heidelberg@collabora.com>
-Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
----
+All applied.  Submitted for build testing.
 
-v2:
-  - Add fixes tag so change gets propagated to stable.
-    https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1119672
----
- drivers/gpu/drm/ci/test.yml | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Will follow-up with a PR once that's passed.
 
-diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
-index 0857773e5c5f..8bc63912fddb 100644
---- a/drivers/gpu/drm/ci/test.yml
-+++ b/drivers/gpu/drm/ci/test.yml
-@@ -252,11 +252,11 @@ i915:cml:
- i915:tgl:
-   extends:
-     - .i915
--  parallel: 8
-+  parallel: 5
-   variables:
--    DEVICE_TYPE: asus-cx9400-volteer
-+    DEVICE_TYPE: acer-cp514-2h-1130g7-volteer
-     GPU_VERSION: tgl
--    RUNNER_TAG: mesa-ci-x86-64-lava-asus-cx9400-volteer
-+    RUNNER_TAG: mesa-ci-x86-64-lava-acer-cp514-2h-1130g7-volteer
- 
- .amdgpu:
-   extends:
 -- 
-2.40.1
-
+Lee Jones [李琼斯]
