@@ -2,65 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 067DE8723F1
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 17:19:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DDCE872406
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 17:24:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92D9A10E4FB;
-	Tue,  5 Mar 2024 16:19:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3E3E10E10F;
+	Tue,  5 Mar 2024 16:24:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IJ4qkZCa";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="oTY/fz9e";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/SJm838O";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oTY/fz9e";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/SJm838O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 357A510E4E3
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 16:18:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709655538; x=1741191538;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=Pa0fMVUTeiUhUY2VLkFLVyMrIu9XCbjjrHzKX5ueVOA=;
- b=IJ4qkZCaz63pUg99SXEYb9CtFb57zDlSpMwtAd1D8r038svN8TWKdQcj
- WE0zIUQFnkPoavC67+nwbWngEf7nUBBtsZ93dYKIaK7VhiFPC56hDvBAR
- CiSmgkkZQdSl4IfEHP/J8hbqBy4yNkuchphDAv+bF2FtzqhNGh4PjqeuS
- u2hzu6sHOgEX9pfo7IPC1Qv2B7GcW8zgOHb1ZxTH4E9zYXd/7vCCArS3K
- N4wNcPVmEPfrip8QdHW0DAPdsK9scaokBPcAxvxC6CUAfb5BeSvyBB7bN
- ZDvfsBZPpq0PB07DrQ288syLF1GckAt6HFAFRoTQeEkBz4IM8Ux3nnGq6 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="7161286"
-X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="7161286"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2024 08:18:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="9533104"
-Received: from omakhlou-mobl4.amr.corp.intel.com (HELO localhost)
- ([10.252.51.143])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2024 08:18:52 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin@pqrs.dk>, Andrzej Hajda
- <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss
- <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Alvin
- =?utf-8?Q?=C5=A0ipraga?= <alsi@bang-olufsen.dk>
-Subject: Re: [PATCH v3 2/2] drm/bridge: adv7511: get edid in hpd_work to
- update CEC phys address
-In-Reply-To: <20240219-adv7511-cec-edid-v3-2-445aed2f1cd7@bang-olufsen.dk>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240219-adv7511-cec-edid-v3-0-445aed2f1cd7@bang-olufsen.dk>
- <20240219-adv7511-cec-edid-v3-2-445aed2f1cd7@bang-olufsen.dk>
-Date: Tue, 05 Mar 2024 18:18:50 +0200
-Message-ID: <87cys81wk5.fsf@intel.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D315A10E10F
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 16:24:31 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:98])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2B08F767E8;
+ Tue,  5 Mar 2024 16:24:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1709655870; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=g3TI3Wjm7l0an5zPuyKBUbJnlqiR4+jPAB6G/7j4aKk=;
+ b=oTY/fz9eslkgFxUo1fF81Y3IiyvDX9zY+1sT7JtfaZ8lbbEE7z88CUQLoMlyu9dz5W/+xt
+ 51TUpsZSZUewhK2WaB6LvoD0uYLGIqxy19n9R+upYL064beIpDBlopYvzXLSraWRcRb4m6
+ P/Po0b7e9T4XxnwoXX/lakp+i7GgkF0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1709655870;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=g3TI3Wjm7l0an5zPuyKBUbJnlqiR4+jPAB6G/7j4aKk=;
+ b=/SJm838OqN0uATF8b/CluZAUbApRBPZASRJqe2lFK4Gunt+sdIoUvt4BTuuADL9efyflv+
+ cQhTRo0pH+X/HRCA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1709655870; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=g3TI3Wjm7l0an5zPuyKBUbJnlqiR4+jPAB6G/7j4aKk=;
+ b=oTY/fz9eslkgFxUo1fF81Y3IiyvDX9zY+1sT7JtfaZ8lbbEE7z88CUQLoMlyu9dz5W/+xt
+ 51TUpsZSZUewhK2WaB6LvoD0uYLGIqxy19n9R+upYL064beIpDBlopYvzXLSraWRcRb4m6
+ P/Po0b7e9T4XxnwoXX/lakp+i7GgkF0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1709655870;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=g3TI3Wjm7l0an5zPuyKBUbJnlqiR4+jPAB6G/7j4aKk=;
+ b=/SJm838OqN0uATF8b/CluZAUbApRBPZASRJqe2lFK4Gunt+sdIoUvt4BTuuADL9efyflv+
+ cQhTRo0pH+X/HRCA==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id CD43F13A5D;
+ Tue,  5 Mar 2024 16:24:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+ by imap2.dmz-prg2.suse.org with ESMTPSA id CnnMMD1H52WwYwAAn2gu4w
+ (envelope-from <tzimmermann@suse.de>); Tue, 05 Mar 2024 16:24:29 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: lee@kernel.org, andy@kernel.org, daniel.thompson@linaro.org,
+ jingoohan1@gmail.com, deller@gmx.de, robin@protonic.nl, javierm@redhat.com
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v4 00/10] backlight: Replace struct fb_info in interfaces
+Date: Tue,  5 Mar 2024 17:22:33 +0100
+Message-ID: <20240305162425.23845-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b="oTY/fz9e";
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/SJm838O"
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-6.01 / 50.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+ TO_DN_SOME(0.00)[]; RCVD_COUNT_THREE(0.00)[3];
+ DKIM_TRACE(0.00)[suse.de:+]; MX_GOOD(-0.01)[];
+ NEURAL_HAM_SHORT(-0.20)[-1.000];
+ FREEMAIL_TO(0.00)[kernel.org,linaro.org,gmail.com,gmx.de,protonic.nl,redhat.com];
+ FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+];
+ BAYES_HAM(-3.00)[100.00%]; ARC_NA(0.00)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCVD_DKIM_ARC_DNSWL_HI(-1.00)[]; FROM_HAS_DN(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCPT_COUNT_TWELVE(0.00)[12]; MID_CONTAINS_FROM(1.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ RCVD_IN_DNSWL_HI(-0.50)[2a07:de40:b281:104:10:150:64:98:from];
+ RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -6.01
+X-Rspamd-Queue-Id: 2B08F767E8
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,149 +122,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 19 Feb 2024, Alvin =C5=A0ipraga <alvin@pqrs.dk> wrote:
-> From: Alvin =C5=A0ipraga <alsi@bang-olufsen.dk>
->
-> The adv7511 driver is solely responsible for setting the physical
-> address of its CEC adapter. To do this, it must read the EDID. However,
-> EDID is only read when either the drm_bridge_funcs :: get_edid or
-> drm_connector_helper_funcs :: get_modes ops are called. Without loss of
-> generality, it cannot be assumed that these ops are called when a sink
-> gets attached. Therefore there exist scenarios in which the CEC physical
-> address will be invalid (f.f.f.f), rendering the CEC adapter inoperable.
->
-> Address this problem by always fetching the EDID in the HPD work when we
-> detect a connection. The CEC physical address is set in the process.
-> This is done by moving the EDID DRM helper into an internal helper
-> function so that it can be cleanly called from an earlier section of
-> the code. The EDID getter has not changed in practice.
->
-> Reviewed-by: Robert Foss <rfoss@kernel.org>
-> Signed-off-by: Alvin =C5=A0ipraga <alsi@bang-olufsen.dk>
-> ---
->  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 73 ++++++++++++++++++----=
-------
->  1 file changed, 47 insertions(+), 26 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/d=
-rm/bridge/adv7511/adv7511_drv.c
-> index 5ffc5904bd59..d823b372ff43 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> @@ -542,6 +542,36 @@ static int adv7511_get_edid_block(void *data, u8 *bu=
-f, unsigned int block,
->  	return 0;
->  }
->=20=20
-> +static struct edid *__adv7511_get_edid(struct adv7511 *adv7511,
-> +				       struct drm_connector *connector)
-> +{
-> +	struct edid *edid;
-> +
-> +	/* Reading the EDID only works if the device is powered */
-> +	if (!adv7511->powered) {
-> +		unsigned int edid_i2c_addr =3D
-> +					(adv7511->i2c_edid->addr << 1);
-> +
-> +		__adv7511_power_on(adv7511);
-> +
-> +		/* Reset the EDID_I2C_ADDR register as it might be cleared */
-> +		regmap_write(adv7511->regmap, ADV7511_REG_EDID_I2C_ADDR,
-> +			     edid_i2c_addr);
-> +	}
-> +
-> +	edid =3D drm_do_get_edid(connector, adv7511_get_edid_block, adv7511);
-> +
-> +	if (!adv7511->powered)
-> +		__adv7511_power_off(adv7511);
-> +
-> +	adv7511_set_config_csc(adv7511, connector, adv7511->rgb,
-> +			       drm_detect_hdmi_monitor(edid));
-> +
-> +	cec_s_phys_addr_from_edid(adv7511->cec_adap, edid);
+Backlight drivers implement struct backlight_ops.check_fb, which
+uses struct fb_info in its interface. Replace the callback with one
+that does not use fb_info.
 
-It really would be better to do drm_edid_read_custom(),
-drm_edid_connector_update(), and cec_s_phys_addr() with the physical
-address from connector->display_info.source_physical_address initialized
-by drm_edid_connector_update().
+In DRM, we have several drivers that implement backlight support. By
+including <linux/backlight.h> these drivers depend on <linux/fb.h>.
+At the same time, fbdev is deprecated for new drivers and likely to
+be replaced on many systems.
 
-The point is, cec_s_phys_addr_from_edid() has its own duplicate EDID
-parsing, which is slightly different from drm_edid_connector_update()
-and of course redundant.
+This patchset is part of a larger effort to implement the backlight
+code without depending on fbdev.
 
+Patch 1 makes the backlight core match backlight and framebuffer
+devices via struct fb_info.bl_dev. Patches 2 to 9 then go through
+drivers and remove unnecessary implementations of check_fb. Finally,
+patch 10 replaces the check_fb hook with controls_device, which
+uses the framebuffer's Linux device instead of the framebuffer.
 
-BR,
-Jani.
+v4:
+	* fix fb_bl_device() declaration and export
+v3:
+	* hide CONFIG_FB_BACKLIGHT behind fb_bl_device() (Lee)
+	* if-else cleanups (Andy)
+	* fix commit message of patch 2 (Andy)
+v2:
+	* fix hid-picolcd for CONFIG_FB_BACKLIGHT=n
+	* fixes to commit messages
 
+Thomas Zimmermann (10):
+  backlight: Match backlight device against struct fb_info.bl_dev
+  auxdisplay/ht16k33: Remove struct backlight_ops.check_fb
+  hid/hid-picolcd: Fix initialization order
+  hid/hid-picolcd: Remove struct backlight_ops.check_fb
+  backlight/aat2870-backlight: Remove struct backlight.check_fb
+  backlight/pwm-backlight: Remove struct backlight_ops.check_fb
+  fbdev/sh_mobile_lcdc_fb: Remove struct backlight_ops.check_fb
+  fbdev/ssd1307fb: Init backlight before registering framebuffer
+  fbdev/ssd1307fb: Remove struct backlight_ops.check_fb
+  backlight: Add controls_device callback to struct backlight_ops
 
-> +
-> +	return edid;
-> +}
-> +
->  /* ---------------------------------------------------------------------=
---------
->   * Hotplug handling
->   */
-> @@ -595,8 +625,23 @@ static void adv7511_hpd_work(struct work_struct *wor=
-k)
->  		adv7511->connector.status =3D status;
->=20=20
->  		if (adv7511->connector.dev) {
-> -			if (status =3D=3D connector_status_disconnected)
-> +			if (status =3D=3D connector_status_disconnected) {
->  				cec_phys_addr_invalidate(adv7511->cec_adap);
-> +			} else {
-> +				struct edid *edid;
-> +
-> +				/*
-> +				 * Get the updated EDID so that the CEC
-> +				 * subsystem gets informed of any change in CEC
-> +				 * address. The helper returns a newly allocated
-> +				 * edid structure, so free it to prevent
-> +				 * leakage.
-> +				 */
-> +				edid =3D __adv7511_get_edid(adv7511,
-> +							  &adv7511->connector);
-> +				kfree(edid);
-> +			}
-> +
->  			drm_kms_helper_hotplug_event(adv7511->connector.dev);
->  		} else {
->  			drm_bridge_hpd_notify(&adv7511->bridge, status);
-> @@ -611,31 +656,7 @@ static void adv7511_hpd_work(struct work_struct *wor=
-k)
->  static struct edid *adv7511_get_edid(struct adv7511 *adv7511,
->  				     struct drm_connector *connector)
->  {
-> -	struct edid *edid;
-> -
-> -	/* Reading the EDID only works if the device is powered */
-> -	if (!adv7511->powered) {
-> -		unsigned int edid_i2c_addr =3D
-> -					(adv7511->i2c_edid->addr << 1);
-> -
-> -		__adv7511_power_on(adv7511);
-> -
-> -		/* Reset the EDID_I2C_ADDR register as it might be cleared */
-> -		regmap_write(adv7511->regmap, ADV7511_REG_EDID_I2C_ADDR,
-> -			     edid_i2c_addr);
-> -	}
-> -
-> -	edid =3D drm_do_get_edid(connector, adv7511_get_edid_block, adv7511);
-> -
-> -	if (!adv7511->powered)
-> -		__adv7511_power_off(adv7511);
-> -
-> -	adv7511_set_config_csc(adv7511, connector, adv7511->rgb,
-> -			       drm_detect_hdmi_monitor(edid));
-> -
-> -	cec_s_phys_addr_from_edid(adv7511->cec_adap, edid);
-> -
-> -	return edid;
-> +	return __adv7511_get_edid(adv7511, connector);
->  }
->=20=20
->  static int adv7511_get_modes(struct adv7511 *adv7511,
+ drivers/auxdisplay/ht16k33.c             |  8 ------
+ drivers/hid/hid-picolcd_backlight.c      |  7 ------
+ drivers/hid/hid-picolcd_core.c           | 14 +++++------
+ drivers/hid/hid-picolcd_fb.c             |  6 +++++
+ drivers/video/backlight/aat2870_bl.c     |  7 ------
+ drivers/video/backlight/backlight.c      |  8 ++++--
+ drivers/video/backlight/bd6107.c         | 12 ++++-----
+ drivers/video/backlight/gpio_backlight.c | 12 ++++-----
+ drivers/video/backlight/lv5207lp.c       | 12 ++++-----
+ drivers/video/backlight/pwm_bl.c         | 12 ---------
+ drivers/video/fbdev/core/fb_backlight.c  |  6 +++++
+ drivers/video/fbdev/sh_mobile_lcdcfb.c   |  7 ------
+ drivers/video/fbdev/ssd1307fb.c          | 31 +++++++++---------------
+ include/linux/backlight.h                | 16 ++++++------
+ include/linux/fb.h                       |  9 +++++++
+ include/linux/pwm_backlight.h            |  1 -
+ 16 files changed, 71 insertions(+), 97 deletions(-)
 
---=20
-Jani Nikula, Intel
+-- 
+2.44.0
+
