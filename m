@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 304C48721A2
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 15:38:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01DC68721A4
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 15:38:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB204112B59;
-	Tue,  5 Mar 2024 14:38:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 879E0112B5B;
+	Tue,  5 Mar 2024 14:38:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WSAJVCN+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ga+LoB2F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AD47112B58;
- Tue,  5 Mar 2024 14:38:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 626DE112B5B;
+ Tue,  5 Mar 2024 14:38:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709649495; x=1741185495;
+ t=1709649498; x=1741185498;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=dSbTmoVhJvrjxpkvz1Xr2BX0CfO/pQfB0Ll5jWT27lM=;
- b=WSAJVCN+ID0pgoD8+9KyZVugFNE04j7i6VxiliEto5H6SYQRAjmJvtSO
- 3pfcsqvDHpb5ELSlKw/y7oUHLjG6/6XZwpO2+3ePydrKpnlwdLussFJlG
- 3Mdojcf6Sr+rDiCaRyOawRqN91jvmfjcm/XuVduVDH5ukyaJni6U+HWBp
- 3lptiajgi3FkZkbOtrs7rARWNMAdnO+GkD45VDvb813HxeUYICHzazaP1
- SZJDwM7NICWFE8FSWff4z882WNOdicyLxHmD+FWZ8GvAYvf/wJSp06kLP
- GyQVghiFMHPO8f94q6vLgxUch3oOWgnIt6WXDegpFpQQ77cWsTuO9vC9D g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="21662439"
-X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; d="scan'208";a="21662439"
+ bh=yg/LtYE+QEWnAIXNEkyIh5Dyq6a0eGNeFz37g0Ly9J4=;
+ b=ga+LoB2FIPCKFd7mCooOUgVzY+bSnwgV8l/ZukkFoSJL6iZBMf5Od4m/
+ EnAMjdnk68gJQsASqzMDFfADDlm5t1sOyqgZzvw8l3cTL89I/35TDiQPG
+ b89un1lH+ULamfegoj76YRoONTv/mecuqOy/otC91ou03uCVPZQzSsQF4
+ 0+2bx5fsC/RfvGI+ihXCCNY6f04URBBnQb4FU8u3BzH+mPIGQ+pIVvqIV
+ GixQoahTOFVHxBCUzm6LsXOCuPr+mv39Q3SyFzI5QZBvzSBeY6jD5v8Yi
+ ySFAQYjoDD/Xy8rUxluq2AQp34x2eKWGbThDatttkZBgbO0gvovJN+8E5 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="21662446"
+X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; d="scan'208";a="21662446"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2024 06:38:15 -0800
+ 05 Mar 2024 06:38:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; d="scan'208";a="13959926"
+X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; d="scan'208";a="13959940"
 Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO
  jkrzyszt-mobl2.intranet) ([10.213.25.18])
  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Mar 2024 06:38:12 -0800
+ 05 Mar 2024 06:38:15 -0800
 From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org
 Cc: Jani Nikula <jani.nikula@linux.intel.com>,
@@ -50,14 +50,13 @@ Cc: Jani Nikula <jani.nikula@linux.intel.com>,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
  Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Subject: [PATCH v7 1/3] drm/i915/vma: Fix UAF on destroy against retire race
-Date: Tue,  5 Mar 2024 15:35:06 +0100
-Message-ID: <20240305143747.335367-6-janusz.krzysztofik@linux.intel.com>
+Subject: [PATCH v7 2/3] drm/i915: Remove extra multi-gt pm-references
+Date: Tue,  5 Mar 2024 15:35:07 +0100
+Message-ID: <20240305143747.335367-7-janusz.krzysztofik@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240305143747.335367-5-janusz.krzysztofik@linux.intel.com>
 References: <20240305143747.335367-5-janusz.krzysztofik@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,191 +73,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Object debugging tools were sporadically reporting illegal attempts to
-free a still active i915 VMA object when parking a GT believed to be idle.
+There was an attempt to fix an issue of illegal attempts to free a still
+active i915 VMA object when parking a GT believed to be idle, reported by
+CI on 2-GT Meteor Lake.  As a solution, an extra wakeref for a Primary GT
+was acquired from i915_gem_do_execbuffer() -- see commit f56fe3e91787
+("drm/i915: Fix a VMA UAF for multi-gt platform").
 
-[161.359441] ODEBUG: free active (active state 0) object: ffff88811643b958 object type: i915_active hint: __i915_vma_active+0x0/0x50 [i915]
-[161.360082] WARNING: CPU: 5 PID: 276 at lib/debugobjects.c:514 debug_print_object+0x80/0xb0
-...
-[161.360304] CPU: 5 PID: 276 Comm: kworker/5:2 Not tainted 6.5.0-rc1-CI_DRM_13375-g003f860e5577+ #1
-[161.360314] Hardware name: Intel Corporation Rocket Lake Client Platform/RocketLake S UDIMM 6L RVP, BIOS RKLSFWI1.R00.3173.A03.2204210138 04/21/2022
-[161.360322] Workqueue: i915-unordered __intel_wakeref_put_work [i915]
-[161.360592] RIP: 0010:debug_print_object+0x80/0xb0
-...
-[161.361347] debug_object_free+0xeb/0x110
-[161.361362] i915_active_fini+0x14/0x130 [i915]
-[161.361866] release_references+0xfe/0x1f0 [i915]
-[161.362543] i915_vma_parked+0x1db/0x380 [i915]
-[161.363129] __gt_park+0x121/0x230 [i915]
-[161.363515] ____intel_wakeref_put_last+0x1f/0x70 [i915]
+However, that fix occurred insufficient -- the issue was still reported by
+CI.  That wakeref was released on exit from i915_gem_do_execbuffer(), then
+potentially before completion of the request and deactivation of its
+associated VMAs.  Moreover, CI reports indicated that single-GT platforms
+also suffered sporadically from the same race.
 
-That has been tracked down to be happening when another thread is
-deactivating the VMA inside __active_retire() helper, after the VMA's
-active counter has been already decremented to 0, but before deactivation
-of the VMA's object is reported to the object debugging tool.
+Since the issue has now been fixed by a preceding patch "drm/i915/vma: Fix
+UAF on destroy against retire race", drop the no longer useful changes
+introduced by that insufficient fix.
 
-We could prevent from that race by serializing i915_active_fini() with
-__active_retire() via ref->tree_lock, but that wouldn't stop the VMA from
-being used, e.g. from __i915_vma_retire() called at the end of
-__active_retire(), after that VMA has been already freed by a concurrent
-i915_vma_destroy() on return from the i915_active_fini().  Then, we should
-rather fix the issue at the VMA level, not in i915_active.
+v3: Also drop the no longer used .wakeref_gt0 field from struct
+    i915_execbuffer.
+v2: Avoid the word "revert" in commit message (Rodrigo),
+  - update commit description reusing relevant chunks dropped from the
+    description of the proper fix (Rodrigo).
 
-Since __i915_vma_parked() is called from __gt_park() on last put of the
-GT's wakeref, the issue could be addressed by holding the GT wakeref long
-enough for __active_retire() to complete before that wakeref is released
-and the GT parked.
-
-I believe the issue was introduced by commit d93939730347 ("drm/i915:
-Remove the vma refcount") which moved a call to i915_active_fini() from
-a dropped i915_vma_release(), called on last put of the removed VMA kref,
-to i915_vma_parked() processing path called on last put of a GT wakeref.
-However, its visibility to the object debugging tool was suppressed by a
-bug in i915_active that was fixed two weeks later with commit e92eb246feb9
-("drm/i915/active: Fix missing debug object activation").
-
-A VMA associated with a request doesn't acquire a GT wakeref by itself.
-Instead, it depends on a wakeref held directly by the request's active
-intel_context for a GT associated with its VM, and indirectly on that
-intel_context's engine wakeref if the engine belongs to the same GT as the
-VMA's VM.  Those wakerefs are released asynchronously to VMA deactivation.
-
-Fix the issue by getting a wakeref for the VMA's GT when activating it,
-and putting that wakeref only after the VMA is deactivated.  However,
-exclude global GTT from that processing path, otherwise the GPU never goes
-idle.  Since __i915_vma_retire() may be called from atomic contexts, use
-async variant of wakeref put.  Also, to avoid circular locking dependency,
-take care of acquiring the wakeref before VM mutex when both are needed.
-
-v7: Add inline comments with justifications for:
-    - using untracked variants of intel_gt_pm_get/put() (Nirmoy),
-    - using async variant of _put(),
-    - not getting the wakeref in case of a global GTT,
-    - always getting the first wakeref outside vm->mutex.
-v6: Since __i915_vma_active/retire() callbacks are not serialized, storing
-    a wakeref tracking handle inside struct i915_vma is not safe, and
-    there is no other good place for that.  Use untracked variants of
-    intel_gt_pm_get/put_async().
-v5: Replace "tile" with "GT" across commit description (Rodrigo),
-  - avoid mentioning multi-GT case in commit description (Rodrigo),
-  - explain why we need to take a temporary wakeref unconditionally inside
-    i915_vma_pin_ww() (Rodrigo).
-v4: Refresh on top of commit 5e4e06e4087e ("drm/i915: Track gt pm
-    wakerefs") (Andi),
-  - for more easy backporting, split out removal of former insufficient
-    workarounds and move them to separate patches (Nirmoy).
-  - clean up commit message and description a bit.
-v3: Identify root cause more precisely, and a commit to blame,
-  - identify and drop former workarounds,
-  - update commit message and description.
-v2: Get the wakeref before VM mutex to avoid circular locking dependency,
-  - drop questionable Fixes: tag.
-
-Fixes: d93939730347 ("drm/i915: Remove the vma refcount")
-Closes: https://gitlab.freedesktop.org/drm/intel/issues/8875
 Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Cc: Nirmoy Das <nirmoy.das@intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>
 Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: stable@vger.kernel.org # v5.19+
 ---
- drivers/gpu/drm/i915/i915_vma.c | 50 ++++++++++++++++++++++++++++-----
- 1 file changed, 43 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 18 ------------------
+ 1 file changed, 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-index d09aad34ba37f..b70715b1411d6 100644
---- a/drivers/gpu/drm/i915/i915_vma.c
-+++ b/drivers/gpu/drm/i915/i915_vma.c
-@@ -34,6 +34,7 @@
- #include "gt/intel_engine.h"
- #include "gt/intel_engine_heartbeat.h"
- #include "gt/intel_gt.h"
-+#include "gt/intel_gt_pm.h"
- #include "gt/intel_gt_requests.h"
- #include "gt/intel_tlb.h"
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index d3a771afb083e..3f20fe3811999 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -255,7 +255,6 @@ struct i915_execbuffer {
+ 	struct intel_context *context; /* logical state for the request */
+ 	struct i915_gem_context *gem_context; /** caller's context */
+ 	intel_wakeref_t wakeref;
+-	intel_wakeref_t wakeref_gt0;
  
-@@ -103,12 +104,42 @@ static inline struct i915_vma *active_to_vma(struct i915_active *ref)
- 
- static int __i915_vma_active(struct i915_active *ref)
+ 	/** our requests to build */
+ 	struct i915_request *requests[MAX_ENGINE_INSTANCE + 1];
+@@ -2686,7 +2685,6 @@ static int
+ eb_select_engine(struct i915_execbuffer *eb)
  {
--	return i915_vma_tryget(active_to_vma(ref)) ? 0 : -ENOENT;
-+	struct i915_vma *vma = active_to_vma(ref);
-+
-+	if (!i915_vma_tryget(vma))
-+		return -ENOENT;
-+
-+	/*
-+	 * Exclude global GTT VMA from holding a GT wakeref
-+	 * while active, otherwise GPU never goes idle.
-+	 */
-+	if (!i915_vma_is_ggtt(vma)) {
-+		/*
-+		 * Since we and our _retire() counterpart can be
-+		 * called asynchronously, storing a wakeref tracking
-+		 * handle inside struct i915_vma is not safe, and
-+		 * there is no other good place for that.  Hence,
-+		 * use untracked variants of intel_gt_pm_get/put().
-+		 */
-+		intel_gt_pm_get_untracked(vma->vm->gt);
-+	}
-+
-+	return 0;
- }
- 
- static void __i915_vma_retire(struct i915_active *ref)
- {
--	i915_vma_put(active_to_vma(ref));
-+	struct i915_vma *vma = active_to_vma(ref);
-+
-+	if (!i915_vma_is_ggtt(vma)) {
-+		/*
-+		 * Since we can be called from atomic contexts,
-+		 * use an async variant of intel_gt_pm_put().
-+		 */
-+		intel_gt_pm_put_async_untracked(vma->vm->gt);
-+	}
-+
-+	i915_vma_put(vma);
- }
- 
- static struct i915_vma *
-@@ -1404,7 +1435,7 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
- 	struct i915_vma_work *work = NULL;
- 	struct dma_fence *moving = NULL;
- 	struct i915_vma_resource *vma_res = NULL;
--	intel_wakeref_t wakeref = 0;
-+	intel_wakeref_t wakeref;
- 	unsigned int bound;
+ 	struct intel_context *ce, *child;
+-	struct intel_gt *gt;
+ 	unsigned int idx;
  	int err;
  
-@@ -1424,8 +1455,14 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
- 	if (err)
- 		return err;
+@@ -2710,17 +2708,10 @@ eb_select_engine(struct i915_execbuffer *eb)
+ 		}
+ 	}
+ 	eb->num_batches = ce->parallel.number_children + 1;
+-	gt = ce->engine->gt;
  
--	if (flags & PIN_GLOBAL)
--		wakeref = intel_runtime_pm_get(&vma->vm->i915->runtime_pm);
-+	/*
-+	 * In case of a global GTT, we must hold a runtime-pm wakeref
-+	 * while global PTEs are updated.  In other cases, we hold
-+	 * the rpm reference while the VMA is active.  Since runtime
-+	 * resume may require allocations, which are forbidden inside
-+	 * vm->mutex, get the first rpm wakeref outside of the mutex.
-+	 */
-+	wakeref = intel_runtime_pm_get(&vma->vm->i915->runtime_pm);
+ 	for_each_child(ce, child)
+ 		intel_context_get(child);
+ 	eb->wakeref = intel_gt_pm_get(ce->engine->gt);
+-	/*
+-	 * Keep GT0 active on MTL so that i915_vma_parked() doesn't
+-	 * free VMAs while execbuf ioctl is validating VMAs.
+-	 */
+-	if (gt->info.id)
+-		eb->wakeref_gt0 = intel_gt_pm_get(to_gt(gt->i915));
  
- 	if (flags & vma->vm->bind_async_flags) {
- 		/* lock VM */
-@@ -1561,8 +1598,7 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
- 	if (work)
- 		dma_fence_work_commit_imm(&work->base);
- err_rpm:
--	if (wakeref)
--		intel_runtime_pm_put(&vma->vm->i915->runtime_pm, wakeref);
-+	intel_runtime_pm_put(&vma->vm->i915->runtime_pm, wakeref);
+ 	if (!test_bit(CONTEXT_ALLOC_BIT, &ce->flags)) {
+ 		err = intel_context_alloc_state(ce);
+@@ -2759,9 +2750,6 @@ eb_select_engine(struct i915_execbuffer *eb)
+ 	return err;
  
- 	if (moving)
- 		dma_fence_put(moving);
+ err:
+-	if (gt->info.id)
+-		intel_gt_pm_put(to_gt(gt->i915), eb->wakeref_gt0);
+-
+ 	intel_gt_pm_put(ce->engine->gt, eb->wakeref);
+ 	for_each_child(ce, child)
+ 		intel_context_put(child);
+@@ -2775,12 +2763,6 @@ eb_put_engine(struct i915_execbuffer *eb)
+ 	struct intel_context *child;
+ 
+ 	i915_vm_put(eb->context->vm);
+-	/*
+-	 * This works in conjunction with eb_select_engine() to prevent
+-	 * i915_vma_parked() from interfering while execbuf validates vmas.
+-	 */
+-	if (eb->gt->info.id)
+-		intel_gt_pm_put(to_gt(eb->gt->i915), eb->wakeref_gt0);
+ 	intel_gt_pm_put(eb->context->engine->gt, eb->wakeref);
+ 	for_each_child(eb->context, child)
+ 		intel_context_put(child);
 -- 
 2.43.0
 
