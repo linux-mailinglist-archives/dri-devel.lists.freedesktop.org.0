@@ -2,90 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF2FE871A56
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 11:14:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82C93871A59
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 11:15:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A53810F15C;
-	Tue,  5 Mar 2024 10:14:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B42F10F47A;
+	Tue,  5 Mar 2024 10:14:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="I3Ey0mzU";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="k2zfjYIC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FAF010F15C
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 10:14:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1709633682;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bZreK67FpZILAeD49/V7f1eq0sfqv4ispNo3CtdsGzk=;
- b=I3Ey0mzUZVWSSvwz0ufZ0S8HZGwiMemrG44lVIWDkMAJ20qXTjC3DoyrSBfjep6nC6raRd
- 4xR6SNH4AkfOoKCsLZtm58X46iL2ENvMRuVcoayt8nu86w4nhyalxauQ5qBWM5HSbnJv0y
- tl1xzbsvzcCjASnAgtE6cxTq0wKEg2I=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-80-WzSHp1YbNGyILZdcy54jQw-1; Tue, 05 Mar 2024 05:14:39 -0500
-X-MC-Unique: WzSHp1YbNGyILZdcy54jQw-1
-Received: by mail-lf1-f72.google.com with SMTP id
- 2adb3069b0e04-5131796a4b7so5224066e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 02:14:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709633677; x=1710238477;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bZreK67FpZILAeD49/V7f1eq0sfqv4ispNo3CtdsGzk=;
- b=M1qkjg4cZFFuxWF1hTQneQnfos3fhr3K6nqfhPYCLuxbn8vU1NkaUf9vQUjcm7cKsg
- a0HT14TTlDNPoDFh1C2UeAw3cQFsPdENvLNmY3h1/xBYIgUIjBkucd1r6q571rMc4VHS
- T0WpEqTMoWhKsRtAmBzx01l82EwWzhgF/oqFBeK4kG0kCFEOapnQFlsSTjXAoYSkMlJu
- xLMFdbCwBAajAL6yJD6Sqb8Tfc6WbJBdLeaJKhOTjxDrqfHheGrUjWYKSCNbWMD3SC3b
- 1sWp5Txga2NzsFabssxcqD0EU5e8aJNzLMVXJC/lJma7HNCR68824rLHUukNJPi/UaqT
- V60w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV+xXPnVpceZIdhw5RM68h3XhSlk7Y2bP+rJQus61Uc3Bd85FNGz86Xar8jAGlxq8Ta4jeq1k7fOZ7p44aSWVJrEZIOUY/WS9XrYGQ4VDLx
-X-Gm-Message-State: AOJu0Yw46LHgG0ccpDOVWtQ+TZKcsfT5ohXWX8ffrA9g9gZHXVZhn5cu
- nyMFYCc9LZj5vFJyCBqpLUXi2ArBrwDxUJrBV7J8Zgj4cH9T5BwcXymt75YJI7vpzmRmn3A8fkW
- nEf0njCR4X1Rz1Uqq8ZXct2YWT6ilAhzHtrCFYX53a6BU6ncgiNiiKrFWCz42pJ0i1w==
-X-Received: by 2002:a19:a405:0:b0:513:4bf6:9710 with SMTP id
- q5-20020a19a405000000b005134bf69710mr940992lfc.26.1709633677487; 
- Tue, 05 Mar 2024 02:14:37 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGK7AzSAVkRPe1TYpP1NDx4pLfScxk4rOzERyIg+Ds+MY3KzPk22v/8TjCM4JUUhHs/40ihrg==
-X-Received: by 2002:a19:a405:0:b0:513:4bf6:9710 with SMTP id
- q5-20020a19a405000000b005134bf69710mr940959lfc.26.1709633676969; 
- Tue, 05 Mar 2024 02:14:36 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- s6-20020a05600c45c600b004129e8af6absm17375630wmo.33.2024.03.05.02.14.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Mar 2024 02:14:36 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-Cc: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Alex Deucher
- <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@redhat.com>, Rob
- Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul
- <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, Hamza
- Mahfooz <hamza.mahfooz@amd.com>, Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: Re: [RESEND v3 2/2] drm: Add CONFIG_DRM_WERROR
-In-Reply-To: <afe5ed943414f7ec3044c1547503b9941686a867.1709629403.git.jani.nikula@intel.com>
-References: <cover.1709629403.git.jani.nikula@intel.com>
- <afe5ed943414f7ec3044c1547503b9941686a867.1709629403.git.jani.nikula@intel.com>
-Date: Tue, 05 Mar 2024 11:14:35 +0100
-Message-ID: <87bk7trnn8.fsf@minerva.mail-host-address-is-not-set>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B80610F47A;
+ Tue,  5 Mar 2024 10:14:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709633699; x=1741169699;
+ h=mime-version:content-transfer-encoding:in-reply-to:
+ references:cc:from:subject:to:message-id:date;
+ bh=IfD+qDLgLczsyuWim2FnqlLcEdRE5l9kc0iYiLLTlhc=;
+ b=k2zfjYICd47N8nbn+ufusDXFyUAPJqTcE4Q2a2G6CSvlx/RnUM7HVaMh
+ loOQhxXwjWRUZVMM/51pIOJLUxu9+e3u/PyNHp9ActJSYyRdP3mkx+61L
+ /JPDXk2NhFrqkXp/WTYSB0khWfFBZvvcYgwHAqYDQE3ruBAtwb/MF6fex
+ rfB9J+Q5rSyUM57vac4VCUGV0xZfFoaCpxtO1mdjmjbCCPClmwgacSu/J
+ 4AJEPluVrm9drNLO+FIvrzHArZXXKzzJi6FBCuuKYk6f7NoLto/7Kk5I3
+ IhHKRXZ6EAenBzK7veuzR7YVgtUDanI40lF2FOjWA0s7lW87U6GKNv++G Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="21629492"
+X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; d="scan'208";a="21629492"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Mar 2024 02:14:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
+   d="scan'208";a="9740489"
+Received: from unknown (HELO localhost) ([10.245.244.116])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Mar 2024 02:14:53 -0800
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240229232859.70058-2-andi.shyti@linux.intel.com>
+References: <20240229232859.70058-1-andi.shyti@linux.intel.com>
+ <20240229232859.70058-2-andi.shyti@linux.intel.com>
+Cc: Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, stable@vger.kernel.org,
+ Andi Shyti <andi.shyti@linux.intel.com>, Andi Shyti <andi.shyti@kernel.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Subject: Re: [PATCH v3 1/4] drm/i915/gt: Refactor uabi engine class/instance
+ list creation
+To: Andi Shyti <andi.shyti@linux.intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Message-ID: <170963369058.35653.11240745207600457716@jlahtine-mobl.ger.corp.intel.com>
+User-Agent: alot/0.8.1
+Date: Tue, 05 Mar 2024 12:14:50 +0200
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,27 +75,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Jani Nikula <jani.nikula@intel.com> writes:
-
-Hello Jani,
-
-> Add kconfig to enable -Werror subsystem wide. This is useful for
-> development and CI to keep the subsystem warning free, while avoiding
-> issues outside of the subsystem that kernel wide CONFIG_WERROR=y might
-> hit.
->
-> v2: Don't depend on COMPILE_TEST
->
-> Reviewed-by: Hamza Mahfooz <hamza.mahfooz@amd.com> # v1
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+Quoting Andi Shyti (2024-03-01 01:28:56)
+> For the upcoming changes we need a cleaner way to build the list
+> of uabi engines.
+>=20
+> Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 > ---
+>  drivers/gpu/drm/i915/gt/intel_engine_user.c | 29 ++++++++++++---------
+>  1 file changed, 17 insertions(+), 12 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/dr=
+m/i915/gt/intel_engine_user.c
+> index 833987015b8b..cf8f24ad88f6 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> @@ -203,7 +203,7 @@ static void engine_rename(struct intel_engine_cs *eng=
+ine, const char *name, u16
+> =20
+>  void intel_engines_driver_register(struct drm_i915_private *i915)
+>  {
+> -       u16 name_instance, other_instance =3D 0;
+> +       u16 class_instance[I915_LAST_UABI_ENGINE_CLASS + 1] =3D { };
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Do you mean this to be size I915_LAST_UABI_ENGINE_CLASS + 2? Because ...
 
--- 
-Best regards,
+<SNIP>
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+> @@ -222,15 +224,14 @@ void intel_engines_driver_register(struct drm_i915_=
+private *i915)
+> =20
+>                 GEM_BUG_ON(engine->class >=3D ARRAY_SIZE(uabi_classes));
+>                 engine->uabi_class =3D uabi_classes[engine->class];
+> -               if (engine->uabi_class =3D=3D I915_NO_UABI_CLASS) {
+> -                       name_instance =3D other_instance++;
+> -               } else {
+> -                       GEM_BUG_ON(engine->uabi_class >=3D
+> -                                  ARRAY_SIZE(i915->engine_uabi_class_cou=
+nt));
+> -                       name_instance =3D
+> -                               i915->engine_uabi_class_count[engine->uab=
+i_class]++;
+> -               }
+> -               engine->uabi_instance =3D name_instance;
+> +
+> +               if (engine->uabi_class =3D=3D I915_NO_UABI_CLASS)
+> +                       uabi_class =3D I915_LAST_UABI_ENGINE_CLASS + 1;
 
+.. otherwise this ...
+
+> +               else
+> +                       uabi_class =3D engine->uabi_class;
+> +
+> +               GEM_BUG_ON(uabi_class >=3D ARRAY_SIZE(class_instance));
+
+.. will trigger this assertion?
+
+Regards, Joonas
