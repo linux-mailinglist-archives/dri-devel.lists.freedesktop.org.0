@@ -2,107 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1352872992
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 22:42:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 394308729B9
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 22:52:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 045B4112CF4;
-	Tue,  5 Mar 2024 21:42:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F95E112D02;
+	Tue,  5 Mar 2024 21:52:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="a+97+OpQ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="M4OpxBmI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
- [209.85.218.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9EEB112CF4
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 21:42:55 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id
- a640c23a62f3a-a4499ef8b5aso481458166b.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 13:42:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1709674974; x=1710279774;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=taKaV1Imu8dPWBYkqoZ/sDLJ/i/zt1JPV6awJGGbW5o=;
- b=a+97+OpQhx09AcYSQZXu1DcPibLBnN/hxiRH5ZvheAZrsllZPUvXKGZYlB3oq8FHop
- e4jyEH8lc5TGPy5WgTElJmThLOWCSJlDCblOJX0NESh+wa+RYRqKTDBqgmimro+Mqxju
- v2s2G0dNAPuvrwCf7vAXAlYUOYR5/CNKcdJbldVCuLf9iykBFXksmcfr+GfKNvh+KB7l
- Adoz3NRBTmXrDHiPXd4HTNVS/bLgakql9uSSzzDOdGvsUj8/WocP9JZIbx700HhgjqZL
- q83ZzyIyRVV9pXBV1bbA0qGiS8IGRsO3Grn+9Lq+EHIwqUDznIraYclARAGGS+8UTGmM
- w1GQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709674974; x=1710279774;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=taKaV1Imu8dPWBYkqoZ/sDLJ/i/zt1JPV6awJGGbW5o=;
- b=GZu/CEmOZji77O0QePWYzm3Iau8VZvVGP0AWr0lNe0BD2iJ6w+yoFv8u2oAp5EOp80
- FiI2Zo3Xl3pb6iR14emih4BFHLX92x1LN3WD6Iqs0affri9DsAvnmzhVSdRXUpUUg5zm
- gMvTD5RUE6lbR/jI7rUxo/71Il+lVPP2tHHKJOdS5kpw5T0O3tCs7gciQN4mfoSK82cq
- 68kX0lbqpyE91VQFCQDY0lblKnCeVnhSLYVEkS6G2rfog7nQXrwV3VF0Mh6NpLrFT+U5
- ztbqwMqd/3T1tmk42FhxGzf0NL6MYpli/YnOKvMwgbTcepro0wV9HmpxJQJnPiOju1KS
- 9XrA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXM7NDfdEafMidmrys7KfAMZQNmvZiwvlVsprf7LC9IdzlILKyAo5xVwZMvnH9mCjnNJm66tlVGgt9kuaX4P6B3QFoo76qUFEDsxXoWT7qT
-X-Gm-Message-State: AOJu0YwP+0ajhSntQmQ4Q7mgoQy1wXmh2gnPg9S6EjOG9JEOj6pLw0mZ
- aQJRlionhYY1ppNYMQIn22/Gtg9CK9+0YnitMGpnNXqZDZzjNlIbzn9TWWEvF58Ex1YFMSSqeJj
- iIQNOs+nNZzsXVcaO+EJMqAKwxqV69YgFD8RE
-X-Google-Smtp-Source: AGHT+IG91D41K0qTrt/oxsQ9VDLq/W0kEG0CngDQ4wIFGlyDN55CCNngpzn0PWYqf5UwpDKDDqc46H/XvD13Egsb0NQ=
-X-Received: by 2002:a17:906:1155:b0:a45:7451:d255 with SMTP id
- i21-20020a170906115500b00a457451d255mr4238748eja.29.1709674973343; Tue, 05
- Mar 2024 13:42:53 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 935A8112D02;
+ Tue,  5 Mar 2024 21:52:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1709675546; x=1741211546;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=ati3puPWPcSzePZYGKLK60wTrp4P5VtzSGIG6cU2ezU=;
+ b=M4OpxBmIA0bNkrQ5P6hpI1umdY/ibwkyO0DWXVAumyVPk60nQ8w6EI03
+ dN8hzFCSV/iZ0sptG6gQqZZqVPPJPKIE9Qw8YeNaaOdqzZD9lyXKca3gD
+ APQBBMr6DVfiKCxvjPThVMnZuCUhqxFywFIKdlH9JnJqEHWjxeMDvVVa4
+ muB1KSic327mk6QNa8/pWsb/1L94+tyq3XpwbRrBCHGpmRLRcojB0pJgm
+ nGMbhJL4lxrzR1P8ppow779zpom2KbAEJu0O81XhjrUd85PPfCrBhhnDP
+ FNLB/XqyqouqI5LFQYHuOf1eo+Cho+UsaLWZAv5/U11p1WT83bKbPWI6B w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="15662279"
+X-IronPort-AV: E=Sophos;i="6.06,206,1705392000"; d="scan'208";a="15662279"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Mar 2024 13:52:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,206,1705392000"; d="scan'208";a="14219644"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by orviesa005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 05 Mar 2024 13:52:24 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 5 Mar 2024 13:52:23 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Tue, 5 Mar 2024 13:52:23 -0800
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.168)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 5 Mar 2024 13:52:22 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=U6WWEoXwPXhWYA1OZh/MIdtHqV+vCYcaCvKc/4ipR3n6bZll/9qaxPPSPyklQMo/1LE7GpZ0JZJeuARWN4Amz7EdeF2utoceuwnXwwF+E3hwaAAv3A6S0eCDFhKaz5an3eNlMh1nckybtsPrmin1qBvRTq459e+glfGkMrs4q1Xyj4n2SWu87PMIM48FOvuhoziZctiCqyMLCcdGB6ii18w0bynseiTvzhjXzpEFMOpYq/GAEPUCVP4LNkuTxVHxbi8BeWcTv9pSTHYx6rvgfzN70INDDg2zzUrJSPV8TS8Z1HCiy9fLZBsOuxiZ7sUAbalm6FXQYE/YpW3EEJtJfg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yw/vBqDpnSnXuf0Jz2Q4MHybP6ftYmuA5RqCL8Scm6g=;
+ b=hp1zBLnPYSl6ArUMTzbGn+yqtsH+g1stw4dHeCREOn9xFscDIncskWj7/uOcN+Guu0OHDwRCNPSVnT3YtnodFp7nlvQjc5WIphaR95IyaBuYu4O0rD4hSgejlAzcrUw+Cf/vNh37T+qCWOYDXep/FtuAjrdT6XLF6sRY6gD27Dry+5AOm7W9tW3qipc+bhCfuqI0Ilo+kgbSPP6uxODJ0Nk7HOf1BTEbVlfqoIn75mg/I8DSf1IzKS4mUhsNIWXaswtelODSeMzEZ4BEtEyUb5Dqp8+FL3csT/CoJTpVnmmpVxvGx8m4XcyL5c99WE26y3J9Q2sNCv1XA2bAjKn23Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB8182.namprd11.prod.outlook.com (2603:10b6:8:163::17)
+ by DS0PR11MB8072.namprd11.prod.outlook.com (2603:10b6:8:12f::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.23; Tue, 5 Mar
+ 2024 21:52:21 +0000
+Received: from DS0PR11MB8182.namprd11.prod.outlook.com
+ ([fe80::45cf:261e:c084:9493]) by DS0PR11MB8182.namprd11.prod.outlook.com
+ ([fe80::45cf:261e:c084:9493%6]) with mapi id 15.20.7362.019; Tue, 5 Mar 2024
+ 21:52:21 +0000
+Date: Tue, 5 Mar 2024 13:52:18 -0800
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+CC: intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel
+ <dri-devel@lists.freedesktop.org>, Chris Wilson
+ <chris.p.wilson@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, John Harrison <John.C.Harrison@intel.com>, 
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, <stable@vger.kernel.org>,
+ Andi Shyti <andi.shyti@kernel.org>
+Subject: Re: [PATCH v3 2/4] drm/i915/gt: Do not exposed fused off engines.
+Message-ID: <20240305215218.GY718896@mdroper-desk1.amr.corp.intel.com>
+References: <20240229232859.70058-1-andi.shyti@linux.intel.com>
+ <20240229232859.70058-3-andi.shyti@linux.intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240229232859.70058-3-andi.shyti@linux.intel.com>
+X-ClientProxiedBy: BYAPR11CA0051.namprd11.prod.outlook.com
+ (2603:10b6:a03:80::28) To DS0PR11MB8182.namprd11.prod.outlook.com
+ (2603:10b6:8:163::17)
 MIME-Version: 1.0
-References: <20240305020153.2787423-1-almasrymina@google.com>
- <20240305020153.2787423-9-almasrymina@google.com>
-In-Reply-To: <20240305020153.2787423-9-almasrymina@google.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 5 Mar 2024 13:42:41 -0800
-Message-ID: <CAHS8izPp6TmMa0jpZCoADZx+ENBL87zNqrhwFZNc64brYR=5pg@mail.gmail.com>
-Subject: Re: [RFC PATCH net-next v6 08/15] page_pool: devmem support
-To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
- linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, Linux-MM <linux-mm@kvack.org>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
- Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, 
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, 
- KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
- Hao Luo <haoluo@google.com>, 
- Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, 
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Jeroen de Borst <jeroendb@google.com>, 
- Praveen Kaligineedi <pkaligineedi@google.com>, willy@infradead.org,
- shakeel.butt@linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB8182:EE_|DS0PR11MB8072:EE_
+X-MS-Office365-Filtering-Correlation-Id: 452be654-42ea-41f4-3554-08dc3d5e88e3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: WgB8nu/n/HnwLDRmQV/VNVOm/LXDzd8fAald/IJDiDqvlns9edox9AAFIE59PLLW6IRqhkZH1ZOJynfc0hmyM2/knaW1CLXaA67tLSsZYrEc/MnXTWelgX88mSQxyUz9E5dk8Pk43ZtOxo63dMbAkHmJx4MTtMFOSjWPHpgBejpS8fcyzE9a2l/1Y+TYl1/Vhs1y/HRbz3AqCdUQmLIg6PfHsgChmzcNk0wO4t37/dM00qAU1rzHYBOQ88VXDtEM9LhiYV+LzQ4UHJnQcgLXJ+FVjg+SKOpag1qoQZwXcW1BfKf/NKktsRYtlYrV9GwLLMG5IYBPznW4/XB+Cl0lSxi3/vl0+bi1qrUMF55GnoqpTXFhqFOptDpCywDJI13Rvu7I/Ygwyhl57d0/JHLAv8mBPPNtLCn6T6aIwnrheoh6N7TXX2qZ03ZpFbx5N08G9nywASpYRS+rmF6bajc46F5YWFEHKPpZfvHOeUXPHLpYQFqqLFHpqtaDJwmM18YyAroKRJKLJ1G1UWQB01jTLzVjxVa9QgRpVBnIAM5JkK/RfoZJeBQkMRDByFiB29lGLwHP7tth05HY8Ge3JWQLJoCOn5RVS94r9IZeI9f/p8wMjvvJAtVCsiCi+A8xzVH6yLLGqQk1QV7k2owE/9gdH8IW2uO3fOK/Yqo4NKB81uM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR11MB8182.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376005); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wy+BS2C/FjsKsqLEQz815qX80oc+OoBFa3b3MDUjpyXZYq3mjapbJxJxvCRU?=
+ =?us-ascii?Q?fnAq3W8A5wpGggu0FnDg3wMX5pGAZR1N2xyUWVI/+dKMWpYIppnnrgdbgYYr?=
+ =?us-ascii?Q?vbZB02pICW5RVOe1UthsWtoQjsrvNBoumVTqCOQ88jT13kS3MEHEoxk1/WdN?=
+ =?us-ascii?Q?+O9w7y/vnZaaUghG2wzHhfofB1k03//LerwW3GlL6bjkRXOS1H34vJJyFOrk?=
+ =?us-ascii?Q?Hk7rpedIgrVHERAoGoM6ryOy4I0BXV2lx/LiSjSQcUnVBw/EN3hPLCe7I1UU?=
+ =?us-ascii?Q?EmmR3C/20xScLJXmHohZl3ifcoVSY3aY8Qy0UJejIpw9dt+krO8deRf8jHtC?=
+ =?us-ascii?Q?DCvQ/ujpTMEB+ehFRWQ6NxlvMkEqGId70bXTe6bxSTVxzz1gD6jXHKEaA87d?=
+ =?us-ascii?Q?gLqLpQda4TOSYT/rgdhH5/YaOYdYnLCBd4zaOAZ2Pvj1GsvznkPQnEtZQ5hG?=
+ =?us-ascii?Q?iNCJ6EGGRq7z92ZwLyhc0cT83AJgDDBk67D5hRjcK0AqSaObtRpwq01amf0q?=
+ =?us-ascii?Q?BZ3WqllnbFy674OtMXlT6oZabo2CtiqULe7FlyEaMmVp4HaPEDcVP7EOb8hK?=
+ =?us-ascii?Q?uKa15WbRHRLK3qz77hrX/snvda2Z1ZqLnPalTpUVFcsTnDCLX30q4KpwpbHR?=
+ =?us-ascii?Q?wEzhC2l4VhD2Knk5UkaXeIgLJrfdBDp11VPPPc1iifqf1RKMEXKqtFe9Lnj2?=
+ =?us-ascii?Q?TzRT7qZ7nZsbhD9dMRzQonP6znX1sbfrcizkKZgW5HIxLir0Nc89VIzPZA6D?=
+ =?us-ascii?Q?C47a3vkwg3GQ3KNLkeOZSIZWTQg8tYLOP02gGKIHq+MbdvAuAvgdCdy4Di2U?=
+ =?us-ascii?Q?T7V8x9qBur5rw5l1xFd/Mmw/MKPej8Qv+s/ZKptMNmkMt+7e3AyM+zLRQYVu?=
+ =?us-ascii?Q?sDkNDHjBSlH2lJtSCJ0rlZPl75ybZZ3nl612J7RLlQbRVHqPidfDPSz8FfHW?=
+ =?us-ascii?Q?W3HXtWGqee+t3LziBDDXZ27MMd9VlM2Jc4uQ4fjw7xNu1JPrW7r7XiD5CT9i?=
+ =?us-ascii?Q?4bG2pqkGZ6ZFjc2Q5h1TVxsMmV7ZvVR6paAr1vOfZwi/yGgO8LOuY2wC65BT?=
+ =?us-ascii?Q?N13NQST5cRBQlKCGw1qkyMqCaQ6tqGaoBNtMsTLu6ylbLbGyC1MkEt/2u31c?=
+ =?us-ascii?Q?bQtka1gMxfF7Whuwlx/B+KmU5xd5t/x+IOjFuhjn8mITcfc4M5M4PJHRAHht?=
+ =?us-ascii?Q?G7y+K0F7DL5vZu4fmE7OB0GBjwkZgdJID6KbNAlCgi6apr3jWsdFyYD9xtvC?=
+ =?us-ascii?Q?60tU/anSB0A9qvSc/t2XeGmlk8epUAgL6n9kTkplHNsVeassRYoJ8kLZ0521?=
+ =?us-ascii?Q?QdulCdJCg6v8X3cS1wtgIRyXrT62hLwiBCuSaKbx1ulGpRtf12VNx6PMcoXd?=
+ =?us-ascii?Q?ofcC+4CcA0I1P1LBDvCzGWxEDac5ycvxcOO6r+Pkr5CLGMUIsWTDwld4yXN6?=
+ =?us-ascii?Q?SBmRzoXTi2nqSzQqYhbGssB4HnIeT6HGqLoBgslAVmbdo1MjdnkpAv7/LJWg?=
+ =?us-ascii?Q?kasCaVu2AhjRb7hnXCVQdaAqiMwnmM1j/OeNz9ZqecxNzR29KKDWjt0NiO/7?=
+ =?us-ascii?Q?xFx9V6HqQ6dbGseLSw4qBjg7px5ehVLZ+uh/hm6CKTyBKSgn9M5/aXzfUXf/?=
+ =?us-ascii?Q?zQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 452be654-42ea-41f4-3554-08dc3d5e88e3
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB8182.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2024 21:52:21.3729 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IrNMNbBTedrfSB9NY+onmiyh38wOTgxwSpUY2Uze1FJROxPnU/ytgbMmqcJ9ULsLAXOtGPIEQDUzXAfP2cFHUuxUQRHeW3L1NHbmJdv2BEA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8072
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,599 +154,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 4, 2024 at 6:02=E2=80=AFPM Mina Almasry <almasrymina@google.com=
-> wrote:
->
-> Convert netmem to be a union of struct page and struct netmem. Overload
-> the LSB of struct netmem* to indicate that it's a net_iov, otherwise
-> it's a page.
->
-> Currently these entries in struct page are rented by the page_pool and
-> used exclusively by the net stack:
->
-> struct {
->         unsigned long pp_magic;
->         struct page_pool *pp;
->         unsigned long _pp_mapping_pad;
->         unsigned long dma_addr;
->         atomic_long_t pp_ref_count;
-> };
->
-> Mirror these (and only these) entries into struct net_iov and implement
-> netmem helpers that can access these common fields regardless of
-> whether the underlying type is page or net_iov.
->
-> Implement checks for net_iov in netmem helpers which delegate to mm
-> APIs, to ensure net_iov are never passed to the mm stack.
->
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
->
+On Fri, Mar 01, 2024 at 12:28:57AM +0100, Andi Shyti wrote:
+> Some of the CCS engines are disabled. They should not be listed
+> in the uabi_engine list, that is the list of engines that the
+> user can see.
 
-Per David Howell's request, I'm forwarding these 2 patches from the
-series to linux-mm & Mathew Wilcox.
+Fused off engines already aren't visible to userspace (or to the kernel
+for that matter).  For CCS engines engine_mask_apply_compute_fuses()
+removes the fused off engines from the runtime engine mask; other engine
+types are handled in similar functions.  Any engine that doesn't appear
+in the filtered down engine_mask won't even have a 'struct
+intel_engine_cs' allocated for it.
 
-https://lore.kernel.org/netdev/950858.1709622997@warthog.procyon.org.uk/
 
-+linux-mm +Mathew Wilcox +David Howells
+Matt
 
-Some background on how we arrived at the current design may be useful.
-This was largely discussed across 2 (long) email threads, largely with
-Jason Gunthorpe and Christian Konig:
-
-https://lore.kernel.org/lkml/CAHS8izPm6XRS54LdCDZVd0C75tA1zHSu6jLVO8nzTLXCc=
-=3DH7Nw@mail.gmail.com/
-
-https://lore.kernel.org/bpf/CAHS8izMdKYyjE9bdcFDWWPWECwVZL7XQjtjOFoTq5_bEEJ=
-vN6w@mail.gmail.com/
-
-The approach is based on supporting dma-buf scatterlist entries in the
-networking stack, to support receiving data directly into GPU memory
-typically represented by dmabuf. I added the abstract netmem_ref type
-in a recent series that can multiplex between struct pages and
-non-struct pages (called net_iovs in this series):
-
-https://lore.kernel.org/netdev/20240214223405.1972973-1-almasrymina@google.=
-com/
-
+> 
+> Fixes: d2eae8e98d59 ("drm/i915/dg2: Drop force_probe requirement")
+> Requires: 4e4f77d74878 ("drm/i915/gt: Refactor uabi engine class/instance list creation")
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 > ---
->
-> v6:
-> - Rebased on top of the merged netmem_ref type.
-> - Rebased on top of the merged skb_pp_frag_ref() changes.
->
-> v5:
-> - Use netmem instead of page* with LSB set.
-> - Use pp_ref_count for refcounting net_iov.
-> - Removed many of the custom checks for netmem.
->
-> v1:
-> - Disable fragmentation support for iov properly.
-> - fix napi_pp_put_page() path (Yunsheng).
-> - Use pp_frag_count for devmem refcounting.
->
-> ---
->  include/net/netmem.h            | 142 ++++++++++++++++++++++++++++++--
->  include/net/page_pool/helpers.h |  25 +++---
->  include/net/page_pool/types.h   |   1 +
->  net/core/page_pool.c            |  26 +++---
->  net/core/skbuff.c               |  23 +++---
->  5 files changed, 171 insertions(+), 46 deletions(-)
->
-> diff --git a/include/net/netmem.h b/include/net/netmem.h
-> index 21f53b29e5fe..8699788d587d 100644
-> --- a/include/net/netmem.h
-> +++ b/include/net/netmem.h
-> @@ -9,14 +9,51 @@
->  #define _NET_NETMEM_H
->
->  #include <net/devmem.h>
-> +#include <net/net_debug.h>
->
->  /* net_iov */
->
-> +DECLARE_STATIC_KEY_FALSE(page_pool_mem_providers);
+>  drivers/gpu/drm/i915/gt/intel_engine_user.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> index cf8f24ad88f6..ec5bcd1c1ec4 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> @@ -244,6 +244,18 @@ void intel_engines_driver_register(struct drm_i915_private *i915)
+>  		if (uabi_class > I915_LAST_UABI_ENGINE_CLASS)
+>  			continue;
+>  
+> +		/*
+> +		 * If the CCS engine is fused off, the corresponding bit
+> +		 * in the engine mask is disabled. Do not expose it
+> +		 * to the user.
+> +		 *
+> +		 * By default at least one engine is enabled (check
+> +		 * the engine_mask_apply_compute_fuses() function.
+> +		 */
+> +		if (!(engine->gt->info.engine_mask &
+> +		      BIT(_CCS(engine->uabi_instance))))
+> +			continue;
 > +
-> +/*  We overload the LSB of the struct page pointer to indicate whether i=
-t's
-> + *  a page or net_iov.
-> + */
-> +#define NET_IOV 0x01UL
-> +
->  struct net_iov {
-> +       unsigned long __unused_padding;
-> +       unsigned long pp_magic;
-> +       struct page_pool *pp;
->         struct dmabuf_genpool_chunk_owner *owner;
->         unsigned long dma_addr;
-> +       atomic_long_t pp_ref_count;
->  };
->
-> +/* These fields in struct page are used by the page_pool and net stack:
-> + *
-> + *     struct {
-> + *             unsigned long pp_magic;
-> + *             struct page_pool *pp;
-> + *             unsigned long _pp_mapping_pad;
-> + *             unsigned long dma_addr;
-> + *             atomic_long_t pp_ref_count;
-> + *     };
-> + *
-> + * We mirror the page_pool fields here so the page_pool can access these=
- fields
-> + * without worrying whether the underlying fields belong to a page or ne=
-t_iov.
-> + *
-> + * The non-net stack fields of struct page are private to the mm stack a=
-nd must
-> + * never be mirrored to net_iov.
-> + */
-> +#define NET_IOV_ASSERT_OFFSET(pg, iov)             \
-> +       static_assert(offsetof(struct page, pg) =3D=3D \
-> +                     offsetof(struct net_iov, iov))
-> +NET_IOV_ASSERT_OFFSET(pp_magic, pp_magic);
-> +NET_IOV_ASSERT_OFFSET(pp, pp);
-> +NET_IOV_ASSERT_OFFSET(dma_addr, dma_addr);
-> +NET_IOV_ASSERT_OFFSET(pp_ref_count, pp_ref_count);
-> +#undef NET_IOV_ASSERT_OFFSET
-> +
->  static inline struct dmabuf_genpool_chunk_owner *
->  net_iov_owner(const struct net_iov *niov)
->  {
-> @@ -69,20 +106,27 @@ net_iov_binding(const struct net_iov *niov)
->   */
->  typedef unsigned long __bitwise netmem_ref;
->
-> +static inline bool netmem_is_net_iov(const netmem_ref netmem)
-> +{
-> +#ifdef CONFIG_PAGE_POOL
-> +       return static_branch_unlikely(&page_pool_mem_providers) &&
-> +              (__force unsigned long)netmem & NET_IOV;
-> +#else
-> +       return false;
-> +#endif
-> +}
-> +
->  /* This conversion fails (returns NULL) if the netmem_ref is not struct =
-page
->   * backed.
-> - *
-> - * Currently struct page is the only possible netmem, and this helper ne=
-ver
-> - * fails.
->   */
->  static inline struct page *netmem_to_page(netmem_ref netmem)
->  {
-> +       if (WARN_ON_ONCE(netmem_is_net_iov(netmem)))
-> +               return NULL;
-> +
->         return (__force struct page *)netmem;
->  }
->
-> -/* Converting from page to netmem is always safe, because a page can alw=
-ays be
-> - * a netmem.
-> - */
->  static inline netmem_ref page_to_netmem(struct page *page)
->  {
->         return (__force netmem_ref)page;
-> @@ -90,17 +134,103 @@ static inline netmem_ref page_to_netmem(struct page=
- *page)
->
->  static inline int netmem_ref_count(netmem_ref netmem)
->  {
-> +       /* The non-pp refcount of net_iov is always 1. On net_iov, we onl=
-y
-> +        * support pp refcounting which uses the pp_ref_count field.
-> +        */
-> +       if (netmem_is_net_iov(netmem))
-> +               return 1;
-> +
->         return page_ref_count(netmem_to_page(netmem));
->  }
->
->  static inline unsigned long netmem_to_pfn(netmem_ref netmem)
->  {
-> +       if (netmem_is_net_iov(netmem))
-> +               return 0;
-> +
->         return page_to_pfn(netmem_to_page(netmem));
->  }
->
-> +static inline struct net_iov *__netmem_clear_lsb(netmem_ref netmem)
-> +{
-> +       return (struct net_iov *)((__force unsigned long)netmem & ~NET_IO=
-V);
-> +}
-> +
-> +static inline unsigned long netmem_get_pp_magic(netmem_ref netmem)
-> +{
-> +       return __netmem_clear_lsb(netmem)->pp_magic;
-> +}
-> +
-> +static inline void netmem_or_pp_magic(netmem_ref netmem, unsigned long p=
-p_magic)
-> +{
-> +       __netmem_clear_lsb(netmem)->pp_magic |=3D pp_magic;
-> +}
-> +
-> +static inline void netmem_clear_pp_magic(netmem_ref netmem)
-> +{
-> +       __netmem_clear_lsb(netmem)->pp_magic =3D 0;
-> +}
-> +
-> +static inline struct page_pool *netmem_get_pp(netmem_ref netmem)
-> +{
-> +       return __netmem_clear_lsb(netmem)->pp;
-> +}
-> +
-> +static inline void netmem_set_pp(netmem_ref netmem, struct page_pool *po=
-ol)
-> +{
-> +       __netmem_clear_lsb(netmem)->pp =3D pool;
-> +}
-> +
-> +static inline unsigned long netmem_get_dma_addr(netmem_ref netmem)
-> +{
-> +       return __netmem_clear_lsb(netmem)->dma_addr;
-> +}
-> +
-> +static inline void netmem_set_dma_addr(netmem_ref netmem,
-> +                                      unsigned long dma_addr)
-> +{
-> +       __netmem_clear_lsb(netmem)->dma_addr =3D dma_addr;
-> +}
-> +
-> +static inline atomic_long_t *netmem_get_pp_ref_count_ref(netmem_ref netm=
-em)
-> +{
-> +       return &__netmem_clear_lsb(netmem)->pp_ref_count;
-> +}
-> +
-> +static inline bool netmem_is_pref_nid(netmem_ref netmem, int pref_nid)
-> +{
-> +       /* Assume net_iov are on the preferred node without actually
-> +        * checking...
-> +        *
-> +        * This check is only used to check for recycling memory in the p=
-age
-> +        * pool's fast paths. Currently the only implementation of net_io=
-v
-> +        * is dmabuf device memory. It's a deliberate decision by the use=
-r to
-> +        * bind a certain dmabuf to a certain netdev, and the netdev rx q=
-ueue
-> +        * would not be able to reallocate memory from another dmabuf tha=
-t
-> +        * exists on the preferred node, so, this check doesn't make much=
- sense
-> +        * in this case. Assume all net_iovs can be recycled for now.
-> +        */
-> +       if (netmem_is_net_iov(netmem))
-> +               return true;
-> +
-> +       return page_to_nid(netmem_to_page(netmem)) =3D=3D pref_nid;
-> +}
-> +
->  static inline netmem_ref netmem_compound_head(netmem_ref netmem)
->  {
-> +       /* niov are never compounded */
-> +       if (netmem_is_net_iov(netmem))
-> +               return netmem;
-> +
->         return page_to_netmem(compound_head(netmem_to_page(netmem)));
->  }
->
-> +static inline void *netmem_address(netmem_ref netmem)
-> +{
-> +       if (netmem_is_net_iov(netmem))
-> +               return NULL;
-> +
-> +       return page_address(netmem_to_page(netmem));
-> +}
-> +
->  #endif /* _NET_NETMEM_H */
-> diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/help=
-ers.h
-> index 61814f91a458..c6a55eddefae 100644
-> --- a/include/net/page_pool/helpers.h
-> +++ b/include/net/page_pool/helpers.h
-> @@ -215,7 +215,7 @@ inline enum dma_data_direction page_pool_get_dma_dir(=
-struct page_pool *pool)
->
->  static inline void page_pool_fragment_netmem(netmem_ref netmem, long nr)
->  {
-> -       atomic_long_set(&netmem_to_page(netmem)->pp_ref_count, nr);
-> +       atomic_long_set(netmem_get_pp_ref_count_ref(netmem), nr);
->  }
->
->  /**
-> @@ -243,7 +243,7 @@ static inline void page_pool_fragment_page(struct pag=
-e *page, long nr)
->
->  static inline long page_pool_unref_netmem(netmem_ref netmem, long nr)
->  {
-> -       struct page *page =3D netmem_to_page(netmem);
-> +       atomic_long_t *pp_ref_count =3D netmem_get_pp_ref_count_ref(netme=
-m);
->         long ret;
->
->         /* If nr =3D=3D pp_ref_count then we have cleared all remaining
-> @@ -260,19 +260,19 @@ static inline long page_pool_unref_netmem(netmem_re=
-f netmem, long nr)
->          * initially, and only overwrite it when the page is partitioned =
-into
->          * more than one piece.
->          */
-> -       if (atomic_long_read(&page->pp_ref_count) =3D=3D nr) {
-> +       if (atomic_long_read(pp_ref_count) =3D=3D nr) {
->                 /* As we have ensured nr is always one for constant case =
-using
->                  * the BUILD_BUG_ON(), only need to handle the non-consta=
-nt case
->                  * here for pp_ref_count draining, which is a rare case.
->                  */
->                 BUILD_BUG_ON(__builtin_constant_p(nr) && nr !=3D 1);
->                 if (!__builtin_constant_p(nr))
-> -                       atomic_long_set(&page->pp_ref_count, 1);
-> +                       atomic_long_set(pp_ref_count, 1);
->
->                 return 0;
->         }
->
-> -       ret =3D atomic_long_sub_return(nr, &page->pp_ref_count);
-> +       ret =3D atomic_long_sub_return(nr, pp_ref_count);
->         WARN_ON(ret < 0);
->
->         /* We are the last user here too, reset pp_ref_count back to 1 to
-> @@ -281,7 +281,7 @@ static inline long page_pool_unref_netmem(netmem_ref =
-netmem, long nr)
->          * page_pool_unref_page() currently.
->          */
->         if (unlikely(!ret))
-> -               atomic_long_set(&page->pp_ref_count, 1);
-> +               atomic_long_set(pp_ref_count, 1);
->
->         return ret;
->  }
-> @@ -400,9 +400,7 @@ static inline void page_pool_free_va(struct page_pool=
- *pool, void *va,
->
->  static inline dma_addr_t page_pool_get_dma_addr_netmem(netmem_ref netmem=
-)
->  {
-> -       struct page *page =3D netmem_to_page(netmem);
-> -
-> -       dma_addr_t ret =3D page->dma_addr;
-> +       dma_addr_t ret =3D netmem_get_dma_addr(netmem);
->
->         if (PAGE_POOL_32BIT_ARCH_WITH_64BIT_DMA)
->                 ret <<=3D PAGE_SHIFT;
-> @@ -425,18 +423,17 @@ static inline dma_addr_t page_pool_get_dma_addr(str=
-uct page *page)
->  static inline bool page_pool_set_dma_addr_netmem(netmem_ref netmem,
->                                                  dma_addr_t addr)
->  {
-> -       struct page *page =3D netmem_to_page(netmem);
-> -
->         if (PAGE_POOL_32BIT_ARCH_WITH_64BIT_DMA) {
-> -               page->dma_addr =3D addr >> PAGE_SHIFT;
-> +               netmem_set_dma_addr(netmem, addr >> PAGE_SHIFT);
->
->                 /* We assume page alignment to shave off bottom bits,
->                  * if this "compression" doesn't work we need to drop.
->                  */
-> -               return addr !=3D (dma_addr_t)page->dma_addr << PAGE_SHIFT=
-;
-> +               return addr !=3D (dma_addr_t)netmem_get_dma_addr(netmem)
-> +                                      << PAGE_SHIFT;
->         }
->
-> -       page->dma_addr =3D addr;
-> +       netmem_set_dma_addr(netmem, addr);
->         return false;
->  }
->
-> diff --git a/include/net/page_pool/types.h b/include/net/page_pool/types.=
-h
-> index 68a24c5ae827..e29e77f7934e 100644
-> --- a/include/net/page_pool/types.h
-> +++ b/include/net/page_pool/types.h
-> @@ -6,6 +6,7 @@
->  #include <linux/dma-direction.h>
->  #include <linux/ptr_ring.h>
->  #include <linux/types.h>
-> +#include <net/netmem.h>
->
->  #define PP_FLAG_DMA_MAP                BIT(0) /* Should page_pool do the=
- DMA
->                                         * map/unmap
-> diff --git a/net/core/page_pool.c b/net/core/page_pool.c
-> index 24d5236b2efc..22e3d439da18 100644
-> --- a/net/core/page_pool.c
-> +++ b/net/core/page_pool.c
-> @@ -25,7 +25,7 @@
->
->  #include "page_pool_priv.h"
->
-> -static DEFINE_STATIC_KEY_FALSE(page_pool_mem_providers);
-> +DEFINE_STATIC_KEY_FALSE(page_pool_mem_providers);
->
->  #define DEFER_TIME (msecs_to_jiffies(1000))
->  #define DEFER_WARN_INTERVAL (60 * HZ)
-> @@ -359,7 +359,7 @@ static noinline netmem_ref page_pool_refill_alloc_cac=
-he(struct page_pool *pool)
->                 if (unlikely(!netmem))
->                         break;
->
-> -               if (likely(page_to_nid(netmem_to_page(netmem)) =3D=3D pre=
-f_nid)) {
-> +               if (likely(netmem_is_pref_nid(netmem, pref_nid))) {
->                         pool->alloc.cache[pool->alloc.count++] =3D netmem=
-;
->                 } else {
->                         /* NUMA mismatch;
-> @@ -446,10 +446,8 @@ static bool page_pool_dma_map(struct page_pool *pool=
-, netmem_ref netmem)
->
->  static void page_pool_set_pp_info(struct page_pool *pool, netmem_ref net=
-mem)
->  {
-> -       struct page *page =3D netmem_to_page(netmem);
-> -
-> -       page->pp =3D pool;
-> -       page->pp_magic |=3D PP_SIGNATURE;
-> +       netmem_set_pp(netmem, pool);
-> +       netmem_or_pp_magic(netmem, PP_SIGNATURE);
->
->         /* Ensuring all pages have been split into one fragment initially=
-:
->          * page_pool_set_pp_info() is only called once for every page whe=
-n it
-> @@ -464,10 +462,8 @@ static void page_pool_set_pp_info(struct page_pool *=
-pool, netmem_ref netmem)
->
->  static void page_pool_clear_pp_info(netmem_ref netmem)
->  {
-> -       struct page *page =3D netmem_to_page(netmem);
-> -
-> -       page->pp_magic =3D 0;
-> -       page->pp =3D NULL;
-> +       netmem_clear_pp_magic(netmem);
-> +       netmem_set_pp(netmem, NULL);
->  }
->
->  static struct page *__page_pool_alloc_page_order(struct page_pool *pool,
-> @@ -695,8 +691,9 @@ static bool page_pool_recycle_in_cache(netmem_ref net=
-mem,
->
->  static bool __page_pool_page_can_be_recycled(netmem_ref netmem)
->  {
-> -       return page_ref_count(netmem_to_page(netmem)) =3D=3D 1 &&
-> -              !page_is_pfmemalloc(netmem_to_page(netmem));
-> +       return netmem_is_net_iov(netmem) ||
-> +              (page_ref_count(netmem_to_page(netmem)) =3D=3D 1 &&
-> +               !page_is_pfmemalloc(netmem_to_page(netmem)));
->  }
->
->  /* If the page refcnt =3D=3D 1, this will try to recycle the page.
-> @@ -718,7 +715,7 @@ __page_pool_put_page(struct page_pool *pool, netmem_r=
-ef netmem,
->          * refcnt =3D=3D 1 means page_pool owns page, and can recycle it.
->          *
->          * page is NOT reusable when allocated when system is under
-> -        * some pressure. (page_is_pfmemalloc)
-> +        * some pressure. (page_pool_page_is_pfmemalloc)
->          */
->         if (likely(__page_pool_page_can_be_recycled(netmem))) {
->                 /* Read barrier done in page_ref_count / READ_ONCE */
-> @@ -734,6 +731,7 @@ __page_pool_put_page(struct page_pool *pool, netmem_r=
-ef netmem,
->                 /* Page found as candidate for recycling */
->                 return netmem;
->         }
-> +
->         /* Fallback/non-XDP mode: API user have elevated refcnt.
->          *
->          * Many drivers split up the page into fragments, and some
-> @@ -928,7 +926,7 @@ static void page_pool_empty_ring(struct page_pool *po=
-ol)
->         /* Empty recycle ring */
->         while ((netmem =3D (__force netmem_ref)ptr_ring_consume_bh(&pool-=
->ring))) {
->                 /* Verify the refcnt invariant of cached pages */
-> -               if (!(page_ref_count(netmem_to_page(netmem)) =3D=3D 1))
-> +               if (!(netmem_ref_count(netmem) =3D=3D 1))
->                         pr_crit("%s() page_pool refcnt %d violation\n",
->                                 __func__, netmem_ref_count(netmem));
->
-> diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-> index e1118b637085..cf23392e97f5 100644
-> --- a/net/core/skbuff.c
-> +++ b/net/core/skbuff.c
-> @@ -908,9 +908,9 @@ static void skb_clone_fraglist(struct sk_buff *skb)
->                 skb_get(list);
->  }
->
-> -static bool is_pp_page(struct page *page)
-> +static bool is_pp_netmem(netmem_ref netmem)
->  {
-> -       return (page->pp_magic & ~0x3UL) =3D=3D PP_SIGNATURE;
-> +       return (netmem_get_pp_magic(netmem) & ~0x3UL) =3D=3D PP_SIGNATURE=
-;
->  }
->
->  int skb_pp_cow_data(struct page_pool *pool, struct sk_buff **pskb,
-> @@ -1008,11 +1008,10 @@ EXPORT_SYMBOL(skb_cow_data_for_xdp);
->  #if IS_ENABLED(CONFIG_PAGE_POOL)
->  bool napi_pp_put_page(netmem_ref netmem, bool napi_safe)
->  {
-> -       struct page *page =3D netmem_to_page(netmem);
->         bool allow_direct =3D false;
->         struct page_pool *pp;
->
-> -       page =3D compound_head(page);
-> +       netmem =3D netmem_compound_head(netmem);
->
->         /* page->pp_magic is OR'ed with PP_SIGNATURE after the allocation
->          * in order to preserve any existing bits, such as bit 0 for the
-> @@ -1021,10 +1020,10 @@ bool napi_pp_put_page(netmem_ref netmem, bool nap=
-i_safe)
->          * and page_is_pfmemalloc() is checked in __page_pool_put_page()
->          * to avoid recycling the pfmemalloc page.
->          */
-> -       if (unlikely(!is_pp_page(page)))
-> +       if (unlikely(!is_pp_netmem(netmem)))
->                 return false;
->
-> -       pp =3D page->pp;
-> +       pp =3D netmem_get_pp(netmem);
->
->         /* Allow direct recycle if we have reasons to believe that we are
->          * in the same context as the consumer would run, so there's
-> @@ -1045,7 +1044,7 @@ bool napi_pp_put_page(netmem_ref netmem, bool napi_=
-safe)
->          * The page will be returned to the pool here regardless of the
->          * 'flipped' fragment being in use or not.
->          */
-> -       page_pool_put_full_netmem(pp, page_to_netmem(page), allow_direct)=
-;
-> +       page_pool_put_full_netmem(pp, netmem, allow_direct);
->
->         return true;
->  }
-> @@ -1072,7 +1071,7 @@ static bool skb_pp_recycle(struct sk_buff *skb, voi=
-d *data, bool napi_safe)
->  static int skb_pp_frag_ref(struct sk_buff *skb)
->  {
->         struct skb_shared_info *shinfo;
-> -       struct page *head_page;
-> +       netmem_ref head_netmem;
->         int i;
->
->         if (!skb->pp_recycle)
-> @@ -1081,11 +1080,11 @@ static int skb_pp_frag_ref(struct sk_buff *skb)
->         shinfo =3D skb_shinfo(skb);
->
->         for (i =3D 0; i < shinfo->nr_frags; i++) {
-> -               head_page =3D compound_head(skb_frag_page(&shinfo->frags[=
-i]));
-> -               if (likely(is_pp_page(head_page)))
-> -                       page_pool_ref_page(head_page);
-> +               head_netmem =3D netmem_compound_head(shinfo->frags[i].net=
-mem);
-> +               if (likely(is_pp_netmem(head_netmem)))
-> +                       page_pool_ref_netmem(head_netmem);
->                 else
-> -                       page_ref_inc(head_page);
-> +                       page_ref_inc(netmem_to_page(head_netmem));
->         }
->         return 0;
->  }
-> --
-> 2.44.0.rc1.240.g4c46232300-goog
->
+>  		GEM_BUG_ON(uabi_class >=
+>  			   ARRAY_SIZE(i915->engine_uabi_class_count));
+>  		i915->engine_uabi_class_count[uabi_class]++;
+> -- 
+> 2.43.0
+> 
 
-
---=20
-Thanks,
-Mina
+-- 
+Matt Roper
+Graphics Software Engineer
+Linux GPU Platform Enablement
+Intel Corporation
