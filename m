@@ -2,88 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7BAA871EF8
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 13:21:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 000EE871EFA
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Mar 2024 13:21:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5914C112A8D;
-	Tue,  5 Mar 2024 12:21:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAA62112A8E;
+	Tue,  5 Mar 2024 12:21:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=marliere.net header.i=@marliere.net header.b="iJ+9TT5d";
+	dkim=pass (2048-bit key; unprotected) header.d=marliere.net header.i=@marliere.net header.b="FT7/iUAn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
- [209.85.215.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41287112A8D
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 12:21:23 +0000 (UTC)
-Received: by mail-pg1-f174.google.com with SMTP id
- 41be03b00d2f7-5e4613f2b56so5064584a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 04:21:23 -0800 (PST)
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
+ [209.85.210.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6081E112A8E
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Mar 2024 12:21:26 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id
+ d2e1a72fcca58-6d9f94b9186so5364744b3a.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Mar 2024 04:21:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1709641282; x=1710246082;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:dkim-signature:from:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=RpDVIywGu+mJvIXOFGxusadZf1l18EI+lUGuf5OSG+4=;
- b=si6qQl+paLP8QqIQ8do7Fb0mUXDIDKGaIAIId+qG6HM6L/I8A0yQPniVA8A1cvTJKf
- +3959XD8lFR+ivJN8Mwds8MyxNJ3G7Dz41ewZqkLqeELvsdeg+Vcw3wpBDtZGw/fsKUa
- yYT7QDMSdbynU2YB28+VAiH/8q7vGpIKWuIA/40q+lrt85WvG4J0B85Nb68xhWOpYdMB
- tPXyMaPQ3i9sppRiY0bN2ugJLmvR/rXESd7/+hYcoG+kRMKnqeY/CDiPHvqdAjFY+QPp
- mzASm5wpHIY5XqB6qCizPLOPQs3uDxDlLgevfgKwrmmyZBEz9uIxcOtVyCLdZQtE2Py6
- DbyQ==
-X-Gm-Message-State: AOJu0YzWiqri0SJvFD1KY+9/+L9anRpD7gUYsK/IRuy7AIl3clpjJvMI
- yTFRVsfSqdUy9S5fwyoEqqgOuNTInTQR+NY1Omuj2frZ6YCz0cRD4+KfO4WGJLZdlA==
-X-Google-Smtp-Source: AGHT+IHpuMsf1ZJiOZka7p/FiwnMuc/YVUhf1GFTqo6hGAt/L35GMeh9daxAanvulu3wfU0Wk0zdRg==
-X-Received: by 2002:a17:902:cec9:b0:1dd:151b:fa9e with SMTP id
- d9-20020a170902cec900b001dd151bfa9emr1851559plg.63.1709641282330; 
- Tue, 05 Mar 2024 04:21:22 -0800 (PST)
+ d=1e100.net; s=20230601; t=1709641286; x=1710246086;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:dkim-signature:from:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=EB+zvigNjipJqZrGtyuvHVekbcDWdJOO5TYIKi4KvqM=;
+ b=EqNkUabIa2zg/GL3aZm3UtdW4ra2GfH/JVlTgnrcDg+RiHlsnwVQnvBBj3x6/L51BG
+ NGtpdO6IYxM9u8gYrPPgNRPcRi+xKbF3cTLLxFzjhM2C+RM9NLE7wt2tE/l4HRiCnW+R
+ jeqKXMWdlQdp0sgtTpO9Agt7UiJ8lEWfiYs85kO3Ob2601rgR2uMQdV3wsxysxh7ZdcG
+ Z/e4kH0ygqjAsNtsjAwab9ZnRqBt4WyZ6kCb/6DLjcqKelAr58QHd/f9gvnHVkYLsiSG
+ SCq3aVmxOt12OKppacMsczbm6FLeBFQsr1+O6eS809a5Bg1W807twZ4vZQNkjcwnuJsi
+ yeHw==
+X-Gm-Message-State: AOJu0YzLZg/20CBCQd6FMlD0VkGtVFV6OU4d0WLNUa5y5oHx3lQvK7iv
+ 1N8f53u7cHwiKB18xLbYxe9dvBBCu6OjScsY4g5CIILS7lBBq1pI
+X-Google-Smtp-Source: AGHT+IEsx2oyGpXbYX5zFlR9y9i1MJGRXxMf1XwxwrBx6v8x/fHt2MRSi5W1e5+ZtQQm1dIQybLYIA==
+X-Received: by 2002:aa7:88c5:0:b0:6e4:f4b4:9ea2 with SMTP id
+ k5-20020aa788c5000000b006e4f4b49ea2mr16673906pff.32.1709641285659; 
+ Tue, 05 Mar 2024 04:21:25 -0800 (PST)
 Received: from mail.marliere.net ([24.199.118.162])
  by smtp.gmail.com with ESMTPSA id
- j12-20020a170902c3cc00b001dca9a6fdf1sm10417663plj.183.2024.03.05.04.21.21
+ du6-20020a056a002b4600b006e5933a0da9sm8833564pfb.165.2024.03.05.04.21.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Mar 2024 04:21:21 -0800 (PST)
+ Tue, 05 Mar 2024 04:21:25 -0800 (PST)
 From: "Ricardo B. Marliere" <ricardo@marliere.net>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
- s=2024; t=1709641280;
+ s=2024; t=1709641284;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=RpDVIywGu+mJvIXOFGxusadZf1l18EI+lUGuf5OSG+4=;
- b=iJ+9TT5dKkMjIRx6HClkAtVYkv5PJw1hJ2pBMHTSHZAU2Cwwiaz6oDN1HQjLJZkZBkg44k
- oJwJV/wspoHpN/bhReO/C1kYz8Ym4d0pkvSjvWclaVcG6YejmoSD53YkjBY6sYYP9YcNdd
- Uu3q8tw1UaIWEcs/82XxeaN70bAlL075PlmMUgGL4zu7w82GZdmXRErGlrvHZJGkNl0H1o
- uZforwhiX9rLptLwKZ/ctiV/ER1IRtRMaKxzK9i9iLN7xSgDYIx0nThgdvopGvQvcpjafR
- utMLG3Znu6Scdkl+ZqeK2VsUQOmF7kgUZypSFQhilD2yop71ZgW7hje0cI4wRw==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EB+zvigNjipJqZrGtyuvHVekbcDWdJOO5TYIKi4KvqM=;
+ b=FT7/iUAnqYSX1LAYGofJsvMLqVcEZ5Vp+GZkvigG5oabTdXc+QhEgU2Vz2W7ukhClIFg6M
+ hnagd15E1pJ75mZMc2US/FdDKhZREZOKezgQICrnczAMcy6Pjv5eOW7fD5kF5bOfAMrEnA
+ Hd1wMF9gDMUOnrLkQNp9naj0pVxRjjPbRB4wRl+Q6Sg3+Z6LXNns13JVMxeDLXGIGqGY2b
+ mXqZc8zGvJ7J2v7jMgSKadHWXRYZri+AoJKDS24Py1YrvE8HSxLKuXXBth6QHQ8LqWZvo4
+ p2v4rRP+RIk4hpGUnDkA93rU7AIxr7m2kWW075vKTTzIHj16NBDAJT4Q0y7Kag==
 Authentication-Results: ORIGINATING;
  auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
-Subject: [PATCH 0/2] video: backlight: constify struct class usage
-Date: Tue, 05 Mar 2024 09:21:16 -0300
-Message-Id: <20240305-class_cleanup-backlight-v1-0-c0e15cc25be1@marliere.net>
+Date: Tue, 05 Mar 2024 09:21:17 -0300
+Subject: [PATCH 1/2] video: backlight: make backlight_class constant
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIADwO52UC/x3MQQqDMBBA0avIrBsYEy21VykicRx1MKSSURHEu
- zd0+Rb/X6CchBXexQWJD1H5xozyUQDNPk5sZMgGi7ZCh7Wh4FU7Cuzjvpre0xJkmjfztH1Tkns
- h1gy5XhOPcv7Pn/a+fwyupjJpAAAA
+Message-Id: <20240305-class_cleanup-backlight-v1-1-c0e15cc25be1@marliere.net>
+References: <20240305-class_cleanup-backlight-v1-0-c0e15cc25be1@marliere.net>
+In-Reply-To: <20240305-class_cleanup-backlight-v1-0-c0e15cc25be1@marliere.net>
 To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
  Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
 Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
  linux-kernel@vger.kernel.org, "Ricardo B. Marliere" <ricardo@marliere.net>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=815; i=ricardo@marliere.net;
- h=from:subject:message-id; bh=GN1G4NyMvWBolsspYbu0gF+ZyFJ3Ms4SmSjQgZCesZk=;
- b=owEBbQKS/ZANAwAKAckLinxjhlimAcsmYgBl5w49ttMZGRTTzHYaea508k7VdAAv+U7ckzf2N
- /sm626lc0mJAjMEAAEKAB0WIQQDCo6eQk7jwGVXh+HJC4p8Y4ZYpgUCZecOPQAKCRDJC4p8Y4ZY
- pnYdD/9qO73gM1EqWw5mEM2tjBt0xEpPH7+BhtYqEeXSt9wLxreoBjFgEIIdt6Pjb8+HT0NMVOR
- 7QFk/LhkWF0x3mRveAAeV9IpmlmwCynDkZmNq0S+Dzcb3vdONtUGfB10fBG1JQW8Rq2GSEMF4tl
- qVYEsSj/hqZ3I9Kbf8ZxaAqmEn53mF3AbsCq5HIr9RHASNjLyfLyIhKDvQ2M7cVjLZs+GAensbz
- cVIfpLdMVMjL500gO1kHvIu/OiO5A7YboYhzbluh/YKMqqVv7SmKnRUGWi3RE5xjue+hs+R9BvF
- QmGDYygj63SNsJMe/XHjq82KfdJIkK+7r3fGRCIcgW0kapVDj1JVwO1Jtia4r0bY3FnlCAmZZbE
- 6BC/1AEtxu9Tqem9SpCQWR3cKppkNKiMKl3dmYwvJsYWIEwQpp7eD3i3BAVhaTAcr7WNKc6y74Y
- nOsYcoVypc5G4JiMc15z77lD5NcliNqbgss7rw+dNvSCvsohCN5Ft3MlyPr2HdBYRJ0YSK44TQz
- FAelFLufkW/fKuLgYG3p5u9BAkHm3w8FGZC5xeVXeiZs2JqRwgKWM8QFk6o5TKaaBU/Mp5+E6tR
- C4xA+ul3A24g6qGPW9HXD0WEFPrhRC6kjPJWciPAp1F1BE4QgheZULODGFmCqG8R0pz6Ash/CmY
- bcg2BTnQ5o9Ocug==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3316; i=ricardo@marliere.net; 
+ h=from:subject:message-id;
+ bh=wPqgO6x1c97ZMRaqAAcxuPo7qKZW50BhJ1TgJiyowRg=; 
+ b=owEBbQKS/ZANAwAKAckLinxjhlimAcsmYgBl5w49fb2fHi43ZPpQ2hgetHTWppuTBPoASWbre
+ ej/ze4OJJaJAjMEAAEKAB0WIQQDCo6eQk7jwGVXh+HJC4p8Y4ZYpgUCZecOPQAKCRDJC4p8Y4ZY
+ psSXD/9N3DmlQ1MjAQcQFB7xpnrLJU/FzcyKQaoKqqJgaoAY6UJcBawC55DUL1mkUBMICTknNau
+ KYRSOjxQG6RnO5VnKEZk8sCzO4MtM4ZO0pUG9whq3ga8adY/wTOIbWEYwu4PhSba20K3sPDk5lu
+ /0mAzm02RUfz5BCOkoIzHYfFUp/KbEkT7In7xSQ97MifeVOHsWyfCXNSiVmW/Za/zM3vLufhL4R
+ lYnAk/A/oZgmH2FcLHcby9FWNLlvpgp/lW/4xAJZ6/jKZXW76EC4wKCrrTOWrVWfliY0ZfnCCLq
+ xlS3jxoM8kt2sm7yubV8BDM0R8PPXgIrNphespzfGNUxPA/f+pwSwVzCR870uMOzwb+LdgUZeL+
+ hVt/O0/UUn7Da+oqvVqUeTVgvgrbpitdNKGHzxXNabcQ283dVbymV9VFNxvtL7UGDEhAryj8m48
+ T4Vi95NdTluJNgsMzznNP4ncWNKu7UmIKhcs0ZiuFOKEADWJQ8sZd/UVYvu/XwalFp4/hZYA7uP
+ ljzVoFuGyZnsXoIYBb1RFzSl473QMvQZU/pbDJolgn6SZyrnEJ7jFMVWc9/12CaWnlDUscbS+cR
+ SP46VN9s2gs2oEYqWQoh6VEpm0lsI5VcoOTpl3ZyrChv9LGl5t+7Zq5RP/0S4SOxbPuJa2RhQ0N
+ y1mxM9Oy9FBAhGg==
 X-Developer-Key: i=ricardo@marliere.net; a=openpgp;
  fpr=030A8E9E424EE3C0655787E1C90B8A7C638658A6
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,26 +102,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a simple and straight forward cleanup series that aims to make the
-class structures in backlight constant. This has been possible since 2023
-[1].
+Since commit 43a7206b0963 ("driver core: class: make class_register() take
+a const *"), the driver core allows for struct class to be in read-only
+memory, so move the backlight_class structure to be declared at build time
+placing it into read-only memory, instead of having to be dynamically
+allocated at boot time.
 
-[1]: https://lore.kernel.org/all/2023040248-customary-release-4aec@gregkh/
-
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
 ---
-Ricardo B. Marliere (2):
-      video: backlight: make backlight_class constant
-      video: backlight: lcd: make lcd_class constant
-
  drivers/video/backlight/backlight.c | 29 ++++++++++++++++-------------
- drivers/video/backlight/lcd.c       | 23 +++++++++++++----------
- 2 files changed, 29 insertions(+), 23 deletions(-)
----
-base-commit: cd1995b6ac7384149ad755b74e3c3eb25195ab81
-change-id: 20240305-class_cleanup-backlight-62b91c38005e
+ 1 file changed, 16 insertions(+), 13 deletions(-)
 
-Best regards,
+diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
+index 86e1cdc8e369..d2feaebfd84a 100644
+--- a/drivers/video/backlight/backlight.c
++++ b/drivers/video/backlight/backlight.c
+@@ -317,8 +317,6 @@ static ssize_t scale_show(struct device *dev,
+ }
+ static DEVICE_ATTR_RO(scale);
+ 
+-static struct class *backlight_class;
+-
+ #ifdef CONFIG_PM_SLEEP
+ static int backlight_suspend(struct device *dev)
+ {
+@@ -369,6 +367,12 @@ static struct attribute *bl_device_attrs[] = {
+ };
+ ATTRIBUTE_GROUPS(bl_device);
+ 
++static const struct class backlight_class = {
++	.name = "backlight",
++	.dev_groups = bl_device_groups,
++	.pm = &backlight_class_dev_pm_ops,
++};
++
+ /**
+  * backlight_force_update - tell the backlight subsystem that hardware state
+  *   has changed
+@@ -418,7 +422,7 @@ struct backlight_device *backlight_device_register(const char *name,
+ 	mutex_init(&new_bd->update_lock);
+ 	mutex_init(&new_bd->ops_lock);
+ 
+-	new_bd->dev.class = backlight_class;
++	new_bd->dev.class = &backlight_class;
+ 	new_bd->dev.parent = parent;
+ 	new_bd->dev.release = bl_device_release;
+ 	dev_set_name(&new_bd->dev, "%s", name);
+@@ -510,7 +514,7 @@ struct backlight_device *backlight_device_get_by_name(const char *name)
+ {
+ 	struct device *dev;
+ 
+-	dev = class_find_device_by_name(backlight_class, name);
++	dev = class_find_device_by_name(&backlight_class, name);
+ 
+ 	return dev ? to_backlight_device(dev) : NULL;
+ }
+@@ -678,7 +682,7 @@ struct backlight_device *of_find_backlight_by_node(struct device_node *node)
+ {
+ 	struct device *dev;
+ 
+-	dev = class_find_device(backlight_class, NULL, node, of_parent_match);
++	dev = class_find_device(&backlight_class, NULL, node, of_parent_match);
+ 
+ 	return dev ? to_backlight_device(dev) : NULL;
+ }
+@@ -746,20 +750,19 @@ EXPORT_SYMBOL(devm_of_find_backlight);
+ 
+ static void __exit backlight_class_exit(void)
+ {
+-	class_destroy(backlight_class);
++	class_unregister(&backlight_class);
+ }
+ 
+ static int __init backlight_class_init(void)
+ {
+-	backlight_class = class_create("backlight");
+-	if (IS_ERR(backlight_class)) {
+-		pr_warn("Unable to create backlight class; errno = %ld\n",
+-			PTR_ERR(backlight_class));
+-		return PTR_ERR(backlight_class);
++	int ret;
++
++	ret = class_register(&backlight_class);
++	if (ret) {
++		pr_warn("Unable to create backlight class; errno = %d\n", ret);
++		return ret;
+ 	}
+ 
+-	backlight_class->dev_groups = bl_device_groups;
+-	backlight_class->pm = &backlight_class_dev_pm_ops;
+ 	INIT_LIST_HEAD(&backlight_dev_list);
+ 	mutex_init(&backlight_dev_list_mutex);
+ 	BLOCKING_INIT_NOTIFIER_HEAD(&backlight_notifier);
+
 -- 
-Ricardo B. Marliere <ricardo@marliere.net>
+2.43.0
 
