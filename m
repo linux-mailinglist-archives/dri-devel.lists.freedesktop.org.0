@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75A7F873F3C
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 19:32:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EDF9873F3F
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 19:32:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59B73113428;
-	Wed,  6 Mar 2024 18:32:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98202113437;
+	Wed,  6 Mar 2024 18:32:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aro3mmdt";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MTHgwW3L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C9B311342B;
- Wed,  6 Mar 2024 18:32:23 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8370611342F;
+ Wed,  6 Mar 2024 18:32:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709749944; x=1741285944;
+ t=1709749948; x=1741285948;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=k+rG656GKd62P2B6U/UgyN6yMZZ6toMb/xAUz6HU8CQ=;
- b=aro3mmdtniDJb+Szi6Q/8m1eyKvBzTPDc5gx+xd6lEExSr13pDoOUtSf
- 0B9mq2LTzZzfA112QqSmoTc0oqdyR2njirLHKd7XeUS6didx2l4jv+jTq
- sWAKE8ZN7snbbu/WFLGUXA4bhzBev1uCr57SFdRK8l5eMJthFc3m+/MNU
- zGhNreZbbKfDWcX6g7SKO1rfMEZO6YXe6x9INcjv+ubFu43CgUPUFpVBF
- DV/FtnFtk1fiKb7YJYcPgv8jsTpmcs56rMB8qolHnm3aZ1HhQg3FAnkWg
- p55BsPfU27zdmKP4WRc/YQNodNlSdRnYUdNeYW9D4dagJ4l1XiQgOq9wK Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="15102698"
-X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; d="scan'208";a="15102698"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2024 10:32:23 -0800
+ bh=cqFSp9L8zTwSfSvZpP/DEjDVq7JCV14o6k0myHr1lLs=;
+ b=MTHgwW3LsZjS2PoGL2J/7nXcmDANMju9mksmm+TQRXRXlv40N7HG5k8u
+ +zyY8kizt9qNhY61TJUQrnlUM5/3iwCfKoWC5lRQnTMCN/JqLRnzk+EAN
+ bbj93Tt+wpqb11qLCoZoppiVpgjJI7NcdekPCys1FykdjIH9g5pzDJuVi
+ uyIzJ3PwoR/EBxn+7tIIh71NsKggkcFVhWHHllvTTLVZOT3I/y+giA9xN
+ jW8gYJpO8kval6idTqnDy4EPrjicB69sNc9SnhmjpCfPEqJfWm7U8CHsB
+ MTrKhR116uYzS7Gi539rh3hC6jB0X8hmLJReFNq8OGtW1k5BiBVrP4v6g Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="8195737"
+X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; 
+   d="scan'208";a="8195737"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2024 10:32:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; d="scan'208";a="14415785"
+X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; d="scan'208";a="14496609"
 Received: from rjongalo-mobl2.ger.corp.intel.com (HELO localhost)
  ([10.252.33.211])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2024 10:32:21 -0800
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2024 10:32:26 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  jani.nikula@intel.com
-Subject: [PATCH 10/22] drm/lease: make drm_lease.h self-contained
-Date: Wed,  6 Mar 2024 20:31:15 +0200
-Message-Id: <3a38688e90bb775380aad5b6aad5dce3d9d87ca7.1709749576.git.jani.nikula@intel.com>
+Subject: [PATCH 11/22] drm: fix drm_gem_vram_helper.h kernel-doc
+Date: Wed,  6 Mar 2024 20:31:16 +0200
+Message-Id: <02000be3455de639f32bde88f632ae8744142083.1709749576.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1709749576.git.jani.nikula@intel.com>
 References: <cover.1709749576.git.jani.nikula@intel.com>
@@ -66,26 +67,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Include <linux/types.h> for types used.
+Remove excess funcs kernel-doc.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- include/drm/drm_lease.h | 2 ++
- 1 file changed, 2 insertions(+)
+ include/drm/drm_gem_vram_helper.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/include/drm/drm_lease.h b/include/drm/drm_lease.h
-index 5c9ef6a2aeae..53545b4ca9ef 100644
---- a/include/drm/drm_lease.h
-+++ b/include/drm/drm_lease.h
-@@ -6,6 +6,8 @@
- #ifndef _DRM_LEASE_H_
- #define _DRM_LEASE_H_
- 
-+#include <linux/types.h>
-+
- struct drm_file;
- struct drm_device;
- struct drm_master;
+diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
+index e18429f09e53..c89c9bafeb44 100644
+--- a/include/drm/drm_gem_vram_helper.h
++++ b/include/drm/drm_gem_vram_helper.h
+@@ -170,7 +170,6 @@ void drm_gem_vram_simple_display_pipe_cleanup_fb(
+  * @vram_base:	Base address of the managed video memory
+  * @vram_size:	Size of the managed video memory in bytes
+  * @bdev:	The TTM BO device.
+- * @funcs:	TTM BO functions
+  *
+  * The fields &struct drm_vram_mm.vram_base and
+  * &struct drm_vram_mm.vrm_size are managed by VRAM MM, but are
 -- 
 2.39.2
 
