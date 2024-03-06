@@ -2,90 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E812F873898
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 15:11:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F12187389F
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 15:14:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1DAB1131FD;
-	Wed,  6 Mar 2024 14:11:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4BAA11320E;
+	Wed,  6 Mar 2024 14:14:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NdDBE+sJ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qLLpJbRa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E920C113201
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 14:11:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1709734295; x=1741270295;
- h=resent-to:resent-from:resent-date:resent-message-id:from:
- to:cc:subject:date:message-id:in-reply-to:references:
- content-transfer-encoding:mime-version;
- bh=ov86RGlGokiv2cgWE0CwjIjm3NOmk/MvZvyRbGuGlfc=;
- b=NdDBE+sJL/in7F1xwqZD4B6VlSeXfCuPz++ZioygBvdwirXRkoqqyMpI
- II00osKyddK84lvQwTzBkpuhPmiSdQXMnmXgoIRTu7aMJf7h0jzo5IKoq
- Mzexpm1qJz9vbvYLDqcsEa9m3uQndfjK8QLNejf3gQ/3/hYjNbEbEAet5
- HVG9rdVSplBs++8mLTLm6oJc5FTXR61p7Y8/umUEtQhVCct1CDE1CrdAf
- 1L4wc6mqdpxN94pOKLoJSl+KG9SkF/DcBR7DYnJKgxw2r5qXHIyduOKwZ
- jhfC1lqaxmu4c2UBNuRqdEjxLkfzxmC7m8ky+tS3X3bp1MYskLs0i5gP6 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="15771815"
-X-IronPort-AV: E=Sophos;i="6.06,208,1705392000"; d="scan'208";a="15771815"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2024 06:11:35 -0800
-X-ExtLoopCount2: 2 from 10.252.33.211
-X-IronPort-AV: E=Sophos;i="6.06,208,1705392000"; d="scan'208";a="14444428"
-Received: from rjongalo-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.33.211])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2024 06:11:34 -0800
-Resent-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7,
- 02160 Espoo
-Resent-To: dri-devel@lists.freedesktop.org
-Resent-From: Jani Nikula <jani.nikula@intel.com>
-Resent-Date: Wed, 06 Mar 2024 16:11:31 +0200
-Resent-Message-ID: <87cys7xxf0.fsf@intel.com>
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Mailbox Transport; Wed, 6 Mar 2024 06:07:46 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 6 Mar 2024 06:07:45 -0800
-Received: from fmviesa002.fm.intel.com (10.60.135.142) by
- orsmsx601.amr.corp.intel.com (10.22.229.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Wed, 6 Mar 2024 06:07:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,208,1705392000"; d="scan'208";a="32915335"
-Received: from rjongalo-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.33.211]) by fmviesa002-auth.fm.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2024 06:07:43 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: <intel-gfx@lists.freedesktop.org>
-CC: <ville.syrjala@linux.intel.com>, Jani Nikula <jani.nikula@intel.com>,
- "Arun R Murthy" <arun.r.murthy@intel.com>
-Subject: [PATCH v3 6/6] drm/i915/mst: enable MST mode for 128b/132b
- single-stream sideband
-Date: Wed, 6 Mar 2024 16:07:17 +0200
-Message-ID: <1945e70fb2d39c690644f2ec0d9c3d4a4e032cb6.1709733981.git.jani.nikula@intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <cover.1709733981.git.jani.nikula@intel.com>
-References: <cover.1709733981.git.jani.nikula@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
-X-MS-Exchange-Organization-Network-Message-Id: 473ddbb6-5e8c-401e-44e4-08dc3de6cbed
-X-MS-Exchange-Organization-AuthSource: ORSMSX601.amr.corp.intel.com
-X-MS-Exchange-Organization-AuthAs: Internal
-X-MS-Exchange-Organization-AuthMechanism: 10
-X-MS-Exchange-Organization-AVStamp-Enterprise: 1.0
-X-MS-Exchange-Organization-SCL: -1
-X-MS-Exchange-Transport-EndToEndLatency: 00:00:00.9657543
-X-MS-Exchange-Processed-By-BccFoldering: 15.01.2507.035
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4F5B11320D
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 14:14:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id E940B61706;
+ Wed,  6 Mar 2024 14:14:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42A43C433C7;
+ Wed,  6 Mar 2024 14:14:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1709734458;
+ bh=WIKTu97/GHeWLs/loOTdSuwxaW/iFGLGrqJns6l2xVE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qLLpJbRabgifZKGJMJ6fgLVSinxL0cRS4XMQ7vZ1Hm2Z4OpQRIC5qFTc5MVKXSaqS
+ Mv1uICGzG390Tzd3yZKlKBBZG/hKfBUsbOgC3YDlMv6dHBL1ijjCIJ+lK7uyPiderP
+ 9HTXFFLj42HOhFd4NBOI86XfzNQ65xG2a4dGUI/mVrOpt6WI0nb23fQQiZLcwGJZ0f
+ b6XpMRPudLmt9pXFItgYH9wRBjPlrFmckdGMc1QoxxFnR4GIQ5/hdWFlm3VxT2C+0K
+ VVdYFWsqp3aN88cJaFEagcSLmprnMPgei7mvYlFk+vlhhMDWbcCmLB33yp7R1WTu92
+ tBEmsNZ/+mrPQ==
+Date: Wed, 6 Mar 2024 15:14:15 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Sebastian Wick <sebastian.wick@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm: Document requirements for driver-specific KMS props
+ in new drivers
+Message-ID: <20240306-hulking-funky-fox-b9581b@houat>
+References: <20240229202833.198691-1-sebastian.wick@redhat.com>
 MIME-Version: 1.0
-X-TUID: A+cZXwXKHqGq
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="jx5njdxurrf2cgix"
+Content-Disposition: inline
+In-Reply-To: <20240229202833.198691-1-sebastian.wick@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,35 +62,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the sink supports 128b/132b and single-stream sideband messaging,
-enable MST mode.
 
-With this, the topology manager will still write DP_MSTM_CTRL, which
-should be ignored by the sink. In the future, the topology manager
-should probably only set the sideband messaging related parts of the
-register.
+--jx5njdxurrf2cgix
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Cc: Arun R Murthy <arun.r.murthy@intel.com>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/i915/display/intel_dp.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Hi,
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 3956604d8b00..4787dc15797a 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -4069,7 +4069,8 @@ intel_dp_mst_mode_choose(struct intel_dp *intel_dp,
- 	if (!intel_dp_mst_source_support(intel_dp))
- 		return DRM_DP_SST;
- 
--	if (sink_mst_mode == DRM_DP_SST_SIDEBAND_MSG)
-+	if (sink_mst_mode == DRM_DP_SST_SIDEBAND_MSG &&
-+	    !(intel_dp->dpcd[DP_MAIN_LINK_CHANNEL_CODING] & DP_CAP_ANSI_128B132B))
- 		return DRM_DP_SST;
- 
- 	return sink_mst_mode;
--- 
-2.39.2
+On Thu, Feb 29, 2024 at 09:28:31PM +0100, Sebastian Wick wrote:
+> When extending support for a driver-specific KMS property to additional
+> drivers, we should apply all the requirements for new properties and
+> make sure the semantics are the same and documented.
+>=20
+> Signed-off-by: Sebastian Wick <sebastian.wick@redhat.com>
+> ---
+>  Documentation/gpu/drm-kms.rst | 5 +++++
+>  1 file changed, 5 insertions(+)
+>=20
+> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+> index 13d3627d8bc0..afa10a28035f 100644
+> --- a/Documentation/gpu/drm-kms.rst
+> +++ b/Documentation/gpu/drm-kms.rst
+> @@ -496,6 +496,11 @@ addition to the one mentioned above:
+> =20
+>  * An IGT test must be submitted where reasonable.
+> =20
+> +For historical reasons, non-standard, driver-specific properties exist. =
+If a KMS
+> +driver wants to add support for one of those properties, the requirement=
+s for
+> +new properties apply where possible. Additionally, the documented behavi=
+or must
+> +match the de facto semantics of the existing property to ensure compatib=
+ility.
+> +
 
+I'm conflicted about this one, really.
+
+On one hand, yeah, it's definitely reasonable and something we would
+want on the long run.
+
+But on the other hand, a driver getting its technical debt worked on for
+free by anyone but its developpers doesn't seem fair to me.
+
+Also, I assume this is in reaction to the discussion we had on the
+Broadcast RGB property. We used in vc4 precisely because there was some
+userspace code to deal with it and we could just reuse it, and it was
+documented. So the requirements were met already.
+
+Maxime
+
+--jx5njdxurrf2cgix
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZeh6NgAKCRDj7w1vZxhR
+xduLAQDWHzR22qPgjQfjobO9zEFwx3q0Cfg112/Dqo7VmDn4DQEAoshXfdwKoAl4
+/YStjp8eyrAPpOr5jgxK6Xqh7WXF6gM=
+=Z2rn
+-----END PGP SIGNATURE-----
+
+--jx5njdxurrf2cgix--
