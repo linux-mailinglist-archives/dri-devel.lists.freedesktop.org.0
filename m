@@ -2,34 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 657AA873D8E
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 18:30:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4B51873D8F
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Mar 2024 18:30:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 522BE113396;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBE7611338E;
 	Wed,  6 Mar 2024 17:30:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="GZH1+1J6";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="lHZ3wldp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66F6D113396
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA85D11339D
  for <dri-devel@lists.freedesktop.org>; Wed,  6 Mar 2024 17:29:59 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id BDD46C0005;
- Wed,  6 Mar 2024 17:29:54 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id EB8511C0002;
+ Wed,  6 Mar 2024 17:29:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1709746196;
+ t=1709746198;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sXLhJ0O6OO6mf1nCrL/ZtBeWa84FHx+qoQdFINeOTeU=;
- b=GZH1+1J6RkqrwG+vvNkjS/qywjS7wLBfuXk31cPPc6Qn8vwL8lZJZw7W6B9aYb1xhaJTjQ
- IikGU9mtyxPoD4BZFamhiWRd7JrY1F0Bea7GzXahlL07zoFYjYVdpzmRLTzU3IFv02ekZp
- BXxV0rHDqglXSBJD24WlGE2xYq4a9GGlnSN0D2X+2Nly86bcSa9LnmHE+1IECN94MxHOL2
- +SpHQopB5QazFeoGORV/v8Qu121jaaQjKiT0qBzcmBsGcmw7zdTKkj6YCK1CT/45LOY4Fg
- C87OQ3ftMWS8sLjABXhWBM/49MmwqH8rNx0kNEnCGzBq5NsXKysX+4cKrj/0oA==
-Date: Wed, 6 Mar 2024 18:29:53 +0100
+ bh=f+LLfhPYfz8XtExdXPJeootyPCE8Jh/+rOrqx0Tg33A=;
+ b=lHZ3wldppPVvICDn/i3C2J+qEb3bV+jYbi2VnQZUfL/lzpdusX+C27y08bspe6M/TJr0hc
+ 0wMt5T3Fg5IdQprfD8Fwgl6iUqNavas/e04ZjLy14koe15k3nrUmeC9J5We07y2VILBXST
+ GXXAsdrdfSCIMOodcK//dxu0wP4wY+Ybpmv487Xk2EALkp13xJnmziwv+P0NaYEEeiVOUw
+ o1ab78WIZVqXVos6oSMJ32sZq+9JoamVD11aRMQoU46hrk0biyGfpkQxHH0hd/zDKbVe5B
+ 4lqd4HAoABUlClC1uCx6WzSyfkpOlzKYdoX5K45u+ctwdMChv+KHh5wH97PSug==
+Date: Wed, 6 Mar 2024 18:29:54 +0100
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 To: Pekka Paalanen <pekka.paalanen@collabora.com>
 Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
@@ -43,9 +44,9 @@ Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
  Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
  miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com
-Subject: Re: [PATCH v2 3/9] drm/vkms: write/update the documentation for
- pixel conversion and pixel write functions
-Message-ID: <ZeioEcyCo4XKHHX8@localhost.localdomain>
+Subject: Re: [PATCH v2 5/9] drm/vkms: Re-introduce line-per-line composition
+ algorithm
+Message-ID: <ZeioEgY2z4NofV1-@localhost.localdomain>
 Mail-Followup-To: Pekka Paalanen <pekka.paalanen@collabora.com>,
  Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
  Melissa Wen <melissa.srw@gmail.com>,
@@ -60,16 +61,17 @@ Mail-Followup-To: Pekka Paalanen <pekka.paalanen@collabora.com>,
  linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
  miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com
 References: <20240223-yuv-v2-0-aa6be2827bb7@bootlin.com>
- <20240223-yuv-v2-3-aa6be2827bb7@bootlin.com>
- <20240226133700.3fef91d9.pekka.paalanen@collabora.com>
- <Zd35cimh8BLICUuY@localhost.localdomain>
- <20240229104833.2a404d6b.pekka.paalanen@collabora.com>
- <ZeXonl-jZq4xHnBK@localhost.localdomain>
- <20240305115007.0d0d49ef.pekka.paalanen@collabora.com>
+ <20240223-yuv-v2-5-aa6be2827bb7@bootlin.com>
+ <20240226133706.281deb59.pekka.paalanen@collabora.com>
+ <Zd35cY6uxP7akjw8@localhost.localdomain>
+ <20240229122126.6bdb1d2f.pekka.paalanen@collabora.com>
+ <ZeXooXdha4tSGkad@localhost.localdomain>
+ <20240305121013.4088dc21.pekka.paalanen@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240305115007.0d0d49ef.pekka.paalanen@collabora.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240305121013.4088dc21.pekka.paalanen@collabora.com>
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,122 +88,451 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[...]
-
-> > > > > > +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> > > > > > @@ -9,6 +9,17 @@
-> > > > > >  
-> > > > > >  #include "vkms_formats.h"
-> > > > > >  
-> > > > > > +/**
-> > > > > > + * packed_pixels_offset() - Get the offset of the block containing the pixel at coordinates x/y
-> > > > > > + * in the first plane
-> > > > > > + *
-> > > > > > + * @frame_info: Buffer metadata
-> > > > > > + * @x: The x coordinate of the wanted pixel in the buffer
-> > > > > > + * @y: The y coordinate of the wanted pixel in the buffer
-> > > > > > + *
-> > > > > > + * The caller must be aware that this offset is not always a pointer to a pixel. If individual
-> > > > > > + * pixel values are needed, they have to be extracted from the resulting block.    
+Le 05/03/24 - 12:10, Pekka Paalanen a écrit :
+> On Mon, 4 Mar 2024 16:28:33 +0100
+> Louis Chauvet <louis.chauvet@bootlin.com> wrote:
+> 
+> > Le 29/02/24 - 12:21, Pekka Paalanen a écrit :
+> > > On Tue, 27 Feb 2024 16:02:09 +0100
+> > > Louis Chauvet <louis.chauvet@bootlin.com> wrote:
+> > >   
+> > > > [...]
+> > > >   
+> > > > > > -static void pre_mul_alpha_blend(struct vkms_frame_info *frame_info,
+> > > > > > -				struct line_buffer *stage_buffer,
+> > > > > > -				struct line_buffer *output_buffer)
+> > > > > > +static void pre_mul_alpha_blend(
+> > > > > > +	struct line_buffer *stage_buffer,
+> > > > > > +	struct line_buffer *output_buffer,
+> > > > > > +	int x_start,
+> > > > > > +	int pixel_count)
+> > > > > >  {
+> > > > > > -	int x_dst = frame_info->dst.x1;
+> > > > > > -	struct pixel_argb_u16 *out = output_buffer->pixels + x_dst;
+> > > > > > -	struct pixel_argb_u16 *in = stage_buffer->pixels;
+> > > > > > -	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+> > > > > > -			    stage_buffer->n_pixels);
+> > > > > > -
+> > > > > > -	for (int x = 0; x < x_limit; x++) {
+> > > > > > -		out[x].a = (u16)0xffff;
+> > > > > > -		out[x].r = pre_mul_blend_channel(in[x].r, out[x].r, in[x].a);
+> > > > > > -		out[x].g = pre_mul_blend_channel(in[x].g, out[x].g, in[x].a);
+> > > > > > -		out[x].b = pre_mul_blend_channel(in[x].b, out[x].b, in[x].a);
+> > > > > > +	struct pixel_argb_u16 *out = &output_buffer->pixels[x_start];
+> > > > > > +	struct pixel_argb_u16 *in = &stage_buffer->pixels[x_start];    
 > > > > > 
-> > > > > Just wondering how the caller will be able to extract the right pixel
-> > > > > from the block without re-using the knowledge already used in this
-> > > > > function. I'd also expect the function to round down x,y to be
-> > > > > divisible by block dimensions, but that's not visible in this email.
-> > > > > Then the caller needs the remainder from the round-down, too?    
+> > > > > Input buffers and pointers should be const.    
 > > > > 
-> > > > You are right, the current implementation is only working when block_h == 
-> > > > block_w == 1. I think I wrote the documentation for PATCHv2 5/9, but when 
-> > > > backporting this comment for PATCHv2 3/9 I forgot to update it.
-> > > > The new comment will be:
+> > > > They will be const in v4.
+> > > >    
+> > > > > > +
+> > > > > > +	for (int i = 0; i < pixel_count; i++) {
+> > > > > > +		out[i].a = (u16)0xffff;
+> > > > > > +		out[i].r = pre_mul_blend_channel(in[i].r, out[i].r, in[i].a);
+> > > > > > +		out[i].g = pre_mul_blend_channel(in[i].g, out[i].g, in[i].a);
+> > > > > > +		out[i].b = pre_mul_blend_channel(in[i].b, out[i].b, in[i].a);
+> > > > > >  	}
+> > > > > >  }    
+> > > > > 
+> > > > > Somehow the hunk above does not feel like it is part of "re-introduce
+> > > > > line-per-line composition algorithm". This function was already running
+> > > > > line-by-line. Would it be easy enough to collect this and directly
+> > > > > related changes into a separate patch?    
 > > > > 
-> > > >  * pixels_offset() - Get the offset of a given pixel data at coordinate 
-> > > >  * x/y in the first plane
-> > > >    [...]
-> > > >  * The caller must ensure that the framebuffer associated with this 
-> > > >  * request uses a pixel format where block_h == block_w == 1.
-> > > >  * If this requirement is not fulfilled, the resulting offset can be 
-> > > >  * completly wrong.  
+> > > > It is not directly related to the reintroduction of line-by-line 
+> > > > algorithm, but in the simplification and maintenability effort, I 
+> > > > changed a bit the function to avoid having multiple place computing the 
+> > > > x_start/pixel_count values. I don't see an interrest to extract it, it 
+> > > > will be just a translation of the few lines into the calling place.  
 > > > 
-> > > Hi Louis,  
+> > > It does make review more difficult, because it makes the patch bigger
+> > > and is not explained in the commit message. It is a surprise to a
+> > > reviewer, who then needs to think what this means and does it belong
+> > > here.
+> > > 
+> > > If you explain it in the commit message and note it in the commit
+> > > summary line, I think it would become fairly obvious that this patch is
+> > > doing two things rather than one.
+> > > 
+> > > Therefore, *if* it is easy to extract as a separate patch, then it
+> > > would be nice to do so. However, if doing so would require you to write
+> > > a bunch of temporary code that the next patch would just rewrite again,
+> > > then doing so would be counter-productive.
+> > > 
+> > > Patch split is about finding a good trade-off to make things easy for
+> > > reviewers:
+> > > 
+> > > - Smaller patches are better as long as they are self-standing and
+> > >   understandable in isolation, and of course do not regress anything.
+> > > 
+> > > - Rewriting the same thing multiple times in the same series is extra
+> > >   work for a reviewer and therefore best avoided.
+> > > 
+> > > - The simpler the semantic change, the bigger a patch can be and still
+> > >   be easy to review.
+> > > 
+> > > And all the patch writing rules specific to the kernel project that I
+> > > don't know about.  
 > > 
-> > Hi Pekka,
+> > I will extract it in "drm/vkms: Avoid computing blending limits inside the 
+> > blend function". It's not very relevant by itself, but it make the main 
+> > patch easier to read.
+> 
+> Thank you.
+> 
+> 
+> > > > [...]
+> > > >   
+> > > > > > +/**
+> > > > > > + * direction_for_rotation() - Helper to get the correct reading direction for a specific rotation
+> > > > > > + *
+> > > > > > + * @rotation: rotation to analyze    
+> > > > > 
+> > > > > This is KMS plane rotation property, right?
+> > > > > 
+> > > > > So the KMS plane has been rotated by this, and what we want to find is
+> > > > > the read direction on the attached FB so that reading returns pixels in
+> > > > > the CRTC line/scanout order, right?
+> > > > > 
+> > > > > Maybe extend the doc to explain that.    
+> > > > 
+> > > > Is it better?
+> > > > 
+> > > >  * direction_for_rotation() - Get the correct reading direction for a given rotation
+> > > >  *
+> > > >  * This function will use the @rotation parameter to compute the correct reading direction to read
+> > > >  * a line from the source buffer.
+> > > >  * For example, if the buffer is reflected on X axis, the pixel must be read from right to left.
+> > > >  * @rotation: Rotation to analyze. It correspond the the field @frame_info.rotation.  
+> > > 
+> > > I think it is important to define what determines the correct result.
+> > > In this case, we want the reading to produce pixels in the CRTC scanout
+> > > line order, I believe. If you don't say "CRTC", the reader does not
+> > > know what "the correct reading direction" should match to.  
 > > 
-> > > if there is no plan for how non-1x1 blocks would work yet, then I think
-> > > the above wording is fine. In my mind, the below wording would
-> > > encourage callers to seek out and try arbitrary tricks to make things
-> > > work for non-1x1 without rewriting the function to actually work.
-> > >
-> > > I believe something would need to change in the function signature to
-> > > make it properly usable for non-1x1 blocks, but I too cannot suggest
-> > > anything off-hand.  
+> > Is this a better explanation?
 > > 
-> > I already made the change to support non-1x1 blocks in Patchv2 5/9 
-> > (I will extract this modification in "drm/vkms: Update pixels accessor to 
-> > support packed and multi-plane formats"), this function is now able 
-> > to extract the pointer to the start of a block. But as stated in the 
-> > comment, the caller must manually extract the correct pixel values (if the 
-> > format is 2x2, the pointer will point to the first byte of this block, the 
-> > caller must do some computation to access the bottom-right value).
+> >  * This function will use the @rotation setting of a source plane to compute the reading
+> >  * direction in this plane which correspond to a left to right writing in the CRTC.
+> >  * For example, if the buffer is reflected on X axis, the pixel must be read from right to left
+> >  * to be written from left to right on the CRTC.
 > 
-> Patchv2 5/9 is not enough.
+> Perfect!
 > 
-> "Manually extract the correct pixels" is the thing I have a problem
-> with here. The caller should not need to re-do any semantic
-> calculations this function already did. Most likely this function
-> should return the remainders from the x,y coordinate division, so that
-> the caller can extract the right pixels from the block, or something
-> else equivalent.
 > 
-> That same semantic division should not be done in two different places.
-> It is too easy for someone later to come and change one site while
-> missing the other.
+> > 
+> > > > > > + */
+> > > > > > +enum pixel_read_direction direction_for_rotation(unsigned int rotation)
+> > > > > > +{
+> > > > > > +	if (rotation & DRM_MODE_ROTATE_0) {
+> > > > > > +		if (rotation & DRM_MODE_REFLECT_X)
+> > > > > > +			return READ_LEFT;
+> > > > > > +		else
+> > > > > > +			return READ_RIGHT;
+> > > > > > +	} else if (rotation & DRM_MODE_ROTATE_90) {
+> > > > > > +		if (rotation & DRM_MODE_REFLECT_Y)
+> > > > > > +			return READ_UP;
+> > > > > > +		else
+> > > > > > +			return READ_DOWN;
+> > > > > > +	} else if (rotation & DRM_MODE_ROTATE_180) {
+> > > > > > +		if (rotation & DRM_MODE_REFLECT_X)
+> > > > > > +			return READ_RIGHT;
+> > > > > > +		else
+> > > > > > +			return READ_LEFT;
+> > > > > > +	} else if (rotation & DRM_MODE_ROTATE_270) {
+> > > > > > +		if (rotation & DRM_MODE_REFLECT_Y)
+> > > > > > +			return READ_DOWN;
+> > > > > > +		else
+> > > > > > +			return READ_UP;
+> > > > > > +	}
+> > > > > > +	return READ_RIGHT;
+> > > > > > +}
+> > > > > > +
+> > > > > >  /**
+> > > > > >   * blend - blend the pixels from all planes and compute crc
+> > > > > >   * @wb: The writeback frame buffer metadata
+> > > > > > @@ -183,11 +187,11 @@ static void blend(struct vkms_writeback_job *wb,
+> > > > > >  {
+> > > > > >  	struct vkms_plane_state **plane = crtc_state->active_planes;
+> > > > > >  	u32 n_active_planes = crtc_state->num_active_planes;
+> > > > > > -	int y_pos;
+> > > > > >  
+> > > > > >  	const struct pixel_argb_u16 background_color = { .a = 0xffff };
+> > > > > >  
+> > > > > >  	size_t crtc_y_limit = crtc_state->base.crtc->mode.vdisplay;
+> > > > > > +	size_t crtc_x_limit = crtc_state->base.crtc->mode.hdisplay;    
+> > > > > 
+> > > > > Wonder why these were size_t, causing needs to cast below...    
+> > > > 
+> > > > For crtc_x_limit I just copied the crtc_y_limit. I will change both to u16 
+> > > > (the type of h/vdisplay).  
+> > > 
+> > > Don't go unsigned, that can cause unexpected results when mixed in
+> > > computations with signed variables.  
+> > 
+> > I will replace them with int.
+> >  
+> > > Oh, the cast was probably not about size but signedness. Indeed, size_t
+> > > is unsigned.
+> > > 
+> > > I don't see a reason to use a 16-bit size either, it just exposes the
+> > > computations to under/overflows that would then be needed to check for.
+> > > s32 should be as fast as any, and perhaps enough bits to never
+> > > under/overflow in these computations, but please verify that.  
+> > 
+> > I just suggested u16 because it's the type of vdisplay/hdisplay. It was 
+> > not for performance reason.
+> 
+> Right. It's not uncommon store a value in a storage efficient type that
+> may also disallow illegal values, and then use a different type while
+> actually computing with it in order to not provoke too obscure C
+> language rules most people never heard of, to avoid over/underflows, or
+> to just avoid undefined behaviour.
+> 
+> ...
+> 
+> > > > > > +static int get_step_1x1(struct drm_framebuffer *fb, enum pixel_read_direction direction,
+> > > > > > +			int plane_index)
+> > > > > >  {
+> > > > > > -	int x_src = frame_info->src.x1 >> 16;
+> > > > > > -	int y_src = y - frame_info->rotated.y1 + (frame_info->src.y1 >> 16);
+> > > > > > -
+> > > > > > -	return packed_pixels_addr(frame_info, x_src, y_src);
+> > > > > > +	switch (direction) {
+> > > > > > +	default:
+> > > > > > +		DRM_ERROR("Invalid direction for pixel reading: %d\n", direction);
+> > > > > > +		return 0;    
+> > > > > 
+> > > > > What I'd do here is move the default: section outside of the switch
+> > > > > completely. Then the compiler can warn if any enum value is not handled
+> > > > > here. Since every case in the switch is a return statement, falling out
+> > > > > of the switch block is the default case.    
+> > > > 
+> > > > Hoo, I did not know that gcc can warn when using enums, I will definitly 
+> > > > do it for the v4.
+> > > >    
+> > > > > Maybe the enum variable containing an illegal value could be handled
+> > > > > more harshly so that callers could rely on this function always
+> > > > > returning a good value?
+> > > > > 
+> > > > > Just like passing in fb=NULL is handled by the kernel as an OOPS.    
+> > > > 
+> > > > I don't think it's a good idea to OOPS inside a driver.  
+> > > 
+> > > Everyone already do that. Most functions that do not expect to be called
+> > > with NULL never check the arguments for NULL. They just OOPS on
+> > > dereference if someone passes in NULL. And for a good reason: adding
+> > > all those checks is both code churn and it casts doubt: "maybe it is
+> > > legal and expected to call this function with NULL sometimes, what good
+> > > does that do?".  
+> > 
+> > I agree that adding something like 
+> > 
+> > 	if (direction_is_valid) pr_err("Invalid direction")
+> > 
+> > is useless, but as I already have the switch, it cost nothing to warn if 
+> > something gone wrong. I will just replace this simple DRM_ERROR with a 
+> > WARN_ONCE to be more verbose about "it is a bug".
+> 
+> Sounds good to me, and I hope kernel maintainers would agree.
+> 
+> 
+> > > > An error here is 
+> > > > maybe dangerous, but is not fatal to the kernel. Maybe you know how to do 
+> > > > a "local" OOPS to break only this driver and not the whole kernel?  
+> > > 
+> > > I don't know what the best practices are in the kernel.
+> > >  
+> > > > For the v4 I will keep a DRM_ERROR and return 0.  
+> > > 
+> > > Does that require the caller to check for 0? Could the 0 cause
+> > > something else to end up in an endless loop? If it does return 0, how
+> > > should a caller handle this case that "cannot" ever happen? Why have
+> > > code for something that cannot happen?  
+> > 
+> > I have to return something, otherwise the compiler will complain about it.
+> > 
+> > To avoid for future developers surprise, I added this information in the 
+> > comment. This way the user don't have to read the code to understand how 
+> > much he can rely on this value.
+> > 
+> > If the caller can trust his direction, he don't have to worry about this. 
+> > If he can't trust his direction, he know that the returned value can be 
+> > zero, and thus can't be used for a loop variant.
+> 
+> There should not be "untrusted" values to begin with at this point,
+> anything that comes from outside of the kernel should have already been
+> sanitised. This is about kernel bugs though. Bugs cannot be predicted,
+> nor can anyone guarantee to write bug-free code. Hence, the direction
+> value is always "somewhat untrusted". We're being paranoid about bugs
+> that might happen and trying to ensure the kernel can limp along
+> regardless, while also trying to minimise the amount of code that
+> "cannot" ever be reached.
+>
+> > The zero is also nice because it does not interfere with the normal 
+> > behavior of this function. If the returned value is not zero, it's the 
+> > correct step to use from one pixel to an other.
+> 
+> If you expect the caller needing to check for the "cannot happen" case,
+> returning a unique error value is fine. If you expect the caller to
+> never need to think of the "cannot happen" case, you should return a
+> value that is "safe", if such value exists. "Safe" here means using it
+> will not result in grave bugs like bad memory access, but it also won't
+> produce expected results unless by accident.
 
-I did not notice this, and I agree, thanks for this feedback. For the v5 I 
-will change it and update the function signature to:
-
-static void packed_pixels_offset(const struct vkms_frame_info *frame_info, int x, int y,
-				 size_t plane_index, size_t *offset, size_t *rem_x, size_t *rem_y)
-
-where rem_x and rem_y are those reminder.
+That my issue, on my initial draft, I had a `return 1` (so I can use it as 
+a loop variant), but after thinking, if the start pixel is the last 
+of the plane, it will access outside the buffer.
  
-> I have a hard time finding in "[PATCH v2 6/9] drm/vkms: Add YUV
-> support" how you actually handle blocks bigger than 1x1. I see
-> get_subsampling() which returns format->{hsub,vsub}, and I see
-> get_subsampling_offset() which combined with remainder-division gates U
-> and V plane pixel pointer increments.
+> This getting perhaps a bit too philosophical, so don't mind about this
+> too much if it feels strange.
+
+Maybe yes, I was a bit paranoid, I can just return 0 and remove the comment.
+
 > 
-> However, I do not see you ever using
-> drm_format_info_block_{width,height}() anywhere else. That makes me
-> think you have no code to actually handle non-1x1 block formats, which
-> means that you cannot get the function signature of
-> packed_pixels_offset() right in this series either. It would be better
-> to not even pretend the function works for non-1x1 blocks until you
-> have code handling at least one such format.
+> > > Of course it's a trade-off between correctness and limping along
+> > > injured, and the kernel tends to strongly lean toward the latter for the
+> > > obvious reasons.
+> > >   
+> > > > > > +	case READ_RIGHT:
+> > > > > > +		return fb->format->char_per_block[plane_index];
+> > > > > > +	case READ_LEFT:
+> > > > > > +		return -fb->format->char_per_block[plane_index];
+> > > > > > +	case READ_DOWN:
+> > > > > > +		return (int)fb->pitches[plane_index];
+> > > > > > +	case READ_UP:
+> > > > > > +		return -(int)fb->pitches[plane_index];
+> > > > > > +	}
+> > > > > >  }
+> > > > > >  
+> > > > > > -static int get_x_position(const struct vkms_frame_info *frame_info, int limit, int x)
+> > > > > > -{
+> > > > > > -	if (frame_info->rotation & (DRM_MODE_REFLECT_X | DRM_MODE_ROTATE_270))
+> > > > > > -		return limit - x - 1;
+> > > > > > -	return x;
+> > > > > > -}
+> > > > > >  
+> > > > > >  /*
+> > > > > > - * The following  functions take pixel data from the buffer and convert them to the format
+> > > > > > + * The following  functions take pixel data (a, r, g, b, pixel, ...), convert them to the format
+> > > > > >   * ARGB16161616 in out_pixel.
+> > > > > >   *
+> > > > > > - * They are used in the `vkms_compose_row` function to handle multiple formats.
+> > > > > > + * They are used in the `read_line`s functions to avoid duplicate work for some pixel formats.
+> > > > > >   */
+> > > > > >  
+> > > > > > -static void ARGB8888_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
+> > > > > > +static void ARGB8888_to_argb_u16(struct pixel_argb_u16 *out_pixel, int a, int r, int g, int b)    
+> > > > > 
+> > > > > The function name ARGB8888_to_argb_u16() is confusing. It's not taking
+> > > > > in ARGB8888 pixels but separate a,r,g,b ints. The only assumption it
+> > > > > needs from the pixel format is the 8888 part.    
+> > > > 
+> > > > I don't realy know how to name it. What I like with ARGB8888 is that it's 
+> > > > clear that the values are 8 bits and in argb format.  
+> > > 
+> > > I could even propose 
+> > > 
+> > > static struct pixel_argb_u16
+> > > argb_u16_from_u8888(int a, int r, int g, int b)
+> > > 
+> > > perhaps. Yes, returning a struct by value. I think it would fit, and
+> > > these are supposed to get fully inlined anyway, too.
+> > > 
+> > > c.f argb_u16_from_u2101010().  
+> > 
+> > I don't find this method, but I got and like the idea, I will change the 
+> > callback to this in the v4.
 > 
-> All of the YUV formats that patch 6 adds support for use 1x1 blocks all
-> all their planes.
+> I mean, there is no support for 10-bpc formats in VKMS yet IIRC, but
+> there should be one day, so thinking about how that would fit in the
+> naming scheme is nice.
+> 
+> > > Not a big deal though, I think I'm getting a little bit too involved to
+> > > see what would be the most intuitively understandable naming scheme for
+> > > someone not familiar with the code.
+> > >  
+> > > > Do you think that `argb_u8_to_argb_u16`, with a new structure 
+> > > > pixel_argb_u8 will be better? (like PATCH 6/9 with pixel_yuv_u8).
+> > > > 
+> > > > If so, I will introduce the argb_u8 structure in an other commit.  
+> > > 
+> > > How would you handle 10-bpc formats? Is there a need for
+> > > proliferation of bit-depth-specific struct types?  
+> > 
+> > No, I don't think it's good to multiply things. I will patch Arthur's 
+> > patches to avoid the pixel_yuv_u8 structure.
+> > 
+> > > > [...]
+> > > >   
+> > > > > > + * The following functions are read_line function for each pixel format supported by VKMS.
+> > > > > >   *
+> > > > > > - * This function composes a single row of a plane. It gets the source pixels
+> > > > > > - * through the y coordinate (see get_packed_src_addr()) and goes linearly
+> > > > > > - * through the source pixel, reading the pixels and converting it to
+> > > > > > - * ARGB16161616 (see the pixel_read() callback). For rotate-90 and rotate-270,
+> > > > > > - * the source pixels are not traversed linearly. The source pixels are queried
+> > > > > > - * on each iteration in order to traverse the pixels vertically.
+> > > > > > + * They read a line starting at the point @x_start,@y_start following the @direction. The result
+> > > > > > + * is stored in @out_pixel and in the format ARGB16161616.
+> > > > > > + *
+> > > > > > + * Those function are very similar, but it is required for performance reason. In the past, some
+> > > > > > + * experiment were done, and with a generic loop the performance are very reduced [1].
+> > > > > > + *
+> > > > > > + * [1]: https://lore.kernel.org/dri-devel/d258c8dc-78e9-4509-9037-a98f7f33b3a3@riseup.net/
+> > > > > >   */
+> > > > > > -void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state *plane, int y)
+> > > > > > +
+> > > > > > +static void ARGB8888_read_line(struct vkms_frame_info *frame_info, int x_start, int y_start,
+> > > > > > +			       enum pixel_read_direction direction, int count,
+> > > > > > +			       struct pixel_argb_u16 out_pixel[])
+> > > > > > +{
+> > > > > > +	u8 *src_pixels = packed_pixels_addr(frame_info, x_start, y_start, 0);
+> > > > > > +
+> > > > > > +	int step = get_step_1x1(frame_info->fb, direction, 0);
+> > > > > > +
+> > > > > > +	while (count) {
+> > > > > > +		u8 *px = (u8 *)src_pixels;
+> > > > > > +
+> > > > > > +		ARGB8888_to_argb_u16(out_pixel, px[3], px[2], px[1], px[0]);
+> > > > > > +		out_pixel += 1;
+> > > > > > +		src_pixels += step;
+> > > > > > +		count--;    
+> > > > > 
+> > > > > btw. you could eliminate decrementing 'count' if you computed end
+> > > > > address and used while (out_pixel < end).    
+> > > > 
+> > > > Yes, you are right, but after thinking about it, neither out_pixel < end 
+> > > > and while (count) are conveying "this loop will copy `count` pixels. I 
+> > > > think a for-loop here is more understandable. There is no ambiguity in the 
+> > > > number of pixels written and less error-prone. I will replace
+> > > > 	while (count) 
+> > > > by
+> > > > 	for(int i = 0; i < count; i++)  
+> > > 
+> > > I agree that a for-loop is the most obvious way of saying it, but I
+> > > also think while (out_pixel < end) is very close too, and so is while (count).
+> > > None of those would make me think twice.
+> > >
+> > > However, I'm thinking of performance here. After all, this is the
+> > > hottest code path there is in VKMS. Is the compiler smart enough to
+> > > eliminate count-- or i to reduce the number of CPU cycles?  
+> > 
+> > You are proably right, I will change it to out_pixel < end.
+> 
+> Don't trust my word without benchmarking it. ;-)
 
-Yes, none of the supported format have block_h != block_w != 1, so there 
-is no need to drm_format_info_block*() helpers.
-
-I wrote the code for DRM_FORMAT_R*. They are packed, with block_w != 1. I 
-will add this patch in the next revision. I also wrote the IGT test for 
-DRM_FORMAT_R1 [1]. Everything will be in the v5 (I will send it when you have the 
-time to review the v4).
-
-For information, I also have a series ready for adding more RGB variants
-(I introduced a macro to make it easier and avoid copy/pasting the same
-loop). I don't send them yet, because I realy want this series merged 
-first. I also have the work for the writeback "line-by-line" algorithm 
-ready (I just need to rebase it, but it will be fast).
-
-[1]: https://lore.kernel.org/igt-dev/20240306-b4-kms_tests-v1-0-8fe451efd2ac@bootlin.com
+I did not notice a change with kms_fb_stress. There is maybe a small 
+improvment, but completly hidden in the DRM overhead.
 
 Kind regards,
 Louis Chauvet
 
-[...]
+> 
+> Thanks,
+> pq
+
+
 
 -- 
 Louis Chauvet, Bootlin
